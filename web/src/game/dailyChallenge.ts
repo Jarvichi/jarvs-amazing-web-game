@@ -6,6 +6,7 @@
 
 import { logError } from '../logger'
 import { getCardCatalog } from './cards'
+import { hashStr, makeSeededRng, seededShuffle } from './seededRandom'
 import { Card } from './types'
 import {
   doc, setDoc, getDocs, collection, query, orderBy, limit, where, Timestamp,
@@ -48,33 +49,6 @@ export interface DailyChallengeState {
 
 function getDailyDate(): string {
   return new Date().toISOString().slice(0, 10)
-}
-
-/** FNV-1a 32-bit hash. */
-function hashStr(str: string): number {
-  let h = 2166136261
-  for (let i = 0; i < str.length; i++) {
-    h = Math.imul(h ^ str.charCodeAt(i), 16777619)
-  }
-  return h >>> 0
-}
-
-/** Mulberry32 seeded PRNG. */
-function makeSeededRng(seed: number): () => number {
-  let s = seed | 0
-  return () => {
-    s = (Math.imul(s ^ (s >>> 15), s | 1) ^ ((s ^ (Math.imul(s ^ (s >>> 7), s | 61))) >>> 14)) >>> 0
-    return s / 4294967296
-  }
-}
-
-function seededShuffle<T>(arr: T[], rng: () => number): T[] {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(rng() * (i + 1))
-    ;[a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
 }
 
 /** Returns true if a deck has enough variety and early-game cards to be winnable. */

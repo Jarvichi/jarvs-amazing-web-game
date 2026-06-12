@@ -1,0 +1,70 @@
+[
+  {
+    "id": "ch1",
+    "title": "The Day of Fracture",
+    "availableFrom": "2026-06-11",
+    "teaser": "Every survivor remembers where they stood when the sky cracked.",
+    "lore": "Every survivor remembers where they stood when the sky cracked.\n\nIt began as a sound — not thunder, the old archivists insist, but a chord, as if the whole Dominion were a string drawn too tight and finally plucked. The Spire of Accord, where the five provinces had kept their treaties and their treasures for nine hundred years, lit from within like a lantern. Then the light went wrong.\n\nThe ground did not shake. It separated. Roads ended in sky. Rivers poured upward into nothing and returned as snow three provinces away. When the chord faded, the Dominion was no longer one land but a scatter of shards drifting on a sea of pale mist, each carrying a piece of the old world and none carrying the whole truth.\n\nThe Spire itself was simply gone. In its place hung the Fracture: a seam of white fire stitched across the heavens, visible from every shard, burning to this day.\n\nWhat the chord was, who struck it, and why the arcane wards of the Spire — wards that had never once failed — sang along instead of holding fast: these are the questions this Chronicle exists to answer. The first clue lies with the arcanists who survived. Their hands, every one, were burned in the same spiral pattern.",
+    "challenge": { "type": "win_with_tag", "tag": "arcane", "count": 1 },
+    "reward": { "type": "consumable", "itemId": "health_potion", "count": 2 }
+  },
+  {
+    "id": "ch2",
+    "title": "The Shattered Archive",
+    "availableFrom": "2026-06-25",
+    "teaser": "The Archive answered every question but one — and split rather than answer it.",
+    "lore": "Before the Fracture, the Shattered Archive was simply the Archive: a mountain hollowed into shelves, staffed by an order sworn to record everything and judge nothing.\n\nWhen the shards settled, scavengers found the Archive split clean down its centre, as if a blade had passed through forty miles of stone. Books on the western face ended mid-sentence; their other halves drifted on a shard eleven days' sail away. The archivists who survived did something unprecedented: they stopped recording, and started searching their own stacks.\n\nWhat they sought was the Accord Ledger — the sealed record of what the five provinces had stored in the Spire's deepest vault. The Ledger's shelf was found empty. Not looted: empty, with dust undisturbed, as though the book had been removed years before the Fracture and the absence politely catalogued by no one.\n\nOne marginal note survives, in the hand of Chief Archivist Veyle, dated thirty days before the sky cracked: 'The fifth province has asked again about the vault. I have told them again that what sleeps under the Accord is not ours to wake. They have stopped asking. That worries me more.'\n\nVeyle's trail leads to the iron province — to the Citadel that armed itself, quietly, in the final month of the old world.",
+    "challenge": { "type": "win_battles", "count": 2 },
+    "reward": { "type": "crystals", "amount": 50 }
+  },
+  {
+    "id": "ch3",
+    "title": "The Iron Testament",
+    "availableFrom": "2026-07-09",
+    "teaser": "The Citadel forged for a war it never declared — against an enemy it never named.",
+    "lore": "The Iron Citadel survived the Fracture better than any other power, and that fact alone has fed a generation of accusations.\n\nIts foundries were running at war tempo a full month before the sky cracked. Conscription rolls, recovered from a drowned customs-shard, show the Citadel recalling every soldier it had ever lent out — quietly, in small groups, under orders marked TESTAMENT. No war was declared. No enemy was named.\n\nThe Testament orders themselves were thought lost until a salvage crew cut open a strongroom fused shut by Fracture-heat. Inside: a single iron tablet, addressed to the Citadel's marshals, seven words long.\n\n'It is waking early. Hold the line.'\n\nNot an invasion. Not a rival province. It. The Citadel knew what slept beneath the Spire of Accord, knew it was stirring, and chose to arm rather than warn. Whether that was treachery or triage divides the shards to this day — because when the chord finally sounded, the Citadel's legions were the only force standing close enough to the Spire to see what came out.\n\nOf the First Legion, nine thousand strong, the mist returned exactly one survivor. She has never spoken. She only draws: page after page of the same spiral that scarred the arcanists' hands.",
+    "challenge": { "type": "win_with_tag", "tag": "iron", "count": 2 },
+    "reward": {
+      "type": "collectible",
+      "itemId": "chronicle-iron-testament",
+      "name": "Iron Testament Tablet",
+      "icon": "⛓️",
+      "desc": "A replica of the Citadel's seven-word order.",
+      "lore": "It is waking early. Hold the line."
+    }
+  },
+  {
+    "id": "ch4",
+    "title": "The Hollow Choir",
+    "availableFrom": "2026-07-23",
+    "teaser": "The dead of the Fracture did not all stay where they fell.",
+    "lore": "The dead of the Fracture did not all stay where they fell.\n\nOn the ash-shards, where the burning seam hangs lowest in the sky, the fallen began to walk within a season. Not as mindless husks — that was the horror of it. They walk with purpose, always toward the Fracture, gathering at the broken edges of their shards and standing in silent congregations a thousand strong, faces turned upward. Travellers call them the Hollow Choir.\n\nThey do not attack unless turned away from the seam. They do not rot past a certain point, as if held. And on the longest night of each year, every congregation on every shard kneels at the same instant — an act of coordination no living census could match.\n\nA heretic scholar named Ostrava lived among a congregation for a year, the only living soul they tolerated. Her final dispatch, sent by gull before her shard drifted into the deep mist, reads: 'They are not worshipping it. I was wrong, we were all wrong. They are guarding it. Something on our side of the seam frightens the dead more than whatever waits on the other side, and I have begun to dream of spirals.'\n\nNo shard has sighted Ostrava's congregation since.",
+    "challenge": { "type": "win_with_tag", "tag": "undead", "count": 1 },
+    "reward": { "type": "consumable", "itemId": "extra_life", "count": 1 }
+  },
+  {
+    "id": "ch5",
+    "title": "The Fifth Province",
+    "availableFrom": "2026-08-06",
+    "teaser": "Four provinces signed the Accord in ink. The fifth signed in something else.",
+    "lore": "Children on every shard can name the four provinces: forest, iron, ash, and frost. The treaties stored in the Spire of Accord, though, were always signed five times.\n\nThe fifth signature appears on no map and belongs to no banner. In the recovered treaty fragments it is not written but woven — a thread of something that is not ink and not metal, stitched through the parchment in a tight, familiar spiral. Archivist Veyle's private cipher, cracked at last this season, names the fifth signatory only as the Custodian, and records the terms of its accord in one chilling line: 'The Custodian keeps the vault, and the vault keeps the Custodian.'\n\nThe old Dominion, it seems, was never a union of equals. It was a perimeter. Four provinces arranged around a fifth thing, feeding the Spire's wards for nine hundred years, calling the arrangement peace.\n\nVeyle's cipher ends with an itinerary: she was bound for the Spire itself, carrying the missing Accord Ledger, twenty-two days before the Fracture. Her last line: 'If the Custodian's terms were broken, it was not the Custodian who broke them. I go to learn which of us did. If the sky should crack before I return, look for my hand in the light.'\n\nThe deep-mist salvagers swear the seam above the old Spire-site flickers, some nights, in the shape of a writing hand.",
+    "challenge": { "type": "win_battles", "count": 3 },
+    "reward": { "type": "crystals", "amount": 100 }
+  },
+  {
+    "id": "ch6",
+    "title": "The Custodian's Bargain",
+    "availableFrom": "2026-08-20",
+    "teaser": "The Fracture was not an attack. It was an expiry.",
+    "lore": "Assemble the pieces and the shape of the truth is finally visible.\n\nNine hundred years ago, something vast was bound beneath the Spire of Accord — not defeated, bound, by a bargain. The Custodian would sleep, and the five-fold Accord would feed its wards; the provinces got an age of peace, and the Custodian got an age of dreaming. Every treaty, every tithe, every arcane circuit in the Dominion was, knowingly or not, a clause in that contract.\n\nThen the fifth province stopped asking about the vault — because someone had given them an answer. The Accord Ledger left the Archive in silence. The Citadel armed for a holder's war it could not win. The wards, starved or sabotaged, sang along with the chord instead of holding it. The bargain expired, and the Dominion was the collateral.\n\nBut here is what the Hollow Choir and the burned spiral hands and Veyle's flickering signature in the seam all agree on: the Custodian has not yet left. The Fracture is not a wound — it is a door, held ajar from the inside, and everything that walks or fights or rebuilds on the shards is being watched through it with an interest the old treaties never described.\n\nThe Chronicle's first season closes with the question that will open the next: the Custodian kept its half of the bargain for nine hundred years. Now it is awake, unbound, and patient — and somewhere in the mist, on a shard no map carries, the Accord Ledger is waiting to tell someone the terms of the next one.",
+    "challenge": { "type": "win_with_tag", "tag": "ancient", "count": 2 },
+    "reward": {
+      "type": "collectible",
+      "itemId": "chronicle-fracture-lens",
+      "name": "Fracture Lens",
+      "icon": "🔍",
+      "desc": "A shard of Spire-glass. Hold it to the seam and the light bends into a spiral.",
+      "lore": "Look for my hand in the light. — Chief Archivist Veyle"
+    }
+  }
+]

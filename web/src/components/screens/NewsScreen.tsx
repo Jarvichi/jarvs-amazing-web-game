@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { LedScroller, LedScrollerMessage } from '../ui/LedScroller/LedScroller'
+import { getChronicleStatus } from '../../game/chronicle'
 import { getAllNews, markNewsRead, dismissNewsItem, loadDismissedNewsIds, NewsItem } from '../../game/news'
 
 const ITEMS_PER_PAGE = 10
@@ -29,6 +31,16 @@ export function NewsScreen({ onBack }: Props) {
     setDismissed(prev => new Set([...prev, id]))
   }
 
+  // LED scroller announcing the latest available Chronicle chapters
+  const chronicleMessages: LedScrollerMessage[] = getChronicleStatus()
+    .filter(c => c.available)
+    .slice(-3)
+    .reverse()
+    .map(c => ({
+      id: `chronicle-led-${c.def.id}`,
+      text: `CHRONICLE UPDATE: CHAPTER ${c.number} - ${c.def.title.toUpperCase()} IS NOW AVAILABLE`,
+    }))
+
   const visible = items.filter(n => !dismissed.has(n.id))
   const pageCount = Math.max(1, Math.ceil(visible.length / ITEMS_PER_PAGE))
   const safePage = Math.min(page, pageCount - 1)
@@ -41,6 +53,11 @@ export function NewsScreen({ onBack }: Props) {
 
   return (
     <OverlayScreen title="WHAT'S NEW" onBack={onBack}>
+      {chronicleMessages.length > 0 && (
+        <div className="news-led-scroller">
+          <LedScroller messages={chronicleMessages} />
+        </div>
+      )}
       <div className="news-list">
         {loading && <div className="news-loading">Loading…</div>}
         {!loading && visible.length === 0 && (

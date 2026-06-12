@@ -8367,6 +8367,107 @@ html.eightbit-mode .lane-layer {
 .dc-lb-rank     { color: var(--game-text-color-muted); min-width: 18px; font-size: var(--font-sm); }
 .dc-lb-attempts { color: #80cbc4; font-size: var(--font-sm); white-space: nowrap; }
 
+/* ── Weekly Challenge Screen ────────────────────────────────────────────── */
+
+.wc-lore-title {
+  font-size: var(--font-lg);
+  font-weight: bold;
+  color: #ffd54f;
+  margin-top: 4px;
+}
+.wc-lore-context {
+  font-size: var(--font-md);
+  color: var(--game-text-color);
+  text-align: left;
+  line-height: 1.55;
+  max-width: 380px;
+  font-style: italic;
+}
+.wc-fragments {
+  font-size: var(--font-md);
+  color: var(--game-text-color-muted);
+}
+
+/* ── Fracture Chronicle Screen ──────────────────────────────────────────── */
+
+.chr-list {
+  max-width: 520px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 16px;
+}
+.chr-chapter {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--game-border);
+  border-radius: 4px;
+  padding: 10px 12px;
+  font-family: var(--game-font);
+  color: var(--game-text-color);
+  cursor: pointer;
+}
+.chr-chapter:hover:not(:disabled) { border-color: #ffd54f; }
+.chr-chapter--locked { opacity: 0.55; cursor: default; }
+.chr-chapter-num {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-muted);
+  letter-spacing: 0.05em;
+}
+.chr-chapter-title { font-size: var(--font-base); font-weight: bold; }
+.chr-chapter-state {
+  font-size: var(--font-sm);
+  color: #ffd54f;
+  white-space: nowrap;
+}
+.chr-chapter-sub {
+  font-size: var(--font-md);
+  color: var(--game-text-color-muted);
+  margin-top: 4px;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+.chr-reader {
+  max-width: 560px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 16px;
+}
+.chr-lore-para {
+  font-size: var(--font-base);
+  line-height: 1.65;
+  color: var(--game-text-color);
+  margin: 0;
+}
+.chr-challenge {
+  border: 1px dashed #444;
+  border-radius: 4px;
+  padding: 10px 12px;
+  margin-top: 8px;
+}
+.chr-section-label {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-muted);
+  letter-spacing: 1px;
+}
+.chr-challenge-desc { font-size: var(--font-base); }
+.chr-progress-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.chr-progress-fill {
+  height: 100%;
+  background: #8bc34a;
+  transition: width 0.3s ease;
+}
+.chr-progress-label { font-size: var(--font-sm); color: #8bc34a; }
+.chr-reward { font-size: var(--font-md); color: #ffd54f; }
+.chr-reward-claimed { color: #8bc34a; }
+
 .dc-actions {
   width: 100%;
   max-width: 260px;
@@ -9745,6 +9846,13 @@ html.light-mode .action-btn {
 .el-lb-ghost .el-lb-rank { color: #666; }
 
 /* ── News / What's New ────────────────────────────────────────────────── */
+.news-led-scroller {
+  display: flex;
+  justify-content: center;
+  padding: 6px 0 10px;
+  overflow: hidden;
+}
+
 .news-list {
   overflow-y: auto;
   flex: 1;

@@ -3,6 +3,7 @@ import { loadCollection } from './collection'
 import { getEverAcquiredRelics } from './itemStore'
 import { loadActCount } from './questline'
 import { getCharacterDef, getCharacterState, getCharacterIds } from './characters'
+import { getChronicleStatus } from './chronicle'
 import relicsData from '../data/relics.json'
 import memoryFragmentsData from '../data/memoryFragments.json'
 
@@ -203,6 +204,28 @@ function buildShardLore(act: {
   if (act.intro?.[0]?.text) lines.push(act.intro[0].text.split('\n')[0])
   if (act.outro?.[0]?.text) lines.push(act.outro[0].text.split('\n')[0])
   return lines.join(' ') || `One of the shards of the shattered Dominion.`
+}
+
+export interface CodexChronicleEntry {
+  id: string
+  number: number
+  title: string
+  teaser: string
+  lore: string
+  /** Chronicle codex entries unlock when the chapter is completed (read + challenge). */
+  unlocked: boolean
+}
+
+/** Fracture Chronicle chapters — completed chapters become permanent Codex lore. */
+export function getCodexChronicle(): CodexChronicleEntry[] {
+  return getChronicleStatus().map(c => ({
+    id: c.def.id,
+    number: c.number,
+    title: c.def.title,
+    teaser: c.def.teaser,
+    lore: c.def.lore,
+    unlocked: c.completed,
+  }))
 }
 
 export function getCodexWorld(): CodexWorldEntry[] {

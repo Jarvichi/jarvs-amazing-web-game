@@ -1,0 +1,38 @@
+[
+  {
+    "id": "iron-citadel-siege",
+    "loreTitle": "The Iron Citadel Siege",
+    "loreContext": "The Hollow Choir has turned from the seam for the first time in living memory, and ten thousand silent dead are marching on the Iron Citadel's last standing bastion. The marshals have unsealed the Testament armouries and conscripted every soul who can hold a line. The Custodian is watching to see whether iron remembers how to hold.",
+    "constraint": { "type": "deck_tags", "tags": ["iron", "citadel"], "label": "Your deck is forged only from Iron Citadel arms — iron and citadel cards" }
+  },
+  {
+    "id": "ashen-tide",
+    "loreTitle": "The Ashen Tide",
+    "loreContext": "On the ash-shards the Choir has begun to sing, and what answers the song claws its way up through the cinders. An entire congregation of the restless dead is drifting across the mist toward your shard. There is no parley with the drowned and the burned. Hold your base until the tide breaks.",
+    "constraint": { "type": "opponent_tags", "tags": ["undead", "ashen"], "label": "You face an army raised entirely from the dead and the ash" }
+  },
+  {
+    "id": "scholars-trial",
+    "loreTitle": "The Scholar's Trial",
+    "loreContext": "The Shattered Archive will trade a glimpse of the Accord Ledger's missing pages — but the archivists judge worth by restraint, not slaughter. Win your battle as Veyle would have: with walls, wards, and patience. Not one soldier may be deployed under your banner.",
+    "constraint": { "type": "no_units", "label": "No unit cards — win with structures and upgrades alone" }
+  },
+  {
+    "id": "frozen-vigil",
+    "loreTitle": "The Frozen Vigil",
+    "loreContext": "The frost province kept the Accord's northern ward for nine hundred years, and its glacier-priests claim the cold itself remembers the bargain. To read the ice-bound treaty fragments you must prove your blood runs cold enough: take the field with the frozen host alone.",
+    "constraint": { "type": "deck_tags", "tags": ["frost", "glacier"], "label": "Your deck is drawn only from the frozen host — frost and glacier cards" }
+  },
+  {
+    "id": "clockwork-reckoning",
+    "loreTitle": "The Clockwork Reckoning",
+    "loreContext": "Somewhere in the deep mist, the Spire's maintenance engines are still running — and without the Spire, they have decided the shards themselves are the malfunction. A repair-legion of brass and verdigris has scheduled your base for correction. Decline the appointment.",
+    "constraint": { "type": "opponent_tags", "tags": ["clockwork", "ancient"], "label": "You face the Spire's ancient clockwork repair-legion" }
+  },
+  {
+    "id": "embersworn-march",
+    "loreTitle": "The Embersworn March",
+    "loreContext": "The fire-callers of the ash province swear the Fracture's white seam answers to flame, and they mean to prove it with a march to the old Spire-site. Walk with them. The Custodian's attention is said to linger on those who carry fire into the mist — earn it.",
+    "constraint": { "type": "deck_tags", "tags": ["ember", "fire", "ashen"], "label": "Your deck carries only fire — ember, fire, and ashen cards" }
+  }
+]
