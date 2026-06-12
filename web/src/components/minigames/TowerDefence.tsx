@@ -8,7 +8,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   ENEMY_TEMPLATES,
   MilestoneUpgrade,
-  TDGameState, TDTargetingMode, TDTower,
+  TDGameState, TDLoadedSave, TDTargetingMode, TDTower,
   TDUpgradeType,
   TD_CELL_PX,
   TD_COLS,
@@ -22,10 +22,14 @@ import {
   calcGoldReward,
   calcTicketReward,
   chooseMilestoneUpgrade,
+  clearTDSave,
   createTDGame,
   generateWave,
+  loadTDSave,
   moveTower,
   placeTower, removeTower,
+  resumeTDGame,
+  saveTDGame,
   sellRefund,
   setTowerTargetingMode,
   startWave, tickTD, tickUnitsHomeOnly,
@@ -75,9 +79,17 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
   const initialPlacements: Record<string, number> = {}
   for (const entry of pool) initialPlacements[entry.template.name] = entry.total
 
+  // A run saved mid-game survives tab discards/reloads and is resumed
+  // automatically; the pool is saved with it so the resumed run keeps the
+  // exact roster it started with. Quitting (✕) clears the save.
+  const initialSave = useMemo<TDLoadedSave | null>(() => loadTDSave(mode), [mode])
+
   const [game, setGame] = useState<TDGameState>(() =>
-    createTDGame(pool.map(p => p.template), mode, initialPlacements)
+    initialSave
+      ? { ...resumeTDGame(initialSave.game), log: [...initialSave.game.log.slice(-9), '⟳ Resumed saved defence.'] }
+      : createTDGame(pool.map(p => p.template), mode, initialPlacements)
   )
+  const [activePool] = useState<TowerPool[]>(() => initialSave?.pool ?? pool)
   const [selected, setSelected] = useState<UnitTemplate | null>(null)
   const [hoveredTower, setHoveredTower] = useState<TDTower | null>(null)
   const [selectedTowerId, setSelectedTowerId] = useState<number | null>(null)
@@ -131,6 +143,27 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
       setGame(prev => startWave(prev))
     }
   }, [autoStart, game.phase, game.milestoneChoices])
+
+  // ── Save / resume ───────────────────────────────────────────────────────────
+  // Autosave so a tab discard (e.g. browser memory savers) or reload doesn't
+  // lose the run. Saves on every phase change and at most every 3s in between.
+  const lastSaveRef = useRef<{ at: number; phase: TDGameState['phase'] | null }>({ at: 0, phase: null })
+  useEffect(() => {
+    if (game.phase === 'victory' || game.phase === 'defeat') {
+      clearTDSave(mode)
+      return
+    }
+    if (game.phase === 'prep' && game.towers.length === 0) return
+    const now = Date.now()
+    if (lastSaveRef.current.phase === game.phase && now - lastSaveRef.current.at < 3000) return
+    lastSaveRef.current = { at: now, phase: game.phase }
+    saveTDGame(mode, game, activePool)
+  }, [game, mode, activePool])
+
+  function handleQuit() {
+    clearTDSave(mode)
+    onDone(reward)
+  }
 
   // ── Game loop ───────────────────────────────────────────────────────────────
 
@@ -211,7 +244,7 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
     // No tower selected, no tower at cell: place if a unit chip is chosen
     if (!selected || isOnPath(col, row)) return
     if (g.phase !== 'prep' && g.phase !== 'between' && g.phase !== 'wave' && g.phase !== 'milestone') return
-    const entry = pool.find(p => p.template.name === selected.name)
+    const entry = activePool.find(p => p.template.name === selected.name)
     if (!entry) return
     const next = placeTower(g, selected, entry.buildingName, col, row)
     if (next) setGame(next)
@@ -354,7 +387,7 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
           >⚡Auto</button>
         </div>
 
-        <button className="action-btn action-btn--danger td-header-btn" onClick={() => onDone(reward)}>
+        <button className="action-btn action-btn--danger td-header-btn" onClick={handleQuit}>
           ✕
         </button>
       </div>
@@ -530,7 +563,7 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
       })()}
 
       {/* ── Bottom panel ── */}
-      <BottomPanel lastLog={lastLog} canPlaceTowers={canPlaceTowers} selected={selected} selectedTower={selectedTower} pool={pool} game={game} towerCost={towerCost} handleSelectUnit={handleSelectUnit} />
+      <BottomPanel lastLog={lastLog} canPlaceTowers={canPlaceTowers} selected={selected} selectedTower={selectedTower} pool={activePool} game={game} towerCost={towerCost} handleSelectUnit={handleSelectUnit} />
     </div>
   )
 
