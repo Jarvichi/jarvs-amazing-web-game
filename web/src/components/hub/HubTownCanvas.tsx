@@ -2058,6 +2058,7 @@ export function HubTownCanvas({
         return out
       },
       onAnimalTap: (id) => onAnimalTapRef.current?.(id),
+      getQuestIndicator: (id) => questNpcState?.current.get(id) ?? null,
       isInteriorActive: () => interiorActive,
     })
 

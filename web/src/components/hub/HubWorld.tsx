@@ -490,7 +490,15 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
 
 
   const handleNpcTap = useCallback((line: string, npcId: string) => {
-    const npcDef = locationData.HUB_NPCS.find(n => n.id === npcId)
+    // Placed animals (HUB_ANIMALS) reuse all NPC quest logic — they share the
+    // same id space as quest giverNpcId / receiverNpcId / targetNpcId.
+    const npcDef: {
+      name?: string; dialogue?: string[]; screen?: string
+      questGive?: string; questReceive?: string | string[]
+      innRumours?: Array<{ id: string; text: string }>
+    } | undefined =
+      locationData.HUB_NPCS.find(n => n.id === npcId) ??
+      locationData.HUB_ANIMALS.find(a => a.id === npcId)
     const speakerName = npcDef?.name ?? ''
 
     // ── Inn rumour handling (Innkeeper Rosie) ───────────────────────────────
@@ -590,6 +598,13 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
     // ── Default dialogue ─────────────────────────────────────────────────────
     setDialogueEvent({ speakerName, text: line })
   }, [refreshState, handleNodeInteract])
+
+  // Placed/quest animals route through the same handler as NPCs.
+  const handleAnimalTap = useCallback((animalId: string) => {
+    const a = locationData.HUB_ANIMALS.find(an => an.id === animalId)
+    const line = a?.dialogue && a.dialogue.length > 0 ? a.dialogue[0] : ''
+    handleNpcTap(line, animalId)
+  }, [handleNpcTap, locationData])
 
   // ── Interactable reactions ─────────────────────────────────────────────────
   // Reactions run in order; dialogue-style reactions chain the remainder
@@ -708,6 +723,7 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
             unitCards={unitCards}
             commander={commander}
             onNpcTap={handleNpcTap}
+            onAnimalTap={handleAnimalTap}
             interiorEnterRef={interiorEnterRef}
             interiorExitRef={interiorExitRef}
             onEnterInterior={() => setInteriorActive(true)}

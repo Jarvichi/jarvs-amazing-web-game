@@ -50,6 +50,7 @@ interface Animal {
   stateTimer: number
   bubble: PIXI.Container | null
   bubbleTimer: number
+  indicator: PIXI.Text | null
   // dog social memory
   ownerId?: string
   seen: Set<string>
@@ -89,6 +90,8 @@ export interface AnimalSystemOptions {
   getNpcPositions: () => { id?: string; x: number; y: number }[]
   /** Routes a placed animal tap to quest handling. */
   onAnimalTap: (animalId: string) => void
+  /** Quest indicator state for a placed animal id ('offer'|'ready'|null). */
+  getQuestIndicator?: (animalId: string) => 'offer' | 'ready' | null
   isInteriorActive: () => boolean
 }
 
@@ -400,6 +403,18 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
         if (a.bubbleTimer <= 0) { opts.bubbleLayer.removeChild(a.bubble); a.bubble = null }
       }
 
+      // quest indicator
+      if (a.indicator && a.id) {
+        const st = opts.getQuestIndicator?.(a.id) ?? null
+        a.indicator.visible = st !== null
+        if (st !== null) {
+          a.indicator.text = st === 'ready' ? '?' : '!'
+          a.indicator.tint = st === 'ready' ? 0x66ddff : 0xffdd44
+          const bob = Math.sin(performance.now() / 300) * 2
+          a.indicator.position.set(a.sprite.x, a.sprite.y - spriteSize * a.baseScale - 6 + bob)
+        }
+      }
+
       if (a.type === 'fish') { fishTick(a, dt); continue }
       if (a.type === 'bird') { birdTick(a, dt, avatar, npcs, walkable); continue }
 
@@ -455,8 +470,18 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
       bubble: null, bubbleTimer: 0,
       seen: new Set(), opinion: new Map(), reactCooldown: 0, wagTimer: 0,
       fleeRequested: false, bobPhase: Math.random() * Math.PI * 2, baseY: c.y,
+      indicator: null,
     }
     animals.push(a)
+
+    // Quest indicator ('!') for placed animals that can give/complete quests.
+    if (placed?.id && (placed.questGive || placed.questReceive)) {
+      const ind = new PIXI.Text({ text: '!', style: { fontSize: 16, fill: '#ffdd44', fontWeight: 'bold', fontFamily: 'monospace', stroke: { color: '#1a1a1a', width: 3 } } })
+      ind.anchor.set(0.5, 1)
+      ind.visible = false
+      opts.bubbleLayer.addChild(ind)
+      a.indicator = ind
+    }
 
     // dogs pick an owner from current named NPCs
     if (type === 'dog' && !a.stationary) {
@@ -501,7 +526,11 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
   for (const pa of opts.placedAnimals) void makeAnimal(pa.type, pa.tx, pa.ty, pa)
 
   function destroy() {
-    for (const a of animals) { if (a.bubble) opts.bubbleLayer.removeChild(a.bubble); a.sprite.destroy() }
+    for (const a of animals) {
+      if (a.bubble) opts.bubbleLayer.removeChild(a.bubble)
+      if (a.indicator) opts.bubbleLayer.removeChild(a.indicator)
+      a.sprite.destroy()
+    }
     animals.length = 0
     birdLayer.destroy({ children: true })
     fishLayer.destroy({ children: true })
