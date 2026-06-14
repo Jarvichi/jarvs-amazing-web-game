@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- neutral light base so PIXI tint colours the whole cat -->
+  <ellipse cx="16" cy="29" rx="8" ry="2" fill="rgba(0,0,0,0.22)"/>
+  <!-- tail -->
+  <path d="M7 23 Q2 20 5 14" stroke="#eeeeee" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  <!-- back legs -->
+  <rect x="9" y="23" width="2.6" height="5" rx="1" fill="#eeeeee"/>
+  <!-- front legs -->
+  <rect x="19" y="23" width="2.6" height="5" rx="1" fill="#eeeeee"/>
+  <!-- body -->
+  <ellipse cx="14" cy="20" rx="9" ry="5" fill="#eeeeee"/>
+  <!-- head -->
+  <circle cx="23" cy="16" r="4.6" fill="#eeeeee"/>
+  <!-- ears -->
+  <path d="M19.5 12.5 L20.5 8 L23 12.5 Z" fill="#eeeeee"/>
+  <path d="M24 12.5 L26.5 8 L27.5 12.5 Z" fill="#eeeeee"/>
+  <!-- eye + nose -->
+  <circle cx="24" cy="15.5" r="1" fill="#2a2a2a"/>
+  <circle cx="27.2" cy="17.2" r="0.9" fill="#777777"/>
+</svg>
