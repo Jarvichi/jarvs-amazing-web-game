@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- top-down-ish fish, neutral base for PIXI tint -->
+  <!-- tail -->
+  <path d="M7 16 L2 12 L3 16 L2 20 Z" fill="#eeeeee"/>
+  <!-- body -->
+  <ellipse cx="17" cy="16" rx="9" ry="5" fill="#eeeeee"/>
+  <!-- top fin -->
+  <path d="M14 11 L18 7 L20 11 Z" fill="#dddddd"/>
+  <!-- gill line -->
+  <path d="M21 12 Q23 16 21 20" stroke="#cfcfcf" stroke-width="0.8" fill="none"/>
+  <!-- eye -->
+  <circle cx="23" cy="15" r="1.1" fill="#2a2a2a"/>
+</svg>
