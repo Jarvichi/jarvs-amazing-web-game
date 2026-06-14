@@ -19,6 +19,8 @@
 | `web/src/game/hub/friendship.ts` | NPC friendship XP/level persistence (localStorage) | `getFriendshipLevel`, `addFriendshipXp`, `getFriendshipData` |
 | `web/src/game/hub/innConvos.ts` | Inn conversation tracking (localStorage) | `getHeardConvoIds`, `markConvoHeard`, `isConvoHeard` |
 | `web/src/game/hub/interactables.ts` | Interactable grant + moved-position persistence (localStorage) | `interactableStoreKey`, `isInteractableGranted`, `markInteractableGranted`, `getInteractableMoves`, `setInteractableMove` |
+| `web/src/game/hub/animals.ts` | Pure animal logic (spawn ratios/caps, tint palettes, behaviour tables) | `computeProceduralCounts`, `resolveVariantTint`, `pickWeighted`, `ANIMAL_RATIOS`, `ANIMAL_CAPS` |
+| `web/src/components/hub/hubAnimals.ts` | PixiJS animal manager — spawns & ticks cats/dogs/birds/fish | `createAnimalSystem` |
 | `web/src/components/hub/HubTownCanvas.tsx` | PixiJS canvas — rendering, pathfinding, walk, interactions | — |
 | `web/src/components/hub/HubWorld.tsx` | React orchestrator — quest flow, dialogue, state | — |
 
@@ -306,3 +308,94 @@ localStorage keys, entries keyed `<townName>:<interactableId>`:
 4. For `quest` reactions, set the quest's `giverNpcId` to the interactable id.
 5. Run `npm run test` (loader tests parse all configs) and `npm run build`.
 6. Verify in-game: tap fires the reactions, tap does not also walk the avatar, indicator shows/clears, moves persist after reload.
+
+---
+
+## §8 — Animals (cats, dogs, birds, fish)
+
+Living town ambience. Two kinds: **procedural** animals (spawned from town
+geometry, anonymous, flavour-only) and **placed** animals (defined in
+`config.json`, stable `id`, can give/receive quests). The PixiJS manager is
+`createAnimalSystem` in `web/src/components/hub/hubAnimals.ts`; the pure maths
+and behaviour tables live in `web/src/game/hub/animals.ts`.
+
+### Procedural spawn ratios & caps
+
+| Animal | Count | Source | Cap |
+|---|---|---|---|
+| Cats | 1 per 4 buildings | `HUB_BUILDINGS.length` | 6 |
+| Dogs | 1 per 4 NPCs | exterior NPC count | 8 |
+| Birds | 4 per town (fixed) | — | 4 |
+| Fish | 1 per 6 pond tiles | `HUB_POND_TILES.length` | 12 |
+
+Counts come from `computeProceduralCounts`. All towns get cats/dogs/birds
+automatically; fish appear only where `pondTiles` exist.
+
+### Behaviours
+
+- **Cat** — `wander / sit / sleep / follow-player`, plus event states `flee`
+  (runs from an approaching player) and `chase-bird` (sends the bird fleeing).
+- **Dog** — picks a named-NPC `owner`; `follow-owner / roam`, and reacts to
+  *new* NPCs it meets by rolling like/dislike → wag (♥) or bark ("Woof!").
+- **Bird** — `perched` on roof ridges or empty path tiles; flees everything by
+  flying off-screen and re-pitching at a new empty spot.
+- **Fish** — gentle swim constrained to pond tiles, with a sine bob.
+
+Placed animals with `roam !== true` are **stationary**: they do not wander or
+flee, so the player can always reach them to tap (important for quest givers,
+especially birds, which otherwise flee on approach).
+
+### Colour variants
+
+One neutral-grey base SVG per type (`animal-cat`, `animal-dog`, `animal-bird`,
+`animal-fish`, with `-1/-2/-3` walk/fly frames and `animal-cat-sleep`),
+recoloured at spawn via `sprite.tint`. `variant` may be a palette key
+(`TINT_PALETTES`, e.g. `"orange"`, `"brown"`, `"grey"`) or a hex string
+(`"#e8923c"`); omit it for a random palette colour.
+
+### Placed-animal config schema (`config.json` → top-level `animals`)
+
+```jsonc
+{
+  "animals": [
+    {
+      "id": "rover",                  // unique; shares NPC quest id space
+      "type": "dog",                  // cat | dog | bird | fish
+      "variant": "brown",             // palette key or hex; optional
+      "tx": 33, "ty": 32,
+      "name": "Rover",                // shown as the dialogue speaker
+      "dialogue": ["*woof!*"],        // first line used on tap (flavour / fallback)
+      "questGive": "wheres-rover",    // optional — quest this animal offers
+      "questReceive": "feed-the-stray", // optional — quest(s) it completes/receives
+      "roam": false,                  // default false (stationary); true = wanders
+      "areaRect": [tx, ty, w, h]      // optional roam bounds (reserved)
+    }
+  ]
+}
+```
+
+### Quests with animals
+
+Placed animals route taps through `handleNpcTap` (in `HubWorld.tsx`) by `id`,
+so quests reference them exactly like NPCs:
+
+- **Animal as giver:** set the animal's `questGive` and the quest's
+  `giverNpcId` to the animal `id` (giver==receiver works for a self-contained
+  collect quest, e.g. *Where's Rover?*).
+- **Animal as quest step / receiver:** set a `deliver` step's `targetNpcId`
+  (and `receiverNpcId`) to the animal `id`, and give the animal
+  `questReceive` (e.g. *Feed the Stray* delivers fish to a cat).
+
+A `!`/`?` quest indicator floats above placed animals that have
+`questGive`/`questReceive`, driven by the same `questNpcState` map as NPCs.
+
+### Authoring checklist: new animal quest
+
+1. Add the animal to the town's `config.json` `animals` array with a stable
+   `id`, a `name`, `dialogue`, and `questGive`/`questReceive`. Use `roam:false`
+   (default) for quest givers/receivers so they stay tappable.
+2. Author the quest in `questDefs.json` `quests`, pointing `giverNpcId` /
+   `receiverNpcId` / `targetNpcId` at the animal `id`.
+3. Add any `collect`-step `pickupItems` (tile constants from `baseChipIndex.ts`).
+4. Run `npm run test` and `npm run build`; verify the `!` shows, the quest
+   offers, pickups collect, and tapping the animal completes it.
