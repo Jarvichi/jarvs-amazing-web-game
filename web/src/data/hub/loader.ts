@@ -94,7 +94,9 @@ export interface HubNpc {
   homeBed?: { buildingId: string; tx: number; ty: number }
 }
 
-export type HubAnimalType = 'cat' | 'dog' | 'bird' | 'fish'
+export type HubAnimalType =
+  | 'cat' | 'dog' | 'bird' | 'fish'
+  | 'butterfly' | 'rabbit' | 'chicken' | 'frog'
 
 export interface HubAnimal {
   id: string
@@ -248,6 +250,7 @@ export interface HubLocationBundle {
   HUB_TREASURES: HubTreasure[]
   HUB_INTERACTABLES: HubInteractable[]
   HUB_ANIMALS: HubAnimal[]
+  HUB_CHICKEN_ZONES: { rect: [number, number, number, number]; count?: number }[]
   EXIT_TILES: HubExitTile[]
 
 
@@ -523,6 +526,10 @@ const HUB_ANIMALS: HubAnimal[] = (
   areaRect:     a.areaRect,
 }))
 
+const HUB_CHICKEN_ZONES = (
+  (rawConfig as unknown as { chickenZones?: { rect: number[]; count?: number }[] }).chickenZones ?? []
+).map(z => ({ rect: z.rect as [number, number, number, number], count: z.count }))
+
  const HUB_TOWN_NAME: string = (rawConfig as unknown as { townName?: string }).townName ?? 'Town'
 const ENVIRONMENT: string = (rawConfig as unknown as { environment?: string }).environment ?? 'camp'
 
@@ -594,6 +601,7 @@ type RawExitTile = { tx: number; ty: number; screen: string }
     HUB_TREASURES,
     HUB_INTERACTABLES,
     HUB_ANIMALS,
+    HUB_CHICKEN_ZONES,
     EXIT_TILES: HUB_EXIT_TILES,
 
   }
