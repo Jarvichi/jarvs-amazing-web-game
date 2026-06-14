@@ -7831,5 +7831,8 @@
       "dialogue": ["*caw!*", "Pip the raven tilts its head, eyeing your pockets for something shiny."],
       "questGive": "pips-treasures"
     }
+  ],
+  "chickenZones": [
+    { "rect": [1, 27, 6, 5] }
   ]
 }
