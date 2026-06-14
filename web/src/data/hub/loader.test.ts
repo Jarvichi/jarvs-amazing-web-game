@@ -65,6 +65,29 @@ describe('interactables parsing', () => {
   })
 })
 
+describe('animals parsing', () => {
+  it('returns [] when the key is absent', () => {
+    const bundle = createHubLocationData(minimalConfig({}))
+    expect(bundle.HUB_ANIMALS).toEqual([])
+  })
+
+  it('passes placed animals through with all quest fields', () => {
+    const bundle = createHubLocationData(minimalConfig({
+      animals: [
+        { id: 'rover', type: 'dog', variant: 'brown', tx: 10, ty: 12, name: 'Rover',
+          dialogue: ['Woof!'], questGive: 'wheres-rover' },
+        { id: 'smudge', type: 'cat', tx: 5, ty: 6, questReceive: ['feed-the-stray'], roam: true },
+      ],
+    }))
+    expect(bundle.HUB_ANIMALS).toHaveLength(2)
+    expect(bundle.HUB_ANIMALS[0]).toMatchObject({
+      id: 'rover', type: 'dog', variant: 'brown', tx: 10, ty: 12, questGive: 'wheres-rover',
+    })
+    expect(bundle.HUB_ANIMALS[1].questReceive).toEqual(['feed-the-stray'])
+    expect(bundle.HUB_ANIMALS[1].roam).toBe(true)
+  })
+})
+
 describe('ravenwatch config', () => {
   it('contains the notice-board interactable with 4 resolved decor tiles', () => {
     const bundle = createHubLocationData(ravenwatchConfig as unknown as RawConfig)

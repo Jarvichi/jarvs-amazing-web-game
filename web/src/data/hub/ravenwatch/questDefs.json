@@ -1,6 +1,49 @@
 {
   "quests": [
     {
+      "id": "feed-the-stray",
+      "title": "Feed the Stray",
+      "type": "fetch",
+      "giverNpcId": "fisherman",
+      "receiverNpcId": "stray-cat-ravenwatch",
+      "offerDialogue": "There's a little stray that hangs about the pond — poor thing's half-starved. If you can scrounge up three fish from the banks, take them to her, would you?",
+      "activeDialogue": "Three fish from around the pond, then carry them over to that stray cat. She's usually sat by the east bank.",
+      "completeDialogue": "She ate the lot! Look at her purr. You've a good heart, traveller.",
+      "steps": [
+        { "key": "fish", "type": "collect", "pickupIds": ["stray-fish-1", "stray-fish-2", "stray-fish-3"], "required": 3 },
+        { "key": "deliver", "type": "deliver", "targetNpcId": "stray-cat-ravenwatch", "required": 1 }
+      ],
+      "reward": { "crystals": 40, "friendship": { "fisherman": 15 } }
+    },
+    {
+      "id": "wheres-rover",
+      "title": "Where's Rover?",
+      "type": "fetch",
+      "giverNpcId": "rover",
+      "receiverNpcId": "rover",
+      "offerDialogue": "Rover paws at the ground and whines — he's buried his favourite toys all over town and can't dig them up. Help him find his three toys?",
+      "activeDialogue": "Rover is still pining for his three lost toys, scattered around the streets.",
+      "completeDialogue": "Rover bounds in circles, toys in mouth, tail a blur. You've made a friend for life!",
+      "steps": [
+        { "key": "toys", "type": "collect", "pickupIds": ["rover-toy-1", "rover-toy-2", "rover-toy-3"], "required": 3 }
+      ],
+      "reward": { "crystals": 35 }
+    },
+    {
+      "id": "pips-treasures",
+      "title": "Pip's Treasures",
+      "type": "fetch",
+      "giverNpcId": "pip",
+      "receiverNpcId": "pip",
+      "offerDialogue": "The raven cocks its head and caws insistently, pointing its beak at the rooftops. It seems to want three shiny baubles gathered from around town.",
+      "activeDialogue": "Pip is still waiting for its three shiny baubles. Best check the streets and squares.",
+      "completeDialogue": "Pip snatches the last bauble, gives a satisfied caw, and drops a gift at your feet.",
+      "steps": [
+        { "key": "shiny", "type": "collect", "pickupIds": ["pip-shiny-1", "pip-shiny-2", "pip-shiny-3"], "required": 3 }
+      ],
+      "reward": { "crystals": 35 }
+    },
+    {
       "id": "lost-pendant",
       "title": "The Lost Pendants",
       "type": "lost-items",
@@ -3384,6 +3427,15 @@
     }
   ],
   "pickupItems": [
+    { "id": "stray-fish-1", "tx": 48, "ty": 57, "tileId": "appleBasket", "questId": "feed-the-stray" },
+    { "id": "stray-fish-2", "tx": 41, "ty": 51, "tileId": "appleBasket", "questId": "feed-the-stray" },
+    { "id": "stray-fish-3", "tx": 46, "ty": 49, "tileId": "appleBasket", "questId": "feed-the-stray" },
+    { "id": "rover-toy-1", "tx": 30, "ty": 33, "tileId": "gift", "questId": "wheres-rover" },
+    { "id": "rover-toy-2", "tx": 40, "ty": 35, "tileId": "gift", "questId": "wheres-rover" },
+    { "id": "rover-toy-3", "tx": 36, "ty": 45, "tileId": "gift", "questId": "wheres-rover" },
+    { "id": "pip-shiny-1", "tx": 35, "ty": 24, "tileId": "yellow_crystal1", "questId": "pips-treasures" },
+    { "id": "pip-shiny-2", "tx": 45, "ty": 30, "tileId": "yellow_crystal1", "questId": "pips-treasures" },
+    { "id": "pip-shiny-3", "tx": 29, "ty": 32, "tileId": "yellow_crystal1", "questId": "pips-treasures" },
     {
       "id": "pendant-1",
       "tx": 1,

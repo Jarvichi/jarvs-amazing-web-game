@@ -15,6 +15,7 @@ import { createChunkCuller } from '../../utils/chunkCull'
 import { CommanderState } from '../../game/commander'
 import rollbar from '../../rollbar'
 import { HubInteractable, HubInteriorExit, HubLocationBundle, HubNpc, HubQuestBundle, HubStreetGroup, NpcScheduleEntry } from '../../data/hub/loader'
+import { createAnimalSystem, AnimalSystem } from './hubAnimals'
 
 
 const T                 = 32
@@ -63,6 +64,7 @@ interface Props {
   unitCards?:       string[]
   commander?:       CommanderState
   onNpcTap?:        (dialogue: string, npcId: string) => void
+  onAnimalTap?:     (animalId: string) => void
   interiorEnterRef?: React.MutableRefObject<((buildingId: string) => void) | null>
   interiorExitRef?:  React.MutableRefObject<(() => void) | null>
   onEnterInterior?:  () => void
@@ -96,7 +98,7 @@ interface Props {
 
 export function HubTownCanvas({
   onAreaEnter, onNodeInteract, onAvatarMove,
-  returnRef, unitCards, commander, onNpcTap,
+  returnRef, unitCards, commander, onNpcTap, onAnimalTap,
   interiorEnterRef, interiorExitRef, onEnterInterior, onExitInterior, onTileTap,
   pickedUpIds, onItemPickup, doorKeys, onDoorLocked, questNpcState, activeQuestIdsRef,
   completedQuestIdsRef, collectedTreasureIds, onTreasureStep,
@@ -114,7 +116,7 @@ export function HubTownCanvas({
     EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES,
     HUB_DOORS, HUB_INTERIORS, EXTERIOR_NPCS, INTERIOR_NPCS,
     NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES,
-   HUB_LOCKED_DOORS, HUB_TREASURES, HUB_INTERACTABLES,
+   HUB_LOCKED_DOORS, HUB_TREASURES, HUB_INTERACTABLES, HUB_ANIMALS,
     EXIT_TILES: exitTilesData,
     HUB_TOWN_NAME: locationKey,
   } = locationData
@@ -130,6 +132,8 @@ export function HubTownCanvas({
   onAvatarMoveRef.current = onAvatarMove
   const onNpcTapRef       = useRef(onNpcTap)
   onNpcTapRef.current     = onNpcTap
+  const onAnimalTapRef    = useRef(onAnimalTap)
+  onAnimalTapRef.current  = onAnimalTap
   const unitCardsRef      = useRef(unitCards)
   unitCardsRef.current    = unitCards
   const onEnterInteriorRef  = useRef(onEnterInterior)
@@ -2010,8 +2014,57 @@ export function HubTownCanvas({
     let _lastNightAlpha = -1
     let _lastNightAvatarX = -Infinity, _lastNightAvatarY = -Infinity
     let _lastReportX = -Infinity, _lastReportY = -Infinity
+    // ── Animals (cats, dogs, birds, fish) ──────────────────────────────────────
+    // Building roof ridges (top row of each building) are bird perch candidates.
+    const animalRoofTiles: [number, number][] = []
+    for (const b of HUB_BUILDINGS) {
+      const [x1, y1, x2] = b.rect
+      for (let tx = x1; tx <= x2; tx++) animalRoofTiles.push([tx, y1])
+    }
+    const animalGetWalkable = (): Set<string> => {
+      const s = new Set(pathSet)
+      for (const bp of HUB_BLOCKED_PATHS) {
+        if (!(completedQuestIdsRef?.current.has(bp.questId) ?? false))
+          for (const [btx, bty] of bp.blockedTiles) s.delete(`${btx},${bty}`)
+      }
+      return s
+    }
+    const animalSystem: AnimalSystem = createAnimalSystem({
+      app,
+      spriteLayer,
+      overlayLayer: aboveAvatarLayer,
+      pondLayer,
+      bubbleLayer,
+      baseUrl: base,
+      T,
+      spriteSize: SPRITE_SIZE,
+      mapW: MAP_W,
+      mapH: MAP_H,
+      getWalkable: animalGetWalkable,
+      pondTiles: HUB_POND_TILES,
+      roofTiles: animalRoofTiles,
+      placedAnimals: HUB_ANIMALS,
+      buildingCount: HUB_BUILDINGS.length,
+      npcCount: EXTERIOR_NPCS.length,
+      getAvatarPx: () => ({ x: avatar?.x ?? COURTYARD_PX.x, y: avatar?.y ?? COURTYARD_PX.y }),
+      getNpcPositions: () => {
+        const out: { id?: string; x: number; y: number }[] = []
+        for (const [id, container] of namedNpcContainers) {
+          if (!container.visible) continue
+          const s = container.children[0] as PIXI.Sprite | undefined
+          if (s) out.push({ id, x: s.x, y: s.y })
+        }
+        for (const n of unitNpcs) out.push({ x: n.sprite.x, y: n.sprite.y })
+        return out
+      },
+      onAnimalTap: (id) => onAnimalTapRef.current?.(id),
+      getQuestIndicator: (id) => questNpcState?.current.get(id) ?? null,
+      isInteriorActive: () => interiorActive,
+    })
+
     app.ticker.add((ticker) => {
       try {
+      animalSystem.tick(ticker.deltaMS)
       // Follow the scroll container every frame — scroll events are async on
       // iOS momentum scrolling, but only the camera is visible motion, so
       // reading the live scroll position here can never show a stale frame.

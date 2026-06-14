@@ -7799,5 +7799,37 @@
         { "type": "screen", "screen": "news" }
       ]
     }
+  ],
+  "animals": [
+    {
+      "id": "stray-cat-ravenwatch",
+      "type": "cat",
+      "variant": "orange",
+      "tx": 52,
+      "ty": 54,
+      "name": "Smudge",
+      "dialogue": ["*meow?*", "Smudge the stray blinks up at you, hopeful for a meal."],
+      "questReceive": "feed-the-stray"
+    },
+    {
+      "id": "rover",
+      "type": "dog",
+      "variant": "brown",
+      "tx": 33,
+      "ty": 32,
+      "name": "Rover",
+      "dialogue": ["*woof!*", "Rover wags his tail and looks at you expectantly."],
+      "questGive": "wheres-rover"
+    },
+    {
+      "id": "pip",
+      "type": "bird",
+      "variant": "brown",
+      "tx": 31,
+      "ty": 24,
+      "name": "Pip",
+      "dialogue": ["*caw!*", "Pip the raven tilts its head, eyeing your pockets for something shiny."],
+      "questGive": "pips-treasures"
+    }
   ]
 }

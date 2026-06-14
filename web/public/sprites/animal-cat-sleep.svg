@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- curled, sleeping -->
+  <ellipse cx="16" cy="28" rx="10" ry="2.5" fill="rgba(0,0,0,0.22)"/>
+  <!-- curled body -->
+  <ellipse cx="16" cy="24" rx="10" ry="5.5" fill="#eeeeee"/>
+  <!-- tail wrapped round the front -->
+  <path d="M7 24 Q9 30 20 27" stroke="#eeeeee" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- head tucked -->
+  <circle cx="9" cy="22" r="4.4" fill="#eeeeee"/>
+  <path d="M6 19 L6.5 15.5 L9 19 Z" fill="#eeeeee"/>
+  <path d="M9.5 19 L12 15.5 L12.5 19 Z" fill="#eeeeee"/>
+  <!-- closed eye -->
+  <path d="M7 22 q2 1.4 4 0" stroke="#2a2a2a" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+  <!-- zzz -->
+  <text x="20" y="14" font-family="monospace" font-size="6" fill="#9a9aa6">z</text>
+  <text x="24" y="10" font-family="monospace" font-size="5" fill="#9a9aa6">z</text>
+</svg>

@@ -3,7 +3,7 @@ import { WALL_TILES } from '../tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../tiles/buildingMaterials'
 import { expandBundleDecor, expandBundleWindows, expandBundleDoors } from '../bundles/bundleLoader'
 import { FriendshipDialogue, HubQuestDef, QuestInnRumour, RawQuestConfig } from './questDefs'
-import { RawConfig, RawInteractable } from './config'
+import { RawAnimal, RawConfig, RawInteractable } from './config'
 
 const WALL_MATERIAL_NAMES = new Set<string>(Object.keys(WALL_TILES))
 
@@ -92,6 +92,22 @@ export interface HubNpc {
   isGhost?: boolean
   schedule?: NpcScheduleEntry[]
   homeBed?: { buildingId: string; tx: number; ty: number }
+}
+
+export type HubAnimalType = 'cat' | 'dog' | 'bird' | 'fish'
+
+export interface HubAnimal {
+  id: string
+  type: HubAnimalType
+  variant?: string
+  tx: number
+  ty: number
+  name?: string
+  dialogue?: string[]
+  questGive?: string
+  questReceive?: string | string[]
+  roam?: boolean
+  areaRect?: [number, number, number, number]
 }
 
 export interface HubPickupItem {
@@ -231,6 +247,7 @@ export interface HubLocationBundle {
   HUB_LOCKED_DOORS: HubLockedDoor[]
   HUB_TREASURES: HubTreasure[]
   HUB_INTERACTABLES: HubInteractable[]
+  HUB_ANIMALS: HubAnimal[]
   EXIT_TILES: HubExitTile[]
 
 
@@ -490,6 +507,22 @@ const HUB_INTERACTABLES: HubInteractable[] = (
   }
 })
 
+const HUB_ANIMALS: HubAnimal[] = (
+  (rawConfig as unknown as { animals?: RawAnimal[] }).animals ?? []
+).map(a => ({
+  id:           a.id,
+  type:         a.type as HubAnimalType,
+  variant:      a.variant,
+  tx:           a.tx,
+  ty:           a.ty,
+  name:         a.name,
+  dialogue:     a.dialogue,
+  questGive:    a.questGive,
+  questReceive: a.questReceive,
+  roam:         a.roam,
+  areaRect:     a.areaRect,
+}))
+
  const HUB_TOWN_NAME: string = (rawConfig as unknown as { townName?: string }).townName ?? 'Town'
 const ENVIRONMENT: string = (rawConfig as unknown as { environment?: string }).environment ?? 'camp'
 
@@ -560,6 +593,7 @@ type RawExitTile = { tx: number; ty: number; screen: string }
     HUB_LOCKED_DOORS,
     HUB_TREASURES,
     HUB_INTERACTABLES,
+    HUB_ANIMALS,
     EXIT_TILES: HUB_EXIT_TILES,
 
   }

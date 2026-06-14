@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- neutral light base so PIXI tint colours the whole dog -->
+  <ellipse cx="16" cy="29" rx="9" ry="2" fill="rgba(0,0,0,0.22)"/>
+  <!-- tail -->
+  <path d="M6 21 Q1 18 4 13" stroke="#eeeeee" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- back legs -->
+  <rect x="8" y="22" width="3" height="6" rx="1" fill="#eeeeee"/>
+  <!-- front legs -->
+  <rect x="20" y="22" width="3" height="6" rx="1" fill="#eeeeee"/>
+  <!-- body -->
+  <ellipse cx="15" cy="19" rx="10" ry="6" fill="#eeeeee"/>
+  <!-- head -->
+  <circle cx="24" cy="15" r="5.2" fill="#eeeeee"/>
+  <!-- floppy ear -->
+  <path d="M21 11 Q19 11 19.5 16 Q22 15 22.5 12 Z" fill="#dddddd"/>
+  <!-- snout -->
+  <rect x="27" y="15" width="4" height="3.5" rx="1.5" fill="#eeeeee"/>
+  <circle cx="30.5" cy="16.2" r="1" fill="#444444"/>
+  <!-- eye -->
+  <circle cx="25" cy="14" r="1" fill="#2a2a2a"/>
+</svg>
