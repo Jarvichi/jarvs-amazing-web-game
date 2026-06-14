@@ -355,10 +355,12 @@ morning they re-emerge at the door. While denned they are excluded from the
 exterior tick.
 
 When the player **enters a building**, `HubTownCanvas` calls
-`animalSystem.getAnimalsInBuilding(buildingId)` and renders any denned cats/dogs
-as **present & idle** sprites (cat = sleep pose, dog = sitting), tinted with
-their variant, at free interior tiles. Cats navigate to their door with the
-grass-capable greedy stepper; dogs use the street pathfinder.
+`animalSystem.getAnimalsInBuilding(buildingId)` and spawns any denned cats/dogs
+inside as `InteriorAnimal`s, tinted with their variant. They **wander the room**
+with random one-tile hops across `interiorWalkable` (cats occasionally curl up
+to sleep), ticked in the main loop while `interiorActive`, and are cleared on
+exit. Cats navigate to their door outside with the grass-capable greedy stepper;
+dogs use the street pathfinder.
 
 Placed animals with `roam !== true` are **stationary**: they do not wander or
 flee, so the player can always reach them to tap (important for quest givers,
