@@ -325,7 +325,7 @@ and behaviour tables live in `web/src/game/hub/animals.ts`.
 |---|---|---|---|
 | Cats | 1 per 4 buildings | `HUB_BUILDINGS.length` | 6 |
 | Dogs | 1 per 4 NPCs | exterior NPC count | 8 |
-| Birds | 4 per town (fixed) | — | 4 |
+| Birds | 8 per town (fixed) | — | 8 |
 | Fish | 1 per 6 pond tiles | `HUB_POND_TILES.length` | 12 |
 
 Counts come from `computeProceduralCounts`. All towns get cats/dogs/birds
