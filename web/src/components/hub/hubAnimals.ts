@@ -11,7 +11,6 @@ import { loadAnimFrames, loadTextureUrl } from '../../utils/pixiHelpers'
 import type { HubAnimal } from '../../data/hub/loader'
 import {
   AnimalType,
-  CAT_IDLE_WEIGHTS,
   DOG_IDLE_WEIGHTS,
   computeProceduralCounts,
   pickWeighted,
@@ -46,6 +45,7 @@ interface Animal {
   path: [number, number][]
   movingTo: [number, number] | null
   target: Pt | null
+  goal: [number, number] | null   // cats: beacon tile they walk toward (grass-capable)
   staticTex: PIXI.Texture | null
   sleepTex: PIXI.Texture | null
   frames: PIXI.Texture[]
@@ -85,6 +85,8 @@ export interface AnimalSystemOptions {
   mapH: number
   /** Current walkable street tiles ("tx,ty"), recomputed each call. */
   getWalkable: () => Set<string>
+  /** True if a tile is impassable for off-path roamers (building/pond/out-of-bounds). */
+  isSolidTile: (tx: number, ty: number) => boolean
   pondTiles: [number, number][]
   roofTiles: [number, number][]
   placedAnimals: HubAnimal[]
@@ -217,48 +219,16 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     if (a.bubble) a.bubble.position.set(a.sprite.x, a.sprite.y - spriteSize * a.baseScale - 4)
   }
 
-  // ── behaviour: cats ──────────────────────────────────────────────────────────
-  function catIdle(a: Animal, walkable: Set<string>, avatar: Pt) {
-    const choice = a.stationary ? (Math.random() < 0.5 ? 'sit' : 'sleep') : pickWeighted(CAT_IDLE_WEIGHTS)
-    a.state = choice
-    a.stateTimer = randomDuration(choice)
-    if (choice === 'sit') showStatic(a)
-    else if (choice === 'sleep') showSleep(a)
-    else if (choice === 'wander') {
-      const dest = randOf(tilesWithin(walkable, a.tx, a.ty, 5))
-      if (dest) setPath(a, [a.tx, a.ty], dest, walkable)
-      showStatic(a)
-    } else if (choice === 'follow-player') {
-      showStatic(a)
-      followToward(a, avatar, walkable)
+  // Nearest other animal matching `pred` within `radiusPx`, else null.
+  function nearestAnimal(a: Animal, pred: (o: Animal) => boolean, radiusPx: number): Animal | null {
+    let best: Animal | null = null
+    let bd = radiusPx
+    for (const o of animals) {
+      if (o === a || !pred(o)) continue
+      const d = Math.hypot(o.sprite.x - a.sprite.x, o.sprite.y - a.sprite.y)
+      if (d < bd) { bd = d; best = o }
     }
-  }
-
-  function catEvents(a: Animal, dt: number, walkable: Set<string>, avatar: Pt, perchedBirds: Animal[]) {
-    if (a.stationary) return  // placed quest cats stay put so they can be tapped
-    if (a.state === 'flee' || a.state === 'chase-bird') return
-    const dAv = Math.hypot(avatar.x - a.sprite.x, avatar.y - a.sprite.y)
-    if (dAv < 3 * T && Math.random() < (dt / 1000) * 0.6) {
-      // run away
-      a.state = 'flee'; a.stateTimer = 2400
-      const avTile: [number, number] = [Math.floor(avatar.x / T), Math.floor(avatar.y / T)]
-      const opt = tilesWithin(walkable, a.tx, a.ty, 6)
-      let best: [number, number] | null = null, bestD = -1
-      for (const t of opt) {
-        const d = Math.abs(t[0] - avTile[0]) + Math.abs(t[1] - avTile[1])
-        if (d > bestD) { bestD = d; best = t }
-      }
-      if (best) setPath(a, [a.tx, a.ty], best, walkable)
-      return
-    }
-    if (!a.stationary) {
-      const bird = perchedBirds.find(b => Math.hypot(b.sprite.x - a.sprite.x, b.sprite.y - a.sprite.y) < 5 * T)
-      if (bird && Math.random() < (dt / 1000) * 0.4) {
-        a.state = 'chase-bird'; a.stateTimer = 3000
-        bird.fleeRequested = true
-        setPath(a, [a.tx, a.ty], [bird.tx, bird.ty], walkable)
-      }
-    }
+    return best
   }
 
   function followToward(a: Animal, target: Pt, walkable: Set<string>) {
@@ -267,6 +237,104 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     const near = tilesWithin(walkable, tt[0], tt[1], 2)
     const dest = randOf(near) ?? (walkable.has(key(tt[0], tt[1])) ? tt : null)
     if (dest) setPath(a, [a.tx, a.ty], dest, walkable)
+  }
+
+  // ── behaviour: cats ──────────────────────────────────────────────────────────
+  // Cats are lazy: they sleep most of the day and only rouse for something that
+  // interests a feline soul — a dog to flee, a bird to chase, another cat to
+  // play with, or an NPC who might feed them. They roam off the paths (onto
+  // grass) toward a `goal` beacon, stepping around solid tiles (#1592).
+  const cols = Math.floor(opts.mapW / T)
+  const rows = Math.floor(opts.mapH / T)
+  const DIRS8: [number, number][] = [[0, -1], [1, -1], [1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1]]
+  const clampN = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n))
+
+  // Greedy one-tile step toward a.goal, avoiding solids (lets cats cross grass).
+  function catStep(a: Animal) {
+    if (!a.goal) return
+    const [gx, gy] = a.goal
+    if (Math.abs(a.tx - gx) <= 1 && Math.abs(a.ty - gy) <= 1) { a.goal = null; return }
+    let best: [number, number] | null = null, bd = Infinity
+    for (const [dx, dy] of DIRS8) {
+      const nx = a.tx + dx, ny = a.ty + dy
+      if (nx < 0 || ny < 0 || nx >= cols || ny >= rows) continue
+      if (opts.isSolidTile(nx, ny)) continue
+      const d = Math.hypot(nx - gx, ny - gy)
+      if (d < bd) { bd = d; best = [nx, ny] }
+    }
+    if (best) { a.movingTo = best; a.target = center(a, best[0], best[1]); a.path = [] }
+    else a.goal = null
+  }
+
+  function catFleeFrom(a: Animal, fromPx: Pt, durationMs: number) {
+    a.state = 'flee'; a.stateTimer = durationMs
+    const dx = a.tx - fromPx.x / T, dy = a.ty - fromPx.y / T
+    const len = Math.hypot(dx, dy) || 1
+    a.goal = [clampN(Math.round(a.tx + (dx / len) * 6), 0, cols - 1),
+              clampN(Math.round(a.ty + (dy / len) * 6), 0, rows - 1)]
+  }
+
+  // A quiet grass tile (off the path) within a short radius, else null.
+  function comfyTile(a: Animal, walkable: Set<string>): [number, number] | null {
+    const out: [number, number][] = []
+    for (let dx = -3; dx <= 3; dx++) for (let dy = -3; dy <= 3; dy++) {
+      const tx = a.tx + dx, ty = a.ty + dy
+      if ((dx || dy) && tx >= 0 && ty >= 0 && tx < cols && ty < rows
+          && !opts.isSolidTile(tx, ty) && !walkable.has(key(tx, ty))) out.push([tx, ty])
+    }
+    return randOf(out)
+  }
+
+  function catRest(a: Animal, walkable: Set<string>) {
+    const sleeping = Math.random() < 0.85
+    a.state = sleeping ? 'sleep' : 'sit'
+    a.stateTimer = sleeping ? 12000 + Math.random() * 30000 : 4000 + Math.random() * 6000
+    // Sometimes pad off the path to a comfy grass spot, then settle there.
+    a.goal = Math.random() < 0.4 ? comfyTile(a, walkable) : null
+  }
+
+  // While at rest, look for a reason to wake. Returns true if one was found.
+  function catWake(a: Animal, dt: number, npcs: { x: number; y: number }[], perchedBirds: Animal[]): boolean {
+    const bird = perchedBirds.find(b => Math.hypot(b.sprite.x - a.sprite.x, b.sprite.y - a.sprite.y) < 5 * T)
+    if (bird && Math.random() < (dt / 1000) * 0.5) {
+      a.state = 'chase-bird'; a.stateTimer = 3500; bird.fleeRequested = true; a.goal = [bird.tx, bird.ty]; return true
+    }
+    const cat = nearestAnimal(a, o => o.type === 'cat' && !o.stationary, 4 * T)
+    if (cat && Math.random() < (dt / 1000) * 0.12) {
+      a.state = 'play'; a.stateTimer = 4000; a.goal = [cat.tx, cat.ty]; return true
+    }
+    let npc: { x: number; y: number } | null = null, nd = 3 * T
+    for (const n of npcs) { const d = Math.hypot(n.x - a.sprite.x, n.y - a.sprite.y); if (d < nd) { nd = d; npc = n } }
+    if (npc && Math.random() < (dt / 1000) * 0.1) {
+      a.state = 'approach-npc'; a.stateTimer = 5000; a.goal = [Math.floor(npc.x / T), Math.floor(npc.y / T)]; return true
+    }
+    return false
+  }
+
+  function catTick(a: Animal, dt: number, walkable: Set<string>, npcs: { x: number; y: number }[], perchedBirds: Animal[]) {
+    if (a.stationary) {
+      if (!isMoving(a) && a.stateTimer <= 0) {
+        a.state = Math.random() < 0.6 ? 'sleep' : 'sit'
+        a.stateTimer = 5000 + Math.random() * 8000
+      }
+      return
+    }
+    // A dog always interrupts whatever the cat was doing.
+    if (a.state !== 'flee') {
+      const dog = nearestAnimal(a, o => o.type === 'dog', 3.5 * T)
+      if (dog) catFleeFrom(a, { x: dog.sprite.x, y: dog.sprite.y }, 2600)
+    }
+    // Other stimuli only rouse a resting cat.
+    if (a.state === 'sleep' || a.state === 'sit') catWake(a, dt, npcs, perchedBirds)
+    // Progress toward the current goal one tile at a time.
+    if (a.goal && !isMoving(a)) catStep(a)
+    // Reached a play/feed goal — react, then settle.
+    if (!a.goal && !isMoving(a) && (a.state === 'play' || a.state === 'approach-npc')) {
+      speak(a, a.state === 'play' ? '♪' : '?', 1400)
+      a.state = 'sit'; a.stateTimer = 1500
+    }
+    // Finished an active state → back to a long rest.
+    if (!isMoving(a) && !a.goal && a.stateTimer <= 0) catRest(a, walkable)
   }
 
   // ── behaviour: dogs ──────────────────────────────────────────────────────────
@@ -310,6 +378,19 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     a.reactCooldown = 5000
     if (likes) { speak(a, '♥'); a.wagTimer = 1300 }
     else speak(a, 'Woof!')
+  }
+
+  // Dogs occasionally spot a wandering cat and give chase (the cat flees via its
+  // own dog-avoidance). Returns true if a chase started.
+  function dogChaseCat(a: Animal, dt: number, walkable: Set<string>): boolean {
+    if (a.stationary || a.state === 'chase-cat') return false
+    const cat = nearestAnimal(a, o => o.type === 'cat' && !o.stationary, 5 * T)
+    if (cat && Math.random() < (dt / 1000) * 0.5) {
+      a.state = 'chase-cat'; a.stateTimer = 3000
+      setPath(a, [a.tx, a.ty], [cat.tx, cat.ty], walkable)
+      return true
+    }
+    return false
   }
 
   // ── behaviour: birds ─────────────────────────────────────────────────────────
@@ -438,18 +519,22 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
       // cats & dogs
       advance(a, dt)
       if (isMoving(a)) animateWalk(a, dt)
-      else if (a.state !== 'sleep') showStatic(a)
+      else if (a.state === 'sleep') showSleep(a)
+      else showStatic(a)
 
       a.stateTimer -= dt
       if (a.type === 'cat') {
-        catEvents(a, dt, walkable, avatar, perchedBirds)
-        if (a.state === 'follow-player' && !isMoving(a) && a.stateTimer > 0) followToward(a, avatar, walkable)
-        if (!isMoving(a) && a.stateTimer <= 0) catIdle(a, walkable, avatar)
+        catTick(a, dt, walkable, npcs, perchedBirds)
       } else {
         dogSocial(a, dt, npcs)
+        dogChaseCat(a, dt, walkable)
         if (a.state === 'follow-owner' && !isMoving(a) && a.stateTimer > 0) {
           const owner = npcs.find(n => n.id === a.ownerId)
           if (owner) followToward(a, owner, walkable)
+        }
+        if (a.state === 'chase-cat' && !isMoving(a) && a.stateTimer > 0) {
+          const cat = nearestAnimal(a, o => o.type === 'cat' && !o.stationary, 6 * T)
+          if (cat) setPath(a, [a.tx, a.ty], [cat.tx, cat.ty], walkable)
         }
         if (!isMoving(a) && a.stateTimer <= 0) dogIdle(a, walkable, npcs)
       }
@@ -480,9 +565,9 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     const a: Animal = {
       type, id: placed?.id, stationary: !!placed && placed.roam !== true,
       homeTile: [tx, ty], sprite, bottomAnchored, baseScale,
-      tx, ty, path: [], movingTo: null, target: null,
+      tx, ty, path: [], movingTo: null, target: null, goal: null,
       staticTex, sleepTex: null, frames: [], frameIdx: 0, frameTimer: FRAME_MS,
-      state: type === 'bird' ? 'perched' : type === 'fish' ? 'swim' : 'sit',
+      state: type === 'bird' ? 'perched' : type === 'fish' ? 'swim' : type === 'cat' ? 'sleep' : 'sit',
       stateTimer: 500 + Math.random() * 1500,
       bubble: null, bubbleTimer: 0,
       seen: new Set(), opinion: new Map(), reactCooldown: 0, wagTimer: 0,
