@@ -225,6 +225,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
   }
 
   function catEvents(a: Animal, dt: number, walkable: Set<string>, avatar: Pt, perchedBirds: Animal[]) {
+    if (a.stationary) return  // placed quest cats stay put so they can be tapped
     if (a.state === 'flee' || a.state === 'chase-bird') return
     const dAv = Math.hypot(avatar.x - a.sprite.x, avatar.y - a.sprite.y)
     if (dAv < 3 * T && Math.random() < (dt / 1000) * 0.6) {
@@ -329,7 +330,8 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
 
   function birdTick(a: Animal, dt: number, avatar: Pt, npcs: { x: number; y: number }[], walkable: Set<string>) {
     if (a.state === 'perched') {
-      animateWalk(a, dt) // perched: keep static (no frames cycle since we showStatic), cheap no-op
+      // Placed/tame birds (quest givers) stay put so the player can reach them.
+      if (a.stationary) { a.fleeRequested = false; return }
       const threats = [avatar, ...npcs, ...animals.filter(x => x !== a && (x.type === 'cat' || x.type === 'dog')).map(x => ({ x: x.sprite.x, y: x.sprite.y }))]
       const scared = a.fleeRequested || threats.some(t => Math.hypot(t.x - a.sprite.x, t.y - a.sprite.y) < 4 * T)
       a.stateTimer -= dt

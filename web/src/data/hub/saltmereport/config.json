@@ -175,5 +175,17 @@
       ],
       "exits": []
     }
-  }
+  },
+  "animals": [
+    {
+      "id": "dockside-cat-saltmere",
+      "type": "cat",
+      "variant": "grey",
+      "tx": 12,
+      "ty": 14,
+      "name": "Barnacle",
+      "dialogue": ["*mrrow*", "Barnacle the dock cat winds around your ankles, eyeing the catch."],
+      "questReceive": "saltmere-dockside-cat"
+    }
+  ]
 }

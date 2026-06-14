@@ -1,6 +1,21 @@
 {
   "quests": [
     {
+      "id": "saltmere-dockside-cat",
+      "title": "The Dockside Cat",
+      "type": "fetch",
+      "giverNpcId": "fishwife-pearl",
+      "receiverNpcId": "dockside-cat-saltmere",
+      "offerDialogue": "That grey tom haunts my stall day and night, the beggar. Fetch three fish heads from along the wharf and feed him, will you? Maybe then he'll let me work in peace.",
+      "activeDialogue": "Three fish heads off the wharf, then take them to that grey cat by the docks.",
+      "completeDialogue": "Well I never — he's actually content. Take this for your trouble, love.",
+      "steps": [
+        { "key": "scraps", "type": "collect", "pickupIds": ["dock-fish-1", "dock-fish-2", "dock-fish-3"], "required": 3 },
+        { "key": "deliver", "type": "deliver", "targetNpcId": "dockside-cat-saltmere", "required": 1 }
+      ],
+      "reward": { "crystals": 40, "friendship": { "fishwife-pearl": 15 } }
+    },
+    {
       "id": "saltmere-lost-cargo",
       "title": "The Missing Manifest",
       "type": "fetch",
@@ -57,6 +72,9 @@
     }
   ],
   "pickupItems": [
+    { "id": "dock-fish-1", "tx": 8, "ty": 14, "tileId": "appleBasket", "questId": "saltmere-dockside-cat" },
+    { "id": "dock-fish-2", "tx": 18, "ty": 16, "tileId": "appleBasket", "questId": "saltmere-dockside-cat" },
+    { "id": "dock-fish-3", "tx": 24, "ty": 13, "tileId": "appleBasket", "questId": "saltmere-dockside-cat" },
     { "id": "port-crate-1", "tx": 28, "ty": 25, "tileId": "crate", "questId": "saltmere-lost-cargo" },
     { "id": "port-crate-2", "tx": 20, "ty": 16, "tileId": "crate", "questId": "saltmere-lost-cargo" },
     { "id": "port-crate-3", "tx": 2, "ty": 11, "tileId": "crate", "questId": "saltmere-lost-cargo" },
