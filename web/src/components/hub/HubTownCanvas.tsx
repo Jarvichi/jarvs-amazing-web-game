@@ -1209,6 +1209,23 @@ export function HubTownCanvas({
     let intOffX = 0
     let intOffY = 0
 
+    // Denned cats/dogs that wander the interior room while the player is inside.
+    interface InteriorAnimal {
+      type: 'cat' | 'dog'
+      sprite: PIXI.Sprite
+      tx: number; ty: number
+      targetX: number; targetY: number
+      moving: boolean
+      timer: number
+      frames: PIXI.Texture[]
+      staticTex: PIXI.Texture
+      sleepTex: PIXI.Texture | null
+      frameIdx: number
+      frameTimer: number
+      baseScale: number
+    }
+    const interiorAnimals: InteriorAnimal[] = []
+
     // ── Tween (shared by exterior and interior walk) ───────────────────────────
     function tweenLinear(
       obj: PIXI.Container,
@@ -1263,6 +1280,7 @@ export function HubTownCanvas({
 
         interiorLayer.visible = false
         interiorLayer.removeChildren()
+        interiorAnimals.length = 0
         currentInteriorId = null
         highlightGfx.clear()
         onExitInteriorRef.current?.()
@@ -1324,6 +1342,7 @@ export function HubTownCanvas({
 
       // Prepare interior layer
       interiorLayer.removeChildren()
+      interiorAnimals.length = 0
       interiorLayer.position.set(intOffX, intOffY)
       interiorLayer.visible = true
 
@@ -1609,14 +1628,16 @@ export function HubTownCanvas({
         }).catch(() => {})
       }
 
-      // Denned animals — cats/dogs that are home inside this building (#1592)
+      // Denned animals — cats/dogs that are home inside this building wander
+      // the room while the player is in it (#1592).
       {
         const denned = getAnimalsInBuildingFn(buildingId)
         const freeTiles = Array.from(interiorWalkable).map(k => k.split(',').map(Number) as [number, number])
         denned.forEach((da, i) => {
-          const slug = da.type === 'cat' ? 'animal-cat-sleep' : `animal-${da.type}`
-          const spot = freeTiles[(i * 5 + 2) % Math.max(1, freeTiles.length)] ?? [1, 1]
-          loadTextureUrl(`${base}sprites/${slug}.svg`).then(tex => {
+          if (da.type !== 'cat' && da.type !== 'dog') return
+          const spot = freeTiles[(i * 7 + 3) % Math.max(1, freeTiles.length)] ?? [1, 1]
+          const baseSlug = `animal-${da.type}`
+          loadTextureUrl(`${base}sprites/${baseSlug}.svg`).then(tex => {
             if (!interiorActive || currentInteriorId !== buildingId) return
             const s = new PIXI.Sprite(tex)
             const px = SPRITE_SIZE * (da.type === 'cat' ? 0.62 : 0.72)
@@ -1625,6 +1646,14 @@ export function HubTownCanvas({
             s.tint = da.tint
             s.position.set(spot[0] * T + T / 2, spot[1] * T + T)
             interiorLayer.addChild(s)
+            const ia: InteriorAnimal = {
+              type: da.type as 'cat' | 'dog', sprite: s, tx: spot[0], ty: spot[1],
+              targetX: s.x, targetY: s.y, moving: false, timer: 1000 + Math.random() * 2500,
+              frames: [], staticTex: tex, sleepTex: null, frameIdx: 0, frameTimer: 160, baseScale: s.scale.x,
+            }
+            interiorAnimals.push(ia)
+            loadAnimFrames(baseSlug, 3).then(f => { ia.frames = f }).catch(() => {})
+            if (da.type === 'cat') loadTextureUrl(`${base}sprites/animal-cat-sleep.svg`).then(t => { ia.sleepTex = t }).catch(() => {})
           }).catch(() => {})
         })
       }
@@ -2098,6 +2127,47 @@ export function HubTownCanvas({
     app.ticker.add((ticker) => {
       try {
       animalSystem.tick(ticker.deltaMS)
+
+      // Denned cats/dogs wandering the interior room (random 1-tile hops).
+      if (interiorActive && interiorAnimals.length > 0) {
+        const adt = Math.min(ticker.deltaMS, 50)
+        for (const ia of interiorAnimals) {
+          if (ia.moving) {
+            const dx = ia.targetX - ia.sprite.x, dy = ia.targetY - ia.sprite.y
+            const dist = Math.hypot(dx, dy), step = 40 * (adt / 1000)
+            if (dx < -0.5) ia.sprite.scale.x = -ia.baseScale
+            else if (dx > 0.5) ia.sprite.scale.x = ia.baseScale
+            if (step >= dist || dist < 0.001) {
+              ia.sprite.x = ia.targetX; ia.sprite.y = ia.targetY
+              ia.moving = false; ia.timer = 1500 + Math.random() * 3500
+              if (ia.staticTex) ia.sprite.texture = ia.staticTex
+            } else {
+              ia.sprite.x += (dx / dist) * step; ia.sprite.y += (dy / dist) * step
+              if (ia.frames.length > 0) {
+                ia.frameTimer -= adt
+                if (ia.frameTimer <= 0) { ia.frameTimer = 160; ia.frameIdx = (ia.frameIdx + 1) % ia.frames.length; ia.sprite.texture = ia.frames[ia.frameIdx] }
+              }
+            }
+          } else {
+            ia.timer -= adt
+            if (ia.type === 'cat' && ia.sleepTex && ia.sprite.texture !== ia.sleepTex && Math.random() < 0.004) ia.sprite.texture = ia.sleepTex
+            if (ia.timer <= 0) {
+              const opts: [number, number][] = []
+              for (const [dx, dy] of [[0, -1], [1, 0], [0, 1], [-1, 0]] as [number, number][]) {
+                const nx = ia.tx + dx, ny = ia.ty + dy
+                if (interiorWalkable.has(`${nx},${ny}`)) opts.push([nx, ny])
+              }
+              if (opts.length > 0) {
+                const [nx, ny] = opts[(Math.random() * opts.length) | 0]
+                ia.tx = nx; ia.ty = ny
+                ia.targetX = nx * T + T / 2; ia.targetY = ny * T + T
+                ia.moving = true
+                if (ia.staticTex) ia.sprite.texture = ia.staticTex
+              } else ia.timer = 1200
+            }
+          }
+        }
+      }
       // Follow the scroll container every frame — scroll events are async on
       // iOS momentum scrolling, but only the camera is visible motion, so
       // reading the live scroll position here can never show a stale frame.
