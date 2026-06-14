@@ -20,6 +20,11 @@ import {
 } from '../../game/hub/animals'
 
 const FRAME_MS = 160
+const T_PX = 32
+// Birds flee anything within this radius; perch clearance is larger so a newly
+// placed bird has hysteresis and doesn't instantly re-flee.
+const BIRD_FLEE_R = 4.5 * T_PX
+const BIRD_PERCH_CLEAR = 6 * T_PX
 
 // Movement speeds, px/s.
 const SPEED: Record<AnimalType, number> = { cat: 55, dog: 72, bird: 230, fish: 26 }
@@ -109,6 +114,11 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
   const birdLayer = new PIXI.Container()
   const fishLayer = new PIXI.Container()
   opts.overlayLayer.addChild(birdLayer)
+  // Pond water tiles are rendered into pondLayer asynchronously, so they can be
+  // added AFTER fishLayer and would otherwise draw on top of the fish. Sort by
+  // zIndex (tiles default to 0) and keep fish above them.
+  opts.pondLayer.sortableChildren = true
+  fishLayer.zIndex = 1000
   opts.pondLayer.addChild(fishLayer)
 
   // ── geometry helpers ───────────────────────────────────────────────────────
@@ -304,17 +314,22 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
 
   // ── behaviour: birds ─────────────────────────────────────────────────────────
   function emptyPerch(avatar: Pt, npcs: { x: number; y: number }[], walkable: Set<string>): { tile: [number, number]; kind: 'roof' | 'ground' } | null {
-    const ground = tilesWithin(walkable, Math.floor(opts.mapW / 2 / T), Math.floor(opts.mapH / 2 / T), 999)
-    const candidates: { tile: [number, number]; kind: 'roof' | 'ground' }[] = [
-      ...opts.roofTiles.map(t => ({ tile: t, kind: 'roof' as const })),
-      ...ground.map(t => ({ tile: t, kind: 'ground' as const })),
-    ]
+    const ground = Array.from(walkable).map(k => k.split(',').map(Number) as [number, number])
     const blockers = [avatar, ...npcs, ...animals.filter(a => a.type === 'cat' || a.type === 'dog').map(a => ({ x: a.sprite.x, y: a.sprite.y }))]
-    const free = candidates.filter(c => {
-      const px = c.tile[0] * T + T / 2, py = c.tile[1] * T + T / 2
-      return blockers.every(b => Math.hypot(b.x - px, b.y - py) > 3 * T)
-    })
-    return randOf(free.length ? free : candidates)
+    // Clearance must exceed the flee radius (BIRD_FLEE_R) so a freshly-placed
+    // bird doesn't instantly re-flee.
+    const isFree = (t: [number, number]) => {
+      const px = t[0] * T + T / 2, py = t[1] * T + T / 2
+      return blockers.every(b => Math.hypot(b.x - px, b.y - py) > BIRD_PERCH_CLEAR)
+    }
+    const freeGround = ground.filter(isFree).map(t => ({ tile: t, kind: 'ground' as const }))
+    const freeRoof = opts.roofTiles.filter(isFree).map(t => ({ tile: t, kind: 'roof' as const }))
+    // Prefer ground/path perches (where the player & pets roam, so fleeing is
+    // visible); fall back to roofs, then to any tile.
+    if (freeGround.length && (Math.random() < 0.6 || freeRoof.length === 0)) return randOf(freeGround)
+    if (freeRoof.length) return randOf(freeRoof)
+    if (freeGround.length) return randOf(freeGround)
+    return randOf([...opts.roofTiles.map(t => ({ tile: t, kind: 'roof' as const })), ...ground.map(t => ({ tile: t, kind: 'ground' as const }))])
   }
 
   function placeBirdPerch(a: Animal, perch: { tile: [number, number]; kind: 'roof' | 'ground' }) {
@@ -333,7 +348,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
       // Placed/tame birds (quest givers) stay put so the player can reach them.
       if (a.stationary) { a.fleeRequested = false; return }
       const threats = [avatar, ...npcs, ...animals.filter(x => x !== a && (x.type === 'cat' || x.type === 'dog')).map(x => ({ x: x.sprite.x, y: x.sprite.y }))]
-      const scared = a.fleeRequested || threats.some(t => Math.hypot(t.x - a.sprite.x, t.y - a.sprite.y) < 4 * T)
+      const scared = a.fleeRequested || threats.some(t => Math.hypot(t.x - a.sprite.x, t.y - a.sprite.y) < BIRD_FLEE_R)
       a.stateTimer -= dt
       if (scared || a.stateTimer <= 0) startBirdFlee(a)
       return
@@ -518,8 +533,9 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
   for (let i = 0; i < counts.cat; i++) { const t = randOf(walkTiles); if (t) void makeAnimal('cat', t[0], t[1]) }
   for (let i = 0; i < counts.dog; i++) { const t = randOf(walkTiles); if (t) void makeAnimal('dog', t[0], t[1]) }
   for (let i = 0; i < counts.bird; i++) {
-    const roof = randOf(opts.roofTiles)
-    const t = roof ?? randOf(walkTiles)
+    // Mix of ground/path and roof perches so birds are reachable and visibly flee.
+    const perch = emptyPerch(opts.getAvatarPx(), opts.getNpcPositions(), walkable0)
+    const t = perch?.tile ?? randOf(opts.roofTiles) ?? randOf(walkTiles)
     if (t) void makeAnimal('bird', t[0], t[1])
   }
   for (let i = 0; i < counts.fish; i++) { const t = randOf(opts.pondTiles); if (t) void makeAnimal('fish', t[0], t[1]) }

@@ -26,7 +26,7 @@ describe('computeProceduralCounts', () => {
     // Ravenwatch-scale: 22 buildings, 56 npcs, 85 pond tiles
     const counts = computeProceduralCounts(22, 56, 85)
     expect(counts.cat).toBe(5)                 // 22/4=5, below cap 6
-    expect(counts.dog).toBe(ANIMAL_CAPS.dog)   // 56/4=14 → capped to 8
+    expect(counts.dog).toBe(ANIMAL_CAPS.dog)   // 56/4=14 → capped to dog cap
     expect(counts.fish).toBe(ANIMAL_CAPS.fish) // 85/6=14 → capped to 12
     expect(counts.bird).toBe(4)
   })

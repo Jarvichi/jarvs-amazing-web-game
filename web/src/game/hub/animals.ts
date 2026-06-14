@@ -20,7 +20,7 @@ export const ANIMAL_RATIOS = {
 // Per-type caps keep rendering cost bounded in the largest town (Ravenwatch).
 export const ANIMAL_CAPS: Record<AnimalType, number> = {
   cat:  6,
-  dog:  8,
+  dog:  4,
   bird: 4,
   fish: 12,
 }
