@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- landing (low, legs forward) -->
+  <ellipse cx="16" cy="29" rx="7" ry="1.8" fill="rgba(0,0,0,0.2)"/>
+  <circle cx="8" cy="24" r="2.2" fill="#f6f6f6"/>
+  <ellipse cx="20" cy="28" rx="5" ry="1.6" fill="#eeeeee"/>
+  <ellipse cx="15" cy="23" rx="7.5" ry="5" fill="#eeeeee"/>
+  <circle cx="22" cy="19" r="4" fill="#eeeeee"/>
+  <ellipse cx="21" cy="12.5" rx="1.5" ry="5" fill="#eeeeee"/>
+  <ellipse cx="24" cy="13" rx="1.5" ry="5" fill="#eeeeee"/>
+  <circle cx="23" cy="18.5" r="0.9" fill="#2a2a2a"/>
+  <circle cx="25.5" cy="20" r="0.7" fill="#cc9988"/>
+</svg>
