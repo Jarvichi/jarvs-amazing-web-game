@@ -116,7 +116,7 @@ export function HubTownCanvas({
     EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES,
     HUB_DOORS, HUB_INTERIORS, EXTERIOR_NPCS, INTERIOR_NPCS,
     NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES,
-   HUB_LOCKED_DOORS, HUB_TREASURES, HUB_INTERACTABLES, HUB_ANIMALS,
+   HUB_LOCKED_DOORS, HUB_TREASURES, HUB_INTERACTABLES, HUB_ANIMALS, HUB_CHICKEN_ZONES,
     EXIT_TILES: exitTilesData,
     HUB_TOWN_NAME: locationKey,
   } = locationData
@@ -2101,6 +2101,11 @@ export function HubTownCanvas({
     const animalIsSolid = (tx: number, ty: number): boolean =>
       tx < 0 || ty < 0 || tx >= MAP_W / T || ty >= MAP_H / T ||
       buildingSet.has(`${tx},${ty}`) || animalPondSet.has(`${tx},${ty}`)
+    // Flower-decor tiles — butterflies route between them.
+    const FLOWER_TILE_IDS = new Set([52, 53, 54, 55, 943])  // white/pink/blue/yellow flower, potOfFlowers
+    const animalFlowerTiles: [number, number][] = EXTERIOR_DECOR
+      .filter((d: { tileId: number }) => FLOWER_TILE_IDS.has(d.tileId))
+      .map((d: { tx: number; ty: number }) => [d.tx, d.ty] as [number, number])
     const animalSystem: AnimalSystem = createAnimalSystem({
       app,
       spriteLayer,
@@ -2118,6 +2123,8 @@ export function HubTownCanvas({
       homes: HUB_DOORS.filter(d => d.buildingId).map(d => ({ buildingId: d.buildingId, tx: d.tx, ty: d.ty })),
       pondTiles: HUB_POND_TILES,
       roofTiles: animalRoofTiles,
+      flowerTiles: animalFlowerTiles,
+      chickenZones: HUB_CHICKEN_ZONES,
       placedAnimals: HUB_ANIMALS,
       buildingCount: HUB_BUILDINGS.length,
       npcCount: EXTERIOR_NPCS.length,

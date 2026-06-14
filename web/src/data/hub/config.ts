@@ -316,4 +316,7 @@ export interface RawConfig {
   interactables?: RawInteractable[]
 
   animals?: RawAnimal[]
+
+  /** Fenced pens that chickens are confined to. */
+  chickenZones?: { rect: number[]; count?: number }[]
 }
