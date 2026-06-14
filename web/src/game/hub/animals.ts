@@ -68,7 +68,7 @@ export const ANIMAL_SPECS: Record<AnimalType, AnimalSpec> = {
     spawn: { source: 'pondTiles', per: 6, cap: 12 },
   },
   butterfly: {
-    speed: 90, scale: 0.45, layer: 'overlay', nav: 'fly',
+    speed: 45, scale: 0.225, layer: 'overlay', nav: 'fly',
     palette: { orange: 0xe8923c, blue: 0x6db4ff, white: 0xf5f5f0, purple: 0xb07cd6, yellow: 0xf0d24a },
     spawn: { source: 'flowers', per: 2, cap: 5 },
     fleesFrom: ['cat'],
