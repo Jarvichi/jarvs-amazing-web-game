@@ -8,12 +8,12 @@
 export type AnimalType = 'cat' | 'dog' | 'bird' | 'fish'
 
 // ── Procedural spawn ratios ─────────────────────────────────────────────────
-// Cats: 1 per 4 buildings · Dogs: 1 per 4 NPCs · Birds: 4 per town ·
+// Cats: 1 per 4 buildings · Dogs: 1 per 4 NPCs · Birds: 8 per town ·
 // Fish: 1 per 6 pond tiles.
 export const ANIMAL_RATIOS = {
   buildingsPerCat: 4,
   npcsPerDog:      4,
-  birdsPerTown:    4,
+  birdsPerTown:    8,
   pondTilesPerFish: 6,
 } as const
 
@@ -21,7 +21,7 @@ export const ANIMAL_RATIOS = {
 export const ANIMAL_CAPS: Record<AnimalType, number> = {
   cat:  6,
   dog:  4,
-  bird: 4,
+  bird: 8,
   fish: 12,
 }
 
