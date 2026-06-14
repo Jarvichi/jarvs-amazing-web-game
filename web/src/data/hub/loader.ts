@@ -250,7 +250,7 @@ export interface HubLocationBundle {
   HUB_TREASURES: HubTreasure[]
   HUB_INTERACTABLES: HubInteractable[]
   HUB_ANIMALS: HubAnimal[]
-  HUB_CHICKEN_ZONES: { rect: [number, number, number, number]; count?: number }[]
+  HUB_CHICKEN_ZONES: { rect: [number, number, number, number]; count?: number; roost?: [number, number] }[]
   EXIT_TILES: HubExitTile[]
 
 
@@ -527,8 +527,12 @@ const HUB_ANIMALS: HubAnimal[] = (
 }))
 
 const HUB_CHICKEN_ZONES = (
-  (rawConfig as unknown as { chickenZones?: { rect: number[]; count?: number }[] }).chickenZones ?? []
-).map(z => ({ rect: z.rect as [number, number, number, number], count: z.count }))
+  (rawConfig as unknown as { chickenZones?: { rect: number[]; count?: number; roost?: number[] }[] }).chickenZones ?? []
+).map(z => ({
+  rect: z.rect as [number, number, number, number],
+  count: z.count,
+  roost: z.roost ? (z.roost as [number, number]) : undefined,
+}))
 
  const HUB_TOWN_NAME: string = (rawConfig as unknown as { townName?: string }).townName ?? 'Town'
 const ENVIRONMENT: string = (rawConfig as unknown as { environment?: string }).environment ?? 'camp'
