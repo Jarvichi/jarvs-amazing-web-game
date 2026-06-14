@@ -333,13 +333,32 @@ automatically; fish appear only where `pondTiles` exist.
 
 ### Behaviours
 
-- **Cat** — `wander / sit / sleep / follow-player`, plus event states `flee`
-  (runs from an approaching player) and `chase-bird` (sends the bird fleeing).
-- **Dog** — picks a named-NPC `owner`; `follow-owner / roam`, and reacts to
-  *new* NPCs it meets by rolling like/dislike → wag (♥) or bark ("Woof!").
+- **Cat** — lazy: mostly `sleep`/`sit`, only rousing for a stimulus — a dog to
+  flee, a bird to chase, another cat to play with (♪), or an NPC who might feed
+  them (?). Cats roam **off the paths onto grass**, stepping one tile at a time
+  around solid tiles (buildings/ponds) toward a `goal` beacon (greedy nav, not
+  the street pathfinder), and pad to a quiet grass spot to curl up.
+- **Dog** — picks a named-NPC `owner`; `follow-owner / roam`, chases wandering
+  cats, and reacts to *new* NPCs it meets by rolling like/dislike → wag (♥) or
+  bark ("Woof!").
 - **Bird** — `perched` on roof ridges or empty path tiles; flees everything by
   flying off-screen and re-pitching at a new empty spot.
 - **Fish** — gentle swim constrained to pond tiles, with a sine bob.
+
+### Den schedule & building interiors
+
+Roughly **half** of the procedural cats & dogs are assigned a **home building**
+(a random building door) at spawn. They follow a **night-in / day-out** cycle
+(`getGameHour`): at night (hour ≥ 20 or < 6) they path to their home door and
+**go inside** (the exterior sprite hides, `insideBuilding` is set); in the
+morning they re-emerge at the door. While denned they are excluded from the
+exterior tick.
+
+When the player **enters a building**, `HubTownCanvas` calls
+`animalSystem.getAnimalsInBuilding(buildingId)` and renders any denned cats/dogs
+as **present & idle** sprites (cat = sleep pose, dog = sitting), tinted with
+their variant, at free interior tiles. Cats navigate to their door with the
+grass-capable greedy stepper; dogs use the street pathfinder.
 
 Placed animals with `roam !== true` are **stationary**: they do not wander or
 flee, so the player can always reach them to tap (important for quest givers,

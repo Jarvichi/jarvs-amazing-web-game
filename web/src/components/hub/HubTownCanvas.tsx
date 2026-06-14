@@ -1271,6 +1271,10 @@ export function HubTownCanvas({
       }
     }
 
+    // Provider set once the animal system is created (below). Lets the interior
+    // renderer show cats/dogs that are denned inside the building being entered.
+    let getAnimalsInBuildingFn: (buildingId: string) => { type: string; tint: number }[] = () => []
+
     // ── Interior enter ─────────────────────────────────────────────────────────
     const doEnterInterior = (buildingId: string, entryTx?: number, entryTy?: number) => {
       try {
@@ -1603,6 +1607,26 @@ export function HubTownCanvas({
           })
           interiorLayer.addChild(s)
         }).catch(() => {})
+      }
+
+      // Denned animals — cats/dogs that are home inside this building (#1592)
+      {
+        const denned = getAnimalsInBuildingFn(buildingId)
+        const freeTiles = Array.from(interiorWalkable).map(k => k.split(',').map(Number) as [number, number])
+        denned.forEach((da, i) => {
+          const slug = da.type === 'cat' ? 'animal-cat-sleep' : `animal-${da.type}`
+          const spot = freeTiles[(i * 5 + 2) % Math.max(1, freeTiles.length)] ?? [1, 1]
+          loadTextureUrl(`${base}sprites/${slug}.svg`).then(tex => {
+            if (!interiorActive || currentInteriorId !== buildingId) return
+            const s = new PIXI.Sprite(tex)
+            const px = SPRITE_SIZE * (da.type === 'cat' ? 0.62 : 0.72)
+            s.width = px; s.height = px
+            s.anchor.set(0.5, 1)
+            s.tint = da.tint
+            s.position.set(spot[0] * T + T / 2, spot[1] * T + T)
+            interiorLayer.addChild(s)
+          }).catch(() => {})
+        })
       }
 
       // Quest indicators for interior NPCs
@@ -2029,6 +2053,11 @@ export function HubTownCanvas({
       }
       return s
     }
+    // Tiles cats may not pad across when roaming off the paths.
+    const animalPondSet = new Set(HUB_POND_TILES.map(([tx, ty]) => `${tx},${ty}`))
+    const animalIsSolid = (tx: number, ty: number): boolean =>
+      tx < 0 || ty < 0 || tx >= MAP_W / T || ty >= MAP_H / T ||
+      buildingSet.has(`${tx},${ty}`) || animalPondSet.has(`${tx},${ty}`)
     const animalSystem: AnimalSystem = createAnimalSystem({
       app,
       spriteLayer,
@@ -2041,6 +2070,9 @@ export function HubTownCanvas({
       mapW: MAP_W,
       mapH: MAP_H,
       getWalkable: animalGetWalkable,
+      isSolidTile: animalIsSolid,
+      getGameHour: () => gameHourRef.current,
+      homes: HUB_DOORS.filter(d => d.buildingId).map(d => ({ buildingId: d.buildingId, tx: d.tx, ty: d.ty })),
       pondTiles: HUB_POND_TILES,
       roofTiles: animalRoofTiles,
       placedAnimals: HUB_ANIMALS,
@@ -2061,6 +2093,7 @@ export function HubTownCanvas({
       getQuestIndicator: (id) => questNpcState?.current.get(id) ?? null,
       isInteriorActive: () => interiorActive,
     })
+    getAnimalsInBuildingFn = animalSystem.getAnimalsInBuilding
 
     app.ticker.add((ticker) => {
       try {
