@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- wings spread wide / down -->
+  <ellipse cx="8" cy="15" rx="7" ry="4" fill="#eeeeee"/>
+  <ellipse cx="24" cy="15" rx="7" ry="4" fill="#eeeeee"/>
+  <ellipse cx="10" cy="21" rx="5" ry="3.5" fill="#e2e2e2"/>
+  <ellipse cx="22" cy="21" rx="5" ry="3.5" fill="#e2e2e2"/>
+  <ellipse cx="16" cy="16" rx="1.4" ry="7" fill="#3a3a3a"/>
+  <path d="M16 9 Q14 5 12 5" stroke="#3a3a3a" stroke-width="0.8" fill="none"/>
+  <path d="M16 9 Q18 5 20 5" stroke="#3a3a3a" stroke-width="0.8" fill="none"/>
+</svg>
