@@ -1223,6 +1223,8 @@ export function HubTownCanvas({
       frameIdx: number
       frameTimer: number
       baseScale: number
+      bubble: PIXI.Container | null
+      bubbleTimer: number
     }
     const interiorAnimals: InteriorAnimal[] = []
 
@@ -1650,7 +1652,19 @@ export function HubTownCanvas({
               type: da.type as 'cat' | 'dog', sprite: s, tx: spot[0], ty: spot[1],
               targetX: s.x, targetY: s.y, moving: false, timer: 1000 + Math.random() * 2500,
               frames: [], staticTex: tex, sleepTex: null, frameIdx: 0, frameTimer: 160, baseScale: s.scale.x,
+              bubble: null, bubbleTimer: 0,
             }
+            // Tappable indoors too — show a flavour bubble (#1592).
+            s.eventMode = 'static'
+            s.cursor = 'pointer'
+            s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+              e.stopPropagation()
+              if (ia.bubble) interiorLayer.removeChild(ia.bubble)
+              const b = createSpeechBubble(ia.type === 'cat' ? 'Meow' : 'Woof!', ia.sprite.x, ia.sprite.y)
+              interiorLayer.addChild(b)
+              ia.bubble = b
+              ia.bubbleTimer = 1500
+            })
             interiorAnimals.push(ia)
             loadAnimFrames(baseSlug, 3).then(f => { ia.frames = f }).catch(() => {})
             if (da.type === 'cat') loadTextureUrl(`${base}sprites/animal-cat-sleep.svg`).then(t => { ia.sleepTex = t }).catch(() => {})
@@ -2132,6 +2146,11 @@ export function HubTownCanvas({
       if (interiorActive && interiorAnimals.length > 0) {
         const adt = Math.min(ticker.deltaMS, 50)
         for (const ia of interiorAnimals) {
+          if (ia.bubble) {
+            ia.bubble.position.set(ia.sprite.x, ia.sprite.y - SPRITE_SIZE * ia.baseScale - 4)
+            ia.bubbleTimer -= adt
+            if (ia.bubbleTimer <= 0) { interiorLayer.removeChild(ia.bubble); ia.bubble = null }
+          }
           if (ia.moving) {
             const dx = ia.targetX - ia.sprite.x, dy = ia.targetY - ia.sprite.y
             const dist = Math.hypot(dx, dy), step = 40 * (adt / 1000)

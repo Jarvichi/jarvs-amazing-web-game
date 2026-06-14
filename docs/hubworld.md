@@ -359,8 +359,9 @@ When the player **enters a building**, `HubTownCanvas` calls
 inside as `InteriorAnimal`s, tinted with their variant. They **wander the room**
 with random one-tile hops across `interiorWalkable` (cats occasionally curl up
 to sleep), ticked in the main loop while `interiorActive`, and are cleared on
-exit. Cats navigate to their door outside with the grass-capable greedy stepper;
-dogs use the street pathfinder.
+exit. They are **tappable indoors** too (flavour bubble, like outside). Cats
+navigate to their door outside with the grass-capable greedy stepper; dogs use
+the street pathfinder.
 
 Placed animals with `roam !== true` are **stationary**: they do not wander or
 flee, so the player can always reach them to tap (important for quest givers,
