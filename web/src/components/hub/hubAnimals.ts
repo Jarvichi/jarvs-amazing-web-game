@@ -38,8 +38,12 @@ interface Animal {
   stationary: boolean         // placed animal with roam !== true
   homeTile: [number, number]
   sprite: PIXI.Sprite
+  tint: number
   bottomAnchored: boolean
   baseScale: number
+  homeBuildingId?: string         // building this animal dens in at night
+  homeDoor?: [number, number]     // its door tile
+  insideBuilding: string | null   // currently denned inside this building
   tx: number
   ty: number
   path: [number, number][]
@@ -87,6 +91,10 @@ export interface AnimalSystemOptions {
   getWalkable: () => Set<string>
   /** True if a tile is impassable for off-path roamers (building/pond/out-of-bounds). */
   isSolidTile: (tx: number, ty: number) => boolean
+  /** Current in-game hour (0–23) for the day/night den schedule. */
+  getGameHour: () => number
+  /** Buildings (with door tiles) cats/dogs can call home. */
+  homes: { buildingId: string; tx: number; ty: number }[]
   pondTiles: [number, number][]
   roofTiles: [number, number][]
   placedAnimals: HubAnimal[]
@@ -104,6 +112,8 @@ export interface AnimalSystemOptions {
 
 export interface AnimalSystem {
   tick: (deltaMS: number) => void
+  /** Animals currently denned inside the given building (for interior render). */
+  getAnimalsInBuilding: (buildingId: string) => { type: AnimalType; tint: number }[]
   destroy: () => void
 }
 
@@ -483,6 +493,56 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     a.sprite.y = a.baseY + Math.sin(a.bobPhase) * 1.5
   }
 
+  // ── day/night den schedule (cats & dogs with a home) ────────────────────────
+  const isNightHour = (hour: number) => hour >= 20 || hour < 6
+
+  function enterHome(a: Animal) {
+    a.insideBuilding = a.homeBuildingId ?? null
+    a.sprite.visible = false
+    a.state = 'inside'
+    a.goal = null; a.target = null; a.movingTo = null; a.path = []
+    if (a.bubble) { opts.bubbleLayer.removeChild(a.bubble); a.bubble = null }
+  }
+
+  function exitHome(a: Animal) {
+    const door = a.homeDoor
+    if (door) {
+      a.tx = door[0]; a.ty = door[1]
+      const c = center(a, a.tx, a.ty)
+      a.sprite.x = c.x; a.sprite.y = c.y; a.baseY = c.y
+      a.sprite.zIndex = c.y
+    }
+    a.insideBuilding = null
+    a.sprite.visible = true
+    a.state = a.type === 'cat' ? 'sleep' : 'sit'
+    a.stateTimer = 1000 + Math.random() * 2000
+  }
+
+  const atTile = (a: Animal, tile: [number, number]) =>
+    Math.abs(a.tx - tile[0]) <= 1 && Math.abs(a.ty - tile[1]) <= 1
+
+  // Returns true if the animal is (or is heading) inside and needs no exterior tick.
+  function runDenSchedule(a: Animal, walkable: Set<string>, hour: number): boolean {
+    if (!a.homeBuildingId || !a.homeDoor) return false
+    const wantInside = isNightHour(hour)
+    if (a.insideBuilding) {
+      if (!wantInside) exitHome(a)   // morning — come back out
+      return !!a.insideBuilding
+    }
+    if (wantInside) {
+      if (a.state !== 'go-home') {
+        a.state = 'go-home'
+        if (a.type === 'cat') a.goal = a.homeDoor
+        else setPath(a, [a.tx, a.ty], a.homeDoor, walkable)
+      }
+      if (a.type === 'cat' && a.goal && !isMoving(a)) catStep(a)
+      if (!isMoving(a) && atTile(a, a.homeDoor)) enterHome(a)
+      return true   // travelling home — skip normal behaviour
+    }
+    if (a.state === 'go-home') { a.state = a.type === 'cat' ? 'sleep' : 'sit'; a.goal = null }
+    return false
+  }
+
   // ── per-frame tick ───────────────────────────────────────────────────────────
   function tick(deltaMS: number) {
     if (opts.isInteriorActive()) { birdLayer.visible = false; fishLayer.visible = false; return }
@@ -491,6 +551,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     const walkable = opts.getWalkable()
     const avatar = opts.getAvatarPx()
     const npcs = opts.getNpcPositions()
+    const hour = opts.getGameHour()
     const perchedBirds = animals.filter(a => a.type === 'bird' && a.state === 'perched')
 
     for (const a of animals) {
@@ -510,6 +571,17 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
           a.indicator.tint = st === 'ready' ? 0x66ddff : 0xffdd44
           const bob = Math.sin(performance.now() / 300) * 2
           a.indicator.position.set(a.sprite.x, a.sprite.y - spriteSize * a.baseScale - 6 + bob)
+        }
+      }
+
+      // Day/night den schedule (cats & dogs with a home building).
+      if (a.type === 'cat' || a.type === 'dog') {
+        const busy = runDenSchedule(a, walkable, hour)
+        if (a.insideBuilding) continue          // denned inside — hidden, no exterior update
+        if (busy) {                              // travelling home
+          advance(a, dt)
+          if (isMoving(a)) animateWalk(a, dt); else showStatic(a)
+          continue
         }
       }
 
@@ -553,7 +625,8 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     sprite.width = px; sprite.height = px
     const bottomAnchored = type !== 'fish'
     sprite.anchor.set(0.5, bottomAnchored ? 1 : 0.5)
-    sprite.tint = resolveVariantTint(type, placed?.variant)
+    const tint = resolveVariantTint(type, placed?.variant)
+    sprite.tint = tint
     const baseScale = sprite.scale.x
 
     const layer = type === 'bird' ? birdLayer : type === 'fish' ? fishLayer : opts.spriteLayer
@@ -564,7 +637,8 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
 
     const a: Animal = {
       type, id: placed?.id, stationary: !!placed && placed.roam !== true,
-      homeTile: [tx, ty], sprite, bottomAnchored, baseScale,
+      homeTile: [tx, ty], sprite, tint, bottomAnchored, baseScale,
+      insideBuilding: null,
       tx, ty, path: [], movingTo: null, target: null, goal: null,
       staticTex, sleepTex: null, frames: [], frameIdx: 0, frameTimer: FRAME_MS,
       state: type === 'bird' ? 'perched' : type === 'fish' ? 'swim' : type === 'cat' ? 'sleep' : 'sit',
@@ -573,6 +647,13 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
       seen: new Set(), opinion: new Map(), reactCooldown: 0, wagTimer: 0,
       fleeRequested: false, bobPhase: Math.random() * Math.PI * 2, baseY: c.y,
       indicator: null,
+    }
+    // Give roughly half of the procedural cats & dogs a home building they den
+    // in at night.
+    if (!placed && (type === 'cat' || type === 'dog') && opts.homes.length > 0 && Math.random() < 0.5) {
+      const home = opts.homes[(Math.random() * opts.homes.length) | 0]
+      a.homeBuildingId = home.buildingId
+      a.homeDoor = [home.tx, home.ty]
     }
     animals.push(a)
 
@@ -628,6 +709,10 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
   // Placed/quest animals (always rendered)
   for (const pa of opts.placedAnimals) void makeAnimal(pa.type, pa.tx, pa.ty, pa)
 
+  function getAnimalsInBuilding(buildingId: string): { type: AnimalType; tint: number }[] {
+    return animals.filter(a => a.insideBuilding === buildingId).map(a => ({ type: a.type, tint: a.tint }))
+  }
+
   function destroy() {
     for (const a of animals) {
       if (a.bubble) opts.bubbleLayer.removeChild(a.bubble)
@@ -639,5 +724,5 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     fishLayer.destroy({ children: true })
   }
 
-  return { tick, destroy }
+  return { tick, getAnimalsInBuilding, destroy }
 }
