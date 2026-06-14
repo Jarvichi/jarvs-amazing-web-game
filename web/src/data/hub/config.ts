@@ -262,6 +262,20 @@ export interface RawInteractable {
   reactions: RawInteractableReaction[]
 }
 
+export interface RawAnimal {
+  id: string
+  type: string                       // 'cat' | 'dog' | 'bird' | 'fish'
+  variant?: string                   // palette key (e.g. "orange") or hex ("#e8923c")
+  tx: number
+  ty: number
+  name?: string
+  dialogue?: string[]
+  questGive?: string
+  questReceive?: string | string[]
+  roam?: boolean                     // default false for placed animals
+  areaRect?: [number, number, number, number]  // [tx, ty, w, h] roam bounds
+}
+
 export interface RawConfig {
   mapW: number
   mapH: number
@@ -300,4 +314,6 @@ export interface RawConfig {
   treasures?: RawTreasure[]
 
   interactables?: RawInteractable[]
+
+  animals?: RawAnimal[]
 }
