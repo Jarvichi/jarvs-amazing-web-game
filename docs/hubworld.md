@@ -19,8 +19,8 @@
 | `web/src/game/hub/friendship.ts` | NPC friendship XP/level persistence (localStorage) | `getFriendshipLevel`, `addFriendshipXp`, `getFriendshipData` |
 | `web/src/game/hub/innConvos.ts` | Inn conversation tracking (localStorage) | `getHeardConvoIds`, `markConvoHeard`, `isConvoHeard` |
 | `web/src/game/hub/interactables.ts` | Interactable grant + moved-position persistence (localStorage) | `interactableStoreKey`, `isInteractableGranted`, `markInteractableGranted`, `getInteractableMoves`, `setInteractableMove` |
-| `web/src/game/hub/animals.ts` | Pure animal logic (spawn ratios/caps, tint palettes, behaviour tables) | `computeProceduralCounts`, `resolveVariantTint`, `pickWeighted`, `ANIMAL_RATIOS`, `ANIMAL_CAPS` |
-| `web/src/components/hub/hubAnimals.ts` | PixiJS animal manager — spawns & ticks cats/dogs/birds/fish | `createAnimalSystem` |
+| `web/src/game/hub/animals.ts` | Pure animal logic — `ANIMAL_SPECS` registry (per-type data), spawn maths, tint resolution | `ANIMAL_SPECS`, `computeProceduralCounts`, `resolveVariantTint`, `ANIMAL_CAPS`, `TINT_PALETTES` |
+| `web/src/components/hub/hubAnimals.ts` | PixiJS animal manager — spawns & ticks all animal types | `createAnimalSystem` |
 | `web/src/components/hub/HubTownCanvas.tsx` | PixiJS canvas — rendering, pathfinding, walk, interactions | — |
 | `web/src/components/hub/HubWorld.tsx` | React orchestrator — quest flow, dialogue, state | — |
 
@@ -311,39 +311,66 @@ localStorage keys, entries keyed `<townName>:<interactableId>`:
 
 ---
 
-## §8 — Animals (cats, dogs, birds, fish)
+## §8 — Animals
 
 Living town ambience. Two kinds: **procedural** animals (spawned from town
 geometry, anonymous, flavour-only) and **placed** animals (defined in
 `config.json`, stable `id`, can give/receive quests). The PixiJS manager is
-`createAnimalSystem` in `web/src/components/hub/hubAnimals.ts`; the pure maths
-and behaviour tables live in `web/src/game/hub/animals.ts`.
+`createAnimalSystem` in `web/src/components/hub/hubAnimals.ts`; per-type data and
+the pure maths live in `web/src/game/hub/animals.ts`.
 
-### Procedural spawn ratios & caps
+### Registry — `ANIMAL_SPECS`
+
+Every type is one entry in the `ANIMAL_SPECS` registry (the single source of
+truth): `speed`, `scale`, tint `palette`, render `layer` (`sprite`/`overlay`/
+`pond`), `nav` mode, a `spawn` rule, optional `fleesFrom`/`chases` relations,
+and `dens` (uses the night schedule). `computeProceduralCounts(sources)` is
+data-driven from these specs. **Adding a type** = a spec entry + sprites +
+(usually) a thin `…Tick` hook in `hubAnimals.ts` reusing the shared primitives
+(`stepToward`, `nearestThreat`/`nearestPrey`, `fleeBeacon`, `advance`, `speak`).
+
+### Procedural spawn rules & caps
 
 | Animal | Count | Source | Cap |
 |---|---|---|---|
-| Cats | 1 per 4 buildings | `HUB_BUILDINGS.length` | 6 |
-| Dogs | 1 per 4 NPCs | exterior NPC count | 8 |
+| Cats | 1 per 4 buildings | building count | 6 |
+| Dogs | 1 per 4 NPCs | exterior NPC count | 4 |
 | Birds | 8 per town (fixed) | — | 8 |
-| Fish | 1 per 6 pond tiles | `HUB_POND_TILES.length` | 12 |
+| Fish | 1 per 6 pond tiles | `HUB_POND_TILES` | 12 |
+| Butterflies | 1 per 2 flower-decor tiles | flower decor in `EXTERIOR_DECOR` | 5 |
+| Rabbits | 4 per town (where grass exists) | grass tiles | 4 |
+| Chickens | 1 per 6 pen tiles | `chickenZones` | 8 |
+| Frogs | 1 per 8 pond tiles | `HUB_POND_TILES` | 4 |
 
-Counts come from `computeProceduralCounts`. All towns get cats/dogs/birds
-automatically; fish appear only where `pondTiles` exist.
+Fish/frogs need ponds; butterflies need flower decor; rabbits need grass;
+chickens need a `chickenZones` pen — otherwise that type is simply absent.
+
+### Navigation modes
+
+`grass` (cats — greedy step avoiding solids, streets allowed) · `grass-only`
+(rabbits — never streets) · `street` (dogs — street pathfinding, but they
+**leave the path** via a grass step to chase prey) · `fly` (birds, butterflies —
+free overlay movement) · `pond` (fish) · `pond-edge` (frogs) · `zone` (chickens
+— clamped to a pen rect).
 
 ### Behaviours
 
 - **Cat** — lazy: mostly `sleep`/`sit`, only rousing for a stimulus — a dog to
-  flee, a bird to chase, another cat to play with (♪), or an NPC who might feed
-  them (?). Cats roam **off the paths onto grass**, stepping one tile at a time
-  around solid tiles (buildings/ponds) toward a `goal` beacon (greedy nav, not
-  the street pathfinder), and pad to a quiet grass spot to curl up.
-- **Dog** — picks a named-NPC `owner`; `follow-owner / roam`, chases wandering
-  cats, and reacts to *new* NPCs it meets by rolling like/dislike → wag (♥) or
-  bark ("Woof!").
+  flee, a **bird or butterfly** to chase, another cat to play with (♪), or an
+  NPC who might feed them (?). Roams off the paths onto grass.
+- **Dog** — picks a named-NPC `owner`; `follow-owner / roam` on the streets,
+  **chases cats and rabbits** (leaving the path onto grass to pursue), and reacts
+  to *new* NPCs by rolling like/dislike → wag (♥) or bark.
 - **Bird** — `perched` on roof ridges or empty path tiles; flees everything by
-  flying off-screen and re-pitching at a new empty spot.
-- **Fish** — gentle swim constrained to pond tiles, with a sine bob.
+  flying off-screen and re-pitching.
+- **Fish** — gentle swim within pond tiles, with a sine bob.
+- **Butterfly** — flits **flower-to-flower** over an overlay layer with a
+  fluttery bob; darts away when a cat is near.
+- **Rabbit** — hops on **grass only**; freezes, then bolts from dogs/the player.
+- **Chicken** — confined to a fenced **pen** (`chickenZones`); pecks and hops
+  within it and scatters to the far corner when a dog or the player enters.
+- **Frog** — sits on **pond-edge** tiles, hops between them, and **plops** into
+  the water (alpha dip) when something comes near, re-emerging at an edge.
 
 ### Den schedule & building interiors
 
@@ -368,11 +395,21 @@ especially birds, which otherwise flee on approach).
 
 ### Colour variants
 
-One neutral-grey base SVG per type (`animal-cat`, `animal-dog`, `animal-bird`,
-`animal-fish`, with `-1/-2/-3` walk/fly frames and `animal-cat-sleep`),
-recoloured at spawn via `sprite.tint`. `variant` may be a palette key
-(`TINT_PALETTES`, e.g. `"orange"`, `"brown"`, `"grey"`) or a hex string
-(`"#e8923c"`); omit it for a random palette colour.
+One neutral-grey base SVG per type (`animal-<type>.svg`, with `-1/-2/-3`
+walk/fly frames for animated types and `animal-cat-sleep`), recoloured at spawn
+via `sprite.tint`. `variant` may be a palette key (each spec's `palette`, e.g.
+`"orange"`, `"brown"`, `"grey"`) or a hex string (`"#e8923c"`); omit it for a
+random palette colour.
+
+### Chicken pens (`config.json` → top-level `chickenZones`)
+
+```json
+{ "chickenZones": [ { "rect": [tx, ty, w, h], "count": 3 } ] }
+```
+
+Each `rect` is a fenced area (draw it over existing fence decor). Chickens spawn
+and stay inside; `count` is optional (defaults to the 1-per-6-tiles rule, capped
+at 8). No zones ⇒ no chickens. Parsed into `HUB_CHICKEN_ZONES` by `loader.ts`.
 
 ### Placed-animal config schema (`config.json` → top-level `animals`)
 
