@@ -20,6 +20,7 @@ describe('computeProceduralCounts', () => {
     // 8 buildings → 2 cats, 8 npcs → 2 dogs, birds fixed 8, 12 pond → 2 fish + 1 frog
     expect(computeProceduralCounts(sources({ buildings: 8, npcs: 8, pondTiles: 12 }))).toEqual({
       cat: 2, dog: 2, bird: 8, fish: 2, butterfly: 0, rabbit: 0, chicken: 0, frog: 1,
+      firefly: 10, bat: 5,
     })
   })
 
@@ -63,6 +64,13 @@ describe('registry', () => {
     expect(ANIMAL_SPECS.butterfly.fleesFrom).toContain('cat')
     expect(ANIMAL_SPECS.dog.chases).toContain('rabbit')
     expect(ANIMAL_SPECS.rabbit.fleesFrom).toContain('dog')
+  })
+
+  it('fliers are gated to day or night', () => {
+    expect(ANIMAL_SPECS.bird.active).toBe('day')
+    expect(ANIMAL_SPECS.butterfly.active).toBe('day')
+    expect(ANIMAL_SPECS.firefly.active).toBe('night')
+    expect(ANIMAL_SPECS.bat.active).toBe('night')
   })
 })
 

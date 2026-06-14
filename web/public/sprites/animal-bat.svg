@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- wings level -->
+  <ellipse cx="16" cy="16" rx="2.5" ry="3.5" fill="#eeeeee"/>
+  <path d="M16 15 Q8 11 3 15 Q8 17 13 17 Z" fill="#eeeeee"/>
+  <path d="M16 15 Q24 11 29 15 Q24 17 19 17 Z" fill="#eeeeee"/>
+  <path d="M14 13 l-1 -3 l2 2 Z" fill="#eeeeee"/>
+  <path d="M18 13 l1 -3 l-2 2 Z" fill="#eeeeee"/>
+</svg>

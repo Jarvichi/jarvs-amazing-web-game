@@ -341,9 +341,21 @@ data-driven from these specs. **Adding a type** = a spec entry + sprites +
 | Rabbits | 4 per town (where grass exists) | grass tiles | 4 |
 | Chickens | 1 per 6 pen tiles | `chickenZones` | 8 |
 | Frogs | 1 per 8 pond tiles | `HUB_POND_TILES` | 4 |
+| Fireflies | 10 per town (fixed, **night only**) | — | 10 |
+| Bats | 5 per town (fixed, **night only**) | — | 5 |
 
 Fish/frogs need ponds; butterflies need flower decor; rabbits need grass;
 chickens need a `chickenZones` pen — otherwise that type is simply absent.
+
+### Day / night
+
+A spec's optional `active: 'day' | 'night'` gates the sprite by time of day
+(`isNightHour` = hour ≥ 20 or < 6). **Birds & butterflies** are `'day'` (they
+vanish after dark); **fireflies & bats** are `'night'` (hidden by day). All four
+are spawned once and shown/hidden by the tick. Cats & dogs **den** in buildings
+at night (see below); **chickens roost** at night — they head to their pen's
+roost tile (`chickenZones[].roost`, default the pen centre) and huddle until
+morning.
 
 ### Navigation modes
 
@@ -368,9 +380,12 @@ free overlay movement) · `pond` (fish) · `pond-edge` (frogs) · `zone` (chicke
   fluttery bob; darts away when a cat is near.
 - **Rabbit** — hops on **grass only**; freezes, then bolts from dogs/the player.
 - **Chicken** — confined to a fenced **pen** (`chickenZones`); pecks and hops
-  within it and scatters to the far corner when a dog or the player enters.
+  within it and scatters to the far corner when a dog or the player enters; at
+  night it **roosts** at the pen's roost tile and huddles until morning.
 - **Frog** — sits on **pond-edge** tiles, hops between them, and **plops** into
   the water (alpha dip) when something comes near, re-emerging at an edge.
+- **Firefly** (night) — drifts slowly anywhere with a pulsing alpha **glow**.
+- **Bat** (night) — swoops erratically across the night sky (overlay layer).
 
 ### Den schedule & building interiors
 
@@ -405,12 +420,13 @@ random palette colour.
 ### Chicken pens (`config.json` → top-level `chickenZones`)
 
 ```json
-{ "chickenZones": [ { "rect": [tx, ty, w, h], "count": 3 } ] }
+{ "chickenZones": [ { "rect": [tx, ty, w, h], "count": 3, "roost": [tx, ty] } ] }
 ```
 
 Each `rect` is a fenced area (draw it over existing fence decor). Chickens spawn
 and stay inside; `count` is optional (defaults to the 1-per-6-tiles rule, capped
-at 8). No zones ⇒ no chickens. Parsed into `HUB_CHICKEN_ZONES` by `loader.ts`.
+at 8); `roost` (optional, defaults to the pen centre) is where they huddle at
+night. No zones ⇒ no chickens. Parsed into `HUB_CHICKEN_ZONES` by `loader.ts`.
 
 ### Placed-animal config schema (`config.json` → top-level `animals`)
 

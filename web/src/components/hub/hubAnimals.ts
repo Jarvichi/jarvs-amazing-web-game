@@ -43,6 +43,7 @@ interface Animal {
   homeDoor?: [number, number]     // its door tile
   insideBuilding: string | null   // currently denned inside this building
   zoneRect?: Rect                 // chickens: pen they're confined to
+  roostTile?: [number, number]    // chickens: where they roost at night
   tx: number
   ty: number
   path: [number, number][]
@@ -98,8 +99,8 @@ export interface AnimalSystemOptions {
   roofTiles: [number, number][]
   /** Flower-decor tiles — butterflies route between these. */
   flowerTiles: [number, number][]
-  /** Fenced pens chickens are confined to. */
-  chickenZones: { rect: Rect; count?: number }[]
+  /** Fenced pens chickens are confined to (with an optional night roost tile). */
+  chickenZones: { rect: Rect; count?: number; roost?: [number, number] }[]
   placedAnimals: HubAnimal[]
   buildingCount: number
   npcCount: number
@@ -123,10 +124,11 @@ export interface AnimalSystem {
 const FLAVOUR: Record<AnimalType, string> = {
   cat: 'Meow', dog: 'Woof!', bird: 'Chirp!', fish: 'blub',
   butterfly: '~', rabbit: '!', chicken: 'Cluck', frog: 'Ribbit',
+  firefly: '✦', bat: 'eek!',
 }
 
 // Floating types are centre-anchored and hover; the rest are bottom-anchored.
-const isFloating = (t: AnimalType) => t === 'fish' || t === 'butterfly'
+const isFloating = (t: AnimalType) => t === 'fish' || t === 'butterfly' || t === 'firefly' || t === 'bat'
 
 export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
   const { app, T, spriteSize } = opts
@@ -522,9 +524,17 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
   }
 
   // ── behaviour: chickens ─────────────────────────────────────────────────────────
-  function chickenTick(a: Animal, dt: number, avatar: Pt, walkable: Set<string>) {
+  function chickenTick(a: Animal, dt: number, avatar: Pt, walkable: Set<string>, night: boolean) {
     const z = a.zoneRect
     if (!z) return
+    // At night, chickens roost: head to the roost spot and settle there.
+    if (night) {
+      const roost = a.roostTile ?? [z[0] + (z[2] >> 1), z[1] + (z[3] >> 1)]
+      if (a.state !== 'roost') { a.goal = roost.slice() as [number, number]; a.state = 'roost' }
+      if (a.goal && !isMoving(a)) stepToward(a, walkable, 'zone', z)
+      return   // huddled — no pecking or scattering
+    }
+    if (a.state === 'roost') { a.state = 'peck'; a.stateTimer = 500; a.goal = null }
     const dog = nearestThreat(a, 3 * T)     // dogs
     const playerNear = Math.hypot(avatar.x - a.sprite.x, avatar.y - a.sprite.y) < 3 * T
     if (a.state !== 'scatter' && (dog || playerNear)) {
@@ -585,6 +595,40 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     }
   }
 
+  // ── behaviour: fireflies (glow flies) — drift slowly with a pulsing glow ──────
+  function fireflyTick(a: Animal, dt: number) {
+    a.bobPhase += dt / 320
+    if (!isMoving(a)) {
+      a.stateTimer -= dt
+      if (a.stateTimer <= 0) {
+        const tx = clampN(a.tx + (Math.random() * 9 | 0) - 4, 0, cols - 1)
+        const ty = clampN(a.ty + (Math.random() * 9 | 0) - 4, 0, rows - 1)
+        if (!opts.isSolidTile(tx, ty)) hopTo(a, [tx, ty])
+        a.stateTimer = 1200 + Math.random() * 2500
+      }
+    }
+    advance(a, dt)
+    a.sprite.y = a.baseY + Math.sin(a.bobPhase) * 2
+    a.sprite.alpha = 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(performance.now() / 450 + a.bobPhase))
+  }
+
+  // ── behaviour: bats — erratic swooping across the night sky ──────────────────
+  function batTick(a: Animal, dt: number) {
+    a.bobPhase += dt / 120
+    if (!isMoving(a)) {
+      a.stateTimer -= dt
+      if (a.stateTimer <= 0) {
+        a.movingTo = null
+        a.target = { x: Math.random() * opts.mapW, y: Math.random() * (opts.mapH * 0.7) }
+        a.path = []
+        a.stateTimer = 700 + Math.random() * 1400
+      }
+    }
+    animateWalk(a, dt)
+    advance(a, dt)
+    a.sprite.y = a.baseY + Math.sin(a.bobPhase) * 4   // jittery flight
+  }
+
   // ── day/night den schedule (cats & dogs with a home) ────────────────────────
   const isNightHour = (hour: number) => hour >= 20 || hour < 6
 
@@ -643,8 +687,19 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     const avatar = opts.getAvatarPx()
     const npcs = opts.getNpcPositions()
     const hour = opts.getGameHour()
+    const night = isNightHour(hour)
 
     for (const a of animals) {
+      // Day/night fliers: birds & butterflies vanish at night; fireflies & bats
+      // only appear after dark.
+      const active = ANIMAL_SPECS[a.type].active
+      if (active && (active === 'night') !== night) {
+        if (a.sprite.visible) a.sprite.visible = false
+        if (a.bubble) { opts.bubbleLayer.removeChild(a.bubble); a.bubble = null }
+        continue
+      }
+      if (active && !a.sprite.visible) a.sprite.visible = true
+
       if (a.bubble) {
         positionBubble(a)
         a.bubbleTimer -= dt
@@ -678,6 +733,8 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
       if (a.type === 'bird') { birdTick(a, dt, avatar, npcs, walkable); continue }
       if (a.type === 'butterfly') { butterflyTick(a, dt); continue }
       if (a.type === 'frog') { frogTick(a, dt, avatar); continue }
+      if (a.type === 'firefly') { fireflyTick(a, dt); continue }
+      if (a.type === 'bat') { batTick(a, dt); continue }
 
       // Ground walkers: cat, dog, rabbit, chicken — shared advance + animation.
       advance(a, dt)
@@ -691,7 +748,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
       } else if (a.type === 'rabbit') {
         rabbitTick(a, dt, avatar, walkable)
       } else if (a.type === 'chicken') {
-        chickenTick(a, dt, avatar, walkable)
+        chickenTick(a, dt, avatar, walkable, night)
       } else {
         dogSocial(a, dt, npcs)
         dogChasePrey(a, dt)
@@ -727,7 +784,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
   }
 
   // ── spawning ──────────────────────────────────────────────────────────────────
-  async function makeAnimal(type: AnimalType, tx: number, ty: number, placed?: HubAnimal, zoneRect?: Rect): Promise<void> {
+  async function makeAnimal(type: AnimalType, tx: number, ty: number, placed?: HubAnimal, zoneRect?: Rect, roostTile?: [number, number]): Promise<void> {
     const spec = ANIMAL_SPECS[type]
     const slug = `animal-${type}`
     const staticTex = await loadTextureUrl(`${opts.baseUrl}sprites/${slug}.svg`).catch(() => null)
@@ -750,12 +807,12 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     const initState =
       type === 'bird' ? 'perched' : type === 'fish' ? 'swim' : type === 'butterfly' ? 'flit'
       : type === 'frog' ? 'idle' : type === 'cat' ? 'sleep' : type === 'rabbit' ? 'freeze'
-      : type === 'chicken' ? 'peck' : 'sit'
+      : type === 'chicken' ? 'peck' : type === 'firefly' ? 'drift' : type === 'bat' ? 'swoop' : 'sit'
 
     const a: Animal = {
       type, id: placed?.id, stationary: !!placed && placed.roam !== true,
       homeTile: [tx, ty], sprite, tint, bottomAnchored, baseScale,
-      insideBuilding: null, zoneRect,
+      insideBuilding: null, zoneRect, roostTile,
       tx, ty, path: [], movingTo: null, target: null, goal: null,
       staticTex, sleepTex: null, frames: [], frameIdx: 0, frameTimer: FRAME_MS,
       state: initState, stateTimer: 500 + Math.random() * 1500,
@@ -796,7 +853,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     })
 
     // Walk/fly frames for the animated types; cat also gets a sleep pose.
-    if (type !== 'fish' && type !== 'frog') {
+    if (type !== 'fish' && type !== 'frog' && type !== 'firefly') {
       loadAnimFrames(slug, 3).then(f => { a.frames = f }).catch(() => {})
     }
     if (type === 'cat') {
@@ -833,14 +890,20 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
   for (let i = 0; i < counts.butterfly; i++) { const t = randOf(opts.flowerTiles); if (t) void makeAnimal('butterfly', t[0], t[1]) }
   for (let i = 0; i < counts.rabbit; i++) { const t = randOf(grassTiles); if (t) void makeAnimal('rabbit', t[0], t[1]) }
   for (let i = 0; i < counts.frog; i++) { const t = randOf(pondEdgeTiles); if (t) void makeAnimal('frog', t[0], t[1]) }
-  // Chickens distributed across their pens.
+  // Nocturnal fliers — spawned now but hidden until night by the active gate.
+  const skyTiles = grassTiles.length ? grassTiles : walkTiles
+  for (let i = 0; i < counts.firefly; i++) { const t = randOf(skyTiles); if (t) void makeAnimal('firefly', t[0], t[1]) }
+  for (let i = 0; i < counts.bat; i++) { void makeAnimal('bat', (Math.random() * cols) | 0, (Math.random() * rows * 0.6) | 0) }
+  // Chickens distributed across their pens (with the pen's roost tile).
   if (counts.chicken > 0 && opts.chickenZones.length > 0) {
     for (let i = 0; i < counts.chicken; i++) {
-      const z = opts.chickenZones[i % opts.chickenZones.length].rect
+      const zone = opts.chickenZones[i % opts.chickenZones.length]
+      const z = zone.rect
+      const roost = zone.roost ?? [z[0] + (z[2] >> 1), z[1] + (z[3] >> 1)] as [number, number]
       let placed = false
       for (let tries = 0; tries < 8 && !placed; tries++) {
         const tx = z[0] + (Math.random() * z[2] | 0), ty = z[1] + (Math.random() * z[3] | 0)
-        if (!opts.isSolidTile(tx, ty)) { void makeAnimal('chicken', tx, ty, undefined, z); placed = true }
+        if (!opts.isSolidTile(tx, ty)) { void makeAnimal('chicken', tx, ty, undefined, z, roost); placed = true }
       }
     }
   }

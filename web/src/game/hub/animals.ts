@@ -13,6 +13,7 @@
 export type AnimalType =
   | 'cat' | 'dog' | 'bird' | 'fish'
   | 'butterfly' | 'rabbit' | 'chicken' | 'frog'
+  | 'firefly' | 'bat'
 
 // How an animal moves around the map.
 export type NavMode =
@@ -41,6 +42,7 @@ export interface AnimalSpec {
   fleesFrom?: AnimalType[]            // generic predator/prey
   chases?: AnimalType[]
   dens?: boolean                      // follows the night-in / day-out building schedule
+  active?: 'day' | 'night'            // only present during this phase (omit = always)
 }
 
 // ── Per-type registry — the single source of truth for animal data ──────────
@@ -61,6 +63,7 @@ export const ANIMAL_SPECS: Record<AnimalType, AnimalSpec> = {
     speed: 230, scale: 0.5, layer: 'overlay', nav: 'fly',
     palette: { red: 0xd64545, blue: 0x4f86d6, brown: 0x9c6b3f, yellow: 0xe8d24a },
     spawn: { source: 'fixed', fixed: 8, cap: 8 },
+    active: 'day',
   },
   fish: {
     speed: 26, scale: 0.5, layer: 'pond', nav: 'pond',
@@ -71,7 +74,7 @@ export const ANIMAL_SPECS: Record<AnimalType, AnimalSpec> = {
     speed: 45, scale: 0.225, layer: 'overlay', nav: 'fly',
     palette: { orange: 0xe8923c, blue: 0x6db4ff, white: 0xf5f5f0, purple: 0xb07cd6, yellow: 0xf0d24a },
     spawn: { source: 'flowers', per: 2, cap: 5 },
-    fleesFrom: ['cat'],
+    fleesFrom: ['cat'], active: 'day',
   },
   rabbit: {
     speed: 95, scale: 0.5, layer: 'sprite', nav: 'grass-only',
@@ -89,6 +92,19 @@ export const ANIMAL_SPECS: Record<AnimalType, AnimalSpec> = {
     speed: 60, scale: 0.45, layer: 'sprite', nav: 'pond-edge',
     palette: { green: 0x5bbf52, darkgreen: 0x3a8f46, brown: 0x8b7a3c, spotted: 0x7fae5a },
     spawn: { source: 'pondTiles', per: 8, cap: 4 },
+  },
+  // Nocturnal fliers — replace the birds & butterflies after dark.
+  firefly: {
+    speed: 28, scale: 0.2, layer: 'overlay', nav: 'fly',
+    palette: { yellow: 0xfff07a, green: 0xc8ff88, warm: 0xffd86a },
+    spawn: { source: 'fixed', fixed: 10, cap: 10 },
+    active: 'night',
+  },
+  bat: {
+    speed: 170, scale: 0.42, layer: 'overlay', nav: 'fly',
+    palette: { black: 0x3a3a4a, brown: 0x5a4a3a, grey: 0x6a6a72 },
+    spawn: { source: 'fixed', fixed: 5, cap: 5 },
+    active: 'night',
   },
 }
 
