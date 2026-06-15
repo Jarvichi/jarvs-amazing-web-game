@@ -15157,6 +15157,94 @@ html.light-mode .action-btn {
 .quests-modal__confirm-btns button:first-child { border-color: #cc5544; color: #cc5544; }
 .quests-modal__confirm-btns button:hover { opacity: 0.8; }
 
+/* ── Town Directory ("Where is…?") ─────────────────────────────────────────── */
+.town-directory {
+  background: rgba(8, 14, 8, 0.97);
+  border: 1px solid #446644;
+  color: #c8e8c8;
+  padding: 20px;
+  width: min(420px, 92vw);
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 4px;
+  font-family: monospace;
+}
+.town-directory__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: #88cc88;
+  text-transform: uppercase;
+}
+.town-directory__meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  color: #557755;
+}
+.town-directory__close {
+  background: none;
+  border: none;
+  color: #557755;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0 2px;
+  line-height: 1;
+}
+.town-directory__close:hover { color: #88cc88; }
+.town-directory__filter {
+  background: none;
+  border: 1px solid #2a4a2a;
+  color: #557755;
+  font-family: monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+.town-directory__filter--on { border-color: #668844; color: #88cc88; }
+.town-directory__filter:hover { color: #88cc88; }
+.town-directory__empty {
+  font-size: 11px;
+  color: #557755;
+  text-align: center;
+  padding: 20px 0;
+}
+.town-directory__list { display: flex; flex-direction: column; gap: 6px; }
+.town-directory__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #2a4a2a;
+  padding: 8px 12px;
+  border-radius: 2px;
+}
+.town-directory__info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.town-directory__name { font-size: 12px; font-weight: bold; color: #c8e8c8; }
+.town-directory__place { font-size: 10px; color: #88aa88; }
+.town-directory__pin-btn {
+  flex-shrink: 0;
+  background: none;
+  border: 1px solid #446644;
+  color: #88cc88;
+  font-family: monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+.town-directory__pin-btn--on { border-color: #55ddee; color: #55ddee; }
+.town-directory__pin-btn:hover { opacity: 0.85; }
+
 /* ── Treasure Modal ────────────────────────────────────────────────────────── */
 .treasure-modal {
   background: rgba(8, 14, 8, 0.97);
