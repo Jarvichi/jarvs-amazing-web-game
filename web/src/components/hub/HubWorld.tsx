@@ -10,6 +10,7 @@ import type { DialogueChoice } from './HubDialogue'
 import type { HubQuestDef, DialogueTree, DialogueChoiceDef } from '../../data/hub/questDefs'
 import { getPickedUpIds, markPickedUp, unmarkPickedUp } from '../../game/hub/pickups'
 import { getFriendshipLevel, addFriendshipXp, getFriendshipData } from '../../game/hub/friendship'
+import { addRelationshipPoints, getRelationship } from '../../game/hub/relationships'
 import { setDialogueFlag, hasDialogueFlag, markNodeSeen } from '../../game/hub/dialogueFlags'
 import { getQuestState, setQuestStatus, incrementQuestProgress, getQuestProgress, resetQuest } from '../../game/hub/quests'
 import { getHeardConvoIds, markConvoHeard } from '../../game/hub/innConvos'
@@ -35,7 +36,7 @@ import { getCollectedTreasureIds, markTreasureCollected } from '../../game/hub/t
 import { useHubClock } from '../../hooks/useHubClock'
 import { formatGameTime, hourInRange } from '../../game/hub/hubClock'
 import { getDailyChallengeNPCDialogue } from '../../game/hub/npcDialogue'
-import {  ALL_QUESTS, FRIENDSHIP_DIALOGUE, RAVENWATCH } from '../../data/hub/hubWorldFactory'
+import {  ALL_QUESTS, FRIENDSHIP_DIALOGUE, RELATIONSHIP_DIALOGUE, RAVENWATCH } from '../../data/hub/hubWorldFactory'
 import { HubInteractable, HubLocationBundle, HubQuestBundle, HubTreasure } from '../../data/hub/loader'
 import { getUnreadCount } from '../../game/news'
 import { interactableStoreKey, isInteractableGranted, markInteractableGranted, getInteractableMoves, setInteractableMove } from '../../game/hub/interactables'
@@ -61,6 +62,12 @@ function checkPrerequisite(prereq: string): boolean {
     if (part.startsWith('friendship:')) {
       const parts = part.split(':')
       return getFriendshipLevel(parts[1]) >= parseInt(parts[2] ?? '1')
+    }
+    if (part.startsWith('relationship:')) {
+      // relationship:<npcId>:<track>:<level>
+      const [, npcId, track, lvl] = part.split(':')
+      const rel = getRelationship(npcId)
+      return rel.track === track && rel.level >= parseInt(lvl ?? '1')
     }
     if (part.startsWith('quest:')) {
       return getQuestState(part.slice(6)).status === 'completed'
@@ -483,6 +490,11 @@ function formatQuestReward(reward: HubQuestDef['reward']): string {
       parts.push(`+${xp} friendship with ${getNpcDisplayName(npcId)}`)
     }
   }
+  if (reward.relationship) {
+    for (const [npcId, grant] of Object.entries(reward.relationship)) {
+      parts.push(`+${grant.points} ${grant.track} with ${getNpcDisplayName(npcId)}`)
+    }
+  }
   return parts.length > 0 ? `You received: ${parts.join('  ·  ')}` : ''
 }
 
@@ -501,6 +513,11 @@ function grantQuestReward(quest: HubQuestDef): void {
   if (reward.friendship) {
     for (const [npcId, xp] of Object.entries(reward.friendship)) {
       addFriendshipXp(npcId, xp)
+    }
+  }
+  if (reward.relationship) {
+    for (const [npcId, grant] of Object.entries(reward.relationship)) {
+      addRelationshipPoints(npcId, grant.track, grant.points)
     }
   }
 }
@@ -579,6 +596,10 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
           break
         case 'friendship':
           addFriendshipXp(eff.npcId ?? npcId, eff.xp)
+          refreshState()
+          break
+        case 'relationship':
+          addRelationshipPoints(eff.npcId ?? npcId, eff.track, eff.points)
           refreshState()
           break
         case 'quest': {
@@ -713,6 +734,22 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
       const tree = ALL_QUESTS.HUB_DIALOGUES[treeId]
       if (tree) {
         runDialogueNode(tree, tree.start, npcId, speakerName)
+        return
+      }
+    }
+
+    // ── Relationship-track dialogue override ────────────────────────────────
+    // Fires only for NPCs without a dialogue tree (the tree is how the player
+    // steers), so an active track flavours the greeting at the matching level.
+    const relTracks = RELATIONSHIP_DIALOGUE[npcId]
+    const rel = getRelationship(npcId)
+    if (relTracks && rel.track && relTracks[rel.track]) {
+      const lines = Object.entries(relTracks[rel.track]!)
+        .map(([k, v]) => ({ minLevel: parseInt(k), text: v }))
+        .filter(t => rel.level >= t.minLevel)
+        .sort((a, b) => b.minLevel - a.minLevel)
+      if (lines.length > 0) {
+        setDialogueEvent({ speakerName, text: lines[0].text })
         return
       }
     }
