@@ -61,6 +61,21 @@ function recompute(entry: RelationshipEntry): RelationshipEntry {
   return entry
 }
 
+/** Max level reachable (length of the threshold ladder). */
+export const MAX_RELATIONSHIP_LEVEL = POINT_THRESHOLDS.length
+
+/**
+ * Progress of the dominant track toward the next level. `nextThreshold` is null
+ * once the max level is reached. Pure — safe to call from view components.
+ */
+export function relationshipProgress(
+  entry: RelationshipEntry,
+): { points: number; nextThreshold: number | null } {
+  const points = entry.track ? entry.points[entry.track] : 0
+  const nextThreshold = POINT_THRESHOLDS[entry.level] ?? null
+  return { points, nextThreshold }
+}
+
 export function getRelationshipData(): Record<string, RelationshipEntry> {
   return load()
 }

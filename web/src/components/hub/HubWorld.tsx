@@ -30,6 +30,7 @@ import { LoginButton } from '../ui/LoginButton'
 import { addCollectible, addConsumable, getCollectibles } from '../../game/itemStore'
 import { QuestsModal } from './QuestsModal'
 import { TownDirectory } from './TownDirectory'
+import { RelationshipView } from './RelationshipView'
 import { resolveNpcPlace } from '../../game/hub/npcLocator'
 import { TreasureModal } from './TreasureModal'
 import { getCollectedTreasureIds, markTreasureCollected } from '../../game/hub/treasures'
@@ -130,6 +131,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   const [pickedUpIds,    setPickedUpIds]    = useState<Set<string>>(() => getPickedUpIds())
   const [questsOpen,          setQuestsOpen]          = useState(false)
   const [directoryOpen,       setDirectoryOpen]       = useState(false)
+  const [relationshipNpcId,   setRelationshipNpcId]   = useState<string | null>(null)
   const [pinnedNpcId,         setPinnedNpcId]         = useState<string | null>(null)
   const [openTreasure,        setOpenTreasure]        = useState<HubTreasure | null>(null)
   const [collectedTreasureIds] = useState<Set<string>>(() => getCollectedTreasureIds())
@@ -922,7 +924,8 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
         )}
 
         {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={questDefs}/>}
-        {directoryOpen && <TownDirectory onClose={() => setDirectoryOpen(false)} locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} />}
+        {directoryOpen && <TownDirectory onClose={() => setDirectoryOpen(false)} locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} onShowRelationship={setRelationshipNpcId} />}
+        {relationshipNpcId && <RelationshipView npcName={getNpcDisplayName(relationshipNpcId)} entry={getRelationship(relationshipNpcId)} onClose={() => setRelationshipNpcId(null)} />}
         {openTreasure && <TreasureModal treasure={openTreasure} onClose={() => setOpenTreasure(null)} />}
 
         <HubDialogue
