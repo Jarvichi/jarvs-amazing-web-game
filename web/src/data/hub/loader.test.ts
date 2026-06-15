@@ -88,6 +88,32 @@ describe('animals parsing', () => {
   })
 })
 
+describe('npc schedule activities', () => {
+  it('passes the activity field through to HUB_NPCS', () => {
+    const bundle = createHubLocationData(minimalConfig({
+      npcs: [{
+        id: 'baker', name: 'Baker', sprite: 'hub-npc-merchant', tx: 5, ty: 5, dialogue: ['Hi'],
+        schedule: [
+          { startHour: 6, endHour: 20, activity: 'work', location: { type: 'exterior', tx: 5, ty: 5 } },
+          { startHour: 20, endHour: 6, location: { type: 'interior', buildingId: 'inn', tx: 1, ty: 1 } },
+        ],
+      }] as unknown as RawConfig['npcs'],
+    }))
+    const npc = bundle.HUB_NPCS.find(n => n.id === 'baker')
+    expect(npc?.schedule?.[0].activity).toBe('work')
+    expect(npc?.schedule?.[1].activity).toBeUndefined()
+  })
+
+  it('ravenwatch NPCs carry distinct scheduled activities', () => {
+    const bundle = createHubLocationData(ravenwatchConfig as unknown as RawConfig)
+    const acts = (id: string) =>
+      bundle.HUB_NPCS.find(n => n.id === id)?.schedule?.map(e => e.activity)
+    expect(acts('fisherman')).toContain('fish')
+    expect(acts('merchant')).toContain('work')
+    expect(acts('elder')).toContain('idle-chat')
+  })
+})
+
 describe('ravenwatch config', () => {
   it('contains the notice-board interactable with 4 resolved decor tiles', () => {
     const bundle = createHubLocationData(ravenwatchConfig as unknown as RawConfig)
