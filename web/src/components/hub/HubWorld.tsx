@@ -27,6 +27,8 @@ import { loadPlayerName } from '../../game/questline'
 import { LoginButton } from '../ui/LoginButton'
 import { addCollectible, addConsumable, getCollectibles } from '../../game/itemStore'
 import { QuestsModal } from './QuestsModal'
+import { TownDirectory } from './TownDirectory'
+import { resolveNpcPlace } from '../../game/hub/npcLocator'
 import { TreasureModal } from './TreasureModal'
 import { getCollectedTreasureIds, markTreasureCollected } from '../../game/hub/treasures'
 import { useHubClock } from '../../hooks/useHubClock'
@@ -119,6 +121,8 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   const [interiorActive, setInteriorActive] = useState(false)
   const [pickedUpIds,    setPickedUpIds]    = useState<Set<string>>(() => getPickedUpIds())
   const [questsOpen,          setQuestsOpen]          = useState(false)
+  const [directoryOpen,       setDirectoryOpen]       = useState(false)
+  const [pinnedNpcId,         setPinnedNpcId]         = useState<string | null>(null)
   const [openTreasure,        setOpenTreasure]        = useState<HubTreasure | null>(null)
   const [collectedTreasureIds] = useState<Set<string>>(() => getCollectedTreasureIds())
   // Refresh friendship/quest state after interactions (lightweight — just reads localStorage)
@@ -279,9 +283,21 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
         pushNpc(incomplete.targetNpcId)
       }
     }
+    // Town Directory "show on map" pin — the chosen NPC's current location.
+    if (pinnedNpcId) {
+      const npc = locationData.HUB_NPCS.find(n => n.id === pinnedNpcId)
+      if (npc) {
+        const place = resolveNpcPlace(npc, gameHour, locationData)
+        out.push({ x: place.tx * T + T / 2, y: place.ty * T + T / 2, kind: 'directory' })
+      }
+    }
     return out
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [questDefs, pickedUpIds, _tick, locationData, locationQuests])
+  }, [questDefs, pickedUpIds, _tick, locationData, locationQuests, pinnedNpcId, gameHour])
+
+  const togglePinnedNpc = useCallback((npcId: string) => {
+    setPinnedNpcId(prev => (prev === npcId ? null : npcId))
+  }, [])
 
   const dismissSplash = useCallback(() => {
     _hubSplashShown = true
@@ -721,6 +737,7 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
           <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
           <ToolbarLabel className="title-deck-info">{isGameNight ? '🌙' : '☀️'} {formatGameTime()}</ToolbarLabel>
         <ToolbarButton icon="📜" title="Quests" onClick={() => setQuestsOpen(true)} />
+        <ToolbarButton icon="🧭" title="Where is…?" onClick={() => setDirectoryOpen(true)} />
         <ToolbarButton icon="🗺" title="World Map" onClick={() => onWorldMap?.()}  disabled={getQuestState('thorin-the-last-watch').status !== 'completed'} />
 
         <ToolbarSpacer/>
@@ -804,6 +821,7 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
         )}
 
         {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={questDefs}/>}
+        {directoryOpen && <TownDirectory onClose={() => setDirectoryOpen(false)} locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} />}
         {openTreasure && <TreasureModal treasure={openTreasure} onClose={() => setOpenTreasure(null)} />}
 
         <HubDialogue

@@ -12,7 +12,7 @@ const STORE_KEY = 'jarv_hub_minimap_on'
 export interface MinimapObjective {
   x:    number              // world pixel coords (centre of the target tile)
   y:    number
-  kind: 'pickup' | 'npc'
+  kind: 'pickup' | 'npc' | 'directory'
 }
 
 interface Props {
@@ -126,11 +126,20 @@ export function HubMinimap({ locationData, objectives, playerRef, viewportRef }:
         view.vw * scale, view.vh * scale,
       )
 
-      // Objective pins.
+      // Objective pins. Directory pins (user "show on map") are larger + cyan with
+      // a halo ring so they stand out from quest pins.
       for (const o of objectives) {
+        const directory = o.kind === 'directory'
+        if (directory) {
+          c.beginPath()
+          c.arc(toMmX(o.x), toMmY(o.y), 6, 0, Math.PI * 2)
+          c.strokeStyle = 'rgba(85,221,238,0.6)'
+          c.lineWidth   = 1.5
+          c.stroke()
+        }
         c.beginPath()
-        c.arc(toMmX(o.x), toMmY(o.y), 3, 0, Math.PI * 2)
-        c.fillStyle = o.kind === 'pickup' ? '#e0b050' : '#66cc66'
+        c.arc(toMmX(o.x), toMmY(o.y), directory ? 3.6 : 3, 0, Math.PI * 2)
+        c.fillStyle = directory ? '#55ddee' : o.kind === 'pickup' ? '#e0b050' : '#66cc66'
         c.fill()
         c.lineWidth   = 1
         c.strokeStyle = 'rgba(8,14,8,0.9)'
