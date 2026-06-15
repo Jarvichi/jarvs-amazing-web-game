@@ -1,3 +1,4 @@
+import type { RelationshipTrack } from '../../game/hub/relationships'
 
 export interface HubQuestStep {
   key: string
@@ -8,13 +9,26 @@ export interface HubQuestStep {
   chain?: string
 }
 
+export interface RelationshipGrant {
+  track: RelationshipTrack
+  points: number
+}
+
 export interface HubQuestReward {
   crystals?: number
   collectible?: { id: string; name: string; icon: string; desc: string }
   card?: { name: string; count?: number }
   friendship?: Record<string, number>
+  /** Per-NPC relationship-track points granted on quest completion. */
+  relationship?: Record<string, RelationshipGrant>
   unlock?: string
 }
+
+/** npcId -> track -> levelString -> line shown when that track is active. */
+export type RelationshipDialogue = Record<
+  string,
+  Partial<Record<RelationshipTrack, Record<string, string>>>
+>
 
 export interface HubQuestDef {
   id: string
@@ -87,6 +101,8 @@ export interface QuestReward {
   crystals?: number
 
   friendship?: FriendShip | undefined
+
+  relationship?: Record<string, RelationshipGrant>
 
   collectible?: {
     id: string
@@ -167,6 +183,7 @@ export interface QuestBlockedPaths {
 export type DialogueEffect =
   | { type: 'flag'; flag: string }              // persist a named dialogue flag
   | { type: 'friendship'; npcId?: string; xp: number }  // grant friendship XP (defaults to the speaking NPC)
+  | { type: 'relationship'; npcId?: string; track: RelationshipTrack; points: number }  // advance a relationship track (defaults to the speaking NPC)
   | { type: 'quest'; questId: string }          // offer a quest (Accept / Not now)
   | { type: 'end' }                             // end the conversation
 
@@ -196,6 +213,7 @@ export interface RawQuestConfig {
   pickupItems?: QuestPickupItem[]
   innRumours?: QuestInnRumour[]
   friendshipDialogue?: FriendshipDialogue
+  relationshipDialogue?: RelationshipDialogue
   blockedPaths?: QuestBlockedPaths[]
   // `dialogues` (DialogueTree[]) is read in loader.ts via an `as unknown` cast —
   // it is intentionally not declared here so the raw JSON (whose effect `type`
