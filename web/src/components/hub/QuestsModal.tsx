@@ -7,11 +7,23 @@ interface Props {
   onClose: () => void
   onAbandon: (questId: string) => void
   questDefs: HubQuestDef[]
+  /** Resolve an NPC/animal id to its display name (for deliver-step labels). */
+  resolveNpcName?: (id: string) => string
 }
 
 function progressDots(current: number, required: number): string {
   const filled = Math.min(current, required)
   return '●'.repeat(filled) + '○'.repeat(Math.max(0, required - filled))
+}
+
+/** Human-readable label for a quest objective. Deliver steps name their target
+ *  NPC so it matches the character you actually see in the world; other steps
+ *  fall back to a title-cased version of the step key. */
+function stepLabel(step: HubQuestDef['steps'][number], resolveNpcName: (id: string) => string): string {
+  if (step.type === 'deliver' && step.targetNpcId) {
+    return `Deliver to ${resolveNpcName(step.targetNpcId)}`
+  }
+  return step.key.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
 }
 
 function getActiveHint(quest: HubQuestDef): string {
@@ -25,7 +37,7 @@ function getActiveHint(quest: HubQuestDef): string {
   return Object.values(activeDialogue)[Object.values(activeDialogue).length - 1] || "Hello"
 }
 
-export function QuestsModal({ onClose, onAbandon, questDefs }: Props) {
+export function QuestsModal({ onClose, onAbandon, questDefs, resolveNpcName = (id) => id }: Props) {
   const [confirmingId, setConfirmingId] = useState<string | null>(null)
 
   const active    = questDefs.filter(q => getQuestState(q.id).status === 'active')
@@ -63,7 +75,7 @@ export function QuestsModal({ onClose, onAbandon, questDefs }: Props) {
                 </div>
                 {quest.steps.map(step => {
                   const current = getQuestProgress(quest.id, step.key)
-                  const label   = step.key.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+                  const label   = stepLabel(step, resolveNpcName)
                   return (
                     <div key={step.key} className="quests-modal__step">
                       <span>{label}</span>

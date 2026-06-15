@@ -142,7 +142,9 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   const { gameHour, isNight: isGameNight } = useHubClock()
 
   function getNpcDisplayName(npcId: string): string {
-    return locationData.HUB_NPCS.find(n => n.id === npcId)?.name ?? npcId
+    return locationData.HUB_NPCS.find(n => n.id === npcId)?.name
+      ?? locationData.HUB_ANIMALS.find(a => a.id === npcId)?.name
+      ?? npcId
   }
 
 
@@ -925,7 +927,7 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
           />
         )}
 
-        {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={questDefs}/>}
+        {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={questDefs} resolveNpcName={getNpcDisplayName}/>}
         {directoryOpen && <TownDirectory onClose={() => setDirectoryOpen(false)} locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} onShowRelationship={setRelationshipNpcId} />}
         {relationshipNpcId && <RelationshipView npcName={getNpcDisplayName(relationshipNpcId)} entry={getRelationship(relationshipNpcId)} onClose={() => setRelationshipNpcId(null)} />}
         {openTreasure && <TreasureModal treasure={openTreasure} onClose={() => setOpenTreasure(null)} />}
