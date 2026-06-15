@@ -7,9 +7,10 @@ import type { MinimapObjective } from './HubMinimap'
 import { HubReturnButton } from './HubReturnButton'
 import { HubDialogue } from './HubDialogue'
 import type { DialogueChoice } from './HubDialogue'
-import type { HubQuestDef } from '../../data/hub/questDefs'
+import type { HubQuestDef, DialogueTree, DialogueChoiceDef } from '../../data/hub/questDefs'
 import { getPickedUpIds, markPickedUp, unmarkPickedUp } from '../../game/hub/pickups'
 import { getFriendshipLevel, addFriendshipXp, getFriendshipData } from '../../game/hub/friendship'
+import { setDialogueFlag, hasDialogueFlag, markNodeSeen } from '../../game/hub/dialogueFlags'
 import { getQuestState, setQuestStatus, incrementQuestProgress, getQuestProgress, resetQuest } from '../../game/hub/quests'
 import { getHeardConvoIds, markConvoHeard } from '../../game/hub/innConvos'
 import { loadDeck, loadCollection, loadCrystals, saveCrystals, addCardsToCollection } from '../../game/collection'
@@ -546,6 +547,54 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
   return false
 }
 
+  // ── Branching dialogue-tree walker ──────────────────────────────────────────
+  // Renders a node (text + visible choices) into the shared dialogue UI, then
+  // applies a choice's effects and advances to the next node (or ends).
+  function runDialogueNode(tree: DialogueTree, nodeId: string, npcId: string, speakerName: string): void {
+    const node = tree.nodes[nodeId]
+    if (!node) { setDialogueEvent(null); return }
+    markNodeSeen(tree.id, nodeId)
+    const visible = (node.choices ?? []).filter(c =>
+      (!c.requireFlag || hasDialogueFlag(c.requireFlag)) &&
+      (!c.hideIfFlag  || !hasDialogueFlag(c.hideIfFlag))
+    )
+    const choices: DialogueChoice[] = visible.map((c, i) => ({
+      label:   c.label,
+      primary: i === 0,
+      onClick: () => applyChoice(tree, c, npcId, speakerName),
+    }))
+    setDialogueEvent({
+      speakerName: node.speakerName ?? speakerName,
+      text:        node.text,
+      ...(choices.length > 0 ? { choices } : {}),
+    })
+  }
+
+  function applyChoice(tree: DialogueTree, choice: DialogueChoiceDef, npcId: string, speakerName: string): void {
+    let ended = false
+    for (const eff of choice.effects ?? []) {
+      switch (eff.type) {
+        case 'flag':
+          setDialogueFlag(eff.flag)
+          break
+        case 'friendship':
+          addFriendshipXp(eff.npcId ?? npcId, eff.xp)
+          refreshState()
+          break
+        case 'quest':
+          // tryOfferQuest replaces the dialogue with an Accept / Not now offer.
+          // If nothing can be offered (cap reached / unavailable), just close.
+          if (!tryOfferQuest(npcId, speakerName, eff.questId)) setDialogueEvent(null)
+          return
+        case 'end':
+          ended = true
+          break
+      }
+    }
+    if (!ended && choice.next) runDialogueNode(tree, choice.next, npcId, speakerName)
+    else setDialogueEvent(null)
+  }
+
 
   const handleNpcTap = useCallback((line: string, npcId: string) => {
     // Placed animals (HUB_ANIMALS) reuse all NPC quest logic — they share the
@@ -554,6 +603,7 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
       name?: string; dialogue?: string[]; screen?: string
       questGive?: string; questReceive?: string | string[]
       innRumours?: Array<{ id: string; text: string }>
+      dialogueTree?: string
     } | undefined =
       locationData.HUB_NPCS.find(n => n.id === npcId) ??
       locationData.HUB_ANIMALS.find(a => a.id === npcId)
@@ -649,6 +699,16 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
         .sort((a, b) => b.minLevel - a.minLevel)
       if (tiers.length > 0) {
         setDialogueEvent({ speakerName, text: tiers[0].text })
+        return
+      }
+    }
+
+    // ── Branching dialogue tree (ordinary chat) ─────────────────────────────
+    const treeId = npcDef?.dialogueTree
+    if (treeId) {
+      const tree = ALL_QUESTS.HUB_DIALOGUES[treeId]
+      if (tree) {
+        runDialogueNode(tree, tree.start, npcId, speakerName)
         return
       }
     }
