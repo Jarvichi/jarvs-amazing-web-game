@@ -1,5 +1,6 @@
 import { MapId } from '../../data/hub/hubWorldFactory'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
+import type { NpcActivity } from '../../data/hub/loader'
 
 
 export type ToolMode = 'select' | 'place' | 'delete' | 'street'
@@ -55,6 +56,7 @@ export interface RawNpc {
   schedule?: Array<{
     startHour: number
     endHour: number
+    activity?: NpcActivity
     location:
       | { type: 'exterior'; tx: number; ty: number }
       | { type: 'interior'; buildingId: string; tx: number; ty: number }

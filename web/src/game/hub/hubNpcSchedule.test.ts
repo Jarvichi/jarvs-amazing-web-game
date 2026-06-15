@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { getNpcActivity, getActivityEmote, ACTIVITY_EMOTES } from './hubNpcSchedule'
+import { getNpcActivity, NPC_ACTIVITIES } from './hubNpcSchedule'
 import type { HubNpc } from '../../data/hub/loader'
 
 const npc: HubNpc = {
@@ -26,14 +26,9 @@ describe('getNpcActivity', () => {
   })
 })
 
-describe('getActivityEmote', () => {
-  it('maps every activity to a glyph', () => {
-    expect(getActivityEmote('fish')).toBe(ACTIVITY_EMOTES.fish)
-    expect(getActivityEmote('work')).toBe(ACTIVITY_EMOTES.work)
-  })
-
-  it('returns null for null/undefined', () => {
-    expect(getActivityEmote(null)).toBeNull()
-    expect(getActivityEmote(undefined)).toBeNull()
+describe('NPC_ACTIVITIES', () => {
+  it('lists the activity used in the fixture schedule', () => {
+    expect(NPC_ACTIVITIES).toContain('work')
+    expect(NPC_ACTIVITIES).toContain('fish')
   })
 })

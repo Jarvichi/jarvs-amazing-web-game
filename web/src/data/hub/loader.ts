@@ -75,7 +75,7 @@ export type NpcActivity = 'work' | 'eat' | 'idle-chat' | 'sleep' | 'sweep' | 'fi
 export interface NpcScheduleEntry {
   startHour: number
   endHour: number
-  /** Optional activity shown via an emote bubble + pose swap while at this location. */
+  /** Optional activity shown via a pose-swap sprite while at this location. */
   activity?: NpcActivity
   location:
     | { type: 'exterior'; tx: number; ty: number }

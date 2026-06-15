@@ -129,6 +129,8 @@ export interface RawInteriorNPCLocation {
 export interface RawNpcScheduleEntry {
   startHour: number
   endHour: number
+  /** Loose raw type; the typed `NpcActivity` union lives in loader.ts. */
+  activity?: string
 
   location: RawExteriorNPCLocation | RawInteriorNPCLocation
 }
