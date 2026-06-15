@@ -716,6 +716,24 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
       return
     }
 
+    // ── Relationship-track dialogue override ────────────────────────────────
+    // Takes precedence over the generic friendship greeting: once a track is
+    // active, it flavours the greeting at the matching level. NPCs steered via a
+    // dialogue tree should not author relationshipDialogue (the tree below is how
+    // the player steers — a greeting here would shadow it).
+    const relTracks = RELATIONSHIP_DIALOGUE[npcId]
+    const rel = getRelationship(npcId)
+    if (!npcDef?.dialogueTree && relTracks && rel.track && relTracks[rel.track]) {
+      const lines = Object.entries(relTracks[rel.track]!)
+        .map(([k, v]) => ({ minLevel: parseInt(k), text: v }))
+        .filter(t => rel.level >= t.minLevel)
+        .sort((a, b) => b.minLevel - a.minLevel)
+      if (lines.length > 0) {
+        setDialogueEvent({ speakerName, text: lines[0].text })
+        return
+      }
+    }
+
     // ── Friendship tier dialogue override ───────────────────────────────────
     const friendTiers = FRIENDSHIP_DIALOGUE[npcId]
     if (friendTiers) {
@@ -736,22 +754,6 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
       const tree = ALL_QUESTS.HUB_DIALOGUES[treeId]
       if (tree) {
         runDialogueNode(tree, tree.start, npcId, speakerName)
-        return
-      }
-    }
-
-    // ── Relationship-track dialogue override ────────────────────────────────
-    // Fires only for NPCs without a dialogue tree (the tree is how the player
-    // steers), so an active track flavours the greeting at the matching level.
-    const relTracks = RELATIONSHIP_DIALOGUE[npcId]
-    const rel = getRelationship(npcId)
-    if (relTracks && rel.track && relTracks[rel.track]) {
-      const lines = Object.entries(relTracks[rel.track]!)
-        .map(([k, v]) => ({ minLevel: parseInt(k), text: v }))
-        .filter(t => rel.level >= t.minLevel)
-        .sort((a, b) => b.minLevel - a.minLevel)
-      if (lines.length > 0) {
-        setDialogueEvent({ speakerName, text: lines[0].text })
         return
       }
     }

@@ -102,7 +102,10 @@ export interface QuestReward {
 
   friendship?: FriendShip | undefined
 
-  relationship?: Record<string, RelationshipGrant>
+  // Raw JSON boundary: `track` stays `string` here so the literal config assigns
+  // without a union mismatch. The runtime `HubQuestReward.relationship` (read via
+  // an `as unknown` cast in loader.ts) narrows it back to `RelationshipGrant`.
+  relationship?: Record<string, { track: string; points: number } | undefined>
 
   collectible?: {
     id: string

@@ -16,6 +16,36 @@
       "reward": { "crystals": 40, "friendship": { "fisherman": 15 } }
     },
     {
+      "id": "naia-allys-tome",
+      "title": "Naia's Trusted Errand",
+      "type": "fetch",
+      "giverNpcId": "scholar",
+      "receiverNpcId": "scholar",
+      "prerequisite": "relationship:scholar:ally:2",
+      "offerDialogue": "You have earned my trust, friend. A rare tome slipped from my satchel near the pond — only someone I rely on could fetch it discreetly. Will you?",
+      "activeDialogue": "The tome should be down by the pond's edge. I would be grateful to have it back.",
+      "completeDialogue": "You found it! I knew I could count on you. Allies like you are rarer than any book.",
+      "steps": [
+        { "key": "tome", "type": "collect", "pickupIds": ["naia-rare-tome"], "required": 1 }
+      ],
+      "reward": { "crystals": 60, "relationship": { "scholar": { "track": "ally", "points": 10 } } }
+    },
+    {
+      "id": "naia-rivals-gauntlet",
+      "title": "Naia's Gauntlet",
+      "type": "fetch",
+      "giverNpcId": "scholar",
+      "receiverNpcId": "scholar",
+      "prerequisite": "relationship:scholar:rival:2",
+      "offerDialogue": "So you fancy yourself my better? Prove it. My contested research glyph is hidden by the pond — retrieve it before I do, if you can keep up.",
+      "activeDialogue": "Still chasing my glyph by the pond? Tick tock, rival. I won't make this easy.",
+      "completeDialogue": "Hmph. You actually managed it. Do not let it go to your head — this rivalry is far from over.",
+      "steps": [
+        { "key": "glyph", "type": "collect", "pickupIds": ["naia-research-glyph"], "required": 1 }
+      ],
+      "reward": { "crystals": 60, "relationship": { "scholar": { "track": "rival", "points": 10 } } }
+    },
+    {
       "id": "wheres-rover",
       "title": "Where's Rover?",
       "type": "fetch",
@@ -101,6 +131,9 @@
         },
         "friendship": {
           "merchant": 20
+        },
+        "relationship": {
+          "merchant": { "track": "ally", "points": 12 }
         }
       }
     },
@@ -3427,6 +3460,8 @@
     }
   ],
   "pickupItems": [
+    { "id": "naia-rare-tome", "tx": 47, "ty": 56, "tileId": "pendant", "questId": "naia-allys-tome" },
+    { "id": "naia-research-glyph", "tx": 43, "ty": 52, "tileId": "yellow_crystal1", "questId": "naia-rivals-gauntlet" },
     { "id": "stray-fish-1", "tx": 48, "ty": 57, "tileId": "appleBasket", "questId": "feed-the-stray" },
     { "id": "stray-fish-2", "tx": 41, "ty": 51, "tileId": "appleBasket", "questId": "feed-the-stray" },
     { "id": "stray-fish-3", "tx": 46, "ty": 49, "tileId": "appleBasket", "questId": "feed-the-stray" },
@@ -5135,6 +5170,17 @@
       "2": "I do not forget those who help me. You have my respect, traveller."
     }
   },
+  "relationshipDialogue": {
+    "merchant": {
+      "ally": {
+        "2": "For a trusted ally like you, my friend, the best stock comes out from under the counter. Always.",
+        "3": "We have been through enough together that I'd vouch for you to any caravan on the road."
+      },
+      "rival": {
+        "2": "Back again? Every bargain with you is a duel. Do not expect me to blink first."
+      }
+    }
+  },
   "blockedPaths": [
     {
       "id": "forest-path-block",
@@ -5620,7 +5666,37 @@
             { "label": "Remind me — who are you?", "hideIfFlag": "scholar-greeted", "effects": [{ "type": "flag", "flag": "scholar-greeted" }], "next": "intro" },
             { "label": "Tell me about the Fracture.", "next": "lore" },
             { "label": "Anything I can help with nearby?", "next": "errand" },
+            { "label": "Where do we stand, you and I?", "next": "regard" },
             { "label": "Just saying hello.", "effects": [{ "type": "friendship", "npcId": "scholar", "xp": 5 }, { "type": "flag", "flag": "scholar-greeted" }], "next": "hello" }
+          ]
+        },
+        "regard": {
+          "text": "An interesting question. How do you mean to treat me, wanderer?",
+          "choices": [
+            { "label": "As a trusted friend.", "effects": [{ "type": "relationship", "npcId": "scholar", "track": "ally", "points": 4 }], "next": "regard-ally" },
+            { "label": "As a worthy rival.", "effects": [{ "type": "relationship", "npcId": "scholar", "track": "rival", "points": 4 }], "next": "regard-rival" },
+            { "label": "As someone I admire.", "effects": [{ "type": "relationship", "npcId": "scholar", "track": "romance", "points": 4 }], "next": "regard-romance" }
+          ]
+        },
+        "regard-ally": {
+          "text": "Then a friend you shall be. Loyalty is worth more than any relic — keep it up and I may trust you with the work I share with no one else.",
+          "choices": [
+            { "label": "Again.", "next": "regard" },
+            { "label": "Farewell.", "effects": [{ "type": "end" }] }
+          ]
+        },
+        "regard-rival": {
+          "text": "A rival, is it? Good. Nothing sharpens the mind like someone snapping at its heels. Press me hard enough and I'll set you a real challenge.",
+          "choices": [
+            { "label": "Again.", "next": "regard" },
+            { "label": "Farewell.", "effects": [{ "type": "end" }] }
+          ]
+        },
+        "regard-romance": {
+          "text": "Admiration? You'll make an archivist blush. Keep talking like that and who knows where the evening reading might lead.",
+          "choices": [
+            { "label": "Again.", "next": "regard" },
+            { "label": "Farewell.", "effects": [{ "type": "end" }] }
           ]
         },
         "intro": {
