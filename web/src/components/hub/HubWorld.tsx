@@ -650,31 +650,45 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
       }
     }
 
-    // ── Quest completion (receiver NPC tapped) ──────────────────────────────
+    // ── Quest delivery / completion (receiver NPC tapped) ───────────────────
     if (npcDef?.questReceive) {
       const receiveIds = Array.isArray(npcDef.questReceive) ? npcDef.questReceive : [npcDef.questReceive]
       for (const questId of receiveIds) {
         const quest = questDefs.find(q => q.id === questId)
-        if (quest && getQuestState(quest.id).status === 'active') {
-          for (const step of quest.steps) {
-            if (step.type === 'deliver' && step.targetNpcId === npcId) {
-              incrementQuestProgress(quest.id, step.key)
-              break
-            }
-          }
-          if (isQuestReadyToComplete(quest)) {
-            setQuestStatus(quest.id, 'completed')
-            grantQuestReward(quest)
-            if (quest.reward.crystals) onCrystalsChange?.(loadCrystals())
-            refreshState()
-            const rewardText = formatQuestReward(quest.reward)
-            setDialogueEvent({
-              speakerName,
-              text: quest.completeDialogue,
-              ...(rewardText ? { onClose: () => setDialogueEvent({ speakerName: '', text: rewardText }) } : {}),
-            })
-            return
-          }
+        if (!quest || getQuestState(quest.id).status !== 'active') continue
+
+        const completeQuest = () => {
+          setQuestStatus(quest.id, 'completed')
+          grantQuestReward(quest)
+          if (quest.reward.crystals) onCrystalsChange?.(loadCrystals())
+          refreshState()
+          const rewardText = formatQuestReward(quest.reward)
+          setDialogueEvent({
+            speakerName,
+            text: quest.completeDialogue,
+            ...(rewardText ? { onClose: () => setDialogueEvent({ speakerName: '', text: rewardText }) } : {}),
+          })
+        }
+
+        // Register a pending delivery addressed to this NPC (guarded so repeat
+        // taps don't over-count).
+        const pending = quest.steps.find(s =>
+          s.type === 'deliver' && s.targetNpcId === npcId &&
+          getQuestProgress(quest.id, s.key) < s.required)
+        if (pending) {
+          incrementQuestProgress(quest.id, pending.key)
+          refreshState()
+          if (isQuestReadyToComplete(quest)) completeQuest()
+          // Delivered but the quest still needs more — acknowledge so the player
+          // sees feedback instead of (e.g.) the NPC's screen opening silently.
+          else setDialogueEvent({ speakerName, text: getActiveDialogue(quest) })
+          return
+        }
+
+        // Nothing to deliver here, but the quest may be ready to hand in.
+        if (isQuestReadyToComplete(quest)) {
+          completeQuest()
+          return
         }
       }
     }
