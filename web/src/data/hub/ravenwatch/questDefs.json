@@ -5624,7 +5624,7 @@
           ]
         },
         "intro": {
-          "text": "Archivist Naia. I keep Ravenwatch's records — and its secrets, when they will hold still long enough to be written down.",
+          "text": "Loremaster Caelen. I tend the gate-side archives — and keep half an eye on who passes through, when the ledgers will hold still long enough to be written.",
           "choices": [
             { "label": "Good to know.", "next": "greet" }
           ]

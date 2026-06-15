@@ -6848,7 +6848,7 @@
     },
     {
       "id": "scholar",
-      "name": "Archivist Naia",
+      "name": "Loremaster Caelen",
       "sprite": "hub-npc-scholar",
       "tx": 58,
       "ty": 8,
@@ -7206,8 +7206,8 @@
       ]
     },
     {
-      "id": "achievements-keeper",
-      "name": "The Chronicler",
+      "id": "achievements-keeper-int",
+      "name": "Hall Keeper Mabon",
       "sprite": "hub-npc-elder",
       "building": "arcade-building-e",
       "tx": 6,
@@ -7592,7 +7592,7 @@
     },
     {
       "id": "marble-master-int",
-      "name": "Marble Master",
+      "name": "Aggie the Roller",
       "sprite": "hub-npc-dealer",
       "building": "arcade-building-e",
       "tx": 8,
@@ -7605,7 +7605,7 @@
     },
     {
       "id": "the-flipper-int",
-      "name": "The Flipper",
+      "name": "Tilt Tomas",
       "sprite": "hub-npc-merchant",
       "building": "arcade-building-e",
       "tx": 4,
@@ -7618,7 +7618,7 @@
     },
     {
       "id": "crystal-keeper-int",
-      "name": "Crystal Keeper",
+      "name": "Geode Greta",
       "sprite": "hub-npc-scholar",
       "building": "arcade-building-e",
       "tx": 6,
@@ -7631,7 +7631,7 @@
     },
     {
       "id": "prize-keeper-int",
-      "name": "Prize Keeper",
+      "name": "Token Tess",
       "sprite": "hub-npc-merchant",
       "building": "arcade-building-e",
       "tx": 2,
@@ -7644,7 +7644,7 @@
     },
     {
       "id": "spinner-sal-int",
-      "name": "Spinner Sal",
+      "name": "Wheelwright Wyn",
       "sprite": "hub-npc-dealer",
       "building": "arcade-building-w",
       "tx": 2,
@@ -7657,7 +7657,7 @@
     },
     {
       "id": "race-marshal-int",
-      "name": "Race Marshal",
+      "name": "Lap Judge Lorn",
       "sprite": "hub-npc-arena",
       "building": "arcade-building-w",
       "tx": 10,
@@ -7670,7 +7670,7 @@
     },
     {
       "id": "card-sharp-int",
-      "name": "Card Sharp",
+      "name": "Dealer Dax",
       "sprite": "hub-npc-merchant",
       "building": "arcade-building-w",
       "tx": 5,
@@ -7683,7 +7683,7 @@
     },
     {
       "id": "reels-remy-int",
-      "name": "Reels Remy",
+      "name": "Jackpot Juno",
       "sprite": "hub-npc-dealer",
       "building": "arcade-building-w",
       "tx": 2,
@@ -7696,7 +7696,7 @@
     },
     {
       "id": "poker-pete-int",
-      "name": "Poker Pete",
+      "name": "Bluff Bessa",
       "sprite": "hub-npc-dealer",
       "building": "arcade-building-w",
       "tx": 9,
