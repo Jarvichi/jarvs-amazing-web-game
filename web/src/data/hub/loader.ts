@@ -2,7 +2,7 @@ import { BASE_CHIP_TILES } from '../tiles/baseChipIndex'
 import { WALL_TILES } from '../tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../tiles/buildingMaterials'
 import { expandBundleDecor, expandBundleWindows, expandBundleDoors } from '../bundles/bundleLoader'
-import { FriendshipDialogue, HubQuestDef, QuestInnRumour, RawQuestConfig } from './questDefs'
+import { DialogueTree, FriendshipDialogue, HubQuestDef, QuestInnRumour, RawQuestConfig } from './questDefs'
 import { RawAnimal, RawConfig, RawInteractable } from './config'
 
 const WALL_MATERIAL_NAMES = new Set<string>(Object.keys(WALL_TILES))
@@ -97,6 +97,8 @@ export interface HubNpc {
   isGhost?: boolean
   schedule?: NpcScheduleEntry[]
   homeBed?: { buildingId: string; tx: number; ty: number }
+  /** Id of a branching dialogue tree (questDefs.json `dialogues`) to run on tap. */
+  dialogueTree?: string
 }
 
 export type HubAnimalType =
@@ -267,6 +269,7 @@ export interface HubQuestBundle {
   FRIENDSHIP_DIALOGUE: FriendshipDialogue
   HUB_PICKUP_ITEMS: HubPickupItem[]
   HUB_BLOCKED_PATHS: BlockedPath[]
+  HUB_DIALOGUES: Record<string, DialogueTree>
 }
 
 export function createHubLocationData(
@@ -667,6 +670,10 @@ const HUB_PICKUP_ITEMS: HubPickupItem[] = (
   requireTouch: p.requireTouch,
 }))
 
+const HUB_DIALOGUES: Record<string, DialogueTree> = Object.fromEntries(
+  ((rawQuestConfig as unknown as { dialogues?: DialogueTree[] }).dialogues ?? []).map(d => [d.id, d])
+)
+
   return {
 
 
@@ -675,5 +682,6 @@ const HUB_PICKUP_ITEMS: HubPickupItem[] = (
     FRIENDSHIP_DIALOGUE,
     HUB_BLOCKED_PATHS,
     HUB_PICKUP_ITEMS,
+    HUB_DIALOGUES,
   }
 }

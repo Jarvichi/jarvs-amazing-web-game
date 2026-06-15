@@ -11,12 +11,13 @@
 | File | Owns | TypeScript exports |
 |---|---|---|
 | `web/src/data/hub/config.json` | Map geometry, buildings, doors, NPCs, exterior decor, interiors, windows, interactables | parsed by `loader.ts` |
-| `web/src/data/hub/questDefs.json` | Quests, pickup items, blocked paths, inn rumours, friendship dialogue | parsed by `loader.ts` and `questDefs.ts` |
+| `web/src/data/hub/questDefs.json` | Quests, pickup items, blocked paths, inn rumours, friendship dialogue, dialogue trees | parsed by `loader.ts` and `questDefs.ts` |
 | `web/src/data/hub/loader.ts` | Parses both JSON files; exports all map/NPC/item/path data | `MAP_W`, `MAP_H`, `AVATAR_START`, `HUB_AREAS`, `HUB_STREET_TILES`, `HUB_BUILDINGS`, `HUB_DOORS`, `HUB_INTERIORS`, `EXTERIOR_DECOR`, `HUB_NPCS`, `EXTERIOR_NPCS`, `INTERIOR_NPCS`, `HUB_PICKUP_ITEMS`, `HUB_BLOCKED_PATHS`, `HUB_LOCKED_DOORS`, … |
 | `web/src/data/hub/questDefs.ts` | Parses `questDefs.json`; exports quest definitions and dialogue | `HUB_QUEST_DEFS`, `INN_RUMOURS`, `FRIENDSHIP_DIALOGUE` |
 | `web/src/game/hub/quests.ts` | Quest progress/status persistence (localStorage) | `getQuestState`, `setQuestStatus`, `incrementQuestProgress`, `getQuestProgress`, `resetQuest` |
 | `web/src/game/hub/pickups.ts` | Pickup state persistence (localStorage) | `getPickedUpIds`, `markPickedUp`, `isPickedUp`, `unmarkPickedUp` |
 | `web/src/game/hub/friendship.ts` | NPC friendship XP/level persistence (localStorage) | `getFriendshipLevel`, `addFriendshipXp`, `getFriendshipData` |
+| `web/src/game/hub/dialogueFlags.ts` | Branching-dialogue flag + "seen" branch persistence (localStorage) — see §7b | `setDialogueFlag`, `hasDialogueFlag`, `getDialogueFlags`, `markNodeSeen`, `hasNodeSeen` |
 | `web/src/game/hub/innConvos.ts` | Inn conversation tracking (localStorage) | `getHeardConvoIds`, `markConvoHeard`, `isConvoHeard` |
 | `web/src/game/hub/interactables.ts` | Interactable grant + moved-position persistence (localStorage) | `interactableStoreKey`, `isInteractableGranted`, `markInteractableGranted`, `getInteractableMoves`, `setInteractableMove` |
 | `web/src/game/hub/animals.ts` | Pure animal logic — `ANIMAL_SPECS` registry (per-type data), spawn maths, tint resolution | `ANIMAL_SPECS`, `computeProceduralCounts`, `resolveVariantTint`, `ANIMAL_CAPS`, `TINT_PALETTES` |
@@ -308,6 +309,101 @@ localStorage keys, entries keyed `<townName>:<interactableId>`:
 4. For `quest` reactions, set the quest's `giverNpcId` to the interactable id.
 5. Run `npm run test` (loader tests parse all configs) and `npm run build`.
 6. Verify in-game: tap fires the reactions, tap does not also walk the avatar, indicator shows/clears, moves persist after reload.
+
+---
+
+## §7b — Branching Dialogue Trees
+
+Reusable multi-choice NPC conversations that branch to different endings.
+Authored in `questDefs.json` under a top-level `dialogues` array and attached to
+an NPC via `dialogueTree` (the id of the tree). When such an NPC is tapped and has
+no higher-priority interaction (quest offer/completion, screen, friendship-tier
+line), `HubWorld.tsx` walks the tree instead of the linear `dialogue` cycle.
+
+Types live in `web/src/data/hub/questDefs.ts`; the walker (`runDialogueNode` /
+`applyChoice`) lives in `web/src/components/hub/HubWorld.tsx`. Reuses the existing
+`HubDialogue` UI (renders `choices`), `tryOfferQuest`, and `addFriendshipXp`.
+
+### Full schema
+
+```jsonc
+// questDefs.json (top level, alongside "quests")
+"dialogues": [
+  {
+    "id": "scholar-chat",          // referenced by HubNpc.dialogueTree
+    "npcId": "scholar",            // documentation only
+    "start": "greet",              // id of the first node in `nodes`
+    "nodes": {
+      "greet": {
+        "text": "What's on your mind?",
+        "choices": [
+          { "label": "Tell me about the Fracture.", "next": "lore" },
+          { "label": "Help nearby?",  "next": "errand" },
+          { "label": "Just saying hi.",
+            "effects": [{ "type": "friendship", "npcId": "scholar", "xp": 5 },
+                        { "type": "flag", "flag": "scholar-greeted" }],
+            "next": "hello" }
+        ]
+      },
+      "lore":   { "text": "…", "choices": [ { "label": "Thanks.", "effects": [{ "type": "end" }] } ] },
+      "errand": { "text": "…", "choices": [ { "label": "I'll help.", "effects": [{ "type": "quest", "questId": "feed-the-stray" }] } ] },
+      "hello":  { "text": "…", "choices": [
+                    { "label": "A question…", "requireFlag": "scholar-greeted", "next": "greet" },
+                    { "label": "Farewell.",   "effects": [{ "type": "end" }] } ] }
+    }
+  }
+]
+```
+
+Then on the NPC (in `config.json`): `"dialogueTree": "scholar-chat"` (keep a
+`dialogue` array as a fallback line).
+
+### Field reference
+
+#### `DialogueNode`
+| Field | Type | Notes |
+|---|---|---|
+| `text` | string | The line shown. |
+| `speakerName` | string? | Overrides the NPC name for this node. |
+| `choices` | `DialogueChoiceDef[]`? | Absent/empty → a single **OK** button closes. |
+
+#### `DialogueChoiceDef`
+| Field | Type | Notes |
+|---|---|---|
+| `label` | string | Button text. |
+| `next` | string? | Node id to advance to **after** effects run. |
+| `effects` | `DialogueEffect[]`? | Run in order before navigation. |
+| `requireFlag` | string? | Choice only shown if the flag is set. |
+| `hideIfFlag` | string? | Choice hidden once the flag is set. |
+
+#### `DialogueEffect` types
+| `type` | Fields | Behaviour |
+|---|---|---|
+| `flag` | `flag` | Persist a named dialogue flag. |
+| `friendship` | `npcId?`, `xp` | Grant friendship XP (defaults to the speaking NPC). |
+| `quest` | `questId` | Offer that quest (Accept / Not now). Resolves the quest's real `giverNpcId`. **Terminates** the walk. |
+| `end` | — | End the conversation. |
+
+If a choice has neither a terminating effect (`quest`/`end`) nor `next`, the
+conversation closes.
+
+### Persistence
+
+`web/src/game/hub/dialogueFlags.ts` (localStorage key `jarv_hub_dialogue_flags`):
+
+| Export | Purpose |
+|---|---|
+| `setDialogueFlag` / `hasDialogueFlag` / `getDialogueFlags` | Named flags set by `flag` effects and read by `requireFlag` / `hideIfFlag`. |
+| `markNodeSeen` / `hasNodeSeen` | "Seen" branch tracking — every visited node is recorded as `seen:<treeId>:<nodeId>`, usable as a flag. |
+
+### Authoring checklist
+
+1. Add a tree to the location's `questDefs.json` `dialogues` array with a unique `id` and a `start` node.
+2. Give each branch a clear ending (`end`, a `quest` offer, or a node with an OK button).
+3. For a `quest` effect, ensure the `questId` exists (its real giver is resolved automatically).
+4. Attach `"dialogueTree": "<id>"` to the NPC in `config.json`; keep a `dialogue` fallback line.
+5. Run `npm run test` (loader tests parse all configs) and `npm run build`.
+6. Verify in-game: tapping the NPC branches to different endings, friendship XP / quest offers fire, and flag-gated choices reflect persisted state after reload.
 
 ---
 

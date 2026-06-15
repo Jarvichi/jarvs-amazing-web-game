@@ -876,7 +876,7 @@ export function HubTownCanvas({
       npcContainer.cursor    = 'pointer'
       npcContainer.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
         e.stopPropagation()
-        if (npc.dialogue.length > 0 || npc.screen || npc.questGive || npc.questReceive) {
+        if (npc.dialogue.length > 0 || npc.screen || npc.questGive || npc.questReceive || npc.dialogueTree) {
           const idx = npcDialogueIndex.get(npc.id) ?? 0
           onNpcTapRef.current?.(npc.dialogue[idx % npc.dialogue.length] ?? '', npc.id)
           npcDialogueIndex.set(npc.id, idx + 1)
@@ -1609,7 +1609,7 @@ export function HubTownCanvas({
           s.cursor    = 'pointer'
           s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
             e.stopPropagation()
-            if (npc.dialogue.length > 0 || npc.screen || npc.questGive || npc.questReceive) {
+            if (npc.dialogue.length > 0 || npc.screen || npc.questGive || npc.questReceive || npc.dialogueTree) {
               const idx = npcDialogueIndex.get(npc.id) ?? 0
               onNpcTapRef.current?.(npc.dialogue[idx % npc.dialogue.length] ?? '', npc.id)
               npcDialogueIndex.set(npc.id, idx + 1)
@@ -1637,7 +1637,7 @@ export function HubTownCanvas({
           s.cursor    = 'pointer'
           s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
             e.stopPropagation()
-            if (npc.dialogue.length > 0 || npc.questGive || npc.questReceive) {
+            if (npc.dialogue.length > 0 || npc.questGive || npc.questReceive || npc.dialogueTree) {
               const idx = npcDialogueIndex.get(npc.id) ?? 0
               onNpcTapRef.current?.(npc.dialogue[idx % npc.dialogue.length] ?? '', npc.id)
               npcDialogueIndex.set(npc.id, idx + 1)

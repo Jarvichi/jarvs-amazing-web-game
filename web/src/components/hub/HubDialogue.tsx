@@ -54,7 +54,15 @@ export function HubDialogue({ line, onClose, speakerName, choices }: Props) {
         }}>
           {line ?? ''}
         </div>
-        <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', marginTop: 6 }}>
+        <div
+          style={
+            // Single action stays inline/right-aligned; multiple branch options
+            // stack vertically full-width so 3–4 choices read clearly.
+            choices && choices.length > 1
+              ? { display: 'flex', flexDirection: 'column', gap: 6, marginTop: 6 }
+              : { display: 'flex', gap: 8, justifyContent: 'flex-end', marginTop: 6 }
+          }
+        >
           {choices && choices.length > 0
             ? choices.map(c => (
                 <button
@@ -68,6 +76,8 @@ export function HubDialogue({ line, onClose, speakerName, choices }: Props) {
                     padding:       '4px 12px',
                     cursor:        'pointer',
                     letterSpacing: '0.12em',
+                    textAlign:     choices.length > 1 ? 'left' : 'center',
+                    width:         choices.length > 1 ? '100%' : 'auto',
                   }}
                 >
                   {c.label}

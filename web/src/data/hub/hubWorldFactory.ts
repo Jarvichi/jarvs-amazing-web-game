@@ -133,6 +133,7 @@ export const ALL_QUESTS : HubQuestBundle = {
   FRIENDSHIP_DIALOGUE: Object.assign({}, ...ALL_QUEST_BUNDLES.map(b => b.FRIENDSHIP_DIALOGUE)),
   HUB_PICKUP_ITEMS:  ALL_QUEST_BUNDLES.flatMap(b => b.HUB_PICKUP_ITEMS),
   HUB_BLOCKED_PATHS: ALL_QUEST_BUNDLES.flatMap(b => b.HUB_BLOCKED_PATHS),
+  HUB_DIALOGUES:     Object.assign({}, ...ALL_QUEST_BUNDLES.map(b => b.HUB_DIALOGUES)),
 }
 
 export const ALL_QUEST_DEFS = [

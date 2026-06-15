@@ -6852,6 +6852,7 @@
       "sprite": "hub-npc-scholar",
       "tx": 58,
       "ty": 8,
+      "dialogueTree": "scholar-chat",
       "dialogue": [
         "I have been cataloguing the Fracture shards. The answers are within your reach — if you dare.",
         "The archives hold centuries of knowledge. Most of it was lost in the Fracture. What remains is precious.",

@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { createHubLocationData } from './loader'
+import { createHubLocationData, createHubQuestData } from './loader'
 import { RawConfig } from './config'
+import { RawQuestConfig } from './questDefs'
 import { BASE_CHIP_TILES } from '../tiles/baseChipIndex'
 import ravenwatchConfig from './ravenwatch/config.json'
 
@@ -111,6 +112,43 @@ describe('npc schedule activities', () => {
     expect(acts('fisherman')).toContain('fish')
     expect(acts('merchant')).toContain('work')
     expect(acts('elder')).toContain('idle-chat')
+  })
+})
+
+function minimalQuestConfig(extra: Record<string, unknown>): RawQuestConfig {
+  return { quests: [], ...extra } as unknown as RawQuestConfig
+}
+
+describe('dialogue trees parsing', () => {
+  it('returns {} when the dialogues key is absent', () => {
+    const bundle = createHubQuestData(minimalQuestConfig({}))
+    expect(bundle.HUB_DIALOGUES).toEqual({})
+  })
+
+  it('parses dialogue trees into a map keyed by id, preserving start + nodes', () => {
+    const bundle = createHubQuestData(minimalQuestConfig({
+      dialogues: [{
+        id: 'elder-chat',
+        npcId: 'elder',
+        start: 'root',
+        nodes: {
+          root: {
+            text: 'What brings you here?',
+            choices: [
+              { label: 'Lore', next: 'lore', effects: [{ type: 'friendship', xp: 5 }] },
+              { label: 'Leave', effects: [{ type: 'end' }] },
+            ],
+          },
+          lore: { text: 'A long story...', choices: [{ label: 'Bye', effects: [{ type: 'end' }] }] },
+        },
+      }],
+    }))
+    expect(Object.keys(bundle.HUB_DIALOGUES)).toEqual(['elder-chat'])
+    const tree = bundle.HUB_DIALOGUES['elder-chat']
+    expect(tree.start).toBe('root')
+    expect(tree.nodes.root.choices?.[0].next).toBe('lore')
+    expect(tree.nodes.root.choices?.[0].effects?.[0]).toEqual({ type: 'friendship', xp: 5 })
+    expect(tree.nodes.lore.text).toBe('A long story...')
   })
 })
 
