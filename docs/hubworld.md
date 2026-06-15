@@ -474,3 +474,82 @@ A `!`/`?` quest indicator floats above placed animals that have
 3. Add any `collect`-step `pickupItems` (tile constants from `baseChipIndex.ts`).
 4. Run `npm run test` and `npm run build`; verify the `!` shows, the quest
    offers, pickups collect, and tapping the animal completes it.
+
+---
+
+## §9 — NPC Schedules & Activities
+
+Named NPCs (`config.json` → `npcs`) can follow a **time-of-day schedule**: a list
+of entries that relocate the NPC between exterior tiles and building interiors as
+the hub clock advances (30 real minutes = 1 game day, see `hubClock.ts`). At each
+scheduled stop an NPC may also perform a visible **activity** — rendered as a
+bobbing emote bubble plus an optional pose-swap sprite — so the town feels
+lived-in. Parsed straight through by `loader.ts`; logic lives in
+`web/src/game/hub/hubNpcSchedule.ts`, rendering in `HubTownCanvas.tsx`.
+
+### Schema (`HubNpc.schedule`)
+
+```jsonc
+{
+  "id": "fisherman",
+  "name": "Old Pell",
+  "sprite": "hub-npc-fisherman",
+  "tx": 50, "ty": 50,
+  "dialogue": ["..."],
+  "schedule": [
+    { "startHour": 0,  "endHour": 6,  "activity": "sleep",
+      "location": { "type": "interior", "buildingId": "inn-building-upstairs", "tx": 7, "ty": 1 } },
+    { "startHour": 6,  "endHour": 20, "activity": "fish",
+      "location": { "type": "exterior", "tx": 50, "ty": 50 } },
+    { "startHour": 20, "endHour": 0,  "activity": "eat",
+      "location": { "type": "interior", "buildingId": "inn-building", "tx": 4, "ty": 4 } }
+  ],
+  "homeBed": { "buildingId": "inn-building-upstairs", "tx": 7, "ty": 1 }
+}
+```
+
+### Field reference
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `startHour` / `endHour` | `number` (0–23) | ✓ | Half-open `[start, end)` game-hour window. **Wraps midnight** when `start > end` (e.g. `20 → 0`). The first matching entry wins; cover all 24 hours to avoid gaps. |
+| `activity` | `NpcActivity` | | Visible activity at this stop (see table below). Omit for "just stand there". |
+| `location.type` | `"exterior"` \| `"interior"` | ✓ | Where the NPC is during this window. |
+| `location.tx` / `ty` | `number` | ✓ | Exterior: absolute hub coords. Interior: coords within that building's room grid. |
+| `location.buildingId` | `string` | interior only | Building `id` the NPC waits inside. The exterior sprite hides; if the player enters that building the NPC renders inside (its activity emote/pose shows there too). |
+| `homeBed` | `{ buildingId, tx, ty }` | | Reserved sleeping spot reference (used by night logic). |
+
+On a game-hour boundary the NPC pathfinds to the new location (emerging at / walking
+to the relevant door for interior transitions). The activity emote and pose only
+show while the NPC is **standing at its post** — they clear while it walks.
+
+### Activities & emotes (`ACTIVITY_EMOTES` in `hubNpcSchedule.ts`)
+
+| Activity | Emote | Typical use |
+|---|---|---|
+| `work` | 🔨 | Manning a stall, smithing, labouring |
+| `sweep` | 🧹 | Tidying a doorway / square |
+| `fish` | 🎣 | Fishing at the pond edge |
+| `idle-chat` | 💬 | Chatting / gossiping in the open |
+| `eat` | 🍲 | Eating at the inn |
+| `sleep` | 💤 | Resting in a bedroom |
+
+`ACTIVITY_EMOTES` is the single source of truth — add a key there (and to the
+`NpcActivity` union in `loader.ts`) to introduce a new activity.
+
+### Pose-swap sprites (optional art)
+
+While an NPC performs an activity, `HubTownCanvas` swaps its sprite texture to
+`web/public/sprites/{sprite}-{activity}.svg` if that file exists, e.g.
+`hub-npc-fisherman-fish.svg`. **Missing pose files fall back to the base sprite**,
+so poses are purely additive — only author the combos you want. Follow the sprite
+workflow in `AGENTS.md` (32×32 SVG, create/commit/push one at a time).
+
+### Authoring checklist: schedule activity
+
+1. Add/extend the NPC's `schedule` in the town `config.json`, setting `activity`
+   on the relevant entries (use the activity keys above).
+2. (Optional) Author `{sprite}-{activity}.svg` pose sprites for a richer look.
+3. Run `npm run test` (loader + schedule tests) and `npm run build`.
+4. Verify in-game: at the relevant hours the NPC is at its post showing the emote
+   (and pose); the emote clears while it walks at an hour boundary.

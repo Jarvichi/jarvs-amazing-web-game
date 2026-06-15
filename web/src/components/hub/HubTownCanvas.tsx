@@ -6,7 +6,7 @@ import { renderPathTiles } from '../../utils/tileLookup'
 import { loadSpriteTexture, loadTextureUrl, loadAnimFrames, loadTileRef } from '../../utils/pixiHelpers'
 import { PATH_TILE } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
-import { isBuildingOpen, getNpcLocation } from '../../game/hub/hubNpcSchedule'
+import { isBuildingOpen, getNpcLocation, getNpcActivity, getActivityEmote } from '../../game/hub/hubNpcSchedule'
 import { getGameHour, getGameMinute } from '../../game/hub/hubClock'
 import { getWallTile, ROOF_TILES, WALL_TILES, ROOF_ROWS } from '../../data/tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
@@ -842,6 +842,11 @@ export function HubTownCanvas({
     const namedNpcWalkStates = new Map<string, NamedNpcWalkState>()
     // Proximity bubbles for named NPCs driven by npcProximityDialogue ref
     const namedNpcProximityBubbles = new Map<string, { bubble: PIXI.Container | null; lastText: string | null }>()
+    // Schedule-driven activities: emote glyphs, current activity, and pose textures
+    const namedNpcActivityEmotes = new Map<string, PIXI.Text>()
+    const namedNpcActivity       = new Map<string, ReturnType<typeof getNpcActivity>>()
+    const namedNpcBaseTex        = new Map<string, PIXI.Texture>()
+    const namedNpcPoseTex        = new Map<string, PIXI.Texture>()  // keyed `${npcId}:${activity}`
     // Interior quest indicators: rebuilt each time we enter a building
     const interiorQuestIndicators     = new Map<string, PIXI.Text>()
     const interiorIndicatorBaseY      = new Map<string, number>()
@@ -863,6 +868,7 @@ export function HubTownCanvas({
         currentBuildingId: initLoc?.type === 'interior' ? initLoc.buildingId : null,
       }
       namedNpcWalkStates.set(npc.id, walkState)
+      if (npc.schedule) namedNpcActivity.set(npc.id, getNpcActivity(npc, gameHourRef.current))
       const isCommanderNpc = npc.id === 'commander-post'
 
       const npcContainer = new PIXI.Container()
@@ -893,6 +899,15 @@ export function HubTownCanvas({
         questIndicatorBaseY.set(npc.id, indBaseY)
       }
 
+      // Activity emote (schedule-driven) — bobs above the NPC while it works/eats/etc.
+      if (npc.schedule?.some(e => e.activity)) {
+        const emote = new PIXI.Text({ text: '', style: { fontSize: 15, fontFamily: 'sans-serif' } })
+        emote.anchor.set(0.5, 1)
+        emote.visible = false
+        bubbleLayer.addChild(emote)
+        namedNpcActivityEmotes.set(npc.id, emote)
+      }
+
       const npcSpriteSlug = isCommanderNpc ? (commander !== undefined ? commander.cardName : avatarSlug) : npc.sprite
 
       // Commander slug is a card name (e.g. "Jarv Knight") — must go through
@@ -909,6 +924,18 @@ export function HubTownCanvas({
         s.anchor.set(0.5, 1)
         s.position.set(cx, cy)
         npcContainer.addChild(s)
+
+        // Cache base texture + load activity pose sprites (`{sprite}-{activity}.svg`).
+        // Missing files fall back to the base sprite — only authored poses need art.
+        if (!isCommanderNpc && npc.schedule) {
+          namedNpcBaseTex.set(npc.id, tex)
+          const activities = new Set(npc.schedule.map(e => e.activity).filter(Boolean) as string[])
+          for (const activity of activities) {
+            loadTextureUrl(`${base}sprites/${npc.sprite}-${activity}.svg`)
+              .then(poseTex => { namedNpcPoseTex.set(`${npc.id}:${activity}`, poseTex) })
+              .catch(() => { /* no pose art — keep base sprite */ })
+          }
+        }
 
         if (isCommanderNpc) {
           loadAnimFrames(npcSpriteSlug, 3).then(frames => {
@@ -2254,6 +2281,27 @@ export function HubTownCanvas({
           }
         }
 
+        // Activity emote + pose swap — active while the NPC is at its post (not walking)
+        for (const [npcId, emote] of namedNpcActivityEmotes) {
+          const ws = namedNpcWalkStates.get(npcId)
+          const container = namedNpcContainers.get(npcId)
+          const s = container?.children[0] as PIXI.Sprite | undefined
+          const activity = (ws && !ws.isWalking && !ws.isInside) ? namedNpcActivity.get(npcId) ?? null : null
+          const glyph = getActivityEmote(activity)
+          emote.visible = glyph !== null && (container?.visible ?? false)
+          if (emote.visible && s) {
+            if (emote.text !== glyph) emote.text = glyph as string
+            emote.position.set(s.x, s.y - SPRITE_SIZE - 18 + Math.sin(performance.now() / 400) * 2)
+          }
+          // Pose swap: use the activity pose texture while active, base texture otherwise.
+          if (s) {
+            const poseTex = activity ? namedNpcPoseTex.get(`${npcId}:${activity}`) : undefined
+            const baseTex = namedNpcBaseTex.get(npcId)
+            const wantTex = poseTex ?? baseTex
+            if (wantTex && s.texture !== wantTex) s.texture = wantTex
+          }
+        }
+
         // Blocked path visibility and proximity speech bubbles
         for (const [, entry] of blockedPathEntries) {
           const cleared = completedQuestIdsRef?.current.has(entry.questId) ?? false
@@ -2336,6 +2384,7 @@ export function HubTownCanvas({
           if (!npc?.schedule) continue
           const ws = namedNpcWalkStates.get(npcId)
           if (!ws) continue
+          namedNpcActivity.set(npcId, getNpcActivity(npc, gameHourRef.current))
           const newLoc = getNpcLocation(npc, gameHourRef.current)
           walkNamedNpc(npc, ws, container, newLoc)
         }

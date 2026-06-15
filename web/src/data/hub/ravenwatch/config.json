@@ -6757,6 +6757,7 @@
         {
           "startHour": 0,
           "endHour": 6,
+          "activity": "sleep",
           "location": {
             "type": "interior",
             "buildingId": "inn-building-upstairs",
@@ -6767,6 +6768,7 @@
         {
           "startHour": 6,
           "endHour": 20,
+          "activity": "idle-chat",
           "location": {
             "type": "exterior",
             "tx": 19,
@@ -6776,6 +6778,7 @@
         {
           "startHour": 20,
           "endHour": 0,
+          "activity": "eat",
           "location": {
             "type": "interior",
             "buildingId": "inn-building",
@@ -6807,6 +6810,7 @@
         {
           "startHour": 0,
           "endHour": 6,
+          "activity": "sleep",
           "location": {
             "type": "interior",
             "buildingId": "inn-building-upstairs",
@@ -6817,6 +6821,7 @@
         {
           "startHour": 6,
           "endHour": 20,
+          "activity": "work",
           "location": {
             "type": "exterior",
             "tx": 22,
@@ -6826,6 +6831,7 @@
         {
           "startHour": 20,
           "endHour": 0,
+          "activity": "eat",
           "location": {
             "type": "interior",
             "buildingId": "inn-building",
@@ -6855,6 +6861,7 @@
         {
           "startHour": 0,
           "endHour": 6,
+          "activity": "sleep",
           "location": {
             "type": "interior",
             "buildingId": "inn-building-upstairs",
@@ -6865,6 +6872,7 @@
         {
           "startHour": 6,
           "endHour": 20,
+          "activity": "work",
           "location": {
             "type": "exterior",
             "tx": 56,
@@ -6874,6 +6882,7 @@
         {
           "startHour": 20,
           "endHour": 0,
+          "activity": "eat",
           "location": {
             "type": "interior",
             "buildingId": "inn-building",
@@ -6909,6 +6918,7 @@
         {
           "startHour": 0,
           "endHour": 6,
+          "activity": "sleep",
           "location": {
             "type": "interior",
             "buildingId": "inn-building-upstairs",
@@ -6919,6 +6929,7 @@
         {
           "startHour": 6,
           "endHour": 20,
+          "activity": "fish",
           "location": {
             "type": "exterior",
             "tx": 50,
@@ -6928,6 +6939,7 @@
         {
           "startHour": 20,
           "endHour": 0,
+          "activity": "eat",
           "location": {
             "type": "interior",
             "buildingId": "inn-building",

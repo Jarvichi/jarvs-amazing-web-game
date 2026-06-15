@@ -69,9 +69,14 @@ export interface HubInterior {
   hours?: { open: number; close: number } | 'always'
 }
 
+/** Visible activity an NPC performs while at a scheduled location. */
+export type NpcActivity = 'work' | 'eat' | 'idle-chat' | 'sleep' | 'sweep' | 'fish'
+
 export interface NpcScheduleEntry {
   startHour: number
   endHour: number
+  /** Optional activity shown via an emote bubble + pose swap while at this location. */
+  activity?: NpcActivity
   location:
     | { type: 'exterior'; tx: number; ty: number }
     | { type: 'interior'; buildingId: string; tx: number; ty: number }

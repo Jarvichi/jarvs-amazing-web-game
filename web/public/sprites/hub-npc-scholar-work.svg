@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- shadow -->
+  <ellipse cx="16" cy="29" rx="5" ry="2" fill="rgba(0,0,0,0.2)"/>
+  <!-- robes -->
+  <rect x="10" y="13" width="12" height="15" rx="3" fill="#2a4a8a"/>
+  <!-- rune/sigil on robe -->
+  <rect x="14" y="18" width="4" height="4" rx="1" fill="#7a9ade" opacity="0.7"/>
+  <!-- both arms raised, holding an open book up to read -->
+  <rect x="8"  y="13" width="3" height="6" rx="1" fill="#2a4a8a"/>
+  <rect x="21" y="13" width="3" height="6" rx="1" fill="#2a4a8a"/>
+  <!-- open book held in front of the chest -->
+  <rect x="9" y="13" width="14" height="7" rx="1" fill="#d8c4a0"/>
+  <rect x="15.2" y="13" width="1.6" height="7" fill="#8b6040"/>
+  <!-- text lines on the pages -->
+  <line x1="11" y1="15" x2="14.5" y2="15" stroke="#6a5030" stroke-width="0.6"/>
+  <line x1="11" y1="17" x2="14.5" y2="17" stroke="#6a5030" stroke-width="0.6"/>
+  <line x1="17.5" y1="15" x2="21" y2="15" stroke="#6a5030" stroke-width="0.6"/>
+  <line x1="17.5" y1="17" x2="21" y2="17" stroke="#6a5030" stroke-width="0.6"/>
+  <!-- head -->
+  <circle cx="16" cy="9" r="5" fill="#d4b090"/>
+  <!-- dark hood -->
+  <rect x="11" y="4" width="10" height="5" rx="2" fill="#1a2a6a"/>
+  <!-- spectacles -->
+  <rect x="12" y="8" width="3" height="2" rx="1" fill="none" stroke="#aaa" stroke-width="0.7"/>
+  <rect x="17" y="8" width="3" height="2" rx="1" fill="none" stroke="#aaa" stroke-width="0.7"/>
+  <line x1="15" y1="9" x2="17" y2="9" stroke="#aaa" stroke-width="0.7"/>
+  <!-- eyes lowered toward the page -->
+  <rect x="13" y="9" width="2" height="1.6" rx="0.8" fill="#1a0a2a"/>
+  <rect x="17" y="9" width="2" height="1.6" rx="0.8" fill="#1a0a2a"/>
+</svg>
