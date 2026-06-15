@@ -28,6 +28,7 @@ import { loadPlayerName } from '../../game/questline'
 import { LoginButton } from '../ui/LoginButton'
 import { addCollectible, addConsumable, getCollectibles } from '../../game/itemStore'
 import { QuestsModal } from './QuestsModal'
+import { BountyBoardModal } from './BountyBoardModal'
 import { TownDirectory } from './TownDirectory'
 import { resolveNpcPlace } from '../../game/hub/npcLocator'
 import { TreasureModal } from './TreasureModal'
@@ -39,6 +40,7 @@ import {  ALL_QUESTS, FRIENDSHIP_DIALOGUE, RAVENWATCH } from '../../data/hub/hub
 import { HubInteractable, HubLocationBundle, HubQuestBundle, HubTreasure } from '../../data/hub/loader'
 import { getUnreadCount } from '../../game/news'
 import { interactableStoreKey, isInteractableGranted, markInteractableGranted, getInteractableMoves, setInteractableMove } from '../../game/hub/interactables'
+import { getDailySeed, getStoredSeed, setStoredSeed, clearAllBounties, pickDailyBounties, getBountyState, setBountyStatus, incrementBountyProgress, isBountyReadyToComplete, BountyDef } from '../../game/hub/bounties'
 import rollbar from '../../rollbar'
 interface QuestEvent {
   speakerName: string
@@ -122,6 +124,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   const [interiorActive, setInteriorActive] = useState(false)
   const [pickedUpIds,    setPickedUpIds]    = useState<Set<string>>(() => getPickedUpIds())
   const [questsOpen,          setQuestsOpen]          = useState(false)
+  const [bountyBoardOpen,     setBountyBoardOpen]     = useState(false)
   const [directoryOpen,       setDirectoryOpen]       = useState(false)
   const [pinnedNpcId,         setPinnedNpcId]         = useState<string | null>(null)
   const [openTreasure,        setOpenTreasure]        = useState<HubTreasure | null>(null)
@@ -178,6 +181,55 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     getUnreadCount()
       .then(n => { indicatorConditionsRef.current.set('unread-news', n > 0) })
       .catch(e => rollbar.error('[HubWorld] getUnreadCount failed', { error: String(e) }))
+  }, [])
+
+  // ── Bounty board state ─────────────────────────────────────────────────────
+  const BOUNTY_TEMPLATES: BountyDef[] = useMemo(() => [
+    {
+      id: 'bounty-herbs',
+      title: 'Herb Gathering',
+      steps: [{ key: 'herbs', type: 'collect', description: 'Collect herbs from the fields', required: 5 }],
+      reward: { crystals: 30 },
+    },
+    {
+      id: 'bounty-guard',
+      title: 'Guard Reports',
+      steps: [{ key: 'talk', type: 'talk', description: 'Speak with the gate guard', required: 1, targetNpcId: 'guard-npc' }],
+      reward: { crystals: 20 },
+    },
+    {
+      id: 'bounty-bandit',
+      title: 'Bandit Cleanup',
+      steps: [{ key: 'win', type: 'win', description: 'Win a quick battle', required: 1 }],
+      reward: { crystals: 50, collectible: { id: 'bandit-token', name: 'Bandit Token', icon: '🏅', desc: 'Proof of bandit defeat' } },
+    },
+    {
+      id: 'bounty-crystals',
+      title: 'Crystal Hunt',
+      steps: [{ key: 'crystals', type: 'collect', description: 'Gather loose crystals', required: 3 }],
+      reward: { crystals: 40 },
+    },
+    {
+      id: 'bounty-fisher',
+      title: 'Fisher\'s Request',
+      steps: [{ key: 'talk', type: 'talk', description: 'Speak with the fisherman', required: 1, targetNpcId: 'fisherman-npc' }],
+      reward: { crystals: 25 },
+    },
+  ], [])
+
+  const dailyBountiesRef = useRef<BountyDef[]>([])
+  useEffect(() => {
+    const seed = getDailySeed()
+    const stored = getStoredSeed()
+    if (stored !== seed) {
+      setStoredSeed(seed)
+      clearAllBounties()
+    }
+    dailyBountiesRef.current = pickDailyBounties(BOUNTY_TEMPLATES, 3, seed)
+    // Update indicator for active bounties
+    const hasActive = dailyBountiesRef.current.some(b => getBountyState(b.id).status === 'active')
+    indicatorConditionsRef.current.set('active-bounties', hasActive)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Persisted interactable position overrides for this location (id → tile)
@@ -361,6 +413,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     if (screen === 'worldmap') { onWorldMap?.(); return }
     if (screen === 'campaign') { onCampaign?.(); return }
     if (screen === 'endless') { onEndless?.(); return }
+    if (screen === 'bounty-board') { setBountyBoardOpen(true); return }
     if (screen === 'commander' && !commander) {
       setDialogueEvent({ speakerName: "Commander's Post", text: "No commander has been assigned yet. Visit the title screen to choose one." })
       return
@@ -386,6 +439,36 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     setPickedUpIds(getPickedUpIds())
     refreshState()
   }, [refreshState])
+
+  const handleBountyAccept = useCallback((bountyId: string) => {
+    setBountyStatus(bountyId, 'active')
+    refreshState()
+    // Update indicator
+    const hasActive = dailyBountiesRef.current.some(b => getBountyState(b.id).status === 'active')
+    indicatorConditionsRef.current.set('active-bounties', hasActive)
+  }, [refreshState])
+
+  const handleBountyTurnIn = useCallback((bountyId: string) => {
+    const bounty = dailyBountiesRef.current.find(b => b.id === bountyId)
+    if (!bounty) return
+    setBountyStatus(bountyId, 'turned-in')
+    if (bounty.reward.crystals) {
+      saveCrystals(loadCrystals() + bounty.reward.crystals)
+      onCrystalsChange?.(loadCrystals())
+    }
+    if (bounty.reward.collectible) {
+      const { id, name, icon, desc } = bounty.reward.collectible
+      addCollectible(id, { name, icon, desc })
+    }
+    if (bounty.reward.consumables) {
+      for (const { id, quantity } of bounty.reward.consumables) {
+        addConsumable(id, quantity)
+      }
+    }
+    refreshState()
+    const hasActive = dailyBountiesRef.current.some(b => getBountyState(b.id).status === 'active')
+    indicatorConditionsRef.current.set('active-bounties', hasActive)
+  }, [refreshState, onCrystalsChange])
 
   const handleTreasureStep = useCallback((id: string) => {
     const treasure = locationData.HUB_TREASURES.find(t => t.id === id)
@@ -885,6 +968,7 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
         )}
 
         {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={questDefs}/>}
+        {bountyBoardOpen && <BountyBoardModal onClose={() => setBountyBoardOpen(false)} bountyDefs={dailyBountiesRef.current} onAccept={handleBountyAccept} onTurnIn={handleBountyTurnIn} />}
         {directoryOpen && <TownDirectory onClose={() => setDirectoryOpen(false)} locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} />}
         {openTreasure && <TreasureModal treasure={openTreasure} onClose={() => setOpenTreasure(null)} />}
 

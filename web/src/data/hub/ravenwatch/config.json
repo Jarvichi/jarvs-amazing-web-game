@@ -6854,7 +6854,7 @@
       "ty": 8,
       "dialogueTree": "scholar-chat",
       "dialogue": [
-        "I have been cataloguing the Fracture shards. The answers are within your reach — if you dare.",
+        "I have been cataloguing the Fracture shards. The answers are within your reach \u2014 if you dare.",
         "The archives hold centuries of knowledge. Most of it was lost in the Fracture. What remains is precious.",
         "Do not underestimate the power of knowing your enemy, Commander."
       ],
@@ -6905,8 +6905,8 @@
       "tx": 50,
       "ty": 50,
       "dialogue": [
-        "Been sitting at this pond since before the Fracture. The water's gone quiet lately — something's stirring beneath.",
-        "I pulled out a strange glowing fish last week. Threw it back — some things are better left undisturbed.",
+        "Been sitting at this pond since before the Fracture. The water's gone quiet lately \u2014 something's stirring beneath.",
+        "I pulled out a strange glowing fish last week. Threw it back \u2014 some things are better left undisturbed.",
         "Patience, wanderer. The best things in life take time."
       ],
       "questGive": "greyfishs-bait",
@@ -6963,7 +6963,7 @@
       "ty": 37,
       "screen": "casino",
       "dialogue": [
-        "The wheel never lies. Step right up — fortune favours the bold.",
+        "The wheel never lies. Step right up \u2014 fortune favours the bold.",
         "I've seen a thousand players. The ones who win? They trust their instincts.",
         "One spin, one chance. What do you say, friend?"
       ],
@@ -7133,7 +7133,7 @@
       "screen": "shop-supplies",
       "dialogue": [
         "Got everything you need right here. Reliable gear, fair prices.",
-        "Stock up before you head out — the roads aren't safe.",
+        "Stock up before you head out \u2014 the roads aren't safe.",
         "I've been supplying adventurers for thirty years. I know what keeps folks alive."
       ],
       "questGive": "brambles-first-delivery",
@@ -7151,7 +7151,7 @@
       "dialogue": [
         "One person's junk is another's treasure. Have a rummage!",
         "I found this stuff all over the Fracture zones. Don't ask how.",
-        "Make me an offer — I'm always looking to deal."
+        "Make me an offer \u2014 I'm always looking to deal."
       ]
     },
     {
@@ -7261,7 +7261,7 @@
       "ty": 34,
       "screen": "marble",
       "dialogue": [
-        "Steady hands and a keen eye — care to roll?",
+        "Steady hands and a keen eye \u2014 care to roll?",
         "Every marble tells a story. Shall we write yours?"
       ]
     },
@@ -7285,7 +7285,7 @@
       "ty": 47,
       "screen": "crystalcatch",
       "dialogue": [
-        "Crystals falling fast — catch them before they shatter!",
+        "Crystals falling fast \u2014 catch them before they shatter!",
         "Speed and focus. That is all you need."
       ]
     },
@@ -7297,7 +7297,7 @@
       "ty": 47,
       "screen": "spinner",
       "dialogue": [
-        "Give it a spin — luck favours the bold.",
+        "Give it a spin \u2014 luck favours the bold.",
         "The wheel knows no favourites. Try your luck!"
       ]
     },
@@ -7309,7 +7309,7 @@
       "ty": 40,
       "screen": "marblerace",
       "dialogue": [
-        "On your marks — the race is about to begin!",
+        "On your marks \u2014 the race is about to begin!",
         "Place your bets and pick your marble. May the fastest win."
       ]
     },
@@ -7322,7 +7322,7 @@
       "screen": "higherOrLower",
       "dialogue": [
         "Higher or lower? Simple question, nerves of steel.",
-        "Read the deck — or trust your gut."
+        "Read the deck \u2014 or trust your gut."
       ]
     },
     {
@@ -7382,7 +7382,7 @@
       "screen": "citybuilder",
       "dialogue": [
         "A great city starts with a single road. Shall we begin?",
-        "Lay the streets, raise the buildings — this town is yours to shape."
+        "Lay the streets, raise the buildings \u2014 this town is yours to shape."
       ]
     },
     {
@@ -7410,7 +7410,7 @@
       "dialogue": [
         "I am cataloguing every tome in this wing. It may take years.",
         "The northern library holds records predating the Fracture. Fascinating.",
-        "Please keep your voice down — scholars are studying."
+        "Please keep your voice down \u2014 scholars are studying."
       ]
     },
     {
@@ -7462,7 +7462,7 @@
       "innRumours": [
         {
           "id": "rumour-barracks",
-          "text": "The south barracks wing has been sealed for years. Captain Thorin keeps to himself about it…"
+          "text": "The south barracks wing has been sealed for years. Captain Thorin keeps to himself about it\u2026"
         },
         {
           "id": "rumour-elder",
@@ -7478,7 +7478,7 @@
         },
         {
           "id": "rumour-pond",
-          "text": "Old Greyfish says the pond shimmers at night. Strange glimmers beneath the water, he says…"
+          "text": "Old Greyfish says the pond shimmers at night. Strange glimmers beneath the water, he says\u2026"
         }
       ]
     },
@@ -7543,7 +7543,7 @@
       "questGive": "zev-game-prize-restock",
       "dialogue": [
         "Step right up! The games never stop here.",
-        "Skill, luck, or cunning — what'll it be, Commander?",
+        "Skill, luck, or cunning \u2014 what'll it be, Commander?",
         "Every game is a battle. You look like you enjoy battles."
       ]
     },
@@ -7599,7 +7599,7 @@
       "ty": 3,
       "screen": "marble",
       "dialogue": [
-        "Steady hands and a keen eye — care to roll?",
+        "Steady hands and a keen eye \u2014 care to roll?",
         "Every marble tells a story. Shall we write yours?"
       ]
     },
@@ -7625,7 +7625,7 @@
       "ty": 5,
       "screen": "crystalcatch",
       "dialogue": [
-        "Crystals falling fast — catch them before they shatter!",
+        "Crystals falling fast \u2014 catch them before they shatter!",
         "Speed and focus. That is all you need."
       ]
     },
@@ -7651,7 +7651,7 @@
       "ty": 2,
       "screen": "spinner",
       "dialogue": [
-        "Give it a spin — luck favours the bold.",
+        "Give it a spin \u2014 luck favours the bold.",
         "The wheel knows no favourites. Try your luck!"
       ]
     },
@@ -7664,7 +7664,7 @@
       "ty": 2,
       "screen": "marblerace",
       "dialogue": [
-        "On your marks — the race is about to begin!",
+        "On your marks \u2014 the race is about to begin!",
         "Place your bets and pick your marble. May the fastest win."
       ]
     },
@@ -7678,7 +7678,7 @@
       "screen": "higherOrLower",
       "dialogue": [
         "Higher or lower? Simple question, nerves of steel.",
-        "Read the deck — or trust your gut."
+        "Read the deck \u2014 or trust your gut."
       ]
     },
     {
@@ -7802,14 +7802,71 @@
       "tx": 49,
       "ty": 21,
       "decor": [
-        { "dx": 0, "dy": 0, "tileId": "messageBoardTopLeft" },
-        { "dx": 1, "dy": 0, "tileId": "messageBoardTopRight" },
-        { "dx": 0, "dy": 1, "tileId": "messageBoardBottomLeft" },
-        { "dx": 1, "dy": 1, "tileId": "messageBoardBottomRight" }
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "messageBoardTopLeft"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileId": "messageBoardTopRight"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileId": "messageBoardBottomLeft"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileId": "messageBoardBottomRight"
+        }
       ],
-      "indicator": { "condition": "unread-news" },
+      "indicator": {
+        "condition": "unread-news"
+      },
       "reactions": [
-        { "type": "screen", "screen": "news" }
+        {
+          "type": "screen",
+          "screen": "news"
+        }
+      ]
+    },
+    {
+      "id": "bounty-board",
+      "tx": 47,
+      "ty": 21,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "messageBoardTopLeft"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileId": "messageBoardTopRight"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileId": "messageBoardBottomLeft"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileId": "messageBoardBottomRight"
+        }
+      ],
+      "indicator": {
+        "condition": "active-bounties"
+      },
+      "reactions": [
+        {
+          "type": "screen",
+          "screen": "bounty-board"
+        }
       ]
     }
   ],
@@ -7821,7 +7878,10 @@
       "tx": 52,
       "ty": 54,
       "name": "Smudge",
-      "dialogue": ["*meow?*", "Smudge the stray blinks up at you, hopeful for a meal."],
+      "dialogue": [
+        "*meow?*",
+        "Smudge the stray blinks up at you, hopeful for a meal."
+      ],
       "questReceive": "feed-the-stray"
     },
     {
@@ -7831,7 +7891,10 @@
       "tx": 33,
       "ty": 32,
       "name": "Rover",
-      "dialogue": ["*woof!*", "Rover wags his tail and looks at you expectantly."],
+      "dialogue": [
+        "*woof!*",
+        "Rover wags his tail and looks at you expectantly."
+      ],
       "questGive": "wheres-rover"
     },
     {
@@ -7841,11 +7904,21 @@
       "tx": 31,
       "ty": 24,
       "name": "Pip",
-      "dialogue": ["*caw!*", "Pip the raven tilts its head, eyeing your pockets for something shiny."],
+      "dialogue": [
+        "*caw!*",
+        "Pip the raven tilts its head, eyeing your pockets for something shiny."
+      ],
       "questGive": "pips-treasures"
     }
   ],
   "chickenZones": [
-    { "rect": [1, 27, 6, 5] }
+    {
+      "rect": [
+        1,
+        27,
+        6,
+        5
+      ]
+    }
   ]
 }

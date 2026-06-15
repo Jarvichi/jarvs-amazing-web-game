@@ -15276,3 +15276,105 @@ html.light-mode .action-btn {
   text-transform: uppercase;
 }
 .treasure-modal__collect:hover { background: rgba(100, 120, 30, 0.6); }
+
+/* ©¤©¤ Bounty Board Modal ©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤ */
+.bounty-modal {
+  background: rgba(8, 14, 8, 0.97);
+  border: 1px solid #664422;
+  color: #e8d8b8;
+  padding: 20px;
+  width: min(420px, 92vw);
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 4px;
+  font-family: monospace;
+}
+.bounty-modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: #ccaa66;
+  text-transform: uppercase;
+}
+.bounty-modal__meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  color: #887755;
+}
+.bounty-modal__close {
+  background: none;
+  border: none;
+  color: #887755;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0 2px;
+  line-height: 1;
+}
+.bounty-modal__close:hover { color: #ccaa66; }
+.bounty-modal__tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.bounty-modal__tab {
+  background: none;
+  border: 1px solid #443322;
+  color: #887755;
+  font-family: monospace;
+  font-size: 10px;
+  padding: 4px 10px;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+}
+.bounty-modal__tab--active {
+  border-color: #ccaa66;
+  color: #ccaa66;
+}
+.bounty-modal__empty {
+  font-size: 11px;
+  color: #887755;
+  text-align: center;
+  padding: 20px 0;
+}
+.bounty-modal__card {
+  border: 1px solid #4a3a2a;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  border-radius: 2px;
+}
+.bounty-modal__card--active   { border-color: #aa8844; }
+.bounty-modal__card--completed { opacity: 0.7; }
+.bounty-modal__title { font-size: 12px; font-weight: bold; margin-bottom: 4px; color: #e8d8b8; }
+.bounty-modal__steps { display: flex; flex-direction: column; gap: 2px; }
+.bounty-modal__step  {
+  font-size: 10px;
+  color: #bbaa88;
+  margin-top: 2px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.bounty-modal__hint   { font-size: 10px; color: #887755; margin-top: 6px; font-style: italic; }
+.bounty-modal__reward { font-size: 10px; color: #ccaa66; margin-top: 4px; }
+.bounty-modal__action {
+  background: rgba(100, 70, 20, 0.6);
+  border: 1px solid #886622;
+  color: #e8c888;
+  font-size: 11px;
+  padding: 4px 12px;
+  cursor: pointer;
+  font-family: monospace;
+  letter-spacing: 0.08em;
+  margin-top: 8px;
+}
+.bounty-modal__action:hover { background: rgba(140, 100, 30, 0.6); }
+.bounty-modal__action--ready {
+  background: rgba(68, 100, 30, 0.6);
+  border-color: #66aa44;
+  color: #aadd88;
+}
