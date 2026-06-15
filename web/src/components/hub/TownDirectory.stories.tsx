@@ -24,6 +24,7 @@ export const Default: Story = {
     locationData: RAVENWATCH,
     pinnedNpcId:  null,
     onTogglePin:  fn(),
+    onShowRelationship: fn(),
   },
 }
 
@@ -33,5 +34,6 @@ export const WithPinned: Story = {
     locationData: RAVENWATCH,
     pinnedNpcId:  RAVENWATCH.HUB_NPCS.find(n => n.name?.trim())?.id ?? null,
     onTogglePin:  fn(),
+    onShowRelationship: fn(),
   },
 }

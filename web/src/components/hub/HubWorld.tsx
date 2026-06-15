@@ -10,6 +10,7 @@ import type { DialogueChoice } from './HubDialogue'
 import type { HubQuestDef, DialogueTree, DialogueChoiceDef } from '../../data/hub/questDefs'
 import { getPickedUpIds, markPickedUp, unmarkPickedUp } from '../../game/hub/pickups'
 import { getFriendshipLevel, addFriendshipXp, getFriendshipData } from '../../game/hub/friendship'
+import { addRelationshipPoints, getRelationship } from '../../game/hub/relationships'
 import { setDialogueFlag, hasDialogueFlag, markNodeSeen } from '../../game/hub/dialogueFlags'
 import { getQuestState, setQuestStatus, incrementQuestProgress, getQuestProgress, resetQuest } from '../../game/hub/quests'
 import { getHeardConvoIds, markConvoHeard } from '../../game/hub/innConvos'
@@ -29,13 +30,14 @@ import { LoginButton } from '../ui/LoginButton'
 import { addCollectible, addConsumable, getCollectibles } from '../../game/itemStore'
 import { QuestsModal } from './QuestsModal'
 import { TownDirectory } from './TownDirectory'
+import { RelationshipView } from './RelationshipView'
 import { resolveNpcPlace } from '../../game/hub/npcLocator'
 import { TreasureModal } from './TreasureModal'
 import { getCollectedTreasureIds, markTreasureCollected } from '../../game/hub/treasures'
 import { useHubClock } from '../../hooks/useHubClock'
 import { formatGameTime, hourInRange } from '../../game/hub/hubClock'
 import { getDailyChallengeNPCDialogue } from '../../game/hub/npcDialogue'
-import {  ALL_QUESTS, FRIENDSHIP_DIALOGUE, RAVENWATCH } from '../../data/hub/hubWorldFactory'
+import {  ALL_QUESTS, FRIENDSHIP_DIALOGUE, RELATIONSHIP_DIALOGUE, RAVENWATCH } from '../../data/hub/hubWorldFactory'
 import { HubInteractable, HubLocationBundle, HubQuestBundle, HubTreasure } from '../../data/hub/loader'
 import { getUnreadCount } from '../../game/news'
 import { interactableStoreKey, isInteractableGranted, markInteractableGranted, getInteractableMoves, setInteractableMove } from '../../game/hub/interactables'
@@ -61,6 +63,12 @@ function checkPrerequisite(prereq: string): boolean {
     if (part.startsWith('friendship:')) {
       const parts = part.split(':')
       return getFriendshipLevel(parts[1]) >= parseInt(parts[2] ?? '1')
+    }
+    if (part.startsWith('relationship:')) {
+      // relationship:<npcId>:<track>:<level>
+      const [, npcId, track, lvl] = part.split(':')
+      const rel = getRelationship(npcId)
+      return rel.track === track && rel.level >= parseInt(lvl ?? '1')
     }
     if (part.startsWith('quest:')) {
       return getQuestState(part.slice(6)).status === 'completed'
@@ -123,6 +131,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   const [pickedUpIds,    setPickedUpIds]    = useState<Set<string>>(() => getPickedUpIds())
   const [questsOpen,          setQuestsOpen]          = useState(false)
   const [directoryOpen,       setDirectoryOpen]       = useState(false)
+  const [relationshipNpcId,   setRelationshipNpcId]   = useState<string | null>(null)
   const [pinnedNpcId,         setPinnedNpcId]         = useState<string | null>(null)
   const [openTreasure,        setOpenTreasure]        = useState<HubTreasure | null>(null)
   const [collectedTreasureIds] = useState<Set<string>>(() => getCollectedTreasureIds())
@@ -483,6 +492,11 @@ function formatQuestReward(reward: HubQuestDef['reward']): string {
       parts.push(`+${xp} friendship with ${getNpcDisplayName(npcId)}`)
     }
   }
+  if (reward.relationship) {
+    for (const [npcId, grant] of Object.entries(reward.relationship)) {
+      parts.push(`+${grant.points} ${grant.track} with ${getNpcDisplayName(npcId)}`)
+    }
+  }
   return parts.length > 0 ? `You received: ${parts.join('  ·  ')}` : ''
 }
 
@@ -501,6 +515,11 @@ function grantQuestReward(quest: HubQuestDef): void {
   if (reward.friendship) {
     for (const [npcId, xp] of Object.entries(reward.friendship)) {
       addFriendshipXp(npcId, xp)
+    }
+  }
+  if (reward.relationship) {
+    for (const [npcId, grant] of Object.entries(reward.relationship)) {
+      addRelationshipPoints(npcId, grant.track, grant.points)
     }
   }
 }
@@ -579,6 +598,10 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
           break
         case 'friendship':
           addFriendshipXp(eff.npcId ?? npcId, eff.xp)
+          refreshState()
+          break
+        case 'relationship':
+          addRelationshipPoints(eff.npcId ?? npcId, eff.track, eff.points)
           refreshState()
           break
         case 'quest': {
@@ -691,6 +714,24 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
     if (npcDef?.screen) {
       handleNodeInteract(npcDef.screen)
       return
+    }
+
+    // ── Relationship-track dialogue override ────────────────────────────────
+    // Takes precedence over the generic friendship greeting: once a track is
+    // active, it flavours the greeting at the matching level. NPCs steered via a
+    // dialogue tree should not author relationshipDialogue (the tree below is how
+    // the player steers — a greeting here would shadow it).
+    const relTracks = RELATIONSHIP_DIALOGUE[npcId]
+    const rel = getRelationship(npcId)
+    if (!npcDef?.dialogueTree && relTracks && rel.track && relTracks[rel.track]) {
+      const lines = Object.entries(relTracks[rel.track]!)
+        .map(([k, v]) => ({ minLevel: parseInt(k), text: v }))
+        .filter(t => rel.level >= t.minLevel)
+        .sort((a, b) => b.minLevel - a.minLevel)
+      if (lines.length > 0) {
+        setDialogueEvent({ speakerName, text: lines[0].text })
+        return
+      }
     }
 
     // ── Friendship tier dialogue override ───────────────────────────────────
@@ -885,7 +926,8 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
         )}
 
         {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={questDefs}/>}
-        {directoryOpen && <TownDirectory onClose={() => setDirectoryOpen(false)} locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} />}
+        {directoryOpen && <TownDirectory onClose={() => setDirectoryOpen(false)} locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} onShowRelationship={setRelationshipNpcId} />}
+        {relationshipNpcId && <RelationshipView npcName={getNpcDisplayName(relationshipNpcId)} entry={getRelationship(relationshipNpcId)} onClose={() => setRelationshipNpcId(null)} />}
         {openTreasure && <TreasureModal treasure={openTreasure} onClose={() => setOpenTreasure(null)} />}
 
         <HubDialogue

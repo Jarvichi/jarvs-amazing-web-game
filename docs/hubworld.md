@@ -11,12 +11,13 @@
 | File | Owns | TypeScript exports |
 |---|---|---|
 | `web/src/data/hub/config.json` | Map geometry, buildings, doors, NPCs, exterior decor, interiors, windows, interactables | parsed by `loader.ts` |
-| `web/src/data/hub/questDefs.json` | Quests, pickup items, blocked paths, inn rumours, friendship dialogue, dialogue trees | parsed by `loader.ts` and `questDefs.ts` |
+| `web/src/data/hub/questDefs.json` | Quests, pickup items, blocked paths, inn rumours, friendship dialogue, dialogue trees, relationship dialogue | parsed by `loader.ts` and `questDefs.ts` |
 | `web/src/data/hub/loader.ts` | Parses both JSON files; exports all map/NPC/item/path data | `MAP_W`, `MAP_H`, `AVATAR_START`, `HUB_AREAS`, `HUB_STREET_TILES`, `HUB_BUILDINGS`, `HUB_DOORS`, `HUB_INTERIORS`, `EXTERIOR_DECOR`, `HUB_NPCS`, `EXTERIOR_NPCS`, `INTERIOR_NPCS`, `HUB_PICKUP_ITEMS`, `HUB_BLOCKED_PATHS`, `HUB_LOCKED_DOORS`, … |
 | `web/src/data/hub/questDefs.ts` | Parses `questDefs.json`; exports quest definitions and dialogue | `HUB_QUEST_DEFS`, `INN_RUMOURS`, `FRIENDSHIP_DIALOGUE` |
 | `web/src/game/hub/quests.ts` | Quest progress/status persistence (localStorage) | `getQuestState`, `setQuestStatus`, `incrementQuestProgress`, `getQuestProgress`, `resetQuest` |
 | `web/src/game/hub/pickups.ts` | Pickup state persistence (localStorage) | `getPickedUpIds`, `markPickedUp`, `isPickedUp`, `unmarkPickedUp` |
 | `web/src/game/hub/friendship.ts` | NPC friendship XP/level persistence (localStorage) | `getFriendshipLevel`, `addFriendshipXp`, `getFriendshipData` |
+| `web/src/game/hub/relationships.ts` | NPC relationship-track (ally/rival/romance) persistence (localStorage) — see §7c | `getRelationship`, `getRelationshipTrack`, `getRelationshipLevel`, `addRelationshipPoints`, `relationshipProgress` |
 | `web/src/game/hub/dialogueFlags.ts` | Branching-dialogue flag + "seen" branch persistence (localStorage) — see §7b | `setDialogueFlag`, `hasDialogueFlag`, `getDialogueFlags`, `markNodeSeen`, `hasNodeSeen` |
 | `web/src/game/hub/innConvos.ts` | Inn conversation tracking (localStorage) | `getHeardConvoIds`, `markConvoHeard`, `isConvoHeard` |
 | `web/src/game/hub/interactables.ts` | Interactable grant + moved-position persistence (localStorage) | `interactableStoreKey`, `isInteractableGranted`, `markInteractableGranted`, `getInteractableMoves`, `setInteractableMove` |
@@ -381,6 +382,7 @@ Then on the NPC (in `config.json`): `"dialogueTree": "scholar-chat"` (keep a
 |---|---|---|
 | `flag` | `flag` | Persist a named dialogue flag. |
 | `friendship` | `npcId?`, `xp` | Grant friendship XP (defaults to the speaking NPC). |
+| `relationship` | `npcId?`, `track`, `points` | Add points to a relationship track (`ally`/`rival`/`romance`) — defaults to the speaking NPC. See §7c. |
 | `quest` | `questId` | Offer that quest (Accept / Not now). Resolves the quest's real `giverNpcId`. **Terminates** the walk. |
 | `end` | — | End the conversation. |
 
@@ -404,6 +406,85 @@ conversation closes.
 4. Attach `"dialogueTree": "<id>"` to the NPC in `config.json`; keep a `dialogue` fallback line.
 5. Run `npm run test` (loader tests parse all configs) and `npm run build`.
 6. Verify in-game: tapping the NPC branches to different endings, friendship XP / quest offers fire, and flag-gated choices reflect persisted state after reload.
+
+---
+
+## §7c — Relationship Tracks (ally / rival / romance)
+
+A second relationship layer **on top of** flat friendship (§7b friendship is
+untouched). Each NPC accumulates points on three independent tracks — `ally`,
+`rival`, `romance` — and the track with the most points becomes the NPC's
+**dominant track**, whose point total maps to a 0–4 level via the same ladder as
+friendship (`[0, 10, 25, 50, 100]`). State persists in `localStorage`.
+
+Logic: `web/src/game/hub/relationships.ts`. UI: per-NPC `RelationshipView` modal
+opened from the Town Directory ("Where is…?") row buttons.
+
+### Persistence — `web/src/game/hub/relationships.ts` (key `jarv_hub_relationships`)
+
+| Export | Purpose |
+|---|---|
+| `getRelationship(npcId)` | `{ track, level, points }` entry (default empty). |
+| `getRelationshipTrack(npcId)` / `getRelationshipLevel(npcId)` | Dominant track / its level. |
+| `addRelationshipPoints(npcId, track, points)` | Add points, recompute dominant track + level, persist. |
+| `relationshipProgress(entry)` / `MAX_RELATIONSHIP_LEVEL` | Pure helpers for the view UI. |
+
+### Advancing a track
+
+1. **Dialogue choices** — a `relationship` `DialogueEffect` in a dialogue tree
+   (§7b). This is the primary way the player *steers* an NPC:
+   ```jsonc
+   { "label": "As a worthy rival.",
+     "effects": [{ "type": "relationship", "npcId": "scholar", "track": "rival", "points": 4 }] }
+   ```
+2. **Quest / gift rewards** — a `relationship` block on a quest `reward`
+   (parallels `friendship`):
+   ```jsonc
+   "reward": { "crystals": 60, "relationship": { "scholar": { "track": "ally", "points": 10 } } }
+   ```
+
+### Track-gated content
+
+A quest `prerequisite` (or interactable quest gate) may require a track + level:
+
+```
+"prerequisite": "relationship:<npcId>:<track>:<level>"   // e.g. relationship:scholar:ally:2
+```
+
+True only when the NPC's **dominant** track equals `<track>` and its level
+`>= <level>`. Combine with `|` like other prerequisites (e.g.
+`quest:foo|relationship:scholar:rival:2`).
+
+### Track-specific greeting — `relationshipDialogue`
+
+A top-level block in `questDefs.json` (parallels `friendshipDialogue`), keyed
+`npcId → track → levelString → line`. Shown when that NPC's dominant track is
+active at/under the current level, taking precedence over the friendship-tier
+greeting:
+
+```jsonc
+"relationshipDialogue": {
+  "merchant": {
+    "ally":  { "2": "For a trusted ally, the best stock comes out from under the counter." },
+    "rival": { "2": "Every bargain with you is a duel. I won't blink first." }
+  }
+}
+```
+
+> **Do not** author `relationshipDialogue` for an NPC that also has a
+> `dialogueTree` — the greeting would shadow the tree (the player's steering
+> path). `HubWorld.tsx` guards against this, so steer tree-NPCs via tree choices
+> and use `relationshipDialogue` only on linear-dialogue NPCs.
+
+### Authoring checklist
+
+1. To let the player steer an NPC: add `relationship` effects to its dialogue
+   tree choices (§7b), or grant points via quest `reward.relationship`.
+2. Gate follow-up quests with `prerequisite: "relationship:<npc>:<track>:<level>"`.
+3. Optionally add `relationshipDialogue` for **linear-dialogue** NPCs only.
+4. Run `npm run test` + `npm run build`; verify in-game that steering changes the
+   track in the Town Directory → Relationship view, gated quests appear, and
+   state survives a reload.
 
 ---
 

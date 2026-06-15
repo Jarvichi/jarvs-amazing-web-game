@@ -4,15 +4,19 @@ import type { HubLocationBundle } from '../../data/hub/loader'
 import { useHubClock } from '../../hooks/useHubClock'
 import { resolveNpcPlace } from '../../game/hub/npcLocator'
 import { getFriendshipLevel } from '../../game/hub/friendship'
+import { getRelationship } from '../../game/hub/relationships'
+
+const TRACK_ICON: Record<string, string> = { ally: '🤝', rival: '⚔️', romance: '💗' }
 
 interface Props {
-  onClose:      () => void
-  locationData: HubLocationBundle
-  pinnedNpcId:  string | null
-  onTogglePin:  (npcId: string) => void
+  onClose:            () => void
+  locationData:       HubLocationBundle
+  pinnedNpcId:        string | null
+  onTogglePin:        (npcId: string) => void
+  onShowRelationship: (npcId: string) => void
 }
 
-export function TownDirectory({ onClose, locationData, pinnedNpcId, onTogglePin }: Props) {
+export function TownDirectory({ onClose, locationData, pinnedNpcId, onTogglePin, onShowRelationship }: Props) {
   const { gameHour } = useHubClock()
   const [onlyMet, setOnlyMet] = useState(false)
 
@@ -55,19 +59,31 @@ export function TownDirectory({ onClose, locationData, pinnedNpcId, onTogglePin 
             {visible.map(npc => {
               const place  = resolveNpcPlace(npc, gameHour, locationData)
               const pinned = pinnedNpcId === npc.id
+              const track  = getRelationship(npc.id).track
               return (
                 <div key={npc.id} className="town-directory__row">
                   <div className="town-directory__info">
-                    <span className="town-directory__name">{npc.name}</span>
+                    <span className="town-directory__name">
+                      {npc.name}{track ? ` ${TRACK_ICON[track]}` : ''}
+                    </span>
                     <span className="town-directory__place">📍 {place.name}</span>
                   </div>
-                  <button
-                    className={`town-directory__pin-btn${pinned ? ' town-directory__pin-btn--on' : ''}`}
-                    onClick={() => onTogglePin(npc.id)}
-                    title={pinned ? 'Hide on minimap' : 'Show on minimap'}
-                  >
-                    {pinned ? '📌 Pinned' : '📍 Show on map'}
-                  </button>
+                  <div style={{ display: 'flex', gap: 6 }}>
+                    <button
+                      className="town-directory__pin-btn"
+                      onClick={() => onShowRelationship(npc.id)}
+                      title="View relationship"
+                    >
+                      💗 Relationship
+                    </button>
+                    <button
+                      className={`town-directory__pin-btn${pinned ? ' town-directory__pin-btn--on' : ''}`}
+                      onClick={() => onTogglePin(npc.id)}
+                      title={pinned ? 'Hide on minimap' : 'Show on minimap'}
+                    >
+                      {pinned ? '📌 Pinned' : '📍 Show on map'}
+                    </button>
+                  </div>
                 </div>
               )
             })}

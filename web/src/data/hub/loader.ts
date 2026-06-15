@@ -2,7 +2,7 @@ import { BASE_CHIP_TILES } from '../tiles/baseChipIndex'
 import { WALL_TILES } from '../tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../tiles/buildingMaterials'
 import { expandBundleDecor, expandBundleWindows, expandBundleDoors } from '../bundles/bundleLoader'
-import { DialogueTree, FriendshipDialogue, HubQuestDef, QuestInnRumour, RawQuestConfig } from './questDefs'
+import { DialogueTree, FriendshipDialogue, HubQuestDef, QuestInnRumour, RawQuestConfig, RelationshipDialogue } from './questDefs'
 import { RawAnimal, RawConfig, RawInteractable } from './config'
 
 const WALL_MATERIAL_NAMES = new Set<string>(Object.keys(WALL_TILES))
@@ -267,6 +267,7 @@ export interface HubQuestBundle {
   HUB_QUEST_DEFS: HubQuestDef[]
   INN_RUMOURS?: QuestInnRumour[]
   FRIENDSHIP_DIALOGUE: FriendshipDialogue
+  RELATIONSHIP_DIALOGUE: RelationshipDialogue
   HUB_PICKUP_ITEMS: HubPickupItem[]
   HUB_BLOCKED_PATHS: BlockedPath[]
   HUB_DIALOGUES: Record<string, DialogueTree>
@@ -630,6 +631,8 @@ const INN_RUMOURS = rawQuestConfig.innRumours || []
 
 const FRIENDSHIP_DIALOGUE = rawQuestConfig.friendshipDialogue || {}
 
+const RELATIONSHIP_DIALOGUE: RelationshipDialogue = rawQuestConfig.relationshipDialogue || {}
+
 type RawBlockedPathNpc = { id: string; sprite: string; tx: number; ty: number; proximityDialogue?: { atDistance: number; text: string }[]; tapDialogue?: string }
 type RawBlockedPathState = { decor?: Array<{ tx: number; ty: number; tileId?: string; bundleID?: string; zlayer?: string }>; npcs?: RawBlockedPathNpc[] }
 
@@ -680,6 +683,7 @@ const HUB_DIALOGUES: Record<string, DialogueTree> = Object.fromEntries(
     HUB_QUEST_DEFS,
     INN_RUMOURS,
     FRIENDSHIP_DIALOGUE,
+    RELATIONSHIP_DIALOGUE,
     HUB_BLOCKED_PATHS,
     HUB_PICKUP_ITEMS,
     HUB_DIALOGUES,
