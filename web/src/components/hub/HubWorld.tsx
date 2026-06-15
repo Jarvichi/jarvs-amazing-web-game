@@ -2,6 +2,8 @@ import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { HubTownCanvas } from './HubTownCanvas'
 import { AreaNameBadge } from './AreaNameBadge'
+import { HubMinimap } from './HubMinimap'
+import type { MinimapObjective } from './HubMinimap'
 import { HubReturnButton } from './HubReturnButton'
 import { HubDialogue } from './HubDialogue'
 import type { DialogueChoice } from './HubDialogue'
@@ -249,6 +251,38 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_tick])
 
+  // Active-quest objective pins for the minimap (world-pixel coords).
+  // Lost-item quests show no item pins until everything is found, then point to
+  // the NPC who finishes the quest (see issue #1663).
+  const minimapObjectives = useMemo<MinimapObjective[]>(() => {
+    const out: MinimapObjective[] = []
+    const pushNpc = (npcId: string | undefined) => {
+      const npc = locationData.HUB_NPCS.find(n => n.id === npcId)
+      if (npc) out.push({ x: npc.tx * T + T / 2, y: npc.ty * T + T / 2, kind: 'npc' })
+    }
+    for (const quest of questDefs) {
+      if (getQuestState(quest.id).status !== 'active') continue
+      const incomplete = quest.steps.find(s => getQuestProgress(quest.id, s.key) < s.required)
+      if (!incomplete) {
+        // All steps done but quest still active → return to the receiver NPC.
+        pushNpc(quest.receiverNpcId)
+        continue
+      }
+      if (incomplete.type === 'collect') {
+        if (quest.type === 'lost-items') continue  // no item pins for lost-item quests
+        for (const pid of incomplete.pickupIds ?? []) {
+          if (pickedUpIds.has(pid)) continue
+          const item = locationQuests.HUB_PICKUP_ITEMS.find(p => p.id === pid)
+          if (item) out.push({ x: item.tx * T + T / 2, y: item.ty * T + T / 2, kind: 'pickup' })
+        }
+      } else {
+        pushNpc(incomplete.targetNpcId)
+      }
+    }
+    return out
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [questDefs, pickedUpIds, _tick, locationData, locationQuests])
+
   const dismissSplash = useCallback(() => {
     _hubSplashShown = true
     setSplashFading(true)
@@ -276,7 +310,14 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     return () => clearTimeout(id)
   }, [dialogueEvent, dialogueLine])
 
+  // Live player world-pixel position, read imperatively by the minimap's rAF loop.
+  const playerPixelRef = useRef({
+    x: locationData.AVATAR_START.tx * T + T / 2,
+    y: locationData.AVATAR_START.ty * T + T / 2,
+  })
+
   const handleAvatarMove = useCallback((px: number, py: number) => {
+    playerPixelRef.current = { x: px, y: py }
     const el = scrollRef.current
     if (!el) return
     el.scrollLeft = px - el.clientWidth  / 2
@@ -289,6 +330,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     const saved = getSavedHubTile(locationData.HUB_TOWN_NAME)
     const px = saved ? saved[0] * T + T / 2 : locationData.AVATAR_START.tx * T + T / 2
     const py = saved ? saved[1] * T + T / 2 : locationData.AVATAR_START.ty * T + T / 2
+    playerPixelRef.current = { x: px, y: py }
     el.scrollLeft = px - el.clientWidth  / 2
     el.scrollTop  = py - el.clientHeight / 2
   }, [locationData])
@@ -751,6 +793,15 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
           />
         </div>
         <AreaNameBadge name={currentArea} />
+
+        {!interiorActive && (
+          <HubMinimap
+            locationData={locationData}
+            objectives={minimapObjectives}
+            playerRef={playerPixelRef}
+            viewportRef={scrollRef}
+          />
+        )}
 
         {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={questDefs}/>}
         {openTreasure && <TreasureModal treasure={openTreasure} onClose={() => setOpenTreasure(null)} />}
