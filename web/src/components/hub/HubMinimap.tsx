@@ -222,8 +222,8 @@ export function HubMinimap({ locationData, objectives, playerRef, viewportRef }:
       <div
         style={{
           position:      'absolute',
-          top:           48,
-          right:         12,
+          bottom:        12,
+          left:          12,
           zIndex:        20,
           pointerEvents: 'none',
         }}
