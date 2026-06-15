@@ -13876,8 +13876,11 @@ html.light-mode .action-btn {
   min-height: 0;
   background: #0d0d0d;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  /* `safe` keeps the board centred when it fits, but falls back to start
+     alignment when it's taller/wider than the wrap so the overflow stays
+     reachable by scrolling instead of being clipped off both edges. */
+  align-items: safe center;
+  justify-content: safe center;
 }
 
 /* Scaling wrapper — sized to the post-scale dimensions so the layout is correct */

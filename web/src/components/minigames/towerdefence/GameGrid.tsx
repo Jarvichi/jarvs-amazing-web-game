@@ -122,7 +122,7 @@ function drawCells(
 
 // ── Sync tower sprites ────────────────────────────────────────────────────────
 
-async function syncTowers(
+function syncTowers(
   layer: PIXI.Container,
   towerSprites: Map<number, PIXI.Container>,
   towers: TDTower[],
@@ -138,22 +138,28 @@ async function syncTowers(
   for (const tower of towers) {
     let ctr = towerSprites.get(tower.id)
     if (!ctr) {
+      // Reserve the map slot synchronously *before* the async texture load so
+      // concurrent renderScene passes reuse this container instead of each
+      // creating its own duplicate (which would later orphan as a ghost when
+      // the tower moves).
       ctr = new PIXI.Container()
-      try {
-        const tex = await loadSpriteTexture(tower.buildingName)
+      layer.addChild(ctr)
+      towerSprites.set(tower.id, ctr)
+      const container = ctr
+      loadSpriteTexture(tower.buildingName).then(tex => {
+        if (container.destroyed) return
         const spr = new PIXI.Sprite(tex)
         spr.width = CELL_PX - 8
         spr.height = CELL_PX - 8
         spr.x = 4; spr.y = 4
-        ctr.addChild(spr)
-      } catch {
+        container.addChildAt(spr, 0)
+      }).catch(() => {
         // sprite missing — render a placeholder square
+        if (container.destroyed) return
         const g = new PIXI.Graphics()
         g.rect(4, 4, CELL_PX - 8, CELL_PX - 8).fill(0x886600)
-        ctr.addChild(g)
-      }
-      layer.addChild(ctr)
-      towerSprites.set(tower.id, ctr)
+        container.addChildAt(g, 0)
+      })
     }
     ctr.x = cellLeft(tower.col)
     ctr.y = cellTop(tower.row)
@@ -184,7 +190,7 @@ async function syncTowers(
 
 // ── Sync animated entity sprites ──────────────────────────────────────────────
 
-async function syncEntitySprites(
+function syncEntitySprites(
   layer: PIXI.Container,
   sprites: Map<number, PIXI.AnimatedSprite>,
   entities: Array<{ id: number; x: number; y: number; spriteName: string }>,
@@ -200,24 +206,28 @@ async function syncEntitySprites(
   for (const ent of entities) {
     let spr = sprites.get(ent.id)
     if (!spr) {
-      try {
-        const frames = await loadAnimFrames(ent.spriteName, 3)
-        spr = new PIXI.AnimatedSprite(frames)
-        spr.animationSpeed = fps / 60
-        spr.play()
-      } catch {
-        // fallback: static sprite
-        try {
-          const tex = await loadSpriteTexture(ent.spriteName)
-          spr = new PIXI.AnimatedSprite([tex])
-        } catch {
-          spr = new PIXI.AnimatedSprite([PIXI.Texture.EMPTY])
-        }
-      }
+      // Create + register synchronously with a placeholder frame so concurrent
+      // renderScene passes reuse this sprite instead of each adding a duplicate
+      // (which would orphan as a leftover graphic). Real frames swap in once loaded.
+      spr = new PIXI.AnimatedSprite([PIXI.Texture.EMPTY])
       spr.width = size
       spr.height = size
       layer.addChild(spr)
       sprites.set(ent.id, spr)
+      const sprite = spr
+      loadAnimFrames(ent.spriteName, 3)
+        .catch(() => loadSpriteTexture(ent.spriteName).then(tex => [tex]))
+        .then(frames => {
+          if (sprite.destroyed || !frames.length) return
+          sprite.textures = frames
+          // Re-apply the target size: the placeholder EMPTY texture baked a scale
+          // relative to its 1×1 size, so width/height must be set against the real frame.
+          sprite.width = size
+          sprite.height = size
+          sprite.animationSpeed = fps / 60
+          sprite.play()
+        })
+        .catch(() => { /* no sprite available — keep placeholder */ })
     }
     spr.x = ent.x - size / 2
     spr.y = ent.y - size / 2
