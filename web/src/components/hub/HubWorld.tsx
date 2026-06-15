@@ -581,11 +581,15 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
           addFriendshipXp(eff.npcId ?? npcId, eff.xp)
           refreshState()
           break
-        case 'quest':
+        case 'quest': {
           // tryOfferQuest replaces the dialogue with an Accept / Not now offer.
-          // If nothing can be offered (cap reached / unavailable), just close.
-          if (!tryOfferQuest(npcId, speakerName, eff.questId)) setDialogueEvent(null)
+          // Resolve the quest's real giver so a tree can surface a quest that
+          // belongs to another NPC. If nothing can be offered (cap reached /
+          // unavailable / prerequisite unmet), just close.
+          const giver = questDefs.find(q => q.id === eff.questId)?.giverNpcId ?? npcId
+          if (!tryOfferQuest(giver, speakerName, eff.questId)) setDialogueEvent(null)
           return
+        }
         case 'end':
           ended = true
           break

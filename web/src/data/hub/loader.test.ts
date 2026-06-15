@@ -115,8 +115,8 @@ describe('npc schedule activities', () => {
   })
 })
 
-function minimalQuestConfig(extra: Partial<RawQuestConfig>): RawQuestConfig {
-  return { quests: [], ...extra } as RawQuestConfig
+function minimalQuestConfig(extra: Record<string, unknown>): RawQuestConfig {
+  return { quests: [], ...extra } as unknown as RawQuestConfig
 }
 
 describe('dialogue trees parsing', () => {

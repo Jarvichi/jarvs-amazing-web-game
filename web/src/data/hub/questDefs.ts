@@ -197,6 +197,8 @@ export interface RawQuestConfig {
   innRumours?: QuestInnRumour[]
   friendshipDialogue?: FriendshipDialogue
   blockedPaths?: QuestBlockedPaths[]
-  dialogues?: DialogueTree[]
+  // `dialogues` (DialogueTree[]) is read in loader.ts via an `as unknown` cast —
+  // it is intentionally not declared here so the raw JSON (whose effect `type`
+  // widens to `string`) assigns to RawQuestConfig without a union mismatch.
 }
 

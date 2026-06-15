@@ -5607,5 +5607,56 @@
         ]
       }
     }
+  ],
+  "dialogues": [
+    {
+      "id": "scholar-chat",
+      "npcId": "scholar",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Ah — the wanderer who never sits still. The archives can wait. What's on your mind?",
+          "choices": [
+            { "label": "Remind me — who are you?", "hideIfFlag": "scholar-greeted", "effects": [{ "type": "flag", "flag": "scholar-greeted" }], "next": "intro" },
+            { "label": "Tell me about the Fracture.", "next": "lore" },
+            { "label": "Anything I can help with nearby?", "next": "errand" },
+            { "label": "Just saying hello.", "effects": [{ "type": "friendship", "npcId": "scholar", "xp": 5 }, { "type": "flag", "flag": "scholar-greeted" }], "next": "hello" }
+          ]
+        },
+        "intro": {
+          "text": "Archivist Naia. I keep Ravenwatch's records — and its secrets, when they will hold still long enough to be written down.",
+          "choices": [
+            { "label": "Good to know.", "next": "greet" }
+          ]
+        },
+        "lore": {
+          "text": "The Dominion was whole, once. The Fracture shattered it into drifting shards — and left Echoes in the cracks between. I have spent years cataloguing them.",
+          "choices": [
+            { "label": "What are the Echoes?", "next": "echoes" },
+            { "label": "Fascinating — thank you.", "effects": [{ "type": "friendship", "npcId": "scholar", "xp": 10 }, { "type": "end" }] }
+          ]
+        },
+        "echoes": {
+          "text": "Fragments of what was — memories given shape, sometimes teeth. Tread carefully when the air hums. That is all I will say in the open.",
+          "choices": [
+            { "label": "I'll be careful.", "effects": [{ "type": "end" }] }
+          ]
+        },
+        "errand": {
+          "text": "As it happens — Old Greyfish has been fretting over that half-starved stray by the pond. A kind soul could see her fed.",
+          "choices": [
+            { "label": "I'll help the stray.", "effects": [{ "type": "quest", "questId": "feed-the-stray" }] },
+            { "label": "Maybe later.", "effects": [{ "type": "end" }] }
+          ]
+        },
+        "hello": {
+          "text": "Hello to you, friend. Come back whenever curiosity strikes — I am always here, buried in parchment.",
+          "choices": [
+            { "label": "I have a question, actually...", "requireFlag": "scholar-greeted", "next": "greet" },
+            { "label": "Farewell.", "effects": [{ "type": "end" }] }
+          ]
+        }
+      }
+    }
   ]
 }
