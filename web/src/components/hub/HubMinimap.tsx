@@ -206,7 +206,7 @@ export function HubMinimap({ locationData, objectives, playerRef, viewportRef }:
             top:           `${arrow.fy * 100}%`,
             transform:     `translate(-50%, -50%) rotate(${arrow.angle}rad)`,
             pointerEvents: 'none',
-            zIndex:        19,
+            zIndex:        8,
             fontSize:      22,
             color:         '#e0b050',
             textShadow:    '0 0 6px rgba(0,0,0,0.8)',
@@ -224,7 +224,7 @@ export function HubMinimap({ locationData, objectives, playerRef, viewportRef }:
           position:      'absolute',
           bottom:        12,
           left:          12,
-          zIndex:        20,
+          zIndex:        9,        // below the dialogue overlay (z-index 10) so it doesn't cover it
           pointerEvents: 'none',
         }}
       >
