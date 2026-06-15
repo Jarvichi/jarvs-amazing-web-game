@@ -22,6 +22,23 @@ export function areaNameForTile(tx: number, ty: number, areas: HubArea[]): strin
 }
 
 /**
+ * World-map tile to point at for a building interior. Interior schedule/base
+ * coordinates are local to the interior grid, not the town map, so for map pins we
+ * use the building's exterior position: its door (entrance) if known, otherwise the
+ * footprint centre. Returns null if the building can't be located on the map.
+ */
+export function buildingWorldTile(buildingId: string, loc: HubLocationBundle): { tx: number; ty: number } | null {
+  const door = loc.HUB_DOORS.find(d => d.buildingId === buildingId)
+  if (door) return { tx: door.tx, ty: door.ty }
+  const building = loc.HUB_BUILDINGS.find(b => b.id === buildingId)
+  if (building) {
+    const [tx1, ty1, tx2, ty2] = building.rect
+    return { tx: Math.round((tx1 + tx2) / 2), ty: Math.round((ty1 + ty2) / 2) }
+  }
+  return null
+}
+
+/**
  * Resolve where an NPC is *right now* (for the given game hour), returning both a
  * display name and tile coordinates. Falls back to the NPC's base position/building
  * when no schedule entry applies.
@@ -29,16 +46,24 @@ export function areaNameForTile(tx: number, ty: number, areas: HubArea[]): strin
 export function resolveNpcPlace(npc: HubNpc, gameHour: number, loc: HubLocationBundle): NpcPlace {
   const sched = getNpcLocation(npc, gameHour)
 
-  if (sched?.type === 'interior') {
-    return { name: loc.HUB_INTERIORS[sched.buildingId]?.name ?? 'a building', tx: sched.tx, ty: sched.ty, interiorId: sched.buildingId }
+  const interior = (buildingId: string, localTx: number, localTy: number): NpcPlace => {
+    // Map to the building's exterior position; fall back to local coords only if the
+    // building isn't placed on the map (shouldn't normally happen).
+    const world = buildingWorldTile(buildingId, loc)
+    return {
+      name: loc.HUB_INTERIORS[buildingId]?.name ?? 'a building',
+      tx: world?.tx ?? localTx,
+      ty: world?.ty ?? localTy,
+      interiorId: buildingId,
+    }
   }
+
+  if (sched?.type === 'interior') return interior(sched.buildingId, sched.tx, sched.ty)
   if (sched?.type === 'exterior') {
     return { name: areaNameForTile(sched.tx, sched.ty, loc.HUB_AREAS) ?? loc.HUB_TOWN_NAME, tx: sched.tx, ty: sched.ty }
   }
 
   // No schedule entry for this hour — use the NPC's base placement.
-  if (npc.building) {
-    return { name: loc.HUB_INTERIORS[npc.building]?.name ?? 'a building', tx: npc.tx, ty: npc.ty, interiorId: npc.building }
-  }
+  if (npc.building) return interior(npc.building, npc.tx, npc.ty)
   return { name: areaNameForTile(npc.tx, npc.ty, loc.HUB_AREAS) ?? loc.HUB_TOWN_NAME, tx: npc.tx, ty: npc.ty }
 }
