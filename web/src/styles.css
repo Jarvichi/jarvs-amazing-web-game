@@ -10078,6 +10078,10 @@ html.light-mode .action-btn {
   row-gap: 0;
   container-type: inline-size;
   container-name: toolbar;
+  /* Keep the toolbar (and its overflow dropdown) above positioned map overlays
+     such as the hub minimap; modals portal to <body> at z-index 200 and stay above. */
+  position: relative;
+  z-index: 50;
 }
 .toolbar > .filter-btn {
   align-self: stretch;
