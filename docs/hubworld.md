@@ -482,10 +482,12 @@ A `!`/`?` quest indicator floats above placed animals that have
 Named NPCs (`config.json` → `npcs`) can follow a **time-of-day schedule**: a list
 of entries that relocate the NPC between exterior tiles and building interiors as
 the hub clock advances (30 real minutes = 1 game day, see `hubClock.ts`). At each
-scheduled stop an NPC may also perform a visible **activity** — rendered as a
-bobbing emote bubble plus an optional pose-swap sprite — so the town feels
-lived-in. Parsed straight through by `loader.ts`; logic lives in
-`web/src/game/hub/hubNpcSchedule.ts`, rendering in `HubTownCanvas.tsx`.
+scheduled stop an NPC may also perform a visible **activity** — rendered by
+swapping to an activity **pose sprite** — so the town feels lived-in. Parsed
+straight through by `loader.ts`; logic lives in
+`web/src/game/hub/hubNpcSchedule.ts`, rendering in `HubTownCanvas.tsx`. NPC
+schedules and activities are also editable in the in-app map editor
+(`components/mapEditor/npcQuestDrawer/NpcEditor.tsx`).
 
 ### Schema (`HubNpc.schedule`)
 
@@ -513,29 +515,29 @@ lived-in. Parsed straight through by `loader.ts`; logic lives in
 | Field | Type | Required | Description |
 |---|---|---|---|
 | `startHour` / `endHour` | `number` (0–23) | ✓ | Half-open `[start, end)` game-hour window. **Wraps midnight** when `start > end` (e.g. `20 → 0`). The first matching entry wins; cover all 24 hours to avoid gaps. |
-| `activity` | `NpcActivity` | | Visible activity at this stop (see table below). Omit for "just stand there". |
+| `activity` | `NpcActivity` | | Visible activity at this stop (see list below). Omit for "just stand there". |
 | `location.type` | `"exterior"` \| `"interior"` | ✓ | Where the NPC is during this window. |
 | `location.tx` / `ty` | `number` | ✓ | Exterior: absolute hub coords. Interior: coords within that building's room grid. |
-| `location.buildingId` | `string` | interior only | Building `id` the NPC waits inside. The exterior sprite hides; if the player enters that building the NPC renders inside (its activity emote/pose shows there too). |
+| `location.buildingId` | `string` | interior only | Building `id` the NPC waits inside. The exterior sprite hides; if the player enters that building the NPC renders inside (its activity pose shows there too). |
 | `homeBed` | `{ buildingId, tx, ty }` | | Reserved sleeping spot reference (used by night logic). |
 
 On a game-hour boundary the NPC pathfinds to the new location (emerging at / walking
-to the relevant door for interior transitions). The activity emote and pose only
-show while the NPC is **standing at its post** — they clear while it walks.
+to the relevant door for interior transitions). The activity pose only shows while
+the NPC is **standing at its post** — it reverts to the base sprite while it walks.
 
-### Activities & emotes (`ACTIVITY_EMOTES` in `hubNpcSchedule.ts`)
+### Activities (`NPC_ACTIVITIES` in `hubNpcSchedule.ts`)
 
-| Activity | Emote | Typical use |
-|---|---|---|
-| `work` | 🔨 | Manning a stall, smithing, labouring |
-| `sweep` | 🧹 | Tidying a doorway / square |
-| `fish` | 🎣 | Fishing at the pond edge |
-| `idle-chat` | 💬 | Chatting / gossiping in the open |
-| `eat` | 🍲 | Eating at the inn |
-| `sleep` | 💤 | Resting in a bedroom |
+| Activity | Typical use |
+|---|---|
+| `work` | Manning a stall, smithing, labouring |
+| `sweep` | Tidying a doorway / square |
+| `fish` | Fishing at the pond edge |
+| `idle-chat` | Chatting / gossiping in the open |
+| `eat` | Eating at the inn |
+| `sleep` | Resting in a bedroom |
 
-`ACTIVITY_EMOTES` is the single source of truth — add a key there (and to the
-`NpcActivity` union in `loader.ts`) to introduce a new activity.
+`NPC_ACTIVITIES` is the single source of truth for editor dropdowns — add an entry
+there **and** to the `NpcActivity` union in `loader.ts` to introduce a new activity.
 
 ### Pose-swap sprites (optional art)
 
@@ -551,5 +553,5 @@ workflow in `AGENTS.md` (32×32 SVG, create/commit/push one at a time).
    on the relevant entries (use the activity keys above).
 2. (Optional) Author `{sprite}-{activity}.svg` pose sprites for a richer look.
 3. Run `npm run test` (loader + schedule tests) and `npm run build`.
-4. Verify in-game: at the relevant hours the NPC is at its post showing the emote
-   (and pose); the emote clears while it walks at an hour boundary.
+4. Verify in-game: at the relevant hours the NPC is at its post in its activity
+   pose; the pose reverts to the base sprite while it walks at an hour boundary.

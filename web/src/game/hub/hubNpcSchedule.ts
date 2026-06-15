@@ -2,18 +2,11 @@ import { hourInRange } from './hubClock'
 import type { HubNpc, HubInterior, NpcScheduleEntry, NpcActivity } from '../../data/hub/loader'
 
 /**
- * Single source of truth for activity → emote glyph shown above an NPC while it
- * performs the activity at its scheduled location. Adding an activity = an entry
- * here + (optionally) a `{sprite}-{activity}.svg` pose sprite.
+ * Canonical list of NPC activities (single source of truth for editor dropdowns
+ * and validation). Each activity optionally renders a `{sprite}-{activity}.svg`
+ * pose sprite while the NPC performs it at its scheduled location.
  */
-export const ACTIVITY_EMOTES: Record<NpcActivity, string> = {
-  work: '🔨',
-  eat: '🍲',
-  'idle-chat': '💬',
-  sleep: '💤',
-  sweep: '🧹',
-  fish: '🎣',
-}
+export const NPC_ACTIVITIES: NpcActivity[] = ['work', 'eat', 'idle-chat', 'sleep', 'sweep', 'fish']
 
 export function getNpcLocation(npc: HubNpc, gameHour: number): NpcScheduleEntry['location'] | null {
   if (!npc.schedule?.length) return null
@@ -30,11 +23,6 @@ export function getNpcActivity(npc: HubNpc, gameHour: number): NpcActivity | nul
     if (hourInRange(gameHour, entry.startHour, entry.endHour)) return entry.activity ?? null
   }
   return null
-}
-
-/** Emote glyph for an activity, or null. */
-export function getActivityEmote(activity: NpcActivity | null | undefined): string | null {
-  return activity ? ACTIVITY_EMOTES[activity] ?? null : null
 }
 
 export function isNpcInBuilding(npc: HubNpc, buildingId: string, gameHour: number): boolean {

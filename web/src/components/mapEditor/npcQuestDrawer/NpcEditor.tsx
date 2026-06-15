@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import type { RawMapConfig, RawNpc } from '../mapEditorTypes'
 import type { QuestDefsJson } from '../../../data/hub/hubWorldFactory'
+import { NPC_ACTIVITIES } from '../../../game/hub/hubNpcSchedule'
 
 interface Props {
   configData: RawMapConfig
@@ -94,6 +95,15 @@ function ScheduleEditor({ schedule, onChange }: {
             <input type="number" value={row.location.ty}
               onChange={e => setLocation(i, { ...row.location, ty: Number(e.target.value) })}
               style={{ ...NUM, width: 44 }} />
+            <label style={{ color: '#888', fontSize: 10 }}>Activity</label>
+            <select
+              value={row.activity ?? ''}
+              onChange={e => update(i, { activity: e.target.value ? (e.target.value as ScheduleRow['activity']) : undefined })}
+              style={{ padding: '2px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 10 }}
+            >
+              <option value="">none</option>
+              {NPC_ACTIVITIES.map(a => <option key={a} value={a}>{a}</option>)}
+            </select>
           </div>
         </div>
       ))}
