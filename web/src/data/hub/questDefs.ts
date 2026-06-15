@@ -159,11 +159,44 @@ export interface QuestBlockedPaths {
 }
 
 
+// ── Branching dialogue trees ────────────────────────────────────────────────
+// A reusable schema for multi-choice NPC conversations that branch to different
+// endings. Authored in a town's questDefs.json `dialogues` block and referenced
+// from an NPC via `dialogueTree`. See docs/hubworld.md for the full reference.
+
+export type DialogueEffect =
+  | { type: 'flag'; flag: string }              // persist a named dialogue flag
+  | { type: 'friendship'; npcId?: string; xp: number }  // grant friendship XP (defaults to the speaking NPC)
+  | { type: 'quest'; questId: string }          // offer a quest (Accept / Not now)
+  | { type: 'end' }                             // end the conversation
+
+export interface DialogueChoiceDef {
+  label: string
+  next?: string            // node id to advance to after effects run
+  effects?: DialogueEffect[]
+  requireFlag?: string     // only show this choice if the flag is set
+  hideIfFlag?: string      // hide this choice once the flag is set
+}
+
+export interface DialogueNode {
+  text: string
+  speakerName?: string     // overrides the NPC name for this node (optional)
+  choices?: DialogueChoiceDef[]  // absent/empty → single OK button closes
+}
+
+export interface DialogueTree {
+  id: string
+  npcId?: string           // documentation only — which NPC this belongs to
+  start: string            // id of the first node in `nodes`
+  nodes: Record<string, DialogueNode>
+}
+
 export interface RawQuestConfig {
   quests: QuestDefinition[]
   pickupItems?: QuestPickupItem[]
   innRumours?: QuestInnRumour[]
   friendshipDialogue?: FriendshipDialogue
   blockedPaths?: QuestBlockedPaths[]
+  dialogues?: DialogueTree[]
 }
 
