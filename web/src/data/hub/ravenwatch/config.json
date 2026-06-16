@@ -4926,6 +4926,18 @@
           "tx": 9,
           "ty": 7,
           "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 5,
+          "ty": 0,
+          "tileId": "halfLadderTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "ladderIntoFloor",
+          "zlayer": "solid"
         }
       ],
       "hours": {
@@ -4935,8 +4947,8 @@
       "wallTileId": "interiorWallWhite",
       "exits": [
         {
-          "tx": 4,
-          "ty": 2,
+          "tx": 5,
+          "ty": 1,
           "toInteriorId": "south-building-1",
           "entryTx": 3,
           "entryTy": 1,
@@ -6954,11 +6966,30 @@
       "width": 10,
       "height": 10,
       "floorTileId": "woodFloor",
-      "decor": [],
-      "exits": [
+      "decor": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "ladderBottom",
+          "zlayer": "solid"
+        },
         {
           "tx": 3,
           "ty": 0,
+          "tileId": "ladderBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": -1,
+          "tileId": "ladderBottom",
+          "zlayer": "solid"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 3,
+          "ty": 1,
           "toInteriorId": "supply-shop",
           "direction": "up",
           "entryTx": 3,

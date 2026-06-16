@@ -8,7 +8,7 @@ import type { MapId,  QuestDefsJson } from '../../data/hub/hubWorldFactory'
 import  {  QUEST_DEFS_BY_MAP } from '../../data/hub/hubWorldFactory'
 
 import { SelectedEntity } from './mapEditorTypes'
-import type { RawBlockedPath } from './mapEditorTypes'
+import type { RawBlockedPath, RawAnimal } from './mapEditorTypes'
 import { NpcQuestDrawer } from './npcQuestDrawer/NpcQuestDrawer'
 import type { DrawerTab } from './npcQuestDrawer/npcQuestDrawerTypes'
 
@@ -35,6 +35,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
     openInterior, closeInterior, selectEntity,
     placeDecor, moveEntity, deleteEntity,
     updateDecorZlayer, addNpc, updateNpcDialogue, updateNpc,
+    addAnimal, updateAnimal,
     resizeInterior, addInterior, addInteriorExit, updateInteriorProps, updateInteriorExit, removeInteriorExit,
     addStreet, updateStreetEntry,
     addLockedDoor, updateLockedDoor, deleteLockedDoor,
@@ -238,6 +239,8 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
               onAddLockedDoor={addLockedDoor}
               onUpdateLockedDoor={updateLockedDoor}
               onDeleteLockedDoor={deleteLockedDoor}
+              onUpdateNpc={updateNpc}
+              onUpdateAnimal={updateAnimal}
             />
           </div>
         </div>
@@ -260,6 +263,23 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
               onUpdateNpc={updateNpc}
               onQuestDefsChange={handleQuestDefsChange}
             />
+            <div style={{ padding: '6px 10px', borderTop: '1px solid #2a2a4a', flexShrink: 0 }}>
+              <button
+                onClick={() => {
+                  const newAnimal: RawAnimal = {
+                    id: `animal-${Date.now()}`,
+                    type: 'cat',
+                    tx: Math.floor((state.configData.mapW ?? 20) / 2),
+                    ty: Math.floor((state.configData.mapH ?? 20) / 2),
+                  }
+                  addAnimal(newAnimal)
+                  selectEntity({ type: 'animal', index: (state.configData.animals ?? []).length })
+                }}
+                style={{ padding: '4px 10px', background: '#1a2e1a', border: '1px solid #3a6a3a', color: '#88ffaa', borderRadius: 3, fontSize: 11, cursor: 'pointer' }}
+              >
+                + Add Animal
+              </button>
+            </div>
           </div>
         )}
       </div>
