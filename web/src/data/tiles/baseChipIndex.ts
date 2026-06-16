@@ -898,28 +898,34 @@ export const BASE_CHIP_TILES = {
 
 
 
-      // ── Pictsquare2021 named tiles (11000+) — 61-column sprite sheet ──
-  wantedSign: 11000,
-  palaceStepsLeft: 11001,
-  palaceStepsMidLeft: 11002,
-  palaceStepsMid: 11003,
-  palaceStepsMidRight: 11004,
-  palaceStepsRight: 11005,
-  palaceStepsBotLeft: 11006,
-  palaceStepsBotMidLeft: 11007,
-  palaceStepsBotMid: 11008,
-  palaceStepsBotMidRight: 11009,
-  palaceStepsBotRight: 11010,
+  // ── Pictsquare2021 named tiles (globalId = 11000 + localTileIndex) ──
+  wantedSign:          11001,   // localId 1
+  palaceStepsLeft:     11244,   // localId 244
+  palaceStepsMidLeft:  11245,
+  palaceStepsMid:      11246,
+  palaceStepsMidRight: 11247,
+  palaceStepsRight:    11248,
+  palaceStepsBotLeft:     11305,
+  palaceStepsBotMidLeft:  11306,
+  palaceStepsBotMid:      11307,
+  palaceStepsBotMidRight: 11308,
+  palaceStepsBotRight:    11309,
+  trayOfDrinks: 12068,          // localId 1068
+  pumpkin1Lit:  13497,          // localId 2497
+  goldFish:     13762,          // localId 2762
 
-  // Add to EXTENDED_TILE_DEFS in extendedTileDefs.ts:
-  trayOfDrinks: 11011,
-  pumpkin1Lit: 11012, 
-  goldFish: 11013, 
+  // ── Icons sheet tiles (globalId = 20000 + localTileIndex) ──
+  coin:        20199,
+  playingCard: 20222,
+  fishingHook: 20257,
+  worm:        20258,
+  bait:        20267,
+  bottle:      20307,
 
-      coin: 20199,
-    playingCard: 20222,
-    fishingHook: 20257,
-    worm: 20258,
-    bait: 20267,
-    bottle: 20307,
+      evilFace: 20004,
+          goldNecklace: 20134,
+    oldeKey: 20185,
+    pileOfCopperCoins: 20200,
+    pileOfSilverCoins: 20201,
+    pileOfGoldCoins: 20202,
 } as const

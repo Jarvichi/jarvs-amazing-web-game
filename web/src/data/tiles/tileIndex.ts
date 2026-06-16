@@ -1,4 +1,10 @@
 import { BASE_CHIP_TILES } from "./baseChipIndex"
+import { EXTENDED_TILE_DEFS } from "./extendedTileDefs"
+import { EXTENDED_TILESETS } from "./extendedTilesets"
+export type { ExtendedTileDef } from "./extendedTileDefs"
+export { EXTENDED_TILE_DEFS } from "./extendedTileDefs"
+export type { ExtendedTilesetConfig } from "./extendedTilesets"
+export { EXTENDED_TILESETS } from "./extendedTilesets"
 
 export const TILE_SIZE = 32
 
@@ -186,101 +192,24 @@ export const ENV_TILES: Record<string, EnvTileDef> = {
   camp:     { ground: BASE_GROUND.mediumGrass, pathFile: PATH_TILE.grass1Dirt1  },
 }
 
-// ── Multi-file tile support ───────────────────────────────────────────────────
-// BASE_CHIP_TILES values are "global tile IDs".
-//   0–9999  → baseChip spritesheet (same ID = local tile index, 8 columns)
-//   10000+  → resolved via EXTENDED_TILE_REFS below
-//
-// Use resolveTileRef() to convert any global tile ID to { file, id, columns }.
-
 export interface TileRef {
   file: string     // path starting with '/', relative to /public
   id: number       // local tile index within the sheet
   columns: number  // number of columns in the sheet
 }
 
-export const EXTENDED_TILE_REFS: Record<number, TileRef> = {
-  // ── Crystal tiles (10000–10039) — individual 32×32 PNGs, 1 column each ──
-  10000: { file: '/nodemap/32x32/Black_crystal1.png',         id: 0, columns: 1 },
-  10001: { file: '/nodemap/32x32/Black_crystal2.png',         id: 0, columns: 1 },
-  10002: { file: '/nodemap/32x32/Black_crystal3.png',         id: 0, columns: 1 },
-  10003: { file: '/nodemap/32x32/Black_crystal4.png',         id: 0, columns: 1 },
-  10004: { file: '/nodemap/32x32/Blue_crystal1.png',          id: 0, columns: 1 },
-  10005: { file: '/nodemap/32x32/Blue_crystal2.png',          id: 0, columns: 1 },
-  10006: { file: '/nodemap/32x32/Blue_crystal3.png',          id: 0, columns: 1 },
-  10007: { file: '/nodemap/32x32/Blue_crystal4.png',          id: 0, columns: 1 },
-  10008: { file: '/nodemap/32x32/Dark_red_ crystal1.png',     id: 0, columns: 1 },
-  10009: { file: '/nodemap/32x32/Dark_red_ crystal2.png',     id: 0, columns: 1 },
-  10010: { file: '/nodemap/32x32/Dark_red_ crystal3.png',     id: 0, columns: 1 },
-  10011: { file: '/nodemap/32x32/Dark_red_ crystal4.png',     id: 0, columns: 1 },
-  10012: { file: '/nodemap/32x32/Green_crystal1.png',         id: 0, columns: 1 },
-  10013: { file: '/nodemap/32x32/Green_crystal2.png',         id: 0, columns: 1 },
-  10014: { file: '/nodemap/32x32/Green_crystal3.png',         id: 0, columns: 1 },
-  10015: { file: '/nodemap/32x32/Green_crystal4.png',         id: 0, columns: 1 },
-  10016: { file: '/nodemap/32x32/Pink_crystal1.png',          id: 0, columns: 1 },
-  10017: { file: '/nodemap/32x32/Pink_crystal2.png',          id: 0, columns: 1 },
-  10018: { file: '/nodemap/32x32/Pink_crystal3.png',          id: 0, columns: 1 },
-  10019: { file: '/nodemap/32x32/Pink_crystal4.png',          id: 0, columns: 1 },
-  10020: { file: '/nodemap/32x32/Red_crystal1.png',           id: 0, columns: 1 },
-  10021: { file: '/nodemap/32x32/Red_crystal2.png',           id: 0, columns: 1 },
-  10022: { file: '/nodemap/32x32/Red_crystal3.png',           id: 0, columns: 1 },
-  10023: { file: '/nodemap/32x32/Red_crystal4.png',           id: 0, columns: 1 },
-  10024: { file: '/nodemap/32x32/Violet_crystal1.png',        id: 0, columns: 1 },
-  10025: { file: '/nodemap/32x32/Violet_crystal2.png',        id: 0, columns: 1 },
-  10026: { file: '/nodemap/32x32/Violet_crystal3.png',        id: 0, columns: 1 },
-  10027: { file: '/nodemap/32x32/Violet_crystal4.png',        id: 0, columns: 1 },
-  10028: { file: '/nodemap/32x32/White_crystal1.png',         id: 0, columns: 1 },
-  10029: { file: '/nodemap/32x32/White_crystal2.png',         id: 0, columns: 1 },
-  10030: { file: '/nodemap/32x32/White_crystal3.png',         id: 0, columns: 1 },
-  10031: { file: '/nodemap/32x32/White_crystal4.png',         id: 0, columns: 1 },
-  10032: { file: '/nodemap/32x32/Yellow-green_crystal1.png',  id: 0, columns: 1 },
-  10033: { file: '/nodemap/32x32/Yellow-green_crystal2.png',  id: 0, columns: 1 },
-  10034: { file: '/nodemap/32x32/Yellow-green_crystal3.png',  id: 0, columns: 1 },
-  10035: { file: '/nodemap/32x32/Yellow-green_crystal4.png',  id: 0, columns: 1 },
-  10036: { file: '/nodemap/32x32/Yellow_crystal1.png',        id: 0, columns: 1 },
-  10037: { file: '/nodemap/32x32/Yellow_crystal2.png',        id: 0, columns: 1 },
-  10038: { file: '/nodemap/32x32/Yellow_crystal3.png',        id: 0, columns: 1 },
-  10039: { file: '/nodemap/32x32/Yellow_crystal4.png',        id: 0, columns: 1 },
-
-  // ── Pictsquare tiles (11000+) — added as tiles are named in TileBrowser ──
-  // Example: 11000: { file: '/world/pictsquare2021.png', id: 42, columns: 61 },
-
-    // ── Pictsquare2021 named tiles (11000+) — 61-column sprite sheet ──
-  11000: {file: '/world/pictsquare2021.png', id: 1, columns: 61 },
-  11001: {file: '/world/pictsquare2021.png', id: 244, columns: 61 },
-  11002: {file: '/world/pictsquare2021.png', id: 245, columns: 61 },
-  11003: {file: '/world/pictsquare2021.png', id: 246, columns: 61 },
-  11004: {file: '/world/pictsquare2021.png', id: 247, columns: 61 },
-  11005: {file: '/world/pictsquare2021.png', id: 248, columns: 61 },
-  11006: {file: '/world/pictsquare2021.png', id: 305, columns: 61 },
-  11007: {file: '/world/pictsquare2021.png', id: 306, columns: 61 },
-  11008: {file: '/world/pictsquare2021.png', id: 307, columns: 61 },
-  11009: {file: '/world/pictsquare2021.png', id: 308, columns: 61 },
-  11010: {file: '/world/pictsquare2021.png', id: 309, columns: 61 },
-  11011: {file: '/world/pictsquare2021.png', id: 1068, columns: 61 },
-  11012: {file: '/world/pictsquare2021.png', id: 2497, columns: 61 },
-  11013: {file: '/world/pictsquare2021.png', id: 2762, columns: 61 },
-
-  20000: {file: '/world/icon/icons.png', id: 1, columns: 16},
-  25000: {file: '/world/icon/#2 - Transparent Icons & Drop Shadow.png', id: 1, columns: 16},
-  30000: {file: '/world/icon/Background 1a.png', id: 1, columns: 16},
-  35000: {file: '/world/icon/#1 - Transparent Icons.png', id: 1, columns: 16},
-  40000: {file: '/world/icon/#1 - Transparent Icons.png', id: 1, columns: 16},
-  45000: {file: '/world/icon/#1 - Transparent Icons.png', id: 1, columns: 16},
-  50000: {file: '/world/icon/#1 - Transparent Icons.png', id: 1, columns: 16},
-  55000: {file: '/world/icon/#1 - Transparent Icons.png', id: 1, columns: 16},
-  60000: {file: '/world/icon/#1 - Transparent Icons.png', id: 1, columns: 16},
-  65000: {file: '/world/icon/#1 - Transparent Icons.png', id: 1, columns: 16},
-  70000: {file: '/world/icon/#1 - Transparent Icons.png', id: 1, columns: 16},
-
-
-}
-
+// ── Multi-file tile support ───────────────────────────────────────────────────
+// Resolution order:
+//   1. globalId < 10000  → baseChip spritesheet
+//   2. Found in EXTENDED_TILE_DEFS → individual-file tile (e.g. crystals)
+//   3. Found in EXTENDED_TILESETS range → sequential range tile (localId = globalId - globalIdStart)
 export function resolveTileRef(globalId: number): TileRef {
   if (globalId < 10000) {
     return { file: TILESET_IMAGE.baseChip, id: globalId, columns: TILESET_COLUMNS.baseChip }
   }
-  const ref = EXTENDED_TILE_REFS[globalId]
-  if (!ref) throw new Error(`Unknown extended tile ID: ${globalId}`)
-  return ref
+  const def = EXTENDED_TILE_DEFS.find(d => d.globalId === globalId)
+  if (def) return { file: def.file, id: def.localId, columns: def.columns }
+  const ts = EXTENDED_TILESETS.find(t => globalId >= t.globalIdStart && globalId < t.globalIdStart + t.tilecount)
+  if (ts) return { file: ts.image, id: globalId - ts.globalIdStart, columns: ts.columns }
+  throw new Error(`Unknown extended tile ID: ${globalId}`)
 }

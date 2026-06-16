@@ -3599,8 +3599,8 @@
     },
     {
       "id": "pip-shiny-2",
-      "tx": 45,
-      "ty": 30,
+      "tx": 46,
+      "ty": 34,
       "tileId": "yellow_crystal1",
       "questId": "pips-treasures"
     },
@@ -3701,8 +3701,8 @@
     },
     {
       "id": "miras-lost-crystal",
-      "tx": 14,
-      "ty": 24,
+      "tx": 11,
+      "ty": 22,
       "tileId": "violet_crystal3",
       "questId": "miras-runaway-crystal"
     },
@@ -3981,7 +3981,7 @@
     {
       "id": "guild-crate-2",
       "tx": 18,
-      "ty": 26,
+      "ty": 25,
       "tileId": "crate",
       "questId": "ferryn-missing-shipment"
     },
@@ -4031,7 +4031,7 @@
     },
     {
       "id": "warning-stamp-3",
-      "tx": 32,
+      "tx": 30,
       "ty": 25,
       "tileId": "pendant",
       "questId": "syla-price-fixing"
@@ -4557,8 +4557,8 @@
     },
     {
       "id": "echo-id-token-1",
-      "tx": 4,
-      "ty": 3,
+      "tx": 8,
+      "ty": 2,
       "tileId": "pendant",
       "questId": "thorin-barracks-lockdown",
       "building": "barracks-north"
@@ -4773,7 +4773,7 @@
     },
     {
       "id": "echo-contraband-2",
-      "tx": 20,
+      "tx": 21,
       "ty": 26,
       "tileId": "crate",
       "questId": "syla-market-purge"
@@ -4901,8 +4901,8 @@
     },
     {
       "id": "vault-casing-1",
-      "tx": 4,
-      "ty": 3,
+      "tx": 1,
+      "ty": 2,
       "tileId": "barrel",
       "questId": "thorin-vault-preparation",
       "building": "barracks-north"
@@ -5095,8 +5095,8 @@
     },
     {
       "id": "harbour-pkg-2",
-      "tx": 37,
-      "ty": 24,
+      "tx": 36,
+      "ty": 25,
       "tileId": "crate",
       "questId": "rosie-safe-harbour"
     },
@@ -5227,7 +5227,7 @@
     },
     {
       "id": "convergence-shard-1",
-      "tx": 36,
+      "tx": 39,
       "ty": 24,
       "tileId": "yellow_crystal1",
       "questId": "elder-the-convergence"

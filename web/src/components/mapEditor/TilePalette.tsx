@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
-import { EXTENDED_TILE_REFS } from '../../data/tiles/tileIndex'
+import { resolveTileRef } from '../../data/tiles/tileIndex'
 import { getAllBundles } from '../../data/bundles/bundleLoader'
 import type { Zlayer } from './mapEditorTypes'
 
@@ -216,7 +216,8 @@ function TileCell({
   let bgSize: string | undefined
 
   if (numericId >= 10000) {
-    const ref = EXTENDED_TILE_REFS[numericId]
+    let ref: ReturnType<typeof resolveTileRef> | undefined
+    try { ref = resolveTileRef(numericId) } catch { /* unknown extended tile */ }
     if (ref) {
       const col = ref.id % ref.columns
       const row = Math.floor(ref.id / ref.columns)

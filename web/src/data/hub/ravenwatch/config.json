@@ -4498,6 +4498,30 @@
       "ty": 38,
       "tileId": "fenceLeft",
       "zlayer": "solid"
+    },
+    {
+      "tx": 5,
+      "ty": 42,
+      "tileId": "cropCarrot",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 3,
+      "ty": 40,
+      "tileId": "cropCarrot",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 2,
+      "ty": 41,
+      "tileId": "cropCarrot",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 4,
+      "ty": 41,
+      "tileId": "cropCarrot",
+      "zlayer": "solid"
     }
   ],
   "pondTiles": [

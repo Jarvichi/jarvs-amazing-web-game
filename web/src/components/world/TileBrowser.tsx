@@ -5,8 +5,10 @@ import { resolveTileRef } from '../../data/tiles/tileIndex'
 function getOfficialIdsForTileset(tilesetImage: string): Set<number> {
   const ids = new Set<number>()
   for (const globalId of Object.values(BASE_CHIP_TILES)) {
-    const ref = resolveTileRef(globalId)
-    if (ref.file === tilesetImage) ids.add(ref.id)
+    try {
+      const ref = resolveTileRef(globalId)
+      if (ref.file === tilesetImage) ids.add(ref.id)
+    } catch { /* skip unresolvable IDs */ }
   }
   return ids
 }
@@ -26,7 +28,7 @@ export interface TilesetDef {
   columns: number
   tileWidth?: number
   tileHeight?: number
-  /** If set, export generates global-ID entries for BASE_CHIP_TILES + EXTENDED_TILE_REFS */
+  /** If set, export adds this offset to each local tile ID — paste output directly into baseChipIndex.ts */
   globalIdStart?: number
 }
 
@@ -134,17 +136,11 @@ export function TileBrowser({ tileset, scale = 2, labels }: Props) {
   }
 
   function handleExport() {
-    const entries = Object.entries(customLabels)
-      .sort(([a], [b]) => Number(a) - Number(b))
-      .map(([id, name]) => `    ${name}: ${id},`)
-      .join('\n')
-    if (!entries) return
-
-
-    
-
-
-    navigator.clipboard.writeText(entries).then(() => {
+    const sorted = Object.entries(customLabels).sort(([a], [b]) => Number(a) - Number(b))
+    if (!sorted.length) return
+    const offset = tileset.globalIdStart ?? 0
+    const text = sorted.map(([localId, name]) => `    ${name}: ${Number(localId) + offset},`).join('\n')
+    navigator.clipboard.writeText(text).then(() => {
       setExported(true)
       setTimeout(() => setExported(false), 2000)
     })

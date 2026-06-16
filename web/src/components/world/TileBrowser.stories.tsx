@@ -1,7 +1,8 @@
 import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { TileBrowser, TilesetDef } from './TileBrowser'
-import { PATH, GRASS_PATH, SCENERY, EXTENDED_TILE_REFS } from '../../data/tiles/tileIndex'
+import { PATH, GRASS_PATH, SCENERY, EXTENDED_TILESETS } from '../../data/tiles/tileIndex'
+import type { ExtendedTilesetConfig } from '../../data/tiles/tileIndex'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 
 const meta = {
@@ -171,60 +172,23 @@ export const NM_Decor: Story = {
   },
 }
 
-// ── World tilesets (additional community / hand-picked sheets) ────────────────
+// ── World tilesets (config-driven from extendedTilesets.ts) ──────────────────
+// Browse tiles, name them, export → paste "name: globalId" lines into baseChipIndex.ts.
+// To add a new tileset: add an entry to extendedTilesets.ts, then add one export line below.
 
-// pictsquare2021.png: 1952×1600px → 61 cols × 50 rows = 3050 tiles.
-// Browse here to find tiles, name them, then export and add to baseChipIndex.ts
-// with global IDs 11000+ and matching entries in EXTENDED_TILE_REFS.
-const PICTSQUARE_IMAGE = '/world/pictsquare2021.png'
-const PICTSQUARE_LABELS: Record<number, string> = {}
-for (const [name, globalId] of Object.entries(BASE_CHIP_TILES)) {
-  const ref = EXTENDED_TILE_REFS[globalId]
-  if (ref?.file === PICTSQUARE_IMAGE) {
-    PICTSQUARE_LABELS[ref.id] = PICTSQUARE_LABELS[ref.id]
-      ? `${PICTSQUARE_LABELS[ref.id]} / ${name}`
-      : name
+function buildExtendedStory(ts: ExtendedTilesetConfig): Story {
+  const labels: Record<number, string> = {}
+  for (const [name, globalId] of Object.entries(BASE_CHIP_TILES)) {
+    if (typeof globalId === 'number' && globalId >= ts.globalIdStart && globalId < ts.globalIdStart + ts.tilecount) {
+      const localId = globalId - ts.globalIdStart
+      labels[localId] = labels[localId] ? `${labels[localId]} / ${name}` : name
+    }
+  }
+  return {
+    name: `World / ${ts.name}`,
+    args: { tileset: ts, labels },
   }
 }
 
-export const Pictsquare2021: Story = {
-  name: 'World / pictsquare2021',
-  args: {
-    tileset: {
-      name: 'pictsquare2021',
-      image: PICTSQUARE_IMAGE,
-      tilecount: 3050,
-      columns: 61,
-      globalIdStart: 11000,
-    },
-    labels: PICTSQUARE_LABELS,
-  },
-}
-
-
-
-
-const ICONS_IMAGE = '/world/icon/icons.png'
-const ICONS_LABELS: Record<number, string> = {}
-for (const [name, globalId] of Object.entries(BASE_CHIP_TILES)) {
-  const ref = EXTENDED_TILE_REFS[globalId]
-  if (ref?.file === ICONS_IMAGE) {
-    ICONS_LABELS[ref.id] = ICONS_LABELS[ref.id]
-      ? `${ICONS_LABELS[ref.id]} / ${name}`
-      : name
-  }
-}
-
-export const Icons: Story = {
-  name: 'World / Icons',
-  args: {
-    tileset: {
-      name: 'icons',
-      image: ICONS_IMAGE,
-      tilecount: 350,
-      columns: 16,
-      globalIdStart: 20000,
-    },
-    labels: ICONS_LABELS,
-  },
-}
+export const Pictsquare2021: Story = buildExtendedStory(EXTENDED_TILESETS.find(t => t.name === 'pictsquare2021')!)
+export const Icons: Story          = buildExtendedStory(EXTENDED_TILESETS.find(t => t.name === 'icons')!)

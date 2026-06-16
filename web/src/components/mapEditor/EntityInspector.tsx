@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import type { SelectedEntity, RawMapConfig, RawInterior, RawBlockedPath, RawLockedDoor, Zlayer, RawDecorItem, RawNpc, RawBuilding } from './mapEditorTypes'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
-import { EXTENDED_TILE_REFS } from '../../data/tiles/tileIndex'
+import { resolveTileRef } from '../../data/tiles/tileIndex'
 import type { WallMaterial } from '../../data/tiles/buildingMaterials'
 import { RawQuestPickupItem } from '../../data/hub/hubWorldFactory'
 
@@ -59,7 +59,8 @@ function TilePreview({ tileId }: { tileId: string }) {
 
   let previewStyle: React.CSSProperties
   if (id >= 10000) {
-    const ref = EXTENDED_TILE_REFS[id]
+    let ref: ReturnType<typeof resolveTileRef> | undefined
+    try { ref = resolveTileRef(id) } catch { /* unknown extended tile */ }
     if (ref) {
       const col = ref.id % ref.columns
       const row = Math.floor(ref.id / ref.columns)
@@ -856,7 +857,9 @@ export function EntityInspector({
     flex: 1, overflowY: 'auto', padding: 10,
   }
 
-  if (viewMode === 'interior' && activeInteriorId) {
+  const isQuestItemSelected = selectedEntity?.type === 'treasure' || selectedEntity?.type === 'pickupItem'
+
+  if (viewMode === 'interior' && activeInteriorId && !isQuestItemSelected) {
     const interior = configData.interiors?.[activeInteriorId]
     return (
       <InteriorInspector

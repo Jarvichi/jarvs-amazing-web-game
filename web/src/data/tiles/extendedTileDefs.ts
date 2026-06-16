@@ -1,10 +1,6 @@
-
-// Single source of truth for all extended tile IDs (global IDs ≥ 10000).
-// To add a new extended tile: append one entry here. No other files need editing.
-//
-// Global ID ranges:
-//   10000–10039  Crystal tiles — individual 32×32 PNGs from /nodemap/32x32/
-//   11000+       Pictsquare2021 named tiles — multi-column sprite sheet
+// Per-entry defs for tiles that cannot use sequential range mapping:
+// individual PNG files (one tile each) that each have their own file path.
+// For multi-tile spritesheets, add them to extendedTilesets.ts instead.
 
 export interface ExtendedTileDef {
   name:     string   // camelCase key used in BASE_CHIP_TILES
@@ -56,20 +52,4 @@ export const EXTENDED_TILE_DEFS: ExtendedTileDef[] = [
   { name: 'yellow_crystal2',       globalId: 10037, file: '/nodemap/32x32/Yellow_crystal2.png',       localId: 0, columns: 1 },
   { name: 'yellow_crystal3',       globalId: 10038, file: '/nodemap/32x32/Yellow_crystal3.png',       localId: 0, columns: 1 },
   { name: 'yellow_crystal4',       globalId: 10039, file: '/nodemap/32x32/Yellow_crystal4.png',       localId: 0, columns: 1 },
-
-  // ── Pictsquare2021 named tiles (11000+) — 61-column sprite sheet ──
-  { name: 'wantedSign',          globalId: 11000, file: '/world/pictsquare2021.png', localId: 1,    columns: 61 },
-  { name: 'palaceStepsLeft',     globalId: 11001, file: '/world/pictsquare2021.png', localId: 244,  columns: 61 },
-  { name: 'palaceStepsMidLeft',  globalId: 11002, file: '/world/pictsquare2021.png', localId: 245,  columns: 61 },
-  { name: 'palaceStepsMid',      globalId: 11003, file: '/world/pictsquare2021.png', localId: 246,  columns: 61 },
-  { name: 'palaceStepsMidRight', globalId: 11004, file: '/world/pictsquare2021.png', localId: 247,  columns: 61 },
-  { name: 'palaceStepsRight',    globalId: 11005, file: '/world/pictsquare2021.png', localId: 248,  columns: 61 },
-  { name: 'palaceStepsBotLeft',     globalId: 11006, file: '/world/pictsquare2021.png', localId: 305,  columns: 61 },
-  { name: 'palaceStepsBotMidLeft',  globalId: 11007, file: '/world/pictsquare2021.png', localId: 306,  columns: 61 },
-  { name: 'palaceStepsBotMid',      globalId: 11008, file: '/world/pictsquare2021.png', localId: 307,  columns: 61 },
-  { name: 'palaceStepsBotMidRight', globalId: 11009, file: '/world/pictsquare2021.png', localId: 308,  columns: 61 },
-  { name: 'palaceStepsBotRight',    globalId: 11010, file: '/world/pictsquare2021.png', localId: 309,  columns: 61 },
-  { name: 'trayOfDrinks', globalId: 11011, file: '/world/pictsquare2021.png', localId: 1068, columns: 61 },
-  { name: 'pumpkin1Lit',  globalId: 11012, file: '/world/pictsquare2021.png', localId: 2497, columns: 61 },
-  { name: 'goldFish',     globalId: 11013, file: '/world/pictsquare2021.png', localId: 2762, columns: 61 },
 ]
