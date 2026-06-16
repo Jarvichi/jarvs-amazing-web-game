@@ -635,9 +635,8 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
           </Section>
         )}
 
-        {user?.uid === GIFT_OWNER_UID && (onGiftAdmin || onNewsAdmin || onFeedbackAdmin) && (
-<>
-      <Section bordered title="DEBUG">
+        {(isDebugMode || user?.uid === GIFT_OWNER_UID) && (
+          <Section bordered title="DEBUG">
             <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
               <div>
                 <div className="settings-label">Export save data</div>
@@ -682,6 +681,9 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
               </div>
             )}
           </Section>
+        )}
+
+        {user?.uid === GIFT_OWNER_UID && (onGiftAdmin || onNewsAdmin || onFeedbackAdmin) && (
           <Section bordered title="ADMIN">
             {onGiftAdmin && (
               <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
@@ -727,7 +729,6 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
               <button className="action-btn action-btn--danger" onClick={handleResetHubData}>RESET</button>
             </div>
           </Section>
-</>
         )}
 
         {isDevMode() && onDevCrystalsChanged && onDevHandicapChanged && (
