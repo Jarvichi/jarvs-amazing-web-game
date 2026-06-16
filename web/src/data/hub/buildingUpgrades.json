@@ -1,0 +1,79 @@
+{
+  "shop": [
+    { "label": "Stocked Shelves", "cost": 120, "repReward": 40, "repRequired": 0,
+      "benefit": "Wider, deeper shop stock.", "service": "shop-stock",
+      "decor": [{ "dx": -1, "dy": 0, "tileId": "crate" }] },
+    { "label": "Trade Counter", "cost": 280, "repReward": 80, "repRequired": 150,
+      "benefit": "A standing daily discount on purchases.", "service": "shop-discount",
+      "decor": [{ "dx": 1, "dy": 0, "tileId": "pileOfSacks" }] },
+    { "label": "Guild Charter", "cost": 600, "repReward": 160, "repRequired": 350,
+      "benefit": "Premium rare stock and the best prices in the shard.", "service": "shop-premium",
+      "decor": [{ "dx": -2, "dy": 0, "tileId": "goldSign" }] }
+  ],
+  "inn": [
+    { "label": "Fresh Linens", "cost": 110, "repReward": 40, "repRequired": 0,
+      "benefit": "A more comfortable common room.", "service": "inn-rest",
+      "decor": [{ "dx": -1, "dy": 0, "tileId": "barrel" }] },
+    { "label": "Hearth & Bench", "cost": 260, "repReward": 80, "repRequired": 150,
+      "benefit": "More rumours and traveller gossip.", "service": "inn-rumours",
+      "decor": [{ "dx": 1, "dy": 0, "tileId": "benchMiddle" }] },
+    { "label": "Grand Sign", "cost": 560, "repReward": 160, "repRequired": 350,
+      "benefit": "A renowned inn that draws notable guests.", "service": "inn-guests",
+      "decor": [{ "dx": -2, "dy": 0, "tileId": "innSign" }] }
+  ],
+  "tavern": [
+    { "label": "Full Cellar", "cost": 110, "repReward": 40, "repRequired": 0,
+      "benefit": "Better brews on tap.", "service": "tavern-brews",
+      "decor": [{ "dx": -1, "dy": 0, "tileId": "barrel" }] },
+    { "label": "Bottle Rack", "cost": 250, "repReward": 80, "repRequired": 150,
+      "benefit": "Rare vintages and louder revelry.", "service": "tavern-rare",
+      "decor": [{ "dx": 1, "dy": 0, "tileId": "bottlesOfLiquor" }] },
+    { "label": "Tavern Sign", "cost": 540, "repReward": 160, "repRequired": 350,
+      "benefit": "A landmark tavern known across the shard.", "service": "tavern-landmark",
+      "decor": [{ "dx": -2, "dy": 0, "tileId": "drinkSign" }] }
+  ],
+  "cottage": [
+    { "label": "Window Box", "cost": 90, "repReward": 35, "repRequired": 0,
+      "benefit": "A cheerier, well-kept home.", "service": "cottage-decor",
+      "decor": [{ "dx": -1, "dy": 0, "tileId": "pinkFlower" }] },
+    { "label": "Flower Pots", "cost": 220, "repReward": 70, "repRequired": 120,
+      "benefit": "A blooming garden the whole street admires.", "service": "cottage-garden",
+      "decor": [{ "dx": 1, "dy": 0, "tileId": "potOfFlowers" }] },
+    { "label": "Lantern Post", "cost": 480, "repReward": 140, "repRequired": 300,
+      "benefit": "Warm lantern-light that keeps the lane lively after dark.", "service": "cottage-lantern",
+      "decor": [{ "dx": -2, "dy": 0, "tileId": "floorLantern" }] }
+  ],
+  "workshop": [
+    { "label": "Tool Crates", "cost": 130, "repReward": 40, "repRequired": 0,
+      "benefit": "Faster, sturdier craftwork.", "service": "workshop-craft",
+      "decor": [{ "dx": -1, "dy": 0, "tileId": "crate" }] },
+    { "label": "Strongbox", "cost": 300, "repReward": 80, "repRequired": 150,
+      "benefit": "Commissions completed more quickly.", "service": "workshop-speed",
+      "decor": [{ "dx": 1, "dy": 0, "tileId": "chest" }] },
+    { "label": "Master's Mark", "cost": 620, "repReward": 160, "repRequired": 350,
+      "benefit": "Masterwork goods bearing the guild mark.", "service": "workshop-master",
+      "decor": [{ "dx": -2, "dy": 0, "tileId": "armourSign" }] }
+  ],
+  "shrine": [
+    { "label": "Votive Candles", "cost": 100, "repReward": 40, "repRequired": 0,
+      "benefit": "A tended, welcoming shrine.", "service": "shrine-blessing",
+      "decor": [{ "dx": -1, "dy": 0, "tileId": "candlestickLitTop" }] },
+    { "label": "Sacred Brazier", "cost": 240, "repReward": 80, "repRequired": 150,
+      "benefit": "Stronger blessings for travellers.", "service": "shrine-ward",
+      "decor": [{ "dx": 1, "dy": 0, "tileId": "brazierTop" }] },
+    { "label": "Reliquary", "cost": 520, "repReward": 160, "repRequired": 350,
+      "benefit": "A hallowed reliquary that draws pilgrims.", "service": "shrine-relic",
+      "decor": [{ "dx": -2, "dy": 0, "tileId": "goldChest" }] }
+  ],
+  "default": [
+    { "label": "Tidy Frontage", "cost": 100, "repReward": 35, "repRequired": 0,
+      "benefit": "A cared-for building the town is proud of.", "service": "decor",
+      "decor": [{ "dx": -1, "dy": 0, "tileId": "lightBush" }] },
+    { "label": "Planters", "cost": 240, "repReward": 70, "repRequired": 120,
+      "benefit": "Greenery that brightens the whole street.", "service": "decor",
+      "decor": [{ "dx": 1, "dy": 0, "tileId": "potOfFlowers" }] },
+    { "label": "Proud Sign", "cost": 500, "repReward": 140, "repRequired": 300,
+      "benefit": "A landmark frontage known across town.", "service": "decor",
+      "decor": [{ "dx": -2, "dy": 0, "tileId": "largeSign" }] }
+  ]
+}
