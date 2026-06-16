@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
-import { resolveTileRef, EXTENDED_TILE_DEFS } from '../../data/tiles/tileIndex'
+import { resolveTileRef } from '../../data/tiles/tileIndex'
 
 function getOfficialIdsForTileset(tilesetImage: string): Set<number> {
   const ids = new Set<number>()
   for (const globalId of Object.values(BASE_CHIP_TILES)) {
-    const ref = resolveTileRef(globalId)
-    if (ref.file === tilesetImage) ids.add(ref.id)
+    try {
+      const ref = resolveTileRef(globalId)
+      if (ref.file === tilesetImage) ids.add(ref.id)
+    } catch { /* skip unresolvable IDs */ }
   }
   return ids
 }
@@ -26,7 +28,7 @@ export interface TilesetDef {
   columns: number
   tileWidth?: number
   tileHeight?: number
-  /** If set, export generates global-ID entries for BASE_CHIP_TILES + EXTENDED_TILE_REFS */
+  /** If set, export adds this offset to each local tile ID — paste output directly into baseChipIndex.ts */
   globalIdStart?: number
 }
 
@@ -136,34 +138,8 @@ export function TileBrowser({ tileset, scale = 2, labels }: Props) {
   function handleExport() {
     const sorted = Object.entries(customLabels).sort(([a], [b]) => Number(a) - Number(b))
     if (!sorted.length) return
-
-    let text: string
-
-    if (tileset.globalIdStart !== undefined) {
-      // Find the next available global ID for this tileset's image
-      const existingGlobalIds = EXTENDED_TILE_DEFS
-        .filter(d => d.file === tileset.image)
-        .map(d => d.globalId)
-      const nextGlobalId = existingGlobalIds.length > 0
-        ? Math.max(...existingGlobalIds) + 1
-        : tileset.globalIdStart
-
-      const assignments = sorted.map(([localId, name], i) => ({
-        globalId: nextGlobalId + i,
-        localId: Number(localId),
-        name,
-      }))
-
-      text = [
-        '// Add to EXTENDED_TILE_DEFS in extendedTileDefs.ts:',
-        ...assignments.map(({ globalId, localId, name }) =>
-          `  { name: '${name}', globalId: ${globalId}, file: '${tileset.image}', localId: ${localId}, columns: ${tileset.columns} },`
-        ),
-      ].join('\n')
-    } else {
-      text = sorted.map(([id, name]) => `    ${name}: ${id},`).join('\n')
-    }
-
+    const offset = tileset.globalIdStart ?? 0
+    const text = sorted.map(([localId, name]) => `    ${name}: ${Number(localId) + offset},`).join('\n')
     navigator.clipboard.writeText(text).then(() => {
       setExported(true)
       setTimeout(() => setExported(false), 2000)

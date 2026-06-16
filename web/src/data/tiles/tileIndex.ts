@@ -1,7 +1,10 @@
 import { BASE_CHIP_TILES } from "./baseChipIndex"
 import { EXTENDED_TILE_DEFS } from "./extendedTileDefs"
+import { EXTENDED_TILESETS } from "./extendedTilesets"
 export type { ExtendedTileDef } from "./extendedTileDefs"
 export { EXTENDED_TILE_DEFS } from "./extendedTileDefs"
+export type { ExtendedTilesetConfig } from "./extendedTilesets"
+export { EXTENDED_TILESETS } from "./extendedTilesets"
 
 export const TILE_SIZE = 32
 
@@ -189,28 +192,24 @@ export const ENV_TILES: Record<string, EnvTileDef> = {
   camp:     { ground: BASE_GROUND.mediumGrass, pathFile: PATH_TILE.grass1Dirt1  },
 }
 
-// ── Multi-file tile support ───────────────────────────────────────────────────
-// BASE_CHIP_TILES values are "global tile IDs".
-//   0–9999  → baseChip spritesheet (same ID = local tile index, 8 columns)
-//   10000+  → resolved via EXTENDED_TILE_REFS below
-//
-// Use resolveTileRef() to convert any global tile ID to { file, id, columns }.
-
 export interface TileRef {
   file: string     // path starting with '/', relative to /public
   id: number       // local tile index within the sheet
   columns: number  // number of columns in the sheet
 }
 
-export const EXTENDED_TILE_REFS: Record<number, TileRef> = Object.fromEntries(
-  EXTENDED_TILE_DEFS.map(d => [d.globalId, { file: d.file, id: d.localId, columns: d.columns }])
-)
-
+// ── Multi-file tile support ───────────────────────────────────────────────────
+// Resolution order:
+//   1. globalId < 10000  → baseChip spritesheet
+//   2. Found in EXTENDED_TILE_DEFS → individual-file tile (e.g. crystals)
+//   3. Found in EXTENDED_TILESETS range → sequential range tile (localId = globalId - globalIdStart)
 export function resolveTileRef(globalId: number): TileRef {
   if (globalId < 10000) {
     return { file: TILESET_IMAGE.baseChip, id: globalId, columns: TILESET_COLUMNS.baseChip }
   }
-  const ref = EXTENDED_TILE_REFS[globalId]
-  if (!ref) throw new Error(`Unknown extended tile ID: ${globalId}`)
-  return ref
+  const def = EXTENDED_TILE_DEFS.find(d => d.globalId === globalId)
+  if (def) return { file: def.file, id: def.localId, columns: def.columns }
+  const ts = EXTENDED_TILESETS.find(t => globalId >= t.globalIdStart && globalId < t.globalIdStart + t.tilecount)
+  if (ts) return { file: ts.image, id: globalId - ts.globalIdStart, columns: ts.columns }
+  throw new Error(`Unknown extended tile ID: ${globalId}`)
 }

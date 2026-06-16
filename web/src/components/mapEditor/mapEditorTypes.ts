@@ -42,6 +42,21 @@ export interface RawBuilding {
   decor?: RawDecorItem[]
 }
 
+export interface RawAnimal {
+  id: string
+  type: string           // 'cat' | 'dog' | 'bird' | 'fish' | 'butterfly' | 'rabbit' | 'chicken' | 'frog'
+  variant?: string
+  tx: number
+  ty: number
+  name?: string
+  dialogue?: string[]
+  questGive?: string
+  questReceive?: string | string[]
+  roam?: boolean
+  areaRect?: [number, number, number, number]
+  building?: string
+}
+
 export interface RawNpc {
   id: string
   name: string
@@ -113,6 +128,7 @@ export interface RawMapConfig {
   pondTiles?: Array<{ rect?: number[]; tile?: number[] }>
   interiors?: Record<string, RawInterior>
   npcs?: RawNpc[]
+  animals?: RawAnimal[]
   doors?: Array<{ buildingId: string; tx: number; ty: number; tyAdjust?: number }>
   npcSpawnTiles?: [number, number][]
   ambientNpcSprites?: string[]
@@ -150,6 +166,7 @@ export type SelectedEntity =
   | { type: 'interiorDecor'; interiorId: string; index: number }
   | { type: 'blockedPath'; index: number }
   | { type: 'lockedDoor'; index: number }
+  | { type: 'animal'; index: number }
 
 export interface MapEditorState {
   mapId: MapId

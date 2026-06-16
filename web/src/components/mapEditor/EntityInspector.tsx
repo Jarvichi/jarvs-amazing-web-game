@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
-import type { SelectedEntity, RawMapConfig, RawInterior, RawBlockedPath, RawLockedDoor, Zlayer, RawDecorItem, RawNpc, RawBuilding } from './mapEditorTypes'
+import type { SelectedEntity, RawMapConfig, RawInterior, RawBlockedPath, RawLockedDoor, Zlayer, RawDecorItem, RawNpc, RawBuilding, RawAnimal } from './mapEditorTypes'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
-import { EXTENDED_TILE_REFS } from '../../data/tiles/tileIndex'
+import { resolveTileRef } from '../../data/tiles/tileIndex'
 import type { WallMaterial } from '../../data/tiles/buildingMaterials'
 import { RawQuestPickupItem } from '../../data/hub/hubWorldFactory'
+import { NpcSpritePicker, AnimalTypePicker } from './SpritePicker'
+import { ANIMAL_SPECS } from '../../game/hub/animals'
+import type { AnimalType } from '../../game/hub/animals'
 
 const FLOOR_TILES = [
   'woodFloor', 'stoneFloor', 'cobblestoneFloor', 'quarteredFloor', 'checkeredFloor',
@@ -51,6 +54,8 @@ interface Props {
   onAddLockedDoor:       (door: RawLockedDoor) => void
   onUpdateLockedDoor:    (index: number, patch: Partial<RawLockedDoor>) => void
   onDeleteLockedDoor:    (index: number) => void
+  onUpdateNpc:           (index: number, partial: Partial<RawNpc>) => void
+  onUpdateAnimal:        (index: number, partial: Partial<RawAnimal>) => void
 }
 
 function TilePreview({ tileId }: { tileId: string }) {
@@ -59,7 +64,8 @@ function TilePreview({ tileId }: { tileId: string }) {
 
   let previewStyle: React.CSSProperties
   if (id >= 10000) {
-    const ref = EXTENDED_TILE_REFS[id]
+    let ref: ReturnType<typeof resolveTileRef> | undefined
+    try { ref = resolveTileRef(id) } catch { /* unknown extended tile */ }
     if (ref) {
       const col = ref.id % ref.columns
       const row = Math.floor(ref.id / ref.columns)
@@ -173,13 +179,14 @@ function DecorInspector({
 }
 
 function NpcInspector({
-  npc, entity, onMove, onDelete, onDialogueChange,
+  npc, entity, onMove, onDelete, onDialogueChange, onUpdate,
 }: {
   npc: RawNpc
   entity: SelectedEntity & { type: 'npc' }
   onMove: (tx: number, ty: number) => void
   onDelete: () => void
   onDialogueChange: (d: string[]) => void
+  onUpdate: (partial: Partial<RawNpc>) => void
 }) {
   return (
     <div>
@@ -190,7 +197,7 @@ function NpcInspector({
         <span style={{ fontSize: 12 }}>{npc.name}</span>
       </Field>
       <Field label="Sprite">
-        <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{npc.sprite}</span>
+        <NpcSpritePicker value={npc.sprite} onChange={slug => onUpdate({ sprite: slug })} />
       </Field>
       <Field label="Position">
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
@@ -221,6 +228,121 @@ function NpcInspector({
         }}
       >
         Delete NPC
+      </button>
+    </div>
+  )
+}
+
+function AnimalInspector({
+  animal, onMove, onDelete, onUpdate,
+}: {
+  animal: RawAnimal
+  onMove: (tx: number, ty: number) => void
+  onDelete: () => void
+  onUpdate: (partial: Partial<RawAnimal>) => void
+}) {
+  const inputStyle: React.CSSProperties = {
+    background: '#252540', border: '1px solid #444', color: '#ccc',
+    fontSize: 11, padding: '3px 6px', borderRadius: 3, width: '100%', boxSizing: 'border-box',
+  }
+  const paletteKeys = ANIMAL_SPECS[animal.type as AnimalType]?.palette
+    ? Object.keys(ANIMAL_SPECS[animal.type as AnimalType].palette)
+    : []
+
+  return (
+    <div>
+      <Field label="ID">
+        <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{animal.id}</span>
+      </Field>
+      <Field label="Type">
+        <AnimalTypePicker value={animal.type} onChange={type => onUpdate({ type, variant: undefined })} />
+      </Field>
+      <Field label="Variant">
+        <select
+          value={animal.variant ?? ''}
+          onChange={e => onUpdate({ variant: e.target.value || undefined })}
+          style={inputStyle}
+        >
+          <option value="">(none)</option>
+          {paletteKeys.map(k => <option key={k} value={k}>{k}</option>)}
+        </select>
+      </Field>
+      <Field label="Name">
+        <input
+          value={animal.name ?? ''}
+          onChange={e => onUpdate({ name: e.target.value || undefined })}
+          style={inputStyle}
+        />
+      </Field>
+      <Field label="Dialogue">
+        <textarea
+          value={(animal.dialogue ?? []).join('\n')}
+          onChange={e => onUpdate({ dialogue: e.target.value ? e.target.value.split('\n') : [] })}
+          rows={3}
+          style={{ ...inputStyle, resize: 'vertical', fontFamily: 'inherit' }}
+        />
+        <div style={{ color: '#666', fontSize: 10, marginTop: 2 }}>One line = one dialogue entry</div>
+      </Field>
+      <Field label="Quest Give">
+        <input
+          value={animal.questGive ?? ''}
+          onChange={e => onUpdate({ questGive: e.target.value || undefined })}
+          style={inputStyle}
+        />
+      </Field>
+      <Field label="Quest Receive">
+        <input
+          value={Array.isArray(animal.questReceive) ? animal.questReceive.join(', ') : (animal.questReceive ?? '')}
+          onChange={e => {
+            const val = e.target.value.trim()
+            const parsed: string | string[] | undefined = val.includes(',')
+              ? val.split(',').map(s => s.trim()).filter(Boolean)
+              : val || undefined
+            onUpdate({ questReceive: parsed })
+          }}
+          style={inputStyle}
+        />
+      </Field>
+      <Field label="Roam">
+        <input
+          type="checkbox"
+          checked={animal.roam ?? false}
+          onChange={e => onUpdate({ roam: e.target.checked || undefined })}
+        />
+      </Field>
+      {animal.roam && (
+        <Field label="Area Rect">
+          <div style={{ display: 'flex', gap: 4 }}>
+            {(['x', 'y', 'w', 'h'] as const).map((k, ki) => (
+              <input
+                key={k}
+                type="number"
+                value={animal.areaRect?.[ki] ?? 0}
+                onChange={e => {
+                  const r: [number, number, number, number] = [...(animal.areaRect ?? [0, 0, 0, 0])] as [number, number, number, number]
+                  r[ki] = Number(e.target.value)
+                  onUpdate({ areaRect: r })
+                }}
+                style={{ width: 44, background: '#252540', border: '1px solid #444', color: '#ccc', fontSize: 11, padding: '2px 4px', borderRadius: 3 }}
+                placeholder={k}
+              />
+            ))}
+          </div>
+        </Field>
+      )}
+      <Field label="Position">
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <label style={{ fontSize: 11, color: '#888' }}>X</label>
+          {numInput(animal.tx, tx => onMove(tx, animal.ty))}
+          <label style={{ fontSize: 11, color: '#888' }}>Y</label>
+          {numInput(animal.ty, ty => onMove(animal.tx, ty))}
+        </div>
+      </Field>
+      <button
+        onClick={onDelete}
+        style={{ width: '100%', padding: '6px 0', background: '#5a1a1a', border: '1px solid #922', color: '#f88', cursor: 'pointer', borderRadius: 3, fontSize: 12, marginTop: 4 }}
+      >
+        Delete Animal
       </button>
     </div>
   )
@@ -840,6 +962,7 @@ export function EntityInspector({
   questPickupItems,
   blockedPaths, onUpdateBlockedPath, onDeleteBlockedPath,
   onAddLockedDoor, onUpdateLockedDoor, onDeleteLockedDoor,
+  onUpdateNpc, onUpdateAnimal,
 }: Props) {
   const panelStyle: React.CSSProperties = {
     display: 'flex', flexDirection: 'column', height: '100%',
@@ -856,7 +979,11 @@ export function EntityInspector({
     flex: 1, overflowY: 'auto', padding: 10,
   }
 
-  if (viewMode === 'interior' && activeInteriorId) {
+  const isQuestItemSelected = selectedEntity?.type === 'treasure'
+    || selectedEntity?.type === 'pickupItem'
+    || selectedEntity?.type === 'animal'
+
+  if (viewMode === 'interior' && activeInteriorId && !isQuestItemSelected) {
     const interior = configData.interiors?.[activeInteriorId]
     return (
       <InteriorInspector
@@ -931,6 +1058,25 @@ export function EntityInspector({
             onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
             onDelete={() => onDelete(selectedEntity)}
             onDialogueChange={d => onDialogueChange(selectedEntity.index, d)}
+            onUpdate={partial => onUpdateNpc(selectedEntity.index, partial)}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  if (selectedEntity.type === 'animal') {
+    const animal = (configData.animals ?? [])[selectedEntity.index]
+    if (!animal) return null
+    return (
+      <div style={panelStyle}>
+        <div style={{ ...headerStyle, color: '#88ffaa' }}>Animal</div>
+        <div style={bodyStyle}>
+          <AnimalInspector
+            animal={animal}
+            onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
+            onDelete={() => onDelete(selectedEntity)}
+            onUpdate={partial => onUpdateAnimal(selectedEntity.index, partial)}
           />
         </div>
       </div>

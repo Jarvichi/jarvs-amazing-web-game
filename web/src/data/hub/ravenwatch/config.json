@@ -498,9 +498,9 @@
     },
     {
       "rect": [
-        44,
-        18,
         45,
+        18,
+        46,
         22
       ]
     },
@@ -1204,9 +1204,9 @@
     },
     {
       "rect": [
-        41,
+        42,
         11,
-        48,
+        49,
         17
       ],
       "id": "arcade-building-e",
@@ -4098,7 +4098,7 @@
       "zlayer": "solid"
     },
     {
-      "tx": 46,
+      "tx": 44,
       "ty": 18,
       "tileId": "crate",
       "zlayer": "solid"
@@ -4498,6 +4498,30 @@
       "ty": 38,
       "tileId": "fenceLeft",
       "zlayer": "solid"
+    },
+    {
+      "tx": 5,
+      "ty": 42,
+      "tileId": "cropCarrot",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 3,
+      "ty": 40,
+      "tileId": "cropCarrot",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 2,
+      "ty": 41,
+      "tileId": "cropCarrot",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 4,
+      "ty": 41,
+      "tileId": "cropCarrot",
+      "zlayer": "solid"
     }
   ],
   "pondTiles": [
@@ -4594,85 +4618,85 @@
           "tileId": "chest"
         },
         {
-          "tx": 1,
+          "tx": 2,
           "ty": 5,
           "tileId": "counterTopVerticalMiddle",
           "zlayer": "solid"
         },
         {
-          "tx": 1,
+          "tx": 2,
           "ty": 6,
           "tileId": "counterTopVerticalMiddle",
           "zlayer": "solid"
         },
         {
-          "tx": 1,
+          "tx": 2,
           "ty": 7,
           "tileId": "counterTopVerticalBottom",
           "zlayer": "solid"
         },
         {
-          "tx": 1,
+          "tx": 2,
           "ty": 3,
           "tileId": "counterTopTopLeft",
           "zlayer": "solid"
         },
         {
-          "tx": 3,
+          "tx": 4,
           "ty": 3,
           "tileId": "counterTopHorizontalRight",
           "zlayer": "solid"
         },
         {
-          "tx": 2,
+          "tx": 3,
           "ty": 3,
           "tileId": "counterTopHorizontalMiddle",
           "zlayer": "solid"
         },
         {
-          "tx": 1,
+          "tx": 2,
           "ty": 4,
           "tileId": "counterTopVerticalMiddle",
           "zlayer": "solid"
         },
         {
-          "tx": 9,
+          "tx": 8,
           "ty": 3,
           "tileId": "counterTopHorizontalLeft",
           "zlayer": "solid"
         },
         {
-          "tx": 10,
+          "tx": 9,
           "ty": 3,
           "tileId": "counterTopHorizontalMiddle",
           "zlayer": "solid"
         },
         {
-          "tx": 11,
+          "tx": 10,
           "ty": 3,
           "tileId": "counterTopTopRight",
           "zlayer": "solid"
         },
         {
-          "tx": 11,
+          "tx": 10,
           "ty": 4,
           "tileId": "counterTopVerticalMiddle",
           "zlayer": "solid"
         },
         {
-          "tx": 11,
+          "tx": 10,
           "ty": 5,
           "tileId": "counterTopVerticalMiddle",
           "zlayer": "solid"
         },
         {
-          "tx": 11,
+          "tx": 10,
           "ty": 6,
           "tileId": "counterTopVerticalMiddle",
           "zlayer": "solid"
         },
         {
-          "tx": 11,
+          "tx": 10,
           "ty": 7,
           "tileId": "counterTopVerticalBottom",
           "zlayer": "solid"
@@ -4682,7 +4706,17 @@
         "open": 8,
         "close": 20
       },
-      "wallTileId": "interiorWallWhite"
+      "wallTileId": "interiorWallWhite",
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 0,
+          "toInteriorId": "card-shop-bldg-1",
+          "entryTx": 5,
+          "entryTy": 6,
+          "direction": "back"
+        }
+      ]
     },
     "augment-shop": {
       "name": "Mira's Enchantment Studio",
@@ -4892,13 +4926,35 @@
           "tx": 9,
           "ty": 7,
           "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 5,
+          "ty": 0,
+          "tileId": "halfLadderTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "ladderIntoFloor",
+          "zlayer": "solid"
         }
       ],
       "hours": {
         "open": 8,
         "close": 20
       },
-      "wallTileId": "interiorWallWhite"
+      "wallTileId": "interiorWallWhite",
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "toInteriorId": "south-building-1",
+          "entryTx": 3,
+          "entryTy": 1,
+          "direction": "down"
+        }
+      ]
     },
     "scholars-hall": {
       "name": "The Scholar's Hall",
@@ -5140,13 +5196,41 @@
           "tx": 3,
           "ty": 6,
           "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        },
+        {
+          "tx": 6,
+          "ty": 0,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        },
+        {
+          "tx": 6,
+          "ty": -1,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
         }
       ],
       "hours": {
         "open": 8,
         "close": 20
       },
-      "wallTileId": "interiorWallWhite"
+      "wallTileId": "interiorWallWhite",
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 1,
+          "toInteriorId": "trader-den-upstairs",
+          "entryTx": 0,
+          "entryTy": 5,
+          "direction": "up"
+        }
+      ]
     },
     "scholars-north-w": {
       "name": "Northern Library Wing",
@@ -6859,6 +6943,90 @@
       "floorTileId": "woodFloor",
       "decor": [],
       "wallMaterial": "brick"
+    },
+    "card-shop-bldg-1": {
+      "name": "Stock Room",
+      "width": 11,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "decor": [],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 7,
+          "toInteriorId": "card-shop",
+          "direction": "front",
+          "entryTx": 5,
+          "entryTy": 1
+        }
+      ]
+    },
+    "south-building-1": {
+      "name": "Basement",
+      "width": 10,
+      "height": 10,
+      "floorTileId": "woodFloor",
+      "decor": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "ladderBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 0,
+          "tileId": "ladderBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": -1,
+          "tileId": "ladderBottom",
+          "zlayer": "solid"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "toInteriorId": "supply-shop",
+          "direction": "up",
+          "entryTx": 3,
+          "entryTy": 7
+        }
+      ]
+    },
+    "trader-den-upstairs": {
+      "name": "trader-den-upstairs",
+      "width": 7,
+      "height": 7,
+      "floorTileId": "woodFloor",
+      "decor": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "ladderIntoFloor",
+          "zlayer": "below"
+        },
+        {
+          "tx": 3,
+          "ty": 0,
+          "tileId": "halfLadderTop",
+          "zlayer": "below"
+        }
+      ],
+      "wallTileId": "interiorWallWhite",
+      "exits": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "toInteriorId": "trader-den",
+          "direction": "down",
+          "entryTx": 0,
+          "entryTy": 1
+        }
+      ]
     }
   },
   "npcs": [
@@ -7835,6 +8003,16 @@
         "Best hand wins. Know when to hold, know when to fold.",
         "Poker face optional. Skill is not."
       ]
+    },
+    {
+      "id": "npc_1781629843466",
+      "name": "James",
+      "sprite": "knight",
+      "tx": 52,
+      "ty": 22,
+      "dialogue": [
+        "Hello!"
+      ]
     }
   ],
   "ambientNpcSprites": [
@@ -7931,14 +8109,35 @@
       "tx": 49,
       "ty": 21,
       "decor": [
-        { "dx": 0, "dy": 0, "tileId": "messageBoardTopLeft" },
-        { "dx": 1, "dy": 0, "tileId": "messageBoardTopRight" },
-        { "dx": 0, "dy": 1, "tileId": "messageBoardBottomLeft" },
-        { "dx": 1, "dy": 1, "tileId": "messageBoardBottomRight" }
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "messageBoardTopLeft"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileId": "messageBoardTopRight"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileId": "messageBoardBottomLeft"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileId": "messageBoardBottomRight"
+        }
       ],
-      "indicator": { "condition": "unread-news" },
+      "indicator": {
+        "condition": "unread-news"
+      },
       "reactions": [
-        { "type": "screen", "screen": "news" }
+        {
+          "type": "screen",
+          "screen": "news"
+        }
       ]
     }
   ],
@@ -7946,35 +8145,58 @@
     {
       "id": "stray-cat-ravenwatch",
       "type": "cat",
-      "variant": "orange",
+      "variant": "grey",
       "tx": 52,
       "ty": 54,
       "name": "Smudge",
-      "dialogue": ["*meow?*", "Smudge the stray blinks up at you, hopeful for a meal."],
-      "questReceive": "feed-the-stray"
+      "dialogue": [
+        "*meow?*",
+        "Smudge the stray blinks up at you, hopeful for a meal."
+      ],
+      "questReceive": "feed-the-stray",
+      "roam": true,
+      "areaRect": [
+        0,
+        2,
+        2,
+        -2
+      ]
     },
     {
       "id": "rover",
       "type": "dog",
       "variant": "brown",
-      "tx": 33,
-      "ty": 32,
+      "tx": 17,
+      "ty": 22,
       "name": "Rover",
-      "dialogue": ["*woof!*", "Rover wags his tail and looks at you expectantly."],
+      "dialogue": [
+        "*woof!*",
+        "Rover wags his tail and looks at you expectantly."
+      ],
       "questGive": "wheres-rover"
     },
     {
       "id": "pip",
       "type": "bird",
       "variant": "brown",
-      "tx": 31,
-      "ty": 24,
+      "tx": 13,
+      "ty": 28,
       "name": "Pip",
-      "dialogue": ["*caw!*", "Pip the raven tilts its head, eyeing your pockets for something shiny."],
+      "dialogue": [
+        "*caw!*",
+        "Pip the raven tilts its head, eyeing your pockets for something shiny."
+      ],
       "questGive": "pips-treasures"
     }
   ],
   "chickenZones": [
-    { "rect": [1, 27, 6, 5] }
+    {
+      "rect": [
+        1,
+        27,
+        6,
+        5
+      ]
+    }
   ]
 }

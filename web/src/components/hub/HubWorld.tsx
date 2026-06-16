@@ -332,7 +332,10 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     const out: MinimapObjective[] = []
     const pushNpc = (npcId: string | undefined) => {
       const npc = locationData.HUB_NPCS.find(n => n.id === npcId)
-      if (npc) out.push({ x: npc.tx * T + T / 2, y: npc.ty * T + T / 2, kind: 'npc' })
+      if (npc) {
+        const place = resolveNpcPlace(npc, gameHour, locationData)
+        out.push({ x: place.tx * T + T / 2, y: place.ty * T + T / 2, kind: 'npc' })
+      }
     }
     for (const quest of questDefs) {
       if (getQuestState(quest.id).status !== 'active') continue
