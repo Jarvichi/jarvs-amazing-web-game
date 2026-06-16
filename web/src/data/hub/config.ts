@@ -278,7 +278,7 @@ export interface RawAnimal {
   questGive?: string
   questReceive?: string | string[]
   roam?: boolean                     // default false for placed animals
-  areaRect?: [number, number, number, number]  // [tx, ty, w, h] roam bounds
+  areaRect?: number[]  // [tx, ty, w, h] roam bounds (JSON infers number[])
 }
 
 export interface RawConfig {
