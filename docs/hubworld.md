@@ -17,6 +17,8 @@
 | `web/src/game/hub/quests.ts` | Quest progress/status persistence (localStorage) | `getQuestState`, `setQuestStatus`, `incrementQuestProgress`, `getQuestProgress`, `resetQuest` |
 | `web/src/game/hub/pickups.ts` | Pickup state persistence (localStorage) | `getPickedUpIds`, `markPickedUp`, `isPickedUp`, `unmarkPickedUp` |
 | `web/src/game/hub/friendship.ts` | NPC friendship XP/level persistence (localStorage) | `getFriendshipLevel`, `addFriendshipXp`, `getFriendshipData` |
+| `web/src/game/hub/reputation.ts` | Per-town reputation + per-building upgrade levels (localStorage) — see §10 | `getTownReputation`, `getUpgradeLevel`, `nextUpgrade`, `purchaseUpgrade`, `getUnlockedServices`, `hasTownService` |
+| `web/src/data/hub/buildingUpgrades.json` / `.ts` | Shared upgrade tracks keyed by building *kind* (costs, benefits, services, decor) — see §10 | `getUpgradeTrack`, `getReputationTier`, `REPUTATION_TIERS` |
 | `web/src/game/hub/relationships.ts` | NPC relationship-track (ally/rival/romance) persistence (localStorage) — see §7c | `getRelationship`, `getRelationshipTrack`, `getRelationshipLevel`, `addRelationshipPoints`, `relationshipProgress` |
 | `web/src/game/hub/dialogueFlags.ts` | Branching-dialogue flag + "seen" branch persistence (localStorage) — see §7b | `setDialogueFlag`, `hasDialogueFlag`, `getDialogueFlags`, `markNodeSeen`, `hasNodeSeen` |
 | `web/src/game/hub/innConvos.ts` | Inn conversation tracking (localStorage) | `getHeardConvoIds`, `markConvoHeard`, `isConvoHeard` |
@@ -732,3 +734,80 @@ workflow in `AGENTS.md` (32×32 SVG, create/commit/push one at a time).
 3. Run `npm run test` (loader + schedule tests) and `npm run build`.
 4. Verify in-game: at the relevant hours the NPC is at its post in its activity
    pose; the pose reverts to the base sprite while it walks at an hour boundary.
+
+---
+
+## §10 — Town Reputation & Building Upgrades
+
+Towns gain a **reputation** (standing) value and their buildings gain **upgrade
+levels**. Reputation is *earned by investing crystals*: each upgrade purchase
+spends crystals, raises the town's reputation, and reputation in turn **gates the
+higher upgrade tiers**. Buying an upgrade reveals a **visible decor change** at the
+building and unlocks a labelled **service/benefit**. All state persists in
+localStorage.
+
+- Store: `web/src/game/hub/reputation.ts` (key `jarv_hub_reputation`).
+- Catalog: `web/src/data/hub/buildingUpgrades.json` (+ typed `.ts`).
+- UI: `web/src/components/hub/HubTownUpgrades.tsx`, opened from the 🏗️ toolbar
+  button in `HubWorld.tsx` or the `town-upgrades` screen route (so an interactable
+  with `{ "type": "screen", "screen": "town-upgrades" }` also opens it).
+- Decor rendering: `HubTownCanvas.tsx` (toggled per-frame against
+  `buildingUpgradeLevelsRef`, mirroring the §2 blocked-path decor pattern).
+
+### Making a building upgradeable
+
+Tag the building in its town `config.json` with an `upgradeKind` — the key of an
+upgrade track in `buildingUpgrades.json`:
+
+```jsonc
+{
+  "id": "cider-house",
+  "upgradeKind": "tavern",
+  "rect": [4, 2, 11, 8],
+  "wall": "woodWall", "roof": "redSlateRoof",
+  "doors": [ { "tx": 4, "ty": 1, "buildingId": "cider-house" } ]
+}
+```
+
+The building **must have a door** (decor is placed relative to its primary door
+tile). The display name in the panel comes from the building's interior `name`,
+falling back to a title-cased id.
+
+### Upgrade catalog schema (`buildingUpgrades.json`)
+
+Keyed by `kind`; each value is an ordered list of levels (level 1 first). Built-in
+kinds: `shop`, `inn`, `tavern`, `cottage`, `workshop`, `shrine`, `default`.
+
+| Field | Type | Description |
+|---|---|---|
+| `label` | string | Level title shown in the panel. |
+| `cost` | number | Crystals to purchase this level. |
+| `repReward` | number | Town reputation granted on purchase. |
+| `repRequired` | number | Town reputation needed before this level can be bought (the tier gate). |
+| `benefit` | string | One-line description of what the level unlocks. |
+| `service` | string? | Service id readable via `getUnlockedServices`/`hasTownService`. |
+| `decor` | `{dx,dy,tileId}[]`? | Decor revealed at this level, offset from the building's primary door. `tileId` is a `baseChipIndex.ts` constant name. |
+
+Reputation tiers/names live in `buildingUpgrades.ts` (`REPUTATION_TIERS`,
+`REPUTATION_TIER_NAMES`, `getReputationTier`).
+
+### Services
+
+`service` ids are **data only** today: nothing consumes them yet, but the unlocked
+benefit text is shown in the panel and other systems can read the unlocked set via
+`getUnlockedServices(town)` / `hasTownService(town, id)`. `HubWorld` registers the
+`upgradeKind` resolver with `setUpgradeKindResolver` so these reads work without
+importing the loader. The guaranteed visible change on purchase is the **decor**.
+
+### Authoring checklist: new upgrade track / upgradeable building
+
+1. (New kind only) Add a `kind` entry to `buildingUpgrades.json` with ordered
+   levels — escalating `cost`/`repRequired`, a `benefit`, and `decor` whose
+   `tileId`s exist in `baseChipIndex.ts`.
+2. Add `"upgradeKind": "<kind>"` to the building in its town `config.json`; ensure
+   the building has a `door`.
+3. Run `npm run test` (loader tests parse every config; `reputation.test.ts` covers
+   the store) and `npm run build`.
+4. Verify in-game: open 🏗️ Town Upgrades, buy a level → crystals drop, standing
+   rises, the new decor appears on the building immediately, a rep-locked tier
+   stays blocked until standing is high enough, and everything survives a reload.
