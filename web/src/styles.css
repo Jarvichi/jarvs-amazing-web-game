@@ -8269,7 +8269,15 @@ html.eightbit-mode .lane-layer {
   gap: 14px;
   padding: 24px 16px;
   max-width: 440px;
+  width: 100%;
   margin: 0 auto;
+  /* Allow the screen to scroll inside the fixed-height .game-container (which is
+     overflow:hidden). Without this, tall variants — e.g. the weekly challenge
+     with its lore, leaderboard and 20-card deck — clip the bottom action button
+     off-screen on small phones with no way to reach it. */
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
   font-family: var(--game-font);
   color: var(--game-text-color);
 }
