@@ -8145,7 +8145,7 @@
     {
       "id": "stray-cat-ravenwatch",
       "type": "cat",
-      "variant": "orange",
+      "variant": "grey",
       "tx": 52,
       "ty": 54,
       "name": "Smudge",
@@ -8153,14 +8153,21 @@
         "*meow?*",
         "Smudge the stray blinks up at you, hopeful for a meal."
       ],
-      "questReceive": "feed-the-stray"
+      "questReceive": "feed-the-stray",
+      "roam": true,
+      "areaRect": [
+        0,
+        2,
+        2,
+        -2
+      ]
     },
     {
       "id": "rover",
       "type": "dog",
       "variant": "brown",
-      "tx": 33,
-      "ty": 32,
+      "tx": 17,
+      "ty": 22,
       "name": "Rover",
       "dialogue": [
         "*woof!*",
@@ -8172,8 +8179,8 @@
       "id": "pip",
       "type": "bird",
       "variant": "brown",
-      "tx": 31,
-      "ty": 24,
+      "tx": 13,
+      "ty": 28,
       "name": "Pip",
       "dialogue": [
         "*caw!*",
