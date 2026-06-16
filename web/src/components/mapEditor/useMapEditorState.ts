@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import type { RawMapConfig, RawNpc, RawInterior, RawLockedDoor, SelectedEntity, ToolMode, Zlayer, MapEditorState } from './mapEditorTypes'
+import type { RawMapConfig, RawNpc, RawAnimal, RawInterior, RawLockedDoor, SelectedEntity, ToolMode, Zlayer, MapEditorState } from './mapEditorTypes'
 
 type InteriorExit = NonNullable<RawInterior['exits']>[number]
 import hubConfig from '../../data/hub/ravenwatch/config.json'
@@ -187,6 +187,11 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
           return s
         }
         newConfig = { ...prevConfig, streets }
+      } else if (entity.type === 'animal') {
+        const animals = [...(prevConfig.animals ?? [])]
+        if (!animals[entity.index]) return s
+        animals[entity.index] = { ...animals[entity.index], tx, ty }
+        newConfig = { ...prevConfig, animals }
       } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
         const interior = prevConfig.interiors[entity.interiorId]
         const decor = [...interior.decor]
@@ -218,6 +223,8 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
         newConfig = { ...prevConfig, exteriorDecor: (prevConfig.exteriorDecor ?? []).filter((_, i) => i !== entity.index) }
       } else if (entity.type === 'npc') {
         newConfig = { ...prevConfig, npcs: (prevConfig.npcs ?? []).filter((_, i) => i !== entity.index) }
+      } else if (entity.type === 'animal') {
+        newConfig = { ...prevConfig, animals: (prevConfig.animals ?? []).filter((_, i) => i !== entity.index) }
       } else if (entity.type === 'building') {
         newConfig = { ...prevConfig, buildings: (prevConfig.buildings ?? []).filter((_, i) => i !== entity.index) }
       } else if (entity.type === 'street') {
@@ -320,6 +327,36 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
       return {
         ...s,
         configData: { ...prevConfig, npcs },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const addAnimal = useCallback((animal: RawAnimal) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const animals = [...(prevConfig.animals ?? []), animal]
+      return {
+        ...s,
+        configData: { ...prevConfig, animals },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const updateAnimal = useCallback((index: number, partial: Partial<RawAnimal>) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const animals = [...(prevConfig.animals ?? [])]
+      if (!animals[index]) return s
+      animals[index] = { ...animals[index], ...partial }
+      return {
+        ...s,
+        configData: { ...prevConfig, animals },
         undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
         redoStack: [],
         isDirty: true,
@@ -685,6 +722,8 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     addNpc,
     updateNpcDialogue,
     updateNpc,
+    addAnimal,
+    updateAnimal,
     resizeInterior,
     addInterior,
     addInteriorExit,

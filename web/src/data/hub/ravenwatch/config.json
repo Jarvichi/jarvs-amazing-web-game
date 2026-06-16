@@ -4618,85 +4618,85 @@
           "tileId": "chest"
         },
         {
-          "tx": 1,
+          "tx": 2,
           "ty": 5,
           "tileId": "counterTopVerticalMiddle",
           "zlayer": "solid"
         },
         {
-          "tx": 1,
+          "tx": 2,
           "ty": 6,
           "tileId": "counterTopVerticalMiddle",
           "zlayer": "solid"
         },
         {
-          "tx": 1,
+          "tx": 2,
           "ty": 7,
           "tileId": "counterTopVerticalBottom",
           "zlayer": "solid"
         },
         {
-          "tx": 1,
+          "tx": 2,
           "ty": 3,
           "tileId": "counterTopTopLeft",
           "zlayer": "solid"
         },
         {
-          "tx": 3,
+          "tx": 4,
           "ty": 3,
           "tileId": "counterTopHorizontalRight",
           "zlayer": "solid"
         },
         {
-          "tx": 2,
+          "tx": 3,
           "ty": 3,
           "tileId": "counterTopHorizontalMiddle",
           "zlayer": "solid"
         },
         {
-          "tx": 1,
+          "tx": 2,
           "ty": 4,
           "tileId": "counterTopVerticalMiddle",
           "zlayer": "solid"
         },
         {
-          "tx": 9,
+          "tx": 8,
           "ty": 3,
           "tileId": "counterTopHorizontalLeft",
           "zlayer": "solid"
         },
         {
-          "tx": 10,
+          "tx": 9,
           "ty": 3,
           "tileId": "counterTopHorizontalMiddle",
           "zlayer": "solid"
         },
         {
-          "tx": 11,
+          "tx": 10,
           "ty": 3,
           "tileId": "counterTopTopRight",
           "zlayer": "solid"
         },
         {
-          "tx": 11,
+          "tx": 10,
           "ty": 4,
           "tileId": "counterTopVerticalMiddle",
           "zlayer": "solid"
         },
         {
-          "tx": 11,
+          "tx": 10,
           "ty": 5,
           "tileId": "counterTopVerticalMiddle",
           "zlayer": "solid"
         },
         {
-          "tx": 11,
+          "tx": 10,
           "ty": 6,
           "tileId": "counterTopVerticalMiddle",
           "zlayer": "solid"
         },
         {
-          "tx": 11,
+          "tx": 10,
           "ty": 7,
           "tileId": "counterTopVerticalBottom",
           "zlayer": "solid"
@@ -4706,7 +4706,17 @@
         "open": 8,
         "close": 20
       },
-      "wallTileId": "interiorWallWhite"
+      "wallTileId": "interiorWallWhite",
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 0,
+          "toInteriorId": "card-shop-bldg-1",
+          "entryTx": 5,
+          "entryTy": 6,
+          "direction": "back"
+        }
+      ]
     },
     "augment-shop": {
       "name": "Mira's Enchantment Studio",
@@ -4922,7 +4932,17 @@
         "open": 8,
         "close": 20
       },
-      "wallTileId": "interiorWallWhite"
+      "wallTileId": "interiorWallWhite",
+      "exits": [
+        {
+          "tx": 4,
+          "ty": 2,
+          "toInteriorId": "south-building-1",
+          "entryTx": 3,
+          "entryTy": 1,
+          "direction": "down"
+        }
+      ]
     },
     "scholars-hall": {
       "name": "The Scholar's Hall",
@@ -6883,6 +6903,40 @@
       "floorTileId": "woodFloor",
       "decor": [],
       "wallMaterial": "brick"
+    },
+    "card-shop-bldg-1": {
+      "name": "Stock Room",
+      "width": 11,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "decor": [],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 7,
+          "toInteriorId": "card-shop",
+          "direction": "front",
+          "entryTx": 5,
+          "entryTy": 1
+        }
+      ]
+    },
+    "south-building-1": {
+      "name": "Basement",
+      "width": 10,
+      "height": 10,
+      "floorTileId": "woodFloor",
+      "decor": [],
+      "exits": [
+        {
+          "tx": 3,
+          "ty": 0,
+          "toInteriorId": "supply-shop",
+          "direction": "up",
+          "entryTx": 3,
+          "entryTy": 7
+        }
+      ]
     }
   },
   "npcs": [
