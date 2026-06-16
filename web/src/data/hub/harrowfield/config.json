@@ -20,6 +20,7 @@
   "buildings": [
     {
       "id": "farmhouse",
+      "upgradeKind": "cottage",
       "rect": [3, 2, 9, 8],
       "wall": "woodWall",
       "roof": "strawRoof",
@@ -29,6 +30,7 @@
     },
     {
       "id": "barn",
+      "upgradeKind": "workshop",
       "rect": [20, 2, 27, 9],
       "wall": "woodenSlats",
       "roof": "strawRoof",
@@ -38,6 +40,7 @@
     },
     {
       "id": "mill-cottage",
+      "upgradeKind": "cottage",
       "rect": [19, 14, 25, 19],
       "wall": "woodWall",
       "roof": "strawRoof",

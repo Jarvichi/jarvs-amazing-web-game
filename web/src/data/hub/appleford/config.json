@@ -18,6 +18,7 @@
   "buildings": [
     {
       "id": "cider-house",
+      "upgradeKind": "tavern",
       "rect": [4, 2, 11, 8],
       "wall": "woodWall",
       "roof": "redSlateRoof",
@@ -27,6 +28,7 @@
     },
     {
       "id": "keepers-cottage",
+      "upgradeKind": "cottage",
       "rect": [17, 3, 23, 8],
       "wall": "woodWall",
       "roof": "strawRoof",

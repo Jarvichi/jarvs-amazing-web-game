@@ -24,6 +24,7 @@
   "buildings": [
     {
       "id": "harbourmaster",
+      "upgradeKind": "default",
       "rect": [21, 4, 28, 10],
       "wall": "woodenSlats",
       "roof": "strawRoof",
@@ -33,6 +34,7 @@
     },
     {
       "id": "fish-market",
+      "upgradeKind": "shop",
       "rect": [3, 4, 11, 10],
       "wall": "woodenSlats",
       "roof": "yellowSlateRoof",
@@ -42,6 +44,7 @@
     },
     {
       "id": "sailors-inn",
+      "upgradeKind": "inn",
       "rect": [9, 17, 18, 24],
       "wall": "tudorFrame",
       "roof": "redSlateRoof",

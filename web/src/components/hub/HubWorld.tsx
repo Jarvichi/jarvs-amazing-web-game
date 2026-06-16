@@ -30,6 +30,8 @@ import { LoginButton } from '../ui/LoginButton'
 import { addCollectible, addConsumable, getCollectibles } from '../../game/itemStore'
 import { QuestsModal } from './QuestsModal'
 import { TownDirectory } from './TownDirectory'
+import { HubTownUpgrades, type UpgradeRow } from './HubTownUpgrades'
+import { nextUpgrade, purchaseUpgrade, getTownReputation, getUpgradeLevel, setUpgradeKindResolver } from '../../game/hub/reputation'
 import { RelationshipView } from './RelationshipView'
 import { resolveNpcPlace } from '../../game/hub/npcLocator'
 import { TreasureModal } from './TreasureModal'
@@ -131,6 +133,10 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   const [pickedUpIds,    setPickedUpIds]    = useState<Set<string>>(() => getPickedUpIds())
   const [questsOpen,          setQuestsOpen]          = useState(false)
   const [directoryOpen,       setDirectoryOpen]       = useState(false)
+  const [upgradesOpen,        setUpgradesOpen]        = useState(false)
+  // buildingId → purchased upgrade level; read each frame by the canvas to
+  // reveal unlocked decor live, and updated on purchase.
+  const buildingUpgradeLevelsRef = useRef<Record<string, number>>({})
   const [relationshipNpcId,   setRelationshipNpcId]   = useState<string | null>(null)
   const [pinnedNpcId,         setPinnedNpcId]         = useState<string | null>(null)
   const [openTreasure,        setOpenTreasure]        = useState<HubTreasure | null>(null)
@@ -138,6 +144,49 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   // Refresh friendship/quest state after interactions (lightweight — just reads localStorage)
   const [_tick, setTick] = useState(0)
   const refreshState = useCallback(() => setTick(t => t + 1), [])
+
+  // ── Town reputation & building upgrades ───────────────────────────────────
+  const town = locationData.HUB_TOWN_NAME
+  // Register how the reputation store resolves a building's upgrade kind, and
+  // seed the canvas decor ref with each building's current upgrade level.
+  useEffect(() => {
+    setUpgradeKindResolver((_t, buildingId) =>
+      locationData.HUB_BUILDINGS.find(b => b.id === buildingId)?.upgradeKind)
+    const levels: Record<string, number> = {}
+    for (const b of locationData.HUB_BUILDINGS) {
+      if (b.id && b.upgradeKind) levels[b.id] = getUpgradeLevel(town, b.id)
+    }
+    buildingUpgradeLevelsRef.current = levels
+    return () => setUpgradeKindResolver(null)
+  }, [locationData, town])
+
+  // Upgradeable buildings, resolved fresh each render (cheap — a handful).
+  const upgradeRows: UpgradeRow[] = locationData.HUB_BUILDINGS
+    .filter(b => b.id && b.upgradeKind)
+    .map(b => {
+      const id = b.id as string
+      const name = locationData.HUB_INTERIORS[id]?.name
+        ?? id.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+      const next = nextUpgrade(town, id, b.upgradeKind)
+      return { buildingId: id, name, kind: b.upgradeKind as string, level: next.level, total: next.total, next }
+    })
+
+  const handleUpgrade = useCallback((buildingId: string) => {
+    const b = locationData.HUB_BUILDINGS.find(x => x.id === buildingId)
+    const res = purchaseUpgrade(town, buildingId, b?.upgradeKind)
+    if (res.ok) {
+      onCrystalsChange?.(loadCrystals())
+      buildingUpgradeLevelsRef.current[buildingId] = res.newLevel
+      refreshState()
+    } else {
+      const msg = res.reason === 'insufficient-crystals'
+        ? "You don't have enough crystals for that upgrade."
+        : res.reason === 'rep-locked'
+          ? "The town's standing isn't high enough yet — upgrade more first."
+          : 'That building is already fully upgraded.'
+      setDialogueEvent({ speakerName: 'Town Steward', text: msg })
+    }
+  }, [locationData, town, onCrystalsChange, refreshState])
 
   const { gameHour, isNight: isGameNight } = useHubClock()
 
@@ -369,6 +418,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
       interiorEnterRef.current?.(buildingId)
       return
     }
+    if (screen === 'town-upgrades') { setUpgradesOpen(true); return }
     if (screen === 'worldmap') { onWorldMap?.(); return }
     if (screen === 'campaign') { onCampaign?.(); return }
     if (screen === 'endless') { onEndless?.(); return }
@@ -859,6 +909,7 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
           <ToolbarLabel className="title-deck-info">{isGameNight ? '🌙' : '☀️'} {formatGameTime()}</ToolbarLabel>
         <ToolbarButton icon="📜" title="Quests" onClick={() => setQuestsOpen(true)} />
         <ToolbarButton icon="🧭" title="Where is…?" onClick={() => setDirectoryOpen(true)} />
+        <ToolbarButton icon="🏗️" title="Town Upgrades" onClick={() => setUpgradesOpen(true)} />
         <ToolbarButton icon="🗺" title="World Map" onClick={() => onWorldMap?.()}  disabled={getQuestState('thorin-the-last-watch').status !== 'completed'} />
 
         <ToolbarSpacer/>
@@ -925,6 +976,7 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
             interactableIndicatorsRef={indicatorConditionsRef}
             interactableMovesRef={interactableMovesRef}
             moveInteractableRef={moveInteractableRef}
+            buildingUpgradeLevelsRef={buildingUpgradeLevelsRef}
             locationData={locationData}
             questData={ALL_QUESTS}
             viewportRef={scrollRef}
@@ -943,6 +995,7 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
 
         {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={questDefs} resolveNpcName={getNpcDisplayName}/>}
         {directoryOpen && <TownDirectory onClose={() => setDirectoryOpen(false)} locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} onShowRelationship={setRelationshipNpcId} />}
+        {upgradesOpen && <HubTownUpgrades onClose={() => setUpgradesOpen(false)} townName={town} reputation={getTownReputation(town)} crystals={loadCrystals()} rows={upgradeRows} onUpgrade={handleUpgrade} />}
         {relationshipNpcId && <RelationshipView npcName={getNpcDisplayName(relationshipNpcId)} entry={getRelationship(relationshipNpcId)} onClose={() => setRelationshipNpcId(null)} />}
         {openTreasure && <TreasureModal treasure={openTreasure} onClose={() => setOpenTreasure(null)} />}
 

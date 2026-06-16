@@ -20,6 +20,7 @@
   "buildings": [
     {
       "id": "mourning-hall",
+      "upgradeKind": "shrine",
       "rect": [4, 2, 12, 9],
       "wall": "darkStone",
       "roof": "greySlateRoof",
@@ -29,6 +30,7 @@
     },
     {
       "id": "crypt-keep",
+      "upgradeKind": "default",
       "rect": [19, 2, 26, 8],
       "wall": "darkStone",
       "roof": "greySlateRoof",

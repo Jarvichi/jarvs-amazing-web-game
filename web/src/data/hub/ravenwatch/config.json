@@ -32,6 +32,7 @@
   "areas": [
     {
       "id": "townhall",
+      "upgradeKind": "default",
       "name": "The Townhall",
       "tx": 30,
       "ty": 1,
@@ -801,6 +802,7 @@
         10
       ],
       "id": "card-shop-bldg",
+      "upgradeKind": "shop",
       "wall": "brick",
       "roof": "woodRoof",
       "doors": [
@@ -841,6 +843,7 @@
         10
       ],
       "id": "augment-shop-bldg",
+      "upgradeKind": "shop",
       "wall": "woodenSlats",
       "roof": "redSlateRoof",
       "doors": [
@@ -1103,6 +1106,7 @@
         20
       ],
       "id": "inn-building",
+      "upgradeKind": "inn",
       "wall": "renderedBrick",
       "roof": "strawRoof",
       "doors": [
@@ -1143,6 +1147,7 @@
         33
       ],
       "id": "traders-building",
+      "upgradeKind": "shop",
       "wall": "tudorFrame",
       "roof": "metalRoof",
       "doors": [
@@ -1174,6 +1179,7 @@
         43
       ],
       "id": "market-building",
+      "upgradeKind": "shop",
       "wall": "renderedBrick",
       "roof": "greySlateRoof",
       "doors": [
@@ -1510,6 +1516,7 @@
         ]
       ],
       "id": "church-building",
+      "upgradeKind": "shrine",
       "wall": "castleStone",
       "roof": "greySlateRoof",
       "decor": [

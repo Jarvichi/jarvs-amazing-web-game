@@ -15248,6 +15248,32 @@ html.light-mode .action-btn {
 .town-directory__pin-btn--on { border-color: #55ddee; color: #55ddee; }
 .town-directory__pin-btn:hover { opacity: 0.85; }
 
+/* ── Town Upgrades panel (reuses .town-directory layout) ───────────────────── */
+.town-upgrades__rep {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding: 6px 10px;
+  border: 1px solid #5a4a22;
+  border-radius: 2px;
+  background: rgba(40, 32, 10, 0.4);
+}
+.town-upgrades__rep-tier { font-size: 12px; font-weight: bold; color: #eedd88; letter-spacing: 0.04em; }
+.town-upgrades__rep-prog { font-size: 10px; color: #bbaa77; }
+.town-upgrades__lvl    { font-size: 10px; color: #88aa88; font-weight: normal; }
+.town-upgrades__next   { font-size: 10px; color: #aac8dd; }
+.town-upgrades__next strong { color: #cfe6f2; }
+.town-upgrades__reason { font-size: 10px; color: #cc8866; }
+.town-upgrades__btn {
+  flex-shrink: 0;
+  font-size: 10px;
+  padding: 6px 10px;
+  white-space: nowrap;
+}
+.town-upgrades__btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
 /* ── Treasure Modal ────────────────────────────────────────────────────────── */
 .treasure-modal {
   background: rgba(8, 14, 8, 0.97);

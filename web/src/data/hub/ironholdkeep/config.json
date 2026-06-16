@@ -160,6 +160,7 @@
     },
     {
       "id": "keep",
+      "upgradeKind": "default",
       "rect": [
         12,
         -1,
@@ -181,6 +182,7 @@
     },
     {
       "id": "armoury",
+      "upgradeKind": "workshop",
       "rect": [
         8,
         14,
@@ -198,6 +200,7 @@
     },
     {
       "id": "barracks",
+      "upgradeKind": "default",
       "rect": [
         21,
         14,

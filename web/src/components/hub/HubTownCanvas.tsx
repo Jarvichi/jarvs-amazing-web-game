@@ -16,6 +16,8 @@ import { CommanderState } from '../../game/commander'
 import rollbar from '../../rollbar'
 import { HubInteractable, HubInteriorExit, HubLocationBundle, HubNpc, HubQuestBundle, HubStreetGroup, NpcScheduleEntry } from '../../data/hub/loader'
 import { createAnimalSystem, AnimalSystem } from './hubAnimals'
+import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
+import { getUpgradeTrack } from '../../data/hub/buildingUpgrades'
 
 
 const T                 = 32
@@ -89,6 +91,8 @@ interface Props {
   interactableMovesRef?:      React.MutableRefObject<Map<string, { tx: number; ty: number }>>
   /** Receives a callback to reposition an interactable's sprites live */
   moveInteractableRef?:       React.MutableRefObject<((id: string, tx: number, ty: number) => void) | null>
+  /** buildingId → purchased upgrade level; reveals unlocked decor live */
+  buildingUpgradeLevelsRef?:  React.MutableRefObject<Record<string, number>>
   locationData:         HubLocationBundle
   questData: HubQuestBundle
   /** Scroll container whose scroll position drives the camera. When set, the
@@ -104,6 +108,7 @@ export function HubTownCanvas({
   completedQuestIdsRef, collectedTreasureIds, onTreasureStep,
   gameHour, isNight, npcProximityDialogue,
   onInteractableTap, interactableIndicatorsRef, interactableMovesRef, moveInteractableRef,
+  buildingUpgradeLevelsRef,
   locationData,
   questData,
   viewportRef
@@ -685,6 +690,39 @@ export function HubTownCanvas({
         }
 
         blockedPathEntries.set(bp.id, entry)
+      }
+    }
+
+    // ── Building upgrade decor (revealed as the player upgrades buildings) ─────
+    // Each upgrade level may add decor at offsets relative to the building's
+    // primary door tile. Sprites are created once and toggled each frame against
+    // buildingUpgradeLevelsRef (mirrors the blocked-path visibility pattern).
+    const upgradeDecorSprites: { buildingId: string; levelIndex: number; sprite: PIXI.Sprite }[] = []
+    {
+      for (const b of HUB_BUILDINGS) {
+        if (!b.id || !b.upgradeKind) continue
+        const door = HUB_DOORS.find(d => d.buildingId === b.id)
+        if (!door) continue
+        const track = getUpgradeTrack(b.upgradeKind)
+        const currentLevel = buildingUpgradeLevelsRef?.current[b.id] ?? 0
+        track.forEach((lvl, levelIndex) => {
+          for (const d of lvl.decor ?? []) {
+            const tileId = (BASE_CHIP_TILES as Record<string, number>)[d.tileId]
+            if (tileId == null) continue
+            const tx = door.tx + d.dx
+            const ty = door.ty + d.dy
+            const buildingId = b.id as string
+            loadTileRef(tileId).then(tex => {
+              if (app.renderer == null) return
+              const s = new PIXI.Sprite(tex)
+              s.position.set(tx * T, ty * T)
+              s.width = T; s.height = T
+              s.visible = currentLevel >= levelIndex + 1
+              belowAvatarLayer.addChild(s)
+              upgradeDecorSprites.push({ buildingId, levelIndex, sprite: s })
+            }).catch(() => {})
+          }
+        })
       }
     }
 
@@ -2305,6 +2343,14 @@ export function HubTownCanvas({
               }
               n.lastBubbleText = newText
             }
+          }
+        }
+
+        // Building upgrade decor visibility (reveals on purchase)
+        if (upgradeDecorSprites.length > 0) {
+          const levels = buildingUpgradeLevelsRef?.current ?? {}
+          for (const u of upgradeDecorSprites) {
+            u.sprite.visible = (levels[u.buildingId] ?? 0) >= u.levelIndex + 1
           }
         }
       }
