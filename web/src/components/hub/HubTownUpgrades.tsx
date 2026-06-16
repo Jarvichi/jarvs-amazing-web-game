@@ -25,6 +25,11 @@ interface Props {
   crystals:   number
   rows:       UpgradeRow[]
   onUpgrade:  (buildingId: string) => void
+  /** Daily tribute crystals the town offers (0 = nothing unlocked yet). */
+  tributeAmount:    number
+  /** Whether today's tribute can still be collected. */
+  tributeAvailable: boolean
+  onCollectTribute: () => void
 }
 
 function reputationToNextTier(rep: number): { tier: number; label: string; progress: string } {
@@ -37,7 +42,10 @@ function reputationToNextTier(rep: number): { tier: number; label: string; progr
   return { tier, label, progress }
 }
 
-export function HubTownUpgrades({ onClose, townName, reputation, crystals, rows, onUpgrade }: Props) {
+export function HubTownUpgrades({
+  onClose, townName, reputation, crystals, rows, onUpgrade,
+  tributeAmount, tributeAvailable, onCollectTribute,
+}: Props) {
   const rep = reputationToNextTier(reputation)
 
   return (
@@ -55,6 +63,21 @@ export function HubTownUpgrades({ onClose, townName, reputation, crystals, rows,
           <span className="town-upgrades__rep-tier">⭐ {rep.label}</span>
           <span className="town-upgrades__rep-prog">{rep.progress}</span>
         </div>
+
+        {tributeAmount > 0 && (
+          <div className="town-upgrades__tribute">
+            <span className="town-upgrades__tribute-text">
+              🎁 Daily tribute from grateful townsfolk: <strong>💎 {tributeAmount}</strong>
+            </span>
+            <button
+              className="action-btn action-btn--gold town-upgrades__btn"
+              disabled={!tributeAvailable}
+              onClick={onCollectTribute}
+            >
+              {tributeAvailable ? 'Collect' : 'Collected today'}
+            </button>
+          </div>
+        )}
 
         {rows.length === 0 ? (
           <div className="town-directory__empty">No upgradeable buildings here yet.</div>

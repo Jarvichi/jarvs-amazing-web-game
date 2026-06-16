@@ -31,7 +31,7 @@ import { addCollectible, addConsumable, getCollectibles } from '../../game/itemS
 import { QuestsModal } from './QuestsModal'
 import { TownDirectory } from './TownDirectory'
 import { HubTownUpgrades, type UpgradeRow } from './HubTownUpgrades'
-import { nextUpgrade, purchaseUpgrade, getTownReputation, getUpgradeLevel, setUpgradeKindResolver } from '../../game/hub/reputation'
+import { nextUpgrade, purchaseUpgrade, getTownReputation, getUpgradeLevel, setUpgradeKindResolver, tributeAmount, tributeAvailable, collectTribute } from '../../game/hub/reputation'
 import { RelationshipView } from './RelationshipView'
 import { resolveNpcPlace } from '../../game/hub/npcLocator'
 import { TreasureModal } from './TreasureModal'
@@ -187,6 +187,15 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
       setDialogueEvent({ speakerName: 'Town Steward', text: msg })
     }
   }, [locationData, town, onCrystalsChange, refreshState])
+
+  const handleCollectTribute = useCallback(() => {
+    const amount = collectTribute(town)
+    if (amount > 0) {
+      onCrystalsChange?.(loadCrystals())
+      refreshState()
+      setDialogueEvent({ speakerName: 'Town Steward', text: `The town thanks you for your patronage. 💎 ${amount} crystals!` })
+    }
+  }, [town, onCrystalsChange, refreshState])
 
   const { gameHour, isNight: isGameNight } = useHubClock()
 
@@ -995,7 +1004,7 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
 
         {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={questDefs} resolveNpcName={getNpcDisplayName}/>}
         {directoryOpen && <TownDirectory onClose={() => setDirectoryOpen(false)} locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} onShowRelationship={setRelationshipNpcId} />}
-        {upgradesOpen && <HubTownUpgrades onClose={() => setUpgradesOpen(false)} townName={town} reputation={getTownReputation(town)} crystals={loadCrystals()} rows={upgradeRows} onUpgrade={handleUpgrade} />}
+        {upgradesOpen && <HubTownUpgrades onClose={() => setUpgradesOpen(false)} townName={town} reputation={getTownReputation(town)} crystals={loadCrystals()} rows={upgradeRows} onUpgrade={handleUpgrade} tributeAmount={tributeAmount(town)} tributeAvailable={tributeAvailable(town)} onCollectTribute={handleCollectTribute} />}
         {relationshipNpcId && <RelationshipView npcName={getNpcDisplayName(relationshipNpcId)} entry={getRelationship(relationshipNpcId)} onClose={() => setRelationshipNpcId(null)} />}
         {openTreasure && <TreasureModal treasure={openTreasure} onClose={() => setOpenTreasure(null)} />}
 

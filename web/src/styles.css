@@ -15270,6 +15270,19 @@ html.light-mode .action-btn {
 }
 .town-upgrades__rep-tier { font-size: 12px; font-weight: bold; color: #eedd88; letter-spacing: 0.04em; }
 .town-upgrades__rep-prog { font-size: 10px; color: #bbaa77; }
+.town-upgrades__tribute {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding: 6px 10px;
+  border: 1px solid #3a5a2a;
+  border-radius: 2px;
+  background: rgba(20, 40, 14, 0.4);
+}
+.town-upgrades__tribute-text { font-size: 11px; color: #bcd8a0; }
+.town-upgrades__tribute-text strong { color: #eedd88; }
 .town-upgrades__lvl    { font-size: 10px; color: #88aa88; font-weight: normal; }
 .town-upgrades__next   { font-size: 10px; color: #aac8dd; }
 .town-upgrades__next strong { color: #cfe6f2; }
