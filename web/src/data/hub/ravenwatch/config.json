@@ -5184,13 +5184,41 @@
           "tx": 3,
           "ty": 6,
           "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        },
+        {
+          "tx": 6,
+          "ty": 0,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        },
+        {
+          "tx": 6,
+          "ty": -1,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
         }
       ],
       "hours": {
         "open": 8,
         "close": 20
       },
-      "wallTileId": "interiorWallWhite"
+      "wallTileId": "interiorWallWhite",
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 1,
+          "toInteriorId": "trader-den-upstairs",
+          "entryTx": 0,
+          "entryTy": 5,
+          "direction": "up"
+        }
+      ]
     },
     "scholars-north-w": {
       "name": "Northern Library Wing",
@@ -6935,6 +6963,37 @@
           "direction": "up",
           "entryTx": 3,
           "entryTy": 7
+        }
+      ]
+    },
+    "trader-den-upstairs": {
+      "name": "trader-den-upstairs",
+      "width": 7,
+      "height": 7,
+      "floorTileId": "woodFloor",
+      "decor": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "ladderIntoFloor",
+          "zlayer": "below"
+        },
+        {
+          "tx": 3,
+          "ty": 0,
+          "tileId": "halfLadderTop",
+          "zlayer": "below"
+        }
+      ],
+      "wallTileId": "interiorWallWhite",
+      "exits": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "toInteriorId": "trader-den",
+          "direction": "down",
+          "entryTx": 0,
+          "entryTy": 1
         }
       ]
     }
