@@ -213,12 +213,11 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
         </TitleButton>
 
         <TitleButton
-          onClick={onPlay}
+          onClick={valid ? onPlay : onDeckBuilder}
           extraClass="title-primary-btn"
-          disabled={!valid}
-          title={valid ? undefined : `Deck needs ${10 - count} more cards`}
+          title={valid ? undefined : `Deck needs ${10 - count} more cards — tap to fix in the deck builder`}
         >
-          {valid ? '▶  QUICK BATTLE' : `⚠ DECK (${count}/10)`}
+          {valid ? '▶  QUICK BATTLE' : `⚠ FIX DECK (${count}/10)`}
         </TitleButton>
 
         <TitleButton

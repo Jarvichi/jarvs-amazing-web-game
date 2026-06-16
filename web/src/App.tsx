@@ -301,6 +301,18 @@ export default function App() {
   // game state immediately so they land straight back in the battle.
   const [_startup] = useState(() => {
     const savedRun = loadRun()
+    // Guard: a run drained to 0 lives is unplayable. Normally hitting 0 lives clears
+    // the run via the campaign-failed flow, so a *persisted* 0-life run is a corrupted
+    // /zombie state (e.g. from the pre-#1702 bug where losing a non-campaign battle
+    // drained campaign lives). Treat it as a failed run — record the failure so the
+    // next run gets mercy tiers, clear it, and show the campaign-failed screen —
+    // rather than leaving a soft-locked "Continue Run".
+    if (savedRun && savedRun.livesRemaining <= 0) {
+      rollbar.error('Campaign run loaded at 0 lives — auto-failing', { actId: savedRun.actId })
+      setLastRunFailed()
+      clearRun()
+      return { screen: 'campaignfailed' as Screen, gameState: null as GameState | null, run: null as RunState | null, isCampaign: false }
+    }
     if (savedRun?.pendingNodeId) {
       const act  = ACTS[savedRun.actId]
       const node = act?.nodes[savedRun.pendingNodeId]
