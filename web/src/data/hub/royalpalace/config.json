@@ -1,20 +1,59 @@
 {
-  "mapW": 896,
+  "mapW": 1056,
   "mapH": 768,
   "townName": "Royal Palace",
   "environment": "citadel",
-  "avatarStart": { "tx": 13, "ty": 21 },
+  "avatarStart": {
+    "tx": 13,
+    "ty": 21
+  },
   "exitTiles": [
-    { "tx": 13, "ty": 22, "screen": "worldmap" },
-    { "tx": 14, "ty": 22, "screen": "worldmap" }
+    {
+      "tx": 13,
+      "ty": 22,
+      "screen": "worldmap"
+    },
+    {
+      "tx": 14,
+      "ty": 22,
+      "screen": "worldmap"
+    }
   ],
   "areas": [
-    { "id": "palace-gardens", "name": "The Royal Gardens", "tx": 4, "ty": 13, "tw": 20, "th": 8 }
+    {
+      "id": "palace-gardens",
+      "name": "The Royal Gardens",
+      "tx": 4,
+      "ty": 13,
+      "tw": 20,
+      "th": 8
+    }
   ],
   "streets": [
-    { "rect": [12, 13, 15, 22] },
-    { "rect": [4, 14, 23, 15] },
-    { "rect": [12, 18, 15, 19] }
+    {
+      "rect": [
+        13,
+        14,
+        15,
+        23
+      ]
+    },
+    {
+      "rect": [
+        4,
+        14,
+        23,
+        15
+      ]
+    },
+    {
+      "rect": [
+        12,
+        11,
+        16,
+        13
+      ]
+    }
   ],
   "buildings": [
     {
@@ -24,56 +63,232 @@
       "wall": "ornateStone",
       "roof": "blueSlateRoof",
       "doors": [
-        { "tx": 7, "ty": 1, "hideSign": true, "buildingId": "palace" },
-        { "tx": 8, "ty": 1, "hideSign": true, "buildingId": "palace" }
+        {
+          "tx": 7,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "palace"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "palace"
+        }
       ]
     }
   ],
   "exteriorDecor": [
-    { "comment": "garden fountain" },
-    { "tx": 17, "ty": 16, "bundleID": "fountain", "zlayer": "solid" },
-    { "comment": "garden trees and flowers" },
-    { "tx": 4, "ty": 17, "bundleID": "light-tree", "zlayer": "solid" },
-    { "tx": 8, "ty": 17, "bundleID": "light-tree", "zlayer": "solid" },
-    { "tx": 22, "ty": 13, "bundleID": "light-tree", "zlayer": "solid" },
-    { "tx": 2, "ty": 13, "bundleID": "light-tree", "zlayer": "solid" },
-    { "tx": 6, "ty": 16, "tileId": "whiteFlower" },
-    { "tx": 10, "ty": 16, "tileId": "whiteFlower" },
-    { "tx": 16, "ty": 20, "tileId": "whiteFlower" },
-    { "tx": 20, "ty": 16, "tileId": "whiteFlower" },
-    { "comment": "fences along the south garden wall, gap at the gate" },
-    { "tx": 9, "ty": 21, "tileId": "ironFenceLeftRight", "zlayer": "above" },
-    { "tx": 10, "ty": 21, "tileId": "ironFenceLeftRight", "zlayer": "above" },
-    { "tx": 11, "ty": 21, "tileId": "ironFenceLeft", "zlayer": "above" },
-    { "tx": 16, "ty": 21, "tileId": "ironFenceRight", "zlayer": "above" },
-    { "tx": 17, "ty": 21, "tileId": "ironFenceLeftRight", "zlayer": "above" },
-    { "tx": 18, "ty": 21, "tileId": "ironFenceLeftRight", "zlayer": "above" },
-    { "comment": "entrance braziers" },
-    { "tx": 12, "ty": 13, "tileId": "brazierBottom" },
-    { "tx": 12, "ty": 12, "tileId": "brazierTop", "zlayer": "above" },
-    { "tx": 15, "ty": 13, "tileId": "brazierBottom" },
-    { "tx": 15, "ty": 12, "tileId": "brazierTop", "zlayer": "above" }
+    {
+      "comment": "garden fountain"
+    },
+    {
+      "tx": 17,
+      "ty": 19,
+      "bundleID": "fountain",
+      "zlayer": "solid"
+    },
+    {
+      "comment": "garden trees and flowers"
+    },
+    {
+      "tx": 4,
+      "ty": 17,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 22,
+      "ty": 17,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 22,
+      "ty": 13,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 2,
+      "ty": 13,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 6,
+      "ty": 16,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 10,
+      "ty": 16,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 16,
+      "ty": 20,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 20,
+      "ty": 16,
+      "tileId": "whiteFlower"
+    },
+    {
+      "comment": "fences along the south garden wall, gap at the gate"
+    },
+    {
+      "tx": 9,
+      "ty": 21,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 10,
+      "ty": 21,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 11,
+      "ty": 21,
+      "tileId": "ironFenceLeft",
+      "zlayer": "above"
+    },
+    {
+      "tx": 16,
+      "ty": 21,
+      "tileId": "ironFenceRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 17,
+      "ty": 21,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 18,
+      "ty": 21,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "comment": "entrance braziers"
+    },
+    {
+      "tx": 11,
+      "ty": 13,
+      "tileId": "brazierBottom"
+    },
+    {
+      "tx": 11,
+      "ty": 12,
+      "tileId": "brazierTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 17,
+      "ty": 13,
+      "tileId": "brazierBottom"
+    },
+    {
+      "tx": 17,
+      "ty": 12,
+      "tileId": "brazierTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 12,
+      "ty": 12,
+      "tileId": "palaceStepsLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 13,
+      "ty": 12,
+      "tileId": "palaceStepsMidLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 14,
+      "ty": 12,
+      "tileId": "palaceStepsMid",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 15,
+      "ty": 12,
+      "tileId": "palaceStepsMidRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 16,
+      "ty": 12,
+      "tileId": "palaceStepsRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 12,
+      "ty": 13,
+      "tileId": "palaceStepsBotLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 13,
+      "ty": 13,
+      "tileId": "palaceStepsBotMidLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 14,
+      "ty": 13,
+      "tileId": "palaceStepsBotMid",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 15,
+      "ty": 13,
+      "tileId": "palaceStepsBotMidRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 16,
+      "ty": 13,
+      "tileId": "palaceStepsBotRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 9,
+      "ty": 19,
+      "bundleID": "fountain",
+      "zlayer": "solid"
+    }
   ],
   "npcSpawnTiles": [],
-  "ambientNpcSprites": ["hub-npc-soldier"],
+  "ambientNpcSprites": [
+    "hub-npc-soldier"
+  ],
   "npcs": [
     {
       "id": "royal-herald",
       "name": "Herald Fanshawe",
       "sprite": "hub-npc-scholar",
-      "tx": 10,
-      "ty": 14,
+      "tx": 13,
+      "ty": 15,
       "dialogue": [
         "Presenting: you. To no one in particular. It's been a slow morning.",
         "Their Majesties are in session. The gardens, however, receive all visitors.",
         "Protocol is the art of standing in the right place while important things happen elsewhere."
-      ]
+      ],
+      "questReceive": "new-quest-1"
     },
     {
       "id": "palace-guard",
       "name": "Guardsman Brick",
       "sprite": "hub-npc-soldier",
-      "tx": 16,
+      "tx": 18,
       "ty": 14,
       "dialogue": [
         "Move along. Or stand there. You're not technically breaking any rules.",
@@ -85,15 +300,35 @@
       "id": "royal-steward",
       "name": "Steward Marigold",
       "sprite": "hub-npc-elder",
-      "tx": 8,
-      "ty": 18,
+      "tx": 21,
+      "ty": 14,
       "dialogue": [
         "Oh dear, oh dear. The coronation regalia — misplaced! Again!",
         "The ceremonial pendant, the jubilee gift, and the vault key. Scattered about the gardens by that dreadful wind.",
         "If the regalia isn't recovered before the next audience, I shall simply expire."
       ],
-      "questGive": "palace-lost-regalia",
+      "questGive": "new-quest-1",
       "questReceive": "palace-lost-regalia"
+    },
+    {
+      "id": "npc_1781196539810",
+      "name": "Dave the Goblin",
+      "sprite": "goblin",
+      "tx": 12,
+      "ty": 16,
+      "dialogue": [
+        "Hello!"
+      ]
+    },
+    {
+      "id": "npc_1781197058836",
+      "name": "Nick the Ogre",
+      "sprite": "ogre",
+      "tx": 15,
+      "ty": 16,
+      "dialogue": [
+        "I'm here to see the princess, only she can help me!"
+      ]
     }
   ],
   "interiors": {
@@ -104,19 +339,117 @@
       "floorTileId": "cobblestoneFloor",
       "wallTileId": "ornateStone",
       "decor": [
-        { "comment": "honour guard armour flanking the hall" },
-        { "tx": 2, "ty": 1, "tileId": "suitOfArmourTop" },
-        { "tx": 2, "ty": 2, "tileId": "suitOfArmourBottom" },
-        { "tx": 13, "ty": 1, "tileId": "suitOfArmourTop" },
-        { "tx": 13, "ty": 2, "tileId": "suitOfArmourBottom" },
-        { "tx": 6, "ty": 1, "tileId": "shieldMounted" },
-        { "tx": 9, "ty": 1, "tileId": "shieldMounted" },
-        { "tx": 7, "ty": 1, "tileId": "swordMountedLeft" },
-        { "tx": 8, "ty": 1, "tileId": "swordMountedRight" },
-        { "tx": 4, "ty": 3, "tileId": "roundTableWithCloth" },
-        { "tx": 11, "ty": 3, "tileId": "roundTableWithCloth" }
+        {
+          "comment": "honour guard armour flanking the hall"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "suitOfArmourTop"
+        },
+        {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "suitOfArmourBottom"
+        },
+        {
+          "tx": 13,
+          "ty": 1,
+          "tileId": "suitOfArmourTop"
+        },
+        {
+          "tx": 13,
+          "ty": 2,
+          "tileId": "suitOfArmourBottom"
+        },
+        {
+          "tx": 6,
+          "ty": -1,
+          "tileId": "shieldMounted"
+        },
+        {
+          "tx": 9,
+          "ty": -1,
+          "tileId": "shieldMounted"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "swordMountedLeft"
+        },
+        {
+          "tx": 8,
+          "ty": -1,
+          "tileId": "swordMountedRight"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 11,
+          "ty": 3,
+          "tileId": "roundTableWithCloth"
+        }
       ],
-      "exits": []
+      "exits": [
+        {
+          "tx": 0,
+          "ty": 4,
+          "toInteriorId": "palace-1",
+          "entryTx": 8,
+          "entryTy": 4,
+          "direction": "left"
+        }
+      ]
+    },
+    "palace-1": {
+      "name": "palace-1",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "decor": [],
+      "exits": [
+        {
+          "tx": 9,
+          "ty": 4,
+          "toInteriorId": "palace",
+          "direction": "right",
+          "entryTx": 1,
+          "entryTy": 4
+        }
+      ]
+    },
+    "palace-2": {
+      "name": "palace-2",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "decor": []
+    },
+    "palace-3": {
+      "name": "palace-3",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "decor": []
+    },
+    "palace-dungeon": {
+      "name": "palace-dungeon",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "decor": []
+    },
+    "palace-stairs-dungeon-to-ground": {
+      "name": "palace-stairs-dungeon-to-ground",
+      "width": 6,
+      "height": 7,
+      "floorTileId": "woodFloor",
+      "decor": [],
+      "wallTileId": "castleStone"
     }
-  }
+  },
+  "lockedDoors": []
 }

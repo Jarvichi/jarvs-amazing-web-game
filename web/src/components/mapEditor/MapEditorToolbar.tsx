@@ -5,9 +5,19 @@ import type { RawMapConfig } from './mapEditorTypes'
 import { MapId } from '../../data/hub/hubWorldFactory'
 
 const MAP_OPTIONS: { id: MapId; label: string }[] = [
-  { id: 'ravenwatch',    label: 'Hub — Ravenwatch' },
-  { id: 'millhaven',  label: 'Town — Millhaven' },
-  { id: 'ironholdkeep', label: 'Castle — Ironhold Keep' },
+  { id: 'ravenwatch',        label: 'Hub — Ravenwatch' },
+  { id: 'millhaven',         label: 'Town — Millhaven' },
+  { id: 'ironholdkeep',      label: 'Castle — Ironhold Keep' },
+  { id: 'thornwoodcamp',     label: 'Camp — Thornwood' },
+  { id: 'capitalcity',       label: 'City — Capital City' },
+  { id: 'royalpalace',       label: 'Palace — Royal Palace' },
+  { id: 'saltmereport',      label: 'Port — Saltmere' },
+  { id: 'gearford',          label: 'Town — Gearford' },
+  { id: 'harrowfield',       label: 'Town — Harrowfield' },
+  { id: 'appleford',         label: 'Town — Appleford' },
+  { id: 'gravemoor',         label: 'Town — Gravemoor' },
+  { id: 'hollowmere',        label: 'Town — Hollowmere' },
+  { id: 'dreadspirecitadel', label: 'Citadel — Dreadspire' },
 ]
 
 interface Props {
@@ -16,20 +26,22 @@ interface Props {
   canUndo:     boolean
   canRedo:     boolean
   isDirty:     boolean
-  showGrid:         boolean
-  showQuestItems:   boolean
-  drawerOpen:       boolean
+  showGrid:             boolean
+  showQuestItems:       boolean
+  showBlockedPaths:     boolean
+  drawerOpen:           boolean
   hasDuplicateQuestIds: boolean
-  configData:       RawMapConfig
-  onMapChange:      (id: MapId) => void
-  onToolChange:     (t: ToolMode) => void
-  onUndo:           () => void
-  onRedo:           () => void
-  onGridToggle:     () => void
-  onQuestItemsToggle: () => void
-  onDrawerToggle:   () => void
-  questDefsData:    Record<string, unknown> | null
-  onSaved:          () => void
+  configData:           RawMapConfig
+  onMapChange:          (id: MapId) => void
+  onToolChange:         (t: ToolMode) => void
+  onUndo:               () => void
+  onRedo:               () => void
+  onGridToggle:         () => void
+  onQuestItemsToggle:   () => void
+  onBlockedPathsToggle: () => void
+  onDrawerToggle:       () => void
+  questDefsData:        Record<string, unknown> | null
+  onSaved:              () => void
 }
 
 const TOOLS: { mode: ToolMode; label: string; title: string }[] = [
@@ -40,9 +52,9 @@ const TOOLS: { mode: ToolMode; label: string; title: string }[] = [
 ]
 
 export function MapEditorToolbar({
-  mapId, tool, canUndo, canRedo, isDirty, showGrid, showQuestItems, drawerOpen, hasDuplicateQuestIds,
+  mapId, tool, canUndo, canRedo, isDirty, showGrid, showQuestItems, showBlockedPaths, drawerOpen, hasDuplicateQuestIds,
   configData, questDefsData, onMapChange, onToolChange, onUndo, onRedo,
-  onGridToggle, onQuestItemsToggle, onDrawerToggle, onSaved,
+  onGridToggle, onQuestItemsToggle, onBlockedPathsToggle, onDrawerToggle, onSaved,
 }: Props) {
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'ok' | 'error'>('idle')
   const [saveError, setSaveError] = useState('')
@@ -155,6 +167,20 @@ export function MapEditorToolbar({
         }}
       >
         ◈
+      </button>
+
+      {/* Blocked paths / locked doors toggle */}
+      <button
+        title="Toggle blocked paths and locked doors"
+        onClick={onBlockedPathsToggle}
+        style={{
+          ...btnBase,
+          background:  showBlockedPaths ? '#2e1e1e' : '#1e1e3e',
+          color:       showBlockedPaths ? '#ff7744' : '#666',
+          borderColor: showBlockedPaths ? '#8a3a1a' : '#444',
+        }}
+      >
+        ⊗
       </button>
 
       {/* NPC & Quest drawer toggle */}

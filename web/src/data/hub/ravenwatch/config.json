@@ -6559,6 +6559,126 @@
           "ty": 2,
           "tileId": "altarTopMid",
           "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": -1,
+          "tileId": "stainedGlassWindow1Mid",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 0,
+          "tileId": "stainedGlassWindow1Bottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 0,
+          "tileId": "stainedGlassWindow1Bottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": -1,
+          "tileId": "stainedGlassWindow1Mid",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 0,
+          "ty": -2,
+          "tileId": "interiorWallWhiteTopLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": -2,
+          "tileId": "interiorWallWhiteTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
+          "ty": -2,
+          "tileId": "interiorWallWhiteTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": -2,
+          "tileId": "interiorWallWhiteTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": -2,
+          "tileId": "interiorWallWhiteTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": -2,
+          "tileId": "interiorWallWhiteTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": -2,
+          "tileId": "interiorWallWhiteTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": -2,
+          "tileId": "interiorWallWhiteTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": -2,
+          "tileId": "interiorWallWhiteTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": -2,
+          "tileId": "interiorWallWhiteTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": -2,
+          "tileId": "interiorWallWhiteTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": -2,
+          "tileId": "interiorWallWhiteTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": -2,
+          "tileId": "interiorWallWhiteTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 13,
+          "ty": -2,
+          "tileId": "interiorWallWhiteTopRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": -2,
+          "tileId": "stainedGlassWindow1Top",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": -2,
+          "tileId": "stainedGlassWindow1Top",
+          "zlayer": "solid"
         }
       ],
       "exits": [
@@ -6673,14 +6793,15 @@
           "direction": "right"
         },
         {
-          "tx": 5,
-          "ty": 0,
+          "tx": 2,
+          "ty": 1,
           "toInteriorId": "church-building-tower-upper-floor",
           "entryTx": 5,
           "entryTy": 6,
           "direction": "up"
         }
-      ]
+      ],
+      "wallTileId": "darkStone"
     },
     "church-building-tower-upper-floor": {
       "name": "church-building-tower-upper-floor",
@@ -6692,7 +6813,7 @@
           "tx": 2,
           "ty": 1,
           "tileId": "ladderIntoFloor",
-          "zlayer": "solid"
+          "zlayer": "below"
         },
         {
           "tx": 2,
@@ -6703,14 +6824,15 @@
       ],
       "exits": [
         {
-          "tx": 5,
-          "ty": 5,
+          "tx": 2,
+          "ty": 1,
           "toInteriorId": "church-building-tower-base",
           "direction": "down",
           "entryTx": 5,
           "entryTy": 1
         }
-      ]
+      ],
+      "wallTileId": "darkStone"
     },
     "home-building-storeroom": {
       "name": "home-building-storeroom",

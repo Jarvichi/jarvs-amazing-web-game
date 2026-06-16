@@ -3,7 +3,7 @@ import * as PIXI from 'pixi.js'
 import { usePixiApp } from '../../hooks/usePixiApp'
 import { loadTileRef, loadSpriteTexture } from '../../utils/pixiHelpers'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
-import type { RawMapConfig, RawDecorItem,  SelectedEntity, ToolMode, Zlayer } from './mapEditorTypes'
+import type { RawMapConfig, RawDecorItem, RawBlockedPath, RawLockedDoor, SelectedEntity, ToolMode, Zlayer } from './mapEditorTypes'
 import { WALL_TILES } from '../../data/tiles/buildingMaterials'
 import type { WallMaterial } from '../../data/tiles/buildingMaterials'
 import { expandBundleDecor } from '../../data/bundles/bundleLoader'
@@ -87,13 +87,15 @@ interface Props {
   onDeleteEntity:   (entity: SelectedEntity) => void
   onAddStreet:        (tx1: number, ty1: number, tx2: number, ty2: number) => void
   showQuestItems:     boolean
+  showBlockedPaths:   boolean
+  blockedPaths:       RawBlockedPath[]
   questPickupItems:   RawQuestPickupItem[]
 }
 
 export function MapEditorCanvas(props: Props) {
   const {
     configData, tool, showGrid, selectedEntity, viewMode, activeInteriorId,
-    activeTileId, activeBundleId, activeZlayer, showQuestItems, questPickupItems,
+    activeTileId, activeBundleId, activeZlayer, showQuestItems, showBlockedPaths, blockedPaths, questPickupItems,
     onSelectEntity, onPlaceDecor, onMoveEntity, onDeleteEntity, onAddStreet,
   } = props
 
@@ -139,14 +141,15 @@ export function MapEditorCanvas(props: Props) {
 
     stage.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
       const { tool: t, activeTileId: tid, activeBundleId: bid, viewMode: vm,
-               activeInteriorId: iid, configData: cfg, showQuestItems: sqI } = propsRef.current
+               activeInteriorId: iid, configData: cfg, showQuestItems: sqI,
+               showBlockedPaths: sbp, blockedPaths: bps } = propsRef.current
       const { x: ox, y: oy } = worldOriginRef.current
       const pos = e.getLocalPosition(stage)
       const tx  = Math.floor((pos.x - ox) / T)
       const ty  = Math.floor((pos.y - oy) / T)
 
       if (t === 'select') {
-        const entity = hitTest(cfg, tx, ty, vm, iid, sqI)
+        const entity = hitTest(cfg, tx, ty, vm, iid, sqI, sbp, bps)
         propsRef.current.onSelectEntity(entity)
         if (entity) {
           const etx = getEntityTx(cfg, entity)
@@ -156,7 +159,7 @@ export function MapEditorCanvas(props: Props) {
       } else if (t === 'place' && (tid || bid)) {
         propsRef.current.onPlaceDecor(tx, ty)
       } else if (t === 'delete') {
-        const entity = hitTest(cfg, tx, ty, vm, iid, sqI)
+        const entity = hitTest(cfg, tx, ty, vm, iid, sqI, sbp, bps)
         if (entity) {
           propsRef.current.onDeleteEntity(entity)
           propsRef.current.onSelectEntity(null)
@@ -261,6 +264,9 @@ export function MapEditorCanvas(props: Props) {
     }
     if (!isInterior && showQuestItems) {
       renderQuestItems(version, questLayer, selLayer)
+    }
+    if (!isInterior && showBlockedPaths) {
+      renderBlockedPathsOverlay(questLayer, selLayer)
     }
 
     if (showGrid) drawGrid(gridLayer)
@@ -517,13 +523,18 @@ export function MapEditorCanvas(props: Props) {
     floorGfx.rect(0, 0, width * T, height * T).fill(0x5a4a3a)
     groundLayer.addChild(floorGfx)
 
-    // Floor tiles
+    // Compute gapSet before async floor load so the closure can use it
+    const gapSet = buildGapSet(width, height, interior.exits)
+
+    // Floor tiles — skip wall-edge positions unless they're a doorway gap
     if (interior.floorTileId) {
       const fid = tileNumericId(interior.floorTileId)
       loadTileRef(fid).then(tex => {
         if (renderVersionRef.current !== version) return
         for (let tx = 0; tx < width; tx++) {
           for (let ty = 0; ty < height; ty++) {
+            const isEdge = ty <= 1 || ty >= height - 1 || tx === 0 || tx === width - 1
+            if (isEdge && !gapSet.has(`${tx},${ty}`)) continue
             const sp = new PIXI.Sprite(tex)
             sp.x = tx * T; sp.y = ty * T
             groundLayer.addChild(sp)
@@ -533,7 +544,6 @@ export function MapEditorCanvas(props: Props) {
     }
 
     // Walls with gaps at directional exits
-    const gapSet = buildGapSet(width, height, interior.exits)
     const wallColor = interior.wallTileId ? (WALL_COLORS[interior.wallTileId] ?? 0x3a3a4a) : 0x3a3a4a
     const wallGfx = new PIXI.Graphics()
     drawWallsWithGaps(wallGfx, width, height, wallColor, gapSet)
@@ -708,6 +718,60 @@ export function MapEditorCanvas(props: Props) {
     })
   }
 
+  // ── Blocked paths / locked doors overlay ──────────────────────────────────────
+  function renderBlockedPathsOverlay(layer: PIXI.Container, selLayer: PIXI.Graphics) {
+    const { blockedPaths: bps, configData: cfg, selectedEntity: sel } = propsRef.current
+
+    // Blocked path tiles — red overlay
+    bps.forEach((bp, bpIdx) => {
+      const isSel = sel?.type === 'blockedPath' && sel.index === bpIdx
+      const gfx = new PIXI.Graphics()
+      for (const [btx, bty] of bp.blockedTiles) {
+        gfx.rect(btx * T, bty * T, T, T).fill({ color: 0xff3300, alpha: 0.35 })
+        gfx.rect(btx * T, bty * T, T, T).stroke({ color: 0xff6644, width: 1 })
+        if (isSel) {
+          selLayer.rect(btx * T - 2, bty * T - 2, T + 4, T + 4).stroke({ color: 0xf0c040, width: 2 })
+        }
+      }
+      gfx.eventMode = 'static'; gfx.cursor = 'pointer'
+      gfx.on('pointerdown', () => propsRef.current.onSelectEntity({ type: 'blockedPath', index: bpIdx }))
+      layer.addChild(gfx)
+      // Label: questId above first tile
+      if (bp.blockedTiles[0]) {
+        const [btx, bty] = bp.blockedTiles[0]
+        const lbl = new PIXI.Text({ text: bp.questId || bp.id, style: { fontSize: 8, fill: isSel ? 0xf0c040 : 0xff9977 } })
+        lbl.x = btx * T + 2; lbl.y = bty * T + 2
+        layer.addChild(lbl)
+      }
+    })
+
+    // Locked doors — orange outline on buildings
+    const lockedDoors = cfg.lockedDoors ?? []
+    lockedDoors.forEach((door, dIdx) => {
+      const isSel = sel?.type === 'lockedDoor' && sel.index === dIdx
+      const bIdx = (cfg.buildings ?? []).findIndex(b => b.id === door.buildingId)
+      if (bIdx < 0) return
+      const b = cfg.buildings![bIdx]
+      const rects = b.rects ?? (b.rect ? [b.rect] : [])
+      const borderColor = isSel ? 0xf0c040 : 0xffaa00
+      for (const [tx1, ty1, tx2, ty2] of rects) {
+        const gfx = new PIXI.Graphics()
+        gfx.rect(tx1 * T, ty1 * T, (tx2 - tx1 + 1) * T, (ty2 - ty1 + 1) * T)
+          .stroke({ color: borderColor, width: 2, alpha: 0.9 })
+        gfx.eventMode = 'static'; gfx.cursor = 'pointer'
+        gfx.on('pointerdown', () => propsRef.current.onSelectEntity({ type: 'lockedDoor', index: dIdx }))
+        layer.addChild(gfx)
+      }
+      // Lock label
+      if (rects[0]) {
+        const [tx1, ty1] = rects[0]
+        const lbl = new PIXI.Text({ text: `🔒 ${door.lockedBy}`, style: { fontSize: 8, fill: isSel ? 0xf0c040 : 0xffaa00 } })
+        lbl.x = tx1 * T + 2; lbl.y = ty1 * T + 2
+        layer.addChild(lbl)
+      }
+    })
+  }
+
   // ── Grid overlay ───────────────────────────────────────────────────────────────
   function drawGrid(gfx: PIXI.Graphics) {
     const wTiles = Math.ceil(mapW / T)
@@ -749,6 +813,21 @@ export function MapEditorCanvas(props: Props) {
     } else if (selectedEntity.type === 'interiorDecor' && selectedEntity.interiorId === activeInteriorId) {
       const item = configData.interiors?.[selectedEntity.interiorId]?.decor[selectedEntity.index]
       if (item?.tx !== undefined) { tx = item.tx; ty = item.ty ?? 0 }
+    } else if (selectedEntity.type === 'blockedPath') {
+      // Selection drawn per-tile inside renderBlockedPathsOverlay
+      return
+    } else if (selectedEntity.type === 'lockedDoor') {
+      const door = configData.lockedDoors?.[selectedEntity.index]
+      if (door) {
+        const b = (configData.buildings ?? []).find(bd => bd.id === door.buildingId)
+        if (b) {
+          const rects = b.rects ?? (b.rect ? [b.rect] : [])
+          for (const [tx1, ty1, tx2, ty2] of rects)
+            gfx.rect(tx1 * T - 2, ty1 * T - 2, (tx2 - tx1 + 1) * T + 4, (ty2 - ty1 + 1) * T + 4)
+              .stroke({ color: 0xf0c040, width: 2 })
+        }
+      }
+      return
     }
     if (tx >= 0) {
       gfx.rect(tx * T - 2, ty * T - 2, T + 4, T + 4).stroke({ color: 0xf0c040, width: 2 })
@@ -768,6 +847,8 @@ function hitTest(
   cfg: RawMapConfig, tx: number, ty: number,
   viewMode: string, activeInteriorId: string | null,
   showQuestItems = false,
+  showBlockedPaths = false,
+  blockedPaths: RawBlockedPath[] = [],
 ): SelectedEntity | null {
   if (viewMode === 'interior' && activeInteriorId) {
     const npcs = cfg.npcs ?? []
@@ -794,6 +875,12 @@ function hitTest(
     }
     return null
   }
+  if (showBlockedPaths) {
+    for (let i = 0; i < blockedPaths.length; i++) {
+      if (blockedPaths[i].blockedTiles.some(([btx, bty]) => btx === tx && bty === ty))
+        return { type: 'blockedPath', index: i }
+    }
+  }
   const extDecor = cfg.exteriorDecor ?? []
   for (let i = extDecor.length - 1; i >= 0; i--) {
     if (extDecor[i].tx === tx && extDecor[i].ty === ty)
@@ -808,8 +895,14 @@ function hitTest(
   for (let i = buildings.length - 1; i >= 0; i--) {
     const rects = buildings[i].rects ?? (buildings[i].rect ? [buildings[i].rect!] : [])
     for (const [tx1, ty1, tx2, ty2] of rects) {
-      if (tx >= tx1 && tx <= tx2 && ty >= ty1 && ty <= ty2)
+      if (tx >= tx1 && tx <= tx2 && ty >= ty1 && ty <= ty2) {
+        if (showBlockedPaths) {
+          const lockedDoors = cfg.lockedDoors ?? []
+          const dIdx = lockedDoors.findIndex(d => d.buildingId === buildings[i].id)
+          if (dIdx >= 0) return { type: 'lockedDoor', index: dIdx }
+        }
         return { type: 'building', index: i }
+      }
     }
   }
   if (showQuestItems) {
@@ -853,6 +946,7 @@ function getEntityTx(cfg: RawMapConfig, entity: SelectedEntity): number {
   }
   if (entity.type === 'treasure') return cfg.treasures?.[entity.index]?.tx ?? 0
   if (entity.type === 'pickupItem') return cfg.pickupItems?.[entity.index]?.tx ?? 0
+  if (entity.type === 'blockedPath' || entity.type === 'lockedDoor') return 0
   return 0
 }
 

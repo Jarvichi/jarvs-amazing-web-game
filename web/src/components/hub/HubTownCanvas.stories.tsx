@@ -2,7 +2,21 @@ import { fn } from 'storybook/test'
 import { useRef, useState, useEffect } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { HubTownCanvas } from './HubTownCanvas'
-import { IRONHOLDKEEP, IRONHOLDKEEP_QUESTS, MILLHAVE, MILLHAVE_QUESTS, RAVENWATCH, RAVENWATCH_QUESTS } from '../../data/hub/hubWorldFactory'
+import {
+  RAVENWATCH, RAVENWATCH_QUESTS,
+  MILLHAVE, MILLHAVE_QUESTS,
+  IRONHOLDKEEP, IRONHOLDKEEP_QUESTS,
+  THORNWOODCAMP, THORNWOODCAMP_QUESTS,
+  CAPITALCITY, CAPITALCITY_QUESTS,
+  ROYALPALACE, ROYALPALACE_QUESTS,
+  SALTMEREPORT, SALTMEREPORT_QUESTS,
+  GEARFORD, GEARFORD_QUESTS,
+  HARROWFIELD, HARROWFIELD_QUESTS,
+  APPLEFORD, APPLEFORD_QUESTS,
+  GRAVEMOOR, GRAVEMOOR_QUESTS,
+  HOLLOWMERE, HOLLOWMERE_QUESTS,
+  DREADSPIRECITADEL, DREADSPIRECITADEL_QUESTS,
+} from '../../data/hub/hubWorldFactory'
 
 const PAN_STEP = 64
 
@@ -97,12 +111,117 @@ export const IronholdKeep: Story = {
   },
 }
 
-export const millhaven: Story = {
+export const Millhaven: Story = {
   args: {
     onAreaEnter:    fn(),
     onNodeInteract: fn(),
     onAvatarMove:   fn(),
     locationData: MILLHAVE,
-    questData: MILLHAVE_QUESTS
+    questData: MILLHAVE_QUESTS,
+  },
+}
+
+export const ThornwoodCamp: Story = {
+  name: 'Thornwood Camp',
+  args: {
+    onAreaEnter:    fn(),
+    onNodeInteract: fn(),
+    onAvatarMove:   fn(),
+    locationData: THORNWOODCAMP,
+    questData: THORNWOODCAMP_QUESTS,
+  },
+}
+
+export const CapitalCity: Story = {
+  name: 'Capital City',
+  args: {
+    onAreaEnter:    fn(),
+    onNodeInteract: fn(),
+    onAvatarMove:   fn(),
+    locationData: CAPITALCITY,
+    questData: CAPITALCITY_QUESTS,
+  },
+}
+
+export const RoyalPalace: Story = {
+  name: 'Royal Palace',
+  args: {
+    onAreaEnter:    fn(),
+    onNodeInteract: fn(),
+    onAvatarMove:   fn(),
+    locationData: ROYALPALACE,
+    questData: ROYALPALACE_QUESTS,
+  },
+}
+
+export const SaltmerePort: Story = {
+  name: 'Saltmere Port',
+  args: {
+    onAreaEnter:    fn(),
+    onNodeInteract: fn(),
+    onAvatarMove:   fn(),
+    locationData: SALTMEREPORT,
+    questData: SALTMEREPORT_QUESTS,
+  },
+}
+
+export const Gearford: Story = {
+  args: {
+    onAreaEnter:    fn(),
+    onNodeInteract: fn(),
+    onAvatarMove:   fn(),
+    locationData: GEARFORD,
+    questData: GEARFORD_QUESTS,
+  },
+}
+
+export const Harrowfield: Story = {
+  args: {
+    onAreaEnter:    fn(),
+    onNodeInteract: fn(),
+    onAvatarMove:   fn(),
+    locationData: HARROWFIELD,
+    questData: HARROWFIELD_QUESTS,
+  },
+}
+
+export const Appleford: Story = {
+  args: {
+    onAreaEnter:    fn(),
+    onNodeInteract: fn(),
+    onAvatarMove:   fn(),
+    locationData: APPLEFORD,
+    questData: APPLEFORD_QUESTS,
+  },
+}
+
+export const Gravemoor: Story = {
+  args: {
+    onAreaEnter:    fn(),
+    onNodeInteract: fn(),
+    onAvatarMove:   fn(),
+    locationData: GRAVEMOOR,
+    questData: GRAVEMOOR_QUESTS,
+  },
+}
+
+export const Hollowmere: Story = {
+  args: {
+    onAreaEnter:    fn(),
+    onNodeInteract: fn(),
+    onAvatarMove:   fn(),
+    locationData: HOLLOWMERE,
+    questData: HOLLOWMERE_QUESTS,
+  },
+}
+
+export const DreadspirecCitadel: Story = {
+  name: 'Dreadspire Citadel',
+  args: {
+    onAreaEnter:    fn(),
+    onNodeInteract: fn(),
+    onAvatarMove:   fn(),
+    locationData: DREADSPIRECITADEL,
+    questData: DREADSPIRECITADEL_QUESTS,
   },
 }

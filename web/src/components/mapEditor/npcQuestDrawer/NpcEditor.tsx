@@ -7,6 +7,7 @@ interface Props {
   configData: RawMapConfig
   questDefsData: QuestDefsJson
   focusedIndex: number | null
+  onAddNpc: (npc: RawNpc) => void
   onUpdateNpc: (index: number, partial: Partial<RawNpc>) => void
 }
 
@@ -265,9 +266,11 @@ function NpcFullEditor({ npc, questIds, onUpdate }: {
 
 // ── NpcEditor (main export) ──────────────────────────────────────────────────
 
-export function NpcEditor({ configData, questDefsData, focusedIndex, onUpdateNpc }: Props) {
+export function NpcEditor({ configData, questDefsData, focusedIndex, onAddNpc, onUpdateNpc }: Props) {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
   const rowRefs = useRef<Record<number, HTMLDivElement | null>>({})
+  const containerRef = useRef<HTMLDivElement | null>(null)
+  const pendingScrollIndex = useRef<number | null>(null)
 
   useEffect(() => {
     if (focusedIndex === null) return
@@ -280,10 +283,41 @@ export function NpcEditor({ configData, questDefsData, focusedIndex, onUpdateNpc
   const npcs = configData.npcs ?? []
   const questIds = ((questDefsData.quests as Array<{ id: string }> | undefined) ?? []).map(q => q.id)
 
+  // Scroll to newly added NPC after the render that includes it
+  useEffect(() => {
+    if (pendingScrollIndex.current === null) return
+    const idx = pendingScrollIndex.current
+    pendingScrollIndex.current = null
+    setTimeout(() => {
+      rowRefs.current[idx]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    }, 50)
+  }, [npcs.length])
+
+  function handleAddNpc() {
+    console.log("add npc")
+    const defaultLocation = configData.avatarStart ?? {tx:5, ty:5} as {tx: Number, ty: number}
+    const tx = defaultLocation.tx
+    const ty = defaultLocation.ty
+    const newIndex = npcs.length
+    pendingScrollIndex.current = newIndex
+    onAddNpc({
+      id: `npc_${Date.now()}`,
+      name: 'New NPC',
+      sprite: '',
+      tx,
+      ty,
+      dialogue: ['Hello!'],
+    })
+    setExpandedIndex(newIndex)
+  }
+
   return (
-    <div style={{ flex: 1, overflowY: 'auto', padding: 8, color: '#ccc' }}>
+    <div ref={containerRef} style={{ flex: 1, overflowY: 'auto', padding: 8, color: '#ccc' }}>
+      <div style={{ marginBottom: 8 }}>
+        <button style={BTN_ADD} onClick={handleAddNpc}>+ Add NPC</button>
+      </div>
       {npcs.length === 0 && (
-        <div style={{ color: '#555', fontSize: 11, textAlign: 'center', marginTop: 20 }}>No NPCs on this map.</div>
+        <div style={{ color: '#555', fontSize: 11, textAlign: 'center', marginTop: 8 }}>No NPCs on this map.</div>
       )}
       {npcs.map((npc, i) => (
         <div key={npc.id} ref={el => { rowRefs.current[i] = el }}>

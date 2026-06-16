@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import type { RawMapConfig, RawNpc, RawInterior, SelectedEntity, ToolMode, Zlayer, MapEditorState } from './mapEditorTypes'
+import type { RawMapConfig, RawNpc, RawInterior, RawLockedDoor, SelectedEntity, ToolMode, Zlayer, MapEditorState } from './mapEditorTypes'
 
 type InteriorExit = NonNullable<RawInterior['exits']>[number]
 import hubConfig from '../../data/hub/ravenwatch/config.json'
@@ -297,6 +297,20 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     })
   }, [])
 
+  const addNpc = useCallback((npc: RawNpc) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const npcs = [...(prevConfig.npcs ?? []), npc]
+      return {
+        ...s,
+        configData: { ...prevConfig, npcs },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
   const updateNpc = useCallback((index: number, partial: Partial<RawNpc>) => {
     setState(s => {
       const prevConfig = s.configData
@@ -313,24 +327,64 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     })
   }, [])
 
-  const resizeInterior = useCallback((interiorId: string, dir: 'top' | 'bottom' | 'left' | 'right') => {
+  const resizeInterior = useCallback((interiorId: string, dir: 'top' | 'bottom' | 'left' | 'right', grow = true) => {
     setState(s => {
       const prevConfig = s.configData
       const interior = prevConfig.interiors?.[interiorId]
       if (!interior) return s
-      const shiftX = dir === 'left' ? 1 : 0
-      const shiftY = dir === 'top' ? 1 : 0
-      const newInterior: RawInterior = {
-        ...interior,
-        width: dir === 'left' || dir === 'right' ? interior.width + 1 : interior.width,
-        height: dir === 'top' || dir === 'bottom' ? interior.height + 1 : interior.height,
-        decor: interior.decor.map(d => ({
-          ...d,
-          ...(shiftX ? { tx: (d.tx ?? 0) + shiftX } : {}),
-          ...(shiftY ? { ty: (d.ty ?? 0) + shiftY } : {}),
-        })),
-        exits: interior.exits?.map(e => ({ ...e, tx: e.tx + shiftX, ty: e.ty + shiftY })),
+
+      const MIN = 4
+      if (!grow) {
+        if ((dir === 'left' || dir === 'right') && interior.width <= MIN) return s
+        if ((dir === 'top' || dir === 'bottom') && interior.height <= MIN) return s
       }
+
+      let newInterior: RawInterior
+      if (grow) {
+        const shiftX = dir === 'left' ? 1 : 0
+        const shiftY = dir === 'top' ? 1 : 0
+        newInterior = {
+          ...interior,
+          width: dir === 'left' || dir === 'right' ? interior.width + 1 : interior.width,
+          height: dir === 'top' || dir === 'bottom' ? interior.height + 1 : interior.height,
+          decor: interior.decor.map(d => ({
+            ...d,
+            ...(shiftX ? { tx: (d.tx ?? 0) + shiftX } : {}),
+            ...(shiftY ? { ty: (d.ty ?? 0) + shiftY } : {}),
+          })),
+          exits: interior.exits?.map(e => ({ ...e, tx: e.tx + shiftX, ty: e.ty + shiftY })),
+        }
+      } else {
+        // Shrink: remove the edge row/col and shift inward if needed
+        const removeCol = dir === 'left' ? 0 : dir === 'right' ? interior.width - 1 : null
+        const removeRow = dir === 'top' ? 0 : dir === 'bottom' ? interior.height - 1 : null
+        const shiftX = dir === 'left' ? -1 : 0
+        const shiftY = dir === 'top' ? -1 : 0
+        newInterior = {
+          ...interior,
+          width: removeCol !== null ? interior.width - 1 : interior.width,
+          height: removeRow !== null ? interior.height - 1 : interior.height,
+          decor: interior.decor
+            .filter(d => {
+              if (removeCol !== null && (d.tx ?? 0) === removeCol) return false
+              if (removeRow !== null && (d.ty ?? 0) === removeRow) return false
+              return true
+            })
+            .map(d => ({
+              ...d,
+              ...(shiftX ? { tx: (d.tx ?? 0) + shiftX } : {}),
+              ...(shiftY ? { ty: (d.ty ?? 0) + shiftY } : {}),
+            })),
+          exits: interior.exits
+            ?.filter(e => {
+              if (removeCol !== null && e.tx === removeCol) return false
+              if (removeRow !== null && e.ty === removeRow) return false
+              return true
+            })
+            .map(e => ({ ...e, tx: e.tx + shiftX, ty: e.ty + shiftY })),
+        }
+      }
+
       return {
         ...s,
         configData: { ...prevConfig, interiors: { ...prevConfig.interiors, [interiorId]: newInterior } },
@@ -566,6 +620,51 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     })
   }, [])
 
+  const addLockedDoor = useCallback((door: RawLockedDoor) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const lockedDoors = [...(prevConfig.lockedDoors ?? []), door]
+      return {
+        ...s,
+        configData: { ...prevConfig, lockedDoors },
+        undoStack:  [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack:  [],
+        isDirty:    true,
+      }
+    })
+  }, [])
+
+  const updateLockedDoor = useCallback((index: number, patch: Partial<RawLockedDoor>) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const lockedDoors = [...(prevConfig.lockedDoors ?? [])]
+      if (!lockedDoors[index]) return s
+      lockedDoors[index] = { ...lockedDoors[index], ...patch }
+      return {
+        ...s,
+        configData: { ...prevConfig, lockedDoors },
+        undoStack:  [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack:  [],
+        isDirty:    true,
+      }
+    })
+  }, [])
+
+  const deleteLockedDoor = useCallback((index: number) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const lockedDoors = (prevConfig.lockedDoors ?? []).filter((_, i) => i !== index)
+      return {
+        ...s,
+        configData:     { ...prevConfig, lockedDoors },
+        selectedEntity: null,
+        undoStack:      [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack:      [],
+        isDirty:        true,
+      }
+    })
+  }, [])
+
   const markSaved = useCallback(() => {
     setState(s => ({ ...s, isDirty: false }))
   }, [])
@@ -583,6 +682,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     moveEntity,
     deleteEntity,
     updateDecorZlayer,
+    addNpc,
     updateNpcDialogue,
     updateNpc,
     resizeInterior,
@@ -595,6 +695,9 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     redo,
     addStreet,
     updateStreetEntry,
+    addLockedDoor,
+    updateLockedDoor,
+    deleteLockedDoor,
     markSaved,
   }
 }

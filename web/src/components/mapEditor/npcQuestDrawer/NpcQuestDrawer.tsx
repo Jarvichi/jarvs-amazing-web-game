@@ -11,6 +11,7 @@ interface Props {
   configData: RawMapConfig
   questDefsData: QuestDefsJson
   onTabChange: (tab: DrawerTab) => void
+  onAddNpc: (npc: RawNpc) => void
   onUpdateNpc: (index: number, partial: Partial<RawNpc>) => void
   onQuestDefsChange: (updater: (prev: QuestDefsJson) => QuestDefsJson) => void
 }
@@ -26,7 +27,7 @@ const TAB_INACTIVE: React.CSSProperties = {
 
 export function NpcQuestDrawer({
   tab, focusedNpcIndex, configData, questDefsData,
-  onTabChange, onUpdateNpc, onQuestDefsChange,
+  onTabChange, onAddNpc, onUpdateNpc, onQuestDefsChange,
 }: Props) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#12122a', borderTop: '1px solid #333' }}>
@@ -44,6 +45,7 @@ export function NpcQuestDrawer({
             configData={configData}
             questDefsData={questDefsData}
             focusedIndex={focusedNpcIndex}
+            onAddNpc={onAddNpc}
             onUpdateNpc={onUpdateNpc}
           />
         )}

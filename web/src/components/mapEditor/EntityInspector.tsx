@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import type { SelectedEntity, RawMapConfig, RawInterior, Zlayer, RawDecorItem, RawNpc, RawBuilding } from './mapEditorTypes'
+import type { SelectedEntity, RawMapConfig, RawInterior, RawBlockedPath, RawLockedDoor, Zlayer, RawDecorItem, RawNpc, RawBuilding } from './mapEditorTypes'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
+import { EXTENDED_TILE_REFS } from '../../data/tiles/tileIndex'
 import type { WallMaterial } from '../../data/tiles/buildingMaterials'
 import { RawQuestPickupItem } from '../../data/hub/hubWorldFactory'
 
@@ -36,7 +37,7 @@ interface Props {
   onOpenInterior:        (id: string) => void
   onCloseInterior:       () => void
   onUpdateStreetEntry:   (index: number, data: { rect?: number[]; tile?: number[]; pathType?: string }) => void
-  onResizeInterior:      (interiorId: string, dir: 'top' | 'bottom' | 'left' | 'right') => void
+  onResizeInterior:      (interiorId: string, dir: 'top' | 'bottom' | 'left' | 'right', grow?: boolean) => void
   onAddInterior:         (id: string, interior: RawInterior) => void
   onAddInteriorExit:     (interiorId: string, exit: InteriorExit) => void
   onUpdateInteriorProps: (interiorId: string, patch: Partial<RawInterior>) => void
@@ -44,25 +45,52 @@ interface Props {
   onRemoveInteriorExit:  (interiorId: string, index: number) => void
   questPickupItems:      RawQuestPickupItem[]
   viewMode:              'exterior' | 'interior'
+  blockedPaths:          RawBlockedPath[]
+  onUpdateBlockedPath:   (index: number, patch: Partial<RawBlockedPath>) => void
+  onDeleteBlockedPath:   (index: number) => void
+  onAddLockedDoor:       (door: RawLockedDoor) => void
+  onUpdateLockedDoor:    (index: number, patch: Partial<RawLockedDoor>) => void
+  onDeleteLockedDoor:    (index: number) => void
 }
 
 function TilePreview({ tileId }: { tileId: string }) {
   const id = (BASE_CHIP_TILES as Record<string, number>)[tileId]
   if (id === undefined) return <span style={{ color: '#888' }}>{tileId}</span>
-  const col = id % COLS
-  const row = Math.floor(id / COLS)
+
+  let previewStyle: React.CSSProperties
+  if (id >= 10000) {
+    const ref = EXTENDED_TILE_REFS[id]
+    if (ref) {
+      const col = ref.id % ref.columns
+      const row = Math.floor(ref.id / ref.columns)
+      previewStyle = {
+        width: T, height: T, flexShrink: 0,
+        backgroundImage: `url("${ref.file}")`,
+        backgroundPosition: ref.columns === 1 ? '0 0' : `-${col * T}px -${row * T}px`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: ref.columns === 1 ? `${T}px ${T}px` : 'auto',
+        imageRendering: 'pixelated',
+        border: '1px solid #444',
+      }
+    } else {
+      return <span style={{ color: '#888' }}>{tileId} (#{id})</span>
+    }
+  } else {
+    const col = id % COLS
+    const row = Math.floor(id / COLS)
+    previewStyle = {
+      width: T, height: T, flexShrink: 0,
+      backgroundImage: `url("${SHEET_URL}")`,
+      backgroundPosition: `-${col * T}px -${row * T}px`,
+      backgroundRepeat: 'no-repeat',
+      imageRendering: 'pixelated',
+      border: '1px solid #444',
+    }
+  }
+
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-      <div
-        style={{
-          width: T, height: T, flexShrink: 0,
-          backgroundImage: `url("${SHEET_URL}")`,
-          backgroundPosition: `-${col * T}px -${row * T}px`,
-          backgroundRepeat: 'no-repeat',
-          imageRendering: 'pixelated',
-          border: '1px solid #444',
-        }}
-      />
+      <div style={previewStyle} />
       <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{tileId}</span>
     </div>
   )
@@ -475,7 +503,7 @@ function InteriorInspector({
   bodyStyle: React.CSSProperties
   onCloseInterior: () => void
   onOpenInterior: (id: string) => void
-  onResizeInterior: (id: string, dir: 'top' | 'bottom' | 'left' | 'right') => void
+  onResizeInterior: (id: string, dir: 'top' | 'bottom' | 'left' | 'right', grow?: boolean) => void
   onAddInteriorExit: (id: string, exit: InteriorExit) => void
   onUpdateInteriorProps: (id: string, patch: Partial<RawInterior>) => void
   onUpdateInteriorExit: (id: string, index: number, patch: Partial<InteriorExit>) => void
@@ -518,7 +546,7 @@ function InteriorInspector({
     setShowExitForm(false)
   }
 
-  const resize = (dir: 'top' | 'bottom' | 'left' | 'right') => onResizeInterior(interiorId, dir)
+  const resize = (dir: 'top' | 'bottom' | 'left' | 'right', grow = true) => onResizeInterior(interiorId, dir, grow)
 
   const btnSm: React.CSSProperties = {
     padding: '3px 8px', fontSize: 10, cursor: 'pointer', borderRadius: 3,
@@ -545,13 +573,25 @@ function InteriorInspector({
             {/* Size + resize buttons */}
             <Field label="Size">
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}>
-                <button style={btnSm} onClick={() => resize('top')}>+ row top</button>
-                <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                  <button style={btnSm} onClick={() => resize('left')}>+ col left</button>
-                  <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa', minWidth: 60, textAlign: 'center' }}>{interior.width} × {interior.height}</span>
-                  <button style={btnSm} onClick={() => resize('right')}>+ col right</button>
+                <div style={{ display: 'flex', gap: 4 }}>
+                  <button style={btnSm} onClick={() => resize('top', false)}>− row top</button>
+                  <button style={btnSm} onClick={() => resize('top')}>+ row top</button>
                 </div>
-                <button style={btnSm} onClick={() => resize('bottom')}>+ row bottom</button>
+                <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    <button style={btnSm} onClick={() => resize('left', false)}>− col left</button>
+                    <button style={btnSm} onClick={() => resize('left')}>+ col left</button>
+                  </div>
+                  <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa', minWidth: 60, textAlign: 'center' }}>{interior.width} × {interior.height}</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    <button style={btnSm} onClick={() => resize('right', false)}>− col right</button>
+                    <button style={btnSm} onClick={() => resize('right')}>+ col right</button>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: 4 }}>
+                  <button style={btnSm} onClick={() => resize('bottom', false)}>− row bottom</button>
+                  <button style={btnSm} onClick={() => resize('bottom')}>+ row bottom</button>
+                </div>
               </div>
             </Field>
 
@@ -697,6 +737,100 @@ function InteriorInspector({
   )
 }
 
+function BlockedPathInspector({
+  bp, onUpdate, onDelete,
+}: {
+  bp: RawBlockedPath
+  onUpdate: (patch: Partial<RawBlockedPath>) => void
+  onDelete: () => void
+}) {
+  const [editQuestId, setEditQuestId] = useState(bp.questId)
+  return (
+    <div>
+      <Field label="ID"><span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{bp.id}</span></Field>
+      <Field label="Quest ID">
+        <div style={{ display: 'flex', gap: 4 }}>
+          <input
+            value={editQuestId}
+            onChange={e => setEditQuestId(e.target.value)}
+            style={{ flex: 1, padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11, fontFamily: 'monospace' }}
+          />
+          <button
+            onClick={() => onUpdate({ questId: editQuestId })}
+            style={{ padding: '3px 7px', background: '#1a3a1a', border: '1px solid #3a6a3a', color: '#8d8', borderRadius: 3, fontSize: 11, cursor: 'pointer' }}
+          >✓</button>
+        </div>
+      </Field>
+      <Field label={`Blocked Tiles (${bp.blockedTiles.length})`}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {bp.blockedTiles.map(([tx, ty], i) => (
+            <div key={i} style={{ display: 'flex', gap: 6, alignItems: 'center', fontFamily: 'monospace', fontSize: 11, color: '#ff9977' }}>
+              <span style={{ flex: 1 }}>[{tx}, {ty}]</span>
+              <button
+                onClick={() => onUpdate({ blockedTiles: bp.blockedTiles.filter((_, j) => j !== i) })}
+                style={{ padding: '1px 5px', background: '#4a1a1a', border: '1px solid #922', color: '#f88', borderRadius: 3, fontSize: 10, cursor: 'pointer' }}
+              >✕</button>
+            </div>
+          ))}
+        </div>
+      </Field>
+      {bp.blocked.decor && bp.blocked.decor.length > 0 && (
+        <Field label="Blocked Decor">
+          {bp.blocked.decor.map((d, i) => (
+            <div key={i} style={{ fontFamily: 'monospace', fontSize: 10, color: '#888' }}>[{d.tx},{d.ty}] {d.tileId}</div>
+          ))}
+        </Field>
+      )}
+      {bp.cleared.decor && bp.cleared.decor.length > 0 && (
+        <Field label="Cleared Decor">
+          {bp.cleared.decor.map((d, i) => (
+            <div key={i} style={{ fontFamily: 'monospace', fontSize: 10, color: '#888' }}>[{d.tx},{d.ty}] {d.tileId}</div>
+          ))}
+        </Field>
+      )}
+      <button
+        onClick={onDelete}
+        style={{ marginTop: 8, padding: '4px 10px', background: '#4a1a1a', border: '1px solid #922', color: '#f88', borderRadius: 3, fontSize: 11, cursor: 'pointer' }}
+      >Delete Blocked Path</button>
+    </div>
+  )
+}
+
+function LockedDoorInspector({
+  door, onUpdate, onDelete,
+}: {
+  door: RawLockedDoor
+  onUpdate: (patch: Partial<RawLockedDoor>) => void
+  onDelete: () => void
+}) {
+  const [editLockedBy, setEditLockedBy] = useState(door.lockedBy)
+  return (
+    <div>
+      <Field label="Building">
+        <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#ffaa00' }}>{door.buildingId}</span>
+      </Field>
+      <Field label="Unlocked By (item key)">
+        <div style={{ display: 'flex', gap: 4 }}>
+          <input
+            value={editLockedBy}
+            onChange={e => setEditLockedBy(e.target.value)}
+            placeholder="e.g. barracks-key"
+            style={{ flex: 1, padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11, fontFamily: 'monospace' }}
+          />
+          <button
+            onClick={() => onUpdate({ lockedBy: editLockedBy })}
+            style={{ padding: '3px 7px', background: '#1a3a1a', border: '1px solid #3a6a3a', color: '#8d8', borderRadius: 3, fontSize: 11, cursor: 'pointer' }}
+          >✓</button>
+        </div>
+      </Field>
+      <button
+        onClick={onDelete}
+        style={{ marginTop: 8, padding: '4px 10px', background: '#4a1a1a', border: '1px solid #922', color: '#f88', borderRadius: 3, fontSize: 11, cursor: 'pointer' }}
+      >Remove Lock</button>
+    </div>
+  )
+}
+
 export function EntityInspector({
   selectedEntity, configData, activeInteriorId, viewMode,
   onDelete, onMoveEntity, onZlayerChange, onDialogueChange,
@@ -704,6 +838,8 @@ export function EntityInspector({
   onResizeInterior, onAddInterior, onAddInteriorExit, onUpdateInteriorProps, onUpdateInteriorExit,
   onRemoveInteriorExit,
   questPickupItems,
+  blockedPaths, onUpdateBlockedPath, onDeleteBlockedPath,
+  onAddLockedDoor, onUpdateLockedDoor, onDeleteLockedDoor,
 }: Props) {
   const panelStyle: React.CSSProperties = {
     display: 'flex', flexDirection: 'column', height: '100%',
@@ -867,7 +1003,6 @@ export function EntityInspector({
     const building = buildings[selectedEntity.index]
     if (!building) return null
 
-    // Find which interiors are linked to this building
     const buildingId = building.id
     const interiorIds: string[] = buildingId
       ? Object.keys(configData.interiors ?? {}).filter(id => {
@@ -875,6 +1010,7 @@ export function EntityInspector({
           return doors.some(d => d.buildingId === id) || id.startsWith(buildingId)
         })
       : []
+    const existingLock = buildingId ? (configData.lockedDoors ?? []).find(d => d.buildingId === buildingId) : undefined
 
     return (
       <div style={panelStyle}>
@@ -886,6 +1022,61 @@ export function EntityInspector({
             interiorIds={interiorIds}
             existingInteriorIds={Object.keys(configData.interiors ?? {})}
             onAddInterior={onAddInterior}
+          />
+          {buildingId && !existingLock && (
+            <div style={{ borderTop: '1px solid #333', marginTop: 10, paddingTop: 10 }}>
+              <button
+                onClick={() => onAddLockedDoor({ buildingId, lockedBy: '' })}
+                style={{ padding: '4px 10px', background: '#2a1e0e', border: '1px solid #7a5a0a', color: '#ffaa44', borderRadius: 3, fontSize: 11, cursor: 'pointer' }}
+              >🔒 Add locked door</button>
+            </div>
+          )}
+          {existingLock && (
+            <div style={{ borderTop: '1px solid #333', marginTop: 10, paddingTop: 10 }}>
+              <div style={{ color: '#ffaa00', fontSize: 11, marginBottom: 6 }}>🔒 Locked door</div>
+              <LockedDoorInspector
+                door={existingLock}
+                onUpdate={patch => onUpdateLockedDoor((configData.lockedDoors ?? []).indexOf(existingLock), patch)}
+                onDelete={() => onDeleteLockedDoor((configData.lockedDoors ?? []).indexOf(existingLock))}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  if (selectedEntity.type === 'blockedPath') {
+    const bp = blockedPaths[selectedEntity.index]
+    if (!bp) return null
+    return (
+      <div style={panelStyle}>
+        <div style={{ ...headerStyle, color: '#ff9977' }}>Blocked Path</div>
+        <div style={bodyStyle}>
+          <BlockedPathInspector
+            key={bp.id}
+            bp={bp}
+            onUpdate={patch => onUpdateBlockedPath(selectedEntity.index, patch)}
+            onDelete={() => onDeleteBlockedPath(selectedEntity.index)}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  if (selectedEntity.type === 'lockedDoor') {
+    const door = (configData.lockedDoors ?? [])[selectedEntity.index]
+    if (!door) return null
+    const building = (configData.buildings ?? []).find(b => b.id === door.buildingId)
+    return (
+      <div style={panelStyle}>
+        <div style={{ ...headerStyle, color: '#ffaa00' }}>🔒 Locked Door</div>
+        <div style={bodyStyle}>
+          <LockedDoorInspector
+            key={door.buildingId}
+            door={door}
+            onUpdate={patch => onUpdateLockedDoor(selectedEntity.index, patch)}
+            onDelete={() => onDeleteLockedDoor(selectedEntity.index)}
           />
         </div>
       </div>

@@ -2,7 +2,22 @@ import { fn } from 'storybook/test'
 import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { HubWorld, Props } from './HubWorld'
-import { ALL_QUEST_DEFS, ALL_QUESTS, IRONHOLDKEEP, IRONHOLDKEEP_QUESTS, MILLHAVE, MILLHAVE_QUESTS, RAVENWATCH, RAVENWATCH_QUESTS } from '../../data/hub/hubWorldFactory'
+import {
+  ALL_QUEST_DEFS,
+  RAVENWATCH, RAVENWATCH_QUESTS,
+  MILLHAVE, MILLHAVE_QUESTS,
+  IRONHOLDKEEP, IRONHOLDKEEP_QUESTS,
+  THORNWOODCAMP, THORNWOODCAMP_QUESTS,
+  CAPITALCITY, CAPITALCITY_QUESTS,
+  ROYALPALACE, ROYALPALACE_QUESTS,
+  SALTMEREPORT, SALTMEREPORT_QUESTS,
+  GEARFORD, GEARFORD_QUESTS,
+  HARROWFIELD, HARROWFIELD_QUESTS,
+  APPLEFORD, APPLEFORD_QUESTS,
+  GRAVEMOOR, GRAVEMOOR_QUESTS,
+  HOLLOWMERE, HOLLOWMERE_QUESTS,
+  DREADSPIRECITADEL, DREADSPIRECITADEL_QUESTS,
+} from '../../data/hub/hubWorldFactory'
 
 const meta = {
   component: HubWorld,
@@ -95,15 +110,111 @@ export const MillhavenTileInspector: Story = {
 }
 
 export const IronholdKeepTileInspector: Story = {
-    render: (args) => tileInspector(args),
+  name: 'Ironhold Keep — Tile Inspector',
+  render: (args) => tileInspector(args),
   args: {
-    onBack: fn(),
-    onFeedback: fn(),
-    user: null,
+    onBack: fn(), onFeedback: fn(), user: null,
+    locationData: IRONHOLDKEEP, locationQuests: IRONHOLDKEEP_QUESTS,
+    questDefs: IRONHOLDKEEP_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
+  },
+}
 
-    locationData:    IRONHOLDKEEP,
-    locationQuests: IRONHOLDKEEP_QUESTS,
-    questDefs:       IRONHOLDKEEP_QUESTS.HUB_QUEST_DEFS,
-    allQuestDefs:    ALL_QUEST_DEFS   
+export const ThornwoodCampTileInspector: Story = {
+  name: 'Thornwood Camp — Tile Inspector',
+  render: (args) => tileInspector(args),
+  args: {
+    onBack: fn(), onFeedback: fn(), user: null,
+    locationData: THORNWOODCAMP, locationQuests: THORNWOODCAMP_QUESTS,
+    questDefs: THORNWOODCAMP_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
+  },
+}
+
+export const CapitalCityTileInspector: Story = {
+  name: 'Capital City — Tile Inspector',
+  render: (args) => tileInspector(args),
+  args: {
+    onBack: fn(), onFeedback: fn(), user: null,
+    locationData: CAPITALCITY, locationQuests: CAPITALCITY_QUESTS,
+    questDefs: CAPITALCITY_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
+  },
+}
+
+export const RoyalPalaceTileInspector: Story = {
+  name: 'Royal Palace — Tile Inspector',
+  render: (args) => tileInspector(args),
+  args: {
+    onBack: fn(), onFeedback: fn(), user: null,
+    locationData: ROYALPALACE, locationQuests: ROYALPALACE_QUESTS,
+    questDefs: ROYALPALACE_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
+  },
+}
+
+export const SaltmerePortTileInspector: Story = {
+  name: 'Saltmere Port — Tile Inspector',
+  render: (args) => tileInspector(args),
+  args: {
+    onBack: fn(), onFeedback: fn(), user: null,
+    locationData: SALTMEREPORT, locationQuests: SALTMEREPORT_QUESTS,
+    questDefs: SALTMEREPORT_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
+  },
+}
+
+export const GearfordTileInspector: Story = {
+  name: 'Gearford — Tile Inspector',
+  render: (args) => tileInspector(args),
+  args: {
+    onBack: fn(), onFeedback: fn(), user: null,
+    locationData: GEARFORD, locationQuests: GEARFORD_QUESTS,
+    questDefs: GEARFORD_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
+  },
+}
+
+export const HarrowfieldTileInspector: Story = {
+  name: 'Harrowfield — Tile Inspector',
+  render: (args) => tileInspector(args),
+  args: {
+    onBack: fn(), onFeedback: fn(), user: null,
+    locationData: HARROWFIELD, locationQuests: HARROWFIELD_QUESTS,
+    questDefs: HARROWFIELD_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
+  },
+}
+
+export const ApplefordTileInspector: Story = {
+  name: 'Appleford — Tile Inspector',
+  render: (args) => tileInspector(args),
+  args: {
+    onBack: fn(), onFeedback: fn(), user: null,
+    locationData: APPLEFORD, locationQuests: APPLEFORD_QUESTS,
+    questDefs: APPLEFORD_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
+  },
+}
+
+export const GravemoorTileInspector: Story = {
+  name: 'Gravemoor — Tile Inspector',
+  render: (args) => tileInspector(args),
+  args: {
+    onBack: fn(), onFeedback: fn(), user: null,
+    locationData: GRAVEMOOR, locationQuests: GRAVEMOOR_QUESTS,
+    questDefs: GRAVEMOOR_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
+  },
+}
+
+export const HollowmereTileInspector: Story = {
+  name: 'Hollowmere — Tile Inspector',
+  render: (args) => tileInspector(args),
+  args: {
+    onBack: fn(), onFeedback: fn(), user: null,
+    locationData: HOLLOWMERE, locationQuests: HOLLOWMERE_QUESTS,
+    questDefs: HOLLOWMERE_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
+  },
+}
+
+export const DreadspirecCitadelTileInspector: Story = {
+  name: 'Dreadspire Citadel — Tile Inspector',
+  render: (args) => tileInspector(args),
+  args: {
+    onBack: fn(), onFeedback: fn(), user: null,
+    locationData: DREADSPIRECITADEL, locationQuests: DREADSPIRECITADEL_QUESTS,
+    questDefs: DREADSPIRECITADEL_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
   },
 }

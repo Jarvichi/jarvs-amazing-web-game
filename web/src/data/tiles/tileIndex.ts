@@ -1,4 +1,7 @@
 import { BASE_CHIP_TILES } from "./baseChipIndex"
+import { EXTENDED_TILE_DEFS } from "./extendedTileDefs"
+export type { ExtendedTileDef } from "./extendedTileDefs"
+export { EXTENDED_TILE_DEFS } from "./extendedTileDefs"
 
 export const TILE_SIZE = 32
 
@@ -199,51 +202,9 @@ export interface TileRef {
   columns: number  // number of columns in the sheet
 }
 
-export const EXTENDED_TILE_REFS: Record<number, TileRef> = {
-  // ── Crystal tiles (10000–10039) — individual 32×32 PNGs, 1 column each ──
-  10000: { file: '/nodemap/32x32/Black_crystal1.png',         id: 0, columns: 1 },
-  10001: { file: '/nodemap/32x32/Black_crystal2.png',         id: 0, columns: 1 },
-  10002: { file: '/nodemap/32x32/Black_crystal3.png',         id: 0, columns: 1 },
-  10003: { file: '/nodemap/32x32/Black_crystal4.png',         id: 0, columns: 1 },
-  10004: { file: '/nodemap/32x32/Blue_crystal1.png',          id: 0, columns: 1 },
-  10005: { file: '/nodemap/32x32/Blue_crystal2.png',          id: 0, columns: 1 },
-  10006: { file: '/nodemap/32x32/Blue_crystal3.png',          id: 0, columns: 1 },
-  10007: { file: '/nodemap/32x32/Blue_crystal4.png',          id: 0, columns: 1 },
-  10008: { file: '/nodemap/32x32/Dark_red_ crystal1.png',     id: 0, columns: 1 },
-  10009: { file: '/nodemap/32x32/Dark_red_ crystal2.png',     id: 0, columns: 1 },
-  10010: { file: '/nodemap/32x32/Dark_red_ crystal3.png',     id: 0, columns: 1 },
-  10011: { file: '/nodemap/32x32/Dark_red_ crystal4.png',     id: 0, columns: 1 },
-  10012: { file: '/nodemap/32x32/Green_crystal1.png',         id: 0, columns: 1 },
-  10013: { file: '/nodemap/32x32/Green_crystal2.png',         id: 0, columns: 1 },
-  10014: { file: '/nodemap/32x32/Green_crystal3.png',         id: 0, columns: 1 },
-  10015: { file: '/nodemap/32x32/Green_crystal4.png',         id: 0, columns: 1 },
-  10016: { file: '/nodemap/32x32/Pink_crystal1.png',          id: 0, columns: 1 },
-  10017: { file: '/nodemap/32x32/Pink_crystal2.png',          id: 0, columns: 1 },
-  10018: { file: '/nodemap/32x32/Pink_crystal3.png',          id: 0, columns: 1 },
-  10019: { file: '/nodemap/32x32/Pink_crystal4.png',          id: 0, columns: 1 },
-  10020: { file: '/nodemap/32x32/Red_crystal1.png',           id: 0, columns: 1 },
-  10021: { file: '/nodemap/32x32/Red_crystal2.png',           id: 0, columns: 1 },
-  10022: { file: '/nodemap/32x32/Red_crystal3.png',           id: 0, columns: 1 },
-  10023: { file: '/nodemap/32x32/Red_crystal4.png',           id: 0, columns: 1 },
-  10024: { file: '/nodemap/32x32/Violet_crystal1.png',        id: 0, columns: 1 },
-  10025: { file: '/nodemap/32x32/Violet_crystal2.png',        id: 0, columns: 1 },
-  10026: { file: '/nodemap/32x32/Violet_crystal3.png',        id: 0, columns: 1 },
-  10027: { file: '/nodemap/32x32/Violet_crystal4.png',        id: 0, columns: 1 },
-  10028: { file: '/nodemap/32x32/White_crystal1.png',         id: 0, columns: 1 },
-  10029: { file: '/nodemap/32x32/White_crystal2.png',         id: 0, columns: 1 },
-  10030: { file: '/nodemap/32x32/White_crystal3.png',         id: 0, columns: 1 },
-  10031: { file: '/nodemap/32x32/White_crystal4.png',         id: 0, columns: 1 },
-  10032: { file: '/nodemap/32x32/Yellow-green_crystal1.png',  id: 0, columns: 1 },
-  10033: { file: '/nodemap/32x32/Yellow-green_crystal2.png',  id: 0, columns: 1 },
-  10034: { file: '/nodemap/32x32/Yellow-green_crystal3.png',  id: 0, columns: 1 },
-  10035: { file: '/nodemap/32x32/Yellow-green_crystal4.png',  id: 0, columns: 1 },
-  10036: { file: '/nodemap/32x32/Yellow_crystal1.png',        id: 0, columns: 1 },
-  10037: { file: '/nodemap/32x32/Yellow_crystal2.png',        id: 0, columns: 1 },
-  10038: { file: '/nodemap/32x32/Yellow_crystal3.png',        id: 0, columns: 1 },
-  10039: { file: '/nodemap/32x32/Yellow_crystal4.png',        id: 0, columns: 1 },
-  // ── Pictsquare tiles (11000+) — added as tiles are named in TileBrowser ──
-  // Example: 11000: { file: '/world/pictsquare2021.png', id: 42, columns: 61 },
-}
+export const EXTENDED_TILE_REFS: Record<number, TileRef> = Object.fromEntries(
+  EXTENDED_TILE_DEFS.map(d => [d.globalId, { file: d.file, id: d.localId, columns: d.columns }])
+)
 
 export function resolveTileRef(globalId: number): TileRef {
   if (globalId < 10000) {

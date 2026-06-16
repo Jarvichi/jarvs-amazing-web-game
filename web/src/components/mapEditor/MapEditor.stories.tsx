@@ -24,3 +24,48 @@ export const Millhaven: Story = {
 export const IronholdKeep: Story = {
   args: { initialMapId: 'ironholdkeep' },
 }
+
+export const ThornwoodCamp: Story = {
+  name: 'Thornwood Camp',
+  args: { initialMapId: 'thornwoodcamp' },
+}
+
+export const CapitalCity: Story = {
+  name: 'Capital City',
+  args: { initialMapId: 'capitalcity' },
+}
+
+export const RoyalPalace: Story = {
+  name: 'Royal Palace',
+  args: { initialMapId: 'royalpalace' },
+}
+
+export const SaltmerePort: Story = {
+  name: 'Saltmere Port',
+  args: { initialMapId: 'saltmereport' },
+}
+
+export const Gearford: Story = {
+  args: { initialMapId: 'gearford' },
+}
+
+export const Harrowfield: Story = {
+  args: { initialMapId: 'harrowfield' },
+}
+
+export const Appleford: Story = {
+  args: { initialMapId: 'appleford' },
+}
+
+export const Gravemoor: Story = {
+  args: { initialMapId: 'gravemoor' },
+}
+
+export const Hollowmere: Story = {
+  args: { initialMapId: 'hollowmere' },
+}
+
+export const DreadspirecCitadel: Story = {
+  name: 'Dreadspire Citadel',
+  args: { initialMapId: 'dreadspirecitadel' },
+}

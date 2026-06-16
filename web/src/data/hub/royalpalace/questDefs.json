@@ -13,7 +13,11 @@
         {
           "key": "regalia",
           "type": "collect",
-          "pickupIds": ["regalia-pendant", "regalia-gift", "regalia-key"],
+          "pickupIds": [
+            "regalia-pendant",
+            "regalia-gift",
+            "regalia-key"
+          ],
           "required": 3
         }
       ],
@@ -26,12 +30,42 @@
           "desc": "A wax seal bearing the crown's sigil, given for service to the palace."
         }
       }
+    },
+    {
+      "id": "new-quest-1",
+      "title": "The Sick Princess",
+      "type": "chain",
+      "giverNpcId": "royal-steward",
+      "receiverNpcId": "royal-herald",
+      "offerDialogue": "",
+      "activeDialogue": {},
+      "completeDialogue": "",
+      "steps": [],
+      "reward": {}
     }
   ],
   "pickupItems": [
-    { "id": "regalia-pendant", "tx": 5, "ty": 19, "tileId": "pendant", "questId": "palace-lost-regalia" },
-    { "id": "regalia-gift", "tx": 21, "ty": 19, "tileId": "gift", "questId": "palace-lost-regalia" },
-    { "id": "regalia-key", "tx": 24, "ty": 16, "tileId": "key", "questId": "palace-lost-regalia" }
+    {
+      "id": "regalia-pendant",
+      "tx": 5,
+      "ty": 19,
+      "tileId": "pendant",
+      "questId": "palace-lost-regalia"
+    },
+    {
+      "id": "regalia-gift",
+      "tx": 21,
+      "ty": 19,
+      "tileId": "gift",
+      "questId": "palace-lost-regalia"
+    },
+    {
+      "id": "regalia-key",
+      "tx": 24,
+      "ty": 16,
+      "tileId": "key",
+      "questId": "palace-lost-regalia"
+    }
   ],
   "blockedPaths": []
 }
