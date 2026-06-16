@@ -976,6 +976,7 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
             interactableIndicatorsRef={indicatorConditionsRef}
             interactableMovesRef={interactableMovesRef}
             moveInteractableRef={moveInteractableRef}
+            buildingUpgradeLevelsRef={buildingUpgradeLevelsRef}
             locationData={locationData}
             questData={ALL_QUESTS}
             viewportRef={scrollRef}
