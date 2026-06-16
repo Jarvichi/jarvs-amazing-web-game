@@ -2529,7 +2529,11 @@ export default function App() {
     const currentRun = run
 
     const isLoss = gameState?.phase.type === 'gameOver' && gameState.phase.winner !== 'player'
-    if (currentRun && isLoss) {
+    // Only campaign-battle losses cost a life / record a node failure. Without the
+    // wasInCampaign guard, losing a non-campaign battle (weekly/daily challenge,
+    // quick battle, endless) while a campaign run exists would wrongly burn a life
+    // and fail the node, silently corrupting the saved run.
+    if (wasInCampaign && currentRun && isLoss) {
       // Decrement a life and record the node failure
       const nodeId = currentRun.pendingNodeId
       const prevCount = nodeId ? (currentRun.nodeFailCounts[nodeId] ?? 0) : 0
