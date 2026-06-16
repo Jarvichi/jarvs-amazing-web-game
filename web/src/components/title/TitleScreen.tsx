@@ -7,6 +7,7 @@ import { hasUnclaimedAchievements } from '../../game/achievements'
 import { getDailyShopSellSlots } from '../../game/shopSchedule'
 import { loadInventory } from '../../game/dailyLogin'
 import { TitleButton } from '../ui/TitleButton'
+import { ConfirmModal } from '../modals/ConfirmModal'
 import { SpriteImg } from '../ui/SpriteImg'
 import { TitleIdleAnimation } from './TitleIdleAnimation'
 import { load8bitUnlocked, unlock8bitMode, save8bitEnabled, apply8bitMode } from '../screens/SettingsScreen'
@@ -158,6 +159,8 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
 
   // Secret #9 — Wrong Save File: rare title-screen glitch showing fake stats
   const [wrongSave, setWrongSave] = useState<{ cards: number; crystals: number; deck: number } | null>(null)
+  // Shown when a play mode is tapped but the active deck is too small to play.
+  const [showDeckWarning, setShowDeckWarning] = useState(false)
   useEffect(() => {
     if (Math.random() > 0.02) return  // 2% chance
     const fake = {
@@ -201,11 +204,11 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
         <TitleButton
           variant="large"
           extraClass="title-campaign-btn"
-          onClick={onCampaign}
-          disabled={!valid || !campaignUnlocked}
+          onClick={!campaignUnlocked ? () => {} : valid ? onCampaign : () => setShowDeckWarning(true)}
+          disabled={!campaignUnlocked}
           title={
-            !valid ? `Deck needs ${10 - count} more cards` :
             !campaignUnlocked ? `Collect ${CAMPAIGN_UNLOCK_CARDS - totalOwned} more cards to unlock Campaign — play Quick Battle to earn cards!` :
+            !valid ? `Deck needs ${10 - count} more cards` :
             undefined
           }
         >
@@ -213,17 +216,16 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
         </TitleButton>
 
         <TitleButton
-          onClick={valid ? onPlay : onDeckBuilder}
+          onClick={valid ? onPlay : () => setShowDeckWarning(true)}
           extraClass="title-primary-btn"
-          title={valid ? undefined : `Deck needs ${10 - count} more cards — tap to fix in the deck builder`}
+          title={valid ? undefined : `Deck needs ${10 - count} more cards`}
         >
-          {valid ? '▶  QUICK BATTLE' : `⚠ FIX DECK (${count}/10)`}
+          {valid ? '▶  QUICK BATTLE' : `⚠ DECK (${count}/10)`}
         </TitleButton>
 
         <TitleButton
-          onClick={onEndless}
+          onClick={valid ? onEndless : () => setShowDeckWarning(true)}
           extraClass="title-primary-btn"
-          disabled={!valid}
           title={valid ? undefined : `Deck needs ${10 - count} more cards`}
         >
           ∞  ENDLESS MODE
@@ -304,6 +306,16 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
           >🗣️ Feedback</Button>
         </div>
       </div>
+
+      {showDeckWarning && (
+        <ConfirmModal
+          title="Deck not ready"
+          body={`Your deck has ${count} card${count === 1 ? '' : 's'} but needs at least 10 to play. Open the deck builder to add more.`}
+          confirmLabel="Open Deck Builder"
+          onConfirm={() => { setShowDeckWarning(false); onDeckBuilder() }}
+          onCancel={() => setShowDeckWarning(false)}
+        />
+      )}
     </div>
   )
 }
