@@ -3,9 +3,9 @@ import type { HubLocationBundle } from '../../data/hub/loader'
 
 const T = 32
 
-const MM_W = 140
-const MM_H = 120
-const PAD  = 6          // inner padding inside the minimap canvas
+const MM_W = 100
+const MM_H = 100
+const PAD  = 0          // inner padding inside the minimap canvas
 
 const STORE_KEY = 'jarv_hub_minimap_on'
 
@@ -101,7 +101,7 @@ export function HubMinimap({ locationData, objectives, playerRef, viewportRef }:
       c.clearRect(0, 0, MM_W, MM_H)
 
       // Map outline.
-      c.fillStyle   = 'rgba(20,34,20,0.9)'
+      c.fillStyle   = 'rgba(20,34,20,0.1)'
       c.strokeStyle = '#446644'
       c.lineWidth   = 1
       c.fillRect(offX, offY, drawW, drawH)
@@ -222,8 +222,8 @@ export function HubMinimap({ locationData, objectives, playerRef, viewportRef }:
       <div
         style={{
           position:      'absolute',
-          bottom:        12,
-          left:          12,
+          top:           16,
+          right:         12,
           zIndex:        9,        // below the dialogue overlay (z-index 10) so it doesn't cover it
           pointerEvents: 'none',
         }}
@@ -236,7 +236,7 @@ export function HubMinimap({ locationData, objectives, playerRef, viewportRef }:
               width:      MM_W,
               height:     MM_H,
               border:     '1px solid #446644',
-              background: 'rgba(8,14,8,0.85)',
+              background: 'rgba(8,14,8,0.6)',
             }}
           />
         )}
