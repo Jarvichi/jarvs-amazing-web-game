@@ -4,6 +4,7 @@ import { usePixiApp } from '../../hooks/usePixiApp'
 import { loadTileRef, loadSpriteTexture } from '../../utils/pixiHelpers'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import type { RawMapConfig, RawDecorItem, RawBlockedPath, RawLockedDoor, SelectedEntity, ToolMode, Zlayer } from './mapEditorTypes'
+import { resolveVariantTint, AnimalType } from '../../game/hub/animals'
 import { WALL_TILES } from '../../data/tiles/buildingMaterials'
 import type { WallMaterial } from '../../data/tiles/buildingMaterials'
 import { expandBundleDecor } from '../../data/bundles/bundleLoader'
@@ -371,6 +372,39 @@ export function MapEditorCanvas(props: Props) {
         npcLayer.addChild(g)
       })
     })
+
+    // Animals (exterior — no building field)
+    ;(configData.animals ?? []).forEach((animal, aIdx) => {
+      if (animal.building) return
+      const isSel = selectedEntity?.type === 'animal' && selectedEntity.index === aIdx
+      const tint = resolveVariantTint(animal.type as AnimalType, animal.variant)
+      loadSpriteTexture(`animal-${animal.type}`).then(tex => {
+        if (renderVersionRef.current !== version) return
+        const sp = new PIXI.Sprite(tex)
+        sp.width  = T * 1.5; sp.height = T * 1.5
+        sp.x      = animal.tx * T - T * 0.25
+        sp.y      = animal.ty * T - T * 0.5
+        sp.tint   = tint
+        sp.eventMode = 'static'; sp.cursor = 'pointer'
+        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+          e.stopPropagation()
+          const entity: SelectedEntity = { type: 'animal', index: aIdx }
+          propsRef.current.onSelectEntity(entity)
+          if (propsRef.current.tool === 'select')
+            dragRef.current = { entity, lastTx: animal.tx, lastTy: animal.ty, offsetX: 0, offsetY: 0 }
+        })
+        if (isSel) {
+          selLayer.rect(sp.x - 2, sp.y - 2, sp.width + 4, sp.height + 4)
+            .stroke({ color: 0xf0c040, width: 2 })
+        }
+        npcLayer.addChild(sp)
+      }).catch(() => {
+        if (renderVersionRef.current !== version) return
+        const g = new PIXI.Graphics()
+        g.circle(animal.tx * T + T / 2, animal.ty * T + T / 2, T / 3).fill(0x88ffaa)
+        npcLayer.addChild(g)
+      })
+    })
   }
 
   // ── Interior rendering ─────────────────────────────────────────────────────────
@@ -578,6 +612,39 @@ export function MapEditorCanvas(props: Props) {
         if (renderVersionRef.current !== version) return
         const g = new PIXI.Graphics()
         g.circle(npc.tx * T + T / 2, npc.ty * T + T / 2, T / 3).fill(0xff88aa)
+        npcLayer.addChild(g)
+      })
+    })
+
+    // Interior animals
+    ;(configData.animals ?? []).forEach((animal, aIdx) => {
+      if (animal.building !== iid) return
+      const isSel = selectedEntity?.type === 'animal' && selectedEntity.index === aIdx
+      const tint = resolveVariantTint(animal.type as AnimalType, animal.variant)
+      loadSpriteTexture(`animal-${animal.type}`).then(tex => {
+        if (renderVersionRef.current !== version) return
+        const sp = new PIXI.Sprite(tex)
+        sp.width  = T * 1.5; sp.height = T * 1.5
+        sp.x      = animal.tx * T - T * 0.25
+        sp.y      = animal.ty * T - T * 0.5
+        sp.tint   = tint
+        sp.eventMode = 'static'; sp.cursor = 'pointer'
+        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+          e.stopPropagation()
+          const entity: SelectedEntity = { type: 'animal', index: aIdx }
+          propsRef.current.onSelectEntity(entity)
+          if (propsRef.current.tool === 'select')
+            dragRef.current = { entity, lastTx: animal.tx, lastTy: animal.ty, offsetX: 0, offsetY: 0 }
+        })
+        if (isSel) {
+          selLayer.rect(sp.x - 2, sp.y - 2, sp.width + 4, sp.height + 4)
+            .stroke({ color: 0xf0c040, width: 2 })
+        }
+        npcLayer.addChild(sp)
+      }).catch(() => {
+        if (renderVersionRef.current !== version) return
+        const g = new PIXI.Graphics()
+        g.circle(animal.tx * T + T / 2, animal.ty * T + T / 2, T / 3).fill(0x88ffaa)
         npcLayer.addChild(g)
       })
     })
@@ -804,6 +871,9 @@ export function MapEditorCanvas(props: Props) {
     } else if (selectedEntity.type === 'npc') {
       const npc = configData.npcs?.[selectedEntity.index]
       if (npc) { tx = npc.tx; ty = npc.ty }
+    } else if (selectedEntity.type === 'animal') {
+      const a = configData.animals?.[selectedEntity.index]
+      if (a) { tx = a.tx; ty = a.ty }
     } else if (selectedEntity.type === 'treasure') {
       const t = configData.treasures?.[selectedEntity.index]
       if (t) { tx = t.tx; ty = t.ty }
@@ -868,6 +938,11 @@ function hitTest(
           return { type: 'pickupItem', index: i }
       }
     }
+    const interiorAnimals = cfg.animals ?? []
+    for (let i = interiorAnimals.length - 1; i >= 0; i--) {
+      if (interiorAnimals[i].building === activeInteriorId && interiorAnimals[i].tx === tx && interiorAnimals[i].ty === ty)
+        return { type: 'animal', index: i }
+    }
     const decor = cfg.interiors?.[activeInteriorId]?.decor ?? []
     for (let i = decor.length - 1; i >= 0; i--) {
       if (decor[i].tx === tx && decor[i].ty === ty)
@@ -890,6 +965,11 @@ function hitTest(
   for (let i = npcs.length - 1; i >= 0; i--) {
     if (!npcs[i].building && npcs[i].tx === tx && npcs[i].ty === ty)
       return { type: 'npc', index: i }
+  }
+  const animals = cfg.animals ?? []
+  for (let i = animals.length - 1; i >= 0; i--) {
+    if (!animals[i].building && animals[i].tx === tx && animals[i].ty === ty)
+      return { type: 'animal', index: i }
   }
   const buildings = cfg.buildings ?? []
   for (let i = buildings.length - 1; i >= 0; i--) {
