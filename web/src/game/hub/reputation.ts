@@ -23,6 +23,8 @@ interface TownState {
   rep: number
   /** buildingId → purchased upgrade level (1-based count of bought levels). */
   levels: Record<string, number>
+  /** YYYY-MM-DD of the last collected daily tribute. */
+  tributeDay?: string
 }
 
 type Store = Record<string, TownState>
@@ -175,4 +177,46 @@ export function getUnlockedServices(town: string): string[] {
 /** True when a given service id is unlocked anywhere in the town. */
 export function hasTownService(town: string, serviceId: string): boolean {
   return getUnlockedServices(town).includes(serviceId)
+}
+
+// ── Daily town tribute ───────────────────────────────────────────────────────
+//
+// The first concrete service payoff: a town pays a small daily crystal stipend
+// scaled by the services its buildings have unlocked, claimable once per day.
+// This makes every catalog `service` worth something and gives reputation a
+// tangible return on the crystals invested.
+
+const TRIBUTE_BASE = 10
+const TRIBUTE_PER_SERVICE = 8
+
+function today(): string {
+  return new Date().toISOString().slice(0, 10)
+}
+
+/** Crystals the town would pay today (0 when nothing is unlocked). */
+export function tributeAmount(town: string): number {
+  const services = getUnlockedServices(town).length
+  if (services === 0) return 0
+  return TRIBUTE_BASE + services * TRIBUTE_PER_SERVICE
+}
+
+/** True when today's tribute has not yet been collected and is non-zero. */
+export function tributeAvailable(town: string): boolean {
+  if (tributeAmount(town) <= 0) return false
+  return townState(load(), town).tributeDay !== today()
+}
+
+/**
+ * Collect today's tribute: credits crystals (shared wallet), marks the day, and
+ * returns the amount. Returns 0 if already collected or nothing is unlocked.
+ */
+export function collectTribute(town: string): number {
+  if (!tributeAvailable(town)) return 0
+  const amount = tributeAmount(town)
+  saveCrystals(loadCrystals() + amount)
+  const data = load()
+  const state = townState(data, town)
+  data[town] = { ...state, tributeDay: today() }
+  save(data)
+  return amount
 }

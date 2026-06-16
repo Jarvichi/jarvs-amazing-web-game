@@ -793,11 +793,19 @@ Reputation tiers/names live in `buildingUpgrades.ts` (`REPUTATION_TIERS`,
 
 ### Services
 
-`service` ids are **data only** today: nothing consumes them yet, but the unlocked
-benefit text is shown in the panel and other systems can read the unlocked set via
-`getUnlockedServices(town)` / `hasTownService(town, id)`. `HubWorld` registers the
-`upgradeKind` resolver with `setUpgradeKindResolver` so these reads work without
-importing the loader. The guaranteed visible change on purchase is the **decor**.
+Each unlocked `service` id is readable via `getUnlockedServices(town)` /
+`hasTownService(town, id)`; `HubWorld` registers the `upgradeKind` resolver with
+`setUpgradeKindResolver` so these reads work without importing the loader. The
+benefit text is shown in the panel, and the guaranteed visible change on purchase
+is the **decor**.
+
+The first concrete payoff wired to services is the **daily town tribute**: the
+town pays a small crystal stipend scaled by how many services its buildings have
+unlocked (`tributeAmount` = `10 + services × 8`), claimable once per real day from
+the panel header (`tributeAmount` / `tributeAvailable` / `collectTribute` in
+`reputation.ts`). This turns every unlocked service into a tangible daily return on
+the crystals invested. Additional service-specific effects can hook the same
+`getUnlockedServices`/`hasTownService` reads.
 
 ### Authoring checklist: new upgrade track / upgradeable building
 

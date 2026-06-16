@@ -8,6 +8,9 @@ import {
   getUnlockedServices,
   hasTownService,
   setUpgradeKindResolver,
+  tributeAmount,
+  tributeAvailable,
+  collectTribute,
 } from './reputation'
 import { saveCrystals, loadCrystals } from '../collection'
 import { getUpgradeTrack } from '../../data/hub/buildingUpgrades'
@@ -126,5 +129,31 @@ describe('unlocked services', () => {
     saveCrystals(1000)
     purchaseUpgrade(TOWN, 'cider-house', 'shop')
     expect(getUnlockedServices(TOWN)).toEqual([])
+  })
+})
+
+describe('daily tribute', () => {
+  it('offers nothing until a service is unlocked', () => {
+    setUpgradeKindResolver((_t, id) => (id === 'cider-house' ? 'shop' : undefined))
+    expect(tributeAmount(TOWN)).toBe(0)
+    expect(tributeAvailable(TOWN)).toBe(false)
+  })
+
+  it('scales with unlocked services and credits crystals once per day', () => {
+    setUpgradeKindResolver((_t, id) => (id === 'cider-house' ? 'shop' : undefined))
+    saveCrystals(100000)
+    purchaseUpgrade(TOWN, 'cider-house', 'shop')   // unlocks 1 service
+    const amount = tributeAmount(TOWN)
+    expect(amount).toBeGreaterThan(0)
+
+    expect(tributeAvailable(TOWN)).toBe(true)
+    const before = loadCrystals()
+    expect(collectTribute(TOWN)).toBe(amount)
+    expect(loadCrystals()).toBe(before + amount)
+
+    // Second collection the same day is a no-op.
+    expect(tributeAvailable(TOWN)).toBe(false)
+    expect(collectTribute(TOWN)).toBe(0)
+    expect(loadCrystals()).toBe(before + amount)
   })
 })

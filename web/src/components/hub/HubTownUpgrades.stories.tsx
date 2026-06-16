@@ -41,6 +41,9 @@ export const Default: Story = {
     crystals:   500,
     rows,
     onUpgrade:  fn(),
+    tributeAmount:    34,
+    tributeAvailable: true,
+    onCollectTribute: fn(),
   },
 }
 
@@ -52,5 +55,8 @@ export const Broke: Story = {
     crystals:   10,
     rows,
     onUpgrade:  fn(),
+    tributeAmount:    34,
+    tributeAvailable: true,
+    onCollectTribute: fn(),
   },
 }
