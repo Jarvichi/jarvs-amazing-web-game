@@ -19,6 +19,7 @@
   "buildings": [
     {
       "id": "broken-hall",
+      "upgradeKind": "default",
       "rect": [4, 2, 11, 8],
       "wall": "woodenSlats",
       "roof": "strawRoof",
@@ -28,6 +29,7 @@
     },
     {
       "id": "fang-den",
+      "upgradeKind": "default",
       "rect": [17, 3, 24, 9],
       "wall": "darkStone",
       "roof": "greySlateRoof",

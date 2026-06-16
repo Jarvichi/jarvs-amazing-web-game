@@ -55,6 +55,9 @@ export interface BaseBuilding {
   bundleID?: string
   comment?: string
 
+  /** Upgrade track key (buildingUpgrades.json). Tags the building as upgradeable. */
+  upgradeKind?: string
+
   doors?: RawDoor[]
   windows?: RawWindow[]
   decor?: RawDecor[]

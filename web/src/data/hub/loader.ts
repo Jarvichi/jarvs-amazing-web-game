@@ -25,6 +25,8 @@ export interface HubBuilding {
   id?: string
   wall?: WallMaterial
   roof?: RoofMaterial
+  /** Upgrade track key (buildingUpgrades.json); set = building is upgradeable. */
+  upgradeKind?: string
 }
 
 export interface HubDoor {
@@ -338,6 +340,7 @@ type RawBuilding = {
   rect?: number[]; rects?: number[][];
   id?: string; wall?: string; roof?: string;
   bundleID?: string;
+  upgradeKind?: string;
   doors?:   Array<{ tx: number; ty: number; buildingId?: string, hideSign?: boolean }>
   windows?: Array<{ tx: number; ty: number; tileId: string }>
   decor?:   Array<{ tx: number; ty: number; tileId?: string; bundleID?: string; zlayer?: string }>
@@ -349,6 +352,7 @@ const HUB_BUILDINGS: HubBuilding[] = (rawConfig.buildings as RawBuilding[]).flat
     id:   b.id,
     wall: b.wall as WallMaterial | undefined,
     roof: b.roof as RoofMaterial | undefined,
+    upgradeKind: b.upgradeKind,
   }))
 })
 

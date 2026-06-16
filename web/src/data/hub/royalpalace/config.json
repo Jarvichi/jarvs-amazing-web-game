@@ -19,6 +19,7 @@
   "buildings": [
     {
       "id": "palace",
+      "upgradeKind": "default",
       "rect": [6, 2, 21, 12],
       "wall": "ornateStone",
       "roof": "blueSlateRoof",

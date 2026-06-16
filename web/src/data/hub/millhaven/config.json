@@ -270,6 +270,7 @@
   "buildings": [
     {
       "id": "mill",
+      "upgradeKind": "workshop",
       "rect": [
         1,
         0,
@@ -289,6 +290,7 @@
     },
     {
       "id": "fishmonger",
+      "upgradeKind": "shop",
       "rect": [
         24,
         6,
@@ -308,6 +310,7 @@
     },
     {
       "id": "inn-millhaven",
+      "upgradeKind": "inn",
       "rect": [
         13,
         2,
@@ -327,6 +330,7 @@
     },
     {
       "id": "market-hall",
+      "upgradeKind": "shop",
       "rect": [
         23,
         16,
@@ -346,6 +350,7 @@
     },
     {
       "id": "town-hall-millhaven",
+      "upgradeKind": "default",
       "rect": [
         6,
         16,

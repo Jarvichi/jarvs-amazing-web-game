@@ -18,6 +18,7 @@
   "buildings": [
     {
       "id": "dread-keep",
+      "upgradeKind": "default",
       "rect": [7, 2, 18, 10],
       "wall": "darkStone",
       "roof": "greySlateRoof",

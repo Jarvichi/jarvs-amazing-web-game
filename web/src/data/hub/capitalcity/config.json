@@ -22,6 +22,7 @@
   "buildings": [
     {
       "id": "grand-inn",
+      "upgradeKind": "inn",
       "rect": [3, 2, 12, 9],
       "wall": "whiteStone",
       "roof": "blueSlateRoof",
@@ -31,6 +32,7 @@
     },
     {
       "id": "market-hall-crownhaven",
+      "upgradeKind": "shop",
       "rect": [27, 2, 36, 9],
       "wall": "brick",
       "roof": "redSlateRoof",
@@ -40,6 +42,7 @@
     },
     {
       "id": "guardhouse",
+      "upgradeKind": "workshop",
       "rect": [3, 20, 10, 26],
       "wall": "castleStone",
       "roof": "greySlateRoof",
@@ -49,6 +52,7 @@
     },
     {
       "id": "chapel",
+      "upgradeKind": "shrine",
       "rect": [29, 20, 36, 27],
       "wall": "ornateStone",
       "roof": "blueSlateRoof",

@@ -21,6 +21,7 @@
   "buildings": [
     {
       "id": "foundry",
+      "upgradeKind": "workshop",
       "rect": [4, 2, 15, 9],
       "wall": "brick",
       "roof": "metalRoof",
@@ -30,6 +31,7 @@
     },
     {
       "id": "workshop",
+      "upgradeKind": "workshop",
       "rect": [20, 3, 27, 9],
       "wall": "woodenSlats",
       "roof": "greySlateRoof",
@@ -39,6 +41,7 @@
     },
     {
       "id": "miners-inn",
+      "upgradeKind": "inn",
       "rect": [21, 15, 29, 21],
       "wall": "tudorFrame",
       "roof": "strawRoof",
