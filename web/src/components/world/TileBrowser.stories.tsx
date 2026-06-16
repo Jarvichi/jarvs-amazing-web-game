@@ -200,3 +200,31 @@ export const Pictsquare2021: Story = {
     labels: PICTSQUARE_LABELS,
   },
 }
+
+
+
+
+const ICONS_IMAGE = '/world/icon/icons.png'
+const ICONS_LABELS: Record<number, string> = {}
+for (const [name, globalId] of Object.entries(BASE_CHIP_TILES)) {
+  const ref = EXTENDED_TILE_REFS[globalId]
+  if (ref?.file === ICONS_IMAGE) {
+    ICONS_LABELS[ref.id] = ICONS_LABELS[ref.id]
+      ? `${ICONS_LABELS[ref.id]} / ${name}`
+      : name
+  }
+}
+
+export const Icons: Story = {
+  name: 'World / Icons',
+  args: {
+    tileset: {
+      name: 'icons',
+      image: ICONS_IMAGE,
+      tilecount: 350,
+      columns: 16,
+      globalIdStart: 20000,
+    },
+    labels: ICONS_LABELS,
+  },
+}

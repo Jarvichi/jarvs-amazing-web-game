@@ -498,9 +498,9 @@
     },
     {
       "rect": [
-        44,
-        18,
         45,
+        18,
+        46,
         22
       ]
     },
@@ -1204,9 +1204,9 @@
     },
     {
       "rect": [
-        41,
+        42,
         11,
-        48,
+        49,
         17
       ],
       "id": "arcade-building-e",
@@ -4098,7 +4098,7 @@
       "zlayer": "solid"
     },
     {
-      "tx": 46,
+      "tx": 44,
       "ty": 18,
       "tileId": "crate",
       "zlayer": "solid"
@@ -7835,6 +7835,16 @@
         "Best hand wins. Know when to hold, know when to fold.",
         "Poker face optional. Skill is not."
       ]
+    },
+    {
+      "id": "npc_1781629843466",
+      "name": "James",
+      "sprite": "knight",
+      "tx": 52,
+      "ty": 22,
+      "dialogue": [
+        "Hello!"
+      ]
     }
   ],
   "ambientNpcSprites": [
@@ -7931,14 +7941,35 @@
       "tx": 49,
       "ty": 21,
       "decor": [
-        { "dx": 0, "dy": 0, "tileId": "messageBoardTopLeft" },
-        { "dx": 1, "dy": 0, "tileId": "messageBoardTopRight" },
-        { "dx": 0, "dy": 1, "tileId": "messageBoardBottomLeft" },
-        { "dx": 1, "dy": 1, "tileId": "messageBoardBottomRight" }
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "messageBoardTopLeft"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileId": "messageBoardTopRight"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileId": "messageBoardBottomLeft"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileId": "messageBoardBottomRight"
+        }
       ],
-      "indicator": { "condition": "unread-news" },
+      "indicator": {
+        "condition": "unread-news"
+      },
       "reactions": [
-        { "type": "screen", "screen": "news" }
+        {
+          "type": "screen",
+          "screen": "news"
+        }
       ]
     }
   ],
@@ -7950,7 +7981,10 @@
       "tx": 52,
       "ty": 54,
       "name": "Smudge",
-      "dialogue": ["*meow?*", "Smudge the stray blinks up at you, hopeful for a meal."],
+      "dialogue": [
+        "*meow?*",
+        "Smudge the stray blinks up at you, hopeful for a meal."
+      ],
       "questReceive": "feed-the-stray"
     },
     {
@@ -7960,7 +7994,10 @@
       "tx": 33,
       "ty": 32,
       "name": "Rover",
-      "dialogue": ["*woof!*", "Rover wags his tail and looks at you expectantly."],
+      "dialogue": [
+        "*woof!*",
+        "Rover wags his tail and looks at you expectantly."
+      ],
       "questGive": "wheres-rover"
     },
     {
@@ -7970,11 +8007,21 @@
       "tx": 31,
       "ty": 24,
       "name": "Pip",
-      "dialogue": ["*caw!*", "Pip the raven tilts its head, eyeing your pockets for something shiny."],
+      "dialogue": [
+        "*caw!*",
+        "Pip the raven tilts its head, eyeing your pockets for something shiny."
+      ],
       "questGive": "pips-treasures"
     }
   ],
   "chickenZones": [
-    { "rect": [1, 27, 6, 5] }
+    {
+      "rect": [
+        1,
+        27,
+        6,
+        5
+      ]
+    }
   ]
 }

@@ -58,21 +58,18 @@ export const EXTENDED_TILE_DEFS: ExtendedTileDef[] = [
   { name: 'yellow_crystal4',       globalId: 10039, file: '/nodemap/32x32/Yellow_crystal4.png',       localId: 0, columns: 1 },
 
   // ── Pictsquare2021 named tiles (11000+) — 61-column sprite sheet ──
-  { name: 'wantedSign', globalId: 11000, file: '/world/pictsquare2021.png', localId: 1, columns: 61 },
-  { name: 'palaceStepsLeft', globalId: 11001, file: '/world/pictsquare2021.png', localId: 244, columns: 61 },
-  { name: 'palaceStepsMidLeft', globalId: 11002, file: '/world/pictsquare2021.png', localId: 245, columns: 61 },
-  { name: 'palaceStepsMid', globalId: 11003, file: '/world/pictsquare2021.png', localId: 246, columns: 61 },
-  { name: 'palaceStepsMidRight', globalId: 11004, file: '/world/pictsquare2021.png', localId: 247, columns: 61 },
-  { name: 'palaceStepsRight', globalId: 11005, file: '/world/pictsquare2021.png', localId: 248, columns: 61 },
-  { name: 'palaceStepsBotLeft', globalId: 11006, file: '/world/pictsquare2021.png', localId: 305, columns: 61 },
-  { name: 'palaceStepsBotMidLeft', globalId: 11007, file: '/world/pictsquare2021.png', localId: 306, columns: 61 },
-  { name: 'palaceStepsBotMid', globalId: 11008, file: '/world/pictsquare2021.png', localId: 307, columns: 61 },
-  { name: 'palaceStepsBotMidRight', globalId: 11009, file: '/world/pictsquare2021.png', localId: 308, columns: 61 },
-  { name: 'palaceStepsBotRight', globalId: 11010, file: '/world/pictsquare2021.png', localId: 309, columns: 61 },
-
-  // Add to EXTENDED_TILE_DEFS in extendedTileDefs.ts:
+  { name: 'wantedSign',          globalId: 11000, file: '/world/pictsquare2021.png', localId: 1,    columns: 61 },
+  { name: 'palaceStepsLeft',     globalId: 11001, file: '/world/pictsquare2021.png', localId: 244,  columns: 61 },
+  { name: 'palaceStepsMidLeft',  globalId: 11002, file: '/world/pictsquare2021.png', localId: 245,  columns: 61 },
+  { name: 'palaceStepsMid',      globalId: 11003, file: '/world/pictsquare2021.png', localId: 246,  columns: 61 },
+  { name: 'palaceStepsMidRight', globalId: 11004, file: '/world/pictsquare2021.png', localId: 247,  columns: 61 },
+  { name: 'palaceStepsRight',    globalId: 11005, file: '/world/pictsquare2021.png', localId: 248,  columns: 61 },
+  { name: 'palaceStepsBotLeft',     globalId: 11006, file: '/world/pictsquare2021.png', localId: 305,  columns: 61 },
+  { name: 'palaceStepsBotMidLeft',  globalId: 11007, file: '/world/pictsquare2021.png', localId: 306,  columns: 61 },
+  { name: 'palaceStepsBotMid',      globalId: 11008, file: '/world/pictsquare2021.png', localId: 307,  columns: 61 },
+  { name: 'palaceStepsBotMidRight', globalId: 11009, file: '/world/pictsquare2021.png', localId: 308,  columns: 61 },
+  { name: 'palaceStepsBotRight',    globalId: 11010, file: '/world/pictsquare2021.png', localId: 309,  columns: 61 },
   { name: 'trayOfDrinks', globalId: 11011, file: '/world/pictsquare2021.png', localId: 1068, columns: 61 },
-  { name: 'pumpkin1Lit', globalId: 11012, file: '/world/pictsquare2021.png', localId: 2497, columns: 61 },
-  { name: 'goldFish', globalId: 11013, file: '/world/pictsquare2021.png', localId: 2762, columns: 61 },
-
+  { name: 'pumpkin1Lit',  globalId: 11012, file: '/world/pictsquare2021.png', localId: 2497, columns: 61 },
+  { name: 'goldFish',     globalId: 11013, file: '/world/pictsquare2021.png', localId: 2762, columns: 61 },
 ]

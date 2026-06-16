@@ -10,10 +10,29 @@
       "activeDialogue": "Three fish from around the pond, then carry them over to that stray cat. She's usually sat by the east bank.",
       "completeDialogue": "She ate the lot! Look at her purr. You've a good heart, traveller.",
       "steps": [
-        { "key": "fish", "type": "collect", "pickupIds": ["stray-fish-1", "stray-fish-2", "stray-fish-3"], "required": 3 },
-        { "key": "deliver", "type": "deliver", "targetNpcId": "stray-cat-ravenwatch", "required": 1 }
+        {
+          "key": "fish",
+          "type": "collect",
+          "pickupIds": [
+            "stray-fish-1",
+            "stray-fish-2",
+            "stray-fish-3"
+          ],
+          "required": 3
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "stray-cat-ravenwatch",
+          "required": 1
+        }
       ],
-      "reward": { "crystals": 40, "friendship": { "fisherman": 15 } }
+      "reward": {
+        "crystals": 40,
+        "friendship": {
+          "fisherman": 15
+        }
+      }
     },
     {
       "id": "naia-allys-tome",
@@ -26,9 +45,24 @@
       "activeDialogue": "The tome should be down by the pond's edge. I would be grateful to have it back.",
       "completeDialogue": "You found it! I knew I could count on you. Allies like you are rarer than any book.",
       "steps": [
-        { "key": "tome", "type": "collect", "pickupIds": ["naia-rare-tome"], "required": 1 }
+        {
+          "key": "tome",
+          "type": "collect",
+          "pickupIds": [
+            "naia-rare-tome"
+          ],
+          "required": 1
+        }
       ],
-      "reward": { "crystals": 60, "relationship": { "scholar": { "track": "ally", "points": 10 } } }
+      "reward": {
+        "crystals": 60,
+        "relationship": {
+          "scholar": {
+            "track": "ally",
+            "points": 10
+          }
+        }
+      }
     },
     {
       "id": "naia-rivals-gauntlet",
@@ -41,9 +75,24 @@
       "activeDialogue": "Still chasing my glyph by the pond? Tick tock, rival. I won't make this easy.",
       "completeDialogue": "Hmph. You actually managed it. Do not let it go to your head — this rivalry is far from over.",
       "steps": [
-        { "key": "glyph", "type": "collect", "pickupIds": ["naia-research-glyph"], "required": 1 }
+        {
+          "key": "glyph",
+          "type": "collect",
+          "pickupIds": [
+            "naia-research-glyph"
+          ],
+          "required": 1
+        }
       ],
-      "reward": { "crystals": 60, "relationship": { "scholar": { "track": "rival", "points": 10 } } }
+      "reward": {
+        "crystals": 60,
+        "relationship": {
+          "scholar": {
+            "track": "rival",
+            "points": 10
+          }
+        }
+      }
     },
     {
       "id": "wheres-rover",
@@ -55,9 +104,20 @@
       "activeDialogue": "Rover is still pining for his three lost toys, scattered around the streets.",
       "completeDialogue": "Rover bounds in circles, toys in mouth, tail a blur. You've made a friend for life!",
       "steps": [
-        { "key": "toys", "type": "collect", "pickupIds": ["rover-toy-1", "rover-toy-2", "rover-toy-3"], "required": 3 }
+        {
+          "key": "toys",
+          "type": "collect",
+          "pickupIds": [
+            "rover-toy-1",
+            "rover-toy-2",
+            "rover-toy-3"
+          ],
+          "required": 3
+        }
       ],
-      "reward": { "crystals": 35 }
+      "reward": {
+        "crystals": 35
+      }
     },
     {
       "id": "pips-treasures",
@@ -69,9 +129,20 @@
       "activeDialogue": "Pip is still waiting for its three shiny baubles. Best check the streets and squares.",
       "completeDialogue": "Pip snatches the last bauble, gives a satisfied caw, and drops a gift at your feet.",
       "steps": [
-        { "key": "shiny", "type": "collect", "pickupIds": ["pip-shiny-1", "pip-shiny-2", "pip-shiny-3"], "required": 3 }
+        {
+          "key": "shiny",
+          "type": "collect",
+          "pickupIds": [
+            "pip-shiny-1",
+            "pip-shiny-2",
+            "pip-shiny-3"
+          ],
+          "required": 3
+        }
       ],
-      "reward": { "crystals": 35 }
+      "reward": {
+        "crystals": 35
+      }
     },
     {
       "id": "lost-pendant",
@@ -133,7 +204,10 @@
           "merchant": 20
         },
         "relationship": {
-          "merchant": { "track": "ally", "points": 12 }
+          "merchant": {
+            "track": "ally",
+            "points": 12
+          }
         }
       }
     },
@@ -3460,17 +3534,83 @@
     }
   ],
   "pickupItems": [
-    { "id": "naia-rare-tome", "tx": 47, "ty": 56, "tileId": "pendant", "questId": "naia-allys-tome" },
-    { "id": "naia-research-glyph", "tx": 43, "ty": 52, "tileId": "yellow_crystal1", "questId": "naia-rivals-gauntlet" },
-    { "id": "stray-fish-1", "tx": 48, "ty": 57, "tileId": "appleBasket", "questId": "feed-the-stray" },
-    { "id": "stray-fish-2", "tx": 41, "ty": 51, "tileId": "appleBasket", "questId": "feed-the-stray" },
-    { "id": "stray-fish-3", "tx": 46, "ty": 49, "tileId": "appleBasket", "questId": "feed-the-stray" },
-    { "id": "rover-toy-1", "tx": 30, "ty": 33, "tileId": "gift", "questId": "wheres-rover" },
-    { "id": "rover-toy-2", "tx": 40, "ty": 35, "tileId": "gift", "questId": "wheres-rover" },
-    { "id": "rover-toy-3", "tx": 36, "ty": 45, "tileId": "gift", "questId": "wheres-rover" },
-    { "id": "pip-shiny-1", "tx": 35, "ty": 24, "tileId": "yellow_crystal1", "questId": "pips-treasures" },
-    { "id": "pip-shiny-2", "tx": 45, "ty": 30, "tileId": "yellow_crystal1", "questId": "pips-treasures" },
-    { "id": "pip-shiny-3", "tx": 29, "ty": 32, "tileId": "yellow_crystal1", "questId": "pips-treasures" },
+    {
+      "id": "naia-rare-tome",
+      "tx": 47,
+      "ty": 54,
+      "tileId": "pendant",
+      "questId": "naia-allys-tome"
+    },
+    {
+      "id": "naia-research-glyph",
+      "tx": 50,
+      "ty": 51,
+      "tileId": "yellow_crystal1",
+      "questId": "naia-rivals-gauntlet"
+    },
+    {
+      "id": "stray-fish-1",
+      "tx": 52,
+      "ty": 56,
+      "tileId": "goldFish",
+      "questId": "feed-the-stray"
+    },
+    {
+      "id": "stray-fish-2",
+      "tx": 41,
+      "ty": 51,
+      "tileId": "goldFish",
+      "questId": "feed-the-stray"
+    },
+    {
+      "id": "stray-fish-3",
+      "tx": 46,
+      "ty": 49,
+      "tileId": "goldFish",
+      "questId": "feed-the-stray"
+    },
+    {
+      "id": "rover-toy-1",
+      "tx": 30,
+      "ty": 33,
+      "tileId": "gift",
+      "questId": "wheres-rover"
+    },
+    {
+      "id": "rover-toy-2",
+      "tx": 40,
+      "ty": 35,
+      "tileId": "gift",
+      "questId": "wheres-rover"
+    },
+    {
+      "id": "rover-toy-3",
+      "tx": 36,
+      "ty": 45,
+      "tileId": "gift",
+      "questId": "wheres-rover"
+    },
+    {
+      "id": "pip-shiny-1",
+      "tx": 35,
+      "ty": 24,
+      "tileId": "yellow_crystal1",
+      "questId": "pips-treasures"
+    },
+    {
+      "id": "pip-shiny-2",
+      "tx": 45,
+      "ty": 30,
+      "tileId": "yellow_crystal1",
+      "questId": "pips-treasures"
+    },
+    {
+      "id": "pip-shiny-3",
+      "tx": 29,
+      "ty": 32,
+      "tileId": "yellow_crystal1",
+      "questId": "pips-treasures"
+    },
     {
       "id": "pendant-1",
       "tx": 1,
@@ -3664,7 +3804,7 @@
     },
     {
       "id": "patrol-report-1",
-      "tx": 61,
+      "tx": 56,
       "ty": 26,
       "tileId": "note",
       "questId": "thorin-security-report"
@@ -3751,9 +3891,9 @@
     },
     {
       "id": "strange-catch",
-      "tx": 7,
-      "ty": 43,
-      "tileId": "pendant",
+      "tx": 52,
+      "ty": 55,
+      "tileId": "goldFish",
       "questId": "greyfishs-strange-catch"
     },
     {
@@ -3919,24 +4059,24 @@
     },
     {
       "id": "guest-item-1",
-      "tx": 3,
-      "ty": 3,
+      "tx": 2,
+      "ty": 2,
       "tileId": "pendant",
       "questId": "rosie-strange-guest",
       "building": "inn-building"
     },
     {
       "id": "guest-item-2",
-      "tx": 5,
-      "ty": 3,
+      "tx": 8,
+      "ty": 2,
       "tileId": "chest",
       "questId": "rosie-strange-guest",
       "building": "inn-building"
     },
     {
       "id": "guest-item-3",
-      "tx": 4,
-      "ty": 5,
+      "tx": 7,
+      "ty": 4,
       "tileId": "closedBook",
       "questId": "rosie-strange-guest",
       "building": "inn-building"
@@ -4186,7 +4326,7 @@
     {
       "id": "spy-report",
       "tx": 4,
-      "ty": 3,
+      "ty": 2,
       "tileId": "closedBook",
       "questId": "rosie-spy-in-the-inn",
       "building": "inn-building"
@@ -4524,8 +4664,8 @@
     },
     {
       "id": "purification-crystal-2",
-      "tx": 58,
-      "ty": 47,
+      "tx": 56,
+      "ty": 48,
       "tileId": "blue_crystal3",
       "questId": "mira-purging-augments"
     },
@@ -5663,73 +5803,220 @@
         "greet": {
           "text": "Ah — the wanderer who never sits still. The archives can wait. What's on your mind?",
           "choices": [
-            { "label": "Remind me — who are you?", "hideIfFlag": "scholar-greeted", "effects": [{ "type": "flag", "flag": "scholar-greeted" }], "next": "intro" },
-            { "label": "Tell me about the Fracture.", "next": "lore" },
-            { "label": "Anything I can help with nearby?", "next": "errand" },
-            { "label": "Where do we stand, you and I?", "next": "regard" },
-            { "label": "Just saying hello.", "effects": [{ "type": "friendship", "npcId": "scholar", "xp": 5 }, { "type": "flag", "flag": "scholar-greeted" }], "next": "hello" }
+            {
+              "label": "Remind me — who are you?",
+              "hideIfFlag": "scholar-greeted",
+              "effects": [
+                {
+                  "type": "flag",
+                  "flag": "scholar-greeted"
+                }
+              ],
+              "next": "intro"
+            },
+            {
+              "label": "Tell me about the Fracture.",
+              "next": "lore"
+            },
+            {
+              "label": "Anything I can help with nearby?",
+              "next": "errand"
+            },
+            {
+              "label": "Where do we stand, you and I?",
+              "next": "regard"
+            },
+            {
+              "label": "Just saying hello.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "npcId": "scholar",
+                  "xp": 5
+                },
+                {
+                  "type": "flag",
+                  "flag": "scholar-greeted"
+                }
+              ],
+              "next": "hello"
+            }
           ]
         },
         "regard": {
           "text": "An interesting question. How do you mean to treat me, wanderer?",
           "choices": [
-            { "label": "As a trusted friend.", "effects": [{ "type": "relationship", "npcId": "scholar", "track": "ally", "points": 4 }], "next": "regard-ally" },
-            { "label": "As a worthy rival.", "effects": [{ "type": "relationship", "npcId": "scholar", "track": "rival", "points": 4 }], "next": "regard-rival" },
-            { "label": "As someone I admire.", "effects": [{ "type": "relationship", "npcId": "scholar", "track": "romance", "points": 4 }], "next": "regard-romance" }
+            {
+              "label": "As a trusted friend.",
+              "effects": [
+                {
+                  "type": "relationship",
+                  "npcId": "scholar",
+                  "track": "ally",
+                  "points": 4
+                }
+              ],
+              "next": "regard-ally"
+            },
+            {
+              "label": "As a worthy rival.",
+              "effects": [
+                {
+                  "type": "relationship",
+                  "npcId": "scholar",
+                  "track": "rival",
+                  "points": 4
+                }
+              ],
+              "next": "regard-rival"
+            },
+            {
+              "label": "As someone I admire.",
+              "effects": [
+                {
+                  "type": "relationship",
+                  "npcId": "scholar",
+                  "track": "romance",
+                  "points": 4
+                }
+              ],
+              "next": "regard-romance"
+            }
           ]
         },
         "regard-ally": {
           "text": "Then a friend you shall be. Loyalty is worth more than any relic — keep it up and I may trust you with the work I share with no one else.",
           "choices": [
-            { "label": "Again.", "next": "regard" },
-            { "label": "Farewell.", "effects": [{ "type": "end" }] }
+            {
+              "label": "Again.",
+              "next": "regard"
+            },
+            {
+              "label": "Farewell.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
           ]
         },
         "regard-rival": {
           "text": "A rival, is it? Good. Nothing sharpens the mind like someone snapping at its heels. Press me hard enough and I'll set you a real challenge.",
           "choices": [
-            { "label": "Again.", "next": "regard" },
-            { "label": "Farewell.", "effects": [{ "type": "end" }] }
+            {
+              "label": "Again.",
+              "next": "regard"
+            },
+            {
+              "label": "Farewell.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
           ]
         },
         "regard-romance": {
           "text": "Admiration? You'll make an archivist blush. Keep talking like that and who knows where the evening reading might lead.",
           "choices": [
-            { "label": "Again.", "next": "regard" },
-            { "label": "Farewell.", "effects": [{ "type": "end" }] }
+            {
+              "label": "Again.",
+              "next": "regard"
+            },
+            {
+              "label": "Farewell.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
           ]
         },
         "intro": {
           "text": "Loremaster Caelen. I tend the gate-side archives — and keep half an eye on who passes through, when the ledgers will hold still long enough to be written.",
           "choices": [
-            { "label": "Good to know.", "next": "greet" }
+            {
+              "label": "Good to know.",
+              "next": "greet"
+            }
           ]
         },
         "lore": {
           "text": "The Dominion was whole, once. The Fracture shattered it into drifting shards — and left Echoes in the cracks between. I have spent years cataloguing them.",
           "choices": [
-            { "label": "What are the Echoes?", "next": "echoes" },
-            { "label": "Fascinating — thank you.", "effects": [{ "type": "friendship", "npcId": "scholar", "xp": 10 }, { "type": "end" }] }
+            {
+              "label": "What are the Echoes?",
+              "next": "echoes"
+            },
+            {
+              "label": "Fascinating — thank you.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "npcId": "scholar",
+                  "xp": 10
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
           ]
         },
         "echoes": {
           "text": "Fragments of what was — memories given shape, sometimes teeth. Tread carefully when the air hums. That is all I will say in the open.",
           "choices": [
-            { "label": "I'll be careful.", "effects": [{ "type": "end" }] }
+            {
+              "label": "I'll be careful.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
           ]
         },
         "errand": {
           "text": "As it happens — Old Greyfish has been fretting over that half-starved stray by the pond. A kind soul could see her fed.",
           "choices": [
-            { "label": "I'll help the stray.", "effects": [{ "type": "quest", "questId": "feed-the-stray" }] },
-            { "label": "Maybe later.", "effects": [{ "type": "end" }] }
+            {
+              "label": "I'll help the stray.",
+              "effects": [
+                {
+                  "type": "quest",
+                  "questId": "feed-the-stray"
+                }
+              ]
+            },
+            {
+              "label": "Maybe later.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
           ]
         },
         "hello": {
           "text": "Hello to you, friend. Come back whenever curiosity strikes — I am always here, buried in parchment.",
           "choices": [
-            { "label": "I have a question, actually...", "requireFlag": "scholar-greeted", "next": "greet" },
-            { "label": "Farewell.", "effects": [{ "type": "end" }] }
+            {
+              "label": "I have a question, actually...",
+              "requireFlag": "scholar-greeted",
+              "next": "greet"
+            },
+            {
+              "label": "Farewell.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
           ]
         }
       }
