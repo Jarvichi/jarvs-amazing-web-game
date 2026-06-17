@@ -928,4 +928,20 @@ export const BASE_CHIP_TILES = {
     pileOfCopperCoins: 20200,
     pileOfSilverCoins: 20201,
     pileOfGoldCoins: 20202,
+
+        boxerShorts: 20124,
+    letter: 20217,
+    dice: 20221,
+    garlic: 20232,
+    steak: 20241,
+    eggs: 20245,
+    egg: 20246,
+    stick: 20272,
+    diamond: 20276,
+    cotton: 20277,
+    knitting: 20278,
+    feather: 20282,
+
+        goldRing: 20132,
+    diamondRing: 20133,
 } as const

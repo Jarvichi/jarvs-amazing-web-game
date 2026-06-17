@@ -121,6 +121,8 @@ export interface RawMapConfig {
   mapW: number
   mapH: number
   townName: string
+  environment?: string
+  weather?: unknown
   avatarStart: { tx: number; ty: number }
   exitTiles?: Array<{ tx: number; ty: number; screen: string }>
   areas?: Array<{ id: string; name: string; tx: number; ty: number; tw: number; th: number }>
@@ -169,6 +171,7 @@ export type SelectedEntity =
   | { type: 'blockedPath'; index: number }
   | { type: 'lockedDoor'; index: number }
   | { type: 'animal'; index: number }
+  | { type: 'area'; index: number }
 
 export interface MapEditorState {
   mapId: MapId

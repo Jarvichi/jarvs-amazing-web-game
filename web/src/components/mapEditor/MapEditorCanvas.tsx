@@ -89,6 +89,7 @@ interface Props {
   onAddStreet:        (tx1: number, ty1: number, tx2: number, ty2: number) => void
   showQuestItems:     boolean
   showBlockedPaths:   boolean
+  showAreas:          boolean
   blockedPaths:       RawBlockedPath[]
   questPickupItems:   RawQuestPickupItem[]
 }
@@ -96,7 +97,7 @@ interface Props {
 export function MapEditorCanvas(props: Props) {
   const {
     configData, tool, showGrid, selectedEntity, viewMode, activeInteriorId,
-    activeTileId, activeBundleId, activeZlayer, showQuestItems, showBlockedPaths, blockedPaths, questPickupItems,
+    activeTileId, activeBundleId, activeZlayer, showQuestItems, showBlockedPaths, showAreas, blockedPaths, questPickupItems,
     onSelectEntity, onPlaceDecor, onMoveEntity, onDeleteEntity, onAddStreet,
   } = props
 
@@ -143,14 +144,14 @@ export function MapEditorCanvas(props: Props) {
     stage.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
       const { tool: t, activeTileId: tid, activeBundleId: bid, viewMode: vm,
                activeInteriorId: iid, configData: cfg, showQuestItems: sqI,
-               showBlockedPaths: sbp, blockedPaths: bps } = propsRef.current
+               showBlockedPaths: sbp, blockedPaths: bps, showAreas: sareas } = propsRef.current
       const { x: ox, y: oy } = worldOriginRef.current
       const pos = e.getLocalPosition(stage)
       const tx  = Math.floor((pos.x - ox) / T)
       const ty  = Math.floor((pos.y - oy) / T)
 
       if (t === 'select') {
-        const entity = hitTest(cfg, tx, ty, vm, iid, sqI, sbp, bps)
+        const entity = hitTest(cfg, tx, ty, vm, iid, sqI, sbp, bps, sareas)
         propsRef.current.onSelectEntity(entity)
         if (entity) {
           const etx = getEntityTx(cfg, entity)
@@ -160,7 +161,7 @@ export function MapEditorCanvas(props: Props) {
       } else if (t === 'place' && (tid || bid)) {
         propsRef.current.onPlaceDecor(tx, ty)
       } else if (t === 'delete') {
-        const entity = hitTest(cfg, tx, ty, vm, iid, sqI, sbp, bps)
+        const entity = hitTest(cfg, tx, ty, vm, iid, sqI, sbp, bps, sareas)
         if (entity) {
           propsRef.current.onDeleteEntity(entity)
           propsRef.current.onSelectEntity(null)
@@ -268,6 +269,9 @@ export function MapEditorCanvas(props: Props) {
     }
     if (!isInterior && showBlockedPaths) {
       renderBlockedPathsOverlay(questLayer, selLayer)
+    }
+    if (!isInterior && showAreas) {
+      renderAreasOverlay(questLayer, selLayer)
     }
 
     if (showGrid) drawGrid(gridLayer)
@@ -785,6 +789,30 @@ export function MapEditorCanvas(props: Props) {
     })
   }
 
+  // ── Areas overlay ──────────────────────────────────────────────────────────────
+  function renderAreasOverlay(layer: PIXI.Container, selLayer: PIXI.Graphics) {
+    const { configData: cfg, selectedEntity: sel } = propsRef.current
+    ;(cfg.areas ?? []).forEach((area, aIdx) => {
+      const isSel = sel?.type === 'area' && sel.index === aIdx
+      const gfx = new PIXI.Graphics()
+      gfx.rect(area.tx * T, area.ty * T, area.tw * T, area.th * T)
+        .fill({ color: 0x8855cc, alpha: 0.12 })
+        .stroke({ color: isSel ? 0xf0c040 : 0xaa66ff, width: isSel ? 2 : 1 })
+      gfx.eventMode = 'static'; gfx.cursor = 'pointer'
+      gfx.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+        e.stopPropagation()
+        const entity: SelectedEntity = { type: 'area', index: aIdx }
+        propsRef.current.onSelectEntity(entity)
+        if (propsRef.current.tool === 'select')
+          dragRef.current = { entity, lastTx: area.tx, lastTy: area.ty, offsetX: 0, offsetY: 0 }
+      })
+      layer.addChild(gfx)
+      const lbl = new PIXI.Text({ text: area.name, style: { fontSize: 9, fill: isSel ? 0xf0c040 : 0xaa66ff } })
+      lbl.x = area.tx * T + 4; lbl.y = area.ty * T + 4
+      layer.addChild(lbl)
+    })
+  }
+
   // ── Blocked paths / locked doors overlay ──────────────────────────────────────
   function renderBlockedPathsOverlay(layer: PIXI.Container, selLayer: PIXI.Graphics) {
     const { blockedPaths: bps, configData: cfg, selectedEntity: sel } = propsRef.current
@@ -883,6 +911,13 @@ export function MapEditorCanvas(props: Props) {
     } else if (selectedEntity.type === 'interiorDecor' && selectedEntity.interiorId === activeInteriorId) {
       const item = configData.interiors?.[selectedEntity.interiorId]?.decor[selectedEntity.index]
       if (item?.tx !== undefined) { tx = item.tx; ty = item.ty ?? 0 }
+    } else if (selectedEntity.type === 'area') {
+      const area = configData.areas?.[selectedEntity.index]
+      if (area) {
+        gfx.rect(area.tx * T - 2, area.ty * T - 2, area.tw * T + 4, area.th * T + 4)
+          .stroke({ color: 0xf0c040, width: 2 })
+      }
+      return
     } else if (selectedEntity.type === 'blockedPath') {
       // Selection drawn per-tile inside renderBlockedPathsOverlay
       return
@@ -919,6 +954,7 @@ function hitTest(
   showQuestItems = false,
   showBlockedPaths = false,
   blockedPaths: RawBlockedPath[] = [],
+  showAreas = false,
 ): SelectedEntity | null {
   if (viewMode === 'interior' && activeInteriorId) {
     const npcs = cfg.npcs ?? []
@@ -1008,6 +1044,14 @@ function hitTest(
       return { type: 'street', index: i }
     }
   }
+  if (showAreas) {
+    const areas = cfg.areas ?? []
+    for (let i = areas.length - 1; i >= 0; i--) {
+      const a = areas[i]
+      if (tx >= a.tx && tx < a.tx + a.tw && ty >= a.ty && ty < a.ty + a.th)
+        return { type: 'area', index: i }
+    }
+  }
   return null
 }
 
@@ -1026,6 +1070,7 @@ function getEntityTx(cfg: RawMapConfig, entity: SelectedEntity): number {
   }
   if (entity.type === 'treasure') return cfg.treasures?.[entity.index]?.tx ?? 0
   if (entity.type === 'pickupItem') return cfg.pickupItems?.[entity.index]?.tx ?? 0
+  if (entity.type === 'area') return cfg.areas?.[entity.index]?.tx ?? 0
   if (entity.type === 'blockedPath' || entity.type === 'lockedDoor') return 0
   return 0
 }
@@ -1045,5 +1090,6 @@ function getEntityTy(cfg: RawMapConfig, entity: SelectedEntity): number {
   }
   if (entity.type === 'treasure') return cfg.treasures?.[entity.index]?.ty ?? 0
   if (entity.type === 'pickupItem') return cfg.pickupItems?.[entity.index]?.ty ?? 0
+  if (entity.type === 'area') return cfg.areas?.[entity.index]?.ty ?? 0
   return 0
 }

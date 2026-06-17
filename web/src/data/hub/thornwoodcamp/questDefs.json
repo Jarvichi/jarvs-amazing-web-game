@@ -13,7 +13,11 @@
         {
           "key": "firewood",
           "type": "collect",
-          "pickupIds": ["thornwood-firewood-1", "thornwood-firewood-2", "thornwood-firewood-3"],
+          "pickupIds": [
+            "thornwood-firewood-1",
+            "thornwood-firewood-2",
+            "thornwood-firewood-3"
+          ],
           "required": 3
         }
       ],
@@ -23,9 +27,27 @@
     }
   ],
   "pickupItems": [
-    { "id": "thornwood-firewood-1", "tx": 4, "ty": 7, "tileId": "logPile", "questId": "thornwood-embers-low" },
-    { "id": "thornwood-firewood-2", "tx": 16, "ty": 13, "tileId": "logPile", "questId": "thornwood-embers-low" },
-    { "id": "thornwood-firewood-3", "tx": 12, "ty": 17, "tileId": "logPile", "questId": "thornwood-embers-low" }
+    {
+      "id": "thornwood-firewood-1",
+      "tx": 4,
+      "ty": 7,
+      "tileId": "logPile",
+      "questId": "thornwood-embers-low"
+    },
+    {
+      "id": "thornwood-firewood-2",
+      "tx": 16,
+      "ty": 13,
+      "tileId": "logPile",
+      "questId": "thornwood-embers-low"
+    },
+    {
+      "id": "thornwood-firewood-3",
+      "tx": 12,
+      "ty": 17,
+      "tileId": "logPile",
+      "questId": "thornwood-embers-low"
+    }
   ],
   "blockedPaths": []
 }

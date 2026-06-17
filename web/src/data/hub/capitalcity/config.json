@@ -3,90 +3,280 @@
   "mapH": 1088,
   "townName": "Crownhaven",
   "environment": "citadel",
-  "avatarStart": { "tx": 19, "ty": 30 },
+  "avatarStart": {
+    "tx": 19,
+    "ty": 30
+  },
   "exitTiles": [
-    { "tx": 19, "ty": 31, "screen": "worldmap" },
-    { "tx": 20, "ty": 31, "screen": "worldmap" }
+    {
+      "tx": 19,
+      "ty": 31,
+      "screen": "worldmap"
+    },
+    {
+      "tx": 20,
+      "ty": 31,
+      "screen": "worldmap"
+    }
   ],
   "areas": [
-    { "id": "crownhaven-plaza", "name": "Coronation Plaza", "tx": 14, "ty": 10, "tw": 12, "th": 8 },
-    { "id": "crownhaven-market", "name": "The Grand Market", "tx": 26, "ty": 2, "tw": 12, "th": 14 }
+    {
+      "id": "crownhaven-plaza",
+      "name": "Coronation Plaza",
+      "tx": 14,
+      "ty": 10,
+      "tw": 12,
+      "th": 8
+    },
+    {
+      "id": "crownhaven-market",
+      "name": "The Grand Market",
+      "tx": 26,
+      "ty": 2,
+      "tw": 12,
+      "th": 14
+    }
   ],
   "streets": [
-    { "rect": [18, 2, 21, 31] },
-    { "rect": [2, 14, 37, 17] },
-    { "rect": [14, 10, 25, 13] },
-    { "rect": [6, 18, 7, 22] },
-    { "rect": [32, 18, 33, 22] }
+    {
+      "rect": [
+        18,
+        2,
+        21,
+        33
+      ]
+    },
+    {
+      "rect": [
+        2,
+        14,
+        37,
+        17
+      ]
+    },
+    {
+      "rect": [
+        14,
+        10,
+        25,
+        13
+      ]
+    },
+    {
+      "rect": [
+        6,
+        18,
+        7,
+        22
+      ]
+    },
+    {
+      "rect": [
+        32,
+        18,
+        33,
+        22
+      ]
+    }
   ],
   "buildings": [
     {
       "id": "grand-inn",
       "upgradeKind": "inn",
-      "rect": [3, 2, 12, 9],
+      "rect": [
+        3,
+        2,
+        12,
+        9
+      ],
       "wall": "whiteStone",
       "roof": "blueSlateRoof",
       "doors": [
-        { "tx": 5, "ty": 1, "hideSign": true, "buildingId": "grand-inn" }
+        {
+          "tx": 5,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "grand-inn"
+        }
       ]
     },
     {
       "id": "market-hall-crownhaven",
       "upgradeKind": "shop",
-      "rect": [27, 2, 36, 9],
+      "rect": [
+        27,
+        2,
+        36,
+        9
+      ],
       "wall": "brick",
       "roof": "redSlateRoof",
       "doors": [
-        { "tx": 4, "ty": 1, "hideSign": true, "buildingId": "market-hall-crownhaven" }
+        {
+          "tx": 4,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "market-hall-crownhaven"
+        }
       ]
     },
     {
       "id": "guardhouse",
       "upgradeKind": "workshop",
-      "rect": [3, 20, 10, 26],
+      "rect": [
+        3,
+        20,
+        10,
+        26
+      ],
       "wall": "castleStone",
       "roof": "greySlateRoof",
       "doors": [
-        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "guardhouse" }
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "guardhouse"
+        }
       ]
     },
     {
       "id": "chapel",
       "upgradeKind": "shrine",
-      "rect": [29, 20, 36, 27],
+      "rect": [
+        29,
+        20,
+        36,
+        27
+      ],
       "wall": "ornateStone",
       "roof": "blueSlateRoof",
       "doors": [
-        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "chapel" }
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "chapel"
+        }
       ]
     }
   ],
   "exteriorDecor": [
-    { "comment": "plaza fountain" },
-    { "tx": 18, "ty": 11, "bundleID": "fountain", "zlayer": "solid" },
-    { "comment": "market clutter" },
-    { "tx": 26, "ty": 11, "tileId": "crate" },
-    { "tx": 27, "ty": 11, "tileId": "openCrate" },
-    { "tx": 35, "ty": 11, "tileId": "barrel" },
-    { "tx": 36, "ty": 12, "tileId": "sack" },
-    { "comment": "guardhouse braziers" },
-    { "tx": 4, "ty": 28, "tileId": "brazierBottom" },
-    { "tx": 4, "ty": 27, "tileId": "brazierTop", "zlayer": "above" },
-    { "tx": 9, "ty": 28, "tileId": "brazierBottom" },
-    { "tx": 9, "ty": 27, "tileId": "brazierTop", "zlayer": "above" },
-    { "comment": "city greenery" },
-    { "tx": 13, "ty": 19, "bundleID": "mixed-tree-cluster-V", "zlayer": "solid" },
-    { "tx": 24, "ty": 19, "bundleID": "mixed-tree-cluster-V", "zlayer": "solid" },
-    { "tx": 2, "ty": 11, "bundleID": "light-tree", "zlayer": "solid" },
-    { "tx": 36, "ty": 17, "bundleID": "light-tree", "zlayer": "solid" },
-    { "tx": 14, "ty": 9, "tileId": "whiteFlower" },
-    { "tx": 25, "ty": 9, "tileId": "whiteFlower" },
-    { "comment": "road sign at the south gate" },
-    { "tx": 16, "ty": 29, "tileId": "roadSignTop", "zlayer": "above" },
-    { "tx": 16, "ty": 30, "tileId": "roadSignBottom", "zlayer": "above" }
+    {
+      "comment": "plaza fountain"
+    },
+    {
+      "tx": 18,
+      "ty": 11,
+      "bundleID": "fountain",
+      "zlayer": "solid"
+    },
+    {
+      "comment": "market clutter"
+    },
+    {
+      "tx": 26,
+      "ty": 11,
+      "tileId": "crate"
+    },
+    {
+      "tx": 27,
+      "ty": 11,
+      "tileId": "openCrate"
+    },
+    {
+      "tx": 35,
+      "ty": 11,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 36,
+      "ty": 12,
+      "tileId": "sack"
+    },
+    {
+      "comment": "guardhouse braziers"
+    },
+    {
+      "tx": 4,
+      "ty": 28,
+      "tileId": "brazierBottom"
+    },
+    {
+      "tx": 4,
+      "ty": 27,
+      "tileId": "brazierTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 9,
+      "ty": 28,
+      "tileId": "brazierBottom"
+    },
+    {
+      "tx": 9,
+      "ty": 27,
+      "tileId": "brazierTop",
+      "zlayer": "above"
+    },
+    {
+      "comment": "city greenery"
+    },
+    {
+      "tx": 13,
+      "ty": 19,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 24,
+      "ty": 19,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 2,
+      "ty": 11,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 36,
+      "ty": 17,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 14,
+      "ty": 9,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 25,
+      "ty": 9,
+      "tileId": "whiteFlower"
+    },
+    {
+      "comment": "road sign at the south gate"
+    },
+    {
+      "tx": 16,
+      "ty": 29,
+      "tileId": "roadSignTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 16,
+      "ty": 30,
+      "tileId": "roadSignBottom",
+      "zlayer": "above"
+    }
   ],
   "npcSpawnTiles": [],
-  "ambientNpcSprites": ["hub-npc-merchant", "hub-npc-scholar"],
+  "ambientNpcSprites": [
+    "hub-npc-merchant",
+    "hub-npc-scholar"
+  ],
   "npcs": [
     {
       "id": "innkeeper-crownhaven",
@@ -152,11 +342,31 @@
       "floorTileId": "woodFloor",
       "wallTileId": "whiteStone",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "barrel" },
-        { "tx": 2, "ty": 1, "tileId": "barrel" },
-        { "tx": 7, "ty": 1, "tileId": "roundTableWithCloth" },
-        { "tx": 8, "ty": 2, "tileId": "stool" },
-        { "tx": 6, "ty": 2, "tileId": "stool" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 8,
+          "ty": 2,
+          "tileId": "stool"
+        },
+        {
+          "tx": 6,
+          "ty": 2,
+          "tileId": "stool"
+        }
       ],
       "exits": []
     },
@@ -167,10 +377,26 @@
       "floorTileId": "woodFloor",
       "wallTileId": "brick",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "crate" },
-        { "tx": 2, "ty": 1, "tileId": "openCrate" },
-        { "tx": 7, "ty": 1, "tileId": "sack" },
-        { "tx": 8, "ty": 1, "tileId": "crate" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "sack"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "crate"
+        }
       ],
       "exits": []
     },
@@ -181,12 +407,36 @@
       "floorTileId": "stoneFloor",
       "wallTileId": "castleStone",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "suitOfArmourTop" },
-        { "tx": 1, "ty": 2, "tileId": "suitOfArmourBottom" },
-        { "tx": 6, "ty": 1, "tileId": "suitOfArmourTop" },
-        { "tx": 6, "ty": 2, "tileId": "suitOfArmourBottom" },
-        { "tx": 3, "ty": 1, "tileId": "swordMountedLeft" },
-        { "tx": 4, "ty": 1, "tileId": "shieldMounted" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "suitOfArmourTop"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "suitOfArmourBottom"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "suitOfArmourTop"
+        },
+        {
+          "tx": 6,
+          "ty": 2,
+          "tileId": "suitOfArmourBottom"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "swordMountedLeft"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "shieldMounted"
+        }
       ],
       "exits": []
     },
@@ -197,11 +447,31 @@
       "floorTileId": "cobblestoneFloor",
       "wallTileId": "ornateStone",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 1, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 6, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 6, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 3, "ty": 1, "tileId": "roundTableWithCloth" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 6,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "roundTableWithCloth"
+        }
       ],
       "exits": []
     }

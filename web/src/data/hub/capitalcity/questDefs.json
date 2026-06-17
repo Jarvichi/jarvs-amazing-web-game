@@ -13,7 +13,11 @@
         {
           "key": "scrolls",
           "type": "collect",
-          "pickupIds": ["survey-scroll-1", "survey-scroll-2", "survey-scroll-3"],
+          "pickupIds": [
+            "survey-scroll-1",
+            "survey-scroll-2",
+            "survey-scroll-3"
+          ],
           "required": 3
         }
       ],
@@ -37,7 +41,9 @@
         {
           "key": "key",
           "type": "collect",
-          "pickupIds": ["postern-key"],
+          "pickupIds": [
+            "postern-key"
+          ],
           "required": 1
         },
         {
@@ -57,10 +63,34 @@
     }
   ],
   "pickupItems": [
-    { "id": "survey-scroll-1", "tx": 4, "ty": 13, "tileId": "rolledMap", "questId": "crownhaven-census" },
-    { "id": "survey-scroll-2", "tx": 33, "ty": 18, "tileId": "rolledMap", "questId": "crownhaven-census" },
-    { "id": "survey-scroll-3", "tx": 25, "ty": 28, "tileId": "rolledMap", "questId": "crownhaven-census" },
-    { "id": "postern-key", "tx": 27, "ty": 19, "tileId": "key", "questId": "crownhaven-gate-key" }
+    {
+      "id": "survey-scroll-1",
+      "tx": 4,
+      "ty": 13,
+      "tileId": "rolledMap",
+      "questId": "crownhaven-census"
+    },
+    {
+      "id": "survey-scroll-2",
+      "tx": 33,
+      "ty": 18,
+      "tileId": "rolledMap",
+      "questId": "crownhaven-census"
+    },
+    {
+      "id": "survey-scroll-3",
+      "tx": 25,
+      "ty": 28,
+      "tileId": "rolledMap",
+      "questId": "crownhaven-census"
+    },
+    {
+      "id": "postern-key",
+      "tx": 27,
+      "ty": 19,
+      "tileId": "key",
+      "questId": "crownhaven-gate-key"
+    }
   ],
   "blockedPaths": []
 }

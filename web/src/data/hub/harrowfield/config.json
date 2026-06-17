@@ -3,75 +3,227 @@
   "mapH": 704,
   "townName": "Harrowfield",
   "environment": "farmland",
-  "avatarStart": { "tx": 15, "ty": 20 },
+  "avatarStart": {
+    "tx": 15,
+    "ty": 20
+  },
   "exitTiles": [
-    { "tx": 15, "ty": 21, "screen": "worldmap" },
-    { "tx": 16, "ty": 21, "screen": "worldmap" }
+    {
+      "tx": 15,
+      "ty": 21,
+      "screen": "worldmap"
+    },
+    {
+      "tx": 16,
+      "ty": 21,
+      "screen": "worldmap"
+    }
   ],
   "areas": [
-    { "id": "harrowfield-fields", "name": "The Fields", "tx": 2, "ty": 11, "tw": 10, "th": 9 },
-    { "id": "harrowfield-green", "name": "Village Green", "tx": 10, "ty": 9, "tw": 9, "th": 4 }
+    {
+      "id": "harrowfield-fields",
+      "name": "The Fields",
+      "tx": 2,
+      "ty": 11,
+      "tw": 10,
+      "th": 9
+    },
+    {
+      "id": "harrowfield-green",
+      "name": "Village Green",
+      "tx": 10,
+      "ty": 9,
+      "tw": 9,
+      "th": 4
+    }
   ],
   "streets": [
-    { "rect": [15, 2, 16, 21] },
-    { "rect": [3, 10, 27, 11] },
-    { "rect": [22, 12, 23, 14] }
+    {
+      "rect": [
+        15,
+        2,
+        16,
+        21
+      ]
+    },
+    {
+      "rect": [
+        3,
+        10,
+        27,
+        11
+      ]
+    },
+    {
+      "rect": [
+        22,
+        12,
+        23,
+        14
+      ]
+    }
   ],
   "buildings": [
     {
       "id": "farmhouse",
       "upgradeKind": "cottage",
-      "rect": [3, 2, 9, 8],
+      "rect": [
+        3,
+        3,
+        9,
+        9
+      ],
       "wall": "woodWall",
       "roof": "strawRoof",
       "doors": [
-        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "farmhouse" }
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "farmhouse"
+        }
       ]
     },
     {
       "id": "barn",
       "upgradeKind": "workshop",
-      "rect": [20, 2, 27, 9],
+      "rect": [
+        20,
+        2,
+        27,
+        9
+      ],
       "wall": "woodenSlats",
       "roof": "strawRoof",
       "doors": [
-        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "barn" }
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "barn"
+        }
       ]
     },
     {
       "id": "mill-cottage",
       "upgradeKind": "cottage",
-      "rect": [19, 14, 25, 19],
+      "rect": [
+        19,
+        14,
+        25,
+        19
+      ],
       "wall": "woodWall",
       "roof": "strawRoof",
       "doors": [
-        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "mill-cottage" }
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "mill-cottage"
+        }
       ]
     }
   ],
   "exteriorDecor": [
-    { "comment": "ploughed fields west of the lane" },
-    { "tx": 3, "ty": 13, "bundleID": "ploughed-field-6x5", "zlayer": "below" },
-    { "comment": "scarecrow watching the field" },
-    { "tx": 10, "ty": 14, "tileId": "scarecrowBottom" },
-    { "tx": 10, "ty": 13, "tileId": "scarecrowTop", "zlayer": "above" },
-    { "comment": "hay and farm clutter" },
-    { "tx": 11, "ty": 16, "tileId": "hayStack" },
-    { "tx": 12, "ty": 18, "tileId": "hayStack" },
-    { "tx": 19, "ty": 12, "tileId": "hayStack" },
-    { "tx": 28, "ty": 8, "tileId": "logPile" },
-    { "tx": 18, "ty": 9, "tileId": "barrel" },
-    { "tx": 12, "ty": 9, "tileId": "stoneWell" },
-    { "comment": "hedgerow trees" },
-    { "tx": 1, "ty": 4, "bundleID": "mixed-tree-cluster-V", "zlayer": "solid" },
-    { "tx": 12, "ty": 3, "bundleID": "light-tree", "zlayer": "solid" },
-    { "tx": 27, "ty": 16, "bundleID": "mixed-tree-cluster-V", "zlayer": "solid" },
-    { "tx": 2, "ty": 19, "bundleID": "light-tree", "zlayer": "solid" },
-    { "tx": 17, "ty": 13, "tileId": "whiteFlower" },
-    { "tx": 13, "ty": 12, "tileId": "whiteFlower" }
+    {
+      "comment": "ploughed fields west of the lane"
+    },
+    {
+      "tx": 3,
+      "ty": 16,
+      "bundleID": "ploughed-field-6x5",
+      "zlayer": "below"
+    },
+    {
+      "comment": "scarecrow watching the field"
+    },
+    {
+      "tx": 10,
+      "ty": 14,
+      "tileId": "scarecrowBottom"
+    },
+    {
+      "tx": 10,
+      "ty": 13,
+      "tileId": "scarecrowTop",
+      "zlayer": "above"
+    },
+    {
+      "comment": "hay and farm clutter"
+    },
+    {
+      "tx": 11,
+      "ty": 16,
+      "tileId": "hayStack"
+    },
+    {
+      "tx": 12,
+      "ty": 18,
+      "tileId": "hayStack"
+    },
+    {
+      "tx": 19,
+      "ty": 12,
+      "tileId": "hayStack"
+    },
+    {
+      "tx": 28,
+      "ty": 8,
+      "tileId": "logPile"
+    },
+    {
+      "tx": 18,
+      "ty": 9,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 12,
+      "ty": 9,
+      "tileId": "stoneWell"
+    },
+    {
+      "comment": "hedgerow trees"
+    },
+    {
+      "tx": 1,
+      "ty": 4,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 12,
+      "ty": 3,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 27,
+      "ty": 16,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 2,
+      "ty": 19,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 17,
+      "ty": 13,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 13,
+      "ty": 12,
+      "tileId": "whiteFlower"
+    }
   ],
   "npcSpawnTiles": [],
-  "ambientNpcSprites": ["hub-npc-supplies"],
+  "ambientNpcSprites": [
+    "hub-npc-supplies"
+  ],
   "npcs": [
     {
       "id": "elder-maeve",
@@ -122,10 +274,26 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodWall",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "sack" },
-        { "tx": 2, "ty": 1, "tileId": "barrel" },
-        { "tx": 5, "ty": 2, "tileId": "roundTable" },
-        { "tx": 6, "ty": 3, "tileId": "stool" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "sack"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 5,
+          "ty": 2,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 6,
+          "ty": 3,
+          "tileId": "stool"
+        }
       ],
       "exits": []
     },
@@ -136,10 +304,26 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodenSlats",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "hayStack" },
-        { "tx": 2, "ty": 1, "tileId": "hayStack" },
-        { "tx": 6, "ty": 1, "tileId": "pileOfSacks" },
-        { "tx": 7, "ty": 1, "tileId": "crate" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "hayStack"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "hayStack"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "crate"
+        }
       ],
       "exits": []
     },
@@ -150,9 +334,21 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodWall",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "pileOfSacks" },
-        { "tx": 2, "ty": 1, "tileId": "sack" },
-        { "tx": 5, "ty": 1, "tileId": "barrel" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "sack"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "barrel"
+        }
       ],
       "exits": []
     }

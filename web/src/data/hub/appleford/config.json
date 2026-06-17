@@ -3,64 +3,224 @@
   "mapH": 640,
   "townName": "Appleford",
   "environment": "farmland",
-  "avatarStart": { "tx": 14, "ty": 18 },
+  "avatarStart": {
+    "tx": 14,
+    "ty": 18
+  },
   "exitTiles": [
-    { "tx": 13, "ty": 19, "screen": "worldmap" },
-    { "tx": 14, "ty": 19, "screen": "worldmap" }
+    {
+      "tx": 13,
+      "ty": 19,
+      "screen": "worldmap"
+    },
+    {
+      "tx": 14,
+      "ty": 19,
+      "screen": "worldmap"
+    }
   ],
   "areas": [
-    { "id": "appleford-orchard", "name": "The Orchards", "tx": 3, "ty": 12, "tw": 22, "th": 6 }
+    {
+      "id": "appleford-orchard",
+      "name": "The Orchards",
+      "tx": 3,
+      "ty": 12,
+      "tw": 22,
+      "th": 6
+    }
   ],
   "streets": [
-    { "rect": [13, 2, 14, 19] },
-    { "rect": [3, 10, 25, 11] }
+    {
+      "rect": [
+        13,
+        2,
+        14,
+        19
+      ]
+    },
+    {
+      "rect": [
+        3,
+        10,
+        25,
+        11
+      ]
+    },
+    {
+      "rect": [
+        7,
+        9,
+        8,
+        9
+      ]
+    },
+    {
+      "rect": [
+        19,
+        9,
+        20,
+        9
+      ]
+    },
+    {
+      "tile": [
+        21,
+        9
+      ]
+    }
   ],
   "buildings": [
     {
       "id": "cider-house",
       "upgradeKind": "tavern",
-      "rect": [4, 2, 11, 8],
+      "rect": [
+        4,
+        2,
+        11,
+        8
+      ],
       "wall": "woodWall",
       "roof": "redSlateRoof",
       "doors": [
-        { "tx": 4, "ty": 1, "hideSign": true, "buildingId": "cider-house" }
+        {
+          "tx": 4,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "cider-house"
+        }
       ]
     },
     {
       "id": "keepers-cottage",
       "upgradeKind": "cottage",
-      "rect": [17, 3, 23, 8],
+      "rect": [
+        17,
+        3,
+        23,
+        8
+      ],
       "wall": "woodWall",
       "roof": "strawRoof",
       "doors": [
-        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "keepers-cottage" }
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "keepers-cottage"
+        }
       ]
     }
   ],
   "exteriorDecor": [
-    { "comment": "orchard rows" },
-    { "tx": 4, "ty": 13, "bundleID": "light-tree", "zlayer": "solid" },
-    { "tx": 8, "ty": 13, "bundleID": "light-tree", "zlayer": "solid" },
-    { "tx": 16, "ty": 13, "bundleID": "light-tree", "zlayer": "solid" },
-    { "tx": 20, "ty": 13, "bundleID": "light-tree", "zlayer": "solid" },
-    { "tx": 24, "ty": 13, "bundleID": "light-tree", "zlayer": "solid" },
-    { "tx": 4, "ty": 17, "bundleID": "autumn-tree", "zlayer": "solid" },
-    { "tx": 8, "ty": 17, "bundleID": "autumn-tree", "zlayer": "solid" },
-    { "tx": 18, "ty": 17, "bundleID": "autumn-tree", "zlayer": "solid" },
-    { "tx": 22, "ty": 17, "bundleID": "autumn-tree", "zlayer": "solid" },
-    { "comment": "cider house front" },
-    { "tx": 3, "ty": 9, "tileId": "appleSign", "zlayer": "above" },
-    { "tx": 12, "ty": 9, "tileId": "barrel" },
-    { "tx": 12, "ty": 8, "tileId": "barrel" },
-    { "tx": 6, "ty": 9, "tileId": "appleBasket" },
-    { "comment": "village green" },
-    { "tx": 15, "ty": 9, "tileId": "stoneWell" },
-    { "tx": 25, "ty": 9, "tileId": "logPile" },
-    { "tx": 16, "ty": 12, "tileId": "whiteFlower" },
-    { "tx": 12, "ty": 16, "tileId": "whiteFlower" }
+    {
+      "comment": "orchard rows"
+    },
+    {
+      "tx": 4,
+      "ty": 13,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 8,
+      "ty": 13,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 16,
+      "ty": 13,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 20,
+      "ty": 13,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 24,
+      "ty": 13,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 4,
+      "ty": 17,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 8,
+      "ty": 17,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 18,
+      "ty": 17,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 22,
+      "ty": 17,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "comment": "cider house front"
+    },
+    {
+      "tx": 3,
+      "ty": 9,
+      "tileId": "appleSign",
+      "zlayer": "above"
+    },
+    {
+      "tx": 12,
+      "ty": 9,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 12,
+      "ty": 8,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 6,
+      "ty": 9,
+      "tileId": "appleBasket"
+    },
+    {
+      "comment": "village green"
+    },
+    {
+      "tx": 15,
+      "ty": 9,
+      "tileId": "stoneWell"
+    },
+    {
+      "tx": 25,
+      "ty": 9,
+      "tileId": "logPile"
+    },
+    {
+      "tx": 16,
+      "ty": 12,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 12,
+      "ty": 16,
+      "tileId": "whiteFlower"
+    }
   ],
   "npcSpawnTiles": [],
-  "ambientNpcSprites": ["hub-npc-merchant"],
+  "ambientNpcSprites": [
+    "hub-npc-merchant"
+  ],
   "npcs": [
     {
       "id": "orchard-keeper-bess",
@@ -99,10 +259,26 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodWall",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "barrel" },
-        { "tx": 2, "ty": 1, "tileId": "barrel" },
-        { "tx": 3, "ty": 1, "tileId": "barrel" },
-        { "tx": 6, "ty": 1, "tileId": "bottlesOfLiquor" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "bottlesOfLiquor"
+        }
       ],
       "exits": []
     },
@@ -113,9 +289,21 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodWall",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "appleBasket" },
-        { "tx": 4, "ty": 1, "tileId": "roundTable" },
-        { "tx": 5, "ty": 2, "tileId": "stool" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "appleBasket"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 5,
+          "ty": 2,
+          "tileId": "stool"
+        }
       ],
       "exits": []
     }

@@ -3571,9 +3571,9 @@
     },
     {
       "id": "rover-toy-1",
-      "tx": 30,
-      "ty": 33,
-      "tileId": "gift",
+      "tx": 55,
+      "ty": 10,
+      "tileId": "stick",
       "questId": "wheres-rover"
     },
     {
@@ -3613,9 +3613,9 @@
     },
     {
       "id": "pendant-1",
-      "tx": 1,
-      "ty": 35,
-      "tileId": "pendant",
+      "tx": 2,
+      "ty": 34,
+      "tileId": "goldNecklace",
       "questId": "lost-pendant"
     },
     {
@@ -5074,7 +5074,7 @@
     },
     {
       "id": "resource-bundle-2",
-      "tx": 12,
+      "tx": 9,
       "ty": 25,
       "tileId": "crate",
       "questId": "ferryn-resource-cache"

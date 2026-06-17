@@ -13,7 +13,11 @@
         {
           "key": "apples",
           "type": "collect",
-          "pickupIds": ["apple-basket-1", "apple-basket-2", "apple-basket-3"],
+          "pickupIds": [
+            "apple-basket-1",
+            "apple-basket-2",
+            "apple-basket-3"
+          ],
           "required": 3
         }
       ],
@@ -29,9 +33,27 @@
     }
   ],
   "pickupItems": [
-    { "id": "apple-basket-1", "tx": 6, "ty": 15, "tileId": "appleBasket", "questId": "appleford-scattered-harvest" },
-    { "id": "apple-basket-2", "tx": 14, "ty": 14, "tileId": "appleBasket", "questId": "appleford-scattered-harvest" },
-    { "id": "apple-basket-3", "tx": 21, "ty": 16, "tileId": "appleBasket", "questId": "appleford-scattered-harvest" }
+    {
+      "id": "apple-basket-1",
+      "tx": 6,
+      "ty": 15,
+      "tileId": "appleBasket",
+      "questId": "appleford-scattered-harvest"
+    },
+    {
+      "id": "apple-basket-2",
+      "tx": 14,
+      "ty": 14,
+      "tileId": "appleBasket",
+      "questId": "appleford-scattered-harvest"
+    },
+    {
+      "id": "apple-basket-3",
+      "tx": 21,
+      "ty": 16,
+      "tileId": "appleBasket",
+      "questId": "appleford-scattered-harvest"
+    }
   ],
   "blockedPaths": []
 }
