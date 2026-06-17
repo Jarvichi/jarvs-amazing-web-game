@@ -7,6 +7,7 @@ import {
   startGameOverMusic, stopGameOverMusic,
   startMapMusic, stopMapMusic,
   startHubMusic, stopHubMusic,
+  setNightAmbiance,
   setBattleIntensity, startMusicTrack, MUSIC_TRACKS,
 } from '../game/sound'
 
@@ -22,6 +23,7 @@ export function useMusic(screen: Screen, gameState: GameState | null, run: RunSt
     stopGameOverMusic()
     stopMapMusic()
     stopHubMusic()
+    if (screen !== 'hubworld' && screen !== 'location') setNightAmbiance(false)  // crickets are hub-only
 
     const act = run ? ACTS[run.actId] : undefined
 
@@ -44,7 +46,7 @@ export function useMusic(screen: Screen, gameState: GameState | null, run: RunSt
         startGameOverMusic(phase.winner)
       }
     }
-    return () => { stopBattleMusic(); stopTitleMusic(); stopGameOverMusic(); stopMapMusic(); stopHubMusic() }
+    return () => { stopBattleMusic(); stopTitleMusic(); stopGameOverMusic(); stopMapMusic(); stopHubMusic(); setNightAmbiance(false) }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [screen, gameState?.phase.type])
 

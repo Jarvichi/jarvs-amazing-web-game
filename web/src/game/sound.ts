@@ -268,6 +268,37 @@ export function playDayNightChime() {
   node(784, 'sine',     t + 0.12, 0.40, 0.13)
 }
 
+// ─── Animal vocalisations (hub critters) ──────────────────────────────────────
+export function playDogBark() {
+  const t = now()
+  // Two short gruff bursts
+  node(190, 'square',   t,        0.07, 0.26)
+  node(140, 'sawtooth', t + 0.01, 0.08, 0.20)
+  node(200, 'square',   t + 0.16, 0.06, 0.22)
+  node(150, 'sawtooth', t + 0.17, 0.07, 0.16)
+}
+
+export function playCatMeow() {
+  const t = now()
+  // Rising-then-falling glide ≈ "me-ow"
+  node(640, 'sine',     t,        0.13, 0.16)
+  node(540, 'sine',     t + 0.11, 0.17, 0.14)
+}
+
+export function playBirdChirp() {
+  const t = now()
+  // Two quick high tweets
+  node(2400, 'sine', t,        0.04, 0.10)
+  node(3100, 'sine', t + 0.05, 0.05, 0.09)
+}
+
+export function playHenCluck() {
+  const t = now()
+  // Low clipped clucks
+  node(440, 'square', t,        0.05, 0.13)
+  node(300, 'square', t + 0.08, 0.06, 0.12)
+}
+
 
 // ─── Music Engine ─────────────────────────────────────────────────────────────
 // Look-ahead scheduler pattern — runs a setInterval every SCHEDULE_MS and
@@ -861,11 +892,40 @@ function scheduleMarket(track: MusicTrack, vol: number, beatSec: number, upTo: n
 }
 export const MARKET_AMBIANCE: MusicTrackConfig = { id: 'amb-market', bpm: 120, vol: 0.5, schedule: scheduleMarket }
 
+// Crickets — outdoor night bed: rhythmic high-frequency chirp trills with gaps.
+function scheduleCrickets(track: MusicTrack, vol: number, beatSec: number, upTo: number): void {
+  while (track.nextBeatTime < upTo) {
+    const t = track.nextBeatTime
+    // A trill = a few rapid high pulses; not every beat, so it breathes.
+    if (Math.random() < 0.7) {
+      const base = 4200 + Math.random() * 600
+      const pulses = 2 + ((Math.random() * 3) | 0)
+      for (let i = 0; i < pulses; i++) {
+        musicNote(track, vol, base, 'sine', t + i * 0.03, 0.02, 0.05)
+      }
+    }
+    track.nextBeatTime += beatSec
+    track.beatIndex++
+  }
+}
+export const CRICKETS_AMBIANCE: MusicTrackConfig = { id: 'amb-crickets', bpm: 140, vol: 0.4, schedule: scheduleCrickets }
+
 /** Ambiance beds, keyed by the `ambianceId` set on an interior. */
 export const AMBIANCE_TRACKS: Record<string, MusicTrackConfig> = {
   hearth: HEARTH_AMBIANCE,
   sacred: SACRED_AMBIANCE,
   market: MARKET_AMBIANCE,
+}
+
+// ─── Outdoor night ambiance (crickets) ───────────────────────────────────────
+// Driven by HubTownCanvas: on at night while outdoors, off by day / indoors /
+// when leaving the hub. Idempotent.
+let _nightAmbianceOn = false
+export function setNightAmbiance(on: boolean): void {
+  if (on === _nightAmbianceOn) return
+  _nightAmbianceOn = on
+  if (on) startMusicTrack(CRICKETS_AMBIANCE)
+  else stopMusicTrack(CRICKETS_AMBIANCE.id)
 }
 export const AMBIANCE_IDS = Object.keys(AMBIANCE_TRACKS)
 
@@ -942,6 +1002,7 @@ export type SoundId =
   | 'shopPurchase' | 'fruitMachineSpin' | 'fruitMachineWin' | 'fruitMachineLose'
   | 'mapFootstep'
   | 'hubFootstep' | 'pickup' | 'treasure' | 'dayNightChime'
+  | 'dogBark' | 'catMeow' | 'birdChirp' | 'henCluck'
 
 const SOUND_MAP: Record<SoundId, () => void> = {
   cardPlay:          playCardPlay,
@@ -969,6 +1030,10 @@ const SOUND_MAP: Record<SoundId, () => void> = {
   pickup:            playPickup,
   treasure:          playTreasure,
   dayNightChime:     playDayNightChime,
+  dogBark:           playDogBark,
+  catMeow:           playCatMeow,
+  birdChirp:         playBirdChirp,
+  henCluck:          playHenCluck,
 }
 
 export function emitSound(id: SoundId): void {

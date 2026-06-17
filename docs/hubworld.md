@@ -855,6 +855,21 @@ Wired through `emitSound(id)` (ids documented in `web/src/data/sounds.json`):
 `hubFootstep` (throttled, per walk tile), `pickup` (item collect), `treasure`
 (chest), and `dayNightChime` (dawn/dusk transition). All honour mute/volume.
 
+### Night crickets
+An outdoor night ambiance bed (`CRICKETS_AMBIANCE`, id `amb-crickets`) plays while
+the hub is **at night and outdoors**. `HubTownCanvas` calls `setNightAmbiance(on)`
+from its ticker with `on = isNight && !interiorActive` (idempotent), so crickets
+start/stop on the day↔night flip and on building enter/exit; `useMusic` clears
+them when leaving the hub screen.
+
+### Animal vocalisations
+Hub critters make sounds via `emitSound`: `dogBark`, `catMeow`, `birdChirp`,
+`henCluck` (mapped per type in `ANIMAL_SFX`, `hubAnimals.ts`). They fire when an
+animal is tapped, when a dog spontaneously barks, and ambiently — every 5–10 s a
+random visible critter near the avatar vocalises. A single global throttle
+(`_lastAnimalSfxMs`, 250 ms) prevents overlap into a cacophony. Add a new vocal
+type by adding its `SoundId` to `ANIMAL_SFX`.
+
 ---
 
 ## §12 — Weather
