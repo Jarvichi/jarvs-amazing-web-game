@@ -8,7 +8,7 @@ import { PATH_TILE } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
 import { isBuildingOpen, getNpcLocation, getNpcActivity } from '../../game/hub/hubNpcSchedule'
 import { getGameHour, getGameMinute } from '../../game/hub/hubClock'
-import { emitSound, startInteriorAudio, stopInteriorAudio } from '../../game/sound'
+import { emitSound, startInteriorAudio, stopInteriorAudio, setNightAmbiance } from '../../game/sound'
 import { getWallTile, ROOF_TILES, WALL_TILES, ROOF_ROWS } from '../../data/tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 import { loadPlayerAvatar } from '../../game/questline'
@@ -2151,6 +2151,7 @@ export function HubTownCanvas({
     let _lastNightAvatarX = -Infinity, _lastNightAvatarY = -Infinity
     let _lastReportX = -Infinity, _lastReportY = -Infinity
     let _lastIsNight = isNightRef.current  // for the day↔night transition chime
+    let _lastCrickets = false              // crickets-ambiance desired state (night && outdoors)
     // ── Animals (cats, dogs, birds, fish) ──────────────────────────────────────
     // Building roof ridges (top row of each building) are bird perch candidates.
     const animalRoofTiles: [number, number][] = []
@@ -2449,6 +2450,13 @@ export function HubTownCanvas({
       if (isNightRef.current !== _lastIsNight) {
         _lastIsNight = isNightRef.current
         if (!interiorActive) emitSound('dayNightChime')
+      }
+
+      // Crickets: outdoor night bed. Tracks night + indoor/outdoor in one place.
+      const _wantCrickets = isNightRef.current && !interiorActive
+      if (_wantCrickets !== _lastCrickets) {
+        _lastCrickets = _wantCrickets
+        setNightAmbiance(_wantCrickets)
       }
 
       // Night dimming — canvas 2D destination-out digs transparent torch-light holes.

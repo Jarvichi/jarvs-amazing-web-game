@@ -149,6 +149,30 @@
       "name": "Day/Night Chime",
       "category": "hub",
       "description": "Gentle transition sting when the hub flips between day and night"
+    },
+    {
+      "id": "dogBark",
+      "name": "Dog Bark",
+      "category": "hub",
+      "description": "Two gruff bursts — hub dogs, on tap and ambiently"
+    },
+    {
+      "id": "catMeow",
+      "name": "Cat Meow",
+      "category": "hub",
+      "description": "Rising-falling meow — hub cats, on tap and ambiently"
+    },
+    {
+      "id": "birdChirp",
+      "name": "Bird Chirp",
+      "category": "hub",
+      "description": "Two quick high tweets — hub birds, on tap and ambiently"
+    },
+    {
+      "id": "henCluck",
+      "name": "Hen Cluck",
+      "category": "hub",
+      "description": "Low clipped clucks — hub chickens, on tap and ambiently"
     }
   ]
 }

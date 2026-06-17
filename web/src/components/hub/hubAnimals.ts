@@ -9,6 +9,7 @@
 import * as PIXI from 'pixi.js'
 import { findPath } from '../../utils/hubPathfinder'
 import { loadAnimFrames, loadTextureUrl } from '../../utils/pixiHelpers'
+import { emitSound, SoundId } from '../../game/sound'
 import type { HubAnimal } from '../../data/hub/loader'
 import {
   AnimalType,
@@ -126,6 +127,13 @@ const FLAVOUR: Record<AnimalType, string> = {
   butterfly: '~', rabbit: '!', chicken: 'Cluck', frog: 'Ribbit',
   firefly: '✦', bat: 'eek!',
 }
+
+// Vocal critters → their procedural SFX id (see sound.ts). Others are silent.
+const ANIMAL_SFX: Partial<Record<AnimalType, SoundId>> = {
+  cat: 'catMeow', dog: 'dogBark', bird: 'birdChirp', chicken: 'henCluck',
+}
+// Global throttle so overlapping animals never produce a cacophony.
+let _lastAnimalSfxMs = 0
 
 // Floating types are centre-anchored and hover; the rest are bottom-anchored.
 const isFloating = (t: AnimalType) => t === 'fish' || t === 'butterfly' || t === 'firefly' || t === 'bat'
@@ -253,6 +261,18 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
   function positionBubble(a: Animal) {
     if (a.bubble) a.bubble.position.set(a.sprite.x, a.sprite.y - spriteSize * a.baseScale - 4)
   }
+  // Play an animal's vocalisation (throttled globally); optionally show its bubble.
+  function vocalize(a: Animal, withBubble = false): void {
+    const id = ANIMAL_SFX[a.type]
+    if (!id) return
+    const t = Date.now()
+    if (t - _lastAnimalSfxMs < 250) return
+    _lastAnimalSfxMs = t
+    emitSound(id)
+    if (withBubble) speak(a, FLAVOUR[a.type], 1200)
+  }
+  // Occasional ambient vocalisation from a critter near the avatar.
+  let _ambientVocalTimer = 4000
 
   // ── shared relations & navigation ─────────────────────────────────────────────
   function nearestAnimal(a: Animal, pred: (o: Animal) => boolean, radiusPx: number): Animal | null {
@@ -406,7 +426,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     if (!a.seen.has(near.id)) { a.seen.add(near.id); a.opinion.set(near.id, Math.random() < 0.5) }
     a.reactCooldown = 5000
     if (a.opinion.get(near.id)) { speak(a, '♥'); a.wagTimer = 1300 }
-    else speak(a, 'Woof!')
+    else { speak(a, 'Woof!'); vocalize(a) }
   }
 
   // Dogs spot a wandering cat or rabbit and give chase — they leave the path
@@ -689,6 +709,18 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     const hour = opts.getGameHour()
     const night = isNightHour(hour)
 
+    // Ambient critter sounds: every few seconds a nearby, visible, vocal animal
+    // chirps/barks/etc. so the town feels alive without the player tapping.
+    _ambientVocalTimer -= dt
+    if (_ambientVocalTimer <= 0) {
+      _ambientVocalTimer = 5000 + Math.random() * 5000
+      const nearby = animals.filter(a =>
+        ANIMAL_SFX[a.type] && a.sprite.visible && !a.insideBuilding &&
+        Math.hypot(a.sprite.x - avatar.x, a.sprite.y - avatar.y) < 320)
+      const pick = randOf(nearby)
+      if (pick) vocalize(pick, true)
+    }
+
     for (const a of animals) {
       // Day/night fliers: birds & butterflies vanish at night; fireflies & bats
       // only appear after dark.
@@ -848,6 +880,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
       e.stopPropagation()
       if (a.id) { opts.onAnimalTap(a.id); return }
       speak(a, FLAVOUR[type])
+      vocalize(a)
       if (type === 'bird' || type === 'butterfly') a.fleeRequested = true
       if (type === 'cat' && a.state !== 'flee') { a.state = 'sit'; a.stateTimer = 200 }
     })
