@@ -2472,7 +2472,7 @@ export function HubTownCanvas({
       const _nh = getGameHour()
       const _nm = getGameMinute()
       let nightAlpha: number
-      if (_nh >= 20 || _nh < 5) {
+      if (_nh >= 20 || _nh < 5 || (_nh === 5 && _nm < 30)) {
         nightAlpha = 1.0
       } else if (_nh === 19 && _nm >= 30) {
         nightAlpha = (_nm - 30) / 30
