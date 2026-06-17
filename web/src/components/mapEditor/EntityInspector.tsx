@@ -59,6 +59,9 @@ interface Props {
   onUpdateAnimal:        (index: number, partial: Partial<RawAnimal>) => void
   onUpdateTreasureTile?: (index: number, tileId: string) => void
   onUpdatePickupItemTile?: (index: number, tileId: string) => void
+  onUpdateArea?:         (index: number, patch: Partial<{ name: string; tw: number; th: number }>) => void
+  onResizeMap?:          (dir: 'n' | 's' | 'e' | 'w', grow: boolean) => void
+  onUpdateMapProps?:     (patch: { townName?: string; environment?: string }) => void
 }
 
 const S = 20  // thumbnail size for tile picker grid
@@ -1082,6 +1085,111 @@ function LockedDoorInspector({
   )
 }
 
+const ENVIRONMENTS = ['farmland', 'forest', 'coast', 'ruins', 'ashen', 'camp', 'citadel', 'vault']
+
+function AreaInspector({
+  area, onMove, onUpdate,
+}: {
+  area: { id: string; name: string; tx: number; ty: number; tw: number; th: number }
+  onMove: (tx: number, ty: number) => void
+  onUpdate: (patch: Partial<{ name: string; tw: number; th: number }>) => void
+}) {
+  const inputStyle: React.CSSProperties = {
+    width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444',
+    color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box',
+  }
+  return (
+    <div>
+      <Field label="ID">
+        <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{area.id}</span>
+      </Field>
+      <Field label="Name">
+        <input value={area.name} onChange={e => onUpdate({ name: e.target.value })} style={inputStyle} />
+      </Field>
+      <Field label="Position">
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <label style={{ fontSize: 11, color: '#888' }}>X</label>
+          {numInput(area.tx, tx => onMove(tx, area.ty))}
+          <label style={{ fontSize: 11, color: '#888' }}>Y</label>
+          {numInput(area.ty, ty => onMove(area.tx, ty))}
+        </div>
+      </Field>
+      <Field label="Size (tiles)">
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <label style={{ fontSize: 11, color: '#888' }}>W</label>
+          {numInput(area.tw, tw => onUpdate({ tw }))}
+          <label style={{ fontSize: 11, color: '#888' }}>H</label>
+          {numInput(area.th, th => onUpdate({ th }))}
+        </div>
+      </Field>
+    </div>
+  )
+}
+
+function TownInspector({
+  configData, onResizeMap, onUpdateMapProps,
+}: {
+  configData: RawMapConfig
+  onResizeMap: (dir: 'n' | 's' | 'e' | 'w', grow: boolean) => void
+  onUpdateMapProps: (patch: { townName?: string; environment?: string }) => void
+}) {
+  const TILE = 32
+  const tileW = configData.mapW / TILE
+  const tileH = configData.mapH / TILE
+  const btnSm: React.CSSProperties = {
+    padding: '3px 8px', fontSize: 10, cursor: 'pointer', borderRadius: 3,
+    background: '#1a2030', border: '1px solid #2a3050', color: '#88aaee',
+  }
+  const inputStyle: React.CSSProperties = {
+    width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444',
+    color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box',
+  }
+  return (
+    <div>
+      <Field label="Town Name">
+        <input
+          value={configData.townName ?? ''}
+          onChange={e => onUpdateMapProps({ townName: e.target.value })}
+          style={inputStyle}
+        />
+      </Field>
+      <Field label="Environment">
+        <select
+          value={(configData.environment as string | undefined) ?? ''}
+          onChange={e => onUpdateMapProps({ environment: e.target.value || undefined })}
+          style={{ ...inputStyle, padding: '3px 5px' }}
+        >
+          <option value="">— none —</option>
+          {ENVIRONMENTS.map(env => <option key={env} value={env}>{env}</option>)}
+        </select>
+      </Field>
+      <Field label="Map Size">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: 4 }}>
+            <button style={btnSm} onClick={() => onResizeMap('n', false)}>− row N</button>
+            <button style={btnSm} onClick={() => onResizeMap('n', true)}>+ row N</button>
+          </div>
+          <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <button style={btnSm} onClick={() => onResizeMap('w', false)}>− col W</button>
+              <button style={btnSm} onClick={() => onResizeMap('w', true)}>+ col W</button>
+            </div>
+            <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa', minWidth: 56, textAlign: 'center' }}>{tileW} × {tileH}</span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <button style={btnSm} onClick={() => onResizeMap('e', false)}>− col E</button>
+              <button style={btnSm} onClick={() => onResizeMap('e', true)}>+ col E</button>
+            </div>
+          </div>
+          <div style={{ display: 'flex', gap: 4 }}>
+            <button style={btnSm} onClick={() => onResizeMap('s', false)}>− row S</button>
+            <button style={btnSm} onClick={() => onResizeMap('s', true)}>+ row S</button>
+          </div>
+        </div>
+      </Field>
+    </div>
+  )
+}
+
 export function EntityInspector({
   selectedEntity, configData, activeInteriorId, viewMode,
   onDelete, onMoveEntity, onZlayerChange, onDialogueChange,
@@ -1093,6 +1201,7 @@ export function EntityInspector({
   onAddLockedDoor, onUpdateLockedDoor, onDeleteLockedDoor,
   onUpdateNpc, onUpdateAnimal,
   onUpdateTreasureTile, onUpdatePickupItemTile,
+  onUpdateArea, onResizeMap, onUpdateMapProps,
 }: Props) {
   const panelStyle: React.CSSProperties = {
     display: 'flex', flexDirection: 'column', height: '100%',
@@ -1142,13 +1251,19 @@ export function EntityInspector({
   if (!selectedEntity) {
     return (
       <div style={panelStyle}>
-        <div style={headerStyle}>Inspector</div>
+        <div style={headerStyle}>Town</div>
         <div style={bodyStyle}>
-          <div style={{ color: '#555', fontSize: 11, marginTop: 20, textAlign: 'center' }}>
-            Click an entity to inspect it.<br /><br />
-            Use the Select tool to move entities.<br />
-            Use the Place tool to add decor.
-          </div>
+          {onResizeMap && onUpdateMapProps ? (
+            <TownInspector
+              configData={configData}
+              onResizeMap={onResizeMap}
+              onUpdateMapProps={onUpdateMapProps}
+            />
+          ) : (
+            <div style={{ color: '#555', fontSize: 11, marginTop: 20, textAlign: 'center' }}>
+              Click an entity to inspect it.
+            </div>
+          )}
         </div>
       </div>
     )
@@ -1345,7 +1460,6 @@ export function EntityInspector({
   if (selectedEntity.type === 'lockedDoor') {
     const door = (configData.lockedDoors ?? [])[selectedEntity.index]
     if (!door) return null
-    const building = (configData.buildings ?? []).find(b => b.id === door.buildingId)
     return (
       <div style={panelStyle}>
         <div style={{ ...headerStyle, color: '#ffaa00' }}>🔒 Locked Door</div>
@@ -1355,6 +1469,23 @@ export function EntityInspector({
             door={door}
             onUpdate={patch => onUpdateLockedDoor(selectedEntity.index, patch)}
             onDelete={() => onDeleteLockedDoor(selectedEntity.index)}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  if (selectedEntity.type === 'area') {
+    const area = (configData.areas ?? [])[selectedEntity.index]
+    if (!area) return null
+    return (
+      <div style={panelStyle}>
+        <div style={{ ...headerStyle, color: '#aa66ff' }}>Area</div>
+        <div style={bodyStyle}>
+          <AreaInspector
+            area={area}
+            onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
+            onUpdate={patch => onUpdateArea?.(selectedEntity.index, patch)}
           />
         </div>
       </div>

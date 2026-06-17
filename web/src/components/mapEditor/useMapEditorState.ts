@@ -192,6 +192,11 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
         if (!animals[entity.index]) return s
         animals[entity.index] = { ...animals[entity.index], tx, ty }
         newConfig = { ...prevConfig, animals }
+      } else if (entity.type === 'area') {
+        const areas = [...(prevConfig.areas ?? [])]
+        if (!areas[entity.index]) return s
+        areas[entity.index] = { ...areas[entity.index], tx, ty }
+        newConfig = { ...prevConfig, areas }
       } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
         const interior = prevConfig.interiors[entity.interiorId]
         const decor = [...interior.decor]
@@ -373,6 +378,88 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
       return {
         ...s,
         configData: { ...prevConfig, treasures },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const updateArea = useCallback((index: number, patch: Partial<{ name: string; tw: number; th: number }>) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const areas = [...(prevConfig.areas ?? [])]
+      if (!areas[index]) return s
+      areas[index] = { ...areas[index], ...patch }
+      return {
+        ...s,
+        configData: { ...prevConfig, areas },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const updateMapProps = useCallback((patch: { townName?: string; environment?: string }) => {
+    setState(s => {
+      const prevConfig = s.configData
+      return {
+        ...s,
+        configData: { ...prevConfig, ...patch },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const resizeMap = useCallback((dir: 'n' | 's' | 'e' | 'w', grow: boolean) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const TILE = 32
+      const tileW = prevConfig.mapW / TILE
+      const tileH = prevConfig.mapH / TILE
+      const MIN = 5
+      if (!grow) {
+        if ((dir === 'e' || dir === 'w') && tileW <= MIN) return s
+        if ((dir === 'n' || dir === 's') && tileH <= MIN) return s
+      }
+
+      // dx/dy = how much to shift all entity positions (only N/W insertions/removals shift things)
+      const dx = grow ? (dir === 'w' ? 1 : 0) : (dir === 'w' ? -1 : 0)
+      const dy = grow ? (dir === 'n' ? 1 : 0) : (dir === 'n' ? -1 : 0)
+      const newMapW = (dir === 'e' || dir === 'w') ? prevConfig.mapW + (grow ? TILE : -TILE) : prevConfig.mapW
+      const newMapH = (dir === 'n' || dir === 's') ? prevConfig.mapH + (grow ? TILE : -TILE) : prevConfig.mapH
+
+      const shiftTile = (tx: number, ty: number) => ({ tx: tx + dx, ty: ty + dy })
+      const shiftRect = ([tx1, ty1, tx2, ty2]: number[]) => [tx1 + dx, ty1 + dy, tx2 + dx, ty2 + dy]
+
+      const newConfig: RawMapConfig = {
+        ...prevConfig,
+        mapW: newMapW,
+        mapH: newMapH,
+        ...(dx || dy ? {
+          avatarStart: shiftTile(prevConfig.avatarStart.tx, prevConfig.avatarStart.ty),
+          exitTiles:   (prevConfig.exitTiles ?? []).map(e => ({ ...e, ...shiftTile(e.tx, e.ty) })),
+          npcs:        (prevConfig.npcs ?? []).map(n => ({ ...n, ...shiftTile(n.tx, n.ty) })),
+          animals:     (prevConfig.animals ?? []).map(a => ({ ...a, ...shiftTile(a.tx, a.ty) })),
+          exteriorDecor: (prevConfig.exteriorDecor ?? []).map(d => d.tx === undefined ? d : { ...d, ...shiftTile(d.tx, d.ty ?? 0) }),
+          buildings:   (prevConfig.buildings ?? []).map(b => {
+            const rects = b.rects ?? (b.rect ? [b.rect] : [])
+            const newRects = rects.map(r => shiftRect(r) as [number, number, number, number])
+            return b.rects ? { ...b, rects: newRects } : { ...b, rect: newRects[0] }
+          }),
+          streets:     (prevConfig.streets ?? []).map(e => e.rect ? { ...e, rect: shiftRect(e.rect) } : e.tile ? { ...e, tile: [e.tile[0] + dx, e.tile[1] + dy] } : e),
+          pondTiles:   (prevConfig.pondTiles ?? []).map(e => e.rect ? { ...e, rect: shiftRect(e.rect) } : e.tile ? { ...e, tile: [e.tile[0] + dx, e.tile[1] + dy] } : e),
+          treasures:   (prevConfig.treasures ?? []).map(t => ({ ...t, ...shiftTile(t.tx, t.ty) })),
+          areas:       (prevConfig.areas ?? []).map(a => ({ ...a, ...shiftTile(a.tx, a.ty) })),
+        } : {}),
+      }
+
+      return {
+        ...s,
+        configData: newConfig,
         undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
         redoStack: [],
         isDirty: true,
@@ -741,6 +828,9 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     addAnimal,
     updateAnimal,
     updateTreasure,
+    updateArea,
+    updateMapProps,
+    resizeMap,
     resizeInterior,
     addInterior,
     addInteriorExit,

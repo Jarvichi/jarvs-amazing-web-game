@@ -29,6 +29,7 @@ interface Props {
   showGrid:             boolean
   showQuestItems:       boolean
   showBlockedPaths:     boolean
+  showAreas:            boolean
   drawerOpen:           boolean
   hasDuplicateQuestIds: boolean
   configData:           RawMapConfig
@@ -39,6 +40,7 @@ interface Props {
   onGridToggle:         () => void
   onQuestItemsToggle:   () => void
   onBlockedPathsToggle: () => void
+  onAreasToggle:        () => void
   onDrawerToggle:       () => void
   questDefsData:        Record<string, unknown> | null
   onSaved:              () => void
@@ -52,9 +54,9 @@ const TOOLS: { mode: ToolMode; label: string; title: string }[] = [
 ]
 
 export function MapEditorToolbar({
-  mapId, tool, canUndo, canRedo, isDirty, showGrid, showQuestItems, showBlockedPaths, drawerOpen, hasDuplicateQuestIds,
+  mapId, tool, canUndo, canRedo, isDirty, showGrid, showQuestItems, showBlockedPaths, showAreas, drawerOpen, hasDuplicateQuestIds,
   configData, questDefsData, onMapChange, onToolChange, onUndo, onRedo,
-  onGridToggle, onQuestItemsToggle, onBlockedPathsToggle, onDrawerToggle, onSaved,
+  onGridToggle, onQuestItemsToggle, onBlockedPathsToggle, onAreasToggle, onDrawerToggle, onSaved,
 }: Props) {
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'ok' | 'error'>('idle')
   const [saveError, setSaveError] = useState('')
@@ -181,6 +183,20 @@ export function MapEditorToolbar({
         }}
       >
         ⊗
+      </button>
+
+      {/* Areas overlay toggle */}
+      <button
+        title="Toggle areas overlay"
+        onClick={onAreasToggle}
+        style={{
+          ...btnBase,
+          background:  showAreas ? '#1e1a3e' : '#1e1e3e',
+          color:       showAreas ? '#aa66ff' : '#666',
+          borderColor: showAreas ? '#6a3aae' : '#444',
+        }}
+      >
+        ▣
       </button>
 
       {/* NPC & Quest drawer toggle */}

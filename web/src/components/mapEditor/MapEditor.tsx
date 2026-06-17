@@ -21,6 +21,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
   const [showGrid, setShowGrid] = useState(true)
   const [showQuestItems, setShowQuestItems] = useState(false)
   const [showBlockedPaths, setShowBlockedPaths] = useState(false)
+  const [showAreas, setShowAreas] = useState(false)
   const [questDefsData, setQuestDefsData] = useState<QuestDefsJson | null>(
     () => QUEST_DEFS_BY_MAP[initialMapId] ? structuredClone(QUEST_DEFS_BY_MAP[initialMapId]!) : null,
   )
@@ -37,6 +38,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
     updateDecorZlayer, addNpc, updateNpcDialogue, updateNpc,
     addAnimal, updateAnimal,
     updateTreasure,
+    updateArea, updateMapProps, resizeMap,
     resizeInterior, addInterior, addInteriorExit, updateInteriorProps, updateInteriorExit, removeInteriorExit,
     addStreet, updateStreetEntry,
     addLockedDoor, updateLockedDoor, deleteLockedDoor,
@@ -160,6 +162,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
         showGrid={showGrid}
         showQuestItems={showQuestItems}
         showBlockedPaths={showBlockedPaths}
+        showAreas={showAreas}
         drawerOpen={drawerOpen}
         hasDuplicateQuestIds={hasDuplicateQuestIds}
         configData={state.configData}
@@ -170,6 +173,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
         onGridToggle={() => setShowGrid(g => !g)}
         onQuestItemsToggle={() => setShowQuestItems(q => !q)}
         onBlockedPathsToggle={() => setShowBlockedPaths(b => !b)}
+        onAreasToggle={() => setShowAreas(a => !a)}
         onDrawerToggle={() => setDrawerOpen(o => !o)}
         questDefsData={questDefsData as Record<string, unknown> | null}
         onSaved={markSaved}
@@ -198,6 +202,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
             showGrid={showGrid}
             showQuestItems={showQuestItems}
             showBlockedPaths={showBlockedPaths}
+            showAreas={showAreas}
             blockedPaths={(questDefsData?.blockedPaths as RawBlockedPath[]) ?? []}
             selectedEntity={state.selectedEntity}
             viewMode={state.viewMode}
@@ -242,6 +247,9 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
               onDeleteLockedDoor={deleteLockedDoor}
               onUpdateNpc={updateNpc}
               onUpdateAnimal={updateAnimal}
+              onUpdateArea={updateArea}
+              onResizeMap={resizeMap}
+              onUpdateMapProps={updateMapProps}
               onUpdateTreasureTile={(index, tileId) => updateTreasure(index, { tileId })}
               onUpdatePickupItemTile={(index, tileId) => setQuestDefsData(prev => {
                 if (!prev) return prev
