@@ -84,6 +84,38 @@ function isQuestReadyToComplete(quest: HubQuestDef): boolean {
   return quest.steps.every(step => getQuestProgress(quest.id, step.key) >= step.required)
 }
 
+// Friendly prompt shown on the "enter this screen" choice for screen NPCs, so
+// tapping a screen NPC opens dialogue (where quest options can surface) instead
+// of navigating away immediately. Any screen not listed uses a generic label.
+const SCREEN_ENTER_LABEL: Record<string, string> = {
+  casino:            'Play higher or lower?',
+  quickbattle:       'Have a quick battle?',
+  campaign:          'Continue the campaign?',
+  endless:           'Brave the endless climb?',
+  dailychallenge:    'Take the daily challenge?',
+  weeklychallenge:   'Take the weekly challenge?',
+  deckbuilder:       'Open the deck builder?',
+  'collection-tabs': 'View your collection?',
+  minigames:         'Play a mini-game?',
+  commander:         "Visit the commander's post?",
+  'shop-cards':      'Browse the wares?',
+  'shop-augments':   'Browse the wares?',
+  'shop-supplies':   'Browse the wares?',
+  chronicle:         'Read the chronicle?',
+  codex:             'Open the codex?',
+  'hall-of-achievements': 'Visit the hall of achievements?',
+  'home-shelf':      'Look at the shelf?',
+  fishing:           'Cast a line?',
+  marble:            'Play marbles?',
+  marblerace:        'Watch a marble race?',
+  tileflip:          'Play tile flip?',
+  crystalcatch:      'Play crystal catch?',
+  spinner:           'Give it a spin?',
+}
+function screenEnterLabel(screen: string): string {
+  return SCREEN_ENTER_LABEL[screen] ?? 'Step inside?'
+}
+
 function getActiveDialogue(quest: HubQuestDef): string {
   const { activeDialogue } = quest
   if (typeof activeDialogue === 'string') return activeDialogue
@@ -633,6 +665,32 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
   return false
 }
 
+// Would tryOfferQuest show an offer for this giver right now? Mirrors its gating
+// (an available quest with met prerequisites, below the active-quest cap) so a
+// screen NPC only surfaces a "see what they need" choice when there's one.
+function hasOfferableQuest(giverId: string): boolean {
+  const atOfferCap = questDefs.filter(q => getQuestState(q.id).status === 'active').length >= 2
+  if (atOfferCap) return false
+  return questDefs.some(q =>
+    q.giverNpcId === giverId &&
+    getQuestState(q.id).status === 'available' &&
+    (!q.prerequisite || checkPrerequisite(q.prerequisite)))
+}
+
+  // Mark a quest completed, grant its reward, and show its completion dialogue.
+  function completeQuestFor(quest: HubQuestDef, speakerName: string): void {
+    setQuestStatus(quest.id, 'completed')
+    grantQuestReward(quest)
+    if (quest.reward.crystals) onCrystalsChange?.(loadCrystals())
+    refreshState()
+    const rewardText = formatQuestReward(quest.reward)
+    setDialogueEvent({
+      speakerName,
+      text: quest.completeDialogue,
+      ...(rewardText ? { onClose: () => setDialogueEvent({ speakerName: '', text: rewardText }) } : {}),
+    })
+  }
+
   // ── Branching dialogue-tree walker ──────────────────────────────────────────
   // Renders a node (text + visible choices) into the shared dialogue UI, then
   // applies a choice's effects and advances to the next node (or ends).
@@ -715,25 +773,76 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
       }
     }
 
+    // ── Screen NPCs: open dialogue (don't navigate on tap) ──────────────────
+    // NPCs that lead to a screen/mini-game show a dialogue line with an "enter"
+    // choice instead of warping immediately, so any active quest interaction
+    // (deliver / turn in / accept) can surface alongside it. This is what lets
+    // the player hand a rally message to Vince the Dealer rather than being
+    // dropped straight into the casino.
+    if (npcDef?.screen) {
+      const screen = npcDef.screen
+      const enterChoice: DialogueChoice = {
+        label: screenEnterLabel(screen),
+        onClick: () => handleNodeInteract(screen),
+      }
+      const dismiss: DialogueChoice = { label: 'Maybe later', onClick: () => setDialogueEvent(null) }
+
+      // Build at most one quest choice, in priority order: deliver → turn in →
+      // accept. Shown first (primary) so it reads as the obvious action.
+      let questChoice: DialogueChoice | undefined
+
+      // (a) Pending delivery addressed to this NPC (active questReceive quest).
+      const receiveIds = npcDef.questReceive
+        ? (Array.isArray(npcDef.questReceive) ? npcDef.questReceive : [npcDef.questReceive])
+        : []
+      for (const qid of receiveIds) {
+        const quest = questDefs.find(q => q.id === qid)
+        if (!quest || getQuestState(quest.id).status !== 'active') continue
+        const pending = quest.steps.find(s =>
+          s.type === 'deliver' && s.targetNpcId === npcId &&
+          getQuestProgress(quest.id, s.key) < s.required)
+        if (pending) {
+          questChoice = { label: 'Hand over the message', primary: true, onClick: () => {
+            incrementQuestProgress(quest.id, pending.key)
+            refreshState()
+            if (isQuestReadyToComplete(quest)) completeQuestFor(quest, speakerName)
+            else setDialogueEvent({ speakerName, text: getActiveDialogue(quest) })
+          } }
+          break
+        }
+        if (isQuestReadyToComplete(quest)) {
+          questChoice = { label: 'Turn in the quest', primary: true,
+            onClick: () => completeQuestFor(quest, speakerName) }
+          break
+        }
+      }
+
+      // (b) A quest this NPC gives that is ready to be turned in to itself.
+      if (!questChoice) {
+        const ready = questDefs.find(q =>
+          q.giverNpcId === npcId && q.receiverNpcId === npcId &&
+          getQuestState(q.id).status === 'active' && isQuestReadyToComplete(q))
+        if (ready) questChoice = { label: 'Turn in the quest', primary: true,
+          onClick: () => completeQuestFor(ready, speakerName) }
+      }
+
+      // (c) Otherwise, offer the next available quest (Accept / Not now flow).
+      if (!questChoice && hasOfferableQuest(npcId)) {
+        questChoice = { label: 'See what they need', primary: true,
+          onClick: () => { if (!tryOfferQuest(npcId, speakerName)) setDialogueEvent(null) } }
+      }
+
+      const choices = [questChoice, enterChoice, dismiss].filter(Boolean) as DialogueChoice[]
+      setDialogueEvent({ speakerName, text: line || "What'll it be?", choices })
+      return
+    }
+
     // ── Quest delivery / completion (receiver NPC tapped) ───────────────────
     if (npcDef?.questReceive) {
       const receiveIds = Array.isArray(npcDef.questReceive) ? npcDef.questReceive : [npcDef.questReceive]
       for (const questId of receiveIds) {
         const quest = questDefs.find(q => q.id === questId)
         if (!quest || getQuestState(quest.id).status !== 'active') continue
-
-        const completeQuest = () => {
-          setQuestStatus(quest.id, 'completed')
-          grantQuestReward(quest)
-          if (quest.reward.crystals) onCrystalsChange?.(loadCrystals())
-          refreshState()
-          const rewardText = formatQuestReward(quest.reward)
-          setDialogueEvent({
-            speakerName,
-            text: quest.completeDialogue,
-            ...(rewardText ? { onClose: () => setDialogueEvent({ speakerName: '', text: rewardText }) } : {}),
-          })
-        }
 
         // Register a pending delivery addressed to this NPC (guarded so repeat
         // taps don't over-count).
@@ -743,7 +852,7 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
         if (pending) {
           incrementQuestProgress(quest.id, pending.key)
           refreshState()
-          if (isQuestReadyToComplete(quest)) completeQuest()
+          if (isQuestReadyToComplete(quest)) completeQuestFor(quest, speakerName)
           // Delivered but the quest still needs more — acknowledge so the player
           // sees feedback instead of (e.g.) the NPC's screen opening silently.
           else setDialogueEvent({ speakerName, text: getActiveDialogue(quest) })
@@ -752,7 +861,7 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
 
         // Nothing to deliver here, but the quest may be ready to hand in.
         if (isQuestReadyToComplete(quest)) {
-          completeQuest()
+          completeQuestFor(quest, speakerName)
           return
         }
       }
@@ -764,24 +873,12 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
     const giveQuests = questDefs.filter(q => q.giverNpcId === npcId)
 
     // First pass: active quest (takes priority — show progress or complete)
+    // Note: screen NPCs are fully handled by the screen branch above, so this
+    // path only runs for non-screen NPCs.
     for (const quest of giveQuests) {
       if (getQuestState(quest.id).status !== 'active') continue
       if (quest.receiverNpcId === npcId && isQuestReadyToComplete(quest)) {
-        setQuestStatus(quest.id, 'completed')
-        grantQuestReward(quest)
-        if (quest.reward.crystals) onCrystalsChange?.(loadCrystals())
-        refreshState()
-        const rewardText = formatQuestReward(quest.reward)
-        setDialogueEvent({
-          speakerName,
-          text: quest.completeDialogue,
-          ...(rewardText ? { onClose: () => setDialogueEvent({ speakerName: '', text: rewardText }) } : {}),
-        })
-        return
-      }
-      // Quest in progress but not completable — if NPC has a screen, open it directly
-      if (npcDef?.screen) {
-        handleNodeInteract(npcDef.screen)
+        completeQuestFor(quest, speakerName)
         return
       }
       setDialogueEvent({ speakerName, text: getActiveDialogue(quest) })
@@ -791,11 +888,8 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
     // Second pass: first available quest whose prerequisites are met
     if (tryOfferQuest(npcId, speakerName)) return
 
-    // ── Screen navigation fallthrough (quest done or no active quest) ────────
-    if (npcDef?.screen) {
-      handleNodeInteract(npcDef.screen)
-      return
-    }
+    // (Screen NPCs are handled by the screen branch near the top of this
+    // function, so there is no screen-navigation fallthrough here.)
 
     // ── Relationship-track dialogue override ────────────────────────────────
     // Takes precedence over the generic friendship greeting: once a track is
