@@ -3,6 +3,14 @@
   "mapH": 2240,
   "townName": "Ravenwatch",
   "environment": "farmland",
+  "weather": {
+    "bySeason": {
+      "spring": "rain",
+      "summer": "rain",
+      "autumn": "fog",
+      "winter": "snow"
+    }
+  },
   "avatarStart": {
     "tx": 37,
     "ty": 29

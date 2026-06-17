@@ -293,6 +293,9 @@ export interface RawConfig {
   townName?: string
   environment?: string
 
+  /** Optional per-town weather (loose raw shape; typed `WeatherConfig` at the loader output). */
+  weather?: { type?: string; bySeason?: Record<string, string> }
+
   avatarStart:RawCoordinate
 
   exitTiles?: RawExitTile[]
