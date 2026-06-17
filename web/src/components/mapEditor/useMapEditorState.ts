@@ -364,6 +364,22 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     })
   }, [])
 
+  const updateTreasure = useCallback((index: number, patch: { tileId?: string }) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const treasures = [...(prevConfig.treasures ?? [])]
+      if (!treasures[index]) return s
+      treasures[index] = { ...treasures[index], ...patch }
+      return {
+        ...s,
+        configData: { ...prevConfig, treasures },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
   const resizeInterior = useCallback((interiorId: string, dir: 'top' | 'bottom' | 'left' | 'right', grow = true) => {
     setState(s => {
       const prevConfig = s.configData
@@ -724,6 +740,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     updateNpc,
     addAnimal,
     updateAnimal,
+    updateTreasure,
     resizeInterior,
     addInterior,
     addInteriorExit,
