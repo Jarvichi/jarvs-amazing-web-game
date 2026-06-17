@@ -1,21 +1,21 @@
 {
   "mapW": 1056,
-  "mapH": 768,
+  "mapH": 896,
   "townName": "Royal Palace",
   "environment": "citadel",
   "avatarStart": {
     "tx": 13,
-    "ty": 21
+    "ty": 25
   },
   "exitTiles": [
     {
       "tx": 13,
-      "ty": 22,
+      "ty": 26,
       "screen": "worldmap"
     },
     {
       "tx": 14,
-      "ty": 22,
+      "ty": 26,
       "screen": "worldmap"
     }
   ],
@@ -24,7 +24,7 @@
       "id": "palace-gardens",
       "name": "The Royal Gardens",
       "tx": 4,
-      "ty": 13,
+      "ty": 17,
       "tw": 20,
       "th": 8
     }
@@ -33,25 +33,25 @@
     {
       "rect": [
         13,
-        14,
+        18,
         15,
-        23
+        27
       ]
     },
     {
       "rect": [
         4,
-        14,
+        18,
         23,
-        15
+        19
       ]
     },
     {
       "rect": [
         12,
-        11,
+        15,
         16,
-        13
+        17
       ]
     }
   ],
@@ -59,7 +59,12 @@
     {
       "id": "palace",
       "upgradeKind": "default",
-      "rect": [6, 2, 21, 12],
+      "rect": [
+        6,
+        6,
+        21,
+        16
+      ],
       "wall": "ornateStone",
       "roof": "blueSlateRoof",
       "doors": [
@@ -84,7 +89,7 @@
     },
     {
       "tx": 17,
-      "ty": 19,
+      "ty": 23,
       "bundleID": "fountain",
       "zlayer": "solid"
     },
@@ -93,46 +98,46 @@
     },
     {
       "tx": 4,
-      "ty": 17,
+      "ty": 21,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 22,
+      "ty": 21,
       "bundleID": "light-tree",
       "zlayer": "solid"
     },
     {
       "tx": 22,
       "ty": 17,
-      "bundleID": "light-tree",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 22,
-      "ty": 13,
       "bundleID": "light-tree",
       "zlayer": "solid"
     },
     {
       "tx": 2,
-      "ty": 13,
+      "ty": 17,
       "bundleID": "light-tree",
       "zlayer": "solid"
     },
     {
       "tx": 6,
-      "ty": 16,
-      "tileId": "whiteFlower"
-    },
-    {
-      "tx": 10,
-      "ty": 16,
-      "tileId": "whiteFlower"
-    },
-    {
-      "tx": 16,
       "ty": 20,
       "tileId": "whiteFlower"
     },
     {
+      "tx": 10,
+      "ty": 20,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 16,
+      "ty": 24,
+      "tileId": "whiteFlower"
+    },
+    {
       "tx": 20,
-      "ty": 16,
+      "ty": 20,
       "tileId": "whiteFlower"
     },
     {
@@ -140,37 +145,37 @@
     },
     {
       "tx": 9,
-      "ty": 21,
+      "ty": 25,
       "tileId": "ironFenceLeftRight",
       "zlayer": "above"
     },
     {
       "tx": 10,
-      "ty": 21,
+      "ty": 25,
       "tileId": "ironFenceLeftRight",
       "zlayer": "above"
     },
     {
       "tx": 11,
-      "ty": 21,
+      "ty": 25,
       "tileId": "ironFenceLeft",
       "zlayer": "above"
     },
     {
       "tx": 16,
-      "ty": 21,
+      "ty": 25,
       "tileId": "ironFenceRight",
       "zlayer": "above"
     },
     {
       "tx": 17,
-      "ty": 21,
+      "ty": 25,
       "tileId": "ironFenceLeftRight",
       "zlayer": "above"
     },
     {
       "tx": 18,
-      "ty": 21,
+      "ty": 25,
       "tileId": "ironFenceLeftRight",
       "zlayer": "above"
     },
@@ -179,89 +184,89 @@
     },
     {
       "tx": 11,
-      "ty": 13,
+      "ty": 17,
       "tileId": "brazierBottom"
     },
     {
       "tx": 11,
-      "ty": 12,
+      "ty": 16,
       "tileId": "brazierTop",
       "zlayer": "above"
     },
     {
       "tx": 17,
-      "ty": 13,
+      "ty": 17,
       "tileId": "brazierBottom"
     },
     {
       "tx": 17,
-      "ty": 12,
+      "ty": 16,
       "tileId": "brazierTop",
       "zlayer": "above"
     },
     {
       "tx": 12,
-      "ty": 12,
+      "ty": 16,
       "tileId": "palaceStepsLeft",
       "zlayer": "solid"
     },
     {
       "tx": 13,
-      "ty": 12,
+      "ty": 16,
       "tileId": "palaceStepsMidLeft",
       "zlayer": "solid"
     },
     {
       "tx": 14,
-      "ty": 12,
+      "ty": 16,
       "tileId": "palaceStepsMid",
       "zlayer": "solid"
     },
     {
       "tx": 15,
-      "ty": 12,
+      "ty": 16,
       "tileId": "palaceStepsMidRight",
       "zlayer": "solid"
     },
     {
       "tx": 16,
-      "ty": 12,
+      "ty": 16,
       "tileId": "palaceStepsRight",
       "zlayer": "solid"
     },
     {
       "tx": 12,
-      "ty": 13,
+      "ty": 17,
       "tileId": "palaceStepsBotLeft",
       "zlayer": "solid"
     },
     {
       "tx": 13,
-      "ty": 13,
+      "ty": 17,
       "tileId": "palaceStepsBotMidLeft",
       "zlayer": "solid"
     },
     {
       "tx": 14,
-      "ty": 13,
+      "ty": 17,
       "tileId": "palaceStepsBotMid",
       "zlayer": "solid"
     },
     {
       "tx": 15,
-      "ty": 13,
+      "ty": 17,
       "tileId": "palaceStepsBotMidRight",
       "zlayer": "solid"
     },
     {
       "tx": 16,
-      "ty": 13,
+      "ty": 17,
       "tileId": "palaceStepsBotRight",
       "zlayer": "solid"
     },
     {
       "tx": 9,
-      "ty": 19,
+      "ty": 23,
       "bundleID": "fountain",
       "zlayer": "solid"
     }
@@ -276,7 +281,7 @@
       "name": "Herald Fanshawe",
       "sprite": "hub-npc-scholar",
       "tx": 13,
-      "ty": 15,
+      "ty": 19,
       "dialogue": [
         "Presenting: you. To no one in particular. It's been a slow morning.",
         "Their Majesties are in session. The gardens, however, receive all visitors.",
@@ -289,7 +294,7 @@
       "name": "Guardsman Brick",
       "sprite": "hub-npc-soldier",
       "tx": 18,
-      "ty": 14,
+      "ty": 18,
       "dialogue": [
         "Move along. Or stand there. You're not technically breaking any rules.",
         "Nobody enters the throne room without an appointment. Or a mop. The mop people go everywhere.",
@@ -301,7 +306,7 @@
       "name": "Steward Marigold",
       "sprite": "hub-npc-elder",
       "tx": 21,
-      "ty": 14,
+      "ty": 18,
       "dialogue": [
         "Oh dear, oh dear. The coronation regalia — misplaced! Again!",
         "The ceremonial pendant, the jubilee gift, and the vault key. Scattered about the gardens by that dreadful wind.",
@@ -315,7 +320,7 @@
       "name": "Dave the Goblin",
       "sprite": "goblin",
       "tx": 12,
-      "ty": 16,
+      "ty": 20,
       "dialogue": [
         "Hello!"
       ]
@@ -325,7 +330,7 @@
       "name": "Nick the Ogre",
       "sprite": "ogre",
       "tx": 15,
-      "ty": 16,
+      "ty": 20,
       "dialogue": [
         "I'm here to see the princess, only she can help me!"
       ]
@@ -451,5 +456,8 @@
       "wallTileId": "castleStone"
     }
   },
-  "lockedDoors": []
+  "lockedDoors": [],
+  "animals": [],
+  "pondTiles": [],
+  "treasures": []
 }

@@ -1,21 +1,21 @@
 {
   "mapW": 832,
-  "mapH": 640,
+  "mapH": 672,
   "townName": "Dreadspire Citadel",
   "environment": "ashen",
   "avatarStart": {
     "tx": 12,
-    "ty": 17
+    "ty": 18
   },
   "exitTiles": [
     {
       "tx": 12,
-      "ty": 18,
+      "ty": 19,
       "screen": "worldmap"
     },
     {
       "tx": 13,
-      "ty": 18,
+      "ty": 19,
       "screen": "worldmap"
     }
   ],
@@ -24,7 +24,7 @@
       "id": "dreadspire-court",
       "name": "The Ashen Court",
       "tx": 8,
-      "ty": 11,
+      "ty": 12,
       "tw": 10,
       "th": 5
     }
@@ -33,17 +33,17 @@
     {
       "rect": [
         11,
-        2,
+        4,
         14,
-        18
+        20
       ]
     },
     {
       "rect": [
         5,
-        12,
+        13,
         20,
-        13
+        14
       ]
     }
   ],
@@ -51,7 +51,12 @@
     {
       "id": "dread-keep",
       "upgradeKind": "default",
-      "rect": [7, 2, 18, 10],
+      "rect": [
+        7,
+        3,
+        18,
+        11
+      ],
       "wall": "darkStone",
       "roof": "greySlateRoof",
       "doors": [
@@ -76,23 +81,23 @@
     },
     {
       "tx": 10,
-      "ty": 12,
+      "ty": 13,
       "tileId": "brazierBottom"
     },
     {
       "tx": 10,
-      "ty": 11,
+      "ty": 12,
       "tileId": "brazierTop",
       "zlayer": "above"
     },
     {
       "tx": 15,
-      "ty": 12,
+      "ty": 13,
       "tileId": "brazierBottom"
     },
     {
       "tx": 15,
-      "ty": 11,
+      "ty": 12,
       "tileId": "brazierTop",
       "zlayer": "above"
     },
@@ -101,22 +106,22 @@
     },
     {
       "tx": 5,
-      "ty": 14,
-      "tileId": "dark_red_crystal1"
-    },
-    {
-      "tx": 19,
       "ty": 15,
       "tileId": "dark_red_crystal1"
     },
     {
-      "tx": 8,
+      "tx": 19,
       "ty": 16,
+      "tileId": "dark_red_crystal1"
+    },
+    {
+      "tx": 8,
+      "ty": 17,
       "tileId": "skull"
     },
     {
       "tx": 17,
-      "ty": 16,
+      "ty": 17,
       "tileId": "smallRock"
     },
     {
@@ -124,73 +129,73 @@
     },
     {
       "tx": 5,
-      "ty": 16,
+      "ty": 17,
       "tileId": "ironFenceLeftRight",
       "zlayer": "above"
     },
     {
       "tx": 6,
-      "ty": 16,
+      "ty": 17,
       "tileId": "ironFenceLeftRight",
       "zlayer": "above"
     },
     {
       "tx": 7,
-      "ty": 16,
+      "ty": 17,
       "tileId": "ironFenceLeftRight",
       "zlayer": "above"
     },
     {
       "tx": 8,
-      "ty": 16,
+      "ty": 17,
       "tileId": "ironFenceLeftRight",
       "zlayer": "above"
     },
     {
       "tx": 9,
-      "ty": 16,
+      "ty": 17,
       "tileId": "ironFenceLeftRight",
       "zlayer": "above"
     },
     {
       "tx": 10,
-      "ty": 16,
+      "ty": 17,
       "tileId": "ironFenceLeft",
       "zlayer": "above"
     },
     {
       "tx": 15,
-      "ty": 16,
+      "ty": 17,
       "tileId": "ironFenceRight",
       "zlayer": "above"
     },
     {
       "tx": 16,
-      "ty": 16,
+      "ty": 17,
       "tileId": "ironFenceLeftRight",
       "zlayer": "above"
     },
     {
       "tx": 17,
-      "ty": 16,
+      "ty": 17,
       "tileId": "ironFenceLeftRight",
       "zlayer": "above"
     },
     {
       "tx": 18,
-      "ty": 16,
+      "ty": 17,
       "tileId": "ironFenceLeftRight",
       "zlayer": "above"
     },
     {
       "tx": 19,
-      "ty": 16,
+      "ty": 17,
       "tileId": "ironFenceLeftRight",
       "zlayer": "above"
     },
     {
       "tx": 20,
-      "ty": 16,
+      "ty": 17,
       "tileId": "ironFenceLeftRight",
       "zlayer": "above"
     },
@@ -199,43 +204,43 @@
     },
     {
       "tx": 2,
-      "ty": 5,
+      "ty": 6,
       "bundleID": "dead-tree",
       "zlayer": "solid"
     },
     {
       "tx": 21,
-      "ty": 5,
+      "ty": 6,
       "bundleID": "dead-tree",
       "zlayer": "solid"
     },
     {
       "tx": 3,
-      "ty": 11,
+      "ty": 12,
       "bundleID": "dead-tree",
       "zlayer": "solid"
     },
     {
       "tx": 22,
-      "ty": 12,
+      "ty": 13,
       "bundleID": "dead-tree",
       "zlayer": "solid"
     },
     {
       "tx": 18,
-      "ty": 18,
+      "ty": 19,
       "bundleID": "dead-tree",
       "zlayer": "solid"
     },
     {
       "tx": 4,
-      "ty": 18,
+      "ty": 19,
       "bundleID": "dead-tree",
       "zlayer": "solid"
     },
     {
       "tx": 17,
-      "ty": 12,
+      "ty": 13,
       "tileId": "wantedSign",
       "zlayer": "solid"
     }
@@ -249,7 +254,7 @@
       "sprite": "hub-npc-scholar",
       "isGhost": true,
       "tx": 12,
-      "ty": 14,
+      "ty": 15,
       "dialogue": [
         "Welcome to Dreadspire. The master is out. The master has been out for four hundred years.",
         "I maintain the citadel. The dust maintains itself — it's quite industrious.",
@@ -263,7 +268,7 @@
       "name": "The Bound Knight",
       "sprite": "hub-npc-soldier",
       "tx": 14,
-      "ty": 14,
+      "ty": 15,
       "dialogue": [
         "I swore to guard this gate until my lord returns. He has not returned. I am very good at my job.",
         "You defeated the garrison at the gate. They'll re-form by morning — death is a poor excuse for missing a shift here.",
@@ -340,5 +345,8 @@
       ],
       "exits": []
     }
-  }
+  },
+  "animals": [],
+  "pondTiles": [],
+  "treasures": []
 }

@@ -13,7 +13,11 @@
         {
           "key": "grain",
           "type": "collect",
-          "pickupIds": ["seed-sack-1", "seed-sack-2", "seed-sack-3"],
+          "pickupIds": [
+            "seed-sack-1",
+            "seed-sack-2",
+            "seed-sack-3"
+          ],
           "required": 3
         }
       ],
@@ -23,9 +27,27 @@
     }
   ],
   "pickupItems": [
-    { "id": "seed-sack-1", "tx": 2, "ty": 9, "tileId": "sack", "questId": "harrowfield-seed-grain" },
-    { "id": "seed-sack-2", "tx": 26, "ty": 12, "tileId": "sack", "questId": "harrowfield-seed-grain" },
-    { "id": "seed-sack-3", "tx": 13, "ty": 19, "tileId": "sack", "questId": "harrowfield-seed-grain" }
+    {
+      "id": "seed-sack-1",
+      "tx": 2,
+      "ty": 9,
+      "tileId": "sack",
+      "questId": "harrowfield-seed-grain"
+    },
+    {
+      "id": "seed-sack-2",
+      "tx": 26,
+      "ty": 12,
+      "tileId": "sack",
+      "questId": "harrowfield-seed-grain"
+    },
+    {
+      "id": "seed-sack-3",
+      "tx": 13,
+      "ty": 19,
+      "tileId": "sack",
+      "questId": "harrowfield-seed-grain"
+    }
   ],
   "blockedPaths": []
 }
