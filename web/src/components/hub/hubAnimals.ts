@@ -113,6 +113,8 @@ export interface AnimalSystemOptions {
   /** Quest indicator state for a placed animal id ('offer'|'ready'|null). */
   getQuestIndicator?: (animalId: string) => 'offer' | 'ready' | null
   isInteriorActive: () => boolean
+  /** True if a world-pixel position is within the visible viewport. */
+  isOnScreen: (x: number, y: number) => boolean
 }
 
 export interface AnimalSystem {
@@ -265,6 +267,8 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
   function vocalize(a: Animal, withBubble = false): void {
     const id = ANIMAL_SFX[a.type]
     if (!id) return
+    // Only animals actually rendered on screen should be audible.
+    if (!opts.isOnScreen(a.sprite.x, a.sprite.y)) return
     const t = Date.now()
     if (t - _lastAnimalSfxMs < 250) return
     _lastAnimalSfxMs = t

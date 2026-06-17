@@ -2214,6 +2214,13 @@ export function HubTownCanvas({
       onAnimalTap: (id) => onAnimalTapRef.current?.(id),
       getQuestIndicator: (id) => questNpcState?.current.get(id) ?? null,
       isInteriorActive: () => interiorActive,
+      isOnScreen: (x, y) => {
+        const vp = viewportRef?.current
+        if (!vp) return true  // no camera ⇒ the whole map is on screen
+        const sx = x - vp.scrollLeft, sy = y - vp.scrollTop
+        const m = T * 2       // small margin so edge animals still count
+        return sx >= -m && sx <= app.screen.width + m && sy >= -m && sy <= app.screen.height + m
+      },
     })
     getAnimalsInBuildingFn = animalSystem.getAnimalsInBuilding
 
