@@ -8039,6 +8039,16 @@
       ],
       "building": "church",
       "isGhost": true
+    },
+    {
+      "id": "npc_1781727321393",
+      "name": "New NPC",
+      "sprite": "",
+      "tx": 37,
+      "ty": 29,
+      "dialogue": [
+        "Hello!"
+      ]
     }
   ],
   "ambientNpcSprites": [
