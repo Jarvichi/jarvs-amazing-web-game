@@ -854,3 +854,38 @@ To add a new track: define a `MusicTrackConfig` in `sound.ts`, add it to
 Wired through `emitSound(id)` (ids documented in `web/src/data/sounds.json`):
 `hubFootstep` (throttled, per walk tile), `pickup` (item collect), `treasure`
 (chest), and `dayNightChime` (dawn/dusk transition). All honour mute/volume.
+
+---
+
+## §12 — Weather
+
+A screen-space PixiJS overlay renders rain / snow / fog above the world (and
+above the night-dimming layer), hidden while inside a building. The pure
+selection logic is `resolveWeather` in `web/src/game/hub/weather.ts`; the
+renderer is `createWeatherSystem` in `web/src/components/hub/hubWeather.ts`
+(particle pools are capped — ≤240 rain, ≤200 snow — and recycled as they leave
+the viewport, so cost is independent of map size). A standalone
+`HubWeather.tsx` wrapper + `HubWeather.stories.tsx` show each type in Storybook.
+
+### Config (`config.json` → optional top-level `weather`)
+
+```jsonc
+{
+  "weather": {
+    "type": "fog",                 // force one type (overrides everything)
+    "bySeason": {                  // OR pick by current season
+      "spring": "rain", "summer": "rain", "autumn": "fog", "winter": "snow"
+    }
+  }
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `type` | `"clear" \| "rain" \| "snow" \| "fog"` | Forces a single weather type. Highest precedence. |
+| `bySeason` | `Partial<Record<Season, WeatherType>>` | Maps the current real-date season (`seasonForDate`) to a weather type. Used when `type` is absent. |
+
+**Resolution precedence:** `type` → `bySeason[currentSeason]` → per-`environment`
+default (`snow`/`ice`/`tundra` → snow; `swamp`/`marsh`/`graveyard`/`ashen` → fog;
+`forest` → rain; others → clear) → `clear`. Omit `weather` entirely to use the
+environment default. `WEATHER_TYPES` in `weather.ts` is the canonical type list.

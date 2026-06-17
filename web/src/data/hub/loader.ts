@@ -238,6 +238,7 @@ export interface HubLocationBundle {
   MAP_H: number
   HUB_TOWN_NAME: string
   ENVIRONMENT: string
+  WEATHER?: import('../../game/hub/weather').WeatherConfig
 
   AVATAR_START: HubCoordinate
 
@@ -555,6 +556,7 @@ const HUB_CHICKEN_ZONES = (
 
  const HUB_TOWN_NAME: string = (rawConfig as unknown as { townName?: string }).townName ?? 'Town'
 const ENVIRONMENT: string = (rawConfig as unknown as { environment?: string }).environment ?? 'camp'
+const WEATHER = (rawConfig as unknown as { weather?: import('../../game/hub/weather').WeatherConfig }).weather
 
 type RawExitTile = { tx: number; ty: number; screen: string }
  const HUB_EXIT_TILES: HubExitTile[] = (
@@ -603,6 +605,7 @@ type RawExitTile = { tx: number; ty: number; screen: string }
     AVATAR_START,
     HUB_TOWN_NAME,
     ENVIRONMENT,
+    WEATHER,
     HUB_AREAS,
     HUB_STREET_GROUPS,
     HUB_STREET_TILES: HUB_STREET_TILES,

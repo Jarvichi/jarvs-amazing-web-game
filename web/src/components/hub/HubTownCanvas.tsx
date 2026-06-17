@@ -17,6 +17,8 @@ import { CommanderState } from '../../game/commander'
 import rollbar from '../../rollbar'
 import { HubInteractable, HubInteriorExit, HubLocationBundle, HubNpc, HubQuestBundle, HubStreetGroup, NpcScheduleEntry } from '../../data/hub/loader'
 import { createAnimalSystem, AnimalSystem } from './hubAnimals'
+import { createWeatherSystem } from './hubWeather'
+import { resolveWeather } from '../../game/hub/weather'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import { getUpgradeTrack } from '../../data/hub/buildingUpgrades'
 
@@ -128,6 +130,7 @@ export function HubTownCanvas({
   } = locationData
   const {HUB_QUEST_DEFS,INN_RUMOURS,FRIENDSHIP_DIALOGUE,HUB_PICKUP_ITEMS,HUB_BLOCKED_PATHS} = questData
   const HUB_ENV = locationData?.ENVIRONMENT || 'camp'
+  const HUB_WEATHER = locationData?.WEATHER
   const COURTYARD_PX = { x: AVATAR_START.tx * T + T / 2, y: AVATAR_START.ty * T + T }
   const containerRef      = useRef<HTMLDivElement>(null)
   const onAreaRef         = useRef(onAreaEnter)
@@ -2212,9 +2215,21 @@ export function HubTownCanvas({
     })
     getAnimalsInBuildingFn = animalSystem.getAnimalsInBuilding
 
+    // ── Weather overlay (screen-space, above the world incl. night dimming) ────
+    const weatherLayer = new PIXI.Container()
+    weatherLayer.eventMode = 'none'   // never block pointer events
+    app.stage.addChild(weatherLayer)  // added after worldRoot ⇒ renders on top
+    const weatherSystem = createWeatherSystem({
+      layer: weatherLayer,
+      getScreen: () => ({ width: app.screen.width, height: app.screen.height }),
+      isPaused: () => interiorActive,
+    })
+    weatherSystem.setWeather(resolveWeather(HUB_WEATHER, HUB_ENV))
+
     app.ticker.add((ticker) => {
       try {
       animalSystem.tick(ticker.deltaMS)
+      weatherSystem.tick(ticker.deltaMS)
 
       // Denned cats/dogs wandering the interior room (random 1-tile hops).
       if (interiorActive && interiorAnimals.length > 0) {
