@@ -1087,7 +1087,7 @@ function hasOfferableQuest(giverId: string): boolean {
             moveInteractableRef={moveInteractableRef}
             buildingUpgradeLevelsRef={buildingUpgradeLevelsRef}
             locationData={locationData}
-            questData={ALL_QUESTS}
+            questData={locationQuests}
             viewportRef={scrollRef}
           />
         </div>

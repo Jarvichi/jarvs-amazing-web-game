@@ -19,9 +19,19 @@ export function setSoundEnabled(val: boolean): void {
   catch { /* ignore */ }
 }
 
+// Read a 0–1 volume from storage. A stored "0" (muted) must survive the round
+// trip, so we can't use `|| 1` here — `parseFloat('0') || 1` would wrongly yield 1.
+function readVolume(key: string): number {
+  try {
+    const raw = localStorage.getItem(key)
+    if (raw === null) return 1
+    const v = parseFloat(raw)
+    return Number.isFinite(v) ? Math.min(1, Math.max(0, v)) : 1
+  } catch { return 1 }
+}
+
 export function getSoundVolume(): number {
-  try { return Math.min(1, Math.max(0, parseFloat(localStorage.getItem(SOUND_VOLUME_KEY) ?? '1') || 1)) }
-  catch { return 1 }
+  return readVolume(SOUND_VOLUME_KEY)
 }
 
 export function setSoundVolume(val: number): void {
@@ -30,8 +40,7 @@ export function setSoundVolume(val: number): void {
 }
 
 export function getMusicVolume(): number {
-  try { return Math.min(1, Math.max(0, parseFloat(localStorage.getItem(MUSIC_VOLUME_KEY) ?? '1') || 1)) }
-  catch { return 1 }
+  return readVolume(MUSIC_VOLUME_KEY)
 }
 
 export function setMusicVolume(val: number): void {

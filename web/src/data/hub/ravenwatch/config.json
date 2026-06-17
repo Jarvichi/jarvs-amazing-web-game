@@ -7842,7 +7842,7 @@
         "Think you're good enough to earn a trophy? Prove it."
       ],
       "questGive": "orin-missing-trophy",
-      "questReceive": "orin-champions-shield"
+      "questReceive": ["orin-champions-shield", "orin-fake-trophy"]
     },
     {
       "id": "games-host-zev",
