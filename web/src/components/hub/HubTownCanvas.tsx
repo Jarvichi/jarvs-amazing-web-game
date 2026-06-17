@@ -701,8 +701,13 @@ export function HubTownCanvas({
     {
       for (const b of HUB_BUILDINGS) {
         if (!b.id || !b.upgradeKind) continue
-        const door = HUB_DOORS.find(d => d.buildingId === b.id)
-        if (!door) continue
+        // Anchor decor at the building's primary door; fall back to the front
+        // centre of its footprint when the door comes from a bundle/elsewhere.
+        const foundDoor = HUB_DOORS.find(d => d.buildingId === b.id)
+        const door = foundDoor ?? {
+          tx: Math.floor((b.rect[0] + b.rect[2]) / 2),
+          ty: b.rect[3] + 1,
+        }
         const track = getUpgradeTrack(b.upgradeKind)
         const currentLevel = buildingUpgradeLevelsRef?.current[b.id] ?? 0
         track.forEach((lvl, levelIndex) => {

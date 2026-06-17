@@ -118,7 +118,7 @@ export interface HubAnimal {
   questGive?: string
   questReceive?: string | string[]
   roam?: boolean
-  areaRect?: [number, number, number, number]
+  areaRect?: number[]
 }
 
 export interface HubPickupItem {
