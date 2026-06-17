@@ -1852,6 +1852,7 @@ export function HubTownCanvas({
         const dist = Math.hypot(px - av.x, py - av.y)
         await tweenLinear(av, px, py, (dist / WALK_PX_PER_S) * 1000)
         interiorCurrentTile = [ntx, nty]
+        emitSound('hubFootstep')  // throttled internally — match the exterior walk
 
         // Touch-pickup: collect requireTouch interior items when avatar walks onto their tile
         for (const [pid, sprite] of pickupSprites) {
