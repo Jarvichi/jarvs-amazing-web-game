@@ -57,6 +57,92 @@ interface Props {
   onDeleteLockedDoor:    (index: number) => void
   onUpdateNpc:           (index: number, partial: Partial<RawNpc>) => void
   onUpdateAnimal:        (index: number, partial: Partial<RawAnimal>) => void
+  onUpdateTreasureTile?: (index: number, tileId: string) => void
+  onUpdatePickupItemTile?: (index: number, tileId: string) => void
+}
+
+const S = 20  // thumbnail size for tile picker grid
+
+function TileThumb({ tileId }: { tileId: string }) {
+  const id = (BASE_CHIP_TILES as Record<string, number>)[tileId]
+  if (id === undefined) return null
+  if (id >= 10000) {
+    let ref: ReturnType<typeof resolveTileRef> | undefined
+    try { ref = resolveTileRef(id) } catch { /* unknown */ }
+    if (!ref) return null
+    const col = ref.id % ref.columns
+    const row = Math.floor(ref.id / ref.columns)
+    return (
+      <div style={{
+        width: S, height: S, flexShrink: 0, imageRendering: 'pixelated',
+        backgroundImage: `url("${ref.file}")`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: ref.columns === 1 ? `${S}px ${S}px` : `${ref.columns * S}px auto`,
+        backgroundPosition: ref.columns === 1 ? '0 0' : `-${col * S}px -${row * S}px`,
+      }} />
+    )
+  }
+  const col = id % COLS
+  const row = Math.floor(id / COLS)
+  return (
+    <div style={{
+      width: S, height: S, flexShrink: 0, imageRendering: 'pixelated',
+      backgroundImage: `url("${SHEET_URL}")`,
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: `${COLS * S}px auto`,
+      backgroundPosition: `-${col * S}px -${row * S}px`,
+    }} />
+  )
+}
+
+function TilePicker({ current, onChange, onClose }: {
+  current: string
+  onChange: (tileId: string) => void
+  onClose: () => void
+}) {
+  const [search, setSearch] = useState('')
+  const allIds = Object.keys(BASE_CHIP_TILES as Record<string, number>)
+  const filtered = search ? allIds.filter(id => id.toLowerCase().includes(search.toLowerCase())) : allIds
+  return (
+    <div style={{ marginTop: 6, background: '#0e0e1a', border: '1px solid #555', borderRadius: 4, padding: 6 }}>
+      <input
+        autoFocus
+        value={search}
+        onChange={e => setSearch(e.target.value)}
+        placeholder="Filter tiles…"
+        style={{
+          width: '100%', padding: '3px 6px', background: '#111', border: '1px solid #444',
+          color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box', marginBottom: 4,
+        }}
+      />
+      <div style={{
+        maxHeight: 200, overflowY: 'auto',
+        display: 'grid', gridTemplateColumns: `repeat(${Math.floor(186 / (S + 2))}, ${S}px)`, gap: 2,
+      }}>
+        {filtered.map(id => (
+          <button
+            key={id}
+            title={id}
+            onClick={() => { onChange(id); onClose() }}
+            style={{
+              width: S, height: S, padding: 0, cursor: 'pointer', display: 'flex',
+              background: id === current ? '#2a4a7a' : 'transparent',
+              border: id === current ? '1px solid #5a8aee' : '1px solid transparent',
+              borderRadius: 1,
+            }}
+          >
+            <TileThumb tileId={id} />
+          </button>
+        ))}
+      </div>
+      <button
+        onClick={onClose}
+        style={{ marginTop: 4, fontSize: 10, color: '#666', background: 'none', border: 'none', cursor: 'pointer', width: '100%' }}
+      >
+        Cancel
+      </button>
+    </div>
+  )
 }
 
 function TilePreview({ tileId }: { tileId: string }) {
@@ -350,7 +436,7 @@ function AnimalInspector({
 }
 
 function QuestItemInspector({
-  label, id, tileId, tx, ty, extra, onMove, onDelete,
+  label, id, tileId, tx, ty, extra, onMove, onDelete, onTileChange,
 }: {
   label: string
   id: string
@@ -360,14 +446,36 @@ function QuestItemInspector({
   extra?: React.ReactNode
   onMove: (tx: number, ty: number) => void
   onDelete: () => void
+  onTileChange?: (tileId: string) => void
 }) {
+  const [pickingTile, setPickingTile] = useState(false)
   return (
     <div>
       <Field label="ID">
         <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{id}</span>
       </Field>
       <Field label="Tile">
-        <TilePreview tileId={tileId} />
+        {onTileChange ? (
+          <>
+            <div
+              onClick={() => setPickingTile(p => !p)}
+              style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6, padding: '2px 4px', borderRadius: 3, border: pickingTile ? '1px solid #5a8aee' : '1px solid transparent' }}
+              title="Click to change tile"
+            >
+              <TilePreview tileId={tileId} />
+              <span style={{ fontSize: 10, color: '#666' }}>✎</span>
+            </div>
+            {pickingTile && (
+              <TilePicker
+                current={tileId}
+                onChange={onTileChange}
+                onClose={() => setPickingTile(false)}
+              />
+            )}
+          </>
+        ) : (
+          <TilePreview tileId={tileId} />
+        )}
       </Field>
       <Field label="Position">
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
@@ -984,6 +1092,7 @@ export function EntityInspector({
   blockedPaths, onUpdateBlockedPath, onDeleteBlockedPath,
   onAddLockedDoor, onUpdateLockedDoor, onDeleteLockedDoor,
   onUpdateNpc, onUpdateAnimal,
+  onUpdateTreasureTile, onUpdatePickupItemTile,
 }: Props) {
   const panelStyle: React.CSSProperties = {
     display: 'flex', flexDirection: 'column', height: '100%',
@@ -1120,6 +1229,7 @@ export function EntityInspector({
             extra={t.title ? <Field label="Title"><span style={{ fontSize: 12 }}>{t.title}</span></Field> : undefined}
             onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
             onDelete={() => onDelete(selectedEntity)}
+            onTileChange={onUpdateTreasureTile ? tileId => onUpdateTreasureTile(selectedEntity.index, tileId) : undefined}
           />
         </div>
       </div>
@@ -1142,6 +1252,7 @@ export function EntityInspector({
             extra={p.questId ? <Field label="Quest"><span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{p.questId}</span></Field> : undefined}
             onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
             onDelete={() => onDelete(selectedEntity)}
+            onTileChange={onUpdatePickupItemTile ? tileId => onUpdatePickupItemTile(selectedEntity.index, tileId) : undefined}
           />
         </div>
       </div>

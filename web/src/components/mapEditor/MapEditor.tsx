@@ -36,6 +36,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
     placeDecor, moveEntity, deleteEntity,
     updateDecorZlayer, addNpc, updateNpcDialogue, updateNpc,
     addAnimal, updateAnimal,
+    updateTreasure,
     resizeInterior, addInterior, addInteriorExit, updateInteriorProps, updateInteriorExit, removeInteriorExit,
     addStreet, updateStreetEntry,
     addLockedDoor, updateLockedDoor, deleteLockedDoor,
@@ -241,6 +242,14 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
               onDeleteLockedDoor={deleteLockedDoor}
               onUpdateNpc={updateNpc}
               onUpdateAnimal={updateAnimal}
+              onUpdateTreasureTile={(index, tileId) => updateTreasure(index, { tileId })}
+              onUpdatePickupItemTile={(index, tileId) => setQuestDefsData(prev => {
+                if (!prev) return prev
+                const items = [...(prev.pickupItems ?? [])]
+                if (!items[index]) return prev
+                items[index] = { ...items[index], tileId }
+                return { ...prev, pickupItems: items }
+              })}
             />
           </div>
         </div>
