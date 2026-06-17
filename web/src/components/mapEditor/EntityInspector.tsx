@@ -7,6 +7,7 @@ import { RawQuestPickupItem } from '../../data/hub/hubWorldFactory'
 import { NpcSpritePicker, AnimalTypePicker } from './SpritePicker'
 import { ANIMAL_SPECS } from '../../game/hub/animals'
 import type { AnimalType } from '../../game/hub/animals'
+import { BUILDING_MUSIC_IDS, AMBIANCE_IDS } from '../../game/sound'
 
 const FLOOR_TILES = [
   'woodFloor', 'stoneFloor', 'cobblestoneFloor', 'quarteredFloor', 'checkeredFloor',
@@ -737,6 +738,26 @@ function InteriorInspector({
               >
                 <option value="">— none —</option>
                 {WALL_MATERIALS.map(m => <option key={m} value={m}>{m}</option>)}
+              </select>
+            </Field>
+            <Field label="Music">
+              <select
+                value={interior.musicId ?? ''}
+                onChange={e => onUpdateInteriorProps(interiorId, { musicId: e.target.value || undefined })}
+                style={{ width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }}
+              >
+                <option value="">— town theme —</option>
+                {BUILDING_MUSIC_IDS.map(id => <option key={id} value={id}>{id}</option>)}
+              </select>
+            </Field>
+            <Field label="Ambiance">
+              <select
+                value={interior.ambianceId ?? ''}
+                onChange={e => onUpdateInteriorProps(interiorId, { ambianceId: e.target.value || undefined })}
+                style={{ width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }}
+              >
+                <option value="">— none —</option>
+                {AMBIANCE_IDS.map(id => <option key={id} value={id}>{id}</option>)}
               </select>
             </Field>
             <Field label="Decor items"><span style={{ color: '#aaa' }}>{interior.decor.length} items</span></Field>

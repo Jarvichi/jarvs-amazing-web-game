@@ -234,6 +234,41 @@ export function playMapFootstep() {
   node(80,  'sawtooth', t + 0.02, 0.04, 0.14)
 }
 
+// Hub footstep — softer/quieter than the map version and throttled so the
+// per-tile walk in the hub world does not flood the channel.
+let _lastHubStepMs = 0
+export function playHubFootstep() {
+  const now2 = Date.now()
+  if (now2 - _lastHubStepMs < 180) return
+  _lastHubStepMs = now2
+  const t = now()
+  node(150, 'sine', t,        0.04, 0.12)
+  node(90,  'sine', t + 0.02, 0.03, 0.08)
+}
+
+export function playPickup() {
+  const t = now()
+  // Light two-note pleasant chime when collecting an item
+  node(880,  'sine', t,        0.06, 0.20)
+  node(1320, 'sine', t + 0.06, 0.10, 0.18)
+}
+
+export function playTreasure() {
+  const t = now()
+  // Rewarding ascending sparkle (richer than pickup) for treasure chests
+  const melody = [659, 880, 1175, 1568]
+  melody.forEach((f, i) => node(f, 'sine', t + i * 0.08, 0.16, 0.24))
+  node(330, 'triangle', t, 0.30, 0.16)  // warm low body
+}
+
+export function playDayNightChime() {
+  const t = now()
+  // Gentle two-note transition sting marking dawn/dusk
+  node(523, 'triangle', t,        0.45, 0.16)
+  node(784, 'sine',     t + 0.12, 0.40, 0.13)
+}
+
+
 // ─── Music Engine ─────────────────────────────────────────────────────────────
 // Look-ahead scheduler pattern — runs a setInterval every SCHEDULE_MS and
 // pre-schedules Web Audio notes up to LOOKAHEAD_SEC ahead of playback.
@@ -635,6 +670,239 @@ export const MAP_MUSIC: MusicTrackConfig = { id: 'map', bpm: MAP_BPM, vol: MAP_V
 export function startMapMusic(): void { startMusicTrack(MAP_MUSIC) }
 export function stopMapMusic(): void  { stopMusicTrack('map') }
 
+// ─── Hub Music (G major, calm & towny, 66 BPM) ───────────────────────────────
+// Gentle, unhurried village theme: soft bass, warm triangle pads and a light
+// pluck melody. 3 phrases × 8 beats = 24-beat cycle (~21.8 s).
+
+const HUB_BPM = 66
+const HUB_VOL = 0.09
+
+// G major pentatonic: G2, D3, G3, A3, B3, D4, E4, G4
+const HP = [98.0, 146.8, 196.0, 220.0, 246.9, 293.7, 329.6, 392.0]
+const HB = [49.0, 73.4, 65.4]  // bass roots: G1, D2, C2
+
+const H_PAD: (number|null)[][] = [
+  [2, null, 4, null, 5,    null, 4, null],   // G centre — settled
+  [3, null, 5, null, 6,    null, 5, null],   // A/D — lifts
+  [1, null, 4, null, 3,    null, 5, null],   // gentle resolve
+]
+const H_TOP: (number|null)[][] = [
+  [null, 5, null, 7, null, 6,    null, 5],
+  [null, 6, null, 7, null, 5,    null, 4],
+  [null, 7, null, 5, null, 4,    null, 6],
+]
+const H_BASS = [[0, 1], [1, 2], [2, 0]]  // bass root indices per phrase [beat0, beat4]
+
+function scheduleHub(track: MusicTrack, vol: number, beatSec: number, upTo: number): void {
+  while (track.nextBeatTime < upTo) {
+    const phrase = Math.floor(track.beatIndex / 8) % 3
+    const beat   = track.beatIndex % 8
+    const t      = track.nextBeatTime
+    const n      = (f: number, type: OscillatorType, off: number, dur: number, v: number) =>
+                     musicNote(track, vol, f, type, t + off, dur, v)
+
+    // Soft bass on beats 0 and 4
+    if (beat === 0 || beat === 4) {
+      const bIdx = beat === 0 ? H_BASS[phrase][0] : H_BASS[phrase][1]
+      n(HB[bIdx], 'sine', 0, beatSec * 1.9, 0.40)
+      n(HB[bIdx] * 2, 'sine', 0, beatSec * 1.6, 0.14)
+    }
+
+    // Warm pad
+    const padIdx = H_PAD[phrase][beat]
+    if (padIdx !== null) n(HP[padIdx], 'triangle', 0, beatSec * 1.4, 0.26)
+
+    // Light pluck melody up an octave
+    const topIdx = H_TOP[phrase][beat]
+    if (topIdx !== null) n(HP[topIdx] * 2, 'sine', beatSec * 0.1, beatSec * 0.55, 0.16)
+
+    track.nextBeatTime += beatSec
+    track.beatIndex++
+  }
+}
+
+export const HUB_MUSIC: MusicTrackConfig = { id: 'hub', bpm: HUB_BPM, vol: HUB_VOL, schedule: scheduleHub }
+
+export function startHubMusic(): void { startMusicTrack(HUB_MUSIC) }
+export function stopHubMusic(): void  { stopMusicTrack('hub') }
+
+// ─── Building interior music ─────────────────────────────────────────────────
+// Each interior can pick a `musicId` (see BUILDING_MUSIC_TRACKS). When the player
+// enters such a building the town theme is swapped for the building's track and
+// restored on exit. Authored per-building in the map editor.
+
+// Inn — lively D-major tavern jig (108 BPM): bouncy bass + jaunty melody.
+const INN_NOTES = [146.8, 220.0, 293.7, 329.6, 392.0, 440.0, 587.3]  // D3,A3,D4,E4,G4,A4,D5
+const INN_BASS  = [73.4, 110.0, 98.0]  // D2, A2, G2
+const INN_MEL: (number|null)[][] = [
+  [2, 3, 4, 3, 2, 4, 3, 2],
+  [4, 5, 4, 3, 2, 3, 4, 5],
+  [2, 4, 6, 4, 3, 5, 4, 2],
+]
+function scheduleInn(track: MusicTrack, vol: number, beatSec: number, upTo: number): void {
+  while (track.nextBeatTime < upTo) {
+    const phrase = Math.floor(track.beatIndex / 8) % 3
+    const beat   = track.beatIndex % 8
+    const t      = track.nextBeatTime
+    const n = (f: number, ty: OscillatorType, off: number, dur: number, v: number) =>
+                musicNote(track, vol, f, ty, t + off, dur, v)
+    // Oom-pah bass: root on the beat, fifth on the off-beat
+    const root = INN_BASS[[0, 1, 2][phrase]]
+    n(root, 'triangle', 0, beatSec * 0.45, 0.4)
+    n(root * 1.5, 'triangle', beatSec * 0.5, beatSec * 0.4, 0.26)
+    const mIdx = INN_MEL[phrase][beat]
+    if (mIdx !== null) n(INN_NOTES[mIdx], 'square', beatSec * 0.05, beatSec * 0.5, 0.12)
+    track.nextBeatTime += beatSec
+    track.beatIndex++
+  }
+}
+export const INN_MUSIC: MusicTrackConfig = { id: 'music-inn', bpm: 108, vol: 0.085, schedule: scheduleInn }
+
+// Church/temple — solemn, slow sustained chords (50 BPM), A minor / modal.
+const CH_CHORD = [
+  [110.0, 164.8, 220.0],  // A2 E3 A3
+  [98.0,  146.8, 196.0],  // G2 D3 G3
+  [130.8, 196.0, 261.6],  // C3 G3 C4
+]
+function scheduleChurch(track: MusicTrack, vol: number, beatSec: number, upTo: number): void {
+  while (track.nextBeatTime < upTo) {
+    const phrase = Math.floor(track.beatIndex / 4) % 3
+    const beat   = track.beatIndex % 4
+    const t      = track.nextBeatTime
+    const n = (f: number, ty: OscillatorType, off: number, dur: number, v: number) =>
+                musicNote(track, vol, f, ty, t + off, dur, v)
+    if (beat === 0) {
+      // Sustained organ chord held across the whole bar
+      for (const f of CH_CHORD[phrase]) n(f, 'sine', 0, beatSec * 3.8, 0.18)
+      n(CH_CHORD[phrase][0] / 2, 'sine', 0, beatSec * 3.8, 0.12)  // sub octave
+    }
+    // Sparse high shimmer on beat 2
+    if (beat === 2) n(CH_CHORD[phrase][2] * 2, 'triangle', 0, beatSec * 1.5, 0.07)
+    track.nextBeatTime += beatSec
+    track.beatIndex++
+  }
+}
+export const CHURCH_MUSIC: MusicTrackConfig = { id: 'music-church', bpm: 50, vol: 0.09, schedule: scheduleChurch }
+
+// Shop — light, pleasant, busy little tune (92 BPM), C major.
+const SHOP_N = [261.6, 329.6, 392.0, 523.2, 659.3]  // C4 E4 G4 C5 E5
+const SHOP_MEL: (number|null)[][] = [
+  [0, 2, 1, 3, 2, 4, 3, 2],
+  [3, 2, 4, 3, 1, 2, 0, 2],
+]
+function scheduleShop(track: MusicTrack, vol: number, beatSec: number, upTo: number): void {
+  while (track.nextBeatTime < upTo) {
+    const phrase = Math.floor(track.beatIndex / 8) % 2
+    const beat   = track.beatIndex % 8
+    const t      = track.nextBeatTime
+    const n = (f: number, ty: OscillatorType, off: number, dur: number, v: number) =>
+                musicNote(track, vol, f, ty, t + off, dur, v)
+    if (beat % 2 === 0) n(130.8, 'sine', 0, beatSec * 0.9, 0.3)  // soft C3 pulse
+    const mIdx = SHOP_MEL[phrase][beat]
+    if (mIdx !== null) n(SHOP_N[mIdx], 'triangle', beatSec * 0.04, beatSec * 0.45, 0.14)
+    track.nextBeatTime += beatSec
+    track.beatIndex++
+  }
+}
+export const SHOP_MUSIC: MusicTrackConfig = { id: 'music-shop', bpm: 92, vol: 0.08, schedule: scheduleShop }
+
+/** Building interior music tracks, keyed by the `musicId` set on an interior. */
+export const BUILDING_MUSIC_TRACKS: Record<string, MusicTrackConfig> = {
+  inn:    INN_MUSIC,
+  church: CHURCH_MUSIC,
+  shop:   SHOP_MUSIC,
+}
+export const BUILDING_MUSIC_IDS = Object.keys(BUILDING_MUSIC_TRACKS)
+
+// ─── Ambiance beds ───────────────────────────────────────────────────────────
+// Low-volume looping textures that layer *under* the music while inside a
+// building. Picked via an interior's `ambianceId`.
+
+// Hearth — random soft fire crackles/pops.
+function scheduleHearth(track: MusicTrack, vol: number, beatSec: number, upTo: number): void {
+  while (track.nextBeatTime < upTo) {
+    const t = track.nextBeatTime
+    if (Math.random() < 0.6) {
+      const f = 1800 + Math.random() * 2200
+      musicNote(track, vol, f, 'square', t + Math.random() * beatSec, 0.02 + Math.random() * 0.03, 0.05 + Math.random() * 0.05)
+    }
+    if (Math.random() < 0.25) musicNote(track, vol, 90 + Math.random() * 40, 'sine', t, 0.18, 0.06)  // low whoosh
+    track.nextBeatTime += beatSec
+    track.beatIndex++
+  }
+}
+export const HEARTH_AMBIANCE: MusicTrackConfig = { id: 'amb-hearth', bpm: 150, vol: 0.5, schedule: scheduleHearth }
+
+// Sacred — sustained low drone + sparse high bell shimmer (reverberant).
+function scheduleSacred(track: MusicTrack, vol: number, beatSec: number, upTo: number): void {
+  while (track.nextBeatTime < upTo) {
+    const t = track.nextBeatTime
+    const beat = track.beatIndex % 8
+    if (beat === 0) musicNote(track, vol, 65.4, 'sine', 0, beatSec * 7.5, 0.18)  // C2 drone
+    if (beat === 4) musicNote(track, vol, 98.0, 'sine', 0, beatSec * 3.5, 0.12)
+    if (Math.random() < 0.3) musicNote(track, vol, 1046 + Math.random() * 400, 'sine', t + Math.random() * beatSec, 0.8, 0.04)
+    track.nextBeatTime += beatSec
+    track.beatIndex++
+  }
+}
+export const SACRED_AMBIANCE: MusicTrackConfig = { id: 'amb-sacred', bpm: 40, vol: 0.6, schedule: scheduleSacred }
+
+// Market — gentle random mid-range chatter taps.
+function scheduleMarket(track: MusicTrack, vol: number, beatSec: number, upTo: number): void {
+  while (track.nextBeatTime < upTo) {
+    const t = track.nextBeatTime
+    if (Math.random() < 0.5) {
+      const f = 300 + Math.random() * 500
+      musicNote(track, vol, f, 'triangle', t + Math.random() * beatSec, 0.05 + Math.random() * 0.06, 0.04 + Math.random() * 0.04)
+    }
+    track.nextBeatTime += beatSec
+    track.beatIndex++
+  }
+}
+export const MARKET_AMBIANCE: MusicTrackConfig = { id: 'amb-market', bpm: 120, vol: 0.5, schedule: scheduleMarket }
+
+/** Ambiance beds, keyed by the `ambianceId` set on an interior. */
+export const AMBIANCE_TRACKS: Record<string, MusicTrackConfig> = {
+  hearth: HEARTH_AMBIANCE,
+  sacred: SACRED_AMBIANCE,
+  market: MARKET_AMBIANCE,
+}
+export const AMBIANCE_IDS = Object.keys(AMBIANCE_TRACKS)
+
+// ─── Interior audio control ──────────────────────────────────────────────────
+// Imperatively driven by HubWorld on building enter/exit. A building may set a
+// `musicId` (swaps the town theme) and/or an `ambianceId` (layered bed).
+
+let _interiorMusicId: string | null = null
+let _ambianceId:      string | null = null
+
+/** Enter a building: swap to its music (if any) and start its ambiance (if any). */
+export function startInteriorAudio(musicId?: string, ambianceId?: string): void {
+  stopInteriorAudio()
+  if (musicId && BUILDING_MUSIC_TRACKS[musicId]) {
+    stopHubMusic()
+    startMusicTrack(BUILDING_MUSIC_TRACKS[musicId])
+    _interiorMusicId = musicId
+  }
+  if (ambianceId && AMBIANCE_TRACKS[ambianceId]) {
+    startMusicTrack(AMBIANCE_TRACKS[ambianceId])
+    _ambianceId = ambianceId
+  }
+}
+
+/** Exit a building: stop its music/ambiance and resume the town theme. */
+export function stopInteriorAudio(): void {
+  if (_interiorMusicId) {
+    stopMusicTrack(BUILDING_MUSIC_TRACKS[_interiorMusicId].id)
+    _interiorMusicId = null
+    startHubMusic()
+  }
+  if (_ambianceId) {
+    stopMusicTrack(AMBIANCE_TRACKS[_ambianceId].id)
+    _ambianceId = null
+  }
+}
+
 // ─── Adaptive Battle Music ────────────────────────────────────────────────────
 // The battle track can be "instructed" to shift its intensity and phrase
 // selection based on game state. Call setBattleIntensity() from App.tsx.
@@ -656,6 +924,7 @@ export const MUSIC_TRACKS: Record<string, MusicTrackConfig> = {
   battle:  BATTLE_MUSIC,
   title:   TITLE_MUSIC,
   map:     MAP_MUSIC,
+  hub:     HUB_MUSIC,
   gameover: GAME_OVER_MUSIC_VICTORY,
 }
 
@@ -672,6 +941,7 @@ export type SoundId =
   | 'minigameCorrect' | 'minigameWrong'
   | 'shopPurchase' | 'fruitMachineSpin' | 'fruitMachineWin' | 'fruitMachineLose'
   | 'mapFootstep'
+  | 'hubFootstep' | 'pickup' | 'treasure' | 'dayNightChime'
 
 const SOUND_MAP: Record<SoundId, () => void> = {
   cardPlay:          playCardPlay,
@@ -695,6 +965,10 @@ const SOUND_MAP: Record<SoundId, () => void> = {
   fruitMachineWin:   playFruitMachineWin,
   fruitMachineLose:  playFruitMachineLose,
   mapFootstep:       playMapFootstep,
+  hubFootstep:       playHubFootstep,
+  pickup:            playPickup,
+  treasure:          playTreasure,
+  dayNightChime:     playDayNightChime,
 }
 
 export function emitSound(id: SoundId): void {

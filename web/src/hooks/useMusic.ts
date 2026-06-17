@@ -6,6 +6,7 @@ import {
   startTitleMusic, stopTitleMusic,
   startGameOverMusic, stopGameOverMusic,
   startMapMusic, stopMapMusic,
+  startHubMusic, stopHubMusic,
   setBattleIntensity, startMusicTrack, MUSIC_TRACKS,
 } from '../game/sound'
 
@@ -20,11 +21,14 @@ export function useMusic(screen: Screen, gameState: GameState | null, run: RunSt
     stopTitleMusic()
     stopGameOverMusic()
     stopMapMusic()
+    stopHubMusic()
 
     const act = run ? ACTS[run.actId] : undefined
 
     if (screen === 'title' || screen === 'settings' || screen === 'deckbuilder' || screen === 'collection') {
       startTitleMusic()
+    } else if (screen === 'hubworld' || screen === 'location') {
+      startHubMusic()
     } else if (screen === 'nodemap') {
       const mapTrackId = act?.mapMusicId
       const mapTrack = mapTrackId ? MUSIC_TRACKS[mapTrackId] : undefined
@@ -40,7 +44,7 @@ export function useMusic(screen: Screen, gameState: GameState | null, run: RunSt
         startGameOverMusic(phase.winner)
       }
     }
-    return () => { stopBattleMusic(); stopTitleMusic(); stopGameOverMusic(); stopMapMusic() }
+    return () => { stopBattleMusic(); stopTitleMusic(); stopGameOverMusic(); stopMapMusic(); stopHubMusic() }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [screen, gameState?.phase.type])
 

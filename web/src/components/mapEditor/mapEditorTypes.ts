@@ -89,6 +89,8 @@ export interface RawInterior {
   wallMaterial?: string
   decor: RawDecorItem[]
   hours?: { open: number; close: number } | 'always'
+  musicId?: string
+  ambianceId?: string
   exits?: Array<{
     tx: number
     ty: number

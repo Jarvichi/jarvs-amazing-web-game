@@ -8,6 +8,7 @@ import { HubReturnButton } from './HubReturnButton'
 import { HubDialogue } from './HubDialogue'
 import type { DialogueChoice } from './HubDialogue'
 import type { HubQuestDef, DialogueTree, DialogueChoiceDef } from '../../data/hub/questDefs'
+import { emitSound } from '../../game/sound'
 import { getPickedUpIds, markPickedUp, unmarkPickedUp } from '../../game/hub/pickups'
 import { getFriendshipLevel, addFriendshipXp, getFriendshipData } from '../../game/hub/friendship'
 import { addRelationshipPoints, getRelationship } from '../../game/hub/relationships'
@@ -463,6 +464,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   const handleTreasureStep = useCallback((id: string) => {
     const treasure = locationData.HUB_TREASURES.find(t => t.id === id)
     if (!treasure) return
+    emitSound('treasure')
     markTreasureCollected(id)
     const { reward } = treasure
     if (reward.crystals) {
@@ -483,6 +485,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   }, [refreshState])
 
   const handleItemPickup = useCallback((id: string, questId?: string) => {
+    emitSound('pickup')
     markPickedUp(id)
     setPickedUpIds(getPickedUpIds())
 

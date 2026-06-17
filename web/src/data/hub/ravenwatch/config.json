@@ -5463,6 +5463,8 @@
     },
     "inn-building": {
       "name": "The Wanderer's Rest",
+      "musicId": "inn",
+      "ambianceId": "hearth",
       "width": 12,
       "height": 9,
       "floorTileId": "darkWoodFloor",
@@ -5621,6 +5623,8 @@
     },
     "market-building": {
       "name": "The Market Hall",
+      "musicId": "shop",
+      "ambianceId": "market",
       "width": 14,
       "height": 10,
       "floorTileId": "cobblestoneFloor",
@@ -6395,6 +6399,8 @@
     },
     "church": {
       "name": "Church",
+      "musicId": "church",
+      "ambianceId": "sacred",
       "width": 14,
       "height": 10,
       "wallTileId": "interiorWallWhite",
