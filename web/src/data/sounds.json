@@ -125,6 +125,30 @@
       "name": "Map Footstep",
       "category": "ui",
       "description": "Soft thud when the player avatar begins walking to a new node"
+    },
+    {
+      "id": "hubFootstep",
+      "name": "Hub Footstep",
+      "category": "hub",
+      "description": "Soft, throttled footstep as the avatar walks each tile in the hub world"
+    },
+    {
+      "id": "pickup",
+      "name": "Item Pickup",
+      "category": "hub",
+      "description": "Light two-note chime when collecting a hub pickup item"
+    },
+    {
+      "id": "treasure",
+      "name": "Treasure Collect",
+      "category": "hub",
+      "description": "Rewarding ascending sparkle when opening a hub treasure chest"
+    },
+    {
+      "id": "dayNightChime",
+      "name": "Day/Night Chime",
+      "category": "hub",
+      "description": "Gentle transition sting when the hub flips between day and night"
     }
   ]
 }

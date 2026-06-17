@@ -111,6 +111,11 @@ export interface RawInterior {
   }>
 
   hours?: string | OpenAndCloseTime
+
+  /** Interior music track id (see BUILDING_MUSIC_TRACKS in sound.ts). */
+  musicId?: string
+  /** Ambiance bed id (see AMBIANCE_TRACKS in sound.ts). */
+  ambianceId?: string
 }
 
 

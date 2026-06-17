@@ -819,3 +819,38 @@ the crystals invested. Additional service-specific effects can hook the same
 4. Verify in-game: open 🏗️ Town Upgrades, buy a level → crystals drop, standing
    rises, the new decor appears on the building immediately, a rep-locked tier
    stays blocked until standing is high enough, and everything survives a reload.
+
+---
+
+## §11 — Hub Audio (music, ambiance & SFX)
+
+The hub world has its own procedural audio (no external files — everything is
+synthesised in `web/src/game/sound.ts`, respecting the global mute/volume).
+
+### Town music
+A calm town theme (`HUB_MUSIC`, id `hub`) starts whenever the hub screen is
+active, routed by `web/src/hooks/useMusic.ts` (one track at a time, same contract
+as battle/map music).
+
+### Per-building music & ambiance
+Each interior in `config.json` may set two optional fields:
+
+| Field | Type | Description |
+|---|---|---|
+| `musicId` | `string` | Swaps the town theme for a building track while the player is inside. Keys: see `BUILDING_MUSIC_TRACKS` (`inn`, `church`, `shop`). Omit to keep the town theme. |
+| `ambianceId` | `string` | A low-volume looping bed layered **under** the music. Keys: see `AMBIANCE_TRACKS` (`hearth`, `sacred`, `market`). Omit for silence. |
+
+On entering a building `HubTownCanvas` calls `startInteriorAudio(musicId, ambianceId)`;
+on exit `stopInteriorAudio()` restores the town theme and drops the ambiance.
+Both id lists are exported (`BUILDING_MUSIC_IDS`, `AMBIANCE_IDS`) and surfaced as
+dropdowns on the interior in the **map editor** (`EntityInspector` → Music /
+Ambiance). Example (Ravenwatch): the inn uses `inn` + `hearth`, the church uses
+`church` + `sacred`, the market hall uses `shop` + `market`.
+
+To add a new track: define a `MusicTrackConfig` in `sound.ts`, add it to
+`BUILDING_MUSIC_TRACKS` or `AMBIANCE_TRACKS`, and it appears in the editor.
+
+### Ambient SFX
+Wired through `emitSound(id)` (ids documented in `web/src/data/sounds.json`):
+`hubFootstep` (throttled, per walk tile), `pickup` (item collect), `treasure`
+(chest), and `dayNightChime` (dawn/dusk transition). All honour mute/volume.

@@ -8,6 +8,7 @@ import { PATH_TILE } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
 import { isBuildingOpen, getNpcLocation, getNpcActivity } from '../../game/hub/hubNpcSchedule'
 import { getGameHour, getGameMinute } from '../../game/hub/hubClock'
+import { emitSound, startInteriorAudio, stopInteriorAudio } from '../../game/sound'
 import { getWallTile, ROOF_TILES, WALL_TILES, ROOF_ROWS } from '../../data/tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 import { loadPlayerAvatar } from '../../game/questline'
@@ -1345,6 +1346,7 @@ export function HubTownCanvas({
         interiorAnimals.length = 0
         currentInteriorId = null
         highlightGfx.clear()
+        stopInteriorAudio()  // resume town theme + drop ambiance
         onExitInteriorRef.current?.()
       } catch (e) {
         rollbar.error('[HubTownCanvas] doExitInterior error', { error: String(e) })
@@ -1382,6 +1384,9 @@ export function HubTownCanvas({
 
       // Notify HubWorld that entry succeeded (must happen after all guard returns)
       onEnterInteriorRef.current?.()
+
+      // Per-building audio: swap to the interior's music / ambiance (if authored)
+      startInteriorAudio(interior.musicId, interior.ambianceId)
 
       // Hide exterior layers
       groundLayer.visible   = false
@@ -1969,6 +1974,7 @@ export function HubTownCanvas({
         await tweenLinear(av, targetX, targetY, duration)
         currentTile = [tx, ty]
         _savedTiles.set(locationKey, [tx, ty])
+        emitSound('hubFootstep')  // throttled internally
 
         // Touch-pickup: collect requireTouch items when avatar walks onto their tile
         for (const [pid, sprite] of pickupSprites) {
@@ -2141,6 +2147,7 @@ export function HubTownCanvas({
     let _lastNightAlpha = -1
     let _lastNightAvatarX = -Infinity, _lastNightAvatarY = -Infinity
     let _lastReportX = -Infinity, _lastReportY = -Infinity
+    let _lastIsNight = isNightRef.current  // for the day↔night transition chime
     // ── Animals (cats, dogs, birds, fish) ──────────────────────────────────────
     // Building roof ridges (top row of each building) are bird perch candidates.
     const animalRoofTiles: [number, number][] = []
@@ -2421,6 +2428,12 @@ export function HubTownCanvas({
           const newLoc = getNpcLocation(npc, gameHourRef.current)
           walkNamedNpc(npc, ws, container, newLoc)
         }
+      }
+
+      // Day↔night transition chime — fires once when the day phase flips.
+      if (isNightRef.current !== _lastIsNight) {
+        _lastIsNight = isNightRef.current
+        if (!interiorActive) emitSound('dayNightChime')
       }
 
       // Night dimming — canvas 2D destination-out digs transparent torch-light holes.

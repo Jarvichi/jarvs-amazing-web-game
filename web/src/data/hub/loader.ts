@@ -69,6 +69,10 @@ export interface HubInterior {
   wallMaterial?: WallMaterial
   exits?: HubInteriorExit[]
   hours?: { open: number; close: number } | 'always'
+  /** Interior music track id (BUILDING_MUSIC_TRACKS) — swaps town theme while inside. */
+  musicId?: string
+  /** Ambiance bed id (AMBIANCE_TRACKS) — layered under the music while inside. */
+  ambianceId?: string
 }
 
 /** Visible activity an NPC performs while at a scheduled location. */
@@ -451,6 +455,8 @@ const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
         }),
         exits: ((rawAny.exits ?? []) as HubInteriorExit[]),
         hours: rawAny.hours as HubInterior['hours'],
+        musicId:    rawAny.musicId as string | undefined,
+        ambianceId: rawAny.ambianceId as string | undefined,
       } satisfies HubInterior,
     ]
   })
