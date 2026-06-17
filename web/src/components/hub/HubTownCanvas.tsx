@@ -1905,7 +1905,7 @@ export function HubTownCanvas({
     const SLOT_STAGGER_MS   = 4_000
     const MAX_BUBBLES       = 3
 
-    interface BubbleSlot { container: PIXI.Container; timer: number; phase: 'showing' | 'fading' }
+    interface BubbleSlot { container: PIXI.Container; timer: number; phase: 'showing' | 'fading'; npcId: string }
     const activeBubbles: BubbleSlot[] = []
     let lastMovedMs    = performance.now()
     let nextSpawnTimer = 0
@@ -2472,7 +2472,7 @@ export function HubTownCanvas({
       const _nh = getGameHour()
       const _nm = getGameMinute()
       let nightAlpha: number
-      if (_nh >= 20 || _nh < 5) {
+      if (_nh >= 20 || _nh < 5 || (_nh === 5 && _nm < 30)) {
         nightAlpha = 1.0
       } else if (_nh === 19 && _nm >= 30) {
         nightAlpha = (_nm - 30) / 30
@@ -2638,7 +2638,7 @@ export function HubTownCanvas({
               const line = npc.dialogue[didx % npc.dialogue.length]
               const container = createSpeechBubble(line, cx, cy)
               bubbleLayer.addChild(container)
-              activeBubbles.push({ container, timer: BUBBLE_SHOW_MS, phase: 'showing' })
+              activeBubbles.push({ container, timer: BUBBLE_SHOW_MS, phase: 'showing', npcId: npc.id })
             }
             nextSpawnTimer = SLOT_STAGGER_MS
           }
@@ -2646,6 +2646,12 @@ export function HubTownCanvas({
 
         for (let i = activeBubbles.length - 1; i >= 0; i--) {
           const slot = activeBubbles[i]
+          // Drop the bubble at once if its NPC has walked indoors (sprite hidden).
+          if (namedNpcContainers.get(slot.npcId)?.visible === false) {
+            bubbleLayer.removeChild(slot.container)
+            activeBubbles.splice(i, 1)
+            continue
+          }
           slot.timer -= ticker.deltaMS
           if (slot.phase === 'showing' && slot.timer <= 0) {
             slot.phase = 'fading'; slot.timer = BUBBLE_FADE_MS
