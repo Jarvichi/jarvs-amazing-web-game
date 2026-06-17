@@ -229,7 +229,8 @@ export function playFruitMachineLose() {
 }
 
 export function playMapFootstep() {
-  zzfxPlay([.35, .15, 100, 0, .01, .14, 0, 1, -80, 0, 0, 0, 0, .55])
+  zzfxPlay([.5, .05, 120, 0, .02, .1, 0, 1, -20, 0, 0, 0, 0, .05])
+  setTimeout(() => zzfxPlay([.4, .05, 80, 0, .01, .08, 2, 1, 0, 0, 0, 0, 0, 0]), 20)
 }
 
 let _lastHubStepMs = 0
@@ -237,7 +238,8 @@ export function playHubFootstep() {
   const now2 = Date.now()
   if (now2 - _lastHubStepMs < 180) return
   _lastHubStepMs = now2
-  zzfxPlay([.25, .18, 120, 0, .01, .1, 0, 1, -60, 0, 0, 0, 0, .45])
+  zzfxPlay([.35, .05, 150, 0, .015, .07, 0, 1, -10, 0, 0, 0, 0, .02])
+  setTimeout(() => zzfxPlay([.25, .05, 90, 0, .01, .05, 0, 1, 0, 0, 0, 0, 0, 0]), 20)
 }
 
 export function playPickup() {
