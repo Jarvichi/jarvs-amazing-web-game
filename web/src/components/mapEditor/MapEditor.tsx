@@ -32,10 +32,10 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
   const drawerDragRef = useRef<{ startY: number; startH: number } | null>(null)
 
   const {
-    state, setMapId, setTool, setActiveTile, setZlayer,
+    state, setMapId, setTool, setActiveTile, setZlayer, setActiveLevel,
     openInterior, closeInterior, selectEntity,
     placeDecor, moveEntity, deleteEntity,
-    updateDecorZlayer, updateGlow, addNpc, updateNpcDialogue, updateNpc,
+    updateDecorZlayer, updateGlow, updateDecorMinLevel, updateBuilding, addNpc, updateNpcDialogue, updateNpc,
     addAnimal, updateAnimal,
     updateTreasure,
     updateArea, updateMapProps, resizeMap,
@@ -207,6 +207,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
             selectedEntity={state.selectedEntity}
             viewMode={state.viewMode}
             activeInteriorId={state.activeInteriorId}
+            activeLevel={state.activeLevel}
             activeTileId={state.activeTileId}
             activeBundleId={state.activeBundleId}
             activeZlayer={state.activeZlayer}
@@ -224,7 +225,11 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
               selectedEntity={state.selectedEntity}
               configData={state.configData}
               activeInteriorId={state.activeInteriorId}
+              activeLevel={state.activeLevel}
               viewMode={state.viewMode}
+              onSetActiveLevel={setActiveLevel}
+              onUpdateBuilding={updateBuilding}
+              onUpdateDecorMinLevel={updateDecorMinLevel}
               onDelete={handleDeleteEntity}
               onMoveEntity={handleMoveEntity}
               onZlayerChange={updateDecorZlayer}

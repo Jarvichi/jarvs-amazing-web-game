@@ -52,21 +52,22 @@ function expandEntries(entries: Array<{ rect?: number[]; tile?: number[] }>): [n
   return out
 }
 
-type FlatDecorItem = { tx: number; ty: number; tileId: string; zlayer: Zlayer; sourceIndex: number }
+type FlatDecorItem = { tx: number; ty: number; tileId: string; zlayer: Zlayer; sourceIndex: number; minLevel: number }
 
 function flattenDecor(items: RawDecorItem[]): FlatDecorItem[] {
   const out: FlatDecorItem[] = []
   items.forEach((item, sourceIndex) => {
     if (item.tx === undefined) return // comment-only entry
+    const minLevel = item.minLevel ?? 0
     if (item.bundleID) {
       const expanded = expandBundleDecor(item.bundleID, item.tx, item.ty ?? 0)
       expanded.forEach(e => {
         const tileKey = Object.keys(BASE_CHIP_TILES as Record<string, number>)
           .find(k => (BASE_CHIP_TILES as Record<string, number>)[k] === e.tileId) ?? ''
-        if (tileKey) out.push({ tx: e.tx, ty: e.ty, tileId: tileKey, zlayer: (e.zlayer as Zlayer) ?? 'solid', sourceIndex })
+        if (tileKey) out.push({ tx: e.tx, ty: e.ty, tileId: tileKey, zlayer: (e.zlayer as Zlayer) ?? 'solid', sourceIndex, minLevel })
       })
     } else if (item.tileId) {
-      out.push({ tx: item.tx, ty: item.ty ?? 0, tileId: item.tileId, zlayer: item.zlayer ?? 'solid', sourceIndex })
+      out.push({ tx: item.tx, ty: item.ty ?? 0, tileId: item.tileId, zlayer: item.zlayer ?? 'solid', sourceIndex, minLevel })
     }
   })
   return out
@@ -79,6 +80,7 @@ interface Props {
   selectedEntity:   SelectedEntity | null
   viewMode:         'exterior' | 'interior'
   activeInteriorId: string | null
+  activeLevel:      number
   activeTileId:     string | null
   activeBundleId:   string | null
   activeZlayer:     Zlayer
@@ -96,7 +98,7 @@ interface Props {
 
 export function MapEditorCanvas(props: Props) {
   const {
-    configData, tool, showGrid, selectedEntity, viewMode, activeInteriorId,
+    configData, tool, showGrid, selectedEntity, viewMode, activeInteriorId, activeLevel,
     activeTileId, activeBundleId, activeZlayer, showQuestItems, showBlockedPaths, showAreas, blockedPaths, questPickupItems,
     onSelectEntity, onPlaceDecor, onMoveEntity, onDeleteEntity, onAddStreet,
   } = props
@@ -344,6 +346,12 @@ export function MapEditorCanvas(props: Props) {
     // Exterior decor tiles
     renderDecorItems(version, flattenDecor(configData.exteriorDecor ?? []),
                      decorBLayer, decorLayer, decorALayer, 'exteriorDecor', '', selLayer)
+
+    // Per-building level decor (revealed by upgrade level; dimmed above active level)
+    buildings.forEach((b, bIdx) => {
+      renderBuildingLevelDecor(version, bIdx, flattenDecor(b.levelDecor ?? []),
+                               decorBLayer, decorLayer, decorALayer, selLayer)
+    })
 
     // NPCs
     const npcs = configData.npcs ?? []
@@ -604,12 +612,22 @@ export function MapEditorCanvas(props: Props) {
     ;(configData.npcs ?? []).forEach((npc, nIdx) => {
       if (npc.building !== iid) return
       const isSel = selectedEntity?.type === 'npc' && selectedEntity.index === nIdx
+      const dimmed = (npc.minLevel ?? 0) > activeLevel  // NPC only present at a higher upgrade level
       loadSpriteTexture(npc.sprite).then(tex => {
         if (renderVersionRef.current !== version) return
         const sp = new PIXI.Sprite(tex)
         sp.width = T * 1.5; sp.height = T * 1.5
         sp.x = npc.tx * T - T * 0.25
         sp.y = npc.ty * T - T * 0.5
+        if (dimmed) sp.alpha = 0.3
+        sp.eventMode = 'static'; sp.cursor = 'pointer'
+        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+          e.stopPropagation()
+          const entity: SelectedEntity = { type: 'npc', index: nIdx }
+          propsRef.current.onSelectEntity(entity)
+          if (propsRef.current.tool === 'select')
+            dragRef.current = { entity, lastTx: npc.tx, lastTy: npc.ty, offsetX: 0, offsetY: 0 }
+        })
         if (isSel) selLayer.rect(sp.x - 2, sp.y - 2, sp.width + 4, sp.height + 4).stroke({ color: 0xf0c040, width: 2 })
         npcLayer.addChild(sp)
       }).catch(() => {
@@ -701,9 +719,10 @@ export function MapEditorCanvas(props: Props) {
     interiorId: string,
     selLayer: PIXI.Graphics,
   ) {
-    items.forEach(({ tx, ty, tileId, zlayer, sourceIndex }) => {
+    items.forEach(({ tx, ty, tileId, zlayer, sourceIndex, minLevel }) => {
       const numId = tileNumericId(tileId)
       const layer = zlayer === 'below' ? decorBLayer : zlayer === 'above' ? decorALayer : decorLayer
+      const dimmed = minLevel > activeLevel  // decor that only appears at a higher upgrade level
       const isSel = selectedEntity?.type === entityType &&
         (entityType === 'exteriorDecor'
           ? (selectedEntity as { index: number }).index === sourceIndex
@@ -714,6 +733,7 @@ export function MapEditorCanvas(props: Props) {
         if (renderVersionRef.current !== version) return
         const sp = new PIXI.Sprite(tex)
         sp.x = tx * T; sp.y = ty * T
+        if (dimmed) sp.alpha = 0.3
         sp.eventMode = 'static'; sp.cursor = 'pointer'
         sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
           e.stopPropagation()
@@ -733,6 +753,48 @@ export function MapEditorCanvas(props: Props) {
         if (renderVersionRef.current !== version) return
         const g = new PIXI.Graphics()
         g.rect(tx * T + 4, ty * T + 4, T - 8, T - 8).fill(0x884422)
+        layer.addChild(g)
+      })
+    })
+  }
+
+  // ── Building level-decor rendering (exterior, per-building, level-gated) ───────
+  function renderBuildingLevelDecor(
+    version: number,
+    buildingIndex: number,
+    items: FlatDecorItem[],
+    decorBLayer: PIXI.Container, decorLayer: PIXI.Container, decorALayer: PIXI.Container,
+    selLayer: PIXI.Graphics,
+  ) {
+    items.forEach(({ tx, ty, tileId, zlayer, sourceIndex, minLevel }) => {
+      const numId = tileNumericId(tileId)
+      const layer = zlayer === 'below' ? decorBLayer : zlayer === 'above' ? decorALayer : decorLayer
+      const dimmed = minLevel > activeLevel
+      const isSel = selectedEntity?.type === 'buildingLevelDecor'
+        && selectedEntity.buildingIndex === buildingIndex && selectedEntity.index === sourceIndex
+      const entity: SelectedEntity = { type: 'buildingLevelDecor', buildingIndex, index: sourceIndex }
+
+      loadTileRef(numId).then(tex => {
+        if (renderVersionRef.current !== version) return
+        const sp = new PIXI.Sprite(tex)
+        sp.x = tx * T; sp.y = ty * T
+        if (dimmed) sp.alpha = 0.3
+        sp.eventMode = 'static'; sp.cursor = 'pointer'
+        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+          e.stopPropagation()
+          propsRef.current.onSelectEntity(entity)
+          if (propsRef.current.tool === 'select')
+            dragRef.current = { entity, lastTx: tx, lastTy: ty, offsetX: 0, offsetY: 0 }
+        })
+        if (isSel) {
+          selLayer.rect(tx * T - 1, ty * T - 1, T + 2, T + 2).stroke({ color: 0xf0c040, width: 2 })
+        }
+        layer.addChild(sp)
+      }).catch(() => {
+        if (renderVersionRef.current !== version) return
+        const g = new PIXI.Graphics()
+        g.rect(tx * T + 4, ty * T + 4, T - 8, T - 8).fill(0x884422)
+        if (dimmed) g.alpha = 0.3
         layer.addChild(g)
       })
     })

@@ -8,6 +8,12 @@ import { NpcSpritePicker, AnimalTypePicker } from './SpritePicker'
 import { ANIMAL_SPECS } from '../../game/hub/animals'
 import type { AnimalType } from '../../game/hub/animals'
 import { BUILDING_MUSIC_IDS, AMBIANCE_IDS } from '../../game/sound'
+import { getUpgradeTrack } from '../../data/hub/buildingUpgrades'
+
+/** Highest upgrade level a building can reach: explicit maxLevel, else its kind track length. */
+function buildingMaxLevel(building: RawBuilding): number {
+  return building.maxLevel ?? getUpgradeTrack(building.upgradeKind).length
+}
 
 const FLOOR_TILES = [
   'woodFloor', 'stoneFloor', 'cobblestoneFloor', 'quarteredFloor', 'checkeredFloor',
@@ -36,6 +42,10 @@ interface Props {
   selectedEntity:   SelectedEntity | null
   configData:       RawMapConfig
   activeInteriorId: string | null
+  activeLevel:      number
+  onSetActiveLevel:      (level: number) => void
+  onUpdateBuilding:      (index: number, patch: Partial<RawBuilding>) => void
+  onUpdateDecorMinLevel: (entity: SelectedEntity, minLevel: number | undefined) => void
   onDelete:              (entity: SelectedEntity) => void
   onMoveEntity:          (entity: SelectedEntity, tx: number, ty: number) => void
   onZlayerChange:        (entity: SelectedEntity, z: Zlayer) => void
@@ -205,6 +215,25 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   )
 }
 
+// Upgrade-level selector. Stepping it changes which level the canvas previews
+// and which level newly-placed decor is tagged with.
+function LevelStepper({ level, max, onChange }: { level: number; max: number; onChange: (n: number) => void }) {
+  const btn: React.CSSProperties = {
+    padding: '2px 9px', fontSize: 13, cursor: 'pointer', borderRadius: 3,
+    background: '#1a2030', border: '1px solid #2a3050', color: '#88aaee', lineHeight: 1.2,
+  }
+  const disabled: React.CSSProperties = { ...btn, opacity: 0.35, cursor: 'default' }
+  return (
+    <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+      <button style={level <= 0 ? disabled : btn} disabled={level <= 0} onClick={() => onChange(level - 1)}>−</button>
+      <span style={{ fontFamily: 'monospace', fontSize: 12, color: level > 0 ? '#f0c040' : '#aaa', minWidth: 54, textAlign: 'center' }}>
+        {level === 0 ? 'base' : `level ${level}`} / {max}
+      </span>
+      <button style={level >= max ? disabled : btn} disabled={level >= max} onClick={() => onChange(level + 1)}>+</button>
+    </div>
+  )
+}
+
 function numInput(value: number, onChange: (v: number) => void) {
   return (
     <input
@@ -253,7 +282,7 @@ function GlowControls({ glow, glowRadius, pulse, onChange }: {
 }
 
 function DecorInspector({
-  item, entity, onMove, onZlayer, onGlow, onDelete,
+  item, entity, onMove, onZlayer, onGlow, onDelete, onMinLevel, maxLevel,
 }: {
   item: RawDecorItem
   entity: SelectedEntity
@@ -261,12 +290,27 @@ function DecorInspector({
   onZlayer: (z: Zlayer) => void
   onGlow?: (patch: GlowPatch) => void
   onDelete: () => void
+  onMinLevel?: (minLevel: number | undefined) => void
+  maxLevel?: number
 }) {
   return (
     <div>
       <Field label="Tile">
         {item.tileId ? <TilePreview tileId={item.tileId} /> : <span style={{ color: '#aaa' }}>{item.bundleID ?? '—'}</span>}
       </Field>
+      {onMinLevel && (
+        <Field label="Appears at level">
+          <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+            <input
+              type="number" min={0} max={maxLevel ?? 9}
+              value={item.minLevel ?? 0}
+              onChange={e => onMinLevel(Number(e.target.value))}
+              style={{ width: 56, padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 12 }}
+            />
+            <span style={{ fontSize: 10, color: '#666' }}>0 = always visible</span>
+          </div>
+        </Field>
+      )}
       <Field label="Position">
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
           <label style={{ fontSize: 11, color: '#888' }}>X</label>
@@ -348,6 +392,25 @@ function NpcInspector({
           }}
         />
         <div style={{ color: '#666', fontSize: 10, marginTop: 2 }}>One line = one dialogue entry</div>
+      </Field>
+      <Field label="Min Building Level">
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <input
+            type="number" min={0}
+            value={npc.minLevel ?? 0}
+            onChange={e => {
+              const v = Math.max(0, Number(e.target.value))
+              onUpdate({ minLevel: v > 0 ? v : undefined })
+            }}
+            style={{ width: 56, padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 12 }}
+          />
+          <span style={{ fontSize: 10, color: '#666' }}>0 = always present</span>
+        </div>
+        {npc.building && (npc.questGive || npc.questReceive) && (npc.minLevel ?? 0) > 0 && (
+          <div style={{ color: '#c97', fontSize: 10, marginTop: 3 }}>
+            Quests on this NPC are only obtainable once the building reaches level {npc.minLevel}.
+          </div>
+        )}
       </Field>
       <button
         onClick={onDelete}
@@ -612,9 +675,14 @@ function StreetInspector({
 }
 
 function BuildingInspector({
-  building, onOpenInterior, interiorIds, existingInteriorIds, onAddInterior,
+  building, buildingIndex, activeLevel, onSetActiveLevel, onUpdateBuilding,
+  onOpenInterior, interiorIds, existingInteriorIds, onAddInterior,
 }: {
   building: RawBuilding
+  buildingIndex: number
+  activeLevel: number
+  onSetActiveLevel: (level: number) => void
+  onUpdateBuilding: (index: number, patch: Partial<RawBuilding>) => void
   onOpenInterior: (id: string) => void
   interiorIds: string[]
   existingInteriorIds: string[]
@@ -692,6 +760,34 @@ function BuildingInspector({
           <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{building.roof}</span>
         </Field>
       )}
+
+      {/* ── Upgrade levels ─────────────────────────────────────────────── */}
+      <div style={{ borderTop: '1px solid #333', marginTop: 4, paddingTop: 10 }}>
+        <Field label="Upgrade Kind">
+          <input
+            value={building.upgradeKind ?? ''}
+            onChange={e => onUpdateBuilding(buildingIndex, { upgradeKind: e.target.value || undefined })}
+            placeholder="shop / inn / tavern / …"
+            style={inputStyle}
+          />
+        </Field>
+        <Field label="Max Level">
+          <input
+            type="number" min={0}
+            value={building.maxLevel ?? buildingMaxLevel(building)}
+            onChange={e => onUpdateBuilding(buildingIndex, { maxLevel: Math.max(0, Number(e.target.value)) })}
+            style={numStyle}
+          />
+        </Field>
+        <Field label="Editing Level">
+          <LevelStepper level={activeLevel} max={buildingMaxLevel(building)} onChange={onSetActiveLevel} />
+        </Field>
+        <div style={{ color: '#777', fontSize: 10, marginBottom: 8 }}>
+          {(building.levelDecor ?? []).filter(d => (d.minLevel ?? 0) === activeLevel).length} decor item(s) added at {activeLevel === 0 ? 'base' : `level ${activeLevel}`}.
+          {' '}Pick a tile and use the Place tool to add decor for this level. Items from lower levels stay visible; higher-level items are dimmed.
+        </div>
+      </div>
+
       <Field label="Interiors">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
           {interiorIds.map(id => (
@@ -762,6 +858,7 @@ function BuildingInspector({
 
 function InteriorInspector({
   interiorId, interior, selectedEntity, allInteriors,
+  activeLevel, levelMax, onSetActiveLevel, onUpdateDecorMinLevel,
   panelStyle, headerStyle, bodyStyle,
   onCloseInterior, onOpenInterior, onResizeInterior,
   onAddInteriorExit, onUpdateInteriorProps, onUpdateInteriorExit, onRemoveInteriorExit,
@@ -771,6 +868,10 @@ function InteriorInspector({
   interior: RawInterior | undefined
   selectedEntity: SelectedEntity | null
   allInteriors: Record<string, RawInterior>
+  activeLevel: number
+  levelMax: number
+  onSetActiveLevel: (level: number) => void
+  onUpdateDecorMinLevel: (entity: SelectedEntity, minLevel: number | undefined) => void
   panelStyle: React.CSSProperties
   headerStyle: React.CSSProperties
   bodyStyle: React.CSSProperties
@@ -910,6 +1011,12 @@ function InteriorInspector({
                 {AMBIANCE_IDS.map(id => <option key={id} value={id}>{id}</option>)}
               </select>
             </Field>
+            <Field label="Editing Level">
+              <LevelStepper level={activeLevel} max={levelMax} onChange={onSetActiveLevel} />
+              <div style={{ color: '#777', fontSize: 10, marginTop: 4 }}>
+                Decor, rooms & NPCs tagged above this level are dimmed. New decor placed now is tagged with {activeLevel === 0 ? 'base' : `level ${activeLevel}`}.
+              </div>
+            </Field>
             <Field label="Decor items"><span style={{ color: '#aaa' }}>{interior.decor.length} items</span></Field>
 
             {/* Exits */}
@@ -938,6 +1045,21 @@ function InteriorInspector({
                           <label style={{ color: '#888', fontSize: 9 }}>Y</label>
                           <input type="number" value={exit.ty} min={0} onChange={e => onUpdateInteriorExit(interiorId, i, { ty: Number(e.target.value) })} style={{ ...numSm, width: 36 }} />
                         </div>
+                      )}
+                      <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginTop: 3, paddingLeft: 2 }}>
+                        <label style={{ color: '#888', fontSize: 9 }} title="Room unavailable below this upgrade level">Min level</label>
+                        <input
+                          type="number" min={0} max={levelMax}
+                          value={exit.minLevel ?? 0}
+                          onChange={e => {
+                            const v = Math.max(0, Number(e.target.value))
+                            onUpdateInteriorExit(interiorId, i, { minLevel: v > 0 ? v : undefined })
+                          }}
+                          style={{ ...numSm, width: 36 }}
+                        />
+                      </div>
+                      {(exit.minLevel ?? 0) > activeLevel && (
+                        <div style={{ color: '#c97', fontSize: 9, paddingLeft: 2, marginTop: 2 }}>locked at current level</div>
                       )}
                     </div>
                   )
@@ -1019,6 +1141,8 @@ function InteriorInspector({
             <DecorInspector
               item={interior.decor[selectedEntity.index]}
               entity={selectedEntity}
+              maxLevel={levelMax}
+              onMinLevel={ml => onUpdateDecorMinLevel(selectedEntity, ml)}
               onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
               onZlayer={z => onZlayerChange(selectedEntity, z)}
               onDelete={() => onDelete(selectedEntity)}
@@ -1230,7 +1354,8 @@ function TownInspector({
 }
 
 export function EntityInspector({
-  selectedEntity, configData, activeInteriorId, viewMode,
+  selectedEntity, configData, activeInteriorId, activeLevel, viewMode,
+  onSetActiveLevel, onUpdateBuilding, onUpdateDecorMinLevel,
   onDelete, onMoveEntity, onZlayerChange, onUpdateGlow, onUpdatePickupGlow, onDialogueChange,
   onOpenInterior, onCloseInterior, onUpdateStreetEntry,
   onResizeInterior, onAddInterior, onAddInteriorExit, onUpdateInteriorProps, onUpdateInteriorExit,
@@ -1263,6 +1388,13 @@ export function EntityInspector({
 
   if (viewMode === 'interior' && activeInteriorId && !isQuestItemSelected) {
     const interior = configData.interiors?.[activeInteriorId]
+    // Resolve the owning building so the level stepper matches what's reachable in-game.
+    const ownerBuilding = (configData.buildings ?? []).find(b => {
+      if (!b.id) return false
+      if (activeInteriorId === b.id || activeInteriorId.startsWith(b.id)) return true
+      return (b.doors ?? []).some(d => d.buildingId === activeInteriorId)
+    })
+    const levelMax = ownerBuilding ? buildingMaxLevel(ownerBuilding) : 3
     return (
       <InteriorInspector
         key={activeInteriorId}
@@ -1270,6 +1402,10 @@ export function EntityInspector({
         interior={interior}
         selectedEntity={selectedEntity}
         allInteriors={configData.interiors ?? {}}
+        activeLevel={activeLevel}
+        levelMax={levelMax}
+        onSetActiveLevel={onSetActiveLevel}
+        onUpdateDecorMinLevel={onUpdateDecorMinLevel}
         panelStyle={panelStyle}
         headerStyle={headerStyle}
         bodyStyle={bodyStyle}
@@ -1319,6 +1455,29 @@ export function EntityInspector({
           <DecorInspector
             item={item}
             entity={selectedEntity}
+            onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
+            onZlayer={z => onZlayerChange(selectedEntity, z)}
+            onGlow={onUpdateGlow ? patch => onUpdateGlow(selectedEntity, patch) : undefined}
+            onDelete={() => onDelete(selectedEntity)}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  if (selectedEntity.type === 'buildingLevelDecor') {
+    const building = (configData.buildings ?? [])[selectedEntity.buildingIndex]
+    const item = building?.levelDecor?.[selectedEntity.index]
+    if (!item) return null
+    return (
+      <div style={panelStyle}>
+        <div style={headerStyle}>Level Decor — {building?.id ?? `#${selectedEntity.buildingIndex}`}</div>
+        <div style={bodyStyle}>
+          <DecorInspector
+            item={item}
+            entity={selectedEntity}
+            maxLevel={building ? buildingMaxLevel(building) : undefined}
+            onMinLevel={ml => onUpdateDecorMinLevel(selectedEntity, ml)}
             onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
             onZlayer={z => onZlayerChange(selectedEntity, z)}
             onGlow={onUpdateGlow ? patch => onUpdateGlow(selectedEntity, patch) : undefined}
@@ -1457,6 +1616,10 @@ export function EntityInspector({
         <div style={bodyStyle}>
           <BuildingInspector
             building={building}
+            buildingIndex={selectedEntity.index}
+            activeLevel={activeLevel}
+            onSetActiveLevel={onSetActiveLevel}
+            onUpdateBuilding={onUpdateBuilding}
             onOpenInterior={onOpenInterior}
             interiorIds={interiorIds}
             existingInteriorIds={Object.keys(configData.interiors ?? {})}
