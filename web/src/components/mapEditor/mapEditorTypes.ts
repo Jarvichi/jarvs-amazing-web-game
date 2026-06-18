@@ -19,6 +19,7 @@ export interface RawDecorItem {
   glow?: boolean        // emit a night light glow
   glowRadius?: number   // glow radius in tiles
   pulse?: boolean       // animate the glow radius
+  minLevel?: number     // building upgrade level at which this decor first appears (0/undefined = base)
 }
 
 export interface RawBuildingDoor {
@@ -43,6 +44,9 @@ export interface RawBuilding {
   doors?: RawBuildingDoor[]
   windows?: RawBuildingWindow[]
   decor?: RawDecorItem[]
+  upgradeKind?: string         // shared upgrade track key (shop/inn/…) — drives costs & default decor
+  maxLevel?: number            // highest upgrade level this building can reach (defaults to its track length)
+  levelDecor?: RawDecorItem[]  // per-building exterior decor revealed by upgrade level (each item carries minLevel)
 }
 
 export interface RawAnimal {
@@ -71,6 +75,7 @@ export interface RawNpc {
   questGive?: string
   questReceive?: string | string[]
   isGhost?: boolean
+  minLevel?: number   // building upgrade level at which this NPC first appears (0/undefined = always)
   schedule?: Array<{
     startHour: number
     endHour: number
@@ -103,6 +108,7 @@ export interface RawInterior {
     direction?: 'up' | 'down' | 'left' | 'right' | 'front' | 'back'
     lockedBy?: string
     requiredQuest?: string
+    minLevel?: number   // building upgrade level required before this room/exit is available (0/undefined = always)
     label?: string
   }>
 }
@@ -170,6 +176,7 @@ export type SelectedEntity =
   | { type: 'exteriorDecor'; index: number }
   | { type: 'npc'; index: number }
   | { type: 'building'; index: number }
+  | { type: 'buildingLevelDecor'; buildingIndex: number; index: number }
   | { type: 'street'; index: number }
   | { type: 'treasure'; index: number }
   | { type: 'pickupItem'; index: number }
@@ -188,6 +195,7 @@ export interface MapEditorState {
   activeZlayer: Zlayer
   viewMode: ViewMode
   activeInteriorId: string | null
+  activeLevel: number
   selectedEntity: SelectedEntity | null
   undoStack: RawMapConfig[]
   redoStack: RawMapConfig[]

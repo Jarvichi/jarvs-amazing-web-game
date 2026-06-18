@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import type { RawMapConfig, RawNpc, RawAnimal, RawInterior, RawLockedDoor, SelectedEntity, ToolMode, Zlayer, MapEditorState } from './mapEditorTypes'
+import type { RawMapConfig, RawNpc, RawAnimal, RawInterior, RawBuilding, RawDecorItem, RawLockedDoor, SelectedEntity, ToolMode, Zlayer, MapEditorState } from './mapEditorTypes'
 
 type InteriorExit = NonNullable<RawInterior['exits']>[number]
 import hubConfig from '../../data/hub/ravenwatch/config.json'
@@ -45,6 +45,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     activeZlayer:     'solid',
     viewMode:         'exterior',
     activeInteriorId: null,
+    activeLevel:      0,
     selectedEntity:   null,
     undoStack:        [],
     redoStack:        [],
@@ -59,10 +60,15 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
       selectedEntity:   null,
       viewMode:         'exterior',
       activeInteriorId: null,
+      activeLevel:      0,
       undoStack:        [],
       redoStack:        [],
       isDirty:          false,
     }))
+  }, [])
+
+  const setActiveLevel = useCallback((activeLevel: number) => {
+    setState(s => ({ ...s, activeLevel: Math.max(0, activeLevel) }))
   }, [])
 
   const setTool = useCallback((tool: ToolMode) => {
@@ -83,11 +89,11 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
   }, [])
 
   const openInterior = useCallback((interiorId: string) => {
-    setState(s => ({ ...s, viewMode: 'interior', activeInteriorId: interiorId, selectedEntity: null }))
+    setState(s => ({ ...s, viewMode: 'interior', activeInteriorId: interiorId, activeLevel: 0, selectedEntity: null }))
   }, [])
 
   const closeInterior = useCallback(() => {
-    setState(s => ({ ...s, viewMode: 'exterior', activeInteriorId: null, selectedEntity: null }))
+    setState(s => ({ ...s, viewMode: 'exterior', activeInteriorId: null, activeLevel: 0, selectedEntity: null }))
   }, [])
 
   const selectEntity = useCallback((entity: SelectedEntity | null) => {
@@ -98,13 +104,26 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     setState(s => {
       if (!s.activeTileId && !s.activeBundleId) return s
       const prevConfig = s.configData
+      // Tag the item with the active level (cumulative reveal). Level 0 = base.
+      const levelTag = s.activeLevel > 0 ? { minLevel: s.activeLevel } : {}
       const newItem = s.activeBundleId
-        ? { tx, ty, bundleID: s.activeBundleId, zlayer: s.activeZlayer }
-        : { tx, ty, tileId: s.activeTileId!, zlayer: s.activeZlayer }
+        ? { tx, ty, bundleID: s.activeBundleId, zlayer: s.activeZlayer, ...levelTag }
+        : { tx, ty, tileId: s.activeTileId!, zlayer: s.activeZlayer, ...levelTag }
 
       let newConfig: RawMapConfig
       if (s.viewMode === 'exterior') {
-        newConfig = { ...prevConfig, exteriorDecor: [...(prevConfig.exteriorDecor ?? []), newItem] }
+        // When a building is selected, exterior decor belongs to that building's
+        // per-level decor (revealed by upgrade level). Otherwise it is ambient
+        // exterior decor with no level association.
+        if (s.selectedEntity?.type === 'building') {
+          const buildings = [...(prevConfig.buildings ?? [])]
+          const b = buildings[s.selectedEntity.index]
+          if (!b) return s
+          buildings[s.selectedEntity.index] = { ...b, levelDecor: [...(b.levelDecor ?? []), newItem] }
+          newConfig = { ...prevConfig, buildings }
+        } else {
+          newConfig = { ...prevConfig, exteriorDecor: [...(prevConfig.exteriorDecor ?? []), newItem] }
+        }
       } else if (s.viewMode === 'interior' && s.activeInteriorId) {
         const interior = prevConfig.interiors?.[s.activeInteriorId]
         if (!interior) return s
@@ -197,6 +216,14 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
         if (!areas[entity.index]) return s
         areas[entity.index] = { ...areas[entity.index], tx, ty }
         newConfig = { ...prevConfig, areas }
+      } else if (entity.type === 'buildingLevelDecor') {
+        const buildings = [...(prevConfig.buildings ?? [])]
+        const b = buildings[entity.buildingIndex]
+        if (!b?.levelDecor?.[entity.index]) return s
+        const levelDecor = [...b.levelDecor]
+        levelDecor[entity.index] = { ...levelDecor[entity.index], tx, ty }
+        buildings[entity.buildingIndex] = { ...b, levelDecor }
+        newConfig = { ...prevConfig, buildings }
       } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
         const interior = prevConfig.interiors[entity.interiorId]
         const decor = [...interior.decor]
@@ -238,6 +265,11 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
         newConfig = { ...prevConfig, treasures: (prevConfig.treasures ?? []).filter((_, i) => i !== entity.index) }
       } else if (entity.type === 'pickupItem') {
         newConfig = { ...prevConfig, pickupItems: (prevConfig.pickupItems ?? []).filter((_, i) => i !== entity.index) }
+      } else if (entity.type === 'buildingLevelDecor' && prevConfig.buildings?.[entity.buildingIndex]?.levelDecor) {
+        const buildings = [...prevConfig.buildings]
+        const b = buildings[entity.buildingIndex]
+        buildings[entity.buildingIndex] = { ...b, levelDecor: (b.levelDecor ?? []).filter((_, i) => i !== entity.index) }
+        newConfig = { ...prevConfig, buildings }
       } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
         const interior = prevConfig.interiors[entity.interiorId]
         newConfig = {
@@ -271,6 +303,14 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
         if (!decor[entity.index]) return s
         decor[entity.index] = { ...decor[entity.index], zlayer }
         newConfig = { ...prevConfig, exteriorDecor: decor }
+      } else if (entity.type === 'buildingLevelDecor' && prevConfig.buildings?.[entity.buildingIndex]?.levelDecor) {
+        const buildings = [...prevConfig.buildings]
+        const b = buildings[entity.buildingIndex]
+        const levelDecor = [...(b.levelDecor ?? [])]
+        if (!levelDecor[entity.index]) return s
+        levelDecor[entity.index] = { ...levelDecor[entity.index], zlayer }
+        buildings[entity.buildingIndex] = { ...b, levelDecor }
+        newConfig = { ...prevConfig, buildings }
       } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
         const interior = prevConfig.interiors[entity.interiorId]
         const decor = [...interior.decor]
@@ -304,6 +344,14 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
         if (!decor[entity.index]) return s
         decor[entity.index] = { ...decor[entity.index], ...patch }
         newConfig = { ...prevConfig, exteriorDecor: decor }
+      } else if (entity.type === 'buildingLevelDecor' && prevConfig.buildings?.[entity.buildingIndex]?.levelDecor) {
+        const buildings = [...prevConfig.buildings]
+        const b = buildings[entity.buildingIndex]
+        const levelDecor = [...(b.levelDecor ?? [])]
+        if (!levelDecor[entity.index]) return s
+        levelDecor[entity.index] = { ...levelDecor[entity.index], ...patch }
+        buildings[entity.buildingIndex] = { ...b, levelDecor }
+        newConfig = { ...prevConfig, buildings }
       } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
         const interior = prevConfig.interiors[entity.interiorId]
         const decor = [...interior.decor]
@@ -319,6 +367,64 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
       return {
         ...s,
         configData: newConfig,
+        undoStack:  [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack:  [],
+        isDirty:    true,
+      }
+    })
+  }, [])
+
+  // Patch the minLevel of a level-aware decor item (building level-decor or interior decor).
+  const updateDecorMinLevel = useCallback((entity: SelectedEntity, minLevel: number | undefined) => {
+    setState(s => {
+      const prevConfig = s.configData
+      let newConfig = prevConfig
+      const clean = (item: RawDecorItem): RawDecorItem => {
+        const next = { ...item, minLevel }
+        if (minLevel === undefined || minLevel <= 0) delete next.minLevel
+        return next
+      }
+
+      if (entity.type === 'buildingLevelDecor' && prevConfig.buildings?.[entity.buildingIndex]?.levelDecor) {
+        const buildings = [...prevConfig.buildings]
+        const b = buildings[entity.buildingIndex]
+        const levelDecor = [...(b.levelDecor ?? [])]
+        if (!levelDecor[entity.index]) return s
+        levelDecor[entity.index] = clean(levelDecor[entity.index])
+        buildings[entity.buildingIndex] = { ...b, levelDecor }
+        newConfig = { ...prevConfig, buildings }
+      } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
+        const interior = prevConfig.interiors[entity.interiorId]
+        const decor = [...interior.decor]
+        if (!decor[entity.index]) return s
+        decor[entity.index] = clean(decor[entity.index])
+        newConfig = {
+          ...prevConfig,
+          interiors: { ...prevConfig.interiors, [entity.interiorId]: { ...interior, decor } },
+        }
+      }
+
+      if (newConfig === prevConfig) return s
+      return {
+        ...s,
+        configData: newConfig,
+        undoStack:  [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack:  [],
+        isDirty:    true,
+      }
+    })
+  }, [])
+
+  // Patch building-level fields (upgradeKind / maxLevel) on a building.
+  const updateBuilding = useCallback((index: number, patch: Partial<RawBuilding>) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const buildings = [...(prevConfig.buildings ?? [])]
+      if (!buildings[index]) return s
+      buildings[index] = { ...buildings[index], ...patch }
+      return {
+        ...s,
+        configData: { ...prevConfig, buildings },
         undoStack:  [...s.undoStack, prevConfig].slice(-MAX_UNDO),
         redoStack:  [],
         isDirty:    true,
@@ -848,6 +954,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     setTool,
     setActiveTile,
     setZlayer,
+    setActiveLevel,
     openInterior,
     closeInterior,
     selectEntity,
@@ -856,6 +963,8 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     deleteEntity,
     updateDecorZlayer,
     updateGlow,
+    updateDecorMinLevel,
+    updateBuilding,
     addNpc,
     updateNpcDialogue,
     updateNpc,
