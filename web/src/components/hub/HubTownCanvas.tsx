@@ -16,7 +16,7 @@ import { createChunkCuller } from '../../utils/chunkCull'
 import { CommanderState } from '../../game/commander'
 import rollbar from '../../rollbar'
 import { HubInteractable, HubInteriorExit, HubLocationBundle, HubNpc, HubQuestBundle, HubStreetGroup, NpcScheduleEntry } from '../../data/hub/loader'
-import { createAnimalSystem, AnimalSystem } from './hubAnimals'
+import { createAnimalSystem, AnimalSystem, GlowSource } from './hubAnimals'
 import { createWeatherSystem } from './hubWeather'
 import { resolveWeather } from '../../game/hub/weather'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
@@ -225,6 +225,10 @@ export function HubTownCanvas({
     // Keyed by pickupId; used to imperatively show/hide sprites when items are collected
     const pickupSprites  = new Map<string, PIXI.Sprite>()
     const pickupQuestIds = new Map<string, string>()  // pickupId → questId, for ticker gating
+
+    // Night-glow sources flagged on decor / quest items (carved by the night overlay).
+    const decorGlows:  GlowSource[] = []                                       // static world positions
+    const pickupGlows: { id: string; radius: number; pulse: boolean }[] = []   // looked up live (skip collected)
 
     const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
 
@@ -438,6 +442,7 @@ export function HubTownCanvas({
         const list = map.get(d.tileId) ?? []
         list.push([d.tx, d.ty])
         map.set(d.tileId, list)
+        if (d.glow) decorGlows.push({ x: d.tx * T + T / 2, y: d.ty * T + T / 2, radius: (d.glowRadius ?? 2) * T, pulse: !!d.pulse })
       }
       for (const [tileId, positions] of extNormal) {
         loadTileRef(tileId).then(tex => {
@@ -811,6 +816,7 @@ export function HubTownCanvas({
             }
             pickupLayer.addChild(s)
             pickupSprites.set(pickup.id, s)
+            if (pickup.glow) pickupGlows.push({ id: pickup.id, radius: (pickup.glowRadius ?? 2) * T, pulse: !!pickup.pulse })
           }
         }).catch(() => {})
       }
@@ -2489,10 +2495,16 @@ export function HubTownCanvas({
       if (nightAlpha > 0 && !interiorActive && avatar) {
         nightSprite.visible = true
         const _anyNpcWalking = unitNpcs.some(n => n.isWalking)
+        // Fireflies and pulsing decor/item glows animate, so they must force a
+        // redraw every frame (fireflies also drift). Computed once, reused below.
+        const _fireflyGlows = animalSystem.getGlowSources()
+        const _hasDynamicGlow = _fireflyGlows.length > 0
+          || decorGlows.some(g => g.pulse) || pickupGlows.some(p => p.pulse)
         const _nightDirty = nightAlpha !== _lastNightAlpha
           || Math.abs(avatar.x - _lastNightAvatarX) > 0.5
           || Math.abs(avatar.y - _lastNightAvatarY) > 0.5
           || _anyNpcWalking
+          || _hasDynamicGlow
         if (!_nightDirty) { /* skip canvas redraw — nothing visible changed */ } else {
         _lastNightAlpha = nightAlpha
         _lastNightAvatarX = avatar.x
@@ -2536,6 +2548,25 @@ export function HubTownCanvas({
           nightCtx.fillStyle = grad
           nightCtx.beginPath()
           nightCtx.arc(npc.sprite.x * cs, npc.sprite.y * cs, NIGHT_NPC_LIGHT_R * 0.6 * cs, 0, Math.PI * 2)
+          nightCtx.fill()
+        }
+        // Extra night lights: fireflies + glow-flagged decor / quest items.
+        const _glowMs = performance.now()
+        const _pulse  = (seed: number) => 0.8 + 0.2 * Math.sin(_glowMs / 500 + seed)
+        const _extraGlows: GlowSource[] = [..._fireflyGlows, ...decorGlows]
+        for (const pg of pickupGlows) {
+          const ps = pickupSprites.get(pg.id)
+          if (ps && ps.visible) _extraGlows.push({ x: ps.x + T / 2, y: ps.y + T / 2, radius: pg.radius, pulse: pg.pulse })
+        }
+        for (const g of _extraGlows) {
+          const gx = g.x * cs, gy = g.y * cs
+          const gr = (g.pulse ? g.radius * _pulse(g.x + g.y) : g.radius) * cs
+          const grad = nightCtx.createRadialGradient(gx, gy, 0, gx, gy, gr)
+          grad.addColorStop(0, 'rgba(0,0,0,1)')
+          grad.addColorStop(1, 'rgba(0,0,0,0)')
+          nightCtx.fillStyle = grad
+          nightCtx.beginPath()
+          nightCtx.arc(gx, gy, gr, 0, Math.PI * 2)
           nightCtx.fill()
         }
         nightCtx.globalCompositeOperation = 'source-over'

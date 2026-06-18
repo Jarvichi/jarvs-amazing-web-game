@@ -27,6 +27,7 @@ const T_PX = 32
 // placed bird has hysteresis and doesn't instantly re-flee.
 const BIRD_FLEE_R = 4.5 * T_PX
 const BIRD_PERCH_CLEAR = 6 * T_PX
+const FIREFLY_GLOW_R = 1.2 * T_PX   // small night light pool each firefly casts
 
 type Rect = [number, number, number, number]   // tx, ty, w, h
 interface Pt { x: number; y: number }
@@ -119,10 +120,15 @@ export interface AnimalSystemOptions {
   getViewportRect: () => { x: number; y: number; w: number; h: number } | null
 }
 
+/** A point light the night overlay should carve into the darkness. */
+export interface GlowSource { x: number; y: number; radius: number; pulse: boolean }
+
 export interface AnimalSystem {
   tick: (deltaMS: number) => void
   /** Animals currently denned inside the given building (for interior render). */
   getAnimalsInBuilding: (buildingId: string) => { type: AnimalType; tint: number }[]
+  /** Night light sources from animals (fireflies) for the night overlay. */
+  getGlowSources: () => GlowSource[]
   destroy: () => void
 }
 
@@ -995,6 +1001,18 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     return animals.filter(a => a.insideBuilding === buildingId).map(a => ({ type: a.type, tint: a.tint }))
   }
 
+  // Fireflies glow at night — hand their positions to the night overlay so it can
+  // carve a small pool of light around each visible one.
+  function getGlowSources(): GlowSource[] {
+    const out: GlowSource[] = []
+    for (const a of animals) {
+      if (a.type === 'firefly' && a.sprite.visible) {
+        out.push({ x: a.sprite.x, y: a.sprite.y, radius: FIREFLY_GLOW_R, pulse: true })
+      }
+    }
+    return out
+  }
+
   function destroy() {
     for (const a of animals) {
       if (a.bubble) opts.bubbleLayer.removeChild(a.bubble)
@@ -1006,5 +1024,5 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     fishLayer.destroy({ children: true })
   }
 
-  return { tick, getAnimalsInBuilding, destroy }
+  return { tick, getAnimalsInBuilding, getGlowSources, destroy }
 }
