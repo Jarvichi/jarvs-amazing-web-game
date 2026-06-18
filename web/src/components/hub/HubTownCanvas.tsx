@@ -709,7 +709,30 @@ export function HubTownCanvas({
     const upgradeDecorSprites: { buildingId: string; levelIndex: number; sprite: PIXI.Sprite }[] = []
     {
       for (const b of HUB_BUILDINGS) {
-        if (!b.id || !b.upgradeKind) continue
+        if (!b.id) continue
+        const buildingLevel = buildingUpgradeLevelsRef?.current[b.id] ?? 0
+
+        // Per-building level decor (absolute tile positions, authored in the map
+        // editor). When present it replaces the shared kind-track visuals for
+        // this building. Each item carries minLevel and reveals cumulatively.
+        if (b.levelDecor?.length) {
+          for (const d of b.levelDecor) {
+            const min = d.minLevel ?? 0
+            const layer = d.zlayer === 'above' ? aboveAvatarLayer : belowAvatarLayer
+            loadTileRef(d.tileId).then(tex => {
+              if (app.renderer == null) return
+              const s = new PIXI.Sprite(tex)
+              s.position.set(d.tx * T, d.ty * T)
+              s.width = T; s.height = T
+              s.visible = buildingLevel >= min
+              layer.addChild(s)
+              upgradeDecorSprites.push({ buildingId: b.id as string, levelIndex: min - 1, sprite: s })
+            }).catch(() => {})
+          }
+          continue
+        }
+
+        if (!b.upgradeKind) continue
         // Anchor decor at the building's primary door; fall back to the front
         // centre of its footprint when the door comes from a bundle/elsewhere.
         const foundDoor = HUB_DOORS.find(d => d.buildingId === b.id)
@@ -718,7 +741,6 @@ export function HubTownCanvas({
           ty: b.rect[3] + 1,
         }
         const track = getUpgradeTrack(b.upgradeKind)
-        const currentLevel = buildingUpgradeLevelsRef?.current[b.id] ?? 0
         track.forEach((lvl, levelIndex) => {
           for (const d of lvl.decor ?? []) {
             const tileId = (BASE_CHIP_TILES as Record<string, number>)[d.tileId]
@@ -731,7 +753,7 @@ export function HubTownCanvas({
               const s = new PIXI.Sprite(tex)
               s.position.set(tx * T, ty * T)
               s.width = T; s.height = T
-              s.visible = currentLevel >= levelIndex + 1
+              s.visible = buildingLevel >= levelIndex + 1
               belowAvatarLayer.addChild(s)
               upgradeDecorSprites.push({ buildingId, levelIndex, sprite: s })
             }).catch(() => {})
@@ -1379,6 +1401,16 @@ export function HubTownCanvas({
       const interior = HUB_INTERIORS[buildingId]
       if (!interior) return
 
+      // ── Upgrade-level gating ───────────────────────────────────────────────
+      // Interior decor, rooms (exits) and NPCs can be tagged with a minLevel so
+      // they only appear once the building has been upgraded that far. Sub-rooms
+      // (no exterior door) inherit the level of the parent building whose id
+      // prefixes this interior's id.
+      const levelKey = HUB_BUILDINGS.find(b => b.id && buildingId.startsWith(b.id) && b.upgradeKind)?.id ?? buildingId
+      const currentLevel = buildingUpgradeLevelsRef?.current[levelKey] ?? 0
+      const visibleDecor   = interior.decor.filter(d => (d.minLevel ?? 0) <= currentLevel)
+      const availableExits = (interior.exits ?? []).filter(e => (e.minLevel ?? 0) <= currentLevel)
+
       // Building hours check — block entry if closed
       if (!isBuildingOpen(interior, gameHourRef.current)) {
         const openHour = interior.hours !== 'always' && interior.hours ? interior.hours.open : null
@@ -1451,7 +1483,7 @@ export function HubTownCanvas({
         for (let ty = 1; ty < interior.height - 1; ty++)
           interiorWalkable.add(`${tx},${ty}`)
       if (!isSubRoom) interiorWalkable.add(`${exitTx},${interior.height - 1}`)
-      for (const d of interior.decor) {
+      for (const d of visibleDecor) {
         if (!d.zlayer || d.zlayer === 'solid') interiorWalkable.delete(`${d.tx},${d.ty}`)
       }
       // Interactables' owned solid decor blocks walking (at moved position if persisted)
@@ -1462,7 +1494,7 @@ export function HubTownCanvas({
         }
       }
       // Register inter-room exit tiles
-      for (const exit of interior.exits ?? []) {
+      for (const exit of availableExits) {
         interiorWalkable.add(`${exit.tx},${exit.ty}`)
         exitByTile.set(`${exit.tx},${exit.ty}`, exit)
       }
@@ -1473,7 +1505,7 @@ export function HubTownCanvas({
         for (let ty = 1; ty < interior.height - 1; ty++)
           floorSet.add(`${tx},${ty}`)
       if (!isSubRoom) floorSet.add(`${exitTx},${interior.height - 1}`)  // exit door opening
-      for (const exit of interior.exits ?? []) {
+      for (const exit of availableExits) {
         if (exit.direction === 'left' || exit.direction === 'right' ||
             exit.direction === 'front' || exit.direction === 'back') floorSet.add(`${exit.tx},${exit.ty}`)
       }
@@ -1489,7 +1521,7 @@ export function HubTownCanvas({
         wallSet.add(`${interior.width - 1},${ty}`)
       }
       if (!isSubRoom) wallSet.delete(`${exitTx},${interior.height - 1}`)  // open bottom door gap
-      for (const exit of interior.exits ?? []) {
+      for (const exit of availableExits) {
         if (exit.direction === 'left' || exit.direction === 'right' ||
             exit.direction === 'front' || exit.direction === 'back') wallSet.delete(`${exit.tx},${exit.ty}`)
       }
@@ -1517,7 +1549,7 @@ export function HubTownCanvas({
           floorContainer.addChild(exitFloor)
         }
         // Wall-gap exits need explicit floor tiles (they're outside the inner loop)
-        for (const exit of interior.exits ?? []) {
+        for (const exit of availableExits) {
           if (exit.direction === 'left' || exit.direction === 'right' ||
               exit.direction === 'front' || exit.direction === 'back') {
             const s = new PIXI.Sprite(floorTex)
@@ -1538,7 +1570,7 @@ export function HubTownCanvas({
         else {sideWallSet.add(`${wx},${wy-1}`); sideWallSet.add(`${wx},${wy}`)}
       }
       // The tile below a left/right exit contributes the exit position to sideWallSet; remove it explicitly
-      for (const exit of interior.exits ?? []) {
+      for (const exit of availableExits) {
         if (exit.direction === 'left' || exit.direction === 'right') sideWallSet.delete(`${exit.tx},${exit.ty}`)
         // back exits are at ty=0; the sideWallSet formula adds (wx, -1) and (wx, 0) for ty=0 wall tiles,
         // but since we deleted (tx, 0) from wallSet before building sideWallSet, nothing to clean up here.
@@ -1598,7 +1630,7 @@ export function HubTownCanvas({
         }
       }
 
-      renderDecorItems(interior.decor.filter(d => d.zlayer !== 'above'), decorBelowContainer)
+      renderDecorItems(visibleDecor.filter(d => d.zlayer !== 'above'), decorBelowContainer)
       // above decor rendered after avatar is added (below)
 
       // Interior pickup items — rendered in room, disappear when tapped
@@ -1654,7 +1686,7 @@ export function HubTownCanvas({
       }
 
       // Interior NPCs — rendered inside the room, tappable
-      const interiorNpcList: HubNpc[] = INTERIOR_NPCS[buildingId] ?? []
+      const interiorNpcList: HubNpc[] = (INTERIOR_NPCS[buildingId] ?? []).filter(n => (n.minLevel ?? 0) <= currentLevel)
       for (const npc of interiorNpcList) {
         loadTextureUrl(`${base}sprites/${npc.sprite}.svg`).then(tex => {
           if (!interiorActive || currentInteriorId !== buildingId) return
@@ -1780,7 +1812,7 @@ export function HubTownCanvas({
         interiorLayer.addChild(exitMarker)
       }
       // Room-exit direction markers (stairs, passages)
-      for (const exit of interior.exits ?? []) {
+      for (const exit of availableExits) {
         const arrow = exit.direction === 'up' ? '▲' : exit.direction === 'down' ? '▼' : exit.direction === 'left' ? '◄' : exit.direction === 'back' ? '▲' : exit.direction === 'front' ? '▼' : '►'
         const marker = new PIXI.Text({
           text: arrow,
@@ -1802,7 +1834,7 @@ export function HubTownCanvas({
 
       // above decor — added after avatar so it renders on top
       interiorLayer.addChild(decorAboveContainer)
-      renderDecorItems(interior.decor.filter(d => d.zlayer === 'above'), decorAboveContainer)
+      renderDecorItems(visibleDecor.filter(d => d.zlayer === 'above'), decorAboveContainer)
 
       // Interior treasures — chests defined in the treasures array with a matching buildingId
       for (const t of HUB_TREASURES.filter(tr => tr.buildingId === buildingId)) {

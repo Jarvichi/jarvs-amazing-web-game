@@ -27,6 +27,8 @@ export interface HubBuilding {
   roof?: RoofMaterial
   /** Upgrade track key (buildingUpgrades.json); set = building is upgradeable. */
   upgradeKind?: string
+  /** Per-building exterior decor revealed by upgrade level (absolute tx/ty, each carries minLevel). */
+  levelDecor?: Array<{ tx: number; ty: number; tileId: number; zlayer?: 'solid' | 'below' | 'above'; minLevel?: number }>
 }
 
 export interface HubDoor {
@@ -47,6 +49,7 @@ export interface InteriorDecor extends DecorGlow {
   tx:      number
   ty:      number
   tileId:  number
+  minLevel?: number   // building upgrade level at which this decor first appears (0/undefined = base)
   zlayer?: 'solid' | 'below' | 'above'
   // solid (default): not walkable, renders below avatar
   // below: walkable, renders below avatar (rugs, floor markings)
@@ -62,6 +65,7 @@ export interface HubInteriorExit {
   direction?: 'up' | 'down' | 'left' | 'right' | 'front' | 'back'
   lockedBy?: string
   requiredQuest?: string
+  minLevel?: number   // building upgrade level required before this room/exit is available
   label?: string
 }
 
@@ -107,6 +111,7 @@ export interface HubNpc {
   questReceive?: string | string[]
   innRumours?: Array<{ id: string; text: string }>
   isGhost?: boolean
+  minLevel?: number   // building upgrade level at which this NPC first appears (0/undefined = always)
   schedule?: NpcScheduleEntry[]
   homeBed?: { buildingId: string; tx: number; ty: number }
   /** Id of a branching dialogue tree (questDefs.json `dialogues`) to run on tap. */
@@ -355,15 +360,24 @@ type RawBuilding = {
   doors?:   Array<{ tx: number; ty: number; buildingId?: string, hideSign?: boolean }>
   windows?: Array<{ tx: number; ty: number; tileId: string }>
   decor?:   Array<{ tx: number; ty: number; tileId?: string; bundleID?: string; zlayer?: string }>
+  levelDecor?: Array<{ tx?: number; ty?: number; tileId?: string; zlayer?: string; minLevel?: number }>
 }
 const HUB_BUILDINGS: HubBuilding[] = (rawConfig.buildings as RawBuilding[]).flatMap(b => {
   const rectList = b.rects ?? (b.rect ? [b.rect] : [])
-  return rectList.map(rect => ({
+  // Resolve per-building level decor once (attach to the first rect only so a
+  // multi-rect building does not render duplicates).
+  const levelDecor = (b.levelDecor ?? []).flatMap(d =>
+    d.tx == null || d.ty == null || !d.tileId
+      ? []
+      : [{ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer as 'solid' | 'below' | 'above' | undefined, minLevel: d.minLevel }],
+  )
+  return rectList.map((rect, i) => ({
     rect: rect as [number, number, number, number],
     id:   b.id,
     wall: b.wall as WallMaterial | undefined,
     roof: b.roof as RoofMaterial | undefined,
     upgradeKind: b.upgradeKind,
+    ...(i === 0 && levelDecor.length ? { levelDecor } : {}),
   }))
 })
 
@@ -455,10 +469,10 @@ const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
         height:       raw.height,
         floorTileId:  resolveTileId(raw.floorTileId),
         wallMaterial: wallTileIdStr && WALL_MATERIAL_NAMES.has(wallTileIdStr) ? wallTileIdStr as WallMaterial : undefined,
-        decor:        (raw.decor as Array<{ tx: number; ty: number; tileId?: string; bundleID?: string; zlayer?: string }>).flatMap(d => {
+        decor:        (raw.decor as Array<{ tx: number; ty: number; tileId?: string; bundleID?: string; zlayer?: string; minLevel?: number }>).flatMap(d => {
           if (d.bundleID)
-            return expandBundleDecor(d.bundleID, d.tx, d.ty).map(e => ({ ...e, zlayer: e.zlayer as InteriorDecor['zlayer'] }))
-          return [{ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId ?? ''), zlayer: d.zlayer as InteriorDecor['zlayer'] }]
+            return expandBundleDecor(d.bundleID, d.tx, d.ty).map(e => ({ ...e, zlayer: e.zlayer as InteriorDecor['zlayer'], minLevel: d.minLevel }))
+          return [{ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId ?? ''), zlayer: d.zlayer as InteriorDecor['zlayer'], minLevel: d.minLevel }]
         }),
         exits: ((rawAny.exits ?? []) as HubInteriorExit[]),
         hours: rawAny.hours as HubInterior['hours'],
