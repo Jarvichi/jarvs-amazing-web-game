@@ -42,6 +42,9 @@ export interface RawDecor {
   bundleID?: string
   zlayer?: string
   comment?: string
+  glow?: boolean        // emit a night light glow (reuses the night overlay)
+  glowRadius?: number   // glow radius in tiles
+  pulse?: boolean       // animate the glow radius
 }
 
 export interface RawCoordinate {  tx: number

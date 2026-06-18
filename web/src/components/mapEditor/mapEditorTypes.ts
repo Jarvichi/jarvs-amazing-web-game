@@ -16,6 +16,9 @@ export interface RawDecorItem {
   zlayer?: Zlayer
   bundleID?: string
   comment?: string
+  glow?: boolean        // emit a night light glow
+  glowRadius?: number   // glow radius in tiles
+  pulse?: boolean       // animate the glow radius
 }
 
 export interface RawBuildingDoor {
@@ -155,6 +158,9 @@ export interface RawMapConfig {
     questId?: string
     chain?: string
     requireTouch?: boolean
+    glow?: boolean
+    glowRadius?: number
+    pulse?: boolean
   }>
   blockedPaths?: unknown[]
   lockedDoors?: RawLockedDoor[]

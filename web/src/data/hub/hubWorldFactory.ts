@@ -50,6 +50,9 @@ export interface RawQuestPickupItem {
   building?: string
   chain?: string
   requireTouch?: boolean
+  glow?: boolean
+  glowRadius?: number
+  pulse?: boolean
 }
 export type MapId =
   | 'ravenwatch'
