@@ -30,6 +30,8 @@ const T = 32
 
 type InteriorExit = NonNullable<RawInterior['exits']>[number]
 
+export type GlowPatch = Partial<{ glow: boolean; glowRadius: number; pulse: boolean }>
+
 interface Props {
   selectedEntity:   SelectedEntity | null
   configData:       RawMapConfig
@@ -37,6 +39,8 @@ interface Props {
   onDelete:              (entity: SelectedEntity) => void
   onMoveEntity:          (entity: SelectedEntity, tx: number, ty: number) => void
   onZlayerChange:        (entity: SelectedEntity, z: Zlayer) => void
+  onUpdateGlow?:         (entity: SelectedEntity, patch: GlowPatch) => void
+  onUpdatePickupGlow?:   (index: number, patch: GlowPatch) => void
   onDialogueChange:      (index: number, dialogue: string[]) => void
   onOpenInterior:        (id: string) => void
   onCloseInterior:       () => void
@@ -215,13 +219,47 @@ function numInput(value: number, onChange: (v: number) => void) {
   )
 }
 
+// Night-glow controls shared by decor and pickup-item inspectors.
+function GlowControls({ glow, glowRadius, pulse, onChange }: {
+  glow?: boolean; glowRadius?: number; pulse?: boolean; onChange: (patch: GlowPatch) => void
+}) {
+  const checkbox = (label: string, checked: boolean, on: (v: boolean) => void) => (
+    <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontSize: 11 }}>
+      <input type="checkbox" checked={checked} onChange={e => on(e.target.checked)} />
+      {label}
+    </label>
+  )
+  return (
+    <>
+      <Field label="Glow">{checkbox('night light', !!glow, v => onChange({ glow: v }))}</Field>
+      {glow && (
+        <>
+          <Field label="Glow radius">
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <input
+                type="range" min={1} max={8} step={0.5}
+                value={glowRadius ?? 2}
+                onChange={e => onChange({ glowRadius: Number(e.target.value) })}
+                style={{ flex: 1 }}
+              />
+              <span style={{ fontSize: 11, color: '#aaa', width: 34, textAlign: 'right' }}>{glowRadius ?? 2}t</span>
+            </div>
+          </Field>
+          <Field label="Pulse">{checkbox('animate radius', !!pulse, v => onChange({ pulse: v }))}</Field>
+        </>
+      )}
+    </>
+  )
+}
+
 function DecorInspector({
-  item, entity, onMove, onZlayer, onDelete,
+  item, entity, onMove, onZlayer, onGlow, onDelete,
 }: {
   item: RawDecorItem
   entity: SelectedEntity
   onMove: (tx: number, ty: number) => void
   onZlayer: (z: Zlayer) => void
+  onGlow?: (patch: GlowPatch) => void
   onDelete: () => void
 }) {
   return (
@@ -255,6 +293,7 @@ function DecorInspector({
           ))}
         </div>
       </Field>
+      {onGlow && <GlowControls glow={item.glow} glowRadius={item.glowRadius} pulse={item.pulse} onChange={onGlow} />}
       <button
         onClick={onDelete}
         style={{
@@ -1192,7 +1231,7 @@ function TownInspector({
 
 export function EntityInspector({
   selectedEntity, configData, activeInteriorId, viewMode,
-  onDelete, onMoveEntity, onZlayerChange, onDialogueChange,
+  onDelete, onMoveEntity, onZlayerChange, onUpdateGlow, onUpdatePickupGlow, onDialogueChange,
   onOpenInterior, onCloseInterior, onUpdateStreetEntry,
   onResizeInterior, onAddInterior, onAddInteriorExit, onUpdateInteriorProps, onUpdateInteriorExit,
   onRemoveInteriorExit,
@@ -1282,6 +1321,7 @@ export function EntityInspector({
             entity={selectedEntity}
             onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
             onZlayer={z => onZlayerChange(selectedEntity, z)}
+            onGlow={onUpdateGlow ? patch => onUpdateGlow(selectedEntity, patch) : undefined}
             onDelete={() => onDelete(selectedEntity)}
           />
         </div>
@@ -1369,6 +1409,12 @@ export function EntityInspector({
             onDelete={() => onDelete(selectedEntity)}
             onTileChange={onUpdatePickupItemTile ? tileId => onUpdatePickupItemTile(selectedEntity.index, tileId) : undefined}
           />
+          {onUpdatePickupGlow && (
+            <GlowControls
+              glow={p.glow} glowRadius={p.glowRadius} pulse={p.pulse}
+              onChange={patch => onUpdatePickupGlow(selectedEntity.index, patch)}
+            />
+          )}
         </div>
       </div>
     )

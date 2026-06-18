@@ -293,6 +293,39 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     })
   }, [])
 
+  // Merge glow fields (glow/glowRadius/pulse) into the selected decor item.
+  const updateGlow = useCallback((entity: SelectedEntity, patch: Partial<{ glow: boolean; glowRadius: number; pulse: boolean }>) => {
+    setState(s => {
+      const prevConfig = s.configData
+      let newConfig = prevConfig
+
+      if (entity.type === 'exteriorDecor') {
+        const decor = [...(prevConfig.exteriorDecor ?? [])]
+        if (!decor[entity.index]) return s
+        decor[entity.index] = { ...decor[entity.index], ...patch }
+        newConfig = { ...prevConfig, exteriorDecor: decor }
+      } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
+        const interior = prevConfig.interiors[entity.interiorId]
+        const decor = [...interior.decor]
+        if (!decor[entity.index]) return s
+        decor[entity.index] = { ...decor[entity.index], ...patch }
+        newConfig = {
+          ...prevConfig,
+          interiors: { ...prevConfig.interiors, [entity.interiorId]: { ...interior, decor } },
+        }
+      }
+
+      if (newConfig === prevConfig) return s
+      return {
+        ...s,
+        configData: newConfig,
+        undoStack:  [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack:  [],
+        isDirty:    true,
+      }
+    })
+  }, [])
+
   const updateNpcDialogue = useCallback((index: number, dialogue: string[]) => {
     setState(s => {
       const prevConfig = s.configData
@@ -822,6 +855,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     moveEntity,
     deleteEntity,
     updateDecorZlayer,
+    updateGlow,
     addNpc,
     updateNpcDialogue,
     updateNpc,
