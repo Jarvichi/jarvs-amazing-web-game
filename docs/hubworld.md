@@ -791,6 +791,43 @@ kinds: `shop`, `inn`, `tavern`, `cottage`, `workshop`, `shrine`, `default`.
 Reputation tiers/names live in `buildingUpgrades.ts` (`REPUTATION_TIERS`,
 `REPUTATION_TIER_NAMES`, `getReputationTier`).
 
+### Per-building level variants (map editor)
+
+The shared `decor` track above applies to *every* building of a kind. To author
+how **one specific building** looks and behaves at each upgrade level, use the
+map editor's **level selector** (shown on the Building inspector and inside an
+interior). Stepping the level previews that level (higher-level content is
+dimmed) and tags anything you place with the selected level. Levels are
+**cumulative**: an item with `minLevel: 2` appears once the building reaches
+level 2 and stays for all higher levels.
+
+This is stored directly in `config.json` via three optional fields:
+
+| Field | Where | Effect |
+|---|---|---|
+| `levelDecor` | on a building | Per-building exterior decor (absolute `tx`/`ty`). Each item carries `minLevel`. When present it **replaces** the shared kind-track decor for that building. |
+| `minLevel` | on an interior `decor` item | Interior decor that only appears at/above this upgrade level. |
+| `minLevel` | on an interior `exits[]` entry | The room behind the doorway is **unavailable** (door closed, not walkable) until the level is reached. |
+| `minLevel` | on an NPC | The NPC (and the quests it gives/receives) is **absent** until the level is reached. |
+
+```jsonc
+{
+  "id": "cider-house", "upgradeKind": "tavern", "maxLevel": 3,
+  "rect": [4, 2, 11, 8],
+  "levelDecor": [
+    { "tx": 3, "ty": 9, "tileId": "barrel" },                 // base — always shown
+    { "tx": 12, "ty": 9, "tileId": "drinkSign", "minLevel": 2 } // appears at level 2+
+  ]
+}
+```
+
+At runtime `HubTownCanvas` resolves the building's current level
+(`getUpgradeLevel`) and filters interior decor / exits / NPCs and per-building
+`levelDecor` by `minLevel`. Sub-rooms (interiors with no exterior door) inherit
+the level of the parent building whose id prefixes the interior id. `maxLevel`
+(optional) caps how many levels the editor offers; it defaults to the
+`upgradeKind` track length.
+
 ### Services
 
 Each unlocked `service` id is readable via `getUnlockedServices(town)` /
