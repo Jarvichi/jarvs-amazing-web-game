@@ -115,6 +115,8 @@ export interface AnimalSystemOptions {
   isInteriorActive: () => boolean
   /** True if a world-pixel position is within the visible viewport. */
   isOnScreen: (x: number, y: number) => boolean
+  /** Visible viewport rect in world pixels, or null when there is no camera. */
+  getViewportRect: () => { x: number; y: number; w: number; h: number } | null
 }
 
 export interface AnimalSystem {
@@ -471,6 +473,34 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     showStatic(a)
   }
 
+  // Entry point just outside the nearest visible screen edge, in line with the perch.
+  function birdEntryPoint(p: Pt): Pt {
+    const r = opts.getViewportRect()
+    const left = r ? r.x : 0, top = r ? r.y : 0
+    const right = r ? r.x + r.w : opts.mapW, bottom = r ? r.y + r.h : opts.mapH
+    const dl = p.x - left, dr = right - p.x, dtp = p.y - top, db = bottom - p.y
+    const m = Math.min(dl, dr, dtp, db)
+    if (m === dl) return { x: left - 2 * T, y: p.y }
+    if (m === dr) return { x: right + 2 * T, y: p.y }
+    if (m === dtp) return { x: p.x, y: top - 2 * T }
+    return { x: p.x, y: bottom + 2 * T }
+  }
+
+  // Send a bird gliding in from the screen edge to its perch (a.tx/ty). If the
+  // perch is off-screen there is nothing to watch, so just place it instantly.
+  function birdFlyIn(a: Animal) {
+    a.sprite.visible = true
+    const c = center(a, a.tx, a.ty)
+    if (!opts.isOnScreen(c.x, c.y)) { placeBirdPerch(a, [a.tx, a.ty]); return }
+    const e = birdEntryPoint(c)
+    a.sprite.x = e.x; a.sprite.y = e.y; a.baseY = e.y
+    a.sprite.alpha = 1
+    a.movingTo = [a.tx, a.ty]; a.target = c; a.path = []
+    a.fleeRequested = false
+    a.state = 'flying-in'
+    showStatic(a)
+  }
+
   function birdTick(a: Animal, dt: number, avatar: Pt, npcs: { x: number; y: number }[], walkable: Set<string>) {
     if (a.state === 'perched') {
       if (a.stationary) { a.fleeRequested = false; return }
@@ -478,6 +508,12 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
       const scared = a.fleeRequested || threats.some(t => Math.hypot(t.x - a.sprite.x, t.y - a.sprite.y) < BIRD_FLEE_R)
       a.stateTimer -= dt
       if (scared || a.stateTimer <= 0) startBirdFlee(a)
+      return
+    }
+    if (a.state === 'flying-in') {
+      animateWalk(a, dt)
+      advance(a, dt)
+      if (!a.target) placeBirdPerch(a, [a.tx, a.ty])  // reached the perch → settle
       return
     }
     animateWalk(a, dt)
@@ -734,7 +770,10 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
         if (a.bubble) { opts.bubbleLayer.removeChild(a.bubble); a.bubble = null }
         continue
       }
-      if (active && !a.sprite.visible) a.sprite.visible = true
+      if (active && !a.sprite.visible) {
+        if (a.type === 'bird') birdFlyIn(a)   // birds glide back in at dawn
+        else a.sprite.visible = true
+      }
 
       if (a.bubble) {
         positionBubble(a)
@@ -896,6 +935,10 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     if (type === 'cat') {
       loadTextureUrl(`${opts.baseUrl}sprites/animal-cat-sleep.svg`).then(t => { a.sleepTex = t }).catch(() => {})
     }
+
+    // Birds enter by gliding in from the screen edge and landing, rather than
+    // popping into existence at the perch.
+    if (type === 'bird') birdFlyIn(a)
   }
 
   // ── procedural population ──────────────────────────────────────────────────────
