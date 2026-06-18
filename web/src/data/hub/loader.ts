@@ -37,7 +37,13 @@ export interface HubDoor {
   tyAdjust?: number  // tiles to shift the render position upward (0 = standard south-face)
 }
 
-export interface InteriorDecor {
+export interface DecorGlow {
+  glow?:       boolean   // emit a night light glow (reuses the night overlay)
+  glowRadius?: number    // glow radius in tiles
+  pulse?:      boolean   // animate the glow radius
+}
+
+export interface InteriorDecor extends DecorGlow {
   tx:      number
   ty:      number
   tileId:  number
@@ -125,7 +131,7 @@ export interface HubAnimal {
   areaRect?: number[]
 }
 
-export interface HubPickupItem {
+export interface HubPickupItem extends DecorGlow {
   id: string
   tx: number
   ty: number
@@ -410,12 +416,12 @@ for (const b of rawConfig.buildings as RawBuilding[]) {
   }
 }
 
-type RawDecorEntry = { tx?: number; ty?: number; tileId?: string; bundleID?: string; comment?: string; zlayer?: string }
+type RawDecorEntry = { tx?: number; ty?: number; tileId?: string; bundleID?: string; comment?: string; zlayer?: string; glow?: boolean; glowRadius?: number; pulse?: boolean }
 const EXTERIOR_DECOR = [
   ...(rawConfig.exteriorDecor as RawDecorEntry[]).flatMap(d => {
     if (d.tx == null || d.ty == null) return []
     if (d.bundleID) return expandBundleDecor(d.bundleID, d.tx, d.ty)
-    if (d.tileId) return [{ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer }]
+    if (d.tileId) return [{ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer, glow: d.glow, glowRadius: d.glowRadius, pulse: d.pulse }]
     return []
   }),
   ..._nestedDecor,
@@ -672,7 +678,7 @@ const HUB_BLOCKED_PATHS: BlockedPath[] = (
   cleared:      resolveBlockedPathState(bp.cleared),
 }))
 
-type RawPickup = { id: string; tx: number; ty: number; tileId: string; building?: string; questId?: string; chain?: string; requireTouch?: boolean }
+type RawPickup = { id: string; tx: number; ty: number; tileId: string; building?: string; questId?: string; chain?: string; requireTouch?: boolean; glow?: boolean; glowRadius?: number; pulse?: boolean }
 const HUB_PICKUP_ITEMS: HubPickupItem[] = (
   (rawQuestConfig as unknown as { pickupItems?: RawPickup[] }).pickupItems ?? []
 ).map(p => ({
@@ -684,6 +690,9 @@ const HUB_PICKUP_ITEMS: HubPickupItem[] = (
   questId:      p.questId,
   chain:        p.chain,
   requireTouch: p.requireTouch,
+  glow:         p.glow,
+  glowRadius:   p.glowRadius,
+  pulse:        p.pulse,
 }))
 
 const HUB_DIALOGUES: Record<string, DialogueTree> = Object.fromEntries(
