@@ -2221,6 +2221,11 @@ export function HubTownCanvas({
         const m = T * 2       // small margin so edge animals still count
         return sx >= -m && sx <= app.screen.width + m && sy >= -m && sy <= app.screen.height + m
       },
+      getViewportRect: () => {
+        const vp = viewportRef?.current
+        if (!vp) return null
+        return { x: vp.scrollLeft, y: vp.scrollTop, w: app.screen.width, h: app.screen.height }
+      },
     })
     getAnimalsInBuildingFn = animalSystem.getAnimalsInBuilding
 
