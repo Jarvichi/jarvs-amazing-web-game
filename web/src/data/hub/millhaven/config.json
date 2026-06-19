@@ -1,6 +1,6 @@
 {
   "mapW": 1200,
-  "mapH": 900,
+  "mapH": 868,
   "townName": "Millhaven",
   "environment": "forest",
   "avatarStart": {
@@ -908,7 +908,7 @@
       "tx": 4,
       "ty": 10,
       "bundleID": "mixed-tree-cluster-V",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 19,
@@ -968,6 +968,24 @@
       "tx": 1,
       "ty": 11,
       "bundleID": "dark-tree-column-4",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 22,
+      "ty": 20,
+      "tileId": "fullBucket",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 13,
+      "ty": 10,
+      "tileId": "barrel",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 22,
+      "ty": 9,
+      "tileId": "barrel",
       "zlayer": "solid"
     }
   ],
@@ -1039,8 +1057,8 @@
       "id": "sailor-finn",
       "name": "Sailor Finn",
       "sprite": "hub-npc-fisherman",
-      "tx": 12,
-      "ty": 13,
+      "tx": 32,
+      "ty": 6,
       "dialogue": [
         "The tides have been off all week. Something in the currents.",
         "I've seen three ships go dark past the reef. No word from them.",
@@ -1311,5 +1329,28 @@
         "crystals": 30
       }
     }
-  ]
+  ],
+  "animals": [
+    {
+      "id": "kipper",
+      "type": "cat",
+      "tx": 17,
+      "ty": 14,
+      "variant": "orange",
+      "name": "Kipper",
+      "dialogue": [
+        "Meow..."
+      ],
+      "roam": true,
+      "areaRect": [
+        13,
+        10,
+        10,
+        10
+      ],
+      "questGive": "kippers-kipper"
+    }
+  ],
+  "interactables": [],
+  "pondTiles": []
 }

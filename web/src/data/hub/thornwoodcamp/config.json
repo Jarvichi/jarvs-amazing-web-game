@@ -1,21 +1,21 @@
 {
   "mapW": 640,
-  "mapH": 640,
+  "mapH": 1600,
   "townName": "Thornwood Camp",
   "environment": "camp",
   "avatarStart": {
-    "tx": 10,
-    "ty": 13
+    "tx": 9,
+    "ty": 48
   },
   "exitTiles": [
     {
       "tx": 9,
-      "ty": 14,
+      "ty": 49,
       "screen": "worldmap"
     },
     {
       "tx": 10,
-      "ty": 14,
+      "ty": 49,
       "screen": "worldmap"
     }
   ],
@@ -44,6 +44,86 @@
         8,
         12,
         12
+      ]
+    },
+    {
+      "rect": [
+        9,
+        20,
+        16,
+        21
+      ]
+    },
+    {
+      "rect": [
+        15,
+        22,
+        16,
+        29
+      ]
+    },
+    {
+      "rect": [
+        2,
+        30,
+        16,
+        31
+      ]
+    },
+    {
+      "rect": [
+        2,
+        32,
+        3,
+        43
+      ]
+    },
+    {
+      "rect": [
+        4,
+        42,
+        10,
+        43
+      ]
+    },
+    {
+      "rect": [
+        9,
+        37,
+        10,
+        41
+      ]
+    },
+    {
+      "rect": [
+        11,
+        37,
+        16,
+        38
+      ]
+    },
+    {
+      "rect": [
+        15,
+        39,
+        16,
+        47
+      ]
+    },
+    {
+      "rect": [
+        9,
+        46,
+        14,
+        47
+      ]
+    },
+    {
+      "rect": [
+        9,
+        47,
+        10,
+        49
       ]
     }
   ],
@@ -123,7 +203,7 @@
     },
     {
       "tx": 14,
-      "ty": 15,
+      "ty": 18,
       "bundleID": "mixed-tree-cluster-V",
       "zlayer": "solid"
     },
@@ -144,10 +224,215 @@
       "ty": 9,
       "bundleID": "dark-tree-column-4",
       "zlayer": "solid"
+    },
+    {
+      "tx": 4,
+      "ty": 38,
+      "bundleID": "dark-tree-column-4",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 17,
+      "ty": 42,
+      "bundleID": "dark-tree-column-4",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 17,
+      "ty": 35,
+      "bundleID": "dark-tree-column-8",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 40,
+      "bundleID": "dark-tree-column-8",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 5,
+      "ty": 29,
+      "bundleID": "dark-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 11,
+      "ty": 40,
+      "bundleID": "dark-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 11,
+      "ty": 27,
+      "bundleID": "dark-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 6,
+      "ty": 46,
+      "bundleID": "dark-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 11,
+      "ty": 49,
+      "bundleID": "dark-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 5,
+      "ty": 49,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 13,
+      "ty": 36,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 6,
+      "ty": 37,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 9,
+      "ty": 36,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 10,
+      "ty": 33,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 16,
+      "ty": 37,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 17,
+      "ty": 46,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 1,
+      "ty": 45,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 5,
+      "ty": 41,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 6,
+      "ty": 33,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 29,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 6,
+      "ty": 35,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 11,
+      "ty": 29,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 11,
+      "ty": 23,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 17,
+      "ty": 19,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 11,
+      "ty": 19,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 11,
+      "ty": 25,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 11,
+      "ty": 45,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 2,
+      "ty": 21,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 5,
+      "ty": 18,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 2,
+      "ty": 23,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 5,
+      "ty": 27,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 4,
+      "ty": 41,
+      "tileId": "scarecrowBottom",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 4,
+      "ty": 40,
+      "tileId": "scarecrowTop",
+      "zlayer": "solid"
     }
   ],
-  "npcSpawnTiles": [],
-  "ambientNpcSprites": [],
+  "npcSpawnTiles": [
+    [
+      9,
+      48
+    ]
+  ],
+  "ambientNpcSprites": [
+    "knight"
+  ],
   "npcs": [
     {
       "id": "warden-rell",
@@ -164,5 +449,30 @@
       "questReceive": "thornwood-embers-low"
     }
   ],
-  "interiors": {}
+  "interiors": {},
+  "interactables": [
+    {
+      "id": "interactable-1781887233427",
+      "tx": 17,
+      "ty": 47,
+      "reactions": [
+        {
+          "type": "quest",
+          "questId": "shiny-stones"
+        }
+      ],
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "scarecrowBottom"
+        },
+        {
+          "dx": 0,
+          "dy": -1,
+          "tileId": "scarecrowTop"
+        }
+      ]
+    }
+  ]
 }

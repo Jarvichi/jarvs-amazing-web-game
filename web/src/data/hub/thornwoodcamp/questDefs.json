@@ -24,6 +24,18 @@
       "reward": {
         "crystals": 25
       }
+    },
+    {
+      "id": "shiny-stones",
+      "title": "Shiny Stones",
+      "type": "chain",
+      "giverNpcId": "",
+      "receiverNpcId": "",
+      "offerDialogue": "",
+      "activeDialogue": {},
+      "completeDialogue": "",
+      "steps": [],
+      "reward": {}
     }
   ],
   "pickupItems": [
@@ -49,5 +61,48 @@
       "questId": "thornwood-embers-low"
     }
   ],
-  "blockedPaths": []
+  "blockedPaths": [
+    {
+      "id": "block-1781886893879",
+      "blockedTiles": [
+        [
+          15,
+          43
+        ],
+        [
+          16,
+          43
+        ]
+      ],
+      "questId": "shiny-stones",
+      "blocked": {
+        "decor": [
+          {
+            "tx": 15,
+            "ty": 43,
+            "tileId": "barrel"
+          },
+          {
+            "tx": 16,
+            "ty": 43,
+            "tileId": "barrel"
+          }
+        ]
+      },
+      "cleared": {
+        "decor": [
+          {
+            "tx": 14,
+            "ty": 43,
+            "tileId": "barrel"
+          },
+          {
+            "tx": 17,
+            "ty": 43,
+            "tileId": "barrel"
+          }
+        ]
+      }
+    }
+  ]
 }

@@ -199,6 +199,77 @@
           "desc": "A bright ribbon from the Millhaven harvest festival."
         }
       }
+    },
+    {
+      "id": "kippers-kipper",
+      "title": "Kippers Kipper",
+      "type": "fetch",
+      "giverNpcId": "kipper",
+      "receiverNpcId": "kipper",
+      "offerDialogue": "Meow?",
+      "activeDialogue": "Meow?",
+      "completeDialogue": "MEOW! <Purr>",
+      "steps": [
+        {
+          "key": "step-1",
+          "type": "collect",
+          "pickupIds": [
+            "kippers-kipper"
+          ],
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 1
+      }
+    },
+    {
+      "id": "kippers-2nd-kipper",
+      "title": "Kippers 2nd Kipper",
+      "type": "lost-items",
+      "giverNpcId": "kipper",
+      "receiverNpcId": "kipper",
+      "offerDialogue": "Meow? Meow?",
+      "activeDialogue": "Meow? Meow?",
+      "completeDialogue": "MEEEEEOOOOOW! <Purr Purr>",
+      "steps": [
+        {
+          "key": "step-1",
+          "type": "collect",
+          "pickupIds": [
+            "kippers-kipper-2"
+          ],
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 2
+      },
+      "prerequisite": "kippers-kipper"
+    },
+    {
+      "id": "kippers-3rd-kipper",
+      "title": "Kippers 3rd Kipper",
+      "type": "lost-items",
+      "giverNpcId": "kipper",
+      "receiverNpcId": "kipper",
+      "offerDialogue": "Meow? Meow? Meow?",
+      "activeDialogue": "Meow? Meow? Meow?",
+      "completeDialogue": "MEEEEEOOOOOW! <Purr Purr Purr>",
+      "steps": [
+        {
+          "key": "step-1",
+          "type": "collect",
+          "pickupIds": [
+            "kippers-kipper-3"
+          ],
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 3
+      },
+      "prerequisite": "kippers-2nd-kipper"
     }
   ],
   "pickupItems": [
@@ -267,6 +338,30 @@
       "tileId": "whiteFlower",
       "questId": "millhaven-festival-prep",
       "chain": "festival-candle"
+    },
+    {
+      "id": "kippers-kipper",
+      "tx": 7,
+      "ty": 8,
+      "tileId": "goldFish",
+      "zlayer": "below",
+      "questId": "kippers-kipper"
+    },
+    {
+      "id": "kippers-kipper-2",
+      "tx": 30,
+      "ty": 13,
+      "tileId": "goldFish",
+      "zlayer": "below",
+      "questId": "kippers-2nd-kipper"
+    },
+    {
+      "id": "kippers-kipper-3",
+      "tx": 31,
+      "ty": 22,
+      "tileId": "goldFish",
+      "zlayer": "below",
+      "questId": "kippers-3rd-kipper"
     }
   ],
   "blockedPaths": []
