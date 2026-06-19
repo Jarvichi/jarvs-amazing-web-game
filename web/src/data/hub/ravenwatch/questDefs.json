@@ -3531,6 +3531,35 @@
       "reward": {
         "unlock": "lost-pendant"
       }
+    },
+    {
+      "id": "midsummer-lanterns",
+      "title": "Light the Midsummer Lanterns",
+      "type": "fetch",
+      "giverNpcId": "merchant",
+      "receiverNpcId": "merchant",
+      "festivalId": "midsummer",
+      "offerDialogue": "The Midsummer Fair is upon us! Be a dear and gather the three festival lanterns scattered round the square — we'll string them up together.",
+      "activeDialogue": "Three Midsummer lanterns, dotted about the square. Bring them back and we'll light the fair!",
+      "completeDialogue": "Wonderful — the square's aglow! Happy Midsummer, traveller.",
+      "steps": [
+        {
+          "key": "lanterns",
+          "type": "collect",
+          "pickupIds": [
+            "midsummer-lantern-1",
+            "midsummer-lantern-2",
+            "midsummer-lantern-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 30,
+        "friendship": {
+          "merchant": 10
+        }
+      }
     }
   ],
   "pickupItems": [
@@ -5259,6 +5288,27 @@
       "ty": 30,
       "tileId": "goldChest",
       "questId": "thorin-the-last-watch"
+    },
+    {
+      "id": "midsummer-lantern-1",
+      "tx": 33,
+      "ty": 30,
+      "tileId": "candlestickLitTop",
+      "questId": "midsummer-lanterns"
+    },
+    {
+      "id": "midsummer-lantern-2",
+      "tx": 41,
+      "ty": 30,
+      "tileId": "candlestickLitTop",
+      "questId": "midsummer-lanterns"
+    },
+    {
+      "id": "midsummer-lantern-3",
+      "tx": 37,
+      "ty": 33,
+      "tileId": "candlestickLitTop",
+      "questId": "midsummer-lanterns"
     }
   ],
   "innRumours": [
