@@ -29,3 +29,7 @@ export function npcSpriteUrl(slug: string): string {
   const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
   return `${base}sprites/${slug}.svg`
 }
+
+// NPC sprite default + resolver live in game/sprites.ts (no import.meta.glob, so
+// they're safe to import from the game bundle); re-exported here for editor use.
+export { DEFAULT_NPC_SPRITE, resolveNpcSprite } from '../../game/sprites'
