@@ -8,7 +8,7 @@ import type { MapId,  QuestDefsJson } from '../../data/hub/hubWorldFactory'
 import  {  QUEST_DEFS_BY_MAP } from '../../data/hub/hubWorldFactory'
 
 import { SelectedEntity } from './mapEditorTypes'
-import type { RawBlockedPath, PickKind } from './mapEditorTypes'
+import type { RawBlockedPath, RawInteractable, PickKind } from './mapEditorTypes'
 import { NpcQuestDrawer } from './npcQuestDrawer/NpcQuestDrawer'
 import type { DrawerTab } from './npcQuestDrawer/npcQuestDrawerTypes'
 
@@ -22,6 +22,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
   const [showQuestItems, setShowQuestItems] = useState(false)
   const [showBlockedPaths, setShowBlockedPaths] = useState(false)
   const [showAreas, setShowAreas] = useState(false)
+  const [showInteractables, setShowInteractables] = useState(false)
   const [questDefsData, setQuestDefsData] = useState<QuestDefsJson | null>(
     () => QUEST_DEFS_BY_MAP[initialMapId] ? structuredClone(QUEST_DEFS_BY_MAP[initialMapId]!) : null,
   )
@@ -155,6 +156,46 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
     }
     setPick(null)
   }, [pick, state.configData, state.viewMode, state.activeInteriorId, updateNpc, updateAnimal, updateTreasure, updateConfig])
+
+  // Create handlers — drop a new object at map centre, reveal its overlay, and select it.
+  const centreTile = useCallback(() => ({
+    tx: Math.floor(state.configData.mapW / 32 / 2),
+    ty: Math.floor(state.configData.mapH / 32 / 2),
+  }), [state.configData.mapW, state.configData.mapH])
+
+  const handleAddTreasure = useCallback(() => {
+    const { tx, ty } = centreTile()
+    const list = state.configData.treasures ?? []
+    updateConfig({ treasures: [...list, { id: `treasure-${Date.now()}`, tx, ty, tileId: 'chest', collectedTileId: 'openChest', title: 'New treasure', reward: { crystals: 10 } }] })
+    setShowQuestItems(true)
+    selectEntity({ type: 'treasure', index: list.length })
+  }, [centreTile, state.configData.treasures, updateConfig, selectEntity])
+
+  const handleAddInteractable = useCallback(() => {
+    const { tx, ty } = centreTile()
+    const list = state.configData.interactables ?? []
+    updateConfig({ interactables: [...list, { id: `interactable-${Date.now()}`, tx, ty, reactions: [{ type: 'screen', screen: '' }] }] })
+    setShowInteractables(true)
+    selectEntity({ type: 'interactable', index: list.length })
+  }, [centreTile, state.configData.interactables, updateConfig, selectEntity])
+
+  const handleAddBlockedPath = useCallback(() => {
+    const { tx, ty } = centreTile()
+    const list = (questDefsData?.blockedPaths as RawBlockedPath[]) ?? []
+    setQuestDefsData(prev => prev ? {
+      ...prev,
+      blockedPaths: [...((prev.blockedPaths as RawBlockedPath[]) ?? []), {
+        id: `block-${Date.now()}`, blockedTiles: [[tx, ty]], questId: '',
+        blocked: { decor: [] }, cleared: { decor: [] },
+      }],
+    } : prev)
+    setShowBlockedPaths(true)
+    selectEntity({ type: 'blockedPath', index: list.length })
+  }, [centreTile, questDefsData, selectEntity])
+
+  const handleUpdateInteractable = useCallback((index: number, patch: Partial<RawInteractable>) => {
+    updateConfig({ interactables: (state.configData.interactables ?? []).map((it, i) => i === index ? { ...it, ...patch } : it) })
+  }, [state.configData.interactables, updateConfig])
 
   const handleUpdateBlockedPath = useCallback((index: number, patch: Partial<RawBlockedPath>) => {
     setQuestDefsData(prev => {
@@ -327,6 +368,12 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
                 items[index] = { ...items[index], tileId }
                 return { ...prev, pickupItems: items }
               })}
+              onUpdateTreasure={updateTreasure}
+              onUpdateInteractable={handleUpdateInteractable}
+              onUpdateConfig={updateConfig}
+              onAddTreasure={handleAddTreasure}
+              onAddInteractable={handleAddInteractable}
+              onAddBlockedPath={handleAddBlockedPath}
             />
           </div>
         </div>

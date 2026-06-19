@@ -35,6 +35,7 @@ const COLS = 8
 const T = 32
 
 type InteriorExit = NonNullable<RawInterior['exits']>[number]
+type Treasure = NonNullable<RawMapConfig['treasures']>[number]
 
 export type GlowPatch = Partial<{ glow: boolean; glowRadius: number; pulse: boolean }>
 
@@ -72,6 +73,12 @@ interface Props {
   onUpdateNpc:           (index: number, partial: Partial<RawNpc>) => void
   onUpdateAnimal:        (index: number, partial: Partial<RawAnimal>) => void
   onUpdateTreasureTile?: (index: number, tileId: string) => void
+  onUpdateTreasure?:     (index: number, patch: Partial<Treasure>) => void
+  onUpdateInteractable?: (index: number, patch: Partial<RawInteractable>) => void
+  onUpdateConfig?:       (patch: Partial<RawMapConfig>) => void
+  onAddTreasure?:        () => void
+  onAddInteractable?:    () => void
+  onAddBlockedPath?:     () => void
   onUpdatePickupItemTile?: (index: number, tileId: string) => void
   onUpdateArea?:         (index: number, patch: Partial<{ name: string; tw: number; th: number }>) => void
   onResizeMap?:          (dir: 'n' | 's' | 'e' | 'w', grow: boolean) => void
@@ -1299,12 +1306,72 @@ function AreaInspector({
   )
 }
 
+function TreasureInspector({ treasure, onUpdate, onMove, onDelete, onPick }: {
+  treasure: Treasure
+  onUpdate: (patch: Partial<Treasure>) => void
+  onMove: (tx: number, ty: number) => void
+  onDelete: () => void
+  onPick?: () => void
+}) {
+  const [picking, setPicking] = useState<null | 'tile' | 'collected'>(null)
+  const inputStyle: React.CSSProperties = {
+    width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444',
+    color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box',
+  }
+  const reward = (treasure.reward ?? {}) as Record<string, unknown>
+  const crystals = typeof reward.crystals === 'number' ? reward.crystals : 0
+  return (
+    <div>
+      <Field label="ID">
+        <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{treasure.id}</span>
+      </Field>
+      <Field label="Title">
+        <input style={inputStyle} value={treasure.title ?? ''} onChange={e => onUpdate({ title: e.target.value })} />
+      </Field>
+      <Field label="Tile">
+        <div onClick={() => setPicking(p => p === 'tile' ? null : 'tile')} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+          <TilePreview tileId={treasure.tileId} /><span style={{ fontSize: 10, color: '#666' }}>✎</span>
+        </div>
+        {picking === 'tile' && <TilePicker current={treasure.tileId} onChange={tileId => onUpdate({ tileId })} onClose={() => setPicking(null)} />}
+      </Field>
+      <Field label="Collected Tile">
+        <div onClick={() => setPicking(p => p === 'collected' ? null : 'collected')} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+          {treasure.collectedTileId ? <TilePreview tileId={treasure.collectedTileId} /> : <span style={{ color: '#888', fontSize: 11 }}>(none)</span>}
+          <span style={{ fontSize: 10, color: '#666' }}>✎</span>
+        </div>
+        {picking === 'collected' && <TilePicker current={treasure.collectedTileId ?? ''} onChange={tileId => onUpdate({ collectedTileId: tileId })} onClose={() => setPicking(null)} />}
+      </Field>
+      <Field label="Building (interior, optional)">
+        <input style={inputStyle} value={treasure.buildingId ?? ''} placeholder="building ID"
+          onChange={e => onUpdate({ buildingId: e.target.value || undefined })} />
+      </Field>
+      <Field label="Reward — crystals">
+        {numInput(crystals, n => onUpdate({ reward: { ...reward, crystals: n } }))}
+      </Field>
+      <Field label="Position">
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <label style={{ fontSize: 11, color: '#888' }}>X</label>
+          {numInput(treasure.tx, tx => onMove(tx, treasure.ty))}
+          <label style={{ fontSize: 11, color: '#888' }}>Y</label>
+          {numInput(treasure.ty, ty => onMove(treasure.tx, ty))}
+        </div>
+        {onPick && <button style={BTN_PICK} onClick={onPick}>📍 Pick on map</button>}
+      </Field>
+      <button onClick={onDelete} style={{ width: '100%', padding: '6px 0', background: '#5a1a1a', border: '1px solid #922', color: '#f88', cursor: 'pointer', borderRadius: 3, fontSize: 12, marginTop: 4 }}>
+        Delete Treasure
+      </button>
+    </div>
+  )
+}
+
 function TownInspector({
-  configData, onResizeMap, onUpdateMapProps,
+  configData, onResizeMap, onUpdateMapProps, onUpdateConfig, onPickLocation,
 }: {
   configData: RawMapConfig
   onResizeMap: (dir: 'n' | 's' | 'e' | 'w', grow: boolean) => void
   onUpdateMapProps: (patch: { townName?: string; environment?: string }) => void
+  onUpdateConfig?: (patch: Partial<RawMapConfig>) => void
+  onPickLocation?: (kind: PickKind, index?: number) => void
 }) {
   const TILE = 32
   const tileW = configData.mapW / TILE
@@ -1376,6 +1443,8 @@ export function EntityInspector({
   onUpdateNpc, onUpdateAnimal,
   onUpdateTreasureTile, onUpdatePickupItemTile,
   onUpdateArea, onResizeMap, onUpdateMapProps, onPickLocation,
+  onUpdateTreasure, onUpdateInteractable, onUpdateConfig,
+  onAddTreasure, onAddInteractable, onAddBlockedPath,
 }: Props) {
   const panelStyle: React.CSSProperties = {
     display: 'flex', flexDirection: 'column', height: '100%',
@@ -1434,15 +1503,31 @@ export function EntityInspector({
   }
 
   if (!selectedEntity) {
+    const addBtn: React.CSSProperties = {
+      flex: 1, padding: '5px 6px', background: '#1e2a4e', border: '1px solid #3a4a8e',
+      color: '#8af', borderRadius: 3, fontSize: 11, cursor: 'pointer',
+    }
     return (
       <div style={panelStyle}>
         <div style={headerStyle}>Town</div>
         <div style={bodyStyle}>
+          {(onAddTreasure || onAddInteractable || onAddBlockedPath) && (
+            <div style={{ marginBottom: 12, paddingBottom: 12, borderBottom: '1px solid #333' }}>
+              <div style={{ color: '#888', fontSize: 10, marginBottom: 5, textTransform: 'uppercase', letterSpacing: 1 }}>Create object</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                {onAddTreasure && <button style={addBtn} onClick={onAddTreasure}>+ Add Treasure</button>}
+                {onAddInteractable && <button style={addBtn} onClick={onAddInteractable}>+ Add Interactable</button>}
+                {onAddBlockedPath && <button style={addBtn} onClick={onAddBlockedPath}>+ Add Road Block</button>}
+              </div>
+            </div>
+          )}
           {onResizeMap && onUpdateMapProps ? (
             <TownInspector
               configData={configData}
               onResizeMap={onResizeMap}
               onUpdateMapProps={onUpdateMapProps}
+              onUpdateConfig={onUpdateConfig}
+              onPickLocation={onPickLocation}
             />
           ) : (
             <div style={{ color: '#555', fontSize: 11, marginTop: 20, textAlign: 'center' }}>
@@ -1546,17 +1631,22 @@ export function EntityInspector({
       <div style={panelStyle}>
         <div style={{ ...headerStyle, color: '#f0c040' }}>Treasure</div>
         <div style={bodyStyle}>
-          <QuestItemInspector
-            label="Treasure"
-            id={t.id}
-            tileId={t.tileId}
-            tx={t.tx}
-            ty={t.ty}
-            extra={t.title ? <Field label="Title"><span style={{ fontSize: 12 }}>{t.title}</span></Field> : undefined}
-            onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
-            onDelete={() => onDelete(selectedEntity)}
-            onTileChange={onUpdateTreasureTile ? tileId => onUpdateTreasureTile(selectedEntity.index, tileId) : undefined}
-          />
+          {onUpdateTreasure ? (
+            <TreasureInspector
+              treasure={t}
+              onUpdate={patch => onUpdateTreasure(selectedEntity.index, patch)}
+              onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
+              onDelete={() => onDelete(selectedEntity)}
+              onPick={onPickLocation ? () => onPickLocation('treasure', selectedEntity.index) : undefined}
+            />
+          ) : (
+            <QuestItemInspector
+              label="Treasure" id={t.id} tileId={t.tileId} tx={t.tx} ty={t.ty}
+              onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
+              onDelete={() => onDelete(selectedEntity)}
+              onTileChange={onUpdateTreasureTile ? tileId => onUpdateTreasureTile(selectedEntity.index, tileId) : undefined}
+            />
+          )}
         </div>
       </div>
     )
