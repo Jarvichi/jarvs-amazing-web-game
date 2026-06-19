@@ -1,8 +1,8 @@
 import React from 'react'
 import type { DrawerTab } from './npcQuestDrawerTypes'
-import type { RawMapConfig, RawNpc } from '../mapEditorTypes'
+import type { RawMapConfig, RawNpc, RawAnimal } from '../mapEditorTypes'
 import type { QuestDefsJson } from '../../../data/hub/hubWorldFactory'
-import { NpcEditor } from './NpcEditor'
+import { NpcEditor, type PickKind } from './NpcEditor'
 import { QuestEditor } from './QuestEditor'
 
 interface Props {
@@ -13,6 +13,10 @@ interface Props {
   onTabChange: (tab: DrawerTab) => void
   onAddNpc: (npc: RawNpc) => void
   onUpdateNpc: (index: number, partial: Partial<RawNpc>) => void
+  onAddAnimal: (animal: RawAnimal) => void
+  onUpdateAnimal: (index: number, partial: Partial<RawAnimal>) => void
+  onDeleteAnimal: (index: number) => void
+  onPickLocation: (kind: PickKind, index: number) => void
   onQuestDefsChange: (updater: (prev: QuestDefsJson) => QuestDefsJson) => void
 }
 
@@ -27,7 +31,7 @@ const TAB_INACTIVE: React.CSSProperties = {
 
 export function NpcQuestDrawer({
   tab, focusedNpcIndex, configData, questDefsData,
-  onTabChange, onAddNpc, onUpdateNpc, onQuestDefsChange,
+  onTabChange, onAddNpc, onUpdateNpc, onAddAnimal, onUpdateAnimal, onDeleteAnimal, onPickLocation, onQuestDefsChange,
 }: Props) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#12122a', borderTop: '1px solid #333' }}>
@@ -47,6 +51,10 @@ export function NpcQuestDrawer({
             focusedIndex={focusedNpcIndex}
             onAddNpc={onAddNpc}
             onUpdateNpc={onUpdateNpc}
+            onAddAnimal={onAddAnimal}
+            onUpdateAnimal={onUpdateAnimal}
+            onDeleteAnimal={onDeleteAnimal}
+            onPickLocation={onPickLocation}
           />
         )}
         {tab === 'quests' && (

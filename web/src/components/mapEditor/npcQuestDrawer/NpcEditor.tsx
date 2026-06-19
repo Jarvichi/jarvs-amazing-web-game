@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
-import type { RawMapConfig, RawNpc } from '../mapEditorTypes'
+import type { RawMapConfig, RawNpc, RawAnimal } from '../mapEditorTypes'
 import type { QuestDefsJson } from '../../../data/hub/hubWorldFactory'
 import { NPC_ACTIVITIES } from '../../../game/hub/hubNpcSchedule'
+import { SpriteSearchPicker } from '../SpritePicker'
+import { AnimalEditor } from './AnimalEditor'
+
+export type PickKind = 'npc' | 'animal'
 
 interface Props {
   configData: RawMapConfig
@@ -9,6 +13,10 @@ interface Props {
   focusedIndex: number | null
   onAddNpc: (npc: RawNpc) => void
   onUpdateNpc: (index: number, partial: Partial<RawNpc>) => void
+  onAddAnimal: (animal: RawAnimal) => void
+  onUpdateAnimal: (index: number, partial: Partial<RawAnimal>) => void
+  onDeleteAnimal: (index: number) => void
+  onPickLocation: (kind: PickKind, index: number) => void
 }
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
@@ -36,6 +44,10 @@ const BTN_DANGER: React.CSSProperties = {
 const BTN_ADD: React.CSSProperties = {
   padding: '3px 10px', background: '#1e2e1e', border: '1px solid #3a5a3a',
   color: '#6d6', borderRadius: 3, fontSize: 11, cursor: 'pointer',
+}
+const BTN_PICK: React.CSSProperties = {
+  padding: '3px 8px', background: '#1e2a4e', border: '1px solid #3a4a8e',
+  color: '#8af', borderRadius: 3, fontSize: 10, cursor: 'pointer', marginLeft: 'auto',
 }
 
 // ── Schedule sub-editor ──────────────────────────────────────────────────────
@@ -172,10 +184,11 @@ function InnRumoursEditor({ rumours, onChange }: {
 
 // ── NpcFullEditor ─────────────────────────────────────────────────────────────
 
-function NpcFullEditor({ npc, questIds, onUpdate }: {
+function NpcFullEditor({ npc, questIds, onUpdate, onPickLocation }: {
   npc: RawNpc
   questIds: string[]
   onUpdate: (partial: Partial<RawNpc>) => void
+  onPickLocation?: () => void
 }) {
   const questOptions = [
     { value: '', label: '— none —' },
@@ -199,7 +212,19 @@ function NpcFullEditor({ npc, questIds, onUpdate }: {
         <input style={INPUT} type="text" value={npc.name} onChange={e => onUpdate({ name: e.target.value })} />
       </Field>
       <Field label="Sprite">
-        <input style={INPUT} type="text" value={npc.sprite} onChange={e => onUpdate({ sprite: e.target.value })} />
+        <SpriteSearchPicker value={npc.sprite} onChange={slug => onUpdate({ sprite: slug })} />
+      </Field>
+      <Field label="Location">
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
+          <label style={{ color: '#888', fontSize: 10 }}>X</label>
+          <input type="number" style={NUM} value={npc.tx} onChange={e => onUpdate({ tx: Number(e.target.value) })} />
+          <label style={{ color: '#888', fontSize: 10 }}>Y</label>
+          <input type="number" style={NUM} value={npc.ty} onChange={e => onUpdate({ ty: Number(e.target.value) })} />
+          {onPickLocation && (
+            <button style={BTN_PICK} onClick={onPickLocation}>📍 Pick on map</button>
+          )}
+        </div>
+        {npc.building && <div style={{ color: '#888', fontSize: 10, marginTop: 2 }}>interior: {npc.building}</div>}
       </Field>
       <Field label="Ghost NPC">
         <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontSize: 11 }}>
@@ -266,83 +291,139 @@ function NpcFullEditor({ npc, questIds, onUpdate }: {
 
 // ── NpcEditor (main export) ──────────────────────────────────────────────────
 
-export function NpcEditor({ configData, questDefsData, focusedIndex, onAddNpc, onUpdateNpc }: Props) {
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
-  const rowRefs = useRef<Record<number, HTMLDivElement | null>>({})
+export function NpcEditor({
+  configData, questDefsData, focusedIndex,
+  onAddNpc, onUpdateNpc, onAddAnimal, onUpdateAnimal, onDeleteAnimal, onPickLocation,
+}: Props) {
+  // Selection is keyed by kind so NPC and animal rows don't collide.
+  const [expanded, setExpanded] = useState<{ kind: PickKind; index: number } | null>(null)
+  const rowRefs = useRef<Record<string, HTMLDivElement | null>>({})
   const containerRef = useRef<HTMLDivElement | null>(null)
-  const pendingScrollIndex = useRef<number | null>(null)
+  const pendingScroll = useRef<string | null>(null)
 
   useEffect(() => {
     if (focusedIndex === null) return
-    setExpandedIndex(focusedIndex)
+    setExpanded({ kind: 'npc', index: focusedIndex })
     setTimeout(() => {
-      rowRefs.current[focusedIndex]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      rowRefs.current[`npc:${focusedIndex}`]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
     }, 50)
   }, [focusedIndex])
 
   const npcs = configData.npcs ?? []
+  const animals = configData.animals ?? []
   const questIds = ((questDefsData.quests as Array<{ id: string }> | undefined) ?? []).map(q => q.id)
 
-  // Scroll to newly added NPC after the render that includes it
+  // Scroll to a newly added row after the render that includes it
   useEffect(() => {
-    if (pendingScrollIndex.current === null) return
-    const idx = pendingScrollIndex.current
-    pendingScrollIndex.current = null
+    if (pendingScroll.current === null) return
+    const key = pendingScroll.current
+    pendingScroll.current = null
     setTimeout(() => {
-      rowRefs.current[idx]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      rowRefs.current[key]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
     }, 50)
-  }, [npcs.length])
+  }, [npcs.length, animals.length])
 
   function handleAddNpc() {
-    console.log("add npc")
-    const defaultLocation = configData.avatarStart ?? {tx:5, ty:5} as {tx: Number, ty: number}
-    const tx = defaultLocation.tx
-    const ty = defaultLocation.ty
+    const loc = configData.avatarStart ?? { tx: 5, ty: 5 }
     const newIndex = npcs.length
-    pendingScrollIndex.current = newIndex
+    pendingScroll.current = `npc:${newIndex}`
     onAddNpc({
       id: `npc_${Date.now()}`,
       name: 'New NPC',
       sprite: '',
-      tx,
-      ty,
+      tx: loc.tx,
+      ty: loc.ty,
       dialogue: ['Hello!'],
     })
-    setExpandedIndex(newIndex)
+    setExpanded({ kind: 'npc', index: newIndex })
   }
+
+  function handleAddAnimal() {
+    const loc = configData.avatarStart ?? { tx: 5, ty: 5 }
+    const newIndex = animals.length
+    pendingScroll.current = `animal:${newIndex}`
+    onAddAnimal({
+      id: `animal-${Date.now()}`,
+      type: 'cat',
+      tx: loc.tx,
+      ty: loc.ty,
+    })
+    setExpanded({ kind: 'animal', index: newIndex })
+  }
+
+  const isExpanded = (kind: PickKind, i: number) => expanded?.kind === kind && expanded.index === i
+  const toggle = (kind: PickKind, i: number) =>
+    setExpanded(isExpanded(kind, i) ? null : { kind, index: i })
 
   return (
     <div ref={containerRef} style={{ flex: 1, overflowY: 'auto', padding: 8, color: '#ccc' }}>
-      <div style={{ marginBottom: 8 }}>
+      <div style={{ marginBottom: 8, display: 'flex', gap: 6 }}>
         <button style={BTN_ADD} onClick={handleAddNpc}>+ Add NPC</button>
+        <button style={{ ...BTN_ADD, background: '#1a2e1a', border: '1px solid #3a6a3a', color: '#88ffaa' }} onClick={handleAddAnimal}>+ Add Animal</button>
       </div>
-      {npcs.length === 0 && (
-        <div style={{ color: '#555', fontSize: 11, textAlign: 'center', marginTop: 8 }}>No NPCs on this map.</div>
+
+      {npcs.length === 0 && animals.length === 0 && (
+        <div style={{ color: '#555', fontSize: 11, textAlign: 'center', marginTop: 8 }}>No NPCs or animals on this map.</div>
       )}
+
       {npcs.map((npc, i) => (
-        <div key={npc.id} ref={el => { rowRefs.current[i] = el }}>
+        <div key={npc.id} ref={el => { rowRefs.current[`npc:${i}`] = el }}>
           <div
-            onClick={() => setExpandedIndex(expandedIndex === i ? null : i)}
+            onClick={() => toggle('npc', i)}
             style={{
               padding: '5px 8px', cursor: 'pointer', borderRadius: 3, marginBottom: 2,
-              background: expandedIndex === i ? '#2a2a4e' : '#1e1e3e',
-              border: `1px solid ${expandedIndex === i ? '#4a4aae' : '#2a2a4a'}`,
+              background: isExpanded('npc', i) ? '#2a2a4e' : '#1e1e3e',
+              border: `1px solid ${isExpanded('npc', i) ? '#4a4aae' : '#2a2a4a'}`,
               display: 'flex', justifyContent: 'space-between', alignItems: 'center',
             }}
           >
-            <span style={{ fontWeight: expandedIndex === i ? 'bold' : 'normal', fontSize: 12 }}>{npc.name}</span>
+            <span style={{ fontWeight: isExpanded('npc', i) ? 'bold' : 'normal', fontSize: 12 }}>{npc.name}</span>
             <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
               {npc.questGive && <span style={{ fontSize: 10, color: '#f0c040' }} title="questGive">Q↑</span>}
               {npc.questReceive && <span style={{ fontSize: 10, color: '#40d0f0' }} title="questReceive">Q↓</span>}
-              <span style={{ color: '#555', fontSize: 10 }}>{npc.sprite}</span>
-              <span style={{ color: '#666', fontSize: 11 }}>{expandedIndex === i ? '▾' : '▸'}</span>
+              <span style={{ color: '#555', fontSize: 10 }}>{npc.sprite || '(default)'}</span>
+              <span style={{ color: '#666', fontSize: 11 }}>{isExpanded('npc', i) ? '▾' : '▸'}</span>
             </div>
           </div>
-          {expandedIndex === i && (
+          {isExpanded('npc', i) && (
             <NpcFullEditor
               npc={npc}
               questIds={questIds}
               onUpdate={partial => onUpdateNpc(i, partial)}
+              onPickLocation={() => onPickLocation('npc', i)}
+            />
+          )}
+        </div>
+      ))}
+
+      {animals.length > 0 && (
+        <div style={{ color: '#88ffaa', fontSize: 10, textTransform: 'uppercase', letterSpacing: 1, margin: '10px 0 4px' }}>Animals</div>
+      )}
+      {animals.map((animal, i) => (
+        <div key={animal.id} ref={el => { rowRefs.current[`animal:${i}`] = el }}>
+          <div
+            onClick={() => toggle('animal', i)}
+            style={{
+              padding: '5px 8px', cursor: 'pointer', borderRadius: 3, marginBottom: 2,
+              background: isExpanded('animal', i) ? '#1e3a1e' : '#1a2a1a',
+              border: `1px solid ${isExpanded('animal', i) ? '#3a6a3a' : '#234023'}`,
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            }}
+          >
+            <span style={{ fontWeight: isExpanded('animal', i) ? 'bold' : 'normal', fontSize: 12 }}>{animal.name || animal.type}</span>
+            <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+              {animal.questGive && <span style={{ fontSize: 10, color: '#f0c040' }} title="questGive">Q↑</span>}
+              {animal.questReceive && <span style={{ fontSize: 10, color: '#40d0f0' }} title="questReceive">Q↓</span>}
+              <span style={{ color: '#558855', fontSize: 10 }}>{animal.type}</span>
+              <span style={{ color: '#666', fontSize: 11 }}>{isExpanded('animal', i) ? '▾' : '▸'}</span>
+            </div>
+          </div>
+          {isExpanded('animal', i) && (
+            <AnimalEditor
+              animal={animal}
+              onUpdate={partial => onUpdateAnimal(i, partial)}
+              onDelete={() => { onDeleteAnimal(i); setExpanded(null) }}
+              onPickLocation={() => onPickLocation('animal', i)}
             />
           )}
         </div>

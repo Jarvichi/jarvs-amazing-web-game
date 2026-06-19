@@ -8,7 +8,7 @@ import type { MapId,  QuestDefsJson } from '../../data/hub/hubWorldFactory'
 import  {  QUEST_DEFS_BY_MAP } from '../../data/hub/hubWorldFactory'
 
 import { SelectedEntity } from './mapEditorTypes'
-import type { RawBlockedPath, RawAnimal } from './mapEditorTypes'
+import type { RawBlockedPath } from './mapEditorTypes'
 import { NpcQuestDrawer } from './npcQuestDrawer/NpcQuestDrawer'
 import type { DrawerTab } from './npcQuestDrawer/npcQuestDrawerTypes'
 
@@ -29,6 +29,8 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
   const [drawerTab, setDrawerTab] = useState<DrawerTab>('npcs')
   const [drawerHeight, setDrawerHeight] = useState(280)
   const [focusedNpcIndex, setFocusedNpcIndex] = useState<number | null>(null)
+  // When set, the next canvas tile click places this NPC/animal there.
+  const [pick, setPick] = useState<{ kind: 'npc' | 'animal'; index: number } | null>(null)
   const drawerDragRef = useRef<{ startY: number; startH: number } | null>(null)
 
   const {
@@ -115,6 +117,21 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
     }
   }, [deleteEntity, selectEntity])
 
+  // Enter "pick a tile" mode for an NPC/animal; the next canvas click sets its location.
+  const handlePickLocation = useCallback((kind: 'npc' | 'animal', index: number) => {
+    setPick({ kind, index })
+  }, [])
+
+  const handlePickTile = useCallback((tx: number, ty: number) => {
+    if (!pick) return
+    // Inside an interior the coords are interior-local and the building is recorded;
+    // in the exterior the building association is cleared.
+    const building = state.viewMode === 'interior' ? (state.activeInteriorId ?? undefined) : undefined
+    if (pick.kind === 'npc') updateNpc(pick.index, { tx, ty, building })
+    else updateAnimal(pick.index, { tx, ty, building })
+    setPick(null)
+  }, [pick, state.viewMode, state.activeInteriorId, updateNpc, updateAnimal])
+
   const handleUpdateBlockedPath = useCallback((index: number, patch: Partial<RawBlockedPath>) => {
     setQuestDefsData(prev => {
       if (!prev) return prev
@@ -180,6 +197,18 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
       />
 
       <div style={{ display: 'flex', flexDirection: 'column', flex: 1, overflow: 'hidden' }}>
+        {pick && (
+          <div style={{
+            flexShrink: 0, padding: '5px 12px', background: '#1e2a4e', borderBottom: '1px solid #3a4a8e',
+            color: '#8af', fontSize: 12, display: 'flex', alignItems: 'center', gap: 10,
+          }}>
+            <span>📍 Click a tile on the map to place this {pick.kind}{state.viewMode === 'interior' ? ` (in ${state.activeInteriorId})` : ''}.</span>
+            <button
+              onClick={() => setPick(null)}
+              style={{ marginLeft: 'auto', padding: '2px 10px', background: '#333', border: '1px solid #555', color: '#aaa', borderRadius: 3, fontSize: 11, cursor: 'pointer' }}
+            >Cancel</button>
+          </div>
+        )}
         {/* Canvas row */}
         <div style={{ display: 'flex', flex: 1, overflow: 'hidden', minHeight: 0 }}>
           {/* Left: Tile palette */}
@@ -211,6 +240,8 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
             activeTileId={state.activeTileId}
             activeBundleId={state.activeBundleId}
             activeZlayer={state.activeZlayer}
+            pickActive={pick !== null}
+            onPickTile={handlePickTile}
             onSelectEntity={selectEntity}
             onPlaceDecor={placeDecor}
             onMoveEntity={handleMoveEntity}
@@ -230,6 +261,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
               onSetActiveLevel={setActiveLevel}
               onUpdateBuilding={updateBuilding}
               onUpdateDecorMinLevel={updateDecorMinLevel}
+              onPickLocation={handlePickLocation}
               onDelete={handleDeleteEntity}
               onMoveEntity={handleMoveEntity}
               onZlayerChange={updateDecorZlayer}
@@ -291,25 +323,12 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
               onTabChange={setDrawerTab}
               onAddNpc={addNpc}
               onUpdateNpc={updateNpc}
+              onAddAnimal={addAnimal}
+              onUpdateAnimal={updateAnimal}
+              onDeleteAnimal={(index) => handleDeleteEntity({ type: 'animal', index })}
+              onPickLocation={handlePickLocation}
               onQuestDefsChange={handleQuestDefsChange}
             />
-            <div style={{ padding: '6px 10px', borderTop: '1px solid #2a2a4a', flexShrink: 0 }}>
-              <button
-                onClick={() => {
-                  const newAnimal: RawAnimal = {
-                    id: `animal-${Date.now()}`,
-                    type: 'cat',
-                    tx: Math.floor((state.configData.mapW ?? 20) / 2),
-                    ty: Math.floor((state.configData.mapH ?? 20) / 2),
-                  }
-                  addAnimal(newAnimal)
-                  selectEntity({ type: 'animal', index: (state.configData.animals ?? []).length })
-                }}
-                style={{ padding: '4px 10px', background: '#1a2e1a', border: '1px solid #3a6a3a', color: '#88ffaa', borderRadius: 3, fontSize: 11, cursor: 'pointer' }}
-              >
-                + Add Animal
-              </button>
-            </div>
           </div>
         )}
       </div>

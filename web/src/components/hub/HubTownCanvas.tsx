@@ -4,6 +4,7 @@ import { usePixiApp } from '../../hooks/usePixiApp'
 import { buildTerrainGfx, buildBgTileGfx, buildDecorGfx } from '../../utils/terrainLayer'
 import { renderPathTiles } from '../../utils/tileLookup'
 import { loadSpriteTexture, loadTextureUrl, loadAnimFrames, loadTileRef } from '../../utils/pixiHelpers'
+import { resolveNpcSprite } from '../../game/sprites'
 import { PATH_TILE } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
 import { isBuildingOpen, getNpcLocation, getNpcActivity } from '../../game/hub/hubNpcSchedule'
@@ -662,7 +663,7 @@ export function HubTownCanvas({
             e.stopPropagation()
             if (npc.tapDialogue) onNpcTapRef.current?.(npc.tapDialogue, npc.id)
           })
-          loadTextureUrl(`${base}sprites/${npc.sprite}.svg`).then(tex => {
+          loadTextureUrl(`${base}sprites/${resolveNpcSprite(npc.sprite)}.svg`).then(tex => {
             if (app.renderer == null) return
             const s = new PIXI.Sprite(tex)
             s.width = SPRITE_SIZE; s.height = SPRITE_SIZE
@@ -686,7 +687,7 @@ export function HubTownCanvas({
             e.stopPropagation()
             if (npc.tapDialogue) onNpcTapRef.current?.(npc.tapDialogue, npc.id)
           })
-          loadTextureUrl(`${base}sprites/${npc.sprite}.svg`).then(tex => {
+          loadTextureUrl(`${base}sprites/${resolveNpcSprite(npc.sprite)}.svg`).then(tex => {
             if (app.renderer == null) return
             const s = new PIXI.Sprite(tex)
             s.width = SPRITE_SIZE; s.height = SPRITE_SIZE
@@ -996,7 +997,7 @@ export function HubTownCanvas({
           namedNpcBaseTex.set(npc.id, tex)
           const activities = new Set(npc.schedule.map(e => e.activity).filter(Boolean) as string[])
           for (const activity of activities) {
-            loadTextureUrl(`${base}sprites/${npc.sprite}-${activity}.svg`)
+            loadTextureUrl(`${base}sprites/${resolveNpcSprite(npc.sprite)}-${activity}.svg`)
               .then(poseTex => { namedNpcPoseTex.set(`${npc.id}:${activity}`, poseTex) })
               .catch(() => { /* no pose art — keep base sprite */ })
           }
@@ -1688,7 +1689,7 @@ export function HubTownCanvas({
       // Interior NPCs — rendered inside the room, tappable
       const interiorNpcList: HubNpc[] = (INTERIOR_NPCS[buildingId] ?? []).filter(n => (n.minLevel ?? 0) <= currentLevel)
       for (const npc of interiorNpcList) {
-        loadTextureUrl(`${base}sprites/${npc.sprite}.svg`).then(tex => {
+        loadTextureUrl(`${base}sprites/${resolveNpcSprite(npc.sprite)}.svg`).then(tex => {
           if (!interiorActive || currentInteriorId !== buildingId) return
           const s = new PIXI.Sprite(tex)
           s.width = SPRITE_SIZE; s.height = SPRITE_SIZE
@@ -1716,7 +1717,7 @@ export function HubTownCanvas({
       })
       for (const npc of scheduledVisitors) {
         const loc = getNpcLocation(npc, gameHourRef.current) as { type: 'interior'; buildingId: string; tx: number; ty: number }
-        loadTextureUrl(`${base}sprites/${npc.sprite}.svg`).then(tex => {
+        loadTextureUrl(`${base}sprites/${resolveNpcSprite(npc.sprite)}.svg`).then(tex => {
           if (!interiorActive || currentInteriorId !== buildingId) return
           const s = new PIXI.Sprite(tex)
           s.width = SPRITE_SIZE; s.height = SPRITE_SIZE

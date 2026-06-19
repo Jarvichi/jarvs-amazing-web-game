@@ -21,3 +21,13 @@ export function spriteSlug(name: string): string {
   if (NAME_MAP[name]) return NAME_MAP[name]
   return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
 }
+
+// Fallback sprite for NPCs with no sprite assigned — a neutral townsperson, so
+// sprite-less NPCs still render (editor preview and in-game) instead of
+// vanishing / showing a placeholder dot.
+export const DEFAULT_NPC_SPRITE = 'hub-npc-elder'
+
+/** Returns the NPC's sprite slug, or the default when none is set. */
+export function resolveNpcSprite(slug?: string): string {
+  return slug?.trim() || DEFAULT_NPC_SPRITE
+}

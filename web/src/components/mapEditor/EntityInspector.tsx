@@ -4,7 +4,7 @@ import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import { resolveTileRef } from '../../data/tiles/tileIndex'
 import type { WallMaterial } from '../../data/tiles/buildingMaterials'
 import { RawQuestPickupItem } from '../../data/hub/hubWorldFactory'
-import { NpcSpritePicker, AnimalTypePicker } from './SpritePicker'
+import { SpriteSearchPicker, AnimalTypePicker } from './SpritePicker'
 import { ANIMAL_SPECS } from '../../game/hub/animals'
 import type { AnimalType } from '../../game/hub/animals'
 import { BUILDING_MUSIC_IDS, AMBIANCE_IDS } from '../../game/sound'
@@ -76,6 +76,12 @@ interface Props {
   onUpdateArea?:         (index: number, patch: Partial<{ name: string; tw: number; th: number }>) => void
   onResizeMap?:          (dir: 'n' | 's' | 'e' | 'w', grow: boolean) => void
   onUpdateMapProps?:     (patch: { townName?: string; environment?: string }) => void
+  onPickLocation?:       (kind: 'npc' | 'animal', index: number) => void
+}
+
+const BTN_PICK: React.CSSProperties = {
+  padding: '4px 8px', background: '#1e2a4e', border: '1px solid #3a4a8e',
+  color: '#8af', borderRadius: 3, fontSize: 11, cursor: 'pointer', width: '100%', marginTop: 2,
 }
 
 const S = 20  // thumbnail size for tile picker grid
@@ -352,7 +358,7 @@ function DecorInspector({
 }
 
 function NpcInspector({
-  npc, entity, onMove, onDelete, onDialogueChange, onUpdate,
+  npc, entity, onMove, onDelete, onDialogueChange, onUpdate, onPickLocation,
 }: {
   npc: RawNpc
   entity: SelectedEntity & { type: 'npc' }
@@ -360,6 +366,7 @@ function NpcInspector({
   onDelete: () => void
   onDialogueChange: (d: string[]) => void
   onUpdate: (partial: Partial<RawNpc>) => void
+  onPickLocation?: () => void
 }) {
   return (
     <div>
@@ -370,7 +377,7 @@ function NpcInspector({
         <span style={{ fontSize: 12 }}>{npc.name}</span>
       </Field>
       <Field label="Sprite">
-        <NpcSpritePicker value={npc.sprite} onChange={slug => onUpdate({ sprite: slug })} />
+        <SpriteSearchPicker value={npc.sprite} onChange={slug => onUpdate({ sprite: slug })} />
       </Field>
       <Field label="Position">
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
@@ -379,6 +386,7 @@ function NpcInspector({
           <label style={{ fontSize: 11, color: '#888' }}>Y</label>
           {numInput(npc.ty, ty => onMove(npc.tx, ty))}
         </div>
+        {onPickLocation && <button style={BTN_PICK} onClick={onPickLocation}>📍 Pick on map</button>}
       </Field>
       <Field label="Dialogue">
         <textarea
@@ -426,12 +434,13 @@ function NpcInspector({
 }
 
 function AnimalInspector({
-  animal, onMove, onDelete, onUpdate,
+  animal, onMove, onDelete, onUpdate, onPickLocation,
 }: {
   animal: RawAnimal
   onMove: (tx: number, ty: number) => void
   onDelete: () => void
   onUpdate: (partial: Partial<RawAnimal>) => void
+  onPickLocation?: () => void
 }) {
   const inputStyle: React.CSSProperties = {
     background: '#252540', border: '1px solid #444', color: '#ccc',
@@ -529,6 +538,7 @@ function AnimalInspector({
           <label style={{ fontSize: 11, color: '#888' }}>Y</label>
           {numInput(animal.ty, ty => onMove(animal.tx, ty))}
         </div>
+        {onPickLocation && <button style={BTN_PICK} onClick={onPickLocation}>📍 Pick on map</button>}
       </Field>
       <button
         onClick={onDelete}
@@ -1365,7 +1375,7 @@ export function EntityInspector({
   onAddLockedDoor, onUpdateLockedDoor, onDeleteLockedDoor,
   onUpdateNpc, onUpdateAnimal,
   onUpdateTreasureTile, onUpdatePickupItemTile,
-  onUpdateArea, onResizeMap, onUpdateMapProps,
+  onUpdateArea, onResizeMap, onUpdateMapProps, onPickLocation,
 }: Props) {
   const panelStyle: React.CSSProperties = {
     display: 'flex', flexDirection: 'column', height: '100%',
@@ -1503,6 +1513,7 @@ export function EntityInspector({
             onDelete={() => onDelete(selectedEntity)}
             onDialogueChange={d => onDialogueChange(selectedEntity.index, d)}
             onUpdate={partial => onUpdateNpc(selectedEntity.index, partial)}
+            onPickLocation={onPickLocation ? () => onPickLocation('npc', selectedEntity.index) : undefined}
           />
         </div>
       </div>
@@ -1521,6 +1532,7 @@ export function EntityInspector({
             onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
             onDelete={() => onDelete(selectedEntity)}
             onUpdate={partial => onUpdateAnimal(selectedEntity.index, partial)}
+            onPickLocation={onPickLocation ? () => onPickLocation('animal', selectedEntity.index) : undefined}
           />
         </div>
       </div>

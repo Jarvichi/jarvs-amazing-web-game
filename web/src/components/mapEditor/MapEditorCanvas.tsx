@@ -9,6 +9,7 @@ import { WALL_TILES } from '../../data/tiles/buildingMaterials'
 import type { WallMaterial } from '../../data/tiles/buildingMaterials'
 import { expandBundleDecor } from '../../data/bundles/bundleLoader'
 import { RawQuestPickupItem } from '../../data/hub/hubWorldFactory'
+import { resolveNpcSprite } from './spriteList'
 
 const T           = 32
 const INTERIOR_PAD = 10  // tiles of surrounding space around active room in interior view
@@ -84,6 +85,8 @@ interface Props {
   activeTileId:     string | null
   activeBundleId:   string | null
   activeZlayer:     Zlayer
+  pickActive?:      boolean
+  onPickTile?:      (tx: number, ty: number) => void
   onSelectEntity:   (e: SelectedEntity | null) => void
   onPlaceDecor:     (tx: number, ty: number) => void
   onMoveEntity:     (entity: SelectedEntity, tx: number, ty: number) => void
@@ -99,7 +102,7 @@ interface Props {
 export function MapEditorCanvas(props: Props) {
   const {
     configData, tool, showGrid, selectedEntity, viewMode, activeInteriorId, activeLevel,
-    activeTileId, activeBundleId, activeZlayer, showQuestItems, showBlockedPaths, showAreas, blockedPaths, questPickupItems,
+    activeTileId, activeBundleId, activeZlayer, pickActive, showQuestItems, showBlockedPaths, showAreas, blockedPaths, questPickupItems,
     onSelectEntity, onPlaceDecor, onMoveEntity, onDeleteEntity, onAddStreet,
   } = props
 
@@ -151,6 +154,12 @@ export function MapEditorCanvas(props: Props) {
       const pos = e.getLocalPosition(stage)
       const tx  = Math.floor((pos.x - ox) / T)
       const ty  = Math.floor((pos.y - oy) / T)
+
+      // Pick-location mode overrides all tools: the click sets an entity's tile.
+      if (propsRef.current.pickActive) {
+        propsRef.current.onPickTile?.(tx, ty)
+        return
+      }
 
       if (t === 'select') {
         const entity = hitTest(cfg, tx, ty, vm, iid, sqI, sbp, bps, sareas)
@@ -288,6 +297,22 @@ export function MapEditorCanvas(props: Props) {
         .stroke({ color: 0xf0c040, width: 2 })
       worldContainer.addChild(pvGfx)
     }
+
+    // Pick-location overlay — a transparent full-canvas catcher above every
+    // sprite, so a pick click lands on whatever tile is under the cursor even
+    // when an entity sprite (which stops propagation) sits there.
+    if (pickActive) {
+      const catcher = new PIXI.Graphics()
+      catcher.rect(0, 0, mapW, mapH).fill({ color: 0x000000, alpha: 0.001 })
+      catcher.eventMode = 'static'
+      catcher.cursor = 'crosshair'
+      catcher.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+        const { x: ox, y: oy } = worldOriginRef.current
+        const pos = e.getLocalPosition(stage)
+        propsRef.current.onPickTile?.(Math.floor((pos.x - ox) / T), Math.floor((pos.y - oy) / T))
+      })
+      stage.addChild(catcher)
+    }
   })
 
   // ── Exterior rendering ─────────────────────────────────────────────────────────
@@ -358,7 +383,7 @@ export function MapEditorCanvas(props: Props) {
     npcs.forEach((npc, nIdx) => {
       if (npc.building) return
       const isSel = selectedEntity?.type === 'npc' && selectedEntity.index === nIdx
-      loadSpriteTexture(npc.sprite).then(tex => {
+      loadSpriteTexture(resolveNpcSprite(npc.sprite)).then(tex => {
         if (renderVersionRef.current !== version) return
         const sp = new PIXI.Sprite(tex)
         sp.width  = T * 1.5; sp.height = T * 1.5
@@ -613,7 +638,7 @@ export function MapEditorCanvas(props: Props) {
       if (npc.building !== iid) return
       const isSel = selectedEntity?.type === 'npc' && selectedEntity.index === nIdx
       const dimmed = (npc.minLevel ?? 0) > activeLevel  // NPC only present at a higher upgrade level
-      loadSpriteTexture(npc.sprite).then(tex => {
+      loadSpriteTexture(resolveNpcSprite(npc.sprite)).then(tex => {
         if (renderVersionRef.current !== version) return
         const sp = new PIXI.Sprite(tex)
         sp.width = T * 1.5; sp.height = T * 1.5
