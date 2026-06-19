@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import type { SelectedEntity, RawMapConfig, RawInterior, RawBlockedPath, RawLockedDoor, Zlayer, RawDecorItem, RawNpc, RawBuilding, RawAnimal, RawInteractable, RawInteractableReaction, PickKind } from './mapEditorTypes'
+import type { SelectedEntity, RawMapConfig, RawInterior, RawBlockedPath, RawLockedDoor, Zlayer, RawDecorItem, RawNpc, RawBuilding, RawAnimal, RawInteractable, RawInteractableReaction, RawWeather, PickKind } from './mapEditorTypes'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import { resolveTileRef } from '../../data/tiles/tileIndex'
 import type { WallMaterial } from '../../data/tiles/buildingMaterials'
@@ -1603,7 +1603,181 @@ function TownInspector({
           </div>
         </div>
       </Field>
+
+      {onUpdateConfig && <TownExtraSections configData={configData} onUpdateConfig={onUpdateConfig} onPickLocation={onPickLocation} inputStyle={inputStyle} />}
     </div>
+  )
+}
+
+// Editors for the remaining town config: spawn & exits, terrain & spawn zones,
+// weather & ambient sprites. Whole arrays/values are written via onUpdateConfig.
+function TownExtraSections({ configData, onUpdateConfig, onPickLocation, inputStyle }: {
+  configData: RawMapConfig
+  onUpdateConfig: (patch: Partial<RawMapConfig>) => void
+  onPickLocation?: (kind: PickKind, index?: number) => void
+  inputStyle: React.CSSProperties
+}) {
+  const numSm: React.CSSProperties = { width: 42, padding: '2px 4px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }
+  const addBtn: React.CSSProperties = { padding: '2px 8px', background: '#1e2e1e', border: '1px solid #3a5a3a', color: '#6d6', borderRadius: 3, fontSize: 10, cursor: 'pointer', alignSelf: 'flex-start' }
+  const xBtn: React.CSSProperties = { padding: '1px 5px', background: '#4a1a1a', border: '1px solid #922', color: '#f88', borderRadius: 3, fontSize: 10, cursor: 'pointer' }
+  const pickBtn: React.CSSProperties = { padding: '1px 6px', background: '#1e2a4e', border: '1px solid #3a4a8e', color: '#8af', borderRadius: 3, fontSize: 10, cursor: 'pointer' }
+  const start = configData.avatarStart ?? { tx: 0, ty: 0 }
+  const exits = configData.exitTiles ?? []
+  const weather = (configData.weather ?? {}) as RawWeather
+  const seasons = Object.entries(weather.bySeason ?? {})
+  const ambient = configData.ambientNpcSprites ?? []
+  const zones = configData.chickenZones ?? []
+  const spawns = configData.npcSpawnTiles ?? []
+
+  return (
+    <>
+      {/* Spawn & exits */}
+      <Field label="Avatar Spawn">
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <label style={{ fontSize: 10, color: '#888' }}>X</label>
+          <input type="number" style={numSm} value={start.tx} onChange={e => onUpdateConfig({ avatarStart: { tx: Number(e.target.value), ty: start.ty } })} />
+          <label style={{ fontSize: 10, color: '#888' }}>Y</label>
+          <input type="number" style={numSm} value={start.ty} onChange={e => onUpdateConfig({ avatarStart: { tx: start.tx, ty: Number(e.target.value) } })} />
+          {onPickLocation && <button style={pickBtn} onClick={() => onPickLocation('avatarStart')}>📍 Pick</button>}
+        </div>
+      </Field>
+
+      <Field label={`Exit Tiles (${exits.length})`}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {exits.map((e, i) => (
+            <div key={i} style={{ display: 'flex', gap: 4, alignItems: 'center', flexWrap: 'wrap', background: '#16161e', border: '1px solid #2a2a3a', borderRadius: 3, padding: 4 }}>
+              <input type="number" style={numSm} value={e.tx} onChange={ev => onUpdateConfig({ exitTiles: exits.map((x, j) => j === i ? { ...x, tx: Number(ev.target.value) } : x) })} />
+              <input type="number" style={numSm} value={e.ty} onChange={ev => onUpdateConfig({ exitTiles: exits.map((x, j) => j === i ? { ...x, ty: Number(ev.target.value) } : x) })} />
+              <input style={{ ...inputStyle, flex: 1, minWidth: 70 }} placeholder="screen" value={e.screen} onChange={ev => onUpdateConfig({ exitTiles: exits.map((x, j) => j === i ? { ...x, screen: ev.target.value } : x) })} />
+              {onPickLocation && <button style={pickBtn} onClick={() => onPickLocation('exitTile', i)}>📍</button>}
+              <button style={xBtn} onClick={() => onUpdateConfig({ exitTiles: exits.filter((_, j) => j !== i) })}>✕</button>
+            </div>
+          ))}
+          <button style={addBtn} onClick={() => onUpdateConfig({ exitTiles: [...exits, { tx: start.tx, ty: start.ty, screen: '' }] })}>+ Add exit</button>
+        </div>
+      </Field>
+
+      {/* Weather */}
+      <Field label="Weather">
+        <input style={{ ...inputStyle, marginBottom: 4 }} placeholder="type (e.g. rain, snow, fog)" value={weather.type ?? ''}
+          onChange={e => onUpdateConfig({ weather: { ...weather, type: e.target.value || undefined } })} />
+        <div style={{ color: '#888', fontSize: 9, margin: '2px 0' }}>Per-season overrides</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          {seasons.map(([season, val], i) => (
+            <div key={i} style={{ display: 'flex', gap: 4 }}>
+              <input style={{ ...inputStyle, flex: 1 }} value={season} placeholder="season" onChange={e => {
+                const next = { ...(weather.bySeason ?? {}) }; delete next[season]; if (e.target.value) next[e.target.value] = val
+                onUpdateConfig({ weather: { ...weather, bySeason: next } })
+              }} />
+              <input style={{ ...inputStyle, flex: 1 }} value={val} placeholder="weather" onChange={e => onUpdateConfig({ weather: { ...weather, bySeason: { ...(weather.bySeason ?? {}), [season]: e.target.value } } })} />
+              <button style={xBtn} onClick={() => { const next = { ...(weather.bySeason ?? {}) }; delete next[season]; onUpdateConfig({ weather: { ...weather, bySeason: next } }) }}>✕</button>
+            </div>
+          ))}
+          <button style={addBtn} onClick={() => onUpdateConfig({ weather: { ...weather, bySeason: { ...(weather.bySeason ?? {}), '': '' } } })}>+ Add season</button>
+        </div>
+      </Field>
+
+      {/* Ambient NPC sprites */}
+      <Field label={`Ambient NPC Sprites (${ambient.length})`}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {ambient.map((slug, i) => (
+            <div key={i} style={{ display: 'flex', gap: 4, alignItems: 'flex-start' }}>
+              <div style={{ flex: 1 }}>
+                <SpriteSearchPicker value={slug} onChange={s => onUpdateConfig({ ambientNpcSprites: ambient.map((x, j) => j === i ? s : x) })} />
+              </div>
+              <button style={xBtn} onClick={() => onUpdateConfig({ ambientNpcSprites: ambient.filter((_, j) => j !== i) })}>✕</button>
+            </div>
+          ))}
+          <button style={addBtn} onClick={() => onUpdateConfig({ ambientNpcSprites: [...ambient, 'hub-npc-elder'] })}>+ Add sprite</button>
+        </div>
+      </Field>
+
+      {/* Chicken zones */}
+      <Field label={`Chicken Zones (${zones.length})`}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {zones.map((z, i) => (
+            <div key={i} style={{ background: '#16161e', border: '1px solid #2a2a3a', borderRadius: 3, padding: 4 }}>
+              <div style={{ display: 'flex', gap: 3, alignItems: 'center', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: 9, color: '#888' }}>rect</span>
+                {[0, 1, 2, 3].map(k => (
+                  <input key={k} type="number" style={numSm} value={z.rect[k]} onChange={e => {
+                    const rect = [...z.rect] as [number, number, number, number]; rect[k] = Number(e.target.value)
+                    onUpdateConfig({ chickenZones: zones.map((x, j) => j === i ? { ...x, rect } : x) })
+                  }} />
+                ))}
+                <button style={{ ...xBtn, marginLeft: 'auto' }} onClick={() => onUpdateConfig({ chickenZones: zones.filter((_, j) => j !== i) })}>✕</button>
+              </div>
+              <div style={{ display: 'flex', gap: 3, alignItems: 'center', marginTop: 3 }}>
+                <span style={{ fontSize: 9, color: '#888' }}>count</span>
+                <input type="number" style={numSm} value={z.count ?? 0} onChange={e => onUpdateConfig({ chickenZones: zones.map((x, j) => j === i ? { ...x, count: Number(e.target.value) || undefined } : x) })} />
+                <span style={{ fontSize: 9, color: '#888' }}>roost</span>
+                <input type="number" style={numSm} value={z.roost?.[0] ?? ''} placeholder="x" onChange={e => onUpdateConfig({ chickenZones: zones.map((x, j) => j === i ? { ...x, roost: [Number(e.target.value), x.roost?.[1] ?? 0] } : x) })} />
+                <input type="number" style={numSm} value={z.roost?.[1] ?? ''} placeholder="y" onChange={e => onUpdateConfig({ chickenZones: zones.map((x, j) => j === i ? { ...x, roost: [x.roost?.[0] ?? 0, Number(e.target.value)] } : x) })} />
+              </div>
+            </div>
+          ))}
+          <button style={addBtn} onClick={() => onUpdateConfig({ chickenZones: [...zones, { rect: [start.tx, start.ty, start.tx + 3, start.ty + 3], count: 3 }] })}>+ Add zone</button>
+        </div>
+      </Field>
+
+      {/* NPC spawn tiles */}
+      <Field label={`NPC Spawn Tiles (${spawns.length})`}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          {spawns.map(([tx, ty], i) => (
+            <div key={i} style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+              <input type="number" style={numSm} value={tx} onChange={e => onUpdateConfig({ npcSpawnTiles: spawns.map((x, j) => j === i ? [Number(e.target.value), x[1]] : x) })} />
+              <input type="number" style={numSm} value={ty} onChange={e => onUpdateConfig({ npcSpawnTiles: spawns.map((x, j) => j === i ? [x[0], Number(e.target.value)] : x) })} />
+              <button style={xBtn} onClick={() => onUpdateConfig({ npcSpawnTiles: spawns.filter((_, j) => j !== i) })}>✕</button>
+            </div>
+          ))}
+          <button style={addBtn} onClick={() => onUpdateConfig({ npcSpawnTiles: [...spawns, [start.tx, start.ty]] })}>+ Add spawn tile</button>
+        </div>
+      </Field>
+
+      {/* Pond tiles */}
+      <PondEditor configData={configData} onUpdateConfig={onUpdateConfig} numSm={numSm} addBtn={addBtn} xBtn={xBtn} anchor={[start.tx, start.ty]} />
+    </>
+  )
+}
+
+function PondEditor({ configData, onUpdateConfig, numSm, addBtn, xBtn, anchor }: {
+  configData: RawMapConfig
+  onUpdateConfig: (patch: Partial<RawMapConfig>) => void
+  numSm: React.CSSProperties
+  addBtn: React.CSSProperties
+  xBtn: React.CSSProperties
+  anchor: [number, number]
+}) {
+  const ponds = configData.pondTiles ?? []
+  const set = (next: typeof ponds) => onUpdateConfig({ pondTiles: next })
+  return (
+    <Field label={`Pond Tiles (${ponds.length})`}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+        {ponds.map((p, i) => (
+          <div key={i} style={{ display: 'flex', gap: 3, alignItems: 'center', flexWrap: 'wrap' }}>
+            {p.rect ? (
+              <>
+                <span style={{ fontSize: 9, color: '#888' }}>rect</span>
+                {[0, 1, 2, 3].map(k => (
+                  <input key={k} type="number" style={numSm} value={p.rect![k]} onChange={e => { const rect = [...p.rect!]; rect[k] = Number(e.target.value); set(ponds.map((x, j) => j === i ? { rect } : x)) }} />
+                ))}
+              </>
+            ) : (
+              <>
+                <span style={{ fontSize: 9, color: '#888' }}>tile</span>
+                <input type="number" style={numSm} value={p.tile?.[0] ?? 0} onChange={e => set(ponds.map((x, j) => j === i ? { tile: [Number(e.target.value), p.tile?.[1] ?? 0] } : x))} />
+                <input type="number" style={numSm} value={p.tile?.[1] ?? 0} onChange={e => set(ponds.map((x, j) => j === i ? { tile: [p.tile?.[0] ?? 0, Number(e.target.value)] } : x))} />
+              </>
+            )}
+            <button style={{ ...xBtn, marginLeft: 'auto' }} onClick={() => set(ponds.filter((_, j) => j !== i))}>✕</button>
+          </div>
+        ))}
+        <div style={{ display: 'flex', gap: 4 }}>
+          <button style={addBtn} onClick={() => set([...ponds, { tile: [anchor[0], anchor[1]] }])}>+ Tile</button>
+          <button style={addBtn} onClick={() => set([...ponds, { rect: [anchor[0], anchor[1], anchor[0] + 2, anchor[1] + 2] }])}>+ Rect</button>
+        </div>
+      </div>
+    </Field>
   )
 }
 
