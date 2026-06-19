@@ -95,6 +95,7 @@ interface Props {
   showQuestItems:     boolean
   showBlockedPaths:   boolean
   showAreas:          boolean
+  showInteractables:  boolean
   blockedPaths:       RawBlockedPath[]
   questPickupItems:   RawQuestPickupItem[]
 }
@@ -102,7 +103,7 @@ interface Props {
 export function MapEditorCanvas(props: Props) {
   const {
     configData, tool, showGrid, selectedEntity, viewMode, activeInteriorId, activeLevel,
-    activeTileId, activeBundleId, activeZlayer, pickActive, showQuestItems, showBlockedPaths, showAreas, blockedPaths, questPickupItems,
+    activeTileId, activeBundleId, activeZlayer, pickActive, showQuestItems, showBlockedPaths, showAreas, showInteractables, blockedPaths, questPickupItems,
     onSelectEntity, onPlaceDecor, onMoveEntity, onDeleteEntity, onAddStreet,
   } = props
 
@@ -283,6 +284,9 @@ export function MapEditorCanvas(props: Props) {
     }
     if (!isInterior && showAreas) {
       renderAreasOverlay(questLayer, selLayer)
+    }
+    if (showInteractables) {
+      renderInteractablesOverlay(version, questLayer, selLayer)
     }
 
     if (showGrid) drawGrid(gridLayer)
@@ -896,6 +900,47 @@ export function MapEditorCanvas(props: Props) {
       layer.addChild(gfx)
       const lbl = new PIXI.Text({ text: area.name, style: { fontSize: 9, fill: isSel ? 0xf0c040 : 0xaa66ff } })
       lbl.x = area.tx * T + 4; lbl.y = area.ty * T + 4
+      layer.addChild(lbl)
+    })
+  }
+
+  // ── Interactables overlay ──────────────────────────────────────────────────────
+  function renderInteractablesOverlay(version: number, layer: PIXI.Container, selLayer: PIXI.Graphics) {
+    const { configData: cfg, selectedEntity: sel } = propsRef.current
+    const iid = activeInteriorId ?? ''
+    ;(cfg.interactables ?? []).forEach((it, idx) => {
+      // Exterior view shows world interactables; interior view shows those owned by the open room.
+      if (isInterior ? it.building !== iid : !!it.building) return
+      const isSel = sel?.type === 'interactable' && sel.index === idx
+      // Render the owned decor tiles (so the object is visible like in-game).
+      for (const d of it.decor ?? []) {
+        const numId = tileNumericId(d.tileId)
+        loadTileRef(numId).then(tex => {
+          if (renderVersionRef.current !== version) return
+          const sp = new PIXI.Sprite(tex)
+          sp.x = (it.tx + d.dx) * T; sp.y = (it.ty + d.dy) * T
+          sp.width = T; sp.height = T
+          layer.addChild(sp)
+        }).catch(() => {})
+      }
+      // Hit-rect box (purple) + click target.
+      const w = it.hitRect?.w ?? (it.decor && it.decor.length ? Math.max(...it.decor.map(d => d.dx)) + 1 : 1)
+      const h = it.hitRect?.h ?? (it.decor && it.decor.length ? Math.max(...it.decor.map(d => d.dy)) + 1 : 1)
+      const gfx = new PIXI.Graphics()
+      gfx.rect(it.tx * T, it.ty * T, w * T, h * T)
+        .fill({ color: 0x33bbee, alpha: 0.10 })
+        .stroke({ color: isSel ? 0xf0c040 : 0x33bbee, width: isSel ? 2 : 1 })
+      gfx.eventMode = 'static'; gfx.cursor = 'pointer'
+      gfx.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+        e.stopPropagation()
+        const entity: SelectedEntity = { type: 'interactable', index: idx }
+        propsRef.current.onSelectEntity(entity)
+        if (propsRef.current.tool === 'select')
+          dragRef.current = { entity, lastTx: it.tx, lastTy: it.ty, offsetX: 0, offsetY: 0 }
+      })
+      layer.addChild(gfx)
+      const lbl = new PIXI.Text({ text: it.id, style: { fontSize: 8, fill: isSel ? 0xf0c040 : 0x66ccff } })
+      lbl.x = it.tx * T + 2; lbl.y = it.ty * T + 2
       layer.addChild(lbl)
     })
   }

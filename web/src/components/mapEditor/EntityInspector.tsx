@@ -1388,6 +1388,159 @@ function TreasureInspector({ treasure, onUpdate, onMove, onDelete, onPick }: {
   )
 }
 
+// ── Interactables ──────────────────────────────────────────────────────────────
+const REACTION_TYPES = ['dialogue', 'screen', 'giveItem', 'quest', 'move'] as const
+
+function ReactionEditor({ reaction, onChange }: {
+  reaction: RawInteractableReaction
+  onChange: (r: RawInteractableReaction) => void
+}) {
+  const inp: React.CSSProperties = { width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box' }
+  const numSm: React.CSSProperties = { width: 50, padding: '2px 4px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }
+  const text = Array.isArray(reaction.text) ? reaction.text.join('\n') : (reaction.text ?? '')
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+      <select value={reaction.type} onChange={e => onChange({ type: e.target.value })} style={inp}>
+        {REACTION_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+      </select>
+
+      {reaction.type === 'dialogue' && (
+        <>
+          <input style={inp} placeholder="speaker name (optional)" value={reaction.speakerName ?? ''} onChange={e => onChange({ ...reaction, speakerName: e.target.value || undefined })} />
+          <textarea style={{ ...inp, resize: 'vertical', fontFamily: 'inherit' }} rows={3} placeholder="dialogue (one line per entry)" value={text}
+            onChange={e => onChange({ ...reaction, text: e.target.value.includes('\n') ? e.target.value.split('\n') : e.target.value })} />
+        </>
+      )}
+
+      {reaction.type === 'screen' && (
+        <input style={inp} placeholder="screen id (e.g. news, town-upgrades)" value={reaction.screen ?? ''} onChange={e => onChange({ ...reaction, screen: e.target.value })} />
+      )}
+
+      {reaction.type === 'quest' && (
+        <>
+          <input style={inp} placeholder="quest id" value={reaction.questId ?? ''} onChange={e => onChange({ ...reaction, questId: e.target.value })} />
+          <input style={inp} placeholder="speaker name (optional)" value={reaction.speakerName ?? ''} onChange={e => onChange({ ...reaction, speakerName: e.target.value || undefined })} />
+        </>
+      )}
+
+      {reaction.type === 'move' && (
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <label style={{ fontSize: 10, color: '#888' }}>To X</label>
+          <input type="number" style={numSm} value={reaction.to?.tx ?? 0} onChange={e => onChange({ ...reaction, to: { tx: Number(e.target.value), ty: reaction.to?.ty ?? 0 } })} />
+          <label style={{ fontSize: 10, color: '#888' }}>Y</label>
+          <input type="number" style={numSm} value={reaction.to?.ty ?? 0} onChange={e => onChange({ ...reaction, to: { tx: reaction.to?.tx ?? 0, ty: Number(e.target.value) } })} />
+        </div>
+      )}
+
+      {reaction.type === 'giveItem' && (
+        <>
+          <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+            <label style={{ fontSize: 10, color: '#888' }}>Crystals</label>
+            <input type="number" style={numSm} value={reaction.crystals ?? 0} onChange={e => onChange({ ...reaction, crystals: Number(e.target.value) || undefined })} />
+          </div>
+          <input style={inp} placeholder="message (optional)" value={reaction.message ?? ''} onChange={e => onChange({ ...reaction, message: e.target.value || undefined })} />
+          <input style={inp} placeholder="already-granted text (optional)" value={reaction.alreadyGrantedText ?? ''} onChange={e => onChange({ ...reaction, alreadyGrantedText: e.target.value || undefined })} />
+          <div style={{ color: '#888', fontSize: 9 }}>Collectible (optional)</div>
+          <div style={{ display: 'flex', gap: 4 }}>
+            <input style={inp} placeholder="id" value={reaction.collectible?.id ?? ''} onChange={e => onChange({ ...reaction, collectible: { id: e.target.value, name: reaction.collectible?.name ?? '', icon: reaction.collectible?.icon ?? '🎁', desc: reaction.collectible?.desc ?? '' } })} />
+            <input style={inp} placeholder="name" value={reaction.collectible?.name ?? ''} onChange={e => onChange({ ...reaction, collectible: { id: reaction.collectible?.id ?? '', name: e.target.value, icon: reaction.collectible?.icon ?? '🎁', desc: reaction.collectible?.desc ?? '' } })} />
+          </div>
+          <div style={{ display: 'flex', gap: 4 }}>
+            <input style={{ ...inp, width: 50, flex: '0 0 50px' }} placeholder="icon" value={reaction.collectible?.icon ?? ''} onChange={e => onChange({ ...reaction, collectible: { id: reaction.collectible?.id ?? '', name: reaction.collectible?.name ?? '', icon: e.target.value, desc: reaction.collectible?.desc ?? '' } })} />
+            <input style={inp} placeholder="desc" value={reaction.collectible?.desc ?? ''} onChange={e => onChange({ ...reaction, collectible: { id: reaction.collectible?.id ?? '', name: reaction.collectible?.name ?? '', icon: reaction.collectible?.icon ?? '🎁', desc: e.target.value } })} />
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
+function InteractableInspector({ it, onUpdate, onMove, onDelete, onPick }: {
+  it: RawInteractable
+  onUpdate: (patch: Partial<RawInteractable>) => void
+  onMove: (tx: number, ty: number) => void
+  onDelete: () => void
+  onPick?: () => void
+}) {
+  const [pickingDecor, setPickingDecor] = useState<number | null>(null)
+  const inp: React.CSSProperties = { width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box' }
+  const numSm: React.CSSProperties = { width: 44, padding: '2px 4px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }
+  const decor = it.decor ?? []
+  const reactions = it.reactions ?? []
+  return (
+    <div>
+      <Field label="ID">
+        <input style={inp} value={it.id} onChange={e => onUpdate({ id: e.target.value })} />
+      </Field>
+      <Field label="Position (anchor)">
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <label style={{ fontSize: 11, color: '#888' }}>X</label>
+          {numInput(it.tx, tx => onMove(tx, it.ty))}
+          <label style={{ fontSize: 11, color: '#888' }}>Y</label>
+          {numInput(it.ty, ty => onMove(it.tx, ty))}
+        </div>
+        {onPick && <button style={BTN_PICK} onClick={onPick}>📍 Pick on map</button>}
+      </Field>
+      <Field label="Building (interior, optional)">
+        <input style={inp} value={it.building ?? ''} placeholder="building ID" onChange={e => onUpdate({ building: e.target.value || undefined })} />
+      </Field>
+      <Field label="Hit area (tiles)">
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <label style={{ fontSize: 10, color: '#888' }}>W</label>
+          <input type="number" style={numSm} value={it.hitRect?.w ?? ''} placeholder="auto" onChange={e => onUpdate({ hitRect: e.target.value ? { w: Number(e.target.value), h: it.hitRect?.h ?? 1 } : undefined })} />
+          <label style={{ fontSize: 10, color: '#888' }}>H</label>
+          <input type="number" style={numSm} value={it.hitRect?.h ?? ''} placeholder="auto" onChange={e => onUpdate({ hitRect: e.target.value ? { w: it.hitRect?.w ?? 1, h: Number(e.target.value) } : undefined })} />
+        </div>
+      </Field>
+      <Field label={`Decor tiles (${decor.length}) — offset from anchor`}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          {decor.map((d, i) => (
+            <div key={i} style={{ background: '#16161e', border: '1px solid #2a2a3a', borderRadius: 3, padding: 4 }}>
+              <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+                <div onClick={() => setPickingDecor(p => p === i ? null : i)} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                  <TilePreview tileId={d.tileId} /><span style={{ fontSize: 10, color: '#666' }}>✎</span>
+                </div>
+                <label style={{ fontSize: 9, color: '#888' }}>dx</label>
+                <input type="number" style={numSm} value={d.dx} onChange={e => onUpdate({ decor: decor.map((x, j) => j === i ? { ...x, dx: Number(e.target.value) } : x) })} />
+                <label style={{ fontSize: 9, color: '#888' }}>dy</label>
+                <input type="number" style={numSm} value={d.dy} onChange={e => onUpdate({ decor: decor.map((x, j) => j === i ? { ...x, dy: Number(e.target.value) } : x) })} />
+                <button style={{ marginLeft: 'auto', padding: '1px 5px', background: '#4a1a1a', border: '1px solid #922', color: '#f88', borderRadius: 3, fontSize: 10, cursor: 'pointer' }}
+                  onClick={() => onUpdate({ decor: decor.filter((_, j) => j !== i) })}>✕</button>
+              </div>
+              {pickingDecor === i && <TilePicker current={d.tileId} onChange={tileId => onUpdate({ decor: decor.map((x, j) => j === i ? { ...x, tileId } : x) })} onClose={() => setPickingDecor(null)} />}
+            </div>
+          ))}
+          <button style={{ padding: '2px 8px', background: '#1e2e1e', border: '1px solid #3a5a3a', color: '#6d6', borderRadius: 3, fontSize: 10, cursor: 'pointer', alignSelf: 'flex-start' }}
+            onClick={() => onUpdate({ decor: [...decor, { dx: 0, dy: 0, tileId: 'signpost' }] })}>+ Add tile</button>
+        </div>
+      </Field>
+      <Field label="Indicator condition (optional)">
+        <input style={inp} value={it.indicator?.condition ?? ''} placeholder="e.g. unread-news"
+          onChange={e => onUpdate({ indicator: e.target.value ? { condition: e.target.value, dx: it.indicator?.dx, dy: it.indicator?.dy } : undefined })} />
+      </Field>
+      <Field label={`Reactions (${reactions.length})`}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          {reactions.map((r, i) => (
+            <div key={i} style={{ background: '#12121e', border: '1px solid #2a2a4a', borderRadius: 4, padding: 6 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                <span style={{ fontSize: 9, color: '#888' }}>#{i + 1}</span>
+                <button style={{ padding: '0 6px', background: '#4a1a1a', border: '1px solid #922', color: '#f88', borderRadius: 3, fontSize: 10, cursor: 'pointer' }}
+                  onClick={() => onUpdate({ reactions: reactions.filter((_, j) => j !== i) })}>✕</button>
+              </div>
+              <ReactionEditor reaction={r} onChange={nr => onUpdate({ reactions: reactions.map((x, j) => j === i ? nr : x) })} />
+            </div>
+          ))}
+          <button style={{ padding: '2px 8px', background: '#1e2e1e', border: '1px solid #3a5a3a', color: '#6d6', borderRadius: 3, fontSize: 10, cursor: 'pointer', alignSelf: 'flex-start' }}
+            onClick={() => onUpdate({ reactions: [...reactions, { type: 'dialogue', text: '' }] })}>+ Add reaction</button>
+        </div>
+      </Field>
+      <button onClick={onDelete} style={{ width: '100%', padding: '6px 0', background: '#5a1a1a', border: '1px solid #922', color: '#f88', cursor: 'pointer', borderRadius: 3, fontSize: 12, marginTop: 6 }}>
+        Delete Interactable
+      </button>
+    </div>
+  )
+}
+
 function TownInspector({
   configData, onResizeMap, onUpdateMapProps, onUpdateConfig, onPickLocation,
 }: {
@@ -1822,6 +1975,25 @@ export function EntityInspector({
             area={area}
             onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
             onUpdate={patch => onUpdateArea?.(selectedEntity.index, patch)}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  if (selectedEntity.type === 'interactable') {
+    const it = (configData.interactables ?? [])[selectedEntity.index]
+    if (!it || !onUpdateInteractable) return null
+    return (
+      <div style={panelStyle}>
+        <div style={{ ...headerStyle, color: '#33ccee' }}>Interactable</div>
+        <div style={bodyStyle}>
+          <InteractableInspector
+            it={it}
+            onUpdate={patch => onUpdateInteractable(selectedEntity.index, patch)}
+            onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
+            onDelete={() => onDelete(selectedEntity)}
+            onPick={onPickLocation ? () => onPickLocation('interactable', selectedEntity.index) : undefined}
           />
         </div>
       </div>

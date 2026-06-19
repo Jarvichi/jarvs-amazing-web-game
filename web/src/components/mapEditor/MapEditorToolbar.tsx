@@ -30,6 +30,7 @@ interface Props {
   showQuestItems:       boolean
   showBlockedPaths:     boolean
   showAreas:            boolean
+  showInteractables:    boolean
   drawerOpen:           boolean
   hasDuplicateQuestIds: boolean
   configData:           RawMapConfig
@@ -41,6 +42,7 @@ interface Props {
   onQuestItemsToggle:   () => void
   onBlockedPathsToggle: () => void
   onAreasToggle:        () => void
+  onInteractablesToggle: () => void
   onDrawerToggle:       () => void
   questDefsData:        Record<string, unknown> | null
   onSaved:              () => void
@@ -54,9 +56,9 @@ const TOOLS: { mode: ToolMode; label: string; title: string }[] = [
 ]
 
 export function MapEditorToolbar({
-  mapId, tool, canUndo, canRedo, isDirty, showGrid, showQuestItems, showBlockedPaths, showAreas, drawerOpen, hasDuplicateQuestIds,
+  mapId, tool, canUndo, canRedo, isDirty, showGrid, showQuestItems, showBlockedPaths, showAreas, showInteractables, drawerOpen, hasDuplicateQuestIds,
   configData, questDefsData, onMapChange, onToolChange, onUndo, onRedo,
-  onGridToggle, onQuestItemsToggle, onBlockedPathsToggle, onAreasToggle, onDrawerToggle, onSaved,
+  onGridToggle, onQuestItemsToggle, onBlockedPathsToggle, onAreasToggle, onInteractablesToggle, onDrawerToggle, onSaved,
 }: Props) {
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'ok' | 'error'>('idle')
   const [saveError, setSaveError] = useState('')
@@ -197,6 +199,20 @@ export function MapEditorToolbar({
         }}
       >
         ▣
+      </button>
+
+      {/* Interactables overlay toggle */}
+      <button
+        title="Toggle interactables (notice boards, signs…)"
+        onClick={onInteractablesToggle}
+        style={{
+          ...btnBase,
+          background:  showInteractables ? '#0e2a2e' : '#1e1e3e',
+          color:       showInteractables ? '#33ccee' : '#666',
+          borderColor: showInteractables ? '#1a6a7a' : '#444',
+        }}
+      >
+        ⊡
       </button>
 
       {/* NPC & Quest drawer toggle */}

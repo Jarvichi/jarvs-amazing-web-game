@@ -245,6 +245,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
         showQuestItems={showQuestItems}
         showBlockedPaths={showBlockedPaths}
         showAreas={showAreas}
+        showInteractables={showInteractables}
         drawerOpen={drawerOpen}
         hasDuplicateQuestIds={hasDuplicateQuestIds}
         configData={state.configData}
@@ -256,6 +257,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
         onQuestItemsToggle={() => setShowQuestItems(q => !q)}
         onBlockedPathsToggle={() => setShowBlockedPaths(b => !b)}
         onAreasToggle={() => setShowAreas(a => !a)}
+        onInteractablesToggle={() => setShowInteractables(i => !i)}
         onDrawerToggle={() => setDrawerOpen(o => !o)}
         questDefsData={questDefsData as Record<string, unknown> | null}
         onSaved={markSaved}
@@ -297,6 +299,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
             showQuestItems={showQuestItems}
             showBlockedPaths={showBlockedPaths}
             showAreas={showAreas}
+            showInteractables={showInteractables}
             blockedPaths={(questDefsData?.blockedPaths as RawBlockedPath[]) ?? []}
             selectedEntity={state.selectedEntity}
             viewMode={state.viewMode}
