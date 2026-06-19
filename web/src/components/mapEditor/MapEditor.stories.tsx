@@ -17,6 +17,23 @@ export const Ravenwatch: Story = {
   args: { initialMapId: 'ravenwatch' },
 }
 
+// Festival previews — force a festival regardless of today's date so its decor
+// can be authored/inspected on the hub canvas year-round.
+export const RavenwatchMidsummer: Story = {
+  name: 'Ravenwatch · Midsummer',
+  args: { initialMapId: 'ravenwatch', initialFestival: 'midsummer' },
+}
+
+export const RavenwatchHarvest: Story = {
+  name: 'Ravenwatch · Harvest',
+  args: { initialMapId: 'ravenwatch', initialFestival: 'harvest' },
+}
+
+export const RavenwatchMidwinter: Story = {
+  name: 'Ravenwatch · Midwinter',
+  args: { initialMapId: 'ravenwatch', initialFestival: 'midwinter' },
+}
+
 export const Millhaven: Story = {
   args: { initialMapId: 'millhaven' },
 }

@@ -82,6 +82,7 @@ interface Props {
   viewMode:         'exterior' | 'interior'
   activeInteriorId: string | null
   activeLevel:      number
+  previewFestivalId?: string | null
   activeTileId:     string | null
   activeBundleId:   string | null
   activeZlayer:     Zlayer
@@ -102,7 +103,7 @@ interface Props {
 
 export function MapEditorCanvas(props: Props) {
   const {
-    configData, tool, showGrid, selectedEntity, viewMode, activeInteriorId, activeLevel,
+    configData, tool, showGrid, selectedEntity, viewMode, activeInteriorId, activeLevel, previewFestivalId,
     activeTileId, activeBundleId, activeZlayer, pickActive, showQuestItems, showBlockedPaths, showAreas, showInteractables, blockedPaths, questPickupItems,
     onSelectEntity, onPlaceDecor, onMoveEntity, onDeleteEntity, onAddStreet,
   } = props
@@ -381,6 +382,13 @@ export function MapEditorCanvas(props: Props) {
       renderBuildingLevelDecor(version, bIdx, flattenDecor(b.levelDecor ?? []),
                                decorBLayer, decorLayer, decorALayer, selLayer)
     })
+
+    // Festival decor for the previewed festival (authoring + preview)
+    if (previewFestivalId) {
+      const group = (configData.festivalDecor ?? []).find(g => g.festivalId === previewFestivalId)
+      if (group) renderFestivalDecor(version, previewFestivalId, flattenDecor(group.decor),
+                                     decorBLayer, decorLayer, decorALayer, selLayer)
+    }
 
     // NPCs
     const npcs = configData.npcs ?? []
@@ -824,6 +832,42 @@ export function MapEditorCanvas(props: Props) {
         const g = new PIXI.Graphics()
         g.rect(tx * T + 4, ty * T + 4, T - 8, T - 8).fill(0x884422)
         if (dimmed) g.alpha = 0.3
+        layer.addChild(g)
+      })
+    })
+  }
+
+  // ── Festival decor rendering (exterior, date-gated; here shown for preview) ────
+  function renderFestivalDecor(
+    version: number,
+    festivalId: string,
+    items: FlatDecorItem[],
+    decorBLayer: PIXI.Container, decorLayer: PIXI.Container, decorALayer: PIXI.Container,
+    selLayer: PIXI.Graphics,
+  ) {
+    items.forEach(({ tx, ty, tileId, zlayer, sourceIndex }) => {
+      const numId = tileNumericId(tileId)
+      const layer = zlayer === 'below' ? decorBLayer : zlayer === 'above' ? decorALayer : decorLayer
+      const isSel = selectedEntity?.type === 'festivalDecor'
+        && selectedEntity.festivalId === festivalId && selectedEntity.index === sourceIndex
+      const entity: SelectedEntity = { type: 'festivalDecor', festivalId, index: sourceIndex }
+      loadTileRef(numId).then(tex => {
+        if (renderVersionRef.current !== version) return
+        const sp = new PIXI.Sprite(tex)
+        sp.x = tx * T; sp.y = ty * T
+        sp.eventMode = 'static'; sp.cursor = 'pointer'
+        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+          e.stopPropagation()
+          propsRef.current.onSelectEntity(entity)
+          if (propsRef.current.tool === 'select')
+            dragRef.current = { entity, lastTx: tx, lastTy: ty, offsetX: 0, offsetY: 0 }
+        })
+        if (isSel) selLayer.rect(tx * T - 1, ty * T - 1, T + 2, T + 2).stroke({ color: 0xf0c040, width: 2 })
+        layer.addChild(sp)
+      }).catch(() => {
+        if (renderVersionRef.current !== version) return
+        const g = new PIXI.Graphics()
+        g.rect(tx * T + 4, ty * T + 4, T - 8, T - 8).fill(0xc080d0)
         layer.addChild(g)
       })
     })

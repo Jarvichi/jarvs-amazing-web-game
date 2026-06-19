@@ -20,6 +20,7 @@ import { HubInteractable, HubInteriorExit, HubLocationBundle, HubNpc, HubQuestBu
 import { createAnimalSystem, AnimalSystem, GlowSource } from './hubAnimals'
 import { createWeatherSystem } from './hubWeather'
 import { resolveWeather } from '../../game/hub/weather'
+import { getActiveFestival } from '../../game/hub/hubCalendar'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import { getUpgradeTrack } from '../../data/hub/buildingUpgrades'
 
@@ -123,6 +124,7 @@ export function HubTownCanvas({
     HUB_STREET_GROUPS,
     HUB_STREET_TILES,
     EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES,
+    HUB_FESTIVAL_DECOR,
     HUB_DOORS, HUB_INTERIORS, EXTERIOR_NPCS, INTERIOR_NPCS,
     NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES,
    HUB_LOCKED_DOORS, HUB_TREASURES, HUB_INTERACTABLES, HUB_ANIMALS, HUB_CHICKEN_ZONES,
@@ -434,10 +436,17 @@ export function HubTownCanvas({
 
     // ── Exterior decor (tile sprites over streets/ground) ─────────────────────
     {
+      // Festival decor for the currently-active festival is layered in with the
+      // base exterior decor (festival is date-stable for the session).
+      const _festival = getActiveFestival()
+      const _festivalDecor = _festival
+        ? (HUB_FESTIVAL_DECOR.find(g => g.festivalId === _festival.id)?.decor ?? [])
+        : []
+      const effectiveDecor = [...EXTERIOR_DECOR, ..._festivalDecor]
       const extNormal      = new Map<number, [number, number][]>()
       const extBelowAvatar = new Map<number, [number, number][]>()
       const extAboveAvatar = new Map<number, [number, number][]>()
-      for (const d of EXTERIOR_DECOR) {
+      for (const d of effectiveDecor) {
         if (d.tileId === 666) continue
         const map  = d.zlayer === 'below' ? extBelowAvatar : d.zlayer === 'above' ? extAboveAvatar : extNormal
         const list = map.get(d.tileId) ?? []

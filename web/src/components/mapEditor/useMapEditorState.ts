@@ -35,7 +35,19 @@ const RAW_CONFIGS: Record<MapId, RawMapConfig> = {
 
 const MAX_UNDO = 50
 
-export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
+/** Immutably patch one item inside a festival decor group; returns a new config. */
+function patchFestivalDecor(
+  cfg: RawMapConfig, festivalId: string, index: number, patch: Partial<RawDecorItem>,
+): RawMapConfig {
+  return { ...cfg, festivalDecor: (cfg.festivalDecor ?? []).map(g => {
+    if (g.festivalId !== festivalId || !g.decor[index]) return g
+    const decor = [...g.decor]
+    decor[index] = { ...decor[index], ...patch }
+    return { ...g, decor }
+  }) }
+}
+
+export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFestival: string | null = null) {
   const [state, setState] = useState<MapEditorState>(() => ({
     mapId:            initialMapId,
     configData:       structuredClone(RAW_CONFIGS[initialMapId]),
@@ -46,6 +58,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     viewMode:         'exterior',
     activeInteriorId: null,
     activeLevel:      0,
+    previewFestivalId: initialFestival,
     selectedEntity:   null,
     undoStack:        [],
     redoStack:        [],
@@ -69,6 +82,10 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
 
   const setActiveLevel = useCallback((activeLevel: number) => {
     setState(s => ({ ...s, activeLevel: Math.max(0, activeLevel) }))
+  }, [])
+
+  const setPreviewFestival = useCallback((previewFestivalId: string | null) => {
+    setState(s => ({ ...s, previewFestivalId, selectedEntity: null }))
   }, [])
 
   const setTool = useCallback((tool: ToolMode) => {
@@ -112,6 +129,14 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
 
       let newConfig: RawMapConfig
       if (s.viewMode === 'exterior') {
+        // When previewing a festival, placed decor belongs to that festival's group.
+        if (s.previewFestivalId) {
+          const groups = [...(prevConfig.festivalDecor ?? [])]
+          const gi = groups.findIndex(g => g.festivalId === s.previewFestivalId)
+          if (gi >= 0) groups[gi] = { ...groups[gi], decor: [...groups[gi].decor, newItem] }
+          else groups.push({ festivalId: s.previewFestivalId, decor: [newItem] })
+          newConfig = { ...prevConfig, festivalDecor: groups }
+        } else
         // When a building is selected, exterior decor belongs to that building's
         // per-level decor (revealed by upgrade level). Otherwise it is ambient
         // exterior decor with no level association.
@@ -158,6 +183,8 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
         if (!decor[entity.index]) return s
         decor[entity.index] = { ...decor[entity.index], tx, ty }
         newConfig = { ...prevConfig, exteriorDecor: decor }
+      } else if (entity.type === 'festivalDecor') {
+        newConfig = patchFestivalDecor(prevConfig, entity.festivalId, entity.index, { tx, ty })
       } else if (entity.type === 'npc') {
         const npcs = [...(prevConfig.npcs ?? [])]
         if (!npcs[entity.index]) return s
@@ -272,6 +299,9 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
 
       if (entity.type === 'exteriorDecor') {
         newConfig = { ...prevConfig, exteriorDecor: (prevConfig.exteriorDecor ?? []).filter((_, i) => i !== entity.index) }
+      } else if (entity.type === 'festivalDecor') {
+        newConfig = { ...prevConfig, festivalDecor: (prevConfig.festivalDecor ?? []).map(g =>
+          g.festivalId === entity.festivalId ? { ...g, decor: g.decor.filter((_, i) => i !== entity.index) } : g) }
       } else if (entity.type === 'npc') {
         newConfig = { ...prevConfig, npcs: (prevConfig.npcs ?? []).filter((_, i) => i !== entity.index) }
       } else if (entity.type === 'animal') {
@@ -328,6 +358,8 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
         if (!decor[entity.index]) return s
         decor[entity.index] = { ...decor[entity.index], zlayer }
         newConfig = { ...prevConfig, exteriorDecor: decor }
+      } else if (entity.type === 'festivalDecor') {
+        newConfig = patchFestivalDecor(prevConfig, entity.festivalId, entity.index, { zlayer })
       } else if (entity.type === 'buildingLevelDecor' && prevConfig.buildings?.[entity.buildingIndex]?.levelDecor) {
         const buildings = [...prevConfig.buildings]
         const b = buildings[entity.buildingIndex]
@@ -369,6 +401,8 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
         if (!decor[entity.index]) return s
         decor[entity.index] = { ...decor[entity.index], ...patch }
         newConfig = { ...prevConfig, exteriorDecor: decor }
+      } else if (entity.type === 'festivalDecor') {
+        newConfig = patchFestivalDecor(prevConfig, entity.festivalId, entity.index, patch)
       } else if (entity.type === 'buildingLevelDecor' && prevConfig.buildings?.[entity.buildingIndex]?.levelDecor) {
         const buildings = [...prevConfig.buildings]
         const b = buildings[entity.buildingIndex]
@@ -994,6 +1028,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     setActiveTile,
     setZlayer,
     setActiveLevel,
+    setPreviewFestival,
     openInterior,
     closeInterior,
     selectEntity,

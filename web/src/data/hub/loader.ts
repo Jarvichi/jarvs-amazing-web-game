@@ -262,6 +262,7 @@ export interface HubLocationBundle {
   HUB_BUILDINGS: HubBuilding[]
   HUB_BUILDING_TILES: [number, number][]
   EXTERIOR_DECOR: any[]
+  HUB_FESTIVAL_DECOR: Array<{ festivalId: string; decor: any[] }>
   HUB_WINDOWS: any[]
   HUB_POND_TILES: [number, number][]
   HUB_DOORS: HubDoor[]
@@ -440,6 +441,21 @@ const EXTERIOR_DECOR = [
   }),
   ..._nestedDecor,
 ]
+
+// Date-gated festival decor groups — resolved like EXTERIOR_DECOR; the renderer
+// shows the group whose festivalId matches the active festival (hubCalendar).
+type RawFestivalGroup = { festivalId: string; decor: RawDecorEntry[] }
+const HUB_FESTIVAL_DECOR: Array<{ festivalId: string; decor: typeof EXTERIOR_DECOR }> = (
+  (rawConfig as unknown as { festivalDecor?: RawFestivalGroup[] }).festivalDecor ?? []
+).map(g => ({
+  festivalId: g.festivalId,
+  decor: (g.decor ?? []).flatMap(d => {
+    if (d.tx == null || d.ty == null) return []
+    if (d.bundleID) return expandBundleDecor(d.bundleID, d.tx, d.ty)
+    if (d.tileId) return [{ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer, glow: d.glow, glowRadius: d.glowRadius, pulse: d.pulse }]
+    return []
+  }),
+}))
 
 type RawWindowEntry = { tx: number; ty: number; tileId: string }
 const HUB_WINDOWS = [
@@ -633,6 +649,7 @@ type RawExitTile = { tx: number; ty: number; screen: string }
     HUB_BUILDINGS,
     HUB_BUILDING_TILES,
     EXTERIOR_DECOR,
+    HUB_FESTIVAL_DECOR,
     HUB_WINDOWS,
     HUB_POND_TILES,
     HUB_DOORS,

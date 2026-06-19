@@ -3,6 +3,7 @@ import type { ToolMode } from './mapEditorTypes'
 import { saveMap, saveQuestDefs } from './mapEditorApi'
 import type { RawMapConfig } from './mapEditorTypes'
 import { MapId } from '../../data/hub/hubWorldFactory'
+import { FESTIVALS } from '../../game/hub/hubCalendar'
 
 const MAP_OPTIONS: { id: MapId; label: string }[] = [
   { id: 'ravenwatch',        label: 'Hub — Ravenwatch' },
@@ -34,6 +35,8 @@ interface Props {
   drawerOpen:           boolean
   hasDuplicateQuestIds: boolean
   configData:           RawMapConfig
+  previewFestivalId:    string | null
+  onPreviewFestivalChange: (id: string | null) => void
   onMapChange:          (id: MapId) => void
   onToolChange:         (t: ToolMode) => void
   onUndo:               () => void
@@ -57,7 +60,7 @@ const TOOLS: { mode: ToolMode; label: string; title: string }[] = [
 
 export function MapEditorToolbar({
   mapId, tool, canUndo, canRedo, isDirty, showGrid, showQuestItems, showBlockedPaths, showAreas, showInteractables, drawerOpen, hasDuplicateQuestIds,
-  configData, questDefsData, onMapChange, onToolChange, onUndo, onRedo,
+  configData, questDefsData, previewFestivalId, onPreviewFestivalChange, onMapChange, onToolChange, onUndo, onRedo,
   onGridToggle, onQuestItemsToggle, onBlockedPathsToggle, onAreasToggle, onInteractablesToggle, onDrawerToggle, onSaved,
 }: Props) {
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'ok' | 'error'>('idle')
@@ -100,6 +103,22 @@ export function MapEditorToolbar({
       >
         {MAP_OPTIONS.map(o => (
           <option key={o.id} value={o.id}>{o.label}</option>
+        ))}
+      </select>
+
+      {/* Festival preview / authoring — placed decor goes into the selected festival's group */}
+      <select
+        value={previewFestivalId ?? ''}
+        onChange={e => onPreviewFestivalChange(e.target.value || null)}
+        title="Preview / author festival decor"
+        style={{
+          padding: '4px 6px', background: previewFestivalId ? '#3a2e10' : '#1e1e3e',
+          border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 12, cursor: 'pointer',
+        }}
+      >
+        <option value="">Festival: none</option>
+        {FESTIVALS.map(f => (
+          <option key={f.id} value={f.id}>{f.icon} {f.name}</option>
         ))}
       </select>
 

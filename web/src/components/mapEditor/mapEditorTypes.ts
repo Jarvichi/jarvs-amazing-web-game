@@ -226,6 +226,7 @@ export interface RawMapConfig {
   lockedDoors?: RawLockedDoor[]
   interactables?: RawInteractable[]
   chickenZones?: RawChickenZone[]
+  festivalDecor?: Array<{ festivalId: string; decor: RawDecorItem[] }>
 }
 
 export type SelectedEntity =
@@ -244,6 +245,7 @@ export type SelectedEntity =
   | { type: 'interactable'; index: number }
   | { type: 'exitTile'; index: number }
   | { type: 'chickenZone'; index: number }
+  | { type: 'festivalDecor'; festivalId: string; index: number }
 
 export interface MapEditorState {
   mapId: MapId
@@ -255,6 +257,8 @@ export interface MapEditorState {
   viewMode: ViewMode
   activeInteriorId: string | null
   activeLevel: number
+  /** Festival being previewed/authored in the editor (null = base / no festival). */
+  previewFestivalId: string | null
   selectedEntity: SelectedEntity | null
   undoStack: RawMapConfig[]
   redoStack: RawMapConfig[]

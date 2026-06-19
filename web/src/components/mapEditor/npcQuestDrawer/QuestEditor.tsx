@@ -3,6 +3,7 @@ import type { RawMapConfig, RawNpc } from '../mapEditorTypes'
 import type { QuestDefsJson } from '../../../data/hub/hubWorldFactory'
 import type { QuestDefinition, QuestStep, QuestReward, Dialogue } from '../../../data/hub/questDefs'
 import { isQuestIdUnique, generateQuestId } from './questValidation'
+import { FESTIVALS } from '../../../game/hub/hubCalendar'
 
 interface Props {
   configData: RawMapConfig
@@ -356,6 +357,12 @@ function QuestFullEditor({
       <Field label="Prerequisite">
         <select style={SELECT} value={draft.prerequisite ?? ''} onChange={e => set('prerequisite', e.target.value || undefined)}>
           {prerequisiteOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+        </select>
+      </Field>
+      <Field label="Festival (time-limited)">
+        <select style={SELECT} value={draft.festivalId ?? ''} onChange={e => set('festivalId', e.target.value || undefined)}>
+          <option value="">none (always available)</option>
+          {FESTIVALS.map(f => <option key={f.id} value={f.id}>{f.icon} {f.name}</option>)}
         </select>
       </Field>
       <Field label="Offer Dialogue">

@@ -39,6 +39,7 @@ import { TreasureModal } from './TreasureModal'
 import { getCollectedTreasureIds, markTreasureCollected } from '../../game/hub/treasures'
 import { useHubClock } from '../../hooks/useHubClock'
 import { formatGameTime, hourInRange } from '../../game/hub/hubClock'
+import { getActiveFestival } from '../../game/hub/hubCalendar'
 import { getDailyChallengeNPCDialogue } from '../../game/hub/npcDialogue'
 import {  ALL_QUESTS, FRIENDSHIP_DIALOGUE, RELATIONSHIP_DIALOGUE, RAVENWATCH } from '../../data/hub/hubWorldFactory'
 import { HubInteractable, HubLocationBundle, HubQuestBundle, HubTreasure } from '../../data/hub/loader'
@@ -239,6 +240,9 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   }
 
 
+  // Active festival (real-date driven, with QA override) — gates festival quests + HUD badge.
+  const activeFestival = getActiveFestival()
+
   // Quest NPC state: maps npcId → 'offer' | 'ready' | null, read imperatively by PixiJS ticker
   const questNpcStateRef = useRef(new Map<string, 'offer' | 'ready' | null>())
   {
@@ -250,7 +254,8 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
       if (state.status === 'available') {
         const prereqMet = !quest.prerequisite || checkPrerequisite(quest.prerequisite)
         const hoursMet  = !quest.availableHours || hourInRange(gameHour, quest.availableHours.start, quest.availableHours.end)
-        if (prereqMet && hoursMet && !atCap) m.set(quest.giverNpcId, 'offer')
+        const festivalMet = !quest.festivalId || quest.festivalId === activeFestival?.id
+        if (prereqMet && hoursMet && festivalMet && !atCap) m.set(quest.giverNpcId, 'offer')
       } else if (state.status === 'active') {
         if (isQuestReadyToComplete(quest)) m.set(quest.receiverNpcId, 'ready')
       }
@@ -674,6 +679,7 @@ function hasOfferableQuest(giverId: string): boolean {
   return questDefs.some(q =>
     q.giverNpcId === giverId &&
     getQuestState(q.id).status === 'available' &&
+    (!q.festivalId || q.festivalId === activeFestival?.id) &&
     (!q.prerequisite || checkPrerequisite(q.prerequisite)))
 }
 
@@ -1016,6 +1022,9 @@ function hasOfferableQuest(giverId: string): boolean {
           <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>💎 {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
           <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
           <ToolbarLabel className="title-deck-info">{isGameNight ? '🌙' : '☀️'} {formatGameTime()}</ToolbarLabel>
+          {activeFestival && (
+            <ToolbarLabel className="title-deck-info">{activeFestival.icon} {activeFestival.name}</ToolbarLabel>
+          )}
         <ToolbarButton icon="📜" title="Quests" onClick={() => setQuestsOpen(true)} />
         <ToolbarButton icon="🧭" title="Where is…?" onClick={() => setDirectoryOpen(true)} />
         <ToolbarButton icon="🏗️" title="Town Upgrades" onClick={() => setUpgradesOpen(true)} />
