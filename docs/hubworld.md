@@ -941,3 +941,30 @@ the viewport, so cost is independent of map size). A standalone
 default (`snow`/`ice`/`tundra` → snow; `swamp`/`marsh`/`graveyard`/`ashen` → fog;
 `forest` → rain; others → clear) → `clear`. Omit `weather` entirely to use the
 environment default. `WEATHER_TYPES` in `weather.ts` is the canonical type list.
+
+---
+
+## §13 — Map Editor config coverage
+
+The in-app **Map Editor** (`web/src/components/mapEditor/`) can author every
+field in a town's `config.json` and `questDefs.json`. Save writes both files
+back whole (the editor `structuredClone`s the full config/questDefs, so unknown
+or unedited keys are preserved).
+
+| Data (file) | Where in the editor |
+|---|---|
+| mapW/H, townName, environment (config) | Town panel (no selection) |
+| avatarStart, exitTiles, weather, ambientNpcSprites, npcSpawnTiles, pondTiles, chickenZones (config) | Town panel → extra sections |
+| buildings, exteriorDecor, interiors, streets, areas, doors (config) | Canvas tools + Building/Interior/Street/Area inspectors |
+| npcs, animals (config) | NPC drawer (NPCs tab) + canvas |
+| treasures (config) | "+ Add Treasure" + Treasure inspector; quest-items overlay |
+| interactables (config) | Interactables overlay toggle + Interactable inspector (incl. reactions) |
+| lockedDoors (config) | Building inspector → locked door |
+| quests, pickupItems (questDefs) | NPC drawer (Quests tab) |
+| blockedPaths (questDefs) | "+ Add Road Block" + Blocked Path inspector; blocked-paths overlay |
+| innRumours, friendshipDialogue, relationshipDialogue, dialogues (questDefs) | NPC drawer (Dialogue tab) |
+
+**Pick-on-map:** NPCs, animals, treasures, interactables, exit tiles, avatar
+spawn, and blocked-path tiles all support a "📍 Pick on map" button that sets
+the location from the next canvas click (records the interior building when used
+inside a room). Dialogue-tree `nodes` are edited as JSON within the Dialogue tab.

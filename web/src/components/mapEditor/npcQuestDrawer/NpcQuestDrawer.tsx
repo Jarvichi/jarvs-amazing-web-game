@@ -4,6 +4,7 @@ import type { RawMapConfig, RawNpc, RawAnimal } from '../mapEditorTypes'
 import type { QuestDefsJson } from '../../../data/hub/hubWorldFactory'
 import { NpcEditor, type PickKind } from './NpcEditor'
 import { QuestEditor } from './QuestEditor'
+import { DialogueEditor } from './DialogueEditor'
 
 interface Props {
   tab: DrawerTab
@@ -42,6 +43,9 @@ export function NpcQuestDrawer({
         <button style={tab === 'quests' ? TAB_ACTIVE : TAB_INACTIVE} onClick={() => onTabChange('quests')}>
           Quests
         </button>
+        <button style={tab === 'dialogue' ? TAB_ACTIVE : TAB_INACTIVE} onClick={() => onTabChange('dialogue')}>
+          Dialogue
+        </button>
       </div>
       <div style={{ flex: 1, overflow: 'hidden', display: 'flex' }}>
         {tab === 'npcs' && (
@@ -62,6 +66,12 @@ export function NpcQuestDrawer({
             configData={configData}
             questDefsData={questDefsData}
             onUpdateNpc={onUpdateNpc}
+            onQuestDefsChange={onQuestDefsChange}
+          />
+        )}
+        {tab === 'dialogue' && (
+          <DialogueEditor
+            questDefsData={questDefsData}
             onQuestDefsChange={onQuestDefsChange}
           />
         )}
