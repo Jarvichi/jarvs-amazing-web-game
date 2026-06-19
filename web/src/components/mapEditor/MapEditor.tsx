@@ -15,9 +15,11 @@ import type { DrawerTab } from './npcQuestDrawer/npcQuestDrawerTypes'
 
 interface Props {
   initialMapId?: MapId
+  /** Seed the festival preview/authoring mode (e.g. for Storybook). */
+  initialFestival?: string
 }
 
-export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
+export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undefined }: Props) {
   const [showGrid, setShowGrid] = useState(true)
   const [showQuestItems, setShowQuestItems] = useState(false)
   const [showBlockedPaths, setShowBlockedPaths] = useState(false)
@@ -35,7 +37,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
   const drawerDragRef = useRef<{ startY: number; startH: number } | null>(null)
 
   const {
-    state, setMapId, setTool, setActiveTile, setZlayer, setActiveLevel,
+    state, setMapId, setTool, setActiveTile, setZlayer, setActiveLevel, setPreviewFestival,
     openInterior, closeInterior, selectEntity,
     placeDecor, moveEntity, deleteEntity,
     updateDecorZlayer, updateGlow, updateDecorMinLevel, updateBuilding, addNpc, updateNpcDialogue, updateNpc,
@@ -46,7 +48,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
     addStreet, updateStreetEntry,
     addLockedDoor, updateLockedDoor, deleteLockedDoor,
     undo, redo, markSaved,
-  } = useMapEditorState(initialMapId)
+  } = useMapEditorState(initialMapId, initialFestival ?? null)
 
   // Reset questDefs when map changes
   useEffect(() => {
@@ -249,6 +251,8 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
         drawerOpen={drawerOpen}
         hasDuplicateQuestIds={hasDuplicateQuestIds}
         configData={state.configData}
+        previewFestivalId={state.previewFestivalId}
+        onPreviewFestivalChange={setPreviewFestival}
         onMapChange={setMapId}
         onToolChange={setTool}
         onUndo={undo}
@@ -292,8 +296,9 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
 
           {/* Center: Map canvas — key forces remount when canvas dimensions change */}
           <MapEditorCanvas
-            key={`${state.mapId}-${state.viewMode}-${state.activeInteriorId ?? ''}`}
+            key={`${state.mapId}-${state.viewMode}-${state.activeInteriorId ?? ''}-${state.previewFestivalId ?? ''}`}
             configData={state.configData}
+            previewFestivalId={state.previewFestivalId}
             tool={state.tool}
             showGrid={showGrid}
             showQuestItems={showQuestItems}

@@ -11,6 +11,21 @@
       "winter": "snow"
     }
   },
+  "festivalDecor": [
+    {
+      "festivalId": "midsummer",
+      "decor": [
+        { "tx": 34, "ty": 26, "tileId": "lampPostTop" },
+        { "tx": 34, "ty": 27, "tileId": "lampPostBottom" },
+        { "tx": 40, "ty": 26, "tileId": "lampPostTop" },
+        { "tx": 40, "ty": 27, "tileId": "lampPostBottom" },
+        { "tx": 35, "ty": 31, "tileId": "flowerPotLeft" },
+        { "tx": 36, "ty": 31, "tileId": "flowerPotRight" },
+        { "tx": 38, "ty": 31, "tileId": "flowerPotLeft" },
+        { "tx": 39, "ty": 31, "tileId": "flowerPotRight" }
+      ]
+    }
+  ],
   "avatarStart": {
     "tx": 37,
     "ty": 29

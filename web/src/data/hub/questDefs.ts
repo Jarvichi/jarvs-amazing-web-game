@@ -43,6 +43,8 @@ export interface HubQuestDef {
   steps: HubQuestStep[]
   reward: HubQuestReward
   availableHours?: { start: number; end: number }
+  /** If set, the quest is only offered while this festival is active (hubCalendar). */
+  festivalId?: string
 }
 
 
@@ -63,6 +65,9 @@ export interface QuestDefinition {
   steps: QuestStep[]
 
   reward: QuestReward
+
+  /** If set, the quest is only offered while this festival is active (hubCalendar). */
+  festivalId?: string
 }
 
 

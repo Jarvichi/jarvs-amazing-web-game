@@ -968,3 +968,68 @@ or unedited keys are preserved).
 spawn, and blocked-path tiles all support a "📍 Pick on map" button that sets
 the location from the next canvas click (records the interior building when used
 inside a room). Dialogue-tree `nodes` are edited as JSON within the Dialogue tab.
+
+---
+
+## §14 — Seasonal & Festival Events
+
+A real-date calendar layer (`web/src/game/hub/hubCalendar.ts`) drives time-limited
+festival content: decor swaps, festival-gated quests, and an "event active" HUD
+badge. Builds on the weather `seasonForDate` helper.
+
+### Festival registry (`FESTIVALS` in `hubCalendar.ts`)
+
+The single source of truth for runtime, the map editor, and Storybook. Each entry:
+
+```ts
+{ id: 'midsummer', name: 'Midsummer Fair', icon: '🏮',
+  start: { month: 6, day: 1 }, end: { month: 7, day: 15 } }
+```
+
+`getActiveFestival(date?)` returns the festival whose window contains the date
+(windows wrap the new year when `start > end`, e.g. Midwinter Dec→Jan), or `null`.
+Add a festival by appending to `FESTIVALS`.
+
+### Festival decor (`config.json` → optional top-level `festivalDecor`)
+
+```jsonc
+{
+  "festivalDecor": [
+    { "festivalId": "midsummer", "decor": [
+      { "tx": 34, "ty": 26, "tileId": "lampPostTop" },
+      { "tx": 35, "ty": 31, "tileId": "flowerPotLeft" }
+    ] }
+  ]
+}
+```
+
+Each group's `decor` uses the same shape as `exteriorDecor` (tile keys from
+`baseChipIndex.ts`, optional `zlayer`). The loader resolves it to
+`HUB_FESTIVAL_DECOR`; `HubTownCanvas` renders the group whose `festivalId` matches
+the active festival, layered in with the base exterior decor.
+
+### Festival-gated quests (`questDefs.json`)
+
+Set `"festivalId": "<id>"` on a quest — it is only offered while that festival is
+active (gated alongside `prerequisite`/`availableHours` in `HubWorld`). Any
+`pickupItems` it references appear only while the quest is active, as usual.
+
+### HUD badge
+
+When a festival is active, `HubWorld` shows an `{icon} {name}` label next to the
+clock.
+
+### QA override (preview any festival on any date)
+
+`setFestivalOverride(id | 'none' | null)` (localStorage `jarv_hub_festival_override`)
+forces a festival, suppresses all festivals (`'none'`), or clears back to
+date-driven (`null`). In dev it is exposed on `window.setFestivalOverride`.
+
+### Map editor & Storybook
+
+The editor toolbar's **Festival** selector previews a festival's decor live;
+while a festival is selected, placing/moving/deleting exterior decor edits that
+festival's group (not `exteriorDecor`). The quest editor has a **Festival**
+dropdown for `festivalId`. The `MapEditor` Storybook stories
+(`Ravenwatch · Midsummer/Harvest/Midwinter`) seed `initialFestival` so each
+festival is previewable regardless of today's date.

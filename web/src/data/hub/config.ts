@@ -299,6 +299,9 @@ export interface RawConfig {
   /** Optional per-town weather (loose raw shape; typed `WeatherConfig` at the loader output). */
   weather?: { type?: string; bySeason?: Record<string, string> }
 
+  /** Optional date-gated festival decor groups (rendered when that festival is active). */
+  festivalDecor?: Array<{ festivalId: string; decor: RawDecor[] }>
+
   avatarStart:RawCoordinate
 
   exitTiles?: RawExitTile[]
