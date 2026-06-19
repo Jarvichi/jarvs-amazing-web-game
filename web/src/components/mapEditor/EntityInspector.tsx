@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import type { SelectedEntity, RawMapConfig, RawInterior, RawBlockedPath, RawLockedDoor, Zlayer, RawDecorItem, RawNpc, RawBuilding, RawAnimal } from './mapEditorTypes'
+import type { SelectedEntity, RawMapConfig, RawInterior, RawBlockedPath, RawLockedDoor, Zlayer, RawDecorItem, RawNpc, RawBuilding, RawAnimal, RawInteractable, RawInteractableReaction, RawWeather, PickKind } from './mapEditorTypes'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import { resolveTileRef } from '../../data/tiles/tileIndex'
 import type { WallMaterial } from '../../data/tiles/buildingMaterials'
@@ -35,6 +35,7 @@ const COLS = 8
 const T = 32
 
 type InteriorExit = NonNullable<RawInterior['exits']>[number]
+type Treasure = NonNullable<RawMapConfig['treasures']>[number]
 
 export type GlowPatch = Partial<{ glow: boolean; glowRadius: number; pulse: boolean }>
 
@@ -72,11 +73,17 @@ interface Props {
   onUpdateNpc:           (index: number, partial: Partial<RawNpc>) => void
   onUpdateAnimal:        (index: number, partial: Partial<RawAnimal>) => void
   onUpdateTreasureTile?: (index: number, tileId: string) => void
+  onUpdateTreasure?:     (index: number, patch: Partial<Treasure>) => void
+  onUpdateInteractable?: (index: number, patch: Partial<RawInteractable>) => void
+  onUpdateConfig?:       (patch: Partial<RawMapConfig>) => void
+  onAddTreasure?:        () => void
+  onAddInteractable?:    () => void
+  onAddBlockedPath?:     () => void
   onUpdatePickupItemTile?: (index: number, tileId: string) => void
   onUpdateArea?:         (index: number, patch: Partial<{ name: string; tw: number; th: number }>) => void
   onResizeMap?:          (dir: 'n' | 's' | 'e' | 'w', grow: boolean) => void
   onUpdateMapProps?:     (patch: { townName?: string; environment?: string }) => void
-  onPickLocation?:       (kind: 'npc' | 'animal', index: number) => void
+  onPickLocation?:       (kind: PickKind, index?: number) => void
 }
 
 const BTN_PICK: React.CSSProperties = {
@@ -1164,29 +1171,62 @@ function InteriorInspector({
   )
 }
 
+type PathDecor = { tx: number; ty: number; tileId: string }
+
+// Editable {tx,ty,tileId} decor list used for a blocked path's blocked/cleared states.
+function PathDecorEditor({ label, decor, anchor, onChange }: {
+  label: string
+  decor: PathDecor[]
+  anchor: [number, number]
+  onChange: (d: PathDecor[]) => void
+}) {
+  const [pickingIdx, setPickingIdx] = useState<number | null>(null)
+  const numSm: React.CSSProperties = { width: 40, padding: '2px 4px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }
+  return (
+    <Field label={label}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+        {decor.map((d, i) => (
+          <div key={i} style={{ background: '#16161e', border: '1px solid #2a2a3a', borderRadius: 3, padding: 4 }}>
+            <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+              <div onClick={() => setPickingIdx(p => p === i ? null : i)} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                <TilePreview tileId={d.tileId} /><span style={{ fontSize: 10, color: '#666' }}>✎</span>
+              </div>
+              <label style={{ fontSize: 9, color: '#888' }}>X</label>
+              <input type="number" value={d.tx} style={numSm} onChange={e => onChange(decor.map((x, j) => j === i ? { ...x, tx: Number(e.target.value) } : x))} />
+              <label style={{ fontSize: 9, color: '#888' }}>Y</label>
+              <input type="number" value={d.ty} style={numSm} onChange={e => onChange(decor.map((x, j) => j === i ? { ...x, ty: Number(e.target.value) } : x))} />
+              <button style={{ marginLeft: 'auto', padding: '1px 5px', background: '#4a1a1a', border: '1px solid #922', color: '#f88', borderRadius: 3, fontSize: 10, cursor: 'pointer' }}
+                onClick={() => onChange(decor.filter((_, j) => j !== i))}>✕</button>
+            </div>
+            {pickingIdx === i && <TilePicker current={d.tileId} onChange={tileId => onChange(decor.map((x, j) => j === i ? { ...x, tileId } : x))} onClose={() => setPickingIdx(null)} />}
+          </div>
+        ))}
+        <button style={{ padding: '2px 8px', background: '#1e2e1e', border: '1px solid #3a5a3a', color: '#6d6', borderRadius: 3, fontSize: 10, cursor: 'pointer', alignSelf: 'flex-start' }}
+          onClick={() => onChange([...decor, { tx: anchor[0], ty: anchor[1], tileId: 'barrel' }])}>+ Add decor</button>
+      </div>
+    </Field>
+  )
+}
+
 function BlockedPathInspector({
-  bp, onUpdate, onDelete,
+  bp, onUpdate, onDelete, onPick,
 }: {
   bp: RawBlockedPath
   onUpdate: (patch: Partial<RawBlockedPath>) => void
   onDelete: () => void
+  onPick?: () => void
 }) {
-  const [editQuestId, setEditQuestId] = useState(bp.questId)
+  const anchor = bp.blockedTiles[0] ?? [0, 0]
   return (
     <div>
       <Field label="ID"><span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{bp.id}</span></Field>
-      <Field label="Quest ID">
-        <div style={{ display: 'flex', gap: 4 }}>
-          <input
-            value={editQuestId}
-            onChange={e => setEditQuestId(e.target.value)}
-            style={{ flex: 1, padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11, fontFamily: 'monospace' }}
-          />
-          <button
-            onClick={() => onUpdate({ questId: editQuestId })}
-            style={{ padding: '3px 7px', background: '#1a3a1a', border: '1px solid #3a6a3a', color: '#8d8', borderRadius: 3, fontSize: 11, cursor: 'pointer' }}
-          >✓</button>
-        </div>
+      <Field label="Quest ID (cleared when complete)">
+        <input
+          value={bp.questId}
+          onChange={e => onUpdate({ questId: e.target.value })}
+          placeholder="quest id"
+          style={{ width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11, fontFamily: 'monospace', boxSizing: 'border-box' }}
+        />
       </Field>
       <Field label={`Blocked Tiles (${bp.blockedTiles.length})`}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -1200,21 +1240,12 @@ function BlockedPathInspector({
             </div>
           ))}
         </div>
+        {onPick && <button style={BTN_PICK} onClick={onPick}>📍 Add tile from map</button>}
       </Field>
-      {bp.blocked.decor && bp.blocked.decor.length > 0 && (
-        <Field label="Blocked Decor">
-          {bp.blocked.decor.map((d, i) => (
-            <div key={i} style={{ fontFamily: 'monospace', fontSize: 10, color: '#888' }}>[{d.tx},{d.ty}] {d.tileId}</div>
-          ))}
-        </Field>
-      )}
-      {bp.cleared.decor && bp.cleared.decor.length > 0 && (
-        <Field label="Cleared Decor">
-          {bp.cleared.decor.map((d, i) => (
-            <div key={i} style={{ fontFamily: 'monospace', fontSize: 10, color: '#888' }}>[{d.tx},{d.ty}] {d.tileId}</div>
-          ))}
-        </Field>
-      )}
+      <PathDecorEditor label="Blocked Decor (shown while blocked)" decor={(bp.blocked.decor ?? []) as PathDecor[]} anchor={anchor as [number, number]}
+        onChange={d => onUpdate({ blocked: { ...bp.blocked, decor: d } })} />
+      <PathDecorEditor label="Cleared Decor (shown once cleared)" decor={(bp.cleared.decor ?? []) as PathDecor[]} anchor={anchor as [number, number]}
+        onChange={d => onUpdate({ cleared: { ...bp.cleared, decor: d } })} />
       <button
         onClick={onDelete}
         style={{ marginTop: 8, padding: '4px 10px', background: '#4a1a1a', border: '1px solid #922', color: '#f88', borderRadius: 3, fontSize: 11, cursor: 'pointer' }}
@@ -1299,12 +1330,225 @@ function AreaInspector({
   )
 }
 
+function TreasureInspector({ treasure, onUpdate, onMove, onDelete, onPick }: {
+  treasure: Treasure
+  onUpdate: (patch: Partial<Treasure>) => void
+  onMove: (tx: number, ty: number) => void
+  onDelete: () => void
+  onPick?: () => void
+}) {
+  const [picking, setPicking] = useState<null | 'tile' | 'collected'>(null)
+  const inputStyle: React.CSSProperties = {
+    width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444',
+    color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box',
+  }
+  const reward = (treasure.reward ?? {}) as Record<string, unknown>
+  const crystals = typeof reward.crystals === 'number' ? reward.crystals : 0
+  return (
+    <div>
+      <Field label="ID">
+        <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{treasure.id}</span>
+      </Field>
+      <Field label="Title">
+        <input style={inputStyle} value={treasure.title ?? ''} onChange={e => onUpdate({ title: e.target.value })} />
+      </Field>
+      <Field label="Tile">
+        <div onClick={() => setPicking(p => p === 'tile' ? null : 'tile')} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+          <TilePreview tileId={treasure.tileId} /><span style={{ fontSize: 10, color: '#666' }}>✎</span>
+        </div>
+        {picking === 'tile' && <TilePicker current={treasure.tileId} onChange={tileId => onUpdate({ tileId })} onClose={() => setPicking(null)} />}
+      </Field>
+      <Field label="Collected Tile">
+        <div onClick={() => setPicking(p => p === 'collected' ? null : 'collected')} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+          {treasure.collectedTileId ? <TilePreview tileId={treasure.collectedTileId} /> : <span style={{ color: '#888', fontSize: 11 }}>(none)</span>}
+          <span style={{ fontSize: 10, color: '#666' }}>✎</span>
+        </div>
+        {picking === 'collected' && <TilePicker current={treasure.collectedTileId ?? ''} onChange={tileId => onUpdate({ collectedTileId: tileId })} onClose={() => setPicking(null)} />}
+      </Field>
+      <Field label="Building (interior, optional)">
+        <input style={inputStyle} value={treasure.buildingId ?? ''} placeholder="building ID"
+          onChange={e => onUpdate({ buildingId: e.target.value || undefined })} />
+      </Field>
+      <Field label="Reward — crystals">
+        {numInput(crystals, n => onUpdate({ reward: { ...reward, crystals: n } }))}
+      </Field>
+      <Field label="Position">
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <label style={{ fontSize: 11, color: '#888' }}>X</label>
+          {numInput(treasure.tx, tx => onMove(tx, treasure.ty))}
+          <label style={{ fontSize: 11, color: '#888' }}>Y</label>
+          {numInput(treasure.ty, ty => onMove(treasure.tx, ty))}
+        </div>
+        {onPick && <button style={BTN_PICK} onClick={onPick}>📍 Pick on map</button>}
+      </Field>
+      <button onClick={onDelete} style={{ width: '100%', padding: '6px 0', background: '#5a1a1a', border: '1px solid #922', color: '#f88', cursor: 'pointer', borderRadius: 3, fontSize: 12, marginTop: 4 }}>
+        Delete Treasure
+      </button>
+    </div>
+  )
+}
+
+// ── Interactables ──────────────────────────────────────────────────────────────
+const REACTION_TYPES = ['dialogue', 'screen', 'giveItem', 'quest', 'move'] as const
+
+function ReactionEditor({ reaction, onChange }: {
+  reaction: RawInteractableReaction
+  onChange: (r: RawInteractableReaction) => void
+}) {
+  const inp: React.CSSProperties = { width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box' }
+  const numSm: React.CSSProperties = { width: 50, padding: '2px 4px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }
+  const text = Array.isArray(reaction.text) ? reaction.text.join('\n') : (reaction.text ?? '')
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+      <select value={reaction.type} onChange={e => onChange({ type: e.target.value })} style={inp}>
+        {REACTION_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+      </select>
+
+      {reaction.type === 'dialogue' && (
+        <>
+          <input style={inp} placeholder="speaker name (optional)" value={reaction.speakerName ?? ''} onChange={e => onChange({ ...reaction, speakerName: e.target.value || undefined })} />
+          <textarea style={{ ...inp, resize: 'vertical', fontFamily: 'inherit' }} rows={3} placeholder="dialogue (one line per entry)" value={text}
+            onChange={e => onChange({ ...reaction, text: e.target.value.includes('\n') ? e.target.value.split('\n') : e.target.value })} />
+        </>
+      )}
+
+      {reaction.type === 'screen' && (
+        <input style={inp} placeholder="screen id (e.g. news, town-upgrades)" value={reaction.screen ?? ''} onChange={e => onChange({ ...reaction, screen: e.target.value })} />
+      )}
+
+      {reaction.type === 'quest' && (
+        <>
+          <input style={inp} placeholder="quest id" value={reaction.questId ?? ''} onChange={e => onChange({ ...reaction, questId: e.target.value })} />
+          <input style={inp} placeholder="speaker name (optional)" value={reaction.speakerName ?? ''} onChange={e => onChange({ ...reaction, speakerName: e.target.value || undefined })} />
+        </>
+      )}
+
+      {reaction.type === 'move' && (
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <label style={{ fontSize: 10, color: '#888' }}>To X</label>
+          <input type="number" style={numSm} value={reaction.to?.tx ?? 0} onChange={e => onChange({ ...reaction, to: { tx: Number(e.target.value), ty: reaction.to?.ty ?? 0 } })} />
+          <label style={{ fontSize: 10, color: '#888' }}>Y</label>
+          <input type="number" style={numSm} value={reaction.to?.ty ?? 0} onChange={e => onChange({ ...reaction, to: { tx: reaction.to?.tx ?? 0, ty: Number(e.target.value) } })} />
+        </div>
+      )}
+
+      {reaction.type === 'giveItem' && (
+        <>
+          <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+            <label style={{ fontSize: 10, color: '#888' }}>Crystals</label>
+            <input type="number" style={numSm} value={reaction.crystals ?? 0} onChange={e => onChange({ ...reaction, crystals: Number(e.target.value) || undefined })} />
+          </div>
+          <input style={inp} placeholder="message (optional)" value={reaction.message ?? ''} onChange={e => onChange({ ...reaction, message: e.target.value || undefined })} />
+          <input style={inp} placeholder="already-granted text (optional)" value={reaction.alreadyGrantedText ?? ''} onChange={e => onChange({ ...reaction, alreadyGrantedText: e.target.value || undefined })} />
+          <div style={{ color: '#888', fontSize: 9 }}>Collectible (optional)</div>
+          <div style={{ display: 'flex', gap: 4 }}>
+            <input style={inp} placeholder="id" value={reaction.collectible?.id ?? ''} onChange={e => onChange({ ...reaction, collectible: { id: e.target.value, name: reaction.collectible?.name ?? '', icon: reaction.collectible?.icon ?? '🎁', desc: reaction.collectible?.desc ?? '' } })} />
+            <input style={inp} placeholder="name" value={reaction.collectible?.name ?? ''} onChange={e => onChange({ ...reaction, collectible: { id: reaction.collectible?.id ?? '', name: e.target.value, icon: reaction.collectible?.icon ?? '🎁', desc: reaction.collectible?.desc ?? '' } })} />
+          </div>
+          <div style={{ display: 'flex', gap: 4 }}>
+            <input style={{ ...inp, width: 50, flex: '0 0 50px' }} placeholder="icon" value={reaction.collectible?.icon ?? ''} onChange={e => onChange({ ...reaction, collectible: { id: reaction.collectible?.id ?? '', name: reaction.collectible?.name ?? '', icon: e.target.value, desc: reaction.collectible?.desc ?? '' } })} />
+            <input style={inp} placeholder="desc" value={reaction.collectible?.desc ?? ''} onChange={e => onChange({ ...reaction, collectible: { id: reaction.collectible?.id ?? '', name: reaction.collectible?.name ?? '', icon: reaction.collectible?.icon ?? '🎁', desc: e.target.value } })} />
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
+function InteractableInspector({ it, onUpdate, onMove, onDelete, onPick }: {
+  it: RawInteractable
+  onUpdate: (patch: Partial<RawInteractable>) => void
+  onMove: (tx: number, ty: number) => void
+  onDelete: () => void
+  onPick?: () => void
+}) {
+  const [pickingDecor, setPickingDecor] = useState<number | null>(null)
+  const inp: React.CSSProperties = { width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box' }
+  const numSm: React.CSSProperties = { width: 44, padding: '2px 4px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }
+  const decor = it.decor ?? []
+  const reactions = it.reactions ?? []
+  return (
+    <div>
+      <Field label="ID">
+        <input style={inp} value={it.id} onChange={e => onUpdate({ id: e.target.value })} />
+      </Field>
+      <Field label="Position (anchor)">
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <label style={{ fontSize: 11, color: '#888' }}>X</label>
+          {numInput(it.tx, tx => onMove(tx, it.ty))}
+          <label style={{ fontSize: 11, color: '#888' }}>Y</label>
+          {numInput(it.ty, ty => onMove(it.tx, ty))}
+        </div>
+        {onPick && <button style={BTN_PICK} onClick={onPick}>📍 Pick on map</button>}
+      </Field>
+      <Field label="Building (interior, optional)">
+        <input style={inp} value={it.building ?? ''} placeholder="building ID" onChange={e => onUpdate({ building: e.target.value || undefined })} />
+      </Field>
+      <Field label="Hit area (tiles)">
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <label style={{ fontSize: 10, color: '#888' }}>W</label>
+          <input type="number" style={numSm} value={it.hitRect?.w ?? ''} placeholder="auto" onChange={e => onUpdate({ hitRect: e.target.value ? { w: Number(e.target.value), h: it.hitRect?.h ?? 1 } : undefined })} />
+          <label style={{ fontSize: 10, color: '#888' }}>H</label>
+          <input type="number" style={numSm} value={it.hitRect?.h ?? ''} placeholder="auto" onChange={e => onUpdate({ hitRect: e.target.value ? { w: it.hitRect?.w ?? 1, h: Number(e.target.value) } : undefined })} />
+        </div>
+      </Field>
+      <Field label={`Decor tiles (${decor.length}) — offset from anchor`}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          {decor.map((d, i) => (
+            <div key={i} style={{ background: '#16161e', border: '1px solid #2a2a3a', borderRadius: 3, padding: 4 }}>
+              <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+                <div onClick={() => setPickingDecor(p => p === i ? null : i)} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                  <TilePreview tileId={d.tileId} /><span style={{ fontSize: 10, color: '#666' }}>✎</span>
+                </div>
+                <label style={{ fontSize: 9, color: '#888' }}>dx</label>
+                <input type="number" style={numSm} value={d.dx} onChange={e => onUpdate({ decor: decor.map((x, j) => j === i ? { ...x, dx: Number(e.target.value) } : x) })} />
+                <label style={{ fontSize: 9, color: '#888' }}>dy</label>
+                <input type="number" style={numSm} value={d.dy} onChange={e => onUpdate({ decor: decor.map((x, j) => j === i ? { ...x, dy: Number(e.target.value) } : x) })} />
+                <button style={{ marginLeft: 'auto', padding: '1px 5px', background: '#4a1a1a', border: '1px solid #922', color: '#f88', borderRadius: 3, fontSize: 10, cursor: 'pointer' }}
+                  onClick={() => onUpdate({ decor: decor.filter((_, j) => j !== i) })}>✕</button>
+              </div>
+              {pickingDecor === i && <TilePicker current={d.tileId} onChange={tileId => onUpdate({ decor: decor.map((x, j) => j === i ? { ...x, tileId } : x) })} onClose={() => setPickingDecor(null)} />}
+            </div>
+          ))}
+          <button style={{ padding: '2px 8px', background: '#1e2e1e', border: '1px solid #3a5a3a', color: '#6d6', borderRadius: 3, fontSize: 10, cursor: 'pointer', alignSelf: 'flex-start' }}
+            onClick={() => onUpdate({ decor: [...decor, { dx: 0, dy: 0, tileId: 'signpost' }] })}>+ Add tile</button>
+        </div>
+      </Field>
+      <Field label="Indicator condition (optional)">
+        <input style={inp} value={it.indicator?.condition ?? ''} placeholder="e.g. unread-news"
+          onChange={e => onUpdate({ indicator: e.target.value ? { condition: e.target.value, dx: it.indicator?.dx, dy: it.indicator?.dy } : undefined })} />
+      </Field>
+      <Field label={`Reactions (${reactions.length})`}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          {reactions.map((r, i) => (
+            <div key={i} style={{ background: '#12121e', border: '1px solid #2a2a4a', borderRadius: 4, padding: 6 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                <span style={{ fontSize: 9, color: '#888' }}>#{i + 1}</span>
+                <button style={{ padding: '0 6px', background: '#4a1a1a', border: '1px solid #922', color: '#f88', borderRadius: 3, fontSize: 10, cursor: 'pointer' }}
+                  onClick={() => onUpdate({ reactions: reactions.filter((_, j) => j !== i) })}>✕</button>
+              </div>
+              <ReactionEditor reaction={r} onChange={nr => onUpdate({ reactions: reactions.map((x, j) => j === i ? nr : x) })} />
+            </div>
+          ))}
+          <button style={{ padding: '2px 8px', background: '#1e2e1e', border: '1px solid #3a5a3a', color: '#6d6', borderRadius: 3, fontSize: 10, cursor: 'pointer', alignSelf: 'flex-start' }}
+            onClick={() => onUpdate({ reactions: [...reactions, { type: 'dialogue', text: '' }] })}>+ Add reaction</button>
+        </div>
+      </Field>
+      <button onClick={onDelete} style={{ width: '100%', padding: '6px 0', background: '#5a1a1a', border: '1px solid #922', color: '#f88', cursor: 'pointer', borderRadius: 3, fontSize: 12, marginTop: 6 }}>
+        Delete Interactable
+      </button>
+    </div>
+  )
+}
+
 function TownInspector({
-  configData, onResizeMap, onUpdateMapProps,
+  configData, onResizeMap, onUpdateMapProps, onUpdateConfig, onPickLocation,
 }: {
   configData: RawMapConfig
   onResizeMap: (dir: 'n' | 's' | 'e' | 'w', grow: boolean) => void
   onUpdateMapProps: (patch: { townName?: string; environment?: string }) => void
+  onUpdateConfig?: (patch: Partial<RawMapConfig>) => void
+  onPickLocation?: (kind: PickKind, index?: number) => void
 }) {
   const TILE = 32
   const tileW = configData.mapW / TILE
@@ -1359,7 +1603,181 @@ function TownInspector({
           </div>
         </div>
       </Field>
+
+      {onUpdateConfig && <TownExtraSections configData={configData} onUpdateConfig={onUpdateConfig} onPickLocation={onPickLocation} inputStyle={inputStyle} />}
     </div>
+  )
+}
+
+// Editors for the remaining town config: spawn & exits, terrain & spawn zones,
+// weather & ambient sprites. Whole arrays/values are written via onUpdateConfig.
+function TownExtraSections({ configData, onUpdateConfig, onPickLocation, inputStyle }: {
+  configData: RawMapConfig
+  onUpdateConfig: (patch: Partial<RawMapConfig>) => void
+  onPickLocation?: (kind: PickKind, index?: number) => void
+  inputStyle: React.CSSProperties
+}) {
+  const numSm: React.CSSProperties = { width: 42, padding: '2px 4px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }
+  const addBtn: React.CSSProperties = { padding: '2px 8px', background: '#1e2e1e', border: '1px solid #3a5a3a', color: '#6d6', borderRadius: 3, fontSize: 10, cursor: 'pointer', alignSelf: 'flex-start' }
+  const xBtn: React.CSSProperties = { padding: '1px 5px', background: '#4a1a1a', border: '1px solid #922', color: '#f88', borderRadius: 3, fontSize: 10, cursor: 'pointer' }
+  const pickBtn: React.CSSProperties = { padding: '1px 6px', background: '#1e2a4e', border: '1px solid #3a4a8e', color: '#8af', borderRadius: 3, fontSize: 10, cursor: 'pointer' }
+  const start = configData.avatarStart ?? { tx: 0, ty: 0 }
+  const exits = configData.exitTiles ?? []
+  const weather = (configData.weather ?? {}) as RawWeather
+  const seasons = Object.entries(weather.bySeason ?? {})
+  const ambient = configData.ambientNpcSprites ?? []
+  const zones = configData.chickenZones ?? []
+  const spawns = configData.npcSpawnTiles ?? []
+
+  return (
+    <>
+      {/* Spawn & exits */}
+      <Field label="Avatar Spawn">
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <label style={{ fontSize: 10, color: '#888' }}>X</label>
+          <input type="number" style={numSm} value={start.tx} onChange={e => onUpdateConfig({ avatarStart: { tx: Number(e.target.value), ty: start.ty } })} />
+          <label style={{ fontSize: 10, color: '#888' }}>Y</label>
+          <input type="number" style={numSm} value={start.ty} onChange={e => onUpdateConfig({ avatarStart: { tx: start.tx, ty: Number(e.target.value) } })} />
+          {onPickLocation && <button style={pickBtn} onClick={() => onPickLocation('avatarStart')}>📍 Pick</button>}
+        </div>
+      </Field>
+
+      <Field label={`Exit Tiles (${exits.length})`}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {exits.map((e, i) => (
+            <div key={i} style={{ display: 'flex', gap: 4, alignItems: 'center', flexWrap: 'wrap', background: '#16161e', border: '1px solid #2a2a3a', borderRadius: 3, padding: 4 }}>
+              <input type="number" style={numSm} value={e.tx} onChange={ev => onUpdateConfig({ exitTiles: exits.map((x, j) => j === i ? { ...x, tx: Number(ev.target.value) } : x) })} />
+              <input type="number" style={numSm} value={e.ty} onChange={ev => onUpdateConfig({ exitTiles: exits.map((x, j) => j === i ? { ...x, ty: Number(ev.target.value) } : x) })} />
+              <input style={{ ...inputStyle, flex: 1, minWidth: 70 }} placeholder="screen" value={e.screen} onChange={ev => onUpdateConfig({ exitTiles: exits.map((x, j) => j === i ? { ...x, screen: ev.target.value } : x) })} />
+              {onPickLocation && <button style={pickBtn} onClick={() => onPickLocation('exitTile', i)}>📍</button>}
+              <button style={xBtn} onClick={() => onUpdateConfig({ exitTiles: exits.filter((_, j) => j !== i) })}>✕</button>
+            </div>
+          ))}
+          <button style={addBtn} onClick={() => onUpdateConfig({ exitTiles: [...exits, { tx: start.tx, ty: start.ty, screen: '' }] })}>+ Add exit</button>
+        </div>
+      </Field>
+
+      {/* Weather */}
+      <Field label="Weather">
+        <input style={{ ...inputStyle, marginBottom: 4 }} placeholder="type (e.g. rain, snow, fog)" value={weather.type ?? ''}
+          onChange={e => onUpdateConfig({ weather: { ...weather, type: e.target.value || undefined } })} />
+        <div style={{ color: '#888', fontSize: 9, margin: '2px 0' }}>Per-season overrides</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          {seasons.map(([season, val], i) => (
+            <div key={i} style={{ display: 'flex', gap: 4 }}>
+              <input style={{ ...inputStyle, flex: 1 }} value={season} placeholder="season" onChange={e => {
+                const next = { ...(weather.bySeason ?? {}) }; delete next[season]; if (e.target.value) next[e.target.value] = val
+                onUpdateConfig({ weather: { ...weather, bySeason: next } })
+              }} />
+              <input style={{ ...inputStyle, flex: 1 }} value={val} placeholder="weather" onChange={e => onUpdateConfig({ weather: { ...weather, bySeason: { ...(weather.bySeason ?? {}), [season]: e.target.value } } })} />
+              <button style={xBtn} onClick={() => { const next = { ...(weather.bySeason ?? {}) }; delete next[season]; onUpdateConfig({ weather: { ...weather, bySeason: next } }) }}>✕</button>
+            </div>
+          ))}
+          <button style={addBtn} onClick={() => onUpdateConfig({ weather: { ...weather, bySeason: { ...(weather.bySeason ?? {}), '': '' } } })}>+ Add season</button>
+        </div>
+      </Field>
+
+      {/* Ambient NPC sprites */}
+      <Field label={`Ambient NPC Sprites (${ambient.length})`}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {ambient.map((slug, i) => (
+            <div key={i} style={{ display: 'flex', gap: 4, alignItems: 'flex-start' }}>
+              <div style={{ flex: 1 }}>
+                <SpriteSearchPicker value={slug} onChange={s => onUpdateConfig({ ambientNpcSprites: ambient.map((x, j) => j === i ? s : x) })} />
+              </div>
+              <button style={xBtn} onClick={() => onUpdateConfig({ ambientNpcSprites: ambient.filter((_, j) => j !== i) })}>✕</button>
+            </div>
+          ))}
+          <button style={addBtn} onClick={() => onUpdateConfig({ ambientNpcSprites: [...ambient, 'hub-npc-elder'] })}>+ Add sprite</button>
+        </div>
+      </Field>
+
+      {/* Chicken zones */}
+      <Field label={`Chicken Zones (${zones.length})`}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {zones.map((z, i) => (
+            <div key={i} style={{ background: '#16161e', border: '1px solid #2a2a3a', borderRadius: 3, padding: 4 }}>
+              <div style={{ display: 'flex', gap: 3, alignItems: 'center', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: 9, color: '#888' }}>rect</span>
+                {[0, 1, 2, 3].map(k => (
+                  <input key={k} type="number" style={numSm} value={z.rect[k]} onChange={e => {
+                    const rect = [...z.rect] as [number, number, number, number]; rect[k] = Number(e.target.value)
+                    onUpdateConfig({ chickenZones: zones.map((x, j) => j === i ? { ...x, rect } : x) })
+                  }} />
+                ))}
+                <button style={{ ...xBtn, marginLeft: 'auto' }} onClick={() => onUpdateConfig({ chickenZones: zones.filter((_, j) => j !== i) })}>✕</button>
+              </div>
+              <div style={{ display: 'flex', gap: 3, alignItems: 'center', marginTop: 3 }}>
+                <span style={{ fontSize: 9, color: '#888' }}>count</span>
+                <input type="number" style={numSm} value={z.count ?? 0} onChange={e => onUpdateConfig({ chickenZones: zones.map((x, j) => j === i ? { ...x, count: Number(e.target.value) || undefined } : x) })} />
+                <span style={{ fontSize: 9, color: '#888' }}>roost</span>
+                <input type="number" style={numSm} value={z.roost?.[0] ?? ''} placeholder="x" onChange={e => onUpdateConfig({ chickenZones: zones.map((x, j) => j === i ? { ...x, roost: [Number(e.target.value), x.roost?.[1] ?? 0] } : x) })} />
+                <input type="number" style={numSm} value={z.roost?.[1] ?? ''} placeholder="y" onChange={e => onUpdateConfig({ chickenZones: zones.map((x, j) => j === i ? { ...x, roost: [x.roost?.[0] ?? 0, Number(e.target.value)] } : x) })} />
+              </div>
+            </div>
+          ))}
+          <button style={addBtn} onClick={() => onUpdateConfig({ chickenZones: [...zones, { rect: [start.tx, start.ty, start.tx + 3, start.ty + 3], count: 3 }] })}>+ Add zone</button>
+        </div>
+      </Field>
+
+      {/* NPC spawn tiles */}
+      <Field label={`NPC Spawn Tiles (${spawns.length})`}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          {spawns.map(([tx, ty], i) => (
+            <div key={i} style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+              <input type="number" style={numSm} value={tx} onChange={e => onUpdateConfig({ npcSpawnTiles: spawns.map((x, j) => j === i ? [Number(e.target.value), x[1]] : x) })} />
+              <input type="number" style={numSm} value={ty} onChange={e => onUpdateConfig({ npcSpawnTiles: spawns.map((x, j) => j === i ? [x[0], Number(e.target.value)] : x) })} />
+              <button style={xBtn} onClick={() => onUpdateConfig({ npcSpawnTiles: spawns.filter((_, j) => j !== i) })}>✕</button>
+            </div>
+          ))}
+          <button style={addBtn} onClick={() => onUpdateConfig({ npcSpawnTiles: [...spawns, [start.tx, start.ty]] })}>+ Add spawn tile</button>
+        </div>
+      </Field>
+
+      {/* Pond tiles */}
+      <PondEditor configData={configData} onUpdateConfig={onUpdateConfig} numSm={numSm} addBtn={addBtn} xBtn={xBtn} anchor={[start.tx, start.ty]} />
+    </>
+  )
+}
+
+function PondEditor({ configData, onUpdateConfig, numSm, addBtn, xBtn, anchor }: {
+  configData: RawMapConfig
+  onUpdateConfig: (patch: Partial<RawMapConfig>) => void
+  numSm: React.CSSProperties
+  addBtn: React.CSSProperties
+  xBtn: React.CSSProperties
+  anchor: [number, number]
+}) {
+  const ponds = configData.pondTiles ?? []
+  const set = (next: typeof ponds) => onUpdateConfig({ pondTiles: next })
+  return (
+    <Field label={`Pond Tiles (${ponds.length})`}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+        {ponds.map((p, i) => (
+          <div key={i} style={{ display: 'flex', gap: 3, alignItems: 'center', flexWrap: 'wrap' }}>
+            {p.rect ? (
+              <>
+                <span style={{ fontSize: 9, color: '#888' }}>rect</span>
+                {[0, 1, 2, 3].map(k => (
+                  <input key={k} type="number" style={numSm} value={p.rect![k]} onChange={e => { const rect = [...p.rect!]; rect[k] = Number(e.target.value); set(ponds.map((x, j) => j === i ? { rect } : x)) }} />
+                ))}
+              </>
+            ) : (
+              <>
+                <span style={{ fontSize: 9, color: '#888' }}>tile</span>
+                <input type="number" style={numSm} value={p.tile?.[0] ?? 0} onChange={e => set(ponds.map((x, j) => j === i ? { tile: [Number(e.target.value), p.tile?.[1] ?? 0] } : x))} />
+                <input type="number" style={numSm} value={p.tile?.[1] ?? 0} onChange={e => set(ponds.map((x, j) => j === i ? { tile: [p.tile?.[0] ?? 0, Number(e.target.value)] } : x))} />
+              </>
+            )}
+            <button style={{ ...xBtn, marginLeft: 'auto' }} onClick={() => set(ponds.filter((_, j) => j !== i))}>✕</button>
+          </div>
+        ))}
+        <div style={{ display: 'flex', gap: 4 }}>
+          <button style={addBtn} onClick={() => set([...ponds, { tile: [anchor[0], anchor[1]] }])}>+ Tile</button>
+          <button style={addBtn} onClick={() => set([...ponds, { rect: [anchor[0], anchor[1], anchor[0] + 2, anchor[1] + 2] }])}>+ Rect</button>
+        </div>
+      </div>
+    </Field>
   )
 }
 
@@ -1376,6 +1794,8 @@ export function EntityInspector({
   onUpdateNpc, onUpdateAnimal,
   onUpdateTreasureTile, onUpdatePickupItemTile,
   onUpdateArea, onResizeMap, onUpdateMapProps, onPickLocation,
+  onUpdateTreasure, onUpdateInteractable, onUpdateConfig,
+  onAddTreasure, onAddInteractable, onAddBlockedPath,
 }: Props) {
   const panelStyle: React.CSSProperties = {
     display: 'flex', flexDirection: 'column', height: '100%',
@@ -1434,15 +1854,31 @@ export function EntityInspector({
   }
 
   if (!selectedEntity) {
+    const addBtn: React.CSSProperties = {
+      flex: 1, padding: '5px 6px', background: '#1e2a4e', border: '1px solid #3a4a8e',
+      color: '#8af', borderRadius: 3, fontSize: 11, cursor: 'pointer',
+    }
     return (
       <div style={panelStyle}>
         <div style={headerStyle}>Town</div>
         <div style={bodyStyle}>
+          {(onAddTreasure || onAddInteractable || onAddBlockedPath) && (
+            <div style={{ marginBottom: 12, paddingBottom: 12, borderBottom: '1px solid #333' }}>
+              <div style={{ color: '#888', fontSize: 10, marginBottom: 5, textTransform: 'uppercase', letterSpacing: 1 }}>Create object</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                {onAddTreasure && <button style={addBtn} onClick={onAddTreasure}>+ Add Treasure</button>}
+                {onAddInteractable && <button style={addBtn} onClick={onAddInteractable}>+ Add Interactable</button>}
+                {onAddBlockedPath && <button style={addBtn} onClick={onAddBlockedPath}>+ Add Road Block</button>}
+              </div>
+            </div>
+          )}
           {onResizeMap && onUpdateMapProps ? (
             <TownInspector
               configData={configData}
               onResizeMap={onResizeMap}
               onUpdateMapProps={onUpdateMapProps}
+              onUpdateConfig={onUpdateConfig}
+              onPickLocation={onPickLocation}
             />
           ) : (
             <div style={{ color: '#555', fontSize: 11, marginTop: 20, textAlign: 'center' }}>
@@ -1546,17 +1982,22 @@ export function EntityInspector({
       <div style={panelStyle}>
         <div style={{ ...headerStyle, color: '#f0c040' }}>Treasure</div>
         <div style={bodyStyle}>
-          <QuestItemInspector
-            label="Treasure"
-            id={t.id}
-            tileId={t.tileId}
-            tx={t.tx}
-            ty={t.ty}
-            extra={t.title ? <Field label="Title"><span style={{ fontSize: 12 }}>{t.title}</span></Field> : undefined}
-            onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
-            onDelete={() => onDelete(selectedEntity)}
-            onTileChange={onUpdateTreasureTile ? tileId => onUpdateTreasureTile(selectedEntity.index, tileId) : undefined}
-          />
+          {onUpdateTreasure ? (
+            <TreasureInspector
+              treasure={t}
+              onUpdate={patch => onUpdateTreasure(selectedEntity.index, patch)}
+              onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
+              onDelete={() => onDelete(selectedEntity)}
+              onPick={onPickLocation ? () => onPickLocation('treasure', selectedEntity.index) : undefined}
+            />
+          ) : (
+            <QuestItemInspector
+              label="Treasure" id={t.id} tileId={t.tileId} tx={t.tx} ty={t.ty}
+              onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
+              onDelete={() => onDelete(selectedEntity)}
+              onTileChange={onUpdateTreasureTile ? tileId => onUpdateTreasureTile(selectedEntity.index, tileId) : undefined}
+            />
+          )}
         </div>
       </div>
     )
@@ -1672,6 +2113,7 @@ export function EntityInspector({
             bp={bp}
             onUpdate={patch => onUpdateBlockedPath(selectedEntity.index, patch)}
             onDelete={() => onDeleteBlockedPath(selectedEntity.index)}
+            onPick={onPickLocation ? () => onPickLocation('blockedTile', selectedEntity.index) : undefined}
           />
         </div>
       </div>
@@ -1707,6 +2149,25 @@ export function EntityInspector({
             area={area}
             onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
             onUpdate={patch => onUpdateArea?.(selectedEntity.index, patch)}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  if (selectedEntity.type === 'interactable') {
+    const it = (configData.interactables ?? [])[selectedEntity.index]
+    if (!it || !onUpdateInteractable) return null
+    return (
+      <div style={panelStyle}>
+        <div style={{ ...headerStyle, color: '#33ccee' }}>Interactable</div>
+        <div style={bodyStyle}>
+          <InteractableInspector
+            it={it}
+            onUpdate={patch => onUpdateInteractable(selectedEntity.index, patch)}
+            onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
+            onDelete={() => onDelete(selectedEntity)}
+            onPick={onPickLocation ? () => onPickLocation('interactable', selectedEntity.index) : undefined}
           />
         </div>
       </div>

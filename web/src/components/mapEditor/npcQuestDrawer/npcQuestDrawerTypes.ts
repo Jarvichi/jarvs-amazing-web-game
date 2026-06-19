@@ -1,1 +1,1 @@
-export type DrawerTab = 'npcs' | 'quests'
+export type DrawerTab = 'npcs' | 'quests' | 'dialogue'

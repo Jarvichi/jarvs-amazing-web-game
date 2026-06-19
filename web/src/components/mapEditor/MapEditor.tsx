@@ -8,7 +8,7 @@ import type { MapId,  QuestDefsJson } from '../../data/hub/hubWorldFactory'
 import  {  QUEST_DEFS_BY_MAP } from '../../data/hub/hubWorldFactory'
 
 import { SelectedEntity } from './mapEditorTypes'
-import type { RawBlockedPath } from './mapEditorTypes'
+import type { RawBlockedPath, RawInteractable, PickKind } from './mapEditorTypes'
 import { NpcQuestDrawer } from './npcQuestDrawer/NpcQuestDrawer'
 import type { DrawerTab } from './npcQuestDrawer/npcQuestDrawerTypes'
 
@@ -22,6 +22,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
   const [showQuestItems, setShowQuestItems] = useState(false)
   const [showBlockedPaths, setShowBlockedPaths] = useState(false)
   const [showAreas, setShowAreas] = useState(false)
+  const [showInteractables, setShowInteractables] = useState(false)
   const [questDefsData, setQuestDefsData] = useState<QuestDefsJson | null>(
     () => QUEST_DEFS_BY_MAP[initialMapId] ? structuredClone(QUEST_DEFS_BY_MAP[initialMapId]!) : null,
   )
@@ -30,7 +31,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
   const [drawerHeight, setDrawerHeight] = useState(280)
   const [focusedNpcIndex, setFocusedNpcIndex] = useState<number | null>(null)
   // When set, the next canvas tile click places this NPC/animal there.
-  const [pick, setPick] = useState<{ kind: 'npc' | 'animal'; index: number } | null>(null)
+  const [pick, setPick] = useState<{ kind: PickKind; index: number } | null>(null)
   const drawerDragRef = useRef<{ startY: number; startH: number } | null>(null)
 
   const {
@@ -39,7 +40,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
     placeDecor, moveEntity, deleteEntity,
     updateDecorZlayer, updateGlow, updateDecorMinLevel, updateBuilding, addNpc, updateNpcDialogue, updateNpc,
     addAnimal, updateAnimal,
-    updateTreasure,
+    updateTreasure, updateConfig,
     updateArea, updateMapProps, resizeMap,
     resizeInterior, addInterior, addInteriorExit, updateInteriorProps, updateInteriorExit, removeInteriorExit,
     addStreet, updateStreetEntry,
@@ -117,20 +118,84 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
     }
   }, [deleteEntity, selectEntity])
 
-  // Enter "pick a tile" mode for an NPC/animal; the next canvas click sets its location.
-  const handlePickLocation = useCallback((kind: 'npc' | 'animal', index: number) => {
+  // Enter "pick a tile" mode for an entity; the next canvas click sets its location.
+  const handlePickLocation = useCallback((kind: PickKind, index = 0) => {
     setPick({ kind, index })
   }, [])
 
   const handlePickTile = useCallback((tx: number, ty: number) => {
     if (!pick) return
+    const cfg = state.configData
     // Inside an interior the coords are interior-local and the building is recorded;
     // in the exterior the building association is cleared.
     const building = state.viewMode === 'interior' ? (state.activeInteriorId ?? undefined) : undefined
-    if (pick.kind === 'npc') updateNpc(pick.index, { tx, ty, building })
-    else updateAnimal(pick.index, { tx, ty, building })
+    switch (pick.kind) {
+      case 'npc':    updateNpc(pick.index, { tx, ty, building }); break
+      case 'animal': updateAnimal(pick.index, { tx, ty, building }); break
+      case 'treasure': updateTreasure(pick.index, { tx, ty }); break
+      case 'interactable':
+        updateConfig({ interactables: (cfg.interactables ?? []).map((it, i) => i === pick.index ? { ...it, tx, ty } : it) })
+        break
+      case 'exitTile':
+        updateConfig({ exitTiles: (cfg.exitTiles ?? []).map((e, i) => i === pick.index ? { ...e, tx, ty } : e) })
+        break
+      case 'avatarStart':
+        updateConfig({ avatarStart: { tx, ty } })
+        break
+      case 'blockedTile':
+        setQuestDefsData(prev => {
+          if (!prev) return prev
+          const paths = [...((prev.blockedPaths as RawBlockedPath[]) ?? [])]
+          const bp = paths[pick.index]
+          if (!bp) return prev
+          if (bp.blockedTiles.some(([x, y]) => x === tx && y === ty)) return prev
+          paths[pick.index] = { ...bp, blockedTiles: [...bp.blockedTiles, [tx, ty]] }
+          return { ...prev, blockedPaths: paths }
+        })
+        break
+    }
     setPick(null)
-  }, [pick, state.viewMode, state.activeInteriorId, updateNpc, updateAnimal])
+  }, [pick, state.configData, state.viewMode, state.activeInteriorId, updateNpc, updateAnimal, updateTreasure, updateConfig])
+
+  // Create handlers — drop a new object at map centre, reveal its overlay, and select it.
+  const centreTile = useCallback(() => ({
+    tx: Math.floor(state.configData.mapW / 32 / 2),
+    ty: Math.floor(state.configData.mapH / 32 / 2),
+  }), [state.configData.mapW, state.configData.mapH])
+
+  const handleAddTreasure = useCallback(() => {
+    const { tx, ty } = centreTile()
+    const list = state.configData.treasures ?? []
+    updateConfig({ treasures: [...list, { id: `treasure-${Date.now()}`, tx, ty, tileId: 'chest', collectedTileId: 'openChest', title: 'New treasure', reward: { crystals: 10 } }] })
+    setShowQuestItems(true)
+    selectEntity({ type: 'treasure', index: list.length })
+  }, [centreTile, state.configData.treasures, updateConfig, selectEntity])
+
+  const handleAddInteractable = useCallback(() => {
+    const { tx, ty } = centreTile()
+    const list = state.configData.interactables ?? []
+    updateConfig({ interactables: [...list, { id: `interactable-${Date.now()}`, tx, ty, reactions: [{ type: 'screen', screen: '' }] }] })
+    setShowInteractables(true)
+    selectEntity({ type: 'interactable', index: list.length })
+  }, [centreTile, state.configData.interactables, updateConfig, selectEntity])
+
+  const handleAddBlockedPath = useCallback(() => {
+    const { tx, ty } = centreTile()
+    const list = (questDefsData?.blockedPaths as RawBlockedPath[]) ?? []
+    setQuestDefsData(prev => prev ? {
+      ...prev,
+      blockedPaths: [...((prev.blockedPaths as RawBlockedPath[]) ?? []), {
+        id: `block-${Date.now()}`, blockedTiles: [[tx, ty]], questId: '',
+        blocked: { decor: [] }, cleared: { decor: [] },
+      }],
+    } : prev)
+    setShowBlockedPaths(true)
+    selectEntity({ type: 'blockedPath', index: list.length })
+  }, [centreTile, questDefsData, selectEntity])
+
+  const handleUpdateInteractable = useCallback((index: number, patch: Partial<RawInteractable>) => {
+    updateConfig({ interactables: (state.configData.interactables ?? []).map((it, i) => i === index ? { ...it, ...patch } : it) })
+  }, [state.configData.interactables, updateConfig])
 
   const handleUpdateBlockedPath = useCallback((index: number, patch: Partial<RawBlockedPath>) => {
     setQuestDefsData(prev => {
@@ -180,6 +245,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
         showQuestItems={showQuestItems}
         showBlockedPaths={showBlockedPaths}
         showAreas={showAreas}
+        showInteractables={showInteractables}
         drawerOpen={drawerOpen}
         hasDuplicateQuestIds={hasDuplicateQuestIds}
         configData={state.configData}
@@ -191,6 +257,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
         onQuestItemsToggle={() => setShowQuestItems(q => !q)}
         onBlockedPathsToggle={() => setShowBlockedPaths(b => !b)}
         onAreasToggle={() => setShowAreas(a => !a)}
+        onInteractablesToggle={() => setShowInteractables(i => !i)}
         onDrawerToggle={() => setDrawerOpen(o => !o)}
         questDefsData={questDefsData as Record<string, unknown> | null}
         onSaved={markSaved}
@@ -232,6 +299,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
             showQuestItems={showQuestItems}
             showBlockedPaths={showBlockedPaths}
             showAreas={showAreas}
+            showInteractables={showInteractables}
             blockedPaths={(questDefsData?.blockedPaths as RawBlockedPath[]) ?? []}
             selectedEntity={state.selectedEntity}
             viewMode={state.viewMode}
@@ -303,6 +371,12 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
                 items[index] = { ...items[index], tileId }
                 return { ...prev, pickupItems: items }
               })}
+              onUpdateTreasure={updateTreasure}
+              onUpdateInteractable={handleUpdateInteractable}
+              onUpdateConfig={updateConfig}
+              onAddTreasure={handleAddTreasure}
+              onAddInteractable={handleAddInteractable}
+              onAddBlockedPath={handleAddBlockedPath}
             />
           </div>
         </div>

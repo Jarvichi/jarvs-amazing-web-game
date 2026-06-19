@@ -216,6 +216,25 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
         if (!areas[entity.index]) return s
         areas[entity.index] = { ...areas[entity.index], tx, ty }
         newConfig = { ...prevConfig, areas }
+      } else if (entity.type === 'interactable') {
+        const items = [...(prevConfig.interactables ?? [])]
+        if (!items[entity.index]) return s
+        items[entity.index] = { ...items[entity.index], tx, ty }
+        newConfig = { ...prevConfig, interactables: items }
+      } else if (entity.type === 'exitTile') {
+        const tiles = [...(prevConfig.exitTiles ?? [])]
+        if (!tiles[entity.index]) return s
+        tiles[entity.index] = { ...tiles[entity.index], tx, ty }
+        newConfig = { ...prevConfig, exitTiles: tiles }
+      } else if (entity.type === 'chickenZone') {
+        const zones = [...(prevConfig.chickenZones ?? [])]
+        const z = zones[entity.index]
+        if (!z) return s
+        const [x1, y1, x2, y2] = z.rect
+        const dx = tx - x1, dy = ty - y1
+        if (dx === 0 && dy === 0) return s
+        zones[entity.index] = { ...z, rect: [x1 + dx, y1 + dy, x2 + dx, y2 + dy] }
+        newConfig = { ...prevConfig, chickenZones: zones }
       } else if (entity.type === 'buildingLevelDecor') {
         const buildings = [...(prevConfig.buildings ?? [])]
         const b = buildings[entity.buildingIndex]
@@ -265,6 +284,12 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
         newConfig = { ...prevConfig, treasures: (prevConfig.treasures ?? []).filter((_, i) => i !== entity.index) }
       } else if (entity.type === 'pickupItem') {
         newConfig = { ...prevConfig, pickupItems: (prevConfig.pickupItems ?? []).filter((_, i) => i !== entity.index) }
+      } else if (entity.type === 'interactable') {
+        newConfig = { ...prevConfig, interactables: (prevConfig.interactables ?? []).filter((_, i) => i !== entity.index) }
+      } else if (entity.type === 'exitTile') {
+        newConfig = { ...prevConfig, exitTiles: (prevConfig.exitTiles ?? []).filter((_, i) => i !== entity.index) }
+      } else if (entity.type === 'chickenZone') {
+        newConfig = { ...prevConfig, chickenZones: (prevConfig.chickenZones ?? []).filter((_, i) => i !== entity.index) }
       } else if (entity.type === 'buildingLevelDecor' && prevConfig.buildings?.[entity.buildingIndex]?.levelDecor) {
         const buildings = [...prevConfig.buildings]
         const b = buildings[entity.buildingIndex]
@@ -508,7 +533,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     })
   }, [])
 
-  const updateTreasure = useCallback((index: number, patch: { tileId?: string }) => {
+  const updateTreasure = useCallback((index: number, patch: Partial<NonNullable<RawMapConfig['treasures']>[number]>) => {
     setState(s => {
       const prevConfig = s.configData
       const treasures = [...(prevConfig.treasures ?? [])]
@@ -522,6 +547,20 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
         isDirty: true,
       }
     })
+  }, [])
+
+  // Generic top-level config patch with undo support. Used by the simpler list
+  // editors (treasures, interactables, exitTiles, chickenZones, weather,
+  // ambientNpcSprites, avatarStart, pondTiles, npcSpawnTiles…) which read the
+  // current array/value from configData and write the whole thing back.
+  const updateConfig = useCallback((patch: Partial<RawMapConfig>) => {
+    setState(s => ({
+      ...s,
+      configData: { ...s.configData, ...patch },
+      undoStack:  [...s.undoStack, s.configData].slice(-MAX_UNDO),
+      redoStack:  [],
+      isDirty:    true,
+    }))
   }, [])
 
   const updateArea = useCallback((index: number, patch: Partial<{ name: string; tw: number; th: number }>) => {
@@ -972,6 +1011,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     updateAnimal,
     updateTreasure,
     updateArea,
+    updateConfig,
     updateMapProps,
     resizeMap,
     resizeInterior,
