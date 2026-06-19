@@ -1171,29 +1171,62 @@ function InteriorInspector({
   )
 }
 
+type PathDecor = { tx: number; ty: number; tileId: string }
+
+// Editable {tx,ty,tileId} decor list used for a blocked path's blocked/cleared states.
+function PathDecorEditor({ label, decor, anchor, onChange }: {
+  label: string
+  decor: PathDecor[]
+  anchor: [number, number]
+  onChange: (d: PathDecor[]) => void
+}) {
+  const [pickingIdx, setPickingIdx] = useState<number | null>(null)
+  const numSm: React.CSSProperties = { width: 40, padding: '2px 4px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }
+  return (
+    <Field label={label}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+        {decor.map((d, i) => (
+          <div key={i} style={{ background: '#16161e', border: '1px solid #2a2a3a', borderRadius: 3, padding: 4 }}>
+            <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+              <div onClick={() => setPickingIdx(p => p === i ? null : i)} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                <TilePreview tileId={d.tileId} /><span style={{ fontSize: 10, color: '#666' }}>✎</span>
+              </div>
+              <label style={{ fontSize: 9, color: '#888' }}>X</label>
+              <input type="number" value={d.tx} style={numSm} onChange={e => onChange(decor.map((x, j) => j === i ? { ...x, tx: Number(e.target.value) } : x))} />
+              <label style={{ fontSize: 9, color: '#888' }}>Y</label>
+              <input type="number" value={d.ty} style={numSm} onChange={e => onChange(decor.map((x, j) => j === i ? { ...x, ty: Number(e.target.value) } : x))} />
+              <button style={{ marginLeft: 'auto', padding: '1px 5px', background: '#4a1a1a', border: '1px solid #922', color: '#f88', borderRadius: 3, fontSize: 10, cursor: 'pointer' }}
+                onClick={() => onChange(decor.filter((_, j) => j !== i))}>✕</button>
+            </div>
+            {pickingIdx === i && <TilePicker current={d.tileId} onChange={tileId => onChange(decor.map((x, j) => j === i ? { ...x, tileId } : x))} onClose={() => setPickingIdx(null)} />}
+          </div>
+        ))}
+        <button style={{ padding: '2px 8px', background: '#1e2e1e', border: '1px solid #3a5a3a', color: '#6d6', borderRadius: 3, fontSize: 10, cursor: 'pointer', alignSelf: 'flex-start' }}
+          onClick={() => onChange([...decor, { tx: anchor[0], ty: anchor[1], tileId: 'barrel' }])}>+ Add decor</button>
+      </div>
+    </Field>
+  )
+}
+
 function BlockedPathInspector({
-  bp, onUpdate, onDelete,
+  bp, onUpdate, onDelete, onPick,
 }: {
   bp: RawBlockedPath
   onUpdate: (patch: Partial<RawBlockedPath>) => void
   onDelete: () => void
+  onPick?: () => void
 }) {
-  const [editQuestId, setEditQuestId] = useState(bp.questId)
+  const anchor = bp.blockedTiles[0] ?? [0, 0]
   return (
     <div>
       <Field label="ID"><span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{bp.id}</span></Field>
-      <Field label="Quest ID">
-        <div style={{ display: 'flex', gap: 4 }}>
-          <input
-            value={editQuestId}
-            onChange={e => setEditQuestId(e.target.value)}
-            style={{ flex: 1, padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11, fontFamily: 'monospace' }}
-          />
-          <button
-            onClick={() => onUpdate({ questId: editQuestId })}
-            style={{ padding: '3px 7px', background: '#1a3a1a', border: '1px solid #3a6a3a', color: '#8d8', borderRadius: 3, fontSize: 11, cursor: 'pointer' }}
-          >✓</button>
-        </div>
+      <Field label="Quest ID (cleared when complete)">
+        <input
+          value={bp.questId}
+          onChange={e => onUpdate({ questId: e.target.value })}
+          placeholder="quest id"
+          style={{ width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11, fontFamily: 'monospace', boxSizing: 'border-box' }}
+        />
       </Field>
       <Field label={`Blocked Tiles (${bp.blockedTiles.length})`}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -1207,21 +1240,12 @@ function BlockedPathInspector({
             </div>
           ))}
         </div>
+        {onPick && <button style={BTN_PICK} onClick={onPick}>📍 Add tile from map</button>}
       </Field>
-      {bp.blocked.decor && bp.blocked.decor.length > 0 && (
-        <Field label="Blocked Decor">
-          {bp.blocked.decor.map((d, i) => (
-            <div key={i} style={{ fontFamily: 'monospace', fontSize: 10, color: '#888' }}>[{d.tx},{d.ty}] {d.tileId}</div>
-          ))}
-        </Field>
-      )}
-      {bp.cleared.decor && bp.cleared.decor.length > 0 && (
-        <Field label="Cleared Decor">
-          {bp.cleared.decor.map((d, i) => (
-            <div key={i} style={{ fontFamily: 'monospace', fontSize: 10, color: '#888' }}>[{d.tx},{d.ty}] {d.tileId}</div>
-          ))}
-        </Field>
-      )}
+      <PathDecorEditor label="Blocked Decor (shown while blocked)" decor={(bp.blocked.decor ?? []) as PathDecor[]} anchor={anchor as [number, number]}
+        onChange={d => onUpdate({ blocked: { ...bp.blocked, decor: d } })} />
+      <PathDecorEditor label="Cleared Decor (shown once cleared)" decor={(bp.cleared.decor ?? []) as PathDecor[]} anchor={anchor as [number, number]}
+        onChange={d => onUpdate({ cleared: { ...bp.cleared, decor: d } })} />
       <button
         onClick={onDelete}
         style={{ marginTop: 8, padding: '4px 10px', background: '#4a1a1a', border: '1px solid #922', color: '#f88', borderRadius: 3, fontSize: 11, cursor: 'pointer' }}
@@ -1762,6 +1786,7 @@ export function EntityInspector({
             bp={bp}
             onUpdate={patch => onUpdateBlockedPath(selectedEntity.index, patch)}
             onDelete={() => onDeleteBlockedPath(selectedEntity.index)}
+            onPick={onPickLocation ? () => onPickLocation('blockedTile', selectedEntity.index) : undefined}
           />
         </div>
       </div>
