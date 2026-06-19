@@ -7,6 +7,10 @@ export type ToolMode = 'select' | 'place' | 'delete' | 'street'
 export type Zlayer = 'solid' | 'below' | 'above'
 export type ViewMode = 'exterior' | 'interior'
 
+// Entity kinds whose location can be set by clicking the map ("pick on map").
+export type PickKind =
+  | 'npc' | 'animal' | 'treasure' | 'interactable' | 'exitTile' | 'avatarStart' | 'blockedTile'
+
 
 // Raw JSON shapes — matches what config.json actually stores
 export interface RawDecorItem {
@@ -126,12 +130,62 @@ export interface RawLockedDoor {
   lockedBy: string
 }
 
+// Interactable objects (notice boards, signs, levers…) — `reactions` fire when
+// the player interacts. Mirrors RawInteractable in data/hub/config.ts.
+export interface RawInteractableDecor {
+  dx: number
+  dy: number
+  tileId: string
+  zlayer?: string
+}
+
+export interface RawInteractableReaction {
+  type: string   // 'dialogue' | 'screen' | 'giveItem' | 'quest' | 'move'
+  // dialogue
+  speakerName?: string
+  text?: string | string[]
+  // screen
+  screen?: string
+  // giveItem
+  collectible?: { id: string; name: string; icon: string; desc: string }
+  consumables?: Array<{ id: string; quantity: number }>
+  crystals?: number
+  message?: string
+  alreadyGrantedText?: string
+  // quest
+  questId?: string
+  // move
+  to?: { tx: number; ty: number }
+}
+
+export interface RawInteractable {
+  id: string
+  tx: number
+  ty: number
+  building?: string
+  decor?: RawInteractableDecor[]
+  hitRect?: { w: number; h: number }
+  indicator?: { condition: string; dx?: number; dy?: number }
+  reactions: RawInteractableReaction[]
+}
+
+export interface RawChickenZone {
+  rect: [number, number, number, number]
+  count?: number
+  roost?: [number, number]
+}
+
+export interface RawWeather {
+  type?: string
+  bySeason?: Record<string, string>
+}
+
 export interface RawMapConfig {
   mapW: number
   mapH: number
   townName: string
   environment?: string
-  weather?: unknown
+  weather?: RawWeather
   avatarStart: { tx: number; ty: number }
   exitTiles?: Array<{ tx: number; ty: number; screen: string }>
   areas?: Array<{ id: string; name: string; tx: number; ty: number; tw: number; th: number }>
@@ -170,6 +224,8 @@ export interface RawMapConfig {
   }>
   blockedPaths?: unknown[]
   lockedDoors?: RawLockedDoor[]
+  interactables?: RawInteractable[]
+  chickenZones?: RawChickenZone[]
 }
 
 export type SelectedEntity =
@@ -185,6 +241,9 @@ export type SelectedEntity =
   | { type: 'lockedDoor'; index: number }
   | { type: 'animal'; index: number }
   | { type: 'area'; index: number }
+  | { type: 'interactable'; index: number }
+  | { type: 'exitTile'; index: number }
+  | { type: 'chickenZone'; index: number }
 
 export interface MapEditorState {
   mapId: MapId

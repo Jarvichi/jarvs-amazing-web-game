@@ -5,7 +5,8 @@ import { NPC_ACTIVITIES } from '../../../game/hub/hubNpcSchedule'
 import { SpriteSearchPicker } from '../SpritePicker'
 import { AnimalEditor } from './AnimalEditor'
 
-export type PickKind = 'npc' | 'animal'
+export type { PickKind } from '../mapEditorTypes'
+import type { PickKind } from '../mapEditorTypes'
 
 interface Props {
   configData: RawMapConfig

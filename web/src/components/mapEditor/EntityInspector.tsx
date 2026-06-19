@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import type { SelectedEntity, RawMapConfig, RawInterior, RawBlockedPath, RawLockedDoor, Zlayer, RawDecorItem, RawNpc, RawBuilding, RawAnimal } from './mapEditorTypes'
+import type { SelectedEntity, RawMapConfig, RawInterior, RawBlockedPath, RawLockedDoor, Zlayer, RawDecorItem, RawNpc, RawBuilding, RawAnimal, RawInteractable, RawInteractableReaction, PickKind } from './mapEditorTypes'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import { resolveTileRef } from '../../data/tiles/tileIndex'
 import type { WallMaterial } from '../../data/tiles/buildingMaterials'
@@ -76,7 +76,7 @@ interface Props {
   onUpdateArea?:         (index: number, patch: Partial<{ name: string; tw: number; th: number }>) => void
   onResizeMap?:          (dir: 'n' | 's' | 'e' | 'w', grow: boolean) => void
   onUpdateMapProps?:     (patch: { townName?: string; environment?: string }) => void
-  onPickLocation?:       (kind: 'npc' | 'animal', index: number) => void
+  onPickLocation?:       (kind: PickKind, index?: number) => void
 }
 
 const BTN_PICK: React.CSSProperties = {

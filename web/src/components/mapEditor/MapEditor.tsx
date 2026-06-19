@@ -8,7 +8,7 @@ import type { MapId,  QuestDefsJson } from '../../data/hub/hubWorldFactory'
 import  {  QUEST_DEFS_BY_MAP } from '../../data/hub/hubWorldFactory'
 
 import { SelectedEntity } from './mapEditorTypes'
-import type { RawBlockedPath } from './mapEditorTypes'
+import type { RawBlockedPath, PickKind } from './mapEditorTypes'
 import { NpcQuestDrawer } from './npcQuestDrawer/NpcQuestDrawer'
 import type { DrawerTab } from './npcQuestDrawer/npcQuestDrawerTypes'
 
@@ -30,7 +30,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
   const [drawerHeight, setDrawerHeight] = useState(280)
   const [focusedNpcIndex, setFocusedNpcIndex] = useState<number | null>(null)
   // When set, the next canvas tile click places this NPC/animal there.
-  const [pick, setPick] = useState<{ kind: 'npc' | 'animal'; index: number } | null>(null)
+  const [pick, setPick] = useState<{ kind: PickKind; index: number } | null>(null)
   const drawerDragRef = useRef<{ startY: number; startH: number } | null>(null)
 
   const {
@@ -39,7 +39,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
     placeDecor, moveEntity, deleteEntity,
     updateDecorZlayer, updateGlow, updateDecorMinLevel, updateBuilding, addNpc, updateNpcDialogue, updateNpc,
     addAnimal, updateAnimal,
-    updateTreasure,
+    updateTreasure, updateConfig,
     updateArea, updateMapProps, resizeMap,
     resizeInterior, addInterior, addInteriorExit, updateInteriorProps, updateInteriorExit, removeInteriorExit,
     addStreet, updateStreetEntry,
@@ -117,20 +117,44 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
     }
   }, [deleteEntity, selectEntity])
 
-  // Enter "pick a tile" mode for an NPC/animal; the next canvas click sets its location.
-  const handlePickLocation = useCallback((kind: 'npc' | 'animal', index: number) => {
+  // Enter "pick a tile" mode for an entity; the next canvas click sets its location.
+  const handlePickLocation = useCallback((kind: PickKind, index = 0) => {
     setPick({ kind, index })
   }, [])
 
   const handlePickTile = useCallback((tx: number, ty: number) => {
     if (!pick) return
+    const cfg = state.configData
     // Inside an interior the coords are interior-local and the building is recorded;
     // in the exterior the building association is cleared.
     const building = state.viewMode === 'interior' ? (state.activeInteriorId ?? undefined) : undefined
-    if (pick.kind === 'npc') updateNpc(pick.index, { tx, ty, building })
-    else updateAnimal(pick.index, { tx, ty, building })
+    switch (pick.kind) {
+      case 'npc':    updateNpc(pick.index, { tx, ty, building }); break
+      case 'animal': updateAnimal(pick.index, { tx, ty, building }); break
+      case 'treasure': updateTreasure(pick.index, { tx, ty }); break
+      case 'interactable':
+        updateConfig({ interactables: (cfg.interactables ?? []).map((it, i) => i === pick.index ? { ...it, tx, ty } : it) })
+        break
+      case 'exitTile':
+        updateConfig({ exitTiles: (cfg.exitTiles ?? []).map((e, i) => i === pick.index ? { ...e, tx, ty } : e) })
+        break
+      case 'avatarStart':
+        updateConfig({ avatarStart: { tx, ty } })
+        break
+      case 'blockedTile':
+        setQuestDefsData(prev => {
+          if (!prev) return prev
+          const paths = [...((prev.blockedPaths as RawBlockedPath[]) ?? [])]
+          const bp = paths[pick.index]
+          if (!bp) return prev
+          if (bp.blockedTiles.some(([x, y]) => x === tx && y === ty)) return prev
+          paths[pick.index] = { ...bp, blockedTiles: [...bp.blockedTiles, [tx, ty]] }
+          return { ...prev, blockedPaths: paths }
+        })
+        break
+    }
     setPick(null)
-  }, [pick, state.viewMode, state.activeInteriorId, updateNpc, updateAnimal])
+  }, [pick, state.configData, state.viewMode, state.activeInteriorId, updateNpc, updateAnimal, updateTreasure, updateConfig])
 
   const handleUpdateBlockedPath = useCallback((index: number, patch: Partial<RawBlockedPath>) => {
     setQuestDefsData(prev => {
