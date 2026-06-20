@@ -4,12 +4,25 @@ import type { QuestDefsJson } from '../../../data/hub/hubWorldFactory'
 import type { QuestDefinition, QuestStep, QuestReward, Dialogue } from '../../../data/hub/questDefs'
 import { isQuestIdUnique, generateQuestId } from './questValidation'
 import { FESTIVALS } from '../../../game/hub/hubCalendar'
+import type { MapId } from '../../../data/hub/hubWorldFactory'
+import { EntityRefPicker, EntityRefMultiPicker } from '../EntityRefPicker'
+import { npcRefOptions, questRefOptions, pickupRefOptions, type RefOption } from '../entityRefs'
+import { PrerequisiteEditor } from './PrerequisiteEditor'
 
 interface Props {
+  mapId: MapId
   configData: RawMapConfig
   questDefsData: QuestDefsJson
   onUpdateNpc: (index: number, partial: Partial<RawNpc>) => void
   onQuestDefsChange: (updater: (prev: QuestDefsJson) => QuestDefsJson) => void
+}
+
+// Option bundle threaded through the quest sub-editors.
+interface QuestRefOpts {
+  npcLocal: RefOption[]   // current-town NPCs (giver/receiver/friendship)
+  npcCross: RefOption[]   // all-town NPCs (deliver targets)
+  pickupCross: RefOption[] // all-town pickups (collect / chain)
+  questCross: RefOption[]  // all-town quests (prerequisite)
 }
 
 // ── Shared styles ─────────────────────────────────────────────────────────────
@@ -141,7 +154,7 @@ function makeEmptyQuest(existingIds: string[]): QuestDefinition {
 
 // ── StepsEditor ───────────────────────────────────────────────────────────────
 
-function StepsEditor({ steps, onChange }: { steps: QuestStep[]; onChange: (s: QuestStep[]) => void }) {
+function StepsEditor({ steps, onChange, opts }: { steps: QuestStep[]; onChange: (s: QuestStep[]) => void; opts: QuestRefOpts }) {
   function update(i: number, partial: Partial<QuestStep>) {
     onChange(steps.map((s, j) => j === i ? { ...s, ...partial } as QuestStep : s))
   }
@@ -174,24 +187,34 @@ function StepsEditor({ steps, onChange }: { steps: QuestStep[]; onChange: (s: Qu
           </div>
           {step.type === 'collect' && (
             <div style={{ marginBottom: 4 }}>
-              <div style={{ color: '#666', fontSize: 10, marginBottom: 2 }}>pickupIds (one per line)</div>
-              <textarea rows={2} value={((step as { pickupIds?: string[] }).pickupIds ?? []).join('\n')}
-                onChange={e => update(i, { pickupIds: e.target.value.split('\n').map(s => s.trim()).filter(Boolean) } as Partial<QuestStep>)}
-                style={{ width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11, resize: 'vertical', fontFamily: 'monospace', boxSizing: 'border-box' }} />
+              <div style={{ color: '#666', fontSize: 10, marginBottom: 2 }}>Pickup items to collect (any town)</div>
+              <EntityRefMultiPicker
+                values={(step as { pickupIds?: string[] }).pickupIds ?? []}
+                options={opts.pickupCross}
+                placeholder="Search pickups…"
+                onChange={ids => update(i, { pickupIds: ids } as Partial<QuestStep>)}
+              />
             </div>
           )}
           {step.type === 'deliver' && (
-            <input type="text" placeholder="targetNpcId"
-              value={(step as { targetNpcId?: string }).targetNpcId ?? ''}
-              onChange={e => update(i, { targetNpcId: e.target.value } as Partial<QuestStep>)}
-              style={{ width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box' }} />
+            <div style={{ marginBottom: 4 }}>
+              <div style={{ color: '#666', fontSize: 10, marginBottom: 2 }}>Deliver to NPC (any town)</div>
+              <EntityRefPicker
+                value={(step as { targetNpcId?: string }).targetNpcId ?? ''}
+                options={opts.npcCross}
+                placeholder="Search NPCs…"
+                onChange={v => update(i, { targetNpcId: v } as Partial<QuestStep>)}
+              />
+            </div>
           )}
-          <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginTop: 4 }}>
-            <label style={{ color: '#666', fontSize: 10 }}>chain (unlock after):</label>
-            <input type="text" placeholder="pickupId or empty"
+          <div style={{ marginTop: 4 }}>
+            <label style={{ color: '#666', fontSize: 10 }}>Chain — reveal this pickup only after the step before (optional)</label>
+            <EntityRefPicker
               value={(step as { chain?: string }).chain ?? ''}
-              onChange={e => update(i, { chain: e.target.value || undefined } as Partial<QuestStep>)}
-              style={{ flex: 1, padding: '2px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 10 }} />
+              options={opts.pickupCross}
+              placeholder="Search pickups…"
+              onChange={v => update(i, { chain: v || undefined } as Partial<QuestStep>)}
+            />
           </div>
         </div>
       ))}
@@ -204,19 +227,20 @@ function StepsEditor({ steps, onChange }: { steps: QuestStep[]; onChange: (s: Qu
 
 // ── RewardEditor ──────────────────────────────────────────────────────────────
 
-function FriendshipEditor({ friendship, onChange }: { friendship: Record<string, number>; onChange: (f: Record<string, number>) => void }) {
+function FriendshipEditor({ friendship, onChange, npcOptions }: { friendship: Record<string, number>; onChange: (f: Record<string, number>) => void; npcOptions: RefOption[] }) {
   const entries = Object.entries(friendship)
   return (
     <div>
       {entries.map(([npcId, amount], i) => (
         <div key={i} style={{ display: 'flex', gap: 4, marginBottom: 3, alignItems: 'center' }}>
-          <input type="text" value={npcId} placeholder="npcId"
-            onChange={e => {
-              const updated: Record<string, number> = {}
-              entries.forEach(([k, v], j) => { updated[j === i ? e.target.value : k] = v })
-              onChange(updated)
-            }}
-            style={{ flex: 1, padding: '2px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }} />
+          <div style={{ flex: 1 }}>
+            <EntityRefPicker value={npcId} options={npcOptions} placeholder="Search NPC…"
+              onChange={v => {
+                const updated: Record<string, number> = {}
+                entries.forEach(([k, val], j) => { updated[j === i ? v : k] = val })
+                onChange(updated)
+              }} />
+          </div>
           <input type="number" value={amount}
             onChange={e => onChange({ ...friendship, [npcId]: Number(e.target.value) })}
             style={{ ...NUM, width: 48 }} />
@@ -230,7 +254,7 @@ function FriendshipEditor({ friendship, onChange }: { friendship: Record<string,
   )
 }
 
-function RewardEditor({ reward, onChange }: { reward: QuestReward; onChange: (r: QuestReward) => void }) {
+function RewardEditor({ reward, onChange, npcOptions }: { reward: QuestReward; onChange: (r: QuestReward) => void; npcOptions: RefOption[] }) {
   return (
     <div>
       <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginBottom: 6 }}>
@@ -243,6 +267,7 @@ function RewardEditor({ reward, onChange }: { reward: QuestReward; onChange: (r:
       <div style={{ marginBottom: 6 }}>
         <div style={{ color: '#888', fontSize: 10, marginBottom: 3 }}>FRIENDSHIP</div>
         <FriendshipEditor
+          npcOptions={npcOptions}
           friendship={reward.friendship as Record<string, number> ?? {}}
           onChange={f => onChange({ ...reward, friendship: Object.keys(f).length > 0 ? f : undefined })} />
       </div>
@@ -282,11 +307,11 @@ function RewardEditor({ reward, onChange }: { reward: QuestReward; onChange: (r:
 // ── QuestFullEditor ───────────────────────────────────────────────────────────
 
 function QuestFullEditor({
-  quest, allQuests, npcIds, onApply, onDiscard,
+  quest, allQuests, opts, onApply, onDiscard,
 }: {
   quest: QuestDefinition
   allQuests: QuestDefinition[]
-  npcIds: string[]
+  opts: QuestRefOpts
   onApply: (updated: QuestDefinition) => void
   onDiscard: () => void
 }) {
@@ -321,10 +346,8 @@ function QuestFullEditor({
     }))
   }
 
-  const prerequisiteOptions = [
-    { value: '', label: '— none —' },
-    ...allQuests.filter(q => q.id !== draft.id).map(q => ({ value: q.id, label: q.id })),
-  ]
+  // Prerequisite quest options exclude this quest itself.
+  const prereqQuestOptions = opts.questCross.filter(o => o.value !== draft.id)
 
   return (
     <div style={{ padding: '8px 10px 12px', borderLeft: '3px solid #7a6aae', marginLeft: 4, marginBottom: 6 }}>
@@ -343,21 +366,19 @@ function QuestFullEditor({
         </select>
       </Field>
       <Field label="Giver NPC">
-        <select style={SELECT} value={draft.giverNpcId} onChange={e => set('giverNpcId', e.target.value)}>
-          <option value="">— none —</option>
-          {npcIds.map(id => <option key={id} value={id}>{id}</option>)}
-        </select>
+        <EntityRefPicker value={draft.giverNpcId} options={opts.npcLocal} placeholder="Search NPCs…"
+          onChange={v => set('giverNpcId', v)} />
       </Field>
       <Field label="Receiver NPC">
-        <select style={SELECT} value={draft.receiverNpcId ?? ''} onChange={e => set('receiverNpcId', e.target.value)}>
-          <option value="">— none —</option>
-          {npcIds.map(id => <option key={id} value={id}>{id}</option>)}
-        </select>
+        <EntityRefPicker value={draft.receiverNpcId ?? ''} options={opts.npcLocal} placeholder="Search NPCs…"
+          onChange={v => set('receiverNpcId', v)} />
       </Field>
-      <Field label="Prerequisite">
-        <select style={SELECT} value={draft.prerequisite ?? ''} onChange={e => set('prerequisite', e.target.value || undefined)}>
-          {prerequisiteOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-        </select>
+      <Field label="Prerequisite (all conditions must be met)">
+        <PrerequisiteEditor
+          value={draft.prerequisite}
+          questOptions={prereqQuestOptions}
+          npcOptions={opts.npcCross}
+          onChange={v => set('prerequisite', v)} />
       </Field>
       <Field label="Festival (time-limited)">
         <select style={SELECT} value={draft.festivalId ?? ''} onChange={e => set('festivalId', e.target.value || undefined)}>
@@ -397,10 +418,10 @@ function QuestFullEditor({
           style={{ ...INPUT, resize: 'vertical', fontFamily: 'inherit' }} />
       </Field>
       <Field label="Steps">
-        <StepsEditor steps={draft.steps} onChange={setSteps} />
+        <StepsEditor steps={draft.steps} onChange={setSteps} opts={opts} />
       </Field>
       <Field label="Reward">
-        <RewardEditor reward={draft.reward} onChange={r => set('reward', r)} />
+        <RewardEditor reward={draft.reward} onChange={r => set('reward', r)} npcOptions={opts.npcLocal} />
       </Field>
 
       <div style={{ display: 'flex', gap: 8, marginTop: 10, justifyContent: 'flex-end' }}>
@@ -416,13 +437,20 @@ function QuestFullEditor({
 
 // ── QuestEditor (main export) ─────────────────────────────────────────────────
 
-export function QuestEditor({ configData, questDefsData, onUpdateNpc, onQuestDefsChange }: Props) {
+export function QuestEditor({ mapId, configData, questDefsData, onUpdateNpc, onQuestDefsChange }: Props) {
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null)
 
   const quests = (questDefsData.quests as QuestDefinition[] | undefined) ?? []
   const npcs = configData.npcs ?? []
-  const npcIds = npcs.map(n => n.id)
+  const pickups = questDefsData.pickupItems ?? []
+
+  const opts: QuestRefOpts = {
+    npcLocal: npcRefOptions(mapId, npcs, false),
+    npcCross: npcRefOptions(mapId, npcs, true),
+    pickupCross: pickupRefOptions(mapId, pickups, true),
+    questCross: questRefOptions(mapId, quests, true),
+  }
 
   function handleApply(original: QuestDefinition, updated: QuestDefinition) {
     onQuestDefsChange(prev => {
@@ -509,7 +537,7 @@ export function QuestEditor({ configData, questDefsData, onUpdateNpc, onQuestDef
             <QuestFullEditor
               quest={quest}
               allQuests={quests}
-              npcIds={npcIds}
+              opts={opts}
               onApply={updated => handleApply(quest, updated)}
               onDiscard={() => setExpandedId(null)}
             />

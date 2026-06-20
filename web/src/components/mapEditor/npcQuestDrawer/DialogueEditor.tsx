@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
-import type { QuestDefsJson } from '../../../data/hub/hubWorldFactory'
+import type { MapId, QuestDefsJson } from '../../../data/hub/hubWorldFactory'
+import type { RawMapConfig } from '../mapEditorTypes'
+import { EntityRefPicker } from '../EntityRefPicker'
+import { npcRefOptions, type RefOption } from '../entityRefs'
 
 interface Props {
+  mapId: MapId
+  configData: RawMapConfig
   questDefsData: QuestDefsJson
   onQuestDefsChange: (updater: (prev: QuestDefsJson) => QuestDefsJson) => void
 }
@@ -32,16 +37,18 @@ function Section({ title, color, children }: { title: string; color: string; chi
 }
 
 // friendshipDialogue: { npcId: { tier: line } }
-function FriendshipEditor({ data, onChange }: { data: Record<string, Record<string, string>>; onChange: (d: Record<string, Record<string, string>>) => void }) {
+function FriendshipEditor({ data, onChange, npcOptions }: { data: Record<string, Record<string, string>>; onChange: (d: Record<string, Record<string, string>>) => void; npcOptions: RefOption[] }) {
   const npcs = Object.entries(data)
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       {npcs.map(([npcId, tiers]) => (
         <div key={npcId} style={{ background: '#16161e', border: '1px solid #2a2a3a', borderRadius: 3, padding: 6 }}>
           <div style={{ display: 'flex', gap: 4, marginBottom: 4 }}>
-            <input style={{ ...INPUT, fontFamily: 'monospace' }} value={npcId} onChange={e => {
-              const next = { ...data }; delete next[npcId]; next[e.target.value] = tiers; onChange(next)
-            }} />
+            <div style={{ flex: 1 }}>
+              <EntityRefPicker value={npcId} options={npcOptions} placeholder="Search NPC…" onChange={v => {
+                const next = { ...data }; delete next[npcId]; next[v] = tiers; onChange(next)
+              }} />
+            </div>
             <button style={BTN_X} onClick={() => { const next = { ...data }; delete next[npcId]; onChange(next) }}>✕</button>
           </div>
           {Object.entries(tiers).map(([tier, line]) => (
@@ -62,13 +69,15 @@ function FriendshipEditor({ data, onChange }: { data: Record<string, Record<stri
 }
 
 // relationshipDialogue: { npcId: { relType: { tier: line } } }
-function RelationshipEditor({ data, onChange }: { data: Record<string, Record<string, Record<string, string>>>; onChange: (d: Record<string, Record<string, Record<string, string>>>) => void }) {
+function RelationshipEditor({ data, onChange, npcOptions }: { data: Record<string, Record<string, Record<string, string>>>; onChange: (d: Record<string, Record<string, Record<string, string>>>) => void; npcOptions: RefOption[] }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       {Object.entries(data).map(([npcId, rels]) => (
         <div key={npcId} style={{ background: '#16161e', border: '1px solid #2a2a3a', borderRadius: 3, padding: 6 }}>
           <div style={{ display: 'flex', gap: 4, marginBottom: 4 }}>
-            <input style={{ ...INPUT, fontFamily: 'monospace' }} value={npcId} onChange={e => { const next = { ...data }; delete next[npcId]; next[e.target.value] = rels; onChange(next) }} />
+            <div style={{ flex: 1 }}>
+              <EntityRefPicker value={npcId} options={npcOptions} placeholder="Search NPC…" onChange={v => { const next = { ...data }; delete next[npcId]; next[v] = rels; onChange(next) }} />
+            </div>
             <button style={BTN_X} onClick={() => { const next = { ...data }; delete next[npcId]; onChange(next) }}>✕</button>
           </div>
           {Object.entries(rels).map(([relType, tiers]) => (
@@ -111,14 +120,16 @@ function RumoursEditor({ data, onChange }: { data: Array<{ id: string; text: str
 }
 
 // dialogues: [{ id, npcId, start, nodes }] — fields + JSON node editor.
-function DialogueTreeRow({ dlg, onChange, onDelete }: { dlg: Record<string, unknown>; onChange: (d: Record<string, unknown>) => void; onDelete: () => void }) {
+function DialogueTreeRow({ dlg, onChange, onDelete, npcOptions }: { dlg: Record<string, unknown>; onChange: (d: Record<string, unknown>) => void; onDelete: () => void; npcOptions: RefOption[] }) {
   const [nodesText, setNodesText] = useState(() => JSON.stringify(dlg.nodes ?? {}, null, 1))
   const [err, setErr] = useState('')
   return (
     <div style={{ background: '#16161e', border: '1px solid #2a2a3a', borderRadius: 3, padding: 6, marginBottom: 6 }}>
       <div style={{ display: 'flex', gap: 4, marginBottom: 4 }}>
         <input style={INPUT} placeholder="id" value={String(dlg.id ?? '')} onChange={e => onChange({ ...dlg, id: e.target.value })} />
-        <input style={INPUT} placeholder="npcId" value={String(dlg.npcId ?? '')} onChange={e => onChange({ ...dlg, npcId: e.target.value })} />
+        <div style={{ flex: 1 }}>
+          <EntityRefPicker value={String(dlg.npcId ?? '')} options={npcOptions} placeholder="npcId…" onChange={v => onChange({ ...dlg, npcId: v })} />
+        </div>
         <input style={{ ...INPUT, width: 70, flex: '0 0 70px' }} placeholder="start" value={String(dlg.start ?? '')} onChange={e => onChange({ ...dlg, start: e.target.value })} />
         <button style={BTN_X} onClick={onDelete}>✕</button>
       </div>
@@ -138,12 +149,13 @@ function DialogueTreeRow({ dlg, onChange, onDelete }: { dlg: Record<string, unkn
   )
 }
 
-export function DialogueEditor({ questDefsData, onQuestDefsChange }: Props) {
+export function DialogueEditor({ mapId, configData, questDefsData, onQuestDefsChange }: Props) {
   const q = questDefsData as unknown as Record<string, unknown>
   const friendship = (q.friendshipDialogue as Record<string, Record<string, string>>) ?? {}
   const relationship = (q.relationshipDialogue as Record<string, Record<string, Record<string, string>>>) ?? {}
   const rumours = (q.innRumours as Array<{ id: string; text: string }>) ?? []
   const dialogues = (q.dialogues as Array<Record<string, unknown>>) ?? []
+  const npcOptions = npcRefOptions(mapId, configData.npcs ?? [], false)
   const patch = (key: string, value: unknown) => onQuestDefsChange(prev => ({ ...(prev as object), [key]: value }) as QuestDefsJson)
 
   return (
@@ -152,16 +164,17 @@ export function DialogueEditor({ questDefsData, onQuestDefsChange }: Props) {
         <RumoursEditor data={rumours} onChange={d => patch('innRumours', d)} />
       </Section>
       <Section title={`Friendship Dialogue (${Object.keys(friendship).length})`} color="#88ffaa">
-        <FriendshipEditor data={friendship} onChange={d => patch('friendshipDialogue', d)} />
+        <FriendshipEditor data={friendship} npcOptions={npcOptions} onChange={d => patch('friendshipDialogue', d)} />
       </Section>
       <Section title={`Relationship Dialogue (${Object.keys(relationship).length})`} color="#ffaa88">
-        <RelationshipEditor data={relationship} onChange={d => patch('relationshipDialogue', d)} />
+        <RelationshipEditor data={relationship} npcOptions={npcOptions} onChange={d => patch('relationshipDialogue', d)} />
       </Section>
       <Section title={`Dialogue Trees (${dialogues.length})`} color="#88aaff">
         {dialogues.map((dlg, i) => (
           <DialogueTreeRow
             key={i}
             dlg={dlg}
+            npcOptions={npcOptions}
             onChange={d => patch('dialogues', dialogues.map((x, j) => j === i ? d : x))}
             onDelete={() => patch('dialogues', dialogues.filter((_, j) => j !== i))}
           />

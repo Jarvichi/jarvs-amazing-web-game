@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import type { SelectedEntity, RawMapConfig, RawInterior, RawBlockedPath, RawLockedDoor, Zlayer, RawDecorItem, RawNpc, RawBuilding, RawAnimal, RawInteractable, RawInteractableReaction, RawWeather, PickKind } from './mapEditorTypes'
+import type { MapId } from '../../data/hub/hubWorldFactory'
+import { EntityRefPicker } from './EntityRefPicker'
+import { buildingRefOptions, questRefOptions, interiorRefOptions } from './entityRefs'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import { resolveTileRef } from '../../data/tiles/tileIndex'
 import type { WallMaterial } from '../../data/tiles/buildingMaterials'
@@ -41,6 +44,7 @@ export type GlowPatch = Partial<{ glow: boolean; glowRadius: number; pulse: bool
 
 interface Props {
   selectedEntity:   SelectedEntity | null
+  mapId:            MapId
   configData:       RawMapConfig
   activeInteriorId: string | null
   activeLevel:      number
@@ -1782,7 +1786,7 @@ function PondEditor({ configData, onUpdateConfig, numSm, addBtn, xBtn, anchor }:
 }
 
 export function EntityInspector({
-  selectedEntity, configData, activeInteriorId, activeLevel, viewMode,
+  selectedEntity, mapId, configData, activeInteriorId, activeLevel, viewMode,
   onSetActiveLevel, onUpdateBuilding, onUpdateDecorMinLevel,
   onDelete, onMoveEntity, onZlayerChange, onUpdateGlow, onUpdatePickupGlow, onDialogueChange,
   onOpenInterior, onCloseInterior, onUpdateStreetEntry,

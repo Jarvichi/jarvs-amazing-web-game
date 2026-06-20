@@ -4,11 +4,15 @@ import type { QuestDefsJson } from '../../../data/hub/hubWorldFactory'
 import { NPC_ACTIVITIES } from '../../../game/hub/hubNpcSchedule'
 import { SpriteSearchPicker } from '../SpritePicker'
 import { AnimalEditor } from './AnimalEditor'
+import type { MapId } from '../../../data/hub/hubWorldFactory'
+import { EntityRefPicker } from '../EntityRefPicker'
+import { buildingRefOptions, questRefOptions, dialogueTreeRefOptions, type RefOption } from '../entityRefs'
 
 export type { PickKind } from '../mapEditorTypes'
 import type { PickKind } from '../mapEditorTypes'
 
 interface Props {
+  mapId: MapId
   configData: RawMapConfig
   questDefsData: QuestDefsJson
   focusedIndex: number | null
@@ -18,6 +22,14 @@ interface Props {
   onUpdateAnimal: (index: number, partial: Partial<RawAnimal>) => void
   onDeleteAnimal: (index: number) => void
   onPickLocation: (kind: PickKind, index: number) => void
+}
+
+// Reference options threaded into the NPC sub-editors.
+interface NpcRefOpts {
+  buildings: RefOption[]
+  questGive: RefOption[]
+  questReceive: RefOption[]
+  dialogueTrees: RefOption[]
 }
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
@@ -55,9 +67,10 @@ const BTN_PICK: React.CSSProperties = {
 
 type ScheduleRow = NonNullable<RawNpc['schedule']>[number]
 
-function ScheduleEditor({ schedule, onChange }: {
+function ScheduleEditor({ schedule, onChange, buildings }: {
   schedule: ScheduleRow[]
   onChange: (s: ScheduleRow[]) => void
+  buildings: RefOption[]
 }) {
   function update(i: number, partial: Partial<ScheduleRow>) {
     onChange(schedule.map((r, idx) => idx === i ? { ...r, ...partial } as ScheduleRow : r))
@@ -96,10 +109,10 @@ function ScheduleEditor({ schedule, onChange }: {
               <option value="interior">Interior</option>
             </select>
             {row.location.type === 'interior' && (
-              <input type="text" placeholder="buildingId"
-                value={row.location.buildingId}
-                onChange={e => setLocation(i, { ...row.location, type: 'interior', buildingId: e.target.value })}
-                style={{ width: 80, padding: '2px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 10 }} />
+              <div style={{ width: 110 }}>
+                <EntityRefPicker value={row.location.buildingId} options={buildings} placeholder="building…"
+                  onChange={v => setLocation(i, { ...row.location, type: 'interior', buildingId: v })} />
+              </div>
             )}
             <label style={{ color: '#888', fontSize: 10 }}>X</label>
             <input type="number" value={row.location.tx}
@@ -130,9 +143,10 @@ function ScheduleEditor({ schedule, onChange }: {
 
 // ── HomeBed sub-editor ───────────────────────────────────────────────────────
 
-function HomeBedEditor({ homeBed, onChange }: {
+function HomeBedEditor({ homeBed, onChange, buildings }: {
   homeBed: RawNpc['homeBed']
   onChange: (v: RawNpc['homeBed']) => void
+  buildings: RefOption[]
 }) {
   if (!homeBed) {
     return (
@@ -143,9 +157,10 @@ function HomeBedEditor({ homeBed, onChange }: {
   }
   return (
     <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
-      <input type="text" placeholder="buildingId" value={homeBed.buildingId}
-        onChange={e => onChange({ ...homeBed, buildingId: e.target.value })}
-        style={{ flex: 1, minWidth: 70, padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }} />
+      <div style={{ flex: 1, minWidth: 90 }}>
+        <EntityRefPicker value={homeBed.buildingId} options={buildings} placeholder="building…"
+          onChange={v => onChange({ ...homeBed, buildingId: v })} />
+      </div>
       <label style={{ color: '#888', fontSize: 10 }}>X</label>
       <input type="number" value={homeBed.tx} onChange={e => onChange({ ...homeBed, tx: Number(e.target.value) })} style={NUM} />
       <label style={{ color: '#888', fontSize: 10 }}>Y</label>
@@ -185,17 +200,12 @@ function InnRumoursEditor({ rumours, onChange }: {
 
 // ── NpcFullEditor ─────────────────────────────────────────────────────────────
 
-function NpcFullEditor({ npc, questIds, onUpdate, onPickLocation }: {
+function NpcFullEditor({ npc, opts, onUpdate, onPickLocation }: {
   npc: RawNpc
-  questIds: string[]
+  opts: NpcRefOpts
   onUpdate: (partial: Partial<RawNpc>) => void
   onPickLocation?: () => void
 }) {
-  const questOptions = [
-    { value: '', label: '— none —' },
-    ...questIds.map(id => ({ value: id, label: id })),
-  ]
-
   const questReceiveArr: string[] = Array.isArray(npc.questReceive)
     ? npc.questReceive
     : npc.questReceive ? [npc.questReceive] : []
@@ -234,51 +244,44 @@ function NpcFullEditor({ npc, questIds, onUpdate, onPickLocation }: {
           Is ghost
         </label>
       </Field>
-      <Field label="Building">
-        <input style={INPUT} type="text" value={npc.building ?? ''} placeholder="building ID (optional)"
-          onChange={e => onUpdate({ building: e.target.value || undefined })} />
+      <Field label="Building (interior, optional)">
+        <EntityRefPicker value={npc.building ?? ''} options={opts.buildings} placeholder="Search buildings…"
+          onChange={v => onUpdate({ building: v || undefined })} />
+      </Field>
+      <Field label="Dialogue Tree (optional)">
+        <EntityRefPicker value={npc.dialogueTree ?? ''} options={opts.dialogueTrees} placeholder="Search dialogue trees…"
+          onChange={v => onUpdate({ dialogueTree: v || undefined })} />
       </Field>
       <Field label="Quest Give">
-        <select style={SELECT} value={npc.questGive ?? ''}
-          onChange={e => onUpdate({ questGive: e.target.value || undefined })}>
-          {questOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-        </select>
+        <EntityRefPicker value={npc.questGive ?? ''} options={opts.questGive} placeholder="Search quests…"
+          onChange={v => onUpdate({ questGive: v || undefined })} />
       </Field>
       <Field label="Quest Receive">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
           {questReceiveArr.map((qid, i) => (
             <div key={i} style={{ display: 'flex', gap: 4 }}>
-              <select
-                value={qid}
-                onChange={e => {
-                  const updated = questReceiveArr.map((x, j) => j === i ? e.target.value : x)
-                  setQuestReceive(updated.filter(Boolean))
-                }}
-                style={{ ...SELECT, flex: 1 }}
-              >
-                {questIds.map(id => <option key={id} value={id}>{id}</option>)}
-              </select>
+              <div style={{ flex: 1 }}>
+                <EntityRefPicker value={qid} options={opts.questReceive} placeholder="Search quests…"
+                  onChange={v => setQuestReceive(questReceiveArr.map((x, j) => j === i ? v : x).filter(Boolean))} />
+              </div>
               <button style={BTN_DANGER} onClick={() => setQuestReceive(questReceiveArr.filter((_, j) => j !== i))}>✕</button>
             </div>
           ))}
           <button
             style={{ ...BTN_ADD, fontSize: 10, padding: '2px 8px' }}
-            disabled={questIds.length === 0}
-            onClick={() => {
-              const first = questIds.find(id => !questReceiveArr.includes(id)) ?? questIds[0]
-              if (first) setQuestReceive([...questReceiveArr, first])
-            }}
+            onClick={() => setQuestReceive([...questReceiveArr, ''])}
           >+ Add</button>
         </div>
       </Field>
       <Field label="Schedule">
         <ScheduleEditor
           schedule={npc.schedule ?? []}
+          buildings={opts.buildings}
           onChange={s => onUpdate({ schedule: s.length > 0 ? s : undefined })}
         />
       </Field>
       <Field label="Home Bed">
-        <HomeBedEditor homeBed={npc.homeBed} onChange={v => onUpdate({ homeBed: v })} />
+        <HomeBedEditor homeBed={npc.homeBed} buildings={opts.buildings} onChange={v => onUpdate({ homeBed: v })} />
       </Field>
       <Field label="Inn Rumours">
         <InnRumoursEditor
@@ -293,7 +296,7 @@ function NpcFullEditor({ npc, questIds, onUpdate, onPickLocation }: {
 // ── NpcEditor (main export) ──────────────────────────────────────────────────
 
 export function NpcEditor({
-  configData, questDefsData, focusedIndex,
+  mapId, configData, questDefsData, focusedIndex,
   onAddNpc, onUpdateNpc, onAddAnimal, onUpdateAnimal, onDeleteAnimal, onPickLocation,
 }: Props) {
   // Selection is keyed by kind so NPC and animal rows don't collide.
@@ -312,7 +315,13 @@ export function NpcEditor({
 
   const npcs = configData.npcs ?? []
   const animals = configData.animals ?? []
-  const questIds = ((questDefsData.quests as Array<{ id: string }> | undefined) ?? []).map(q => q.id)
+  const localQuests = (questDefsData.quests as Array<{ id: string; title?: string }> | undefined) ?? []
+  const refOpts: NpcRefOpts = {
+    buildings: buildingRefOptions(mapId, configData.buildings ?? []),
+    questGive: questRefOptions(mapId, localQuests, false),     // this NPC gives quests from its own town
+    questReceive: questRefOptions(mapId, localQuests, true),   // may receive cross-town deliveries
+    dialogueTrees: dialogueTreeRefOptions(mapId, (questDefsData.dialogues as Array<{ id: string }> | undefined) ?? []),
+  }
 
   // Scroll to a newly added row after the render that includes it
   useEffect(() => {
@@ -389,7 +398,7 @@ export function NpcEditor({
           {isExpanded('npc', i) && (
             <NpcFullEditor
               npc={npc}
-              questIds={questIds}
+              opts={refOpts}
               onUpdate={partial => onUpdateNpc(i, partial)}
               onPickLocation={() => onPickLocation('npc', i)}
             />
