@@ -246,18 +246,33 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   // Quest NPC state: maps npcId → 'offer' | 'ready' | null, read imperatively by PixiJS ticker
   const questNpcStateRef = useRef(new Map<string, 'offer' | 'ready' | null>())
   {
+    // NPCs (and animals) physically present in the current town. Offers only
+    // surface on a present giver; 'ready' indicators surface on a present
+    // receiver or deliver-target — including for quests accepted in another town.
+    const presentNpcs = new Set<string>([
+      ...locationData.HUB_NPCS.map(n => n.id),
+      ...locationData.HUB_ANIMALS.map(a => a.id),
+    ])
     const m = new Map<string, 'offer' | 'ready' | null>()
-    const activeCount = questDefs.filter(q => getQuestState(q.id).status === 'active').length
+    const activeCount = allQuestDefs.filter(q => getQuestState(q.id).status === 'active').length
     const atCap = activeCount >= 2
-    for (const quest of questDefs) {
+    for (const quest of allQuestDefs) {
       const state = getQuestState(quest.id)
       if (state.status === 'available') {
+        if (!presentNpcs.has(quest.giverNpcId)) continue
         const prereqMet = !quest.prerequisite || checkPrerequisite(quest.prerequisite)
         const hoursMet  = !quest.availableHours || hourInRange(gameHour, quest.availableHours.start, quest.availableHours.end)
         const festivalMet = !quest.festivalId || quest.festivalId === activeFestival?.id
         if (prereqMet && hoursMet && festivalMet && !atCap) m.set(quest.giverNpcId, 'offer')
       } else if (state.status === 'active') {
-        if (isQuestReadyToComplete(quest)) m.set(quest.receiverNpcId, 'ready')
+        if (isQuestReadyToComplete(quest) && presentNpcs.has(quest.receiverNpcId)) {
+          m.set(quest.receiverNpcId, 'ready')
+        } else {
+          const pend = quest.steps.find(s =>
+            s.type === 'deliver' && !!s.targetNpcId && presentNpcs.has(s.targetNpcId) &&
+            getQuestProgress(quest.id, s.key) < s.required)
+          if (pend?.targetNpcId) m.set(pend.targetNpcId, 'ready')
+        }
       }
     }
     questNpcStateRef.current = m
@@ -528,7 +543,9 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
 
     if (!questId) return
 
-    const quest = questDefs.find(q => q.id === questId)
+    // Quests are resolved across ALL towns so a pickup collected in one town can
+    // advance a quest that was accepted in another (cross-town steps).
+    const quest = allQuestDefs.find(q => q.id === questId)
     if (!quest) return
     const state = getQuestState(questId)
     if (state.status !== 'active') return
@@ -767,6 +784,26 @@ function hasOfferableQuest(giverId: string): boolean {
       locationData.HUB_ANIMALS.find(a => a.id === npcId)
     const speakerName = npcDef?.name ?? ''
 
+    // Cross-town deliveries: scan EVERY town's quests (not just the current one)
+    // for an active quest with a pending deliver step addressed to this NPC, or
+    // one whose receiver is this NPC and is ready to hand in. This lets a quest
+    // accepted elsewhere be progressed / completed here.
+    const pendingDelivery = () => {
+      for (const q of allQuestDefs) {
+        if (getQuestState(q.id).status !== 'active') continue
+        const step = q.steps.find(s => s.type === 'deliver' && s.targetNpcId === npcId && getQuestProgress(q.id, s.key) < s.required)
+        if (step) return { quest: q, step }
+      }
+      return null
+    }
+    const readyToHandIn = () => {
+      for (const q of allQuestDefs) {
+        if (getQuestState(q.id).status !== 'active') continue
+        if (q.receiverNpcId === npcId && isQuestReadyToComplete(q)) return q
+      }
+      return null
+    }
+
     // ── Inn rumour handling (Innkeeper Rosie) ───────────────────────────────
     if (npcId === 'innkeeper-rosie' && npcDef?.innRumours) {
       const heard = getHeardConvoIds()
@@ -797,37 +834,20 @@ function hasOfferableQuest(giverId: string): boolean {
       // accept. Shown first (primary) so it reads as the obvious action.
       let questChoice: DialogueChoice | undefined
 
-      // (a) Pending delivery addressed to this NPC (active questReceive quest).
-      const receiveIds = npcDef.questReceive
-        ? (Array.isArray(npcDef.questReceive) ? npcDef.questReceive : [npcDef.questReceive])
-        : []
-      for (const qid of receiveIds) {
-        const quest = questDefs.find(q => q.id === qid)
-        if (!quest || getQuestState(quest.id).status !== 'active') continue
-        const pending = quest.steps.find(s =>
-          s.type === 'deliver' && s.targetNpcId === npcId &&
-          getQuestProgress(quest.id, s.key) < s.required)
-        if (pending) {
-          questChoice = { label: 'Hand over the message', primary: true, onClick: () => {
-            incrementQuestProgress(quest.id, pending.key)
-            refreshState()
-            if (isQuestReadyToComplete(quest)) completeQuestFor(quest, speakerName)
-            else setDialogueEvent({ speakerName, text: getActiveDialogue(quest) })
-          } }
-          break
-        }
-        if (isQuestReadyToComplete(quest)) {
-          questChoice = { label: 'Turn in the quest', primary: true,
-            onClick: () => completeQuestFor(quest, speakerName) }
-          break
-        }
+      // (a) Pending delivery addressed to this NPC (any town's active quest).
+      const del = pendingDelivery()
+      if (del) {
+        questChoice = { label: 'Hand over the message', primary: true, onClick: () => {
+          incrementQuestProgress(del.quest.id, del.step.key)
+          refreshState()
+          if (isQuestReadyToComplete(del.quest)) completeQuestFor(del.quest, speakerName)
+          else setDialogueEvent({ speakerName, text: getActiveDialogue(del.quest) })
+        } }
       }
 
-      // (b) A quest this NPC gives that is ready to be turned in to itself.
+      // (b) A quest whose receiver is this NPC and is ready to hand in.
       if (!questChoice) {
-        const ready = questDefs.find(q =>
-          q.giverNpcId === npcId && q.receiverNpcId === npcId &&
-          getQuestState(q.id).status === 'active' && isQuestReadyToComplete(q))
+        const ready = readyToHandIn()
         if (ready) questChoice = { label: 'Turn in the quest', primary: true,
           onClick: () => completeQuestFor(ready, speakerName) }
       }
@@ -843,33 +863,23 @@ function hasOfferableQuest(giverId: string): boolean {
       return
     }
 
-    // ── Quest delivery / completion (receiver NPC tapped) ───────────────────
-    if (npcDef?.questReceive) {
-      const receiveIds = Array.isArray(npcDef.questReceive) ? npcDef.questReceive : [npcDef.questReceive]
-      for (const questId of receiveIds) {
-        const quest = questDefs.find(q => q.id === questId)
-        if (!quest || getQuestState(quest.id).status !== 'active') continue
-
-        // Register a pending delivery addressed to this NPC (guarded so repeat
-        // taps don't over-count).
-        const pending = quest.steps.find(s =>
-          s.type === 'deliver' && s.targetNpcId === npcId &&
-          getQuestProgress(quest.id, s.key) < s.required)
-        if (pending) {
-          incrementQuestProgress(quest.id, pending.key)
-          refreshState()
-          if (isQuestReadyToComplete(quest)) completeQuestFor(quest, speakerName)
-          // Delivered but the quest still needs more — acknowledge so the player
-          // sees feedback instead of (e.g.) the NPC's screen opening silently.
-          else setDialogueEvent({ speakerName, text: getActiveDialogue(quest) })
-          return
-        }
-
-        // Nothing to deliver here, but the quest may be ready to hand in.
-        if (isQuestReadyToComplete(quest)) {
-          completeQuestFor(quest, speakerName)
-          return
-        }
+    // ── Quest delivery / completion (receiver / deliver-target NPC tapped) ──
+    // Scans every town's active quests so cross-town deliveries resolve here.
+    {
+      const del = pendingDelivery()
+      if (del) {
+        incrementQuestProgress(del.quest.id, del.step.key)
+        refreshState()
+        if (isQuestReadyToComplete(del.quest)) completeQuestFor(del.quest, speakerName)
+        // Delivered but the quest still needs more — acknowledge so the player
+        // sees feedback instead of (e.g.) the NPC's screen opening silently.
+        else setDialogueEvent({ speakerName, text: getActiveDialogue(del.quest) })
+        return
+      }
+      const ready = readyToHandIn()
+      if (ready) {
+        completeQuestFor(ready, speakerName)
+        return
       }
     }
 

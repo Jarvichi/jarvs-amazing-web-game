@@ -17,7 +17,9 @@ import hollowmereConfig from '../../data/hub/hollowmere/config.json'
 import dreadspirecitadelConfig from '../../data/hub/dreadspirecitadel/config.json'
 import { MapId } from '../../data/hub/hubWorldFactory'
 
-const RAW_CONFIGS: Record<MapId, RawMapConfig> = {
+// Exported so cross-town reference pickers (entityRefs.ts) can read every town's
+// NPCs / buildings / interiors without re-importing all the config JSON.
+export const RAW_CONFIGS: Record<MapId, RawMapConfig> = {
   ravenwatch:    hubConfig    as unknown as RawMapConfig,
   millhaven:  town2Config  as unknown as RawMapConfig,
   ironholdkeep: castleConfig as unknown as RawMapConfig,

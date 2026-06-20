@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import type { SelectedEntity, RawMapConfig, RawInterior, RawBlockedPath, RawLockedDoor, Zlayer, RawDecorItem, RawNpc, RawBuilding, RawAnimal, RawInteractable, RawInteractableReaction, RawWeather, PickKind } from './mapEditorTypes'
+import type { MapId } from '../../data/hub/hubWorldFactory'
+import { EntityRefPicker } from './EntityRefPicker'
+import { buildingRefOptions, allQuestOptions, type RefOption } from './entityRefs'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import { resolveTileRef } from '../../data/tiles/tileIndex'
 import type { WallMaterial } from '../../data/tiles/buildingMaterials'
@@ -41,6 +44,7 @@ export type GlowPatch = Partial<{ glow: boolean; glowRadius: number; pulse: bool
 
 interface Props {
   selectedEntity:   SelectedEntity | null
+  mapId:            MapId
   configData:       RawMapConfig
   activeInteriorId: string | null
   activeLevel:      number
@@ -1209,24 +1213,21 @@ function PathDecorEditor({ label, decor, anchor, onChange }: {
 }
 
 function BlockedPathInspector({
-  bp, onUpdate, onDelete, onPick,
+  bp, onUpdate, onDelete, onPick, questOptions,
 }: {
   bp: RawBlockedPath
   onUpdate: (patch: Partial<RawBlockedPath>) => void
   onDelete: () => void
   onPick?: () => void
+  questOptions: RefOption[]
 }) {
   const anchor = bp.blockedTiles[0] ?? [0, 0]
   return (
     <div>
       <Field label="ID"><span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{bp.id}</span></Field>
-      <Field label="Quest ID (cleared when complete)">
-        <input
-          value={bp.questId}
-          onChange={e => onUpdate({ questId: e.target.value })}
-          placeholder="quest id"
-          style={{ width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11, fontFamily: 'monospace', boxSizing: 'border-box' }}
-        />
+      <Field label="Quest (cleared when complete)">
+        <EntityRefPicker value={bp.questId} options={questOptions} placeholder="Search quests…"
+          onChange={v => onUpdate({ questId: v })} />
       </Field>
       <Field label={`Blocked Tiles (${bp.blockedTiles.length})`}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -1330,12 +1331,13 @@ function AreaInspector({
   )
 }
 
-function TreasureInspector({ treasure, onUpdate, onMove, onDelete, onPick }: {
+function TreasureInspector({ treasure, onUpdate, onMove, onDelete, onPick, buildingOptions }: {
   treasure: Treasure
   onUpdate: (patch: Partial<Treasure>) => void
   onMove: (tx: number, ty: number) => void
   onDelete: () => void
   onPick?: () => void
+  buildingOptions: RefOption[]
 }) {
   const [picking, setPicking] = useState<null | 'tile' | 'collected'>(null)
   const inputStyle: React.CSSProperties = {
@@ -1366,8 +1368,8 @@ function TreasureInspector({ treasure, onUpdate, onMove, onDelete, onPick }: {
         {picking === 'collected' && <TilePicker current={treasure.collectedTileId ?? ''} onChange={tileId => onUpdate({ collectedTileId: tileId })} onClose={() => setPicking(null)} />}
       </Field>
       <Field label="Building (interior, optional)">
-        <input style={inputStyle} value={treasure.buildingId ?? ''} placeholder="building ID"
-          onChange={e => onUpdate({ buildingId: e.target.value || undefined })} />
+        <EntityRefPicker value={treasure.buildingId ?? ''} options={buildingOptions} placeholder="Search buildings…"
+          onChange={v => onUpdate({ buildingId: v || undefined })} />
       </Field>
       <Field label="Reward — crystals">
         {numInput(crystals, n => onUpdate({ reward: { ...reward, crystals: n } }))}
@@ -1391,9 +1393,10 @@ function TreasureInspector({ treasure, onUpdate, onMove, onDelete, onPick }: {
 // ── Interactables ──────────────────────────────────────────────────────────────
 const REACTION_TYPES = ['dialogue', 'screen', 'giveItem', 'quest', 'move'] as const
 
-function ReactionEditor({ reaction, onChange }: {
+function ReactionEditor({ reaction, onChange, questOptions }: {
   reaction: RawInteractableReaction
   onChange: (r: RawInteractableReaction) => void
+  questOptions: RefOption[]
 }) {
   const inp: React.CSSProperties = { width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box' }
   const numSm: React.CSSProperties = { width: 50, padding: '2px 4px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }
@@ -1418,7 +1421,7 @@ function ReactionEditor({ reaction, onChange }: {
 
       {reaction.type === 'quest' && (
         <>
-          <input style={inp} placeholder="quest id" value={reaction.questId ?? ''} onChange={e => onChange({ ...reaction, questId: e.target.value })} />
+          <EntityRefPicker value={reaction.questId ?? ''} options={questOptions} placeholder="Search quests…" onChange={v => onChange({ ...reaction, questId: v })} />
           <input style={inp} placeholder="speaker name (optional)" value={reaction.speakerName ?? ''} onChange={e => onChange({ ...reaction, speakerName: e.target.value || undefined })} />
         </>
       )}
@@ -1455,12 +1458,14 @@ function ReactionEditor({ reaction, onChange }: {
   )
 }
 
-function InteractableInspector({ it, onUpdate, onMove, onDelete, onPick }: {
+function InteractableInspector({ it, onUpdate, onMove, onDelete, onPick, buildingOptions, questOptions }: {
   it: RawInteractable
   onUpdate: (patch: Partial<RawInteractable>) => void
   onMove: (tx: number, ty: number) => void
   onDelete: () => void
   onPick?: () => void
+  buildingOptions: RefOption[]
+  questOptions: RefOption[]
 }) {
   const [pickingDecor, setPickingDecor] = useState<number | null>(null)
   const inp: React.CSSProperties = { width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box' }
@@ -1482,7 +1487,7 @@ function InteractableInspector({ it, onUpdate, onMove, onDelete, onPick }: {
         {onPick && <button style={BTN_PICK} onClick={onPick}>📍 Pick on map</button>}
       </Field>
       <Field label="Building (interior, optional)">
-        <input style={inp} value={it.building ?? ''} placeholder="building ID" onChange={e => onUpdate({ building: e.target.value || undefined })} />
+        <EntityRefPicker value={it.building ?? ''} options={buildingOptions} placeholder="Search buildings…" onChange={v => onUpdate({ building: v || undefined })} />
       </Field>
       <Field label="Hit area (tiles)">
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
@@ -1527,7 +1532,7 @@ function InteractableInspector({ it, onUpdate, onMove, onDelete, onPick }: {
                 <button style={{ padding: '0 6px', background: '#4a1a1a', border: '1px solid #922', color: '#f88', borderRadius: 3, fontSize: 10, cursor: 'pointer' }}
                   onClick={() => onUpdate({ reactions: reactions.filter((_, j) => j !== i) })}>✕</button>
               </div>
-              <ReactionEditor reaction={r} onChange={nr => onUpdate({ reactions: reactions.map((x, j) => j === i ? nr : x) })} />
+              <ReactionEditor reaction={r} questOptions={questOptions} onChange={nr => onUpdate({ reactions: reactions.map((x, j) => j === i ? nr : x) })} />
             </div>
           ))}
           <button style={{ padding: '2px 8px', background: '#1e2e1e', border: '1px solid #3a5a3a', color: '#6d6', borderRadius: 3, fontSize: 10, cursor: 'pointer', alignSelf: 'flex-start' }}
@@ -1782,7 +1787,7 @@ function PondEditor({ configData, onUpdateConfig, numSm, addBtn, xBtn, anchor }:
 }
 
 export function EntityInspector({
-  selectedEntity, configData, activeInteriorId, activeLevel, viewMode,
+  selectedEntity, mapId, configData, activeInteriorId, activeLevel, viewMode,
   onSetActiveLevel, onUpdateBuilding, onUpdateDecorMinLevel,
   onDelete, onMoveEntity, onZlayerChange, onUpdateGlow, onUpdatePickupGlow, onDialogueChange,
   onOpenInterior, onCloseInterior, onUpdateStreetEntry,
@@ -1797,6 +1802,9 @@ export function EntityInspector({
   onUpdateTreasure, onUpdateInteractable, onUpdateConfig,
   onAddTreasure, onAddInteractable, onAddBlockedPath,
 }: Props) {
+  // Reference options for the searchable id pickers in the inspectors.
+  const buildingOpts = buildingRefOptions(mapId, configData.buildings ?? [])
+  const allQuestOpts = allQuestOptions()
   const panelStyle: React.CSSProperties = {
     display: 'flex', flexDirection: 'column', height: '100%',
     background: '#1a1a2e', color: '#ccc', fontSize: 12,
@@ -1985,6 +1993,7 @@ export function EntityInspector({
           {onUpdateTreasure ? (
             <TreasureInspector
               treasure={t}
+              buildingOptions={buildingOpts}
               onUpdate={patch => onUpdateTreasure(selectedEntity.index, patch)}
               onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
               onDelete={() => onDelete(selectedEntity)}
@@ -2111,6 +2120,7 @@ export function EntityInspector({
           <BlockedPathInspector
             key={bp.id}
             bp={bp}
+            questOptions={allQuestOpts}
             onUpdate={patch => onUpdateBlockedPath(selectedEntity.index, patch)}
             onDelete={() => onDeleteBlockedPath(selectedEntity.index)}
             onPick={onPickLocation ? () => onPickLocation('blockedTile', selectedEntity.index) : undefined}
@@ -2164,6 +2174,8 @@ export function EntityInspector({
         <div style={bodyStyle}>
           <InteractableInspector
             it={it}
+            buildingOptions={buildingOpts}
+            questOptions={allQuestOpts}
             onUpdate={patch => onUpdateInteractable(selectedEntity.index, patch)}
             onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
             onDelete={() => onDelete(selectedEntity)}

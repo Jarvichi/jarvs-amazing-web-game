@@ -79,6 +79,7 @@ export interface RawNpc {
   questGive?: string
   questReceive?: string | string[]
   isGhost?: boolean
+  dialogueTree?: string   // id of a branching dialogue tree (questDefs.json `dialogues`)
   minLevel?: number   // building upgrade level at which this NPC first appears (0/undefined = always)
   schedule?: Array<{
     startHour: number

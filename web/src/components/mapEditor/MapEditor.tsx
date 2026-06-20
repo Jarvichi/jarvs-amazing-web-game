@@ -327,6 +327,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
           <div style={{ width: 220, flexShrink: 0, borderLeft: '1px solid #333', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
             <EntityInspector
               selectedEntity={state.selectedEntity}
+              mapId={state.mapId}
               configData={state.configData}
               activeInteriorId={state.activeInteriorId}
               activeLevel={state.activeLevel}
@@ -396,6 +397,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
             />
             <NpcQuestDrawer
               tab={drawerTab}
+              mapId={state.mapId}
               focusedNpcIndex={focusedNpcIndex}
               configData={state.configData}
               questDefsData={questDefsData}

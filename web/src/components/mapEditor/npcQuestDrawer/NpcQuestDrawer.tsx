@@ -1,13 +1,14 @@
 import React from 'react'
 import type { DrawerTab } from './npcQuestDrawerTypes'
 import type { RawMapConfig, RawNpc, RawAnimal } from '../mapEditorTypes'
-import type { QuestDefsJson } from '../../../data/hub/hubWorldFactory'
+import type { MapId, QuestDefsJson } from '../../../data/hub/hubWorldFactory'
 import { NpcEditor, type PickKind } from './NpcEditor'
 import { QuestEditor } from './QuestEditor'
 import { DialogueEditor } from './DialogueEditor'
 
 interface Props {
   tab: DrawerTab
+  mapId: MapId
   focusedNpcIndex: number | null
   configData: RawMapConfig
   questDefsData: QuestDefsJson
@@ -31,7 +32,7 @@ const TAB_INACTIVE: React.CSSProperties = {
 }
 
 export function NpcQuestDrawer({
-  tab, focusedNpcIndex, configData, questDefsData,
+  tab, mapId, focusedNpcIndex, configData, questDefsData,
   onTabChange, onAddNpc, onUpdateNpc, onAddAnimal, onUpdateAnimal, onDeleteAnimal, onPickLocation, onQuestDefsChange,
 }: Props) {
   return (
@@ -50,6 +51,7 @@ export function NpcQuestDrawer({
       <div style={{ flex: 1, overflow: 'hidden', display: 'flex' }}>
         {tab === 'npcs' && (
           <NpcEditor
+            mapId={mapId}
             configData={configData}
             questDefsData={questDefsData}
             focusedIndex={focusedNpcIndex}
@@ -63,6 +65,7 @@ export function NpcQuestDrawer({
         )}
         {tab === 'quests' && (
           <QuestEditor
+            mapId={mapId}
             configData={configData}
             questDefsData={questDefsData}
             onUpdateNpc={onUpdateNpc}
@@ -71,6 +74,8 @@ export function NpcQuestDrawer({
         )}
         {tab === 'dialogue' && (
           <DialogueEditor
+            mapId={mapId}
+            configData={configData}
             questDefsData={questDefsData}
             onQuestDefsChange={onQuestDefsChange}
           />
