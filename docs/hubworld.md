@@ -1033,3 +1033,48 @@ festival's group (not `exteriorDecor`). The quest editor has a **Festival**
 dropdown for `festivalId`. The `MapEditor` Storybook stories
 (`Ravenwatch · Midsummer/Harvest/Midwinter`) seed `initialFestival` so each
 festival is previewable regardless of today's date.
+
+---
+
+## §14 — Quests: prerequisites & cross-town chains
+
+### Prerequisite syntax
+A quest's `prerequisite` is a single string of **AND-combined conditions**
+joined with `|` (all must hold), parsed by `checkPrerequisite` in
+`HubWorld.tsx`:
+
+```
+quest:<questId>                       // that quest is completed
+friendship:<npcId>:<level>            // friendship ≥ level
+relationship:<npcId>:<track>:<level>  // relationship track at ≥ level
+```
+
+Example: `"quest:millhaven-mill-grain | friendship:innkeeper-rosie:2"`.
+
+> A **bare** id (no `quest:` prefix) does **not** gate — `checkPrerequisite`
+> treats unknown tokens as satisfied. The map-editor **Prerequisite** builder
+> always writes the `quest:<id>` form, and re-serialises any legacy bare ids on
+> save. Quest state is global, so a prerequisite may reference a quest defined in
+> **any town**.
+
+### Cross-town chains & steps
+Quest progress lives in one global store keyed by quest id
+(`game/hub/quests.ts`), and `ALL_QUEST_DEFS` (`hubWorldFactory.ts`) aggregates
+every town. Therefore:
+
+- **Chains span towns** — a quest in town B can require (`prerequisite`) a quest
+  from town A.
+- **Steps span towns** — a quest's `collect` step may list `pickupIds` that live
+  in another town, and a `deliver` step may target an NPC in another town.
+  `handleItemPickup` resolves the quest via `allQuestDefs`, and the NPC-tap
+  delivery/turn-in logic scans `allQuestDefs` for a pending deliver step
+  addressed to the tapped NPC (or a ready receiver) — so the quest advances and
+  completes wherever the relevant pickup/NPC is. Offers still only appear on the
+  giver in the quest's own town; the active-quest cap (2) counts globally.
+
+### Map editor
+Every id field (NPC, building, quest, pickup, interior, dialogue tree) is a
+**searchable dropdown** (`EntityRefPicker`), and quest / cross-town refs are
+**grouped by town**. The quest editor's deliver-target and pickup steps use
+all-town pickers; the **Prerequisite** field is a structured condition builder
+(quest / friendship / relationship rows).
