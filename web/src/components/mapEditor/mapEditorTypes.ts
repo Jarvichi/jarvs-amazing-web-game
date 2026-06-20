@@ -66,6 +66,7 @@ export interface RawAnimal {
   roam?: boolean
   areaRect?: [number, number, number, number]
   building?: string
+  dialogueTree?: string
 }
 
 export interface RawNpc {

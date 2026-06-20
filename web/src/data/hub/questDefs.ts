@@ -201,6 +201,8 @@ export interface DialogueChoiceDef {
   effects?: DialogueEffect[]
   requireFlag?: string     // only show this choice if the flag is set
   hideIfFlag?: string      // hide this choice once the flag is set
+  requireQuest?: string    // only show this choice once that quest is completed
+  hideIfQuest?: string     // hide this choice once that quest is completed
 }
 
 export interface DialogueNode {
