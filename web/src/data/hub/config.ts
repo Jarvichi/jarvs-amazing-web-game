@@ -320,7 +320,9 @@ export interface RawConfig {
 
   npcs: RawNpc[]
 
-  npcSpawnTiles: [number, number][]
+  // Loose raw shape: JSON imports infer number[][]; loader.ts casts to the
+  // strict [number, number][] tuple on output.
+  npcSpawnTiles: number[][]
 
   windows?: RawWindow[]
 
