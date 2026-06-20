@@ -115,6 +115,18 @@ export function dialogueTreeRefOptions(currentMap: MapId, currentDialogues: Ques
   return out
 }
 
+// Quest options across EVERY town (including the current one, from static data).
+// Used by the inspector pickers, which don't have the live questDefs in scope.
+export function allQuestOptions(): RefOption[] {
+  const out: RefOption[] = []
+  for (const map of ALL_MAPS) {
+    for (const q of questsOf(QUEST_DEFS_BY_MAP[map])) {
+      if (q.id) out.push({ value: q.id, label: q.title ? `${q.title} (${q.id})` : q.id, group: townLabel(map) })
+    }
+  }
+  return out
+}
+
 /** Town that defines a given quest id (for cross-town badges). */
 export function townOfQuest(questId: string): MapId | undefined {
   for (const map of ALL_MAPS) {
