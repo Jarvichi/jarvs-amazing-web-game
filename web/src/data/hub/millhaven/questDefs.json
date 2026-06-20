@@ -221,7 +221,8 @@
       ],
       "reward": {
         "crystals": 1
-      }
+      },
+      "prerequisite": "quest:new-quest-1"
     },
     {
       "id": "kippers-2nd-kipper",
@@ -245,7 +246,7 @@
       "reward": {
         "crystals": 2
       },
-      "prerequisite": "kippers-kipper"
+      "prerequisite": "quest:kippers-kipper"
     },
     {
       "id": "kippers-3rd-kipper",
@@ -269,7 +270,57 @@
       "reward": {
         "crystals": 3
       },
-      "prerequisite": "kippers-2nd-kipper"
+      "prerequisite": "quest:kippers-2nd-kipper"
+    },
+    {
+      "id": "kipper-marta-hint",
+      "title": "A Word from the Fishwife",
+      "type": "fetch",
+      "giverNpcId": "fishmonger-marta",
+      "receiverNpcId": "hedge-witch-morwen",
+      "prerequisite": "quest:kippers-3rd-kipper",
+      "offerDialogue": "You're the soul fetching kippers for that orange tom? Three lots now, and he wails louder than ever. Between us — fish isn't it. My gran used to swear there was a hedge-witch over in Hollowmere, Morwen by name, who could teach a body to truly SPEAK with animals. Daft, I thought. But that cat is trying to tell us something. Go and ask her — say Marta of Millhaven sent you, about a very unhappy cat.",
+      "activeDialogue": "Hedge-Witch Morwen, in Hollowmere. Tell her the Millhaven fishwife sent you about a yowling cat.",
+      "completeDialogue": "Marta sent you? About a cat that won't stop crying? Hmph. You'll be wanting the beast-tongue, then — to speak with it, and worse, to listen. That is no parlour trick, and I do not teach it to anyone who wanders in off the marsh.",
+      "steps": [
+        {
+          "key": "visit",
+          "type": "deliver",
+          "targetNpcId": "hedge-witch-morwen",
+          "required": 1
+        }
+      ],
+      "reward": { "crystals": 20 }
+    },
+    {
+      "id": "kipper-true-wish",
+      "title": "What Kipper Really Wants",
+      "type": "fetch",
+      "giverNpcId": "kipper",
+      "receiverNpcId": "kipper",
+      "prerequisite": "quest:morwen-speak-with-animals | flag:kipper-confided",
+      "offerDialogue": "Finally, someone who LISTENS. Right, here it is: I cannot STAND fish. The smell, the bones, the eternal slimy kippers — and everyone keeps giving me MORE because some genius named me Kipper. Bring me something — anything — that is not a fish. A feather toy, a ball, anything. Please.",
+      "activeDialogue": "Anything but fish, remember. There is bound to be a proper cat-toy somewhere in this town.",
+      "completeDialogue": "A feather-toy! For ME! *bats it joyfully* You wonderful human — you actually understood. Tell the Princess I am happy, truly happy, and she may keep every last kipper. MEOW! (the good kind.)",
+      "steps": [
+        {
+          "key": "gift",
+          "type": "collect",
+          "pickupIds": [
+            "kipper-feather-toy"
+          ],
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 60,
+        "collectible": {
+          "id": "kippers-smile",
+          "name": "Kipper's Smile",
+          "icon": "😺",
+          "desc": "Proof that you finally understood a very particular cat."
+        }
+      }
     }
   ],
   "pickupItems": [
@@ -362,7 +413,54 @@
       "tileId": "goldFish",
       "zlayer": "below",
       "questId": "kippers-3rd-kipper"
+    },
+    {
+      "id": "kipper-feather-toy",
+      "tx": 29,
+      "ty": 13,
+      "tileId": "toy",
+      "zlayer": "below",
+      "questId": "kipper-true-wish"
     }
   ],
-  "blockedPaths": []
+  "blockedPaths": [],
+  "dialogues": [
+    {
+      "id": "kipper-truth",
+      "npcId": "kipper",
+      "start": "meet",
+      "nodes": {
+        "meet": {
+          "text": "Mrrow? (Kipper looks up at you, tail twitching.)",
+          "choices": [
+            { "label": "\"There there. Hungry? I'll fetch you a nice fish.\"", "hideIfQuest": "morwen-speak-with-animals", "next": "nofish" },
+            { "label": "\"What's the matter, little one?\"", "hideIfQuest": "morwen-speak-with-animals", "next": "nounderstand" },
+            { "label": "\"...Hello? Can you understand me now?\"", "requireQuest": "morwen-speak-with-animals", "next": "talk" }
+          ]
+        },
+        "nofish": {
+          "text": "Kipper hisses, flattens his ears, and pointedly turns his back on you. (He really does not seem to want a fish.)"
+        },
+        "nounderstand": {
+          "text": "He yowls — long and mournful — but you cannot make out a word of it. The fishwife was right: you'd have to truly understand him first."
+        },
+        "talk": {
+          "text": "\"...You can hear me? You can actually HEAR me?! Oh, FINALLY. Do you have ANY idea what I have been trying to say all this time?\"",
+          "choices": [
+            { "label": "\"That you're hungry?\"", "next": "wrong1" },
+            { "label": "\"That you miss the Princess?\"", "next": "wrong2" },
+            { "label": "\"Wait... do you actually HATE fish?\"", "effects": [ { "type": "flag", "flag": "kipper-confided" }, { "type": "quest", "questId": "kipper-true-wish" } ] }
+          ]
+        },
+        "wrong1": {
+          "text": "\"HUNGRY? I am DROWNING in fish — that is the entire PROBLEM!\" He huffs and lashes his tail. \"Think again.\"",
+          "choices": [ { "label": "Think harder.", "next": "talk" } ]
+        },
+        "wrong2": {
+          "text": "\"...Well, yes, obviously I miss her. But that is not the urgent bit. Think about what is RIGHT IN FRONT OF YOU — the thing you keep BRINGING me.\"",
+          "choices": [ { "label": "Think harder.", "next": "talk" } ]
+        }
+      }
+    }
+  ]
 }
