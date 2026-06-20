@@ -77,6 +77,9 @@ function checkPrerequisite(prereq: string): boolean {
     if (part.startsWith('quest:')) {
       return getQuestState(part.slice(6)).status === 'completed'
     }
+    if (part.startsWith('flag:')) {
+      return hasDialogueFlag(part.slice(5))
+    }
     return true
   })
 }
@@ -722,8 +725,10 @@ function hasOfferableQuest(giverId: string): boolean {
     if (!node) { setDialogueEvent(null); return }
     markNodeSeen(tree.id, nodeId)
     const visible = (node.choices ?? []).filter(c =>
-      (!c.requireFlag || hasDialogueFlag(c.requireFlag)) &&
-      (!c.hideIfFlag  || !hasDialogueFlag(c.hideIfFlag))
+      (!c.requireFlag  || hasDialogueFlag(c.requireFlag)) &&
+      (!c.hideIfFlag   || !hasDialogueFlag(c.hideIfFlag)) &&
+      (!c.requireQuest || getQuestState(c.requireQuest).status === 'completed') &&
+      (!c.hideIfQuest  || getQuestState(c.hideIfQuest).status !== 'completed')
     )
     const choices: DialogueChoice[] = visible.map((c, i) => ({
       label:   c.label,

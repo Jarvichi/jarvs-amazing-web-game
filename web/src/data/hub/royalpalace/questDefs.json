@@ -34,14 +34,53 @@
     {
       "id": "new-quest-1",
       "title": "The Sick Princess",
-      "type": "chain",
+      "type": "fetch",
       "giverNpcId": "royal-steward",
-      "receiverNpcId": "royal-herald",
-      "offerDialogue": "",
-      "activeDialogue": {},
-      "completeDialogue": "",
-      "steps": [],
-      "reward": {}
+      "receiverNpcId": "kipper",
+      "offerDialogue": "Oh, thank goodness — a capable face. The Princess is inconsolable. Her darling cat, Kipper, was sent down to Millhaven for the sea air, and word comes back that he does nothing but wail, day and night. She cannot eat nor sleep for worry. Please — travel to Millhaven, find Kipper, and discover what ails the poor creature.",
+      "activeDialogue": "Kipper is in Millhaven, down by the waterfront last we heard. Find him, I beg you.",
+      "completeDialogue": "Kipper is curled on the dockside, crying at the grey waves. He looks up at you, wails twice as loud, and presses his face into your hand — something is dreadfully wrong, but for the life of you, you cannot tell what. Perhaps the locals know what ails him.",
+      "steps": [
+        {
+          "key": "find",
+          "type": "deliver",
+          "targetNpcId": "kipper",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 30,
+        "friendship": { "royal-steward": 10 }
+      }
+    },
+    {
+      "id": "palace-happy-cat",
+      "title": "A Cat's Contentment",
+      "type": "fetch",
+      "giverNpcId": "royal-steward",
+      "receiverNpcId": "royal-steward",
+      "prerequisite": "quest:kipper-true-wish",
+      "offerDialogue": "You have returned! And the news? ...Kipper hated FISH? All this time? The Princess gave him nothing but the finest kippers because she believed he adored them — oh, the poor darling. Carry the truth up to her, and the crown's gratitude with it.",
+      "activeDialogue": "Carry the good news up to the Princess — Kipper is happy at last.",
+      "completeDialogue": "The Princess is overjoyed. Kipper purrs in her lap as we speak, a feather-toy in his paws and not a fish in sight. You have mended a small heartbreak today, and the crown pays its debts. Well done.",
+      "steps": [
+        {
+          "key": "report",
+          "type": "deliver",
+          "targetNpcId": "royal-steward",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 120,
+        "collectible": {
+          "id": "royal-favour",
+          "name": "Royal Favour",
+          "icon": "👑",
+          "desc": "The Princess's personal thanks for healing her beloved Kipper."
+        },
+        "friendship": { "royal-steward": 25 }
+      }
     }
   ],
   "pickupItems": [

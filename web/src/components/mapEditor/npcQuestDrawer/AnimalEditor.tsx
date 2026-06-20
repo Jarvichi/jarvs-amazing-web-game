@@ -87,6 +87,10 @@ export function AnimalEditor({ animal, onUpdate, onDelete, onPickLocation }: {
         <input style={INPUT} value={animal.building ?? ''} placeholder="building ID (optional)"
           onChange={e => onUpdate({ building: e.target.value || undefined })} />
       </Field>
+      <Field label="Dialogue Tree (optional)">
+        <input style={INPUT} value={animal.dialogueTree ?? ''} placeholder="dialogue tree id (optional)"
+          onChange={e => onUpdate({ dialogueTree: e.target.value || undefined })} />
+      </Field>
       <Field label="Roam">
         <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontSize: 11 }}>
           <input type="checkbox" checked={animal.roam ?? false} onChange={e => onUpdate({ roam: e.target.checked || undefined })} />

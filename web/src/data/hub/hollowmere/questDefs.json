@@ -23,12 +23,46 @@
           "hedge-witch-morwen": 15
         }
       }
+    },
+    {
+      "id": "morwen-speak-with-animals",
+      "title": "The Tongue of Beasts",
+      "type": "fetch",
+      "giverNpcId": "hedge-witch-morwen",
+      "receiverNpcId": "hedge-witch-morwen",
+      "prerequisite": "quest:kipper-marta-hint | quest:hollowmere-witch-brew",
+      "offerDialogue": "So. You want the beast-tongue — to speak with animals, and worse, to LISTEN. It is no parlour trick, and I do not hand it to anyone who wanders in off the marsh. But you fetched my moonherb, and you have Marta's word, so you are not entirely useless. Bring me the three things the speech is made of: a crow's lost feather, a moon-cap mushroom from the deep hollow, and a thornless rose. Then we shall see about your cat.",
+      "activeDialogue": "A crow's feather, a moon-cap mushroom, and a thornless rose — all fall or grow around Hollowmere. Bring me all three.",
+      "completeDialogue": "Feather, cap, and rose. Good. Now hold still — this tingles. *she mutters, and the air fills with chatter* ...There. You will hear them now: every cat, crow, and complaining frog. Go and listen to that wretched, kipper-loathing cat. And mind — knowing what a beast wants is the easy part. GIVING it to them is on you.",
+      "steps": [
+        {
+          "key": "components",
+          "type": "collect",
+          "pickupIds": ["spell-feather", "spell-mooncap", "spell-rose"],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 80,
+        "collectible": {
+          "id": "speak-with-animals",
+          "name": "Speak with Animals",
+          "icon": "🐾",
+          "desc": "Hedge-Witch Morwen's beast-tongue — you can understand any animal's speech."
+        },
+        "friendship": {
+          "hedge-witch-morwen": 20
+        }
+      }
     }
   ],
   "pickupItems": [
     { "id": "moonherb-1", "tx": 3, "ty": 12, "tileId": "bunchOfHerbs", "questId": "hollowmere-witch-brew" },
     { "id": "moonherb-2", "tx": 16, "ty": 14, "tileId": "bunchOfHerbs", "questId": "hollowmere-witch-brew" },
-    { "id": "moonherb-3", "tx": 24, "ty": 17, "tileId": "bunchOfHerbs", "questId": "hollowmere-witch-brew" }
+    { "id": "moonherb-3", "tx": 24, "ty": 17, "tileId": "bunchOfHerbs", "questId": "hollowmere-witch-brew" },
+    { "id": "spell-feather", "tx": 5, "ty": 12, "tileId": "feather", "questId": "morwen-speak-with-animals" },
+    { "id": "spell-mooncap", "tx": 18, "ty": 14, "tileId": "purpleMushroom", "questId": "morwen-speak-with-animals" },
+    { "id": "spell-rose", "tx": 22, "ty": 17, "tileId": "cropRose", "questId": "morwen-speak-with-animals" }
   ],
   "blockedPaths": []
 }

@@ -134,6 +134,7 @@ export interface HubAnimal {
   questReceive?: string | string[]
   roam?: boolean
   areaRect?: number[]
+  dialogueTree?: string
 }
 
 export interface HubPickupItem extends DecorGlow {
@@ -580,6 +581,7 @@ const HUB_ANIMALS: HubAnimal[] = (
   questReceive: a.questReceive,
   roam:         a.roam,
   areaRect:     a.areaRect,
+  dialogueTree: a.dialogueTree,
 }))
 
 const HUB_CHICKEN_ZONES = (
