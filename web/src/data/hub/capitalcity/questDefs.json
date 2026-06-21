@@ -6,9 +6,9 @@
       "type": "fetch",
       "giverNpcId": "royal-archivist",
       "receiverNpcId": "royal-archivist",
-      "offerDialogue": "The survey of the outer provinces is missing three scrolls — dropped by careless couriers somewhere in the city. Without them, the census is a work of fiction. Find them, please. The crown's records depend on it.",
+      "offerDialogue": "The survey of the outer provinces is missing three scrolls \u2014 dropped by careless couriers somewhere in the city. Without them, the census is a work of fiction. Find them, please.",
       "activeDialogue": "Three survey scrolls, somewhere in the streets. Check near the gates and the market.",
-      "completeDialogue": "All three, and barely smudged! The census lives. You have done the kingdom's paperwork a great service — which is to say, the kingdom itself.",
+      "completeDialogue": "All three, and barely smudged! The census lives. You have done the kingdom's paperwork a great service.",
       "steps": [
         {
           "key": "scrolls",
@@ -26,17 +26,151 @@
       }
     },
     {
+      "id": "crownhaven-charter",
+      "title": "The City Charter",
+      "type": "fetch",
+      "giverNpcId": "chancellor",
+      "receiverNpcId": "chancellor",
+      "prerequisite": "quest:crownhaven-census",
+      "offerDialogue": "Crownhaven's founding charter must be re-sealed for the coronation. Three wax seals were sent out for signing and never returned. Recover them before the ceremony.",
+      "activeDialogue": "Three charter seals, scattered among the districts. The clerks are hopeless.",
+      "completeDialogue": "The charter is whole again. The coronation may proceed with the law on its side. The crown thanks you.",
+      "steps": [
+        {
+          "key": "seals",
+          "type": "collect",
+          "pickupIds": [
+            "charter-seal-1",
+            "charter-seal-2",
+            "charter-seal-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 90,
+        "friendship": {
+          "chancellor": 15
+        }
+      }
+    },
+    {
+      "id": "crownhaven-tax-records",
+      "title": "The Missing Ledgers",
+      "type": "lost-items",
+      "giverNpcId": "chancellor",
+      "receiverNpcId": "banker",
+      "prerequisite": "quest:crownhaven-charter",
+      "offerDialogue": "The treasury ledgers have gone astray \u2014 three of them. Banker Sterling will have my head if the accounts don't balance by dusk. Find them and take them to the Grand Bank.",
+      "activeDialogue": "Three ledgers, lost between the senate and the bank. Sterling is waiting.",
+      "completeDialogue": "Balanced to the last crystal. Sterling will sleep easy, and so will the crown's accountants.",
+      "steps": [
+        {
+          "key": "ledgers",
+          "type": "collect",
+          "pickupIds": [
+            "tax-ledger-1",
+            "tax-ledger-2",
+            "tax-ledger-3"
+          ],
+          "required": 3
+        },
+        {
+          "key": "hand",
+          "type": "deliver",
+          "targetNpcId": "banker",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 80,
+        "collectible": {
+          "id": "crown-ledger",
+          "name": "Crown Ledger",
+          "icon": "\ud83d\udcd2",
+          "desc": "The reconciled treasury ledger of Crownhaven."
+        }
+      }
+    },
+    {
+      "id": "crownhaven-proclamation",
+      "title": "The Herald's Proclamations",
+      "type": "fetch",
+      "giverNpcId": "herald-jana",
+      "receiverNpcId": "herald-jana",
+      "offerDialogue": "The wind stole two of my proclamation scrolls clean off the board. A herald with no words is just a loud nuisance. Fetch them back?",
+      "activeDialogue": "Two proclamation scrolls, blown somewhere down the plaza.",
+      "completeDialogue": "My voice is restored! The capital shall hear its decrees after all. Bless you.",
+      "steps": [
+        {
+          "key": "scrolls",
+          "type": "collect",
+          "pickupIds": [
+            "proclamation-1",
+            "proclamation-2"
+          ],
+          "required": 2
+        }
+      ],
+      "reward": {
+        "crystals": 50,
+        "friendship": {
+          "herald-jana": 10
+        }
+      }
+    },
+    {
+      "id": "crownhaven-statue",
+      "title": "A Monument for the Square",
+      "type": "chain",
+      "giverNpcId": "herald-jana",
+      "receiverNpcId": "chancellor",
+      "prerequisite": "quest:crownhaven-proclamation",
+      "offerDialogue": "The Chancellor wants two commemorative plaques set on the new plaza monument. Gather them, then bring them to the senate for inscription.",
+      "activeDialogue": {
+        "plaques": "Two commemorative plaques \u2014 one was left at the cathedral, one at the academy.",
+        "hand": "Both plaques? Splendid. Carry them to the Chancellor at the senate."
+      },
+      "completeDialogue": "Inscribed and mounted. Crownhaven will remember this coronation for a hundred years.",
+      "steps": [
+        {
+          "key": "plaques",
+          "type": "collect",
+          "pickupIds": [
+            "plaque-1",
+            "plaque-2"
+          ],
+          "required": 2
+        },
+        {
+          "key": "hand",
+          "type": "deliver",
+          "targetNpcId": "chancellor",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 70,
+        "relationship": {
+          "chancellor": {
+            "track": "ally",
+            "points": 10
+          }
+        }
+      }
+    },
+    {
       "id": "crownhaven-gate-key",
       "title": "The Postern Key",
       "type": "chain",
       "giverNpcId": "watch-captain-hale",
       "receiverNpcId": "innkeeper-crownhaven",
-      "offerDialogue": "One of my watchmen dropped the old postern gate key on patrol last night. Find it before someone less honest does, and leave it with Rosalind at The Gilded Goose — I'll collect it at end of shift, and the fewer hands it passes through, the better.",
+      "offerDialogue": "One of my watchmen dropped the old postern gate key on patrol last night. Find it before someone less honest does, and leave it with Rosalind at The Gilded Goose.",
       "activeDialogue": {
-        "key": "The key went missing somewhere along the east wall, near the chapel. Look sharp.",
+        "key": "The key went missing somewhere along the east wall, near the cathedral. Look sharp.",
         "deliver": "You found it? Good. Now get it to Rosalind at the inn, quiet-like."
       },
-      "completeDialogue": "From Captain Hale? Say no more. It'll be under the counter until shift change. You've done the watch a favour — here, for your discretion.",
+      "completeDialogue": "From Captain Hale? Say no more. It'll be under the counter until shift change. Here, for your discretion.",
       "steps": [
         {
           "key": "key",
@@ -60,36 +194,1299 @@
           "innkeeper-crownhaven": 10
         }
       }
+    },
+    {
+      "id": "crownhaven-patrol",
+      "title": "Walking the Walls",
+      "type": "chain",
+      "giverNpcId": "watch-captain-hale",
+      "receiverNpcId": "guard-bryn",
+      "prerequisite": "quest:crownhaven-gate-key",
+      "offerDialogue": "New patrol tokens need distributing to the wall posts. Collect the three I've had struck and run them out to Guardsman Bryn on the south wall.",
+      "activeDialogue": {
+        "tokens": "Three patrol tokens, left at the guard posts around the city.",
+        "deliver": "Got all three? Bryn's pacing the south wall. He'll be glad of them."
+      },
+      "completeDialogue": "Tokens received. The watch runs like clockwork again. The Captain chose his runner well.",
+      "steps": [
+        {
+          "key": "tokens",
+          "type": "collect",
+          "pickupIds": [
+            "patrol-token-1",
+            "patrol-token-2",
+            "patrol-token-3"
+          ],
+          "required": 3
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "guard-bryn",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 70,
+        "friendship": {
+          "watch-captain-hale": 15
+        }
+      }
+    },
+    {
+      "id": "crownhaven-cutpurse",
+      "title": "The Coronation Cutpurse",
+      "type": "chain",
+      "giverNpcId": "guard-bryn",
+      "receiverNpcId": "watch-captain-hale",
+      "prerequisite": "quest:crownhaven-patrol",
+      "offerDialogue": "A cutpurse has been working the coronation crowds. We found his dropped purse of stolen goods \u2014 recover it and bring the evidence to the Captain.",
+      "activeDialogue": {
+        "purse": "The stolen purse was dropped near the market in the scuffle. Find it.",
+        "deliver": "Evidence in hand? Take it straight to Captain Hale at the barracks."
+      },
+      "completeDialogue": "Caught red-handed thanks to you. Crownhaven's purses are a little safer tonight.",
+      "steps": [
+        {
+          "key": "purse",
+          "type": "collect",
+          "pickupIds": [
+            "stolen-purse"
+          ],
+          "required": 1
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "watch-captain-hale",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 90,
+        "relationship": {
+          "watch-captain-hale": {
+            "track": "ally",
+            "points": 10
+          }
+        }
+      }
+    },
+    {
+      "id": "crownhaven-armoury",
+      "title": "Steel for the Watch",
+      "type": "fetch",
+      "giverNpcId": "blacksmith-dunn",
+      "receiverNpcId": "watch-captain-hale",
+      "offerDialogue": "The watch armoury is bare. I've four blades nearly finished \u2014 gather the steel billets I left cooling about the forge yard and I'll deliver the Captain his edge.",
+      "activeDialogue": "Four steel billets, somewhere around the Guard Quarter. Mind the heat.",
+      "completeDialogue": "Sharp work. Take these to the Captain with my compliments \u2014 the watch owes you.",
+      "steps": [
+        {
+          "key": "billets",
+          "type": "collect",
+          "pickupIds": [
+            "steel-billet-1",
+            "steel-billet-2",
+            "steel-billet-3",
+            "steel-billet-4"
+          ],
+          "required": 4
+        },
+        {
+          "key": "hand",
+          "type": "deliver",
+          "targetNpcId": "watch-captain-hale",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 60,
+        "card": {
+          "name": "Ironclad Sentinel",
+          "count": 1
+        }
+      }
+    },
+    {
+      "id": "crownhaven-relics",
+      "title": "The Scattered Relics",
+      "type": "lost-items",
+      "giverNpcId": "high-priest",
+      "receiverNpcId": "high-priest",
+      "offerDialogue": "Three holy relics were hidden away during the troubles and never recovered. The cathedral feels hollow without them. Will you search?",
+      "activeDialogue": "Three relics, hidden across the Temple Quarter and beyond.",
+      "completeDialogue": "All three, home at last. The cathedral breathes again. Bless you, child.",
+      "steps": [
+        {
+          "key": "relics",
+          "type": "collect",
+          "pickupIds": [
+            "relic-1",
+            "relic-2",
+            "relic-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 70,
+        "friendship": {
+          "high-priest": 20
+        }
+      }
+    },
+    {
+      "id": "crownhaven-dawn-blessing",
+      "title": "The Dawn Blessing",
+      "type": "fetch",
+      "giverNpcId": "high-priest",
+      "receiverNpcId": "high-priest",
+      "prerequisite": "quest:crownhaven-relics",
+      "offerDialogue": "For the coronation dawn we need three blessed candles set about the nave. They were left to cool at the chandler's stalls. Gather them, would you?",
+      "activeDialogue": "Three blessed candles, left around the market and plaza.",
+      "completeDialogue": "The nave glows as it should. The dawn blessing will be radiant. Take this with my thanks.",
+      "steps": [
+        {
+          "key": "candles",
+          "type": "collect",
+          "pickupIds": [
+            "dawn-candle-1",
+            "dawn-candle-2",
+            "dawn-candle-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 60,
+        "collectible": {
+          "id": "dawn-reliquary",
+          "name": "Dawn Reliquary",
+          "icon": "\ud83d\udd6f\ufe0f",
+          "desc": "A gilded reliquary blessed at the Crownhaven dawn rite."
+        }
+      }
+    },
+    {
+      "id": "crownhaven-tower-bell",
+      "title": "The Silent Bell",
+      "type": "chain",
+      "giverNpcId": "high-priest",
+      "receiverNpcId": "blacksmith-dunn",
+      "prerequisite": "quest:crownhaven-dawn-blessing",
+      "offerDialogue": "The great bell has hung silent for years \u2014 its clapper was lost. Recover it and take it to Smith Dunn, who alone can re-hang it.",
+      "activeDialogue": {
+        "clapper": "The bell clapper was last seen near the forge in the Guard Quarter.",
+        "deliver": "You have it? Take it to Dunn at the forge \u2014 he'll know what to do."
+      },
+      "completeDialogue": "Listen \u2014 the bell tolls again over Crownhaven! Dunn says the tower is yours to climb now.",
+      "steps": [
+        {
+          "key": "clapper",
+          "type": "collect",
+          "pickupIds": [
+            "bell-clapper"
+          ],
+          "required": 1
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "blacksmith-dunn",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 100,
+        "unlock": "cathedral-tower"
+      }
+    },
+    {
+      "id": "crownhaven-crypt-vigil",
+      "title": "Vigil in the Crypt",
+      "type": "fetch",
+      "giverNpcId": "high-priest",
+      "receiverNpcId": "high-priest",
+      "prerequisite": "quest:crownhaven-tower-bell",
+      "offerDialogue": "The crypt vigil requires two lanterns kept burning through the night. They were borrowed and never returned. Find them and the vigil can be kept.",
+      "activeDialogue": "Two vigil lanterns, somewhere in the Temple Quarter.",
+      "completeDialogue": "The vigil is kept and the dead rest easy. You have a quiet strength, child.",
+      "steps": [
+        {
+          "key": "lanterns",
+          "type": "collect",
+          "pickupIds": [
+            "vigil-lantern-1",
+            "vigil-lantern-2"
+          ],
+          "required": 2
+        }
+      ],
+      "reward": {
+        "crystals": 60,
+        "relationship": {
+          "high-priest": {
+            "track": "ally",
+            "points": 10
+          }
+        }
+      }
+    },
+    {
+      "id": "crownhaven-silk",
+      "title": "Silks for the Coronation",
+      "type": "fetch",
+      "giverNpcId": "tailor-pell",
+      "receiverNpcId": "tailor-pell",
+      "offerDialogue": "Three bolts of imported silk were left about the market when the cart overturned. Gather them so I can dress the court in time.",
+      "activeDialogue": "Three silk bolts, lost around the Grand Market.",
+      "completeDialogue": "Exquisite. The court will shimmer. You've a good eye \u2014 here, a little something.",
+      "steps": [
+        {
+          "key": "silk",
+          "type": "collect",
+          "pickupIds": [
+            "silk-bolt-1",
+            "silk-bolt-2",
+            "silk-bolt-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 50,
+        "friendship": {
+          "tailor-pell": 15
+        }
+      }
+    },
+    {
+      "id": "crownhaven-gems",
+      "title": "Rough Diamonds",
+      "type": "fetch",
+      "giverNpcId": "jeweller-isolde",
+      "receiverNpcId": "jeweller-isolde",
+      "offerDialogue": "Three raw gems spilled from my pouch in the crowd. Dull little pebbles to most eyes \u2014 find them before someone kicks them down a drain.",
+      "activeDialogue": "Three raw gems, scattered across the plaza and market.",
+      "completeDialogue": "There's the fire I was after! Cut and polished, these will crown a duchess. Take a card for your trouble.",
+      "steps": [
+        {
+          "key": "gems",
+          "type": "collect",
+          "pickupIds": [
+            "raw-gem-1",
+            "raw-gem-2",
+            "raw-gem-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 60,
+        "card": {
+          "name": "Gemcutter's Prize",
+          "count": 1
+        }
+      }
+    },
+    {
+      "id": "crownhaven-remedy",
+      "title": "The Apothecary's Remedy",
+      "type": "fetch",
+      "giverNpcId": "apothecary-mads",
+      "receiverNpcId": "apothecary-mads",
+      "offerDialogue": "I'm short three rare herbs for a coronation tonic the Chancellor swears by. They grow wild about the city's edges. Gather them?",
+      "activeDialogue": "Three rare herbs, growing around Riverside and the Temple Quarter.",
+      "completeDialogue": "Perfect potency. The Chancellor will be insufferably energetic. Take my compendium \u2014 you've earned it.",
+      "steps": [
+        {
+          "key": "herbs",
+          "type": "collect",
+          "pickupIds": [
+            "herb-1",
+            "herb-2",
+            "herb-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 50,
+        "collectible": {
+          "id": "apothecary-compendium",
+          "name": "Apothecary's Compendium",
+          "icon": "\ud83d\udcd7",
+          "desc": "Apothecary Mads' annotated book of Crownhaven remedies."
+        }
+      }
+    },
+    {
+      "id": "crownhaven-bread",
+      "title": "The King's Loaf",
+      "type": "fetch",
+      "giverNpcId": "baker-otto",
+      "receiverNpcId": "market-matron",
+      "offerDialogue": "Three sacks of milling grain went missing off my cart. Find them and run them to Matron Goldie at the market \u2014 she's holding my oven's worth of orders hostage.",
+      "activeDialogue": "Three grain sacks, lost between the market and the mill road.",
+      "completeDialogue": "Grain at last! Tell Otto his loaf is saved. And here \u2014 a little something for the legwork.",
+      "steps": [
+        {
+          "key": "grain",
+          "type": "collect",
+          "pickupIds": [
+            "grain-sack-1",
+            "grain-sack-2",
+            "grain-sack-3"
+          ],
+          "required": 3
+        },
+        {
+          "key": "hand",
+          "type": "deliver",
+          "targetNpcId": "market-matron",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 40,
+        "friendship": {
+          "baker-otto": 10,
+          "market-matron": 10
+        }
+      }
+    },
+    {
+      "id": "crownhaven-market-day",
+      "title": "Market Day Muddle",
+      "type": "lost-items",
+      "giverNpcId": "market-matron",
+      "receiverNpcId": "market-matron",
+      "offerDialogue": "Three purses of takings got knocked off my stall in the coronation rush. Forty years and I've never lost a copper \u2014 until today. Help an old woman out?",
+      "activeDialogue": "Three coin purses, dropped around the Grand Market.",
+      "completeDialogue": "Every copper back where it belongs. You're a rare honest soul. Don't tell the pigeons.",
+      "steps": [
+        {
+          "key": "coins",
+          "type": "collect",
+          "pickupIds": [
+            "lost-coin-1",
+            "lost-coin-2",
+            "lost-coin-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": {
+          "market-matron": 15
+        }
+      }
+    },
+    {
+      "id": "crownhaven-anthology",
+      "title": "The Crownhaven Anthology",
+      "type": "chain",
+      "giverNpcId": "royal-archivist",
+      "receiverNpcId": "royal-archivist",
+      "offerDialogue": "A three-volume anthology of the realm's history was scattered ages ago. The first tome surfaced in the library stacks, if my notes are right.",
+      "activeDialogue": {
+        "tome-1": "The first tome is in the library stacks. Look on the shelves.",
+        "tome-2": "Excellent! The second volume was lent to the academy. Check there.",
+        "tome-3": "Almost there! The final volume ended up near the cathedral, I believe."
+      },
+      "completeDialogue": "The trilogy is whole! This is extraordinary scholarship. Please, take this anthology as thanks.",
+      "steps": [
+        {
+          "key": "tome-1",
+          "type": "collect",
+          "pickupIds": [
+            "anthology-tome-1"
+          ],
+          "required": 1
+        },
+        {
+          "key": "tome-2",
+          "type": "collect",
+          "pickupIds": [
+            "anthology-tome-2"
+          ],
+          "required": 1,
+          "chain": "anthology-tome-1"
+        },
+        {
+          "key": "tome-3",
+          "type": "collect",
+          "pickupIds": [
+            "anthology-tome-3"
+          ],
+          "required": 1,
+          "chain": "anthology-tome-2"
+        }
+      ],
+      "reward": {
+        "collectible": {
+          "id": "crownhaven-anthology",
+          "name": "Crownhaven Anthology",
+          "icon": "\ud83d\udcda",
+          "desc": "A complete three-volume history of the capital."
+        },
+        "friendship": {
+          "royal-archivist": 30
+        }
+      }
+    },
+    {
+      "id": "crownhaven-lecture",
+      "title": "Scattered Lectures",
+      "type": "fetch",
+      "giverNpcId": "academy-master",
+      "receiverNpcId": "academy-master",
+      "offerDialogue": "My lecture notes blew across three districts during a window mishap. Gather them before a student finds them and learns something dangerous.",
+      "activeDialogue": "Three bundles of lecture notes, scattered across the city.",
+      "completeDialogue": "All present and correct! The next generation of clever fools is saved. My thanks.",
+      "steps": [
+        {
+          "key": "notes",
+          "type": "collect",
+          "pickupIds": [
+            "lecture-note-1",
+            "lecture-note-2",
+            "lecture-note-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": {
+          "academy-master": 15
+        }
+      }
+    },
+    {
+      "id": "crownhaven-experiment",
+      "title": "A Delicate Experiment",
+      "type": "fetch",
+      "giverNpcId": "academy-master",
+      "receiverNpcId": "apothecary-mads",
+      "prerequisite": "quest:crownhaven-lecture",
+      "offerDialogue": "The academy needs two volatile reagents from the apothecary's stock, but they must be carried carefully. Gather them and deliver them to Mads \u2014 gently.",
+      "activeDialogue": "Two reagents, set out around the academy and market. Don't shake them.",
+      "completeDialogue": "Intact! Marvellous. Tell Fenwick his experiment lives \u2014 and take a card for steady hands.",
+      "steps": [
+        {
+          "key": "reagents",
+          "type": "collect",
+          "pickupIds": [
+            "reagent-1",
+            "reagent-2"
+          ],
+          "required": 2
+        },
+        {
+          "key": "hand",
+          "type": "deliver",
+          "targetNpcId": "apothecary-mads",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 70,
+        "card": {
+          "name": "Arcane Scholar",
+          "count": 1
+        }
+      }
+    },
+    {
+      "id": "crownhaven-mint-dies",
+      "title": "The Mint Dies",
+      "type": "fetch",
+      "giverNpcId": "mint-master",
+      "receiverNpcId": "mint-master",
+      "offerDialogue": "Two coining dies went missing from the mint floor \u2014 in the wrong hands they could forge the realm's coin. Recover both before word gets out.",
+      "activeDialogue": "Two mint dies, lost about the Guard Quarter.",
+      "completeDialogue": "Both dies, safe. You've spared the treasury a forger's nightmare. Quietly done \u2014 I like that.",
+      "steps": [
+        {
+          "key": "dies",
+          "type": "collect",
+          "pickupIds": [
+            "mint-die-1",
+            "mint-die-2"
+          ],
+          "required": 2
+        }
+      ],
+      "reward": {
+        "crystals": 70,
+        "friendship": {
+          "mint-master": 15
+        }
+      }
+    },
+    {
+      "id": "crownhaven-stolen-coin",
+      "title": "The Vault Breach",
+      "type": "chain",
+      "giverNpcId": "banker",
+      "receiverNpcId": "watch-captain-hale",
+      "prerequisite": "quest:crownhaven-mint-dies",
+      "offerDialogue": "A pouch of newly minted coin was lifted from the vault antechamber. Recover it and take it to Captain Hale \u2014 the watch must know we were breached.",
+      "activeDialogue": {
+        "pouch": "The stolen coin pouch was dropped in the getaway, near the bank.",
+        "deliver": "Recovered? Take it to Captain Hale at the barracks at once."
+      },
+      "completeDialogue": "The watch has the evidence and the vault is sealed once more. With the breach closed, the vault is open to you.",
+      "steps": [
+        {
+          "key": "pouch",
+          "type": "collect",
+          "pickupIds": [
+            "coin-pouch"
+          ],
+          "required": 1
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "watch-captain-hale",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 90,
+        "unlock": "grand-bank-vault"
+      }
+    },
+    {
+      "id": "crownhaven-noble-debt",
+      "title": "A Noble Debt",
+      "type": "fetch",
+      "giverNpcId": "noble-lady-cora",
+      "receiverNpcId": "banker",
+      "offerDialogue": "Two promissory notes of mine must reach the Grand Bank discreetly before they fall due. Carry them to Banker Sterling for me, would you?",
+      "activeDialogue": "Two promissory notes, to be gathered and taken to the bank.",
+      "completeDialogue": "Settled, and not a whisper of scandal. You have a noblewoman's gratitude \u2014 and perhaps a little more.",
+      "steps": [
+        {
+          "key": "notes",
+          "type": "collect",
+          "pickupIds": [
+            "promissory-1",
+            "promissory-2"
+          ],
+          "required": 2
+        },
+        {
+          "key": "hand",
+          "type": "deliver",
+          "targetNpcId": "banker",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 60,
+        "relationship": {
+          "noble-lady-cora": {
+            "track": "romance",
+            "points": 10
+          }
+        }
+      }
+    },
+    {
+      "id": "crownhaven-lost-locket",
+      "title": "Lady Cora's Locket",
+      "type": "lost-items",
+      "giverNpcId": "noble-lady-cora",
+      "receiverNpcId": "noble-lady-cora",
+      "offerDialogue": "My mother's locket broke and scattered in three pieces across the gardens and squares. It is all I have of her. Please \u2014 find them.",
+      "activeDialogue": "Three locket pieces, lost across the districts.",
+      "completeDialogue": "Whole again, and so is my heart. You cannot know what this means. Bless you, traveller.",
+      "steps": [
+        {
+          "key": "pieces",
+          "type": "collect",
+          "pickupIds": [
+            "locket-piece-1",
+            "locket-piece-2",
+            "locket-piece-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 70,
+        "friendship": {
+          "noble-lady-cora": 20
+        }
+      }
+    },
+    {
+      "id": "crownhaven-buskers-strings",
+      "title": "The Busker's Strings",
+      "type": "lost-items",
+      "giverNpcId": "busker-lyle",
+      "receiverNpcId": "busker-lyle",
+      "offerDialogue": "Snapped three lute strings and they pinged off who-knows-where across the plaza. No strings, no coronation song. Help a poor musician?",
+      "activeDialogue": "Three lute strings, sprung loose around the plaza and market.",
+      "completeDialogue": "Re-strung and ready! Crownhaven shall have its anthem after all. Here \u2014 a card from a grateful bard.",
+      "steps": [
+        {
+          "key": "strings",
+          "type": "collect",
+          "pickupIds": [
+            "lute-string-1",
+            "lute-string-2",
+            "lute-string-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 40,
+        "card": {
+          "name": "Wandering Minstrel",
+          "count": 1
+        }
+      }
+    },
+    {
+      "id": "crownhaven-welcome",
+      "title": "A Round on the House",
+      "type": "fetch",
+      "giverNpcId": "innkeeper-crownhaven",
+      "receiverNpcId": "innkeeper-crownhaven",
+      "offerDialogue": "The coronation crowd drank me out of clean mugs and three rolled off who-knows-where. Round them up and the next ale's on me.",
+      "activeDialogue": "Three tankards, lost around the inn and market.",
+      "completeDialogue": "Spotless and accounted for! You're always welcome at the Goose. First ale's free, mind.",
+      "steps": [
+        {
+          "key": "mugs",
+          "type": "collect",
+          "pickupIds": [
+            "tankard-1",
+            "tankard-2",
+            "tankard-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 40,
+        "friendship": {
+          "innkeeper-crownhaven": 15
+        }
+      }
+    },
+    {
+      "id": "crownhaven-feast",
+      "title": "The Coronation Feast",
+      "type": "chain",
+      "giverNpcId": "innkeeper-crownhaven",
+      "receiverNpcId": "baker-otto",
+      "prerequisite": "quest:crownhaven-welcome",
+      "offerDialogue": "The coronation feast needs four crates of provisions gathered from the market and run to Baker Otto, who's coordinating the kitchens. Big night, big appetite.",
+      "activeDialogue": {
+        "provisions": "Four crates of provisions, scattered about the Grand Market.",
+        "hand": "All four? Take them to Otto at the bakery \u2014 the feast depends on it."
+      },
+      "completeDialogue": "The feast is saved and the capital will dine like royalty. Otto sends his thanks \u2014 and so do I.",
+      "steps": [
+        {
+          "key": "provisions",
+          "type": "collect",
+          "pickupIds": [
+            "provision-1",
+            "provision-2",
+            "provision-3",
+            "provision-4"
+          ],
+          "required": 4
+        },
+        {
+          "key": "hand",
+          "type": "deliver",
+          "targetNpcId": "baker-otto",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 60,
+        "collectible": {
+          "id": "feast-menu",
+          "name": "Coronation Feast Menu",
+          "icon": "\ud83c\udf72",
+          "desc": "The grand menu of the Crownhaven coronation feast."
+        }
+      }
+    },
+    {
+      "id": "crownhaven-ravenwatch-census",
+      "title": "Word to Ravenwatch",
+      "type": "fetch",
+      "giverNpcId": "chancellor",
+      "receiverNpcId": "elder",
+      "prerequisite": "quest:crownhaven-charter",
+      "offerDialogue": "Crownhaven's charter must be copied to Ravenwatch's elder for the old records. Take this sealed copy across the realm and place it in the Elder's hands yourself.",
+      "activeDialogue": "Carry the charter copy to the Elder of Ravenwatch.",
+      "completeDialogue": "From Crownhaven's Chancellor? The old bonds hold firm. Tell Vell the records are kept. Safe travels, friend.",
+      "steps": [
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "elder",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": {
+          "chancellor": 20
+        },
+        "collectible": {
+          "id": "royal-charter-copy",
+          "name": "Royal Charter Copy",
+          "icon": "\ud83d\udcdc",
+          "desc": "A sealed copy of Crownhaven's charter, witnessed in Ravenwatch."
+        }
+      }
+    },
+    {
+      "id": "crownhaven-ravenwatch-relic",
+      "title": "A Relic Returned",
+      "type": "fetch",
+      "giverNpcId": "high-priest",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:crownhaven-relics",
+      "offerDialogue": "One of our recovered relics belongs by right to Ravenwatch's keep. Bear it to Guard-Captain Thorin there, and let the two cities be at peace over it.",
+      "activeDialogue": "Bear the relic to Guard-Captain Thorin in Ravenwatch.",
+      "completeDialogue": "Crownhaven returns what was borrowed? Thorin accepts it gladly. The realm is the stronger for it.",
+      "steps": [
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "guard-captain-thorin",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 90,
+        "friendship": {
+          "high-priest": 15
+        }
+      }
     }
   ],
   "pickupItems": [
     {
       "id": "survey-scroll-1",
-      "tx": 4,
-      "ty": 13,
+      "tx": 10,
+      "ty": 15,
       "tileId": "rolledMap",
       "questId": "crownhaven-census"
     },
     {
       "id": "survey-scroll-2",
-      "tx": 33,
-      "ty": 18,
+      "tx": 14,
+      "ty": 15,
       "tileId": "rolledMap",
       "questId": "crownhaven-census"
     },
     {
       "id": "survey-scroll-3",
-      "tx": 25,
-      "ty": 28,
+      "tx": 18,
+      "ty": 15,
       "tileId": "rolledMap",
       "questId": "crownhaven-census"
     },
     {
+      "id": "charter-seal-1",
+      "tx": 22,
+      "ty": 15,
+      "tileId": "letter",
+      "questId": "crownhaven-charter"
+    },
+    {
+      "id": "charter-seal-2",
+      "tx": 26,
+      "ty": 15,
+      "tileId": "letter",
+      "questId": "crownhaven-charter"
+    },
+    {
+      "id": "charter-seal-3",
+      "tx": 30,
+      "ty": 15,
+      "tileId": "letter",
+      "questId": "crownhaven-charter"
+    },
+    {
+      "id": "tax-ledger-1",
+      "tx": 34,
+      "ty": 15,
+      "tileId": "pileOfPapers",
+      "questId": "crownhaven-tax-records"
+    },
+    {
+      "id": "tax-ledger-2",
+      "tx": 38,
+      "ty": 15,
+      "tileId": "pileOfPapers",
+      "questId": "crownhaven-tax-records"
+    },
+    {
+      "id": "tax-ledger-3",
+      "tx": 42,
+      "ty": 15,
+      "tileId": "pileOfPapers",
+      "questId": "crownhaven-tax-records"
+    },
+    {
+      "id": "proclamation-1",
+      "tx": 46,
+      "ty": 15,
+      "tileId": "rolledMap",
+      "questId": "crownhaven-proclamation"
+    },
+    {
+      "id": "proclamation-2",
+      "tx": 50,
+      "ty": 15,
+      "tileId": "rolledMap",
+      "questId": "crownhaven-proclamation"
+    },
+    {
+      "id": "plaque-1",
+      "tx": 54,
+      "ty": 15,
+      "tileId": "painting",
+      "questId": "crownhaven-statue"
+    },
+    {
+      "id": "plaque-2",
+      "tx": 58,
+      "ty": 15,
+      "tileId": "painting",
+      "questId": "crownhaven-statue"
+    },
+    {
       "id": "postern-key",
-      "tx": 27,
-      "ty": 19,
+      "tx": 62,
+      "ty": 15,
       "tileId": "key",
       "questId": "crownhaven-gate-key"
+    },
+    {
+      "id": "patrol-token-1",
+      "tx": 66,
+      "ty": 15,
+      "tileId": "coin",
+      "questId": "crownhaven-patrol"
+    },
+    {
+      "id": "patrol-token-2",
+      "tx": 70,
+      "ty": 15,
+      "tileId": "coin",
+      "questId": "crownhaven-patrol"
+    },
+    {
+      "id": "patrol-token-3",
+      "tx": 74,
+      "ty": 15,
+      "tileId": "coin",
+      "questId": "crownhaven-patrol"
+    },
+    {
+      "id": "stolen-purse",
+      "tx": 78,
+      "ty": 15,
+      "tileId": "smallSack",
+      "questId": "crownhaven-cutpurse"
+    },
+    {
+      "id": "steel-billet-1",
+      "tx": 82,
+      "ty": 15,
+      "tileId": "sword",
+      "questId": "crownhaven-armoury"
+    },
+    {
+      "id": "steel-billet-2",
+      "tx": 86,
+      "ty": 15,
+      "tileId": "sword",
+      "questId": "crownhaven-armoury"
+    },
+    {
+      "id": "steel-billet-3",
+      "tx": 90,
+      "ty": 15,
+      "tileId": "sword",
+      "questId": "crownhaven-armoury"
+    },
+    {
+      "id": "steel-billet-4",
+      "tx": 94,
+      "ty": 15,
+      "tileId": "sword",
+      "questId": "crownhaven-armoury"
+    },
+    {
+      "id": "relic-1",
+      "tx": 98,
+      "ty": 15,
+      "tileId": "goldenCross",
+      "questId": "crownhaven-relics"
+    },
+    {
+      "id": "relic-2",
+      "tx": 102,
+      "ty": 15,
+      "tileId": "goldenCross",
+      "questId": "crownhaven-relics"
+    },
+    {
+      "id": "relic-3",
+      "tx": 106,
+      "ty": 15,
+      "tileId": "goldenCross",
+      "questId": "crownhaven-relics"
+    },
+    {
+      "id": "dawn-candle-1",
+      "tx": 110,
+      "ty": 15,
+      "tileId": "candlestickUnlit",
+      "questId": "crownhaven-dawn-blessing"
+    },
+    {
+      "id": "dawn-candle-2",
+      "tx": 10,
+      "ty": 29,
+      "tileId": "candlestickUnlit",
+      "questId": "crownhaven-dawn-blessing"
+    },
+    {
+      "id": "dawn-candle-3",
+      "tx": 14,
+      "ty": 29,
+      "tileId": "candlestickUnlit",
+      "questId": "crownhaven-dawn-blessing"
+    },
+    {
+      "id": "bell-clapper",
+      "tx": 18,
+      "ty": 29,
+      "tileId": "axe",
+      "questId": "crownhaven-tower-bell"
+    },
+    {
+      "id": "vigil-lantern-1",
+      "tx": 22,
+      "ty": 29,
+      "tileId": "floorLantern",
+      "questId": "crownhaven-crypt-vigil"
+    },
+    {
+      "id": "vigil-lantern-2",
+      "tx": 26,
+      "ty": 29,
+      "tileId": "floorLantern",
+      "questId": "crownhaven-crypt-vigil"
+    },
+    {
+      "id": "silk-bolt-1",
+      "tx": 30,
+      "ty": 29,
+      "tileId": "cotton",
+      "questId": "crownhaven-silk"
+    },
+    {
+      "id": "silk-bolt-2",
+      "tx": 34,
+      "ty": 29,
+      "tileId": "cotton",
+      "questId": "crownhaven-silk"
+    },
+    {
+      "id": "silk-bolt-3",
+      "tx": 38,
+      "ty": 29,
+      "tileId": "cotton",
+      "questId": "crownhaven-silk"
+    },
+    {
+      "id": "raw-gem-1",
+      "tx": 42,
+      "ty": 29,
+      "tileId": "diamond",
+      "questId": "crownhaven-gems"
+    },
+    {
+      "id": "raw-gem-2",
+      "tx": 46,
+      "ty": 29,
+      "tileId": "diamond",
+      "questId": "crownhaven-gems"
+    },
+    {
+      "id": "raw-gem-3",
+      "tx": 50,
+      "ty": 29,
+      "tileId": "diamond",
+      "questId": "crownhaven-gems"
+    },
+    {
+      "id": "herb-1",
+      "tx": 54,
+      "ty": 29,
+      "tileId": "bunchOfHerbs",
+      "questId": "crownhaven-remedy"
+    },
+    {
+      "id": "herb-2",
+      "tx": 58,
+      "ty": 29,
+      "tileId": "bunchOfHerbs",
+      "questId": "crownhaven-remedy"
+    },
+    {
+      "id": "herb-3",
+      "tx": 62,
+      "ty": 29,
+      "tileId": "bunchOfHerbs",
+      "questId": "crownhaven-remedy"
+    },
+    {
+      "id": "grain-sack-1",
+      "tx": 66,
+      "ty": 29,
+      "tileId": "sack",
+      "questId": "crownhaven-bread"
+    },
+    {
+      "id": "grain-sack-2",
+      "tx": 70,
+      "ty": 29,
+      "tileId": "sack",
+      "questId": "crownhaven-bread"
+    },
+    {
+      "id": "grain-sack-3",
+      "tx": 74,
+      "ty": 29,
+      "tileId": "sack",
+      "questId": "crownhaven-bread"
+    },
+    {
+      "id": "lost-coin-1",
+      "tx": 78,
+      "ty": 29,
+      "tileId": "pileOfCoins",
+      "questId": "crownhaven-market-day"
+    },
+    {
+      "id": "lost-coin-2",
+      "tx": 82,
+      "ty": 29,
+      "tileId": "pileOfCoins",
+      "questId": "crownhaven-market-day"
+    },
+    {
+      "id": "lost-coin-3",
+      "tx": 86,
+      "ty": 29,
+      "tileId": "pileOfCoins",
+      "questId": "crownhaven-market-day"
+    },
+    {
+      "id": "anthology-tome-1",
+      "tx": 90,
+      "ty": 29,
+      "tileId": "closedBook",
+      "questId": "crownhaven-anthology"
+    },
+    {
+      "id": "anthology-tome-2",
+      "tx": 94,
+      "ty": 29,
+      "tileId": "closedBook",
+      "questId": "crownhaven-anthology",
+      "chain": "anthology-tome-1"
+    },
+    {
+      "id": "anthology-tome-3",
+      "tx": 98,
+      "ty": 29,
+      "tileId": "closedBook",
+      "questId": "crownhaven-anthology",
+      "chain": "anthology-tome-2"
+    },
+    {
+      "id": "lecture-note-1",
+      "tx": 102,
+      "ty": 29,
+      "tileId": "pileOfPapers",
+      "questId": "crownhaven-lecture"
+    },
+    {
+      "id": "lecture-note-2",
+      "tx": 106,
+      "ty": 29,
+      "tileId": "pileOfPapers",
+      "questId": "crownhaven-lecture"
+    },
+    {
+      "id": "lecture-note-3",
+      "tx": 110,
+      "ty": 29,
+      "tileId": "pileOfPapers",
+      "questId": "crownhaven-lecture"
+    },
+    {
+      "id": "reagent-1",
+      "tx": 10,
+      "ty": 43,
+      "tileId": "potions",
+      "questId": "crownhaven-experiment"
+    },
+    {
+      "id": "reagent-2",
+      "tx": 14,
+      "ty": 43,
+      "tileId": "potions",
+      "questId": "crownhaven-experiment"
+    },
+    {
+      "id": "mint-die-1",
+      "tx": 18,
+      "ty": 43,
+      "tileId": "smallChest",
+      "questId": "crownhaven-mint-dies"
+    },
+    {
+      "id": "mint-die-2",
+      "tx": 22,
+      "ty": 43,
+      "tileId": "smallChest",
+      "questId": "crownhaven-mint-dies"
+    },
+    {
+      "id": "coin-pouch",
+      "tx": 26,
+      "ty": 43,
+      "tileId": "pileOfGoldCoins",
+      "questId": "crownhaven-stolen-coin"
+    },
+    {
+      "id": "promissory-1",
+      "tx": 30,
+      "ty": 43,
+      "tileId": "letter",
+      "questId": "crownhaven-noble-debt"
+    },
+    {
+      "id": "promissory-2",
+      "tx": 34,
+      "ty": 43,
+      "tileId": "letter",
+      "questId": "crownhaven-noble-debt"
+    },
+    {
+      "id": "locket-piece-1",
+      "tx": 38,
+      "ty": 43,
+      "tileId": "pendant",
+      "questId": "crownhaven-lost-locket"
+    },
+    {
+      "id": "locket-piece-2",
+      "tx": 42,
+      "ty": 43,
+      "tileId": "pendant",
+      "questId": "crownhaven-lost-locket"
+    },
+    {
+      "id": "locket-piece-3",
+      "tx": 46,
+      "ty": 43,
+      "tileId": "pendant",
+      "questId": "crownhaven-lost-locket"
+    },
+    {
+      "id": "lute-string-1",
+      "tx": 50,
+      "ty": 43,
+      "tileId": "feather",
+      "questId": "crownhaven-buskers-strings"
+    },
+    {
+      "id": "lute-string-2",
+      "tx": 54,
+      "ty": 43,
+      "tileId": "feather",
+      "questId": "crownhaven-buskers-strings"
+    },
+    {
+      "id": "lute-string-3",
+      "tx": 58,
+      "ty": 43,
+      "tileId": "feather",
+      "questId": "crownhaven-buskers-strings"
+    },
+    {
+      "id": "tankard-1",
+      "tx": 62,
+      "ty": 43,
+      "tileId": "mugOfCoffee",
+      "questId": "crownhaven-welcome"
+    },
+    {
+      "id": "tankard-2",
+      "tx": 66,
+      "ty": 43,
+      "tileId": "mugOfCoffee",
+      "questId": "crownhaven-welcome"
+    },
+    {
+      "id": "tankard-3",
+      "tx": 70,
+      "ty": 43,
+      "tileId": "mugOfCoffee",
+      "questId": "crownhaven-welcome"
+    },
+    {
+      "id": "provision-1",
+      "tx": 74,
+      "ty": 43,
+      "tileId": "appleBasket",
+      "questId": "crownhaven-feast"
+    },
+    {
+      "id": "provision-2",
+      "tx": 78,
+      "ty": 43,
+      "tileId": "appleBasket",
+      "questId": "crownhaven-feast"
+    },
+    {
+      "id": "provision-3",
+      "tx": 82,
+      "ty": 43,
+      "tileId": "appleBasket",
+      "questId": "crownhaven-feast"
+    },
+    {
+      "id": "provision-4",
+      "tx": 86,
+      "ty": 43,
+      "tileId": "appleBasket",
+      "questId": "crownhaven-feast"
     }
   ],
   "blockedPaths": []

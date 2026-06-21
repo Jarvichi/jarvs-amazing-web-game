@@ -1,21 +1,21 @@
 {
-  "mapW": 1280,
-  "mapH": 1088,
+  "mapW": 1920,
+  "mapH": 1600,
   "townName": "Crownhaven",
   "environment": "citadel",
   "avatarStart": {
-    "tx": 19,
-    "ty": 30
+    "tx": 56,
+    "ty": 92
   },
   "exitTiles": [
     {
-      "tx": 19,
-      "ty": 31,
+      "tx": 56,
+      "ty": 93,
       "screen": "worldmap"
     },
     {
-      "tx": 20,
-      "ty": 31,
+      "tx": 57,
+      "ty": 93,
       "screen": "worldmap"
     }
   ],
@@ -23,97 +23,191 @@
     {
       "id": "crownhaven-plaza",
       "name": "Coronation Plaza",
-      "tx": 14,
-      "ty": 10,
-      "tw": 12,
-      "th": 8
+      "tx": 30,
+      "ty": 44,
+      "tw": 56,
+      "th": 18
     },
     {
       "id": "crownhaven-market",
       "name": "The Grand Market",
-      "tx": 26,
-      "ty": 2,
-      "tw": 12,
+      "tx": 24,
+      "ty": 4,
+      "tw": 56,
       "th": 14
+    },
+    {
+      "id": "crownhaven-temple",
+      "name": "Temple Quarter",
+      "tx": 6,
+      "ty": 18,
+      "tw": 34,
+      "th": 26
+    },
+    {
+      "id": "crownhaven-oldtown",
+      "name": "Old Town",
+      "tx": 84,
+      "ty": 18,
+      "tw": 30,
+      "th": 26
+    },
+    {
+      "id": "crownhaven-guard",
+      "name": "Guard Quarter",
+      "tx": 54,
+      "ty": 66,
+      "tw": 60,
+      "th": 24
+    },
+    {
+      "id": "crownhaven-river",
+      "name": "Riverside",
+      "tx": 6,
+      "ty": 66,
+      "tw": 34,
+      "th": 24
+    }
+  ],
+  "pondTiles": [
+    {
+      "rect": [
+        10,
+        90,
+        38,
+        97
+      ]
+    },
+    {
+      "rect": [
+        14,
+        88,
+        34,
+        90
+      ]
     }
   ],
   "streets": [
     {
       "rect": [
-        18,
-        2,
-        21,
-        33
+        0,
+        14,
+        119,
+        15
       ]
     },
     {
       "rect": [
-        2,
-        14,
-        37,
-        17
+        0,
+        28,
+        119,
+        29
       ]
     },
     {
       "rect": [
-        14,
-        10,
+        0,
+        42,
+        119,
+        43
+      ]
+    },
+    {
+      "rect": [
+        0,
+        64,
+        119,
+        65
+      ]
+    },
+    {
+      "rect": [
+        0,
+        80,
+        119,
+        81
+      ]
+    },
+    {
+      "rect": [
+        0,
+        88,
+        119,
+        89
+      ]
+    },
+    {
+      "rect": [
+        8,
+        0,
+        9,
+        99
+      ]
+    },
+    {
+      "rect": [
+        24,
+        0,
         25,
-        13
+        99
       ]
     },
     {
       "rect": [
-        6,
-        18,
-        7,
-        22
+        56,
+        0,
+        57,
+        99
       ]
     },
     {
       "rect": [
-        32,
-        18,
-        33,
-        22
+        88,
+        0,
+        89,
+        99
+      ]
+    },
+    {
+      "rect": [
+        110,
+        0,
+        111,
+        99
+      ]
+    },
+    {
+      "rect": [
+        30,
+        48,
+        86,
+        55
+      ]
+    },
+    {
+      "rect": [
+        54,
+        88,
+        59,
+        99
       ]
     }
   ],
   "buildings": [
     {
-      "id": "grand-inn",
-      "upgradeKind": "inn",
-      "rect": [
-        3,
-        2,
-        12,
-        9
-      ],
-      "wall": "whiteStone",
-      "roof": "blueSlateRoof",
-      "doors": [
-        {
-          "tx": 5,
-          "ty": 1,
-          "hideSign": true,
-          "buildingId": "grand-inn"
-        }
-      ]
-    },
-    {
       "id": "market-hall-crownhaven",
       "upgradeKind": "shop",
       "rect": [
-        27,
-        2,
-        36,
-        9
+        26,
+        6,
+        40,
+        13
       ],
       "wall": "brick",
       "roof": "redSlateRoof",
       "doors": [
         {
-          "tx": 4,
+          "tx": 7,
           "ty": 1,
           "hideSign": true,
           "buildingId": "market-hall-crownhaven"
@@ -121,359 +215,5509 @@
       ]
     },
     {
-      "id": "guardhouse",
-      "upgradeKind": "workshop",
+      "id": "bakery",
+      "upgradeKind": "shop",
       "rect": [
-        3,
-        20,
-        10,
-        26
+        42,
+        6,
+        50,
+        13
       ],
-      "wall": "castleStone",
-      "roof": "greySlateRoof",
+      "wall": "renderedBrick",
+      "roof": "yellowSlateRoof",
       "doors": [
         {
           "tx": 3,
           "ty": 1,
           "hideSign": true,
-          "buildingId": "guardhouse"
+          "buildingId": "bakery"
         }
       ]
     },
     {
-      "id": "chapel",
+      "id": "jeweller",
+      "upgradeKind": "shop",
+      "rect": [
+        58,
+        6,
+        67,
+        13
+      ],
+      "wall": "whiteStone",
+      "roof": "blueSlateRoof",
+      "doors": [
+        {
+          "tx": 4,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "jeweller"
+        }
+      ]
+    },
+    {
+      "id": "tailor",
+      "upgradeKind": "shop",
+      "rect": [
+        69,
+        6,
+        78,
+        13
+      ],
+      "wall": "tudorFrame",
+      "roof": "redSlateRoof",
+      "doors": [
+        {
+          "tx": 4,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "tailor"
+        }
+      ]
+    },
+    {
+      "id": "cathedral",
       "upgradeKind": "shrine",
       "rect": [
-        29,
+        10,
         20,
-        36,
+        23,
         27
       ],
       "wall": "ornateStone",
       "roof": "blueSlateRoof",
       "doors": [
         {
-          "tx": 3,
+          "tx": 6,
           "ty": 1,
           "hideSign": true,
-          "buildingId": "chapel"
+          "buildingId": "cathedral"
+        }
+      ]
+    },
+    {
+      "id": "library",
+      "upgradeKind": "default",
+      "rect": [
+        26,
+        20,
+        37,
+        27
+      ],
+      "wall": "whiteStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "library"
+        }
+      ]
+    },
+    {
+      "id": "academy",
+      "upgradeKind": "default",
+      "rect": [
+        42,
+        20,
+        54,
+        27
+      ],
+      "wall": "castleStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 6,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "academy"
+        }
+      ]
+    },
+    {
+      "id": "grand-inn",
+      "upgradeKind": "inn",
+      "rect": [
+        90,
+        20,
+        104,
+        27
+      ],
+      "wall": "whiteStone",
+      "roof": "blueSlateRoof",
+      "doors": [
+        {
+          "tx": 6,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "grand-inn"
+        }
+      ]
+    },
+    {
+      "id": "apothecary",
+      "upgradeKind": "shop",
+      "rect": [
+        10,
+        34,
+        18,
+        41
+      ],
+      "wall": "tudorFrame",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 4,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "apothecary"
+        }
+      ]
+    },
+    {
+      "id": "theatre",
+      "upgradeKind": "default",
+      "rect": [
+        58,
+        34,
+        72,
+        41
+      ],
+      "wall": "ornateStone",
+      "roof": "redSlateRoof",
+      "doors": [
+        {
+          "tx": 6,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "theatre"
+        }
+      ]
+    },
+    {
+      "id": "noble-manor-1",
+      "upgradeKind": "cottage",
+      "rect": [
+        90,
+        34,
+        100,
+        41
+      ],
+      "wall": "renderedBrick",
+      "roof": "redSlateRoof",
+      "doors": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "noble-manor-1"
+        }
+      ]
+    },
+    {
+      "id": "blacksmith",
+      "upgradeKind": "workshop",
+      "rect": [
+        10,
+        56,
+        19,
+        63
+      ],
+      "wall": "castleStone",
+      "roof": "metalRoof",
+      "doors": [
+        {
+          "tx": 4,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "blacksmith"
+        }
+      ]
+    },
+    {
+      "id": "senate",
+      "upgradeKind": "default",
+      "rect": [
+        42,
+        56,
+        54,
+        63
+      ],
+      "wall": "ornateStone",
+      "roof": "blueSlateRoof",
+      "doors": [
+        {
+          "tx": 6,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "senate"
+        }
+      ]
+    },
+    {
+      "id": "noble-manor-2",
+      "upgradeKind": "cottage",
+      "rect": [
+        90,
+        56,
+        100,
+        63
+      ],
+      "wall": "renderedBrick",
+      "roof": "yellowSlateRoof",
+      "doors": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "noble-manor-2"
+        }
+      ]
+    },
+    {
+      "id": "grand-bank",
+      "upgradeKind": "shop",
+      "rect": [
+        58,
+        72,
+        68,
+        79
+      ],
+      "wall": "castleStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "grand-bank"
+        }
+      ]
+    },
+    {
+      "id": "royal-mint",
+      "upgradeKind": "workshop",
+      "rect": [
+        70,
+        72,
+        80,
+        79
+      ],
+      "wall": "reinforcedStone",
+      "roof": "metalRoof",
+      "doors": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "royal-mint"
+        }
+      ]
+    },
+    {
+      "id": "guardhouse",
+      "upgradeKind": "workshop",
+      "rect": [
+        90,
+        72,
+        104,
+        79
+      ],
+      "wall": "castleStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 6,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "guardhouse"
         }
       ]
     }
   ],
-  "exteriorDecor": [
-    {
-      "comment": "plaza fountain"
+  "interiors": {
+    "cathedral": {
+      "name": "Crownhaven Cathedral",
+      "width": 14,
+      "height": 10,
+      "floorTileId": "cobblestoneFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": 0,
+          "tileId": "altarTopMid"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "altarMidMid"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "candlestickLitTop"
+        },
+        {
+          "tx": 12,
+          "ty": 1,
+          "tileId": "candlestickLitTop"
+        },
+        {
+          "tx": 2,
+          "ty": 8,
+          "tileId": "benchLeft"
+        },
+        {
+          "tx": 3,
+          "ty": 8,
+          "tileId": "benchMiddle"
+        },
+        {
+          "tx": 4,
+          "ty": 8,
+          "tileId": "benchRight"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 2,
+          "ty": 9,
+          "toInteriorId": "cathedral-crypt",
+          "entryTx": 6,
+          "entryTy": 6,
+          "direction": "down"
+        },
+        {
+          "tx": 11,
+          "ty": 0,
+          "toInteriorId": "cathedral-tower",
+          "entryTx": 5,
+          "entryTy": 0,
+          "direction": "up"
+        }
+      ]
     },
-    {
-      "tx": 18,
-      "ty": 11,
-      "bundleID": "fountain",
-      "zlayer": "solid"
+    "cathedral-crypt": {
+      "name": "The Cathedral Crypt",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "graveStone"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "stoneCross"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "graveStone"
+        },
+        {
+          "tx": 6,
+          "ty": 7,
+          "tileId": "candlestickLitTop"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 7,
+          "toInteriorId": "cathedral",
+          "entryTx": 2,
+          "entryTy": 8,
+          "direction": "up"
+        }
+      ]
     },
-    {
-      "comment": "market clutter"
+    "cathedral-tower": {
+      "name": "The Bell Tower",
+      "width": 10,
+      "height": 9,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 5,
+          "ty": 0,
+          "tileId": "bellTowerTop"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "bellTowerBottom"
+        },
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "toInteriorId": "cathedral",
+          "entryTx": 11,
+          "entryTy": 0,
+          "direction": "down"
+        }
+      ]
     },
-    {
-      "tx": 26,
-      "ty": 11,
-      "tileId": "crate"
+    "senate": {
+      "name": "The Senate Chamber",
+      "width": 14,
+      "height": 10,
+      "floorTileId": "redCarpetFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "pileOfPapers"
+        },
+        {
+          "tx": 12,
+          "ty": 1,
+          "tileId": "deskTop"
+        },
+        {
+          "tx": 2,
+          "ty": 8,
+          "tileId": "stool"
+        },
+        {
+          "tx": 11,
+          "ty": 8,
+          "tileId": "wallClock"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 12,
+          "ty": 0,
+          "toInteriorId": "senate-archive",
+          "entryTx": 6,
+          "entryTy": 0,
+          "direction": "back"
+        }
+      ]
     },
-    {
-      "tx": 27,
-      "ty": 11,
-      "tileId": "openCrate"
+    "senate-archive": {
+      "name": "The Senate Archive",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "parquetFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 10,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 6,
+          "ty": 2,
+          "tileId": "deskTop"
+        },
+        {
+          "tx": 3,
+          "ty": 7,
+          "tileId": "roundTableWithCloth"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 1,
+          "toInteriorId": "senate",
+          "entryTx": 12,
+          "entryTy": 0,
+          "direction": "front"
+        }
+      ]
     },
-    {
-      "tx": 35,
-      "ty": 11,
-      "tileId": "barrel"
+    "guardhouse": {
+      "name": "The Watch Barracks",
+      "width": 14,
+      "height": 10,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "suitOfArmourTop"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "suitOfArmourBottom"
+        },
+        {
+          "tx": 12,
+          "ty": 1,
+          "tileId": "suitOfArmourTop"
+        },
+        {
+          "tx": 12,
+          "ty": 2,
+          "tileId": "suitOfArmourBottom"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "swordMountedLeft"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "shieldMounted"
+        },
+        {
+          "tx": 2,
+          "ty": 8,
+          "tileId": "roundTable"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 1,
+          "ty": 0,
+          "toInteriorId": "guardhouse-armory",
+          "entryTx": 6,
+          "entryTy": 0,
+          "direction": "back"
+        },
+        {
+          "tx": 12,
+          "ty": 9,
+          "toInteriorId": "guardhouse-cells",
+          "entryTx": 6,
+          "entryTy": 6,
+          "direction": "down"
+        }
+      ]
     },
-    {
-      "tx": 36,
-      "ty": 12,
-      "tileId": "sack"
+    "guardhouse-armory": {
+      "name": "The Armoury",
+      "width": 12,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "suitOfArmourTop"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "suitOfArmourBottom"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "suitOfArmourTop"
+        },
+        {
+          "tx": 10,
+          "ty": 2,
+          "tileId": "suitOfArmourBottom"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "swordMountedLeft"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "shieldMounted"
+        },
+        {
+          "tx": 2,
+          "ty": 6,
+          "tileId": "roundTable"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 1,
+          "toInteriorId": "guardhouse",
+          "entryTx": 1,
+          "entryTy": 0,
+          "direction": "front"
+        }
+      ]
     },
-    {
-      "comment": "guardhouse braziers"
+    "guardhouse-cells": {
+      "name": "The Holding Cells",
+      "width": 12,
+      "height": 8,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "graveStone"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "stoneCross"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "graveStone"
+        },
+        {
+          "tx": 6,
+          "ty": 6,
+          "tileId": "candlestickLitTop"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 7,
+          "toInteriorId": "guardhouse",
+          "entryTx": 12,
+          "entryTy": 8,
+          "direction": "up"
+        }
+      ]
     },
-    {
-      "tx": 4,
-      "ty": 28,
-      "tileId": "brazierBottom"
+    "grand-inn": {
+      "name": "The Gilded Goose",
+      "width": 14,
+      "height": 10,
+      "floorTileId": "woodFloor",
+      "wallTileId": "interiorWallWhite",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 11,
+          "ty": 1,
+          "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 12,
+          "ty": 2,
+          "tileId": "stool"
+        },
+        {
+          "tx": 10,
+          "ty": 2,
+          "tileId": "stool"
+        },
+        {
+          "tx": 4,
+          "ty": 8,
+          "tileId": "fireplaceBottomMiddle"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 12,
+          "ty": 0,
+          "toInteriorId": "grand-inn-upstairs",
+          "entryTx": 6,
+          "entryTy": 0,
+          "direction": "up"
+        }
+      ]
     },
-    {
-      "tx": 4,
-      "ty": 27,
-      "tileId": "brazierTop",
-      "zlayer": "above"
+    "grand-inn-upstairs": {
+      "name": "The Gilded Goose \u2014 Rooms",
+      "width": 14,
+      "height": 9,
+      "floorTileId": "woodFloor",
+      "wallTileId": "interiorWallWhite",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "normalBedHead"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "normalBedFoot"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "normalBedHead"
+        },
+        {
+          "tx": 3,
+          "ty": 2,
+          "tileId": "normalBedFoot"
+        },
+        {
+          "tx": 12,
+          "ty": 1,
+          "tileId": "smallTableTopLeft"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 1,
+          "toInteriorId": "grand-inn",
+          "entryTx": 12,
+          "entryTy": 0,
+          "direction": "down"
+        }
+      ]
     },
-    {
-      "tx": 9,
-      "ty": 28,
-      "tileId": "brazierBottom"
+    "library": {
+      "name": "The Royal Library",
+      "width": 13,
+      "height": 10,
+      "floorTileId": "parquetFloor",
+      "wallTileId": "interiorWallWhite",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 11,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 11,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 6,
+          "ty": 2,
+          "tileId": "deskTop"
+        },
+        {
+          "tx": 3,
+          "ty": 8,
+          "tileId": "roundTableWithCloth"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 11,
+          "ty": 0,
+          "toInteriorId": "library-stacks",
+          "entryTx": 6,
+          "entryTy": 0,
+          "direction": "back"
+        }
+      ]
     },
-    {
-      "tx": 9,
-      "ty": 27,
-      "tileId": "brazierTop",
-      "zlayer": "above"
+    "library-stacks": {
+      "name": "The Stacks",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "woodFloor",
+      "wallTileId": "interiorWallWhite",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 10,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 6,
+          "ty": 2,
+          "tileId": "deskTop"
+        },
+        {
+          "tx": 3,
+          "ty": 7,
+          "tileId": "roundTableWithCloth"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 1,
+          "toInteriorId": "library",
+          "entryTx": 11,
+          "entryTy": 0,
+          "direction": "front"
+        }
+      ]
     },
-    {
-      "comment": "city greenery"
+    "academy": {
+      "name": "The Crown Academy",
+      "width": 14,
+      "height": 10,
+      "floorTileId": "checkeredFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 12,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 12,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 7,
+          "ty": 2,
+          "tileId": "deskTop"
+        },
+        {
+          "tx": 3,
+          "ty": 8,
+          "tileId": "roundTableWithCloth"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 12,
+          "ty": 0,
+          "toInteriorId": "academy-lecture",
+          "entryTx": 6,
+          "entryTy": 0,
+          "direction": "back"
+        }
+      ]
     },
-    {
-      "tx": 13,
-      "ty": 19,
-      "bundleID": "mixed-tree-cluster-V",
-      "zlayer": "solid"
+    "academy-lecture": {
+      "name": "The Lecture Hall",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "woodFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "pileOfPapers"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "deskTop"
+        },
+        {
+          "tx": 2,
+          "ty": 7,
+          "tileId": "stool"
+        },
+        {
+          "tx": 9,
+          "ty": 7,
+          "tileId": "wallClock"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 1,
+          "toInteriorId": "academy",
+          "entryTx": 12,
+          "entryTy": 0,
+          "direction": "front"
+        }
+      ]
     },
-    {
-      "tx": 24,
-      "ty": 19,
-      "bundleID": "mixed-tree-cluster-V",
-      "zlayer": "solid"
+    "grand-bank": {
+      "name": "The Grand Bank",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "ornateFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "pileOfPapers"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "deskTop"
+        },
+        {
+          "tx": 2,
+          "ty": 7,
+          "tileId": "stool"
+        },
+        {
+          "tx": 9,
+          "ty": 7,
+          "tileId": "wallClock"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 10,
+          "ty": 0,
+          "toInteriorId": "grand-bank-vault",
+          "entryTx": 5,
+          "entryTy": 6,
+          "direction": "back",
+          "requiredQuest": "crownhaven-stolen-coin"
+        }
+      ]
     },
-    {
-      "tx": 2,
-      "ty": 11,
-      "bundleID": "light-tree",
-      "zlayer": "solid"
+    "grand-bank-vault": {
+      "name": "The Bank Vault",
+      "width": 11,
+      "height": 8,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "goldChest"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "chest"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "strongChest"
+        },
+        {
+          "tx": 5,
+          "ty": 6,
+          "tileId": "pileOfGoldCoins"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 7,
+          "toInteriorId": "grand-bank",
+          "entryTx": 10,
+          "entryTy": 1,
+          "direction": "front"
+        }
+      ]
     },
-    {
-      "tx": 36,
-      "ty": 17,
-      "bundleID": "light-tree",
-      "zlayer": "solid"
+    "market-hall-crownhaven": {
+      "name": "The Grand Market Hall",
+      "width": 13,
+      "height": 9,
+      "floorTileId": "woodFloor",
+      "wallTileId": "interiorWallWhite",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "counterTopHorizontalLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 2,
+          "tileId": "counterTopHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "tileId": "counterTopHorizontalRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "crate"
+        },
+        {
+          "tx": 11,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 11,
+          "ty": 7,
+          "tileId": "sack"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 11,
+          "ty": 0,
+          "toInteriorId": "market-hall-crownhaven-back",
+          "entryTx": 6,
+          "entryTy": 0,
+          "direction": "back"
+        }
+      ]
     },
-    {
-      "tx": 14,
-      "ty": 9,
-      "tileId": "whiteFlower"
+    "market-hall-crownhaven-back": {
+      "name": "Market Stockroom",
+      "width": 12,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "interiorWallWhite",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "counterTopHorizontalLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 2,
+          "tileId": "counterTopHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "tileId": "counterTopHorizontalRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "crate"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 10,
+          "ty": 6,
+          "tileId": "sack"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 1,
+          "toInteriorId": "market-hall-crownhaven",
+          "entryTx": 11,
+          "entryTy": 0,
+          "direction": "front"
+        }
+      ]
     },
-    {
-      "tx": 25,
-      "ty": 9,
-      "tileId": "whiteFlower"
+    "bakery": {
+      "name": "Otto's Bakery",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "woodFloor",
+      "wallTileId": "interiorWallWhite",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "counterTopHorizontalLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 2,
+          "tileId": "counterTopHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "tileId": "counterTopHorizontalRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "crate"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 10,
+          "ty": 7,
+          "tileId": "sack"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 10,
+          "ty": 0,
+          "toInteriorId": "bakery-back",
+          "entryTx": 5,
+          "entryTy": 0,
+          "direction": "back"
+        }
+      ]
     },
-    {
-      "comment": "road sign at the south gate"
+    "bakery-back": {
+      "name": "Bakery Kitchen",
+      "width": 11,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "interiorWallWhite",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "counterTopHorizontalLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 2,
+          "tileId": "counterTopHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "tileId": "counterTopHorizontalRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "crate"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 9,
+          "ty": 6,
+          "tileId": "sack"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "toInteriorId": "bakery",
+          "entryTx": 10,
+          "entryTy": 0,
+          "direction": "front"
+        }
+      ]
     },
-    {
-      "tx": 16,
-      "ty": 29,
-      "tileId": "roadSignTop",
-      "zlayer": "above"
+    "jeweller": {
+      "name": "Isolde's Fine Gems",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "blueOrnateFloor",
+      "wallTileId": "interiorWallWhite",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "counterTopHorizontalLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 2,
+          "tileId": "counterTopHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "tileId": "counterTopHorizontalRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "crate"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 10,
+          "ty": 7,
+          "tileId": "sack"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 10,
+          "ty": 0,
+          "toInteriorId": "jeweller-back",
+          "entryTx": 5,
+          "entryTy": 0,
+          "direction": "back"
+        }
+      ]
     },
-    {
-      "tx": 16,
-      "ty": 30,
-      "tileId": "roadSignBottom",
-      "zlayer": "above"
+    "jeweller-back": {
+      "name": "Gem Workshop",
+      "width": 11,
+      "height": 8,
+      "floorTileId": "blueOrnateFloor",
+      "wallTileId": "interiorWallWhite",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "counterTopHorizontalLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 2,
+          "tileId": "counterTopHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "tileId": "counterTopHorizontalRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "crate"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 9,
+          "ty": 6,
+          "tileId": "sack"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "toInteriorId": "jeweller",
+          "entryTx": 10,
+          "entryTy": 0,
+          "direction": "front"
+        }
+      ]
+    },
+    "tailor": {
+      "name": "Pell's Tailoring",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "woodFloor",
+      "wallTileId": "interiorWallWhite",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "counterTopHorizontalLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 2,
+          "tileId": "counterTopHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "tileId": "counterTopHorizontalRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "crate"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 10,
+          "ty": 7,
+          "tileId": "sack"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 10,
+          "ty": 0,
+          "toInteriorId": "tailor-back",
+          "entryTx": 5,
+          "entryTy": 0,
+          "direction": "back"
+        }
+      ]
+    },
+    "tailor-back": {
+      "name": "Cutting Room",
+      "width": 11,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "interiorWallWhite",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "counterTopHorizontalLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 2,
+          "tileId": "counterTopHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "tileId": "counterTopHorizontalRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "crate"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 9,
+          "ty": 6,
+          "tileId": "sack"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "toInteriorId": "tailor",
+          "entryTx": 10,
+          "entryTy": 0,
+          "direction": "front"
+        }
+      ]
+    },
+    "apothecary": {
+      "name": "Mads' Apothecary",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "interiorWallWhite",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "counterTopHorizontalLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 2,
+          "tileId": "counterTopHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "tileId": "counterTopHorizontalRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "crate"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 10,
+          "ty": 7,
+          "tileId": "sack"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 10,
+          "ty": 0,
+          "toInteriorId": "apothecary-back",
+          "entryTx": 5,
+          "entryTy": 0,
+          "direction": "back"
+        }
+      ]
+    },
+    "apothecary-back": {
+      "name": "Brewing Room",
+      "width": 11,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "interiorWallWhite",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "counterTopHorizontalLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 2,
+          "tileId": "counterTopHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "tileId": "counterTopHorizontalRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "crate"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 9,
+          "ty": 6,
+          "tileId": "sack"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "toInteriorId": "apothecary",
+          "entryTx": 10,
+          "entryTy": 0,
+          "direction": "front"
+        }
+      ]
+    },
+    "theatre": {
+      "name": "The Crown Theatre",
+      "width": 14,
+      "height": 10,
+      "floorTileId": "redCarpetFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "pileOfPapers"
+        },
+        {
+          "tx": 12,
+          "ty": 1,
+          "tileId": "deskTop"
+        },
+        {
+          "tx": 2,
+          "ty": 8,
+          "tileId": "stool"
+        },
+        {
+          "tx": 11,
+          "ty": 8,
+          "tileId": "wallClock"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 12,
+          "ty": 0,
+          "toInteriorId": "theatre-back",
+          "entryTx": 6,
+          "entryTy": 0,
+          "direction": "back"
+        }
+      ]
+    },
+    "theatre-back": {
+      "name": "Backstage",
+      "width": 13,
+      "height": 9,
+      "floorTileId": "redCarpetFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "pileOfPapers"
+        },
+        {
+          "tx": 11,
+          "ty": 1,
+          "tileId": "deskTop"
+        },
+        {
+          "tx": 2,
+          "ty": 7,
+          "tileId": "stool"
+        },
+        {
+          "tx": 10,
+          "ty": 7,
+          "tileId": "wallClock"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 1,
+          "toInteriorId": "theatre",
+          "entryTx": 12,
+          "entryTy": 0,
+          "direction": "front"
+        }
+      ]
+    },
+    "blacksmith": {
+      "name": "Dunn's Forge",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "suitOfArmourTop"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "suitOfArmourBottom"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "suitOfArmourTop"
+        },
+        {
+          "tx": 10,
+          "ty": 2,
+          "tileId": "suitOfArmourBottom"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "swordMountedLeft"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "shieldMounted"
+        },
+        {
+          "tx": 2,
+          "ty": 7,
+          "tileId": "roundTable"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 10,
+          "ty": 0,
+          "toInteriorId": "blacksmith-back",
+          "entryTx": 5,
+          "entryTy": 0,
+          "direction": "back"
+        }
+      ]
+    },
+    "blacksmith-back": {
+      "name": "The Foundry",
+      "width": 11,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "suitOfArmourTop"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "suitOfArmourBottom"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "suitOfArmourTop"
+        },
+        {
+          "tx": 9,
+          "ty": 2,
+          "tileId": "suitOfArmourBottom"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "swordMountedLeft"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "shieldMounted"
+        },
+        {
+          "tx": 2,
+          "ty": 6,
+          "tileId": "roundTable"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "toInteriorId": "blacksmith",
+          "entryTx": 10,
+          "entryTy": 0,
+          "direction": "front"
+        }
+      ]
+    },
+    "royal-mint": {
+      "name": "The Royal Mint",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "goldChest"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "chest"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "strongChest"
+        },
+        {
+          "tx": 6,
+          "ty": 7,
+          "tileId": "pileOfGoldCoins"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 10,
+          "ty": 0,
+          "toInteriorId": "royal-mint-back",
+          "entryTx": 5,
+          "entryTy": 0,
+          "direction": "back"
+        }
+      ]
+    },
+    "royal-mint-back": {
+      "name": "The Stamping Room",
+      "width": 11,
+      "height": 8,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "goldChest"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "chest"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "strongChest"
+        },
+        {
+          "tx": 5,
+          "ty": 6,
+          "tileId": "pileOfGoldCoins"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "toInteriorId": "royal-mint",
+          "entryTx": 10,
+          "entryTy": 0,
+          "direction": "front"
+        }
+      ]
+    },
+    "noble-manor-1": {
+      "name": "Manor of Lady Cora",
+      "width": 13,
+      "height": 9,
+      "floorTileId": "parquetFloor",
+      "wallTileId": "interiorWallWhite",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "pileOfPapers"
+        },
+        {
+          "tx": 11,
+          "ty": 1,
+          "tileId": "deskTop"
+        },
+        {
+          "tx": 2,
+          "ty": 7,
+          "tileId": "stool"
+        },
+        {
+          "tx": 10,
+          "ty": 7,
+          "tileId": "wallClock"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 11,
+          "ty": 0,
+          "toInteriorId": "noble-manor-1-back",
+          "entryTx": 6,
+          "entryTy": 0,
+          "direction": "back"
+        }
+      ]
+    },
+    "noble-manor-1-back": {
+      "name": "Manor Bedchamber",
+      "width": 12,
+      "height": 8,
+      "floorTileId": "parquetFloor",
+      "wallTileId": "interiorWallWhite",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "normalBedHead"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "normalBedFoot"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "normalBedHead"
+        },
+        {
+          "tx": 3,
+          "ty": 2,
+          "tileId": "normalBedFoot"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "smallTableTopLeft"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 1,
+          "toInteriorId": "noble-manor-1",
+          "entryTx": 11,
+          "entryTy": 0,
+          "direction": "front"
+        }
+      ]
+    },
+    "noble-manor-2": {
+      "name": "Aldermere Manor",
+      "width": 13,
+      "height": 9,
+      "floorTileId": "parquetFloor",
+      "wallTileId": "interiorWallWhite",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 11,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 11,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 6,
+          "ty": 2,
+          "tileId": "deskTop"
+        },
+        {
+          "tx": 3,
+          "ty": 7,
+          "tileId": "roundTableWithCloth"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 11,
+          "ty": 0,
+          "toInteriorId": "noble-manor-2-back",
+          "entryTx": 6,
+          "entryTy": 0,
+          "direction": "back"
+        }
+      ]
+    },
+    "noble-manor-2-back": {
+      "name": "Manor Study",
+      "width": 12,
+      "height": 8,
+      "floorTileId": "parquetFloor",
+      "wallTileId": "interiorWallWhite",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "windowTop"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "normalBedHead"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "normalBedFoot"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "normalBedHead"
+        },
+        {
+          "tx": 3,
+          "ty": 2,
+          "tileId": "normalBedFoot"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "smallTableTopLeft"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 1,
+          "toInteriorId": "noble-manor-2",
+          "entryTx": 11,
+          "entryTy": 0,
+          "direction": "front"
+        }
+      ]
     }
-  ],
-  "npcSpawnTiles": [],
+  },
   "ambientNpcSprites": [
     "hub-npc-merchant",
-    "hub-npc-scholar"
+    "hub-npc-scholar",
+    "hub-npc-soldier",
+    "hub-npc-elder"
+  ],
+  "npcSpawnTiles": [
+    [
+      56,
+      91
+    ]
   ],
   "npcs": [
     {
       "id": "innkeeper-crownhaven",
       "name": "Innkeep Rosalind",
       "sprite": "hub-npc-merchant",
-      "tx": 8,
-      "ty": 11,
+      "building": "grand-inn",
+      "tx": 4,
+      "ty": 3,
       "dialogue": [
         "Welcome to The Gilded Goose, finest beds in the capital.",
-        "Half my guests are here for the tournament. The other half are avoiding it.",
+        "Half my guests are here for the coronation. The other half are avoiding it.",
         "If Captain Hale sends you with anything, I'll see it gets where it's going."
       ],
-      "building": "grand-inn",
-      "questReceive": "crownhaven-gate-key"
+      "questReceive": [
+        "crownhaven-gate-key",
+        "crownhaven-feast"
+      ],
+      "questGive": "crownhaven-welcome",
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn",
+            "tx": 1,
+            "ty": 1
+          }
+        },
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn",
+            "tx": 4,
+            "ty": 3
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 24,
+          "activity": "eat",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn",
+            "tx": 6,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "grand-inn-upstairs",
+        "tx": 1,
+        "ty": 1
+      }
     },
     {
       "id": "watch-captain-hale",
       "name": "Captain Hale",
       "sprite": "hub-npc-soldier",
-      "tx": 12,
-      "ty": 19,
+      "building": "guardhouse",
+      "tx": 5,
+      "ty": 3,
       "dialogue": [
-        "Crownhaven watch. State your business — or don't, you look harmless enough.",
+        "Crownhaven watch. State your business \u2014 or don't, you look harmless enough.",
         "The old postern gate key went missing on patrol. If it falls into the wrong hands, the palace will have my head.",
         "Keep your nose clean in my city, traveller."
       ],
-      "building": "guardhouse",
-      "questGive": "crownhaven-gate-key"
+      "questGive": "crownhaven-gate-key",
+      "questReceive": [
+        "crownhaven-cutpurse",
+        "crownhaven-armoury",
+        "crownhaven-stolen-coin"
+      ],
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "guardhouse",
+            "tx": 1,
+            "ty": 1
+          }
+        },
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "guardhouse",
+            "tx": 5,
+            "ty": 3
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 24,
+          "activity": "eat",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn",
+            "tx": 6,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "guardhouse",
+        "tx": 1,
+        "ty": 1
+      }
     },
     {
       "id": "royal-archivist",
       "name": "Archivist Quill",
       "sprite": "hub-npc-scholar",
-      "tx": 24,
-      "ty": 12,
+      "building": "library",
+      "tx": 5,
+      "ty": 4,
       "dialogue": [
         "The royal survey of the outer provinces is three scrolls short. Three!",
         "The couriers dropped them somewhere between here and the gates, I'm certain of it.",
         "History is just paperwork that survived, you know."
       ],
       "questGive": "crownhaven-census",
-      "questReceive": "crownhaven-census"
+      "questReceive": [
+        "crownhaven-census",
+        "crownhaven-anthology"
+      ],
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "library",
+            "tx": 1,
+            "ty": 1
+          }
+        },
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "library",
+            "tx": 5,
+            "ty": 4
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 24,
+          "activity": "eat",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn",
+            "tx": 6,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "library",
+        "tx": 1,
+        "ty": 1
+      }
     },
     {
       "id": "market-matron",
       "name": "Matron Goldie",
       "sprite": "hub-npc-elder",
-      "tx": 31,
-      "ty": 12,
+      "building": "market-hall-crownhaven",
+      "tx": 5,
+      "ty": 3,
       "dialogue": [
         "Forty years I've run this market. Kings come and go; turnips are forever.",
         "You want gossip, try the inn. You want a fair price, you talk to me.",
-        "Mind the fountain — the pigeons have opinions."
+        "Mind the fountain \u2014 the pigeons have opinions."
       ],
-      "building": "market-hall-crownhaven"
+      "questGive": "crownhaven-market-day",
+      "questReceive": [
+        "crownhaven-market-day",
+        "crownhaven-bread"
+      ],
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "market-hall-crownhaven",
+            "tx": 1,
+            "ty": 1
+          }
+        },
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "market-hall-crownhaven",
+            "tx": 5,
+            "ty": 3
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 24,
+          "activity": "eat",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn",
+            "tx": 6,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "market-hall-crownhaven",
+        "tx": 1,
+        "ty": 1
+      }
+    },
+    {
+      "id": "chancellor",
+      "name": "Chancellor Vell",
+      "sprite": "hub-npc-scholar",
+      "building": "senate",
+      "tx": 6,
+      "ty": 4,
+      "dialogue": [
+        "The capital does not run on goodwill, traveller. It runs on charters, seals, and very tired clerks.",
+        "Crownhaven looks to Ravenwatch for the old records. We must keep the two cities in step.",
+        "Serve the crown well and the crown remembers."
+      ],
+      "questGive": "crownhaven-charter",
+      "questReceive": [
+        "crownhaven-charter",
+        "crownhaven-statue"
+      ],
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "senate",
+            "tx": 1,
+            "ty": 1
+          }
+        },
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "senate",
+            "tx": 6,
+            "ty": 4
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 24,
+          "activity": "eat",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn",
+            "tx": 6,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "senate",
+        "tx": 1,
+        "ty": 1
+      }
+    },
+    {
+      "id": "high-priest",
+      "name": "High Priest Aldwin",
+      "sprite": "hub-npc-elder",
+      "building": "cathedral",
+      "tx": 6,
+      "ty": 5,
+      "dialogue": [
+        "Dawn breaks over Crownhaven, and with it, hope. Welcome, child.",
+        "The cathedral's relics were scattered in the troubles. We would see them home.",
+        "The bell has been silent too long. A city should hear its own heart."
+      ],
+      "questGive": "crownhaven-relics",
+      "questReceive": [
+        "crownhaven-relics",
+        "crownhaven-dawn-blessing",
+        "crownhaven-crypt-vigil"
+      ],
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "cathedral",
+            "tx": 1,
+            "ty": 1
+          }
+        },
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "cathedral",
+            "tx": 6,
+            "ty": 5
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 24,
+          "activity": "eat",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn",
+            "tx": 6,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "cathedral",
+        "tx": 1,
+        "ty": 1
+      }
+    },
+    {
+      "id": "mint-master",
+      "name": "Mintmaster Coyle",
+      "sprite": "hub-npc-merchant",
+      "building": "royal-mint",
+      "tx": 4,
+      "ty": 3,
+      "dialogue": [
+        "Every coin in the realm starts its life right here, under my hammer.",
+        "Lose a mint die and you may as well hand a forger the keys to the treasury.",
+        "Gold is heavy for a reason \u2014 it keeps honest folk grounded."
+      ],
+      "questGive": "crownhaven-mint-dies",
+      "questReceive": "crownhaven-mint-dies",
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "royal-mint",
+            "tx": 1,
+            "ty": 1
+          }
+        },
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "royal-mint",
+            "tx": 4,
+            "ty": 3
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 24,
+          "activity": "eat",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn",
+            "tx": 6,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "royal-mint",
+        "tx": 1,
+        "ty": 1
+      }
+    },
+    {
+      "id": "banker",
+      "name": "Banker Sterling",
+      "sprite": "hub-npc-merchant",
+      "building": "grand-bank",
+      "tx": 5,
+      "ty": 3,
+      "dialogue": [
+        "The Grand Bank of Crownhaven. Your crystals are safer here than in the palace itself.",
+        "A noble's debt is a delicate thing. Discretion is half my trade.",
+        "Vault's sealed tight \u2014 only the watch and I hold a key."
+      ],
+      "questGive": "crownhaven-stolen-coin",
+      "questReceive": [
+        "crownhaven-tax-records",
+        "crownhaven-noble-debt",
+        "crownhaven-stolen-coin"
+      ],
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-bank",
+            "tx": 1,
+            "ty": 1
+          }
+        },
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-bank",
+            "tx": 5,
+            "ty": 3
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 24,
+          "activity": "eat",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn",
+            "tx": 6,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "grand-bank",
+        "tx": 1,
+        "ty": 1
+      }
+    },
+    {
+      "id": "tailor-pell",
+      "name": "Tailor Pell",
+      "sprite": "hub-npc-merchant",
+      "building": "tailor",
+      "tx": 4,
+      "ty": 3,
+      "dialogue": [
+        "Coronation season! Every noble in the realm wants new silks, and they want them yesterday.",
+        "A good seam is invisible. Like a good tailor.",
+        "Bring me bolts of silk and I'll dress you fit for the throne room."
+      ],
+      "questGive": "crownhaven-silk",
+      "questReceive": "crownhaven-silk",
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "tailor",
+            "tx": 1,
+            "ty": 1
+          }
+        },
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "tailor",
+            "tx": 4,
+            "ty": 3
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 24,
+          "activity": "eat",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn",
+            "tx": 6,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "tailor",
+        "tx": 1,
+        "ty": 1
+      }
+    },
+    {
+      "id": "jeweller-isolde",
+      "name": "Jeweller Isolde",
+      "sprite": "hub-npc-merchant",
+      "building": "jeweller",
+      "tx": 4,
+      "ty": 3,
+      "dialogue": [
+        "Diamonds, sapphires, the crown's own regalia \u2014 all pass across my bench.",
+        "Raw gems are dull little pebbles until I coax the fire out of them.",
+        "Careful where you tread; I've dropped stones worth more than your boots."
+      ],
+      "questGive": "crownhaven-gems",
+      "questReceive": "crownhaven-gems",
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "jeweller",
+            "tx": 1,
+            "ty": 1
+          }
+        },
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "jeweller",
+            "tx": 4,
+            "ty": 3
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 24,
+          "activity": "eat",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn",
+            "tx": 6,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "jeweller",
+        "tx": 1,
+        "ty": 1
+      }
+    },
+    {
+      "id": "apothecary-mads",
+      "name": "Apothecary Mads",
+      "sprite": "hub-npc-scholar",
+      "building": "apothecary",
+      "tx": 4,
+      "ty": 3,
+      "dialogue": [
+        "Tinctures, tonics, and the occasional cure. Mind the green bottles.",
+        "Half of healing is herbs; the other half is convincing the patient they're healed.",
+        "The academy sends me their wildest experiments. I send back the survivors."
+      ],
+      "questGive": "crownhaven-remedy",
+      "questReceive": [
+        "crownhaven-remedy",
+        "crownhaven-experiment"
+      ],
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "apothecary",
+            "tx": 1,
+            "ty": 1
+          }
+        },
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "apothecary",
+            "tx": 4,
+            "ty": 3
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 24,
+          "activity": "eat",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn",
+            "tx": 6,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "apothecary",
+        "tx": 1,
+        "ty": 1
+      }
+    },
+    {
+      "id": "baker-otto",
+      "name": "Baker Otto",
+      "sprite": "hub-npc-merchant",
+      "building": "bakery",
+      "tx": 4,
+      "ty": 3,
+      "dialogue": [
+        "Fresh bread before the bells, every morning. Smell that?",
+        "Coronation feast's coming. I'll be up to my elbows in flour for a week.",
+        "Grain's dear this season. Bring me sacks and I'll bake you a king's loaf."
+      ],
+      "questGive": "crownhaven-bread",
+      "questReceive": [
+        "crownhaven-bread",
+        "crownhaven-feast"
+      ],
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "bakery",
+            "tx": 1,
+            "ty": 1
+          }
+        },
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "bakery",
+            "tx": 4,
+            "ty": 3
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 24,
+          "activity": "eat",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn",
+            "tx": 6,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "bakery",
+        "tx": 1,
+        "ty": 1
+      }
+    },
+    {
+      "id": "blacksmith-dunn",
+      "name": "Smith Dunn",
+      "sprite": "hub-npc-soldier",
+      "building": "blacksmith",
+      "tx": 4,
+      "ty": 3,
+      "dialogue": [
+        "Steel for the watch, nails for the masons, and a bell-clapper if the priest ever asks.",
+        "A blade's only as honest as the hand that swings it.",
+        "Bring me steel and I'll give the watch the edge it needs."
+      ],
+      "questGive": "crownhaven-armoury",
+      "questReceive": [
+        "crownhaven-armoury",
+        "crownhaven-tower-bell"
+      ],
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "blacksmith",
+            "tx": 1,
+            "ty": 1
+          }
+        },
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "blacksmith",
+            "tx": 4,
+            "ty": 3
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 24,
+          "activity": "eat",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn",
+            "tx": 6,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "blacksmith",
+        "tx": 1,
+        "ty": 1
+      }
+    },
+    {
+      "id": "noble-lady-cora",
+      "name": "Lady Cora",
+      "sprite": "hub-npc-elder",
+      "building": "noble-manor-1",
+      "tx": 5,
+      "ty": 4,
+      "dialogue": [
+        "Old Town remembers when Crownhaven was but a fort on a hill. I remember it too.",
+        "My family's locket was lost in the gardens. It is all I have of my mother.",
+        "Debts and lockets \u2014 a noblewoman's life is keeping track of what she's misplaced."
+      ],
+      "questGive": "crownhaven-lost-locket",
+      "questReceive": "crownhaven-lost-locket",
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "noble-manor-1",
+            "tx": 1,
+            "ty": 1
+          }
+        },
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "noble-manor-1",
+            "tx": 5,
+            "ty": 4
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 24,
+          "activity": "eat",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn",
+            "tx": 6,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "noble-manor-1-back",
+        "tx": 1,
+        "ty": 1
+      }
+    },
+    {
+      "id": "academy-master",
+      "name": "Master Fenwick",
+      "sprite": "hub-npc-scholar",
+      "building": "academy",
+      "tx": 6,
+      "ty": 4,
+      "dialogue": [
+        "The Crown Academy: where the realm's brightest learn just enough to be dangerous.",
+        "My lecture notes have scattered to the four winds. Or four districts, more likely.",
+        "Knowledge, like coin, is only useful in circulation."
+      ],
+      "questGive": "crownhaven-lecture",
+      "questReceive": "crownhaven-lecture",
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "academy",
+            "tx": 1,
+            "ty": 1
+          }
+        },
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "academy",
+            "tx": 6,
+            "ty": 4
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 24,
+          "activity": "eat",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn",
+            "tx": 6,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "academy",
+        "tx": 1,
+        "ty": 1
+      }
+    },
+    {
+      "id": "busker-lyle",
+      "name": "Busker Lyle",
+      "sprite": "hub-npc-merchant",
+      "tx": 50,
+      "ty": 47,
+      "dialogue": [
+        "A copper for a tune? A crystal for a good one?",
+        "Snapped three lute strings practising for the coronation. Three!",
+        "Every great city deserves a great song. I'm still writing Crownhaven's."
+      ],
+      "questGive": "crownhaven-buskers-strings",
+      "questReceive": "crownhaven-buskers-strings",
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn-upstairs",
+            "tx": 6,
+            "ty": 4
+          }
+        },
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "idle-chat",
+          "location": {
+            "type": "exterior",
+            "tx": 50,
+            "ty": 47
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 24,
+          "activity": "eat",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn",
+            "tx": 8,
+            "ty": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "herald-jana",
+      "name": "Herald Jana",
+      "sprite": "hub-npc-soldier",
+      "tx": 60,
+      "ty": 47,
+      "dialogue": [
+        "Hear ye! By order of the Chancellor \u2014 mind the proclamations.",
+        "Lost half my scrolls to the wind. A herald with no words is just a loud nuisance.",
+        "Stand for the crown, traveller. The capital is watching."
+      ],
+      "questGive": "crownhaven-proclamation",
+      "questReceive": [
+        "crownhaven-proclamation",
+        "crownhaven-statue"
+      ],
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn-upstairs",
+            "tx": 6,
+            "ty": 4
+          }
+        },
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "exterior",
+            "tx": 60,
+            "ty": 47
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 24,
+          "activity": "eat",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn",
+            "tx": 8,
+            "ty": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "guard-bryn",
+      "name": "Guardsman Bryn",
+      "sprite": "hub-npc-soldier",
+      "tx": 95,
+      "ty": 82,
+      "dialogue": [
+        "Captain's got me walking the south wall till my boots wear through.",
+        "See anything suspicious, you tell me first, the captain second.",
+        "Quiet night. Round here, that's the best kind."
+      ],
+      "questGive": "crownhaven-cutpurse",
+      "questReceive": "crownhaven-patrol",
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn-upstairs",
+            "tx": 6,
+            "ty": 4
+          }
+        },
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "exterior",
+            "tx": 95,
+            "ty": 82
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 24,
+          "activity": "eat",
+          "location": {
+            "type": "interior",
+            "buildingId": "grand-inn",
+            "tx": 8,
+            "ty": 4
+          }
+        }
+      ]
     }
   ],
-  "interiors": {
-    "grand-inn": {
-      "name": "The Gilded Goose",
-      "width": 10,
-      "height": 6,
-      "floorTileId": "woodFloor",
-      "wallTileId": "whiteStone",
-      "decor": [
-        {
-          "tx": 1,
-          "ty": 1,
-          "tileId": "barrel"
-        },
-        {
-          "tx": 2,
-          "ty": 1,
-          "tileId": "barrel"
-        },
-        {
-          "tx": 7,
-          "ty": 1,
-          "tileId": "roundTableWithCloth"
-        },
-        {
-          "tx": 8,
-          "ty": 2,
-          "tileId": "stool"
-        },
-        {
-          "tx": 6,
-          "ty": 2,
-          "tileId": "stool"
-        }
-      ],
-      "exits": []
+  "exteriorDecor": [
+    {
+      "comment": "Coronation Plaza \u2014 grand fountain & monuments"
     },
-    "market-hall-crownhaven": {
-      "name": "The Grand Market Hall",
-      "width": 10,
-      "height": 5,
-      "floorTileId": "woodFloor",
-      "wallTileId": "brick",
-      "decor": [
-        {
-          "tx": 1,
-          "ty": 1,
-          "tileId": "crate"
-        },
-        {
-          "tx": 2,
-          "ty": 1,
-          "tileId": "openCrate"
-        },
-        {
-          "tx": 7,
-          "ty": 1,
-          "tileId": "sack"
-        },
-        {
-          "tx": 8,
-          "ty": 1,
-          "tileId": "crate"
-        }
-      ],
-      "exits": []
+    {
+      "tx": 56,
+      "ty": 50,
+      "bundleID": "fountain",
+      "zlayer": "solid"
     },
-    "guardhouse": {
-      "name": "The Watch House",
-      "width": 8,
-      "height": 5,
-      "floorTileId": "stoneFloor",
-      "wallTileId": "castleStone",
-      "decor": [
-        {
-          "tx": 1,
-          "ty": 1,
-          "tileId": "suitOfArmourTop"
-        },
-        {
-          "tx": 1,
-          "ty": 2,
-          "tileId": "suitOfArmourBottom"
-        },
-        {
-          "tx": 6,
-          "ty": 1,
-          "tileId": "suitOfArmourTop"
-        },
-        {
-          "tx": 6,
-          "ty": 2,
-          "tileId": "suitOfArmourBottom"
-        },
-        {
-          "tx": 3,
-          "ty": 1,
-          "tileId": "swordMountedLeft"
-        },
-        {
-          "tx": 4,
-          "ty": 1,
-          "tileId": "shieldMounted"
-        }
-      ],
-      "exits": []
+    {
+      "tx": 40,
+      "ty": 46,
+      "tileId": "angelStatueTop",
+      "zlayer": "above"
     },
-    "chapel": {
-      "name": "Chapel of the Dawn",
-      "width": 8,
-      "height": 6,
-      "floorTileId": "cobblestoneFloor",
-      "wallTileId": "ornateStone",
-      "decor": [
-        {
-          "tx": 1,
-          "ty": 1,
-          "tileId": "bookshelfTop"
-        },
-        {
-          "tx": 1,
-          "ty": 2,
-          "tileId": "bookshelfBottom"
-        },
-        {
-          "tx": 6,
-          "ty": 1,
-          "tileId": "bookshelfTop"
-        },
-        {
-          "tx": 6,
-          "ty": 2,
-          "tileId": "bookshelfBottom"
-        },
-        {
-          "tx": 3,
-          "ty": 1,
-          "tileId": "roundTableWithCloth"
-        }
-      ],
-      "exits": []
+    {
+      "tx": 40,
+      "ty": 47,
+      "tileId": "angelStatueBottom"
+    },
+    {
+      "tx": 72,
+      "ty": 46,
+      "tileId": "angelStatueTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 72,
+      "ty": 47,
+      "tileId": "angelStatueBottom"
+    },
+    {
+      "tx": 34,
+      "ty": 56,
+      "tileId": "benchLeft"
+    },
+    {
+      "tx": 35,
+      "ty": 56,
+      "tileId": "benchMiddle"
+    },
+    {
+      "tx": 36,
+      "ty": 56,
+      "tileId": "benchRight"
+    },
+    {
+      "tx": 40,
+      "ty": 56,
+      "tileId": "benchLeft"
+    },
+    {
+      "tx": 41,
+      "ty": 56,
+      "tileId": "benchMiddle"
+    },
+    {
+      "tx": 42,
+      "ty": 56,
+      "tileId": "benchRight"
+    },
+    {
+      "tx": 46,
+      "ty": 56,
+      "tileId": "benchLeft"
+    },
+    {
+      "tx": 47,
+      "ty": 56,
+      "tileId": "benchMiddle"
+    },
+    {
+      "tx": 48,
+      "ty": 56,
+      "tileId": "benchRight"
+    },
+    {
+      "tx": 52,
+      "ty": 56,
+      "tileId": "benchLeft"
+    },
+    {
+      "tx": 53,
+      "ty": 56,
+      "tileId": "benchMiddle"
+    },
+    {
+      "tx": 54,
+      "ty": 56,
+      "tileId": "benchRight"
+    },
+    {
+      "tx": 58,
+      "ty": 56,
+      "tileId": "benchLeft"
+    },
+    {
+      "tx": 59,
+      "ty": 56,
+      "tileId": "benchMiddle"
+    },
+    {
+      "tx": 60,
+      "ty": 56,
+      "tileId": "benchRight"
+    },
+    {
+      "tx": 64,
+      "ty": 56,
+      "tileId": "benchLeft"
+    },
+    {
+      "tx": 65,
+      "ty": 56,
+      "tileId": "benchMiddle"
+    },
+    {
+      "tx": 66,
+      "ty": 56,
+      "tileId": "benchRight"
+    },
+    {
+      "tx": 70,
+      "ty": 56,
+      "tileId": "benchLeft"
+    },
+    {
+      "tx": 71,
+      "ty": 56,
+      "tileId": "benchMiddle"
+    },
+    {
+      "tx": 72,
+      "ty": 56,
+      "tileId": "benchRight"
+    },
+    {
+      "tx": 76,
+      "ty": 56,
+      "tileId": "benchLeft"
+    },
+    {
+      "tx": 77,
+      "ty": 56,
+      "tileId": "benchMiddle"
+    },
+    {
+      "tx": 78,
+      "ty": 56,
+      "tileId": "benchRight"
+    },
+    {
+      "tx": 82,
+      "ty": 56,
+      "tileId": "benchLeft"
+    },
+    {
+      "tx": 83,
+      "ty": 56,
+      "tileId": "benchMiddle"
+    },
+    {
+      "tx": 84,
+      "ty": 56,
+      "tileId": "benchRight"
+    },
+    {
+      "tx": 32,
+      "ty": 44,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 32,
+      "ty": 62,
+      "tileId": "yellowFlower"
+    },
+    {
+      "tx": 36,
+      "ty": 44,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 36,
+      "ty": 62,
+      "tileId": "yellowFlower"
+    },
+    {
+      "tx": 40,
+      "ty": 44,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 40,
+      "ty": 62,
+      "tileId": "yellowFlower"
+    },
+    {
+      "tx": 44,
+      "ty": 44,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 44,
+      "ty": 62,
+      "tileId": "yellowFlower"
+    },
+    {
+      "tx": 48,
+      "ty": 44,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 48,
+      "ty": 62,
+      "tileId": "yellowFlower"
+    },
+    {
+      "tx": 52,
+      "ty": 44,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 52,
+      "ty": 62,
+      "tileId": "yellowFlower"
+    },
+    {
+      "tx": 56,
+      "ty": 44,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 56,
+      "ty": 62,
+      "tileId": "yellowFlower"
+    },
+    {
+      "tx": 60,
+      "ty": 44,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 60,
+      "ty": 62,
+      "tileId": "yellowFlower"
+    },
+    {
+      "tx": 64,
+      "ty": 44,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 64,
+      "ty": 62,
+      "tileId": "yellowFlower"
+    },
+    {
+      "tx": 68,
+      "ty": 44,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 68,
+      "ty": 62,
+      "tileId": "yellowFlower"
+    },
+    {
+      "tx": 72,
+      "ty": 44,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 72,
+      "ty": 62,
+      "tileId": "yellowFlower"
+    },
+    {
+      "tx": 76,
+      "ty": 44,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 76,
+      "ty": 62,
+      "tileId": "yellowFlower"
+    },
+    {
+      "tx": 80,
+      "ty": 44,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 80,
+      "ty": 62,
+      "tileId": "yellowFlower"
+    },
+    {
+      "tx": 84,
+      "ty": 44,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 84,
+      "ty": 62,
+      "tileId": "yellowFlower"
+    },
+    {
+      "comment": "avenue lamp posts"
+    },
+    {
+      "tx": 7,
+      "ty": 7,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 7,
+      "ty": 8,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 26,
+      "ty": 7,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 26,
+      "ty": 8,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 55,
+      "ty": 7,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 55,
+      "ty": 8,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 90,
+      "ty": 7,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 90,
+      "ty": 8,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 109,
+      "ty": 7,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 109,
+      "ty": 8,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 7,
+      "ty": 19,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 7,
+      "ty": 20,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 26,
+      "ty": 19,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 26,
+      "ty": 20,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 55,
+      "ty": 19,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 55,
+      "ty": 20,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 90,
+      "ty": 19,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 90,
+      "ty": 20,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 109,
+      "ty": 19,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 109,
+      "ty": 20,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 7,
+      "ty": 31,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 7,
+      "ty": 32,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 26,
+      "ty": 31,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 26,
+      "ty": 32,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 55,
+      "ty": 31,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 55,
+      "ty": 32,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 90,
+      "ty": 31,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 90,
+      "ty": 32,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 109,
+      "ty": 31,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 109,
+      "ty": 32,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 7,
+      "ty": 43,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 7,
+      "ty": 44,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 26,
+      "ty": 43,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 26,
+      "ty": 44,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 55,
+      "ty": 43,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 55,
+      "ty": 44,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 90,
+      "ty": 43,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 90,
+      "ty": 44,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 109,
+      "ty": 43,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 109,
+      "ty": 44,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 7,
+      "ty": 55,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 7,
+      "ty": 56,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 26,
+      "ty": 55,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 26,
+      "ty": 56,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 55,
+      "ty": 55,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 55,
+      "ty": 56,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 90,
+      "ty": 55,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 90,
+      "ty": 56,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 109,
+      "ty": 55,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 109,
+      "ty": 56,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 7,
+      "ty": 67,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 7,
+      "ty": 68,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 26,
+      "ty": 67,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 26,
+      "ty": 68,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 55,
+      "ty": 67,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 55,
+      "ty": 68,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 90,
+      "ty": 67,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 90,
+      "ty": 68,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 109,
+      "ty": 67,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 109,
+      "ty": 68,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 7,
+      "ty": 91,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 7,
+      "ty": 92,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 26,
+      "ty": 91,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 26,
+      "ty": 92,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 90,
+      "ty": 91,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 90,
+      "ty": 92,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 109,
+      "ty": 91,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 109,
+      "ty": 92,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "comment": "Grand Market \u2014 stalls & wares"
+    },
+    {
+      "tx": 28,
+      "ty": 17,
+      "tileId": "stripedShopAwningTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 28,
+      "ty": 18,
+      "tileId": "stripedShopAwningBottom"
+    },
+    {
+      "tx": 28,
+      "ty": 19,
+      "tileId": "crate"
+    },
+    {
+      "tx": 29,
+      "ty": 19,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 30,
+      "ty": 19,
+      "tileId": "sack"
+    },
+    {
+      "tx": 34,
+      "ty": 17,
+      "tileId": "stripedShopAwningTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 34,
+      "ty": 18,
+      "tileId": "stripedShopAwningBottom"
+    },
+    {
+      "tx": 34,
+      "ty": 19,
+      "tileId": "crate"
+    },
+    {
+      "tx": 35,
+      "ty": 19,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 36,
+      "ty": 19,
+      "tileId": "sack"
+    },
+    {
+      "tx": 40,
+      "ty": 17,
+      "tileId": "stripedShopAwningTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 40,
+      "ty": 18,
+      "tileId": "stripedShopAwningBottom"
+    },
+    {
+      "tx": 40,
+      "ty": 19,
+      "tileId": "crate"
+    },
+    {
+      "tx": 41,
+      "ty": 19,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 42,
+      "ty": 19,
+      "tileId": "sack"
+    },
+    {
+      "tx": 46,
+      "ty": 17,
+      "tileId": "stripedShopAwningTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 46,
+      "ty": 18,
+      "tileId": "stripedShopAwningBottom"
+    },
+    {
+      "tx": 46,
+      "ty": 19,
+      "tileId": "crate"
+    },
+    {
+      "tx": 47,
+      "ty": 19,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 48,
+      "ty": 19,
+      "tileId": "sack"
+    },
+    {
+      "tx": 52,
+      "ty": 17,
+      "tileId": "stripedShopAwningTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 52,
+      "ty": 18,
+      "tileId": "stripedShopAwningBottom"
+    },
+    {
+      "tx": 52,
+      "ty": 19,
+      "tileId": "crate"
+    },
+    {
+      "tx": 53,
+      "ty": 19,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 54,
+      "ty": 19,
+      "tileId": "sack"
+    },
+    {
+      "tx": 58,
+      "ty": 17,
+      "tileId": "stripedShopAwningTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 58,
+      "ty": 18,
+      "tileId": "stripedShopAwningBottom"
+    },
+    {
+      "tx": 58,
+      "ty": 19,
+      "tileId": "crate"
+    },
+    {
+      "tx": 59,
+      "ty": 19,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 60,
+      "ty": 19,
+      "tileId": "sack"
+    },
+    {
+      "tx": 64,
+      "ty": 17,
+      "tileId": "stripedShopAwningTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 64,
+      "ty": 18,
+      "tileId": "stripedShopAwningBottom"
+    },
+    {
+      "tx": 64,
+      "ty": 19,
+      "tileId": "crate"
+    },
+    {
+      "tx": 65,
+      "ty": 19,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 66,
+      "ty": 19,
+      "tileId": "sack"
+    },
+    {
+      "tx": 70,
+      "ty": 17,
+      "tileId": "stripedShopAwningTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 70,
+      "ty": 18,
+      "tileId": "stripedShopAwningBottom"
+    },
+    {
+      "tx": 70,
+      "ty": 19,
+      "tileId": "crate"
+    },
+    {
+      "tx": 71,
+      "ty": 19,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 72,
+      "ty": 19,
+      "tileId": "sack"
+    },
+    {
+      "tx": 76,
+      "ty": 17,
+      "tileId": "stripedShopAwningTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 76,
+      "ty": 18,
+      "tileId": "stripedShopAwningBottom"
+    },
+    {
+      "tx": 76,
+      "ty": 19,
+      "tileId": "crate"
+    },
+    {
+      "tx": 77,
+      "ty": 19,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 78,
+      "ty": 19,
+      "tileId": "sack"
+    },
+    {
+      "tx": 30,
+      "ty": 16,
+      "tileId": "appleBasket"
+    },
+    {
+      "tx": 34,
+      "ty": 16,
+      "tileId": "mushroomBasket"
+    },
+    {
+      "tx": 60,
+      "ty": 16,
+      "tileId": "emptyBasket"
+    },
+    {
+      "tx": 64,
+      "ty": 16,
+      "tileId": "pileOfSacks"
+    },
+    {
+      "tx": 70,
+      "ty": 16,
+      "tileId": "openCrate"
+    },
+    {
+      "tx": 76,
+      "ty": 16,
+      "tileId": "leafBasket"
+    },
+    {
+      "comment": "Temple Quarter \u2014 graves, candles & greenery"
+    },
+    {
+      "tx": 6,
+      "ty": 30,
+      "tileId": "graveStone"
+    },
+    {
+      "tx": 6,
+      "ty": 32,
+      "tileId": "graveWoodenCross"
+    },
+    {
+      "tx": 8,
+      "ty": 30,
+      "tileId": "graveStone"
+    },
+    {
+      "tx": 8,
+      "ty": 32,
+      "tileId": "graveWoodenCross"
+    },
+    {
+      "tx": 36,
+      "ty": 30,
+      "tileId": "graveStone"
+    },
+    {
+      "tx": 36,
+      "ty": 32,
+      "tileId": "graveWoodenCross"
+    },
+    {
+      "tx": 38,
+      "ty": 30,
+      "tileId": "graveStone"
+    },
+    {
+      "tx": 38,
+      "ty": 32,
+      "tileId": "graveWoodenCross"
+    },
+    {
+      "tx": 7,
+      "ty": 31,
+      "tileId": "birdBathTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 7,
+      "ty": 32,
+      "tileId": "birdBathMiddle"
+    },
+    {
+      "tx": 7,
+      "ty": 33,
+      "tileId": "birdBathBottom"
+    },
+    {
+      "tx": 28,
+      "ty": 31,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 31,
+      "ty": 31,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 34,
+      "ty": 31,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 12,
+      "ty": 30,
+      "tileId": "stoneWell"
+    },
+    {
+      "comment": "Old Town \u2014 manor gardens & lamps"
+    },
+    {
+      "tx": 86,
+      "ty": 31,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 92,
+      "ty": 31,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 98,
+      "ty": 31,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 106,
+      "ty": 31,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 112,
+      "ty": 31,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 86,
+      "ty": 44,
+      "tileId": "pinkFlower"
+    },
+    {
+      "tx": 89,
+      "ty": 44,
+      "tileId": "pinkFlower"
+    },
+    {
+      "tx": 92,
+      "ty": 44,
+      "tileId": "pinkFlower"
+    },
+    {
+      "tx": 95,
+      "ty": 44,
+      "tileId": "pinkFlower"
+    },
+    {
+      "tx": 98,
+      "ty": 44,
+      "tileId": "pinkFlower"
+    },
+    {
+      "tx": 101,
+      "ty": 44,
+      "tileId": "pinkFlower"
+    },
+    {
+      "tx": 104,
+      "ty": 44,
+      "tileId": "pinkFlower"
+    },
+    {
+      "tx": 107,
+      "ty": 44,
+      "tileId": "pinkFlower"
+    },
+    {
+      "tx": 110,
+      "ty": 44,
+      "tileId": "pinkFlower"
+    },
+    {
+      "tx": 113,
+      "ty": 44,
+      "tileId": "pinkFlower"
+    },
+    {
+      "tx": 108,
+      "ty": 30,
+      "tileId": "mailBox"
+    },
+    {
+      "tx": 86,
+      "ty": 46,
+      "tileId": "potOfFlowers"
+    },
+    {
+      "tx": 112,
+      "ty": 46,
+      "tileId": "potOfFlowers"
+    },
+    {
+      "tx": 104,
+      "ty": 31,
+      "tileId": "washingLineEmptyTopLeft",
+      "zlayer": "above"
+    },
+    {
+      "tx": 104,
+      "ty": 32,
+      "tileId": "washingLineClothesBottomLeft"
+    },
+    {
+      "comment": "Guard Quarter \u2014 braziers, walls & banners"
+    },
+    {
+      "tx": 88,
+      "ty": 81,
+      "tileId": "brazierTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 88,
+      "ty": 82,
+      "tileId": "brazierBottom"
+    },
+    {
+      "tx": 106,
+      "ty": 81,
+      "tileId": "brazierTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 106,
+      "ty": 82,
+      "tileId": "brazierBottom"
+    },
+    {
+      "tx": 70,
+      "ty": 81,
+      "tileId": "brazierTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 70,
+      "ty": 82,
+      "tileId": "brazierBottom"
+    },
+    {
+      "tx": 80,
+      "ty": 81,
+      "tileId": "brazierTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 80,
+      "ty": 82,
+      "tileId": "brazierBottom"
+    },
+    {
+      "tx": 54,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 56,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 58,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 60,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 62,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 64,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 66,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 68,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 70,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 72,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 74,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 76,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 78,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 80,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 82,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 84,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 86,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 88,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 90,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 92,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 94,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 96,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 98,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 100,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 102,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 104,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 106,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 108,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 110,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 112,
+      "ty": 90,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 72,
+      "ty": 70,
+      "tileId": "wantedPosterTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 72,
+      "ty": 71,
+      "tileId": "wantedPosterBottom"
+    },
+    {
+      "tx": 90,
+      "ty": 70,
+      "tileId": "swordMountedLeft",
+      "zlayer": "above"
+    },
+    {
+      "tx": 92,
+      "ty": 70,
+      "tileId": "shieldMounted",
+      "zlayer": "above"
+    },
+    {
+      "comment": "Riverside \u2014 pond edge, reeds & gardens"
+    },
+    {
+      "tx": 12,
+      "ty": 91,
+      "tileId": "largeLilypad"
+    },
+    {
+      "tx": 13,
+      "ty": 93,
+      "tileId": "smallLilypad"
+    },
+    {
+      "tx": 15,
+      "ty": 91,
+      "tileId": "largeLilypad"
+    },
+    {
+      "tx": 16,
+      "ty": 93,
+      "tileId": "smallLilypad"
+    },
+    {
+      "tx": 18,
+      "ty": 91,
+      "tileId": "largeLilypad"
+    },
+    {
+      "tx": 19,
+      "ty": 93,
+      "tileId": "smallLilypad"
+    },
+    {
+      "tx": 21,
+      "ty": 91,
+      "tileId": "largeLilypad"
+    },
+    {
+      "tx": 22,
+      "ty": 93,
+      "tileId": "smallLilypad"
+    },
+    {
+      "tx": 24,
+      "ty": 91,
+      "tileId": "largeLilypad"
+    },
+    {
+      "tx": 25,
+      "ty": 93,
+      "tileId": "smallLilypad"
+    },
+    {
+      "tx": 27,
+      "ty": 91,
+      "tileId": "largeLilypad"
+    },
+    {
+      "tx": 28,
+      "ty": 93,
+      "tileId": "smallLilypad"
+    },
+    {
+      "tx": 30,
+      "ty": 91,
+      "tileId": "largeLilypad"
+    },
+    {
+      "tx": 31,
+      "ty": 93,
+      "tileId": "smallLilypad"
+    },
+    {
+      "tx": 33,
+      "ty": 91,
+      "tileId": "largeLilypad"
+    },
+    {
+      "tx": 34,
+      "ty": 93,
+      "tileId": "smallLilypad"
+    },
+    {
+      "tx": 10,
+      "ty": 88,
+      "tileId": "spikyPlantTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 10,
+      "ty": 89,
+      "tileId": "spikyPlantBottom"
+    },
+    {
+      "tx": 14,
+      "ty": 88,
+      "tileId": "spikyPlantTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 14,
+      "ty": 89,
+      "tileId": "spikyPlantBottom"
+    },
+    {
+      "tx": 18,
+      "ty": 88,
+      "tileId": "spikyPlantTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 18,
+      "ty": 89,
+      "tileId": "spikyPlantBottom"
+    },
+    {
+      "tx": 22,
+      "ty": 88,
+      "tileId": "spikyPlantTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 22,
+      "ty": 89,
+      "tileId": "spikyPlantBottom"
+    },
+    {
+      "tx": 26,
+      "ty": 88,
+      "tileId": "spikyPlantTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 26,
+      "ty": 89,
+      "tileId": "spikyPlantBottom"
+    },
+    {
+      "tx": 30,
+      "ty": 88,
+      "tileId": "spikyPlantTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 30,
+      "ty": 89,
+      "tileId": "spikyPlantBottom"
+    },
+    {
+      "tx": 34,
+      "ty": 88,
+      "tileId": "spikyPlantTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 34,
+      "ty": 89,
+      "tileId": "spikyPlantBottom"
+    },
+    {
+      "tx": 6,
+      "ty": 70,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 40,
+      "ty": 70,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 22,
+      "ty": 87,
+      "tileId": "boardwalkHorizontal"
+    },
+    {
+      "tx": 23,
+      "ty": 87,
+      "tileId": "boardwalkHorizontal"
+    },
+    {
+      "tx": 24,
+      "ty": 87,
+      "tileId": "boardwalkHorizontal"
+    },
+    {
+      "tx": 8,
+      "ty": 68,
+      "tileId": "cropRose"
+    },
+    {
+      "tx": 9,
+      "ty": 70,
+      "tileId": "potOfFlowers"
+    },
+    {
+      "tx": 10,
+      "ty": 68,
+      "tileId": "cropRose"
+    },
+    {
+      "tx": 11,
+      "ty": 70,
+      "tileId": "potOfFlowers"
+    },
+    {
+      "tx": 12,
+      "ty": 68,
+      "tileId": "cropRose"
+    },
+    {
+      "tx": 13,
+      "ty": 70,
+      "tileId": "potOfFlowers"
+    },
+    {
+      "tx": 14,
+      "ty": 68,
+      "tileId": "cropRose"
+    },
+    {
+      "tx": 15,
+      "ty": 70,
+      "tileId": "potOfFlowers"
+    },
+    {
+      "tx": 16,
+      "ty": 68,
+      "tileId": "cropRose"
+    },
+    {
+      "tx": 17,
+      "ty": 70,
+      "tileId": "potOfFlowers"
+    },
+    {
+      "tx": 18,
+      "ty": 68,
+      "tileId": "cropRose"
+    },
+    {
+      "tx": 19,
+      "ty": 70,
+      "tileId": "potOfFlowers"
+    },
+    {
+      "tx": 20,
+      "ty": 68,
+      "tileId": "cropRose"
+    },
+    {
+      "tx": 21,
+      "ty": 70,
+      "tileId": "potOfFlowers"
+    },
+    {
+      "tx": 22,
+      "ty": 68,
+      "tileId": "cropRose"
+    },
+    {
+      "tx": 23,
+      "ty": 70,
+      "tileId": "potOfFlowers"
+    },
+    {
+      "comment": "South gate \u2014 road sign & approach"
+    },
+    {
+      "tx": 52,
+      "ty": 90,
+      "tileId": "roadSignTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 52,
+      "ty": 91,
+      "tileId": "roadSignBottom"
+    },
+    {
+      "tx": 61,
+      "ty": 90,
+      "tileId": "largeSign",
+      "zlayer": "above"
+    },
+    {
+      "tx": 52,
+      "ty": 85,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 62,
+      "ty": 85,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "comment": "scattered city greenery"
+    },
+    {
+      "tx": 20,
+      "ty": 18,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 44,
+      "ty": 30,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 50,
+      "ty": 30,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 78,
+      "ty": 30,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 44,
+      "ty": 66,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 78,
+      "ty": 66,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 30,
+      "ty": 66,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
     }
-  }
+  ]
 }
