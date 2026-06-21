@@ -1529,7 +1529,249 @@
           "tileId": "chest"
         }
       ],
-      "exits": []
+      "exits": [
+        {
+          "tx": 1,
+          "ty": 5,
+          "toInteriorId": "keep-war-room",
+          "entryTx": 10,
+          "entryTy": 4,
+          "direction": "left",
+          "label": "War Room"
+        }
+      ]
+    },
+    "keep-war-room": {
+      "name": "The War Room",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "cobblestoneFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        {
+          "comment": "great campaign map table at centre"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 6,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 5,
+          "ty": 2,
+          "tileId": "stool"
+        },
+        {
+          "comment": "banners and mounted arms on the back wall"
+        },
+        {
+          "tx": 2,
+          "ty": -1,
+          "tileId": "shieldMounted"
+        },
+        {
+          "tx": 5,
+          "ty": -1,
+          "tileId": "swordMountedLeft"
+        },
+        {
+          "tx": 6,
+          "ty": -1,
+          "tileId": "swordMountedRight"
+        },
+        {
+          "tx": 9,
+          "ty": -1,
+          "tileId": "shieldMounted"
+        },
+        {
+          "comment": "braziers flanking the stairs up to the solar"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "brazierTop"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "brazierBottom"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "brazierTop"
+        },
+        {
+          "tx": 10,
+          "ty": 2,
+          "tileId": "brazierBottom"
+        },
+        {
+          "comment": "map chests and supplies"
+        },
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "chest"
+        },
+        {
+          "tx": 2,
+          "ty": 7,
+          "tileId": "chest"
+        },
+        {
+          "tx": 9,
+          "ty": 7,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 10,
+          "ty": 7,
+          "tileId": "crate"
+        },
+        {
+          "comment": "stairs up to the lord's solar"
+        },
+        {
+          "tx": 5,
+          "ty": 0,
+          "tileId": "ladderBottom"
+        },
+        {
+          "tx": 5,
+          "ty": -1,
+          "tileId": "fullLadderTop"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 11,
+          "ty": 4,
+          "toInteriorId": "keep",
+          "entryTx": 2,
+          "entryTy": 5,
+          "direction": "right",
+          "label": "Great Hall"
+        },
+        {
+          "tx": 5,
+          "ty": 0,
+          "toInteriorId": "keep-solar",
+          "entryTx": 5,
+          "entryTy": 6,
+          "direction": "up",
+          "label": "Lord's Solar"
+        }
+      ]
+    },
+    "keep-solar": {
+      "name": "The Lord's Solar",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "woodFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        {
+          "comment": "stairs down into the war room"
+        },
+        {
+          "tx": 5,
+          "ty": 6,
+          "tileId": "ladderIntoFloor",
+          "zlayer": "below"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "halfLadderTop"
+        },
+        {
+          "comment": "lord's bed against the back wall"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "bundleID": "simple-bed"
+        },
+        {
+          "comment": "fireplace and reading nook"
+        },
+        {
+          "tx": 8,
+          "ty": -1,
+          "tileId": "fireplaceTopMiddle"
+        },
+        {
+          "tx": 8,
+          "ty": 0,
+          "tileId": "fireplaceBottomMiddle"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 9,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 10,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "comment": "writing desk"
+        },
+        {
+          "tx": 3,
+          "ty": 3,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 3,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "chest"
+        },
+        {
+          "tx": 10,
+          "ty": 7,
+          "tileId": "candlestickLitTop"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 6,
+          "toInteriorId": "keep-war-room",
+          "entryTx": 5,
+          "entryTy": 1,
+          "direction": "down",
+          "label": "War Room"
+        }
+      ]
     },
     "armoury": {
       "name": "The Armoury",
