@@ -321,6 +321,250 @@
           "desc": "Proof that you finally understood a very particular cat."
         }
       }
+    },
+    {
+      "id": "millhaven-fresh-bread",
+      "title": "Warm from the Oven",
+      "type": "chain",
+      "giverNpcId": "baker-pernel",
+      "receiverNpcId": "dockhand-bram",
+      "offerDialogue": "Two baskets of fresh loaves are cooling on the racks — gather them up for me, would you? Then run them down to Bram at the boathouse. The dock crew works through their lunch and they'll thank you for it.",
+      "activeDialogue": {
+        "loaf": "The two bread baskets are still about the bakery and market. Mind they're warm.",
+        "deliver": "Both baskets gathered — now take them to Dockhand Bram at the boathouse."
+      },
+      "completeDialogue": "Pernel's loaves! You're a lifesaver — the lads were about to gnaw the mooring rope. Here, a little something for the legs you wore out.",
+      "steps": [
+        {
+          "key": "loaf",
+          "type": "collect",
+          "pickupIds": [
+            "fresh-loaf-1",
+            "fresh-loaf-2"
+          ],
+          "required": 2
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "dockhand-bram",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 45,
+        "friendship": {
+          "baker-pernel": 15,
+          "dockhand-bram": 10
+        }
+      }
+    },
+    {
+      "id": "millhaven-scrap-iron",
+      "title": "Scrap for the Forge",
+      "type": "fetch",
+      "giverNpcId": "smith-garrick",
+      "receiverNpcId": "smith-garrick",
+      "offerDialogue": "Someone's been pinching offcuts from my yard — three good lumps of scrap iron, scattered who-knows-where. Bring them back and I can keep the anchor chains coming.",
+      "activeDialogue": "Three lumps of scrap iron, somewhere about the town and the docks. Have a hunt.",
+      "completeDialogue": "All three, and good iron too. That'll keep the forge fed a week. Take this for your trouble — and your sore back.",
+      "steps": [
+        {
+          "key": "scrap",
+          "type": "collect",
+          "pickupIds": [
+            "scrap-iron-1",
+            "scrap-iron-2",
+            "scrap-iron-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 45
+      }
+    },
+    {
+      "id": "millhaven-lost-nets",
+      "title": "Nets on the Tide",
+      "type": "fetch",
+      "giverNpcId": "dockhand-bram",
+      "receiverNpcId": "dockhand-bram",
+      "offerDialogue": "The storm dragged two of our good nets off the moorings. They'll have snagged somewhere along the waterfront. Fish them out before the gulls do?",
+      "activeDialogue": "Two fishing nets, tangled somewhere along the docks and quay. Bring them back to the boathouse.",
+      "completeDialogue": "Both of them, and barely a tear! You've saved us a week's mending. The Millhaven docks owe you one.",
+      "steps": [
+        {
+          "key": "nets",
+          "type": "collect",
+          "pickupIds": [
+            "lost-net-1",
+            "lost-net-2"
+          ],
+          "required": 2
+        }
+      ],
+      "reward": {
+        "crystals": 40,
+        "friendship": {
+          "dockhand-bram": 15
+        }
+      }
+    },
+    {
+      "id": "millhaven-lost-locket",
+      "title": "Tamsin's Locket",
+      "type": "lost-items",
+      "giverNpcId": "widow-tamsin",
+      "receiverNpcId": "widow-tamsin",
+      "offerDialogue": "I dropped my late husband's locket somewhere out in the town — silver, with an anchor etched on the back. I'd search myself, but these old knees won't carry me far. Would you look for me?",
+      "activeDialogue": "A silver locket with an anchor on it, lost somewhere about Millhaven. Bless you for looking.",
+      "completeDialogue": "Oh — oh, that's it! That's the one! You've given me back more than a trinket, traveller. Take this, and my heartfelt thanks.",
+      "steps": [
+        {
+          "key": "locket",
+          "type": "collect",
+          "pickupIds": [
+            "tamsin-locket"
+          ],
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 50,
+        "collectible": {
+          "id": "anchor-locket",
+          "name": "Anchor Locket",
+          "icon": "🔱",
+          "desc": "A silver locket etched with an anchor — returned to a grateful widow."
+        }
+      }
+    },
+    {
+      "id": "millhaven-herring-for-palace",
+      "title": "Herring for the Palace",
+      "type": "fetch",
+      "giverNpcId": "fishmonger-marta",
+      "receiverNpcId": "royal-steward",
+      "prerequisite": "quest:millhaven-missing-catch",
+      "offerDialogue": "Word came from the Royal Palace — the kitchens want a crate of Millhaven smoked herring for a banquet. There's no finer fish on the coast. Carry it to Steward Marigold at the palace and we'll all stand a little taller for it.",
+      "activeDialogue": "The crate of smoked herring is bound for Steward Marigold at the Royal Palace. She'll know what to do with it.",
+      "completeDialogue": "Millhaven herring? Splendid — the head cook will be delighted, and so will Her Highness. The coast's reputation is safe with fish like this. My thanks to Marta.",
+      "steps": [
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "royal-steward",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 90,
+        "friendship": {
+          "fishmonger-marta": 20
+        }
+      }
+    },
+    {
+      "id": "millhaven-fresh-produce-ravenwatch",
+      "title": "Produce for Ravenwatch",
+      "type": "fetch",
+      "giverNpcId": "market-trader",
+      "receiverNpcId": "merchant",
+      "prerequisite": "quest:millhaven-festival-prep",
+      "offerDialogue": "Vex the Merchant over in Ravenwatch put in a standing order — a basket of Millhaven's best produce, fresh as I can manage. If you're travelling that way, carry it for me? A good word from Vex opens a lot of doors.",
+      "activeDialogue": "The produce basket is for Vex the Merchant in Ravenwatch. Best deliver it before it wilts.",
+      "completeDialogue": "Straight from Millhaven, and still crisp! Nessa always did send the finest. Tell her Vex says the order stands — and here's your cut for the legwork.",
+      "steps": [
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "merchant",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": {
+          "market-trader": 15
+        }
+      }
+    },
+    {
+      "id": "millhaven-kipper-tells-princess",
+      "title": "A Message from a Happy Cat",
+      "type": "fetch",
+      "giverNpcId": "kipper",
+      "receiverNpcId": "royal-steward",
+      "prerequisite": "quest:kipper-true-wish",
+      "offerDialogue": "Mrrp! (Now that you finally understand me: tell the Princess I am happy — truly happy — and that she may keep every last kipper. Carry my purr to the palace, would you?)",
+      "activeDialogue": "Kipper's message of contentment is for the Royal Palace. Steward Marigold can pass it to the Princess.",
+      "completeDialogue": "A message from the Princess's lost cat — that he is happy, and forgives the fish? She will be overjoyed to hear it. You've done a kind thing today, traveller. Her Highness shall know of it.",
+      "steps": [
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "royal-steward",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 70,
+        "collectible": {
+          "id": "princess-thanks",
+          "name": "Royal Thanks",
+          "icon": "👑",
+          "desc": "The Princess's gratitude for word of her contented cat."
+        }
+      }
+    },
+    {
+      "id": "millhaven-market-restock",
+      "title": "Restocking the Stall",
+      "type": "chain",
+      "giverNpcId": "market-trader",
+      "receiverNpcId": "market-trader",
+      "offerDialogue": "Trade's picking up and my shelves are bare. Help me restock: a barrel from the harbour, a sack from the mill, and a crate from the market store — in that order, mind, or I'll lose track of my tally.",
+      "activeDialogue": {
+        "barrel": "First the harbour barrel — should be down by the quay.",
+        "sack": "Good. Now a grain sack from up by the mill.",
+        "crate": "Almost stocked. Last is a crate from the market store."
+      },
+      "completeDialogue": "Barrel, sack and crate — the stall's full again! Custom will follow. Here's your share of the first day's takings.",
+      "steps": [
+        {
+          "key": "barrel",
+          "type": "collect",
+          "pickupIds": [
+            "restock-barrel"
+          ],
+          "required": 1
+        },
+        {
+          "key": "sack",
+          "type": "collect",
+          "pickupIds": [
+            "restock-sack"
+          ],
+          "required": 1,
+          "chain": "restock-barrel"
+        },
+        {
+          "key": "crate",
+          "type": "collect",
+          "pickupIds": [
+            "restock-crate"
+          ],
+          "required": 1,
+          "chain": "restock-sack"
+        }
+      ],
+      "reward": {
+        "crystals": 55,
+        "friendship": {
+          "market-trader": 15
+        }
+      }
     }
   ],
   "pickupItems": [
@@ -368,8 +612,8 @@
     },
     {
       "id": "festival-ribbon",
-      "tx": 12,
-      "ty": 5,
+      "tx": 9,
+      "ty": 2,
       "tileId": "gift",
       "questId": "millhaven-festival-prep",
       "building": "inn-millhaven"
@@ -421,6 +665,85 @@
       "tileId": "toy",
       "zlayer": "below",
       "questId": "kipper-true-wish"
+    },
+    {
+      "id": "fresh-loaf-1",
+      "tx": 10,
+      "ty": 8,
+      "tileId": "appleBasket",
+      "questId": "millhaven-fresh-bread"
+    },
+    {
+      "id": "fresh-loaf-2",
+      "tx": 16,
+      "ty": 11,
+      "tileId": "appleBasket",
+      "questId": "millhaven-fresh-bread"
+    },
+    {
+      "id": "scrap-iron-1",
+      "tx": 31,
+      "ty": 7,
+      "tileId": "axe",
+      "questId": "millhaven-scrap-iron"
+    },
+    {
+      "id": "scrap-iron-2",
+      "tx": 28,
+      "ty": 15,
+      "tileId": "axe",
+      "questId": "millhaven-scrap-iron"
+    },
+    {
+      "id": "scrap-iron-3",
+      "tx": 15,
+      "ty": 14,
+      "tileId": "axe",
+      "questId": "millhaven-scrap-iron"
+    },
+    {
+      "id": "lost-net-1",
+      "tx": 31,
+      "ty": 11,
+      "tileId": "cotton",
+      "questId": "millhaven-lost-nets"
+    },
+    {
+      "id": "lost-net-2",
+      "tx": 27,
+      "ty": 23,
+      "tileId": "cotton",
+      "questId": "millhaven-lost-nets"
+    },
+    {
+      "id": "tamsin-locket",
+      "tx": 16,
+      "ty": 15,
+      "tileId": "goldNecklace",
+      "questId": "millhaven-lost-locket"
+    },
+    {
+      "id": "restock-barrel",
+      "tx": 24,
+      "ty": 5,
+      "tileId": "barrel",
+      "questId": "millhaven-market-restock"
+    },
+    {
+      "id": "restock-sack",
+      "tx": 8,
+      "ty": 7,
+      "tileId": "sack",
+      "questId": "millhaven-market-restock",
+      "chain": "restock-barrel"
+    },
+    {
+      "id": "restock-crate",
+      "tx": 18,
+      "ty": 16,
+      "tileId": "crate",
+      "questId": "millhaven-market-restock",
+      "chain": "restock-sack"
     }
   ],
   "blockedPaths": [],
