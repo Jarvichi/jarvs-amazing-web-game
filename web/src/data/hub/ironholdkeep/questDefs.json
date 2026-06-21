@@ -183,7 +183,7 @@
       "ty": 2,
       "tileId": "smallSign",
       "questId": "castle-siege-memory",
-      "building": "commanders-hall"
+      "building": "keep"
     },
     {
       "id": "chronicle-page-2",
@@ -191,7 +191,7 @@
       "ty": 2,
       "tileId": "smallSign",
       "questId": "castle-siege-memory",
-      "building": "armory",
+      "building": "armoury",
       "chain": "chronicle-page-1"
     },
     {

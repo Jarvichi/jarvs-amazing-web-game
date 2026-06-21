@@ -1,30 +1,30 @@
 {
-  "mapW": 1152,
-  "mapH": 1152,
+  "mapW": 1408,
+  "mapH": 1728,
   "townName": "Ironhold Keep",
   "avatarStart": {
     "tx": 17,
-    "ty": 33
+    "ty": 50
   },
   "exitTiles": [
     {
       "tx": 16,
-      "ty": 35,
+      "ty": 52,
       "screen": "worldmap"
     },
     {
       "tx": 17,
-      "ty": 35,
+      "ty": 52,
       "screen": "worldmap"
     },
     {
       "tx": 18,
-      "ty": 35,
+      "ty": 52,
       "screen": "worldmap"
     },
     {
       "tx": 19,
-      "ty": 35,
+      "ty": 52,
       "screen": "worldmap"
     }
   ],
@@ -60,6 +60,14 @@
       "ty": 25,
       "tw": 4,
       "th": 5
+    },
+    {
+      "id": "castle-bailey",
+      "name": "The Outer Bailey",
+      "tx": 1,
+      "ty": 36,
+      "tw": 41,
+      "th": 16
     }
   ],
   "streets": [
@@ -179,6 +187,51 @@
         13,
         28,
         13
+      ]
+    },
+    {
+      "comment": "Outer Bailey — central road continuing the approach south to the new outer gate",
+      "rect": [
+        16,
+        36,
+        19,
+        52
+      ]
+    },
+    {
+      "comment": "Outer Bailey — north boulevard (buildings front their south doors onto it)",
+      "rect": [
+        2,
+        43,
+        41,
+        44
+      ]
+    },
+    {
+      "comment": "Outer Bailey — south boulevard",
+      "rect": [
+        2,
+        51,
+        41,
+        51
+      ]
+    },
+    {
+      "comment": "Outer Bailey — west spur linking the boulevards",
+      "rect": [
+        2,
+        44,
+        3,
+        51
+      ]
+    },
+    {
+      "comment": "Outer Bailey — east spur linking the boulevards",
+      "rect": [
+        40,
+        44,
+        41,
+        51
       ]
     }
   ],
@@ -1197,8 +1250,8 @@
       "id": "castle-commander",
       "name": "Commander Varek",
       "sprite": "hub-npc-arena",
-      "tx": 11,
-      "ty": 15,
+      "tx": 7,
+      "ty": 5,
       "dialogue": [
         "Ironhold Keep has stood for three centuries. I intend to see it stand for three more.",
         "The patrol routes have been compromised. We need those reports.",
@@ -1212,8 +1265,8 @@
       "id": "castle-blacksmith",
       "name": "Blacksmith Kern",
       "sprite": "hub-npc-supplies",
-      "tx": 9,
-      "ty": 21,
+      "tx": 8,
+      "ty": 6,
       "dialogue": [
         "Every blade that leaves my anvil could save a soldier's life.",
         "The weapon crates haven't been accounted for since the last resupply.",
@@ -1227,8 +1280,8 @@
       "id": "castle-archivist",
       "name": "Archivist Elwyn",
       "sprite": "hub-npc-scholar",
-      "tx": 18,
-      "ty": 21,
+      "tx": 8,
+      "ty": 4,
       "dialogue": [
         "The keep's records go back to the founding. Most of them, anyway.",
         "A siege chronicle was separated from the archives. It belongs here.",
@@ -1480,8 +1533,8 @@
     },
     "armoury": {
       "name": "The Armoury",
-      "width": 8,
-      "height": 8,
+      "width": 12,
+      "height": 9,
       "floorTileId": "stoneFloor",
       "wallTileId": "reinforcedStone",
       "decor": [
@@ -1557,8 +1610,8 @@
     },
     "barracks": {
       "name": "The Barracks",
-      "width": 8,
-      "height": 8,
+      "width": 12,
+      "height": 9,
       "floorTileId": "woodFloor",
       "wallTileId": "castleStone",
       "decor": [
