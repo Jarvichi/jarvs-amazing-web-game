@@ -1441,37 +1441,243 @@
       ],
       "building": "keep",
       "questGive": "castle-missing-patrol",
-      "questReceive": "castle-missing-patrol"
+      "questReceive": "castle-missing-patrol",
+      "dialogueTree": "varek-chat",
+      "schedule": [
+        { "startHour": 0, "endHour": 7, "activity": "sleep", "location": { "type": "interior", "buildingId": "keep-solar", "tx": 1, "ty": 2 } },
+        { "startHour": 7, "endHour": 12, "activity": "work", "location": { "type": "interior", "buildingId": "keep-war-room", "tx": 5, "ty": 5 } },
+        { "startHour": 12, "endHour": 14, "activity": "eat", "location": { "type": "interior", "buildingId": "kitchens", "tx": 6, "ty": 5 } },
+        { "startHour": 14, "endHour": 20, "activity": "idle-chat", "location": { "type": "interior", "buildingId": "keep", "tx": 7, "ty": 5 } },
+        { "startHour": 20, "endHour": 0, "activity": "work", "location": { "type": "interior", "buildingId": "keep-war-room", "tx": 5, "ty": 5 } }
+      ],
+      "homeBed": { "buildingId": "keep-solar", "tx": 1, "ty": 2 }
+    },
+    {
+      "id": "castle-guard-master",
+      "name": "Guard-Master Doran",
+      "sprite": "hub-npc-guard",
+      "tx": 20,
+      "ty": 22,
+      "dialogue": [
+        "Discipline wins sieges, not bravado. Drill, drill, and drill again.",
+        "Every soldier here answers to me before they answer to the Commander.",
+        "Stand a watch with us sometime, traveller. You'd learn something."
+      ],
+      "questGive": "castle-watch-rotation",
+      "questReceive": "castle-watch-rotation",
+      "schedule": [
+        { "startHour": 0, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 9, "ty": 6 } },
+        { "startHour": 6, "endHour": 13, "activity": "work", "location": { "type": "exterior", "tx": 20, "ty": 22 } },
+        { "startHour": 13, "endHour": 19, "activity": "work", "location": { "type": "exterior", "tx": 12, "ty": 22 } },
+        { "startHour": 19, "endHour": 22, "activity": "eat", "location": { "type": "interior", "buildingId": "kitchens", "tx": 8, "ty": 4 } },
+        { "startHour": 22, "endHour": 0, "activity": "idle-chat", "location": { "type": "interior", "buildingId": "barracks", "tx": 6, "ty": 6 } }
+      ],
+      "homeBed": { "buildingId": "barracks", "tx": 9, "ty": 6 }
     },
     {
       "id": "castle-blacksmith",
       "name": "Blacksmith Kern",
       "sprite": "hub-npc-supplies",
-      "tx": 8,
-      "ty": 6,
+      "tx": 5,
+      "ty": 4,
       "dialogue": [
         "Every blade that leaves my anvil could save a soldier's life.",
         "The weapon crates haven't been accounted for since the last resupply.",
         "Iron doesn't lie — only men do."
       ],
-      "building": "armoury",
+      "building": "smithy",
       "questGive": "castle-weapon-cache",
-      "questReceive": "castle-weapon-cache"
+      "questReceive": [ "castle-weapon-cache", "castle-forge-the-key" ],
+      "schedule": [
+        { "startHour": 0, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 3, "ty": 6 } },
+        { "startHour": 6, "endHour": 19, "activity": "work", "location": { "type": "interior", "buildingId": "smithy", "tx": 5, "ty": 4 } },
+        { "startHour": 19, "endHour": 22, "activity": "eat", "location": { "type": "interior", "buildingId": "kitchens", "tx": 6, "ty": 5 } },
+        { "startHour": 22, "endHour": 0, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 3, "ty": 6 } }
+      ],
+      "homeBed": { "buildingId": "barracks", "tx": 3, "ty": 6 }
+    },
+    {
+      "id": "castle-quartermaster",
+      "name": "Quartermaster Sella",
+      "sprite": "hub-npc-merchant",
+      "tx": 5,
+      "ty": 4,
+      "dialogue": [
+        "Nothing enters or leaves these walls without crossing my ledger.",
+        "Grain, iron, arrows, salt — a castle eats as surely as it fights.",
+        "If you're after supplies, mind you sign for them."
+      ],
+      "building": "quartermasters-store",
+      "questGive": "castle-supply-tally",
+      "questReceive": "castle-supply-tally",
+      "schedule": [
+        { "startHour": 0, "endHour": 7, "activity": "sleep", "location": { "type": "interior", "buildingId": "quartermasters-store", "tx": 8, "ty": 5 } },
+        { "startHour": 7, "endHour": 13, "activity": "work", "location": { "type": "interior", "buildingId": "quartermasters-store", "tx": 5, "ty": 4 } },
+        { "startHour": 13, "endHour": 17, "activity": "work", "location": { "type": "interior", "buildingId": "granary", "tx": 4, "ty": 4 } },
+        { "startHour": 17, "endHour": 0, "activity": "work", "location": { "type": "interior", "buildingId": "quartermasters-store", "tx": 5, "ty": 4 } }
+      ],
+      "homeBed": { "buildingId": "quartermasters-store", "tx": 8, "ty": 5 }
+    },
+    {
+      "id": "castle-cook",
+      "name": "Cook Mabel",
+      "sprite": "hub-npc-elder",
+      "tx": 6,
+      "ty": 4,
+      "dialogue": [
+        "An army marches on its stomach, and this lot marches a long way.",
+        "Get out of my kitchen unless you're bringing me something to cook with.",
+        "There's stew on the hearth if the guards have left any."
+      ],
+      "building": "kitchens",
+      "questGive": "castle-feast-preparations",
+      "questReceive": "castle-feast-preparations",
+      "schedule": [
+        { "startHour": 0, "endHour": 5, "activity": "sleep", "location": { "type": "interior", "buildingId": "kitchens", "tx": 10, "ty": 5 } },
+        { "startHour": 5, "endHour": 21, "activity": "work", "location": { "type": "interior", "buildingId": "kitchens", "tx": 6, "ty": 4 } },
+        { "startHour": 21, "endHour": 0, "activity": "sweep", "location": { "type": "interior", "buildingId": "kitchens", "tx": 8, "ty": 5 } }
+      ],
+      "homeBed": { "buildingId": "kitchens", "tx": 10, "ty": 5 }
+    },
+    {
+      "id": "castle-chaplain",
+      "name": "Chaplain Aldwin",
+      "sprite": "hub-npc-scholar",
+      "tx": 6,
+      "ty": 5,
+      "dialogue": [
+        "Even iron men kneel before something, traveller.",
+        "The crypt below holds the lords of Ironhold, back to the first stone laid.",
+        "Light a candle for the fallen. There are always more of them than we'd like."
+      ],
+      "building": "chapel",
+      "questGive": "castle-restless-crypt",
+      "questReceive": "castle-restless-crypt",
+      "schedule": [
+        { "startHour": 0, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "chapel-crypt", "tx": 10, "ty": 4 } },
+        { "startHour": 6, "endHour": 12, "activity": "idle-chat", "location": { "type": "interior", "buildingId": "chapel", "tx": 6, "ty": 5 } },
+        { "startHour": 12, "endHour": 14, "activity": "eat", "location": { "type": "interior", "buildingId": "kitchens", "tx": 6, "ty": 5 } },
+        { "startHour": 14, "endHour": 0, "activity": "idle-chat", "location": { "type": "interior", "buildingId": "chapel", "tx": 6, "ty": 5 } }
+      ],
+      "homeBed": { "buildingId": "chapel-crypt", "tx": 10, "ty": 4 }
     },
     {
       "id": "castle-archivist",
       "name": "Archivist Elwyn",
       "sprite": "hub-npc-scholar",
-      "tx": 8,
-      "ty": 4,
+      "tx": 5,
+      "ty": 5,
       "dialogue": [
         "The keep's records go back to the founding. Most of them, anyway.",
         "A siege chronicle was separated from the archives. It belongs here.",
         "History is the only weapon that never dulls."
       ],
-      "building": "barracks",
+      "building": "scriptorium",
       "questGive": "castle-siege-memory",
-      "questReceive": "castle-siege-memory"
+      "questReceive": [ "castle-siege-memory", "castle-chronicle-for-ravenwatch" ],
+      "schedule": [
+        { "startHour": 0, "endHour": 7, "activity": "sleep", "location": { "type": "interior", "buildingId": "scriptorium", "tx": 1, "ty": 6 } },
+        { "startHour": 7, "endHour": 19, "activity": "work", "location": { "type": "interior", "buildingId": "scriptorium", "tx": 5, "ty": 5 } },
+        { "startHour": 19, "endHour": 0, "activity": "work", "location": { "type": "interior", "buildingId": "scriptorium", "tx": 7, "ty": 4 } }
+      ],
+      "homeBed": { "buildingId": "scriptorium", "tx": 1, "ty": 6 }
+    },
+    {
+      "id": "castle-stablehand",
+      "name": "Stablehand Pip",
+      "sprite": "hub-npc-fisherman",
+      "tx": 5,
+      "ty": 4,
+      "dialogue": [
+        "The destriers know me better than my own mother does.",
+        "Mind where you step — a war horse spooks at less than you'd think.",
+        "If you ride out, I'll have a mount saddled before you reach the gate."
+      ],
+      "building": "stables",
+      "questGive": "castle-lost-foal",
+      "questReceive": "castle-lost-foal",
+      "schedule": [
+        { "startHour": 0, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "stables", "tx": 10, "ty": 6 } },
+        { "startHour": 6, "endHour": 18, "activity": "work", "location": { "type": "interior", "buildingId": "stables", "tx": 5, "ty": 4 } },
+        { "startHour": 18, "endHour": 20, "activity": "eat", "location": { "type": "interior", "buildingId": "kitchens", "tx": 8, "ty": 4 } },
+        { "startHour": 20, "endHour": 0, "activity": "sweep", "location": { "type": "interior", "buildingId": "stables", "tx": 8, "ty": 5 } }
+      ],
+      "homeBed": { "buildingId": "stables", "tx": 10, "ty": 6 }
+    },
+    {
+      "id": "castle-knight",
+      "name": "Sir Garrick",
+      "sprite": "hub-npc-soldier",
+      "tx": 25,
+      "ty": 22,
+      "dialogue": [
+        "I have held this wall through two winters and a siege. I'll hold it through more.",
+        "A knight without a cause is just a man in expensive metal.",
+        "The Guard-Master sets the rotation. Take it up with him."
+      ],
+      "questReceive": "castle-watch-rotation",
+      "schedule": [
+        { "startHour": 0, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 6, "ty": 6 } },
+        { "startHour": 6, "endHour": 12, "activity": "work", "location": { "type": "exterior", "tx": 25, "ty": 22 } },
+        { "startHour": 12, "endHour": 18, "activity": "work", "location": { "type": "exterior", "tx": 31, "ty": 43 } },
+        { "startHour": 18, "endHour": 21, "activity": "eat", "location": { "type": "interior", "buildingId": "kitchens", "tx": 6, "ty": 4 } },
+        { "startHour": 21, "endHour": 0, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 6, "ty": 6 } }
+      ],
+      "homeBed": { "buildingId": "barracks", "tx": 6, "ty": 6 }
+    },
+    {
+      "id": "castle-squire",
+      "name": "Squire Tomas",
+      "sprite": "hub-npc-soldier",
+      "tx": 17,
+      "ty": 40,
+      "dialogue": [
+        "One day I'll be a knight. For now I muck out stalls and polish armour.",
+        "Sir Garrick says I've a good arm. He says it rarely, mind.",
+        "I dropped a training sword somewhere out here. Don't tell the Guard-Master."
+      ],
+      "questGive": "castle-squires-trial",
+      "questReceive": "castle-squires-trial",
+      "schedule": [
+        { "startHour": 0, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 8, "ty": 6 } },
+        { "startHour": 6, "endHour": 10, "activity": "work", "location": { "type": "interior", "buildingId": "stables", "tx": 8, "ty": 5 } },
+        { "startHour": 10, "endHour": 17, "activity": "work", "location": { "type": "exterior", "tx": 17, "ty": 40 } },
+        { "startHour": 17, "endHour": 20, "activity": "eat", "location": { "type": "interior", "buildingId": "kitchens", "tx": 8, "ty": 4 } },
+        { "startHour": 20, "endHour": 0, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 8, "ty": 6 } }
+      ],
+      "homeBed": { "buildingId": "barracks", "tx": 8, "ty": 6 }
+    },
+    {
+      "id": "castle-gatekeeper",
+      "name": "Gatekeeper Olen",
+      "sprite": "hub-npc-guard",
+      "tx": 17,
+      "ty": 46,
+      "dialogue": [
+        "The portcullis hasn't jammed on my watch and it never will.",
+        "State your business at the gate or state it elsewhere.",
+        "Safe roads, traveller. The world beyond these walls is less forgiving."
+      ],
+      "schedule": [
+        { "startHour": 0, "endHour": 8, "activity": "work", "location": { "type": "exterior", "tx": 17, "ty": 46 } },
+        { "startHour": 8, "endHour": 20, "activity": "work", "location": { "type": "exterior", "tx": 17, "ty": 30 } },
+        { "startHour": 20, "endHour": 0, "activity": "work", "location": { "type": "exterior", "tx": 17, "ty": 46 } }
+      ]
+    },
+    {
+      "id": "castle-prisoner",
+      "name": "The Prisoner",
+      "sprite": "hub-npc-elder",
+      "tx": 6,
+      "ty": 4,
+      "dialogue": [
+        "Psst. Over here. They've left me to rot for a crime I never committed.",
+        "I know things about this keep that would turn the Commander's beard white.",
+        "Help me prove my innocence and the secret of the lower vault is yours."
+      ],
+      "building": "dungeon-cells",
+      "questGive": "castle-prisoners-plea",
+      "questReceive": "castle-prisoners-plea"
     },
     {
       "id": "castle-guard-1",
@@ -1484,7 +1690,14 @@
         "Three of us dropped our patrol papers during the last drill. Embarrassing.",
         "The south gate is yours to use, traveller."
       ],
-      "questReceive": "castle-missing-patrol"
+      "questReceive": "castle-missing-patrol",
+      "schedule": [
+        { "startHour": 0, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 1, "ty": 6 } },
+        { "startHour": 6, "endHour": 14, "activity": "work", "location": { "type": "exterior", "tx": 10, "ty": 21 } },
+        { "startHour": 14, "endHour": 21, "activity": "work", "location": { "type": "exterior", "tx": 8, "ty": 43 } },
+        { "startHour": 21, "endHour": 0, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 1, "ty": 6 } }
+      ],
+      "homeBed": { "buildingId": "barracks", "tx": 1, "ty": 6 }
     },
     {
       "id": "castle-guard-2",
@@ -1497,7 +1710,14 @@
         "I lost my patrol report somewhere out in the courtyard. The Commander will have my head.",
         "Ironhold has never fallen. Long may that last."
       ],
-      "questReceive": "castle-missing-patrol"
+      "questReceive": "castle-missing-patrol",
+      "schedule": [
+        { "startHour": 0, "endHour": 7, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 2, "ty": 6 } },
+        { "startHour": 7, "endHour": 15, "activity": "work", "location": { "type": "exterior", "tx": 25, "ty": 21 } },
+        { "startHour": 15, "endHour": 22, "activity": "work", "location": { "type": "exterior", "tx": 31, "ty": 51 } },
+        { "startHour": 22, "endHour": 0, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 2, "ty": 6 } }
+      ],
+      "homeBed": { "buildingId": "barracks", "tx": 2, "ty": 6 }
     }
   ],
   "interiors": {
