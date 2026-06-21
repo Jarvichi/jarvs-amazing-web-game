@@ -1423,9 +1423,90 @@
       "ty": 27,
       "tileId": "archStoneDark",
       "zlayer": "above"
-    }
+    },
+    { "comment": "Outer Bailey — braziers flanking the central road, glowing at night" },
+    { "tx": 15, "ty": 42, "tileId": "brazierTop", "glow": true, "glowRadius": 3 },
+    { "tx": 15, "ty": 43, "tileId": "brazierBottom" },
+    { "tx": 20, "ty": 42, "tileId": "brazierTop", "glow": true, "glowRadius": 3 },
+    { "tx": 20, "ty": 43, "tileId": "brazierBottom" },
+    { "tx": 15, "ty": 50, "tileId": "brazierTop", "glow": true, "glowRadius": 3 },
+    { "tx": 15, "ty": 51, "tileId": "brazierBottom" },
+    { "tx": 20, "ty": 50, "tileId": "brazierTop", "glow": true, "glowRadius": 3 },
+    { "tx": 20, "ty": 51, "tileId": "brazierBottom" },
+    { "comment": "Outer Bailey — outer gate braziers" },
+    { "tx": 15, "ty": 52, "tileId": "brazierTop", "glow": true, "glowRadius": 2 },
+    { "tx": 20, "ty": 52, "tileId": "brazierTop", "glow": true, "glowRadius": 2 },
+    { "comment": "drill yard — training gear and a campfire" },
+    { "tx": 22, "ty": 41, "tileId": "crate" },
+    { "tx": 23, "ty": 41, "tileId": "crate" },
+    { "tx": 24, "ty": 42, "tileId": "barrel" },
+    { "tx": 21, "ty": 40, "tileId": "campfireUnlit" },
+    { "tx": 26, "ty": 40, "tileId": "smallRock" },
+    { "comment": "stores stacked by the granary and quartermaster doors" },
+    { "tx": 4, "ty": 51, "tileId": "barrel" },
+    { "tx": 10, "ty": 44, "tileId": "sack" },
+    { "tx": 11, "ty": 44, "tileId": "sack" },
+    { "tx": 34, "ty": 44, "tileId": "crate" },
+    { "tx": 35, "ty": 44, "tileId": "openCrate" },
+    { "tx": 39, "ty": 51, "tileId": "barrel" },
+    { "comment": "supply wagons and stacked siege timber along the boulevard" },
+    { "tx": 3, "ty": 44, "tileId": "crate" },
+    { "tx": 8, "ty": 51, "tileId": "openCrate" },
+    { "tx": 28, "ty": 44, "tileId": "barrel" },
+    { "tx": 29, "ty": 44, "tileId": "barrel" },
+    { "tx": 32, "ty": 51, "tileId": "crate" },
+    { "tx": 33, "ty": 51, "tileId": "sack" },
+    { "comment": "rubble and rocks at the bailey wall lines" },
+    { "tx": 2, "ty": 48, "tileId": "smallRock" },
+    { "tx": 41, "ty": 48, "tileId": "smallRock" },
+    { "tx": 37, "ty": 40, "tileId": "smallRock" }
   ],
   "npcSpawnTiles": [],
+  "chickenZones": [
+    { "rect": [ 13, 17, 16, 20 ], "count": 4, "roost": [ 14, 18 ] }
+  ],
+  "animals": [
+    {
+      "id": "castle-hound-1",
+      "type": "dog",
+      "variant": "brown",
+      "tx": 18,
+      "ty": 45,
+      "name": "Fang",
+      "dialogue": [ "*a low, watchful growl, then a tail-wag*" ],
+      "roam": true
+    },
+    {
+      "id": "castle-hound-2",
+      "type": "dog",
+      "variant": "grey",
+      "tx": 22,
+      "ty": 22,
+      "name": "Wolf",
+      "dialogue": [ "*woof! — the old guard-dog knows a friend*" ],
+      "roam": true
+    },
+    {
+      "id": "castle-raven-1",
+      "type": "bird",
+      "variant": "#222222",
+      "tx": 17,
+      "ty": 30,
+      "name": "Raven",
+      "dialogue": [ "*the keep's raven eyes you, unblinking*" ],
+      "roam": true
+    },
+    {
+      "id": "castle-raven-2",
+      "type": "bird",
+      "variant": "#222222",
+      "tx": 25,
+      "ty": 21,
+      "name": "Raven",
+      "dialogue": [ "*Kraa! It ruffles its black feathers*" ],
+      "roam": true
+    }
+  ],
   "ambientNpcSprites": [],
   "npcs": [
     {
