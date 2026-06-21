@@ -1487,7 +1487,7 @@
       ],
       "building": "smithy",
       "questGive": "castle-weapon-cache",
-      "questReceive": [ "castle-weapon-cache", "castle-forge-the-key" ],
+      "questReceive": "castle-weapon-cache",
       "schedule": [
         { "startHour": 0, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 3, "ty": 6 } },
         { "startHour": 6, "endHour": 19, "activity": "work", "location": { "type": "interior", "buildingId": "smithy", "tx": 5, "ty": 4 } },
@@ -1574,7 +1574,7 @@
       ],
       "building": "scriptorium",
       "questGive": "castle-siege-memory",
-      "questReceive": [ "castle-siege-memory", "castle-chronicle-for-ravenwatch" ],
+      "questReceive": "castle-siege-memory",
       "schedule": [
         { "startHour": 0, "endHour": 7, "activity": "sleep", "location": { "type": "interior", "buildingId": "scriptorium", "tx": 1, "ty": 6 } },
         { "startHour": 7, "endHour": 19, "activity": "work", "location": { "type": "interior", "buildingId": "scriptorium", "tx": 5, "ty": 5 } },

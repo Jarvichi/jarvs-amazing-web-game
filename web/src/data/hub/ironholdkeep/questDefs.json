@@ -667,6 +667,137 @@
       }
     },
     {
+      "id": "castle-forge-the-key",
+      "title": "A Key for Ravenwatch",
+      "type": "fetch",
+      "giverNpcId": "castle-blacksmith",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:castle-weapon-cache",
+      "offerDialogue": "Ravenwatch's Guard Captain sent a wax impression and a plea — his armoury lock failed and no smith of his can match the old Ironhold wards. I've forged the key. Will you carry it to Captain Thorin yourself?",
+      "activeDialogue": "The key is for Guard Captain Thorin in Ravenwatch — you'll find him at the barracks. A lock's no good to a man who can't open it.",
+      "completeDialogue": "Ironhold steel, cut to an Ironhold ward — only Kern could have managed it. My thanks, traveller, and my thanks to the old forge. Tell Blacksmith Kern his work still has no equal.",
+      "steps": [
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "guard-captain-thorin",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 75,
+        "friendship": {
+          "castle-blacksmith": 15
+        }
+      }
+    },
+    {
+      "id": "castle-chronicle-for-ravenwatch",
+      "title": "A Copy for the Chronicler",
+      "type": "fetch",
+      "giverNpcId": "castle-archivist",
+      "receiverNpcId": "chronicler",
+      "prerequisite": "quest:castle-siege-memory",
+      "offerDialogue": "Now that our Siege Chronicle is whole, Ravenwatch's Chronicler deserves a copy — the two towns share that history, and shared history is a kind of treaty. Carry this transcription to them.",
+      "activeDialogue": "The transcribed chronicle belongs in the hands of Ravenwatch's Chronicler. Histories kept apart are histories half-told.",
+      "completeDialogue": "The fall and recapture of Ironhold, in Elwyn's own careful hand — our archive has wanted this for a generation. The two towns are the closer for it. You have my deepest thanks, traveller.",
+      "steps": [
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "chronicler",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 70,
+        "friendship": {
+          "castle-archivist": 20
+        }
+      }
+    },
+    {
+      "id": "castle-siege-engines",
+      "title": "Plans for the Siege-Master",
+      "type": "fetch",
+      "giverNpcId": "castle-guard-master",
+      "receiverNpcId": "siege-master",
+      "prerequisite": "quest:castle-watch-rotation",
+      "offerDialogue": "Ravenwatch's Siege-Master has forgotten more about trebuchets than I'll ever know — but Ironhold's wall-engine plans are the finest in the realm. Carry them over so they can be matched against his. Two minds, one defence.",
+      "activeDialogue": "The wall-engine plans go to Ravenwatch's Siege-Master. Best you find them before the next muster, traveller.",
+      "completeDialogue": "Ironhold's counterweights and my ranging tables — together these could hold any wall in the realm. Tell Doran the Siege-Master of Ravenwatch is in his debt.",
+      "steps": [
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "siege-master",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 70,
+        "relationship": {
+          "castle-guard-master": { "track": "ally", "points": 8 }
+        }
+      }
+    },
+    {
+      "id": "castle-warm-welcome",
+      "title": "A Cask for the Inn",
+      "type": "fetch",
+      "giverNpcId": "castle-cook",
+      "receiverNpcId": "innkeeper-rosie",
+      "prerequisite": "quest:castle-feast-preparations",
+      "offerDialogue": "Rosie at the Ravenwatch inn brewed the ale for our last feast and never sent a bill — that's not a debt I'll leave unpaid. Carry this cask of Ironhold mead to her with my compliments.",
+      "activeDialogue": "The mead cask is for Innkeeper Rosie at the Ravenwatch inn. A kindness repaid is a road kept open.",
+      "completeDialogue": "Ironhold mead! And from Mabel, the old badger — tell her the next batch of ale's on the house, and her welcome at my hearth always. Safe travels, love.",
+      "steps": [
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "innkeeper-rosie",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 55,
+        "friendship": {
+          "castle-cook": 20
+        }
+      }
+    },
+    {
+      "id": "castle-garrison-accord",
+      "title": "The Garrison Accord",
+      "type": "fetch",
+      "giverNpcId": "castle-commander",
+      "receiverNpcId": "commander-post",
+      "prerequisite": "quest:castle-message-ravenwatch",
+      "offerDialogue": "Thorin's reply has decided me. Ironhold and Ravenwatch should bind their garrisons under one accord — mutual relief, shared signals, no town to fall alone. Carry the sealed accord to the Ravenwatch command post.",
+      "activeDialogue": "The Garrison Accord must reach the Ravenwatch command post. This is the work of years, traveller — see it through.",
+      "completeDialogue": "Signed and sealed by both keeps. From this day the two towns answer one horn. You did not carry a letter, traveller — you carried an alliance. Ironhold will remember it.",
+      "steps": [
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "commander-post",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 100,
+        "collectible": {
+          "id": "garrison-accord",
+          "name": "Garrison Accord",
+          "icon": "🤝",
+          "desc": "The signed pact binding Ironhold Keep and Ravenwatch to mutual defence."
+        },
+        "relationship": {
+          "castle-commander": { "track": "ally", "points": 15 }
+        }
+      }
+    },
+    {
       "id": "castle-message-ravenwatch",
       "title": "Message for the Captain",
       "type": "fetch",
