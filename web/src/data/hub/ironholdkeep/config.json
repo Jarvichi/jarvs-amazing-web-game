@@ -478,6 +478,188 @@
           "tileId": "roundWindowUnlit"
         }
       ]
+    },
+    {
+      "id": "stables",
+      "rect": [
+        3,
+        37,
+        9,
+        42
+      ],
+      "wall": "woodWall",
+      "roof": "strawRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "buildingId": "stables"
+        }
+      ]
+    },
+    {
+      "id": "smithy",
+      "upgradeKind": "workshop",
+      "rect": [
+        10,
+        37,
+        15,
+        42
+      ],
+      "wall": "reinforcedStone",
+      "roof": "metalRoof",
+      "doors": [
+        {
+          "tx": 2,
+          "ty": 1,
+          "buildingId": "smithy"
+        }
+      ]
+    },
+    {
+      "id": "chapel",
+      "rect": [
+        22,
+        37,
+        27,
+        42
+      ],
+      "wall": "castleStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "buildingId": "chapel"
+        }
+      ]
+    },
+    {
+      "id": "great-tower",
+      "rect": [
+        29,
+        37,
+        33,
+        42
+      ],
+      "wall": "castleStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 2,
+          "ty": 1,
+          "buildingId": "great-tower"
+        }
+      ]
+    },
+    {
+      "id": "scriptorium",
+      "rect": [
+        35,
+        37,
+        40,
+        42
+      ],
+      "wall": "castleStone",
+      "roof": "redSlateRoof",
+      "doors": [
+        {
+          "tx": 2,
+          "ty": 1,
+          "buildingId": "scriptorium"
+        }
+      ]
+    },
+    {
+      "id": "granary",
+      "rect": [
+        4,
+        45,
+        9,
+        50
+      ],
+      "wall": "woodWall",
+      "roof": "strawRoof",
+      "doors": [
+        {
+          "tx": 2,
+          "ty": 1,
+          "buildingId": "granary"
+        }
+      ]
+    },
+    {
+      "id": "kitchens",
+      "rect": [
+        10,
+        45,
+        15,
+        50
+      ],
+      "wall": "castleStone",
+      "roof": "redSlateRoof",
+      "doors": [
+        {
+          "tx": 2,
+          "ty": 1,
+          "buildingId": "kitchens"
+        }
+      ]
+    },
+    {
+      "id": "dungeon",
+      "rect": [
+        22,
+        45,
+        27,
+        50
+      ],
+      "wall": "reinforcedStone",
+      "roof": "stoneFloorRoof",
+      "doors": [
+        {
+          "tx": 2,
+          "ty": 1,
+          "buildingId": "dungeon"
+        }
+      ]
+    },
+    {
+      "id": "infirmary",
+      "rect": [
+        29,
+        45,
+        34,
+        50
+      ],
+      "wall": "castleStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 2,
+          "ty": 1,
+          "buildingId": "infirmary"
+        }
+      ]
+    },
+    {
+      "id": "quartermasters-store",
+      "upgradeKind": "shop",
+      "rect": [
+        35,
+        45,
+        39,
+        50
+      ],
+      "wall": "woodWall",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 2,
+          "ty": 1,
+          "buildingId": "quartermasters-store"
+        }
+      ]
     }
   ],
   "exteriorDecor": [
@@ -1921,6 +2103,426 @@
           "ty": 4,
           "tileId": "stool"
         }
+      ],
+      "exits": []
+    },
+    "stables": {
+      "name": "The Stables",
+      "width": 12,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        { "comment": "feed barrels and hay sacks along the stalls" },
+        { "tx": 1, "ty": 1, "tileId": "sack" },
+        { "tx": 2, "ty": 1, "tileId": "sack" },
+        { "tx": 1, "ty": 2, "tileId": "barrel" },
+        { "tx": 10, "ty": 1, "tileId": "sack" },
+        { "tx": 10, "ty": 2, "tileId": "barrel" },
+        { "tx": 5, "ty": 1, "tileId": "openCrate" },
+        { "tx": 6, "ty": 1, "tileId": "crate" },
+        { "tx": 3, "ty": 5, "tileId": "barrel" },
+        { "tx": 8, "ty": 5, "tileId": "crate" },
+        { "tx": 5, "ty": 6, "tileId": "chest" }
+      ],
+      "exits": []
+    },
+    "smithy": {
+      "name": "The Forge",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "reinforcedStone",
+      "musicId": "shop",
+      "decor": [
+        { "comment": "forge fire and weapon racks" },
+        { "tx": 4, "ty": 1, "tileId": "brazierTop" },
+        { "tx": 4, "ty": 2, "tileId": "brazierBottom" },
+        { "tx": 1, "ty": 1, "tileId": "swordMountedLeft" },
+        { "tx": 2, "ty": 1, "tileId": "shieldMounted" },
+        { "tx": 7, "ty": 1, "tileId": "swordMountedRight" },
+        { "tx": 8, "ty": 1, "tileId": "suitOfArmourTop" },
+        { "tx": 8, "ty": 2, "tileId": "suitOfArmourBottom" },
+        { "tx": 1, "ty": 5, "tileId": "barrel" },
+        { "tx": 2, "ty": 5, "tileId": "crate" },
+        { "tx": 7, "ty": 5, "tileId": "chest" },
+        { "tx": 4, "ty": 4, "tileId": "barrel" }
+      ],
+      "exits": []
+    },
+    "chapel": {
+      "name": "The Castle Chapel",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "castleStone",
+      "musicId": "church",
+      "ambianceId": "sacred",
+      "decor": [
+        { "comment": "altar on the back wall" },
+        { "tx": 5, "ty": 0, "tileId": "altarTopLeft" },
+        { "tx": 6, "ty": 0, "tileId": "altarTopMid" },
+        { "tx": 7, "ty": 0, "tileId": "altarTopRight" },
+        { "tx": 5, "ty": 1, "tileId": "altarMidLeft" },
+        { "tx": 6, "ty": 1, "tileId": "altarMidMid" },
+        { "tx": 7, "ty": 1, "tileId": "altarMidRight" },
+        { "tx": 5, "ty": 2, "tileId": "altarBotLeft" },
+        { "tx": 6, "ty": 2, "tileId": "altarBotMid" },
+        { "tx": 7, "ty": 2, "tileId": "altarBotRight" },
+        { "comment": "candlesticks flanking the altar" },
+        { "tx": 3, "ty": 1, "tileId": "candlestickLitTop" },
+        { "tx": 9, "ty": 1, "tileId": "candlestickLitTop" },
+        { "comment": "pews" },
+        { "tx": 4, "ty": 4, "tileId": "stool" },
+        { "tx": 5, "ty": 4, "tileId": "stool" },
+        { "tx": 7, "ty": 4, "tileId": "stool" },
+        { "tx": 4, "ty": 6, "tileId": "stool" },
+        { "tx": 5, "ty": 6, "tileId": "stool" },
+        { "tx": 7, "ty": 6, "tileId": "stool" },
+        { "comment": "stairway down to the crypt" },
+        { "tx": 1, "ty": 7, "tileId": "ladderBottom" },
+        { "tx": 1, "ty": 6, "tileId": "fullLadderTop" }
+      ],
+      "exits": [
+        {
+          "tx": 1,
+          "ty": 7,
+          "toInteriorId": "chapel-crypt",
+          "entryTx": 5,
+          "entryTy": 1,
+          "direction": "down",
+          "label": "The Crypt"
+        }
+      ]
+    },
+    "chapel-crypt": {
+      "name": "The Crypt",
+      "width": 12,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "darkStone",
+      "ambianceId": "sacred",
+      "decor": [
+        { "comment": "stone sarcophagi (chests) in rows" },
+        { "tx": 3, "ty": 2, "tileId": "chest" },
+        { "tx": 5, "ty": 2, "tileId": "chest" },
+        { "tx": 7, "ty": 2, "tileId": "chest" },
+        { "tx": 9, "ty": 2, "tileId": "chest" },
+        { "tx": 3, "ty": 5, "tileId": "chest" },
+        { "tx": 5, "ty": 5, "tileId": "chest" },
+        { "tx": 7, "ty": 5, "tileId": "chest" },
+        { "tx": 9, "ty": 5, "tileId": "chest" },
+        { "tx": 1, "ty": 1, "tileId": "candlestickUnlit" },
+        { "tx": 10, "ty": 1, "tileId": "candlestickLitTop" },
+        { "tx": 1, "ty": 6, "tileId": "smallRock" },
+        { "comment": "stairway back up to the chapel" },
+        { "tx": 5, "ty": 1, "tileId": "ladderIntoFloor", "zlayer": "below" },
+        { "tx": 5, "ty": 0, "tileId": "halfLadderTop" }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "toInteriorId": "chapel",
+          "entryTx": 1,
+          "entryTy": 6,
+          "direction": "up",
+          "label": "The Chapel"
+        }
+      ]
+    },
+    "great-tower": {
+      "name": "The Great Tower",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "brazierTop" },
+        { "tx": 1, "ty": 2, "tileId": "brazierBottom" },
+        { "tx": 8, "ty": 1, "tileId": "brazierTop" },
+        { "tx": 8, "ty": 2, "tileId": "brazierBottom" },
+        { "tx": 3, "ty": 3, "tileId": "barrel" },
+        { "tx": 6, "ty": 3, "tileId": "crate" },
+        { "tx": 4, "ty": 5, "tileId": "chest" },
+        { "tx": 5, "ty": 5, "tileId": "chest" },
+        { "comment": "ladder up to the lookout" },
+        { "tx": 8, "ty": 6, "tileId": "ladderBottom" },
+        { "tx": 8, "ty": 5, "tileId": "fullLadderTop" }
+      ],
+      "exits": [
+        {
+          "tx": 8,
+          "ty": 6,
+          "toInteriorId": "great-tower-top",
+          "entryTx": 5,
+          "entryTy": 6,
+          "direction": "up",
+          "label": "The Lookout"
+        }
+      ]
+    },
+    "great-tower-top": {
+      "name": "The Tower Lookout",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        { "tx": 2, "ty": -1, "tileId": "roundWindowLit" },
+        { "tx": 5, "ty": -1, "tileId": "roundWindowUnlit" },
+        { "tx": 7, "ty": -1, "tileId": "roundWindowUnlit" },
+        { "tx": 1, "ty": 1, "tileId": "swordMountedLeft" },
+        { "tx": 8, "ty": 1, "tileId": "swordMountedRight" },
+        { "tx": 2, "ty": 3, "tileId": "chest" },
+        { "tx": 7, "ty": 3, "tileId": "barrel" },
+        { "tx": 4, "ty": 2, "tileId": "candlestickLitTop" },
+        { "comment": "ladder down into the tower" },
+        { "tx": 5, "ty": 6, "tileId": "ladderIntoFloor", "zlayer": "below" },
+        { "tx": 5, "ty": 5, "tileId": "halfLadderTop" }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 6,
+          "toInteriorId": "great-tower",
+          "entryTx": 8,
+          "entryTy": 5,
+          "direction": "down",
+          "label": "The Tower"
+        }
+      ]
+    },
+    "scriptorium": {
+      "name": "The Scriptorium",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "woodFloor",
+      "wallTileId": "castleStone",
+      "musicId": "church",
+      "decor": [
+        { "comment": "archive shelves along the back wall" },
+        { "tx": 1, "ty": 0, "tileId": "bookshelfTop" },
+        { "tx": 1, "ty": 1, "tileId": "bookshelfBottom" },
+        { "tx": 2, "ty": 0, "tileId": "bookshelfTop" },
+        { "tx": 2, "ty": 1, "tileId": "bookshelfBottom" },
+        { "tx": 9, "ty": 0, "tileId": "bookshelfTop" },
+        { "tx": 9, "ty": 1, "tileId": "bookshelfBottom" },
+        { "tx": 10, "ty": 0, "tileId": "bookshelfTop" },
+        { "tx": 10, "ty": 1, "tileId": "bookshelfBottom" },
+        { "comment": "writing desks" },
+        { "tx": 4, "ty": 3, "tileId": "roundTable" },
+        { "tx": 4, "ty": 4, "tileId": "stool" },
+        { "tx": 7, "ty": 3, "tileId": "roundTable" },
+        { "tx": 7, "ty": 4, "tileId": "stool" },
+        { "tx": 3, "ty": 3, "tileId": "candlestickLitTop" },
+        { "tx": 8, "ty": 3, "tileId": "candlestickLitTop" },
+        { "tx": 1, "ty": 6, "tileId": "chest" },
+        { "tx": 10, "ty": 6, "tileId": "chest" }
+      ],
+      "exits": []
+    },
+    "granary": {
+      "name": "The Granary",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "sack" },
+        { "tx": 2, "ty": 1, "tileId": "sack" },
+        { "tx": 3, "ty": 1, "tileId": "sack" },
+        { "tx": 6, "ty": 1, "tileId": "sack" },
+        { "tx": 7, "ty": 1, "tileId": "sack" },
+        { "tx": 8, "ty": 1, "tileId": "sack" },
+        { "tx": 1, "ty": 5, "tileId": "barrel" },
+        { "tx": 2, "ty": 5, "tileId": "barrel" },
+        { "tx": 7, "ty": 5, "tileId": "openCrate" },
+        { "tx": 8, "ty": 5, "tileId": "crate" },
+        { "tx": 4, "ty": 4, "tileId": "sack" },
+        { "tx": 5, "ty": 4, "tileId": "sack" }
+      ],
+      "exits": []
+    },
+    "kitchens": {
+      "name": "The Castle Kitchens",
+      "width": 12,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "castleStone",
+      "ambianceId": "hearth",
+      "decor": [
+        { "comment": "great hearth" },
+        { "tx": 5, "ty": 0, "tileId": "fireplaceTopLeft" },
+        { "tx": 6, "ty": 0, "tileId": "fireplaceTopMiddle" },
+        { "tx": 7, "ty": 0, "tileId": "fireplaceTopRight" },
+        { "tx": 5, "ty": 1, "tileId": "fireplaceBottomLeft" },
+        { "tx": 6, "ty": 1, "tileId": "fireplaceBottomMiddle" },
+        { "tx": 7, "ty": 1, "tileId": "fireplaceBottomRight" },
+        { "comment": "prep tables and stores" },
+        { "tx": 3, "ty": 4, "tileId": "roundTable" },
+        { "tx": 8, "ty": 4, "tileId": "roundTable" },
+        { "tx": 1, "ty": 5, "tileId": "barrel" },
+        { "tx": 2, "ty": 5, "tileId": "sack" },
+        { "tx": 10, "ty": 5, "tileId": "crate" },
+        { "tx": 10, "ty": 1, "tileId": "barrel" }
+      ],
+      "exits": []
+    },
+    "dungeon": {
+      "name": "The Dungeon",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "reinforcedStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "brazierTop" },
+        { "tx": 1, "ty": 2, "tileId": "brazierBottom" },
+        { "tx": 8, "ty": 1, "tileId": "brazierTop" },
+        { "tx": 8, "ty": 2, "tileId": "brazierBottom" },
+        { "tx": 3, "ty": 3, "tileId": "chest" },
+        { "tx": 5, "ty": 3, "tileId": "barrel" },
+        { "tx": 4, "ty": 1, "tileId": "swordMountedLeft" },
+        { "tx": 5, "ty": 1, "tileId": "shieldMounted" },
+        { "comment": "stairway down to the cells" },
+        { "tx": 8, "ty": 6, "tileId": "ladderBottom" },
+        { "tx": 8, "ty": 5, "tileId": "fullLadderTop" }
+      ],
+      "exits": [
+        {
+          "tx": 8,
+          "ty": 6,
+          "toInteriorId": "dungeon-cells",
+          "entryTx": 5,
+          "entryTy": 6,
+          "direction": "down",
+          "label": "The Cells"
+        }
+      ]
+    },
+    "dungeon-cells": {
+      "name": "The Cells",
+      "width": 12,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "comment": "cell railings line the back wall" },
+        { "tx": 2, "ty": -1, "tileId": "cellWindowUnlit" },
+        { "tx": 5, "ty": -1, "tileId": "cellWindowLit" },
+        { "tx": 9, "ty": -1, "tileId": "cellWindowUnlit" },
+        { "tx": 1, "ty": 1, "tileId": "prisonRailingsTopLeft" },
+        { "tx": 2, "ty": 1, "tileId": "prisonRailingsTopMiddle" },
+        { "tx": 3, "ty": 1, "tileId": "prisonRailingsTopRight" },
+        { "tx": 1, "ty": 2, "tileId": "prisonRailingsBottomLeft" },
+        { "tx": 2, "ty": 2, "tileId": "prisonRailingsBottomMiddle" },
+        { "tx": 3, "ty": 2, "tileId": "prisonRailingsBottomRight" },
+        { "tx": 8, "ty": 1, "tileId": "prisonRailingsTopLeft" },
+        { "tx": 9, "ty": 1, "tileId": "prisonRailingsTopMiddle" },
+        { "tx": 10, "ty": 1, "tileId": "prisonRailingsTopRight" },
+        { "tx": 8, "ty": 2, "tileId": "prisonRailingsBottomLeft" },
+        { "tx": 9, "ty": 2, "tileId": "prisonRailingsBottomMiddle" },
+        { "tx": 10, "ty": 2, "tileId": "prisonRailingsBottomRight" },
+        { "tx": 1, "ty": 5, "tileId": "sack" },
+        { "tx": 6, "ty": 4, "tileId": "candlestickLitTop" },
+        { "comment": "stairs up to dungeon; locked door down to the vault" },
+        { "tx": 5, "ty": 1, "tileId": "ladderIntoFloor", "zlayer": "below" },
+        { "tx": 5, "ty": 0, "tileId": "halfLadderTop" },
+        { "tx": 11, "ty": 6, "tileId": "ladderBottom" },
+        { "tx": 11, "ty": 5, "tileId": "fullLadderTop" }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "toInteriorId": "dungeon",
+          "entryTx": 8,
+          "entryTy": 5,
+          "direction": "up",
+          "label": "Up"
+        },
+        {
+          "tx": 11,
+          "ty": 6,
+          "toInteriorId": "dungeon-vault",
+          "entryTx": 5,
+          "entryTy": 6,
+          "direction": "down",
+          "label": "The Lower Vault",
+          "requiredQuest": "castle-prison-key"
+        }
+      ]
+    },
+    "dungeon-vault": {
+      "name": "The Lower Vault",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "reinforcedStone",
+      "decor": [
+        { "tx": 2, "ty": 2, "tileId": "chest" },
+        { "tx": 3, "ty": 2, "tileId": "chest" },
+        { "tx": 6, "ty": 2, "tileId": "chest" },
+        { "tx": 7, "ty": 2, "tileId": "chest" },
+        { "tx": 1, "ty": 4, "tileId": "barrel" },
+        { "tx": 8, "ty": 4, "tileId": "barrel" },
+        { "tx": 4, "ty": 4, "tileId": "candlestickLitTop" },
+        { "comment": "stairway up to the cells" },
+        { "tx": 5, "ty": 6, "tileId": "ladderIntoFloor", "zlayer": "below" },
+        { "tx": 5, "ty": 5, "tileId": "halfLadderTop" }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 6,
+          "toInteriorId": "dungeon-cells",
+          "entryTx": 11,
+          "entryTy": 5,
+          "direction": "up",
+          "label": "The Cells"
+        }
+      ]
+    },
+    "infirmary": {
+      "name": "The Infirmary",
+      "width": 12,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        { "comment": "sick beds" },
+        { "tx": 1, "ty": 1, "bundleID": "simple-bed" },
+        { "tx": 4, "ty": 1, "bundleID": "simple-bed" },
+        { "tx": 7, "ty": 1, "bundleID": "simple-bed" },
+        { "comment": "supplies" },
+        { "tx": 10, "ty": 1, "tileId": "chest" },
+        { "tx": 10, "ty": 2, "tileId": "barrel" },
+        { "tx": 2, "ty": 5, "tileId": "roundTable" },
+        { "tx": 2, "ty": 6, "tileId": "stool" },
+        { "tx": 6, "ty": 5, "tileId": "candlestickLitTop" },
+        { "tx": 9, "ty": 5, "tileId": "barrel" }
+      ],
+      "exits": []
+    },
+    "quartermasters-store": {
+      "name": "The Quartermaster's Store",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "musicId": "shop",
+      "ambianceId": "market",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "crate" },
+        { "tx": 2, "ty": 1, "tileId": "crate" },
+        { "tx": 1, "ty": 2, "tileId": "openCrate" },
+        { "tx": 7, "ty": 1, "tileId": "barrel" },
+        { "tx": 8, "ty": 1, "tileId": "barrel" },
+        { "tx": 8, "ty": 2, "tileId": "sack" },
+        { "tx": 4, "ty": 4, "tileId": "roundTableWithCloth" },
+        { "tx": 4, "ty": 5, "tileId": "stool" },
+        { "tx": 2, "ty": 5, "tileId": "chest" },
+        { "tx": 7, "ty": 5, "tileId": "chest" }
       ],
       "exits": []
     }
