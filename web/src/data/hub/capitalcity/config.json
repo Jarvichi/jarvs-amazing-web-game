@@ -3917,6 +3917,7 @@
       "id": "herald-jana",
       "name": "Herald Jana",
       "sprite": "hub-npc-soldier",
+      "screen": "news",
       "tx": 60,
       "ty": 47,
       "dialogue": [
@@ -4010,6 +4011,135 @@
             "ty": 4
           }
         }
+      ]
+    },
+    {
+      "id": "card-vendor-crownhaven",
+      "name": "Trader Pemberly",
+      "sprite": "hub-npc-card-shop",
+      "tx": 40,
+      "ty": 15,
+      "screen": "shop-cards",
+      "dialogue": [
+        "Cards! Fresh from the capital's own printers. Care to browse the stock?",
+        "Every deck tells a story. Build yours here.",
+        "The court plays for crowns; you can play for crystals."
+      ]
+    },
+    {
+      "id": "supplies-vendor-crownhaven",
+      "name": "Quartermaster Hettie",
+      "sprite": "hub-npc-supplies",
+      "tx": 54,
+      "ty": 15,
+      "screen": "shop-supplies",
+      "dialogue": [
+        "Potions, provisions, the practical sort of magic. What do you need?",
+        "Stock up before you head back out past the walls.",
+        "A well-supplied traveller is a living traveller."
+      ]
+    },
+    {
+      "id": "augment-vendor-crownhaven",
+      "name": "Artificer Garnet",
+      "sprite": "hub-npc-augment-shop",
+      "tx": 68,
+      "ty": 15,
+      "screen": "shop-augments",
+      "dialogue": [
+        "Augments, enhancements, little edges of power. Step up to the bench.",
+        "The jewellers cut stones; I cut destinies. Or near enough.",
+        "Bring me crystals and I'll bring out your cards' true potential."
+      ]
+    },
+    {
+      "id": "academy-tactician",
+      "name": "Tactician Sable",
+      "sprite": "hub-npc-scholar",
+      "tx": 52,
+      "ty": 29,
+      "screen": "deckbuilder",
+      "dialogue": [
+        "The Academy drills strategy above all. Shall we refine your deck?",
+        "A clever deck wins more wars than a sharp sword.",
+        "Theory here, practice in the field. Mind your curve."
+      ]
+    },
+    {
+      "id": "reliquary-keeper",
+      "name": "Dame Orla",
+      "sprite": "hub-npc-elder",
+      "tx": 20,
+      "ty": 29,
+      "screen": "hall-of-achievements",
+      "dialogue": [
+        "The cathedral keeps a hall of great deeds. Would you see the records?",
+        "Every hero's feats are inscribed here, in gold and stone.",
+        "Add your name to the hall, traveller. The realm remembers."
+      ]
+    },
+    {
+      "id": "crownhaven-dealer",
+      "name": "Gildric the Dealer",
+      "sprite": "hub-npc-dealer",
+      "tx": 60,
+      "ty": 81,
+      "screen": "casino",
+      "dialogue": [
+        "Care for a flutter? The capital's tables never close.",
+        "Fortune favours the bold \u2014 and occasionally the lucky.",
+        "Crowns won, crowns lost. Pull up a chair."
+      ]
+    },
+    {
+      "id": "mint-coinwright",
+      "name": "Coinwright Bessa",
+      "sprite": "hub-npc-merchant",
+      "tx": 78,
+      "ty": 81,
+      "screen": "crystalcatch",
+      "dialogue": [
+        "Quick hands at the mint? Test them \u2014 catch the falling crystals.",
+        "Every coin starts as a tumble of raw crystal. Catch what you can.",
+        "Sharp eyes, sharp reflexes, full purse."
+      ]
+    },
+    {
+      "id": "guard-arena-master",
+      "name": "Arena Master Brom",
+      "sprite": "hub-npc-arena",
+      "tx": 85,
+      "ty": 81,
+      "screen": "quickbattle",
+      "dialogue": [
+        "The coronation tournament wants challengers. Step into the ring?",
+        "A quick battle to prove your mettle \u2014 no excuses.",
+        "Win in the arena and the whole capital hears your name."
+      ]
+    },
+    {
+      "id": "riverside-angler",
+      "name": "Angler Marsh",
+      "sprite": "hub-npc-fisherman",
+      "tx": 16,
+      "ty": 81,
+      "screen": "fishing",
+      "dialogue": [
+        "The riverside pond's full of fish, if you've the patience. Cast a line?",
+        "Quiet water, quick catch. Best spot in the capital.",
+        "Catch enough and even the palace kitchens will come calling."
+      ]
+    },
+    {
+      "id": "theatre-impresario",
+      "name": "Impresario Vane",
+      "sprite": "hub-npc-herald",
+      "tx": 60,
+      "ty": 43,
+      "dialogue": [
+        "The Crown Theatre will dazzle the realm \u2014 once the stage is ready.",
+        "Rehearsals, ropes, and a thousand candles. Come back for the grand premiere!",
+        "A performance worthy of a coronation takes time. Patience, friend."
       ]
     }
   ],
