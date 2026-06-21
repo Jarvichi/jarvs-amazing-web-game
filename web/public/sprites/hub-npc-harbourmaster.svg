@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Navy harbourmaster coat -->
+  <rect x="11" y="14" width="10" height="11" rx="2" fill="#1f3a5a"/>
+  <!-- Coat buttons -->
+  <circle cx="16" cy="17" r="0.8" fill="#d4b24a"/>
+  <circle cx="16" cy="20" r="0.8" fill="#d4b24a"/>
+  <circle cx="16" cy="23" r="0.8" fill="#d4b24a"/>
+  <!-- Head -->
+  <circle cx="16" cy="10" r="5" fill="#c8a07a"/>
+  <!-- Captain's cap brim -->
+  <ellipse cx="16" cy="7" rx="7" ry="1.8" fill="#0f2336"/>
+  <!-- Cap crown -->
+  <rect x="11" y="3" width="10" height="4" rx="1.5" fill="#16314c"/>
+  <!-- Cap badge -->
+  <rect x="14.5" y="4" width="3" height="2" rx="0.5" fill="#d4b24a"/>
+  <!-- Eyes -->
+  <circle cx="14" cy="10" r="1" fill="#3a2a1a"/>
+  <circle cx="18" cy="10" r="1" fill="#3a2a1a"/>
+  <!-- Grey beard -->
+  <ellipse cx="16" cy="14" rx="3.5" ry="2" fill="#d8d8c8"/>
+  <!-- Spyglass (right hand) -->
+  <rect x="21" y="14" width="8" height="2.4" rx="1" fill="#6a4a2a" transform="rotate(-18 21 15)"/>
+  <!-- Legs -->
+  <rect x="12" y="24" width="4" height="6" rx="1" fill="#13283f"/>
+  <rect x="17" y="24" width="4" height="6" rx="1" fill="#13283f"/>
+  <!-- Boots -->
+  <rect x="11" y="28" width="5" height="3" rx="1" fill="#2a1a0a"/>
+  <rect x="16" y="28" width="5" height="3" rx="1" fill="#2a1a0a"/>
+</svg>

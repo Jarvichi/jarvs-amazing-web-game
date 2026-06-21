@@ -79,9 +79,28 @@
       ]
     },
     {
+      "comment": "east sea, split to leave room for the boathouse footprint (cols 33-36, rows 12-17)",
       "rect": [
         36,
         0,
+        37,
+        11
+      ],
+      "pathType": "water1"
+    },
+    {
+      "rect": [
+        37,
+        12,
+        37,
+        17
+      ],
+      "pathType": "water1"
+    },
+    {
+      "rect": [
+        36,
+        18,
         37,
         28
       ],
@@ -92,14 +111,14 @@
         35,
         2,
         35,
-        12
+        11
       ],
       "pathType": "water1"
     },
     {
       "rect": [
         35,
-        18,
+        19,
         35,
         25
       ],
@@ -267,16 +286,6 @@
       "pathType": "longGrass"
     },
     {
-      "comment": "bakery door path (door resolves to 8,6)",
-      "rect": [
-        8,
-        6,
-        8,
-        7
-      ],
-      "pathType": "longGrass"
-    },
-    {
       "comment": "smithy door path (door resolves to 1,13) connects to street col 3",
       "rect": [
         1,
@@ -286,12 +295,12 @@
       ]
     },
     {
-      "comment": "harbour quay fronting the boathouse (door resolves to 25,5)",
+      "comment": "boathouse pier (door resolves to 34,18) connects west to the dock walkway at col 32",
       "rect": [
-        23,
-        5,
-        29,
-        5
+        33,
+        18,
+        34,
+        18
       ]
     },
     {
@@ -411,7 +420,7 @@
         6,
         2,
         10,
-        5
+        7
       ],
       "wall": "tudorFrame",
       "roof": "yellowSlateRoof",
@@ -429,7 +438,7 @@
       "upgradeKind": "workshop",
       "rect": [
         0,
-        9,
+        7,
         2,
         12
       ],
@@ -448,16 +457,16 @@
       "id": "boathouse",
       "upgradeKind": "workshop",
       "rect": [
-        23,
-        2,
-        28,
-        4
+        33,
+        12,
+        36,
+        17
       ],
       "wall": "woodenSlats",
       "roof": "strawRoof",
       "doors": [
         {
-          "tx": 2,
+          "tx": 1,
           "ty": 1,
           "hideSign": true,
           "buildingId": "boathouse"
@@ -469,7 +478,7 @@
       "upgradeKind": "cottage",
       "rect": [
         2,
-        19,
+        17,
         4,
         22
       ],
@@ -500,13 +509,13 @@
       "tileId": "smallRock"
     },
     {
-      "tx": 2,
-      "ty": 7,
+      "tx": 24,
+      "ty": 5,
       "tileId": "barrel"
     },
     {
-      "tx": 1,
-      "ty": 7,
+      "tx": 25,
+      "ty": 5,
       "tileId": "barrel"
     },
     {
@@ -1015,7 +1024,7 @@
       "zlayer": "above"
     },
     {
-      "tx": 6,
+      "tx": 5,
       "ty": 7,
       "bundleID": "mixed-tree-cluster-V",
       "zlayer": "solid"
@@ -1039,8 +1048,8 @@
       "zlayer": "solid"
     },
     {
-      "tx": 2,
-      "ty": 18,
+      "tx": 0,
+      "ty": 22,
       "bundleID": "dark-tree-cluster-V",
       "zlayer": "solid"
     },
@@ -1102,21 +1111,6 @@
       "tx": 22,
       "ty": 9,
       "tileId": "barrel",
-      "zlayer": "solid"
-    },
-    {
-      "comment": "decor around the new bakery"
-    },
-    {
-      "tx": 6,
-      "ty": 6,
-      "tileId": "barrel",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 10,
-      "ty": 6,
-      "tileId": "pileOfSacks",
       "zlayer": "solid"
     },
     {
@@ -1315,8 +1309,8 @@
       "id": "dockhand-bram",
       "name": "Dockhand Bram",
       "sprite": "hub-npc-fisherman",
-      "tx": 25,
-      "ty": 6,
+      "tx": 33,
+      "ty": 19,
       "dialogue": [
         "Careful on the boards, they're slick with spray.",
         "Storm last week dragged half our nets out past the moorings.",
@@ -1326,7 +1320,7 @@
       "questReceive": "millhaven-lost-nets",
       "schedule": [
         { "startHour": 0, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "boathouse", "tx": 8, "ty": 5 } },
-        { "startHour": 6, "endHour": 20, "activity": "work", "location": { "type": "exterior", "tx": 25, "ty": 6 } },
+        { "startHour": 6, "endHour": 20, "activity": "work", "location": { "type": "exterior", "tx": 33, "ty": 19 } },
         { "startHour": 20, "endHour": 24, "activity": "idle-chat", "location": { "type": "interior", "buildingId": "boathouse", "tx": 3, "ty": 4 } }
       ],
       "homeBed": { "buildingId": "boathouse", "tx": 8, "ty": 5 }
@@ -1350,6 +1344,57 @@
         { "startHour": 8, "endHour": 24, "activity": "idle-chat", "location": { "type": "interior", "buildingId": "fisher-cottage", "tx": 4, "ty": 4 } }
       ],
       "homeBed": { "buildingId": "fisher-cottage", "tx": 2, "ty": 2 }
+    },
+    {
+      "id": "harbour-angler",
+      "name": "Old Pellan",
+      "sprite": "hub-npc-fisherman",
+      "tx": 31,
+      "ty": 11,
+      "dialogue": [
+        "Best fishing on the coast, right off this dock.",
+        "Cast a line with me — the harbour's always biting.",
+        "Patience and a steady hand, that's all it takes."
+      ],
+      "screen": "fishing"
+    },
+    {
+      "id": "quartermaster-millhaven",
+      "name": "Quartermaster Hale",
+      "sprite": "hub-npc-supplies",
+      "tx": 21,
+      "ty": 13,
+      "dialogue": [
+        "Potions, provisions, the lot — stocked fresh off the boats.",
+        "A traveller far from home still needs to resupply. Take a look.",
+        "Coin for goods, that's the honest trade of Millhaven."
+      ],
+      "screen": "shop-supplies"
+    },
+    {
+      "id": "card-trader-millhaven",
+      "name": "Dealer Sloane",
+      "sprite": "hub-npc-card-shop",
+      "tx": 20,
+      "ty": 16,
+      "dialogue": [
+        "Cards! Rare cards, off the trade ships and into your deck.",
+        "No need to trek back to Ravenwatch — I deal right here.",
+        "Browse the wares, friend. Every deck needs an edge."
+      ],
+      "screen": "shop-cards"
+    },
+    {
+      "id": "regatta-master",
+      "name": "Regatta Master Coll",
+      "sprite": "hub-npc-harbourmaster",
+      "tx": 34,
+      "ty": 19,
+      "dialogue": [
+        "One day Millhaven will host a proper boat regatta — skiffs racing the harbour buoys, crowds on the quay!",
+        "I'm still rigging the course and finding crews. Come back soon and you'll be able to race.",
+        "Mark my words: the Millhaven Regatta will be the finest sport on the coast."
+      ]
     }
   ],
   "interiors": {
