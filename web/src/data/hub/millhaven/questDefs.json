@@ -577,15 +577,15 @@
     },
     {
       "id": "grain-sack-2",
-      "tx": 33,
-      "ty": 16,
+      "tx": 31,
+      "ty": 17,
       "tileId": "sack",
       "questId": "millhaven-mill-grain"
     },
     {
       "id": "grain-sack-3",
-      "tx": 10,
-      "ty": 7,
+      "tx": 9,
+      "ty": 8,
       "tileId": "sack",
       "questId": "millhaven-mill-grain"
     },
@@ -598,8 +598,8 @@
     },
     {
       "id": "fish-basket-2",
-      "tx": 33,
-      "ty": 14,
+      "tx": 31,
+      "ty": 12,
       "tileId": "mushroomBasket",
       "questId": "millhaven-missing-catch"
     },
@@ -724,15 +724,15 @@
     },
     {
       "id": "restock-barrel",
-      "tx": 24,
-      "ty": 5,
+      "tx": 32,
+      "ty": 11,
       "tileId": "barrel",
       "questId": "millhaven-market-restock"
     },
     {
       "id": "restock-sack",
-      "tx": 8,
-      "ty": 7,
+      "tx": 3,
+      "ty": 9,
       "tileId": "sack",
       "questId": "millhaven-market-restock",
       "chain": "restock-barrel"
