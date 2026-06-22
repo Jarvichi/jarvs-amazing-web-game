@@ -1,6 +1,6 @@
 {
-  "mapW": 1200,
-  "mapH": 868,
+  "mapW": 1520,
+  "mapH": 1156,
   "townName": "Millhaven",
   "environment": "forest",
   "avatarStart": {
@@ -10,12 +10,12 @@
   "exitTiles": [
     {
       "tx": 17,
-      "ty": 25,
+      "ty": 35,
       "screen": "worldmap"
     },
     {
       "tx": 18,
-      "ty": 25,
+      "ty": 35,
       "screen": "worldmap"
     }
   ],
@@ -65,9 +65,9 @@
     {
       "rect": [
         16,
-        27,
+        35,
         19,
-        27
+        35
       ]
     },
     {
@@ -75,7 +75,7 @@
         17,
         21,
         18,
-        26
+        34
       ]
     },
     {
@@ -83,7 +83,7 @@
       "rect": [
         36,
         0,
-        37,
+        47,
         11
       ],
       "pathType": "water1"
@@ -92,7 +92,7 @@
       "rect": [
         37,
         12,
-        37,
+        47,
         17
       ],
       "pathType": "water1"
@@ -101,7 +101,7 @@
       "rect": [
         36,
         18,
-        37,
+        47,
         28
       ],
       "pathType": "water1"
@@ -288,28 +288,58 @@
     {
       "comment": "smithy door path (door resolves to 1,13) connects to street col 3",
       "rect": [
-        1,
-        13,
-        2,
-        13
-      ]
-    },
-    {
-      "comment": "boathouse pier (door resolves to 34,18) connects west to the dock walkway at col 32",
-      "rect": [
-        33,
-        18,
-        34,
-        18
+        10,
+        32,
+        11,
+        32
       ]
     },
     {
       "comment": "cottage door path (door resolves to 3,23) connects to grass path at ty24",
       "tile": [
-        3,
-        23
+        4,
+        32
       ],
       "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        4,
+        33,
+        25,
+        33
+      ]
+    },
+    {
+      "rect": [
+        25,
+        34,
+        36,
+        34
+      ]
+    },
+    {
+      "rect": [
+        35,
+        33,
+        36,
+        33
+      ]
+    },
+    {
+      "tile": [
+        24,
+        32
+      ]
+    },
+    {
+      "rect": [
+        40,
+        29,
+        47,
+        36
+      ],
+      "pathType": "water1"
     }
   ],
   "buildings": [
@@ -417,10 +447,10 @@
       "id": "bakery",
       "upgradeKind": "shop",
       "rect": [
-        6,
-        2,
-        10,
-        7
+        22,
+        26,
+        26,
+        31
       ],
       "wall": "tudorFrame",
       "roof": "yellowSlateRoof",
@@ -437,10 +467,10 @@
       "id": "smithy",
       "upgradeKind": "workshop",
       "rect": [
-        0,
-        7,
-        2,
-        12
+        9,
+        26,
+        11,
+        31
       ],
       "wall": "castleStone",
       "roof": "redSlateRoof",
@@ -457,10 +487,10 @@
       "id": "boathouse",
       "upgradeKind": "workshop",
       "rect": [
-        33,
-        12,
-        36,
-        17
+        34,
+        27,
+        37,
+        32
       ],
       "wall": "woodenSlats",
       "roof": "strawRoof",
@@ -477,10 +507,10 @@
       "id": "fisher-cottage",
       "upgradeKind": "cottage",
       "rect": [
-        2,
-        17,
-        4,
-        22
+        3,
+        26,
+        5,
+        31
       ],
       "wall": "renderedBrick",
       "roof": "redSlateRoof",
@@ -1024,7 +1054,7 @@
       "zlayer": "above"
     },
     {
-      "tx": 5,
+      "tx": 6,
       "ty": 7,
       "bundleID": "mixed-tree-cluster-V",
       "zlayer": "solid"
@@ -1042,14 +1072,14 @@
       "zlayer": "solid"
     },
     {
-      "tx": 2,
-      "ty": 23,
+      "tx": 29,
+      "ty": 28,
       "bundleID": "mixed-tree-cluster-V",
       "zlayer": "solid"
     },
     {
-      "tx": 0,
-      "ty": 22,
+      "tx": 2,
+      "ty": 23,
       "bundleID": "dark-tree-cluster-V",
       "zlayer": "solid"
     },
@@ -1061,7 +1091,7 @@
     },
     {
       "tx": 29,
-      "ty": 3,
+      "ty": 1,
       "bundleID": "dark-tree-cluster-V",
       "zlayer": "solid"
     },
@@ -1072,7 +1102,7 @@
       "zlayer": "solid"
     },
     {
-      "tx": 12,
+      "tx": 24,
       "ty": 4,
       "bundleID": "dark-tree-cluster-V",
       "zlayer": "solid"
@@ -1084,8 +1114,8 @@
       "zlayer": "solid"
     },
     {
-      "tx": 0,
-      "ty": 14,
+      "tx": 1,
+      "ty": 13,
       "bundleID": "dark-tree-column-4",
       "zlayer": "solid"
     },
@@ -1117,8 +1147,8 @@
       "comment": "decor around the new smithy"
     },
     {
-      "tx": 0,
-      "ty": 13,
+      "tx": 8,
+      "ty": 32,
       "tileId": "logPile",
       "zlayer": "solid"
     },
@@ -1141,8 +1171,8 @@
       "comment": "decor around the fisher cottage"
     },
     {
-      "tx": 4,
-      "ty": 23,
+      "tx": 3,
+      "ty": 32,
       "tileId": "potOfFlowers",
       "zlayer": "solid"
     }
@@ -1167,7 +1197,16 @@
       "questGive": "millhaven-mill-grain",
       "questReceive": "millhaven-mill-grain",
       "schedule": [
-        { "startHour": 6, "endHour": 20, "activity": "work", "location": { "type": "exterior", "tx": 4, "ty": 7 } }
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "exterior",
+            "tx": 4,
+            "ty": 7
+          }
+        }
       ]
     },
     {
@@ -1184,7 +1223,16 @@
       "questGive": "millhaven-missing-catch",
       "questReceive": "millhaven-missing-catch",
       "schedule": [
-        { "startHour": 6, "endHour": 20, "activity": "work", "location": { "type": "exterior", "tx": 23, "ty": 13 } }
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "exterior",
+            "tx": 23,
+            "ty": 13
+          }
+        }
       ]
     },
     {
@@ -1202,10 +1250,34 @@
       "questGive": "millhaven-message-to-ravenwatch",
       "questReceive": "millhaven-message-to-ravenwatch",
       "schedule": [
-        { "startHour": 0, "endHour": 7, "activity": "sleep", "location": { "type": "interior", "buildingId": "inn-millhaven-upstairs", "tx": 2, "ty": 2 } },
-        { "startHour": 7, "endHour": 24, "activity": "work", "location": { "type": "interior", "buildingId": "inn-millhaven", "tx": 3, "ty": 4 } }
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "inn-millhaven-upstairs",
+            "tx": 2,
+            "ty": 2
+          }
+        },
+        {
+          "startHour": 7,
+          "endHour": 24,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "inn-millhaven",
+            "tx": 3,
+            "ty": 4
+          }
+        }
       ],
-      "homeBed": { "buildingId": "inn-millhaven-upstairs", "tx": 2, "ty": 2 }
+      "homeBed": {
+        "buildingId": "inn-millhaven-upstairs",
+        "tx": 2,
+        "ty": 2
+      }
     },
     {
       "id": "town-elder-millhaven",
@@ -1222,11 +1294,44 @@
       "questGive": "millhaven-supplies-for-keep",
       "questReceive": "millhaven-supplies-for-keep",
       "schedule": [
-        { "startHour": 0, "endHour": 8, "activity": "sleep", "location": { "type": "interior", "buildingId": "inn-millhaven-upstairs", "tx": 4, "ty": 2 } },
-        { "startHour": 8, "endHour": 18, "activity": "idle-chat", "location": { "type": "interior", "buildingId": "town-hall-millhaven", "tx": 6, "ty": 4 } },
-        { "startHour": 18, "endHour": 24, "activity": "idle-chat", "location": { "type": "exterior", "tx": 16, "ty": 13 } }
+        {
+          "startHour": 0,
+          "endHour": 8,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "inn-millhaven-upstairs",
+            "tx": 4,
+            "ty": 2
+          }
+        },
+        {
+          "startHour": 8,
+          "endHour": 18,
+          "activity": "idle-chat",
+          "location": {
+            "type": "interior",
+            "buildingId": "town-hall-millhaven",
+            "tx": 6,
+            "ty": 4
+          }
+        },
+        {
+          "startHour": 18,
+          "endHour": 24,
+          "activity": "idle-chat",
+          "location": {
+            "type": "exterior",
+            "tx": 16,
+            "ty": 13
+          }
+        }
       ],
-      "homeBed": { "buildingId": "inn-millhaven-upstairs", "tx": 4, "ty": 2 }
+      "homeBed": {
+        "buildingId": "inn-millhaven-upstairs",
+        "tx": 4,
+        "ty": 2
+      }
     },
     {
       "id": "sailor-finn",
@@ -1242,7 +1347,16 @@
       "questGive": "millhaven-lost-at-sea",
       "questReceive": "millhaven-missing-catch",
       "schedule": [
-        { "startHour": 6, "endHour": 20, "activity": "fish", "location": { "type": "exterior", "tx": 32, "ty": 6 } }
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "activity": "fish",
+          "location": {
+            "type": "exterior",
+            "tx": 32,
+            "ty": 6
+          }
+        }
       ]
     },
     {
@@ -1258,19 +1372,46 @@
       ],
       "building": "market-hall",
       "questGive": "millhaven-festival-prep",
-      "questReceive": ["millhaven-festival-prep", "millhaven-market-restock"],
-      "schedule": [
-        { "startHour": 0, "endHour": 8, "activity": "sleep", "location": { "type": "interior", "buildingId": "inn-millhaven-upstairs", "tx": 7, "ty": 2 } },
-        { "startHour": 8, "endHour": 24, "activity": "work", "location": { "type": "interior", "buildingId": "market-hall", "tx": 6, "ty": 4 } }
+      "questReceive": [
+        "millhaven-festival-prep",
+        "millhaven-market-restock"
       ],
-      "homeBed": { "buildingId": "inn-millhaven-upstairs", "tx": 7, "ty": 2 }
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 8,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "inn-millhaven-upstairs",
+            "tx": 7,
+            "ty": 2
+          }
+        },
+        {
+          "startHour": 8,
+          "endHour": 24,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "market-hall",
+            "tx": 6,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "inn-millhaven-upstairs",
+        "tx": 7,
+        "ty": 2
+      }
     },
     {
       "id": "baker-pernel",
       "name": "Baker Pernel",
       "sprite": "hub-npc-merchant",
-      "tx": 8,
-      "ty": 7,
+      "tx": 22,
+      "ty": 32,
       "dialogue": [
         "Fresh loaves out of the oven — mind, they're still warm.",
         "Half the town runs on my bread and the other half on Marta's fish.",
@@ -1279,18 +1420,51 @@
       "questGive": "millhaven-fresh-bread",
       "questReceive": "millhaven-fresh-bread",
       "schedule": [
-        { "startHour": 0, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "inn-millhaven-upstairs", "tx": 9, "ty": 2 } },
-        { "startHour": 6, "endHour": 18, "activity": "work", "location": { "type": "interior", "buildingId": "bakery", "tx": 3, "ty": 4 } },
-        { "startHour": 18, "endHour": 24, "activity": "work", "location": { "type": "exterior", "tx": 8, "ty": 7 } }
+        {
+          "startHour": 0,
+          "endHour": 6,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "inn-millhaven-upstairs",
+            "tx": 9,
+            "ty": 2
+          }
+        },
+        {
+          "startHour": 6,
+          "endHour": 18,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "bakery",
+            "tx": 3,
+            "ty": 4
+          }
+        },
+        {
+          "startHour": 18,
+          "endHour": 24,
+          "activity": "work",
+          "location": {
+            "type": "exterior",
+            "tx": 8,
+            "ty": 7
+          }
+        }
       ],
-      "homeBed": { "buildingId": "inn-millhaven-upstairs", "tx": 9, "ty": 2 }
+      "homeBed": {
+        "buildingId": "inn-millhaven-upstairs",
+        "tx": 9,
+        "ty": 2
+      }
     },
     {
       "id": "smith-garrick",
       "name": "Smith Garrick",
       "sprite": "hub-npc-supplies",
-      "tx": 1,
-      "ty": 14,
+      "tx": 11,
+      "ty": 32,
       "dialogue": [
         "Mind the sparks. Forge runs hot this time of day.",
         "Net hooks, anchor chain, blades — if it's iron, I've hammered it.",
@@ -1299,11 +1473,44 @@
       "questGive": "millhaven-scrap-iron",
       "questReceive": "millhaven-scrap-iron",
       "schedule": [
-        { "startHour": 0, "endHour": 7, "activity": "sleep", "location": { "type": "interior", "buildingId": "smithy", "tx": 8, "ty": 5 } },
-        { "startHour": 7, "endHour": 20, "activity": "work", "location": { "type": "interior", "buildingId": "smithy", "tx": 3, "ty": 4 } },
-        { "startHour": 20, "endHour": 24, "activity": "work", "location": { "type": "exterior", "tx": 1, "ty": 14 } }
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "smithy",
+            "tx": 8,
+            "ty": 5
+          }
+        },
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "smithy",
+            "tx": 3,
+            "ty": 4
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 24,
+          "activity": "work",
+          "location": {
+            "type": "exterior",
+            "tx": 1,
+            "ty": 14
+          }
+        }
       ],
-      "homeBed": { "buildingId": "smithy", "tx": 8, "ty": 5 }
+      "homeBed": {
+        "buildingId": "smithy",
+        "tx": 8,
+        "ty": 5
+      }
     },
     {
       "id": "dockhand-bram",
@@ -1319,11 +1526,44 @@
       "questGive": "millhaven-lost-nets",
       "questReceive": "millhaven-lost-nets",
       "schedule": [
-        { "startHour": 0, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "boathouse", "tx": 8, "ty": 5 } },
-        { "startHour": 6, "endHour": 20, "activity": "work", "location": { "type": "exterior", "tx": 33, "ty": 19 } },
-        { "startHour": 20, "endHour": 24, "activity": "idle-chat", "location": { "type": "interior", "buildingId": "boathouse", "tx": 3, "ty": 4 } }
+        {
+          "startHour": 0,
+          "endHour": 6,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "boathouse",
+            "tx": 8,
+            "ty": 5
+          }
+        },
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "exterior",
+            "tx": 33,
+            "ty": 19
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 24,
+          "activity": "idle-chat",
+          "location": {
+            "type": "interior",
+            "buildingId": "boathouse",
+            "tx": 3,
+            "ty": 4
+          }
+        }
       ],
-      "homeBed": { "buildingId": "boathouse", "tx": 8, "ty": 5 }
+      "homeBed": {
+        "buildingId": "boathouse",
+        "tx": 8,
+        "ty": 5
+      }
     },
     {
       "id": "widow-tamsin",
@@ -1340,10 +1580,34 @@
       "questGive": "millhaven-lost-locket",
       "questReceive": "millhaven-lost-locket",
       "schedule": [
-        { "startHour": 0, "endHour": 8, "activity": "sleep", "location": { "type": "interior", "buildingId": "fisher-cottage", "tx": 2, "ty": 2 } },
-        { "startHour": 8, "endHour": 24, "activity": "idle-chat", "location": { "type": "interior", "buildingId": "fisher-cottage", "tx": 4, "ty": 4 } }
+        {
+          "startHour": 0,
+          "endHour": 8,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "fisher-cottage",
+            "tx": 2,
+            "ty": 2
+          }
+        },
+        {
+          "startHour": 8,
+          "endHour": 24,
+          "activity": "idle-chat",
+          "location": {
+            "type": "interior",
+            "buildingId": "fisher-cottage",
+            "tx": 4,
+            "ty": 4
+          }
+        }
       ],
-      "homeBed": { "buildingId": "fisher-cottage", "tx": 2, "ty": 2 }
+      "homeBed": {
+        "buildingId": "fisher-cottage",
+        "tx": 2,
+        "ty": 2
+      }
     },
     {
       "id": "harbour-angler",
@@ -1388,8 +1652,8 @@
       "id": "regatta-master",
       "name": "Regatta Master Coll",
       "sprite": "hub-npc-harbourmaster",
-      "tx": 34,
-      "ty": 19,
+      "tx": 33,
+      "ty": 32,
       "dialogue": [
         "One day Millhaven will host a proper boat regatta — skiffs racing the harbour buoys, crowds on the quay!",
         "I'm still rigging the course and finding crews. Come back soon and you'll be able to race.",
@@ -1405,14 +1669,46 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodWall",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "barrel" },
-        { "tx": 2, "ty": 1, "tileId": "barrel" },
-        { "tx": 4, "ty": 1, "tileId": "pileOfSacks" },
-        { "tx": 6, "ty": 1, "tileId": "chest" },
-        { "tx": 7, "ty": 1, "tileId": "chest" },
-        { "tx": 1, "ty": 6, "tileId": "sack" },
-        { "tx": 2, "ty": 6, "tileId": "sack" },
-        { "tx": 9, "ty": 6, "tileId": "barrel" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "chest"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "chest"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "sack"
+        },
+        {
+          "tx": 2,
+          "ty": 6,
+          "tileId": "sack"
+        },
+        {
+          "tx": 9,
+          "ty": 6,
+          "tileId": "barrel"
+        }
       ],
       "exits": []
     },
@@ -1423,15 +1719,51 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodWall",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "barrel" },
-        { "tx": 2, "ty": 1, "tileId": "barrel" },
-        { "tx": 4, "ty": 1, "tileId": "mushroomBasket" },
-        { "tx": 6, "ty": 1, "tileId": "chest" },
-        { "tx": 7, "ty": 1, "tileId": "chest" },
-        { "tx": 1, "ty": 4, "tileId": "counterTopHorizontalLeft" },
-        { "tx": 2, "ty": 4, "tileId": "counterTopHorizontalMiddle" },
-        { "tx": 3, "ty": 4, "tileId": "counterTopHorizontalRight" },
-        { "tx": 9, "ty": 6, "tileId": "emptyBasket" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "mushroomBasket"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "chest"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "chest"
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "tileId": "counterTopHorizontalLeft"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "counterTopHorizontalMiddle"
+        },
+        {
+          "tx": 3,
+          "ty": 4,
+          "tileId": "counterTopHorizontalRight"
+        },
+        {
+          "tx": 9,
+          "ty": 6,
+          "tileId": "emptyBasket"
+        }
       ],
       "exits": []
     },
@@ -1444,20 +1776,73 @@
       "musicId": "inn",
       "ambianceId": "hearth",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "stairsUp" },
-        { "tx": 3, "ty": 1, "tileId": "counterTopHorizontalLeft" },
-        { "tx": 4, "ty": 1, "tileId": "counterTopHorizontalMiddle" },
-        { "tx": 5, "ty": 1, "tileId": "counterTopHorizontalRight" },
-        { "tx": 4, "ty": 2, "tileId": "bottlesOfLiquor" },
-        { "tx": 7, "ty": 2, "tileId": "fireplace", "bundleID": "fireplace" },
-        { "tx": 2, "ty": 5, "tileId": "roundTable" },
-        { "tx": 3, "ty": 5, "tileId": "stool" },
-        { "tx": 6, "ty": 5, "tileId": "roundTable" },
-        { "tx": 7, "ty": 5, "tileId": "stool" },
-        { "tx": 10, "ty": 6, "tileId": "barrel" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "stairsUp"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "counterTopHorizontalLeft"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "counterTopHorizontalMiddle"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "counterTopHorizontalRight"
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "tileId": "bottlesOfLiquor"
+        },
+        {
+          "tx": 7,
+          "ty": 2,
+          "tileId": "fireplace",
+          "bundleID": "fireplace"
+        },
+        {
+          "tx": 2,
+          "ty": 5,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 3,
+          "ty": 5,
+          "tileId": "stool"
+        },
+        {
+          "tx": 6,
+          "ty": 5,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 7,
+          "ty": 5,
+          "tileId": "stool"
+        },
+        {
+          "tx": 10,
+          "ty": 6,
+          "tileId": "barrel"
+        }
       ],
       "exits": [
-        { "tx": 1, "ty": 1, "toInteriorId": "inn-millhaven-upstairs", "entryTx": 1, "entryTy": 6, "direction": "up", "label": "Go upstairs" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "toInteriorId": "inn-millhaven-upstairs",
+          "entryTx": 1,
+          "entryTy": 6,
+          "direction": "up",
+          "label": "Go upstairs"
+        }
       ]
     },
     "inn-millhaven-upstairs": {
@@ -1469,17 +1854,59 @@
       "musicId": "inn",
       "ambianceId": "hearth",
       "decor": [
-        { "tx": 2, "ty": 2, "bundleID": "simple-bed" },
-        { "tx": 4, "ty": 2, "bundleID": "simple-bed" },
-        { "tx": 7, "ty": 2, "bundleID": "simple-bed" },
-        { "tx": 9, "ty": 2, "bundleID": "simple-bed" },
-        { "tx": 5, "ty": 5, "tileId": "roundTable" },
-        { "tx": 6, "ty": 5, "tileId": "roundTable" },
-        { "tx": 1, "ty": 7, "tileId": "ladderIntoFloor", "zlayer": "below" },
-        { "tx": 1, "ty": 6, "tileId": "halfLadderTop", "zlayer": "solid" }
+        {
+          "tx": 2,
+          "ty": 2,
+          "bundleID": "simple-bed"
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "bundleID": "simple-bed"
+        },
+        {
+          "tx": 7,
+          "ty": 2,
+          "bundleID": "simple-bed"
+        },
+        {
+          "tx": 9,
+          "ty": 2,
+          "bundleID": "simple-bed"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 6,
+          "ty": 5,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "ladderIntoFloor",
+          "zlayer": "below"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "halfLadderTop",
+          "zlayer": "solid"
+        }
       ],
       "exits": [
-        { "tx": 1, "ty": 7, "toInteriorId": "inn-millhaven", "entryTx": 1, "entryTy": 2, "direction": "down", "label": "Go downstairs" }
+        {
+          "tx": 1,
+          "ty": 7,
+          "toInteriorId": "inn-millhaven",
+          "entryTx": 1,
+          "entryTy": 2,
+          "direction": "down",
+          "label": "Go downstairs"
+        }
       ]
     },
     "market-hall": {
@@ -1491,16 +1918,56 @@
       "musicId": "shop",
       "ambianceId": "market",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "crate" },
-        { "tx": 2, "ty": 1, "tileId": "openCrate" },
-        { "tx": 9, "ty": 1, "tileId": "crate" },
-        { "tx": 10, "ty": 1, "tileId": "openCrate" },
-        { "tx": 1, "ty": 4, "tileId": "counterTopHorizontalLeft" },
-        { "tx": 2, "ty": 4, "tileId": "counterTopHorizontalMiddle" },
-        { "tx": 3, "ty": 4, "tileId": "counterTopHorizontalRight" },
-        { "tx": 8, "ty": 4, "tileId": "appleBasket" },
-        { "tx": 10, "ty": 5, "tileId": "barrel" },
-        { "tx": 1, "ty": 6, "tileId": "pileOfSacks" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "tileId": "counterTopHorizontalLeft"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "counterTopHorizontalMiddle"
+        },
+        {
+          "tx": 3,
+          "ty": 4,
+          "tileId": "counterTopHorizontalRight"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "appleBasket"
+        },
+        {
+          "tx": 10,
+          "ty": 5,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "pileOfSacks"
+        }
       ],
       "exits": []
     },
@@ -1511,22 +1978,82 @@
       "floorTileId": "cobblestoneFloor",
       "wallTileId": "renderedBrick",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 2, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 1, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 2, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 9, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 10, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 9, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 10, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 5, "ty": 4, "tileId": "roundTable" },
-        { "tx": 6, "ty": 4, "tileId": "roundTable" },
-        { "tx": 5, "ty": 5, "tileId": "stool" },
-        { "tx": 6, "ty": 5, "tileId": "stool" },
-        { "tx": 11, "ty": 1, "tileId": "stairsUp" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 9,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 10,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 6,
+          "ty": 4,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "stool"
+        },
+        {
+          "tx": 6,
+          "ty": 5,
+          "tileId": "stool"
+        },
+        {
+          "tx": 11,
+          "ty": 1,
+          "tileId": "stairsUp"
+        }
       ],
       "exits": [
-        { "tx": 11, "ty": 1, "toInteriorId": "town-hall-millhaven-office", "entryTx": 1, "entryTy": 6, "direction": "up", "label": "Back office" }
+        {
+          "tx": 11,
+          "ty": 1,
+          "toInteriorId": "town-hall-millhaven-office",
+          "entryTx": 1,
+          "entryTy": 6,
+          "direction": "up",
+          "label": "Back office"
+        }
       ]
     },
     "town-hall-millhaven-office": {
@@ -1536,20 +2063,74 @@
       "floorTileId": "cobblestoneFloor",
       "wallTileId": "renderedBrick",
       "decor": [
-        { "tx": 2, "ty": 1, "tileId": "deskTop" },
-        { "tx": 3, "ty": 1, "tileId": "quilAndInk" },
-        { "tx": 4, "ty": 1, "tileId": "pileOfPapers" },
-        { "tx": 7, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 8, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 7, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 8, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 2, "ty": 4, "tileId": "chest" },
-        { "tx": 4, "ty": 4, "tileId": "stool" },
-        { "tx": 1, "ty": 6, "tileId": "ladderIntoFloor", "zlayer": "below" },
-        { "tx": 1, "ty": 5, "tileId": "halfLadderTop", "zlayer": "solid" }
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "deskTop"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "quilAndInk"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "pileOfPapers"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 7,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 8,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "chest"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "ladderIntoFloor",
+          "zlayer": "below"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "halfLadderTop",
+          "zlayer": "solid"
+        }
       ],
       "exits": [
-        { "tx": 1, "ty": 6, "toInteriorId": "town-hall-millhaven", "entryTx": 11, "entryTy": 1, "direction": "down", "label": "Return to chamber" }
+        {
+          "tx": 1,
+          "ty": 6,
+          "toInteriorId": "town-hall-millhaven",
+          "entryTx": 11,
+          "entryTy": 1,
+          "direction": "down",
+          "label": "Return to chamber"
+        }
       ]
     },
     "bakery": {
@@ -1561,15 +2142,52 @@
       "musicId": "shop",
       "ambianceId": "hearth",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "fireplace", "bundleID": "fireplace" },
-        { "tx": 5, "ty": 1, "tileId": "counterTopHorizontalLeft" },
-        { "tx": 6, "ty": 1, "tileId": "counterTopHorizontalMiddle" },
-        { "tx": 7, "ty": 1, "tileId": "counterTopHorizontalRight" },
-        { "tx": 9, "ty": 1, "tileId": "pileOfSacks" },
-        { "tx": 9, "ty": 2, "tileId": "sack" },
-        { "tx": 6, "ty": 4, "tileId": "appleBasket" },
-        { "tx": 8, "ty": 4, "tileId": "plateEmpty" },
-        { "tx": 1, "ty": 6, "tileId": "barrel" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "fireplace",
+          "bundleID": "fireplace"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "counterTopHorizontalLeft"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "counterTopHorizontalMiddle"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "counterTopHorizontalRight"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 9,
+          "ty": 2,
+          "tileId": "sack"
+        },
+        {
+          "tx": 6,
+          "ty": 4,
+          "tileId": "appleBasket"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "plateEmpty"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "barrel"
+        }
       ],
       "exits": []
     },
@@ -1580,15 +2198,52 @@
       "floorTileId": "stoneFloor",
       "wallTileId": "woodenSlats",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "fireplace", "bundleID": "fireplace" },
-        { "tx": 4, "ty": 1, "tileId": "brazierTop" },
-        { "tx": 4, "ty": 2, "tileId": "brazierBottom" },
-        { "tx": 6, "ty": 1, "tileId": "choppingBlock" },
-        { "tx": 7, "ty": 1, "tileId": "logPile" },
-        { "tx": 9, "ty": 1, "tileId": "crate" },
-        { "tx": 2, "ty": 4, "tileId": "shieldMounted" },
-        { "tx": 9, "ty": 6, "tileId": "barrel" },
-        { "tx": 8, "ty": 5, "bundleID": "simple-bed" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "fireplace",
+          "bundleID": "fireplace"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "brazierTop"
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "tileId": "brazierBottom"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "choppingBlock"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "logPile"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "shieldMounted"
+        },
+        {
+          "tx": 9,
+          "ty": 6,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "bundleID": "simple-bed"
+        }
       ],
       "exits": []
     },
@@ -1599,15 +2254,51 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodenSlats",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "barrel" },
-        { "tx": 2, "ty": 1, "tileId": "barrel" },
-        { "tx": 4, "ty": 1, "tileId": "mushroomBasket" },
-        { "tx": 5, "ty": 1, "tileId": "mushroomBasket" },
-        { "tx": 7, "ty": 1, "tileId": "crate" },
-        { "tx": 3, "ty": 4, "tileId": "rolledMap" },
-        { "tx": 5, "ty": 4, "tileId": "fishingHook" },
-        { "tx": 9, "ty": 6, "tileId": "pileOfSacks" },
-        { "tx": 8, "ty": 5, "bundleID": "simple-bed" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "mushroomBasket"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "mushroomBasket"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 3,
+          "ty": 4,
+          "tileId": "rolledMap"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "fishingHook"
+        },
+        {
+          "tx": 9,
+          "ty": 6,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "bundleID": "simple-bed"
+        }
       ],
       "exits": []
     },
@@ -1618,13 +2309,41 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodWall",
       "decor": [
-        { "tx": 2, "ty": 2, "bundleID": "simple-bed" },
-        { "tx": 7, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 7, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 5, "ty": 5, "tileId": "roundTable" },
-        { "tx": 4, "ty": 5, "tileId": "stool" },
-        { "tx": 1, "ty": 6, "tileId": "potOfFlowers" },
-        { "tx": 8, "ty": 6, "tileId": "candlestickLitBottom" }
+        {
+          "tx": 2,
+          "ty": 2,
+          "bundleID": "simple-bed"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 7,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 4,
+          "ty": 5,
+          "tileId": "stool"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "potOfFlowers"
+        },
+        {
+          "tx": 8,
+          "ty": 6,
+          "tileId": "candlestickLitBottom"
+        }
       ],
       "exits": []
     }

@@ -290,7 +290,9 @@
           "required": 1
         }
       ],
-      "reward": { "crystals": 20 }
+      "reward": {
+        "crystals": 20
+      }
     },
     {
       "id": "kipper-true-wish",
@@ -703,8 +705,8 @@
     },
     {
       "id": "lost-net-1",
-      "tx": 31,
-      "ty": 11,
+      "tx": 17,
+      "ty": 28,
       "tileId": "cotton",
       "questId": "millhaven-lost-nets"
     },
@@ -756,9 +758,21 @@
         "meet": {
           "text": "Mrrow? (Kipper looks up at you, tail twitching.)",
           "choices": [
-            { "label": "\"There there. Hungry? I'll fetch you a nice fish.\"", "hideIfQuest": "morwen-speak-with-animals", "next": "nofish" },
-            { "label": "\"What's the matter, little one?\"", "hideIfQuest": "morwen-speak-with-animals", "next": "nounderstand" },
-            { "label": "\"...Hello? Can you understand me now?\"", "requireQuest": "morwen-speak-with-animals", "next": "talk" }
+            {
+              "label": "\"There there. Hungry? I'll fetch you a nice fish.\"",
+              "hideIfQuest": "morwen-speak-with-animals",
+              "next": "nofish"
+            },
+            {
+              "label": "\"What's the matter, little one?\"",
+              "hideIfQuest": "morwen-speak-with-animals",
+              "next": "nounderstand"
+            },
+            {
+              "label": "\"...Hello? Can you understand me now?\"",
+              "requireQuest": "morwen-speak-with-animals",
+              "next": "talk"
+            }
           ]
         },
         "nofish": {
@@ -770,18 +784,46 @@
         "talk": {
           "text": "\"...You can hear me? You can actually HEAR me?! Oh, FINALLY. Do you have ANY idea what I have been trying to say all this time?\"",
           "choices": [
-            { "label": "\"That you're hungry?\"", "next": "wrong1" },
-            { "label": "\"That you miss the Princess?\"", "next": "wrong2" },
-            { "label": "\"Wait... do you actually HATE fish?\"", "effects": [ { "type": "flag", "flag": "kipper-confided" }, { "type": "quest", "questId": "kipper-true-wish" } ] }
+            {
+              "label": "\"That you're hungry?\"",
+              "next": "wrong1"
+            },
+            {
+              "label": "\"That you miss the Princess?\"",
+              "next": "wrong2"
+            },
+            {
+              "label": "\"Wait... do you actually HATE fish?\"",
+              "effects": [
+                {
+                  "type": "flag",
+                  "flag": "kipper-confided"
+                },
+                {
+                  "type": "quest",
+                  "questId": "kipper-true-wish"
+                }
+              ]
+            }
           ]
         },
         "wrong1": {
           "text": "\"HUNGRY? I am DROWNING in fish — that is the entire PROBLEM!\" He huffs and lashes his tail. \"Think again.\"",
-          "choices": [ { "label": "Think harder.", "next": "talk" } ]
+          "choices": [
+            {
+              "label": "Think harder.",
+              "next": "talk"
+            }
+          ]
         },
         "wrong2": {
           "text": "\"...Well, yes, obviously I miss her. But that is not the urgent bit. Think about what is RIGHT IN FRONT OF YOU — the thing you keep BRINGING me.\"",
-          "choices": [ { "label": "Think harder.", "next": "talk" } ]
+          "choices": [
+            {
+              "label": "Think harder.",
+              "next": "talk"
+            }
+          ]
         }
       }
     }

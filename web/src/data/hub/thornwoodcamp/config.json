@@ -135,7 +135,9 @@
     {
       "tx": 10,
       "ty": 10,
-      "tileId": "campfireUnlit"
+      "tileId": "campfireUnlit",
+      "glow": true,
+      "pulse": true
     },
     {
       "comment": "supplies ring around the fire"
@@ -472,6 +474,16 @@
           "dy": -1,
           "tileId": "scarecrowTop"
         }
+      ]
+    }
+  ],
+  "pondTiles": [
+    {
+      "rect": [
+        3,
+        6,
+        6,
+        9
       ]
     }
   ]

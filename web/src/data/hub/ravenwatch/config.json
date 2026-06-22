@@ -15,14 +15,159 @@
     {
       "festivalId": "midsummer",
       "decor": [
-        { "tx": 34, "ty": 26, "tileId": "lampPostTop" },
-        { "tx": 34, "ty": 27, "tileId": "lampPostBottom" },
-        { "tx": 40, "ty": 26, "tileId": "lampPostTop" },
-        { "tx": 40, "ty": 27, "tileId": "lampPostBottom" },
-        { "tx": 35, "ty": 31, "tileId": "flowerPotLeft" },
-        { "tx": 36, "ty": 31, "tileId": "flowerPotRight" },
-        { "tx": 38, "ty": 31, "tileId": "flowerPotLeft" },
-        { "tx": 39, "ty": 31, "tileId": "flowerPotRight" }
+        {
+          "tx": 32,
+          "ty": 19,
+          "tileId": "lampPostTop"
+        },
+        {
+          "tx": 42,
+          "ty": 20,
+          "tileId": "lampPostBottom"
+        },
+        {
+          "tx": 42,
+          "ty": 19,
+          "tileId": "lampPostTop"
+        },
+        {
+          "tx": 32,
+          "ty": 20,
+          "tileId": "lampPostBottom"
+        },
+        {
+          "tx": 42,
+          "ty": 22,
+          "tileId": "flowerPotLeft"
+        },
+        {
+          "tx": 32,
+          "ty": 22,
+          "tileId": "flowerPotRight"
+        },
+        {
+          "tx": 42,
+          "ty": 26,
+          "tileId": "flowerPotLeft"
+        },
+        {
+          "tx": 32,
+          "ty": 26,
+          "tileId": "flowerPotRight"
+        }
+      ]
+    },
+    {
+      "festivalId": "harvest",
+      "decor": [
+        {
+          "tx": 32,
+          "ty": 22,
+          "tileId": "appleBasket",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 30,
+          "ty": 22,
+          "tileId": "appleBasket",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 28,
+          "ty": 22,
+          "tileId": "appleBasket",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 23,
+          "ty": 22,
+          "tileId": "appleBasket",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 21,
+          "ty": 22,
+          "tileId": "appleBasket",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 31,
+          "ty": 22,
+          "tileId": "leafBasket",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 29,
+          "ty": 22,
+          "tileId": "leafBasket",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 24,
+          "ty": 22,
+          "tileId": "leafBasket",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 22,
+          "ty": 22,
+          "tileId": "leafBasket",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 20,
+          "ty": 22,
+          "tileId": "leafBasket",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": 22,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": 11,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 22,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 22,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 22,
+          "tileId": "appleBasket",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 22,
+          "tileId": "appleBasket",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 11,
+          "tileId": "appleBasket",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 13,
+          "ty": 11,
+          "tileId": "appleBasket",
+          "zlayer": "solid"
+        }
       ]
     }
   ],
@@ -7433,7 +7578,7 @@
       "name": "Trials Herald Lyra",
       "sprite": "hub-npc-herald",
       "tx": 31,
-      "ty": 28,
+      "ty": 10,
       "screen": "weeklychallenge",
       "dialogue": [
         "This week's trial carries a story, Commander. The realm remembers those who answer.",
@@ -8166,9 +8311,9 @@
     },
     {
       "id": "npc_1781727321393",
-      "name": "New NPC",
+      "name": "The Wanderer",
       "sprite": "",
-      "tx": 37,
+      "tx": 17,
       "ty": 29,
       "dialogue": [
         "Hello!"

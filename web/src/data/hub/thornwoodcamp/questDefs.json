@@ -41,22 +41,22 @@
   "pickupItems": [
     {
       "id": "thornwood-firewood-1",
-      "tx": 4,
-      "ty": 7,
+      "tx": 10,
+      "ty": 22,
       "tileId": "logPile",
       "questId": "thornwood-embers-low"
     },
     {
       "id": "thornwood-firewood-2",
-      "tx": 16,
-      "ty": 13,
+      "tx": 4,
+      "ty": 32,
       "tileId": "logPile",
       "questId": "thornwood-embers-low"
     },
     {
       "id": "thornwood-firewood-3",
-      "tx": 12,
-      "ty": 17,
+      "tx": 11,
+      "ty": 16,
       "tileId": "logPile",
       "questId": "thornwood-embers-low"
     }
