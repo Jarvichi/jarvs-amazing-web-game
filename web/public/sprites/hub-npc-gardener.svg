@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- shadow -->
+  <ellipse cx="16" cy="29" rx="5" ry="2" fill="rgba(0,0,0,0.2)"/>
+  <!-- tunic -->
+  <rect x="10" y="13" width="12" height="15" rx="3" fill="#5f7d3a"/>
+  <!-- apron -->
+  <rect x="12" y="16" width="8" height="10" rx="1" fill="#8a6a3a"/>
+  <!-- arms -->
+  <rect x="8"  y="14" width="3" height="9" rx="1" fill="#5f7d3a"/>
+  <rect x="21" y="14" width="3" height="9" rx="1" fill="#5f7d3a"/>
+  <!-- spade -->
+  <rect x="23" y="9" width="2" height="15" rx="1" fill="#6b4020"/>
+  <rect x="22" y="22" width="4" height="3" rx="1" fill="#b8b8b8"/>
+  <!-- head -->
+  <circle cx="16" cy="10" r="5" fill="#d9ad84"/>
+  <!-- eyes -->
+  <rect x="13" y="9" width="2" height="2" rx="1" fill="#2a1a0a"/>
+  <rect x="17" y="9" width="2" height="2" rx="1" fill="#2a1a0a"/>
+  <!-- straw hat -->
+  <ellipse cx="16" cy="6" rx="9" ry="3" fill="#d9b85a"/>
+  <ellipse cx="16" cy="4" rx="5" ry="3" fill="#c7a648"/>
+</svg>
