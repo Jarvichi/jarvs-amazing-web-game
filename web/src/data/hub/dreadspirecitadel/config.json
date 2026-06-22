@@ -263,7 +263,8 @@
         "One prisoner. Four hundred years. We have, I think, grown fond of each other.",
         "The lower vault stays sealed. Warlock's orders — Vesska's, not the master's. There is a difference, and it troubles me.",
         "If you've business in the deep cells, bring me leave from one who outranks dust. I'll know it when I see it."
-      ]
+      ],
+      "questReceive": "dreadspire-intrigue-2"
     },
     {
       "id": "the-defector",
@@ -276,8 +277,7 @@
         "I served the master once. Then I read what the ritual actually does, and I asked to leave. You can guess how that went.",
         "Get me out and I'll tell you what sleeps under this citadel. It is the only currency I have left."
       ],
-      "questGive": "dreadspire-intrigue-3",
-      "questReceive": "dreadspire-intrigue-2"
+      "questGive": "dreadspire-intrigue-3"
     },
     {
       "id": "ghost-servant-isolde",
