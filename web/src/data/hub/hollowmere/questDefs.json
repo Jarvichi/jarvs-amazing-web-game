@@ -60,6 +60,8 @@
     { "id": "moonherb-1", "tx": 3, "ty": 12, "tileId": "bunchOfHerbs", "questId": "hollowmere-witch-brew" },
     { "id": "moonherb-2", "tx": 16, "ty": 14, "tileId": "bunchOfHerbs", "questId": "hollowmere-witch-brew" },
     { "id": "moonherb-3", "tx": 24, "ty": 17, "tileId": "bunchOfHerbs", "questId": "hollowmere-witch-brew" },
+    { "id": "moon-herb-1", "tx": 7, "ty": 16, "tileId": "bunchOfHerbs", "questId": "dreadspire-moon-herbs" },
+    { "id": "moon-herb-2", "tx": 11, "ty": 17, "tileId": "bunchOfHerbs", "questId": "dreadspire-moon-herbs" },
     { "id": "spell-feather", "tx": 5, "ty": 12, "tileId": "feather", "questId": "morwen-speak-with-animals" },
     { "id": "spell-mooncap", "tx": 18, "ty": 14, "tileId": "purpleMushroom", "questId": "morwen-speak-with-animals" },
     { "id": "spell-rose", "tx": 22, "ty": 17, "tileId": "cropRose", "questId": "morwen-speak-with-animals" }

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- shadow -->
+  <ellipse cx="16" cy="29" rx="5" ry="2" fill="rgba(0,0,0,0.25)"/>
+  <!-- feathered cloak -->
+  <path d="M9 14 L23 14 L24 28 L8 28 Z" fill="#23262e"/>
+  <!-- feather layering -->
+  <path d="M9 18 L12 21 L9 21 Z" fill="#15171c"/>
+  <path d="M23 18 L20 21 L23 21 Z" fill="#15171c"/>
+  <path d="M11 22 L16 26 L21 22 L21 28 L11 28 Z" fill="#1a1c22"/>
+  <!-- arms -->
+  <rect x="7"  y="14" width="3" height="8" rx="1" fill="#23262e"/>
+  <rect x="22" y="14" width="3" height="8" rx="1" fill="#23262e"/>
+  <!-- gloved hand as a perch -->
+  <rect x="5" y="15" width="4" height="2.4" rx="1" fill="#4a3a2a"/>
+  <!-- perched raven -->
+  <ellipse cx="5.5" cy="12.5" rx="2.6" ry="2" fill="#0c0e12"/>
+  <path d="M3 12 L1 13 L3 13.6 Z" fill="#0c0e12"/>
+  <path d="M6.4 11.6 L8.4 11 L7 12.4 Z" fill="#d8a020"/>
+  <circle cx="6.2" cy="11.6" r="0.6" fill="#e0c030"/>
+  <!-- head -->
+  <circle cx="16" cy="9" r="5" fill="#c0b0a0"/>
+  <!-- hood with raised cowl -->
+  <path d="M10 9 L16 2 L22 9 L20 10 L12 10 Z" fill="#15171c"/>
+  <!-- grey beard -->
+  <path d="M13 11 L19 11 L17 14 L15 14 Z" fill="#9a9a9a"/>
+  <!-- eyes -->
+  <rect x="13" y="8" width="2" height="2" rx="1" fill="#1a1a1a"/>
+  <rect x="17" y="8" width="2" height="2" rx="1" fill="#1a1a1a"/>
+</svg>
