@@ -10,6 +10,9 @@ export interface BundleTileEntry {
   x:           number
   y:           number
   zlayer?:     string
+  glow?:       boolean         // night light glow (decor entries)
+  glowRadius?: number          // glow radius in tiles
+  pulse?:      boolean         // animate the glow radius
   buildingId?: string          // for type="door" entries
   hideSign?: boolean          // for type="door" entries
 }
@@ -37,7 +40,11 @@ for (const raw of rawBundles as Array<Record<string, unknown>>) {
     x:          (t['x'] as number) ?? 0,
     y:          (t['y'] as number) ?? 0,
     zlayer:     t['zlayer'] as string | undefined,
+    glow:       t['glow'] as boolean | undefined,
+    glowRadius: t['glowRadius'] as number | undefined,
+    pulse:      t['pulse'] as boolean | undefined,
     buildingId: t['buildingId'] as string | undefined,
+    hideSign:   t['hideSign'] as boolean | undefined,
   }))
   BUNDLE_REGISTRY.set(id, { bundleID: id, tiles })
 }
@@ -55,12 +62,12 @@ export function expandBundleDecor(
   bundleID: string,
   originTx: number,
   originTy: number,
-): { tx: number; ty: number; tileId: number; zlayer?: string }[] {
+): { tx: number; ty: number; tileId: number; zlayer?: string; glow?: boolean; glowRadius?: number; pulse?: boolean }[] {
   const bundle = BUNDLE_REGISTRY.get(bundleID)
   if (!bundle) { console.warn(`[bundles] Unknown bundleID: "${bundleID}"`); return [] }
   return bundle.tiles
     .filter(t => t.type === 'decor')
-    .map(t => ({ tx: originTx + t.x, ty: originTy - t.y, tileId: t.tileId, zlayer: t.zlayer }))
+    .map(t => ({ tx: originTx + t.x, ty: originTy - t.y, tileId: t.tileId, zlayer: t.zlayer, glow: t.glow, glowRadius: t.glowRadius, pulse: t.pulse }))
 }
 
 /** Expand window tiles from a bundle at the given bottom-left origin. */

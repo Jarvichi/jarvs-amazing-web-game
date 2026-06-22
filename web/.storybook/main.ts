@@ -51,6 +51,20 @@ const config: StorybookConfig = {
       }
     }
 
+    const handleBundleSave = (body: string, res: ServerResponse) => {
+      try {
+        const { data } = JSON.parse(body) as { data: unknown }
+        const filePath = resolve(root, 'src/data/bundles/bundles.json')
+        writeFileSync(filePath, JSON.stringify(data, null, 2))
+        res.setHeader('Content-Type', 'application/json')
+        res.end(JSON.stringify({ ok: true }))
+      } catch (e) {
+        res.statusCode = 500
+        res.setHeader('Content-Type', 'application/json')
+        res.end(JSON.stringify({ error: `bundle save failed: ${String(e)}` }))
+      }
+    }
+
     viteConfig.plugins = viteConfig.plugins ?? []
     viteConfig.plugins.unshift({
       name: 'map-editor-save',
@@ -59,6 +73,12 @@ const config: StorybookConfig = {
       configureServer(server) {
         server.middlewares.use(
           (req: IncomingMessage, res: ServerResponse, next: () => void) => {
+            if (req.method === 'POST' && req.url === '/api/bundle-editor/save') {
+              let body = ''
+              req.on('data', (chunk: Buffer) => { body += chunk.toString() })
+              req.on('end', () => handleBundleSave(body, res))
+              return
+            }
             if (req.method !== 'POST' ||
                 (req.url !== '/api/map-editor/save' && req.url !== '/api/map-editor/save-questdefs')) {
               next()
