@@ -1,249 +1,142 @@
 {
-  "mapW": 832,
-  "mapH": 672,
+  "mapW": 1280,
+  "mapH": 1088,
   "townName": "Dreadspire Citadel",
   "environment": "ashen",
-  "avatarStart": {
-    "tx": 12,
-    "ty": 18
-  },
+  "avatarStart": { "tx": 18, "ty": 32 },
   "exitTiles": [
-    {
-      "tx": 12,
-      "ty": 19,
-      "screen": "worldmap"
-    },
-    {
-      "tx": 13,
-      "ty": 19,
-      "screen": "worldmap"
-    }
+    { "tx": 18, "ty": 33, "screen": "worldmap" },
+    { "tx": 19, "ty": 33, "screen": "worldmap" }
   ],
   "areas": [
-    {
-      "id": "dreadspire-court",
-      "name": "The Ashen Court",
-      "tx": 8,
-      "ty": 12,
-      "tw": 10,
-      "th": 5
-    }
+    { "id": "dreadspire-court", "name": "The Ashen Court", "tx": 6, "ty": 13, "tw": 28, "th": 5 },
+    { "id": "dreadspire-ward", "name": "The Outer Ward", "tx": 6, "ty": 22, "tw": 28, "th": 9 }
   ],
   "streets": [
-    {
-      "rect": [
-        11,
-        4,
-        14,
-        20
-      ]
-    },
-    {
-      "rect": [
-        5,
-        13,
-        20,
-        14
-      ]
-    }
+    { "rect": [17, 11, 20, 33] },
+    { "rect": [6, 13, 33, 17] },
+    { "rect": [6, 11, 7, 13] },
+    { "rect": [30, 11, 31, 13] },
+    { "rect": [6, 25, 10, 25] },
+    { "rect": [10, 17, 10, 25] },
+    { "rect": [27, 25, 31, 25] },
+    { "rect": [27, 17, 27, 25] },
+    { "rect": [13, 32, 20, 33] }
   ],
   "buildings": [
     {
       "id": "dread-keep",
-      "upgradeKind": "default",
-      "rect": [
-        7,
-        3,
-        18,
-        11
-      ],
+      "rect": [13, 2, 24, 10],
       "wall": "darkStone",
       "roof": "greySlateRoof",
       "doors": [
-        {
-          "tx": 5,
-          "ty": 1,
-          "hideSign": true,
-          "buildingId": "dread-keep"
-        },
-        {
-          "tx": 6,
-          "ty": 1,
-          "hideSign": true,
-          "buildingId": "dread-keep"
-        }
+        { "tx": 5, "ty": 1, "hideSign": true, "buildingId": "dread-keep" },
+        { "tx": 6, "ty": 1, "hideSign": true, "buildingId": "dread-keep" }
       ]
+    },
+    {
+      "id": "warlock-tower-west",
+      "rect": [4, 4, 10, 10],
+      "wall": "darkStone",
+      "roof": "greySlateRoof",
+      "doors": [ { "tx": 3, "ty": 1, "buildingId": "warlock-tower-west" } ]
+    },
+    {
+      "id": "warlock-tower-east",
+      "rect": [27, 4, 33, 10],
+      "wall": "darkStone",
+      "roof": "greySlateRoof",
+      "doors": [ { "tx": 3, "ty": 1, "buildingId": "warlock-tower-east" } ]
+    },
+    {
+      "id": "shadow-shrine",
+      "rect": [3, 18, 9, 24],
+      "wall": "darkStone",
+      "roof": "greySlateRoof",
+      "doors": [ { "tx": 3, "ty": 1, "buildingId": "shadow-shrine" } ]
+    },
+    {
+      "id": "bone-vault",
+      "rect": [28, 18, 34, 24],
+      "wall": "stoneWall",
+      "roof": "greySlateRoof",
+      "doors": [ { "tx": 3, "ty": 1, "buildingId": "bone-vault" } ]
+    },
+    {
+      "id": "gatehouse",
+      "rect": [11, 25, 16, 31],
+      "wall": "darkStone",
+      "roof": "greySlateRoof",
+      "doors": [ { "tx": 3, "ty": 1, "buildingId": "gatehouse" } ]
     }
   ],
   "exteriorDecor": [
-    {
-      "comment": "gate braziers burning cold"
-    },
-    {
-      "tx": 10,
-      "ty": 13,
-      "tileId": "brazierBottom"
-    },
-    {
-      "tx": 10,
-      "ty": 12,
-      "tileId": "brazierTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 15,
-      "ty": 13,
-      "tileId": "brazierBottom"
-    },
-    {
-      "tx": 15,
-      "ty": 12,
-      "tileId": "brazierTop",
-      "zlayer": "above"
-    },
-    {
-      "comment": "dark crystals growing through the courtyard"
-    },
-    {
-      "tx": 5,
-      "ty": 15,
-      "tileId": "dark_red_crystal1"
-    },
-    {
-      "tx": 19,
-      "ty": 16,
-      "tileId": "dark_red_crystal1"
-    },
-    {
-      "tx": 8,
-      "ty": 17,
-      "tileId": "skull"
-    },
-    {
-      "tx": 17,
-      "ty": 17,
-      "tileId": "smallRock"
-    },
-    {
-      "comment": "iron fence along the court, gap at the gate"
-    },
-    {
-      "tx": 5,
-      "ty": 17,
-      "tileId": "ironFenceLeftRight",
-      "zlayer": "above"
-    },
-    {
-      "tx": 6,
-      "ty": 17,
-      "tileId": "ironFenceLeftRight",
-      "zlayer": "above"
-    },
-    {
-      "tx": 7,
-      "ty": 17,
-      "tileId": "ironFenceLeftRight",
-      "zlayer": "above"
-    },
-    {
-      "tx": 8,
-      "ty": 17,
-      "tileId": "ironFenceLeftRight",
-      "zlayer": "above"
-    },
-    {
-      "tx": 9,
-      "ty": 17,
-      "tileId": "ironFenceLeftRight",
-      "zlayer": "above"
-    },
-    {
-      "tx": 10,
-      "ty": 17,
-      "tileId": "ironFenceLeft",
-      "zlayer": "above"
-    },
-    {
-      "tx": 15,
-      "ty": 17,
-      "tileId": "ironFenceRight",
-      "zlayer": "above"
-    },
-    {
-      "tx": 16,
-      "ty": 17,
-      "tileId": "ironFenceLeftRight",
-      "zlayer": "above"
-    },
-    {
-      "tx": 17,
-      "ty": 17,
-      "tileId": "ironFenceLeftRight",
-      "zlayer": "above"
-    },
-    {
-      "tx": 18,
-      "ty": 17,
-      "tileId": "ironFenceLeftRight",
-      "zlayer": "above"
-    },
-    {
-      "tx": 19,
-      "ty": 17,
-      "tileId": "ironFenceLeftRight",
-      "zlayer": "above"
-    },
-    {
-      "tx": 20,
-      "ty": 17,
-      "tileId": "ironFenceLeftRight",
-      "zlayer": "above"
-    },
-    {
-      "comment": "nothing alive grows here"
-    },
-    {
-      "tx": 2,
-      "ty": 6,
-      "bundleID": "dead-tree",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 21,
-      "ty": 6,
-      "bundleID": "dead-tree",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 3,
-      "ty": 12,
-      "bundleID": "dead-tree",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 22,
-      "ty": 13,
-      "bundleID": "dead-tree",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 18,
-      "ty": 19,
-      "bundleID": "dead-tree",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 4,
-      "ty": 19,
-      "bundleID": "dead-tree",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 17,
-      "ty": 13,
-      "tileId": "wantedSign",
-      "zlayer": "solid"
-    }
+    { "comment": "gate braziers at the south entrance" },
+    { "tx": 16, "ty": 32, "tileId": "brazierBottom" },
+    { "tx": 16, "ty": 31, "tileId": "brazierTop", "zlayer": "above" },
+    { "tx": 21, "ty": 32, "tileId": "brazierBottom" },
+    { "tx": 21, "ty": 31, "tileId": "brazierTop", "zlayer": "above" },
+    { "tx": 17, "ty": 33, "tileId": "skullSign", "zlayer": "above" },
+
+    { "comment": "braziers flanking the keep approach" },
+    { "tx": 16, "ty": 12, "tileId": "brazierBottom" },
+    { "tx": 16, "ty": 11, "tileId": "brazierTop", "zlayer": "above" },
+    { "tx": 21, "ty": 12, "tileId": "brazierBottom" },
+    { "tx": 21, "ty": 11, "tileId": "brazierTop", "zlayer": "above" },
+
+    { "comment": "gargoyles watching from the keep corners" },
+    { "tx": 12, "ty": 10, "tileId": "gargoyleBottom" },
+    { "tx": 12, "ty": 9, "tileId": "gargoyleTop", "zlayer": "above" },
+    { "tx": 25, "ty": 10, "tileId": "gargoyleBottom" },
+    { "tx": 25, "ty": 9, "tileId": "gargoyleTop", "zlayer": "above" },
+
+    { "comment": "dark crystals creeping through the court" },
+    { "tx": 9, "ty": 14, "tileId": "dark_red_crystal1" },
+    { "tx": 13, "ty": 18, "tileId": "dark_red_crystal2" },
+    { "tx": 27, "ty": 14, "tileId": "dark_red_crystal1" },
+    { "tx": 23, "ty": 18, "tileId": "black_crystal1" },
+    { "tx": 32, "ty": 18, "tileId": "black_crystal2" },
+    { "tx": 4, "ty": 16, "tileId": "black_crystal1" },
+
+    { "comment": "bone piles and graves in the wards" },
+    { "tx": 8, "ty": 18, "tileId": "skull" },
+    { "tx": 26, "ty": 18, "tileId": "skull" },
+    { "tx": 12, "ty": 23, "tileId": "graveStone" },
+    { "tx": 14, "ty": 23, "tileId": "graveWoodenCross" },
+    { "tx": 22, "ty": 23, "tileId": "graveStone" },
+    { "tx": 24, "ty": 24, "tileId": "graveWoodenCross" },
+    { "tx": 9, "ty": 28, "tileId": "skull" },
+    { "tx": 25, "ty": 28, "tileId": "graveStone" },
+
+    { "comment": "nothing alive grows here — dead trees along the walls" },
+    { "tx": 2, "ty": 5, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 35, "ty": 5, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 2, "ty": 13, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 36, "ty": 14, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 2, "ty": 21, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 36, "ty": 22, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 3, "ty": 29, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 35, "ty": 29, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 22, "ty": 28, "bundleID": "dead-tree", "zlayer": "solid" },
+
+    { "comment": "withered scrub" },
+    { "tx": 9, "ty": 20, "tileId": "deadBush" },
+    { "tx": 28, "ty": 20, "tileId": "deadBush" },
+    { "tx": 4, "ty": 27, "tileId": "deadBush" },
+    { "tx": 33, "ty": 27, "tileId": "deadBush" },
+    { "tx": 19, "ty": 24, "tileId": "deadBush" },
+    { "tx": 8, "ty": 30, "tileId": "cropDead" },
+    { "tx": 27, "ty": 30, "tileId": "cropDead" },
+
+    { "comment": "iron fence stubs framing the court" },
+    { "tx": 11, "ty": 18, "tileId": "ironFenceLeft", "zlayer": "above" },
+    { "tx": 12, "ty": 18, "tileId": "ironFenceLeftRight", "zlayer": "above" },
+    { "tx": 28, "ty": 18, "tileId": "ironFenceLeftRight", "zlayer": "above" },
+    { "tx": 29, "ty": 18, "tileId": "ironFenceRight", "zlayer": "above" },
+
+    { "comment": "the citadel's standing notice" },
+    { "tx": 22, "ty": 13, "tileId": "wantedSign", "zlayer": "solid" },
+    { "tx": 8, "ty": 26, "tileId": "skullSign", "zlayer": "above" }
   ],
   "npcSpawnTiles": [],
   "ambientNpcSprites": [],
@@ -253,100 +146,555 @@
       "name": "The Castellan",
       "sprite": "hub-npc-scholar",
       "isGhost": true,
-      "tx": 12,
-      "ty": 15,
+      "tx": 18, "ty": 15,
       "dialogue": [
         "Welcome to Dreadspire. The master is out. The master has been out for four hundred years.",
         "I maintain the citadel. The dust maintains itself — it's quite industrious.",
-        "The dark crystals in the courtyard keep the walls standing. They've been... wandering off lately."
+        "The dark crystals that anchor these walls have been... wandering off lately. It is most irregular."
       ],
       "questGive": "dreadspire-dark-harvest",
-      "questReceive": "dreadspire-dark-harvest"
+      "questReceive": ["dreadspire-dark-harvest", "dreadspire-harvest-2", "dreadspire-harvest-3"]
     },
     {
       "id": "bound-knight",
       "name": "The Bound Knight",
       "sprite": "hub-npc-soldier",
-      "tx": 14,
-      "ty": 15,
+      "tx": 17, "ty": 30,
       "dialogue": [
         "I swore to guard this gate until my lord returns. He has not returned. I am very good at my job.",
-        "You defeated the garrison at the gate. They'll re-form by morning — death is a poor excuse for missing a shift here.",
+        "Death is a poor excuse for missing a shift here. The garrison re-forms by morning, every morning.",
         "If you mean the citadel harm, I must stop you. If you mean it well, I must watch you suspiciously. Those are the rules."
+      ],
+      "questGive": "dreadspire-lost-watch",
+      "questReceive": "dreadspire-lost-watch"
+    },
+    {
+      "id": "warlock-vesska",
+      "name": "Warlock Vesska",
+      "sprite": "hub-npc-warlock",
+      "building": "keep-warlock-study",
+      "tx": 6, "ty": 3,
+      "dialogue": [
+        "Mind the sigils. The floor ones bite. The ceiling ones are merely judgmental.",
+        "Four centuries of research and I have proven, conclusively, that the dead make poor conversationalists.",
+        "If Ordrin asks, I did NOT borrow his shadow-oil. I liberated it. There is a difference."
+      ],
+      "questGive": "dreadspire-intrigue-1",
+      "questReceive": ["dreadspire-intrigue-1", "dreadspire-intrigue-3"],
+      "dialogueTree": "vesska-chat",
+      "schedule": [
+        { "startHour": 0, "endHour": 8, "activity": "sleep", "location": { "type": "interior", "buildingId": "keep-warlock-study", "tx": 6, "ty": 3 } },
+        { "startHour": 8, "endHour": 20, "activity": "work", "location": { "type": "interior", "buildingId": "keep-warlock-study", "tx": 6, "ty": 3 } },
+        { "startHour": 20, "endHour": 0, "activity": "idle-chat", "location": { "type": "interior", "buildingId": "summoning-chamber", "tx": 5, "ty": 5 } }
+      ]
+    },
+    {
+      "id": "cultist-ordrin",
+      "name": "Cultist Ordrin",
+      "sprite": "hub-npc-cultist",
+      "building": "summoning-chamber",
+      "tx": 5, "ty": 3,
+      "dialogue": [
+        "The circle is hungry. The circle is always hungry. I keep telling it we eat at dusk, like civilised people.",
+        "One bone dust, one measure of shadow-oil, one candle of rendered dread. Is that so much to ask?",
+        "Vesska took my shadow-oil. I can tell. The circle sulks differently when the oil is wrong."
+      ],
+      "questGive": "dreadspire-ritual-ingredients",
+      "questReceive": "dreadspire-ritual-ingredients"
+    },
+    {
+      "id": "bone-keeper-mald",
+      "name": "Bone-Keeper Mald",
+      "sprite": "bone-merchant",
+      "building": "bone-vault",
+      "tx": 4, "ty": 3,
+      "dialogue": [
+        "Every bone in its niche. Every niche labelled. Chaos is for the living.",
+        "We had a thief. Took three femurs and a favourite skull. The skull I shall miss; it was a good listener.",
+        "You want the deep ossuary? Mind the draught. And the things that enjoy the draught."
+      ],
+      "questGive": "dreadspire-bone-tally",
+      "questReceive": "dreadspire-bone-tally"
+    },
+    {
+      "id": "shrine-tender",
+      "name": "The Shrine-Tender",
+      "sprite": "phantom",
+      "isGhost": true,
+      "building": "shrine-inner-sanctum",
+      "tx": 5, "ty": 4,
+      "dialogue": [
+        "The shadow listens, pilgrim. It is a poor talker but an excellent listener.",
+        "Light no honest candles here. The black ones, please — the dark prefers its own.",
+        "Pray if you like. The shadow grants nothing, but it never lies to you either. Rare, these days."
+      ],
+      "questGive": "dreadspire-black-candles",
+      "questReceive": "dreadspire-black-candles"
+    },
+    {
+      "id": "alchemist-sythe",
+      "name": "Alchemist Sythe",
+      "sprite": "sea-witch",
+      "building": "alchemy-lab",
+      "tx": 5, "ty": 4,
+      "dialogue": [
+        "Poison is just medicine with conviction. Sit further away, dear.",
+        "I need moon-herbs — proper ones, from Hollowmere's marsh. The local weeds are all dead, and dead weeds make dull poison.",
+        "Touch nothing green. Touch nothing that ISN'T green either, come to think of it."
+      ],
+      "questGive": "dreadspire-moon-herbs",
+      "questReceive": "dreadspire-moon-herbs"
+    },
+    {
+      "id": "raven-keeper-corvane",
+      "name": "Raven-Keeper Corvane",
+      "sprite": "hub-npc-raven-keeper",
+      "building": "tower-west-top",
+      "tx": 4, "ty": 4,
+      "dialogue": [
+        "Mind the birds. They remember faces. They remember grudges far longer.",
+        "Six ravens I keep, and six I count each dusk. Last night I counted five. The sixth is sulking, or stolen.",
+        "They fly the whole citadel, my birds. Drop me a token from each corner and I'll know my domain is whole."
+      ],
+      "questGive": "dreadspire-raven-tokens",
+      "questReceive": "dreadspire-raven-tokens"
+    },
+    {
+      "id": "dungeon-warden-gholl",
+      "name": "Warden Gholl",
+      "sprite": "hub-npc-guard",
+      "building": "dungeon-cells",
+      "tx": 4, "ty": 4,
+      "dialogue": [
+        "One prisoner. Four hundred years. We have, I think, grown fond of each other.",
+        "The lower vault stays sealed. Warlock's orders — Vesska's, not the master's. There is a difference, and it troubles me.",
+        "If you've business in the deep cells, bring me leave from one who outranks dust. I'll know it when I see it."
+      ]
+    },
+    {
+      "id": "the-defector",
+      "name": "Sera the Defector",
+      "sprite": "hub-npc-scholar",
+      "building": "dungeon-lower-vault",
+      "tx": 5, "ty": 4,
+      "dialogue": [
+        "You're warm. You're BREATHING. Oh, I could weep — do you know how long since I've seen breath?",
+        "I served the master once. Then I read what the ritual actually does, and I asked to leave. You can guess how that went.",
+        "Get me out and I'll tell you what sleeps under this citadel. It is the only currency I have left."
+      ],
+      "questGive": "dreadspire-intrigue-3",
+      "questReceive": "dreadspire-intrigue-2"
+    },
+    {
+      "id": "ghost-servant-isolde",
+      "name": "Isolde",
+      "sprite": "phantom",
+      "isGhost": true,
+      "building": "servants-undercroft",
+      "tx": 5, "ty": 4,
+      "dialogue": [
+        "Dust to sweep, dust to dust. The work is eternal. So, conveniently, am I.",
+        "I dropped the master's old keys somewhere on my rounds. Four centuries of rounds. They could be anywhere.",
+        "Mind the crypt door. It sticks. Everything down here sticks, including time."
+      ],
+      "questGive": "dreadspire-lost-keys",
+      "questReceive": "dreadspire-lost-keys",
+      "schedule": [
+        { "startHour": 6, "endHour": 20, "activity": "sweep", "location": { "type": "interior", "buildingId": "keep-crypt", "tx": 6, "ty": 4 } },
+        { "startHour": 20, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "servants-undercroft", "tx": 5, "ty": 4 } }
       ]
     }
   ],
   "interiors": {
     "dread-keep": {
       "name": "The Dread Throne",
-      "width": 12,
-      "height": 8,
+      "width": 14, "height": 10,
       "floorTileId": "stoneFloor",
       "wallTileId": "darkStone",
       "decor": [
-        {
-          "comment": "the summoning circle before the empty throne"
-        },
-        {
-          "tx": 5,
-          "ty": 3,
-          "tileId": "summoningCircle"
-        },
-        {
-          "tx": 2,
-          "ty": 1,
-          "tileId": "brazierTop"
-        },
-        {
-          "tx": 2,
-          "ty": 2,
-          "tileId": "brazierBottom"
-        },
-        {
-          "tx": 9,
-          "ty": 1,
-          "tileId": "brazierTop"
-        },
-        {
-          "tx": 9,
-          "ty": 2,
-          "tileId": "brazierBottom"
-        },
-        {
-          "tx": 5,
-          "ty": 1,
-          "tileId": "suitOfArmourTop"
-        },
-        {
-          "tx": 5,
-          "ty": 2,
-          "tileId": "suitOfArmourBottom"
-        },
-        {
-          "tx": 6,
-          "ty": 1,
-          "tileId": "suitOfArmourTop"
-        },
-        {
-          "tx": 6,
-          "ty": 2,
-          "tileId": "suitOfArmourBottom"
-        },
-        {
-          "tx": 1,
-          "ty": 5,
-          "tileId": "skull"
-        },
-        {
-          "tx": 10,
-          "ty": 5,
-          "tileId": "dark_red_crystal1"
-        }
+        { "tx": 2, "ty": 1, "tileId": "brazierTop" },
+        { "tx": 2, "ty": 2, "tileId": "brazierBottom" },
+        { "tx": 11, "ty": 1, "tileId": "brazierTop" },
+        { "tx": 11, "ty": 2, "tileId": "brazierBottom" },
+        { "tx": 4, "ty": 1, "tileId": "suitOfArmourTop" },
+        { "tx": 4, "ty": 2, "tileId": "suitOfArmourBottom" },
+        { "tx": 9, "ty": 1, "tileId": "suitOfArmourTop" },
+        { "tx": 9, "ty": 2, "tileId": "suitOfArmourBottom" },
+        { "tx": 6, "ty": 1, "tileId": "summoningCircle" },
+        { "tx": 7, "ty": 5, "tileId": "redCarpetFloor", "zlayer": "below" },
+        { "tx": 7, "ty": 6, "tileId": "redCarpetFloor", "zlayer": "below" },
+        { "tx": 7, "ty": 7, "tileId": "redCarpetFloor", "zlayer": "below" },
+        { "tx": 7, "ty": 8, "tileId": "redCarpetFloor", "zlayer": "below" },
+        { "tx": 1, "ty": 8, "tileId": "skull" },
+        { "tx": 12, "ty": 8, "tileId": "dark_red_crystal1" }
       ],
-      "exits": []
+      "exits": [
+        { "tx": 1, "ty": 4, "toInteriorId": "keep-war-room", "entryTx": 9, "entryTy": 6, "label": "War Room" },
+        { "tx": 12, "ty": 4, "toInteriorId": "keep-warlock-study", "entryTx": 1, "entryTy": 6, "label": "Warlock's Study" },
+        { "tx": 7, "ty": 1, "toInteriorId": "keep-crypt", "entryTx": 6, "entryTy": 6, "direction": "down", "label": "Descend to the Crypt" }
+      ]
+    },
+    "keep-war-room": {
+      "name": "The War Room",
+      "width": 12, "height": 9,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 5, "ty": 3, "tileId": "wantedSign" },
+        { "tx": 2, "ty": 1, "tileId": "suitOfArmourTop" },
+        { "tx": 2, "ty": 2, "tileId": "suitOfArmourBottom" },
+        { "tx": 9, "ty": 1, "tileId": "suitOfArmourTop" },
+        { "tx": 9, "ty": 2, "tileId": "suitOfArmourBottom" },
+        { "tx": 6, "ty": 1, "tileId": "blackopenBook" },
+        { "tx": 4, "ty": 7, "tileId": "barrel" },
+        { "tx": 10, "ty": 7, "tileId": "crate" },
+        { "tx": 1, "ty": 3, "tileId": "wallTorch" }
+      ],
+      "exits": [
+        { "tx": 8, "ty": 6, "toInteriorId": "dread-keep", "entryTx": 2, "entryTy": 4, "label": "Throne Hall" },
+        { "tx": 1, "ty": 5, "toInteriorId": "warlock-tower-east", "entryTx": 1, "entryTy": 6, "label": "East Tower Passage" }
+      ]
+    },
+    "keep-warlock-study": {
+      "name": "The Warlock's Study",
+      "width": 12, "height": 9,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 3, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 3, "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 8, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 8, "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 5, "ty": 1, "tileId": "candlestickLitTop" },
+        { "tx": 5, "ty": 2, "tileId": "candlestickLitBottom" },
+        { "tx": 10, "ty": 6, "tileId": "blackopenBook" },
+        { "tx": 9, "ty": 7, "tileId": "blackclosedBook" },
+        { "tx": 2, "ty": 7, "tileId": "dark_red_crystal2" },
+        { "tx": 6, "ty": 4, "tileId": "summoningCircle" }
+      ],
+      "exits": [
+        { "tx": 2, "ty": 6, "toInteriorId": "dread-keep", "entryTx": 11, "entryTy": 4, "label": "Throne Hall" }
+      ]
+    },
+    "keep-crypt": {
+      "name": "The Keep Crypt",
+      "width": 12, "height": 9,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "ambianceId": "sacred",
+      "decor": [
+        { "tx": 3, "ty": 1, "tileId": "graveStone" },
+        { "tx": 5, "ty": 1, "tileId": "graveWoodenCross" },
+        { "tx": 7, "ty": 1, "tileId": "graveStone" },
+        { "tx": 9, "ty": 1, "tileId": "graveWoodenCross" },
+        { "tx": 2, "ty": 4, "tileId": "candlestickUnlit" },
+        { "tx": 10, "ty": 4, "tileId": "candlestickUnlit" },
+        { "tx": 4, "ty": 7, "tileId": "skull" },
+        { "tx": 8, "ty": 7, "tileId": "black_crystal1" },
+        { "tx": 3, "ty": 5, "tileId": "darkPillarTop" },
+        { "tx": 9, "ty": 5, "tileId": "darkPillarTop" }
+      ],
+      "exits": [
+        { "tx": 6, "ty": 1, "toInteriorId": "dread-keep", "entryTx": 7, "entryTy": 2, "direction": "up", "label": "Up to the Throne" },
+        { "tx": 10, "ty": 6, "toInteriorId": "servants-undercroft", "entryTx": 1, "entryTy": 6, "label": "Servants' Undercroft" },
+        { "tx": 1, "ty": 3, "toInteriorId": "bone-ossuary-deep", "entryTx": 9, "entryTy": 3, "label": "Ossuary Passage" }
+      ]
+    },
+    "servants-undercroft": {
+      "name": "The Servants' Undercroft",
+      "width": 12, "height": 9,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 2, "ty": 1, "bundleID": "simple-bed" },
+        { "tx": 6, "ty": 1, "bundleID": "simple-bed" },
+        { "tx": 9, "ty": 1, "tileId": "barrel" },
+        { "tx": 10, "ty": 1, "tileId": "crate" },
+        { "tx": 3, "ty": 7, "tileId": "candlestickUnlit" },
+        { "tx": 8, "ty": 7, "tileId": "candlestickUnlit" },
+        { "tx": 5, "ty": 4, "tileId": "skull" },
+        { "tx": 10, "ty": 6, "tileId": "deadBush" }
+      ],
+      "exits": [
+        { "tx": 2, "ty": 6, "toInteriorId": "keep-crypt", "entryTx": 9, "entryTy": 6, "label": "Crypt" }
+      ]
+    },
+    "warlock-tower-west": {
+      "name": "Warlock Tower — West",
+      "width": 10, "height": 9,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 4, "ty": 1, "tileId": "summoningCircle" },
+        { "tx": 2, "ty": 1, "tileId": "candlestickLitTop" },
+        { "tx": 2, "ty": 2, "tileId": "candlestickLitBottom" },
+        { "tx": 6, "ty": 1, "tileId": "candlestickLitTop" },
+        { "tx": 6, "ty": 2, "tileId": "candlestickLitBottom" },
+        { "tx": 7, "ty": 6, "tileId": "bookshelfTop" },
+        { "tx": 7, "ty": 7, "tileId": "bookshelfBottom" },
+        { "tx": 2, "ty": 6, "tileId": "black_crystal2" }
+      ],
+      "exits": [
+        { "tx": 1, "ty": 1, "toInteriorId": "tower-west-top", "entryTx": 1, "entryTy": 6, "direction": "up", "label": "Climb the Stair" },
+        { "tx": 8, "ty": 1, "toInteriorId": "summoning-chamber", "entryTx": 8, "entryTy": 6, "direction": "down", "label": "Descend to the Chamber" }
+      ]
+    },
+    "tower-west-top": {
+      "name": "The Raven Roost",
+      "width": 10, "height": 9,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 2, "ty": 1, "tileId": "crate" },
+        { "tx": 7, "ty": 1, "tileId": "crate" },
+        { "tx": 4, "ty": 1, "tileId": "skull" },
+        { "tx": 5, "ty": 1, "tileId": "skull" },
+        { "tx": 8, "ty": 6, "tileId": "black_crystal1" },
+        { "tx": 2, "ty": 7, "tileId": "barrel" },
+        { "tx": 6, "ty": 4, "tileId": "candlestickUnlit" }
+      ],
+      "exits": [
+        { "tx": 1, "ty": 1, "toInteriorId": "warlock-tower-west", "entryTx": 1, "entryTy": 6, "direction": "down", "label": "Down the Stair" }
+      ]
+    },
+    "summoning-chamber": {
+      "name": "The Summoning Chamber",
+      "width": 12, "height": 9,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "ambianceId": "sacred",
+      "decor": [
+        { "tx": 5, "ty": 4, "tileId": "summoningCircle" },
+        { "tx": 6, "ty": 4, "tileId": "summoningCircle" },
+        { "tx": 2, "ty": 1, "tileId": "brazierTop" },
+        { "tx": 2, "ty": 2, "tileId": "brazierBottom" },
+        { "tx": 9, "ty": 1, "tileId": "brazierTop" },
+        { "tx": 9, "ty": 2, "tileId": "brazierBottom" },
+        { "tx": 4, "ty": 1, "tileId": "candlestickLitTop" },
+        { "tx": 7, "ty": 1, "tileId": "candlestickLitTop" },
+        { "tx": 10, "ty": 7, "tileId": "dark_red_crystal3" },
+        { "tx": 1, "ty": 7, "tileId": "black_crystal2" }
+      ],
+      "exits": [
+        { "tx": 8, "ty": 1, "toInteriorId": "warlock-tower-west", "entryTx": 8, "entryTy": 6, "direction": "up", "label": "Up the Stair" },
+        { "tx": 1, "ty": 3, "toInteriorId": "alchemy-lab", "entryTx": 10, "entryTy": 3, "label": "Alchemy Lab" }
+      ]
+    },
+    "alchemy-lab": {
+      "name": "The Poison Lab",
+      "width": 12, "height": 9,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 3, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 3, "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 5, "ty": 1, "tileId": "candlestickLitTop" },
+        { "tx": 5, "ty": 2, "tileId": "candlestickLitBottom" },
+        { "tx": 7, "ty": 1, "tileId": "blackopenBook" },
+        { "tx": 2, "ty": 6, "tileId": "barrel" },
+        { "tx": 4, "ty": 7, "tileId": "crate" },
+        { "tx": 8, "ty": 7, "tileId": "green_crystal1" },
+        { "tx": 6, "ty": 5, "tileId": "cropDead" }
+      ],
+      "exits": [
+        { "tx": 10, "ty": 3, "toInteriorId": "summoning-chamber", "entryTx": 2, "entryTy": 3, "label": "Summoning Chamber" }
+      ]
+    },
+    "warlock-tower-east": {
+      "name": "Warlock Tower — East",
+      "width": 10, "height": 9,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 4, "ty": 5, "tileId": "summoningCircle" },
+        { "tx": 2, "ty": 1, "tileId": "candlestickLitTop" },
+        { "tx": 2, "ty": 2, "tileId": "candlestickLitBottom" },
+        { "tx": 6, "ty": 1, "tileId": "candlestickLitTop" },
+        { "tx": 6, "ty": 2, "tileId": "candlestickLitBottom" },
+        { "tx": 7, "ty": 6, "tileId": "bookshelfTop" },
+        { "tx": 7, "ty": 7, "tileId": "bookshelfBottom" },
+        { "tx": 3, "ty": 6, "tileId": "dark_red_crystal1" }
+      ],
+      "exits": [
+        { "tx": 8, "ty": 1, "toInteriorId": "tower-east-top", "entryTx": 8, "entryTy": 6, "direction": "up", "label": "Climb the Stair" },
+        { "tx": 1, "ty": 1, "toInteriorId": "keep-war-room", "entryTx": 1, "entryTy": 6, "label": "Keep Passage" },
+        { "tx": 4, "ty": 1, "toInteriorId": "dungeon-cells", "entryTx": 6, "entryTy": 6, "direction": "down", "label": "Descend to the Cells" }
+      ]
+    },
+    "tower-east-top": {
+      "name": "The East Tower Top",
+      "width": 10, "height": 9,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 2, "ty": 1, "tileId": "gargoyleTop" },
+        { "tx": 2, "ty": 2, "tileId": "gargoyleBottom" },
+        { "tx": 7, "ty": 1, "tileId": "gargoyleTop" },
+        { "tx": 7, "ty": 2, "tileId": "gargoyleBottom" },
+        { "tx": 4, "ty": 1, "tileId": "black_crystal3" },
+        { "tx": 5, "ty": 6, "tileId": "candlestickUnlit" },
+        { "tx": 2, "ty": 7, "tileId": "crate" }
+      ],
+      "exits": [
+        { "tx": 8, "ty": 1, "toInteriorId": "warlock-tower-east", "entryTx": 8, "entryTy": 6, "direction": "down", "label": "Down the Stair" }
+      ]
+    },
+    "shadow-shrine": {
+      "name": "The Shadow Shrine",
+      "width": 11, "height": 9,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "darkStone",
+      "musicId": "church",
+      "ambianceId": "sacred",
+      "decor": [
+        { "tx": 5, "ty": 1, "tileId": "altarTopMid" },
+        { "tx": 5, "ty": 2, "tileId": "altarMidMid" },
+        { "tx": 5, "ty": 3, "tileId": "altarBotMid" },
+        { "tx": 3, "ty": 1, "tileId": "candlestickLitTop" },
+        { "tx": 3, "ty": 2, "tileId": "candlestickLitBottom" },
+        { "tx": 7, "ty": 1, "tileId": "candlestickLitTop" },
+        { "tx": 7, "ty": 2, "tileId": "candlestickLitBottom" },
+        { "tx": 2, "ty": 7, "tileId": "black_crystal1" },
+        { "tx": 8, "ty": 7, "tileId": "black_crystal2" }
+      ],
+      "exits": [
+        { "tx": 1, "ty": 3, "toInteriorId": "shrine-inner-sanctum", "entryTx": 9, "entryTy": 3, "label": "Inner Sanctum" }
+      ]
+    },
+    "shrine-inner-sanctum": {
+      "name": "The Inner Sanctum",
+      "width": 11, "height": 9,
+      "floorTileId": "redCarpetFloor",
+      "wallTileId": "darkStone",
+      "musicId": "church",
+      "ambianceId": "sacred",
+      "decor": [
+        { "tx": 5, "ty": 1, "tileId": "summoningCircle" },
+        { "tx": 3, "ty": 1, "tileId": "brazierTop" },
+        { "tx": 3, "ty": 2, "tileId": "brazierBottom" },
+        { "tx": 7, "ty": 1, "tileId": "brazierTop" },
+        { "tx": 7, "ty": 2, "tileId": "brazierBottom" },
+        { "tx": 2, "ty": 6, "tileId": "candlestickLitTop" },
+        { "tx": 8, "ty": 6, "tileId": "candlestickLitTop" },
+        { "tx": 5, "ty": 6, "tileId": "dark_red_crystal4" }
+      ],
+      "exits": [
+        { "tx": 9, "ty": 3, "toInteriorId": "shadow-shrine", "entryTx": 2, "entryTy": 3, "label": "Shrine" }
+      ]
+    },
+    "bone-vault": {
+      "name": "The Bone Vault",
+      "width": 11, "height": 9,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "stoneWall",
+      "decor": [
+        { "tx": 2, "ty": 1, "tileId": "skull" },
+        { "tx": 3, "ty": 1, "tileId": "skull" },
+        { "tx": 7, "ty": 1, "tileId": "skull" },
+        { "tx": 8, "ty": 1, "tileId": "skull" },
+        { "tx": 5, "ty": 1, "tileId": "skullSign" },
+        { "tx": 2, "ty": 6, "tileId": "graveStone" },
+        { "tx": 8, "ty": 6, "tileId": "graveStone" },
+        { "tx": 5, "ty": 4, "tileId": "candlestickUnlit" }
+      ],
+      "exits": [
+        { "tx": 9, "ty": 1, "toInteriorId": "bone-ossuary-deep", "entryTx": 1, "entryTy": 6, "direction": "down", "label": "Into the Ossuary" }
+      ]
+    },
+    "bone-ossuary-deep": {
+      "name": "The Deep Ossuary",
+      "width": 12, "height": 9,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "stoneWall",
+      "ambianceId": "sacred",
+      "decor": [
+        { "tx": 2, "ty": 1, "tileId": "skull" },
+        { "tx": 4, "ty": 1, "tileId": "skull" },
+        { "tx": 6, "ty": 1, "tileId": "skull" },
+        { "tx": 8, "ty": 1, "tileId": "skull" },
+        { "tx": 10, "ty": 1, "tileId": "skull" },
+        { "tx": 3, "ty": 7, "tileId": "graveStone" },
+        { "tx": 7, "ty": 7, "tileId": "graveWoodenCross" },
+        { "tx": 5, "ty": 5, "tileId": "black_crystal4" },
+        { "tx": 9, "ty": 5, "tileId": "candlestickUnlit" }
+      ],
+      "exits": [
+        { "tx": 1, "ty": 5, "toInteriorId": "bone-vault", "entryTx": 8, "entryTy": 6, "direction": "up", "label": "Up to the Vault" },
+        { "tx": 10, "ty": 3, "toInteriorId": "keep-crypt", "entryTx": 2, "entryTy": 3, "label": "Crypt Passage" }
+      ]
+    },
+    "gatehouse": {
+      "name": "The Gatehouse Guardroom",
+      "width": 11, "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 2, "ty": 1, "tileId": "suitOfArmourTop" },
+        { "tx": 2, "ty": 2, "tileId": "suitOfArmourBottom" },
+        { "tx": 8, "ty": 1, "tileId": "suitOfArmourTop" },
+        { "tx": 8, "ty": 2, "tileId": "suitOfArmourBottom" },
+        { "tx": 5, "ty": 1, "tileId": "wantedSign" },
+        { "tx": 3, "ty": 5, "tileId": "barrel" },
+        { "tx": 7, "ty": 5, "tileId": "crate" },
+        { "tx": 1, "ty": 3, "tileId": "wallTorch" },
+        { "tx": 9, "ty": 3, "tileId": "wallTorch" }
+      ],
+      "exits": [
+        { "tx": 9, "ty": 1, "toInteriorId": "dungeon-cells", "entryTx": 1, "entryTy": 6, "direction": "down", "label": "Down to the Cells" }
+      ]
+    },
+    "dungeon-cells": {
+      "name": "The Dungeon Cells",
+      "width": 12, "height": 9,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 2, "ty": 1, "tileId": "cellWindowLit" },
+        { "tx": 4, "ty": 1, "tileId": "cellWindowUnlit" },
+        { "tx": 8, "ty": 1, "tileId": "cellWindowUnlit" },
+        { "tx": 10, "ty": 1, "tileId": "cellWindowLit" },
+        { "tx": 2, "ty": 7, "tileId": "skull" },
+        { "tx": 10, "ty": 7, "tileId": "skull" },
+        { "tx": 5, "ty": 3, "tileId": "candlestickUnlit" },
+        { "tx": 7, "ty": 7, "tileId": "barrel" }
+      ],
+      "exits": [
+        { "tx": 6, "ty": 1, "toInteriorId": "warlock-tower-east", "entryTx": 4, "entryTy": 6, "direction": "up", "label": "Up to the East Tower" },
+        { "tx": 1, "ty": 5, "toInteriorId": "gatehouse", "entryTx": 8, "entryTy": 6, "direction": "up", "label": "Up to the Gatehouse" },
+        { "tx": 10, "ty": 6, "toInteriorId": "dungeon-lower-vault", "entryTx": 6, "entryTy": 6, "direction": "down", "requiredQuest": "dreadspire-intrigue-2", "label": "The Sealed Vault" }
+      ]
+    },
+    "dungeon-lower-vault": {
+      "name": "The Lower Vault",
+      "width": 11, "height": 9,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "ambianceId": "sacred",
+      "decor": [
+        { "tx": 2, "ty": 1, "tileId": "cellWindowUnlit" },
+        { "tx": 8, "ty": 1, "tileId": "cellWindowUnlit" },
+        { "tx": 5, "ty": 1, "tileId": "summoningCircle" },
+        { "tx": 2, "ty": 6, "tileId": "black_crystal1" },
+        { "tx": 8, "ty": 6, "tileId": "dark_red_crystal2" },
+        { "tx": 3, "ty": 7, "tileId": "skull" },
+        { "tx": 7, "ty": 7, "tileId": "graveStone" }
+      ],
+      "exits": [
+        { "tx": 6, "ty": 1, "toInteriorId": "dungeon-cells", "entryTx": 10, "entryTy": 5, "direction": "up", "label": "Up to the Cells" }
+      ]
     }
   },
-  "animals": [],
+  "animals": [
+    {
+      "id": "citadel-raven",
+      "type": "bird",
+      "variant": "#1a1a1a",
+      "tx": 9, "ty": 12,
+      "name": "Citadel Raven",
+      "dialogue": ["*kraa!*", "The raven watches you with one glassy eye."],
+      "roam": false
+    }
+  ],
   "pondTiles": [],
   "treasures": []
 }
