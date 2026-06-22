@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- shadow -->
+  <ellipse cx="16" cy="29" rx="6" ry="2" fill="rgba(0,0,0,0.2)"/>
+  <!-- gown -->
+  <polygon points="11,14 21,14 24,28 8,28" fill="#5b3a8e"/>
+  <!-- bodice trim -->
+  <rect x="11" y="14" width="10" height="3" fill="#d9c46a"/>
+  <!-- arms -->
+  <rect x="7"  y="15" width="3" height="8" rx="1" fill="#5b3a8e"/>
+  <rect x="22" y="15" width="3" height="8" rx="1" fill="#5b3a8e"/>
+  <!-- hair -->
+  <rect x="10" y="7" width="12" height="7" rx="3" fill="#7a4a24"/>
+  <!-- head -->
+  <circle cx="16" cy="9" r="5" fill="#ecc6a3"/>
+  <!-- eyes -->
+  <rect x="13" y="8" width="2" height="2" rx="1" fill="#2a1a0a"/>
+  <rect x="17" y="8" width="2" height="2" rx="1" fill="#2a1a0a"/>
+  <!-- crown -->
+  <rect x="11" y="3" width="10" height="3" fill="#e8c34a"/>
+  <polygon points="11,3 13,0 15,3" fill="#e8c34a"/>
+  <polygon points="15,3 16,-1 17,3" fill="#e8c34a"/>
+  <polygon points="17,3 19,0 21,3" fill="#e8c34a"/>
+  <circle cx="16" cy="2" r="1" fill="#6fa0d8"/>
+</svg>

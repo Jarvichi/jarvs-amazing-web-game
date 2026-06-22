@@ -3,12 +3,12 @@
     {
       "id": "palace-lost-regalia",
       "title": "The Lost Regalia",
-      "type": "fetch",
+      "type": "lost-items",
       "giverNpcId": "royal-steward",
       "receiverNpcId": "royal-steward",
-      "offerDialogue": "The coronation regalia has been scattered across the gardens — the ceremonial pendant, the jubilee gift, and the vault key. The next royal audience is in mere hours. Recover all three and you will have the palace's eternal, slightly flustered gratitude.",
-      "activeDialogue": "The pendant, the gift, and the key — somewhere in the gardens. Do hurry, but mind the flowerbeds.",
-      "completeDialogue": "The pendant! The gift! The key! All accounted for. The audience is saved, and so am I. The crown rewards competence — here, with my compliments.",
+      "offerDialogue": "The coronation regalia has been scattered across the grounds \u2014 the ceremonial pendant, the jubilee gift, and the vault key. The next royal audience is in mere hours. Recover all three and you will have the palace's eternal, slightly flustered gratitude.",
+      "activeDialogue": "The pendant, the gift, and the key \u2014 somewhere out on the grounds. Do hurry, but mind the flowerbeds.",
+      "completeDialogue": "The pendant! The gift! The key! All accounted for. The audience is saved, and so am I. The crown rewards competence \u2014 here, with my compliments.",
       "steps": [
         {
           "key": "regalia",
@@ -26,7 +26,7 @@
         "collectible": {
           "id": "royal-seal",
           "name": "Royal Seal",
-          "icon": "👑",
+          "icon": "\ud83d\udc51",
           "desc": "A wax seal bearing the crown's sigil, given for service to the palace."
         }
       }
@@ -37,9 +37,9 @@
       "type": "fetch",
       "giverNpcId": "royal-steward",
       "receiverNpcId": "kipper",
-      "offerDialogue": "Oh, thank goodness — a capable face. The Princess is inconsolable. Her darling cat, Kipper, was sent down to Millhaven for the sea air, and word comes back that he does nothing but wail, day and night. She cannot eat nor sleep for worry. Please — travel to Millhaven, find Kipper, and discover what ails the poor creature.",
+      "offerDialogue": "Oh, thank goodness \u2014 a capable face. The Princess is inconsolable. Her darling cat, Kipper, was sent down to Millhaven for the sea air, and word comes back that he does nothing but wail, day and night. She cannot eat nor sleep for worry. Please \u2014 travel to Millhaven, find Kipper, and discover what ails the poor creature.",
       "activeDialogue": "Kipper is in Millhaven, down by the waterfront last we heard. Find him, I beg you.",
-      "completeDialogue": "Kipper is curled on the dockside, crying at the grey waves. He looks up at you, wails twice as loud, and presses his face into your hand — something is dreadfully wrong, but for the life of you, you cannot tell what. Perhaps the locals know what ails him.",
+      "completeDialogue": "Kipper is curled on the dockside, crying at the grey waves. He looks up at you, wails twice as loud, and presses his face into your hand \u2014 something is dreadfully wrong, but for the life of you, you cannot tell what. Perhaps the locals know what ails him.",
       "steps": [
         {
           "key": "find",
@@ -50,7 +50,9 @@
       ],
       "reward": {
         "crystals": 30,
-        "friendship": { "royal-steward": 10 }
+        "friendship": {
+          "royal-steward": 10
+        }
       }
     },
     {
@@ -60,8 +62,8 @@
       "giverNpcId": "royal-steward",
       "receiverNpcId": "royal-steward",
       "prerequisite": "quest:kipper-true-wish",
-      "offerDialogue": "You have returned! And the news? ...Kipper hated FISH? All this time? The Princess gave him nothing but the finest kippers because she believed he adored them — oh, the poor darling. Carry the truth up to her, and the crown's gratitude with it.",
-      "activeDialogue": "Carry the good news up to the Princess — Kipper is happy at last.",
+      "offerDialogue": "You have returned! And the news? ...Kipper hated FISH? All this time? The Princess gave him nothing but the finest kippers because she believed he adored them \u2014 oh, the poor darling. Carry the truth up to her, and the crown's gratitude with it.",
+      "activeDialogue": "Carry the good news up to the Princess \u2014 Kipper is happy at last.",
       "completeDialogue": "The Princess is overjoyed. Kipper purrs in her lap as we speak, a feather-toy in his paws and not a fish in sight. You have mended a small heartbreak today, and the crown pays its debts. Well done.",
       "steps": [
         {
@@ -76,35 +78,803 @@
         "collectible": {
           "id": "royal-favour",
           "name": "Royal Favour",
-          "icon": "👑",
+          "icon": "\ud83d\udc51",
           "desc": "The Princess's personal thanks for healing her beloved Kipper."
         },
-        "friendship": { "royal-steward": 25 }
+        "friendship": {
+          "royal-steward": 25
+        }
+      }
+    },
+    {
+      "id": "palace-royal-bloom",
+      "title": "The Royal Bloom",
+      "type": "fetch",
+      "giverNpcId": "royal-gardener",
+      "receiverNpcId": "royal-gardener",
+      "offerDialogue": "I've three prize blooms gone missing from the beds \u2014 slipped their stakes in the night wind, no doubt. Gather them before the slugs do and I'll see you right.",
+      "activeDialogue": "Three rare blooms, somewhere among the gardens. Mind where you tread.",
+      "completeDialogue": "All three, and not a petal bruised! You've a gardener's hands, friend. Take this for your trouble.",
+      "steps": [
+        {
+          "key": "blooms",
+          "type": "collect",
+          "pickupIds": [
+            "bloom-rose",
+            "bloom-white",
+            "bloom-blue"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": {
+          "royal-gardener": 15
+        }
+      }
+    },
+    {
+      "id": "palace-orangery-harvest",
+      "title": "Fruits of the Orangery",
+      "type": "fetch",
+      "giverNpcId": "royal-gardener",
+      "receiverNpcId": "royal-gardener",
+      "prerequisite": "quest:palace-royal-bloom",
+      "offerDialogue": "Now I trust your hands \u2014 pop into the orangery and bring me the ripe pots before the frost gets ideas.",
+      "activeDialogue": "Three ripe pots in the orangery, if you'd be so kind.",
+      "completeDialogue": "Lovely, lovely. The Queen will have her winter blooms after all. Here \u2014 you've earned it.",
+      "steps": [
+        {
+          "key": "fruits",
+          "type": "collect",
+          "pickupIds": [
+            "orangery-pot-1",
+            "orangery-pot-2",
+            "orangery-pot-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 75,
+        "friendship": {
+          "royal-gardener": 20
+        }
+      }
+    },
+    {
+      "id": "palace-kitchen-feast",
+      "title": "A Feast for the Court",
+      "type": "fetch",
+      "giverNpcId": "royal-cook",
+      "receiverNpcId": "royal-cook",
+      "offerDialogue": "A state banquet tonight and my larder's half empty! Eggs, a good cut of steak, and garlic \u2014 fetch them quick, before the cauldron and I both boil over.",
+      "activeDialogue": "Eggs, steak, garlic. Run, run! The court does not wait for a slow cook.",
+      "completeDialogue": "Bless you! The banquet is saved and the King shall not go hungry \u2014 a fate worse than dragons, that. Here, a little something from a grateful kitchen.",
+      "steps": [
+        {
+          "key": "ingredients",
+          "type": "collect",
+          "pickupIds": [
+            "feast-eggs",
+            "feast-steak",
+            "feast-garlic"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 70,
+        "friendship": {
+          "royal-cook": 15
+        }
+      }
+    },
+    {
+      "id": "palace-runaway-pony",
+      "title": "The Runaway Pony",
+      "type": "lost-items",
+      "giverNpcId": "stable-master",
+      "receiverNpcId": "stable-master",
+      "offerDialogue": "One of the ponies slipped its tack and scattered the gear clean across the grounds. Round up the feed sack, the bucket, and the loose harness before the Master of Horse hears of it.",
+      "activeDialogue": "Feed sack, water bucket, harness \u2014 somewhere out on the grounds. Off you go.",
+      "completeDialogue": "All back, and the pony none the wiser. You've saved my hide and my post. Here, with my thanks.",
+      "steps": [
+        {
+          "key": "tack",
+          "type": "collect",
+          "pickupIds": [
+            "tack-sack",
+            "tack-bucket",
+            "tack-harness"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 55,
+        "friendship": {
+          "stable-master": 15
+        }
+      }
+    },
+    {
+      "id": "palace-chapel-candles",
+      "title": "Candles for the Chapel",
+      "type": "fetch",
+      "giverNpcId": "chaplain",
+      "receiverNpcId": "chaplain",
+      "offerDialogue": "Our candles have wandered again \u2014 three of them, off to who-knows-where. A chapel without light is only a cold stone room. Would you gather them back?",
+      "activeDialogue": "Three candlesticks, lost about the grounds and the crypt. Bring them to the altar.",
+      "completeDialogue": "Light returns to the nave. Bless you, traveller \u2014 the kings below sleep easier for it. Take this small grace.",
+      "steps": [
+        {
+          "key": "candles",
+          "type": "collect",
+          "pickupIds": [
+            "candle-1",
+            "candle-2",
+            "candle-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 65,
+        "collectible": {
+          "id": "blessed-candle",
+          "name": "Blessed Candle",
+          "icon": "\ud83d\udd6f\ufe0f",
+          "desc": "A consecrated candle from the Royal Chapel."
+        }
+      }
+    },
+    {
+      "id": "palace-vault-audit",
+      "title": "The Treasury Audit",
+      "type": "fetch",
+      "giverNpcId": "treasurer",
+      "receiverNpcId": "treasurer",
+      "offerDialogue": "The ledgers won't balance and three tally-rolls have gone astray. Find them \u2014 the inner vault stays sealed until the count is true.",
+      "activeDialogue": "Three tally-rolls, scattered between the treasury and the court. The ledgers await.",
+      "completeDialogue": "The count is true at last! The inner vault is yours to enter. Mind what glitters \u2014 it is all spoken for.",
+      "steps": [
+        {
+          "key": "tallies",
+          "type": "collect",
+          "pickupIds": [
+            "tally-1",
+            "tally-2",
+            "tally-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": {
+          "treasurer": 20
+        }
+      }
+    },
+    {
+      "id": "palace-court-intrigue-1",
+      "title": "A Discreet Errand",
+      "type": "fetch",
+      "giverNpcId": "lady-penrose",
+      "receiverNpcId": "king",
+      "offerDialogue": "A sealed letter, and a hand discreet enough to carry it. Take this to the King \u2014 to his hand only, mind, and not a word to the Steward.",
+      "activeDialogue": "Carry Lady Penrose's sealed letter to the King in the Throne Hall.",
+      "completeDialogue": "Ah \u2014 Penrose's seal. I wondered when she'd make her move. You did well to bring this straight to me. Wait here; there will be a reply.",
+      "steps": [
+        {
+          "key": "carry",
+          "type": "deliver",
+          "targetNpcId": "king",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 40,
+        "friendship": {
+          "lady-penrose": 10
+        }
+      }
+    },
+    {
+      "id": "palace-court-intrigue-2",
+      "title": "The King's Reply",
+      "type": "fetch",
+      "giverNpcId": "king",
+      "receiverNpcId": "lady-penrose",
+      "prerequisite": "quest:palace-court-intrigue-1",
+      "offerDialogue": "Carry my answer back to the Lady Penrose. Tell her the crown is not so easily steered \u2014 but that I admire the attempt.",
+      "activeDialogue": "Take the King's reply back to Lady Penrose in the Guest Hall.",
+      "completeDialogue": "He said THAT? ...Hah. Bold old goat. Very well \u2014 the game continues another day. You've played your part beautifully. Take this.",
+      "steps": [
+        {
+          "key": "reply",
+          "type": "deliver",
+          "targetNpcId": "lady-penrose",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 50,
+        "friendship": {
+          "king": 10,
+          "lady-penrose": 10
+        }
+      }
+    },
+    {
+      "id": "palace-court-intrigue-3",
+      "title": "A Matter Settled",
+      "type": "fetch",
+      "giverNpcId": "lady-penrose",
+      "receiverNpcId": "lady-penrose",
+      "prerequisite": "quest:palace-court-intrigue-2",
+      "offerDialogue": "One last thing. There is a letter of mine I'd rather the court never read \u2014 I dropped it in my flurry. Find it in the gardens and bring it to me, and we are square.",
+      "activeDialogue": "Recover Lady Penrose's stray letter from the gardens.",
+      "completeDialogue": "Burned, the moment it touches my hand. You are precisely the sort of friend a Lady needs at court. Consider yourself owed.",
+      "steps": [
+        {
+          "key": "letter",
+          "type": "collect",
+          "pickupIds": [
+            "penrose-letter"
+          ],
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 80,
+        "relationship": {
+          "lady-penrose": {
+            "track": "ally",
+            "points": 15
+          }
+        }
+      }
+    },
+    {
+      "id": "palace-princess-gift",
+      "title": "A Gift for the Princess",
+      "type": "fetch",
+      "giverNpcId": "princess",
+      "receiverNpcId": "princess",
+      "offerDialogue": "I left my favourite doll somewhere in the West Solar and now I cannot find it anywhere. Would you look for me? I should be ever so grateful.",
+      "activeDialogue": "The Princess's doll is lost somewhere in the palace's West Solar.",
+      "completeDialogue": "You found her! Oh, thank you, thank you. You are the kindest soul to visit this gloomy palace in an age. Here \u2014 a token of my thanks.",
+      "steps": [
+        {
+          "key": "doll",
+          "type": "collect",
+          "pickupIds": [
+            "princess-doll"
+          ],
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 45,
+        "friendship": {
+          "princess": 15
+        }
+      }
+    },
+    {
+      "id": "palace-kipper-homecoming",
+      "title": "Kipper Comes Home",
+      "type": "fetch",
+      "giverNpcId": "princess",
+      "receiverNpcId": "princess",
+      "prerequisite": "quest:palace-happy-cat",
+      "offerDialogue": "Kipper is coming home at last! But the journey is long and he frightens so easily. Help me ready a welcome \u2014 his favourite cushion and a feather-toy \u2014 and he shall never want for comfort again.",
+      "activeDialogue": "Gather Kipper's cushion and his feather-toy for the homecoming.",
+      "completeDialogue": "He's home. He's HOME \u2014 curled on his cushion, batting his feather, purring like a kettle. The whole palace feels lighter. You gave me back my dearest friend. The crown will not forget it.",
+      "steps": [
+        {
+          "key": "comforts",
+          "type": "collect",
+          "pickupIds": [
+            "kipper-cushion",
+            "kipper-feather"
+          ],
+          "required": 2
+        }
+      ],
+      "reward": {
+        "crystals": 150,
+        "collectible": {
+          "id": "kippers-collar",
+          "name": "Kipper's Spare Collar",
+          "icon": "\ud83d\udc31",
+          "desc": "A tiny bell-collar, given in thanks for bringing Kipper home."
+        },
+        "friendship": {
+          "princess": 30
+        }
+      }
+    },
+    {
+      "id": "palace-lost-keys",
+      "title": "The Steward's Keys",
+      "type": "lost-items",
+      "giverNpcId": "royal-steward",
+      "receiverNpcId": "royal-steward",
+      "offerDialogue": "My ring of keys \u2014 burst its loop and scattered three across the grounds! I cannot lock so much as a broom cupboard until they're found.",
+      "activeDialogue": "Three keys, lost somewhere about the palace grounds.",
+      "completeDialogue": "All three, back on the ring where they belong. You've spared me a most undignified scramble. Here \u2014 well earned.",
+      "steps": [
+        {
+          "key": "keys",
+          "type": "collect",
+          "pickupIds": [
+            "steward-key-1",
+            "steward-key-2",
+            "steward-key-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": {
+          "royal-steward": 15
+        }
+      }
+    },
+    {
+      "id": "palace-herald-proclamation",
+      "title": "The Royal Proclamation",
+      "type": "lost-items",
+      "giverNpcId": "royal-herald",
+      "receiverNpcId": "royal-herald",
+      "offerDialogue": "The morning's proclamations blew clean off my lectern \u2014 three scrolls, gone with the wind. A herald with no words is merely a man shouting. Fetch them, would you?",
+      "activeDialogue": "Three proclamation scrolls, scattered by the wind across the grounds.",
+      "completeDialogue": "Restored, every word! Now the realm may once again be told what it already suspected. My thanks, crier's-friend.",
+      "steps": [
+        {
+          "key": "scrolls",
+          "type": "collect",
+          "pickupIds": [
+            "proclaim-1",
+            "proclaim-2",
+            "proclaim-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 55,
+        "friendship": {
+          "royal-herald": 15
+        }
+      }
+    },
+    {
+      "id": "palace-guard-watch",
+      "title": "The Night Watch",
+      "type": "fetch",
+      "giverNpcId": "palace-guard",
+      "receiverNpcId": "palace-guard",
+      "offerDialogue": "Some fool of a recruit left the watch-kit lying about \u2014 a sword, a shield, a helm. If the Captain finds them strewn across the court, it's my neck. Gather them up, quietly.",
+      "activeDialogue": "A sword, a shield, and a helm, left about the grounds. Gather them before the Captain's round.",
+      "completeDialogue": "All present and correct. You've a soldier's eye, friend. Here \u2014 don't tell the quartermaster where it came from.",
+      "steps": [
+        {
+          "key": "kit",
+          "type": "collect",
+          "pickupIds": [
+            "watch-sword",
+            "watch-shield",
+            "watch-helm"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 65,
+        "friendship": {
+          "palace-guard": 15
+        }
+      }
+    },
+    {
+      "id": "palace-queen-roses",
+      "title": "The Queen's Roses",
+      "type": "fetch",
+      "giverNpcId": "queen",
+      "receiverNpcId": "queen",
+      "offerDialogue": "The garden's finest roses bloomed overnight and I would have them for the high table before they fade. Three perfect blooms \u2014 gather them gently, for me.",
+      "activeDialogue": "Three perfect roses, blooming somewhere in the gardens.",
+      "completeDialogue": "Exquisite. Not a thorn out of place. The court shall dine beneath them tonight. You have a gentle touch \u2014 the crown notices such things.",
+      "steps": [
+        {
+          "key": "roses",
+          "type": "collect",
+          "pickupIds": [
+            "queen-rose-1",
+            "queen-rose-2",
+            "queen-rose-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 85,
+        "collectible": {
+          "id": "queens-rose",
+          "name": "The Queen's Rose",
+          "icon": "\ud83c\udf39",
+          "desc": "A perfect bloom from the Royal Gardens, gifted by the Queen herself."
+        },
+        "friendship": {
+          "queen": 20
+        }
       }
     }
   ],
   "pickupItems": [
     {
       "id": "regalia-pendant",
-      "tx": 5,
-      "ty": 19,
+      "tx": 6,
+      "ty": 21,
       "tileId": "pendant",
       "questId": "palace-lost-regalia"
     },
     {
       "id": "regalia-gift",
-      "tx": 21,
-      "ty": 19,
+      "tx": 20,
+      "ty": 22,
       "tileId": "gift",
       "questId": "palace-lost-regalia"
     },
     {
       "id": "regalia-key",
-      "tx": 24,
-      "ty": 16,
+      "tx": 30,
+      "ty": 31,
       "tileId": "key",
       "questId": "palace-lost-regalia"
+    },
+    {
+      "id": "bloom-rose",
+      "tx": 19,
+      "ty": 19,
+      "tileId": "cropRose",
+      "questId": "palace-royal-bloom"
+    },
+    {
+      "id": "bloom-white",
+      "tx": 7,
+      "ty": 24,
+      "tileId": "whiteFlower",
+      "questId": "palace-royal-bloom"
+    },
+    {
+      "id": "bloom-blue",
+      "tx": 17,
+      "ty": 24,
+      "tileId": "blueFlower",
+      "questId": "palace-royal-bloom"
+    },
+    {
+      "id": "orangery-pot-1",
+      "tx": 5,
+      "ty": 5,
+      "tileId": "potOfFlowers",
+      "questId": "palace-orangery-harvest",
+      "building": "orangery"
+    },
+    {
+      "id": "orangery-pot-2",
+      "tx": 7,
+      "ty": 5,
+      "tileId": "potOfFlowers",
+      "questId": "palace-orangery-harvest",
+      "building": "orangery"
+    },
+    {
+      "id": "orangery-pot-3",
+      "tx": 4,
+      "ty": 6,
+      "tileId": "cropRose",
+      "questId": "palace-orangery-harvest",
+      "building": "orangery"
+    },
+    {
+      "id": "feast-eggs",
+      "tx": 2,
+      "ty": 6,
+      "tileId": "eggs",
+      "questId": "palace-kitchen-feast",
+      "building": "royal-kitchens"
+    },
+    {
+      "id": "feast-steak",
+      "tx": 10,
+      "ty": 30,
+      "tileId": "steak",
+      "questId": "palace-kitchen-feast"
+    },
+    {
+      "id": "feast-garlic",
+      "tx": 6,
+      "ty": 6,
+      "tileId": "garlic",
+      "questId": "palace-kitchen-feast",
+      "building": "royal-kitchens"
+    },
+    {
+      "id": "tack-sack",
+      "tx": 16,
+      "ty": 24,
+      "tileId": "sack",
+      "questId": "palace-runaway-pony"
+    },
+    {
+      "id": "tack-bucket",
+      "tx": 9,
+      "ty": 30,
+      "tileId": "fullBucket",
+      "questId": "palace-runaway-pony"
+    },
+    {
+      "id": "tack-harness",
+      "tx": 24,
+      "ty": 30,
+      "tileId": "smallSack",
+      "questId": "palace-runaway-pony"
+    },
+    {
+      "id": "candle-1",
+      "tx": 3,
+      "ty": 5,
+      "tileId": "candlestickUnlit",
+      "questId": "palace-chapel-candles",
+      "building": "royal-chapel-crypt"
+    },
+    {
+      "id": "candle-2",
+      "tx": 28,
+      "ty": 25,
+      "tileId": "candlestickUnlit",
+      "questId": "palace-chapel-candles"
+    },
+    {
+      "id": "candle-3",
+      "tx": 6,
+      "ty": 22,
+      "tileId": "candlestickUnlit",
+      "questId": "palace-chapel-candles"
+    },
+    {
+      "id": "tally-1",
+      "tx": 6,
+      "ty": 4,
+      "tileId": "rolledMap",
+      "questId": "palace-vault-audit",
+      "building": "treasury-vault"
+    },
+    {
+      "id": "tally-2",
+      "tx": 19,
+      "ty": 31,
+      "tileId": "note",
+      "questId": "palace-vault-audit"
+    },
+    {
+      "id": "tally-3",
+      "tx": 33,
+      "ty": 30,
+      "tileId": "pileOfPapers",
+      "questId": "palace-vault-audit"
+    },
+    {
+      "id": "penrose-letter",
+      "tx": 11,
+      "ty": 22,
+      "tileId": "letter",
+      "questId": "palace-court-intrigue-3"
+    },
+    {
+      "id": "princess-doll",
+      "tx": 8,
+      "ty": 6,
+      "tileId": "doll",
+      "questId": "palace-princess-gift",
+      "building": "palace-1"
+    },
+    {
+      "id": "kipper-cushion",
+      "tx": 7,
+      "ty": 1,
+      "tileId": "crownOfCushon",
+      "questId": "palace-kipper-homecoming",
+      "building": "palace-1"
+    },
+    {
+      "id": "kipper-feather",
+      "tx": 16,
+      "ty": 22,
+      "tileId": "feather",
+      "questId": "palace-kipper-homecoming"
+    },
+    {
+      "id": "steward-key-1",
+      "tx": 21,
+      "ty": 24,
+      "tileId": "key",
+      "questId": "palace-lost-keys"
+    },
+    {
+      "id": "steward-key-2",
+      "tx": 10,
+      "ty": 33,
+      "tileId": "oldeKey",
+      "questId": "palace-lost-keys"
+    },
+    {
+      "id": "steward-key-3",
+      "tx": 38,
+      "ty": 25,
+      "tileId": "key",
+      "questId": "palace-lost-keys"
+    },
+    {
+      "id": "proclaim-1",
+      "tx": 12,
+      "ty": 22,
+      "tileId": "rolledMap",
+      "questId": "palace-herald-proclamation"
+    },
+    {
+      "id": "proclaim-2",
+      "tx": 24,
+      "ty": 31,
+      "tileId": "note",
+      "questId": "palace-herald-proclamation"
+    },
+    {
+      "id": "proclaim-3",
+      "tx": 33,
+      "ty": 31,
+      "tileId": "letter",
+      "questId": "palace-herald-proclamation"
+    },
+    {
+      "id": "watch-sword",
+      "tx": 5,
+      "ty": 6,
+      "tileId": "sword",
+      "questId": "palace-guard-watch",
+      "building": "armory"
+    },
+    {
+      "id": "watch-shield",
+      "tx": 9,
+      "ty": 6,
+      "tileId": "roundShieldFloor",
+      "questId": "palace-guard-watch",
+      "building": "armory"
+    },
+    {
+      "id": "watch-helm",
+      "tx": 20,
+      "ty": 31,
+      "tileId": "helmetTop",
+      "questId": "palace-guard-watch"
+    },
+    {
+      "id": "queen-rose-1",
+      "tx": 6,
+      "ty": 19,
+      "tileId": "cropRose",
+      "questId": "palace-queen-roses"
+    },
+    {
+      "id": "queen-rose-2",
+      "tx": 9,
+      "ty": 19,
+      "tileId": "cropRose",
+      "questId": "palace-queen-roses"
+    },
+    {
+      "id": "queen-rose-3",
+      "tx": 16,
+      "ty": 19,
+      "tileId": "cropRose",
+      "questId": "palace-queen-roses"
     }
   ],
-  "blockedPaths": []
+  "blockedPaths": [],
+  "dialogues": [
+    {
+      "id": "penrose-chat",
+      "npcId": "lady-penrose",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Well now. A new face at court \u2014 how refreshingly unspoiled. Tell me, are you the helpful sort, or merely the curious sort?",
+          "choices": [
+            {
+              "label": "The helpful sort.",
+              "next": "errand"
+            },
+            {
+              "label": "What is court like?",
+              "next": "lore"
+            },
+            {
+              "label": "I keep my own counsel.",
+              "effects": [
+                {
+                  "type": "relationship",
+                  "npcId": "lady-penrose",
+                  "track": "rival",
+                  "points": 4
+                }
+              ],
+              "next": "wary"
+            }
+          ]
+        },
+        "lore": {
+          "text": "Court is a garden, dear \u2014 every smile a seed, and not all of them bloom kindly. Tend the right friendships and you may yet flourish here.",
+          "choices": [
+            {
+              "label": "I'll remember that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "npcId": "lady-penrose",
+                  "xp": 5
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "errand": {
+          "text": "Then we shall get along famously. I have a small, discreet matter that wants exactly such a hand. Interested?",
+          "choices": [
+            {
+              "label": "Tell me more.",
+              "effects": [
+                {
+                  "type": "quest",
+                  "questId": "palace-court-intrigue-1"
+                }
+              ]
+            },
+            {
+              "label": "Perhaps later.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "wary": {
+          "text": "Discretion. My favourite virtue, even in a rival. We shall watch each other carefully, you and I.",
+          "choices": [
+            {
+              "label": "As you wish.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
 }

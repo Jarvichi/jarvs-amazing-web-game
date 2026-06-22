@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- shadow -->
+  <ellipse cx="16" cy="29" rx="6" ry="2" fill="rgba(0,0,0,0.2)"/>
+  <!-- apron / body -->
+  <rect x="9" y="13" width="14" height="15" rx="3" fill="#f0ece2"/>
+  <!-- apron strings -->
+  <rect x="9" y="18" width="14" height="2" fill="#cfc7b6"/>
+  <!-- arms -->
+  <rect x="7"  y="14" width="3" height="9" rx="1" fill="#d8b48a"/>
+  <rect x="22" y="14" width="3" height="9" rx="1" fill="#d8b48a"/>
+  <!-- head -->
+  <circle cx="16" cy="10" r="5" fill="#e8c19a"/>
+  <!-- eyes -->
+  <rect x="13" y="9" width="2" height="2" rx="1" fill="#2a1a0a"/>
+  <rect x="17" y="9" width="2" height="2" rx="1" fill="#2a1a0a"/>
+  <!-- rosy cheeks -->
+  <circle cx="12" cy="11" r="1" fill="#e29a8a"/>
+  <circle cx="20" cy="11" r="1" fill="#e29a8a"/>
+  <!-- chef's hat -->
+  <rect x="11" y="4" width="10" height="3" fill="#ffffff"/>
+  <ellipse cx="16" cy="3" rx="6" ry="3" fill="#ffffff"/>
+</svg>
