@@ -10,6 +10,7 @@ import type { WallMaterial } from '../../data/tiles/buildingMaterials'
 import { expandBundleDecor } from '../../data/bundles/bundleLoader'
 import { RawQuestPickupItem } from '../../data/hub/hubWorldFactory'
 import { resolveNpcSprite } from './spriteList'
+import { isSameEntityRef } from './multiSelectHelpers'
 
 const T           = 32
 const INTERIOR_PAD = 10  // tiles of surrounding space around active room in interior view
@@ -78,7 +79,7 @@ interface Props {
   configData:       RawMapConfig
   tool:             ToolMode
   showGrid:         boolean
-  selectedEntity:   SelectedEntity | null
+  selectedEntities: SelectedEntity[]
   viewMode:         'exterior' | 'interior'
   activeInteriorId: string | null
   activeLevel:      number
@@ -88,11 +89,16 @@ interface Props {
   activeZlayer:     Zlayer
   pickActive?:      boolean
   onPickTile?:      (tx: number, ty: number) => void
-  onSelectEntity:   (e: SelectedEntity | null) => void
+  onSelectEntities: (e: SelectedEntity[]) => void
+  onAddToSelection: (e: SelectedEntity) => void
   onPlaceDecor:     (tx: number, ty: number) => void
-  onMoveEntity:     (entity: SelectedEntity, tx: number, ty: number) => void
-  onDeleteEntity:   (entity: SelectedEntity) => void
+  onMoveEntities:   (moves: { entity: SelectedEntity; tx: number; ty: number }[]) => void
+  onDeleteEntities: (entities: SelectedEntity[]) => void
   onAddStreet:        (tx1: number, ty1: number, tx2: number, ty2: number) => void
+  onAddPondTile:      (tx1: number, ty1: number, tx2: number, ty2: number) => void
+  onAddNpcSpawnTile:  (tx: number, ty: number) => void
+  onAddChickenZone:   (tx1: number, ty1: number, tx2: number, ty2: number) => void
+  onAddArea:          (tx1: number, ty1: number, tx2: number, ty2: number) => void
   showQuestItems:     boolean
   showBlockedPaths:   boolean
   showAreas:          boolean
@@ -103,34 +109,73 @@ interface Props {
 
 export function MapEditorCanvas(props: Props) {
   const {
-    configData, tool, showGrid, selectedEntity, viewMode, activeInteriorId, activeLevel, previewFestivalId,
+    configData, tool, showGrid, selectedEntities, viewMode, activeInteriorId, activeLevel, previewFestivalId,
     activeTileId, activeBundleId, activeZlayer, pickActive, showQuestItems, showBlockedPaths, showAreas, showInteractables, blockedPaths, questPickupItems,
-    onSelectEntity, onPlaceDecor, onMoveEntity, onDeleteEntity, onAddStreet,
+    onPlaceDecor, onAddStreet,
   } = props
 
   const containerRef = useRef<HTMLDivElement>(null)
+
+  // True if the given entity is part of the current selection.
+  const isEntitySelected = useCallback(
+    (e: SelectedEntity): boolean => selectedEntities.some(s => isSameEntityRef(s, e)),
+    [selectedEntities],
+  )
 
   // Refs that event handlers read so they always get the latest values
   const propsRef = useRef(props)
   propsRef.current = props
 
-  // Drag state — offsetX/Y = click position minus entity anchor, for non-point entities like buildings
-  const dragRef = useRef<{ entity: SelectedEntity; lastTx: number; lastTy: number; offsetX: number; offsetY: number } | null>(null)
+  // Drag state — each selected entity is dragged together, keeping its own offset
+  // from the cursor (offsetX/Y = cursor tile minus that entity's anchor tile).
+  const dragRef = useRef<{
+    entities: { entity: SelectedEntity; offsetX: number; offsetY: number }[]
+    lastTx: number
+    lastTy: number
+  } | null>(null)
 
-  // Street draw state
-  type StreetPreview = { sx: number; sy: number; ex: number; ey: number }
-  const [streetPreview, setStreetPreview] = useState<StreetPreview | null>(null)
-  const setStreetPreviewRef = useRef(setStreetPreview)
-  setStreetPreviewRef.current = setStreetPreview
-  const streetDrawRef = useRef<{ startTx: number; startTy: number; lastTx: number; lastTy: number } | null>(null)
+  // Rect-draw state (shared by all rect-draw tools: street/pond/chickenZone/area)
+  type RectPreview = { sx: number; sy: number; ex: number; ey: number }
+  const [rectPreview, setRectPreview] = useState<RectPreview | null>(null)
+  const setRectPreviewRef = useRef(setRectPreview)
+  setRectPreviewRef.current = setRectPreview
+  const rectDrawRef = useRef<{ startTx: number; startTy: number; lastTx: number; lastTy: number } | null>(null)
 
-  // Clear street draw when tool switches away
+  // Clear rect draw when tool switches away from a rect-draw tool
   useEffect(() => {
-    if (tool !== 'street') {
-      streetDrawRef.current = null
-      setStreetPreview(null)
+    const rectTools: ToolMode[] = ['street', 'pond', 'chickenZone', 'area']
+    if (!rectTools.includes(tool)) {
+      rectDrawRef.current = null
+      setRectPreview(null)
     }
   }, [tool])
+
+  // Shared pointerdown logic for entity sprites/graphics. Shift+click toggles the
+  // entity in/out of the selection; a plain click selects it (or keeps an existing
+  // multi-selection containing it) and, with the select tool, begins a group drag.
+  // anchorTx/anchorTy is the reference tile used to compute per-entity drag offsets.
+  const handleEntityPointerDown = useCallback(
+    (e: PIXI.FederatedPointerEvent, entity: SelectedEntity, anchorTx: number, anchorTy: number) => {
+      e.stopPropagation()
+      if (e.shiftKey) { propsRef.current.onAddToSelection(entity); return }
+      const selEnts = propsRef.current.selectedEntities
+      const isAlreadySelected = selEnts.some(s => isSameEntityRef(s, entity))
+      propsRef.current.onSelectEntities(isAlreadySelected ? selEnts : [entity])
+      if (propsRef.current.tool === 'select') {
+        const cfg = propsRef.current.configData
+        const dragEntities = isAlreadySelected && selEnts.length > 1 ? selEnts : [entity]
+        dragRef.current = {
+          entities: dragEntities.map(ent => ({
+            entity: ent,
+            offsetX: anchorTx - getEntityTx(cfg, ent),
+            offsetY: anchorTy - getEntityTy(cfg, ent),
+          })),
+          lastTx: anchorTx, lastTy: anchorTy,
+        }
+      }
+    },
+    [],
+  )
 
   // Render version counter — incremented on each render, so async sprite loads can detect staleness
   const renderVersionRef = useRef(0)
@@ -165,23 +210,27 @@ export function MapEditorCanvas(props: Props) {
 
       if (t === 'select') {
         const entity = hitTest(cfg, tx, ty, vm, iid, sqI, sbp, bps, sareas)
-        propsRef.current.onSelectEntity(entity)
-        if (entity) {
-          const etx = getEntityTx(cfg, entity)
-          const ety = getEntityTy(cfg, entity)
-          dragRef.current = { entity, lastTx: tx, lastTy: ty, offsetX: tx - etx, offsetY: ty - ety }
+        if (e.shiftKey) {
+          if (entity) propsRef.current.onAddToSelection(entity)
+          // shift+click on empty space: do nothing
+        } else if (entity) {
+          handleEntityPointerDown(e, entity, tx, ty)
+        } else {
+          propsRef.current.onSelectEntities([])
         }
       } else if (t === 'place' && (tid || bid)) {
         propsRef.current.onPlaceDecor(tx, ty)
       } else if (t === 'delete') {
         const entity = hitTest(cfg, tx, ty, vm, iid, sqI, sbp, bps, sareas)
         if (entity) {
-          propsRef.current.onDeleteEntity(entity)
-          propsRef.current.onSelectEntity(null)
+          propsRef.current.onDeleteEntities([entity])
+          propsRef.current.onSelectEntities([])
         }
-      } else if (t === 'street') {
-        streetDrawRef.current = { startTx: tx, startTy: ty, lastTx: tx, lastTy: ty }
-        setStreetPreviewRef.current({ sx: tx, sy: ty, ex: tx, ey: ty })
+      } else if (t === 'street' || t === 'pond' || t === 'chickenZone' || t === 'area') {
+        rectDrawRef.current = { startTx: tx, startTy: ty, lastTx: tx, lastTy: ty }
+        setRectPreviewRef.current({ sx: tx, sy: ty, ex: tx, ey: ty })
+      } else if (t === 'spawn') {
+        propsRef.current.onAddNpcSpawnTile(tx, ty)
       }
     })
 
@@ -192,20 +241,22 @@ export function MapEditorCanvas(props: Props) {
       const ty  = Math.floor((pos.y - oy) / T)
 
       if (dragRef.current) {
-        const { entity, lastTx, lastTy, offsetX, offsetY } = dragRef.current
+        const { entities, lastTx, lastTy } = dragRef.current
         if (tx !== lastTx || ty !== lastTy) {
           dragRef.current.lastTx = tx
           dragRef.current.lastTy = ty
-          propsRef.current.onMoveEntity(entity, tx - offsetX, ty - offsetY)
+          propsRef.current.onMoveEntities(
+            entities.map(({ entity, offsetX, offsetY }) => ({ entity, tx: tx - offsetX, ty: ty - offsetY })),
+          )
         }
       }
 
-      if (streetDrawRef.current) {
-        const { startTx, startTy, lastTx, lastTy } = streetDrawRef.current
+      if (rectDrawRef.current) {
+        const { startTx, startTy, lastTx, lastTy } = rectDrawRef.current
         if (tx !== lastTx || ty !== lastTy) {
-          streetDrawRef.current.lastTx = tx
-          streetDrawRef.current.lastTy = ty
-          setStreetPreviewRef.current({
+          rectDrawRef.current.lastTx = tx
+          rectDrawRef.current.lastTy = ty
+          setRectPreviewRef.current({
             sx: Math.min(tx, startTx), sy: Math.min(ty, startTy),
             ex: Math.max(tx, startTx), ey: Math.max(ty, startTy),
           })
@@ -215,25 +266,28 @@ export function MapEditorCanvas(props: Props) {
 
     stage.on('pointerup', (e: PIXI.FederatedPointerEvent) => {
       dragRef.current = null
-      if (streetDrawRef.current) {
+      if (rectDrawRef.current) {
         const { x: ox, y: oy } = worldOriginRef.current
         const pos = e.getLocalPosition(stage)
-        const tx = Math.floor((pos.x - ox) / T)
-        const ty = Math.floor((pos.y - oy) / T)
-        const { startTx, startTy } = streetDrawRef.current
-        propsRef.current.onAddStreet(
-          Math.min(tx, startTx), Math.min(ty, startTy),
-          Math.max(tx, startTx), Math.max(ty, startTy),
-        )
-        streetDrawRef.current = null
-        setStreetPreviewRef.current(null)
+        const upTx = Math.floor((pos.x - ox) / T)
+        const upTy = Math.floor((pos.y - oy) / T)
+        const { startTx, startTy } = rectDrawRef.current
+        const tx1 = Math.min(upTx, startTx), ty1 = Math.min(upTy, startTy)
+        const tx2 = Math.max(upTx, startTx), ty2 = Math.max(upTy, startTy)
+        const { tool: t } = propsRef.current
+        if      (t === 'street')      propsRef.current.onAddStreet(tx1, ty1, tx2, ty2)
+        else if (t === 'pond')        propsRef.current.onAddPondTile(tx1, ty1, tx2, ty2)
+        else if (t === 'chickenZone') propsRef.current.onAddChickenZone(tx1, ty1, tx2, ty2)
+        else if (t === 'area')        propsRef.current.onAddArea(tx1, ty1, tx2, ty2)
+        rectDrawRef.current = null
+        setRectPreviewRef.current(null)
       }
     })
     stage.on('pointerupoutside', () => {
       dragRef.current = null
-      if (streetDrawRef.current) {
-        streetDrawRef.current = null
-        setStreetPreviewRef.current(null)
+      if (rectDrawRef.current) {
+        rectDrawRef.current = null
+        setRectPreviewRef.current(null)
       }
     })
   }, [mapW, mapH])) // eslint-disable-line react-hooks/exhaustive-deps
@@ -286,6 +340,9 @@ export function MapEditorCanvas(props: Props) {
     if (!isInterior && showAreas) {
       renderAreasOverlay(questLayer, selLayer)
     }
+    if (!isInterior) {
+      renderChickenZonesOverlay(questLayer, selLayer)
+    }
     if (showInteractables) {
       renderInteractablesOverlay(version, questLayer, selLayer)
     }
@@ -293,9 +350,9 @@ export function MapEditorCanvas(props: Props) {
     if (showGrid) drawGrid(gridLayer)
     drawSelection(selLayer)
 
-    // Street draw preview — drawn above all other layers
-    if (!isInterior && streetPreview) {
-      const { sx, sy, ex, ey } = streetPreview
+    // Rect draw preview — drawn above all other layers
+    if (!isInterior && rectPreview) {
+      const { sx, sy, ex, ey } = rectPreview
       const pvGfx = new PIXI.Graphics()
       pvGfx.rect(sx * T, sy * T, (ex - sx + 1) * T, (ey - sy + 1) * T)
         .fill({ color: STREET_COLOR, alpha: 0.4 })
@@ -343,19 +400,43 @@ export function MapEditorCanvas(props: Props) {
         sGfx.rect(tx * T, ty * T, T, T).fill(STREET_COLOR)
     streetLayer.addChild(sGfx)
 
-    // Ponds
-    const pGfx = new PIXI.Graphics()
-    for (const p of configData.pondTiles ?? [])
-      for (const [tx, ty] of expandEntries([p]))
-        pGfx.rect(tx * T, ty * T, T, T).fill(POND_COLOR)
-    streetLayer.addChild(pGfx)
+    // Ponds — per-entry interactive graphics (clickable / selectable / draggable)
+    ;(configData.pondTiles ?? []).forEach((pond, pIdx) => {
+      const isSel = isEntitySelected({ type: 'pondTile', index: pIdx })
+      const gfx = new PIXI.Graphics()
+      for (const [ptx, pty] of expandEntries([pond]))
+        gfx.rect(ptx * T, pty * T, T, T).fill(POND_COLOR)
+      if (isSel) {
+        for (const [ptx, pty] of expandEntries([pond]))
+          selLayer.rect(ptx * T - 1, pty * T - 1, T + 2, T + 2).stroke({ color: 0xf0c040, width: 2 })
+      }
+      const anchorTx = pond.rect?.[0] ?? pond.tile?.[0] ?? 0
+      const anchorTy = pond.rect?.[1] ?? pond.tile?.[1] ?? 0
+      gfx.eventMode = 'static'; gfx.cursor = 'pointer'
+      gfx.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
+        handleEntityPointerDown(e, { type: 'pondTile', index: pIdx }, anchorTx, anchorTy))
+      streetLayer.addChild(gfx)
+    })
+
+    // Spawn tiles — cyan crosshair, always visible in exterior
+    ;(configData.npcSpawnTiles ?? []).forEach(([stx, sty], idx) => {
+      const isSel = isEntitySelected({ type: 'npcSpawnTile', index: idx })
+      const gfx = new PIXI.Graphics()
+      gfx.rect(stx * T + T / 2 - 2, sty * T + 3, 4, T - 6).fill({ color: 0x40d0f0, alpha: 0.85 })
+      gfx.rect(stx * T + 3, sty * T + T / 2 - 2, T - 6, 4).fill({ color: 0x40d0f0, alpha: 0.85 })
+      gfx.eventMode = 'static'; gfx.cursor = 'pointer'
+      gfx.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
+        handleEntityPointerDown(e, { type: 'npcSpawnTile', index: idx }, stx, sty))
+      if (isSel) selLayer.rect(stx * T - 2, sty * T - 2, T + 4, T + 4).stroke({ color: 0xf0c040, width: 2 })
+      streetLayer.addChild(gfx)
+    })
 
     // Buildings
     const buildings = configData.buildings ?? []
     buildings.forEach((b, bIdx) => {
       const rects = b.rects ?? (b.rect ? [b.rect] : [])
       const col   = WALL_COLORS[b.wall ?? ''] ?? 0x556677
-      const isSel = selectedEntity?.type === 'building' && selectedEntity.index === bIdx
+      const isSel = isEntitySelected({ type: 'building', index: bIdx })
       const gfx   = new PIXI.Graphics()
       for (const [tx1, ty1, tx2, ty2] of rects) {
         gfx.rect(tx1 * T, ty1 * T, (tx2 - tx1 + 1) * T, (ty2 - ty1 + 1) * T).fill(col)
@@ -394,7 +475,7 @@ export function MapEditorCanvas(props: Props) {
     const npcs = configData.npcs ?? []
     npcs.forEach((npc, nIdx) => {
       if (npc.building) return
-      const isSel = selectedEntity?.type === 'npc' && selectedEntity.index === nIdx
+      const isSel = isEntitySelected({ type: 'npc', index: nIdx })
       loadSpriteTexture(resolveNpcSprite(npc.sprite)).then(tex => {
         if (renderVersionRef.current !== version) return
         const sp = new PIXI.Sprite(tex)
@@ -402,13 +483,8 @@ export function MapEditorCanvas(props: Props) {
         sp.x      = npc.tx * T - T * 0.25
         sp.y      = npc.ty * T - T * 0.5
         sp.eventMode = 'static'; sp.cursor = 'pointer'
-        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
-          e.stopPropagation()
-          const entity: SelectedEntity = { type: 'npc', index: nIdx }
-          propsRef.current.onSelectEntity(entity)
-          if (propsRef.current.tool === 'select')
-            dragRef.current = { entity, lastTx: npc.tx, lastTy: npc.ty, offsetX: 0, offsetY: 0 }
-        })
+        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
+          handleEntityPointerDown(e, { type: 'npc', index: nIdx }, npc.tx, npc.ty))
         if (isSel) {
           selLayer.rect(sp.x - 2, sp.y - 2, sp.width + 4, sp.height + 4)
             .stroke({ color: 0xf0c040, width: 2 })
@@ -425,7 +501,7 @@ export function MapEditorCanvas(props: Props) {
     // Animals (exterior — no building field)
     ;(configData.animals ?? []).forEach((animal, aIdx) => {
       if (animal.building) return
-      const isSel = selectedEntity?.type === 'animal' && selectedEntity.index === aIdx
+      const isSel = isEntitySelected({ type: 'animal', index: aIdx })
       const tint = resolveVariantTint(animal.type as AnimalType, animal.variant)
       loadSpriteTexture(`animal-${animal.type}`).then(tex => {
         if (renderVersionRef.current !== version) return
@@ -435,13 +511,8 @@ export function MapEditorCanvas(props: Props) {
         sp.y      = animal.ty * T - T * 0.5
         sp.tint   = tint
         sp.eventMode = 'static'; sp.cursor = 'pointer'
-        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
-          e.stopPropagation()
-          const entity: SelectedEntity = { type: 'animal', index: aIdx }
-          propsRef.current.onSelectEntity(entity)
-          if (propsRef.current.tool === 'select')
-            dragRef.current = { entity, lastTx: animal.tx, lastTy: animal.ty, offsetX: 0, offsetY: 0 }
-        })
+        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
+          handleEntityPointerDown(e, { type: 'animal', index: aIdx }, animal.tx, animal.ty))
         if (isSel) {
           selLayer.rect(sp.x - 2, sp.y - 2, sp.width + 4, sp.height + 4)
             .stroke({ color: 0xf0c040, width: 2 })
@@ -648,7 +719,7 @@ export function MapEditorCanvas(props: Props) {
     // ── Interior NPCs ────────────────────────────────────────────────────────
     ;(configData.npcs ?? []).forEach((npc, nIdx) => {
       if (npc.building !== iid) return
-      const isSel = selectedEntity?.type === 'npc' && selectedEntity.index === nIdx
+      const isSel = isEntitySelected({ type: 'npc', index: nIdx })
       const dimmed = (npc.minLevel ?? 0) > activeLevel  // NPC only present at a higher upgrade level
       loadSpriteTexture(resolveNpcSprite(npc.sprite)).then(tex => {
         if (renderVersionRef.current !== version) return
@@ -658,13 +729,8 @@ export function MapEditorCanvas(props: Props) {
         sp.y = npc.ty * T - T * 0.5
         if (dimmed) sp.alpha = 0.3
         sp.eventMode = 'static'; sp.cursor = 'pointer'
-        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
-          e.stopPropagation()
-          const entity: SelectedEntity = { type: 'npc', index: nIdx }
-          propsRef.current.onSelectEntity(entity)
-          if (propsRef.current.tool === 'select')
-            dragRef.current = { entity, lastTx: npc.tx, lastTy: npc.ty, offsetX: 0, offsetY: 0 }
-        })
+        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
+          handleEntityPointerDown(e, { type: 'npc', index: nIdx }, npc.tx, npc.ty))
         if (isSel) selLayer.rect(sp.x - 2, sp.y - 2, sp.width + 4, sp.height + 4).stroke({ color: 0xf0c040, width: 2 })
         npcLayer.addChild(sp)
       }).catch(() => {
@@ -678,7 +744,7 @@ export function MapEditorCanvas(props: Props) {
     // Interior animals
     ;(configData.animals ?? []).forEach((animal, aIdx) => {
       if (animal.building !== iid) return
-      const isSel = selectedEntity?.type === 'animal' && selectedEntity.index === aIdx
+      const isSel = isEntitySelected({ type: 'animal', index: aIdx })
       const tint = resolveVariantTint(animal.type as AnimalType, animal.variant)
       loadSpriteTexture(`animal-${animal.type}`).then(tex => {
         if (renderVersionRef.current !== version) return
@@ -688,13 +754,8 @@ export function MapEditorCanvas(props: Props) {
         sp.y      = animal.ty * T - T * 0.5
         sp.tint   = tint
         sp.eventMode = 'static'; sp.cursor = 'pointer'
-        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
-          e.stopPropagation()
-          const entity: SelectedEntity = { type: 'animal', index: aIdx }
-          propsRef.current.onSelectEntity(entity)
-          if (propsRef.current.tool === 'select')
-            dragRef.current = { entity, lastTx: animal.tx, lastTy: animal.ty, offsetX: 0, offsetY: 0 }
-        })
+        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
+          handleEntityPointerDown(e, { type: 'animal', index: aIdx }, animal.tx, animal.ty))
         if (isSel) {
           selLayer.rect(sp.x - 2, sp.y - 2, sp.width + 4, sp.height + 4)
             .stroke({ color: 0xf0c040, width: 2 })
@@ -714,13 +775,8 @@ export function MapEditorCanvas(props: Props) {
         itemTx: number, itemTy: number, tileId: string,
         entity: SelectedEntity, tintColor: number,
       ) => {
-        const isSel = selectedEntity?.type === entity.type && selectedEntity.index === entity.index
-        const handler = (e: PIXI.FederatedPointerEvent) => {
-          e.stopPropagation()
-          propsRef.current.onSelectEntity(entity)
-          if (propsRef.current.tool === 'select')
-            dragRef.current = { entity, lastTx: itemTx, lastTy: itemTy, offsetX: 0, offsetY: 0 }
-        }
+        const isSel = isEntitySelected(entity)
+        const handler = (e: PIXI.FederatedPointerEvent) => handleEntityPointerDown(e, entity, itemTx, itemTy)
         const border = new PIXI.Graphics()
         border.rect(itemTx * T, itemTy * T, T, T).stroke({ color: tintColor, width: 2 })
         border.eventMode = 'static'; border.cursor = 'pointer'
@@ -760,11 +816,10 @@ export function MapEditorCanvas(props: Props) {
       const numId = tileNumericId(tileId)
       const layer = zlayer === 'below' ? decorBLayer : zlayer === 'above' ? decorALayer : decorLayer
       const dimmed = minLevel > activeLevel  // decor that only appears at a higher upgrade level
-      const isSel = selectedEntity?.type === entityType &&
-        (entityType === 'exteriorDecor'
-          ? (selectedEntity as { index: number }).index === sourceIndex
-          : (selectedEntity as { index: number; interiorId: string }).index === sourceIndex &&
-            (selectedEntity as { interiorId: string }).interiorId === interiorId)
+      const entity: SelectedEntity = entityType === 'exteriorDecor'
+        ? { type: 'exteriorDecor', index: sourceIndex }
+        : { type: 'interiorDecor', index: sourceIndex, interiorId }
+      const isSel = isEntitySelected(entity)
 
       loadTileRef(numId).then(tex => {
         if (renderVersionRef.current !== version) return
@@ -772,15 +827,8 @@ export function MapEditorCanvas(props: Props) {
         sp.x = tx * T; sp.y = ty * T
         if (dimmed) sp.alpha = 0.3
         sp.eventMode = 'static'; sp.cursor = 'pointer'
-        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
-          e.stopPropagation()
-          const entity: SelectedEntity = entityType === 'exteriorDecor'
-            ? { type: 'exteriorDecor', index: sourceIndex }
-            : { type: 'interiorDecor', index: sourceIndex, interiorId }
-          propsRef.current.onSelectEntity(entity)
-          if (propsRef.current.tool === 'select')
-            dragRef.current = { entity, lastTx: tx, lastTy: ty, offsetX: 0, offsetY: 0 }
-        })
+        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
+          handleEntityPointerDown(e, entity, tx, ty))
         if (isSel) {
           selLayer.rect(tx * T - 1, ty * T - 1, T + 2, T + 2)
             .stroke({ color: 0xf0c040, width: 2 })
@@ -807,9 +855,8 @@ export function MapEditorCanvas(props: Props) {
       const numId = tileNumericId(tileId)
       const layer = zlayer === 'below' ? decorBLayer : zlayer === 'above' ? decorALayer : decorLayer
       const dimmed = minLevel > activeLevel
-      const isSel = selectedEntity?.type === 'buildingLevelDecor'
-        && selectedEntity.buildingIndex === buildingIndex && selectedEntity.index === sourceIndex
       const entity: SelectedEntity = { type: 'buildingLevelDecor', buildingIndex, index: sourceIndex }
+      const isSel = isEntitySelected(entity)
 
       loadTileRef(numId).then(tex => {
         if (renderVersionRef.current !== version) return
@@ -817,12 +864,8 @@ export function MapEditorCanvas(props: Props) {
         sp.x = tx * T; sp.y = ty * T
         if (dimmed) sp.alpha = 0.3
         sp.eventMode = 'static'; sp.cursor = 'pointer'
-        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
-          e.stopPropagation()
-          propsRef.current.onSelectEntity(entity)
-          if (propsRef.current.tool === 'select')
-            dragRef.current = { entity, lastTx: tx, lastTy: ty, offsetX: 0, offsetY: 0 }
-        })
+        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
+          handleEntityPointerDown(e, entity, tx, ty))
         if (isSel) {
           selLayer.rect(tx * T - 1, ty * T - 1, T + 2, T + 2).stroke({ color: 0xf0c040, width: 2 })
         }
@@ -848,20 +891,15 @@ export function MapEditorCanvas(props: Props) {
     items.forEach(({ tx, ty, tileId, zlayer, sourceIndex }) => {
       const numId = tileNumericId(tileId)
       const layer = zlayer === 'below' ? decorBLayer : zlayer === 'above' ? decorALayer : decorLayer
-      const isSel = selectedEntity?.type === 'festivalDecor'
-        && selectedEntity.festivalId === festivalId && selectedEntity.index === sourceIndex
       const entity: SelectedEntity = { type: 'festivalDecor', festivalId, index: sourceIndex }
+      const isSel = isEntitySelected(entity)
       loadTileRef(numId).then(tex => {
         if (renderVersionRef.current !== version) return
         const sp = new PIXI.Sprite(tex)
         sp.x = tx * T; sp.y = ty * T
         sp.eventMode = 'static'; sp.cursor = 'pointer'
-        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
-          e.stopPropagation()
-          propsRef.current.onSelectEntity(entity)
-          if (propsRef.current.tool === 'select')
-            dragRef.current = { entity, lastTx: tx, lastTy: ty, offsetX: 0, offsetY: 0 }
-        })
+        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
+          handleEntityPointerDown(e, entity, tx, ty))
         if (isSel) selLayer.rect(tx * T - 1, ty * T - 1, T + 2, T + 2).stroke({ color: 0xf0c040, width: 2 })
         layer.addChild(sp)
       }).catch(() => {
@@ -882,14 +920,9 @@ export function MapEditorCanvas(props: Props) {
       itemTx: number, itemTy: number, tileId: string,
       entity: SelectedEntity, tintColor: number,
     ) => {
-      const isSel = selectedEntity?.type === entity.type && selectedEntity.index === entity.index
+      const isSel = isEntitySelected(entity)
       const numId = tileNumericId(tileId)
-      const handler = (e: PIXI.FederatedPointerEvent) => {
-        e.stopPropagation()
-        propsRef.current.onSelectEntity(entity)
-        if (propsRef.current.tool === 'select')
-          dragRef.current = { entity, lastTx: itemTx, lastTy: itemTy, offsetX: 0, offsetY: 0 }
-      }
+      const handler = (e: PIXI.FederatedPointerEvent) => handleEntityPointerDown(e, entity, itemTx, itemTy)
 
       // Immediate border (visible before sprite loads)
       const border = new PIXI.Graphics()
@@ -926,21 +959,16 @@ export function MapEditorCanvas(props: Props) {
 
   // ── Areas overlay ──────────────────────────────────────────────────────────────
   function renderAreasOverlay(layer: PIXI.Container, selLayer: PIXI.Graphics) {
-    const { configData: cfg, selectedEntity: sel } = propsRef.current
+    const { configData: cfg } = propsRef.current
     ;(cfg.areas ?? []).forEach((area, aIdx) => {
-      const isSel = sel?.type === 'area' && sel.index === aIdx
+      const isSel = isEntitySelected({ type: 'area', index: aIdx })
       const gfx = new PIXI.Graphics()
       gfx.rect(area.tx * T, area.ty * T, area.tw * T, area.th * T)
         .fill({ color: 0x8855cc, alpha: 0.12 })
         .stroke({ color: isSel ? 0xf0c040 : 0xaa66ff, width: isSel ? 2 : 1 })
       gfx.eventMode = 'static'; gfx.cursor = 'pointer'
-      gfx.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
-        e.stopPropagation()
-        const entity: SelectedEntity = { type: 'area', index: aIdx }
-        propsRef.current.onSelectEntity(entity)
-        if (propsRef.current.tool === 'select')
-          dragRef.current = { entity, lastTx: area.tx, lastTy: area.ty, offsetX: 0, offsetY: 0 }
-      })
+      gfx.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
+        handleEntityPointerDown(e, { type: 'area', index: aIdx }, area.tx, area.ty))
       layer.addChild(gfx)
       const lbl = new PIXI.Text({ text: area.name, style: { fontSize: 9, fill: isSel ? 0xf0c040 : 0xaa66ff } })
       lbl.x = area.tx * T + 4; lbl.y = area.ty * T + 4
@@ -948,14 +976,33 @@ export function MapEditorCanvas(props: Props) {
     })
   }
 
+  // ── Chicken zones overlay (always visible in exterior) ─────────────────────────
+  function renderChickenZonesOverlay(layer: PIXI.Container, selLayer: PIXI.Graphics) {
+    ;(propsRef.current.configData.chickenZones ?? []).forEach((zone, zIdx) => {
+      const isSel = isEntitySelected({ type: 'chickenZone', index: zIdx })
+      const [x1, y1, x2, y2] = zone.rect
+      const gfx = new PIXI.Graphics()
+      gfx.rect(x1 * T, y1 * T, (x2 - x1 + 1) * T, (y2 - y1 + 1) * T)
+        .fill({ color: 0xffaa00, alpha: 0.10 })
+        .stroke({ color: isSel ? 0xf0c040 : 0xffaa00, width: isSel ? 2 : 1 })
+      gfx.eventMode = 'static'; gfx.cursor = 'pointer'
+      gfx.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
+        handleEntityPointerDown(e, { type: 'chickenZone', index: zIdx }, x1, y1))
+      layer.addChild(gfx)
+      const lbl = new PIXI.Text({ text: `🐔×${zone.count ?? 1}`, style: { fontSize: 9, fill: isSel ? 0xf0c040 : 0xffaa00 } })
+      lbl.x = x1 * T + 4; lbl.y = y1 * T + 4
+      layer.addChild(lbl)
+    })
+  }
+
   // ── Interactables overlay ──────────────────────────────────────────────────────
   function renderInteractablesOverlay(version: number, layer: PIXI.Container, selLayer: PIXI.Graphics) {
-    const { configData: cfg, selectedEntity: sel } = propsRef.current
+    const { configData: cfg } = propsRef.current
     const iid = activeInteriorId ?? ''
     ;(cfg.interactables ?? []).forEach((it, idx) => {
       // Exterior view shows world interactables; interior view shows those owned by the open room.
       if (isInterior ? it.building !== iid : !!it.building) return
-      const isSel = sel?.type === 'interactable' && sel.index === idx
+      const isSel = isEntitySelected({ type: 'interactable', index: idx })
       // Render the owned decor tiles (so the object is visible like in-game).
       for (const d of it.decor ?? []) {
         const numId = tileNumericId(d.tileId)
@@ -975,13 +1022,8 @@ export function MapEditorCanvas(props: Props) {
         .fill({ color: 0x33bbee, alpha: 0.10 })
         .stroke({ color: isSel ? 0xf0c040 : 0x33bbee, width: isSel ? 2 : 1 })
       gfx.eventMode = 'static'; gfx.cursor = 'pointer'
-      gfx.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
-        e.stopPropagation()
-        const entity: SelectedEntity = { type: 'interactable', index: idx }
-        propsRef.current.onSelectEntity(entity)
-        if (propsRef.current.tool === 'select')
-          dragRef.current = { entity, lastTx: it.tx, lastTy: it.ty, offsetX: 0, offsetY: 0 }
-      })
+      gfx.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
+        handleEntityPointerDown(e, { type: 'interactable', index: idx }, it.tx, it.ty))
       layer.addChild(gfx)
       const lbl = new PIXI.Text({ text: it.id, style: { fontSize: 8, fill: isSel ? 0xf0c040 : 0x66ccff } })
       lbl.x = it.tx * T + 2; lbl.y = it.ty * T + 2
@@ -991,11 +1033,11 @@ export function MapEditorCanvas(props: Props) {
 
   // ── Blocked paths / locked doors overlay ──────────────────────────────────────
   function renderBlockedPathsOverlay(layer: PIXI.Container, selLayer: PIXI.Graphics) {
-    const { blockedPaths: bps, configData: cfg, selectedEntity: sel } = propsRef.current
+    const { blockedPaths: bps, configData: cfg } = propsRef.current
 
     // Blocked path tiles — red overlay
     bps.forEach((bp, bpIdx) => {
-      const isSel = sel?.type === 'blockedPath' && sel.index === bpIdx
+      const isSel = isEntitySelected({ type: 'blockedPath', index: bpIdx })
       const gfx = new PIXI.Graphics()
       for (const [btx, bty] of bp.blockedTiles) {
         gfx.rect(btx * T, bty * T, T, T).fill({ color: 0xff3300, alpha: 0.35 })
@@ -1005,7 +1047,7 @@ export function MapEditorCanvas(props: Props) {
         }
       }
       gfx.eventMode = 'static'; gfx.cursor = 'pointer'
-      gfx.on('pointerdown', () => propsRef.current.onSelectEntity({ type: 'blockedPath', index: bpIdx }))
+      gfx.on('pointerdown', () => propsRef.current.onSelectEntities([{ type: 'blockedPath', index: bpIdx }]))
       layer.addChild(gfx)
       // Label: questId above first tile
       if (bp.blockedTiles[0]) {
@@ -1019,7 +1061,7 @@ export function MapEditorCanvas(props: Props) {
     // Locked doors — orange outline on buildings
     const lockedDoors = cfg.lockedDoors ?? []
     lockedDoors.forEach((door, dIdx) => {
-      const isSel = sel?.type === 'lockedDoor' && sel.index === dIdx
+      const isSel = isEntitySelected({ type: 'lockedDoor', index: dIdx })
       const bIdx = (cfg.buildings ?? []).findIndex(b => b.id === door.buildingId)
       if (bIdx < 0) return
       const b = cfg.buildings![bIdx]
@@ -1030,7 +1072,7 @@ export function MapEditorCanvas(props: Props) {
         gfx.rect(tx1 * T, ty1 * T, (tx2 - tx1 + 1) * T, (ty2 - ty1 + 1) * T)
           .stroke({ color: borderColor, width: 2, alpha: 0.9 })
         gfx.eventMode = 'static'; gfx.cursor = 'pointer'
-        gfx.on('pointerdown', () => propsRef.current.onSelectEntity({ type: 'lockedDoor', index: dIdx }))
+        gfx.on('pointerdown', () => propsRef.current.onSelectEntities([{ type: 'lockedDoor', index: dIdx }]))
         layer.addChild(gfx)
       }
       // Lock label
@@ -1055,63 +1097,66 @@ export function MapEditorCanvas(props: Props) {
 
   // ── Selection highlight ────────────────────────────────────────────────────────
   function drawSelection(gfx: PIXI.Graphics) {
-    if (!selectedEntity) return
-    if (selectedEntity.type === 'street') {
-      const entry = configData.streets?.[selectedEntity.index]
-      if (entry?.rect) {
-        const [tx1, ty1, tx2, ty2] = entry.rect
-        gfx.rect(tx1 * T - 2, ty1 * T - 2, (tx2 - tx1 + 1) * T + 4, (ty2 - ty1 + 1) * T + 4)
-          .stroke({ color: 0xf0c040, width: 2 })
-      } else if (entry?.tile) {
-        gfx.rect(entry.tile[0] * T - 2, entry.tile[1] * T - 2, T + 4, T + 4)
-          .stroke({ color: 0xf0c040, width: 2 })
-      }
-      return
-    }
-    let tx = -1, ty = -1
-    if (selectedEntity.type === 'exteriorDecor') {
-      const item = configData.exteriorDecor?.[selectedEntity.index]
-      if (item?.tx !== undefined) { tx = item.tx; ty = item.ty ?? 0 }
-    } else if (selectedEntity.type === 'npc') {
-      const npc = configData.npcs?.[selectedEntity.index]
-      if (npc) { tx = npc.tx; ty = npc.ty }
-    } else if (selectedEntity.type === 'animal') {
-      const a = configData.animals?.[selectedEntity.index]
-      if (a) { tx = a.tx; ty = a.ty }
-    } else if (selectedEntity.type === 'treasure') {
-      const t = configData.treasures?.[selectedEntity.index]
-      if (t) { tx = t.tx; ty = t.ty }
-    } else if (selectedEntity.type === 'pickupItem') {
-      const p = configData.pickupItems?.[selectedEntity.index]
-      if (p) { tx = p.tx; ty = p.ty }
-    } else if (selectedEntity.type === 'interiorDecor' && selectedEntity.interiorId === activeInteriorId) {
-      const item = configData.interiors?.[selectedEntity.interiorId]?.decor[selectedEntity.index]
-      if (item?.tx !== undefined) { tx = item.tx; ty = item.ty ?? 0 }
-    } else if (selectedEntity.type === 'area') {
-      const area = configData.areas?.[selectedEntity.index]
-      if (area) {
-        gfx.rect(area.tx * T - 2, area.ty * T - 2, area.tw * T + 4, area.th * T + 4)
-          .stroke({ color: 0xf0c040, width: 2 })
-      }
-      return
-    } else if (selectedEntity.type === 'blockedPath') {
-      // Selection drawn per-tile inside renderBlockedPathsOverlay
-      return
-    } else if (selectedEntity.type === 'lockedDoor') {
-      const door = configData.lockedDoors?.[selectedEntity.index]
-      if (door) {
-        const b = (configData.buildings ?? []).find(bd => bd.id === door.buildingId)
-        if (b) {
-          const rects = b.rects ?? (b.rect ? [b.rect] : [])
-          for (const [tx1, ty1, tx2, ty2] of rects)
-            gfx.rect(tx1 * T - 2, ty1 * T - 2, (tx2 - tx1 + 1) * T + 4, (ty2 - ty1 + 1) * T + 4)
-              .stroke({ color: 0xf0c040, width: 2 })
+    for (const selectedEntity of selectedEntities) {
+      if (selectedEntity.type === 'street') {
+        const entry = configData.streets?.[selectedEntity.index]
+        if (entry?.rect) {
+          const [tx1, ty1, tx2, ty2] = entry.rect
+          gfx.rect(tx1 * T - 2, ty1 * T - 2, (tx2 - tx1 + 1) * T + 4, (ty2 - ty1 + 1) * T + 4)
+            .stroke({ color: 0xf0c040, width: 2 })
+        } else if (entry?.tile) {
+          gfx.rect(entry.tile[0] * T - 2, entry.tile[1] * T - 2, T + 4, T + 4)
+            .stroke({ color: 0xf0c040, width: 2 })
         }
+        continue
       }
-      return
-    }
-    if (tx >= 0) {
-      gfx.rect(tx * T - 2, ty * T - 2, T + 4, T + 4).stroke({ color: 0xf0c040, width: 2 })
+      let tx = -1, ty = -1
+      if (selectedEntity.type === 'exteriorDecor') {
+        const item = configData.exteriorDecor?.[selectedEntity.index]
+        if (item?.tx !== undefined) { tx = item.tx; ty = item.ty ?? 0 }
+      } else if (selectedEntity.type === 'npc') {
+        const npc = configData.npcs?.[selectedEntity.index]
+        if (npc) { tx = npc.tx; ty = npc.ty }
+      } else if (selectedEntity.type === 'animal') {
+        const a = configData.animals?.[selectedEntity.index]
+        if (a) { tx = a.tx; ty = a.ty }
+      } else if (selectedEntity.type === 'treasure') {
+        const t = configData.treasures?.[selectedEntity.index]
+        if (t) { tx = t.tx; ty = t.ty }
+      } else if (selectedEntity.type === 'pickupItem') {
+        const p = configData.pickupItems?.[selectedEntity.index]
+        if (p) { tx = p.tx; ty = p.ty }
+      } else if (selectedEntity.type === 'npcSpawnTile') {
+        const s = configData.npcSpawnTiles?.[selectedEntity.index]
+        if (s) { tx = s[0]; ty = s[1] }
+      } else if (selectedEntity.type === 'interiorDecor' && selectedEntity.interiorId === activeInteriorId) {
+        const item = configData.interiors?.[selectedEntity.interiorId]?.decor[selectedEntity.index]
+        if (item?.tx !== undefined) { tx = item.tx; ty = item.ty ?? 0 }
+      } else if (selectedEntity.type === 'area') {
+        const area = configData.areas?.[selectedEntity.index]
+        if (area) {
+          gfx.rect(area.tx * T - 2, area.ty * T - 2, area.tw * T + 4, area.th * T + 4)
+            .stroke({ color: 0xf0c040, width: 2 })
+        }
+        continue
+      } else if (selectedEntity.type === 'lockedDoor') {
+        const door = configData.lockedDoors?.[selectedEntity.index]
+        if (door) {
+          const b = (configData.buildings ?? []).find(bd => bd.id === door.buildingId)
+          if (b) {
+            const rects = b.rects ?? (b.rect ? [b.rect] : [])
+            for (const [tx1, ty1, tx2, ty2] of rects)
+              gfx.rect(tx1 * T - 2, ty1 * T - 2, (tx2 - tx1 + 1) * T + 4, (ty2 - ty1 + 1) * T + 4)
+                .stroke({ color: 0xf0c040, width: 2 })
+          }
+        }
+        continue
+      }
+      // blockedPath, pondTile, npcSpawnTile, chickenZone etc. draw their own
+      // highlight inline in their render functions.
+      if (tx >= 0) {
+        gfx.rect(tx * T - 2, ty * T - 2, T + 4, T + 4).stroke({ color: 0xf0c040, width: 2 })
+      }
     }
   }
 
@@ -1220,6 +1265,26 @@ function hitTest(
       return { type: 'street', index: i }
     }
   }
+  const pondTiles = cfg.pondTiles ?? []
+  for (let i = pondTiles.length - 1; i >= 0; i--) {
+    const entry = pondTiles[i]
+    if (entry.rect) {
+      const [tx1, ty1, tx2, ty2] = entry.rect
+      if (tx >= tx1 && tx <= tx2 && ty >= ty1 && ty <= ty2)
+        return { type: 'pondTile', index: i }
+    } else if (entry.tile && entry.tile[0] === tx && entry.tile[1] === ty) {
+      return { type: 'pondTile', index: i }
+    }
+  }
+  const spawnTiles = cfg.npcSpawnTiles ?? []
+  for (let i = spawnTiles.length - 1; i >= 0; i--) {
+    if (spawnTiles[i][0] === tx && spawnTiles[i][1] === ty) return { type: 'npcSpawnTile', index: i }
+  }
+  const chickenZones = cfg.chickenZones ?? []
+  for (let i = chickenZones.length - 1; i >= 0; i--) {
+    const [x1, y1, x2, y2] = chickenZones[i].rect
+    if (tx >= x1 && tx <= x2 && ty >= y1 && ty <= y2) return { type: 'chickenZone', index: i }
+  }
   if (showAreas) {
     const areas = cfg.areas ?? []
     for (let i = areas.length - 1; i >= 0; i--) {
@@ -1234,7 +1299,13 @@ function hitTest(
 function getEntityTx(cfg: RawMapConfig, entity: SelectedEntity): number {
   if (entity.type === 'exteriorDecor') return cfg.exteriorDecor?.[entity.index]?.tx ?? 0
   if (entity.type === 'npc') return cfg.npcs?.[entity.index]?.tx ?? 0
+  if (entity.type === 'animal') return cfg.animals?.[entity.index]?.tx ?? 0
   if (entity.type === 'interiorDecor') return cfg.interiors?.[entity.interiorId]?.decor[entity.index]?.tx ?? 0
+  if (entity.type === 'buildingLevelDecor') return cfg.buildings?.[entity.buildingIndex]?.levelDecor?.[entity.index]?.tx ?? 0
+  if (entity.type === 'festivalDecor') {
+    const g = cfg.festivalDecor?.find(grp => grp.festivalId === entity.festivalId)
+    return g?.decor[entity.index]?.tx ?? 0
+  }
   if (entity.type === 'building') {
     const b = cfg.buildings?.[entity.index]
     const rects = b?.rects ?? (b?.rect ? [b.rect] : [])
@@ -1244,17 +1315,30 @@ function getEntityTx(cfg: RawMapConfig, entity: SelectedEntity): number {
     const e = cfg.streets?.[entity.index]
     return e?.rect?.[0] ?? e?.tile?.[0] ?? 0
   }
+  if (entity.type === 'pondTile') {
+    const e = cfg.pondTiles?.[entity.index]
+    return e?.rect?.[0] ?? e?.tile?.[0] ?? 0
+  }
+  if (entity.type === 'npcSpawnTile') return cfg.npcSpawnTiles?.[entity.index]?.[0] ?? 0
+  if (entity.type === 'chickenZone') return cfg.chickenZones?.[entity.index]?.rect?.[0] ?? 0
+  if (entity.type === 'interactable') return cfg.interactables?.[entity.index]?.tx ?? 0
+  if (entity.type === 'exitTile') return cfg.exitTiles?.[entity.index]?.tx ?? 0
   if (entity.type === 'treasure') return cfg.treasures?.[entity.index]?.tx ?? 0
   if (entity.type === 'pickupItem') return cfg.pickupItems?.[entity.index]?.tx ?? 0
   if (entity.type === 'area') return cfg.areas?.[entity.index]?.tx ?? 0
-  if (entity.type === 'blockedPath' || entity.type === 'lockedDoor') return 0
   return 0
 }
 
 function getEntityTy(cfg: RawMapConfig, entity: SelectedEntity): number {
   if (entity.type === 'exteriorDecor') return cfg.exteriorDecor?.[entity.index]?.ty ?? 0
   if (entity.type === 'npc') return cfg.npcs?.[entity.index]?.ty ?? 0
+  if (entity.type === 'animal') return cfg.animals?.[entity.index]?.ty ?? 0
   if (entity.type === 'interiorDecor') return cfg.interiors?.[entity.interiorId]?.decor[entity.index]?.ty ?? 0
+  if (entity.type === 'buildingLevelDecor') return cfg.buildings?.[entity.buildingIndex]?.levelDecor?.[entity.index]?.ty ?? 0
+  if (entity.type === 'festivalDecor') {
+    const g = cfg.festivalDecor?.find(grp => grp.festivalId === entity.festivalId)
+    return g?.decor[entity.index]?.ty ?? 0
+  }
   if (entity.type === 'building') {
     const b = cfg.buildings?.[entity.index]
     const rects = b?.rects ?? (b?.rect ? [b.rect] : [])
@@ -1264,6 +1348,14 @@ function getEntityTy(cfg: RawMapConfig, entity: SelectedEntity): number {
     const e = cfg.streets?.[entity.index]
     return e?.rect?.[1] ?? e?.tile?.[1] ?? 0
   }
+  if (entity.type === 'pondTile') {
+    const e = cfg.pondTiles?.[entity.index]
+    return e?.rect?.[1] ?? e?.tile?.[1] ?? 0
+  }
+  if (entity.type === 'npcSpawnTile') return cfg.npcSpawnTiles?.[entity.index]?.[1] ?? 0
+  if (entity.type === 'chickenZone') return cfg.chickenZones?.[entity.index]?.rect?.[1] ?? 0
+  if (entity.type === 'interactable') return cfg.interactables?.[entity.index]?.ty ?? 0
+  if (entity.type === 'exitTile') return cfg.exitTiles?.[entity.index]?.ty ?? 0
   if (entity.type === 'treasure') return cfg.treasures?.[entity.index]?.ty ?? 0
   if (entity.type === 'pickupItem') return cfg.pickupItems?.[entity.index]?.ty ?? 0
   if (entity.type === 'area') return cfg.areas?.[entity.index]?.ty ?? 0

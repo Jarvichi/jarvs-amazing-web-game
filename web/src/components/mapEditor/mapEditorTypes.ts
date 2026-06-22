@@ -3,7 +3,7 @@ import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMateri
 import type { NpcActivity } from '../../data/hub/loader'
 
 
-export type ToolMode = 'select' | 'place' | 'delete' | 'street'
+export type ToolMode = 'select' | 'place' | 'delete' | 'street' | 'pond' | 'spawn' | 'chickenZone' | 'area'
 export type Zlayer = 'solid' | 'below' | 'above'
 export type ViewMode = 'exterior' | 'interior'
 
@@ -237,6 +237,8 @@ export type SelectedEntity =
   | { type: 'building'; index: number }
   | { type: 'buildingLevelDecor'; buildingIndex: number; index: number }
   | { type: 'street'; index: number }
+  | { type: 'pondTile'; index: number }
+  | { type: 'npcSpawnTile'; index: number }
   | { type: 'treasure'; index: number }
   | { type: 'pickupItem'; index: number }
   | { type: 'interiorDecor'; interiorId: string; index: number }
@@ -261,7 +263,7 @@ export interface MapEditorState {
   activeLevel: number
   /** Festival being previewed/authored in the editor (null = base / no festival). */
   previewFestivalId: string | null
-  selectedEntity: SelectedEntity | null
+  selectedEntities: SelectedEntity[]
   undoStack: RawMapConfig[]
   redoStack: RawMapConfig[]
   isDirty: boolean

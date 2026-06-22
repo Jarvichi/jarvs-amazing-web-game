@@ -38,8 +38,11 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
 
   const {
     state, setMapId, setTool, setActiveTile, setZlayer, setActiveLevel, setPreviewFestival,
-    openInterior, closeInterior, selectEntity,
-    placeDecor, moveEntity, deleteEntity,
+    openInterior, closeInterior, selectEntities, addToSelection,
+    placeDecor, moveEntities, deleteEntities,
+    addPondTile, updatePondEntry, addNpcSpawnTile, addChickenZone, addArea,
+    convertStreetToPond, convertPondToStreet,
+    batchUpdateZlayer, batchUpdateStreetPathType,
     updateDecorZlayer, updateGlow, updateDecorMinLevel, updateBuilding, addNpc, updateNpcDialogue, updateNpc,
     addAnimal, updateAnimal,
     updateTreasure, updateConfig,
@@ -59,12 +62,13 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
 
   // Auto-open drawer and focus NPC when one is selected on canvas
   useEffect(() => {
-    if (state.selectedEntity?.type === 'npc') {
-      setFocusedNpcIndex(state.selectedEntity.index)
+    const sel = state.selectedEntities[0]
+    if (state.selectedEntities.length === 1 && sel?.type === 'npc') {
+      setFocusedNpcIndex(sel.index)
       setDrawerOpen(true)
       setDrawerTab('npcs')
     }
-  }, [state.selectedEntity])
+  }, [state.selectedEntities])
 
   const hasDuplicateQuestIds = useMemo(() => {
     if (!questDefsData) return false
@@ -94,31 +98,35 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
   }, [drawerHeight])
 
   // Intercept pickupItem moves/deletes to update questDefsData instead of configData
-  const handleMoveEntity = useCallback((entity: SelectedEntity, tx: number, ty: number) => {
-    if (entity.type === 'pickupItem') {
+  const handleMoveEntities = useCallback((moves: { entity: SelectedEntity; tx: number; ty: number }[]) => {
+    const pickupMoves = moves.filter(m => m.entity.type === 'pickupItem')
+    const otherMoves  = moves.filter(m => m.entity.type !== 'pickupItem')
+    if (pickupMoves.length > 0) {
       setQuestDefsData(prev => {
         if (!prev) return prev
         const items = [...(prev.pickupItems ?? [])]
-        if (!items[entity.index]) return prev
-        items[entity.index] = { ...items[entity.index], tx, ty }
+        for (const { entity, tx, ty } of pickupMoves) {
+          if (!items[entity.index]) continue
+          items[entity.index] = { ...items[entity.index], tx, ty }
+        }
         return { ...prev, pickupItems: items }
       })
-    } else {
-      moveEntity(entity, tx, ty)
     }
-  }, [moveEntity])
+    if (otherMoves.length > 0) moveEntities(otherMoves)
+  }, [moveEntities])
 
-  const handleDeleteEntity = useCallback((entity: SelectedEntity) => {
-    if (entity.type === 'pickupItem') {
-      setQuestDefsData(prev => {
-        if (!prev) return prev
-        return { ...prev, pickupItems: (prev.pickupItems ?? []).filter((_, i) => i !== entity.index) }
-      })
-      selectEntity(null)
-    } else {
-      deleteEntity(entity)
+  const handleDeleteEntities = useCallback((entities: SelectedEntity[]) => {
+    const pickups = entities.filter(e => e.type === 'pickupItem')
+    const others  = entities.filter(e => e.type !== 'pickupItem')
+    if (pickups.length > 0) {
+      const indices = new Set(pickups.map(e => e.index))
+      setQuestDefsData(prev => prev
+        ? { ...prev, pickupItems: (prev.pickupItems ?? []).filter((_, i) => !indices.has(i)) }
+        : prev)
+      selectEntities([])
     }
-  }, [deleteEntity, selectEntity])
+    if (others.length > 0) deleteEntities(others)
+  }, [deleteEntities, selectEntities])
 
   // Enter "pick a tile" mode for an entity; the next canvas click sets its location.
   const handlePickLocation = useCallback((kind: PickKind, index = 0) => {
@@ -170,16 +178,16 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
     const list = state.configData.treasures ?? []
     updateConfig({ treasures: [...list, { id: `treasure-${Date.now()}`, tx, ty, tileId: 'chest', collectedTileId: 'openChest', title: 'New treasure', reward: { crystals: 10 } }] })
     setShowQuestItems(true)
-    selectEntity({ type: 'treasure', index: list.length })
-  }, [centreTile, state.configData.treasures, updateConfig, selectEntity])
+    selectEntities([{ type: 'treasure', index: list.length }])
+  }, [centreTile, state.configData.treasures, updateConfig, selectEntities])
 
   const handleAddInteractable = useCallback(() => {
     const { tx, ty } = centreTile()
     const list = state.configData.interactables ?? []
     updateConfig({ interactables: [...list, { id: `interactable-${Date.now()}`, tx, ty, reactions: [{ type: 'screen', screen: '' }] }] })
     setShowInteractables(true)
-    selectEntity({ type: 'interactable', index: list.length })
-  }, [centreTile, state.configData.interactables, updateConfig, selectEntity])
+    selectEntities([{ type: 'interactable', index: list.length }])
+  }, [centreTile, state.configData.interactables, updateConfig, selectEntities])
 
   const handleAddBlockedPath = useCallback(() => {
     const { tx, ty } = centreTile()
@@ -192,8 +200,8 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
       }],
     } : prev)
     setShowBlockedPaths(true)
-    selectEntity({ type: 'blockedPath', index: list.length })
-  }, [centreTile, questDefsData, selectEntity])
+    selectEntities([{ type: 'blockedPath', index: list.length }])
+  }, [centreTile, questDefsData, selectEntities])
 
   const handleUpdateInteractable = useCallback((index: number, patch: Partial<RawInteractable>) => {
     updateConfig({ interactables: (state.configData.interactables ?? []).map((it, i) => i === index ? { ...it, ...patch } : it) })
@@ -214,8 +222,8 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
       if (!prev) return prev
       return { ...prev, blockedPaths: ((prev.blockedPaths as RawBlockedPath[]) ?? []).filter((_, i) => i !== index) }
     })
-    selectEntity(null)
-  }, [selectEntity])
+    selectEntities([])
+  }, [selectEntities])
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -228,12 +236,12 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
       if (e.key === 'd' && !e.ctrlKey && !e.metaKey) setTool('delete')
       if (e.key === 'r') setTool('street')
       if (e.key === 'Delete' || e.key === 'Backspace') {
-        if (state.selectedEntity) handleDeleteEntity(state.selectedEntity)
+        if (state.selectedEntities.length > 0) handleDeleteEntities(state.selectedEntities)
       }
     }
     window.addEventListener('keydown', handleKey)
     return () => window.removeEventListener('keydown', handleKey)
-  }, [undo, redo, setTool, handleDeleteEntity, state.selectedEntity])
+  }, [undo, redo, setTool, handleDeleteEntities, state.selectedEntities])
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', fontFamily: 'sans-serif', background: '#0f0f22' }}>
@@ -306,7 +314,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
             showAreas={showAreas}
             showInteractables={showInteractables}
             blockedPaths={(questDefsData?.blockedPaths as RawBlockedPath[]) ?? []}
-            selectedEntity={state.selectedEntity}
+            selectedEntities={state.selectedEntities}
             viewMode={state.viewMode}
             activeInteriorId={state.activeInteriorId}
             activeLevel={state.activeLevel}
@@ -315,18 +323,23 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
             activeZlayer={state.activeZlayer}
             pickActive={pick !== null}
             onPickTile={handlePickTile}
-            onSelectEntity={selectEntity}
+            onSelectEntities={selectEntities}
+            onAddToSelection={addToSelection}
             onPlaceDecor={placeDecor}
-            onMoveEntity={handleMoveEntity}
-            onDeleteEntity={handleDeleteEntity}
+            onMoveEntities={handleMoveEntities}
+            onDeleteEntities={handleDeleteEntities}
             onAddStreet={addStreet}
+            onAddPondTile={addPondTile}
+            onAddNpcSpawnTile={addNpcSpawnTile}
+            onAddChickenZone={addChickenZone}
+            onAddArea={addArea}
             questPickupItems={questDefsData?.pickupItems ?? []}
           />
 
           {/* Right: Inspector */}
           <div style={{ width: 220, flexShrink: 0, borderLeft: '1px solid #333', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
             <EntityInspector
-              selectedEntity={state.selectedEntity}
+              selectedEntities={state.selectedEntities}
               mapId={state.mapId}
               configData={state.configData}
               activeInteriorId={state.activeInteriorId}
@@ -336,8 +349,8 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
               onUpdateBuilding={updateBuilding}
               onUpdateDecorMinLevel={updateDecorMinLevel}
               onPickLocation={handlePickLocation}
-              onDelete={handleDeleteEntity}
-              onMoveEntity={handleMoveEntity}
+              onDelete={entity => handleDeleteEntities([entity])}
+              onMoveEntity={(entity, tx, ty) => handleMoveEntities([{ entity, tx, ty }])}
               onZlayerChange={updateDecorZlayer}
               onUpdateGlow={updateGlow}
               onUpdatePickupGlow={(index, patch) => setQuestDefsData(prev => {
@@ -383,6 +396,14 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
               onAddTreasure={handleAddTreasure}
               onAddInteractable={handleAddInteractable}
               onAddBlockedPath={handleAddBlockedPath}
+              onDeleteEntities={handleDeleteEntities}
+              onBatchUpdateZlayer={batchUpdateZlayer}
+              onBatchUpdateStreetPathType={batchUpdateStreetPathType}
+              onConvertStreetToPond={convertStreetToPond}
+              onConvertPondToStreet={convertPondToStreet}
+              onUpdatePondEntry={updatePondEntry}
+              onDeletePondTile={i => deleteEntities([{ type: 'pondTile', index: i }])}
+              onDeleteNpcSpawnTile={i => deleteEntities([{ type: 'npcSpawnTile', index: i }])}
             />
           </div>
         </div>
@@ -406,7 +427,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
               onUpdateNpc={updateNpc}
               onAddAnimal={addAnimal}
               onUpdateAnimal={updateAnimal}
-              onDeleteAnimal={(index) => handleDeleteEntity({ type: 'animal', index })}
+              onDeleteAnimal={(index) => handleDeleteEntities([{ type: 'animal', index }])}
               onPickLocation={handlePickLocation}
               onQuestDefsChange={handleQuestDefsChange}
             />
