@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- shadow -->
+  <ellipse cx="16" cy="29" rx="5" ry="2" fill="rgba(0,0,0,0.2)"/>
+  <!-- shovel handle -->
+  <rect x="23" y="6" width="2" height="20" rx="1" fill="#6b4020"/>
+  <!-- shovel blade -->
+  <rect x="21" y="24" width="6" height="5" rx="1" fill="#8a8f96"/>
+  <rect x="23" y="4" width="2" height="3" rx="1" fill="#6b4020"/>
+  <!-- coat -->
+  <rect x="10" y="13" width="12" height="15" rx="2" fill="#4a4036"/>
+  <!-- mud-stained apron -->
+  <rect x="12" y="16" width="8" height="11" rx="1" fill="#5e5346"/>
+  <!-- arms -->
+  <rect x="8"  y="14" width="3" height="9" rx="1" fill="#4a4036"/>
+  <rect x="21" y="14" width="3" height="9" rx="1" fill="#4a4036"/>
+  <!-- hands -->
+  <circle cx="9" cy="23" r="2" fill="#c89878"/>
+  <circle cx="23" cy="23" r="2" fill="#c89878"/>
+  <!-- stubble jaw -->
+  <rect x="12" y="11" width="8" height="4" rx="2" fill="#7a6a55"/>
+  <!-- head -->
+  <circle cx="16" cy="9" r="5" fill="#c89878"/>
+  <!-- flat cap -->
+  <rect x="10" y="4" width="12" height="4" rx="2" fill="#3a3128"/>
+  <rect x="10" y="6" width="13" height="2" rx="1" fill="#2c241c"/>
+  <!-- eyes -->
+  <rect x="13" y="8" width="2" height="2" rx="1" fill="#2a1a0a"/>
+  <rect x="17" y="8" width="2" height="2" rx="1" fill="#2a1a0a"/>
+</svg>
