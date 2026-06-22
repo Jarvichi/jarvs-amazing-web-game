@@ -52,10 +52,14 @@ interface Props {
 }
 
 const TOOLS: { mode: ToolMode; label: string; title: string }[] = [
-  { mode: 'select', label: '↖', title: 'Select / Move (S)' },
-  { mode: 'place',  label: '✎', title: 'Place tile (P)' },
-  { mode: 'delete', label: '✕', title: 'Delete (D)' },
-  { mode: 'street', label: '⊟', title: 'Draw Street / Path (R)' },
+  { mode: 'select',      label: '↖', title: 'Select / Move (S)' },
+  { mode: 'place',       label: '✎', title: 'Place tile (P)' },
+  { mode: 'delete',      label: '✕', title: 'Delete (D)' },
+  { mode: 'street',      label: '⊟', title: 'Draw Street / Path (R)' },
+  { mode: 'pond',        label: '≈', title: 'Draw Pond Tile' },
+  { mode: 'spawn',       label: '⊕', title: 'Place Spawn Tile' },
+  { mode: 'chickenZone', label: '⊛', title: 'Draw Chicken Zone' },
+  { mode: 'area',        label: '□', title: 'Draw Area' },
 ]
 
 export function MapEditorToolbar({
