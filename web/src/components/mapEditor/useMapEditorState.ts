@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
 import type { RawMapConfig, RawNpc, RawAnimal, RawInterior, RawBuilding, RawDecorItem, RawLockedDoor, SelectedEntity, ToolMode, Zlayer, MapEditorState } from './mapEditorTypes'
+import { toggleInSelection, nextAreaId, convertStreetToPond as cSTP, convertPondToStreet as cPTS, applyDeleteEntities, applyBatchUpdateZlayer, applyBatchUpdateStreetPathType } from './multiSelectHelpers'
 
 type InteriorExit = NonNullable<RawInterior['exits']>[number]
 import hubConfig from '../../data/hub/ravenwatch/config.json'
@@ -49,6 +50,121 @@ function patchFestivalDecor(
   }) }
 }
 
+/** Apply a single entity move to a config, returning a new config (or the same if no-op). */
+function applyMove(prevConfig: RawMapConfig, entity: SelectedEntity, tx: number, ty: number): RawMapConfig {
+  let newConfig = prevConfig
+  if (entity.type === 'exteriorDecor') {
+    const decor = [...(prevConfig.exteriorDecor ?? [])]
+    if (!decor[entity.index]) return prevConfig
+    decor[entity.index] = { ...decor[entity.index], tx, ty }
+    newConfig = { ...prevConfig, exteriorDecor: decor }
+  } else if (entity.type === 'festivalDecor') {
+    newConfig = patchFestivalDecor(prevConfig, entity.festivalId, entity.index, { tx, ty })
+  } else if (entity.type === 'npc') {
+    const npcs = [...(prevConfig.npcs ?? [])]
+    if (!npcs[entity.index]) return prevConfig
+    npcs[entity.index] = { ...npcs[entity.index], tx, ty }
+    newConfig = { ...prevConfig, npcs }
+  } else if (entity.type === 'building') {
+    const buildings = [...(prevConfig.buildings ?? [])]
+    if (!buildings[entity.index]) return prevConfig
+    const b = buildings[entity.index]
+    const rects = b.rects ?? (b.rect ? [b.rect] : [])
+    const oldTx1 = rects[0]?.[0] ?? 0
+    const oldTy1 = rects[0]?.[1] ?? 0
+    const dx = tx - oldTx1, dy = ty - oldTy1
+    if (dx === 0 && dy === 0) return prevConfig
+    const newRects = rects.map(([rx1, ry1, rx2, ry2]) => [rx1 + dx, ry1 + dy, rx2 + dx, ry2 + dy] as [number, number, number, number])
+    buildings[entity.index] = b.rects ? { ...b, rects: newRects } : { ...b, rect: newRects[0] }
+    newConfig = { ...prevConfig, buildings }
+  } else if (entity.type === 'treasure') {
+    const treasures = [...(prevConfig.treasures ?? [])]
+    if (!treasures[entity.index]) return prevConfig
+    treasures[entity.index] = { ...treasures[entity.index], tx, ty }
+    newConfig = { ...prevConfig, treasures }
+  } else if (entity.type === 'pickupItem') {
+    const items = [...(prevConfig.pickupItems ?? [])]
+    if (!items[entity.index]) return prevConfig
+    items[entity.index] = { ...items[entity.index], tx, ty }
+    newConfig = { ...prevConfig, pickupItems: items }
+  } else if (entity.type === 'street') {
+    const streets = [...(prevConfig.streets ?? [])]
+    if (!streets[entity.index]) return prevConfig
+    const entry = streets[entity.index]
+    if (entry.rect) {
+      const [tx1, ty1, tx2, ty2] = entry.rect
+      const dx = tx - tx1, dy = ty - ty1
+      if (dx === 0 && dy === 0) return prevConfig
+      streets[entity.index] = { ...entry, rect: [tx1 + dx, ty1 + dy, tx2 + dx, ty2 + dy] }
+    } else if (entry.tile) {
+      streets[entity.index] = { ...entry, tile: [tx, ty] }
+    } else return prevConfig
+    newConfig = { ...prevConfig, streets }
+  } else if (entity.type === 'pondTile') {
+    const pondTiles = [...(prevConfig.pondTiles ?? [])]
+    if (!pondTiles[entity.index]) return prevConfig
+    const entry = pondTiles[entity.index]
+    if (entry.rect) {
+      const [tx1, ty1, tx2, ty2] = entry.rect
+      const dx = tx - tx1, dy = ty - ty1
+      if (dx === 0 && dy === 0) return prevConfig
+      pondTiles[entity.index] = { ...entry, rect: [tx1 + dx, ty1 + dy, tx2 + dx, ty2 + dy] }
+    } else if (entry.tile) {
+      pondTiles[entity.index] = { ...entry, tile: [tx, ty] }
+    } else return prevConfig
+    newConfig = { ...prevConfig, pondTiles }
+  } else if (entity.type === 'npcSpawnTile') {
+    const npcSpawnTiles = [...(prevConfig.npcSpawnTiles ?? [])]
+    if (!npcSpawnTiles[entity.index]) return prevConfig
+    npcSpawnTiles[entity.index] = [tx, ty]
+    newConfig = { ...prevConfig, npcSpawnTiles }
+  } else if (entity.type === 'animal') {
+    const animals = [...(prevConfig.animals ?? [])]
+    if (!animals[entity.index]) return prevConfig
+    animals[entity.index] = { ...animals[entity.index], tx, ty }
+    newConfig = { ...prevConfig, animals }
+  } else if (entity.type === 'area') {
+    const areas = [...(prevConfig.areas ?? [])]
+    if (!areas[entity.index]) return prevConfig
+    areas[entity.index] = { ...areas[entity.index], tx, ty }
+    newConfig = { ...prevConfig, areas }
+  } else if (entity.type === 'interactable') {
+    const items = [...(prevConfig.interactables ?? [])]
+    if (!items[entity.index]) return prevConfig
+    items[entity.index] = { ...items[entity.index], tx, ty }
+    newConfig = { ...prevConfig, interactables: items }
+  } else if (entity.type === 'exitTile') {
+    const tiles = [...(prevConfig.exitTiles ?? [])]
+    if (!tiles[entity.index]) return prevConfig
+    tiles[entity.index] = { ...tiles[entity.index], tx, ty }
+    newConfig = { ...prevConfig, exitTiles: tiles }
+  } else if (entity.type === 'chickenZone') {
+    const zones = [...(prevConfig.chickenZones ?? [])]
+    const z = zones[entity.index]
+    if (!z) return prevConfig
+    const [x1, y1, x2, y2] = z.rect
+    const dx = tx - x1, dy = ty - y1
+    if (dx === 0 && dy === 0) return prevConfig
+    zones[entity.index] = { ...z, rect: [x1 + dx, y1 + dy, x2 + dx, y2 + dy] }
+    newConfig = { ...prevConfig, chickenZones: zones }
+  } else if (entity.type === 'buildingLevelDecor') {
+    const buildings = [...(prevConfig.buildings ?? [])]
+    const b = buildings[entity.buildingIndex]
+    if (!b?.levelDecor?.[entity.index]) return prevConfig
+    const levelDecor = [...b.levelDecor]
+    levelDecor[entity.index] = { ...levelDecor[entity.index], tx, ty }
+    buildings[entity.buildingIndex] = { ...b, levelDecor }
+    newConfig = { ...prevConfig, buildings }
+  } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
+    const interior = prevConfig.interiors[entity.interiorId]
+    const decor = [...interior.decor]
+    if (!decor[entity.index]) return prevConfig
+    decor[entity.index] = { ...decor[entity.index], tx, ty }
+    newConfig = { ...prevConfig, interiors: { ...prevConfig.interiors, [entity.interiorId]: { ...interior, decor } } }
+  }
+  return newConfig
+}
+
 export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFestival: string | null = null) {
   const [state, setState] = useState<MapEditorState>(() => ({
     mapId:            initialMapId,
@@ -61,7 +177,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     activeInteriorId: null,
     activeLevel:      0,
     previewFestivalId: initialFestival,
-    selectedEntity:   null,
+    selectedEntities: [],
     undoStack:        [],
     redoStack:        [],
     isDirty:          false,
@@ -72,7 +188,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
       ...s,
       mapId,
       configData:       structuredClone(RAW_CONFIGS[mapId]),
-      selectedEntity:   null,
+      selectedEntities: [],
       viewMode:         'exterior',
       activeInteriorId: null,
       activeLevel:      0,
@@ -87,7 +203,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
   }, [])
 
   const setPreviewFestival = useCallback((previewFestivalId: string | null) => {
-    setState(s => ({ ...s, previewFestivalId, selectedEntity: null }))
+    setState(s => ({ ...s, previewFestivalId, selectedEntities: [] }))
   }, [])
 
   const setTool = useCallback((tool: ToolMode) => {
@@ -108,15 +224,19 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
   }, [])
 
   const openInterior = useCallback((interiorId: string) => {
-    setState(s => ({ ...s, viewMode: 'interior', activeInteriorId: interiorId, activeLevel: 0, selectedEntity: null }))
+    setState(s => ({ ...s, viewMode: 'interior', activeInteriorId: interiorId, activeLevel: 0, selectedEntities: [] }))
   }, [])
 
   const closeInterior = useCallback(() => {
-    setState(s => ({ ...s, viewMode: 'exterior', activeInteriorId: null, activeLevel: 0, selectedEntity: null }))
+    setState(s => ({ ...s, viewMode: 'exterior', activeInteriorId: null, activeLevel: 0, selectedEntities: [] }))
   }, [])
 
-  const selectEntity = useCallback((entity: SelectedEntity | null) => {
-    setState(s => ({ ...s, selectedEntity: entity }))
+  const selectEntities = useCallback((entities: SelectedEntity[]) => {
+    setState(s => ({ ...s, selectedEntities: entities }))
+  }, [])
+
+  const addToSelection = useCallback((entity: SelectedEntity) => {
+    setState(s => ({ ...s, selectedEntities: toggleInSelection(s.selectedEntities, entity) }))
   }, [])
 
   const placeDecor = useCallback((tx: number, ty: number) => {
@@ -142,11 +262,11 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
         // When a building is selected, exterior decor belongs to that building's
         // per-level decor (revealed by upgrade level). Otherwise it is ambient
         // exterior decor with no level association.
-        if (s.selectedEntity?.type === 'building') {
+        if (s.selectedEntities[0]?.type === 'building') {
           const buildings = [...(prevConfig.buildings ?? [])]
-          const b = buildings[s.selectedEntity.index]
+          const b = buildings[s.selectedEntities[0].index]
           if (!b) return s
-          buildings[s.selectedEntity.index] = { ...b, levelDecor: [...(b.levelDecor ?? []), newItem] }
+          buildings[s.selectedEntities[0].index] = { ...b, levelDecor: [...(b.levelDecor ?? []), newItem] }
           newConfig = { ...prevConfig, buildings }
         } else {
           newConfig = { ...prevConfig, exteriorDecor: [...(prevConfig.exteriorDecor ?? []), newItem] }
@@ -175,112 +295,13 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     })
   }, [])
 
-  const moveEntity = useCallback((entity: SelectedEntity, tx: number, ty: number) => {
+  const moveEntities = useCallback((moves: { entity: SelectedEntity; tx: number; ty: number }[]) => {
     setState(s => {
       const prevConfig = s.configData
       let newConfig = prevConfig
 
-      if (entity.type === 'exteriorDecor') {
-        const decor = [...(prevConfig.exteriorDecor ?? [])]
-        if (!decor[entity.index]) return s
-        decor[entity.index] = { ...decor[entity.index], tx, ty }
-        newConfig = { ...prevConfig, exteriorDecor: decor }
-      } else if (entity.type === 'festivalDecor') {
-        newConfig = patchFestivalDecor(prevConfig, entity.festivalId, entity.index, { tx, ty })
-      } else if (entity.type === 'npc') {
-        const npcs = [...(prevConfig.npcs ?? [])]
-        if (!npcs[entity.index]) return s
-        npcs[entity.index] = { ...npcs[entity.index], tx, ty }
-        newConfig = { ...prevConfig, npcs }
-      } else if (entity.type === 'building') {
-        const buildings = [...(prevConfig.buildings ?? [])]
-        if (!buildings[entity.index]) return s
-        const b = buildings[entity.index]
-        const rects = b.rects ?? (b.rect ? [b.rect] : [])
-        const oldTx1 = rects[0]?.[0] ?? 0
-        const oldTy1 = rects[0]?.[1] ?? 0
-        const dx = tx - oldTx1
-        const dy = ty - oldTy1
-        if (dx === 0 && dy === 0) return s
-        const newRects = rects.map(([rx1, ry1, rx2, ry2]) =>
-          [rx1 + dx, ry1 + dy, rx2 + dx, ry2 + dy] as [number, number, number, number],
-        )
-        buildings[entity.index] = b.rects
-          ? { ...b, rects: newRects }
-          : { ...b, rect: newRects[0] }
-        newConfig = { ...prevConfig, buildings }
-      } else if (entity.type === 'treasure') {
-        const treasures = [...(prevConfig.treasures ?? [])]
-        if (!treasures[entity.index]) return s
-        treasures[entity.index] = { ...treasures[entity.index], tx, ty }
-        newConfig = { ...prevConfig, treasures }
-      } else if (entity.type === 'pickupItem') {
-        const items = [...(prevConfig.pickupItems ?? [])]
-        if (!items[entity.index]) return s
-        items[entity.index] = { ...items[entity.index], tx, ty }
-        newConfig = { ...prevConfig, pickupItems: items }
-      } else if (entity.type === 'street') {
-        const streets = [...(prevConfig.streets ?? [])]
-        if (!streets[entity.index]) return s
-        const entry = streets[entity.index]
-        if (entry.rect) {
-          const [tx1, ty1, tx2, ty2] = entry.rect
-          const dx = tx - tx1
-          const dy = ty - ty1
-          if (dx === 0 && dy === 0) return s
-          streets[entity.index] = { ...entry, rect: [tx1 + dx, ty1 + dy, tx2 + dx, ty2 + dy] }
-        } else if (entry.tile) {
-          streets[entity.index] = { ...entry, tile: [tx, ty] }
-        } else {
-          return s
-        }
-        newConfig = { ...prevConfig, streets }
-      } else if (entity.type === 'animal') {
-        const animals = [...(prevConfig.animals ?? [])]
-        if (!animals[entity.index]) return s
-        animals[entity.index] = { ...animals[entity.index], tx, ty }
-        newConfig = { ...prevConfig, animals }
-      } else if (entity.type === 'area') {
-        const areas = [...(prevConfig.areas ?? [])]
-        if (!areas[entity.index]) return s
-        areas[entity.index] = { ...areas[entity.index], tx, ty }
-        newConfig = { ...prevConfig, areas }
-      } else if (entity.type === 'interactable') {
-        const items = [...(prevConfig.interactables ?? [])]
-        if (!items[entity.index]) return s
-        items[entity.index] = { ...items[entity.index], tx, ty }
-        newConfig = { ...prevConfig, interactables: items }
-      } else if (entity.type === 'exitTile') {
-        const tiles = [...(prevConfig.exitTiles ?? [])]
-        if (!tiles[entity.index]) return s
-        tiles[entity.index] = { ...tiles[entity.index], tx, ty }
-        newConfig = { ...prevConfig, exitTiles: tiles }
-      } else if (entity.type === 'chickenZone') {
-        const zones = [...(prevConfig.chickenZones ?? [])]
-        const z = zones[entity.index]
-        if (!z) return s
-        const [x1, y1, x2, y2] = z.rect
-        const dx = tx - x1, dy = ty - y1
-        if (dx === 0 && dy === 0) return s
-        zones[entity.index] = { ...z, rect: [x1 + dx, y1 + dy, x2 + dx, y2 + dy] }
-        newConfig = { ...prevConfig, chickenZones: zones }
-      } else if (entity.type === 'buildingLevelDecor') {
-        const buildings = [...(prevConfig.buildings ?? [])]
-        const b = buildings[entity.buildingIndex]
-        if (!b?.levelDecor?.[entity.index]) return s
-        const levelDecor = [...b.levelDecor]
-        levelDecor[entity.index] = { ...levelDecor[entity.index], tx, ty }
-        buildings[entity.buildingIndex] = { ...b, levelDecor }
-        newConfig = { ...prevConfig, buildings }
-      } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
-        const interior = prevConfig.interiors[entity.interiorId]
-        const decor = [...interior.decor]
-        if (!decor[entity.index]) return s
-        decor[entity.index] = { ...decor[entity.index], tx, ty }
-        newConfig = {
-          ...prevConfig,
-          interiors: { ...prevConfig.interiors, [entity.interiorId]: { ...interior, decor } },
-        }
+      for (const { entity, tx, ty } of moves) {
+        newConfig = applyMove(newConfig, entity, tx, ty)
       }
 
       if (newConfig === prevConfig) return s
@@ -294,58 +315,160 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     })
   }, [])
 
-  const deleteEntity = useCallback((entity: SelectedEntity) => {
+  const deleteEntities = useCallback((entities: SelectedEntity[]) => {
     setState(s => {
       const prevConfig = s.configData
-      let newConfig = prevConfig
-
-      if (entity.type === 'exteriorDecor') {
-        newConfig = { ...prevConfig, exteriorDecor: (prevConfig.exteriorDecor ?? []).filter((_, i) => i !== entity.index) }
-      } else if (entity.type === 'festivalDecor') {
-        newConfig = { ...prevConfig, festivalDecor: (prevConfig.festivalDecor ?? []).map(g =>
-          g.festivalId === entity.festivalId ? { ...g, decor: g.decor.filter((_, i) => i !== entity.index) } : g) }
-      } else if (entity.type === 'npc') {
-        newConfig = { ...prevConfig, npcs: (prevConfig.npcs ?? []).filter((_, i) => i !== entity.index) }
-      } else if (entity.type === 'animal') {
-        newConfig = { ...prevConfig, animals: (prevConfig.animals ?? []).filter((_, i) => i !== entity.index) }
-      } else if (entity.type === 'building') {
-        newConfig = { ...prevConfig, buildings: (prevConfig.buildings ?? []).filter((_, i) => i !== entity.index) }
-      } else if (entity.type === 'street') {
-        newConfig = { ...prevConfig, streets: (prevConfig.streets ?? []).filter((_, i) => i !== entity.index) }
-      } else if (entity.type === 'treasure') {
-        newConfig = { ...prevConfig, treasures: (prevConfig.treasures ?? []).filter((_, i) => i !== entity.index) }
-      } else if (entity.type === 'pickupItem') {
-        newConfig = { ...prevConfig, pickupItems: (prevConfig.pickupItems ?? []).filter((_, i) => i !== entity.index) }
-      } else if (entity.type === 'interactable') {
-        newConfig = { ...prevConfig, interactables: (prevConfig.interactables ?? []).filter((_, i) => i !== entity.index) }
-      } else if (entity.type === 'exitTile') {
-        newConfig = { ...prevConfig, exitTiles: (prevConfig.exitTiles ?? []).filter((_, i) => i !== entity.index) }
-      } else if (entity.type === 'chickenZone') {
-        newConfig = { ...prevConfig, chickenZones: (prevConfig.chickenZones ?? []).filter((_, i) => i !== entity.index) }
-      } else if (entity.type === 'buildingLevelDecor' && prevConfig.buildings?.[entity.buildingIndex]?.levelDecor) {
-        const buildings = [...prevConfig.buildings]
-        const b = buildings[entity.buildingIndex]
-        buildings[entity.buildingIndex] = { ...b, levelDecor: (b.levelDecor ?? []).filter((_, i) => i !== entity.index) }
-        newConfig = { ...prevConfig, buildings }
-      } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
-        const interior = prevConfig.interiors[entity.interiorId]
-        newConfig = {
-          ...prevConfig,
-          interiors: {
-            ...prevConfig.interiors,
-            [entity.interiorId]: { ...interior, decor: interior.decor.filter((_, i) => i !== entity.index) },
-          },
-        }
-      }
-
+      const newConfig = applyDeleteEntities(prevConfig, entities)
       if (newConfig === prevConfig) return s
       return {
         ...s,
-        configData:     newConfig,
-        selectedEntity: null,
-        undoStack:      [...s.undoStack, prevConfig].slice(-MAX_UNDO),
-        redoStack:      [],
-        isDirty:        true,
+        configData:       newConfig,
+        selectedEntities: [],
+        undoStack:        [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack:        [],
+        isDirty:          true,
+      }
+    })
+  }, [])
+
+  const addPondTile = useCallback((tx1: number, ty1: number, tx2: number, ty2: number) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const entry = tx1 === tx2 && ty1 === ty2 ? { tile: [tx1, ty1] } : { rect: [tx1, ty1, tx2, ty2] }
+      const pondTiles = [...(prevConfig.pondTiles ?? []), entry]
+      const newIndex = pondTiles.length - 1
+      return {
+        ...s,
+        configData: { ...prevConfig, pondTiles },
+        selectedEntities: [{ type: 'pondTile' as const, index: newIndex }],
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const updatePondEntry = useCallback((index: number, data: { rect?: number[]; tile?: number[] }) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const pondTiles = [...(prevConfig.pondTiles ?? [])]
+      if (!pondTiles[index]) return s
+      pondTiles[index] = { ...pondTiles[index], ...data }
+      return {
+        ...s,
+        configData: { ...prevConfig, pondTiles },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const addNpcSpawnTile = useCallback((tx: number, ty: number) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const npcSpawnTiles = [...(prevConfig.npcSpawnTiles ?? []), [tx, ty] as [number, number]]
+      const newIndex = npcSpawnTiles.length - 1
+      return {
+        ...s,
+        configData: { ...prevConfig, npcSpawnTiles },
+        selectedEntities: [{ type: 'npcSpawnTile' as const, index: newIndex }],
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const addChickenZone = useCallback((tx1: number, ty1: number, tx2: number, ty2: number) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const chickenZones = [...(prevConfig.chickenZones ?? []), { rect: [tx1, ty1, tx2, ty2] as [number, number, number, number], count: 1 }]
+      const newIndex = chickenZones.length - 1
+      return {
+        ...s,
+        configData: { ...prevConfig, chickenZones },
+        selectedEntities: [{ type: 'chickenZone' as const, index: newIndex }],
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const addArea = useCallback((tx1: number, ty1: number, tx2: number, ty2: number) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const id = nextAreaId(prevConfig.areas ?? [])
+      const areas = [...(prevConfig.areas ?? []), { id, name: id, tx: tx1, ty: ty1, tw: tx2 - tx1 + 1, th: ty2 - ty1 + 1 }]
+      const newIndex = areas.length - 1
+      return {
+        ...s,
+        configData: { ...prevConfig, areas },
+        selectedEntities: [{ type: 'area' as const, index: newIndex }],
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const convertStreetToPond = useCallback((index: number) => {
+    setState(s => {
+      const result = cSTP(s.configData, index)
+      if (!result) return s
+      return {
+        ...s,
+        configData: result.config,
+        selectedEntities: [{ type: 'pondTile' as const, index: result.pondIndex }],
+        undoStack: [...s.undoStack, s.configData].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const convertPondToStreet = useCallback((index: number) => {
+    setState(s => {
+      const result = cPTS(s.configData, index)
+      if (!result) return s
+      return {
+        ...s,
+        configData: result.config,
+        selectedEntities: [{ type: 'street' as const, index: result.streetIndex }],
+        undoStack: [...s.undoStack, s.configData].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const batchUpdateZlayer = useCallback((entities: SelectedEntity[], zlayer: Zlayer) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const newConfig = applyBatchUpdateZlayer(prevConfig, entities, zlayer)
+      if (newConfig === prevConfig) return s
+      return {
+        ...s,
+        configData: newConfig,
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const batchUpdateStreetPathType = useCallback((entities: SelectedEntity[], pathType: string | undefined) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const newConfig = applyBatchUpdateStreetPathType(prevConfig, entities, pathType)
+      if (newConfig === prevConfig) return s
+      return {
+        ...s,
+        configData: newConfig,
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
       }
     })
   }, [])
@@ -917,9 +1040,9 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
         ...s,
         configData:     prevConfig,
         undoStack,
-        redoStack:      [s.configData, ...s.redoStack],
-        selectedEntity: null,
-        isDirty:        undoStack.length > 0,
+        redoStack:        [s.configData, ...s.redoStack],
+        selectedEntities: [],
+        isDirty:          undoStack.length > 0,
       }
     })
   }, [])
@@ -950,7 +1073,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
       return {
         ...s,
         configData: { ...prevConfig, streets },
-        selectedEntity: { type: 'street' as const, index: newIndex },
+        selectedEntities: [{ type: 'street' as const, index: newIndex }],
         undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
         redoStack: [],
         isDirty: true,
@@ -1010,8 +1133,8 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
       const lockedDoors = (prevConfig.lockedDoors ?? []).filter((_, i) => i !== index)
       return {
         ...s,
-        configData:     { ...prevConfig, lockedDoors },
-        selectedEntity: null,
+        configData:       { ...prevConfig, lockedDoors },
+        selectedEntities: [],
         undoStack:      [...s.undoStack, prevConfig].slice(-MAX_UNDO),
         redoStack:      [],
         isDirty:        true,
@@ -1033,10 +1156,20 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     setPreviewFestival,
     openInterior,
     closeInterior,
-    selectEntity,
+    selectEntities,
+    addToSelection,
     placeDecor,
-    moveEntity,
-    deleteEntity,
+    moveEntities,
+    deleteEntities,
+    addPondTile,
+    updatePondEntry,
+    addNpcSpawnTile,
+    addChickenZone,
+    addArea,
+    convertStreetToPond,
+    convertPondToStreet,
+    batchUpdateZlayer,
+    batchUpdateStreetPathType,
     updateDecorZlayer,
     updateGlow,
     updateDecorMinLevel,
