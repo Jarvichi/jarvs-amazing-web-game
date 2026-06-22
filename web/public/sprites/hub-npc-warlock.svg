@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- shadow -->
+  <ellipse cx="16" cy="29" rx="5" ry="2" fill="rgba(0,0,0,0.25)"/>
+  <!-- long dark robe -->
+  <path d="M9 14 L23 14 L24 28 L8 28 Z" fill="#2a1a3a"/>
+  <!-- robe trim -->
+  <rect x="8" y="26" width="16" height="2" fill="#1a0f26"/>
+  <!-- glowing sigil on chest -->
+  <circle cx="16" cy="19" r="2.4" fill="none" stroke="#9a5ad0" stroke-width="0.8"/>
+  <rect x="15" y="18" width="2" height="2" rx="0.5" fill="#c08aff" opacity="0.85"/>
+  <!-- arms -->
+  <rect x="7"  y="14" width="3" height="9" rx="1" fill="#2a1a3a"/>
+  <rect x="22" y="14" width="3" height="9" rx="1" fill="#2a1a3a"/>
+  <!-- staff -->
+  <rect x="23" y="6" width="1.4" height="20" rx="0.6" fill="#3a2a20"/>
+  <circle cx="23.7" cy="6" r="2.2" fill="#9a5ad0" opacity="0.85"/>
+  <circle cx="23.7" cy="6" r="1" fill="#e0b0ff"/>
+  <!-- head -->
+  <circle cx="16" cy="9" r="5" fill="#b9a7c0"/>
+  <!-- deep pointed hood -->
+  <path d="M10 9 L16 1 L22 9 L20 10 L12 10 Z" fill="#1a0f26"/>
+  <!-- glowing eyes -->
+  <rect x="13" y="8" width="2" height="2" rx="1" fill="#c08aff"/>
+  <rect x="17" y="8" width="2" height="2" rx="1" fill="#c08aff"/>
+</svg>
