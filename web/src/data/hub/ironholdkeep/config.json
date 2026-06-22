@@ -1,30 +1,30 @@
 {
-  "mapW": 1152,
-  "mapH": 1152,
+  "mapW": 1408,
+  "mapH": 1728,
   "townName": "Ironhold Keep",
   "avatarStart": {
     "tx": 17,
-    "ty": 33
+    "ty": 50
   },
   "exitTiles": [
     {
       "tx": 16,
-      "ty": 35,
+      "ty": 52,
       "screen": "worldmap"
     },
     {
       "tx": 17,
-      "ty": 35,
+      "ty": 52,
       "screen": "worldmap"
     },
     {
       "tx": 18,
-      "ty": 35,
+      "ty": 52,
       "screen": "worldmap"
     },
     {
       "tx": 19,
-      "ty": 35,
+      "ty": 52,
       "screen": "worldmap"
     }
   ],
@@ -60,6 +60,14 @@
       "ty": 25,
       "tw": 4,
       "th": 5
+    },
+    {
+      "id": "castle-bailey",
+      "name": "The Outer Bailey",
+      "tx": 1,
+      "ty": 36,
+      "tw": 41,
+      "th": 16
     }
   ],
   "streets": [
@@ -179,6 +187,51 @@
         13,
         28,
         13
+      ]
+    },
+    {
+      "comment": "Outer Bailey — central road continuing the approach south to the new outer gate",
+      "rect": [
+        16,
+        36,
+        19,
+        52
+      ]
+    },
+    {
+      "comment": "Outer Bailey — north boulevard (buildings front their south doors onto it)",
+      "rect": [
+        2,
+        43,
+        41,
+        44
+      ]
+    },
+    {
+      "comment": "Outer Bailey — south boulevard",
+      "rect": [
+        2,
+        51,
+        41,
+        51
+      ]
+    },
+    {
+      "comment": "Outer Bailey — west spur linking the boulevards",
+      "rect": [
+        2,
+        44,
+        3,
+        51
+      ]
+    },
+    {
+      "comment": "Outer Bailey — east spur linking the boulevards",
+      "rect": [
+        40,
+        44,
+        41,
+        51
       ]
     }
   ],
@@ -423,6 +476,188 @@
           "tx": 5,
           "ty": -5,
           "tileId": "roundWindowUnlit"
+        }
+      ]
+    },
+    {
+      "id": "stables",
+      "rect": [
+        3,
+        37,
+        9,
+        42
+      ],
+      "wall": "woodWall",
+      "roof": "strawRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "buildingId": "stables"
+        }
+      ]
+    },
+    {
+      "id": "smithy",
+      "upgradeKind": "workshop",
+      "rect": [
+        10,
+        37,
+        15,
+        42
+      ],
+      "wall": "reinforcedStone",
+      "roof": "metalRoof",
+      "doors": [
+        {
+          "tx": 2,
+          "ty": 1,
+          "buildingId": "smithy"
+        }
+      ]
+    },
+    {
+      "id": "chapel",
+      "rect": [
+        22,
+        37,
+        27,
+        42
+      ],
+      "wall": "castleStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "buildingId": "chapel"
+        }
+      ]
+    },
+    {
+      "id": "great-tower",
+      "rect": [
+        29,
+        37,
+        33,
+        42
+      ],
+      "wall": "castleStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 2,
+          "ty": 1,
+          "buildingId": "great-tower"
+        }
+      ]
+    },
+    {
+      "id": "scriptorium",
+      "rect": [
+        35,
+        37,
+        40,
+        42
+      ],
+      "wall": "castleStone",
+      "roof": "redSlateRoof",
+      "doors": [
+        {
+          "tx": 2,
+          "ty": 1,
+          "buildingId": "scriptorium"
+        }
+      ]
+    },
+    {
+      "id": "granary",
+      "rect": [
+        4,
+        45,
+        9,
+        50
+      ],
+      "wall": "woodWall",
+      "roof": "strawRoof",
+      "doors": [
+        {
+          "tx": 2,
+          "ty": 1,
+          "buildingId": "granary"
+        }
+      ]
+    },
+    {
+      "id": "kitchens",
+      "rect": [
+        10,
+        45,
+        15,
+        50
+      ],
+      "wall": "castleStone",
+      "roof": "redSlateRoof",
+      "doors": [
+        {
+          "tx": 2,
+          "ty": 1,
+          "buildingId": "kitchens"
+        }
+      ]
+    },
+    {
+      "id": "dungeon",
+      "rect": [
+        22,
+        45,
+        27,
+        50
+      ],
+      "wall": "reinforcedStone",
+      "roof": "stoneFloorRoof",
+      "doors": [
+        {
+          "tx": 2,
+          "ty": 1,
+          "buildingId": "dungeon"
+        }
+      ]
+    },
+    {
+      "id": "infirmary",
+      "rect": [
+        29,
+        45,
+        34,
+        50
+      ],
+      "wall": "castleStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 2,
+          "ty": 1,
+          "buildingId": "infirmary"
+        }
+      ]
+    },
+    {
+      "id": "quartermasters-store",
+      "upgradeKind": "shop",
+      "rect": [
+        35,
+        45,
+        39,
+        50
+      ],
+      "wall": "woodWall",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 2,
+          "ty": 1,
+          "buildingId": "quartermasters-store"
         }
       ]
     }
@@ -1188,17 +1423,98 @@
       "ty": 27,
       "tileId": "archStoneDark",
       "zlayer": "above"
-    }
+    },
+    { "comment": "Outer Bailey — braziers flanking the central road, glowing at night" },
+    { "tx": 15, "ty": 42, "tileId": "brazierTop", "glow": true, "glowRadius": 3 },
+    { "tx": 15, "ty": 43, "tileId": "brazierBottom" },
+    { "tx": 20, "ty": 42, "tileId": "brazierTop", "glow": true, "glowRadius": 3 },
+    { "tx": 20, "ty": 43, "tileId": "brazierBottom" },
+    { "tx": 15, "ty": 50, "tileId": "brazierTop", "glow": true, "glowRadius": 3 },
+    { "tx": 15, "ty": 51, "tileId": "brazierBottom" },
+    { "tx": 20, "ty": 50, "tileId": "brazierTop", "glow": true, "glowRadius": 3 },
+    { "tx": 20, "ty": 51, "tileId": "brazierBottom" },
+    { "comment": "Outer Bailey — outer gate braziers" },
+    { "tx": 15, "ty": 52, "tileId": "brazierTop", "glow": true, "glowRadius": 2 },
+    { "tx": 20, "ty": 52, "tileId": "brazierTop", "glow": true, "glowRadius": 2 },
+    { "comment": "drill yard — training gear and a campfire" },
+    { "tx": 22, "ty": 41, "tileId": "crate" },
+    { "tx": 23, "ty": 41, "tileId": "crate" },
+    { "tx": 24, "ty": 42, "tileId": "barrel" },
+    { "tx": 21, "ty": 40, "tileId": "campfireUnlit" },
+    { "tx": 26, "ty": 40, "tileId": "smallRock" },
+    { "comment": "stores stacked by the granary and quartermaster doors" },
+    { "tx": 4, "ty": 51, "tileId": "barrel" },
+    { "tx": 10, "ty": 44, "tileId": "sack" },
+    { "tx": 11, "ty": 44, "tileId": "sack" },
+    { "tx": 34, "ty": 44, "tileId": "crate" },
+    { "tx": 35, "ty": 44, "tileId": "openCrate" },
+    { "tx": 39, "ty": 51, "tileId": "barrel" },
+    { "comment": "supply wagons and stacked siege timber along the boulevard" },
+    { "tx": 3, "ty": 44, "tileId": "crate" },
+    { "tx": 8, "ty": 51, "tileId": "openCrate" },
+    { "tx": 28, "ty": 44, "tileId": "barrel" },
+    { "tx": 29, "ty": 44, "tileId": "barrel" },
+    { "tx": 32, "ty": 51, "tileId": "crate" },
+    { "tx": 33, "ty": 51, "tileId": "sack" },
+    { "comment": "rubble and rocks at the bailey wall lines" },
+    { "tx": 2, "ty": 48, "tileId": "smallRock" },
+    { "tx": 41, "ty": 48, "tileId": "smallRock" },
+    { "tx": 37, "ty": 40, "tileId": "smallRock" }
   ],
   "npcSpawnTiles": [],
+  "chickenZones": [
+    { "rect": [ 13, 17, 16, 20 ], "count": 4, "roost": [ 14, 18 ] }
+  ],
+  "animals": [
+    {
+      "id": "castle-hound-1",
+      "type": "dog",
+      "variant": "brown",
+      "tx": 18,
+      "ty": 45,
+      "name": "Fang",
+      "dialogue": [ "*a low, watchful growl, then a tail-wag*" ],
+      "roam": true
+    },
+    {
+      "id": "castle-hound-2",
+      "type": "dog",
+      "variant": "grey",
+      "tx": 22,
+      "ty": 22,
+      "name": "Wolf",
+      "dialogue": [ "*woof! — the old guard-dog knows a friend*" ],
+      "roam": true
+    },
+    {
+      "id": "castle-raven-1",
+      "type": "bird",
+      "variant": "#222222",
+      "tx": 17,
+      "ty": 30,
+      "name": "Raven",
+      "dialogue": [ "*the keep's raven eyes you, unblinking*" ],
+      "roam": true
+    },
+    {
+      "id": "castle-raven-2",
+      "type": "bird",
+      "variant": "#222222",
+      "tx": 25,
+      "ty": 21,
+      "name": "Raven",
+      "dialogue": [ "*Kraa! It ruffles its black feathers*" ],
+      "roam": true
+    }
+  ],
   "ambientNpcSprites": [],
   "npcs": [
     {
       "id": "castle-commander",
       "name": "Commander Varek",
       "sprite": "hub-npc-arena",
-      "tx": 11,
-      "ty": 15,
+      "tx": 7,
+      "ty": 5,
       "dialogue": [
         "Ironhold Keep has stood for three centuries. I intend to see it stand for three more.",
         "The patrol routes have been compromised. We need those reports.",
@@ -1206,37 +1522,243 @@
       ],
       "building": "keep",
       "questGive": "castle-missing-patrol",
-      "questReceive": "castle-missing-patrol"
+      "questReceive": "castle-missing-patrol",
+      "dialogueTree": "varek-chat",
+      "schedule": [
+        { "startHour": 0, "endHour": 7, "activity": "sleep", "location": { "type": "interior", "buildingId": "keep-solar", "tx": 1, "ty": 2 } },
+        { "startHour": 7, "endHour": 12, "activity": "work", "location": { "type": "interior", "buildingId": "keep-war-room", "tx": 5, "ty": 5 } },
+        { "startHour": 12, "endHour": 14, "activity": "eat", "location": { "type": "interior", "buildingId": "kitchens", "tx": 6, "ty": 5 } },
+        { "startHour": 14, "endHour": 20, "activity": "idle-chat", "location": { "type": "interior", "buildingId": "keep", "tx": 7, "ty": 5 } },
+        { "startHour": 20, "endHour": 0, "activity": "work", "location": { "type": "interior", "buildingId": "keep-war-room", "tx": 5, "ty": 5 } }
+      ],
+      "homeBed": { "buildingId": "keep-solar", "tx": 1, "ty": 2 }
+    },
+    {
+      "id": "castle-guard-master",
+      "name": "Guard-Master Doran",
+      "sprite": "hub-npc-guard",
+      "tx": 20,
+      "ty": 22,
+      "dialogue": [
+        "Discipline wins sieges, not bravado. Drill, drill, and drill again.",
+        "Every soldier here answers to me before they answer to the Commander.",
+        "Stand a watch with us sometime, traveller. You'd learn something."
+      ],
+      "questGive": "castle-watch-rotation",
+      "questReceive": "castle-watch-rotation",
+      "schedule": [
+        { "startHour": 0, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 9, "ty": 6 } },
+        { "startHour": 6, "endHour": 13, "activity": "work", "location": { "type": "exterior", "tx": 20, "ty": 22 } },
+        { "startHour": 13, "endHour": 19, "activity": "work", "location": { "type": "exterior", "tx": 12, "ty": 22 } },
+        { "startHour": 19, "endHour": 22, "activity": "eat", "location": { "type": "interior", "buildingId": "kitchens", "tx": 8, "ty": 4 } },
+        { "startHour": 22, "endHour": 0, "activity": "idle-chat", "location": { "type": "interior", "buildingId": "barracks", "tx": 6, "ty": 6 } }
+      ],
+      "homeBed": { "buildingId": "barracks", "tx": 9, "ty": 6 }
     },
     {
       "id": "castle-blacksmith",
       "name": "Blacksmith Kern",
       "sprite": "hub-npc-supplies",
-      "tx": 9,
-      "ty": 21,
+      "tx": 5,
+      "ty": 4,
       "dialogue": [
         "Every blade that leaves my anvil could save a soldier's life.",
         "The weapon crates haven't been accounted for since the last resupply.",
         "Iron doesn't lie — only men do."
       ],
-      "building": "armoury",
+      "building": "smithy",
       "questGive": "castle-weapon-cache",
-      "questReceive": "castle-weapon-cache"
+      "questReceive": "castle-weapon-cache",
+      "schedule": [
+        { "startHour": 0, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 3, "ty": 6 } },
+        { "startHour": 6, "endHour": 19, "activity": "work", "location": { "type": "interior", "buildingId": "smithy", "tx": 5, "ty": 4 } },
+        { "startHour": 19, "endHour": 22, "activity": "eat", "location": { "type": "interior", "buildingId": "kitchens", "tx": 6, "ty": 5 } },
+        { "startHour": 22, "endHour": 0, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 3, "ty": 6 } }
+      ],
+      "homeBed": { "buildingId": "barracks", "tx": 3, "ty": 6 }
+    },
+    {
+      "id": "castle-quartermaster",
+      "name": "Quartermaster Sella",
+      "sprite": "hub-npc-merchant",
+      "tx": 5,
+      "ty": 4,
+      "dialogue": [
+        "Nothing enters or leaves these walls without crossing my ledger.",
+        "Grain, iron, arrows, salt — a castle eats as surely as it fights.",
+        "If you're after supplies, mind you sign for them."
+      ],
+      "building": "quartermasters-store",
+      "questGive": "castle-supply-tally",
+      "questReceive": "castle-supply-tally",
+      "schedule": [
+        { "startHour": 0, "endHour": 7, "activity": "sleep", "location": { "type": "interior", "buildingId": "quartermasters-store", "tx": 8, "ty": 5 } },
+        { "startHour": 7, "endHour": 13, "activity": "work", "location": { "type": "interior", "buildingId": "quartermasters-store", "tx": 5, "ty": 4 } },
+        { "startHour": 13, "endHour": 17, "activity": "work", "location": { "type": "interior", "buildingId": "granary", "tx": 4, "ty": 4 } },
+        { "startHour": 17, "endHour": 0, "activity": "work", "location": { "type": "interior", "buildingId": "quartermasters-store", "tx": 5, "ty": 4 } }
+      ],
+      "homeBed": { "buildingId": "quartermasters-store", "tx": 8, "ty": 5 }
+    },
+    {
+      "id": "castle-cook",
+      "name": "Cook Mabel",
+      "sprite": "hub-npc-elder",
+      "tx": 6,
+      "ty": 4,
+      "dialogue": [
+        "An army marches on its stomach, and this lot marches a long way.",
+        "Get out of my kitchen unless you're bringing me something to cook with.",
+        "There's stew on the hearth if the guards have left any."
+      ],
+      "building": "kitchens",
+      "questGive": "castle-feast-preparations",
+      "questReceive": "castle-feast-preparations",
+      "schedule": [
+        { "startHour": 0, "endHour": 5, "activity": "sleep", "location": { "type": "interior", "buildingId": "kitchens", "tx": 10, "ty": 5 } },
+        { "startHour": 5, "endHour": 21, "activity": "work", "location": { "type": "interior", "buildingId": "kitchens", "tx": 6, "ty": 4 } },
+        { "startHour": 21, "endHour": 0, "activity": "sweep", "location": { "type": "interior", "buildingId": "kitchens", "tx": 8, "ty": 5 } }
+      ],
+      "homeBed": { "buildingId": "kitchens", "tx": 10, "ty": 5 }
+    },
+    {
+      "id": "castle-chaplain",
+      "name": "Chaplain Aldwin",
+      "sprite": "hub-npc-scholar",
+      "tx": 6,
+      "ty": 5,
+      "dialogue": [
+        "Even iron men kneel before something, traveller.",
+        "The crypt below holds the lords of Ironhold, back to the first stone laid.",
+        "Light a candle for the fallen. There are always more of them than we'd like."
+      ],
+      "building": "chapel",
+      "questGive": "castle-restless-crypt",
+      "questReceive": "castle-restless-crypt",
+      "schedule": [
+        { "startHour": 0, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "chapel-crypt", "tx": 10, "ty": 4 } },
+        { "startHour": 6, "endHour": 12, "activity": "idle-chat", "location": { "type": "interior", "buildingId": "chapel", "tx": 6, "ty": 5 } },
+        { "startHour": 12, "endHour": 14, "activity": "eat", "location": { "type": "interior", "buildingId": "kitchens", "tx": 6, "ty": 5 } },
+        { "startHour": 14, "endHour": 0, "activity": "idle-chat", "location": { "type": "interior", "buildingId": "chapel", "tx": 6, "ty": 5 } }
+      ],
+      "homeBed": { "buildingId": "chapel-crypt", "tx": 10, "ty": 4 }
     },
     {
       "id": "castle-archivist",
       "name": "Archivist Elwyn",
       "sprite": "hub-npc-scholar",
-      "tx": 18,
-      "ty": 21,
+      "tx": 5,
+      "ty": 5,
       "dialogue": [
         "The keep's records go back to the founding. Most of them, anyway.",
         "A siege chronicle was separated from the archives. It belongs here.",
         "History is the only weapon that never dulls."
       ],
-      "building": "barracks",
+      "building": "scriptorium",
       "questGive": "castle-siege-memory",
-      "questReceive": "castle-siege-memory"
+      "questReceive": "castle-siege-memory",
+      "schedule": [
+        { "startHour": 0, "endHour": 7, "activity": "sleep", "location": { "type": "interior", "buildingId": "scriptorium", "tx": 1, "ty": 6 } },
+        { "startHour": 7, "endHour": 19, "activity": "work", "location": { "type": "interior", "buildingId": "scriptorium", "tx": 5, "ty": 5 } },
+        { "startHour": 19, "endHour": 0, "activity": "work", "location": { "type": "interior", "buildingId": "scriptorium", "tx": 7, "ty": 4 } }
+      ],
+      "homeBed": { "buildingId": "scriptorium", "tx": 1, "ty": 6 }
+    },
+    {
+      "id": "castle-stablehand",
+      "name": "Stablehand Pip",
+      "sprite": "hub-npc-fisherman",
+      "tx": 5,
+      "ty": 4,
+      "dialogue": [
+        "The destriers know me better than my own mother does.",
+        "Mind where you step — a war horse spooks at less than you'd think.",
+        "If you ride out, I'll have a mount saddled before you reach the gate."
+      ],
+      "building": "stables",
+      "questGive": "castle-lost-foal",
+      "questReceive": "castle-lost-foal",
+      "schedule": [
+        { "startHour": 0, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "stables", "tx": 10, "ty": 6 } },
+        { "startHour": 6, "endHour": 18, "activity": "work", "location": { "type": "interior", "buildingId": "stables", "tx": 5, "ty": 4 } },
+        { "startHour": 18, "endHour": 20, "activity": "eat", "location": { "type": "interior", "buildingId": "kitchens", "tx": 8, "ty": 4 } },
+        { "startHour": 20, "endHour": 0, "activity": "sweep", "location": { "type": "interior", "buildingId": "stables", "tx": 8, "ty": 5 } }
+      ],
+      "homeBed": { "buildingId": "stables", "tx": 10, "ty": 6 }
+    },
+    {
+      "id": "castle-knight",
+      "name": "Sir Garrick",
+      "sprite": "hub-npc-soldier",
+      "tx": 25,
+      "ty": 22,
+      "dialogue": [
+        "I have held this wall through two winters and a siege. I'll hold it through more.",
+        "A knight without a cause is just a man in expensive metal.",
+        "The Guard-Master sets the rotation. Take it up with him."
+      ],
+      "questReceive": "castle-watch-rotation",
+      "schedule": [
+        { "startHour": 0, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 6, "ty": 6 } },
+        { "startHour": 6, "endHour": 12, "activity": "work", "location": { "type": "exterior", "tx": 25, "ty": 22 } },
+        { "startHour": 12, "endHour": 18, "activity": "work", "location": { "type": "exterior", "tx": 31, "ty": 43 } },
+        { "startHour": 18, "endHour": 21, "activity": "eat", "location": { "type": "interior", "buildingId": "kitchens", "tx": 6, "ty": 4 } },
+        { "startHour": 21, "endHour": 0, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 6, "ty": 6 } }
+      ],
+      "homeBed": { "buildingId": "barracks", "tx": 6, "ty": 6 }
+    },
+    {
+      "id": "castle-squire",
+      "name": "Squire Tomas",
+      "sprite": "hub-npc-soldier",
+      "tx": 17,
+      "ty": 40,
+      "dialogue": [
+        "One day I'll be a knight. For now I muck out stalls and polish armour.",
+        "Sir Garrick says I've a good arm. He says it rarely, mind.",
+        "I dropped a training sword somewhere out here. Don't tell the Guard-Master."
+      ],
+      "questGive": "castle-squires-trial",
+      "questReceive": "castle-squires-trial",
+      "schedule": [
+        { "startHour": 0, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 8, "ty": 6 } },
+        { "startHour": 6, "endHour": 10, "activity": "work", "location": { "type": "interior", "buildingId": "stables", "tx": 8, "ty": 5 } },
+        { "startHour": 10, "endHour": 17, "activity": "work", "location": { "type": "exterior", "tx": 17, "ty": 40 } },
+        { "startHour": 17, "endHour": 20, "activity": "eat", "location": { "type": "interior", "buildingId": "kitchens", "tx": 8, "ty": 4 } },
+        { "startHour": 20, "endHour": 0, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 8, "ty": 6 } }
+      ],
+      "homeBed": { "buildingId": "barracks", "tx": 8, "ty": 6 }
+    },
+    {
+      "id": "castle-gatekeeper",
+      "name": "Gatekeeper Olen",
+      "sprite": "hub-npc-guard",
+      "tx": 17,
+      "ty": 46,
+      "dialogue": [
+        "The portcullis hasn't jammed on my watch and it never will.",
+        "State your business at the gate or state it elsewhere.",
+        "Safe roads, traveller. The world beyond these walls is less forgiving."
+      ],
+      "schedule": [
+        { "startHour": 0, "endHour": 8, "activity": "work", "location": { "type": "exterior", "tx": 17, "ty": 46 } },
+        { "startHour": 8, "endHour": 20, "activity": "work", "location": { "type": "exterior", "tx": 17, "ty": 30 } },
+        { "startHour": 20, "endHour": 0, "activity": "work", "location": { "type": "exterior", "tx": 17, "ty": 46 } }
+      ]
+    },
+    {
+      "id": "castle-prisoner",
+      "name": "The Prisoner",
+      "sprite": "hub-npc-elder",
+      "tx": 6,
+      "ty": 4,
+      "dialogue": [
+        "Psst. Over here. They've left me to rot for a crime I never committed.",
+        "I know things about this keep that would turn the Commander's beard white.",
+        "Help me prove my innocence and the secret of the lower vault is yours."
+      ],
+      "building": "dungeon-cells",
+      "questGive": "castle-prisoners-plea",
+      "questReceive": "castle-prisoners-plea"
     },
     {
       "id": "castle-guard-1",
@@ -1249,7 +1771,14 @@
         "Three of us dropped our patrol papers during the last drill. Embarrassing.",
         "The south gate is yours to use, traveller."
       ],
-      "questReceive": "castle-missing-patrol"
+      "questReceive": "castle-missing-patrol",
+      "schedule": [
+        { "startHour": 0, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 1, "ty": 6 } },
+        { "startHour": 6, "endHour": 14, "activity": "work", "location": { "type": "exterior", "tx": 10, "ty": 21 } },
+        { "startHour": 14, "endHour": 21, "activity": "work", "location": { "type": "exterior", "tx": 8, "ty": 43 } },
+        { "startHour": 21, "endHour": 0, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 1, "ty": 6 } }
+      ],
+      "homeBed": { "buildingId": "barracks", "tx": 1, "ty": 6 }
     },
     {
       "id": "castle-guard-2",
@@ -1262,7 +1791,14 @@
         "I lost my patrol report somewhere out in the courtyard. The Commander will have my head.",
         "Ironhold has never fallen. Long may that last."
       ],
-      "questReceive": "castle-missing-patrol"
+      "questReceive": "castle-missing-patrol",
+      "schedule": [
+        { "startHour": 0, "endHour": 7, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 2, "ty": 6 } },
+        { "startHour": 7, "endHour": 15, "activity": "work", "location": { "type": "exterior", "tx": 25, "ty": 21 } },
+        { "startHour": 15, "endHour": 22, "activity": "work", "location": { "type": "exterior", "tx": 31, "ty": 51 } },
+        { "startHour": 22, "endHour": 0, "activity": "sleep", "location": { "type": "interior", "buildingId": "barracks", "tx": 2, "ty": 6 } }
+      ],
+      "homeBed": { "buildingId": "barracks", "tx": 2, "ty": 6 }
     }
   ],
   "interiors": {
@@ -1476,12 +2012,254 @@
           "tileId": "chest"
         }
       ],
-      "exits": []
+      "exits": [
+        {
+          "tx": 1,
+          "ty": 5,
+          "toInteriorId": "keep-war-room",
+          "entryTx": 10,
+          "entryTy": 4,
+          "direction": "left",
+          "label": "War Room"
+        }
+      ]
+    },
+    "keep-war-room": {
+      "name": "The War Room",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "cobblestoneFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        {
+          "comment": "great campaign map table at centre"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 6,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 5,
+          "ty": 2,
+          "tileId": "stool"
+        },
+        {
+          "comment": "banners and mounted arms on the back wall"
+        },
+        {
+          "tx": 2,
+          "ty": -1,
+          "tileId": "shieldMounted"
+        },
+        {
+          "tx": 5,
+          "ty": -1,
+          "tileId": "swordMountedLeft"
+        },
+        {
+          "tx": 6,
+          "ty": -1,
+          "tileId": "swordMountedRight"
+        },
+        {
+          "tx": 9,
+          "ty": -1,
+          "tileId": "shieldMounted"
+        },
+        {
+          "comment": "braziers flanking the stairs up to the solar"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "brazierTop"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "brazierBottom"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "brazierTop"
+        },
+        {
+          "tx": 10,
+          "ty": 2,
+          "tileId": "brazierBottom"
+        },
+        {
+          "comment": "map chests and supplies"
+        },
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "chest"
+        },
+        {
+          "tx": 2,
+          "ty": 7,
+          "tileId": "chest"
+        },
+        {
+          "tx": 9,
+          "ty": 7,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 10,
+          "ty": 7,
+          "tileId": "crate"
+        },
+        {
+          "comment": "stairs up to the lord's solar"
+        },
+        {
+          "tx": 5,
+          "ty": 0,
+          "tileId": "ladderBottom"
+        },
+        {
+          "tx": 5,
+          "ty": -1,
+          "tileId": "fullLadderTop"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 11,
+          "ty": 4,
+          "toInteriorId": "keep",
+          "entryTx": 2,
+          "entryTy": 5,
+          "direction": "right",
+          "label": "Great Hall"
+        },
+        {
+          "tx": 5,
+          "ty": 0,
+          "toInteriorId": "keep-solar",
+          "entryTx": 5,
+          "entryTy": 6,
+          "direction": "up",
+          "label": "Lord's Solar"
+        }
+      ]
+    },
+    "keep-solar": {
+      "name": "The Lord's Solar",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "woodFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        {
+          "comment": "stairs down into the war room"
+        },
+        {
+          "tx": 5,
+          "ty": 6,
+          "tileId": "ladderIntoFloor",
+          "zlayer": "below"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "halfLadderTop"
+        },
+        {
+          "comment": "lord's bed against the back wall"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "bundleID": "simple-bed"
+        },
+        {
+          "comment": "fireplace and reading nook"
+        },
+        {
+          "tx": 8,
+          "ty": -1,
+          "tileId": "fireplaceTopMiddle"
+        },
+        {
+          "tx": 8,
+          "ty": 0,
+          "tileId": "fireplaceBottomMiddle"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 9,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 10,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "comment": "writing desk"
+        },
+        {
+          "tx": 3,
+          "ty": 3,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 3,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "chest"
+        },
+        {
+          "tx": 10,
+          "ty": 7,
+          "tileId": "candlestickLitTop"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 6,
+          "toInteriorId": "keep-war-room",
+          "entryTx": 5,
+          "entryTy": 1,
+          "direction": "down",
+          "label": "War Room"
+        }
+      ]
     },
     "armoury": {
       "name": "The Armoury",
-      "width": 8,
-      "height": 8,
+      "width": 12,
+      "height": 9,
       "floorTileId": "stoneFloor",
       "wallTileId": "reinforcedStone",
       "decor": [
@@ -1557,8 +2335,8 @@
     },
     "barracks": {
       "name": "The Barracks",
-      "width": 8,
-      "height": 8,
+      "width": 12,
+      "height": 9,
       "floorTileId": "woodFloor",
       "wallTileId": "castleStone",
       "decor": [
@@ -1626,6 +2404,426 @@
           "ty": 4,
           "tileId": "stool"
         }
+      ],
+      "exits": []
+    },
+    "stables": {
+      "name": "The Stables",
+      "width": 12,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        { "comment": "feed barrels and hay sacks along the stalls" },
+        { "tx": 1, "ty": 1, "tileId": "sack" },
+        { "tx": 2, "ty": 1, "tileId": "sack" },
+        { "tx": 1, "ty": 2, "tileId": "barrel" },
+        { "tx": 10, "ty": 1, "tileId": "sack" },
+        { "tx": 10, "ty": 2, "tileId": "barrel" },
+        { "tx": 5, "ty": 1, "tileId": "openCrate" },
+        { "tx": 6, "ty": 1, "tileId": "crate" },
+        { "tx": 3, "ty": 5, "tileId": "barrel" },
+        { "tx": 8, "ty": 5, "tileId": "crate" },
+        { "tx": 5, "ty": 6, "tileId": "chest" }
+      ],
+      "exits": []
+    },
+    "smithy": {
+      "name": "The Forge",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "reinforcedStone",
+      "musicId": "shop",
+      "decor": [
+        { "comment": "forge fire and weapon racks" },
+        { "tx": 4, "ty": 1, "tileId": "brazierTop" },
+        { "tx": 4, "ty": 2, "tileId": "brazierBottom" },
+        { "tx": 1, "ty": 1, "tileId": "swordMountedLeft" },
+        { "tx": 2, "ty": 1, "tileId": "shieldMounted" },
+        { "tx": 7, "ty": 1, "tileId": "swordMountedRight" },
+        { "tx": 8, "ty": 1, "tileId": "suitOfArmourTop" },
+        { "tx": 8, "ty": 2, "tileId": "suitOfArmourBottom" },
+        { "tx": 1, "ty": 5, "tileId": "barrel" },
+        { "tx": 2, "ty": 5, "tileId": "crate" },
+        { "tx": 7, "ty": 5, "tileId": "chest" },
+        { "tx": 4, "ty": 4, "tileId": "barrel" }
+      ],
+      "exits": []
+    },
+    "chapel": {
+      "name": "The Castle Chapel",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "castleStone",
+      "musicId": "church",
+      "ambianceId": "sacred",
+      "decor": [
+        { "comment": "altar on the back wall" },
+        { "tx": 5, "ty": 0, "tileId": "altarTopLeft" },
+        { "tx": 6, "ty": 0, "tileId": "altarTopMid" },
+        { "tx": 7, "ty": 0, "tileId": "altarTopRight" },
+        { "tx": 5, "ty": 1, "tileId": "altarMidLeft" },
+        { "tx": 6, "ty": 1, "tileId": "altarMidMid" },
+        { "tx": 7, "ty": 1, "tileId": "altarMidRight" },
+        { "tx": 5, "ty": 2, "tileId": "altarBotLeft" },
+        { "tx": 6, "ty": 2, "tileId": "altarBotMid" },
+        { "tx": 7, "ty": 2, "tileId": "altarBotRight" },
+        { "comment": "candlesticks flanking the altar" },
+        { "tx": 3, "ty": 1, "tileId": "candlestickLitTop" },
+        { "tx": 9, "ty": 1, "tileId": "candlestickLitTop" },
+        { "comment": "pews" },
+        { "tx": 4, "ty": 4, "tileId": "stool" },
+        { "tx": 5, "ty": 4, "tileId": "stool" },
+        { "tx": 7, "ty": 4, "tileId": "stool" },
+        { "tx": 4, "ty": 6, "tileId": "stool" },
+        { "tx": 5, "ty": 6, "tileId": "stool" },
+        { "tx": 7, "ty": 6, "tileId": "stool" },
+        { "comment": "stairway down to the crypt" },
+        { "tx": 1, "ty": 7, "tileId": "ladderBottom" },
+        { "tx": 1, "ty": 6, "tileId": "fullLadderTop" }
+      ],
+      "exits": [
+        {
+          "tx": 1,
+          "ty": 7,
+          "toInteriorId": "chapel-crypt",
+          "entryTx": 5,
+          "entryTy": 1,
+          "direction": "down",
+          "label": "The Crypt"
+        }
+      ]
+    },
+    "chapel-crypt": {
+      "name": "The Crypt",
+      "width": 12,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "darkStone",
+      "ambianceId": "sacred",
+      "decor": [
+        { "comment": "stone sarcophagi (chests) in rows" },
+        { "tx": 3, "ty": 2, "tileId": "chest" },
+        { "tx": 5, "ty": 2, "tileId": "chest" },
+        { "tx": 7, "ty": 2, "tileId": "chest" },
+        { "tx": 9, "ty": 2, "tileId": "chest" },
+        { "tx": 3, "ty": 5, "tileId": "chest" },
+        { "tx": 5, "ty": 5, "tileId": "chest" },
+        { "tx": 7, "ty": 5, "tileId": "chest" },
+        { "tx": 9, "ty": 5, "tileId": "chest" },
+        { "tx": 1, "ty": 1, "tileId": "candlestickUnlit" },
+        { "tx": 10, "ty": 1, "tileId": "candlestickLitTop" },
+        { "tx": 1, "ty": 6, "tileId": "smallRock" },
+        { "comment": "stairway back up to the chapel" },
+        { "tx": 5, "ty": 1, "tileId": "ladderIntoFloor", "zlayer": "below" },
+        { "tx": 5, "ty": 0, "tileId": "halfLadderTop" }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "toInteriorId": "chapel",
+          "entryTx": 1,
+          "entryTy": 6,
+          "direction": "up",
+          "label": "The Chapel"
+        }
+      ]
+    },
+    "great-tower": {
+      "name": "The Great Tower",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "brazierTop" },
+        { "tx": 1, "ty": 2, "tileId": "brazierBottom" },
+        { "tx": 8, "ty": 1, "tileId": "brazierTop" },
+        { "tx": 8, "ty": 2, "tileId": "brazierBottom" },
+        { "tx": 3, "ty": 3, "tileId": "barrel" },
+        { "tx": 6, "ty": 3, "tileId": "crate" },
+        { "tx": 4, "ty": 5, "tileId": "chest" },
+        { "tx": 5, "ty": 5, "tileId": "chest" },
+        { "comment": "ladder up to the lookout" },
+        { "tx": 8, "ty": 6, "tileId": "ladderBottom" },
+        { "tx": 8, "ty": 5, "tileId": "fullLadderTop" }
+      ],
+      "exits": [
+        {
+          "tx": 8,
+          "ty": 6,
+          "toInteriorId": "great-tower-top",
+          "entryTx": 5,
+          "entryTy": 6,
+          "direction": "up",
+          "label": "The Lookout"
+        }
+      ]
+    },
+    "great-tower-top": {
+      "name": "The Tower Lookout",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        { "tx": 2, "ty": -1, "tileId": "roundWindowLit" },
+        { "tx": 5, "ty": -1, "tileId": "roundWindowUnlit" },
+        { "tx": 7, "ty": -1, "tileId": "roundWindowUnlit" },
+        { "tx": 1, "ty": 1, "tileId": "swordMountedLeft" },
+        { "tx": 8, "ty": 1, "tileId": "swordMountedRight" },
+        { "tx": 2, "ty": 3, "tileId": "chest" },
+        { "tx": 7, "ty": 3, "tileId": "barrel" },
+        { "tx": 4, "ty": 2, "tileId": "candlestickLitTop" },
+        { "comment": "ladder down into the tower" },
+        { "tx": 5, "ty": 6, "tileId": "ladderIntoFloor", "zlayer": "below" },
+        { "tx": 5, "ty": 5, "tileId": "halfLadderTop" }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 6,
+          "toInteriorId": "great-tower",
+          "entryTx": 8,
+          "entryTy": 5,
+          "direction": "down",
+          "label": "The Tower"
+        }
+      ]
+    },
+    "scriptorium": {
+      "name": "The Scriptorium",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "woodFloor",
+      "wallTileId": "castleStone",
+      "musicId": "church",
+      "decor": [
+        { "comment": "archive shelves along the back wall" },
+        { "tx": 1, "ty": 0, "tileId": "bookshelfTop" },
+        { "tx": 1, "ty": 1, "tileId": "bookshelfBottom" },
+        { "tx": 2, "ty": 0, "tileId": "bookshelfTop" },
+        { "tx": 2, "ty": 1, "tileId": "bookshelfBottom" },
+        { "tx": 9, "ty": 0, "tileId": "bookshelfTop" },
+        { "tx": 9, "ty": 1, "tileId": "bookshelfBottom" },
+        { "tx": 10, "ty": 0, "tileId": "bookshelfTop" },
+        { "tx": 10, "ty": 1, "tileId": "bookshelfBottom" },
+        { "comment": "writing desks" },
+        { "tx": 4, "ty": 3, "tileId": "roundTable" },
+        { "tx": 4, "ty": 4, "tileId": "stool" },
+        { "tx": 7, "ty": 3, "tileId": "roundTable" },
+        { "tx": 7, "ty": 4, "tileId": "stool" },
+        { "tx": 3, "ty": 3, "tileId": "candlestickLitTop" },
+        { "tx": 8, "ty": 3, "tileId": "candlestickLitTop" },
+        { "tx": 1, "ty": 6, "tileId": "chest" },
+        { "tx": 10, "ty": 6, "tileId": "chest" }
+      ],
+      "exits": []
+    },
+    "granary": {
+      "name": "The Granary",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "sack" },
+        { "tx": 2, "ty": 1, "tileId": "sack" },
+        { "tx": 3, "ty": 1, "tileId": "sack" },
+        { "tx": 6, "ty": 1, "tileId": "sack" },
+        { "tx": 7, "ty": 1, "tileId": "sack" },
+        { "tx": 8, "ty": 1, "tileId": "sack" },
+        { "tx": 1, "ty": 5, "tileId": "barrel" },
+        { "tx": 2, "ty": 5, "tileId": "barrel" },
+        { "tx": 7, "ty": 5, "tileId": "openCrate" },
+        { "tx": 8, "ty": 5, "tileId": "crate" },
+        { "tx": 4, "ty": 4, "tileId": "sack" },
+        { "tx": 5, "ty": 4, "tileId": "sack" }
+      ],
+      "exits": []
+    },
+    "kitchens": {
+      "name": "The Castle Kitchens",
+      "width": 12,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "castleStone",
+      "ambianceId": "hearth",
+      "decor": [
+        { "comment": "great hearth" },
+        { "tx": 5, "ty": 0, "tileId": "fireplaceTopLeft" },
+        { "tx": 6, "ty": 0, "tileId": "fireplaceTopMiddle" },
+        { "tx": 7, "ty": 0, "tileId": "fireplaceTopRight" },
+        { "tx": 5, "ty": 1, "tileId": "fireplaceBottomLeft" },
+        { "tx": 6, "ty": 1, "tileId": "fireplaceBottomMiddle" },
+        { "tx": 7, "ty": 1, "tileId": "fireplaceBottomRight" },
+        { "comment": "prep tables and stores" },
+        { "tx": 3, "ty": 4, "tileId": "roundTable" },
+        { "tx": 8, "ty": 4, "tileId": "roundTable" },
+        { "tx": 1, "ty": 5, "tileId": "barrel" },
+        { "tx": 2, "ty": 5, "tileId": "sack" },
+        { "tx": 10, "ty": 5, "tileId": "crate" },
+        { "tx": 10, "ty": 1, "tileId": "barrel" }
+      ],
+      "exits": []
+    },
+    "dungeon": {
+      "name": "The Dungeon",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "reinforcedStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "brazierTop" },
+        { "tx": 1, "ty": 2, "tileId": "brazierBottom" },
+        { "tx": 8, "ty": 1, "tileId": "brazierTop" },
+        { "tx": 8, "ty": 2, "tileId": "brazierBottom" },
+        { "tx": 3, "ty": 3, "tileId": "chest" },
+        { "tx": 5, "ty": 3, "tileId": "barrel" },
+        { "tx": 4, "ty": 1, "tileId": "swordMountedLeft" },
+        { "tx": 5, "ty": 1, "tileId": "shieldMounted" },
+        { "comment": "stairway down to the cells" },
+        { "tx": 8, "ty": 6, "tileId": "ladderBottom" },
+        { "tx": 8, "ty": 5, "tileId": "fullLadderTop" }
+      ],
+      "exits": [
+        {
+          "tx": 8,
+          "ty": 6,
+          "toInteriorId": "dungeon-cells",
+          "entryTx": 5,
+          "entryTy": 6,
+          "direction": "down",
+          "label": "The Cells"
+        }
+      ]
+    },
+    "dungeon-cells": {
+      "name": "The Cells",
+      "width": 12,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "comment": "cell railings line the back wall" },
+        { "tx": 2, "ty": -1, "tileId": "cellWindowUnlit" },
+        { "tx": 5, "ty": -1, "tileId": "cellWindowLit" },
+        { "tx": 9, "ty": -1, "tileId": "cellWindowUnlit" },
+        { "tx": 1, "ty": 1, "tileId": "prisonRailingsTopLeft" },
+        { "tx": 2, "ty": 1, "tileId": "prisonRailingsTopMiddle" },
+        { "tx": 3, "ty": 1, "tileId": "prisonRailingsTopRight" },
+        { "tx": 1, "ty": 2, "tileId": "prisonRailingsBottomLeft" },
+        { "tx": 2, "ty": 2, "tileId": "prisonRailingsBottomMiddle" },
+        { "tx": 3, "ty": 2, "tileId": "prisonRailingsBottomRight" },
+        { "tx": 8, "ty": 1, "tileId": "prisonRailingsTopLeft" },
+        { "tx": 9, "ty": 1, "tileId": "prisonRailingsTopMiddle" },
+        { "tx": 10, "ty": 1, "tileId": "prisonRailingsTopRight" },
+        { "tx": 8, "ty": 2, "tileId": "prisonRailingsBottomLeft" },
+        { "tx": 9, "ty": 2, "tileId": "prisonRailingsBottomMiddle" },
+        { "tx": 10, "ty": 2, "tileId": "prisonRailingsBottomRight" },
+        { "tx": 1, "ty": 5, "tileId": "sack" },
+        { "tx": 6, "ty": 4, "tileId": "candlestickLitTop" },
+        { "comment": "stairs up to dungeon; locked door down to the vault" },
+        { "tx": 5, "ty": 1, "tileId": "ladderIntoFloor", "zlayer": "below" },
+        { "tx": 5, "ty": 0, "tileId": "halfLadderTop" },
+        { "tx": 11, "ty": 6, "tileId": "ladderBottom" },
+        { "tx": 11, "ty": 5, "tileId": "fullLadderTop" }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "toInteriorId": "dungeon",
+          "entryTx": 8,
+          "entryTy": 5,
+          "direction": "up",
+          "label": "Up"
+        },
+        {
+          "tx": 11,
+          "ty": 6,
+          "toInteriorId": "dungeon-vault",
+          "entryTx": 5,
+          "entryTy": 6,
+          "direction": "down",
+          "label": "The Lower Vault",
+          "requiredQuest": "castle-prison-key"
+        }
+      ]
+    },
+    "dungeon-vault": {
+      "name": "The Lower Vault",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "reinforcedStone",
+      "decor": [
+        { "tx": 2, "ty": 2, "tileId": "chest" },
+        { "tx": 3, "ty": 2, "tileId": "chest" },
+        { "tx": 6, "ty": 2, "tileId": "chest" },
+        { "tx": 7, "ty": 2, "tileId": "chest" },
+        { "tx": 1, "ty": 4, "tileId": "barrel" },
+        { "tx": 8, "ty": 4, "tileId": "barrel" },
+        { "tx": 4, "ty": 4, "tileId": "candlestickLitTop" },
+        { "comment": "stairway up to the cells" },
+        { "tx": 5, "ty": 6, "tileId": "ladderIntoFloor", "zlayer": "below" },
+        { "tx": 5, "ty": 5, "tileId": "halfLadderTop" }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 6,
+          "toInteriorId": "dungeon-cells",
+          "entryTx": 11,
+          "entryTy": 5,
+          "direction": "up",
+          "label": "The Cells"
+        }
+      ]
+    },
+    "infirmary": {
+      "name": "The Infirmary",
+      "width": 12,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        { "comment": "sick beds" },
+        { "tx": 1, "ty": 1, "bundleID": "simple-bed" },
+        { "tx": 4, "ty": 1, "bundleID": "simple-bed" },
+        { "tx": 7, "ty": 1, "bundleID": "simple-bed" },
+        { "comment": "supplies" },
+        { "tx": 10, "ty": 1, "tileId": "chest" },
+        { "tx": 10, "ty": 2, "tileId": "barrel" },
+        { "tx": 2, "ty": 5, "tileId": "roundTable" },
+        { "tx": 2, "ty": 6, "tileId": "stool" },
+        { "tx": 6, "ty": 5, "tileId": "candlestickLitTop" },
+        { "tx": 9, "ty": 5, "tileId": "barrel" }
+      ],
+      "exits": []
+    },
+    "quartermasters-store": {
+      "name": "The Quartermaster's Store",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "musicId": "shop",
+      "ambianceId": "market",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "crate" },
+        { "tx": 2, "ty": 1, "tileId": "crate" },
+        { "tx": 1, "ty": 2, "tileId": "openCrate" },
+        { "tx": 7, "ty": 1, "tileId": "barrel" },
+        { "tx": 8, "ty": 1, "tileId": "barrel" },
+        { "tx": 8, "ty": 2, "tileId": "sack" },
+        { "tx": 4, "ty": 4, "tileId": "roundTableWithCloth" },
+        { "tx": 4, "ty": 5, "tileId": "stool" },
+        { "tx": 2, "ty": 5, "tileId": "chest" },
+        { "tx": 7, "ty": 5, "tileId": "chest" }
       ],
       "exits": []
     }

@@ -66,7 +66,7 @@
       "offerDialogue": "A chronicle of the great siege was separated from our archives years ago. Three pages were found and distributed around the keep. If you recover them, our history will be whole again.",
       "activeDialogue": {
         "page-1": "The first page was last seen in the commanders' hall. Worth checking the shelves.",
-        "page-2": "Good, one page found. The second was tucked away in the armory, of all places.",
+        "page-2": "Good, one page found. The second was tucked away in the armoury, of all places.",
         "page-3": "Two pages now — remarkable. The final page was stored in the barracks. Nearly done."
       },
       "completeDialogue": "The chronicle is complete. This account of the siege is irreplaceable. You have done the keep a great service, traveller.",
@@ -108,6 +108,692 @@
         },
         "friendship": {
           "castle-archivist": 30
+        }
+      }
+    },
+    {
+      "id": "castle-watch-rotation",
+      "title": "The Watch Rotation",
+      "type": "fetch",
+      "giverNpcId": "castle-guard-master",
+      "receiverNpcId": "castle-guard-master",
+      "offerDialogue": "A castle is only as strong as its watch. Three watch-tokens went astray when the rotation changed over. Gather them from the wall posts so I can reset the roster.",
+      "activeDialogue": "Three watch-tokens, out along the courtyard and bailey wall posts. Look sharp — a soldier learns to notice what's out of place.",
+      "completeDialogue": "Roster's whole again. You've a soldier's eye, traveller. Stand with us a while and you might earn a place on the wall.",
+      "steps": [
+        {
+          "key": "tokens",
+          "type": "collect",
+          "pickupIds": [
+            "watch-token-1",
+            "watch-token-2",
+            "watch-token-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 50,
+        "relationship": {
+          "castle-guard-master": { "track": "ally", "points": 15 }
+        }
+      }
+    },
+    {
+      "id": "castle-drill-grounds",
+      "title": "Drill Grounds",
+      "type": "fetch",
+      "giverNpcId": "castle-guard-master",
+      "receiverNpcId": "castle-guard-master",
+      "prerequisite": "quest:castle-watch-rotation",
+      "offerDialogue": "The recruits left their drill gear scattered across the bailey like children. Round up three sets before I make them run the walls until dawn.",
+      "activeDialogue": "Drill gear — three sets, somewhere out in the bailey. Discipline starts with tidiness, traveller.",
+      "completeDialogue": "Gear stowed, recruits humbled. You'd make a fair Guard-Master yourself. The wall remembers those who keep it.",
+      "steps": [
+        {
+          "key": "gear",
+          "type": "collect",
+          "pickupIds": [
+            "drill-gear-1",
+            "drill-gear-2",
+            "drill-gear-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 45,
+        "relationship": {
+          "castle-guard-master": { "track": "ally", "points": 12 }
+        }
+      }
+    },
+    {
+      "id": "castle-night-watch",
+      "title": "Orders for the Night Watch",
+      "type": "fetch",
+      "giverNpcId": "castle-guard-master",
+      "receiverNpcId": "castle-knight",
+      "prerequisite": "quest:castle-drill-grounds | relationship:castle-guard-master:ally:2",
+      "offerDialogue": "I trust you now, so I'll trust you with this. Carry the night-watch orders to Sir Garrick on the wall. He'll know what to do with them.",
+      "activeDialogue": "Sir Garrick keeps the eastern wall and the bailey boulevard. Find him and put these orders in his hand.",
+      "completeDialogue": "Orders from Doran himself? And carried by you. The Guard-Master doesn't hand his trust out lightly. My thanks, traveller.",
+      "steps": [
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "castle-knight",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 60,
+        "relationship": {
+          "castle-guard-master": { "track": "ally", "points": 15 }
+        }
+      }
+    },
+    {
+      "id": "castle-supply-tally",
+      "title": "The Supply Tally",
+      "type": "fetch",
+      "giverNpcId": "castle-quartermaster",
+      "receiverNpcId": "castle-quartermaster",
+      "offerDialogue": "My ledgers have walked off again — one in the store, one in the granary, one left in the kitchens by that careless cook. Bring them back before the audit.",
+      "activeDialogue": "Three ledgers: the store, the granary, the kitchens. A castle that loses count of its grain loses its siege.",
+      "completeDialogue": "All three ledgers, and not a figure smudged. You've a tidy hand, traveller. I'll remember it next time you need supplies.",
+      "steps": [
+        {
+          "key": "ledgers",
+          "type": "collect",
+          "pickupIds": [
+            "supply-ledger-1",
+            "supply-ledger-2",
+            "supply-ledger-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 45,
+        "friendship": {
+          "castle-quartermaster": 20
+        }
+      }
+    },
+    {
+      "id": "castle-grain-stores",
+      "title": "Restock the Granary",
+      "type": "fetch",
+      "giverNpcId": "castle-quartermaster",
+      "receiverNpcId": "castle-quartermaster",
+      "prerequisite": "quest:castle-supply-tally",
+      "offerDialogue": "Four sacks of grain spilled off the supply cart in the bailey. Gather them up — every grain counts when the gates are shut and the larder's all you have.",
+      "activeDialogue": "Four grain sacks, scattered along the bailey boulevard. Mind the rats don't get to them first.",
+      "completeDialogue": "Granary's full again. You've kept a hundred bellies fed without lifting a sword. That's its own kind of soldiering.",
+      "steps": [
+        {
+          "key": "sacks",
+          "type": "collect",
+          "pickupIds": [
+            "grain-sack-1",
+            "grain-sack-2",
+            "grain-sack-3",
+            "grain-sack-4"
+          ],
+          "required": 4
+        }
+      ],
+      "reward": {
+        "crystals": 50
+      }
+    },
+    {
+      "id": "castle-arrow-count",
+      "title": "Count the Quivers",
+      "type": "fetch",
+      "giverNpcId": "castle-quartermaster",
+      "receiverNpcId": "castle-quartermaster",
+      "prerequisite": "quest:castle-grain-stores",
+      "offerDialogue": "Three bundles of arrows never made it to the armoury. Find them around the courtyard before the archers notice they're short.",
+      "activeDialogue": "Three arrow bundles, somewhere in the inner courtyard. An empty quiver is a dead archer.",
+      "completeDialogue": "Counted and stowed. The wall can loose a full volley again, thanks to you.",
+      "steps": [
+        {
+          "key": "arrows",
+          "type": "collect",
+          "pickupIds": [
+            "arrow-bundle-1",
+            "arrow-bundle-2",
+            "arrow-bundle-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 45
+      }
+    },
+    {
+      "id": "castle-forge-repairs",
+      "title": "Blades for Mending",
+      "type": "fetch",
+      "giverNpcId": "castle-blacksmith",
+      "receiverNpcId": "castle-blacksmith",
+      "prerequisite": "quest:castle-weapon-cache",
+      "offerDialogue": "The drill cracked three blades clean through. The recruits dropped them where they stood — find them and I'll reforge the steel before it rusts.",
+      "activeDialogue": "Three broken blades, out along the courtyard. Good steel's too dear to leave in the mud.",
+      "completeDialogue": "Three blades for the fire. I'll have them whole by morning. You've a smith's respect for good iron, traveller.",
+      "steps": [
+        {
+          "key": "blades",
+          "type": "collect",
+          "pickupIds": [
+            "broken-blade-1",
+            "broken-blade-2",
+            "broken-blade-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 50,
+        "friendship": {
+          "castle-blacksmith": 20
+        }
+      }
+    },
+    {
+      "id": "castle-feast-preparations",
+      "title": "Feast Preparations",
+      "type": "fetch",
+      "giverNpcId": "castle-cook",
+      "receiverNpcId": "castle-cook",
+      "offerDialogue": "The Commander wants a feast and gives me a day to make it. Fetch me three things from the stores — salt, a wheel of cheese, and a barrel of ale — or it's gruel for the lot of them.",
+      "activeDialogue": "Salt, cheese, ale — scattered between the granary, the store, and the bailey. A feast doesn't cook itself, traveller.",
+      "completeDialogue": "All three, and just in time. Sit at the low table tonight — you've earned a hot plate, which is more than most around here.",
+      "steps": [
+        {
+          "key": "ingredients",
+          "type": "collect",
+          "pickupIds": [
+            "feast-salt",
+            "feast-cheese",
+            "feast-ale"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 45,
+        "friendship": {
+          "castle-cook": 25
+        }
+      }
+    },
+    {
+      "id": "castle-missing-cutlery",
+      "title": "The Missing Cutlery",
+      "type": "lost-items",
+      "giverNpcId": "castle-cook",
+      "receiverNpcId": "castle-cook",
+      "prerequisite": "quest:castle-feast-preparations",
+      "offerDialogue": "Half my serving plates vanished after the feast. Soldiers, the lot of them — magpies with swords. Find four and bring them back to my kitchen.",
+      "activeDialogue": "Four serving plates, somewhere between the great hall and the kitchens. They didn't sprout legs and walk.",
+      "completeDialogue": "Four plates returned. I'll not ask which guard's bunk you found them under. Bless you, traveller.",
+      "steps": [
+        {
+          "key": "plates",
+          "type": "collect",
+          "pickupIds": [
+            "plate-1",
+            "plate-2",
+            "plate-3",
+            "plate-4"
+          ],
+          "required": 4
+        }
+      ],
+      "reward": {
+        "crystals": 40
+      }
+    },
+    {
+      "id": "castle-lost-foal",
+      "title": "The Lost Foal",
+      "type": "fetch",
+      "giverNpcId": "castle-stablehand",
+      "receiverNpcId": "castle-stablehand",
+      "offerDialogue": "A foal slipped its stall and bolted into the bailey. I can't leave the other horses to chase it. Find its bell — it'll be wherever the little rascal shook it loose.",
+      "activeDialogue": "The foal's bell came off somewhere in the bailey. Find it and I'll know which way the creature ran.",
+      "completeDialogue": "That's the bell! I can track it now. You've saved me a thrashing from the Quartermaster — a lost horse is a costly horse.",
+      "steps": [
+        {
+          "key": "bell",
+          "type": "collect",
+          "pickupIds": [
+            "foal-bell"
+          ],
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 35,
+        "friendship": {
+          "castle-stablehand": 15
+        }
+      }
+    },
+    {
+      "id": "castle-fresh-hay",
+      "title": "Fresh Hay for the Stalls",
+      "type": "fetch",
+      "giverNpcId": "castle-stablehand",
+      "receiverNpcId": "castle-stablehand",
+      "prerequisite": "quest:castle-lost-foal",
+      "offerDialogue": "The destriers won't bed down on old straw. Three fresh bales were dropped between the granary and the stables. Haul them over for me?",
+      "activeDialogue": "Three hay bales, between the granary and the stables. The horses are picky as princes, I'm afraid.",
+      "completeDialogue": "Soft beds for fussy horses. They'll sleep better than the Commander tonight. My thanks, traveller.",
+      "steps": [
+        {
+          "key": "hay",
+          "type": "collect",
+          "pickupIds": [
+            "hay-bale-1",
+            "hay-bale-2",
+            "hay-bale-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 40
+      }
+    },
+    {
+      "id": "castle-squires-trial",
+      "title": "The Squire's Trial",
+      "type": "lost-items",
+      "giverNpcId": "castle-squire",
+      "receiverNpcId": "castle-squire",
+      "offerDialogue": "Don't tell the Guard-Master — I lost three training swords during practice and he'll have me scrubbing pots for a month. Help me find them and I'll owe you for life.",
+      "activeDialogue": "Three training swords, out where we drill in the bailey and the courtyard. Quick, before Doran counts the rack.",
+      "completeDialogue": "All three! You're a lifesaver. One day I'll be a knight and I'll remember who kept me out of the kitchens.",
+      "steps": [
+        {
+          "key": "swords",
+          "type": "collect",
+          "pickupIds": [
+            "training-sword-1",
+            "training-sword-2",
+            "training-sword-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 40,
+        "friendship": {
+          "castle-squire": 20
+        }
+      }
+    },
+    {
+      "id": "castle-archivists-index",
+      "title": "The Archivist's Index",
+      "type": "chain",
+      "giverNpcId": "castle-archivist",
+      "receiverNpcId": "castle-archivist",
+      "prerequisite": "quest:castle-siege-memory",
+      "offerDialogue": "Now that the chronicle is whole, I'm rebuilding the index that links it to the rest of our records. Three index cards were filed in the wrong rooms. Recover them in order and the catalogue lives again.",
+      "activeDialogue": {
+        "index-1": "The first index card should be here in the scriptorium, misfiled among the ledgers.",
+        "index-2": "One found. The second was carried up to the keep's great hall — check the shelves there.",
+        "index-3": "Two now. The last was left in the barracks. Soldiers and books — never a happy pairing."
+      },
+      "completeDialogue": "The index is restored. Future archivists will bless your name without ever knowing it. That is the quiet reward of history.",
+      "steps": [
+        {
+          "key": "index-1",
+          "type": "collect",
+          "pickupIds": [ "index-card-1" ],
+          "required": 1
+        },
+        {
+          "key": "index-2",
+          "type": "collect",
+          "pickupIds": [ "index-card-2" ],
+          "required": 1,
+          "chain": "index-card-1"
+        },
+        {
+          "key": "index-3",
+          "type": "collect",
+          "pickupIds": [ "index-card-3" ],
+          "required": 1,
+          "chain": "index-card-2"
+        }
+      ],
+      "reward": {
+        "crystals": 55,
+        "friendship": {
+          "castle-archivist": 25
+        }
+      }
+    },
+    {
+      "id": "castle-restless-crypt",
+      "title": "The Restless Crypt",
+      "type": "fetch",
+      "giverNpcId": "castle-chaplain",
+      "receiverNpcId": "castle-chaplain",
+      "offerDialogue": "The candles in the crypt have guttered out, and the old lords do not rest in the dark. Three grave-candles wait to be relit below. Will you tend the dead with me?",
+      "activeDialogue": "Three grave-candles in the crypt beneath the chapel. Carry the light gently — the dead notice disrespect.",
+      "completeDialogue": "The crypt glows again, and the keep feels lighter for it. The lords of Ironhold thank you in the only way the dead can — with peace.",
+      "steps": [
+        {
+          "key": "candles",
+          "type": "collect",
+          "pickupIds": [
+            "grave-candle-1",
+            "grave-candle-2",
+            "grave-candle-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 45,
+        "friendship": {
+          "castle-chaplain": 25
+        }
+      }
+    },
+    {
+      "id": "castle-prisoners-plea",
+      "title": "The Prisoner's Plea",
+      "type": "fetch",
+      "giverNpcId": "castle-prisoner",
+      "receiverNpcId": "castle-prisoner",
+      "offerDialogue": "You there — with the kind face. I was thrown in here for a theft I never did. There's a letter in the scriptorium that proves it. Find it, and I'll tell you a secret worth more than my freedom.",
+      "activeDialogue": "The letter that clears me is filed somewhere in the scriptorium. The Archivist won't miss one yellowed page.",
+      "completeDialogue": "That's it — the letter, in the steward's own hand. I'm no thief. Now listen: the lower vault holds the truth of why I'm here. Win the Guard-Master's trust and the key is yours.",
+      "steps": [
+        {
+          "key": "letter",
+          "type": "collect",
+          "pickupIds": [
+            "prisoner-letter"
+          ],
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 30
+      }
+    },
+    {
+      "id": "castle-prison-key",
+      "title": "The Vault Key",
+      "type": "chain",
+      "giverNpcId": "castle-guard-master",
+      "receiverNpcId": "castle-guard-master",
+      "prerequisite": "quest:castle-prisoners-plea | relationship:castle-guard-master:ally:2",
+      "offerDialogue": "The prisoner's letter rings true, and you've earned my trust. The vault key was broken in two and hidden so no one man could open it alone. Recover both halves and I'll have the smith forge them whole.",
+      "activeDialogue": {
+        "half-1": "One key-half was hidden in the dungeon cells themselves. Search where the light from the cell window falls.",
+        "half-2": "Good. The second half went up the great tower, to the lookout. No one climbs there but the watch."
+      },
+      "completeDialogue": "Both halves. Kern will forge them into one. Take the vault key — and whatever truth waits at the bottom of the keep, face it with a clear eye.",
+      "steps": [
+        {
+          "key": "half-1",
+          "type": "collect",
+          "pickupIds": [ "key-half-1" ],
+          "required": 1
+        },
+        {
+          "key": "half-2",
+          "type": "collect",
+          "pickupIds": [ "key-half-2" ],
+          "required": 1,
+          "chain": "key-half-1"
+        }
+      ],
+      "reward": {
+        "crystals": 70,
+        "collectible": {
+          "id": "vault-key",
+          "name": "Vault Key",
+          "icon": "🗝️",
+          "desc": "The reforged key to the lower vault beneath Ironhold Keep."
+        },
+        "relationship": {
+          "castle-guard-master": { "track": "ally", "points": 10 }
+        }
+      }
+    },
+    {
+      "id": "castle-vault-truth",
+      "title": "The Truth in the Vault",
+      "type": "fetch",
+      "giverNpcId": "castle-prisoner",
+      "receiverNpcId": "castle-prisoner",
+      "prerequisite": "quest:castle-prison-key",
+      "offerDialogue": "You have the key. Then go down — the lower vault holds the ledger that names the real thief, the one who put me here. Bring it up and my name is cleared at last.",
+      "activeDialogue": "The ledger is in the lower vault, past the locked door in the cells. The key is yours now — use it.",
+      "completeDialogue": "There — the true thief's name, in black ink. The Commander cannot deny this. I'm a free man because of you, traveller. Take this; it's all I have, and you've earned far more.",
+      "steps": [
+        {
+          "key": "ledger",
+          "type": "collect",
+          "pickupIds": [
+            "vault-ledger"
+          ],
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 90,
+        "collectible": {
+          "id": "pardon-writ",
+          "name": "Writ of Pardon",
+          "icon": "📜",
+          "desc": "A pardon won by uncovering the truth beneath Ironhold Keep."
+        },
+        "relationship": {
+          "castle-prisoner": { "track": "ally", "points": 20 }
+        }
+      }
+    },
+    {
+      "id": "castle-gate-inspection",
+      "title": "Gate Inspection",
+      "type": "fetch",
+      "giverNpcId": "castle-gatekeeper",
+      "receiverNpcId": "castle-gatekeeper",
+      "offerDialogue": "Can't leave my post, but the outer gate hasn't been inspected since the spring thaw. Three inspection chalks were left at the gate stones. Mark them off for me and the portcullis stays certified.",
+      "activeDialogue": "Three inspection chalks, down by the outer gate and along the approach. A jammed portcullis is a breached castle.",
+      "completeDialogue": "All marked, all sound. The gate'll hold another season. You've a careful eye, traveller — rare in folk just passing through.",
+      "steps": [
+        {
+          "key": "chalks",
+          "type": "collect",
+          "pickupIds": [
+            "gate-chalk-1",
+            "gate-chalk-2",
+            "gate-chalk-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 40
+      }
+    },
+    {
+      "id": "castle-banner-of-ironhold",
+      "title": "The Banner of Ironhold",
+      "type": "fetch",
+      "giverNpcId": "castle-commander",
+      "receiverNpcId": "castle-commander",
+      "prerequisite": "quest:castle-missing-patrol",
+      "offerDialogue": "The great banner of Ironhold was taken down for mending and the pieces were scattered to three trades — the smith, the seamstress, the chapel. Gather the three fragments so it can fly above the keep once more.",
+      "activeDialogue": "Three banner fragments — one near the forge, one in the chapel, one in the great hall. A keep without its banner is just a pile of stones.",
+      "completeDialogue": "The banner is whole, and it will fly at first light. You've given Ironhold back its pride, traveller. That is no small thing.",
+      "steps": [
+        {
+          "key": "fragments",
+          "type": "collect",
+          "pickupIds": [
+            "banner-fragment-1",
+            "banner-fragment-2",
+            "banner-fragment-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 65,
+        "collectible": {
+          "id": "ironhold-banner",
+          "name": "Ironhold Banner",
+          "icon": "🚩",
+          "desc": "The restored grey-and-iron banner of Ironhold Keep."
+        },
+        "friendship": {
+          "castle-commander": 25
+        }
+      }
+    },
+    {
+      "id": "castle-forge-the-key",
+      "title": "A Key for Ravenwatch",
+      "type": "fetch",
+      "giverNpcId": "castle-blacksmith",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:castle-weapon-cache",
+      "offerDialogue": "Ravenwatch's Guard Captain sent a wax impression and a plea — his armoury lock failed and no smith of his can match the old Ironhold wards. I've forged the key. Will you carry it to Captain Thorin yourself?",
+      "activeDialogue": "The key is for Guard Captain Thorin in Ravenwatch — you'll find him at the barracks. A lock's no good to a man who can't open it.",
+      "completeDialogue": "Ironhold steel, cut to an Ironhold ward — only Kern could have managed it. My thanks, traveller, and my thanks to the old forge. Tell Blacksmith Kern his work still has no equal.",
+      "steps": [
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "guard-captain-thorin",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 75,
+        "friendship": {
+          "castle-blacksmith": 15
+        }
+      }
+    },
+    {
+      "id": "castle-chronicle-for-ravenwatch",
+      "title": "A Copy for the Chronicler",
+      "type": "fetch",
+      "giverNpcId": "castle-archivist",
+      "receiverNpcId": "chronicler",
+      "prerequisite": "quest:castle-siege-memory",
+      "offerDialogue": "Now that our Siege Chronicle is whole, Ravenwatch's Chronicler deserves a copy — the two towns share that history, and shared history is a kind of treaty. Carry this transcription to them.",
+      "activeDialogue": "The transcribed chronicle belongs in the hands of Ravenwatch's Chronicler. Histories kept apart are histories half-told.",
+      "completeDialogue": "The fall and recapture of Ironhold, in Elwyn's own careful hand — our archive has wanted this for a generation. The two towns are the closer for it. You have my deepest thanks, traveller.",
+      "steps": [
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "chronicler",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 70,
+        "friendship": {
+          "castle-archivist": 20
+        }
+      }
+    },
+    {
+      "id": "castle-siege-engines",
+      "title": "Plans for the Siege-Master",
+      "type": "fetch",
+      "giverNpcId": "castle-guard-master",
+      "receiverNpcId": "siege-master",
+      "prerequisite": "quest:castle-watch-rotation",
+      "offerDialogue": "Ravenwatch's Siege-Master has forgotten more about trebuchets than I'll ever know — but Ironhold's wall-engine plans are the finest in the realm. Carry them over so they can be matched against his. Two minds, one defence.",
+      "activeDialogue": "The wall-engine plans go to Ravenwatch's Siege-Master. Best you find them before the next muster, traveller.",
+      "completeDialogue": "Ironhold's counterweights and my ranging tables — together these could hold any wall in the realm. Tell Doran the Siege-Master of Ravenwatch is in his debt.",
+      "steps": [
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "siege-master",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 70,
+        "relationship": {
+          "castle-guard-master": { "track": "ally", "points": 8 }
+        }
+      }
+    },
+    {
+      "id": "castle-warm-welcome",
+      "title": "A Cask for the Inn",
+      "type": "fetch",
+      "giverNpcId": "castle-cook",
+      "receiverNpcId": "innkeeper-rosie",
+      "prerequisite": "quest:castle-feast-preparations",
+      "offerDialogue": "Rosie at the Ravenwatch inn brewed the ale for our last feast and never sent a bill — that's not a debt I'll leave unpaid. Carry this cask of Ironhold mead to her with my compliments.",
+      "activeDialogue": "The mead cask is for Innkeeper Rosie at the Ravenwatch inn. A kindness repaid is a road kept open.",
+      "completeDialogue": "Ironhold mead! And from Mabel, the old badger — tell her the next batch of ale's on the house, and her welcome at my hearth always. Safe travels, love.",
+      "steps": [
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "innkeeper-rosie",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 55,
+        "friendship": {
+          "castle-cook": 20
+        }
+      }
+    },
+    {
+      "id": "castle-garrison-accord",
+      "title": "The Garrison Accord",
+      "type": "fetch",
+      "giverNpcId": "castle-commander",
+      "receiverNpcId": "commander-post",
+      "prerequisite": "quest:castle-message-ravenwatch",
+      "offerDialogue": "Thorin's reply has decided me. Ironhold and Ravenwatch should bind their garrisons under one accord — mutual relief, shared signals, no town to fall alone. Carry the sealed accord to the Ravenwatch command post.",
+      "activeDialogue": "The Garrison Accord must reach the Ravenwatch command post. This is the work of years, traveller — see it through.",
+      "completeDialogue": "Signed and sealed by both keeps. From this day the two towns answer one horn. You did not carry a letter, traveller — you carried an alliance. Ironhold will remember it.",
+      "steps": [
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "commander-post",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 100,
+        "collectible": {
+          "id": "garrison-accord",
+          "name": "Garrison Accord",
+          "icon": "🤝",
+          "desc": "The signed pact binding Ironhold Keep and Ravenwatch to mutual defence."
+        },
+        "relationship": {
+          "castle-commander": { "track": "ally", "points": 15 }
         }
       }
     },
@@ -183,7 +869,7 @@
       "ty": 2,
       "tileId": "smallSign",
       "questId": "castle-siege-memory",
-      "building": "commanders-hall"
+      "building": "keep"
     },
     {
       "id": "chronicle-page-2",
@@ -191,7 +877,7 @@
       "ty": 2,
       "tileId": "smallSign",
       "questId": "castle-siege-memory",
-      "building": "armory",
+      "building": "armoury",
       "chain": "chronicle-page-1"
     },
     {
@@ -202,7 +888,424 @@
       "questId": "castle-siege-memory",
       "building": "barracks",
       "chain": "chronicle-page-2"
+    },
+    {
+      "id": "watch-token-1",
+      "tx": 10,
+      "ty": 22,
+      "tileId": "smallSign",
+      "questId": "castle-watch-rotation"
+    },
+    {
+      "id": "watch-token-2",
+      "tx": 25,
+      "ty": 22,
+      "tileId": "smallSign",
+      "questId": "castle-watch-rotation"
+    },
+    {
+      "id": "watch-token-3",
+      "tx": 8,
+      "ty": 43,
+      "tileId": "smallSign",
+      "questId": "castle-watch-rotation"
+    },
+    {
+      "id": "drill-gear-1",
+      "tx": 12,
+      "ty": 44,
+      "tileId": "crate",
+      "questId": "castle-drill-grounds"
+    },
+    {
+      "id": "drill-gear-2",
+      "tx": 31,
+      "ty": 44,
+      "tileId": "crate",
+      "questId": "castle-drill-grounds"
+    },
+    {
+      "id": "drill-gear-3",
+      "tx": 20,
+      "ty": 40,
+      "tileId": "openCrate",
+      "questId": "castle-drill-grounds"
+    },
+    {
+      "id": "supply-ledger-1",
+      "tx": 8,
+      "ty": 6,
+      "tileId": "smallSign",
+      "questId": "castle-supply-tally",
+      "building": "quartermasters-store"
+    },
+    {
+      "id": "supply-ledger-2",
+      "tx": 7,
+      "ty": 6,
+      "tileId": "smallSign",
+      "questId": "castle-supply-tally",
+      "building": "granary"
+    },
+    {
+      "id": "supply-ledger-3",
+      "tx": 1,
+      "ty": 4,
+      "tileId": "smallSign",
+      "questId": "castle-supply-tally",
+      "building": "kitchens"
+    },
+    {
+      "id": "grain-sack-1",
+      "tx": 6,
+      "ty": 44,
+      "tileId": "sack",
+      "questId": "castle-grain-stores"
+    },
+    {
+      "id": "grain-sack-2",
+      "tx": 9,
+      "ty": 44,
+      "tileId": "sack",
+      "questId": "castle-grain-stores"
+    },
+    {
+      "id": "grain-sack-3",
+      "tx": 30,
+      "ty": 44,
+      "tileId": "sack",
+      "questId": "castle-grain-stores"
+    },
+    {
+      "id": "grain-sack-4",
+      "tx": 33,
+      "ty": 44,
+      "tileId": "sack",
+      "questId": "castle-grain-stores"
+    },
+    {
+      "id": "arrow-bundle-1",
+      "tx": 22,
+      "ty": 22,
+      "tileId": "crate",
+      "questId": "castle-arrow-count"
+    },
+    {
+      "id": "arrow-bundle-2",
+      "tx": 24,
+      "ty": 23,
+      "tileId": "crate",
+      "questId": "castle-arrow-count"
+    },
+    {
+      "id": "arrow-bundle-3",
+      "tx": 27,
+      "ty": 22,
+      "tileId": "openCrate",
+      "questId": "castle-arrow-count"
+    },
+    {
+      "id": "broken-blade-1",
+      "tx": 14,
+      "ty": 22,
+      "tileId": "smallSign",
+      "questId": "castle-forge-repairs"
+    },
+    {
+      "id": "broken-blade-2",
+      "tx": 9,
+      "ty": 23,
+      "tileId": "smallSign",
+      "questId": "castle-forge-repairs"
+    },
+    {
+      "id": "broken-blade-3",
+      "tx": 27,
+      "ty": 23,
+      "tileId": "smallSign",
+      "questId": "castle-forge-repairs"
+    },
+    {
+      "id": "feast-salt",
+      "tx": 4,
+      "ty": 4,
+      "tileId": "sack",
+      "questId": "castle-feast-preparations",
+      "building": "granary"
+    },
+    {
+      "id": "feast-cheese",
+      "tx": 2,
+      "ty": 4,
+      "tileId": "crate",
+      "questId": "castle-feast-preparations",
+      "building": "quartermasters-store"
+    },
+    {
+      "id": "feast-ale",
+      "tx": 36,
+      "ty": 44,
+      "tileId": "barrel",
+      "questId": "castle-feast-preparations"
+    },
+    {
+      "id": "plate-1",
+      "tx": 4,
+      "ty": 6,
+      "tileId": "smallSign",
+      "questId": "castle-missing-cutlery",
+      "building": "kitchens"
+    },
+    {
+      "id": "plate-2",
+      "tx": 9,
+      "ty": 6,
+      "tileId": "smallSign",
+      "questId": "castle-missing-cutlery",
+      "building": "kitchens"
+    },
+    {
+      "id": "plate-3",
+      "tx": 3,
+      "ty": 6,
+      "tileId": "smallSign",
+      "questId": "castle-missing-cutlery",
+      "building": "keep"
+    },
+    {
+      "id": "plate-4",
+      "tx": 11,
+      "ty": 6,
+      "tileId": "smallSign",
+      "questId": "castle-missing-cutlery",
+      "building": "keep"
+    },
+    {
+      "id": "foal-bell",
+      "tx": 24,
+      "ty": 44,
+      "tileId": "smallSign",
+      "questId": "castle-lost-foal"
+    },
+    {
+      "id": "hay-bale-1",
+      "tx": 5,
+      "ty": 44,
+      "tileId": "sack",
+      "questId": "castle-fresh-hay"
+    },
+    {
+      "id": "hay-bale-2",
+      "tx": 7,
+      "ty": 51,
+      "tileId": "sack",
+      "questId": "castle-fresh-hay"
+    },
+    {
+      "id": "hay-bale-3",
+      "tx": 4,
+      "ty": 4,
+      "tileId": "sack",
+      "questId": "castle-fresh-hay",
+      "building": "stables"
+    },
+    {
+      "id": "training-sword-1",
+      "tx": 17,
+      "ty": 41,
+      "tileId": "smallSign",
+      "questId": "castle-squires-trial"
+    },
+    {
+      "id": "training-sword-2",
+      "tx": 22,
+      "ty": 44,
+      "tileId": "smallSign",
+      "questId": "castle-squires-trial"
+    },
+    {
+      "id": "training-sword-3",
+      "tx": 20,
+      "ty": 23,
+      "tileId": "smallSign",
+      "questId": "castle-squires-trial"
+    },
+    {
+      "id": "index-card-1",
+      "tx": 10,
+      "ty": 6,
+      "tileId": "smallSign",
+      "questId": "castle-archivists-index",
+      "building": "scriptorium"
+    },
+    {
+      "id": "index-card-2",
+      "tx": 13,
+      "ty": 6,
+      "tileId": "smallSign",
+      "questId": "castle-archivists-index",
+      "building": "keep",
+      "chain": "index-card-1"
+    },
+    {
+      "id": "index-card-3",
+      "tx": 9,
+      "ty": 6,
+      "tileId": "smallSign",
+      "questId": "castle-archivists-index",
+      "building": "barracks",
+      "chain": "index-card-2"
+    },
+    {
+      "id": "grave-candle-1",
+      "tx": 2,
+      "ty": 4,
+      "tileId": "candlestickUnlit",
+      "questId": "castle-restless-crypt",
+      "building": "chapel-crypt"
+    },
+    {
+      "id": "grave-candle-2",
+      "tx": 8,
+      "ty": 4,
+      "tileId": "candlestickUnlit",
+      "questId": "castle-restless-crypt",
+      "building": "chapel-crypt"
+    },
+    {
+      "id": "grave-candle-3",
+      "tx": 11,
+      "ty": 3,
+      "tileId": "candlestickUnlit",
+      "questId": "castle-restless-crypt",
+      "building": "chapel-crypt"
+    },
+    {
+      "id": "prisoner-letter",
+      "tx": 6,
+      "ty": 6,
+      "tileId": "smallSign",
+      "questId": "castle-prisoners-plea",
+      "building": "scriptorium"
+    },
+    {
+      "id": "key-half-1",
+      "tx": 6,
+      "ty": 5,
+      "tileId": "smallSign",
+      "questId": "castle-prison-key",
+      "building": "dungeon-cells"
+    },
+    {
+      "id": "key-half-2",
+      "tx": 3,
+      "ty": 4,
+      "tileId": "smallSign",
+      "questId": "castle-prison-key",
+      "building": "great-tower-top",
+      "chain": "key-half-1"
+    },
+    {
+      "id": "vault-ledger",
+      "tx": 5,
+      "ty": 3,
+      "tileId": "smallSign",
+      "questId": "castle-vault-truth",
+      "building": "dungeon-vault"
+    },
+    {
+      "id": "gate-chalk-1",
+      "tx": 17,
+      "ty": 47,
+      "tileId": "smallSign",
+      "questId": "castle-gate-inspection"
+    },
+    {
+      "id": "gate-chalk-2",
+      "tx": 18,
+      "ty": 49,
+      "tileId": "smallSign",
+      "questId": "castle-gate-inspection"
+    },
+    {
+      "id": "gate-chalk-3",
+      "tx": 17,
+      "ty": 33,
+      "tileId": "smallSign",
+      "questId": "castle-gate-inspection"
+    },
+    {
+      "id": "banner-fragment-1",
+      "tx": 6,
+      "ty": 4,
+      "tileId": "smallSign",
+      "questId": "castle-banner-of-ironhold",
+      "building": "smithy"
+    },
+    {
+      "id": "banner-fragment-2",
+      "tx": 3,
+      "ty": 4,
+      "tileId": "smallSign",
+      "questId": "castle-banner-of-ironhold",
+      "building": "chapel"
+    },
+    {
+      "id": "banner-fragment-3",
+      "tx": 8,
+      "ty": 5,
+      "tileId": "smallSign",
+      "questId": "castle-banner-of-ironhold",
+      "building": "keep"
     }
   ],
+  "dialogues": [
+    {
+      "id": "varek-chat",
+      "npcId": "castle-commander",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Commander Varek looks up from his maps. \"Speak, traveller. The keep's business never sleeps and neither, it seems, do I.\"",
+          "choices": [
+            { "label": "Tell me about Ironhold.", "next": "lore" },
+            { "label": "How do you hold the line?", "next": "defence" },
+            { "label": "I serve Ravenwatch — and the keep.", "effects": [ { "type": "relationship", "npcId": "castle-commander", "track": "ally", "points": 6 }, { "type": "friendship", "npcId": "castle-commander", "xp": 5 } ], "next": "ally" },
+            { "label": "Nothing for now.", "effects": [ { "type": "end" } ] }
+          ]
+        },
+        "lore": {
+          "text": "\"Three centuries this rock has stood. Every stone is a name, every name a grave. We do not lose Ironhold. We simply die before it falls.\"",
+          "choices": [
+            { "label": "A grim creed.", "next": "greet" },
+            { "label": "Understood, Commander.", "effects": [ { "type": "end" } ] }
+          ]
+        },
+        "defence": {
+          "text": "\"Walls, discipline, and men who would rather break than bend. Doran drills them, Kern arms them, and I give them a reason. That is a castle.\"",
+          "choices": [
+            { "label": "And the cross-town pacts?", "next": "ally" },
+            { "label": "Thank you.", "effects": [ { "type": "end" } ] }
+          ]
+        },
+        "ally": {
+          "text": "\"Ravenwatch and Ironhold are two fists of the same arm. Carry word between us and you carry the realm itself. I'll not forget a courier I can trust.\"",
+          "choices": [
+            { "label": "You can count on me.", "effects": [ { "type": "relationship", "npcId": "castle-commander", "track": "ally", "points": 8 }, { "type": "flag", "flag": "varek-sworn" } ] },
+            { "label": "Farewell, Commander.", "effects": [ { "type": "end" } ] }
+          ]
+        }
+      }
+    }
+  ],
+  "relationshipDialogue": {
+    "castle-guard-master": {
+      "ally": {
+        "2": "Doran gives a curt nod. \"You've stood enough watches with us. The wall counts you a friend now.\"",
+        "3": "\"Half the recruits would follow you over the parapet if you asked. Don't let it go to your head.\"",
+        "4": "\"There's a place on this wall for you any day you want it, traveller. That's the highest word I have.\""
+      }
+    }
+  },
   "blockedPaths": []
 }
