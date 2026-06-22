@@ -43,7 +43,7 @@ type Treasure = NonNullable<RawMapConfig['treasures']>[number]
 export type GlowPatch = Partial<{ glow: boolean; glowRadius: number; pulse: boolean }>
 
 interface Props {
-  selectedEntity:   SelectedEntity | null
+  selectedEntities: SelectedEntity[]
   mapId:            MapId
   configData:       RawMapConfig
   activeInteriorId: string | null
@@ -88,6 +88,14 @@ interface Props {
   onResizeMap?:          (dir: 'n' | 's' | 'e' | 'w', grow: boolean) => void
   onUpdateMapProps?:     (patch: { townName?: string; environment?: string }) => void
   onPickLocation?:       (kind: PickKind, index?: number) => void
+  onDeleteEntities?:            (entities: SelectedEntity[]) => void
+  onBatchUpdateZlayer?:         (entities: SelectedEntity[], z: Zlayer) => void
+  onBatchUpdateStreetPathType?: (entities: SelectedEntity[], pathType: string | undefined) => void
+  onConvertStreetToPond?:       (index: number) => void
+  onConvertPondToStreet?:       (index: number) => void
+  onUpdatePondEntry?:           (index: number, data: { rect?: number[]; tile?: number[] }) => void
+  onDeletePondTile?:            (index: number) => void
+  onDeleteNpcSpawnTile?:        (index: number) => void
 }
 
 const BTN_PICK: React.CSSProperties = {
@@ -626,11 +634,12 @@ function QuestItemInspector({
 }
 
 function StreetInspector({
-  entry, onUpdate, onDelete,
+  entry, onUpdate, onDelete, onConvertToPond,
 }: {
   entry: { rect?: number[]; tile?: number[]; pathType?: string }
   onUpdate: (data: { rect?: number[]; tile?: number[]; pathType?: string }) => void
   onDelete: () => void
+  onConvertToPond?: () => void
 }) {
   const r = entry.rect
   const t = entry.tile
@@ -691,6 +700,14 @@ function StreetInspector({
       >
         Delete Street Entry
       </button>
+      {onConvertToPond && (
+        <button
+          onClick={onConvertToPond}
+          style={{ width: '100%', padding: '5px 0', background: '#1a2e3a', border: '1px solid #2a5a6a', color: '#6ad', cursor: 'pointer', borderRadius: 3, fontSize: 11, marginTop: 4 }}
+        >
+          Convert to Pond
+        </button>
+      )}
     </div>
   )
 }
@@ -1786,8 +1803,160 @@ function PondEditor({ configData, onUpdateConfig, numSm, addBtn, xBtn, anchor }:
   )
 }
 
+function MultiSelectPanel({
+  entities, onDelete, onBatchZlayer, onBatchPathType,
+}: {
+  entities: SelectedEntity[]
+  onDelete?: (e: SelectedEntity[]) => void
+  onBatchZlayer?: (e: SelectedEntity[], z: Zlayer) => void
+  onBatchPathType?: (e: SelectedEntity[], pt: string | undefined) => void
+}) {
+  const type = entities[0].type
+  const decorTypes = ['exteriorDecor', 'interiorDecor', 'buildingLevelDecor', 'festivalDecor']
+  const isDecor = decorTypes.includes(type)
+  const isStreet = type === 'street'
+  const [pathType, setPathType] = useState('')
+
+  return (
+    <div style={{ padding: 12 }}>
+      <div style={{ color: '#f0c040', fontWeight: 'bold', marginBottom: 8 }}>
+        {entities.length} {type} selected
+      </div>
+      {isDecor && onBatchZlayer && (
+        <Field label="Z-Layer (all)">
+          <div style={{ display: 'flex', gap: 4 }}>
+            {(['solid', 'below', 'above'] as Zlayer[]).map(z => (
+              <button
+                key={z}
+                onClick={() => onBatchZlayer(entities, z)}
+                style={{
+                  padding: '3px 8px', fontSize: 11, cursor: 'pointer',
+                  background: '#333', color: '#aaa', border: 'none', borderRadius: 3,
+                }}
+              >{z}</button>
+            ))}
+          </div>
+        </Field>
+      )}
+      {isStreet && onBatchPathType && (
+        <Field label="Path Type (all)">
+          <div style={{ display: 'flex', gap: 4 }}>
+            <input
+              value={pathType}
+              onChange={e => setPathType(e.target.value)}
+              placeholder="e.g. cobblestone"
+              style={{ flex: 1, padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }}
+            />
+            <button
+              onClick={() => onBatchPathType(entities, pathType || undefined)}
+              style={{ padding: '3px 7px', background: '#1a3a1a', border: '1px solid #3a6a3a', color: '#8d8', borderRadius: 3, fontSize: 11, cursor: 'pointer' }}
+            >✓</button>
+          </div>
+        </Field>
+      )}
+      {onDelete && (
+        <button
+          onClick={() => onDelete(entities)}
+          style={{ width: '100%', padding: '6px 0', background: '#5a1a1a', border: '1px solid #922', color: '#f88', cursor: 'pointer', borderRadius: 3, fontSize: 12, marginTop: 4 }}
+        >
+          Delete all ({entities.length})
+        </button>
+      )}
+    </div>
+  )
+}
+
+function PondInspector({
+  entry, onUpdate, onDelete, onConvertToStreet,
+}: {
+  entry: { rect?: number[]; tile?: number[] }
+  onUpdate: (data: { rect?: number[]; tile?: number[] }) => void
+  onDelete: () => void
+  onConvertToStreet: () => void
+}) {
+  const r = entry.rect
+  const t = entry.tile
+  return (
+    <div>
+      {r ? (
+        <>
+          <Field label="Top-left">
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+              <label style={{ fontSize: 11, color: '#888' }}>X</label>
+              {numInput(r[0], v => onUpdate({ rect: [v, r[1], r[2], r[3]] }))}
+              <label style={{ fontSize: 11, color: '#888' }}>Y</label>
+              {numInput(r[1], v => onUpdate({ rect: [r[0], v, r[2], r[3]] }))}
+            </div>
+          </Field>
+          <Field label="Bottom-right">
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+              <label style={{ fontSize: 11, color: '#888' }}>X</label>
+              {numInput(r[2], v => onUpdate({ rect: [r[0], r[1], v, r[3]] }))}
+              <label style={{ fontSize: 11, color: '#888' }}>Y</label>
+              {numInput(r[3], v => onUpdate({ rect: [r[0], r[1], r[2], v] }))}
+            </div>
+          </Field>
+          <Field label="Size">
+            <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#666' }}>
+              {r[2]-r[0]+1} × {r[3]-r[1]+1} tiles
+            </span>
+          </Field>
+        </>
+      ) : t ? (
+        <Field label="Position">
+          <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+            <label style={{ fontSize: 11, color: '#888' }}>X</label>
+            {numInput(t[0], v => onUpdate({ tile: [v, t[1]] }))}
+            <label style={{ fontSize: 11, color: '#888' }}>Y</label>
+            {numInput(t[1], v => onUpdate({ tile: [t[0], v] }))}
+          </div>
+        </Field>
+      ) : null}
+      <button
+        onClick={onConvertToStreet}
+        style={{ width: '100%', padding: '5px 0', background: '#1a2e3a', border: '1px solid #2a5a6a', color: '#6ad', cursor: 'pointer', borderRadius: 3, fontSize: 11, marginTop: 4 }}
+      >
+        Convert to Street
+      </button>
+      <button
+        onClick={onDelete}
+        style={{ width: '100%', padding: '6px 0', background: '#5a1a1a', border: '1px solid #922', color: '#f88', cursor: 'pointer', borderRadius: 3, fontSize: 12, marginTop: 4 }}
+      >
+        Delete Pond Entry
+      </button>
+    </div>
+  )
+}
+
+function SpawnTileInspector({
+  tile, onMove, onDelete,
+}: {
+  tile: [number, number]
+  onMove: (tx: number, ty: number) => void
+  onDelete: () => void
+}) {
+  return (
+    <div>
+      <Field label="Position">
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <label style={{ fontSize: 11, color: '#888' }}>X</label>
+          {numInput(tile[0], tx => onMove(tx, tile[1]))}
+          <label style={{ fontSize: 11, color: '#888' }}>Y</label>
+          {numInput(tile[1], ty => onMove(tile[0], ty))}
+        </div>
+      </Field>
+      <button
+        onClick={onDelete}
+        style={{ width: '100%', padding: '6px 0', background: '#5a1a1a', border: '1px solid #922', color: '#f88', cursor: 'pointer', borderRadius: 3, fontSize: 12, marginTop: 4 }}
+      >
+        Delete Spawn Tile
+      </button>
+    </div>
+  )
+}
+
 export function EntityInspector({
-  selectedEntity, mapId, configData, activeInteriorId, activeLevel, viewMode,
+  selectedEntities, mapId, configData, activeInteriorId, activeLevel, viewMode,
   onSetActiveLevel, onUpdateBuilding, onUpdateDecorMinLevel,
   onDelete, onMoveEntity, onZlayerChange, onUpdateGlow, onUpdatePickupGlow, onDialogueChange,
   onOpenInterior, onCloseInterior, onUpdateStreetEntry,
@@ -1801,7 +1970,13 @@ export function EntityInspector({
   onUpdateArea, onResizeMap, onUpdateMapProps, onPickLocation,
   onUpdateTreasure, onUpdateInteractable, onUpdateConfig,
   onAddTreasure, onAddInteractable, onAddBlockedPath,
+  onDeleteEntities, onBatchUpdateZlayer, onBatchUpdateStreetPathType,
+  onConvertStreetToPond, onConvertPondToStreet,
+  onUpdatePondEntry, onDeletePondTile, onDeleteNpcSpawnTile,
 }: Props) {
+  // Existing sub-inspectors operate on a single entity; multi-select shows a
+  // dedicated batch panel instead (handled below).
+  const selectedEntity = selectedEntities[0] ?? null
   // Reference options for the searchable id pickers in the inspectors.
   const buildingOpts = buildingRefOptions(mapId, configData.buildings ?? [])
   const allQuestOpts = allQuestOptions()
@@ -1818,6 +1993,22 @@ export function EntityInspector({
 
   const bodyStyle: React.CSSProperties = {
     flex: 1, overflowY: 'auto', padding: 10,
+  }
+
+  if (selectedEntities.length > 1) {
+    return (
+      <div style={panelStyle}>
+        <div style={headerStyle}>Inspector</div>
+        <div style={bodyStyle}>
+          <MultiSelectPanel
+            entities={selectedEntities}
+            onDelete={onDeleteEntities}
+            onBatchZlayer={onBatchUpdateZlayer}
+            onBatchPathType={onBatchUpdateStreetPathType}
+          />
+        </div>
+      </div>
+    )
   }
 
   const isQuestItemSelected = selectedEntity?.type === 'treasure'
@@ -2052,6 +2243,42 @@ export function EntityInspector({
             entry={entry}
             onUpdate={data => onUpdateStreetEntry(selectedEntity.index, data)}
             onDelete={() => onDelete(selectedEntity)}
+            onConvertToPond={onConvertStreetToPond ? () => onConvertStreetToPond(selectedEntity.index) : undefined}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  if (selectedEntity.type === 'pondTile') {
+    const entry = (configData.pondTiles ?? [])[selectedEntity.index]
+    if (!entry) return null
+    return (
+      <div style={panelStyle}>
+        <div style={headerStyle}>Pond Tile #{selectedEntity.index}</div>
+        <div style={bodyStyle}>
+          <PondInspector
+            entry={entry}
+            onUpdate={data => onUpdatePondEntry?.(selectedEntity.index, data)}
+            onDelete={() => onDeletePondTile?.(selectedEntity.index)}
+            onConvertToStreet={() => onConvertPondToStreet?.(selectedEntity.index)}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  if (selectedEntity.type === 'npcSpawnTile') {
+    const tile = (configData.npcSpawnTiles ?? [])[selectedEntity.index]
+    if (!tile) return null
+    return (
+      <div style={panelStyle}>
+        <div style={headerStyle}>Spawn Tile #{selectedEntity.index}</div>
+        <div style={bodyStyle}>
+          <SpawnTileInspector
+            tile={tile as [number, number]}
+            onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
+            onDelete={() => onDeleteNpcSpawnTile?.(selectedEntity.index)}
           />
         </div>
       </div>
