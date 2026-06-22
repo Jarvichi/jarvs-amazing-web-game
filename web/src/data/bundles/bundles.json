@@ -216,5 +216,48 @@
       { "type": "decor",  "tileID": "lampPostTop",    "x": 0, "y": 0, "zlayer": "solid" },
       { "type": "decor",  "tileID": "lampPostBottom", "x": 0, "y": 1, "zlayer": "solid" }
     ]
+  },
+  {
+    "bundleID": "brazier",
+    "tiles": [
+      { "tileID": "brazierBottom", "x": 0, "y": 0, "zlayer": "solid" },
+      { "tileID": "brazierTop", "x": 0, "y": 1, "zlayer": "above" }
+    ]
+  },
+  {
+    "bundleID": "candelabra",
+    "tiles": [
+      { "tileID": "candlestickLitBottom", "x": 0, "y": 0, "zlayer": "solid" },
+      { "tileID": "candlestickLitTop", "x": 0, "y": 1, "zlayer": "above" }
+    ]
+  },
+  {
+    "bundleID": "suit-of-armour",
+    "tiles": [
+      { "tileID": "suitOfArmourBottom", "x": 0, "y": 0, "zlayer": "solid" },
+      { "tileID": "suitOfArmourTop", "x": 0, "y": 1, "zlayer": "above" }
+    ]
+  },
+  {
+    "bundleID": "bookshelf",
+    "tiles": [
+      { "tileID": "bookshelfBottom", "x": 0, "y": 0, "zlayer": "solid" },
+      { "tileID": "bookshelfTop", "x": 0, "y": 1, "zlayer": "above" }
+    ]
+  },
+  {
+    "bundleID": "gargoyle",
+    "tiles": [
+      { "tileID": "gargoyleBottom", "x": 0, "y": 0, "zlayer": "solid" },
+      { "tileID": "gargoyleTop", "x": 0, "y": 1, "zlayer": "above" }
+    ]
+  },
+  {
+    "bundleID": "dark-altar",
+    "tiles": [
+      { "tileID": "altarBotMid", "x": 0, "y": 0, "zlayer": "solid" },
+      { "tileID": "altarMidMid", "x": 0, "y": 1, "zlayer": "above" },
+      { "tileID": "altarTopMid", "x": 0, "y": 2, "zlayer": "above" }
+    ]
   }
 ]

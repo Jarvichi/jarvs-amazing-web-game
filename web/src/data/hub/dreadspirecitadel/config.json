@@ -72,23 +72,17 @@
   ],
   "exteriorDecor": [
     { "comment": "gate braziers at the south entrance" },
-    { "tx": 16, "ty": 32, "tileId": "brazierBottom" },
-    { "tx": 16, "ty": 31, "tileId": "brazierTop", "zlayer": "above" },
-    { "tx": 21, "ty": 32, "tileId": "brazierBottom" },
-    { "tx": 21, "ty": 31, "tileId": "brazierTop", "zlayer": "above" },
+    { "tx": 16, "ty": 32, "bundleID": "brazier" },
+    { "tx": 21, "ty": 32, "bundleID": "brazier" },
     { "tx": 17, "ty": 33, "tileId": "skullSign", "zlayer": "above" },
 
     { "comment": "braziers flanking the keep approach" },
-    { "tx": 16, "ty": 12, "tileId": "brazierBottom" },
-    { "tx": 16, "ty": 11, "tileId": "brazierTop", "zlayer": "above" },
-    { "tx": 21, "ty": 12, "tileId": "brazierBottom" },
-    { "tx": 21, "ty": 11, "tileId": "brazierTop", "zlayer": "above" },
+    { "tx": 16, "ty": 12, "bundleID": "brazier" },
+    { "tx": 21, "ty": 12, "bundleID": "brazier" },
 
     { "comment": "gargoyles watching from the keep corners" },
-    { "tx": 12, "ty": 10, "tileId": "gargoyleBottom" },
-    { "tx": 12, "ty": 9, "tileId": "gargoyleTop", "zlayer": "above" },
-    { "tx": 25, "ty": 10, "tileId": "gargoyleBottom" },
-    { "tx": 25, "ty": 9, "tileId": "gargoyleTop", "zlayer": "above" },
+    { "tx": 12, "ty": 10, "bundleID": "gargoyle" },
+    { "tx": 25, "ty": 10, "bundleID": "gargoyle" },
 
     { "comment": "dark crystals creeping through the court" },
     { "tx": 9, "ty": 14, "tileId": "dark_red_crystal1" },
@@ -312,14 +306,10 @@
       "floorTileId": "stoneFloor",
       "wallTileId": "darkStone",
       "decor": [
-        { "tx": 2, "ty": 1, "tileId": "brazierTop" },
-        { "tx": 2, "ty": 2, "tileId": "brazierBottom" },
-        { "tx": 11, "ty": 1, "tileId": "brazierTop" },
-        { "tx": 11, "ty": 2, "tileId": "brazierBottom" },
-        { "tx": 4, "ty": 1, "tileId": "suitOfArmourTop" },
-        { "tx": 4, "ty": 2, "tileId": "suitOfArmourBottom" },
-        { "tx": 9, "ty": 1, "tileId": "suitOfArmourTop" },
-        { "tx": 9, "ty": 2, "tileId": "suitOfArmourBottom" },
+        { "tx": 2, "ty": 2, "bundleID": "brazier" },
+        { "tx": 11, "ty": 2, "bundleID": "brazier" },
+        { "tx": 4, "ty": 2, "bundleID": "suit-of-armour" },
+        { "tx": 9, "ty": 2, "bundleID": "suit-of-armour" },
         { "tx": 6, "ty": 1, "tileId": "summoningCircle" },
         { "tx": 7, "ty": 5, "tileId": "redCarpetFloor", "zlayer": "below" },
         { "tx": 7, "ty": 6, "tileId": "redCarpetFloor", "zlayer": "below" },
@@ -341,10 +331,8 @@
       "wallTileId": "darkStone",
       "decor": [
         { "tx": 5, "ty": 3, "tileId": "wantedSign" },
-        { "tx": 2, "ty": 1, "tileId": "suitOfArmourTop" },
-        { "tx": 2, "ty": 2, "tileId": "suitOfArmourBottom" },
-        { "tx": 9, "ty": 1, "tileId": "suitOfArmourTop" },
-        { "tx": 9, "ty": 2, "tileId": "suitOfArmourBottom" },
+        { "tx": 2, "ty": 2, "bundleID": "suit-of-armour" },
+        { "tx": 9, "ty": 2, "bundleID": "suit-of-armour" },
         { "tx": 6, "ty": 1, "tileId": "blackopenBook" },
         { "tx": 4, "ty": 7, "tileId": "barrel" },
         { "tx": 10, "ty": 7, "tileId": "crate" },
@@ -361,12 +349,9 @@
       "floorTileId": "stoneFloor",
       "wallTileId": "darkStone",
       "decor": [
-        { "tx": 3, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 3, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 8, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 8, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 5, "ty": 1, "tileId": "candlestickLitTop" },
-        { "tx": 5, "ty": 2, "tileId": "candlestickLitBottom" },
+        { "tx": 3, "ty": 2, "bundleID": "bookshelf" },
+        { "tx": 8, "ty": 2, "bundleID": "bookshelf" },
+        { "tx": 5, "ty": 2, "bundleID": "candelabra" },
         { "tx": 10, "ty": 6, "tileId": "blackopenBook" },
         { "tx": 9, "ty": 7, "tileId": "blackclosedBook" },
         { "tx": 2, "ty": 7, "tileId": "dark_red_crystal2" },
@@ -412,7 +397,7 @@
         { "tx": 10, "ty": 1, "tileId": "crate" },
         { "tx": 3, "ty": 7, "tileId": "candlestickUnlit" },
         { "tx": 8, "ty": 7, "tileId": "candlestickUnlit" },
-        { "tx": 5, "ty": 4, "tileId": "skull" },
+        { "tx": 4, "ty": 6, "tileId": "skull" },
         { "tx": 10, "ty": 6, "tileId": "deadBush" }
       ],
       "exits": [
@@ -426,12 +411,9 @@
       "wallTileId": "darkStone",
       "decor": [
         { "tx": 4, "ty": 1, "tileId": "summoningCircle" },
-        { "tx": 2, "ty": 1, "tileId": "candlestickLitTop" },
-        { "tx": 2, "ty": 2, "tileId": "candlestickLitBottom" },
-        { "tx": 6, "ty": 1, "tileId": "candlestickLitTop" },
-        { "tx": 6, "ty": 2, "tileId": "candlestickLitBottom" },
-        { "tx": 7, "ty": 6, "tileId": "bookshelfTop" },
-        { "tx": 7, "ty": 7, "tileId": "bookshelfBottom" },
+        { "tx": 2, "ty": 2, "bundleID": "candelabra" },
+        { "tx": 6, "ty": 2, "bundleID": "candelabra" },
+        { "tx": 7, "ty": 7, "bundleID": "bookshelf" },
         { "tx": 2, "ty": 6, "tileId": "black_crystal2" }
       ],
       "exits": [
@@ -466,12 +448,10 @@
       "decor": [
         { "tx": 5, "ty": 4, "tileId": "summoningCircle" },
         { "tx": 6, "ty": 4, "tileId": "summoningCircle" },
-        { "tx": 2, "ty": 1, "tileId": "brazierTop" },
-        { "tx": 2, "ty": 2, "tileId": "brazierBottom" },
-        { "tx": 9, "ty": 1, "tileId": "brazierTop" },
-        { "tx": 9, "ty": 2, "tileId": "brazierBottom" },
-        { "tx": 4, "ty": 1, "tileId": "candlestickLitTop" },
-        { "tx": 7, "ty": 1, "tileId": "candlestickLitTop" },
+        { "tx": 2, "ty": 2, "bundleID": "brazier" },
+        { "tx": 9, "ty": 2, "bundleID": "brazier" },
+        { "tx": 4, "ty": 2, "bundleID": "candelabra" },
+        { "tx": 7, "ty": 2, "bundleID": "candelabra" },
         { "tx": 10, "ty": 7, "tileId": "dark_red_crystal3" },
         { "tx": 1, "ty": 7, "tileId": "black_crystal2" }
       ],
@@ -486,10 +466,8 @@
       "floorTileId": "stoneFloor",
       "wallTileId": "darkStone",
       "decor": [
-        { "tx": 3, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 3, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 5, "ty": 1, "tileId": "candlestickLitTop" },
-        { "tx": 5, "ty": 2, "tileId": "candlestickLitBottom" },
+        { "tx": 3, "ty": 2, "bundleID": "bookshelf" },
+        { "tx": 5, "ty": 2, "bundleID": "candelabra" },
         { "tx": 7, "ty": 1, "tileId": "blackopenBook" },
         { "tx": 2, "ty": 6, "tileId": "barrel" },
         { "tx": 4, "ty": 7, "tileId": "crate" },
@@ -507,12 +485,9 @@
       "wallTileId": "darkStone",
       "decor": [
         { "tx": 4, "ty": 5, "tileId": "summoningCircle" },
-        { "tx": 2, "ty": 1, "tileId": "candlestickLitTop" },
-        { "tx": 2, "ty": 2, "tileId": "candlestickLitBottom" },
-        { "tx": 6, "ty": 1, "tileId": "candlestickLitTop" },
-        { "tx": 6, "ty": 2, "tileId": "candlestickLitBottom" },
-        { "tx": 7, "ty": 6, "tileId": "bookshelfTop" },
-        { "tx": 7, "ty": 7, "tileId": "bookshelfBottom" },
+        { "tx": 2, "ty": 2, "bundleID": "candelabra" },
+        { "tx": 6, "ty": 2, "bundleID": "candelabra" },
+        { "tx": 7, "ty": 7, "bundleID": "bookshelf" },
         { "tx": 3, "ty": 6, "tileId": "dark_red_crystal1" }
       ],
       "exits": [
@@ -527,10 +502,8 @@
       "floorTileId": "stoneFloor",
       "wallTileId": "darkStone",
       "decor": [
-        { "tx": 2, "ty": 1, "tileId": "gargoyleTop" },
-        { "tx": 2, "ty": 2, "tileId": "gargoyleBottom" },
-        { "tx": 7, "ty": 1, "tileId": "gargoyleTop" },
-        { "tx": 7, "ty": 2, "tileId": "gargoyleBottom" },
+        { "tx": 2, "ty": 2, "bundleID": "gargoyle" },
+        { "tx": 7, "ty": 2, "bundleID": "gargoyle" },
         { "tx": 4, "ty": 1, "tileId": "black_crystal3" },
         { "tx": 5, "ty": 6, "tileId": "candlestickUnlit" },
         { "tx": 2, "ty": 7, "tileId": "crate" }
@@ -547,13 +520,9 @@
       "musicId": "church",
       "ambianceId": "sacred",
       "decor": [
-        { "tx": 5, "ty": 1, "tileId": "altarTopMid" },
-        { "tx": 5, "ty": 2, "tileId": "altarMidMid" },
-        { "tx": 5, "ty": 3, "tileId": "altarBotMid" },
-        { "tx": 3, "ty": 1, "tileId": "candlestickLitTop" },
-        { "tx": 3, "ty": 2, "tileId": "candlestickLitBottom" },
-        { "tx": 7, "ty": 1, "tileId": "candlestickLitTop" },
-        { "tx": 7, "ty": 2, "tileId": "candlestickLitBottom" },
+        { "tx": 5, "ty": 3, "bundleID": "dark-altar" },
+        { "tx": 3, "ty": 2, "bundleID": "candelabra" },
+        { "tx": 7, "ty": 2, "bundleID": "candelabra" },
         { "tx": 2, "ty": 7, "tileId": "black_crystal1" },
         { "tx": 8, "ty": 7, "tileId": "black_crystal2" }
       ],
@@ -570,12 +539,10 @@
       "ambianceId": "sacred",
       "decor": [
         { "tx": 5, "ty": 1, "tileId": "summoningCircle" },
-        { "tx": 3, "ty": 1, "tileId": "brazierTop" },
-        { "tx": 3, "ty": 2, "tileId": "brazierBottom" },
-        { "tx": 7, "ty": 1, "tileId": "brazierTop" },
-        { "tx": 7, "ty": 2, "tileId": "brazierBottom" },
-        { "tx": 2, "ty": 6, "tileId": "candlestickLitTop" },
-        { "tx": 8, "ty": 6, "tileId": "candlestickLitTop" },
+        { "tx": 3, "ty": 2, "bundleID": "brazier" },
+        { "tx": 7, "ty": 2, "bundleID": "brazier" },
+        { "tx": 2, "ty": 7, "bundleID": "candelabra" },
+        { "tx": 8, "ty": 7, "bundleID": "candelabra" },
         { "tx": 5, "ty": 6, "tileId": "dark_red_crystal4" }
       ],
       "exits": [
@@ -619,7 +586,7 @@
         { "tx": 9, "ty": 5, "tileId": "candlestickUnlit" }
       ],
       "exits": [
-        { "tx": 1, "ty": 5, "toInteriorId": "bone-vault", "entryTx": 8, "entryTy": 6, "direction": "up", "label": "Up to the Vault" },
+        { "tx": 1, "ty": 5, "toInteriorId": "bone-vault", "entryTx": 8, "entryTy": 5, "direction": "up", "label": "Up to the Vault" },
         { "tx": 10, "ty": 3, "toInteriorId": "keep-crypt", "entryTx": 2, "entryTy": 3, "label": "Crypt Passage" }
       ]
     },
@@ -629,10 +596,8 @@
       "floorTileId": "stoneFloor",
       "wallTileId": "darkStone",
       "decor": [
-        { "tx": 2, "ty": 1, "tileId": "suitOfArmourTop" },
-        { "tx": 2, "ty": 2, "tileId": "suitOfArmourBottom" },
-        { "tx": 8, "ty": 1, "tileId": "suitOfArmourTop" },
-        { "tx": 8, "ty": 2, "tileId": "suitOfArmourBottom" },
+        { "tx": 2, "ty": 2, "bundleID": "suit-of-armour" },
+        { "tx": 8, "ty": 2, "bundleID": "suit-of-armour" },
         { "tx": 5, "ty": 1, "tileId": "wantedSign" },
         { "tx": 3, "ty": 5, "tileId": "barrel" },
         { "tx": 7, "ty": 5, "tileId": "crate" },
