@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- shadow -->
+  <ellipse cx="16" cy="29" rx="5" ry="2" fill="rgba(0,0,0,0.25)"/>
+  <!-- hooded robe -->
+  <path d="M9 13 L23 13 L24 28 L8 28 Z" fill="#3a1420"/>
+  <!-- robe seam -->
+  <rect x="15" y="14" width="2" height="14" fill="#260d16"/>
+  <!-- rope belt -->
+  <rect x="9" y="20" width="14" height="1.6" rx="0.8" fill="#7a5a2a"/>
+  <!-- sleeves -->
+  <rect x="7"  y="14" width="3" height="8" rx="1" fill="#3a1420"/>
+  <rect x="22" y="14" width="3" height="8" rx="1" fill="#3a1420"/>
+  <!-- clasped hands holding a red candle -->
+  <rect x="14" y="18" width="4" height="3" rx="1" fill="#b9a7a0"/>
+  <rect x="15.2" y="13" width="1.6" height="5" rx="0.6" fill="#c8b090"/>
+  <circle cx="16" cy="13" r="1.2" fill="#ff8030"/>
+  <!-- deep hood hiding the face -->
+  <path d="M10 12 L16 3 L22 12 L20 13 L12 13 Z" fill="#260d16"/>
+  <ellipse cx="16" cy="10" rx="3.4" ry="3.8" fill="#0a0408"/>
+  <!-- faint red eyes -->
+  <rect x="13.6" y="9" width="1.6" height="1.6" rx="0.8" fill="#e03030"/>
+  <rect x="16.8" y="9" width="1.6" height="1.6" rx="0.8" fill="#e03030"/>
+</svg>
