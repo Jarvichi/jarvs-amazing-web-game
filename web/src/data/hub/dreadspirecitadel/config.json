@@ -56,18 +56,18 @@
     },
     {
       "rect": [
-        6,
-        11,
-        7,
-        13
+        8,
+        10,
+        9,
+        12
       ]
     },
     {
       "rect": [
-        30,
-        11,
-        31,
-        13
+        28,
+        10,
+        29,
+        12
       ]
     },
     {
@@ -104,10 +104,10 @@
     },
     {
       "rect": [
-        13,
-        32,
-        20,
-        33
+        11,
+        28,
+        18,
+        29
       ]
     }
   ],
@@ -140,10 +140,10 @@
     {
       "id": "warlock-tower-west",
       "rect": [
-        4,
-        4,
-        10,
-        10
+        6,
+        3,
+        12,
+        9
       ],
       "wall": "darkStone",
       "roof": "greySlateRoof",
@@ -158,10 +158,10 @@
     {
       "id": "warlock-tower-east",
       "rect": [
-        27,
-        4,
-        33,
-        10
+        25,
+        3,
+        31,
+        9
       ],
       "wall": "darkStone",
       "roof": "greySlateRoof",
@@ -213,9 +213,9 @@
       "id": "gatehouse",
       "rect": [
         11,
-        25,
+        21,
         16,
-        31
+        27
       ],
       "wall": "darkStone",
       "roof": "greySlateRoof",
@@ -283,8 +283,8 @@
       "tileId": "dark_red_crystal1"
     },
     {
-      "tx": 13,
-      "ty": 18,
+      "tx": 11,
+      "ty": 19,
       "tileId": "dark_red_crystal2"
     },
     {
@@ -321,13 +321,13 @@
       "tileId": "skull"
     },
     {
-      "tx": 12,
-      "ty": 23,
+      "tx": 14,
+      "ty": 19,
       "tileId": "graveStone"
     },
     {
-      "tx": 14,
-      "ty": 23,
+      "tx": 22,
+      "ty": 20,
       "tileId": "graveWoodenCross"
     },
     {
@@ -378,8 +378,8 @@
       "zlayer": "solid"
     },
     {
-      "tx": 2,
-      "ty": 21,
+      "tx": 1,
+      "ty": 22,
       "bundleID": "dead-tree",
       "zlayer": "solid"
     },
@@ -412,7 +412,7 @@
     },
     {
       "tx": 9,
-      "ty": 20,
+      "ty": 26,
       "tileId": "deadBush"
     },
     {
@@ -449,25 +449,25 @@
       "comment": "iron fence stubs framing the court"
     },
     {
-      "tx": 11,
+      "tx": 16,
       "ty": 18,
       "tileId": "ironFenceLeft",
       "zlayer": "above"
     },
     {
-      "tx": 12,
+      "tx": 15,
       "ty": 18,
       "tileId": "ironFenceLeftRight",
       "zlayer": "above"
     },
     {
-      "tx": 28,
+      "tx": 22,
       "ty": 18,
       "tileId": "ironFenceLeftRight",
       "zlayer": "above"
     },
     {
-      "tx": 29,
+      "tx": 21,
       "ty": 18,
       "tileId": "ironFenceRight",
       "zlayer": "above"
@@ -752,7 +752,7 @@
           "bundleID": "suit-of-armour"
         },
         {
-          "tx": 6,
+          "tx": 4,
           "ty": 1,
           "tileId": "summoningCircle"
         },
@@ -793,23 +793,7 @@
       ],
       "exits": [
         {
-          "tx": 1,
-          "ty": 4,
-          "toInteriorId": "keep-war-room",
-          "entryTx": 9,
-          "entryTy": 6,
-          "label": "War Room"
-        },
-        {
-          "tx": 12,
-          "ty": 4,
-          "toInteriorId": "keep-warlock-study",
-          "entryTx": 1,
-          "entryTy": 6,
-          "label": "Warlock's Study"
-        },
-        {
-          "tx": 7,
+          "tx": 4,
           "ty": 1,
           "toInteriorId": "keep-crypt",
           "entryTx": 6,
@@ -824,6 +808,20 @@
           "direction": "right",
           "entryTx": 1,
           "entryTy": 4
+        },
+        {
+          "tx": 0,
+          "ty": 5,
+          "toInteriorId": "warlock-tower-west",
+          "direction": "left",
+          "entryTx": 8,
+          "entryTy": 4
+        },
+        {
+          "tx": 7,
+          "ty": 0,
+          "toInteriorId": "keep-war-room",
+          "direction": "back"
         }
       ]
     },
@@ -872,20 +870,10 @@
       ],
       "exits": [
         {
-          "tx": 8,
-          "ty": 6,
+          "tx": 6,
+          "ty": 8,
           "toInteriorId": "dread-keep",
-          "entryTx": 2,
-          "entryTy": 4,
-          "label": "Throne Hall"
-        },
-        {
-          "tx": 1,
-          "ty": 5,
-          "toInteriorId": "warlock-tower-east",
-          "entryTx": 1,
-          "entryTy": 6,
-          "label": "East Tower Passage"
+          "direction": "front"
         }
       ]
     },
@@ -934,12 +922,20 @@
       ],
       "exits": [
         {
-          "tx": 2,
-          "ty": 6,
-          "toInteriorId": "dread-keep",
-          "entryTx": 11,
+          "tx": 11,
+          "ty": 4,
+          "toInteriorId": "tower-east-top",
+          "entryTx": 1,
           "entryTy": 4,
-          "label": "Throne Hall"
+          "direction": "right"
+        },
+        {
+          "tx": 0,
+          "ty": 4,
+          "toInteriorId": "tower-west-top",
+          "direction": "left",
+          "entryTx": 8,
+          "entryTy": 4
         }
       ]
     },
@@ -1140,6 +1136,14 @@
           "entryTy": 6,
           "direction": "down",
           "label": "Descend to the Chamber"
+        },
+        {
+          "tx": 9,
+          "ty": 4,
+          "toInteriorId": "dread-keep",
+          "entryTx": 1,
+          "entryTy": 5,
+          "direction": "right"
         }
       ]
     },
@@ -1195,6 +1199,14 @@
           "entryTy": 6,
           "direction": "down",
           "label": "Down the Stair"
+        },
+        {
+          "tx": 9,
+          "ty": 4,
+          "toInteriorId": "keep-warlock-study",
+          "entryTx": 1,
+          "entryTy": 4,
+          "direction": "right"
         }
       ]
     },
@@ -1352,6 +1364,36 @@
           "tx": 3,
           "ty": 6,
           "tileId": "dark_red_crystal1"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "ladderIntoFloor",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 0,
+          "tileId": "halfLadderTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "ladderBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 0,
+          "tileId": "ladderBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": -1,
+          "tileId": "fullLadderTop",
+          "zlayer": "solid"
         }
       ],
       "exits": [
@@ -1363,14 +1405,6 @@
           "entryTy": 6,
           "direction": "up",
           "label": "Climb the Stair"
-        },
-        {
-          "tx": 1,
-          "ty": 1,
-          "toInteriorId": "keep-war-room",
-          "entryTx": 1,
-          "entryTy": 6,
-          "label": "Keep Passage"
         },
         {
           "tx": 4,
@@ -1433,6 +1467,14 @@
           "entryTy": 6,
           "direction": "down",
           "label": "Down the Stair"
+        },
+        {
+          "tx": 0,
+          "ty": 4,
+          "toInteriorId": "keep-warlock-study",
+          "direction": "left",
+          "entryTx": 10,
+          "entryTy": 4
         }
       ]
     },
@@ -1863,7 +1905,7 @@
       "id": "citadel-raven",
       "type": "bird",
       "variant": "#1a1a1a",
-      "tx": 9,
+      "tx": 10,
       "ty": 12,
       "name": "Citadel Raven",
       "dialogue": [
