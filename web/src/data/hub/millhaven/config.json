@@ -320,26 +320,31 @@
     },
     {
       "rect": [
-        35,
+        34,
         33,
-        36,
+        35,
         33
       ]
     },
     {
       "tile": [
-        24,
+        23,
         32
       ]
     },
     {
       "rect": [
-        40,
-        29,
-        47,
-        36
-      ],
-      "pathType": "water1"
+        2,
+        32,
+        2,
+        33
+      ]
+    },
+    {
+      "tile": [
+        3,
+        33
+      ]
     }
   ],
   "buildings": [
@@ -447,9 +452,9 @@
       "id": "bakery",
       "upgradeKind": "shop",
       "rect": [
-        22,
+        21,
         26,
-        26,
+        27,
         31
       ],
       "wall": "tudorFrame",
@@ -469,7 +474,7 @@
       "rect": [
         9,
         26,
-        11,
+        15,
         31
       ],
       "wall": "castleStone",
@@ -487,9 +492,9 @@
       "id": "boathouse",
       "upgradeKind": "workshop",
       "rect": [
-        34,
+        33,
         27,
-        37,
+        39,
         32
       ],
       "wall": "woodenSlats",
@@ -507,9 +512,9 @@
       "id": "fisher-cottage",
       "upgradeKind": "cottage",
       "rect": [
-        3,
+        1,
         26,
-        5,
+        7,
         31
       ],
       "wall": "renderedBrick",
@@ -1410,7 +1415,7 @@
       "id": "baker-pernel",
       "name": "Baker Pernel",
       "sprite": "hub-npc-merchant",
-      "tx": 22,
+      "tx": 24,
       "ty": 32,
       "dialogue": [
         "Fresh loaves out of the oven — mind, they're still warm.",
@@ -1463,7 +1468,7 @@
       "id": "smith-garrick",
       "name": "Smith Garrick",
       "sprite": "hub-npc-supplies",
-      "tx": 11,
+      "tx": 13,
       "ty": 32,
       "dialogue": [
         "Mind the sparks. Forge runs hot this time of day.",
@@ -1517,7 +1522,7 @@
       "name": "Dockhand Bram",
       "sprite": "hub-npc-fisherman",
       "tx": 33,
-      "ty": 19,
+      "ty": 18,
       "dialogue": [
         "Careful on the boards, they're slick with spray.",
         "Storm last week dragged half our nets out past the moorings.",
@@ -1652,8 +1657,8 @@
       "id": "regatta-master",
       "name": "Regatta Master Coll",
       "sprite": "hub-npc-harbourmaster",
-      "tx": 33,
-      "ty": 32,
+      "tx": 36,
+      "ty": 33,
       "dialogue": [
         "One day Millhaven will host a proper boat regatta — skiffs racing the harbour buoys, crowds on the quay!",
         "I'm still rigging the course and finding crews. Come back soon and you'll be able to race.",
@@ -2445,6 +2450,49 @@
       "dialogueTree": "kipper-truth"
     }
   ],
-  "interactables": [],
-  "pondTiles": []
+  "interactables": [
+    {
+      "id": "interactable-1782144142080",
+      "tx": 9,
+      "ty": 13,
+      "reactions": [
+        {
+          "type": "screen",
+          "screen": ""
+        }
+      ],
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "signpost"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileId": "signpost"
+        },
+        {
+          "dx": 0,
+          "dy": -1,
+          "tileId": "signpost"
+        },
+        {
+          "dx": 1,
+          "dy": -1,
+          "tileId": "signpost"
+        }
+      ]
+    }
+  ],
+  "pondTiles": [
+    {
+      "rect": [
+        40,
+        25,
+        47,
+        36
+      ]
+    }
+  ]
 }

@@ -10,11 +10,25 @@
       "activeDialogue": "Three dark crystals, loose somewhere on the grounds. They glow. They hum. Occasionally they sulk.",
       "completeDialogue": "All three, returned and re-anchored. The citadel stands another century. The master would thank you, were he here, which he is not, which is the usual arrangement. Take this from the treasury — the dust won't miss it.",
       "steps": [
-        { "key": "crystals", "type": "collect", "pickupIds": ["dark-crystal-1", "dark-crystal-2", "dark-crystal-3"], "required": 3 }
+        {
+          "key": "crystals",
+          "type": "collect",
+          "pickupIds": [
+            "dark-crystal-1",
+            "dark-crystal-2",
+            "dark-crystal-3"
+          ],
+          "required": 3
+        }
       ],
       "reward": {
         "crystals": 100,
-        "collectible": { "id": "dreadspire-shard", "name": "Dreadspire Shard", "icon": "🔮", "desc": "A sliver of dark crystal from the citadel's foundations. It hums when it thinks no one is listening." }
+        "collectible": {
+          "id": "dreadspire-shard",
+          "name": "Dreadspire Shard",
+          "icon": "🔮",
+          "desc": "A sliver of dark crystal from the citadel's foundations. It hums when it thinks no one is listening."
+        }
       }
     },
     {
@@ -28,9 +42,23 @@
       "activeDialogue": "Three more anchors, this time within the walls. Mind the stairs; the deep ones are unlit.",
       "completeDialogue": "Re-seated, all three. The foundations purr. You begin to understand why I never leave — somebody has to chase the masonry.",
       "steps": [
-        { "key": "crystals", "type": "collect", "pickupIds": ["dark-crystal-4", "dark-crystal-5", "dark-crystal-6"], "required": 3 }
+        {
+          "key": "crystals",
+          "type": "collect",
+          "pickupIds": [
+            "dark-crystal-4",
+            "dark-crystal-5",
+            "dark-crystal-6"
+          ],
+          "required": 3
+        }
       ],
-      "reward": { "crystals": 110, "friendship": { "the-castellan": 15 } }
+      "reward": {
+        "crystals": 110,
+        "friendship": {
+          "the-castellan": 15
+        }
+      }
     },
     {
       "id": "dreadspire-harvest-3",
@@ -43,12 +71,31 @@
       "activeDialogue": "Three final anchors, scattered high and low. Bring them home before they learn to fly.",
       "completeDialogue": "Whole again, root to roof. You have done more for this citadel in a day than its master in four hundred years. The dust is, I think, fond of you.",
       "steps": [
-        { "key": "crystals", "type": "collect", "pickupIds": ["dark-crystal-7", "dark-crystal-8", "dark-crystal-9"], "required": 3 }
+        {
+          "key": "crystals",
+          "type": "collect",
+          "pickupIds": [
+            "dark-crystal-7",
+            "dark-crystal-8",
+            "dark-crystal-9"
+          ],
+          "required": 3
+        }
       ],
       "reward": {
         "crystals": 130,
-        "relationship": { "the-castellan": { "track": "ally", "points": 15 } },
-        "collectible": { "id": "dreadspire-keystone", "name": "Citadel Keystone", "icon": "🗝️", "desc": "A re-anchored foundation crystal, gifted in gratitude. The whole citadel leans on stones like this." }
+        "relationship": {
+          "the-castellan": {
+            "track": "ally",
+            "points": 15
+          }
+        },
+        "collectible": {
+          "id": "dreadspire-keystone",
+          "name": "Citadel Keystone",
+          "icon": "🗝️",
+          "desc": "A re-anchored foundation crystal, gifted in gratitude. The whole citadel leans on stones like this."
+        }
       }
     },
     {
@@ -61,9 +108,23 @@
       "activeDialogue": "Three of the garrison's lost effects, somewhere in the wards. They are not proud. They will be where they fell.",
       "completeDialogue": "The men will sleep easier — well, lie easier. Soldiers should die with their boots on, not hunt for them by moonlight. You have my thanks, such as a dead man's thanks are worth.",
       "steps": [
-        { "key": "effects", "type": "collect", "pickupIds": ["watch-token-1", "watch-token-2", "watch-token-3"], "required": 3 }
+        {
+          "key": "effects",
+          "type": "collect",
+          "pickupIds": [
+            "watch-token-1",
+            "watch-token-2",
+            "watch-token-3"
+          ],
+          "required": 3
+        }
       ],
-      "reward": { "crystals": 80, "friendship": { "bound-knight": 10 } }
+      "reward": {
+        "crystals": 80,
+        "friendship": {
+          "bound-knight": 10
+        }
+      }
     },
     {
       "id": "dreadspire-ritual-ingredients",
@@ -75,9 +136,23 @@
       "activeDialogue": "Bone dust, shadow-oil, candle-wax. The vault, the study, the sanctum. The circle waits, hungrily.",
       "completeDialogue": "Yesss. The circle is fed and the chamber stops sulking. Tell no one the recipe — least of all Vesska, who would only improve it, which is unforgivable.",
       "steps": [
-        { "key": "ingredients", "type": "collect", "pickupIds": ["bone-dust", "shadow-oil", "candle-wax"], "required": 3 }
+        {
+          "key": "ingredients",
+          "type": "collect",
+          "pickupIds": [
+            "bone-dust",
+            "shadow-oil",
+            "candle-wax"
+          ],
+          "required": 3
+        }
       ],
-      "reward": { "crystals": 90, "friendship": { "cultist-ordrin": 12 } }
+      "reward": {
+        "crystals": 90,
+        "friendship": {
+          "cultist-ordrin": 12
+        }
+      }
     },
     {
       "id": "dreadspire-bone-tally",
@@ -89,11 +164,26 @@
       "activeDialogue": "Three femurs and a skull, lost deeper into the ossuary. Each empty niche points the way to the next.",
       "completeDialogue": "Every bone home, every niche filled. Order restored. The skull I shall set back in its listening-spot — it has missed our little chats, I think.",
       "steps": [
-        { "key": "bones", "type": "collect", "pickupIds": ["femur-1", "femur-2", "femur-3", "lost-skull"], "required": 4 }
+        {
+          "key": "bones",
+          "type": "collect",
+          "pickupIds": [
+            "femur-1",
+            "femur-2",
+            "femur-3",
+            "lost-skull"
+          ],
+          "required": 4
+        }
       ],
       "reward": {
         "crystals": 95,
-        "relationship": { "bone-keeper-mald": { "track": "ally", "points": 12 } }
+        "relationship": {
+          "bone-keeper-mald": {
+            "track": "ally",
+            "points": 12
+          }
+        }
       }
     },
     {
@@ -106,9 +196,23 @@
       "activeDialogue": "Three black candles for the shadow's audience. The shrine, and the sanctum beyond.",
       "completeDialogue": "The dark accepts its candles. It says nothing, as is its way, but the silence is a little warmer now. Go in shadow, pilgrim.",
       "steps": [
-        { "key": "candles", "type": "collect", "pickupIds": ["black-candle-1", "black-candle-2", "black-candle-3"], "required": 3 }
+        {
+          "key": "candles",
+          "type": "collect",
+          "pickupIds": [
+            "black-candle-1",
+            "black-candle-2",
+            "black-candle-3"
+          ],
+          "required": 3
+        }
       ],
-      "reward": { "crystals": 85, "friendship": { "shrine-tender": 12 } }
+      "reward": {
+        "crystals": 85,
+        "friendship": {
+          "shrine-tender": 12
+        }
+      }
     },
     {
       "id": "dreadspire-raven-tokens",
@@ -120,9 +224,24 @@
       "activeDialogue": "Four raven tokens, one from each far corner of the citadel.",
       "completeDialogue": "Four corners, four tokens, one whole domain. The birds settle. They like you — or they have decided not to remember you unkindly, which from a raven is the same as love.",
       "steps": [
-        { "key": "tokens", "type": "collect", "pickupIds": ["raven-token-1", "raven-token-2", "raven-token-3", "raven-token-4"], "required": 4 }
+        {
+          "key": "tokens",
+          "type": "collect",
+          "pickupIds": [
+            "raven-token-1",
+            "raven-token-2",
+            "raven-token-3",
+            "raven-token-4"
+          ],
+          "required": 4
+        }
       ],
-      "reward": { "crystals": 90, "friendship": { "raven-keeper-corvane": 14 } }
+      "reward": {
+        "crystals": 90,
+        "friendship": {
+          "raven-keeper-corvane": 14
+        }
+      }
     },
     {
       "id": "dreadspire-ravens-return",
@@ -135,9 +254,21 @@
       "activeDialogue": "One lost feather in the gatehouse guardroom — the trail to my sixth raven.",
       "completeDialogue": "The feather is hers, no doubt of it. She is sulking in the rafters, not stolen. Six ravens, six returned. You have my count and my thanks.",
       "steps": [
-        { "key": "feather", "type": "collect", "pickupIds": ["lost-raven-feather"], "required": 1 }
+        {
+          "key": "feather",
+          "type": "collect",
+          "pickupIds": [
+            "lost-raven-feather"
+          ],
+          "required": 1
+        }
       ],
-      "reward": { "crystals": 70, "friendship": { "raven-keeper-corvane": 10 } }
+      "reward": {
+        "crystals": 70,
+        "friendship": {
+          "raven-keeper-corvane": 10
+        }
+      }
     },
     {
       "id": "dreadspire-lost-keys",
@@ -149,9 +280,23 @@
       "activeDialogue": "Three old keys, dropped along Isolde's eternal rounds. Each lies near the trail to the next.",
       "completeDialogue": "All three, back on their ring. Now I can lock doors I will only sweep through anyway. Thank you, warm one. It is good to finish a chore for once.",
       "steps": [
-        { "key": "keys", "type": "collect", "pickupIds": ["old-key-1", "old-key-2", "old-key-3"], "required": 3 }
+        {
+          "key": "keys",
+          "type": "collect",
+          "pickupIds": [
+            "old-key-1",
+            "old-key-2",
+            "old-key-3"
+          ],
+          "required": 3
+        }
       ],
-      "reward": { "crystals": 85, "friendship": { "ghost-servant-isolde": 12 } }
+      "reward": {
+        "crystals": 85,
+        "friendship": {
+          "ghost-servant-isolde": 12
+        }
+      }
     },
     {
       "id": "dreadspire-moon-herbs",
@@ -163,13 +308,34 @@
       "activeDialogue": "Carry my request to Hedge-Witch Morwen in Hollowmere, then gather two bunches of moon-herbs from the marsh.",
       "completeDialogue": "Fresh moon-herbs, still cold with marsh-dew. NOW we have poison with conviction. Morwen didn't curse you, I hope? She usually saves the good curses for me.",
       "steps": [
-        { "key": "request", "type": "deliver", "targetNpcId": "hedge-witch-morwen", "required": 1 },
-        { "key": "herbs", "type": "collect", "pickupIds": ["moon-herb-1", "moon-herb-2"], "required": 2 }
+        {
+          "key": "request",
+          "type": "deliver",
+          "targetNpcId": "hedge-witch-morwen",
+          "required": 1
+        },
+        {
+          "key": "herbs",
+          "type": "collect",
+          "pickupIds": [
+            "moon-herb-1",
+            "moon-herb-2"
+          ],
+          "required": 2
+        }
       ],
       "reward": {
         "crystals": 120,
-        "friendship": { "alchemist-sythe": 12, "hedge-witch-morwen": 8 },
-        "collectible": { "id": "dreadspire-moon-vial", "name": "Moon-Herb Vial", "icon": "🧪", "desc": "A vial of marsh-cold moon-herb distillate. Medicine with conviction, as Sythe would say." }
+        "friendship": {
+          "alchemist-sythe": 12,
+          "hedge-witch-morwen": 8
+        },
+        "collectible": {
+          "id": "dreadspire-moon-vial",
+          "name": "Moon-Herb Vial",
+          "icon": "🧪",
+          "desc": "A vial of marsh-cold moon-herb distillate. Medicine with conviction, as Sythe would say."
+        }
       }
     },
     {
@@ -183,9 +349,22 @@
       "activeDialogue": "Two test-fungi: one in the poison lab, one in the deep ossuary. Do not taste them.",
       "completeDialogue": "Both fungi, untouched, undigested — excellent. You may yet outlive my other assistants, who number, at last count, none.",
       "steps": [
-        { "key": "fungi", "type": "collect", "pickupIds": ["test-fungus-1", "test-fungus-2"], "required": 2 }
+        {
+          "key": "fungi",
+          "type": "collect",
+          "pickupIds": [
+            "test-fungus-1",
+            "test-fungus-2"
+          ],
+          "required": 2
+        }
       ],
-      "reward": { "crystals": 80, "friendship": { "alchemist-sythe": 10 } }
+      "reward": {
+        "crystals": 80,
+        "friendship": {
+          "alchemist-sythe": 10
+        }
+      }
     },
     {
       "id": "dreadspire-cracked-sigils",
@@ -197,9 +376,23 @@
       "activeDialogue": "Three cracked sigil-stones: the study, the west tower, the summoning chamber.",
       "completeDialogue": "Spent, every one, and safely in my jar. A cracked sigil is a small disaster waiting for a bare foot. You have prevented at least three minor catastrophes. Most people manage none.",
       "steps": [
-        { "key": "sigils", "type": "collect", "pickupIds": ["sigil-stone-1", "sigil-stone-2", "sigil-stone-3"], "required": 3 }
+        {
+          "key": "sigils",
+          "type": "collect",
+          "pickupIds": [
+            "sigil-stone-1",
+            "sigil-stone-2",
+            "sigil-stone-3"
+          ],
+          "required": 3
+        }
       ],
-      "reward": { "crystals": 95, "friendship": { "warlock-vesska": 12 } }
+      "reward": {
+        "crystals": 95,
+        "friendship": {
+          "warlock-vesska": 12
+        }
+      }
     },
     {
       "id": "dreadspire-grave-offerings",
@@ -211,9 +404,23 @@
       "activeDialogue": "Three grave-coins, loose among the tombs of the outer ward.",
       "completeDialogue": "Paid in full, the lot of them. The dead are quieter already — they re-form from habit now, not grievance. A small mercy, but mercy is rare currency here.",
       "steps": [
-        { "key": "coins", "type": "collect", "pickupIds": ["grave-coin-1", "grave-coin-2", "grave-coin-3"], "required": 3 }
+        {
+          "key": "coins",
+          "type": "collect",
+          "pickupIds": [
+            "grave-coin-1",
+            "grave-coin-2",
+            "grave-coin-3"
+          ],
+          "required": 3
+        }
       ],
-      "reward": { "crystals": 75, "friendship": { "shrine-tender": 10 } }
+      "reward": {
+        "crystals": 75,
+        "friendship": {
+          "shrine-tender": 10
+        }
+      }
     },
     {
       "id": "dreadspire-intrigue-1",
@@ -225,11 +432,25 @@
       "activeDialogue": "Three pages of evidence: the study, the war room, beneath the throne. Quietly, now.",
       "completeDialogue": "All three pages. Read together they are damning. The ritual is a door, and what knocks on the far side is not our master. I will need leave from the warden to reach the one prisoner who saw it done. Help me get it.",
       "steps": [
-        { "key": "evidence", "type": "collect", "pickupIds": ["evidence-1", "evidence-2", "evidence-3"], "required": 3 }
+        {
+          "key": "evidence",
+          "type": "collect",
+          "pickupIds": [
+            "evidence-1",
+            "evidence-2",
+            "evidence-3"
+          ],
+          "required": 3
+        }
       ],
       "reward": {
         "crystals": 100,
-        "relationship": { "warlock-vesska": { "track": "ally", "points": 12 } }
+        "relationship": {
+          "warlock-vesska": {
+            "track": "ally",
+            "points": 12
+          }
+        }
       }
     },
     {
@@ -243,9 +464,19 @@
       "activeDialogue": "Carry Vesska's writ down to Warden Gholl in the dungeon cells. His leave unseals the lower vault.",
       "completeDialogue": "Vesska's hand, right enough. And the pages... gods. The vault is yours, warm one — what's left in it deserves the air. Mind the prisoner. Four hundred years alone does things to a voice.",
       "steps": [
-        { "key": "writ", "type": "deliver", "targetNpcId": "dungeon-warden-gholl", "required": 1 }
+        {
+          "key": "writ",
+          "type": "deliver",
+          "targetNpcId": "dungeon-warden-gholl",
+          "required": 1
+        }
       ],
-      "reward": { "crystals": 90, "friendship": { "dungeon-warden-gholl": 12 } }
+      "reward": {
+        "crystals": 90,
+        "friendship": {
+          "dungeon-warden-gholl": 12
+        }
+      }
     },
     {
       "id": "dreadspire-intrigue-3",
@@ -258,70 +489,355 @@
       "activeDialogue": "Carry Sera's testimony up to Warlock Vesska in the keep study.",
       "completeDialogue": "Sera's testimony, in her own shaking hand. It is enough. The ritual will not be completed — not while I draw breath, and I intend to draw it spitefully and for a very long time. You have saved this citadel from its own master. Take this, with my regard, which I do not give lightly.",
       "steps": [
-        { "key": "testimony", "type": "deliver", "targetNpcId": "warlock-vesska", "required": 1 }
+        {
+          "key": "testimony",
+          "type": "deliver",
+          "targetNpcId": "warlock-vesska",
+          "required": 1
+        }
       ],
       "reward": {
         "crystals": 160,
-        "relationship": { "warlock-vesska": { "track": "ally", "points": 20 } },
-        "collectible": { "id": "dreadspire-sealed-writ", "name": "The Sealed Writ", "icon": "📜", "desc": "Vesska's order halting the master's homecoming ritual. The citadel keeps its empty throne — and is glad of it." }
+        "relationship": {
+          "warlock-vesska": {
+            "track": "ally",
+            "points": 20
+          }
+        },
+        "collectible": {
+          "id": "dreadspire-sealed-writ",
+          "name": "The Sealed Writ",
+          "icon": "📜",
+          "desc": "Vesska's order halting the master's homecoming ritual. The citadel keeps its empty throne — and is glad of it."
+        }
       }
     }
   ],
   "pickupItems": [
-    { "id": "dark-crystal-1", "tx": 4, "ty": 15, "tileId": "dark_red_crystal1", "questId": "dreadspire-dark-harvest" },
-    { "id": "dark-crystal-2", "tx": 33, "ty": 16, "tileId": "dark_red_crystal1", "questId": "dreadspire-dark-harvest" },
-    { "id": "dark-crystal-3", "tx": 19, "ty": 26, "tileId": "dark_red_crystal1", "questId": "dreadspire-dark-harvest" },
-
-    { "id": "dark-crystal-4", "tx": 6, "ty": 6, "tileId": "dark_red_crystal1", "building": "keep-crypt", "questId": "dreadspire-harvest-2" },
-    { "id": "dark-crystal-5", "tx": 3, "ty": 5, "tileId": "dark_red_crystal1", "building": "summoning-chamber", "questId": "dreadspire-harvest-2" },
-    { "id": "dark-crystal-6", "tx": 5, "ty": 3, "tileId": "dark_red_crystal1", "building": "bone-ossuary-deep", "questId": "dreadspire-harvest-2" },
-
-    { "id": "dark-crystal-7", "tx": 5, "ty": 4, "tileId": "dark_red_crystal1", "building": "tower-east-top", "questId": "dreadspire-harvest-3" },
-    { "id": "dark-crystal-8", "tx": 6, "ty": 3, "tileId": "dark_red_crystal1", "building": "alchemy-lab", "questId": "dreadspire-harvest-3" },
-    { "id": "dark-crystal-9", "tx": 6, "ty": 4, "tileId": "dark_red_crystal1", "building": "dungeon-cells", "questId": "dreadspire-harvest-3" },
-
-    { "id": "watch-token-1", "tx": 10, "ty": 20, "tileId": "pileOfCopperCoins", "questId": "dreadspire-lost-watch" },
-    { "id": "watch-token-2", "tx": 29, "ty": 21, "tileId": "pendant", "questId": "dreadspire-lost-watch" },
-    { "id": "watch-token-3", "tx": 18, "ty": 28, "tileId": "oldeKey", "questId": "dreadspire-lost-watch" },
-
-    { "id": "bone-dust", "tx": 5, "ty": 5, "tileId": "skull", "building": "bone-vault", "questId": "dreadspire-ritual-ingredients" },
-    { "id": "shadow-oil", "tx": 5, "ty": 5, "tileId": "potions", "building": "keep-warlock-study", "questId": "dreadspire-ritual-ingredients" },
-    { "id": "candle-wax", "tx": 5, "ty": 3, "tileId": "candlestickUnlit", "building": "shrine-inner-sanctum", "questId": "dreadspire-ritual-ingredients" },
-
-    { "id": "femur-1", "tx": 4, "ty": 4, "tileId": "skull", "building": "bone-vault", "questId": "dreadspire-bone-tally" },
-    { "id": "femur-2", "tx": 4, "ty": 4, "tileId": "skull", "building": "bone-ossuary-deep", "questId": "dreadspire-bone-tally", "chain": "femur-1" },
-    { "id": "femur-3", "tx": 8, "ty": 4, "tileId": "skull", "building": "bone-ossuary-deep", "questId": "dreadspire-bone-tally", "chain": "femur-2" },
-    { "id": "lost-skull", "tx": 6, "ty": 6, "tileId": "skull", "building": "bone-ossuary-deep", "questId": "dreadspire-bone-tally", "chain": "femur-3" },
-
-    { "id": "black-candle-1", "tx": 4, "ty": 5, "tileId": "candlestickUnlit", "building": "shadow-shrine", "questId": "dreadspire-black-candles" },
-    { "id": "black-candle-2", "tx": 6, "ty": 5, "tileId": "candlestickUnlit", "building": "shadow-shrine", "questId": "dreadspire-black-candles" },
-    { "id": "black-candle-3", "tx": 6, "ty": 4, "tileId": "candlestickUnlit", "building": "shrine-inner-sanctum", "questId": "dreadspire-black-candles" },
-
-    { "id": "raven-token-1", "tx": 4, "ty": 5, "tileId": "feather", "building": "tower-east-top", "questId": "dreadspire-raven-tokens" },
-    { "id": "raven-token-2", "tx": 8, "ty": 5, "tileId": "feather", "building": "dungeon-cells", "questId": "dreadspire-raven-tokens" },
-    { "id": "raven-token-3", "tx": 5, "ty": 5, "tileId": "feather", "building": "keep-war-room", "questId": "dreadspire-raven-tokens" },
-    { "id": "raven-token-4", "tx": 9, "ty": 5, "tileId": "feather", "building": "alchemy-lab", "questId": "dreadspire-raven-tokens" },
-
-    { "id": "lost-raven-feather", "tx": 5, "ty": 5, "tileId": "feather", "building": "gatehouse", "questId": "dreadspire-ravens-return" },
-
-    { "id": "old-key-1", "tx": 5, "ty": 5, "tileId": "oldeKey", "building": "servants-undercroft", "questId": "dreadspire-lost-keys" },
-    { "id": "old-key-2", "tx": 5, "ty": 3, "tileId": "oldeKey", "building": "keep-crypt", "questId": "dreadspire-lost-keys", "chain": "old-key-1" },
-    { "id": "old-key-3", "tx": 8, "ty": 4, "tileId": "oldeKey", "building": "keep-war-room", "questId": "dreadspire-lost-keys", "chain": "old-key-2" },
-
-    { "id": "evidence-1", "tx": 7, "ty": 5, "tileId": "blackclosedBook", "building": "keep-warlock-study", "questId": "dreadspire-intrigue-1" },
-    { "id": "evidence-2", "tx": 3, "ty": 5, "tileId": "blackclosedBook", "building": "keep-war-room", "questId": "dreadspire-intrigue-1" },
-    { "id": "evidence-3", "tx": 5, "ty": 6, "tileId": "blackclosedBook", "building": "dread-keep", "questId": "dreadspire-intrigue-1" },
-
-    { "id": "sigil-stone-1", "tx": 8, "ty": 5, "tileId": "violet_crystal1", "building": "keep-warlock-study", "questId": "dreadspire-cracked-sigils" },
-    { "id": "sigil-stone-2", "tx": 3, "ty": 4, "tileId": "violet_crystal1", "building": "warlock-tower-west", "questId": "dreadspire-cracked-sigils" },
-    { "id": "sigil-stone-3", "tx": 8, "ty": 5, "tileId": "violet_crystal1", "building": "summoning-chamber", "questId": "dreadspire-cracked-sigils" },
-
-    { "id": "grave-coin-1", "tx": 12, "ty": 24, "tileId": "pileOfCopperCoins", "questId": "dreadspire-grave-offerings" },
-    { "id": "grave-coin-2", "tx": 22, "ty": 24, "tileId": "pileOfCopperCoins", "questId": "dreadspire-grave-offerings" },
-    { "id": "grave-coin-3", "tx": 25, "ty": 29, "tileId": "pileOfCopperCoins", "questId": "dreadspire-grave-offerings" },
-
-    { "id": "test-fungus-1", "tx": 3, "ty": 5, "tileId": "purpleMushroom", "building": "alchemy-lab", "questId": "dreadspire-poison-tasting" },
-    { "id": "test-fungus-2", "tx": 9, "ty": 3, "tileId": "purpleMushroom", "building": "bone-ossuary-deep", "questId": "dreadspire-poison-tasting" }
+    {
+      "id": "dark-crystal-1",
+      "tx": 4,
+      "ty": 15,
+      "tileId": "dark_red_crystal1",
+      "questId": "dreadspire-dark-harvest"
+    },
+    {
+      "id": "dark-crystal-2",
+      "tx": 33,
+      "ty": 16,
+      "tileId": "dark_red_crystal1",
+      "questId": "dreadspire-dark-harvest"
+    },
+    {
+      "id": "dark-crystal-3",
+      "tx": 19,
+      "ty": 26,
+      "tileId": "dark_red_crystal1",
+      "questId": "dreadspire-dark-harvest"
+    },
+    {
+      "id": "dark-crystal-4",
+      "tx": 6,
+      "ty": 6,
+      "tileId": "dark_red_crystal1",
+      "building": "keep-crypt",
+      "questId": "dreadspire-harvest-2"
+    },
+    {
+      "id": "dark-crystal-5",
+      "tx": 3,
+      "ty": 5,
+      "tileId": "dark_red_crystal1",
+      "building": "summoning-chamber",
+      "questId": "dreadspire-harvest-2"
+    },
+    {
+      "id": "dark-crystal-6",
+      "tx": 5,
+      "ty": 3,
+      "tileId": "dark_red_crystal1",
+      "building": "bone-ossuary-deep",
+      "questId": "dreadspire-harvest-2"
+    },
+    {
+      "id": "dark-crystal-7",
+      "tx": 5,
+      "ty": 4,
+      "tileId": "dark_red_crystal1",
+      "building": "tower-east-top",
+      "questId": "dreadspire-harvest-3"
+    },
+    {
+      "id": "dark-crystal-8",
+      "tx": 6,
+      "ty": 3,
+      "tileId": "dark_red_crystal1",
+      "building": "alchemy-lab",
+      "questId": "dreadspire-harvest-3"
+    },
+    {
+      "id": "dark-crystal-9",
+      "tx": 6,
+      "ty": 4,
+      "tileId": "dark_red_crystal1",
+      "building": "dungeon-cells",
+      "questId": "dreadspire-harvest-3"
+    },
+    {
+      "id": "watch-token-1",
+      "tx": 10,
+      "ty": 20,
+      "tileId": "pileOfCopperCoins",
+      "questId": "dreadspire-lost-watch"
+    },
+    {
+      "id": "watch-token-2",
+      "tx": 29,
+      "ty": 21,
+      "tileId": "pendant",
+      "questId": "dreadspire-lost-watch"
+    },
+    {
+      "id": "watch-token-3",
+      "tx": 18,
+      "ty": 28,
+      "tileId": "oldeKey",
+      "questId": "dreadspire-lost-watch"
+    },
+    {
+      "id": "bone-dust",
+      "tx": 5,
+      "ty": 5,
+      "tileId": "skull",
+      "building": "bone-vault",
+      "questId": "dreadspire-ritual-ingredients"
+    },
+    {
+      "id": "shadow-oil",
+      "tx": 5,
+      "ty": 5,
+      "tileId": "potions",
+      "building": "keep-warlock-study",
+      "questId": "dreadspire-ritual-ingredients"
+    },
+    {
+      "id": "candle-wax",
+      "tx": 5,
+      "ty": 3,
+      "tileId": "candlestickUnlit",
+      "building": "shrine-inner-sanctum",
+      "questId": "dreadspire-ritual-ingredients"
+    },
+    {
+      "id": "femur-1",
+      "tx": 4,
+      "ty": 4,
+      "tileId": "skull",
+      "building": "bone-vault",
+      "questId": "dreadspire-bone-tally"
+    },
+    {
+      "id": "femur-2",
+      "tx": 4,
+      "ty": 4,
+      "tileId": "skull",
+      "building": "bone-ossuary-deep",
+      "questId": "dreadspire-bone-tally",
+      "chain": "femur-1"
+    },
+    {
+      "id": "femur-3",
+      "tx": 8,
+      "ty": 4,
+      "tileId": "skull",
+      "building": "bone-ossuary-deep",
+      "questId": "dreadspire-bone-tally",
+      "chain": "femur-2"
+    },
+    {
+      "id": "lost-skull",
+      "tx": 6,
+      "ty": 6,
+      "tileId": "skull",
+      "building": "bone-ossuary-deep",
+      "questId": "dreadspire-bone-tally",
+      "chain": "femur-3"
+    },
+    {
+      "id": "black-candle-1",
+      "tx": 4,
+      "ty": 5,
+      "tileId": "candlestickUnlit",
+      "building": "shadow-shrine",
+      "questId": "dreadspire-black-candles"
+    },
+    {
+      "id": "black-candle-2",
+      "tx": 6,
+      "ty": 5,
+      "tileId": "candlestickUnlit",
+      "building": "shadow-shrine",
+      "questId": "dreadspire-black-candles"
+    },
+    {
+      "id": "black-candle-3",
+      "tx": 6,
+      "ty": 4,
+      "tileId": "candlestickUnlit",
+      "building": "shrine-inner-sanctum",
+      "questId": "dreadspire-black-candles"
+    },
+    {
+      "id": "raven-token-1",
+      "tx": 4,
+      "ty": 5,
+      "tileId": "feather",
+      "building": "tower-east-top",
+      "questId": "dreadspire-raven-tokens"
+    },
+    {
+      "id": "raven-token-2",
+      "tx": 8,
+      "ty": 5,
+      "tileId": "feather",
+      "building": "dungeon-cells",
+      "questId": "dreadspire-raven-tokens"
+    },
+    {
+      "id": "raven-token-3",
+      "tx": 5,
+      "ty": 5,
+      "tileId": "feather",
+      "building": "keep-war-room",
+      "questId": "dreadspire-raven-tokens"
+    },
+    {
+      "id": "raven-token-4",
+      "tx": 9,
+      "ty": 5,
+      "tileId": "feather",
+      "building": "alchemy-lab",
+      "questId": "dreadspire-raven-tokens"
+    },
+    {
+      "id": "lost-raven-feather",
+      "tx": 5,
+      "ty": 5,
+      "tileId": "feather",
+      "building": "gatehouse",
+      "questId": "dreadspire-ravens-return"
+    },
+    {
+      "id": "old-key-1",
+      "tx": 5,
+      "ty": 5,
+      "tileId": "oldeKey",
+      "building": "servants-undercroft",
+      "questId": "dreadspire-lost-keys"
+    },
+    {
+      "id": "old-key-2",
+      "tx": 5,
+      "ty": 3,
+      "tileId": "oldeKey",
+      "building": "keep-crypt",
+      "questId": "dreadspire-lost-keys",
+      "chain": "old-key-1"
+    },
+    {
+      "id": "old-key-3",
+      "tx": 8,
+      "ty": 4,
+      "tileId": "oldeKey",
+      "building": "keep-war-room",
+      "questId": "dreadspire-lost-keys",
+      "chain": "old-key-2"
+    },
+    {
+      "id": "evidence-1",
+      "tx": 7,
+      "ty": 5,
+      "tileId": "blackclosedBook",
+      "building": "keep-warlock-study",
+      "questId": "dreadspire-intrigue-1"
+    },
+    {
+      "id": "evidence-2",
+      "tx": 3,
+      "ty": 5,
+      "tileId": "blackclosedBook",
+      "building": "keep-war-room",
+      "questId": "dreadspire-intrigue-1"
+    },
+    {
+      "id": "evidence-3",
+      "tx": 5,
+      "ty": 6,
+      "tileId": "blackclosedBook",
+      "building": "dread-keep",
+      "questId": "dreadspire-intrigue-1"
+    },
+    {
+      "id": "sigil-stone-1",
+      "tx": 8,
+      "ty": 5,
+      "tileId": "violet_crystal1",
+      "building": "keep-warlock-study",
+      "questId": "dreadspire-cracked-sigils"
+    },
+    {
+      "id": "sigil-stone-2",
+      "tx": 3,
+      "ty": 4,
+      "tileId": "violet_crystal1",
+      "building": "warlock-tower-west",
+      "questId": "dreadspire-cracked-sigils"
+    },
+    {
+      "id": "sigil-stone-3",
+      "tx": 8,
+      "ty": 5,
+      "tileId": "violet_crystal1",
+      "building": "summoning-chamber",
+      "questId": "dreadspire-cracked-sigils"
+    },
+    {
+      "id": "grave-coin-1",
+      "tx": 12,
+      "ty": 24,
+      "tileId": "pileOfCopperCoins",
+      "questId": "dreadspire-grave-offerings"
+    },
+    {
+      "id": "grave-coin-2",
+      "tx": 22,
+      "ty": 24,
+      "tileId": "pileOfCopperCoins",
+      "questId": "dreadspire-grave-offerings"
+    },
+    {
+      "id": "grave-coin-3",
+      "tx": 25,
+      "ty": 29,
+      "tileId": "pileOfCopperCoins",
+      "questId": "dreadspire-grave-offerings"
+    },
+    {
+      "id": "test-fungus-1",
+      "tx": 3,
+      "ty": 5,
+      "tileId": "purpleMushroom",
+      "building": "alchemy-lab",
+      "questId": "dreadspire-poison-tasting"
+    },
+    {
+      "id": "test-fungus-2",
+      "tx": 9,
+      "ty": 3,
+      "tileId": "purpleMushroom",
+      "building": "bone-ossuary-deep",
+      "questId": "dreadspire-poison-tasting"
+    }
   ],
   "dialogues": [
     {
@@ -332,14 +848,80 @@
         "greet": {
           "text": "Warm one. You move through my citadel like you belong here. I have not decided whether that pleases me.",
           "choices": [
-            { "label": "I'm on your side, Vesska.", "effects": [{ "type": "relationship", "npcId": "warlock-vesska", "track": "ally", "points": 6 }], "next": "ally" },
-            { "label": "I answer to no warlock.", "effects": [{ "type": "relationship", "npcId": "warlock-vesska", "track": "rival", "points": 6 }], "next": "rival" },
-            { "label": "What IS the master's ritual?", "next": "lore" }
+            {
+              "label": "I'm on your side, Vesska.",
+              "effects": [
+                {
+                  "type": "relationship",
+                  "npcId": "warlock-vesska",
+                  "track": "ally",
+                  "points": 6
+                }
+              ],
+              "next": "ally"
+            },
+            {
+              "label": "I answer to no warlock.",
+              "effects": [
+                {
+                  "type": "relationship",
+                  "npcId": "warlock-vesska",
+                  "track": "rival",
+                  "points": 6
+                }
+              ],
+              "next": "rival"
+            },
+            {
+              "label": "What IS the master's ritual?",
+              "next": "lore"
+            }
           ]
         },
-        "ally": { "text": "Then we are allies, and I shall pretend that is not a relief. Few here have a pulse, fewer still a spine.", "choices": [{ "label": "Always.", "effects": [{ "type": "end" }] }] },
-        "rival": { "text": "Defiant. Good. A circle needs resistance or it grows lazy. Cross me carefully, then.", "choices": [{ "label": "Count on it.", "effects": [{ "type": "end" }] }] },
-        "lore": { "text": "A door dressed as a homecoming. The master walks in; something else walks out. I would very much like to keep that door shut.", "choices": [{ "label": "Then let's keep it shut.", "effects": [{ "type": "friendship", "npcId": "warlock-vesska", "xp": 5 }, { "type": "end" }] }] }
+        "ally": {
+          "text": "Then we are allies, and I shall pretend that is not a relief. Few here have a pulse, fewer still a spine.",
+          "choices": [
+            {
+              "label": "Always.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "rival": {
+          "text": "Defiant. Good. A circle needs resistance or it grows lazy. Cross me carefully, then.",
+          "choices": [
+            {
+              "label": "Count on it.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "lore": {
+          "text": "A door dressed as a homecoming. The master walks in; something else walks out. I would very much like to keep that door shut.",
+          "choices": [
+            {
+              "label": "Then let's keep it shut.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "npcId": "warlock-vesska",
+                  "xp": 5
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
       }
     }
   ],
@@ -356,8 +938,12 @@
   },
   "relationshipDialogue": {
     "bone-keeper-mald": {
-      "ally": { "1": "For a friend of the tally, the deep niches are open. Mind the draught — and the things that enjoy it." },
-      "rival": { "1": "You count bones like a thief counts exits. I am watching you, warm one. Every femur." }
+      "ally": {
+        "1": "For a friend of the tally, the deep niches are open. Mind the draught — and the things that enjoy it."
+      },
+      "rival": {
+        "1": "You count bones like a thief counts exits. I am watching you, warm one. Every femur."
+      }
     }
   },
   "blockedPaths": []

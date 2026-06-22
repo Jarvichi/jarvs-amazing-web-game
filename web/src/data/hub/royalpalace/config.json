@@ -541,7 +541,7 @@
       "zlayer": "solid"
     },
     {
-      "comment": "royal gardens \u2014 fountains, statues, bird baths, benches"
+      "comment": "royal gardens — fountains, statues, bird baths, benches"
     },
     {
       "tx": 9,
@@ -1047,7 +1047,7 @@
       "zlayer": "above"
     },
     {
-      "comment": "outer court \u2014 barrels, crates, sacks near the service buildings"
+      "comment": "outer court — barrels, crates, sacks near the service buildings"
     },
     {
       "tx": 9,
@@ -1100,7 +1100,7 @@
       "tileId": "crate"
     },
     {
-      "comment": "stable yard \u2014 hay and water"
+      "comment": "stable yard — hay and water"
     },
     {
       "tx": 16,
@@ -1118,7 +1118,7 @@
       "tileId": "hayStack"
     },
     {
-      "comment": "servants' yard \u2014 washing line and well"
+      "comment": "servants' yard — washing line and well"
     },
     {
       "tx": 2,
@@ -1163,30 +1163,6 @@
     },
     {
       "comment": "notice board in the outer court"
-    },
-    {
-      "tx": 18,
-      "ty": 31,
-      "tileId": "messageBoardTopLeft",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 19,
-      "ty": 31,
-      "tileId": "messageBoardTopRight",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 18,
-      "ty": 32,
-      "tileId": "messageBoardBottomLeft",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 19,
-      "ty": 32,
-      "tileId": "messageBoardBottomRight",
-      "zlayer": "solid"
     },
     {
       "comment": "a quiet ornamental pond in the gardens"
@@ -1274,7 +1250,7 @@
       "ty": 18,
       "dialogue": [
         "Presenting: you. To no one in particular. It's been a slow morning.",
-        "Hear ye, hear ye \u2014 the proclamations have gone missing again. A herald with no words is merely a man shouting.",
+        "Hear ye, hear ye — the proclamations have gone missing again. A herald with no words is merely a man shouting.",
         "Protocol is the art of standing in the right place while important things happen elsewhere."
       ],
       "questGive": "palace-herald-proclamation",
@@ -1438,7 +1414,7 @@
       "tx": 9,
       "ty": 5,
       "dialogue": [
-        "Mind the roses on your way through the garden \u2014 they are the one thing here that answers to no one.",
+        "Mind the roses on your way through the garden — they are the one thing here that answers to no one.",
         "The King rules the realm; I rule the garden. We are each terrified of the other's domain.",
         "A kingdom is judged by its kindnesses, not its conquests. Remember that, if you remember nothing else."
       ],
@@ -1637,7 +1613,7 @@
       "tx": 6,
       "ty": 6,
       "dialogue": [
-        "Peace, traveller. The chapel is open to all, even the road-weary and the regicidal \u2014 though we prefer the former.",
+        "Peace, traveller. The chapel is open to all, even the road-weary and the regicidal — though we prefer the former.",
         "The crypt below holds kings long past. They keep their counsel well.",
         "Our candles have a way of wandering off. A chapel without light is only a cold stone room."
       ],
@@ -1686,7 +1662,7 @@
       "tx": 6,
       "ty": 5,
       "dialogue": [
-        "Out of my kitchen \u2014 unless you've come to help, in which case, in, in, in!",
+        "Out of my kitchen — unless you've come to help, in which case, in, in, in!",
         "A royal feast does not cook itself, more's the pity. I've asked the cauldron. It just bubbles at me.",
         "Fetch me what I need and the court eats like kings. Which, conveniently, they are."
       ],
@@ -1995,22 +1971,22 @@
           "tileId": "crownOfCushon"
         },
         {
-          "tx": 6,
+          "tx": 4,
           "ty": -1,
           "tileId": "shieldMounted"
         },
         {
-          "tx": 9,
+          "tx": 11,
           "ty": -1,
           "tileId": "shieldMounted"
         },
         {
-          "tx": 7,
+          "tx": 5,
           "ty": -1,
           "tileId": "swordMountedLeft"
         },
         {
-          "tx": 8,
+          "tx": 6,
           "ty": -1,
           "tileId": "swordMountedRight"
         },
@@ -2056,12 +2032,20 @@
         },
         {
           "tx": 5,
-          "ty": 1,
+          "ty": 6,
           "toInteriorId": "palace-stairs-dungeon-to-ground",
           "entryTx": 3,
           "entryTy": 1,
           "direction": "down",
           "label": "Down to the Vaults"
+        },
+        {
+          "tx": 8,
+          "ty": 0,
+          "toInteriorId": "royal-library",
+          "direction": "back",
+          "entryTx": 8,
+          "entryTy": 8
         }
       ]
     },
@@ -2103,13 +2087,13 @@
           "tileId": "potOfFlowers"
         },
         {
-          "tx": 7,
-          "ty": 6,
+          "tx": 1,
+          "ty": 0,
           "tileId": "mirrorBottom"
         },
         {
-          "tx": 7,
-          "ty": 5,
+          "tx": 1,
+          "ty": -1,
           "tileId": "mirrorTop"
         },
         {
@@ -2126,6 +2110,12 @@
           "tx": 8,
           "ty": 6,
           "tileId": "teddy"
+        },
+        {
+          "tx": 6,
+          "ty": 0,
+          "tileId": "paintingLandscapeBottom",
+          "zlayer": "solid"
         }
       ],
       "exits": [
@@ -2644,6 +2634,14 @@
           "entryTy": 6,
           "direction": "up",
           "label": "Reading Loft"
+        },
+        {
+          "tx": 7,
+          "ty": 9,
+          "toInteriorId": "palace",
+          "entryTx": 8,
+          "entryTy": 1,
+          "direction": "front"
         }
       ]
     },
@@ -3492,8 +3490,8 @@
   "interactables": [
     {
       "id": "court-notice-board",
-      "tx": 18,
-      "ty": 31,
+      "tx": 23,
+      "ty": 9,
       "hitRect": {
         "w": 2,
         "h": 2
@@ -3507,6 +3505,28 @@
             "LOST: One ceremonial pendant, one jubilee gift, one vault key. Reward offered by the Steward.",
             "NOTICE: The Princess's cat Kipper remains at Millhaven. Updates to follow."
           ]
+        }
+      ],
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "messageBoardTopLeft"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileId": "messageBoardTopRight"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileId": "messageBoardBottomLeft"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileId": "messageBoardBottomRight"
         }
       ]
     }
