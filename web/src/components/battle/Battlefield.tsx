@@ -9,7 +9,7 @@ import { spriteSlug } from '../../game/sprites'
 import { BattleEventOverlay } from './BattleEventOverlay'
 import { isNoDamageMode, isDebugMode } from '../../game/debug'
 import { MAX_UPGRADE_LEVEL, getEffectiveCardCost } from '../../game/engine/cards'
-import { CAST_WINDUP_MS, COUNTER_WINDOW_AVOID_START_MS, COUNTER_WINDOW_HALVE_START_MS } from '../../game/engine/constants'
+import { CAST_WINDUP_MS, COUNTER_WINDOW_HALVE_START_MS } from '../../game/engine/constants'
 import { SUDDEN_DEATH_FORCE_MS } from '../../game/engine/suddenDeath'
 import { getRelicDef } from '../../game/relics'
 import { getUnitLore, getCardCatalog } from '../../game/cards'
@@ -1033,7 +1033,9 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
           const glowTop  = opCmd ? (1 - opCmd.x / LANE_WIDTH) * 100 : 4
           const glowLeft = opCmd ? 50 + (opCmd.y / 80) * 36 : 50
           const elapsed = state.gameTime - cast.startedAtMs
-          const inDangerZone = elapsed >= COUNTER_WINDOW_AVOID_START_MS && elapsed < COUNTER_WINDOW_HALVE_START_MS
+          // Pressing Counter is never punished for being early — only the final stretch
+          // before resolution (the "closing window") downgrades the press to a half-block.
+          const closingWindow = elapsed >= COUNTER_WINDOW_HALVE_START_MS
           return (
             <>
               <div className="spell-cast-glow" style={{ position: 'absolute', top: `${glowTop}%`, left: `${glowLeft}%`, transform: 'translate(-50%,-50%)', pointerEvents: 'none', zIndex: 55 }} aria-hidden />
@@ -1043,11 +1045,11 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
                 <div className="spell-cast-banner-bar"><div className="spell-cast-banner-bar-fill" style={{ width: `${pct * 100}%` }} /></div>
               </div>
               {!cast.counterGrade && (
-                <button className={`spell-cast-counter-btn ${inDangerZone ? 'spell-cast-counter-btn--danger' : ''}`} onClick={() => onCounterSpell?.()}>COUNTER!</button>
+                <button className={`spell-cast-counter-btn ${closingWindow ? 'spell-cast-counter-btn--closing' : ''}`} onClick={() => onCounterSpell?.()}>COUNTER!</button>
               )}
               {cast.counterGrade && (
                 <div className={`spell-cast-grade spell-cast-grade--${cast.counterGrade}`}>
-                  {cast.counterGrade === 'avoid' ? 'DODGED!' : cast.counterGrade === 'halve' ? 'PARTIAL BLOCK' : 'TOO SLOW'}
+                  {cast.counterGrade === 'avoid' ? 'DODGED!' : 'PARTIAL BLOCK'}
                 </div>
               )}
             </>

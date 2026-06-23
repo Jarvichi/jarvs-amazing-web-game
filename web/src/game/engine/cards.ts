@@ -346,7 +346,7 @@ export function applyAoeDamage(
 }
 
 /** Resolve a pending opponent spell cast once its windup has elapsed, applying damage
- *  graded by the player's Counter QTE result (avoid = 0x, halve = 0.5x, full = 1x). */
+ *  graded by the player's Counter QTE result (avoid = 0x, halve = 0.5x, no press = 1x). */
 export function resolveSpellCast(s: GameState, log: string[]): void {
   const cast = s.pendingSpellCast
   if (!cast || s.gameTime < cast.resolvesAtMs) return

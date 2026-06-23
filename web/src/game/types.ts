@@ -349,8 +349,9 @@ export interface PendingSpellCast {
   startedAtMs: number
   /** gameTime (ms) when the damage resolves. */
   resolvesAtMs: number
-  /** Set once the player has registered a Counter input during the window. */
-  counterGrade?: 'avoid' | 'halve' | 'full'
+  /** Set once the player has registered a Counter input during the window.
+   *  Absent (undefined) means no press was registered before resolution — full damage applies. */
+  counterGrade?: 'avoid' | 'halve'
 }
 
 // ─── Battle Events ────────────────────────────────────────
