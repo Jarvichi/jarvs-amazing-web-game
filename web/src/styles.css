@@ -6528,6 +6528,12 @@ body {
   color: #ffe8c0;
   animation: spellCastCounterClosing 0.3s ease-in-out infinite;
 }
+.spell-cast-counter-btn-cap {
+  font-size: var(--font-sm);
+  font-weight: normal;
+  letter-spacing: normal;
+  opacity: 0.85;
+}
 @keyframes spellCastCounterPulse {
   0%, 100% { transform: translateX(-50%) scale(1); }
   50%       { transform: translateX(-50%) scale(1.05); }
@@ -6549,9 +6555,8 @@ body {
   padding: 8px 22px;
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.85);
+  border: 2px solid;
 }
-.spell-cast-grade--avoid { color: #80ff90; border: 2px solid rgba(80, 255, 120, 0.9); }
-.spell-cast-grade--halve { color: #ffd980; border: 2px solid rgba(255, 200, 80, 0.9); }
 
 .sudden-death-overlay {
   position: absolute;
