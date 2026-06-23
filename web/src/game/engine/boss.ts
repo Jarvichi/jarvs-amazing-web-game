@@ -1,7 +1,7 @@
 import bossAIDefsRaw from '../../data/bossAIs.json'
 import { Card, GameState } from '../types'
 import { BASE_MAX_MANA } from './constants'
-import { deployCard } from './cards'
+import { deployOpponentCard } from './cards'
 import { getManaBonus } from './bonusEffects'
 import { drawCard } from './helpers'
 import { isPlayable } from './opponentAI'
@@ -153,7 +153,7 @@ export function genericBossAI(s: GameState, log: string[], def: BossAIDef): void
       if (!pick) continue
       s.opponentHand.splice(s.opponentHand.indexOf(pick), 1)
       mana -= pick.cost
-      deployCard(s, pick, 'opponent', log)
+      deployOpponentCard(s, pick, log)
       drawCard(s.opponentDeck, s.opponentHand)
       return true
     }

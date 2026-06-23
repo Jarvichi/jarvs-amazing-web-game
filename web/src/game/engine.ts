@@ -10,7 +10,7 @@ import { genericBossAI, getBossAIDef } from './engine/boss'
 import { tickBossTrait } from './engine/bossTraits'
 import { getManaBonus, getManaSpeedMult } from './engine/bonusEffects'
 import { uid, shuffle, spawnUnit, spawnCommander } from './engine/helpers'
-import { MAX_UPGRADE_LEVEL } from './engine/cards'
+import { MAX_UPGRADE_LEVEL, resolveSpellCast } from './engine/cards'
 import { unitDist } from './engine/targeting'
 import { opponentAI } from './engine/opponentAI'
 import { triggerBattleEvent, BATTLE_EVENT_BASE_MS } from './engine/battleEvents'
@@ -335,6 +335,7 @@ export function newGame(
     forgiveManaLimit: forgiveManaLimit ?? false,
     deckMaxMana,
     bossPhase2Hp,
+    pendingSpellCast: null,
   }
 }
 
@@ -508,6 +509,7 @@ export function tick(state: GameState, deltaMs: number): GameState {
     opponentHand:      [...state.opponentHand],
     opponentDeck:      [...state.opponentDeck],
     activeBattleEvent: state.activeBattleEvent ? { ...state.activeBattleEvent } : null,
+    pendingSpellCast: state.pendingSpellCast ? { ...state.pendingSpellCast } : null,
     bossTraitState:    state.bossTraitState ? {
       ...state.bossTraitState,
       firedThresholds: [...state.bossTraitState.firedThresholds],
@@ -549,6 +551,9 @@ export function tick(state: GameState, deltaMs: number): GameState {
 
   // 4. Process per-unit attacks
   processAttacks(s, deltaMs, log)
+
+  // 3c. Resolve any opponent spell cast whose windup has elapsed (must run before HP sync/game-over)
+  resolveSpellCast(s, log)
 
   // 4a. Sync commander/boss HP → base HP so game-over check and UI bars are accurate.
   // find() matches a dying commander (hp 0, dyingTimer running). If the commander is gone

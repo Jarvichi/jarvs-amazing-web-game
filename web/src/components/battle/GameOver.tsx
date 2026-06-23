@@ -113,6 +113,11 @@ export function GameOver({ state, winner, handicap, onOpenPack, rewardClaimed, o
       )}
       <pre className="gameover-ascii">{art}</pre>
       <div className="gameover-message">{message}</div>
+      {!won && !draw && state.lastPlayerDamageSource && (
+        <div className="gameover-killed-by">
+          Defeated by: {state.lastPlayerDamageSource.kind === 'spell' ? '🔥 ' : ''}{state.lastPlayerDamageSource.name}
+        </div>
+      )}
       {isEndless ? (
         <div className="gameover-endless-stats u-col u-items-c u-gap-2">
           <div className="gameover-endless-wave">WAVE {state.endlessWave ?? 1}</div>

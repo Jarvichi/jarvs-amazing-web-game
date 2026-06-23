@@ -81,6 +81,9 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
         if (isPlayer) s.playerScore += actualDamage
         else          s.opponentScore += actualDamage
         target.lastAttackerId = unit.id
+        if (target.isCommander && target.owner === 'player' && dmg > 0) {
+          s.lastPlayerDamageSource = { kind: 'unit', name: unit.name }
+        }
         if (target.targetId && target.targetId !== unit.id && target.attack > 0) {
           target.targetId = unit.id
         }
@@ -108,6 +111,9 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
             for (const e of aoeTargets) {
               e.hp = Math.max(0, e.hp - dmg)
               e.damageFlashTimer = DAMAGE_FLASH_MS
+              if (e.isCommander && e.owner === 'player' && dmg > 0) {
+                s.lastPlayerDamageSource = { kind: 'unit', name: unit.name }
+              }
               // Mark mobile kills as dying so they linger for the death animation and
               // aren't silently purged before the commander/base HP sync sees them.
               if (e.hp <= 0 && e.moveSpeed > 0 && !e.isWall && !e.dyingTimer) e.dyingTimer = DEATH_LINGER_MS

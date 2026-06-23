@@ -1227,6 +1227,13 @@ body {
 .gameover--lose .gameover-message { color: var(--color-red); }
 .gameover--draw .gameover-message { color: #00ccff; }
 
+.gameover-killed-by {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-muted);
+  text-align: center;
+  font-style: italic;
+}
+
 .gameover-stats {
   color: var(--game-text-color-dim);
   text-align: center;
@@ -6444,6 +6451,108 @@ body {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.5; }
 }
+
+/* ── Opponent spell-cast telegraph + Counter QTE ──────────── */
+.spell-cast-glow {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 60, 60, 0.55) 0%, rgba(255, 60, 60, 0.15) 55%, transparent 80%);
+  animation: spellCastGlowPulse 0.7s ease-in-out infinite;
+}
+@keyframes spellCastGlowPulse {
+  0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.9); }
+  50%       { opacity: 1;   transform: translate(-50%, -50%) scale(1.15); }
+}
+
+.spell-cast-banner {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(30, 0, 0, 0.92);
+  border: 1px solid rgba(255, 70, 70, 0.85);
+  border-radius: 4px;
+  padding: 5px 14px;
+  color: #ffb0b0;
+  font-size: var(--font-md);
+  font-weight: bold;
+  letter-spacing: 1px;
+  pointer-events: none;
+  animation: spellCastBannerPulse 0.8s ease-in-out infinite;
+}
+.spell-cast-banner-timer {
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+}
+.spell-cast-banner-bar {
+  width: 70px;
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  overflow: hidden;
+}
+.spell-cast-banner-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff4444, #ff9944);
+  transition: width 0.1s linear;
+}
+@keyframes spellCastBannerPulse {
+  0%, 100% { border-color: rgba(255, 70, 70, 0.85); }
+  50%       { border-color: rgba(255, 140, 140, 1); }
+}
+
+.spell-cast-counter-btn {
+  position: absolute;
+  bottom: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 70;
+  background: rgba(40, 0, 0, 0.9);
+  border: 2px solid rgba(255, 70, 70, 0.9);
+  border-radius: 8px;
+  color: #ffdddd;
+  font-size: var(--font-lg);
+  font-weight: bold;
+  letter-spacing: 2px;
+  padding: 10px 26px;
+  cursor: pointer;
+  animation: spellCastCounterPulse 0.8s ease-in-out infinite;
+}
+.spell-cast-counter-btn--danger {
+  border-color: rgba(80, 255, 120, 0.95);
+  color: #d0ffd8;
+  animation: spellCastCounterDanger 0.4s ease-in-out infinite;
+}
+@keyframes spellCastCounterPulse {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50%       { transform: translateX(-50%) scale(1.05); }
+}
+@keyframes spellCastCounterDanger {
+  0%, 100% { box-shadow: 0 0 6px rgba(80, 255, 120, 0.5); }
+  50%       { box-shadow: 0 0 18px rgba(80, 255, 120, 0.9); }
+}
+
+.spell-cast-grade {
+  position: absolute;
+  bottom: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 70;
+  font-size: var(--font-lg);
+  font-weight: bold;
+  letter-spacing: 2px;
+  padding: 8px 22px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.85);
+}
+.spell-cast-grade--avoid { color: #80ff90; border: 2px solid rgba(80, 255, 120, 0.9); }
+.spell-cast-grade--halve { color: #ffd980; border: 2px solid rgba(255, 200, 80, 0.9); }
+.spell-cast-grade--full  { color: #ff8080; border: 2px solid rgba(255, 70, 70, 0.9); }
 
 .sudden-death-overlay {
   position: absolute;

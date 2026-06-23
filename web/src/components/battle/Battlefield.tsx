@@ -9,6 +9,7 @@ import { spriteSlug } from '../../game/sprites'
 import { BattleEventOverlay } from './BattleEventOverlay'
 import { isNoDamageMode, isDebugMode } from '../../game/debug'
 import { MAX_UPGRADE_LEVEL, getEffectiveCardCost } from '../../game/engine/cards'
+import { CAST_WINDUP_MS, COUNTER_WINDOW_AVOID_START_MS, COUNTER_WINDOW_HALVE_START_MS } from '../../game/engine/constants'
 import { SUDDEN_DEATH_FORCE_MS } from '../../game/engine/suddenDeath'
 import { getRelicDef } from '../../game/relics'
 import { getUnitLore, getCardCatalog } from '../../game/cards'
@@ -52,6 +53,7 @@ interface Props {
   onSetStance?: (s: NonNullable<GameState['playerStance']>) => void
   speedMultiplier?: 1 | 2 | 4 | 8
   onCycleSpeed?: () => void
+  onCounterSpell?: () => void
 }
 
 const SPAWN_GROW_MS = 1500
@@ -601,7 +603,7 @@ function opponentPortraitSlug(bossAI: string | undefined, actTheme: string | und
   return 'bandit'
 }
 
-export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPause, actTheme, activeRelic, showBossSplash, activeModifiers, isCampaign, stance = 'auto', onSetStance, speedMultiplier = 1, onCycleSpeed }: Props) {
+export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPause, actTheme, activeRelic, showBossSplash, activeModifiers, isCampaign, stance = 'auto', onSetStance, speedMultiplier = 1, onCycleSpeed, onCounterSpell }: Props) {
   const { openDetail, cardDetailNode } = useCardDetail()
   const [heroLightning, setHeroLightning] = useState<{ owner: 'player' | 'opponent'; key: number } | null>(null)
   const [paused, setPaused] = useState(false)
@@ -637,6 +639,16 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [pendingAoeCard])
+
+  // Counter an opponent's incoming spell cast via Space/Enter
+  useEffect(() => {
+    if (!state.pendingSpellCast || state.pendingSpellCast.counterGrade) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.code === 'Space' || e.code === 'Enter') { e.preventDefault(); onCounterSpell?.() }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [state.pendingSpellCast?.cardName, state.pendingSpellCast?.counterGrade, onCounterSpell])
 
   // Detect when a new hero unit appears on the field and fire the lightning effect
   useEffect(() => {
@@ -1011,6 +1023,36 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
             )}
           </>
         )}
+
+        {/* Opponent spell-cast telegraph + Counter QTE */}
+        {state.pendingSpellCast && (() => {
+          const cast = state.pendingSpellCast!
+          const remainingMs = Math.max(0, cast.resolvesAtMs - state.gameTime)
+          const pct = Math.max(0, Math.min(1, remainingMs / CAST_WINDUP_MS))
+          const opCmd = state.field.find(u => u.isCommander && u.owner === 'opponent')
+          const glowTop  = opCmd ? (1 - opCmd.x / LANE_WIDTH) * 100 : 4
+          const glowLeft = opCmd ? 50 + (opCmd.y / 80) * 36 : 50
+          const elapsed = state.gameTime - cast.startedAtMs
+          const inDangerZone = elapsed >= COUNTER_WINDOW_AVOID_START_MS && elapsed < COUNTER_WINDOW_HALVE_START_MS
+          return (
+            <>
+              <div className="spell-cast-glow" style={{ position: 'absolute', top: `${glowTop}%`, left: `${glowLeft}%`, transform: 'translate(-50%,-50%)', pointerEvents: 'none', zIndex: 55 }} aria-hidden />
+              <div className="spell-cast-banner">
+                <span className="spell-cast-banner-name">⚡ {cast.cardName} incoming!</span>
+                <span className="spell-cast-banner-timer">{(remainingMs / 1000).toFixed(1)}s</span>
+                <div className="spell-cast-banner-bar"><div className="spell-cast-banner-bar-fill" style={{ width: `${pct * 100}%` }} /></div>
+              </div>
+              {!cast.counterGrade && (
+                <button className={`spell-cast-counter-btn ${inDangerZone ? 'spell-cast-counter-btn--danger' : ''}`} onClick={() => onCounterSpell?.()}>COUNTER!</button>
+              )}
+              {cast.counterGrade && (
+                <div className={`spell-cast-grade spell-cast-grade--${cast.counterGrade}`}>
+                  {cast.counterGrade === 'avoid' ? 'DODGED!' : cast.counterGrade === 'halve' ? 'PARTIAL BLOCK' : 'TOO SLOW'}
+                </div>
+              )}
+            </>
+          )
+        })()}
       </div>
         )
       })()}

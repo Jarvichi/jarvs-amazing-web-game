@@ -3,7 +3,7 @@
 
 import { Card, GameState } from "../types"
 import { BASE_MAX_MANA } from "./constants"
-import { deployCard } from "./cards"
+import { deployOpponentCard } from "./cards"
 import { getManaBonus } from "./bonusEffects"
 import { drawCard } from "./helpers"
 
@@ -49,7 +49,7 @@ export function opponentAI(s: GameState, log: string[]): void {
     mana -= card.cost
     played++
 
-    deployCard(s, card, 'opponent', log)
+    deployOpponentCard(s, card, log)
     drawCard(s.opponentDeck, s.opponentHand)
 
     // Turtle only plays 1 card per turn

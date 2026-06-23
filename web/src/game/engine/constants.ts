@@ -18,6 +18,11 @@ export const BASE_STOP_MARGIN    = 0                // units may reach the base 
 export const COMMANDER_HOME_X    = 15               // player commander's home position
 export const COMMANDER_LEASH_PX  = 40              // max px a commander can stray from home
 
+// ─── Opponent Spell-Cast Telegraph + Counter QTE ──────────
+export const CAST_WINDUP_MS               = 5000  // windup before an opponent AOE spell resolves
+export const COUNTER_WINDOW_AVOID_START_MS = 2000  // elapsed ms after which a Counter press fully negates damage
+export const COUNTER_WINDOW_HALVE_START_MS = 4500  // elapsed ms after which a Counter press only halves damage
+
 // ─── Archetype Passive Multipliers ────────────────────────
 export const ARCH_STRUCTURE_COST_REDUCTION = 1     // Siege Commander: structures cost 1 less
 export const ARCH_STRUCTURE_HP_MULT        = 1.2   // Siege Commander: +20% structure max HP
