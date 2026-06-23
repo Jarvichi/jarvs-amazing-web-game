@@ -10,28 +10,222 @@
       "activeDialogue": "Three sets of remains, scattered around town. They'll be the suspiciously chatty skulls.",
       "completeDialogue": "Home at last, all three. Listen... silence. Blessed, dignified silence. The dead of Gravemoor thank you — and unlike most, they mean it eternally.",
       "steps": [
-        {
-          "key": "remains",
-          "type": "collect",
-          "pickupIds": ["remains-1", "remains-2", "remains-3"],
-          "required": 3
-        }
+        { "key": "remains", "type": "collect", "pickupIds": ["remains-1", "remains-2", "remains-3"], "required": 3 }
       ],
       "reward": {
         "crystals": 70,
-        "collectible": {
-          "id": "gravemoor-lantern",
-          "name": "Mourner's Lantern",
-          "icon": "🏮",
-          "desc": "A small lantern that burns with a cold blue flame. The dead find it comforting."
-        }
+        "collectible": { "id": "gravemoor-lantern", "name": "Mourner's Lantern", "icon": "🏮", "desc": "A small lantern that burns with a cold blue flame. The dead find it comforting." }
+      }
+    },
+    {
+      "id": "gravemoor-restless-remains-2",
+      "title": "The Restless Remains II: Deeper Still",
+      "type": "chain",
+      "giverNpcId": "grave-keeper-finch",
+      "receiverNpcId": "grave-keeper-finch",
+      "prerequisite": "quest:gravemoor-restless-remains",
+      "offerDialogue": "You did so well with the surface graves that I dare ask more. Three older souls were laid in the catacombs beneath the keep, and their bones have wandered the dark passages. Few would brave the maze below... but you are not most.",
+      "activeDialogue": "Three sets of remains, lost somewhere in the catacombs beneath the crypt keep. Take the ladder down and search the passages.",
+      "completeDialogue": "All three, returned from the deep dark. You have a steady nerve for the underworld, friend. The oldest dead of Gravemoor will sleep sound for centuries more.",
+      "steps": [
+        { "key": "deep-remains", "type": "collect", "pickupIds": ["remains-deep-1", "remains-deep-2", "remains-deep-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 90,
+        "collectible": { "id": "gravemoor-bone-charm", "name": "Bone Charm", "icon": "🦴", "desc": "A charm carved from catacomb bone. It hums faintly when the dead are near." }
+      }
+    },
+    {
+      "id": "gravemoor-reunited-in-death",
+      "title": "Reunited in Death",
+      "type": "fetch",
+      "giverNpcId": "weeping-widow",
+      "receiverNpcId": "weeping-widow",
+      "offerDialogue": "Long ago my Edric gave me a locket, and I lost it the night the blight took us. I have drifted these woods searching ever since. If you should find it among the graves... bring it to me, and I might weep a little less.",
+      "activeDialogue": "Find the Weeping Widow's lost locket somewhere in the old cemetery.",
+      "completeDialogue": "Oh — oh, my locket! His face, just as I remember. Bless you, traveller. For the first time in two hundred years, these are not tears of grief.",
+      "steps": [
+        { "key": "locket", "type": "collect", "pickupIds": ["widow-locket"], "required": 1 }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": { "weeping-widow": 2 },
+        "collectible": { "id": "gravemoor-locket", "name": "Edric's Locket", "icon": "📿", "desc": "A tarnished silver locket. The widow let you keep its twin." }
+      }
+    },
+    {
+      "id": "gravemoor-soldiers-orders",
+      "title": "A Soldier's Last Orders",
+      "type": "fetch",
+      "giverNpcId": "restless-soldier",
+      "receiverNpcId": "restless-soldier",
+      "offerDialogue": "I cannot stand down without orders — it is not done. My commission papers were lost in the rout, somewhere out past the inn. Find them, and perhaps a soldier can finally rest.",
+      "activeDialogue": "Recover the Restless Soldier's commission papers, lost near the haunted inn.",
+      "completeDialogue": "My orders! 'All forces are relieved of duty.' ...Relieved. After all this time. Thank you, traveller. I think I shall sleep now. At ease. At last.",
+      "steps": [
+        { "key": "orders", "type": "collect", "pickupIds": ["soldier-orders"], "required": 1 }
+      ],
+      "reward": {
+        "crystals": 60,
+        "collectible": { "id": "gravemoor-medal", "name": "Tarnished Medal", "icon": "🎖️", "desc": "The soldier pressed his old campaign medal into your hand before he faded." }
+      }
+    },
+    {
+      "id": "gravemoor-grave-goods",
+      "title": "Grave Goods",
+      "type": "lost-items",
+      "giverNpcId": "gravedigger-hollis",
+      "receiverNpcId": "gravedigger-hollis",
+      "offerDialogue": "Folk leave little gifts on the graves — trinkets, books, what have you. The wind and the crows scatter them something terrible. Gather the strays so I can set them back where they belong, eh?",
+      "activeDialogue": "Collect the scattered grave offerings from around the cemetery.",
+      "completeDialogue": "There we are — all back in my keeping. The dead do appreciate their little comforts, even if they'll never say so. Good of you to bother.",
+      "steps": [
+        { "key": "goods", "type": "collect", "pickupIds": ["gg-1", "gg-2", "gg-3"], "required": 3 }
+      ],
+      "reward": { "crystals": 70 }
+    },
+    {
+      "id": "gravemoor-wheres-mother",
+      "title": "Where's Mother?",
+      "type": "chain",
+      "giverNpcId": "little-pip",
+      "receiverNpcId": "weeping-widow",
+      "prerequisite": "quest:gravemoor-reunited-in-death",
+      "offerDialogue": "I picked mum a posy, see? But I can't find her to give it. You found the sad lady's locket — maybe she's my mum! Take her my posy? Please? I'm too little to go in the deep wood.",
+      "activeDialogue": "Pick up Pip's posy from the cemetery, then take it to the Weeping Widow in the wood.",
+      "completeDialogue": "A posy of graveflowers... 'For mum.' ...Pip? My Pip?! He is HERE? Oh, take me to him, quickly — two hundred years I have searched these woods, and he was beside me all along!",
+      "steps": [
+        { "key": "posy", "type": "collect", "pickupIds": ["pip-keepsake"], "required": 1 },
+        { "key": "deliver", "type": "deliver", "targetNpcId": "weeping-widow", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 90,
+        "friendship": { "weeping-widow": 2, "little-pip": 2 },
+        "collectible": { "id": "gravemoor-posy", "name": "Graveflower Posy", "icon": "💐", "desc": "Pale flowers that only grow over graves. A memento of a family reunited." }
+      }
+    },
+    {
+      "id": "gravemoor-pedlars-stock",
+      "title": "The Pedlar's Stock",
+      "type": "fetch",
+      "giverNpcId": "spectral-pedlar",
+      "receiverNpcId": "spectral-pedlar",
+      "offerDialogue": "Disaster! Half my stock has gone walkabout — rolled off into the wood, no doubt. A merchant without wares is merely a ghost with opinions. Round up my goods and I'll cut you in, partner.",
+      "activeDialogue": "Recover the Spectral Pedlar's three lost wares from along the wood path.",
+      "completeDialogue": "My stock, restored! You've a merchant's eye, friend. Slightly translucent goods, full-price profits — that's the Gravemoor way. A pleasure doing business.",
+      "steps": [
+        { "key": "stock", "type": "collect", "pickupIds": ["ps-1", "ps-2", "ps-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 75,
+        "collectible": { "id": "gravemoor-trinket", "name": "Pedlar's Trinket", "icon": "🔔", "desc": "A little brass bell from the pedlar's cart. It rings without a clapper." }
+      }
+    },
+    {
+      "id": "gravemoor-six-feet-under",
+      "title": "Six Feet Under",
+      "type": "fetch",
+      "giverNpcId": "gravedigger-hollis",
+      "receiverNpcId": "gravedigger-hollis",
+      "offerDialogue": "Careless of me — left my tools out and now they're strewn across the yard. A spade, a sack, a good whetstone. Can't dig a decent grave without 'em. Fetch them back and I'll stand you a drink. Well. A memory of one.",
+      "activeDialogue": "Gather Old Hollis's scattered digging tools from around the gallows yard.",
+      "completeDialogue": "All present and accounted for. A gravedigger's only as good as his tools, and these have planted half the town. Much obliged, friend.",
+      "steps": [
+        { "key": "tools", "type": "collect", "pickupIds": ["sfu-1", "sfu-2", "sfu-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 60,
+        "collectible": { "id": "gravemoor-spade", "name": "Hollis's Old Spade", "icon": "⛏️", "desc": "A worn iron spade. Hollis swears it could dig through stone — and has." }
+      }
+    },
+    {
+      "id": "gravemoor-hollow-tolling-1",
+      "title": "The Hollow Tolling",
+      "type": "chain",
+      "giverNpcId": "brother-mortis",
+      "receiverNpcId": "brother-mortis",
+      "offerDialogue": "Every midnight the chapel bell tolls, though no hand rings it. It unsettles even the dead. Search the chapel — there was an old ledger that spoke of the bell. Begin there, and we may yet understand.",
+      "activeDialogue": "Find the old bell ledger somewhere inside the mausoleum chapel.",
+      "completeDialogue": "The ledger... 'The bell answers the one who lies in the sealed vault.' So. The tolling has a cause, and it lies below. We must go deeper. But not yet — gather your nerve first.",
+      "steps": [
+        { "key": "ledger", "type": "collect", "pickupIds": ["ht-1"], "required": 1 }
+      ],
+      "reward": { "crystals": 50 }
+    },
+    {
+      "id": "gravemoor-hollow-tolling-2",
+      "title": "The Hollow Tolling: The Lower Hall",
+      "type": "chain",
+      "giverNpcId": "brother-mortis",
+      "receiverNpcId": "brother-mortis",
+      "prerequisite": "quest:gravemoor-hollow-tolling-1",
+      "offerDialogue": "The ledger spoke of a sealed vault in the lower hall of the catacombs. Find the keystone that holds the vault shut — a marked skull, the ledger said — and the way will open to us.",
+      "activeDialogue": "Descend to the catacombs' lower hall and find the marked keystone skull.",
+      "completeDialogue": "The keystone skull, marked just so. The seal on the vault loosens — I feel it give from here. Whatever rings that bell, it waits beyond. Go when you are ready. I will pray.",
+      "steps": [
+        { "key": "keystone", "type": "collect", "pickupIds": ["ht-2"], "required": 1 }
+      ],
+      "reward": { "crystals": 65 }
+    },
+    {
+      "id": "gravemoor-hollow-tolling-3",
+      "title": "The Hollow Tolling: The Sealed Vault",
+      "type": "chain",
+      "giverNpcId": "brother-mortis",
+      "receiverNpcId": "brother-mortis",
+      "prerequisite": "quest:gravemoor-hollow-tolling-2",
+      "offerDialogue": "The vault is open. Inside lies a reliquary — and within it, the relic that has tolled our bell for two centuries, calling out to a home it was stolen from. Bring it up to the light, traveller.",
+      "activeDialogue": "Enter the now-unsealed vault in the catacombs and recover the tolling reliquary.",
+      "completeDialogue": "So that is the cause — a holy relic, stolen from another town's church and entombed here, ringing out for home every midnight. The bell will not rest until the relic is returned. Speak with Keeper Finch; he knows where it belongs.",
+      "steps": [
+        { "key": "reliquary", "type": "collect", "pickupIds": ["ht-3"], "required": 1 }
+      ],
+      "reward": {
+        "crystals": 120,
+        "collectible": { "id": "gravemoor-reliquary", "name": "The Tolling Reliquary", "icon": "⛪", "desc": "A stolen church relic that rings a phantom bell each midnight, longing for the home it was taken from." }
+      }
+    },
+    {
+      "id": "gravemoor-rest-in-ravenwatch",
+      "title": "Rest in Ravenwatch",
+      "type": "chain",
+      "giverNpcId": "grave-keeper-finch",
+      "receiverNpcId": "npc_1781726431819",
+      "prerequisite": "quest:gravemoor-hollow-tolling-3",
+      "offerDialogue": "That reliquary you found below? Stolen, long ago, from the church at Ravenwatch — and it has been ringing for home ever since. Carry it there and place it in Minister Fallow's keeping. Let the poor thing finally be still.",
+      "activeDialogue": "Take the tolling reliquary to Minister Fallow in the church at Ravenwatch.",
+      "completeDialogue": "Stars above — the lost Ravenwatch reliquary, returned at last! It has not rung since the night it was taken. You have my thanks, traveller, and the gratitude of every soul who ever prayed beneath this roof.",
+      "steps": [
+        { "key": "return", "type": "deliver", "targetNpcId": "npc_1781726431819", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 110,
+        "collectible": { "id": "gravemoor-still-bell", "name": "The Stilled Bell", "icon": "🔔", "desc": "A small token from Minister Fallow. The Gravemoor bell tolls no more — the town sleeps easier, and so do you." }
       }
     }
   ],
   "pickupItems": [
-    { "id": "remains-1", "tx": 3, "ty": 9, "tileId": "skull", "questId": "gravemoor-restless-remains" },
-    { "id": "remains-2", "tx": 26, "ty": 16, "tileId": "skull", "questId": "gravemoor-restless-remains" },
-    { "id": "remains-3", "tx": 10, "ty": 19, "tileId": "skull", "questId": "gravemoor-restless-remains" }
+    { "id": "remains-1", "tx": 6, "ty": 14, "tileId": "skull", "questId": "gravemoor-restless-remains" },
+    { "id": "remains-2", "tx": 25, "ty": 14, "tileId": "skull", "questId": "gravemoor-restless-remains" },
+    { "id": "remains-3", "tx": 12, "ty": 22, "tileId": "skull", "questId": "gravemoor-restless-remains" },
+    { "id": "remains-deep-1", "tx": 4, "ty": 3, "tileId": "skull", "building": "crypt-keep-catacombs-e", "questId": "gravemoor-restless-remains-2" },
+    { "id": "remains-deep-2", "tx": 4, "ty": 3, "tileId": "skull", "building": "crypt-keep-catacombs-b", "questId": "gravemoor-restless-remains-2" },
+    { "id": "remains-deep-3", "tx": 5, "ty": 3, "tileId": "skull", "building": "crypt-keep-catacombs-f", "questId": "gravemoor-restless-remains-2" },
+    { "id": "widow-locket", "tx": 9, "ty": 16, "tileId": "pendant", "questId": "gravemoor-reunited-in-death" },
+    { "id": "soldier-orders", "tx": 40, "ty": 26, "tileId": "closedBook", "questId": "gravemoor-soldiers-orders" },
+    { "id": "gg-1", "tx": 9, "ty": 14, "tileId": "pendant", "questId": "gravemoor-grave-goods" },
+    { "id": "gg-2", "tx": 12, "ty": 14, "tileId": "closedBook", "questId": "gravemoor-grave-goods" },
+    { "id": "gg-3", "tx": 6, "ty": 16, "tileId": "potions", "questId": "gravemoor-grave-goods" },
+    { "id": "pip-keepsake", "tx": 10, "ty": 16, "tileId": "potOfFlowers", "questId": "gravemoor-wheres-mother" },
+    { "id": "ps-1", "tx": 27, "ty": 16, "tileId": "darkPotWithLid", "questId": "gravemoor-pedlars-stock" },
+    { "id": "ps-2", "tx": 27, "ty": 20, "tileId": "closedBook", "questId": "gravemoor-pedlars-stock" },
+    { "id": "ps-3", "tx": 25, "ty": 22, "tileId": "potions", "questId": "gravemoor-pedlars-stock" },
+    { "id": "sfu-1", "tx": 13, "ty": 14, "tileId": "sack", "questId": "gravemoor-six-feet-under" },
+    { "id": "sfu-2", "tx": 13, "ty": 17, "tileId": "smallRock", "questId": "gravemoor-six-feet-under" },
+    { "id": "sfu-3", "tx": 4, "ty": 16, "tileId": "crate", "questId": "gravemoor-six-feet-under" },
+    { "id": "ht-1", "tx": 2, "ty": 3, "tileId": "closedBook", "building": "mausoleum-chapel", "questId": "gravemoor-hollow-tolling-1" },
+    { "id": "ht-2", "tx": 5, "ty": 3, "tileId": "skull", "building": "crypt-keep-catacombs-d", "questId": "gravemoor-hollow-tolling-2" },
+    { "id": "ht-3", "tx": 3, "ty": 4, "tileId": "goldenCross", "building": "crypt-keep-vault", "questId": "gravemoor-hollow-tolling-3" }
   ],
   "blockedPaths": []
 }

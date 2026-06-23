@@ -1,6 +1,6 @@
 {
-  "mapW": 960,
-  "mapH": 704,
+  "mapW": 1408,
+  "mapH": 960,
   "townName": "Gravemoor",
   "environment": "ashen",
   "avatarStart": { "tx": 15, "ty": 20 },
@@ -9,13 +9,24 @@
     { "tx": 15, "ty": 21, "screen": "worldmap" }
   ],
   "areas": [
-    { "id": "gravemoor-cemetery", "name": "The Old Cemetery", "tx": 3, "ty": 12, "tw": 11, "th": 7 },
-    { "id": "gravemoor-square", "name": "The Quiet Square", "tx": 13, "ty": 10, "tw": 6, "th": 4 }
+    { "id": "gravemoor-cemetery", "name": "The Old Cemetery", "tx": 3, "ty": 13, "tw": 11, "th": 6 },
+    { "id": "gravemoor-square", "name": "The Quiet Square", "tx": 17, "ty": 12, "tw": 9, "th": 5 },
+    { "id": "gravemoor-wood", "name": "The Whispering Wood", "tx": 27, "ty": 12, "tw": 16, "th": 14 },
+    { "id": "gravemoor-gallows", "name": "The Gallows Yard", "tx": 3, "ty": 19, "tw": 22, "th": 7 }
   ],
   "streets": [
-    { "rect": [14, 2, 16, 21] },
-    { "rect": [4, 10, 26, 11] },
-    { "rect": [21, 12, 22, 14] }
+    { "rect": [14, 2, 16, 28] },
+    { "rect": [4, 11, 38, 12] },
+    { "rect": [4, 27, 42, 28] },
+    { "rect": [26, 12, 26, 27] },
+    { "rect": [8, 13, 8, 17] },
+    { "rect": [8, 10, 8, 10] },
+    { "rect": [22, 10, 22, 10] },
+    { "rect": [31, 10, 31, 10] },
+    { "rect": [6, 26, 6, 26] },
+    { "rect": [22, 26, 22, 26] },
+    { "rect": [30, 26, 30, 26] },
+    { "rect": [38, 26, 38, 26] }
   ],
   "buildings": [
     {
@@ -24,64 +35,190 @@
       "rect": [4, 2, 12, 9],
       "wall": "darkStone",
       "roof": "greySlateRoof",
-      "doors": [
-        { "tx": 4, "ty": 1, "hideSign": true, "buildingId": "mourning-hall" }
-      ]
+      "doors": [ { "tx": 4, "ty": 1, "hideSign": true, "buildingId": "mourning-hall" } ]
     },
     {
       "id": "crypt-keep",
       "upgradeKind": "default",
-      "rect": [19, 2, 26, 8],
+      "rect": [18, 2, 25, 9],
       "wall": "darkStone",
       "roof": "greySlateRoof",
-      "doors": [
-        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "crypt-keep" }
-      ]
+      "doors": [ { "tx": 4, "ty": 1, "hideSign": true, "buildingId": "crypt-keep" } ]
+    },
+    {
+      "id": "gravedigger-shed",
+      "upgradeKind": "default",
+      "rect": [28, 3, 34, 9],
+      "wall": "darkStone",
+      "roof": "greySlateRoof",
+      "doors": [ { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "gravedigger-shed" } ]
+    },
+    {
+      "id": "undertaker",
+      "upgradeKind": "shop",
+      "rect": [3, 19, 9, 25],
+      "wall": "darkStone",
+      "roof": "greySlateRoof",
+      "doors": [ { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "undertaker" } ]
+    },
+    {
+      "id": "mausoleum-chapel",
+      "upgradeKind": "shrine",
+      "rect": [18, 19, 25, 25],
+      "wall": "darkStone",
+      "roof": "greySlateRoof",
+      "doors": [ { "tx": 4, "ty": 1, "hideSign": true, "buildingId": "mausoleum-chapel" } ]
+    },
+    {
+      "id": "ruined-town-hall",
+      "upgradeKind": "default",
+      "rect": [27, 19, 33, 25],
+      "wall": "darkStone",
+      "roof": "greySlateRoof",
+      "doors": [ { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "ruined-town-hall" } ]
+    },
+    {
+      "id": "haunted-inn",
+      "upgradeKind": "inn",
+      "rect": [35, 19, 41, 25],
+      "wall": "darkStone",
+      "roof": "greySlateRoof",
+      "doors": [ { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "haunted-inn" } ]
     }
   ],
   "exteriorDecor": [
-    { "comment": "the old cemetery" },
+    { "comment": "=== woodland: left edge ===" },
+    { "tx": 0, "ty": 3, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 0, "ty": 6, "bundleID": "dark-tree", "zlayer": "solid" },
+    { "tx": 0, "ty": 9, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 0, "ty": 14, "bundleID": "dark-tree", "zlayer": "solid" },
+    { "tx": 0, "ty": 17, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 0, "ty": 21, "bundleID": "dark-tree", "zlayer": "solid" },
+    { "tx": 0, "ty": 24, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 2, "ty": 6, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "comment": "=== woodland: top edge ===" },
+    { "tx": 4, "ty": 0, "bundleID": "dark-tree", "zlayer": "solid" },
+    { "tx": 9, "ty": 0, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 18, "ty": 0, "bundleID": "dark-tree", "zlayer": "solid" },
+    { "tx": 22, "ty": 0, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 27, "ty": 0, "bundleID": "dark-tree", "zlayer": "solid" },
+    { "tx": 31, "ty": 0, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 36, "ty": 0, "bundleID": "dark-tree", "zlayer": "solid" },
+    { "tx": 40, "ty": 0, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "comment": "=== woodland: right edge ===" },
+    { "tx": 42, "ty": 3, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 42, "ty": 7, "bundleID": "dark-tree", "zlayer": "solid" },
+    { "tx": 42, "ty": 11, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 42, "ty": 15, "bundleID": "dark-tree", "zlayer": "solid" },
+    { "tx": 42, "ty": 19, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 42, "ty": 23, "bundleID": "dark-tree", "zlayer": "solid" },
+    { "comment": "=== woodland: the whispering wood (central-right clusters) ===" },
+    { "tx": 28, "ty": 15, "bundleID": "dark-tree-cluster-V", "zlayer": "solid" },
+    { "tx": 34, "ty": 15, "bundleID": "mixed-tree-cluster-V", "zlayer": "solid" },
+    { "tx": 38, "ty": 13, "bundleID": "dark-tree-cluster-V", "zlayer": "solid" },
+    { "tx": 33, "ty": 13, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 24, "ty": 13, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "comment": "=== the old cemetery: graves (path spur runs down x8) ===" },
     { "tx": 4, "ty": 13, "tileId": "graveStone" },
-    { "tx": 7, "ty": 13, "tileId": "graveWoodenCross" },
+    { "tx": 6, "ty": 13, "tileId": "graveWoodenCross" },
     { "tx": 10, "ty": 13, "tileId": "graveStone" },
+    { "tx": 12, "ty": 13, "tileId": "graveWoodenCross" },
     { "tx": 5, "ty": 15, "tileId": "graveWoodenCross" },
-    { "tx": 8, "ty": 15, "tileId": "graveStone" },
-    { "tx": 11, "ty": 15, "tileId": "graveWoodenCross" },
+    { "tx": 6, "ty": 15, "tileId": "graveStone" },
+    { "tx": 10, "ty": 15, "tileId": "graveStone" },
+    { "tx": 11, "ty": 15, "tileId": "stoneCross" },
+    { "tx": 13, "ty": 15, "tileId": "graveWoodenCross" },
     { "tx": 4, "ty": 17, "tileId": "graveStone" },
-    { "tx": 9, "ty": 17, "tileId": "graveStone" },
+    { "tx": 6, "ty": 17, "tileId": "graveWoodenCross" },
+    { "tx": 10, "ty": 17, "tileId": "graveStone" },
     { "tx": 12, "ty": 17, "tileId": "graveWoodenCross" },
-    { "comment": "dead trees ring the town" },
-    { "tx": 2, "ty": 4, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 16, "ty": 4, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 27, "ty": 12, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 20, "ty": 17, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 2, "ty": 19, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 25, "ty": 19, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "comment": "remains of the living town" },
-    { "tx": 17, "ty": 12, "tileId": "stoneWell" },
-    { "tx": 13, "ty": 9, "tileId": "skull" },
-    { "tx": 24, "ty": 15, "tileId": "smallRock" },
-    { "tx": 18, "ty": 9, "tileId": "barrel" },
-    { "comment": "braziers that no one remembers lighting" },
-    { "tx": 13, "ty": 11, "tileId": "brazierBottom" },
-    { "tx": 13, "ty": 10, "tileId": "brazierTop", "zlayer": "above" },
-    { "tx": 18, "ty": 11, "tileId": "brazierBottom" },
-    { "tx": 18, "ty": 10, "tileId": "brazierTop", "zlayer": "above" }
+    { "tx": 4, "ty": 18, "tileId": "graveStone" },
+    { "tx": 11, "ty": 18, "tileId": "stoneCross" },
+    { "comment": "cemetery monuments" },
+    { "tx": 5, "ty": 14, "tileId": "angelStatueBottom" },
+    { "tx": 5, "ty": 13, "tileId": "angelStatueTop", "zlayer": "above" },
+    { "tx": 12, "ty": 15, "tileId": "memorialTopLeft" },
+    { "tx": 13, "ty": 15, "tileId": "memorialTopRight" },
+    { "tx": 12, "ty": 16, "tileId": "memorialBotLeft" },
+    { "tx": 13, "ty": 16, "tileId": "memorialBotRight" },
+    { "comment": "cemetery iron fence (south + west, gate gap at the spur x8)" },
+    { "tx": 3, "ty": 13, "tileId": "ironFenceTopBotton" },
+    { "tx": 3, "ty": 14, "tileId": "ironFenceTopBotton" },
+    { "tx": 3, "ty": 15, "tileId": "ironFenceTopBotton" },
+    { "tx": 3, "ty": 16, "tileId": "ironFenceTopBotton" },
+    { "tx": 3, "ty": 17, "tileId": "ironFenceTopBotton" },
+    { "tx": 4, "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 5, "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 6, "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 7, "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 10, "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 11, "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 12, "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "comment": "=== the quiet square ===" },
+    { "tx": 18, "ty": 14, "tileId": "stoneWell" },
+    { "tx": 20, "ty": 13, "bundleID": "brazier", "zlayer": "solid", "glow": true, "glowRadius": 3 },
+    { "tx": 23, "ty": 16, "bundleID": "brazier", "zlayer": "solid", "glow": true, "glowRadius": 3 },
+    { "tx": 24, "ty": 14, "tileId": "skull" },
+    { "tx": 17, "ty": 16, "tileId": "smallRock" },
+    { "comment": "=== the spectral market stall (open-air, by the upper road) ===" },
+    { "tx": 19, "ty": 13, "tileId": "counterTop" },
+    { "tx": 21, "ty": 13, "tileId": "counterTop" },
+    { "tx": 21, "ty": 12, "tileId": "skullSign", "zlayer": "above" },
+    { "tx": 22, "ty": 13, "tileId": "barrel", "zlayer": "solid" },
+    { "comment": "=== the gallows yard / lonely graves among the wood ===" },
+    { "tx": 27, "ty": 18, "tileId": "graveWoodenCross" },
+    { "tx": 32, "ty": 17, "tileId": "graveStone" },
+    { "tx": 37, "ty": 17, "tileId": "graveWoodenCross" },
+    { "tx": 40, "ty": 16, "tileId": "stoneCross" },
+    { "tx": 11, "ty": 22, "tileId": "graveStone" },
+    { "tx": 13, "ty": 23, "tileId": "graveWoodenCross" },
+    { "tx": 17, "ty": 23, "tileId": "graveStone" },
+    { "tx": 25, "ty": 22, "tileId": "graveWoodenCross" },
+    { "tx": 10, "ty": 24, "tileId": "skull" },
+    { "tx": 24, "ty": 24, "tileId": "smallRock" },
+    { "tx": 35, "ty": 16, "tileId": "gargoyleBottom" },
+    { "tx": 35, "ty": 15, "tileId": "gargoyleTop", "zlayer": "above" },
+    { "comment": "=== braziers lining the spine ===" },
+    { "tx": 13, "ty": 18, "bundleID": "brazier", "zlayer": "solid", "glow": true, "glowRadius": 3 },
+    { "tx": 17, "ty": 18, "bundleID": "brazier", "zlayer": "solid", "glow": true, "glowRadius": 3 },
+    { "tx": 13, "ty": 25, "bundleID": "brazier", "zlayer": "solid", "glow": true, "glowRadius": 3 },
+    { "tx": 17, "ty": 25, "bundleID": "brazier", "zlayer": "solid", "glow": true, "glowRadius": 3 },
+    { "comment": "=== bottom-edge graves/props ===" },
+    { "tx": 5, "ty": 29, "tileId": "graveStone" },
+    { "tx": 20, "ty": 29, "tileId": "graveWoodenCross" },
+    { "tx": 33, "ty": 29, "tileId": "graveStone" },
+    { "tx": 40, "ty": 29, "tileId": "skull" }
   ],
   "npcSpawnTiles": [],
   "ambientNpcSprites": [],
+  "animals": [
+    {
+      "id": "gravemoor-stray",
+      "type": "cat",
+      "variant": "grey",
+      "tx": 9,
+      "ty": 15,
+      "name": "The Mourner",
+      "dialogue": ["*a thin grey cat watches you from atop a headstone*", "*mrrow.*"],
+      "roam": true
+    }
+  ],
   "npcs": [
     {
       "id": "ghost-mayor-aldous",
       "name": "Mayor Aldous",
       "sprite": "hub-npc-elder",
       "isGhost": true,
-      "tx": 15,
+      "tx": 17,
       "ty": 12,
       "dialogue": [
         "Welcome to Gravemoor! Population: technically zero. Spiritually: thriving.",
         "I was mayor when I died and nobody's run against me since. Democracy at its finest.",
         "We're dead, not rude. Wipe your feet and you're welcome anywhere in town."
+      ],
+      "schedule": [
+        { "startHour": 7, "endHour": 20, "activity": "idle-chat", "location": { "type": "exterior", "tx": 17, "ty": 12 } },
+        { "startHour": 20, "endHour": 7, "location": { "type": "interior", "buildingId": "ruined-town-hall", "tx": 4, "ty": 3 } }
       ]
     },
     {
@@ -89,22 +226,22 @@
       "name": "Merchant Mora",
       "sprite": "hub-npc-merchant",
       "isGhost": true,
-      "tx": 19,
-      "ty": 13,
+      "tx": 5,
+      "ty": 5,
       "dialogue": [
         "Two hundred years of stock and not a single customer. Until you.",
         "Money means little to the dead, but haggling? Haggling is eternal.",
         "The blight took the town, but it couldn't take the market spirit. Literally, in my case."
       ],
-      "building": "mourning-hall"
+      "building": "mourning-hall-reliquary"
     },
     {
       "id": "grave-keeper-finch",
       "name": "Keeper Finch",
       "sprite": "hub-npc-scholar",
       "isGhost": true,
-      "tx": 22,
-      "ty": 10,
+      "tx": 4,
+      "ty": 5,
       "dialogue": [
         "I kept the graves in life. Now I keep them in death. Job security, of a sort.",
         "Some of my neighbours' remains have been... borrowed. Scattered. It's terribly undignified.",
@@ -112,39 +249,460 @@
       ],
       "building": "crypt-keep",
       "questGive": "gravemoor-restless-remains",
-      "questReceive": "gravemoor-restless-remains"
+      "questReceive": ["gravemoor-restless-remains", "gravemoor-restless-remains-2", "gravemoor-rest-in-ravenwatch"]
+    },
+    {
+      "id": "gravedigger-hollis",
+      "name": "Old Hollis",
+      "sprite": "hub-npc-gravedigger",
+      "tx": 7,
+      "ty": 15,
+      "dialogue": [
+        "Only living soul left in Gravemoor, that's me. Somebody's got to keep the holes tidy.",
+        "The dead are good company. Quiet. Never complain about the digging.",
+        "Mind the soft ground by the new plots. You'd not be the first to fall in."
+      ],
+      "questGive": "gravemoor-six-feet-under",
+      "questReceive": ["gravemoor-six-feet-under", "gravemoor-grave-goods"],
+      "schedule": [
+        { "startHour": 6, "endHour": 20, "activity": "work", "location": { "type": "exterior", "tx": 7, "ty": 15 } },
+        { "startHour": 20, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "gravedigger-shed", "tx": 4, "ty": 4 } }
+      ]
+    },
+    {
+      "id": "weeping-widow",
+      "name": "The Weeping Widow",
+      "sprite": "hub-npc-queen",
+      "isGhost": true,
+      "tx": 27,
+      "ty": 15,
+      "dialogue": [
+        "Have you seen my Edric? No... no, of course not. He went under the hill so long ago.",
+        "I drift these woods every night. Old habits outlast the body, it seems.",
+        "Kindness to the dead is never wasted. We remember. It is all we do."
+      ],
+      "questGive": "gravemoor-reunited-in-death",
+      "questReceive": ["gravemoor-reunited-in-death", "gravemoor-wheres-mother"]
+    },
+    {
+      "id": "restless-soldier",
+      "name": "The Restless Soldier",
+      "sprite": "hub-npc-soldier",
+      "isGhost": true,
+      "tx": 40,
+      "ty": 27,
+      "dialogue": [
+        "Still at my post. Nobody sounded the retreat, so here I stand. Two centuries and counting.",
+        "Lost my orders in the rout. A soldier without orders is just a ghost loitering. Ha.",
+        "Find my commission papers and maybe — maybe — I can finally stand down."
+      ],
+      "questGive": "gravemoor-soldiers-orders",
+      "questReceive": "gravemoor-soldiers-orders"
+    },
+    {
+      "id": "spectral-pedlar",
+      "name": "The Spectral Pedlar",
+      "sprite": "hub-npc-trader",
+      "isGhost": true,
+      "tx": 20,
+      "ty": 12,
+      "dialogue": [
+        "Wares! Fine wares! Slightly translucent, but the quality is eternal!",
+        "I sold trinkets in life and I sell them still. Death is no excuse to close up shop.",
+        "My stock's gone walkabout among the graves. Recover it and we'll both profit."
+      ],
+      "questGive": "gravemoor-pedlars-stock",
+      "questReceive": "gravemoor-pedlars-stock"
+    },
+    {
+      "id": "little-pip",
+      "name": "Little Pip",
+      "sprite": "hub-npc-child",
+      "isGhost": true,
+      "tx": 8,
+      "ty": 16,
+      "dialogue": [
+        "Have you seen my mum? It's ever so dark and I can't find her anywhere.",
+        "I'm not scared. I'm NOT. ...Will you help me look? Please?",
+        "She had a sad face and a long grey dress. She used to sing to me."
+      ],
+      "questGive": "gravemoor-wheres-mother",
+      "questReceive": "gravemoor-wheres-mother"
+    },
+    {
+      "id": "brother-mortis",
+      "name": "Brother Mortis",
+      "sprite": "hub-npc-cultist",
+      "isGhost": true,
+      "tx": 3,
+      "ty": 5,
+      "dialogue": [
+        "Peace, traveller. I tend the chapel still, though no living throat has prayed here in an age.",
+        "The bell tolls at midnight. I never ring it. No one does. That... troubles me.",
+        "If you would unravel the mystery of the tolling, I would rest the easier for it."
+      ],
+      "building": "mausoleum-chapel",
+      "questGive": "gravemoor-hollow-tolling-1",
+      "questReceive": ["gravemoor-hollow-tolling-1", "gravemoor-hollow-tolling-2", "gravemoor-hollow-tolling-3"]
     }
   ],
   "interiors": {
     "mourning-hall": {
       "name": "The Mourning Hall",
-      "width": 9,
-      "height": 6,
+      "width": 12,
+      "height": 9,
       "floorTileId": "cobblestoneFloor",
       "wallTileId": "darkStone",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "candlestickUnlit" },
-        { "tx": 7, "ty": 1, "tileId": "candlestickUnlit" },
-        { "tx": 4, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 4, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 2, "ty": 3, "tileId": "roundTableWithCloth" }
+        { "tx": 1, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 1, "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 10, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 10, "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 8, "ty": 1, "tileId": "memorialTopLeft" },
+        { "tx": 9, "ty": 1, "tileId": "memorialTopRight" },
+        { "tx": 8, "ty": 2, "tileId": "memorialBotLeft" },
+        { "tx": 9, "ty": 2, "tileId": "memorialBotRight" },
+        { "tx": 5, "ty": 4, "tileId": "roundTableWithCloth" },
+        { "tx": 6, "ty": 4, "tileId": "roundTableWithCloth" },
+        { "tx": 2, "ty": 4, "tileId": "candlestickUnlit" },
+        { "tx": 9, "ty": 4, "tileId": "candlestickUnlit" },
+        { "tx": 3, "ty": 1, "tileId": "skull" }
       ],
-      "exits": []
+      "exits": [
+        { "tx": 6, "ty": 0, "toInteriorId": "mourning-hall-reliquary", "entryTx": 6, "entryTy": 6, "direction": "back", "label": "Reliquary" }
+      ]
+    },
+    "mourning-hall-reliquary": {
+      "name": "The Reliquary",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 1, "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 2, "ty": 2, "tileId": "chest" },
+        { "tx": 3, "ty": 2, "tileId": "chest" },
+        { "tx": 7, "ty": 2, "tileId": "strongChest" },
+        { "tx": 8, "ty": 1, "tileId": "candlestickLitTop", "glow": true, "glowRadius": 2 },
+        { "tx": 8, "ty": 2, "tileId": "candlestickLitBottom" },
+        { "tx": 4, "ty": 3, "tileId": "darkPotWithLid" },
+        { "tx": 5, "ty": 3, "tileId": "darkPotWithLid" },
+        { "tx": 1, "ty": 5, "tileId": "skull" }
+      ],
+      "exits": [
+        { "tx": 4, "ty": 7, "toInteriorId": "mourning-hall", "entryTx": 6, "entryTy": 1, "direction": "front" }
+      ]
     },
     "crypt-keep": {
       "name": "The Crypt Keep",
-      "width": 8,
-      "height": 5,
+      "width": 11,
+      "height": 8,
       "floorTileId": "stoneFloor",
       "wallTileId": "darkStone",
       "decor": [
         { "tx": 1, "ty": 1, "tileId": "skull" },
-        { "tx": 6, "ty": 1, "tileId": "skull" },
+        { "tx": 9, "ty": 1, "tileId": "skull" },
         { "tx": 3, "ty": 1, "tileId": "bookshelfTop" },
         { "tx": 3, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 5, "ty": 3, "tileId": "chest" }
+        { "tx": 7, "ty": 3, "tileId": "chest" },
+        { "tx": 1, "ty": 4, "tileId": "candlestickLitTop", "glow": true, "glowRadius": 2 },
+        { "tx": 1, "ty": 5, "tileId": "candlestickLitBottom" },
+        { "tx": 5, "ty": 1, "tileId": "ladderBottom", "zlayer": "below" }
+      ],
+      "exits": [
+        { "tx": 5, "ty": 1, "toInteriorId": "crypt-keep-catacombs-a", "entryTx": 4, "entryTy": 4, "direction": "down", "label": "Down to the catacombs" }
+      ]
+    },
+    "crypt-keep-catacombs-a": {
+      "name": "Catacombs — The Crossing",
+      "width": 9,
+      "height": 7,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "skull" },
+        { "tx": 7, "ty": 1, "tileId": "skull" },
+        { "tx": 1, "ty": 5, "tileId": "darkPotWithLid" },
+        { "tx": 7, "ty": 5, "tileId": "darkPotWithLid" },
+        { "tx": 6, "ty": 1, "tileId": "candlestickLitTop", "glow": true, "glowRadius": 2 },
+        { "tx": 4, "ty": 5, "tileId": "ladderBottom", "zlayer": "below" }
+      ],
+      "exits": [
+        { "tx": 4, "ty": 5, "toInteriorId": "crypt-keep", "entryTx": 5, "entryTy": 4, "direction": "up", "label": "Up to the keep" },
+        { "tx": 0, "ty": 3, "toInteriorId": "crypt-keep-catacombs-b", "entryTx": 7, "entryTy": 3, "direction": "left" },
+        { "tx": 8, "ty": 3, "toInteriorId": "crypt-keep-catacombs-c", "entryTx": 1, "entryTy": 3, "direction": "right" },
+        { "tx": 4, "ty": 0, "toInteriorId": "crypt-keep-catacombs-d", "entryTx": 4, "entryTy": 1, "direction": "back" }
+      ]
+    },
+    "crypt-keep-catacombs-b": {
+      "name": "Catacombs — The Ossuary",
+      "width": 9,
+      "height": 7,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "skull" },
+        { "tx": 2, "ty": 1, "tileId": "skull" },
+        { "tx": 3, "ty": 1, "tileId": "skull" },
+        { "tx": 1, "ty": 2, "tileId": "skull" },
+        { "tx": 7, "ty": 1, "tileId": "darkPotWithLid" },
+        { "tx": 7, "ty": 5, "tileId": "darkPotWithLid" },
+        { "tx": 5, "ty": 5, "tileId": "skull" }
+      ],
+      "exits": [
+        { "tx": 8, "ty": 3, "toInteriorId": "crypt-keep-catacombs-a", "entryTx": 1, "entryTy": 3, "direction": "right" },
+        { "tx": 4, "ty": 0, "toInteriorId": "crypt-keep-catacombs-e", "entryTx": 4, "entryTy": 5, "direction": "back" }
+      ]
+    },
+    "crypt-keep-catacombs-e": {
+      "name": "Catacombs — The Deep Ossuary",
+      "width": 9,
+      "height": 7,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "skull" },
+        { "tx": 2, "ty": 1, "tileId": "skull" },
+        { "tx": 6, "ty": 1, "tileId": "skull" },
+        { "tx": 7, "ty": 1, "tileId": "skull" },
+        { "tx": 1, "ty": 5, "tileId": "darkPotWithLid" },
+        { "tx": 7, "ty": 5, "tileId": "darkPotWithLid" },
+        { "tx": 2, "ty": 3, "tileId": "candlestickLitTop", "glow": true, "glowRadius": 2 }
+      ],
+      "exits": [
+        { "tx": 4, "ty": 6, "toInteriorId": "crypt-keep-catacombs-b", "entryTx": 4, "entryTy": 1, "direction": "front" }
+      ]
+    },
+    "crypt-keep-catacombs-c": {
+      "name": "Catacombs — The Long Gallery",
+      "width": 9,
+      "height": 7,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 1, "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 7, "ty": 1, "tileId": "darkPotWithLid" },
+        { "tx": 2, "ty": 5, "tileId": "skull" },
+        { "tx": 7, "ty": 5, "tileId": "candlestickLitTop", "glow": true, "glowRadius": 2 },
+        { "tx": 4, "ty": 5, "tileId": "ladderBottom", "zlayer": "below" }
+      ],
+      "exits": [
+        { "tx": 0, "ty": 3, "toInteriorId": "crypt-keep-catacombs-a", "entryTx": 7, "entryTy": 3, "direction": "left" },
+        { "tx": 4, "ty": 5, "toInteriorId": "crypt-keep-catacombs-f", "entryTx": 4, "entryTy": 2, "direction": "down", "label": "Deeper" }
+      ]
+    },
+    "crypt-keep-catacombs-f": {
+      "name": "Catacombs — The Sunken Vault",
+      "width": 9,
+      "height": 7,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "darkPotWithLid" },
+        { "tx": 7, "ty": 1, "tileId": "darkPotWithLid" },
+        { "tx": 7, "ty": 5, "tileId": "skull" },
+        { "tx": 2, "ty": 5, "tileId": "candlestickLitTop", "glow": true, "glowRadius": 2 },
+        { "tx": 4, "ty": 1, "tileId": "ladderBottom", "zlayer": "below" }
+      ],
+      "exits": [
+        { "tx": 4, "ty": 1, "toInteriorId": "crypt-keep-catacombs-c", "entryTx": 4, "entryTy": 4, "direction": "up", "label": "Up" },
+        { "tx": 0, "ty": 3, "toInteriorId": "mausoleum-chapel-undercroft", "entryTx": 8, "entryTy": 3, "direction": "left" }
+      ]
+    },
+    "crypt-keep-catacombs-d": {
+      "name": "Catacombs — The Lower Hall",
+      "width": 11,
+      "height": 8,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "skull" },
+        { "tx": 9, "ty": 1, "tileId": "skull" },
+        { "tx": 3, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 3, "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 1, "ty": 5, "tileId": "darkPotWithLid" },
+        { "tx": 9, "ty": 5, "tileId": "darkPotWithLid" },
+        { "tx": 5, "ty": 4, "tileId": "altarTopMid" },
+        { "tx": 5, "ty": 5, "tileId": "altarMidMid" },
+        { "tx": 7, "ty": 1, "tileId": "candlestickLitTop", "glow": true, "glowRadius": 2 }
+      ],
+      "exits": [
+        { "tx": 5, "ty": 7, "toInteriorId": "crypt-keep-catacombs-a", "entryTx": 4, "entryTy": 1, "direction": "front" },
+        { "tx": 10, "ty": 4, "toInteriorId": "crypt-keep-vault", "entryTx": 1, "entryTy": 4, "direction": "right", "requiredQuest": "gravemoor-hollow-tolling-2", "lockedBy": "gravemoor-hollow-tolling-2", "label": "Sealed Vault" },
+        { "tx": 0, "ty": 4, "toInteriorId": "mausoleum-chapel-undercroft", "entryTx": 8, "entryTy": 3, "direction": "left" }
+      ]
+    },
+    "crypt-keep-vault": {
+      "name": "Catacombs — The Sealed Vault",
+      "width": 9,
+      "height": 7,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 4, "ty": 1, "tileId": "memorialTopLeft" },
+        { "tx": 5, "ty": 1, "tileId": "memorialTopRight" },
+        { "tx": 4, "ty": 2, "tileId": "memorialBotLeft" },
+        { "tx": 5, "ty": 2, "tileId": "memorialBotRight" },
+        { "tx": 1, "ty": 1, "tileId": "strongChest" },
+        { "tx": 7, "ty": 1, "tileId": "goldChest" },
+        { "tx": 2, "ty": 4, "tileId": "candlestickLitTop", "glow": true, "glowRadius": 3 },
+        { "tx": 6, "ty": 4, "tileId": "candlestickLitTop", "glow": true, "glowRadius": 3 }
+      ],
+      "exits": [
+        { "tx": 0, "ty": 4, "toInteriorId": "crypt-keep-catacombs-d", "entryTx": 9, "entryTy": 4, "direction": "left", "label": "Back" }
+      ]
+    },
+    "mausoleum-chapel": {
+      "name": "The Mausoleum Chapel",
+      "width": 11,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "darkStone",
+      "musicId": "church",
+      "ambianceId": "sacred",
+      "decor": [
+        { "tx": 5, "ty": 0, "tileId": "goldenCross" },
+        { "tx": 5, "ty": 1, "tileId": "altarTopMid" },
+        { "tx": 5, "ty": 2, "tileId": "altarMidMid" },
+        { "tx": 3, "ty": 1, "tileId": "candlestickLitTop", "glow": true, "glowRadius": 2 },
+        { "tx": 3, "ty": 2, "tileId": "candlestickLitBottom" },
+        { "tx": 7, "ty": 1, "tileId": "candlestickLitTop", "glow": true, "glowRadius": 2 },
+        { "tx": 7, "ty": 2, "tileId": "candlestickLitBottom" },
+        { "tx": 2, "ty": 4, "tileId": "benchLeft" },
+        { "tx": 3, "ty": 4, "tileId": "benchMiddle" },
+        { "tx": 4, "ty": 4, "tileId": "benchRight" },
+        { "tx": 6, "ty": 4, "tileId": "benchLeft" },
+        { "tx": 7, "ty": 4, "tileId": "benchMiddle" },
+        { "tx": 8, "ty": 4, "tileId": "benchRight" },
+        { "tx": 9, "ty": 1, "tileId": "ladderBottom", "zlayer": "below" }
+      ],
+      "exits": [
+        { "tx": 9, "ty": 1, "toInteriorId": "mausoleum-chapel-undercroft", "entryTx": 5, "entryTy": 5, "direction": "down", "label": "Down to the undercroft" }
+      ]
+    },
+    "mausoleum-chapel-undercroft": {
+      "name": "The Undercroft",
+      "width": 11,
+      "height": 8,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 5, "ty": 1, "tileId": "ladderBottom", "zlayer": "below" },
+        { "tx": 5, "ty": 4, "tileId": "altarBotMid" },
+        { "tx": 1, "ty": 1, "tileId": "darkPotWithLid" },
+        { "tx": 9, "ty": 1, "tileId": "darkPotWithLid" },
+        { "tx": 1, "ty": 5, "tileId": "skull" },
+        { "tx": 9, "ty": 5, "tileId": "skull" },
+        { "tx": 3, "ty": 5, "tileId": "candlestickLitTop", "glow": true, "glowRadius": 2 },
+        { "tx": 7, "ty": 5, "tileId": "candlestickLitTop", "glow": true, "glowRadius": 2 }
+      ],
+      "exits": [
+        { "tx": 5, "ty": 1, "toInteriorId": "mausoleum-chapel", "entryTx": 9, "entryTy": 2, "direction": "up", "label": "Up to the chapel" },
+        { "tx": 10, "ty": 4, "toInteriorId": "crypt-keep-catacombs-f", "entryTx": 1, "entryTy": 3, "direction": "right" },
+        { "tx": 5, "ty": 0, "toInteriorId": "crypt-keep-catacombs-d", "entryTx": 4, "entryTy": 5, "direction": "back" }
+      ]
+    },
+    "gravedigger-shed": {
+      "name": "The Gravedigger's Shed",
+      "width": 9,
+      "height": 7,
+      "floorTileId": "woodFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "barrel" },
+        { "tx": 2, "ty": 1, "tileId": "sack" },
+        { "tx": 3, "ty": 1, "tileId": "pileOfSacks" },
+        { "tx": 6, "ty": 1, "tileId": "crate" },
+        { "tx": 7, "ty": 1, "tileId": "openCrate" },
+        { "tx": 1, "ty": 5, "tileId": "smallRock" },
+        { "tx": 7, "ty": 5, "tileId": "candlestickUnlit" },
+        { "tx": 4, "ty": 3, "tileId": "roundTable" }
       ],
       "exits": []
+    },
+    "undertaker": {
+      "name": "The Undertaker's",
+      "width": 9,
+      "height": 7,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 1, "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 2, "ty": 2, "tileId": "strongChest" },
+        { "tx": 3, "ty": 2, "tileId": "chest" },
+        { "tx": 6, "ty": 2, "tileId": "chest" },
+        { "tx": 7, "ty": 1, "tileId": "candlestickLitTop", "glow": true, "glowRadius": 2 },
+        { "tx": 7, "ty": 2, "tileId": "candlestickLitBottom" },
+        { "tx": 1, "ty": 5, "tileId": "darkPotWithLid" },
+        { "tx": 7, "ty": 5, "tileId": "darkPotWithLid" },
+        { "tx": 4, "ty": 3, "tileId": "roundTableWithCloth" }
+      ],
+      "exits": []
+    },
+    "ruined-town-hall": {
+      "name": "The Ruined Town Hall",
+      "width": 9,
+      "height": 7,
+      "floorTileId": "cobblestoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "smallRock" },
+        { "tx": 7, "ty": 5, "tileId": "smallRock" },
+        { "tx": 2, "ty": 4, "tileId": "openCrate" },
+        { "tx": 6, "ty": 1, "tileId": "barrel" },
+        { "tx": 1, "ty": 5, "tileId": "skull" },
+        { "tx": 4, "ty": 2, "tileId": "roundTable" },
+        { "tx": 7, "ty": 1, "tileId": "candlestickUnlit" }
+      ],
+      "exits": []
+    },
+    "haunted-inn": {
+      "name": "The Hollow Rest",
+      "width": 11,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "darkStone",
+      "musicId": "inn",
+      "ambianceId": "hearth",
+      "decor": [
+        { "tx": 1, "ty": 1, "bundleID": "fireplace" },
+        { "tx": 4, "ty": 3, "tileId": "smallTableTopLeft" },
+        { "tx": 5, "ty": 3, "tileId": "smallTableTopRight" },
+        { "tx": 4, "ty": 4, "tileId": "smallTableBottomLeft" },
+        { "tx": 5, "ty": 4, "tileId": "smallTableBottomRight" },
+        { "tx": 3, "ty": 3, "tileId": "stool" },
+        { "tx": 6, "ty": 3, "tileId": "stool" },
+        { "tx": 8, "ty": 1, "tileId": "barrel" },
+        { "tx": 9, "ty": 1, "tileId": "barrel" },
+        { "tx": 7, "ty": 5, "tileId": "counterTop" },
+        { "tx": 8, "ty": 5, "tileId": "counterTop" },
+        { "tx": 9, "ty": 1, "tileId": "ladderBottom", "zlayer": "below" }
+      ],
+      "exits": [
+        { "tx": 9, "ty": 1, "toInteriorId": "haunted-inn-upstairs", "entryTx": 5, "entryTy": 5, "direction": "up", "label": "Upstairs" }
+      ]
+    },
+    "haunted-inn-upstairs": {
+      "name": "The Hollow Rest — Upstairs",
+      "width": 11,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 2, "ty": 2, "bundleID": "simple-bed" },
+        { "tx": 7, "ty": 2, "bundleID": "simple-bed" },
+        { "tx": 1, "ty": 1, "tileId": "candlestickUnlit" },
+        { "tx": 9, "ty": 1, "tileId": "candlestickUnlit" },
+        { "tx": 4, "ty": 5, "tileId": "chest" },
+        { "tx": 6, "ty": 5, "tileId": "chest" },
+        { "tx": 5, "ty": 1, "tileId": "ladderBottom", "zlayer": "below" }
+      ],
+      "exits": [
+        { "tx": 5, "ty": 1, "toInteriorId": "haunted-inn", "entryTx": 9, "entryTy": 2, "direction": "down", "label": "Downstairs" }
+      ]
     }
   }
 }
