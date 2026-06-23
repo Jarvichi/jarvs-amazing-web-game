@@ -9,6 +9,7 @@ import {
   ARCH_STRUCTURE_COST_REDUCTION, ARCH_STRUCTURE_HP_MULT,
   ARCH_SWARM_UNIT_THRESHOLD, ARCH_SWARM_COST_REDUCTION,
   ARCH_SCHOLAR_UPGRADE_MULT, CAST_WINDUP_MS,
+  COUNTER_DAMAGE_CAP_QUICK_PCT, COUNTER_DAMAGE_CAP_LATE_PCT,
 } from './constants';
 import { DEATH_LINGER_MS } from './combat';
 
@@ -321,14 +322,17 @@ export function playAoeCard(state: GameState, cardId: string, cx: number, cy: nu
 }
 // ─── AOE Damage ───────────────────────────────────────────
 
-/** Apply an 'aoe' UpgradeEffect's damage to the field, scaled by dmgMultiplier (used by the Counter QTE). */
+/** Apply an 'aoe' UpgradeEffect's damage to the field, scaled by dmgMultiplier and
+ *  optionally clamped to dmgCap (both used by the Counter QTE). */
 export function applyAoeDamage(
   s: GameState,
   effect: Extract<UpgradeEffect, { type: 'aoe' }>,
   owner: 'player' | 'opponent',
   dmgMultiplier: number = 1,
+  dmgCap?: number,
 ): { targets: Unit[]; dmg: number } {
-  const dmg = Math.round((effect.damage ?? effect.amount ?? 0) * dmgMultiplier)
+  const rawDmg = Math.round((effect.damage ?? effect.amount ?? 0) * dmgMultiplier)
+  const dmg = dmgCap != null ? Math.min(rawDmg, dmgCap) : rawDmg
   const enemies = s.field.filter(u => u.owner !== owner && !u.isWall)
   const targets = effect.range != null
     ? enemies.filter(e => owner === 'player'
@@ -346,22 +350,29 @@ export function applyAoeDamage(
 }
 
 /** Resolve a pending opponent spell cast once its windup has elapsed, applying damage
- *  graded by the player's Counter QTE result (avoid = 0x, halve = 0.5x, no press = 1x). */
+ *  graded by the player's Counter QTE result. A successful counter never fully negates
+ *  damage — it caps it at a percentage of the commander's max HP (quick press = lower
+ *  cap, late press = higher cap), so a counter always guarantees survival against an
+ *  otherwise-lethal spell while still landing some chip damage. No press = full damage. */
 export function resolveSpellCast(s: GameState, log: string[]): void {
   const cast = s.pendingSpellCast
   if (!cast || s.gameTime < cast.resolvesAtMs) return
 
-  const mult = cast.counterGrade === 'avoid' ? 0 : cast.counterGrade === 'halve' ? 0.5 : 1
-  const { targets, dmg } = applyAoeDamage(s, cast.effect, 'opponent', mult)
-
-  if (mult === 0) {
-    log.push(`🛡️ You counter ${cast.cardName} — no damage taken!`)
-  } else {
-    const qualifier = mult === 0.5 ? ' (halved by your counter!)' : ''
-    log.push(`Enemy ${cast.cardName}! ${targets.length} unit${targets.length === 1 ? '' : 's'} hit for ${dmg} damage${qualifier}.`)
-    const hitCommander = targets.some(u => u.isCommander && u.owner === 'player')
-    if (hitCommander && dmg > 0) s.lastPlayerDamageSource = { kind: 'spell', name: cast.cardName }
+  let dmgCap: number | undefined
+  if (cast.counterGrade) {
+    const playerCmd = s.field.find(u => u.isCommander && u.owner === 'player')
+    const capPct = cast.counterGrade === 'avoid' ? COUNTER_DAMAGE_CAP_QUICK_PCT : COUNTER_DAMAGE_CAP_LATE_PCT
+    dmgCap = playerCmd ? Math.round(playerCmd.maxHp * capPct) : undefined
   }
+  const { targets, dmg } = applyAoeDamage(s, cast.effect, 'opponent', 1, dmgCap)
+
+  if (cast.counterGrade) {
+    log.push(`🛡️ You counter ${cast.cardName} — damage capped at ${dmg}!`)
+  } else {
+    log.push(`Enemy ${cast.cardName}! ${targets.length} unit${targets.length === 1 ? '' : 's'} hit for ${dmg} damage.`)
+  }
+  const hitCommander = targets.some(u => u.isCommander && u.owner === 'player')
+  if (hitCommander && dmg > 0) s.lastPlayerDamageSource = { kind: 'spell', name: cast.cardName }
   s.pendingSpellCast = null
 }
 

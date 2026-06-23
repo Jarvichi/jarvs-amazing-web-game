@@ -109,6 +109,28 @@ describe('applyAoeDamage', () => {
 
     expect(playerCmd.hp).toBe(hpBefore)
   })
+
+  it('clamps damage to dmgCap when the raw damage exceeds it', () => {
+    const s = newGame()
+    const playerCmd = s.field.find(u => u.isCommander && u.owner === 'player')!
+    const hpBefore = playerCmd.hp
+
+    const { dmg } = applyAoeDamage(s, { type: 'aoe', damage: 180 }, 'opponent', 1, 10)
+
+    expect(dmg).toBe(10)
+    expect(playerCmd.hp).toBe(hpBefore - 10)
+  })
+
+  it('leaves damage unclamped when dmgCap exceeds the raw damage', () => {
+    const s = newGame()
+    const playerCmd = s.field.find(u => u.isCommander && u.owner === 'player')!
+    const hpBefore = playerCmd.hp
+
+    const { dmg } = applyAoeDamage(s, { type: 'aoe', damage: 15 }, 'opponent', 1, 20)
+
+    expect(dmg).toBe(15)
+    expect(playerCmd.hp).toBe(hpBefore - 15)
+  })
 })
 
 describe('resolveSpellCast', () => {
@@ -148,7 +170,8 @@ describe('resolveSpellCast', () => {
     expect(s.lastPlayerDamageSource).toEqual({ kind: 'spell', name: 'Roots Burst' })
   })
 
-  it('negates all damage when countered with grade "avoid"', () => {
+  it('caps damage at 20% of commander max HP when countered with grade "avoid" (quick)', () => {
+    // Commander max HP is 50 by default, so the quick cap is 10 — below the spell's raw 25.
     const s = newGame()
     const playerCmd = s.field.find(u => u.isCommander && u.owner === 'player')!
     const hpBefore = playerCmd.hp
@@ -158,12 +181,13 @@ describe('resolveSpellCast', () => {
 
     resolveSpellCast(s, log)
 
-    expect(playerCmd.hp).toBe(hpBefore)
-    expect(s.lastPlayerDamageSource).toBeUndefined()
+    expect(playerCmd.hp).toBe(hpBefore - 10)
+    expect(s.lastPlayerDamageSource).toEqual({ kind: 'spell', name: 'Roots Burst' })
     expect(log.some(l => l.includes('counter'))).toBe(true)
   })
 
-  it('halves damage when countered with grade "halve"', () => {
+  it('caps damage at 40% of commander max HP when countered with grade "halve" (late)', () => {
+    // Commander max HP is 50 by default, so the late cap is 20 — below the spell's raw 25.
     const s = newGame()
     const playerCmd = s.field.find(u => u.isCommander && u.owner === 'player')!
     const hpBefore = playerCmd.hp
@@ -173,12 +197,12 @@ describe('resolveSpellCast', () => {
 
     resolveSpellCast(s, log)
 
-    expect(playerCmd.hp).toBe(hpBefore - Math.round(25 * 0.5))
+    expect(playerCmd.hp).toBe(hpBefore - 20)
   })
 
-  it('survives an otherwise one-shot spell when countered with grade "avoid"', () => {
-    // "World's End" deals 180 damage — well above a full-health commander's max HP.
-    // A countered "avoid" must zero out the damage entirely, not just reduce it.
+  it('survives an otherwise one-shot spell when countered, but still takes some damage', () => {
+    // "World's End" deals 180 damage — well above a full-health commander's max HP (50).
+    // A counter must guarantee survival, but per design should never reduce damage to zero.
     const s = newGame()
     const playerCmd = s.field.find(u => u.isCommander && u.owner === 'player')!
     const hpBefore = playerCmd.hp
@@ -188,7 +212,28 @@ describe('resolveSpellCast', () => {
 
     resolveSpellCast(s, log)
 
-    expect(playerCmd.hp).toBe(hpBefore)
+    expect(playerCmd.hp).toBeLessThan(hpBefore)
+    expect(playerCmd.hp).toBeGreaterThan(0)
     expect(s.phase.type).not.toBe('gameOver')
+  })
+
+  it('rewards a quick counter with less damage than a late counter, on the same lethal spell', () => {
+    const quick = newGame()
+    const quickCmd = quick.field.find(u => u.isCommander && u.owner === 'player')!
+    withPendingCast(quick, { cardName: "World's End", effect: { type: 'aoe', damage: 180 }, counterGrade: 'avoid' })
+    quick.gameTime = quick.pendingSpellCast!.resolvesAtMs
+    resolveSpellCast(quick, [])
+
+    const late = newGame()
+    const lateCmd = late.field.find(u => u.isCommander && u.owner === 'player')!
+    withPendingCast(late, { cardName: "World's End", effect: { type: 'aoe', damage: 180 }, counterGrade: 'halve' })
+    late.gameTime = late.pendingSpellCast!.resolvesAtMs
+    resolveSpellCast(late, [])
+
+    const quickDmg = 50 - quickCmd.hp
+    const lateDmg = 50 - lateCmd.hp
+    expect(quickDmg).toBeLessThan(lateDmg)
+    expect(quickCmd.hp).toBeGreaterThan(0)
+    expect(lateCmd.hp).toBeGreaterThan(0)
   })
 })

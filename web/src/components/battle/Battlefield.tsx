@@ -1034,7 +1034,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
           const glowLeft = opCmd ? 50 + (opCmd.y / 80) * 36 : 50
           const elapsed = state.gameTime - cast.startedAtMs
           // Pressing Counter is never punished for being early — only the final stretch
-          // before resolution (the "closing window") downgrades the press to a half-block.
+          // before resolution (the "closing window") downgrades the press to a higher damage cap.
           const closingWindow = elapsed >= COUNTER_WINDOW_HALVE_START_MS
           return (
             <>
@@ -1049,7 +1049,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
               )}
               {cast.counterGrade && (
                 <div className={`spell-cast-grade spell-cast-grade--${cast.counterGrade}`}>
-                  {cast.counterGrade === 'avoid' ? 'DODGED!' : 'PARTIAL BLOCK'}
+                  {cast.counterGrade === 'avoid' ? 'BLOCKED!' : 'PARTIAL BLOCK'}
                 </div>
               )}
             </>
