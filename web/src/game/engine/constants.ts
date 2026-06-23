@@ -20,10 +20,16 @@ export const COMMANDER_LEASH_PX  = 40              // max px a commander can str
 
 // ─── Opponent Spell-Cast Telegraph + Counter QTE ──────────
 export const CAST_WINDUP_MS               = 5000  // windup before an opponent AOE spell resolves
-// A Counter press fully negates damage any time before this; pressing in the final stretch
-// of the windup (the "closing window") only halves it. Pressing early is never punished —
-// reacting the instant the telegraph appears must be enough to survive a one-shot spell.
-export const COUNTER_WINDOW_HALVE_START_MS = 4500  // elapsed ms after which a Counter press only halves damage
+// A Counter press before this is graded "quick"; pressing in the final stretch of the
+// windup (the "closing window") is graded "late" instead. Pressing early is never
+// punished with extra damage — reacting fast always gets the better grade.
+export const COUNTER_WINDOW_HALVE_START_MS = 4500  // elapsed ms after which a Counter press is graded "late"
+// A successful counter never fully negates damage — it caps it, so a quick reaction is
+// rewarded with a lower cap but big spells (e.g. one-shot-capable mythics) still chip in
+// some damage. Damage dealt = min(spell's raw damage, this % of the commander's max HP).
+// Not countering at all still applies the spell's damage in full (100%, uncapped).
+export const COUNTER_DAMAGE_CAP_QUICK_PCT  = 0.2   // "quick" grade: damage capped at 20% of commander max HP
+export const COUNTER_DAMAGE_CAP_LATE_PCT   = 0.4   // "late" grade: damage capped at 40% of commander max HP
 
 // ─── Archetype Passive Multipliers ────────────────────────
 export const ARCH_STRUCTURE_COST_REDUCTION = 1     // Siege Commander: structures cost 1 less
