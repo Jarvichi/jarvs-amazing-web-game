@@ -337,6 +337,22 @@ export interface BossTraitState {
   splitUnitIds?: string[]
 }
 
+// ─── Pending Spell Cast (opponent AOE telegraph) ──────────
+
+/** A damage-dealing AOE upgrade card the opponent has committed to (mana spent, card
+ *  consumed) but whose damage application is deferred behind a visible windup + Counter QTE. */
+export interface PendingSpellCast {
+  /** Card name, for the telegraph banner and GameOver "Defeated by" callout. */
+  cardName: string
+  effect: Extract<UpgradeEffect, { type: 'aoe' }>
+  /** gameTime (ms) when the cast was started. */
+  startedAtMs: number
+  /** gameTime (ms) when the damage resolves. */
+  resolvesAtMs: number
+  /** Set once the player has registered a Counter input during the window. */
+  counterGrade?: 'avoid' | 'halve' | 'full'
+}
+
 // ─── Battle Events ────────────────────────────────────────
 
 export type BattleEventType = 'bloodMoon' | 'fogOfWar' | 'supplyDrop' | 'earthquake'
@@ -470,6 +486,12 @@ export interface GameState {
   archetypePassive?: Archetype
   /** Current ATK multiplier applied to player mobile units by the Swarm Tactician passive. */
   swarmAtkMult?: number
+  /** Live opponent AOE-spell cast in its windup window. Null when no cast is pending. */
+  pendingSpellCast: PendingSpellCast | null
+  /** Source of the most recent damage dealt to the player's commander — drives the
+   *  GameOver "Defeated by" callout. Never cleared mid-battle, so it always reflects
+   *  the final blow once the battle ends. */
+  lastPlayerDamageSource?: { kind: 'spell'; name: string } | { kind: 'unit'; name: string }
 }
 
 export interface StanceRules {

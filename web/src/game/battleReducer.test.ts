@@ -52,6 +52,7 @@ function makeGameState(overrides: Partial<GameState> = {}): GameState {
     animEvents: [],
     bloodPools: [],
     hazards: [],
+    pendingSpellCast: null,
     ...overrides,
   }
 }
@@ -394,6 +395,64 @@ describe('battleReducer', () => {
       })
 
       expect(next.summaryStats).toEqual({ stats, gameTime: 120000, playerScore: 850 })
+    })
+  })
+
+  // ── COUNTER_SPELL ──────────────────────────────────────
+
+  describe('COUNTER_SPELL', () => {
+    function makeCast(overrides: Partial<NonNullable<GameState['pendingSpellCast']>> = {}) {
+      return {
+        cardName: 'Roots Burst',
+        effect: { type: 'aoe' as const, damage: 15 },
+        startedAtMs: 0,
+        resolvesAtMs: 5000,
+        ...overrides,
+      }
+    }
+
+    it('grades "full" when pressed in the first 2s', () => {
+      const gs = makeGameState({ gameTime: 1000, pendingSpellCast: makeCast() })
+      const state = withGameState(gs)
+
+      const next = battleReducer(state, { type: 'COUNTER_SPELL' })
+
+      expect(next.gameState!.pendingSpellCast!.counterGrade).toBe('full')
+    })
+
+    it('grades "avoid" when pressed in the 2-4.5s danger zone', () => {
+      const gs = makeGameState({ gameTime: 3000, pendingSpellCast: makeCast() })
+      const state = withGameState(gs)
+
+      const next = battleReducer(state, { type: 'COUNTER_SPELL' })
+
+      expect(next.gameState!.pendingSpellCast!.counterGrade).toBe('avoid')
+    })
+
+    it('grades "halve" when pressed after 4.5s', () => {
+      const gs = makeGameState({ gameTime: 4800, pendingSpellCast: makeCast() })
+      const state = withGameState(gs)
+
+      const next = battleReducer(state, { type: 'COUNTER_SPELL' })
+
+      expect(next.gameState!.pendingSpellCast!.counterGrade).toBe('halve')
+    })
+
+    it('is a no-op when no cast is pending', () => {
+      const state = withGameState(makeGameState({ pendingSpellCast: null }))
+
+      const next = battleReducer(state, { type: 'COUNTER_SPELL' })
+
+      expect(next).toBe(state)
+    })
+
+    it('is a no-op once the cast already has a grade', () => {
+      const gs = makeGameState({ gameTime: 1000, pendingSpellCast: makeCast({ counterGrade: 'avoid' }) })
+      const state = withGameState(gs)
+
+      const next = battleReducer(state, { type: 'COUNTER_SPELL' })
+
+      expect(next).toBe(state)
     })
   })
 

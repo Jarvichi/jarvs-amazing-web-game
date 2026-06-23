@@ -17,6 +17,7 @@
 import { GameState, BattleStats, Card } from './types'
 import { tick as engineTick } from './engine'
 import { playCard as enginePlayCard } from './engine/cards'
+import { COUNTER_WINDOW_AVOID_START_MS, COUNTER_WINDOW_HALVE_START_MS } from './engine/constants'
 import type { DailyChallengeState } from './dailyChallenge'
 import { generateEndlessRewardChoices } from './questline'
 
@@ -98,6 +99,8 @@ export type BattleAction =
   | { type: 'SET_STANCE'; stance: NonNullable<GameState['playerStance']> }
   /** Change the game speed multiplier. */
   | { type: 'SET_SPEED'; multiplier: 1 | 2 | 4 | 8 }
+  /** Player pressed Counter during an opponent spell-cast windup; grades by press timing. */
+  | { type: 'COUNTER_SPELL' }
 
 // ─── Reducer ──────────────────────────────────────────────
 
@@ -217,6 +220,18 @@ export function battleReducer(state: BattleState, action: BattleAction): BattleS
 
     case 'SET_SPEED':
       return { ...state, speedMultiplier: action.multiplier }
+
+    case 'COUNTER_SPELL': {
+      const gs = state.gameState
+      const cast = gs?.pendingSpellCast
+      if (!gs || !cast || cast.counterGrade) return state
+      const elapsed = gs.gameTime - cast.startedAtMs
+      const grade: 'avoid' | 'halve' | 'full' =
+        elapsed < COUNTER_WINDOW_AVOID_START_MS ? 'full'
+        : elapsed < COUNTER_WINDOW_HALVE_START_MS ? 'avoid'
+        : 'halve'
+      return { ...state, gameState: { ...gs, pendingSpellCast: { ...cast, counterGrade: grade } } }
+    }
 
     default:
       return state

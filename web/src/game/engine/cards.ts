@@ -8,7 +8,7 @@ import { playUpgrade } from '../sound';
 import {
   ARCH_STRUCTURE_COST_REDUCTION, ARCH_STRUCTURE_HP_MULT,
   ARCH_SWARM_UNIT_THRESHOLD, ARCH_SWARM_COST_REDUCTION,
-  ARCH_SCHOLAR_UPGRADE_MULT,
+  ARCH_SCHOLAR_UPGRADE_MULT, CAST_WINDUP_MS,
 } from './constants';
 import { DEATH_LINGER_MS } from './combat';
 
@@ -169,7 +169,37 @@ export function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent
   } else if (card.cardType === 'upgrade' && card.upgradeEffect) {
     applyUpgrade(s, card.upgradeEffect, owner, log);
   }
-}// ─── Play Card (immediate deploy + cooldown) ─────────────
+}
+
+// ─── Deploy an opponent card, telegraphing damage-AOE casts ─
+
+/**
+ * Deploy an opponent card, deferring damage resolution if it's an AOE-damage upgrade.
+ * Mana spend / hand removal / draw remain the caller's responsibility (unchanged) —
+ * this only decides whether to telegraph the cast instead of applying it immediately.
+ * Player-played cards never go through here; they always resolve instantly.
+ */
+export function deployOpponentCard(s: GameState, card: Card, log: string[]): void {
+  const isDamageAoe =
+    card.cardType === 'upgrade' &&
+    card.upgradeEffect?.type === 'aoe' &&
+    (card.upgradeEffect.damage ?? card.upgradeEffect.amount ?? 0) > 0;
+
+  // Single-flight guard: if a cast is already pending, resolve this one immediately
+  // instead of queuing a second telegraph.
+  if (isDamageAoe && !s.pendingSpellCast) {
+    s.pendingSpellCast = {
+      cardName: card.name,
+      effect: card.upgradeEffect as Extract<UpgradeEffect, { type: 'aoe' }>,
+      startedAtMs: s.gameTime,
+      resolvesAtMs: s.gameTime + CAST_WINDUP_MS,
+    };
+    log.push(`⚡ Opponent channels ${card.name}!`);
+    return;
+  }
+  deployCard(s, card, 'opponent', log);
+}
+// ─── Play Card (immediate deploy + cooldown) ─────────────
 
 export const MAX_UPGRADE_LEVEL = 4
 
@@ -289,6 +319,52 @@ export function playAoeCard(state: GameState, cardId: string, cx: number, cy: nu
   }
   return s
 }
+// ─── AOE Damage ───────────────────────────────────────────
+
+/** Apply an 'aoe' UpgradeEffect's damage to the field, scaled by dmgMultiplier (used by the Counter QTE). */
+export function applyAoeDamage(
+  s: GameState,
+  effect: Extract<UpgradeEffect, { type: 'aoe' }>,
+  owner: 'player' | 'opponent',
+  dmgMultiplier: number = 1,
+): { targets: Unit[]; dmg: number } {
+  const dmg = Math.round((effect.damage ?? effect.amount ?? 0) * dmgMultiplier)
+  const enemies = s.field.filter(u => u.owner !== owner && !u.isWall)
+  const targets = effect.range != null
+    ? enemies.filter(e => owner === 'player'
+      ? e.x <= effect.range!
+      : (LANE_WIDTH - e.x) <= effect.range!)
+    : enemies
+  for (const u of targets) {
+    u.hp -= dmg
+    u.damageFlashTimer = 200
+    // Mark mobile kills as dying so they linger for the death animation and aren't
+    // silently purged before the commander/base HP sync + game-over check can see them.
+    if (u.hp <= 0 && u.moveSpeed > 0 && !u.isWall) u.dyingTimer = DEATH_LINGER_MS
+  }
+  return { targets, dmg }
+}
+
+/** Resolve a pending opponent spell cast once its windup has elapsed, applying damage
+ *  graded by the player's Counter QTE result (avoid = 0x, halve = 0.5x, full = 1x). */
+export function resolveSpellCast(s: GameState, log: string[]): void {
+  const cast = s.pendingSpellCast
+  if (!cast || s.gameTime < cast.resolvesAtMs) return
+
+  const mult = cast.counterGrade === 'avoid' ? 0 : cast.counterGrade === 'halve' ? 0.5 : 1
+  const { targets, dmg } = applyAoeDamage(s, cast.effect, 'opponent', mult)
+
+  if (mult === 0) {
+    log.push(`🛡️ You counter ${cast.cardName} — no damage taken!`)
+  } else {
+    const qualifier = mult === 0.5 ? ' (halved by your counter!)' : ''
+    log.push(`Enemy ${cast.cardName}! ${targets.length} unit${targets.length === 1 ? '' : 's'} hit for ${dmg} damage${qualifier}.`)
+    const hitCommander = targets.some(u => u.isCommander && u.owner === 'player')
+    if (hitCommander && dmg > 0) s.lastPlayerDamageSource = { kind: 'spell', name: cast.cardName }
+  }
+  s.pendingSpellCast = null
+}
+
 // ─── Apply Upgrade ────────────────────────────────────────
 
 export function applyUpgrade(s: GameState, effect: UpgradeEffect, owner: 'player' | 'opponent', log: string[]): void {
@@ -314,20 +390,7 @@ export function applyUpgrade(s: GameState, effect: UpgradeEffect, owner: 'player
     for (const u of units) if (u.attackRange > 0) { u.attackRange += effect.amount; addBuff(u, 'range')} 
     log.push(`${label} units gain +${effect.amount} attack range!`)
   } else if (effect.type === 'aoe') {
-    const dmg = effect.damage ?? effect.amount ?? 0
-    const enemies = s.field.filter(u => u.owner !== owner && !u.isWall)
-    const targets = effect.range != null
-      ? enemies.filter(e => owner === 'player'
-        ? e.x <= effect.range!
-        : (LANE_WIDTH - e.x) <= effect.range!)
-      : enemies
-    for (const u of targets) {
-      u.hp -= dmg
-      u.damageFlashTimer = 200
-      // Mark mobile kills as dying so they linger for the death animation and aren't
-      // silently purged before the commander/base HP sync + game-over check can see them.
-      if (u.hp <= 0 && u.moveSpeed > 0 && !u.isWall) u.dyingTimer = DEATH_LINGER_MS
-    }
+    const { targets, dmg } = applyAoeDamage(s, effect, owner)
     log.push(`${label} AOE! ${targets.length} enem${targets.length === 1 ? 'y' : 'ies'} hit for ${dmg} damage.`)
   } else if (effect.type === 'buffHp') {
     for (const u of units) if (u.hp >= 1) u.hp = Math.min(u.maxHp, u.hp + effect.amount)
