@@ -411,16 +411,18 @@ describe('battleReducer', () => {
       }
     }
 
-    it('grades "full" when pressed in the first 2s', () => {
-      const gs = makeGameState({ gameTime: 1000, pendingSpellCast: makeCast() })
+    it('grades "avoid" when pressed early — reacting fast must never be punished', () => {
+      // Regression: pressing with 3.5s left (1.5s elapsed) used to grade "full" (no
+      // protection at all), letting a high-damage spell one-shot the commander anyway.
+      const gs = makeGameState({ gameTime: 1500, pendingSpellCast: makeCast() })
       const state = withGameState(gs)
 
       const next = battleReducer(state, { type: 'COUNTER_SPELL' })
 
-      expect(next.gameState!.pendingSpellCast!.counterGrade).toBe('full')
+      expect(next.gameState!.pendingSpellCast!.counterGrade).toBe('avoid')
     })
 
-    it('grades "avoid" when pressed in the 2-4.5s danger zone', () => {
+    it('grades "avoid" when pressed anywhere before the 4.5s closing window', () => {
       const gs = makeGameState({ gameTime: 3000, pendingSpellCast: makeCast() })
       const state = withGameState(gs)
 

@@ -17,7 +17,7 @@
 import { GameState, BattleStats, Card } from './types'
 import { tick as engineTick } from './engine'
 import { playCard as enginePlayCard } from './engine/cards'
-import { COUNTER_WINDOW_AVOID_START_MS, COUNTER_WINDOW_HALVE_START_MS } from './engine/constants'
+import { COUNTER_WINDOW_HALVE_START_MS } from './engine/constants'
 import type { DailyChallengeState } from './dailyChallenge'
 import { generateEndlessRewardChoices } from './questline'
 
@@ -226,10 +226,7 @@ export function battleReducer(state: BattleState, action: BattleAction): BattleS
       const cast = gs?.pendingSpellCast
       if (!gs || !cast || cast.counterGrade) return state
       const elapsed = gs.gameTime - cast.startedAtMs
-      const grade: 'avoid' | 'halve' | 'full' =
-        elapsed < COUNTER_WINDOW_AVOID_START_MS ? 'full'
-        : elapsed < COUNTER_WINDOW_HALVE_START_MS ? 'avoid'
-        : 'halve'
+      const grade: 'avoid' | 'halve' = elapsed < COUNTER_WINDOW_HALVE_START_MS ? 'avoid' : 'halve'
       return { ...state, gameState: { ...gs, pendingSpellCast: { ...cast, counterGrade: grade } } }
     }
 

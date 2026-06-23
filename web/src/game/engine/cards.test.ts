@@ -175,4 +175,20 @@ describe('resolveSpellCast', () => {
 
     expect(playerCmd.hp).toBe(hpBefore - Math.round(25 * 0.5))
   })
+
+  it('survives an otherwise one-shot spell when countered with grade "avoid"', () => {
+    // "World's End" deals 180 damage — well above a full-health commander's max HP.
+    // A countered "avoid" must zero out the damage entirely, not just reduce it.
+    const s = newGame()
+    const playerCmd = s.field.find(u => u.isCommander && u.owner === 'player')!
+    const hpBefore = playerCmd.hp
+    withPendingCast(s, { cardName: "World's End", effect: { type: 'aoe', damage: 180 }, counterGrade: 'avoid' })
+    s.gameTime = s.pendingSpellCast!.resolvesAtMs
+    const log: string[] = []
+
+    resolveSpellCast(s, log)
+
+    expect(playerCmd.hp).toBe(hpBefore)
+    expect(s.phase.type).not.toBe('gameOver')
+  })
 })

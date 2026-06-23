@@ -6523,18 +6523,18 @@ body {
   cursor: pointer;
   animation: spellCastCounterPulse 0.8s ease-in-out infinite;
 }
-.spell-cast-counter-btn--danger {
-  border-color: rgba(80, 255, 120, 0.95);
-  color: #d0ffd8;
-  animation: spellCastCounterDanger 0.4s ease-in-out infinite;
+.spell-cast-counter-btn--closing {
+  border-color: rgba(255, 180, 40, 0.95);
+  color: #ffe8c0;
+  animation: spellCastCounterClosing 0.3s ease-in-out infinite;
 }
 @keyframes spellCastCounterPulse {
   0%, 100% { transform: translateX(-50%) scale(1); }
   50%       { transform: translateX(-50%) scale(1.05); }
 }
-@keyframes spellCastCounterDanger {
-  0%, 100% { box-shadow: 0 0 6px rgba(80, 255, 120, 0.5); }
-  50%       { box-shadow: 0 0 18px rgba(80, 255, 120, 0.9); }
+@keyframes spellCastCounterClosing {
+  0%, 100% { box-shadow: 0 0 6px rgba(255, 180, 40, 0.5); }
+  50%       { box-shadow: 0 0 20px rgba(255, 180, 40, 0.95); }
 }
 
 .spell-cast-grade {
@@ -6552,7 +6552,6 @@ body {
 }
 .spell-cast-grade--avoid { color: #80ff90; border: 2px solid rgba(80, 255, 120, 0.9); }
 .spell-cast-grade--halve { color: #ffd980; border: 2px solid rgba(255, 200, 80, 0.9); }
-.spell-cast-grade--full  { color: #ff8080; border: 2px solid rgba(255, 70, 70, 0.9); }
 
 .sudden-death-overlay {
   position: absolute;

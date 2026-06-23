@@ -20,7 +20,9 @@ export const COMMANDER_LEASH_PX  = 40              // max px a commander can str
 
 // ─── Opponent Spell-Cast Telegraph + Counter QTE ──────────
 export const CAST_WINDUP_MS               = 5000  // windup before an opponent AOE spell resolves
-export const COUNTER_WINDOW_AVOID_START_MS = 2000  // elapsed ms after which a Counter press fully negates damage
+// A Counter press fully negates damage any time before this; pressing in the final stretch
+// of the windup (the "closing window") only halves it. Pressing early is never punished —
+// reacting the instant the telegraph appears must be enough to survive a one-shot spell.
 export const COUNTER_WINDOW_HALVE_START_MS = 4500  // elapsed ms after which a Counter press only halves damage
 
 // ─── Archetype Passive Multipliers ────────────────────────
