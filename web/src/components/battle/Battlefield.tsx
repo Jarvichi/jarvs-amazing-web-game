@@ -9,7 +9,7 @@ import { spriteSlug } from '../../game/sprites'
 import { BattleEventOverlay } from './BattleEventOverlay'
 import { isNoDamageMode, isDebugMode } from '../../game/debug'
 import { MAX_UPGRADE_LEVEL, getEffectiveCardCost } from '../../game/engine/cards'
-import { CAST_WINDUP_MS, COUNTER_WINDOW_HALVE_START_MS } from '../../game/engine/constants'
+import { CAST_WINDUP_MS, COUNTER_DAMAGE_FLOOR_PCT } from '../../game/engine/constants'
 import { SUDDEN_DEATH_FORCE_MS } from '../../game/engine/suddenDeath'
 import { getRelicDef } from '../../game/relics'
 import { getUnitLore, getCardCatalog } from '../../game/cards'
@@ -642,13 +642,13 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
 
   // Counter an opponent's incoming spell cast via Space/Enter
   useEffect(() => {
-    if (!state.pendingSpellCast || state.pendingSpellCast.counterGrade) return
+    if (!state.pendingSpellCast || state.pendingSpellCast.counterPct != null) return
     const onKey = (e: KeyboardEvent) => {
       if (e.code === 'Space' || e.code === 'Enter') { e.preventDefault(); onCounterSpell?.() }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [state.pendingSpellCast?.cardName, state.pendingSpellCast?.counterGrade, onCounterSpell])
+  }, [state.pendingSpellCast?.cardName, state.pendingSpellCast?.counterPct, onCounterSpell])
 
   // Detect when a new hero unit appears on the field and fire the lightning effect
   useEffect(() => {
@@ -1033,9 +1033,10 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
           const glowTop  = opCmd ? (1 - opCmd.x / LANE_WIDTH) * 100 : 4
           const glowLeft = opCmd ? 50 + (opCmd.y / 80) * 36 : 50
           const elapsed = state.gameTime - cast.startedAtMs
-          // Pressing Counter is never punished for being early — only the final stretch
-          // before resolution (the "closing window") downgrades the press to a higher damage cap.
-          const closingWindow = elapsed >= COUNTER_WINDOW_HALVE_START_MS
+          // The damage cap a press would lock in right now — grows linearly the longer the
+          // player waits, so "waiting for a better moment" is never actually better.
+          const liveCapPct = Math.max(COUNTER_DAMAGE_FLOOR_PCT, Math.min(1, elapsed / CAST_WINDUP_MS))
+          const dangerZone = liveCapPct >= 0.7
           return (
             <>
               <div className="spell-cast-glow" style={{ position: 'absolute', top: `${glowTop}%`, left: `${glowLeft}%`, transform: 'translate(-50%,-50%)', pointerEvents: 'none', zIndex: 55 }} aria-hidden />
@@ -1044,14 +1045,19 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
                 <span className="spell-cast-banner-timer">{(remainingMs / 1000).toFixed(1)}s</span>
                 <div className="spell-cast-banner-bar"><div className="spell-cast-banner-bar-fill" style={{ width: `${pct * 100}%` }} /></div>
               </div>
-              {!cast.counterGrade && (
-                <button className={`spell-cast-counter-btn ${closingWindow ? 'spell-cast-counter-btn--closing' : ''}`} onClick={() => onCounterSpell?.()}>COUNTER!</button>
+              {cast.counterPct == null && (
+                <button className={`spell-cast-counter-btn ${dangerZone ? 'spell-cast-counter-btn--closing' : ''}`} onClick={() => onCounterSpell?.()}>
+                  COUNTER! <span className="spell-cast-counter-btn-cap">(caps at {Math.round(liveCapPct * 100)}%)</span>
+                </button>
               )}
-              {cast.counterGrade && (
-                <div className={`spell-cast-grade spell-cast-grade--${cast.counterGrade}`}>
-                  {cast.counterGrade === 'avoid' ? 'BLOCKED!' : 'PARTIAL BLOCK'}
-                </div>
-              )}
+              {cast.counterPct != null && (() => {
+                const gradeColor = `hsl(${140 - 110 * cast.counterPct!}, 80%, 65%)`
+                return (
+                  <div className="spell-cast-grade" style={{ borderColor: gradeColor, color: gradeColor }}>
+                    COUNTERED! Capped at {Math.round(cast.counterPct! * 100)}% HP
+                  </div>
+                )
+              })()}
             </>
           )
         })()}

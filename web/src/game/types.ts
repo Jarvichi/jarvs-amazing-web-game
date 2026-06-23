@@ -349,9 +349,11 @@ export interface PendingSpellCast {
   startedAtMs: number
   /** gameTime (ms) when the damage resolves. */
   resolvesAtMs: number
-  /** Set once the player has registered a Counter input during the window.
-   *  Absent (undefined) means no press was registered before resolution — full damage applies. */
-  counterGrade?: 'avoid' | 'halve'
+  /** Damage cap, as a fraction (0–1) of the commander's max HP, frozen at the moment the
+   *  player pressed Counter — scales linearly with how much of the windup had already
+   *  elapsed (see COUNTER_DAMAGE_FLOOR_PCT). Absent (undefined) means no press was
+   *  registered before resolution — the spell's full raw damage applies, uncapped. */
+  counterPct?: number
 }
 
 // ─── Battle Events ────────────────────────────────────────

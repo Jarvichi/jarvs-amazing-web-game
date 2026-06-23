@@ -49,7 +49,7 @@ describe('deployOpponentCard', () => {
     expect(s.pendingSpellCast).not.toBeNull()
     expect(s.pendingSpellCast!.cardName).toBe('Roots Burst')
     expect(s.pendingSpellCast!.resolvesAtMs).toBe(s.gameTime + CAST_WINDUP_MS)
-    expect(s.pendingSpellCast!.counterGrade).toBeUndefined()
+    expect(s.pendingSpellCast!.counterPct).toBeUndefined()
     // No damage applied yet — the commander is untouched
     expect(playerCmd.hp).toBe(hpBefore)
     expect(log.some(l => l.includes('Roots Burst'))).toBe(true)
@@ -170,12 +170,12 @@ describe('resolveSpellCast', () => {
     expect(s.lastPlayerDamageSource).toEqual({ kind: 'spell', name: 'Roots Burst' })
   })
 
-  it('caps damage at 20% of commander max HP when countered with grade "avoid" (quick)', () => {
-    // Commander max HP is 50 by default, so the quick cap is 10 — below the spell's raw 25.
+  it('caps damage at counterPct of commander max HP when countered quickly', () => {
+    // Commander max HP is 50 by default, so a 0.2 cap is 10 — below the spell's raw 25.
     const s = newGame()
     const playerCmd = s.field.find(u => u.isCommander && u.owner === 'player')!
     const hpBefore = playerCmd.hp
-    withPendingCast(s, { counterGrade: 'avoid' })
+    withPendingCast(s, { counterPct: 0.2 })
     s.gameTime = s.pendingSpellCast!.resolvesAtMs
     const log: string[] = []
 
@@ -186,12 +186,12 @@ describe('resolveSpellCast', () => {
     expect(log.some(l => l.includes('counter'))).toBe(true)
   })
 
-  it('caps damage at 40% of commander max HP when countered with grade "halve" (late)', () => {
-    // Commander max HP is 50 by default, so the late cap is 20 — below the spell's raw 25.
+  it('caps damage at a higher counterPct of commander max HP when countered later', () => {
+    // Commander max HP is 50 by default, so a 0.4 cap is 20 — below the spell's raw 25.
     const s = newGame()
     const playerCmd = s.field.find(u => u.isCommander && u.owner === 'player')!
     const hpBefore = playerCmd.hp
-    withPendingCast(s, { counterGrade: 'halve' })
+    withPendingCast(s, { counterPct: 0.4 })
     s.gameTime = s.pendingSpellCast!.resolvesAtMs
     const log: string[] = []
 
@@ -206,7 +206,7 @@ describe('resolveSpellCast', () => {
     const s = newGame()
     const playerCmd = s.field.find(u => u.isCommander && u.owner === 'player')!
     const hpBefore = playerCmd.hp
-    withPendingCast(s, { cardName: "World's End", effect: { type: 'aoe', damage: 180 }, counterGrade: 'avoid' })
+    withPendingCast(s, { cardName: "World's End", effect: { type: 'aoe', damage: 180 }, counterPct: 0.2 })
     s.gameTime = s.pendingSpellCast!.resolvesAtMs
     const log: string[] = []
 
@@ -220,13 +220,13 @@ describe('resolveSpellCast', () => {
   it('rewards a quick counter with less damage than a late counter, on the same lethal spell', () => {
     const quick = newGame()
     const quickCmd = quick.field.find(u => u.isCommander && u.owner === 'player')!
-    withPendingCast(quick, { cardName: "World's End", effect: { type: 'aoe', damage: 180 }, counterGrade: 'avoid' })
+    withPendingCast(quick, { cardName: "World's End", effect: { type: 'aoe', damage: 180 }, counterPct: 0.2 })
     quick.gameTime = quick.pendingSpellCast!.resolvesAtMs
     resolveSpellCast(quick, [])
 
     const late = newGame()
     const lateCmd = late.field.find(u => u.isCommander && u.owner === 'player')!
-    withPendingCast(late, { cardName: "World's End", effect: { type: 'aoe', damage: 180 }, counterGrade: 'halve' })
+    withPendingCast(late, { cardName: "World's End", effect: { type: 'aoe', damage: 180 }, counterPct: 0.4 })
     late.gameTime = late.pendingSpellCast!.resolvesAtMs
     resolveSpellCast(late, [])
 
@@ -235,5 +235,18 @@ describe('resolveSpellCast', () => {
     expect(quickDmg).toBeLessThan(lateDmg)
     expect(quickCmd.hp).toBeGreaterThan(0)
     expect(lateCmd.hp).toBeGreaterThan(0)
+  })
+
+  it('applies full, uncapped damage on timeout even when the spell exceeds commander max HP', () => {
+    // No press at all must remain undefended — 100% raw damage, never clamped to maxHp.
+    const s = newGame()
+    const playerCmd = s.field.find(u => u.isCommander && u.owner === 'player')!
+    withPendingCast(s, { cardName: "World's End", effect: { type: 'aoe', damage: 180 } })
+    s.gameTime = s.pendingSpellCast!.resolvesAtMs
+    const log: string[] = []
+
+    resolveSpellCast(s, log)
+
+    expect(playerCmd.hp).toBe(playerCmd.maxHp - 180)
   })
 })

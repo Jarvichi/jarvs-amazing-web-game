@@ -9,7 +9,6 @@ import {
   ARCH_STRUCTURE_COST_REDUCTION, ARCH_STRUCTURE_HP_MULT,
   ARCH_SWARM_UNIT_THRESHOLD, ARCH_SWARM_COST_REDUCTION,
   ARCH_SCHOLAR_UPGRADE_MULT, CAST_WINDUP_MS,
-  COUNTER_DAMAGE_CAP_QUICK_PCT, COUNTER_DAMAGE_CAP_LATE_PCT,
 } from './constants';
 import { DEATH_LINGER_MS } from './combat';
 
@@ -351,22 +350,22 @@ export function applyAoeDamage(
 
 /** Resolve a pending opponent spell cast once its windup has elapsed, applying damage
  *  graded by the player's Counter QTE result. A successful counter never fully negates
- *  damage — it caps it at a percentage of the commander's max HP (quick press = lower
- *  cap, late press = higher cap), so a counter always guarantees survival against an
- *  otherwise-lethal spell while still landing some chip damage. No press = full damage. */
+ *  damage — it caps it at counterPct of the commander's max HP (frozen at press time,
+ *  scaling linearly with reaction speed), so a counter always guarantees survival against
+ *  an otherwise-lethal spell while still landing some chip damage. No press = full,
+ *  uncapped damage. */
 export function resolveSpellCast(s: GameState, log: string[]): void {
   const cast = s.pendingSpellCast
   if (!cast || s.gameTime < cast.resolvesAtMs) return
 
   let dmgCap: number | undefined
-  if (cast.counterGrade) {
+  if (cast.counterPct != null) {
     const playerCmd = s.field.find(u => u.isCommander && u.owner === 'player')
-    const capPct = cast.counterGrade === 'avoid' ? COUNTER_DAMAGE_CAP_QUICK_PCT : COUNTER_DAMAGE_CAP_LATE_PCT
-    dmgCap = playerCmd ? Math.round(playerCmd.maxHp * capPct) : undefined
+    dmgCap = playerCmd ? Math.round(playerCmd.maxHp * cast.counterPct) : undefined
   }
   const { targets, dmg } = applyAoeDamage(s, cast.effect, 'opponent', 1, dmgCap)
 
-  if (cast.counterGrade) {
+  if (cast.counterPct != null) {
     log.push(`🛡️ You counter ${cast.cardName} — damage capped at ${dmg}!`)
   } else {
     log.push(`Enemy ${cast.cardName}! ${targets.length} unit${targets.length === 1 ? '' : 's'} hit for ${dmg} damage.`)

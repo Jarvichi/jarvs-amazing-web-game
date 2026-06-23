@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { battleReducer, INITIAL_BATTLE_STATE, TICK_MS, BattleState } from './battleReducer'
 import { GameState, BattleStats, Card } from './types'
+import { COUNTER_DAMAGE_FLOOR_PCT } from './engine/constants'
 
 // ─── Mocks ────────────────────────────────────────────────
 //
@@ -411,33 +412,34 @@ describe('battleReducer', () => {
       }
     }
 
-    it('grades "avoid" when pressed early — reacting fast must never be punished', () => {
+    it('caps at the floor pct when pressed instantly — reacting fast must never be punished', () => {
       // Regression: pressing with 3.5s left (1.5s elapsed) used to grade "full" (no
       // protection at all), letting a high-damage spell one-shot the commander anyway.
-      const gs = makeGameState({ gameTime: 1500, pendingSpellCast: makeCast() })
+      const gs = makeGameState({ gameTime: 0, pendingSpellCast: makeCast() })
       const state = withGameState(gs)
 
       const next = battleReducer(state, { type: 'COUNTER_SPELL' })
 
-      expect(next.gameState!.pendingSpellCast!.counterGrade).toBe('avoid')
+      expect(next.gameState!.pendingSpellCast!.counterPct).toBe(COUNTER_DAMAGE_FLOOR_PCT)
     })
 
-    it('grades "avoid" when pressed anywhere before the 4.5s closing window', () => {
-      const gs = makeGameState({ gameTime: 3000, pendingSpellCast: makeCast() })
+    it('scales the cap linearly with elapsed time out of the windup', () => {
+      // 2500ms elapsed out of a 5000ms windup → 50% cap.
+      const gs = makeGameState({ gameTime: 2500, pendingSpellCast: makeCast() })
       const state = withGameState(gs)
 
       const next = battleReducer(state, { type: 'COUNTER_SPELL' })
 
-      expect(next.gameState!.pendingSpellCast!.counterGrade).toBe('avoid')
+      expect(next.gameState!.pendingSpellCast!.counterPct).toBe(0.5)
     })
 
-    it('grades "halve" when pressed after 4.5s', () => {
-      const gs = makeGameState({ gameTime: 4800, pendingSpellCast: makeCast() })
+    it('caps at 100% when pressed right at the buzzer — no better than not pressing', () => {
+      const gs = makeGameState({ gameTime: 5000, pendingSpellCast: makeCast() })
       const state = withGameState(gs)
 
       const next = battleReducer(state, { type: 'COUNTER_SPELL' })
 
-      expect(next.gameState!.pendingSpellCast!.counterGrade).toBe('halve')
+      expect(next.gameState!.pendingSpellCast!.counterPct).toBe(1)
     })
 
     it('is a no-op when no cast is pending', () => {
@@ -448,8 +450,8 @@ describe('battleReducer', () => {
       expect(next).toBe(state)
     })
 
-    it('is a no-op once the cast already has a grade', () => {
-      const gs = makeGameState({ gameTime: 1000, pendingSpellCast: makeCast({ counterGrade: 'avoid' }) })
+    it('is a no-op once the cast already has a counterPct', () => {
+      const gs = makeGameState({ gameTime: 1000, pendingSpellCast: makeCast({ counterPct: 0.2 }) })
       const state = withGameState(gs)
 
       const next = battleReducer(state, { type: 'COUNTER_SPELL' })
