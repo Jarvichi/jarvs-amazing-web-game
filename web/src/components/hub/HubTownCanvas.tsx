@@ -265,6 +265,21 @@ export function HubTownCanvas({
 
     // ── Streets ────────────────────────────────────────────────────────────────
     const pathSet = new Set(HUB_STREET_TILES.map(([tx, ty]) => `${tx},${ty}`))
+
+    // Solid exterior decor blocks routing. Exterior uses an explicit
+    // zlayer:'solid' tag (untagged decor like flowers is intentionally
+    // walkable), unlike interiors where missing zlayer means solid. Removing
+    // these tiles from pathSet here fixes every consumer that clones it: player
+    // tap routing, named/ambient NPC pathing, and street-walking animals.
+    const _solidFestival = getActiveFestival()
+    const _solidFestivalDecor = _solidFestival
+      ? (HUB_FESTIVAL_DECOR.find(g => g.festivalId === _solidFestival.id)?.decor ?? [])
+      : []
+    const solidDecorSet = new Set<string>()
+    for (const d of [...EXTERIOR_DECOR, ..._solidFestivalDecor])
+      if (d.zlayer === 'solid') solidDecorSet.add(`${d.tx},${d.ty}`)
+    for (const k of solidDecorSet) pathSet.delete(k)
+
     for (const group of HUB_STREET_GROUPS) {
       const groupSet = new Set(group.tiles.map(([tx, ty]) => `${tx},${ty}`))
       const tileOverride = group.pathType ? PATH_TILE[group.pathType as keyof typeof PATH_TILE] : undefined
@@ -1168,6 +1183,24 @@ export function HubTownCanvas({
       }
     }
 
+    // Tiles occupied (or imminently targeted) by NPCs other than `self` — their
+    // current tile plus their next queued tile. Subtracted from a routing set so
+    // NPCs plan paths around one another instead of walking straight through.
+    function npcOccupiedTiles(self?: UnitNpcState | NamedNpcWalkState): Set<string> {
+      const occ = new Set<string>()
+      for (const n of unitNpcs) {
+        if (n === self) continue
+        occ.add(`${n.currentTile[0]},${n.currentTile[1]}`)
+        if (n.walkQueue[0]) occ.add(`${n.walkQueue[0][0]},${n.walkQueue[0][1]}`)
+      }
+      for (const ws of namedNpcWalkStates.values()) {
+        if (ws === self || ws.isInside) continue
+        occ.add(`${ws.currentTx},${ws.currentTy}`)
+        if (ws.walkQueue[0]) occ.add(`${ws.walkQueue[0][0]},${ws.walkQueue[0][1]}`)
+      }
+      return occ
+    }
+
     async function walkNamedNpc(
       npc: HubNpc,
       ws: NamedNpcWalkState,
@@ -1186,6 +1219,9 @@ export function HubTownCanvas({
             for (const [btx, bty] of bp.blockedTiles) effectiveSet.delete(`${btx},${bty}`)
           }
         }
+        // Route around other NPCs (the destination is re-added below so a
+        // transiently-occupied fixed target can't abort an otherwise-valid path).
+        for (const k of npcOccupiedTiles(ws)) effectiveSet.delete(k)
 
         if (!newLoc || newLoc.type === 'exterior') {
           const destTx = newLoc?.tx ?? npc.tx
@@ -1206,6 +1242,7 @@ export function HubTownCanvas({
             ws.currentBuildingId = null
           }
 
+          effectiveSet.add(`${destTx},${destTy}`)
           const path = findPath([ws.currentTx, ws.currentTy], [destTx, destTy], effectiveSet)
           ws.walkQueue = path.length > 1 ? path.slice(1) : []
           await processNamedNpcWalkQueue(ws, container)
@@ -1213,6 +1250,7 @@ export function HubTownCanvas({
           // Going inside a building — walk to door then hide
           const door = HUB_DOORS.find(d => d.buildingId === newLoc.buildingId)
           if (door) {
+            effectiveSet.add(`${door.tx},${door.ty}`)
             const path = findPath([ws.currentTx, ws.currentTy], [door.tx, door.ty], effectiveSet)
             ws.walkQueue = path.length > 1 ? path.slice(1) : []
             await processNamedNpcWalkQueue(ws, container)
@@ -1233,6 +1271,9 @@ export function HubTownCanvas({
           for (const [btx, bty] of bp.blockedTiles) effectivePathSet.delete(`${btx},${bty}`)
         }
       }
+      // Route around other NPCs.
+      const occupied = npcOccupiedTiles(npc)
+      for (const k of occupied) effectivePathSet.delete(k)
       const ghosts = npc.isGhost ? [] : unitNpcs.filter(n => n.isGhost)
       const allOptions = NPC_SPAWN_TILES.filter(
         ([tx, ty]) => tx !== npc.currentTile[0] || ty !== npc.currentTile[1],
@@ -1248,7 +1289,11 @@ export function HubTownCanvas({
             )
           : allOptions
       )
-      const target = options[Math.floor(Math.random() * options.length)]
+      // Prefer wander targets not currently occupied by another NPC.
+      const freeOptions = options.filter(([tx, ty]) => !occupied.has(`${tx},${ty}`))
+      const pool = freeOptions.length > 0 ? freeOptions : options
+      const target = pool[Math.floor(Math.random() * pool.length)]
+      effectivePathSet.add(`${target[0]},${target[1]}`)  // keep the chosen target reachable
       const path   = findPath(npc.currentTile, target, effectivePathSet)
       npc.walkQueue = path.slice(1)
       if (!npc.isWalking) processNpcWalkQueue(npc)
@@ -2220,7 +2265,8 @@ export function HubTownCanvas({
     const animalPondSet = new Set(HUB_POND_TILES.map(([tx, ty]) => `${tx},${ty}`))
     const animalIsSolid = (tx: number, ty: number): boolean =>
       tx < 0 || ty < 0 || tx >= MAP_W / T || ty >= MAP_H / T ||
-      buildingSet.has(`${tx},${ty}`) || animalPondSet.has(`${tx},${ty}`)
+      buildingSet.has(`${tx},${ty}`) || animalPondSet.has(`${tx},${ty}`) ||
+      solidDecorSet.has(`${tx},${ty}`)
     // Flower-decor tiles — butterflies route between them.
     const FLOWER_TILE_IDS = new Set([52, 53, 54, 55, 943])  // white/pink/blue/yellow flower, potOfFlowers
     const animalFlowerTiles: [number, number][] = EXTERIOR_DECOR
