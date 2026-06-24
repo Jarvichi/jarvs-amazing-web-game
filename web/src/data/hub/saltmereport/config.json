@@ -1,6 +1,6 @@
 {
-  "mapW": 1152,
-  "mapH": 896,
+  "mapW": 1664,
+  "mapH": 1280,
   "townName": "Saltmere Port",
   "environment": "coast",
   "avatarStart": { "tx": 2, "ty": 14 },
@@ -9,17 +9,23 @@
     { "tx": 1, "ty": 15, "screen": "worldmap" }
   ],
   "areas": [
-    { "id": "saltmere-docks", "name": "The Docks", "tx": 28, "ty": 2, "tw": 8, "th": 24 },
-    { "id": "saltmere-quay", "name": "Quayside Market", "tx": 4, "ty": 11, "tw": 22, "th": 7 }
+    { "id": "saltmere-docks", "name": "The Docks", "tx": 28, "ty": 2, "tw": 8, "th": 26 },
+    { "id": "saltmere-quay", "name": "Quayside Market", "tx": 4, "ty": 11, "tw": 22, "th": 7 },
+    { "id": "warehouse-row", "name": "Warehouse Row", "tx": 0, "ty": 28, "tw": 42, "th": 12 },
+    { "id": "lighthouse-point", "name": "Lighthouse Point", "tx": 36, "ty": 0, "tw": 16, "th": 40 }
   ],
   "streets": [
     { "rect": [33, 0, 35, 27], "pathType": "water1" },
     { "rect": [32, 6, 32, 22], "pathType": "water1" },
     { "rect": [30, 2, 31, 25] },
     { "rect": [2, 13, 30, 15] },
-    { "rect": [13, 16, 15, 23] },
+    { "rect": [13, 16, 15, 35] },
     { "rect": [24, 5, 25, 12] },
-    { "rect": [7, 5, 8, 12] }
+    { "rect": [7, 5, 8, 12] },
+    { "rect": [2, 35, 39, 37] },
+    { "rect": [14, 10, 14, 12] },
+    { "rect": [31, 26, 44, 26] },
+    { "rect": [36, 0, 51, 39], "pathType": "water1" }
   ],
   "buildings": [
     {
