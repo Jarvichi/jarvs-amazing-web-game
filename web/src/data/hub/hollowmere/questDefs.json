@@ -10,18 +10,30 @@
       "activeDialogue": "Three bunches of moonherb, growing around the edges of town. It glows faintly. Or hums. Sometimes both.",
       "completeDialogue": "Fresh moonherb! The cauldron bubbles tonight. Here — your cut, and some free advice: if Ogrim offers you a drink, ask what's in it FIRST.",
       "steps": [
-        {
-          "key": "herbs",
-          "type": "collect",
-          "pickupIds": ["moonherb-1", "moonherb-2", "moonherb-3"],
-          "required": 3
-        }
+        { "key": "herbs", "type": "collect", "pickupIds": ["moonherb-1", "moonherb-2", "moonherb-3"], "required": 3 }
       ],
       "reward": {
         "crystals": 65,
-        "friendship": {
-          "hedge-witch-morwen": 15
-        }
+        "friendship": { "hedge-witch-morwen": 15 }
+      }
+    },
+    {
+      "id": "hollowmere-witch-brew-2",
+      "title": "The Bubbling Cure",
+      "type": "chain",
+      "giverNpcId": "hedge-witch-morwen",
+      "receiverNpcId": "hedge-witch-morwen",
+      "prerequisite": "quest:hollowmere-witch-brew",
+      "offerDialogue": "The joint-ease worked a treat, so now the whole town wants a dose — and half the marsh has a cough besides. I need to brew a proper batch. Bring me a moon-cap from my own brewing room shelf, a bunch of marsh-herb, and a stoppered bottle from the bog. Then stand back; this one bubbles over.",
+      "activeDialogue": "Gather a moon-cap from Morwen's brewing room, a marsh-herb bunch, and a bog bottle, then return to Morwen.",
+      "completeDialogue": "Perfect — cap, herb and bottle, just so. The cure's bubbling. Cough's cured, joints eased, and one fellow's grown a SECOND nose, but that's a feature where he's from. Well done.",
+      "steps": [
+        { "key": "ingredients", "type": "collect", "pickupIds": ["brew-cap-1", "brew-herb-2", "brew-bottle-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 85,
+        "friendship": { "hedge-witch-morwen": 20 },
+        "collectible": { "id": "hollowmere-bubbling-cure", "name": "Bubbling Cure", "icon": "🧪", "desc": "A vial of Morwen's marsh-remedy. Cures most coughs, some curses, and one persistent case of extra nose." }
       }
     },
     {
@@ -35,12 +47,7 @@
       "activeDialogue": "A crow's feather, a moon-cap mushroom, and a thornless rose — all fall or grow around Hollowmere. Bring me all three.",
       "completeDialogue": "Feather, cap, and rose. Good. Now hold still — this tingles. *she mutters, and the air fills with chatter* ...There. You will hear them now: every cat, crow, and complaining frog. Go and listen to that wretched, kipper-loathing cat. And mind — knowing what a beast wants is the easy part. GIVING it to them is on you.",
       "steps": [
-        {
-          "key": "components",
-          "type": "collect",
-          "pickupIds": ["spell-feather", "spell-mooncap", "spell-rose"],
-          "required": 3
-        }
+        { "key": "components", "type": "collect", "pickupIds": ["spell-feather", "spell-mooncap", "spell-rose"], "required": 3 }
       ],
       "reward": {
         "crystals": 80,
@@ -50,21 +57,243 @@
           "icon": "🐾",
           "desc": "Hedge-Witch Morwen's beast-tongue — you can understand any animal's speech."
         },
-        "friendship": {
-          "hedge-witch-morwen": 20
-        }
+        "friendship": { "hedge-witch-morwen": 20 }
+      }
+    },
+    {
+      "id": "apothecary-ingredients-1",
+      "title": "Marsh Remedies",
+      "type": "fetch",
+      "giverNpcId": "apothecary-herbalist",
+      "receiverNpcId": "apothecary-herbalist",
+      "offerDialogue": "My shelves are bare and my patients are getting creative about their ailments. I need stock: two good fungus caps and a bunch of marsh-herb, all fresh from the mire. Watch the deep puddles — they bite back, and not always metaphorically.",
+      "activeDialogue": "Gather two fungus caps and a marsh-herb bunch from around the mire for Sister Nettle.",
+      "completeDialogue": "Fresh and potent — exactly right. Now I can mix something for the troll's rash that won't, you know, dissolve him. My thanks, and a small cut of the profits.",
+      "steps": [
+        { "key": "stock", "type": "collect", "pickupIds": ["apo-mush-1", "apo-mush-2", "apo-herb-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": { "apothecary-herbalist": 12 }
+      }
+    },
+    {
+      "id": "apothecary-ingredients-2",
+      "title": "Stronger Stuff",
+      "type": "chain",
+      "giverNpcId": "apothecary-herbalist",
+      "receiverNpcId": "apothecary-herbalist",
+      "prerequisite": "quest:apothecary-ingredients-1",
+      "offerDialogue": "Word's got round that I mix the good stuff, and now a swamp-drake's taken a chunk out of a regular. For THAT I need the rarer caps — the ones that only fruit in the deep muck where sensible folk don't go. You're not sensible, are you? Splendid. Three of them, if you please.",
+      "activeDialogue": "Find three rare deep-muck caps from the far reaches of the mire for Sister Nettle.",
+      "completeDialogue": "Deep-muck caps, every one. The drake-bite poultice practically mixes itself now. You've a steady hand and a stronger stomach — both rare, both welcome here.",
+      "steps": [
+        { "key": "rare", "type": "collect", "pickupIds": ["apo2-1", "apo2-2", "apo2-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": { "apothecary-herbalist": 18 },
+        "collectible": { "id": "hollowmere-drake-poultice", "name": "Drake-Bite Poultice", "icon": "🩹", "desc": "Sister Nettle's strongest remedy. Knits flesh, neutralises venom, smells absolutely dreadful." }
+      }
+    },
+    {
+      "id": "beast-taming-1",
+      "title": "Feeding Time",
+      "type": "fetch",
+      "giverNpcId": "tame-ogre-keeper",
+      "receiverNpcId": "tame-ogre-keeper",
+      "offerDialogue": "Pens are hungry and Mott's hands are full. Gather up the feed sacks and a haystack that got scattered round the yard, would you? Beast-taming starts with a full belly — theirs, not yours.",
+      "activeDialogue": "Collect the scattered feed sacks and hay from around the beast pens for Big Mott.",
+      "completeDialogue": "Good lad, good lad. See how they settle when they're fed? That's lesson one. You've a gentle way about you — the pens like that. So does Mott.",
+      "steps": [
+        { "key": "feed", "type": "collect", "pickupIds": ["feed-1", "feed-2", "feed-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 55,
+        "friendship": { "tame-ogre-keeper": 12 }
+      }
+    },
+    {
+      "id": "beast-taming-2",
+      "title": "Gentle Hands",
+      "type": "chain",
+      "giverNpcId": "tame-ogre-keeper",
+      "receiverNpcId": "tame-ogre-keeper",
+      "prerequisite": "quest:beast-taming-1",
+      "offerDialogue": "Now the harder part. The skittish ones won't come for food alone — they want their own bedding, their own smell about the place. Fetch the right hay and sacks from the yard so I can make each pen feel like home. Slow and patient, mind.",
+      "activeDialogue": "Gather proper bedding — hay and sacks — from the yard so Big Mott can settle the skittish beasts.",
+      "completeDialogue": "Look at that — the nervy one's stopped trembling. Took years off my worrying, you have. You've the patience for this work. Most folk don't.",
+      "steps": [
+        { "key": "bedding", "type": "collect", "pickupIds": ["gentle-1", "gentle-2", "gentle-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 75,
+        "friendship": { "tame-ogre-keeper": 16 }
+      }
+    },
+    {
+      "id": "beast-taming-3",
+      "title": "Best in Show",
+      "type": "chain",
+      "giverNpcId": "tame-ogre-keeper",
+      "receiverNpcId": "tame-ogre-keeper",
+      "prerequisite": "quest:beast-taming-2",
+      "offerDialogue": "The pens are calm enough now to show off. Gather a couple of proper treats — the herbs and caps the beasts go daft for — and bring them back to me. Then we'll see if these darlings can behave in front of company.",
+      "activeDialogue": "Collect two prize treats from around town, then bring them back to Big Mott at the pens.",
+      "completeDialogue": "They sat. They STAYED. Big Mott has not been this proud since... ever, really. You're a beast-tamer now, and no mistake. The pens will always have a place for you.",
+      "steps": [
+        { "key": "treats", "type": "collect", "pickupIds": ["show-1", "show-2"], "required": 2 },
+        { "key": "deliver", "type": "deliver", "targetNpcId": "tame-ogre-keeper", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 110,
+        "friendship": { "tame-ogre-keeper": 25 },
+        "collectible": { "id": "hollowmere-beast-whistle", "name": "Mott's Beast-Whistle", "icon": "🎺", "desc": "A bone whistle that no human ear can hear. Big Mott's beasts come running every time." }
+      }
+    },
+    {
+      "id": "curio-oddities",
+      "title": "Bits and Bones",
+      "type": "lost-items",
+      "giverNpcId": "goblin-curio-keep",
+      "receiverNpcId": "goblin-curio-keep",
+      "offerDialogue": "Disaster! Half my best oddments have walked off — a skull, a book, a lovely tarnished pendant. Stock doesn't sell itself, especially when it's gone wandering. Round it up for Snægg and there's coin in it for you. Probably.",
+      "activeDialogue": "Recover Snægg's three lost curios — a skull, a book and a pendant — from around Hollowmere.",
+      "completeDialogue": "All three! And barely chewed! You've a collector's eye, you have. Tell you what — keep the coin AND a little something from the bargain bin. Don't open the jar. Just... don't.",
+      "steps": [
+        { "key": "oddments", "type": "collect", "pickupIds": ["odd-1", "odd-2", "odd-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 70,
+        "friendship": { "goblin-curio-keep": 15 }
+      }
+    },
+    {
+      "id": "mud-wallow",
+      "title": "A Good Soak",
+      "type": "fetch",
+      "giverNpcId": "bog-troll-attendant",
+      "receiverNpcId": "bog-troll-attendant",
+      "offerDialogue": "The wallow's gone flat and sad. Needs proper supplies to bubble right — a bottle of bog-oil, a bunch of soothing herb, and a jar of Nettle's salts. Fetch 'em and Grunda'll throw in a soak that'll make your skin GLOW. Possibly literally.",
+      "activeDialogue": "Gather bog-oil, soothing herb and salts from around town for Grunda's mud-wallow.",
+      "completeDialogue": "Ahhh, smell that? That's a wallow with PRIDE again. First soak's on the house, friend. Mind the deep end — that's where we lost the last health inspector.",
+      "steps": [
+        { "key": "supplies", "type": "collect", "pickupIds": ["wallow-1", "wallow-2", "wallow-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": { "bog-troll-attendant": 14 }
+      }
+    },
+    {
+      "id": "mire-lost-items-1",
+      "title": "Lost in the Mire",
+      "type": "lost-items",
+      "giverNpcId": "swamp-hag",
+      "receiverNpcId": "swamp-hag",
+      "offerDialogue": "The mire's a magpie, dearie — it takes the pretty things and the precious things alike, then sulks in the muck with them. Three trinkets it swallowed of late: a pendant, an old book, a little pot of physic. Fetch them up and Mother Sump won't forget a kindness.",
+      "activeDialogue": "Recover three trinkets the mire has swallowed — a pendant, a book and a pot of physic.",
+      "completeDialogue": "All three, dredged from the deep muck. The mire grumbles, but it'll forgive you — and so will the folk who lost them. You've a fine eye for what the bog hides, child.",
+      "steps": [
+        { "key": "trinkets", "type": "collect", "pickupIds": ["lost-1", "lost-2", "lost-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 65,
+        "friendship": { "swamp-hag": 15 }
+      }
+    },
+    {
+      "id": "mire-lost-items-2",
+      "title": "Deeper in the Muck",
+      "type": "lost-items",
+      "giverNpcId": "swamp-hag",
+      "receiverNpcId": "swamp-hag",
+      "prerequisite": "quest:mire-lost-items-1",
+      "offerDialogue": "You've a knack, so I'll trust you with the deep finds — the things the mire took LONG ago and guards jealous. Out past the gnarled trees, where the muck goes black. Bring back what you find, and mind it doesn't bring something back with it.",
+      "activeDialogue": "Search the deepest, blackest reaches of the mire for three long-lost treasures.",
+      "completeDialogue": "From the black muck itself! Two hundred years that pendant lay down there. You've earned the mire's grudging respect, dearie — and Mother Sump's, which is rarer and worth more.",
+      "steps": [
+        { "key": "deep", "type": "collect", "pickupIds": ["lost2-1", "lost2-2", "lost2-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 90,
+        "friendship": { "swamp-hag": 20 },
+        "collectible": { "id": "hollowmere-mire-pearl", "name": "Mire Pearl", "icon": "⚪", "desc": "A black pearl the marsh guarded for centuries. Mother Sump let you keep it — that means something." }
+      }
+    },
+    {
+      "id": "hollowmere-marsh-medicine",
+      "title": "A Favour for Dreadspire",
+      "type": "chain",
+      "giverNpcId": "hedge-witch-morwen",
+      "receiverNpcId": "alchemist-sythe",
+      "prerequisite": "quest:hollowmere-witch-brew",
+      "offerDialogue": "That sour old alchemist Sythe, up at Dreadspire Citadel, sent word he's out of marsh-physic again. We feud, he and I, but a sick town's a sick town. Take a vial of my best from the brewing room and carry it to him. Tell him Morwen says he STILL owes her a cauldron.",
+      "activeDialogue": "Collect a vial of marsh-physic from Morwen's brewing room, then carry it to Alchemist Sythe at Dreadspire Citadel.",
+      "completeDialogue": "Morwen's marsh-physic, fresh as the bog. And a message about a cauldron — yes, yes, she's mentioned it. Frequently. Across two decades. Tell the old crow her debt is noted and her physic is, infuriatingly, excellent.",
+      "steps": [
+        { "key": "vial", "type": "collect", "pickupIds": ["medicine-vial"], "required": 1 },
+        { "key": "deliver", "type": "deliver", "targetNpcId": "alchemist-sythe", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 95,
+        "friendship": { "hedge-witch-morwen": 15 },
+        "collectible": { "id": "hollowmere-feud-token", "name": "The Cauldron I.O.U.", "icon": "📜", "desc": "A note acknowledging Sythe's twenty-year-old cauldron debt to Morwen. She will treasure this forever." }
       }
     }
   ],
   "pickupItems": [
     { "id": "moonherb-1", "tx": 3, "ty": 12, "tileId": "bunchOfHerbs", "questId": "hollowmere-witch-brew" },
-    { "id": "moonherb-2", "tx": 16, "ty": 14, "tileId": "bunchOfHerbs", "questId": "hollowmere-witch-brew" },
+    { "id": "moonherb-2", "tx": 15, "ty": 13, "tileId": "bunchOfHerbs", "questId": "hollowmere-witch-brew" },
     { "id": "moonherb-3", "tx": 24, "ty": 17, "tileId": "bunchOfHerbs", "questId": "hollowmere-witch-brew" },
-    { "id": "moon-herb-1", "tx": 7, "ty": 16, "tileId": "bunchOfHerbs", "questId": "dreadspire-moon-herbs" },
-    { "id": "moon-herb-2", "tx": 11, "ty": 17, "tileId": "bunchOfHerbs", "questId": "dreadspire-moon-herbs" },
-    { "id": "spell-feather", "tx": 5, "ty": 12, "tileId": "feather", "questId": "morwen-speak-with-animals" },
-    { "id": "spell-mooncap", "tx": 18, "ty": 14, "tileId": "purpleMushroom", "questId": "morwen-speak-with-animals" },
-    { "id": "spell-rose", "tx": 22, "ty": 17, "tileId": "cropRose", "questId": "morwen-speak-with-animals" }
+
+    { "id": "moon-herb-1", "tx": 5, "ty": 28, "tileId": "bunchOfHerbs", "questId": "dreadspire-moon-herbs" },
+    { "id": "moon-herb-2", "tx": 28, "ty": 28, "tileId": "bunchOfHerbs", "questId": "dreadspire-moon-herbs" },
+
+    { "id": "spell-feather", "tx": 36, "ty": 15, "tileId": "feather", "questId": "morwen-speak-with-animals" },
+    { "id": "spell-mooncap", "tx": 12, "ty": 28, "tileId": "purpleMushroom", "questId": "morwen-speak-with-animals" },
+    { "id": "spell-rose", "tx": 9, "ty": 16, "tileId": "cropRose", "questId": "morwen-speak-with-animals" },
+
+    { "id": "brew-cap-1", "tx": 7, "ty": 2, "tileId": "purpleMushroom", "building": "witch-hut-brewing", "questId": "hollowmere-witch-brew-2" },
+    { "id": "brew-herb-2", "tx": 22, "ty": 28, "tileId": "bunchOfHerbs", "questId": "hollowmere-witch-brew-2" },
+    { "id": "brew-bottle-3", "tx": 30, "ty": 28, "tileId": "bottle", "questId": "hollowmere-witch-brew-2" },
+
+    { "id": "apo-mush-1", "tx": 2, "ty": 25, "tileId": "brownMushroom", "questId": "apothecary-ingredients-1" },
+    { "id": "apo-mush-2", "tx": 37, "ty": 25, "tileId": "purpleMushroom", "questId": "apothecary-ingredients-1" },
+    { "id": "apo-herb-3", "tx": 15, "ty": 28, "tileId": "bunchOfHerbs", "questId": "apothecary-ingredients-1" },
+
+    { "id": "apo2-1", "tx": 9, "ty": 24, "tileId": "purpleMushroom", "questId": "apothecary-ingredients-2" },
+    { "id": "apo2-2", "tx": 29, "ty": 24, "tileId": "brownMushroom", "questId": "apothecary-ingredients-2" },
+    { "id": "apo2-3", "tx": 20, "ty": 29, "tileId": "purpleMushroom", "questId": "apothecary-ingredients-2" },
+
+    { "id": "feed-1", "tx": 15, "ty": 19, "tileId": "sack", "questId": "beast-taming-1" },
+    { "id": "feed-2", "tx": 23, "ty": 20, "tileId": "hayStack", "questId": "beast-taming-1" },
+    { "id": "feed-3", "tx": 15, "ty": 20, "tileId": "sack", "questId": "beast-taming-1" },
+
+    { "id": "gentle-1", "tx": 24, "ty": 19, "tileId": "sack", "questId": "beast-taming-2" },
+    { "id": "gentle-2", "tx": 24, "ty": 20, "tileId": "hayStack", "questId": "beast-taming-2" },
+    { "id": "gentle-3", "tx": 22, "ty": 21, "tileId": "sack", "questId": "beast-taming-2" },
+
+    { "id": "show-1", "tx": 18, "ty": 20, "tileId": "bunchOfHerbs", "questId": "beast-taming-3" },
+    { "id": "show-2", "tx": 20, "ty": 20, "tileId": "brownMushroom", "questId": "beast-taming-3" },
+
+    { "id": "odd-1", "tx": 9, "ty": 12, "tileId": "closedBook", "questId": "curio-oddities" },
+    { "id": "odd-2", "tx": 40, "ty": 12, "tileId": "pendant", "questId": "curio-oddities" },
+    { "id": "odd-3", "tx": 2, "ty": 5, "tileId": "skull", "building": "bonepile-curio", "questId": "curio-oddities" },
+
+    { "id": "wallow-1", "tx": 27, "ty": 21, "tileId": "bottle", "questId": "mud-wallow" },
+    { "id": "wallow-2", "tx": 32, "ty": 21, "tileId": "bunchOfHerbs", "questId": "mud-wallow" },
+    { "id": "wallow-3", "tx": 28, "ty": 20, "tileId": "potions", "questId": "mud-wallow" },
+
+    { "id": "lost-1", "tx": 4, "ty": 26, "tileId": "pendant", "questId": "mire-lost-items-1" },
+    { "id": "lost-2", "tx": 33, "ty": 27, "tileId": "closedBook", "questId": "mire-lost-items-1" },
+    { "id": "lost-3", "tx": 13, "ty": 28, "tileId": "potions", "questId": "mire-lost-items-1" },
+
+    { "id": "lost2-1", "tx": 7, "ty": 28, "tileId": "pendant", "questId": "mire-lost-items-2" },
+    { "id": "lost2-2", "tx": 25, "ty": 28, "tileId": "closedBook", "questId": "mire-lost-items-2" },
+    { "id": "lost2-3", "tx": 35, "ty": 27, "tileId": "potOfFlowers", "questId": "mire-lost-items-2" },
+
+    { "id": "medicine-vial", "tx": 3, "ty": 2, "tileId": "potions", "building": "witch-hut-brewing", "questId": "hollowmere-marsh-medicine" }
   ],
   "blockedPaths": []
 }
