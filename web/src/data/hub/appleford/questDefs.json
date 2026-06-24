@@ -8,7 +8,7 @@
       "receiverNpcId": "orchard-keeper-bess",
       "offerDialogue": "The raiders dropped half of what they stole running from the village dogs. Three baskets of good apples, scattered through the orchard rows. Bring them in before the wasps claim them, would you? My knees have retired from bending.",
       "activeDialogue": "Three apple baskets, somewhere among the orchard rows. Follow the wasps if you're stuck.",
-      "completeDialogue": "Barely a bruise on them! The pressing's saved. You've a friend in Appleford, traveller — and a discount Tom doesn't know he's offering.",
+      "completeDialogue": "Barely a bruise on them! The pressing's saved. You've a friend in Appleford, traveller \u2014 and a discount Tom doesn't know he's offering.",
       "steps": [
         {
           "key": "apples",
@@ -23,11 +23,373 @@
       ],
       "reward": {
         "crystals": 45,
+        "friendship": {
+          "orchard-keeper-bess": 12
+        },
         "collectible": {
           "id": "appleford-apple",
           "name": "Perfect Apple",
-          "icon": "🍎",
+          "icon": "\ud83c\udf4e",
           "desc": "A flawless apple from the oldest tree in Appleford. Bess named the tree Gerald."
+        }
+      }
+    },
+    {
+      "id": "appleford-cider-pressing",
+      "title": "Pressing Matters",
+      "type": "fetch",
+      "giverNpcId": "cider-brewer-tom",
+      "receiverNpcId": "cider-brewer-tom",
+      "offerDialogue": "Press is hungry and the harvest's late. Gather me three baskets of ripe apples from the rows \u2014 the red ones, mind, the green ones are for vinegar and spite. Then we'll make cider worth the name.",
+      "activeDialogue": "Three baskets of ripe apples from the orchard rows, for Tom's press.",
+      "completeDialogue": "Now THAT'S an apple. Listen to the press sing. First mug of the new batch is yours \u2014 don't tell Bess I said it was free.",
+      "steps": [
+        {
+          "key": "apples",
+          "type": "collect",
+          "pickupIds": [
+            "cider-apple-1",
+            "cider-apple-2",
+            "cider-apple-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 50,
+        "friendship": {
+          "cider-brewer-tom": 12
+        }
+      }
+    },
+    {
+      "id": "appleford-cider-pressing-2",
+      "title": "Bottling Day",
+      "type": "chain",
+      "giverNpcId": "cider-brewer-tom",
+      "receiverNpcId": "cider-brewer-tom",
+      "prerequisite": "quest:appleford-cider-pressing",
+      "offerDialogue": "The press did its part; now we bottle. I need a stoppered jar from the press room shelf and two empty bottles the children left rolling about the lane. Round them up and we'll get this batch sealed before it turns.",
+      "activeDialogue": "A jar from the press room, plus two empty bottles around the lanes, then back to Tom.",
+      "completeDialogue": "Sealed, stacked, and sweet as a summer afternoon. You've a steady hand for this, traveller. Take a bottle of the good stuff.",
+      "steps": [
+        {
+          "key": "bottles",
+          "type": "collect",
+          "pickupIds": [
+            "press-jar-1",
+            "empty-bottle-2",
+            "empty-bottle-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 75,
+        "friendship": {
+          "cider-brewer-tom": 18
+        },
+        "collectible": {
+          "id": "appleford-cider",
+          "name": "Appleford Cider",
+          "icon": "\ud83c\udf7a",
+          "desc": "A bottle of the new pressing. Crisp, golden, and gone too soon."
+        }
+      }
+    },
+    {
+      "id": "appleford-honey-harvest",
+      "title": "The Sweet Harvest",
+      "type": "fetch",
+      "giverNpcId": "beekeeper-mabe",
+      "receiverNpcId": "beekeeper-mabe",
+      "offerDialogue": "The blossom's been good to us, and the hives are heavy. Help me gather three combs from the skeps along the rows \u2014 gently, mind, the bees are particular about strangers. Move slow and they'll let you be.",
+      "activeDialogue": "Three honeycombs from the hives along the orchard rows, for Mabe.",
+      "completeDialogue": "Golden, every one, and not a sting on you \u2014 the bees like you, which is more than they can say for most. Here, a little something for your trouble.",
+      "steps": [
+        {
+          "key": "combs",
+          "type": "collect",
+          "pickupIds": [
+            "honeycomb-1",
+            "honeycomb-2",
+            "honeycomb-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 50,
+        "friendship": {
+          "beekeeper-mabe": 12
+        }
+      }
+    },
+    {
+      "id": "appleford-honey-harvest-2",
+      "title": "Wax and Mead",
+      "type": "chain",
+      "giverNpcId": "beekeeper-mabe",
+      "receiverNpcId": "beekeeper-mabe",
+      "prerequisite": "quest:appleford-honey-harvest",
+      "offerDialogue": "Now for the wax \u2014 it makes candles for the chapel and seals for Tom's bottles. There's a block on my cottage shelf and two more dropped about the rows. Bring them and I'll set a pot of mead bubbling for the festival.",
+      "activeDialogue": "A wax block from Mabe's cottage and two more from the rows, then return to Mabe.",
+      "completeDialogue": "Enough wax for a winter of candles and a barrel of mead besides. You've earned a jar of the first honey, traveller \u2014 straight from Appleford's busiest workers.",
+      "steps": [
+        {
+          "key": "wax",
+          "type": "collect",
+          "pickupIds": [
+            "wax-1",
+            "beeswax-2",
+            "beeswax-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 75,
+        "friendship": {
+          "beekeeper-mabe": 18
+        },
+        "collectible": {
+          "id": "appleford-honey",
+          "name": "Orchard Honey",
+          "icon": "\ud83c\udf6f",
+          "desc": "A jar of Appleford's first honey of the season. Tastes of apple blossom and warm afternoons."
+        }
+      }
+    },
+    {
+      "id": "appleford-coopers-order",
+      "title": "Staves and Hoops",
+      "type": "fetch",
+      "giverNpcId": "cooper-wend",
+      "receiverNpcId": "cooper-wend",
+      "offerDialogue": "Can't make barrels without wood, and the woodpile's scattered halfway to the hedge. Three good bundles of staves, gather them up for me. Tom's already nagging for his casks, and a nagging Tom is a long day.",
+      "activeDialogue": "Three bundles of barrel staves, scattered around the village edges, for Cooper Wend.",
+      "completeDialogue": "Grand, grand. Straight-grained and dry \u2014 that's a cask waiting to happen. You've saved me a bending back and Tom a sulk. Both worth paying for.",
+      "steps": [
+        {
+          "key": "staves",
+          "type": "collect",
+          "pickupIds": [
+            "stave-1",
+            "stave-2",
+            "stave-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 55,
+        "friendship": {
+          "cooper-wend": 14
+        }
+      }
+    },
+    {
+      "id": "appleford-orchard-pickers",
+      "title": "A Picker's Lot",
+      "type": "fetch",
+      "giverNpcId": "orchard-hand-hob",
+      "receiverNpcId": "orchard-hand-hob",
+      "offerDialogue": "My basket-arm's gone dead and there's apples going soft on the high branches. Bring me three baskets from the rows and I'll show you the trick of stacking a crate so it doesn't tip on the cart. Riveting stuff, I know.",
+      "activeDialogue": "Gather three apple baskets from the rows and bring them to Hob.",
+      "completeDialogue": "Look at that \u2014 a proper haul. You've a picker's eye, you have. Stick around; there's always more apples than arms in Appleford.",
+      "steps": [
+        {
+          "key": "apples",
+          "type": "collect",
+          "pickupIds": [
+            "pick-apple-1",
+            "pick-apple-2",
+            "pick-apple-3"
+          ],
+          "required": 3
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "orchard-hand-hob",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 50,
+        "friendship": {
+          "orchard-hand-hob": 12
+        }
+      }
+    },
+    {
+      "id": "appleford-orchard-pickers-2",
+      "title": "To Market",
+      "type": "chain",
+      "giverNpcId": "orchard-hand-hob",
+      "receiverNpcId": "market-trader-posy",
+      "prerequisite": "quest:appleford-orchard-pickers",
+      "offerDialogue": "Crate's packed and Posy's waiting at the market hall, tapping her foot no doubt. Haul this lot over to her, would you? My back's filed a formal complaint. Just grab the crate from the lane and carry it to Trader Posy.",
+      "activeDialogue": "Carry the packed apple crate to Trader Posy at the market hall.",
+      "completeDialogue": "Right on time and not a bruise on them \u2014 Hob's trained you well. The cart leaves for Ravenwatch at dawn. My thanks, traveller.",
+      "steps": [
+        {
+          "key": "crate",
+          "type": "collect",
+          "pickupIds": [
+            "picker-crate-1"
+          ],
+          "required": 1
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "market-trader-posy",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 70,
+        "friendship": {
+          "market-trader-posy": 12,
+          "orchard-hand-hob": 8
+        }
+      }
+    },
+    {
+      "id": "appleford-cider-to-ravenwatch",
+      "title": "The Ravenwatch Run",
+      "type": "chain",
+      "giverNpcId": "market-trader-posy",
+      "receiverNpcId": "innkeeper-rosie",
+      "prerequisite": "quest:appleford-cider-pressing-2",
+      "offerDialogue": "Now you've bottled with Tom, you'll know good cider when you carry it. Innkeeper Rosie at Ravenwatch pays double for our pressing \u2014 when it arrives unbroken. Take this crate to her at the inn, and mind the toll road. Tell her Appleford sends its best.",
+      "activeDialogue": "Carry the crate of Appleford cider to Innkeeper Rosie at the Ravenwatch inn.",
+      "completeDialogue": "Appleford cider, all the way from the orchards! Rosie will be glad \u2014 half her regulars ask for it by name. Here's your cut, and tell Posy the inn says thank you.",
+      "steps": [
+        {
+          "key": "crate",
+          "type": "collect",
+          "pickupIds": [
+            "cider-crate-1"
+          ],
+          "required": 1
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "innkeeper-rosie",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": {
+          "market-trader-posy": 18
+        },
+        "collectible": {
+          "id": "appleford-trade-seal",
+          "name": "Trade Seal",
+          "icon": "\ud83d\udcdc",
+          "desc": "Proof of an honest cider run from Appleford to Ravenwatch. Posy will remember this."
+        }
+      }
+    },
+    {
+      "id": "appleford-harvest-blessing",
+      "title": "The Harvest Blessing",
+      "type": "fetch",
+      "giverNpcId": "chaplain-hale",
+      "receiverNpcId": "chaplain-hale",
+      "festivalId": "harvest",
+      "offerDialogue": "It's the season of thanks, and the chapel must be ready for the blessing of the first pressing. Fetch me a candle from the chapel store and two harvest blooms from the rows. A small thing \u2014 but the whole village comes, bees and all.",
+      "activeDialogue": "A candle from the chapel and two harvest blooms from the orchard, for Brother Hale's blessing.",
+      "completeDialogue": "The altar's dressed and the candle's lit. Let the bees have their thimble of mead and the village its blessing. Appleford thanks you, traveller \u2014 and so do I.",
+      "steps": [
+        {
+          "key": "blessing",
+          "type": "collect",
+          "pickupIds": [
+            "chapel-candle-1",
+            "harvest-bloom-2",
+            "harvest-bloom-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 65,
+        "friendship": {
+          "chaplain-hale": 15
+        },
+        "collectible": {
+          "id": "appleford-blessing",
+          "name": "Harvest Blessing",
+          "icon": "\ud83d\udd6f\ufe0f",
+          "desc": "Brother Hale's blessing of the first pressing. The orchard will be generous next year \u2014 he's quite sure of it."
+        }
+      }
+    },
+    {
+      "id": "appleford-scrumping",
+      "title": "The Scrumper's Secret",
+      "type": "lost-items",
+      "giverNpcId": "scrumping-wren",
+      "receiverNpcId": "scrumping-wren",
+      "offerDialogue": "I dropped my things running from Keeper Bess \u2014 my lucky basket, the empty one I fill with apples, and... and a shiny thing I DEFINITELY didn't take from the market. Find them before she does? I'll be your best friend forever. Probably.",
+      "activeDialogue": "Recover Wren's three dropped things from around the orchard \u2014 quietly.",
+      "completeDialogue": "You found them ALL! And you didn't tell Bess! You're the best grown-up ever. Here, have my second-favourite apple. It's only got one bruise.",
+      "steps": [
+        {
+          "key": "things",
+          "type": "collect",
+          "pickupIds": [
+            "wren-1",
+            "wren-2",
+            "wren-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 40,
+        "friendship": {
+          "scrumping-wren": 15
+        }
+      }
+    },
+    {
+      "id": "appleford-lost-in-orchard",
+      "title": "Lost Among the Rows",
+      "type": "lost-items",
+      "giverNpcId": "orchard-keeper-bess",
+      "receiverNpcId": "orchard-keeper-bess",
+      "prerequisite": "quest:appleford-scattered-harvest",
+      "offerDialogue": "Folk are forever losing things among my trees \u2014 a book here, a pot of flowers there, somebody's grandmother's pendant. The orchard keeps what it catches. Bring me what you find and I'll see it home to its owner.",
+      "activeDialogue": "Recover three lost belongings from among the orchard rows for Keeper Bess.",
+      "completeDialogue": "A book, a pot, and that pendant old Maery's been weeping over for a week. You've a sharp eye for what the rows hide, traveller. Bless you for it.",
+      "steps": [
+        {
+          "key": "lost",
+          "type": "collect",
+          "pickupIds": [
+            "orchard-lost-1",
+            "orchard-lost-2",
+            "orchard-lost-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": {
+          "orchard-keeper-bess": 16
+        },
+        "collectible": {
+          "id": "appleford-keepsake",
+          "name": "Orchard Keepsake",
+          "icon": "\ud83c\udf97\ufe0f",
+          "desc": "A token of thanks from the folk of Appleford whose treasures you returned."
         }
       }
     }
@@ -35,24 +397,230 @@
   "pickupItems": [
     {
       "id": "apple-basket-1",
-      "tx": 6,
-      "ty": 15,
+      "tx": 5,
+      "ty": 23,
       "tileId": "appleBasket",
       "questId": "appleford-scattered-harvest"
     },
     {
       "id": "apple-basket-2",
-      "tx": 14,
-      "ty": 14,
+      "tx": 11,
+      "ty": 25,
       "tileId": "appleBasket",
       "questId": "appleford-scattered-harvest"
     },
     {
       "id": "apple-basket-3",
-      "tx": 21,
-      "ty": 16,
+      "tx": 29,
+      "ty": 25,
       "tileId": "appleBasket",
       "questId": "appleford-scattered-harvest"
+    },
+    {
+      "id": "cider-apple-1",
+      "tx": 8,
+      "ty": 23,
+      "tileId": "appleBasket",
+      "questId": "appleford-cider-pressing"
+    },
+    {
+      "id": "cider-apple-2",
+      "tx": 14,
+      "ty": 23,
+      "tileId": "appleBasket",
+      "questId": "appleford-cider-pressing"
+    },
+    {
+      "id": "cider-apple-3",
+      "tx": 20,
+      "ty": 23,
+      "tileId": "appleBasket",
+      "questId": "appleford-cider-pressing"
+    },
+    {
+      "id": "honeycomb-1",
+      "tx": 12,
+      "ty": 23,
+      "tileId": "bunchOfHerbs",
+      "questId": "appleford-honey-harvest"
+    },
+    {
+      "id": "honeycomb-2",
+      "tx": 8,
+      "ty": 25,
+      "tileId": "leafBasket",
+      "questId": "appleford-honey-harvest"
+    },
+    {
+      "id": "honeycomb-3",
+      "tx": 11,
+      "ty": 23,
+      "tileId": "bunchOfHerbs",
+      "questId": "appleford-honey-harvest"
+    },
+    {
+      "id": "stave-1",
+      "tx": 37,
+      "ty": 23,
+      "tileId": "logPile",
+      "questId": "appleford-coopers-order"
+    },
+    {
+      "id": "stave-2",
+      "tx": 32,
+      "ty": 25,
+      "tileId": "logPile",
+      "questId": "appleford-coopers-order"
+    },
+    {
+      "id": "stave-3",
+      "tx": 37,
+      "ty": 25,
+      "tileId": "logPile",
+      "questId": "appleford-coopers-order"
+    },
+    {
+      "id": "pick-apple-1",
+      "tx": 23,
+      "ty": 25,
+      "tileId": "appleBasket",
+      "questId": "appleford-orchard-pickers"
+    },
+    {
+      "id": "pick-apple-2",
+      "tx": 26,
+      "ty": 23,
+      "tileId": "appleBasket",
+      "questId": "appleford-orchard-pickers"
+    },
+    {
+      "id": "pick-apple-3",
+      "tx": 17,
+      "ty": 25,
+      "tileId": "appleBasket",
+      "questId": "appleford-orchard-pickers"
+    },
+    {
+      "id": "wren-1",
+      "tx": 2,
+      "ty": 23,
+      "tileId": "leafBasket",
+      "questId": "appleford-scrumping"
+    },
+    {
+      "id": "wren-2",
+      "tx": 5,
+      "ty": 12,
+      "tileId": "emptyBasket",
+      "questId": "appleford-scrumping"
+    },
+    {
+      "id": "wren-3",
+      "tx": 26,
+      "ty": 25,
+      "tileId": "pendant",
+      "questId": "appleford-scrumping"
+    },
+    {
+      "id": "orchard-lost-1",
+      "tx": 14,
+      "ty": 12,
+      "tileId": "closedBook",
+      "questId": "appleford-lost-in-orchard"
+    },
+    {
+      "id": "orchard-lost-2",
+      "tx": 26,
+      "ty": 12,
+      "tileId": "potOfFlowers",
+      "questId": "appleford-lost-in-orchard"
+    },
+    {
+      "id": "orchard-lost-3",
+      "tx": 38,
+      "ty": 25,
+      "tileId": "pendant",
+      "questId": "appleford-lost-in-orchard"
+    },
+    {
+      "id": "empty-bottle-2",
+      "tx": 3,
+      "ty": 23,
+      "tileId": "bottle",
+      "questId": "appleford-cider-pressing-2"
+    },
+    {
+      "id": "empty-bottle-3",
+      "tx": 6,
+      "ty": 23,
+      "tileId": "bottle",
+      "questId": "appleford-cider-pressing-2"
+    },
+    {
+      "id": "beeswax-2",
+      "tx": 9,
+      "ty": 25,
+      "tileId": "bottle",
+      "questId": "appleford-honey-harvest-2"
+    },
+    {
+      "id": "beeswax-3",
+      "tx": 14,
+      "ty": 25,
+      "tileId": "bottle",
+      "questId": "appleford-honey-harvest-2"
+    },
+    {
+      "id": "picker-crate-1",
+      "tx": 17,
+      "ty": 23,
+      "tileId": "openCrate",
+      "questId": "appleford-orchard-pickers-2"
+    },
+    {
+      "id": "cider-crate-1",
+      "tx": 20,
+      "ty": 22,
+      "tileId": "crate",
+      "questId": "appleford-cider-to-ravenwatch"
+    },
+    {
+      "id": "harvest-bloom-2",
+      "tx": 23,
+      "ty": 23,
+      "tileId": "pinkFlower",
+      "questId": "appleford-harvest-blessing"
+    },
+    {
+      "id": "harvest-bloom-3",
+      "tx": 38,
+      "ty": 22,
+      "tileId": "whiteFlower",
+      "questId": "appleford-harvest-blessing"
+    },
+    {
+      "id": "press-jar-1",
+      "tx": 9,
+      "ty": 5,
+      "tileId": "bottle",
+      "building": "cider-house-press",
+      "questId": "appleford-cider-pressing-2"
+    },
+    {
+      "id": "wax-1",
+      "tx": 5,
+      "ty": 3,
+      "tileId": "bottle",
+      "building": "apiary",
+      "questId": "appleford-honey-harvest-2"
+    },
+    {
+      "id": "chapel-candle-1",
+      "tx": 9,
+      "ty": 5,
+      "tileId": "candlestickUnlit",
+      "building": "chapel",
+      "questId": "appleford-harvest-blessing"
     }
   ],
   "blockedPaths": []
