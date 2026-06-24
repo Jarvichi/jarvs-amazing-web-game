@@ -1,71 +1,153 @@
 {
-  "mapW": 896,
-  "mapH": 640,
+  "mapW": 1280,
+  "mapH": 896,
   "townName": "Appleford",
   "environment": "farmland",
+  "weather": {
+    "bySeason": {
+      "spring": "rain",
+      "summer": "clear",
+      "autumn": "fog",
+      "winter": "snow"
+    }
+  },
   "avatarStart": {
-    "tx": 14,
-    "ty": 18
+    "tx": 18,
+    "ty": 23
   },
   "exitTiles": [
     {
-      "tx": 13,
-      "ty": 19,
+      "tx": 16,
+      "ty": 24,
       "screen": "worldmap"
     },
     {
-      "tx": 14,
-      "ty": 19,
+      "tx": 17,
+      "ty": 24,
       "screen": "worldmap"
     }
   ],
   "areas": [
     {
+      "id": "appleford-village",
+      "name": "Village Lane",
+      "tx": 3,
+      "ty": 2,
+      "tw": 33,
+      "th": 9
+    },
+    {
       "id": "appleford-orchard",
       "name": "The Orchards",
-      "tx": 3,
+      "tx": 1,
       "ty": 12,
-      "tw": 22,
-      "th": 6
+      "tw": 37,
+      "th": 14
+    },
+    {
+      "id": "appleford-market",
+      "name": "Market Yard",
+      "tx": 27,
+      "ty": 13,
+      "tw": 11,
+      "th": 12
     }
   ],
   "streets": [
     {
       "rect": [
-        13,
+        18,
         2,
+        19,
+        25
+      ]
+    },
+    {
+      "rect": [
+        4,
+        10,
+        36,
+        11
+      ]
+    },
+    {
+      "rect": [
+        4,
+        20,
+        36,
+        21
+      ]
+    },
+    {
+      "rect": [
+        6,
+        9,
+        6,
+        9
+      ]
+    },
+    {
+      "rect": [
+        14,
+        9,
+        14,
+        9
+      ]
+    },
+    {
+      "rect": [
+        24,
+        9,
+        24,
+        9
+      ]
+    },
+    {
+      "rect": [
+        32,
+        9,
+        32,
+        9
+      ]
+    },
+    {
+      "rect": [
+        6,
+        19,
+        6,
+        19
+      ]
+    },
+    {
+      "rect": [
+        14,
+        19,
         14,
         19
       ]
     },
     {
       "rect": [
-        3,
-        10,
-        25,
-        11
-      ]
-    },
-    {
-      "rect": [
-        7,
-        9,
-        8,
-        9
-      ]
-    },
-    {
-      "rect": [
+        24,
         19,
-        9,
-        20,
-        9
+        24,
+        19
       ]
     },
     {
-      "tile": [
-        21,
-        9
+      "rect": [
+        32,
+        19,
+        32,
+        19
+      ]
+    },
+    {
+      "rect": [
+        16,
+        24,
+        17,
+        24
       ]
     }
   ],
@@ -74,16 +156,16 @@
       "id": "cider-house",
       "upgradeKind": "tavern",
       "rect": [
-        4,
+        3,
         2,
-        11,
+        9,
         8
       ],
       "wall": "woodWall",
       "roof": "redSlateRoof",
       "doors": [
         {
-          "tx": 4,
+          "tx": 3,
           "ty": 1,
           "hideSign": true,
           "buildingId": "cider-house"
@@ -91,12 +173,32 @@
       ]
     },
     {
+      "id": "chapel",
+      "upgradeKind": "shrine",
+      "rect": [
+        11,
+        2,
+        16,
+        8
+      ],
+      "wall": "whiteStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "chapel"
+        }
+      ]
+    },
+    {
       "id": "keepers-cottage",
       "upgradeKind": "cottage",
       "rect": [
-        17,
-        3,
-        23,
+        21,
+        2,
+        27,
         8
       ],
       "wall": "woodWall",
@@ -109,71 +211,345 @@
           "buildingId": "keepers-cottage"
         }
       ]
+    },
+    {
+      "id": "coopers-shed",
+      "upgradeKind": "workshop",
+      "rect": [
+        29,
+        2,
+        35,
+        8
+      ],
+      "wall": "woodWall",
+      "roof": "woodRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "coopers-shed"
+        }
+      ]
+    },
+    {
+      "id": "bottling-barn",
+      "upgradeKind": "workshop",
+      "rect": [
+        3,
+        13,
+        9,
+        18
+      ],
+      "wall": "woodWall",
+      "roof": "strawRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "bottling-barn"
+        }
+      ]
+    },
+    {
+      "id": "apiary",
+      "upgradeKind": "cottage",
+      "rect": [
+        11,
+        13,
+        16,
+        18
+      ],
+      "wall": "woodWall",
+      "roof": "strawRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "apiary"
+        }
+      ]
+    },
+    {
+      "id": "orchard-cottage",
+      "upgradeKind": "cottage",
+      "rect": [
+        21,
+        13,
+        27,
+        18
+      ],
+      "wall": "woodWall",
+      "roof": "strawRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "orchard-cottage"
+        }
+      ]
+    },
+    {
+      "id": "market-barn",
+      "upgradeKind": "shop",
+      "rect": [
+        29,
+        13,
+        35,
+        18
+      ],
+      "wall": "woodWall",
+      "roof": "redSlateRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "market-barn"
+        }
+      ]
+    }
+  ],
+  "pondTiles": [
+    {
+      "rect": [
+        3,
+        24,
+        5,
+        25
+      ]
     }
   ],
   "exteriorDecor": [
     {
-      "comment": "orchard rows"
+      "comment": "=== orchard rows ==="
     },
     {
-      "tx": 4,
-      "ty": 13,
+      "tx": 1,
+      "ty": 0,
       "bundleID": "light-tree",
       "zlayer": "solid"
     },
     {
-      "tx": 8,
-      "ty": 13,
+      "tx": 4,
+      "ty": 0,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 0,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 10,
+      "ty": 0,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 13,
+      "ty": 0,
       "bundleID": "light-tree",
       "zlayer": "solid"
     },
     {
       "tx": 16,
-      "ty": 13,
-      "bundleID": "light-tree",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 20,
-      "ty": 13,
-      "bundleID": "light-tree",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 24,
-      "ty": 13,
-      "bundleID": "light-tree",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 4,
-      "ty": 17,
+      "ty": 0,
       "bundleID": "autumn-tree",
       "zlayer": "solid"
     },
     {
-      "tx": 8,
-      "ty": 17,
-      "bundleID": "autumn-tree",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 18,
-      "ty": 17,
-      "bundleID": "autumn-tree",
+      "tx": 19,
+      "ty": 0,
+      "bundleID": "light-tree",
       "zlayer": "solid"
     },
     {
       "tx": 22,
-      "ty": 17,
+      "ty": 0,
       "bundleID": "autumn-tree",
       "zlayer": "solid"
     },
     {
-      "comment": "cider house front"
+      "tx": 25,
+      "ty": 0,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
     },
     {
-      "tx": 3,
+      "tx": 28,
+      "ty": 0,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 31,
+      "ty": 0,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 34,
+      "ty": 0,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 37,
+      "ty": 0,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 3,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 6,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 9,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 12,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 15,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 18,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 21,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 24,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 38,
+      "ty": 3,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 38,
+      "ty": 6,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 38,
+      "ty": 9,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 38,
+      "ty": 12,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 38,
+      "ty": 15,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 38,
+      "ty": 18,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 28,
+      "ty": 22,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 34,
+      "ty": 22,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 1,
+      "ty": 26,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 4,
+      "ty": 26,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 19,
+      "ty": 26,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 34,
+      "ty": 26,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "comment": "=== village & frontages ==="
+    },
+    {
+      "tx": 20,
+      "ty": 12,
+      "tileId": "stoneWell"
+    },
+    {
+      "tx": 16,
+      "ty": 12,
+      "tileId": "benchLeft"
+    },
+    {
+      "tx": 17,
+      "ty": 12,
+      "tileId": "benchMiddle"
+    },
+    {
+      "tx": 21,
+      "ty": 12,
+      "tileId": "potOfFlowers"
+    },
+    {
+      "tx": 15,
       "ty": 9,
       "tileId": "appleSign",
       "zlayer": "above"
@@ -181,82 +557,956 @@
     {
       "tx": 12,
       "ty": 9,
-      "tileId": "barrel"
-    },
-    {
-      "tx": 12,
-      "ty": 8,
-      "tileId": "barrel"
-    },
-    {
-      "tx": 6,
-      "ty": 9,
-      "tileId": "appleBasket"
-    },
-    {
-      "comment": "village green"
-    },
-    {
-      "tx": 15,
-      "ty": 9,
-      "tileId": "stoneWell"
+      "tileId": "lampPostBottom"
     },
     {
       "tx": 25,
       "ty": 9,
-      "tileId": "logPile"
-    },
-    {
-      "tx": 16,
-      "ty": 12,
-      "tileId": "whiteFlower"
+      "tileId": "lampPostBottom"
     },
     {
       "tx": 12,
-      "ty": 16,
-      "tileId": "whiteFlower"
+      "ty": 19,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 25,
+      "ty": 19,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 3,
+      "ty": 9,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 4,
+      "ty": 9,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 9,
+      "ty": 9,
+      "tileId": "appleBasket"
+    },
+    {
+      "tx": 8,
+      "ty": 9,
+      "tileId": "openCrate"
+    },
+    {
+      "tx": 11,
+      "ty": 9,
+      "tileId": "potOfFlowers"
+    },
+    {
+      "tx": 16,
+      "ty": 9,
+      "tileId": "potOfFlowers"
+    },
+    {
+      "tx": 21,
+      "ty": 9,
+      "tileId": "appleBasket"
+    },
+    {
+      "tx": 27,
+      "ty": 9,
+      "tileId": "hayStack"
+    },
+    {
+      "tx": 29,
+      "ty": 9,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 30,
+      "ty": 9,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 35,
+      "ty": 9,
+      "tileId": "logPile"
+    },
+    {
+      "tx": 3,
+      "ty": 19,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 4,
+      "ty": 19,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 9,
+      "ty": 19,
+      "tileId": "openCrate"
+    },
+    {
+      "tx": 11,
+      "ty": 19,
+      "tileId": "openCrate"
+    },
+    {
+      "tx": 16,
+      "ty": 19,
+      "tileId": "bunchOfHerbs"
+    },
+    {
+      "tx": 21,
+      "ty": 19,
+      "tileId": "appleBasket"
+    },
+    {
+      "tx": 27,
+      "ty": 19,
+      "tileId": "potOfFlowers"
+    },
+    {
+      "tx": 29,
+      "ty": 19,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 35,
+      "ty": 19,
+      "tileId": "openCrate"
+    },
+    {
+      "tx": 30,
+      "ty": 22,
+      "tileId": "stripedShopAwningSupportPillarBot"
+    },
+    {
+      "tx": 31,
+      "ty": 22,
+      "tileId": "counterTop"
+    },
+    {
+      "tx": 32,
+      "ty": 22,
+      "tileId": "counterTop"
+    },
+    {
+      "tx": 31,
+      "ty": 23,
+      "tileId": "appleBasket"
+    },
+    {
+      "tx": 33,
+      "ty": 22,
+      "tileId": "emptyBasket"
+    },
+    {
+      "tx": 28,
+      "ty": 23,
+      "tileId": "sack"
+    },
+    {
+      "tx": 29,
+      "ty": 23,
+      "tileId": "pileOfSacks"
+    },
+    {
+      "tx": 3,
+      "ty": 26,
+      "tileId": "smallLilypad",
+      "zlayer": "below"
+    },
+    {
+      "tx": 5,
+      "ty": 24,
+      "tileId": "largeLilypad",
+      "zlayer": "below"
+    },
+    {
+      "tx": 2,
+      "ty": 25,
+      "tileId": "grassTuft",
+      "zlayer": "below"
+    },
+    {
+      "tx": 6,
+      "ty": 25,
+      "tileId": "grassTuft",
+      "zlayer": "below"
+    },
+    {
+      "tx": 33,
+      "ty": 23,
+      "tileId": "fenceLeftTop"
+    },
+    {
+      "tx": 34,
+      "ty": 23,
+      "tileId": "fenceTop"
+    },
+    {
+      "tx": 35,
+      "ty": 23,
+      "tileId": "fenceTopRight"
+    },
+    {
+      "tx": 33,
+      "ty": 24,
+      "tileId": "fenceLeft"
+    },
+    {
+      "tx": 35,
+      "ty": 24,
+      "tileId": "fenceRight"
+    },
+    {
+      "tx": 35,
+      "ty": 25,
+      "tileId": "fenceRightBottom"
+    },
+    {
+      "tx": 34,
+      "ty": 25,
+      "tileId": "fenceBotton"
+    },
+    {
+      "tx": 36,
+      "ty": 24,
+      "tileId": "hayStack"
+    },
+    {
+      "tx": 7,
+      "ty": 26,
+      "tileId": "scarecrowBottom"
+    },
+    {
+      "tx": 7,
+      "ty": 25,
+      "tileId": "scarecrowTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 23,
+      "ty": 26,
+      "tileId": "scarecrowBottom"
+    },
+    {
+      "tx": 23,
+      "ty": 25,
+      "tileId": "scarecrowTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 2,
+      "ty": 12,
+      "tileId": "pinkFlower",
+      "zlayer": "below"
+    },
+    {
+      "tx": 17,
+      "ty": 12,
+      "tileId": "pinkFlower",
+      "zlayer": "below"
+    },
+    {
+      "tx": 29,
+      "ty": 12,
+      "tileId": "pinkFlower",
+      "zlayer": "below"
+    },
+    {
+      "tx": 13,
+      "ty": 22,
+      "tileId": "pinkFlower",
+      "zlayer": "below"
+    },
+    {
+      "tx": 20,
+      "ty": 25,
+      "tileId": "pinkFlower",
+      "zlayer": "below"
+    },
+    {
+      "tx": 27,
+      "ty": 22,
+      "tileId": "pinkFlower",
+      "zlayer": "below"
+    },
+    {
+      "tx": 28,
+      "ty": 25,
+      "tileId": "cropCarrot",
+      "zlayer": "below"
+    },
+    {
+      "tx": 29,
+      "ty": 26,
+      "tileId": "cropBeans",
+      "zlayer": "below"
     }
   ],
   "npcSpawnTiles": [],
   "ambientNpcSprites": [
+    "farmer",
     "hub-npc-merchant"
+  ],
+  "chickenZones": [
+    {
+      "rect": [
+        33,
+        23,
+        3,
+        3
+      ],
+      "count": 3,
+      "roost": [
+        34,
+        24
+      ]
+    }
+  ],
+  "animals": [
+    {
+      "id": "appleford-orchard-cat",
+      "type": "cat",
+      "variant": "orange",
+      "tx": 8,
+      "ty": 12,
+      "name": "Pippin",
+      "dialogue": [
+        "*a ginger cat blinks at you from a sunny patch*",
+        "*mrrp.*"
+      ],
+      "roam": true
+    },
+    {
+      "id": "appleford-sheepdog",
+      "type": "dog",
+      "variant": "brown",
+      "tx": 26,
+      "ty": 22,
+      "name": "Bramble",
+      "dialogue": [
+        "*a shaggy dog trots over, tail going like a flag*",
+        "*woof!*"
+      ],
+      "roam": true
+    },
+    {
+      "id": "appleford-robin",
+      "type": "bird",
+      "variant": "brown",
+      "tx": 33,
+      "ty": 12,
+      "name": "The Orchard Robin",
+      "dialogue": [
+        "*a robin watches from a low branch, head cocked*"
+      ],
+      "roam": true
+    }
   ],
   "npcs": [
     {
       "id": "orchard-keeper-bess",
       "name": "Keeper Bess",
       "sprite": "hub-npc-elder",
-      "tx": 16,
-      "ty": 11,
+      "tx": 15,
+      "ty": 12,
       "dialogue": [
         "Every tree in this orchard has a name. Don't ask me to introduce all of them.",
         "Raiders hit the east rows last week. Took apples, baskets, and my best ladder.",
         "An orchard is patience you can eat. Remember that."
       ],
-      "building": "keepers-cottage",
       "questGive": "appleford-scattered-harvest",
-      "questReceive": "appleford-scattered-harvest"
+      "questReceive": [
+        "appleford-scattered-harvest",
+        "appleford-lost-in-orchard"
+      ],
+      "schedule": [
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "exterior",
+            "tx": 15,
+            "ty": 12
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 6,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "keepers-cottage",
+            "tx": 4,
+            "ty": 3
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "keepers-cottage",
+        "tx": 1,
+        "ty": 3
+      }
     },
     {
       "id": "cider-brewer-tom",
       "name": "Brewer Tom",
       "sprite": "hub-npc-merchant",
-      "tx": 8,
-      "ty": 10,
+      "tx": 5,
+      "ty": 3,
+      "building": "cider-house",
       "dialogue": [
-        "Appleford cider — pressed here, drunk everywhere, remembered fondly nowhere near here.",
+        "Appleford cider \u2014 pressed here, drunk everywhere, remembered fondly nowhere near here.",
         "The toll road's made deliveries a nightmare. Bandits drink my profits, literally.",
         "First mug's full price. So's the second. I'm a brewer, not a charity."
       ],
-      "building": "cider-house"
+      "questGive": "appleford-cider-pressing",
+      "questReceive": [
+        "appleford-cider-pressing",
+        "appleford-cider-pressing-2"
+      ]
+    },
+    {
+      "id": "beekeeper-mabe",
+      "name": "Beekeeper Mabe",
+      "sprite": "hub-npc-gardener",
+      "tx": 4,
+      "ty": 3,
+      "building": "apiary",
+      "dialogue": [
+        "Mind the hives. The bees know a thief from a friend, and they vote with their stings.",
+        "Honey, wax, mead \u2014 one little bee gives you all three and asks only for flowers.",
+        "Bess grows the blossom, I keep the bees. Between us we keep Appleford sweet."
+      ],
+      "questGive": "appleford-honey-harvest",
+      "questReceive": [
+        "appleford-honey-harvest",
+        "appleford-honey-harvest-2"
+      ]
+    },
+    {
+      "id": "cooper-wend",
+      "name": "Cooper Wend",
+      "sprite": "farmer",
+      "tx": 4,
+      "ty": 3,
+      "building": "coopers-shed",
+      "dialogue": [
+        "No barrel, no cider. No cider, no Appleford. I'd say I'm the most important person here, but Tom would sulk.",
+        "A good cask is watertight, sweet-grained, and never argues. Unlike apprentices.",
+        "Staves, hoops, and patience \u2014 that's a barrel. Rush any of the three and you've a puddle."
+      ],
+      "questGive": "appleford-coopers-order",
+      "questReceive": "appleford-coopers-order"
+    },
+    {
+      "id": "market-trader-posy",
+      "name": "Trader Posy",
+      "sprite": "hub-npc-trader",
+      "tx": 5,
+      "ty": 4,
+      "building": "market-barn",
+      "dialogue": [
+        "Apples, cider, honey, jam \u2014 if it grows in Appleford, it sells through me.",
+        "Ravenwatch pays double for our cider. Getting it there in one piece is the trick.",
+        "Buy low, sell ripe. That's the whole of it, traveller."
+      ],
+      "questGive": "appleford-cider-to-ravenwatch",
+      "questReceive": [
+        "appleford-orchard-pickers-2"
+      ]
+    },
+    {
+      "id": "chaplain-hale",
+      "name": "Brother Hale",
+      "sprite": "hub-npc-scholar",
+      "tx": 5,
+      "ty": 4,
+      "building": "chapel",
+      "dialogue": [
+        "The chapel's small, but the harvest's bounty fills it every autumn.",
+        "We bless the first pressing every year. The bees get a thimble of mead for their trouble.",
+        "Quiet hands, full baskets, grateful hearts. That's all the sermon Appleford needs."
+      ],
+      "questGive": "appleford-harvest-blessing",
+      "questReceive": "appleford-harvest-blessing"
+    },
+    {
+      "id": "scrumping-wren",
+      "name": "Little Wren",
+      "sprite": "hub-npc-child",
+      "tx": 9,
+      "ty": 23,
+      "dialogue": [
+        "I wasn't scrumping! I was... rescuing the apples. From the tree. Before they fell.",
+        "I dropped my things running from Keeper Bess. Don't tell her. Please?",
+        "When I grow up I'm going to own the whole orchard. And eat ALL the apples."
+      ],
+      "questGive": "appleford-scrumping",
+      "questReceive": "appleford-scrumping"
+    },
+    {
+      "id": "orchard-hand-hob",
+      "name": "Hob the Picker",
+      "sprite": "farmer",
+      "tx": 31,
+      "ty": 25,
+      "dialogue": [
+        "Up the ladder, down the ladder, basket after basket. My arms have opinions about it.",
+        "Best apples are always the ones just out of reach. Orchard's little joke.",
+        "Fill a crate, haul it to Posy, start again. It's honest work, if you like apples. I'm sick of apples."
+      ],
+      "questGive": "appleford-orchard-pickers",
+      "questReceive": [
+        "appleford-orchard-pickers"
+      ],
+      "schedule": [
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "exterior",
+            "tx": 31,
+            "ty": 25
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 6,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "orchard-cottage",
+            "tx": 4,
+            "ty": 3
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "orchard-cottage",
+        "tx": 1,
+        "ty": 3
+      }
     }
   ],
   "interiors": {
     "cider-house": {
       "name": "The Cider House",
-      "width": 8,
-      "height": 5,
+      "width": 12,
+      "height": 9,
       "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "musicId": "inn",
+      "ambianceId": "hearth",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "bundleID": "fireplace"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "bottlesOfLiquor"
+        },
+        {
+          "tx": 9,
+          "ty": 5,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 10,
+          "ty": 5,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 3,
+          "ty": 4,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 7,
+          "ty": 4,
+          "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 0,
+          "toInteriorId": "cider-house-press",
+          "entryTx": 5,
+          "entryTy": 6,
+          "direction": "back",
+          "label": "Press Room"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "toInteriorId": "cider-house-cellar",
+          "entryTx": 5,
+          "entryTy": 5,
+          "direction": "down",
+          "label": "Down to the cellar"
+        }
+      ]
+    },
+    "cider-house-press": {
+      "name": "The Cider House \u2014 Press Room",
+      "width": 11,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "appleBasket"
+        },
+        {
+          "tx": 9,
+          "ty": 5,
+          "tileId": "appleBasket"
+        },
+        {
+          "tx": 7,
+          "ty": 5,
+          "tileId": "bottlesOfLiquor"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 7,
+          "toInteriorId": "cider-house",
+          "entryTx": 6,
+          "entryTy": 1,
+          "direction": "front",
+          "label": "Taproom"
+        }
+      ]
+    },
+    "cider-house-cellar": {
+      "name": "The Cider House \u2014 Cellar",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "bottlesOfLiquor"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 3,
+          "ty": 3,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 2,
+          "ty": 3,
+          "tileId": "candlestickLitTop",
+          "glow": true,
+          "glowRadius": 2
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 5,
+          "toInteriorId": "cider-house",
+          "entryTx": 10,
+          "entryTy": 2,
+          "direction": "up",
+          "label": "Up to the taproom"
+        }
+      ]
+    },
+    "chapel": {
+      "name": "The Orchard Chapel",
+      "width": 11,
+      "height": 9,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "whiteStone",
+      "musicId": "church",
+      "ambianceId": "sacred",
+      "decor": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "candlestickLitTop",
+          "glow": true,
+          "glowRadius": 2
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "potOfFlowers"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "potOfFlowers"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "benchLeft"
+        },
+        {
+          "tx": 3,
+          "ty": 4,
+          "tileId": "benchRight"
+        },
+        {
+          "tx": 7,
+          "ty": 4,
+          "tileId": "benchLeft"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "benchRight"
+        },
+        {
+          "tx": 2,
+          "ty": 6,
+          "tileId": "benchLeft"
+        },
+        {
+          "tx": 3,
+          "ty": 6,
+          "tileId": "benchRight"
+        },
+        {
+          "tx": 7,
+          "ty": 6,
+          "tileId": "benchLeft"
+        },
+        {
+          "tx": 8,
+          "ty": 6,
+          "tileId": "benchRight"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "candlestickUnlit"
+        },
+        {
+          "tx": 9,
+          "ty": 5,
+          "tileId": "candlestickUnlit"
+        }
+      ],
+      "exits": []
+    },
+    "keepers-cottage": {
+      "name": "The Keeper's Cottage",
+      "width": 11,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 2,
+          "bundleID": "simple-bed"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 9,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 6,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "appleBasket"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "potOfFlowers"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 0,
+          "toInteriorId": "keepers-cottage-back",
+          "entryTx": 5,
+          "entryTy": 6,
+          "direction": "back",
+          "label": "Pantry"
+        }
+      ]
+    },
+    "keepers-cottage-back": {
+      "name": "The Keeper's Cottage \u2014 Pantry",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "appleBasket"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "appleBasket"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "sack"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "mushroomBasket"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "smallTableTopLeft"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "smallTableTopRight"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 7,
+          "toInteriorId": "keepers-cottage",
+          "entryTx": 6,
+          "entryTy": 1,
+          "direction": "front",
+          "label": "Main Room"
+        }
+      ]
+    },
+    "coopers-shed": {
+      "name": "The Cooper's Shed",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "darkWoodFloor",
       "wallTileId": "woodWall",
       "decor": [
         {
@@ -275,19 +1525,207 @@
           "tileId": "barrel"
         },
         {
-          "tx": 6,
+          "tx": 8,
           "ty": 1,
-          "tileId": "bottlesOfLiquor"
+          "tileId": "logPile"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "logBottom"
         }
       ],
       "exits": []
     },
-    "keepers-cottage": {
-      "name": "The Keeper's Cottage",
-      "width": 7,
-      "height": 4,
+    "bottling-barn": {
+      "name": "The Bottling Barn",
+      "width": 12,
+      "height": 8,
       "floorTileId": "woodFloor",
       "wallTileId": "woodWall",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "bottlesOfLiquor"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 6,
+          "ty": 4,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "appleBasket"
+        },
+        {
+          "tx": 10,
+          "ty": 5,
+          "tileId": "bottle"
+        }
+      ],
+      "exits": []
+    },
+    "apiary": {
+      "name": "The Beekeeper's Cottage",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "ambianceId": "hearth",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "bottlesOfLiquor"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "bunchOfHerbs"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "potOfFlowers"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "bunchOfHerbs"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "bottle"
+        }
+      ],
+      "exits": []
+    },
+    "orchard-cottage": {
+      "name": "The Orchard Cottage",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 2,
+          "bundleID": "simple-bed"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "bottlesOfLiquor"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "appleBasket"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 6,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "potOfFlowers"
+        }
+      ],
+      "exits": []
+    },
+    "market-barn": {
+      "name": "The Market Hall",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "musicId": "shop",
+      "ambianceId": "market",
       "decor": [
         {
           "tx": 1,
@@ -295,17 +1733,84 @@
           "tileId": "appleBasket"
         },
         {
-          "tx": 4,
+          "tx": 2,
           "ty": 1,
-          "tileId": "roundTable"
+          "tileId": "appleBasket"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "emptyBasket"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 4,
+          "ty": 5,
+          "tileId": "counterTop"
         },
         {
           "tx": 5,
-          "ty": 2,
-          "tileId": "stool"
+          "ty": 5,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 6,
+          "ty": 5,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 7,
+          "ty": 5,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 10,
+          "ty": 5,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "bottlesOfLiquor"
         }
       ],
       "exits": []
     }
-  }
+  },
+  "festivalDecor": [
+    {
+      "festivalId": "harvest",
+      "decor": [
+        {
+          "tx": 13,
+          "ty": 12,
+          "tileId": "pumpkin1Lit"
+        },
+        {
+          "tx": 25,
+          "ty": 12,
+          "tileId": "pumpkin1Lit"
+        },
+        {
+          "tx": 20,
+          "ty": 9,
+          "tileId": "hayStack"
+        }
+      ]
+    }
+  ]
 }
