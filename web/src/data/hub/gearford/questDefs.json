@@ -6,9 +6,9 @@
       "type": "fetch",
       "giverNpcId": "forgemaster-brunn",
       "receiverNpcId": "forgemaster-brunn",
-      "offerDialogue": "Three toolboxes lifted from the yard in one week. The whole foundry grinds to a halt without them. Whoever took them stashed them around town — find the crates and bring them back before the furnace goes cold.",
-      "activeDialogue": "Three toolbox crates, stashed somewhere around town. Thieves are lazy — check the quiet corners.",
-      "completeDialogue": "Every wrench accounted for. The furnace stays lit and so does my temper — barely. You've earned this, traveller.",
+      "offerDialogue": "Three toolboxes lifted from the yard in one week. The whole foundry grinds to a halt without them. Whoever took them stashed them around town \u2014 find the crates and bring them back before the furnace goes cold.",
+      "activeDialogue": "Three toolbox crates, stashed somewhere around town. Thieves are lazy \u2014 check the quiet corners.",
+      "completeDialogue": "Every wrench accounted for. The furnace stays lit and so does my temper \u2014 barely. You've earned this, traveller.",
       "steps": [
         {
           "key": "tools",
@@ -32,9 +32,9 @@
       "giverNpcId": "engineer-vela",
       "receiverNpcId": "engineer-vela",
       "prerequisite": "quest:gearford-stolen-tools",
-      "offerDialogue": "The forge is down to its last scuttle of coal and the next caravan is a week out. Two sacks from the old depot would keep us running. The depot's abandoned — the coal isn't doing anyone any good sitting there.",
+      "offerDialogue": "The forge is down to its last scuttle of coal and the next caravan is a week out. Two sacks from the old depot would keep us running. The depot's abandoned \u2014 the coal isn't doing anyone any good sitting there.",
       "activeDialogue": "Two coal sacks from the old depot, south side of town. Heavy, but you look like you lift.",
-      "completeDialogue": "Coal! Beautiful, filthy coal. The forge eats tonight. You've kept Gearford working, friend — that's worth more here than gold. Have some gold anyway.",
+      "completeDialogue": "Coal! Beautiful, filthy coal. The forge eats tonight. You've kept Gearford working, friend \u2014 that's worth more here than gold. Have some gold anyway.",
       "steps": [
         {
           "key": "coal",
@@ -52,43 +52,690 @@
           "engineer-vela": 15
         }
       }
+    },
+    {
+      "id": "gearford-forge-relight",
+      "title": "Relight the Furnace",
+      "type": "chain",
+      "giverNpcId": "forgemaster-brunn",
+      "receiverNpcId": "forgemaster-brunn",
+      "prerequisite": "quest:gearford-coal-run",
+      "offerDialogue": "Coal's no good if the furnace has gone stone cold. To relight her I need dry kindling \u2014 good split logs, not the damp rubbish from the yard. Three bundles should catch her.",
+      "activeDialogue": "Three bundles of dry kindling, scattered about the town. Look for stacked log piles.",
+      "completeDialogue": "There she goes \u2014 roaring like the old days. Feel that heat? That's Gearford's heart beating again. Good work.",
+      "steps": [
+        {
+          "key": "kindling",
+          "type": "collect",
+          "pickupIds": [
+            "kindling-1",
+            "kindling-2",
+            "kindling-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 70,
+        "friendship": {
+          "forgemaster-brunn": 15
+        }
+      }
+    },
+    {
+      "id": "gearford-quench-the-furnace",
+      "title": "Quench the Casting",
+      "type": "chain",
+      "giverNpcId": "forgemaster-brunn",
+      "receiverNpcId": "forgemaster-brunn",
+      "prerequisite": "quest:gearford-forge-relight",
+      "offerDialogue": "First casting since the relight, and I've no water to quench it. Two barrels from the well rounds, quick as you can \u2014 a casting cooled wrong is a casting cracked.",
+      "activeDialogue": "Two water barrels for the quench. The wells are by the worker rows and the mine approach.",
+      "completeDialogue": "Hissssss \u2014 perfect. Tempered true, not a crack in it. You've the makings of a smith, traveller. Don't let it go to your head.",
+      "steps": [
+        {
+          "key": "water",
+          "type": "collect",
+          "pickupIds": [
+            "water-barrel-1",
+            "water-barrel-2"
+          ],
+          "required": 2
+        }
+      ],
+      "reward": {
+        "crystals": 90,
+        "collectible": {
+          "id": "gearford-forge-token",
+          "name": "Forge Token",
+          "icon": "\ud83d\udd25",
+          "desc": "A still-warm iron token stamped with the Gearford anvil. The forgemaster's mark of trust."
+        }
+      }
+    },
+    {
+      "id": "gearford-ore-haul",
+      "title": "Ore by the Barrowload",
+      "type": "fetch",
+      "giverNpcId": "foreman-dask",
+      "receiverNpcId": "foreman-dask",
+      "offerDialogue": "Quota's due and we're three loads short. The drifts are full of cut ore the night shift never hauled up. Take the shaft down, fill your arms, and bring it to the surface.",
+      "activeDialogue": "Three loads of ore, down the mine shaft. Take the ladder in the headframe, then work the drifts off the crossing.",
+      "completeDialogue": "Quota met, and a day to spare. The crew can drink easy tonight. You'd make a fair miner, if the smith ever lets you go.",
+      "steps": [
+        {
+          "key": "ore",
+          "type": "collect",
+          "pickupIds": [
+            "ore-1",
+            "ore-2",
+            "ore-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 70
+      }
+    },
+    {
+      "id": "gearford-cave-in",
+      "title": "Clear the Cave-In",
+      "type": "chain",
+      "giverNpcId": "foreman-dask",
+      "receiverNpcId": "foreman-dask",
+      "prerequisite": "quest:gearford-ore-haul",
+      "offerDialogue": "A timber gave in the drifts and brought half the roof with it. Nobody's hurt, but the way's blocked with rubble. Shift the worst of it so my crew can get back to the seam.",
+      "activeDialogue": "Three heaps of fallen rubble to clear, down in the drifts off the crossing.",
+      "completeDialogue": "Passage clear and the timbers reset. You don't flinch in the dark \u2014 rarer than ore, that. The crew owes you a round.",
+      "steps": [
+        {
+          "key": "rubble",
+          "type": "collect",
+          "pickupIds": [
+            "rubble-1",
+            "rubble-2",
+            "rubble-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 85,
+        "friendship": {
+          "foreman-dask": 15
+        }
+      }
+    },
+    {
+      "id": "gearford-lost-lamp",
+      "title": "A Light in the Dark",
+      "type": "fetch",
+      "giverNpcId": "miner-jole",
+      "receiverNpcId": "miner-jole",
+      "offerDialogue": "Dropped my good lamp somewhere in the west drift and I'll not go back down blind. Fetch it for me, would you? A miner without a light is just a fellow waiting for the roof.",
+      "activeDialogue": "Jole's miner's lamp, lost in the west drift. Take the shaft down and head left from the crossing.",
+      "completeDialogue": "There she is! Burned the whole time, the stubborn thing. Bless you \u2014 I'll sleep easier knowing I can see my own feet again.",
+      "steps": [
+        {
+          "key": "lamp",
+          "type": "collect",
+          "pickupIds": [
+            "jole-lamp"
+          ],
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 50,
+        "friendship": {
+          "miner-jole": 10
+        }
+      }
+    },
+    {
+      "id": "gearford-broken-pump-1",
+      "title": "The Failing Pump I: Valves",
+      "type": "chain",
+      "giverNpcId": "engineer-vela",
+      "receiverNpcId": "engineer-vela",
+      "prerequisite": "quest:gearford-coal-run",
+      "offerDialogue": "The great pump that drains the deep workings is failing, and if she stops the mine floods. First trouble: two valves blown clean off. Spares should be lying about the works and the mine approach \u2014 round them up.",
+      "activeDialogue": "Two pump valves, somewhere about the works and the mine approach.",
+      "completeDialogue": "Both valves, good as new. That buys us time, but not much. Come back when you've the stomach for the next part.",
+      "steps": [
+        {
+          "key": "valves",
+          "type": "collect",
+          "pickupIds": [
+            "valve-1",
+            "valve-2"
+          ],
+          "required": 2
+        }
+      ],
+      "reward": {
+        "crystals": 60
+      }
+    },
+    {
+      "id": "gearford-broken-pump-2",
+      "title": "The Failing Pump II: Flywheels",
+      "type": "chain",
+      "giverNpcId": "engineer-vela",
+      "receiverNpcId": "engineer-vela",
+      "prerequisite": "quest:gearford-broken-pump-1",
+      "offerDialogue": "Valves hold, but the flywheel's cracked through. There are cast spares in the workshop loft and another in the warehouse \u2014 both heavy as sin. Bring them and I'll true them on the lathe.",
+      "activeDialogue": "Two cast flywheels \u2014 one in the workshop loft, one in the town warehouse.",
+      "completeDialogue": "Trued and balanced. She'll spin smooth now. One last part and the old pump lives again \u2014 Edda at the pump house has the rest of it.",
+      "steps": [
+        {
+          "key": "flywheels",
+          "type": "collect",
+          "pickupIds": [
+            "flywheel-1",
+            "flywheel-2"
+          ],
+          "required": 2
+        }
+      ],
+      "reward": {
+        "crystals": 75
+      }
+    },
+    {
+      "id": "gearford-broken-pump-3",
+      "title": "The Failing Pump III: The Fitting",
+      "type": "chain",
+      "giverNpcId": "engineer-vela",
+      "receiverNpcId": "pumpwright-edda",
+      "prerequisite": "quest:gearford-broken-pump-2",
+      "offerDialogue": "Here \u2014 the rebuilt fitting, valves and flywheel and all. I'm too old for the climb down to the pump house. Carry it to Pumpwright Edda and she'll set the old girl running.",
+      "activeDialogue": "Carry the rebuilt pump fitting down to Pumpwright Edda at the pump house.",
+      "completeDialogue": "By the Fracture, it turns! Listen to her \u2014 drinking the deep water down. You've saved the whole lower seam, traveller. Gearford won't forget it.",
+      "steps": [
+        {
+          "key": "fitting",
+          "type": "collect",
+          "pickupIds": [
+            "pump-fitting"
+          ],
+          "required": 1
+        },
+        {
+          "key": "deliver-fitting",
+          "type": "deliver",
+          "targetNpcId": "pumpwright-edda",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 110,
+        "collectible": {
+          "id": "gearford-pump-cog",
+          "name": "Pumpwright's Cog",
+          "icon": "\u2699\ufe0f",
+          "desc": "A polished brass cog from the great pump. It turns smoothly between your fingers, a token of the deep workings saved."
+        }
+      }
+    },
+    {
+      "id": "gearford-scattered-parts",
+      "title": "Scattered to the Four Winds",
+      "type": "lost-items",
+      "giverNpcId": "apprentice-tila",
+      "receiverNpcId": "apprentice-tila",
+      "offerDialogue": "I dropped a whole tray of parts in the yard and the wind took half of them! If Brunn finds out I'll be sweeping ash till midwinter. Help me find four before he notices \u2014 please?",
+      "activeDialogue": "Four scattered parts to recover before Brunn notices. They blew across the yard and the works.",
+      "completeDialogue": "All four! Oh, thank the gears. You're a proper hero, you are. Don't tell Brunn it ever happened, all right? Our secret.",
+      "steps": [
+        {
+          "key": "parts",
+          "type": "collect",
+          "pickupIds": [
+            "part-1",
+            "part-2",
+            "part-3",
+            "part-4"
+          ],
+          "required": 4
+        }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": {
+          "apprentice-tila": 15
+        }
+      }
+    },
+    {
+      "id": "gearford-apprentices-errand",
+      "title": "The Apprentice's Errand",
+      "type": "fetch",
+      "giverNpcId": "apprentice-tila",
+      "receiverNpcId": "apprentice-tila",
+      "prerequisite": "quest:gearford-scattered-parts",
+      "offerDialogue": "Brunn's got me running errands again. He wants two crates of finished fittings collected from the works before the bell. I can't carry both \u2014 would you grab them for me?",
+      "activeDialogue": "Two crates of finished fittings to collect from around the works.",
+      "completeDialogue": "Both crates, right on the bell! Brunn even said 'good lad' \u2014 well, near enough. Couldn't have done it without you.",
+      "steps": [
+        {
+          "key": "errand",
+          "type": "collect",
+          "pickupIds": [
+            "errand-1",
+            "errand-2"
+          ],
+          "required": 2
+        }
+      ],
+      "reward": {
+        "crystals": 55
+      }
+    },
+    {
+      "id": "gearford-rats-in-the-store",
+      "title": "Rats in the Store",
+      "type": "fetch",
+      "giverNpcId": "innkeep-mags",
+      "receiverNpcId": "innkeep-mags",
+      "offerDialogue": "Rats again, eating through my sacks faster than the miners eat my stew. Find the three gnawed sacks and pull them before the whole store's spoiled. Mind your fingers \u2014 they bite.",
+      "activeDialogue": "Three gnawed sacks to clear from the inn. They'll be the chewed-up ones.",
+      "completeDialogue": "Cleared the lot, and not a moment too soon. The pantry's saved and so's my reputation for clean stew. First ale's on the house, traveller.",
+      "steps": [
+        {
+          "key": "sacks",
+          "type": "collect",
+          "pickupIds": [
+            "rat-sack-1",
+            "rat-sack-2",
+            "rat-sack-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 50,
+        "friendship": {
+          "innkeep-mags": 10
+        }
+      }
+    },
+    {
+      "id": "gearford-innkeeps-order",
+      "title": "The Innkeep's Order",
+      "type": "fetch",
+      "giverNpcId": "innkeep-mags",
+      "receiverNpcId": "innkeep-mags",
+      "prerequisite": "quest:gearford-rats-in-the-store",
+      "offerDialogue": "Pay day tomorrow and every miner in Gearford'll be thirsty as the deep drift. My ale order's sitting in the warehouse and Rell won't deliver. Two barrels \u2014 fetch them before the rush?",
+      "activeDialogue": "Two ale barrels waiting in the town warehouse. Mags needs them before pay day.",
+      "completeDialogue": "Both barrels, tapped and ready. Tomorrow this place'll be roaring. You've a stool by the fire any night you like, traveller.",
+      "steps": [
+        {
+          "key": "ale",
+          "type": "collect",
+          "pickupIds": [
+            "ale-barrel-1",
+            "ale-barrel-2"
+          ],
+          "required": 2
+        }
+      ],
+      "reward": {
+        "crystals": 65,
+        "friendship": {
+          "innkeep-mags": 15
+        }
+      }
+    },
+    {
+      "id": "gearford-missing-stores",
+      "title": "The Quartermaster's Ledger",
+      "type": "lost-items",
+      "giverNpcId": "quartermaster-rell",
+      "receiverNpcId": "quartermaster-rell",
+      "offerDialogue": "Four crates short on the last delivery and my ledger won't balance. Slipshod loading, scattered between here and the rows. Find them and my books \u2014 and my temper \u2014 are set right.",
+      "activeDialogue": "Four missing supply crates, scattered between the warehouse and the worker rows.",
+      "completeDialogue": "Four, four, and the ledger balances at last. Order restored. You've a quartermaster's eye, traveller \u2014 I mean that as the highest praise I own.",
+      "steps": [
+        {
+          "key": "stores",
+          "type": "collect",
+          "pickupIds": [
+            "store-1",
+            "store-2",
+            "store-3",
+            "store-4"
+          ],
+          "required": 4
+        }
+      ],
+      "reward": {
+        "crystals": 70,
+        "friendship": {
+          "quartermaster-rell": 10
+        }
+      }
+    },
+    {
+      "id": "gearford-forge-the-key",
+      "title": "A Key for Ravenwatch",
+      "type": "fetch",
+      "giverNpcId": "gearwright-orin",
+      "receiverNpcId": "guard-captain-thorin",
+      "offerDialogue": "Word came by raven: Ravenwatch's gaol lock has seized and their guard captain needs a new key forged. I'll cut it \u2014 but I need good iron first. Fetch me an ingot from the coal store, then carry the finished key to Captain Thorin in Ravenwatch yourself.",
+      "activeDialogue": "Fetch an iron ingot from the coal store for Orin to forge the key, then deliver the finished key to Guard Captain Thorin over in Ravenwatch.",
+      "completeDialogue": "Forged in Gearford, turned in Ravenwatch \u2014 fits like it was born to the lock. You've the captain's thanks, and mine. Safe roads between our towns, traveller.",
+      "steps": [
+        {
+          "key": "iron",
+          "type": "collect",
+          "pickupIds": [
+            "key-iron-ingot"
+          ],
+          "required": 1
+        },
+        {
+          "key": "deliver-key",
+          "type": "deliver",
+          "targetNpcId": "guard-captain-thorin",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 100,
+        "collectible": {
+          "id": "gearford-master-key",
+          "name": "Gearford Iron Key",
+          "icon": "\ud83d\udddd\ufe0f",
+          "desc": "A spare of the key you forged for Ravenwatch's gaol \u2014 kept as a token of two towns bound by good iron."
+        }
+      }
     }
   ],
   "pickupItems": [
     {
       "id": "toolbox-1",
-      "tx": 2,
-      "ty": 17,
+      "tx": 4,
+      "ty": 14,
       "tileId": "crate",
       "questId": "gearford-stolen-tools"
     },
     {
       "id": "toolbox-2",
-      "tx": 30,
-      "ty": 4,
+      "tx": 33,
+      "ty": 14,
       "tileId": "crate",
       "questId": "gearford-stolen-tools"
     },
     {
       "id": "toolbox-3",
-      "tx": 12,
-      "ty": 21,
+      "tx": 10,
+      "ty": 27,
       "tileId": "crate",
       "questId": "gearford-stolen-tools"
     },
     {
       "id": "coal-sack-1",
-      "tx": 6,
-      "ty": 23,
+      "tx": 24,
+      "ty": 28,
       "tileId": "sack",
       "questId": "gearford-coal-run"
     },
     {
       "id": "coal-sack-2",
-      "tx": 28,
-      "ty": 23,
+      "tx": 33,
+      "ty": 29,
       "tileId": "sack",
       "questId": "gearford-coal-run"
+    },
+    {
+      "id": "kindling-1",
+      "tx": 5,
+      "ty": 14,
+      "tileId": "logPile",
+      "questId": "gearford-forge-relight"
+    },
+    {
+      "id": "kindling-2",
+      "tx": 35,
+      "ty": 16,
+      "tileId": "logPile",
+      "questId": "gearford-forge-relight"
+    },
+    {
+      "id": "kindling-3",
+      "tx": 12,
+      "ty": 18,
+      "tileId": "logPile",
+      "questId": "gearford-forge-relight"
+    },
+    {
+      "id": "water-barrel-1",
+      "tx": 20,
+      "ty": 16,
+      "tileId": "barrel",
+      "questId": "gearford-quench-the-furnace"
+    },
+    {
+      "id": "water-barrel-2",
+      "tx": 35,
+      "ty": 18,
+      "tileId": "barrel",
+      "questId": "gearford-quench-the-furnace"
+    },
+    {
+      "id": "ore-1",
+      "tx": 5,
+      "ty": 2,
+      "tileId": "smallRock",
+      "building": "mine-tunnel-b",
+      "questId": "gearford-ore-haul"
+    },
+    {
+      "id": "ore-2",
+      "tx": 7,
+      "ty": 3,
+      "tileId": "smallRock",
+      "building": "mine-tunnel-c",
+      "questId": "gearford-ore-haul"
+    },
+    {
+      "id": "ore-3",
+      "tx": 8,
+      "ty": 2,
+      "tileId": "smallRock",
+      "building": "mine-tunnel-a",
+      "questId": "gearford-ore-haul"
+    },
+    {
+      "id": "rubble-1",
+      "tx": 4,
+      "ty": 5,
+      "tileId": "largeRock",
+      "building": "mine-tunnel-b",
+      "questId": "gearford-cave-in"
+    },
+    {
+      "id": "rubble-2",
+      "tx": 5,
+      "ty": 5,
+      "tileId": "largeRock",
+      "building": "mine-tunnel-c",
+      "questId": "gearford-cave-in"
+    },
+    {
+      "id": "rubble-3",
+      "tx": 5,
+      "ty": 5,
+      "tileId": "largeRock",
+      "building": "mine-tunnel-a",
+      "questId": "gearford-cave-in"
+    },
+    {
+      "id": "jole-lamp",
+      "tx": 6,
+      "ty": 4,
+      "tileId": "floorLantern",
+      "building": "mine-tunnel-b",
+      "questId": "gearford-lost-lamp"
+    },
+    {
+      "id": "valve-1",
+      "tx": 21,
+      "ty": 18,
+      "tileId": "barrel",
+      "questId": "gearford-broken-pump-1"
+    },
+    {
+      "id": "valve-2",
+      "tx": 12,
+      "ty": 20,
+      "tileId": "barrel",
+      "questId": "gearford-broken-pump-1"
+    },
+    {
+      "id": "flywheel-1",
+      "tx": 8,
+      "ty": 4,
+      "tileId": "crate",
+      "building": "machine-workshop-loft",
+      "questId": "gearford-broken-pump-2"
+    },
+    {
+      "id": "flywheel-2",
+      "tx": 6,
+      "ty": 7,
+      "tileId": "crate",
+      "building": "warehouse",
+      "questId": "gearford-broken-pump-2"
+    },
+    {
+      "id": "pump-fitting",
+      "tx": 9,
+      "ty": 7,
+      "tileId": "darkPotWithLid",
+      "building": "machine-workshop",
+      "questId": "gearford-broken-pump-3"
+    },
+    {
+      "id": "part-1",
+      "tx": 6,
+      "ty": 14,
+      "tileId": "crate",
+      "questId": "gearford-scattered-parts"
+    },
+    {
+      "id": "part-2",
+      "tx": 28,
+      "ty": 14,
+      "tileId": "crate",
+      "questId": "gearford-scattered-parts"
+    },
+    {
+      "id": "part-3",
+      "tx": 30,
+      "ty": 14,
+      "tileId": "crate",
+      "questId": "gearford-scattered-parts"
+    },
+    {
+      "id": "part-4",
+      "tx": 32,
+      "ty": 14,
+      "tileId": "crate",
+      "questId": "gearford-scattered-parts"
+    },
+    {
+      "id": "errand-1",
+      "tx": 7,
+      "ty": 14,
+      "tileId": "openCrate",
+      "questId": "gearford-apprentices-errand"
+    },
+    {
+      "id": "errand-2",
+      "tx": 31,
+      "ty": 14,
+      "tileId": "openCrate",
+      "questId": "gearford-apprentices-errand"
+    },
+    {
+      "id": "rat-sack-1",
+      "tx": 2,
+      "ty": 6,
+      "tileId": "smallSack",
+      "building": "miners-inn",
+      "questId": "gearford-rats-in-the-store"
+    },
+    {
+      "id": "rat-sack-2",
+      "tx": 11,
+      "ty": 6,
+      "tileId": "smallSack",
+      "building": "miners-inn",
+      "questId": "gearford-rats-in-the-store"
+    },
+    {
+      "id": "rat-sack-3",
+      "tx": 3,
+      "ty": 6,
+      "tileId": "smallSack",
+      "building": "miners-inn",
+      "questId": "gearford-rats-in-the-store"
+    },
+    {
+      "id": "ale-barrel-1",
+      "tx": 8,
+      "ty": 7,
+      "tileId": "barrel",
+      "building": "warehouse",
+      "questId": "gearford-innkeeps-order"
+    },
+    {
+      "id": "ale-barrel-2",
+      "tx": 4,
+      "ty": 5,
+      "tileId": "barrel",
+      "building": "warehouse",
+      "questId": "gearford-innkeeps-order"
+    },
+    {
+      "id": "store-1",
+      "tx": 10,
+      "ty": 14,
+      "tileId": "crate",
+      "questId": "gearford-missing-stores"
+    },
+    {
+      "id": "store-2",
+      "tx": 20,
+      "ty": 28,
+      "tileId": "crate",
+      "questId": "gearford-missing-stores"
+    },
+    {
+      "id": "store-3",
+      "tx": 21,
+      "ty": 28,
+      "tileId": "crate",
+      "questId": "gearford-missing-stores"
+    },
+    {
+      "id": "store-4",
+      "tx": 19,
+      "ty": 28,
+      "tileId": "crate",
+      "questId": "gearford-missing-stores"
+    },
+    {
+      "id": "key-iron-ingot",
+      "tx": 5,
+      "ty": 4,
+      "tileId": "smallRock",
+      "building": "coal-yard-store",
+      "questId": "gearford-forge-the-key"
     }
   ],
   "blockedPaths": []

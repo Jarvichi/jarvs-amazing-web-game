@@ -1,21 +1,21 @@
 {
-  "mapW": 1088,
-  "mapH": 832,
+  "mapW": 1472,
+  "mapH": 1152,
   "townName": "Gearford",
   "environment": "vault",
   "avatarStart": {
-    "tx": 16,
-    "ty": 24
+    "tx": 22,
+    "ty": 34
   },
   "exitTiles": [
     {
-      "tx": 16,
-      "ty": 25,
+      "tx": 22,
+      "ty": 35,
       "screen": "worldmap"
     },
     {
-      "tx": 17,
-      "ty": 25,
+      "tx": 23,
+      "ty": 35,
       "screen": "worldmap"
     }
   ],
@@ -23,59 +23,163 @@
     {
       "id": "gearford-foundry-yard",
       "name": "Foundry Yard",
-      "tx": 3,
-      "ty": 2,
-      "tw": 14,
-      "th": 12
+      "tx": 2,
+      "ty": 1,
+      "tw": 20,
+      "th": 11
     },
     {
       "id": "gearford-works",
       "name": "The Works",
-      "tx": 19,
-      "ty": 2,
-      "tw": 12,
-      "th": 10
+      "tx": 25,
+      "ty": 1,
+      "tw": 20,
+      "th": 11
+    },
+    {
+      "id": "gearford-worker-rows",
+      "name": "Worker Rows",
+      "tx": 2,
+      "ty": 14,
+      "tw": 18,
+      "th": 11
+    },
+    {
+      "id": "gearford-mine-approach",
+      "name": "Mine Approach",
+      "tx": 25,
+      "ty": 14,
+      "tw": 20,
+      "th": 11
     }
   ],
   "streets": [
     {
       "rect": [
+        22,
         2,
+        23,
+        35
+      ]
+    },
+    {
+      "rect": [
+        3,
         12,
-        31,
+        44,
         13
       ]
     },
     {
       "rect": [
-        16,
-        2,
-        17,
+        3,
+        24,
+        44,
         25
       ]
     },
     {
       "rect": [
-        24,
-        14,
-        25,
-        16
+        3,
+        33,
+        44,
+        34
       ]
     },
     {
       "rect": [
-        8,
+        7,
         10,
-        9,
+        7,
         11
       ]
     },
     {
       "rect": [
+        17,
+        10,
+        17,
+        11
+      ]
+    },
+    {
+      "rect": [
+        29,
+        10,
+        29,
+        11
+      ]
+    },
+    {
+      "rect": [
+        40,
+        10,
+        40,
+        11
+      ]
+    },
+    {
+      "rect": [
+        6,
         23,
-        10,
-        24,
-        11
+        6,
+        23
+      ]
+    },
+    {
+      "rect": [
+        16,
+        23,
+        16,
+        23
+      ]
+    },
+    {
+      "rect": [
+        29,
+        23,
+        29,
+        23
+      ]
+    },
+    {
+      "rect": [
+        40,
+        23,
+        40,
+        23
+      ]
+    },
+    {
+      "rect": [
+        6,
+        32,
+        6,
+        32
+      ]
+    },
+    {
+      "rect": [
+        15,
+        32,
+        15,
+        32
+      ]
+    },
+    {
+      "rect": [
+        28,
+        32,
+        28,
+        32
+      ]
+    },
+    {
+      "rect": [
+        37,
+        32,
+        37,
+        32
       ]
     }
   ],
@@ -83,12 +187,17 @@
     {
       "id": "foundry",
       "upgradeKind": "workshop",
-      "rect": [4, 2, 15, 9],
+      "rect": [
+        3,
+        2,
+        12,
+        9
+      ],
       "wall": "brick",
       "roof": "metalRoof",
       "doors": [
         {
-          "tx": 5,
+          "tx": 4,
           "ty": 1,
           "hideSign": true,
           "buildingId": "foundry"
@@ -96,24 +205,74 @@
       ]
     },
     {
-      "id": "workshop",
+      "id": "coal-yard-store",
+      "upgradeKind": "default",
+      "rect": [
+        14,
+        2,
+        20,
+        9
+      ],
+      "wall": "darkStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "coal-yard-store"
+        }
+      ]
+    },
+    {
+      "id": "machine-workshop",
       "upgradeKind": "workshop",
-      "rect": [20, 3, 27, 9],
+      "rect": [
+        26,
+        2,
+        34,
+        9
+      ],
       "wall": "woodenSlats",
+      "roof": "metalRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "machine-workshop"
+        }
+      ]
+    },
+    {
+      "id": "gearwright-hall",
+      "upgradeKind": "workshop",
+      "rect": [
+        36,
+        2,
+        44,
+        9
+      ],
+      "wall": "brick",
       "roof": "greySlateRoof",
       "doors": [
         {
           "tx": 4,
           "ty": 1,
           "hideSign": true,
-          "buildingId": "workshop"
+          "buildingId": "gearwright-hall"
         }
       ]
     },
     {
       "id": "miners-inn",
       "upgradeKind": "inn",
-      "rect": [21, 15, 29, 21],
+      "rect": [
+        3,
+        15,
+        11,
+        22
+      ],
       "wall": "tudorFrame",
       "roof": "strawRoof",
       "doors": [
@@ -124,212 +283,1789 @@
           "buildingId": "miners-inn"
         }
       ]
+    },
+    {
+      "id": "tool-shop",
+      "upgradeKind": "shop",
+      "rect": [
+        13,
+        15,
+        19,
+        22
+      ],
+      "wall": "woodenSlats",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "tool-shop"
+        }
+      ]
+    },
+    {
+      "id": "warehouse",
+      "upgradeKind": "default",
+      "rect": [
+        26,
+        15,
+        34,
+        22
+      ],
+      "wall": "woodenSlats",
+      "roof": "metalRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "warehouse"
+        }
+      ]
+    },
+    {
+      "id": "mine-entrance",
+      "upgradeKind": "default",
+      "rect": [
+        36,
+        15,
+        44,
+        22
+      ],
+      "wall": "darkStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 4,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "mine-entrance"
+        }
+      ]
+    },
+    {
+      "id": "pump-house",
+      "upgradeKind": "default",
+      "rect": [
+        25,
+        26,
+        31,
+        31
+      ],
+      "wall": "brick",
+      "roof": "metalRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "pump-house"
+        }
+      ]
+    },
+    {
+      "id": "worker-house-1",
+      "upgradeKind": "cottage",
+      "rect": [
+        3,
+        26,
+        9,
+        31
+      ],
+      "wall": "woodWall",
+      "roof": "redSlateRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "worker-house-1"
+        }
+      ]
+    },
+    {
+      "id": "worker-house-2",
+      "upgradeKind": "cottage",
+      "rect": [
+        12,
+        26,
+        18,
+        31
+      ],
+      "wall": "woodWall",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "worker-house-2"
+        }
+      ]
+    },
+    {
+      "id": "gear-shop",
+      "upgradeKind": "shop",
+      "rect": [
+        34,
+        26,
+        40,
+        31
+      ],
+      "wall": "woodenSlats",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "gear-shop"
+        }
+      ]
     }
   ],
   "exteriorDecor": [
     {
-      "comment": "foundry yard braziers"
+      "comment": "=== foundry yard: smokestack + forge braziers ==="
+    },
+    {
+      "tx": 1,
+      "ty": 11,
+      "tileId": "chimneyBottom"
+    },
+    {
+      "tx": 1,
+      "ty": 10,
+      "tileId": "chimneyMiddle",
+      "zlayer": "above"
+    },
+    {
+      "tx": 1,
+      "ty": 9,
+      "tileId": "chimneyTop",
+      "zlayer": "above"
     },
     {
       "tx": 3,
       "ty": 11,
-      "tileId": "brazierBottom"
+      "bundleID": "brazier",
+      "zlayer": "solid",
+      "glow": true,
+      "glowRadius": 3
     },
     {
-      "tx": 3,
-      "ty": 10,
-      "tileId": "brazierTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 14,
+      "tx": 11,
       "ty": 11,
-      "tileId": "brazierBottom"
+      "bundleID": "brazier",
+      "zlayer": "solid",
+      "glow": true,
+      "glowRadius": 3
+    },
+    {
+      "comment": "foundry yard clutter"
+    },
+    {
+      "tx": 0,
+      "ty": 11,
+      "tileId": "logPile"
+    },
+    {
+      "tx": 0,
+      "ty": 10,
+      "tileId": "logPile"
+    },
+    {
+      "tx": 4,
+      "ty": 11,
+      "tileId": "crate"
+    },
+    {
+      "tx": 5,
+      "ty": 11,
+      "tileId": "openCrate"
+    },
+    {
+      "tx": 9,
+      "ty": 11,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 10,
+      "ty": 11,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 13,
+      "ty": 11,
+      "tileId": "pileOfSacks"
+    },
+    {
+      "comment": "coal yard: coal heaps + sacks"
+    },
+    {
+      "tx": 15,
+      "ty": 11,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 16,
+      "ty": 11,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 16,
+      "ty": 10,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 18,
+      "ty": 11,
+      "tileId": "pileOfSacks"
+    },
+    {
+      "tx": 19,
+      "ty": 11,
+      "tileId": "sack"
+    },
+    {
+      "tx": 20,
+      "ty": 11,
+      "tileId": "crate"
+    },
+    {
+      "comment": "foundry yard: top-edge framing"
+    },
+    {
+      "tx": 0,
+      "ty": 0,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 8,
+      "ty": 0,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
     },
     {
       "tx": 14,
+      "ty": 0,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 20,
+      "ty": 0,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "comment": "=== the works: smokestack + braziers + parts stalls ==="
+    },
+    {
+      "tx": 25,
+      "ty": 11,
+      "tileId": "chimneyBottom"
+    },
+    {
+      "tx": 25,
       "ty": 10,
-      "tileId": "brazierTop",
+      "tileId": "chimneyMiddle",
       "zlayer": "above"
     },
     {
-      "comment": "industrial clutter"
+      "tx": 25,
+      "ty": 9,
+      "tileId": "chimneyTop",
+      "zlayer": "above"
     },
     {
-      "tx": 2,
+      "tx": 27,
+      "ty": 11,
+      "bundleID": "brazier",
+      "zlayer": "solid",
+      "glow": true,
+      "glowRadius": 3
+    },
+    {
+      "tx": 33,
+      "ty": 11,
+      "bundleID": "brazier",
+      "zlayer": "solid",
+      "glow": true,
+      "glowRadius": 3
+    },
+    {
+      "tx": 38,
+      "ty": 11,
+      "bundleID": "brazier",
+      "zlayer": "solid",
+      "glow": true,
+      "glowRadius": 3
+    },
+    {
+      "tx": 43,
+      "ty": 11,
+      "bundleID": "brazier",
+      "zlayer": "solid",
+      "glow": true,
+      "glowRadius": 3
+    },
+    {
+      "comment": "open-air parts stalls + clutter"
+    },
+    {
+      "tx": 30,
+      "ty": 11,
+      "tileId": "counterTop"
+    },
+    {
+      "tx": 31,
+      "ty": 11,
+      "tileId": "counterTop"
+    },
+    {
+      "tx": 32,
+      "ty": 11,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 26,
+      "ty": 11,
+      "tileId": "openCrate"
+    },
+    {
+      "tx": 35,
+      "ty": 11,
+      "tileId": "crate"
+    },
+    {
+      "tx": 36,
+      "ty": 11,
+      "tileId": "pileOfSacks"
+    },
+    {
+      "tx": 44,
+      "ty": 11,
+      "tileId": "barrel"
+    },
+    {
+      "comment": "the works: top-edge framing"
+    },
+    {
+      "tx": 26,
+      "ty": 0,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 31,
+      "ty": 0,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 40,
+      "ty": 0,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 44,
+      "ty": 0,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "comment": "=== right edge framing ==="
+    },
+    {
+      "tx": 45,
+      "ty": 3,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 45,
+      "ty": 7,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 45,
+      "ty": 16,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 45,
+      "ty": 20,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 45,
+      "ty": 28,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "comment": "=== left edge framing ==="
+    },
+    {
+      "tx": 0,
+      "ty": 15,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 19,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 28,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 32,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "comment": "=== worker rows: well, lamps, clutter ==="
+    },
+    {
+      "tx": 20,
+      "ty": 14,
+      "tileId": "stoneWell"
+    },
+    {
+      "tx": 12,
+      "ty": 16,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 12,
+      "ty": 15,
+      "tileId": "lampPostTop",
+      "zlayer": "above",
+      "glow": true,
+      "glowRadius": 2
+    },
+    {
+      "tx": 1,
       "ty": 14,
       "tileId": "crate"
     },
     {
       "tx": 2,
-      "ty": 15,
+      "ty": 14,
       "tileId": "openCrate"
     },
     {
-      "tx": 18,
-      "ty": 10,
+      "tx": 11,
+      "ty": 14,
       "tileId": "barrel"
+    },
+    {
+      "tx": 8,
+      "ty": 14,
+      "tileId": "smallRock"
     },
     {
       "tx": 19,
-      "ty": 11,
-      "tileId": "barrel"
-    },
-    {
-      "tx": 29,
-      "ty": 10,
-      "tileId": "logPile"
-    },
-    {
-      "tx": 30,
-      "ty": 11,
-      "tileId": "logPile"
-    },
-    {
-      "tx": 28,
-      "ty": 14,
-      "tileId": "pileOfSacks"
-    },
-    {
-      "tx": 5,
       "ty": 16,
       "tileId": "smallRock"
     },
     {
       "tx": 12,
       "ty": 18,
+      "tileId": "pileOfSacks"
+    },
+    {
+      "comment": "=== mine approach: ore piles, props, lantern ==="
+    },
+    {
+      "tx": 35,
+      "ty": 14,
+      "tileId": "stoneWell"
+    },
+    {
+      "tx": 26,
+      "ty": 14,
       "tileId": "smallRock"
     },
     {
-      "comment": "what little grows here"
+      "tx": 27,
+      "ty": 14,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 34,
+      "ty": 14,
+      "tileId": "largeRock"
+    },
+    {
+      "tx": 43,
+      "ty": 14,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 44,
+      "ty": 16,
+      "tileId": "largeRock"
+    },
+    {
+      "tx": 25,
+      "ty": 14,
+      "tileId": "logPile"
+    },
+    {
+      "tx": 25,
+      "ty": 16,
+      "tileId": "logPile"
+    },
+    {
+      "tx": 35,
+      "ty": 16,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 35,
+      "ty": 15,
+      "tileId": "lampPostTop",
+      "zlayer": "above",
+      "glow": true,
+      "glowRadius": 2
+    },
+    {
+      "tx": 26,
+      "ty": 18,
+      "tileId": "crate"
+    },
+    {
+      "tx": 27,
+      "ty": 18,
+      "tileId": "openCrate"
+    },
+    {
+      "tx": 44,
+      "ty": 20,
+      "tileId": "barrel"
+    },
+    {
+      "comment": "=== mid-band gaps ==="
+    },
+    {
+      "tx": 12,
+      "ty": 22,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 35,
+      "ty": 22,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 24,
+      "ty": 14,
+      "tileId": "smallRock"
+    },
+    {
+      "comment": "=== worker housing: gardens, well, lamps ==="
+    },
+    {
+      "tx": 10,
+      "ty": 29,
+      "tileId": "stoneWell"
+    },
+    {
+      "tx": 20,
+      "ty": 31,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 20,
+      "ty": 30,
+      "tileId": "lampPostTop",
+      "zlayer": "above",
+      "glow": true,
+      "glowRadius": 2
+    },
+    {
+      "tx": 1,
+      "ty": 26,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 1,
+      "ty": 27,
+      "tileId": "crate"
+    },
+    {
+      "tx": 10,
+      "ty": 27,
+      "tileId": "openCrate"
+    },
+    {
+      "tx": 11,
+      "ty": 27,
+      "tileId": "pileOfSacks"
+    },
+    {
+      "tx": 19,
+      "ty": 27,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 24,
+      "ty": 28,
+      "tileId": "crate"
+    },
+    {
+      "tx": 24,
+      "ty": 29,
+      "tileId": "openCrate"
+    },
+    {
+      "tx": 32,
+      "ty": 28,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 33,
+      "ty": 28,
+      "tileId": "pileOfSacks"
+    },
+    {
+      "tx": 41,
+      "ty": 27,
+      "tileId": "crate"
+    },
+    {
+      "tx": 42,
+      "ty": 27,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 44,
+      "ty": 31,
+      "tileId": "smallRock"
+    },
+    {
+      "comment": "worker housing: trees"
+    },
+    {
+      "tx": 0,
+      "ty": 24,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 20,
+      "ty": 26,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 32,
+      "ty": 26,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 42,
+      "ty": 26,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "comment": "=== bottom-edge framing + lamps ==="
     },
     {
       "tx": 3,
-      "ty": 20,
-      "bundleID": "dead-tree",
-      "zlayer": "solid"
+      "ty": 35,
+      "tileId": "smallRock"
     },
     {
       "tx": 9,
-      "ty": 21,
+      "ty": 35,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 18,
+      "ty": 35,
+      "tileId": "crate"
+    },
+    {
+      "tx": 26,
+      "ty": 35,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 33,
+      "ty": 35,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 0,
+      "ty": 35,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 44,
+      "ty": 35,
       "bundleID": "dead-tree",
       "zlayer": "solid"
     },
     {
-      "tx": 30,
-      "ty": 22,
-      "bundleID": "dark-tree",
-      "zlayer": "solid"
+      "comment": "=== additional foundry yard clutter ==="
     },
     {
-      "tx": 19,
-      "ty": 19,
-      "bundleID": "dark-tree",
-      "zlayer": "solid"
+      "tx": 2,
+      "ty": 1,
+      "tileId": "smallRock"
     },
     {
-      "comment": "well by the inn"
+      "tx": 6,
+      "ty": 11,
+      "tileId": "smallRock"
     },
     {
-      "tx": 19,
+      "tx": 8,
+      "ty": 11,
+      "tileId": "smallSack"
+    },
+    {
+      "tx": 12,
+      "ty": 11,
+      "tileId": "crate"
+    },
+    {
+      "tx": 15,
+      "ty": 10,
+      "tileId": "smallRock"
+    },
+    {
+      "comment": "=== additional works clutter ==="
+    },
+    {
+      "tx": 28,
+      "ty": 11,
+      "tileId": "openCrate"
+    },
+    {
+      "tx": 34,
+      "ty": 11,
+      "tileId": "smallSack"
+    },
+    {
+      "tx": 37,
+      "ty": 11,
+      "tileId": "crate"
+    },
+    {
+      "tx": 39,
+      "ty": 11,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 41,
+      "ty": 11,
+      "tileId": "pileOfSacks"
+    },
+    {
+      "tx": 42,
+      "ty": 11,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 26,
+      "ty": 1,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 44,
+      "ty": 1,
+      "tileId": "crate"
+    },
+    {
+      "comment": "=== additional worker rows clutter ==="
+    },
+    {
+      "tx": 1,
       "ty": 16,
-      "tileId": "stoneWell"
+      "tileId": "barrel"
+    },
+    {
+      "tx": 2,
+      "ty": 16,
+      "tileId": "crate"
+    },
+    {
+      "tx": 1,
+      "ty": 18,
+      "tileId": "smallRock"
+    },
+    {
+      "comment": "=== additional mine approach ore + props ==="
+    },
+    {
+      "tx": 35,
+      "ty": 20,
+      "tileId": "smallRock"
+    },
+    {
+      "comment": "=== additional worker housing clutter ==="
+    },
+    {
+      "tx": 2,
+      "ty": 26,
+      "tileId": "crate"
+    },
+    {
+      "tx": 2,
+      "ty": 28,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 19,
+      "ty": 29,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 33,
+      "ty": 30,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 41,
+      "ty": 30,
+      "tileId": "openCrate"
+    },
+    {
+      "tx": 43,
+      "ty": 28,
+      "tileId": "barrel"
+    },
+    {
+      "comment": "=== additional bottom-edge clutter + lamps ==="
+    },
+    {
+      "tx": 6,
+      "ty": 35,
+      "tileId": "smallSack"
+    },
+    {
+      "tx": 15,
+      "ty": 35,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 28,
+      "ty": 35,
+      "tileId": "crate"
+    },
+    {
+      "tx": 40,
+      "ty": 35,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 45,
+      "ty": 11,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 45,
+      "ty": 24,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 45,
+      "ty": 32,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 6,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
     }
   ],
   "npcSpawnTiles": [],
   "ambientNpcSprites": [
-    "hub-npc-supplies"
+    "hub-npc-supplies",
+    "hub-npc-merchant"
+  ],
+  "animals": [
+    {
+      "id": "gearford-soot",
+      "type": "cat",
+      "variant": "grey",
+      "tx": 9,
+      "ty": 14,
+      "name": "Soot",
+      "dialogue": [
+        "*a soot-grey cat curled on a warm anvil cracks one eye*",
+        "*mrrp.*"
+      ],
+      "roam": true
+    }
   ],
   "npcs": [
     {
       "id": "forgemaster-brunn",
       "name": "Forgemaster Brunn",
       "sprite": "hub-npc-supplies",
-      "tx": 10,
-      "ty": 11,
+      "tx": 8,
+      "ty": 12,
       "dialogue": [
         "Gearford runs on three things: coal, iron, and complaints.",
         "Somebody's been lifting tools from the yard. A foundry without tools is just a very warm room.",
         "Hear that hammering? That's the sound of nothing being wrong. I like that sound."
       ],
-      "building": "foundry",
       "questGive": "gearford-stolen-tools",
-      "questReceive": "gearford-stolen-tools"
+      "questReceive": [
+        "gearford-stolen-tools",
+        "gearford-forge-relight",
+        "gearford-quench-the-furnace"
+      ],
+      "schedule": [
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "exterior",
+            "tx": 8,
+            "ty": 12
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 6,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "foundry",
+            "tx": 3,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "foundry",
+        "tx": 3,
+        "ty": 4
+      }
     },
     {
       "id": "engineer-vela",
       "name": "Engineer Vela",
       "sprite": "hub-npc-merchant",
-      "tx": 23,
-      "ty": 11,
+      "tx": 28,
+      "ty": 12,
       "dialogue": [
         "The constructs that went rogue out in the smoke fields? Not mine. Mostly not mine.",
         "Every machine wants to work. You just have to convince it the work is yours.",
         "The forge eats coal like a dragon eats... well, everything. We're always short."
       ],
-      "building": "workshop",
       "questGive": "gearford-coal-run",
-      "questReceive": "gearford-coal-run"
+      "questReceive": [
+        "gearford-coal-run",
+        "gearford-broken-pump-1",
+        "gearford-broken-pump-2",
+        "gearford-broken-pump-3"
+      ],
+      "schedule": [
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "exterior",
+            "tx": 28,
+            "ty": 12
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 6,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "machine-workshop",
+            "tx": 3,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "machine-workshop",
+        "tx": 3,
+        "ty": 4
+      }
     },
     {
       "id": "foreman-dask",
       "name": "Foreman Dask",
       "sprite": "hub-npc-soldier",
-      "tx": 18,
-      "ty": 14,
+      "tx": 39,
+      "ty": 24,
       "dialogue": [
         "Shift starts at dawn, ends when Brunn stops shouting.",
         "Between the bandits on the toll road and the mine collapse, half my crew won't travel.",
         "You look sturdy. Ever considered honest work? No? Smart."
       ],
-      "building": "miners-inn"
+      "questGive": "gearford-ore-haul",
+      "questReceive": [
+        "gearford-ore-haul",
+        "gearford-cave-in"
+      ],
+      "schedule": [
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "exterior",
+            "tx": 39,
+            "ty": 24
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 6,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "mine-entrance",
+            "tx": 3,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "mine-entrance",
+        "tx": 3,
+        "ty": 4
+      }
+    },
+    {
+      "id": "apprentice-tila",
+      "name": "Apprentice Tila",
+      "sprite": "hub-npc-child",
+      "tx": 17,
+      "ty": 12,
+      "dialogue": [
+        "I'm Brunn's apprentice. Mostly that means I carry things and get shouted at.",
+        "I dropped a whole tray of parts in the yard yesterday. They went EVERYWHERE.",
+        "One day I'll forge a blade so fine they'll sing songs. For now: more carrying."
+      ],
+      "questGive": "gearford-scattered-parts",
+      "questReceive": [
+        "gearford-scattered-parts",
+        "gearford-apprentices-errand"
+      ],
+      "schedule": [
+        {
+          "startHour": 7,
+          "endHour": 19,
+          "activity": "idle-chat",
+          "location": {
+            "type": "exterior",
+            "tx": 17,
+            "ty": 12
+          }
+        },
+        {
+          "startHour": 19,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "worker-house-1",
+            "tx": 7,
+            "ty": 2
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "worker-house-1",
+        "tx": 7,
+        "ty": 2
+      }
+    },
+    {
+      "id": "gearwright-orin",
+      "name": "Gearwright Orin",
+      "sprite": "hub-npc-trader",
+      "tx": 39,
+      "ty": 12,
+      "dialogue": [
+        "Clockwork is just patience with teeth. Miss one tooth and the whole thing seizes.",
+        "Ravenwatch sent word: their gaol lock's jammed and the guard captain wants a new key forged.",
+        "Bring me good iron and I'll cut you a key that'd open the gates of dawn."
+      ],
+      "questGive": "gearford-forge-the-key",
+      "questReceive": "gearford-forge-the-key",
+      "schedule": [
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "exterior",
+            "tx": 39,
+            "ty": 12
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "gearwright-hall",
+            "tx": 3,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "gearwright-hall",
+        "tx": 3,
+        "ty": 4
+      }
+    },
+    {
+      "id": "coal-hauler-bram",
+      "name": "Coal-Hauler Bram",
+      "sprite": "hub-npc-gardener",
+      "tx": 16,
+      "ty": 12,
+      "dialogue": [
+        "Coal in, slag out, all day long. My back's a clockwork of aches by sundown.",
+        "The old depot south of town's still half-full. Nobody hauls it \u2014 too lazy, too scared.",
+        "A full barrow and an empty road. That's all a hauler wants out of life."
+      ],
+      "schedule": [
+        {
+          "startHour": 6,
+          "endHour": 13,
+          "activity": "work",
+          "location": {
+            "type": "exterior",
+            "tx": 16,
+            "ty": 12
+          }
+        },
+        {
+          "startHour": 13,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "exterior",
+            "tx": 9,
+            "ty": 12
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 6,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "miners-inn-bunkrooms",
+            "tx": 3,
+            "ty": 2
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "miners-inn-bunkrooms",
+        "tx": 3,
+        "ty": 2
+      }
+    },
+    {
+      "id": "innkeep-mags",
+      "name": "Innkeep Mags",
+      "sprite": "hub-npc-cook",
+      "tx": 6,
+      "ty": 24,
+      "dialogue": [
+        "Welcome to the Pickaxe Rest. Ale's warm, stew's warmer, and the gossip's free.",
+        "Miners drink like the mine's about to close. Some weeks it nearly is.",
+        "Rats in my store again. Eating better than my guests, the little tyrants."
+      ],
+      "questGive": "gearford-rats-in-the-store",
+      "questReceive": [
+        "gearford-rats-in-the-store",
+        "gearford-innkeeps-order"
+      ],
+      "innRumours": [
+        {
+          "id": "gearford-rumour-mine",
+          "text": "They say the old east drift was sealed for a reason. Tappers in the dark, the night shift swears."
+        },
+        {
+          "id": "gearford-rumour-ravenwatch",
+          "text": "Word from Ravenwatch: their guard captain's after a new gaol key. Orin's the one to forge it."
+        }
+      ],
+      "schedule": [
+        {
+          "startHour": 8,
+          "endHour": 24,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "miners-inn",
+            "tx": 6,
+            "ty": 5
+          }
+        },
+        {
+          "startHour": 0,
+          "endHour": 8,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "miners-inn-bunkrooms",
+            "tx": 10,
+            "ty": 2
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "miners-inn-bunkrooms",
+        "tx": 10,
+        "ty": 2
+      }
+    },
+    {
+      "id": "miner-jole",
+      "name": "Miner Jole",
+      "sprite": "hub-npc-gravedigger",
+      "tx": 38,
+      "ty": 24,
+      "dialogue": [
+        "Down the shaft by dawn, up by dusk, if the timbers hold.",
+        "Lost my good lamp in the west drift. Pitch black down there without it.",
+        "The ore's rich this season. Pity the road out is so poor."
+      ],
+      "questGive": "gearford-lost-lamp",
+      "questReceive": "gearford-lost-lamp",
+      "schedule": [
+        {
+          "startHour": 6,
+          "endHour": 14,
+          "activity": "work",
+          "location": {
+            "type": "exterior",
+            "tx": 38,
+            "ty": 24
+          }
+        },
+        {
+          "startHour": 14,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "mine-tunnel-b",
+            "tx": 5,
+            "ty": 5
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 6,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "miners-inn-bunkrooms",
+            "tx": 8,
+            "ty": 2
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "miners-inn-bunkrooms",
+        "tx": 8,
+        "ty": 2
+      }
+    },
+    {
+      "id": "quartermaster-rell",
+      "name": "Quartermaster Rell",
+      "sprite": "hub-npc-harbourmaster",
+      "tx": 28,
+      "ty": 24,
+      "dialogue": [
+        "Every crate in this town passes my ledger. Lose one and you'll hear about it.",
+        "Half the stores went walkabout in the last delivery. Slipshod loading, I call it.",
+        "Order is the only ore that never runs dry. Remember that."
+      ],
+      "questGive": "gearford-missing-stores",
+      "questReceive": "gearford-missing-stores",
+      "schedule": [
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "exterior",
+            "tx": 28,
+            "ty": 24
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "warehouse",
+            "tx": 8,
+            "ty": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "pumpwright-edda",
+      "name": "Pumpwright Edda",
+      "sprite": "hub-npc-scholar",
+      "tx": 28,
+      "ty": 33,
+      "dialogue": [
+        "The great pump keeps the deep workings dry. When it stops, the water wins.",
+        "A valve's seized and a flywheel's cracked. Vela knows the parts I need.",
+        "Keep her turning and Gearford breathes. Let her stop and we drown in the dark."
+      ],
+      "questReceive": "gearford-broken-pump-3",
+      "schedule": [
+        {
+          "startHour": 7,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "exterior",
+            "tx": 28,
+            "ty": 33
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "worker-house-2",
+            "tx": 2,
+            "ty": 2
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "worker-house-2",
+        "tx": 2,
+        "ty": 2
+      }
     }
   ],
   "interiors": {
     "foundry": {
       "name": "The Great Foundry",
-      "width": 12,
-      "height": 6,
+      "width": 13,
+      "height": 9,
       "floorTileId": "stoneFloor",
       "wallTileId": "brick",
       "decor": [
         {
-          "tx": 2,
+          "tx": 1,
           "ty": 1,
-          "tileId": "brazierTop"
+          "bundleID": "fireplace"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "bundleID": "brazier",
+          "zlayer": "solid",
+          "glow": true,
+          "glowRadius": 2
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "bundleID": "brazier",
+          "zlayer": "solid",
+          "glow": true,
+          "glowRadius": 2
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "tileId": "crate"
         },
         {
           "tx": 2,
-          "ty": 2,
-          "tileId": "brazierBottom"
+          "ty": 4,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 10,
+          "ty": 4,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 10,
+          "ty": 5,
+          "tileId": "darkPotWithLid"
+        },
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "smallRock"
+        },
+        {
+          "tx": 11,
+          "ty": 7,
+          "tileId": "smallRock"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 0,
+          "toInteriorId": "foundry-casting-room",
+          "entryTx": 6,
+          "entryTy": 6,
+          "direction": "back",
+          "label": "Casting Hall"
+        },
+        {
+          "tx": 12,
+          "ty": 4,
+          "toInteriorId": "foundry-foreman-office",
+          "entryTx": 1,
+          "entryTy": 4,
+          "direction": "right",
+          "label": "Foreman's Office"
+        }
+      ]
+    },
+    "foundry-casting-room": {
+      "name": "The Casting Hall",
+      "width": 11,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "brick",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "darkPotWithLid"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "darkPotWithLid"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "chest"
         },
         {
           "tx": 9,
           "ty": 1,
-          "tileId": "brazierTop"
+          "tileId": "chest"
         },
         {
-          "tx": 9,
-          "ty": 2,
-          "tileId": "brazierBottom"
+          "tx": 4,
+          "ty": 1,
+          "tileId": "counterTop"
         },
         {
           "tx": 5,
           "ty": 1,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "bundleID": "brazier",
+          "zlayer": "solid",
+          "glow": true,
+          "glowRadius": 2
+        },
+        {
+          "tx": 9,
+          "ty": 4,
           "tileId": "crate"
+        },
+        {
+          "tx": 9,
+          "ty": 5,
+          "tileId": "openCrate"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 7,
+          "toInteriorId": "foundry",
+          "entryTx": 6,
+          "entryTy": 1,
+          "direction": "front",
+          "label": "Furnace Hall"
+        }
+      ]
+    },
+    "foundry-foreman-office": {
+      "name": "The Foreman's Office",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "brick",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 8,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 3,
+          "ty": 3,
+          "tileId": "stool"
+        },
+        {
+          "tx": 6,
+          "ty": 3,
+          "tileId": "stool"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "candlestickUnlit"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "chest"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 0,
+          "ty": 4,
+          "toInteriorId": "foundry",
+          "entryTx": 11,
+          "entryTy": 4,
+          "direction": "left",
+          "label": "Furnace Hall"
+        }
+      ]
+    },
+    "coal-yard-store": {
+      "name": "The Coal Store",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "smallRock"
         },
         {
           "tx": 6,
           "ty": 1,
+          "tileId": "smallRock"
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "tileId": "sack"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "sack"
+        },
+        {
+          "tx": 3,
+          "ty": 4,
+          "tileId": "smallSack"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "crate"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 8,
+          "ty": 6,
           "tileId": "barrel"
         }
       ],
       "exits": []
     },
-    "workshop": {
+    "machine-workshop": {
       "name": "Vela's Workshop",
-      "width": 8,
-      "height": 5,
+      "width": 13,
+      "height": 9,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodenSlats",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 5,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 11,
+          "ty": 1,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "tileId": "crate"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "darkPotWithLid"
+        },
+        {
+          "tx": 9,
+          "ty": 5,
+          "tileId": "crate"
+        },
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "smallRock"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 11,
+          "ty": 1,
+          "toInteriorId": "machine-workshop-loft",
+          "entryTx": 5,
+          "entryTy": 6,
+          "direction": "up",
+          "label": "Up to the parts loft"
+        }
+      ]
+    },
+    "machine-workshop-loft": {
+      "name": "The Parts Loft",
+      "width": 11,
+      "height": 8,
       "floorTileId": "woodFloor",
       "wallTileId": "woodenSlats",
       "decor": [
@@ -344,44 +2080,955 @@
           "tileId": "openCrate"
         },
         {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "openCrate"
+        },
+        {
           "tx": 5,
+          "ty": 1,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 9,
+          "ty": 4,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "smallRock"
+        },
+        {
+          "tx": 9,
+          "ty": 6,
+          "tileId": "darkPotWithLid"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "toInteriorId": "machine-workshop",
+          "entryTx": 11,
+          "entryTy": 2,
+          "direction": "down",
+          "label": "Down to the workshop"
+        }
+      ]
+    },
+    "gearwright-hall": {
+      "name": "The Clockwork Hall",
+      "width": 13,
+      "height": 9,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "brick",
+      "decor": [
+        {
+          "tx": 1,
           "ty": 1,
           "tileId": "bookshelfTop"
         },
         {
-          "tx": 5,
+          "tx": 1,
           "ty": 2,
           "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 11,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 11,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "bundleID": "candelabra",
+          "zlayer": "solid",
+          "glow": true,
+          "glowRadius": 2
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "bundleID": "candelabra",
+          "zlayer": "solid",
+          "glow": true,
+          "glowRadius": 2
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 6,
+          "ty": 4,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "crate"
+        },
+        {
+          "tx": 11,
+          "ty": 6,
+          "tileId": "barrel"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 0,
+          "toInteriorId": "gearwright-hall-back",
+          "entryTx": 6,
+          "entryTy": 6,
+          "direction": "back",
+          "label": "Workshop"
+        }
+      ]
+    },
+    "gearwright-hall-back": {
+      "name": "The Gearwright's Workshop",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "brick",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "darkPotWithLid"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "chest"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 7,
+          "toInteriorId": "gearwright-hall",
+          "entryTx": 6,
+          "entryTy": 1,
+          "direction": "front",
+          "label": "Clockwork Hall"
+        }
+      ]
+    },
+    "miners-inn": {
+      "name": "The Pickaxe Rest",
+      "width": 13,
+      "height": 9,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "musicId": "inn",
+      "ambianceId": "hearth",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "bundleID": "fireplace"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "smallTableTopLeft"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "smallTableTopRight"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "smallTableBottomLeft"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "smallTableBottomRight"
+        },
+        {
+          "tx": 3,
+          "ty": 3,
+          "tileId": "stool"
+        },
+        {
+          "tx": 6,
+          "ty": 3,
+          "tileId": "stool"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "bottlesOfLiquor"
+        },
+        {
+          "tx": 7,
+          "ty": 6,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 8,
+          "ty": 6,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 9,
+          "ty": 6,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 11,
+          "ty": 1,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 11,
+          "ty": 1,
+          "toInteriorId": "miners-inn-bunkrooms",
+          "entryTx": 6,
+          "entryTy": 7,
+          "direction": "up",
+          "label": "Upstairs"
+        }
+      ]
+    },
+    "miners-inn-bunkrooms": {
+      "name": "The Pickaxe Rest \u2014 Bunkrooms",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 2,
+          "bundleID": "simple-bed"
+        },
+        {
+          "tx": 3,
+          "ty": 2,
+          "bundleID": "simple-bed"
+        },
+        {
+          "tx": 8,
+          "ty": 2,
+          "bundleID": "simple-bed"
+        },
+        {
+          "tx": 10,
+          "ty": 2,
+          "bundleID": "simple-bed"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "candlestickUnlit"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "candlestickUnlit"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        },
+        {
+          "tx": 5,
+          "ty": 6,
+          "tileId": "chest"
+        },
+        {
+          "tx": 6,
+          "ty": 6,
+          "tileId": "chest"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "toInteriorId": "miners-inn",
+          "entryTx": 11,
+          "entryTy": 2,
+          "direction": "down",
+          "label": "Downstairs"
+        }
+      ]
+    },
+    "tool-shop": {
+      "name": "The Tool Shop",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodenSlats",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 8,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "tileId": "crate"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "smallRock"
+        },
+        {
+          "tx": 8,
+          "ty": 6,
+          "tileId": "darkPotWithLid"
         }
       ],
       "exits": []
     },
-    "miners-inn": {
-      "name": "The Pickaxe Rest",
-      "width": 9,
-      "height": 5,
+    "warehouse": {
+      "name": "The Town Warehouse",
+      "width": 13,
+      "height": 9,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "woodenSlats",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 11,
+          "ty": 1,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "sack"
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 10,
+          "ty": 4,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 11,
+          "ty": 4,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "crate"
+        },
+        {
+          "tx": 6,
+          "ty": 5,
+          "tileId": "crate"
+        },
+        {
+          "tx": 7,
+          "ty": 5,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 11,
+          "ty": 7,
+          "tileId": "pileOfSacks"
+        }
+      ],
+      "exits": []
+    },
+    "mine-entrance": {
+      "name": "The Headframe",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "floorLantern",
+          "glow": true,
+          "glowRadius": 2
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 10,
+          "ty": 4,
+          "tileId": "sack"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "smallRock"
+        },
+        {
+          "tx": 10,
+          "ty": 6,
+          "tileId": "smallRock"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 1,
+          "toInteriorId": "mine-tunnel-a",
+          "entryTx": 5,
+          "entryTy": 6,
+          "direction": "down",
+          "label": "Down the shaft"
+        }
+      ]
+    },
+    "mine-tunnel-a": {
+      "name": "The Crossing",
+      "width": 11,
+      "height": 8,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "smallRock"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "smallRock"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": 6,
+          "tileId": "largeRock"
+        },
+        {
+          "tx": 8,
+          "ty": 6,
+          "tileId": "largeRock"
+        },
+        {
+          "tx": 3,
+          "ty": 6,
+          "tileId": "floorLantern",
+          "glow": true,
+          "glowRadius": 2
+        }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "toInteriorId": "mine-entrance",
+          "entryTx": 6,
+          "entryTy": 2,
+          "direction": "up",
+          "label": "Up the shaft"
+        },
+        {
+          "tx": 0,
+          "ty": 4,
+          "toInteriorId": "mine-tunnel-b",
+          "entryTx": 9,
+          "entryTy": 4,
+          "direction": "left",
+          "label": "West Drift"
+        },
+        {
+          "tx": 10,
+          "ty": 4,
+          "toInteriorId": "mine-tunnel-c",
+          "entryTx": 1,
+          "entryTy": 4,
+          "direction": "right",
+          "label": "East Drift"
+        }
+      ]
+    },
+    "mine-tunnel-b": {
+      "name": "The West Drift",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "largeRock"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "smallRock"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "largeRock"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "smallRock"
+        },
+        {
+          "tx": 8,
+          "ty": 6,
+          "tileId": "largeRock"
+        },
+        {
+          "tx": 3,
+          "ty": 3,
+          "tileId": "floorLantern",
+          "glow": true,
+          "glowRadius": 2
+        }
+      ],
+      "exits": [
+        {
+          "tx": 9,
+          "ty": 4,
+          "toInteriorId": "mine-tunnel-a",
+          "entryTx": 1,
+          "entryTy": 4,
+          "direction": "right",
+          "label": "The Crossing"
+        }
+      ]
+    },
+    "mine-tunnel-c": {
+      "name": "The East Drift",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "largeRock"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "smallRock"
+        },
+        {
+          "tx": 8,
+          "ty": 2,
+          "tileId": "largeRock"
+        },
+        {
+          "tx": 2,
+          "ty": 6,
+          "tileId": "smallRock"
+        },
+        {
+          "tx": 7,
+          "ty": 6,
+          "tileId": "largeRock"
+        },
+        {
+          "tx": 6,
+          "ty": 3,
+          "tileId": "floorLantern",
+          "glow": true,
+          "glowRadius": 2
+        }
+      ],
+      "exits": [
+        {
+          "tx": 0,
+          "ty": 4,
+          "toInteriorId": "mine-tunnel-a",
+          "entryTx": 9,
+          "entryTy": 4,
+          "direction": "left",
+          "label": "The Crossing"
+        }
+      ]
+    },
+    "pump-house": {
+      "name": "The Pump House",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "brick",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "darkPotWithLid"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "darkPotWithLid"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "floorLantern",
+          "glow": true,
+          "glowRadius": 2
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "crate"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "smallRock"
+        }
+      ],
+      "exits": []
+    },
+    "worker-house-1": {
+      "name": "Worker's Cottage",
+      "width": 10,
+      "height": 8,
       "floorTileId": "woodFloor",
       "wallTileId": "woodWall",
       "decor": [
         {
           "tx": 1,
           "ty": 1,
+          "bundleID": "fireplace"
+        },
+        {
+          "tx": 7,
+          "ty": 2,
+          "bundleID": "simple-bed"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 3,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "chest"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
           "tileId": "barrel"
+        }
+      ],
+      "exits": []
+    },
+    "worker-house-2": {
+      "name": "Worker's Cottage",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        {
+          "tx": 7,
+          "ty": 1,
+          "bundleID": "fireplace"
+        },
+        {
+          "tx": 2,
+          "ty": 2,
+          "bundleID": "simple-bed"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 6,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "chest"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "barrel"
+        }
+      ],
+      "exits": []
+    },
+    "gear-shop": {
+      "name": "The Gear Shop",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodenSlats",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "counterTop"
         },
         {
           "tx": 2,
           "ty": 1,
-          "tileId": "bottlesOfLiquor"
+          "tileId": "counterTop"
         },
         {
-          "tx": 6,
+          "tx": 3,
+          "ty": 1,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 8,
           "ty": 2,
-          "tileId": "roundTable"
+          "tileId": "bookshelfBottom"
         },
         {
-          "tx": 7,
-          "ty": 3,
-          "tileId": "stool"
+          "tx": 5,
+          "ty": 1,
+          "tileId": "darkPotWithLid"
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "tileId": "crate"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "smallRock"
         }
       ],
       "exits": []
