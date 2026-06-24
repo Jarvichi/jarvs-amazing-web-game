@@ -57,6 +57,76 @@
       "doors": [
         { "tx": 5, "ty": 1, "hideSign": true, "buildingId": "sailors-inn" }
       ]
+    },
+    {
+      "id": "customs-house",
+      "upgradeKind": "default",
+      "rect": [13, 4, 18, 9],
+      "wall": "renderedBrick",
+      "roof": "stoneFloorRoof",
+      "doors": [
+        { "tx": 1, "ty": 1, "hideSign": true, "buildingId": "customs-house" }
+      ]
+    },
+    {
+      "id": "warehouse",
+      "upgradeKind": "default",
+      "rect": [2, 28, 9, 34],
+      "wall": "woodenSlats",
+      "roof": "woodRoof",
+      "doors": [
+        { "tx": 4, "ty": 1, "hideSign": true, "buildingId": "warehouse" }
+      ]
+    },
+    {
+      "id": "shipwright",
+      "upgradeKind": "workshop",
+      "rect": [11, 28, 18, 34],
+      "wall": "woodenSlats",
+      "roof": "woodRoof",
+      "doors": [
+        { "tx": 4, "ty": 1, "hideSign": true, "buildingId": "shipwright" }
+      ]
+    },
+    {
+      "id": "chandlers",
+      "upgradeKind": "shop",
+      "rect": [20, 28, 25, 34],
+      "wall": "brick",
+      "roof": "blueSlateRoof",
+      "doors": [
+        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "chandlers" }
+      ]
+    },
+    {
+      "id": "net-maker",
+      "upgradeKind": "workshop",
+      "rect": [27, 28, 32, 34],
+      "wall": "woodenSlats",
+      "roof": "strawRoof",
+      "doors": [
+        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "net-maker" }
+      ]
+    },
+    {
+      "id": "smokehouse",
+      "upgradeKind": "default",
+      "rect": [34, 28, 39, 34],
+      "wall": "darkStone",
+      "roof": "metalRoof",
+      "doors": [
+        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "smokehouse" }
+      ]
+    },
+    {
+      "id": "lighthouse",
+      "upgradeKind": "default",
+      "rect": [42, 18, 47, 25],
+      "wall": "castleStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        { "tx": 2, "ty": 1, "hideSign": true, "buildingId": "lighthouse" }
+      ]
     }
   ],
   "exteriorDecor": [
@@ -89,9 +159,9 @@
     {
       "id": "harbourmaster-vane",
       "name": "Harbourmaster Vane",
-      "sprite": "hub-npc-merchant",
-      "tx": 26,
-      "ty": 12,
+      "sprite": "hub-npc-harbourmaster",
+      "tx": 6,
+      "ty": 3,
       "dialogue": [
         "Every crate, every barrel, every gull on this dock answers to me.",
         "Cargo's been going missing off the quay. The manifest doesn't lie — people do.",
@@ -105,8 +175,8 @@
       "id": "fishwife-pearl",
       "name": "Fishwife Pearl",
       "sprite": "hub-npc-fisherman",
-      "tx": 9,
-      "ty": 12,
+      "tx": 5,
+      "ty": 3,
       "dialogue": [
         "Fresh off the morning tide! Mostly fresh. Define fresh.",
         "The reef's been restless. Old Salt says it's the kraken. Old Salt says a lot of things.",
@@ -143,46 +213,245 @@
   "interiors": {
     "harbourmaster": {
       "name": "The Harbour Office",
-      "width": 8,
-      "height": 5,
+      "width": 10,
+      "height": 7,
       "floorTileId": "woodFloor",
       "wallTileId": "woodWall",
       "decor": [
         { "tx": 1, "ty": 1, "tileId": "bookshelfTop" },
         { "tx": 1, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 5, "ty": 1, "tileId": "chest" },
-        { "tx": 6, "ty": 1, "tileId": "crate" }
+        { "tx": 2, "ty": 1, "tileId": "deskTop" },
+        { "tx": 2, "ty": 2, "tileId": "pileOfPapers" },
+        { "tx": 5, "ty": 1, "tileId": "rolledMap" },
+        { "tx": 7, "ty": 1, "tileId": "chest" },
+        { "tx": 8, "ty": 1, "tileId": "crate" }
       ],
-      "exits": []
+      "exits": [
+        { "tx": 5, "ty": 0, "toInteriorId": "harbourmaster-records", "entryTx": 3, "entryTy": 4, "direction": "back", "label": "Records Room" }
+      ]
+    },
+    "harbourmaster-records": {
+      "name": "Harbour Office — Records Room",
+      "width": 8,
+      "height": 6,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 1, "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 3, "ty": 1, "tileId": "rolledMap" },
+        { "tx": 5, "ty": 1, "tileId": "goldChest" },
+        { "tx": 5, "ty": 2, "tileId": "crate" },
+        { "tx": 2, "ty": 4, "bundleID": "simple-bed" }
+      ],
+      "exits": [
+        { "tx": 3, "ty": 5, "toInteriorId": "harbourmaster", "entryTx": 5, "entryTy": 1, "direction": "front", "label": "Back to the Office" }
+      ]
     },
     "fish-market": {
       "name": "The Fish Market",
-      "width": 9,
-      "height": 5,
+      "width": 11,
+      "height": 7,
       "floorTileId": "woodFloor",
       "wallTileId": "woodenSlats",
       "decor": [
         { "tx": 1, "ty": 1, "tileId": "barrel" },
         { "tx": 2, "ty": 1, "tileId": "barrel" },
-        { "tx": 6, "ty": 1, "tileId": "openCrate" },
-        { "tx": 7, "ty": 1, "tileId": "crate" }
+        { "tx": 4, "ty": 1, "tileId": "appleBasket" },
+        { "tx": 5, "ty": 1, "tileId": "mushroomBasket" },
+        { "tx": 8, "ty": 1, "tileId": "openCrate" },
+        { "tx": 9, "ty": 1, "tileId": "crate" },
+        { "tx": 1, "ty": 4, "tileId": "pileOfSacks" }
       ],
       "exits": []
     },
     "sailors-inn": {
       "name": "The Brined Anchor",
-      "width": 10,
-      "height": 6,
+      "width": 12,
+      "height": 8,
       "floorTileId": "woodFloor",
       "wallTileId": "woodWall",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "barrel" },
-        { "tx": 2, "ty": 1, "tileId": "bottlesOfLiquor" },
-        { "tx": 6, "ty": 2, "tileId": "roundTable" },
-        { "tx": 7, "ty": 3, "tileId": "stool" },
-        { "tx": 5, "ty": 3, "tileId": "stool" }
+        { "tx": 1, "ty": 1, "tileId": "stairsUp" },
+        { "tx": 3, "ty": 1, "tileId": "counterTopHorizontalLeft" },
+        { "tx": 4, "ty": 1, "tileId": "counterTopHorizontalMiddle" },
+        { "tx": 5, "ty": 1, "tileId": "counterTopHorizontalRight" },
+        { "tx": 4, "ty": 2, "tileId": "bottlesOfLiquor" },
+        { "tx": 8, "ty": 2, "bundleID": "fireplace" },
+        { "tx": 2, "ty": 5, "tileId": "roundTable" },
+        { "tx": 3, "ty": 5, "tileId": "stool" },
+        { "tx": 7, "ty": 5, "tileId": "roundTable" },
+        { "tx": 8, "ty": 5, "tileId": "stool" },
+        { "tx": 10, "ty": 6, "tileId": "barrel" }
+      ],
+      "exits": [
+        { "tx": 1, "ty": 1, "toInteriorId": "sailors-inn-upstairs", "entryTx": 1, "entryTy": 6, "direction": "up", "label": "Go Upstairs" }
+      ]
+    },
+    "sailors-inn-upstairs": {
+      "name": "The Brined Anchor — Upstairs",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "darkWoodFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        { "tx": 2, "ty": 2, "bundleID": "simple-bed" },
+        { "tx": 4, "ty": 2, "bundleID": "simple-bed" },
+        { "tx": 7, "ty": 2, "bundleID": "simple-bed" },
+        { "tx": 9, "ty": 2, "bundleID": "simple-bed" },
+        { "tx": 5, "ty": 5, "tileId": "roundTable" },
+        { "tx": 6, "ty": 5, "tileId": "roundTable" },
+        { "tx": 1, "ty": 7, "tileId": "ladderIntoFloor", "zlayer": "below" },
+        { "tx": 1, "ty": 6, "tileId": "halfLadderTop", "zlayer": "solid" }
+      ],
+      "exits": [
+        { "tx": 1, "ty": 7, "toInteriorId": "sailors-inn", "entryTx": 1, "entryTy": 2, "direction": "down", "label": "Go Downstairs" }
+      ]
+    },
+    "customs-house": {
+      "name": "Customs House",
+      "width": 8,
+      "height": 6,
+      "floorTileId": "woodFloor",
+      "wallTileId": "renderedBrick",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "deskTop" },
+        { "tx": 2, "ty": 1, "tileId": "pileOfPapers" },
+        { "tx": 1, "ty": 2, "tileId": "quilAndInk" },
+        { "tx": 4, "ty": 1, "tileId": "rolledMap" },
+        { "tx": 5, "ty": 1, "tileId": "chest" },
+        { "tx": 6, "ty": 1, "tileId": "crate" }
       ],
       "exits": []
+    },
+    "warehouse": {
+      "name": "The Warehouse",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodenSlats",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "crate" },
+        { "tx": 2, "ty": 1, "tileId": "crate" },
+        { "tx": 3, "ty": 1, "tileId": "barrel" },
+        { "tx": 1, "ty": 2, "tileId": "pileOfSacks" },
+        { "tx": 7, "ty": 1, "tileId": "openCrate" },
+        { "tx": 8, "ty": 1, "tileId": "crate" },
+        { "tx": 7, "ty": 5, "tileId": "sack" },
+        { "tx": 1, "ty": 5, "tileId": "barrel" }
+      ],
+      "exits": []
+    },
+    "shipwright": {
+      "name": "The Dry Dock Workshop",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodenSlats",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "logPile" },
+        { "tx": 2, "ty": 1, "tileId": "logPile" },
+        { "tx": 5, "ty": 1, "tileId": "barrel" },
+        { "tx": 6, "ty": 1, "tileId": "crate" },
+        { "tx": 1, "ty": 5, "tileId": "chest" },
+        { "tx": 8, "ty": 1, "tileId": "rolledMap" }
+      ],
+      "exits": []
+    },
+    "chandlers": {
+      "name": "The Ship's Chandlery",
+      "width": 9,
+      "height": 6,
+      "floorTileId": "woodFloor",
+      "wallTileId": "brick",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "crate" },
+        { "tx": 2, "ty": 1, "tileId": "barrel" },
+        { "tx": 3, "ty": 1, "tileId": "pileOfSacks" },
+        { "tx": 4, "ty": 1, "tileId": "smallSack" },
+        { "tx": 6, "ty": 1, "tileId": "chest" },
+        { "tx": 7, "ty": 1, "tileId": "crate" }
+      ],
+      "exits": []
+    },
+    "net-maker": {
+      "name": "The Net Loft",
+      "width": 8,
+      "height": 6,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodenSlats",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "crate" },
+        { "tx": 2, "ty": 1, "tileId": "sack" },
+        { "tx": 5, "ty": 1, "tileId": "barrel" },
+        { "tx": 1, "ty": 3, "tileId": "smallSack" },
+        { "tx": 6, "ty": 1, "tileId": "openCrate" }
+      ],
+      "exits": []
+    },
+    "smokehouse": {
+      "name": "The Smokehouse",
+      "width": 8,
+      "height": 6,
+      "floorTileId": "woodFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "barrel" },
+        { "tx": 2, "ty": 1, "tileId": "barrel" },
+        { "tx": 5, "ty": 1, "tileId": "crate" },
+        { "tx": 6, "ty": 1, "tileId": "sack" },
+        { "tx": 3, "ty": 2, "bundleID": "fireplace" }
+      ],
+      "exits": []
+    },
+    "lighthouse": {
+      "name": "The Lighthouse",
+      "width": 8,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "stairsUp" },
+        { "tx": 3, "ty": 1, "tileId": "crate" },
+        { "tx": 4, "ty": 1, "tileId": "barrel" },
+        { "tx": 5, "ty": 5, "tileId": "chest" },
+        { "tx": 2, "ty": 5, "tileId": "sack" }
+      ],
+      "exits": [
+        { "tx": 1, "ty": 1, "toInteriorId": "lighthouse-mid", "entryTx": 1, "entryTy": 6, "direction": "up", "label": "Climb the Ladder" }
+      ]
+    },
+    "lighthouse-mid": {
+      "name": "Lighthouse — Keeper's Quarters",
+      "width": 8,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        { "tx": 3, "ty": 1, "bundleID": "candelabra" },
+        { "tx": 2, "ty": 5, "bundleID": "simple-bed" },
+        { "tx": 5, "ty": 5, "tileId": "roundTable" },
+        { "tx": 6, "ty": 5, "tileId": "stool" }
+      ],
+      "exits": [
+        { "tx": 1, "ty": 1, "toInteriorId": "lighthouse", "entryTx": 1, "entryTy": 6, "direction": "down", "label": "Climb Down" },
+        { "tx": 6, "ty": 1, "toInteriorId": "lighthouse-top", "entryTx": 6, "entryTy": 6, "direction": "up", "label": "Climb Up" }
+      ]
+    },
+    "lighthouse-top": {
+      "name": "The Lamp Room",
+      "width": 8,
+      "height": 7,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        { "tx": 3, "ty": 1, "bundleID": "brazier" },
+        { "tx": 1, "ty": 4, "tileId": "crate" },
+        { "tx": 6, "ty": 4, "tileId": "barrel" }
+      ],
+      "exits": [
+        { "tx": 6, "ty": 1, "toInteriorId": "lighthouse-mid", "entryTx": 6, "entryTy": 6, "direction": "down", "label": "Climb Down" }
+      ]
     }
   },
   "animals": [
