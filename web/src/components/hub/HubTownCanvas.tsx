@@ -280,6 +280,11 @@ export function HubTownCanvas({
       if (d.zlayer === 'solid') solidDecorSet.add(`${d.tx},${d.ty}`)
     for (const k of solidDecorSet) pathSet.delete(k)
 
+    // Currently-visible blocked-path obstructions (quest-gated barrels + guard
+    // NPCs). Dynamic: depends on quest completion, so it's refreshed each frame
+    // (see refreshBlockedPathSolids) rather than baked into pathSet.
+    const blockedPathSolidSet = new Set<string>()
+
     for (const group of HUB_STREET_GROUPS) {
       const groupSet = new Set(group.tiles.map(([tx, ty]) => `${tx},${ty}`))
       const tileOverride = group.pathType ? PATH_TILE[group.pathType as keyof typeof PATH_TILE] : undefined
@@ -725,6 +730,31 @@ export function HubTownCanvas({
 
         blockedPathEntries.set(bp.id, entry)
       }
+    }
+
+    // Rebuild blockedPathSolidSet from live quest state: the visible side's
+    // decor + guard-NPC tiles (blocked while incomplete, cleared once done).
+    function refreshBlockedPathSolids() {
+      blockedPathSolidSet.clear()
+      for (const bp of HUB_BLOCKED_PATHS) {
+        const cleared = completedQuestIdsRef?.current.has(bp.questId) ?? false
+        const state = cleared ? bp.cleared : bp.blocked
+        for (const d of state.decor ?? []) blockedPathSolidSet.add(`${d.tx},${d.ty}`)
+        for (const n of state.npcs ?? []) blockedPathSolidSet.add(`${n.tx},${n.ty}`)
+      }
+    }
+    refreshBlockedPathSolids()  // valid before the first frame / first route
+
+    // Streets minus quest-gated corridors and the visible blocked-path
+    // obstructions — the single source of truth for every exterior router
+    // (player tap, named/ambient NPCs, street-walking animals).
+    function exteriorWalkable(): Set<string> {
+      const s = new Set(pathSet)
+      for (const bp of HUB_BLOCKED_PATHS)
+        if (!(completedQuestIdsRef?.current.has(bp.questId) ?? false))
+          for (const [btx, bty] of bp.blockedTiles) s.delete(`${btx},${bty}`)
+      for (const k of blockedPathSolidSet) s.delete(k)
+      return s
     }
 
     // ── Building upgrade decor (revealed as the player upgrades buildings) ─────
@@ -1213,12 +1243,7 @@ export function HubTownCanvas({
         const sprite = container.children[0] as PIXI.Sprite | undefined
         if (!sprite) return
 
-        const effectiveSet = new Set(pathSet)
-        for (const bp of HUB_BLOCKED_PATHS) {
-          if (!(completedQuestIdsRef?.current.has(bp.questId) ?? false)) {
-            for (const [btx, bty] of bp.blockedTiles) effectiveSet.delete(`${btx},${bty}`)
-          }
-        }
+        const effectiveSet = exteriorWalkable()
         // Route around other NPCs (the destination is re-added below so a
         // transiently-occupied fixed target can't abort an otherwise-valid path).
         for (const k of npcOccupiedTiles(ws)) effectiveSet.delete(k)
@@ -1265,12 +1290,7 @@ export function HubTownCanvas({
     }
 
     function wanderNpc(npc: UnitNpcState) {
-      const effectivePathSet = new Set(pathSet)
-      for (const bp of HUB_BLOCKED_PATHS) {
-        if (!(completedQuestIdsRef?.current.has(bp.questId) ?? false)) {
-          for (const [btx, bty] of bp.blockedTiles) effectivePathSet.delete(`${btx},${bty}`)
-        }
-      }
+      const effectivePathSet = exteriorWalkable()
       // Route around other NPCs.
       const occupied = npcOccupiedTiles(npc)
       for (const k of occupied) effectivePathSet.delete(k)
@@ -2142,12 +2162,7 @@ export function HubTownCanvas({
       activeBubbles.length = 0
       nextSpawnTimer = 0
       lastMovedMs = performance.now()
-      const effectivePathSet = new Set(pathSet)
-      for (const bp of HUB_BLOCKED_PATHS) {
-        if (!(completedQuestIdsRef?.current.has(bp.questId) ?? false)) {
-          for (const [btx, bty] of bp.blockedTiles) effectivePathSet.delete(`${btx},${bty}`)
-        }
-      }
+      const effectivePathSet = exteriorWalkable()
       const path = findPath(currentTile, target, effectivePathSet)
       walkQueue = path.slice(1)
       pendingScreen = nodeScreen ?? null
@@ -2211,7 +2226,7 @@ export function HubTownCanvas({
         }
 
         const node   = EXTERIOR_NPCS.find(n => n.tx === tapTx && n.ty === tapTy && n.screen)
-        const target = nearestWalkable(x, y, pathSet, T)
+        const target = nearestWalkable(x, y, exteriorWalkable(), T)
         startWalk(target, node?.screen)
       }
     })
@@ -2253,20 +2268,13 @@ export function HubTownCanvas({
       const [x1, y1, x2] = b.rect
       for (let tx = x1; tx <= x2; tx++) animalRoofTiles.push([tx, y1])
     }
-    const animalGetWalkable = (): Set<string> => {
-      const s = new Set(pathSet)
-      for (const bp of HUB_BLOCKED_PATHS) {
-        if (!(completedQuestIdsRef?.current.has(bp.questId) ?? false))
-          for (const [btx, bty] of bp.blockedTiles) s.delete(`${btx},${bty}`)
-      }
-      return s
-    }
+    const animalGetWalkable = (): Set<string> => exteriorWalkable()
     // Tiles cats may not pad across when roaming off the paths.
     const animalPondSet = new Set(HUB_POND_TILES.map(([tx, ty]) => `${tx},${ty}`))
     const animalIsSolid = (tx: number, ty: number): boolean =>
       tx < 0 || ty < 0 || tx >= MAP_W / T || ty >= MAP_H / T ||
       buildingSet.has(`${tx},${ty}`) || animalPondSet.has(`${tx},${ty}`) ||
-      solidDecorSet.has(`${tx},${ty}`)
+      solidDecorSet.has(`${tx},${ty}`) || blockedPathSolidSet.has(`${tx},${ty}`)
     // Flower-decor tiles — butterflies route between them.
     const FLOWER_TILE_IDS = new Set([52, 53, 54, 55, 943])  // white/pink/blue/yellow flower, potOfFlowers
     const animalFlowerTiles: [number, number][] = EXTERIOR_DECOR
@@ -2458,6 +2466,7 @@ export function HubTownCanvas({
         }
 
         // Blocked path visibility and proximity speech bubbles
+        refreshBlockedPathSolids()  // keep solid tiles in sync as quests clear
         for (const [, entry] of blockedPathEntries) {
           const cleared = completedQuestIdsRef?.current.has(entry.questId) ?? false
           for (const s of entry.blockedDecor) s.visible = !cleared
