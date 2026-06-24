@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- shadow -->
+  <ellipse cx="16" cy="29" rx="5" ry="2" fill="rgba(0,0,0,0.2)"/>
+  <!-- legs -->
+  <rect x="12" y="22" width="4" height="7" rx="1" fill="#1a3a5a"/>
+  <rect x="17" y="22" width="4" height="7" rx="1" fill="#1a3a5a"/>
+  <!-- boots -->
+  <rect x="11" y="28" width="5" height="3" rx="1" fill="#1a1a1a"/>
+  <rect x="16" y="28" width="5" height="3" rx="1" fill="#1a1a1a"/>
+  <!-- body: striped shirt -->
+  <rect x="11" y="14" width="10" height="9" rx="2" fill="#e8e4d8"/>
+  <rect x="11" y="16" width="10" height="1.5" fill="#1a3a6a"/>
+  <rect x="11" y="19" width="10" height="1.5" fill="#1a3a6a"/>
+  <!-- arms -->
+  <rect x="8"  y="15" width="3" height="7" rx="1" fill="#c8a070"/>
+  <rect x="21" y="15" width="3" height="7" rx="1" fill="#c8a070"/>
+  <!-- head -->
+  <circle cx="16" cy="10" r="5" fill="#c8a070"/>
+  <!-- sailor cap -->
+  <path d="M11 8 Q16 4 21 8 L21 9 Q16 7 11 9 Z" fill="#f0f0f0"/>
+  <rect x="11" y="8.5" width="10" height="1.5" rx="0.5" fill="#1a3a6a"/>
+  <!-- eyes -->
+  <circle cx="14" cy="10" r="1" fill="#3a2a1a"/>
+  <circle cx="18" cy="10" r="1" fill="#3a2a1a"/>
+  <!-- smile -->
+  <path d="M13.5 12.5 Q16 14 18.5 12.5" fill="none" stroke="#8b5e3c" stroke-width="0.7"/>
+</svg>

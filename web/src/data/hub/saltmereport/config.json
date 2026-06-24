@@ -169,7 +169,12 @@
       ],
       "building": "harbourmaster",
       "questGive": "saltmere-lost-cargo",
-      "questReceive": "saltmere-rum-run"
+      "questReceive": "saltmere-rum-run",
+      "schedule": [
+        { "startHour": 6, "endHour": 22, "activity": "work", "location": { "type": "interior", "buildingId": "harbourmaster", "tx": 6, "ty": 3 } },
+        { "startHour": 22, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "harbourmaster-records", "tx": 2, "ty": 4 } }
+      ],
+      "homeBed": { "buildingId": "harbourmaster-records", "tx": 2, "ty": 4 }
     },
     {
       "id": "fishwife-pearl",
@@ -207,6 +212,125 @@
         "Forty years before the mast, and the sea still won't tell me her secrets.",
         "There's a cove east of here no chart will show you. The pirates make sure of that.",
         "The tide takes and the tide gives back. Rarely the same things, mind."
+      ],
+      "questGive": "saltmere-lost-at-sea"
+    },
+    {
+      "id": "shipwright",
+      "name": "Shipwright Oren",
+      "sprite": "hub-npc-supplies",
+      "tx": 4,
+      "ty": 4,
+      "dialogue": [
+        "Keel's cracked on half these hulls and nobody wants to pay to fix it right.",
+        "Good timber, good pitch, good rope — that's the whole trade. Everything else is just waiting.",
+        "She'll float. Whether she floats *well* is a different conversation."
+      ],
+      "building": "shipwright",
+      "questGive": "saltmere-keel-repair"
+    },
+    {
+      "id": "customs-officer",
+      "name": "Customs Officer Hale",
+      "sprite": "hub-npc-guard",
+      "tx": 3,
+      "ty": 3,
+      "dialogue": [
+        "Every crate that crosses this quay gets a stamp. No stamp, no cargo.",
+        "The numbers on Vane's manifest and the numbers in my ledger don't match. That bothers me more than it should.",
+        "I've seen smugglers, thieves, and men who simply can't count. I'm still deciding which this is."
+      ],
+      "building": "customs-house",
+      "questGive": "saltmere-customs-discrepancy"
+    },
+    {
+      "id": "lighthouse-keeper",
+      "name": "Lighthouse Keeper Wren",
+      "sprite": "hub-npc-elder",
+      "tx": 30,
+      "ty": 14,
+      "dialogue": [
+        "Forty fathoms of fog tonight. The lamp's the only thing standing between that and a wrecked hull.",
+        "Oil runs low faster than it should. Someone's skimming, or the wick's thirstier than it used to be.",
+        "I watch so the rest of you can sleep. Mind you remember that, next time the bell rings."
+      ],
+      "schedule": [
+        { "startHour": 6, "endHour": 20, "activity": "idle-chat", "location": { "type": "exterior", "tx": 30, "ty": 14 } },
+        { "startHour": 20, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "lighthouse-top", "tx": 4, "ty": 4 } }
+      ],
+      "homeBed": { "buildingId": "lighthouse-top", "tx": 4, "ty": 4 },
+      "questGive": "saltmere-oil-for-the-lamp"
+    },
+    {
+      "id": "net-maker",
+      "name": "Net-Maker Quill",
+      "sprite": "hub-npc-trader",
+      "tx": 4,
+      "ty": 3,
+      "dialogue": [
+        "A torn net's a hungry net. Bring me the scraps and I'll mend it proper.",
+        "Every knot's got a name, if you know where to look. Most folk just see string.",
+        "Good nets outlast the boats they're tied to. Mine, anyway."
+      ],
+      "building": "net-maker",
+      "questGive": "saltmere-net-gains"
+    },
+    {
+      "id": "chandler",
+      "name": "Chandler Beaumont",
+      "sprite": "hub-npc-merchant",
+      "tx": 5,
+      "ty": 3,
+      "dialogue": [
+        "Rope, pitch, lanterns, nails — if it keeps a ship afloat or upright, I stock it.",
+        "Stores are running thin and the next supply run isn't for a fortnight. Inconvenient timing, that.",
+        "Buy local. The alternative is rowing to Ravenwatch, and nobody wants that."
+      ],
+      "building": "chandlers",
+      "questGive": "saltmere-ships-stores"
+    },
+    {
+      "id": "smokehouse-master",
+      "name": "Smokehouse Master Findlay",
+      "sprite": "hub-npc-cook",
+      "tx": 6,
+      "ty": 4,
+      "dialogue": [
+        "Low smoke, long hours, good fish. That's the whole secret and I've just given it away.",
+        "That dock cat's been eyeing my racks again. Cheeky thing.",
+        "Nothing wrong with a few scraps for a hungry mouth, so long as it's not from MY rack."
+      ],
+      "building": "smokehouse",
+      "questGive": "saltmere-smokehouse-scraps"
+    },
+    {
+      "id": "tavern-sailor",
+      "name": "Sailor Bess",
+      "sprite": "hub-npc-sailor",
+      "tx": 9,
+      "ty": 5,
+      "dialogue": [
+        "Three tours round the Horn and the worst storm I ever saw was in a teacup, if you ask my old captain.",
+        "The Brined Anchor pours the only rum on this coast worth drinking. Present company excepted, obviously.",
+        "Sleep below deck, drink above it. That's balance, that is."
+      ],
+      "building": "sailors-inn",
+      "schedule": [
+        { "startHour": 8, "endHour": 24, "activity": "idle-chat", "location": { "type": "interior", "buildingId": "sailors-inn", "tx": 9, "ty": 5 } },
+        { "startHour": 0, "endHour": 8, "activity": "sleep", "location": { "type": "interior", "buildingId": "sailors-inn-upstairs", "tx": 7, "ty": 2 } }
+      ],
+      "homeBed": { "buildingId": "sailors-inn-upstairs", "tx": 7, "ty": 2 }
+    },
+    {
+      "id": "smuggler",
+      "name": "The Smuggler",
+      "sprite": "hub-npc-dealer",
+      "tx": 26,
+      "ty": 36,
+      "dialogue": [
+        "...Didn't see me. You didn't see anything, in fact.",
+        "Rum's a victimless trade until the watch starts counting barrels.",
+        "Whatever Vane thinks he knows, he can't prove. Keep it that way and we'll get along fine."
       ]
     }
   ],
@@ -464,6 +588,22 @@
       "name": "Barnacle",
       "dialogue": ["*mrrow*", "Barnacle the dock cat winds around your ankles, eyeing the catch."],
       "questReceive": "saltmere-dockside-cat"
+    },
+    {
+      "id": "harbour-gull-1",
+      "type": "bird",
+      "variant": "grey",
+      "tx": 31,
+      "ty": 18,
+      "roam": true
+    },
+    {
+      "id": "lighthouse-gull",
+      "type": "bird",
+      "variant": "white",
+      "tx": 44,
+      "ty": 23,
+      "roam": true
     }
   ]
 }
