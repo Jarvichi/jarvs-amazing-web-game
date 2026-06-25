@@ -1,65 +1,153 @@
 {
-  "mapW": 960,
-  "mapH": 704,
+  "mapW": 1280,
+  "mapH": 896,
   "townName": "Harrowfield",
   "environment": "farmland",
+  "weather": {
+    "bySeason": {
+      "spring": "rain",
+      "summer": "clear",
+      "autumn": "fog",
+      "winter": "snow"
+    }
+  },
   "avatarStart": {
-    "tx": 15,
-    "ty": 20
+    "tx": 18,
+    "ty": 23
   },
   "exitTiles": [
     {
-      "tx": 15,
-      "ty": 21,
+      "tx": 16,
+      "ty": 24,
       "screen": "worldmap"
     },
     {
-      "tx": 16,
-      "ty": 21,
+      "tx": 17,
+      "ty": 24,
       "screen": "worldmap"
     }
   ],
   "areas": [
     {
-      "id": "harrowfield-fields",
-      "name": "The Fields",
-      "tx": 2,
-      "ty": 11,
-      "tw": 10,
+      "id": "harrowfield-green",
+      "name": "Village Green",
+      "tx": 3,
+      "ty": 2,
+      "tw": 33,
       "th": 9
     },
     {
-      "id": "harrowfield-green",
-      "name": "Village Green",
-      "tx": 10,
-      "ty": 9,
-      "tw": 9,
-      "th": 4
+      "id": "harrowfield-fields",
+      "name": "The Fields",
+      "tx": 1,
+      "ty": 12,
+      "tw": 25,
+      "th": 14
+    },
+    {
+      "id": "harrowfield-mill",
+      "name": "Mill Lane",
+      "tx": 26,
+      "ty": 12,
+      "tw": 13,
+      "th": 13
     }
   ],
   "streets": [
     {
       "rect": [
-        15,
+        18,
         2,
-        16,
-        21
+        19,
+        25
       ]
     },
     {
       "rect": [
-        3,
+        4,
         10,
-        27,
+        36,
         11
       ]
     },
     {
       "rect": [
-        22,
-        12,
-        23,
-        14
+        4,
+        20,
+        36,
+        21
+      ]
+    },
+    {
+      "rect": [
+        6,
+        9,
+        6,
+        9
+      ]
+    },
+    {
+      "rect": [
+        14,
+        9,
+        14,
+        9
+      ]
+    },
+    {
+      "rect": [
+        24,
+        9,
+        24,
+        9
+      ]
+    },
+    {
+      "rect": [
+        32,
+        9,
+        32,
+        9
+      ]
+    },
+    {
+      "rect": [
+        6,
+        19,
+        6,
+        19
+      ]
+    },
+    {
+      "rect": [
+        14,
+        19,
+        14,
+        19
+      ]
+    },
+    {
+      "rect": [
+        24,
+        19,
+        24,
+        19
+      ]
+    },
+    {
+      "rect": [
+        32,
+        19,
+        32,
+        19
+      ]
+    },
+    {
+      "rect": [
+        16,
+        24,
+        17,
+        24
       ]
     }
   ],
@@ -69,9 +157,9 @@
       "upgradeKind": "cottage",
       "rect": [
         3,
-        3,
+        2,
         9,
-        9
+        8
       ],
       "wall": "woodWall",
       "roof": "strawRoof",
@@ -85,13 +173,73 @@
       ]
     },
     {
+      "id": "chapel",
+      "upgradeKind": "shrine",
+      "rect": [
+        11,
+        2,
+        16,
+        8
+      ],
+      "wall": "whiteStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "chapel"
+        }
+      ]
+    },
+    {
+      "id": "village-hall",
+      "upgradeKind": "default",
+      "rect": [
+        21,
+        2,
+        27,
+        8
+      ],
+      "wall": "stoneWall",
+      "roof": "redSlateRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "village-hall"
+        }
+      ]
+    },
+    {
+      "id": "granary",
+      "upgradeKind": "workshop",
+      "rect": [
+        29,
+        2,
+        35,
+        8
+      ],
+      "wall": "woodWall",
+      "roof": "woodRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "granary"
+        }
+      ]
+    },
+    {
       "id": "barn",
       "upgradeKind": "workshop",
       "rect": [
-        20,
-        2,
-        27,
-        9
+        3,
+        13,
+        9,
+        18
       ],
       "wall": "woodenSlats",
       "roof": "strawRoof",
@@ -105,13 +253,33 @@
       ]
     },
     {
+      "id": "windmill",
+      "upgradeKind": "workshop",
+      "rect": [
+        11,
+        13,
+        16,
+        18
+      ],
+      "wall": "stoneWall",
+      "roof": "woodRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "windmill"
+        }
+      ]
+    },
+    {
       "id": "mill-cottage",
       "upgradeKind": "cottage",
       "rect": [
-        19,
-        14,
-        25,
-        19
+        21,
+        13,
+        27,
+        18
       ],
       "wall": "woodWall",
       "roof": "strawRoof",
@@ -123,59 +291,686 @@
           "buildingId": "mill-cottage"
         }
       ]
+    },
+    {
+      "id": "market-shed",
+      "upgradeKind": "shop",
+      "rect": [
+        29,
+        13,
+        35,
+        18
+      ],
+      "wall": "woodWall",
+      "roof": "redSlateRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "market-shed"
+        }
+      ]
+    }
+  ],
+  "pondTiles": [
+    {
+      "rect": [
+        1,
+        25,
+        3,
+        26
+      ]
     }
   ],
   "exteriorDecor": [
     {
-      "comment": "ploughed fields west of the lane"
+      "comment": "=== hedgerow trees ringing the village ==="
     },
     {
-      "tx": 3,
-      "ty": 16,
+      "tx": 1,
+      "ty": 0,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 10,
+      "ty": 0,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 17,
+      "ty": 0,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 28,
+      "ty": 0,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 36,
+      "ty": 0,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 3,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 38,
+      "ty": 3,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 6,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 38,
+      "ty": 6,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 9,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 38,
+      "ty": 9,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 12,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 38,
+      "ty": 12,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 15,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 38,
+      "ty": 15,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 18,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 38,
+      "ty": 18,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 21,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 38,
+      "ty": 21,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 24,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 38,
+      "ty": 24,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 4,
+      "ty": 26,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 9,
+      "ty": 26,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 22,
+      "ty": 26,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 30,
+      "ty": 26,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 35,
+      "ty": 26,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "comment": "=== the fields: ploughed earth & crops ==="
+    },
+    {
+      "tx": 1,
+      "ty": 22,
       "bundleID": "ploughed-field-6x5",
       "zlayer": "below"
     },
     {
-      "comment": "scarecrow watching the field"
+      "tx": 8,
+      "ty": 23,
+      "bundleID": "ploughed-field-6x5",
+      "zlayer": "below"
     },
     {
-      "tx": 10,
-      "ty": 14,
+      "tx": 20,
+      "ty": 22,
+      "bundleID": "ploughed-field-6x5",
+      "zlayer": "below"
+    },
+    {
+      "tx": 27,
+      "ty": 22,
+      "bundleID": "ploughed-field-6x5",
+      "zlayer": "below"
+    },
+    {
+      "tx": 2,
+      "ty": 13,
+      "bundleID": "ploughed-field-2x2",
+      "zlayer": "below"
+    },
+    {
+      "tx": 2,
+      "ty": 16,
+      "bundleID": "ploughed-field-2x2",
+      "zlayer": "below"
+    },
+    {
+      "tx": 3,
+      "ty": 22,
+      "tileId": "cropWheatBottom",
+      "zlayer": "below"
+    },
+    {
+      "tx": 5,
+      "ty": 22,
+      "tileId": "cropCarrot",
+      "zlayer": "below"
+    },
+    {
+      "tx": 7,
+      "ty": 22,
+      "tileId": "cropBeans",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 22,
+      "tileId": "cropLettuce",
+      "zlayer": "below"
+    },
+    {
+      "tx": 11,
+      "ty": 22,
+      "tileId": "cropSpinach",
+      "zlayer": "below"
+    },
+    {
+      "tx": 13,
+      "ty": 22,
+      "tileId": "cropPumkin",
+      "zlayer": "below"
+    },
+    {
+      "tx": 15,
+      "ty": 22,
+      "tileId": "cropShoot",
+      "zlayer": "below"
+    },
+    {
+      "tx": 3,
+      "ty": 23,
+      "tileId": "cropWheatBottom",
+      "zlayer": "below"
+    },
+    {
+      "tx": 5,
+      "ty": 23,
+      "tileId": "cropCarrot",
+      "zlayer": "below"
+    },
+    {
+      "tx": 7,
+      "ty": 23,
+      "tileId": "cropBeans",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 23,
+      "tileId": "cropLettuce",
+      "zlayer": "below"
+    },
+    {
+      "tx": 11,
+      "ty": 23,
+      "tileId": "cropSpinach",
+      "zlayer": "below"
+    },
+    {
+      "tx": 13,
+      "ty": 23,
+      "tileId": "cropPumkin",
+      "zlayer": "below"
+    },
+    {
+      "tx": 15,
+      "ty": 23,
+      "tileId": "cropShoot",
+      "zlayer": "below"
+    },
+    {
+      "tx": 3,
+      "ty": 24,
+      "tileId": "cropWheatBottom",
+      "zlayer": "below"
+    },
+    {
+      "tx": 5,
+      "ty": 24,
+      "tileId": "cropCarrot",
+      "zlayer": "below"
+    },
+    {
+      "tx": 7,
+      "ty": 24,
+      "tileId": "cropBeans",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 24,
+      "tileId": "cropLettuce",
+      "zlayer": "below"
+    },
+    {
+      "tx": 11,
+      "ty": 24,
+      "tileId": "cropSpinach",
+      "zlayer": "below"
+    },
+    {
+      "tx": 13,
+      "ty": 24,
+      "tileId": "cropPumkin",
+      "zlayer": "below"
+    },
+    {
+      "tx": 15,
+      "ty": 24,
+      "tileId": "cropShoot",
+      "zlayer": "below"
+    },
+    {
+      "tx": 3,
+      "ty": 25,
+      "tileId": "cropWheatBottom",
+      "zlayer": "below"
+    },
+    {
+      "tx": 5,
+      "ty": 25,
+      "tileId": "cropCarrot",
+      "zlayer": "below"
+    },
+    {
+      "tx": 7,
+      "ty": 25,
+      "tileId": "cropBeans",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 25,
+      "tileId": "cropLettuce",
+      "zlayer": "below"
+    },
+    {
+      "tx": 11,
+      "ty": 25,
+      "tileId": "cropSpinach",
+      "zlayer": "below"
+    },
+    {
+      "tx": 13,
+      "ty": 25,
+      "tileId": "cropPumkin",
+      "zlayer": "below"
+    },
+    {
+      "tx": 15,
+      "ty": 25,
+      "tileId": "cropShoot",
+      "zlayer": "below"
+    },
+    {
+      "tx": 3,
+      "ty": 26,
+      "tileId": "cropWheatBottom",
+      "zlayer": "below"
+    },
+    {
+      "tx": 5,
+      "ty": 26,
+      "tileId": "cropCarrot",
+      "zlayer": "below"
+    },
+    {
+      "tx": 7,
+      "ty": 26,
+      "tileId": "cropBeans",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 26,
+      "tileId": "cropLettuce",
+      "zlayer": "below"
+    },
+    {
+      "tx": 11,
+      "ty": 26,
+      "tileId": "cropSpinach",
+      "zlayer": "below"
+    },
+    {
+      "tx": 13,
+      "ty": 26,
+      "tileId": "cropPumkin",
+      "zlayer": "below"
+    },
+    {
+      "tx": 15,
+      "ty": 26,
+      "tileId": "cropShoot",
+      "zlayer": "below"
+    },
+    {
+      "tx": 28,
+      "ty": 22,
+      "tileId": "cropWheatBottom",
+      "zlayer": "below"
+    },
+    {
+      "tx": 30,
+      "ty": 22,
+      "tileId": "cropCarrot",
+      "zlayer": "below"
+    },
+    {
+      "tx": 32,
+      "ty": 22,
+      "tileId": "cropBeans",
+      "zlayer": "below"
+    },
+    {
+      "tx": 34,
+      "ty": 22,
+      "tileId": "cropLettuce",
+      "zlayer": "below"
+    },
+    {
+      "tx": 36,
+      "ty": 22,
+      "tileId": "cropSpinach",
+      "zlayer": "below"
+    },
+    {
+      "tx": 28,
+      "ty": 24,
+      "tileId": "cropPumkin",
+      "zlayer": "below"
+    },
+    {
+      "tx": 30,
+      "ty": 24,
+      "tileId": "cropShoot",
+      "zlayer": "below"
+    },
+    {
+      "tx": 32,
+      "ty": 24,
+      "tileId": "cropWheatBottom",
+      "zlayer": "below"
+    },
+    {
+      "tx": 34,
+      "ty": 24,
+      "tileId": "cropCarrot",
+      "zlayer": "below"
+    },
+    {
+      "tx": 36,
+      "ty": 24,
+      "tileId": "cropBeans",
+      "zlayer": "below"
+    },
+    {
+      "tx": 28,
+      "ty": 26,
+      "tileId": "cropLettuce",
+      "zlayer": "below"
+    },
+    {
+      "tx": 30,
+      "ty": 26,
+      "tileId": "cropSpinach",
+      "zlayer": "below"
+    },
+    {
+      "tx": 32,
+      "ty": 26,
+      "tileId": "cropPumkin",
+      "zlayer": "below"
+    },
+    {
+      "tx": 34,
+      "ty": 26,
+      "tileId": "cropShoot",
+      "zlayer": "below"
+    },
+    {
+      "tx": 36,
+      "ty": 26,
+      "tileId": "cropWheatBottom",
+      "zlayer": "below"
+    },
+    {
+      "comment": "=== scarecrows watching the rows ==="
+    },
+    {
+      "tx": 5,
+      "ty": 25,
       "tileId": "scarecrowBottom"
     },
     {
-      "tx": 10,
-      "ty": 13,
+      "tx": 5,
+      "ty": 24,
       "tileId": "scarecrowTop",
       "zlayer": "above"
     },
     {
-      "comment": "hay and farm clutter"
+      "tx": 16,
+      "ty": 26,
+      "tileId": "scarecrowBottom"
     },
     {
-      "tx": 11,
-      "ty": 16,
-      "tileId": "hayStack"
+      "tx": 16,
+      "ty": 25,
+      "tileId": "scarecrowTop",
+      "zlayer": "above"
     },
     {
-      "tx": 12,
-      "ty": 18,
-      "tileId": "hayStack"
+      "tx": 33,
+      "ty": 25,
+      "tileId": "scarecrowBottom"
     },
     {
-      "tx": 19,
+      "tx": 33,
+      "ty": 24,
+      "tileId": "scarecrowTop",
+      "zlayer": "above"
+    },
+    {
+      "comment": "=== hay, sacks & farm clutter ==="
+    },
+    {
+      "tx": 2,
       "ty": 12,
       "tileId": "hayStack"
     },
     {
+      "tx": 10,
+      "ty": 13,
+      "tileId": "hayStack"
+    },
+    {
+      "tx": 17,
+      "ty": 15,
+      "tileId": "hayStack"
+    },
+    {
       "tx": 28,
-      "ty": 8,
+      "ty": 13,
+      "tileId": "hayStack"
+    },
+    {
+      "tx": 20,
+      "ty": 12,
+      "tileId": "hayStack"
+    },
+    {
+      "tx": 36,
+      "ty": 18,
+      "tileId": "hayStack"
+    },
+    {
+      "tx": 1,
+      "ty": 13,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 10,
+      "ty": 16,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 28,
+      "ty": 16,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 35,
+      "ty": 12,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 2,
+      "ty": 14,
+      "tileId": "pileOfSacks"
+    },
+    {
+      "tx": 17,
+      "ty": 18,
+      "tileId": "pileOfSacks"
+    },
+    {
+      "tx": 36,
+      "ty": 13,
+      "tileId": "pileOfSacks"
+    },
+    {
+      "tx": 10,
+      "ty": 18,
       "tileId": "logPile"
     },
     {
-      "tx": 18,
-      "ty": 9,
-      "tileId": "barrel"
+      "tx": 28,
+      "ty": 18,
+      "tileId": "logPile"
+    },
+    {
+      "tx": 1,
+      "ty": 18,
+      "tileId": "emptyBasket"
+    },
+    {
+      "comment": "=== pasture fences (the fold) ==="
+    },
+    {
+      "tx": 1,
+      "ty": 20,
+      "tileId": "fenceLeftTop"
+    },
+    {
+      "tx": 2,
+      "ty": 20,
+      "tileId": "fenceTop"
+    },
+    {
+      "tx": 3,
+      "ty": 20,
+      "tileId": "fenceTopRight"
+    },
+    {
+      "tx": 1,
+      "ty": 21,
+      "tileId": "fenceLeft"
+    },
+    {
+      "tx": 3,
+      "ty": 21,
+      "tileId": "fenceRight"
+    },
+    {
+      "comment": "=== village green: well, benches, flowers ==="
     },
     {
       "tx": 12,
@@ -183,124 +978,818 @@
       "tileId": "stoneWell"
     },
     {
-      "comment": "hedgerow trees"
+      "tx": 20,
+      "ty": 9,
+      "tileId": "benchLeft"
     },
     {
-      "tx": 1,
-      "ty": 4,
-      "bundleID": "mixed-tree-cluster-V",
-      "zlayer": "solid"
+      "tx": 21,
+      "ty": 9,
+      "tileId": "benchMiddle"
     },
     {
-      "tx": 12,
-      "ty": 3,
-      "bundleID": "light-tree",
-      "zlayer": "solid"
+      "tx": 22,
+      "ty": 9,
+      "tileId": "benchRight"
     },
     {
-      "tx": 27,
-      "ty": 16,
-      "bundleID": "mixed-tree-cluster-V",
-      "zlayer": "solid"
+      "tx": 10,
+      "ty": 9,
+      "tileId": "lampPostBottom"
     },
     {
-      "tx": 2,
+      "tx": 26,
+      "ty": 9,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 10,
       "ty": 19,
-      "bundleID": "light-tree",
-      "zlayer": "solid"
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 26,
+      "ty": 19,
+      "tileId": "lampPostBottom"
     },
     {
       "tx": 17,
-      "ty": 13,
-      "tileId": "whiteFlower"
+      "ty": 9,
+      "tileId": "potOfFlowers"
+    },
+    {
+      "tx": 28,
+      "ty": 9,
+      "tileId": "potOfFlowers"
+    },
+    {
+      "tx": 2,
+      "ty": 9,
+      "tileId": "whiteFlower",
+      "zlayer": "below"
     },
     {
       "tx": 13,
       "ty": 12,
-      "tileId": "whiteFlower"
+      "tileId": "yellowFlower",
+      "zlayer": "below"
+    },
+    {
+      "tx": 17,
+      "ty": 13,
+      "tileId": "pinkFlower",
+      "zlayer": "below"
+    },
+    {
+      "tx": 29,
+      "ty": 12,
+      "tileId": "blueFlower",
+      "zlayer": "below"
+    },
+    {
+      "tx": 2,
+      "ty": 11,
+      "tileId": "whiteFlower",
+      "zlayer": "below"
+    },
+    {
+      "tx": 36,
+      "ty": 9,
+      "tileId": "yellowFlower",
+      "zlayer": "below"
+    },
+    {
+      "tx": 13,
+      "ty": 21,
+      "tileId": "pinkFlower",
+      "zlayer": "below"
+    },
+    {
+      "tx": 20,
+      "ty": 25,
+      "tileId": "whiteFlower",
+      "zlayer": "below"
+    },
+    {
+      "tx": 27,
+      "ty": 25,
+      "tileId": "yellowFlower",
+      "zlayer": "below"
+    },
+    {
+      "tx": 11,
+      "ty": 9,
+      "tileId": "grassTuft",
+      "zlayer": "below"
+    },
+    {
+      "tx": 27,
+      "ty": 9,
+      "tileId": "grassTuft",
+      "zlayer": "below"
+    },
+    {
+      "tx": 2,
+      "ty": 17,
+      "tileId": "grassTuft",
+      "zlayer": "below"
+    },
+    {
+      "tx": 36,
+      "ty": 16,
+      "tileId": "grassTuft",
+      "zlayer": "below"
+    },
+    {
+      "tx": 13,
+      "ty": 18,
+      "tileId": "grassTuft",
+      "zlayer": "below"
+    },
+    {
+      "comment": "=== market stalls along the lower lane ==="
+    },
+    {
+      "tx": 30,
+      "ty": 22,
+      "tileId": "counterTop"
+    },
+    {
+      "tx": 31,
+      "ty": 22,
+      "tileId": "counterTop"
+    },
+    {
+      "tx": 32,
+      "ty": 22,
+      "tileId": "counterTop"
+    },
+    {
+      "tx": 30,
+      "ty": 23,
+      "tileId": "appleBasket"
+    },
+    {
+      "tx": 31,
+      "ty": 23,
+      "tileId": "leafBasket"
+    },
+    {
+      "tx": 33,
+      "ty": 22,
+      "tileId": "emptyBasket"
+    },
+    {
+      "tx": 29,
+      "ty": 23,
+      "tileId": "sack"
+    },
+    {
+      "tx": 34,
+      "ty": 22,
+      "tileId": "openCrate"
+    },
+    {
+      "comment": "=== pond edge ==="
+    },
+    {
+      "tx": 2,
+      "ty": 25,
+      "tileId": "grassTuft",
+      "zlayer": "below"
+    },
+    {
+      "tx": 1,
+      "ty": 26,
+      "tileId": "grassTuft",
+      "zlayer": "below"
     }
   ],
   "npcSpawnTiles": [],
   "ambientNpcSprites": [
+    "farmer",
     "hub-npc-supplies"
+  ],
+  "chickenZones": [
+    {
+      "rect": [
+        1,
+        22,
+        3,
+        3
+      ],
+      "count": 3,
+      "roost": [
+        2,
+        23
+      ]
+    }
+  ],
+  "animals": [
+    {
+      "id": "harrowfield-sheepdog",
+      "type": "dog",
+      "variant": "brown",
+      "tx": 5,
+      "ty": 21,
+      "name": "Floss",
+      "dialogue": [
+        "*a lean farm dog circles you once, then sits, ears pricked*",
+        "*woof!*"
+      ],
+      "roam": true
+    },
+    {
+      "id": "harrowfield-barn-cat",
+      "type": "cat",
+      "variant": "grey",
+      "tx": 4,
+      "ty": 12,
+      "name": "Mouser",
+      "dialogue": [
+        "*a barn cat regards you from atop a hay bale*",
+        "*mrrp.*"
+      ],
+      "roam": true
+    },
+    {
+      "id": "harrowfield-duck",
+      "type": "bird",
+      "variant": "white",
+      "tx": 2,
+      "ty": 24,
+      "name": "The Pond Duck",
+      "dialogue": [
+        "*a fat white duck paddles a slow circuit of the pond*"
+      ],
+      "roam": true
+    }
   ],
   "npcs": [
     {
       "id": "elder-maeve",
       "name": "Elder Maeve",
       "sprite": "hub-npc-elder",
-      "tx": 13,
-      "ty": 9,
+      "tx": 4,
+      "ty": 4,
+      "building": "village-hall",
       "dialogue": [
-        "Harrowfield feeds half the kingdom and gets thanked by none of it.",
+        "Harrowfield feeds half the kingdom and gets thanked by none of it. Sit a while; you're thanked here.",
         "The scarecrows have been... moving. Pip says I imagine it. Pip didn't grow up here.",
         "Stay for the harvest supper if you can. We owe travellers more kindness than we used to show."
       ],
-      "building": "farmhouse"
+      "questGive": "harrowfield-harvest-supper",
+      "questReceive": [
+        "harrowfield-harvest-supper",
+        "harrowfield-bread-run",
+        "harrowfield-lost-in-fields"
+      ],
+      "homeBed": {
+        "buildingId": "farmhouse",
+        "tx": 1,
+        "ty": 3
+      }
     },
     {
       "id": "farmhand-pip",
       "name": "Farmhand Pip",
       "sprite": "hub-npc-supplies",
       "tx": 6,
-      "ty": 11,
+      "ty": 23,
       "dialogue": [
         "Sowing, hoeing, mowing. The fields don't care what day it is.",
         "Three seed-grain sacks have gone missing. Maeve will have my ears if they're not found.",
         "The scarecrow moved again last night. I'm not paid enough to ask it why."
       ],
       "questGive": "harrowfield-seed-grain",
-      "questReceive": "harrowfield-seed-grain"
+      "questReceive": [
+        "harrowfield-seed-grain",
+        "harrowfield-harvest-reaping"
+      ],
+      "schedule": [
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "exterior",
+            "tx": 6,
+            "ty": 23
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 6,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "farmhouse",
+            "tx": 4,
+            "ty": 3
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "farmhouse",
+        "tx": 4,
+        "ty": 3
+      }
     },
     {
       "id": "miller-rook",
       "name": "Miller Rook",
       "sprite": "hub-npc-merchant",
-      "tx": 18,
-      "ty": 13,
+      "tx": 4,
+      "ty": 5,
+      "building": "windmill",
       "dialogue": [
         "Flour, meal, and gossip — ground fresh daily.",
         "The road south to the capital used to be safe. Now even the king's road has tolls of the unofficial kind.",
-        "Bread prices in Crownhaven would make you weep. My prices will merely sting."
+        "Bring me grain and the stones will sing. Bread prices in Crownhaven would make you weep."
       ],
-      "building": "mill-cottage"
+      "questGive": "harrowfield-millers-flour",
+      "questReceive": [
+        "harrowfield-millers-flour",
+        "harrowfield-flour-delivery"
+      ]
+    },
+    {
+      "id": "shepherd-nan",
+      "name": "Shepherd Nan",
+      "sprite": "hub-npc-gardener",
+      "tx": 3,
+      "ty": 22,
+      "dialogue": [
+        "A good fence and a good dog — that's the whole of shepherding, and the dog does most of it.",
+        "Floss keeps the flock, but she can't mend a fence. The ewes are through the gap again.",
+        "Wool to the market, mutton never if I can help it. I get attached, see."
+      ],
+      "questGive": "harrowfield-mend-pasture",
+      "questReceive": [
+        "harrowfield-mend-pasture",
+        "harrowfield-shear-day"
+      ],
+      "schedule": [
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "exterior",
+            "tx": 3,
+            "ty": 22
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 6,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "mill-cottage",
+            "tx": 4,
+            "ty": 3
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "mill-cottage",
+        "tx": 4,
+        "ty": 3
+      }
+    },
+    {
+      "id": "baker-tovi",
+      "name": "Baker Tovi",
+      "sprite": "hub-npc-cook",
+      "tx": 4,
+      "ty": 4,
+      "building": "granary",
+      "dialogue": [
+        "Flour in, loaves out, and the whole village smells of breakfast by dawn.",
+        "Rook's flour, Maeve's blessing, my oven. Harrowfield runs on bread, traveller.",
+        "Bring me what I need and I'll see the supper tables never go bare."
+      ],
+      "questGive": "harrowfield-bakers-bread",
+      "questReceive": [
+        "harrowfield-bakers-bread",
+        "harrowfield-bread-run",
+        "harrowfield-flour-delivery"
+      ]
+    },
+    {
+      "id": "miller-wife-lark",
+      "name": "Lark",
+      "sprite": "hub-npc-gardener",
+      "tx": 4,
+      "ty": 4,
+      "building": "mill-cottage",
+      "dialogue": [
+        "Rook grinds the grain; I keep the cottage from grinding us down.",
+        "Wash day and the linens have gone clean over the hedge in this wind. Honestly.",
+        "Mind the lane — the cart ruts'll have your ankle if the mud doesn't."
+      ],
+      "questGive": "harrowfield-washday",
+      "questReceive": "harrowfield-washday"
+    },
+    {
+      "id": "pedlar-quill",
+      "name": "Pedlar Quill",
+      "sprite": "hub-npc-trader",
+      "tx": 5,
+      "ty": 4,
+      "building": "market-shed",
+      "dialogue": [
+        "Grain, wool, eggs, cheese — if Harrowfield grows it, I find it a buyer.",
+        "Ravenwatch pays well for good country produce. Getting a cart there unrobbed is the trick.",
+        "Buy in the field, sell at the gate. That's the whole of trade, friend."
+      ],
+      "questGive": "harrowfield-produce-to-ravenwatch",
+      "questReceive": [
+        "harrowfield-produce-to-ravenwatch",
+        "harrowfield-shear-day"
+      ]
+    },
+    {
+      "id": "warden-bell",
+      "name": "Sister Bell",
+      "sprite": "hub-npc-scholar",
+      "tx": 5,
+      "ty": 4,
+      "building": "chapel",
+      "dialogue": [
+        "The chapel's small, but it fills to the rafters every harvest-tide.",
+        "We bless the first sheaf and the last loaf. The fields seem to listen.",
+        "Quiet hands and full barns. That's all the sermon Harrowfield needs."
+      ],
+      "questGive": "harrowfield-harvest-blessing",
+      "questReceive": "harrowfield-harvest-blessing"
+    },
+    {
+      "id": "child-bram",
+      "name": "Little Bram",
+      "sprite": "hub-npc-child",
+      "tx": 13,
+      "ty": 22,
+      "dialogue": [
+        "I'm not lost! The FIELD'S lost. I know exactly where I am. Mostly.",
+        "I lost my things running from the moving scarecrow. It WAS moving. I saw it!",
+        "When I grow up I'm going to drive the cart all the way to Ravenwatch. And back. Probably."
+      ],
+      "questGive": "harrowfield-scarecrow-watch",
+      "questReceive": [
+        "harrowfield-scarecrow-watch"
+      ]
     }
   ],
   "interiors": {
     "farmhouse": {
       "name": "Maeve's Farmhouse",
-      "width": 8,
-      "height": 5,
+      "width": 11,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "ambianceId": "hearth",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "bundleID": "fireplace"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 9,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 6,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "potOfFlowers"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 6,
+          "ty": 0,
+          "toInteriorId": "farmhouse-bedroom",
+          "entryTx": 5,
+          "entryTy": 6,
+          "direction": "back",
+          "label": "Bedroom"
+        }
+      ]
+    },
+    "farmhouse-bedroom": {
+      "name": "Maeve's Farmhouse — Bedroom",
+      "width": 10,
+      "height": 8,
       "floorTileId": "woodFloor",
       "wallTileId": "woodWall",
       "decor": [
         {
           "tx": 1,
+          "ty": 2,
+          "bundleID": "simple-bed"
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "bundleID": "simple-bed"
+        },
+        {
+          "tx": 8,
           "ty": 1,
-          "tileId": "sack"
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 8,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 7,
+          "ty": 5,
+          "tileId": "potOfFlowers"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "crate"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 7,
+          "toInteriorId": "farmhouse",
+          "entryTx": 6,
+          "entryTy": 1,
+          "direction": "front",
+          "label": "Main Room"
+        }
+      ]
+    },
+    "chapel": {
+      "name": "Harrowfield Chapel",
+      "width": 11,
+      "height": 9,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "whiteStone",
+      "musicId": "church",
+      "ambianceId": "sacred",
+      "decor": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "candlestickLitTop",
+          "glow": true,
+          "glowRadius": 2
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "potOfFlowers"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "potOfFlowers"
         },
         {
           "tx": 2,
-          "ty": 1,
-          "tileId": "barrel"
+          "ty": 4,
+          "tileId": "benchLeft"
+        },
+        {
+          "tx": 3,
+          "ty": 4,
+          "tileId": "benchRight"
+        },
+        {
+          "tx": 7,
+          "ty": 4,
+          "tileId": "benchLeft"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "benchRight"
+        },
+        {
+          "tx": 2,
+          "ty": 6,
+          "tileId": "benchLeft"
+        },
+        {
+          "tx": 3,
+          "ty": 6,
+          "tileId": "benchRight"
+        },
+        {
+          "tx": 7,
+          "ty": 6,
+          "tileId": "benchLeft"
+        },
+        {
+          "tx": 8,
+          "ty": 6,
+          "tileId": "benchRight"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "candlestickUnlit"
+        },
+        {
+          "tx": 9,
+          "ty": 5,
+          "tileId": "candlestickUnlit"
         },
         {
           "tx": 5,
-          "ty": 2,
+          "ty": 7,
+          "tileId": "pileOfSacks"
+        }
+      ],
+      "exits": []
+    },
+    "village-hall": {
+      "name": "The Village Hall",
+      "width": 12,
+      "height": 9,
+      "floorTileId": "woodFloor",
+      "wallTileId": "stoneWall",
+      "ambianceId": "hearth",
+      "musicId": "inn",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "bundleID": "fireplace"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
           "tileId": "roundTable"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 3,
+          "ty": 3,
+          "tileId": "stool"
         },
         {
           "tx": 6,
           "ty": 3,
           "tileId": "stool"
+        },
+        {
+          "tx": 4,
+          "ty": 5,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 3,
+          "ty": 5,
+          "tileId": "stool"
+        },
+        {
+          "tx": 6,
+          "ty": 5,
+          "tileId": "stool"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "potOfFlowers"
+        },
+        {
+          "tx": 10,
+          "ty": 5,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 10,
+          "ty": 4,
+          "tileId": "bookshelfTop"
+        }
+      ],
+      "exits": []
+    },
+    "granary": {
+      "name": "The Granary",
+      "width": 11,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "ambianceId": "market",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "sack"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "sack"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "sack"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 9,
+          "ty": 5,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 7,
+          "ty": 5,
+          "tileId": "openCrate"
         }
       ],
       "exits": []
     },
     "barn": {
       "name": "The Great Barn",
-      "width": 9,
-      "height": 6,
+      "width": 12,
+      "height": 9,
       "floorTileId": "woodFloor",
       "wallTileId": "woodenSlats",
       "decor": [
@@ -315,24 +1804,121 @@
           "tileId": "hayStack"
         },
         {
-          "tx": 6,
+          "tx": 3,
+          "ty": 1,
+          "tileId": "hayStack"
+        },
+        {
+          "tx": 8,
           "ty": 1,
           "tileId": "pileOfSacks"
         },
         {
-          "tx": 7,
+          "tx": 9,
           "ty": 1,
           "tileId": "crate"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 2,
+          "ty": 5,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 9,
+          "ty": 5,
+          "tileId": "logPile"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "hayStack"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
         }
       ],
-      "exits": []
+      "exits": [
+        {
+          "tx": 10,
+          "ty": 1,
+          "toInteriorId": "barn-hayloft",
+          "entryTx": 5,
+          "entryTy": 5,
+          "direction": "up",
+          "label": "Up to the hayloft"
+        }
+      ]
     },
-    "mill-cottage": {
-      "name": "Rook's Mill",
-      "width": 8,
-      "height": 4,
+    "barn-hayloft": {
+      "name": "The Great Barn — Hayloft",
+      "width": 11,
+      "height": 7,
       "floorTileId": "woodFloor",
-      "wallTileId": "woodWall",
+      "wallTileId": "woodenSlats",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "hayStack"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "hayStack"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "hayStack"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "tileId": "sack"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "crate"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 4,
+          "toInteriorId": "barn",
+          "entryTx": 10,
+          "entryTy": 2,
+          "direction": "down",
+          "label": "Down to the barn"
+        }
+      ]
+    },
+    "windmill": {
+      "name": "Rook's Windmill",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "stoneWall",
       "decor": [
         {
           "tx": 1,
@@ -345,12 +1931,254 @@
           "tileId": "sack"
         },
         {
-          "tx": 5,
+          "tx": 3,
+          "ty": 1,
+          "tileId": "sack"
+        },
+        {
+          "tx": 8,
           "ty": 1,
           "tileId": "barrel"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "sack"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "logBottom"
+        },
+        {
+          "tx": 8,
+          "ty": 2,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 8,
+          "ty": 2,
+          "toInteriorId": "windmill-top",
+          "entryTx": 4,
+          "entryTy": 5,
+          "direction": "up",
+          "label": "Up to the millstone"
+        }
+      ]
+    },
+    "windmill-top": {
+      "name": "Rook's Windmill — Millstone Floor",
+      "width": 9,
+      "height": 7,
+      "floorTileId": "woodFloor",
+      "wallTileId": "stoneWall",
+      "decor": [
+        {
+          "tx": 4,
+          "ty": 2,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "sack"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "tileId": "sack"
+        },
+        {
+          "tx": 7,
+          "ty": 4,
+          "tileId": "sack"
+        },
+        {
+          "tx": 4,
+          "ty": 5,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 4,
+          "ty": 5,
+          "toInteriorId": "windmill",
+          "entryTx": 8,
+          "entryTy": 3,
+          "direction": "down",
+          "label": "Down to the mill floor"
+        }
+      ]
+    },
+    "mill-cottage": {
+      "name": "Mill Cottage",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "ambianceId": "hearth",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 2,
+          "bundleID": "simple-bed"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "bunchOfHerbs"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 6,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "potOfFlowers"
+        }
+      ],
+      "exits": []
+    },
+    "market-shed": {
+      "name": "The Produce Shed",
+      "width": 12,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "musicId": "shop",
+      "ambianceId": "market",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "appleBasket"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "leafBasket"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "emptyBasket"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 4,
+          "ty": 5,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 6,
+          "ty": 5,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 7,
+          "ty": 5,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 10,
+          "ty": 5,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "mushroomBasket"
         }
       ],
       "exits": []
     }
-  }
+  },
+  "festivalDecor": [
+    {
+      "festivalId": "harvest",
+      "decor": [
+        {
+          "tx": 12,
+          "ty": 9,
+          "tileId": "pumpkin1Lit"
+        },
+        {
+          "tx": 22,
+          "ty": 9,
+          "tileId": "pumpkin1Lit"
+        },
+        {
+          "tx": 15,
+          "ty": 22,
+          "tileId": "pumpkin1Lit"
+        },
+        {
+          "tx": 20,
+          "ty": 9,
+          "tileId": "hayStack"
+        }
+      ]
+    }
+  ]
 }

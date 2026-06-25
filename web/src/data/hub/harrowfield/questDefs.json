@@ -7,7 +7,7 @@
       "giverNpcId": "farmhand-pip",
       "receiverNpcId": "farmhand-pip",
       "offerDialogue": "Three sacks of next season's seed grain have vanished from the barn. If they're not found before sowing, there's no harvest, and if there's no harvest, Elder Maeve gets creative with chores. Please. Help me.",
-      "activeDialogue": "Three seed sacks, scattered somewhere around the village. Whoever took them didn't carry them far.",
+      "activeDialogue": "Three seed sacks, scattered somewhere around the fields. Whoever took them didn't carry them far.",
       "completeDialogue": "All three! The sowing's saved and so are my ears. Maeve never needs to know — here, your share of my enormous relief.",
       "steps": [
         {
@@ -22,31 +22,697 @@
         }
       ],
       "reward": {
-        "crystals": 50
+        "crystals": 45,
+        "friendship": {
+          "farmhand-pip": 12
+        }
+      }
+    },
+    {
+      "id": "harrowfield-harvest-reaping",
+      "title": "Bringing in the Sheaves",
+      "type": "chain",
+      "giverNpcId": "farmhand-pip",
+      "receiverNpcId": "farmhand-pip",
+      "prerequisite": "quest:harrowfield-seed-grain",
+      "offerDialogue": "The grain's saved and grown, and now it's gold and heavy and falling over in the wind. Reap me three sheaves from the far rows and stack them by me — the cart won't load itself, more's the pity.",
+      "activeDialogue": "Gather three sheaves of cut wheat from the rows and bring them to Pip.",
+      "completeDialogue": "Now THAT'S a harvest. Stack 'em high and the barn'll be full by dark. You've the back of a proper field-hand, traveller — take this with my thanks.",
+      "steps": [
+        {
+          "key": "sheaves",
+          "type": "collect",
+          "pickupIds": [
+            "sheaf-1",
+            "sheaf-2",
+            "sheaf-3"
+          ],
+          "required": 3
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "farmhand-pip",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": {
+          "farmhand-pip": 16
+        },
+        "collectible": {
+          "id": "harrowfield-sheaf",
+          "name": "Golden Sheaf",
+          "icon": "🌾",
+          "desc": "A bound sheaf from Harrowfield's first reaping. Pip cut it himself and is unbearably proud."
+        }
+      }
+    },
+    {
+      "id": "harrowfield-mend-pasture",
+      "title": "Mending the Fold",
+      "type": "fetch",
+      "giverNpcId": "shepherd-nan",
+      "receiverNpcId": "shepherd-nan",
+      "offerDialogue": "The ewes are through the gap in the fold again and Floss can't be everywhere. Three good rails are scattered where the wind took them — fetch them and I'll mend the fence before I lose a sheep to the south road.",
+      "activeDialogue": "Three fence rails, scattered around the fields, for Nan's fold.",
+      "completeDialogue": "That'll hold them, and Floss can stop fretting. A shepherd's only as good as her fence, and mine's the better for you. Here.",
+      "steps": [
+        {
+          "key": "rails",
+          "type": "collect",
+          "pickupIds": [
+            "fence-rail-1",
+            "fence-rail-2",
+            "fence-rail-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 50,
+        "friendship": {
+          "shepherd-nan": 13
+        }
+      }
+    },
+    {
+      "id": "harrowfield-shear-day",
+      "title": "Shearing Day",
+      "type": "chain",
+      "giverNpcId": "shepherd-nan",
+      "receiverNpcId": "pedlar-quill",
+      "prerequisite": "quest:harrowfield-mend-pasture",
+      "offerDialogue": "Fence is sound, so it's shearing day — and the whole flock's worth of fleece needs carrying to Pedlar Quill before he sets off for market. Three bundles, mind your footing, and tell him Nan says no haggling.",
+      "activeDialogue": "Carry three bundles of fleece to Pedlar Quill at the produce shed.",
+      "completeDialogue": "Good clean fleece, every bundle — Nan's flock always shears well. This'll fetch a fine price in Ravenwatch. Your cut, friend, and tell Nan we're square.",
+      "steps": [
+        {
+          "key": "fleece",
+          "type": "collect",
+          "pickupIds": [
+            "fleece-1",
+            "fleece-2",
+            "fleece-3"
+          ],
+          "required": 3
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "pedlar-quill",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 65,
+        "friendship": {
+          "shepherd-nan": 10,
+          "pedlar-quill": 10
+        }
+      }
+    },
+    {
+      "id": "harrowfield-millers-flour",
+      "title": "Grist for the Mill",
+      "type": "fetch",
+      "giverNpcId": "miller-rook",
+      "receiverNpcId": "miller-rook",
+      "offerDialogue": "The stones are turning and idle, which is money I don't make. Three sacks of threshed grain are waiting out in the fields — bring them to the mill and I'll grind you a friendship that lasts.",
+      "activeDialogue": "Three sacks of grain from the fields, for Rook's mill.",
+      "completeDialogue": "Listen to the stones sing! That's the sound of bread tomorrow. You've a miller's gratitude now, traveller — it weighs less than flour but it keeps.",
+      "steps": [
+        {
+          "key": "grain",
+          "type": "collect",
+          "pickupIds": [
+            "grain-bag-1",
+            "grain-bag-2",
+            "grain-bag-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 50,
+        "friendship": {
+          "miller-rook": 12
+        }
+      }
+    },
+    {
+      "id": "harrowfield-flour-delivery",
+      "title": "Flour for the Oven",
+      "type": "chain",
+      "giverNpcId": "miller-rook",
+      "receiverNpcId": "baker-tovi",
+      "prerequisite": "quest:harrowfield-millers-flour",
+      "offerDialogue": "Ground and bagged and still warm from the stones. Take this sack of fresh flour up to Baker Tovi at the granary — she'll have bread in the oven before the dust settles. Mind you don't trail it down the lane.",
+      "activeDialogue": "Carry the sack of fresh flour from the mill to Baker Tovi.",
+      "completeDialogue": "Oh, that's a fine grind — Rook's outdone himself. Into the trough it goes. Half the village eats tonight because you carried this, traveller. My thanks.",
+      "steps": [
+        {
+          "key": "flour",
+          "type": "collect",
+          "pickupIds": [
+            "flour-sack-1"
+          ],
+          "required": 1
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "baker-tovi",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 55,
+        "friendship": {
+          "miller-rook": 10,
+          "baker-tovi": 10
+        }
+      }
+    },
+    {
+      "id": "harrowfield-bakers-bread",
+      "title": "Baker's Dozen",
+      "type": "fetch",
+      "giverNpcId": "baker-tovi",
+      "receiverNpcId": "baker-tovi",
+      "offerDialogue": "Flour I have, thanks to you — but a good loaf wants more than flour. Eggs from the barn, herbs from the green, and apples for the festival buns. Three baskets, gather them up and the oven does the rest.",
+      "activeDialogue": "Gather eggs, herbs, and apples from around Harrowfield for Tovi's baking.",
+      "completeDialogue": "Look at that haul — the festival buns are saved. Take one straight from the rack; mind, it's hot. You've a baker's blessing now, and those are buttered on both sides.",
+      "steps": [
+        {
+          "key": "ingredients",
+          "type": "collect",
+          "pickupIds": [
+            "ingredient-1",
+            "ingredient-2",
+            "ingredient-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 50,
+        "friendship": {
+          "baker-tovi": 12
+        }
+      }
+    },
+    {
+      "id": "harrowfield-bread-run",
+      "title": "The Bread Run",
+      "type": "chain",
+      "giverNpcId": "baker-tovi",
+      "receiverNpcId": "elder-maeve",
+      "prerequisite": "quest:harrowfield-bakers-bread",
+      "offerDialogue": "The first batch is out and the hall's tables are bare. Run this basket of warm loaves down to Elder Maeve before the supper crowd does — she frets if the bread's late, and a fretting Maeve is a long evening for all of us.",
+      "activeDialogue": "Carry the basket of fresh bread to Elder Maeve at the village hall.",
+      "completeDialogue": "Warm bread, right on time — bless you and bless Tovi both. The hall can sit to supper now. Here, traveller; a full table owes you a full purse.",
+      "steps": [
+        {
+          "key": "bread",
+          "type": "collect",
+          "pickupIds": [
+            "bread-basket-1"
+          ],
+          "required": 1
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "elder-maeve",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": {
+          "baker-tovi": 10,
+          "elder-maeve": 12
+        }
+      }
+    },
+    {
+      "id": "harrowfield-lost-in-fields",
+      "title": "Lost in the Fields",
+      "type": "lost-items",
+      "giverNpcId": "elder-maeve",
+      "receiverNpcId": "elder-maeve",
+      "offerDialogue": "Folk are forever losing things among the rows — a book here, a pot of flowers there, somebody's grandmother's pendant. The fields keep what they catch. Bring me what you find and I'll see it home to its owner.",
+      "activeDialogue": "Recover three lost belongings from among the fields for Elder Maeve.",
+      "completeDialogue": "A book, a pot, and that pendant old Wenna's been weeping over for a week. You've a sharp eye for what the rows hide, traveller. Bless you for it.",
+      "steps": [
+        {
+          "key": "lost",
+          "type": "collect",
+          "pickupIds": [
+            "field-lost-1",
+            "field-lost-2",
+            "field-lost-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 55,
+        "friendship": {
+          "elder-maeve": 15
+        },
+        "collectible": {
+          "id": "harrowfield-keepsake",
+          "name": "Field Keepsake",
+          "icon": "🎟️",
+          "desc": "A token of thanks from the folk of Harrowfield whose lost things you returned."
+        }
+      }
+    },
+    {
+      "id": "harrowfield-scarecrow-watch",
+      "title": "The Walking Scarecrow",
+      "type": "lost-items",
+      "giverNpcId": "child-bram",
+      "receiverNpcId": "child-bram",
+      "offerDialogue": "I dropped my things running from the scarecrow — my lucky basket, the empty one I catch frogs in, and... and a shiny thing I DEFINITELY found and didn't take. Get them before the scarecrow does? It MOVES, I'm telling you!",
+      "activeDialogue": "Recover Bram's three dropped things from around the fields — before the scarecrow does.",
+      "completeDialogue": "You found them ALL! And the scarecrow didn't get you! You're the bravest grown-up ever. Here, you can have my second-best frog. ...He went home. Have this instead.",
+      "steps": [
+        {
+          "key": "things",
+          "type": "collect",
+          "pickupIds": [
+            "bram-thing-1",
+            "bram-thing-2",
+            "bram-thing-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 40,
+        "friendship": {
+          "child-bram": 15
+        }
+      }
+    },
+    {
+      "id": "harrowfield-washday",
+      "title": "Wash Day",
+      "type": "lost-items",
+      "giverNpcId": "miller-wife-lark",
+      "receiverNpcId": "miller-wife-lark",
+      "offerDialogue": "The wind's had my whole wash off the line and clean over the hedge — three good linens, gone down the lane like ghosts. Round them up before they're trodden into the mud, would you? I'll not boil that lot twice.",
+      "activeDialogue": "Recover three wind-blown linens from around Mill Lane for Lark.",
+      "completeDialogue": "All three, and barely a smudge — the hedge was kinder than the wind. You've saved me a second wash and a sharp word with Rook about that line. Here, with my thanks.",
+      "steps": [
+        {
+          "key": "linens",
+          "type": "collect",
+          "pickupIds": [
+            "linen-1",
+            "linen-2",
+            "linen-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 45,
+        "friendship": {
+          "miller-wife-lark": 14
+        }
+      }
+    },
+    {
+      "id": "harrowfield-harvest-blessing",
+      "title": "The Harvest Blessing",
+      "type": "fetch",
+      "giverNpcId": "warden-bell",
+      "receiverNpcId": "warden-bell",
+      "festivalId": "harvest",
+      "offerDialogue": "It's harvest-tide, and the chapel must be ready to bless the first sheaf. Fetch me a candle from the chapel store and two harvest blooms from the fields. A small thing — but the whole village comes, dogs and ducks and all.",
+      "activeDialogue": "A candle from the chapel and two harvest blooms from the fields, for Sister Bell's blessing.",
+      "completeDialogue": "The altar's dressed and the candle's lit. Let the first sheaf be blessed and the barns stay full. Harrowfield thanks you, traveller — and so do I.",
+      "steps": [
+        {
+          "key": "blessing",
+          "type": "collect",
+          "pickupIds": [
+            "chapel-candle-1",
+            "harvest-bloom-2",
+            "harvest-bloom-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 65,
+        "friendship": {
+          "warden-bell": 15
+        },
+        "collectible": {
+          "id": "harrowfield-blessing",
+          "name": "Harvest Blessing",
+          "icon": "🕯️",
+          "desc": "Sister Bell's blessing of the first sheaf. The fields will be generous next year — she's quite sure of it."
+        }
+      }
+    },
+    {
+      "id": "harrowfield-harvest-supper",
+      "title": "The Harvest Supper",
+      "type": "chain",
+      "giverNpcId": "elder-maeve",
+      "receiverNpcId": "elder-maeve",
+      "prerequisite": "quest:harrowfield-harvest-reaping",
+      "festivalId": "harvest",
+      "offerDialogue": "The reaping's in and it's time Harrowfield thanked the fields properly — a harvest supper for the whole village. Gather the makings: a basket of apples, a sack of new grain, and mushrooms from the hedge. We'll set the longest table in the hall.",
+      "activeDialogue": "Gather apples, new grain, and mushrooms for the harvest supper, then return to Maeve.",
+      "completeDialogue": "The hall's never smelled so good, and the tables groan with it. Sit, traveller — you've earned the best seat at the supper. Harrowfield doesn't forget a kindness, nor a full barn.",
+      "steps": [
+        {
+          "key": "makings",
+          "type": "collect",
+          "pickupIds": [
+            "supper-1",
+            "supper-2",
+            "supper-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 90,
+        "friendship": {
+          "elder-maeve": 20
+        },
+        "collectible": {
+          "id": "harrowfield-supper",
+          "name": "Harvest Supper Token",
+          "icon": "🍞",
+          "desc": "A carved token marking your place at Harrowfield's harvest supper. You'll always have a seat here now."
+        }
+      }
+    },
+    {
+      "id": "harrowfield-produce-to-ravenwatch",
+      "title": "The Ravenwatch Cart",
+      "type": "chain",
+      "giverNpcId": "pedlar-quill",
+      "receiverNpcId": "innkeeper-rosie",
+      "prerequisite": "quest:harrowfield-shear-day",
+      "offerDialogue": "You've carried fleece for Nan, so you've the shoulders for it. Innkeeper Rosie at Ravenwatch pays double for good country produce — when the cart arrives unrobbed. Take this crate to her at the inn, mind the toll road, and tell her Harrowfield sends its best.",
+      "activeDialogue": "Carry the crate of Harrowfield produce to Innkeeper Rosie at the Ravenwatch inn.",
+      "completeDialogue": "Harrowfield produce, all the way from the fields! Rosie will be glad — half her kitchen runs on it. Here's your cut, and tell Quill the inn says thank you kindly.",
+      "steps": [
+        {
+          "key": "crate",
+          "type": "collect",
+          "pickupIds": [
+            "produce-crate-1"
+          ],
+          "required": 1
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "innkeeper-rosie",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": {
+          "pedlar-quill": 18
+        },
+        "collectible": {
+          "id": "harrowfield-trade-seal",
+          "name": "Trade Seal",
+          "icon": "📜",
+          "desc": "Proof of an honest produce run from Harrowfield to Ravenwatch. Quill will remember this."
+        }
       }
     }
   ],
   "pickupItems": [
     {
       "id": "seed-sack-1",
-      "tx": 2,
-      "ty": 9,
+      "tx": 3,
+      "ty": 24,
       "tileId": "sack",
       "questId": "harrowfield-seed-grain"
     },
     {
       "id": "seed-sack-2",
-      "tx": 26,
-      "ty": 12,
+      "tx": 13,
+      "ty": 26,
       "tileId": "sack",
       "questId": "harrowfield-seed-grain"
     },
     {
       "id": "seed-sack-3",
-      "tx": 13,
-      "ty": 19,
+      "tx": 35,
+      "ty": 24,
       "tileId": "sack",
       "questId": "harrowfield-seed-grain"
+    },
+    {
+      "id": "sheaf-1",
+      "tx": 4,
+      "ty": 22,
+      "tileId": "pileOfSacks",
+      "questId": "harrowfield-harvest-reaping"
+    },
+    {
+      "id": "sheaf-2",
+      "tx": 8,
+      "ty": 26,
+      "tileId": "pileOfSacks",
+      "questId": "harrowfield-harvest-reaping"
+    },
+    {
+      "id": "sheaf-3",
+      "tx": 34,
+      "ty": 26,
+      "tileId": "pileOfSacks",
+      "questId": "harrowfield-harvest-reaping"
+    },
+    {
+      "id": "fence-rail-1",
+      "tx": 2,
+      "ty": 22,
+      "tileId": "logPile",
+      "questId": "harrowfield-mend-pasture"
+    },
+    {
+      "id": "fence-rail-2",
+      "tx": 10,
+      "ty": 26,
+      "tileId": "logPile",
+      "questId": "harrowfield-mend-pasture"
+    },
+    {
+      "id": "fence-rail-3",
+      "tx": 36,
+      "ty": 24,
+      "tileId": "logPile",
+      "questId": "harrowfield-mend-pasture"
+    },
+    {
+      "id": "fleece-1",
+      "tx": 6,
+      "ty": 26,
+      "tileId": "pileOfSacks",
+      "questId": "harrowfield-shear-day"
+    },
+    {
+      "id": "fleece-2",
+      "tx": 12,
+      "ty": 22,
+      "tileId": "pileOfSacks",
+      "questId": "harrowfield-shear-day"
+    },
+    {
+      "id": "fleece-3",
+      "tx": 32,
+      "ty": 26,
+      "tileId": "pileOfSacks",
+      "questId": "harrowfield-shear-day"
+    },
+    {
+      "id": "grain-bag-1",
+      "tx": 3,
+      "ty": 26,
+      "tileId": "sack",
+      "questId": "harrowfield-millers-flour"
+    },
+    {
+      "id": "grain-bag-2",
+      "tx": 15,
+      "ty": 22,
+      "tileId": "sack",
+      "questId": "harrowfield-millers-flour"
+    },
+    {
+      "id": "grain-bag-3",
+      "tx": 31,
+      "ty": 26,
+      "tileId": "sack",
+      "questId": "harrowfield-millers-flour"
+    },
+    {
+      "id": "flour-sack-1",
+      "tx": 2,
+      "ty": 5,
+      "tileId": "sack",
+      "questId": "harrowfield-flour-delivery",
+      "building": "windmill"
+    },
+    {
+      "id": "ingredient-1",
+      "tx": 7,
+      "ty": 22,
+      "tileId": "emptyBasket",
+      "questId": "harrowfield-bakers-bread"
+    },
+    {
+      "id": "ingredient-2",
+      "tx": 11,
+      "ty": 26,
+      "tileId": "bunchOfHerbs",
+      "questId": "harrowfield-bakers-bread"
+    },
+    {
+      "id": "ingredient-3",
+      "tx": 29,
+      "ty": 26,
+      "tileId": "appleBasket",
+      "questId": "harrowfield-bakers-bread"
+    },
+    {
+      "id": "bread-basket-1",
+      "tx": 7,
+      "ty": 5,
+      "tileId": "leafBasket",
+      "questId": "harrowfield-bread-run",
+      "building": "granary"
+    },
+    {
+      "id": "field-lost-1",
+      "tx": 8,
+      "ty": 24,
+      "tileId": "closedBook",
+      "questId": "harrowfield-lost-in-fields"
+    },
+    {
+      "id": "field-lost-2",
+      "tx": 14,
+      "ty": 22,
+      "tileId": "potOfFlowers",
+      "questId": "harrowfield-lost-in-fields"
+    },
+    {
+      "id": "field-lost-3",
+      "tx": 34,
+      "ty": 24,
+      "tileId": "pendant",
+      "questId": "harrowfield-lost-in-fields"
+    },
+    {
+      "id": "bram-thing-1",
+      "tx": 5,
+      "ty": 22,
+      "tileId": "leafBasket",
+      "questId": "harrowfield-scarecrow-watch"
+    },
+    {
+      "id": "bram-thing-2",
+      "tx": 16,
+      "ty": 24,
+      "tileId": "emptyBasket",
+      "questId": "harrowfield-scarecrow-watch"
+    },
+    {
+      "id": "bram-thing-3",
+      "tx": 33,
+      "ty": 26,
+      "tileId": "pendant",
+      "questId": "harrowfield-scarecrow-watch"
+    },
+    {
+      "id": "linen-1",
+      "tx": 22,
+      "ty": 12,
+      "tileId": "sack",
+      "questId": "harrowfield-washday"
+    },
+    {
+      "id": "linen-2",
+      "tx": 26,
+      "ty": 12,
+      "tileId": "sack",
+      "questId": "harrowfield-washday"
+    },
+    {
+      "id": "linen-3",
+      "tx": 28,
+      "ty": 25,
+      "tileId": "sack",
+      "questId": "harrowfield-washday"
+    },
+    {
+      "id": "chapel-candle-1",
+      "tx": 9,
+      "ty": 5,
+      "tileId": "candlestickUnlit",
+      "questId": "harrowfield-harvest-blessing",
+      "building": "chapel"
+    },
+    {
+      "id": "harvest-bloom-2",
+      "tx": 19,
+      "ty": 25,
+      "tileId": "yellowFlower",
+      "questId": "harrowfield-harvest-blessing"
+    },
+    {
+      "id": "harvest-bloom-3",
+      "tx": 25,
+      "ty": 26,
+      "tileId": "whiteFlower",
+      "questId": "harrowfield-harvest-blessing"
+    },
+    {
+      "id": "supper-1",
+      "tx": 24,
+      "ty": 22,
+      "tileId": "appleBasket",
+      "questId": "harrowfield-harvest-supper"
+    },
+    {
+      "id": "supper-2",
+      "tx": 7,
+      "ty": 26,
+      "tileId": "pileOfSacks",
+      "questId": "harrowfield-harvest-supper"
+    },
+    {
+      "id": "supper-3",
+      "tx": 12,
+      "ty": 24,
+      "tileId": "mushroomBasket",
+      "questId": "harrowfield-harvest-supper"
+    },
+    {
+      "id": "produce-crate-1",
+      "tx": 20,
+      "ty": 26,
+      "tileId": "crate",
+      "questId": "harrowfield-produce-to-ravenwatch"
     }
   ],
   "blockedPaths": []
