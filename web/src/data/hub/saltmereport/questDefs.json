@@ -10,10 +10,29 @@
       "activeDialogue": "Three fish heads off the wharf, then take them to that grey cat by the docks.",
       "completeDialogue": "Well I never — he's actually content. Take this for your trouble, love.",
       "steps": [
-        { "key": "scraps", "type": "collect", "pickupIds": ["dock-fish-1", "dock-fish-2", "dock-fish-3"], "required": 3 },
-        { "key": "deliver", "type": "deliver", "targetNpcId": "dockside-cat-saltmere", "required": 1 }
+        {
+          "key": "scraps",
+          "type": "collect",
+          "pickupIds": [
+            "dock-fish-1",
+            "dock-fish-2",
+            "dock-fish-3"
+          ],
+          "required": 3
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "dockside-cat-saltmere",
+          "required": 1
+        }
       ],
-      "reward": { "crystals": 40, "friendship": { "fishwife-pearl": 15 } }
+      "reward": {
+        "crystals": 40,
+        "friendship": {
+          "fishwife-pearl": 15
+        }
+      }
     },
     {
       "id": "saltmere-lost-cargo",
@@ -28,7 +47,11 @@
         {
           "key": "crates",
           "type": "collect",
-          "pickupIds": ["port-crate-1", "port-crate-2", "port-crate-3"],
+          "pickupIds": [
+            "port-crate-1",
+            "port-crate-2",
+            "port-crate-3"
+          ],
           "required": 3
         }
       ],
@@ -52,7 +75,9 @@
         {
           "key": "barrel",
           "type": "collect",
-          "pickupIds": ["navy-rum-barrel"],
+          "pickupIds": [
+            "navy-rum-barrel"
+          ],
           "required": 1
         },
         {
@@ -81,10 +106,29 @@
       "activeDialogue": "Three scraps from round the smokehouse, then back to Barnacle before he wrecks my racks again.",
       "completeDialogue": "Good riddance — he's gone back to bothering the fishwife instead. Here, for your trouble.",
       "steps": [
-        { "key": "scraps", "type": "collect", "pickupIds": ["smoke-scrap-1", "smoke-scrap-2", "smoke-scrap-3"], "required": 3 },
-        { "key": "deliver", "type": "deliver", "targetNpcId": "dockside-cat-saltmere", "required": 1 }
+        {
+          "key": "scraps",
+          "type": "collect",
+          "pickupIds": [
+            "smoke-scrap-1",
+            "smoke-scrap-2",
+            "smoke-scrap-3"
+          ],
+          "required": 3
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "dockside-cat-saltmere",
+          "required": 1
+        }
       ],
-      "reward": { "crystals": 35, "friendship": { "smokehouse-master": 10 } }
+      "reward": {
+        "crystals": 35,
+        "friendship": {
+          "smokehouse-master": 10
+        }
+      }
     },
     {
       "id": "saltmere-customs-discrepancy",
@@ -97,9 +141,22 @@
       "activeDialogue": "Two loose pages, somewhere between here and the harbourmaster's.",
       "completeDialogue": "Numbers match, seals match. Whoever scattered these wanted us looking the wrong way. Worth knowing. Here's for your eyes.",
       "steps": [
-        { "key": "pages", "type": "collect", "pickupIds": ["manifest-page-1", "manifest-page-2"], "required": 2 }
+        {
+          "key": "pages",
+          "type": "collect",
+          "pickupIds": [
+            "manifest-page-1",
+            "manifest-page-2"
+          ],
+          "required": 2
+        }
       ],
-      "reward": { "crystals": 45, "friendship": { "customs-officer": 10 } }
+      "reward": {
+        "crystals": 45,
+        "friendship": {
+          "customs-officer": 10
+        }
+      }
     },
     {
       "id": "saltmere-smuggler-confrontation",
@@ -115,10 +172,27 @@
       },
       "completeDialogue": "...So Vane knows. Smart of you, keeping this quiet — for both our sakes. Take this and forget you ever saw my ledger.",
       "steps": [
-        { "key": "ledger", "type": "collect", "pickupIds": ["smugglers-ledger-1"], "required": 1 },
-        { "key": "deliver", "type": "deliver", "targetNpcId": "smuggler", "required": 1 }
+        {
+          "key": "ledger",
+          "type": "collect",
+          "pickupIds": [
+            "smugglers-ledger-1"
+          ],
+          "required": 1
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "smuggler",
+          "required": 1
+        }
       ],
-      "reward": { "crystals": 50, "friendship": { "harbourmaster-vane": 15 } }
+      "reward": {
+        "crystals": 50,
+        "friendship": {
+          "harbourmaster-vane": 15
+        }
+      }
     },
     {
       "id": "saltmere-net-gains",
@@ -130,9 +204,23 @@
       "activeDialogue": "Torn nets, scattered wherever the storm dropped them — try the wharf and the jetty.",
       "completeDialogue": "Still good thread in these. Knew you had a sailor's eye. Here — take your cut.",
       "steps": [
-        { "key": "nets", "type": "collect", "pickupIds": ["torn-net-1", "torn-net-2", "torn-net-3"], "required": 3 }
+        {
+          "key": "nets",
+          "type": "collect",
+          "pickupIds": [
+            "torn-net-1",
+            "torn-net-2",
+            "torn-net-3"
+          ],
+          "required": 3
+        }
       ],
-      "reward": { "crystals": 50, "friendship": { "net-maker": 15 } }
+      "reward": {
+        "crystals": 50,
+        "friendship": {
+          "net-maker": 15
+        }
+      }
     },
     {
       "id": "saltmere-keel-repair",
@@ -144,9 +232,23 @@
       "activeDialogue": "Timber bundles, somewhere along Warehouse Row. Mind the splinters.",
       "completeDialogue": "That'll do her. Few days and she's seaworthy again. Couldn't have hauled it faster myself.",
       "steps": [
-        { "key": "timber", "type": "collect", "pickupIds": ["timber-bundle-1", "timber-bundle-2", "timber-bundle-3"], "required": 3 }
+        {
+          "key": "timber",
+          "type": "collect",
+          "pickupIds": [
+            "timber-bundle-1",
+            "timber-bundle-2",
+            "timber-bundle-3"
+          ],
+          "required": 3
+        }
       ],
-      "reward": { "crystals": 55, "friendship": { "shipwright": 15 } }
+      "reward": {
+        "crystals": 55,
+        "friendship": {
+          "shipwright": 15
+        }
+      }
     },
     {
       "id": "saltmere-maiden-voyage",
@@ -162,10 +264,29 @@
       },
       "completeDialogue": "Supplies logged, hull cleared. The shipwright's boat sails today, and that's down to you. Well earned.",
       "steps": [
-        { "key": "supplies", "type": "collect", "pickupIds": ["ship-supplies-1", "ship-supplies-2"], "required": 2 },
-        { "key": "deliver", "type": "deliver", "targetNpcId": "harbourmaster-vane", "required": 1 }
+        {
+          "key": "supplies",
+          "type": "collect",
+          "pickupIds": [
+            "ship-supplies-1",
+            "ship-supplies-2"
+          ],
+          "required": 2
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "harbourmaster-vane",
+          "required": 1
+        }
       ],
-      "reward": { "crystals": 60, "friendship": { "shipwright": 10, "harbourmaster-vane": 10 } }
+      "reward": {
+        "crystals": 60,
+        "friendship": {
+          "shipwright": 10,
+          "harbourmaster-vane": 10
+        }
+      }
     },
     {
       "id": "saltmere-oil-for-the-lamp",
@@ -177,9 +298,23 @@
       "activeDialogue": "Oil flasks, scattered round the headland and the jetty.",
       "completeDialogue": "That'll see us through the dark months. Ships sleep easier for it, even if they never know your name.",
       "steps": [
-        { "key": "oil", "type": "collect", "pickupIds": ["oil-flask-1", "oil-flask-2", "oil-flask-3"], "required": 3 }
+        {
+          "key": "oil",
+          "type": "collect",
+          "pickupIds": [
+            "oil-flask-1",
+            "oil-flask-2",
+            "oil-flask-3"
+          ],
+          "required": 3
+        }
       ],
-      "reward": { "crystals": 50, "friendship": { "lighthouse-keeper": 15 } }
+      "reward": {
+        "crystals": 50,
+        "friendship": {
+          "lighthouse-keeper": 15
+        }
+      }
     },
     {
       "id": "saltmere-long-watch",
@@ -192,9 +327,22 @@
       "activeDialogue": "One flare near the base of the lighthouse, the other still up in the lamp room — don't trip on the stairs.",
       "completeDialogue": "There. Three short, one long — that's how we call for help out here. Now you know it too.",
       "steps": [
-        { "key": "flares", "type": "collect", "pickupIds": ["signal-flare-1", "signal-flare-2"], "required": 2 }
+        {
+          "key": "flares",
+          "type": "collect",
+          "pickupIds": [
+            "signal-flare-1",
+            "signal-flare-2"
+          ],
+          "required": 2
+        }
       ],
-      "reward": { "crystals": 70, "friendship": { "lighthouse-keeper": 20 } }
+      "reward": {
+        "crystals": 70,
+        "friendship": {
+          "lighthouse-keeper": 20
+        }
+      }
     },
     {
       "id": "saltmere-warehouse-count",
@@ -206,9 +354,24 @@
       "activeDialogue": "Four stray crates, scattered up and down Warehouse Row.",
       "completeDialogue": "Counted, stacked, and not a single one missing. You're better at this than I am, and I do it for a living.",
       "steps": [
-        { "key": "crates", "type": "collect", "pickupIds": ["stray-crate-1", "stray-crate-2", "stray-crate-3", "stray-crate-4"], "required": 4 }
+        {
+          "key": "crates",
+          "type": "collect",
+          "pickupIds": [
+            "stray-crate-1",
+            "stray-crate-2",
+            "stray-crate-3",
+            "stray-crate-4"
+          ],
+          "required": 4
+        }
       ],
-      "reward": { "crystals": 45, "friendship": { "dockhand-tam": 15 } }
+      "reward": {
+        "crystals": 45,
+        "friendship": {
+          "dockhand-tam": 15
+        }
+      }
     },
     {
       "id": "saltmere-lost-at-sea",
@@ -220,9 +383,23 @@
       "activeDialogue": "Trinkets, washed up somewhere along the original quay.",
       "completeDialogue": "Well, I'm damned. Forty years I've walked past these and never looked down. Sit a while — let me tell you where they came from.",
       "steps": [
-        { "key": "trinkets", "type": "collect", "pickupIds": ["sea-trinket-1", "sea-trinket-2", "sea-trinket-3"], "required": 3 }
+        {
+          "key": "trinkets",
+          "type": "collect",
+          "pickupIds": [
+            "sea-trinket-1",
+            "sea-trinket-2",
+            "sea-trinket-3"
+          ],
+          "required": 3
+        }
       ],
-      "reward": { "crystals": 45, "friendship": { "old-salt": 20 } }
+      "reward": {
+        "crystals": 45,
+        "friendship": {
+          "old-salt": 20
+        }
+      }
     },
     {
       "id": "saltmere-ships-stores",
@@ -234,9 +411,23 @@
       "activeDialogue": "Coiled rope, dropped somewhere round the shop frontage.",
       "completeDialogue": "Back where it belongs. You'd make a fair shopkeep, if the sea ever lets you go.",
       "steps": [
-        { "key": "rope", "type": "collect", "pickupIds": ["rope-coil-1", "rope-coil-2", "rope-coil-3"], "required": 3 }
+        {
+          "key": "rope",
+          "type": "collect",
+          "pickupIds": [
+            "rope-coil-1",
+            "rope-coil-2",
+            "rope-coil-3"
+          ],
+          "required": 3
+        }
       ],
-      "reward": { "crystals": 40, "friendship": { "chandler": 15 } }
+      "reward": {
+        "crystals": 40,
+        "friendship": {
+          "chandler": 15
+        }
+      }
     },
     {
       "id": "saltmere-lost-manifest",
@@ -251,50 +442,291 @@
       },
       "completeDialogue": "A manifest from Saltmere, and an honest one at that. Tell Vane the books are square. And — thank you, truly, for carrying it all this way.",
       "steps": [
-        { "key": "manifest", "type": "collect", "pickupIds": ["duplicate-manifest-1"], "required": 1 },
-        { "key": "deliver", "type": "deliver", "targetNpcId": "market-warden-syla", "required": 1 }
+        {
+          "key": "manifest",
+          "type": "collect",
+          "pickupIds": [
+            "duplicate-manifest-1"
+          ],
+          "required": 1
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "market-warden-syla",
+          "required": 1
+        }
       ],
-      "reward": { "crystals": 65, "friendship": { "harbourmaster-vane": 10 } }
+      "reward": {
+        "crystals": 65,
+        "friendship": {
+          "harbourmaster-vane": 10
+        }
+      }
     }
   ],
   "pickupItems": [
-    { "id": "dock-fish-1", "tx": 8, "ty": 14, "tileId": "appleBasket", "questId": "saltmere-dockside-cat" },
-    { "id": "dock-fish-2", "tx": 18, "ty": 16, "tileId": "appleBasket", "questId": "saltmere-dockside-cat" },
-    { "id": "dock-fish-3", "tx": 24, "ty": 13, "tileId": "appleBasket", "questId": "saltmere-dockside-cat" },
-    { "id": "port-crate-1", "tx": 28, "ty": 25, "tileId": "crate", "questId": "saltmere-lost-cargo" },
-    { "id": "port-crate-2", "tx": 20, "ty": 16, "tileId": "crate", "questId": "saltmere-lost-cargo" },
-    { "id": "port-crate-3", "tx": 2, "ty": 11, "tileId": "crate", "questId": "saltmere-lost-cargo" },
-    { "id": "navy-rum-barrel", "tx": 6, "ty": 25, "tileId": "barrel", "questId": "saltmere-rum-run" },
-    { "id": "smoke-scrap-1", "tx": 35, "ty": 37, "tileId": "appleBasket", "questId": "saltmere-smokehouse-scraps" },
-    { "id": "smoke-scrap-2", "tx": 39, "ty": 37, "tileId": "appleBasket", "questId": "saltmere-smokehouse-scraps" },
-    { "id": "smoke-scrap-3", "tx": 36, "ty": 39, "tileId": "appleBasket", "questId": "saltmere-smokehouse-scraps" },
-    { "id": "manifest-page-1", "tx": 19, "ty": 11, "tileId": "pileOfPapers", "questId": "saltmere-customs-discrepancy" },
-    { "id": "manifest-page-2", "tx": 12, "ty": 11, "tileId": "pileOfPapers", "questId": "saltmere-customs-discrepancy" },
-    { "id": "smugglers-ledger-1", "tx": 25, "ty": 36, "tileId": "closedBook", "questId": "saltmere-smuggler-confrontation" },
-    { "id": "torn-net-1", "tx": 31, "ty": 37, "tileId": "sack", "questId": "saltmere-net-gains" },
-    { "id": "torn-net-2", "tx": 30, "ty": 39, "tileId": "sack", "questId": "saltmere-net-gains" },
-    { "id": "torn-net-3", "tx": 47, "ty": 17, "tileId": "sack", "questId": "saltmere-net-gains" },
-    { "id": "timber-bundle-1", "tx": 11, "ty": 36, "tileId": "logPile", "questId": "saltmere-keel-repair" },
-    { "id": "timber-bundle-2", "tx": 17, "ty": 39, "tileId": "logPile", "questId": "saltmere-keel-repair" },
-    { "id": "timber-bundle-3", "tx": 16, "ty": 39, "tileId": "logPile", "questId": "saltmere-keel-repair" },
-    { "id": "ship-supplies-1", "tx": 12, "ty": 37, "tileId": "crate", "questId": "saltmere-maiden-voyage" },
-    { "id": "ship-supplies-2", "tx": 17, "ty": 37, "tileId": "barrel", "questId": "saltmere-maiden-voyage" },
-    { "id": "oil-flask-1", "tx": 44, "ty": 29, "tileId": "barrel", "questId": "saltmere-oil-for-the-lamp" },
-    { "id": "oil-flask-2", "tx": 41, "ty": 21, "tileId": "barrel", "questId": "saltmere-oil-for-the-lamp" },
-    { "id": "oil-flask-3", "tx": 32, "ty": 25, "tileId": "barrel", "questId": "saltmere-oil-for-the-lamp", "requireTouch": false },
-    { "id": "signal-flare-1", "tx": 44, "ty": 28, "tileId": "floorLantern", "questId": "saltmere-long-watch" },
-    { "id": "signal-flare-2", "tx": 4, "ty": 1, "tileId": "floorLantern", "questId": "saltmere-long-watch", "building": "lighthouse-top" },
-    { "id": "stray-crate-1", "tx": 6, "ty": 36, "tileId": "crate", "questId": "saltmere-warehouse-count" },
-    { "id": "stray-crate-2", "tx": 5, "ty": 36, "tileId": "crate", "questId": "saltmere-warehouse-count" },
-    { "id": "stray-crate-3", "tx": 22, "ty": 36, "tileId": "crate", "questId": "saltmere-warehouse-count" },
-    { "id": "stray-crate-4", "tx": 38, "ty": 37, "tileId": "crate", "questId": "saltmere-warehouse-count" },
-    { "id": "sea-trinket-1", "tx": 3, "ty": 13, "tileId": "pileOfCoins", "questId": "saltmere-lost-at-sea" },
-    { "id": "sea-trinket-2", "tx": 17, "ty": 13, "tileId": "pileOfCoins", "questId": "saltmere-lost-at-sea" },
-    { "id": "sea-trinket-3", "tx": 30, "ty": 19, "tileId": "pileOfCoins", "questId": "saltmere-lost-at-sea" },
-    { "id": "rope-coil-1", "tx": 20, "ty": 36, "tileId": "bucketAndRope", "questId": "saltmere-ships-stores" },
-    { "id": "rope-coil-2", "tx": 25, "ty": 37, "tileId": "bucketAndRope", "questId": "saltmere-ships-stores" },
-    { "id": "rope-coil-3", "tx": 26, "ty": 39, "tileId": "bucketAndRope", "questId": "saltmere-ships-stores" },
-    { "id": "duplicate-manifest-1", "tx": 20, "ty": 11, "tileId": "rolledMap", "questId": "saltmere-lost-manifest" }
+    {
+      "id": "dock-fish-1",
+      "tx": 8,
+      "ty": 14,
+      "tileId": "appleBasket",
+      "questId": "saltmere-dockside-cat"
+    },
+    {
+      "id": "dock-fish-2",
+      "tx": 18,
+      "ty": 16,
+      "tileId": "appleBasket",
+      "questId": "saltmere-dockside-cat"
+    },
+    {
+      "id": "dock-fish-3",
+      "tx": 24,
+      "ty": 13,
+      "tileId": "appleBasket",
+      "questId": "saltmere-dockside-cat"
+    },
+    {
+      "id": "port-crate-1",
+      "tx": 28,
+      "ty": 25,
+      "tileId": "crate",
+      "questId": "saltmere-lost-cargo"
+    },
+    {
+      "id": "port-crate-2",
+      "tx": 20,
+      "ty": 16,
+      "tileId": "crate",
+      "questId": "saltmere-lost-cargo"
+    },
+    {
+      "id": "port-crate-3",
+      "tx": 2,
+      "ty": 11,
+      "tileId": "crate",
+      "questId": "saltmere-lost-cargo"
+    },
+    {
+      "id": "navy-rum-barrel",
+      "tx": 6,
+      "ty": 25,
+      "tileId": "barrel",
+      "questId": "saltmere-rum-run"
+    },
+    {
+      "id": "smoke-scrap-1",
+      "tx": 35,
+      "ty": 37,
+      "tileId": "appleBasket",
+      "questId": "saltmere-smokehouse-scraps"
+    },
+    {
+      "id": "smoke-scrap-2",
+      "tx": 39,
+      "ty": 37,
+      "tileId": "appleBasket",
+      "questId": "saltmere-smokehouse-scraps"
+    },
+    {
+      "id": "smoke-scrap-3",
+      "tx": 36,
+      "ty": 39,
+      "tileId": "appleBasket",
+      "questId": "saltmere-smokehouse-scraps"
+    },
+    {
+      "id": "manifest-page-1",
+      "tx": 19,
+      "ty": 11,
+      "tileId": "pileOfPapers",
+      "questId": "saltmere-customs-discrepancy"
+    },
+    {
+      "id": "manifest-page-2",
+      "tx": 12,
+      "ty": 11,
+      "tileId": "pileOfPapers",
+      "questId": "saltmere-customs-discrepancy"
+    },
+    {
+      "id": "smugglers-ledger-1",
+      "tx": 25,
+      "ty": 36,
+      "tileId": "closedBook",
+      "questId": "saltmere-smuggler-confrontation"
+    },
+    {
+      "id": "torn-net-1",
+      "tx": 31,
+      "ty": 37,
+      "tileId": "sack",
+      "questId": "saltmere-net-gains"
+    },
+    {
+      "id": "torn-net-2",
+      "tx": 30,
+      "ty": 39,
+      "tileId": "sack",
+      "questId": "saltmere-net-gains"
+    },
+    {
+      "id": "torn-net-3",
+      "tx": 47,
+      "ty": 17,
+      "tileId": "sack",
+      "questId": "saltmere-net-gains"
+    },
+    {
+      "id": "timber-bundle-1",
+      "tx": 11,
+      "ty": 36,
+      "tileId": "logPile",
+      "questId": "saltmere-keel-repair"
+    },
+    {
+      "id": "timber-bundle-2",
+      "tx": 17,
+      "ty": 39,
+      "tileId": "logPile",
+      "questId": "saltmere-keel-repair"
+    },
+    {
+      "id": "timber-bundle-3",
+      "tx": 16,
+      "ty": 39,
+      "tileId": "logPile",
+      "questId": "saltmere-keel-repair"
+    },
+    {
+      "id": "ship-supplies-1",
+      "tx": 12,
+      "ty": 37,
+      "tileId": "crate",
+      "questId": "saltmere-maiden-voyage"
+    },
+    {
+      "id": "ship-supplies-2",
+      "tx": 17,
+      "ty": 37,
+      "tileId": "barrel",
+      "questId": "saltmere-maiden-voyage"
+    },
+    {
+      "id": "oil-flask-1",
+      "tx": 44,
+      "ty": 29,
+      "tileId": "barrel",
+      "questId": "saltmere-oil-for-the-lamp"
+    },
+    {
+      "id": "oil-flask-2",
+      "tx": 41,
+      "ty": 21,
+      "tileId": "barrel",
+      "questId": "saltmere-oil-for-the-lamp"
+    },
+    {
+      "id": "oil-flask-3",
+      "tx": 32,
+      "ty": 25,
+      "tileId": "barrel",
+      "questId": "saltmere-oil-for-the-lamp",
+      "requireTouch": false
+    },
+    {
+      "id": "signal-flare-1",
+      "tx": 44,
+      "ty": 28,
+      "tileId": "floorLantern",
+      "questId": "saltmere-long-watch"
+    },
+    {
+      "id": "signal-flare-2",
+      "tx": 4,
+      "ty": 1,
+      "tileId": "floorLantern",
+      "questId": "saltmere-long-watch",
+      "building": "lighthouse-top"
+    },
+    {
+      "id": "stray-crate-1",
+      "tx": 6,
+      "ty": 36,
+      "tileId": "crate",
+      "questId": "saltmere-warehouse-count"
+    },
+    {
+      "id": "stray-crate-2",
+      "tx": 5,
+      "ty": 36,
+      "tileId": "crate",
+      "questId": "saltmere-warehouse-count"
+    },
+    {
+      "id": "stray-crate-3",
+      "tx": 22,
+      "ty": 36,
+      "tileId": "crate",
+      "questId": "saltmere-warehouse-count"
+    },
+    {
+      "id": "stray-crate-4",
+      "tx": 38,
+      "ty": 37,
+      "tileId": "crate",
+      "questId": "saltmere-warehouse-count"
+    },
+    {
+      "id": "sea-trinket-1",
+      "tx": 3,
+      "ty": 13,
+      "tileId": "pileOfCoins",
+      "questId": "saltmere-lost-at-sea"
+    },
+    {
+      "id": "sea-trinket-2",
+      "tx": 17,
+      "ty": 13,
+      "tileId": "pileOfCoins",
+      "questId": "saltmere-lost-at-sea"
+    },
+    {
+      "id": "sea-trinket-3",
+      "tx": 30,
+      "ty": 19,
+      "tileId": "pileOfCoins",
+      "questId": "saltmere-lost-at-sea"
+    },
+    {
+      "id": "rope-coil-1",
+      "tx": 20,
+      "ty": 36,
+      "tileId": "bucketAndRope",
+      "questId": "saltmere-ships-stores"
+    },
+    {
+      "id": "rope-coil-2",
+      "tx": 25,
+      "ty": 37,
+      "tileId": "bucketAndRope",
+      "questId": "saltmere-ships-stores"
+    },
+    {
+      "id": "rope-coil-3",
+      "tx": 26,
+      "ty": 39,
+      "tileId": "bucketAndRope",
+      "questId": "saltmere-ships-stores"
+    },
+    {
+      "id": "duplicate-manifest-1",
+      "tx": 20,
+      "ty": 11,
+      "tileId": "rolledMap",
+      "questId": "saltmere-lost-manifest"
+    }
   ],
   "blockedPaths": []
 }

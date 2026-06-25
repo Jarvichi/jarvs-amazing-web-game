@@ -515,6 +515,76 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     })
   }, [])
 
+  const reorderDecor = useCallback((entity: SelectedEntity, direction: 'forward' | 'back') => {
+    setState(s => {
+      const prevConfig = s.configData
+      const i = entity.index
+      const swapWith = direction === 'forward' ? i + 1 : i - 1
+      let newConfig = prevConfig
+
+      if (entity.type === 'exteriorDecor') {
+        const decor = [...(prevConfig.exteriorDecor ?? [])]
+        if (swapWith < 0 || swapWith >= decor.length) return s
+        ;[decor[i], decor[swapWith]] = [decor[swapWith], decor[i]]
+        newConfig = { ...prevConfig, exteriorDecor: decor }
+      } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
+        const interior = prevConfig.interiors[entity.interiorId]
+        const decor = [...interior.decor]
+        if (swapWith < 0 || swapWith >= decor.length) return s
+        ;[decor[i], decor[swapWith]] = [decor[swapWith], decor[i]]
+        newConfig = { ...prevConfig, interiors: { ...prevConfig.interiors, [entity.interiorId]: { ...interior, decor } } }
+      } else {
+        return s
+      }
+
+      const newSelected = s.selectedEntities.map(e =>
+        e.type === entity.type && e.index === i ? { ...e, index: swapWith } : e
+      )
+      return {
+        ...s,
+        configData: newConfig,
+        selectedEntities: newSelected,
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const updateDecorTileId = useCallback((entity: SelectedEntity, tileId: string) => {
+    setState(s => {
+      const prevConfig = s.configData
+      let newConfig = prevConfig
+
+      if (entity.type === 'exteriorDecor') {
+        const decor = [...(prevConfig.exteriorDecor ?? [])]
+        if (!decor[entity.index]) return s
+        decor[entity.index] = { ...decor[entity.index], tileId }
+        newConfig = { ...prevConfig, exteriorDecor: decor }
+      } else if (entity.type === 'buildingLevelDecor' && prevConfig.buildings?.[entity.buildingIndex]?.levelDecor) {
+        const buildings = [...prevConfig.buildings]
+        const b = buildings[entity.buildingIndex]
+        const levelDecor = [...(b.levelDecor ?? [])]
+        if (!levelDecor[entity.index]) return s
+        levelDecor[entity.index] = { ...levelDecor[entity.index], tileId }
+        buildings[entity.buildingIndex] = { ...b, levelDecor }
+        newConfig = { ...prevConfig, buildings }
+      } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
+        const interior = prevConfig.interiors[entity.interiorId]
+        const decor = [...interior.decor]
+        if (!decor[entity.index]) return s
+        decor[entity.index] = { ...decor[entity.index], tileId }
+        newConfig = {
+          ...prevConfig,
+          interiors: { ...prevConfig.interiors, [entity.interiorId]: { ...interior, decor } },
+        }
+      }
+
+      if (newConfig === prevConfig) return s
+      return { ...s, configData: newConfig, undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO), redoStack: [], isDirty: true }
+    })
+  }, [])
+
   // Merge glow fields (glow/glowRadius/pulse) into the selected decor item.
   const updateGlow = useCallback((entity: SelectedEntity, patch: Partial<{ glow: boolean; glowRadius: number; pulse: boolean }>) => {
     setState(s => {
@@ -1171,6 +1241,8 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     batchUpdateZlayer,
     batchUpdateStreetPathType,
     updateDecorZlayer,
+    updateDecorTileId,
+    reorderDecor,
     updateGlow,
     updateDecorMinLevel,
     updateBuilding,

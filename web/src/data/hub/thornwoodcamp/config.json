@@ -458,10 +458,10 @@
       "id": "forager-mott",
       "name": "Forager Mott",
       "sprite": "hub-npc-supplies",
-      "tx": 13,
-      "ty": 46,
+      "tx": 14,
+      "ty": 45,
       "dialogue": [
-        "Don't mind the barrels — landslide brought half the ridge down across the path. I've been stuck on this side for two days.",
+        "Don't mind the rocks — landslide brought half the ridge down across the path. I've been stuck on this side for two days.",
         "There's queer little stones in the scree where it fell. Bring me a few and I'll shift the blockage; my hands know which ones hold the wall.",
         "Warden Rell's up by the fire, if you can get past. Tell him Mott's alive, would you?"
       ],

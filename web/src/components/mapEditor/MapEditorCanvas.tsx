@@ -196,7 +196,8 @@ export function MapEditorCanvas(props: Props) {
     stage.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
       const { tool: t, activeTileId: tid, activeBundleId: bid, viewMode: vm,
                activeInteriorId: iid, configData: cfg, showQuestItems: sqI,
-               showBlockedPaths: sbp, blockedPaths: bps, showAreas: sareas } = propsRef.current
+               showBlockedPaths: sbp, blockedPaths: bps, showAreas: sareas,
+               showInteractables: sint } = propsRef.current
       const { x: ox, y: oy } = worldOriginRef.current
       const pos = e.getLocalPosition(stage)
       const tx  = Math.floor((pos.x - ox) / T)
@@ -209,7 +210,7 @@ export function MapEditorCanvas(props: Props) {
       }
 
       if (t === 'select') {
-        const entity = hitTest(cfg, tx, ty, vm, iid, sqI, sbp, bps, sareas)
+        const entity = hitTest(cfg, tx, ty, vm, iid, sqI, sbp, bps, sareas, sint)
         if (e.shiftKey) {
           if (entity) propsRef.current.onAddToSelection(entity)
           // shift+click on empty space: do nothing
@@ -221,7 +222,7 @@ export function MapEditorCanvas(props: Props) {
       } else if (t === 'place' && (tid || bid)) {
         propsRef.current.onPlaceDecor(tx, ty)
       } else if (t === 'delete') {
-        const entity = hitTest(cfg, tx, ty, vm, iid, sqI, sbp, bps, sareas)
+        const entity = hitTest(cfg, tx, ty, vm, iid, sqI, sbp, bps, sareas, sint)
         if (entity) {
           propsRef.current.onDeleteEntities([entity])
           propsRef.current.onSelectEntities([])
@@ -1176,6 +1177,7 @@ function hitTest(
   showBlockedPaths = false,
   blockedPaths: RawBlockedPath[] = [],
   showAreas = false,
+  showInteractables = false,
 ): SelectedEntity | null {
   if (viewMode === 'interior' && activeInteriorId) {
     const npcs = cfg.npcs ?? []
@@ -1206,6 +1208,14 @@ function hitTest(
         return { type: 'interiorDecor', index: i, interiorId: activeInteriorId }
     }
     return null
+  }
+  if (showInteractables) {
+    const interactables = cfg.interactables ?? []
+    for (let i = interactables.length - 1; i >= 0; i--) {
+      const it = interactables[i]
+      if (!it.building && it.tx === tx && it.ty === ty)
+        return { type: 'interactable', index: i }
+    }
   }
   if (showBlockedPaths) {
     for (let i = 0; i < blockedPaths.length; i++) {

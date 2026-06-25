@@ -11,6 +11,8 @@ import { SelectedEntity } from './mapEditorTypes'
 import type { RawBlockedPath, RawInteractable, PickKind } from './mapEditorTypes'
 import { NpcQuestDrawer } from './npcQuestDrawer/NpcQuestDrawer'
 import type { DrawerTab } from './npcQuestDrawer/npcQuestDrawerTypes'
+import { appendBundle } from '../../data/bundles/bundleEditorApi'
+import type { BundleTileRaw } from '../../data/bundles/bundleEditorApi'
 
 
 interface Props {
@@ -43,7 +45,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
     addPondTile, updatePondEntry, addNpcSpawnTile, addChickenZone, addArea,
     convertStreetToPond, convertPondToStreet,
     batchUpdateZlayer, batchUpdateStreetPathType,
-    updateDecorZlayer, updateGlow, updateDecorMinLevel, updateBuilding, addNpc, updateNpcDialogue, updateNpc,
+    updateDecorZlayer, updateDecorTileId, reorderDecor, updateGlow, updateDecorMinLevel, updateBuilding, addNpc, updateNpcDialogue, updateNpc,
     addAnimal, updateAnimal,
     updateTreasure, updateConfig,
     updateArea, updateMapProps, resizeMap,
@@ -399,6 +401,9 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
               onDeleteEntities={handleDeleteEntities}
               onBatchUpdateZlayer={batchUpdateZlayer}
               onBatchUpdateStreetPathType={batchUpdateStreetPathType}
+              onUpdateDecorTileId={updateDecorTileId}
+              onReorderDecor={reorderDecor}
+              onSaveAsBundle={(bundleId: string, tiles: BundleTileRaw[]) => appendBundle(bundleId, tiles)}
               onConvertStreetToPond={convertStreetToPond}
               onConvertPondToStreet={convertPondToStreet}
               onUpdatePondEntry={updatePondEntry}

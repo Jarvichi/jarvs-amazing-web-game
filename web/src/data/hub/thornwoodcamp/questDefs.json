@@ -502,12 +502,12 @@
           {
             "tx": 15,
             "ty": 43,
-            "tileId": "barrel"
+            "tileId": "largeRock"
           },
           {
             "tx": 16,
             "ty": 43,
-            "tileId": "barrel"
+            "tileId": "largeRock"
           }
         ]
       },
@@ -516,12 +516,12 @@
           {
             "tx": 14,
             "ty": 43,
-            "tileId": "barrel"
+            "tileId": "largeRock"
           },
           {
             "tx": 17,
             "ty": 43,
-            "tileId": "barrel"
+            "tileId": "largeRock"
           }
         ]
       }

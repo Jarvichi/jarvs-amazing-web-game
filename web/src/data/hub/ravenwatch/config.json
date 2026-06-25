@@ -2408,7 +2408,7 @@
     {
       "tx": 34,
       "ty": 15,
-      "tileId": "darkBush"
+      "tileId": "lightBush"
     },
     {
       "tx": 28,
@@ -4170,30 +4170,6 @@
       "zlayer": "above"
     },
     {
-      "tx": 25,
-      "ty": 55,
-      "tileId": "memorialBotLeft",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 26,
-      "ty": 55,
-      "tileId": "memorialBotRight",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 25,
-      "ty": 54,
-      "tileId": "memorialTopLeft",
-      "zlayer": "above"
-    },
-    {
-      "tx": 26,
-      "ty": 54,
-      "tileId": "memorialTopRight",
-      "zlayer": "above"
-    },
-    {
       "tx": 20,
       "ty": 21,
       "tileId": "bucketAndRope",
@@ -4690,6 +4666,15 @@
       "ty": 41,
       "tileId": "cropCarrot",
       "zlayer": "solid"
+    },
+    {
+      "tx": 25,
+      "ty": 55,
+      "bundleID": "tombstone-large",
+      "zlayer": "solid",
+      "glow": true,
+      "glowRadius": 1.5,
+      "pulse": true
     }
   ],
   "pondTiles": [
@@ -5236,16 +5221,6 @@
       "floorTileId": "parquetFloor",
       "decor": [
         {
-          "tx": 2,
-          "ty": 2,
-          "bundleID": "simple-bed"
-        },
-        {
-          "tx": 3,
-          "ty": 2,
-          "bundleID": "simple-bed"
-        },
-        {
           "tx": 8,
           "ty": 1,
           "bundleID": "fireplace"
@@ -5270,19 +5245,222 @@
           "zlayer": "below"
         },
         {
-          "tx": 2,
-          "ty": 6,
-          "tileId": "chest"
-        },
-        {
-          "tx": 11,
-          "ty": 0,
+          "tx": 1,
+          "ty": -1,
           "tileId": "bookshelfTop"
         },
         {
-          "tx": 11,
-          "ty": 1,
+          "tx": 1,
+          "ty": 0,
           "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 9,
+          "ty": 4,
+          "tileId": "bottlesOfLiquor",
+          "zlayer": "solid",
+          "minLevel": 1
+        },
+        {
+          "tx": 9,
+          "ty": 0,
+          "tileId": "skull",
+          "zlayer": "solid",
+          "minLevel": 1
+        },
+        {
+          "tx": 2,
+          "ty": -1,
+          "tileId": "worldMapTopLeft",
+          "zlayer": "solid",
+          "minLevel": 1
+        },
+        {
+          "tx": 3,
+          "ty": -1,
+          "tileId": "worldMapTopRight",
+          "zlayer": "solid",
+          "minLevel": 1
+        },
+        {
+          "tx": 2,
+          "ty": 0,
+          "tileId": "worldMapBottomLeft",
+          "zlayer": "solid",
+          "minLevel": 1
+        },
+        {
+          "tx": 3,
+          "ty": 0,
+          "tileId": "worldMapBottomRight",
+          "zlayer": "solid",
+          "minLevel": 1
+        },
+        {
+          "tx": 2,
+          "ty": 3,
+          "tileId": "rugTopLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 3,
+          "tileId": "rugTopMid",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "rugTopRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "rugMidLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 4,
+          "tileId": "rugMidMid",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 5,
+          "tileId": "rugMidMid",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "rugMidRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 5,
+          "tileId": "rugMidRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
+          "ty": 5,
+          "tileId": "rugMidLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
+          "ty": 6,
+          "tileId": "rugBottomLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 6,
+          "tileId": "rugBottomMid",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 6,
+          "tileId": "rugBottomRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 5,
+          "tileId": "stool",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "deskTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": 7,
+          "tileId": "deskTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "pileOfCoins",
+          "zlayer": "solid",
+          "minLevel": 1
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "smallTableBottomRight",
+          "zlayer": "solid",
+          "minLevel": 2
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "smallTableTopRight",
+          "zlayer": "solid",
+          "minLevel": 2
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "smallTableTopMiddle",
+          "zlayer": "solid",
+          "minLevel": 2
+        },
+        {
+          "tx": 3,
+          "ty": 4,
+          "tileId": "smallTableTopMiddle",
+          "zlayer": "solid",
+          "minLevel": 2
+        },
+        {
+          "tx": 4,
+          "ty": 5,
+          "tileId": "smallTableBottomMiddle",
+          "zlayer": "solid",
+          "minLevel": 2
+        },
+        {
+          "tx": 3,
+          "ty": 5,
+          "tileId": "smallTableBottomMiddle",
+          "zlayer": "solid",
+          "minLevel": 2
+        },
+        {
+          "tx": 2,
+          "ty": 5,
+          "tileId": "smallTableBottomLeft",
+          "zlayer": "solid",
+          "minLevel": 2
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "smallTableTopLeft",
+          "zlayer": "solid",
+          "minLevel": 2
+        },
+        {
+          "tx": 10,
+          "ty": 7,
+          "tileId": "candlestickUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": 7,
+          "bundleID": "candelabra",
+          "zlayer": "above",
+          "minLevel": 2
         }
       ],
       "exits": [
@@ -5302,6 +5480,14 @@
           "direction": "back",
           "entryTx": 6,
           "entryTy": 6
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "toInteriorId": "home-building-bedroom",
+          "entryTx": 4,
+          "entryTy": 6,
+          "direction": "up"
         }
       ],
       "wallTileId": "interiorWallWhite"
@@ -6566,220 +6752,190 @@
       "name": "Church",
       "musicId": "church",
       "ambianceId": "sacred",
-      "width": 14,
+      "width": 16,
       "height": 10,
       "wallTileId": "interiorWallWhite",
       "floorTileId": "cobblestoneFloor",
       "decor": [
         {
-          "tx": 6,
-          "ty": 2,
-          "tileId": "goldenCross",
-          "zlayer": "above"
-        },
-        {
           "tx": 7,
           "ty": 2,
           "tileId": "goldenCross",
           "zlayer": "above"
         },
         {
-          "tx": 5,
-          "ty": 1,
-          "tileId": "candlestickLitTop",
-          "zlayer": "above"
-        },
-        {
-          "tx": 8,
-          "ty": 1,
-          "tileId": "candlestickLitTop",
-          "zlayer": "above"
-        },
-        {
-          "tx": 5,
-          "ty": 2,
-          "tileId": "candlestickLitBottom",
-          "zlayer": "above"
-        },
-        {
           "tx": 8,
           "ty": 2,
-          "tileId": "candlestickLitBottom",
+          "tileId": "goldenCross",
           "zlayer": "above"
-        },
-        {
-          "tx": 3,
-          "ty": 5,
-          "tileId": "benchLeft"
         },
         {
           "tx": 4,
           "ty": 5,
-          "tileId": "benchRight"
+          "tileId": "benchLeft"
         },
         {
-          "tx": 9,
+          "tx": 5,
           "ty": 5,
-          "tileId": "benchLeft"
+          "tileId": "benchRight"
         },
         {
           "tx": 10,
           "ty": 5,
-          "tileId": "benchRight"
+          "tileId": "benchLeft"
         },
         {
-          "tx": 2,
-          "ty": 7,
-          "tileId": "benchLeft"
+          "tx": 11,
+          "ty": 5,
+          "tileId": "benchRight"
         },
         {
           "tx": 3,
           "ty": 7,
+          "tileId": "benchLeft"
+        },
+        {
+          "tx": 4,
+          "ty": 7,
           "tileId": "benchRight"
         },
         {
-          "tx": 10,
+          "tx": 11,
           "ty": 7,
           "tileId": "benchLeft"
         },
         {
-          "tx": 11,
+          "tx": 12,
           "ty": 7,
           "tileId": "benchRight"
         },
         {
-          "tx": 1,
+          "tx": 2,
           "ty": 2,
           "tileId": "angelStatueBottom",
           "zlayer": "solid"
-        },
-        {
-          "tx": 1,
-          "ty": 1,
-          "tileId": "angelStatueTop",
-          "zlayer": "solid"
-        },
-        {
-          "tx": 12,
-          "ty": 2,
-          "tileId": "angelStatueBottom",
-          "zlayer": "solid"
-        },
-        {
-          "tx": 12,
-          "ty": 1,
-          "tileId": "angelStatueTop",
-          "zlayer": "solid"
-        },
-        {
-          "tx": 1,
-          "ty": 7,
-          "tileId": "lightPillarBottom",
-          "zlayer": "solid"
-        },
-        {
-          "tx": 1,
-          "ty": 6,
-          "tileId": "lightPillarMiddle",
-          "zlayer": "above"
-        },
-        {
-          "tx": 1,
-          "ty": 5,
-          "tileId": "lightPillarMiddle",
-          "zlayer": "above"
         },
         {
           "tx": 2,
-          "ty": 4,
-          "tileId": "lightPillarMiddle",
-          "zlayer": "above"
-        },
-        {
-          "tx": 11,
-          "ty": 5,
-          "tileId": "lightPillarBottom",
+          "ty": 1,
+          "tileId": "angelStatueTop",
           "zlayer": "solid"
         },
         {
-          "tx": 12,
+          "tx": 13,
+          "ty": 2,
+          "tileId": "angelStatueBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 13,
+          "ty": 1,
+          "tileId": "angelStatueTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
           "ty": 7,
           "tileId": "lightPillarBottom",
           "zlayer": "solid"
         },
         {
           "tx": 2,
-          "ty": 5,
-          "tileId": "lightPillarBottom",
-          "zlayer": "solid"
-        },
-        {
-          "tx": 11,
-          "ty": 4,
-          "tileId": "lightPillarMiddle",
-          "zlayer": "above"
-        },
-        {
-          "tx": 11,
-          "ty": 3,
-          "tileId": "lightPillarMiddle",
-          "zlayer": "above"
-        },
-        {
-          "tx": 11,
-          "ty": 2,
-          "tileId": "lightPillarTop",
-          "zlayer": "above"
-        },
-        {
-          "tx": 12,
           "ty": 6,
           "tileId": "lightPillarMiddle",
           "zlayer": "above"
         },
         {
-          "tx": 12,
+          "tx": 2,
           "ty": 5,
           "tileId": "lightPillarMiddle",
           "zlayer": "above"
         },
         {
+          "tx": 3,
+          "ty": 4,
+          "tileId": "lightPillarMiddle",
+          "zlayer": "above"
+        },
+        {
+          "tx": 12,
+          "ty": 5,
+          "tileId": "lightPillarBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 13,
+          "ty": 7,
+          "tileId": "lightPillarBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 5,
+          "tileId": "lightPillarBottom",
+          "zlayer": "solid"
+        },
+        {
           "tx": 12,
           "ty": 4,
-          "tileId": "lightPillarTop",
+          "tileId": "lightPillarMiddle",
           "zlayer": "above"
         },
         {
-          "tx": 1,
-          "ty": 4,
-          "tileId": "lightPillarTop",
-          "zlayer": "above"
-        },
-        {
-          "tx": 2,
+          "tx": 12,
           "ty": 3,
           "tileId": "lightPillarMiddle",
           "zlayer": "above"
         },
         {
-          "tx": 2,
+          "tx": 12,
           "ty": 2,
           "tileId": "lightPillarTop",
           "zlayer": "above"
         },
         {
-          "tx": 5,
+          "tx": 13,
+          "ty": 6,
+          "tileId": "lightPillarMiddle",
+          "zlayer": "above"
+        },
+        {
+          "tx": 13,
+          "ty": 5,
+          "tileId": "lightPillarMiddle",
+          "zlayer": "above"
+        },
+        {
+          "tx": 13,
+          "ty": 4,
+          "tileId": "lightPillarTop",
+          "zlayer": "above"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "lightPillarTop",
+          "zlayer": "above"
+        },
+        {
+          "tx": 3,
+          "ty": 3,
+          "tileId": "lightPillarMiddle",
+          "zlayer": "above"
+        },
+        {
+          "tx": 3,
+          "ty": 2,
+          "tileId": "lightPillarTop",
+          "zlayer": "above"
+        },
+        {
+          "tx": 6,
           "ty": 3,
           "tileId": "altarBotLeft",
           "zlayer": "solid"
         },
         {
-          "tx": 6,
-          "ty": 3,
-          "tileId": "altarBotMid",
-          "zlayer": "solid"
-        },
-        {
           "tx": 7,
           "ty": 3,
           "tileId": "altarBotMid",
@@ -6787,26 +6943,26 @@
         },
         {
           "tx": 8,
+          "ty": 3,
+          "tileId": "altarBotMid",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
           "ty": 3,
           "tileId": "altarBotRight",
           "zlayer": "solid"
         },
         {
-          "tx": 8,
+          "tx": 9,
           "ty": 2,
           "tileId": "altarTopRight",
           "zlayer": "solid"
         },
         {
-          "tx": 5,
-          "ty": 2,
-          "tileId": "altarTopLeft",
-          "zlayer": "solid"
-        },
-        {
           "tx": 6,
           "ty": 2,
-          "tileId": "altarTopMid",
+          "tileId": "altarTopLeft",
           "zlayer": "solid"
         },
         {
@@ -6816,39 +6972,39 @@
           "zlayer": "solid"
         },
         {
-          "tx": 5,
+          "tx": 8,
+          "ty": 2,
+          "tileId": "altarTopMid",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
           "ty": -1,
           "tileId": "stainedGlassWindow1Mid",
           "zlayer": "solid"
         },
         {
-          "tx": 5,
+          "tx": 6,
           "ty": 0,
           "tileId": "stainedGlassWindow1Bottom",
           "zlayer": "solid"
         },
         {
-          "tx": 8,
+          "tx": 9,
           "ty": 0,
           "tileId": "stainedGlassWindow1Bottom",
           "zlayer": "solid"
         },
         {
-          "tx": 8,
+          "tx": 9,
           "ty": -1,
           "tileId": "stainedGlassWindow1Mid",
-          "zlayer": "solid"
-        },
-        {
-          "tx": 0,
-          "ty": -2,
-          "tileId": "interiorWallWhiteTopLeft",
           "zlayer": "solid"
         },
         {
           "tx": 1,
           "ty": -2,
-          "tileId": "interiorWallWhiteTopMiddle",
+          "tileId": "interiorWallWhiteTopLeft",
           "zlayer": "solid"
         },
         {
@@ -6870,7 +7026,7 @@
           "zlayer": "solid"
         },
         {
-          "tx": 6,
+          "tx": 5,
           "ty": -2,
           "tileId": "interiorWallWhiteTopMiddle",
           "zlayer": "solid"
@@ -6882,13 +7038,13 @@
           "zlayer": "solid"
         },
         {
-          "tx": 5,
+          "tx": 8,
           "ty": -2,
           "tileId": "interiorWallWhiteTopMiddle",
           "zlayer": "solid"
         },
         {
-          "tx": 8,
+          "tx": 6,
           "ty": -2,
           "tileId": "interiorWallWhiteTopMiddle",
           "zlayer": "solid"
@@ -6920,25 +7076,43 @@
         {
           "tx": 13,
           "ty": -2,
+          "tileId": "interiorWallWhiteTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 14,
+          "ty": -2,
           "tileId": "interiorWallWhiteTopRight",
           "zlayer": "solid"
         },
         {
-          "tx": 5,
+          "tx": 6,
           "ty": -2,
           "tileId": "stainedGlassWindow1Top",
           "zlayer": "solid"
         },
         {
-          "tx": 8,
+          "tx": 9,
           "ty": -2,
           "tileId": "stainedGlassWindow1Top",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 2,
+          "bundleID": "candelabra",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 2,
+          "bundleID": "candelabra",
           "zlayer": "solid"
         }
       ],
       "exits": [
         {
-          "tx": 1,
+          "tx": 2,
           "ty": 5,
           "toInteriorId": "church-building-tower-base",
           "direction": "left",
@@ -7177,7 +7351,8 @@
           "tx": 1,
           "ty": 4,
           "tileId": "barrel",
-          "zlayer": "solid"
+          "zlayer": "solid",
+          "minLevel": 1
         },
         {
           "tx": 7,
@@ -7286,6 +7461,23 @@
           "toInteriorId": "trader-den",
           "direction": "down",
           "entryTx": 0,
+          "entryTy": 1
+        }
+      ]
+    },
+    "home-building-bedroom": {
+      "name": "home-building-bedroom",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "decor": [],
+      "exits": [
+        {
+          "tx": 4,
+          "ty": 4,
+          "toInteriorId": "home",
+          "direction": "down",
+          "entryTx": 4,
           "entryTy": 1
         }
       ]
@@ -7949,7 +8141,7 @@
       "name": "Steward Aldous",
       "sprite": "hub-npc-elder",
       "building": "home",
-      "tx": 4,
+      "tx": 7,
       "ty": 6,
       "questGive": "aldous-keepsake",
       "dialogue": [

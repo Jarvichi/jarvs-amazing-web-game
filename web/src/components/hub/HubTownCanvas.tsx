@@ -750,6 +750,17 @@ export function HubTownCanvas({
     // (player tap, named/ambient NPCs, street-walking animals).
     function exteriorWalkable(): Set<string> {
       const s = new Set(pathSet)
+      // Solid levelDecor items block paths only when the building has reached
+      // their minLevel — they're walkable before the building is upgraded.
+      const upgradeLevels = buildingUpgradeLevelsRef?.current ?? {}
+      for (const b of HUB_BUILDINGS) {
+        if (!b.id || !b.levelDecor?.length) continue
+        const buildingLevel = upgradeLevels[b.id] ?? 0
+        for (const d of b.levelDecor) {
+          if (d.zlayer === 'solid' && buildingLevel >= (d.minLevel ?? 0))
+            s.delete(`${d.tx},${d.ty}`)
+        }
+      }
       for (const bp of HUB_BLOCKED_PATHS)
         if (!(completedQuestIdsRef?.current.has(bp.questId) ?? false))
           for (const [btx, bty] of bp.blockedTiles) s.delete(`${btx},${bty}`)

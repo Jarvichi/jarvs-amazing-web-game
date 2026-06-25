@@ -12,6 +12,7 @@ import { ANIMAL_SPECS } from '../../game/hub/animals'
 import type { AnimalType } from '../../game/hub/animals'
 import { BUILDING_MUSIC_IDS, AMBIANCE_IDS } from '../../game/sound'
 import { getUpgradeTrack } from '../../data/hub/buildingUpgrades'
+import type { BundleTileRaw } from '../../data/bundles/bundleEditorApi'
 
 /** Highest upgrade level a building can reach: explicit maxLevel, else its kind track length. */
 function buildingMaxLevel(building: RawBuilding): number {
@@ -91,6 +92,9 @@ interface Props {
   onDeleteEntities?:            (entities: SelectedEntity[]) => void
   onBatchUpdateZlayer?:         (entities: SelectedEntity[], z: Zlayer) => void
   onBatchUpdateStreetPathType?: (entities: SelectedEntity[], pathType: string | undefined) => void
+  onSaveAsBundle?:              (bundleId: string, tiles: BundleTileRaw[]) => Promise<void>
+  onUpdateDecorTileId?:         (entity: SelectedEntity, tileId: string) => void
+  onReorderDecor?:              (entity: SelectedEntity, direction: 'forward' | 'back') => void
   onConvertStreetToPond?:       (index: number) => void
   onConvertPondToStreet?:       (index: number) => void
   onUpdatePondEntry?:           (index: number, data: { rect?: number[]; tile?: number[] }) => void
@@ -307,7 +311,7 @@ function GlowControls({ glow, glowRadius, pulse, onChange }: {
 }
 
 function DecorInspector({
-  item, entity, onMove, onZlayer, onGlow, onDelete, onMinLevel, maxLevel,
+  item, entity, onMove, onZlayer, onGlow, onDelete, onMinLevel, maxLevel, onTileChange, onReorder,
 }: {
   item: RawDecorItem
   entity: SelectedEntity
@@ -317,11 +321,37 @@ function DecorInspector({
   onDelete: () => void
   onMinLevel?: (minLevel: number | undefined) => void
   maxLevel?: number
+  onTileChange?: (tileId: string) => void
+  onReorder?: (direction: 'forward' | 'back') => void
 }) {
+  const [pickingTile, setPickingTile] = useState(false)
+  const tileId = item.tileId || ''
   return (
     <div>
       <Field label="Tile">
-        {item.tileId ? <TilePreview tileId={item.tileId} /> : <span style={{ color: '#aaa' }}>{item.bundleID ?? '—'}</span>}
+
+        {onTileChange ? (
+          <>
+            <div
+              onClick={() => setPickingTile(p => !p)}
+              style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6, padding: '2px 4px', borderRadius: 3, border: pickingTile ? '1px solid #5a8aee' : '1px solid transparent' }}
+              title="Click to change tile"
+            >
+              <TilePreview tileId={tileId } />
+              <span style={{ fontSize: 10, color: '#666' }}>✎</span>
+            </div>
+            {pickingTile && (
+              <TilePicker
+                current={tileId }
+                onChange={onTileChange}
+                onClose={() => setPickingTile(false)}
+              />
+            )}
+          </>
+        ) : (
+          item.tileId ? <TilePreview tileId={item.tileId} /> : <span style={{ color: '#aaa' }}>{item.bundleID ?? '—'}</span>
+        )}
+
       </Field>
       {onMinLevel && (
         <Field label="Appears at level">
@@ -363,6 +393,26 @@ function DecorInspector({
         </div>
       </Field>
       {onGlow && <GlowControls glow={item.glow} glowRadius={item.glowRadius} pulse={item.pulse} onChange={onGlow} />}
+      {onReorder && (
+        <Field label="Draw Order">
+          <div style={{ display: 'flex', gap: 4 }}>
+            <button
+              onClick={() => onReorder('back')}
+              title="Draw behind (move earlier in list)"
+              style={{ flex: 1, padding: '4px 0', background: '#1e2a1e', border: '1px solid #3a5a3a', color: '#8d8', borderRadius: 3, fontSize: 11, cursor: 'pointer' }}
+            >
+              ↓ Send Back
+            </button>
+            <button
+              onClick={() => onReorder('forward')}
+              title="Draw in front (move later in list)"
+              style={{ flex: 1, padding: '4px 0', background: '#1e2a4e', border: '1px solid #3a5a8e', color: '#8af', borderRadius: 3, fontSize: 11, cursor: 'pointer' }}
+            >
+              ↑ Bring Forward
+            </button>
+          </div>
+        </Field>
+      )}
       <button
         onClick={onDelete}
         style={{
@@ -900,7 +950,7 @@ function InteriorInspector({
   panelStyle, headerStyle, bodyStyle,
   onCloseInterior, onOpenInterior, onResizeInterior,
   onAddInteriorExit, onUpdateInteriorProps, onUpdateInteriorExit, onRemoveInteriorExit,
-  onMoveEntity, onZlayerChange, onDelete,
+  onMoveEntity, onZlayerChange, onDelete, onReorderInteriorDecor, onUpdateDecorTileId,
 }: {
   interiorId: string
   interior: RawInterior | undefined
@@ -923,6 +973,8 @@ function InteriorInspector({
   onMoveEntity: (entity: SelectedEntity, tx: number, ty: number) => void
   onZlayerChange: (entity: SelectedEntity, z: Zlayer) => void
   onDelete: (entity: SelectedEntity) => void
+  onReorderInteriorDecor?: (entity: SelectedEntity, direction: 'forward' | 'back') => void
+  onUpdateDecorTileId?: (entity: SelectedEntity, tileId: string) => void
 }) {
   const [showExitForm, setShowExitForm] = useState(false)
   const [exitTx, setExitTx]           = useState(0)
@@ -1184,6 +1236,8 @@ function InteriorInspector({
               onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
               onZlayer={z => onZlayerChange(selectedEntity, z)}
               onDelete={() => onDelete(selectedEntity)}
+              onTileChange={onUpdateDecorTileId ? tileId => onUpdateDecorTileId(selectedEntity, tileId) : undefined}
+              onReorder={onReorderInteriorDecor ? dir => onReorderInteriorDecor(selectedEntity, dir) : undefined}
             />
           </div>
         )}
@@ -1804,18 +1858,37 @@ function PondEditor({ configData, onUpdateConfig, numSm, addBtn, xBtn, anchor }:
 }
 
 function MultiSelectPanel({
-  entities, onDelete, onBatchZlayer, onBatchPathType,
+  entities, onDelete, onBatchZlayer, onBatchPathType, onSaveAsBundle,
 }: {
   entities: SelectedEntity[]
   onDelete?: (e: SelectedEntity[]) => void
   onBatchZlayer?: (e: SelectedEntity[], z: Zlayer) => void
   onBatchPathType?: (e: SelectedEntity[], pt: string | undefined) => void
+  onSaveAsBundle?: (bundleId: string) => Promise<void>
 }) {
   const type = entities[0].type
   const decorTypes = ['exteriorDecor', 'interiorDecor', 'buildingLevelDecor', 'festivalDecor']
   const isDecor = decorTypes.includes(type)
   const isStreet = type === 'street'
   const [pathType, setPathType] = useState('')
+  const [bundleId, setBundleId] = useState('')
+  const [bundleSaveState, setBundleSaveState] = useState<'idle' | 'saving' | 'ok' | 'error'>('idle')
+  const [bundleSaveError, setBundleSaveError] = useState('')
+
+  const handleSaveAsBundle = async () => {
+    if (!bundleId.trim() || !onSaveAsBundle) return
+    setBundleSaveState('saving')
+    setBundleSaveError('')
+    try {
+      await onSaveAsBundle(bundleId.trim())
+      setBundleSaveState('ok')
+      setTimeout(() => setBundleSaveState('idle'), 2000)
+    } catch (e) {
+      setBundleSaveState('error')
+      setBundleSaveError(e instanceof Error ? e.message : String(e))
+      setTimeout(() => setBundleSaveState('idle'), 4000)
+    }
+  }
 
   return (
     <div style={{ padding: 12 }}>
@@ -1852,6 +1925,31 @@ function MultiSelectPanel({
               style={{ padding: '3px 7px', background: '#1a3a1a', border: '1px solid #3a6a3a', color: '#8d8', borderRadius: 3, fontSize: 11, cursor: 'pointer' }}
             >✓</button>
           </div>
+        </Field>
+      )}
+      {onSaveAsBundle && (
+        <Field label="Save as Bundle">
+          <input
+            value={bundleId}
+            onChange={e => setBundleId(e.target.value)}
+            placeholder="bundle-id"
+            style={{ width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box', fontFamily: 'monospace', marginBottom: 4 }}
+          />
+          {bundleSaveState === 'error' && (
+            <div style={{ color: '#f66', fontSize: 10, marginBottom: 4 }}>{bundleSaveError}</div>
+          )}
+          <button
+            onClick={handleSaveAsBundle}
+            disabled={!bundleId.trim() || bundleSaveState === 'saving'}
+            style={{
+              width: '100%', padding: '5px 0', borderRadius: 3, fontSize: 11, cursor: bundleId.trim() ? 'pointer' : 'default',
+              background: bundleSaveState === 'ok' ? '#1e4e1e' : '#1e2e4e',
+              border: `1px solid ${bundleSaveState === 'ok' ? '#3a7a3a' : '#3a5a8e'}`,
+              color: bundleSaveState === 'ok' ? '#8d8' : '#8af',
+            }}
+          >
+            {bundleSaveState === 'saving' ? '…' : bundleSaveState === 'ok' ? '✓ Saved to bundles.json' : '⊞ Save as Bundle'}
+          </button>
         </Field>
       )}
       {onDelete && (
@@ -1970,7 +2068,7 @@ export function EntityInspector({
   onUpdateArea, onResizeMap, onUpdateMapProps, onPickLocation,
   onUpdateTreasure, onUpdateInteractable, onUpdateConfig,
   onAddTreasure, onAddInteractable, onAddBlockedPath,
-  onDeleteEntities, onBatchUpdateZlayer, onBatchUpdateStreetPathType,
+  onDeleteEntities, onBatchUpdateZlayer, onBatchUpdateStreetPathType, onSaveAsBundle, onUpdateDecorTileId, onReorderDecor,
   onConvertStreetToPond, onConvertPondToStreet,
   onUpdatePondEntry, onDeletePondTile, onDeleteNpcSpawnTile,
 }: Props) {
@@ -1996,6 +2094,29 @@ export function EntityInspector({
   }
 
   if (selectedEntities.length > 1) {
+    const allExteriorDecor = selectedEntities.every(e => e.type === 'exteriorDecor')
+    let saveAsBundleHandler: ((bundleId: string) => Promise<void>) | undefined
+    if (allExteriorDecor && onSaveAsBundle) {
+      const decorItems = selectedEntities
+        .map(e => (configData.exteriorDecor ?? [])[e.index])
+        .filter((d): d is RawDecorItem => !!d && !!d.tileId && !d.bundleID)
+      if (decorItems.length > 0) {
+        const txValues = decorItems.map(d => d.tx ?? 0)
+        const tyValues = decorItems.map(d => d.ty ?? 0)
+        const minTx = Math.min(...txValues)
+        const maxTy = Math.max(...tyValues)
+        const tiles: BundleTileRaw[] = decorItems.map(d => ({
+          tileID: d.tileId!,
+          x: (d.tx ?? 0) - minTx,
+          y: maxTy - (d.ty ?? 0),
+          ...(d.zlayer ? { zlayer: d.zlayer } : {}),
+          ...(d.glow !== undefined ? { glow: d.glow } : {}),
+          ...(d.glowRadius !== undefined ? { glowRadius: d.glowRadius } : {}),
+          ...(d.pulse !== undefined ? { pulse: d.pulse } : {}),
+        }))
+        saveAsBundleHandler = (bundleId: string) => onSaveAsBundle(bundleId, tiles)
+      }
+    }
     return (
       <div style={panelStyle}>
         <div style={headerStyle}>Inspector</div>
@@ -2005,6 +2126,7 @@ export function EntityInspector({
             onDelete={onDeleteEntities}
             onBatchZlayer={onBatchUpdateZlayer}
             onBatchPathType={onBatchUpdateStreetPathType}
+            onSaveAsBundle={saveAsBundleHandler}
           />
         </div>
       </div>
@@ -2048,6 +2170,8 @@ export function EntityInspector({
         onMoveEntity={onMoveEntity}
         onZlayerChange={onZlayerChange}
         onDelete={onDelete}
+        onReorderInteriorDecor={onReorderDecor}
+        onUpdateDecorTileId={onUpdateDecorTileId}
       />
     )
   }
@@ -2104,6 +2228,8 @@ export function EntityInspector({
             onZlayer={z => onZlayerChange(selectedEntity, z)}
             onGlow={onUpdateGlow ? patch => onUpdateGlow(selectedEntity, patch) : undefined}
             onDelete={() => onDelete(selectedEntity)}
+            onTileChange={onUpdateDecorTileId ? tileId => onUpdateDecorTileId(selectedEntity, tileId) : undefined}
+            onReorder={onReorderDecor ? dir => onReorderDecor(selectedEntity, dir) : undefined}
           />
         </div>
       </div>

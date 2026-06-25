@@ -6,7 +6,7 @@
       "type": "fetch",
       "giverNpcId": "royal-archivist",
       "receiverNpcId": "royal-archivist",
-      "offerDialogue": "The survey of the outer provinces is missing three scrolls \u2014 dropped by careless couriers somewhere in the city. Without them, the census is a work of fiction. Find them, please.",
+      "offerDialogue": "The survey of the outer provinces is missing three scrolls — dropped by careless couriers somewhere in the city. Without them, the census is a work of fiction. Find them, please.",
       "activeDialogue": "Three survey scrolls, somewhere in the streets. Check near the gates and the market.",
       "completeDialogue": "All three, and barely smudged! The census lives. You have done the kingdom's paperwork a great service.",
       "steps": [
@@ -61,7 +61,7 @@
       "giverNpcId": "chancellor",
       "receiverNpcId": "banker",
       "prerequisite": "quest:crownhaven-charter",
-      "offerDialogue": "The treasury ledgers have gone astray \u2014 three of them. Banker Sterling will have my head if the accounts don't balance by dusk. Find them and take them to the Grand Bank.",
+      "offerDialogue": "The treasury ledgers have gone astray — three of them. Banker Sterling will have my head if the accounts don't balance by dusk. Find them and take them to the Grand Bank.",
       "activeDialogue": "Three ledgers, lost between the senate and the bank. Sterling is waiting.",
       "completeDialogue": "Balanced to the last crystal. Sterling will sleep easy, and so will the crown's accountants.",
       "steps": [
@@ -87,7 +87,7 @@
         "collectible": {
           "id": "crown-ledger",
           "name": "Crown Ledger",
-          "icon": "\ud83d\udcd2",
+          "icon": "📒",
           "desc": "The reconciled treasury ledger of Crownhaven."
         }
       }
@@ -128,7 +128,7 @@
       "prerequisite": "quest:crownhaven-proclamation",
       "offerDialogue": "The Chancellor wants two commemorative plaques set on the new plaza monument. Gather them, then bring them to the senate for inscription.",
       "activeDialogue": {
-        "plaques": "Two commemorative plaques \u2014 one was left at the cathedral, one at the academy.",
+        "plaques": "Two commemorative plaques — one was left at the cathedral, one at the academy.",
         "hand": "Both plaques? Splendid. Carry them to the Chancellor at the senate."
       },
       "completeDialogue": "Inscribed and mounted. Crownhaven will remember this coronation for a hundred years.",
@@ -240,7 +240,7 @@
       "giverNpcId": "guard-bryn",
       "receiverNpcId": "watch-captain-hale",
       "prerequisite": "quest:crownhaven-patrol",
-      "offerDialogue": "A cutpurse has been working the coronation crowds. We found his dropped purse of stolen goods \u2014 recover it and bring the evidence to the Captain.",
+      "offerDialogue": "A cutpurse has been working the coronation crowds. We found his dropped purse of stolen goods — recover it and bring the evidence to the Captain.",
       "activeDialogue": {
         "purse": "The stolen purse was dropped near the market in the scuffle. Find it.",
         "deliver": "Evidence in hand? Take it straight to Captain Hale at the barracks."
@@ -278,9 +278,9 @@
       "type": "fetch",
       "giverNpcId": "blacksmith-dunn",
       "receiverNpcId": "watch-captain-hale",
-      "offerDialogue": "The watch armoury is bare. I've four blades nearly finished \u2014 gather the steel billets I left cooling about the forge yard and I'll deliver the Captain his edge.",
+      "offerDialogue": "The watch armoury is bare. I've four blades nearly finished — gather the steel billets I left cooling about the forge yard and I'll deliver the Captain his edge.",
       "activeDialogue": "Four steel billets, somewhere around the Guard Quarter. Mind the heat.",
-      "completeDialogue": "Sharp work. Take these to the Captain with my compliments \u2014 the watch owes you.",
+      "completeDialogue": "Sharp work. Take these to the Captain with my compliments — the watch owes you.",
       "steps": [
         {
           "key": "billets",
@@ -363,7 +363,7 @@
         "collectible": {
           "id": "dawn-reliquary",
           "name": "Dawn Reliquary",
-          "icon": "\ud83d\udd6f\ufe0f",
+          "icon": "🕯️",
           "desc": "A gilded reliquary blessed at the Crownhaven dawn rite."
         }
       }
@@ -375,12 +375,12 @@
       "giverNpcId": "high-priest",
       "receiverNpcId": "blacksmith-dunn",
       "prerequisite": "quest:crownhaven-dawn-blessing",
-      "offerDialogue": "The great bell has hung silent for years \u2014 its clapper was lost. Recover it and take it to Smith Dunn, who alone can re-hang it.",
+      "offerDialogue": "The great bell has hung silent for years — its clapper was lost. Recover it and take it to Smith Dunn, who alone can re-hang it.",
       "activeDialogue": {
         "clapper": "The bell clapper was last seen near the forge in the Guard Quarter.",
-        "deliver": "You have it? Take it to Dunn at the forge \u2014 he'll know what to do."
+        "deliver": "You have it? Take it to Dunn at the forge — he'll know what to do."
       },
-      "completeDialogue": "Listen \u2014 the bell tolls again over Crownhaven! Dunn says the tower is yours to climb now.",
+      "completeDialogue": "Listen — the bell tolls again over Crownhaven! Dunn says the tower is yours to climb now.",
       "steps": [
         {
           "key": "clapper",
@@ -441,7 +441,7 @@
       "receiverNpcId": "tailor-pell",
       "offerDialogue": "Three bolts of imported silk were left about the market when the cart overturned. Gather them so I can dress the court in time.",
       "activeDialogue": "Three silk bolts, lost around the Grand Market.",
-      "completeDialogue": "Exquisite. The court will shimmer. You've a good eye \u2014 here, a little something.",
+      "completeDialogue": "Exquisite. The court will shimmer. You've a good eye — here, a little something.",
       "steps": [
         {
           "key": "silk",
@@ -467,7 +467,7 @@
       "type": "fetch",
       "giverNpcId": "jeweller-isolde",
       "receiverNpcId": "jeweller-isolde",
-      "offerDialogue": "Three raw gems spilled from my pouch in the crowd. Dull little pebbles to most eyes \u2014 find them before someone kicks them down a drain.",
+      "offerDialogue": "Three raw gems spilled from my pouch in the crowd. Dull little pebbles to most eyes — find them before someone kicks them down a drain.",
       "activeDialogue": "Three raw gems, scattered across the plaza and market.",
       "completeDialogue": "There's the fire I was after! Cut and polished, these will crown a duchess. Take a card for your trouble.",
       "steps": [
@@ -498,7 +498,7 @@
       "receiverNpcId": "apothecary-mads",
       "offerDialogue": "I'm short three rare herbs for a coronation tonic the Chancellor swears by. They grow wild about the city's edges. Gather them?",
       "activeDialogue": "Three rare herbs, growing around Riverside and the Temple Quarter.",
-      "completeDialogue": "Perfect potency. The Chancellor will be insufferably energetic. Take my compendium \u2014 you've earned it.",
+      "completeDialogue": "Perfect potency. The Chancellor will be insufferably energetic. Take my compendium — you've earned it.",
       "steps": [
         {
           "key": "herbs",
@@ -516,7 +516,7 @@
         "collectible": {
           "id": "apothecary-compendium",
           "name": "Apothecary's Compendium",
-          "icon": "\ud83d\udcd7",
+          "icon": "📗",
           "desc": "Apothecary Mads' annotated book of Crownhaven remedies."
         }
       }
@@ -527,9 +527,9 @@
       "type": "fetch",
       "giverNpcId": "baker-otto",
       "receiverNpcId": "market-matron",
-      "offerDialogue": "Three sacks of milling grain went missing off my cart. Find them and run them to Matron Goldie at the market \u2014 she's holding my oven's worth of orders hostage.",
+      "offerDialogue": "Three sacks of milling grain went missing off my cart. Find them and run them to Matron Goldie at the market — she's holding my oven's worth of orders hostage.",
       "activeDialogue": "Three grain sacks, lost between the market and the mill road.",
-      "completeDialogue": "Grain at last! Tell Otto his loaf is saved. And here \u2014 a little something for the legwork.",
+      "completeDialogue": "Grain at last! Tell Otto his loaf is saved. And here — a little something for the legwork.",
       "steps": [
         {
           "key": "grain",
@@ -562,7 +562,7 @@
       "type": "lost-items",
       "giverNpcId": "market-matron",
       "receiverNpcId": "market-matron",
-      "offerDialogue": "Three purses of takings got knocked off my stall in the coronation rush. Forty years and I've never lost a copper \u2014 until today. Help an old woman out?",
+      "offerDialogue": "Three purses of takings got knocked off my stall in the coronation rush. Forty years and I've never lost a copper — until today. Help an old woman out?",
       "activeDialogue": "Three coin purses, dropped around the Grand Market.",
       "completeDialogue": "Every copper back where it belongs. You're a rare honest soul. Don't tell the pigeons.",
       "steps": [
@@ -629,7 +629,7 @@
         "collectible": {
           "id": "crownhaven-anthology",
           "name": "Crownhaven Anthology",
-          "icon": "\ud83d\udcda",
+          "icon": "📚",
           "desc": "A complete three-volume history of the capital."
         },
         "friendship": {
@@ -672,9 +672,9 @@
       "giverNpcId": "academy-master",
       "receiverNpcId": "apothecary-mads",
       "prerequisite": "quest:crownhaven-lecture",
-      "offerDialogue": "The academy needs two volatile reagents from the apothecary's stock, but they must be carried carefully. Gather them and deliver them to Mads \u2014 gently.",
+      "offerDialogue": "The academy needs two volatile reagents from the apothecary's stock, but they must be carried carefully. Gather them and deliver them to Mads — gently.",
       "activeDialogue": "Two reagents, set out around the academy and market. Don't shake them.",
-      "completeDialogue": "Intact! Marvellous. Tell Fenwick his experiment lives \u2014 and take a card for steady hands.",
+      "completeDialogue": "Intact! Marvellous. Tell Fenwick his experiment lives — and take a card for steady hands.",
       "steps": [
         {
           "key": "reagents",
@@ -706,9 +706,9 @@
       "type": "fetch",
       "giverNpcId": "mint-master",
       "receiverNpcId": "mint-master",
-      "offerDialogue": "Two coining dies went missing from the mint floor \u2014 in the wrong hands they could forge the realm's coin. Recover both before word gets out.",
+      "offerDialogue": "Two coining dies went missing from the mint floor — in the wrong hands they could forge the realm's coin. Recover both before word gets out.",
       "activeDialogue": "Two mint dies, lost about the Guard Quarter.",
-      "completeDialogue": "Both dies, safe. You've spared the treasury a forger's nightmare. Quietly done \u2014 I like that.",
+      "completeDialogue": "Both dies, safe. You've spared the treasury a forger's nightmare. Quietly done — I like that.",
       "steps": [
         {
           "key": "dies",
@@ -734,7 +734,7 @@
       "giverNpcId": "banker",
       "receiverNpcId": "watch-captain-hale",
       "prerequisite": "quest:crownhaven-mint-dies",
-      "offerDialogue": "A pouch of newly minted coin was lifted from the vault antechamber. Recover it and take it to Captain Hale \u2014 the watch must know we were breached.",
+      "offerDialogue": "A pouch of newly minted coin was lifted from the vault antechamber. Recover it and take it to Captain Hale — the watch must know we were breached.",
       "activeDialogue": {
         "pouch": "The stolen coin pouch was dropped in the getaway, near the bank.",
         "deliver": "Recovered? Take it to Captain Hale at the barracks at once."
@@ -769,7 +769,7 @@
       "receiverNpcId": "banker",
       "offerDialogue": "Two promissory notes of mine must reach the Grand Bank discreetly before they fall due. Carry them to Banker Sterling for me, would you?",
       "activeDialogue": "Two promissory notes, to be gathered and taken to the bank.",
-      "completeDialogue": "Settled, and not a whisper of scandal. You have a noblewoman's gratitude \u2014 and perhaps a little more.",
+      "completeDialogue": "Settled, and not a whisper of scandal. You have a noblewoman's gratitude — and perhaps a little more.",
       "steps": [
         {
           "key": "notes",
@@ -803,7 +803,7 @@
       "type": "lost-items",
       "giverNpcId": "noble-lady-cora",
       "receiverNpcId": "noble-lady-cora",
-      "offerDialogue": "My mother's locket broke and scattered in three pieces across the gardens and squares. It is all I have of her. Please \u2014 find them.",
+      "offerDialogue": "My mother's locket broke and scattered in three pieces across the gardens and squares. It is all I have of her. Please — find them.",
       "activeDialogue": "Three locket pieces, lost across the districts.",
       "completeDialogue": "Whole again, and so is my heart. You cannot know what this means. Bless you, traveller.",
       "steps": [
@@ -833,7 +833,7 @@
       "receiverNpcId": "busker-lyle",
       "offerDialogue": "Snapped three lute strings and they pinged off who-knows-where across the plaza. No strings, no coronation song. Help a poor musician?",
       "activeDialogue": "Three lute strings, sprung loose around the plaza and market.",
-      "completeDialogue": "Re-strung and ready! Crownhaven shall have its anthem after all. Here \u2014 a card from a grateful bard.",
+      "completeDialogue": "Re-strung and ready! Crownhaven shall have its anthem after all. Here — a card from a grateful bard.",
       "steps": [
         {
           "key": "strings",
@@ -892,9 +892,9 @@
       "offerDialogue": "The coronation feast needs four crates of provisions gathered from the market and run to Baker Otto, who's coordinating the kitchens. Big night, big appetite.",
       "activeDialogue": {
         "provisions": "Four crates of provisions, scattered about the Grand Market.",
-        "hand": "All four? Take them to Otto at the bakery \u2014 the feast depends on it."
+        "hand": "All four? Take them to Otto at the bakery — the feast depends on it."
       },
-      "completeDialogue": "The feast is saved and the capital will dine like royalty. Otto sends his thanks \u2014 and so do I.",
+      "completeDialogue": "The feast is saved and the capital will dine like royalty. Otto sends his thanks — and so do I.",
       "steps": [
         {
           "key": "provisions",
@@ -919,7 +919,7 @@
         "collectible": {
           "id": "feast-menu",
           "name": "Coronation Feast Menu",
-          "icon": "\ud83c\udf72",
+          "icon": "🍲",
           "desc": "The grand menu of the Crownhaven coronation feast."
         }
       }
@@ -950,7 +950,7 @@
         "collectible": {
           "id": "royal-charter-copy",
           "name": "Royal Charter Copy",
-          "icon": "\ud83d\udcdc",
+          "icon": "📜",
           "desc": "A sealed copy of Crownhaven's charter, witnessed in Ravenwatch."
         }
       }

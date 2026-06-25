@@ -4,8 +4,8 @@
   "townName": "Millhaven",
   "environment": "forest",
   "avatarStart": {
-    "tx": 18,
-    "ty": 24
+    "tx": 17,
+    "ty": 34
   },
   "exitTiles": [
     {
@@ -67,7 +67,7 @@
         16,
         35,
         19,
-        35
+        36
       ]
     },
     {
@@ -79,121 +79,12 @@
       ]
     },
     {
-      "comment": "east sea, split to leave room for the boathouse footprint (cols 33-36, rows 12-17)",
-      "rect": [
-        36,
-        0,
-        47,
-        11
-      ],
-      "pathType": "water1"
-    },
-    {
-      "rect": [
-        37,
-        12,
-        47,
-        17
-      ],
-      "pathType": "water1"
-    },
-    {
-      "rect": [
-        36,
-        18,
-        47,
-        28
-      ],
-      "pathType": "water1"
-    },
-    {
-      "rect": [
-        35,
-        2,
-        35,
-        11
-      ],
-      "pathType": "water1"
-    },
-    {
-      "rect": [
-        35,
-        19,
-        35,
-        25
-      ],
-      "pathType": "water1"
-    },
-    {
-      "rect": [
-        34,
-        20,
-        34,
-        22
-      ],
-      "pathType": "water1"
-    },
-    {
-      "rect": [
-        34,
-        3,
-        34,
-        11
-      ],
-      "pathType": "water1"
-    },
-    {
       "rect": [
         31,
         4,
         32,
         21
       ]
-    },
-    {
-      "rect": [
-        0,
-        0,
-        9,
-        0
-      ],
-      "pathType": "water1"
-    },
-    {
-      "rect": [
-        7,
-        1,
-        20,
-        1
-      ],
-      "pathType": "water1"
-    },
-    {
-      "rect": [
-        20,
-        0,
-        24,
-        0
-      ],
-      "pathType": "water1"
-    },
-    {
-      "rect": [
-        24,
-        1,
-        29,
-        1
-      ],
-      "pathType": "water1"
-    },
-    {
-      "rect": [
-        29,
-        2,
-        34,
-        2
-      ],
-      "pathType": "water1"
     },
     {
       "rect": [
@@ -807,30 +698,6 @@
       "zlayer": "above"
     },
     {
-      "tx": 7,
-      "ty": 13,
-      "tileId": "messageBoardBottomLeft",
-      "zlayer": "above"
-    },
-    {
-      "tx": 8,
-      "ty": 13,
-      "tileId": "messageBoardBottomRight",
-      "zlayer": "above"
-    },
-    {
-      "tx": 7,
-      "ty": 12,
-      "tileId": "messageBoardTopLeft",
-      "zlayer": "above"
-    },
-    {
-      "tx": 8,
-      "ty": 12,
-      "tileId": "messageBoardTopRight",
-      "zlayer": "above"
-    },
-    {
       "tx": 16,
       "ty": 21,
       "tileId": "roadSignBottom",
@@ -1179,6 +1046,12 @@
       "tx": 3,
       "ty": 32,
       "tileId": "potOfFlowers",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 35,
+      "ty": 12,
+      "tileId": "hayStack",
       "zlayer": "solid"
     }
   ],
@@ -1713,6 +1586,78 @@
           "tx": 9,
           "ty": 6,
           "tileId": "barrel"
+        },
+        {
+          "tx": 9,
+          "ty": 3,
+          "tileId": "pileOfSacks",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 3,
+          "tileId": "pileOfSacks",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "pileOfSacks",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 4,
+          "tileId": "pileOfSacks",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 3,
+          "tileId": "pileOfSacks",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 4,
+          "tileId": "pileOfSacks",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "pileOfSacks",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "pileOfSacks",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "sack",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 2,
+          "tileId": "openCrate",
+          "zlayer": "solid"
         }
       ],
       "exits": []
@@ -1765,9 +1710,63 @@
           "tileId": "counterTopHorizontalRight"
         },
         {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "goldFish",
+          "zlayer": "solid"
+        },
+        {
           "tx": 9,
           "ty": 6,
           "tileId": "emptyBasket"
+        },
+        {
+          "tx": 6,
+          "ty": 4,
+          "tileId": "counterTopHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 4,
+          "tileId": "counterTopHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "counterTopHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 4,
+          "tileId": "counterTopHorizontalRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "counterTopHorizontalLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 4,
+          "tileId": "quilAndInk",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 4,
+          "tileId": "note",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 4,
+          "tileId": "pileOfCoins",
+          "zlayer": "solid"
         }
       ],
       "exits": []
@@ -1781,11 +1780,6 @@
       "musicId": "inn",
       "ambianceId": "hearth",
       "decor": [
-        {
-          "tx": 1,
-          "ty": 1,
-          "tileId": "stairsUp"
-        },
         {
           "tx": 3,
           "ty": 1,
@@ -1803,12 +1797,12 @@
         },
         {
           "tx": 4,
-          "ty": 2,
+          "ty": 1,
           "tileId": "bottlesOfLiquor"
         },
         {
           "tx": 7,
-          "ty": 2,
+          "ty": 1,
           "tileId": "fireplace",
           "bundleID": "fireplace"
         },
@@ -1818,24 +1812,80 @@
           "tileId": "roundTable"
         },
         {
-          "tx": 3,
+          "tx": 4,
           "ty": 5,
-          "tileId": "stool"
+          "tileId": "stool",
+          "zlayer": "below"
         },
         {
-          "tx": 6,
+          "tx": 5,
           "ty": 5,
           "tileId": "roundTable"
         },
         {
-          "tx": 7,
+          "tx": 6,
           "ty": 5,
-          "tileId": "stool"
+          "tileId": "stool",
+          "zlayer": "below"
         },
         {
           "tx": 10,
           "ty": 6,
           "tileId": "barrel"
+        },
+        {
+          "tx": 10,
+          "ty": 3,
+          "tileId": "roundTable",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": 2,
+          "tileId": "stool",
+          "zlayer": "below"
+        },
+        {
+          "tx": 9,
+          "ty": 3,
+          "tileId": "stool",
+          "zlayer": "below"
+        },
+        {
+          "tx": 10,
+          "ty": 4,
+          "tileId": "stool",
+          "zlayer": "below"
+        },
+        {
+          "tx": 7,
+          "ty": 3,
+          "tileId": "roundTable",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 3,
+          "tileId": "stool",
+          "zlayer": "below"
+        },
+        {
+          "tx": 7,
+          "ty": 4,
+          "tileId": "stool",
+          "zlayer": "below"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "mugOfCoffee",
+          "zlayer": "above"
+        },
+        {
+          "tx": 10,
+          "ty": 3,
+          "tileId": "mugOfCoffee",
+          "zlayer": "above"
         }
       ],
       "exits": [
@@ -2044,14 +2094,26 @@
           "tileId": "stool"
         },
         {
-          "tx": 11,
+          "tx": 7,
           "ty": 1,
-          "tileId": "stairsUp"
+          "tileId": "ladderBottom"
+        },
+        {
+          "tx": 7,
+          "ty": 0,
+          "tileId": "ladderBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": -1,
+          "tileId": "fullLadderTop",
+          "zlayer": "solid"
         }
       ],
       "exits": [
         {
-          "tx": 11,
+          "tx": 7,
           "ty": 1,
           "toInteriorId": "town-hall-millhaven-office",
           "entryTx": 1,
@@ -2065,7 +2127,7 @@
       "name": "Town Hall Office",
       "width": 10,
       "height": 8,
-      "floorTileId": "cobblestoneFloor",
+      "floorTileId": "woodFloor",
       "wallTileId": "renderedBrick",
       "decor": [
         {
@@ -2201,7 +2263,7 @@
       "width": 11,
       "height": 8,
       "floorTileId": "stoneFloor",
-      "wallTileId": "woodenSlats",
+      "wallTileId": "darkStone",
       "decor": [
         {
           "tx": 1,
@@ -2230,13 +2292,13 @@
           "tileId": "logPile"
         },
         {
-          "tx": 9,
+          "tx": 8,
           "ty": 1,
           "tileId": "crate"
         },
         {
-          "tx": 2,
-          "ty": 4,
+          "tx": 4,
+          "ty": -1,
           "tileId": "shieldMounted"
         },
         {
@@ -2245,9 +2307,15 @@
           "tileId": "barrel"
         },
         {
-          "tx": 8,
-          "ty": 5,
+          "tx": 9,
+          "ty": 2.5,
           "bundleID": "simple-bed"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "fullBucket",
+          "zlayer": "solid"
         }
       ],
       "exits": []
@@ -2453,34 +2521,61 @@
   "interactables": [
     {
       "id": "interactable-1782144142080",
-      "tx": 9,
+      "tx": 7,
       "ty": 13,
       "reactions": [
         {
           "type": "screen",
-          "screen": ""
+          "screen": "news"
         }
       ],
       "decor": [
         {
           "dx": 0,
           "dy": 0,
-          "tileId": "signpost"
+          "tileId": "messageBoardBottomLeft"
         },
         {
           "dx": 1,
           "dy": 0,
-          "tileId": "signpost"
+          "tileId": "messageBoardBottomRight"
         },
         {
           "dx": 0,
           "dy": -1,
-          "tileId": "signpost"
+          "tileId": "messageBoardTopLeft"
         },
         {
           "dx": 1,
           "dy": -1,
-          "tileId": "signpost"
+          "tileId": "messageBoardTopRight"
+        }
+      ],
+      "indicator": {
+        "condition": "unread-news"
+      }
+    },
+    {
+      "id": "interactable-1782405874294",
+      "tx": 15,
+      "ty": 18,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": [
+            "Help!",
+            "I'm stuck down here!",
+            "Get help!",
+            "A rope! A ladder! Anything!",
+            "It's been days!"
+          ]
+        }
+      ],
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "stoneWell"
         }
       ]
     }
@@ -2492,6 +2587,118 @@
         25,
         47,
         36
+      ]
+    },
+    {
+      "rect": [
+        36,
+        18,
+        47,
+        28
+      ]
+    },
+    {
+      "comment": "east sea, split to leave room for the boathouse footprint (cols 33-36, rows 12-17)",
+      "rect": [
+        36,
+        0,
+        47,
+        11
+      ]
+    },
+    {
+      "rect": [
+        37,
+        12,
+        47,
+        17
+      ]
+    },
+    {
+      "rect": [
+        34,
+        3,
+        34,
+        11
+      ]
+    },
+    {
+      "rect": [
+        35,
+        2,
+        35,
+        11
+      ]
+    },
+    {
+      "rect": [
+        34,
+        20,
+        34,
+        22
+      ]
+    },
+    {
+      "rect": [
+        35,
+        19,
+        35,
+        25
+      ]
+    },
+    {
+      "rect": [
+        29,
+        2,
+        34,
+        2
+      ]
+    },
+    {
+      "rect": [
+        24,
+        1,
+        29,
+        1
+      ]
+    },
+    {
+      "rect": [
+        20,
+        0,
+        24,
+        0
+      ]
+    },
+    {
+      "rect": [
+        7,
+        1,
+        20,
+        1
+      ]
+    },
+    {
+      "rect": [
+        0,
+        0,
+        9,
+        0
+      ]
+    }
+  ],
+  "chickenZones": [
+    {
+      "rect": [
+        33,
+        12,
+        36,
+        15
+      ],
+      "count": 3,
+      "roost": [
+        2,
+        0
       ]
     }
   ]

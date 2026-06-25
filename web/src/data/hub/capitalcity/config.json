@@ -1,6 +1,6 @@
 {
-  "mapW": 1920,
-  "mapH": 1600,
+  "mapW": 3840,
+  "mapH": 3200,
   "townName": "Crownhaven",
   "environment": "citadel",
   "avatarStart": {

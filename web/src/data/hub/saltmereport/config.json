@@ -3,311 +3,1179 @@
   "mapH": 1280,
   "townName": "Saltmere Port",
   "environment": "coast",
-  "avatarStart": { "tx": 2, "ty": 14 },
+  "avatarStart": {
+    "tx": 2,
+    "ty": 14
+  },
   "exitTiles": [
-    { "tx": 1, "ty": 14, "screen": "worldmap" },
-    { "tx": 1, "ty": 15, "screen": "worldmap" }
+    {
+      "tx": 1,
+      "ty": 14,
+      "screen": "worldmap"
+    },
+    {
+      "tx": 1,
+      "ty": 15,
+      "screen": "worldmap"
+    }
   ],
   "areas": [
-    { "id": "saltmere-docks", "name": "The Docks", "tx": 28, "ty": 2, "tw": 8, "th": 26 },
-    { "id": "saltmere-quay", "name": "Quayside Market", "tx": 4, "ty": 11, "tw": 22, "th": 7 },
-    { "id": "warehouse-row", "name": "Warehouse Row", "tx": 0, "ty": 28, "tw": 42, "th": 12 },
-    { "id": "lighthouse-point", "name": "Lighthouse Point", "tx": 36, "ty": 0, "tw": 16, "th": 40 }
+    {
+      "id": "saltmere-docks",
+      "name": "The Docks",
+      "tx": 28,
+      "ty": 2,
+      "tw": 8,
+      "th": 26
+    },
+    {
+      "id": "saltmere-quay",
+      "name": "Quayside Market",
+      "tx": 4,
+      "ty": 11,
+      "tw": 22,
+      "th": 7
+    },
+    {
+      "id": "warehouse-row",
+      "name": "Warehouse Row",
+      "tx": 0,
+      "ty": 28,
+      "tw": 42,
+      "th": 12
+    },
+    {
+      "id": "lighthouse-point",
+      "name": "Lighthouse Point",
+      "tx": 36,
+      "ty": 0,
+      "tw": 16,
+      "th": 40
+    }
   ],
   "streets": [
-    { "rect": [33, 0, 35, 27], "pathType": "water1" },
-    { "rect": [32, 6, 32, 22], "pathType": "water1" },
-    { "rect": [30, 2, 31, 25] },
-    { "rect": [2, 13, 30, 15] },
-    { "rect": [13, 16, 15, 35] },
-    { "rect": [24, 5, 25, 12] },
-    { "rect": [7, 5, 8, 12] },
-    { "rect": [2, 35, 39, 37] },
-    { "rect": [14, 10, 14, 12] },
-    { "rect": [31, 26, 44, 26] },
-    { "rect": [36, 0, 51, 39], "pathType": "water1" }
+    {
+      "rect": [
+        30,
+        2,
+        31,
+        25
+      ]
+    },
+    {
+      "rect": [
+        2,
+        13,
+        30,
+        15
+      ]
+    },
+    {
+      "rect": [
+        13,
+        16,
+        15,
+        35
+      ]
+    },
+    {
+      "rect": [
+        24,
+        5,
+        25,
+        12
+      ]
+    },
+    {
+      "rect": [
+        7,
+        5,
+        8,
+        12
+      ]
+    },
+    {
+      "rect": [
+        2,
+        35,
+        39,
+        37
+      ]
+    },
+    {
+      "rect": [
+        14,
+        10,
+        14,
+        12
+      ]
+    },
+    {
+      "rect": [
+        31,
+        26,
+        44,
+        26
+      ]
+    }
   ],
   "buildings": [
     {
       "id": "harbourmaster",
       "upgradeKind": "default",
-      "rect": [21, 4, 28, 10],
+      "rect": [
+        21,
+        4,
+        28,
+        10
+      ],
       "wall": "woodenSlats",
       "roof": "strawRoof",
       "doors": [
-        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "harbourmaster" }
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "harbourmaster"
+        }
       ]
     },
     {
       "id": "fish-market",
       "upgradeKind": "shop",
-      "rect": [3, 4, 11, 10],
+      "rect": [
+        3,
+        4,
+        11,
+        10
+      ],
       "wall": "woodenSlats",
       "roof": "yellowSlateRoof",
       "doors": [
-        { "tx": 4, "ty": 1, "hideSign": true, "buildingId": "fish-market" }
+        {
+          "tx": 4,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "fish-market"
+        }
       ]
     },
     {
       "id": "sailors-inn",
       "upgradeKind": "inn",
-      "rect": [9, 17, 18, 24],
+      "rect": [
+        9,
+        17,
+        18,
+        24
+      ],
       "wall": "tudorFrame",
       "roof": "redSlateRoof",
       "doors": [
-        { "tx": 5, "ty": 1, "hideSign": true, "buildingId": "sailors-inn" }
+        {
+          "tx": 5,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "sailors-inn"
+        }
       ]
     },
     {
       "id": "customs-house",
       "upgradeKind": "default",
-      "rect": [13, 4, 18, 9],
+      "rect": [
+        13,
+        4,
+        18,
+        9
+      ],
       "wall": "renderedBrick",
       "roof": "stoneFloorRoof",
       "doors": [
-        { "tx": 1, "ty": 1, "hideSign": true, "buildingId": "customs-house" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "customs-house"
+        }
       ]
     },
     {
       "id": "warehouse",
       "upgradeKind": "default",
-      "rect": [2, 28, 9, 34],
+      "rect": [
+        2,
+        28,
+        9,
+        34
+      ],
       "wall": "woodenSlats",
       "roof": "woodRoof",
       "doors": [
-        { "tx": 4, "ty": 1, "hideSign": true, "buildingId": "warehouse" }
+        {
+          "tx": 4,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "warehouse"
+        }
       ]
     },
     {
       "id": "shipwright",
       "upgradeKind": "workshop",
-      "rect": [11, 28, 18, 34],
+      "rect": [
+        11,
+        28,
+        18,
+        34
+      ],
       "wall": "woodenSlats",
       "roof": "woodRoof",
       "doors": [
-        { "tx": 4, "ty": 1, "hideSign": true, "buildingId": "shipwright" }
+        {
+          "tx": 4,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "shipwright"
+        }
       ]
     },
     {
       "id": "chandlers",
       "upgradeKind": "shop",
-      "rect": [20, 28, 25, 34],
+      "rect": [
+        20,
+        28,
+        25,
+        34
+      ],
       "wall": "brick",
       "roof": "blueSlateRoof",
       "doors": [
-        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "chandlers" }
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "chandlers"
+        }
       ]
     },
     {
       "id": "net-maker",
       "upgradeKind": "workshop",
-      "rect": [27, 28, 32, 34],
+      "rect": [
+        27,
+        28,
+        32,
+        34
+      ],
       "wall": "woodenSlats",
       "roof": "strawRoof",
       "doors": [
-        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "net-maker" }
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "net-maker"
+        }
       ]
     },
     {
       "id": "smokehouse",
       "upgradeKind": "default",
-      "rect": [34, 28, 39, 34],
+      "rect": [
+        34,
+        28,
+        39,
+        34
+      ],
       "wall": "darkStone",
       "roof": "metalRoof",
       "doors": [
-        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "smokehouse" }
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "smokehouse"
+        }
       ]
     },
     {
       "id": "lighthouse",
       "upgradeKind": "default",
-      "rect": [42, 18, 47, 25],
+      "rect": [
+        42,
+        18,
+        47,
+        25
+      ],
       "wall": "castleStone",
       "roof": "greySlateRoof",
       "doors": [
-        { "tx": 2, "ty": 1, "hideSign": true, "buildingId": "lighthouse" }
+        {
+          "tx": 2,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "lighthouse"
+        }
       ]
     }
   ],
   "exteriorDecor": [
-    { "comment": "dock clutter along the waterfront" },
-    { "tx": 30, "ty": 4, "tileId": "barrel" },
-    { "tx": 31, "ty": 4, "tileId": "barrel" },
-    { "tx": 30, "ty": 10, "tileId": "crate" },
-    { "tx": 31, "ty": 17, "tileId": "pileOfSacks" },
-    { "tx": 30, "ty": 22, "tileId": "crate" },
-    { "tx": 31, "ty": 23, "tileId": "openCrate" },
-    { "tx": 29, "ty": 7, "tileId": "sack" },
-    { "comment": "lilypads and rocks in the shallows" },
-    { "tx": 33, "ty": 5, "tileId": "smallLilypad" },
-    { "tx": 34, "ty": 13, "tileId": "largeLilypad" },
-    { "tx": 33, "ty": 21, "tileId": "smallLilypad" },
-    { "tx": 32, "ty": 3, "tileId": "smallRock" },
-    { "comment": "quayside market" },
-    { "tx": 19, "ty": 12, "tileId": "stoneWell" },
-    { "tx": 4, "ty": 12, "tileId": "mushroomBasket" },
-    { "tx": 26, "ty": 12, "tileId": "barrel" },
-    { "comment": "greenery on the landward side" },
-    { "tx": 3, "ty": 20, "bundleID": "mixed-tree-cluster-V", "zlayer": "solid" },
-    { "tx": 21, "ty": 19, "bundleID": "mixed-tree-cluster-V", "zlayer": "solid" },
-    { "tx": 2, "ty": 2, "bundleID": "light-tree", "zlayer": "solid" },
-    { "tx": 16, "ty": 2, "bundleID": "light-tree", "zlayer": "solid" },
-    { "comment": "Warehouse Row: warehouse frontage" },
-    { "tx": 3, "ty": 36, "tileId": "crate" },
-    { "tx": 8, "ty": 36, "tileId": "barrel" },
-    { "tx": 4, "ty": 37, "tileId": "pileOfSacks" },
-    { "tx": 7, "ty": 37, "tileId": "crate" },
-    { "comment": "Warehouse Row: shipwright dry-dock frontage" },
-    { "tx": 12, "ty": 36, "tileId": "logPile" },
-    { "tx": 17, "ty": 36, "tileId": "barrel" },
-    { "tx": 13, "ty": 37, "tileId": "logPile" },
-    { "tx": 16, "ty": 37, "tileId": "crate" },
-    { "tx": 14, "ty": 37, "tileId": "openCrate" },
-    { "comment": "Warehouse Row: chandlers frontage" },
-    { "tx": 21, "ty": 36, "tileId": "crate" },
-    { "tx": 24, "ty": 36, "tileId": "barrel" },
-    { "tx": 22, "ty": 37, "tileId": "pileOfSacks" },
-    { "tx": 23, "ty": 37, "tileId": "smallSack" },
-    { "comment": "Warehouse Row: net-maker frontage" },
-    { "tx": 28, "ty": 36, "tileId": "sack" },
-    { "tx": 31, "ty": 36, "tileId": "barrel" },
-    { "tx": 29, "ty": 37, "tileId": "openCrate" },
-    { "tx": 32, "ty": 37, "tileId": "smallSack" },
-    { "comment": "Warehouse Row: smokehouse frontage" },
-    { "tx": 35, "ty": 36, "tileId": "barrel" },
-    { "tx": 38, "ty": 36, "tileId": "crate" },
-    { "tx": 36, "ty": 37, "tileId": "sack" },
-    { "tx": 37, "ty": 37, "tileId": "pileOfSacks" },
-    { "comment": "Warehouse Row: gap markers between buildings" },
-    { "tx": 10, "ty": 36, "tileId": "smallRock" },
-    { "tx": 19, "ty": 36, "tileId": "smallRock" },
-    { "tx": 26, "ty": 37, "tileId": "smallRock" },
-    { "tx": 33, "ty": 36, "tileId": "smallRock" },
-    { "comment": "Jetty: boardwalk decking to the lighthouse" },
-    { "tx": 31, "ty": 26, "tileId": "boardwalkHorizontal", "zlayer": "below" },
-    { "tx": 32, "ty": 26, "tileId": "boardwalkHorizontal", "zlayer": "below" },
-    { "tx": 33, "ty": 26, "tileId": "boardwalkHorizontal", "zlayer": "below" },
-    { "tx": 34, "ty": 26, "tileId": "boardwalkHorizontal", "zlayer": "below" },
-    { "tx": 35, "ty": 26, "tileId": "boardwalkHorizontal", "zlayer": "below" },
-    { "tx": 36, "ty": 26, "tileId": "boardwalkHorizontal", "zlayer": "below" },
-    { "tx": 37, "ty": 26, "tileId": "boardwalkHorizontal", "zlayer": "below" },
-    { "tx": 38, "ty": 26, "tileId": "boardwalkHorizontal", "zlayer": "below" },
-    { "tx": 39, "ty": 26, "tileId": "boardwalkHorizontal", "zlayer": "below" },
-    { "tx": 40, "ty": 26, "tileId": "boardwalkHorizontal", "zlayer": "below" },
-    { "tx": 41, "ty": 26, "tileId": "boardwalkHorizontal", "zlayer": "below" },
-    { "tx": 42, "ty": 26, "tileId": "boardwalkHorizontal", "zlayer": "below" },
-    { "tx": 43, "ty": 26, "tileId": "boardwalkHorizontal", "zlayer": "below" },
-    { "tx": 33, "ty": 27, "tileId": "boardwalkHorizontalSupport", "zlayer": "below" },
-    { "tx": 36, "ty": 27, "tileId": "boardwalkHorizontalSupport", "zlayer": "below" },
-    { "tx": 39, "ty": 27, "tileId": "boardwalkHorizontalSupport", "zlayer": "below" },
-    { "tx": 42, "ty": 27, "tileId": "boardwalkHorizontalSupport", "zlayer": "below" },
-    { "comment": "Lighthouse Point: rocky shoreline and reef" },
-    { "tx": 40, "ty": 16, "tileId": "largeRock" },
-    { "tx": 49, "ty": 16, "tileId": "smallRock" },
-    { "tx": 39, "ty": 20, "tileId": "smallLilypad" },
-    { "tx": 50, "ty": 19, "tileId": "largeLilypad" },
-    { "tx": 40, "ty": 27, "tileId": "largeRock" },
-    { "tx": 48, "ty": 27, "tileId": "smallRock" },
-    { "tx": 38, "ty": 23, "tileId": "smallLilypad" },
-    { "tx": 50, "ty": 24, "tileId": "smallLilypad" },
-    { "tx": 44, "ty": 15, "tileId": "smallRock" },
-    { "tx": 37, "ty": 17, "tileId": "largeLilypad" },
-    { "tx": 49, "ty": 21, "tileId": "largeRock" },
-    { "tx": 43, "ty": 29, "tileId": "smallRock" },
-    { "tx": 41, "ty": 17, "tileId": "smallRock" },
-    { "tx": 48, "ty": 18, "tileId": "smallRock" },
-    { "comment": "Greenery: tree line along Warehouse Row's southern edge" },
-    { "tx": 1, "ty": 38, "bundleID": "light-tree" },
-    { "tx": 9, "ty": 38, "bundleID": "dark-tree" },
-    { "tx": 18, "ty": 38, "bundleID": "light-tree" },
-    { "tx": 27, "ty": 38, "bundleID": "dark-tree" },
-    { "tx": 33, "ty": 38, "bundleID": "light-tree" },
-    { "comment": "Greenery: west edge thickening" },
-    { "tx": 1, "ty": 25, "bundleID": "dark-tree" },
-    { "tx": 0, "ty": 31, "bundleID": "light-tree" },
-    { "tx": 41, "ty": 4, "bundleID": "dark-tree" },
-    { "tx": 41, "ty": 10, "bundleID": "light-tree" },
-    { "comment": "Flowers: quayside" },
-    { "tx": 6, "ty": 13, "tileId": "whiteFlower" },
-    { "tx": 10, "ty": 13, "tileId": "yellowFlower" },
-    { "tx": 15, "ty": 12, "tileId": "pinkFlower" },
-    { "tx": 22, "ty": 13, "tileId": "whiteFlower" },
-    { "tx": 27, "ty": 13, "tileId": "potOfFlowers" },
-    { "comment": "Flowers: Warehouse Row verges" },
-    { "tx": 5, "ty": 38, "tileId": "pinkFlower" },
-    { "tx": 11, "ty": 38, "tileId": "whiteFlower" },
-    { "tx": 20, "ty": 38, "tileId": "yellowFlower" },
-    { "tx": 25, "ty": 38, "tileId": "whiteFlower" },
-    { "tx": 31, "ty": 38, "tileId": "pinkFlower" },
-    { "tx": 37, "ty": 38, "tileId": "yellowFlower" },
-    { "comment": "Flowers: Lighthouse Point headland" },
-    { "tx": 43, "ty": 17, "tileId": "whiteFlower" },
-    { "tx": 45, "ty": 17, "tileId": "yellowFlower" },
-    { "tx": 43, "ty": 27, "tileId": "pinkFlower" },
-    { "tx": 46, "ty": 27, "tileId": "whiteFlower" },
-    { "comment": "Lamp posts along the main streets" },
-    { "tx": 8, "ty": 13, "tileId": "lampPostTop", "zlayer": "above" },
-    { "tx": 8, "ty": 14, "tileId": "lampPostBottom" },
-    { "tx": 20, "ty": 13, "tileId": "lampPostTop", "zlayer": "above" },
-    { "tx": 20, "ty": 14, "tileId": "lampPostBottom" },
-    { "tx": 29, "ty": 2, "tileId": "lampPostTop", "zlayer": "above" },
-    { "tx": 29, "ty": 3, "tileId": "lampPostBottom" },
-    { "tx": 8, "ty": 25, "tileId": "lampPostTop", "zlayer": "above" },
-    { "tx": 8, "ty": 26, "tileId": "lampPostBottom" },
-    { "tx": 6, "ty": 26, "tileId": "lampPostTop", "zlayer": "above" },
-    { "tx": 6, "ty": 27, "tileId": "lampPostBottom" },
-    { "tx": 33, "ty": 12, "tileId": "lampPostTop", "zlayer": "above" },
-    { "tx": 33, "ty": 13, "tileId": "lampPostBottom" },
-    { "comment": "Dockside: extra cargo clutter" },
-    { "tx": 29, "ty": 5, "tileId": "crate" },
-    { "tx": 29, "ty": 9, "tileId": "barrel" },
-    { "tx": 29, "ty": 12, "tileId": "openCrate" },
-    { "tx": 29, "ty": 20, "tileId": "sack" },
-    { "tx": 29, "ty": 24, "tileId": "crate" },
-    { "tx": 2, "ty": 12, "tileId": "barrel" },
-    { "tx": 1, "ty": 11, "tileId": "pileOfSacks" },
-    { "comment": "Customs House frontage" },
-    { "tx": 12, "ty": 10, "tileId": "crate" },
-    { "tx": 19, "ty": 10, "tileId": "barrel" },
-    { "tx": 13, "ty": 11, "tileId": "pileOfPapers" },
-    { "comment": "Quay shallows: more rocks and lilypads" },
-    { "tx": 32, "ty": 9, "tileId": "smallLilypad" },
-    { "tx": 34, "ty": 18, "tileId": "smallRock" },
-    { "tx": 33, "ty": 24, "tileId": "smallLilypad" },
-    { "tx": 35, "ty": 3, "tileId": "smallRock" },
-    { "comment": "Bushes along the quay" },
-    { "tx": 5, "ty": 16, "tileId": "lightBush" },
-    { "tx": 13, "ty": 15, "tileId": "darkBush" },
-    { "tx": 20, "ty": 16, "tileId": "lightBush" },
-    { "tx": 25, "ty": 15, "tileId": "darkBush" },
-    { "tx": 1, "ty": 8, "tileId": "deadBush" },
-    { "comment": "Fish-market frontage" },
-    { "tx": 9, "ty": 11, "tileId": "appleBasket" },
-    { "tx": 6, "ty": 12, "tileId": "barrel" },
-    { "tx": 8, "ty": 12, "tileId": "crate" },
-    { "comment": "Sailors-inn perimeter clutter" },
-    { "tx": 8, "ty": 18, "tileId": "barrel" },
-    { "tx": 19, "ty": 18, "tileId": "crate" },
-    { "tx": 8, "ty": 23, "tileId": "sack" },
-    { "tx": 19, "ty": 23, "tileId": "barrel" },
-    { "comment": "Lighthouse Point: additional flora" },
-    { "tx": 45, "ty": 29, "tileId": "smallRock" },
-    { "tx": 42, "ty": 15, "tileId": "smallLilypad" },
-    { "tx": 47, "ty": 15, "tileId": "largeRock" },
-    { "comment": "Warehouse Row: south-edge bushes" },
-    { "tx": 7, "ty": 39, "tileId": "darkBush" },
-    { "tx": 15, "ty": 39, "tileId": "lightBush" },
-    { "tx": 28, "ty": 39, "tileId": "darkBush" },
-    { "tx": 34, "ty": 39, "tileId": "lightBush" },
-    { "comment": "Grass tufts" },
-    { "tx": 5, "ty": 22, "tileId": "grassTuft" },
-    { "tx": 23, "ty": 21, "tileId": "grassTuft" },
-    { "tx": 33, "ty": 30, "tileId": "grassTuft" },
-    { "tx": 40, "ty": 19, "tileId": "grassTuft" },
-    { "tx": 1, "ty": 33, "tileId": "grassTuft" }
+    {
+      "comment": "dock clutter along the waterfront"
+    },
+    {
+      "tx": 30,
+      "ty": 4,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 31,
+      "ty": 4,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 30,
+      "ty": 10,
+      "tileId": "crate"
+    },
+    {
+      "tx": 31,
+      "ty": 17,
+      "tileId": "pileOfSacks"
+    },
+    {
+      "tx": 30,
+      "ty": 22,
+      "tileId": "crate"
+    },
+    {
+      "tx": 31,
+      "ty": 23,
+      "tileId": "openCrate"
+    },
+    {
+      "tx": 29,
+      "ty": 7,
+      "tileId": "sack"
+    },
+    {
+      "comment": "lilypads and rocks in the shallows"
+    },
+    {
+      "tx": 33,
+      "ty": 5,
+      "tileId": "smallLilypad"
+    },
+    {
+      "tx": 34,
+      "ty": 13,
+      "tileId": "largeLilypad"
+    },
+    {
+      "tx": 33,
+      "ty": 21,
+      "tileId": "smallLilypad"
+    },
+    {
+      "tx": 32,
+      "ty": 3,
+      "tileId": "smallRock"
+    },
+    {
+      "comment": "quayside market"
+    },
+    {
+      "tx": 19,
+      "ty": 12,
+      "tileId": "stoneWell"
+    },
+    {
+      "tx": 4,
+      "ty": 12,
+      "tileId": "mushroomBasket"
+    },
+    {
+      "tx": 26,
+      "ty": 12,
+      "tileId": "barrel"
+    },
+    {
+      "comment": "greenery on the landward side"
+    },
+    {
+      "tx": 3,
+      "ty": 20,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 21,
+      "ty": 19,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 2,
+      "ty": 2,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 16,
+      "ty": 2,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "comment": "Warehouse Row: warehouse frontage"
+    },
+    {
+      "tx": 3,
+      "ty": 36,
+      "tileId": "crate"
+    },
+    {
+      "tx": 8,
+      "ty": 36,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 4,
+      "ty": 37,
+      "tileId": "pileOfSacks"
+    },
+    {
+      "tx": 7,
+      "ty": 37,
+      "tileId": "crate"
+    },
+    {
+      "comment": "Warehouse Row: shipwright dry-dock frontage"
+    },
+    {
+      "tx": 12,
+      "ty": 36,
+      "tileId": "logPile"
+    },
+    {
+      "tx": 17,
+      "ty": 36,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 13,
+      "ty": 37,
+      "tileId": "logPile"
+    },
+    {
+      "tx": 16,
+      "ty": 37,
+      "tileId": "crate"
+    },
+    {
+      "tx": 14,
+      "ty": 37,
+      "tileId": "openCrate"
+    },
+    {
+      "comment": "Warehouse Row: chandlers frontage"
+    },
+    {
+      "tx": 21,
+      "ty": 36,
+      "tileId": "crate"
+    },
+    {
+      "tx": 24,
+      "ty": 36,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 22,
+      "ty": 37,
+      "tileId": "pileOfSacks"
+    },
+    {
+      "tx": 23,
+      "ty": 37,
+      "tileId": "smallSack"
+    },
+    {
+      "comment": "Warehouse Row: net-maker frontage"
+    },
+    {
+      "tx": 28,
+      "ty": 36,
+      "tileId": "sack"
+    },
+    {
+      "tx": 31,
+      "ty": 36,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 29,
+      "ty": 37,
+      "tileId": "openCrate"
+    },
+    {
+      "tx": 32,
+      "ty": 37,
+      "tileId": "smallSack"
+    },
+    {
+      "comment": "Warehouse Row: smokehouse frontage"
+    },
+    {
+      "tx": 35,
+      "ty": 36,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 38,
+      "ty": 36,
+      "tileId": "crate"
+    },
+    {
+      "tx": 36,
+      "ty": 37,
+      "tileId": "sack"
+    },
+    {
+      "tx": 37,
+      "ty": 37,
+      "tileId": "pileOfSacks"
+    },
+    {
+      "comment": "Warehouse Row: gap markers between buildings"
+    },
+    {
+      "tx": 10,
+      "ty": 36,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 19,
+      "ty": 36,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 26,
+      "ty": 37,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 33,
+      "ty": 36,
+      "tileId": "smallRock"
+    },
+    {
+      "comment": "Jetty: boardwalk decking to the lighthouse"
+    },
+    {
+      "tx": 31,
+      "ty": 26,
+      "tileId": "boardwalkHorizontal",
+      "zlayer": "below"
+    },
+    {
+      "tx": 32,
+      "ty": 26,
+      "tileId": "boardwalkHorizontal",
+      "zlayer": "below"
+    },
+    {
+      "tx": 33,
+      "ty": 26,
+      "tileId": "boardwalkHorizontal",
+      "zlayer": "below"
+    },
+    {
+      "tx": 34,
+      "ty": 26,
+      "tileId": "boardwalkHorizontal",
+      "zlayer": "below"
+    },
+    {
+      "tx": 35,
+      "ty": 26,
+      "tileId": "boardwalkHorizontal",
+      "zlayer": "below"
+    },
+    {
+      "tx": 36,
+      "ty": 26,
+      "tileId": "boardwalkHorizontal",
+      "zlayer": "below"
+    },
+    {
+      "tx": 37,
+      "ty": 26,
+      "tileId": "boardwalkHorizontal",
+      "zlayer": "below"
+    },
+    {
+      "tx": 38,
+      "ty": 26,
+      "tileId": "boardwalkHorizontal",
+      "zlayer": "below"
+    },
+    {
+      "tx": 39,
+      "ty": 26,
+      "tileId": "boardwalkHorizontal",
+      "zlayer": "below"
+    },
+    {
+      "tx": 40,
+      "ty": 26,
+      "tileId": "boardwalkHorizontal",
+      "zlayer": "below"
+    },
+    {
+      "tx": 41,
+      "ty": 26,
+      "tileId": "boardwalkHorizontal",
+      "zlayer": "below"
+    },
+    {
+      "tx": 42,
+      "ty": 26,
+      "tileId": "boardwalkHorizontal",
+      "zlayer": "below"
+    },
+    {
+      "tx": 43,
+      "ty": 26,
+      "tileId": "boardwalkHorizontal",
+      "zlayer": "below"
+    },
+    {
+      "tx": 33,
+      "ty": 27,
+      "tileId": "boardwalkHorizontalSupport",
+      "zlayer": "below"
+    },
+    {
+      "tx": 36,
+      "ty": 27,
+      "tileId": "boardwalkHorizontalSupport",
+      "zlayer": "below"
+    },
+    {
+      "tx": 39,
+      "ty": 27,
+      "tileId": "boardwalkHorizontalSupport",
+      "zlayer": "below"
+    },
+    {
+      "tx": 42,
+      "ty": 27,
+      "tileId": "boardwalkHorizontalSupport",
+      "zlayer": "below"
+    },
+    {
+      "comment": "Lighthouse Point: rocky shoreline and reef"
+    },
+    {
+      "tx": 40,
+      "ty": 16,
+      "tileId": "largeRock"
+    },
+    {
+      "tx": 49,
+      "ty": 16,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 39,
+      "ty": 20,
+      "tileId": "smallLilypad"
+    },
+    {
+      "tx": 50,
+      "ty": 19,
+      "tileId": "largeLilypad"
+    },
+    {
+      "tx": 40,
+      "ty": 27,
+      "tileId": "largeRock"
+    },
+    {
+      "tx": 48,
+      "ty": 27,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 38,
+      "ty": 23,
+      "tileId": "smallLilypad"
+    },
+    {
+      "tx": 50,
+      "ty": 24,
+      "tileId": "smallLilypad"
+    },
+    {
+      "tx": 44,
+      "ty": 15,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 37,
+      "ty": 17,
+      "tileId": "largeLilypad"
+    },
+    {
+      "tx": 49,
+      "ty": 21,
+      "tileId": "largeRock"
+    },
+    {
+      "tx": 43,
+      "ty": 29,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 41,
+      "ty": 17,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 48,
+      "ty": 18,
+      "tileId": "smallRock"
+    },
+    {
+      "comment": "Greenery: tree line along Warehouse Row's southern edge"
+    },
+    {
+      "tx": 1,
+      "ty": 38,
+      "bundleID": "light-tree"
+    },
+    {
+      "tx": 9,
+      "ty": 38,
+      "bundleID": "dark-tree"
+    },
+    {
+      "tx": 18,
+      "ty": 38,
+      "bundleID": "light-tree"
+    },
+    {
+      "tx": 27,
+      "ty": 38,
+      "bundleID": "dark-tree"
+    },
+    {
+      "tx": 33,
+      "ty": 38,
+      "bundleID": "light-tree"
+    },
+    {
+      "comment": "Greenery: west edge thickening"
+    },
+    {
+      "tx": 1,
+      "ty": 25,
+      "bundleID": "dark-tree"
+    },
+    {
+      "tx": 0,
+      "ty": 31,
+      "bundleID": "light-tree"
+    },
+    {
+      "tx": 41,
+      "ty": 4,
+      "bundleID": "dark-tree"
+    },
+    {
+      "tx": 41,
+      "ty": 10,
+      "bundleID": "light-tree"
+    },
+    {
+      "comment": "Flowers: quayside"
+    },
+    {
+      "tx": 6,
+      "ty": 13,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 10,
+      "ty": 13,
+      "tileId": "yellowFlower"
+    },
+    {
+      "tx": 15,
+      "ty": 12,
+      "tileId": "pinkFlower"
+    },
+    {
+      "tx": 22,
+      "ty": 13,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 27,
+      "ty": 13,
+      "tileId": "potOfFlowers"
+    },
+    {
+      "comment": "Flowers: Warehouse Row verges"
+    },
+    {
+      "tx": 5,
+      "ty": 38,
+      "tileId": "pinkFlower"
+    },
+    {
+      "tx": 11,
+      "ty": 38,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 20,
+      "ty": 38,
+      "tileId": "yellowFlower"
+    },
+    {
+      "tx": 25,
+      "ty": 38,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 31,
+      "ty": 38,
+      "tileId": "pinkFlower"
+    },
+    {
+      "tx": 37,
+      "ty": 38,
+      "tileId": "yellowFlower"
+    },
+    {
+      "comment": "Flowers: Lighthouse Point headland"
+    },
+    {
+      "tx": 43,
+      "ty": 17,
+      "tileId": "whiteFlower"
+    },
+    {
+      "tx": 45,
+      "ty": 17,
+      "tileId": "yellowFlower"
+    },
+    {
+      "tx": 43,
+      "ty": 27,
+      "tileId": "pinkFlower"
+    },
+    {
+      "tx": 46,
+      "ty": 27,
+      "tileId": "whiteFlower"
+    },
+    {
+      "comment": "Lamp posts along the main streets"
+    },
+    {
+      "tx": 8,
+      "ty": 13,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 8,
+      "ty": 14,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 20,
+      "ty": 13,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 20,
+      "ty": 14,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 29,
+      "ty": 2,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 29,
+      "ty": 3,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 8,
+      "ty": 25,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 8,
+      "ty": 26,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 6,
+      "ty": 26,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 6,
+      "ty": 27,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "tx": 33,
+      "ty": 12,
+      "tileId": "lampPostTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 33,
+      "ty": 13,
+      "tileId": "lampPostBottom"
+    },
+    {
+      "comment": "Dockside: extra cargo clutter"
+    },
+    {
+      "tx": 29,
+      "ty": 5,
+      "tileId": "crate"
+    },
+    {
+      "tx": 29,
+      "ty": 9,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 29,
+      "ty": 12,
+      "tileId": "openCrate"
+    },
+    {
+      "tx": 29,
+      "ty": 20,
+      "tileId": "sack"
+    },
+    {
+      "tx": 29,
+      "ty": 24,
+      "tileId": "crate"
+    },
+    {
+      "tx": 2,
+      "ty": 12,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 1,
+      "ty": 11,
+      "tileId": "pileOfSacks"
+    },
+    {
+      "comment": "Customs House frontage"
+    },
+    {
+      "tx": 12,
+      "ty": 10,
+      "tileId": "crate"
+    },
+    {
+      "tx": 19,
+      "ty": 10,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 13,
+      "ty": 11,
+      "tileId": "pileOfPapers"
+    },
+    {
+      "comment": "Quay shallows: more rocks and lilypads"
+    },
+    {
+      "tx": 32,
+      "ty": 9,
+      "tileId": "smallLilypad"
+    },
+    {
+      "tx": 34,
+      "ty": 18,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 33,
+      "ty": 24,
+      "tileId": "smallLilypad"
+    },
+    {
+      "tx": 35,
+      "ty": 3,
+      "tileId": "smallRock"
+    },
+    {
+      "comment": "Bushes along the quay"
+    },
+    {
+      "tx": 5,
+      "ty": 16,
+      "tileId": "lightBush"
+    },
+    {
+      "tx": 13,
+      "ty": 15,
+      "tileId": "darkBush"
+    },
+    {
+      "tx": 20,
+      "ty": 16,
+      "tileId": "lightBush"
+    },
+    {
+      "tx": 25,
+      "ty": 15,
+      "tileId": "darkBush"
+    },
+    {
+      "tx": 1,
+      "ty": 8,
+      "tileId": "deadBush"
+    },
+    {
+      "comment": "Fish-market frontage"
+    },
+    {
+      "tx": 9,
+      "ty": 11,
+      "tileId": "appleBasket"
+    },
+    {
+      "tx": 6,
+      "ty": 12,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 8,
+      "ty": 12,
+      "tileId": "crate"
+    },
+    {
+      "comment": "Sailors-inn perimeter clutter"
+    },
+    {
+      "tx": 8,
+      "ty": 18,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 19,
+      "ty": 18,
+      "tileId": "crate"
+    },
+    {
+      "tx": 8,
+      "ty": 23,
+      "tileId": "sack"
+    },
+    {
+      "tx": 19,
+      "ty": 23,
+      "tileId": "barrel"
+    },
+    {
+      "comment": "Lighthouse Point: additional flora"
+    },
+    {
+      "tx": 45,
+      "ty": 29,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 42,
+      "ty": 15,
+      "tileId": "smallLilypad"
+    },
+    {
+      "tx": 47,
+      "ty": 15,
+      "tileId": "largeRock"
+    },
+    {
+      "comment": "Warehouse Row: south-edge bushes"
+    },
+    {
+      "tx": 7,
+      "ty": 39,
+      "tileId": "darkBush"
+    },
+    {
+      "tx": 15,
+      "ty": 39,
+      "tileId": "lightBush"
+    },
+    {
+      "tx": 28,
+      "ty": 39,
+      "tileId": "darkBush"
+    },
+    {
+      "tx": 34,
+      "ty": 39,
+      "tileId": "lightBush"
+    },
+    {
+      "comment": "Grass tufts"
+    },
+    {
+      "tx": 5,
+      "ty": 22,
+      "tileId": "grassTuft"
+    },
+    {
+      "tx": 23,
+      "ty": 21,
+      "tileId": "grassTuft"
+    },
+    {
+      "tx": 33,
+      "ty": 30,
+      "tileId": "grassTuft"
+    },
+    {
+      "tx": 40,
+      "ty": 19,
+      "tileId": "grassTuft"
+    },
+    {
+      "tx": 1,
+      "ty": 33,
+      "tileId": "grassTuft"
+    }
   ],
   "npcSpawnTiles": [],
-  "ambientNpcSprites": ["hub-npc-fisherman", "hub-npc-merchant"],
+  "ambientNpcSprites": [
+    "hub-npc-fisherman",
+    "hub-npc-merchant"
+  ],
   "npcs": [
     {
       "id": "harbourmaster-vane",
@@ -324,10 +1192,34 @@
       "questGive": "saltmere-lost-cargo",
       "questReceive": "saltmere-rum-run",
       "schedule": [
-        { "startHour": 6, "endHour": 22, "activity": "work", "location": { "type": "interior", "buildingId": "harbourmaster", "tx": 6, "ty": 3 } },
-        { "startHour": 22, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "harbourmaster-records", "tx": 2, "ty": 4 } }
+        {
+          "startHour": 6,
+          "endHour": 22,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "harbourmaster",
+            "tx": 6,
+            "ty": 3
+          }
+        },
+        {
+          "startHour": 22,
+          "endHour": 6,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "harbourmaster-records",
+            "tx": 2,
+            "ty": 4
+          }
+        }
       ],
-      "homeBed": { "buildingId": "harbourmaster-records", "tx": 2, "ty": 4 }
+      "homeBed": {
+        "buildingId": "harbourmaster-records",
+        "tx": 2,
+        "ty": 4
+      }
     },
     {
       "id": "fishwife-pearl",
@@ -408,10 +1300,33 @@
         "I watch so the rest of you can sleep. Mind you remember that, next time the bell rings."
       ],
       "schedule": [
-        { "startHour": 6, "endHour": 20, "activity": "idle-chat", "location": { "type": "exterior", "tx": 30, "ty": 14 } },
-        { "startHour": 20, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "lighthouse-top", "tx": 4, "ty": 4 } }
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "activity": "idle-chat",
+          "location": {
+            "type": "exterior",
+            "tx": 30,
+            "ty": 14
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 6,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "lighthouse-top",
+            "tx": 4,
+            "ty": 4
+          }
+        }
       ],
-      "homeBed": { "buildingId": "lighthouse-top", "tx": 4, "ty": 4 },
+      "homeBed": {
+        "buildingId": "lighthouse-top",
+        "tx": 4,
+        "ty": 4
+      },
       "questGive": "saltmere-oil-for-the-lamp"
     },
     {
@@ -469,10 +1384,34 @@
       ],
       "building": "sailors-inn",
       "schedule": [
-        { "startHour": 8, "endHour": 24, "activity": "idle-chat", "location": { "type": "interior", "buildingId": "sailors-inn", "tx": 9, "ty": 5 } },
-        { "startHour": 0, "endHour": 8, "activity": "sleep", "location": { "type": "interior", "buildingId": "sailors-inn-upstairs", "tx": 7, "ty": 2 } }
+        {
+          "startHour": 8,
+          "endHour": 24,
+          "activity": "idle-chat",
+          "location": {
+            "type": "interior",
+            "buildingId": "sailors-inn",
+            "tx": 9,
+            "ty": 5
+          }
+        },
+        {
+          "startHour": 0,
+          "endHour": 8,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "sailors-inn-upstairs",
+            "tx": 7,
+            "ty": 2
+          }
+        }
       ],
-      "homeBed": { "buildingId": "sailors-inn-upstairs", "tx": 7, "ty": 2 }
+      "homeBed": {
+        "buildingId": "sailors-inn-upstairs",
+        "tx": 7,
+        "ty": 2
+      }
     },
     {
       "id": "smuggler",
@@ -495,16 +1434,52 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodWall",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 1, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 2, "ty": 1, "tileId": "deskTop" },
-        { "tx": 2, "ty": 2, "tileId": "pileOfPapers" },
-        { "tx": 5, "ty": 1, "tileId": "rolledMap" },
-        { "tx": 7, "ty": 1, "tileId": "chest" },
-        { "tx": 8, "ty": 1, "tileId": "crate" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "deskTop"
+        },
+        {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "pileOfPapers"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "rolledMap"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "chest"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "crate"
+        }
       ],
       "exits": [
-        { "tx": 5, "ty": 0, "toInteriorId": "harbourmaster-records", "entryTx": 3, "entryTy": 4, "direction": "back", "label": "Records Room" }
+        {
+          "tx": 5,
+          "ty": 0,
+          "toInteriorId": "harbourmaster-records",
+          "entryTx": 3,
+          "entryTy": 4,
+          "direction": "back",
+          "label": "Records Room"
+        }
       ]
     },
     "harbourmaster-records": {
@@ -514,15 +1489,47 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodWall",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 1, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 3, "ty": 1, "tileId": "rolledMap" },
-        { "tx": 5, "ty": 1, "tileId": "goldChest" },
-        { "tx": 5, "ty": 2, "tileId": "crate" },
-        { "tx": 2, "ty": 4, "bundleID": "simple-bed" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "rolledMap"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "goldChest"
+        },
+        {
+          "tx": 5,
+          "ty": 2,
+          "tileId": "crate"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "bundleID": "simple-bed"
+        }
       ],
       "exits": [
-        { "tx": 3, "ty": 5, "toInteriorId": "harbourmaster", "entryTx": 5, "entryTy": 1, "direction": "front", "label": "Back to the Office" }
+        {
+          "tx": 3,
+          "ty": 5,
+          "toInteriorId": "harbourmaster",
+          "entryTx": 5,
+          "entryTy": 1,
+          "direction": "front",
+          "label": "Back to the Office"
+        }
       ]
     },
     "fish-market": {
@@ -532,13 +1539,41 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodenSlats",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "barrel" },
-        { "tx": 2, "ty": 1, "tileId": "barrel" },
-        { "tx": 4, "ty": 1, "tileId": "appleBasket" },
-        { "tx": 5, "ty": 1, "tileId": "mushroomBasket" },
-        { "tx": 8, "ty": 1, "tileId": "openCrate" },
-        { "tx": 9, "ty": 1, "tileId": "crate" },
-        { "tx": 1, "ty": 4, "tileId": "pileOfSacks" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "appleBasket"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "mushroomBasket"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "tileId": "pileOfSacks"
+        }
       ],
       "exits": []
     },
@@ -549,20 +1584,72 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodWall",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "stairsUp" },
-        { "tx": 3, "ty": 1, "tileId": "counterTopHorizontalLeft" },
-        { "tx": 4, "ty": 1, "tileId": "counterTopHorizontalMiddle" },
-        { "tx": 5, "ty": 1, "tileId": "counterTopHorizontalRight" },
-        { "tx": 4, "ty": 2, "tileId": "bottlesOfLiquor" },
-        { "tx": 8, "ty": 2, "bundleID": "fireplace" },
-        { "tx": 2, "ty": 5, "tileId": "roundTable" },
-        { "tx": 3, "ty": 5, "tileId": "stool" },
-        { "tx": 7, "ty": 5, "tileId": "roundTable" },
-        { "tx": 8, "ty": 5, "tileId": "stool" },
-        { "tx": 10, "ty": 6, "tileId": "barrel" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "stairsUp"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "counterTopHorizontalLeft"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "counterTopHorizontalMiddle"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "counterTopHorizontalRight"
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "tileId": "bottlesOfLiquor"
+        },
+        {
+          "tx": 8,
+          "ty": 2,
+          "bundleID": "fireplace"
+        },
+        {
+          "tx": 2,
+          "ty": 5,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 3,
+          "ty": 5,
+          "tileId": "stool"
+        },
+        {
+          "tx": 7,
+          "ty": 5,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "stool"
+        },
+        {
+          "tx": 10,
+          "ty": 6,
+          "tileId": "barrel"
+        }
       ],
       "exits": [
-        { "tx": 1, "ty": 1, "toInteriorId": "sailors-inn-upstairs", "entryTx": 1, "entryTy": 6, "direction": "up", "label": "Go Upstairs" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "toInteriorId": "sailors-inn-upstairs",
+          "entryTx": 1,
+          "entryTy": 6,
+          "direction": "up",
+          "label": "Go Upstairs"
+        }
       ]
     },
     "sailors-inn-upstairs": {
@@ -572,17 +1659,59 @@
       "floorTileId": "darkWoodFloor",
       "wallTileId": "woodWall",
       "decor": [
-        { "tx": 2, "ty": 2, "bundleID": "simple-bed" },
-        { "tx": 4, "ty": 2, "bundleID": "simple-bed" },
-        { "tx": 7, "ty": 2, "bundleID": "simple-bed" },
-        { "tx": 9, "ty": 2, "bundleID": "simple-bed" },
-        { "tx": 5, "ty": 5, "tileId": "roundTable" },
-        { "tx": 6, "ty": 5, "tileId": "roundTable" },
-        { "tx": 1, "ty": 7, "tileId": "ladderIntoFloor", "zlayer": "below" },
-        { "tx": 1, "ty": 6, "tileId": "halfLadderTop", "zlayer": "solid" }
+        {
+          "tx": 2,
+          "ty": 2,
+          "bundleID": "simple-bed"
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "bundleID": "simple-bed"
+        },
+        {
+          "tx": 7,
+          "ty": 2,
+          "bundleID": "simple-bed"
+        },
+        {
+          "tx": 9,
+          "ty": 2,
+          "bundleID": "simple-bed"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 6,
+          "ty": 5,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "ladderIntoFloor",
+          "zlayer": "below"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "halfLadderTop",
+          "zlayer": "solid"
+        }
       ],
       "exits": [
-        { "tx": 1, "ty": 7, "toInteriorId": "sailors-inn", "entryTx": 1, "entryTy": 2, "direction": "down", "label": "Go Downstairs" }
+        {
+          "tx": 1,
+          "ty": 7,
+          "toInteriorId": "sailors-inn",
+          "entryTx": 1,
+          "entryTy": 2,
+          "direction": "down",
+          "label": "Go Downstairs"
+        }
       ]
     },
     "customs-house": {
@@ -592,12 +1721,36 @@
       "floorTileId": "woodFloor",
       "wallTileId": "renderedBrick",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "deskTop" },
-        { "tx": 2, "ty": 1, "tileId": "pileOfPapers" },
-        { "tx": 1, "ty": 2, "tileId": "quilAndInk" },
-        { "tx": 4, "ty": 1, "tileId": "rolledMap" },
-        { "tx": 5, "ty": 1, "tileId": "chest" },
-        { "tx": 6, "ty": 1, "tileId": "crate" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "deskTop"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "pileOfPapers"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "quilAndInk"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "rolledMap"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "chest"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "crate"
+        }
       ],
       "exits": []
     },
@@ -608,14 +1761,46 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodenSlats",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "crate" },
-        { "tx": 2, "ty": 1, "tileId": "crate" },
-        { "tx": 3, "ty": 1, "tileId": "barrel" },
-        { "tx": 1, "ty": 2, "tileId": "pileOfSacks" },
-        { "tx": 7, "ty": 1, "tileId": "openCrate" },
-        { "tx": 8, "ty": 1, "tileId": "crate" },
-        { "tx": 7, "ty": 5, "tileId": "sack" },
-        { "tx": 1, "ty": 5, "tileId": "barrel" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 7,
+          "ty": 5,
+          "tileId": "sack"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "barrel"
+        }
       ],
       "exits": []
     },
@@ -626,12 +1811,36 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodenSlats",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "logPile" },
-        { "tx": 2, "ty": 1, "tileId": "logPile" },
-        { "tx": 5, "ty": 1, "tileId": "barrel" },
-        { "tx": 6, "ty": 1, "tileId": "crate" },
-        { "tx": 1, "ty": 5, "tileId": "chest" },
-        { "tx": 8, "ty": 1, "tileId": "rolledMap" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "logPile"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "logPile"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "chest"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "rolledMap"
+        }
       ],
       "exits": []
     },
@@ -642,12 +1851,36 @@
       "floorTileId": "woodFloor",
       "wallTileId": "brick",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "crate" },
-        { "tx": 2, "ty": 1, "tileId": "barrel" },
-        { "tx": 3, "ty": 1, "tileId": "pileOfSacks" },
-        { "tx": 4, "ty": 1, "tileId": "smallSack" },
-        { "tx": 6, "ty": 1, "tileId": "chest" },
-        { "tx": 7, "ty": 1, "tileId": "crate" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "smallSack"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "chest"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "crate"
+        }
       ],
       "exits": []
     },
@@ -658,11 +1891,31 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodenSlats",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "crate" },
-        { "tx": 2, "ty": 1, "tileId": "sack" },
-        { "tx": 5, "ty": 1, "tileId": "barrel" },
-        { "tx": 1, "ty": 3, "tileId": "smallSack" },
-        { "tx": 6, "ty": 1, "tileId": "openCrate" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "sack"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 1,
+          "ty": 3,
+          "tileId": "smallSack"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "openCrate"
+        }
       ],
       "exits": []
     },
@@ -673,11 +1926,31 @@
       "floorTileId": "woodFloor",
       "wallTileId": "darkStone",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "barrel" },
-        { "tx": 2, "ty": 1, "tileId": "barrel" },
-        { "tx": 5, "ty": 1, "tileId": "crate" },
-        { "tx": 6, "ty": 1, "tileId": "sack" },
-        { "tx": 3, "ty": 2, "bundleID": "fireplace" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "sack"
+        },
+        {
+          "tx": 3,
+          "ty": 2,
+          "bundleID": "fireplace"
+        }
       ],
       "exits": []
     },
@@ -688,14 +1961,42 @@
       "floorTileId": "stoneFloor",
       "wallTileId": "castleStone",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "stairsUp" },
-        { "tx": 3, "ty": 1, "tileId": "crate" },
-        { "tx": 4, "ty": 1, "tileId": "barrel" },
-        { "tx": 5, "ty": 5, "tileId": "chest" },
-        { "tx": 2, "ty": 5, "tileId": "sack" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "stairsUp"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "chest"
+        },
+        {
+          "tx": 2,
+          "ty": 5,
+          "tileId": "sack"
+        }
       ],
       "exits": [
-        { "tx": 1, "ty": 1, "toInteriorId": "lighthouse-mid", "entryTx": 1, "entryTy": 6, "direction": "up", "label": "Climb the Ladder" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "toInteriorId": "lighthouse-mid",
+          "entryTx": 1,
+          "entryTy": 6,
+          "direction": "up",
+          "label": "Climb the Ladder"
+        }
       ]
     },
     "lighthouse-mid": {
@@ -705,14 +2006,46 @@
       "floorTileId": "stoneFloor",
       "wallTileId": "castleStone",
       "decor": [
-        { "tx": 3, "ty": 1, "bundleID": "candelabra" },
-        { "tx": 2, "ty": 5, "bundleID": "simple-bed" },
-        { "tx": 5, "ty": 5, "tileId": "roundTable" },
-        { "tx": 6, "ty": 5, "tileId": "stool" }
+        {
+          "tx": 3,
+          "ty": 1,
+          "bundleID": "candelabra"
+        },
+        {
+          "tx": 2,
+          "ty": 5,
+          "bundleID": "simple-bed"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 6,
+          "ty": 5,
+          "tileId": "stool"
+        }
       ],
       "exits": [
-        { "tx": 1, "ty": 1, "toInteriorId": "lighthouse", "entryTx": 1, "entryTy": 6, "direction": "down", "label": "Climb Down" },
-        { "tx": 6, "ty": 1, "toInteriorId": "lighthouse-top", "entryTx": 6, "entryTy": 6, "direction": "up", "label": "Climb Up" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "toInteriorId": "lighthouse",
+          "entryTx": 1,
+          "entryTy": 6,
+          "direction": "down",
+          "label": "Climb Down"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "toInteriorId": "lighthouse-top",
+          "entryTx": 6,
+          "entryTy": 6,
+          "direction": "up",
+          "label": "Climb Up"
+        }
       ]
     },
     "lighthouse-top": {
@@ -722,12 +2055,32 @@
       "floorTileId": "stoneFloor",
       "wallTileId": "castleStone",
       "decor": [
-        { "tx": 3, "ty": 1, "bundleID": "brazier" },
-        { "tx": 1, "ty": 4, "tileId": "crate" },
-        { "tx": 6, "ty": 4, "tileId": "barrel" }
+        {
+          "tx": 3,
+          "ty": 1,
+          "bundleID": "brazier"
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "tileId": "crate"
+        },
+        {
+          "tx": 6,
+          "ty": 4,
+          "tileId": "barrel"
+        }
       ],
       "exits": [
-        { "tx": 6, "ty": 1, "toInteriorId": "lighthouse-mid", "entryTx": 6, "entryTy": 6, "direction": "down", "label": "Climb Down" }
+        {
+          "tx": 6,
+          "ty": 1,
+          "toInteriorId": "lighthouse-mid",
+          "entryTx": 6,
+          "entryTy": 6,
+          "direction": "down",
+          "label": "Climb Down"
+        }
       ]
     }
   },
@@ -739,7 +2092,10 @@
       "tx": 12,
       "ty": 14,
       "name": "Barnacle",
-      "dialogue": ["*mrrow*", "Barnacle the dock cat winds around your ankles, eyeing the catch."],
+      "dialogue": [
+        "*mrrow*",
+        "Barnacle the dock cat winds around your ankles, eyeing the catch."
+      ],
       "questReceive": "saltmere-dockside-cat"
     },
     {
@@ -757,6 +2113,32 @@
       "tx": 44,
       "ty": 17,
       "roam": true
+    }
+  ],
+  "pondTiles": [
+    {
+      "rect": [
+        33,
+        0,
+        35,
+        27
+      ]
+    },
+    {
+      "rect": [
+        32,
+        6,
+        32,
+        22
+      ]
+    },
+    {
+      "rect": [
+        36,
+        0,
+        51,
+        39
+      ]
     }
   ]
 }
