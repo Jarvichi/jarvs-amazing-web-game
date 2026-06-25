@@ -113,7 +113,7 @@ import { saveBattleState, loadBattleState, clearBattleState } from './game/battl
 import { loadCommander, promoteCommander, CommanderState } from './game/commander'
 
 import { WORLD_MAP_NODES, type WorldNodeDef } from './data/world/worldMapDef'
-import { setCurrentWorldLocation, markNodeCleared, isNodeCleared } from './game/world/worldState'
+import { setCurrentWorldLocation, getCurrentWorldLocation, markNodeCleared, isNodeCleared } from './game/world/worldState'
 import { CommanderScreen } from './components/screens/CommanderScreen'
 import { TrainingScreen }  from './components/screens/TrainingScreen'
 import {
@@ -366,7 +366,13 @@ export default function App() {
 
   const [screen, setScreen]             = useState<Screen>(_startup.screen)
   const [returnScreen, setReturnScreen]  = useState<Screen>('title')
-  const [currentLocationKey, setCurrentLocationKey] = useState<string>('ravenwatch')
+  // Restore the town the player was last in (persisted in worldState). The saved
+  // value is a world-map node id; for town nodes that id equals the LOCATION_REGISTRY
+  // key. Fall back to ravenwatch if the saved id isn't a known town (e.g. a battle node).
+  const [currentLocationKey, setCurrentLocationKey] = useState<string>(() => {
+    const saved = getCurrentWorldLocation()
+    return LOCATION_REGISTRY[saved] ? saved : 'ravenwatch'
+  })
   const [miniGamesEntry, setMiniGamesEntry] = useState<'menu' | 'citybuilder'>('menu')
   const [hubMiniGameEntry, setHubMiniGameEntry] = useState<SubScreen>('menu')
   const [showTitleLoginModal, setShowTitleLoginModal] = useState(false)
