@@ -448,7 +448,80 @@
         "Firewood's running low again. The forest gives, but only if you go and fetch."
       ],
       "questGive": "thornwood-embers-low",
-      "questReceive": "thornwood-embers-low"
+      "questReceive": [
+        "thornwood-embers-low",
+        "thornwood-snare-line",
+        "thornwood-wolf-watch-2"
+      ]
+    },
+    {
+      "id": "forager-mott",
+      "name": "Forager Mott",
+      "sprite": "hub-npc-supplies",
+      "tx": 13,
+      "ty": 46,
+      "dialogue": [
+        "Don't mind the barrels — landslide brought half the ridge down across the path. I've been stuck on this side for two days.",
+        "There's queer little stones in the scree where it fell. Bring me a few and I'll shift the blockage; my hands know which ones hold the wall.",
+        "Warden Rell's up by the fire, if you can get past. Tell him Mott's alive, would you?"
+      ],
+      "questGive": "thornwood-lost-treeline",
+      "questReceive": [
+        "shiny-stones",
+        "thornwood-lost-treeline"
+      ]
+    },
+    {
+      "id": "ranger-sable",
+      "name": "Ranger Sable",
+      "sprite": "hub-npc-guard",
+      "tx": 15,
+      "ty": 25,
+      "dialogue": [
+        "Second ranger of Thornwood, for what the title's worth. Mostly I count wolves and hope the number stays the same.",
+        "The pack's been bold since the bad winter. Wards along the treeline keep them honest — when someone bothers to set them.",
+        "Forage what you can. The forest feeds the fire and the fire feeds us."
+      ],
+      "questGive": "thornwood-forage-mushrooms",
+      "questReceive": [
+        "thornwood-forage-mushrooms",
+        "thornwood-wolf-watch",
+        "thornwood-wolf-watch-2"
+      ]
+    },
+    {
+      "id": "trader-pell",
+      "name": "Trader Pell",
+      "sprite": "hub-npc-trader",
+      "tx": 5,
+      "ty": 30,
+      "dialogue": [
+        "Just passing through — Ironhold to the river and back, if the road allows.",
+        "A camp like this is worth more than a city to a traveller caught after dark. I never forget a warm fire.",
+        "If you're headed Ravenwatch way, I've a parcel needs honest hands. Pays well, asks little."
+      ],
+      "questGive": "thornwood-travellers-aid",
+      "questReceive": [
+        "thornwood-travellers-aid",
+        "thornwood-river-relay"
+      ]
+    }
+  ],
+  "animals": [
+    {
+      "id": "thornwood-bramble",
+      "type": "dog",
+      "variant": "grey",
+      "tx": 3,
+      "ty": 35,
+      "name": "Bramble",
+      "dialogue": [
+        "*a shaggy grey camp-dog lopes over, something half-buried clearly on his mind*",
+        "*whuff!*"
+      ],
+      "questGive": "thornwood-stray-bramble",
+      "questReceive": "thornwood-stray-bramble",
+      "roam": true
     }
   ],
   "interiors": {},
