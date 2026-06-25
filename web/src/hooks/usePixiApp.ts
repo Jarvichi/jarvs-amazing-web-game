@@ -87,6 +87,13 @@ export function usePixiApp(
       rollbar?.error('[usePixiApp] webglcontextlost during app lifetime', { ...contextInfo, ...getGlStats() })
     }
     const destroyApp = () => {
+      // If the WebGL context was already lost (e.g. the browser evicted it
+      // under context pressure from other live apps), the renderer is gone and
+      // app.canvas throws. Nothing remains to tear down — just note it.
+      if (!app.renderer) {
+        noteContextDestroyed(contextInfo)
+        return
+      }
       const canvas = app.canvas as HTMLCanvasElement  // capture before destroy — destroy(true) detaches it
       canvas.removeEventListener('webglcontextlost', onContextLost)
       suppressContextLostOnce(canvas)
