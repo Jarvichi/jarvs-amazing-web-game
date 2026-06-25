@@ -8543,7 +8543,7 @@
       "lockedBy": "barracks-key"
     },
     {
-      "buildingId": "church-building",
+      "buildingId": "church",
       "lockedBy": "ravenwatch-church-key"
     }
   ],
