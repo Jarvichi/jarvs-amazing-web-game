@@ -28,14 +28,275 @@
     {
       "id": "shiny-stones",
       "title": "Shiny Stones",
+      "type": "fetch",
+      "giverNpcId": "interactable-1781887233427",
+      "receiverNpcId": "forager-mott",
+      "offerDialogue": "The old warding-scarecrow's arm points at the scree where the ridge came down. Among the rubble, three stones catch the light — odd, smooth, and warm to the touch. Mott did say he needed such stones to shift the blockage...",
+      "activeDialogue": "Gather the three shiny stones from the fallen scree, then bring them to Forager Mott.",
+      "completeDialogue": "These three? Aye — keystones, my gran called them. Watch.\n\n*Mott wedges them into the pile; with a groan the barrels roll aside and the path up to the fire opens.*\n\nThere. Camp's yours, traveller. Go tell Rell I made it.",
+      "steps": [
+        {
+          "key": "stones",
+          "type": "collect",
+          "pickupIds": [
+            "shiny-stone-1",
+            "shiny-stone-2",
+            "shiny-stone-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 40,
+        "collectible": {
+          "id": "thornwood-keystone",
+          "name": "Warm Keystone",
+          "icon": "🪨",
+          "desc": "A smooth stone from the Thornwood ridge-fall, oddly warm. Mott swears they hold a wall together better than mortar."
+        }
+      }
+    },
+    {
+      "id": "thornwood-lost-treeline",
+      "title": "Lost Along the Treeline",
+      "type": "lost-items",
+      "giverNpcId": "forager-mott",
+      "receiverNpcId": "forager-mott",
+      "prerequisite": "quest:shiny-stones",
+      "offerDialogue": "Two days stuck out here and I dropped half my pack fleeing a wolf — a journal, my wife's pendant, a flask of something that helped the nights pass. They're scattered up the treeline now the path's clear. Find them?",
+      "activeDialogue": "Recover Mott's journal, pendant, and flask from along the treeline.",
+      "completeDialogue": "My journal, the pendant, AND the flask — you wonderful soul. The pendant most of all; she'd have had my hide. Here, you've earned this and more.",
+      "steps": [
+        {
+          "key": "lost",
+          "type": "collect",
+          "pickupIds": [
+            "treeline-lost-1",
+            "treeline-lost-2",
+            "treeline-lost-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 55,
+        "friendship": {
+          "forager-mott": 15
+        }
+      }
+    },
+    {
+      "id": "thornwood-forage-mushrooms",
+      "title": "Forage the Hollow",
+      "type": "fetch",
+      "giverNpcId": "ranger-sable",
+      "receiverNpcId": "ranger-sable",
+      "offerDialogue": "The pot's thin and the woods are thick with good eating, if you know a meal from a poison. Three baskets of bracket-caps from the old stumps — gather them and the camp eats well tonight.",
+      "activeDialogue": "Gather three baskets of mushrooms from the stumps around the camp.",
+      "completeDialogue": "Bracket-caps, every one, and not a death-cap among them — you've a forager's eye. Stew for everyone. Sit, eat your share.",
+      "steps": [
+        {
+          "key": "mushrooms",
+          "type": "collect",
+          "pickupIds": [
+            "mushroom-1",
+            "mushroom-2",
+            "mushroom-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 40,
+        "friendship": {
+          "ranger-sable": 12
+        }
+      }
+    },
+    {
+      "id": "thornwood-wolf-watch",
+      "title": "The Wolf Watch",
       "type": "chain",
-      "giverNpcId": "",
-      "receiverNpcId": "",
-      "offerDialogue": "",
-      "activeDialogue": {},
-      "completeDialogue": "",
-      "steps": [],
-      "reward": {}
+      "giverNpcId": "ranger-sable",
+      "receiverNpcId": "ranger-sable",
+      "offerDialogue": "Wolves crept to the woodpile last night. We keep them off with wolfsbane bundles set along the treeline, but mine's gone to dust. Gather three fresh bundles where the herb grows wild.",
+      "activeDialogue": "Gather three bundles of wolfsbane from along the treeline for Ranger Sable.",
+      "completeDialogue": "Good and pungent — that'll wrinkle a wolf's nose from a hundred paces. I'll set them at dusk. The watch is easier with another pair of hands.",
+      "steps": [
+        {
+          "key": "wards",
+          "type": "collect",
+          "pickupIds": [
+            "ward-1",
+            "ward-2",
+            "ward-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 45,
+        "friendship": {
+          "ranger-sable": 12
+        }
+      }
+    },
+    {
+      "id": "thornwood-wolf-watch-2",
+      "title": "A Word to the Warden",
+      "type": "chain",
+      "giverNpcId": "ranger-sable",
+      "receiverNpcId": "warden-rell",
+      "prerequisite": "quest:thornwood-wolf-watch",
+      "offerDialogue": "Wards are set, but Rell keeps the night roster and he'll want to know the pack's moved south. There's a warding-draught brewed by the scarecrow post — carry it and my word up to the fire. Tell him: wolves, southside, bold.",
+      "activeDialogue": "Carry the warding-draught and Sable's report up to Warden Rell at the fire.",
+      "completeDialogue": "Southside, is it? Bold indeed. I'll double the night watch and thank Sable for the draught. And you — you've quick feet and a steady hand. The camp's lucky you wandered in.",
+      "steps": [
+        {
+          "key": "draught",
+          "type": "collect",
+          "pickupIds": [
+            "warding-draught-1"
+          ],
+          "required": 1
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "warden-rell",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 50,
+        "friendship": {
+          "ranger-sable": 8,
+          "warden-rell": 12
+        }
+      }
+    },
+    {
+      "id": "thornwood-snare-line",
+      "title": "The Snare Line",
+      "type": "fetch",
+      "giverNpcId": "warden-rell",
+      "receiverNpcId": "warden-rell",
+      "offerDialogue": "A camp lives on what the snares catch. Three of mine were sprung and the catch carried off — gather the sacks and re-bag what's left before the crows finish the job.",
+      "activeDialogue": "Collect the three sprung snare-sacks from around the camp for Warden Rell.",
+      "completeDialogue": "Enough for a few good suppers, and the snares can be reset. You're worth your keep twice over. Take this — and there's always a place at the fire.",
+      "steps": [
+        {
+          "key": "snares",
+          "type": "collect",
+          "pickupIds": [
+            "snare-1",
+            "snare-2",
+            "snare-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 40,
+        "friendship": {
+          "warden-rell": 12
+        }
+      }
+    },
+    {
+      "id": "thornwood-travellers-aid",
+      "title": "A Traveller's Aid",
+      "type": "chain",
+      "giverNpcId": "trader-pell",
+      "receiverNpcId": "trader-pell",
+      "offerDialogue": "Bandits lightened my pack on the Ironhold road — took my road-rations clean. Berries, a flask, a basket of trail-bread from the camp stores: help me restock and I'll not be a corpse by the river come morning.",
+      "activeDialogue": "Gather berries, a flask, and a basket of trail-bread to restock Trader Pell's pack.",
+      "completeDialogue": "Restocked and road-worthy — you've quite literally saved my skin. Now, about that parcel for Ravenwatch...",
+      "steps": [
+        {
+          "key": "supplies",
+          "type": "collect",
+          "pickupIds": [
+            "supply-1",
+            "supply-2",
+            "supply-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 45,
+        "friendship": {
+          "trader-pell": 12
+        }
+      }
+    },
+    {
+      "id": "thornwood-river-relay",
+      "title": "The Ravenwatch Parcel",
+      "type": "chain",
+      "giverNpcId": "trader-pell",
+      "receiverNpcId": "innkeeper-rosie",
+      "prerequisite": "quest:thornwood-travellers-aid",
+      "offerDialogue": "My legs won't make Ravenwatch before the bandits make me. But yours might. This parcel's promised to Innkeeper Rosie at the Ravenwatch inn — sealed goods, paid for. Carry it true and she'll see you right. Mind the river road.",
+      "activeDialogue": "Carry Trader Pell's sealed parcel to Innkeeper Rosie at the Ravenwatch inn.",
+      "completeDialogue": "Pell's parcel, all the way from Thornwood! He's a good sort, that one — and so are you for braving the river road. Here's your fee, with the inn's thanks.",
+      "steps": [
+        {
+          "key": "parcel",
+          "type": "collect",
+          "pickupIds": [
+            "ravenwatch-parcel-1"
+          ],
+          "required": 1
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "innkeeper-rosie",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 90,
+        "friendship": {
+          "trader-pell": 18
+        },
+        "collectible": {
+          "id": "thornwood-relay-token",
+          "name": "Relay Token",
+          "icon": "📮",
+          "desc": "A trader's token marking a parcel run from Thornwood Camp to Ravenwatch. Pell remembers a reliable courier."
+        }
+      }
+    },
+    {
+      "id": "thornwood-stray-bramble",
+      "title": "Bramble's Buried Hoard",
+      "type": "fetch",
+      "giverNpcId": "thornwood-bramble",
+      "receiverNpcId": "thornwood-bramble",
+      "offerDialogue": "*Bramble paws the dirt and looks up at you, then at three suspicious mounds around the camp. The message is clear: dig, human. DIG.*",
+      "activeDialogue": "Dig up the three things Bramble buried around the camp.",
+      "completeDialogue": "*Bramble inspects the recovered hoard — a shiny pebble, a crow's feather, another pebble — and decides you are now Best Friend. A cold nose to the hand seals the pact.*",
+      "steps": [
+        {
+          "key": "hoard",
+          "type": "collect",
+          "pickupIds": [
+            "bramble-find-1",
+            "bramble-find-2",
+            "bramble-find-3"
+          ],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 35,
+        "friendship": {
+          "thornwood-bramble": 15
+        }
+      }
     }
   ],
   "pickupItems": [
@@ -59,6 +320,167 @@
       "ty": 16,
       "tileId": "logPile",
       "questId": "thornwood-embers-low"
+    },
+    {
+      "id": "shiny-stone-1",
+      "tx": 10,
+      "ty": 46,
+      "tileId": "smallRock",
+      "questId": "shiny-stones"
+    },
+    {
+      "id": "shiny-stone-2",
+      "tx": 12,
+      "ty": 46,
+      "tileId": "smallRock",
+      "questId": "shiny-stones"
+    },
+    {
+      "id": "shiny-stone-3",
+      "tx": 14,
+      "ty": 46,
+      "tileId": "smallRock",
+      "questId": "shiny-stones"
+    },
+    {
+      "id": "treeline-lost-1",
+      "tx": 10,
+      "ty": 30,
+      "tileId": "closedBook",
+      "questId": "thornwood-lost-treeline"
+    },
+    {
+      "id": "treeline-lost-2",
+      "tx": 15,
+      "ty": 22,
+      "tileId": "pendant",
+      "questId": "thornwood-lost-treeline"
+    },
+    {
+      "id": "treeline-lost-3",
+      "tx": 2,
+      "ty": 42,
+      "tileId": "bottle",
+      "questId": "thornwood-lost-treeline"
+    },
+    {
+      "id": "mushroom-1",
+      "tx": 9,
+      "ty": 16,
+      "tileId": "mushroomBasket",
+      "questId": "thornwood-forage-mushrooms"
+    },
+    {
+      "id": "mushroom-2",
+      "tx": 3,
+      "ty": 34,
+      "tileId": "mushroomBasket",
+      "questId": "thornwood-forage-mushrooms"
+    },
+    {
+      "id": "mushroom-3",
+      "tx": 12,
+      "ty": 30,
+      "tileId": "mushroomBasket",
+      "questId": "thornwood-forage-mushrooms"
+    },
+    {
+      "id": "ward-1",
+      "tx": 15,
+      "ty": 24,
+      "tileId": "bunchOfHerbs",
+      "questId": "thornwood-wolf-watch"
+    },
+    {
+      "id": "ward-2",
+      "tx": 9,
+      "ty": 21,
+      "tileId": "bunchOfHerbs",
+      "questId": "thornwood-wolf-watch"
+    },
+    {
+      "id": "ward-3",
+      "tx": 2,
+      "ty": 37,
+      "tileId": "bunchOfHerbs",
+      "questId": "thornwood-wolf-watch"
+    },
+    {
+      "id": "warding-draught-1",
+      "tx": 3,
+      "ty": 40,
+      "tileId": "bottle",
+      "questId": "thornwood-wolf-watch-2"
+    },
+    {
+      "id": "snare-1",
+      "tx": 14,
+      "ty": 37,
+      "tileId": "sack",
+      "questId": "thornwood-snare-line"
+    },
+    {
+      "id": "snare-2",
+      "tx": 9,
+      "ty": 40,
+      "tileId": "sack",
+      "questId": "thornwood-snare-line"
+    },
+    {
+      "id": "snare-3",
+      "tx": 16,
+      "ty": 28,
+      "tileId": "sack",
+      "questId": "thornwood-snare-line"
+    },
+    {
+      "id": "supply-1",
+      "tx": 5,
+      "ty": 30,
+      "tileId": "cropBerries",
+      "questId": "thornwood-travellers-aid"
+    },
+    {
+      "id": "supply-2",
+      "tx": 13,
+      "ty": 30,
+      "tileId": "bottle",
+      "questId": "thornwood-travellers-aid"
+    },
+    {
+      "id": "supply-3",
+      "tx": 10,
+      "ty": 20,
+      "tileId": "leafBasket",
+      "questId": "thornwood-travellers-aid"
+    },
+    {
+      "id": "ravenwatch-parcel-1",
+      "tx": 7,
+      "ty": 42,
+      "tileId": "crate",
+      "questId": "thornwood-river-relay"
+    },
+    {
+      "id": "bramble-find-1",
+      "tx": 2,
+      "ty": 35,
+      "tileId": "smallRock",
+      "questId": "thornwood-stray-bramble"
+    },
+    {
+      "id": "bramble-find-2",
+      "tx": 16,
+      "ty": 38,
+      "tileId": "feather",
+      "questId": "thornwood-stray-bramble"
+    },
+    {
+      "id": "bramble-find-3",
+      "tx": 4,
+      "ty": 43,
+      "tileId": "smallRock",
+      "questId": "thornwood-stray-bramble"
     }
   ],
   "blockedPaths": [
