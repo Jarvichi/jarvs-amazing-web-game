@@ -33,7 +33,7 @@
       "receiverNpcId": "forager-mott",
       "offerDialogue": "The old warding-scarecrow's arm points at the scree where the ridge came down. Among the rubble, three stones catch the light — odd, smooth, and warm to the touch. Mott did say he needed such stones to shift the blockage...",
       "activeDialogue": "Gather the three shiny stones from the fallen scree, then bring them to Forager Mott.",
-      "completeDialogue": "These three? Aye — keystones, my gran called them. Watch.\n\n*Mott wedges them into the pile; with a groan the barrels roll aside and the path up to the fire opens.*\n\nThere. Camp's yours, traveller. Go tell Rell I made it.",
+      "completeDialogue": "These three? Aye — keystones, my gran called them. Watch.\n\n*Mott wedges them into the pile; with a groan the rocks roll aside and the path up to the fire opens.*\n\nThere. Camp's yours, traveller. Go tell Rell I made it.",
       "steps": [
         {
           "key": "stones",

@@ -437,7 +437,7 @@
     },
     {
       "rect": [
-        53,
+        54,
         19,
         58,
         19
@@ -634,9 +634,9 @@
     },
     {
       "rect": [
-        53,
-        18,
         54,
+        18,
+        55,
         18
       ]
     },
@@ -1166,9 +1166,9 @@
     },
     {
       "rect": [
-        50,
+        51,
         11,
-        57,
+        58,
         17
       ],
       "id": "scholars-hall-w",
@@ -4230,13 +4230,13 @@
       "zlayer": "solid"
     },
     {
-      "tx": 52,
+      "tx": 53,
       "ty": 18,
       "tileId": "mushroomBasket",
       "zlayer": "solid"
     },
     {
-      "tx": 51,
+      "tx": 52,
       "ty": 18,
       "tileId": "crate",
       "zlayer": "solid"
@@ -5300,73 +5300,73 @@
           "tx": 2,
           "ty": 3,
           "tileId": "rugTopLeft",
-          "zlayer": "solid"
+          "zlayer": "below"
         },
         {
           "tx": 3,
           "ty": 3,
           "tileId": "rugTopMid",
-          "zlayer": "solid"
+          "zlayer": "below"
         },
         {
           "tx": 4,
           "ty": 3,
           "tileId": "rugTopRight",
-          "zlayer": "solid"
+          "zlayer": "below"
         },
         {
           "tx": 2,
           "ty": 4,
           "tileId": "rugMidLeft",
-          "zlayer": "solid"
+          "zlayer": "below"
         },
         {
           "tx": 3,
           "ty": 4,
           "tileId": "rugMidMid",
-          "zlayer": "solid"
+          "zlayer": "below"
         },
         {
           "tx": 3,
           "ty": 5,
           "tileId": "rugMidMid",
-          "zlayer": "solid"
+          "zlayer": "below"
         },
         {
           "tx": 4,
           "ty": 4,
           "tileId": "rugMidRight",
-          "zlayer": "solid"
+          "zlayer": "below"
         },
         {
           "tx": 4,
           "ty": 5,
           "tileId": "rugMidRight",
-          "zlayer": "solid"
+          "zlayer": "below"
         },
         {
           "tx": 2,
           "ty": 5,
           "tileId": "rugMidLeft",
-          "zlayer": "solid"
+          "zlayer": "below"
         },
         {
           "tx": 2,
           "ty": 6,
           "tileId": "rugBottomLeft",
-          "zlayer": "solid"
+          "zlayer": "below"
         },
         {
           "tx": 3,
           "ty": 6,
           "tileId": "rugBottomMid",
-          "zlayer": "solid"
+          "zlayer": "below"
         },
         {
           "tx": 4,
           "ty": 6,
           "tileId": "rugBottomRight",
-          "zlayer": "solid"
+          "zlayer": "below"
         },
         {
           "tx": 9,
@@ -5461,6 +5461,18 @@
           "bundleID": "candelabra",
           "zlayer": "above",
           "minLevel": 2
+        },
+        {
+          "tx": 4,
+          "ty": 0,
+          "tileId": "ladderBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "fullLadderTop",
+          "zlayer": "solid"
         }
       ],
       "exits": [
@@ -5479,11 +5491,12 @@
           "toInteriorId": "home-building-storeroom",
           "direction": "back",
           "entryTx": 6,
-          "entryTy": 6
+          "entryTy": 6,
+          "minLevel": 1
         },
         {
           "tx": 4,
-          "ty": 2,
+          "ty": 1,
           "toInteriorId": "home-building-bedroom",
           "entryTx": 4,
           "entryTy": 6,
@@ -7306,8 +7319,8 @@
           "zlayer": "solid"
         },
         {
-          "tx": 9,
-          "ty": 1,
+          "tx": 4,
+          "ty": 4,
           "tileId": "darkPotWithLid",
           "zlayer": "solid"
         },
@@ -7352,13 +7365,14 @@
           "ty": 4,
           "tileId": "barrel",
           "zlayer": "solid",
-          "minLevel": 1
+          "minLevel": 2
         },
         {
           "tx": 7,
           "ty": 1,
           "tileId": "teddy",
-          "zlayer": "solid"
+          "zlayer": "solid",
+          "minLevel": 2
         }
       ],
       "exits": [
@@ -7368,7 +7382,8 @@
           "toInteriorId": "home",
           "entryTx": 6,
           "entryTy": 1,
-          "direction": "front"
+          "direction": "front",
+          "minLevel": 1
         }
       ],
       "wallTileId": "darkStone"
@@ -8142,7 +8157,7 @@
       "sprite": "hub-npc-elder",
       "building": "home",
       "tx": 7,
-      "ty": 6,
+      "ty": 5,
       "questGive": "aldous-keepsake",
       "dialogue": [
         "Welcome home, Commander. Your quarters are ready.",
@@ -8528,6 +8543,10 @@
     {
       "buildingId": "barracks-vault",
       "lockedBy": "barracks-key"
+    },
+    {
+      "buildingId": "church-building",
+      "lockedBy": "church-key"
     }
   ],
   "treasures": [
@@ -8662,6 +8681,29 @@
         {
           "type": "screen",
           "screen": "news"
+        }
+      ]
+    },
+    {
+      "id": "ravenwatch-church-key",
+      "tx": 30,
+      "ty": 19,
+      "reactions": [
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "ravenwatch-church-key",
+            "name": "Church Key",
+            "icon": "🗝️",
+            "desc": "A key to the Ravenwatch church"
+          }
+        }
+      ],
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "key"
         }
       ]
     }
