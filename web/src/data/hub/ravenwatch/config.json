@@ -8546,7 +8546,7 @@
     },
     {
       "buildingId": "church-building",
-      "lockedBy": "church-key"
+      "lockedBy": "ravenwatch-church-key"
     }
   ],
   "treasures": [
