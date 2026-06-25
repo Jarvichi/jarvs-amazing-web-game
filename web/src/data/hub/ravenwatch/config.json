@@ -7125,12 +7125,10 @@
       ],
       "exits": [
         {
-          "tx": 2,
+          "tx": 0,
           "ty": 5,
           "toInteriorId": "church-building-tower-base",
-          "direction": "left",
-          "entryTx": 8,
-          "entryTy": 4
+          "direction": "left"
         }
       ]
     },
@@ -8696,7 +8694,12 @@
             "name": "Church Key",
             "icon": "🗝️",
             "desc": "A key to the Ravenwatch church"
-          }
+          },
+          "message": "You found the Church Key! You can now enter the church."
+        },
+        {
+          "type": "move",
+          "to": { "tx": -1, "ty": -1 }
         }
       ],
       "decor": [
