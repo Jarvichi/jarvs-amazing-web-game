@@ -10,19 +10,18 @@ import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
 import { isBuildingOpen, getNpcLocation, getNpcActivity } from '../../game/hub/hubNpcSchedule'
 import { getGameHour, getGameMinute } from '../../game/hub/hubClock'
 import { emitSound, startInteriorAudio, stopInteriorAudio, setNightAmbiance } from '../../game/sound'
-import { getWallTile, ROOF_TILES, WALL_TILES, ROOF_ROWS } from '../../data/tiles/buildingMaterials'
+import { WALL_TILES } from '../../data/tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
+import { placeBuildingTiles, resolveBuildingVisual } from '../../data/tiles/buildingRender'
 import { loadPlayerAvatar } from '../../game/questline'
 import { createChunkCuller } from '../../utils/chunkCull'
 import { CommanderState } from '../../game/commander'
 import rollbar from '../../rollbar'
-import { HubInteractable, HubInteriorExit, HubLocationBundle, HubNpc, HubQuestBundle, HubStreetGroup, NpcScheduleEntry } from '../../data/hub/loader'
+import { HubInteractable, HubInteriorExit, HubLocationBundle, HubNpc, HubQuestBundle, HubStreetGroup, NpcScheduleEntry, isVisibleAtLevel } from '../../data/hub/loader'
 import { createAnimalSystem, AnimalSystem, GlowSource } from './hubAnimals'
 import { createWeatherSystem } from './hubWeather'
 import { resolveWeather } from '../../game/hub/weather'
 import { getActiveFestival } from '../../game/hub/hubCalendar'
-import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
-import { getUpgradeTrack } from '../../data/hub/buildingUpgrades'
 
 
 const T                 = 32
@@ -293,26 +292,46 @@ export function HubTownCanvas({
     }
 
     // Building tile set — derived from HUB_BUILDINGS, used for tap routing
+    // Tap-routing footprint — union of every level's footprint so a building stays
+    // tappable/enterable at any upgrade level (grown footprints are over-included).
+    const buildingFootprints = (b: typeof HUB_BUILDINGS[number]): [number, number, number, number][] =>
+      [b.rect, ...((b.levelVisuals ?? []).map(v => v.rect).filter(Boolean) as [number, number, number, number][])]
     const buildingSet = new Set<string>()
     for (const b of HUB_BUILDINGS)
-      for (let tx = b.rect[0]; tx <= b.rect[2]; tx++)
-        for (let ty = b.rect[1]; ty <= b.rect[3]; ty++)
-          buildingSet.add(`${tx},${ty}`)
+      for (const [x1, y1, x2, y2] of buildingFootprints(b))
+        for (let tx = x1; tx <= x2; tx++)
+          for (let ty = y1; ty <= y2; ty++)
+            buildingSet.add(`${tx},${ty}`)
 
     // ── Buildings ──────────────────────────────────────────────────────────────
+    // Each building is drawn as one or more *visual variants* (a base variant plus
+    // one per level threshold from `levelVisuals`). Variants live in their own
+    // containers and the active one is toggled each frame against the building's
+    // current upgrade level (see the variant toggle in the ticker below).
+    const buildingVariants: { buildingId: string; minLevel: number; nextLevel: number; container: PIXI.Container }[] = []
     {
-
-      // Collect placements: tileId → [(tx, ty), …]
-      // Insertion order determines render order — wall tiles first, door tiles
-      // last so they overdraw the wall tiles at shared positions.
-      const placements = new Map<number, [number, number][]>()
-      const place = (tileId: number, tx: number, ty: number) => {
-        const list = placements.get(tileId) ?? []
-        list.push([tx, ty])
-        placements.set(tileId, list)
-      }
-
       const fallbackPromises: Promise<void>[] = []
+
+      const renderVariant = (
+        rect: [number, number, number, number],
+        wall: WallMaterial,
+        roof: RoofMaterial,
+        doors: { tx: number; ty: number; tyAdjust?: number }[],
+        container: PIXI.Container,
+      ) => {
+        const placements = placeBuildingTiles(rect, wall, roof, doors)
+        for (const [tileId, positions] of placements) {
+          loadTileRef(tileId).then(tex => {
+            if (app.renderer == null) return
+            for (const [tx, ty] of positions) {
+              const s = new PIXI.Sprite(tex)
+              s.position.set(tx * T, ty * T)
+              s.width = T; s.height = T
+              container.addChild(s)
+            }
+          }).catch(() => {})
+        }
+      }
 
       for (const building of HUB_BUILDINGS) {
         const [x1, y1, x2, y2] = building.rect
@@ -326,61 +345,32 @@ export function HubTownCanvas({
           continue
         }
 
-        const wall = building.wall as WallMaterial
-        const roof = building.roof as RoofMaterial
-        const roofTileIds = ROOF_TILES[roof]
-        const width = x2 - x1 + 1
+        // Pass every door; placeBuildingTiles matches them to a footprint by
+        // position (south edge), mirroring the original renderer — door buildingId
+        // does not always equal the building's id, so we must not filter by id.
+        const doors = HUB_DOORS.map(d => ({ tx: d.tx, ty: d.ty, tyAdjust: d.tyAdjust }))
 
-        // Roof pass — top 4 rows
-        for (let row = 1; row < ROOF_ROWS; row++)
-          for (let tx = x1; tx <= x2; tx++)
-            place(roofTileIds[row], tx, y1 + row)
+        // Distinct visual thresholds: base (0) plus each levelVisuals minLevel.
+        const thresholds = [0, ...((building.levelVisuals ?? []).map(v => v.minLevel))]
+          .filter((v, i, a) => a.indexOf(v) === i)
+          .sort((a, b) => a - b)
 
-        // Wall pass — remaining rows (top tiles repeat for middle rows)
-        const firstWallRow = y1 + ROOF_ROWS
-        for (let ty = firstWallRow; ty <= y2; ty++) {
-          for (let tx = x1; tx <= x2; tx++) {
-            const isPillarCol      = tx === x1 + 1 || tx === x2 - 1
-            const isShadowCol      = width >= 5 && tx === x1 + 2
-            const isShadowRightCol = width >= 5 && tx === x2 
-            const isBottomRow =  ty === y2
-            const drawRow = true
-            if (drawRow){
-              const tileId = getWallTile(
-                wall, isBottomRow,
-                tx === x1,
-                isPillarCol,
-                isShadowCol,
-                tx === x2,
-                isShadowRightCol,
-              )
-              place(tileId, tx, ty)
-            }
-          }
-        }
-
-        // Door pass — south-facing doors, inserted after wall tiles so they overdraw
-        const wallTiles = WALL_TILES[wall]
-        for (const door of HUB_DOORS) {
-          if (door.ty !== y2 + 1 || door.tx < x1 || door.tx > x2) continue
-          const adj = door.tyAdjust ?? 0
-          place(wallTiles.doorArchTop, door.tx, y2 - 1 - adj)
-          place(wallTiles.doorTop,     door.tx, y2 - 1 - adj)
-          place(wallTiles.doorBottom,  door.tx, y2 - 0 - adj)
-        }
-      }
-
-      // Render: load each unique tileId once, reuse texture for all positions
-      for (const [tileId, positions] of placements) {
-        loadTileRef(tileId).then(tex => {
-          if (app.renderer == null) return
-          for (const [tx, ty] of positions) {
-            const s = new PIXI.Sprite(tex)
-            s.position.set(tx * T, ty * T)
-            s.width = T; s.height = T
-            buildingLayer.addChild(s)
-          }
-        }).catch(() => {})
+        thresholds.forEach((minLevel, ti) => {
+          const nextLevel = ti + 1 < thresholds.length ? thresholds[ti + 1] : Infinity
+          const vis = resolveBuildingVisual(
+            { rect: building.rect, wall: building.wall, roof: building.roof },
+            building.levelVisuals, minLevel,
+          )
+          if (!vis.wall || !vis.roof) return
+          const container = new PIXI.Container()
+          // Single-variant buildings are always shown; multi-variant ones start
+          // hidden and are toggled to the matching level in the ticker.
+          container.visible = thresholds.length === 1
+          buildingLayer.addChild(container)
+          renderVariant(vis.rect, vis.wall, vis.roof, doors, container)
+          if (thresholds.length > 1 && building.id)
+            buildingVariants.push({ buildingId: building.id, minLevel, nextLevel, container })
+        })
       }
 
       Promise.all(fallbackPromises).catch(e => rollbar.error('[HubTownCanvas] building tiles failed', { error: String(e) }))
@@ -757,7 +747,7 @@ export function HubTownCanvas({
         if (!b.id || !b.levelDecor?.length) continue
         const buildingLevel = upgradeLevels[b.id] ?? 0
         for (const d of b.levelDecor) {
-          if (d.zlayer === 'solid' && buildingLevel >= (d.minLevel ?? 0))
+          if (d.zlayer === 'solid' && isVisibleAtLevel(d, buildingLevel))
             s.delete(`${d.tx},${d.ty}`)
         }
       }
@@ -768,63 +758,28 @@ export function HubTownCanvas({
       return s
     }
 
-    // ── Building upgrade decor (revealed as the player upgrades buildings) ─────
-    // Each upgrade level may add decor at offsets relative to the building's
-    // primary door tile. Sprites are created once and toggled each frame against
-    // buildingUpgradeLevelsRef (mirrors the blocked-path visibility pattern).
-    const upgradeDecorSprites: { buildingId: string; levelIndex: number; sprite: PIXI.Sprite }[] = []
+    // ── Building upgrade decor (revealed/retired as the player upgrades buildings) ─
+    // Per-building level decor is authored in the map editor at absolute tile
+    // positions. Each item carries a minLevel (and optional hideAtLevel) so it can
+    // appear — and later be replaced — as the building is upgraded. Sprites are
+    // created once and toggled each frame against buildingUpgradeLevelsRef.
+    const upgradeDecorSprites: { buildingId: string; minLevel?: number; hideAtLevel?: number; sprite: PIXI.Sprite }[] = []
     {
       for (const b of HUB_BUILDINGS) {
-        if (!b.id) continue
+        if (!b.id || !b.levelDecor?.length) continue
         const buildingLevel = buildingUpgradeLevelsRef?.current[b.id] ?? 0
-
-        // Per-building level decor (absolute tile positions, authored in the map
-        // editor). When present it replaces the shared kind-track visuals for
-        // this building. Each item carries minLevel and reveals cumulatively.
-        if (b.levelDecor?.length) {
-          for (const d of b.levelDecor) {
-            const min = d.minLevel ?? 0
-            const layer = d.zlayer === 'above' ? aboveAvatarLayer : belowAvatarLayer
-            loadTileRef(d.tileId).then(tex => {
-              if (app.renderer == null) return
-              const s = new PIXI.Sprite(tex)
-              s.position.set(d.tx * T, d.ty * T)
-              s.width = T; s.height = T
-              s.visible = buildingLevel >= min
-              layer.addChild(s)
-              upgradeDecorSprites.push({ buildingId: b.id as string, levelIndex: min - 1, sprite: s })
-            }).catch(() => {})
-          }
-          continue
+        for (const d of b.levelDecor) {
+          const layer = d.zlayer === 'above' ? aboveAvatarLayer : belowAvatarLayer
+          loadTileRef(d.tileId).then(tex => {
+            if (app.renderer == null) return
+            const s = new PIXI.Sprite(tex)
+            s.position.set(d.tx * T, d.ty * T)
+            s.width = T; s.height = T
+            s.visible = isVisibleAtLevel(d, buildingLevel)
+            layer.addChild(s)
+            upgradeDecorSprites.push({ buildingId: b.id as string, minLevel: d.minLevel, hideAtLevel: d.hideAtLevel, sprite: s })
+          }).catch(() => {})
         }
-
-        if (!b.upgradeKind) continue
-        // Anchor decor at the building's primary door; fall back to the front
-        // centre of its footprint when the door comes from a bundle/elsewhere.
-        const foundDoor = HUB_DOORS.find(d => d.buildingId === b.id)
-        const door = foundDoor ?? {
-          tx: Math.floor((b.rect[0] + b.rect[2]) / 2),
-          ty: b.rect[3] + 1,
-        }
-        const track = getUpgradeTrack(b.upgradeKind)
-        track.forEach((lvl, levelIndex) => {
-          for (const d of lvl.decor ?? []) {
-            const tileId = (BASE_CHIP_TILES as Record<string, number>)[d.tileId]
-            if (tileId == null) continue
-            const tx = door.tx + d.dx
-            const ty = door.ty + d.dy
-            const buildingId = b.id as string
-            loadTileRef(tileId).then(tex => {
-              if (app.renderer == null) return
-              const s = new PIXI.Sprite(tex)
-              s.position.set(tx * T, ty * T)
-              s.width = T; s.height = T
-              s.visible = buildingLevel >= levelIndex + 1
-              belowAvatarLayer.addChild(s)
-              upgradeDecorSprites.push({ buildingId, levelIndex, sprite: s })
-            }).catch(() => {})
-          }
-        })
       }
     }
 
@@ -971,6 +926,9 @@ export function HubTownCanvas({
     const questIndicatorBaseY = new Map<string, number>()
     // Named NPC containers: keyed by npcId for schedule-driven visibility
     const namedNpcContainers  = new Map<string, PIXI.Container>()
+    // Exterior NPCs gated by a building's upgrade level — force-hidden until the
+    // building reaches minLevel (and again past hideAtLevel). Toggled in the ticker.
+    const levelGatedNpcs: { buildingId: string; minLevel?: number; hideAtLevel?: number; container: PIXI.Container }[] = []
     // Walk state for named NPCs — tracks current tile and in-progress walk queue
     interface NamedNpcWalkState {
       currentTx: number
@@ -1026,6 +984,14 @@ export function HubTownCanvas({
       npcLayer.addChild(npcContainer)
       namedNpcContainers.set(npc.id, npcContainer)
       if (walkState.isInside) npcContainer.visible = false
+      // Gate exterior NPCs that only appear once an associated building is upgraded.
+      if (npc.levelBuildingId) {
+        const min = npc.minLevel ?? 1
+        const gateLevel = buildingUpgradeLevelsRef?.current[npc.levelBuildingId] ?? 0
+        if (!isVisibleAtLevel({ minLevel: min, hideAtLevel: npc.hideAtLevel }, gateLevel))
+          npcContainer.visible = false
+        levelGatedNpcs.push({ buildingId: npc.levelBuildingId, minLevel: min, hideAtLevel: npc.hideAtLevel, container: npcContainer })
+      }
       if (npc.dialogue.length > 0) npcBubbleTargets.push({ npc, cx, cy })
 
       if (npc.questGive || npc.questReceive) {
@@ -1494,7 +1460,7 @@ export function HubTownCanvas({
       // prefixes this interior's id.
       const levelKey = HUB_BUILDINGS.find(b => b.id && buildingId.startsWith(b.id) && b.upgradeKind)?.id ?? buildingId
       const currentLevel = buildingUpgradeLevelsRef?.current[levelKey] ?? 0
-      const visibleDecor   = interior.decor.filter(d => (d.minLevel ?? 0) <= currentLevel)
+      const visibleDecor   = interior.decor.filter(d => isVisibleAtLevel(d, currentLevel))
       const availableExits = (interior.exits ?? []).filter(e => (e.minLevel ?? 0) <= currentLevel)
 
       // Building hours check — block entry if closed
@@ -1772,7 +1738,7 @@ export function HubTownCanvas({
       }
 
       // Interior NPCs — rendered inside the room, tappable
-      const interiorNpcList: HubNpc[] = (INTERIOR_NPCS[buildingId] ?? []).filter(n => (n.minLevel ?? 0) <= currentLevel)
+      const interiorNpcList: HubNpc[] = (INTERIOR_NPCS[buildingId] ?? []).filter(n => isVisibleAtLevel(n, currentLevel))
       for (const npc of interiorNpcList) {
         loadTextureUrl(`${base}sprites/${resolveNpcSprite(npc.sprite)}.svg`).then(tex => {
           if (!interiorActive || currentInteriorId !== buildingId) return
@@ -2501,11 +2467,30 @@ export function HubTownCanvas({
           }
         }
 
-        // Building upgrade decor visibility (reveals on purchase)
+        // Building upgrade decor visibility (reveals/retires on purchase)
         if (upgradeDecorSprites.length > 0) {
           const levels = buildingUpgradeLevelsRef?.current ?? {}
           for (const u of upgradeDecorSprites) {
-            u.sprite.visible = (levels[u.buildingId] ?? 0) >= u.levelIndex + 1
+            u.sprite.visible = isVisibleAtLevel(u, levels[u.buildingId] ?? 0)
+          }
+        }
+
+        // Building visual variants — show the variant matching the current level
+        if (buildingVariants.length > 0) {
+          const levels = buildingUpgradeLevelsRef?.current ?? {}
+          for (const v of buildingVariants) {
+            const lvl = levels[v.buildingId] ?? 0
+            v.container.visible = lvl >= v.minLevel && lvl < v.nextLevel
+          }
+        }
+
+        // Level-gated exterior NPCs — hide until their building reaches the level
+        // (and again once hideAtLevel passes). When visible the normal schedule /
+        // walk logic governs the container, so only force-hide here.
+        if (levelGatedNpcs.length > 0) {
+          const levels = buildingUpgradeLevelsRef?.current ?? {}
+          for (const g of levelGatedNpcs) {
+            if (!isVisibleAtLevel(g, levels[g.buildingId] ?? 0)) g.container.visible = false
           }
         }
       }

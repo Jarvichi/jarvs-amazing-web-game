@@ -170,6 +170,44 @@
           "hideSign": true,
           "buildingId": "cider-house"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 5,
+          "ty": 9,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 7,
+          "ty": 9,
+          "tileId": "bottlesOfLiquor",
+          "minLevel": 1
+        },
+        {
+          "tx": 4,
+          "ty": 9,
+          "tileId": "barrel",
+          "minLevel": 2
+        },
+        {
+          "tx": 8,
+          "ty": 9,
+          "tileId": "barrel",
+          "minLevel": 2
+        },
+        {
+          "tx": 6,
+          "ty": 11,
+          "tileId": "drinkSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 5,
+          "ty": 10,
+          "tileId": "bottlesOfLiquor",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -189,6 +227,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "chapel"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 13,
+          "ty": 9,
+          "tileId": "floorLantern",
+          "minLevel": 1
+        },
+        {
+          "tx": 15,
+          "ty": 9,
+          "tileId": "floorLantern",
+          "minLevel": 1
+        },
+        {
+          "tx": 12,
+          "ty": 9,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 16,
+          "ty": 9,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 14,
+          "ty": 11,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 13,
+          "ty": 10,
+          "tileId": "goldChest",
+          "minLevel": 3
         }
       ]
     },
@@ -210,6 +286,44 @@
           "hideSign": true,
           "buildingId": "keepers-cottage"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 23,
+          "ty": 9,
+          "tileId": "pinkFlower",
+          "minLevel": 1
+        },
+        {
+          "tx": 25,
+          "ty": 9,
+          "tileId": "blueFlower",
+          "minLevel": 1
+        },
+        {
+          "tx": 22,
+          "ty": 9,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 26,
+          "ty": 9,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 24,
+          "ty": 11,
+          "tileId": "floorLantern",
+          "minLevel": 3
+        },
+        {
+          "tx": 25,
+          "ty": 10,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -229,6 +343,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "coopers-shed"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 31,
+          "ty": 9,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 33,
+          "ty": 9,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 30,
+          "ty": 9,
+          "tileId": "chest",
+          "minLevel": 2
+        },
+        {
+          "tx": 34,
+          "ty": 9,
+          "tileId": "barrel",
+          "minLevel": 2
+        },
+        {
+          "tx": 32,
+          "ty": 11,
+          "tileId": "armourSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 31,
+          "ty": 10,
+          "tileId": "chest",
+          "minLevel": 3
         }
       ]
     },
@@ -250,6 +402,44 @@
           "hideSign": true,
           "buildingId": "bottling-barn"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 5,
+          "ty": 19,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 7,
+          "ty": 19,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 4,
+          "ty": 19,
+          "tileId": "chest",
+          "minLevel": 2
+        },
+        {
+          "tx": 8,
+          "ty": 19,
+          "tileId": "barrel",
+          "minLevel": 2
+        },
+        {
+          "tx": 6,
+          "ty": 21,
+          "tileId": "armourSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 5,
+          "ty": 20,
+          "tileId": "chest",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -269,6 +459,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "apiary"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 13,
+          "ty": 19,
+          "tileId": "pinkFlower",
+          "minLevel": 1
+        },
+        {
+          "tx": 15,
+          "ty": 19,
+          "tileId": "blueFlower",
+          "minLevel": 1
+        },
+        {
+          "tx": 12,
+          "ty": 19,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 16,
+          "ty": 19,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 14,
+          "ty": 21,
+          "tileId": "floorLantern",
+          "minLevel": 3
+        },
+        {
+          "tx": 15,
+          "ty": 20,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
         }
       ]
     },
@@ -290,6 +518,44 @@
           "hideSign": true,
           "buildingId": "orchard-cottage"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 23,
+          "ty": 19,
+          "tileId": "pinkFlower",
+          "minLevel": 1
+        },
+        {
+          "tx": 25,
+          "ty": 19,
+          "tileId": "blueFlower",
+          "minLevel": 1
+        },
+        {
+          "tx": 22,
+          "ty": 19,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 26,
+          "ty": 19,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 24,
+          "ty": 21,
+          "tileId": "floorLantern",
+          "minLevel": 3
+        },
+        {
+          "tx": 25,
+          "ty": 20,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -309,6 +575,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "market-barn"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 31,
+          "ty": 19,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 33,
+          "ty": 19,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 30,
+          "ty": 19,
+          "tileId": "pileOfSacks",
+          "minLevel": 2
+        },
+        {
+          "tx": 34,
+          "ty": 19,
+          "tileId": "crate",
+          "minLevel": 2
+        },
+        {
+          "tx": 32,
+          "ty": 21,
+          "tileId": "goldSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 31,
+          "ty": 20,
+          "tileId": "goldChest",
+          "minLevel": 3
         }
       ]
     }
@@ -958,7 +1262,7 @@
       "ty": 3,
       "building": "cider-house",
       "dialogue": [
-        "Appleford cider \u2014 pressed here, drunk everywhere, remembered fondly nowhere near here.",
+        "Appleford cider — pressed here, drunk everywhere, remembered fondly nowhere near here.",
         "The toll road's made deliveries a nightmare. Bandits drink my profits, literally.",
         "First mug's full price. So's the second. I'm a brewer, not a charity."
       ],
@@ -977,7 +1281,7 @@
       "building": "apiary",
       "dialogue": [
         "Mind the hives. The bees know a thief from a friend, and they vote with their stings.",
-        "Honey, wax, mead \u2014 one little bee gives you all three and asks only for flowers.",
+        "Honey, wax, mead — one little bee gives you all three and asks only for flowers.",
         "Bess grows the blossom, I keep the bees. Between us we keep Appleford sweet."
       ],
       "questGive": "appleford-honey-harvest",
@@ -996,7 +1300,7 @@
       "dialogue": [
         "No barrel, no cider. No cider, no Appleford. I'd say I'm the most important person here, but Tom would sulk.",
         "A good cask is watertight, sweet-grained, and never argues. Unlike apprentices.",
-        "Staves, hoops, and patience \u2014 that's a barrel. Rush any of the three and you've a puddle."
+        "Staves, hoops, and patience — that's a barrel. Rush any of the three and you've a puddle."
       ],
       "questGive": "appleford-coopers-order",
       "questReceive": "appleford-coopers-order"
@@ -1009,7 +1313,7 @@
       "ty": 4,
       "building": "market-barn",
       "dialogue": [
-        "Apples, cider, honey, jam \u2014 if it grows in Appleford, it sells through me.",
+        "Apples, cider, honey, jam — if it grows in Appleford, it sells through me.",
         "Ravenwatch pays double for our cider. Getting it there in one piece is the trick.",
         "Buy low, sell ripe. That's the whole of it, traveller."
       ],
@@ -1181,7 +1485,7 @@
       ]
     },
     "cider-house-press": {
-      "name": "The Cider House \u2014 Press Room",
+      "name": "The Cider House — Press Room",
       "width": 11,
       "height": 8,
       "floorTileId": "woodFloor",
@@ -1246,7 +1550,7 @@
       ]
     },
     "cider-house-cellar": {
-      "name": "The Cider House \u2014 Cellar",
+      "name": "The Cider House — Cellar",
       "width": 10,
       "height": 8,
       "floorTileId": "stoneFloor",
@@ -1443,7 +1747,7 @@
       ]
     },
     "keepers-cottage-back": {
-      "name": "The Keeper's Cottage \u2014 Pantry",
+      "name": "The Keeper's Cottage — Pantry",
       "width": 10,
       "height": 8,
       "floorTileId": "woodFloor",

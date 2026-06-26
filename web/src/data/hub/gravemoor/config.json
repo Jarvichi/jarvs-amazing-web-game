@@ -183,6 +183,44 @@
           "hideSign": true,
           "buildingId": "mourning-hall"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 7,
+          "ty": 10,
+          "tileId": "floorLantern",
+          "minLevel": 1
+        },
+        {
+          "tx": 9,
+          "ty": 10,
+          "tileId": "floorLantern",
+          "minLevel": 1
+        },
+        {
+          "tx": 6,
+          "ty": 10,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 10,
+          "ty": 10,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 8,
+          "ty": 12,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 7,
+          "ty": 11,
+          "tileId": "goldChest",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -202,6 +240,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "crypt-keep"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 21,
+          "ty": 10,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 23,
+          "ty": 10,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 20,
+          "ty": 10,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 24,
+          "ty": 10,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 22,
+          "ty": 12,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 21,
+          "ty": 11,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
         }
       ]
     },
@@ -223,6 +299,44 @@
           "hideSign": true,
           "buildingId": "gravedigger-shed"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 30,
+          "ty": 10,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 32,
+          "ty": 10,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 29,
+          "ty": 10,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 33,
+          "ty": 10,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 31,
+          "ty": 12,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 30,
+          "ty": 11,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -242,6 +356,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "undertaker"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 5,
+          "ty": 26,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 7,
+          "ty": 26,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 4,
+          "ty": 26,
+          "tileId": "pileOfSacks",
+          "minLevel": 2
+        },
+        {
+          "tx": 8,
+          "ty": 26,
+          "tileId": "crate",
+          "minLevel": 2
+        },
+        {
+          "tx": 6,
+          "ty": 28,
+          "tileId": "goldSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 5,
+          "ty": 27,
+          "tileId": "goldChest",
+          "minLevel": 3
         }
       ]
     },
@@ -263,6 +415,44 @@
           "hideSign": true,
           "buildingId": "mausoleum-chapel"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 21,
+          "ty": 26,
+          "tileId": "floorLantern",
+          "minLevel": 1
+        },
+        {
+          "tx": 23,
+          "ty": 26,
+          "tileId": "floorLantern",
+          "minLevel": 1
+        },
+        {
+          "tx": 20,
+          "ty": 26,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 24,
+          "ty": 26,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 22,
+          "ty": 28,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 21,
+          "ty": 27,
+          "tileId": "goldChest",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -283,6 +473,44 @@
           "hideSign": true,
           "buildingId": "ruined-town-hall"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 29,
+          "ty": 26,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 31,
+          "ty": 26,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 28,
+          "ty": 26,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 32,
+          "ty": 26,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 30,
+          "ty": 28,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 29,
+          "ty": 27,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -302,6 +530,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "haunted-inn"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 37,
+          "ty": 26,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 39,
+          "ty": 26,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 36,
+          "ty": 26,
+          "tileId": "floorLantern",
+          "minLevel": 2
+        },
+        {
+          "tx": 40,
+          "ty": 26,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 38,
+          "ty": 28,
+          "tileId": "innSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 37,
+          "ty": 27,
+          "tileId": "floorLantern",
+          "minLevel": 3
         }
       ]
     }

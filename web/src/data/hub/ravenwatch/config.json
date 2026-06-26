@@ -1001,6 +1001,44 @@
           "ty": -1,
           "tileId": "windowBottom"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 4,
+          "ty": 11,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 6,
+          "ty": 11,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 3,
+          "ty": 11,
+          "tileId": "pileOfSacks",
+          "minLevel": 2
+        },
+        {
+          "tx": 7,
+          "ty": 11,
+          "tileId": "crate",
+          "minLevel": 2
+        },
+        {
+          "tx": 5,
+          "ty": 13,
+          "tileId": "goldSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 4,
+          "ty": 12,
+          "tileId": "goldChest",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -1041,6 +1079,44 @@
           "tx": 4,
           "ty": -1,
           "tileId": "windowBottom2"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 13,
+          "ty": 11,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 15,
+          "ty": 11,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 12,
+          "ty": 11,
+          "tileId": "pileOfSacks",
+          "minLevel": 2
+        },
+        {
+          "tx": 16,
+          "ty": 11,
+          "tileId": "crate",
+          "minLevel": 2
+        },
+        {
+          "tx": 14,
+          "ty": 13,
+          "tileId": "goldSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 13,
+          "ty": 12,
+          "tileId": "goldChest",
+          "minLevel": 3
         }
       ]
     },
@@ -1305,6 +1381,44 @@
           "ty": -1,
           "tileId": "windowBottom2"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 25,
+          "ty": 21,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 27,
+          "ty": 21,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 24,
+          "ty": 21,
+          "tileId": "floorLantern",
+          "minLevel": 2
+        },
+        {
+          "tx": 28,
+          "ty": 21,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 26,
+          "ty": 23,
+          "tileId": "innSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 25,
+          "ty": 22,
+          "tileId": "floorLantern",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -1337,6 +1451,44 @@
           "ty": -1,
           "tileId": "windowBottom3"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 23,
+          "ty": 34,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 25,
+          "ty": 34,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 22,
+          "ty": 34,
+          "tileId": "pileOfSacks",
+          "minLevel": 2
+        },
+        {
+          "tx": 26,
+          "ty": 34,
+          "tileId": "crate",
+          "minLevel": 2
+        },
+        {
+          "tx": 24,
+          "ty": 36,
+          "tileId": "goldSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 23,
+          "ty": 35,
+          "tileId": "goldChest",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -1367,6 +1519,44 @@
           "tx": 1,
           "ty": -1,
           "tileId": "windowBottom4"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 45,
+          "ty": 18,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 47,
+          "ty": 18,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 44,
+          "ty": 18,
+          "tileId": "pileOfSacks",
+          "minLevel": 2
+        },
+        {
+          "tx": 48,
+          "ty": 18,
+          "tileId": "crate",
+          "minLevel": 2
+        },
+        {
+          "tx": 46,
+          "ty": 20,
+          "tileId": "goldSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 45,
+          "ty": 19,
+          "tileId": "goldChest",
+          "minLevel": 3
         }
       ]
     },
@@ -1741,6 +1931,44 @@
           "tx": 12,
           "ty": -1,
           "tileId": "windowBottom3"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 18,
+          "ty": 47,
+          "tileId": "floorLantern",
+          "minLevel": 1
+        },
+        {
+          "tx": 20,
+          "ty": 47,
+          "tileId": "floorLantern",
+          "minLevel": 1
+        },
+        {
+          "tx": 17,
+          "ty": 47,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 21,
+          "ty": 47,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 19,
+          "ty": 49,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 18,
+          "ty": 48,
+          "tileId": "goldChest",
+          "minLevel": 3
         }
       ]
     },

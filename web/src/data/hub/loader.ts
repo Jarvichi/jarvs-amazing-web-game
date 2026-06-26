@@ -9,6 +9,20 @@ const WALL_MATERIAL_NAMES = new Set<string>(Object.keys(WALL_TILES))
 
 const T = 32
 
+/**
+ * Shared visibility predicate for level-gated items (decor / NPCs). An item is
+ * visible while `minLevel <= level` and (if set) `level < hideAtLevel`. This lets
+ * an author retire an item as its upgraded replacement appears.
+ */
+export function isVisibleAtLevel(
+  item: { minLevel?: number; hideAtLevel?: number },
+  level: number,
+): boolean {
+  if ((item.minLevel ?? 0) > level) return false
+  if (item.hideAtLevel != null && level >= item.hideAtLevel) return false
+  return true
+}
+
 // ── Types ──────────────────────────────────────────────────────────────────────
 
 export interface HubArea {
@@ -27,8 +41,14 @@ export interface HubBuilding {
   roof?: RoofMaterial
   /** Upgrade track key (buildingUpgrades.json); set = building is upgradeable. */
   upgradeKind?: string
-  /** Per-building exterior decor revealed by upgrade level (absolute tx/ty, each carries minLevel). */
-  levelDecor?: Array<{ tx: number; ty: number; tileId: number; zlayer?: 'solid' | 'below' | 'above'; minLevel?: number }>
+  /** Per-building exterior decor revealed/retired by upgrade level (absolute tx/ty). */
+  levelDecor?: Array<{ tx: number; ty: number; tileId: number; zlayer?: 'solid' | 'below' | 'above'; minLevel?: number; hideAtLevel?: number }>
+  /**
+   * Per-level visual overrides (footprint/wall/roof). Sorted ascending by
+   * minLevel. The highest entry whose minLevel <= currentLevel wins; omitted
+   * fields inherit from the base building.
+   */
+  levelVisuals?: Array<{ minLevel: number; rect?: [number, number, number, number]; wall?: WallMaterial; roof?: RoofMaterial }>
 }
 
 export interface HubDoor {
@@ -50,6 +70,7 @@ export interface InteriorDecor extends DecorGlow {
   ty:      number
   tileId:  number
   minLevel?: number   // building upgrade level at which this decor first appears (0/undefined = base)
+  hideAtLevel?: number // building upgrade level at which this decor disappears (undefined = never)
   zlayer?: 'solid' | 'below' | 'above'
   // solid (default): not walkable, renders below avatar
   // below: walkable, renders below avatar (rugs, floor markings)
@@ -112,6 +133,9 @@ export interface HubNpc {
   innRumours?: Array<{ id: string; text: string }>
   isGhost?: boolean
   minLevel?: number   // building upgrade level at which this NPC first appears (0/undefined = always)
+  hideAtLevel?: number // building upgrade level at which this NPC disappears (undefined = never)
+  /** For exterior NPCs: id of the building whose upgrade level gates this NPC's visibility. */
+  levelBuildingId?: string
   schedule?: NpcScheduleEntry[]
   homeBed?: { buildingId: string; tx: number; ty: number }
   /** Id of a branching dialogue tree (questDefs.json `dialogues`) to run on tap. */
@@ -362,7 +386,8 @@ type RawBuilding = {
   doors?:   Array<{ tx: number; ty: number; buildingId?: string, hideSign?: boolean }>
   windows?: Array<{ tx: number; ty: number; tileId: string }>
   decor?:   Array<{ tx: number; ty: number; tileId?: string; bundleID?: string; zlayer?: string }>
-  levelDecor?: Array<{ tx?: number; ty?: number; tileId?: string; zlayer?: string; minLevel?: number }>
+  levelDecor?: Array<{ tx?: number; ty?: number; tileId?: string; zlayer?: string; minLevel?: number; hideAtLevel?: number }>
+  levelVisuals?: Array<{ minLevel: number; rect?: number[]; wall?: string; roof?: string }>
 }
 const HUB_BUILDINGS: HubBuilding[] = (rawConfig.buildings as RawBuilding[]).flatMap(b => {
   const rectList = b.rects ?? (b.rect ? [b.rect] : [])
@@ -371,8 +396,17 @@ const HUB_BUILDINGS: HubBuilding[] = (rawConfig.buildings as RawBuilding[]).flat
   const levelDecor = (b.levelDecor ?? []).flatMap(d =>
     d.tx == null || d.ty == null || !d.tileId
       ? []
-      : [{ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer as 'solid' | 'below' | 'above' | undefined, minLevel: d.minLevel }],
+      : [{ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer as 'solid' | 'below' | 'above' | undefined, minLevel: d.minLevel, hideAtLevel: d.hideAtLevel }],
   )
+  // Per-level visuals attach to the first rect only (variants own a full footprint).
+  const levelVisuals = (b.levelVisuals ?? [])
+    .map(v => ({
+      minLevel: v.minLevel,
+      rect: v.rect && v.rect.length === 4 ? (v.rect as [number, number, number, number]) : undefined,
+      wall: v.wall as WallMaterial | undefined,
+      roof: v.roof as RoofMaterial | undefined,
+    }))
+    .sort((a, c) => a.minLevel - c.minLevel)
   return rectList.map((rect, i) => ({
     rect: rect as [number, number, number, number],
     id:   b.id,
@@ -380,6 +414,7 @@ const HUB_BUILDINGS: HubBuilding[] = (rawConfig.buildings as RawBuilding[]).flat
     roof: b.roof as RoofMaterial | undefined,
     upgradeKind: b.upgradeKind,
     ...(i === 0 && levelDecor.length ? { levelDecor } : {}),
+    ...(i === 0 && levelVisuals.length ? { levelVisuals } : {}),
   }))
 })
 
@@ -486,10 +521,10 @@ const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
         height:       raw.height,
         floorTileId:  resolveTileId(raw.floorTileId),
         wallMaterial: wallTileIdStr && WALL_MATERIAL_NAMES.has(wallTileIdStr) ? wallTileIdStr as WallMaterial : undefined,
-        decor:        (raw.decor as Array<{ tx: number; ty: number; tileId?: string; bundleID?: string; zlayer?: string; minLevel?: number }>).flatMap(d => {
+        decor:        (raw.decor as Array<{ tx: number; ty: number; tileId?: string; bundleID?: string; zlayer?: string; minLevel?: number; hideAtLevel?: number }>).flatMap(d => {
           if (d.bundleID)
-            return expandBundleDecor(d.bundleID, d.tx, d.ty).map(e => ({ ...e, zlayer: e.zlayer as InteriorDecor['zlayer'], minLevel: d.minLevel }))
-          return [{ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId ?? ''), zlayer: d.zlayer as InteriorDecor['zlayer'], minLevel: d.minLevel }]
+            return expandBundleDecor(d.bundleID, d.tx, d.ty).map(e => ({ ...e, zlayer: e.zlayer as InteriorDecor['zlayer'], minLevel: d.minLevel, hideAtLevel: d.hideAtLevel }))
+          return [{ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId ?? ''), zlayer: d.zlayer as InteriorDecor['zlayer'], minLevel: d.minLevel, hideAtLevel: d.hideAtLevel }]
         }),
         exits: ((rawAny.exits ?? []) as HubInteriorExit[]),
         hours: rawAny.hours as HubInterior['hours'],

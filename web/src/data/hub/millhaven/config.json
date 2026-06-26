@@ -257,6 +257,44 @@
           "hideSign": true,
           "buildingId": "mill"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 2,
+          "ty": 7,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 4,
+          "ty": 7,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "chest",
+          "minLevel": 2
+        },
+        {
+          "tx": 5,
+          "ty": 7,
+          "tileId": "barrel",
+          "minLevel": 2
+        },
+        {
+          "tx": 3,
+          "ty": 9,
+          "tileId": "armourSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 2,
+          "ty": 8,
+          "tileId": "chest",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -276,6 +314,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "fishmonger"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 26,
+          "ty": 13,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 28,
+          "ty": 13,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 25,
+          "ty": 13,
+          "tileId": "pileOfSacks",
+          "minLevel": 2
+        },
+        {
+          "tx": 29,
+          "ty": 13,
+          "tileId": "crate",
+          "minLevel": 2
+        },
+        {
+          "tx": 27,
+          "ty": 15,
+          "tileId": "goldSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 26,
+          "ty": 14,
+          "tileId": "goldChest",
+          "minLevel": 3
         }
       ]
     },
@@ -297,6 +373,44 @@
           "hideSign": true,
           "buildingId": "inn-millhaven"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 17,
+          "ty": 9,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 19,
+          "ty": 9,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 16,
+          "ty": 9,
+          "tileId": "floorLantern",
+          "minLevel": 2
+        },
+        {
+          "tx": 20,
+          "ty": 9,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 18,
+          "ty": 11,
+          "tileId": "innSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 17,
+          "ty": 10,
+          "tileId": "floorLantern",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -316,6 +430,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "market-hall"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 26,
+          "ty": 23,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 28,
+          "ty": 23,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 25,
+          "ty": 23,
+          "tileId": "pileOfSacks",
+          "minLevel": 2
+        },
+        {
+          "tx": 29,
+          "ty": 23,
+          "tileId": "crate",
+          "minLevel": 2
+        },
+        {
+          "tx": 27,
+          "ty": 25,
+          "tileId": "goldSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 26,
+          "ty": 24,
+          "tileId": "goldChest",
+          "minLevel": 3
         }
       ]
     },
@@ -337,6 +489,44 @@
           "hideSign": true,
           "buildingId": "town-hall-millhaven"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 8,
+          "ty": 23,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 10,
+          "ty": 23,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 7,
+          "ty": 23,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 11,
+          "ty": 23,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 9,
+          "ty": 25,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 8,
+          "ty": 24,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -356,6 +546,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "bakery"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 22,
+          "ty": 32,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 24,
+          "ty": 32,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 21,
+          "ty": 32,
+          "tileId": "pileOfSacks",
+          "minLevel": 2
+        },
+        {
+          "tx": 25,
+          "ty": 32,
+          "tileId": "crate",
+          "minLevel": 2
+        },
+        {
+          "tx": 23,
+          "ty": 34,
+          "tileId": "goldSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 22,
+          "ty": 33,
+          "tileId": "goldChest",
+          "minLevel": 3
         }
       ]
     },
@@ -377,6 +605,44 @@
           "hideSign": true,
           "buildingId": "smithy"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 9,
+          "ty": 32,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 11,
+          "ty": 32,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 8,
+          "ty": 32,
+          "tileId": "chest",
+          "minLevel": 2
+        },
+        {
+          "tx": 12,
+          "ty": 32,
+          "tileId": "barrel",
+          "minLevel": 2
+        },
+        {
+          "tx": 10,
+          "ty": 34,
+          "tileId": "armourSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 9,
+          "ty": 33,
+          "tileId": "chest",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -397,6 +663,44 @@
           "hideSign": true,
           "buildingId": "boathouse"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 33,
+          "ty": 33,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 35,
+          "ty": 33,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 32,
+          "ty": 33,
+          "tileId": "chest",
+          "minLevel": 2
+        },
+        {
+          "tx": 36,
+          "ty": 33,
+          "tileId": "barrel",
+          "minLevel": 2
+        },
+        {
+          "tx": 34,
+          "ty": 35,
+          "tileId": "armourSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 33,
+          "ty": 34,
+          "tileId": "chest",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -416,6 +720,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "fisher-cottage"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 1,
+          "ty": 32,
+          "tileId": "pinkFlower",
+          "minLevel": 1
+        },
+        {
+          "tx": 3,
+          "ty": 32,
+          "tileId": "blueFlower",
+          "minLevel": 1
+        },
+        {
+          "tx": 0,
+          "ty": 32,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 4,
+          "ty": 32,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 2,
+          "ty": 34,
+          "tileId": "floorLantern",
+          "minLevel": 3
+        },
+        {
+          "tx": 3,
+          "ty": 33,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
         }
       ]
     }

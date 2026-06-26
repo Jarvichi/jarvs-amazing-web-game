@@ -17,6 +17,7 @@ import gravemoorConfig from '../../data/hub/gravemoor/config.json'
 import hollowmereConfig from '../../data/hub/hollowmere/config.json'
 import dreadspirecitadelConfig from '../../data/hub/dreadspirecitadel/config.json'
 import { MapId } from '../../data/hub/hubWorldFactory'
+import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 
 // Exported so cross-town reference pickers (entityRefs.ts) can read every town's
 // NPCs / buildings / interiors without re-importing all the config JSON.
@@ -669,6 +670,83 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     })
   }, [])
 
+  // Patch the hideAtLevel of a level-aware decor item (building level-decor or interior decor).
+  const updateDecorHideAtLevel = useCallback((entity: SelectedEntity, hideAtLevel: number | undefined) => {
+    setState(s => {
+      const prevConfig = s.configData
+      let newConfig = prevConfig
+      const clean = (item: RawDecorItem): RawDecorItem => {
+        const next = { ...item, hideAtLevel }
+        if (hideAtLevel === undefined || hideAtLevel <= 0) delete next.hideAtLevel
+        return next
+      }
+
+      if (entity.type === 'buildingLevelDecor' && prevConfig.buildings?.[entity.buildingIndex]?.levelDecor) {
+        const buildings = [...prevConfig.buildings]
+        const b = buildings[entity.buildingIndex]
+        const levelDecor = [...(b.levelDecor ?? [])]
+        if (!levelDecor[entity.index]) return s
+        levelDecor[entity.index] = clean(levelDecor[entity.index])
+        buildings[entity.buildingIndex] = { ...b, levelDecor }
+        newConfig = { ...prevConfig, buildings }
+      } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
+        const interior = prevConfig.interiors[entity.interiorId]
+        const decor = [...interior.decor]
+        if (!decor[entity.index]) return s
+        decor[entity.index] = clean(decor[entity.index])
+        newConfig = {
+          ...prevConfig,
+          interiors: { ...prevConfig.interiors, [entity.interiorId]: { ...interior, decor } },
+        }
+      }
+
+      if (newConfig === prevConfig) return s
+      return {
+        ...s,
+        configData: newConfig,
+        undoStack:  [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack:  [],
+        isDirty:    true,
+      }
+    })
+  }, [])
+
+  // Create/patch/remove a per-level visual override (footprint/wall/roof) for a building.
+  const updateBuildingLevelVisual = useCallback((
+    buildingIndex: number,
+    minLevel: number,
+    patch: Partial<{ rect: [number, number, number, number]; wall: WallMaterial; roof: RoofMaterial }>,
+  ) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const buildings = [...(prevConfig.buildings ?? [])]
+      const b = buildings[buildingIndex]
+      if (!b) return s
+      const levelVisuals = [...(b.levelVisuals ?? [])]
+      const idx = levelVisuals.findIndex(v => v.minLevel === minLevel)
+      const merged = { ...(idx >= 0 ? levelVisuals[idx] : { minLevel }), ...patch }
+      // Drop fields cleared to undefined so they fall back to the base building.
+      for (const k of ['rect', 'wall', 'roof'] as const)
+        if (merged[k] === undefined) delete (merged as Record<string, unknown>)[k]
+      const hasOverride = merged.rect !== undefined || merged.wall !== undefined || merged.roof !== undefined
+      if (idx >= 0) {
+        if (hasOverride) levelVisuals[idx] = merged
+        else levelVisuals.splice(idx, 1)                 // nothing left to override — remove entry
+      } else if (hasOverride) {
+        levelVisuals.push(merged)
+      }
+      levelVisuals.sort((a, c) => a.minLevel - c.minLevel)
+      buildings[buildingIndex] = { ...b, levelVisuals: levelVisuals.length ? levelVisuals : undefined }
+      return {
+        ...s,
+        configData: { ...prevConfig, buildings },
+        undoStack:  [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack:  [],
+        isDirty:    true,
+      }
+    })
+  }, [])
+
   // Patch building-level fields (upgradeKind / maxLevel) on a building.
   const updateBuilding = useCallback((index: number, patch: Partial<RawBuilding>) => {
     setState(s => {
@@ -1245,6 +1323,8 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     reorderDecor,
     updateGlow,
     updateDecorMinLevel,
+    updateDecorHideAtLevel,
+    updateBuildingLevelVisual,
     updateBuilding,
     addNpc,
     updateNpcDialogue,

@@ -3,19 +3,15 @@
 // Shared, data-driven upgrade tracks keyed by building *kind* (shop, inn,
 // cottage, workshop, shrine, tavern, default…). Each town building is tagged
 // with an `upgradeKind` in its config.json; the reputation store reads the
-// matching track here. Decor offsets (`dx`/`dy`) are relative to the building's
-// primary door tile and are revealed once that upgrade level is reached.
+// matching track here for costs, reputation gates and unlocked services.
+//
+// Exterior upgrade decor is no longer placed by these tracks — it is authored
+// per building in each town's config.json (`levelDecor`, with minLevel/hideAtLevel)
+// via the map editor, so placement can be tuned per building.
 //
 // Authored data lives in ./buildingUpgrades.json — edit costs/benefits there.
 
 import raw from './buildingUpgrades.json'
-
-export interface UpgradeDecor {
-  dx: number
-  dy: number
-  /** Constant name from baseChipIndex.ts (resolved by the canvas, not here). */
-  tileId: string
-}
 
 export interface BuildingUpgradeLevel {
   /** Short title for this level (shown in the upgrade panel). */
@@ -30,8 +26,6 @@ export interface BuildingUpgradeLevel {
   benefit: string
   /** Optional service id other systems can read via getTownServiceLevel. */
   service?: string
-  /** Decor revealed at the building's door when this level is reached. */
-  decor?: UpgradeDecor[]
 }
 
 export type UpgradeCatalog = Record<string, BuildingUpgradeLevel[]>

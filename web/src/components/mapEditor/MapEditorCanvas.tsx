@@ -6,7 +6,9 @@ import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import type { RawMapConfig, RawDecorItem, RawBlockedPath, RawLockedDoor, SelectedEntity, ToolMode, Zlayer } from './mapEditorTypes'
 import { resolveVariantTint, AnimalType } from '../../game/hub/animals'
 import { WALL_TILES } from '../../data/tiles/buildingMaterials'
-import type { WallMaterial } from '../../data/tiles/buildingMaterials'
+import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
+import { placeBuildingTiles, resolveBuildingVisual } from '../../data/tiles/buildingRender'
+import { isVisibleAtLevel } from '../../data/hub/loader'
 import { expandBundleDecor } from '../../data/bundles/bundleLoader'
 import { RawQuestPickupItem } from '../../data/hub/hubWorldFactory'
 import { resolveNpcSprite } from './spriteList'
@@ -54,22 +56,23 @@ function expandEntries(entries: Array<{ rect?: number[]; tile?: number[] }>): [n
   return out
 }
 
-type FlatDecorItem = { tx: number; ty: number; tileId: string; zlayer: Zlayer; sourceIndex: number; minLevel: number }
+type FlatDecorItem = { tx: number; ty: number; tileId: string; zlayer: Zlayer; sourceIndex: number; minLevel: number; hideAtLevel?: number }
 
 function flattenDecor(items: RawDecorItem[]): FlatDecorItem[] {
   const out: FlatDecorItem[] = []
   items.forEach((item, sourceIndex) => {
     if (item.tx === undefined) return // comment-only entry
     const minLevel = item.minLevel ?? 0
+    const hideAtLevel = item.hideAtLevel
     if (item.bundleID) {
       const expanded = expandBundleDecor(item.bundleID, item.tx, item.ty ?? 0)
       expanded.forEach(e => {
         const tileKey = Object.keys(BASE_CHIP_TILES as Record<string, number>)
           .find(k => (BASE_CHIP_TILES as Record<string, number>)[k] === e.tileId) ?? ''
-        if (tileKey) out.push({ tx: e.tx, ty: e.ty, tileId: tileKey, zlayer: (e.zlayer as Zlayer) ?? 'solid', sourceIndex, minLevel })
+        if (tileKey) out.push({ tx: e.tx, ty: e.ty, tileId: tileKey, zlayer: (e.zlayer as Zlayer) ?? 'solid', sourceIndex, minLevel, hideAtLevel })
       })
     } else if (item.tileId) {
-      out.push({ tx: item.tx, ty: item.ty ?? 0, tileId: item.tileId, zlayer: item.zlayer ?? 'solid', sourceIndex, minLevel })
+      out.push({ tx: item.tx, ty: item.ty ?? 0, tileId: item.tileId, zlayer: item.zlayer ?? 'solid', sourceIndex, minLevel, hideAtLevel })
     }
   })
   return out
@@ -79,6 +82,7 @@ interface Props {
   configData:       RawMapConfig
   tool:             ToolMode
   showGrid:         boolean
+  showBuildingArt?: boolean   // render buildings as real tiles (default) vs flat colour blocks
   selectedEntities: SelectedEntity[]
   viewMode:         'exterior' | 'interior'
   activeInteriorId: string | null
@@ -109,7 +113,7 @@ interface Props {
 
 export function MapEditorCanvas(props: Props) {
   const {
-    configData, tool, showGrid, selectedEntities, viewMode, activeInteriorId, activeLevel, previewFestivalId,
+    configData, tool, showGrid, showBuildingArt = true, selectedEntities, viewMode, activeInteriorId, activeLevel, previewFestivalId,
     activeTileId, activeBundleId, activeZlayer, pickActive, showQuestItems, showBlockedPaths, showAreas, showInteractables, blockedPaths, questPickupItems,
     onPlaceDecor, onAddStreet,
   } = props
@@ -432,23 +436,57 @@ export function MapEditorCanvas(props: Props) {
       streetLayer.addChild(gfx)
     })
 
-    // Buildings
+    // Buildings — rendered with real wall/roof tiles for the *current editing
+    // level* (resolveBuildingVisual applies any levelVisuals overrides), so the
+    // editor preview matches the in-game look. Falls back to flat colour blocks
+    // when art is toggled off or the building has no wall/roof material.
     const buildings = configData.buildings ?? []
     buildings.forEach((b, bIdx) => {
-      const rects = b.rects ?? (b.rect ? [b.rect] : [])
-      const col   = WALL_COLORS[b.wall ?? ''] ?? 0x556677
+      const allRects = (b.rects ?? (b.rect ? [b.rect] : [])) as [number, number, number, number][]
+      const baseRect = allRects[0] ?? [0, 0, 0, 0]
+      const vis = resolveBuildingVisual(
+        { rect: baseRect, wall: b.wall as WallMaterial | undefined, roof: b.roof as RoofMaterial | undefined },
+        b.levelVisuals as Array<{ minLevel: number; rect?: [number, number, number, number]; wall?: WallMaterial; roof?: RoofMaterial }> | undefined,
+        activeLevel,
+      )
+      // A level footprint override replaces the whole footprint; otherwise keep
+      // the building's (possibly multi-rect) base footprint.
+      const levelRectActive = (b.levelVisuals ?? []).some(v => v.rect && v.minLevel <= activeLevel)
+      const renderRects = levelRectActive ? [vis.rect] : allRects
       const isSel = isEntitySelected({ type: 'building', index: bIdx })
-      const gfx   = new PIXI.Graphics()
-      for (const [tx1, ty1, tx2, ty2] of rects) {
-        gfx.rect(tx1 * T, ty1 * T, (tx2 - tx1 + 1) * T, (ty2 - ty1 + 1) * T).fill(col)
-        if (isSel)
-          gfx.rect(tx1 * T, ty1 * T, (tx2 - tx1 + 1) * T, (ty2 - ty1 + 1) * T)
+
+      const useArt = showBuildingArt && vis.wall && vis.roof && WALL_TILES[vis.wall as WallMaterial]
+      if (useArt) {
+        for (const rect of renderRects) {
+          const placements = placeBuildingTiles(rect, vis.wall as WallMaterial, vis.roof as RoofMaterial, [])
+          for (const [tileId, positions] of placements) {
+            loadTileRef(tileId).then(tex => {
+              if (renderVersionRef.current !== version) return
+              for (const [tx, ty] of positions) {
+                const s = new PIXI.Sprite(tex)
+                s.position.set(tx * T, ty * T)
+                s.width = T; s.height = T
+                buildingLayer.addChild(s)
+              }
+            }).catch(() => {})
+          }
+        }
+      } else {
+        const col = WALL_COLORS[vis.wall ?? ''] ?? 0x556677
+        const gfx = new PIXI.Graphics()
+        for (const [tx1, ty1, tx2, ty2] of renderRects)
+          gfx.rect(tx1 * T, ty1 * T, (tx2 - tx1 + 1) * T, (ty2 - ty1 + 1) * T).fill(col)
+        buildingLayer.addChild(gfx)
+      }
+
+      if (isSel) {
+        for (const [tx1, ty1, tx2, ty2] of renderRects)
+          selLayer.rect(tx1 * T, ty1 * T, (tx2 - tx1 + 1) * T, (ty2 - ty1 + 1) * T)
             .stroke({ color: 0xf0c040, width: 2 })
       }
-      buildingLayer.addChild(gfx)
-      if (b.id && rects[0]) {
-        const [tx1, ty1, tx2, ty2] = rects[0]
-        const lbl = new PIXI.Text({ text: b.id, style: { fontSize: 9, fill: 0xeeeecc } })
+      if (b.id && renderRects[0]) {
+        const [tx1, ty1, tx2, ty2] = renderRects[0]
+        const lbl = new PIXI.Text({ text: b.id, style: { fontSize: 9, fill: 0xeeeecc, stroke: { color: 0x1a1a1a, width: 2 } } })
         lbl.x = (tx1 + (tx2 - tx1 + 1) / 2) * T - lbl.width / 2
         lbl.y = (ty1 + (ty2 - ty1 + 1) / 2) * T - lbl.height / 2
         buildingLayer.addChild(lbl)
@@ -721,7 +759,7 @@ export function MapEditorCanvas(props: Props) {
     ;(configData.npcs ?? []).forEach((npc, nIdx) => {
       if (npc.building !== iid) return
       const isSel = isEntitySelected({ type: 'npc', index: nIdx })
-      const dimmed = (npc.minLevel ?? 0) > activeLevel  // NPC only present at a higher upgrade level
+      const dimmed = !isVisibleAtLevel(npc, activeLevel)  // NPC absent at this upgrade level (below minLevel or past hideAtLevel)
       loadSpriteTexture(resolveNpcSprite(npc.sprite)).then(tex => {
         if (renderVersionRef.current !== version) return
         const sp = new PIXI.Sprite(tex)
@@ -813,10 +851,10 @@ export function MapEditorCanvas(props: Props) {
     interiorId: string,
     selLayer: PIXI.Graphics,
   ) {
-    items.forEach(({ tx, ty, tileId, zlayer, sourceIndex, minLevel }) => {
+    items.forEach(({ tx, ty, tileId, zlayer, sourceIndex, minLevel, hideAtLevel }) => {
       const numId = tileNumericId(tileId)
       const layer = zlayer === 'below' ? decorBLayer : zlayer === 'above' ? decorALayer : decorLayer
-      const dimmed = minLevel > activeLevel  // decor that only appears at a higher upgrade level
+      const dimmed = !isVisibleAtLevel({ minLevel, hideAtLevel }, activeLevel)  // absent at this upgrade level
       const entity: SelectedEntity = entityType === 'exteriorDecor'
         ? { type: 'exteriorDecor', index: sourceIndex }
         : { type: 'interiorDecor', index: sourceIndex, interiorId }
@@ -852,10 +890,10 @@ export function MapEditorCanvas(props: Props) {
     decorBLayer: PIXI.Container, decorLayer: PIXI.Container, decorALayer: PIXI.Container,
     selLayer: PIXI.Graphics,
   ) {
-    items.forEach(({ tx, ty, tileId, zlayer, sourceIndex, minLevel }) => {
+    items.forEach(({ tx, ty, tileId, zlayer, sourceIndex, minLevel, hideAtLevel }) => {
       const numId = tileNumericId(tileId)
       const layer = zlayer === 'below' ? decorBLayer : zlayer === 'above' ? decorALayer : decorLayer
-      const dimmed = minLevel > activeLevel
+      const dimmed = !isVisibleAtLevel({ minLevel, hideAtLevel }, activeLevel)
       const entity: SelectedEntity = { type: 'buildingLevelDecor', buildingIndex, index: sourceIndex }
       const isSel = isEntitySelected(entity)
 

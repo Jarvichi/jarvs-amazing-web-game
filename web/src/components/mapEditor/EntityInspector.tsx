@@ -5,7 +5,8 @@ import { EntityRefPicker } from './EntityRefPicker'
 import { buildingRefOptions, allQuestOptions, type RefOption } from './entityRefs'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import { resolveTileRef, PATH_TILE } from '../../data/tiles/tileIndex'
-import type { WallMaterial } from '../../data/tiles/buildingMaterials'
+import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
+import { ROOF_TILES } from '../../data/tiles/buildingMaterials'
 import { RawQuestPickupItem } from '../../data/hub/hubWorldFactory'
 import { SpriteSearchPicker, AnimalTypePicker } from './SpritePicker'
 import { ANIMAL_SPECS } from '../../game/hub/animals'
@@ -47,6 +48,8 @@ const WALL_MATERIALS: WallMaterial[] = [
   'interiorWallWhite', 'prisonRailings', 'ironholdKeep',
 ]
 
+const ROOF_MATERIALS = Object.keys(ROOF_TILES) as RoofMaterial[]
+
 const SHEET_URL = '/world/SampleMap/[Base]BaseChip_pipo.png'
 const COLS = 8
 const T = 32
@@ -64,7 +67,9 @@ interface Props {
   activeLevel:      number
   onSetActiveLevel:      (level: number) => void
   onUpdateBuilding:      (index: number, patch: Partial<RawBuilding>) => void
+  onUpdateBuildingLevelVisual: (buildingIndex: number, minLevel: number, patch: Partial<{ rect: [number, number, number, number]; wall: WallMaterial; roof: RoofMaterial }>) => void
   onUpdateDecorMinLevel: (entity: SelectedEntity, minLevel: number | undefined) => void
+  onUpdateDecorHideAtLevel: (entity: SelectedEntity, hideAtLevel: number | undefined) => void
   onDelete:              (entity: SelectedEntity) => void
   onMoveEntity:          (entity: SelectedEntity, tx: number, ty: number) => void
   onZlayerChange:        (entity: SelectedEntity, z: Zlayer) => void
@@ -324,7 +329,7 @@ function GlowControls({ glow, glowRadius, pulse, onChange }: {
 }
 
 function DecorInspector({
-  item, entity, onMove, onZlayer, onGlow, onDelete, onMinLevel, maxLevel, onTileChange, onReorder,
+  item, entity, onMove, onZlayer, onGlow, onDelete, onMinLevel, onHideAtLevel, maxLevel, onTileChange, onReorder,
 }: {
   item: RawDecorItem
   entity: SelectedEntity
@@ -333,6 +338,7 @@ function DecorInspector({
   onGlow?: (patch: GlowPatch) => void
   onDelete: () => void
   onMinLevel?: (minLevel: number | undefined) => void
+  onHideAtLevel?: (hideAtLevel: number | undefined) => void
   maxLevel?: number
   onTileChange?: (tileId: string) => void
   onReorder?: (direction: 'forward' | 'back') => void
@@ -376,6 +382,19 @@ function DecorInspector({
               style={{ width: 56, padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 12 }}
             />
             <span style={{ fontSize: 10, color: '#666' }}>0 = always visible</span>
+          </div>
+        </Field>
+      )}
+      {onHideAtLevel && (
+        <Field label="Hides at level">
+          <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+            <input
+              type="number" min={0} max={maxLevel ?? 9}
+              value={item.hideAtLevel ?? 0}
+              onChange={e => { const v = Number(e.target.value); onHideAtLevel(v > 0 ? v : undefined) }}
+              style={{ width: 56, padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 12 }}
+            />
+            <span style={{ fontSize: 10, color: '#666' }}>0 = never hides (e.g. swap to an upgraded version)</span>
           </div>
         </Field>
       )}
@@ -440,10 +459,11 @@ function DecorInspector({
 }
 
 function NpcInspector({
-  npc, entity, onMove, onDelete, onDialogueChange, onUpdate, onPickLocation,
+  npc, entity, buildingIds, onMove, onDelete, onDialogueChange, onUpdate, onPickLocation,
 }: {
   npc: RawNpc
   entity: SelectedEntity & { type: 'npc' }
+  buildingIds: string[]
   onMove: (tx: number, ty: number) => void
   onDelete: () => void
   onDialogueChange: (d: string[]) => void
@@ -502,6 +522,32 @@ function NpcInspector({
           </div>
         )}
       </Field>
+      <Field label="Hide at level">
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <input
+            type="number" min={0}
+            value={npc.hideAtLevel ?? 0}
+            onChange={e => { const v = Math.max(0, Number(e.target.value)); onUpdate({ hideAtLevel: v > 0 ? v : undefined }) }}
+            style={{ width: 56, padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 12 }}
+          />
+          <span style={{ fontSize: 10, color: '#666' }}>0 = never hides</span>
+        </div>
+      </Field>
+      {!npc.building && (
+        <Field label="Gated by building">
+          <select
+            value={npc.levelBuildingId ?? ''}
+            onChange={e => onUpdate({ levelBuildingId: e.target.value || undefined })}
+            style={{ width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box' }}
+          >
+            <option value="">— none (always visible) —</option>
+            {buildingIds.map(id => <option key={id} value={id}>{id}</option>)}
+          </select>
+          <div style={{ color: '#666', fontSize: 10, marginTop: 2 }}>
+            This exterior NPC appears only once the chosen building reaches the level(s) set above.
+          </div>
+        </Field>
+      )}
       <button
         onClick={onDelete}
         style={{
@@ -777,7 +823,7 @@ function StreetInspector({
 }
 
 function BuildingInspector({
-  building, buildingIndex, activeLevel, onSetActiveLevel, onUpdateBuilding,
+  building, buildingIndex, activeLevel, onSetActiveLevel, onUpdateBuilding, onUpdateBuildingLevelVisual,
   onOpenInterior, interiorIds, existingInteriorIds, onAddInterior,
 }: {
   building: RawBuilding
@@ -785,6 +831,7 @@ function BuildingInspector({
   activeLevel: number
   onSetActiveLevel: (level: number) => void
   onUpdateBuilding: (index: number, patch: Partial<RawBuilding>) => void
+  onUpdateBuildingLevelVisual: (buildingIndex: number, minLevel: number, patch: Partial<{ rect: [number, number, number, number]; wall: WallMaterial; roof: RoofMaterial }>) => void
   onOpenInterior: (id: string) => void
   interiorIds: string[]
   existingInteriorIds: string[]
@@ -852,16 +899,6 @@ function BuildingInspector({
           ({tx1},{ty1}) → ({tx2},{ty2}) — {tx2 - tx1 + 1}×{ty2 - ty1 + 1} tiles
         </span>
       </Field>
-      {building.wall && (
-        <Field label="Wall">
-          <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{building.wall}</span>
-        </Field>
-      )}
-      {building.roof && (
-        <Field label="Roof">
-          <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{building.roof}</span>
-        </Field>
-      )}
 
       {/* ── Upgrade levels ─────────────────────────────────────────────── */}
       <div style={{ borderTop: '1px solid #333', marginTop: 4, paddingTop: 10 }}>
@@ -886,6 +923,66 @@ function BuildingInspector({
         <Field label="Editing Level">
           <LevelStepper level={activeLevel} max={buildingMaxLevel(building)} onChange={onSetActiveLevel} />
         </Field>
+
+        {/* Per-level look — base (level 0) edits the building; higher levels write
+            a levelVisuals override that kicks in once the building is upgraded. */}
+        {(() => {
+          const baseRect = (building.rect ?? building.rects?.[0] ?? [0, 0, 0, 0]) as [number, number, number, number]
+          const lv = (building.levelVisuals ?? []).find(v => v.minLevel === activeLevel)
+          const wallValue = activeLevel === 0 ? (building.wall ?? '') : (lv?.wall ?? '')
+          const roofValue = activeLevel === 0 ? (building.roof ?? '') : (lv?.roof ?? '')
+          const rectValue = (activeLevel === 0 ? baseRect : (lv?.rect ?? baseRect)) as [number, number, number, number]
+          const setWall = (w: string) => activeLevel === 0
+            ? onUpdateBuilding(buildingIndex, { wall: (w || undefined) as WallMaterial | undefined })
+            : onUpdateBuildingLevelVisual(buildingIndex, activeLevel, { wall: (w || undefined) as WallMaterial | undefined })
+          const setRoof = (r: string) => activeLevel === 0
+            ? onUpdateBuilding(buildingIndex, { roof: (r || undefined) as RoofMaterial | undefined })
+            : onUpdateBuildingLevelVisual(buildingIndex, activeLevel, { roof: (r || undefined) as RoofMaterial | undefined })
+          const setRectAt = (i: number, val: number) => {
+            const next = [...rectValue] as [number, number, number, number]
+            next[i] = val
+            onUpdateBuildingLevelVisual(buildingIndex, activeLevel, { rect: next })
+          }
+          const inherit = (label: string) => activeLevel === 0 ? label : `— inherit base —`
+          return (
+            <div style={{ background: '#16161e', border: '1px solid #2a2a3a', borderRadius: 4, padding: 8, marginBottom: 8 }}>
+              <div style={{ color: '#8af', fontSize: 10, marginBottom: 6 }}>
+                {activeLevel === 0 ? 'Base look' : `Look at level ${activeLevel}`}
+              </div>
+              <Field label="Wall">
+                <select value={wallValue} onChange={e => setWall(e.target.value)} style={inputStyle}>
+                  <option value="">{inherit('— none —')}</option>
+                  {WALL_MATERIALS.map(w => <option key={w} value={w}>{w}</option>)}
+                </select>
+              </Field>
+              <Field label="Roof">
+                <select value={roofValue} onChange={e => setRoof(e.target.value)} style={inputStyle}>
+                  <option value="">{inherit('— none —')}</option>
+                  {ROOF_MATERIALS.map(r => <option key={r} value={r}>{r}</option>)}
+                </select>
+              </Field>
+              {activeLevel > 0 && (
+                <Field label="Footprint">
+                  <div style={{ display: 'flex', gap: 4, alignItems: 'center', flexWrap: 'wrap' }}>
+                    {(['x1', 'y1', 'x2', 'y2'] as const).map((lbl, i) => (
+                      <span key={lbl} style={{ display: 'inline-flex', alignItems: 'center', gap: 2 }}>
+                        <label style={{ fontSize: 10, color: '#888' }}>{lbl}</label>
+                        <input type="number" value={rectValue[i]} onChange={e => setRectAt(i, Number(e.target.value))} style={numStyle} />
+                      </span>
+                    ))}
+                  </div>
+                  {lv?.rect && (
+                    <button
+                      onClick={() => onUpdateBuildingLevelVisual(buildingIndex, activeLevel, { rect: undefined })}
+                      style={{ marginTop: 4, padding: '2px 8px', background: '#2a2a3a', border: '1px solid #444', color: '#aaa', borderRadius: 3, fontSize: 10, cursor: 'pointer' }}
+                    >Reset to base footprint</button>
+                  )}
+                </Field>
+              )}
+            </div>
+          )
+        })()}
+
         <div style={{ color: '#777', fontSize: 10, marginBottom: 8 }}>
           {(building.levelDecor ?? []).filter(d => (d.minLevel ?? 0) === activeLevel).length} decor item(s) added at {activeLevel === 0 ? 'base' : `level ${activeLevel}`}.
           {' '}Pick a tile and use the Place tool to add decor for this level. Items from lower levels stay visible; higher-level items are dimmed.
@@ -964,7 +1061,7 @@ function BuildingInspector({
 
 function InteriorInspector({
   interiorId, interior, selectedEntity, allInteriors,
-  activeLevel, levelMax, onSetActiveLevel, onUpdateDecorMinLevel,
+  activeLevel, levelMax, onSetActiveLevel, onUpdateDecorMinLevel, onUpdateDecorHideAtLevel,
   panelStyle, headerStyle, bodyStyle,
   onCloseInterior, onOpenInterior, onResizeInterior,
   onAddInteriorExit, onUpdateInteriorProps, onUpdateInteriorExit, onRemoveInteriorExit,
@@ -978,6 +1075,7 @@ function InteriorInspector({
   levelMax: number
   onSetActiveLevel: (level: number) => void
   onUpdateDecorMinLevel: (entity: SelectedEntity, minLevel: number | undefined) => void
+  onUpdateDecorHideAtLevel: (entity: SelectedEntity, hideAtLevel: number | undefined) => void
   panelStyle: React.CSSProperties
   headerStyle: React.CSSProperties
   bodyStyle: React.CSSProperties
@@ -1251,6 +1349,7 @@ function InteriorInspector({
               entity={selectedEntity}
               maxLevel={levelMax}
               onMinLevel={ml => onUpdateDecorMinLevel(selectedEntity, ml)}
+              onHideAtLevel={hl => onUpdateDecorHideAtLevel(selectedEntity, hl)}
               onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
               onZlayer={z => onZlayerChange(selectedEntity, z)}
               onDelete={() => onDelete(selectedEntity)}
@@ -2075,7 +2174,7 @@ function SpawnTileInspector({
 
 export function EntityInspector({
   selectedEntities, mapId, configData, activeInteriorId, activeLevel, viewMode,
-  onSetActiveLevel, onUpdateBuilding, onUpdateDecorMinLevel,
+  onSetActiveLevel, onUpdateBuilding, onUpdateBuildingLevelVisual, onUpdateDecorMinLevel, onUpdateDecorHideAtLevel,
   onDelete, onMoveEntity, onZlayerChange, onUpdateGlow, onUpdatePickupGlow, onDialogueChange,
   onOpenInterior, onCloseInterior, onUpdateStreetEntry,
   onResizeInterior, onAddInterior, onAddInteriorExit, onUpdateInteriorProps, onUpdateInteriorExit,
@@ -2177,6 +2276,7 @@ export function EntityInspector({
         levelMax={levelMax}
         onSetActiveLevel={onSetActiveLevel}
         onUpdateDecorMinLevel={onUpdateDecorMinLevel}
+        onUpdateDecorHideAtLevel={onUpdateDecorHideAtLevel}
         panelStyle={panelStyle}
         headerStyle={headerStyle}
         bodyStyle={bodyStyle}
@@ -2269,6 +2369,7 @@ export function EntityInspector({
             entity={selectedEntity}
             maxLevel={building ? buildingMaxLevel(building) : undefined}
             onMinLevel={ml => onUpdateDecorMinLevel(selectedEntity, ml)}
+            onHideAtLevel={hl => onUpdateDecorHideAtLevel(selectedEntity, hl)}
             onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
             onZlayer={z => onZlayerChange(selectedEntity, z)}
             onGlow={onUpdateGlow ? patch => onUpdateGlow(selectedEntity, patch) : undefined}
@@ -2290,6 +2391,7 @@ export function EntityInspector({
           <NpcInspector
             npc={npc}
             entity={selectedEntity}
+            buildingIds={(configData.buildings ?? []).map(b => b.id).filter((id): id is string => !!id)}
             onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
             onDelete={() => onDelete(selectedEntity)}
             onDialogueChange={d => onDialogueChange(selectedEntity.index, d)}
@@ -2455,6 +2557,7 @@ export function EntityInspector({
             activeLevel={activeLevel}
             onSetActiveLevel={onSetActiveLevel}
             onUpdateBuilding={onUpdateBuilding}
+            onUpdateBuildingLevelVisual={onUpdateBuildingLevelVisual}
             onOpenInterior={onOpenInterior}
             interiorIds={interiorIds}
             existingInteriorIds={Object.keys(configData.interiors ?? {})}

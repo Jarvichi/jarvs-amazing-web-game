@@ -23,6 +23,7 @@ interface Props {
 
 export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undefined }: Props) {
   const [showGrid, setShowGrid] = useState(true)
+  const [showBuildingArt, setShowBuildingArt] = useState(true)
   const [showQuestItems, setShowQuestItems] = useState(false)
   const [showBlockedPaths, setShowBlockedPaths] = useState(false)
   const [showAreas, setShowAreas] = useState(false)
@@ -45,7 +46,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
     addPondTile, updatePondEntry, addNpcSpawnTile, addChickenZone, addArea,
     convertStreetToPond, convertPondToStreet,
     batchUpdateZlayer, batchUpdateStreetPathType,
-    updateDecorZlayer, updateDecorTileId, reorderDecor, updateGlow, updateDecorMinLevel, updateBuilding, addNpc, updateNpcDialogue, updateNpc,
+    updateDecorZlayer, updateDecorTileId, reorderDecor, updateGlow, updateDecorMinLevel, updateDecorHideAtLevel, updateBuildingLevelVisual, updateBuilding, addNpc, updateNpcDialogue, updateNpc,
     addAnimal, updateAnimal,
     updateTreasure, updateConfig,
     updateArea, updateMapProps, resizeMap,
@@ -254,6 +255,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
         canRedo={state.redoStack.length > 0}
         isDirty={state.isDirty}
         showGrid={showGrid}
+        showBuildingArt={showBuildingArt}
         showQuestItems={showQuestItems}
         showBlockedPaths={showBlockedPaths}
         showAreas={showAreas}
@@ -268,6 +270,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
         onUndo={undo}
         onRedo={redo}
         onGridToggle={() => setShowGrid(g => !g)}
+        onBuildingArtToggle={() => setShowBuildingArt(a => !a)}
         onQuestItemsToggle={() => setShowQuestItems(q => !q)}
         onBlockedPathsToggle={() => setShowBlockedPaths(b => !b)}
         onAreasToggle={() => setShowAreas(a => !a)}
@@ -311,6 +314,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
             previewFestivalId={state.previewFestivalId}
             tool={state.tool}
             showGrid={showGrid}
+            showBuildingArt={showBuildingArt}
             showQuestItems={showQuestItems}
             showBlockedPaths={showBlockedPaths}
             showAreas={showAreas}
@@ -349,7 +353,9 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
               viewMode={state.viewMode}
               onSetActiveLevel={setActiveLevel}
               onUpdateBuilding={updateBuilding}
+              onUpdateBuildingLevelVisual={updateBuildingLevelVisual}
               onUpdateDecorMinLevel={updateDecorMinLevel}
+              onUpdateDecorHideAtLevel={updateDecorHideAtLevel}
               onPickLocation={handlePickLocation}
               onDelete={entity => handleDeleteEntities([entity])}
               onMoveEntity={(entity, tx, ty) => handleMoveEntities([{ entity, tx, ty }])}
