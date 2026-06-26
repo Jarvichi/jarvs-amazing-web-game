@@ -1010,19 +1010,19 @@
           "minLevel": 1
         },
         {
-          "tx": 6,
+          "tx": 9,
           "ty": 11,
           "tileId": "barrel",
           "minLevel": 1
         },
         {
-          "tx": 3,
+          "tx": 1,
           "ty": 11,
           "tileId": "pileOfSacks",
           "minLevel": 2
         },
         {
-          "tx": 7,
+          "tx": 8,
           "ty": 11,
           "tileId": "crate",
           "minLevel": 2
@@ -1113,8 +1113,8 @@
           "minLevel": 3
         },
         {
-          "tx": 13,
-          "ty": 12,
+          "tx": 18,
+          "ty": 10,
           "tileId": "goldChest",
           "minLevel": 3
         }
@@ -1178,7 +1178,8 @@
           "ty": -1,
           "tileId": "windowBottom4"
         }
-      ]
+      ],
+      "upgradeKind": "cottage"
     },
     {
       "rect": [
@@ -1502,13 +1503,13 @@
       ],
       "levelDecor": [
         {
-          "tx": 23,
+          "tx": 21,
           "ty": 34,
           "tileId": "crate",
           "minLevel": 1
         },
         {
-          "tx": 25,
+          "tx": 27,
           "ty": 34,
           "tileId": "barrel",
           "minLevel": 1
@@ -1532,10 +1533,61 @@
           "minLevel": 3
         },
         {
-          "tx": 23,
-          "ty": 35,
+          "tx": 28,
+          "ty": 34,
           "tileId": "goldChest",
           "minLevel": 3
+        },
+        {
+          "tx": 18,
+          "ty": 33,
+          "tileId": "stackOfCratesBL",
+          "zlayer": "solid",
+          "minLevel": 3
+        },
+        {
+          "tx": 19,
+          "ty": 33,
+          "tileId": "stackOfCratesBR",
+          "zlayer": "solid",
+          "minLevel": 3
+        },
+        {
+          "tx": 18,
+          "ty": 32,
+          "tileId": "stackOfCratesML",
+          "zlayer": "solid",
+          "minLevel": 3
+        },
+        {
+          "tx": 19,
+          "ty": 32,
+          "tileId": "stackOfCratesMR",
+          "zlayer": "solid",
+          "minLevel": 3
+        },
+        {
+          "tx": 18,
+          "ty": 31,
+          "tileId": "stackOfCratesTL",
+          "zlayer": "solid",
+          "minLevel": 3
+        },
+        {
+          "tx": 19,
+          "ty": 31,
+          "tileId": "stackOfCratesTR",
+          "zlayer": "solid",
+          "minLevel": 3
+        }
+      ],
+      "decor": [
+        {
+          "tx": 0,
+          "ty": 1,
+          "tileId": "appleBasket",
+          "zlayer": "solid",
+          "minLevel": 2
         }
       ]
     },
@@ -1616,13 +1668,6 @@
         {
           "tx": 3,
           "ty": -7,
-          "tileId": "chimneyBottom",
-          "zlayer": "solid",
-          "minLevel": 3
-        },
-        {
-          "tx": 3,
-          "ty": 2,
           "tileId": "chimneyBottom",
           "zlayer": "solid",
           "minLevel": 3
@@ -2094,20 +2139,6 @@
           "ty": 47,
           "tileId": "goldChest",
           "minLevel": 3
-        },
-        {
-          "tx": 11,
-          "ty": 2,
-          "tileId": "darkPotWithoutLid",
-          "zlayer": "solid",
-          "minLevel": 1
-        },
-        {
-          "tx": 11,
-          "ty": 1,
-          "tileId": "darkPotWithoutLid",
-          "zlayer": "solid",
-          "minLevel": 1
         },
         {
           "tx": 23,
@@ -2806,8 +2837,8 @@
       "tileId": "lightBush"
     },
     {
-      "tx": 28,
-      "ty": 21,
+      "tx": 30,
+      "ty": 14,
       "tileId": "darkBush"
     },
     {
@@ -5070,24 +5101,6 @@
       "glow": true,
       "glowRadius": 1.5,
       "pulse": true
-    },
-    {
-      "tx": 21,
-      "ty": 20,
-      "tileId": "barrel",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 21,
-      "ty": 19,
-      "tileId": "barrel",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 21,
-      "ty": 18,
-      "tileId": "barrel",
-      "zlayer": "solid"
     }
   ],
   "pondTiles": [
