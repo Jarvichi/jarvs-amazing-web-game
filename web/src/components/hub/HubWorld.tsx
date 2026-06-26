@@ -31,6 +31,7 @@ import { LoginButton } from '../ui/LoginButton'
 import { addCollectible, addConsumable, getCollectibles } from '../../game/itemStore'
 import { QuestsModal } from './QuestsModal'
 import { TownDirectory } from './TownDirectory'
+import { TownJournal } from './TownJournal'
 import { HubTownUpgrades, type UpgradeRow } from './HubTownUpgrades'
 import { nextUpgrade, purchaseUpgrade, getTownReputation, getUpgradeLevel, setUpgradeKindResolver, tributeAmount, tributeAvailable, collectTribute } from '../../game/hub/reputation'
 import { RelationshipView } from './RelationshipView'
@@ -45,6 +46,7 @@ import {  ALL_QUESTS, FRIENDSHIP_DIALOGUE, RELATIONSHIP_DIALOGUE, RAVENWATCH } f
 import { HubInteractable, HubLocationBundle, HubQuestBundle, HubTreasure } from '../../data/hub/loader'
 import { getUnreadCount } from '../../game/news'
 import { interactableStoreKey, isInteractableGranted, markInteractableGranted, getInteractableMoves, setInteractableMove } from '../../game/hub/interactables'
+import { recordNpcMet, recordAnimalSeen, recordAreaSeen } from '../../game/hub/journal'
 import rollbar from '../../rollbar'
 interface QuestEvent {
   speakerName: string
@@ -170,6 +172,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   const [pickedUpIds,    setPickedUpIds]    = useState<Set<string>>(() => getPickedUpIds())
   const [questsOpen,          setQuestsOpen]          = useState(false)
   const [directoryOpen,       setDirectoryOpen]       = useState(false)
+  const [journalOpen,         setJournalOpen]         = useState(false)
   const [upgradesOpen,        setUpgradesOpen]        = useState(false)
   // buildingId → purchased upgrade level; read each frame by the canvas to
   // reveal unlocked decor live, and updated on purchase.
@@ -779,15 +782,17 @@ function hasOfferableQuest(giverId: string): boolean {
   const handleNpcTap = useCallback((line: string, npcId: string) => {
     // Placed animals (HUB_ANIMALS) reuse all NPC quest logic — they share the
     // same id space as quest giverNpcId / receiverNpcId / targetNpcId.
+    const namedNpc = locationData.HUB_NPCS.find(n => n.id === npcId)
     const npcDef: {
       name?: string; dialogue?: string[]; screen?: string
       questGive?: string; questReceive?: string | string[]
       innRumours?: Array<{ id: string; text: string }>
       dialogueTree?: string
     } | undefined =
-      locationData.HUB_NPCS.find(n => n.id === npcId) ??
+      namedNpc ??
       locationData.HUB_ANIMALS.find(a => a.id === npcId)
     const speakerName = npcDef?.name ?? ''
+    if (namedNpc) recordNpcMet(npcId)
 
     // Cross-town deliveries: scan EVERY town's quests (not just the current one)
     // for an active quest with a pending deliver step addressed to this NPC, or
@@ -965,6 +970,12 @@ function hasOfferableQuest(giverId: string): boolean {
     handleNpcTap(line, animalId)
   }, [handleNpcTap, locationData])
 
+  const handleAreaEnter = useCallback((areaName: string | null) => {
+    setCurrentArea(areaName)
+    const area = areaName != null ? locationData.HUB_AREAS.find(a => a.name === areaName) : undefined
+    if (area) recordAreaSeen(locationData.HUB_TOWN_NAME, area.id)
+  }, [locationData])
+
   // ── Interactable reactions ─────────────────────────────────────────────────
   // Reactions run in order; dialogue-style reactions chain the remainder
   // through the dialogue's onClose (manual close or 15 s auto-dismiss).
@@ -1042,6 +1053,7 @@ function hasOfferableQuest(giverId: string): boolean {
           )}
         <ToolbarButton icon="📜" title="Quests" onClick={() => setQuestsOpen(true)} />
         <ToolbarButton icon="🧭" title="Where is…?" onClick={() => setDirectoryOpen(true)} />
+        <ToolbarButton icon="📖" title="Journal" onClick={() => setJournalOpen(true)} />
         <ToolbarButton icon="🏗️" title="Town Upgrades" onClick={() => setUpgradesOpen(true)} />
         <ToolbarButton icon="🗺" title="World Map" onClick={() => onWorldMap?.()}  disabled={getQuestState('thorin-the-last-watch').status !== 'completed'} />
 
@@ -1080,7 +1092,7 @@ function hasOfferableQuest(giverId: string): boolean {
           style={{ overflowX: 'auto', overflowY: 'auto', width: '100%', height: '100%' }}
         >
           <HubTownCanvas
-            onAreaEnter={setCurrentArea}
+            onAreaEnter={handleAreaEnter}
             onNodeInteract={handleNodeInteract}
             onAvatarMove={handleAvatarMove}
             returnRef={returnRef}
@@ -1088,6 +1100,7 @@ function hasOfferableQuest(giverId: string): boolean {
             commander={commander}
             onNpcTap={handleNpcTap}
             onAnimalTap={handleAnimalTap}
+            onAnimalSeen={recordAnimalSeen}
             interiorEnterRef={interiorEnterRef}
             interiorExitRef={interiorExitRef}
             onEnterInterior={() => setInteriorActive(true)}
@@ -1128,6 +1141,7 @@ function hasOfferableQuest(giverId: string): boolean {
 
         {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={questDefs} resolveNpcName={getNpcDisplayName}/>}
         {directoryOpen && <TownDirectory onClose={() => setDirectoryOpen(false)} locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} onShowRelationship={setRelationshipNpcId} />}
+        {journalOpen && <TownJournal onClose={() => setJournalOpen(false)} locationData={locationData} />}
         {upgradesOpen && <HubTownUpgrades onClose={() => setUpgradesOpen(false)} townName={town} reputation={getTownReputation(town)} crystals={loadCrystals()} rows={upgradeRows} onUpgrade={handleUpgrade} tributeAmount={tributeAmount(town)} tributeAvailable={tributeAvailable(town)} onCollectTribute={handleCollectTribute} />}
         {relationshipNpcId && <RelationshipView npcName={getNpcDisplayName(relationshipNpcId)} entry={getRelationship(relationshipNpcId)} onClose={() => setRelationshipNpcId(null)} />}
         {openTreasure && <TreasureModal treasure={openTreasure} onClose={() => setOpenTreasure(null)} />}

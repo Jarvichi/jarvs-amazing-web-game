@@ -19,6 +19,7 @@ import { CommanderState } from '../../game/commander'
 import rollbar from '../../rollbar'
 import { HubInteractable, HubInteriorExit, HubLocationBundle, HubNpc, HubQuestBundle, HubStreetGroup, NpcScheduleEntry, isVisibleAtLevel } from '../../data/hub/loader'
 import { createAnimalSystem, AnimalSystem, GlowSource } from './hubAnimals'
+import type { AnimalType } from '../../game/hub/animals'
 import { createWeatherSystem } from './hubWeather'
 import { resolveWeather } from '../../game/hub/weather'
 import { getActiveFestival } from '../../game/hub/hubCalendar'
@@ -71,6 +72,8 @@ interface Props {
   commander?:       CommanderState
   onNpcTap?:        (dialogue: string, npcId: string) => void
   onAnimalTap?:     (animalId: string) => void
+  /** Fires for every animal tap (placed or procedural) for journal/bestiary tracking. */
+  onAnimalSeen?:    (type: AnimalType, variant?: string) => void
   interiorEnterRef?: React.MutableRefObject<((buildingId: string) => void) | null>
   interiorExitRef?:  React.MutableRefObject<(() => void) | null>
   onEnterInterior?:  () => void
@@ -106,7 +109,7 @@ interface Props {
 
 export function HubTownCanvas({
   onAreaEnter, onNodeInteract, onAvatarMove,
-  returnRef, unitCards, commander, onNpcTap, onAnimalTap,
+  returnRef, unitCards, commander, onNpcTap, onAnimalTap, onAnimalSeen,
   interiorEnterRef, interiorExitRef, onEnterInterior, onExitInterior, onTileTap,
   pickedUpIds, onItemPickup, doorKeys, onDoorLocked, questNpcState, activeQuestIdsRef,
   completedQuestIdsRef, collectedTreasureIds, onTreasureStep,
@@ -145,6 +148,8 @@ export function HubTownCanvas({
   onNpcTapRef.current     = onNpcTap
   const onAnimalTapRef    = useRef(onAnimalTap)
   onAnimalTapRef.current  = onAnimalTap
+  const onAnimalSeenRef   = useRef(onAnimalSeen)
+  onAnimalSeenRef.current = onAnimalSeen
   const unitCardsRef      = useRef(unitCards)
   unitCardsRef.current    = unitCards
   const onEnterInteriorRef  = useRef(onEnterInterior)
@@ -2298,6 +2303,7 @@ export function HubTownCanvas({
         return out
       },
       onAnimalTap: (id) => onAnimalTapRef.current?.(id),
+      onAnimalSeen: (type, variant) => onAnimalSeenRef.current?.(type, variant),
       getQuestIndicator: (id) => questNpcState?.current.get(id) ?? null,
       isInteriorActive: () => interiorActive,
       isOnScreen: (x, y) => {

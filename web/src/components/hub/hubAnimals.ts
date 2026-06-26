@@ -19,6 +19,7 @@ import {
   pickWeighted,
   randomDuration,
   resolveVariantTint,
+  variantKeyForTint,
 } from '../../game/hub/animals'
 
 const FRAME_MS = 160
@@ -111,6 +112,8 @@ export interface AnimalSystemOptions {
   getNpcPositions: () => { id?: string; x: number; y: number }[]
   /** Routes a placed animal tap to quest handling. */
   onAnimalTap: (animalId: string) => void
+  /** Fires for every animal tap (placed or procedural) for journal/bestiary tracking. */
+  onAnimalSeen?: (type: AnimalType, variant?: string) => void
   /** Quest indicator state for a placed animal id ('offer'|'ready'|null). */
   getQuestIndicator?: (animalId: string) => 'offer' | 'ready' | null
   isInteriorActive: () => boolean
@@ -927,6 +930,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     sprite.cursor = 'pointer'
     sprite.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
       e.stopPropagation()
+      opts.onAnimalSeen?.(type, variantKeyForTint(type, tint))
       if (a.id) { opts.onAnimalTap(a.id); return }
       speak(a, FLAVOUR[type])
       vocalize(a)
