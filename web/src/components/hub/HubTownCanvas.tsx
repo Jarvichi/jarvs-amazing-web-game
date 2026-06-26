@@ -800,7 +800,7 @@ export function HubTownCanvas({
     const treasureCollectedTex = new Map<string, PIXI.Texture | null>() // id → collected texture (null = hide)
     const treasureByTile      = new Map<string, string>()               // "tx,ty" → id
     {
-      for (const t of HUB_TREASURES) {
+      for (const t of HUB_TREASURES.filter(tr => !tr.buildingId)) {
         if (collectedTreasureRef.current.has(t.id)) {
           // Already collected — show the collected tile or nothing
           if (t.collectedTileId) {
