@@ -28,6 +28,7 @@ interface Props {
   canRedo:     boolean
   isDirty:     boolean
   showGrid:             boolean
+  showBuildingArt:      boolean
   showQuestItems:       boolean
   showBlockedPaths:     boolean
   showAreas:            boolean
@@ -42,6 +43,7 @@ interface Props {
   onUndo:               () => void
   onRedo:               () => void
   onGridToggle:         () => void
+  onBuildingArtToggle:  () => void
   onQuestItemsToggle:   () => void
   onBlockedPathsToggle: () => void
   onAreasToggle:        () => void
@@ -63,9 +65,9 @@ const TOOLS: { mode: ToolMode; label: string; title: string }[] = [
 ]
 
 export function MapEditorToolbar({
-  mapId, tool, canUndo, canRedo, isDirty, showGrid, showQuestItems, showBlockedPaths, showAreas, showInteractables, drawerOpen, hasDuplicateQuestIds,
+  mapId, tool, canUndo, canRedo, isDirty, showGrid, showBuildingArt, showQuestItems, showBlockedPaths, showAreas, showInteractables, drawerOpen, hasDuplicateQuestIds,
   configData, questDefsData, previewFestivalId, onPreviewFestivalChange, onMapChange, onToolChange, onUndo, onRedo,
-  onGridToggle, onQuestItemsToggle, onBlockedPathsToggle, onAreasToggle, onInteractablesToggle, onDrawerToggle, onSaved,
+  onGridToggle, onBuildingArtToggle, onQuestItemsToggle, onBlockedPathsToggle, onAreasToggle, onInteractablesToggle, onDrawerToggle, onSaved,
 }: Props) {
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'ok' | 'error'>('idle')
   const [saveError, setSaveError] = useState('')
@@ -180,6 +182,20 @@ export function MapEditorToolbar({
         }}
       >
         ⊞
+      </button>
+
+      {/* Building art toggle — real tiles vs flat colour blocks */}
+      <button
+        title="Toggle building art — render buildings as tiles vs colour blocks"
+        onClick={onBuildingArtToggle}
+        style={{
+          ...btnBase,
+          background: showBuildingArt ? '#1e2e1e' : '#1e1e3e',
+          color:      showBuildingArt ? '#6f6' : '#666',
+          borderColor: showBuildingArt ? '#4a7a4a' : '#444',
+        }}
+      >
+        🏠
       </button>
 
       {/* Quest items toggle */}

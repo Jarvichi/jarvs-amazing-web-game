@@ -24,6 +24,15 @@ export interface RawDecorItem {
   glowRadius?: number   // glow radius in tiles
   pulse?: boolean       // animate the glow radius
   minLevel?: number     // building upgrade level at which this decor first appears (0/undefined = base)
+  hideAtLevel?: number  // building upgrade level at which this decor disappears (undefined = never)
+}
+
+/** Per-level visual override for a building (footprint / wall / roof). */
+export interface RawBuildingLevelVisual {
+  minLevel: number
+  rect?: [number, number, number, number]
+  wall?: WallMaterial
+  roof?: RoofMaterial
 }
 
 export interface RawBuildingDoor {
@@ -48,9 +57,10 @@ export interface RawBuilding {
   doors?: RawBuildingDoor[]
   windows?: RawBuildingWindow[]
   decor?: RawDecorItem[]
-  upgradeKind?: string         // shared upgrade track key (shop/inn/…) — drives costs & default decor
+  upgradeKind?: string         // shared upgrade track key (shop/inn/…) — drives costs & reputation gates
   maxLevel?: number            // highest upgrade level this building can reach (defaults to its track length)
   levelDecor?: RawDecorItem[]  // per-building exterior decor revealed by upgrade level (each item carries minLevel)
+  levelVisuals?: RawBuildingLevelVisual[]  // per-level footprint/wall/roof overrides
 }
 
 export interface RawAnimal {
@@ -82,6 +92,8 @@ export interface RawNpc {
   isGhost?: boolean
   dialogueTree?: string   // id of a branching dialogue tree (questDefs.json `dialogues`)
   minLevel?: number   // building upgrade level at which this NPC first appears (0/undefined = always)
+  hideAtLevel?: number // building upgrade level at which this NPC disappears (undefined = never)
+  levelBuildingId?: string // exterior NPCs: building whose upgrade level gates this NPC's visibility
   schedule?: Array<{
     startHour: number
     endHour: number

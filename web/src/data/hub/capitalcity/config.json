@@ -212,6 +212,44 @@
           "hideSign": true,
           "buildingId": "market-hall-crownhaven"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 32,
+          "ty": 14,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 34,
+          "ty": 14,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 31,
+          "ty": 14,
+          "tileId": "pileOfSacks",
+          "minLevel": 2
+        },
+        {
+          "tx": 35,
+          "ty": 14,
+          "tileId": "crate",
+          "minLevel": 2
+        },
+        {
+          "tx": 33,
+          "ty": 16,
+          "tileId": "goldSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 32,
+          "ty": 15,
+          "tileId": "goldChest",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -231,6 +269,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "bakery"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 44,
+          "ty": 14,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 46,
+          "ty": 14,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 43,
+          "ty": 14,
+          "tileId": "pileOfSacks",
+          "minLevel": 2
+        },
+        {
+          "tx": 47,
+          "ty": 14,
+          "tileId": "crate",
+          "minLevel": 2
+        },
+        {
+          "tx": 45,
+          "ty": 16,
+          "tileId": "goldSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 44,
+          "ty": 15,
+          "tileId": "goldChest",
+          "minLevel": 3
         }
       ]
     },
@@ -252,6 +328,44 @@
           "hideSign": true,
           "buildingId": "jeweller"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 61,
+          "ty": 14,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 63,
+          "ty": 14,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 60,
+          "ty": 14,
+          "tileId": "pileOfSacks",
+          "minLevel": 2
+        },
+        {
+          "tx": 64,
+          "ty": 14,
+          "tileId": "crate",
+          "minLevel": 2
+        },
+        {
+          "tx": 62,
+          "ty": 16,
+          "tileId": "goldSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 61,
+          "ty": 15,
+          "tileId": "goldChest",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -271,6 +385,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "tailor"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 72,
+          "ty": 14,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 74,
+          "ty": 14,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 71,
+          "ty": 14,
+          "tileId": "pileOfSacks",
+          "minLevel": 2
+        },
+        {
+          "tx": 75,
+          "ty": 14,
+          "tileId": "crate",
+          "minLevel": 2
+        },
+        {
+          "tx": 73,
+          "ty": 16,
+          "tileId": "goldSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 72,
+          "ty": 15,
+          "tileId": "goldChest",
+          "minLevel": 3
         }
       ]
     },
@@ -292,6 +444,44 @@
           "hideSign": true,
           "buildingId": "cathedral"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 15,
+          "ty": 28,
+          "tileId": "floorLantern",
+          "minLevel": 1
+        },
+        {
+          "tx": 17,
+          "ty": 28,
+          "tileId": "floorLantern",
+          "minLevel": 1
+        },
+        {
+          "tx": 14,
+          "ty": 28,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 18,
+          "ty": 28,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 16,
+          "ty": 30,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 15,
+          "ty": 29,
+          "tileId": "goldChest",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -311,6 +501,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "library"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 30,
+          "ty": 28,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 32,
+          "ty": 28,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 29,
+          "ty": 28,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 33,
+          "ty": 28,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 31,
+          "ty": 30,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 30,
+          "ty": 29,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
         }
       ]
     },
@@ -332,6 +560,44 @@
           "hideSign": true,
           "buildingId": "academy"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 47,
+          "ty": 28,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 49,
+          "ty": 28,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 46,
+          "ty": 28,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 50,
+          "ty": 28,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 48,
+          "ty": 30,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 47,
+          "ty": 29,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -351,6 +617,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "grand-inn"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 95,
+          "ty": 28,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 97,
+          "ty": 28,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 94,
+          "ty": 28,
+          "tileId": "floorLantern",
+          "minLevel": 2
+        },
+        {
+          "tx": 98,
+          "ty": 28,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 96,
+          "ty": 30,
+          "tileId": "innSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 95,
+          "ty": 29,
+          "tileId": "floorLantern",
+          "minLevel": 3
         }
       ]
     },
@@ -372,6 +676,44 @@
           "hideSign": true,
           "buildingId": "apothecary"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 13,
+          "ty": 42,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 15,
+          "ty": 42,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 12,
+          "ty": 42,
+          "tileId": "pileOfSacks",
+          "minLevel": 2
+        },
+        {
+          "tx": 16,
+          "ty": 42,
+          "tileId": "crate",
+          "minLevel": 2
+        },
+        {
+          "tx": 14,
+          "ty": 44,
+          "tileId": "goldSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 13,
+          "ty": 43,
+          "tileId": "goldChest",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -391,6 +733,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "theatre"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 63,
+          "ty": 42,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 65,
+          "ty": 42,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 62,
+          "ty": 42,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 66,
+          "ty": 42,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 64,
+          "ty": 44,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 63,
+          "ty": 43,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
         }
       ]
     },
@@ -412,6 +792,44 @@
           "hideSign": true,
           "buildingId": "noble-manor-1"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 94,
+          "ty": 42,
+          "tileId": "pinkFlower",
+          "minLevel": 1
+        },
+        {
+          "tx": 96,
+          "ty": 42,
+          "tileId": "blueFlower",
+          "minLevel": 1
+        },
+        {
+          "tx": 93,
+          "ty": 42,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 97,
+          "ty": 42,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 95,
+          "ty": 44,
+          "tileId": "floorLantern",
+          "minLevel": 3
+        },
+        {
+          "tx": 96,
+          "ty": 43,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -431,6 +849,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "blacksmith"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 13,
+          "ty": 64,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 15,
+          "ty": 64,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 12,
+          "ty": 64,
+          "tileId": "chest",
+          "minLevel": 2
+        },
+        {
+          "tx": 16,
+          "ty": 64,
+          "tileId": "barrel",
+          "minLevel": 2
+        },
+        {
+          "tx": 14,
+          "ty": 66,
+          "tileId": "armourSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 13,
+          "ty": 65,
+          "tileId": "chest",
+          "minLevel": 3
         }
       ]
     },
@@ -452,6 +908,44 @@
           "hideSign": true,
           "buildingId": "senate"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 47,
+          "ty": 64,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 49,
+          "ty": 64,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 46,
+          "ty": 64,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 50,
+          "ty": 64,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 48,
+          "ty": 66,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 47,
+          "ty": 65,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -471,6 +965,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "noble-manor-2"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 94,
+          "ty": 64,
+          "tileId": "pinkFlower",
+          "minLevel": 1
+        },
+        {
+          "tx": 96,
+          "ty": 64,
+          "tileId": "blueFlower",
+          "minLevel": 1
+        },
+        {
+          "tx": 93,
+          "ty": 64,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 97,
+          "ty": 64,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 95,
+          "ty": 66,
+          "tileId": "floorLantern",
+          "minLevel": 3
+        },
+        {
+          "tx": 96,
+          "ty": 65,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
         }
       ]
     },
@@ -492,6 +1024,44 @@
           "hideSign": true,
           "buildingId": "grand-bank"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 62,
+          "ty": 80,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 64,
+          "ty": 80,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 61,
+          "ty": 80,
+          "tileId": "pileOfSacks",
+          "minLevel": 2
+        },
+        {
+          "tx": 65,
+          "ty": 80,
+          "tileId": "crate",
+          "minLevel": 2
+        },
+        {
+          "tx": 63,
+          "ty": 82,
+          "tileId": "goldSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 62,
+          "ty": 81,
+          "tileId": "goldChest",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -512,6 +1082,44 @@
           "hideSign": true,
           "buildingId": "royal-mint"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 74,
+          "ty": 80,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 76,
+          "ty": 80,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 73,
+          "ty": 80,
+          "tileId": "chest",
+          "minLevel": 2
+        },
+        {
+          "tx": 77,
+          "ty": 80,
+          "tileId": "barrel",
+          "minLevel": 2
+        },
+        {
+          "tx": 75,
+          "ty": 82,
+          "tileId": "armourSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 74,
+          "ty": 81,
+          "tileId": "chest",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -531,6 +1139,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "guardhouse"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 95,
+          "ty": 80,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 97,
+          "ty": 80,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 94,
+          "ty": 80,
+          "tileId": "chest",
+          "minLevel": 2
+        },
+        {
+          "tx": 98,
+          "ty": 80,
+          "tileId": "barrel",
+          "minLevel": 2
+        },
+        {
+          "tx": 96,
+          "ty": 82,
+          "tileId": "armourSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 95,
+          "ty": 81,
+          "tileId": "chest",
+          "minLevel": 3
         }
       ]
     }
@@ -1145,7 +1791,7 @@
       ]
     },
     "grand-inn-upstairs": {
-      "name": "The Gilded Goose \u2014 Rooms",
+      "name": "The Gilded Goose — Rooms",
       "width": 14,
       "height": 9,
       "floorTileId": "woodFloor",
@@ -3073,7 +3719,7 @@
       "tx": 5,
       "ty": 3,
       "dialogue": [
-        "Crownhaven watch. State your business \u2014 or don't, you look harmless enough.",
+        "Crownhaven watch. State your business — or don't, you look harmless enough.",
         "The old postern gate key went missing on patrol. If it falls into the wrong hands, the palace will have my head.",
         "Keep your nose clean in my city, traveller."
       ],
@@ -3192,7 +3838,7 @@
       "dialogue": [
         "Forty years I've run this market. Kings come and go; turnips are forever.",
         "You want gossip, try the inn. You want a fair price, you talk to me.",
-        "Mind the fountain \u2014 the pigeons have opinions."
+        "Mind the fountain — the pigeons have opinions."
       ],
       "questGive": "crownhaven-market-day",
       "questReceive": [
@@ -3367,7 +4013,7 @@
       "dialogue": [
         "Every coin in the realm starts its life right here, under my hammer.",
         "Lose a mint die and you may as well hand a forger the keys to the treasury.",
-        "Gold is heavy for a reason \u2014 it keeps honest folk grounded."
+        "Gold is heavy for a reason — it keeps honest folk grounded."
       ],
       "questGive": "crownhaven-mint-dies",
       "questReceive": "crownhaven-mint-dies",
@@ -3422,7 +4068,7 @@
       "dialogue": [
         "The Grand Bank of Crownhaven. Your crystals are safer here than in the palace itself.",
         "A noble's debt is a delicate thing. Discretion is half my trade.",
-        "Vault's sealed tight \u2014 only the watch and I hold a key."
+        "Vault's sealed tight — only the watch and I hold a key."
       ],
       "questGive": "crownhaven-stolen-coin",
       "questReceive": [
@@ -3534,7 +4180,7 @@
       "tx": 4,
       "ty": 3,
       "dialogue": [
-        "Diamonds, sapphires, the crown's own regalia \u2014 all pass across my bench.",
+        "Diamonds, sapphires, the crown's own regalia — all pass across my bench.",
         "Raw gems are dull little pebbles until I coax the fire out of them.",
         "Careful where you tread; I've dropped stones worth more than your boots."
       ],
@@ -3765,7 +4411,7 @@
       "dialogue": [
         "Old Town remembers when Crownhaven was but a fort on a hill. I remember it too.",
         "My family's locket was lost in the gardens. It is all I have of my mother.",
-        "Debts and lockets \u2014 a noblewoman's life is keeping track of what she's misplaced."
+        "Debts and lockets — a noblewoman's life is keeping track of what she's misplaced."
       ],
       "questGive": "crownhaven-lost-locket",
       "questReceive": "crownhaven-lost-locket",
@@ -3921,7 +4567,7 @@
       "tx": 60,
       "ty": 47,
       "dialogue": [
-        "Hear ye! By order of the Chancellor \u2014 mind the proclamations.",
+        "Hear ye! By order of the Chancellor — mind the proclamations.",
         "Lost half my scrolls to the wind. A herald with no words is just a loud nuisance.",
         "Stand for the crown, traveller. The capital is watching."
       ],
@@ -4087,7 +4733,7 @@
       "screen": "casino",
       "dialogue": [
         "Care for a flutter? The capital's tables never close.",
-        "Fortune favours the bold \u2014 and occasionally the lucky.",
+        "Fortune favours the bold — and occasionally the lucky.",
         "Crowns won, crowns lost. Pull up a chair."
       ]
     },
@@ -4099,7 +4745,7 @@
       "ty": 81,
       "screen": "crystalcatch",
       "dialogue": [
-        "Quick hands at the mint? Test them \u2014 catch the falling crystals.",
+        "Quick hands at the mint? Test them — catch the falling crystals.",
         "Every coin starts as a tumble of raw crystal. Catch what you can.",
         "Sharp eyes, sharp reflexes, full purse."
       ]
@@ -4113,7 +4759,7 @@
       "screen": "quickbattle",
       "dialogue": [
         "The coronation tournament wants challengers. Step into the ring?",
-        "A quick battle to prove your mettle \u2014 no excuses.",
+        "A quick battle to prove your mettle — no excuses.",
         "Win in the arena and the whole capital hears your name."
       ]
     },
@@ -4137,7 +4783,7 @@
       "tx": 60,
       "ty": 43,
       "dialogue": [
-        "The Crown Theatre will dazzle the realm \u2014 once the stage is ready.",
+        "The Crown Theatre will dazzle the realm — once the stage is ready.",
         "Rehearsals, ropes, and a thousand candles. Come back for the grand premiere!",
         "A performance worthy of a coronation takes time. Patience, friend."
       ]
@@ -4145,7 +4791,7 @@
   ],
   "exteriorDecor": [
     {
-      "comment": "Coronation Plaza \u2014 grand fountain & monuments"
+      "comment": "Coronation Plaza — grand fountain & monuments"
     },
     {
       "tx": 56,
@@ -4828,7 +5474,7 @@
       "tileId": "lampPostBottom"
     },
     {
-      "comment": "Grand Market \u2014 stalls & wares"
+      "comment": "Grand Market — stalls & wares"
     },
     {
       "tx": 28,
@@ -5095,7 +5741,7 @@
       "tileId": "leafBasket"
     },
     {
-      "comment": "Temple Quarter \u2014 graves, candles & greenery"
+      "comment": "Temple Quarter — graves, candles & greenery"
     },
     {
       "tx": 6,
@@ -5177,7 +5823,7 @@
       "tileId": "stoneWell"
     },
     {
-      "comment": "Old Town \u2014 manor gardens & lamps"
+      "comment": "Old Town — manor gardens & lamps"
     },
     {
       "tx": 86,
@@ -5286,7 +5932,7 @@
       "tileId": "washingLineClothesBottomLeft"
     },
     {
-      "comment": "Guard Quarter \u2014 braziers, walls & banners"
+      "comment": "Guard Quarter — braziers, walls & banners"
     },
     {
       "tx": 88,
@@ -5506,7 +6152,7 @@
       "zlayer": "above"
     },
     {
-      "comment": "Riverside \u2014 pond edge, reeds & gardens"
+      "comment": "Riverside — pond edge, reeds & gardens"
     },
     {
       "tx": 12,
@@ -5773,7 +6419,7 @@
       "tileId": "potOfFlowers"
     },
     {
-      "comment": "South gate \u2014 road sign & approach"
+      "comment": "South gate — road sign & approach"
     },
     {
       "tx": 52,

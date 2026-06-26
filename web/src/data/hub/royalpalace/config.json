@@ -144,6 +144,44 @@
           "buildingId": "palace",
           "hideSign": true
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 12,
+          "ty": 17,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 14,
+          "ty": 17,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 11,
+          "ty": 17,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 15,
+          "ty": 17,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 13,
+          "ty": 19,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 12,
+          "ty": 18,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -162,6 +200,44 @@
           "tx": 4,
           "ty": 1,
           "buildingId": "guest-wing"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 28,
+          "ty": 13,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 30,
+          "ty": 13,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 27,
+          "ty": 13,
+          "tileId": "floorLantern",
+          "minLevel": 2
+        },
+        {
+          "tx": 31,
+          "ty": 13,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 29,
+          "ty": 15,
+          "tileId": "innSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 28,
+          "ty": 14,
+          "tileId": "floorLantern",
+          "minLevel": 3
         }
       ]
     },
@@ -182,6 +258,44 @@
           "ty": 1,
           "buildingId": "royal-library"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 37,
+          "ty": 13,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 39,
+          "ty": 13,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 36,
+          "ty": 13,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 40,
+          "ty": 13,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 38,
+          "ty": 15,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 37,
+          "ty": 14,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -200,6 +314,44 @@
           "tx": 4,
           "ty": 1,
           "buildingId": "royal-chapel"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 28,
+          "ty": 23,
+          "tileId": "floorLantern",
+          "minLevel": 1
+        },
+        {
+          "tx": 30,
+          "ty": 23,
+          "tileId": "floorLantern",
+          "minLevel": 1
+        },
+        {
+          "tx": 27,
+          "ty": 23,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 31,
+          "ty": 23,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 29,
+          "ty": 25,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 28,
+          "ty": 24,
+          "tileId": "goldChest",
+          "minLevel": 3
         }
       ]
     },
@@ -220,6 +372,44 @@
           "ty": 1,
           "buildingId": "treasury-vault"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 37,
+          "ty": 23,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 39,
+          "ty": 23,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 36,
+          "ty": 23,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 40,
+          "ty": 23,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 38,
+          "ty": 25,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 37,
+          "ty": 24,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -238,6 +428,44 @@
           "tx": 3,
           "ty": 1,
           "buildingId": "orangery"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 3,
+          "ty": 26,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 5,
+          "ty": 26,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 2,
+          "ty": 26,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 6,
+          "ty": 26,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 4,
+          "ty": 28,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 3,
+          "ty": 27,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
         }
       ]
     },
@@ -258,6 +486,44 @@
           "ty": 1,
           "buildingId": "stables"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 19,
+          "ty": 26,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 21,
+          "ty": 26,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 18,
+          "ty": 26,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 22,
+          "ty": 26,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 20,
+          "ty": 28,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 19,
+          "ty": 27,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -276,6 +542,44 @@
           "tx": 3,
           "ty": 1,
           "buildingId": "servants-quarters"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 3,
+          "ty": 36,
+          "tileId": "pinkFlower",
+          "minLevel": 1
+        },
+        {
+          "tx": 5,
+          "ty": 36,
+          "tileId": "blueFlower",
+          "minLevel": 1
+        },
+        {
+          "tx": 2,
+          "ty": 36,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 6,
+          "ty": 36,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 4,
+          "ty": 38,
+          "tileId": "floorLantern",
+          "minLevel": 3
+        },
+        {
+          "tx": 5,
+          "ty": 37,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
         }
       ]
     },
@@ -296,6 +600,44 @@
           "ty": 1,
           "buildingId": "gatehouse"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 19,
+          "ty": 36,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 21,
+          "ty": 36,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 18,
+          "ty": 36,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 22,
+          "ty": 36,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 20,
+          "ty": 38,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 19,
+          "ty": 37,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -315,6 +657,44 @@
           "ty": 1,
           "buildingId": "armory"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 28,
+          "ty": 36,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 30,
+          "ty": 36,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 27,
+          "ty": 36,
+          "tileId": "chest",
+          "minLevel": 2
+        },
+        {
+          "tx": 31,
+          "ty": 36,
+          "tileId": "barrel",
+          "minLevel": 2
+        },
+        {
+          "tx": 29,
+          "ty": 38,
+          "tileId": "armourSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 28,
+          "ty": 37,
+          "tileId": "chest",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -333,6 +713,44 @@
           "tx": 3,
           "ty": 1,
           "buildingId": "royal-kitchens"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 36,
+          "ty": 36,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 38,
+          "ty": 36,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 35,
+          "ty": 36,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 39,
+          "ty": 36,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 37,
+          "ty": 38,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 36,
+          "ty": 37,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
         }
       ]
     }

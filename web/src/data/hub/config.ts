@@ -45,6 +45,8 @@ export interface RawDecor {
   glow?: boolean        // emit a night light glow (reuses the night overlay)
   glowRadius?: number   // glow radius in tiles
   pulse?: boolean       // animate the glow radius
+  minLevel?: number     // building upgrade level at which this item first appears (0/undefined = base)
+  hideAtLevel?: number  // building upgrade level at which this item disappears (undefined = never)
 }
 
 export interface RawCoordinate {  tx: number
@@ -61,9 +63,22 @@ export interface BaseBuilding {
   /** Upgrade track key (buildingUpgrades.json). Tags the building as upgradeable. */
   upgradeKind?: string
 
+  /** Highest upgrade level this building can reach (defaults to its track length). */
+  maxLevel?: number
+
   doors?: RawDoor[]
   windows?: RawWindow[]
   decor?: RawDecor[]
+
+  /** Per-building exterior decor revealed/retired by upgrade level (absolute tx/ty). */
+  levelDecor?: RawDecor[]
+
+  /**
+   * Per-level visual overrides. As the building is upgraded, the highest entry
+   * whose `minLevel <= currentLevel` replaces the base footprint/wall/roof.
+   * Omitted fields inherit from the base building.
+   */
+  levelVisuals?: Array<{ minLevel: number; rect?: RawTileRectCoord['rect']; wall?: string; roof?: string }>
 }
 
 export interface RawBuildingRect extends BaseBuilding {
@@ -168,6 +183,11 @@ export interface RawNpc {
   }>
 
   isGhost?: boolean
+
+  minLevel?: number        // building upgrade level at which this NPC first appears (0/undefined = always)
+  hideAtLevel?: number     // building upgrade level at which this NPC disappears (undefined = never)
+  /** For exterior NPCs: id of the building whose upgrade level gates this NPC's visibility. */
+  levelBuildingId?: string
 
   schedule?: RawNpcScheduleEntry[]
 

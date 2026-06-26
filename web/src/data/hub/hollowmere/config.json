@@ -3,205 +3,1088 @@
   "mapH": 960,
   "townName": "Hollowmere",
   "environment": "ruins",
-  "avatarStart": { "tx": 13, "ty": 17 },
+  "avatarStart": {
+    "tx": 13,
+    "ty": 17
+  },
   "exitTiles": [
-    { "tx": 10, "ty": 18, "screen": "worldmap" },
-    { "tx": 11, "ty": 18, "screen": "worldmap" }
+    {
+      "tx": 10,
+      "ty": 18,
+      "screen": "worldmap"
+    },
+    {
+      "tx": 11,
+      "ty": 18,
+      "screen": "worldmap"
+    }
   ],
   "areas": [
-    { "id": "hollowmere-hollow", "name": "The Hollow", "tx": 7, "ty": 10, "tw": 12, "th": 6 },
-    { "id": "hollowmere-mire", "name": "The Mire", "tx": 2, "ty": 22, "tw": 36, "th": 7 },
-    { "id": "hollowmere-darkwood", "name": "The Dark Wood", "tx": 33, "ty": 11, "tw": 10, "th": 10 }
+    {
+      "id": "hollowmere-hollow",
+      "name": "The Hollow",
+      "tx": 7,
+      "ty": 10,
+      "tw": 12,
+      "th": 6
+    },
+    {
+      "id": "hollowmere-mire",
+      "name": "The Mire",
+      "tx": 2,
+      "ty": 22,
+      "tw": 36,
+      "th": 7
+    },
+    {
+      "id": "hollowmere-darkwood",
+      "name": "The Dark Wood",
+      "tx": 33,
+      "ty": 11,
+      "tw": 10,
+      "th": 10
+    }
   ],
   "streets": [
-    { "rect": [12, 2, 14, 27] },
-    { "rect": [10, 18, 11, 18] },
-    { "rect": [4, 10, 40, 11] },
-    { "rect": [4, 21, 40, 22] },
-    { "rect": [8, 9, 8, 9] },
-    { "rect": [30, 9, 30, 9] },
-    { "rect": [38, 9, 38, 9] },
-    { "rect": [5, 20, 5, 20] },
-    { "rect": [19, 20, 19, 20] },
-    { "rect": [29, 20, 29, 20] },
-    { "rect": [16, 22, 17, 26] },
-    { "rect": [8, 26, 30, 27] }
+    {
+      "rect": [
+        12,
+        2,
+        14,
+        27
+      ]
+    },
+    {
+      "rect": [
+        10,
+        18,
+        11,
+        18
+      ]
+    },
+    {
+      "rect": [
+        4,
+        10,
+        40,
+        11
+      ]
+    },
+    {
+      "rect": [
+        4,
+        21,
+        40,
+        22
+      ]
+    },
+    {
+      "rect": [
+        8,
+        9,
+        8,
+        9
+      ]
+    },
+    {
+      "rect": [
+        30,
+        9,
+        30,
+        9
+      ]
+    },
+    {
+      "rect": [
+        38,
+        9,
+        38,
+        9
+      ]
+    },
+    {
+      "rect": [
+        5,
+        20,
+        5,
+        20
+      ]
+    },
+    {
+      "rect": [
+        19,
+        20,
+        19,
+        20
+      ]
+    },
+    {
+      "rect": [
+        29,
+        20,
+        29,
+        20
+      ]
+    },
+    {
+      "rect": [
+        16,
+        22,
+        17,
+        26
+      ]
+    },
+    {
+      "rect": [
+        8,
+        26,
+        30,
+        27
+      ]
+    }
   ],
   "buildings": [
     {
       "id": "broken-hall",
       "upgradeKind": "default",
-      "rect": [4, 2, 11, 8],
+      "rect": [
+        4,
+        2,
+        11,
+        8
+      ],
       "wall": "woodenSlats",
       "roof": "strawRoof",
       "doors": [
-        { "tx": 4, "ty": 1, "hideSign": true, "buildingId": "broken-hall" }
+        {
+          "tx": 4,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "broken-hall"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 7,
+          "ty": 9,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 9,
+          "ty": 9,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 6,
+          "ty": 9,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 10,
+          "ty": 9,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 8,
+          "ty": 11,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 7,
+          "ty": 10,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
+        }
       ]
     },
     {
       "id": "fang-den",
       "upgradeKind": "inn",
-      "rect": [17, 3, 24, 9],
+      "rect": [
+        17,
+        3,
+        24,
+        9
+      ],
       "wall": "darkStone",
       "roof": "greySlateRoof",
       "doors": [
-        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "fang-den" }
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "fang-den"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 19,
+          "ty": 10,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 21,
+          "ty": 10,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 18,
+          "ty": 10,
+          "tileId": "floorLantern",
+          "minLevel": 2
+        },
+        {
+          "tx": 22,
+          "ty": 10,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 20,
+          "ty": 12,
+          "tileId": "innSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 19,
+          "ty": 11,
+          "tileId": "floorLantern",
+          "minLevel": 3
+        }
       ]
     },
     {
       "id": "apothecary",
       "upgradeKind": "shop",
-      "rect": [27, 2, 33, 8],
+      "rect": [
+        27,
+        2,
+        33,
+        8
+      ],
       "wall": "woodenSlats",
       "roof": "strawRoof",
       "doors": [
-        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "apothecary" }
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "apothecary"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 29,
+          "ty": 9,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 31,
+          "ty": 9,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 28,
+          "ty": 9,
+          "tileId": "pileOfSacks",
+          "minLevel": 2
+        },
+        {
+          "tx": 32,
+          "ty": 9,
+          "tileId": "crate",
+          "minLevel": 2
+        },
+        {
+          "tx": 30,
+          "ty": 11,
+          "tileId": "goldSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 29,
+          "ty": 10,
+          "tileId": "goldChest",
+          "minLevel": 3
+        }
       ]
     },
     {
       "id": "bonepile-curio",
       "upgradeKind": "shop",
-      "rect": [35, 2, 41, 8],
+      "rect": [
+        35,
+        2,
+        41,
+        8
+      ],
       "wall": "darkStone",
       "roof": "greySlateRoof",
       "doors": [
-        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "bonepile-curio" }
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "bonepile-curio"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 37,
+          "ty": 9,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 39,
+          "ty": 9,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 36,
+          "ty": 9,
+          "tileId": "pileOfSacks",
+          "minLevel": 2
+        },
+        {
+          "tx": 40,
+          "ty": 9,
+          "tileId": "crate",
+          "minLevel": 2
+        },
+        {
+          "tx": 38,
+          "ty": 11,
+          "tileId": "goldSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 37,
+          "ty": 10,
+          "tileId": "goldChest",
+          "minLevel": 3
+        }
       ]
     },
     {
       "id": "witch-hut",
       "upgradeKind": "default",
-      "rect": [2, 13, 8, 19],
+      "rect": [
+        2,
+        13,
+        8,
+        19
+      ],
       "wall": "woodenSlats",
       "roof": "strawRoof",
       "doors": [
-        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "witch-hut" }
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "witch-hut"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 4,
+          "ty": 20,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 6,
+          "ty": 20,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 3,
+          "ty": 20,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 7,
+          "ty": 20,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 5,
+          "ty": 22,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 4,
+          "ty": 21,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
+        }
       ]
     },
     {
       "id": "beast-pens",
       "upgradeKind": "default",
-      "rect": [16, 14, 22, 19],
+      "rect": [
+        16,
+        14,
+        22,
+        19
+      ],
       "wall": "woodenSlats",
       "roof": "strawRoof",
       "doors": [
-        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "beast-pens" }
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "beast-pens"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 18,
+          "ty": 20,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 20,
+          "ty": 20,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 17,
+          "ty": 20,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 21,
+          "ty": 20,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 19,
+          "ty": 22,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 18,
+          "ty": 21,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
+        }
       ]
     },
     {
       "id": "bathhouse",
       "upgradeKind": "default",
-      "rect": [26, 14, 32, 19],
+      "rect": [
+        26,
+        14,
+        32,
+        19
+      ],
       "wall": "darkStone",
       "roof": "greySlateRoof",
       "doors": [
-        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "bathhouse" }
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "bathhouse"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 28,
+          "ty": 20,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 30,
+          "ty": 20,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 27,
+          "ty": 20,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 31,
+          "ty": 20,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 29,
+          "ty": 22,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 28,
+          "ty": 21,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
+        }
       ]
     }
   ],
   "pondTiles": [
-    { "rect": [3, 27, 6, 28] },
-    { "rect": [33, 26, 36, 28] }
+    {
+      "rect": [
+        3,
+        27,
+        6,
+        28
+      ]
+    },
+    {
+      "rect": [
+        33,
+        26,
+        36,
+        28
+      ]
+    }
   ],
   "exteriorDecor": [
-    { "comment": "=== the dark wood: left edge ===" },
-    { "tx": 0, "ty": 2, "bundleID": "dark-tree-column-4", "zlayer": "solid" },
-    { "tx": 0, "ty": 7, "bundleID": "dark-tree", "zlayer": "solid" },
-    { "tx": 0, "ty": 13, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 0, "ty": 17, "bundleID": "dark-tree", "zlayer": "solid" },
-    { "tx": 0, "ty": 22, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "comment": "=== the dark wood: top edge ===" },
-    { "tx": 4, "ty": 0, "bundleID": "dark-tree", "zlayer": "solid" },
-    { "tx": 9, "ty": 0, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 18, "ty": 0, "bundleID": "dark-tree", "zlayer": "solid" },
-    { "tx": 23, "ty": 0, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 27, "ty": 0, "bundleID": "dark-tree", "zlayer": "solid" },
-    { "tx": 31, "ty": 0, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 35, "ty": 0, "bundleID": "dark-tree", "zlayer": "solid" },
-    { "tx": 40, "ty": 0, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "comment": "=== the dark wood: right edge + eastern grove ===" },
-    { "tx": 42, "ty": 3, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 42, "ty": 7, "bundleID": "dark-tree", "zlayer": "solid" },
-    { "tx": 42, "ty": 12, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 42, "ty": 16, "bundleID": "dark-tree", "zlayer": "solid" },
-    { "tx": 42, "ty": 23, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 35, "ty": 13, "bundleID": "dark-tree-cluster-V", "zlayer": "solid" },
-    { "tx": 39, "ty": 16, "bundleID": "dark-tree", "zlayer": "solid" },
-    { "tx": 34, "ty": 18, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 38, "ty": 19, "bundleID": "dark-tree", "zlayer": "solid" },
-    { "comment": "=== the hollow: central crossroads ===" },
-    { "tx": 10, "ty": 12, "tileId": "stoneWell" },
-    { "tx": 8, "ty": 10, "bundleID": "brazier", "zlayer": "solid", "glow": true, "glowRadius": 3 },
-    { "tx": 16, "ty": 12, "bundleID": "brazier", "zlayer": "solid", "glow": true, "glowRadius": 3 },
-    { "tx": 9, "ty": 13, "tileId": "skull" },
-    { "tx": 15, "ty": 13, "tileId": "largeStump" },
-    { "tx": 11, "ty": 14, "tileId": "brownMushroom" },
-    { "tx": 7, "ty": 12, "tileId": "logPile" },
-    { "tx": 17, "ty": 14, "tileId": "purpleMushroom" },
-    { "comment": "=== the witch's corner (beside her hut) ===" },
-    { "tx": 1, "ty": 12, "tileId": "cauldren", "glow": true, "glowRadius": 2 },
-    { "tx": 9, "ty": 14, "tileId": "bottlesOfLiquor" },
-    { "tx": 9, "ty": 15, "tileId": "bunchOfHerbs" },
-    { "tx": 1, "ty": 11, "tileId": "purpleMushroom" },
-    { "tx": 2, "ty": 11, "tileId": "brownMushroom" },
-    { "tx": 9, "ty": 16, "tileId": "potions" },
-    { "comment": "=== fang-den / tavern frontage ===" },
-    { "tx": 16, "ty": 11, "tileId": "barrel" },
-    { "tx": 25, "ty": 11, "tileId": "openCrate" },
-    { "tx": 22, "ty": 11, "tileId": "skull" },
-    { "tx": 18, "ty": 12, "tileId": "logPile" },
-    { "comment": "=== apothecary + curio frontage / fang's stall (NE) ===" },
-    { "tx": 26, "ty": 10, "tileId": "bunchOfHerbs" },
-    { "tx": 34, "ty": 10, "tileId": "counterTop" },
-    { "tx": 35, "ty": 10, "tileId": "counterTop" },
-    { "tx": 34, "ty": 9, "tileId": "skullSign", "zlayer": "above" },
-    { "tx": 33, "ty": 11, "tileId": "barrel" },
-    { "tx": 36, "ty": 11, "tileId": "openCrate" },
-    { "tx": 40, "ty": 10, "tileId": "skull" },
-    { "comment": "=== beast pens yard ===" },
-    { "tx": 16, "ty": 20, "tileId": "hayStack" },
-    { "tx": 22, "ty": 20, "tileId": "barrel" },
-    { "tx": 20, "ty": 19, "tileId": "logPile" },
-    { "tx": 23, "ty": 19, "tileId": "sack" },
-    { "comment": "=== bathhouse / mud-wallow frontage ===" },
-    { "tx": 26, "ty": 20, "tileId": "barrel" },
-    { "tx": 32, "ty": 20, "tileId": "bottlesOfLiquor" },
-    { "tx": 27, "ty": 19, "tileId": "greenPuddle", "zlayer": "below" },
-    { "tx": 31, "ty": 19, "tileId": "darkPuddle", "zlayer": "below" },
-    { "comment": "=== the mire: muck, lilypads & fungus ===" },
-    { "tx": 2, "ty": 26, "tileId": "darkPuddle", "zlayer": "below" },
-    { "tx": 7, "ty": 27, "tileId": "greenPuddle", "zlayer": "below" },
-    { "tx": 8, "ty": 28, "tileId": "lightPuddle", "zlayer": "below" },
-    { "tx": 5, "ty": 26, "tileId": "smallLilypad", "zlayer": "below" },
-    { "tx": 4, "ty": 28, "tileId": "largeLilypad", "zlayer": "below" },
-    { "tx": 34, "ty": 27, "tileId": "smallLilypad", "zlayer": "below" },
-    { "tx": 35, "ty": 26, "tileId": "largeLilypad", "zlayer": "below" },
-    { "tx": 10, "ty": 28, "tileId": "brownMushroom" },
-    { "tx": 11, "ty": 28, "tileId": "purpleMushroom" },
-    { "tx": 12, "ty": 28, "tileId": "brownMushroom" },
-    { "tx": 22, "ty": 28, "tileId": "purpleMushroom" },
-    { "tx": 23, "ty": 28, "tileId": "brownMushroom" },
-    { "tx": 24, "ty": 28, "tileId": "purpleMushroom" },
-    { "tx": 9, "ty": 26, "tileId": "skull" },
-    { "tx": 27, "ty": 26, "tileId": "skull" },
-    { "tx": 14, "ty": 28, "tileId": "bunchOfHerbs" },
-    { "tx": 19, "ty": 28, "tileId": "bunchOfHerbs" },
-    { "tx": 6, "ty": 25, "tileId": "largeStump" },
-    { "tx": 30, "ty": 25, "tileId": "largeStump" },
-    { "tx": 25, "ty": 26, "tileId": "smallRock" },
-    { "tx": 13, "ty": 26, "tileId": "largeRock" },
-    { "tx": 18, "ty": 27, "tileId": "floorLantern", "glow": true, "glowRadius": 2 },
-    { "tx": 26, "ty": 27, "tileId": "floorLantern", "glow": true, "glowRadius": 2 },
-    { "comment": "=== the mire: gnarled trees ringing the marsh ===" },
-    { "tx": 1, "ty": 24, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 4, "ty": 23, "bundleID": "dark-tree", "zlayer": "solid" },
-    { "tx": 31, "ty": 23, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 36, "ty": 24, "bundleID": "dark-tree", "zlayer": "solid" },
-    { "tx": 38, "ty": 26, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "comment": "=== bottom-edge fringe ===" },
-    { "tx": 2, "ty": 29, "tileId": "purpleMushroom" },
-    { "tx": 16, "ty": 29, "tileId": "skull" },
-    { "tx": 33, "ty": 29, "tileId": "brownMushroom" }
+    {
+      "comment": "=== the dark wood: left edge ==="
+    },
+    {
+      "tx": 0,
+      "ty": 2,
+      "bundleID": "dark-tree-column-4",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 7,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 13,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 17,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 22,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "comment": "=== the dark wood: top edge ==="
+    },
+    {
+      "tx": 4,
+      "ty": 0,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 9,
+      "ty": 0,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 18,
+      "ty": 0,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 23,
+      "ty": 0,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 27,
+      "ty": 0,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 31,
+      "ty": 0,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 35,
+      "ty": 0,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 40,
+      "ty": 0,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "comment": "=== the dark wood: right edge + eastern grove ==="
+    },
+    {
+      "tx": 42,
+      "ty": 3,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 42,
+      "ty": 7,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 42,
+      "ty": 12,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 42,
+      "ty": 16,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 42,
+      "ty": 23,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 35,
+      "ty": 13,
+      "bundleID": "dark-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 39,
+      "ty": 16,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 34,
+      "ty": 18,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 38,
+      "ty": 19,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "comment": "=== the hollow: central crossroads ==="
+    },
+    {
+      "tx": 10,
+      "ty": 12,
+      "tileId": "stoneWell"
+    },
+    {
+      "tx": 8,
+      "ty": 10,
+      "bundleID": "brazier",
+      "zlayer": "solid",
+      "glow": true,
+      "glowRadius": 3
+    },
+    {
+      "tx": 16,
+      "ty": 12,
+      "bundleID": "brazier",
+      "zlayer": "solid",
+      "glow": true,
+      "glowRadius": 3
+    },
+    {
+      "tx": 9,
+      "ty": 13,
+      "tileId": "skull"
+    },
+    {
+      "tx": 15,
+      "ty": 13,
+      "tileId": "largeStump"
+    },
+    {
+      "tx": 11,
+      "ty": 14,
+      "tileId": "brownMushroom"
+    },
+    {
+      "tx": 7,
+      "ty": 12,
+      "tileId": "logPile"
+    },
+    {
+      "tx": 17,
+      "ty": 14,
+      "tileId": "purpleMushroom"
+    },
+    {
+      "comment": "=== the witch's corner (beside her hut) ==="
+    },
+    {
+      "tx": 1,
+      "ty": 12,
+      "tileId": "cauldren",
+      "glow": true,
+      "glowRadius": 2
+    },
+    {
+      "tx": 9,
+      "ty": 14,
+      "tileId": "bottlesOfLiquor"
+    },
+    {
+      "tx": 9,
+      "ty": 15,
+      "tileId": "bunchOfHerbs"
+    },
+    {
+      "tx": 1,
+      "ty": 11,
+      "tileId": "purpleMushroom"
+    },
+    {
+      "tx": 2,
+      "ty": 11,
+      "tileId": "brownMushroom"
+    },
+    {
+      "tx": 9,
+      "ty": 16,
+      "tileId": "potions"
+    },
+    {
+      "comment": "=== fang-den / tavern frontage ==="
+    },
+    {
+      "tx": 16,
+      "ty": 11,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 25,
+      "ty": 11,
+      "tileId": "openCrate"
+    },
+    {
+      "tx": 22,
+      "ty": 11,
+      "tileId": "skull"
+    },
+    {
+      "tx": 18,
+      "ty": 12,
+      "tileId": "logPile"
+    },
+    {
+      "comment": "=== apothecary + curio frontage / fang's stall (NE) ==="
+    },
+    {
+      "tx": 26,
+      "ty": 10,
+      "tileId": "bunchOfHerbs"
+    },
+    {
+      "tx": 34,
+      "ty": 10,
+      "tileId": "counterTop"
+    },
+    {
+      "tx": 35,
+      "ty": 10,
+      "tileId": "counterTop"
+    },
+    {
+      "tx": 34,
+      "ty": 9,
+      "tileId": "skullSign",
+      "zlayer": "above"
+    },
+    {
+      "tx": 33,
+      "ty": 11,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 36,
+      "ty": 11,
+      "tileId": "openCrate"
+    },
+    {
+      "tx": 40,
+      "ty": 10,
+      "tileId": "skull"
+    },
+    {
+      "comment": "=== beast pens yard ==="
+    },
+    {
+      "tx": 16,
+      "ty": 20,
+      "tileId": "hayStack"
+    },
+    {
+      "tx": 22,
+      "ty": 20,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 20,
+      "ty": 19,
+      "tileId": "logPile"
+    },
+    {
+      "tx": 23,
+      "ty": 19,
+      "tileId": "sack"
+    },
+    {
+      "comment": "=== bathhouse / mud-wallow frontage ==="
+    },
+    {
+      "tx": 26,
+      "ty": 20,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 32,
+      "ty": 20,
+      "tileId": "bottlesOfLiquor"
+    },
+    {
+      "tx": 27,
+      "ty": 19,
+      "tileId": "greenPuddle",
+      "zlayer": "below"
+    },
+    {
+      "tx": 31,
+      "ty": 19,
+      "tileId": "darkPuddle",
+      "zlayer": "below"
+    },
+    {
+      "comment": "=== the mire: muck, lilypads & fungus ==="
+    },
+    {
+      "tx": 2,
+      "ty": 26,
+      "tileId": "darkPuddle",
+      "zlayer": "below"
+    },
+    {
+      "tx": 7,
+      "ty": 27,
+      "tileId": "greenPuddle",
+      "zlayer": "below"
+    },
+    {
+      "tx": 8,
+      "ty": 28,
+      "tileId": "lightPuddle",
+      "zlayer": "below"
+    },
+    {
+      "tx": 5,
+      "ty": 26,
+      "tileId": "smallLilypad",
+      "zlayer": "below"
+    },
+    {
+      "tx": 4,
+      "ty": 28,
+      "tileId": "largeLilypad",
+      "zlayer": "below"
+    },
+    {
+      "tx": 34,
+      "ty": 27,
+      "tileId": "smallLilypad",
+      "zlayer": "below"
+    },
+    {
+      "tx": 35,
+      "ty": 26,
+      "tileId": "largeLilypad",
+      "zlayer": "below"
+    },
+    {
+      "tx": 10,
+      "ty": 28,
+      "tileId": "brownMushroom"
+    },
+    {
+      "tx": 11,
+      "ty": 28,
+      "tileId": "purpleMushroom"
+    },
+    {
+      "tx": 12,
+      "ty": 28,
+      "tileId": "brownMushroom"
+    },
+    {
+      "tx": 22,
+      "ty": 28,
+      "tileId": "purpleMushroom"
+    },
+    {
+      "tx": 23,
+      "ty": 28,
+      "tileId": "brownMushroom"
+    },
+    {
+      "tx": 24,
+      "ty": 28,
+      "tileId": "purpleMushroom"
+    },
+    {
+      "tx": 9,
+      "ty": 26,
+      "tileId": "skull"
+    },
+    {
+      "tx": 27,
+      "ty": 26,
+      "tileId": "skull"
+    },
+    {
+      "tx": 14,
+      "ty": 28,
+      "tileId": "bunchOfHerbs"
+    },
+    {
+      "tx": 19,
+      "ty": 28,
+      "tileId": "bunchOfHerbs"
+    },
+    {
+      "tx": 6,
+      "ty": 25,
+      "tileId": "largeStump"
+    },
+    {
+      "tx": 30,
+      "ty": 25,
+      "tileId": "largeStump"
+    },
+    {
+      "tx": 25,
+      "ty": 26,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 13,
+      "ty": 26,
+      "tileId": "largeRock"
+    },
+    {
+      "tx": 18,
+      "ty": 27,
+      "tileId": "floorLantern",
+      "glow": true,
+      "glowRadius": 2
+    },
+    {
+      "tx": 26,
+      "ty": 27,
+      "tileId": "floorLantern",
+      "glow": true,
+      "glowRadius": 2
+    },
+    {
+      "comment": "=== the mire: gnarled trees ringing the marsh ==="
+    },
+    {
+      "tx": 1,
+      "ty": 24,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 4,
+      "ty": 23,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 31,
+      "ty": 23,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 36,
+      "ty": 24,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 38,
+      "ty": 26,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "comment": "=== bottom-edge fringe ==="
+    },
+    {
+      "tx": 2,
+      "ty": 29,
+      "tileId": "purpleMushroom"
+    },
+    {
+      "tx": 16,
+      "ty": 29,
+      "tileId": "skull"
+    },
+    {
+      "tx": 33,
+      "ty": 29,
+      "tileId": "brownMushroom"
+    }
   ],
   "npcSpawnTiles": [],
   "ambientNpcSprites": [],
@@ -226,7 +1109,10 @@
       "tx": 34,
       "ty": 27,
       "name": "Pip the Peeper",
-      "dialogue": ["*peep! peep!*", "*a tiny frog hops hopefully toward your boot*"],
+      "dialogue": [
+        "*peep! peep!*",
+        "*a tiny frog hops hopefully toward your boot*"
+      ],
       "roam": true
     },
     {
@@ -295,7 +1181,12 @@
       ],
       "building": "witch-hut",
       "questGive": "hollowmere-witch-brew",
-      "questReceive": ["hollowmere-witch-brew", "morwen-speak-with-animals", "hollowmere-witch-brew-2", "dreadspire-moon-herbs"]
+      "questReceive": [
+        "hollowmere-witch-brew",
+        "morwen-speak-with-animals",
+        "hollowmere-witch-brew-2",
+        "dreadspire-moon-herbs"
+      ]
     },
     {
       "id": "apothecary-herbalist",
@@ -310,7 +1201,10 @@
       ],
       "building": "apothecary",
       "questGive": "apothecary-ingredients-1",
-      "questReceive": ["apothecary-ingredients-1", "apothecary-ingredients-2"]
+      "questReceive": [
+        "apothecary-ingredients-1",
+        "apothecary-ingredients-2"
+      ]
     },
     {
       "id": "goblin-curio-keep",
@@ -354,10 +1248,33 @@
         "You want to learn beast-taming? Start small. Start with the ones that bite least."
       ],
       "questGive": "beast-taming-1",
-      "questReceive": ["beast-taming-1", "beast-taming-2", "beast-taming-3"],
+      "questReceive": [
+        "beast-taming-1",
+        "beast-taming-2",
+        "beast-taming-3"
+      ],
       "schedule": [
-        { "startHour": 6, "endHour": 20, "activity": "work", "location": { "type": "exterior", "tx": 19, "ty": 21 } },
-        { "startHour": 20, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "beast-pens", "tx": 5, "ty": 4 } }
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "exterior",
+            "tx": 19,
+            "ty": 21
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 6,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "beast-pens",
+            "tx": 5,
+            "ty": 4
+          }
+        }
       ]
     },
     {
@@ -372,7 +1289,10 @@
         "I've sat in this bog longer than your town's had a name. I remember when it had three."
       ],
       "questGive": "mire-lost-items-1",
-      "questReceive": ["mire-lost-items-1", "mire-lost-items-2"]
+      "questReceive": [
+        "mire-lost-items-1",
+        "mire-lost-items-2"
+      ]
     }
   ],
   "interiors": {
@@ -383,20 +1303,72 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodenSlats",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "barrel" },
-        { "tx": 2, "ty": 1, "tileId": "skull" },
-        { "tx": 10, "ty": 1, "tileId": "barrel" },
-        { "tx": 5, "ty": 1, "tileId": "logPile" },
-        { "tx": 4, "ty": 4, "tileId": "roundTable" },
-        { "tx": 7, "ty": 4, "tileId": "roundTable" },
-        { "tx": 3, "ty": 4, "tileId": "stool" },
-        { "tx": 5, "ty": 4, "tileId": "stool" },
-        { "tx": 8, "ty": 4, "tileId": "stool" },
-        { "tx": 1, "ty": 6, "tileId": "logBottom" },
-        { "tx": 10, "ty": 6, "tileId": "candlestickUnlit" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "skull"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "logPile"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 7,
+          "ty": 4,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 3,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "logBottom"
+        },
+        {
+          "tx": 10,
+          "ty": 6,
+          "tileId": "candlestickUnlit"
+        }
       ],
       "exits": [
-        { "tx": 6, "ty": 0, "toInteriorId": "broken-hall-back", "entryTx": 5, "entryTy": 6, "direction": "back", "label": "Back Room" }
+        {
+          "tx": 6,
+          "ty": 0,
+          "toInteriorId": "broken-hall-back",
+          "entryTx": 5,
+          "entryTy": 6,
+          "direction": "back",
+          "label": "Back Room"
+        }
       ]
     },
     "broken-hall-back": {
@@ -406,17 +1378,57 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodenSlats",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "pileOfSacks" },
-        { "tx": 2, "ty": 1, "tileId": "sack" },
-        { "tx": 9, "ty": 1, "tileId": "openCrate" },
-        { "tx": 8, "ty": 1, "tileId": "crate" },
-        { "tx": 1, "ty": 5, "tileId": "barrel" },
-        { "tx": 9, "ty": 5, "tileId": "skull" },
-        { "tx": 4, "ty": 3, "tileId": "roundTable" },
-        { "tx": 6, "ty": 3, "tileId": "stool" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "sack"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 9,
+          "ty": 5,
+          "tileId": "skull"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 6,
+          "ty": 3,
+          "tileId": "stool"
+        }
       ],
       "exits": [
-        { "tx": 5, "ty": 7, "toInteriorId": "broken-hall", "entryTx": 6, "entryTy": 1, "direction": "front", "label": "Common Room" }
+        {
+          "tx": 5,
+          "ty": 7,
+          "toInteriorId": "broken-hall",
+          "entryTx": 6,
+          "entryTy": 1,
+          "direction": "front",
+          "label": "Common Room"
+        }
       ]
     },
     "fang-den": {
@@ -428,22 +1440,83 @@
       "musicId": "inn",
       "ambianceId": "hearth",
       "decor": [
-        { "tx": 1, "ty": 1, "bundleID": "fireplace" },
-        { "tx": 1, "ty": 1, "tileId": "bottlesOfLiquor" },
-        { "tx": 5, "ty": 1, "tileId": "skull" },
-        { "tx": 6, "ty": 1, "tileId": "barrel" },
-        { "tx": 7, "ty": 1, "tileId": "barrel" },
-        { "tx": 3, "ty": 4, "tileId": "roundTable" },
-        { "tx": 2, "ty": 4, "tileId": "stool" },
-        { "tx": 4, "ty": 4, "tileId": "stool" },
-        { "tx": 7, "ty": 4, "tileId": "roundTableWithCloth" },
-        { "tx": 8, "ty": 4, "tileId": "stool" },
-        { "tx": 10, "ty": 5, "tileId": "counterTop" },
-        { "tx": 9, "ty": 5, "tileId": "counterTop" },
-        { "tx": 9, "ty": 1, "tileId": "ladderBottom", "zlayer": "below" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "bundleID": "fireplace"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bottlesOfLiquor"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "skull"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 3,
+          "ty": 4,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 7,
+          "ty": 4,
+          "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 10,
+          "ty": 5,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 9,
+          "ty": 5,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        }
       ],
       "exits": [
-        { "tx": 9, "ty": 1, "toInteriorId": "fang-den-cellar", "entryTx": 5, "entryTy": 5, "direction": "down", "label": "Down to the cellar" }
+        {
+          "tx": 9,
+          "ty": 1,
+          "toInteriorId": "fang-den-cellar",
+          "entryTx": 5,
+          "entryTy": 5,
+          "direction": "down",
+          "label": "Down to the cellar"
+        }
       ]
     },
     "fang-den-cellar": {
@@ -453,18 +1526,65 @@
       "floorTileId": "stoneFloor",
       "wallTileId": "darkStone",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "barrel" },
-        { "tx": 2, "ty": 1, "tileId": "barrel" },
-        { "tx": 8, "ty": 1, "tileId": "bottlesOfLiquor" },
-        { "tx": 7, "ty": 1, "tileId": "crate" },
-        { "tx": 1, "ty": 5, "tileId": "openCrate" },
-        { "tx": 8, "ty": 5, "tileId": "skull" },
-        { "tx": 3, "ty": 3, "tileId": "barrel" },
-        { "tx": 2, "ty": 3, "tileId": "candlestickLitTop", "glow": true, "glowRadius": 2 },
-        { "tx": 5, "ty": 5, "tileId": "ladderBottom", "zlayer": "below" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "bottlesOfLiquor"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "skull"
+        },
+        {
+          "tx": 3,
+          "ty": 3,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 2,
+          "ty": 3,
+          "tileId": "candlestickLitTop",
+          "glow": true,
+          "glowRadius": 2
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        }
       ],
       "exits": [
-        { "tx": 5, "ty": 5, "toInteriorId": "fang-den", "entryTx": 9, "entryTy": 2, "direction": "up", "label": "Up to the tavern" }
+        {
+          "tx": 5,
+          "ty": 5,
+          "toInteriorId": "fang-den",
+          "entryTx": 9,
+          "entryTy": 2,
+          "direction": "up",
+          "label": "Up to the tavern"
+        }
       ]
     },
     "witch-hut": {
@@ -474,17 +1594,59 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodenSlats",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 1, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 9, "ty": 1, "tileId": "bottlesOfLiquor" },
-        { "tx": 3, "ty": 1, "tileId": "skull" },
-        { "tx": 2, "ty": 5, "tileId": "potions" },
-        { "tx": 9, "ty": 5, "tileId": "bunchOfHerbs" },
-        { "tx": 5, "ty": 3, "tileId": "roundTableWithCloth" },
-        { "tx": 7, "ty": 3, "tileId": "candlestickLitTop", "glow": true, "glowRadius": 2 }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "bottlesOfLiquor"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "skull"
+        },
+        {
+          "tx": 2,
+          "ty": 5,
+          "tileId": "potions"
+        },
+        {
+          "tx": 9,
+          "ty": 5,
+          "tileId": "bunchOfHerbs"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 7,
+          "ty": 3,
+          "tileId": "candlestickLitTop",
+          "glow": true,
+          "glowRadius": 2
+        }
       ],
       "exits": [
-        { "tx": 5, "ty": 0, "toInteriorId": "witch-hut-brewing", "entryTx": 5, "entryTy": 6, "direction": "back", "label": "Brewing Room" }
+        {
+          "tx": 5,
+          "ty": 0,
+          "toInteriorId": "witch-hut-brewing",
+          "entryTx": 5,
+          "entryTy": 6,
+          "direction": "back",
+          "label": "Brewing Room"
+        }
       ]
     },
     "witch-hut-brewing": {
@@ -495,18 +1657,64 @@
       "wallTileId": "darkStone",
       "ambianceId": "hearth",
       "decor": [
-        { "tx": 5, "ty": 1, "tileId": "cauldren", "glow": true, "glowRadius": 2 },
-        { "tx": 1, "ty": 1, "bundleID": "dark-altar" },
-        { "tx": 9, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 9, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 2, "ty": 4, "tileId": "bottlesOfLiquor" },
-        { "tx": 3, "ty": 4, "tileId": "potions" },
-        { "tx": 8, "ty": 4, "tileId": "bunchOfHerbs" },
-        { "tx": 7, "ty": 5, "tileId": "purpleMushroom" },
-        { "tx": 1, "ty": 5, "tileId": "skull" }
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "cauldren",
+          "glow": true,
+          "glowRadius": 2
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "bundleID": "dark-altar"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 9,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "bottlesOfLiquor"
+        },
+        {
+          "tx": 3,
+          "ty": 4,
+          "tileId": "potions"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "bunchOfHerbs"
+        },
+        {
+          "tx": 7,
+          "ty": 5,
+          "tileId": "purpleMushroom"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "skull"
+        }
       ],
       "exits": [
-        { "tx": 5, "ty": 7, "toInteriorId": "witch-hut", "entryTx": 5, "entryTy": 1, "direction": "front", "label": "Front Room" }
+        {
+          "tx": 5,
+          "ty": 7,
+          "toInteriorId": "witch-hut",
+          "entryTx": 5,
+          "entryTy": 1,
+          "direction": "front",
+          "label": "Front Room"
+        }
       ]
     },
     "apothecary": {
@@ -516,17 +1724,61 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodenSlats",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 1, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 8, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 8, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 3, "ty": 1, "tileId": "potions" },
-        { "tx": 5, "ty": 1, "tileId": "bottlesOfLiquor" },
-        { "tx": 6, "ty": 1, "tileId": "bunchOfHerbs" },
-        { "tx": 2, "ty": 5, "tileId": "mushroomBasket" },
-        { "tx": 7, "ty": 5, "tileId": "purpleMushroom" },
-        { "tx": 4, "ty": 3, "tileId": "roundTable" },
-        { "tx": 5, "ty": 3, "tileId": "cauldren" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 8,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "potions"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "bottlesOfLiquor"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "bunchOfHerbs"
+        },
+        {
+          "tx": 2,
+          "ty": 5,
+          "tileId": "mushroomBasket"
+        },
+        {
+          "tx": 7,
+          "ty": 5,
+          "tileId": "purpleMushroom"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "cauldren"
+        }
       ],
       "exits": []
     },
@@ -537,16 +1789,58 @@
       "floorTileId": "stoneFloor",
       "wallTileId": "darkStone",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "skull" },
-        { "tx": 2, "ty": 1, "tileId": "skull" },
-        { "tx": 8, "ty": 1, "tileId": "skull" },
-        { "tx": 3, "ty": 1, "tileId": "crate" },
-        { "tx": 7, "ty": 1, "tileId": "openCrate" },
-        { "tx": 1, "ty": 5, "tileId": "pileOfSacks" },
-        { "tx": 8, "ty": 5, "tileId": "chest" },
-        { "tx": 4, "ty": 3, "tileId": "counterTop" },
-        { "tx": 5, "ty": 3, "tileId": "counterTop" },
-        { "tx": 6, "ty": 5, "tileId": "candlestickLitTop", "glow": true, "glowRadius": 2 }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "skull"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "skull"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "skull"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "chest"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "counterTop"
+        },
+        {
+          "tx": 6,
+          "ty": 5,
+          "tileId": "candlestickLitTop",
+          "glow": true,
+          "glowRadius": 2
+        }
       ],
       "exits": []
     },
@@ -557,15 +1851,51 @@
       "floorTileId": "darkWoodFloor",
       "wallTileId": "woodenSlats",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "hayStack" },
-        { "tx": 2, "ty": 1, "tileId": "hayStack" },
-        { "tx": 9, "ty": 1, "tileId": "hayStack" },
-        { "tx": 4, "ty": 1, "tileId": "sack" },
-        { "tx": 5, "ty": 1, "tileId": "pileOfSacks" },
-        { "tx": 1, "ty": 5, "tileId": "barrel" },
-        { "tx": 9, "ty": 5, "tileId": "barrel" },
-        { "tx": 6, "ty": 3, "tileId": "logPile" },
-        { "tx": 8, "ty": 5, "tileId": "smallRock" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "hayStack"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "hayStack"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "hayStack"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "sack"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "pileOfSacks"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 9,
+          "ty": 5,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 6,
+          "ty": 3,
+          "tileId": "logPile"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "smallRock"
+        }
       ],
       "exits": []
     },
@@ -577,16 +1907,65 @@
       "wallTileId": "darkStone",
       "ambianceId": "hearth",
       "decor": [
-        { "tx": 2, "ty": 2, "tileId": "greenPuddle", "zlayer": "below" },
-        { "tx": 3, "ty": 2, "tileId": "greenPuddle", "zlayer": "below" },
-        { "tx": 2, "ty": 3, "tileId": "darkPuddle", "zlayer": "below" },
-        { "tx": 3, "ty": 3, "tileId": "darkPuddle", "zlayer": "below" },
-        { "tx": 7, "ty": 2, "tileId": "lightPuddle", "zlayer": "below" },
-        { "tx": 8, "ty": 2, "tileId": "lightPuddle", "zlayer": "below" },
-        { "tx": 1, "ty": 1, "tileId": "barrel" },
-        { "tx": 9, "ty": 1, "tileId": "bottlesOfLiquor" },
-        { "tx": 5, "ty": 5, "tileId": "candlestickLitTop", "glow": true, "glowRadius": 2 },
-        { "tx": 1, "ty": 5, "tileId": "smallLilypad", "zlayer": "below" }
+        {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "greenPuddle",
+          "zlayer": "below"
+        },
+        {
+          "tx": 3,
+          "ty": 2,
+          "tileId": "greenPuddle",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": 3,
+          "tileId": "darkPuddle",
+          "zlayer": "below"
+        },
+        {
+          "tx": 3,
+          "ty": 3,
+          "tileId": "darkPuddle",
+          "zlayer": "below"
+        },
+        {
+          "tx": 7,
+          "ty": 2,
+          "tileId": "lightPuddle",
+          "zlayer": "below"
+        },
+        {
+          "tx": 8,
+          "ty": 2,
+          "tileId": "lightPuddle",
+          "zlayer": "below"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "bottlesOfLiquor"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "candlestickLitTop",
+          "glow": true,
+          "glowRadius": 2
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "smallLilypad",
+          "zlayer": "below"
+        }
       ],
       "exits": []
     }

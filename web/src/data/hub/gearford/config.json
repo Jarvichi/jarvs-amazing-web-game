@@ -202,6 +202,44 @@
           "hideSign": true,
           "buildingId": "foundry"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 6,
+          "ty": 10,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 8,
+          "ty": 10,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 5,
+          "ty": 10,
+          "tileId": "chest",
+          "minLevel": 2
+        },
+        {
+          "tx": 9,
+          "ty": 10,
+          "tileId": "barrel",
+          "minLevel": 2
+        },
+        {
+          "tx": 7,
+          "ty": 12,
+          "tileId": "armourSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 6,
+          "ty": 11,
+          "tileId": "chest",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -221,6 +259,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "coal-yard-store"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 16,
+          "ty": 10,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 18,
+          "ty": 10,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 15,
+          "ty": 10,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 19,
+          "ty": 10,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 17,
+          "ty": 12,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 16,
+          "ty": 11,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
         }
       ]
     },
@@ -242,6 +318,44 @@
           "hideSign": true,
           "buildingId": "machine-workshop"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 28,
+          "ty": 10,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 30,
+          "ty": 10,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 27,
+          "ty": 10,
+          "tileId": "chest",
+          "minLevel": 2
+        },
+        {
+          "tx": 31,
+          "ty": 10,
+          "tileId": "barrel",
+          "minLevel": 2
+        },
+        {
+          "tx": 29,
+          "ty": 12,
+          "tileId": "armourSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 28,
+          "ty": 11,
+          "tileId": "chest",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -261,6 +375,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "gearwright-hall"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 39,
+          "ty": 10,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 41,
+          "ty": 10,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 38,
+          "ty": 10,
+          "tileId": "chest",
+          "minLevel": 2
+        },
+        {
+          "tx": 42,
+          "ty": 10,
+          "tileId": "barrel",
+          "minLevel": 2
+        },
+        {
+          "tx": 40,
+          "ty": 12,
+          "tileId": "armourSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 39,
+          "ty": 11,
+          "tileId": "chest",
+          "minLevel": 3
         }
       ]
     },
@@ -282,6 +434,44 @@
           "hideSign": true,
           "buildingId": "miners-inn"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 5,
+          "ty": 23,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 7,
+          "ty": 23,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 4,
+          "ty": 23,
+          "tileId": "floorLantern",
+          "minLevel": 2
+        },
+        {
+          "tx": 8,
+          "ty": 23,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 6,
+          "ty": 25,
+          "tileId": "innSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 5,
+          "ty": 24,
+          "tileId": "floorLantern",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -301,6 +491,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "tool-shop"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 15,
+          "ty": 23,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 17,
+          "ty": 23,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 14,
+          "ty": 23,
+          "tileId": "pileOfSacks",
+          "minLevel": 2
+        },
+        {
+          "tx": 18,
+          "ty": 23,
+          "tileId": "crate",
+          "minLevel": 2
+        },
+        {
+          "tx": 16,
+          "ty": 25,
+          "tileId": "goldSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 15,
+          "ty": 24,
+          "tileId": "goldChest",
+          "minLevel": 3
         }
       ]
     },
@@ -322,6 +550,44 @@
           "hideSign": true,
           "buildingId": "warehouse"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 28,
+          "ty": 23,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 30,
+          "ty": 23,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 27,
+          "ty": 23,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 31,
+          "ty": 23,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 29,
+          "ty": 25,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 28,
+          "ty": 24,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -341,6 +607,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "mine-entrance"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 39,
+          "ty": 23,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 41,
+          "ty": 23,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 38,
+          "ty": 23,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 42,
+          "ty": 23,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 40,
+          "ty": 25,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 39,
+          "ty": 24,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
         }
       ]
     },
@@ -362,6 +666,44 @@
           "hideSign": true,
           "buildingId": "pump-house"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 27,
+          "ty": 32,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 29,
+          "ty": 32,
+          "tileId": "lightBush",
+          "minLevel": 1
+        },
+        {
+          "tx": 26,
+          "ty": 32,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 30,
+          "ty": 32,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 28,
+          "ty": 34,
+          "tileId": "largeSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 27,
+          "ty": 33,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -381,6 +723,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "worker-house-1"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 5,
+          "ty": 32,
+          "tileId": "pinkFlower",
+          "minLevel": 1
+        },
+        {
+          "tx": 7,
+          "ty": 32,
+          "tileId": "blueFlower",
+          "minLevel": 1
+        },
+        {
+          "tx": 4,
+          "ty": 32,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 8,
+          "ty": 32,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 6,
+          "ty": 34,
+          "tileId": "floorLantern",
+          "minLevel": 3
+        },
+        {
+          "tx": 7,
+          "ty": 33,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
         }
       ]
     },
@@ -402,6 +782,44 @@
           "hideSign": true,
           "buildingId": "worker-house-2"
         }
+      ],
+      "levelDecor": [
+        {
+          "tx": 14,
+          "ty": 32,
+          "tileId": "pinkFlower",
+          "minLevel": 1
+        },
+        {
+          "tx": 16,
+          "ty": 32,
+          "tileId": "blueFlower",
+          "minLevel": 1
+        },
+        {
+          "tx": 13,
+          "ty": 32,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 17,
+          "ty": 32,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 15,
+          "ty": 34,
+          "tileId": "floorLantern",
+          "minLevel": 3
+        },
+        {
+          "tx": 16,
+          "ty": 33,
+          "tileId": "potOfFlowers",
+          "minLevel": 3
+        }
       ]
     },
     {
@@ -421,6 +839,44 @@
           "ty": 1,
           "hideSign": true,
           "buildingId": "gear-shop"
+        }
+      ],
+      "levelDecor": [
+        {
+          "tx": 36,
+          "ty": 32,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 38,
+          "ty": 32,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
+          "tx": 35,
+          "ty": 32,
+          "tileId": "pileOfSacks",
+          "minLevel": 2
+        },
+        {
+          "tx": 39,
+          "ty": 32,
+          "tileId": "crate",
+          "minLevel": 2
+        },
+        {
+          "tx": 37,
+          "ty": 34,
+          "tileId": "goldSign",
+          "minLevel": 3
+        },
+        {
+          "tx": 36,
+          "ty": 33,
+          "tileId": "goldChest",
+          "minLevel": 3
         }
       ]
     }
@@ -1457,7 +1913,7 @@
       "ty": 12,
       "dialogue": [
         "Coal in, slag out, all day long. My back's a clockwork of aches by sundown.",
-        "The old depot south of town's still half-full. Nobody hauls it \u2014 too lazy, too scared.",
+        "The old depot south of town's still half-full. Nobody hauls it — too lazy, too scared.",
         "A full barrow and an empty road. That's all a hauler wants out of life."
       ],
       "schedule": [
@@ -2363,7 +2819,7 @@
       ]
     },
     "miners-inn-bunkrooms": {
-      "name": "The Pickaxe Rest \u2014 Bunkrooms",
+      "name": "The Pickaxe Rest — Bunkrooms",
       "width": 12,
       "height": 9,
       "floorTileId": "woodFloor",
