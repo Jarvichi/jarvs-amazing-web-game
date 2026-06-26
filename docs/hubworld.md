@@ -27,6 +27,8 @@
 | `web/src/components/hub/hubAnimals.ts` | PixiJS animal manager — spawns & ticks all animal types | `createAnimalSystem` |
 | `web/src/components/hub/HubTownCanvas.tsx` | PixiJS canvas — rendering, pathfinding, walk, interactions | — |
 | `web/src/components/hub/HubWorld.tsx` | React orchestrator — quest flow, dialogue, state | — |
+| `web/src/game/hub/journal.ts` | Discovery store for the Town Journal — met NPCs, seen animal species/variants, seen named areas (localStorage) — see §15 | `recordNpcMet`, `hasMetNpc`, `getMetNpcIds`, `recordAnimalSeen`, `hasSeenAnimal`, `getSeenAnimalVariants`, `getSeenAnimalTypes`, `recordAreaSeen`, `hasSeenArea`, `getSeenAreaKeys` |
+| `web/src/components/hub/TownJournal.tsx` | Journal UI — Animals / People / Places tabs with completion % — see §15 | `TownJournal` |
 
 ---
 
@@ -1078,3 +1080,57 @@ Every id field (NPC, building, quest, pickup, interior, dialogue tree) is a
 **grouped by town**. The quest editor's deliver-target and pickup steps use
 all-town pickers; the **Prerequisite** field is a structured condition builder
 (quest / friendship / relationship rows).
+
+---
+
+## §15 — Town Journal
+
+A bestiary/who's-who/gazetteer screen, opened via the toolbar's 📖 **Journal**
+button. Three tabs, each tracking a different kind of discovery and showing a
+`discovered/total` count plus an overall completion %:
+
+- **Animals** — scoped **globally** (a species is the same animal everywhere,
+  not per-town). Tracks which `AnimalType`s (§8) have been tapped at least
+  once, and which named colour variants of each species have been seen.
+- **People** — scoped to the **current town**: named NPCs from
+  `locationData.HUB_NPCS` (de-duped by id, same filter as `TownDirectory`).
+  Tracks which have been talked to; once met, shows their relationship-track
+  icon (§7c) and friendship level (§1) alongside their own first dialogue line.
+- **Places** — scoped to the **current town**: named areas from
+  `locationData.HUB_AREAS`. Tracks which have been entered.
+
+Undiscovered entries render as `???`, matching the `???` convention used by
+`HallOfAchievements` and `TownDirectory`.
+
+### Persistence — `web/src/game/hub/journal.ts` (key `jarv_hub_journal`)
+
+| Export | Purpose |
+|---|---|
+| `recordNpcMet(npcId)` / `hasMetNpc(npcId)` / `getMetNpcIds()` | Mark/check/list met NPCs, by bare id (global, like `friendship.ts`). |
+| `recordAnimalSeen(type, variant?)` / `hasSeenAnimal(type)` / `getSeenAnimalVariants(type)` / `getSeenAnimalTypes()` | Mark/check/list seen animal species and named tint variants. |
+| `recordAreaSeen(town, areaId)` / `hasSeenArea(town, areaId)` / `getSeenAreaKeys()` | Mark/check/list seen areas, keyed via `interactableStoreKey(town, id)` since area ids are not unique across towns (e.g. Ravenwatch's bare `market`). |
+
+Each `record*` is idempotent and returns whether it added new information,
+mirroring `setDialogueFlag`'s dedup pattern (§7b).
+
+### Wiring discovery events
+
+Discovery fires on **tap**, not mere visibility, matching every other
+"have they met X" signal in the codebase:
+
+- `hubAnimals.ts`'s shared pointerdown handler calls `opts.onAnimalSeen(type,
+  variantKeyForTint(type, tint))` for **every** animal tap (placed or
+  procedural), before the `onAnimalTap` early-return for placed/id'd animals.
+  `variantKeyForTint` (`animals.ts`) reverse-resolves a spawned sprite's
+  numeric tint back to its named palette key for display.
+- `HubWorld.tsx`'s `handleNpcTap` calls `recordNpcMet(npcId)` once the tapped
+  id resolves to a **named** NPC (`HUB_NPCS`, not `HUB_ANIMALS`).
+- `HubWorld.tsx`'s `handleAreaEnter` (passed as `HubTownCanvas`'s
+  `onAreaEnter`) resolves the entered area's `id` from `HUB_AREAS` by name and
+  calls `recordAreaSeen(HUB_TOWN_NAME, area.id)`.
+
+### UI — `web/src/components/hub/TownJournal.tsx`
+
+Reuses `TownDirectory`'s `ModalBackdrop` + `.town-directory__*` row layout and
+`HallOfAchievements`' `.hoa-tabs`/`.hoa-tab`/`.hoa-tab--active` tab row — no new
+tab CSS was needed. Story: `TownJournal.stories.tsx`.
