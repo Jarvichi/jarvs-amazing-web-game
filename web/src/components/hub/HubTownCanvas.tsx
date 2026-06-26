@@ -1012,7 +1012,7 @@ export function HubTownCanvas({
         questIndicatorBaseY.set(npc.id, indBaseY)
       }
 
-      const npcSpriteSlug = isCommanderNpc ? (commander !== undefined ? commander.cardName : avatarSlug) : npc.sprite
+      const npcSpriteSlug = isCommanderNpc ? (commander !== undefined ? commander.cardName : avatarSlug) : resolveNpcSprite(npc.sprite)
 
       // Commander slug is a card name (e.g. "Jarv Knight") — must go through
       // loadSpriteTexture so spriteSlug() converts it to a valid filename.
