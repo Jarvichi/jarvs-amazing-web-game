@@ -305,10 +305,13 @@ export function HubTownCanvas({
 
     // ── Buildings ──────────────────────────────────────────────────────────────
     // Each building is drawn as one or more *visual variants* (a base variant plus
-    // one per level threshold from `levelVisuals`). Variants live in their own
-    // containers and the active one is toggled each frame against the building's
-    // current upgrade level (see the variant toggle in the ticker below).
-    const buildingVariants: { buildingId: string; minLevel: number; nextLevel: number; container: PIXI.Container }[] = []
+    // one per level threshold from `levelVisuals`). Tiles are added directly to
+    // buildingLayer (NOT wrapped in a per-building container): buildingLayer is a
+    // chunk-culled layer (utils/chunkCull.ts) that captures each child's bounds at
+    // adoption and assumes they don't grow afterward — an async-filled container
+    // would be adopted while empty and then culled. Multi-variant buildings instead
+    // toggle each sprite's `visible` per frame (see the variant toggle in the ticker).
+    const buildingVariantSprites: { buildingId: string; minLevel: number; nextLevel: number; sprite: PIXI.Sprite }[] = []
     {
       const fallbackPromises: Promise<void>[] = []
 
@@ -317,7 +320,8 @@ export function HubTownCanvas({
         wall: WallMaterial,
         roof: RoofMaterial,
         doors: { tx: number; ty: number; tyAdjust?: number }[],
-        container: PIXI.Container,
+        track: { buildingId: string; minLevel: number; nextLevel: number } | null,
+        initiallyVisible: boolean,
       ) => {
         const placements = placeBuildingTiles(rect, wall, roof, doors)
         for (const [tileId, positions] of placements) {
@@ -327,7 +331,9 @@ export function HubTownCanvas({
               const s = new PIXI.Sprite(tex)
               s.position.set(tx * T, ty * T)
               s.width = T; s.height = T
-              container.addChild(s)
+              s.visible = initiallyVisible
+              buildingLayer.addChild(s)
+              if (track) buildingVariantSprites.push({ ...track, sprite: s })
             }
           }).catch(() => {})
         }
@@ -354,6 +360,8 @@ export function HubTownCanvas({
         const thresholds = [0, ...((building.levelVisuals ?? []).map(v => v.minLevel))]
           .filter((v, i, a) => a.indexOf(v) === i)
           .sort((a, b) => a - b)
+        const multiVariant = thresholds.length > 1
+        const currentLevel = building.id ? (buildingUpgradeLevelsRef?.current[building.id] ?? 0) : 0
 
         thresholds.forEach((minLevel, ti) => {
           const nextLevel = ti + 1 < thresholds.length ? thresholds[ti + 1] : Infinity
@@ -362,14 +370,13 @@ export function HubTownCanvas({
             building.levelVisuals, minLevel,
           )
           if (!vis.wall || !vis.roof) return
-          const container = new PIXI.Container()
-          // Single-variant buildings are always shown; multi-variant ones start
-          // hidden and are toggled to the matching level in the ticker.
-          container.visible = thresholds.length === 1
-          buildingLayer.addChild(container)
-          renderVariant(vis.rect, vis.wall, vis.roof, doors, container)
-          if (thresholds.length > 1 && building.id)
-            buildingVariants.push({ buildingId: building.id, minLevel, nextLevel, container })
+          // Single-variant buildings are always shown; multi-variant ones show only
+          // the sprite set whose [minLevel, nextLevel) range holds the current level.
+          const visible = !multiVariant || (currentLevel >= minLevel && currentLevel < nextLevel)
+          const track = (multiVariant && building.id)
+            ? { buildingId: building.id, minLevel, nextLevel }
+            : null
+          renderVariant(vis.rect, vis.wall, vis.roof, doors, track, visible)
         })
       }
 
@@ -2475,12 +2482,13 @@ export function HubTownCanvas({
           }
         }
 
-        // Building visual variants — show the variant matching the current level
-        if (buildingVariants.length > 0) {
+        // Building visual variants — show the sprites of the variant whose
+        // [minLevel, nextLevel) range holds the current upgrade level.
+        if (buildingVariantSprites.length > 0) {
           const levels = buildingUpgradeLevelsRef?.current ?? {}
-          for (const v of buildingVariants) {
+          for (const v of buildingVariantSprites) {
             const lvl = levels[v.buildingId] ?? 0
-            v.container.visible = lvl >= v.minLevel && lvl < v.nextLevel
+            v.sprite.visible = lvl >= v.minLevel && lvl < v.nextLevel
           }
         }
 
