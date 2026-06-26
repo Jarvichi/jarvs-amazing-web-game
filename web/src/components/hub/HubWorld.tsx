@@ -45,6 +45,7 @@ import {  ALL_QUESTS, FRIENDSHIP_DIALOGUE, RELATIONSHIP_DIALOGUE, RAVENWATCH } f
 import { HubInteractable, HubLocationBundle, HubQuestBundle, HubTreasure } from '../../data/hub/loader'
 import { getUnreadCount } from '../../game/news'
 import { interactableStoreKey, isInteractableGranted, markInteractableGranted, getInteractableMoves, setInteractableMove } from '../../game/hub/interactables'
+import { recordNpcMet, recordAnimalSeen, recordAreaSeen } from '../../game/hub/journal'
 import rollbar from '../../rollbar'
 interface QuestEvent {
   speakerName: string
@@ -779,15 +780,17 @@ function hasOfferableQuest(giverId: string): boolean {
   const handleNpcTap = useCallback((line: string, npcId: string) => {
     // Placed animals (HUB_ANIMALS) reuse all NPC quest logic — they share the
     // same id space as quest giverNpcId / receiverNpcId / targetNpcId.
+    const namedNpc = locationData.HUB_NPCS.find(n => n.id === npcId)
     const npcDef: {
       name?: string; dialogue?: string[]; screen?: string
       questGive?: string; questReceive?: string | string[]
       innRumours?: Array<{ id: string; text: string }>
       dialogueTree?: string
     } | undefined =
-      locationData.HUB_NPCS.find(n => n.id === npcId) ??
+      namedNpc ??
       locationData.HUB_ANIMALS.find(a => a.id === npcId)
     const speakerName = npcDef?.name ?? ''
+    if (namedNpc) recordNpcMet(npcId)
 
     // Cross-town deliveries: scan EVERY town's quests (not just the current one)
     // for an active quest with a pending deliver step addressed to this NPC, or
@@ -965,6 +968,12 @@ function hasOfferableQuest(giverId: string): boolean {
     handleNpcTap(line, animalId)
   }, [handleNpcTap, locationData])
 
+  const handleAreaEnter = useCallback((areaName: string | null) => {
+    setCurrentArea(areaName)
+    const area = areaName != null ? locationData.HUB_AREAS.find(a => a.name === areaName) : undefined
+    if (area) recordAreaSeen(locationData.HUB_TOWN_NAME, area.id)
+  }, [locationData])
+
   // ── Interactable reactions ─────────────────────────────────────────────────
   // Reactions run in order; dialogue-style reactions chain the remainder
   // through the dialogue's onClose (manual close or 15 s auto-dismiss).
@@ -1080,7 +1089,7 @@ function hasOfferableQuest(giverId: string): boolean {
           style={{ overflowX: 'auto', overflowY: 'auto', width: '100%', height: '100%' }}
         >
           <HubTownCanvas
-            onAreaEnter={setCurrentArea}
+            onAreaEnter={handleAreaEnter}
             onNodeInteract={handleNodeInteract}
             onAvatarMove={handleAvatarMove}
             returnRef={returnRef}
@@ -1088,6 +1097,7 @@ function hasOfferableQuest(giverId: string): boolean {
             commander={commander}
             onNpcTap={handleNpcTap}
             onAnimalTap={handleAnimalTap}
+            onAnimalSeen={recordAnimalSeen}
             interiorEnterRef={interiorEnterRef}
             interiorExitRef={interiorExitRef}
             onEnterInterior={() => setInteriorActive(true)}
