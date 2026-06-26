@@ -4,14 +4,14 @@ import type { MapId } from '../../data/hub/hubWorldFactory'
 import { EntityRefPicker } from './EntityRefPicker'
 import { buildingRefOptions, allQuestOptions, type RefOption } from './entityRefs'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
-import { resolveTileRef } from '../../data/tiles/tileIndex'
+import { resolveTileRef, PATH_TILE } from '../../data/tiles/tileIndex'
 import type { WallMaterial } from '../../data/tiles/buildingMaterials'
 import { RawQuestPickupItem } from '../../data/hub/hubWorldFactory'
 import { SpriteSearchPicker, AnimalTypePicker } from './SpritePicker'
 import { ANIMAL_SPECS } from '../../game/hub/animals'
 import type { AnimalType } from '../../game/hub/animals'
 import { BUILDING_MUSIC_IDS, AMBIANCE_IDS } from '../../game/sound'
-import { getUpgradeTrack } from '../../data/hub/buildingUpgrades'
+import { getUpgradeTrack, UPGRADE_CATALOG } from '../../data/hub/buildingUpgrades'
 import type { BundleTileRaw } from '../../data/bundles/bundleEditorApi'
 
 /** Highest upgrade level a building can reach: explicit maxLevel, else its kind track length. */
@@ -27,6 +27,19 @@ const FLOOR_TILES = [
   'darkParquetFloor', 'goldSmallTileFloor', 'darkDiagonalFloor', 'darkFourByFourTileFloor',
   'lightMeshFloor', 'blueOrnateFloor',
 ]
+
+const UPGRADE_KINDS = Object.keys(UPGRADE_CATALOG)
+
+const SCREEN_IDS = [
+  'campaign', 'casino', 'chronicle', 'citybuilder', 'codex', 'collection-tabs',
+  'commander', 'crystalcatch', 'dailychallenge', 'deckbuilder', 'endless', 'fishing',
+  'fruitMachine', 'hall-of-achievements', 'higherOrLower', 'home-shelf', 'marble',
+  'marblerace', 'minigames', 'news', 'prizes', 'quickbattle', 'shop-augments',
+  'shop-cards', 'shop-supplies', 'spinner', 'tileflip', 'towerDefence', 'videoPoker',
+  'weeklychallenge', 'worldmap', 'town-upgrades',
+]
+
+const PATH_TILE_KEYS = Object.keys(PATH_TILE)
 
 const WALL_MATERIALS: WallMaterial[] = [
   'brick', 'woodWall', 'tudorFrame', 'renderedBrick', 'whiteStone', 'darkStone',
@@ -696,16 +709,17 @@ function StreetInspector({
   return (
     <div>
       <Field label="Path Type">
-        <input
-          type="text"
+        <select
           value={entry.pathType ?? ''}
           onChange={e => onUpdate({ pathType: e.target.value || undefined })}
-          placeholder="e.g. cobblestone (optional)"
           style={{
             width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444',
             color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box',
           }}
-        />
+        >
+          <option value="">— default —</option>
+          {PATH_TILE_KEYS.map(k => <option key={k} value={k}>{k}</option>)}
+        </select>
       </Field>
       {r ? (
         <>
@@ -852,12 +866,14 @@ function BuildingInspector({
       {/* ── Upgrade levels ─────────────────────────────────────────────── */}
       <div style={{ borderTop: '1px solid #333', marginTop: 4, paddingTop: 10 }}>
         <Field label="Upgrade Kind">
-          <input
+          <select
             value={building.upgradeKind ?? ''}
             onChange={e => onUpdateBuilding(buildingIndex, { upgradeKind: e.target.value || undefined })}
-            placeholder="shop / inn / tavern / …"
             style={inputStyle}
-          />
+          >
+            <option value="">— none —</option>
+            {UPGRADE_KINDS.map(k => <option key={k} value={k}>{k}</option>)}
+          </select>
         </Field>
         <Field label="Max Level">
           <input
@@ -919,7 +935,9 @@ function BuildingInspector({
               </div>
               <div>
                 <div style={{ color: '#888', fontSize: 10, marginBottom: 2 }}>Floor tile ID</div>
-                <input style={inputStyle} value={newFloor} onChange={e => setNewFloor(e.target.value)} />
+                <select style={inputStyle} value={newFloor} onChange={e => setNewFloor(e.target.value)}>
+                  {FLOOR_TILES.map(f => <option key={f} value={f}>{f}</option>)}
+                </select>
               </div>
               <div style={{ display: 'flex', gap: 6 }}>
                 <button
@@ -1487,7 +1505,10 @@ function ReactionEditor({ reaction, onChange, questOptions }: {
       )}
 
       {reaction.type === 'screen' && (
-        <input style={inp} placeholder="screen id (e.g. news, town-upgrades)" value={reaction.screen ?? ''} onChange={e => onChange({ ...reaction, screen: e.target.value })} />
+        <select style={inp} value={reaction.screen ?? ''} onChange={e => onChange({ ...reaction, screen: e.target.value })}>
+          <option value="">— pick screen —</option>
+          {SCREEN_IDS.map(s => <option key={s} value={s}>{s}</option>)}
+        </select>
       )}
 
       {reaction.type === 'quest' && (
@@ -1724,7 +1745,10 @@ function TownExtraSections({ configData, onUpdateConfig, onPickLocation, inputSt
             <div key={i} style={{ display: 'flex', gap: 4, alignItems: 'center', flexWrap: 'wrap', background: '#16161e', border: '1px solid #2a2a3a', borderRadius: 3, padding: 4 }}>
               <input type="number" style={numSm} value={e.tx} onChange={ev => onUpdateConfig({ exitTiles: exits.map((x, j) => j === i ? { ...x, tx: Number(ev.target.value) } : x) })} />
               <input type="number" style={numSm} value={e.ty} onChange={ev => onUpdateConfig({ exitTiles: exits.map((x, j) => j === i ? { ...x, ty: Number(ev.target.value) } : x) })} />
-              <input style={{ ...inputStyle, flex: 1, minWidth: 70 }} placeholder="screen" value={e.screen} onChange={ev => onUpdateConfig({ exitTiles: exits.map((x, j) => j === i ? { ...x, screen: ev.target.value } : x) })} />
+              <select style={{ ...inputStyle, flex: 1, minWidth: 70 }} value={e.screen} onChange={ev => onUpdateConfig({ exitTiles: exits.map((x, j) => j === i ? { ...x, screen: ev.target.value } : x) })}>
+                <option value="">— pick screen —</option>
+                {SCREEN_IDS.map(s => <option key={s} value={s}>{s}</option>)}
+              </select>
               {onPickLocation && <button style={pickBtn} onClick={() => onPickLocation('exitTile', i)}>📍</button>}
               <button style={xBtn} onClick={() => onUpdateConfig({ exitTiles: exits.filter((_, j) => j !== i) })}>✕</button>
             </div>
@@ -1913,18 +1937,14 @@ function MultiSelectPanel({
       )}
       {isStreet && onBatchPathType && (
         <Field label="Path Type (all)">
-          <div style={{ display: 'flex', gap: 4 }}>
-            <input
-              value={pathType}
-              onChange={e => setPathType(e.target.value)}
-              placeholder="e.g. cobblestone"
-              style={{ flex: 1, padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }}
-            />
-            <button
-              onClick={() => onBatchPathType(entities, pathType || undefined)}
-              style={{ padding: '3px 7px', background: '#1a3a1a', border: '1px solid #3a6a3a', color: '#8d8', borderRadius: 3, fontSize: 11, cursor: 'pointer' }}
-            >✓</button>
-          </div>
+          <select
+            value={pathType}
+            onChange={e => { setPathType(e.target.value); onBatchPathType(entities, e.target.value || undefined) }}
+            style={{ width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }}
+          >
+            <option value="">— default —</option>
+            {PATH_TILE_KEYS.map(k => <option key={k} value={k}>{k}</option>)}
+          </select>
         </Field>
       )}
       {onSaveAsBundle && (

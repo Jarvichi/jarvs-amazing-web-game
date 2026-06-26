@@ -6624,7 +6624,17 @@
         "open": 8,
         "close": 18
       },
-      "wallTileId": "interiorWallWhite"
+      "wallTileId": "interiorWallWhite",
+      "exits": [
+        {
+          "tx": 0,
+          "ty": 5,
+          "toInteriorId": "townhall-office",
+          "direction": "left",
+          "entryTx": 8,
+          "entryTy": 4
+        }
+      ]
     },
     "inn-building-upstairs": {
       "name": "The Wanderer's Rest (Upstairs)",
@@ -7389,10 +7399,22 @@
     "townhall-office": {
       "name": "townhall-office",
       "width": 10,
-      "height": 8,
+      "height": 9,
       "floorTileId": "woodFloor",
       "decor": [],
-      "wallMaterial": "brick"
+      "wallMaterial": "brick",
+      "exits": [
+        {
+          "tx": 9,
+          "ty": 4,
+          "toInteriorId": "town-hall",
+          "entryTx": 1,
+          "entryTy": 5,
+          "direction": "right",
+          "minLevel": 1
+        }
+      ],
+      "wallTileId": "interiorWallStriped"
     },
     "card-shop-bldg-1": {
       "name": "Stock Room",
@@ -8684,8 +8706,8 @@
     },
     {
       "id": "ravenwatch-church-key",
-      "tx": 30,
-      "ty": 19,
+      "tx": 5,
+      "ty": 5,
       "reactions": [
         {
           "type": "giveItem",
@@ -8699,7 +8721,10 @@
         },
         {
           "type": "move",
-          "to": { "tx": -1, "ty": -1 }
+          "to": {
+            "tx": -1,
+            "ty": -1
+          }
         }
       ],
       "decor": [
@@ -8708,7 +8733,8 @@
           "dy": 0,
           "tileId": "key"
         }
-      ]
+      ],
+      "building": "townhall-office"
     }
   ],
   "animals": [
