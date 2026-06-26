@@ -285,7 +285,7 @@
         },
         {
           "tx": 3,
-          "ty": 9,
+          "ty": 7,
           "tileId": "armourSign",
           "minLevel": 3
         },
@@ -343,7 +343,7 @@
         },
         {
           "tx": 27,
-          "ty": 15,
+          "ty": 13,
           "tileId": "goldSign",
           "minLevel": 3
         },
@@ -388,27 +388,15 @@
           "minLevel": 1
         },
         {
-          "tx": 16,
-          "ty": 9,
-          "tileId": "floorLantern",
-          "minLevel": 2
-        },
-        {
           "tx": 20,
           "ty": 9,
           "tileId": "potOfFlowers",
           "minLevel": 2
         },
         {
-          "tx": 18,
-          "ty": 11,
+          "tx": 15,
+          "ty": 6,
           "tileId": "innSign",
-          "minLevel": 3
-        },
-        {
-          "tx": 17,
-          "ty": 10,
-          "tileId": "floorLantern",
           "minLevel": 3
         }
       ]
@@ -459,7 +447,7 @@
         },
         {
           "tx": 27,
-          "ty": 25,
+          "ty": 23,
           "tileId": "goldSign",
           "minLevel": 3
         },
@@ -517,7 +505,7 @@
         },
         {
           "tx": 9,
-          "ty": 25,
+          "ty": 23,
           "tileId": "largeSign",
           "minLevel": 3
         },
@@ -575,7 +563,7 @@
         },
         {
           "tx": 23,
-          "ty": 34,
+          "ty": 32,
           "tileId": "goldSign",
           "minLevel": 3
         },
@@ -632,8 +620,8 @@
           "minLevel": 2
         },
         {
-          "tx": 10,
-          "ty": 34,
+          "tx": 11,
+          "ty": 32,
           "tileId": "armourSign",
           "minLevel": 3
         },
@@ -691,7 +679,7 @@
         },
         {
           "tx": 34,
-          "ty": 35,
+          "ty": 33,
           "tileId": "armourSign",
           "minLevel": 3
         },
@@ -749,7 +737,7 @@
         },
         {
           "tx": 2,
-          "ty": 34,
+          "ty": 32,
           "tileId": "floorLantern",
           "minLevel": 3
         },
