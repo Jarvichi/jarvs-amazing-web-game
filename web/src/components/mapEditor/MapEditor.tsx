@@ -41,7 +41,8 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
 
   const {
     state, setMapId, setTool, setActiveTile, setZlayer, setActiveLevel, setPreviewFestival,
-    openInterior, closeInterior, selectEntities, addToSelection,
+    openInterior, closeInterior, openBuildingEditor, closeBuildingEditor, placeBuildingDoor,
+    selectEntities, addToSelection,
     placeDecor, moveEntities, deleteEntities,
     addPondTile, updatePondEntry, addNpcSpawnTile, addChickenZone, addArea,
     convertStreetToPond, convertPondToStreet,
@@ -309,7 +310,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
 
           {/* Center: Map canvas — key forces remount when canvas dimensions change */}
           <MapEditorCanvas
-            key={`${state.mapId}-${state.viewMode}-${state.activeInteriorId ?? ''}-${state.previewFestivalId ?? ''}`}
+            key={`${state.mapId}-${state.viewMode}-${state.activeInteriorId ?? ''}-${state.activeBuildingIndex ?? ''}-${state.previewFestivalId ?? ''}`}
             configData={state.configData}
             previewFestivalId={state.previewFestivalId}
             tool={state.tool}
@@ -323,6 +324,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
             selectedEntities={state.selectedEntities}
             viewMode={state.viewMode}
             activeInteriorId={state.activeInteriorId}
+            activeBuildingIndex={state.activeBuildingIndex}
             activeLevel={state.activeLevel}
             activeTileId={state.activeTileId}
             activeBundleId={state.activeBundleId}
@@ -332,6 +334,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
             onSelectEntities={selectEntities}
             onAddToSelection={addToSelection}
             onPlaceDecor={placeDecor}
+            onPlaceBuildingDoor={placeBuildingDoor}
             onMoveEntities={handleMoveEntities}
             onDeleteEntities={handleDeleteEntities}
             onAddStreet={addStreet}
@@ -349,6 +352,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
               mapId={state.mapId}
               configData={state.configData}
               activeInteriorId={state.activeInteriorId}
+              activeBuildingIndex={state.activeBuildingIndex}
               activeLevel={state.activeLevel}
               viewMode={state.viewMode}
               onSetActiveLevel={setActiveLevel}
@@ -371,6 +375,8 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
               onDialogueChange={updateNpcDialogue}
               onOpenInterior={openInterior}
               onCloseInterior={closeInterior}
+              onOpenBuildingEditor={openBuildingEditor}
+              onCloseBuildingEditor={closeBuildingEditor}
               onUpdateStreetEntry={updateStreetEntry}
               onResizeInterior={resizeInterior}
               onAddInterior={addInterior}

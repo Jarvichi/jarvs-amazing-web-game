@@ -72,18 +72,18 @@
   "pondTiles": [
     {
       "rect": [
-        10,
-        90,
-        38,
-        97
+        0,
+        71,
+        28,
+        78
       ]
     },
     {
       "rect": [
-        14,
-        88,
-        34,
-        90
+        27,
+        74,
+        47,
+        76
       ]
     }
   ],
@@ -179,10 +179,11 @@
     {
       "rect": [
         30,
-        48,
+        49,
         86,
         55
-      ]
+      ],
+      "pathType": "grass1Dirt2"
     },
     {
       "rect": [
@@ -190,6 +191,30 @@
         88,
         59,
         99
+      ]
+    },
+    {
+      "rect": [
+        13,
+        27,
+        20,
+        27
+      ]
+    },
+    {
+      "rect": [
+        29,
+        27,
+        34,
+        27
+      ]
+    },
+    {
+      "rect": [
+        45,
+        27,
+        51,
+        27
       ]
     }
   ],
@@ -431,9 +456,9 @@
       "upgradeKind": "shrine",
       "rect": [
         10,
-        20,
+        19,
         23,
-        27
+        26
       ],
       "wall": "ornateStone",
       "roof": "blueSlateRoof",
@@ -489,9 +514,9 @@
       "upgradeKind": "default",
       "rect": [
         26,
-        20,
+        19,
         37,
-        27
+        26
       ],
       "wall": "whiteStone",
       "roof": "greySlateRoof",
@@ -547,9 +572,9 @@
       "upgradeKind": "default",
       "rect": [
         42,
-        20,
+        19,
         54,
-        27
+        26
       ],
       "wall": "castleStone",
       "roof": "greySlateRoof",
@@ -1892,12 +1917,12 @@
           "tileId": "bookshelfBottom"
         },
         {
-          "tx": 11,
+          "tx": 10,
           "ty": 1,
           "tileId": "bookshelfTop"
         },
         {
-          "tx": 11,
+          "tx": 10,
           "ty": 2,
           "tileId": "bookshelfBottom"
         },
@@ -1951,13 +1976,14 @@
           "tileId": "windowTop"
         },
         {
-          "tx": 1,
-          "ty": 1,
-          "tileId": "bookshelfTop"
+          "tx": 2,
+          "ty": 5,
+          "tileId": "bookshelfTop",
+          "zlayer": "above"
         },
         {
-          "tx": 1,
-          "ty": 2,
+          "tx": 2,
+          "ty": 6,
           "tileId": "bookshelfBottom"
         },
         {
@@ -1971,14 +1997,50 @@
           "tileId": "bookshelfBottom"
         },
         {
-          "tx": 6,
-          "ty": 2,
+          "tx": 10,
+          "ty": 7,
           "tileId": "deskTop"
         },
         {
           "tx": 3,
           "ty": 7,
           "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 3,
+          "ty": 5,
+          "tileId": "bookshelfBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 4,
+          "tileId": "bookshelfTop",
+          "zlayer": "above"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "bookshelfBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "bookshelfTop",
+          "zlayer": "above"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "bookshelfBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 2,
+          "tileId": "bookshelfTop",
+          "zlayer": "above"
         }
       ],
       "exits": [
@@ -4794,8 +4856,8 @@
       "comment": "Coronation Plaza — grand fountain & monuments"
     },
     {
-      "tx": 56,
-      "ty": 50,
+      "tx": 52,
+      "ty": 53,
       "bundleID": "fountain",
       "zlayer": "solid"
     },
@@ -4820,66 +4882,6 @@
       "tx": 72,
       "ty": 47,
       "tileId": "angelStatueBottom"
-    },
-    {
-      "tx": 34,
-      "ty": 56,
-      "tileId": "benchLeft"
-    },
-    {
-      "tx": 35,
-      "ty": 56,
-      "tileId": "benchMiddle"
-    },
-    {
-      "tx": 36,
-      "ty": 56,
-      "tileId": "benchRight"
-    },
-    {
-      "tx": 40,
-      "ty": 56,
-      "tileId": "benchLeft"
-    },
-    {
-      "tx": 41,
-      "ty": 56,
-      "tileId": "benchMiddle"
-    },
-    {
-      "tx": 42,
-      "ty": 56,
-      "tileId": "benchRight"
-    },
-    {
-      "tx": 46,
-      "ty": 56,
-      "tileId": "benchLeft"
-    },
-    {
-      "tx": 47,
-      "ty": 56,
-      "tileId": "benchMiddle"
-    },
-    {
-      "tx": 48,
-      "ty": 56,
-      "tileId": "benchRight"
-    },
-    {
-      "tx": 52,
-      "ty": 56,
-      "tileId": "benchLeft"
-    },
-    {
-      "tx": 53,
-      "ty": 56,
-      "tileId": "benchMiddle"
-    },
-    {
-      "tx": 54,
-      "ty": 56,
-      "tileId": "benchRight"
     },
     {
       "tx": 58,
@@ -5167,13 +5169,13 @@
     },
     {
       "tx": 26,
-      "ty": 19,
+      "ty": 18,
       "tileId": "lampPostTop",
       "zlayer": "above"
     },
     {
       "tx": 26,
-      "ty": 20,
+      "ty": 19,
       "tileId": "lampPostBottom"
     },
     {
@@ -5338,17 +5340,6 @@
     },
     {
       "tx": 26,
-      "ty": 56,
-      "tileId": "lampPostBottom"
-    },
-    {
-      "tx": 55,
-      "ty": 55,
-      "tileId": "lampPostTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 55,
       "ty": 56,
       "tileId": "lampPostBottom"
     },
@@ -6493,6 +6484,72 @@
       "tx": 30,
       "ty": 66,
       "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 45,
+      "ty": 53,
+      "bundleID": "fountain",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 38,
+      "ty": 53,
+      "bundleID": "fountain",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 31,
+      "ty": 53,
+      "bundleID": "fountain",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 59,
+      "ty": 53,
+      "bundleID": "fountain",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 66,
+      "ty": 53,
+      "bundleID": "fountain",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 73,
+      "ty": 53,
+      "bundleID": "fountain",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 80,
+      "ty": 53,
+      "bundleID": "fountain",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 31,
+      "ty": 56,
+      "bundleID": "bench",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 38,
+      "ty": 56,
+      "bundleID": "bench",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 45,
+      "ty": 56,
+      "bundleID": "bench",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 52,
+      "ty": 56,
+      "bundleID": "bench",
       "zlayer": "solid"
     }
   ]

@@ -96,19 +96,41 @@ export function applyDeleteEntities(config: RawMapConfig, entities: SelectedEnti
   const treasures = indexSet(entities, 'treasure')
   if (treasures.size) c = { ...c, treasures: (c.treasures ?? []).filter((_, i) => !treasures.has(i)) }
 
-  // buildingLevelDecor — group by buildingIndex to avoid index-shift bugs
-  const bldMap = new Map<number, Set<number>>()
-  for (const e of entities) {
-    if (e.type !== 'buildingLevelDecor') continue
-    if (!bldMap.has(e.buildingIndex)) bldMap.set(e.buildingIndex, new Set())
-    bldMap.get(e.buildingIndex)!.add(e.index)
+  // buildingLevelDecor / buildingDecor / buildingWindow / buildingDoor — group by buildingIndex
+  type BldArrayKey = 'levelDecor' | 'decor' | 'windows' | 'doors'
+  const bldMaps: Record<BldArrayKey, Map<number, Set<number>>> = {
+    levelDecor: new Map(), decor: new Map(), windows: new Map(), doors: new Map(),
   }
-  if (bldMap.size) {
+  for (const e of entities) {
+    if (e.type === 'buildingLevelDecor') {
+      if (!bldMaps.levelDecor.has(e.buildingIndex)) bldMaps.levelDecor.set(e.buildingIndex, new Set())
+      bldMaps.levelDecor.get(e.buildingIndex)!.add(e.index)
+    } else if (e.type === 'buildingDecor') {
+      if (!bldMaps.decor.has(e.buildingIndex)) bldMaps.decor.set(e.buildingIndex, new Set())
+      bldMaps.decor.get(e.buildingIndex)!.add(e.index)
+    } else if (e.type === 'buildingWindow') {
+      if (!bldMaps.windows.has(e.buildingIndex)) bldMaps.windows.set(e.buildingIndex, new Set())
+      bldMaps.windows.get(e.buildingIndex)!.add(e.index)
+    } else if (e.type === 'buildingDoor') {
+      if (!bldMaps.doors.has(e.buildingIndex)) bldMaps.doors.set(e.buildingIndex, new Set())
+      bldMaps.doors.get(e.buildingIndex)!.add(e.index)
+    }
+  }
+  const anyBld = Object.values(bldMaps).some(m => m.size > 0)
+  if (anyBld) {
     const buildings = [...(c.buildings ?? [])]
-    for (const [bIdx, idxs] of bldMap) {
-      const b = buildings[bIdx]
+    const allBldIdxs = new Set([
+      ...bldMaps.levelDecor.keys(), ...bldMaps.decor.keys(),
+      ...bldMaps.windows.keys(),    ...bldMaps.doors.keys(),
+    ])
+    for (const bIdx of allBldIdxs) {
+      let b = buildings[bIdx]
       if (!b) continue
-      buildings[bIdx] = { ...b, levelDecor: (b.levelDecor ?? []).filter((_, i) => !idxs.has(i)) }
+      if (bldMaps.levelDecor.has(bIdx)) b = { ...b, levelDecor: (b.levelDecor ?? []).filter((_, i) => !bldMaps.levelDecor.get(bIdx)!.has(i)) }
+      if (bldMaps.decor.has(bIdx))      b = { ...b, decor:      (b.decor      ?? []).filter((_, i) => !bldMaps.decor.get(bIdx)!.has(i)) }
+      if (bldMaps.windows.has(bIdx))    b = { ...b, windows:    (b.windows    ?? []).filter((_, i) => !bldMaps.windows.get(bIdx)!.has(i)) }
+      if (bldMaps.doors.has(bIdx))      b = { ...b, doors:      (b.doors      ?? []).filter((_, i) => !bldMaps.doors.get(bIdx)!.has(i)) }
+      buildings[bIdx] = b
     }
     c = { ...c, buildings }
   }

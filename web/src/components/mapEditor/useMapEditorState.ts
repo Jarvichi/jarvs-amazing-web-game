@@ -156,6 +156,18 @@ function applyMove(prevConfig: RawMapConfig, entity: SelectedEntity, tx: number,
     levelDecor[entity.index] = { ...levelDecor[entity.index], tx, ty }
     buildings[entity.buildingIndex] = { ...b, levelDecor }
     newConfig = { ...prevConfig, buildings }
+  } else if (entity.type === 'buildingDecor') {
+    // tx/ty are absolute; convert to relative before storing
+    const buildings = [...(prevConfig.buildings ?? [])]
+    const b = buildings[entity.buildingIndex]
+    if (!b?.decor?.[entity.index]) return prevConfig
+    const allRects = (b.rects ?? (b.rect ? [b.rect] : [])) as [number, number, number, number][]
+    const ox = Math.min(...allRects.map(r => r[0]))
+    const oy = Math.max(...allRects.map(r => r[3]))
+    const decor = [...b.decor!]
+    decor[entity.index] = { ...decor[entity.index], tx: tx - ox, ty: ty - oy }
+    buildings[entity.buildingIndex] = { ...b, decor }
+    newConfig = { ...prevConfig, buildings }
   } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
     const interior = prevConfig.interiors[entity.interiorId]
     const decor = [...interior.decor]
@@ -174,8 +186,9 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     activeTileId:     null,
     activeBundleId:   null,
     activeZlayer:     'solid',
-    viewMode:         'exterior',
-    activeInteriorId: null,
+    viewMode:            'exterior',
+    activeInteriorId:    null,
+    activeBuildingIndex: null,
     activeLevel:      0,
     previewFestivalId: initialFestival,
     selectedEntities: [],
@@ -232,6 +245,14 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     setState(s => ({ ...s, viewMode: 'exterior', activeInteriorId: null, activeLevel: 0, selectedEntities: [] }))
   }, [])
 
+  const openBuildingEditor = useCallback((buildingIndex: number) => {
+    setState(s => ({ ...s, viewMode: 'building', activeBuildingIndex: buildingIndex, activeLevel: 0, selectedEntities: [] }))
+  }, [])
+
+  const closeBuildingEditor = useCallback(() => {
+    setState(s => ({ ...s, viewMode: 'exterior', activeBuildingIndex: null, activeLevel: 0, selectedEntities: [] }))
+  }, [])
+
   const selectEntities = useCallback((entities: SelectedEntity[]) => {
     setState(s => ({ ...s, selectedEntities: entities }))
   }, [])
@@ -282,6 +303,23 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
             [s.activeInteriorId]: { ...interior, decor: [...interior.decor, newItem] },
           },
         }
+      } else if (s.viewMode === 'building' && s.activeBuildingIndex != null) {
+        // In building editor, placed coords are absolute; convert to building-relative.
+        const buildings = [...(prevConfig.buildings ?? [])]
+        const b = buildings[s.activeBuildingIndex]
+        if (!b) return s
+        const allRects = (b.rects ?? (b.rect ? [b.rect] : [])) as [number, number, number, number][]
+        const ox = Math.min(...allRects.map(r => r[0]))
+        const oy = Math.max(...allRects.map(r => r[3]))
+        const relItem = { ...newItem, tx: tx - ox, ty: ty - oy }
+        if (s.activeLevel > 0) {
+          // levelDecor uses absolute coords (same as exteriorDecor)
+          buildings[s.activeBuildingIndex] = { ...b, levelDecor: [...(b.levelDecor ?? []), { ...newItem, minLevel: s.activeLevel }] }
+        } else {
+          // b.decor uses relative coords from (ox, oy)
+          buildings[s.activeBuildingIndex] = { ...b, decor: [...(b.decor ?? []), relItem] }
+        }
+        newConfig = { ...prevConfig, buildings }
       } else {
         return s
       }
@@ -494,6 +532,14 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
         levelDecor[entity.index] = { ...levelDecor[entity.index], zlayer }
         buildings[entity.buildingIndex] = { ...b, levelDecor }
         newConfig = { ...prevConfig, buildings }
+      } else if (entity.type === 'buildingDecor' && prevConfig.buildings?.[entity.buildingIndex]?.decor) {
+        const buildings = [...prevConfig.buildings]
+        const b = buildings[entity.buildingIndex]
+        const decor = [...(b.decor ?? [])]
+        if (!decor[entity.index]) return s
+        decor[entity.index] = { ...decor[entity.index], zlayer }
+        buildings[entity.buildingIndex] = { ...b, decor }
+        newConfig = { ...prevConfig, buildings }
       } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
         const interior = prevConfig.interiors[entity.interiorId]
         const decor = [...interior.decor]
@@ -570,6 +616,14 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
         levelDecor[entity.index] = { ...levelDecor[entity.index], tileId }
         buildings[entity.buildingIndex] = { ...b, levelDecor }
         newConfig = { ...prevConfig, buildings }
+      } else if (entity.type === 'buildingDecor' && prevConfig.buildings?.[entity.buildingIndex]?.decor) {
+        const buildings = [...prevConfig.buildings]
+        const b = buildings[entity.buildingIndex]
+        const decor = [...(b.decor ?? [])]
+        if (!decor[entity.index]) return s
+        decor[entity.index] = { ...decor[entity.index], tileId }
+        buildings[entity.buildingIndex] = { ...b, decor }
+        newConfig = { ...prevConfig, buildings }
       } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
         const interior = prevConfig.interiors[entity.interiorId]
         const decor = [...interior.decor]
@@ -606,6 +660,14 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
         if (!levelDecor[entity.index]) return s
         levelDecor[entity.index] = { ...levelDecor[entity.index], ...patch }
         buildings[entity.buildingIndex] = { ...b, levelDecor }
+        newConfig = { ...prevConfig, buildings }
+      } else if (entity.type === 'buildingDecor' && prevConfig.buildings?.[entity.buildingIndex]?.decor) {
+        const buildings = [...prevConfig.buildings]
+        const b = buildings[entity.buildingIndex]
+        const decor = [...(b.decor ?? [])]
+        if (!decor[entity.index]) return s
+        decor[entity.index] = { ...decor[entity.index], ...patch }
+        buildings[entity.buildingIndex] = { ...b, decor }
         newConfig = { ...prevConfig, buildings }
       } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
         const interior = prevConfig.interiors[entity.interiorId]
@@ -648,6 +710,14 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
         levelDecor[entity.index] = clean(levelDecor[entity.index])
         buildings[entity.buildingIndex] = { ...b, levelDecor }
         newConfig = { ...prevConfig, buildings }
+      } else if (entity.type === 'buildingDecor' && prevConfig.buildings?.[entity.buildingIndex]?.decor) {
+        const buildings = [...prevConfig.buildings]
+        const b = buildings[entity.buildingIndex]
+        const decor = [...(b.decor ?? [])]
+        if (!decor[entity.index]) return s
+        decor[entity.index] = clean(decor[entity.index])
+        buildings[entity.buildingIndex] = { ...b, decor }
+        newConfig = { ...prevConfig, buildings }
       } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
         const interior = prevConfig.interiors[entity.interiorId]
         const decor = [...interior.decor]
@@ -688,6 +758,14 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
         if (!levelDecor[entity.index]) return s
         levelDecor[entity.index] = clean(levelDecor[entity.index])
         buildings[entity.buildingIndex] = { ...b, levelDecor }
+        newConfig = { ...prevConfig, buildings }
+      } else if (entity.type === 'buildingDecor' && prevConfig.buildings?.[entity.buildingIndex]?.decor) {
+        const buildings = [...prevConfig.buildings]
+        const b = buildings[entity.buildingIndex]
+        const decor = [...(b.decor ?? [])]
+        if (!decor[entity.index]) return s
+        decor[entity.index] = clean(decor[entity.index])
+        buildings[entity.buildingIndex] = { ...b, decor }
         newConfig = { ...prevConfig, buildings }
       } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
         const interior = prevConfig.interiors[entity.interiorId]
@@ -1290,6 +1368,32 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     })
   }, [])
 
+  const placeBuildingDoor = useCallback((buildingIndex: number, absTx: number, absTy: number) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const buildings = [...(prevConfig.buildings ?? [])]
+      const b = buildings[buildingIndex]
+      if (!b) return s
+      const allRects = (b.rects ?? (b.rect ? [b.rect] : [])) as [number, number, number, number][]
+      const ox = Math.min(...allRects.map(r => r[0]))
+      const oy = Math.max(...allRects.map(r => r[3]))
+      const relTx = absTx - ox
+      const relTy = absTy - oy
+      const existing = (b.doors ?? []).findIndex(d => d.tx === relTx && d.ty === relTy)
+      const doors = existing >= 0
+        ? (b.doors ?? []).filter((_, i) => i !== existing)  // toggle off
+        : [...(b.doors ?? []), { tx: relTx, ty: relTy }]    // toggle on
+      buildings[buildingIndex] = { ...b, doors }
+      return {
+        ...s,
+        configData: { ...prevConfig, buildings },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty:   true,
+      }
+    })
+  }, [])
+
   const markSaved = useCallback(() => {
     setState(s => ({ ...s, isDirty: false }))
   }, [])
@@ -1304,6 +1408,9 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     setPreviewFestival,
     openInterior,
     closeInterior,
+    openBuildingEditor,
+    closeBuildingEditor,
+    placeBuildingDoor,
     selectEntities,
     addToSelection,
     placeDecor,

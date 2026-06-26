@@ -3650,8 +3650,8 @@
     },
     {
       "id": "pendant-2",
-      "tx": 24,
-      "ty": 49,
+      "tx": 20,
+      "ty": 53,
       "tileId": "goldNecklace",
       "questId": "lost-pendant"
     },

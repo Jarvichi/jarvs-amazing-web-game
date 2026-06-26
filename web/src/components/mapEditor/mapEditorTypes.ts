@@ -5,7 +5,7 @@ import type { NpcActivity } from '../../data/hub/loader'
 
 export type ToolMode = 'select' | 'place' | 'delete' | 'street' | 'pond' | 'spawn' | 'chickenZone' | 'area'
 export type Zlayer = 'solid' | 'below' | 'above'
-export type ViewMode = 'exterior' | 'interior'
+export type ViewMode = 'exterior' | 'interior' | 'building'
 
 // Entity kinds whose location can be set by clicking the map ("pick on map").
 export type PickKind =
@@ -248,6 +248,9 @@ export type SelectedEntity =
   | { type: 'npc'; index: number }
   | { type: 'building'; index: number }
   | { type: 'buildingLevelDecor'; buildingIndex: number; index: number }
+  | { type: 'buildingDecor';      buildingIndex: number; index: number }
+  | { type: 'buildingWindow';     buildingIndex: number; index: number }
+  | { type: 'buildingDoor';       buildingIndex: number; index: number }
   | { type: 'street'; index: number }
   | { type: 'pondTile'; index: number }
   | { type: 'npcSpawnTile'; index: number }
@@ -272,6 +275,7 @@ export interface MapEditorState {
   activeZlayer: Zlayer
   viewMode: ViewMode
   activeInteriorId: string | null
+  activeBuildingIndex: number | null
   activeLevel: number
   /** Festival being previewed/authored in the editor (null = base / no festival). */
   previewFestivalId: string | null

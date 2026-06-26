@@ -78,6 +78,8 @@ interface Props {
   onDialogueChange:      (index: number, dialogue: string[]) => void
   onOpenInterior:        (id: string) => void
   onCloseInterior:       () => void
+  onOpenBuildingEditor:  (buildingIndex: number) => void
+  onCloseBuildingEditor: () => void
   onUpdateStreetEntry:   (index: number, data: { rect?: number[]; tile?: number[]; pathType?: string }) => void
   onResizeInterior:      (interiorId: string, dir: 'top' | 'bottom' | 'left' | 'right', grow?: boolean) => void
   onAddInterior:         (id: string, interior: RawInterior) => void
@@ -86,7 +88,8 @@ interface Props {
   onUpdateInteriorExit:  (interiorId: string, index: number, patch: Partial<InteriorExit>) => void
   onRemoveInteriorExit:  (interiorId: string, index: number) => void
   questPickupItems:      RawQuestPickupItem[]
-  viewMode:              'exterior' | 'interior'
+  viewMode:              'exterior' | 'interior' | 'building'
+  activeBuildingIndex:   number | null
   blockedPaths:          RawBlockedPath[]
   onUpdateBlockedPath:   (index: number, patch: Partial<RawBlockedPath>) => void
   onDeleteBlockedPath:   (index: number) => void
@@ -824,7 +827,7 @@ function StreetInspector({
 
 function BuildingInspector({
   building, buildingIndex, activeLevel, onSetActiveLevel, onUpdateBuilding, onUpdateBuildingLevelVisual,
-  onOpenInterior, interiorIds, existingInteriorIds, onAddInterior,
+  onOpenInterior, onOpenBuildingEditor, interiorIds, existingInteriorIds, onAddInterior,
 }: {
   building: RawBuilding
   buildingIndex: number
@@ -833,6 +836,7 @@ function BuildingInspector({
   onUpdateBuilding: (index: number, patch: Partial<RawBuilding>) => void
   onUpdateBuildingLevelVisual: (buildingIndex: number, minLevel: number, patch: Partial<{ rect: [number, number, number, number]; wall: WallMaterial; roof: RoofMaterial }>) => void
   onOpenInterior: (id: string) => void
+  onOpenBuildingEditor: (buildingIndex: number) => void
   interiorIds: string[]
   existingInteriorIds: string[]
   onAddInterior: (id: string, interior: RawInterior) => void
@@ -988,6 +992,18 @@ function BuildingInspector({
           {' '}Pick a tile and use the Place tool to add decor for this level. Items from lower levels stay visible; higher-level items are dimmed.
         </div>
       </div>
+
+      <Field label="Building">
+        <button
+          onClick={() => onOpenBuildingEditor(buildingIndex)}
+          style={{
+            padding: '5px 8px', background: '#1e3a2e', border: '1px solid #3a8a5e',
+            color: '#6da', cursor: 'pointer', borderRadius: 3, fontSize: 11, textAlign: 'left', width: '100%',
+          }}
+        >
+          Edit building…
+        </button>
+      </Field>
 
       <Field label="Interiors">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
@@ -2173,10 +2189,10 @@ function SpawnTileInspector({
 }
 
 export function EntityInspector({
-  selectedEntities, mapId, configData, activeInteriorId, activeLevel, viewMode,
+  selectedEntities, mapId, configData, activeInteriorId, activeBuildingIndex, activeLevel, viewMode,
   onSetActiveLevel, onUpdateBuilding, onUpdateBuildingLevelVisual, onUpdateDecorMinLevel, onUpdateDecorHideAtLevel,
   onDelete, onMoveEntity, onZlayerChange, onUpdateGlow, onUpdatePickupGlow, onDialogueChange,
-  onOpenInterior, onCloseInterior, onUpdateStreetEntry,
+  onOpenInterior, onCloseInterior, onOpenBuildingEditor, onCloseBuildingEditor, onUpdateStreetEntry,
   onResizeInterior, onAddInterior, onAddInteriorExit, onUpdateInteriorProps, onUpdateInteriorExit,
   onRemoveInteriorExit,
   questPickupItems,
@@ -2255,6 +2271,125 @@ export function EntityInspector({
   const isQuestItemSelected = selectedEntity?.type === 'treasure'
     || selectedEntity?.type === 'pickupItem'
     || selectedEntity?.type === 'animal'
+
+  if (viewMode === 'building' && activeBuildingIndex != null) {
+    const b = (configData.buildings ?? [])[activeBuildingIndex]
+    const levelMax = b ? buildingMaxLevel(b) : 5
+    const sel = selectedEntity
+
+    const closeBtn = (
+      <button
+        onClick={onCloseBuildingEditor}
+        style={{ padding: '3px 8px', background: '#2a1a1a', border: '1px solid #6a3a3a', color: '#f88', cursor: 'pointer', borderRadius: 3, fontSize: 11 }}
+      >
+        Close
+      </button>
+    )
+
+    const levelSlider = b ? (
+      <Field label="Level preview">
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <input
+            type="range" min={0} max={levelMax} value={activeLevel}
+            onChange={e => onSetActiveLevel(Number(e.target.value))}
+            style={{ flex: 1 }}
+          />
+          <span style={{ fontSize: 11, color: '#aaa', minWidth: 12 }}>{activeLevel}</span>
+        </div>
+        <div style={{ color: '#666', fontSize: 10, marginTop: 2 }}>
+          {activeLevel === 0 ? 'Base (no upgrade)' : `Upgrade level ${activeLevel}`} — placed tiles tagged accordingly
+        </div>
+      </Field>
+    ) : null
+
+    let body: React.ReactNode = <div style={{ color: '#555', fontSize: 11 }}>No entity selected.</div>
+
+    if (sel?.type === 'buildingDecor' && b?.decor?.[sel.index]) {
+      const item = b.decor[sel.index]
+      body = (
+        <DecorInspector
+          item={item}
+          entity={sel}
+          onMove={(tx, ty) => onMoveEntity(sel, tx, ty)}
+          onZlayer={z => onZlayerChange(sel, z)}
+          onGlow={onUpdateGlow ? patch => onUpdateGlow(sel, patch) : undefined}
+          onMinLevel={v => onUpdateDecorMinLevel(sel, v)}
+          onHideAtLevel={v => onUpdateDecorHideAtLevel(sel, v)}
+          onTileChange={onUpdateDecorTileId ? (tid: string) => onUpdateDecorTileId(sel, tid) : undefined}
+          onReorder={onReorderDecor ? dir => onReorderDecor(sel, dir) : undefined}
+          onDelete={() => onDelete(sel)}
+        />
+      )
+    } else if (sel?.type === 'buildingLevelDecor' && b?.levelDecor?.[sel.index]) {
+      const item = b.levelDecor[sel.index]
+      body = (
+        <DecorInspector
+          item={item}
+          entity={sel}
+          onMove={(tx, ty) => onMoveEntity(sel, tx, ty)}
+          onZlayer={z => onZlayerChange(sel, z)}
+          onGlow={onUpdateGlow ? patch => onUpdateGlow(sel, patch) : undefined}
+          onMinLevel={v => onUpdateDecorMinLevel(sel, v)}
+          onHideAtLevel={v => onUpdateDecorHideAtLevel(sel, v)}
+          onTileChange={onUpdateDecorTileId ? (tid: string) => onUpdateDecorTileId(sel, tid) : undefined}
+          onReorder={onReorderDecor ? dir => onReorderDecor(sel, dir) : undefined}
+          onDelete={() => onDelete(sel)}
+        />
+      )
+    } else if (sel?.type === 'buildingWindow' && b?.windows?.[sel.index]) {
+      const w = b.windows[sel.index]
+      body = (
+        <div>
+          <Field label="Tile"><span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{w.tileId}</span></Field>
+          <Field label="Position (rel)">
+            <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>tx {w.tx}, ty {w.ty}</span>
+          </Field>
+          <button
+            onClick={() => onDelete(sel)}
+            style={{ width: '100%', padding: '6px 0', background: '#5a1a1a', border: '1px solid #922', color: '#f88', cursor: 'pointer', borderRadius: 3, fontSize: 12, marginTop: 6 }}
+          >
+            Delete Window
+          </button>
+        </div>
+      )
+    } else if (sel?.type === 'buildingDoor' && b?.doors?.[sel.index]) {
+      const d = b.doors[sel.index]
+      body = (
+        <div>
+          <Field label="Position (rel)">
+            <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>tx {d.tx}, ty {d.ty}</span>
+          </Field>
+          {d.buildingId && (
+            <Field label="Interior ID">
+              <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{d.buildingId}</span>
+            </Field>
+          )}
+          <button
+            onClick={() => onDelete(sel)}
+            style={{ width: '100%', padding: '6px 0', background: '#5a1a1a', border: '1px solid #922', color: '#f88', cursor: 'pointer', borderRadius: 3, fontSize: 12, marginTop: 6 }}
+          >
+            Delete Door
+          </button>
+        </div>
+      )
+    }
+
+    return (
+      <div style={panelStyle}>
+        <div style={headerStyle}>
+          <span>Building: {b?.id ?? `#${activeBuildingIndex}`}</span>
+          {closeBtn}
+        </div>
+        <div style={bodyStyle}>
+          <div style={{ color: '#777', fontSize: 10, marginBottom: 8 }}>
+            Select tool to select/delete items. Place tool + tile to add decor. No tile selected → click south face to toggle a door.
+          </div>
+          {levelSlider}
+          {body}
+        </div>
+      </div>
+    )
+  }
 
   if (viewMode === 'interior' && activeInteriorId && !isQuestItemSelected) {
     const interior = configData.interiors?.[activeInteriorId]
@@ -2559,6 +2694,7 @@ export function EntityInspector({
             onUpdateBuilding={onUpdateBuilding}
             onUpdateBuildingLevelVisual={onUpdateBuildingLevelVisual}
             onOpenInterior={onOpenInterior}
+            onOpenBuildingEditor={onOpenBuildingEditor}
             interiorIds={interiorIds}
             existingInteriorIds={Object.keys(configData.interiors ?? {})}
             onAddInterior={onAddInterior}

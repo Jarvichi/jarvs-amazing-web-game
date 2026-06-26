@@ -8,6 +8,7 @@ import { resolveVariantTint, AnimalType } from '../../game/hub/animals'
 import { WALL_TILES } from '../../data/tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 import { placeBuildingTiles, resolveBuildingVisual } from '../../data/tiles/buildingRender'
+import type { BuildingDoorTile } from '../../data/tiles/buildingRender'
 import { isVisibleAtLevel } from '../../data/hub/loader'
 import { expandBundleDecor } from '../../data/bundles/bundleLoader'
 import { RawQuestPickupItem } from '../../data/hub/hubWorldFactory'
@@ -84,8 +85,9 @@ interface Props {
   showGrid:         boolean
   showBuildingArt?: boolean   // render buildings as real tiles (default) vs flat colour blocks
   selectedEntities: SelectedEntity[]
-  viewMode:         'exterior' | 'interior'
-  activeInteriorId: string | null
+  viewMode:            'exterior' | 'interior' | 'building'
+  activeInteriorId:    string | null
+  activeBuildingIndex: number | null
   activeLevel:      number
   previewFestivalId?: string | null
   activeTileId:     string | null
@@ -102,7 +104,8 @@ interface Props {
   onAddPondTile:      (tx1: number, ty1: number, tx2: number, ty2: number) => void
   onAddNpcSpawnTile:  (tx: number, ty: number) => void
   onAddChickenZone:   (tx1: number, ty1: number, tx2: number, ty2: number) => void
-  onAddArea:          (tx1: number, ty1: number, tx2: number, ty2: number) => void
+  onAddArea:           (tx1: number, ty1: number, tx2: number, ty2: number) => void
+  onPlaceBuildingDoor: (buildingIndex: number, absTx: number, absTy: number) => void
   showQuestItems:     boolean
   showBlockedPaths:   boolean
   showAreas:          boolean
@@ -113,7 +116,7 @@ interface Props {
 
 export function MapEditorCanvas(props: Props) {
   const {
-    configData, tool, showGrid, showBuildingArt = true, selectedEntities, viewMode, activeInteriorId, activeLevel, previewFestivalId,
+    configData, tool, showGrid, showBuildingArt = true, selectedEntities, viewMode, activeInteriorId, activeBuildingIndex, activeLevel, previewFestivalId,
     activeTileId, activeBundleId, activeZlayer, pickActive, showQuestItems, showBlockedPaths, showAreas, showInteractables, blockedPaths, questPickupItems,
     onPlaceDecor, onAddStreet,
   } = props
@@ -186,11 +189,32 @@ export function MapEditorCanvas(props: Props) {
   // World origin offset — non-zero in interior mode to make room for adjacent rooms above/left
   const worldOriginRef = useRef({ x: 0, y: 0 })
 
+  const BUILDING_PAD = 2
+
   // Compute canvas dimensions
   const isInterior = viewMode === 'interior' && activeInteriorId
+  const isBuilding = viewMode === 'building' && activeBuildingIndex != null
   const interior   = isInterior ? configData.interiors?.[activeInteriorId!] : null
-  const mapW = isInterior ? ((interior?.width  ?? 12) + INTERIOR_PAD * 2) * T : configData.mapW
-  const mapH = isInterior ? ((interior?.height ?? 9)  + INTERIOR_PAD * 2) * T : configData.mapH
+  const activeBuilding = isBuilding ? (configData.buildings ?? [])[activeBuildingIndex!] ?? null : null
+
+  const buildingAllRects = activeBuilding
+    ? ((activeBuilding.rects ?? (activeBuilding.rect ? [activeBuilding.rect] : [])) as [number, number, number, number][])
+    : []
+  const bMinX = buildingAllRects.length ? Math.min(...buildingAllRects.map(r => r[0])) : 0
+  const bMinY = buildingAllRects.length ? Math.min(...buildingAllRects.map(r => r[1])) : 0
+  const bMaxX = buildingAllRects.length ? Math.max(...buildingAllRects.map(r => r[2])) : 0
+  const bMaxY = buildingAllRects.length ? Math.max(...buildingAllRects.map(r => r[3])) : 0
+
+  const mapW = isInterior
+    ? ((interior?.width  ?? 12) + INTERIOR_PAD * 2) * T
+    : isBuilding
+      ? (bMaxX - bMinX + 1 + BUILDING_PAD * 2) * T
+      : configData.mapW
+  const mapH = isInterior
+    ? ((interior?.height ?? 9)  + INTERIOR_PAD * 2) * T
+    : isBuilding
+      ? (bMaxY - bMinY + 1 + BUILDING_PAD * 2) * T
+      : configData.mapH
 
   const appRef = usePixiApp(containerRef, mapW, mapH, useCallback((app: PIXI.Application) => {
     const stage = app.stage
@@ -213,8 +237,9 @@ export function MapEditorCanvas(props: Props) {
         return
       }
 
+      const { activeBuildingIndex: abIdx } = propsRef.current
       if (t === 'select') {
-        const entity = hitTest(cfg, tx, ty, vm, iid, sqI, sbp, bps, sareas, sint)
+        const entity = hitTest(cfg, tx, ty, vm, iid, abIdx, sqI, sbp, bps, sareas, sint)
         if (e.shiftKey) {
           if (entity) propsRef.current.onAddToSelection(entity)
           // shift+click on empty space: do nothing
@@ -223,15 +248,18 @@ export function MapEditorCanvas(props: Props) {
         } else {
           propsRef.current.onSelectEntities([])
         }
+      } else if (t === 'place' && vm === 'building' && abIdx != null && !tid && !bid) {
+        // In building mode with no active tile: toggle a door on the south face
+        propsRef.current.onPlaceBuildingDoor(abIdx, tx, ty)
       } else if (t === 'place' && (tid || bid)) {
         propsRef.current.onPlaceDecor(tx, ty)
       } else if (t === 'delete') {
-        const entity = hitTest(cfg, tx, ty, vm, iid, sqI, sbp, bps, sareas, sint)
+        const entity = hitTest(cfg, tx, ty, vm, iid, abIdx, sqI, sbp, bps, sareas, sint)
         if (entity) {
           propsRef.current.onDeleteEntities([entity])
           propsRef.current.onSelectEntities([])
         }
-      } else if (t === 'street' || t === 'pond' || t === 'chickenZone' || t === 'area') {
+      } else if (vm !== 'building' && (t === 'street' || t === 'pond' || t === 'chickenZone' || t === 'area')) {
         rectDrawRef.current = { startTx: tx, startTy: ty, lastTx: tx, lastTy: ty }
         setRectPreviewRef.current({ sx: tx, sy: ty, ex: tx, ey: ty })
       } else if (t === 'spawn') {
@@ -320,11 +348,18 @@ export function MapEditorCanvas(props: Props) {
     const selLayer      = new PIXI.Graphics()
     const gridLayer     = new PIXI.Graphics()
 
-    const pad = isInterior ? INTERIOR_PAD * T : 0
-    worldOriginRef.current = { x: pad, y: pad }
+    let padX = 0, padY = 0
+    if (isInterior) {
+      padX = INTERIOR_PAD * T
+      padY = INTERIOR_PAD * T
+    } else if (isBuilding) {
+      padX = (BUILDING_PAD - bMinX) * T
+      padY = (BUILDING_PAD - bMinY) * T
+    }
+    worldOriginRef.current = { x: padX, y: padY }
     const worldContainer = new PIXI.Container()
-    worldContainer.x = pad
-    worldContainer.y = pad
+    worldContainer.x = padX
+    worldContainer.y = padY
     stage.addChild(worldContainer)
     worldContainer.addChild(groundLayer, streetLayer, buildingLayer,
                             decorBLayer, decorLayer, npcLayer, decorALayer, questLayer,
@@ -332,23 +367,25 @@ export function MapEditorCanvas(props: Props) {
 
     if (isInterior && interior) {
       renderInterior(version, groundLayer, decorBLayer, decorLayer, decorALayer, npcLayer, questLayer, selLayer)
+    } else if (isBuilding && activeBuilding) {
+      renderBuilding(version, groundLayer, buildingLayer, decorBLayer, decorLayer, decorALayer, selLayer)
     } else {
       renderExterior(version, groundLayer, streetLayer, buildingLayer,
                      decorBLayer, decorLayer, npcLayer, decorALayer, selLayer)
     }
-    if (!isInterior && showQuestItems) {
+    if (!isInterior && !isBuilding && showQuestItems) {
       renderQuestItems(version, questLayer, selLayer)
     }
-    if (!isInterior && showBlockedPaths) {
+    if (!isInterior && !isBuilding && showBlockedPaths) {
       renderBlockedPathsOverlay(questLayer, selLayer)
     }
-    if (!isInterior && showAreas) {
+    if (!isInterior && !isBuilding && showAreas) {
       renderAreasOverlay(questLayer, selLayer)
     }
-    if (!isInterior) {
+    if (!isInterior && !isBuilding) {
       renderChickenZonesOverlay(questLayer, selLayer)
     }
-    if (showInteractables) {
+    if (!isBuilding && showInteractables) {
       renderInteractablesOverlay(version, questLayer, selLayer)
     }
 
@@ -456,9 +493,18 @@ export function MapEditorCanvas(props: Props) {
       const isSel = isEntitySelected({ type: 'building', index: bIdx })
 
       const useArt = showBuildingArt && vis.wall && vis.roof && WALL_TILES[vis.wall as WallMaterial]
+      const ox = Math.min(...allRects.map(r => r[0]))
+      const oy = Math.max(...allRects.map(r => r[3]))
+      const absDoors: BuildingDoorTile[] = (b.doors ?? []).flatMap(d => {
+        const absTy = oy + d.ty
+        if (allRects.some(r => r[3] + 1 === absTy)) return [{ tx: ox + d.tx, ty: absTy }]
+        const candidate = allRects.map(r => r[3] + 1).filter(ty2p1 => ty2p1 > absTy).sort((a, b) => a - b)[0]
+        if (candidate !== undefined) return [{ tx: ox + d.tx, ty: candidate, tyAdjust: candidate - absTy }]
+        return []
+      })
       if (useArt) {
         for (const rect of renderRects) {
-          const placements = placeBuildingTiles(rect, vis.wall as WallMaterial, vis.roof as RoofMaterial, [])
+          const placements = placeBuildingTiles(rect, vis.wall as WallMaterial, vis.roof as RoofMaterial, absDoors)
           for (const [tileId, positions] of placements) {
             loadTileRef(tileId).then(tex => {
               if (renderVersionRef.current !== version) return
@@ -470,6 +516,17 @@ export function MapEditorCanvas(props: Props) {
               }
             }).catch(() => {})
           }
+        }
+        for (const w of b.windows ?? []) {
+          const absTx = ox + w.tx
+          const absTy = oy + w.ty + 1  // +1 matches HubTownCanvas window rendering
+          loadTileRef(tileNumericId(w.tileId)).then(tex => {
+            if (renderVersionRef.current !== version) return
+            const s = new PIXI.Sprite(tex)
+            s.position.set(absTx * T, absTy * T)
+            s.width = T; s.height = T
+            buildingLayer.addChild(s)
+          }).catch(() => {})
         }
       } else {
         const col = WALL_COLORS[vis.wall ?? ''] ?? 0x556677
@@ -501,6 +558,42 @@ export function MapEditorCanvas(props: Props) {
     buildings.forEach((b, bIdx) => {
       renderBuildingLevelDecor(version, bIdx, flattenDecor(b.levelDecor ?? []),
                                decorBLayer, decorLayer, decorALayer, selLayer)
+    })
+
+    // Per-building base decor (non-interactive; relative coords resolved to absolute)
+    buildings.forEach(b => {
+      const bRects = (b.rects ?? (b.rect ? [b.rect] : [])) as [number, number, number, number][]
+      if (bRects.length === 0 || (b.decor ?? []).length === 0) return
+      const bOx = Math.min(...bRects.map(r => r[0]))
+      const bOy = Math.max(...bRects.map(r => r[3]))
+      for (const d of b.decor ?? []) {
+        if (d.tx === undefined) continue
+        const absTx = bOx + d.tx
+        const absTy = bOy + (d.ty ?? 0)
+        const dimmed = !isVisibleAtLevel({ minLevel: d.minLevel ?? 0, hideAtLevel: d.hideAtLevel }, activeLevel)
+        if (d.bundleID) {
+          for (const e of expandBundleDecor(d.bundleID, absTx, absTy)) {
+            loadTileRef(e.tileId).then(tex => {
+              if (renderVersionRef.current !== version) return
+              const s = new PIXI.Sprite(tex)
+              s.position.set(e.tx * T, e.ty * T)
+              s.width = T; s.height = T
+              if (dimmed) s.alpha = 0.3
+              decorLayer.addChild(s)
+            }).catch(() => {})
+          }
+        } else if (d.tileId) {
+          const layer = d.zlayer === 'below' ? decorBLayer : d.zlayer === 'above' ? decorALayer : decorLayer
+          loadTileRef(tileNumericId(d.tileId)).then(tex => {
+            if (renderVersionRef.current !== version) return
+            const s = new PIXI.Sprite(tex)
+            s.position.set(absTx * T, absTy * T)
+            s.width = T; s.height = T
+            if (dimmed) s.alpha = 0.3
+            layer.addChild(s)
+          }).catch(() => {})
+        }
+      }
     })
 
     // Festival decor for the previewed festival (authoring + preview)
@@ -645,6 +738,146 @@ export function MapEditorCanvas(props: Props) {
     drawWallsWithGaps(wallGfx, width, height, wallColor, gapSet)
     container.addChild(wallGfx)
     renderWallMaterial(version, room.wallTileId, width, container, gapSet)
+  }
+
+  // ── Building editor rendering ──────────────────────────────────────────────────
+  function renderBuilding(
+    version: number,
+    groundLayer: PIXI.Container, buildingLayer: PIXI.Container,
+    decorBLayer: PIXI.Container, decorLayer: PIXI.Container, decorALayer: PIXI.Container,
+    selLayer: PIXI.Graphics,
+  ) {
+    if (!activeBuilding) return
+    const b = activeBuilding
+    const bIdx = activeBuildingIndex!
+    const allRects = buildingAllRects
+    const ox = Math.min(...allRects.map(r => r[0]))
+    const oy = Math.max(...allRects.map(r => r[3]))
+
+    // Surround fill (dark ground)
+    const canvasW = (bMaxX - bMinX + 1 + BUILDING_PAD * 2) * T
+    const canvasH = (bMaxY - bMinY + 1 + BUILDING_PAD * 2) * T
+    const bg = new PIXI.Graphics()
+    bg.rect(bMinX * T - BUILDING_PAD * T, bMinY * T - BUILDING_PAD * T, canvasW, canvasH).fill(0x1a2030)
+    groundLayer.addChild(bg)
+
+    // Building tiles
+    const useArt = showBuildingArt && b.wall && b.roof && WALL_TILES[b.wall as WallMaterial]
+    const absDoors: BuildingDoorTile[] = (b.doors ?? []).flatMap(d => {
+      const absTy = oy + d.ty
+      if (allRects.some(r => r[3] + 1 === absTy)) return [{ tx: ox + d.tx, ty: absTy }]
+      const candidate = allRects.map(r => r[3] + 1).filter(ty2p1 => ty2p1 > absTy).sort((a, c) => a - c)[0]
+      if (candidate !== undefined) return [{ tx: ox + d.tx, ty: candidate, tyAdjust: candidate - absTy }]
+      return []
+    })
+
+    if (useArt) {
+      for (const rect of allRects) {
+        const placements = placeBuildingTiles(rect, b.wall as WallMaterial, b.roof as RoofMaterial, absDoors)
+        for (const [tileId, positions] of placements) {
+          loadTileRef(tileId).then(tex => {
+            if (renderVersionRef.current !== version) return
+            for (const [tx, ty] of positions) {
+              const s = new PIXI.Sprite(tex)
+              s.position.set(tx * T, ty * T)
+              s.width = T; s.height = T
+              buildingLayer.addChild(s)
+            }
+          }).catch(() => {})
+        }
+      }
+      for (const w of b.windows ?? []) {
+        const absTx = ox + w.tx
+        const absTy = oy + w.ty + 1
+        loadTileRef(tileNumericId(w.tileId)).then(tex => {
+          if (renderVersionRef.current !== version) return
+          const s = new PIXI.Sprite(tex)
+          s.position.set(absTx * T, absTy * T)
+          s.width = T; s.height = T
+          buildingLayer.addChild(s)
+        }).catch(() => {})
+      }
+    } else {
+      const col = WALL_COLORS[b.wall ?? ''] ?? 0x556677
+      const gfx = new PIXI.Graphics()
+      for (const [tx1, ty1, tx2, ty2] of allRects)
+        gfx.rect(tx1 * T, ty1 * T, (tx2 - tx1 + 1) * T, (ty2 - ty1 + 1) * T).fill(col)
+      buildingLayer.addChild(gfx)
+    }
+
+    // Doors — interactive hit zones at their rendered positions
+    for (let di = 0; di < (b.doors ?? []).length; di++) {
+      const d = b.doors![di]
+      const absTx = ox + d.tx
+      const absTy = oy + d.ty  // rendered tile row (south face + 1)
+      const entity: SelectedEntity = { type: 'buildingDoor', buildingIndex: bIdx, index: di }
+      const isSel = isEntitySelected(entity)
+      const hitGfx = new PIXI.Graphics()
+      hitGfx.rect(absTx * T, absTy * T, T, T).fill({ color: 0xffffff, alpha: 0.01 })
+      hitGfx.eventMode = 'static'; hitGfx.cursor = 'pointer'
+      hitGfx.on('pointerdown', (e: PIXI.FederatedPointerEvent) => handleEntityPointerDown(e, entity, absTx, absTy))
+      buildingLayer.addChild(hitGfx)
+      if (isSel) selLayer.rect(absTx * T - 1, absTy * T - 1, T + 2, T + 2).stroke({ color: 0xf0c040, width: 2 })
+    }
+
+    // Windows — interactive
+    if (useArt) {
+      for (let wi = 0; wi < (b.windows ?? []).length; wi++) {
+        const w = b.windows![wi]
+        const absTx = ox + w.tx
+        const absTy = oy + w.ty + 1
+        const entity: SelectedEntity = { type: 'buildingWindow', buildingIndex: bIdx, index: wi }
+        const isSel = isEntitySelected(entity)
+        const hitGfx = new PIXI.Graphics()
+        hitGfx.rect(absTx * T, absTy * T, T, T).fill({ color: 0xffffff, alpha: 0.01 })
+        hitGfx.eventMode = 'static'; hitGfx.cursor = 'pointer'
+        hitGfx.on('pointerdown', (e: PIXI.FederatedPointerEvent) => handleEntityPointerDown(e, entity, absTx, absTy))
+        buildingLayer.addChild(hitGfx)
+        if (isSel) selLayer.rect(absTx * T - 1, absTy * T - 1, T + 2, T + 2).stroke({ color: 0xf0c040, width: 2 })
+      }
+    }
+
+    // Base decor (b.decor) — interactive
+    for (let di = 0; di < (b.decor ?? []).length; di++) {
+      const d = b.decor![di]
+      if (d.tx === undefined) continue
+      const absTx = ox + d.tx
+      const absTy = oy + (d.ty ?? 0)
+      const entity: SelectedEntity = { type: 'buildingDecor', buildingIndex: bIdx, index: di }
+      const isSel = isEntitySelected(entity)
+      const dimmed = !isVisibleAtLevel({ minLevel: d.minLevel ?? 0, hideAtLevel: d.hideAtLevel }, activeLevel)
+      const layer = d.zlayer === 'below' ? decorBLayer : d.zlayer === 'above' ? decorALayer : decorLayer
+      if (d.bundleID) {
+        for (const e of expandBundleDecor(d.bundleID, absTx, absTy)) {
+          loadTileRef(e.tileId).then(tex => {
+            if (renderVersionRef.current !== version) return
+            const s = new PIXI.Sprite(tex)
+            s.position.set(e.tx * T, e.ty * T)
+            s.width = T; s.height = T
+            if (dimmed) s.alpha = 0.3
+            s.eventMode = 'static'; s.cursor = 'pointer'
+            s.on('pointerdown', (ev: PIXI.FederatedPointerEvent) => handleEntityPointerDown(ev, entity, absTx, absTy))
+            decorLayer.addChild(s)
+          }).catch(() => {})
+        }
+      } else if (d.tileId) {
+        loadTileRef(tileNumericId(d.tileId)).then(tex => {
+          if (renderVersionRef.current !== version) return
+          const s = new PIXI.Sprite(tex)
+          s.position.set(absTx * T, absTy * T)
+          s.width = T; s.height = T
+          if (dimmed) s.alpha = 0.3
+          s.eventMode = 'static'; s.cursor = 'pointer'
+          s.on('pointerdown', (ev: PIXI.FederatedPointerEvent) => handleEntityPointerDown(ev, entity, absTx, absTy))
+          layer.addChild(s)
+        }).catch(() => {})
+      }
+      if (isSel) selLayer.rect(absTx * T - 1, absTy * T - 1, T + 2, T + 2).stroke({ color: 0xf0c040, width: 2 })
+    }
+
+    // Level decor — interactive (reuse existing buildingLevelDecor entity type)
+    renderBuildingLevelDecor(version, bIdx, flattenDecor(b.levelDecor ?? []),
+                             decorBLayer, decorLayer, decorALayer, selLayer)
   }
 
   function renderInterior(
@@ -1210,13 +1443,45 @@ export function MapEditorCanvas(props: Props) {
 
 function hitTest(
   cfg: RawMapConfig, tx: number, ty: number,
-  viewMode: string, activeInteriorId: string | null,
+  viewMode: string, activeInteriorId: string | null, activeBuildingIndex: number | null,
   showQuestItems = false,
   showBlockedPaths = false,
   blockedPaths: RawBlockedPath[] = [],
   showAreas = false,
   showInteractables = false,
 ): SelectedEntity | null {
+  if (viewMode === 'building' && activeBuildingIndex != null) {
+    const b = cfg.buildings?.[activeBuildingIndex]
+    if (!b) return null
+    const allRects = (b.rects ?? (b.rect ? [b.rect] : [])) as [number, number, number, number][]
+    const ox = Math.min(...allRects.map(r => r[0]))
+    const oy = Math.max(...allRects.map(r => r[3]))
+    // Level decor (absolute coords)
+    const ld = b.levelDecor ?? []
+    for (let i = ld.length - 1; i >= 0; i--) {
+      if (ld[i].tx === tx && ld[i].ty === ty)
+        return { type: 'buildingLevelDecor', buildingIndex: activeBuildingIndex, index: i }
+    }
+    // Base decor (relative coords)
+    const decor = b.decor ?? []
+    for (let i = decor.length - 1; i >= 0; i--) {
+      if (ox + (decor[i].tx ?? 0) === tx && oy + (decor[i].ty ?? 0) === ty)
+        return { type: 'buildingDecor', buildingIndex: activeBuildingIndex, index: i }
+    }
+    // Windows (relative coords, rendered with +1 ty)
+    const windows = b.windows ?? []
+    for (let i = windows.length - 1; i >= 0; i--) {
+      if (ox + windows[i].tx === tx && oy + windows[i].ty + 1 === ty)
+        return { type: 'buildingWindow', buildingIndex: activeBuildingIndex, index: i }
+    }
+    // Doors (relative coords, stored as south-face relative)
+    const doors = b.doors ?? []
+    for (let i = doors.length - 1; i >= 0; i--) {
+      if (ox + doors[i].tx === tx && oy + doors[i].ty === ty)
+        return { type: 'buildingDoor', buildingIndex: activeBuildingIndex, index: i }
+    }
+    return null
+  }
   if (viewMode === 'interior' && activeInteriorId) {
     const npcs = cfg.npcs ?? []
     for (let i = npcs.length - 1; i >= 0; i--) {
@@ -1350,6 +1615,24 @@ function getEntityTx(cfg: RawMapConfig, entity: SelectedEntity): number {
   if (entity.type === 'animal') return cfg.animals?.[entity.index]?.tx ?? 0
   if (entity.type === 'interiorDecor') return cfg.interiors?.[entity.interiorId]?.decor[entity.index]?.tx ?? 0
   if (entity.type === 'buildingLevelDecor') return cfg.buildings?.[entity.buildingIndex]?.levelDecor?.[entity.index]?.tx ?? 0
+  if (entity.type === 'buildingDecor') {
+    const b = cfg.buildings?.[entity.buildingIndex]
+    if (!b) return 0
+    const allRects = (b.rects ?? (b.rect ? [b.rect] : [])) as [number, number, number, number][]
+    return Math.min(...allRects.map(r => r[0])) + (b.decor?.[entity.index]?.tx ?? 0)
+  }
+  if (entity.type === 'buildingWindow') {
+    const b = cfg.buildings?.[entity.buildingIndex]
+    if (!b) return 0
+    const allRects = (b.rects ?? (b.rect ? [b.rect] : [])) as [number, number, number, number][]
+    return Math.min(...allRects.map(r => r[0])) + (b.windows?.[entity.index]?.tx ?? 0)
+  }
+  if (entity.type === 'buildingDoor') {
+    const b = cfg.buildings?.[entity.buildingIndex]
+    if (!b) return 0
+    const allRects = (b.rects ?? (b.rect ? [b.rect] : [])) as [number, number, number, number][]
+    return Math.min(...allRects.map(r => r[0])) + (b.doors?.[entity.index]?.tx ?? 0)
+  }
   if (entity.type === 'festivalDecor') {
     const g = cfg.festivalDecor?.find(grp => grp.festivalId === entity.festivalId)
     return g?.decor[entity.index]?.tx ?? 0
@@ -1383,6 +1666,24 @@ function getEntityTy(cfg: RawMapConfig, entity: SelectedEntity): number {
   if (entity.type === 'animal') return cfg.animals?.[entity.index]?.ty ?? 0
   if (entity.type === 'interiorDecor') return cfg.interiors?.[entity.interiorId]?.decor[entity.index]?.ty ?? 0
   if (entity.type === 'buildingLevelDecor') return cfg.buildings?.[entity.buildingIndex]?.levelDecor?.[entity.index]?.ty ?? 0
+  if (entity.type === 'buildingDecor') {
+    const b = cfg.buildings?.[entity.buildingIndex]
+    if (!b) return 0
+    const allRects = (b.rects ?? (b.rect ? [b.rect] : [])) as [number, number, number, number][]
+    return Math.max(...allRects.map(r => r[3])) + (b.decor?.[entity.index]?.ty ?? 0)
+  }
+  if (entity.type === 'buildingWindow') {
+    const b = cfg.buildings?.[entity.buildingIndex]
+    if (!b) return 0
+    const allRects = (b.rects ?? (b.rect ? [b.rect] : [])) as [number, number, number, number][]
+    return Math.max(...allRects.map(r => r[3])) + (b.windows?.[entity.index]?.ty ?? 0) + 1
+  }
+  if (entity.type === 'buildingDoor') {
+    const b = cfg.buildings?.[entity.buildingIndex]
+    if (!b) return 0
+    const allRects = (b.rects ?? (b.rect ? [b.rect] : [])) as [number, number, number, number][]
+    return Math.max(...allRects.map(r => r[3])) + (b.doors?.[entity.index]?.ty ?? 0)
+  }
   if (entity.type === 'festivalDecor') {
     const g = cfg.festivalDecor?.find(grp => grp.festivalId === entity.festivalId)
     return g?.decor[entity.index]?.ty ?? 0
