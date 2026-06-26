@@ -15369,6 +15369,9 @@ html.light-mode .action-btn {
 .town-directory__pin-btn--on { border-color: #55ddee; color: #55ddee; }
 .town-directory__pin-btn:hover { opacity: 0.85; }
 
+/* ── Town Journal panel (reuses .town-directory layout + .hoa-tabs) ────────── */
+.town-journal__list { margin-top: 12px; }
+
 /* ── Town Upgrades panel (reuses .town-directory layout) ───────────────────── */
 .town-upgrades__rep {
   display: flex;
