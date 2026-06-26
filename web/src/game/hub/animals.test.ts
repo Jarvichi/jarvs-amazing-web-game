@@ -6,6 +6,7 @@ import {
   SpawnSources,
   computeProceduralCounts,
   resolveVariantTint,
+  variantKeyForTint,
   TINT_PALETTES,
   pickWeighted,
   randomDuration,
@@ -87,6 +88,16 @@ describe('resolveVariantTint', () => {
 
   it('falls back to a palette colour using the supplied rng', () => {
     expect(resolveVariantTint('frog', undefined, () => 0)).toBe(Object.values(TINT_PALETTES.frog)[0])
+  })
+})
+
+describe('variantKeyForTint', () => {
+  it('finds the named key for a known tint', () => {
+    expect(variantKeyForTint('cat', TINT_PALETTES.cat.orange)).toBe('orange')
+  })
+
+  it('returns undefined for an unknown tint', () => {
+    expect(variantKeyForTint('cat', 0x123456)).toBeUndefined()
   })
 })
 

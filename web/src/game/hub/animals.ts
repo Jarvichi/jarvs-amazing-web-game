@@ -170,6 +170,11 @@ export function resolveVariantTint(
   return values[Math.floor(rng() * values.length)]
 }
 
+/** Reverse of resolveVariantTint: find the named palette key for a tint, if any. */
+export function variantKeyForTint(type: AnimalType, tint: number): string | undefined {
+  return Object.entries(TINT_PALETTES[type]).find(([, v]) => v === tint)?.[0]
+}
+
 // ── Behaviour transition tables ─────────────────────────────────────────────
 export type CatState = 'sleep' | 'sit' | 'flee' | 'chase-bird' | 'play' | 'approach-npc' | 'go-home' | 'inside'
 export type DogState = 'follow-owner' | 'roam' | 'bark' | 'wag' | 'chase-cat'
