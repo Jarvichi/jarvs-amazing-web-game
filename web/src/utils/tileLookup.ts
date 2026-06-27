@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 import { ENV_TILES, PATH, TILE_SIZE, PATH_TILE, EnvTileDef } from '../data/tiles/tileIndex'
-import { loadTileTexture } from './pixiHelpers'
+import { loadTileTexture, loadTileSubRect } from './pixiHelpers'
 
 // ── 8-neighbor tile lookup tables ─────────────────────────────────────────────
 // Normalized 8-bit key: bit0=N, bit1=NE(only if N&&E), bit2=E, bit3=SE(only if S&&E),
@@ -46,6 +46,19 @@ export function buildTileLookup(canal: boolean): number[] {
 export const PATH_TILE_LOOKUP  = buildTileLookup(false)
 export const CANAL_TILE_LOOKUP = buildTileLookup(true)
 
+// ── Concave-corner shoreline accent ───────────────────────────────────────────
+// No tile in the water sheets contains genuine single-diagonal-corner-missing
+// (concave inside-corner) shoreline art — every "fully surrounded by water" mask
+// resolves to the flat PATH.allSidesNoGrass tile regardless of which diagonal
+// neighbors are missing. To avoid a borderless hole at those corners, a small
+// crop of PATH.turnBottomRight's own NW corner (a confirmed-clean shoreline curve)
+// is overlaid, mirrored per missing-diagonal direction, on top of the flat tile.
+type Corner = 'NW' | 'NE' | 'SW' | 'SE'
+const CORNER_ACCENT_SIZE = 14
+const CORNER_FLIP: Record<Corner, [number, number]> = {
+  NW: [1, 1], NE: [-1, 1], SW: [1, -1], SE: [-1, -1],
+}
+
 /**
  * Renders path tiles into `container` for a pre-computed set of tile positions.
  * `pathSet` contains `"tx,ty"` strings; the environment determines tile file and
@@ -65,7 +78,8 @@ export async function renderPathTiles(
   const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
   const tileUrl = `${base}${pathFile.slice(1)}`
   const pathWidth = tileFileOverride ? 1 : (def?.pathWidth ?? 1)
-  const lookup = (useCanal || pathWidth > 1) ? CANAL_TILE_LOOKUP : PATH_TILE_LOOKUP
+  const isCanal = !!useCanal || pathWidth > 1
+  const lookup = isCanal ? CANAL_TILE_LOOKUP : PATH_TILE_LOOKUP
 
   const key = (tx: number, ty: number) => `${tx},${ty}`
   const has = (tx: number, ty: number) => pathSet.has(key(tx, ty))
@@ -84,12 +98,28 @@ export async function renderPathTiles(
     return lookup[mask]
   }
 
+  // Only meaningful when fully surrounded by water — the case currently
+  // collapsed into PATH.allSidesNoGrass regardless of which diagonals are missing.
+  const missingCorners = (tx: number, ty: number): Corner[] => {
+    if (!isCanal) return []
+    const N = has(tx, ty - 1), E = has(tx + 1, ty), S = has(tx, ty + 1), W = has(tx - 1, ty)
+    if (!(N && E && S && W)) return []
+    const out: Corner[] = []
+    if (!has(tx + 1, ty - 1)) out.push('NE')
+    if (!has(tx + 1, ty + 1)) out.push('SE')
+    if (!has(tx - 1, ty + 1)) out.push('SW')
+    if (!has(tx - 1, ty - 1)) out.push('NW')
+    return out
+  }
+
   const byVariant = new Map<number, Array<{ tx: number; ty: number }>>()
+  const accentTiles: Array<{ tx: number; ty: number; corner: Corner }> = []
   for (const k of pathSet) {
     const [tx, ty] = k.split(',').map(Number)
     const v = tileVariant(tx, ty)
     if (!byVariant.has(v)) byVariant.set(v, [])
     byVariant.get(v)!.push({ tx, ty })
+    for (const corner of missingCorners(tx, ty)) accentTiles.push({ tx, ty, corner })
   }
 
   await Promise.all(
@@ -104,4 +134,20 @@ export async function renderPathTiles(
       }
     })
   )
+
+  if (accentTiles.length === 0) return
+  let accentTex: PIXI.Texture
+  try {
+    const cornerX = (PATH.turnBottomRight % 8) * T
+    const cornerY = Math.floor(PATH.turnBottomRight / 8) * T
+    accentTex = await loadTileSubRect(tileUrl, cornerX, cornerY, CORNER_ACCENT_SIZE, CORNER_ACCENT_SIZE)
+  } catch { return }
+  if (container.destroyed) return
+  for (const { tx, ty, corner } of accentTiles) {
+    const s = new PIXI.Sprite(accentTex)
+    const [flipX, flipY] = CORNER_FLIP[corner]
+    s.scale.set(flipX, flipY)
+    s.position.set(tx * T + (flipX < 0 ? T : 0), ty * T + (flipY < 0 ? T : 0))
+    container.addChild(s)
+  }
 }
