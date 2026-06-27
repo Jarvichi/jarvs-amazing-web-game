@@ -1,12 +1,36 @@
 import * as PIXI from 'pixi.js'
 import { ENV_TILES, PATH, TILE_SIZE, PATH_TILE, EnvTileDef } from '../data/tiles/tileIndex'
-import { loadTileTexture, loadTileSubRect } from './pixiHelpers'
+import { loadTileTexture } from './pixiHelpers'
 
 // ── 8-neighbor tile lookup tables ─────────────────────────────────────────────
 // Normalized 8-bit key: bit0=N, bit1=NE(only if N&&E), bit2=E, bit3=SE(only if S&&E),
 //                       bit4=S, bit5=SW(only if S&&W), bit6=W, bit7=NW(only if N&&W)
 // Diagonals bits are pre-zeroed when adjacent cardinals aren't both set, so any
 // combination that reaches here is already canonical. 256 entries → ~47 tile IDs.
+
+// All-4-cardinal family: 16 variants keyed by which diagonal corners are WATER
+// (raw mask bit = 1, i.e. the diagonal neighbor is also in the path/water set),
+// indexed by (NW?1:0)|(NE?2:0)|(SE?4:0)|(SW?8:0). A clear bit means that corner
+// is land/grass poking into an otherwise water-surrounded tile.
+const ALL_SIDES_BY_CORNERS = [
+  PATH.allSides,            // 0000 — no corners water → grass at all 4
+  PATH.allSidesWaterNW,     // 0001 NW water → grass at NE+SE+SW
+  PATH.allSidesWaterNE,     // 0010 NE water → grass at NW+SE+SW
+  PATH.allSidesGrassS,      // 0011 NW+NE water → grass at SW+SE
+  PATH.allSidesWaterSE,     // 0100 SE water → grass at NW+NE+SW
+  PATH.allSidesGrassNESW,   // 0101 NW+SE water (diagonal) → grass at NE+SW
+  PATH.allSidesGrassW,      // 0110 NE+SE water → grass at NW+SW
+  PATH.allSidesGrassSW,     // 0111 NW+NE+SE water → grass at SW only
+  PATH.allSidesWaterSW,     // 1000 SW water → grass at NW+NE+SE
+  PATH.allSidesGrassE,      // 1001 NW+SW water → grass at NE+SE
+  PATH.allSidesGrassNWSE,   // 1010 NE+SW water (diagonal) → grass at NW+SE
+  PATH.allSidesGrassSE,     // 1011 NW+NE+SW water → grass at SE only
+  PATH.allSidesGrassN,      // 1100 SE+SW water → grass at NW+NE
+  PATH.allSidesGrassNE,     // 1101 NW+SE+SW water → grass at NE only
+  PATH.allSidesGrassNW,     // 1110 NE+SE+SW water → grass at NW only
+  PATH.allSidesNoGrass,     // 1111 — all corners water → no grass
+] as const
+
 export function buildTileLookup(canal: boolean): number[] {
   const t = new Array<number>(256)
   for (let mask = 0; mask < 256; mask++) {
@@ -23,11 +47,17 @@ export function buildTileLookup(canal: boolean): number[] {
     // notches/elbows, but those tile indices only contain a fragment of an unrelated
     // 2x2 decorative ring motif rather than real corner-notch art — canal and
     // non-canal now resolve identically for these shapes.
-    if (N && E && S && W)        t[mask] = PATH.allSidesNoGrass
-    else if (N && E && S)      t[mask] = PATH.tJuncRight
-    else if (E && S && W)        t[mask] = PATH.edgeTop
-    else if (N && S && W)        t[mask] = PATH.tJuncLeft2
-    else if (N && E && W)        t[mask] = PATH.edgeBottom
+    if (N && E && S && W) {
+      t[mask] = ALL_SIDES_BY_CORNERS[(NW?1:0) | (NE?2:0) | (SE?4:0) | (SW?8:0)]
+    }
+    else if (N && E && S)        t[mask] = NE ? (SE ? PATH.tJuncRight     : PATH.missingWGrassSE)
+                                               : (SE ? PATH.missingWGrassNE : PATH.tJuncLeft)
+    else if (E && S && W)        t[mask] = SW ? (SE ? PATH.edgeTop        : PATH.missingNGrassSE)
+                                               : (SE ? PATH.missingNGrassSW : PATH.tJuncBottom)
+    else if (N && S && W)        t[mask] = NW ? (SW ? PATH.tJuncLeft2     : PATH.missingEGrassSW)
+                                               : (SW ? PATH.missingEGrassNW : PATH.tJuncRight2)
+    else if (N && E && W)        t[mask] = NW ? (NE ? PATH.edgeBottom     : PATH.missingSGrassNE)
+                                               : (NE ? PATH.missingSGrassNW : PATH.tJuncTop)
     else if (N && S)             t[mask] = PATH.vertical
     else if (E && W)             t[mask] = PATH.horizontal
     else if (N && E)             t[mask] = NE ? PATH.quadTopRight    : PATH.turnTopRight
@@ -45,19 +75,6 @@ export function buildTileLookup(canal: boolean): number[] {
 
 export const PATH_TILE_LOOKUP  = buildTileLookup(false)
 export const CANAL_TILE_LOOKUP = buildTileLookup(true)
-
-// ── Concave-corner shoreline accent ───────────────────────────────────────────
-// No tile in the water sheets contains genuine single-diagonal-corner-missing
-// (concave inside-corner) shoreline art — every "fully surrounded by water" mask
-// resolves to the flat PATH.allSidesNoGrass tile regardless of which diagonal
-// neighbors are missing. To avoid a borderless hole at those corners, a small
-// crop of PATH.turnBottomRight's own NW corner (a confirmed-clean shoreline curve)
-// is overlaid, mirrored per missing-diagonal direction, on top of the flat tile.
-type Corner = 'NW' | 'NE' | 'SW' | 'SE'
-const CORNER_ACCENT_SIZE = 14
-const CORNER_FLIP: Record<Corner, [number, number]> = {
-  NW: [1, 1], NE: [-1, 1], SW: [1, -1], SE: [-1, -1],
-}
 
 /**
  * Renders path tiles into `container` for a pre-computed set of tile positions.
@@ -98,28 +115,12 @@ export async function renderPathTiles(
     return lookup[mask]
   }
 
-  // Only meaningful when fully surrounded by water — the case currently
-  // collapsed into PATH.allSidesNoGrass regardless of which diagonals are missing.
-  const missingCorners = (tx: number, ty: number): Corner[] => {
-    if (!isCanal) return []
-    const N = has(tx, ty - 1), E = has(tx + 1, ty), S = has(tx, ty + 1), W = has(tx - 1, ty)
-    if (!(N && E && S && W)) return []
-    const out: Corner[] = []
-    if (!has(tx + 1, ty - 1)) out.push('NE')
-    if (!has(tx + 1, ty + 1)) out.push('SE')
-    if (!has(tx - 1, ty + 1)) out.push('SW')
-    if (!has(tx - 1, ty - 1)) out.push('NW')
-    return out
-  }
-
   const byVariant = new Map<number, Array<{ tx: number; ty: number }>>()
-  const accentTiles: Array<{ tx: number; ty: number; corner: Corner }> = []
   for (const k of pathSet) {
     const [tx, ty] = k.split(',').map(Number)
     const v = tileVariant(tx, ty)
     if (!byVariant.has(v)) byVariant.set(v, [])
     byVariant.get(v)!.push({ tx, ty })
-    for (const corner of missingCorners(tx, ty)) accentTiles.push({ tx, ty, corner })
   }
 
   await Promise.all(
@@ -134,20 +135,4 @@ export async function renderPathTiles(
       }
     })
   )
-
-  if (accentTiles.length === 0) return
-  let accentTex: PIXI.Texture
-  try {
-    const cornerX = (PATH.turnBottomRight % 8) * T
-    const cornerY = Math.floor(PATH.turnBottomRight / 8) * T
-    accentTex = await loadTileSubRect(tileUrl, cornerX, cornerY, CORNER_ACCENT_SIZE, CORNER_ACCENT_SIZE)
-  } catch { return }
-  if (container.destroyed) return
-  for (const { tx, ty, corner } of accentTiles) {
-    const s = new PIXI.Sprite(accentTex)
-    const [flipX, flipY] = CORNER_FLIP[corner]
-    s.scale.set(flipX, flipY)
-    s.position.set(tx * T + (flipX < 0 ? T : 0), ty * T + (flipY < 0 ? T : 0))
-    container.addChild(s)
-  }
 }

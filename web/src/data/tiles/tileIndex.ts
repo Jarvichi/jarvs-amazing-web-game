@@ -34,24 +34,48 @@ export const PATH = {
   leftOnly:         3,   // l
   bottomOnly:       4,   // b
   quadBottomRight:  5,   // b + r  (grass top + left)
-  edgeTop:          6,   // l + b + r  (grass border along top edge)
+  edgeTop:          6,   // l + b + r, missing N — both free diagonals (SW,SE) water (smooth)
   quadBottomLeft:   7,   // l + b  (grass top + right)
   turnBottomRight:  8,   // b + r  (road curves)
   turnBottomLeft:   9,   // l + b
-  tJuncLeft:        10,  // b + r + t  (grass left only)
-  tJuncTop:         11,  // l + b + r  (proper T-junction)
+  tJuncLeft:        10,  // t + r + b, missing W — both free diagonals (NE,SE) grass (sharp)
+  tJuncTop:         11,  // l + t + r, missing S — both free diagonals (NW,NE) grass (sharp)
   vertical:         12,  // t + b  (straight)
-  tJuncRight:       13,  // t + r + b  (grass left only... wait: "t,r,b")
+  tJuncRight:       13,  // t + r + b, missing W — both free diagonals (NE,SE) water (smooth)
   allSidesNoGrass:  14,  // all exits, fully filled (no grass corners)
-  tJuncLeft2:       15,  // t + l + b  (grass right only)
+  tJuncLeft2:       15,  // t + l + b, missing E — both free diagonals (NW,SW) water (smooth)
   turnTopRight:     16,  // t + r
   turnTopLeft:      17,  // t + l
-  tJuncBottom:      18,  // l + t + r  (proper T-junction)
-  tJuncRight2:      19,  // l + t + b
+  tJuncBottom:      18,  // l + b + r, missing N — both free diagonals (SW,SE) grass (sharp)
+  tJuncRight2:      19,  // t + l + b, missing E — both free diagonals (NW,SW) grass (sharp)
   topOnly:          20,  // t
   quadTopRight:     21,  // t + r  (grass bottom + left)
-  edgeBottom:       22,  // l + t + r  (grass border along bottom edge)
+  edgeBottom:       22,  // l + t + r, missing S — both free diagonals (NW,NE) water (smooth)
   quadTopLeft:      23,  // l + t  (grass bottom + right)
+  // ── T-junction mixed-diagonal variants — one free diagonal water, the other grass ──
+  missingWGrassSE:  24,  // t + r + b, missing W — NE water, SE grass
+  missingEGrassSW:  25,  // t + l + b, missing E — NW water, SW grass
+  missingNGrassSE:  26,  // l + b + r, missing N — SW water, SE grass
+  missingNGrassSW:  27,  // l + b + r, missing N — SW grass, SE water
+  // ── all-4-cardinal family — exactly one diagonal corner solid (grass) ──
+  allSidesGrassSE:  28,  // all exits, grass only at SE corner
+  allSidesGrassSW:  29,  // all exits, grass only at SW corner
+  allSidesWaterNW:  30,  // all exits, grass at NE+SE+SW (only NW corner still water)
+  allSidesWaterNE:  31,  // all exits, grass at NW+SE+SW (only NE corner still water)
+  missingWGrassNE:  32,  // t + r + b, missing W — NE grass, SE water
+  missingEGrassNW:  33,  // t + l + b, missing E — NW grass, SW water
+  missingSGrassNE:  34,  // l + t + r, missing S — NW water, NE grass
+  missingSGrassNW:  35,  // l + t + r, missing S — NW grass, NE water
+  allSidesGrassNE:  36,  // all exits, grass only at NE corner
+  allSidesGrassNW:  37,  // all exits, grass only at NW corner
+  allSidesWaterSW:  38,  // all exits, grass at NW+NE+SE (only SW corner still water)
+  allSidesWaterSE:  39,  // all exits, grass at NW+NE+SW (only SE corner still water)
+  allSidesGrassN:   40,  // all exits, grass at NW+NE
+  allSidesGrassS:   41,  // all exits, grass at SW+SE
+  allSidesGrassE:   42,  // all exits, grass at NE+SE
+  allSidesGrassW:   43,  // all exits, grass at NW+SW
+  allSidesGrassNESW: 44, // all exits, grass at NE+SW (diagonal)
+  allSidesGrassNWSE: 45, // all exits, grass at NW+SE (diagonal)
   allSides:         46,  // l + r + t + b (with grass corners — use near grass)
 } as const
 
