@@ -1169,6 +1169,11 @@ export function HubTownCanvas({
         npc.currentTile = [tx, ty]
         // Despawn NPCs that reach a building door — they "go inside"
         if (doorTileSet.has(`${tx},${ty}`)) {
+          if (npc.scaredBubble) {
+            bubbleLayer.removeChild(npc.scaredBubble)
+            npc.scaredBubble = null
+            npc.scaredBubbleTimer = 0
+          }
           npc.sprite.parent?.removeChild(npc.sprite)
           const idx = unitNpcs.indexOf(npc)
           if (idx !== -1) unitNpcs.splice(idx, 1)
