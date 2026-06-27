@@ -1,11 +1,38 @@
 import { BASE_CHIP_TILES } from '../tiles/baseChipIndex'
-import { WALL_TILES } from '../tiles/buildingMaterials'
+import { WALL_TILES, ROOF_TILES } from '../tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../tiles/buildingMaterials'
 import { expandBundleDecor, expandBundleWindows, expandBundleDoors } from '../bundles/bundleLoader'
 import { DialogueTree, FriendshipDialogue, HubQuestDef, QuestInnRumour, RawQuestConfig, RelationshipDialogue } from './questDefs'
 import { RawAnimal, RawConfig, RawInteractable } from './config'
+import rollbar from '../../rollbar'
 
 const WALL_MATERIAL_NAMES = new Set<string>(Object.keys(WALL_TILES))
+const ROOF_MATERIAL_NAMES = new Set<string>(Object.keys(ROOF_TILES))
+
+// Used when a town config references a wall/roof material name that doesn't exist
+// (typo'd or stale) — keeps the building rendering instead of crashing the canvas.
+const DEFAULT_WALL_MATERIAL: WallMaterial = 'brick'
+const DEFAULT_ROOF_MATERIAL: RoofMaterial = 'woodRoof'
+
+/** Validates a wall material name from raw JSON, falling back + logging if it's unrecognized. */
+function resolveWallMaterial(value: string | undefined, townName: string, context: string): WallMaterial | undefined {
+  if (value == null) return undefined
+  if (WALL_MATERIAL_NAMES.has(value)) return value as WallMaterial
+  const message = `[hub loader] ${townName}: unsupported wall material "${value}" (${context}) — falling back to "${DEFAULT_WALL_MATERIAL}"`
+  console.error(message)
+  rollbar.error(message)
+  return DEFAULT_WALL_MATERIAL
+}
+
+/** Validates a roof material name from raw JSON, falling back + logging if it's unrecognized. */
+function resolveRoofMaterial(value: string | undefined, townName: string, context: string): RoofMaterial | undefined {
+  if (value == null) return undefined
+  if (ROOF_MATERIAL_NAMES.has(value)) return value as RoofMaterial
+  const message = `[hub loader] ${townName}: unsupported roof material "${value}" (${context}) — falling back to "${DEFAULT_ROOF_MATERIAL}"`
+  console.error(message)
+  rollbar.error(message)
+  return DEFAULT_ROOF_MATERIAL
+}
 
 const T = 32
 
@@ -365,7 +392,9 @@ function buildingOrigin(rectList: number[][]): [number, number] {
 
 const MAP_W = rawConfig.mapW
 const MAP_H = rawConfig.mapH
-const AVATAR_START = rawConfig.avatarStart 
+const AVATAR_START = rawConfig.avatarStart
+
+const HUB_TOWN_NAME: string = (rawConfig as unknown as { townName?: string }).townName ?? 'Town'
 
 const HUB_AREAS: HubArea[] = rawConfig.areas.map(a => ({
   id:   a.id,
@@ -403,15 +432,15 @@ const HUB_BUILDINGS: HubBuilding[] = (rawConfig.buildings as RawBuilding[]).flat
     .map(v => ({
       minLevel: v.minLevel,
       rect: v.rect && v.rect.length === 4 ? (v.rect as [number, number, number, number]) : undefined,
-      wall: v.wall as WallMaterial | undefined,
-      roof: v.roof as RoofMaterial | undefined,
+      wall: resolveWallMaterial(v.wall, HUB_TOWN_NAME, `building "${b.id ?? '?'}" levelVisuals[minLevel=${v.minLevel}]`),
+      roof: resolveRoofMaterial(v.roof, HUB_TOWN_NAME, `building "${b.id ?? '?'}" levelVisuals[minLevel=${v.minLevel}]`),
     }))
     .sort((a, c) => a.minLevel - c.minLevel)
   return rectList.map((rect, i) => ({
     rect: rect as [number, number, number, number],
     id:   b.id,
-    wall: b.wall as WallMaterial | undefined,
-    roof: b.roof as RoofMaterial | undefined,
+    wall: resolveWallMaterial(b.wall, HUB_TOWN_NAME, `building "${b.id ?? '?'}"`),
+    roof: resolveRoofMaterial(b.roof, HUB_TOWN_NAME, `building "${b.id ?? '?'}"`),
     upgradeKind: b.upgradeKind,
     ...(i === 0 && levelDecor.length ? { levelDecor } : {}),
     ...(i === 0 && levelVisuals.length ? { levelVisuals } : {}),
@@ -520,7 +549,7 @@ const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
         width:        raw.width,
         height:       raw.height,
         floorTileId:  resolveTileId(raw.floorTileId),
-        wallMaterial: wallTileIdStr && WALL_MATERIAL_NAMES.has(wallTileIdStr) ? wallTileIdStr as WallMaterial : undefined,
+        wallMaterial: resolveWallMaterial(wallTileIdStr, HUB_TOWN_NAME, `interior "${id}" wallTileId`),
         decor:        (raw.decor as Array<{ tx: number; ty: number; tileId?: string; bundleID?: string; zlayer?: string; minLevel?: number; hideAtLevel?: number }>).flatMap(d => {
           if (d.bundleID)
             return expandBundleDecor(d.bundleID, d.tx, d.ty).map(e => ({ ...e, zlayer: e.zlayer as InteriorDecor['zlayer'], minLevel: d.minLevel, hideAtLevel: d.hideAtLevel }))
@@ -627,7 +656,6 @@ const HUB_CHICKEN_ZONES = (
   roost: z.roost ? (z.roost as [number, number]) : undefined,
 }))
 
- const HUB_TOWN_NAME: string = (rawConfig as unknown as { townName?: string }).townName ?? 'Town'
 const ENVIRONMENT: string = (rawConfig as unknown as { environment?: string }).environment ?? 'camp'
 const WEATHER = (rawConfig as unknown as { weather?: import('../../game/hub/weather').WeatherConfig }).weather
 

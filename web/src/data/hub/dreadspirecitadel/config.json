@@ -199,7 +199,7 @@
         34,
         24
       ],
-      "wall": "stoneWall",
+      "wall": "darkStone",
       "roof": "greySlateRoof",
       "doors": [
         {
@@ -1580,7 +1580,7 @@
       "width": 11,
       "height": 9,
       "floorTileId": "darkStoneFloor",
-      "wallTileId": "stoneWall",
+      "wallTileId": "darkStone",
       "decor": [
         {
           "tx": 2,
@@ -1640,7 +1640,7 @@
       "width": 12,
       "height": 9,
       "floorTileId": "darkStoneFloor",
-      "wallTileId": "stoneWall",
+      "wallTileId": "darkStone",
       "ambianceId": "sacred",
       "decor": [
         {
