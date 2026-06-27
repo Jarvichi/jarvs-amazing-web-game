@@ -277,7 +277,7 @@
         27,
         8
       ],
-      "wall": "stoneWall",
+      "wall": "whiteStone",
       "roof": "redSlateRoof",
       "doors": [
         {
@@ -451,7 +451,7 @@
         16,
         18
       ],
-      "wall": "stoneWall",
+      "wall": "whiteStone",
       "roof": "woodRoof",
       "doors": [
         {
@@ -1947,7 +1947,7 @@
       "width": 12,
       "height": 9,
       "floorTileId": "woodFloor",
-      "wallTileId": "stoneWall",
+      "wallTileId": "whiteStone",
       "ambianceId": "hearth",
       "musicId": "inn",
       "decor": [
@@ -2222,7 +2222,7 @@
       "width": 10,
       "height": 8,
       "floorTileId": "stoneFloor",
-      "wallTileId": "stoneWall",
+      "wallTileId": "whiteStone",
       "decor": [
         {
           "tx": 1,
@@ -2288,7 +2288,7 @@
       "width": 9,
       "height": 7,
       "floorTileId": "woodFloor",
-      "wallTileId": "stoneWall",
+      "wallTileId": "whiteStone",
       "decor": [
         {
           "tx": 4,
