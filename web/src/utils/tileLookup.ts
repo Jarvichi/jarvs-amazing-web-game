@@ -19,28 +19,21 @@ export function buildTileLookup(canal: boolean): number[] {
     const W  = !!(mask &  64)
     const NW = !!(mask & 128)
 
-    if (N && E && S && W) {
-      if (canal) {
-        const missing = (!NE ? 1 : 0) + (!SE ? 1 : 0) + (!SW ? 1 : 0) + (!NW ? 1 : 0)
-        if (missing === 0)        t[mask] = PATH.allSidesNoGrass
-        else if (missing === 1 && !NE) t[mask] = PATH.grassCornerTR
-        else if (missing === 1 && !SE) t[mask] = PATH.grassCornerBR
-        else if (missing === 1 && !SW) t[mask] = PATH.grassCornerBL
-        else if (missing === 1 && !NW) t[mask] = PATH.grassCornerTL
-        else                      t[mask] = PATH.allSidesNoGrass
-      } else {
-        t[mask] = PATH.allSidesNoGrass
-      }
-    } else if (N && E && S)      t[mask] = PATH.tJuncRight
+    // canal mode used to substitute PATH.grassCornerXX tiles here for single-corner
+    // notches/elbows, but those tile indices only contain a fragment of an unrelated
+    // 2x2 decorative ring motif rather than real corner-notch art — canal and
+    // non-canal now resolve identically for these shapes.
+    if (N && E && S && W)        t[mask] = PATH.allSidesNoGrass
+    else if (N && E && S)      t[mask] = PATH.tJuncRight
     else if (E && S && W)        t[mask] = PATH.edgeTop
     else if (N && S && W)        t[mask] = PATH.tJuncLeft2
     else if (N && E && W)        t[mask] = PATH.edgeBottom
     else if (N && S)             t[mask] = PATH.vertical
     else if (E && W)             t[mask] = PATH.horizontal
-    else if (N && E)             t[mask] = NE ? PATH.quadTopRight    : (canal ? PATH.grassCornerBL : PATH.turnTopRight)
-    else if (N && W)             t[mask] = NW ? PATH.quadTopLeft     : (canal ? PATH.grassCornerBR : PATH.turnTopLeft)
-    else if (S && E)             t[mask] = SE ? PATH.quadBottomRight : (canal ? PATH.grassCornerTL : PATH.turnBottomRight)
-    else if (S && W)             t[mask] = SW ? PATH.quadBottomLeft  : (canal ? PATH.grassCornerTR : PATH.turnBottomLeft)
+    else if (N && E)             t[mask] = NE ? PATH.quadTopRight    : PATH.turnTopRight
+    else if (N && W)             t[mask] = NW ? PATH.quadTopLeft     : PATH.turnTopLeft
+    else if (S && E)             t[mask] = SE ? PATH.quadBottomRight : PATH.turnBottomRight
+    else if (S && W)             t[mask] = SW ? PATH.quadBottomLeft  : PATH.turnBottomLeft
     else if (N)                  t[mask] = PATH.topOnly
     else if (E)                  t[mask] = PATH.rightOnly
     else if (S)                  t[mask] = PATH.bottomOnly

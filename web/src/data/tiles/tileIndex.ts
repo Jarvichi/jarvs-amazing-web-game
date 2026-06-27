@@ -27,7 +27,6 @@ export const BASE_GROUND = {
 //
 // Exits are named by compass direction: t=top, b=bottom, l=left, r=right.
 // "quad" tiles show path only in one corner (grass fills the other 3 quadrants).
-// Tiles 24–45 are corner-grass variations (subtle) — to be indexed later.
 export const PATH = {
   isolated:         0,   // no exits
   rightOnly:        1,   // r
@@ -54,11 +53,6 @@ export const PATH = {
   edgeBottom:       22,  // l + t + r  (grass border along bottom edge)
   quadTopLeft:      23,  // l + t  (grass bottom + right)
   allSides:         46,  // l + r + t + b (with grass corners — use near grass)
-  // Tiles 24–45: corner-grass variations (mostly filled, grass only in one corner)
-  grassCornerBR:    28,  // grass bottom-right corner
-  grassCornerBL:    29,  // grass bottom-left corner
-  grassCornerTR:    36,  // grass top-right corner
-  grassCornerTL:    37,  // grass top-left corner
 } as const
 
 
