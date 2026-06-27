@@ -83,15 +83,6 @@ export async function loadTileTexture(url: string, tileId: number, columns: numb
 }
 
 /**
- * Load an arbitrary pixel sub-rectangle from a cached tileset PNG.
- * Useful for reusing a fragment of an existing tile (e.g. a corner crop) as a decal.
- */
-export async function loadTileSubRect(url: string, x: number, y: number, w: number, h: number): Promise<PIXI.Texture> {
-  const sheet = await _load(url)
-  return new PIXI.Texture({ source: sheet.source, frame: new PIXI.Rectangle(x, y, w, h) })
-}
-
-/**
  * Load a tile by global tile ID, resolving the correct source file automatically.
  * Supports both legacy baseChip IDs (0–9999) and extended tiles (10000+).
  */
