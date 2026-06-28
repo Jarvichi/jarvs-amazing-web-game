@@ -78,8 +78,10 @@ export function BattlefieldTerrainCanvas({ environment, id, terrain }: Props) {
       ref={wrapRef}
       style={{ position: 'absolute', inset: 0, overflow: 'hidden', zIndex: 0, pointerEvents: 'none' }}
     >
-      {/* Re-key on size so the Pixi scene remounts and rebuilds at the new dimensions. */}
-      {dims && <TerrainPixi key={`${dims.w}x${dims.h}`} environment={environment} id={id} terrain={terrain} w={dims.w} h={dims.h} />}
+      {/* Re-key on size/environment/id so the Pixi scene remounts and rebuilds — usePixiApp's
+          onReady closure only runs once per mount, so changing terrain/environment/id alone
+          (with the same dimensions) would otherwise silently keep rendering the stale scene. */}
+      {dims && <TerrainPixi key={`${dims.w}x${dims.h}-${environment}-${id}`} environment={environment} id={id} terrain={terrain} w={dims.w} h={dims.h} />}
     </div>
   )
 }

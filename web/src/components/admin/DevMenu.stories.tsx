@@ -15,5 +15,6 @@ export const Default: Story = {
   args: {
     onCrystalsChanged: fn(),
     onHandicapChanged: fn(),
+    onSceneryPreview: fn(),
   },
 };

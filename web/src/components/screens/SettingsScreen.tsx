@@ -29,6 +29,7 @@ interface Props {
   onHubWorld?: () => void
   onTitleScreen?: () => void
   onCheckForUpdates?: () => Promise<void>
+  onSceneryPreview?: () => void
 }
 
 const TEXT_SIZE_KEY      = 'jarv_text_size'
@@ -161,7 +162,7 @@ function exportLocalStorage(): void {
   URL.revokeObjectURL(url)
 }
 
-export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged, onGiftAdmin, onNewsAdmin, onCampaignAdmin, onFeedbackAdmin, onHubWorld, onTitleScreen, onCheckForUpdates }: Props) {
+export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged, onGiftAdmin, onNewsAdmin, onCampaignAdmin, onFeedbackAdmin, onHubWorld, onTitleScreen, onCheckForUpdates, onSceneryPreview }: Props) {
   const [soundOn,       setSoundOn]       = useState(isSoundEnabled)
   const [soundVolume,   setSoundVolumeState]   = useState(getSoundVolume)
   const [musicVolume,   setMusicVolumeState]   = useState(getMusicVolume)
@@ -731,10 +732,11 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
           </Section>
         )}
 
-        {isDevMode() && onDevCrystalsChanged && onDevHandicapChanged && (
+        {isDevMode() && onDevCrystalsChanged && onDevHandicapChanged && onSceneryPreview && (
           <DevMenu
             onCrystalsChanged={onDevCrystalsChanged}
             onHandicapChanged={onDevHandicapChanged}
+            onSceneryPreview={onSceneryPreview}
           />
         )}
 
