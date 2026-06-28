@@ -290,10 +290,28 @@ export async function buildTerrainDecorGfx(
   const envPatchMap = TERRAIN_PATCH_MAP[env] ?? {}
   const envDecorMap = TERRAIN_DECOR_MAP[env] ?? {}
 
+  const toTile = (obs: TerrainObstacle) => ({
+    tcx: Math.round(((0.5 + (obs.y / 80) * 0.36) * w) / TILE_SIZE),
+    tcy: Math.round(((1 - obs.x / 500) * h) / TILE_SIZE),
+  })
+
+  // terrain.ts only guarantees a minimum *game-unit* separation between obstacle
+  // centers, but the canvas projection below doesn't scale 1:1 with tile distance —
+  // so two obstacles' tile-rings can still end up overlapping (more often than not,
+  // across types too — confirmed by brute-force search across seeds). Reserve every
+  // obstacle's center cell up front so a neighboring ring can never swallow its decor
+  // icon, then have each ring claim cells first-come so overlapping rings carve cleanly
+  // around each other (and around centers) instead of later obstacles' tiles
+  // overwriting earlier ones into a single illegible blob.
+  const claimedCells = new Set<string>()
+  for (const obs of terrain) {
+    const { tcx, tcy } = toTile(obs)
+    claimedCells.add(`${tcx},${tcy}`)
+  }
+
   for (const obs of terrain) {
     if (container.destroyed) return
-    const cx = (0.5 + (obs.y / 80) * 0.36) * w
-    const cy = (1 - obs.x / 500) * h
+    const { tcx, tcy } = toTile(obs)
     const idNum = parseInt(obs.id.replace('t', ''), 10)
 
     // ── TYPE3 adjacency-tiled patch (tree / rock / water) ───────────────────
@@ -301,20 +319,16 @@ export async function buildTerrainDecorGfx(
     const patchFile = envPatchMap[obs.type] ?? TERRAIN_PATCH_MAP._default?.[obs.type]
     if (patchFile) {
       const tileRadius = Math.max(1, Math.round(obs.radius * h / (TILE_RADIUS_SCALE * TILE_SIZE)))
-      const tcx = Math.round(cx / TILE_SIZE)
-      const tcy = Math.round(cy / TILE_SIZE)
-      const pathSet = new Set<string>()
+      const ringSet = new Set<string>()
       for (let dr = -tileRadius; dr <= tileRadius; dr++) {
         for (let dc = -tileRadius; dc <= tileRadius; dc++) {
-          if (dr * dr + dc * dc <= tileRadius * tileRadius) {
-            pathSet.add(`${tcx + dc},${tcy + dr}`)
-          }
+          if (dr * dr + dc * dc > tileRadius * tileRadius) continue
+          const key = `${tcx + dc},${tcy + dr}`
+          if (claimedCells.has(key)) continue
+          ringSet.add(key)
         }
       }
-      // Remove center cell so SCENERY/PATH tiles don't occupy it
-      const centerKey = `${tcx},${tcy}`
-      const ringSet = new Set(pathSet)
-      ringSet.delete(centerKey)
+      for (const key of ringSet) claimedCells.add(key)
 
       const patchContainer = new PIXI.Container()
       container.addChild(patchContainer)
@@ -348,7 +362,7 @@ export async function buildTerrainDecorGfx(
       const tex = await loadTileTexture(decorUrl, tileId, 8)
       if (container.destroyed) return
       const s = new PIXI.Sprite(tex)
-      s.position.set(Math.round(cx / TILE_SIZE) * TILE_SIZE, Math.round(cy / TILE_SIZE) * TILE_SIZE)
+      s.position.set(tcx * TILE_SIZE, tcy * TILE_SIZE)
       container.addChild(s)
     }
   }
