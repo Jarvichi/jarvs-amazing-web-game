@@ -90,6 +90,7 @@ import { applyGiftRewards, GiftDef } from './game/gifts'
 import { NewsScreen }      from './components/screens/NewsScreen'
 import { NewsAdminScreen } from './components/admin/NewsAdminScreen'
 import { CampaignAdminScreen } from './components/admin/CampaignAdminScreen'
+import { SceneryAdminScreen } from './components/admin/SceneryAdminScreen'
 import { FeedbackModal } from './components/modals/FeedbackModal'
 import { FeedbackAdminScreen } from './components/admin/FeedbackAdminScreen'
 import { DeckSelectorModal } from './components/cards/DeckSelectorModal'
@@ -247,6 +248,7 @@ type Screen =
   | 'casino'
   | 'worldmap'
   | 'location'
+  | 'sceneryPreview'
 
 
 const STANCE_RULES_BY_NODE_TYPE: Partial<Record<string, StanceRules>> = {
@@ -2784,6 +2786,7 @@ export default function App() {
           onFeedbackAdmin={() => setScreen('feedbackAdmin')}
           onHubWorld={() => setScreen('hubworld')}
           onTitleScreen={() => setScreen('title')}
+          onSceneryPreview={() => setScreen('sceneryPreview')}
           onCheckForUpdates={async () => {
             if (needRefresh) {
               updateServiceWorker(true)
@@ -2913,6 +2916,10 @@ export default function App() {
 
       {screen === 'feedbackAdmin' && (
         <FeedbackAdminScreen onBack={() => setScreen('settings')} />
+      )}
+
+      {screen === 'sceneryPreview' && (
+        <SceneryAdminScreen onBack={() => setScreen('settings')} />
       )}
 
       {screen === 'nodemap' && run && actData && (

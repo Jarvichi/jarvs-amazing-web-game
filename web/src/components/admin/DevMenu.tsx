@@ -16,6 +16,7 @@ const RUN_KEY      = 'jarv_run'
 interface Props {
   onCrystalsChanged: (n: number) => void
   onHandicapChanged: (n: number) => void
+  onSceneryPreview: () => void
 }
 
 const RARE_EVENT_LABELS: Record<RareEventKind, string> = {
@@ -30,7 +31,7 @@ const RARE_EVENT_LABELS: Record<RareEventKind, string> = {
   confusedTourist: 'Confused Tourist',
 }
 
-export function DevMenu({ onCrystalsChanged, onHandicapChanged }: Props) {
+export function DevMenu({ onCrystalsChanged, onHandicapChanged, onSceneryPreview }: Props) {
   const [config,      setConfig]      = useState(loadDevConfig)
   const [crystalAmt,  setCrystalAmt]  = useState(100)
   const [handicapVal, setHandicapVal] = useState(0)
@@ -205,6 +206,15 @@ export function DevMenu({ onCrystalsChanged, onHandicapChanged }: Props) {
             <option key={id} value={id}>{act.title ?? id}</option>
           ))}
         </select>
+      </div>
+
+      {/* Scenery sortie */}
+      <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
+        <div>
+          <div className="settings-label">Scenery Sortie</div>
+          <div className="settings-sublabel">Preview battlefield terrain layouts without starting a battle</div>
+        </div>
+        <button className="action-btn" onClick={onSceneryPreview}>OPEN</button>
       </div>
 
       {/* Unlock chronicle chapters */}

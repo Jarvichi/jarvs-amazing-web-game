@@ -7,6 +7,11 @@ import { seededRand, hashStr, getTerrainItems, type TerrainItem } from './mapUti
 import { renderPathTiles } from './tileLookup'
 import type { TerrainObstacle } from '../game/engine/terrain'
 
+// Divisor controlling how obstacle radius (game units) maps to tile-ring radius (tiles).
+// Tuned against the realistic range of obstacle radius (20-32) and lane CSS height (~318-842px)
+// so clusters show real size variety instead of always rounding to a single uniform "plus" shape.
+export const TILE_RADIUS_SCALE = 220
+
 export interface TerrainLayerOptions {
   environment?: string
   envDef?: EnvTileDef
@@ -295,7 +300,7 @@ export async function buildTerrainDecorGfx(
     // SCENERY/PATH tiles fill the ring; center cell is reserved for WORLD_DECOR.
     const patchFile = envPatchMap[obs.type] ?? TERRAIN_PATCH_MAP._default?.[obs.type]
     if (patchFile) {
-      const tileRadius = Math.max(1, Math.round(obs.radius * h / (500 * TILE_SIZE)))
+      const tileRadius = Math.max(1, Math.round(obs.radius * h / (TILE_RADIUS_SCALE * TILE_SIZE)))
       const tcx = Math.round(cx / TILE_SIZE)
       const tcy = Math.round(cy / TILE_SIZE)
       const pathSet = new Set<string>()
