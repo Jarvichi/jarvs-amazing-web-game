@@ -1027,5 +1027,186 @@
         "y": 0
       }
     ]
+  },
+  {
+    "bundleID": "palaceSetps5x3",
+    "tiles": [
+      {
+        "tileID": "palaceStepsTopRight",
+        "x": 4,
+        "y": 2,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsTopLeft",
+        "x": 0,
+        "y": 2,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsLeft",
+        "x": 0,
+        "y": 1,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsMidLeft",
+        "x": 1,
+        "y": 1,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsMid",
+        "x": 2,
+        "y": 1,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsMidRight",
+        "x": 3,
+        "y": 1,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsRight",
+        "x": 4,
+        "y": 1,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsBotRight",
+        "x": 4,
+        "y": 0,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsBotMid",
+        "x": 2,
+        "y": 0,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsBotMidLeft",
+        "x": 1,
+        "y": 0,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsBotLeft",
+        "x": 0,
+        "y": 0,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsBotMidRight",
+        "x": 3,
+        "y": 0,
+        "zlayer": "solid"
+      }
+    ]
+  },
+  {
+    "bundleID": "palaceSteps6x3",
+    "tiles": [
+      {
+        "tileID": "palaceStepsMidLeft",
+        "x": 1,
+        "y": 1,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsTopLeft",
+        "x": 0,
+        "y": 2,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsLeft",
+        "x": 0,
+        "y": 1,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsBotLeft",
+        "x": 0,
+        "y": 0,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsBotMidLeft",
+        "x": 1,
+        "y": 0,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsMid",
+        "x": 2,
+        "y": 0,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsMid",
+        "x": 2,
+        "y": 1,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsMid",
+        "x": 3,
+        "y": 1,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsBotMid",
+        "x": 3,
+        "y": 0,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsBotMidRight",
+        "x": 4,
+        "y": 0,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsMidRight",
+        "x": 4,
+        "y": 1,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsRight",
+        "x": 5,
+        "y": 1,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsTopRight",
+        "x": 5,
+        "y": 2,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "palaceStepsBotRight",
+        "x": 5,
+        "y": 0,
+        "zlayer": "solid"
+      }
+    ]
+  },
+  {
+    "bundleID": "wantedPoster",
+    "tiles": [
+      {
+        "tileID": "wantedPosterBottom",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "tileID": "wantedPosterTop",
+        "x": 0,
+        "y": 1
+      }
+    ]
   }
 ]

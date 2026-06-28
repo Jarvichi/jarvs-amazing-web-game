@@ -284,14 +284,14 @@
           "minLevel": 2
         },
         {
-          "tx": 3,
-          "ty": 7,
+          "tx": 4,
+          "ty": 4,
           "tileId": "armourSign",
           "minLevel": 3
         },
         {
-          "tx": 2,
-          "ty": 8,
+          "tx": 6,
+          "ty": 7,
           "tileId": "chest",
           "minLevel": 3
         }
@@ -318,38 +318,32 @@
       ],
       "levelDecor": [
         {
-          "tx": 26,
-          "ty": 13,
+          "tx": 23,
+          "ty": 12,
           "tileId": "crate",
           "minLevel": 1
         },
         {
-          "tx": 28,
-          "ty": 13,
+          "tx": 23,
+          "ty": 10,
           "tileId": "barrel",
           "minLevel": 1
         },
         {
-          "tx": 25,
-          "ty": 13,
+          "tx": 23,
+          "ty": 11,
           "tileId": "pileOfSacks",
           "minLevel": 2
         },
         {
-          "tx": 29,
-          "ty": 13,
+          "tx": 23,
+          "ty": 9,
           "tileId": "crate",
           "minLevel": 2
         },
         {
-          "tx": 27,
-          "ty": 13,
-          "tileId": "goldSign",
-          "minLevel": 3
-        },
-        {
-          "tx": 26,
-          "ty": 14,
+          "tx": 23,
+          "ty": 7,
           "tileId": "goldChest",
           "minLevel": 3
         }
@@ -376,7 +370,7 @@
       ],
       "levelDecor": [
         {
-          "tx": 17,
+          "tx": 16,
           "ty": 9,
           "tileId": "barrel",
           "minLevel": 1
@@ -422,7 +416,7 @@
       ],
       "levelDecor": [
         {
-          "tx": 26,
+          "tx": 24,
           "ty": 23,
           "tileId": "crate",
           "minLevel": 1
@@ -446,14 +440,14 @@
           "minLevel": 2
         },
         {
-          "tx": 27,
-          "ty": 23,
+          "tx": 24,
+          "ty": 20,
           "tileId": "goldSign",
           "minLevel": 3
         },
         {
-          "tx": 26,
-          "ty": 24,
+          "tx": 23,
+          "ty": 23,
           "tileId": "goldChest",
           "minLevel": 3
         }
@@ -492,7 +486,13 @@
           "minLevel": 1
         },
         {
-          "tx": 7,
+          "tx": 6,
+          "ty": 23,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 12,
           "ty": 23,
           "tileId": "potOfFlowers",
           "minLevel": 2
@@ -500,18 +500,12 @@
         {
           "tx": 11,
           "ty": 23,
-          "tileId": "potOfFlowers",
-          "minLevel": 2
-        },
-        {
-          "tx": 9,
-          "ty": 23,
           "tileId": "largeSign",
           "minLevel": 3
         },
         {
-          "tx": 8,
-          "ty": 24,
+          "tx": 7,
+          "ty": 23,
           "tileId": "potOfFlowers",
           "minLevel": 3
         }
@@ -562,14 +556,14 @@
           "minLevel": 2
         },
         {
-          "tx": 23,
-          "ty": 32,
+          "tx": 26,
+          "ty": 30,
           "tileId": "goldSign",
           "minLevel": 3
         },
         {
-          "tx": 22,
-          "ty": 33,
+          "tx": 26,
+          "ty": 32,
           "tileId": "goldChest",
           "minLevel": 3
         }
@@ -602,7 +596,7 @@
           "minLevel": 1
         },
         {
-          "tx": 11,
+          "tx": 15,
           "ty": 32,
           "tileId": "crate",
           "minLevel": 1
@@ -620,14 +614,14 @@
           "minLevel": 2
         },
         {
-          "tx": 11,
-          "ty": 32,
+          "tx": 14,
+          "ty": 30,
           "tileId": "armourSign",
           "minLevel": 3
         },
         {
-          "tx": 9,
-          "ty": 33,
+          "tx": 14,
+          "ty": 32,
           "tileId": "chest",
           "minLevel": 3
         }
@@ -660,13 +654,13 @@
           "minLevel": 1
         },
         {
-          "tx": 35,
+          "tx": 38,
           "ty": 33,
           "tileId": "crate",
           "minLevel": 1
         },
         {
-          "tx": 32,
+          "tx": 39,
           "ty": 33,
           "tileId": "chest",
           "minLevel": 2
@@ -678,14 +672,14 @@
           "minLevel": 2
         },
         {
-          "tx": 34,
-          "ty": 33,
+          "tx": 38,
+          "ty": 31,
           "tileId": "armourSign",
           "minLevel": 3
         },
         {
-          "tx": 33,
-          "ty": 34,
+          "tx": 37,
+          "ty": 33,
           "tileId": "chest",
           "minLevel": 3
         }
@@ -712,7 +706,7 @@
       ],
       "levelDecor": [
         {
-          "tx": 1,
+          "tx": 6,
           "ty": 32,
           "tileId": "pinkFlower",
           "minLevel": 1
@@ -724,26 +718,26 @@
           "minLevel": 1
         },
         {
-          "tx": 0,
+          "tx": 1,
           "ty": 32,
           "tileId": "potOfFlowers",
           "minLevel": 2
         },
         {
-          "tx": 4,
+          "tx": 5,
           "ty": 32,
           "tileId": "potOfFlowers",
           "minLevel": 2
         },
         {
-          "tx": 2,
-          "ty": 32,
+          "tx": 6,
+          "ty": 30,
           "tileId": "floorLantern",
           "minLevel": 3
         },
         {
-          "tx": 3,
-          "ty": 33,
+          "tx": 7,
+          "ty": 32,
           "tileId": "potOfFlowers",
           "minLevel": 3
         }
@@ -1335,7 +1329,7 @@
     },
     {
       "tx": 13,
-      "ty": 10,
+      "ty": 9,
       "tileId": "barrel",
       "zlayer": "solid"
     },
@@ -1395,8 +1389,8 @@
       "id": "mill-owner",
       "name": "Miller Oswin",
       "sprite": "hub-npc-supplies",
-      "tx": 4,
-      "ty": 7,
+      "tx": 2,
+      "ty": 8,
       "dialogue": [
         "Millhaven's mill has ground grain for this coast for sixty years.",
         "Three grain sacks went missing from the store. Someone's been helping themselves.",

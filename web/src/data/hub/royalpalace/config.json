@@ -1,6 +1,6 @@
 {
   "mapW": 1408,
-  "mapH": 1216,
+  "mapH": 1920,
   "townName": "Royal Palace",
   "environment": "citadel",
   "weather": {
@@ -17,13 +17,23 @@
   },
   "exitTiles": [
     {
+      "tx": 12,
+      "ty": 59,
+      "screen": "worldmap"
+    },
+    {
       "tx": 13,
-      "ty": 37,
+      "ty": 59,
       "screen": "worldmap"
     },
     {
       "tx": 14,
-      "ty": 37,
+      "ty": 59,
+      "screen": "worldmap"
+    },
+    {
+      "tx": 15,
+      "ty": 59,
       "screen": "worldmap"
     }
   ],
@@ -64,10 +74,10 @@
   "streets": [
     {
       "rect": [
-        13,
-        17,
+        12,
         15,
-        37
+        15,
+        60
       ]
     },
     {
@@ -97,17 +107,17 @@
     {
       "rect": [
         24,
-        13,
+        15,
         24,
-        23
+        25
       ]
     },
     {
       "rect": [
         22,
-        13,
+        15,
         41,
-        13
+        15
       ]
     },
     {
@@ -117,6 +127,32 @@
         41,
         36
       ]
+    },
+    {
+      "tile": [
+        38,
+        14
+      ]
+    },
+    {
+      "rect": [
+        7,
+        55,
+        20,
+        55
+      ]
+    },
+    {
+      "tile": [
+        20,
+        54
+      ]
+    },
+    {
+      "tile": [
+        7,
+        54
+      ]
     }
   ],
   "buildings": [
@@ -125,9 +161,9 @@
       "upgradeKind": "default",
       "rect": [
         6,
-        6,
+        5,
         21,
-        16
+        15
       ],
       "wall": "ornateStone",
       "roof": "blueSlateRoof",
@@ -147,26 +183,26 @@
       ],
       "levelDecor": [
         {
-          "tx": 12,
-          "ty": 17,
+          "tx": 10,
+          "ty": 16,
           "tileId": "lightBush",
           "minLevel": 1
         },
         {
-          "tx": 14,
-          "ty": 17,
+          "tx": 17,
+          "ty": 16,
           "tileId": "lightBush",
           "minLevel": 1
         },
         {
-          "tx": 11,
-          "ty": 17,
+          "tx": 9,
+          "ty": 16,
           "tileId": "potOfFlowers",
           "minLevel": 2
         },
         {
-          "tx": 15,
-          "ty": 17,
+          "tx": 18,
+          "ty": 16,
           "tileId": "potOfFlowers",
           "minLevel": 2
         },
@@ -188,10 +224,10 @@
       "id": "guest-wing",
       "upgradeKind": "inn",
       "rect": [
-        25,
-        5,
-        32,
-        12
+        23,
+        6,
+        30,
+        13
       ],
       "wall": "whiteStone",
       "roof": "redSlateRoof",
@@ -204,40 +240,22 @@
       ],
       "levelDecor": [
         {
+          "tx": 26,
+          "ty": 14,
+          "tileId": "barrel",
+          "minLevel": 1
+        },
+        {
           "tx": 28,
-          "ty": 13,
+          "ty": 14,
           "tileId": "barrel",
           "minLevel": 1
-        },
-        {
-          "tx": 30,
-          "ty": 13,
-          "tileId": "barrel",
-          "minLevel": 1
-        },
-        {
-          "tx": 27,
-          "ty": 13,
-          "tileId": "floorLantern",
-          "minLevel": 2
         },
         {
           "tx": 31,
           "ty": 13,
           "tileId": "potOfFlowers",
           "minLevel": 2
-        },
-        {
-          "tx": 29,
-          "ty": 15,
-          "tileId": "innSign",
-          "minLevel": 3
-        },
-        {
-          "tx": 28,
-          "ty": 14,
-          "tileId": "floorLantern",
-          "minLevel": 3
         }
       ]
     },
@@ -246,9 +264,9 @@
       "upgradeKind": "default",
       "rect": [
         34,
-        5,
+        6,
         41,
-        12
+        13
       ],
       "wall": "whiteStone",
       "roof": "blueSlateRoof",
@@ -261,32 +279,32 @@
       ],
       "levelDecor": [
         {
-          "tx": 37,
-          "ty": 13,
+          "tx": 36,
+          "ty": 14,
           "tileId": "lightBush",
           "minLevel": 1
         },
         {
           "tx": 39,
-          "ty": 13,
+          "ty": 14,
           "tileId": "lightBush",
           "minLevel": 1
         },
         {
-          "tx": 36,
-          "ty": 13,
+          "tx": 35,
+          "ty": 14,
           "tileId": "potOfFlowers",
           "minLevel": 2
         },
         {
           "tx": 40,
-          "ty": 13,
+          "ty": 14,
           "tileId": "potOfFlowers",
           "minLevel": 2
         },
         {
-          "tx": 38,
-          "ty": 15,
+          "tx": 36,
+          "ty": 12,
           "tileId": "largeSign",
           "minLevel": 3
         },
@@ -416,9 +434,9 @@
       "id": "orangery",
       "upgradeKind": "default",
       "rect": [
-        1,
+        0,
         18,
-        8,
+        7,
         25
       ],
       "wall": "whiteStone",
@@ -588,9 +606,9 @@
       "upgradeKind": "default",
       "rect": [
         17,
-        28,
+        46,
         23,
-        35
+        53
       ],
       "wall": "castleStone",
       "roof": "greySlateRoof",
@@ -604,39 +622,249 @@
       "levelDecor": [
         {
           "tx": 19,
-          "ty": 36,
+          "ty": 54,
           "tileId": "lightBush",
           "minLevel": 1
         },
         {
           "tx": 21,
-          "ty": 36,
+          "ty": 54,
           "tileId": "lightBush",
           "minLevel": 1
         },
         {
           "tx": 18,
-          "ty": 36,
+          "ty": 54,
           "tileId": "potOfFlowers",
           "minLevel": 2
         },
         {
           "tx": 22,
-          "ty": 36,
+          "ty": 54,
           "tileId": "potOfFlowers",
           "minLevel": 2
         },
         {
-          "tx": 20,
-          "ty": 38,
+          "tx": 19,
+          "ty": 52,
           "tileId": "largeSign",
           "minLevel": 3
         },
         {
-          "tx": 19,
-          "ty": 37,
+          "tx": 17,
+          "ty": 54,
           "tileId": "potOfFlowers",
           "minLevel": 3
+        },
+        {
+          "tx": 16,
+          "ty": 53,
+          "tileId": "wallArchRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 16,
+          "ty": 52,
+          "tileId": "wallArchRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 16,
+          "ty": 51,
+          "tileId": "wallArchRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 16,
+          "ty": 50,
+          "tileId": "wallArchTopRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 15,
+          "ty": 50,
+          "tileId": "wallArchTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 14,
+          "ty": 50,
+          "tileId": "wallArchTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 13,
+          "ty": 50,
+          "tileId": "wallArchTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": 50,
+          "tileId": "wallArchTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 50,
+          "tileId": "wallArchTopLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 51,
+          "tileId": "wallArchLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 52,
+          "tileId": "wallArchLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 53,
+          "tileId": "wallArchLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": 51,
+          "tileId": "wallArchFill",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": 52,
+          "tileId": "wallArchFill",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": 53,
+          "tileId": "wallArchFill",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 13,
+          "ty": 53,
+          "tileId": "wallArchFill",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 14,
+          "ty": 53,
+          "tileId": "wallArchFill",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 15,
+          "ty": 53,
+          "tileId": "wallArchFill",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 15,
+          "ty": 52,
+          "tileId": "wallArchFill",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 14,
+          "ty": 52,
+          "tileId": "wallArchFill",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 13,
+          "ty": 52,
+          "tileId": "wallArchFill",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 13,
+          "ty": 51,
+          "tileId": "wallArchFill",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 14,
+          "ty": 51,
+          "tileId": "wallArchFill",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 15,
+          "ty": 51,
+          "tileId": "wallArchFill",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 49,
+          "tileId": "greySlateRoofRow4",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": 49,
+          "tileId": "greySlateRoofRow4",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 13,
+          "ty": 49,
+          "tileId": "greySlateRoofRow4",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 15,
+          "ty": 49,
+          "tileId": "greySlateRoofRow4",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 16,
+          "ty": 49,
+          "tileId": "greySlateRoofRow4",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 14,
+          "ty": 49,
+          "tileId": "greySlateRoofRow4",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 48,
+          "tileId": "greySlateRoofRow3",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": 48,
+          "tileId": "greySlateRoofRow3",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 13,
+          "ty": 48,
+          "tileId": "greySlateRoofRow3",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 14,
+          "ty": 48,
+          "tileId": "greySlateRoofRow3",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 15,
+          "ty": 48,
+          "tileId": "greySlateRoofRow3",
+          "zlayer": "solid"
         }
       ]
     },
@@ -644,10 +872,10 @@
       "id": "armory",
       "upgradeKind": "workshop",
       "rect": [
-        25,
-        28,
-        32,
-        35
+        3,
+        46,
+        10,
+        53
       ],
       "wall": "castleStone",
       "roof": "greySlateRoof",
@@ -660,38 +888,38 @@
       ],
       "levelDecor": [
         {
-          "tx": 28,
-          "ty": 36,
+          "tx": 6,
+          "ty": 54,
           "tileId": "crate",
           "minLevel": 1
         },
         {
-          "tx": 30,
-          "ty": 36,
+          "tx": 5,
+          "ty": 54,
           "tileId": "crate",
           "minLevel": 1
         },
         {
-          "tx": 27,
-          "ty": 36,
+          "tx": 8,
+          "ty": 54,
           "tileId": "chest",
           "minLevel": 2
         },
         {
-          "tx": 31,
-          "ty": 36,
+          "tx": 4,
+          "ty": 54,
           "tileId": "barrel",
           "minLevel": 2
         },
         {
-          "tx": 29,
-          "ty": 38,
+          "tx": 9,
+          "ty": 51,
           "tileId": "armourSign",
           "minLevel": 3
         },
         {
-          "tx": 28,
-          "ty": 37,
+          "tx": 9,
+          "ty": 54,
           "tileId": "chest",
           "minLevel": 3
         }
@@ -760,74 +988,64 @@
       "comment": "palace steps and entrance braziers"
     },
     {
-      "tx": 12,
-      "ty": 16,
+      "tx": 11,
+      "ty": 15,
       "tileId": "palaceStepsLeft",
       "zlayer": "solid"
     },
     {
-      "tx": 13,
-      "ty": 16,
+      "tx": 12,
+      "ty": 15,
       "tileId": "palaceStepsMidLeft",
       "zlayer": "solid"
     },
     {
       "tx": 14,
-      "ty": 16,
+      "ty": 15,
       "tileId": "palaceStepsMid",
       "zlayer": "solid"
     },
     {
       "tx": 15,
-      "ty": 16,
+      "ty": 15,
       "tileId": "palaceStepsMidRight",
       "zlayer": "solid"
     },
     {
       "tx": 16,
-      "ty": 16,
+      "ty": 15,
       "tileId": "palaceStepsRight",
       "zlayer": "solid"
     },
     {
-      "tx": 12,
-      "ty": 17,
+      "tx": 11,
+      "ty": 16,
       "tileId": "palaceStepsBotLeft",
       "zlayer": "solid"
     },
     {
-      "tx": 13,
-      "ty": 17,
+      "tx": 12,
+      "ty": 16,
       "tileId": "palaceStepsBotMidLeft",
       "zlayer": "solid"
     },
     {
       "tx": 14,
-      "ty": 17,
+      "ty": 16,
       "tileId": "palaceStepsBotMid",
       "zlayer": "solid"
     },
     {
       "tx": 15,
-      "ty": 17,
+      "ty": 16,
       "tileId": "palaceStepsBotMidRight",
       "zlayer": "solid"
     },
     {
       "tx": 16,
-      "ty": 17,
+      "ty": 16,
       "tileId": "palaceStepsBotRight",
       "zlayer": "solid"
-    },
-    {
-      "tx": 11,
-      "ty": 17,
-      "tileId": "brazierBottom"
-    },
-    {
-      "tx": 17,
-      "ty": 17,
-      "tileId": "brazierBottom"
     },
     {
       "comment": "perimeter trees"
@@ -900,7 +1118,7 @@
     },
     {
       "tx": 10,
-      "ty": 5,
+      "ty": 2,
       "bundleID": "light-tree",
       "zlayer": "solid"
     },
@@ -911,8 +1129,8 @@
       "zlayer": "solid"
     },
     {
-      "tx": 15,
-      "ty": 5,
+      "tx": 16,
+      "ty": 2,
       "bundleID": "light-tree",
       "zlayer": "solid"
     },
@@ -1108,18 +1326,6 @@
       "comment": "hedges and ornamental bushes framing the gardens"
     },
     {
-      "tx": 9,
-      "ty": 18,
-      "tileId": "tallBushPot",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 16,
-      "ty": 18,
-      "tileId": "tallBushPot",
-      "zlayer": "solid"
-    },
-    {
       "tx": 25,
       "ty": 24,
       "tileId": "tallBushPot",
@@ -1273,42 +1479,6 @@
       "comment": "lamp posts lining the grand approach and avenues"
     },
     {
-      "tx": 12,
-      "ty": 19,
-      "tileId": "lampPostBottom",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 12,
-      "ty": 18,
-      "tileId": "lampPostTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 16,
-      "ty": 19,
-      "tileId": "lampPostBottom",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 16,
-      "ty": 18,
-      "tileId": "lampPostTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 12,
-      "ty": 22,
-      "tileId": "lampPostBottom",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 12,
-      "ty": 21,
-      "tileId": "lampPostTop",
-      "zlayer": "above"
-    },
-    {
       "tx": 16,
       "ty": 22,
       "tileId": "lampPostBottom",
@@ -1321,18 +1491,6 @@
       "zlayer": "above"
     },
     {
-      "tx": 12,
-      "ty": 25,
-      "tileId": "lampPostBottom",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 12,
-      "ty": 24,
-      "tileId": "lampPostTop",
-      "zlayer": "above"
-    },
-    {
       "tx": 16,
       "ty": 25,
       "tileId": "lampPostBottom",
@@ -1341,78 +1499,6 @@
     {
       "tx": 16,
       "ty": 24,
-      "tileId": "lampPostTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 12,
-      "ty": 30,
-      "tileId": "lampPostBottom",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 12,
-      "ty": 29,
-      "tileId": "lampPostTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 16,
-      "ty": 30,
-      "tileId": "lampPostBottom",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 16,
-      "ty": 29,
-      "tileId": "lampPostTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 12,
-      "ty": 34,
-      "tileId": "lampPostBottom",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 12,
-      "ty": 33,
-      "tileId": "lampPostTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 16,
-      "ty": 34,
-      "tileId": "lampPostBottom",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 16,
-      "ty": 33,
-      "tileId": "lampPostTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 23,
-      "ty": 14,
-      "tileId": "lampPostBottom",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 23,
-      "ty": 13,
-      "tileId": "lampPostTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 40,
-      "ty": 14,
-      "tileId": "lampPostBottom",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 40,
-      "ty": 13,
       "tileId": "lampPostTop",
       "zlayer": "above"
     },
@@ -1548,38 +1634,6 @@
       "comment": "gatehouse braziers framing the entrance"
     },
     {
-      "tx": 12,
-      "ty": 35,
-      "tileId": "brazierBottom"
-    },
-    {
-      "tx": 12,
-      "ty": 34,
-      "tileId": "brazierTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 16,
-      "ty": 35,
-      "tileId": "brazierBottom"
-    },
-    {
-      "tx": 16,
-      "ty": 34,
-      "tileId": "brazierTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 12,
-      "ty": 32,
-      "tileId": "wantedPosterBottom"
-    },
-    {
-      "tx": 12,
-      "ty": 31,
-      "tileId": "wantedPosterTop"
-    },
-    {
       "comment": "notice board in the outer court"
     },
     {
@@ -1594,6 +1648,186 @@
       "tx": 10,
       "ty": 24,
       "tileId": "smallLilypad"
+    },
+    {
+      "tx": 11,
+      "ty": 14,
+      "tileId": "palaceStepsTopLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 16,
+      "ty": 14,
+      "tileId": "palaceStepsTopRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 13,
+      "ty": 15,
+      "tileId": "palaceStepsMid",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 13,
+      "ty": 16,
+      "tileId": "palaceStepsMid",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 11,
+      "ty": 24,
+      "bundleID": "brazier",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 11,
+      "ty": 22,
+      "bundleID": "brazier",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 8,
+      "ty": 18,
+      "bundleID": "brazier",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 12,
+      "ty": 56,
+      "tileId": "bridgeVertTopLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 13,
+      "ty": 56,
+      "tileId": "bridgeVertTopMid",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 14,
+      "ty": 56,
+      "tileId": "bridgeVertTopMid",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 15,
+      "ty": 56,
+      "tileId": "bridgeVertTopRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 12,
+      "ty": 57,
+      "tileId": "bridgeVertMidLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 12,
+      "ty": 58,
+      "tileId": "bridgeVertMidLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 13,
+      "ty": 57,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 14,
+      "ty": 57,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 13,
+      "ty": 58,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 14,
+      "ty": 58,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 15,
+      "ty": 57,
+      "tileId": "bridgeVertMidRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 15,
+      "ty": 58,
+      "tileId": "bridgeVertMidRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 12,
+      "ty": 59,
+      "tileId": "bridgeVertBotLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 13,
+      "ty": 59,
+      "tileId": "bridgeVertBotMid",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 14,
+      "ty": 59,
+      "tileId": "bridgeVertBotMid",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 15,
+      "ty": 59,
+      "tileId": "bridgeVertBotRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 16,
+      "ty": 48,
+      "tileId": "greySlateRoofRow3",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 11,
+      "ty": 47,
+      "tileId": "greySlateRoofRow2",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 12,
+      "ty": 47,
+      "tileId": "greySlateRoofRow2",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 13,
+      "ty": 47,
+      "tileId": "greySlateRoofRow2",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 14,
+      "ty": 47,
+      "tileId": "greySlateRoofRow2",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 15,
+      "ty": 47,
+      "tileId": "greySlateRoofRow2",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 16,
+      "ty": 47,
+      "tileId": "greySlateRoofRow2",
+      "zlayer": "solid"
     }
   ],
   "npcSpawnTiles": [],
@@ -1606,8 +1840,8 @@
       "id": "royal-steward",
       "name": "Steward Marigold",
       "sprite": "hub-npc-elder",
-      "tx": 13,
-      "ty": 19,
+      "tx": 12,
+      "ty": 14,
       "dialogue": [
         "Oh dear, oh dear. There is always something misplaced, misfiled, or misbehaving at this palace.",
         "Their Majesties are in session. The gardens, however, receive all visitors.",
@@ -1664,8 +1898,8 @@
       "id": "royal-herald",
       "name": "Herald Fanshawe",
       "sprite": "hub-npc-herald",
-      "tx": 10,
-      "ty": 18,
+      "tx": 12,
+      "ty": 16,
       "dialogue": [
         "Presenting: you. To no one in particular. It's been a slow morning.",
         "Hear ye, hear ye — the proclamations have gone missing again. A herald with no words is merely a man shouting.",
@@ -1710,8 +1944,8 @@
       "id": "palace-guard",
       "name": "Guardsman Brick",
       "sprite": "hub-npc-soldier",
-      "tx": 18,
-      "ty": 18,
+      "tx": 15,
+      "ty": 16,
       "dialogue": [
         "Move along. Or stand there. You're not technically breaking any rules.",
         "Nobody enters the throne room without an appointment. Or a mop. The mop people go everywhere.",
@@ -2131,8 +2365,8 @@
       "id": "royal-gardener",
       "name": "Gardener Thom",
       "sprite": "hub-npc-gardener",
-      "tx": 9,
-      "ty": 22,
+      "tx": 23,
+      "ty": 16,
       "dialogue": [
         "Mind the beds, mind the beds! A boot in the begonias and I'll have words with you.",
         "The Queen wants roses, the King wants order, and the rabbits want my lettuces. Everyone wants something.",
@@ -2247,10 +2481,30 @@
       "id": "npc_1781197058836",
       "name": "Nick the Ogre",
       "sprite": "ogre",
-      "tx": 19,
-      "ty": 20,
+      "tx": 21,
+      "ty": 18,
       "dialogue": [
         "I'm here to see the princess, only she can help me!"
+      ]
+    },
+    {
+      "id": "npc_1782666288310",
+      "name": "Sir Galavant",
+      "sprite": "knight",
+      "tx": 15,
+      "ty": 54,
+      "dialogue": [
+        "Hello!"
+      ]
+    },
+    {
+      "id": "npc_1782666390856",
+      "name": "Sir Gadabout",
+      "sprite": "knight",
+      "tx": 12,
+      "ty": 54,
+      "dialogue": [
+        "Hello!"
       ]
     }
   ],
@@ -3983,8 +4237,8 @@
       "id": "garden-cat",
       "type": "cat",
       "variant": "grey",
-      "tx": 8,
-      "ty": 22,
+      "tx": 24,
+      "ty": 14,
       "name": "Smoke",
       "dialogue": [
         "*mrrp?*",
@@ -4000,6 +4254,14 @@
         23,
         10,
         24
+      ]
+    },
+    {
+      "rect": [
+        0,
+        57,
+        43,
+        58
       ]
     }
   ],

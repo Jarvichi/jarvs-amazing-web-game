@@ -54,6 +54,168 @@
           "tx": 32,
           "ty": 26,
           "tileId": "flowerPotRight"
+        },
+        {
+          "tx": 10,
+          "ty": 41,
+          "tileId": "cropLettuce",
+          "zlayer": "below"
+        },
+        {
+          "tx": 9,
+          "ty": 42,
+          "tileId": "cropLettuce",
+          "zlayer": "below"
+        },
+        {
+          "tx": 11,
+          "ty": 40,
+          "tileId": "cropLettuce",
+          "zlayer": "below"
+        },
+        {
+          "tx": 11,
+          "ty": 43,
+          "tileId": "cropLettuce",
+          "zlayer": "below"
+        },
+        {
+          "tx": 8,
+          "ty": 40,
+          "tileId": "cropLettuce",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": 47,
+          "tileId": "cropWheatBottom",
+          "zlayer": "below"
+        },
+        {
+          "tx": 3,
+          "ty": 45,
+          "tileId": "cropWheatMiddle",
+          "zlayer": "below"
+        },
+        {
+          "tx": 4,
+          "ty": 46,
+          "tileId": "cropWheatMiddle",
+          "zlayer": "below"
+        },
+        {
+          "tx": 5,
+          "ty": 45,
+          "tileId": "cropWheatMiddle",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": 45,
+          "tileId": "cropWheatMiddle",
+          "zlayer": "below"
+        },
+        {
+          "tx": 4,
+          "ty": 47,
+          "tileId": "cropWheatMiddle",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": 46,
+          "tileId": "cropWheatMiddle",
+          "zlayer": "below"
+        },
+        {
+          "tx": 5,
+          "ty": 46,
+          "tileId": "cropWheatMiddle",
+          "zlayer": "below"
+        },
+        {
+          "tx": 6,
+          "ty": 45,
+          "tileId": "cropWheatBottom",
+          "zlayer": "below"
+        },
+        {
+          "tx": 3,
+          "ty": 46,
+          "tileId": "cropWheatBottom",
+          "zlayer": "below"
+        },
+        {
+          "tx": 4,
+          "ty": 48,
+          "tileId": "cropWheatBottom",
+          "zlayer": "below"
+        },
+        {
+          "tx": 5,
+          "ty": 47,
+          "tileId": "cropWheatBottom",
+          "zlayer": "below"
+        },
+        {
+          "tx": 5,
+          "ty": 44,
+          "tileId": "cropWheatTop",
+          "zlayer": "below"
+        },
+        {
+          "tx": 6,
+          "ty": 44,
+          "tileId": "cropWheatTop",
+          "zlayer": "below"
+        },
+        {
+          "tx": 4,
+          "ty": 45,
+          "tileId": "cropWheatTop",
+          "zlayer": "below"
+        },
+        {
+          "tx": 3,
+          "ty": 44,
+          "tileId": "cropWheatTop",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": 44,
+          "tileId": "cropWheatTop",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": 41,
+          "tileId": "cropCarrot",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 40,
+          "tileId": "cropCarrot",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 41,
+          "tileId": "cropCarrot",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 42,
+          "tileId": "cropCarrot",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 40,
+          "tileId": "cropCarrot",
+          "zlayer": "solid"
         }
       ]
     },
@@ -4304,7 +4466,7 @@
     {
       "tx": 6,
       "ty": 40,
-      "tileId": "cropCarrot",
+      "tileId": "cropShoot",
       "zlayer": "solid"
     },
     {
@@ -5072,25 +5234,25 @@
     {
       "tx": 5,
       "ty": 42,
-      "tileId": "cropCarrot",
+      "tileId": "cropShoot",
       "zlayer": "solid"
     },
     {
       "tx": 3,
       "ty": 40,
-      "tileId": "cropCarrot",
+      "tileId": "cropShoot",
       "zlayer": "solid"
     },
     {
       "tx": 2,
       "ty": 41,
-      "tileId": "cropCarrot",
+      "tileId": "cropShoot",
       "zlayer": "solid"
     },
     {
       "tx": 4,
       "ty": 41,
-      "tileId": "cropCarrot",
+      "tileId": "cropShoot",
       "zlayer": "solid"
     },
     {
@@ -9043,7 +9205,7 @@
     {
       "id": "npc_1781727321393",
       "name": "The Wanderer",
-      "sprite": "",
+      "sprite": "hub-npc-elder",
       "tx": 17,
       "ty": 29,
       "dialogue": [
@@ -9241,6 +9403,35 @@
         }
       ],
       "building": "townhall-office"
+    },
+    {
+      "id": "interactable-1782663378757",
+      "tx": 28,
+      "ty": 53,
+      "reactions": [
+        {
+          "type": "move",
+          "to": {
+            "tx": -1,
+            "ty": -1
+          }
+        },
+        {
+          "type": "dialogue",
+          "text": "The gravestone falls into a cavern below."
+        },
+        {
+          "type": "quest",
+          "questId": "the-false-grave"
+        }
+      ],
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "graveStone"
+        }
+      ]
     }
   ],
   "animals": [

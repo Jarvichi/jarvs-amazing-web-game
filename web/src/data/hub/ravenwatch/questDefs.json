@@ -3560,6 +3560,34 @@
           "merchant": 10
         }
       }
+    },
+    {
+      "id": "the-false-grave",
+      "title": "The False Grave",
+      "type": "chain",
+      "giverNpcId": "",
+      "receiverNpcId": "",
+      "offerDialogue": "You look into the void exposed by the collapsed grave stone and see a cavern with multiple visible tunnels heading in opposite directions. Fetch the Elder, they might be able to help.",
+      "activeDialogue": {
+        "step-1": "The Elder should be told about the cavern under the grave.",
+        "step-2": ""
+      },
+      "completeDialogue": "",
+      "steps": [
+        {
+          "key": "step-1",
+          "type": "deliver",
+          "required": 1,
+          "targetNpcId": "elder"
+        },
+        {
+          "key": "step-2",
+          "type": "deliver",
+          "required": 2,
+          "targetNpcId": "npc_1781726431819"
+        }
+      ],
+      "reward": {}
     }
   ],
   "pickupItems": [

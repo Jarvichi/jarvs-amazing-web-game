@@ -979,9 +979,19 @@ export const BASE_CHIP_TILES = {
     yellow_crystal4:      10039,
 
 
-
+    bridgeVertTopLeft: 267,
+    bridgeVertTopMid: 268,
+    bridgeVertTopRight: 269,
+    bridgeVertMidLeft: 275,
+    bridgeVertMidMid: 276,
+    bridgeVertMidRight: 277,
+    bridgeVertBotLeft: 283,
+    bridgeVertBotMid: 284,
+    bridgeVertBotRight: 285,
   // ── Pictsquare2021 named tiles (globalId = 11000 + localTileIndex) ──
   wantedSign:          11001,   // localId 1
+      palaceStepsTopLeft: 11183,
+    palaceStepsTopRight: 11187,
   palaceStepsLeft:     11244,   // localId 244
   palaceStepsMidLeft:  11245,
   palaceStepsMid:      11246,
