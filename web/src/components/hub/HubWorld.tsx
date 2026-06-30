@@ -30,6 +30,8 @@ import { loadPlayerName } from '../../game/questline'
 import { LoginButton } from '../ui/LoginButton'
 import { addCollectible, addConsumable, getCollectibles } from '../../game/itemStore'
 import { QuestsModal } from './QuestsModal'
+import { BountyBoardModal } from './BountyBoardModal'
+import { hasUnclaimedBounties } from '../../game/hub/bounties'
 import { TownDirectory } from './TownDirectory'
 import { TownJournal } from './TownJournal'
 import { HubTownUpgrades, type UpgradeRow } from './HubTownUpgrades'
@@ -175,6 +177,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   const [interiorActive, setInteriorActive] = useState(false)
   const [pickedUpIds,    setPickedUpIds]    = useState<Set<string>>(() => getPickedUpIds())
   const [questsOpen,          setQuestsOpen]          = useState(false)
+  const [bountyBoardOpen,     setBountyBoardOpen]     = useState(false)
   const [directoryOpen,       setDirectoryOpen]       = useState(false)
   const [journalOpen,         setJournalOpen]         = useState(false)
   const [upgradesOpen,        setUpgradesOpen]        = useState(false)
@@ -311,6 +314,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
       .then(n => { indicatorConditionsRef.current.set('unread-news', n > 0) })
       .catch(e => rollbar.error('[HubWorld] getUnreadCount failed', { error: String(e) }))
   }, [])
+  indicatorConditionsRef.current.set('bounty-available', hasUnclaimedBounties())
 
   // Persisted interactable position overrides for this location (id → tile)
   const interactableMovesRef = useRef(new Map<string, { tx: number; ty: number }>())
@@ -498,6 +502,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
       return
     }
     if (screen === 'town-upgrades') { setUpgradesOpen(true); return }
+    if (screen === 'bounty-board') { setBountyBoardOpen(true); return }
     if (screen === 'worldmap') { onWorldMap?.(); return }
     if (screen === 'campaign') { onCampaign?.(); return }
     if (screen === 'endless') { onEndless?.(); return }
@@ -1148,6 +1153,7 @@ function hasOfferableQuest(giverId: string): boolean {
         )}
 
         {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={questDefs} resolveNpcName={getNpcDisplayName}/>}
+        {bountyBoardOpen && <BountyBoardModal onClose={() => setBountyBoardOpen(false)}/>}
         {directoryOpen && <TownDirectory onClose={() => setDirectoryOpen(false)} locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} onShowRelationship={setRelationshipNpcId} />}
         {journalOpen && <TownJournal onClose={() => setJournalOpen(false)} locationData={locationData} />}
         {upgradesOpen && <HubTownUpgrades onClose={() => setUpgradesOpen(false)} townName={town} reputation={getTownReputation(town)} crystals={loadCrystals()} rows={upgradeRows} onUpgrade={handleUpgrade} tributeAmount={tributeAmount(town)} tributeAvailable={tributeAvailable(town)} onCollectTribute={handleCollectTribute} />}
