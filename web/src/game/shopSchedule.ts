@@ -32,7 +32,7 @@ export interface ShopNPC {
 // ── Internal helpers ──────────────────────────────────────────────────────────
 
 /** Simple LCG seeded RNG — deterministic for a given seed. */
-function makeSeededRng(seed: number): () => number {
+export function makeSeededRng(seed: number): () => number {
   let s = seed >>> 0
   return () => {
     s = (Math.imul(s, 1664525) + 1013904223) >>> 0
@@ -41,7 +41,7 @@ function makeSeededRng(seed: number): () => number {
 }
 
 /** Numeric hash of a string. */
-function dateHash(str: string): number {
+export function dateHash(str: string): number {
   let h = 0
   for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0
   return h

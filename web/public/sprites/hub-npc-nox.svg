@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- shadow -->
+  <ellipse cx="16" cy="29" rx="5" ry="2" fill="rgba(0,0,0,0.2)"/>
+  <!-- robe -->
+  <rect x="10" y="13" width="12" height="15" rx="3" fill="#1f3a4a"/>
+  <!-- robe trim -->
+  <path d="M16 13 L16 28" stroke="#3f6a82" stroke-width="1"/>
+  <rect x="10" y="24" width="12" height="2" fill="#3f6a82"/>
+  <!-- arms -->
+  <rect x="8"  y="14" width="3" height="8" rx="1" fill="#1f3a4a"/>
+  <rect x="21" y="14" width="3" height="8" rx="1" fill="#1f3a4a"/>
+  <!-- curated augment crystal in right hand -->
+  <polygon points="23.5,15.5 26,18.5 23.5,21.5 21,18.5" fill="#7fd8e8"/>
+  <polygon points="23.5,15.5 26,18.5 23.5,18.5" fill="#bdf0fa" opacity="0.7"/>
+  <!-- head -->
+  <circle cx="16" cy="9" r="5" fill="#cfa787"/>
+  <!-- hood -->
+  <path d="M10.5 8.5 Q16 1.5 21.5 8.5 Q21.5 6 16 5.5 Q10.5 6 10.5 8.5 Z" fill="#162a36"/>
+  <rect x="10" y="6.5" width="12" height="2" rx="1" fill="#162a36"/>
+  <!-- eyes -->
+  <rect x="13" y="8.4" width="2" height="2" rx="1" fill="#0a1a22"/>
+  <rect x="17" y="8.4" width="2" height="2" rx="1" fill="#0a1a22"/>
+  <!-- calm closed-lip expression -->
+  <path d="M13.5 11.5 Q16 12.5 18.5 11.5" fill="none" stroke="#8b5e3c" stroke-width="0.7"/>
+</svg>

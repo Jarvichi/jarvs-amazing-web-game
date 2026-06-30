@@ -8557,7 +8557,31 @@
         "Every card tells a story, wanderer."
       ],
       "questGive": "gildwyns-missing-card",
-      "questReceive": "gildwyn-the-fracture-card"
+      "questReceive": "gildwyn-the-fracture-card",
+      "schedule": [
+        { "startHour": 6, "endHour": 20, "activity": "work", "location": { "type": "interior", "buildingId": "card-shop", "tx": 6, "ty": 3 } },
+        { "startHour": 20, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "inn-building-upstairs", "tx": 1, "ty": 1 } }
+      ],
+      "homeBed": { "buildingId": "inn-building-upstairs", "tx": 1, "ty": 1 }
+    },
+    {
+      "id": "vorn",
+      "name": "Vorn",
+      "sprite": "hub-npc-vorn",
+      "building": "card-shop",
+      "tx": 6,
+      "ty": 3,
+      "screen": "shop-cards",
+      "dialogue": [
+        "I only come out at night. And I only deal in the extraordinary.",
+        "The shadows are patient with rare cards — they wait for the right buyer.",
+        "Gildwyn keeps the day trade. I keep the legends."
+      ],
+      "schedule": [
+        { "startHour": 20, "endHour": 6, "activity": "work", "location": { "type": "interior", "buildingId": "card-shop", "tx": 6, "ty": 3 } },
+        { "startHour": 6, "endHour": 20, "activity": "sleep", "location": { "type": "interior", "buildingId": "inn-building-upstairs", "tx": 6, "ty": 1 } }
+      ],
+      "homeBed": { "buildingId": "inn-building-upstairs", "tx": 6, "ty": 1 }
     },
     {
       "id": "mira",
@@ -8573,7 +8597,31 @@
         "I sense great potential in you, wanderer. Let's refine it."
       ],
       "questGive": "miras-runaway-crystal",
-      "questReceive": "vex-final-trade"
+      "questReceive": "vex-final-trade",
+      "schedule": [
+        { "startHour": 6, "endHour": 20, "activity": "work", "location": { "type": "interior", "buildingId": "augment-shop", "tx": 3, "ty": 1 } },
+        { "startHour": 20, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "inn-building-upstairs", "tx": 3, "ty": 1 } }
+      ],
+      "homeBed": { "buildingId": "inn-building-upstairs", "tx": 3, "ty": 1 }
+    },
+    {
+      "id": "nox",
+      "name": "Nox",
+      "sprite": "hub-npc-nox",
+      "building": "augment-shop",
+      "tx": 3,
+      "ty": 1,
+      "screen": "shop-augments",
+      "dialogue": [
+        "The serious collectors shop at night. Good to see you.",
+        "A night owl's selection — curated, not cluttered.",
+        "Mira keeps the daylight trade. I keep the connoisseurs."
+      ],
+      "schedule": [
+        { "startHour": 20, "endHour": 6, "activity": "work", "location": { "type": "interior", "buildingId": "augment-shop", "tx": 3, "ty": 1 } },
+        { "startHour": 6, "endHour": 20, "activity": "sleep", "location": { "type": "interior", "buildingId": "inn-building-upstairs", "tx": 8, "ty": 1 } }
+      ],
+      "homeBed": { "buildingId": "inn-building-upstairs", "tx": 8, "ty": 1 }
     },
     {
       "id": "bramble",
@@ -8589,7 +8637,31 @@
         "I've been supplying adventurers for thirty years. I know what keeps folks alive."
       ],
       "questGive": "brambles-first-delivery",
-      "questReceive": "vex-final-trade"
+      "questReceive": "vex-final-trade",
+      "schedule": [
+        { "startHour": 6, "endHour": 20, "activity": "work", "location": { "type": "interior", "buildingId": "supply-shop", "tx": 5, "ty": 5 } },
+        { "startHour": 20, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "inn-building-upstairs", "tx": 5, "ty": 1 } }
+      ],
+      "homeBed": { "buildingId": "inn-building-upstairs", "tx": 5, "ty": 1 }
+    },
+    {
+      "id": "grix",
+      "name": "Grix",
+      "sprite": "hub-npc-grix",
+      "building": "supply-shop",
+      "tx": 5,
+      "ty": 5,
+      "screen": "shop-supplies",
+      "dialogue": [
+        "Psst. Grix open late. Very secret. Very good deals. Mostly.",
+        "Goblin prices — same as everyone else, honest!",
+        "Bramble sleeps, Grix sells. Fair trade for fair hours."
+      ],
+      "schedule": [
+        { "startHour": 20, "endHour": 6, "activity": "work", "location": { "type": "interior", "buildingId": "supply-shop", "tx": 5, "ty": 5 } },
+        { "startHour": 6, "endHour": 20, "activity": "sleep", "location": { "type": "interior", "buildingId": "inn-building-upstairs", "tx": 10, "ty": 1 } }
+      ],
+      "homeBed": { "buildingId": "inn-building-upstairs", "tx": 10, "ty": 1 }
     },
     {
       "id": "trader",
@@ -9468,6 +9540,62 @@
           "tileId": "graveStone"
         }
       ]
+    },
+    {
+      "id": "card-shop-item-0",
+      "tx": 12,
+      "ty": 4,
+      "building": "card-shop",
+      "decor": [{ "dx": 0, "dy": 0, "tileId": "closedBook" }],
+      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+    },
+    {
+      "id": "card-shop-item-1",
+      "tx": 12,
+      "ty": 5,
+      "building": "card-shop",
+      "decor": [{ "dx": 0, "dy": 0, "tileId": "closedBook" }],
+      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+    },
+    {
+      "id": "card-shop-item-2",
+      "tx": 12,
+      "ty": 6,
+      "building": "card-shop",
+      "decor": [{ "dx": 0, "dy": 0, "tileId": "closedBook" }],
+      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+    },
+    {
+      "id": "augment-shop-item-0",
+      "tx": 8,
+      "ty": 4,
+      "building": "augment-shop",
+      "decor": [{ "dx": 0, "dy": 0, "tileId": "potions" }],
+      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+    },
+    {
+      "id": "supply-shop-item-0",
+      "tx": 1,
+      "ty": 5,
+      "building": "supply-shop",
+      "decor": [{ "dx": 0, "dy": 0, "tileId": "crate" }],
+      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+    },
+    {
+      "id": "supply-shop-item-1",
+      "tx": 10,
+      "ty": 5,
+      "building": "supply-shop",
+      "decor": [{ "dx": 0, "dy": 0, "tileId": "crate" }],
+      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+    },
+    {
+      "id": "supply-shop-item-2",
+      "tx": 5,
+      "ty": 7,
+      "building": "supply-shop",
+      "decor": [{ "dx": 0, "dy": 0, "tileId": "crate" }],
+      "reactions": [{ "type": "buy", "slotIndex": 2 }]
     }
   ],
   "animals": [

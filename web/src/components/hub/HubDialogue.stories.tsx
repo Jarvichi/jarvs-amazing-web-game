@@ -75,3 +75,31 @@ export const Branching: Story = {
     )
   },
 }
+
+// A shop's "buy" reaction (#1661/#1664): tapping a for-sale item shows the
+// shopkeeper's blurb + price, Buy confirms and sells, Maybe not just closes.
+// Demonstrates both a day shopkeeper (Gildwyn) and his night counterpart
+// (Vorn) — the same purchase flow, different in-character voice.
+function buyStory(speakerName: string, itemName: string, price: number): Story {
+  return {
+    args: { line: `Care to buy ${itemName} for ${price} crystals?`, speakerName, onClose: fn() },
+    render: () => {
+      const [text, setText] = useState<string | null>(`Care to buy ${itemName} for ${price} crystals?`)
+      const [done, setDone] = useState(false)
+      return (
+        <HubDialogue
+          line={text}
+          speakerName={speakerName}
+          onClose={() => setText(null)}
+          choices={done ? undefined : [
+            { label: `Buy for ${price} 💎`, primary: true, onClick: () => { setDone(true); setText(`Sold! Enjoy the ${itemName}.`) } },
+            { label: 'Maybe not', onClick: () => setText(null) },
+          ]}
+        />
+      )
+    },
+  }
+}
+
+export const GildwynShopGreeting: Story = buyStory('Gildwyn', 'Frost Wyrm', 600)
+export const VornShopGreeting: Story = buyStory('Vorn', 'Ashen Sovereign', 1200)

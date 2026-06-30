@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- shadow -->
+  <ellipse cx="16" cy="29" rx="5" ry="1.8" fill="rgba(0,0,0,0.2)"/>
+  <!-- legs -->
+  <rect x="13" y="22" width="2.5" height="6" rx="1" fill="#3a5a2a"/>
+  <rect x="16.5" y="22" width="2.5" height="6" rx="1" fill="#3a5a2a"/>
+  <!-- tunic -->
+  <rect x="11" y="15" width="10" height="9" rx="2" fill="#7a5a2a"/>
+  <rect x="11" y="15" width="10" height="3" rx="1" fill="#5a3a18"/>
+  <!-- arms -->
+  <rect x="9"  y="16" width="2.5" height="6" rx="1" fill="#5a8a3a"/>
+  <rect x="20.5" y="16" width="2.5" height="6" rx="1" fill="#5a8a3a"/>
+  <!-- coin sack in right hand -->
+  <ellipse cx="22.5" cy="20.5" rx="2.5" ry="3" fill="#c8a040"/>
+  <path d="M21 18.3 Q22.5 17 24 18.3" fill="none" stroke="#8a6a20" stroke-width="0.8"/>
+  <!-- head -->
+  <circle cx="16" cy="10" r="5.2" fill="#6a9a3a"/>
+  <!-- ears -->
+  <polygon points="10.5,9 8,7 10,11.5" fill="#6a9a3a"/>
+  <polygon points="21.5,9 24,7 22,11.5" fill="#6a9a3a"/>
+  <!-- eyes -->
+  <rect x="13.2" y="9.2" width="1.8" height="2" rx="0.9" fill="#fff066"/>
+  <rect x="17" y="9.2" width="1.8" height="2" rx="0.9" fill="#fff066"/>
+  <rect x="13.6" y="9.6" width="0.9" height="1.1" rx="0.4" fill="#1a1a0a"/>
+  <rect x="17.4" y="9.6" width="0.9" height="1.1" rx="0.4" fill="#1a1a0a"/>
+  <!-- toothy grin -->
+  <path d="M13 13 Q16 15 19 13" fill="none" stroke="#1a1a0a" stroke-width="0.8"/>
+</svg>
