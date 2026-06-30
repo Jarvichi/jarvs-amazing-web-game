@@ -5521,10 +5521,7 @@
           "zlayer": "solid"
         }
       ],
-      "hours": {
-        "open": 8,
-        "close": 20
-      },
+      "hours": "always",
       "wallTileId": "interiorWallWhite",
       "exits": [
         {
@@ -5680,10 +5677,7 @@
           "tileId": "wizardHatBottom"
         }
       ],
-      "hours": {
-        "open": 8,
-        "close": 20
-      }
+      "hours": "always"
     },
     "supply-shop": {
       "name": "Bramble's Supplies",
@@ -5759,10 +5753,7 @@
           "zlayer": "solid"
         }
       ],
-      "hours": {
-        "open": 8,
-        "close": 20
-      },
+      "hours": "always",
       "wallTileId": "interiorWallWhite",
       "exits": [
         {
