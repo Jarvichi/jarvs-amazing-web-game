@@ -9537,7 +9537,7 @@
       "tx": 12,
       "ty": 4,
       "building": "card-shop",
-      "decor": [{ "dx": 0, "dy": 0, "tileId": "closedBook" }],
+      "decor": [{ "dx": 0, "dy": 0, "cardArtSlot": 0 }],
       "reactions": [{ "type": "buy", "slotIndex": 0 }]
     },
     {
@@ -9545,7 +9545,7 @@
       "tx": 12,
       "ty": 5,
       "building": "card-shop",
-      "decor": [{ "dx": 0, "dy": 0, "tileId": "closedBook" }],
+      "decor": [{ "dx": 0, "dy": 0, "cardArtSlot": 1 }],
       "reactions": [{ "type": "buy", "slotIndex": 1 }]
     },
     {
@@ -9553,7 +9553,7 @@
       "tx": 12,
       "ty": 6,
       "building": "card-shop",
-      "decor": [{ "dx": 0, "dy": 0, "tileId": "closedBook" }],
+      "decor": [{ "dx": 0, "dy": 0, "cardArtSlot": 2 }],
       "reactions": [{ "type": "buy", "slotIndex": 2 }]
     },
     {

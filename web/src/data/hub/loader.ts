@@ -246,7 +246,10 @@ export interface HubTreasure {
 export interface HubInteractableDecor {
   dx: number
   dy: number
-  tileId: number
+  /** Resolved tile-atlas id. Mutually exclusive with cardArtSlot. */
+  tileId?: number
+  /** Renders today's card art for this shop's Nth for-sale slot. */
+  cardArtSlot?: number
   zlayer?: 'solid' | 'below' | 'above'
 }
 
@@ -616,10 +619,11 @@ const HUB_INTERACTABLES: HubInteractable[] = (
   (rawConfig as unknown as { interactables?: RawInteractable[] }).interactables ?? []
 ).map(i => {
   const decor: HubInteractableDecor[] | undefined = i.decor?.map(d => ({
-    dx:     d.dx,
-    dy:     d.dy,
-    tileId: resolveTileId(d.tileId),
-    zlayer: d.zlayer as HubInteractableDecor['zlayer'],
+    dx:          d.dx,
+    dy:          d.dy,
+    tileId:      d.cardArtSlot != null ? undefined : resolveTileId(d.tileId ?? ''),
+    cardArtSlot: d.cardArtSlot,
+    zlayer:      d.zlayer as HubInteractableDecor['zlayer'],
   }))
   // Hit area: explicit rect → owned-decor bounds → single tile
   const hitRect = i.hitRect ?? (decor && decor.length > 0
