@@ -46,7 +46,7 @@ import { MysteryScreen } from './components/campaign/MysteryScreen'
 import { MemoryFragmentScreen } from './components/campaign/MemoryFragmentScreen'
 import { MemoryFragment, isFragmentDiscovered, markFragmentDiscovered, isHubWorldUnlocked, unlockHubWorld, areAllCampaignFragmentsDiscovered, loadHubDefault, saveHubDefault } from './game/codex'
 import { CharacterEncounterScreen } from './components/campaign/CharacterEncounterScreen'
-import { CharacterChoice, recordCharacterEncounter, getCharacterEncounterChance } from './game/characters'
+import { CharacterChoice, recordCharacterEncounter, getCharacterEncounterChance, resolveCharacterEncounterId } from './game/characters'
 import memoryFragmentsData from './data/memoryFragments.json'
 import { ItemFoundScreen }    from './components/modals/ItemFoundScreen'
 import { CharacterScreen }    from './components/screens/CharacterScreen'
@@ -1205,7 +1205,7 @@ export default function App() {
     setRun(updatedRun)
 
     if (node.characterEncounter && Math.random() < getCharacterEncounterChance(node.characterEncounter)) {
-      setActiveCharacterEncounter({ nodeId: node.id, characterId: node.characterEncounter })
+      setActiveCharacterEncounter({ nodeId: node.id, characterId: resolveCharacterEncounterId(node.characterEncounter) })
       setScreen('characterEncounter')
       return
     }
@@ -1568,12 +1568,6 @@ export default function App() {
       return
     }
     setActiveMemoryFragment(null)
-    // Mira appears after every first-time fragment discovery
-    if (!alreadyFound) {
-      setActiveCharacterEncounter({ nodeId: activeMemoryFragment.fragment.nodeId, characterId: 'mira' })
-      setScreen('characterEncounter')
-      return
-    }
     setScreen('nodemap')
   }, [run, activeMemoryFragment])
 

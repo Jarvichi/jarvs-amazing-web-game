@@ -226,5 +226,131 @@
         "greeting": "A faded broadsheet, clearly printed in bulk and distributed wide, carries Mira's report under a settlement-chosen headline: THE CHRONICLER'S WARNING. Beneath it, smaller: \"Reprinted by request. Original author currently between settlements, and reportedly difficult to schedule.\""
       }
     ]
+  },
+  "vask": {
+    "name": "Vask",
+    "title": "The Last Legionnaire",
+    "icon": "🛡",
+    "encounters": [
+      {
+        "greeting": "She's crouched by the shrine when you arrive, sharpening a knife she clearly doesn't need sharpened. She doesn't look up.\n\n\"Don't need help.\" A long pause. \"Wasn't talking to you anyway.\" She finishes the blade, sheathes it, and goes back to staring at nothing. In the dirt beside her boot: a spiral, drawn and redrawn so many times it's worn a groove."
+      },
+      {
+        "greeting": "She's still here, or here again — hard to tell. The spiral in the dirt has been redrawn, deeper this time.\n\n\"You again.\" She studies you for a long moment, the way a soldier sizes up unfamiliar terrain. \"Fine. You're not running. That's something.\" She doesn't say anything else. Just watches the road behind you, like she's counting who isn't on it."
+      },
+      {
+        "greeting": "You find her standing this time, not sitting — armor cleaner than you've seen it, like she's prepared for something.\n\n\"I used to talk.\" The words come out flat, like she's testing whether they still work. \"Before. I had — there were nine thousand of us. I talked plenty.\" She looks at the spiral on the ground like it's an old wound. \"Then there was one of us. And one doesn't need to talk to anyone.\""
+      },
+      {
+        "greeting": "She's sitting against the shrine stone, armor off for once, and for the first time she gestures for you to sit too. You do.\n\n\"First Legion. Citadel issue. We had orders — TESTAMENT, they called it — march to the Spire of Accord and hold. Nobody told us hold against what.\" Her jaw tightens. \"Then the sky came apart and I was the only one left standing in a field of nine thousand. I have had three hundred years to decide that was an accident of geography. I have not managed it.\""
+      },
+      {
+        "greeting": "She greets you with something close to a nod this time — not quite warmth, but recognition.\n\n\"The spiral.\" She taps the worn groove in the dirt. \"It was on my visor when I woke up. Burned into the glass from the inside. I see it when I close my eyes still.\" She studies your face like she's checking whether you understand or are just being polite. \"The arcanists at the Spire had it too. Burned into their hands. Nobody's worked out who was drawing it, or why we all got the same one.\""
+      },
+      {
+        "greeting": "She's drawing the spiral again when you arrive, but slower this time, like she's trying to remember something rather than just repeating a habit.\n\n\"I used to think the shape was an accident. Heat-damage, glass fracturing in a pattern.\" She shakes her head. \"It isn't random. I've seen it on a Citadel tablet, on a dead arcanist's palm, scratched into a shrine wall on the far side of this shard. Something is leaving the same mark everywhere. I don't know if it's a warning or a signature.\""
+      },
+      {
+        "greeting": "She's quiet for a long while before she speaks, turning something small over in her hands — a fragment of legion insignia, the only piece of her armor that isn't standard issue.\n\n\"Nine thousand soldiers under my command — under Marshal Hesk's command, I mean, I was nobody, I carried a banner — and I am the one who gets to keep walking.\" She closes her fist around the insignia. \"I used to think survival meant I'd been spared for something. Lately I think it just means I was standing in the wrong place at the right angle.\""
+      },
+      {
+        "greeting": "You find her at the edge of a battlefield you've just cleared — what's left of one of the shard guardians, settling into stillness behind you.\n\n\"You did that.\" Not a question. She walks the perimeter of the wreckage slowly, the way she must once have walked a perimeter of war dead. \"I've spent three hundred years guarding nothing. Whatever they sent me to hold, it already fell, the day the sky broke. You're the first thing I've seen actually finish a fight in all that time.\""
+      },
+      {
+        "greeting": "She sits across from you and, unprompted, starts talking — like something in her has finally come loose.\n\n\"I kept the silence because talking meant explaining who I'd lost, and I didn't have nine thousand names left in me.\" She meets your eyes. \"But you keep finding things. Answers. I don't have to carry the whole legion's worth of silence by myself anymore, do I. I can carry mine, and you can carry whatever you're carrying, and that's — that's how it's supposed to work. I forgot that.\""
+      },
+      {
+        "greeting": "She's repacking a travel kit when you arrive — efficient, practiced, a soldier breaking camp.\n\n\"I'm done waiting at this shrine for ghosts that aren't coming.\" She straps the kit shut. \"If there's one of us left walking, there might be two. I'm going to find out. Citadel's archives, the old muster roads, anywhere a survivor might have washed up.\" She looks at you, almost amused. \"Funny. Took meeting someone who keeps finishing fights to remind me I'm allowed to go looking for one to win.\""
+      },
+      {
+        "greeting": "She's standing with her gear already shouldered, waiting for you this time instead of the other way around.\n\n\"This is goodbye, soldier. Or — whatever you are. Not soldier. Better than soldier, maybe.\" She almost smiles. \"I've got a war to finish losing track of, and survivors to find before the trail goes any colder than three hundred years cold.\" She unclasps the fragment of legion insignia from her collar and presses it into your hand. \"Marshal Hesk's banner-bearer doesn't need a banner anymore. Carry it. Means someone still does.\""
+      },
+      {
+        "greeting": "The shrine is just a shrine when you arrive — no spiral freshly drawn in the dirt, no soldier waiting in the shadows. Just a clean line scratched once into the stone, deliberate, final.\n\nYou won't find Vask here again. Wherever she's walking now, she's walking it on her own legs, looking for the rest of her legion instead of waiting for the world to come find her."
+      }
+    ],
+    "epilogue": [
+      {
+        "greeting": "A Citadel courier mentions, almost in passing, a lone woman in legion-issue armor who paid for a meal with a story instead of coin — something about a spiral and nine thousand names. He couldn't tell you which way she went."
+      },
+      {
+        "greeting": "Nailed to a waystation post: a scrap of legion insignia, weathered but unmistakably Citadel-issue. Beneath it, scratched in a soldier's economical hand: \"Looking for First Legion survivors. If you carry this mark, you are not the last.\""
+      },
+      {
+        "greeting": "A retired Citadel quartermaster swears a woman matching Vask's description came through asking after old muster rolls — not for herself, she said, but for names she owed an accounting to."
+      },
+      {
+        "greeting": "Deep in an abandoned watch-post, you find a spiral scratched into the wall at exactly eye height for someone in legion armor. Beside it, smaller, almost an afterthought: a tally mark. Just one."
+      },
+      {
+        "greeting": "A frost-shrine keeper recalls a soldier who didn't ask for shelter, only directions — toward every old Citadel muster point still standing. She thanked him properly, which he says was somehow stranger than if she hadn't spoken at all."
+      },
+      {
+        "greeting": "Somewhere south, travelers report a quiet woman in worn legion armor walking the old supply roads alone, checking each abandoned waypoint like she's expecting, eventually, someone to be waiting there."
+      }
+    ]
+  },
+  "pilgrim": {
+    "name": "The Pilgrim",
+    "title": "Seam-Walker",
+    "icon": "🌀",
+    "encounters": [
+      {
+        "greeting": "A figure stands at the edge of the path, head tilted back, staring at the pale seam of fire stitched across the sky. They don't turn when you approach.\n\n\"It blinks,\" they say, to the sky or to you, hard to tell. \"Have you noticed? Once every few years, if you watch long enough. Most people aren't patient enough to see it.\" A long pause. \"You're not most people. You're walking toward it.\""
+      },
+      {
+        "greeting": "They're sitting cross-legged at the shrine this time, eyes closed, lips moving without sound. When you draw close they stop.\n\n\"I was asking it a question.\" They open their eyes. \"It doesn't answer in words. It answers in which way the mist moves, which birds turn back, which shards drift closer together at night. You have to learn its grammar before you can hear anything at all.\""
+      },
+      {
+        "greeting": "\"You think it's a wound,\" the Pilgrim says, before you've spoken a word. \"Everyone does, at first. A scar across the heavens, still bleeding light after three hundred years.\" They shake their head slowly. \"A wound closes, or it kills you. This has done neither. I don't think it's a wound. I think it's a door, propped open from the other side, and something is choosing, very patiently, not to close it.\""
+      },
+      {
+        "greeting": "The Pilgrim has walked further than you expected to find them — a different shard, the same tilted-back posture, the same fixed gaze on the seam overhead.\n\n\"I've followed it for longer than I can count in years that mean anything anymore. Shard to shard, wherever the light bends strangest.\" They glance at you, almost amused. \"You're following something too. I can always tell. It's in how a person walks when they've stopped expecting the road to be safe.\""
+      },
+      {
+        "greeting": "They're tracing a spiral in the air with one finger, slow and deliberate, like conducting something only they can hear.\n\n\"The dead gather at the broken edges of shards and kneel toward the seam, all at once, the same night every year. I used to think they were worshipping it.\" Their hand stops. \"I don't think that anymore. I think they're guarding it. Or guarding us from it. I haven't decided which is more frightening.\""
+      },
+      {
+        "greeting": "\"There is a name for what waits on the other side,\" the Pilgrim says, quieter than usual. \"I won't say it here. Names have a way of being heard by the things they belong to.\" They look at you sideways. \"You've heard archivists and soldiers tell you what happened. I can only tell you what it felt like, from underneath the seam, the day it opened: like something enormous, finally, exhaling.\""
+      },
+      {
+        "greeting": "Something's different about the Pilgrim today — they're watching the path instead of the sky.\n\n\"You beat another of the old guardians.\" Not a question; a fact, delivered like a small tremor underfoot. \"I felt that, from here. The seam shifted, just slightly, the way water shifts when something deep in it turns over.\" They frown, genuinely puzzled, perhaps for the first time. \"I don't know what that means yet. I have been certain about very little in three hundred years. This unsettles me more than the uncertainty usually does.\""
+      },
+      {
+        "greeting": "The Pilgrim doesn't speak first this time. They wait, watching you, until the silence becomes a kind of question.\n\n\"I used to be the one with answers,\" they finally admit. \"Travelers would ask what the seam meant and I would tell them, with great confidence, things I had simply decided were true because deciding felt better than not knowing.\" They exhale. \"You keep finding actual answers. I find I would like to ask you one, for once, instead of pronouncing one at you. What do you think is on the other side?\""
+      },
+      {
+        "greeting": "\"I have walked the edge of every shard I could reach,\" the Pilgrim says, looking older than usual, or perhaps just tireder. \"Looking for the place where the seam is thinnest. I thought thinness meant closeness to an answer.\" They shake their head. \"I think now it only meant closeness to the wound. The answer was never going to be at the edge. It was always going to be wherever you're walking.\""
+      },
+      {
+        "greeting": "The Pilgrim has gathered something — a sliver of glass, dark and faintly warm, pulled from somewhere near the seam's lowest point.\n\n\"I've carried questions instead of belongings for three centuries. I find I'm tired of the weight.\" They turn the glass over once, light bending strangely across its surface. \"I'm not finished walking. But I think I've been walking toward the wrong kind of ending — an answer, instead of a peace. I'd like to try the second one instead.\""
+      },
+      {
+        "greeting": "They're standing instead of sitting, glass sliver already in an outstretched hand.\n\n\"This is a piece of the seam itself, near as I could pry one loose without losing a hand to it.\" They press it into your palm; it's warmer than it should be, lighter than it looks. \"Hold it to the light sometime. The bend in it isn't random. Maybe you'll see what I spent three hundred years failing to see properly. Or maybe you'll just see a pretty piece of broken sky. Either is a fine way to carry it.\""
+      },
+      {
+        "greeting": "The cliff edge where the Pilgrim used to stand is empty — no tilted head, no murmured questions to the sky. Only a faint mark in the stone where someone stood, still, for a very long time.\n\nWherever they've gone, they've stopped staring upward and started, finally, walking somewhere with an ending in mind instead of just a direction."
+      }
+    ],
+    "epilogue": [
+      {
+        "greeting": "A trader on a far shard describes a stranger who didn't ask for passage, only stood at the rail the whole crossing, watching the seam through the rigging. They thanked the crew, oddly formally, for letting them watch."
+      },
+      {
+        "greeting": "Carved into a sea-cliff overlook, faint with weather: a spiral, and beneath it, in a hand too careful to be hurried, \"Still listening. Differently, now.\""
+      },
+      {
+        "greeting": "A frost-shard hermit recalls a visitor who asked, for once, ordinary questions — the weather, the road conditions, nothing about the sky at all. They seemed pleased by how unremarkable the conversation was."
+      },
+      {
+        "greeting": "A sliver of dark glass turns up traded between merchants for a story rather than coin, each seller swearing it shows you something different depending on how long you've spent looking at the Fracture yourself."
+      },
+      {
+        "greeting": "Someone left a single word scratched beside an old waystone, in the same careful hand as the cliff-carving: \"Patience.\" No one knows if it was advice or a name."
+      },
+      {
+        "greeting": "Travelers on the high passes report a figure who no longer stares at the sky as they walk, only checks it now and then, the way anyone might glance at familiar weather."
+      }
+    ]
   }
 }
