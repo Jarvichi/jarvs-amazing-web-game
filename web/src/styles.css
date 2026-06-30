@@ -15290,6 +15290,66 @@ html.light-mode .action-btn {
 .quests-modal__confirm-btns button:first-child { border-color: #cc5544; color: #cc5544; }
 .quests-modal__confirm-btns button:hover { opacity: 0.8; }
 
+/* ── Bounty Board ─────────────────────────────────────────────────────────── */
+.bounty-board-modal {
+  background: rgba(8, 14, 8, 0.97);
+  border: 1px solid #446644;
+  color: #c8e8c8;
+  padding: 20px;
+  width: min(420px, 92vw);
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 4px;
+  font-family: monospace;
+}
+.bounty-board-modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: #88cc88;
+  text-transform: uppercase;
+}
+.bounty-board-modal__meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  color: #557755;
+}
+.bounty-board-modal__close {
+  background: none;
+  border: none;
+  color: #557755;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0 2px;
+  line-height: 1;
+}
+.bounty-board-modal__close:hover { color: #88cc88; }
+.bounty-board-modal__section-label {
+  font-size: 10px;
+  color: #557755;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin: 12px 0 6px;
+}
+.bounty-board-modal__card {
+  border: 1px solid #2a4a2a;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  border-radius: 2px;
+}
+.bounty-board-modal__card--accepted  { border-color: #668844; }
+.bounty-board-modal__card--completed { opacity: 0.7; }
+.bounty-board-modal__title { font-size: 12px; font-weight: bold; margin-bottom: 4px; }
+.bounty-board-modal__title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.bounty-board-modal__title-row .bounty-board-modal__title { margin-bottom: 0; }
+.bounty-board-modal__desc   { font-size: 10px; color: #667766; font-style: italic; }
+.bounty-board-modal__reward { font-size: 10px; color: #88cc88; margin-top: 4px; }
+
 /* ── Town Directory ("Where is…?") ─────────────────────────────────────────── */
 .town-directory {
   background: rgba(8, 14, 8, 0.97);

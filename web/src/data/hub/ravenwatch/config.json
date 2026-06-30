@@ -9373,6 +9373,32 @@
       ]
     },
     {
+      "id": "ravenwatch-bounty-board",
+      "tx": 51,
+      "ty": 21,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "wantedPosterTop"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileId": "wantedPosterBottom"
+        }
+      ],
+      "indicator": {
+        "condition": "bounty-available"
+      },
+      "reactions": [
+        {
+          "type": "screen",
+          "screen": "bounty-board"
+        }
+      ]
+    },
+    {
       "id": "ravenwatch-church-key",
       "tx": 5,
       "ty": 5,
