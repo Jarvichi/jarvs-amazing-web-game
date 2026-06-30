@@ -1028,6 +1028,16 @@ export const BASE_CHIP_TILES = {
     potRedFlower: 1001,
     bombs: 1009,
     pairOfDaggers: 1010,
+
+        parkBenchLeft: 11018,
+    parkBenchMid: 11019,
+    parkBenchRight: 11020,
+
+        manacles: 20178,
+    harp: 20179,
+    ocorina: 20181,
+    horn: 20184,
+    candy: 20252,
   // ── Pictsquare2021 named tiles (globalId = 11000 + localTileIndex) ──
   wantedSign:          11001,   // localId 1
       palaceStepsTopLeft: 11183,

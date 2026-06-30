@@ -3,7 +3,7 @@ import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMateri
 import type { NpcActivity } from '../../data/hub/loader'
 
 
-export type ToolMode = 'select' | 'place' | 'delete' | 'street' | 'pond' | 'spawn' | 'chickenZone' | 'area'
+export type ToolMode = 'select' | 'place' | 'delete' | 'street' | 'pond' | 'bridge' | 'spawn' | 'chickenZone' | 'area'
 export type Zlayer = 'solid' | 'below' | 'above'
 export type ViewMode = 'exterior' | 'interior' | 'building'
 
@@ -207,6 +207,7 @@ export interface RawMapConfig {
   buildings?: RawBuilding[]
   exteriorDecor?: RawDecorItem[]
   pondTiles?: Array<{ rect?: number[]; tile?: number[] }>
+  bridgeTiles?: Array<{ rect?: number[]; tile?: number[] }>
   interiors?: Record<string, RawInterior>
   npcs?: RawNpc[]
   animals?: RawAnimal[]
@@ -253,6 +254,7 @@ export type SelectedEntity =
   | { type: 'buildingDoor';       buildingIndex: number; index: number }
   | { type: 'street'; index: number }
   | { type: 'pondTile'; index: number }
+  | { type: 'bridgeTile'; index: number }
   | { type: 'npcSpawnTile'; index: number }
   | { type: 'treasure'; index: number }
   | { type: 'pickupItem'; index: number }

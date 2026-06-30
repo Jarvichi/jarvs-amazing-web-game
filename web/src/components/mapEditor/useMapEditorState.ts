@@ -114,6 +114,19 @@ function applyMove(prevConfig: RawMapConfig, entity: SelectedEntity, tx: number,
       pondTiles[entity.index] = { ...entry, tile: [tx, ty] }
     } else return prevConfig
     newConfig = { ...prevConfig, pondTiles }
+  } else if (entity.type === 'bridgeTile') {
+    const bridgeTiles = [...(prevConfig.bridgeTiles ?? [])]
+    if (!bridgeTiles[entity.index]) return prevConfig
+    const entry = bridgeTiles[entity.index]
+    if (entry.rect) {
+      const [tx1, ty1, tx2, ty2] = entry.rect
+      const dx = tx - tx1, dy = ty - ty1
+      if (dx === 0 && dy === 0) return prevConfig
+      bridgeTiles[entity.index] = { ...entry, rect: [tx1 + dx, ty1 + dy, tx2 + dx, ty2 + dy] }
+    } else if (entry.tile) {
+      bridgeTiles[entity.index] = { ...entry, tile: [tx, ty] }
+    } else return prevConfig
+    newConfig = { ...prevConfig, bridgeTiles }
   } else if (entity.type === 'npcSpawnTile') {
     const npcSpawnTiles = [...(prevConfig.npcSpawnTiles ?? [])]
     if (!npcSpawnTiles[entity.index]) return prevConfig
@@ -380,6 +393,39 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
         ...s,
         configData: { ...prevConfig, pondTiles },
         selectedEntities: [{ type: 'pondTile' as const, index: newIndex }],
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const addBridgeTile = useCallback((tx1: number, ty1: number, tx2: number, ty2: number) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const entry = tx1 === tx2 && ty1 === ty2 ? { tile: [tx1, ty1] } : { rect: [tx1, ty1, tx2, ty2] }
+      const bridgeTiles = [...(prevConfig.bridgeTiles ?? []), entry]
+      const newIndex = bridgeTiles.length - 1
+      return {
+        ...s,
+        configData: { ...prevConfig, bridgeTiles },
+        selectedEntities: [{ type: 'bridgeTile' as const, index: newIndex }],
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const updateBridgeEntry = useCallback((index: number, data: { rect?: number[]; tile?: number[] }) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const bridgeTiles = [...(prevConfig.bridgeTiles ?? [])]
+      if (!bridgeTiles[index]) return s
+      bridgeTiles[index] = { ...bridgeTiles[index], ...data }
+      return {
+        ...s,
+        configData: { ...prevConfig, bridgeTiles },
         undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
         redoStack: [],
         isDirty: true,
@@ -1015,6 +1061,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
           }),
           streets:     (prevConfig.streets ?? []).map(e => e.rect ? { ...e, rect: shiftRect(e.rect) } : e.tile ? { ...e, tile: [e.tile[0] + dx, e.tile[1] + dy] } : e),
           pondTiles:   (prevConfig.pondTiles ?? []).map(e => e.rect ? { ...e, rect: shiftRect(e.rect) } : e.tile ? { ...e, tile: [e.tile[0] + dx, e.tile[1] + dy] } : e),
+          bridgeTiles: (prevConfig.bridgeTiles ?? []).map(e => e.rect ? { ...e, rect: shiftRect(e.rect) } : e.tile ? { ...e, tile: [e.tile[0] + dx, e.tile[1] + dy] } : e),
           treasures:   (prevConfig.treasures ?? []).map(t => ({ ...t, ...shiftTile(t.tx, t.ty) })),
           areas:       (prevConfig.areas ?? []).map(a => ({ ...a, ...shiftTile(a.tx, a.ty) })),
         } : {}),
@@ -1417,7 +1464,9 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     moveEntities,
     deleteEntities,
     addPondTile,
+    addBridgeTile,
     updatePondEntry,
+    updateBridgeEntry,
     addNpcSpawnTile,
     addChickenZone,
     addArea,

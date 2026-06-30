@@ -72,7 +72,7 @@
   "pondTiles": [
     {
       "rect": [
-        0,
+        -1,
         71,
         28,
         78
@@ -80,10 +80,10 @@
     },
     {
       "rect": [
-        27,
-        74,
-        47,
-        76
+        29,
+        71,
+        120,
+        78
       ]
     }
   ],
@@ -178,9 +178,9 @@
     },
     {
       "rect": [
-        30,
+        28,
         49,
-        86,
+        85,
         55
       ],
       "pathType": "grass1Dirt2"
@@ -216,6 +216,76 @@
         51,
         27
       ]
+    },
+    {
+      "tile": [
+        16,
+        41
+      ]
+    },
+    {
+      "tile": [
+        15,
+        63
+      ]
+    },
+    {
+      "rect": [
+        26,
+        51,
+        27,
+        53
+      ]
+    },
+    {
+      "rect": [
+        86,
+        51,
+        87,
+        53
+      ]
+    },
+    {
+      "tile": [
+        68,
+        41
+      ]
+    },
+    {
+      "tile": [
+        96,
+        41
+      ]
+    },
+    {
+      "tile": [
+        97,
+        27
+      ]
+    },
+    {
+      "tile": [
+        63,
+        13
+      ]
+    },
+    {
+      "tile": [
+        74,
+        13
+      ]
+    },
+    {
+      "tile": [
+        35,
+        13
+      ]
+    },
+    {
+      "tile": [
+        48,
+        13
+      ]
     }
   ],
   "buildings": [
@@ -223,10 +293,10 @@
       "id": "market-hall-crownhaven",
       "upgradeKind": "shop",
       "rect": [
-        26,
-        6,
-        40,
-        13
+        28,
+        5,
+        42,
+        12
       ],
       "wall": "brick",
       "roof": "redSlateRoof",
@@ -281,10 +351,10 @@
       "id": "bakery",
       "upgradeKind": "shop",
       "rect": [
-        42,
-        6,
-        50,
-        13
+        45,
+        5,
+        53,
+        12
       ],
       "wall": "renderedBrick",
       "roof": "yellowSlateRoof",
@@ -339,10 +409,10 @@
       "id": "jeweller",
       "upgradeKind": "shop",
       "rect": [
-        58,
-        6,
-        67,
-        13
+        59,
+        5,
+        68,
+        12
       ],
       "wall": "whiteStone",
       "roof": "blueSlateRoof",
@@ -397,10 +467,10 @@
       "id": "tailor",
       "upgradeKind": "shop",
       "rect": [
-        69,
-        6,
-        78,
-        13
+        70,
+        5,
+        79,
+        12
       ],
       "wall": "tudorFrame",
       "roof": "redSlateRoof",
@@ -513,9 +583,9 @@
       "id": "library",
       "upgradeKind": "default",
       "rect": [
-        26,
+        27,
         19,
-        37,
+        38,
         26
       ],
       "wall": "whiteStone",
@@ -629,10 +699,10 @@
       "id": "grand-inn",
       "upgradeKind": "inn",
       "rect": [
-        90,
-        20,
-        104,
-        27
+        91,
+        19,
+        105,
+        26
       ],
       "wall": "whiteStone",
       "roof": "blueSlateRoof",
@@ -687,10 +757,10 @@
       "id": "apothecary",
       "upgradeKind": "shop",
       "rect": [
-        10,
-        34,
-        18,
-        41
+        12,
+        33,
+        20,
+        40
       ],
       "wall": "tudorFrame",
       "roof": "greySlateRoof",
@@ -704,38 +774,38 @@
       ],
       "levelDecor": [
         {
-          "tx": 13,
-          "ty": 42,
+          "tx": 14,
+          "ty": 41,
           "tileId": "crate",
           "minLevel": 1
         },
         {
-          "tx": 15,
-          "ty": 42,
+          "tx": 18,
+          "ty": 41,
           "tileId": "barrel",
           "minLevel": 1
         },
         {
-          "tx": 12,
-          "ty": 42,
+          "tx": 13,
+          "ty": 41,
           "tileId": "pileOfSacks",
           "minLevel": 2
         },
         {
-          "tx": 16,
-          "ty": 42,
+          "tx": 19,
+          "ty": 41,
           "tileId": "crate",
           "minLevel": 2
         },
         {
-          "tx": 14,
-          "ty": 44,
+          "tx": 13,
+          "ty": 38,
           "tileId": "goldSign",
           "minLevel": 3
         },
         {
-          "tx": 13,
-          "ty": 43,
+          "tx": 15,
+          "ty": 41,
           "tileId": "goldChest",
           "minLevel": 3
         }
@@ -745,10 +815,10 @@
       "id": "theatre",
       "upgradeKind": "default",
       "rect": [
-        58,
-        34,
-        72,
-        41
+        62,
+        33,
+        76,
+        40
       ],
       "wall": "ornateStone",
       "roof": "redSlateRoof",
@@ -803,10 +873,10 @@
       "id": "noble-manor-1",
       "upgradeKind": "cottage",
       "rect": [
-        90,
-        34,
-        100,
-        41
+        91,
+        33,
+        101,
+        40
       ],
       "wall": "renderedBrick",
       "roof": "redSlateRoof",
@@ -861,10 +931,10 @@
       "id": "blacksmith",
       "upgradeKind": "workshop",
       "rect": [
-        10,
-        56,
-        19,
-        63
+        11,
+        55,
+        20,
+        62
       ],
       "wall": "castleStone",
       "roof": "metalRoof",
@@ -879,37 +949,37 @@
       "levelDecor": [
         {
           "tx": 13,
-          "ty": 64,
+          "ty": 63,
           "tileId": "crate",
           "minLevel": 1
         },
         {
-          "tx": 15,
-          "ty": 64,
+          "tx": 17,
+          "ty": 63,
           "tileId": "crate",
           "minLevel": 1
         },
         {
           "tx": 12,
-          "ty": 64,
+          "ty": 63,
           "tileId": "chest",
           "minLevel": 2
         },
         {
-          "tx": 16,
-          "ty": 64,
+          "tx": 20,
+          "ty": 63,
           "tileId": "barrel",
           "minLevel": 2
         },
         {
-          "tx": 14,
-          "ty": 66,
+          "tx": 12,
+          "ty": 60,
           "tileId": "armourSign",
           "minLevel": 3
         },
         {
-          "tx": 13,
-          "ty": 65,
+          "tx": 19,
+          "ty": 63,
           "tileId": "chest",
           "minLevel": 3
         }
@@ -1035,10 +1105,10 @@
       "id": "grand-bank",
       "upgradeKind": "shop",
       "rect": [
-        58,
-        72,
-        68,
-        79
+        40,
+        79,
+        50,
+        86
       ],
       "wall": "castleStone",
       "roof": "greySlateRoof",
@@ -1052,38 +1122,38 @@
       ],
       "levelDecor": [
         {
-          "tx": 62,
-          "ty": 80,
+          "tx": 48,
+          "ty": 87,
           "tileId": "crate",
           "minLevel": 1
         },
         {
-          "tx": 64,
-          "ty": 80,
+          "tx": 42,
+          "ty": 87,
           "tileId": "barrel",
           "minLevel": 1
         },
         {
-          "tx": 61,
-          "ty": 80,
+          "tx": 49,
+          "ty": 87,
           "tileId": "pileOfSacks",
           "minLevel": 2
         },
         {
-          "tx": 65,
-          "ty": 80,
+          "tx": 43,
+          "ty": 87,
           "tileId": "crate",
           "minLevel": 2
         },
         {
-          "tx": 63,
-          "ty": 82,
+          "tx": 49,
+          "ty": 84,
           "tileId": "goldSign",
           "minLevel": 3
         },
         {
-          "tx": 62,
-          "ty": 81,
+          "tx": 47,
+          "ty": 87,
           "tileId": "goldChest",
           "minLevel": 3
         }
@@ -1094,9 +1164,9 @@
       "upgradeKind": "workshop",
       "rect": [
         70,
-        72,
+        79,
         80,
-        79
+        86
       ],
       "wall": "reinforcedStone",
       "roof": "metalRoof",
@@ -1110,38 +1180,38 @@
       ],
       "levelDecor": [
         {
-          "tx": 74,
-          "ty": 80,
-          "tileId": "crate",
-          "minLevel": 1
-        },
-        {
-          "tx": 76,
-          "ty": 80,
-          "tileId": "crate",
-          "minLevel": 1
-        },
-        {
           "tx": 73,
-          "ty": 80,
+          "ty": 87,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 78,
+          "ty": 87,
+          "tileId": "crate",
+          "minLevel": 1
+        },
+        {
+          "tx": 74,
+          "ty": 87,
           "tileId": "chest",
           "minLevel": 2
         },
         {
           "tx": 77,
-          "ty": 80,
+          "ty": 87,
           "tileId": "barrel",
           "minLevel": 2
         },
         {
-          "tx": 75,
-          "ty": 82,
+          "tx": 71,
+          "ty": 84,
           "tileId": "armourSign",
           "minLevel": 3
         },
         {
-          "tx": 74,
-          "ty": 81,
+          "tx": 72,
+          "ty": 87,
           "tileId": "chest",
           "minLevel": 3
         }
@@ -1151,10 +1221,10 @@
       "id": "guardhouse",
       "upgradeKind": "workshop",
       "rect": [
-        90,
-        72,
-        104,
-        79
+        92,
+        79,
+        106,
+        86
       ],
       "wall": "castleStone",
       "roof": "greySlateRoof",
@@ -1168,38 +1238,38 @@
       ],
       "levelDecor": [
         {
-          "tx": 95,
-          "ty": 80,
+          "tx": 96,
+          "ty": 87,
           "tileId": "crate",
           "minLevel": 1
         },
         {
-          "tx": 97,
-          "ty": 80,
+          "tx": 101,
+          "ty": 87,
           "tileId": "crate",
           "minLevel": 1
         },
         {
-          "tx": 94,
-          "ty": 80,
+          "tx": 103,
+          "ty": 87,
           "tileId": "chest",
           "minLevel": 2
         },
         {
-          "tx": 98,
-          "ty": 80,
+          "tx": 102,
+          "ty": 87,
           "tileId": "barrel",
           "minLevel": 2
         },
         {
-          "tx": 96,
-          "ty": 82,
+          "tx": 93,
+          "ty": 84,
           "tileId": "armourSign",
           "minLevel": 3
         },
         {
           "tx": 95,
-          "ty": 81,
+          "ty": 87,
           "tileId": "chest",
           "minLevel": 3
         }
@@ -4591,7 +4661,7 @@
       "name": "Busker Lyle",
       "sprite": "hub-npc-merchant",
       "tx": 50,
-      "ty": 47,
+      "ty": 49,
       "dialogue": [
         "A copper for a tune? A crystal for a good one?",
         "Snapped three lute strings practising for the coronation. Three!",
@@ -4639,8 +4709,8 @@
       "name": "Herald Jana",
       "sprite": "hub-npc-soldier",
       "screen": "news",
-      "tx": 60,
-      "ty": 47,
+      "tx": 63,
+      "ty": 49,
       "dialogue": [
         "Hear ye! By order of the Chancellor — mind the proclamations.",
         "Lost half my scrolls to the wind. A herald with no words is just a loud nuisance.",
@@ -4690,8 +4760,8 @@
       "id": "guard-bryn",
       "name": "Guardsman Bryn",
       "sprite": "hub-npc-soldier",
-      "tx": 95,
-      "ty": 82,
+      "tx": 90,
+      "ty": 79,
       "dialogue": [
         "Captain's got me walking the south wall till my boots wear through.",
         "See anything suspicious, you tell me first, the captain second.",
@@ -4803,8 +4873,8 @@
       "id": "crownhaven-dealer",
       "name": "Gildric the Dealer",
       "sprite": "hub-npc-dealer",
-      "tx": 60,
-      "ty": 81,
+      "tx": 55,
+      "ty": 79,
       "screen": "casino",
       "dialogue": [
         "Care for a flutter? The capital's tables never close.",
@@ -4816,8 +4886,8 @@
       "id": "mint-coinwright",
       "name": "Coinwright Bessa",
       "sprite": "hub-npc-merchant",
-      "tx": 78,
-      "ty": 81,
+      "tx": 82,
+      "ty": 87,
       "screen": "crystalcatch",
       "dialogue": [
         "Quick hands at the mint? Test them — catch the falling crystals.",
@@ -4842,8 +4912,8 @@
       "id": "riverside-angler",
       "name": "Angler Marsh",
       "sprite": "hub-npc-fisherman",
-      "tx": 16,
-      "ty": 81,
+      "tx": 12,
+      "ty": 79,
       "screen": "fishing",
       "dialogue": [
         "The riverside pond's full of fish, if you've the patience. Cast a line?",
@@ -5115,17 +5185,6 @@
       "comment": "avenue lamp posts"
     },
     {
-      "tx": 7,
-      "ty": 7,
-      "tileId": "lampPostTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 7,
-      "ty": 8,
-      "tileId": "lampPostBottom"
-    },
-    {
       "tx": 26,
       "ty": 7,
       "tileId": "lampPostTop",
@@ -5167,17 +5226,6 @@
     {
       "tx": 109,
       "ty": 8,
-      "tileId": "lampPostBottom"
-    },
-    {
-      "tx": 7,
-      "ty": 19,
-      "tileId": "lampPostTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 7,
-      "ty": 20,
       "tileId": "lampPostBottom"
     },
     {
@@ -5431,28 +5479,6 @@
     {
       "tx": 109,
       "ty": 68,
-      "tileId": "lampPostBottom"
-    },
-    {
-      "tx": 7,
-      "ty": 91,
-      "tileId": "lampPostTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 7,
-      "ty": 92,
-      "tileId": "lampPostBottom"
-    },
-    {
-      "tx": 26,
-      "ty": 91,
-      "tileId": "lampPostTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 26,
-      "ty": 92,
       "tileId": "lampPostBottom"
     },
     {
@@ -5939,50 +5965,6 @@
       "comment": "Guard Quarter — braziers, walls & banners"
     },
     {
-      "tx": 88,
-      "ty": 81,
-      "tileId": "brazierTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 88,
-      "ty": 82,
-      "tileId": "brazierBottom"
-    },
-    {
-      "tx": 106,
-      "ty": 81,
-      "tileId": "brazierTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 106,
-      "ty": 82,
-      "tileId": "brazierBottom"
-    },
-    {
-      "tx": 70,
-      "ty": 81,
-      "tileId": "brazierTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 70,
-      "ty": 82,
-      "tileId": "brazierBottom"
-    },
-    {
-      "tx": 80,
-      "ty": 81,
-      "tileId": "brazierTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 80,
-      "ty": 82,
-      "tileId": "brazierBottom"
-    },
-    {
       "tx": 54,
       "ty": 90,
       "tileId": "stoneCityWallTop"
@@ -6133,190 +6115,101 @@
       "tileId": "stoneCityWallTop"
     },
     {
-      "tx": 72,
-      "ty": 70,
+      "tx": 77,
+      "ty": 85,
       "tileId": "wantedPosterTop",
       "zlayer": "above"
     },
     {
-      "tx": 72,
-      "ty": 71,
+      "tx": 77,
+      "ty": 86,
       "tileId": "wantedPosterBottom"
-    },
-    {
-      "tx": 90,
-      "ty": 70,
-      "tileId": "swordMountedLeft",
-      "zlayer": "above"
-    },
-    {
-      "tx": 92,
-      "ty": 70,
-      "tileId": "shieldMounted",
-      "zlayer": "above"
     },
     {
       "comment": "Riverside — pond edge, reeds & gardens"
     },
     {
-      "tx": 12,
-      "ty": 91,
+      "tx": 1,
+      "ty": 74,
       "tileId": "largeLilypad"
     },
     {
-      "tx": 13,
-      "ty": 93,
+      "tx": 5,
+      "ty": 77,
       "tileId": "smallLilypad"
     },
     {
       "tx": 15,
-      "ty": 91,
-      "tileId": "largeLilypad"
-    },
-    {
-      "tx": 16,
-      "ty": 93,
-      "tileId": "smallLilypad"
-    },
-    {
-      "tx": 18,
-      "ty": 91,
+      "ty": 76,
       "tileId": "largeLilypad"
     },
     {
       "tx": 19,
-      "ty": 93,
+      "ty": 77,
       "tileId": "smallLilypad"
     },
     {
-      "tx": 21,
-      "ty": 91,
+      "tx": 97,
+      "ty": 76,
       "tileId": "largeLilypad"
     },
     {
-      "tx": 22,
-      "ty": 93,
-      "tileId": "smallLilypad"
-    },
-    {
-      "tx": 24,
-      "ty": 91,
-      "tileId": "largeLilypad"
-    },
-    {
-      "tx": 25,
-      "ty": 93,
-      "tileId": "smallLilypad"
-    },
-    {
-      "tx": 27,
-      "ty": 91,
-      "tileId": "largeLilypad"
-    },
-    {
-      "tx": 28,
-      "ty": 93,
+      "tx": 12,
+      "ty": 72,
       "tileId": "smallLilypad"
     },
     {
       "tx": 30,
-      "ty": 91,
+      "ty": 74,
       "tileId": "largeLilypad"
     },
     {
-      "tx": 31,
-      "ty": 93,
+      "tx": 49,
+      "ty": 72,
       "tileId": "smallLilypad"
     },
     {
-      "tx": 33,
-      "ty": 91,
+      "tx": 66,
+      "ty": 75,
+      "tileId": "largeLilypad"
+    },
+    {
+      "tx": 49,
+      "ty": 77,
+      "tileId": "smallLilypad"
+    },
+    {
+      "tx": 41,
+      "ty": 76,
       "tileId": "largeLilypad"
     },
     {
       "tx": 34,
-      "ty": 93,
+      "ty": 77,
       "tileId": "smallLilypad"
     },
     {
-      "tx": 10,
-      "ty": 88,
-      "tileId": "spikyPlantTop",
-      "zlayer": "above"
+      "tx": 74,
+      "ty": 73,
+      "tileId": "largeLilypad"
     },
     {
-      "tx": 10,
-      "ty": 89,
-      "tileId": "spikyPlantBottom"
+      "tx": 43,
+      "ty": 73,
+      "tileId": "smallLilypad"
     },
     {
-      "tx": 14,
-      "ty": 88,
-      "tileId": "spikyPlantTop",
-      "zlayer": "above"
+      "tx": 52,
+      "ty": 74,
+      "tileId": "largeLilypad"
     },
     {
-      "tx": 14,
-      "ty": 89,
-      "tileId": "spikyPlantBottom"
+      "tx": 78,
+      "ty": 76,
+      "tileId": "smallLilypad"
     },
     {
-      "tx": 18,
-      "ty": 88,
-      "tileId": "spikyPlantTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 18,
-      "ty": 89,
-      "tileId": "spikyPlantBottom"
-    },
-    {
-      "tx": 22,
-      "ty": 88,
-      "tileId": "spikyPlantTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 22,
-      "ty": 89,
-      "tileId": "spikyPlantBottom"
-    },
-    {
-      "tx": 26,
-      "ty": 88,
-      "tileId": "spikyPlantTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 26,
-      "ty": 89,
-      "tileId": "spikyPlantBottom"
-    },
-    {
-      "tx": 30,
-      "ty": 88,
-      "tileId": "spikyPlantTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 30,
-      "ty": 89,
-      "tileId": "spikyPlantBottom"
-    },
-    {
-      "tx": 34,
-      "ty": 88,
-      "tileId": "spikyPlantTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 34,
-      "ty": 89,
-      "tileId": "spikyPlantBottom"
-    },
-    {
-      "tx": 6,
+      "tx": 5,
       "ty": 70,
       "bundleID": "autumn-tree",
       "zlayer": "solid"
@@ -6328,28 +6221,13 @@
       "zlayer": "solid"
     },
     {
-      "tx": 22,
-      "ty": 87,
-      "tileId": "boardwalkHorizontal"
-    },
-    {
-      "tx": 23,
-      "ty": 87,
-      "tileId": "boardwalkHorizontal"
-    },
-    {
-      "tx": 24,
-      "ty": 87,
-      "tileId": "boardwalkHorizontal"
-    },
-    {
       "tx": 8,
       "ty": 68,
       "tileId": "cropRose"
     },
     {
-      "tx": 9,
-      "ty": 70,
+      "tx": 11,
+      "ty": 79,
       "tileId": "potOfFlowers"
     },
     {
@@ -6564,6 +6442,516 @@
       "ty": 56,
       "bundleID": "bench",
       "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 70,
+      "tileId": "bridgeVertTopLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 10,
+      "ty": 70,
+      "tileId": "bridgeVertTopRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 8,
+      "ty": 70,
+      "tileId": "bridgeVertTopMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 70,
+      "tileId": "bridgeVertTopMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 8,
+      "ty": 79,
+      "tileId": "bridgeVertBotMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 79,
+      "tileId": "bridgeVertBotMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 10,
+      "ty": 79,
+      "tileId": "bridgeVertBotRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 79,
+      "tileId": "bridgeVertBotLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 71,
+      "tileId": "bridgeVertMidLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 71,
+      "tileId": "bridgeVertMidLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 72,
+      "tileId": "bridgeVertMidLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 72,
+      "tileId": "bridgeVertMidLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 73,
+      "tileId": "bridgeVertMidLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 73,
+      "tileId": "bridgeVertMidLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 74,
+      "tileId": "bridgeVertMidLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 74,
+      "tileId": "bridgeVertMidLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 75,
+      "tileId": "bridgeVertMidLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 75,
+      "tileId": "bridgeVertMidLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 76,
+      "tileId": "bridgeVertMidLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 76,
+      "tileId": "bridgeVertMidLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 77,
+      "tileId": "bridgeVertMidLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 77,
+      "tileId": "bridgeVertMidLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 78,
+      "tileId": "bridgeVertMidLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 78,
+      "tileId": "bridgeVertMidLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 8,
+      "ty": 71,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 8,
+      "ty": 71,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 71,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 71,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 8,
+      "ty": 72,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 8,
+      "ty": 72,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 72,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 72,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 8,
+      "ty": 73,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 8,
+      "ty": 73,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 73,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 73,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 8,
+      "ty": 74,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 8,
+      "ty": 74,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 74,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 74,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 8,
+      "ty": 75,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 8,
+      "ty": 75,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 75,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 75,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 8,
+      "ty": 76,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 8,
+      "ty": 76,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 77,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 77,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 76,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 76,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 8,
+      "ty": 77,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 8,
+      "ty": 77,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 8,
+      "ty": 78,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 8,
+      "ty": 78,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 78,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 9,
+      "ty": 78,
+      "tileId": "bridgeVertMidMid",
+      "zlayer": "below"
+    },
+    {
+      "tx": 10,
+      "ty": 71,
+      "tileId": "bridgeVertMidRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 10,
+      "ty": 71,
+      "tileId": "bridgeVertMidRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 10,
+      "ty": 73,
+      "tileId": "bridgeVertMidRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 10,
+      "ty": 73,
+      "tileId": "bridgeVertMidRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 10,
+      "ty": 72,
+      "tileId": "bridgeVertMidRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 10,
+      "ty": 72,
+      "tileId": "bridgeVertMidRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 10,
+      "ty": 74,
+      "tileId": "bridgeVertMidRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 10,
+      "ty": 74,
+      "tileId": "bridgeVertMidRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 10,
+      "ty": 75,
+      "tileId": "bridgeVertMidRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 10,
+      "ty": 75,
+      "tileId": "bridgeVertMidRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 10,
+      "ty": 76,
+      "tileId": "bridgeVertMidRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 10,
+      "ty": 76,
+      "tileId": "bridgeVertMidRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 10,
+      "ty": 77,
+      "tileId": "bridgeVertMidRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 10,
+      "ty": 77,
+      "tileId": "bridgeVertMidRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 10,
+      "ty": 78,
+      "tileId": "bridgeVertMidRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 10,
+      "ty": 78,
+      "tileId": "bridgeVertMidRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 23,
+      "ty": 79,
+      "bundleID": "bridge4x9",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 55,
+      "ty": 79,
+      "bundleID": "bridge4x9",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 87,
+      "ty": 79,
+      "bundleID": "bridge4x9",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 87,
+      "ty": 79,
+      "bundleID": "bridge4x9",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 109,
+      "ty": 79,
+      "bundleID": "bridge4x9",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 109,
+      "ty": 79,
+      "bundleID": "bridge4x9",
+      "zlayer": "solid"
+    }
+  ],
+  "bridgeTiles": [
+    {
+      "rect": [
+        8,
+        70,
+        9,
+        79
+      ]
+    },
+    {
+      "rect": [
+        24,
+        70,
+        25,
+        79
+      ]
+    },
+    {
+      "rect": [
+        56,
+        70,
+        57,
+        79
+      ]
+    },
+    {
+      "rect": [
+        88,
+        70,
+        89,
+        79
+      ]
+    },
+    {
+      "rect": [
+        110,
+        70,
+        111,
+        79
+      ]
     }
   ]
 }

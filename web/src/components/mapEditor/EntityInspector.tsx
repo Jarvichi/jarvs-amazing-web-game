@@ -120,6 +120,8 @@ interface Props {
   onConvertPondToStreet?:       (index: number) => void
   onUpdatePondEntry?:           (index: number, data: { rect?: number[]; tile?: number[] }) => void
   onDeletePondTile?:            (index: number) => void
+  onUpdateBridgeEntry?:         (index: number, data: { rect?: number[]; tile?: number[] }) => void
+  onDeleteBridgeTile?:          (index: number) => void
   onDeleteNpcSpawnTile?:        (index: number) => void
 }
 
@@ -2161,6 +2163,61 @@ function PondInspector({
   )
 }
 
+function BridgeInspector({
+  entry, onUpdate, onDelete,
+}: {
+  entry: { rect?: number[]; tile?: number[] }
+  onUpdate: (data: { rect?: number[]; tile?: number[] }) => void
+  onDelete: () => void
+}) {
+  const r = entry.rect
+  const t = entry.tile
+  return (
+    <div>
+      {r ? (
+        <>
+          <Field label="Top-left">
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+              <label style={{ fontSize: 11, color: '#888' }}>X</label>
+              {numInput(r[0], v => onUpdate({ rect: [v, r[1], r[2], r[3]] }))}
+              <label style={{ fontSize: 11, color: '#888' }}>Y</label>
+              {numInput(r[1], v => onUpdate({ rect: [r[0], v, r[2], r[3]] }))}
+            </div>
+          </Field>
+          <Field label="Bottom-right">
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+              <label style={{ fontSize: 11, color: '#888' }}>X</label>
+              {numInput(r[2], v => onUpdate({ rect: [r[0], r[1], v, r[3]] }))}
+              <label style={{ fontSize: 11, color: '#888' }}>Y</label>
+              {numInput(r[3], v => onUpdate({ rect: [r[0], r[1], r[2], v] }))}
+            </div>
+          </Field>
+          <Field label="Size">
+            <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#666' }}>
+              {r[2]-r[0]+1} × {r[3]-r[1]+1} tiles
+            </span>
+          </Field>
+        </>
+      ) : t ? (
+        <Field label="Position">
+          <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+            <label style={{ fontSize: 11, color: '#888' }}>X</label>
+            {numInput(t[0], v => onUpdate({ tile: [v, t[1]] }))}
+            <label style={{ fontSize: 11, color: '#888' }}>Y</label>
+            {numInput(t[1], v => onUpdate({ tile: [t[0], v] }))}
+          </div>
+        </Field>
+      ) : null}
+      <button
+        onClick={onDelete}
+        style={{ width: '100%', padding: '6px 0', background: '#5a1a1a', border: '1px solid #922', color: '#f88', cursor: 'pointer', borderRadius: 3, fontSize: 12, marginTop: 4 }}
+      >
+        Delete Bridge Entry
+      </button>
+    </div>
+  )
+}
+
 function SpawnTileInspector({
   tile, onMove, onDelete,
 }: {
@@ -2205,7 +2262,9 @@ export function EntityInspector({
   onAddTreasure, onAddInteractable, onAddBlockedPath,
   onDeleteEntities, onBatchUpdateZlayer, onBatchUpdateStreetPathType, onSaveAsBundle, onUpdateDecorTileId, onReorderDecor,
   onConvertStreetToPond, onConvertPondToStreet,
-  onUpdatePondEntry, onDeletePondTile, onDeleteNpcSpawnTile,
+  onUpdatePondEntry, onDeletePondTile,
+  onUpdateBridgeEntry, onDeleteBridgeTile,
+  onDeleteNpcSpawnTile,
 }: Props) {
   // Existing sub-inspectors operate on a single entity; multi-select shows a
   // dedicated batch panel instead (handled below).
@@ -2645,6 +2704,23 @@ export function EntityInspector({
             onUpdate={data => onUpdatePondEntry?.(selectedEntity.index, data)}
             onDelete={() => onDeletePondTile?.(selectedEntity.index)}
             onConvertToStreet={() => onConvertPondToStreet?.(selectedEntity.index)}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  if (selectedEntity.type === 'bridgeTile') {
+    const entry = (configData.bridgeTiles ?? [])[selectedEntity.index]
+    if (!entry) return null
+    return (
+      <div style={panelStyle}>
+        <div style={headerStyle}>Bridge Tile #{selectedEntity.index}</div>
+        <div style={bodyStyle}>
+          <BridgeInspector
+            entry={entry}
+            onUpdate={data => onUpdateBridgeEntry?.(selectedEntity.index, data)}
+            onDelete={() => onDeleteBridgeTile?.(selectedEntity.index)}
           />
         </div>
       </div>

@@ -44,7 +44,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
     openInterior, closeInterior, openBuildingEditor, closeBuildingEditor, placeBuildingDoor,
     selectEntities, addToSelection,
     placeDecor, moveEntities, deleteEntities,
-    addPondTile, updatePondEntry, addNpcSpawnTile, addChickenZone, addArea,
+    addPondTile, addBridgeTile, updatePondEntry, updateBridgeEntry, addNpcSpawnTile, addChickenZone, addArea,
     convertStreetToPond, convertPondToStreet,
     batchUpdateZlayer, batchUpdateStreetPathType,
     updateDecorZlayer, updateDecorTileId, reorderDecor, updateGlow, updateDecorMinLevel, updateDecorHideAtLevel, updateBuildingLevelVisual, updateBuilding, addNpc, updateNpcDialogue, updateNpc,
@@ -339,6 +339,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
             onDeleteEntities={handleDeleteEntities}
             onAddStreet={addStreet}
             onAddPondTile={addPondTile}
+            onAddBridgeTile={addBridgeTile}
             onAddNpcSpawnTile={addNpcSpawnTile}
             onAddChickenZone={addChickenZone}
             onAddArea={addArea}
@@ -420,6 +421,8 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
               onConvertPondToStreet={convertPondToStreet}
               onUpdatePondEntry={updatePondEntry}
               onDeletePondTile={i => deleteEntities([{ type: 'pondTile', index: i }])}
+              onUpdateBridgeEntry={updateBridgeEntry}
+              onDeleteBridgeTile={i => deleteEntities([{ type: 'bridgeTile', index: i }])}
               onDeleteNpcSpawnTile={i => deleteEntities([{ type: 'npcSpawnTile', index: i }])}
             />
           </div>

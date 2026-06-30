@@ -125,7 +125,7 @@ export function HubTownCanvas({
     HUB_AREAS, HUB_BUILDINGS,
     HUB_STREET_GROUPS,
     HUB_STREET_TILES,
-    EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES,
+    EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES, HUB_BRIDGE_TILES,
     HUB_FESTIVAL_DECOR,
     HUB_DOORS, HUB_INTERIORS, EXTERIOR_NPCS, INTERIOR_NPCS,
     NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES,
@@ -283,6 +283,11 @@ export function HubTownCanvas({
     for (const d of [...EXTERIOR_DECOR, ..._solidFestivalDecor])
       if (d.zlayer === 'solid') solidDecorSet.add(`${d.tx},${d.ty}`)
     for (const k of solidDecorSet) pathSet.delete(k)
+
+    // Bridge tiles are walkable regardless of any solid decor on top (e.g. the
+    // bridge sprite itself is tagged solid so it blocks ground-level routing).
+    // Add them after the solid-decor sweep so they can't be deleted by it.
+    for (const [tx, ty] of HUB_BRIDGE_TILES) pathSet.add(`${tx},${ty}`)
 
     // Currently-visible blocked-path obstructions (quest-gated barrels + guard
     // NPCs). Dynamic: depends on quest completion, so it's refreshed each frame
@@ -2263,8 +2268,10 @@ export function HubTownCanvas({
       for (let tx = x1; tx <= x2; tx++) animalRoofTiles.push([tx, y1])
     }
     const animalGetWalkable = (): Set<string> => exteriorWalkable()
-    // Tiles cats may not pad across when roaming off the paths.
-    const animalPondSet = new Set(HUB_POND_TILES.map(([tx, ty]) => `${tx},${ty}`))
+    // Tiles cats may not pad across when roaming off the paths. Bridge tiles are
+    // excluded so animals can cross them just like street tiles.
+    const bridgeSet = new Set(HUB_BRIDGE_TILES.map(([tx, ty]) => `${tx},${ty}`))
+    const animalPondSet = new Set(HUB_POND_TILES.filter(([tx, ty]) => !bridgeSet.has(`${tx},${ty}`)).map(([tx, ty]) => `${tx},${ty}`))
     const animalIsSolid = (tx: number, ty: number): boolean =>
       tx < 0 || ty < 0 || tx >= MAP_W / T || ty >= MAP_H / T ||
       buildingSet.has(`${tx},${ty}`) || animalPondSet.has(`${tx},${ty}`) ||

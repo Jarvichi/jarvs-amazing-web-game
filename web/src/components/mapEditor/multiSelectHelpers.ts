@@ -72,6 +72,9 @@ export function applyDeleteEntities(config: RawMapConfig, entities: SelectedEnti
   const ponds = indexSet(entities, 'pondTile')
   if (ponds.size) c = { ...c, pondTiles: (c.pondTiles ?? []).filter((_, i) => !ponds.has(i)) }
 
+  const bridges = indexSet(entities, 'bridgeTile')
+  if (bridges.size) c = { ...c, bridgeTiles: (c.bridgeTiles ?? []).filter((_, i) => !bridges.has(i)) }
+
   const spawns = indexSet(entities, 'npcSpawnTile')
   if (spawns.size) c = { ...c, npcSpawnTiles: (c.npcSpawnTiles ?? []).filter((_, i) => !spawns.has(i)) }
 

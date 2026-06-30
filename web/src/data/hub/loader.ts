@@ -317,6 +317,7 @@ export interface HubLocationBundle {
   HUB_FESTIVAL_DECOR: Array<{ festivalId: string; decor: any[] }>
   HUB_WINDOWS: any[]
   HUB_POND_TILES: [number, number][]
+  HUB_BRIDGE_TILES: [number, number][]
   HUB_DOORS: HubDoor[]
   HUB_INTERIORS: Record<string, HubInterior>
   HUB_NPCS: HubNpc[]
@@ -535,6 +536,10 @@ const HUB_POND_TILES: [number, number][] = expandTiles(
   ((rawConfig as unknown as { pondTiles?: RawPondEntry[] }).pondTiles ?? []) as TileEntry[]
 )
 
+const HUB_BRIDGE_TILES: [number, number][] = expandTiles(
+  ((rawConfig as unknown as { bridgeTiles?: RawPondEntry[] }).bridgeTiles ?? []) as TileEntry[]
+)
+
 const HUB_DOORS: HubDoor[] = [...((rawConfig as unknown as { doors?: HubDoor[] }).doors ?? []), ..._nestedDoors]
 
 const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
@@ -717,6 +722,7 @@ type RawExitTile = { tx: number; ty: number; screen: string }
     HUB_FESTIVAL_DECOR,
     HUB_WINDOWS,
     HUB_POND_TILES,
+    HUB_BRIDGE_TILES,
     HUB_DOORS,
     HUB_INTERIORS,
     HUB_NPCS,

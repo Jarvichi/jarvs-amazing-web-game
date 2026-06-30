@@ -102,6 +102,7 @@ interface Props {
   onDeleteEntities: (entities: SelectedEntity[]) => void
   onAddStreet:        (tx1: number, ty1: number, tx2: number, ty2: number) => void
   onAddPondTile:      (tx1: number, ty1: number, tx2: number, ty2: number) => void
+  onAddBridgeTile:    (tx1: number, ty1: number, tx2: number, ty2: number) => void
   onAddNpcSpawnTile:  (tx: number, ty: number) => void
   onAddChickenZone:   (tx1: number, ty1: number, tx2: number, ty2: number) => void
   onAddArea:           (tx1: number, ty1: number, tx2: number, ty2: number) => void
@@ -150,7 +151,7 @@ export function MapEditorCanvas(props: Props) {
 
   // Clear rect draw when tool switches away from a rect-draw tool
   useEffect(() => {
-    const rectTools: ToolMode[] = ['street', 'pond', 'chickenZone', 'area']
+    const rectTools: ToolMode[] = ['street', 'pond', 'bridge', 'chickenZone', 'area']
     if (!rectTools.includes(tool)) {
       rectDrawRef.current = null
       setRectPreview(null)
@@ -259,7 +260,7 @@ export function MapEditorCanvas(props: Props) {
           propsRef.current.onDeleteEntities([entity])
           propsRef.current.onSelectEntities([])
         }
-      } else if (vm !== 'building' && (t === 'street' || t === 'pond' || t === 'chickenZone' || t === 'area')) {
+      } else if (vm !== 'building' && (t === 'street' || t === 'pond' || t === 'bridge' || t === 'chickenZone' || t === 'area')) {
         rectDrawRef.current = { startTx: tx, startTy: ty, lastTx: tx, lastTy: ty }
         setRectPreviewRef.current({ sx: tx, sy: ty, ex: tx, ey: ty })
       } else if (t === 'spawn') {
@@ -310,6 +311,7 @@ export function MapEditorCanvas(props: Props) {
         const { tool: t } = propsRef.current
         if      (t === 'street')      propsRef.current.onAddStreet(tx1, ty1, tx2, ty2)
         else if (t === 'pond')        propsRef.current.onAddPondTile(tx1, ty1, tx2, ty2)
+        else if (t === 'bridge')      propsRef.current.onAddBridgeTile(tx1, ty1, tx2, ty2)
         else if (t === 'chickenZone') propsRef.current.onAddChickenZone(tx1, ty1, tx2, ty2)
         else if (t === 'area')        propsRef.current.onAddArea(tx1, ty1, tx2, ty2)
         rectDrawRef.current = null
@@ -417,6 +419,22 @@ export function MapEditorCanvas(props: Props) {
       })
       stage.addChild(catcher)
     }
+
+    // Place-mode overlay — same idea: sits above all entity sprites so placing
+    // decor on an already-occupied tile always fires onPlaceDecor rather than
+    // selecting the existing sprite underneath.
+    if (tool === 'place' && (activeTileId || activeBundleId)) {
+      const placeCatcher = new PIXI.Graphics()
+      placeCatcher.rect(0, 0, mapW, mapH).fill({ color: 0x000000, alpha: 0.001 })
+      placeCatcher.eventMode = 'static'
+      placeCatcher.cursor = 'copy'
+      placeCatcher.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+        const { x: ox, y: oy } = worldOriginRef.current
+        const pos = e.getLocalPosition(stage)
+        propsRef.current.onPlaceDecor(Math.floor((pos.x - ox) / T), Math.floor((pos.y - oy) / T))
+      })
+      stage.addChild(placeCatcher)
+    }
   })
 
   // ── Exterior rendering ─────────────────────────────────────────────────────────
@@ -457,6 +475,24 @@ export function MapEditorCanvas(props: Props) {
       gfx.eventMode = 'static'; gfx.cursor = 'pointer'
       gfx.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
         handleEntityPointerDown(e, { type: 'pondTile', index: pIdx }, anchorTx, anchorTy))
+      streetLayer.addChild(gfx)
+    })
+
+    // Bridge tiles — tan overlay, walkable crossing over pond
+    ;(configData.bridgeTiles ?? []).forEach((bridge, bIdx) => {
+      const isSel = isEntitySelected({ type: 'bridgeTile', index: bIdx })
+      const gfx = new PIXI.Graphics()
+      for (const [btx, bty] of expandEntries([bridge]))
+        gfx.rect(btx * T, bty * T, T, T).fill(0xb8955a)
+      if (isSel) {
+        for (const [btx, bty] of expandEntries([bridge]))
+          selLayer.rect(btx * T - 1, bty * T - 1, T + 2, T + 2).stroke({ color: 0xf0c040, width: 2 })
+      }
+      const anchorTx = bridge.rect?.[0] ?? bridge.tile?.[0] ?? 0
+      const anchorTy = bridge.rect?.[1] ?? bridge.tile?.[1] ?? 0
+      gfx.eventMode = 'static'; gfx.cursor = 'pointer'
+      gfx.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
+        handleEntityPointerDown(e, { type: 'bridgeTile', index: bIdx }, anchorTx, anchorTy))
       streetLayer.addChild(gfx)
     })
 
@@ -1589,6 +1625,17 @@ function hitTest(
       return { type: 'pondTile', index: i }
     }
   }
+  const bridgeTiles = cfg.bridgeTiles ?? []
+  for (let i = bridgeTiles.length - 1; i >= 0; i--) {
+    const entry = bridgeTiles[i]
+    if (entry.rect) {
+      const [tx1, ty1, tx2, ty2] = entry.rect
+      if (tx >= tx1 && tx <= tx2 && ty >= ty1 && ty <= ty2)
+        return { type: 'bridgeTile', index: i }
+    } else if (entry.tile && entry.tile[0] === tx && entry.tile[1] === ty) {
+      return { type: 'bridgeTile', index: i }
+    }
+  }
   const spawnTiles = cfg.npcSpawnTiles ?? []
   for (let i = spawnTiles.length - 1; i >= 0; i--) {
     if (spawnTiles[i][0] === tx && spawnTiles[i][1] === ty) return { type: 'npcSpawnTile', index: i }
@@ -1650,6 +1697,10 @@ function getEntityTx(cfg: RawMapConfig, entity: SelectedEntity): number {
     const e = cfg.pondTiles?.[entity.index]
     return e?.rect?.[0] ?? e?.tile?.[0] ?? 0
   }
+  if (entity.type === 'bridgeTile') {
+    const e = cfg.bridgeTiles?.[entity.index]
+    return e?.rect?.[0] ?? e?.tile?.[0] ?? 0
+  }
   if (entity.type === 'npcSpawnTile') return cfg.npcSpawnTiles?.[entity.index]?.[0] ?? 0
   if (entity.type === 'chickenZone') return cfg.chickenZones?.[entity.index]?.rect?.[0] ?? 0
   if (entity.type === 'interactable') return cfg.interactables?.[entity.index]?.tx ?? 0
@@ -1699,6 +1750,10 @@ function getEntityTy(cfg: RawMapConfig, entity: SelectedEntity): number {
   }
   if (entity.type === 'pondTile') {
     const e = cfg.pondTiles?.[entity.index]
+    return e?.rect?.[1] ?? e?.tile?.[1] ?? 0
+  }
+  if (entity.type === 'bridgeTile') {
+    const e = cfg.bridgeTiles?.[entity.index]
     return e?.rect?.[1] ?? e?.tile?.[1] ?? 0
   }
   if (entity.type === 'npcSpawnTile') return cfg.npcSpawnTiles?.[entity.index]?.[1] ?? 0
