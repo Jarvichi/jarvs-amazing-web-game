@@ -1701,13 +1701,13 @@
       "tx": 13,
       "ty": 56,
       "tileId": "bridgeVertTopMid",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 14,
       "ty": 56,
       "tileId": "bridgeVertTopMid",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 15,
@@ -1731,25 +1731,25 @@
       "tx": 13,
       "ty": 57,
       "tileId": "bridgeVertMidMid",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 14,
       "ty": 57,
       "tileId": "bridgeVertMidMid",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 13,
       "ty": 58,
       "tileId": "bridgeVertMidMid",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 14,
       "ty": 58,
       "tileId": "bridgeVertMidMid",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 15,
@@ -1773,13 +1773,13 @@
       "tx": 13,
       "ty": 59,
       "tileId": "bridgeVertBotMid",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 14,
       "ty": 59,
       "tileId": "bridgeVertBotMid",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 15,
@@ -4265,5 +4265,15 @@
       ]
     }
   ],
-  "treasures": []
+  "treasures": [],
+  "bridgeTiles": [
+    {
+      "rect": [
+        13,
+        55,
+        14,
+        59
+      ]
+    }
+  ]
 }

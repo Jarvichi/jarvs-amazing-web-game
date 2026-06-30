@@ -6879,37 +6879,25 @@
       "tx": 23,
       "ty": 79,
       "bundleID": "bridge4x9",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 55,
       "ty": 79,
       "bundleID": "bridge4x9",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 87,
       "ty": 79,
       "bundleID": "bridge4x9",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 87,
-      "ty": 79,
-      "bundleID": "bridge4x9",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 109,
       "ty": 79,
       "bundleID": "bridge4x9",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 109,
-      "ty": 79,
-      "bundleID": "bridge4x9",
-      "zlayer": "solid"
+      "zlayer": "below"
     }
   ],
   "bridgeTiles": [
