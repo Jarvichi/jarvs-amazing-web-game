@@ -46,7 +46,7 @@ import { MysteryScreen } from './components/campaign/MysteryScreen'
 import { MemoryFragmentScreen } from './components/campaign/MemoryFragmentScreen'
 import { MemoryFragment, isFragmentDiscovered, markFragmentDiscovered, isHubWorldUnlocked, unlockHubWorld, areAllCampaignFragmentsDiscovered, loadHubDefault, saveHubDefault } from './game/codex'
 import { CharacterEncounterScreen } from './components/campaign/CharacterEncounterScreen'
-import { CharacterChoice, recordCharacterEncounter } from './game/characters'
+import { CharacterChoice, recordCharacterEncounter, getCharacterEncounterChance } from './game/characters'
 import memoryFragmentsData from './data/memoryFragments.json'
 import { ItemFoundScreen }    from './components/modals/ItemFoundScreen'
 import { CharacterScreen }    from './components/screens/CharacterScreen'
@@ -1204,7 +1204,7 @@ export default function App() {
     saveRun(updatedRun)
     setRun(updatedRun)
 
-    if (node.characterEncounter) {
+    if (node.characterEncounter && Math.random() < getCharacterEncounterChance(node.characterEncounter)) {
       setActiveCharacterEncounter({ nodeId: node.id, characterId: node.characterEncounter })
       setScreen('characterEncounter')
       return

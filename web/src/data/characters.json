@@ -110,6 +110,7 @@
     "name": "Mira",
     "title": "The Chronicler",
     "icon": "✦",
+    "encounterChance": 0.45,
     "encounters": [
       {
         "greeting": "A woman in a grey coat steps out of the shadows near the path. She's carrying too many notebooks.\n\n\"You found one.\" She nods at the fragment. \"I'm Mira — I was an archivist for the Dominion before the Fracture scattered everything. I've been collecting evidence ever since. Testimonies, sensor logs, what the trees remember.\" She studies you. \"You're going further in, aren't you? Towards the Core?\" A pause. \"Would you share what you find? I'm trying to understand what happened to all of us.\""
@@ -125,6 +126,104 @@
       },
       {
         "greeting": "She looks calmer now. Resolved.\n\n\"I've published the findings. Sent copies to every settlement I can reach.\" She adjusts her notebooks. \"Most people won't believe it. Some will. That's enough.\" She meets your eyes. \"Be careful near the Core. The Engine responds to ley disturbances — and you're heading straight into the largest one remaining. It may notice you.\" A pause. \"I'll be here when you come back. Assuming you do.\""
+      },
+      {
+        "greeting": "A small crowd has gathered near her usual spot — the first time you've seen her with company. She waves you over once they thin out.\n\n\"Word's getting around faster than I expected.\" She looks pleased and unsettled in equal measure. \"Half the people who read it think I've lost my mind. The other half won't stop sending me their own notes — sightings, journals, things they'd been too afraid to report.\" She taps a thick new stack of pages. \"Either way, nobody's ignoring it. That's more than I hoped for.\""
+      },
+      {
+        "greeting": "She's tucked into the shade, writing fast, and doesn't look up right away.\n\n\"A scribe from the western settlements pulled me aside yesterday.\" Her pen stops. \"Told me, very quietly, that someone official had been asking after my notes. Not buying copies — asking who else had read them, and where I'd be next.\" She sets the pen down. \"I told her I wasn't going to stop. She told me to be careful who I told that to.\""
+      },
+      {
+        "greeting": "She's recounting her notebooks when you arrive, frowning hard at a gap in the pages.\n\n\"Three entries gone. Not lost — removed. Clean cuts, no torn edges.\" She closes the book slowly. \"I've started keeping copies in places I don't tell anyone about. Including you, for what it's worth.\" A thin smile. \"No offence. I like you. I just like being right more.\""
+      },
+      {
+        "greeting": "She looks up at you and there's something steadier in her now, like a decision already made.\n\n\"I'm not going to be frightened out of this.\" She starts packing her notebooks with new purpose. \"If someone wants my notes badly enough to go through scribes and missing pages, then I'm closer to something than I thought. That's not a reason to stop. That's confirmation.\" She meets your eyes. \"I need to know who built the architecture under the Engine. Not the Dominion. Before the Dominion.\""
+      },
+      {
+        "greeting": "She has maps now, not just notebooks — old ones, stitched together from fragments that shouldn't match.\n\n\"The regulating architecture under the ley network predates every Dominion record I can find. Not by years. By an age.\" She traces a line across two mismatched borders. \"Whoever built it wasn't us. Wasn't anyone the Dominion ever wrote down.\" She looks up, half excited, half afraid of the thought. \"I don't know what that makes the people who repurposed it into the Engine. Inheritors. Or trespassers.\""
+      },
+      {
+        "greeting": "She's restless this time, pacing instead of sitting.\n\n\"I've taken this as far as paper and secondhand testimony will let me.\" She stops in front of you. \"I need to see the Resonance Engine myself. Not photographs. Not someone else's sketch of it. The actual structure, near the Core.\" She studies you carefully. \"You've been closer to it than I have. What's the route in? I need to know if it's survivable for someone who isn't you.\""
+      },
+      {
+        "greeting": "She's already half-packed when you find her — notebooks bundled in oilcloth, a travelling case she clearly hasn't used in years.\n\n\"I'm going.\" No preamble this time. \"I know what you're going to say. I've heard it from three other people already.\" She ties the last strap. \"I've spent my whole life recording what other people survived. I'd like, once, to be standing closer to the thing than the page is.\" A pause, softer. \"Wish me something. I'll take anything at this point.\""
+      },
+      {
+        "greeting": "She isn't at her usual spot. In her place, weighted down with a stone, is a folded page in handwriting you've come to recognise.\n\n\"By the time you read this I'll already be past the point where you could talk me out of it. I'm sorry — I didn't want an argument I knew I'd lose, or one I'd win and regret. I'm heading for the Core directly. If you find this and you're still going that way too, look for my coat. Grey doesn't hide well out there. — M.\""
+      },
+      {
+        "greeting": "You find her closer to the Core than you expected, dwarfed by something vast and half-buried in fused stone. She doesn't startle when you approach — she's long past startling at anything out here.\n\n\"There it is.\" Her voice is smaller than usual. \"It's so much larger than the diagrams. The drawings, the records — none of them prepared me for the scale of it.\" She doesn't look away from it. \"It's quiet right now. I don't know if that's good.\""
+      },
+      {
+        "greeting": "She's set up a proper field station at the edge of the Engine's shadow — instruments you've never seen her carry, lines chalked across stone.\n\n\"I've stopped trying to study the wreckage and started trying to read it.\" She gestures at a section of inscribed surface. \"This isn't decoration. It's notation. The whole structure was built to be understood by something, once. I just need to remember how.\" She glances at you. \"It's slow work. Stay if you like. I could use someone to hold the lamp.\""
+      },
+      {
+        "greeting": "She meets you at a run, which you've never seen her do, clutching a sheet covered in her own frantic shorthand.\n\n\"It wasn't malfunctioning.\" She has to stop and breathe. \"The activation sequence — it's not an error pattern, it's a response pattern. Something asked the Engine to do this. It answered the request and the request was too large for it to answer safely.\" She looks almost sick with the implication. \"This wasn't an accident waiting to happen. It was an answer waiting to be asked for.\""
+      },
+      {
+        "greeting": "She's quieter today, sitting with her notes spread but not writing.\n\n\"I keep turning the same thought over.\" She doesn't look up. \"If the Engine was asked, then someone asked it. Someone who knew enough about the old architecture to phrase the request at all.\" She finally meets your eyes. \"That's not a natural disaster anymore. That's a decision someone made, knowing or not knowing what it would cost. I don't know which possibility I'd prefer.\""
+      },
+      {
+        "greeting": "She's been staring at the same page for a while when you sit down across from her. Eventually she speaks without being asked.\n\n\"My brother was stationed at a waypoint near the old Spire, the week of the Fracture.\" Her voice is careful, rehearsed in the way grief sometimes gets rehearsed. \"I never found out what happened to him. Not a record, not a body, not a rumour. Just nothing, where a person used to be.\" She closes the notebook. \"I tell myself I'm doing this for the Dominion. Most days that's even true. But I think I've really just been looking for the shape of his ending, in everyone else's.\""
+      },
+      {
+        "greeting": "She's assembled everything now — maps, transcripts, the field notes from the Engine itself — into a single thick volume, bound with her own hands.\n\n\"This is it. Everything I know, in one place, in an order that makes sense.\" She runs a hand over the cover like it might still change. \"Cause, sequence, architecture, the request, the answer. All of it.\" She looks up at you, something settling in her face. \"I think this is the most complete thing I will ever make.\""
+      },
+      {
+        "greeting": "She's calmer than you've ever seen her, the restlessness finally gone quiet.\n\n\"I don't have anything left to chase out here.\" She says it plainly, not sadly. \"Whatever else there is to learn about the Engine, it isn't going to find me sitting at a shrine waiting for someone to bring me a fragment.\" She gathers her things. \"My part of this — the finding — is done. What's left is making sure people actually read it.\""
+      },
+      {
+        "greeting": "She's arranged her notebooks into travelling order, addressed and ready, like letters waiting to be sent by hand instead of post.\n\n\"I'm taking the record to the settlements myself. All of them, if I can manage it.\" She taps the topmost volume. \"Paper gets lost. Pages go missing, apparently. A person standing in front of you, reading it aloud, is harder to make disappear.\" A small, tired smile. \"It's not efficient. It's just the only method I trust anymore.\""
+      },
+      {
+        "greeting": "She's mapped her route on the back of an old survey, settlement names circled in a careful hand.\n\n\"You've carried half of this without knowing it — every fragment, every story you brought back when you didn't have to.\" She rolls the map and ties it. \"I don't think I say it enough. None of this happens without you doing the actual dangerous part while I wrote about it from somewhere safer.\" She looks at you steadily. \"Thank you. Properly, this time.\""
+      },
+      {
+        "greeting": "She holds out her oldest notebook, the one you first saw her carrying, its cover worn soft at the corners.\n\n\"Take it.\" She presses it into your hands before you can argue. \"Every theory I ever had, right or wrong, starting from the day I decided to stop just recording the Dominion and start asking what broke it.\" She closes your fingers around the spine. \"I have better copies. This one belongs with whoever was actually out there finding the answers.\""
+      },
+      {
+        "greeting": "She looks lighter than you've ever seen her, like she's already partway down a different road in her mind.\n\n\"I used to think finishing this would feel like an ending.\" She shoulders her travelling case. \"It doesn't, really. It feels like putting down something heavy and discovering my arms still remember how to move.\" She laughs, short and real. \"I'm going to go be a person who isn't just a stack of evidence for a while. I'd recommend it, when you're done with whatever this is for you.\""
+      },
+      {
+        "greeting": "She meets you one last time at the place you first found her, like she planned it that way.\n\n\"This is where I'm stepping off your road, I think.\" She says it gently, not as a loss. \"I won't be waiting at shrines anymore — settlements, mostly, after this, and wherever the record needs carrying next.\" She clasps your hand, brief and firm. \"Whatever you find from here on, you'll have to make sense of it yourself. I think you've had plenty of practice.\" She steps back, already turning. \"Travel well, archivist's apprentice. That's the title I'm giving you, and you don't get a say in it.\""
+      }
+    ],
+    "epilogue": [
+      {
+        "greeting": "Pinned to a waystation board, a printed sheet has Mira's name at the bottom. The final paragraph reads: \"The Resonance Engine did not fail by accident. It answered a request it could not safely fulfil. I cannot yet say who asked it, only that the asking is the part history will need to remember.\" Someone has written 'still don't believe it' in the margin, and underneath, in different ink, 'I do.'"
+      },
+      {
+        "greeting": "A loose page has slipped from a travelling case and gone unnoticed, half-buried near the shrine. In Mira's cramped shorthand: \"Settlement seven, read the Engine chapter aloud to a full hall. Three people cried. One asked excellent questions about the architecture's age that I genuinely couldn't answer. Note: bring better maps next time.\""
+      },
+      {
+        "greeting": "A merchant's stall has a dog-eared copy of a thick bound report for sale, clearly read many times. A passage is underlined twice: \"It was not a natural event. It was an answer. Somewhere, someone asked the wrong question of the right machine.\" The merchant says the author passed through months ago and refused payment for the copies."
+      },
+      {
+        "greeting": "Scratched into the shrine stone, beneath the usual weathering, is a short addendum in a hand you recognise: \"Still walking the settlements. Still finding people who needed to hear it more than they wanted to. — M.\""
+      },
+      {
+        "greeting": "A settlement archivist has tacked a formal reply beneath a notice bearing Mira's name. It reads, in part: \"Your findings have been logged and cross-referenced against our own waypoint records. We find no contradiction. We find, instead, considerable cause for concern.\""
+      },
+      {
+        "greeting": "A traveller heading the opposite direction mentions, almost in passing, that they shared a fire with 'a woman with too many notebooks' two shards back. \"She asked if I'd heard the Engine humming. I hadn't. She seemed relieved and disappointed at the same time.\""
+      },
+      {
+        "greeting": "A child in a roadside camp proudly recites a story their parent learned from 'the notebook lady' — a simplified, slightly garbled version of the Engine's discovery, ending with the line: \"And it's still waiting for someone to ask it something kind, instead.\" Nobody corrects them."
+      },
+      {
+        "greeting": "Tucked inside an old field case left at the shrine is a single folded letter, never sent, addressed to no settlement in particular: \"If you're reading this and you knew my brother, I would still like to hear it. I'm easier to find than I used to be.\""
+      },
+      {
+        "greeting": "A weathered notice nailed beside the path lists settlements visited and dates, in Mira's hand, each one checked off. The most recent addition simply reads: \"Onward.\""
+      },
+      {
+        "greeting": "Someone has begun keeping their own ley-disturbance log in the style Mira described in her published findings, the first page dedicated: \"For the Chronicler, wherever she's walking now. Keep finding things.\""
+      },
+      {
+        "greeting": "A worn page from an early notebook — one of the ones she once said she kept extra copies of — turns up pressed inside an unrelated book at a trading post. The handwriting is younger, less certain: \"Day one of actually asking questions instead of just writing down other people's answers. Frightening. Recommend it anyway.\""
+      },
+      {
+        "greeting": "A faded broadsheet, clearly printed in bulk and distributed wide, carries Mira's report under a settlement-chosen headline: THE CHRONICLER'S WARNING. Beneath it, smaller: \"Reprinted by request. Original author currently between settlements, and reportedly difficult to schedule.\""
       }
     ]
   }
