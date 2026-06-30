@@ -248,10 +248,14 @@ async function renderSceneryPatch(
   const tileH = tileW
   for (const key of pathSet) {
     const [c, r] = key.split(',').map(Number)
-    const nw = pathSet.has(`${c - 1},${r - 1}`) ? 8 : 0
-    const ne = pathSet.has(`${c + 1},${r - 1}`) ? 4 : 0
-    const se = pathSet.has(`${c + 1},${r + 1}`) ? 2 : 0
-    const sw = pathSet.has(`${c - 1},${r + 1}`) ? 1 : 0
+    const N = pathSet.has(`${c},${r - 1}`)
+    const E = pathSet.has(`${c + 1},${r}`)
+    const S = pathSet.has(`${c},${r + 1}`)
+    const W = pathSet.has(`${c - 1},${r}`)
+    const nw = (N && W && pathSet.has(`${c - 1},${r - 1}`)) ? 8 : 0
+    const ne = (N && E && pathSet.has(`${c + 1},${r - 1}`)) ? 4 : 0
+    const se = (S && E && pathSet.has(`${c + 1},${r + 1}`)) ? 2 : 0
+    const sw = (S && W && pathSet.has(`${c - 1},${r + 1}`)) ? 1 : 0
     const frame    = SCENERY_LOOKUP[nw | ne | se | sw]
     const frameCol = frame % 8
     const frameRow = Math.floor(frame / 8)
