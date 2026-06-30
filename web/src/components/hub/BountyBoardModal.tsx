@@ -1,12 +1,24 @@
 import React, { useState } from 'react'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
-import { getDailyBounties, isBountyAccepted, isBountyCompleted, acceptBounty, turnInBounty } from '../../game/hub/bounties'
+import type { BountyDef } from '../../game/hub/bounties'
+import { getDailyBounties, isBountyAccepted, isBountyCompleted, acceptBounty, turnInBounty, getActiveBountyStep } from '../../game/hub/bounties'
 
 interface Props {
   onClose: () => void
+  /** Resolve an NPC/animal id to its display name (for report-step hints). */
+  resolveNpcName?: (id: string) => string
 }
 
-export function BountyBoardModal({ onClose }: Props) {
+/** Human-readable hint for a bounty's current step, or null once fully done. */
+function activeStepHint(bounty: BountyDef, resolveNpcName: (id: string) => string): string | null {
+  const step = getActiveBountyStep(bounty.id)
+  if (!step) return null
+  if (step.type === 'report' && step.targetNpcId) return `Report to ${resolveNpcName(step.targetNpcId)}`
+  if (step.type === 'collect') return 'Find the item out in the world to advance this bounty'
+  return null
+}
+
+export function BountyBoardModal({ onClose, resolveNpcName = (id) => id }: Props) {
   const [, setTick] = useState(0)
   const refresh = () => setTick(t => t + 1)
 
@@ -48,19 +60,24 @@ export function BountyBoardModal({ onClose }: Props) {
         {accepted.length > 0 && (
           <>
             <div className="bounty-board-modal__section-label">Accepted</div>
-            {accepted.map(bounty => (
-              <div key={bounty.id} className="bounty-board-modal__card bounty-board-modal__card--accepted">
-                <div className="bounty-board-modal__title-row">
-                  <span className="bounty-board-modal__title">{bounty.icon} {bounty.title}</span>
-                  <button
-                    className="action-btn action-btn--gold"
-                    onClick={() => { turnInBounty(bounty.id); refresh() }}
-                  >Turn In</button>
+            {accepted.map(bounty => {
+              const hint = activeStepHint(bounty, resolveNpcName)
+              return (
+                <div key={bounty.id} className="bounty-board-modal__card bounty-board-modal__card--accepted">
+                  <div className="bounty-board-modal__title-row">
+                    <span className="bounty-board-modal__title">{bounty.icon} {bounty.title}</span>
+                    <button
+                      className={`action-btn action-btn--gold${hint ? ' action-btn--disabled' : ''}`}
+                      disabled={!!hint}
+                      onClick={() => { turnInBounty(bounty.id); refresh() }}
+                    >Turn In</button>
+                  </div>
+                  <div className="bounty-board-modal__desc">{bounty.desc}</div>
+                  {hint && <div className="bounty-board-modal__hint">{hint}</div>}
+                  <div className="bounty-board-modal__reward">+{bounty.reward.crystals} 💎</div>
                 </div>
-                <div className="bounty-board-modal__desc">{bounty.desc}</div>
-                <div className="bounty-board-modal__reward">+{bounty.reward.crystals} 💎</div>
-              </div>
-            ))}
+              )
+            })}
           </>
         )}
 

@@ -105,9 +105,19 @@ function dateHash(str: string): number {
   return h
 }
 
+// Story/test-only override for "now", since callers like BountyBoardModal
+// always call getDailyBounties() with no date and have no override prop.
+let nowOverride: Date | undefined
+
+/** Pins "today" for all unparametrized getDailyBounties()/getBountyState() calls.
+ *  Pass undefined to restore the real clock. Story/test use only. */
+export function __setBountyNowOverride(at: Date | undefined): void {
+  nowOverride = at
+}
+
 /** Returns a key identifying the current day's bounty slot. Format: "YYYY-MM-DD". */
 export function getBountySlotKey(at?: Date): string {
-  return (at ?? new Date()).toISOString().slice(0, 10)
+  return (at ?? nowOverride ?? new Date()).toISOString().slice(0, 10)
 }
 
 /** Returns today's 3 active bounties, deterministically chosen for the day. */
