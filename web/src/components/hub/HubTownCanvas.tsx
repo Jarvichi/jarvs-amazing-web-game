@@ -4,7 +4,8 @@ import { usePixiApp } from '../../hooks/usePixiApp'
 import { buildTerrainGfx, buildBgTileGfx, buildDecorGfx } from '../../utils/terrainLayer'
 import { renderPathTiles } from '../../utils/tileLookup'
 import { loadSpriteTexture, loadTextureUrl, loadAnimFrames, loadTileRef } from '../../utils/pixiHelpers'
-import { resolveNpcSprite } from '../../game/sprites'
+import { resolveNpcSprite, spriteSlug } from '../../game/sprites'
+import { getTodaysShopItems, ShopBuildingId } from '../../game/hub/shopStock'
 import { PATH_TILE } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
 import { isBuildingOpen, getNpcLocation, getNpcActivity } from '../../game/hub/hubNpcSchedule'
@@ -572,10 +573,32 @@ export function HubTownCanvas({
         }
         for (const d of decor) {
           const parent = d.zlayer === 'above' ? above! : root
-          const texPromise = d.spriteId
-            ? loadTextureUrl(`${base}sprites/${d.spriteId}.svg`)
-            : loadTileRef(d.tileId!)
-          texPromise.then(tex => {
+          if (d.cardArtSlot != null && def.building) {
+            const items = getTodaysShopItems(def.building as ShopBuildingId)
+            const item  = items[d.cardArtSlot]
+            const cardName = item && item.grant.kind === 'card' ? item.grant.cardName : null
+
+            // White card backing, drawn regardless of whether art loads.
+            const cardW = T - 6, cardH = T - 2
+            const bg = new PIXI.Graphics()
+            bg.roundRect(d.dx * T + 3, d.dy * T + 1, cardW, cardH, 2).fill({ color: 0xffffff })
+            bg.roundRect(d.dx * T + 3, d.dy * T + 1, cardW, cardH, 2).stroke({ color: 0xbbbbbb, width: 1 })
+            parent.addChild(bg)
+
+            if (cardName) {
+              loadTextureUrl(`${base}sprites/${spriteSlug(cardName)}.svg`).then(tex => {
+                if (app.renderer == null || !stillCurrent()) return
+                const s = new PIXI.Sprite(tex)
+                const artSize = cardW * 0.8
+                s.width = artSize; s.height = artSize
+                s.anchor.set(0.5, 1)
+                s.position.set(d.dx * T + T / 2, d.dy * T + cardH - 2)
+                parent.addChild(s)
+              }).catch(() => {})
+            }
+            continue
+          }
+          loadTileRef(d.tileId!).then(tex => {
             if (app.renderer == null || !stillCurrent()) return
             const s = new PIXI.Sprite(tex)
             s.position.set(d.dx * T, d.dy * T)

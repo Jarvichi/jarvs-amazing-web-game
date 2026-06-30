@@ -237,10 +237,11 @@ export interface RawTreasure {
 export interface RawInteractableDecor {
   dx: number
   dy: number
-  /** Tile-atlas tile, e.g. "crate". Mutually exclusive with spriteId. */
+  /** Tile-atlas tile, e.g. "crate". Mutually exclusive with cardArtSlot. */
   tileId?: string
-  /** web/public/sprites/<spriteId>.svg, for decor that isn't in the tile atlas. */
-  spriteId?: string
+  /** Renders today's card art (white card + the unit's own sprite) for this
+   *  shop's Nth for-sale slot (see game/hub/shopStock.ts). */
+  cardArtSlot?: number
   zlayer?: string
 }
 
