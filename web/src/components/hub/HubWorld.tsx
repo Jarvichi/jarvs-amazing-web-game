@@ -117,6 +117,9 @@ const SCREEN_ENTER_LABEL: Record<string, string> = {
   tileflip:          'Play tile flip?',
   crystalcatch:      'Play crystal catch?',
   spinner:           'Give it a spin?',
+  'narrator:mira':    'Ask what she remembers?',
+  'narrator:vask':    'Ask about her past?',
+  'narrator:pilgrim': 'Listen to their words?',
 }
 function screenEnterLabel(screen: string): string {
   return SCREEN_ENTER_LABEL[screen] ?? 'Step inside?'
@@ -143,6 +146,7 @@ export interface Props {
   onEndless?:         () => void
   onWorldMap?:        () => void
   onPlayerTap?:       () => void
+  onNarratorLog?:     (characterId: string) => void
   crystals?:          number
   isSignedIn?:        boolean
   commander?: CommanderState
@@ -160,7 +164,7 @@ export interface Props {
   onTileTap?:         (tx: number, ty: number) => void
 }
 
-export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap, onPlayerTap,
+export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap, onPlayerTap, onNarratorLog,
   locationData, locationQuests, questDefs, allQuestDefs,
   crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onCrystalsChange, onTileTap }: Props) {
   const [splashVisible, setSplashVisible] = useState(() => !_hubSplashShown && !loadSkipIntro())
@@ -489,6 +493,10 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
       interiorEnterRef.current?.(buildingId)
       return
     }
+    if (screen.startsWith('narrator:')) {
+      onNarratorLog?.(screen.slice(9))
+      return
+    }
     if (screen === 'town-upgrades') { setUpgradesOpen(true); return }
     if (screen === 'worldmap') { onWorldMap?.(); return }
     if (screen === 'campaign') { onCampaign?.(); return }
@@ -498,7 +506,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
       return
     }
     onNavigate?.(screen)
-  }, [onNavigate, onCampaign, onWorldMap, commander])
+  }, [onNavigate, onCampaign, onWorldMap, onNarratorLog, commander])
 
   const handleReturn = useCallback(() => {
     returnRef.current?.()

@@ -46,6 +46,7 @@ import { MysteryScreen } from './components/campaign/MysteryScreen'
 import { MemoryFragmentScreen } from './components/campaign/MemoryFragmentScreen'
 import { MemoryFragment, isFragmentDiscovered, markFragmentDiscovered, isHubWorldUnlocked, unlockHubWorld, areAllCampaignFragmentsDiscovered, loadHubDefault, saveHubDefault } from './game/codex'
 import { CharacterEncounterScreen } from './components/campaign/CharacterEncounterScreen'
+import { NarratorJournalScreen } from './components/hub/NarratorJournalScreen'
 import { CharacterChoice, recordCharacterEncounter, getCharacterEncounterChance, resolveCharacterEncounterId } from './game/characters'
 import memoryFragmentsData from './data/memoryFragments.json'
 import { ItemFoundScreen }    from './components/modals/ItemFoundScreen'
@@ -239,6 +240,7 @@ type Screen =
   | 'codex'
   | 'memory'
   | 'characterEncounter'
+  | 'narratorJournal'
   | 'augments'
   | 'player'
   | 'collection-tabs'
@@ -461,6 +463,7 @@ export default function App() {
   const [mysteryReward, setMysteryReward] = useState<RewardDef | null>(null)
   const [activeMemoryFragment, setActiveMemoryFragment] = useState<{ fragment: MemoryFragment; alreadyFound: boolean; shardBonus: boolean } | null>(null)
   const [activeCharacterEncounter, setActiveCharacterEncounter] = useState<{ nodeId: string; characterId: string } | null>(null)
+  const [activeNarratorLog, setActiveNarratorLog] = useState<string | null>(null)
   const [campNode, setCampNode] = useState<QuestNode | null>(null)
   const [campResult, setCampResult] = useState<string | null>(null)
   // Replay briefing state — stored so onBegin can proceed with the correct context
@@ -2823,6 +2826,7 @@ export default function App() {
           onCampaign={() => { setReturnScreen('hubworld'); handleCampaign() }}
           onEndless={() => { setReturnScreen('hubworld'); handleEndless() }}
           onWorldMap={() => setScreen('worldmap')}
+          onNarratorLog={(characterId) => { setReturnScreen('hubworld'); setActiveNarratorLog(characterId); setScreen('narratorJournal') }}
           onPlayerTap={() => { setReturnScreen('hubworld'); setScreen('player') }}
           crystals={crystals}
           user={user}
@@ -3023,6 +3027,13 @@ export default function App() {
         <CharacterEncounterScreen
           characterId={activeCharacterEncounter.characterId}
           onDone={handleCharacterDone}
+        />
+      )}
+
+      {screen === 'narratorJournal' && activeNarratorLog && (
+        <NarratorJournalScreen
+          characterId={activeNarratorLog}
+          onBack={() => setScreen(returnScreen)}
         />
       )}
 
