@@ -74,6 +74,16 @@ export function getCharacterEncounterChance(id: string): number {
   return catalog[id]?.encounterChance ?? 1
 }
 
+const POOL_GROUPS: Record<string, string[]> = {
+  mira: ['mira', 'vask', 'pilgrim'],
+}
+
+export function resolveCharacterEncounterId(id: string): string {
+  const pool = POOL_GROUPS[id]
+  if (!pool || pool.length === 0) return id
+  return pool[Math.floor(Math.random() * pool.length)]
+}
+
 export function getCharacterIds(): string[] {
   return Object.keys(catalog)
 }
