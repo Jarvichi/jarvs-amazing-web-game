@@ -242,7 +242,7 @@ export interface RawInteractableDecor {
 }
 
 export interface RawInteractableReaction {
-  // 'dialogue' | 'screen' | 'giveItem' | 'quest' | 'move' — plain string so
+  // 'dialogue' | 'screen' | 'giveItem' | 'quest' | 'move' | 'buy' — plain string so
   // JSON imports don't widen-fail; loader.ts casts to the parsed union
   type: string
 
@@ -273,6 +273,9 @@ export interface RawInteractableReaction {
 
   // move
   to?: RawCoordinate
+
+  // buy — slotIndex into the building's live getTodaysShopItems() stock
+  slotIndex?: number
 }
 
 export interface RawInteractable {

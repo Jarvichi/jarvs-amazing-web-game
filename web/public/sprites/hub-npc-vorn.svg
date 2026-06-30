@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- shadow -->
+  <ellipse cx="16" cy="29" rx="5" ry="2" fill="rgba(0,0,0,0.25)"/>
+  <!-- cloak -->
+  <path d="M9 28 Q9 14 16 12 Q23 14 23 28 Z" fill="#1a1428"/>
+  <!-- cloak inner shading -->
+  <path d="M16 13 L16 27" stroke="#2e2148" stroke-width="1.5"/>
+  <!-- arms -->
+  <rect x="8"  y="15" width="3" height="8" rx="1" fill="#1a1428"/>
+  <rect x="21" y="15" width="3" height="8" rx="1" fill="#1a1428"/>
+  <!-- glowing legendary card in right hand -->
+  <rect x="21.5" y="17" width="4.5" height="6" rx="0.5" fill="#3a2a5a" transform="rotate(10 21.5 17)"/>
+  <rect x="22" y="17.5" width="3.5" height="5" rx="0.5" fill="#ffcf4d" opacity="0.85" transform="rotate(10 22 17.5)"/>
+  <ellipse cx="24" cy="19.5" rx="2.5" ry="2.5" fill="#ffe28a" opacity="0.35"/>
+  <!-- hood -->
+  <path d="M10.5 9 Q16 1 21.5 9 Q21.5 14 16 14 Q10.5 14 10.5 9 Z" fill="#241a38"/>
+  <!-- face shadow -->
+  <ellipse cx="16" cy="10" rx="4" ry="4.2" fill="#0c0814"/>
+  <!-- glowing eyes -->
+  <rect x="13.4" y="9.2" width="1.8" height="1.6" rx="0.8" fill="#9ad8ff"/>
+  <rect x="16.8" y="9.2" width="1.8" height="1.6" rx="0.8" fill="#9ad8ff"/>
+</svg>

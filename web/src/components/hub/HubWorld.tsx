@@ -15,7 +15,7 @@ import { addRelationshipPoints, getRelationship } from '../../game/hub/relations
 import { setDialogueFlag, hasDialogueFlag, markNodeSeen } from '../../game/hub/dialogueFlags'
 import { getQuestState, setQuestStatus, incrementQuestProgress, getQuestProgress, resetQuest } from '../../game/hub/quests'
 import { getHeardConvoIds, markConvoHeard } from '../../game/hub/innConvos'
-import { loadDeck, loadCollection, loadCrystals, saveCrystals, addCardsToCollection } from '../../game/collection'
+import { loadDeck, loadCollection, loadCrystals, saveCrystals, addCardsToCollection, addAugmentInstance } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
 import { CommanderState } from '../../game/commander'
 import { loadSkipIntro } from '../screens/SettingsScreen'
@@ -26,7 +26,7 @@ import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
 import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
 import { ToolbarDropdown } from '../ui/Toolbar/ToolbarDropdown'
 import { User } from 'firebase/auth'
-import { loadPlayerName } from '../../game/questline'
+import { loadPlayerName, addToConsumableStash } from '../../game/questline'
 import { LoginButton } from '../ui/LoginButton'
 import { addCollectible, addConsumable, getCollectibles } from '../../game/itemStore'
 import { QuestsModal } from './QuestsModal'
@@ -49,6 +49,8 @@ import { HubInteractable, HubLocationBundle, HubQuestBundle, HubTreasure } from 
 import { getUnreadCount } from '../../game/news'
 import { interactableStoreKey, isInteractableGranted, markInteractableGranted, getInteractableMoves, setInteractableMove } from '../../game/hub/interactables'
 import { recordNpcMet, recordAnimalSeen, recordAreaSeen } from '../../game/hub/journal'
+import { getTodaysShopItems, ShopBuildingId } from '../../game/hub/shopStock'
+import { hasBoughtToday, markBoughtToday } from '../../game/hub/shopPurchases'
 import rollbar from '../../rollbar'
 interface QuestEvent {
   speakerName: string
@@ -1069,6 +1071,47 @@ function hasOfferableQuest(giverId: string): boolean {
         moveInteractableRef.current?.(def.id, r.to.tx, r.to.ty)
         if (r.message) setDialogueEvent({ speakerName: '', text: r.message, onClose: next })
         else next()
+        return
+      }
+      case 'buy': {
+        const buildingId = def.building as ShopBuildingId | undefined
+        const item = buildingId ? getTodaysShopItems(buildingId)[r.slotIndex] : undefined
+        if (!buildingId || !item) { next(); return }
+
+        const candidates = locationData.HUB_NPCS.filter(n => n.building === buildingId)
+        const onDuty = candidates.find(n => resolveNpcPlace(n, gameHour, locationData).interiorId === buildingId)
+        const speakerName = (onDuty ?? candidates[0])?.name ?? ''
+
+        const slotId = `${buildingId}-item-${r.slotIndex}`
+        if (hasBoughtToday(slotId)) {
+          setDialogueEvent({ speakerName, text: 'Sold already, friend — check back next time the stock turns over.', onClose: next })
+          return
+        }
+
+        const confirm: DialogueChoice = {
+          label: `Buy for ${item.price} 💎`,
+          primary: true,
+          onClick: () => {
+            const balance = loadCrystals()
+            if (balance < item.price) {
+              setDialogueEvent({ speakerName, text: "That's more than you're carrying — come back when you've got the crystals." })
+              return
+            }
+            saveCrystals(balance - item.price)
+            onCrystalsChange?.(balance - item.price)
+            switch (item.grant.kind) {
+              case 'card':       addCardsToCollection([{ cardName: item.grant.cardName, count: 1 }]); break
+              case 'augment':    addAugmentInstance(item.grant.augmentName); break
+              case 'consumable': addToConsumableStash(item.grant.id); break
+            }
+            markBoughtToday(slotId)
+            emitSound('shopPurchase')
+            refreshState()
+            setDialogueEvent({ speakerName, text: `Sold! Enjoy the ${item.itemName}.`, onClose: next })
+          },
+        }
+        const cancel: DialogueChoice = { label: 'Maybe not', onClick: () => setDialogueEvent(null) }
+        setDialogueEvent({ speakerName, text: `Care to buy ${item.itemName} for ${item.price} crystals?`, choices: [confirm, cancel] })
         return
       }
     }

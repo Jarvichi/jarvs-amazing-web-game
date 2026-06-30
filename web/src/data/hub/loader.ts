@@ -261,6 +261,7 @@ export type HubInteractableReaction =
       alreadyGrantedText?: string }
   | { type: 'quest'; questId: string; speakerName?: string }
   | { type: 'move'; to: HubCoordinate; message?: string }
+  | { type: 'buy'; slotIndex: number }
 
 export interface HubInteractable {
   id: string
