@@ -572,7 +572,10 @@ export function HubTownCanvas({
         }
         for (const d of decor) {
           const parent = d.zlayer === 'above' ? above! : root
-          loadTileRef(d.tileId).then(tex => {
+          const texPromise = d.spriteId
+            ? loadTextureUrl(`${base}sprites/${d.spriteId}.svg`)
+            : loadTileRef(d.tileId!)
+          texPromise.then(tex => {
             if (app.renderer == null || !stillCurrent()) return
             const s = new PIXI.Sprite(tex)
             s.position.set(d.dx * T, d.dy * T)

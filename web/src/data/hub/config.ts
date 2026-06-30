@@ -237,7 +237,10 @@ export interface RawTreasure {
 export interface RawInteractableDecor {
   dx: number
   dy: number
-  tileId: string
+  /** Tile-atlas tile, e.g. "crate". Mutually exclusive with spriteId. */
+  tileId?: string
+  /** web/public/sprites/<spriteId>.svg, for decor that isn't in the tile atlas. */
+  spriteId?: string
   zlayer?: string
 }
 
