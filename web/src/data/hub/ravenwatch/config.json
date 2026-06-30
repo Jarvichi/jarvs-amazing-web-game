@@ -3090,7 +3090,7 @@
     },
     {
       "tx": 33,
-      "ty": 18,
+      "ty": 17,
       "tileId": "whiteFlower"
     },
     {
@@ -9374,18 +9374,28 @@
     },
     {
       "id": "ravenwatch-bounty-board",
-      "tx": 51,
+      "tx": 30,
       "ty": 21,
       "decor": [
         {
           "dx": 0,
           "dy": 0,
-          "tileId": "wantedPosterTop"
+          "tileId": "messageBoardTopLeft"
         },
         {
           "dx": 0,
           "dy": 1,
-          "tileId": "wantedPosterBottom"
+          "tileId": "messageBoardBottomLeft"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileId": "messageBoardBottomRight"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileId": "messageBoardTopRight"
         }
       ],
       "indicator": {

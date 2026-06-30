@@ -53,11 +53,11 @@ export function buildTileLookup(canal: boolean): number[] {
     else if (N && E && S)        t[mask] = NE ? (SE ? PATH.tJuncRight     : PATH.missingWGrassSE)
                                                : (SE ? PATH.missingWGrassNE : PATH.tJuncLeft)
     else if (E && S && W)        t[mask] = SW ? (SE ? PATH.edgeTop        : PATH.missingNGrassSE)
-                                               : (SE ? PATH.missingNGrassSW : PATH.tJuncBottom)
+                                               : (SE ? PATH.missingNGrassSW : PATH.tJuncTop)
     else if (N && S && W)        t[mask] = NW ? (SW ? PATH.tJuncLeft2     : PATH.missingEGrassSW)
                                                : (SW ? PATH.missingEGrassNW : PATH.tJuncRight2)
     else if (N && E && W)        t[mask] = NW ? (NE ? PATH.edgeBottom     : PATH.missingSGrassNE)
-                                               : (NE ? PATH.missingSGrassNW : PATH.tJuncTop)
+                                               : (NE ? PATH.missingSGrassNW : PATH.tJuncBottom)
     else if (N && S)             t[mask] = PATH.vertical
     else if (E && W)             t[mask] = PATH.horizontal
     else if (N && E)             t[mask] = NE ? PATH.quadTopRight    : PATH.turnTopRight
