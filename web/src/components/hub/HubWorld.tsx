@@ -31,7 +31,7 @@ import { LoginButton } from '../ui/LoginButton'
 import { addCollectible, addConsumable, getCollectibles } from '../../game/itemStore'
 import { QuestsModal } from './QuestsModal'
 import { BountyBoardModal } from './BountyBoardModal'
-import { hasUnclaimedBounties } from '../../game/hub/bounties'
+import { hasUnclaimedBounties, getPendingBountyReport, getPendingBountyCollect, advanceBountyStep, getActiveBountyStep } from '../../game/hub/bounties'
 import { TownDirectory } from './TownDirectory'
 import { TownJournal } from './TownJournal'
 import { HubTownUpgrades, type UpgradeRow } from './HubTownUpgrades'
@@ -560,6 +560,15 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     markPickedUp(id)
     setPickedUpIds(getPickedUpIds())
 
+    const pendingBounty = getPendingBountyCollect(id)
+    if (pendingBounty) {
+      advanceBountyStep(pendingBounty.id)
+      const nextStep = getActiveBountyStep(pendingBounty.id)
+      const hint = nextStep?.targetNpcId ? ` Report back to ${getNpcDisplayName(nextStep.targetNpcId)}.` : ''
+      setDialogueEvent({ speakerName: pendingBounty.title, text: `${pendingBounty.icon} Item collected.${hint}` })
+      refreshState()
+    }
+
     if (!questId) return
 
     // Quests are resolved across ALL towns so a pickup collected in one town can
@@ -807,6 +816,21 @@ function hasOfferableQuest(giverId: string): boolean {
     const speakerName = npcDef?.name ?? ''
     if (namedNpc) recordNpcMet(npcId)
 
+    // ── Bounty report (takes priority — a bounty's report step is satisfied
+    // by talking to the named NPC, independent of any quest dialogue). ──────
+    const pendingBounty = getPendingBountyReport(npcId)
+    if (pendingBounty) {
+      advanceBountyStep(pendingBounty.id)
+      const ready = getActiveBountyStep(pendingBounty.id) === null
+      setDialogueEvent({
+        speakerName,
+        text: ready
+          ? `${pendingBounty.icon} ${pendingBounty.title} — ready to turn in at the bounty board!`
+          : `${pendingBounty.icon} ${pendingBounty.title} — noted.`,
+      })
+      return
+    }
+
     // Cross-town deliveries: scan EVERY town's quests (not just the current one)
     // for an active quest with a pending deliver step addressed to this NPC, or
     // one whose receiver is this NPC and is ready to hand in. This lets a quest
@@ -814,7 +838,7 @@ function hasOfferableQuest(giverId: string): boolean {
     const pendingDelivery = () => {
       for (const q of allQuestDefs) {
         if (getQuestState(q.id).status !== 'active') continue
-        const step = q.steps.find(s => s.type === 'deliver' && s.targetNpcId === npcId && getQuestProgress(q.id, s.key) < s.required)
+        const step = q.steps.find(s => (s.type === 'deliver' || s.type === 'report') && s.targetNpcId === npcId && getQuestProgress(q.id, s.key) < s.required)
         if (step) return { quest: q, step }
       }
       return null
@@ -1153,7 +1177,7 @@ function hasOfferableQuest(giverId: string): boolean {
         )}
 
         {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={questDefs} resolveNpcName={getNpcDisplayName}/>}
-        {bountyBoardOpen && <BountyBoardModal onClose={() => setBountyBoardOpen(false)}/>}
+        {bountyBoardOpen && <BountyBoardModal onClose={() => setBountyBoardOpen(false)} resolveNpcName={getNpcDisplayName}/>}
         {directoryOpen && <TownDirectory onClose={() => setDirectoryOpen(false)} locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} onShowRelationship={setRelationshipNpcId} />}
         {journalOpen && <TownJournal onClose={() => setJournalOpen(false)} locationData={locationData} />}
         {upgradesOpen && <HubTownUpgrades onClose={() => setUpgradesOpen(false)} townName={town} reputation={getTownReputation(town)} crystals={loadCrystals()} rows={upgradeRows} onUpgrade={handleUpgrade} tributeAmount={tributeAmount(town)} tributeAvailable={tributeAvailable(town)} onCollectTribute={handleCollectTribute} />}

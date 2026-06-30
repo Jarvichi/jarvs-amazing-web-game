@@ -2,7 +2,7 @@ import type { RelationshipTrack } from '../../game/hub/relationships'
 
 export interface HubQuestStep {
   key: string
-  type: 'collect' | 'deliver'
+  type: 'collect' | 'deliver' | 'report'
   pickupIds?: string[]
   targetNpcId?: string
   required: number
@@ -85,6 +85,7 @@ export type Dialogue = Record<string, string | undefined>
 export type QuestStep =
   | CollectStep
   | DeliverStep
+  | ReportStep
 
 export interface CollectStep {
   key: string
@@ -96,6 +97,16 @@ export interface CollectStep {
 export interface DeliverStep {
   key: string
   type: string // 'deliver'
+  targetNpcId: string
+  required: number
+}
+
+/** Like DeliverStep, but doesn't require holding/consuming a collected item —
+ *  tapping targetNpcId while this step is active just advances it. Used for
+ *  "carry word to someone" objectives with no physical item involved. */
+export interface ReportStep {
+  key: string
+  type: string // 'report'
   targetNpcId: string
   required: number
 }

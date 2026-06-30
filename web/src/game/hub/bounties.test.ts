@@ -8,6 +8,11 @@ import {
   isBountyCompleted,
   turnInBounty,
   hasUnclaimedBounties,
+  advanceBountyStep,
+  getActiveBountyStep,
+  getBountyStepProgress,
+  getPendingBountyReport,
+  getPendingBountyCollect,
 } from './bounties'
 import { saveCrystals, loadCrystals } from '../collection'
 
@@ -26,6 +31,18 @@ beforeEach(() => {
 })
 
 const DAY = new Date('2026-06-30T12:00:00Z')
+// A date whose daily pool deterministically includes both a 'report'-only
+// bounty and the multi-step 'fresh-fish-for-the-kitchen' 'collect' bounty.
+const FISH_DAY = new Date('2026-01-08T12:00:00Z')
+
+/** Drives every step of a bounty to completion via advanceBountyStep. */
+function completeAllSteps(id: string): void {
+  let step = getActiveBountyStep(id)
+  while (step) {
+    advanceBountyStep(id)
+    step = getActiveBountyStep(id)
+  }
+}
 
 describe('getDailyBounties', () => {
   it('is deterministic for a fixed date', () => {
@@ -64,10 +81,18 @@ describe('accept / turn-in flow', () => {
     expect(isBountyCompleted(bounty.id)).toBe(false)
   })
 
-  it('turning in an accepted bounty grants crystals and marks completed', () => {
+  it('turning in an accepted bounty before its steps are done grants nothing', () => {
+    const [bounty] = getDailyBounties(DAY)
+    acceptBounty(bounty.id)
+    expect(turnInBounty(bounty.id)).toBe(0)
+    expect(isBountyCompleted(bounty.id)).toBe(false)
+  })
+
+  it('turning in an accepted, fully-stepped bounty grants crystals and marks completed', () => {
     saveCrystals(0)
     const [bounty] = getDailyBounties(DAY)
     acceptBounty(bounty.id)
+    completeAllSteps(bounty.id)
     const granted = turnInBounty(bounty.id)
     expect(granted).toBe(bounty.reward.crystals)
     expect(loadCrystals()).toBe(bounty.reward.crystals)
@@ -79,6 +104,7 @@ describe('accept / turn-in flow', () => {
     saveCrystals(0)
     const [bounty] = getDailyBounties(DAY)
     acceptBounty(bounty.id)
+    completeAllSteps(bounty.id)
     turnInBounty(bounty.id)
     expect(turnInBounty(bounty.id)).toBe(0)
     expect(loadCrystals()).toBe(bounty.reward.crystals)
@@ -89,6 +115,102 @@ describe('accept / turn-in flow', () => {
     acceptBounty(bounty.id)
     // A fresh read goes through localStorage again.
     expect(isBountyAccepted(bounty.id)).toBe(true)
+  })
+})
+
+describe('bounty step progress', () => {
+  it('every bounty template has at least one step', () => {
+    // All 7 templates rotate through getDailyBounties across many dates;
+    // sample a wide spread of dates to touch every template at least once.
+    const seen = new Set<string>()
+    for (let i = 0; i < 60; i++) {
+      const d = new Date(DAY.getTime() + i * 24 * 60 * 60 * 1000)
+      for (const b of getDailyBounties(d)) {
+        seen.add(b.id)
+        expect(b.steps.length).toBeGreaterThan(0)
+      }
+    }
+    expect(seen.size).toBeGreaterThan(3)
+  })
+
+  it('advanceBountyStep is a no-op when not accepted', () => {
+    const [bounty] = getDailyBounties(DAY)
+    advanceBountyStep(bounty.id)
+    expect(getBountyStepProgress(bounty.id, bounty.steps[0].key)).toBe(0)
+  })
+
+  it('single-step bounty becomes turn-in-ready after one advance', () => {
+    const single = getDailyBounties(DAY).find(b => b.steps.length === 1)
+    if (!single) return
+    acceptBounty(single.id)
+    expect(getActiveBountyStep(single.id)?.key).toBe(single.steps[0].key)
+    advanceBountyStep(single.id)
+    expect(getActiveBountyStep(single.id)).toBeNull()
+    expect(turnInBounty(single.id)).toBe(single.reward.crystals)
+  })
+
+  it('multi-step bounty requires every step before turn-in succeeds', () => {
+    const fish = { id: 'fresh-fish-for-the-kitchen', steps: [{ key: 'collect' }, { key: 'report' }] }
+    acceptBounty(fish.id)
+    expect(turnInBounty(fish.id)).toBe(0)
+    advanceBountyStep(fish.id) // collect
+    expect(getActiveBountyStep(fish.id)?.key).toBe('report')
+    expect(turnInBounty(fish.id)).toBe(0)
+    advanceBountyStep(fish.id) // report
+    expect(getActiveBountyStep(fish.id)).toBeNull()
+    expect(turnInBounty(fish.id)).toBeGreaterThan(0)
+  })
+
+  it('progress persists across reloads', () => {
+    const [bounty] = getDailyBounties(DAY)
+    acceptBounty(bounty.id)
+    advanceBountyStep(bounty.id)
+    const progress = getBountyStepProgress(bounty.id, bounty.steps[0].key)
+    expect(progress).toBeGreaterThan(0)
+    // A fresh read goes through localStorage again.
+    expect(getBountyStepProgress(bounty.id, bounty.steps[0].key)).toBe(progress)
+  })
+})
+
+describe('getPendingBountyReport / getPendingBountyCollect', () => {
+  it('getPendingBountyReport returns null when nothing is accepted', () => {
+    expect(getPendingBountyReport('elder', DAY)).toBeNull()
+  })
+
+  it('getPendingBountyReport returns the bounty once accepted and its report step is active', () => {
+    const reportBounty = getDailyBounties(FISH_DAY).find(b => b.steps[0].type === 'report')!
+    const npcId = reportBounty.steps[0].targetNpcId!
+    acceptBounty(reportBounty.id)
+    expect(getPendingBountyReport(npcId, FISH_DAY)?.id).toBe(reportBounty.id)
+    expect(getPendingBountyReport('someone-else', FISH_DAY)).toBeNull()
+  })
+
+  it('getPendingBountyReport returns null once the step has already been reported', () => {
+    const reportBounty = getDailyBounties(FISH_DAY).find(b => b.steps[0].type === 'report')!
+    const npcId = reportBounty.steps[0].targetNpcId!
+    acceptBounty(reportBounty.id)
+    advanceBountyStep(reportBounty.id)
+    expect(getPendingBountyReport(npcId, FISH_DAY)).toBeNull()
+  })
+
+  it('getPendingBountyCollect returns null when nothing is accepted', () => {
+    expect(getPendingBountyCollect('fresh-fish-millhaven', FISH_DAY)).toBeNull()
+  })
+
+  it('getPendingBountyCollect returns the bounty once accepted and its collect step is active', () => {
+    const collectBounty = getDailyBounties(FISH_DAY).find(b => b.steps[0].type === 'collect')!
+    const pickupId = collectBounty.steps[0].pickupIds![0]
+    acceptBounty(collectBounty.id)
+    expect(getPendingBountyCollect(pickupId, FISH_DAY)?.id).toBe(collectBounty.id)
+    expect(getPendingBountyCollect('not-a-real-pickup', FISH_DAY)).toBeNull()
+  })
+
+  it('getPendingBountyCollect returns null once collected (active step has moved to report)', () => {
+    const collectBounty = getDailyBounties(FISH_DAY).find(b => b.steps[0].type === 'collect')!
+    const pickupId = collectBounty.steps[0].pickupIds![0]
+    acceptBounty(collectBounty.id)
+    advanceBountyStep(collectBounty.id)
+    expect(getPendingBountyCollect(pickupId, FISH_DAY)).toBeNull()
   })
 })
 

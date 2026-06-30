@@ -15348,6 +15348,7 @@ html.light-mode .action-btn {
 .bounty-board-modal__title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
 .bounty-board-modal__title-row .bounty-board-modal__title { margin-bottom: 0; }
 .bounty-board-modal__desc   { font-size: 10px; color: #667766; font-style: italic; }
+.bounty-board-modal__hint   { font-size: 10px; color: #667766; margin-top: 6px; font-style: italic; }
 .bounty-board-modal__reward { font-size: 10px; color: #88cc88; margin-top: 4px; }
 
 /* ── Town Directory ("Where is…?") ─────────────────────────────────────────── */

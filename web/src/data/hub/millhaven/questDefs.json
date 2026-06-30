@@ -606,6 +606,12 @@
       "questId": "millhaven-missing-catch"
     },
     {
+      "id": "fresh-fish-millhaven",
+      "tx": 25,
+      "ty": 10,
+      "tileId": "mushroomBasket"
+    },
+    {
       "id": "nautical-chart",
       "tx": 12,
       "ty": 9,
