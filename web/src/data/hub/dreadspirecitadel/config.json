@@ -492,6 +492,18 @@
   "ambientNpcSprites": [],
   "npcs": [
     {
+      "id": "vask-ward",
+      "name": "Vask",
+      "sprite": "hub-npc-vask",
+      "tx": 24,
+      "ty": 27,
+      "screen": "narrator:vask",
+      "dialogue": [
+        "I served this citadel once. I don't talk about that, usually.",
+        "You keep coming back here. Most people don't, once they've seen the Outer Ward."
+      ]
+    },
+    {
       "id": "the-castellan",
       "name": "The Castellan",
       "sprite": "hub-npc-scholar",
