@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- shadow -->
+  <ellipse cx="16" cy="29" rx="5" ry="2" fill="rgba(0,0,0,0.2)"/>
+  <!-- archivist robe -->
+  <rect x="10" y="13" width="12" height="15" rx="3" fill="#1f3a4a"/>
+  <!-- silver trim -->
+  <rect x="10" y="25" width="12" height="2" fill="#8aa8b8"/>
+  <!-- arms -->
+  <rect x="8"  y="14" width="3" height="8" rx="1" fill="#1f3a4a"/>
+  <rect x="21" y="14" width="3" height="8" rx="1" fill="#1f3a4a"/>
+  <!-- satchel of scrolls -->
+  <rect x="20" y="17" width="4" height="6" rx="1" fill="#8b6040"/>
+  <circle cx="22" cy="17" r="1.4" fill="#c8a070"/>
+  <!-- head -->
+  <circle cx="16" cy="9" r="5" fill="#d4b090"/>
+  <!-- hair tied back -->
+  <path d="M11 8 Q11 3 16 3 Q21 3 21 8 L20 9 L12 9 Z" fill="#5a4632"/>
+  <circle cx="20" cy="11" r="1.6" fill="#5a4632"/>
+  <!-- spectacles -->
+  <rect x="12" y="8" width="3" height="2" rx="1" fill="none" stroke="#cfd8de" stroke-width="0.7"/>
+  <rect x="17" y="8" width="3" height="2" rx="1" fill="none" stroke="#cfd8de" stroke-width="0.7"/>
+  <line x1="15" y1="9" x2="17" y2="9" stroke="#cfd8de" stroke-width="0.7"/>
+  <!-- eyes -->
+  <rect x="13" y="8" width="2" height="2" rx="1" fill="#2a1a0a"/>
+  <rect x="17" y="8" width="2" height="2" rx="1" fill="#2a1a0a"/>
+</svg>

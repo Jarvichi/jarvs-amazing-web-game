@@ -1144,6 +1144,18 @@
   ],
   "npcs": [
     {
+      "id": "pilgrim-darkwood",
+      "name": "The Pilgrim",
+      "sprite": "hub-npc-pilgrim",
+      "tx": 38,
+      "ty": 16,
+      "screen": "narrator:pilgrim",
+      "dialogue": [
+        "The wood listens here. So do I, mostly.",
+        "You've walked through a seam or two yourself, I think. It shows, if you know where to look."
+      ]
+    },
+    {
       "id": "ogrim-the-bouncer",
       "name": "Ogrim the Bouncer",
       "sprite": "hub-npc-soldier",

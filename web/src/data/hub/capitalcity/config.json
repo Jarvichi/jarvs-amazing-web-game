@@ -3716,6 +3716,19 @@
   ],
   "npcs": [
     {
+      "id": "mira-archive",
+      "name": "Mira",
+      "sprite": "hub-npc-mira",
+      "building": "senate-archive",
+      "tx": 6,
+      "ty": 5,
+      "screen": "narrator:mira",
+      "dialogue": [
+        "Every record in this archive is a fragment of something larger. I'm still piecing the rest together.",
+        "You've seen things out there I can only read about. Tell me — does it match what's written here?"
+      ]
+    },
+    {
       "id": "innkeeper-crownhaven",
       "name": "Innkeep Rosalind",
       "sprite": "hub-npc-merchant",
