@@ -49,6 +49,8 @@ type CharacterDef = {
   title: string
   icon: string
   encounters: CharacterStage[]
+  epilogue?: CharacterStage[]
+  encounterChance?: number
 }
 
 const catalog = charactersData as Record<string, CharacterDef>
@@ -61,8 +63,15 @@ export function getCharacterStage(id: string): CharacterStage {
   const def = catalog[id]
   if (!def) return { greeting: '' }
   const { count } = getCharacterState(id)
-  const idx = Math.min(count, def.encounters.length - 1)
-  return def.encounters[idx]
+  if (count < def.encounters.length) return def.encounters[count]
+  if (def.epilogue && def.epilogue.length > 0) {
+    return def.epilogue[(count - def.encounters.length) % def.epilogue.length]
+  }
+  return def.encounters[def.encounters.length - 1]
+}
+
+export function getCharacterEncounterChance(id: string): number {
+  return catalog[id]?.encounterChance ?? 1
 }
 
 export function getCharacterIds(): string[] {
