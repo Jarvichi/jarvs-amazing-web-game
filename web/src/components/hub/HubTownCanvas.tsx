@@ -21,7 +21,8 @@ import { createChunkCuller } from '../../utils/chunkCull'
 import { CommanderState } from '../../game/commander'
 import rollbar from '../../rollbar'
 import { HubInteractable, HubInteriorExit, HubLocationBundle, HubNpc, HubQuestBundle, HubStreetGroup, NpcScheduleEntry, isVisibleAtLevel } from '../../data/hub/loader'
-import { createAnimalSystem, AnimalSystem, GlowSource } from './hubAnimals'
+import { createAnimalSystem, AnimalSystem, GlowSource, PLAYER_OWNER_ID } from './hubAnimals'
+import { getActivePet } from '../../game/hub/pet'
 import type { AnimalType } from '../../game/hub/animals'
 import { createWeatherSystem } from './hubWeather'
 import { resolveWeather } from '../../game/hub/weather'
@@ -2410,6 +2411,7 @@ export function HubTownCanvas({
       getAvatarPx: () => ({ x: avatar?.x ?? COURTYARD_PX.x, y: avatar?.y ?? COURTYARD_PX.y }),
       getNpcPositions: () => {
         const out: { id?: string; x: number; y: number }[] = []
+        out.push({ id: PLAYER_OWNER_ID, x: avatar?.x ?? COURTYARD_PX.x, y: avatar?.y ?? COURTYARD_PX.y })
         for (const [id, container] of namedNpcContainers) {
           if (!container.visible) continue
           const s = container.children[0] as PIXI.Sprite | undefined
@@ -2436,6 +2438,15 @@ export function HubTownCanvas({
       },
     })
     getAnimalsInBuildingFn = animalSystem.getAnimalsInBuilding
+
+    // Spawn the player's adopted follower pet (if any) near their spawn tile.
+    const activePet = getActivePet()
+    if (activePet) {
+      let [ptx, pty] = [AVATAR_START.tx, AVATAR_START.ty + 1]
+      if (animalIsSolid(ptx, pty)) [ptx, pty] = [AVATAR_START.tx + 1, AVATAR_START.ty]
+      if (animalIsSolid(ptx, pty)) [ptx, pty] = [AVATAR_START.tx, AVATAR_START.ty]
+      animalSystem.spawnFollowerPet(activePet.variant, ptx, pty)
+    }
 
     // ── Weather overlay (screen-space, above the world incl. night dimming) ────
     const weatherLayer = new PIXI.Container()

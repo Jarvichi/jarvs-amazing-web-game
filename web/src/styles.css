@@ -15351,6 +15351,78 @@ html.light-mode .action-btn {
 .bounty-board-modal__hint   { font-size: 10px; color: #667766; margin-top: 6px; font-style: italic; }
 .bounty-board-modal__reward { font-size: 10px; color: #88cc88; margin-top: 4px; }
 
+/* ── Pet adoption / management ──────────────────────────────────────────────── */
+.pet-modal {
+  background: rgba(8, 14, 8, 0.97);
+  border: 1px solid #446644;
+  color: #c8e8c8;
+  padding: 20px;
+  width: min(360px, 92vw);
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 4px;
+  font-family: monospace;
+}
+.pet-modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: #88cc88;
+  text-transform: uppercase;
+}
+.pet-modal__close {
+  background: none;
+  border: none;
+  color: #557755;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0 2px;
+  line-height: 1;
+}
+.pet-modal__close:hover { color: #88cc88; }
+.pet-modal__section-label {
+  font-size: 10px;
+  color: #557755;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin: 12px 0 6px;
+}
+.pet-modal__swatches { display: flex; gap: 10px; margin-bottom: 14px; }
+.pet-modal__swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #2a4a2a;
+  cursor: pointer;
+  padding: 0;
+}
+.pet-modal__swatch--selected { border-color: #88cc88; }
+.pet-modal__name-input {
+  display: block;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #2a4a2a;
+  color: #c8e8c8;
+  font-family: monospace;
+  font-size: 12px;
+  padding: 8px 10px;
+  margin-bottom: 10px;
+  border-radius: 2px;
+}
+.pet-modal__current { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.pet-modal__current-swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #2a4a2a;
+  display: inline-block;
+}
+.pet-modal__current-name { font-size: 14px; font-weight: bold; }
+.pet-modal__actions-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+
 /* ── Town Directory ("Where is…?") ─────────────────────────────────────────── */
 .town-directory {
   background: rgba(8, 14, 8, 0.97);

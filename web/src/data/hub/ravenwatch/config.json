@@ -9472,6 +9472,31 @@
       ]
     },
     {
+      "id": "ravenwatch-pet-shelter",
+      "tx": 39,
+      "ty": 21,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "wolfSign"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "dialogue",
+          "speakerName": "Shelter Keeper",
+          "text": [
+            "Looking for a companion? We've got a few dogs here who'd love a home."
+          ]
+        },
+        {
+          "type": "screen",
+          "screen": "adopt-pet"
+        }
+      ]
+    },
+    {
       "id": "ravenwatch-church-key",
       "tx": 5,
       "ty": 5,
