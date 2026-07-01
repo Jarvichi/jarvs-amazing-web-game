@@ -143,6 +143,11 @@ export interface AnimalSystem {
   spawnFollowerPet: (variant: string, tx: number, ty: number) => void
   /** Best-effort removal of an animal by id. No-op if not found. */
   removeAnimal: (id: string) => void
+  /** Sends the player's pet off to fetch something; fires onReturn once it's
+   *  back near the player. Returns false if there's no pet or it's already fetching. */
+  sendPetFetching: (onReturn: () => void) => boolean
+  /** Cosmetic affection reaction (wag + heart bubble) for the player's pet. */
+  givePetAffection: () => void
   destroy: () => void
 }
 
@@ -165,6 +170,8 @@ const isFloating = (t: AnimalType) => t === 'fish' || t === 'butterfly' || t ===
 export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
   const { app, T, spriteSize } = opts
   const animals: Animal[] = []
+  // Set by sendPetFetching(); fired once the fetching pet is back near the player.
+  let fetchCallback: (() => void) | null = null
 
   const overlayAnimLayer = new PIXI.Container()   // birds + butterflies (above buildings)
   const fishLayer = new PIXI.Container()
@@ -464,6 +471,30 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
       a.state = 'chase'; a.stateTimer = 3000; a.goal = [prey.tx, prey.ty]; return true
     }
     return false
+  }
+
+  // Forced (never idle-picked) two-phase state for the player's "give a treat"
+  // interaction: walk out to a.goal (grass-stepping, same as chase-prey), pause
+  // briefly on arrival, then follow the player home exactly like follow-owner.
+  function tickFetching(a: Animal, walkable: Set<string>, npcs: { id?: string; x: number; y: number }[]) {
+    if (a.state === 'fetching-out') {
+      if (a.goal) { if (!isMoving(a)) stepToward(a, walkable, 'grass'); return }
+      if (!isMoving(a) && a.stateTimer <= 0) a.state = 'fetching-return'
+      return
+    }
+    // fetching-return
+    const owner = npcs.find(n => n.id === PLAYER_OWNER_ID)
+    if (!owner) return
+    const dist = Math.hypot(a.sprite.x - owner.x, a.sprite.y - owner.y)
+    if (dist <= 3 * T) {
+      const cb = fetchCallback
+      fetchCallback = null
+      a.state = 'sit'; a.stateTimer = randomDuration('sit')
+      showStatic(a)
+      cb?.()
+      return
+    }
+    if (!isMoving(a)) followToward(a, owner, walkable)
   }
 
   // ── behaviour: birds ─────────────────────────────────────────────────────────
@@ -844,6 +875,8 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
         rabbitTick(a, dt, avatar, walkable)
       } else if (a.type === 'chicken') {
         chickenTick(a, dt, avatar, walkable, night)
+      } else if (a.state === 'fetching-out' || a.state === 'fetching-return') {
+        tickFetching(a, walkable, npcs)
       } else {
         dogSocial(a, dt, npcs)
         dogChasePrey(a, dt)
@@ -1061,5 +1094,27 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
       })
   }
 
-  return { tick, getAnimalsInBuilding, getGlowSources, spawnFollowerPet, removeAnimal, destroy }
+  function sendPetFetching(onReturn: () => void): boolean {
+    const a = animals.find(x => x.id === PLAYER_PET_ANIMAL_ID)
+    if (!a || a.state === 'fetching-out' || a.state === 'fetching-return') return false
+    const walkable = opts.getWalkable()
+    const far = tilesWithin(walkable, a.tx, a.ty, 8)
+      .filter(([x, y]) => Math.max(Math.abs(x - a.tx), Math.abs(y - a.ty)) >= 4)
+    const dest = randOf(far) ?? randOf(tilesWithin(walkable, a.tx, a.ty, 8))
+    if (!dest) return false
+    fetchCallback = onReturn
+    a.state = 'fetching-out'
+    a.stateTimer = 800
+    a.goal = dest
+    return true
+  }
+
+  function givePetAffection(): void {
+    const a = animals.find(x => x.id === PLAYER_PET_ANIMAL_ID)
+    if (!a) return
+    speak(a, '♥')
+    a.wagTimer = 1300
+  }
+
+  return { tick, getAnimalsInBuilding, getGlowSources, spawnFollowerPet, removeAnimal, sendPetFetching, givePetAffection, destroy }
 }

@@ -81,6 +81,7 @@ interface Props {
   onAnimalSeen?:    (type: AnimalType, variant?: string) => void
   interiorEnterRef?: React.MutableRefObject<((buildingId: string) => void) | null>
   interiorExitRef?:  React.MutableRefObject<(() => void) | null>
+  petActionRef?:     React.MutableRefObject<{ sendPetFetching: (onReturn: () => void) => boolean; givePetAffection: () => void } | null>
   onEnterInterior?:  () => void
   onExitInterior?:   () => void
   onTileTap?:        (tx: number, ty: number) => void
@@ -117,7 +118,7 @@ interface Props {
 export function HubTownCanvas({
   onAreaEnter, onNodeInteract, onAvatarMove,
   returnRef, unitCards, commander, onNpcTap, onAnimalTap, onAnimalSeen,
-  interiorEnterRef, interiorExitRef, onEnterInterior, onExitInterior, onTileTap,
+  interiorEnterRef, interiorExitRef, petActionRef, onEnterInterior, onExitInterior, onTileTap,
   pickedUpIds, onItemPickup, doorKeys, onDoorLocked, questNpcState, activeQuestIdsRef,
   completedQuestIdsRef, collectedTreasureIds, onTreasureStep,
   gameHour, isNight, npcProximityDialogue,
@@ -2447,6 +2448,7 @@ export function HubTownCanvas({
       },
     })
     getAnimalsInBuildingFn = animalSystem.getAnimalsInBuilding
+    if (petActionRef) petActionRef.current = { sendPetFetching: animalSystem.sendPetFetching, givePetAffection: animalSystem.givePetAffection }
 
     // Spawn the player's adopted follower pet (if any) near their spawn tile.
     const activePet = getActivePet()

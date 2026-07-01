@@ -33,7 +33,7 @@ import { QuestsModal } from './QuestsModal'
 import { BountyBoardModal } from './BountyBoardModal'
 import { hasUnclaimedBounties, getPendingBountyReport, getPendingBountyCollect, advanceBountyStep, getActiveBountyStep } from '../../game/hub/bounties'
 import { PetModal } from './PetModal'
-import { getActivePet } from '../../game/hub/pet'
+import { getActivePet, getTreatsRemainingToday, canGiveTreat, recordTreatGiven } from '../../game/hub/pet'
 import { PLAYER_PET_ANIMAL_ID } from './hubAnimals'
 import { TownDirectory } from './TownDirectory'
 import { TownJournal } from './TownJournal'
@@ -355,6 +355,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   const returnRef        = useRef(null) as React.MutableRefObject<(() => void) | null>
   const interiorEnterRef = useRef<((buildingId: string) => void) | null>(null)
   const interiorExitRef  = useRef<(() => void) | null>(null)
+  const petActionRef     = useRef<{ sendPetFetching: (onReturn: () => void) => boolean; givePetAffection: () => void } | null>(null)
   const playerName = loadPlayerName()
 
   const unitCards = useMemo(() => {
@@ -541,6 +542,28 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     setPickedUpIds(getPickedUpIds())
     refreshState()
   }, [refreshState])
+
+  // Give-a-Treat reward: one of crystals / a random common-or-uncommon card /
+  // a flavor trinket, mirroring handleTreasureStep's reward-application shapes.
+  const grantRandomPetReward = useCallback((petName: string): string => {
+    const roll = Math.random()
+    if (roll < 0.4) {
+      const amount = 10 + Math.floor(Math.random() * 21) // 10-30
+      saveCrystals(loadCrystals() + amount)
+      onCrystalsChange?.(loadCrystals())
+      return `${petName} drops ${amount} crystals at your feet!`
+    }
+    if (roll < 0.8) {
+      const catalog = getCardCatalog().filter(c => c.rarity === 'common' || c.rarity === 'uncommon')
+      const card = catalog[Math.floor(Math.random() * catalog.length)]
+      if (card) {
+        addCardsToCollection([{ cardName: card.name, count: 1 }])
+        return `${petName} comes trotting back with a card: ${card.name}!`
+      }
+    }
+    addCollectible('pet-fetch-trinket', { name: 'Shiny Trinket', icon: '✨', desc: `A shiny bauble ${petName} dug up while out on a walk.` })
+    return `${petName} found a shiny trinket and brought it back!`
+  }, [onCrystalsChange])
 
   const handleTreasureStep = useCallback((id: string) => {
     const treasure = locationData.HUB_TREASURES.find(t => t.id === id)
@@ -1012,11 +1035,42 @@ function hasOfferableQuest(giverId: string): boolean {
 
   // Placed/quest animals route through the same handler as NPCs.
   const handleAnimalTap = useCallback((animalId: string) => {
-    if (animalId === PLAYER_PET_ANIMAL_ID) { setPetModalOpen(true); return }
+    if (animalId === PLAYER_PET_ANIMAL_ID) {
+      const pet = getActivePet()
+      if (!pet) { setPetModalOpen(true); return }
+      const remaining = getTreatsRemainingToday()
+      const choices: DialogueChoice[] = [
+        {
+          label: `Give a Treat (${remaining}/2 today)`,
+          primary: true,
+          onClick: () => {
+            if (!canGiveTreat()) {
+              setDialogueEvent({ speakerName: pet.name, text: `${pet.name} has had plenty for today. Come back tomorrow!` })
+              return
+            }
+            const sent = petActionRef.current?.sendPetFetching(() => {
+              recordTreatGiven()
+              const message = grantRandomPetReward(pet.name)
+              refreshState()
+              setDialogueEvent({ speakerName: pet.name, text: message })
+            })
+            if (!sent) { setDialogueEvent({ speakerName: pet.name, text: `${pet.name} seems busy right now.` }); return }
+            setDialogueEvent(null)
+          },
+        },
+        { label: 'Pet', onClick: () => { petActionRef.current?.givePetAffection(); setDialogueEvent({ speakerName: pet.name, text: `${pet.name} leans into your hand, tail wagging.` }) } },
+        { label: 'Belly Rubs', onClick: () => { petActionRef.current?.givePetAffection(); setDialogueEvent({ speakerName: pet.name, text: `${pet.name} flops over for belly rubs, completely delighted.` }) } },
+        { label: 'Brush', onClick: () => { petActionRef.current?.givePetAffection(); setDialogueEvent({ speakerName: pet.name, text: `${pet.name}'s coat looks extra shiny now.` }) } },
+        { label: 'Manage', onClick: () => setPetModalOpen(true) },
+        { label: 'Never mind', onClick: () => setDialogueEvent(null) },
+      ]
+      setDialogueEvent({ speakerName: pet.name, text: 'What would you like to do?', choices })
+      return
+    }
     const a = locationData.HUB_ANIMALS.find(an => an.id === animalId)
     const line = a?.dialogue && a.dialogue.length > 0 ? a.dialogue[0] : ''
     handleNpcTap(line, animalId)
-  }, [handleNpcTap, locationData])
+  }, [handleNpcTap, locationData, refreshState, grantRandomPetReward])
 
   const handleAreaEnter = useCallback((areaName: string | null) => {
     setCurrentArea(areaName)
@@ -1239,6 +1293,7 @@ function hasOfferableQuest(giverId: string): boolean {
             onAnimalSeen={recordAnimalSeen}
             interiorEnterRef={interiorEnterRef}
             interiorExitRef={interiorExitRef}
+            petActionRef={petActionRef}
             onEnterInterior={() => setInteriorActive(true)}
             onExitInterior={() => setInteriorActive(false)}
             onTileTap={onTileTap}

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { getActivePet, hasActivePet, adoptPet, renamePet, dismissPet } from './pet'
+import { getActivePet, hasActivePet, adoptPet, renamePet, dismissPet, getTreatsRemainingToday, canGiveTreat, recordTreatGiven } from './pet'
 
 // In-memory localStorage mock (tests run in node environment)
 const store = new Map<string, string>()
@@ -72,5 +72,58 @@ describe('pet store', () => {
   it('a blank adoption name falls back to a default', () => {
     adoptPet('dog', 'brown', '   ')
     expect(getActivePet()?.name).toBe('Pup')
+  })
+
+  it('adopting a new pet preserves the daily treat count', () => {
+    adoptPet('dog', 'golden', 'Rex')
+    recordTreatGiven()
+    adoptPet('dog', 'black', 'Shadow')
+    expect(getTreatsRemainingToday()).toBe(1)
+  })
+
+  it('dismissing preserves the daily treat count', () => {
+    adoptPet('dog', 'golden', 'Rex')
+    recordTreatGiven()
+    dismissPet()
+    expect(getTreatsRemainingToday()).toBe(1)
+  })
+})
+
+describe('treat cooldown', () => {
+  it('starts with 2 treats remaining and no active pet means canGiveTreat is false', () => {
+    expect(getTreatsRemainingToday()).toBe(2)
+    expect(canGiveTreat()).toBe(false)
+  })
+
+  it('decrements remaining count on each treat given', () => {
+    adoptPet('dog', 'golden', 'Rex')
+    expect(canGiveTreat()).toBe(true)
+    recordTreatGiven()
+    expect(getTreatsRemainingToday()).toBe(1)
+    expect(canGiveTreat()).toBe(true)
+    recordTreatGiven()
+    expect(getTreatsRemainingToday()).toBe(0)
+    expect(canGiveTreat()).toBe(false)
+  })
+
+  it('floors at 0 and does not go negative', () => {
+    adoptPet('dog', 'golden', 'Rex')
+    recordTreatGiven()
+    recordTreatGiven()
+    recordTreatGiven()
+    expect(getTreatsRemainingToday()).toBe(0)
+  })
+
+  it('resets to the max on a new day', () => {
+    adoptPet('dog', 'golden', 'Rex')
+    recordTreatGiven()
+    recordTreatGiven()
+    expect(getTreatsRemainingToday()).toBe(0)
+    // Simulate a day change by rewriting the backing store with a stale date.
+    const raw = JSON.parse(store.get('jarv_hub_pet')!)
+    raw.treats.date = '2000-01-01'
+    store.set('jarv_hub_pet', JSON.stringify(raw))
+    expect(getTreatsRemainingToday()).toBe(2)
+    expect(canGiveTreat()).toBe(true)
   })
 })
