@@ -8,10 +8,31 @@
 // the full fixed ALL_CONSUMABLES catalog there) — a small rotating subset is
 // picked here with the same seeded-rng mechanism so all 3 shops feel alike.
 
-import { getDailyShopCards, getDailyShopAugment, getShopSlotKey, makeSeededRng, dateHash } from '../shopSchedule'
+import { getDailyShopCards, getDailyShopAugment, getShopSlotKey, makeSeededRng, dateHash, ShopCardFilter } from '../shopSchedule'
+import { CardRarity } from '../types'
 import { ALL_CONSUMABLES } from '../questline'
 
-export type ShopBuildingId = 'card-shop' | 'augment-shop' | 'supply-shop'
+/** Widened to a plain string: new traders register under any building id, not just Ravenwatch's 3. */
+export type ShopBuildingId = string
+
+export type ShopTraderKind = 'card' | 'augment' | 'consumable'
+
+export interface ShopTraderConfig {
+  kind: ShopTraderKind
+  /** 'card' traders only: restricts/reshapes the card pool (e.g. cardType/rarity filters). */
+  cardFilter?: ShopCardFilter
+  /** 'augment' traders only: restricts the augment pool to these rarities. */
+  augmentRarities?: CardRarity[]
+  /** 'consumable' traders only: how many items to stock. Defaults to 3. */
+  slotCount?: number
+}
+
+/** One row per trader building. New specialist traders register here. */
+export const SHOP_TRADER_REGISTRY: Record<string, ShopTraderConfig> = {
+  'card-shop':    { kind: 'card' },
+  'augment-shop': { kind: 'augment' },
+  'supply-shop':  { kind: 'consumable' },
+}
 
 export type ShopStockGrant =
   | { kind: 'card'; cardName: string }
@@ -24,15 +45,15 @@ export interface ShopStockItem {
   grant: ShopStockGrant
 }
 
-const SUPPLY_STOCK_COUNT = 3
+const DEFAULT_SUPPLY_STOCK_COUNT = 3
 
-function getSupplyStock(at?: Date): ShopStockItem[] {
+function getSupplyStock(at: Date | undefined, count: number): ShopStockItem[] {
   const slotKey = getShopSlotKey(at)
   const rng     = makeSeededRng(dateHash(slotKey) ^ 0x5a1e5009)
   const pool    = [...ALL_CONSUMABLES]
   const picks: ShopStockItem[] = []
   const used = new Set<number>()
-  while (picks.length < SUPPLY_STOCK_COUNT && picks.length < pool.length) {
+  while (picks.length < count && picks.length < pool.length) {
     const idx = Math.floor(rng() * pool.length)
     if (used.has(idx)) continue
     used.add(idx)
@@ -42,20 +63,23 @@ function getSupplyStock(at?: Date): ShopStockItem[] {
   return picks
 }
 
-/** Today's (current 3-hour slot's) for-sale items for one of the 3 hub shops. */
-export function getTodaysShopItems(buildingId: ShopBuildingId, at?: Date): ShopStockItem[] {
-  switch (buildingId) {
-    case 'card-shop':
-      return getDailyShopCards(at)
+/** Today's (current 3-hour slot's) for-sale items for a registered hub trader. */
+export function getTodaysShopItems(buildingId: string, at?: Date): ShopStockItem[] {
+  const config = SHOP_TRADER_REGISTRY[buildingId]
+  if (!config) return []
+
+  switch (config.kind) {
+    case 'card':
+      return getDailyShopCards(at, config.cardFilter)
         .filter(d => d.cardName !== '')
         .map(d => ({ itemName: d.cardName, price: d.price, grant: { kind: 'card', cardName: d.cardName } }))
-    case 'augment-shop': {
-      const deal = getDailyShopAugment(at)
+    case 'augment': {
+      const deal = getDailyShopAugment(at, config.augmentRarities)
       return deal.augmentName === ''
         ? []
         : [{ itemName: deal.augmentName, price: deal.price, grant: { kind: 'augment', augmentName: deal.augmentName } }]
     }
-    case 'supply-shop':
-      return getSupplyStock(at)
+    case 'consumable':
+      return getSupplyStock(at, config.slotCount ?? DEFAULT_SUPPLY_STOCK_COUNT)
   }
 }

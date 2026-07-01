@@ -4,7 +4,7 @@
 // purchase state. NPC definitions live in src/data/shopNpcs.json.
 
 import { getCardCatalog } from './cards'
-import { CardRarity } from './types'
+import { CardRarity, CardType } from './types'
 import { ALL_ITEMS, RewardDef } from './dailyLogin'
 import { getAugmentCatalog } from './augments'
 import shopNpcsJson from '../data/shopNpcs.json'
@@ -181,12 +181,40 @@ export interface ShopCardDeal {
   price: number
 }
 
-/** Returns the current stock's 3 card deals (refreshes every 3 hours). */
-export function getDailyShopCards(at?: Date): ShopCardDeal[] {
+export interface ShopCardFilter {
+  /** Restrict the pool to a single card type (e.g. 'upgrade' for a "spell" trader). */
+  cardType?: CardType
+  /** Restrict every slot to a single rarity, instead of the default
+   *  common/uncommon/rare-or-legendary 3-tier spread. */
+  rarity?: CardRarity
+  /** Restrict every slot to a set of rarities (e.g. epic+legendary). */
+  rarities?: CardRarity[]
+  /** Number of deals to return. Defaults to 3 (Ravenwatch's card-shop). */
+  slotCount?: number
+}
+
+/** Returns the current stock's card deals (refreshes every 3 hours). */
+export function getDailyShopCards(at?: Date, filter?: ShopCardFilter): ShopCardDeal[] {
   const slotKey = getShopSlotKey(at)
   const rng     = makeSeededRng(dateHash(slotKey) ^ 0xcafebabe)
-  const catalog = getCardCatalog()
+  const catalog = getCardCatalog().filter(c => !filter?.cardType || c.cardType === filter.cardType)
   const npc     = getDailyShopNPC(at)
+
+  const rarityFilter = filter?.rarities ?? (filter?.rarity ? [filter.rarity] : undefined)
+  if (rarityFilter) {
+    const pool  = catalog.filter(c => rarityFilter.includes(c.rarity))
+    const count = Math.min(filter?.slotCount ?? 3, pool.length)
+    const used  = new Set<number>()
+    const result: ShopCardDeal[] = []
+    while (result.length < count) {
+      const idx = Math.floor(rng() * pool.length)
+      if (used.has(idx)) continue
+      used.add(idx)
+      const card = pool[idx]
+      result.push({ cardName: card.name, rarity: card.rarity, price: SHOP_CARD_PRICES[card.rarity] })
+    }
+    return result
+  }
 
   const pick = (rarity: CardRarity): ShopCardDeal => {
     const pool = catalog.filter(c => c.rarity === rarity)
@@ -219,13 +247,14 @@ export interface ShopAugmentDeal {
   price: number
 }
 
+const DEFAULT_AUGMENT_RARITIES: CardRarity[] = ['common', 'uncommon', 'rare', 'epic', 'legendary']
+
 /** Returns a single random augment deal for the current stock slot (refreshes every 3 hours). */
-export function getDailyShopAugment(at?: Date): ShopAugmentDeal {
+export function getDailyShopAugment(at?: Date, allowedRarities?: CardRarity[]): ShopAugmentDeal {
   const slotKey = getShopSlotKey(at)
   const rng     = makeSeededRng(dateHash(slotKey) ^ 0xdeadbeef)
-  const catalog = getAugmentCatalog().filter(c =>
-    c.rarity === 'common' || c.rarity === 'uncommon' || c.rarity === 'rare' || c.rarity === 'epic' || c.rarity === 'legendary'
-  )
+  const rarities = allowedRarities ?? DEFAULT_AUGMENT_RARITIES
+  const catalog = getAugmentCatalog().filter(c => rarities.includes(c.rarity as CardRarity))
   if (catalog.length === 0) return { augmentName: '', rarity: 'common', price: SHOP_AUGMENT_PRICES.common }
   const aug = catalog[Math.floor(rng() * catalog.length)]
   return {
@@ -259,15 +288,20 @@ export function getDailyShopSellSlots(at?: Date): RewardDef[] {
 
 // ── Daily shop purchase state ─────────────────────────────────────────────────
 
-export interface DailyShopState {
-  date: string
+export interface DailyShopBuildingState {
   boughtCardNames: string[]
-  soldItemIds: string[]
   boughtAugment?: boolean
 }
 
+export interface DailyShopState {
+  date: string
+  /** Per-trader "already bought today" state, keyed by building id. */
+  buildings: Record<string, DailyShopBuildingState>
+  soldItemIds: string[]
+}
+
 function freshShopState(): DailyShopState {
-  return { date: getShopSlotKey(), boughtCardNames: [], soldItemIds: [] }
+  return { date: getShopSlotKey(), buildings: {}, soldItemIds: [] }
 }
 
 export function loadDailyShopState(): DailyShopState {
@@ -276,6 +310,7 @@ export function loadDailyShopState(): DailyShopState {
     if (!raw) return freshShopState()
     const parsed = JSON.parse(raw) as DailyShopState
     if (parsed.date !== getShopSlotKey()) return freshShopState()
+    if (!parsed.buildings) return freshShopState()
     return parsed
   } catch {
     return freshShopState()
@@ -286,18 +321,47 @@ export function saveDailyShopState(state: DailyShopState): void {
   try { localStorage.setItem(SHOP_STATE_KEY, JSON.stringify(state)) } catch { /* ignore */ }
 }
 
+/** Returns a new state with the given card marked bought for one building's stock. */
+export function markCardBought(state: DailyShopState, buildingId: string, cardName: string): DailyShopState {
+  const existing = state.buildings[buildingId] ?? { boughtCardNames: [] }
+  return {
+    ...state,
+    buildings: {
+      ...state.buildings,
+      [buildingId]: { ...existing, boughtCardNames: [...existing.boughtCardNames, cardName] },
+    },
+  }
+}
+
+/** Returns a new state with the augment marked bought for one building's stock. */
+export function markAugmentBought(state: DailyShopState, buildingId: string): DailyShopState {
+  const existing = state.buildings[buildingId] ?? { boughtCardNames: [] }
+  return {
+    ...state,
+    buildings: {
+      ...state.buildings,
+      [buildingId]: { ...existing, boughtAugment: true },
+    },
+  }
+}
+
 /**
  * Whether a for-sale item is already sold today, per the same state ShopScreen
  * uses — shared by the hub's physical-item purchase path so buying via the
  * shopkeeper NPC or via the placed item both draw down the same stock.
  * Consumables are never gated (ShopScreen sells them unlimited).
+ *
+ * buildingId is required (not optional/defaulted) so a trader's "sold" state
+ * can never silently collide with another trader's stock.
  */
 export function isShopItemSold(
   state: DailyShopState,
+  buildingId: string,
   grant: { kind: 'card' | 'augment' | 'consumable'; cardName?: string },
 ): boolean {
-  if (grant.kind === 'card') return state.boughtCardNames.includes(grant.cardName ?? '')
-  if (grant.kind === 'augment') return state.boughtAugment ?? false
+  const b = state.buildings[buildingId]
+  if (grant.kind === 'card') return b?.boughtCardNames.includes(grant.cardName ?? '') ?? false
+  if (grant.kind === 'augment') return b?.boughtAugment ?? false
   return false
 }
 

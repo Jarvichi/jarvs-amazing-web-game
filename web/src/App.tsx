@@ -370,6 +370,7 @@ export default function App() {
 
   const [screen, setScreen]             = useState<Screen>(_startup.screen)
   const [returnScreen, setReturnScreen]  = useState<Screen>('title')
+  const [shopBuildingId, setShopBuildingId] = useState<string | undefined>(undefined)
   // Restore the town the player was last in (persisted in worldState). The saved
   // value is a world-map node id; for town nodes that id equals the LOCATION_REGISTRY
   // key. Fall back to ravenwatch if the saved id isn't a known town (e.g. a battle node).
@@ -2813,8 +2814,9 @@ export default function App() {
       {(screen === 'hubworld' || screen === 'location') && (
         <HubWorld
           onBack={() => setScreen('settings')}
-          onNavigate={(s) => {
+          onNavigate={(s, buildingId) => {
             setReturnScreen('hubworld')
+            setShopBuildingId(buildingId)
             const HUB_MINIGAME_IDS: SubScreen[] = ['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence', 'citybuilder', 'prizes']
             if (HUB_MINIGAME_IDS.includes(s as SubScreen)) {
               setHubMiniGameEntry(s as SubScreen)
@@ -3207,6 +3209,7 @@ export default function App() {
       {screen === 'shop-cards' && (
         <ShopScreen
           category="cards"
+          buildingId={shopBuildingId}
           crystals={crystals}
           onBuyCrystalPack={handleBuyCrystalPack}
           onCrystalsChange={(n: number) => { saveCrystals(n); setCrystals(n) }}
@@ -3217,6 +3220,7 @@ export default function App() {
       {screen === 'shop-augments' && (
         <ShopScreen
           category="augments"
+          buildingId={shopBuildingId}
           crystals={crystals}
           onBuyCrystalPack={handleBuyCrystalPack}
           onCrystalsChange={(n: number) => { saveCrystals(n); setCrystals(n) }}
@@ -3227,6 +3231,7 @@ export default function App() {
       {screen === 'shop-supplies' && (
         <ShopScreen
           category="supplies"
+          buildingId={shopBuildingId}
           crystals={crystals}
           onBuyCrystalPack={handleBuyCrystalPack}
           onCrystalsChange={(n: number) => { saveCrystals(n); setCrystals(n) }}

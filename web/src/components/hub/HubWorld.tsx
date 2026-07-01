@@ -49,8 +49,8 @@ import { HubInteractable, HubLocationBundle, HubQuestBundle, HubTreasure } from 
 import { getUnreadCount } from '../../game/news'
 import { interactableStoreKey, isInteractableGranted, markInteractableGranted, getInteractableMoves, setInteractableMove } from '../../game/hub/interactables'
 import { recordNpcMet, recordAnimalSeen, recordAreaSeen } from '../../game/hub/journal'
-import { getTodaysShopItems, ShopBuildingId } from '../../game/hub/shopStock'
-import { loadDailyShopState, saveDailyShopState, isShopItemSold } from '../../game/shopSchedule'
+import { getTodaysShopItems } from '../../game/hub/shopStock'
+import { loadDailyShopState, saveDailyShopState, isShopItemSold, markCardBought, markAugmentBought } from '../../game/shopSchedule'
 import rollbar from '../../rollbar'
 interface QuestEvent {
   speakerName: string
@@ -145,7 +145,7 @@ function getActiveDialogue(quest: HubQuestDef): string {
 
 export interface Props {
   onBack:             () => void
-  onNavigate?:        (screen: string) => void
+  onNavigate?:        (screen: string, buildingId?: string) => void
   onCampaign?:        () => void
   onEndless?:         () => void
   onWorldMap?:        () => void
@@ -496,7 +496,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     el.scrollTop  = py - el.clientHeight / 2
   }, [locationData])
 
-  const handleNodeInteract = useCallback((screen: string) => {
+  const handleNodeInteract = useCallback((screen: string, buildingId?: string) => {
     if (screen.startsWith('interior:')) {
       const buildingId = screen.slice(9)
       interiorEnterRef.current?.(buildingId)
@@ -515,7 +515,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
       setDialogueEvent({ speakerName: "Commander's Post", text: "No commander has been assigned yet. Visit the title screen to choose one." })
       return
     }
-    onNavigate?.(screen)
+    onNavigate?.(screen, buildingId)
   }, [onNavigate, onCampaign, onWorldMap, onNarratorLog, commander])
 
   const handleReturn = useCallback(() => {
@@ -811,7 +811,7 @@ function hasOfferableQuest(giverId: string): boolean {
     // same id space as quest giverNpcId / receiverNpcId / targetNpcId.
     const namedNpc = locationData.HUB_NPCS.find(n => n.id === npcId)
     const npcDef: {
-      name?: string; dialogue?: string[]; screen?: string
+      name?: string; dialogue?: string[]; screen?: string; building?: string
       questGive?: string; questReceive?: string | string[]
       innRumours?: Array<{ id: string; text: string }>
       dialogueTree?: string
@@ -878,7 +878,7 @@ function hasOfferableQuest(giverId: string): boolean {
       const screen = npcDef.screen
       const enterChoice: DialogueChoice = {
         label: screenEnterLabel(screen),
-        onClick: () => handleNodeInteract(screen),
+        onClick: () => handleNodeInteract(screen, npcDef.building),
       }
       const dismiss: DialogueChoice = { label: 'Maybe later', onClick: () => setDialogueEvent(null) }
 
@@ -1040,7 +1040,7 @@ function hasOfferableQuest(giverId: string): boolean {
         return
       }
       case 'screen':
-        handleNodeInteract(r.screen)
+        handleNodeInteract(r.screen, def.building)
         return
       case 'quest':
         if (!tryOfferQuest(def.id, r.speakerName ?? '', r.questId)) next()
@@ -1077,7 +1077,7 @@ function hasOfferableQuest(giverId: string): boolean {
         return
       }
       case 'buy': {
-        const buildingId = def.building as ShopBuildingId | undefined
+        const buildingId = def.building
         const item = buildingId ? getTodaysShopItems(buildingId)[r.slotIndex] : undefined
         if (!buildingId || !item) { next(); return }
 
@@ -1089,7 +1089,7 @@ function hasOfferableQuest(giverId: string): boolean {
         // fields, so buying via the NPC screen and buying the physical item
         // draw down the same stock. Supplies are never gated here, matching
         // ShopScreen's "always in stock" consumables.
-        if (isShopItemSold(loadDailyShopState(), item.grant)) {
+        if (isShopItemSold(loadDailyShopState(), buildingId, item.grant)) {
           setDialogueEvent({ speakerName, text: 'Sold already, friend — check back next time the stock turns over.', onClose: next })
           return
         }
@@ -1103,7 +1103,7 @@ function hasOfferableQuest(giverId: string): boolean {
               setDialogueEvent({ speakerName, text: "That's more than you're carrying — come back when you've got the crystals." })
               return
             }
-            if (isShopItemSold(loadDailyShopState(), item.grant)) {
+            if (isShopItemSold(loadDailyShopState(), buildingId, item.grant)) {
               setDialogueEvent({ speakerName, text: 'Sold already, friend — check back next time the stock turns over.', onClose: next })
               return
             }
@@ -1112,11 +1112,11 @@ function hasOfferableQuest(giverId: string): boolean {
             switch (item.grant.kind) {
               case 'card':
                 addCardsToCollection([{ cardName: item.grant.cardName, count: 1 }])
-                saveDailyShopState({ ...loadDailyShopState(), boughtCardNames: [...loadDailyShopState().boughtCardNames, item.grant.cardName] })
+                saveDailyShopState(markCardBought(loadDailyShopState(), buildingId, item.grant.cardName))
                 break
               case 'augment':
                 addAugmentInstance(item.grant.augmentName)
-                saveDailyShopState({ ...loadDailyShopState(), boughtAugment: true })
+                saveDailyShopState(markAugmentBought(loadDailyShopState(), buildingId))
                 break
               case 'consumable':
                 addToConsumableStash(item.grant.id)
