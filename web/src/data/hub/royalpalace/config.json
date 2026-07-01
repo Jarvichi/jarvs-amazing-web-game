@@ -981,6 +981,25 @@
           "minLevel": 3
         }
       ]
+    },
+    {
+      "id": "treasury-annex",
+      "upgradeKind": "shop",
+      "rect": [
+        25,
+        28,
+        32,
+        35
+      ],
+      "wall": "reinforcedStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 4,
+          "ty": 1,
+          "buildingId": "treasury-annex"
+        }
+      ]
     }
   ],
   "exteriorDecor": [
@@ -2506,6 +2525,19 @@
       "dialogue": [
         "Hello!"
       ]
+    },
+    {
+      "id": "master-of-coin-aldric",
+      "name": "Master of Coin Aldric",
+      "sprite": "hub-npc-merchant",
+      "tx": 4,
+      "ty": 3,
+      "building": "treasury-annex",
+      "dialogue": [
+        "The crown's finest — kept safe in the annex until a worthy buyer comes along.",
+        "Every coin in this room has a ledger entry. Every sale, too.",
+        "The vault proper is for the king's treasures. This room is for yours."
+      ]
     }
   ],
   "interiors": {
@@ -3651,6 +3683,51 @@
         }
       ]
     },
+    "treasury-annex": {
+      "name": "The Treasury Annex",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "goldSmallTileFloor",
+      "wallTileId": "reinforcedStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "chest"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "strongChest"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "bundleID": "candelabra"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "deskTop"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "stool"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "pileOfGoldCoins"
+        },
+        {
+          "tx": 7,
+          "ty": 5,
+          "tileId": "pileOfSilverCoins"
+        }
+      ],
+      "exits": []
+    },
     "treasury-vault-inner": {
       "name": "The Inner Vault",
       "width": 10,
@@ -4201,6 +4278,30 @@
           "tileId": "messageBoardBottomRight"
         }
       ]
+    },
+    {
+      "id": "treasury-annex-item-0",
+      "tx": 9,
+      "ty": 2,
+      "building": "treasury-annex",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
+      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+    },
+    {
+      "id": "treasury-annex-item-1",
+      "tx": 9,
+      "ty": 3,
+      "building": "treasury-annex",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
+      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+    },
+    {
+      "id": "treasury-annex-item-2",
+      "tx": 9,
+      "ty": 4,
+      "building": "treasury-annex",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
+      "reactions": [{ "type": "buy", "slotIndex": 2 }]
     }
   ],
   "chickenZones": [

@@ -109,6 +109,14 @@
         18,
         29
       ]
+    },
+    {
+      "rect": [
+        29,
+        33,
+        31,
+        33
+      ]
     }
   ],
   "buildings": [
@@ -224,6 +232,25 @@
           "tx": 3,
           "ty": 1,
           "buildingId": "gatehouse"
+        }
+      ]
+    },
+    {
+      "id": "spellwright-den",
+      "upgradeKind": "shop",
+      "rect": [
+        28,
+        26,
+        32,
+        32
+      ],
+      "wall": "darkStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 2,
+          "ty": 1,
+          "buildingId": "spellwright-den"
         }
       ]
     }
@@ -732,6 +759,19 @@
             "ty": 4
           }
         }
+      ]
+    },
+    {
+      "id": "grimoire-peddler-ashka",
+      "name": "Ashka the Grimoire-Peddler",
+      "sprite": "hub-npc-warlock",
+      "tx": 2,
+      "ty": 3,
+      "building": "spellwright-den",
+      "dialogue": [
+        "Every hex has a price, and every price has a hex attached. Fair trade, I call it.",
+        "The towers hoard their secrets. I sell mine — cheaper, and with fewer curses attached. Usually.",
+        "One spell, properly cast, is worth a hundred swords poorly swung."
       ]
     }
   ],
@@ -1910,8 +1950,64 @@
           "label": "Up to the Cells"
         }
       ]
+    },
+    "spellwright-den": {
+      "name": "The Spellwright's Den",
+      "width": 8,
+      "height": 7,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "bundleID": "bookshelf"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "bundleID": "candelabra"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "blackopenBook"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "summoningCircle"
+        }
+      ],
+      "exits": []
     }
   },
+  "interactables": [
+    {
+      "id": "spellwright-den-item-0",
+      "tx": 7,
+      "ty": 2,
+      "building": "spellwright-den",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
+      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+    },
+    {
+      "id": "spellwright-den-item-1",
+      "tx": 7,
+      "ty": 3,
+      "building": "spellwright-den",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
+      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+    },
+    {
+      "id": "spellwright-den-item-2",
+      "tx": 7,
+      "ty": 4,
+      "building": "spellwright-den",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
+      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+    }
+  ],
   "animals": [
     {
       "id": "citadel-raven",
