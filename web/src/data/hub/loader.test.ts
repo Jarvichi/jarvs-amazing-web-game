@@ -212,11 +212,59 @@ describe('ravenwatch config', () => {
     expect(bundle.EXTERIOR_DECOR.some(d => boardTiles.includes(d.tileId))).toBe(false)
   })
 
+  it('parses a giveItem reaction collectible with lore text', () => {
+    const bundle = createHubLocationData(minimalConfig({
+      interactables: [{
+        id: 'secret-note',
+        tx: 10, ty: 10,
+        reactions: [{
+          type: 'giveItem',
+          collectible: { id: 'weathered-note', name: 'Weathered Note', icon: '📜', desc: 'A scrap of paper.', lore: 'Long ago...' },
+        }],
+      }],
+    }))
+    const secret = bundle.HUB_INTERACTABLES.find(i => i.id === 'secret-note')
+    expect(secret?.decor).toBeUndefined()
+    expect(secret?.hitRect).toEqual({ w: 1, h: 1 })
+    const reaction = secret?.reactions[0] as { type: 'giveItem'; collectible?: { lore?: string } }
+    expect(reaction.collectible?.lore).toBe('Long ago...')
+  })
+
   it('contains the card-shop-pack interactable with a buyPack reaction', () => {
     const bundle = createHubLocationData(ravenwatchConfig as unknown as RawConfig)
     const pack = bundle.HUB_INTERACTABLES.find(i => i.id === 'card-shop-pack')
     expect(pack).toBeDefined()
     expect(pack!.building).toBe('card-shop')
     expect(pack!.reactions).toEqual([{ type: 'buyPack' }])
+  })
+})
+
+function minimalBlockedPath(extra: Record<string, unknown>) {
+  return {
+    id: 'test-block',
+    blockedTiles: [[1, 1]],
+    blocked: { decor: [], npcs: [] },
+    cleared: { decor: [], npcs: [] },
+    ...extra,
+  }
+}
+
+describe('blocked paths parsing', () => {
+  it('parses a quest-gated blocked path (regression)', () => {
+    const bundle = createHubQuestData(minimalQuestConfig({
+      blockedPaths: [minimalBlockedPath({ questId: 'some-quest' })],
+    }))
+    expect(bundle.HUB_BLOCKED_PATHS).toHaveLength(1)
+    expect(bundle.HUB_BLOCKED_PATHS[0].questId).toBe('some-quest')
+    expect(bundle.HUB_BLOCKED_PATHS[0].unlockedByInteractable).toBeUndefined()
+  })
+
+  it('parses a secret-gated blocked path via unlockedByInteractable', () => {
+    const bundle = createHubQuestData(minimalQuestConfig({
+      blockedPaths: [minimalBlockedPath({ unlockedByInteractable: 'ravenwatch-hidden-grove-key' })],
+    }))
+    expect(bundle.HUB_BLOCKED_PATHS).toHaveLength(1)
+    expect(bundle.HUB_BLOCKED_PATHS[0].unlockedByInteractable).toBe('ravenwatch-hidden-grove-key')
+    expect(bundle.HUB_BLOCKED_PATHS[0].questId).toBeUndefined()
   })
 })

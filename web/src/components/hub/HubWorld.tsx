@@ -1059,8 +1059,8 @@ function hasOfferableQuest(giverId: string): boolean {
         }
         markInteractableGranted(storeKey)
         if (r.collectible) {
-          const { id, name, icon, desc } = r.collectible
-          addCollectible(id, { name, icon, desc })
+          const { id, name, icon, desc, lore } = r.collectible
+          addCollectible(id, { name, icon, desc, lore })
         }
         if (r.consumables) {
           for (const { id, quantity } of r.consumables) addConsumable(id, quantity)

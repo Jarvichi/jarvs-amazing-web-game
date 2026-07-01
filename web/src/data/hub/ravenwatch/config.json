@@ -9529,6 +9529,95 @@
       "building": "townhall-office"
     },
     {
+      "id": "ravenwatch-secret-alley-note",
+      "tx": 34,
+      "ty": 23,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Wedged between two buildings, a scrap of paper catches your eye."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "ravenwatch-alley-note",
+            "name": "Weathered Note",
+            "icon": "📜",
+            "desc": "A scrap of paper found tucked in an alley.",
+            "lore": "'...if you're reading this, the watch still doesn't check the gap behind the bakery. Left three crowns under the loose brick for whoever finds this next. Pass it on. — a friend'"
+          },
+          "message": "You found a hidden note!"
+        }
+      ]
+    },
+    {
+      "id": "ravenwatch-secret-pond-note",
+      "tx": 37,
+      "ty": 51,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Half-buried in the mud at the water's edge, something glints."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "ravenwatch-pond-note",
+            "name": "Waterlogged Journal Page",
+            "icon": "📜",
+            "desc": "A single page, the ink smeared but still legible.",
+            "lore": "'The carp here have gotten bold enough to steal bait right off the hook. Old Greyfish swears one of them is wearing his lucky lure. I believe him.'"
+          },
+          "message": "You found a hidden journal page!"
+        }
+      ]
+    },
+    {
+      "id": "ravenwatch-secret-old-marker",
+      "tx": 19,
+      "ty": 22,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "A faint carving on an old stone marker catches the light — an arrow, pointing south."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "ravenwatch-old-marker-clue",
+            "name": "Carved Stone Fragment",
+            "icon": "🪨",
+            "desc": "A chipped stone fragment bearing a directional carving.",
+            "lore": "The carving matches a mark you've seen elsewhere in town — worth following up on."
+          },
+          "message": "You found a strange carved marker! Something nearby might have shifted."
+        }
+      ]
+    },
+    {
+      "id": "ravenwatch-hidden-grove-cache",
+      "tx": 9,
+      "ty": 23,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "The overgrowth here has parted, revealing a small stash tucked against the wall."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "ravenwatch-grove-cache-relic",
+            "name": "Tarnished Locket",
+            "icon": "🔒",
+            "desc": "A small locket, long hidden away.",
+            "lore": "Whoever hid this clearly meant to come back for it. They never did."
+          },
+          "crystals": 25,
+          "message": "You found a hidden stash! +25 crystals."
+        }
+      ]
+    },
+    {
       "id": "interactable-1782663378757",
       "tx": 28,
       "ty": 53,

@@ -187,7 +187,10 @@ export interface QuestBlockedPaths {
 
   blockedTiles: number[][]
 
-  questId: string
+  /** Exactly one of questId/unlockedByInteractable should be set. */
+  questId?: string
+  /** Alternative gate: cleared once this interactable id has been granted. */
+  unlockedByInteractable?: string
 
   blocked: BlockedPathState
   cleared: BlockedPathState

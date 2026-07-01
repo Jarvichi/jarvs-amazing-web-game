@@ -90,10 +90,11 @@ defined in the `blockedPaths` array at the top level of `questDefs.json`.
 | Field | Type | Required | Description |
 |---|---|---|---|
 | `id` | `string` | ✓ | Unique identifier for this block. Only used internally for tracking. |
-| `blockedTiles` | `[number, number][]` | ✓ | Array of `[tx, ty]` hub tile coordinates removed from pathfinding while the quest is incomplete. **Must already exist in `config.json` streets** — they become walkable again on clear. |
-| `questId` | `string` | ✓ | Quest ID from the `quests` array in `questDefs.json`. The path clears the moment this quest reaches `completed` status (checked at walk-start time, so no reload needed). |
-| `blocked` | `BlockedPathState` | ✓ | Visual state while quest is incomplete. |
-| `cleared` | `BlockedPathState` | ✓ | Visual state once quest is complete. Can be empty `{}` if nothing changes visually. |
+| `blockedTiles` | `[number, number][]` | ✓ | Array of `[tx, ty]` hub tile coordinates removed from pathfinding while blocked. **Must already exist in `config.json` streets** — they become walkable again on clear. |
+| `questId` | `string` | one of `questId`/`unlockedByInteractable` | Quest ID from the `quests` array in `questDefs.json`. The path clears the moment this quest reaches `completed` status (checked live every frame, so no reload needed). |
+| `unlockedByInteractable` | `string` | one of `questId`/`unlockedByInteractable` | Alternative gate for **hidden-area reveals** (see §7's secret interactables): the `id` of a `config.json` interactable elsewhere in town. The path clears the moment that interactable's `giveItem` reaction has been granted (checked via `isInteractableGranted`/`interactableStoreKey` from `interactables.ts` — the same one-time-grant persistence secrets already use), live, no reload. Use this instead of authoring a throwaway quest just to gate a reveal. |
+| `blocked` | `BlockedPathState` | ✓ | Visual state while blocked. |
+| `cleared` | `BlockedPathState` | ✓ | Visual state once cleared. Can be empty `{}` if nothing changes visually. |
 
 #### `BlockedPathState` fields
 
@@ -279,7 +280,7 @@ bounds, else a single tile.
 |---|---|---|
 | `dialogue` | `speakerName?`, `text` (string or string[]) | Shows the dialogue modal. A string[] cycles one entry per tap. |
 | `screen` | `screen` | Opens a screen via the same routing as NPC `screen` (e.g. `news`, `shop`, `interior:<id>`, `bounty-board`, `town-upgrades`, `adopt-pet` — see §8, minigame ids). |
-| `giveItem` | `collectible?`, `consumables?`, `crystals?`, `message?`, `alreadyGrantedText?` | One-time grant (persisted). Re-taps show `alreadyGrantedText` if set. Reward shapes match treasure rewards. |
+| `giveItem` | `collectible?`, `consumables?`, `crystals?`, `message?`, `alreadyGrantedText?` | One-time grant (persisted). Re-taps show `alreadyGrantedText` if set. Reward shapes match treasure rewards. `collectible.lore?` (optional flavor text) is stored on the item and already surfaced by `HomeShelf`/`ItemFoundScreen` — no extra wiring needed for lore notes. |
 | `quest` | `questId`, `speakerName?` | Offers the quest with Accept / Not now. The quest's `giverNpcId` in `questDefs.json` **must equal the interactable's id**. Honours prerequisites and the 2-active-quest cap. |
 | `move` | `to: {tx, ty}`, `message?` | Moves the owned decor to the target tile, live and persisted across reloads. Requires owned `decor`. |
 
@@ -316,6 +317,32 @@ localStorage keys, entries keyed `<townName>:<interactableId>`:
 4. For `quest` reactions, set the quest's `giverNpcId` to the interactable id.
 5. Run `npm run test` (loader tests parse all configs) and `npm run build`.
 6. Verify in-game: tap fires the reactions, tap does not also walk the avatar, indicator shows/clears, moves persist after reload.
+
+### Authoring checklist: new secret / dig-spot
+
+A "secret" isn't a distinct schema — it's an ordinary interactable authored
+with **no owned `decor`** (see "Full schema" above: with neither `decor` nor
+`hitRect` given, the hit area defaults to a single invisible tile), so it's
+fully tappable while rendering nothing. No indicator either — secrets should
+be genuinely non-obvious, not flagged with the usual `!`.
+
+1. Pick a tile that's walkable-adjacent but not an obvious landmark (a gap
+   between buildings, a pond edge, a quiet corner).
+2. Add an interactable entry with **no `decor`** and **no `indicator`**: a
+   `dialogue` reaction for discovery flavor, then a `giveItem` reaction
+   granting a collectible. Use `collectible.lore` for a lore note's full text.
+3. *(Optional — hidden-area reveal)* Pair this secret with a hidden area: add
+   a `blockedPaths` entry in the town's `questDefs.json` (§2) whose
+   `unlockedByInteractable` is this secret's `id`. The blocked/cleared decor
+   conceals/reveals the area; put a normal `giveItem` interactable on the
+   newly-walkable tile for the actual reward, since the tile is impassable
+   (and thus untappable) until the path clears.
+4. Run `npm run test` and `npm run build`.
+5. Verify in-game: the secret is invisible but tappable at its tile, the
+   reward grants once (re-tapping does nothing further), the lore text reads
+   correctly wherever the item is displayed, and — if paired with a hidden
+   area — that area opens live (no reload) the moment the secret is found,
+   and all of it persists across a reload.
 
 ---
 

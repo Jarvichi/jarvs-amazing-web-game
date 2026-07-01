@@ -267,6 +267,7 @@ export interface RawInteractableReaction {
     name: string
     icon: string
     desc: string
+    lore?: string
   }
   consumables?: Array<{
     id: string
