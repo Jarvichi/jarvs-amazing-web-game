@@ -5,7 +5,7 @@ import { buildTerrainGfx, buildBgTileGfx, buildDecorGfx } from '../../utils/terr
 import { renderPathTiles } from '../../utils/tileLookup'
 import { loadSpriteTexture, loadTextureUrl, loadAnimFrames, loadTileRef } from '../../utils/pixiHelpers'
 import { resolveNpcSprite, spriteSlug } from '../../game/sprites'
-import { getTodaysShopItems, ShopBuildingId } from '../../game/hub/shopStock'
+import { getTodaysShopItems } from '../../game/hub/shopStock'
 import { loadDailyShopState, isShopItemSold } from '../../game/shopSchedule'
 import { PATH_TILE } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
@@ -604,7 +604,7 @@ export function HubTownCanvas({
             continue
           }
           if (d.shopArtSlot != null && def.building) {
-            const items = getTodaysShopItems(def.building as ShopBuildingId)
+            const items = getTodaysShopItems(def.building)
             const item  = items[d.shopArtSlot]
 
             // White card/tile backing, drawn regardless of whether art loads —
@@ -684,9 +684,9 @@ export function HubTownCanvas({
       // purchase made via the NPC dialogue, or in an earlier visit).
       const buyReaction = def.reactions.find(r => r.type === 'buy') as { type: 'buy'; slotIndex: number } | undefined
       if (buyReaction && def.building) {
-        const items = getTodaysShopItems(def.building as ShopBuildingId)
+        const items = getTodaysShopItems(def.building)
         const item  = items[buyReaction.slotIndex]
-        if (item && item.grant.kind !== 'consumable' && isShopItemSold(loadDailyShopState(), item.grant)) {
+        if (item && item.grant.kind !== 'consumable' && isShopItemSold(loadDailyShopState(), def.building, item.grant)) {
           addSoldBadge(entry)
         }
       }

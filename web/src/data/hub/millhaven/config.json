@@ -1848,7 +1848,8 @@
         "No need to trek back to Ravenwatch — I deal right here.",
         "Browse the wares, friend. Every deck needs an edge."
       ],
-      "screen": "shop-cards"
+      "screen": "shop-cards",
+      "building": "card-shop-millhaven"
     },
     {
       "id": "regatta-master",

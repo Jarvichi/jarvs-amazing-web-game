@@ -15,6 +15,9 @@ import {
   ShopCardDeal,
   ShopAugmentDeal,
   recordNPCVisit,
+  isShopItemSold,
+  markCardBought,
+  markAugmentBought,
 } from '../../game/shopSchedule'
 import { getAugmentCard, augmentSlotLabel } from '../../game/augments'
 import { addAugmentInstance } from '../../game/collection'
@@ -91,12 +94,17 @@ interface Props {
   onCrystalsChange: (newAmount: number) => void
   onBack: () => void
   category?: ShopCategory
+  /** Which trader's stock this screen represents, for the "already bought today" gate.
+   *  Defaults to Ravenwatch's own card-shop/augment-shop ids, preserving legacy behavior. */
+  buildingId?: string
 }
 
 const PACK_QUANTITIES = [1, 3, 5, 10]
 
-export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBack, category }: Props) {
+export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBack, category, buildingId }: Props) {
   const show = (c: ShopCategory) => !category || category === c
+  const cardBuildingId    = buildingId ?? 'card-shop'
+  const augmentBuildingId = buildingId ?? 'augment-shop'
 
   const [packQty, setPackQty] = useState(1)
   const maxPackQty = Math.max(0, Math.floor((crystals - 100) / CRYSTAL_PACK_COST))
@@ -196,19 +204,19 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
     emitSound('shopPurchase')
     onCrystalsChange(next)
     addCardsToCollection([{ cardName: deal.cardName, count: 1 }])
-    const updated = { ...shopState, boughtCardNames: [...shopState.boughtCardNames, deal.cardName] }
+    const updated = markCardBought(shopState, cardBuildingId, deal.cardName)
     setShopState(updated)
     saveDailyShopState(updated)
   }
 
   function handleBuyAugment() {
     const price = dailyAugment.price
-    if (crystals < price || !dailyAugment.augmentName || shopState.boughtAugment) return
+    if (crystals < price || !dailyAugment.augmentName || isShopItemSold(shopState, augmentBuildingId, { kind: 'augment' })) return
     const next = crystals - price
     emitSound('shopPurchase')
     onCrystalsChange(next)
     addAugmentInstance(dailyAugment.augmentName)
-    const updated = { ...shopState, boughtAugment: true }
+    const updated = markAugmentBought(shopState, augmentBuildingId)
     setShopState(updated)
     saveDailyShopState(updated)
   }
@@ -259,7 +267,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
           <div className="shop-section-header">Current Stock 🕐 refreshes in <span className="shop-countdown-time">{formatCountdown(countdown)}</span></div>
           <div className="shop-daily-cards u-flex u-gap-6 u-wrap u-just-c">
             {dailyCards.map(deal => {
-              const bought = shopState.boughtCardNames.includes(deal.cardName)
+              const bought = isShopItemSold(shopState, cardBuildingId, { kind: 'card', cardName: deal.cardName })
               const price = cardPrice(deal)
               const canAfford = crystals >= price && !bought && deal.cardName !== ''
               const discounted = npc.role === 'apprentice' && weekend
@@ -291,7 +299,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
         {/* ── Today's Augment ── */}
         {show('augments') && dailyAugment.augmentName !== '' && (() => {
           const aug = getAugmentCard(dailyAugment.augmentName)
-          const bought = shopState.boughtAugment ?? false
+          const bought = isShopItemSold(shopState, augmentBuildingId, { kind: 'augment' })
           const canAfford = crystals >= dailyAugment.price && !bought
           return (
             <div className="shop-section">

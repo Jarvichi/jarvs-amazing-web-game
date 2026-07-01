@@ -4811,6 +4811,7 @@
       "tx": 40,
       "ty": 15,
       "screen": "shop-cards",
+      "building": "card-shop-crownhaven",
       "dialogue": [
         "Cards! Fresh from the capital's own printers. Care to browse the stock?",
         "Every deck tells a story. Build yours here.",
@@ -4837,6 +4838,7 @@
       "tx": 68,
       "ty": 15,
       "screen": "shop-augments",
+      "building": "augment-shop-crownhaven",
       "dialogue": [
         "Augments, enhancements, little edges of power. Step up to the bench.",
         "The jewellers cut stones; I cut destinies. Or near enough.",

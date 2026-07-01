@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { getTodaysShopItems } from './shopStock'
+import { describe, it, expect, afterEach } from 'vitest'
+import { getTodaysShopItems, SHOP_TRADER_REGISTRY } from './shopStock'
 import { ALL_CONSUMABLES } from '../questline'
 
 const slot = (h: number) => new Date(2026, 5, 30, h, 0, 0)
@@ -41,5 +41,22 @@ describe('getTodaysShopItems', () => {
     const ids = items.map(i => (i.grant as { kind: 'consumable'; id: string }).id)
     expect(new Set(ids).size).toBe(ids.length) // no duplicates within a slot
     for (const item of items) expect(item.grant.kind).toBe('consumable')
+  })
+
+  describe('trader registry', () => {
+    afterEach(() => {
+      delete SHOP_TRADER_REGISTRY['test-spellwright']
+    })
+
+    it('a filtered registry entry returns only matching items', () => {
+      SHOP_TRADER_REGISTRY['test-spellwright'] = { kind: 'card', cardFilter: { cardType: 'upgrade', slotCount: 4 } }
+      const items = getTodaysShopItems('test-spellwright', slot(9))
+      expect(items.length).toBeGreaterThan(0)
+      for (const item of items) expect(item.grant.kind).toBe('card')
+    })
+
+    it('an unregistered building id returns an empty array (fail closed)', () => {
+      expect(getTodaysShopItems('not-a-real-trader', slot(9))).toEqual([])
+    })
   })
 })
