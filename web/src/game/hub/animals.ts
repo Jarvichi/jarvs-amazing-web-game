@@ -177,8 +177,11 @@ export function variantKeyForTint(type: AnimalType, tint: number): string | unde
 
 // ── Behaviour transition tables ─────────────────────────────────────────────
 export type CatState = 'sleep' | 'sit' | 'flee' | 'chase-bird' | 'play' | 'approach-npc' | 'go-home' | 'inside'
-export type DogState = 'follow-owner' | 'roam' | 'bark' | 'wag' | 'chase-cat'
+export type DogState = 'follow-owner' | 'roam' | 'bark' | 'wag' | 'chase-cat' | 'fetching-out' | 'fetching-return'
 
+// 'fetching-out'/'fetching-return' are deliberately absent — they're only
+// ever entered via a forced call (AnimalSystem.sendPetFetching), never picked
+// randomly by dogIdle().
 export const DOG_IDLE_WEIGHTS: Record<string, number> = {
   'follow-owner': 5,
   roam:           3,
