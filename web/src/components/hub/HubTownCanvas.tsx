@@ -593,6 +593,16 @@ export function HubTownCanvas({
         }
         for (const d of decor) {
           const parent = d.zlayer === 'above' ? above! : root
+          if (d.spriteId) {
+            loadTextureUrl(`${base}sprites/${d.spriteId}.svg`).then(tex => {
+              if (app.renderer == null || !stillCurrent()) return
+              const s = new PIXI.Sprite(tex)
+              s.position.set(d.dx * T, d.dy * T)
+              s.width = T; s.height = T
+              parent.addChild(s)
+            }).catch(() => {})
+            continue
+          }
           if (d.shopArtSlot != null && def.building) {
             const items = getTodaysShopItems(def.building as ShopBuildingId)
             const item  = items[d.shopArtSlot]

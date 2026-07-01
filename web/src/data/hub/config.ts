@@ -237,8 +237,11 @@ export interface RawTreasure {
 export interface RawInteractableDecor {
   dx: number
   dy: number
-  /** Tile-atlas tile, e.g. "crate". Mutually exclusive with shopArtSlot. */
+  /** Tile-atlas tile, e.g. "crate". Mutually exclusive with spriteId/shopArtSlot. */
   tileId?: string
+  /** web/public/sprites/<spriteId>.svg — a fixed decorative sprite, for decor
+   *  that isn't in the tile atlas and isn't live shop-stock art. */
+  spriteId?: string
   /** Renders today's live shop-stock art (card face / augment slot icon /
    *  consumable emoji badge) for this shop's Nth for-sale slot; the kind is
    *  resolved from getTodaysShopItems()[slot].grant.kind at render time. */

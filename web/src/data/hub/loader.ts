@@ -246,8 +246,10 @@ export interface HubTreasure {
 export interface HubInteractableDecor {
   dx: number
   dy: number
-  /** Resolved tile-atlas id. Mutually exclusive with shopArtSlot. */
+  /** Resolved tile-atlas id. Mutually exclusive with spriteId/shopArtSlot. */
   tileId?: number
+  /** web/public/sprites/<spriteId>.svg — a fixed decorative sprite. */
+  spriteId?: string
   /** Renders today's live shop-stock art (card/augment/consumable, dispatched
    *  by grant.kind) for this shop's Nth for-sale slot. */
   shopArtSlot?: number
@@ -623,7 +625,8 @@ const HUB_INTERACTABLES: HubInteractable[] = (
   const decor: HubInteractableDecor[] | undefined = i.decor?.map(d => ({
     dx:          d.dx,
     dy:          d.dy,
-    tileId:      d.shopArtSlot != null ? undefined : resolveTileId(d.tileId ?? ''),
+    tileId:      (d.spriteId || d.shopArtSlot != null) ? undefined : resolveTileId(d.tileId ?? ''),
+    spriteId:    d.spriteId,
     shopArtSlot: d.shopArtSlot,
     zlayer:      d.zlayer as HubInteractableDecor['zlayer'],
   }))
