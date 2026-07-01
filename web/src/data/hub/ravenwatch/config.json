@@ -9561,7 +9561,7 @@
       "tx": 12,
       "ty": 7,
       "building": "card-shop",
-      "decor": [{ "dx": 0, "dy": 0, "tileId": "crate" }],
+      "decor": [{ "dx": 0, "dy": 0, "spriteId": "hub-item-cards" }],
       "reactions": [{ "type": "buyPack" }]
     },
     {

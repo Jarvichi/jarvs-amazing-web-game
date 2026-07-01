@@ -78,11 +78,24 @@ describe('interactables parsing', () => {
     expect(decor?.tileId).toBeUndefined()
   })
 
+  it('passes spriteId decor through without resolving a tileId', () => {
+    const bundle = createHubLocationData(minimalConfig({
+      interactables: [{
+        id: 'card-shop-pack', tx: 12, ty: 7, building: 'card-shop',
+        decor: [{ dx: 0, dy: 0, spriteId: 'hub-item-cards' }],
+        reactions: [{ type: 'buyPack' }],
+      }],
+    }))
+    const decor = bundle.HUB_INTERACTABLES[0].decor?.[0]
+    expect(decor?.spriteId).toBe('hub-item-cards')
+    expect(decor?.tileId).toBeUndefined()
+  })
+
   it('passes a buyPack reaction through unchanged', () => {
     const bundle = createHubLocationData(minimalConfig({
       interactables: [{
         id: 'card-shop-pack', tx: 12, ty: 7, building: 'card-shop',
-        decor: [{ dx: 0, dy: 0, tileId: 'crate' }],
+        decor: [{ dx: 0, dy: 0, spriteId: 'hub-item-cards' }],
         reactions: [{ type: 'buyPack' }],
       }],
     }))
