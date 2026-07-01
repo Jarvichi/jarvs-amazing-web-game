@@ -1981,5 +1981,31 @@
       ],
       "exits": []
     }
-  }
+  },
+  "interactables": [
+    {
+      "id": "bonepile-curio-item-0",
+      "tx": 9,
+      "ty": 2,
+      "building": "bonepile-curio",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
+      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+    },
+    {
+      "id": "bonepile-curio-item-1",
+      "tx": 9,
+      "ty": 3,
+      "building": "bonepile-curio",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
+      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+    },
+    {
+      "id": "bonepile-curio-item-2",
+      "tx": 9,
+      "ty": 4,
+      "building": "bonepile-curio",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
+      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+    }
+  ]
 }

@@ -2458,6 +2458,32 @@
       "exits": []
     }
   },
+  "interactables": [
+    {
+      "id": "market-shed-item-0",
+      "tx": 11,
+      "ty": 2,
+      "building": "market-shed",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
+      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+    },
+    {
+      "id": "market-shed-item-1",
+      "tx": 11,
+      "ty": 3,
+      "building": "market-shed",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
+      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+    },
+    {
+      "id": "market-shed-item-2",
+      "tx": 11,
+      "ty": 4,
+      "building": "market-shed",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
+      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+    }
+  ],
   "festivalDecor": [
     {
       "festivalId": "harvest",

@@ -2141,6 +2141,62 @@
         "tx": 2,
         "ty": 2
       }
+    },
+    {
+      "id": "engineer-torvald",
+      "name": "Engineer Torvald",
+      "sprite": "hub-npc-merchant",
+      "tx": 4,
+      "ty": 3,
+      "building": "tool-shop",
+      "dialogue": [
+        "Foundations, walls, towers — nothing stands without good bones under it.",
+        "Half of Gearford's collapsed twice over. I keep the plans for what worked.",
+        "You don't build a keep in a day. You build it in a thousand right decisions."
+      ],
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": { "type": "interior", "buildingId": "miners-inn-bunkrooms", "tx": 1, "ty": 2 }
+        },
+        {
+          "startHour": 7,
+          "endHour": 24,
+          "activity": "work",
+          "location": { "type": "interior", "buildingId": "tool-shop", "tx": 4, "ty": 3 }
+        }
+      ],
+      "homeBed": { "buildingId": "miners-inn-bunkrooms", "tx": 1, "ty": 2 }
+    },
+    {
+      "id": "sergeant-coldiron",
+      "name": "Sergeant Coldiron",
+      "sprite": "hub-npc-soldier",
+      "tx": 4,
+      "ty": 3,
+      "building": "gear-shop",
+      "dialogue": [
+        "Levies, veterans, the odd conscript who'd rather be anywhere else — I've fielded them all.",
+        "A war's won by whoever counts their troops correctly. I count carefully.",
+        "Gear's cheap. The people who wear it into a fight are what costs you."
+      ],
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 7,
+          "activity": "sleep",
+          "location": { "type": "interior", "buildingId": "miners-inn-bunkrooms", "tx": 3, "ty": 2 }
+        },
+        {
+          "startHour": 7,
+          "endHour": 24,
+          "activity": "work",
+          "location": { "type": "interior", "buildingId": "gear-shop", "tx": 4, "ty": 3 }
+        }
+      ],
+      "homeBed": { "buildingId": "miners-inn-bunkrooms", "tx": 3, "ty": 2 }
     }
   ],
   "interiors": {
@@ -3489,5 +3545,55 @@
       ],
       "exits": []
     }
-  }
+  },
+  "interactables": [
+    {
+      "id": "tool-shop-item-0",
+      "tx": 9,
+      "ty": 3,
+      "building": "tool-shop",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
+      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+    },
+    {
+      "id": "tool-shop-item-1",
+      "tx": 9,
+      "ty": 4,
+      "building": "tool-shop",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
+      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+    },
+    {
+      "id": "tool-shop-item-2",
+      "tx": 9,
+      "ty": 5,
+      "building": "tool-shop",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
+      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+    },
+    {
+      "id": "gear-shop-item-0",
+      "tx": 9,
+      "ty": 3,
+      "building": "gear-shop",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
+      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+    },
+    {
+      "id": "gear-shop-item-1",
+      "tx": 9,
+      "ty": 4,
+      "building": "gear-shop",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
+      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+    },
+    {
+      "id": "gear-shop-item-2",
+      "tx": 9,
+      "ty": 5,
+      "building": "gear-shop",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
+      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+    }
+  ]
 }

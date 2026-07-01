@@ -37,6 +37,14 @@ export const SHOP_TRADER_REGISTRY: Record<string, ShopTraderConfig> = {
   'undertaker':   { kind: 'card', cardFilter: { rarity: 'common' } },     // gravemoor — Merchant Mora, Bargain Peddler
   'market-barn':  { kind: 'card', cardFilter: { rarity: 'uncommon' } },   // appleford — Trader Posy, Curio Dealer
   'market-hall':  { kind: 'card', cardFilter: { cardType: 'upgrade' } },  // millhaven — Trader Nessa, Spellwright
+
+  // Tier 2 specialist traders (see epic #1814)
+  'tool-shop':            { kind: 'card', cardFilter: { cardType: 'structure' } },            // gearford — Engineer Torvald, Structural Engineer
+  'gear-shop':            { kind: 'card', cardFilter: { cardType: 'unit' } },                 // gearford — Sergeant Coldiron, Warmonger
+  'chandlers':            { kind: 'card', cardFilter: { rarity: 'rare' } },                   // saltmereport — Chandler Beaumont, Relic Hunter
+  'market-shed':          { kind: 'card', cardFilter: { rarity: 'common' } },                 // harrowfield — Pedlar Quill, Bargain Peddler
+  'bonepile-curio':       { kind: 'card', cardFilter: { rarities: ['epic', 'legendary'] } },  // hollowmere — Snægg the Collector, Vaultkeeper
+  'quartermasters-store': { kind: 'card', cardFilter: { cardType: 'unit' } },                 // ironholdkeep — Quartermaster Sella, Warmonger
 }
 
 export type ShopStockGrant =
