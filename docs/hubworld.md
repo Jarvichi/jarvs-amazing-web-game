@@ -29,6 +29,8 @@
 | `web/src/components/hub/HubWorld.tsx` | React orchestrator — quest flow, dialogue, state | — |
 | `web/src/game/hub/journal.ts` | Discovery store for the Town Journal — met NPCs, seen animal species/variants, seen named areas (localStorage) — see §15 | `recordNpcMet`, `hasMetNpc`, `getMetNpcIds`, `recordAnimalSeen`, `hasSeenAnimal`, `getSeenAnimalVariants`, `getSeenAnimalTypes`, `recordAreaSeen`, `hasSeenArea`, `getSeenAreaKeys` |
 | `web/src/components/hub/TownJournal.tsx` | Journal UI — Animals / People / Places tabs with completion % — see §15 | `TownJournal` |
+| `web/src/game/hub/pet.ts` | Player's adopted follower-pet persistence (localStorage) — see §8 | `getActivePet`, `hasActivePet`, `adoptPet`, `renamePet`, `dismissPet` |
+| `web/src/components/hub/PetModal.tsx` | Pet adoption / rename / swap / dismiss UI — see §8 | `PetModal` |
 
 ---
 
@@ -276,7 +278,7 @@ bounds, else a single tile.
 | Type | Fields | Behaviour |
 |---|---|---|
 | `dialogue` | `speakerName?`, `text` (string or string[]) | Shows the dialogue modal. A string[] cycles one entry per tap. |
-| `screen` | `screen` | Opens a screen via the same routing as NPC `screen` (e.g. `news`, `shop`, `interior:<id>`, minigame ids). |
+| `screen` | `screen` | Opens a screen via the same routing as NPC `screen` (e.g. `news`, `shop`, `interior:<id>`, `bounty-board`, `town-upgrades`, `adopt-pet` — see §8, minigame ids). |
 | `giveItem` | `collectible?`, `consumables?`, `crystals?`, `message?`, `alreadyGrantedText?` | One-time grant (persisted). Re-taps show `alreadyGrantedText` if set. Reward shapes match treasure rewards. |
 | `quest` | `questId`, `speakerName?` | Offers the quest with Accept / Not now. The quest's `giverNpcId` in `questDefs.json` **must equal the interactable's id**. Honours prerequisites and the 2-active-quest cap. |
 | `move` | `to: {tx, ty}`, `message?` | Moves the owned decor to the target tile, live and persisted across reloads. Requires owned `decor`. |
@@ -655,6 +657,39 @@ A `!`/`?` quest indicator floats above placed animals that have
 3. Add any `collect`-step `pickupItems` (tile constants from `baseChipIndex.ts`).
 4. Run `npm run test` and `npm run build`; verify the `!` shows, the quest
    offers, pickups collect, and tapping the animal completes it.
+
+### Player's Follower Pet
+
+A single, global (not per-town), dog-only adoptable pet follows the player's
+avatar around every town, reusing the existing `follow-owner` dog state
+machine above with zero changes to its movement/pathing logic.
+
+- **Store** — `web/src/game/hub/pet.ts` (key `jarv_hub_pet`): holds one
+  `PetRecord { type, variant, name }` or `null`. `adoptPet` replaces any
+  existing pet (a "swap"); `renamePet`/`dismissPet` operate on the active
+  pet. `type` is stored as a plain string for future extension, but only
+  `'dog'` is offered today.
+- **Runtime mechanism** — `hubAnimals.ts` exports two sentinel ids:
+  `PLAYER_OWNER_ID` and `PLAYER_PET_ANIMAL_ID`. `HubTownCanvas.tsx` pushes
+  `{ id: PLAYER_OWNER_ID, x: avatar.x, y: avatar.y }` into the array
+  `getNpcPositions()` returns every tick, so a dog whose `ownerId` is
+  `PLAYER_OWNER_ID` follows the live avatar through the same `dogIdle`/
+  `followToward` logic ambient dogs already use to follow a random NPC.
+  `AnimalSystem.spawnFollowerPet(variant, tx, ty)` spawns (or re-spawns) the
+  pet near the avatar's start tile on every town mount if `getActivePet()`
+  returns non-null; `AnimalSystem.removeAnimal(id)` is the generic
+  best-effort removal used to despawn it.
+- **Ephemeral sprite, persisted record** — the pet's sprite is a fresh
+  runtime-only animal (not listed in any town's static `animals` config),
+  respawned each time a `HubTownCanvas` mounts. Only the `jarv_hub_pet`
+  localStorage record survives a reload, identical to how every other
+  animal in the game is re-created per session.
+- **UI** — `PetModal.tsx`, opened either via the `adopt-pet` screen reaction
+  on a shelter interactable (see §7), the 🐾 toolbar button (shown only
+  while a pet is active), or by tapping the live pet sprite in-world
+  (`handleAnimalTap` special-cases `PLAYER_PET_ANIMAL_ID` in `HubWorld.tsx`).
+  Offers adopt (variant + name), rename, dismiss, and swap (confirms before
+  replacing an existing pet).
 
 ---
 

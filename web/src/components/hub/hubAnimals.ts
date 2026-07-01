@@ -126,12 +126,23 @@ export interface AnimalSystemOptions {
 /** A point light the night overlay should carve into the darkness. */
 export interface GlowSource { x: number; y: number; radius: number; pulse: boolean }
 
+// Sentinel ids for the player's adopted follower pet (see pet.ts / PetModal.tsx).
+// PLAYER_OWNER_ID is injected into getNpcPositions() by HubTownCanvas so the
+// existing follow-owner dog behaviour below "just works" for the player, with
+// no changes to the state machine itself.
+export const PLAYER_OWNER_ID = '__player__'
+export const PLAYER_PET_ANIMAL_ID = '__player-pet__'
+
 export interface AnimalSystem {
   tick: (deltaMS: number) => void
   /** Animals currently denned inside the given building (for interior render). */
   getAnimalsInBuilding: (buildingId: string) => { type: AnimalType; tint: number }[]
   /** Night light sources from animals (fireflies) for the night overlay. */
   getGlowSources: () => GlowSource[]
+  /** Spawns (or re-spawns) the player's follower pet near (tx,ty). */
+  spawnFollowerPet: (variant: string, tx: number, ty: number) => void
+  /** Best-effort removal of an animal by id. No-op if not found. */
+  removeAnimal: (id: string) => void
   destroy: () => void
 }
 
@@ -922,6 +933,10 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     }
 
     if (type === 'dog' && !a.stationary) {
+      // Ambient flavour: a roaming dog latches onto a random nearby NPC. This
+      // runs synchronously before makeAnimal's returned promise resolves, so
+      // spawnFollowerPet's post-await override (which assigns PLAYER_OWNER_ID
+      // to the player's own pet) always runs after this and wins.
       const named = opts.getNpcPositions().filter(n => n.id)
       a.ownerId = randOf(named)?.id
     }
@@ -1028,5 +1043,23 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     fishLayer.destroy({ children: true })
   }
 
-  return { tick, getAnimalsInBuilding, getGlowSources, destroy }
+  function removeAnimal(id: string): void {
+    const idx = animals.findIndex(a => a.id === id)
+    if (idx === -1) return
+    const [a] = animals.splice(idx, 1)
+    if (a.bubble) opts.bubbleLayer.removeChild(a.bubble)
+    if (a.indicator) opts.bubbleLayer.removeChild(a.indicator)
+    a.sprite.destroy()
+  }
+
+  function spawnFollowerPet(variant: string, tx: number, ty: number): void {
+    removeAnimal(PLAYER_PET_ANIMAL_ID)
+    void makeAnimal('dog', tx, ty, { id: PLAYER_PET_ANIMAL_ID, type: 'dog', variant, tx, ty, roam: true })
+      .then(() => {
+        const a = animals.find(x => x.id === PLAYER_PET_ANIMAL_ID)
+        if (a) a.ownerId = PLAYER_OWNER_ID
+      })
+  }
+
+  return { tick, getAnimalsInBuilding, getGlowSources, spawnFollowerPet, removeAnimal, destroy }
 }
