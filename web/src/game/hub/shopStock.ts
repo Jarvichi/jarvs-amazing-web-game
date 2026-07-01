@@ -32,6 +32,11 @@ export const SHOP_TRADER_REGISTRY: Record<string, ShopTraderConfig> = {
   'card-shop':    { kind: 'card' },
   'augment-shop': { kind: 'augment' },
   'supply-shop':  { kind: 'consumable' },
+
+  // Tier 1 specialist traders (see epic #1814)
+  'undertaker':   { kind: 'card', cardFilter: { rarity: 'common' } },     // gravemoor — Merchant Mora, Bargain Peddler
+  'market-barn':  { kind: 'card', cardFilter: { rarity: 'uncommon' } },   // appleford — Trader Posy, Curio Dealer
+  'market-hall':  { kind: 'card', cardFilter: { cardType: 'upgrade' } },  // millhaven — Trader Nessa, Spellwright
 }
 
 export type ShopStockGrant =

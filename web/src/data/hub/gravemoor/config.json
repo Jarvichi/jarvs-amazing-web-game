@@ -1162,14 +1162,14 @@
       "name": "Merchant Mora",
       "sprite": "hub-npc-merchant",
       "isGhost": true,
-      "tx": 5,
+      "tx": 4,
       "ty": 5,
       "dialogue": [
         "Two hundred years of stock and not a single customer. Until you.",
         "Money means little to the dead, but haggling? Haggling is eternal.",
         "The blight took the town, but it couldn't take the market spirit. Literally, in my case."
       ],
-      "building": "mourning-hall-reliquary"
+      "building": "undertaker"
     },
     {
       "id": "grave-keeper-finch",
@@ -2555,6 +2555,32 @@
       ]
     }
   },
+  "interactables": [
+    {
+      "id": "undertaker-item-0",
+      "tx": 8,
+      "ty": 3,
+      "building": "undertaker",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
+      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+    },
+    {
+      "id": "undertaker-item-1",
+      "tx": 8,
+      "ty": 4,
+      "building": "undertaker",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
+      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+    },
+    {
+      "id": "undertaker-item-2",
+      "tx": 8,
+      "ty": 5,
+      "building": "undertaker",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
+      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+    }
+  ],
   "weather": {
     "type": "fog"
   }
