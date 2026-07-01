@@ -23,6 +23,17 @@ interface RawAugmentSet {
 
 // ─── Public types ─────────────────────────────────────────
 
+/** Augments have no individual art — each slot shares one generic sprite. */
+export const AUGMENT_SPRITE: Record<AugmentSlot, string> = {
+  primaryRanged: 'augment-ranged',
+  heavyMelee:    'augment-melee',
+  helmet:        'augment-helmet',
+  chest:         'augment-chest',
+  arms:          'augment-arms',
+  legs:          'augment-legs',
+  amulet:        'augment-amulet',
+}
+
 export interface AugmentSetDef {
   name: string
   rarity: CardRarity

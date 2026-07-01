@@ -237,17 +237,18 @@ export interface RawTreasure {
 export interface RawInteractableDecor {
   dx: number
   dy: number
-  /** Tile-atlas tile, e.g. "crate". Mutually exclusive with cardArtSlot. */
+  /** Tile-atlas tile, e.g. "crate". Mutually exclusive with shopArtSlot. */
   tileId?: string
-  /** Renders today's card art (white card + the unit's own sprite) for this
-   *  shop's Nth for-sale slot (see game/hub/shopStock.ts). */
-  cardArtSlot?: number
+  /** Renders today's live shop-stock art (card face / augment slot icon /
+   *  consumable emoji badge) for this shop's Nth for-sale slot; the kind is
+   *  resolved from getTodaysShopItems()[slot].grant.kind at render time. */
+  shopArtSlot?: number
   zlayer?: string
 }
 
 export interface RawInteractableReaction {
-  // 'dialogue' | 'screen' | 'giveItem' | 'quest' | 'move' | 'buy' — plain string so
-  // JSON imports don't widen-fail; loader.ts casts to the parsed union
+  // 'dialogue' | 'screen' | 'giveItem' | 'quest' | 'move' | 'buy' | 'buyPack' — plain
+  // string so JSON imports don't widen-fail; loader.ts casts to the parsed union
   type: string
 
   // dialogue

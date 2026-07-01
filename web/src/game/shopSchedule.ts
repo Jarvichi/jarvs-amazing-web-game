@@ -286,6 +286,21 @@ export function saveDailyShopState(state: DailyShopState): void {
   try { localStorage.setItem(SHOP_STATE_KEY, JSON.stringify(state)) } catch { /* ignore */ }
 }
 
+/**
+ * Whether a for-sale item is already sold today, per the same state ShopScreen
+ * uses — shared by the hub's physical-item purchase path so buying via the
+ * shopkeeper NPC or via the placed item both draw down the same stock.
+ * Consumables are never gated (ShopScreen sells them unlimited).
+ */
+export function isShopItemSold(
+  state: DailyShopState,
+  grant: { kind: 'card' | 'augment' | 'consumable'; cardName?: string },
+): boolean {
+  if (grant.kind === 'card') return state.boughtCardNames.includes(grant.cardName ?? '')
+  if (grant.kind === 'augment') return state.boughtAugment ?? false
+  return false
+}
+
 // ── Seen NPCs tracking ────────────────────────────────────────────────────────
 
 export function loadSeenNPCs(): Set<string> {

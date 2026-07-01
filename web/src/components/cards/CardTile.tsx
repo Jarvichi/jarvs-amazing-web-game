@@ -1,6 +1,7 @@
 import React from 'react'
 import { Card } from '../../game/types'
 import { rarityStars } from '../../game/cards'
+import { AUGMENT_SPRITE } from '../../game/augments'
 import { SpriteImg } from '../ui/SpriteImg'
 import { useCardDetail } from './useCardDetail'
 
@@ -10,16 +11,6 @@ const UPGRADE_SPRITE: Record<string, string> = {
   buffSpeed:  'upgrade-speed',
   buffMaxHp:  'upgrade-hp',
   buffRange:  'upgrade-range',
-}
-
-const AUGMENT_SPRITE: Record<string, string> = {
-  primaryRanged: 'augment-ranged',
-  heavyMelee:    'augment-melee',
-  helmet:        'augment-helmet',
-  chest:         'augment-chest',
-  arms:          'augment-arms',
-  legs:          'augment-legs',
-  amulet:        'augment-amulet',
 }
 
 // ─── Card type category ───────────────────────────────────
