@@ -47,8 +47,10 @@ export const SHOP_TRADER_REGISTRY: Record<string, ShopTraderConfig> = {
   'quartermasters-store': { kind: 'card', cardFilter: { cardType: 'unit' } },                 // ironholdkeep — Quartermaster Sella, Warmonger
 
   // Tier 3 specialist traders (see epic #1814)
-  'grand-bank': { kind: 'card', cardFilter: { rarities: ['epic', 'legendary'] } },  // capitalcity — Banker Sterling, Vaultkeeper
-  'jeweller':   { kind: 'card', cardFilter: { rarity: 'uncommon' } },               // capitalcity — Jeweller Isolde, Curio Dealer
+  'grand-bank':      { kind: 'card', cardFilter: { rarities: ['epic', 'legendary'] } },  // capitalcity — Banker Sterling, Vaultkeeper
+  'jeweller':        { kind: 'card', cardFilter: { rarity: 'uncommon' } },               // capitalcity — Jeweller Isolde, Curio Dealer
+  'treasury-annex':  { kind: 'card', cardFilter: { rarities: ['epic', 'legendary'] } },  // royalpalace — Master of Coin Aldric, Vaultkeeper
+  'spellwright-den': { kind: 'card', cardFilter: { cardType: 'upgrade' } },              // dreadspirecitadel — Ashka the Grimoire-Peddler, Spellwright
 }
 
 export type ShopStockGrant =
