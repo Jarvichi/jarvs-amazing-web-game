@@ -5892,6 +5892,36 @@
           }
         ]
       }
+    },
+    {
+      "id": "ravenwatch-hidden-grove",
+      "blockedTiles": [
+        [
+          9,
+          23
+        ]
+      ],
+      "unlockedByInteractable": "ravenwatch-secret-old-marker",
+      "blocked": {
+        "decor": [
+          {
+            "tx": 9,
+            "ty": 23,
+            "tileId": "darkBush"
+          }
+        ],
+        "npcs": []
+      },
+      "cleared": {
+        "decor": [
+          {
+            "tx": 9,
+            "ty": 23,
+            "tileId": "chest"
+          }
+        ],
+        "npcs": []
+      }
     }
   ],
   "dialogues": [

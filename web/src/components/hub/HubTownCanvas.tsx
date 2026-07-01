@@ -23,6 +23,7 @@ import rollbar from '../../rollbar'
 import { HubInteractable, HubInteriorExit, HubLocationBundle, HubNpc, HubQuestBundle, HubStreetGroup, NpcScheduleEntry, isVisibleAtLevel } from '../../data/hub/loader'
 import { createAnimalSystem, AnimalSystem, GlowSource, PLAYER_OWNER_ID } from './hubAnimals'
 import { getActivePet } from '../../game/hub/pet'
+import { isInteractableGranted, interactableStoreKey } from '../../game/hub/interactables'
 import type { AnimalType } from '../../game/hub/animals'
 import { createWeatherSystem } from './hubWeather'
 import { resolveWeather } from '../../game/hub/weather'
@@ -754,17 +755,25 @@ export function HubTownCanvas({
       lastBubbleText: string | null
     }
     interface BlockedPathEntry {
-      questId: string
+      questId?: string
+      unlockedByInteractable?: string
       blockedDecor: PIXI.Sprite[]
       clearedDecor: PIXI.Sprite[]
       blockedNpcs: BlockedNpcEntry[]
       clearedNpcs: { root: PIXI.Container }[]
     }
+    // A blocked path clears either when its quest completes, or (for hidden
+    // areas revealed by finding a secret) when the paired interactable's
+    // one-time reward has been granted — see interactables.ts.
+    function isBlockedPathCleared(bp: { questId?: string; unlockedByInteractable?: string }): boolean {
+      if (bp.unlockedByInteractable) return isInteractableGranted(interactableStoreKey(locationKey, bp.unlockedByInteractable))
+      return bp.questId ? (completedQuestIdsRef?.current.has(bp.questId) ?? false) : false
+    }
     const blockedPathEntries = new Map<string, BlockedPathEntry>()
     {
       for (const bp of HUB_BLOCKED_PATHS) {
-        const isCleared = completedQuestIdsRef?.current.has(bp.questId) ?? false
-        const entry: BlockedPathEntry = { questId: bp.questId, blockedDecor: [], clearedDecor: [], blockedNpcs: [], clearedNpcs: [] }
+        const isCleared = isBlockedPathCleared(bp)
+        const entry: BlockedPathEntry = { questId: bp.questId, unlockedByInteractable: bp.unlockedByInteractable, blockedDecor: [], clearedDecor: [], blockedNpcs: [], clearedNpcs: [] }
 
         for (const d of bp.blocked.decor ?? []) {
           if (d.tileId === 666) continue
@@ -844,12 +853,12 @@ export function HubTownCanvas({
       }
     }
 
-    // Rebuild blockedPathSolidSet from live quest state: the visible side's
-    // decor + guard-NPC tiles (blocked while incomplete, cleared once done).
+    // Rebuild blockedPathSolidSet from live quest/secret state: the visible
+    // side's decor + guard-NPC tiles (blocked while incomplete, cleared once done).
     function refreshBlockedPathSolids() {
       blockedPathSolidSet.clear()
       for (const bp of HUB_BLOCKED_PATHS) {
-        const cleared = completedQuestIdsRef?.current.has(bp.questId) ?? false
+        const cleared = isBlockedPathCleared(bp)
         const state = cleared ? bp.cleared : bp.blocked
         for (const d of state.decor ?? []) blockedPathSolidSet.add(`${d.tx},${d.ty}`)
         for (const n of state.npcs ?? []) blockedPathSolidSet.add(`${n.tx},${n.ty}`)
@@ -874,7 +883,7 @@ export function HubTownCanvas({
         }
       }
       for (const bp of HUB_BLOCKED_PATHS)
-        if (!(completedQuestIdsRef?.current.has(bp.questId) ?? false))
+        if (!isBlockedPathCleared(bp))
           for (const [btx, bty] of bp.blockedTiles) s.delete(`${btx},${bty}`)
       for (const k of blockedPathSolidSet) s.delete(k)
       return s
@@ -2585,7 +2594,7 @@ export function HubTownCanvas({
         // Blocked path visibility and proximity speech bubbles
         refreshBlockedPathSolids()  // keep solid tiles in sync as quests clear
         for (const [, entry] of blockedPathEntries) {
-          const cleared = completedQuestIdsRef?.current.has(entry.questId) ?? false
+          const cleared = isBlockedPathCleared(entry)
           for (const s of entry.blockedDecor) s.visible = !cleared
           for (const s of entry.clearedDecor) s.visible = cleared
           for (const n of entry.clearedNpcs) n.root.visible = cleared

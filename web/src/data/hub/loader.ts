@@ -216,7 +216,10 @@ export interface BlockedPathState {
 export interface BlockedPath {
   id: string
   blockedTiles: [number, number][]
-  questId: string
+  /** Exactly one of questId/unlockedByInteractable should be set. */
+  questId?: string
+  /** Alternative gate: cleared once this interactable id has been granted (see interactables.ts). */
+  unlockedByInteractable?: string
   blocked: BlockedPathState
   cleared: BlockedPathState
 }
@@ -260,7 +263,7 @@ export type HubInteractableReaction =
   | { type: 'dialogue'; speakerName?: string; text: string | string[] }
   | { type: 'screen'; screen: string }
   | { type: 'giveItem'
-      collectible?: { id: string; name: string; icon: string; desc: string }
+      collectible?: { id: string; name: string; icon: string; desc: string; lore?: string }
       consumables?: Array<{ id: string; quantity: number }>
       crystals?: number
       message?: string
@@ -768,7 +771,7 @@ type RawBlockedPathNpc = { id: string; sprite: string; tx: number; ty: number; p
 type RawBlockedPathState = { decor?: Array<{ tx: number; ty: number; tileId?: string; bundleID?: string; zlayer?: string }>; npcs?: RawBlockedPathNpc[] }
 
 
-type RawBlockedPath = { id: string; blockedTiles: [number, number][]; questId: string; blocked: RawBlockedPathState; cleared: RawBlockedPathState }
+type RawBlockedPath = { id: string; blockedTiles: [number, number][]; questId?: string; unlockedByInteractable?: string; blocked: RawBlockedPathState; cleared: RawBlockedPathState }
 
 function resolveBlockedPathState(raw: RawBlockedPathState): BlockedPathState {
   return {
@@ -783,11 +786,12 @@ function resolveBlockedPathState(raw: RawBlockedPathState): BlockedPathState {
 const HUB_BLOCKED_PATHS: BlockedPath[] = (
   (rawQuestConfig as unknown as { blockedPaths?: RawBlockedPath[] }).blockedPaths ?? []
 ).map(bp => ({
-  id:           bp.id,
-  blockedTiles: bp.blockedTiles,
-  questId:      bp.questId,
-  blocked:      resolveBlockedPathState(bp.blocked),
-  cleared:      resolveBlockedPathState(bp.cleared),
+  id:                    bp.id,
+  blockedTiles:          bp.blockedTiles,
+  questId:               bp.questId,
+  unlockedByInteractable: bp.unlockedByInteractable,
+  blocked:               resolveBlockedPathState(bp.blocked),
+  cleared:               resolveBlockedPathState(bp.cleared),
 }))
 
 type RawPickup = { id: string; tx: number; ty: number; tileId: string; building?: string; questId?: string; chain?: string; requireTouch?: boolean; glow?: boolean; glowRadius?: number; pulse?: boolean }
