@@ -4479,5 +4479,31 @@
       ],
       "exits": []
     }
-  }
+  },
+  "interactables": [
+    {
+      "id": "quartermasters-store-item-0",
+      "tx": 9,
+      "ty": 2,
+      "building": "quartermasters-store",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
+      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+    },
+    {
+      "id": "quartermasters-store-item-1",
+      "tx": 9,
+      "ty": 3,
+      "building": "quartermasters-store",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
+      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+    },
+    {
+      "id": "quartermasters-store-item-2",
+      "tx": 9,
+      "ty": 4,
+      "building": "quartermasters-store",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
+      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+    }
+  ]
 }
