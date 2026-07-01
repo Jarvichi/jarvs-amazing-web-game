@@ -246,10 +246,11 @@ export interface HubTreasure {
 export interface HubInteractableDecor {
   dx: number
   dy: number
-  /** Resolved tile-atlas id. Mutually exclusive with cardArtSlot. */
+  /** Resolved tile-atlas id. Mutually exclusive with shopArtSlot. */
   tileId?: number
-  /** Renders today's card art for this shop's Nth for-sale slot. */
-  cardArtSlot?: number
+  /** Renders today's live shop-stock art (card/augment/consumable, dispatched
+   *  by grant.kind) for this shop's Nth for-sale slot. */
+  shopArtSlot?: number
   zlayer?: 'solid' | 'below' | 'above'
 }
 
@@ -265,6 +266,7 @@ export type HubInteractableReaction =
   | { type: 'quest'; questId: string; speakerName?: string }
   | { type: 'move'; to: HubCoordinate; message?: string }
   | { type: 'buy'; slotIndex: number }
+  | { type: 'buyPack' }
 
 export interface HubInteractable {
   id: string
@@ -621,8 +623,8 @@ const HUB_INTERACTABLES: HubInteractable[] = (
   const decor: HubInteractableDecor[] | undefined = i.decor?.map(d => ({
     dx:          d.dx,
     dy:          d.dy,
-    tileId:      d.cardArtSlot != null ? undefined : resolveTileId(d.tileId ?? ''),
-    cardArtSlot: d.cardArtSlot,
+    tileId:      d.shopArtSlot != null ? undefined : resolveTileId(d.tileId ?? ''),
+    shopArtSlot: d.shopArtSlot,
     zlayer:      d.zlayer as HubInteractableDecor['zlayer'],
   }))
   // Hit area: explicit rect → owned-decor bounds → single tile

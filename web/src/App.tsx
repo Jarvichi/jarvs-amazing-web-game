@@ -2519,14 +2519,14 @@ export default function App() {
     setScreen('pack')
   }, [])
 
-  const handleBuyCrystalPack = useCallback((qty: number = 1) => {
+  const handleBuyCrystalPack = useCallback((qty: number = 1, returnScreen: Screen = 'shop') => {
     const current = loadCrystals()
     const totalCost = CRYSTAL_PACK_COST * qty
     if (current < totalCost) return
     const next = current - totalCost
     saveCrystals(next)
     setCrystals(next)
-    packBackScreenRef.current = 'shop'
+    packBackScreenRef.current = returnScreen
     setPacks(Array.from({ length: qty }, () => generatePack()))
     setScreen('pack')
   }, [])
@@ -2843,6 +2843,7 @@ export default function App() {
           onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
           onFeedback={() => setFeedbackOpen(true)}
           onCrystalsChange={(n) => setCrystals(n)}
+          onBuyCrystalPack={(qty) => handleBuyCrystalPack(qty, 'hubworld')}
         />
       )}
 

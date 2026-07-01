@@ -15,7 +15,7 @@ import { addRelationshipPoints, getRelationship } from '../../game/hub/relations
 import { setDialogueFlag, hasDialogueFlag, markNodeSeen } from '../../game/hub/dialogueFlags'
 import { getQuestState, setQuestStatus, incrementQuestProgress, getQuestProgress, resetQuest } from '../../game/hub/quests'
 import { getHeardConvoIds, markConvoHeard } from '../../game/hub/innConvos'
-import { loadDeck, loadCollection, loadCrystals, saveCrystals, addCardsToCollection, addAugmentInstance } from '../../game/collection'
+import { loadDeck, loadCollection, loadCrystals, saveCrystals, addCardsToCollection, addAugmentInstance, CRYSTAL_PACK_COST } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
 import { CommanderState } from '../../game/commander'
 import { loadSkipIntro } from '../screens/SettingsScreen'
@@ -50,7 +50,7 @@ import { getUnreadCount } from '../../game/news'
 import { interactableStoreKey, isInteractableGranted, markInteractableGranted, getInteractableMoves, setInteractableMove } from '../../game/hub/interactables'
 import { recordNpcMet, recordAnimalSeen, recordAreaSeen } from '../../game/hub/journal'
 import { getTodaysShopItems, ShopBuildingId } from '../../game/hub/shopStock'
-import { hasBoughtToday, markBoughtToday } from '../../game/hub/shopPurchases'
+import { loadDailyShopState, saveDailyShopState, isShopItemSold } from '../../game/shopSchedule'
 import rollbar from '../../rollbar'
 interface QuestEvent {
   speakerName: string
@@ -166,11 +166,12 @@ export interface Props {
   onFeedback: () => void
   onCrystalsChange?:  (n: number) => void
   onTileTap?:         (tx: number, ty: number) => void
+  onBuyCrystalPack?:  (qty: number) => void
 }
 
 export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap, onPlayerTap, onNarratorLog,
   locationData, locationQuests, questDefs, allQuestDefs,
-  crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onCrystalsChange, onTileTap }: Props) {
+  crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onCrystalsChange, onTileTap, onBuyCrystalPack }: Props) {
   const [splashVisible, setSplashVisible] = useState(() => !_hubSplashShown && !loadSkipIntro())
   const [splashFading,  setSplashFading]  = useState(false)
   const [currentArea,    setCurrentArea]    = useState<string | null>(null)
@@ -331,6 +332,8 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   }
   // Receives the canvas's live-reposition callback
   const moveInteractableRef = useRef<((id: string, tx: number, ty: number) => void) | null>(null)
+  // Receives the canvas's live "Sold" badge callback
+  const markInteractableSoldRef = useRef<((id: string) => void) | null>(null)
   // Per-interactable tap counts so dialogue arrays cycle
   const interactableTapCounts = useRef(new Map<string, number>())
 
@@ -1082,8 +1085,11 @@ function hasOfferableQuest(giverId: string): boolean {
         const onDuty = candidates.find(n => resolveNpcPlace(n, gameHour, locationData).interiorId === buildingId)
         const speakerName = (onDuty ?? candidates[0])?.name ?? ''
 
-        const slotId = `${buildingId}-item-${r.slotIndex}`
-        if (hasBoughtToday(slotId)) {
+        // Card-shop/augment-shop items share ShopScreen's own DailyShopState
+        // fields, so buying via the NPC screen and buying the physical item
+        // draw down the same stock. Supplies are never gated here, matching
+        // ShopScreen's "always in stock" consumables.
+        if (isShopItemSold(loadDailyShopState(), item.grant)) {
           setDialogueEvent({ speakerName, text: 'Sold already, friend — check back next time the stock turns over.', onClose: next })
           return
         }
@@ -1097,21 +1103,64 @@ function hasOfferableQuest(giverId: string): boolean {
               setDialogueEvent({ speakerName, text: "That's more than you're carrying — come back when you've got the crystals." })
               return
             }
+            if (isShopItemSold(loadDailyShopState(), item.grant)) {
+              setDialogueEvent({ speakerName, text: 'Sold already, friend — check back next time the stock turns over.', onClose: next })
+              return
+            }
             saveCrystals(balance - item.price)
             onCrystalsChange?.(balance - item.price)
             switch (item.grant.kind) {
-              case 'card':       addCardsToCollection([{ cardName: item.grant.cardName, count: 1 }]); break
-              case 'augment':    addAugmentInstance(item.grant.augmentName); break
-              case 'consumable': addToConsumableStash(item.grant.id); break
+              case 'card':
+                addCardsToCollection([{ cardName: item.grant.cardName, count: 1 }])
+                saveDailyShopState({ ...loadDailyShopState(), boughtCardNames: [...loadDailyShopState().boughtCardNames, item.grant.cardName] })
+                break
+              case 'augment':
+                addAugmentInstance(item.grant.augmentName)
+                saveDailyShopState({ ...loadDailyShopState(), boughtAugment: true })
+                break
+              case 'consumable':
+                addToConsumableStash(item.grant.id)
+                break
             }
-            markBoughtToday(slotId)
             emitSound('shopPurchase')
             refreshState()
+            if (item.grant.kind !== 'consumable') markInteractableSoldRef.current?.(def.id)
             setDialogueEvent({ speakerName, text: `Sold! Enjoy the ${item.itemName}.`, onClose: next })
           },
         }
         const cancel: DialogueChoice = { label: 'Maybe not', onClick: () => setDialogueEvent(null) }
         setDialogueEvent({ speakerName, text: `Care to buy ${item.itemName} for ${item.price} crystals?`, choices: [confirm, cancel] })
+        return
+      }
+      case 'buyPack': {
+        const buildingId = def.building
+        const candidates = buildingId ? locationData.HUB_NPCS.filter(n => n.building === buildingId) : []
+        const onDuty = candidates.find(n => buildingId && resolveNpcPlace(n, gameHour, locationData).interiorId === buildingId)
+        const speakerName = (onDuty ?? candidates[0])?.name ?? ''
+
+        // handleBuyCrystalPack (App.tsx) owns the crystal deduction, pack
+        // generation, and screen transition — this only affordability-checks
+        // and delegates, so crystals aren't charged twice.
+        const buyQty = (qty: number) => {
+          if (loadCrystals() < CRYSTAL_PACK_COST * qty) {
+            setDialogueEvent({ speakerName, text: "That's more than you're carrying — come back when you've got the crystals." })
+            return
+          }
+          setDialogueEvent(null)
+          onBuyCrystalPack?.(qty)
+        }
+
+        const maxQty = Math.floor(loadCrystals() / CRYSTAL_PACK_COST)
+        const choices: DialogueChoice[] = [
+          ...[1, 5, 10].filter(q => q <= maxQty || q === 1).map((q, i) => ({
+            label: `${q}× Pack — ${CRYSTAL_PACK_COST * q} 💎`,
+            primary: i === 0,
+            onClick: () => buyQty(q),
+          })),
+          ...(maxQty > 0 ? [{ label: `MAX ×${maxQty} — ${CRYSTAL_PACK_COST * maxQty} 💎`, onClick: () => buyQty(maxQty) }] : []),
+          { label: 'Maybe not', onClick: () => setDialogueEvent(null) },
+        ]
+        setDialogueEvent({ speakerName, text: 'How many packs would you like?', choices })
         return
       }
     }
@@ -1202,6 +1251,7 @@ function hasOfferableQuest(giverId: string): boolean {
             interactableIndicatorsRef={indicatorConditionsRef}
             interactableMovesRef={interactableMovesRef}
             moveInteractableRef={moveInteractableRef}
+            markInteractableSoldRef={markInteractableSoldRef}
             buildingUpgradeLevelsRef={buildingUpgradeLevelsRef}
             locationData={locationData}
             questData={locationQuests}

@@ -64,6 +64,30 @@ describe('interactables parsing', () => {
     expect(bundle.HUB_INTERACTABLES[1].hitRect).toEqual({ w: 3, h: 1 })
     expect(bundle.HUB_INTERACTABLES[1].building).toBe('inn-building')
   })
+
+  it('passes shopArtSlot decor through without resolving a tileId', () => {
+    const bundle = createHubLocationData(minimalConfig({
+      interactables: [{
+        id: 'card-shop-item-0', tx: 12, ty: 4, building: 'card-shop',
+        decor: [{ dx: 0, dy: 0, shopArtSlot: 0 }],
+        reactions: [{ type: 'buy', slotIndex: 0 }],
+      }],
+    }))
+    const decor = bundle.HUB_INTERACTABLES[0].decor?.[0]
+    expect(decor?.shopArtSlot).toBe(0)
+    expect(decor?.tileId).toBeUndefined()
+  })
+
+  it('passes a buyPack reaction through unchanged', () => {
+    const bundle = createHubLocationData(minimalConfig({
+      interactables: [{
+        id: 'card-shop-pack', tx: 12, ty: 7, building: 'card-shop',
+        decor: [{ dx: 0, dy: 0, tileId: 'crate' }],
+        reactions: [{ type: 'buyPack' }],
+      }],
+    }))
+    expect(bundle.HUB_INTERACTABLES[0].reactions).toEqual([{ type: 'buyPack' }])
+  })
 })
 
 describe('animals parsing', () => {
@@ -173,5 +197,13 @@ describe('ravenwatch config', () => {
       BASE_CHIP_TILES.messageBoardBottomRight,
     ]
     expect(bundle.EXTERIOR_DECOR.some(d => boardTiles.includes(d.tileId))).toBe(false)
+  })
+
+  it('contains the card-shop-pack interactable with a buyPack reaction', () => {
+    const bundle = createHubLocationData(ravenwatchConfig as unknown as RawConfig)
+    const pack = bundle.HUB_INTERACTABLES.find(i => i.id === 'card-shop-pack')
+    expect(pack).toBeDefined()
+    expect(pack!.building).toBe('card-shop')
+    expect(pack!.reactions).toEqual([{ type: 'buyPack' }])
   })
 })

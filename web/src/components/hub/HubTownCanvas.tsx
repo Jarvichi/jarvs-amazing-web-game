@@ -6,6 +6,7 @@ import { renderPathTiles } from '../../utils/tileLookup'
 import { loadSpriteTexture, loadTextureUrl, loadAnimFrames, loadTileRef } from '../../utils/pixiHelpers'
 import { resolveNpcSprite, spriteSlug } from '../../game/sprites'
 import { getTodaysShopItems, ShopBuildingId } from '../../game/hub/shopStock'
+import { loadDailyShopState, isShopItemSold } from '../../game/shopSchedule'
 import { PATH_TILE } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
 import { isBuildingOpen, getNpcLocation, getNpcActivity } from '../../game/hub/hubNpcSchedule'
@@ -14,7 +15,8 @@ import { emitSound, startInteriorAudio, stopInteriorAudio, setNightAmbiance } fr
 import { WALL_TILES } from '../../data/tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 import { placeBuildingTiles, resolveBuildingVisual } from '../../data/tiles/buildingRender'
-import { loadPlayerAvatar } from '../../game/questline'
+import { loadPlayerAvatar, ALL_CONSUMABLES } from '../../game/questline'
+import { getAugmentCard, AUGMENT_SPRITE } from '../../game/augments'
 import { createChunkCuller } from '../../utils/chunkCull'
 import { CommanderState } from '../../game/commander'
 import rollbar from '../../rollbar'
@@ -99,6 +101,8 @@ interface Props {
   interactableMovesRef?:      React.MutableRefObject<Map<string, { tx: number; ty: number }>>
   /** Receives a callback to reposition an interactable's sprites live */
   moveInteractableRef?:       React.MutableRefObject<((id: string, tx: number, ty: number) => void) | null>
+  /** Receives a callback to add a live "Sold" badge to a shop interactable */
+  markInteractableSoldRef?:   React.MutableRefObject<((id: string) => void) | null>
   /** buildingId → purchased upgrade level; reveals unlocked decor live */
   buildingUpgradeLevelsRef?:  React.MutableRefObject<Record<string, number>>
   locationData:         HubLocationBundle
@@ -115,7 +119,7 @@ export function HubTownCanvas({
   pickedUpIds, onItemPickup, doorKeys, onDoorLocked, questNpcState, activeQuestIdsRef,
   completedQuestIdsRef, collectedTreasureIds, onTreasureStep,
   gameHour, isNight, npcProximityDialogue,
-  onInteractableTap, interactableIndicatorsRef, interactableMovesRef, moveInteractableRef,
+  onInteractableTap, interactableIndicatorsRef, interactableMovesRef, moveInteractableRef, markInteractableSoldRef,
   buildingUpgradeLevelsRef,
   locationData,
   questData,
@@ -529,9 +533,25 @@ export function HubTownCanvas({
       above:          PIXI.Container | null   // paired container for 'above' zlayer tiles
       indicator:      PIXI.Text | null
       indicatorBaseY: number
+      soldBadge:      PIXI.Text | null
     }
     const exteriorInteractables = new Map<string, InteractableEntry>()
     const interiorInteractables = new Map<string, InteractableEntry>()
+
+    // Live "Sold" badge — mutates an already-built interactable in place so a
+    // purchase shows immediately without requiring the player to leave and
+    // re-enter the interior (buildInteractable only reruns on re-entry).
+    function addSoldBadge(entry: InteractableEntry): void {
+      if (entry.soldBadge) return
+      const badge = new PIXI.Text({
+        text: 'SOLD',
+        style: { fontSize: 9, fill: '#ff6666', fontWeight: 'bold', fontFamily: 'monospace', stroke: { color: '#1a1a1a', width: 2 } },
+      })
+      badge.anchor.set(0.5, 0.5)
+      badge.position.set((entry.def.hitRect.w * T) / 2, (entry.def.hitRect.h * T) / 2)
+      entry.root.addChild(badge)
+      entry.soldBadge = badge
+    }
 
     function interactableZIndex(def: HubInteractable, ty: number): number {
       return (ty + def.hitRect.h - 1) * T + T + 1  // y-sort on the bottom tile row, like decor
@@ -573,28 +593,52 @@ export function HubTownCanvas({
         }
         for (const d of decor) {
           const parent = d.zlayer === 'above' ? above! : root
-          if (d.cardArtSlot != null && def.building) {
+          if (d.shopArtSlot != null && def.building) {
             const items = getTodaysShopItems(def.building as ShopBuildingId)
-            const item  = items[d.cardArtSlot]
-            const cardName = item && item.grant.kind === 'card' ? item.grant.cardName : null
+            const item  = items[d.shopArtSlot]
 
-            // White card backing, drawn regardless of whether art loads.
+            // White card/tile backing, drawn regardless of whether art loads —
+            // shared visual base for all 3 stock kinds.
             const cardW = T - 6, cardH = T - 2
             const bg = new PIXI.Graphics()
             bg.roundRect(d.dx * T + 3, d.dy * T + 1, cardW, cardH, 2).fill({ color: 0xffffff })
             bg.roundRect(d.dx * T + 3, d.dy * T + 1, cardW, cardH, 2).stroke({ color: 0xbbbbbb, width: 1 })
             parent.addChild(bg)
 
-            if (cardName) {
-              loadTextureUrl(`${base}sprites/${spriteSlug(cardName)}.svg`).then(tex => {
-                if (app.renderer == null || !stillCurrent()) return
-                const s = new PIXI.Sprite(tex)
-                const artSize = cardW * 0.8
-                s.width = artSize; s.height = artSize
-                s.anchor.set(0.5, 1)
-                s.position.set(d.dx * T + T / 2, d.dy * T + cardH - 2)
-                parent.addChild(s)
-              }).catch(() => {})
+            if (item) {
+              const loadArt = (spriteName: string) =>
+                loadTextureUrl(`${base}sprites/${spriteName}.svg`).then(tex => {
+                  if (app.renderer == null || !stillCurrent()) return
+                  const s = new PIXI.Sprite(tex)
+                  const artSize = cardW * 0.8
+                  s.width = artSize; s.height = artSize
+                  s.anchor.set(0.5, 1)
+                  s.position.set(d.dx * T + T / 2, d.dy * T + cardH - 2)
+                  parent.addChild(s)
+                }).catch(() => {})
+
+              switch (item.grant.kind) {
+                case 'card':
+                  loadArt(spriteSlug(item.grant.cardName))
+                  break
+                case 'augment': {
+                  const augSlot = getAugmentCard(item.grant.augmentName)?.augmentSlot
+                  loadArt((augSlot && AUGMENT_SPRITE[augSlot]) ?? 'augment-amulet')
+                  break
+                }
+                case 'consumable': {
+                  const consumableId = item.grant.id
+                  const consumable = ALL_CONSUMABLES.find(c => c.id === consumableId)
+                  const badge = new PIXI.Text({
+                    text: consumable?.icon ?? '❔',
+                    style: { fontSize: Math.round(cardH * 0.6), fontFamily: 'monospace' },
+                  })
+                  badge.anchor.set(0.5, 0.5)
+                  badge.position.set(d.dx * T + T / 2, d.dy * T + cardH / 2 + 1)
+                  parent.addChild(badge)
+                  break
+                }
+              }
             }
             continue
           }
@@ -623,7 +667,19 @@ export function HubTownCanvas({
         indicatorBaseY = y
       }
 
-      registry.set(def.id, { def, root, above, indicator, indicatorBaseY })
+      const entry: InteractableEntry = { def, root, above, indicator, indicatorBaseY, soldBadge: null }
+      registry.set(def.id, entry)
+
+      // Seed the "Sold" badge on cold build (e.g. entering the shop after a
+      // purchase made via the NPC dialogue, or in an earlier visit).
+      const buyReaction = def.reactions.find(r => r.type === 'buy') as { type: 'buy'; slotIndex: number } | undefined
+      if (buyReaction && def.building) {
+        const items = getTodaysShopItems(def.building as ShopBuildingId)
+        const item  = items[buyReaction.slotIndex]
+        if (item && item.grant.kind !== 'consumable' && isShopItemSold(loadDailyShopState(), item.grant)) {
+          addSoldBadge(entry)
+        }
+      }
     }
 
     for (const def of HUB_INTERACTABLES.filter(i => !i.building)) {
@@ -664,6 +720,18 @@ export function HubTownCanvas({
       }
     }
     if (moveInteractableRef) moveInteractableRef.current = doMoveInteractable
+
+    // Live "Sold" badge — see addSoldBadge above; registered into markInteractableSoldRef.
+    const doMarkInteractableSold = (id: string): void => {
+      try {
+        const entry = interiorInteractables.get(id) ?? exteriorInteractables.get(id)
+        if (!entry) return
+        addSoldBadge(entry)
+      } catch (e) {
+        rollbar.error('[HubTownCanvas] markInteractableSold failed', { id, error: String(e) })
+      }
+    }
+    if (markInteractableSoldRef) markInteractableSoldRef.current = doMarkInteractableSold
 
     // ── Blocked paths (quest-gated obstructions) ──────────────────────────────
     interface BlockedNpcEntry {
