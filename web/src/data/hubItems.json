@@ -1,0 +1,94 @@
+[
+  {
+    "id": "chicken-feed",
+    "name": "Chicken Feed",
+    "icon": "🌾",
+    "desc": "A handful of mixed grain. Chickens go wild for it.",
+    "category": "material"
+  },
+  {
+    "id": "egg",
+    "name": "Egg",
+    "icon": "🥚",
+    "desc": "A fresh egg, still warm. Laid by a well-fed hen.",
+    "category": "material"
+  },
+  {
+    "id": "feather",
+    "name": "Feather",
+    "icon": "🪶",
+    "desc": "A clean, sturdy feather. Someone with a snapped quill might want this.",
+    "category": "material"
+  },
+  {
+    "id": "fish-bait",
+    "name": "Fish Bait",
+    "icon": "🪱",
+    "desc": "A pot of wriggling bait. One pot covers one fishing trip.",
+    "category": "material"
+  },
+  {
+    "id": "fishing-rod",
+    "name": "Fishing Rod",
+    "icon": "🎣",
+    "desc": "A well-balanced rod. With bait in hand, you can fish anywhere in the realm.",
+    "category": "tool",
+    "unique": true
+  },
+  {
+    "id": "fish-tiddler",
+    "name": "Tiddler",
+    "icon": "🐟",
+    "desc": "A tiny fish, barely a mouthful. A cat would still be delighted.",
+    "category": "material"
+  },
+  {
+    "id": "fish-small",
+    "name": "Small Fish",
+    "icon": "🐠",
+    "desc": "A modest catch. Good eating, or good trading.",
+    "category": "material"
+  },
+  {
+    "id": "fish-medium",
+    "name": "Medium Fish",
+    "icon": "🐡",
+    "desc": "A respectable fish. The fishmonger pays fairly for these.",
+    "category": "material"
+  },
+  {
+    "id": "fish-large",
+    "name": "Large Fish",
+    "icon": "🦈",
+    "desc": "A serious catch. Heavy enough to make your arms ache.",
+    "category": "material"
+  },
+  {
+    "id": "fish-trophy",
+    "name": "Trophy Fish",
+    "icon": "🏆",
+    "desc": "A magnificent specimen. Fishmongers' eyes light up at the sight.",
+    "category": "material"
+  },
+  {
+    "id": "fish-legendary",
+    "name": "Legendary Fish",
+    "icon": "✨",
+    "desc": "A fish out of legend. Sailors will sing about this one.",
+    "category": "material"
+  },
+  {
+    "id": "fancy-hat",
+    "name": "Fancy Hat",
+    "icon": "🎩",
+    "desc": "Capital fashion at its finest. Somebody out there would love this.",
+    "category": "material"
+  },
+  {
+    "id": "sturdy-boots",
+    "name": "Sturdy Boots",
+    "icon": "🥾",
+    "desc": "Well-made walking boots. A blessing for anyone who works outdoors.",
+    "category": "material"
+  }
+]
