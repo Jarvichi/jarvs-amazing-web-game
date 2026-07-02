@@ -10,6 +10,7 @@ import * as PIXI from 'pixi.js'
 import { findPath } from '../../utils/hubPathfinder'
 import { loadAnimFrames, loadTextureUrl } from '../../utils/pixiHelpers'
 import { emitSound, SoundId } from '../../game/sound'
+import { getEquippedAccessoryId } from '../../game/hub/pet'
 import type { HubAnimal } from '../../data/hub/loader'
 import {
   AnimalType,
@@ -63,6 +64,10 @@ interface Animal {
   bubble: PIXI.Container | null
   bubbleTimer: number
   indicator: PIXI.Text | null
+  // player's pet: composited equipped-accessory sprite (sibling, not a child —
+  // the dog's texture swaps per animation frame, so only sibling repositioning
+  // every tick keeps it aligned; see advance())
+  accessorySprite: PIXI.Sprite | null
   // dog social memory
   ownerId?: string
   seen: Set<string>
@@ -132,6 +137,9 @@ export interface GlowSource { x: number; y: number; radius: number; pulse: boole
 // no changes to the state machine itself.
 export const PLAYER_OWNER_ID = '__player__'
 export const PLAYER_PET_ANIMAL_ID = '__player-pet__'
+/** The player's pet is never allowed to wander more than this many tiles
+ *  from the player — enforced by the leash check in the dog tick dispatch. */
+export const PLAYER_LEASH_TILES = 8
 
 export interface AnimalSystem {
   tick: (deltaMS: number) => void
@@ -148,6 +156,9 @@ export interface AnimalSystem {
   sendPetFetching: (onReturn: () => void) => boolean
   /** Cosmetic affection reaction (wag + heart bubble) for the player's pet. */
   givePetAffection: () => void
+  /** Equips (or, passing null, unequips) a composited accessory sprite on the
+   *  player's pet — pass an accessory id from petAccessories.ts. */
+  setPetAccessory: (assetId: string | null) => void
   destroy: () => void
 }
 
@@ -249,6 +260,11 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
       a.sprite.y = a.baseY
     }
     if (a.bottomAnchored) a.sprite.zIndex = a.sprite.y
+    if (a.accessorySprite) {
+      a.accessorySprite.position.copyFrom(a.sprite.position)
+      a.accessorySprite.scale.x = a.sprite.scale.x
+      a.accessorySprite.zIndex = a.sprite.zIndex + 0.5
+    }
   }
 
   const isMoving = (a: Animal) => a.target !== null
@@ -434,6 +450,15 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
       const owner = npcs.find(n => n.id === a.ownerId)
       if (owner) followToward(a, owner, walkable)
       else { const d = randOf(tilesWithin(walkable, a.tx, a.ty, 5)); if (d) setPath(a, [a.tx, a.ty], d, walkable) }
+    } else if (a.ownerId === PLAYER_OWNER_ID) {
+      // The player's own pet roams within a leash of the player, not of
+      // wherever it happens to already be — prevents drift compounding
+      // across repeated roam cycles (see the PLAYER_LEASH_TILES cap below).
+      const owner = npcs.find(n => n.id === PLAYER_OWNER_ID)
+      const otx = owner ? Math.floor(owner.x / T) : a.tx
+      const oty = owner ? Math.floor(owner.y / T) : a.ty
+      const d = randOf(tilesWithin(walkable, otx, oty, PLAYER_LEASH_TILES))
+      if (d) setPath(a, [a.tx, a.ty], d, walkable)
     } else {
       const d = randOf(tilesWithin(walkable, a.tx, a.ty, 5))
       if (d) setPath(a, [a.tx, a.ty], d, walkable)
@@ -889,6 +914,20 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
           if (prey) { a.goal = [prey.tx, prey.ty]; stepToward(a, walkable, 'grass') }
           else a.stateTimer = 0
         }
+        // Safety-net leash: whatever pulled the player's pet away (roam,
+        // chase, etc.), never let it end up more than PLAYER_LEASH_TILES
+        // from the player. Runs last so it has the final say each tick.
+        if (a.ownerId === PLAYER_OWNER_ID) {
+          const owner = npcs.find(n => n.id === PLAYER_OWNER_ID)
+          if (owner) {
+            const dtx = Math.abs(a.tx - Math.floor(owner.x / T))
+            const dty = Math.abs(a.ty - Math.floor(owner.y / T))
+            if (Math.max(dtx, dty) > PLAYER_LEASH_TILES) {
+              a.state = 'follow-owner'; a.stateTimer = randomDuration('follow-owner')
+              followToward(a, owner, walkable)
+            }
+          }
+        }
         if (!isMoving(a) && a.stateTimer <= 0) dogIdle(a, walkable, npcs)
       }
     }
@@ -947,7 +986,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
       bubble: null, bubbleTimer: 0,
       seen: new Set(), opinion: new Map(), reactCooldown: 0, wagTimer: 0,
       fleeRequested: false, bobPhase: Math.random() * Math.PI * 2, baseY: c.y,
-      indicator: null,
+      indicator: null, accessorySprite: null,
     }
     // Half of the procedural cats & dogs den in a home building at night.
     if (!placed && spec.dens && opts.homes.length > 0 && Math.random() < 0.5) {
@@ -1069,6 +1108,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     for (const a of animals) {
       if (a.bubble) opts.bubbleLayer.removeChild(a.bubble)
       if (a.indicator) opts.bubbleLayer.removeChild(a.indicator)
+      if (a.accessorySprite) a.accessorySprite.destroy()
       a.sprite.destroy()
     }
     animals.length = 0
@@ -1082,7 +1122,42 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     const [a] = animals.splice(idx, 1)
     if (a.bubble) opts.bubbleLayer.removeChild(a.bubble)
     if (a.indicator) opts.bubbleLayer.removeChild(a.indicator)
+    if (a.accessorySprite) a.accessorySprite.destroy()
     a.sprite.destroy()
+  }
+
+  function clearAccessorySprite(a: Animal): void {
+    if (a.accessorySprite) {
+      a.accessorySprite.destroy()
+      a.accessorySprite = null
+    }
+  }
+
+  // Composites the equipped accessory as a PIXI sibling of the dog sprite —
+  // same width/height/anchor/position every tick (see advance()) — so an SVG
+  // authored in animal-dog.svg's 32x32 coordinate space lines up automatically.
+  function applyAccessorySprite(a: Animal, assetId: string): void {
+    loadTextureUrl(`${opts.baseUrl}sprites/pet-accessory-${assetId}.svg`).then(tex => {
+      // The pet may have been removed, or the accessory changed again, while this loaded.
+      if (!animals.includes(a)) return
+      clearAccessorySprite(a)
+      const sprite = new PIXI.Sprite(tex)
+      sprite.width = a.sprite.width
+      sprite.height = a.sprite.height
+      sprite.anchor.set(a.sprite.anchor.x, a.sprite.anchor.y)
+      sprite.position.copyFrom(a.sprite.position)
+      sprite.scale.x = a.sprite.scale.x
+      sprite.zIndex = a.sprite.zIndex + 0.5
+      a.sprite.parent?.addChild(sprite)
+      a.accessorySprite = sprite
+    }).catch(() => {})
+  }
+
+  function setPetAccessory(assetId: string | null): void {
+    const a = animals.find(x => x.id === PLAYER_PET_ANIMAL_ID)
+    if (!a) return
+    clearAccessorySprite(a)
+    if (assetId) applyAccessorySprite(a, assetId)
   }
 
   function spawnFollowerPet(variant: string, tx: number, ty: number): void {
@@ -1090,7 +1165,10 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     void makeAnimal('dog', tx, ty, { id: PLAYER_PET_ANIMAL_ID, type: 'dog', variant, tx, ty, roam: true })
       .then(() => {
         const a = animals.find(x => x.id === PLAYER_PET_ANIMAL_ID)
-        if (a) a.ownerId = PLAYER_OWNER_ID
+        if (!a) return
+        a.ownerId = PLAYER_OWNER_ID
+        const equipped = getEquippedAccessoryId()
+        if (equipped) applyAccessorySprite(a, equipped)
       })
   }
 
@@ -1098,9 +1176,15 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     const a = animals.find(x => x.id === PLAYER_PET_ANIMAL_ID)
     if (!a || a.state === 'fetching-out' || a.state === 'fetching-return') return false
     const walkable = opts.getWalkable()
-    const far = tilesWithin(walkable, a.tx, a.ty, 8)
-      .filter(([x, y]) => Math.max(Math.abs(x - a.tx), Math.abs(y - a.ty)) >= 4)
-    const dest = randOf(far) ?? randOf(tilesWithin(walkable, a.tx, a.ty, 8))
+    // Fetch destination is relative to the PLAYER (not the dog's own
+    // position) and capped at the same leash radius, so a treat given while
+    // the dog is already near the edge of the leash can't push it further out.
+    const owner = opts.getNpcPositions().find(n => n.id === PLAYER_OWNER_ID)
+    const otx = owner ? Math.floor(owner.x / T) : a.tx
+    const oty = owner ? Math.floor(owner.y / T) : a.ty
+    const far = tilesWithin(walkable, otx, oty, PLAYER_LEASH_TILES)
+      .filter(([x, y]) => Math.max(Math.abs(x - a.tx), Math.abs(y - a.ty)) >= 3)
+    const dest = randOf(far) ?? randOf(tilesWithin(walkable, otx, oty, PLAYER_LEASH_TILES))
     if (!dest) return false
     fetchCallback = onReturn
     a.state = 'fetching-out'
@@ -1116,5 +1200,5 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     a.wagTimer = 1300
   }
 
-  return { tick, getAnimalsInBuilding, getGlowSources, spawnFollowerPet, removeAnimal, sendPetFetching, givePetAffection, destroy }
+  return { tick, getAnimalsInBuilding, getGlowSources, spawnFollowerPet, removeAnimal, sendPetFetching, givePetAffection, setPetAccessory, destroy }
 }

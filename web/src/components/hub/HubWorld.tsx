@@ -33,7 +33,7 @@ import { QuestsModal } from './QuestsModal'
 import { BountyBoardModal } from './BountyBoardModal'
 import { hasUnclaimedBounties, getPendingBountyReport, getPendingBountyCollect, advanceBountyStep, getActiveBountyStep } from '../../game/hub/bounties'
 import { PetModal } from './PetModal'
-import { getActivePet, getTreatsRemainingToday, canGiveTreat, recordTreatGiven } from '../../game/hub/pet'
+import { getActivePet, getTreatsRemainingToday, canGiveTreat, recordTreatGiven, grantAccessory } from '../../game/hub/pet'
 import { PLAYER_PET_ANIMAL_ID } from './hubAnimals'
 import { TownDirectory } from './TownDirectory'
 import { TownJournal } from './TownJournal'
@@ -355,7 +355,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   const returnRef        = useRef(null) as React.MutableRefObject<(() => void) | null>
   const interiorEnterRef = useRef<((buildingId: string) => void) | null>(null)
   const interiorExitRef  = useRef<(() => void) | null>(null)
-  const petActionRef     = useRef<{ sendPetFetching: (onReturn: () => void) => boolean; givePetAffection: () => void } | null>(null)
+  const petActionRef     = useRef<{ sendPetFetching: (onReturn: () => void) => boolean; givePetAffection: () => void; setPetAccessory: (assetId: string | null) => void } | null>(null)
   const playerName = loadPlayerName()
 
   const unitCards = useMemo(() => {
@@ -703,6 +703,9 @@ function grantQuestReward(quest: HubQuestDef): void {
     for (const [npcId, grant] of Object.entries(reward.relationship)) {
       addRelationshipPoints(npcId, grant.track, grant.points)
     }
+  }
+  if (reward.accessory) {
+    grantAccessory(reward.accessory)
   }
 }
 
@@ -1181,6 +1184,9 @@ function hasOfferableQuest(giverId: string): boolean {
               case 'consumable':
                 addToConsumableStash(item.grant.id)
                 break
+              case 'accessory':
+                grantAccessory(item.grant.id)
+                break
             }
             emitSound('shopPurchase')
             refreshState()
@@ -1333,7 +1339,7 @@ function hasOfferableQuest(giverId: string): boolean {
 
         {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={questDefs} resolveNpcName={getNpcDisplayName}/>}
         {bountyBoardOpen && <BountyBoardModal onClose={() => setBountyBoardOpen(false)} resolveNpcName={getNpcDisplayName}/>}
-        {petModalOpen && <PetModal onClose={() => setPetModalOpen(false)} />}
+        {petModalOpen && <PetModal onClose={() => setPetModalOpen(false)} petActionRef={petActionRef} />}
         {directoryOpen && <TownDirectory onClose={() => setDirectoryOpen(false)} locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} onShowRelationship={setRelationshipNpcId} />}
         {journalOpen && <TownJournal onClose={() => setJournalOpen(false)} locationData={locationData} />}
         {upgradesOpen && <HubTownUpgrades onClose={() => setUpgradesOpen(false)} townName={town} reputation={getTownReputation(town)} crystals={loadCrystals()} rows={upgradeRows} onUpgrade={handleUpgrade} tributeAmount={tributeAmount(town)} tributeAvailable={tributeAvailable(town)} onCollectTribute={handleCollectTribute} />}

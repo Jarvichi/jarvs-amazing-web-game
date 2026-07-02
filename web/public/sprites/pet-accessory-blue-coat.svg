@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- coat: blanket draped over the back, clear of the head -->
+  <path d="M6 17 Q11 13.5 18 15.5 Q19 19 17 21 Q10 22.5 6 19.5 Z" fill="#2f5da0"/>
+  <path d="M6 17 Q11 13.5 18 15.5" stroke="#1e3f70" stroke-width="0.6" fill="none"/>
+</svg>

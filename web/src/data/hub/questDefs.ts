@@ -22,6 +22,8 @@ export interface HubQuestReward {
   /** Per-NPC relationship-track points granted on quest completion. */
   relationship?: Record<string, RelationshipGrant>
   unlock?: string
+  /** Pet accessory id (from petAccessories.ts) granted on quest completion. */
+  accessory?: string
 }
 
 /** npcId -> track -> levelString -> line shown when that track is active. */

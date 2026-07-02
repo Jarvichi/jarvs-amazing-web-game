@@ -15422,6 +15422,31 @@ html.light-mode .action-btn {
 }
 .pet-modal__current-name { font-size: 14px; font-weight: bold; }
 .pet-modal__actions-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.pet-modal__accessories {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
+}
+.pet-modal__accessory {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #2a4a2a;
+  color: #c8e8c8;
+  font-family: monospace;
+  padding: 8px 10px;
+  border-radius: 2px;
+  cursor: pointer;
+  text-align: left;
+}
+.pet-modal__accessory:hover:not(:disabled) { border-color: #446644; }
+.pet-modal__accessory--equipped { border-color: #88cc88; background: rgba(60, 120, 60, 0.25); }
+.pet-modal__accessory--locked { opacity: 0.5; cursor: default; }
+.pet-modal__accessory-name { font-size: 12px; font-weight: bold; }
+.pet-modal__accessory-status { font-size: 9px; color: #557755; letter-spacing: 0.05em; }
 
 /* ── Town Directory ("Where is…?") ─────────────────────────────────────────── */
 .town-directory {
