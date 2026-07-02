@@ -1207,6 +1207,44 @@ function hasOfferableQuest(giverId: string): boolean {
       })
       return true
     }
+    if (type === 'dog' && hasHubItem('bones')) {
+      setDialogueEvent({
+        speakerName: 'Dog',
+        text: 'The dog has locked eyes with your pack. It knows about the bones. It has always known.',
+        choices: [
+          {
+            label: 'Toss it a bone (1 🦴)',
+            primary: true,
+            onClick: () => {
+              if (!removeHubItem('bones', 1)) { setDialogueEvent(null); return }
+              const found = Math.random() < 0.6
+              refreshState()
+              setDialogueEvent({
+                speakerName: 'Dog',
+                text: 'The dog snatches the bone and bolts off across town, ears flying…',
+                onClose: () => {
+                  if (found) {
+                    addHubItem('lost-locket', 1)
+                    refreshState()
+                    setDialogueEvent({
+                      speakerName: 'Dog',
+                      text: 'It comes tearing back and drops something at your feet — a weathered locket, caked in mud! 📿',
+                    })
+                  } else {
+                    setDialogueEvent({
+                      speakerName: 'Dog',
+                      text: 'It trots back eventually, boneless and blissful, and flops over for a belly rub. Money well spent.',
+                    })
+                  }
+                },
+              })
+            },
+          },
+          { label: 'Not now', onClick: () => setDialogueEvent(null) },
+        ],
+      })
+      return true
+    }
     return false
   }, [refreshState])
 
