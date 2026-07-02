@@ -31,6 +31,10 @@
 | `web/src/components/hub/TownJournal.tsx` | Journal UI — Animals / People / Places tabs with completion % — see §15 | `TownJournal` |
 | `web/src/game/hub/pet.ts` | Player's adopted follower-pet persistence (localStorage) — see §8 | `getActivePet`, `hasActivePet`, `adoptPet`, `renamePet`, `dismissPet` |
 | `web/src/components/hub/PetModal.tsx` | Pet adoption / rename / swap / dismiss UI — see §8 | `PetModal` |
+| `web/src/data/hubItems.json` | Hub-item catalog: materials (chicken feed, eggs, fish, trade goods) and unique tools (fishing rod) — see §16 | consumed by `itemStore.ts` |
+| `web/src/game/itemStore.ts` (hub-item section) | Hub-item inventory persistence (localStorage, type `'hub-item'`) — see §16 | `addHubItem`, `removeHubItem`, `getHubItemCount`, `hasHubItem`, `getHubItems`, `getHubItemCatalogEntry` |
+| `web/src/game/hub/questItems.ts` | Held-quest-item id helpers (`quest:<questId>:<stepKey>`) — see §16 | `questItemId`, `isQuestItemId`, `questIdFromItemId` |
+| `web/src/components/hub/HubInventoryModal.tsx` | 🎒 Hub Inventory UI — held quest items, materials & tools, pet accessories — see §16 | `HubInventoryModal` |
 
 ---
 
@@ -283,6 +287,9 @@ bounds, else a single tile.
 | `giveItem` | `collectible?`, `consumables?`, `crystals?`, `message?`, `alreadyGrantedText?` | One-time grant (persisted). Re-taps show `alreadyGrantedText` if set. Reward shapes match treasure rewards. `collectible.lore?` (optional flavor text) is stored on the item and already surfaced by `HomeShelf`/`ItemFoundScreen` — no extra wiring needed for lore notes. |
 | `quest` | `questId`, `speakerName?` | Offers the quest with Accept / Not now. The quest's `giverNpcId` in `questDefs.json` **must equal the interactable's id**. Honours prerequisites and the 2-active-quest cap. |
 | `move` | `to: {tx, ty}`, `message?` | Moves the owned decor to the target tile, live and persisted across reloads. Requires owned `decor`. |
+| `buy` | `slotIndex` | Sells the interactable's building's Nth daily-rotating shop-stock item (`getTodaysShopItems`, `SHOP_TRADER_REGISTRY`). Shares `DailyShopState` with `ShopScreen`, so both draw down the same stock. Requires `building`. |
+| `buyPack` | — | Crystal-pack purchase flow (delegates to `onBuyCrystalPack`). Requires `building`. |
+| `buyHubItem` | `itemId`, `price`, `currency?`, `speakerName?` | Always-available hub-item purchase (no daily rotation) — see §16. `itemId` must exist in `hubItems.json`; `currency` is `'crystals'` (default) or `'tickets'`. Unique items (e.g. the fishing rod) re-offer as "already owned" once bought. `speakerName` overrides the building-NPC speaker (useful for exterior stalls). |
 
 Reactions run in order; `dialogue` (and `message`-bearing reactions) chain the
 remainder through the dialogue's close. Conventions: at most one `screen` or
@@ -417,6 +424,7 @@ Then on the NPC (in `config.json`): `"dialogueTree": "scholar-chat"` (keep a
 | `friendship` | `npcId?`, `xp` | Grant friendship XP (defaults to the speaking NPC). |
 | `relationship` | `npcId?`, `track`, `points` | Add points to a relationship track (`ally`/`rival`/`romance`) — defaults to the speaking NPC. See §7c. |
 | `quest` | `questId` | Offer that quest (Accept / Not now). Resolves the quest's real `giverNpcId`. **Terminates** the walk. |
+| `tradeHubItem` | `wantItemId`, `wantCount?`, `giveCrystals?`, `giveHubItem?`, `giveCollectible?`, `missingText`, `successText` | Repeatable barter — see §16. Takes `wantCount` (default 1) of a hub-item from the player and grants the `give*` rewards, showing `successText` (then advancing to `next` on close, so a sell menu can loop). If the player holds too few, shows `missingText` and **terminates** the walk with no state change. Must be the **only/last** effect on its choice (it terminates the walk either way). |
 | `end` | — | End the conversation. |
 
 If a choice has neither a terminating effect (`quest`/`end`) nor `next`, the
@@ -1279,3 +1287,120 @@ Discovery fires on **tap**, not mere visibility, matching every other
 Reuses `TownDirectory`'s `ModalBackdrop` + `.town-directory__*` row layout and
 `HallOfAchievements`' `.hoa-tabs`/`.hoa-tab`/`.hoa-tab--active` tab row — no new
 tab CSS was needed. Story: `TownJournal.stories.tsx`.
+
+---
+
+## §16 — Hub Items, Inventory & Item Economy
+
+A hub-world item economy layered on the shared item store: physical **quest
+items** held while a fetch quest is in progress, **materials** bought from
+shops or produced by world interactions (chicken feed, eggs, feathers, caught
+fish, trade goods), and unique **tools** (the fishing rod). Everything
+persists in `jarv_item_store` under its own type tag (`'hub-item'`), so — like
+arcade tickets — it can never be drained into a campaign run.
+
+- Catalog: `web/src/data/hubItems.json` — `{ id, name, icon, desc, category,
+  unique? }`; `category` is `'quest' | 'pet-accessory' | 'material' | 'tool'`.
+  Items flagged `unique: true` never stack (re-buying/re-adding is a no-op).
+- Store API (`web/src/game/itemStore.ts`): `addHubItem(id, count?, display?)`,
+  `removeHubItem(id, count?)` (returns `false` and changes nothing when the
+  player holds too few — always check the return), `getHubItemCount`,
+  `hasHubItem`, `getHubItems`, `getHubItemCatalogEntry`.
+- UI: `HubInventoryModal.tsx`, opened from the 🎒 toolbar button in
+  `HubWorld.tsx`. Sections: Quest Items (per active quest, `held/required`),
+  Materials & Tools, Pet Accessories (owned accessories from `pet.ts` — see §8).
+
+### Held quest items
+
+A collect step (§14 quests) may carry two optional display fields:
+
+```jsonc
+{ "key": "grain", "type": "collect", "pickupIds": ["sack-1","sack-2","sack-3"],
+  "required": 3, "itemName": "Sack", "itemIcon": "🌾" }
+```
+
+When set, each pickup adds one `quest:<questId>:<stepKey>` hub-item
+(`questItemId` in `web/src/game/hub/questItems.ts`) with the step's display
+fields inline; turning the quest in or abandoning it clears the held items
+(`clearHeldQuestItems` in `HubWorld.tsx`). Steps without `itemName` behave as
+before (progress counter only). All existing collect steps were retrofitted
+with these fields, resolved from their pickups' `tileId`s.
+
+### Buying hub items — `buyHubItem` (§7 reactions)
+
+```jsonc
+{ "id": "millhaven-bait-stall", "tx": 32, "ty": 11,
+  "decor": [{ "dx": 0, "dy": 0, "tileId": "bucketAndRope" }],
+  "reactions": [
+    { "type": "buyHubItem", "itemId": "fish-bait", "price": 8, "speakerName": "Harbour Tackle Stall" }
+  ] }
+```
+
+Always-available (no daily rotation). The confirm dialogue shows the catalog
+`desc`; the speaker resolves to the on-duty building NPC unless `speakerName`
+overrides it. Unique items re-offer as "already owned". Existing sellers:
+chicken feed (Millhaven bakery, Ravenwatch Market Hall, pen-side feed sacks in
+Appleford / Harrowfield / Ironhold Keep / Royal Palace), rod + bait (Millhaven
+harbour stalls), Fancy Hat + Sturdy Boots (capital tailor).
+
+### Trading hub items — `tradeHubItem` (§7b dialogue effects)
+
+Attach to a dialogue-tree choice; see the §7b effect table. Point `next` back
+at the same node to build a repeatable sell menu (see Millhaven's
+`marta-fish-trade` tree — Fishwife Marta buys each fish tier for crystals) or
+a one-line barter (Thornwood Camp's `ranger-sable-trade` — sturdy boots for
+90💎). Trades are repeatable by design; use a `flag` effect + `hideIfFlag` on
+the choice if a specific trade should be once-only.
+
+### Feeding ambient animals
+
+Tapping an **ambient** (id-less, procedural) animal routes through
+`onAmbientAnimalTap(type)` (hubAnimals.ts → HubTownCanvas → HubWorld) before
+the default flavour bubble:
+
+- **Chicken** + player holds `chicken-feed` → offers to feed (consumes 1):
+  40% egg, 25% feather, 35% nothing.
+- **Cat** + player holds any `fish-*` → offers the smallest held fish
+  (flavour-only reward, by design — ambient animals have no stable id to
+  attach friendship to).
+
+Placed (named) animals keep their normal §8 quest/dialogue routing.
+
+### Hub fishing (item-gated)
+
+Hub fishing NPCs use `"screen": "hub-fishing"` (Millhaven harbour, Capital
+City riverside, Ravenwatch pond). `handleNodeInteract` (HubWorld.tsx) blocks
+entry without a `fishing-rod` and consumes one `fish-bait` per trip; both are
+global, so one rod works in every town. The screen renders
+`<Fishing rewardMode="catch">` (App.tsx) — the caught fish is added to the
+inventory as a tier-keyed hub-item (`fish-tiddler` … `fish-legendary`) and
+**no tickets are awarded**. The arcade fishing tile (MiniGamesMenu,
+`"screen": "fishing"` nowhere in hub configs anymore) is unchanged and still
+pays tickets.
+
+### Authoring checklist: new shop good + trade chain
+
+1. Add the item to `hubItems.json` (`category: 'material'`, or `'tool'` +
+   `unique: true` for one-of-a-kind gear).
+2. Sell it: add an interactable with a `buyHubItem` reaction — inside a shop
+   building (pure `hitRect` over existing shelf decor, speaker auto-resolves)
+   or as an exterior stall (owned `decor` + `speakerName`).
+3. Give it a use: a `tradeHubItem` choice on another NPC's dialogue tree
+   (ideally in a different town), and/or a world interaction that consumes it.
+4. Run `npm run test` (loader tests parse all configs) and `npm run build`;
+   verify buy → carry → trade end-to-end in-game and across a reload.
+
+### Future chains (designed, not yet built)
+
+- **Feather → poetry book**: an author NPC whose quill keeps snapping takes a
+  `feather` (`tradeHubItem`) and returns a `poetry-book` hub-item; the book's
+  own use is a further chain.
+- **Bones → dog → lost item**: sell `bones` in a butcher/general store;
+  feeding an ambient dog (same `onAmbientAnimalTap` pattern) sends it
+  fetching and yields a `lost-item` after a cooldown — needs a small
+  "fetching" animal state.
+- **Stock every empty shop**: still-empty shop buildings (capital
+  `market-hall-crownhaven` / `apothecary`, Saltmere Port `fish-market`,
+  Hollowmere `apothecary`, …) are each one `buyHubItem` interactable away
+  from selling a thematic good; pair each new good with a trade partner in
+  another town.
