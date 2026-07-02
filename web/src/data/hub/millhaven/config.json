@@ -2845,6 +2845,23 @@
   ],
   "interactables": [
     {
+      "id": "millhaven-chicken-feed",
+      "tx": 9,
+      "ty": 1,
+      "building": "bakery",
+      "hitRect": {
+        "w": 1,
+        "h": 2
+      },
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "chicken-feed",
+          "price": 5
+        }
+      ]
+    },
+    {
       "id": "interactable-1782144142080",
       "tx": 7,
       "ty": 13,

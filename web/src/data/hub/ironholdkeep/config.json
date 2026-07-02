@@ -4482,6 +4482,26 @@
   },
   "interactables": [
     {
+      "id": "ironholdkeep-chicken-feed",
+      "tx": 15,
+      "ty": 21,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "sack"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "chicken-feed",
+          "price": 5,
+          "speakerName": "Feed Stall"
+        }
+      ]
+    },
+    {
       "id": "quartermasters-store-item-0",
       "tx": 9,
       "ty": 2,

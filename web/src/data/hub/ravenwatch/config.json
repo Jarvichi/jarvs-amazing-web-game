@@ -9400,6 +9400,19 @@
   ],
   "interactables": [
     {
+      "id": "ravenwatch-chicken-feed",
+      "tx": 5,
+      "ty": 5,
+      "building": "market-building",
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "chicken-feed",
+          "price": 5
+        }
+      ]
+    },
+    {
       "id": "notice-board",
       "tx": 49,
       "ty": 21,

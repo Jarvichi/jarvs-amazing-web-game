@@ -119,6 +119,10 @@ export interface AnimalSystemOptions {
   onAnimalTap: (animalId: string) => void
   /** Fires for every animal tap (placed or procedural) for journal/bestiary tracking. */
   onAnimalSeen?: (type: AnimalType, variant?: string) => void
+  /** Lets React intercept a tap on an ambient (id-less) animal — e.g. to
+   *  offer feeding it. Return true if handled (suppresses the default
+   *  flavour bubble), false to fall through. */
+  onAmbientAnimalTap?: (type: AnimalType) => boolean
   /** Quest indicator state for a placed animal id ('offer'|'ready'|null). */
   getQuestIndicator?: (animalId: string) => 'offer' | 'ready' | null
   isInteriorActive: () => boolean
@@ -1019,6 +1023,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
       e.stopPropagation()
       opts.onAnimalSeen?.(type, variantKeyForTint(type, tint))
       if (a.id) { opts.onAnimalTap(a.id); return }
+      if (opts.onAmbientAnimalTap?.(type)) return
       speak(a, FLAVOUR[type])
       vocalize(a)
       if (type === 'bird' || type === 'butterfly') a.fleeRequested = true

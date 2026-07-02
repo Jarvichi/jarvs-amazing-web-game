@@ -4238,6 +4238,26 @@
   },
   "interactables": [
     {
+      "id": "royalpalace-chicken-feed",
+      "tx": 26,
+      "ty": 26,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "sack"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "chicken-feed",
+          "price": 5,
+          "speakerName": "Feed Stall"
+        }
+      ]
+    },
+    {
       "id": "court-notice-board",
       "tx": 23,
       "ty": 9,

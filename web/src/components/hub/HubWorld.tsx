@@ -1130,6 +1130,71 @@ function hasOfferableQuest(giverId: string): boolean {
     handleNpcTap(line, animalId)
   }, [handleNpcTap, locationData, refreshState, grantRandomPetReward])
 
+  // ── Ambient-animal feeding ───────────────────────────────────────────────
+  // Ambient (id-less) chickens can be fed chicken feed for a chance at an egg
+  // or a feather; ambient cats will happily eat a caught fish (smallest held
+  // first — flavour only). Returning false falls back to the canvas-side
+  // flavour bubble.
+  const handleAmbientAnimalTap = useCallback((type: string): boolean => {
+    if (type === 'chicken' && hasHubItem('chicken-feed')) {
+      setDialogueEvent({
+        speakerName: 'Chicken',
+        text: 'The chicken eyes the feed in your pack expectantly.',
+        choices: [
+          {
+            label: 'Scatter some feed (1 🌾)',
+            primary: true,
+            onClick: () => {
+              if (!removeHubItem('chicken-feed', 1)) { setDialogueEvent(null); return }
+              const roll = Math.random()
+              let text: string
+              if (roll < 0.4) {
+                addHubItem('egg', 1)
+                text = 'The chicken pecks up every grain, settles for a moment… and leaves you a fresh egg! 🥚'
+              } else if (roll < 0.65) {
+                addHubItem('feather', 1)
+                text = 'The chicken flaps about in delight — a clean feather drifts down for your trouble. 🪶'
+              } else {
+                text = 'The chicken devours the feed and struts off, deeply satisfied. Nothing for you this time.'
+              }
+              refreshState()
+              setDialogueEvent({ speakerName: 'Chicken', text })
+            },
+          },
+          { label: 'Not now', onClick: () => setDialogueEvent(null) },
+        ],
+      })
+      return true
+    }
+    if (type === 'cat') {
+      const fishId = ['fish-tiddler', 'fish-small', 'fish-medium', 'fish-large', 'fish-trophy', 'fish-legendary']
+        .find(id => hasHubItem(id))
+      if (!fishId) return false
+      const fishName = getHubItemCatalogEntry(fishId)?.name ?? 'fish'
+      setDialogueEvent({
+        speakerName: 'Cat',
+        text: `The cat has smelled the ${fishName} in your pack and is now performing its best starving-orphan impression.`,
+        choices: [
+          {
+            label: `Offer the ${fishName}`,
+            primary: true,
+            onClick: () => {
+              if (!removeHubItem(fishId, 1)) { setDialogueEvent(null); return }
+              refreshState()
+              setDialogueEvent({
+                speakerName: 'Cat',
+                text: 'The cat devours the fish, purrs like a tiny engine, and headbutts your shin in gratitude. You feel richer in spirit, if not in fish.',
+              })
+            },
+          },
+          { label: 'Not this one', onClick: () => setDialogueEvent(null) },
+        ],
+      })
+      return true
+    }
+    return false
+  }, [refreshState])
+
   const handleAreaEnter = useCallback((areaName: string | null) => {
     setCurrentArea(areaName)
     const area = areaName != null ? locationData.HUB_AREAS.find(a => a.name === areaName) : undefined
@@ -1400,6 +1465,7 @@ function hasOfferableQuest(giverId: string): boolean {
             onNpcTap={handleNpcTap}
             onAnimalTap={handleAnimalTap}
             onAnimalSeen={recordAnimalSeen}
+            onAmbientAnimalTap={handleAmbientAnimalTap}
             interiorEnterRef={interiorEnterRef}
             interiorExitRef={interiorExitRef}
             petActionRef={petActionRef}

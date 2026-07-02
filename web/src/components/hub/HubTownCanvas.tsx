@@ -79,6 +79,9 @@ interface Props {
   onAnimalTap?:     (animalId: string) => void
   /** Fires for every animal tap (placed or procedural) for journal/bestiary tracking. */
   onAnimalSeen?:    (type: AnimalType, variant?: string) => void
+  /** Lets React intercept a tap on an ambient (id-less) animal, e.g. to offer
+   *  feeding it. Return true if handled (suppresses the flavour bubble). */
+  onAmbientAnimalTap?: (type: AnimalType) => boolean
   interiorEnterRef?: React.MutableRefObject<((buildingId: string) => void) | null>
   interiorExitRef?:  React.MutableRefObject<(() => void) | null>
   petActionRef?:     React.MutableRefObject<{ sendPetFetching: (onReturn: () => void) => boolean; givePetAffection: () => void; setPetAccessory: (assetId: string | null) => void } | null>
@@ -117,7 +120,7 @@ interface Props {
 
 export function HubTownCanvas({
   onAreaEnter, onNodeInteract, onAvatarMove,
-  returnRef, unitCards, commander, onNpcTap, onAnimalTap, onAnimalSeen,
+  returnRef, unitCards, commander, onNpcTap, onAnimalTap, onAnimalSeen, onAmbientAnimalTap,
   interiorEnterRef, interiorExitRef, petActionRef, onEnterInterior, onExitInterior, onTileTap,
   pickedUpIds, onItemPickup, doorKeys, onDoorLocked, questNpcState, activeQuestIdsRef,
   completedQuestIdsRef, collectedTreasureIds, onTreasureStep,
@@ -158,6 +161,8 @@ export function HubTownCanvas({
   onAnimalTapRef.current  = onAnimalTap
   const onAnimalSeenRef   = useRef(onAnimalSeen)
   onAnimalSeenRef.current = onAnimalSeen
+  const onAmbientAnimalTapRef   = useRef(onAmbientAnimalTap)
+  onAmbientAnimalTapRef.current = onAmbientAnimalTap
   const unitCardsRef      = useRef(unitCards)
   unitCardsRef.current    = unitCards
   const onEnterInteriorRef  = useRef(onEnterInterior)
@@ -2435,6 +2440,7 @@ export function HubTownCanvas({
       },
       onAnimalTap: (id) => onAnimalTapRef.current?.(id),
       onAnimalSeen: (type, variant) => onAnimalSeenRef.current?.(type, variant),
+      onAmbientAnimalTap: (type) => onAmbientAnimalTapRef.current?.(type) ?? false,
       getQuestIndicator: (id) => questNpcState?.current.get(id) ?? null,
       isInteriorActive: () => interiorActive,
       isOnScreen: (x, y) => {
