@@ -28,7 +28,8 @@ import { ToolbarDropdown } from '../ui/Toolbar/ToolbarDropdown'
 import { User } from 'firebase/auth'
 import { loadPlayerName, addToConsumableStash } from '../../game/questline'
 import { LoginButton } from '../ui/LoginButton'
-import { addCollectible, addConsumable, getCollectibles } from '../../game/itemStore'
+import { addCollectible, addConsumable, getCollectibles, addHubItem, removeHubItem, getHubItemCount, hasHubItem } from '../../game/itemStore'
+import { questItemId } from '../../game/hub/questItems'
 import { QuestsModal } from './QuestsModal'
 import { BountyBoardModal } from './BountyBoardModal'
 import { hasUnclaimedBounties, getPendingBountyReport, getPendingBountyCollect, advanceBountyStep, getActiveBountyStep } from '../../game/hub/bounties'
@@ -538,6 +539,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     if (!quest) return
     const pickupIds = quest.steps.flatMap(s => s.pickupIds ?? [])
     unmarkPickedUp(pickupIds)
+    clearHeldQuestItems(quest)
     resetQuest(questId)
     setPickedUpIds(getPickedUpIds())
     refreshState()
@@ -616,6 +618,16 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     for (const step of quest.steps) {
       if (step.type === 'collect' && step.pickupIds?.includes(id)) {
         incrementQuestProgress(questId, step.key)
+        // Steps with display fields place a physical item in the hub
+        // inventory; it is cleared again on turn-in or abandonment.
+        if (step.itemName) {
+          addHubItem(questItemId(questId, step.key), 1, {
+            name: step.itemName,
+            icon: step.itemIcon ?? '📦',
+            desc: `Held for the quest "${quest.title}".`,
+            category: 'quest',
+          })
+        }
         pickedStep = step
         break
       }
@@ -709,6 +721,17 @@ function grantQuestReward(quest: HubQuestDef): void {
   }
 }
 
+// Remove any physical quest items this quest placed in the hub inventory
+// (see handleItemPickup) — called on turn-in and on abandonment.
+function clearHeldQuestItems(quest: HubQuestDef): void {
+  for (const step of quest.steps) {
+    if (step.type !== 'collect' || !step.itemName) continue
+    const id = questItemId(quest.id, step.key)
+    const held = getHubItemCount(id)
+    if (held > 0) removeHubItem(id, held)
+  }
+}
+
 // Offer the first available quest given by `giverId` (an NPC or interactable id).
 // Returns true if an offer dialogue was shown; false if there is nothing to
 // offer (caller falls through to screens / default dialogue).
@@ -767,6 +790,7 @@ function hasOfferableQuest(giverId: string): boolean {
   // Mark a quest completed, grant its reward, and show its completion dialogue.
   function completeQuestFor(quest: HubQuestDef, speakerName: string): void {
     setQuestStatus(quest.id, 'completed')
+    clearHeldQuestItems(quest)
     grantQuestReward(quest)
     if (quest.reward.crystals) onCrystalsChange?.(loadCrystals())
     refreshState()

@@ -7,6 +7,11 @@ export interface HubQuestStep {
   targetNpcId?: string
   required: number
   chain?: string
+  /** Collect steps only: display name for the held item shown in the Hub
+   *  Inventory while the quest is active (e.g. "Grain Sack"). */
+  itemName?: string
+  /** Collect steps only: emoji icon for the held item (e.g. "🌾"). */
+  itemIcon?: string
 }
 
 export interface RelationshipGrant {
@@ -94,6 +99,10 @@ export interface CollectStep {
   type: string // 'collect'
   pickupIds: string[]
   required: number
+  /** Display name for the held item shown in the Hub Inventory. */
+  itemName?: string
+  /** Emoji icon for the held item. */
+  itemIcon?: string
 }
 
 export interface DeliverStep {
