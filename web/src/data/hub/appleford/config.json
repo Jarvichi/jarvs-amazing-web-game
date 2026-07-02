@@ -1340,6 +1340,7 @@
     {
       "id": "scrumping-wren",
       "name": "Little Wren",
+      "dialogueTree": "wren-cake-trade",
       "sprite": "hub-npc-child",
       "tx": 9,
       "ty": 23,

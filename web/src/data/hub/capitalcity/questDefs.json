@@ -1,4 +1,75 @@
 {
+  "dialogues": [
+    {
+      "id": "quill-feather-trade",
+      "npcId": "royal-archivist",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Blast and bother — third quill snapped this morning! How is a man to finish his verse cycle when the instruments betray him? I'd trade one of my published volumes for a single decent feather.",
+          "choices": [
+            {
+              "label": "Offer him a feather",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "feather",
+                  "giveHubItem": {
+                    "itemId": "poetry-book"
+                  },
+                  "missingText": "You pat your pack theatrically, but there's no feather in it. The hens of the realm may be able to help.",
+                  "successText": "He whittles it to a nib on the spot, eyes shining. 'Magnificent! Here — my collected verse. Treasure it.' You are now holding a book of genuinely awful poetry."
+                }
+              ]
+            },
+            {
+              "label": "Leave him to his suffering",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "otto-egg-trade",
+      "npcId": "baker-otto",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Coronation orders are burying me and my egg baskets are empty by noon. If you've fresh eggs, I'll pay 20 crystals for every three.",
+          "choices": [
+            {
+              "label": "Sell 3 eggs — 20 💎",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "egg",
+                  "wantCount": 3,
+                  "giveCrystals": 20,
+                  "missingText": "Fewer than three eggs in that pack. The palace hens are generous to anyone with feed.",
+                  "successText": "He candles each one against the oven light and nods. 'Fine eggs. 20 crystals, and come back with more!'"
+                }
+              ]
+            },
+            {
+              "label": "That's all for now.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
   "quests": [
     {
       "id": "crownhaven-census",

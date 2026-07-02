@@ -1313,6 +1313,39 @@
   ],
   "dialogues": [
     {
+      "id": "squire-ribbon-trade",
+      "npcId": "castle-squire",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "There's a girl in the village who— I mean, hypothetically, if a squire wanted a token — a silk ribbon, say, from the capital — what would something like that cost? Asking for a friend.",
+          "choices": [
+            {
+              "label": "Offer the silk ribbon",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "silk-ribbon",
+                  "giveCrystals": 30,
+                  "missingText": "You've no ribbon on you. The Grand Market Hall in the capital sells them, hypothetically.",
+                  "successText": "He goes scarlet to the ears and pays 30 crystals without haggling. 'For my friend. Obviously.'"
+                }
+              ]
+            },
+            {
+              "label": "Good luck, 'friend'.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "varek-chat",
       "npcId": "castle-commander",
       "start": "greet",

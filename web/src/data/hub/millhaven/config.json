@@ -1441,6 +1441,7 @@
     {
       "id": "innkeeper-millhaven",
       "name": "Innkeeper Cobb",
+      "dialogueTree": "cobb-spice-trade",
       "sprite": "hub-npc-merchant",
       "tx": 3,
       "ty": 4,
@@ -1665,6 +1666,7 @@
     {
       "id": "smith-garrick",
       "name": "Smith Garrick",
+      "dialogueTree": "garrick-salve-trade",
       "sprite": "hub-npc-supplies",
       "tx": 13,
       "ty": 32,
@@ -1771,6 +1773,7 @@
     {
       "id": "widow-tamsin",
       "name": "Widow Tamsin",
+      "dialogueTree": "tamsin-locket-trade",
       "sprite": "hub-npc-elder",
       "tx": 4,
       "ty": 4,

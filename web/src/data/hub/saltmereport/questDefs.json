@@ -1,4 +1,154 @@
 {
+  "dialogues": [
+    {
+      "id": "vane-hat-trade",
+      "npcId": "harbourmaster-vane",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "The Admiralty inspection is next month and my ceremonial hat was eaten — EATEN — by a gull. The capital tailor stocks proper ones. I'd pay handsomely to be spared the errand.",
+          "choices": [
+            {
+              "label": "Present the fancy hat",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "fancy-hat",
+                  "giveCrystals": 75,
+                  "missingText": "You have no hat worth presenting. Pell's Tailoring in the capital keeps them in stock.",
+                  "successText": "He sets it on his head and checks his reflection in the harbour bell. 'Impeccable.' 75 crystals, dispensed with full ceremony."
+                }
+              ]
+            },
+            {
+              "label": "Good luck with the gulls.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "pearl-fish-trade",
+      "npcId": "fishwife-pearl",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Fresh off the boat or fresh off your line, makes no difference to me — I pay fair coin for fish, same rates as anywhere on the coast.",
+          "choices": [
+            {
+              "label": "I've got fish to sell.",
+              "next": "sell"
+            },
+            {
+              "label": "Just browsing.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "sell": {
+          "text": "Lay it on the slab, then. What have you got?",
+          "choices": [
+            {
+              "label": "Tiddler — 3 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "fish-tiddler",
+                  "giveCrystals": 3,
+                  "missingText": "Not a tiddler on you.",
+                  "successText": "Bait-box size, but coin's coin. 3 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Small Fish — 6 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "fish-small",
+                  "giveCrystals": 6,
+                  "missingText": "No small fish in that pack.",
+                  "successText": "Decent pan fish. 6 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Medium Fish — 12 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "fish-medium",
+                  "giveCrystals": 12,
+                  "missingText": "You've no medium fish on you.",
+                  "successText": "Good weight to it. 12 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Large Fish — 25 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "fish-large",
+                  "giveCrystals": 25,
+                  "missingText": "You've no large fish on you.",
+                  "successText": "Now that's a fish! 25 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Trophy Fish — 45 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "fish-trophy",
+                  "giveCrystals": 45,
+                  "missingText": "A trophy fish? Show me first.",
+                  "successText": "The whole dock will hear about this one. 45 crystals!"
+                }
+              ]
+            },
+            {
+              "label": "Legendary Fish — 90 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "fish-legendary",
+                  "giveCrystals": 90,
+                  "missingText": "Legendary, is it? I'll believe fins when I see them.",
+                  "successText": "By the deep… I'll retire on the story alone. 90 crystals."
+                }
+              ]
+            },
+            {
+              "label": "That's the lot.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
   "quests": [
     {
       "id": "saltmere-dockside-cat",

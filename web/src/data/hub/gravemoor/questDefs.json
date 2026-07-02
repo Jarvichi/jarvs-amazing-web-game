@@ -1,4 +1,72 @@
 {
+  "dialogues": [
+    {
+      "id": "widow-poetry-trade",
+      "npcId": "weeping-widow",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "The nights here are long, and the silence longer. I would give much for words to fill them — sad ones, preferably. The sadder the better.",
+          "choices": [
+            {
+              "label": "Offer the poetry book",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "poetry-book",
+                  "giveCrystals": 50,
+                  "missingText": "You have no verse to offer her. Perhaps the capital's archivist could help — if someone brought him a feather.",
+                  "successText": "She reads the first stanza and weeps — with joy, possibly. 'Dreadful. Perfect. I shall read it every night.' She presses 50 crystals into your hand."
+                }
+              ]
+            },
+            {
+              "label": "Leave her in peace",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "hollis-tonic-trade",
+      "npcId": "gravedigger-hollis",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Forty years of digging and my back's more crooked than the fence rows. The capital apothecary makes a lavender tonic that'd sort me right out, but it's a long walk for an old man.",
+          "choices": [
+            {
+              "label": "Hand over a lavender tonic",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "lavender-tonic",
+                  "giveCrystals": 40,
+                  "missingText": "You've none on you. Apothecary Mads in the capital brews it.",
+                  "successText": "He uncorks it and breathes deep. 'Ahh. That's the stuff.' 40 crystals, and he stands a little straighter already."
+                }
+              ]
+            },
+            {
+              "label": "Take care, Hollis.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
   "quests": [
     {
       "id": "gravemoor-restless-remains",

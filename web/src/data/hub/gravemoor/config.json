@@ -1194,6 +1194,7 @@
     {
       "id": "gravedigger-hollis",
       "name": "Old Hollis",
+      "dialogueTree": "hollis-tonic-trade",
       "sprite": "hub-npc-gravedigger",
       "tx": 30,
       "ty": 10,
@@ -1234,6 +1235,7 @@
     {
       "id": "weeping-widow",
       "name": "The Weeping Widow",
+      "dialogueTree": "widow-poetry-trade",
       "sprite": "hub-npc-queen",
       "isGhost": true,
       "tx": 27,

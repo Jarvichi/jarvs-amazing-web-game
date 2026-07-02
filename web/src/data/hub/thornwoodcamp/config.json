@@ -457,6 +457,7 @@
     {
       "id": "forager-mott",
       "name": "Forager Mott",
+      "dialogueTree": "mott-herring-trade",
       "sprite": "hub-npc-supplies",
       "tx": 14,
       "ty": 45,

@@ -1,4 +1,39 @@
 {
+  "dialogues": [
+    {
+      "id": "wren-cake-trade",
+      "npcId": "scrumping-wren",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "I've smelled the capital's honey cakes from three towns away, I swear it. I've been saving up my found-coins forever. FOREVER.",
+          "choices": [
+            {
+              "label": "Produce a honey cake",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "honey-cake",
+                  "giveCrystals": 25,
+                  "missingText": "No cake in that pack — Wren checks twice, thoroughly, just in case. Baker Otto in the capital makes them.",
+                  "successText": "Wren's eyes go perfectly round. She solemnly hands over an entire hoard of found-coins — 25 crystals — and vanishes with the cake."
+                }
+              ]
+            },
+            {
+              "label": "Keep saving, Wren.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
   "quests": [
     {
       "id": "appleford-scattered-harvest",
