@@ -791,6 +791,121 @@
   "blockedPaths": [],
   "dialogues": [
     {
+      "id": "marta-fish-trade",
+      "npcId": "fishmonger-marta",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Fresh fish bought and sold! If you've been out on the water, I pay fair coin for anything with fins.",
+          "choices": [
+            {
+              "label": "I've got fish to sell.",
+              "next": "sell"
+            },
+            {
+              "label": "Just looking.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "sell": {
+          "text": "Let's see the catch, then. What are you selling?",
+          "choices": [
+            {
+              "label": "Tiddler — 3 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "fish-tiddler",
+                  "giveCrystals": 3,
+                  "missingText": "No tiddlers in that pack of yours. Cast a line off the dock first.",
+                  "successText": "Barely a mouthful, but the cats love them. 3 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Small Fish — 6 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "fish-small",
+                  "giveCrystals": 6,
+                  "missingText": "You've no small fish on you.",
+                  "successText": "Good pan-sized fish, that. 6 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Medium Fish — 12 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "fish-medium",
+                  "giveCrystals": 12,
+                  "missingText": "You've no medium fish on you.",
+                  "successText": "Now that's a proper catch. 12 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Large Fish — 25 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "fish-large",
+                  "giveCrystals": 25,
+                  "missingText": "You've no large fish on you.",
+                  "successText": "Heavens, look at the size of it! 25 crystals, and worth every one."
+                }
+              ]
+            },
+            {
+              "label": "Trophy Fish — 45 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "fish-trophy",
+                  "giveCrystals": 45,
+                  "missingText": "A trophy fish? I'll believe it when I see it.",
+                  "successText": "I'll have this in the window within the hour. 45 crystals!"
+                }
+              ]
+            },
+            {
+              "label": "Legendary Fish — 90 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "fish-legendary",
+                  "giveCrystals": 90,
+                  "missingText": "A legendary fish? Sailor Finn tells taller tales sober.",
+                  "successText": "By the tides... I've only heard songs about these. 90 crystals — don't tell my husband."
+                }
+              ]
+            },
+            {
+              "label": "That's all for now.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "kipper-truth",
       "npcId": "kipper",
       "start": "meet",

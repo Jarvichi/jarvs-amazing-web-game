@@ -8751,7 +8751,7 @@
       "sprite": "hub-npc-fisherman",
       "tx": 45,
       "ty": 49,
-      "screen": "fishing",
+      "screen": "hub-fishing",
       "dialogue": [
         "Nothings biting today. Maybe try again later?",
         "The fish are shy around here. Patience is key."
@@ -8763,7 +8763,7 @@
       "sprite": "hub-npc-fisherman",
       "tx": 44,
       "ty": 51,
-      "screen": "fishing",
+      "screen": "hub-fishing",
       "dialogue": [
         "The pond is calm today. Care to fish?"
       ]

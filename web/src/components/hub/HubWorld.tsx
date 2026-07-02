@@ -121,6 +121,7 @@ const SCREEN_ENTER_LABEL: Record<string, string> = {
   'hall-of-achievements': 'Visit the hall of achievements?',
   'home-shelf':      'Look at the shelf?',
   fishing:           'Cast a line?',
+  'hub-fishing':     'Cast a line?',
   marble:            'Play marbles?',
   marblerace:        'Watch a marble race?',
   tileflip:          'Play tile flip?',
@@ -523,6 +524,20 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     if (screen === 'commander' && !commander) {
       setDialogueEvent({ speakerName: "Commander's Post", text: "No commander has been assigned yet. Visit the title screen to choose one." })
       return
+    }
+    // Hub fishing is gated on owning a rod and consumes 1 bait per trip.
+    // Both are global hub-items, so a rod bought in Millhaven works at any
+    // town's fishing spot.
+    if (screen === 'hub-fishing') {
+      if (!hasHubItem('fishing-rod')) {
+        setDialogueEvent({ speakerName: '', text: "You can't fish without a rod. Millhaven's harbour stall sells them." })
+        return
+      }
+      if (!removeHubItem('fish-bait', 1)) {
+        setDialogueEvent({ speakerName: '', text: "You're out of bait. Millhaven's harbour stall sells pots of fish bait." })
+        return
+      }
+      refreshState()
     }
     onNavigate?.(screen, buildingId)
   }, [onNavigate, onCampaign, onWorldMap, onNarratorLog, commander])

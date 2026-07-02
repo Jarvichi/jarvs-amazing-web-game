@@ -1414,6 +1414,7 @@
     {
       "id": "fishmonger-marta",
       "name": "Fishwife Marta",
+      "dialogueTree": "marta-fish-trade",
       "sprite": "hub-npc-fisherman",
       "tx": 23,
       "ty": 13,
@@ -1822,7 +1823,7 @@
         "Cast a line with me — the harbour's always biting.",
         "Patience and a steady hand, that's all it takes."
       ],
-      "screen": "fishing"
+      "screen": "hub-fishing"
     },
     {
       "id": "quartermaster-millhaven",
@@ -2844,6 +2845,46 @@
     }
   ],
   "interactables": [
+    {
+      "id": "millhaven-rod-stall",
+      "tx": 32,
+      "ty": 10,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "fishingHook"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "fishing-rod",
+          "price": 100,
+          "speakerName": "Harbour Tackle Stall"
+        }
+      ]
+    },
+    {
+      "id": "millhaven-bait-stall",
+      "tx": 32,
+      "ty": 11,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "bucketAndRope"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "fish-bait",
+          "price": 8,
+          "speakerName": "Harbour Tackle Stall"
+        }
+      ]
+    },
     {
       "id": "millhaven-chicken-feed",
       "tx": 9,

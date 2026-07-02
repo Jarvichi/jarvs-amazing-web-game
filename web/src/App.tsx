@@ -142,6 +142,8 @@ import { ConfirmModal }          from './components/modals/ConfirmModal'
 import { StreakBrokenModal }     from './components/modals/StreakBrokenModal'
 import { EndlessLeaderboardScreen } from './components/screens/EndlessLeaderboardScreen'
 import { MiniGamesMenu, SubScreen } from './components/screens/MiniGamesMenu'
+import { Fishing } from './components/minigames/Fishing'
+import { OverlayScreen } from './components/ui/OverlayScreen'
 import { AugmentCollectionScreen } from './components/screens/AugmentCollectionScreen'
 import { PlayerScreen }            from './components/screens/PlayerScreen'
 import { CollectionTabScreen }     from './components/screens/CollectionTabScreen'
@@ -247,6 +249,7 @@ type Screen =
   | 'home-shelf'
   | 'hubworld'
   | 'hub-minigame'
+  | 'hub-fishing'
   | 'casino'
   | 'worldmap'
   | 'location'
@@ -3382,6 +3385,15 @@ export default function App() {
           onGameDone={() => setScreen('hubworld')}
           initialSubScreen={hubMiniGameEntry}
         />
+      )}
+
+      {/* Hub-world fishing: item-gated (rod + bait, checked in HubWorld's
+          handleNodeInteract) and rewards the caught fish as a hub-item
+          instead of arcade tickets — see docs/hubworld.md. */}
+      {screen === 'hub-fishing' && (
+        <OverlayScreen title="🎣 FISHING" onBack={() => setScreen('hubworld')}>
+          <Fishing rewardMode="catch" onDone={() => setScreen('hubworld')} />
+        </OverlayScreen>
       )}
 
       {relicSpinData && (

@@ -4982,7 +4982,7 @@
       "sprite": "hub-npc-fisherman",
       "tx": 12,
       "ty": 79,
-      "screen": "fishing",
+      "screen": "hub-fishing",
       "dialogue": [
         "The riverside pond's full of fish, if you've the patience. Cast a line?",
         "Quiet water, quick catch. Best spot in the capital.",
