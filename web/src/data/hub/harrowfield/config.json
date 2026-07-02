@@ -2460,6 +2460,26 @@
   },
   "interactables": [
     {
+      "id": "harrowfield-chicken-feed",
+      "tx": 4,
+      "ty": 25,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "sack"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "chicken-feed",
+          "price": 5,
+          "speakerName": "Feed Stall"
+        }
+      ]
+    },
+    {
       "id": "market-shed-item-0",
       "tx": 11,
       "ty": 2,

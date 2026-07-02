@@ -7,6 +7,11 @@ export interface HubQuestStep {
   targetNpcId?: string
   required: number
   chain?: string
+  /** Collect steps only: display name for the held item shown in the Hub
+   *  Inventory while the quest is active (e.g. "Grain Sack"). */
+  itemName?: string
+  /** Collect steps only: emoji icon for the held item (e.g. "🌾"). */
+  itemIcon?: string
 }
 
 export interface RelationshipGrant {
@@ -94,6 +99,10 @@ export interface CollectStep {
   type: string // 'collect'
   pickupIds: string[]
   required: number
+  /** Display name for the held item shown in the Hub Inventory. */
+  itemName?: string
+  /** Emoji icon for the held item. */
+  itemIcon?: string
 }
 
 export interface DeliverStep {
@@ -209,6 +218,17 @@ export type DialogueEffect =
   | { type: 'friendship'; npcId?: string; xp: number }  // grant friendship XP (defaults to the speaking NPC)
   | { type: 'relationship'; npcId?: string; track: RelationshipTrack; points: number }  // advance a relationship track (defaults to the speaking NPC)
   | { type: 'quest'; questId: string }          // offer a quest (Accept / Not now)
+  // Repeatable barter: take wantCount (default 1) of a hub-item from the
+  // player in exchange for crystals / another hub-item / a collectible.
+  // Shows missingText (no state change) if the player holds too few.
+  | { type: 'tradeHubItem'
+      wantItemId: string
+      wantCount?: number
+      giveCrystals?: number
+      giveHubItem?: { itemId: string; count?: number }
+      giveCollectible?: { id: string; name: string; icon: string; desc: string }
+      missingText: string
+      successText: string }
   | { type: 'end' }                             // end the conversation
 
 export interface DialogueChoiceDef {

@@ -18,7 +18,9 @@
             "survey-scroll-2",
             "survey-scroll-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Rolled Map",
+          "itemIcon": "🗺️"
         }
       ],
       "reward": {
@@ -44,7 +46,9 @@
             "charter-seal-2",
             "charter-seal-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Letter",
+          "itemIcon": "✉️"
         }
       ],
       "reward": {
@@ -73,7 +77,9 @@
             "tax-ledger-2",
             "tax-ledger-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Papers",
+          "itemIcon": "📄"
         },
         {
           "key": "hand",
@@ -109,7 +115,9 @@
             "proclamation-1",
             "proclamation-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Rolled Map",
+          "itemIcon": "🗺️"
         }
       ],
       "reward": {
@@ -140,7 +148,9 @@
             "plaque-1",
             "plaque-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Painting",
+          "itemIcon": "🖼️"
         },
         {
           "key": "hand",
@@ -178,7 +188,9 @@
           "pickupIds": [
             "postern-key"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Key",
+          "itemIcon": "🗝️"
         },
         {
           "key": "deliver",
@@ -217,7 +229,9 @@
             "patrol-token-2",
             "patrol-token-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Coin",
+          "itemIcon": "🪙"
         },
         {
           "key": "deliver",
@@ -253,7 +267,9 @@
           "pickupIds": [
             "stolen-purse"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Small Sack",
+          "itemIcon": "🌾"
         },
         {
           "key": "deliver",
@@ -291,7 +307,9 @@
             "steel-billet-3",
             "steel-billet-4"
           ],
-          "required": 4
+          "required": 4,
+          "itemName": "Sword",
+          "itemIcon": "⚔️"
         },
         {
           "key": "hand",
@@ -326,7 +344,9 @@
             "relic-2",
             "relic-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Golden Cross",
+          "itemIcon": "✝️"
         }
       ],
       "reward": {
@@ -355,7 +375,9 @@
             "dawn-candle-2",
             "dawn-candle-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Candlestick",
+          "itemIcon": "🕯️"
         }
       ],
       "reward": {
@@ -388,7 +410,9 @@
           "pickupIds": [
             "bell-clapper"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Axe",
+          "itemIcon": "🪓"
         },
         {
           "key": "deliver",
@@ -420,7 +444,9 @@
             "vigil-lantern-1",
             "vigil-lantern-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Lantern",
+          "itemIcon": "🏮"
         }
       ],
       "reward": {
@@ -451,7 +477,9 @@
             "silk-bolt-2",
             "silk-bolt-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Cotton",
+          "itemIcon": "🧶"
         }
       ],
       "reward": {
@@ -479,7 +507,9 @@
             "raw-gem-2",
             "raw-gem-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Diamond",
+          "itemIcon": "💎"
         }
       ],
       "reward": {
@@ -508,7 +538,9 @@
             "herb-2",
             "herb-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Herb Bundle",
+          "itemIcon": "🌿"
         }
       ],
       "reward": {
@@ -539,7 +571,9 @@
             "grain-sack-2",
             "grain-sack-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Sack",
+          "itemIcon": "🌾"
         },
         {
           "key": "hand",
@@ -574,7 +608,9 @@
             "lost-coin-2",
             "lost-coin-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Coins",
+          "itemIcon": "🪙"
         }
       ],
       "reward": {
@@ -604,7 +640,9 @@
           "pickupIds": [
             "anthology-tome-1"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Book",
+          "itemIcon": "📕"
         },
         {
           "key": "tome-2",
@@ -613,7 +651,9 @@
             "anthology-tome-2"
           ],
           "required": 1,
-          "chain": "anthology-tome-1"
+          "chain": "anthology-tome-1",
+          "itemName": "Book",
+          "itemIcon": "📕"
         },
         {
           "key": "tome-3",
@@ -622,7 +662,9 @@
             "anthology-tome-3"
           ],
           "required": 1,
-          "chain": "anthology-tome-2"
+          "chain": "anthology-tome-2",
+          "itemName": "Book",
+          "itemIcon": "📕"
         }
       ],
       "reward": {
@@ -655,7 +697,9 @@
             "lecture-note-2",
             "lecture-note-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Papers",
+          "itemIcon": "📄"
         }
       ],
       "reward": {
@@ -683,7 +727,9 @@
             "reagent-1",
             "reagent-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Potion",
+          "itemIcon": "🧪"
         },
         {
           "key": "hand",
@@ -717,7 +763,9 @@
             "mint-die-1",
             "mint-die-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Small Chest",
+          "itemIcon": "🧰"
         }
       ],
       "reward": {
@@ -747,7 +795,9 @@
           "pickupIds": [
             "coin-pouch"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Gold Coins",
+          "itemIcon": "🪙"
         },
         {
           "key": "deliver",
@@ -778,7 +828,9 @@
             "promissory-1",
             "promissory-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Letter",
+          "itemIcon": "✉️"
         },
         {
           "key": "hand",
@@ -815,7 +867,9 @@
             "locket-piece-2",
             "locket-piece-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Pendant",
+          "itemIcon": "📿"
         }
       ],
       "reward": {
@@ -843,7 +897,9 @@
             "lute-string-2",
             "lute-string-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Feather",
+          "itemIcon": "🪶"
         }
       ],
       "reward": {
@@ -872,7 +928,9 @@
             "tankard-2",
             "tankard-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Mug",
+          "itemIcon": "☕"
         }
       ],
       "reward": {
@@ -905,7 +963,9 @@
             "provision-3",
             "provision-4"
           ],
-          "required": 4
+          "required": 4,
+          "itemName": "Apple Basket",
+          "itemIcon": "🍎"
         },
         {
           "key": "hand",

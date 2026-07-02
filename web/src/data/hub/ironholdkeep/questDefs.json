@@ -18,7 +18,9 @@
             "patrol-report-2",
             "patrol-report-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Note",
+          "itemIcon": "📝"
         }
       ],
       "reward": {
@@ -44,7 +46,9 @@
             "weapon-crate-2",
             "weapon-crate-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         }
       ],
       "reward": {
@@ -77,7 +81,9 @@
           "pickupIds": [
             "chronicle-page-1"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Notice",
+          "itemIcon": "🪧"
         },
         {
           "key": "page-2",
@@ -86,7 +92,9 @@
             "chronicle-page-2"
           ],
           "required": 1,
-          "chain": "chronicle-page-1"
+          "chain": "chronicle-page-1",
+          "itemName": "Notice",
+          "itemIcon": "🪧"
         },
         {
           "key": "page-3",
@@ -95,7 +103,9 @@
             "chronicle-page-3"
           ],
           "required": 1,
-          "chain": "chronicle-page-2"
+          "chain": "chronicle-page-2",
+          "itemName": "Notice",
+          "itemIcon": "🪧"
         }
       ],
       "reward": {
@@ -129,7 +139,9 @@
             "watch-token-2",
             "watch-token-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Notice",
+          "itemIcon": "🪧"
         }
       ],
       "reward": {
@@ -158,7 +170,9 @@
             "drill-gear-2",
             "drill-gear-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         }
       ],
       "reward": {
@@ -211,7 +225,9 @@
             "supply-ledger-2",
             "supply-ledger-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Notice",
+          "itemIcon": "🪧"
         }
       ],
       "reward": {
@@ -241,7 +257,9 @@
             "grain-sack-3",
             "grain-sack-4"
           ],
-          "required": 4
+          "required": 4,
+          "itemName": "Sack",
+          "itemIcon": "🌾"
         }
       ],
       "reward": {
@@ -267,7 +285,9 @@
             "arrow-bundle-2",
             "arrow-bundle-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         }
       ],
       "reward": {
@@ -293,7 +313,9 @@
             "broken-blade-2",
             "broken-blade-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Notice",
+          "itemIcon": "🪧"
         }
       ],
       "reward": {
@@ -321,7 +343,9 @@
             "feast-cheese",
             "feast-ale"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Sack",
+          "itemIcon": "🌾"
         }
       ],
       "reward": {
@@ -351,7 +375,9 @@
             "plate-3",
             "plate-4"
           ],
-          "required": 4
+          "required": 4,
+          "itemName": "Notice",
+          "itemIcon": "🪧"
         }
       ],
       "reward": {
@@ -374,7 +400,9 @@
           "pickupIds": [
             "foal-bell"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Notice",
+          "itemIcon": "🪧"
         }
       ],
       "reward": {
@@ -403,7 +431,9 @@
             "hay-bale-2",
             "hay-bale-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Sack",
+          "itemIcon": "🌾"
         }
       ],
       "reward": {
@@ -428,7 +458,9 @@
             "training-sword-2",
             "training-sword-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Notice",
+          "itemIcon": "🪧"
         }
       ],
       "reward": {
@@ -457,21 +489,27 @@
           "key": "index-1",
           "type": "collect",
           "pickupIds": [ "index-card-1" ],
-          "required": 1
+          "required": 1,
+          "itemName": "Notice",
+          "itemIcon": "🪧"
         },
         {
           "key": "index-2",
           "type": "collect",
           "pickupIds": [ "index-card-2" ],
           "required": 1,
-          "chain": "index-card-1"
+          "chain": "index-card-1",
+          "itemName": "Notice",
+          "itemIcon": "🪧"
         },
         {
           "key": "index-3",
           "type": "collect",
           "pickupIds": [ "index-card-3" ],
           "required": 1,
-          "chain": "index-card-2"
+          "chain": "index-card-2",
+          "itemName": "Notice",
+          "itemIcon": "🪧"
         }
       ],
       "reward": {
@@ -499,7 +537,9 @@
             "grave-candle-2",
             "grave-candle-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Candlestick",
+          "itemIcon": "🕯️"
         }
       ],
       "reward": {
@@ -525,7 +565,9 @@
           "pickupIds": [
             "prisoner-letter"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Notice",
+          "itemIcon": "🪧"
         }
       ],
       "reward": {
@@ -550,14 +592,18 @@
           "key": "half-1",
           "type": "collect",
           "pickupIds": [ "key-half-1" ],
-          "required": 1
+          "required": 1,
+          "itemName": "Notice",
+          "itemIcon": "🪧"
         },
         {
           "key": "half-2",
           "type": "collect",
           "pickupIds": [ "key-half-2" ],
           "required": 1,
-          "chain": "key-half-1"
+          "chain": "key-half-1",
+          "itemName": "Notice",
+          "itemIcon": "🪧"
         }
       ],
       "reward": {
@@ -590,7 +636,9 @@
           "pickupIds": [
             "vault-ledger"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Notice",
+          "itemIcon": "🪧"
         }
       ],
       "reward": {
@@ -624,7 +672,9 @@
             "gate-chalk-2",
             "gate-chalk-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Notice",
+          "itemIcon": "🪧"
         }
       ],
       "reward": {
@@ -650,7 +700,9 @@
             "banner-fragment-2",
             "banner-fragment-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Notice",
+          "itemIcon": "🪧"
         }
       ],
       "reward": {

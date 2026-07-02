@@ -22,6 +22,12 @@
 // │ item               │ Collectibles from daily logins & events. Allows      │
 // │                    │ duplicates. API: addCollectible / removeCollectible / │
 // │                    │ getCollectibles                                       │
+// ├────────────────────┼──────────────────────────────────────────────────────┤
+// │ hub-item           │ Hub-world economy items: held quest items, materials  │
+// │                    │ (feed, eggs, fish, trade goods), unique tools (rod).  │
+// │                    │ Catalog: data/hubItems.json. API: addHubItem /        │
+// │                    │ removeHubItem / getHubItemCount / hasHubItem /        │
+// │                    │ getHubItems                                           │
 // └────────────────────┴──────────────────────────────────────────────────────┘
 //
 // ⚠️  WARNING — the battle-consumable drain
@@ -48,14 +54,18 @@
 
 import { logError } from '../logger'
 import { validateIntegrity, updateChecksum } from './integrity'
+import HUB_ITEMS_DATA from '../data/hubItems.json'
 
-export type ItemType = 'consumable' | 'relic' | 'item'
+export type ItemType = 'consumable' | 'relic' | 'item' | 'hub-item'
+
+/** Buckets the Hub Inventory UI groups hub-items into. */
+export type HubItemCategory = 'quest' | 'pet-accessory' | 'material' | 'tool'
 
 export interface ItemEntry {
-  /** Consumable id, relic name, or useless-item id */
+  /** Consumable id, relic name, useless-item id, or hub-item id */
   id: string
   type: ItemType
-  /** Stack size — only meaningful for consumables; always 1 for relics/items */
+  /** Stack size — only meaningful for consumables/hub-items; always 1 for relics/items */
   count: number
   /** ISO date string set when the item was first acquired (items only) */
   acquiredDate?: string
@@ -65,6 +75,8 @@ export interface ItemEntry {
   icon?: string
   desc?: string
   lore?: string
+  /** Hub-items only: inventory grouping (see HubItemCategory). */
+  category?: HubItemCategory
 }
 
 export interface ItemDisplayFields {
@@ -72,6 +84,7 @@ export interface ItemDisplayFields {
   icon?: string
   desc?: string
   lore?: string
+  category?: HubItemCategory
 }
 
 const ITEM_STORE_KEY = 'jarv_item_store'
@@ -509,4 +522,97 @@ export function removeCollectible(id: string): void {
 /** Return raw item store entries for all collectibles. */
 export function getCollectibles(): ItemEntry[] {
   return getItemsOfType('item')
+}
+
+// ── HUB ITEMS (hub-world economy: quest items, materials, tools) ──────────────
+//
+// Hub items power the hub-world item economy: physical quest items held while
+// a fetch quest is in progress, materials bought from town shops or produced
+// by world interactions (chicken feed, eggs, feathers, caught fish, trade
+// goods), and unique tools (the fishing rod).
+//
+// They are stored under their own type tag ('hub-item'), so — like arcade
+// tickets and chronicle fragments — they can never be swallowed by
+// drainStashIntoRun (questline.ts), which only drains type: 'consumable'
+// entries whose ids appear in ALL_CONSUMABLES.
+//
+// Display data comes from the web/src/data/hubItems.json catalog. Entries not
+// in the catalog (per-quest items with ids like `quest:<questId>:<stepKey>`)
+// carry their display fields inline, same as arcade tickets do. Catalog items
+// flagged `unique: true` (e.g. the fishing rod) never stack — re-adding one
+// the player already owns is a no-op.
+
+interface HubItemCatalogEntry {
+  id: string
+  name: string
+  icon: string
+  desc: string
+  category: string
+  unique?: boolean
+}
+
+const HUB_ITEM_CATALOG = HUB_ITEMS_DATA as HubItemCatalogEntry[]
+
+export function getHubItemCatalogEntry(id: string): HubItemCatalogEntry | undefined {
+  return HUB_ITEM_CATALOG.find(e => e.id === id)
+}
+
+/**
+ * Add `count` hub items. Catalog items resolve their display fields from
+ * hubItems.json; non-catalog items (quest items) should pass `display`
+ * inline. Unique catalog items never stack — adding an owned unique item is
+ * a no-op.
+ */
+export function addHubItem(id: string, count = 1, display?: ItemDisplayFields): void {
+  if (count <= 0) return
+  const catalog = getHubItemCatalogEntry(id)
+  const store = loadItemStore()
+  const entry = store.find(e => e.type === 'hub-item' && e.id === id)
+  if (entry) {
+    if (catalog?.unique) return
+    entry.count += count
+  } else {
+    const fields: ItemDisplayFields = catalog
+      ? { name: catalog.name, icon: catalog.icon, desc: catalog.desc, category: catalog.category as HubItemCategory }
+      : display ?? {}
+    store.push({
+      id,
+      type: 'hub-item',
+      count: catalog?.unique ? 1 : count,
+      acquiredDate: new Date().toISOString().slice(0, 10),
+      ...fields,
+    })
+  }
+  saveItemStore(store)
+}
+
+/**
+ * Remove `count` hub items. Returns `true` on success, `false` if the player
+ * holds fewer than `count` (no change is made in that case).
+ */
+export function removeHubItem(id: string, count = 1): boolean {
+  if (count <= 0) return true
+  const store = loadItemStore()
+  const entry = store.find(e => e.type === 'hub-item' && e.id === id)
+  if (!entry || entry.count < count) return false
+  entry.count -= count
+  if (entry.count <= 0) store.splice(store.indexOf(entry), 1)
+  saveItemStore(store)
+  return true
+}
+
+/** How many of this hub item the player holds. */
+export function getHubItemCount(id: string): number {
+  const entry = loadItemStore().find(e => e.type === 'hub-item' && e.id === id)
+  return entry ? entry.count : 0
+}
+
+/** Whether the player holds at least one of this hub item. */
+export function hasHubItem(id: string): boolean {
+  return getHubItemCount(id) > 0
+}
+
+/** Return raw item store entries for all hub items. */
+export function getHubItems(): ItemEntry[] {
+  return getItemsOfType('hub-item')
 }

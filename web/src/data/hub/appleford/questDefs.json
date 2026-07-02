@@ -18,7 +18,9 @@
             "apple-basket-2",
             "apple-basket-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Apple Basket",
+          "itemIcon": "🍎"
         }
       ],
       "reward": {
@@ -52,7 +54,9 @@
             "cider-apple-2",
             "cider-apple-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Apple Basket",
+          "itemIcon": "🍎"
         }
       ],
       "reward": {
@@ -81,7 +85,9 @@
             "empty-bottle-2",
             "empty-bottle-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Bottle",
+          "itemIcon": "🍾"
         }
       ],
       "reward": {
@@ -115,7 +121,9 @@
             "honeycomb-2",
             "honeycomb-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Herb Bundle",
+          "itemIcon": "🌿"
         }
       ],
       "reward": {
@@ -144,7 +152,9 @@
             "beeswax-2",
             "beeswax-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Bottle",
+          "itemIcon": "🍾"
         }
       ],
       "reward": {
@@ -178,7 +188,9 @@
             "stave-2",
             "stave-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Firewood",
+          "itemIcon": "🪵"
         }
       ],
       "reward": {
@@ -206,7 +218,9 @@
             "pick-apple-2",
             "pick-apple-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Apple Basket",
+          "itemIcon": "🍎"
         },
         {
           "key": "deliver",
@@ -239,7 +253,9 @@
           "pickupIds": [
             "picker-crate-1"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Open Crate",
+          "itemIcon": "📦"
         },
         {
           "key": "deliver",
@@ -273,7 +289,9 @@
           "pickupIds": [
             "cider-crate-1"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         },
         {
           "key": "deliver",
@@ -314,7 +332,9 @@
             "harvest-bloom-2",
             "harvest-bloom-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Candlestick",
+          "itemIcon": "🕯️"
         }
       ],
       "reward": {
@@ -348,7 +368,9 @@
             "wren-2",
             "wren-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Leaf Basket",
+          "itemIcon": "🍂"
         }
       ],
       "reward": {
@@ -377,7 +399,9 @@
             "orchard-lost-2",
             "orchard-lost-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Book",
+          "itemIcon": "📕"
         }
       ],
       "reward": {

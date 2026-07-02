@@ -474,6 +474,7 @@
     {
       "id": "ranger-sable",
       "name": "Ranger Sable",
+      "dialogueTree": "ranger-sable-trade",
       "sprite": "hub-npc-guard",
       "tx": 15,
       "ty": 25,

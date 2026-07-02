@@ -1,4 +1,39 @@
 {
+  "dialogues": [
+      {
+        "id": "ranger-sable-trade",
+        "npcId": "ranger-sable",
+        "start": "greet",
+        "nodes": {
+          "greet": {
+            "text": "Look at the state of these boots \u2014 more hole than leather. The capital's tailor sells sturdy ones, if you ever pass through. I'd pay well over the asking price to save myself the trip.",
+            "choices": [
+              {
+                "label": "I have a pair of sturdy boots right here.",
+                "next": "greet",
+                "effects": [
+                  {
+                    "type": "tradeHubItem",
+                    "wantItemId": "sturdy-boots",
+                    "giveCrystals": 90,
+                    "missingText": "Unless you're hiding them under that cloak, you don't. Pell's Tailoring, in the capital \u2014 sturdy boots, ask for the ones with the double-stitched soles.",
+                    "successText": "Ha! Perfect fit. You've saved me a week's walk and my last good pair of socks. Here \u2014 90 crystals, and cheap at the price."
+                  }
+                ]
+              },
+              {
+                "label": "I'll keep an eye out.",
+                "effects": [
+                  {
+                    "type": "end"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    ],
   "quests": [
     {
       "id": "thornwood-embers-low",
@@ -18,7 +53,9 @@
             "thornwood-firewood-2",
             "thornwood-firewood-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Firewood",
+          "itemIcon": "🪵"
         }
       ],
       "reward": {
@@ -43,7 +80,9 @@
             "shiny-stone-2",
             "shiny-stone-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Stone",
+          "itemIcon": "🪨"
         }
       ],
       "reward": {
@@ -75,7 +114,9 @@
             "treeline-lost-2",
             "treeline-lost-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Book",
+          "itemIcon": "📕"
         }
       ],
       "reward": {
@@ -103,7 +144,9 @@
             "mushroom-2",
             "mushroom-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Mushroom Basket",
+          "itemIcon": "🍄"
         }
       ],
       "reward": {
@@ -131,7 +174,9 @@
             "ward-2",
             "ward-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Herb Bundle",
+          "itemIcon": "🌿"
         }
       ],
       "reward": {
@@ -158,7 +203,9 @@
           "pickupIds": [
             "warding-draught-1"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Bottle",
+          "itemIcon": "🍾"
         },
         {
           "key": "deliver",
@@ -193,7 +240,9 @@
             "snare-2",
             "snare-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Sack",
+          "itemIcon": "🌾"
         }
       ],
       "reward": {
@@ -221,7 +270,9 @@
             "supply-2",
             "supply-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Berries",
+          "itemIcon": "🫐"
         }
       ],
       "reward": {
@@ -248,7 +299,9 @@
           "pickupIds": [
             "ravenwatch-parcel-1"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         },
         {
           "key": "deliver",
@@ -288,7 +341,9 @@
             "bramble-find-2",
             "bramble-find-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Stone",
+          "itemIcon": "🪨"
         }
       ],
       "reward": {

@@ -3,7 +3,7 @@
 // the leaderboard. 5% chance to snag an item or card instead of a fish.
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { addCollectible } from '../../game/itemStore'
+import { addCollectible, addHubItem } from '../../game/itemStore'
 import { addCardsToCollection } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
 import ITEMS_DATA from '../../data/items.json'
@@ -115,13 +115,23 @@ function formatWeight(g: number): string {
   return g < 1000 ? `${g}g` : `${(g / 1000).toFixed(1)}kg`
 }
 
+// Hub-mode catches become hub-items, keyed by fish tier (see hubItems.json).
+const TIER_HUB_ITEM: Record<string, string> = {
+  Tiddler: 'fish-tiddler', Small: 'fish-small', Medium: 'fish-medium',
+  Large: 'fish-large', Trophy: 'fish-trophy', Legendary: 'fish-legendary',
+}
+
 // ── Component ─────────────────────────────────────────────────────────────────
 
 interface Props {
   onDone: (ticketsEarned: number, fishWeightGrams: number) => void
+  /** 'tickets' (default): arcade mode — fish pay out tickets via onDone.
+   *  'catch': hub-world mode — the caught fish is added to the hub-item
+   *  inventory instead, and no tickets are ever awarded. */
+  rewardMode?: 'tickets' | 'catch'
 }
 
-export function Fishing({ onDone }: Props) {
+export function Fishing({ onDone, rewardMode = 'tickets' }: Props) {
   const [phase, setPhase]   = useState<Phase>('idle')
   const [result, setResult] = useState<Catch | null>(null)
   const [biteMs, setBiteMs] = useState(BITE_WINDOW_MS)
@@ -189,10 +199,17 @@ export function Fishing({ onDone }: Props) {
       catch (e) { logError('Fishing: addCollectible failed', { error: String(e) }) }
     } else if (c.kind === 'card') {
       addCardsToCollection([{ cardName: c.name, count: 1 }])
+    } else if (rewardMode === 'catch') {
+      const hubItemId = TIER_HUB_ITEM[c.tier]
+      if (hubItemId) {
+        try { addHubItem(hubItemId, 1) }
+        catch (e) { logError('Fishing: addHubItem failed', { error: String(e) }) }
+      }
     }
   }
 
   function catchTickets(): number {
+    if (rewardMode === 'catch') return 0
     if (!result) return 0
     if (result.kind === 'fish')  return result.tickets
     if (result.kind === 'card')  return 10
@@ -290,7 +307,9 @@ export function Fishing({ onDone }: Props) {
               <span className="fishing-result-sep">·</span>
               <span>{result.lengthCm}cm</span>
             </div>
-            <div className="fishing-result-tickets">+{result.tickets} 🎫</div>
+            <div className="fishing-result-tickets">
+              {rewardMode === 'catch' ? `${result.tierIcon} Added to inventory!` : `+${result.tickets} 🎫`}
+            </div>
           </div>
         )}
 
@@ -299,7 +318,7 @@ export function Fishing({ onDone }: Props) {
             <div className="fishing-result-tier">✦ SPECIAL FIND ✦</div>
             <div className="fishing-result-name">{result.icon} {result.name}</div>
             <div className="fishing-result-desc">{result.desc}</div>
-            <div className="fishing-result-tickets">+5 🎫  ·  Added to inventory!</div>
+            <div className="fishing-result-tickets">{rewardMode === 'catch' ? 'Added to inventory!' : '+5 🎫  ·  Added to inventory!'}</div>
           </div>
         )}
 
@@ -308,7 +327,7 @@ export function Fishing({ onDone }: Props) {
             <div className="fishing-result-tier">✦ RARE CARD FOUND ✦</div>
             <div className="fishing-result-name">🃏 {result.name}</div>
             <div className="fishing-result-desc">{result.rarity}</div>
-            <div className="fishing-result-tickets">+10 🎫  ·  Added to collection!</div>
+            <div className="fishing-result-tickets">{rewardMode === 'catch' ? 'Added to collection!' : '+10 🎫  ·  Added to collection!'}</div>
           </div>
         )}
       </div>

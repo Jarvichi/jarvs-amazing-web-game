@@ -18,7 +18,9 @@
             "seed-sack-2",
             "seed-sack-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Sack",
+          "itemIcon": "🌾"
         }
       ],
       "reward": {
@@ -47,7 +49,9 @@
             "sheaf-2",
             "sheaf-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Sack Pile",
+          "itemIcon": "🌾"
         },
         {
           "key": "deliver",
@@ -87,7 +91,9 @@
             "fence-rail-2",
             "fence-rail-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Firewood",
+          "itemIcon": "🪵"
         }
       ],
       "reward": {
@@ -116,7 +122,9 @@
             "fleece-2",
             "fleece-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Sack Pile",
+          "itemIcon": "🌾"
         },
         {
           "key": "deliver",
@@ -151,7 +159,9 @@
             "grain-bag-2",
             "grain-bag-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Sack",
+          "itemIcon": "🌾"
         }
       ],
       "reward": {
@@ -178,7 +188,9 @@
           "pickupIds": [
             "flour-sack-1"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Sack",
+          "itemIcon": "🌾"
         },
         {
           "key": "deliver",
@@ -213,7 +225,9 @@
             "ingredient-2",
             "ingredient-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Basket",
+          "itemIcon": "🧺"
         }
       ],
       "reward": {
@@ -240,7 +254,9 @@
           "pickupIds": [
             "bread-basket-1"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Leaf Basket",
+          "itemIcon": "🍂"
         },
         {
           "key": "deliver",
@@ -275,7 +291,9 @@
             "field-lost-2",
             "field-lost-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Book",
+          "itemIcon": "📕"
         }
       ],
       "reward": {
@@ -309,7 +327,9 @@
             "bram-thing-2",
             "bram-thing-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Leaf Basket",
+          "itemIcon": "🍂"
         }
       ],
       "reward": {
@@ -337,7 +357,9 @@
             "linen-2",
             "linen-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Sack",
+          "itemIcon": "🌾"
         }
       ],
       "reward": {
@@ -366,7 +388,9 @@
             "harvest-bloom-2",
             "harvest-bloom-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Candlestick",
+          "itemIcon": "🕯️"
         }
       ],
       "reward": {
@@ -402,7 +426,9 @@
             "supper-2",
             "supper-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Apple Basket",
+          "itemIcon": "🍎"
         }
       ],
       "reward": {
@@ -435,7 +461,9 @@
           "pickupIds": [
             "produce-crate-1"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         },
         {
           "key": "deliver",

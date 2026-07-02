@@ -28,8 +28,10 @@ import { ToolbarDropdown } from '../ui/Toolbar/ToolbarDropdown'
 import { User } from 'firebase/auth'
 import { loadPlayerName, addToConsumableStash } from '../../game/questline'
 import { LoginButton } from '../ui/LoginButton'
-import { addCollectible, addConsumable, getCollectibles } from '../../game/itemStore'
+import { addCollectible, addConsumable, getCollectibles, addHubItem, removeHubItem, getHubItemCount, hasHubItem, getHubItemCatalogEntry, spendTickets } from '../../game/itemStore'
+import { questItemId } from '../../game/hub/questItems'
 import { QuestsModal } from './QuestsModal'
+import { HubInventoryModal } from './HubInventoryModal'
 import { BountyBoardModal } from './BountyBoardModal'
 import { hasUnclaimedBounties, getPendingBountyReport, getPendingBountyCollect, advanceBountyStep, getActiveBountyStep } from '../../game/hub/bounties'
 import { PetModal } from './PetModal'
@@ -119,6 +121,7 @@ const SCREEN_ENTER_LABEL: Record<string, string> = {
   'hall-of-achievements': 'Visit the hall of achievements?',
   'home-shelf':      'Look at the shelf?',
   fishing:           'Cast a line?',
+  'hub-fishing':     'Cast a line?',
   marble:            'Play marbles?',
   marblerace:        'Watch a marble race?',
   tileflip:          'Play tile flip?',
@@ -183,6 +186,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   const [interiorActive, setInteriorActive] = useState(false)
   const [pickedUpIds,    setPickedUpIds]    = useState<Set<string>>(() => getPickedUpIds())
   const [questsOpen,          setQuestsOpen]          = useState(false)
+  const [inventoryOpen,       setInventoryOpen]       = useState(false)
   const [bountyBoardOpen,     setBountyBoardOpen]     = useState(false)
   const [petModalOpen,        setPetModalOpen]        = useState(false)
   const [directoryOpen,       setDirectoryOpen]       = useState(false)
@@ -521,6 +525,20 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
       setDialogueEvent({ speakerName: "Commander's Post", text: "No commander has been assigned yet. Visit the title screen to choose one." })
       return
     }
+    // Hub fishing is gated on owning a rod and consumes 1 bait per trip.
+    // Both are global hub-items, so a rod bought in Millhaven works at any
+    // town's fishing spot.
+    if (screen === 'hub-fishing') {
+      if (!hasHubItem('fishing-rod')) {
+        setDialogueEvent({ speakerName: '', text: "You can't fish without a rod. Millhaven's harbour stall sells them." })
+        return
+      }
+      if (!removeHubItem('fish-bait', 1)) {
+        setDialogueEvent({ speakerName: '', text: "You're out of bait. Millhaven's harbour stall sells pots of fish bait." })
+        return
+      }
+      refreshState()
+    }
     onNavigate?.(screen, buildingId)
   }, [onNavigate, onCampaign, onWorldMap, onNarratorLog, commander])
 
@@ -538,6 +556,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     if (!quest) return
     const pickupIds = quest.steps.flatMap(s => s.pickupIds ?? [])
     unmarkPickedUp(pickupIds)
+    clearHeldQuestItems(quest)
     resetQuest(questId)
     setPickedUpIds(getPickedUpIds())
     refreshState()
@@ -616,6 +635,16 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     for (const step of quest.steps) {
       if (step.type === 'collect' && step.pickupIds?.includes(id)) {
         incrementQuestProgress(questId, step.key)
+        // Steps with display fields place a physical item in the hub
+        // inventory; it is cleared again on turn-in or abandonment.
+        if (step.itemName) {
+          addHubItem(questItemId(questId, step.key), 1, {
+            name: step.itemName,
+            icon: step.itemIcon ?? '📦',
+            desc: `Held for the quest "${quest.title}".`,
+            category: 'quest',
+          })
+        }
         pickedStep = step
         break
       }
@@ -709,6 +738,17 @@ function grantQuestReward(quest: HubQuestDef): void {
   }
 }
 
+// Remove any physical quest items this quest placed in the hub inventory
+// (see handleItemPickup) — called on turn-in and on abandonment.
+function clearHeldQuestItems(quest: HubQuestDef): void {
+  for (const step of quest.steps) {
+    if (step.type !== 'collect' || !step.itemName) continue
+    const id = questItemId(quest.id, step.key)
+    const held = getHubItemCount(id)
+    if (held > 0) removeHubItem(id, held)
+  }
+}
+
 // Offer the first available quest given by `giverId` (an NPC or interactable id).
 // Returns true if an offer dialogue was shown; false if there is nothing to
 // offer (caller falls through to screens / default dialogue).
@@ -767,6 +807,7 @@ function hasOfferableQuest(giverId: string): boolean {
   // Mark a quest completed, grant its reward, and show its completion dialogue.
   function completeQuestFor(quest: HubQuestDef, speakerName: string): void {
     setQuestStatus(quest.id, 'completed')
+    clearHeldQuestItems(quest)
     grantQuestReward(quest)
     if (quest.reward.crystals) onCrystalsChange?.(loadCrystals())
     refreshState()
@@ -825,6 +866,35 @@ function hasOfferableQuest(giverId: string): boolean {
           // unavailable / prerequisite unmet), just close.
           const giver = questDefs.find(q => q.id === eff.questId)?.giverNpcId ?? npcId
           if (!tryOfferQuest(giver, speakerName, eff.questId)) setDialogueEvent(null)
+          return
+        }
+        case 'tradeHubItem': {
+          // Repeatable barter: consume the wanted hub-item(s), grant the
+          // reward(s). If the player holds too few, show missingText and stop
+          // (no navigation — the player can come back with the goods).
+          const want = eff.wantCount ?? 1
+          if (!removeHubItem(eff.wantItemId, want)) {
+            setDialogueEvent({ speakerName, text: eff.missingText })
+            return
+          }
+          if (eff.giveCrystals) {
+            saveCrystals(loadCrystals() + eff.giveCrystals)
+            onCrystalsChange?.(loadCrystals())
+          }
+          if (eff.giveHubItem) {
+            addHubItem(eff.giveHubItem.itemId, eff.giveHubItem.count ?? 1)
+          }
+          if (eff.giveCollectible) {
+            const { id, name, icon, desc } = eff.giveCollectible
+            addCollectible(id, { name, icon, desc })
+          }
+          emitSound('shopPurchase')
+          refreshState()
+          setDialogueEvent({
+            speakerName,
+            text: eff.successText,
+            ...(choice.next ? { onClose: () => runDialogueNode(tree, choice.next!, npcId, speakerName) } : {}),
+          })
           return
         }
         case 'end':
@@ -1075,6 +1145,71 @@ function hasOfferableQuest(giverId: string): boolean {
     handleNpcTap(line, animalId)
   }, [handleNpcTap, locationData, refreshState, grantRandomPetReward])
 
+  // ── Ambient-animal feeding ───────────────────────────────────────────────
+  // Ambient (id-less) chickens can be fed chicken feed for a chance at an egg
+  // or a feather; ambient cats will happily eat a caught fish (smallest held
+  // first — flavour only). Returning false falls back to the canvas-side
+  // flavour bubble.
+  const handleAmbientAnimalTap = useCallback((type: string): boolean => {
+    if (type === 'chicken' && hasHubItem('chicken-feed')) {
+      setDialogueEvent({
+        speakerName: 'Chicken',
+        text: 'The chicken eyes the feed in your pack expectantly.',
+        choices: [
+          {
+            label: 'Scatter some feed (1 🌾)',
+            primary: true,
+            onClick: () => {
+              if (!removeHubItem('chicken-feed', 1)) { setDialogueEvent(null); return }
+              const roll = Math.random()
+              let text: string
+              if (roll < 0.4) {
+                addHubItem('egg', 1)
+                text = 'The chicken pecks up every grain, settles for a moment… and leaves you a fresh egg! 🥚'
+              } else if (roll < 0.65) {
+                addHubItem('feather', 1)
+                text = 'The chicken flaps about in delight — a clean feather drifts down for your trouble. 🪶'
+              } else {
+                text = 'The chicken devours the feed and struts off, deeply satisfied. Nothing for you this time.'
+              }
+              refreshState()
+              setDialogueEvent({ speakerName: 'Chicken', text })
+            },
+          },
+          { label: 'Not now', onClick: () => setDialogueEvent(null) },
+        ],
+      })
+      return true
+    }
+    if (type === 'cat') {
+      const fishId = ['fish-tiddler', 'fish-small', 'fish-medium', 'fish-large', 'fish-trophy', 'fish-legendary']
+        .find(id => hasHubItem(id))
+      if (!fishId) return false
+      const fishName = getHubItemCatalogEntry(fishId)?.name ?? 'fish'
+      setDialogueEvent({
+        speakerName: 'Cat',
+        text: `The cat has smelled the ${fishName} in your pack and is now performing its best starving-orphan impression.`,
+        choices: [
+          {
+            label: `Offer the ${fishName}`,
+            primary: true,
+            onClick: () => {
+              if (!removeHubItem(fishId, 1)) { setDialogueEvent(null); return }
+              refreshState()
+              setDialogueEvent({
+                speakerName: 'Cat',
+                text: 'The cat devours the fish, purrs like a tiny engine, and headbutts your shin in gratitude. You feel richer in spirit, if not in fish.',
+              })
+            },
+          },
+          { label: 'Not this one', onClick: () => setDialogueEvent(null) },
+        ],
+      })
+      return true
+    }
+    return false
+  }, [refreshState])
+
   const handleAreaEnter = useCallback((areaName: string | null) => {
     setCurrentArea(areaName)
     const area = areaName != null ? locationData.HUB_AREAS.find(a => a.name === areaName) : undefined
@@ -1229,6 +1364,53 @@ function hasOfferableQuest(giverId: string): boolean {
         setDialogueEvent({ speakerName, text: 'How many packs would you like?', choices })
         return
       }
+      case 'buyHubItem': {
+        const catalog = getHubItemCatalogEntry(r.itemId)
+        if (!catalog) { next(); return }
+
+        const candidates = def.building ? locationData.HUB_NPCS.filter(n => n.building === def.building) : []
+        const onDuty = candidates.find(n => def.building && resolveNpcPlace(n, gameHour, locationData).interiorId === def.building)
+        const speakerName = r.speakerName ?? (onDuty ?? candidates[0])?.name ?? ''
+
+        if (catalog.unique && hasHubItem(r.itemId)) {
+          setDialogueEvent({ speakerName, text: `You already own a ${catalog.name} — one is all you'll ever need.`, onClose: next })
+          return
+        }
+
+        const currency = r.currency ?? 'crystals'
+        const currencyIcon = currency === 'tickets' ? '🎫' : '💎'
+        const confirm: DialogueChoice = {
+          label: `Buy for ${r.price} ${currencyIcon}`,
+          primary: true,
+          onClick: () => {
+            if (currency === 'tickets') {
+              if (!spendTickets(r.price)) {
+                setDialogueEvent({ speakerName, text: "That's more tickets than you're carrying." })
+                return
+              }
+            } else {
+              const balance = loadCrystals()
+              if (balance < r.price) {
+                setDialogueEvent({ speakerName, text: "That's more than you're carrying — come back when you've got the crystals." })
+                return
+              }
+              saveCrystals(balance - r.price)
+              onCrystalsChange?.(balance - r.price)
+            }
+            addHubItem(r.itemId, 1)
+            emitSound('shopPurchase')
+            refreshState()
+            setDialogueEvent({ speakerName, text: `Sold! Enjoy the ${catalog.name}.`, onClose: next })
+          },
+        }
+        const cancel: DialogueChoice = { label: 'Maybe not', onClick: () => setDialogueEvent(null) }
+        setDialogueEvent({
+          speakerName,
+          text: `${catalog.icon} ${catalog.desc} Care to buy a ${catalog.name} for ${r.price} ${currencyIcon}?`,
+          choices: [confirm, cancel],
+        })
+        return
+      }
     }
   }
 
@@ -1247,6 +1429,7 @@ function hasOfferableQuest(giverId: string): boolean {
             <ToolbarLabel className="title-deck-info">{activeFestival.icon} {activeFestival.name}</ToolbarLabel>
           )}
         <ToolbarButton icon="📜" title="Quests" onClick={() => setQuestsOpen(true)} />
+        <ToolbarButton icon="🎒" title="Inventory" onClick={() => setInventoryOpen(true)} />
         <ToolbarButton icon="🧭" title="Where is…?" onClick={() => setDirectoryOpen(true)} />
         <ToolbarButton icon="📖" title="Journal" onClick={() => setJournalOpen(true)} />
         <ToolbarButton icon="🏗️" title="Town Upgrades" onClick={() => setUpgradesOpen(true)} />
@@ -1297,6 +1480,7 @@ function hasOfferableQuest(giverId: string): boolean {
             onNpcTap={handleNpcTap}
             onAnimalTap={handleAnimalTap}
             onAnimalSeen={recordAnimalSeen}
+            onAmbientAnimalTap={handleAmbientAnimalTap}
             interiorEnterRef={interiorEnterRef}
             interiorExitRef={interiorExitRef}
             petActionRef={petActionRef}
@@ -1338,6 +1522,7 @@ function hasOfferableQuest(giverId: string): boolean {
         )}
 
         {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={questDefs} resolveNpcName={getNpcDisplayName}/>}
+        {inventoryOpen && <HubInventoryModal onClose={() => setInventoryOpen(false)} questDefs={allQuestDefs} />}
         {bountyBoardOpen && <BountyBoardModal onClose={() => setBountyBoardOpen(false)} resolveNpcName={getNpcDisplayName}/>}
         {petModalOpen && <PetModal onClose={() => setPetModalOpen(false)} petActionRef={petActionRef} />}
         {directoryOpen && <TownDirectory onClose={() => setDirectoryOpen(false)} locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} onShowRelationship={setRelationshipNpcId} />}

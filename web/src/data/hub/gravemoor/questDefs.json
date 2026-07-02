@@ -18,7 +18,9 @@
             "remains-2",
             "remains-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Skull",
+          "itemIcon": "💀"
         }
       ],
       "reward": {
@@ -50,7 +52,9 @@
             "remains-deep-2",
             "remains-deep-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Skull",
+          "itemIcon": "💀"
         }
       ],
       "reward": {
@@ -79,7 +83,9 @@
           "pickupIds": [
             "widow-locket"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Pendant",
+          "itemIcon": "📿"
         }
       ],
       "reward": {
@@ -111,7 +117,9 @@
           "pickupIds": [
             "soldier-orders"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Book",
+          "itemIcon": "📕"
         }
       ],
       "reward": {
@@ -142,7 +150,9 @@
             "gg-2",
             "gg-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Pendant",
+          "itemIcon": "📿"
         }
       ],
       "reward": {
@@ -166,7 +176,9 @@
           "pickupIds": [
             "pip-keepsake"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Flower Pot",
+          "itemIcon": "🪴"
         },
         {
           "key": "deliver",
@@ -207,7 +219,9 @@
             "ps-2",
             "ps-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Cooking Pot",
+          "itemIcon": "🍲"
         }
       ],
       "reward": {
@@ -238,7 +252,9 @@
             "sfu-2",
             "sfu-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Sack",
+          "itemIcon": "🌾"
         }
       ],
       "reward": {
@@ -267,7 +283,9 @@
           "pickupIds": [
             "ht-1"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Book",
+          "itemIcon": "📕"
         }
       ],
       "reward": {
@@ -291,7 +309,9 @@
           "pickupIds": [
             "ht-2"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Skull",
+          "itemIcon": "💀"
         }
       ],
       "reward": {
@@ -315,7 +335,9 @@
           "pickupIds": [
             "ht-3"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Golden Cross",
+          "itemIcon": "✝️"
         }
       ],
       "reward": {

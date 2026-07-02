@@ -3774,6 +3774,46 @@
   },
   "interactables": [
     {
+      "id": "tailor-hat-rack",
+      "tx": 11,
+      "ty": 5,
+      "building": "tailor",
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "crownOfCushon"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "fancy-hat",
+          "price": 40
+        }
+      ]
+    },
+    {
+      "id": "tailor-boot-rack",
+      "tx": 11,
+      "ty": 6,
+      "building": "tailor",
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "armourSign"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "sturdy-boots",
+          "price": 60
+        }
+      ]
+    },
+    {
       "id": "grand-bank-item-0",
       "tx": 11,
       "ty": 3,
@@ -4982,7 +5022,7 @@
       "sprite": "hub-npc-fisherman",
       "tx": 12,
       "ty": 79,
-      "screen": "fishing",
+      "screen": "hub-fishing",
       "dialogue": [
         "The riverside pond's full of fish, if you've the patience. Cast a line?",
         "Quiet water, quick catch. Best spot in the capital.",

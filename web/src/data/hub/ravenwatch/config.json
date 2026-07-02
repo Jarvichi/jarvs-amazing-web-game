@@ -8751,7 +8751,7 @@
       "sprite": "hub-npc-fisherman",
       "tx": 45,
       "ty": 49,
-      "screen": "fishing",
+      "screen": "hub-fishing",
       "dialogue": [
         "Nothings biting today. Maybe try again later?",
         "The fish are shy around here. Patience is key."
@@ -8763,7 +8763,7 @@
       "sprite": "hub-npc-fisherman",
       "tx": 44,
       "ty": 51,
-      "screen": "fishing",
+      "screen": "hub-fishing",
       "dialogue": [
         "The pond is calm today. Care to fish?"
       ]
@@ -9399,6 +9399,19 @@
     }
   ],
   "interactables": [
+    {
+      "id": "ravenwatch-chicken-feed",
+      "tx": 5,
+      "ty": 5,
+      "building": "market-building",
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "chicken-feed",
+          "price": 5
+        }
+      ]
+    },
     {
       "id": "notice-board",
       "tx": 49,

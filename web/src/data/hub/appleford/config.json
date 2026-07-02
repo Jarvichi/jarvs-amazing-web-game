@@ -2097,6 +2097,26 @@
   },
   "interactables": [
     {
+      "id": "appleford-chicken-feed",
+      "tx": 35,
+      "ty": 26,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "sack"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "chicken-feed",
+          "price": 5,
+          "speakerName": "Feed Stall"
+        }
+      ]
+    },
+    {
       "id": "market-barn-item-0",
       "tx": 11,
       "ty": 2,
