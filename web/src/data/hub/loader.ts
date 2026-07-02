@@ -272,6 +272,10 @@ export type HubInteractableReaction =
   | { type: 'move'; to: HubCoordinate; message?: string }
   | { type: 'buy'; slotIndex: number }
   | { type: 'buyPack' }
+  /** Always-available hub-item purchase (no daily stock rotation). itemId must
+   *  exist in web/src/data/hubItems.json; unique items re-offer as "already
+   *  owned" once bought. */
+  | { type: 'buyHubItem'; itemId: string; price: number; currency?: 'crystals' | 'tickets'; speakerName?: string }
 
 export interface HubInteractable {
   id: string

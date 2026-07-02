@@ -28,7 +28,7 @@ import { ToolbarDropdown } from '../ui/Toolbar/ToolbarDropdown'
 import { User } from 'firebase/auth'
 import { loadPlayerName, addToConsumableStash } from '../../game/questline'
 import { LoginButton } from '../ui/LoginButton'
-import { addCollectible, addConsumable, getCollectibles, addHubItem, removeHubItem, getHubItemCount, hasHubItem } from '../../game/itemStore'
+import { addCollectible, addConsumable, getCollectibles, addHubItem, removeHubItem, getHubItemCount, hasHubItem, getHubItemCatalogEntry, spendTickets } from '../../game/itemStore'
 import { questItemId } from '../../game/hub/questItems'
 import { QuestsModal } from './QuestsModal'
 import { HubInventoryModal } from './HubInventoryModal'
@@ -853,6 +853,35 @@ function hasOfferableQuest(giverId: string): boolean {
           if (!tryOfferQuest(giver, speakerName, eff.questId)) setDialogueEvent(null)
           return
         }
+        case 'tradeHubItem': {
+          // Repeatable barter: consume the wanted hub-item(s), grant the
+          // reward(s). If the player holds too few, show missingText and stop
+          // (no navigation — the player can come back with the goods).
+          const want = eff.wantCount ?? 1
+          if (!removeHubItem(eff.wantItemId, want)) {
+            setDialogueEvent({ speakerName, text: eff.missingText })
+            return
+          }
+          if (eff.giveCrystals) {
+            saveCrystals(loadCrystals() + eff.giveCrystals)
+            onCrystalsChange?.(loadCrystals())
+          }
+          if (eff.giveHubItem) {
+            addHubItem(eff.giveHubItem.itemId, eff.giveHubItem.count ?? 1)
+          }
+          if (eff.giveCollectible) {
+            const { id, name, icon, desc } = eff.giveCollectible
+            addCollectible(id, { name, icon, desc })
+          }
+          emitSound('shopPurchase')
+          refreshState()
+          setDialogueEvent({
+            speakerName,
+            text: eff.successText,
+            ...(choice.next ? { onClose: () => runDialogueNode(tree, choice.next!, npcId, speakerName) } : {}),
+          })
+          return
+        }
         case 'end':
           ended = true
           break
@@ -1253,6 +1282,53 @@ function hasOfferableQuest(giverId: string): boolean {
           { label: 'Maybe not', onClick: () => setDialogueEvent(null) },
         ]
         setDialogueEvent({ speakerName, text: 'How many packs would you like?', choices })
+        return
+      }
+      case 'buyHubItem': {
+        const catalog = getHubItemCatalogEntry(r.itemId)
+        if (!catalog) { next(); return }
+
+        const candidates = def.building ? locationData.HUB_NPCS.filter(n => n.building === def.building) : []
+        const onDuty = candidates.find(n => def.building && resolveNpcPlace(n, gameHour, locationData).interiorId === def.building)
+        const speakerName = r.speakerName ?? (onDuty ?? candidates[0])?.name ?? ''
+
+        if (catalog.unique && hasHubItem(r.itemId)) {
+          setDialogueEvent({ speakerName, text: `You already own a ${catalog.name} — one is all you'll ever need.`, onClose: next })
+          return
+        }
+
+        const currency = r.currency ?? 'crystals'
+        const currencyIcon = currency === 'tickets' ? '🎫' : '💎'
+        const confirm: DialogueChoice = {
+          label: `Buy for ${r.price} ${currencyIcon}`,
+          primary: true,
+          onClick: () => {
+            if (currency === 'tickets') {
+              if (!spendTickets(r.price)) {
+                setDialogueEvent({ speakerName, text: "That's more tickets than you're carrying." })
+                return
+              }
+            } else {
+              const balance = loadCrystals()
+              if (balance < r.price) {
+                setDialogueEvent({ speakerName, text: "That's more than you're carrying — come back when you've got the crystals." })
+                return
+              }
+              saveCrystals(balance - r.price)
+              onCrystalsChange?.(balance - r.price)
+            }
+            addHubItem(r.itemId, 1)
+            emitSound('shopPurchase')
+            refreshState()
+            setDialogueEvent({ speakerName, text: `Sold! Enjoy the ${catalog.name}.`, onClose: next })
+          },
+        }
+        const cancel: DialogueChoice = { label: 'Maybe not', onClick: () => setDialogueEvent(null) }
+        setDialogueEvent({
+          speakerName,
+          text: `${catalog.icon} ${catalog.desc} Care to buy a ${catalog.name} for ${r.price} ${currencyIcon}?`,
+          choices: [confirm, cancel],
+        })
         return
       }
     }
