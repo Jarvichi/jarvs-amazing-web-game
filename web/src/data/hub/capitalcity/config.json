@@ -3774,6 +3774,45 @@
   },
   "interactables": [
     {
+      "id": "bakery-cake-counter",
+      "tx": 3,
+      "ty": 2,
+      "building": "bakery",
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "honey-cake",
+          "price": 15
+        }
+      ]
+    },
+    {
+      "id": "apothecary-tonic-counter",
+      "tx": 3,
+      "ty": 2,
+      "building": "apothecary",
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "lavender-tonic",
+          "price": 18
+        }
+      ]
+    },
+    {
+      "id": "market-hall-ribbon-counter",
+      "tx": 3,
+      "ty": 2,
+      "building": "market-hall-crownhaven",
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "silk-ribbon",
+          "price": 12
+        }
+      ]
+    },
+    {
       "id": "tailor-hat-rack",
       "tx": 11,
       "ty": 5,
@@ -4024,6 +4063,7 @@
     {
       "id": "royal-archivist",
       "name": "Archivist Quill",
+      "dialogueTree": "quill-feather-trade",
       "sprite": "hub-npc-scholar",
       "building": "library",
       "tx": 5,
@@ -4539,6 +4579,7 @@
     {
       "id": "baker-otto",
       "name": "Baker Otto",
+      "dialogueTree": "otto-egg-trade",
       "sprite": "hub-npc-merchant",
       "building": "bakery",
       "tx": 4,

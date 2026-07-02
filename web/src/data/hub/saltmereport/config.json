@@ -1560,6 +1560,7 @@
     {
       "id": "harbourmaster-vane",
       "name": "Harbourmaster Vane",
+      "dialogueTree": "vane-hat-trade",
       "sprite": "hub-npc-harbourmaster",
       "tx": 6,
       "ty": 3,
@@ -1604,6 +1605,7 @@
     {
       "id": "fishwife-pearl",
       "name": "Fishwife Pearl",
+      "dialogueTree": "pearl-fish-trade",
       "sprite": "hub-npc-fisherman",
       "tx": 5,
       "ty": 3,
@@ -2465,6 +2467,32 @@
     }
   },
   "interactables": [
+    {
+      "id": "fish-market-herring-crate",
+      "tx": 8,
+      "ty": 1,
+      "building": "fish-market",
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "smoked-herring",
+          "price": 10
+        }
+      ]
+    },
+    {
+      "id": "smokehouse-bone-sack",
+      "tx": 6,
+      "ty": 1,
+      "building": "smokehouse",
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "bones",
+          "price": 6
+        }
+      ]
+    },
     {
       "id": "chandlers-item-0",
       "tx": 8,

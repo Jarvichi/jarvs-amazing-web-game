@@ -9400,6 +9400,19 @@
   ],
   "interactables": [
     {
+      "id": "guild-spice-chest",
+      "tx": 10,
+      "ty": 2,
+      "building": "traders-building",
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "spice-pouch",
+          "price": 16
+        }
+      ]
+    },
+    {
       "id": "ravenwatch-chicken-feed",
       "tx": 5,
       "ty": 5,

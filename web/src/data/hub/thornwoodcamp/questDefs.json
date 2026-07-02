@@ -1,5 +1,38 @@
 {
   "dialogues": [
+    {
+      "id": "mott-herring-trade",
+      "npcId": "forager-mott",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Forage's thin this season and the wolves get bold when a man walks hungry. Smoked fish keeps for weeks — the Saltmere market strings them by the dozen.",
+          "choices": [
+            {
+              "label": "Hand over a smoked herring",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "smoked-herring",
+                  "giveCrystals": 25,
+                  "missingText": "You've no smoked fish on you. The Fish Market in Saltmere Port strings them fresh from the smoker.",
+                  "successText": "He tucks it into his pack like treasure. 'That's a week of walking safe. 25 crystals, friend.'"
+                }
+              ]
+            },
+            {
+              "label": "Watch the treeline.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
       {
         "id": "ranger-sable-trade",
         "npcId": "ranger-sable",

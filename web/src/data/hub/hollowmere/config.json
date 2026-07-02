@@ -1984,6 +1984,19 @@
   },
   "interactables": [
     {
+      "id": "apothecary-salve-shelf",
+      "tx": 3,
+      "ty": 1,
+      "building": "apothecary",
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "bog-salve",
+          "price": 14
+        }
+      ]
+    },
+    {
       "id": "bonepile-curio-item-0",
       "tx": 9,
       "ty": 2,

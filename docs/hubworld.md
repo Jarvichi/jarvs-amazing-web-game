@@ -1341,7 +1341,10 @@ Always-available (no daily rotation). The confirm dialogue shows the catalog
 overrides it. Unique items re-offer as "already owned". Existing sellers:
 chicken feed (Millhaven bakery, Ravenwatch Market Hall, pen-side feed sacks in
 Appleford / Harrowfield / Ironhold Keep / Royal Palace), rod + bait (Millhaven
-harbour stalls), Fancy Hat + Sturdy Boots (capital tailor).
+harbour stalls), Fancy Hat + Sturdy Boots (capital tailor), honey cake /
+lavender tonic / silk ribbon (capital bakery / apothecary / Grand Market
+Hall), smoked herring + bones (Saltmere fish market / smokehouse), bog salve
+(Hollowmere apothecary), spice pouch (Ravenwatch Merchant's Guild Hall).
 
 ### Trading hub items — `tradeHubItem` (§7b dialogue effects)
 
@@ -1351,6 +1354,17 @@ at the same node to build a repeatable sell menu (see Millhaven's
 a one-line barter (Thornwood Camp's `ranger-sable-trade` — sturdy boots for
 90💎). Trades are repeatable by design; use a `flag` effect + `hideIfFlag` on
 the choice if a specific trade should be once-only.
+
+The live trade network (buyer NPC → wants → gives): Weeping Widow (Gravemoor)
+← poetry book, 50💎 · Widow Tamsin (Millhaven) ← lost locket, 60💎 ·
+Harbourmaster Vane (Saltmere) ← fancy hat, 75💎 · Baker Otto (capital) ← 3
+eggs, 20💎 · Little Wren (Appleford) ← honey cake, 25💎 · Old Hollis
+(Gravemoor) ← lavender tonic, 40💎 · Squire Tomas (Ironhold) ← silk ribbon,
+30💎 · Forager Mott (Thornwood) ← smoked herring, 25💎 · Smith Garrick
+(Millhaven) ← bog salve, 35💎 · Innkeeper Cobb (Millhaven) ← spice pouch,
+38💎 · Ranger Sable (Thornwood) ← sturdy boots, 90💎 · Archivist Quill
+(capital) ← feather → poetry book · Fishwife Marta (Millhaven) & Fishwife
+Pearl (Saltmere) ← any caught fish → tier-priced crystals.
 
 ### Feeding ambient animals
 
@@ -1363,6 +1377,8 @@ the default flavour bubble:
 - **Cat** + player holds any `fish-*` → offers the smallest held fish
   (flavour-only reward, by design — ambient animals have no stable id to
   attach friendship to).
+- **Dog** + player holds `bones` → offers to feed (consumes 1): the dog runs
+  off and, 60% of the time, returns with a `lost-locket`.
 
 Placed (named) animals keep their normal §8 quest/dialogue routing.
 
@@ -1390,17 +1406,13 @@ pays tickets.
 4. Run `npm run test` (loader tests parse all configs) and `npm run build`;
    verify buy → carry → trade end-to-end in-game and across a reload.
 
-### Future chains (designed, not yet built)
+### Extending the network
 
-- **Feather → poetry book**: an author NPC whose quill keeps snapping takes a
-  `feather` (`tradeHubItem`) and returns a `poetry-book` hub-item; the book's
-  own use is a further chain.
-- **Bones → dog → lost item**: sell `bones` in a butcher/general store;
-  feeding an ambient dog (same `onAmbientAnimalTap` pattern) sends it
-  fetching and yields a `lost-item` after a cooldown — needs a small
-  "fetching" animal state.
-- **Stock every empty shop**: still-empty shop buildings (capital
-  `market-hall-crownhaven` / `apothecary`, Saltmere Port `fish-market`,
-  Hollowmere `apothecary`, …) are each one `buyHubItem` interactable away
-  from selling a thematic good; pair each new good with a trade partner in
-  another town.
+Every previously-empty shop now sells a good and every good has a buyer (see
+the network list above), but the graph is designed to keep growing: any new
+`hubItems.json` entry only needs one `buyHubItem` seller and one
+`tradeHubItem` buyer (per the authoring checklist above). Natural next links:
+a downstream use for goods that currently dead-end at a crystal payout (e.g.
+the poetry book could also be gifted to a romance-track NPC), multi-item
+recipes (an NPC wanting an egg *and* a spice pouch), and pet-accessory
+rewards on high-value trades.

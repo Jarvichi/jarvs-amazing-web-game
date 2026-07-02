@@ -791,6 +791,105 @@
   "blockedPaths": [],
   "dialogues": [
     {
+      "id": "tamsin-locket-trade",
+      "npcId": "widow-tamsin",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "My husband carried a locket like mine, lost when the sea took him. Foolish, but I still watch the tideline for it. If you ever find such a thing… I would pay anything.",
+          "choices": [
+            {
+              "label": "Show her the lost locket",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "lost-locket",
+                  "giveCrystals": 60,
+                  "missingText": "You have no locket to show her. They say the town dogs dig up all manner of things, for the price of a good bone.",
+                  "successText": "Her hands tremble as she opens it. 'It's not his. But it's… close enough to hold.' She insists you take 60 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Say nothing",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "garrick-salve-trade",
+      "npcId": "smith-garrick",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Burns are the tax a smith pays. There's a witch's salve out of Hollowmere that works wonders — bog-smelling stuff, but it works.",
+          "choices": [
+            {
+              "label": "Hand over a bog salve",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "bog-salve",
+                  "giveCrystals": 35,
+                  "missingText": "You've no salve on you. Sister Nettle sells it in Hollowmere, if you dare the marsh.",
+                  "successText": "'That's the one. Reeks like a drowned log — works like a miracle.' 35 crystals, gladly paid."
+                }
+              ]
+            },
+            {
+              "label": "Mind the sparks.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "cobb-spice-trade",
+      "npcId": "innkeeper-millhaven",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "My stew's honest, but honest doesn't fill tables. The Ravenwatch guild sells a spice pouch that'd make it sing — I'd pay well over guild price to skip the trip.",
+          "choices": [
+            {
+              "label": "Sell him a spice pouch",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "spice-pouch",
+                  "giveCrystals": 38,
+                  "missingText": "You've no spices on you. The Merchant's Guild Hall in Ravenwatch stocks them.",
+                  "successText": "He takes one sniff and grins ear to ear. 'Tonight the stew SINGS.' 38 crystals, and a free bowl if you stay."
+                }
+              ]
+            },
+            {
+              "label": "Another time.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "marta-fish-trade",
       "npcId": "fishmonger-marta",
       "start": "greet",

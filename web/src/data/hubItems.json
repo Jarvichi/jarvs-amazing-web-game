@@ -90,5 +90,68 @@
     "icon": "🥾",
     "desc": "Well-made walking boots. A blessing for anyone who works outdoors.",
     "category": "material"
+  },
+  {
+    "id": "poetry-book",
+    "name": "Poetry Book",
+    "icon": "📖",
+    "desc": "Archivist Quill's own verse. Objectively awful — yet somewhere, someone would treasure it.",
+    "category": "material"
+  },
+  {
+    "id": "bones",
+    "name": "Bones",
+    "icon": "🦴",
+    "desc": "Meaty smokehouse leftovers. Any dog in the realm would do anything for these.",
+    "category": "material"
+  },
+  {
+    "id": "lost-locket",
+    "name": "Lost Locket",
+    "icon": "📿",
+    "desc": "A weathered locket dug up by a delighted dog. Someone must miss this terribly.",
+    "category": "material"
+  },
+  {
+    "id": "honey-cake",
+    "name": "Honey Cake",
+    "icon": "🍰",
+    "desc": "Baker Otto's finest. Sweet enough to make a child's eyes go perfectly round.",
+    "category": "material"
+  },
+  {
+    "id": "lavender-tonic",
+    "name": "Lavender Tonic",
+    "icon": "🧴",
+    "desc": "Soothes aching joints and weary backs. Gravediggers swear by it.",
+    "category": "material"
+  },
+  {
+    "id": "silk-ribbon",
+    "name": "Silk Ribbon",
+    "icon": "🎀",
+    "desc": "Capital-spun silk. Just the token a young squire might want for a sweetheart.",
+    "category": "material"
+  },
+  {
+    "id": "smoked-herring",
+    "name": "Smoked Herring",
+    "icon": "🐟",
+    "desc": "Keeps for weeks on the trail. Foragers and rangers buy them by the string.",
+    "category": "material"
+  },
+  {
+    "id": "bog-salve",
+    "name": "Bog Salve",
+    "icon": "🫙",
+    "desc": "Sister Nettle's marsh-herb ointment. Smiths prize it for burns.",
+    "category": "material"
+  },
+  {
+    "id": "spice-pouch",
+    "name": "Spice Pouch",
+    "icon": "🧂",
+    "desc": "Rare spices from the Ravenwatch trade guild. Innkeepers pay well to liven a stew.",
+    "category": "material"
   }
 ]
