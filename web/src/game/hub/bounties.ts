@@ -6,12 +6,15 @@
 // Pairs with BountyBoardModal.tsx and the 'bounty-board' interactable screen.
 
 import { saveCrystals, loadCrystals } from '../collection'
+import { grantAccessory } from './pet'
 import type { HubQuestStep } from '../../data/hub/questDefs'
 
 const KEY = 'jarv_hub_bounties'
 
 export interface BountyReward {
   crystals: number
+  /** Pet accessory id (from petAccessories.ts) granted on turn-in. */
+  accessory?: string
 }
 
 export interface BountyDef {
@@ -37,7 +40,7 @@ const BOUNTY_TEMPLATES: BountyDef[] = [
     title: 'Report to the Captain',
     desc: 'Walk the walls, then report what you saw to Guard Captain Thorin.',
     icon: '🛡️',
-    reward: { crystals: 35 },
+    reward: { crystals: 35, accessory: 'brown-boots' },
     steps: [{ key: 'report', type: 'report', targetNpcId: 'guard-captain-thorin', required: 1 }],
   },
   {
@@ -69,7 +72,7 @@ const BOUNTY_TEMPLATES: BountyDef[] = [
     title: 'Word for the Trader',
     desc: 'Pass word to the Junk Trader that the outskirts fences are mended.',
     icon: '🔨',
-    reward: { crystals: 45 },
+    reward: { crystals: 45, accessory: 'black-bowtie' },
     steps: [{ key: 'report', type: 'report', targetNpcId: 'trader', required: 1 }],
   },
   {
@@ -255,6 +258,7 @@ export function turnInBounty(id: string): number {
   saveBountyState(state)
 
   saveCrystals(loadCrystals() + def.reward.crystals)
+  if (def.reward.accessory) grantAccessory(def.reward.accessory)
   return def.reward.crystals
 }
 

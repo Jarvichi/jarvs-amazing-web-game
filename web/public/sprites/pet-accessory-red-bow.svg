@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- bow: perched above the ear, atop the head -->
+  <path d="M17.2 9.4 L20.5 11 L17.2 12.6 Z" fill="#c81e3a"/>
+  <path d="M23.8 9.4 L20.5 11 L23.8 12.6 Z" fill="#c81e3a"/>
+  <circle cx="20.5" cy="11" r="1.1" fill="#8f1327"/>
+</svg>

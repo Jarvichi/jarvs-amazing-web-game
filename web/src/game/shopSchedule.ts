@@ -7,6 +7,7 @@ import { getCardCatalog } from './cards'
 import { CardRarity, CardType } from './types'
 import { ALL_ITEMS, RewardDef } from './dailyLogin'
 import { getAugmentCatalog } from './augments'
+import { ownsAccessory } from './hub/pet'
 import shopNpcsJson from '../data/shopNpcs.json'
 
 const SHOP_STATE_KEY  = 'jarv_shop_daily'
@@ -357,11 +358,14 @@ export function markAugmentBought(state: DailyShopState, buildingId: string): Da
 export function isShopItemSold(
   state: DailyShopState,
   buildingId: string,
-  grant: { kind: 'card' | 'augment' | 'consumable'; cardName?: string },
+  grant: { kind: 'card' | 'augment' | 'consumable' | 'accessory'; cardName?: string; id?: string },
 ): boolean {
   const b = state.buildings[buildingId]
   if (grant.kind === 'card') return b?.boughtCardNames.includes(grant.cardName ?? '') ?? false
   if (grant.kind === 'augment') return b?.boughtAugment ?? false
+  // Accessories are a permanent one-time unlock, not part of the daily
+  // rotation — "sold" means "already owned", which never resets.
+  if (grant.kind === 'accessory') return ownsAccessory(grant.id ?? '')
   return false
 }
 

@@ -1,5 +1,10 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { getActivePet, hasActivePet, adoptPet, renamePet, dismissPet, getTreatsRemainingToday, canGiveTreat, recordTreatGiven } from './pet'
+import {
+  getActivePet, hasActivePet, adoptPet, renamePet, dismissPet,
+  getTreatsRemainingToday, canGiveTreat, recordTreatGiven,
+  getOwnedAccessoryIds, ownsAccessory, grantAccessory,
+  getEquippedAccessoryId, equipAccessory, unequipAccessory,
+} from './pet'
 
 // In-memory localStorage mock (tests run in node environment)
 const store = new Map<string, string>()
@@ -125,5 +130,70 @@ describe('treat cooldown', () => {
     store.set('jarv_hub_pet', JSON.stringify(raw))
     expect(getTreatsRemainingToday()).toBe(2)
     expect(canGiveTreat()).toBe(true)
+  })
+})
+
+describe('pet accessories', () => {
+  it('owns nothing and has nothing equipped by default', () => {
+    expect(getOwnedAccessoryIds()).toEqual([])
+    expect(ownsAccessory('leather-collar')).toBe(false)
+    expect(getEquippedAccessoryId()).toBeNull()
+  })
+
+  it('grants an accessory and it becomes owned', () => {
+    expect(grantAccessory('leather-collar')).toBe(true)
+    expect(ownsAccessory('leather-collar')).toBe(true)
+    expect(getOwnedAccessoryIds()).toEqual(['leather-collar'])
+  })
+
+  it('granting the same accessory twice is a no-op the second time', () => {
+    expect(grantAccessory('leather-collar')).toBe(true)
+    expect(grantAccessory('leather-collar')).toBe(false)
+    expect(getOwnedAccessoryIds()).toEqual(['leather-collar'])
+  })
+
+  it('cannot equip an unowned or unknown accessory', () => {
+    expect(equipAccessory('leather-collar')).toBe(false)
+    expect(equipAccessory('not-a-real-accessory')).toBe(false)
+    expect(getEquippedAccessoryId()).toBeNull()
+  })
+
+  it('equips an owned accessory', () => {
+    grantAccessory('leather-collar')
+    expect(equipAccessory('leather-collar')).toBe(true)
+    expect(getEquippedAccessoryId()).toBe('leather-collar')
+  })
+
+  it('equipping a different accessory replaces the previous one (one at a time)', () => {
+    grantAccessory('leather-collar')
+    grantAccessory('top-hat')
+    equipAccessory('leather-collar')
+    equipAccessory('top-hat')
+    expect(getEquippedAccessoryId()).toBe('top-hat')
+  })
+
+  it('unequips the currently-equipped accessory', () => {
+    grantAccessory('leather-collar')
+    equipAccessory('leather-collar')
+    unequipAccessory('leather-collar')
+    expect(getEquippedAccessoryId()).toBeNull()
+  })
+
+  it('unequipping an accessory that is not the equipped one is a no-op', () => {
+    grantAccessory('leather-collar')
+    grantAccessory('top-hat')
+    equipAccessory('top-hat')
+    unequipAccessory('leather-collar')
+    expect(getEquippedAccessoryId()).toBe('top-hat')
+  })
+
+  it('accessory state persists across adopt/dismiss', () => {
+    adoptPet('dog', 'golden', 'Rex')
+    grantAccessory('leather-collar')
+    equipAccessory('leather-collar')
+    dismissPet()
+    adoptPet('dog', 'black', 'Shadow')
+    expect(getEquippedAccessoryId()).toBe('leather-collar')
+    expect(ownsAccessory('leather-collar')).toBe(true)
   })
 })

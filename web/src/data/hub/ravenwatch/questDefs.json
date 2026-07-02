@@ -31,7 +31,8 @@
         "crystals": 40,
         "friendship": {
           "fisherman": 15
-        }
+        },
+        "accessory": "red-bow"
       }
     },
     {
@@ -116,7 +117,8 @@
         }
       ],
       "reward": {
-        "crystals": 35
+        "crystals": 35,
+        "accessory": "leather-collar"
       }
     },
     {

@@ -713,10 +713,93 @@ machine above with zero changes to its movement/pathing logic.
   animal in the game is re-created per session.
 - **UI** — `PetModal.tsx`, opened either via the `adopt-pet` screen reaction
   on a shelter interactable (see §7), the 🐾 toolbar button (shown only
-  while a pet is active), or by tapping the live pet sprite in-world
-  (`handleAnimalTap` special-cases `PLAYER_PET_ANIMAL_ID` in `HubWorld.tsx`).
-  Offers adopt (variant + name), rename, dismiss, and swap (confirms before
-  replacing an existing pet).
+  while a pet is active), or the **Manage** choice on the tap menu below.
+  Has an **Info** tab (rename, dismiss, swap — confirms before replacing an
+  existing pet) and an **Accessories** tab (below), reusing the
+  `hoa-tabs`/`hoa-tab`/`hoa-tab--active` classes `TownJournal.tsx` also uses.
+- **Wander cap** — the player's pet is never allowed more than
+  `PLAYER_LEASH_TILES` (8) tiles from the player, enforced three ways in
+  `hubAnimals.ts`, all scoped to `a.ownerId === PLAYER_OWNER_ID`: `dogIdle`'s
+  `roam` branch and `sendPetFetching`'s "walk out" destination are both
+  chosen relative to the *player's* live tile (not the dog's own tile, which
+  would let repeated roams/fetches compound drift); and a tick-final
+  safety-net check forces `state = 'follow-owner'` the instant the dog ends
+  up beyond the cap for any reason (chase, etc.), overriding whatever it was
+  doing. This makes "never more than 8 tiles" a true invariant rather than a
+  property of any one behaviour.
+- **Interactions** — tapping the live pet sprite opens a choice menu
+  (`handleAnimalTap` in `HubWorld.tsx`, via the same `QuestEvent.choices`
+  dialogue system used for NPC/quest branching) instead of jumping straight
+  to `PetModal`:
+  - **Give a Treat** — capped at 2/day (`pet.ts`: `getTreatsRemainingToday`/
+    `canGiveTreat`/`recordTreatGiven`, a date-keyed counter mirroring
+    `bounties.ts`'s daily-reset pattern). Calls `AnimalSystem.sendPetFetching
+    (onReturn)`, which drives the dog through two forced (never
+    idle-weighted) states — `fetching-out` (walks to a reachable tile 4-8
+    tiles from the player) then `fetching-return` (walks back via the same
+    `followToward` player-tracking `follow-owner` uses) — and fires
+    `onReturn` once it's back within ~3 tiles. `onReturn` grants one of a
+    small crystal amount, a random common/uncommon card, or a flavour
+    trinket collectible.
+  - **Pet / Belly Rubs / Brush** — free, unlimited, no cooldown. Each calls
+    `AnimalSystem.givePetAffection()` (wag + `♥` bubble, the same cosmetic
+    reaction ambient dogs give a liked NPC) with a different flavour line.
+  - **Manage** opens `PetModal`; **Never mind** dismisses the menu.
+  - `AnimalSystem.sendPetFetching`/`givePetAffection`/`setPetAccessory` (see
+    below) reach `HubWorld.tsx` via `petActionRef`, the same imperative
+    ref-bridging pattern `interiorEnterRef` uses.
+
+#### Pet accessories
+
+Collars, hats, bows, bow ties, boots, and coats — earned from quests,
+bounties, and a shop — with a real **composite sprite** showing the dog
+wearing the equipped item in the world, not just a UI badge.
+
+- **Catalog** — `web/src/data/petAccessories.ts`: `PET_ACCESSORIES`, an
+  array of `{ id, slot, name, price }`. `slot` is one of `'collar' | 'hat' |
+  'bow' | 'bow-tie' | 'boots' | 'coat'`. Adding a second accessory for an
+  existing slot is just one more catalog entry + one more SVG.
+- **Data model** — `pet.ts`'s store gains `accessories?: { owned: string[];
+  equipped: Partial<Record<AccessorySlot, string>> }`. Keying `equipped` by
+  slot (not a single flat id) is what makes "one equipped at a time" cheap
+  to loosen later: `getOwnedAccessoryIds`/`ownsAccessory`/`grantAccessory`
+  manage ownership; `getEquippedAccessoryId` returns the one worn item (if
+  any); `equipAccessory(id)` looks up the accessory's slot and **replaces
+  the entire `equipped` map** with just that one slot — removing that
+  single "clear other slots" line is the only change needed to support
+  multiple simultaneous slots in future; `unequipAccessory(id)` clears it.
+- **Composite sprite** — `hubAnimals.ts`. Every accessory SVG
+  (`web/public/sprites/pet-accessory-<id>.svg`) is authored in the exact
+  same `viewBox="0 0 32 32"` coordinate space as `animal-dog.svg`. Because
+  the dog sprite is bottom-anchored (`anchor.set(0.5, 1)`), giving the
+  accessory sprite the identical `width`/`height`/`anchor`/position every
+  tick lines it up with zero offset math. It's a PIXI **sibling** of the dog
+  sprite (`Animal.accessorySprite`), not a child — the dog's *texture* swaps
+  every animation frame rather than its transform moving, so only per-tick
+  sibling repositioning (mirrored in `advance()`, alongside the dog
+  sprite's own `x`/`y`/`scale.x`/`zIndex`) keeps it aligned.
+  `AnimalSystem.setPetAccessory(assetId | null)` swaps or removes it live;
+  `spawnFollowerPet` applies `getEquippedAccessoryId()` immediately on
+  spawn so it persists across town changes/reloads.
+- **UI** — `PetModal.tsx`'s Accessories tab: a grid of all 6 catalog
+  entries. Owned ones are tappable to equip/unequip (calling
+  `equipAccessory`/`unequipAccessory` + `petActionRef.current?.
+  setPetAccessory(id)` to update the live sprite immediately); un-owned ones
+  show a locked hint pointing at quests/bounties/the shop.
+- **Earning channels** — `HubQuestReward`/`BountyReward` both gained an
+  `accessory?: string` field, applied in `HubWorld.tsx`'s centralized
+  `grantQuestReward()` and `bounties.ts`'s `turnInBounty()` respectively
+  (2 accessories each, wired onto existing Ravenwatch quests/bounty
+  templates). The remaining 2 sell at **Tailor Pell** in Crownhaven
+  (capitalcity's `tailor` building) — a new `'accessory'`
+  `ShopTraderKind` in `shopStock.ts` (`getAccessoryStock()`, a fixed
+  2-item list, unlike the date-rotating card/augment/consumable stock)
+  registered in `SHOP_TRADER_REGISTRY`, with 2 `buy` interactables inside
+  `tailor` mirroring the `grand-bank`/`jeweller` decor+buy pattern (§7).
+  Because accessories are a permanent one-time unlock rather than daily
+  stock, `isShopItemSold()` treats an `'accessory'` grant as sold once
+  `ownsAccessory()` is true — that check never resets, unlike the
+  card/augment "bought today" state it shares a function with.
 
 ---
 

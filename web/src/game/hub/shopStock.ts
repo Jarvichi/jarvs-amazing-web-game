@@ -11,11 +11,12 @@
 import { getDailyShopCards, getDailyShopAugment, getShopSlotKey, makeSeededRng, dateHash, ShopCardFilter } from '../shopSchedule'
 import { CardRarity } from '../types'
 import { ALL_CONSUMABLES } from '../questline'
+import { getPetAccessoryDef } from '../../data/petAccessories'
 
 /** Widened to a plain string: new traders register under any building id, not just Ravenwatch's 3. */
 export type ShopBuildingId = string
 
-export type ShopTraderKind = 'card' | 'augment' | 'consumable'
+export type ShopTraderKind = 'card' | 'augment' | 'consumable' | 'accessory'
 
 export interface ShopTraderConfig {
   kind: ShopTraderKind
@@ -51,12 +52,16 @@ export const SHOP_TRADER_REGISTRY: Record<string, ShopTraderConfig> = {
   'jeweller':        { kind: 'card', cardFilter: { rarity: 'uncommon' } },               // capitalcity — Jeweller Isolde, Curio Dealer
   'treasury-annex':  { kind: 'card', cardFilter: { rarities: ['epic', 'legendary'] } },  // royalpalace — Master of Coin Aldric, Vaultkeeper
   'spellwright-den': { kind: 'card', cardFilter: { cardType: 'upgrade' } },              // dreadspirecitadel — Ashka the Grimoire-Peddler, Spellwright
+
+  // Pet accessories (see #1845 follow-up)
+  'tailor':          { kind: 'accessory' },  // capitalcity — Tailor Pell
 }
 
 export type ShopStockGrant =
   | { kind: 'card'; cardName: string }
   | { kind: 'augment'; augmentName: string }
   | { kind: 'consumable'; id: string }
+  | { kind: 'accessory'; id: string }
 
 export interface ShopStockItem {
   itemName: string
@@ -82,6 +87,17 @@ function getSupplyStock(at: Date | undefined, count: number): ShopStockItem[] {
   return picks
 }
 
+// Fixed (not date-rotating) accessory catalog for the Tailor Pell shop — the 2
+// accessories not already covered by a quest or a bounty reward.
+const ACCESSORY_SHOP_IDS = ['top-hat', 'blue-coat']
+
+function getAccessoryStock(): ShopStockItem[] {
+  return ACCESSORY_SHOP_IDS.map(id => {
+    const def = getPetAccessoryDef(id)!
+    return { itemName: def.name, price: def.price, grant: { kind: 'accessory', id } }
+  })
+}
+
 /** Today's (current 3-hour slot's) for-sale items for a registered hub trader. */
 export function getTodaysShopItems(buildingId: string, at?: Date): ShopStockItem[] {
   const config = SHOP_TRADER_REGISTRY[buildingId]
@@ -100,5 +116,7 @@ export function getTodaysShopItems(buildingId: string, at?: Date): ShopStockItem
     }
     case 'consumable':
       return getSupplyStock(at, config.slotCount ?? DEFAULT_SUPPLY_STOCK_COUNT)
+    case 'accessory':
+      return getAccessoryStock()
   }
 }

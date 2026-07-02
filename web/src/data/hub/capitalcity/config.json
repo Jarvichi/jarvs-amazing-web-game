@@ -3820,6 +3820,22 @@
       "building": "jeweller",
       "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
       "reactions": [{ "type": "buy", "slotIndex": 2 }]
+    },
+    {
+      "id": "tailor-item-0",
+      "tx": 11,
+      "ty": 3,
+      "building": "tailor",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
+      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+    },
+    {
+      "id": "tailor-item-1",
+      "tx": 11,
+      "ty": 4,
+      "building": "tailor",
+      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
+      "reactions": [{ "type": "buy", "slotIndex": 1 }]
     }
   ],
   "ambientNpcSprites": [
