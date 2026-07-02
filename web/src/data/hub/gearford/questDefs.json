@@ -18,7 +18,9 @@
             "toolbox-2",
             "toolbox-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         }
       ],
       "reward": {
@@ -43,7 +45,9 @@
             "coal-sack-1",
             "coal-sack-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Sack",
+          "itemIcon": "🌾"
         }
       ],
       "reward": {
@@ -72,7 +76,9 @@
             "kindling-2",
             "kindling-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Firewood",
+          "itemIcon": "🪵"
         }
       ],
       "reward": {
@@ -100,7 +106,9 @@
             "water-barrel-1",
             "water-barrel-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Barrel",
+          "itemIcon": "🛢️"
         }
       ],
       "reward": {
@@ -131,7 +139,9 @@
             "ore-2",
             "ore-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Stone",
+          "itemIcon": "🪨"
         }
       ],
       "reward": {
@@ -157,7 +167,9 @@
             "rubble-2",
             "rubble-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Large Stone",
+          "itemIcon": "🪨"
         }
       ],
       "reward": {
@@ -183,7 +195,9 @@
           "pickupIds": [
             "jole-lamp"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Lantern",
+          "itemIcon": "🏮"
         }
       ],
       "reward": {
@@ -211,7 +225,9 @@
             "valve-1",
             "valve-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Barrel",
+          "itemIcon": "🛢️"
         }
       ],
       "reward": {
@@ -236,7 +252,9 @@
             "flywheel-1",
             "flywheel-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         }
       ],
       "reward": {
@@ -260,7 +278,9 @@
           "pickupIds": [
             "pump-fitting"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Cooking Pot",
+          "itemIcon": "🍲"
         },
         {
           "key": "deliver-fitting",
@@ -298,7 +318,9 @@
             "part-3",
             "part-4"
           ],
-          "required": 4
+          "required": 4,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         }
       ],
       "reward": {
@@ -326,7 +348,9 @@
             "errand-1",
             "errand-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Open Crate",
+          "itemIcon": "📦"
         }
       ],
       "reward": {
@@ -351,7 +375,9 @@
             "rat-sack-2",
             "rat-sack-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Small Sack",
+          "itemIcon": "🌾"
         }
       ],
       "reward": {
@@ -379,7 +405,9 @@
             "ale-barrel-1",
             "ale-barrel-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Barrel",
+          "itemIcon": "🛢️"
         }
       ],
       "reward": {
@@ -408,7 +436,9 @@
             "store-3",
             "store-4"
           ],
-          "required": 4
+          "required": 4,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         }
       ],
       "reward": {
@@ -434,7 +464,9 @@
           "pickupIds": [
             "key-iron-ingot"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Stone",
+          "itemIcon": "🪨"
         },
         {
           "key": "deliver-key",

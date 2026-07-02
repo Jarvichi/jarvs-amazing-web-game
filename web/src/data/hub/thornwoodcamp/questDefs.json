@@ -18,7 +18,9 @@
             "thornwood-firewood-2",
             "thornwood-firewood-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Firewood",
+          "itemIcon": "🪵"
         }
       ],
       "reward": {
@@ -43,7 +45,9 @@
             "shiny-stone-2",
             "shiny-stone-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Stone",
+          "itemIcon": "🪨"
         }
       ],
       "reward": {
@@ -75,7 +79,9 @@
             "treeline-lost-2",
             "treeline-lost-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Book",
+          "itemIcon": "📕"
         }
       ],
       "reward": {
@@ -103,7 +109,9 @@
             "mushroom-2",
             "mushroom-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Mushroom Basket",
+          "itemIcon": "🍄"
         }
       ],
       "reward": {
@@ -131,7 +139,9 @@
             "ward-2",
             "ward-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Herb Bundle",
+          "itemIcon": "🌿"
         }
       ],
       "reward": {
@@ -158,7 +168,9 @@
           "pickupIds": [
             "warding-draught-1"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Bottle",
+          "itemIcon": "🍾"
         },
         {
           "key": "deliver",
@@ -193,7 +205,9 @@
             "snare-2",
             "snare-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Sack",
+          "itemIcon": "🌾"
         }
       ],
       "reward": {
@@ -221,7 +235,9 @@
             "supply-2",
             "supply-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Berries",
+          "itemIcon": "🫐"
         }
       ],
       "reward": {
@@ -248,7 +264,9 @@
           "pickupIds": [
             "ravenwatch-parcel-1"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         },
         {
           "key": "deliver",
@@ -288,7 +306,9 @@
             "bramble-find-2",
             "bramble-find-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Stone",
+          "itemIcon": "🪨"
         }
       ],
       "reward": {

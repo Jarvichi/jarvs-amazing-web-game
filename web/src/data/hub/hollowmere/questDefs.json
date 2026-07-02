@@ -10,7 +10,7 @@
       "activeDialogue": "Three bunches of moonherb, growing around the edges of town. It glows faintly. Or hums. Sometimes both.",
       "completeDialogue": "Fresh moonherb! The cauldron bubbles tonight. Here — your cut, and some free advice: if Ogrim offers you a drink, ask what's in it FIRST.",
       "steps": [
-        { "key": "herbs", "type": "collect", "pickupIds": ["moonherb-1", "moonherb-2", "moonherb-3"], "required": 3 }
+        { "key": "herbs", "type": "collect", "pickupIds": ["moonherb-1", "moonherb-2", "moonherb-3"], "required": 3, "itemName": "Herb Bundle", "itemIcon": "🌿" }
       ],
       "reward": {
         "crystals": 65,
@@ -28,7 +28,7 @@
       "activeDialogue": "Gather a moon-cap from Morwen's brewing room, a marsh-herb bunch, and a bog bottle, then return to Morwen.",
       "completeDialogue": "Perfect — cap, herb and bottle, just so. The cure's bubbling. Cough's cured, joints eased, and one fellow's grown a SECOND nose, but that's a feature where he's from. Well done.",
       "steps": [
-        { "key": "ingredients", "type": "collect", "pickupIds": ["brew-cap-1", "brew-herb-2", "brew-bottle-3"], "required": 3 }
+        { "key": "ingredients", "type": "collect", "pickupIds": ["brew-cap-1", "brew-herb-2", "brew-bottle-3"], "required": 3, "itemName": "Purple Mushroom", "itemIcon": "🍄" }
       ],
       "reward": {
         "crystals": 85,
@@ -47,7 +47,7 @@
       "activeDialogue": "A crow's feather, a moon-cap mushroom, and a thornless rose — all fall or grow around Hollowmere. Bring me all three.",
       "completeDialogue": "Feather, cap, and rose. Good. Now hold still — this tingles. *she mutters, and the air fills with chatter* ...There. You will hear them now: every cat, crow, and complaining frog. Go and listen to that wretched, kipper-loathing cat. And mind — knowing what a beast wants is the easy part. GIVING it to them is on you.",
       "steps": [
-        { "key": "components", "type": "collect", "pickupIds": ["spell-feather", "spell-mooncap", "spell-rose"], "required": 3 }
+        { "key": "components", "type": "collect", "pickupIds": ["spell-feather", "spell-mooncap", "spell-rose"], "required": 3, "itemName": "Feather", "itemIcon": "🪶" }
       ],
       "reward": {
         "crystals": 80,
@@ -70,7 +70,7 @@
       "activeDialogue": "Gather two fungus caps and a marsh-herb bunch from around the mire for Sister Nettle.",
       "completeDialogue": "Fresh and potent — exactly right. Now I can mix something for the troll's rash that won't, you know, dissolve him. My thanks, and a small cut of the profits.",
       "steps": [
-        { "key": "stock", "type": "collect", "pickupIds": ["apo-mush-1", "apo-mush-2", "apo-herb-3"], "required": 3 }
+        { "key": "stock", "type": "collect", "pickupIds": ["apo-mush-1", "apo-mush-2", "apo-herb-3"], "required": 3, "itemName": "Brown Mushroom", "itemIcon": "🍄" }
       ],
       "reward": {
         "crystals": 60,
@@ -88,7 +88,7 @@
       "activeDialogue": "Find three rare deep-muck caps from the far reaches of the mire for Sister Nettle.",
       "completeDialogue": "Deep-muck caps, every one. The drake-bite poultice practically mixes itself now. You've a steady hand and a stronger stomach — both rare, both welcome here.",
       "steps": [
-        { "key": "rare", "type": "collect", "pickupIds": ["apo2-1", "apo2-2", "apo2-3"], "required": 3 }
+        { "key": "rare", "type": "collect", "pickupIds": ["apo2-1", "apo2-2", "apo2-3"], "required": 3, "itemName": "Purple Mushroom", "itemIcon": "🍄" }
       ],
       "reward": {
         "crystals": 80,
@@ -106,7 +106,7 @@
       "activeDialogue": "Collect the scattered feed sacks and hay from around the beast pens for Big Mott.",
       "completeDialogue": "Good lad, good lad. See how they settle when they're fed? That's lesson one. You've a gentle way about you — the pens like that. So does Mott.",
       "steps": [
-        { "key": "feed", "type": "collect", "pickupIds": ["feed-1", "feed-2", "feed-3"], "required": 3 }
+        { "key": "feed", "type": "collect", "pickupIds": ["feed-1", "feed-2", "feed-3"], "required": 3, "itemName": "Sack", "itemIcon": "🌾" }
       ],
       "reward": {
         "crystals": 55,
@@ -124,7 +124,7 @@
       "activeDialogue": "Gather proper bedding — hay and sacks — from the yard so Big Mott can settle the skittish beasts.",
       "completeDialogue": "Look at that — the nervy one's stopped trembling. Took years off my worrying, you have. You've the patience for this work. Most folk don't.",
       "steps": [
-        { "key": "bedding", "type": "collect", "pickupIds": ["gentle-1", "gentle-2", "gentle-3"], "required": 3 }
+        { "key": "bedding", "type": "collect", "pickupIds": ["gentle-1", "gentle-2", "gentle-3"], "required": 3, "itemName": "Sack", "itemIcon": "🌾" }
       ],
       "reward": {
         "crystals": 75,
@@ -142,7 +142,7 @@
       "activeDialogue": "Collect two prize treats from around town, then bring them back to Big Mott at the pens.",
       "completeDialogue": "They sat. They STAYED. Big Mott has not been this proud since... ever, really. You're a beast-tamer now, and no mistake. The pens will always have a place for you.",
       "steps": [
-        { "key": "treats", "type": "collect", "pickupIds": ["show-1", "show-2"], "required": 2 },
+        { "key": "treats", "type": "collect", "pickupIds": ["show-1", "show-2"], "required": 2, "itemName": "Herb Bundle", "itemIcon": "🌿" },
         { "key": "deliver", "type": "deliver", "targetNpcId": "tame-ogre-keeper", "required": 1 }
       ],
       "reward": {
@@ -161,7 +161,7 @@
       "activeDialogue": "Recover Snægg's three lost curios — a skull, a book and a pendant — from around Hollowmere.",
       "completeDialogue": "All three! And barely chewed! You've a collector's eye, you have. Tell you what — keep the coin AND a little something from the bargain bin. Don't open the jar. Just... don't.",
       "steps": [
-        { "key": "oddments", "type": "collect", "pickupIds": ["odd-1", "odd-2", "odd-3"], "required": 3 }
+        { "key": "oddments", "type": "collect", "pickupIds": ["odd-1", "odd-2", "odd-3"], "required": 3, "itemName": "Book", "itemIcon": "📕" }
       ],
       "reward": {
         "crystals": 70,
@@ -178,7 +178,7 @@
       "activeDialogue": "Gather bog-oil, soothing herb and salts from around town for Grunda's mud-wallow.",
       "completeDialogue": "Ahhh, smell that? That's a wallow with PRIDE again. First soak's on the house, friend. Mind the deep end — that's where we lost the last health inspector.",
       "steps": [
-        { "key": "supplies", "type": "collect", "pickupIds": ["wallow-1", "wallow-2", "wallow-3"], "required": 3 }
+        { "key": "supplies", "type": "collect", "pickupIds": ["wallow-1", "wallow-2", "wallow-3"], "required": 3, "itemName": "Bottle", "itemIcon": "🍾" }
       ],
       "reward": {
         "crystals": 60,
@@ -195,7 +195,7 @@
       "activeDialogue": "Recover three trinkets the mire has swallowed — a pendant, a book and a pot of physic.",
       "completeDialogue": "All three, dredged from the deep muck. The mire grumbles, but it'll forgive you — and so will the folk who lost them. You've a fine eye for what the bog hides, child.",
       "steps": [
-        { "key": "trinkets", "type": "collect", "pickupIds": ["lost-1", "lost-2", "lost-3"], "required": 3 }
+        { "key": "trinkets", "type": "collect", "pickupIds": ["lost-1", "lost-2", "lost-3"], "required": 3, "itemName": "Pendant", "itemIcon": "📿" }
       ],
       "reward": {
         "crystals": 65,
@@ -213,7 +213,7 @@
       "activeDialogue": "Search the deepest, blackest reaches of the mire for three long-lost treasures.",
       "completeDialogue": "From the black muck itself! Two hundred years that pendant lay down there. You've earned the mire's grudging respect, dearie — and Mother Sump's, which is rarer and worth more.",
       "steps": [
-        { "key": "deep", "type": "collect", "pickupIds": ["lost2-1", "lost2-2", "lost2-3"], "required": 3 }
+        { "key": "deep", "type": "collect", "pickupIds": ["lost2-1", "lost2-2", "lost2-3"], "required": 3, "itemName": "Pendant", "itemIcon": "📿" }
       ],
       "reward": {
         "crystals": 90,
@@ -232,7 +232,7 @@
       "activeDialogue": "Collect a vial of marsh-physic from Morwen's brewing room, then carry it to Alchemist Sythe at Dreadspire Citadel.",
       "completeDialogue": "Morwen's marsh-physic, fresh as the bog. And a message about a cauldron — yes, yes, she's mentioned it. Frequently. Across two decades. Tell the old crow her debt is noted and her physic is, infuriatingly, excellent.",
       "steps": [
-        { "key": "vial", "type": "collect", "pickupIds": ["medicine-vial"], "required": 1 },
+        { "key": "vial", "type": "collect", "pickupIds": ["medicine-vial"], "required": 1, "itemName": "Potion", "itemIcon": "🧪" },
         { "key": "deliver", "type": "deliver", "targetNpcId": "alchemist-sythe", "required": 1 }
       ],
       "reward": {

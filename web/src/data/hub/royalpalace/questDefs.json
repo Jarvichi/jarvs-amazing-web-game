@@ -18,7 +18,9 @@
             "regalia-gift",
             "regalia-key"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Pendant",
+          "itemIcon": "📿"
         }
       ],
       "reward": {
@@ -104,7 +106,9 @@
             "bloom-white",
             "bloom-blue"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Rose",
+          "itemIcon": "🌹"
         }
       ],
       "reward": {
@@ -133,7 +137,9 @@
             "orangery-pot-2",
             "orangery-pot-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Flower Pot",
+          "itemIcon": "🪴"
         }
       ],
       "reward": {
@@ -161,7 +167,9 @@
             "feast-steak",
             "feast-garlic"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Eggs",
+          "itemIcon": "🥚"
         }
       ],
       "reward": {
@@ -189,7 +197,9 @@
             "tack-bucket",
             "tack-harness"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Sack",
+          "itemIcon": "🌾"
         }
       ],
       "reward": {
@@ -217,7 +227,9 @@
             "candle-2",
             "candle-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Candlestick",
+          "itemIcon": "🕯️"
         }
       ],
       "reward": {
@@ -248,7 +260,9 @@
             "tally-2",
             "tally-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Rolled Map",
+          "itemIcon": "🗺️"
         }
       ],
       "reward": {
@@ -325,7 +339,9 @@
           "pickupIds": [
             "penrose-letter"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Letter",
+          "itemIcon": "✉️"
         }
       ],
       "reward": {
@@ -354,7 +370,9 @@
           "pickupIds": [
             "princess-doll"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Doll",
+          "itemIcon": "🪆"
         }
       ],
       "reward": {
@@ -382,7 +400,9 @@
             "kipper-cushion",
             "kipper-feather"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Crown",
+          "itemIcon": "👑"
         }
       ],
       "reward": {
@@ -416,7 +436,9 @@
             "steward-key-2",
             "steward-key-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Key",
+          "itemIcon": "🗝️"
         }
       ],
       "reward": {
@@ -444,7 +466,9 @@
             "proclaim-2",
             "proclaim-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Rolled Map",
+          "itemIcon": "🗺️"
         }
       ],
       "reward": {
@@ -472,7 +496,9 @@
             "watch-shield",
             "watch-helm"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Sword",
+          "itemIcon": "⚔️"
         }
       ],
       "reward": {
@@ -500,7 +526,9 @@
             "queen-rose-2",
             "queen-rose-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Rose",
+          "itemIcon": "🌹"
         }
       ],
       "reward": {

@@ -18,7 +18,9 @@
             "stray-fish-2",
             "stray-fish-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Goldfish",
+          "itemIcon": "🐟"
         },
         {
           "key": "deliver",
@@ -52,7 +54,9 @@
           "pickupIds": [
             "naia-rare-tome"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Black Tome",
+          "itemIcon": "📓"
         }
       ],
       "reward": {
@@ -82,7 +86,9 @@
           "pickupIds": [
             "naia-research-glyph"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Yellow Crystal",
+          "itemIcon": "💎"
         }
       ],
       "reward": {
@@ -113,7 +119,9 @@
             "rover-toy-2",
             "rover-toy-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Stick",
+          "itemIcon": "🪵"
         }
       ],
       "reward": {
@@ -139,7 +147,9 @@
             "pip-shiny-2",
             "pip-shiny-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Yellow Crystal",
+          "itemIcon": "💎"
         }
       ],
       "reward": {
@@ -165,7 +175,9 @@
             "pendant-2",
             "pendant-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Gold Necklace",
+          "itemIcon": "📿"
         }
       ],
       "reward": {
@@ -192,7 +204,9 @@
           "pickupIds": [
             "moonleaf-herb"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Herb Bundle",
+          "itemIcon": "🌿"
         }
       ],
       "reward": {
@@ -234,7 +248,9 @@
           "pickupIds": [
             "ancient-tome-1"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Black Tome",
+          "itemIcon": "📓"
         },
         {
           "key": "tome-2",
@@ -243,7 +259,9 @@
             "ancient-tome-2"
           ],
           "required": 1,
-          "chain": "ancient-tome-1"
+          "chain": "ancient-tome-1",
+          "itemName": "Blue Tome",
+          "itemIcon": "📘"
         },
         {
           "key": "tome-3",
@@ -252,7 +270,9 @@
             "ancient-tome-3"
           ],
           "required": 1,
-          "chain": "ancient-tome-2"
+          "chain": "ancient-tome-2",
+          "itemName": "Green Tome",
+          "itemIcon": "📗"
         }
       ],
       "reward": {
@@ -318,7 +338,9 @@
             "bait-jar-2",
             "bait-jar-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Small Sack",
+          "itemIcon": "🌾"
         }
       ],
       "reward": {
@@ -370,7 +392,9 @@
           "pickupIds": [
             "gildwyns-rare-card"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Blue Tome",
+          "itemIcon": "📘"
         }
       ],
       "reward": {
@@ -400,7 +424,9 @@
           "pickupIds": [
             "miras-lost-crystal"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Violet Crystal",
+          "itemIcon": "💎"
         }
       ],
       "reward": {
@@ -427,7 +453,9 @@
           "pickupIds": [
             "aldous-locket"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Pendant",
+          "itemIcon": "📿"
         }
       ],
       "reward": {
@@ -481,7 +509,9 @@
             "ink-bottle-1",
             "ink-bottle-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Book",
+          "itemIcon": "📕"
         }
       ],
       "reward": {
@@ -510,7 +540,9 @@
             "overdue-book-2",
             "overdue-book-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Book",
+          "itemIcon": "📕"
         }
       ],
       "reward": {
@@ -537,7 +569,9 @@
           "pickupIds": [
             "guild-ledger"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Black Tome",
+          "itemIcon": "📓"
         }
       ],
       "reward": {
@@ -566,7 +600,9 @@
             "survey-note-2",
             "survey-note-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Note",
+          "itemIcon": "📝"
         }
       ],
       "reward": {
@@ -595,7 +631,9 @@
             "weight-2",
             "weight-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Barrel",
+          "itemIcon": "🛢️"
         }
       ],
       "reward": {
@@ -624,7 +662,9 @@
             "patrol-report-2",
             "patrol-report-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Note",
+          "itemIcon": "📝"
         }
       ],
       "reward": {
@@ -653,7 +693,9 @@
             "prize-token-2",
             "prize-token-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Pendant",
+          "itemIcon": "📿"
         }
       ],
       "reward": {
@@ -680,7 +722,9 @@
           "pickupIds": [
             "ironwall-cup"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Gold Chest",
+          "itemIcon": "💰"
         }
       ],
       "reward": {
@@ -713,7 +757,9 @@
             "marsh-thyme",
             "market-peppercorn"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Herb Bundle",
+          "itemIcon": "🌿"
         }
       ],
       "reward": {
@@ -773,7 +819,9 @@
             "memory-shard-2",
             "memory-shard-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "White Crystal",
+          "itemIcon": "💎"
         }
       ],
       "reward": {
@@ -800,7 +848,9 @@
           "pickupIds": [
             "strange-catch"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Goldfish",
+          "itemIcon": "🐟"
         }
       ],
       "reward": {
@@ -834,7 +884,9 @@
             "record-page-2",
             "record-page-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Note",
+          "itemIcon": "📝"
         }
       ],
       "reward": {
@@ -863,7 +915,9 @@
             "guard-clue-2",
             "guard-clue-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Note",
+          "itemIcon": "📝"
         }
       ],
       "reward": {
@@ -892,7 +946,9 @@
             "stolen-crate-2",
             "stolen-crate-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         }
       ],
       "reward": {
@@ -919,7 +975,9 @@
           "pickupIds": [
             "unstable-augment"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Small Sack",
+          "itemIcon": "🌾"
         }
       ],
       "reward": {
@@ -948,7 +1006,9 @@
             "guild-crate-2",
             "guild-crate-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         }
       ],
       "reward": {
@@ -977,7 +1037,9 @@
             "counterfeit-card-2",
             "counterfeit-card-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Blue Tome",
+          "itemIcon": "📘"
         }
       ],
       "reward": {
@@ -1006,7 +1068,9 @@
             "warning-stamp-2",
             "warning-stamp-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Pendant",
+          "itemIcon": "📿"
         }
       ],
       "reward": {
@@ -1035,7 +1099,9 @@
             "deserter-clue-2",
             "deserter-clue-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Note",
+          "itemIcon": "📝"
         }
       ],
       "reward": {
@@ -1064,7 +1130,9 @@
             "guest-item-2",
             "guest-item-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Pendant",
+          "itemIcon": "📿"
         }
       ],
       "reward": {
@@ -1092,7 +1160,9 @@
             "tampered-map-1",
             "tampered-map-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Rolled Map",
+          "itemIcon": "🗺️"
         }
       ],
       "reward": {
@@ -1121,7 +1191,9 @@
             "forbidden-text-2",
             "forbidden-text-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Black Tome",
+          "itemIcon": "📓"
         }
       ],
       "reward": {
@@ -1149,7 +1221,9 @@
             "stolen-note-1",
             "stolen-note-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Green Tome",
+          "itemIcon": "📗"
         }
       ],
       "reward": {
@@ -1177,7 +1251,9 @@
             "intruder-cloth",
             "intruder-tool"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Pendant",
+          "itemIcon": "📿"
         }
       ],
       "reward": {
@@ -1206,7 +1282,9 @@
             "buyer-list",
             "buyer-token"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Chest",
+          "itemIcon": "🧰"
         }
       ],
       "reward": {
@@ -1235,7 +1313,9 @@
             "rigging-device-2",
             "rigging-device-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Chest",
+          "itemIcon": "🧰"
         }
       ],
       "reward": {
@@ -1262,7 +1342,9 @@
           "pickupIds": [
             "fake-trophy"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Gold Chest",
+          "itemIcon": "💰"
         },
         {
           "key": "deliver-fake",
@@ -1297,7 +1379,9 @@
             "marked-deck-2",
             "marked-deck-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Blue Tome",
+          "itemIcon": "📘"
         }
       ],
       "reward": {
@@ -1324,7 +1408,9 @@
           "pickupIds": [
             "family-heirloom"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Pendant",
+          "itemIcon": "📿"
         },
         {
           "key": "deliver-heirloom",
@@ -1365,7 +1451,9 @@
             "echo-notice-2",
             "echo-notice-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Book",
+          "itemIcon": "📕"
         }
       ],
       "reward": {
@@ -1392,7 +1480,9 @@
           "pickupIds": [
             "ancient-codex"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Black Tome",
+          "itemIcon": "📓"
         },
         {
           "key": "deliver-codex",
@@ -1428,7 +1518,9 @@
             "echo-record-2",
             "echo-record-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Black Tome",
+          "itemIcon": "📓"
         }
       ],
       "reward": {
@@ -1462,7 +1554,9 @@
             "informant-report-2",
             "informant-report-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Book",
+          "itemIcon": "📕"
         }
       ],
       "reward": {
@@ -1490,7 +1584,9 @@
             "smuggler-cache-1",
             "smuggler-cache-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         }
       ],
       "reward": {
@@ -1517,7 +1613,9 @@
           "pickupIds": [
             "spy-report"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Book",
+          "itemIcon": "📕"
         },
         {
           "key": "deliver-report",
@@ -1553,7 +1651,9 @@
             "agent-map",
             "agent-list"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Note",
+          "itemIcon": "📝"
         }
       ],
       "reward": {
@@ -1580,7 +1680,9 @@
           "pickupIds": [
             "card-layout-plans"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Blue Tome",
+          "itemIcon": "📘"
         },
         {
           "key": "deliver-plans",
@@ -1621,7 +1723,9 @@
             "corrupted-augment-2",
             "corrupted-augment-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Gift",
+          "itemIcon": "🎁"
         }
       ],
       "reward": {
@@ -1648,7 +1752,9 @@
           "pickupIds": [
             "echo-territory-map"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Rolled Map",
+          "itemIcon": "🗺️"
         },
         {
           "key": "deliver-map",
@@ -1682,7 +1788,9 @@
           "pickupIds": [
             "cipher-key-fragment"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Blue Tome",
+          "itemIcon": "📘"
         },
         {
           "key": "deliver-cipher",
@@ -1723,7 +1831,9 @@
             "research-specimen-2",
             "research-specimen-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Yellow Crystal",
+          "itemIcon": "💎"
         }
       ],
       "reward": {
@@ -1752,7 +1862,9 @@
             "glowing-float-2",
             "glowing-float-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Fishing Hook",
+          "itemIcon": "🪝"
         }
       ],
       "reward": {
@@ -1786,7 +1898,9 @@
             "shadow-note",
             "shadow-token"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Coins",
+          "itemIcon": "🪙"
         }
       ],
       "reward": {
@@ -1815,7 +1929,9 @@
             "tainted-trophy-2",
             "tainted-trophy-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Gold Chest",
+          "itemIcon": "💰"
         }
       ],
       "reward": {
@@ -1842,7 +1958,9 @@
           "pickupIds": [
             "echo-suspect-list"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Book",
+          "itemIcon": "📕"
         },
         {
           "key": "deliver-list",
@@ -1878,7 +1996,9 @@
             "fake-badge-2",
             "fake-badge-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Pendant",
+          "itemIcon": "📿"
         }
       ],
       "reward": {
@@ -1905,7 +2025,9 @@
           "pickupIds": [
             "passage-key"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Key",
+          "itemIcon": "🗝️"
         },
         {
           "key": "deliver-key",
@@ -1946,7 +2068,9 @@
             "supplier-stamp",
             "supplier-note"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Book",
+          "itemIcon": "📕"
         }
       ],
       "reward": {
@@ -1973,7 +2097,9 @@
           "pickupIds": [
             "confession-letter"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Note",
+          "itemIcon": "📝"
         },
         {
           "key": "deliver-letter",
@@ -2009,7 +2135,9 @@
             "echo-id-token-2",
             "echo-id-token-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Pendant",
+          "itemIcon": "📿"
         }
       ],
       "reward": {
@@ -2036,7 +2164,9 @@
           "pickupIds": [
             "traitor-confession"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Note",
+          "itemIcon": "📝"
         },
         {
           "key": "deliver-confession",
@@ -2072,7 +2202,9 @@
             "heartstone-fragment-2",
             "heartstone-fragment-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Gold Chest",
+          "itemIcon": "💰"
         }
       ],
       "reward": {
@@ -2106,7 +2238,9 @@
             "safe-route-map-2",
             "safe-route-map-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Rolled Map",
+          "itemIcon": "🗺️"
         }
       ],
       "reward": {
@@ -2135,7 +2269,9 @@
             "guild-doc-2",
             "guild-doc-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Black Tome",
+          "itemIcon": "📓"
         }
       ],
       "reward": {
@@ -2164,7 +2300,9 @@
             "purification-crystal-2",
             "purification-crystal-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Blue Crystal",
+          "itemIcon": "💎"
         }
       ],
       "reward": {
@@ -2193,7 +2331,9 @@
             "echo-card-set-2",
             "echo-card-set-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Blue Tome",
+          "itemIcon": "📘"
         }
       ],
       "reward": {
@@ -2226,7 +2366,9 @@
             "cipher-fragment-a",
             "cipher-fragment-b"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Blue Tome",
+          "itemIcon": "📘"
         }
       ],
       "reward": {
@@ -2255,7 +2397,9 @@
             "shelter-package-2",
             "shelter-package-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         }
       ],
       "reward": {
@@ -2284,7 +2428,9 @@
             "fracture-residue-2",
             "fracture-residue-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Potion",
+          "itemIcon": "🧪"
         }
       ],
       "reward": {
@@ -2316,7 +2462,9 @@
           "pickupIds": [
             "pond-hearthstone-disc"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Round Shield",
+          "itemIcon": "🛡️"
         },
         {
           "key": "deliver-disc",
@@ -2356,7 +2504,9 @@
             "echo-contraband-2",
             "echo-contraband-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         }
       ],
       "reward": {
@@ -2385,7 +2535,9 @@
             "surveillance-device-2",
             "surveillance-device-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Chest",
+          "itemIcon": "🧰"
         }
       ],
       "reward": {
@@ -2412,7 +2564,9 @@
           "pickupIds": [
             "champions-shield"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Shield",
+          "itemIcon": "🛡️"
         },
         {
           "key": "deliver-shield",
@@ -2452,7 +2606,9 @@
             "intel-note-2",
             "intel-note-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Note",
+          "itemIcon": "📝"
         }
       ],
       "reward": {
@@ -2481,7 +2637,9 @@
             "passage-item-2",
             "passage-item-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Chest",
+          "itemIcon": "🧰"
         }
       ],
       "reward": {
@@ -2514,7 +2672,9 @@
             "absolution-letter-naia",
             "absolution-letter-thorin"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Note",
+          "itemIcon": "📝"
         },
         {
           "key": "deliver-naia",
@@ -2555,7 +2715,9 @@
           "pickupIds": [
             "supply-contracts"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Note",
+          "itemIcon": "📝"
         },
         {
           "key": "deliver-contracts",
@@ -2590,7 +2752,9 @@
             "supply-pkg-thorin",
             "supply-pkg-varn"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         },
         {
           "key": "deliver-thorin",
@@ -2633,7 +2797,9 @@
             "vault-casing-2",
             "vault-casing-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Barrel",
+          "itemIcon": "🛢️"
         }
       ],
       "reward": {
@@ -2662,7 +2828,9 @@
             "location-note-2",
             "location-note-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Note",
+          "itemIcon": "📝"
         }
       ],
       "reward": {
@@ -2697,7 +2865,9 @@
             "rally-msg-dealer",
             "rally-msg-fisherman"
           ],
-          "required": 4
+          "required": 4,
+          "itemName": "Book",
+          "itemIcon": "📕"
         },
         {
           "key": "deliver-ferryn",
@@ -2750,7 +2920,9 @@
             "defense-note-2",
             "defense-note-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Book",
+          "itemIcon": "📕"
         }
       ],
       "reward": {
@@ -2779,7 +2951,9 @@
             "training-manual-2",
             "training-manual-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Book",
+          "itemIcon": "📕"
         }
       ],
       "reward": {
@@ -2808,7 +2982,9 @@
             "charm-elder",
             "charm-thorin"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Pendant",
+          "itemIcon": "📿"
         },
         {
           "key": "deliver-naia",
@@ -2855,7 +3031,9 @@
             "evacuation-guide-2",
             "evacuation-guide-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Book",
+          "itemIcon": "📕"
         }
       ],
       "reward": {
@@ -2884,7 +3062,9 @@
             "resource-bundle-2",
             "resource-bundle-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         }
       ],
       "reward": {
@@ -2913,7 +3093,9 @@
             "harbour-pkg-2",
             "harbour-pkg-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         }
       ],
       "reward": {
@@ -2940,7 +3122,9 @@
           "pickupIds": [
             "fracture-card"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Gold Chest",
+          "itemIcon": "💰"
         },
         {
           "key": "deliver-card",
@@ -2978,7 +3162,9 @@
           "pickupIds": [
             "cipher-translation"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Blue Tome",
+          "itemIcon": "📘"
         },
         {
           "key": "deliver-translation",
@@ -3013,7 +3199,9 @@
             "analysis-naia",
             "analysis-elder"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Green Tome",
+          "itemIcon": "📗"
         },
         {
           "key": "deliver-naia",
@@ -3052,7 +3240,9 @@
           "pickupIds": [
             "pond-sealed-case"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Gold Chest",
+          "itemIcon": "💰"
         },
         {
           "key": "deliver-case",
@@ -3090,7 +3280,9 @@
           "pickupIds": [
             "final-intel-report"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Book",
+          "itemIcon": "📕"
         },
         {
           "key": "deliver-intel",
@@ -3126,7 +3318,9 @@
             "market-cache-2",
             "market-cache-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         }
       ],
       "reward": {
@@ -3154,7 +3348,9 @@
             "zev-supply-cache",
             "zev-equipment-manifest"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         },
         {
           "key": "deliver-ferryn",
@@ -3193,7 +3389,9 @@
           "pickupIds": [
             "champions-pledge"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Gold Chest",
+          "itemIcon": "💰"
         },
         {
           "key": "deliver-elder",
@@ -3237,7 +3435,9 @@
           "pickupIds": [
             "hearthstone-key"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Key",
+          "itemIcon": "🗝️"
         },
         {
           "key": "deliver-key",
@@ -3278,7 +3478,9 @@
             "reagent-mira",
             "reagent-bramble"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Herb Bundle",
+          "itemIcon": "🌿"
         },
         {
           "key": "deliver-naia",
@@ -3326,7 +3528,9 @@
             "convergence-shard-3",
             "convergence-shard-4"
           ],
-          "required": 4
+          "required": 4,
+          "itemName": "Yellow Crystal",
+          "itemIcon": "💎"
         }
       ],
       "reward": {
@@ -3376,7 +3580,9 @@
           "pickupIds": [
             "hearthstone-final"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Gold Chest",
+          "itemIcon": "💰"
         },
         {
           "key": "bless-elder",
@@ -3553,7 +3759,9 @@
             "midsummer-lantern-2",
             "midsummer-lantern-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Candlestick",
+          "itemIcon": "🕯️"
         }
       ],
       "reward": {

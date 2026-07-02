@@ -18,7 +18,9 @@
             "dark-crystal-2",
             "dark-crystal-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Red Crystal",
+          "itemIcon": "💎"
         }
       ],
       "reward": {
@@ -50,7 +52,9 @@
             "dark-crystal-5",
             "dark-crystal-6"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Red Crystal",
+          "itemIcon": "💎"
         }
       ],
       "reward": {
@@ -79,7 +83,9 @@
             "dark-crystal-8",
             "dark-crystal-9"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Red Crystal",
+          "itemIcon": "💎"
         }
       ],
       "reward": {
@@ -116,7 +122,9 @@
             "watch-token-2",
             "watch-token-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Notice",
+          "itemIcon": "🪧"
         }
       ],
       "reward": {
@@ -144,7 +152,9 @@
             "shadow-oil",
             "candle-wax"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Skull",
+          "itemIcon": "💀"
         }
       ],
       "reward": {
@@ -173,7 +183,9 @@
             "femur-3",
             "lost-skull"
           ],
-          "required": 4
+          "required": 4,
+          "itemName": "Skull",
+          "itemIcon": "💀"
         }
       ],
       "reward": {
@@ -204,7 +216,9 @@
             "black-candle-2",
             "black-candle-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Candlestick",
+          "itemIcon": "🕯️"
         }
       ],
       "reward": {
@@ -233,7 +247,9 @@
             "raven-token-3",
             "raven-token-4"
           ],
-          "required": 4
+          "required": 4,
+          "itemName": "Feather",
+          "itemIcon": "🪶"
         }
       ],
       "reward": {
@@ -260,7 +276,9 @@
           "pickupIds": [
             "lost-raven-feather"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Feather",
+          "itemIcon": "🪶"
         }
       ],
       "reward": {
@@ -288,7 +306,9 @@
             "old-key-2",
             "old-key-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Old Key",
+          "itemIcon": "🗝️"
         }
       ],
       "reward": {
@@ -321,7 +341,9 @@
             "moon-herb-1",
             "moon-herb-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Herb Bundle",
+          "itemIcon": "🌿"
         }
       ],
       "reward": {
@@ -356,7 +378,9 @@
             "test-fungus-1",
             "test-fungus-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Purple Mushroom",
+          "itemIcon": "🍄"
         }
       ],
       "reward": {
@@ -384,7 +408,9 @@
             "sigil-stone-2",
             "sigil-stone-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Violet Crystal",
+          "itemIcon": "💎"
         }
       ],
       "reward": {
@@ -412,7 +438,9 @@
             "grave-coin-2",
             "grave-coin-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Copper Coins",
+          "itemIcon": "🪙"
         }
       ],
       "reward": {
@@ -440,7 +468,9 @@
             "evidence-2",
             "evidence-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Black Tome",
+          "itemIcon": "📓"
         }
       ],
       "reward": {

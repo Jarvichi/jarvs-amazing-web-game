@@ -18,7 +18,9 @@
             "dock-fish-2",
             "dock-fish-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Apple Basket",
+          "itemIcon": "🍎"
         },
         {
           "key": "deliver",
@@ -52,7 +54,9 @@
             "port-crate-2",
             "port-crate-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         }
       ],
       "reward": {
@@ -78,7 +82,9 @@
           "pickupIds": [
             "navy-rum-barrel"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Barrel",
+          "itemIcon": "🛢️"
         },
         {
           "key": "deliver",
@@ -114,7 +120,9 @@
             "smoke-scrap-2",
             "smoke-scrap-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Apple Basket",
+          "itemIcon": "🍎"
         },
         {
           "key": "deliver",
@@ -148,7 +156,9 @@
             "manifest-page-1",
             "manifest-page-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Papers",
+          "itemIcon": "📄"
         }
       ],
       "reward": {
@@ -178,7 +188,9 @@
           "pickupIds": [
             "smugglers-ledger-1"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Book",
+          "itemIcon": "📕"
         },
         {
           "key": "deliver",
@@ -212,7 +224,9 @@
             "torn-net-2",
             "torn-net-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Sack",
+          "itemIcon": "🌾"
         }
       ],
       "reward": {
@@ -240,7 +254,9 @@
             "timber-bundle-2",
             "timber-bundle-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Firewood",
+          "itemIcon": "🪵"
         }
       ],
       "reward": {
@@ -271,7 +287,9 @@
             "ship-supplies-1",
             "ship-supplies-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         },
         {
           "key": "deliver",
@@ -306,7 +324,9 @@
             "oil-flask-2",
             "oil-flask-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Barrel",
+          "itemIcon": "🛢️"
         }
       ],
       "reward": {
@@ -334,7 +354,9 @@
             "signal-flare-1",
             "signal-flare-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Lantern",
+          "itemIcon": "🏮"
         }
       ],
       "reward": {
@@ -363,7 +385,9 @@
             "stray-crate-3",
             "stray-crate-4"
           ],
-          "required": 4
+          "required": 4,
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         }
       ],
       "reward": {
@@ -391,7 +415,9 @@
             "sea-trinket-2",
             "sea-trinket-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Coins",
+          "itemIcon": "🪙"
         }
       ],
       "reward": {
@@ -419,7 +445,9 @@
             "rope-coil-2",
             "rope-coil-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Bucket",
+          "itemIcon": "🪣"
         }
       ],
       "reward": {
@@ -448,7 +476,9 @@
           "pickupIds": [
             "duplicate-manifest-1"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Rolled Map",
+          "itemIcon": "🗺️"
         },
         {
           "key": "deliver",

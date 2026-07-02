@@ -18,7 +18,9 @@
             "grain-sack-2",
             "grain-sack-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Sack",
+          "itemIcon": "🌾"
         }
       ],
       "reward": {
@@ -45,7 +47,9 @@
             "fish-basket-1",
             "fish-basket-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Mushroom Basket",
+          "itemIcon": "🍄"
         },
         {
           "key": "deliver",
@@ -85,7 +89,9 @@
           "pickupIds": [
             "nautical-chart"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Rolled Map",
+          "itemIcon": "🗺️"
         }
       ],
       "reward": {
@@ -169,7 +175,9 @@
           "pickupIds": [
             "festival-ribbon"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Gift",
+          "itemIcon": "🎁"
         },
         {
           "key": "candle",
@@ -178,7 +186,9 @@
             "festival-candle"
           ],
           "required": 1,
-          "chain": "festival-ribbon"
+          "chain": "festival-ribbon",
+          "itemName": "Gift",
+          "itemIcon": "🎁"
         },
         {
           "key": "flower",
@@ -187,7 +197,9 @@
             "festival-flower"
           ],
           "required": 1,
-          "chain": "festival-candle"
+          "chain": "festival-candle",
+          "itemName": "White Flower",
+          "itemIcon": "🌼"
         }
       ],
       "reward": {
@@ -216,7 +228,9 @@
           "pickupIds": [
             "kippers-kipper"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Goldfish",
+          "itemIcon": "🐟"
         }
       ],
       "reward": {
@@ -240,7 +254,9 @@
           "pickupIds": [
             "kippers-kipper-2"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Goldfish",
+          "itemIcon": "🐟"
         }
       ],
       "reward": {
@@ -264,7 +280,9 @@
           "pickupIds": [
             "kippers-kipper-3"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Goldfish",
+          "itemIcon": "🐟"
         }
       ],
       "reward": {
@@ -311,7 +329,9 @@
           "pickupIds": [
             "kipper-feather-toy"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Toy",
+          "itemIcon": "🧸"
         }
       ],
       "reward": {
@@ -344,7 +364,9 @@
             "fresh-loaf-1",
             "fresh-loaf-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Apple Basket",
+          "itemIcon": "🍎"
         },
         {
           "key": "deliver",
@@ -379,7 +401,9 @@
             "scrap-iron-2",
             "scrap-iron-3"
           ],
-          "required": 3
+          "required": 3,
+          "itemName": "Axe",
+          "itemIcon": "🪓"
         }
       ],
       "reward": {
@@ -403,7 +427,9 @@
             "lost-net-1",
             "lost-net-2"
           ],
-          "required": 2
+          "required": 2,
+          "itemName": "Cotton",
+          "itemIcon": "🧶"
         }
       ],
       "reward": {
@@ -429,7 +455,9 @@
           "pickupIds": [
             "tamsin-locket"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Gold Necklace",
+          "itemIcon": "📿"
         }
       ],
       "reward": {
@@ -540,7 +568,9 @@
           "pickupIds": [
             "restock-barrel"
           ],
-          "required": 1
+          "required": 1,
+          "itemName": "Barrel",
+          "itemIcon": "🛢️"
         },
         {
           "key": "sack",
@@ -549,7 +579,9 @@
             "restock-sack"
           ],
           "required": 1,
-          "chain": "restock-barrel"
+          "chain": "restock-barrel",
+          "itemName": "Sack",
+          "itemIcon": "🌾"
         },
         {
           "key": "crate",
@@ -558,7 +590,9 @@
             "restock-crate"
           ],
           "required": 1,
-          "chain": "restock-sack"
+          "chain": "restock-sack",
+          "itemName": "Supply Crate",
+          "itemIcon": "📦"
         }
       ],
       "reward": {
