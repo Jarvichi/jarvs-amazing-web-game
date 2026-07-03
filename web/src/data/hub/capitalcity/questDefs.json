@@ -1,6 +1,117 @@
 {
   "dialogues": [
     {
+      "id": "fenwick-butterfly-trade",
+      "npcId": "academy-master",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "The academy's lepidoptery cabinet is a disgrace — half the drawers are empty. I pay 20 crystals per specimen, humanely netted, no questions about technique.",
+          "choices": [
+            {
+              "label": "Offer a butterfly — 20 💎",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "butterfly",
+                  "giveCrystals": 20,
+                  "missingText": "You have no specimens. The Net Loft in Saltmere Port sells catching nets; the orchards flutter with subjects.",
+                  "successText": "Exquisite wing condition! Into the cabinet it goes. 20 crystals for science."
+                }
+              ]
+            },
+            {
+              "label": "Perhaps later.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "rosalind-platter-trade",
+      "npcId": "innkeeper-crownhaven",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "My famous coronation breakfast platter needs two fresh eggs and a good smoked herring — and my suppliers have vanished into the festival crowds. Bring me the makings and I'll pay 45 crystals a platter.",
+          "choices": [
+            {
+              "label": "Supply 2 eggs + 1 smoked herring — 45 💎",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItems": [
+                    {
+                      "itemId": "egg",
+                      "count": 2
+                    },
+                    {
+                      "itemId": "smoked-herring"
+                    }
+                  ],
+                  "giveCrystals": 45,
+                  "missingText": "That's not a full platter's worth. Two eggs — the hens oblige anyone with feed — and a smoked herring from the Saltmere fish market.",
+                  "successText": "Eggs, herring — perfect. The nobles will weep with joy. 45 crystals, and worth every one."
+                }
+              ]
+            },
+            {
+              "label": "I'll see what I can find.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "cora-poetry-gift",
+      "npcId": "noble-lady-cora",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Everyone at court gifts jewels — how tediously predictable. Do you know what nobody has ever given me? Poetry. Dreadful, heartfelt, handwritten poetry.",
+          "choices": [
+            {
+              "label": "Gift her the poetry book",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "poetry-book",
+                  "giveCrystals": 20,
+                  "giveRelationship": {
+                    "track": "romance",
+                    "points": 6
+                  },
+                  "missingText": "You pat your pockets and find no verse. The capital's own archivist writes the worst poetry in the realm — he trades it for feathers.",
+                  "successText": "She reads a stanza, laughs until she cries, and clutches it to her heart. 'It's HORRIBLE. I adore it.' She presses 20 crystals on you and watches you leave."
+                }
+              ]
+            },
+            {
+              "label": "Take your leave",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "quill-feather-trade",
       "npcId": "royal-archivist",
       "start": "greet",

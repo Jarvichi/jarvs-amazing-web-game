@@ -3946,6 +3946,7 @@
     {
       "id": "innkeeper-crownhaven",
       "name": "Innkeep Rosalind",
+      "dialogueTree": "rosalind-platter-trade",
       "sprite": "hub-npc-merchant",
       "building": "grand-inn",
       "tx": 4,
@@ -4696,6 +4697,7 @@
     {
       "id": "noble-lady-cora",
       "name": "Lady Cora",
+      "dialogueTree": "cora-poetry-gift",
       "sprite": "hub-npc-elder",
       "building": "noble-manor-1",
       "tx": 5,
@@ -4751,6 +4753,7 @@
     {
       "id": "academy-master",
       "name": "Master Fenwick",
+      "dialogueTree": "fenwick-butterfly-trade",
       "sprite": "hub-npc-scholar",
       "building": "academy",
       "tx": 6,

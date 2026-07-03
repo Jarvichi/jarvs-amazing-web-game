@@ -3548,6 +3548,26 @@
   },
   "interactables": [
     {
+      "id": "tool-shop-spade",
+      "tx": 9,
+      "ty": 6,
+      "building": "tool-shop",
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "axe"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "spade",
+          "price": 80
+        }
+      ]
+    },
+    {
       "id": "tool-shop-item-0",
       "tx": 9,
       "ty": 3,

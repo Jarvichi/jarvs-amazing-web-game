@@ -34,6 +34,7 @@
 | `web/src/data/hubItems.json` | Hub-item catalog: materials (chicken feed, eggs, fish, trade goods) and unique tools (fishing rod) — see §16 | consumed by `itemStore.ts` |
 | `web/src/game/itemStore.ts` (hub-item section) | Hub-item inventory persistence (localStorage, type `'hub-item'`) — see §16 | `addHubItem`, `removeHubItem`, `getHubItemCount`, `hasHubItem`, `getHubItems`, `getHubItemCatalogEntry` |
 | `web/src/game/hub/questItems.ts` | Held-quest-item id helpers (`quest:<questId>:<stepKey>`) — see §16 | `questItemId`, `isQuestItemId`, `questIdFromItemId` |
+| `web/src/game/hub/digs.ts` | Once-per-day dig-spot persistence (localStorage) — see §7 `dig` reaction, §16 | `canDigToday`, `recordDig` |
 | `web/src/components/hub/HubInventoryModal.tsx` | 🎒 Hub Inventory UI — held quest items, materials & tools, pet accessories — see §16 | `HubInventoryModal` |
 
 ---
@@ -290,6 +291,7 @@ bounds, else a single tile.
 | `buy` | `slotIndex` | Sells the interactable's building's Nth daily-rotating shop-stock item (`getTodaysShopItems`, `SHOP_TRADER_REGISTRY`). Shares `DailyShopState` with `ShopScreen`, so both draw down the same stock. Requires `building`. |
 | `buyPack` | — | Crystal-pack purchase flow (delegates to `onBuyCrystalPack`). Requires `building`. |
 | `buyHubItem` | `itemId`, `price`, `currency?`, `speakerName?` | Always-available hub-item purchase (no daily rotation) — see §16. `itemId` must exist in `hubItems.json`; `currency` is `'crystals'` (default) or `'tickets'`. Unique items (e.g. the fishing rod) re-offer as "already owned" once bought. `speakerName` overrides the building-NPC speaker (useful for exterior stalls). |
+| `dig` | `requiresItemId?` | Once-per-day dig spot (see §16), gated on holding the tool hub-item (default `'spade'`). Rolls 50% worms (+2 fish bait) / 30% crystals (10–25) / 20% a dug-up trinket collectible. Cooldown persists per spot per real day in `jarv_hub_digs` (`web/src/game/hub/digs.ts`). Pair with a `mediumDirt` decor tile (`zlayer: "below"`) for a visible earth patch. |
 
 Reactions run in order; `dialogue` (and `message`-bearing reactions) chain the
 remainder through the dialogue's close. Conventions: at most one `screen` or
@@ -424,7 +426,7 @@ Then on the NPC (in `config.json`): `"dialogueTree": "scholar-chat"` (keep a
 | `friendship` | `npcId?`, `xp` | Grant friendship XP (defaults to the speaking NPC). |
 | `relationship` | `npcId?`, `track`, `points` | Add points to a relationship track (`ally`/`rival`/`romance`) — defaults to the speaking NPC. See §7c. |
 | `quest` | `questId` | Offer that quest (Accept / Not now). Resolves the quest's real `giverNpcId`. **Terminates** the walk. |
-| `tradeHubItem` | `wantItemId`, `wantCount?`, `giveCrystals?`, `giveHubItem?`, `giveCollectible?`, `missingText`, `successText` | Repeatable barter — see §16. Takes `wantCount` (default 1) of a hub-item from the player and grants the `give*` rewards, showing `successText` (then advancing to `next` on close, so a sell menu can loop). If the player holds too few, shows `missingText` and **terminates** the walk with no state change. Must be the **only/last** effect on its choice (it terminates the walk either way). |
+| `tradeHubItem` | `wantItemId?`, `wantCount?`, `wantItems?`, `giveCrystals?`, `giveHubItem?`, `giveCollectible?`, `giveFriendship?`, `giveRelationship?`, `missingText`, `successText` | Repeatable barter — see §16. Takes `wantCount` (default 1) of a hub-item — or every entry of `wantItems: [{itemId, count?}]` for multi-item recipes (all-or-nothing, takes precedence over `wantItemId`) — and grants the `give*` rewards (`giveFriendship: {npcId?, xp}` and `giveRelationship: {npcId?, track, points}` default to the speaking NPC), showing `successText` (then advancing to `next` on close, so a sell menu can loop). If the player holds too few of anything, shows `missingText` and **terminates** the walk with no state change. Must be the **only/last** effect on its choice (it terminates the walk either way). |
 | `end` | — | End the conversation. |
 
 If a choice has neither a terminating effect (`quest`/`end`) nor `next`, the
@@ -1344,7 +1346,8 @@ Appleford / Harrowfield / Ironhold Keep / Royal Palace), rod + bait (Millhaven
 harbour stalls), Fancy Hat + Sturdy Boots (capital tailor), honey cake /
 lavender tonic / silk ribbon (capital bakery / apothecary / Grand Market
 Hall), smoked herring + bones (Saltmere fish market / smokehouse), bog salve
-(Hollowmere apothecary), spice pouch (Ravenwatch Merchant's Guild Hall).
+(Hollowmere apothecary), spice pouch (Ravenwatch Merchant's Guild Hall),
+catching net (Saltmere Net Loft), spade (Gearford Tool Shop).
 
 ### Trading hub items — `tradeHubItem` (§7b dialogue effects)
 
@@ -1364,7 +1367,11 @@ eggs, 20💎 · Little Wren (Appleford) ← honey cake, 25💎 · Old Hollis
 (Millhaven) ← bog salve, 35💎 · Innkeeper Cobb (Millhaven) ← spice pouch,
 38💎 · Ranger Sable (Thornwood) ← sturdy boots, 90💎 · Archivist Quill
 (capital) ← feather → poetry book · Fishwife Marta (Millhaven) & Fishwife
-Pearl (Saltmere) ← any caught fish → tier-priced crystals.
+Pearl (Saltmere) ← any caught fish → tier-priced crystals · Master Fenwick
+(capital) ← butterfly, 20💎 · Little Pip (Gravemoor) ← firefly, 30💎 +
+friendship · Innkeep Rosalind (capital) ← 2 eggs + smoked herring →
+45💎 (multi-item recipe) · Lady Cora (capital) ← poetry book → 20💎 +
+romance points.
 
 ### Feeding ambient animals
 
@@ -1379,6 +1386,9 @@ the default flavour bubble:
   attach friendship to).
 - **Dog** + player holds `bones` → offers to feed (consumes 1): the dog runs
   off and, 60% of the time, returns with a `lost-locket`.
+- **Butterfly / firefly** + player holds the `net` → offers to swing it:
+  60% catches the `butterfly`/`firefly` hub-item, 40% it escapes. Day/night
+  availability follows the species' normal spawn rules (§8).
 
 Placed (named) animals keep their normal §8 quest/dialogue routing.
 

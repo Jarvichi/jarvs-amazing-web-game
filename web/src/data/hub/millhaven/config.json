@@ -2849,6 +2849,42 @@
   ],
   "interactables": [
     {
+      "id": "millhaven-dig-1",
+      "reactions": [
+        {
+          "type": "dig"
+        }
+      ],
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "mediumDirt",
+          "zlayer": "below"
+        }
+      ],
+      "tx": 2,
+      "ty": 21
+    },
+    {
+      "id": "millhaven-dig-2",
+      "reactions": [
+        {
+          "type": "dig"
+        }
+      ],
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "mediumDirt",
+          "zlayer": "below"
+        }
+      ],
+      "tx": 23,
+      "ty": 10
+    },
+    {
       "id": "millhaven-rod-stall",
       "tx": 32,
       "ty": 10,

@@ -1284,6 +1284,7 @@
     {
       "id": "little-pip",
       "name": "Little Pip",
+      "dialogueTree": "pip-firefly-trade",
       "sprite": "hub-npc-child",
       "isGhost": true,
       "tx": 7,

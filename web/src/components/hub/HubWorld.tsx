@@ -53,6 +53,7 @@ import {  ALL_QUESTS, FRIENDSHIP_DIALOGUE, RELATIONSHIP_DIALOGUE, RAVENWATCH } f
 import { HubInteractable, HubLocationBundle, HubQuestBundle, HubTreasure } from '../../data/hub/loader'
 import { getUnreadCount } from '../../game/news'
 import { interactableStoreKey, isInteractableGranted, markInteractableGranted, getInteractableMoves, setInteractableMove } from '../../game/hub/interactables'
+import { canDigToday, recordDig } from '../../game/hub/digs'
 import { recordNpcMet, recordAnimalSeen, recordAreaSeen } from '../../game/hub/journal'
 import { getTodaysShopItems } from '../../game/hub/shopStock'
 import { loadDailyShopState, saveDailyShopState, isShopItemSold, markCardBought, markAugmentBought } from '../../game/shopSchedule'
@@ -872,11 +873,18 @@ function hasOfferableQuest(giverId: string): boolean {
           // Repeatable barter: consume the wanted hub-item(s), grant the
           // reward(s). If the player holds too few, show missingText and stop
           // (no navigation — the player can come back with the goods).
-          const want = eff.wantCount ?? 1
-          if (!removeHubItem(eff.wantItemId, want)) {
+          // Multi-item recipes (wantItems) are all-or-nothing: verify every
+          // count before removing anything.
+          const wanted: Array<{ itemId: string; count: number }> = eff.wantItems
+            ? eff.wantItems.map(w => ({ itemId: w.itemId, count: w.count ?? 1 }))
+            : eff.wantItemId
+              ? [{ itemId: eff.wantItemId, count: eff.wantCount ?? 1 }]
+              : []
+          if (wanted.length === 0 || wanted.some(w => getHubItemCount(w.itemId) < w.count)) {
             setDialogueEvent({ speakerName, text: eff.missingText })
             return
           }
+          for (const w of wanted) removeHubItem(w.itemId, w.count)
           if (eff.giveCrystals) {
             saveCrystals(loadCrystals() + eff.giveCrystals)
             onCrystalsChange?.(loadCrystals())
@@ -887,6 +895,12 @@ function hasOfferableQuest(giverId: string): boolean {
           if (eff.giveCollectible) {
             const { id, name, icon, desc } = eff.giveCollectible
             addCollectible(id, { name, icon, desc })
+          }
+          if (eff.giveFriendship) {
+            addFriendshipXp(eff.giveFriendship.npcId ?? npcId, eff.giveFriendship.xp)
+          }
+          if (eff.giveRelationship) {
+            addRelationshipPoints(eff.giveRelationship.npcId ?? npcId, eff.giveRelationship.track, eff.giveRelationship.points)
           }
           emitSound('shopPurchase')
           refreshState()
@@ -1207,6 +1221,41 @@ function hasOfferableQuest(giverId: string): boolean {
       })
       return true
     }
+    if ((type === 'butterfly' || type === 'firefly') && hasHubItem('net')) {
+      const isFirefly = type === 'firefly'
+      const name = isFirefly ? 'firefly' : 'butterfly'
+      setDialogueEvent({
+        speakerName: isFirefly ? 'Firefly' : 'Butterfly',
+        text: isFirefly
+          ? 'A point of living light drifts lazily within reach of your net.'
+          : 'The butterfly settles on a flower, wings pulsing, entirely unaware of your net.',
+        choices: [
+          {
+            label: 'Swing the net!',
+            primary: true,
+            onClick: () => {
+              if (Math.random() < 0.6) {
+                addHubItem(name, 1)
+                refreshState()
+                setDialogueEvent({
+                  speakerName: isFirefly ? 'Firefly' : 'Butterfly',
+                  text: isFirefly
+                    ? 'Got it! The jar in your pack glows softly from within. ✨'
+                    : 'A clean sweep! The butterfly flutters gently inside your net. 🦋',
+                })
+              } else {
+                setDialogueEvent({
+                  speakerName: isFirefly ? 'Firefly' : 'Butterfly',
+                  text: 'It flits away at the very last moment. Patience — there are always more.',
+                })
+              }
+            },
+          },
+          { label: 'Let it be', onClick: () => setDialogueEvent(null) },
+        ],
+      })
+      return true
+    }
     if (type === 'dog' && hasHubItem('bones')) {
       setDialogueEvent({
         speakerName: 'Dog',
@@ -1446,6 +1495,58 @@ function hasOfferableQuest(giverId: string): boolean {
           speakerName,
           text: `${catalog.icon} ${catalog.desc} Care to buy a ${catalog.name} for ${r.price} ${currencyIcon}?`,
           choices: [confirm, cancel],
+        })
+        return
+      }
+      case 'dig': {
+        // Once-per-day dig spot, gated on holding the required tool.
+        const toolId = r.requiresItemId ?? 'spade'
+        const toolName = getHubItemCatalogEntry(toolId)?.name ?? toolId
+        if (!hasHubItem(toolId)) {
+          setDialogueEvent({ speakerName: '', text: `The earth is soft here… a ${toolName.toLowerCase()} would make short work of it.` })
+          return
+        }
+        if (!canDigToday(storeKey)) {
+          setDialogueEvent({ speakerName: '', text: "You've already turned this earth over today. Let it settle until tomorrow." })
+          return
+        }
+        const confirm: DialogueChoice = {
+          label: 'Dig here',
+          primary: true,
+          onClick: () => {
+            recordDig(storeKey)
+            const roll = Math.random()
+            let text: string
+            if (roll < 0.5) {
+              addHubItem('fish-bait', 2)
+              emitSound('pickup')
+              text = 'The spade turns up a wriggling knot of worms — two pots of fish bait for the taking! 🪱'
+            } else if (roll < 0.8) {
+              const amount = 10 + Math.floor(Math.random() * 16) // 10–25
+              saveCrystals(loadCrystals() + amount)
+              onCrystalsChange?.(loadCrystals())
+              emitSound('treasure')
+              text = `Something glints in the soil — ${amount} crystals, lost long ago and yours now. 💎`
+            } else {
+              const trinkets = [
+                { id: 'dug-old-boot', name: 'Old Boot', icon: '🥾', desc: 'One weathered boot, dug from the earth. Its partner remains at large.' },
+                { id: 'dug-cracked-marble', name: 'Cracked Marble', icon: '🔮', desc: 'A child’s marble with a crack running through it like lightning.' },
+                { id: 'dug-rusty-key', name: 'Rusty Key', icon: '🗝️', desc: 'A key to a lock that probably no longer exists. Probably.' },
+                { id: 'dug-clay-whistle', name: 'Clay Whistle', icon: '🪈', desc: 'An old clay whistle. It still works, to the regret of everyone nearby.' },
+              ]
+              const t = trinkets[Math.floor(Math.random() * trinkets.length)]
+              addCollectible(t.id, { name: t.name, icon: t.icon, desc: t.desc })
+              emitSound('treasure')
+              text = `The spade strikes something odd — ${t.icon} ${t.name}! Added to your collection.`
+            }
+            refreshState()
+            setDialogueEvent({ speakerName: '', text, onClose: next })
+          },
+        }
+        setDialogueEvent({
+          speakerName: '',
+          text: 'A patch of soft, diggable earth.',
+          choices: [confirm, { label: 'Leave it', onClick: () => setDialogueEvent(null) }],
         })
         return
       }

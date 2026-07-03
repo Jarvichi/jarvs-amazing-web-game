@@ -218,15 +218,21 @@ export type DialogueEffect =
   | { type: 'friendship'; npcId?: string; xp: number }  // grant friendship XP (defaults to the speaking NPC)
   | { type: 'relationship'; npcId?: string; track: RelationshipTrack; points: number }  // advance a relationship track (defaults to the speaking NPC)
   | { type: 'quest'; questId: string }          // offer a quest (Accept / Not now)
-  // Repeatable barter: take wantCount (default 1) of a hub-item from the
-  // player in exchange for crystals / another hub-item / a collectible.
-  // Shows missingText (no state change) if the player holds too few.
+  // Repeatable barter: take wantCount (default 1) of a hub-item — or, for
+  // multi-item recipes, every entry in wantItems (all-or-nothing) — from the
+  // player in exchange for crystals / another hub-item / a collectible /
+  // friendship XP / relationship points. Shows missingText (no state change)
+  // if the player holds too few of anything.
   | { type: 'tradeHubItem'
-      wantItemId: string
+      wantItemId?: string
       wantCount?: number
+      /** Multi-item recipe. Takes precedence over wantItemId when present. */
+      wantItems?: Array<{ itemId: string; count?: number }>
       giveCrystals?: number
       giveHubItem?: { itemId: string; count?: number }
       giveCollectible?: { id: string; name: string; icon: string; desc: string }
+      giveFriendship?: { npcId?: string; xp: number }
+      giveRelationship?: { npcId?: string; track: RelationshipTrack; points: number }
       missingText: string
       successText: string }
   | { type: 'end' }                             // end the conversation
