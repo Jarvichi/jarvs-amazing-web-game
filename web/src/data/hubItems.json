@@ -153,5 +153,35 @@
     "icon": "🧂",
     "desc": "Rare spices from the Ravenwatch trade guild. Innkeepers pay well to liven a stew.",
     "category": "material"
+  },
+  {
+    "id": "net",
+    "name": "Catching Net",
+    "icon": "🥅",
+    "desc": "A fine-meshed net from the Saltmere loft. Quick hands can catch butterflies by day and fireflies by night.",
+    "category": "tool",
+    "unique": true
+  },
+  {
+    "id": "spade",
+    "name": "Spade",
+    "icon": "⛏️",
+    "desc": "A sturdy Gearford spade. Soft earth around the realm hides worms — and sometimes better.",
+    "category": "tool",
+    "unique": true
+  },
+  {
+    "id": "butterfly",
+    "name": "Butterfly",
+    "icon": "🦋",
+    "desc": "Caught gently in the net. The academy in the capital collects specimens.",
+    "category": "material"
+  },
+  {
+    "id": "firefly",
+    "name": "Firefly",
+    "icon": "✨",
+    "desc": "A jar of living light, caught after dark. Someone in a gloomy town might treasure it.",
+    "category": "material"
   }
 ]

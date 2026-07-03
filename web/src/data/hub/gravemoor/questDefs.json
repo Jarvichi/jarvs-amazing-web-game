@@ -1,6 +1,42 @@
 {
   "dialogues": [
     {
+      "id": "pip-firefly-trade",
+      "npcId": "little-pip",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "It gets awful dark here at night. Darker than anywhere. If you ever caught one of those little lights in a jar… I'd give you all my treasures for it.",
+          "choices": [
+            {
+              "label": "Give Pip a firefly — 30 💎",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "firefly",
+                  "giveCrystals": 30,
+                  "giveFriendship": {
+                    "xp": 5
+                  },
+                  "missingText": "You have no captured light to give. Fireflies drift through warmer towns after dark — a net from Saltmere Port would catch one.",
+                  "successText": "Pip cradles the glowing jar like it's the sun itself. 'It's beautiful.' A small hoard of treasures — 30 crystals — is solemnly handed over."
+                }
+              ]
+            },
+            {
+              "label": "Goodnight, Pip.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "widow-poetry-trade",
       "npcId": "weeping-widow",
       "start": "greet",

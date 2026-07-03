@@ -2098,6 +2098,42 @@
   },
   "interactables": [
     {
+      "id": "appleford-dig-1",
+      "reactions": [
+        {
+          "type": "dig"
+        }
+      ],
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "mediumDirt",
+          "zlayer": "below"
+        }
+      ],
+      "tx": 9,
+      "ty": 12
+    },
+    {
+      "id": "appleford-dig-2",
+      "reactions": [
+        {
+          "type": "dig"
+        }
+      ],
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "mediumDirt",
+          "zlayer": "below"
+        }
+      ],
+      "tx": 23,
+      "ty": 19
+    },
+    {
       "id": "appleford-chicken-feed",
       "tx": 35,
       "ty": 26,

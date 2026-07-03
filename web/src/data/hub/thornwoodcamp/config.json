@@ -529,6 +529,42 @@
   "interiors": {},
   "interactables": [
     {
+      "id": "thornwood-dig-1",
+      "reactions": [
+        {
+          "type": "dig"
+        }
+      ],
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "mediumDirt",
+          "zlayer": "below"
+        }
+      ],
+      "tx": 12,
+      "ty": 45
+    },
+    {
+      "id": "thornwood-dig-2",
+      "reactions": [
+        {
+          "type": "dig"
+        }
+      ],
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "mediumDirt",
+          "zlayer": "below"
+        }
+      ],
+      "tx": 6,
+      "ty": 29
+    },
+    {
       "id": "interactable-1781887233427",
       "tx": 17,
       "ty": 47,

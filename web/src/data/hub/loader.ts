@@ -276,6 +276,9 @@ export type HubInteractableReaction =
    *  exist in web/src/data/hubItems.json; unique items re-offer as "already
    *  owned" once bought. */
   | { type: 'buyHubItem'; itemId: string; price: number; currency?: 'crystals' | 'tickets'; speakerName?: string }
+  /** Once-per-day dig spot: gated on holding the required tool hub-item
+   *  (default 'spade'); rolls worms (fish bait), crystals, or a trinket. */
+  | { type: 'dig'; requiresItemId?: string }
 
 export interface HubInteractable {
   id: string
