@@ -291,7 +291,7 @@ bounds, else a single tile.
 | `buy` | `slotIndex` | Sells the interactable's building's Nth daily-rotating shop-stock item (`getTodaysShopItems`, `SHOP_TRADER_REGISTRY`). Shares `DailyShopState` with `ShopScreen`, so both draw down the same stock. Requires `building`. |
 | `buyPack` | — | Crystal-pack purchase flow (delegates to `onBuyCrystalPack`). Requires `building`. |
 | `buyHubItem` | `itemId`, `price`, `currency?`, `speakerName?`, `prerequisite?`, `lockedText?` | Always-available hub-item purchase (no daily rotation) — see §16. `itemId` must exist in `hubItems.json`; `currency` is `'crystals'` (default) or `'tickets'`. Unique items (e.g. the fishing rod) re-offer as "already owned" once bought. `speakerName` overrides the building-NPC speaker (useful for exterior stalls). `prerequisite` (§14 syntax, including `reputation:<tier>`) gates the offer — unmet shows `lockedText` (or a default refusal) instead. |
-| `dig` | `requiresItemId?`, `nightOnly?`, `lootTable?` | Once-per-day dig spot (see §16), gated on holding the tool hub-item (default `'spade'`). `nightOnly: true` makes it a **dark hollow** that refuses by day. `lootTable: 'earth'` (default) rolls 50% worms (+2 fish bait) / 30% crystals (10–25) / 20% a dug-up trinket; `'hollow'` rolls 50% glowcap mushroom / 25% crystals (15–35) / 25% a firefly. Cooldown persists per spot per real day in `jarv_hub_digs` (`web/src/game/hub/digs.ts`). Pair with a `mediumDirt` decor tile (`zlayer: "below"`) for a visible earth patch. |
+| `dig` | `requiresItemId?`, `nightOnly?`, `weatherOnly?`, `lootTable?` | Once-per-day dig spot (see §16), gated on holding the tool hub-item (default `'spade'`). `nightOnly: true` makes it a **dark hollow** that refuses by day; `weatherOnly` (e.g. `"rain"`) makes it refuse unless the town's resolved weather (§12) matches — used by **rain barrels**. `lootTable: 'earth'` (default) rolls 50% worms (+2 fish bait) / 30% crystals (10–25) / 20% a dug-up trinket; `'hollow'` rolls 50% glowcap mushroom / 25% crystals (15–35) / 25% a firefly; `'rain'` always yields 1 rainwater. Cooldown persists per spot per real day in `jarv_hub_digs` (`web/src/game/hub/digs.ts`). Pair with a `mediumDirt` decor tile (`zlayer: "below"`) for an earth patch, or `barrel` for a rain barrel. |
 
 Reactions run in order; `dialogue` (and `message`-bearing reactions) chain the
 remainder through the dialogue's close. Conventions: at most one `screen` or
@@ -419,6 +419,7 @@ Then on the NPC (in `config.json`): `"dialogueTree": "scholar-chat"` (keep a
 | `requireFlag` | string? | Choice only shown if the flag is set. |
 | `hideIfFlag` | string? | Choice hidden once the flag is set. |
 | `requireFestival` | string? | Choice only shown while that festival is active (§14 festival ids, e.g. `"midsummer"`). |
+| `requireWeather` | string? | Choice only shown while the town's resolved weather (§12) matches (`"clear"`/`"rain"`/`"snow"`/`"fog"`). Weather is date/season-driven — for QA, force `"weather": {"type": "snow"}` in the town config, or use Millhaven (rains year-round). |
 
 #### `DialogueEffect` types
 | `type` | Fields | Behaviour |
@@ -1354,7 +1355,8 @@ Hall), smoked herring + bones (Saltmere fish market / smokehouse), bog salve
 (Hollowmere apothecary), spice pouch (Ravenwatch Merchant's Guild Hall),
 catching net (Saltmere Net Loft), spade (Gearford Tool Shop), storm lantern
 (Saltmere Chandlery), gilded compass (Ravenwatch Guild Hall,
-`reputation:2`-gated).
+`reputation:2`-gated), harbour bucket (Millhaven stall), honey (Appleford
+apiary).
 
 ### Trading hub items — `tradeHubItem` (§7b dialogue effects)
 
@@ -1392,6 +1394,13 @@ Soaker (Hollowmere) ← music box → 170💎.
 Reputation-gated premium stock: gilded compass (Ravenwatch Guild Hall,
 120💎) and music box (capital Grand Market Hall, 130💎), both
 `reputation:2`.
+
+Weather content: rain barrels (Millhaven — rains year-round — plus
+Ravenwatch and Harrowfield in wet seasons) scoop `rainwater` with the
+bucket; Sister Nettle (Hollowmere) pays 30💎 per two. The honey-pie chain:
+Beekeeper Mabe's honey + an egg → Cook Mabel's (Ironhold) hearty pie →
+Warden Rell (Thornwood) 50💎, or Shepherd Nan (Harrowfield) 75💎 **while it
+snows** (`requireWeather`).
 
 The longest chain: lantern (Chandlery) → dark hollow at night → glowcaps →
 Morwen's moon draught → the Restless Soldier's first sleep in centuries —
