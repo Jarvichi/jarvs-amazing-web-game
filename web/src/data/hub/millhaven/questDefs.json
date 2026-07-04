@@ -644,7 +644,7 @@
       "tx": 5,
       "ty": 5,
       "tileId": "goldFish",
-      "building": "inn-millhaven"
+      "building": "fishmonger"
     },
     {
       "id": "nautical-chart",
