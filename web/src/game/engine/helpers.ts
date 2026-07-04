@@ -1,7 +1,7 @@
 import { logError } from '../../logger';
 import { Card, UnitTemplate, Unit, LANE_WIDTH } from '../types';
 import { rollSecretRarity, makeShinyVariant, makeHolofoilVariant, makeGlassVariant } from '../secretRarities';
-import { getCardCatalog } from '../cards';
+import { getCardCatalog, COMMANDER_UNIT, WARLORD_UNIT } from '../cards';
 import { PLAYER_SPAWN_X, OPPONENT_SPAWN_X, COMMANDER_HOME_X } from './constants';
 
 // ─── Helpers ─────────────────────────────────────────────
@@ -98,12 +98,8 @@ export function spawnUnit(template: UnitTemplate, owner: 'player' | 'opponent'):
 
 export function spawnCommander(owner: 'player' | 'opponent', hp: number): Unit {
   const homeX = owner === 'player' ? COMMANDER_HOME_X : LANE_WIDTH - COMMANDER_HOME_X
-  const unit = spawnUnit(
-    { name: owner === 'player' ? 'Commander' : 'Warlord',
-      attack: 15, maxHp: hp, isWall: false, bypassWall: false,
-      moveSpeed: 8, attackRange: 35, attackCooldownMs: 2000, size: 'large' },
-    owner
-  )
+  const template = owner === 'player' ? COMMANDER_UNIT : WARLORD_UNIT
+  const unit = spawnUnit({ ...template, maxHp: hp }, owner)
   unit.isCommander    = true
   unit.commanderHomeX = homeX
   unit.x              = homeX
