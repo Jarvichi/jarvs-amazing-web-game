@@ -54,6 +54,7 @@ import { HubInteractable, HubLocationBundle, HubQuestBundle, HubTreasure } from 
 import { getUnreadCount } from '../../game/news'
 import { interactableStoreKey, isInteractableGranted, markInteractableGranted, getInteractableMoves, setInteractableMove } from '../../game/hub/interactables'
 import { canDigToday, recordDig } from '../../game/hub/digs'
+import { getReputationTier } from '../../data/hub/buildingUpgrades'
 import { recordNpcMet, recordAnimalSeen, recordAreaSeen } from '../../game/hub/journal'
 import { getTodaysShopItems } from '../../game/hub/shopStock'
 import { loadDailyShopState, saveDailyShopState, isShopItemSold, markCardBought, markAugmentBought } from '../../game/shopSchedule'
@@ -73,7 +74,7 @@ let _hubSplashShown = false
 
 
 
-function checkPrerequisite(prereq: string): boolean {
+function checkPrerequisite(prereq: string, town?: string): boolean {
   return prereq.split('|').every(p => {
     const part = p.trim()
     if (part.startsWith('friendship:')) {
@@ -91,6 +92,12 @@ function checkPrerequisite(prereq: string): boolean {
     }
     if (part.startsWith('flag:')) {
       return hasDialogueFlag(part.slice(5))
+    }
+    if (part.startsWith('reputation:')) {
+      // reputation:<tier> — current town's reputation tier (§10) at or above
+      // <tier>. Callers without town context treat it as satisfied.
+      if (!town) return true
+      return getReputationTier(getTownReputation(town)) >= parseInt(part.slice(11) || '1')
     }
     return true
   })
@@ -831,7 +838,8 @@ function hasOfferableQuest(giverId: string): boolean {
       (!c.requireFlag  || hasDialogueFlag(c.requireFlag)) &&
       (!c.hideIfFlag   || !hasDialogueFlag(c.hideIfFlag)) &&
       (!c.requireQuest || getQuestState(c.requireQuest).status === 'completed') &&
-      (!c.hideIfQuest  || getQuestState(c.hideIfQuest).status !== 'completed')
+      (!c.hideIfQuest  || getQuestState(c.hideIfQuest).status !== 'completed') &&
+      (!c.requireFestival || c.requireFestival === activeFestival?.id)
     )
     const choices: DialogueChoice[] = visible.map((c, i) => ({
       label:   c.label,
@@ -1459,6 +1467,15 @@ function hasOfferableQuest(giverId: string): boolean {
         const onDuty = candidates.find(n => def.building && resolveNpcPlace(n, gameHour, locationData).interiorId === def.building)
         const speakerName = r.speakerName ?? (onDuty ?? candidates[0])?.name ?? ''
 
+        if (r.prerequisite && !checkPrerequisite(r.prerequisite, town)) {
+          setDialogueEvent({
+            speakerName,
+            text: r.lockedText ?? "The shopkeeper sizes you up. 'Not for sale — not to you. Not yet.'",
+            onClose: next,
+          })
+          return
+        }
+
         if (catalog.unique && hasHubItem(r.itemId)) {
           setDialogueEvent({ speakerName, text: `You already own a ${catalog.name} — one is all you'll ever need.`, onClose: next })
           return
@@ -1500,14 +1517,58 @@ function hasOfferableQuest(giverId: string): boolean {
       }
       case 'dig': {
         // Once-per-day dig spot, gated on holding the required tool.
+        // nightOnly spots (dark hollows) only open after dark and roll the
+        // 'hollow' loot table instead of the default 'earth' one.
+        if (r.nightOnly && !isGameNight) {
+          setDialogueEvent({ speakerName: '', text: 'Whatever stirs in this hollow only shows itself after dark.' })
+          return
+        }
         const toolId = r.requiresItemId ?? 'spade'
         const toolName = getHubItemCatalogEntry(toolId)?.name ?? toolId
         if (!hasHubItem(toolId)) {
-          setDialogueEvent({ speakerName: '', text: `The earth is soft here… a ${toolName.toLowerCase()} would make short work of it.` })
+          setDialogueEvent({ speakerName: '', text: r.nightOnly
+            ? `The hollow is pitch dark. A ${toolName.toLowerCase()} would reveal what hides inside.`
+            : `The earth is soft here… a ${toolName.toLowerCase()} would make short work of it.` })
           return
         }
         if (!canDigToday(storeKey)) {
-          setDialogueEvent({ speakerName: '', text: "You've already turned this earth over today. Let it settle until tomorrow." })
+          setDialogueEvent({ speakerName: '', text: r.nightOnly
+            ? 'The hollow has given up all it will tonight. Return tomorrow night.'
+            : "You've already turned this earth over today. Let it settle until tomorrow." })
+          return
+        }
+        if (r.lootTable === 'hollow') {
+          const confirm: DialogueChoice = {
+            label: 'Search by lantern-light',
+            primary: true,
+            onClick: () => {
+              recordDig(storeKey)
+              const roll = Math.random()
+              let text: string
+              if (roll < 0.5) {
+                addHubItem('glowcap-mushroom', 1)
+                emitSound('pickup')
+                text = 'Lantern-light catches a soft blue gleam — a glowcap mushroom, plucked whole. 🍄'
+              } else if (roll < 0.75) {
+                const amount = 15 + Math.floor(Math.random() * 21) // 15–35
+                saveCrystals(loadCrystals() + amount)
+                onCrystalsChange?.(loadCrystals())
+                emitSound('treasure')
+                text = `Crystals glitter in the dark of the hollow — ${amount} of them. 💎`
+              } else {
+                addHubItem('firefly', 1)
+                emitSound('pickup')
+                text = 'Something glowing darts straight into your jar — a firefly, saving you the netting. ✨'
+              }
+              refreshState()
+              setDialogueEvent({ speakerName: '', text, onClose: next })
+            },
+          }
+          setDialogueEvent({
+            speakerName: '',
+            text: 'A deep, dark hollow. Your lantern pushes the shadows back just enough.',
+            choices: [confirm, { label: 'Leave it', onClick: () => setDialogueEvent(null) }],
+          })
           return
         }
         const confirm: DialogueChoice = {

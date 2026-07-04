@@ -183,5 +183,34 @@
     "icon": "✨",
     "desc": "A jar of living light, caught after dark. Someone in a gloomy town might treasure it.",
     "category": "material"
+  },
+  {
+    "id": "lantern",
+    "name": "Storm Lantern",
+    "icon": "🏮",
+    "desc": "A chandler's storm lantern. Dark hollows around the realm only give up their secrets by its light.",
+    "category": "tool",
+    "unique": true
+  },
+  {
+    "id": "glowcap-mushroom",
+    "name": "Glowcap Mushroom",
+    "icon": "🍄",
+    "desc": "A softly glowing mushroom from a night hollow. Hedge-witches prize a matched pair.",
+    "category": "material"
+  },
+  {
+    "id": "moon-draught",
+    "name": "Moon Draught",
+    "icon": "🌙",
+    "desc": "Morwen's brew of paired glowcaps. Grants deep, dreamless rest — even to those long past sleeping.",
+    "category": "material"
+  },
+  {
+    "id": "gilded-compass",
+    "name": "Gilded Compass",
+    "icon": "🧭",
+    "desc": "Guild-certified and gimballed in gold. Lighthouse keepers would pay dearly for one.",
+    "category": "material"
   }
 ]

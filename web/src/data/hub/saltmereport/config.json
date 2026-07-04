@@ -1673,6 +1673,7 @@
     {
       "id": "lighthouse-keeper",
       "name": "Lighthouse Keeper Wren",
+      "dialogueTree": "wren-compass-trade",
       "sprite": "hub-npc-elder",
       "tx": 30,
       "ty": 14,
@@ -2467,6 +2468,26 @@
     }
   },
   "interactables": [
+    {
+      "id": "chandlery-lantern",
+      "tx": 5,
+      "ty": 1,
+      "building": "chandlers",
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "floorLantern"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "lantern",
+          "price": 90
+        }
+      ]
+    },
     {
       "id": "net-loft-net",
       "tx": 6,

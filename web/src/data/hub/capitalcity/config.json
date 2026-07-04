@@ -4809,6 +4809,7 @@
     {
       "id": "busker-lyle",
       "name": "Busker Lyle",
+      "dialogueTree": "lyle-festival-butterflies",
       "sprite": "hub-npc-merchant",
       "tx": 50,
       "ty": 49,

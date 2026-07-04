@@ -1254,6 +1254,7 @@
     {
       "id": "restless-soldier",
       "name": "The Restless Soldier",
+      "dialogueTree": "soldier-draught-trade",
       "sprite": "hub-npc-soldier",
       "isGhost": true,
       "tx": 37,
@@ -2559,6 +2560,27 @@
     }
   },
   "interactables": [
+    {
+      "id": "gravemoor-hollow",
+      "tx": 17,
+      "ty": 29,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "mediumDirt",
+          "zlayer": "below"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "dig",
+          "requiresItemId": "lantern",
+          "nightOnly": true,
+          "lootTable": "hollow"
+        }
+      ]
+    },
     {
       "id": "undertaker-item-0",
       "tx": 8,

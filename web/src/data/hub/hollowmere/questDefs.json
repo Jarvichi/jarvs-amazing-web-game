@@ -1,4 +1,42 @@
 {
+  "dialogues": [
+    {
+      "id": "morwen-draught-brew",
+      "npcId": "hedge-witch-morwen",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "You smell of lantern oil and night air. Good. Bring me a matched pair of glowcaps from the dark hollows and I'll brew you a moon draught — sleep in a bottle, potent enough to quiet even the restless dead.",
+          "choices": [
+            {
+              "label": "Brew a moon draught (2 glowcaps)",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "glowcap-mushroom",
+                  "wantCount": 2,
+                  "giveHubItem": {
+                    "itemId": "moon-draught"
+                  },
+                  "missingText": "That's not a matched pair. Glowcaps grow in the dark hollows — Gravemoor, our own marsh, the Thornwood — but only show by lantern-light, after dark.",
+                  "successText": "The cauldron drinks them down and turns the colour of moonlight. One moon draught, bottled. Mind who you give it to."
+                }
+              ]
+            },
+            {
+              "label": "Another night, Morwen.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
   "quests": [
     {
       "id": "hollowmere-witch-brew",
