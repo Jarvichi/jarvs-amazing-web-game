@@ -1,6 +1,39 @@
 {
   "dialogues": [
     {
+      "id": "grunda-music-box-trade",
+      "npcId": "bog-troll-attendant",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Grunda run best bathhouse in three marshes. Only thing missing: nice sound. Patrons soak better with nice sound. Capital sells singing boxes, but capital not sell to troll.",
+          "choices": [
+            {
+              "label": "Present the music box",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "music-box",
+                  "giveCrystals": 170,
+                  "missingText": "You have no singing box. Grand Market Hall in capital keeps them — for fancy-standing folk only.",
+                  "successText": "Grunda winds it with impossible gentleness. The bathhouse fills with tinkling song. 'Perfect. Grunda pay top mud.' 170 crystals, slightly damp."
+                }
+              ]
+            },
+            {
+              "label": "Enjoy the soak, Grunda.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "morwen-draught-brew",
       "npcId": "hedge-witch-morwen",
       "start": "greet",

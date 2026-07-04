@@ -1313,6 +1313,42 @@
   ],
   "dialogues": [
     {
+      "id": "prisoner-pillow-trade",
+      "npcId": "castle-prisoner",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Twelve years on this stone shelf. I've made peace with the bars, the damp, the gruel. But stone under the head, every night… that I never got used to.",
+          "choices": [
+            {
+              "label": "Pass the feather pillow through the bars",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "feather-pillow",
+                  "giveCrystals": 55,
+                  "giveFriendship": {
+                    "xp": 5
+                  },
+                  "missingText": "You have nothing soft to offer. The Net Loft in Saltmere Port sews pillows, for those with feathers to spare.",
+                  "successText": "He holds it like something holy. 'I'd forgotten soft existed.' From under a loose stone, 55 crystals — saved for a bribe he never spent."
+                }
+              ]
+            },
+            {
+              "label": "Keep your head up.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "squire-ribbon-trade",
       "npcId": "castle-squire",
       "start": "greet",

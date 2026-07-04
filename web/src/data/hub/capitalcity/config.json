@@ -3774,6 +3774,21 @@
   },
   "interactables": [
     {
+      "id": "market-hall-music-box",
+      "tx": 2,
+      "ty": 2,
+      "building": "market-hall-crownhaven",
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "music-box",
+          "price": 130,
+          "prerequisite": "reputation:2",
+          "lockedText": "Guild-grade goods, dear — the capital only trusts its own. Earn your standing first."
+        }
+      ]
+    },
+    {
       "id": "bakery-cake-counter",
       "tx": 3,
       "ty": 2,

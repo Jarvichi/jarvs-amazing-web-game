@@ -1715,6 +1715,7 @@
     {
       "id": "net-maker",
       "name": "Net-Maker Quill",
+      "dialogueTree": "quill-pillow-craft",
       "sprite": "hub-npc-trader",
       "tx": 4,
       "ty": 3,
@@ -1757,6 +1758,7 @@
     {
       "id": "tavern-sailor",
       "name": "Sailor Bess",
+      "dialogueTree": "bess-midwinter-feast",
       "sprite": "hub-npc-sailor",
       "tx": 9,
       "ty": 5,

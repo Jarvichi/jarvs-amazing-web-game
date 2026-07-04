@@ -212,5 +212,19 @@
     "icon": "🧭",
     "desc": "Guild-certified and gimballed in gold. Lighthouse keepers would pay dearly for one.",
     "category": "material"
+  },
+  {
+    "id": "music-box",
+    "name": "Music Box",
+    "icon": "🎵",
+    "desc": "A gilded music box from the Grand Market Hall. Its tune soothes even bathhouse patrons.",
+    "category": "material"
+  },
+  {
+    "id": "feather-pillow",
+    "name": "Feather Pillow",
+    "icon": "🛏️",
+    "desc": "Three feathers, down-stuffed and double-stitched by the Net Loft. Softness itself.",
+    "category": "material"
   }
 ]

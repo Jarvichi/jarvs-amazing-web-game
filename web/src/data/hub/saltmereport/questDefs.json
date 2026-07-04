@@ -1,6 +1,81 @@
 {
   "dialogues": [
     {
+      "id": "bess-midwinter-feast",
+      "npcId": "tavern-sailor",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Sailor Bess — retired from the sea, promoted to the feast committee. At Midwinter this inn feeds every soul in port, and the kitchen inhales smoked herring faster than the smoker can hang them.",
+          "choices": [
+            {
+              "label": "Supply 2 smoked herring — 60 💎",
+              "requireFestival": "midwinter",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItems": [
+                    {
+                      "itemId": "smoked-herring",
+                      "count": 2
+                    }
+                  ],
+                  "giveCrystals": 60,
+                  "missingText": "That's not a pair of herring. The Fish Market strings them fresh — hurry, the feast won't wait.",
+                  "successText": "Straight to the feast table! 60 crystals, and a seat by the fire if you stay."
+                }
+              ]
+            },
+            {
+              "label": "Happy Midwinter, Bess.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "quill-pillow-craft",
+      "npcId": "net-maker",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Nets, sails, hammocks — if it's stitched, I've stitched it. Bring me three good feathers and I'll sew you a pillow soft enough to make a harbourmaster weep.",
+          "choices": [
+            {
+              "label": "Have a pillow sewn (3 feathers)",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "feather",
+                  "wantCount": 3,
+                  "giveHubItem": {
+                    "itemId": "feather-pillow"
+                  },
+                  "missingText": "That's not three feathers. Well-fed chickens shed them all over the realm.",
+                  "successText": "Needle, thread, and done — one feather pillow, double-stitched. Someone out there needs this more than you know."
+                }
+              ]
+            },
+            {
+              "label": "Another time, Quill.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "wren-compass-trade",
       "npcId": "lighthouse-keeper",
       "start": "greet",

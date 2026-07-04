@@ -2585,6 +2585,7 @@
     {
       "id": "castle-prisoner",
       "name": "The Prisoner",
+      "dialogueTree": "prisoner-pillow-trade",
       "sprite": "hub-npc-elder",
       "tx": 6,
       "ty": 4,

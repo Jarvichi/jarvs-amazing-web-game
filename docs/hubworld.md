@@ -1382,7 +1382,16 @@ romance points · Hedge-Witch Morwen (Hollowmere) ← 2 glowcap mushrooms →
 moon draught · The Restless Soldier (Gravemoor) ← moon draught → 80💎 +
 friendship · Busker Lyle (capital) ← butterfly → 35💎 **during Midsummer
 only** (`requireFestival`) · Lighthouse Keeper Wren (Saltmere) ← gilded
-compass → 160💎.
+compass → 160💎 · Trader Posy (Appleford) ← 3 eggs → 35💎 **during
+Harvest only** · Sailor Bess (Saltmere) ← 2 smoked herring → 60💎
+**during Midwinter only** (every festival now has a trade) · Net-Maker
+Quill (Saltmere) ← 3 feathers → feather pillow · The Prisoner
+(Ironhold dungeon) ← feather pillow → 55💎 + friendship · Grunda the
+Soaker (Hollowmere) ← music box → 170💎.
+
+Reputation-gated premium stock: gilded compass (Ravenwatch Guild Hall,
+120💎) and music box (capital Grand Market Hall, 130💎), both
+`reputation:2`.
 
 The longest chain: lantern (Chandlery) → dark hollow at night → glowcaps →
 Morwen's moon draught → the Restless Soldier's first sleep in centuries —
