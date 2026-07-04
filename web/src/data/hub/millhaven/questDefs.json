@@ -641,8 +641,8 @@
     },
     {
       "id": "fresh-fish-millhaven",
-      "tx": 5,
-      "ty": 5,
+      "tx": 3,
+      "ty": 3,
       "tileId": "goldFish",
       "building": "fishmonger"
     },
