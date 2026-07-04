@@ -12,8 +12,11 @@ const loc = {
     { rect: [20, 20, 24, 24], id: 'smithy' }, // no door → footprint centre
   ],
   HUB_INTERIORS: {
-    inn:    { id: 'inn',    name: 'The Sleepy Inn', width: 6, height: 6, decor: [] },
+    inn:    { id: 'inn',    name: 'The Sleepy Inn', width: 6, height: 6, decor: [],
+              exits: [{ tx: 5, ty: 5, toInteriorId: 'inn-upstairs' }] },
     smithy: { id: 'smithy', name: "Smith's Forge",  width: 6, height: 6, decor: [] },
+    'inn-upstairs': { id: 'inn-upstairs', name: 'Inn — Upstairs', width: 6, height: 6, decor: [],
+                      exits: [{ tx: 0, ty: 0, toInteriorId: 'inn' }] },
   },
 } as unknown as HubLocationBundle
 
@@ -28,6 +31,9 @@ describe('buildingWorldTile', () => {
   })
   it('returns null for an unknown building', () => {
     expect(buildingWorldTile('nope', loc)).toBeNull()
+  })
+  it('walks up to the parent building for a virtual sub-room with no footprint of its own', () => {
+    expect(buildingWorldTile('inn-upstairs', loc)).toEqual({ tx: 10, ty: 12 })
   })
 })
 
@@ -44,6 +50,11 @@ describe('resolveNpcPlace', () => {
   it('maps a scheduled interior NPC to the building world door, not interior-local coords', () => {
     const npc: HubNpc = { ...base, schedule: [{ startHour: 6, endHour: 20, location: { type: 'interior', buildingId: 'inn', tx: 1, ty: 1 } }] }
     expect(resolveNpcPlace(npc, 12, loc)).toEqual({ name: 'The Sleepy Inn', tx: 10, ty: 12, interiorId: 'inn' })
+  })
+
+  it('maps a scheduled NPC in a virtual sub-room to the parent building door, not the sub-room local coords', () => {
+    const npc: HubNpc = { ...base, schedule: [{ startHour: 0, endHour: 8, location: { type: 'interior', buildingId: 'inn-upstairs', tx: 1, ty: 1 } }] }
+    expect(resolveNpcPlace(npc, 2, loc)).toEqual({ name: 'Inn — Upstairs', tx: 10, ty: 12, interiorId: 'inn-upstairs' })
   })
 
   it('maps a building NPC with no schedule to the building world position', () => {

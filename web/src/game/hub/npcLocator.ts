@@ -25,15 +25,27 @@ export function areaNameForTile(tx: number, ty: number, areas: HubArea[]): strin
  * World-map tile to point at for a building interior. Interior schedule/base
  * coordinates are local to the interior grid, not the town map, so for map pins we
  * use the building's exterior position: its door (entrance) if known, otherwise the
- * footprint centre. Returns null if the building can't be located on the map.
+ * footprint centre. Some interiors are "virtual" sub-rooms (an inn's upstairs floor,
+ * a keep's crypt, ...) with no footprint/door of their own — only reachable via a
+ * parent interior's `exits`. For those we walk up to the owning interior instead.
+ * Returns null if no real building can be found anywhere up the chain.
  */
 export function buildingWorldTile(buildingId: string, loc: HubLocationBundle): { tx: number; ty: number } | null {
-  const door = loc.HUB_DOORS.find(d => d.buildingId === buildingId)
-  if (door) return { tx: door.tx, ty: door.ty }
-  const building = loc.HUB_BUILDINGS.find(b => b.id === buildingId)
-  if (building) {
-    const [tx1, ty1, tx2, ty2] = building.rect
-    return { tx: Math.round((tx1 + tx2) / 2), ty: Math.round((ty1 + ty2) / 2) }
+  const seen = new Set<string>()
+  let current = buildingId
+  while (!seen.has(current)) {
+    seen.add(current)
+    const door = loc.HUB_DOORS.find(d => d.buildingId === current)
+    if (door) return { tx: door.tx, ty: door.ty }
+    const building = loc.HUB_BUILDINGS.find(b => b.id === current)
+    if (building) {
+      const [tx1, ty1, tx2, ty2] = building.rect
+      return { tx: Math.round((tx1 + tx2) / 2), ty: Math.round((ty1 + ty2) / 2) }
+    }
+    const parent = Object.entries(loc.HUB_INTERIORS)
+      .find(([id, interior]) => id !== current && interior.exits?.some(e => e.toInteriorId === current))
+    if (!parent) return null
+    current = parent[0]
   }
   return null
 }
