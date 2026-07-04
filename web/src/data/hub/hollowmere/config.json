@@ -1183,6 +1183,7 @@
     {
       "id": "hedge-witch-morwen",
       "name": "Hedge-Witch Morwen",
+      "dialogueTree": "morwen-draught-brew",
       "sprite": "hub-npc-scholar",
       "tx": 5,
       "ty": 4,
@@ -1983,6 +1984,27 @@
     }
   },
   "interactables": [
+    {
+      "id": "hollowmere-hollow",
+      "tx": 29,
+      "ty": 12,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "mediumDirt",
+          "zlayer": "below"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "dig",
+          "requiresItemId": "lantern",
+          "nightOnly": true,
+          "lootTable": "hollow"
+        }
+      ]
+    },
     {
       "id": "apothecary-salve-shelf",
       "tx": 3,

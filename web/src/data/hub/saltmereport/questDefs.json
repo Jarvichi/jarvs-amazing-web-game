@@ -1,6 +1,39 @@
 {
   "dialogues": [
     {
+      "id": "wren-compass-trade",
+      "npcId": "lighthouse-keeper",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Every instrument in this lighthouse is older than my grandmother's grudges. What I'd give for a proper gilded compass — the Ravenwatch guild certifies them, but they won't sell to outsiders.",
+          "choices": [
+            {
+              "label": "Present the gilded compass",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "gilded-compass",
+                  "giveCrystals": 160,
+                  "missingText": "You've no such instrument. The Merchant's Guild Hall in Ravenwatch keeps them under glass — for those the town holds in high standing.",
+                  "successText": "She checks it against true north and actually smiles. 'Perfect swing. The strait just got safer.' 160 crystals, keeper's honour."
+                }
+              ]
+            },
+            {
+              "label": "Keep the light burning.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "vane-hat-trade",
       "npcId": "harbourmaster-vane",
       "start": "greet",

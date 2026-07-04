@@ -529,6 +529,27 @@
   "interiors": {},
   "interactables": [
     {
+      "id": "thornwood-hollow",
+      "tx": 17,
+      "ty": 41,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "mediumDirt",
+          "zlayer": "below"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "dig",
+          "requiresItemId": "lantern",
+          "nightOnly": true,
+          "lootTable": "hollow"
+        }
+      ]
+    },
+    {
       "id": "thornwood-dig-1",
       "reactions": [
         {

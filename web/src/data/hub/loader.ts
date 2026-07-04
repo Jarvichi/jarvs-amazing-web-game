@@ -274,11 +274,14 @@ export type HubInteractableReaction =
   | { type: 'buyPack' }
   /** Always-available hub-item purchase (no daily stock rotation). itemId must
    *  exist in web/src/data/hubItems.json; unique items re-offer as "already
-   *  owned" once bought. */
-  | { type: 'buyHubItem'; itemId: string; price: number; currency?: 'crystals' | 'tickets'; speakerName?: string }
+   *  owned" once bought. `prerequisite` (§14 syntax, incl. reputation:<tier>)
+   *  gates the offer; unmet shows `lockedText`. */
+  | { type: 'buyHubItem'; itemId: string; price: number; currency?: 'crystals' | 'tickets'; speakerName?: string; prerequisite?: string; lockedText?: string }
   /** Once-per-day dig spot: gated on holding the required tool hub-item
-   *  (default 'spade'); rolls worms (fish bait), crystals, or a trinket. */
-  | { type: 'dig'; requiresItemId?: string }
+   *  (default 'spade'); `nightOnly` spots open after dark only. lootTable
+   *  'earth' (default) rolls worms/crystals/trinket; 'hollow' rolls
+   *  glowcaps/crystals/fireflies. */
+  | { type: 'dig'; requiresItemId?: string; nightOnly?: boolean; lootTable?: 'earth' | 'hollow' }
 
 export interface HubInteractable {
   id: string

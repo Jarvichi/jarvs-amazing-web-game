@@ -290,8 +290,8 @@ bounds, else a single tile.
 | `move` | `to: {tx, ty}`, `message?` | Moves the owned decor to the target tile, live and persisted across reloads. Requires owned `decor`. |
 | `buy` | `slotIndex` | Sells the interactable's building's Nth daily-rotating shop-stock item (`getTodaysShopItems`, `SHOP_TRADER_REGISTRY`). Shares `DailyShopState` with `ShopScreen`, so both draw down the same stock. Requires `building`. |
 | `buyPack` | — | Crystal-pack purchase flow (delegates to `onBuyCrystalPack`). Requires `building`. |
-| `buyHubItem` | `itemId`, `price`, `currency?`, `speakerName?` | Always-available hub-item purchase (no daily rotation) — see §16. `itemId` must exist in `hubItems.json`; `currency` is `'crystals'` (default) or `'tickets'`. Unique items (e.g. the fishing rod) re-offer as "already owned" once bought. `speakerName` overrides the building-NPC speaker (useful for exterior stalls). |
-| `dig` | `requiresItemId?` | Once-per-day dig spot (see §16), gated on holding the tool hub-item (default `'spade'`). Rolls 50% worms (+2 fish bait) / 30% crystals (10–25) / 20% a dug-up trinket collectible. Cooldown persists per spot per real day in `jarv_hub_digs` (`web/src/game/hub/digs.ts`). Pair with a `mediumDirt` decor tile (`zlayer: "below"`) for a visible earth patch. |
+| `buyHubItem` | `itemId`, `price`, `currency?`, `speakerName?`, `prerequisite?`, `lockedText?` | Always-available hub-item purchase (no daily rotation) — see §16. `itemId` must exist in `hubItems.json`; `currency` is `'crystals'` (default) or `'tickets'`. Unique items (e.g. the fishing rod) re-offer as "already owned" once bought. `speakerName` overrides the building-NPC speaker (useful for exterior stalls). `prerequisite` (§14 syntax, including `reputation:<tier>`) gates the offer — unmet shows `lockedText` (or a default refusal) instead. |
+| `dig` | `requiresItemId?`, `nightOnly?`, `lootTable?` | Once-per-day dig spot (see §16), gated on holding the tool hub-item (default `'spade'`). `nightOnly: true` makes it a **dark hollow** that refuses by day. `lootTable: 'earth'` (default) rolls 50% worms (+2 fish bait) / 30% crystals (10–25) / 20% a dug-up trinket; `'hollow'` rolls 50% glowcap mushroom / 25% crystals (15–35) / 25% a firefly. Cooldown persists per spot per real day in `jarv_hub_digs` (`web/src/game/hub/digs.ts`). Pair with a `mediumDirt` decor tile (`zlayer: "below"`) for a visible earth patch. |
 
 Reactions run in order; `dialogue` (and `message`-bearing reactions) chain the
 remainder through the dialogue's close. Conventions: at most one `screen` or
@@ -418,6 +418,7 @@ Then on the NPC (in `config.json`): `"dialogueTree": "scholar-chat"` (keep a
 | `effects` | `DialogueEffect[]`? | Run in order before navigation. |
 | `requireFlag` | string? | Choice only shown if the flag is set. |
 | `hideIfFlag` | string? | Choice hidden once the flag is set. |
+| `requireFestival` | string? | Choice only shown while that festival is active (§14 festival ids, e.g. `"midsummer"`). |
 
 #### `DialogueEffect` types
 | `type` | Fields | Behaviour |
@@ -1204,6 +1205,10 @@ joined with `|` (all must hold), parsed by `checkPrerequisite` in
 quest:<questId>                       // that quest is completed
 friendship:<npcId>:<level>            // friendship ≥ level
 relationship:<npcId>:<track>:<level>  // relationship track at ≥ level
+flag:<flag>                           // that dialogue flag is set (§7b)
+reputation:<tier>                     // current town's reputation tier ≥ tier (§10);
+                                      // only meaningful where a town is in scope
+                                      // (quest gates, buyHubItem prerequisites)
 ```
 
 Example: `"quest:millhaven-mill-grain | friendship:innkeeper-rosie:2"`.
@@ -1347,7 +1352,9 @@ harbour stalls), Fancy Hat + Sturdy Boots (capital tailor), honey cake /
 lavender tonic / silk ribbon (capital bakery / apothecary / Grand Market
 Hall), smoked herring + bones (Saltmere fish market / smokehouse), bog salve
 (Hollowmere apothecary), spice pouch (Ravenwatch Merchant's Guild Hall),
-catching net (Saltmere Net Loft), spade (Gearford Tool Shop).
+catching net (Saltmere Net Loft), spade (Gearford Tool Shop), storm lantern
+(Saltmere Chandlery), gilded compass (Ravenwatch Guild Hall,
+`reputation:2`-gated).
 
 ### Trading hub items — `tradeHubItem` (§7b dialogue effects)
 
@@ -1371,7 +1378,15 @@ Pearl (Saltmere) ← any caught fish → tier-priced crystals · Master Fenwick
 (capital) ← butterfly, 20💎 · Little Pip (Gravemoor) ← firefly, 30💎 +
 friendship · Innkeep Rosalind (capital) ← 2 eggs + smoked herring →
 45💎 (multi-item recipe) · Lady Cora (capital) ← poetry book → 20💎 +
-romance points.
+romance points · Hedge-Witch Morwen (Hollowmere) ← 2 glowcap mushrooms →
+moon draught · The Restless Soldier (Gravemoor) ← moon draught → 80💎 +
+friendship · Busker Lyle (capital) ← butterfly → 35💎 **during Midsummer
+only** (`requireFestival`) · Lighthouse Keeper Wren (Saltmere) ← gilded
+compass → 160💎.
+
+The longest chain: lantern (Chandlery) → dark hollow at night → glowcaps →
+Morwen's moon draught → the Restless Soldier's first sleep in centuries —
+4 hops across 3 towns, night-gated.
 
 ### Feeding ambient animals
 

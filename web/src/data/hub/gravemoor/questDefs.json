@@ -1,6 +1,42 @@
 {
   "dialogues": [
     {
+      "id": "soldier-draught-trade",
+      "npcId": "restless-soldier",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Three hundred years of watch and no relief has ever come. I don't remember what sleep feels like. The witch across the marsh brews something, they say. Something that works even on… the likes of me.",
+          "choices": [
+            {
+              "label": "Offer the moon draught",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "moon-draught",
+                  "giveCrystals": 80,
+                  "giveFriendship": {
+                    "xp": 5
+                  },
+                  "missingText": "You carry no such brew. Hedge-Witch Morwen of Hollowmere makes it — for a pair of glowcaps, they say.",
+                  "successText": "He drinks. For the first time in centuries, his shoulders lower. 'Relief… at last.' He presses his entire back-pay — 80 crystals — into your hands and sits down to rest."
+                }
+              ]
+            },
+            {
+              "label": "Stand easy, soldier.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "pip-firefly-trade",
       "npcId": "little-pip",
       "start": "greet",

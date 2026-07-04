@@ -1,6 +1,40 @@
 {
   "dialogues": [
     {
+      "id": "lyle-festival-butterflies",
+      "npcId": "busker-lyle",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Roll up, roll up! Busker Lyle, entertainer to crowds and occasional pigeons. Come festival season I pay top coin for anything that makes an audience gasp.",
+          "choices": [
+            {
+              "label": "Sell a butterfly for the fair — 35 💎",
+              "requireFestival": "midsummer",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "butterfly",
+                  "giveCrystals": 35,
+                  "missingText": "No butterflies on you! The fair crowd waits for no one — get netting.",
+                  "successText": "Released at the crescendo of his act — the crowd GASPS. 'Magnifique!' 35 crystals, fair rates."
+                }
+              ]
+            },
+            {
+              "label": "Break a leg, Lyle.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "fenwick-butterfly-trade",
       "npcId": "academy-master",
       "start": "greet",

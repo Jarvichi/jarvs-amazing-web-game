@@ -9400,6 +9400,21 @@
   ],
   "interactables": [
     {
+      "id": "guild-compass-case",
+      "tx": 11,
+      "ty": 2,
+      "building": "traders-building",
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "gilded-compass",
+          "price": 120,
+          "prerequisite": "reputation:2",
+          "lockedText": "Guild regulations, friend — premium stock is reserved for townsfolk of standing. Raise your name in Ravenwatch first."
+        }
+      ]
+    },
+    {
       "id": "guild-spice-chest",
       "tx": 10,
       "ty": 2,
