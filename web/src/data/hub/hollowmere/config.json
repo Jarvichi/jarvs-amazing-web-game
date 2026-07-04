@@ -1237,6 +1237,7 @@
     {
       "id": "bog-troll-attendant",
       "name": "Grunda the Soaker",
+      "dialogueTree": "grunda-music-box-trade",
       "sprite": "troll",
       "tx": 5,
       "ty": 4,

@@ -1,6 +1,41 @@
 {
   "dialogues": [
     {
+      "id": "posy-harvest-eggs",
+      "npcId": "market-trader-posy",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Trader Posy, purveyor of whatever the orchard gives and a few things it doesn't. Come Harvest Festival, the market barn pays silly money for fresh eggs — festival cakes wait for no hen.",
+          "choices": [
+            {
+              "label": "Sell 3 eggs — 35 💎 (harvest rate)",
+              "requireFestival": "harvest",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "egg",
+                  "wantCount": 3,
+                  "giveCrystals": 35,
+                  "missingText": "Fewer than three eggs in that pack. Every pen in the realm is clucking — bring feed.",
+                  "successText": "Festival rates, as promised — 35 crystals. The cake tent thanks you."
+                }
+              ]
+            },
+            {
+              "label": "Just browsing, Posy.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "wren-cake-trade",
       "npcId": "scrumping-wren",
       "start": "greet",

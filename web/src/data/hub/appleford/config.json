@@ -1308,6 +1308,7 @@
     {
       "id": "market-trader-posy",
       "name": "Trader Posy",
+      "dialogueTree": "posy-harvest-eggs",
       "sprite": "hub-npc-trader",
       "tx": 5,
       "ty": 4,
