@@ -1620,6 +1620,7 @@
     {
       "id": "shepherd-nan",
       "name": "Shepherd Nan",
+      "dialogueTree": "nan-snow-pie-trade",
       "sprite": "hub-npc-gardener",
       "tx": 3,
       "ty": 22,
@@ -2459,6 +2460,26 @@
     }
   },
   "interactables": [
+    {
+      "id": "harrowfield-rain-barrel",
+      "tx": 20,
+      "ty": 6,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "barrel"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "dig",
+          "requiresItemId": "bucket",
+          "weatherOnly": "rain",
+          "lootTable": "rain"
+        }
+      ]
+    },
     {
       "id": "harrowfield-chicken-feed",
       "tx": 4,

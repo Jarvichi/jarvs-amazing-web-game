@@ -2849,6 +2849,46 @@
   ],
   "interactables": [
     {
+      "id": "millhaven-bucket-stall",
+      "tx": 32,
+      "ty": 12,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "bucketAndRope"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "bucket",
+          "price": 25,
+          "speakerName": "Harbour Tackle Stall"
+        }
+      ]
+    },
+    {
+      "id": "millhaven-rain-barrel",
+      "tx": 8,
+      "ty": 13,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "barrel"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "dig",
+          "requiresItemId": "bucket",
+          "weatherOnly": "rain",
+          "lootTable": "rain"
+        }
+      ]
+    },
+    {
       "id": "millhaven-dig-1",
       "reactions": [
         {

@@ -2099,6 +2099,19 @@
   },
   "interactables": [
     {
+      "id": "apiary-honey-shelf",
+      "tx": 8,
+      "ty": 1,
+      "building": "apiary",
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "honey",
+          "price": 12
+        }
+      ]
+    },
+    {
       "id": "appleford-dig-1",
       "reactions": [
         {

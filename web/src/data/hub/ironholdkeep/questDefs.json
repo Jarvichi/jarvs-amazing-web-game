@@ -1313,6 +1313,48 @@
   ],
   "dialogues": [
     {
+      "id": "mabel-pie-craft",
+      "npcId": "castle-cook",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Feeding a garrison teaches you one recipe matters above all: the hearty pie. Bring me a fresh egg and good honey and I'll bake you one — the kind that ends arguments.",
+          "choices": [
+            {
+              "label": "Have a pie baked (1 egg + 1 honey)",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItems": [
+                    {
+                      "itemId": "egg"
+                    },
+                    {
+                      "itemId": "honey"
+                    }
+                  ],
+                  "giveHubItem": {
+                    "itemId": "hearty-pie"
+                  },
+                  "missingText": "That's not a pie's makings. An egg — any well-fed hen obliges — and honey from the Appleford apiary.",
+                  "successText": "Twenty minutes and the whole keep smells of it. One hearty pie, oven-fresh. Guard it well."
+                }
+              ]
+            },
+            {
+              "label": "Smells wonderful, Mabel.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "prisoner-pillow-trade",
       "npcId": "castle-prisoner",
       "start": "greet",

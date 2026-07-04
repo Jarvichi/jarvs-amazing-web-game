@@ -55,6 +55,7 @@ import { getUnreadCount } from '../../game/news'
 import { interactableStoreKey, isInteractableGranted, markInteractableGranted, getInteractableMoves, setInteractableMove } from '../../game/hub/interactables'
 import { canDigToday, recordDig } from '../../game/hub/digs'
 import { getReputationTier } from '../../data/hub/buildingUpgrades'
+import { resolveWeather } from '../../game/hub/weather'
 import { recordNpcMet, recordAnimalSeen, recordAreaSeen } from '../../game/hub/journal'
 import { getTodaysShopItems } from '../../game/hub/shopStock'
 import { loadDailyShopState, saveDailyShopState, isShopItemSold, markCardBought, markAugmentBought } from '../../game/shopSchedule'
@@ -274,6 +275,10 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
 
   // Active festival (real-date driven, with QA override) — gates festival quests + HUD badge.
   const activeFestival = getActiveFestival()
+  // Current town weather — gates requireWeather dialogue choices and
+  // weatherOnly dig spots (e.g. rain barrels). Same resolution the canvas
+  // uses for the visual weather overlay (§12).
+  const currentWeather = resolveWeather(locationData.WEATHER, locationData.ENVIRONMENT)
 
   // Quest NPC state: maps npcId → 'offer' | 'ready' | null, read imperatively by PixiJS ticker
   const questNpcStateRef = useRef(new Map<string, 'offer' | 'ready' | null>())
@@ -839,7 +844,8 @@ function hasOfferableQuest(giverId: string): boolean {
       (!c.hideIfFlag   || !hasDialogueFlag(c.hideIfFlag)) &&
       (!c.requireQuest || getQuestState(c.requireQuest).status === 'completed') &&
       (!c.hideIfQuest  || getQuestState(c.hideIfQuest).status !== 'completed') &&
-      (!c.requireFestival || c.requireFestival === activeFestival?.id)
+      (!c.requireFestival || c.requireFestival === activeFestival?.id) &&
+      (!c.requireWeather || c.requireWeather === currentWeather)
     )
     const choices: DialogueChoice[] = visible.map((c, i) => ({
       label:   c.label,
@@ -1517,8 +1523,14 @@ function hasOfferableQuest(giverId: string): boolean {
       }
       case 'dig': {
         // Once-per-day dig spot, gated on holding the required tool.
-        // nightOnly spots (dark hollows) only open after dark and roll the
-        // 'hollow' loot table instead of the default 'earth' one.
+        // nightOnly spots (dark hollows) only open after dark; weatherOnly
+        // spots (rain barrels) only work while the town's weather matches.
+        if (r.weatherOnly && r.weatherOnly !== currentWeather) {
+          setDialogueEvent({ speakerName: '', text: r.weatherOnly === 'rain'
+            ? 'The barrel sits bone dry. Come back when the rain does.'
+            : 'The weather is all wrong for this. Come back another time.' })
+          return
+        }
         if (r.nightOnly && !isGameNight) {
           setDialogueEvent({ speakerName: '', text: 'Whatever stirs in this hollow only shows itself after dark.' })
           return
@@ -1535,6 +1547,25 @@ function hasOfferableQuest(giverId: string): boolean {
           setDialogueEvent({ speakerName: '', text: r.nightOnly
             ? 'The hollow has given up all it will tonight. Return tomorrow night.'
             : "You've already turned this earth over today. Let it settle until tomorrow." })
+          return
+        }
+        if (r.lootTable === 'rain') {
+          const confirm: DialogueChoice = {
+            label: 'Scoop from the barrel',
+            primary: true,
+            onClick: () => {
+              recordDig(storeKey)
+              addHubItem('rainwater', 1)
+              emitSound('pickup')
+              refreshState()
+              setDialogueEvent({ speakerName: '', text: 'You skim a bucketful of clean rainwater from the barrel. 💧', onClose: next })
+            },
+          }
+          setDialogueEvent({
+            speakerName: '',
+            text: 'The rain barrel brims with fresh water, drumming softly under the downpour.',
+            choices: [confirm, { label: 'Leave it', onClick: () => setDialogueEvent(null) }],
+          })
           return
         }
         if (r.lootTable === 'hollow') {

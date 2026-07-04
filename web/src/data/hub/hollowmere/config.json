@@ -1204,6 +1204,7 @@
     {
       "id": "apothecary-herbalist",
       "name": "Sister Nettle",
+      "dialogueTree": "nettle-rainwater-trade",
       "sprite": "soulrend-witch",
       "tx": 5,
       "ty": 4,

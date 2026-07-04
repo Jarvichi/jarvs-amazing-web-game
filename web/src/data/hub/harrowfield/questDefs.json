@@ -1,4 +1,40 @@
 {
+  "dialogues": [
+    {
+      "id": "nan-snow-pie-trade",
+      "npcId": "shepherd-nan",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Shepherding doesn't stop for weather. Summer, I want for nothing. But when the snow sets in and the flock still needs walking… what I'd pay for something hot in my hands.",
+          "choices": [
+            {
+              "label": "Offer a hot hearty pie — 75 💎",
+              "requireWeather": "snow",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "hearty-pie",
+                  "giveCrystals": 75,
+                  "missingText": "You've no pie on you, and the snow's not getting warmer. Cook Mabel at Ironhold bakes them.",
+                  "successText": "She wraps frozen fingers around the warm crust and closes her eyes. 'Seventy-five, and cheap at twice that.' Snow-day rates."
+                }
+              ]
+            },
+            {
+              "label": "Keep warm, Nan.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
   "quests": [
     {
       "id": "harrowfield-seed-grain",

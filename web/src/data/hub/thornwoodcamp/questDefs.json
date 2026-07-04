@@ -1,6 +1,39 @@
 {
   "dialogues": [
     {
+      "id": "rell-pie-trade",
+      "npcId": "warden-rell",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Camp rations are bark tea and yesterday's bread. A man my age dreams of exactly one thing: a proper pie, still warm from a real oven.",
+          "choices": [
+            {
+              "label": "Hand over the hearty pie",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "hearty-pie",
+                  "giveCrystals": 50,
+                  "missingText": "You carry no pie, and now we're both sadder for it. Cook Mabel at Ironhold bakes them, for an egg and some honey.",
+                  "successText": "He eats half of it in reverent silence and wraps the rest for tomorrow. 'Worth every crystal.' 50, gladly."
+                }
+              ]
+            },
+            {
+              "label": "I'll see what I can do.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "mott-herring-trade",
       "npcId": "forager-mott",
       "start": "greet",
