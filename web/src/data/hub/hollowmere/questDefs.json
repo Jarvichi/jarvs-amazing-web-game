@@ -1,6 +1,40 @@
 {
   "dialogues": [
     {
+      "id": "nettle-rainwater-trade",
+      "npcId": "apothecary-herbalist",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Marsh water is fine for salves, but a proper tincture wants rainwater — clean-caught, never touched ground. Two bucketfuls and I'll pay honest coin.",
+          "choices": [
+            {
+              "label": "Sell 2 rainwater — 30 💎",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "rainwater",
+                  "wantCount": 2,
+                  "giveCrystals": 30,
+                  "missingText": "That's not two bucketfuls. Rain barrels fill in wet weather — Millhaven's rains near year-round.",
+                  "successText": "She holds each jar to the light and nods. 'Never touched ground. Perfect.' 30 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Stay dry, Sister.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "grunda-music-box-trade",
       "npcId": "bog-troll-attendant",
       "start": "greet",

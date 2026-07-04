@@ -9400,6 +9400,26 @@
   ],
   "interactables": [
     {
+      "id": "ravenwatch-rain-barrel",
+      "tx": 39,
+      "ty": 36,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "barrel"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "dig",
+          "requiresItemId": "bucket",
+          "weatherOnly": "rain",
+          "lootTable": "rain"
+        }
+      ]
+    },
+    {
       "id": "guild-compass-case",
       "tx": 11,
       "ty": 2,

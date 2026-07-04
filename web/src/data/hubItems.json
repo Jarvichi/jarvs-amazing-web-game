@@ -226,5 +226,34 @@
     "icon": "🛏️",
     "desc": "Three feathers, down-stuffed and double-stitched by the Net Loft. Softness itself.",
     "category": "material"
+  },
+  {
+    "id": "bucket",
+    "name": "Harbour Bucket",
+    "icon": "🪣",
+    "desc": "A stout harbour bucket. Rain barrels around the realm fill in wet weather.",
+    "category": "tool",
+    "unique": true
+  },
+  {
+    "id": "rainwater",
+    "name": "Rainwater",
+    "icon": "💧",
+    "desc": "Pure rainwater, barrel-caught. Herbalists swear tinctures brewed with it work twice as well.",
+    "category": "material"
+  },
+  {
+    "id": "honey",
+    "name": "Honey",
+    "icon": "🍯",
+    "desc": "Appleford apiary honey, comb-fresh. Bakers and cooks pay well for it.",
+    "category": "material"
+  },
+  {
+    "id": "hearty-pie",
+    "name": "Hearty Pie",
+    "icon": "🥧",
+    "desc": "Cook Mabel's egg-and-honey pie. Best eaten hot; best of all in the snow.",
+    "category": "material"
   }
 ]

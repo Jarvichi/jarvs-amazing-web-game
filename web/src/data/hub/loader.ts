@@ -278,10 +278,11 @@ export type HubInteractableReaction =
    *  gates the offer; unmet shows `lockedText`. */
   | { type: 'buyHubItem'; itemId: string; price: number; currency?: 'crystals' | 'tickets'; speakerName?: string; prerequisite?: string; lockedText?: string }
   /** Once-per-day dig spot: gated on holding the required tool hub-item
-   *  (default 'spade'); `nightOnly` spots open after dark only. lootTable
-   *  'earth' (default) rolls worms/crystals/trinket; 'hollow' rolls
-   *  glowcaps/crystals/fireflies. */
-  | { type: 'dig'; requiresItemId?: string; nightOnly?: boolean; lootTable?: 'earth' | 'hollow' }
+   *  (default 'spade'); `nightOnly` spots open after dark only; `weatherOnly`
+   *  spots only work while the town's weather matches (e.g. rain barrels).
+   *  lootTable 'earth' (default) rolls worms/crystals/trinket; 'hollow'
+   *  rolls glowcaps/crystals/fireflies; 'rain' always yields rainwater. */
+  | { type: 'dig'; requiresItemId?: string; nightOnly?: boolean; weatherOnly?: string; lootTable?: 'earth' | 'hollow' | 'rain' }
 
 export interface HubInteractable {
   id: string

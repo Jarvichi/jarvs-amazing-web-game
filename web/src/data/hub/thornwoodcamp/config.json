@@ -439,6 +439,7 @@
     {
       "id": "warden-rell",
       "name": "Warden Rell",
+      "dialogueTree": "rell-pie-trade",
       "sprite": "hub-npc-soldier",
       "tx": 11,
       "ty": 10,

@@ -2150,6 +2150,7 @@
     {
       "id": "castle-cook",
       "name": "Cook Mabel",
+      "dialogueTree": "mabel-pie-craft",
       "sprite": "hub-npc-elder",
       "tx": 6,
       "ty": 4,
