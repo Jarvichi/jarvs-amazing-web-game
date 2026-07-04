@@ -641,9 +641,10 @@
     },
     {
       "id": "fresh-fish-millhaven",
-      "tx": 31,
-      "ty": 10,
-      "tileId": "mushroomBasket"
+      "tx": 5,
+      "ty": 5,
+      "tileId": "goldFish",
+      "building": "inn-millhaven"
     },
     {
       "id": "nautical-chart",
