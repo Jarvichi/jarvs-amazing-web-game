@@ -2,6 +2,7 @@ import { GameState, Unit, BossTraitState, LANE_WIDTH } from '../types'
 import { PLAYER_SPAWN_X, OPPONENT_SPAWN_X } from './constants'
 import { LANE_POSITIONS, spawnUnit } from './helpers'
 import { getBossAIDef, BossTraitDef } from './boss'
+import { BOSS_FRAGMENT_UNIT } from '../cards'
 
 export const TRAIT_TILE_PX = 40  // 1 "tile" in trait radius = one lane-spacing in px
 
@@ -105,11 +106,7 @@ function fireSplitTrait(s: GameState, trait: BossTraitDef, log: string[]): void 
   const splitIds: string[] = []
   for (let i = 0; i < count; i++) {
     const pos = positions[i] ?? { x: OPPONENT_SPAWN_X - 40, y: 0 }
-    const frag = spawnUnit({
-      name: 'Boss Fragment', attack: 4, maxHp: hpEach,
-      isWall: false, bypassWall: true,
-      moveSpeed: 0, attackRange: 140, attackCooldownMs: 2500,
-    }, 'opponent')
+    const frag = spawnUnit({ ...BOSS_FRAGMENT_UNIT, maxHp: hpEach }, 'opponent')
     frag.x = pos.x
     frag.y = pos.y
     splitIds.push(frag.id)

@@ -1,5 +1,37 @@
 {
   "templates": {
+    "commander": {
+      "name": "Commander",
+      "attack": 15,
+      "maxHp": 1,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 8,
+      "attackRange": 35,
+      "attackCooldownMs": 2000,
+      "size": "large"
+    },
+    "warlord": {
+      "name": "Warlord",
+      "attack": 15,
+      "maxHp": 1,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 8,
+      "attackRange": 35,
+      "attackCooldownMs": 2000,
+      "size": "large"
+    },
+    "boss-fragment": {
+      "name": "Boss Fragment",
+      "attack": 4,
+      "maxHp": 1,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 0,
+      "attackRange": 140,
+      "attackCooldownMs": 2500
+    },
     "goblin": {
       "name": "Goblin",
       "attack": 3,

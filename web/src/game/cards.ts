@@ -180,6 +180,10 @@ export const GOBLIN_UNIT  = TEMPLATES['goblin']  as UnitTemplate
 export const ARCHER_UNIT  = TEMPLATES['archer']  as UnitTemplate
 export const DRAGON_UNIT  = TEMPLATES['dragon']  as UnitTemplate
 
+export const COMMANDER_UNIT     = TEMPLATES['commander']     as UnitTemplate
+export const WARLORD_UNIT       = TEMPLATES['warlord']       as UnitTemplate
+export const BOSS_FRAGMENT_UNIT = TEMPLATES['boss-fragment'] as UnitTemplate
+
 // ─── Hero Cards ───────────────────────────────────────────
 // One hero is randomly injected into each player's deck per game.
 
