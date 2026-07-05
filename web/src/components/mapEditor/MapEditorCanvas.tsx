@@ -364,7 +364,7 @@ export function MapEditorCanvas(props: Props) {
     worldContainer.y = padY
     stage.addChild(worldContainer)
     worldContainer.addChild(groundLayer, streetLayer, buildingLayer,
-                            decorBLayer, decorLayer, npcLayer, decorALayer, questLayer,
+                            decorBLayer, decorLayer, npcLayer, questLayer, decorALayer,
                             selLayer, gridLayer)
 
     if (isInterior && interior) {

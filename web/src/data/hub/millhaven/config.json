@@ -789,13 +789,13 @@
       "tileId": "smallRock"
     },
     {
-      "tx": 25,
+      "tx": 28,
       "ty": 4,
       "tileId": "barrel"
     },
     {
-      "tx": 26,
-      "ty": 3,
+      "tx": 27,
+      "ty": 4,
       "tileId": "barrel"
     },
     {
@@ -1466,7 +1466,7 @@
       "tx": 43,
       "ty": 15,
       "tileId": "boardwalkVertical",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 43,
@@ -1478,7 +1478,7 @@
       "tx": 43,
       "ty": 16,
       "tileId": "boardwalkVertical",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 43,
@@ -1490,7 +1490,7 @@
       "tx": 44,
       "ty": 15,
       "tileId": "boardwalkVertical",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 44,
@@ -1502,7 +1502,7 @@
       "tx": 44,
       "ty": 16,
       "tileId": "boardwalkVertical",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 44,
@@ -1514,7 +1514,7 @@
       "tx": 45,
       "ty": 16,
       "tileId": "boardwalkVertical",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 45,
@@ -1526,7 +1526,7 @@
       "tx": 45,
       "ty": 15,
       "tileId": "boardwalkVertical",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 45,

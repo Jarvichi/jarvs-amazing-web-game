@@ -240,7 +240,7 @@ export function HubTownCanvas({
     const npcLayer    = spriteLayer
     const avatarLayer = spriteLayer
     const exteriorDecorLayer = spriteLayer
-    worldRoot.addChild(groundLayer, streetLayer, pondLayer, buildingLayer, windowLayer, belowAvatarLayer, spriteLayer, aboveAvatarLayer, pickupLayer, nodeLayer, worldLayer, nightSprite, interiorLayer, bubbleLayer, highlightGfx)
+    worldRoot.addChild(groundLayer, streetLayer, pondLayer, buildingLayer, windowLayer, belowAvatarLayer, spriteLayer, pickupLayer, aboveAvatarLayer, nodeLayer, worldLayer, nightSprite, interiorLayer, bubbleLayer, highlightGfx)
 
     // Keyed by pickupId; used to imperatively show/hide sprites when items are collected
     const pickupSprites  = new Map<string, PIXI.Sprite>()
@@ -1866,7 +1866,7 @@ export function HubTownCanvas({
                   onItemPickupRef.current?.(pickup.id, pickup.questId)
                 })
               }
-              interiorLayer.addChild(s)
+              decorBelowContainer.addChild(s)
               pickupSprites.set(pickup.id, s)
             }
           }).catch(() => {})
@@ -2020,20 +2020,9 @@ export function HubTownCanvas({
         interiorLayer.addChild(marker)
       }
 
-      // Move avatar into interior (on top of solid/below decor)
-      if (avatar) {
-        if (!avatarInInterior) avatarLayer.removeChild(avatar)
-        avatar.x = defaultEntryTile[0] * T + T / 2
-        avatar.y = defaultEntryTile[1] * T + T
-        interiorLayer.addChild(avatar)
-        avatarInInterior = true
-      }
-
-      // above decor — added after avatar so it renders on top
-      interiorLayer.addChild(decorAboveContainer)
-      renderDecorItems(visibleDecor.filter(d => d.zlayer === 'above'), decorAboveContainer)
-
-      // Interior treasures — chests defined in the treasures array with a matching buildingId
+      // Interior treasures — chests defined in the treasures array with a matching buildingId.
+      // Added to decorBelowContainer (not interiorLayer directly) so above-tagged decor
+      // still renders on top regardless of texture-load timing.
       for (const t of HUB_TREASURES.filter(tr => tr.buildingId === buildingId)) {
         const isCollected = collectedTreasureRef.current.has(t.id)
         const displayTileId = isCollected && t.collectedTileId != null ? t.collectedTileId : t.tileId
@@ -2058,9 +2047,22 @@ export function HubTownCanvas({
               onTreasureStepRef.current?.(t.id)
             })
           }
-          interiorLayer.addChild(s)
+          decorBelowContainer.addChild(s)
         }).catch(() => {})
       }
+
+      // Move avatar into interior (on top of solid/below decor)
+      if (avatar) {
+        if (!avatarInInterior) avatarLayer.removeChild(avatar)
+        avatar.x = defaultEntryTile[0] * T + T / 2
+        avatar.y = defaultEntryTile[1] * T + T
+        interiorLayer.addChild(avatar)
+        avatarInInterior = true
+      }
+
+      // above decor — added after avatar so it renders on top
+      interiorLayer.addChild(decorAboveContainer)
+      renderDecorItems(visibleDecor.filter(d => d.zlayer === 'above'), decorAboveContainer)
 
       // Scroll viewport to center on interior
       onAvatarMoveRef.current(intOffX + defaultEntryTile[0] * T + T / 2, intOffY + defaultEntryTile[1] * T + T / 2)
