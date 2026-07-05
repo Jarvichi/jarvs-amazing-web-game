@@ -32,6 +32,7 @@ import { addCollectible, addConsumable, getCollectibles, addHubItem, removeHubIt
 import { questItemId } from '../../game/hub/questItems'
 import { QuestsModal } from './QuestsModal'
 import { HubInventoryModal } from './HubInventoryModal'
+import { TradeJournalModal } from './TradeJournalModal'
 import { BountyBoardModal } from './BountyBoardModal'
 import { hasUnclaimedBounties, getPendingBountyReport, getPendingBountyCollect, advanceBountyStep, getActiveBountyStep, isBountyCollectPickup, reconcileBountyPickups } from '../../game/hub/bounties'
 import { PetModal } from './PetModal'
@@ -197,6 +198,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   const [pickedUpIds,    setPickedUpIds]    = useState<Set<string>>(() => { reconcileBountyPickups(); return getPickedUpIds() })
   const [questsOpen,          setQuestsOpen]          = useState(false)
   const [inventoryOpen,       setInventoryOpen]       = useState(false)
+  const [tradeJournalOpen,    setTradeJournalOpen]    = useState(false)
   const [bountyBoardOpen,     setBountyBoardOpen]     = useState(false)
   const [petModalOpen,        setPetModalOpen]        = useState(false)
   const [directoryOpen,       setDirectoryOpen]       = useState(false)
@@ -1698,6 +1700,7 @@ function hasOfferableQuest(giverId: string): boolean {
           )}
         <ToolbarButton icon="📜" title="Quests" onClick={() => setQuestsOpen(true)} />
         <ToolbarButton icon="🎒" title="Inventory" onClick={() => setInventoryOpen(true)} />
+        <ToolbarButton icon="💱" title="Trade Journal" onClick={() => setTradeJournalOpen(true)} />
         <ToolbarButton icon="🧭" title="Where is…?" onClick={() => setDirectoryOpen(true)} />
         <ToolbarButton icon="📖" title="Journal" onClick={() => setJournalOpen(true)} />
         <ToolbarButton icon="🏗️" title="Town Upgrades" onClick={() => setUpgradesOpen(true)} />
@@ -1791,6 +1794,7 @@ function hasOfferableQuest(giverId: string): boolean {
 
         {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={questDefs} resolveNpcName={getNpcDisplayName}/>}
         {inventoryOpen && <HubInventoryModal onClose={() => setInventoryOpen(false)} questDefs={allQuestDefs} />}
+        {tradeJournalOpen && <TradeJournalModal onClose={() => setTradeJournalOpen(false)} />}
         {bountyBoardOpen && <BountyBoardModal onClose={() => setBountyBoardOpen(false)} resolveNpcName={getNpcDisplayName}/>}
         {petModalOpen && <PetModal onClose={() => setPetModalOpen(false)} petActionRef={petActionRef} />}
         {directoryOpen && <TownDirectory onClose={() => setDirectoryOpen(false)} locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} onShowRelationship={setRelationshipNpcId} />}
