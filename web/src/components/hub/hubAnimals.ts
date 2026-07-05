@@ -143,7 +143,7 @@ export const PLAYER_OWNER_ID = '__player__'
 export const PLAYER_PET_ANIMAL_ID = '__player-pet__'
 /** The player's pet is never allowed to wander more than this many tiles
  *  from the player — enforced by the leash check in the dog tick dispatch. */
-export const PLAYER_LEASH_TILES = 8
+export const PLAYER_LEASH_TILES = 5
 
 export interface AnimalSystem {
   tick: (deltaMS: number) => void
@@ -187,6 +187,11 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
   const animals: Animal[] = []
   // Set by sendPetFetching(); fired once the fetching pet is back near the player.
   let fetchCallback: (() => void) | null = null
+  // Tracks how long the player has been stationary, so the player's pet can
+  // sit rather than roam off — makes it a stable, easy tap target instead of
+  // a constantly-moving one.
+  let ownerLastPx: Pt | null = null
+  let ownerStillMs = 0
 
   const overlayAnimLayer = new PIXI.Container()   // birds + butterflies (above buildings)
   const fishLayer = new PIXI.Container()
@@ -827,6 +832,11 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     const avatar = opts.getAvatarPx()
     const npcs = opts.getNpcPositions()
     const hour = opts.getGameHour()
+
+    const ownerMoveDist = ownerLastPx ? Math.hypot(avatar.x - ownerLastPx.x, avatar.y - ownerLastPx.y) : Infinity
+    ownerStillMs = ownerMoveDist > 1 ? 0 : ownerStillMs + dt
+    ownerLastPx = { x: avatar.x, y: avatar.y }
+    const ownerIsStill = ownerStillMs > 400   // debounced so brief pauses/collisions don't flicker the pet in and out of sitting
     const night = isNightHour(hour)
 
     // Ambient critter sounds: every few seconds a nearby, visible, vocal animal
@@ -908,6 +918,17 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
         tickFetching(a, walkable, npcs)
       } else {
         dogSocial(a, dt, npcs)
+        // The player's own pet sits still (rather than roaming) whenever the
+        // player is stationary, so it's a stable, easy tap target instead of
+        // a constantly-moving one. Chase/fetch are left uninterrupted since
+        // they're brief and often happen while the player stands still anyway.
+        if (a.ownerId === PLAYER_OWNER_ID && ownerIsStill && a.state !== 'chase' && a.state !== 'fetching-out' && a.state !== 'fetching-return') {
+          if (a.state !== 'sit' || isMoving(a)) {
+            a.path = []; a.movingTo = null; a.target = null
+            a.state = 'sit'; a.stateTimer = randomDuration('sit')
+          }
+          continue
+        }
         dogChasePrey(a, dt)
         if (a.state === 'follow-owner' && !isMoving(a) && a.stateTimer > 0) {
           const owner = npcs.find(n => n.id === a.ownerId)
