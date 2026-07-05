@@ -1472,7 +1472,7 @@
       "tx": 43,
       "ty": 15,
       "tileId": "boardwalkVertical",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 43,
@@ -1484,7 +1484,7 @@
       "tx": 43,
       "ty": 16,
       "tileId": "boardwalkVertical",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 44,
@@ -1496,7 +1496,7 @@
       "tx": 44,
       "ty": 15,
       "tileId": "boardwalkVertical",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 44,
@@ -1508,7 +1508,7 @@
       "tx": 44,
       "ty": 16,
       "tileId": "boardwalkVertical",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 45,
@@ -1520,7 +1520,7 @@
       "tx": 45,
       "ty": 16,
       "tileId": "boardwalkVertical",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 45,
@@ -1532,7 +1532,7 @@
       "tx": 45,
       "ty": 15,
       "tileId": "boardwalkVertical",
-      "zlayer": "solid"
+      "zlayer": "below"
     }
   ],
   "npcSpawnTiles": [],
@@ -3025,7 +3025,7 @@
     {
       "id": "millhaven-bucket-stall",
       "tx": 39,
-      "ty": 14,
+      "ty": 15,
       "decor": [
         {
           "dx": 0,
@@ -3101,7 +3101,7 @@
     {
       "id": "millhaven-rod-stall",
       "tx": 38,
-      "ty": 14,
+      "ty": 15,
       "decor": [
         {
           "dx": 0,
@@ -3121,7 +3121,7 @@
     {
       "id": "millhaven-bait-stall",
       "tx": 40,
-      "ty": 14,
+      "ty": 15,
       "decor": [
         {
           "dx": 0,
@@ -3386,7 +3386,7 @@
         33,
         12,
         36,
-        15
+        16
       ],
       "count": 3,
       "roost": [
