@@ -1436,7 +1436,7 @@
       "tx": 43,
       "ty": 17,
       "tileId": "boardwalkVerticalSupport",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 44,
@@ -1448,7 +1448,7 @@
       "tx": 44,
       "ty": 17,
       "tileId": "boardwalkVerticalSupport",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 45,
@@ -1460,7 +1460,7 @@
       "tx": 45,
       "ty": 17,
       "tileId": "boardwalkVerticalSupport",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 43,
@@ -3025,7 +3025,7 @@
     {
       "id": "millhaven-bucket-stall",
       "tx": 39,
-      "ty": 15,
+      "ty": 14,
       "decor": [
         {
           "dx": 0,
@@ -3101,7 +3101,7 @@
     {
       "id": "millhaven-rod-stall",
       "tx": 38,
-      "ty": 15,
+      "ty": 14,
       "decor": [
         {
           "dx": 0,
@@ -3121,7 +3121,7 @@
     {
       "id": "millhaven-bait-stall",
       "tx": 40,
-      "ty": 15,
+      "ty": 14,
       "decor": [
         {
           "dx": 0,

@@ -431,7 +431,7 @@ function BundleEditor() {
             </div>
           </div>
 
-          <div style={{ minWidth: 360, maxWidth: 440 }}>
+          <div style={{ minWidth: 360, maxWidth: 440, maxHeight: 'calc(100vh - 60px)', overflowY: 'auto', paddingRight: 8 }}>
             <label style={{ ...lbl, display: 'block', marginBottom: 10 }}>
               Bundle ID
               <input
