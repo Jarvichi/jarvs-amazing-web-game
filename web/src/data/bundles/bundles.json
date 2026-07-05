@@ -1469,5 +1469,112 @@
         "zlayer": "solid"
       }
     ]
+  },
+  {
+    "bundleID": "market-stall",
+    "tiles": [
+      {
+        "tileID": "stripedShopAwningSupportPillarBot",
+        "x": 0,
+        "y": 0,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "stripedShopAwningSupportPillar",
+        "x": 0,
+        "y": 1,
+        "zlayer": "above"
+      },
+      {
+        "tileID": "stripedShopAwningWithSupport",
+        "x": 0,
+        "y": 2,
+        "zlayer": "above"
+      },
+      {
+        "tileID": "stripedShopAwningTop",
+        "x": 0,
+        "y": 3,
+        "zlayer": "above"
+      },
+      {
+        "tileID": "stripedShopAwningTop",
+        "x": 1,
+        "y": 3,
+        "zlayer": "above"
+      },
+      {
+        "tileID": "stripedShopAwningBottom",
+        "x": 1,
+        "y": 2,
+        "zlayer": "above"
+      },
+      {
+        "tileID": "stripedShopAwningBottom",
+        "x": 2,
+        "y": 2,
+        "zlayer": "above"
+      },
+      {
+        "tileID": "stripedShopAwningTop",
+        "x": 2,
+        "y": 3,
+        "zlayer": "above"
+      },
+      {
+        "tileID": "stripedShopAwningTop",
+        "x": 4,
+        "y": 3,
+        "zlayer": "above"
+      },
+      {
+        "tileID": "stripedShopAwningTop",
+        "x": 3,
+        "y": 3,
+        "zlayer": "above"
+      },
+      {
+        "tileID": "stripedShopAwningBottom",
+        "x": 3,
+        "y": 2,
+        "zlayer": "above"
+      },
+      {
+        "tileID": "stripedShopAwningWithSupport",
+        "x": 4,
+        "y": 2,
+        "zlayer": "above"
+      },
+      {
+        "tileID": "stripedShopAwningSupportPillar",
+        "x": 4,
+        "y": 1,
+        "zlayer": "above"
+      },
+      {
+        "tileID": "stripedShopAwningSupportPillarBot",
+        "x": 4,
+        "y": 0,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "counterTopHorizontalLeft",
+        "x": 1,
+        "y": 0,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "counterTopHorizontalMiddle",
+        "x": 2,
+        "y": 0,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "counterTopHorizontalRight",
+        "x": 3,
+        "y": 0,
+        "zlayer": "solid"
+      }
+    ]
   }
 ]

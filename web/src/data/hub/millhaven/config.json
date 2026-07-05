@@ -244,6 +244,28 @@
         30,
         5
       ]
+    },
+    {
+      "rect": [
+        33,
+        16,
+        37,
+        16
+      ]
+    },
+    {
+      "rect": [
+        38,
+        15,
+        41,
+        15
+      ]
+    },
+    {
+      "tile": [
+        37,
+        15
+      ]
     }
   ],
   "buildings": [
@@ -1399,190 +1421,10 @@
       "zlayer": "solid"
     },
     {
-      "tx": 27,
-      "ty": 4,
-      "tileId": "counterTopHorizontalLeft",
+      "tx": 37,
+      "ty": 14,
+      "bundleID": "market-stall",
       "zlayer": "solid"
-    },
-    {
-      "tx": 28,
-      "ty": 4,
-      "tileId": "counterTopHorizontalMiddle",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 29,
-      "ty": 4,
-      "tileId": "counterTopHorizontalRight",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 26,
-      "ty": 4,
-      "tileId": "stripedShopAwningSupportPillarBot",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 26,
-      "ty": 4,
-      "tileId": "stripedShopAwningSupportPillarBot",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 30,
-      "ty": 4,
-      "tileId": "stripedShopAwningSupportPillarBot",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 30,
-      "ty": 4,
-      "tileId": "stripedShopAwningSupportPillarBot",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 26,
-      "ty": 3,
-      "tileId": "stripedShopAwningSupportPillar",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 26,
-      "ty": 3,
-      "tileId": "stripedShopAwningSupportPillar",
-      "zlayer": "above"
-    },
-    {
-      "tx": 30,
-      "ty": 3,
-      "tileId": "stripedShopAwningSupportPillar",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 30,
-      "ty": 3,
-      "tileId": "stripedShopAwningSupportPillar",
-      "zlayer": "above"
-    },
-    {
-      "tx": 26,
-      "ty": 2,
-      "tileId": "stripedShopAwningWithSupport",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 26,
-      "ty": 2,
-      "tileId": "stripedShopAwningWithSupport",
-      "zlayer": "above"
-    },
-    {
-      "tx": 27,
-      "ty": 2,
-      "tileId": "stripedShopAwningBottom",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 27,
-      "ty": 2,
-      "tileId": "stripedShopAwningBottom",
-      "zlayer": "above"
-    },
-    {
-      "tx": 28,
-      "ty": 2,
-      "tileId": "stripedShopAwningBottom",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 28,
-      "ty": 2,
-      "tileId": "stripedShopAwningBottom",
-      "zlayer": "above"
-    },
-    {
-      "tx": 29,
-      "ty": 2,
-      "tileId": "stripedShopAwningBottom",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 29,
-      "ty": 2,
-      "tileId": "stripedShopAwningBottom",
-      "zlayer": "above"
-    },
-    {
-      "tx": 30,
-      "ty": 2,
-      "tileId": "stripedShopAwningWithSupport",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 30,
-      "ty": 2,
-      "tileId": "stripedShopAwningWithSupport",
-      "zlayer": "above"
-    },
-    {
-      "tx": 26,
-      "ty": 1,
-      "tileId": "stripedShopAwningTop",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 26,
-      "ty": 1,
-      "tileId": "stripedShopAwningTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 27,
-      "ty": 1,
-      "tileId": "stripedShopAwningTop",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 27,
-      "ty": 1,
-      "tileId": "stripedShopAwningTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 28,
-      "ty": 1,
-      "tileId": "stripedShopAwningTop",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 28,
-      "ty": 1,
-      "tileId": "stripedShopAwningTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 29,
-      "ty": 1,
-      "tileId": "stripedShopAwningTop",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 29,
-      "ty": 1,
-      "tileId": "stripedShopAwningTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 30,
-      "ty": 1,
-      "tileId": "stripedShopAwningTop",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 30,
-      "ty": 1,
-      "tileId": "stripedShopAwningTop",
-      "zlayer": "above"
     }
   ],
   "npcSpawnTiles": [],
@@ -1747,8 +1589,8 @@
       "id": "sailor-finn",
       "name": "Sailor Finn",
       "sprite": "hub-npc-fisherman",
-      "tx": 32,
-      "ty": 5,
+      "tx": 29,
+      "ty": 4,
       "dialogue": [
         "The tides have been off all week. Something in the currents.",
         "I've seen three ships go dark past the reef. No word from them.",
@@ -2025,8 +1867,8 @@
       "id": "harbour-angler",
       "name": "Old Pellan",
       "sprite": "hub-npc-fisherman",
-      "tx": 32,
-      "ty": 8,
+      "tx": 42,
+      "ty": 15,
       "dialogue": [
         "Best fishing on the coast, right off this dock.",
         "Cast a line with me — the harbour's always biting.",
@@ -2038,8 +1880,8 @@
       "id": "quartermaster-millhaven",
       "name": "Quartermaster Hale",
       "sprite": "hub-npc-supplies",
-      "tx": 28,
-      "ty": 3,
+      "tx": 39,
+      "ty": 13,
       "dialogue": [
         "Potions, provisions, the lot — stocked fresh off the boats.",
         "A traveller far from home still needs to resupply. Take a look.",
@@ -3044,20 +2886,38 @@
       ],
       "roam": true,
       "areaRect": [
-        13,
-        10,
+        0,
+        0,
         10,
         10
       ],
       "questGive": "kippers-kipper",
       "dialogueTree": "kipper-truth"
+    },
+    {
+      "id": "animal-1783235271722",
+      "type": "dog",
+      "tx": 38,
+      "ty": 16,
+      "variant": "brown",
+      "name": "Ralph",
+      "dialogue": [
+        "<Whimper>"
+      ],
+      "roam": true,
+      "areaRect": [
+        -1,
+        -1,
+        4,
+        2
+      ]
     }
   ],
   "interactables": [
     {
       "id": "millhaven-bucket-stall",
-      "tx": 28,
-      "ty": 4,
+      "tx": 39,
+      "ty": 14,
       "decor": [
         {
           "dx": 0,
@@ -3132,8 +2992,8 @@
     },
     {
       "id": "millhaven-rod-stall",
-      "tx": 27,
-      "ty": 4,
+      "tx": 38,
+      "ty": 14,
       "decor": [
         {
           "dx": 0,
@@ -3152,8 +3012,8 @@
     },
     {
       "id": "millhaven-bait-stall",
-      "tx": 29,
-      "ty": 4,
+      "tx": 40,
+      "ty": 14,
       "decor": [
         {
           "dx": 0,
@@ -3333,9 +3193,9 @@
     },
     {
       "rect": [
-        37,
+        43,
         12,
-        47,
+        53,
         17
       ]
     },
