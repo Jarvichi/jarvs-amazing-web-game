@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import type { HubQuestDef } from '../../data/hub/questDefs'
 import { getQuestState, getQuestProgress } from '../../game/hub/quests'
+import { getDailyBounties, isBountyAccepted, isBountyCompleted, getActiveBountyStepHint } from '../../game/hub/bounties'
 
 interface Props {
   onClose: () => void
@@ -45,6 +46,8 @@ export function QuestsModal({ onClose, onAbandon, questDefs, resolveNpcName = (i
   const discovered = active.length + completed.length
   const total      = questDefs.length
 
+  const acceptedBounties = getDailyBounties().filter(b => isBountyAccepted(b.id) && !isBountyCompleted(b.id))
+
   return (
     <ModalBackdrop onClose={onClose}>
       <div className="quests-modal">
@@ -56,7 +59,7 @@ export function QuestsModal({ onClose, onAbandon, questDefs, resolveNpcName = (i
           </span>
         </div>
 
-        {discovered === 0 && (
+        {discovered === 0 && acceptedBounties.length === 0 && (
           <div className="quests-modal__empty">No quests active yet — talk to the townsfolk.</div>
         )}
 
@@ -96,6 +99,25 @@ export function QuestsModal({ onClose, onAbandon, questDefs, resolveNpcName = (i
                 )}
               </div>
             ))}
+          </>
+        )}
+
+        {acceptedBounties.length > 0 && (
+          <>
+            <div className="quests-modal__section-label">Bounties</div>
+            {acceptedBounties.map(bounty => {
+              const hint = getActiveBountyStepHint(bounty, resolveNpcName)
+              return (
+                <div key={bounty.id} className="quests-modal__card quests-modal__card--active">
+                  <div className="quests-modal__title-row">
+                    <span className="quests-modal__title">{bounty.icon} {bounty.title}</span>
+                  </div>
+                  <div className="quests-modal__desc">{bounty.desc}</div>
+                  {hint && <div className="quests-modal__hint">{hint}</div>}
+                  <div className="quests-modal__reward">+{bounty.reward.crystals} 💎</div>
+                </div>
+              )
+            })}
           </>
         )}
 

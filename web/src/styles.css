@@ -15260,6 +15260,7 @@ html.light-mode .action-btn {
   justify-content: space-between;
   align-items: center;
 }
+.quests-modal__desc   { font-size: 10px; color: #667766; font-style: italic; }
 .quests-modal__hint   { font-size: 10px; color: #667766; margin-top: 6px; font-style: italic; }
 .quests-modal__reward { font-size: 10px; color: #88cc88; margin-top: 4px; }
 .quests-modal__title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }

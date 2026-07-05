@@ -1,21 +1,11 @@
 import React, { useState } from 'react'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
-import type { BountyDef } from '../../game/hub/bounties'
-import { getDailyBounties, isBountyAccepted, isBountyCompleted, acceptBounty, turnInBounty, getActiveBountyStep } from '../../game/hub/bounties'
+import { getDailyBounties, isBountyAccepted, isBountyCompleted, acceptBounty, turnInBounty, getActiveBountyStepHint } from '../../game/hub/bounties'
 
 interface Props {
   onClose: () => void
   /** Resolve an NPC/animal id to its display name (for report-step hints). */
   resolveNpcName?: (id: string) => string
-}
-
-/** Human-readable hint for a bounty's current step, or null once fully done. */
-function activeStepHint(bounty: BountyDef, resolveNpcName: (id: string) => string): string | null {
-  const step = getActiveBountyStep(bounty.id)
-  if (!step) return null
-  if (step.type === 'report' && step.targetNpcId) return `Report to ${resolveNpcName(step.targetNpcId)}`
-  if (step.type === 'collect') return 'Find the item out in the world to advance this bounty'
-  return null
 }
 
 export function BountyBoardModal({ onClose, resolveNpcName = (id) => id }: Props) {
@@ -61,7 +51,7 @@ export function BountyBoardModal({ onClose, resolveNpcName = (id) => id }: Props
           <>
             <div className="bounty-board-modal__section-label">Accepted</div>
             {accepted.map(bounty => {
-              const hint = activeStepHint(bounty, resolveNpcName)
+              const hint = getActiveBountyStepHint(bounty, resolveNpcName)
               return (
                 <div key={bounty.id} className="bounty-board-modal__card bounty-board-modal__card--accepted">
                   <div className="bounty-board-modal__title-row">
