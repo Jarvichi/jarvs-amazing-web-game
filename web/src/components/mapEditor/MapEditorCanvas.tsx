@@ -175,8 +175,8 @@ export function MapEditorCanvas(props: Props) {
         dragRef.current = {
           entities: dragEntities.map(ent => ({
             entity: ent,
-            offsetX: anchorTx - getEntityTx(cfg, ent),
-            offsetY: anchorTy - getEntityTy(cfg, ent),
+            offsetX: anchorTx - getEntityTx(cfg, ent, propsRef.current.questPickupItems),
+            offsetY: anchorTy - getEntityTy(cfg, ent, propsRef.current.questPickupItems),
           })),
           lastTx: anchorTx, lastTy: anchorTy,
         }
@@ -1656,7 +1656,7 @@ function hitTest(
   return null
 }
 
-function getEntityTx(cfg: RawMapConfig, entity: SelectedEntity): number {
+function getEntityTx(cfg: RawMapConfig, entity: SelectedEntity, questPickupItems?: RawQuestPickupItem[]): number {
   if (entity.type === 'exteriorDecor') return cfg.exteriorDecor?.[entity.index]?.tx ?? 0
   if (entity.type === 'npc') return cfg.npcs?.[entity.index]?.tx ?? 0
   if (entity.type === 'animal') return cfg.animals?.[entity.index]?.tx ?? 0
@@ -1706,12 +1706,12 @@ function getEntityTx(cfg: RawMapConfig, entity: SelectedEntity): number {
   if (entity.type === 'interactable') return cfg.interactables?.[entity.index]?.tx ?? 0
   if (entity.type === 'exitTile') return cfg.exitTiles?.[entity.index]?.tx ?? 0
   if (entity.type === 'treasure') return cfg.treasures?.[entity.index]?.tx ?? 0
-  if (entity.type === 'pickupItem') return cfg.pickupItems?.[entity.index]?.tx ?? 0
+  if (entity.type === 'pickupItem') return questPickupItems?.[entity.index]?.tx ?? cfg.pickupItems?.[entity.index]?.tx ?? 0
   if (entity.type === 'area') return cfg.areas?.[entity.index]?.tx ?? 0
   return 0
 }
 
-function getEntityTy(cfg: RawMapConfig, entity: SelectedEntity): number {
+function getEntityTy(cfg: RawMapConfig, entity: SelectedEntity, questPickupItems?: RawQuestPickupItem[]): number {
   if (entity.type === 'exteriorDecor') return cfg.exteriorDecor?.[entity.index]?.ty ?? 0
   if (entity.type === 'npc') return cfg.npcs?.[entity.index]?.ty ?? 0
   if (entity.type === 'animal') return cfg.animals?.[entity.index]?.ty ?? 0
@@ -1761,7 +1761,7 @@ function getEntityTy(cfg: RawMapConfig, entity: SelectedEntity): number {
   if (entity.type === 'interactable') return cfg.interactables?.[entity.index]?.ty ?? 0
   if (entity.type === 'exitTile') return cfg.exitTiles?.[entity.index]?.ty ?? 0
   if (entity.type === 'treasure') return cfg.treasures?.[entity.index]?.ty ?? 0
-  if (entity.type === 'pickupItem') return cfg.pickupItems?.[entity.index]?.ty ?? 0
+  if (entity.type === 'pickupItem') return questPickupItems?.[entity.index]?.ty ?? cfg.pickupItems?.[entity.index]?.ty ?? 0
   if (entity.type === 'area') return cfg.areas?.[entity.index]?.ty ?? 0
   return 0
 }

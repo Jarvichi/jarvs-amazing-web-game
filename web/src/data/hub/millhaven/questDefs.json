@@ -613,29 +613,29 @@
     },
     {
       "id": "grain-sack-2",
-      "tx": 31,
-      "ty": 17,
+      "tx": 33,
+      "ty": 20,
       "tileId": "sack",
       "questId": "millhaven-mill-grain"
     },
     {
       "id": "grain-sack-3",
       "tx": 9,
-      "ty": 8,
+      "ty": 7,
       "tileId": "sack",
       "questId": "millhaven-mill-grain"
     },
     {
       "id": "fish-basket-1",
-      "tx": 19,
+      "tx": 21,
       "ty": 9,
       "tileId": "mushroomBasket",
       "questId": "millhaven-missing-catch"
     },
     {
       "id": "fish-basket-2",
-      "tx": 31,
-      "ty": 12,
+      "tx": 33,
+      "ty": 16,
       "tileId": "mushroomBasket",
       "questId": "millhaven-missing-catch"
     },
@@ -687,7 +687,7 @@
     },
     {
       "id": "kippers-kipper-2",
-      "tx": 30,
+      "tx": 28,
       "ty": 13,
       "tileId": "goldFish",
       "zlayer": "below",
@@ -712,49 +712,49 @@
     {
       "id": "fresh-loaf-1",
       "tx": 10,
-      "ty": 8,
-      "tileId": "appleBasket",
-      "questId": "millhaven-fresh-bread"
-    },
-    {
-      "id": "fresh-loaf-2",
-      "tx": 16,
       "ty": 11,
       "tileId": "appleBasket",
       "questId": "millhaven-fresh-bread"
     },
     {
+      "id": "fresh-loaf-2",
+      "tx": 15,
+      "ty": 9,
+      "tileId": "appleBasket",
+      "questId": "millhaven-fresh-bread"
+    },
+    {
       "id": "scrap-iron-1",
-      "tx": 31,
-      "ty": 7,
+      "tx": 33,
+      "ty": 5,
       "tileId": "axe",
       "questId": "millhaven-scrap-iron"
     },
     {
       "id": "scrap-iron-2",
-      "tx": 28,
-      "ty": 15,
+      "tx": 23,
+      "ty": 12,
       "tileId": "axe",
       "questId": "millhaven-scrap-iron"
     },
     {
       "id": "scrap-iron-3",
-      "tx": 15,
-      "ty": 14,
+      "tx": 12,
+      "ty": 16,
       "tileId": "axe",
       "questId": "millhaven-scrap-iron"
     },
     {
       "id": "lost-net-1",
-      "tx": 17,
-      "ty": 28,
+      "tx": 16,
+      "ty": 32,
       "tileId": "cotton",
       "questId": "millhaven-lost-nets"
     },
     {
       "id": "lost-net-2",
-      "tx": 27,
-      "ty": 23,
+      "tx": 28,
+      "ty": 24,
       "tileId": "cotton",
       "questId": "millhaven-lost-nets"
     },
@@ -767,8 +767,8 @@
     },
     {
       "id": "restock-barrel",
-      "tx": 32,
-      "ty": 11,
+      "tx": 33,
+      "ty": 10,
       "tileId": "barrel",
       "questId": "millhaven-market-restock"
     },
@@ -782,8 +782,8 @@
     },
     {
       "id": "restock-crate",
-      "tx": 18,
-      "ty": 16,
+      "tx": 20,
+      "ty": 18,
       "tileId": "crate",
       "questId": "millhaven-market-restock",
       "chain": "restock-sack"

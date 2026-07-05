@@ -236,6 +236,14 @@
         3,
         33
       ]
+    },
+    {
+      "rect": [
+        27,
+        5,
+        30,
+        5
+      ]
     }
   ],
   "buildings": [
@@ -759,13 +767,13 @@
       "tileId": "smallRock"
     },
     {
-      "tx": 24,
-      "ty": 5,
+      "tx": 25,
+      "ty": 4,
       "tileId": "barrel"
     },
     {
-      "tx": 25,
-      "ty": 5,
+      "tx": 26,
+      "ty": 3,
       "tileId": "barrel"
     },
     {
@@ -774,8 +782,8 @@
       "tileId": "barrel"
     },
     {
-      "tx": 32,
-      "ty": 3,
+      "tx": 33,
+      "ty": 5,
       "tileId": "barrel"
     },
     {
@@ -795,7 +803,7 @@
       "comment": "market stall crates"
     },
     {
-      "tx": 30,
+      "tx": 33,
       "ty": 4,
       "tileId": "crate"
     },
@@ -1298,8 +1306,8 @@
       "zlayer": "solid"
     },
     {
-      "tx": 24,
-      "ty": 4,
+      "tx": 22,
+      "ty": 3,
       "bundleID": "dark-tree-cluster-V",
       "zlayer": "solid"
     },
@@ -1317,7 +1325,7 @@
     },
     {
       "tx": 0,
-      "ty": 18,
+      "ty": 20,
       "bundleID": "dark-tree-column-4",
       "zlayer": "solid"
     },
@@ -1352,14 +1360,14 @@
       "comment": "decor on the boathouse quay"
     },
     {
-      "tx": 23,
-      "ty": 6,
+      "tx": 26,
+      "ty": 5,
       "tileId": "barrel",
       "zlayer": "solid"
     },
     {
-      "tx": 29,
-      "ty": 5,
+      "tx": 33,
+      "ty": 11,
       "tileId": "crate",
       "zlayer": "above"
     },
@@ -1377,6 +1385,204 @@
       "ty": 12,
       "tileId": "hayStack",
       "zlayer": "solid"
+    },
+    {
+      "tx": 12,
+      "ty": 16,
+      "tileId": "choppingBlock",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 12,
+      "ty": 16,
+      "tileId": "choppingBlock",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 27,
+      "ty": 4,
+      "tileId": "counterTopHorizontalLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 28,
+      "ty": 4,
+      "tileId": "counterTopHorizontalMiddle",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 29,
+      "ty": 4,
+      "tileId": "counterTopHorizontalRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 26,
+      "ty": 4,
+      "tileId": "stripedShopAwningSupportPillarBot",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 26,
+      "ty": 4,
+      "tileId": "stripedShopAwningSupportPillarBot",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 30,
+      "ty": 4,
+      "tileId": "stripedShopAwningSupportPillarBot",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 30,
+      "ty": 4,
+      "tileId": "stripedShopAwningSupportPillarBot",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 26,
+      "ty": 3,
+      "tileId": "stripedShopAwningSupportPillar",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 26,
+      "ty": 3,
+      "tileId": "stripedShopAwningSupportPillar",
+      "zlayer": "above"
+    },
+    {
+      "tx": 30,
+      "ty": 3,
+      "tileId": "stripedShopAwningSupportPillar",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 30,
+      "ty": 3,
+      "tileId": "stripedShopAwningSupportPillar",
+      "zlayer": "above"
+    },
+    {
+      "tx": 26,
+      "ty": 2,
+      "tileId": "stripedShopAwningWithSupport",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 26,
+      "ty": 2,
+      "tileId": "stripedShopAwningWithSupport",
+      "zlayer": "above"
+    },
+    {
+      "tx": 27,
+      "ty": 2,
+      "tileId": "stripedShopAwningBottom",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 27,
+      "ty": 2,
+      "tileId": "stripedShopAwningBottom",
+      "zlayer": "above"
+    },
+    {
+      "tx": 28,
+      "ty": 2,
+      "tileId": "stripedShopAwningBottom",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 28,
+      "ty": 2,
+      "tileId": "stripedShopAwningBottom",
+      "zlayer": "above"
+    },
+    {
+      "tx": 29,
+      "ty": 2,
+      "tileId": "stripedShopAwningBottom",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 29,
+      "ty": 2,
+      "tileId": "stripedShopAwningBottom",
+      "zlayer": "above"
+    },
+    {
+      "tx": 30,
+      "ty": 2,
+      "tileId": "stripedShopAwningWithSupport",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 30,
+      "ty": 2,
+      "tileId": "stripedShopAwningWithSupport",
+      "zlayer": "above"
+    },
+    {
+      "tx": 26,
+      "ty": 1,
+      "tileId": "stripedShopAwningTop",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 26,
+      "ty": 1,
+      "tileId": "stripedShopAwningTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 27,
+      "ty": 1,
+      "tileId": "stripedShopAwningTop",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 27,
+      "ty": 1,
+      "tileId": "stripedShopAwningTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 28,
+      "ty": 1,
+      "tileId": "stripedShopAwningTop",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 28,
+      "ty": 1,
+      "tileId": "stripedShopAwningTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 29,
+      "ty": 1,
+      "tileId": "stripedShopAwningTop",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 29,
+      "ty": 1,
+      "tileId": "stripedShopAwningTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 30,
+      "ty": 1,
+      "tileId": "stripedShopAwningTop",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 30,
+      "ty": 1,
+      "tileId": "stripedShopAwningTop",
+      "zlayer": "above"
     }
   ],
   "npcSpawnTiles": [],
@@ -1542,7 +1748,7 @@
       "name": "Sailor Finn",
       "sprite": "hub-npc-fisherman",
       "tx": 32,
-      "ty": 6,
+      "ty": 5,
       "dialogue": [
         "The tides have been off all week. Something in the currents.",
         "I've seen three ships go dark past the reef. No word from them.",
@@ -1614,7 +1820,7 @@
       "id": "baker-pernel",
       "name": "Baker Pernel",
       "sprite": "hub-npc-merchant",
-      "tx": 24,
+      "tx": 20,
       "ty": 32,
       "dialogue": [
         "Fresh loaves out of the oven — mind, they're still warm.",
@@ -1819,8 +2025,8 @@
       "id": "harbour-angler",
       "name": "Old Pellan",
       "sprite": "hub-npc-fisherman",
-      "tx": 31,
-      "ty": 11,
+      "tx": 32,
+      "ty": 8,
       "dialogue": [
         "Best fishing on the coast, right off this dock.",
         "Cast a line with me — the harbour's always biting.",
@@ -1832,8 +2038,8 @@
       "id": "quartermaster-millhaven",
       "name": "Quartermaster Hale",
       "sprite": "hub-npc-supplies",
-      "tx": 21,
-      "ty": 13,
+      "tx": 28,
+      "ty": 3,
       "dialogue": [
         "Potions, provisions, the lot — stocked fresh off the boats.",
         "A traveller far from home still needs to resupply. Take a look.",
@@ -2764,8 +2970,8 @@
     },
     {
       "id": "millhaven-chest-2",
-      "tx": 31,
-      "ty": 4,
+      "tx": 32,
+      "ty": 3,
       "tileId": "chest",
       "collectedTileId": "openChest",
       "title": "A moss-covered chest hidden in the forest",
@@ -2850,8 +3056,8 @@
   "interactables": [
     {
       "id": "millhaven-bucket-stall",
-      "tx": 32,
-      "ty": 12,
+      "tx": 28,
+      "ty": 4,
       "decor": [
         {
           "dx": 0,
@@ -2870,7 +3076,7 @@
     },
     {
       "id": "millhaven-rain-barrel",
-      "tx": 8,
+      "tx": 10,
       "ty": 13,
       "decor": [
         {
@@ -2899,12 +3105,12 @@
         {
           "dx": 0,
           "dy": 0,
-          "tileId": "mediumDirt",
+          "tileId": "isolatedPlough",
           "zlayer": "below"
         }
       ],
       "tx": 2,
-      "ty": 21
+      "ty": 20
     },
     {
       "id": "millhaven-dig-2",
@@ -2917,17 +3123,17 @@
         {
           "dx": 0,
           "dy": 0,
-          "tileId": "mediumDirt",
+          "tileId": "isolatedPlough",
           "zlayer": "below"
         }
       ],
-      "tx": 23,
-      "ty": 10
+      "tx": 26,
+      "ty": 16
     },
     {
       "id": "millhaven-rod-stall",
-      "tx": 32,
-      "ty": 10,
+      "tx": 27,
+      "ty": 4,
       "decor": [
         {
           "dx": 0,
@@ -2946,13 +3152,13 @@
     },
     {
       "id": "millhaven-bait-stall",
-      "tx": 32,
-      "ty": 11,
+      "tx": 29,
+      "ty": 4,
       "decor": [
         {
           "dx": 0,
           "dy": 0,
-          "tileId": "bucketAndRope"
+          "tileId": "worm"
         }
       ],
       "reactions": [
@@ -3046,24 +3252,57 @@
       "tx": 11,
       "ty": 2,
       "building": "market-hall",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
-      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 0
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 0
+        }
+      ]
     },
     {
       "id": "market-hall-item-1",
       "tx": 11,
       "ty": 3,
       "building": "market-hall",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
-      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 1
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 1
+        }
+      ]
     },
     {
       "id": "market-hall-item-2",
       "tx": 11,
       "ty": 4,
       "building": "market-hall",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
-      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 2
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 2
+        }
+      ]
     }
   ],
   "pondTiles": [
