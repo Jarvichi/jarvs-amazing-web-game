@@ -15,6 +15,7 @@ import {
   getPendingBountyCollect,
   isBountyCollectPickup,
   reconcileBountyPickups,
+  getActiveBountyStepHint,
 } from './bounties'
 import { saveCrystals, loadCrystals } from '../collection'
 import { markPickedUp, isPickedUp } from './pickups'
@@ -272,5 +273,26 @@ describe('reconcileBountyPickups', () => {
     markPickedUp('some-unrelated-pickup')
     reconcileBountyPickups(FISH_DAY)
     expect(isPickedUp('some-unrelated-pickup')).toBe(true)
+  })
+})
+
+describe('getActiveBountyStepHint', () => {
+  it('names the resolved NPC for a report step', () => {
+    const reportBounty = getDailyBounties(FISH_DAY).find(b => b.steps[0].type === 'report')!
+    const npcId = reportBounty.steps[0].targetNpcId!
+    expect(getActiveBountyStepHint(reportBounty, id => `NPC(${id})`)).toBe(`Report to NPC(${npcId})`)
+  })
+
+  it('gives a generic hint for a collect step', () => {
+    const collectBounty = getDailyBounties(FISH_DAY).find(b => b.steps[0].type === 'collect')!
+    expect(getActiveBountyStepHint(collectBounty, id => id))
+      .toBe('Find the item out in the world to advance this bounty')
+  })
+
+  it('is null once every step is complete', () => {
+    const reportBounty = getDailyBounties(FISH_DAY).find(b => b.steps[0].type === 'report')!
+    acceptBounty(reportBounty.id)
+    completeAllSteps(reportBounty.id)
+    expect(getActiveBountyStepHint(reportBounty, id => id)).toBeNull()
   })
 })

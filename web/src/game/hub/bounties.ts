@@ -207,6 +207,15 @@ export function getActiveBountyStep(id: string): HubQuestStep | null {
   return null
 }
 
+/** Human-readable hint for a bounty's current step, or null once fully done. */
+export function getActiveBountyStepHint(bounty: BountyDef, resolveNpcName: (id: string) => string): string | null {
+  const step = getActiveBountyStep(bounty.id)
+  if (!step) return null
+  if (step.type === 'report' && step.targetNpcId) return `Report to ${resolveNpcName(step.targetNpcId)}`
+  if (step.type === 'collect') return 'Find the item out in the world to advance this bounty'
+  return null
+}
+
 /** Advances the current active step of an accepted, not-yet-completed bounty.
  *  No-op if the bounty isn't accepted, is already completed, or has no active step. */
 export function advanceBountyStep(id: string): void {
