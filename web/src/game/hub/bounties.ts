@@ -7,6 +7,7 @@
 
 import { saveCrystals, loadCrystals } from '../collection'
 import { grantAccessory } from './pet'
+import { isPickedUp, unmarkPickedUp } from './pickups'
 import type { HubQuestStep } from '../../data/hub/questDefs'
 
 const KEY = 'jarv_hub_bounties'
@@ -242,6 +243,34 @@ export function getPendingBountyCollect(pickupId: string, at?: Date): BountyDef 
     if (step && step.type === 'collect' && step.pickupIds?.includes(pickupId)) return bounty
   }
   return null
+}
+
+/** Whether this pickup id belongs to any bounty's 'collect' step, across the
+ *  full template pool — not just today's rotation. Used to recognize a
+ *  bounty pickup even before its bounty has been offered/accepted, so it
+ *  isn't treated like an ordinary walk-up-and-grab item. */
+export function isBountyCollectPickup(pickupId: string): boolean {
+  return BOUNTY_TEMPLATES.some(bounty =>
+    bounty.steps.some(step => step.type === 'collect' && step.pickupIds?.includes(pickupId)))
+}
+
+/** Un-hides bounty-collect pickups that were marked "picked up" without ever
+ *  advancing their bounty's progress — the result of clicking one before its
+ *  bounty was accepted (see handleItemPickup). Safe to call unconditionally:
+ *  it only touches pickups tied to a currently accepted, still-incomplete
+ *  collect step, i.e. pickups the player still needs and currently can't see. */
+export function reconcileBountyPickups(at?: Date): void {
+  const state = getBountyState()
+  for (const bounty of getDailyBounties(at)) {
+    if (!state.accepted.includes(bounty.id) || state.completed.includes(bounty.id)) continue
+    for (const step of bounty.steps) {
+      if (step.type !== 'collect' || !step.pickupIds) continue
+      if (getBountyStepProgress(bounty.id, step.key) >= step.required) continue
+      for (const pickupId of step.pickupIds) {
+        if (isPickedUp(pickupId)) unmarkPickedUp([pickupId])
+      }
+    }
+  }
 }
 
 /** Turns in an accepted bounty whose steps are all complete, granting its
