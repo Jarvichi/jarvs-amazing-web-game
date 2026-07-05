@@ -257,7 +257,7 @@
       "rect": [
         38,
         15,
-        41,
+        42,
         15
       ]
     },
@@ -1154,14 +1154,14 @@
       "zlayer": "above"
     },
     {
-      "tx": 34,
+      "tx": 35,
       "ty": 8,
       "tileId": "pileOfSacks",
       "zlayer": "above"
     },
     {
       "tx": 33,
-      "ty": 8,
+      "ty": 9,
       "tileId": "pileOfSacks",
       "zlayer": "above"
     },
@@ -1424,6 +1424,114 @@
       "tx": 37,
       "ty": 14,
       "bundleID": "market-stall",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 43,
+      "ty": 17,
+      "tileId": "boardwalkVerticalSupport",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 43,
+      "ty": 17,
+      "tileId": "boardwalkVerticalSupport",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 44,
+      "ty": 17,
+      "tileId": "boardwalkVerticalSupport",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 44,
+      "ty": 17,
+      "tileId": "boardwalkVerticalSupport",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 45,
+      "ty": 17,
+      "tileId": "boardwalkVerticalSupport",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 45,
+      "ty": 17,
+      "tileId": "boardwalkVerticalSupport",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 43,
+      "ty": 15,
+      "tileId": "boardwalkVertical",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 43,
+      "ty": 15,
+      "tileId": "boardwalkVertical",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 43,
+      "ty": 16,
+      "tileId": "boardwalkVertical",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 43,
+      "ty": 16,
+      "tileId": "boardwalkVertical",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 44,
+      "ty": 15,
+      "tileId": "boardwalkVertical",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 44,
+      "ty": 15,
+      "tileId": "boardwalkVertical",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 44,
+      "ty": 16,
+      "tileId": "boardwalkVertical",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 44,
+      "ty": 16,
+      "tileId": "boardwalkVertical",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 45,
+      "ty": 16,
+      "tileId": "boardwalkVertical",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 45,
+      "ty": 16,
+      "tileId": "boardwalkVertical",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 45,
+      "ty": 15,
+      "tileId": "boardwalkVertical",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 45,
+      "ty": 15,
+      "tileId": "boardwalkVertical",
       "zlayer": "solid"
     }
   ],
@@ -1867,7 +1975,7 @@
       "id": "harbour-angler",
       "name": "Old Pellan",
       "sprite": "hub-npc-fisherman",
-      "tx": 42,
+      "tx": 45,
       "ty": 15,
       "dialogue": [
         "Best fishing on the coast, right off this dock.",
@@ -3284,6 +3392,24 @@
       "roost": [
         2,
         0
+      ]
+    }
+  ],
+  "bridgeTiles": [
+    {
+      "rect": [
+        43,
+        15,
+        45,
+        16
+      ]
+    },
+    {
+      "rect": [
+        33,
+        7,
+        35,
+        8
       ]
     }
   ]
