@@ -281,8 +281,9 @@ export type HubInteractableReaction =
    *  (default 'spade'); `nightOnly` spots open after dark only; `weatherOnly`
    *  spots only work while the town's weather matches (e.g. rain barrels).
    *  lootTable 'earth' (default) rolls worms/crystals/trinket; 'hollow'
-   *  rolls glowcaps/crystals/fireflies; 'rain' always yields rainwater. */
-  | { type: 'dig'; requiresItemId?: string; nightOnly?: boolean; weatherOnly?: string; lootTable?: 'earth' | 'hollow' | 'rain' }
+   *  rolls glowcaps/crystals/fireflies; 'rain' always yields rainwater;
+   *  'fog' always yields grave-moss. */
+  | { type: 'dig'; requiresItemId?: string; nightOnly?: boolean; weatherOnly?: string; lootTable?: 'earth' | 'hollow' | 'rain' | 'fog' }
 
 export interface HubInteractable {
   id: string

@@ -291,7 +291,7 @@ bounds, else a single tile.
 | `buy` | `slotIndex` | Sells the interactable's building's Nth daily-rotating shop-stock item (`getTodaysShopItems`, `SHOP_TRADER_REGISTRY`). Shares `DailyShopState` with `ShopScreen`, so both draw down the same stock. Requires `building`. |
 | `buyPack` | — | Crystal-pack purchase flow (delegates to `onBuyCrystalPack`). Requires `building`. |
 | `buyHubItem` | `itemId`, `price`, `currency?`, `speakerName?`, `prerequisite?`, `lockedText?` | Always-available hub-item purchase (no daily rotation) — see §16. `itemId` must exist in `hubItems.json`; `currency` is `'crystals'` (default) or `'tickets'`. Unique items (e.g. the fishing rod) re-offer as "already owned" once bought. `speakerName` overrides the building-NPC speaker (useful for exterior stalls). `prerequisite` (§14 syntax, including `reputation:<tier>`) gates the offer — unmet shows `lockedText` (or a default refusal) instead. |
-| `dig` | `requiresItemId?`, `nightOnly?`, `weatherOnly?`, `lootTable?` | Once-per-day dig spot (see §16), gated on holding the tool hub-item (default `'spade'`). `nightOnly: true` makes it a **dark hollow** that refuses by day; `weatherOnly` (e.g. `"rain"`) makes it refuse unless the town's resolved weather (§12) matches — used by **rain barrels**. `lootTable: 'earth'` (default) rolls 50% worms (+2 fish bait) / 30% crystals (10–25) / 20% a dug-up trinket; `'hollow'` rolls 50% glowcap mushroom / 25% crystals (15–35) / 25% a firefly; `'rain'` always yields 1 rainwater. Cooldown persists per spot per real day in `jarv_hub_digs` (`web/src/game/hub/digs.ts`). Pair with a `mediumDirt` decor tile (`zlayer: "below"`) for an earth patch, or `barrel` for a rain barrel. |
+| `dig` | `requiresItemId?`, `nightOnly?`, `weatherOnly?`, `lootTable?` | Once-per-day dig spot (see §16), gated on holding the tool hub-item (default `'spade'`). `nightOnly: true` makes it a **dark hollow** that refuses by day; `weatherOnly` (e.g. `"rain"`) makes it refuse unless the town's resolved weather (§12) matches — used by **rain barrels**. `lootTable: 'earth'` (default) rolls 50% worms (+2 fish bait) / 30% crystals (10–25) / 20% a dug-up trinket; `'hollow'` rolls 50% glowcap mushroom / 25% crystals (15–35) / 25% a firefly; `'rain'` always yields 1 rainwater; `'fog'` always yields 1 grave moss. Cooldown persists per spot per real day in `jarv_hub_digs` (`web/src/game/hub/digs.ts`). Pair with a `mediumDirt` decor tile (`zlayer: "below"`) for an earth patch, or `barrel` for a rain barrel. |
 
 Reactions run in order; `dialogue` (and `message`-bearing reactions) chain the
 remainder through the dialogue's close. Conventions: at most one `screen` or
@@ -1400,7 +1400,11 @@ Ravenwatch and Harrowfield in wet seasons) scoop `rainwater` with the
 bucket; Sister Nettle (Hollowmere) pays 30💎 per two. The honey-pie chain:
 Beekeeper Mabe's honey + an egg → Cook Mabel's (Ironhold) hearty pie →
 Warden Rell (Thornwood) 50💎, or Shepherd Nan (Harrowfield) 75💎 **while it
-snows** (`requireWeather`).
+snows** (`requireWeather`). The fog chain: Gravemoor's permanently-foggy
+weather (`ashen` environment default, §12) lets a spade dig up `grave-moss`
+year-round → Alchemist Sythe (Dreadspire Citadel `alchemy-lab`) brews 2 moss
+into a `wraith-tonic` → the Spectral Pedlar (Gravemoor) buys it back for
+65💎.
 
 The longest chain: lantern (Chandlery) → dark hollow at night → glowcaps →
 Morwen's moon draught → the Restless Soldier's first sleep in centuries —
@@ -1459,3 +1463,39 @@ a downstream use for goods that currently dead-end at a crystal payout (e.g.
 the poetry book could also be gifted to a romance-track NPC), multi-item
 recipes (an NPC wanting an egg *and* a spice pouch), and pet-accessory
 rewards on high-value trades.
+
+## §17 — Trade Journal
+
+A discovery-tracked record of hub-item sellers and buyers the player has
+personally encountered — the item economy (§16) has grown large enough that
+players need an in-game way to recall *where* a good is sold or *who* wants
+it, without re-reading NPC dialogue. Mirrors the Town Journal's (§15)
+shape/conventions exactly, but for trade instead of animals/people/places.
+
+- Store: `web/src/game/hub/tradeJournal.ts`, localStorage key
+  `jarv_hub_trade_journal`. Two lists, deduped by `itemId + town + speaker`:
+  ```ts
+  interface SellerEntry { itemId: string; town: string; speaker: string; price: number; currency: 'crystals' | 'tickets' }
+  interface BuyerEntry  { itemId: string; town: string; speaker: string; rewardSummary: string }
+  recordSellerSeen(entry): boolean   // true if newly recorded
+  recordBuyerSeen(entry): boolean
+  getKnownSellers(): SellerEntry[]
+  getKnownBuyers(): BuyerEntry[]
+  ```
+  Fails closed (empty lists / no-op) if `localStorage` throws.
+- UI: `TradeJournalModal.tsx`, opened from the 💱 toolbar button in
+  `HubWorld.tsx` (next to 🎒 Inventory). Two sections — "Known Sellers" /
+  "Known Buyers" — each row showing the item's catalog icon + name, the
+  town/speaker, and the price or reward summary. Empty-state text per
+  section until the player has discovered anything.
+- Discovery timing (discovery-on-tap, not mere visibility — matches §15's
+  rule for the Town Journal): a `buyHubItem` shelf records its seller the
+  moment it's tapped, **before** any `prerequisite`/reputation check — so a
+  locked shelf still reveals itself in the journal, just not yet
+  purchasable. A `tradeHubItem` dialogue choice records its buyer the moment
+  it's clicked, before the missing-goods check — so an attempted trade you
+  can't yet complete still appears under Known Buyers.
+- Because both hooks live in the two generic reaction/effect handlers, every
+  seller and buyer from every round (§16's network list) populates the
+  journal automatically the first time a player encounters them — no
+  per-item retrofit needed.

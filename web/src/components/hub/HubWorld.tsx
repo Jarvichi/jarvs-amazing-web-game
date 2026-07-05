@@ -7,7 +7,7 @@ import type { MinimapObjective } from './HubMinimap'
 import { HubReturnButton } from './HubReturnButton'
 import { HubDialogue } from './HubDialogue'
 import type { DialogueChoice } from './HubDialogue'
-import type { HubQuestDef, DialogueTree, DialogueChoiceDef } from '../../data/hub/questDefs'
+import type { HubQuestDef, DialogueTree, DialogueChoiceDef, DialogueEffect } from '../../data/hub/questDefs'
 import { emitSound } from '../../game/sound'
 import { getPickedUpIds, markPickedUp, unmarkPickedUp } from '../../game/hub/pickups'
 import { getFriendshipLevel, addFriendshipXp, getFriendshipData } from '../../game/hub/friendship'
@@ -32,6 +32,7 @@ import { addCollectible, addConsumable, getCollectibles, addHubItem, removeHubIt
 import { questItemId } from '../../game/hub/questItems'
 import { QuestsModal } from './QuestsModal'
 import { HubInventoryModal } from './HubInventoryModal'
+import { TradeJournalModal } from './TradeJournalModal'
 import { BountyBoardModal } from './BountyBoardModal'
 import { hasUnclaimedBounties, getPendingBountyReport, getPendingBountyCollect, advanceBountyStep, getActiveBountyStep, isBountyCollectPickup, reconcileBountyPickups } from '../../game/hub/bounties'
 import { PetModal } from './PetModal'
@@ -56,6 +57,7 @@ import { interactableStoreKey, isInteractableGranted, markInteractableGranted, g
 import { canDigToday, recordDig } from '../../game/hub/digs'
 import { getReputationTier } from '../../data/hub/buildingUpgrades'
 import { resolveWeather } from '../../game/hub/weather'
+import { recordSellerSeen, recordBuyerSeen } from '../../game/hub/tradeJournal'
 import { recordNpcMet, recordAnimalSeen, recordAreaSeen } from '../../game/hub/journal'
 import { getTodaysShopItems } from '../../game/hub/shopStock'
 import { loadDailyShopState, saveDailyShopState, isShopItemSold, markCardBought, markAugmentBought } from '../../game/shopSchedule'
@@ -196,6 +198,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   const [pickedUpIds,    setPickedUpIds]    = useState<Set<string>>(() => { reconcileBountyPickups(); return getPickedUpIds() })
   const [questsOpen,          setQuestsOpen]          = useState(false)
   const [inventoryOpen,       setInventoryOpen]       = useState(false)
+  const [tradeJournalOpen,    setTradeJournalOpen]    = useState(false)
   const [bountyBoardOpen,     setBountyBoardOpen]     = useState(false)
   const [petModalOpen,        setPetModalOpen]        = useState(false)
   const [directoryOpen,       setDirectoryOpen]       = useState(false)
@@ -735,6 +738,21 @@ function formatQuestReward(reward: HubQuestDef['reward']): string {
   return parts.length > 0 ? `You received: ${parts.join('  ·  ')}` : ''
 }
 
+// Short reward summary for a tradeHubItem effect, used by the Trade Journal
+// (tradeJournal.ts) to describe what a discovered buyer gives in return.
+function formatTradeReward(eff: Extract<DialogueEffect, { type: 'tradeHubItem' }>): string {
+  const parts: string[] = []
+  if (eff.giveCrystals) parts.push(`+${eff.giveCrystals} 💎`)
+  if (eff.giveHubItem) {
+    const catalog = getHubItemCatalogEntry(eff.giveHubItem.itemId)
+    parts.push(`${catalog?.icon ?? '📦'} ${catalog?.name ?? eff.giveHubItem.itemId}`)
+  }
+  if (eff.giveCollectible) parts.push(`${eff.giveCollectible.icon} ${eff.giveCollectible.name}`)
+  if (eff.giveFriendship) parts.push(`+${eff.giveFriendship.xp} friendship`)
+  if (eff.giveRelationship) parts.push(`+${eff.giveRelationship.points} ${eff.giveRelationship.track}`)
+  return parts.join('  ·  ')
+}
+
 function grantQuestReward(quest: HubQuestDef): void {
   const { reward } = quest
   if (reward.crystals) {
@@ -898,6 +916,12 @@ function hasOfferableQuest(giverId: string): boolean {
           // Repeatable barter: consume the wanted hub-item(s), grant the
           // reward(s). If the player holds too few, show missingText and stop
           // (no navigation — the player can come back with the goods).
+          // Journal the buyer on attempt (even if the trade fails for lack of
+          // goods) — the player has still discovered it exists.
+          const primaryWant = eff.wantItems?.[0]?.itemId ?? eff.wantItemId
+          if (primaryWant) {
+            recordBuyerSeen({ itemId: primaryWant, town, speaker: speakerName, rewardSummary: formatTradeReward(eff) })
+          }
           // Multi-item recipes (wantItems) are all-or-nothing: verify every
           // count before removing anything.
           const wanted: Array<{ itemId: string; count: number }> = eff.wantItems
@@ -1484,6 +1508,10 @@ function hasOfferableQuest(giverId: string): boolean {
         const onDuty = candidates.find(n => def.building && resolveNpcPlace(n, gameHour, locationData).interiorId === def.building)
         const speakerName = r.speakerName ?? (onDuty ?? candidates[0])?.name ?? ''
 
+        // Journal the seller on sight — even a reputation-locked shelf reveals
+        // itself, so the player learns it exists before they can afford it.
+        recordSellerSeen({ itemId: r.itemId, town, speaker: speakerName, price: r.price, currency: r.currency ?? 'crystals' })
+
         if (r.prerequisite && !checkPrerequisite(r.prerequisite, town)) {
           setDialogueEvent({
             speakerName,
@@ -1539,6 +1567,8 @@ function hasOfferableQuest(giverId: string): boolean {
         if (r.weatherOnly && r.weatherOnly !== currentWeather) {
           setDialogueEvent({ speakerName: '', text: r.weatherOnly === 'rain'
             ? 'The barrel sits bone dry. Come back when the rain does.'
+            : r.weatherOnly === 'fog'
+            ? 'The ground is bare and dry. This moss only grows thick in fog.'
             : 'The weather is all wrong for this. Come back another time.' })
           return
         }
@@ -1575,6 +1605,25 @@ function hasOfferableQuest(giverId: string): boolean {
           setDialogueEvent({
             speakerName: '',
             text: 'The rain barrel brims with fresh water, drumming softly under the downpour.',
+            choices: [confirm, { label: 'Leave it', onClick: () => setDialogueEvent(null) }],
+          })
+          return
+        }
+        if (r.lootTable === 'fog') {
+          const confirm: DialogueChoice = {
+            label: 'Gather the moss',
+            primary: true,
+            onClick: () => {
+              recordDig(storeKey)
+              addHubItem('grave-moss', 1)
+              emitSound('pickup')
+              refreshState()
+              setDialogueEvent({ speakerName: '', text: 'You peel a handful of pale, damp moss from the stones. It only grows this thick in fog. 🌫️', onClose: next })
+            },
+          }
+          setDialogueEvent({
+            speakerName: '',
+            text: 'Thick fog clings low to the ground here, and moss grows fat and pale between the roots.',
             choices: [confirm, { label: 'Leave it', onClick: () => setDialogueEvent(null) }],
           })
           return
@@ -1672,6 +1721,7 @@ function hasOfferableQuest(giverId: string): boolean {
           )}
         <ToolbarButton icon="📜" title="Quests" onClick={() => setQuestsOpen(true)} />
         <ToolbarButton icon="🎒" title="Inventory" onClick={() => setInventoryOpen(true)} />
+        <ToolbarButton icon="💱" title="Trade Journal" onClick={() => setTradeJournalOpen(true)} />
         <ToolbarButton icon="🧭" title="Where is…?" onClick={() => setDirectoryOpen(true)} />
         <ToolbarButton icon="📖" title="Journal" onClick={() => setJournalOpen(true)} />
         <ToolbarButton icon="🏗️" title="Town Upgrades" onClick={() => setUpgradesOpen(true)} />
@@ -1765,6 +1815,7 @@ function hasOfferableQuest(giverId: string): boolean {
 
         {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={questDefs} resolveNpcName={getNpcDisplayName}/>}
         {inventoryOpen && <HubInventoryModal onClose={() => setInventoryOpen(false)} questDefs={allQuestDefs} />}
+        {tradeJournalOpen && <TradeJournalModal onClose={() => setTradeJournalOpen(false)} />}
         {bountyBoardOpen && <BountyBoardModal onClose={() => setBountyBoardOpen(false)} resolveNpcName={getNpcDisplayName}/>}
         {petModalOpen && <PetModal onClose={() => setPetModalOpen(false)} petActionRef={petActionRef} />}
         {directoryOpen && <TownDirectory onClose={() => setDirectoryOpen(false)} locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} onShowRelationship={setRelationshipNpcId} />}
