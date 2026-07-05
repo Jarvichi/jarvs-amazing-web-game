@@ -7,7 +7,7 @@ import type { MinimapObjective } from './HubMinimap'
 import { HubReturnButton } from './HubReturnButton'
 import { HubDialogue } from './HubDialogue'
 import type { DialogueChoice } from './HubDialogue'
-import type { HubQuestDef, DialogueTree, DialogueChoiceDef } from '../../data/hub/questDefs'
+import type { HubQuestDef, DialogueTree, DialogueChoiceDef, DialogueEffect } from '../../data/hub/questDefs'
 import { emitSound } from '../../game/sound'
 import { getPickedUpIds, markPickedUp, unmarkPickedUp } from '../../game/hub/pickups'
 import { getFriendshipLevel, addFriendshipXp, getFriendshipData } from '../../game/hub/friendship'
@@ -56,6 +56,7 @@ import { interactableStoreKey, isInteractableGranted, markInteractableGranted, g
 import { canDigToday, recordDig } from '../../game/hub/digs'
 import { getReputationTier } from '../../data/hub/buildingUpgrades'
 import { resolveWeather } from '../../game/hub/weather'
+import { recordSellerSeen, recordBuyerSeen } from '../../game/hub/tradeJournal'
 import { recordNpcMet, recordAnimalSeen, recordAreaSeen } from '../../game/hub/journal'
 import { getTodaysShopItems } from '../../game/hub/shopStock'
 import { loadDailyShopState, saveDailyShopState, isShopItemSold, markCardBought, markAugmentBought } from '../../game/shopSchedule'
@@ -735,6 +736,21 @@ function formatQuestReward(reward: HubQuestDef['reward']): string {
   return parts.length > 0 ? `You received: ${parts.join('  ·  ')}` : ''
 }
 
+// Short reward summary for a tradeHubItem effect, used by the Trade Journal
+// (tradeJournal.ts) to describe what a discovered buyer gives in return.
+function formatTradeReward(eff: Extract<DialogueEffect, { type: 'tradeHubItem' }>): string {
+  const parts: string[] = []
+  if (eff.giveCrystals) parts.push(`+${eff.giveCrystals} 💎`)
+  if (eff.giveHubItem) {
+    const catalog = getHubItemCatalogEntry(eff.giveHubItem.itemId)
+    parts.push(`${catalog?.icon ?? '📦'} ${catalog?.name ?? eff.giveHubItem.itemId}`)
+  }
+  if (eff.giveCollectible) parts.push(`${eff.giveCollectible.icon} ${eff.giveCollectible.name}`)
+  if (eff.giveFriendship) parts.push(`+${eff.giveFriendship.xp} friendship`)
+  if (eff.giveRelationship) parts.push(`+${eff.giveRelationship.points} ${eff.giveRelationship.track}`)
+  return parts.join('  ·  ')
+}
+
 function grantQuestReward(quest: HubQuestDef): void {
   const { reward } = quest
   if (reward.crystals) {
@@ -898,6 +914,12 @@ function hasOfferableQuest(giverId: string): boolean {
           // Repeatable barter: consume the wanted hub-item(s), grant the
           // reward(s). If the player holds too few, show missingText and stop
           // (no navigation — the player can come back with the goods).
+          // Journal the buyer on attempt (even if the trade fails for lack of
+          // goods) — the player has still discovered it exists.
+          const primaryWant = eff.wantItems?.[0]?.itemId ?? eff.wantItemId
+          if (primaryWant) {
+            recordBuyerSeen({ itemId: primaryWant, town, speaker: speakerName, rewardSummary: formatTradeReward(eff) })
+          }
           // Multi-item recipes (wantItems) are all-or-nothing: verify every
           // count before removing anything.
           const wanted: Array<{ itemId: string; count: number }> = eff.wantItems
@@ -1483,6 +1505,10 @@ function hasOfferableQuest(giverId: string): boolean {
         const candidates = def.building ? locationData.HUB_NPCS.filter(n => n.building === def.building) : []
         const onDuty = candidates.find(n => def.building && resolveNpcPlace(n, gameHour, locationData).interiorId === def.building)
         const speakerName = r.speakerName ?? (onDuty ?? candidates[0])?.name ?? ''
+
+        // Journal the seller on sight — even a reputation-locked shelf reveals
+        // itself, so the player learns it exists before they can afford it.
+        recordSellerSeen({ itemId: r.itemId, town, speaker: speakerName, price: r.price, currency: r.currency ?? 'crystals' })
 
         if (r.prerequisite && !checkPrerequisite(r.prerequisite, town)) {
           setDialogueEvent({
