@@ -33,7 +33,7 @@ import { questItemId } from '../../game/hub/questItems'
 import { QuestsModal } from './QuestsModal'
 import { HubInventoryModal } from './HubInventoryModal'
 import { BountyBoardModal } from './BountyBoardModal'
-import { hasUnclaimedBounties, getPendingBountyReport, getPendingBountyCollect, advanceBountyStep, getActiveBountyStep } from '../../game/hub/bounties'
+import { hasUnclaimedBounties, getPendingBountyReport, getPendingBountyCollect, advanceBountyStep, getActiveBountyStep, isBountyCollectPickup, reconcileBountyPickups } from '../../game/hub/bounties'
 import { PetModal } from './PetModal'
 import { getActivePet, getTreatsRemainingToday, canGiveTreat, recordTreatGiven, grantAccessory } from '../../game/hub/pet'
 import { PLAYER_PET_ANIMAL_ID } from './hubAnimals'
@@ -193,7 +193,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   const [dialogueLine,   setDialogueLine]   = useState<string | null>(null)
   const [dialogueEvent,  setDialogueEvent]  = useState<QuestEvent | null>(null)
   const [interiorActive, setInteriorActive] = useState(false)
-  const [pickedUpIds,    setPickedUpIds]    = useState<Set<string>>(() => getPickedUpIds())
+  const [pickedUpIds,    setPickedUpIds]    = useState<Set<string>>(() => { reconcileBountyPickups(); return getPickedUpIds() })
   const [questsOpen,          setQuestsOpen]          = useState(false)
   const [inventoryOpen,       setInventoryOpen]       = useState(false)
   const [bountyBoardOpen,     setBountyBoardOpen]     = useState(false)
@@ -621,11 +621,22 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   }, [refreshState])
 
   const handleItemPickup = useCallback((id: string, questId?: string) => {
+    const pendingBounty = getPendingBountyCollect(id)
+
+    // Bounty-collect pickups aren't gated behind accepting the bounty first —
+    // the fishmonger (say) is a normal building anyone can wander into. If this
+    // id belongs to a bounty's collect step but no matching bounty is currently
+    // active, don't permanently consume it: there'd be no way to get it back,
+    // silently soft-locking the bounty for whoever accepts it later.
+    if (!pendingBounty && isBountyCollectPickup(id)) {
+      setDialogueEvent({ speakerName: '', text: "Doesn't look like something you need right now." })
+      return
+    }
+
     emitSound('pickup')
     markPickedUp(id)
     setPickedUpIds(getPickedUpIds())
 
-    const pendingBounty = getPendingBountyCollect(id)
     if (pendingBounty) {
       advanceBountyStep(pendingBounty.id)
       const nextStep = getActiveBountyStep(pendingBounty.id)

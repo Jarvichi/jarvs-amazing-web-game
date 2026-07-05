@@ -13,8 +13,11 @@ import {
   getBountyStepProgress,
   getPendingBountyReport,
   getPendingBountyCollect,
+  isBountyCollectPickup,
+  reconcileBountyPickups,
 } from './bounties'
 import { saveCrystals, loadCrystals } from '../collection'
+import { markPickedUp, isPickedUp } from './pickups'
 
 // In-memory localStorage mock (tests run in node environment)
 const store = new Map<string, string>()
@@ -222,5 +225,52 @@ describe('hasUnclaimedBounties', () => {
   it('is false once every bounty is accepted or completed', () => {
     for (const b of getDailyBounties(DAY)) acceptBounty(b.id)
     expect(hasUnclaimedBounties(DAY)).toBe(false)
+  })
+})
+
+describe('isBountyCollectPickup', () => {
+  it('is true for a pickup used by some bounty collect step, regardless of rotation/accept state', () => {
+    expect(isBountyCollectPickup('fresh-fish-millhaven')).toBe(true)
+  })
+
+  it('is false for an unrelated id', () => {
+    expect(isBountyCollectPickup('not-a-real-pickup')).toBe(false)
+  })
+})
+
+describe('reconcileBountyPickups', () => {
+  it('un-hides a bounty pickup that was marked picked-up before its bounty ever advanced', () => {
+    const collectBounty = getDailyBounties(FISH_DAY).find(b => b.steps[0].type === 'collect')!
+    const pickupId = collectBounty.steps[0].pickupIds![0]
+
+    // Simulate clicking the pickup (e.g. while just exploring the shop) before
+    // the bounty was ever accepted — markPickedUp fires, but nothing advances.
+    markPickedUp(pickupId)
+    expect(isPickedUp(pickupId)).toBe(true)
+
+    // Player accepts the bounty afterwards; its collect step is still at 0.
+    acceptBounty(collectBounty.id)
+    expect(getBountyStepProgress(collectBounty.id, collectBounty.steps[0].key)).toBe(0)
+
+    reconcileBountyPickups(FISH_DAY)
+    expect(isPickedUp(pickupId)).toBe(false)
+  })
+
+  it('leaves a pickup hidden once its bounty step has genuinely been collected', () => {
+    const collectBounty = getDailyBounties(FISH_DAY).find(b => b.steps[0].type === 'collect')!
+    const pickupId = collectBounty.steps[0].pickupIds![0]
+
+    acceptBounty(collectBounty.id)
+    markPickedUp(pickupId)
+    advanceBountyStep(collectBounty.id) // genuine collection: progress advances too
+
+    reconcileBountyPickups(FISH_DAY)
+    expect(isPickedUp(pickupId)).toBe(true)
+  })
+
+  it('leaves unrelated picked-up ids untouched', () => {
+    markPickedUp('some-unrelated-pickup')
+    reconcileBountyPickups(FISH_DAY)
+    expect(isPickedUp('some-unrelated-pickup')).toBe(true)
   })
 })
