@@ -1567,6 +1567,8 @@ function hasOfferableQuest(giverId: string): boolean {
         if (r.weatherOnly && r.weatherOnly !== currentWeather) {
           setDialogueEvent({ speakerName: '', text: r.weatherOnly === 'rain'
             ? 'The barrel sits bone dry. Come back when the rain does.'
+            : r.weatherOnly === 'fog'
+            ? 'The ground is bare and dry. This moss only grows thick in fog.'
             : 'The weather is all wrong for this. Come back another time.' })
           return
         }
@@ -1603,6 +1605,25 @@ function hasOfferableQuest(giverId: string): boolean {
           setDialogueEvent({
             speakerName: '',
             text: 'The rain barrel brims with fresh water, drumming softly under the downpour.',
+            choices: [confirm, { label: 'Leave it', onClick: () => setDialogueEvent(null) }],
+          })
+          return
+        }
+        if (r.lootTable === 'fog') {
+          const confirm: DialogueChoice = {
+            label: 'Gather the moss',
+            primary: true,
+            onClick: () => {
+              recordDig(storeKey)
+              addHubItem('grave-moss', 1)
+              emitSound('pickup')
+              refreshState()
+              setDialogueEvent({ speakerName: '', text: 'You peel a handful of pale, damp moss from the stones. It only grows this thick in fog. 🌫️', onClose: next })
+            },
+          }
+          setDialogueEvent({
+            speakerName: '',
+            text: 'Thick fog clings low to the ground here, and moss grows fat and pale between the roots.',
             choices: [confirm, { label: 'Leave it', onClick: () => setDialogueEvent(null) }],
           })
           return

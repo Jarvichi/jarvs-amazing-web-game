@@ -666,6 +666,7 @@
     {
       "id": "alchemist-sythe",
       "name": "Alchemist Sythe",
+      "dialogueTree": "sythe-tonic-brew",
       "sprite": "sea-witch",
       "building": "alchemy-lab",
       "tx": 5,

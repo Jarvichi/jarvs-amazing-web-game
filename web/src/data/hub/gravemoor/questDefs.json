@@ -137,6 +137,39 @@
           ]
         }
       }
+    },
+    {
+      "id": "pedlar-tonic-trade",
+      "npcId": "spectral-pedlar",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "A wraith tonic! Now THAT still sells, even among the departed. Sythe brews them over in the citadel, if you've the moss for it.",
+          "choices": [
+            {
+              "label": "Sell a wraith tonic \u2014 65 \ud83d\udc8e",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "wraith-tonic",
+                  "giveCrystals": 65,
+                  "missingText": "No tonic on you? Alchemist Sythe brews them, over in Dreadspire Citadel \u2014 for a price in grave moss.",
+                  "successText": "He uncorks it, sniffs once, and beams. 'Still got the bite.' 65 crystals, straight from a ghost's own purse."
+                }
+              ]
+            },
+            {
+              "label": "Just browsing.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
     }
   ],
   "quests": [

@@ -255,5 +255,19 @@
     "icon": "🥧",
     "desc": "Cook Mabel's egg-and-honey pie. Best eaten hot; best of all in the snow.",
     "category": "material"
+  },
+  {
+    "id": "grave-moss",
+    "name": "Grave Moss",
+    "icon": "🌫️",
+    "desc": "Pale moss that only grows in deep fog. Alchemists prize it.",
+    "category": "material"
+  },
+  {
+    "id": "wraith-tonic",
+    "name": "Wraith Tonic",
+    "icon": "🧪",
+    "desc": "Sythe's fog-brewed tonic. Even bone-keepers pay well for it.",
+    "category": "material"
   }
 ]

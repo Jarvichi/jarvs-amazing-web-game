@@ -953,6 +953,42 @@
           ]
         }
       }
+    },
+    {
+      "id": "sythe-tonic-brew",
+      "npcId": "alchemist-sythe",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Grave moss, is it? From the fog out past the walls. Bring me two handfuls and I'll brew you something with a bit more bite than tea.",
+          "choices": [
+            {
+              "label": "Brew a wraith tonic (2 grave moss)",
+              "next": "greet",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "grave-moss",
+                  "wantCount": 2,
+                  "giveHubItem": {
+                    "itemId": "wraith-tonic"
+                  },
+                  "missingText": "Two handfuls, I said. The fog only sits thick over Gravemoor \u2014 dig there while it clings low.",
+                  "successText": "She swirls the moss into a simmering flask until it turns the colour of old bruises. One wraith tonic, still warm. Don't drink it yourself."
+                }
+              ]
+            },
+            {
+              "label": "Later, Sythe.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
     }
   ],
   "friendshipDialogue": {
