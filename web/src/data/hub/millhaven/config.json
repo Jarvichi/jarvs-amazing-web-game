@@ -1151,25 +1151,25 @@
       "tx": 34,
       "ty": 7,
       "tileId": "chest",
-      "zlayer": "above"
+      "zlayer": "solid"
     },
     {
       "tx": 35,
       "ty": 8,
       "tileId": "pileOfSacks",
-      "zlayer": "above"
+      "zlayer": "solid"
     },
     {
       "tx": 33,
       "ty": 9,
       "tileId": "pileOfSacks",
-      "zlayer": "above"
+      "zlayer": "solid"
     },
     {
       "tx": 35,
       "ty": 7,
       "tileId": "sack",
-      "zlayer": "above"
+      "zlayer": "solid"
     },
     {
       "tx": 24,
@@ -1391,7 +1391,7 @@
       "tx": 33,
       "ty": 11,
       "tileId": "crate",
-      "zlayer": "above"
+      "zlayer": "solid"
     },
     {
       "comment": "decor around the fisher cottage"
