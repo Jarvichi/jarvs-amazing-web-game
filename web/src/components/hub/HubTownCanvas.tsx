@@ -562,7 +562,11 @@ export function HubTownCanvas({
     }
 
     function interactableZIndex(def: HubInteractable, ty: number): number {
-      return (ty + def.hitRect.h - 1) * T + T + 1  // y-sort on the bottom tile row, like decor
+      // y-sort on the bottom tile row, like decor — but +1.5 (not +1) so ties against
+      // same-row solid/default decor (zIndex ty*T+T+1) resolve deterministically in the
+      // interactable's favor instead of depending on async texture-load insertion order
+      // (e.g. the tackle-stall bucket/rod/bait sitting on the market-stall counter).
+      return (ty + def.hitRect.h - 1) * T + T + 1.5
     }
 
     function interactableIndicatorPos(def: HubInteractable, tx: number, ty: number): { x: number; y: number } {
