@@ -55,10 +55,12 @@ export function hasActivePet(): boolean {
   return getActivePet() != null
 }
 
+const DEFAULT_NAME_BY_TYPE: Record<string, string> = { dog: 'Pup', cat: 'Kitty' }
+
 /** Adopts a pet, replacing any currently active one. Preserves the daily treat count. */
 export function adoptPet(type: string, variant: string, name: string): PetRecord {
   const data = load()
-  const pet: PetRecord = { type, variant, name: name.trim() || 'Pup' }
+  const pet: PetRecord = { type, variant, name: name.trim() || DEFAULT_NAME_BY_TYPE[type] || 'Pup' }
   save({ ...data, pet })
   return pet
 }
