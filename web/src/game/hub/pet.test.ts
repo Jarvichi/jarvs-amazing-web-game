@@ -68,6 +68,28 @@ describe('pet store', () => {
     expect(getActivePet()).toEqual({ type: 'dog', variant: 'black', name: 'Shadow' })
   })
 
+  it('adopts a pet with a coat pattern and persists it', () => {
+    adoptPet('cat', 'orange', 'Mochi', 'tabby')
+    expect(getActivePet()).toEqual({ type: 'cat', variant: 'orange', name: 'Mochi', pattern: 'tabby' })
+  })
+
+  it('omitting a pattern leaves it unset rather than storing "none"', () => {
+    adoptPet('dog', 'brown', 'Rex')
+    expect(getActivePet()?.pattern).toBeUndefined()
+    expect(getActivePet()).toEqual({ type: 'dog', variant: 'brown', name: 'Rex' })
+  })
+
+  it('an explicit "none" pattern is treated the same as omitting it', () => {
+    adoptPet('dog', 'brown', 'Rex', 'none')
+    expect(getActivePet()?.pattern).toBeUndefined()
+  })
+
+  it('adopting again fully replaces the previous pattern', () => {
+    adoptPet('cat', 'orange', 'Mochi', 'tabby')
+    adoptPet('cat', 'black', 'Shadow', 'tuxedo')
+    expect(getActivePet()).toEqual({ type: 'cat', variant: 'black', name: 'Shadow', pattern: 'tuxedo' })
+  })
+
   it('dismissing clears the active pet', () => {
     adoptPet('dog', 'golden', 'Rex')
     dismissPet()

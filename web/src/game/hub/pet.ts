@@ -6,9 +6,10 @@ const MAX_TREATS_PER_DAY = 2
 const TREAT_INTERACTIONS_REQUIRED = 3
 
 export interface PetRecord {
-  type:    string  // 'dog' for now; kept generic for future pet types
+  type:    string  // 'dog'/'cat'; kept generic for future pet types
   variant: string  // palette key from ANIMAL_SPECS[type].palette
   name:    string
+  pattern?: string  // coat pattern id from petPatterns.ts, if any
 }
 
 interface TreatState {
@@ -58,9 +59,12 @@ export function hasActivePet(): boolean {
 const DEFAULT_NAME_BY_TYPE: Record<string, string> = { dog: 'Pup', cat: 'Kitty' }
 
 /** Adopts a pet, replacing any currently active one. Preserves the daily treat count. */
-export function adoptPet(type: string, variant: string, name: string): PetRecord {
+export function adoptPet(type: string, variant: string, name: string, pattern?: string): PetRecord {
   const data = load()
-  const pet: PetRecord = { type, variant, name: name.trim() || DEFAULT_NAME_BY_TYPE[type] || 'Pup' }
+  const pet: PetRecord = {
+    type, variant, name: name.trim() || DEFAULT_NAME_BY_TYPE[type] || 'Pup',
+    ...(pattern && pattern !== 'none' ? { pattern } : {}),
+  }
   save({ ...data, pet })
   return pet
 }

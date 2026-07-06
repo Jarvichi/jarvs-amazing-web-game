@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- walk frame 3 — stride B -->
+  <path d="M11.7,14.2 Q12.8,18.4 11.7,22" stroke="#ffffff" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+  <path d="M15.5,13.6 Q16.6,17.8 15.5,21.4" stroke="#ffffff" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+  <path d="M19.5,14.2 Q20.6,18.4 19.5,22" stroke="#ffffff" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+</svg>

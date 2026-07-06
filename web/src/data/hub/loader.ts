@@ -177,6 +177,7 @@ export interface HubAnimal {
   id: string
   type: HubAnimalType
   variant?: string
+  pattern?: string
   tx: number
   ty: number
   name?: string
@@ -667,6 +668,7 @@ const HUB_ANIMALS: HubAnimal[] = (
   id:           a.id,
   type:         a.type as HubAnimalType,
   variant:      a.variant,
+  pattern:      a.pattern,
   tx:           a.tx,
   ty:           a.ty,
   name:         a.name,

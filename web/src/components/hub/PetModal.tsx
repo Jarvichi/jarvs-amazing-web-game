@@ -7,6 +7,7 @@ import {
 } from '../../game/hub/pet'
 import { ANIMAL_SPECS, type AnimalType } from '../../game/hub/animals'
 import { PET_ACCESSORIES } from '../../data/petAccessories'
+import { getPatternsForSpecies } from '../../data/petPatterns'
 
 interface Props {
   onClose: () => void
@@ -17,15 +18,18 @@ const PET_SPECIES: ('dog' | 'cat')[] = ['dog', 'cat']
 const SPECIES_LABEL: Record<string, string> = { dog: 'Dog', cat: 'Cat' }
 const SPECIES_NAME_PLACEHOLDER: Record<string, string> = { dog: 'Name your pup', cat: 'Name your cat' }
 
-function PickerBody({ onAdopt, submitLabel }: { onAdopt: (type: string, variant: string, name: string) => void; submitLabel: string }) {
+function PickerBody({ onAdopt, submitLabel }: { onAdopt: (type: string, variant: string, name: string, pattern: string) => void; submitLabel: string }) {
   const [species, setSpecies] = useState<'dog' | 'cat'>('dog')
   const variants = Object.keys(ANIMAL_SPECS[species].palette)
   const [variant, setVariant] = useState(variants[0])
+  const patterns = getPatternsForSpecies(species)
+  const [pattern, setPattern] = useState<string>('none')
   const [name, setName] = useState('')
 
   const chooseSpecies = (s: 'dog' | 'cat') => {
     setSpecies(s)
     setVariant(Object.keys(ANIMAL_SPECS[s].palette)[0])
+    setPattern('none')  // dog/cat pattern lists differ — never carry a stale selection across species
   }
 
   return (
@@ -51,6 +55,20 @@ function PickerBody({ onAdopt, submitLabel }: { onAdopt: (type: string, variant:
           />
         ))}
       </div>
+      <div className="pet-modal__section-label">Coat pattern</div>
+      <div className="hoa-tabs">
+        <button
+          className={`hoa-tab${pattern === 'none' ? ' hoa-tab--active' : ''}`}
+          onClick={() => setPattern('none')}
+        >None</button>
+        {patterns.map(p => (
+          <button
+            key={p.id}
+            className={`hoa-tab${pattern === p.id ? ' hoa-tab--active' : ''}`}
+            onClick={() => setPattern(p.id)}
+          >{p.label}</button>
+        ))}
+      </div>
       <input
         className="pet-modal__name-input"
         placeholder={SPECIES_NAME_PLACEHOLDER[species]}
@@ -58,7 +76,7 @@ function PickerBody({ onAdopt, submitLabel }: { onAdopt: (type: string, variant:
         maxLength={24}
         onChange={e => setName(e.target.value)}
       />
-      <button className="action-btn action-btn--gold" onClick={() => onAdopt(species, variant, name)}>{submitLabel}</button>
+      <button className="action-btn action-btn--gold" onClick={() => onAdopt(species, variant, name, pattern)}>{submitLabel}</button>
     </>
   )
 }
@@ -122,7 +140,7 @@ export function PetModal({ onClose, petActionRef }: Props) {
   const refresh = () => setTick(t => t + 1)
   const [renameValue, setRenameValue] = useState<string | null>(null)
   const [swapping, setSwapping] = useState(false)
-  const [confirmSwap, setConfirmSwap] = useState<{ type: string; variant: string; name: string } | null>(null)
+  const [confirmSwap, setConfirmSwap] = useState<{ type: string; variant: string; name: string; pattern: string } | null>(null)
   const [confirmDismiss, setConfirmDismiss] = useState(false)
   const [tab, setTab] = useState<'info' | 'accessories'>('info')
 
@@ -134,7 +152,7 @@ export function PetModal({ onClose, petActionRef }: Props) {
         title="Adopt a new companion?"
         body={`Adopting ${confirmSwap.name} will mean saying goodbye to ${pet?.name ?? 'your current pet'}.`}
         confirmLabel="Adopt"
-        onConfirm={() => { adoptPet(confirmSwap.type, confirmSwap.variant, confirmSwap.name); setConfirmSwap(null); setSwapping(false); refresh() }}
+        onConfirm={() => { adoptPet(confirmSwap.type, confirmSwap.variant, confirmSwap.name, confirmSwap.pattern); setConfirmSwap(null); setSwapping(false); refresh() }}
         onCancel={() => setConfirmSwap(null)}
       />
     )
@@ -161,7 +179,7 @@ export function PetModal({ onClose, petActionRef }: Props) {
         </div>
 
         {!pet && (
-          <PickerBody submitLabel="Adopt" onAdopt={(type, variant, name) => { adoptPet(type, variant, name); refresh() }} />
+          <PickerBody submitLabel="Adopt" onAdopt={(type, variant, name, pattern) => { adoptPet(type, variant, name, pattern); refresh() }} />
         )}
 
         {pet && !swapping && (
@@ -205,7 +223,7 @@ export function PetModal({ onClose, petActionRef }: Props) {
         {pet && swapping && (
           <PickerBody
             submitLabel="Adopt"
-            onAdopt={(type, variant, name) => setConfirmSwap({ type, variant, name })}
+            onAdopt={(type, variant, name, pattern) => setConfirmSwap({ type, variant, name, pattern })}
           />
         )}
       </div>
