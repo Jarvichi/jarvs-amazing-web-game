@@ -311,6 +311,7 @@ export interface RawAnimal {
   id: string
   type: string                       // 'cat' | 'dog' | 'bird' | 'fish'
   variant?: string                   // palette key (e.g. "orange") or hex ("#e8923c")
+  pattern?: string                   // coat pattern id (petPatterns.ts), cats/dogs only
   tx: number
   ty: number
   name?: string

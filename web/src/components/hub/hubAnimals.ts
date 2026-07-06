@@ -12,6 +12,7 @@ import { loadAnimFrames, loadTextureUrl } from '../../utils/pixiHelpers'
 import { emitSound, SoundId } from '../../game/sound'
 import { getEquippedAccessoryId } from '../../game/hub/pet'
 import { getPetAccessoryDef } from '../../data/petAccessories'
+import { getPatternDef, type PatternSpecies } from '../../data/petPatterns'
 import type { HubAnimal, HubAnimalType } from '../../data/hub/loader'
 import {
   AnimalType,
@@ -35,12 +36,22 @@ const FIREFLY_GLOW_R = 1.2 * T_PX   // small night light pool each firefly casts
 type Rect = [number, number, number, number]   // tx, ty, w, h
 interface Pt { x: number; y: number }
 
-interface Animal {
+// A sprite that owns its own texture set and swaps frames in lockstep with
+// whatever pose the owning Animal is in (see texLayers()/showStatic/showSleep/
+// animateWalk). The base Animal itself is one (see below); each pattern part
+// is another, layered as a sibling so it can be tinted independently.
+interface TexturedLayer {
+  sprite: PIXI.Sprite
+  staticTex: PIXI.Texture | null
+  sleepTex: PIXI.Texture | null
+  frames: PIXI.Texture[]
+}
+
+interface Animal extends TexturedLayer {
   type: AnimalType
   id?: string                 // placed/quest animals only
   stationary: boolean         // placed animal with roam !== true
   homeTile: [number, number]
-  sprite: PIXI.Sprite
   tint: number
   bottomAnchored: boolean
   baseScale: number
@@ -55,9 +66,6 @@ interface Animal {
   movingTo: [number, number] | null
   target: Pt | null
   goal: [number, number] | null   // beacon tile for grass-capable steppers
-  staticTex: PIXI.Texture | null
-  sleepTex: PIXI.Texture | null
-  frames: PIXI.Texture[]
   frameIdx: number
   frameTimer: number
   state: string
@@ -69,6 +77,10 @@ interface Animal {
   // part (sibling, not a child — the pet's texture swaps per animation frame,
   // so only sibling repositioning every tick keeps them aligned; see advance())
   accessorySprites: PIXI.Sprite[]
+  // coat pattern markings (tabby stripes, calico patches, ...): each part is
+  // its own animated sibling layer, tracking the same pose as the base sprite
+  // (see texLayers()) but tinted independently — see advance() for position sync.
+  patternLayers: TexturedLayer[]
   // dog social memory
   ownerId?: string
   seen: Set<string>
@@ -153,7 +165,7 @@ export interface AnimalSystem {
   /** Night light sources from animals (fireflies) for the night overlay. */
   getGlowSources: () => GlowSource[]
   /** Spawns (or re-spawns) the player's follower pet near (tx,ty). */
-  spawnFollowerPet: (type: AnimalType, variant: string, tx: number, ty: number) => void
+  spawnFollowerPet: (type: AnimalType, variant: string, pattern: string | undefined, tx: number, ty: number) => void
   /** Best-effort removal of an animal by id. No-op if not found. */
   removeAnimal: (id: string) => void
   /** Sends the player's pet off to fetch something; fires onReturn once it's
@@ -270,22 +282,32 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
       a.sprite.y = a.baseY
     }
     if (a.bottomAnchored) a.sprite.zIndex = a.sprite.y
-    a.accessorySprites.forEach((s, i) => {
-      s.position.copyFrom(a.sprite.position)
-      s.scale.x = a.sprite.scale.x
-      s.zIndex = a.sprite.zIndex + 0.5 + i * 0.001
-    })
+    a.patternLayers.forEach((l, i) => syncSibling(a, l.sprite, 0.1 + i * 0.001))
+    a.accessorySprites.forEach((s, i) => syncSibling(a, s, 0.5 + i * 0.001))
+  }
+
+  function syncSibling(a: Animal, s: PIXI.Sprite, zOffset: number) {
+    s.position.copyFrom(a.sprite.position)
+    s.scale.x = a.sprite.scale.x
+    s.zIndex = a.sprite.zIndex + zOffset
   }
 
   const isMoving = (a: Animal) => a.target !== null
 
   // ── textures / pose ──────────────────────────────────────────────────────────
+  // All layers that should show the same pose in lockstep: the base sprite
+  // plus every coat-pattern part. Patterns never get their own frame clock —
+  // a.frameIdx/a.frameTimer are the single source of truth for all of them.
+  function texLayers(a: Animal): TexturedLayer[] {
+    return a.patternLayers.length ? [a, ...a.patternLayers] : [a]
+  }
+
   function showStatic(a: Animal) {
-    if (a.staticTex) a.sprite.texture = a.staticTex
+    for (const l of texLayers(a)) if (l.staticTex) l.sprite.texture = l.staticTex
     a.frameIdx = 0
   }
   function showSleep(a: Animal) {
-    a.sprite.texture = a.sleepTex ?? a.staticTex ?? a.sprite.texture
+    for (const l of texLayers(a)) l.sprite.texture = l.sleepTex ?? l.staticTex ?? l.sprite.texture
   }
 
   function animateWalk(a: Animal, dt: number) {
@@ -294,7 +316,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     if (a.frameTimer <= 0) {
       a.frameTimer = FRAME_MS
       a.frameIdx = (a.frameIdx + 1) % a.frames.length
-      a.sprite.texture = a.frames[a.frameIdx]
+      for (const l of texLayers(a)) if (l.frames.length) l.sprite.texture = l.frames[a.frameIdx % l.frames.length]
     }
   }
 
@@ -1012,7 +1034,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
       bubble: null, bubbleTimer: 0,
       seen: new Set(), opinion: new Map(), reactCooldown: 0, wagTimer: 0,
       fleeRequested: false, bobPhase: Math.random() * Math.PI * 2, baseY: c.y,
-      indicator: null, accessorySprites: [],
+      indicator: null, accessorySprites: [], patternLayers: [],
     }
     // Half of the procedural cats & dogs den in a home building at night.
     if (!placed && spec.dens && opts.homes.length > 0 && Math.random() < 0.5) {
@@ -1058,6 +1080,36 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     }
     if (type === 'cat') {
       loadTextureUrl(`${opts.baseUrl}sprites/animal-cat-sleep.svg`).then(t => { a.sleepTex = t }).catch(() => {})
+    }
+
+    // Coat pattern markings (tabby stripes, calico patches, ...): one animated
+    // sibling layer per part, tinted independently, swapping texture in
+    // lockstep with the base sprite (see texLayers()). Cats/dogs only.
+    if (type === 'cat' || type === 'dog') {
+      const patternDef = getPatternDef(type as PatternSpecies, placed?.pattern)
+      if (patternDef) {
+        for (const part of patternDef.parts) {
+          const partSlug = `pattern-${type}-${patternDef.id}-${part.key}`
+          const partTint = part.useBaseColor ? tint : (part.tint ?? 0xffffff)
+          const layerSprite = new PIXI.Sprite()
+          layerSprite.width = sprite.width
+          layerSprite.height = sprite.height
+          layerSprite.anchor.copyFrom(sprite.anchor)
+          layerSprite.position.copyFrom(sprite.position)
+          layerSprite.zIndex = sprite.zIndex + 0.1
+          layerSprite.tint = partTint
+          layerSprite.eventMode = 'none'  // cosmetic overlay must not block taps on the pet beneath it
+          sprite.parent?.addChild(layerSprite)
+          const patternLayer: TexturedLayer = { sprite: layerSprite, staticTex: null, sleepTex: null, frames: [] }
+          a.patternLayers.push(patternLayer)
+
+          loadTextureUrl(`${opts.baseUrl}sprites/${partSlug}.svg`).then(t => { patternLayer.staticTex = t }).catch(() => {})
+          loadAnimFrames(partSlug, 3).then(f => { patternLayer.frames = f }).catch(() => {})
+          if (type === 'cat') {
+            loadTextureUrl(`${opts.baseUrl}sprites/${partSlug}-sleep.svg`).then(t => { patternLayer.sleepTex = t }).catch(() => {})
+          }
+        }
+      }
     }
 
     // Birds enter by gliding in from the screen edge and landing, rather than
@@ -1136,6 +1188,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
       if (a.bubble) opts.bubbleLayer.removeChild(a.bubble)
       if (a.indicator) opts.bubbleLayer.removeChild(a.indicator)
       for (const s of a.accessorySprites) s.destroy()
+      for (const l of a.patternLayers) l.sprite.destroy()
       a.sprite.destroy()
     }
     animals.length = 0
@@ -1150,6 +1203,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     if (a.bubble) opts.bubbleLayer.removeChild(a.bubble)
     if (a.indicator) opts.bubbleLayer.removeChild(a.indicator)
     for (const s of a.accessorySprites) s.destroy()
+    for (const l of a.patternLayers) l.sprite.destroy()
     a.sprite.destroy()
   }
 
@@ -1195,9 +1249,9 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     if (assetId) applyAccessorySprite(a, assetId)
   }
 
-  function spawnFollowerPet(type: AnimalType, variant: string, tx: number, ty: number): void {
+  function spawnFollowerPet(type: AnimalType, variant: string, pattern: string | undefined, tx: number, ty: number): void {
     removeAnimal(PLAYER_PET_ANIMAL_ID)
-    void makeAnimal(type, tx, ty, { id: PLAYER_PET_ANIMAL_ID, type: type as HubAnimalType, variant, tx, ty, roam: true })
+    void makeAnimal(type, tx, ty, { id: PLAYER_PET_ANIMAL_ID, type: type as HubAnimalType, variant, pattern, tx, ty, roam: true })
       .then(() => {
         const a = animals.find(x => x.id === PLAYER_PET_ANIMAL_ID)
         if (!a) return
