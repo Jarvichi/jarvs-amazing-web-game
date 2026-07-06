@@ -36,7 +36,7 @@ import { TradeJournalModal } from './TradeJournalModal'
 import { BountyBoardModal } from './BountyBoardModal'
 import { hasUnclaimedBounties, getPendingBountyReport, getPendingBountyCollect, advanceBountyStep, getActiveBountyStep, isBountyCollectPickup, reconcileBountyPickups } from '../../game/hub/bounties'
 import { PetModal } from './PetModal'
-import { getActivePet, getTreatsRemainingToday, canGiveTreat, recordTreatGiven, recordAffection, grantAccessory } from '../../game/hub/pet'
+import { getActivePet, getTreatsRemainingToday, canGiveTreat, recordAffection, recordTreatGiven, getAffectionRemaining, grantAccessory } from '../../game/hub/pet'
 import { PLAYER_PET_ANIMAL_ID } from './hubAnimals'
 import { TownDirectory } from './TownDirectory'
 import { TownJournal } from './TownJournal'
@@ -144,6 +144,35 @@ const SCREEN_ENTER_LABEL: Record<string, string> = {
 }
 function screenEnterLabel(screen: string): string {
   return SCREEN_ENTER_LABEL[screen] ?? 'Step inside?'
+}
+
+// Species-flavored copy for the pet interaction dialogue (see #1861 follow-up)
+// so a cat pet doesn't read like a dog with different sprites.
+interface PetFlavor {
+  pet:              (name: string) => string
+  bellyRubs:        (name: string) => string
+  brush:            (name: string) => string
+  fetchCard:        (name: string, cardName: string) => string
+  fetchTrinketDesc: (name: string) => string
+}
+const PET_INTERACTION_FLAVOR: Record<string, PetFlavor> = {
+  dog: {
+    pet:              name => `${name} leans into your hand, tail wagging.`,
+    bellyRubs:        name => `${name} flops over for belly rubs, completely delighted.`,
+    brush:            name => `${name}'s coat looks extra shiny now.`,
+    fetchCard:        (name, cardName) => `${name} comes trotting back with a card: ${cardName}!`,
+    fetchTrinketDesc: name => `A shiny bauble ${name} dug up while out on a walk.`,
+  },
+  cat: {
+    pet:              name => `${name} nuzzles into your hand, purring softly.`,
+    bellyRubs:        name => `${name} rolls over for a moment, then swats at your hand and stalks off.`,
+    brush:            name => `${name}'s fur looks glossy and smooth now.`,
+    fetchCard:        (name, cardName) => `${name} pads back proudly with a card: ${cardName}!`,
+    fetchTrinketDesc: name => `A shiny bauble ${name} batted out from under something while exploring.`,
+  },
+}
+function petFlavor(type: string): PetFlavor {
+  return PET_INTERACTION_FLAVOR[type] ?? PET_INTERACTION_FLAVOR.dog
 }
 
 function getActiveDialogue(quest: HubQuestDef): string {
@@ -580,7 +609,8 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
 
   // Give-a-Treat reward: one of crystals / a random common-or-uncommon card /
   // a flavor trinket, mirroring handleTreasureStep's reward-application shapes.
-  const grantRandomPetReward = useCallback((petName: string): string => {
+  const grantRandomPetReward = useCallback((petName: string, petType: string): string => {
+    const flavor = petFlavor(petType)
     const roll = Math.random()
     if (roll < 0.4) {
       const amount = 10 + Math.floor(Math.random() * 21) // 10-30
@@ -593,10 +623,10 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
       const card = catalog[Math.floor(Math.random() * catalog.length)]
       if (card) {
         addCardsToCollection([{ cardName: card.name, count: 1 }])
-        return `${petName} comes trotting back with a card: ${card.name}!`
+        return flavor.fetchCard(petName, card.name)
       }
     }
-    addCollectible('pet-fetch-trinket', { name: 'Shiny Trinket', icon: '✨', desc: `A shiny bauble ${petName} dug up while out on a walk.` })
+    addCollectible('pet-fetch-trinket', { name: 'Shiny Trinket', icon: '✨', desc: flavor.fetchTrinketDesc(petName) })
     return `${petName} found a shiny trinket and brought it back!`
   }, [onCrystalsChange])
 
@@ -1174,11 +1204,17 @@ function hasOfferableQuest(giverId: string): boolean {
     if (animalId === PLAYER_PET_ANIMAL_ID) {
       const pet = getActivePet()
       if (!pet) { setPetModalOpen(true); return }
+      const flavor = petFlavor(pet.type)
       const remaining = getTreatsRemainingToday()
+      const affectionRemaining = getAffectionRemaining()
+      const treatLabel = remaining > 0 && affectionRemaining > 0
+        ? `Give a Treat (interact ${affectionRemaining} more time${affectionRemaining === 1 ? '' : 's'})`
+        : `Give a Treat (${remaining}/2 today)`
       const choices: DialogueChoice[] = [
         {
-          label: `Give a Treat (${remaining}/2 today)`,
+          label: treatLabel,
           primary: true,
+          disabled: !canGiveTreat(),
           onClick: () => {
             if (!canGiveTreat()) {
               const text = getTreatsRemainingToday() <= 0
@@ -1189,7 +1225,7 @@ function hasOfferableQuest(giverId: string): boolean {
             }
             const sent = petActionRef.current?.sendPetFetching(() => {
               recordTreatGiven()
-              const message = grantRandomPetReward(pet.name)
+              const message = grantRandomPetReward(pet.name, pet.type)
               refreshState()
               setDialogueEvent({ speakerName: pet.name, text: message })
             })
@@ -1197,9 +1233,9 @@ function hasOfferableQuest(giverId: string): boolean {
             setDialogueEvent(null)
           },
         },
-        { label: 'Pet', onClick: () => { petActionRef.current?.givePetAffection(); recordAffection(); refreshState(); setDialogueEvent({ speakerName: pet.name, text: `${pet.name} leans into your hand, tail wagging.` }) } },
-        { label: 'Belly Rubs', onClick: () => { petActionRef.current?.givePetAffection(); recordAffection(); refreshState(); setDialogueEvent({ speakerName: pet.name, text: `${pet.name} flops over for belly rubs, completely delighted.` }) } },
-        { label: 'Brush', onClick: () => { petActionRef.current?.givePetAffection(); recordAffection(); refreshState(); setDialogueEvent({ speakerName: pet.name, text: `${pet.name}'s coat looks extra shiny now.` }) } },
+        { label: 'Pet', onClick: () => { petActionRef.current?.givePetAffection(); recordAffection(); refreshState(); setDialogueEvent({ speakerName: pet.name, text: flavor.pet(pet.name) }) } },
+        { label: 'Belly Rubs', onClick: () => { petActionRef.current?.givePetAffection(); recordAffection(); refreshState(); setDialogueEvent({ speakerName: pet.name, text: flavor.bellyRubs(pet.name) }) } },
+        { label: 'Brush', onClick: () => { petActionRef.current?.givePetAffection(); recordAffection(); refreshState(); setDialogueEvent({ speakerName: pet.name, text: flavor.brush(pet.name) }) } },
         { label: 'Manage', onClick: () => setPetModalOpen(true) },
         { label: 'Never mind', onClick: () => setDialogueEvent(null) },
       ]

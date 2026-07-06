@@ -4,6 +4,8 @@ export interface DialogueChoice {
   label: string
   onClick: () => void
   primary?: boolean
+  /** Visually dims the choice (e.g. an action that isn't available yet) without blocking the tap — onClick still fires so it can explain why. */
+  disabled?: boolean
 }
 
 interface Props {
@@ -69,12 +71,13 @@ export function HubDialogue({ line, onClose, speakerName, choices }: Props) {
                   key={c.label}
                   onClick={c.onClick}
                   style={{
-                    background:    c.primary ? 'rgba(68,102,68,0.6)' : 'none',
+                    background:    c.primary && !c.disabled ? 'rgba(68,102,68,0.6)' : 'none',
                     border:        '1px solid #446644',
-                    color:         c.primary ? '#c8e8c8' : '#88cc88',
+                    color:         c.primary && !c.disabled ? '#c8e8c8' : '#88cc88',
+                    opacity:       c.disabled ? 0.45 : 1,
                     fontSize:       10,
                     padding:       '4px 12px',
-                    cursor:        'pointer',
+                    cursor:        c.disabled ? 'default' : 'pointer',
                     letterSpacing: '0.12em',
                     textAlign:     choices.length > 1 ? 'left' : 'center',
                     width:         choices.length > 1 ? '100%' : 'auto',
