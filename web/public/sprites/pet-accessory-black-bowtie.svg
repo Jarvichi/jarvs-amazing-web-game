@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
-  <!-- bow tie: at the neck/throat, distinct from the plain collar band -->
-  <path d="M16.8 16.4 L19.8 18 L16.8 19.6 Z" fill="#1a1a1a"/>
-  <path d="M22.8 16.4 L19.8 18 L22.8 19.6 Z" fill="#1a1a1a"/>
-  <circle cx="19.8" cy="18" r="1" fill="#000000"/>
-</svg>

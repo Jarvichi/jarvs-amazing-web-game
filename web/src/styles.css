@@ -15424,10 +15424,23 @@ html.light-mode .action-btn {
 .pet-modal__current-name { font-size: 14px; font-weight: bold; }
 .pet-modal__actions-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
 .pet-modal__accessories {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+.pet-modal__accessory-group-label {
+  font-size: 10px;
+  font-weight: bold;
+  color: #88aa88;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+.pet-modal__accessory-colors {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  margin-top: 12px;
 }
 .pet-modal__accessory {
   display: flex;

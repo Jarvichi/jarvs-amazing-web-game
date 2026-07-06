@@ -11,7 +11,8 @@ import { findPath } from '../../utils/hubPathfinder'
 import { loadAnimFrames, loadTextureUrl } from '../../utils/pixiHelpers'
 import { emitSound, SoundId } from '../../game/sound'
 import { getEquippedAccessoryId } from '../../game/hub/pet'
-import type { HubAnimal } from '../../data/hub/loader'
+import { getPetAccessoryDef } from '../../data/petAccessories'
+import type { HubAnimal, HubAnimalType } from '../../data/hub/loader'
 import {
   AnimalType,
   ANIMAL_SPECS,
@@ -64,10 +65,10 @@ interface Animal {
   bubble: PIXI.Container | null
   bubbleTimer: number
   indicator: PIXI.Text | null
-  // player's pet: composited equipped-accessory sprite (sibling, not a child —
-  // the dog's texture swaps per animation frame, so only sibling repositioning
-  // every tick keeps it aligned; see advance())
-  accessorySprite: PIXI.Sprite | null
+  // player's pet: composited equipped-accessory sprites, one per colour-tinted
+  // part (sibling, not a child — the pet's texture swaps per animation frame,
+  // so only sibling repositioning every tick keeps them aligned; see advance())
+  accessorySprites: PIXI.Sprite[]
   // dog social memory
   ownerId?: string
   seen: Set<string>
@@ -152,7 +153,7 @@ export interface AnimalSystem {
   /** Night light sources from animals (fireflies) for the night overlay. */
   getGlowSources: () => GlowSource[]
   /** Spawns (or re-spawns) the player's follower pet near (tx,ty). */
-  spawnFollowerPet: (variant: string, tx: number, ty: number) => void
+  spawnFollowerPet: (type: AnimalType, variant: string, tx: number, ty: number) => void
   /** Best-effort removal of an animal by id. No-op if not found. */
   removeAnimal: (id: string) => void
   /** Sends the player's pet off to fetch something; fires onReturn once it's
@@ -269,11 +270,11 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
       a.sprite.y = a.baseY
     }
     if (a.bottomAnchored) a.sprite.zIndex = a.sprite.y
-    if (a.accessorySprite) {
-      a.accessorySprite.position.copyFrom(a.sprite.position)
-      a.accessorySprite.scale.x = a.sprite.scale.x
-      a.accessorySprite.zIndex = a.sprite.zIndex + 0.5
-    }
+    a.accessorySprites.forEach((s, i) => {
+      s.position.copyFrom(a.sprite.position)
+      s.scale.x = a.sprite.scale.x
+      s.zIndex = a.sprite.zIndex + 0.5 + i * 0.001
+    })
   }
 
   const isMoving = (a: Animal) => a.target !== null
@@ -493,7 +494,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     if (!a.seen.has(near.id)) { a.seen.add(near.id); a.opinion.set(near.id, Math.random() < 0.5) }
     a.reactCooldown = 5000
     if (a.opinion.get(near.id)) { speak(a, '♥'); a.wagTimer = 1300 }
-    else { speak(a, 'Woof!'); vocalize(a) }
+    else { speak(a, FLAVOUR[a.type]); vocalize(a) }
   }
 
   // Dogs spot a wandering cat or rabbit and give chase — they leave the path
@@ -908,7 +909,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
       else showStatic(a)
 
       a.stateTimer -= dt
-      if (a.type === 'cat') {
+      if (a.type === 'cat' && a.ownerId !== PLAYER_OWNER_ID) {
         catTick(a, dt, walkable, npcs)
       } else if (a.type === 'rabbit') {
         rabbitTick(a, dt, avatar, walkable)
@@ -1011,7 +1012,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
       bubble: null, bubbleTimer: 0,
       seen: new Set(), opinion: new Map(), reactCooldown: 0, wagTimer: 0,
       fleeRequested: false, bobPhase: Math.random() * Math.PI * 2, baseY: c.y,
-      indicator: null, accessorySprite: null,
+      indicator: null, accessorySprites: [],
     }
     // Half of the procedural cats & dogs den in a home building at night.
     if (!placed && spec.dens && opts.homes.length > 0 && Math.random() < 0.5) {
@@ -1134,7 +1135,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     for (const a of animals) {
       if (a.bubble) opts.bubbleLayer.removeChild(a.bubble)
       if (a.indicator) opts.bubbleLayer.removeChild(a.indicator)
-      if (a.accessorySprite) a.accessorySprite.destroy()
+      for (const s of a.accessorySprites) s.destroy()
       a.sprite.destroy()
     }
     animals.length = 0
@@ -1148,35 +1149,42 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     const [a] = animals.splice(idx, 1)
     if (a.bubble) opts.bubbleLayer.removeChild(a.bubble)
     if (a.indicator) opts.bubbleLayer.removeChild(a.indicator)
-    if (a.accessorySprite) a.accessorySprite.destroy()
+    for (const s of a.accessorySprites) s.destroy()
     a.sprite.destroy()
   }
 
   function clearAccessorySprite(a: Animal): void {
-    if (a.accessorySprite) {
-      a.accessorySprite.destroy()
-      a.accessorySprite = null
-    }
+    for (const s of a.accessorySprites) s.destroy()
+    a.accessorySprites = []
   }
 
-  // Composites the equipped accessory as a PIXI sibling of the dog sprite —
-  // same width/height/anchor/position every tick (see advance()) — so an SVG
-  // authored in animal-dog.svg's 32x32 coordinate space lines up automatically.
-  function applyAccessorySprite(a: Animal, assetId: string): void {
-    loadTextureUrl(`${opts.baseUrl}sprites/pet-accessory-${assetId}.svg`).then(tex => {
+  // Composites the equipped accessory's parts as PIXI siblings of the pet's
+  // sprite — same width/height/anchor/position every tick (see advance()) —
+  // so SVGs authored in the pet sprite's 32x32 coordinate space line up
+  // automatically. Multi-part accessories (e.g. a hat's crown + band) stack
+  // as separate tinted sprites so each part can be recoloured independently.
+  function applyAccessorySprite(a: Animal, accessoryId: string): void {
+    const def = getPetAccessoryDef(accessoryId)
+    if (!def) return
+    Promise.all(def.parts.map(part =>
+      loadTextureUrl(`${opts.baseUrl}sprites/pet-accessory-${def.asset}-${part.key}.svg`).then(tex => ({ tex, tint: part.tint })),
+    )).then(loaded => {
       // The pet may have been removed, or the accessory changed again, while this loaded.
       if (!animals.includes(a)) return
       clearAccessorySprite(a)
-      const sprite = new PIXI.Sprite(tex)
-      sprite.width = a.sprite.width
-      sprite.height = a.sprite.height
-      sprite.anchor.set(a.sprite.anchor.x, a.sprite.anchor.y)
-      sprite.position.copyFrom(a.sprite.position)
-      sprite.scale.x = a.sprite.scale.x
-      sprite.zIndex = a.sprite.zIndex + 0.5
-      sprite.eventMode = 'none'  // cosmetic overlay must not block taps on the dog beneath it
-      a.sprite.parent?.addChild(sprite)
-      a.accessorySprite = sprite
+      a.accessorySprites = loaded.map(({ tex, tint }) => {
+        const sprite = new PIXI.Sprite(tex)
+        sprite.width = a.sprite.width
+        sprite.height = a.sprite.height
+        sprite.anchor.set(a.sprite.anchor.x, a.sprite.anchor.y)
+        sprite.position.copyFrom(a.sprite.position)
+        sprite.scale.x = a.sprite.scale.x
+        sprite.zIndex = a.sprite.zIndex + 0.5
+        sprite.tint = tint
+        sprite.eventMode = 'none'  // cosmetic overlay must not block taps on the pet beneath it
+        a.sprite.parent?.addChild(sprite)
+        return sprite
+      })
     }).catch(() => {})
   }
 
@@ -1187,9 +1195,9 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
     if (assetId) applyAccessorySprite(a, assetId)
   }
 
-  function spawnFollowerPet(variant: string, tx: number, ty: number): void {
+  function spawnFollowerPet(type: AnimalType, variant: string, tx: number, ty: number): void {
     removeAnimal(PLAYER_PET_ANIMAL_ID)
-    void makeAnimal('dog', tx, ty, { id: PLAYER_PET_ANIMAL_ID, type: 'dog', variant, tx, ty, roam: true })
+    void makeAnimal(type, tx, ty, { id: PLAYER_PET_ANIMAL_ID, type: type as HubAnimalType, variant, tx, ty, roam: true })
       .then(() => {
         const a = animals.find(x => x.id === PLAYER_PET_ANIMAL_ID)
         if (!a) return
