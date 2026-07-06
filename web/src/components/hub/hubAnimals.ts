@@ -263,25 +263,29 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
 
   // ── movement integration ─────────────────────────────────────────────────────
   function advance(a: Animal, dt: number) {
-    if (!a.target) return
-    const dx = a.target.x - a.sprite.x
-    const dy = a.target.y - a.sprite.y
-    const dist = Math.hypot(dx, dy)
-    const step = ANIMAL_SPECS[a.type].speed * (dt / 1000)
-    if (dx < -0.5) a.sprite.scale.x = -a.baseScale
-    else if (dx > 0.5) a.sprite.scale.x = a.baseScale
-    if (step >= dist || dist < 0.001) {
-      a.sprite.x = a.target.x
-      a.baseY = a.target.y
-      a.sprite.y = a.target.y
-      if (a.movingTo) { a.tx = a.movingTo[0]; a.ty = a.movingTo[1] }
-      beginNextStep(a)
-    } else {
-      a.sprite.x += (dx / dist) * step
-      a.baseY = a.sprite.y + (dy / dist) * step
-      a.sprite.y = a.baseY
+    if (a.target) {
+      const dx = a.target.x - a.sprite.x
+      const dy = a.target.y - a.sprite.y
+      const dist = Math.hypot(dx, dy)
+      const step = ANIMAL_SPECS[a.type].speed * (dt / 1000)
+      if (dx < -0.5) a.sprite.scale.x = -a.baseScale
+      else if (dx > 0.5) a.sprite.scale.x = a.baseScale
+      if (step >= dist || dist < 0.001) {
+        a.sprite.x = a.target.x
+        a.baseY = a.target.y
+        a.sprite.y = a.target.y
+        if (a.movingTo) { a.tx = a.movingTo[0]; a.ty = a.movingTo[1] }
+        beginNextStep(a)
+      } else {
+        a.sprite.x += (dx / dist) * step
+        a.baseY = a.sprite.y + (dy / dist) * step
+        a.sprite.y = a.baseY
+      }
+      if (a.bottomAnchored) a.sprite.zIndex = a.sprite.y
     }
-    if (a.bottomAnchored) a.sprite.zIndex = a.sprite.y
+    // Siblings (accessories/coat patterns) must stay glued to the base sprite
+    // even while stationary — e.g. the wag-timer rotation in dogSocial rotates
+    // a.sprite without moving it, so this can't be gated behind `a.target`.
     a.patternLayers.forEach((l, i) => syncSibling(a, l.sprite, 0.1 + i * 0.001))
     a.accessorySprites.forEach((s, i) => syncSibling(a, s, 0.5 + i * 0.001))
   }
@@ -289,6 +293,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
   function syncSibling(a: Animal, s: PIXI.Sprite, zOffset: number) {
     s.position.copyFrom(a.sprite.position)
     s.scale.x = a.sprite.scale.x
+    s.angle = a.sprite.angle
     s.zIndex = a.sprite.zIndex + zOffset
   }
 
