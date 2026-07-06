@@ -5,7 +5,7 @@ import {
   getActivePet, adoptPet, renamePet, dismissPet,
   ownsAccessory, getEquippedAccessoryId, equipAccessory, unequipAccessory,
 } from '../../game/hub/pet'
-import { ANIMAL_SPECS } from '../../game/hub/animals'
+import { ANIMAL_SPECS, type AnimalType } from '../../game/hub/animals'
 import { PET_ACCESSORIES } from '../../data/petAccessories'
 
 interface Props {
@@ -13,21 +13,39 @@ interface Props {
   petActionRef?: React.MutableRefObject<{ setPetAccessory: (assetId: string | null) => void } | null>
 }
 
-const DOG_VARIANTS = Object.keys(ANIMAL_SPECS.dog.palette)
+const PET_SPECIES: ('dog' | 'cat')[] = ['dog', 'cat']
+const SPECIES_LABEL: Record<string, string> = { dog: 'Dog', cat: 'Cat' }
+const SPECIES_NAME_PLACEHOLDER: Record<string, string> = { dog: 'Name your pup', cat: 'Name your cat' }
 
-function PickerBody({ onAdopt, submitLabel }: { onAdopt: (variant: string, name: string) => void; submitLabel: string }) {
-  const [variant, setVariant] = useState(DOG_VARIANTS[0])
+function PickerBody({ onAdopt, submitLabel }: { onAdopt: (type: string, variant: string, name: string) => void; submitLabel: string }) {
+  const [species, setSpecies] = useState<'dog' | 'cat'>('dog')
+  const variants = Object.keys(ANIMAL_SPECS[species].palette)
+  const [variant, setVariant] = useState(variants[0])
   const [name, setName] = useState('')
+
+  const chooseSpecies = (s: 'dog' | 'cat') => {
+    setSpecies(s)
+    setVariant(Object.keys(ANIMAL_SPECS[s].palette)[0])
+  }
 
   return (
     <>
       <div className="pet-modal__section-label">Choose a companion</div>
+      <div className="hoa-tabs">
+        {PET_SPECIES.map(s => (
+          <button
+            key={s}
+            className={`hoa-tab${species === s ? ' hoa-tab--active' : ''}`}
+            onClick={() => chooseSpecies(s)}
+          >{SPECIES_LABEL[s]}</button>
+        ))}
+      </div>
       <div className="pet-modal__swatches">
-        {DOG_VARIANTS.map(v => (
+        {variants.map(v => (
           <button
             key={v}
             className={`pet-modal__swatch${v === variant ? ' pet-modal__swatch--selected' : ''}`}
-            style={{ backgroundColor: `#${ANIMAL_SPECS.dog.palette[v].toString(16).padStart(6, '0')}` }}
+            style={{ backgroundColor: `#${ANIMAL_SPECS[species].palette[v].toString(16).padStart(6, '0')}` }}
             title={v}
             onClick={() => setVariant(v)}
           />
@@ -35,12 +53,12 @@ function PickerBody({ onAdopt, submitLabel }: { onAdopt: (variant: string, name:
       </div>
       <input
         className="pet-modal__name-input"
-        placeholder="Name your pup"
+        placeholder={SPECIES_NAME_PLACEHOLDER[species]}
         value={name}
         maxLength={24}
         onChange={e => setName(e.target.value)}
       />
-      <button className="action-btn action-btn--gold" onClick={() => onAdopt(variant, name)}>{submitLabel}</button>
+      <button className="action-btn action-btn--gold" onClick={() => onAdopt(species, variant, name)}>{submitLabel}</button>
     </>
   )
 }
@@ -62,25 +80,39 @@ function AccessoriesTab({ petActionRef, refresh }: {
     refresh()
   }
 
+  const groups = new Map<string, typeof PET_ACCESSORIES>()
+  for (const acc of PET_ACCESSORIES) {
+    const group = groups.get(acc.asset) ?? []
+    group.push(acc)
+    groups.set(acc.asset, group)
+  }
+
   return (
     <div className="pet-modal__accessories">
-      {PET_ACCESSORIES.map(acc => {
-        const owned = ownsAccessory(acc.id)
-        const equipped = equippedId === acc.id
-        return (
-          <button
-            key={acc.id}
-            className={`pet-modal__accessory${equipped ? ' pet-modal__accessory--equipped' : ''}${!owned ? ' pet-modal__accessory--locked' : ''}`}
-            disabled={!owned}
-            onClick={() => toggle(acc.id)}
-          >
-            <span className="pet-modal__accessory-name">{acc.name}</span>
-            <span className="pet-modal__accessory-status">
-              {equipped ? 'Equipped' : owned ? 'Tap to equip' : 'Found on quests/bounties, or buy from Tailor Pell in Crownhaven'}
-            </span>
-          </button>
-        )
-      })}
+      {[...groups.values()].map(group => (
+        <div key={group[0].asset} className="pet-modal__accessory-group">
+          <div className="pet-modal__accessory-group-label">{group[0].slot}</div>
+          <div className="pet-modal__accessory-colors">
+            {group.map(acc => {
+              const owned = ownsAccessory(acc.id)
+              const equipped = equippedId === acc.id
+              return (
+                <button
+                  key={acc.id}
+                  className={`pet-modal__accessory${equipped ? ' pet-modal__accessory--equipped' : ''}${!owned ? ' pet-modal__accessory--locked' : ''}`}
+                  disabled={!owned}
+                  onClick={() => toggle(acc.id)}
+                >
+                  <span className="pet-modal__accessory-name">{acc.name}</span>
+                  <span className="pet-modal__accessory-status">
+                    {equipped ? 'Equipped' : owned ? 'Tap to equip' : 'Found on quests/bounties, or buy from Tailor Pell in Crownhaven'}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+      ))}
     </div>
   )
 }
@@ -90,7 +122,7 @@ export function PetModal({ onClose, petActionRef }: Props) {
   const refresh = () => setTick(t => t + 1)
   const [renameValue, setRenameValue] = useState<string | null>(null)
   const [swapping, setSwapping] = useState(false)
-  const [confirmSwap, setConfirmSwap] = useState<{ variant: string; name: string } | null>(null)
+  const [confirmSwap, setConfirmSwap] = useState<{ type: string; variant: string; name: string } | null>(null)
   const [confirmDismiss, setConfirmDismiss] = useState(false)
   const [tab, setTab] = useState<'info' | 'accessories'>('info')
 
@@ -102,7 +134,7 @@ export function PetModal({ onClose, petActionRef }: Props) {
         title="Adopt a new companion?"
         body={`Adopting ${confirmSwap.name} will mean saying goodbye to ${pet?.name ?? 'your current pet'}.`}
         confirmLabel="Adopt"
-        onConfirm={() => { adoptPet('dog', confirmSwap.variant, confirmSwap.name); setConfirmSwap(null); setSwapping(false); refresh() }}
+        onConfirm={() => { adoptPet(confirmSwap.type, confirmSwap.variant, confirmSwap.name); setConfirmSwap(null); setSwapping(false); refresh() }}
         onCancel={() => setConfirmSwap(null)}
       />
     )
@@ -129,7 +161,7 @@ export function PetModal({ onClose, petActionRef }: Props) {
         </div>
 
         {!pet && (
-          <PickerBody submitLabel="Adopt" onAdopt={(variant, name) => { adoptPet('dog', variant, name); refresh() }} />
+          <PickerBody submitLabel="Adopt" onAdopt={(type, variant, name) => { adoptPet(type, variant, name); refresh() }} />
         )}
 
         {pet && !swapping && (
@@ -144,13 +176,13 @@ export function PetModal({ onClose, petActionRef }: Props) {
                 <div className="pet-modal__current">
                   <span
                     className="pet-modal__current-swatch"
-                    style={{ backgroundColor: `#${(ANIMAL_SPECS.dog.palette[pet.variant] ?? 0x8b5a2b).toString(16).padStart(6, '0')}` }}
+                    style={{ backgroundColor: `#${(ANIMAL_SPECS[pet.type as AnimalType]?.palette[pet.variant] ?? 0x8b5a2b).toString(16).padStart(6, '0')}` }}
                   />
                   <span className="pet-modal__current-name">{pet.name}</span>
                 </div>
                 <input
                   className="pet-modal__name-input"
-                  placeholder="Rename your pup"
+                  placeholder="Rename your pet"
                   value={renameValue ?? pet.name}
                   maxLength={24}
                   onChange={e => setRenameValue(e.target.value)}
@@ -160,7 +192,7 @@ export function PetModal({ onClose, petActionRef }: Props) {
                   onClick={() => { if (renameValue != null) renamePet(renameValue); setRenameValue(null); refresh() }}
                 >Save Name</button>
                 <div className="pet-modal__actions-row">
-                  <button className="action-btn" onClick={() => setSwapping(true)}>Adopt a Different Dog</button>
+                  <button className="action-btn" onClick={() => setSwapping(true)}>Adopt a Different Companion</button>
                   <button className="action-btn action-btn--danger" onClick={() => setConfirmDismiss(true)}>Dismiss Pet</button>
                 </div>
               </>
@@ -173,7 +205,7 @@ export function PetModal({ onClose, petActionRef }: Props) {
         {pet && swapping && (
           <PickerBody
             submitLabel="Adopt"
-            onAdopt={(variant, name) => setConfirmSwap({ variant, name })}
+            onAdopt={(type, variant, name) => setConfirmSwap({ type, variant, name })}
           />
         )}
       </div>

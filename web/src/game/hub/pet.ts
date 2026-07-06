@@ -3,6 +3,7 @@ import { getPetAccessoryDef, type AccessorySlot } from '../../data/petAccessorie
 const KEY = 'jarv_hub_pet'
 
 const MAX_TREATS_PER_DAY = 2
+const TREAT_INTERACTIONS_REQUIRED = 3
 
 export interface PetRecord {
   type:    string  // 'dog' for now; kept generic for future pet types
@@ -21,9 +22,10 @@ interface AccessoryState {
 }
 
 interface Store {
-  pet:          PetRecord | null
-  treats?:      TreatState
-  accessories?: AccessoryState
+  pet:            PetRecord | null
+  treats?:        TreatState
+  accessories?:   AccessoryState
+  affectionCount?: number
 }
 
 function load(): Store {
@@ -83,16 +85,33 @@ export function getTreatsRemainingToday(): number {
   return Math.max(0, MAX_TREATS_PER_DAY - data.treats.count)
 }
 
-export function canGiveTreat(): boolean {
-  return hasActivePet() && getTreatsRemainingToday() > 0
+/** How many Pet/Belly-Rubs/Brush interactions the pet has had since its last treat. */
+export function getAffectionCount(): number {
+  return load().affectionCount ?? 0
 }
 
-/** Records that a treat was given, decrementing today's remaining count. */
+/** How many more interactions are needed before a treat can be given. */
+export function getAffectionRemaining(): number {
+  return Math.max(0, TREAT_INTERACTIONS_REQUIRED - getAffectionCount())
+}
+
+/** Records a Pet/Belly-Rubs/Brush interaction, counting toward the next treat. */
+export function recordAffection(): void {
+  const data = load()
+  save({ ...data, affectionCount: (data.affectionCount ?? 0) + 1 })
+}
+
+export function canGiveTreat(): boolean {
+  return hasActivePet() && getTreatsRemainingToday() > 0 && getAffectionCount() >= TREAT_INTERACTIONS_REQUIRED
+}
+
+/** Records that a treat was given, decrementing today's remaining count and
+ *  resetting the interaction counter toward the next treat. */
 export function recordTreatGiven(): void {
   const data = load()
   const today = todayKey()
   const count = data.treats && data.treats.date === today ? data.treats.count + 1 : 1
-  save({ ...data, treats: { date: today, count } })
+  save({ ...data, treats: { date: today, count }, affectionCount: 0 })
 }
 
 function loadAccessories(): AccessoryState {

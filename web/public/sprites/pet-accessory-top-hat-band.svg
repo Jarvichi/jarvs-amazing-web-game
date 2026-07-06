@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- top hat band: neutral white so PIXI tint colours it -->
+  <rect x="20.3" y="8.6" width="5.4" height="1.1" fill="#ffffff"/>
+</svg>

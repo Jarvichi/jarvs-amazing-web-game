@@ -87,9 +87,18 @@ function getSupplyStock(at: Date | undefined, count: number): ShopStockItem[] {
   return picks
 }
 
-// Fixed (not date-rotating) accessory catalog for the Tailor Pell shop — the 2
-// accessories not already covered by a quest or a bounty reward.
-const ACCESSORY_SHOP_IDS = ['top-hat', 'blue-coat']
+// Fixed (not date-rotating) accessory catalog for the Tailor Pell shop — the
+// base accessories not already covered by a quest or a bounty reward, plus
+// every bespoke colour variant (see #1861), which are cosmetic-only extras
+// with no narrative reward tied to them.
+const ACCESSORY_SHOP_IDS = [
+  'top-hat', 'top-hat-navy', 'top-hat-brown',
+  'blue-coat', 'blue-coat-red', 'blue-coat-green',
+  'leather-collar-black', 'leather-collar-red',
+  'red-bow-pink', 'red-bow-purple',
+  'black-bowtie-navy', 'black-bowtie-burgundy',
+  'brown-boots-black', 'brown-boots-grey',
+]
 
 function getAccessoryStock(): ShopStockItem[] {
   return ACCESSORY_SHOP_IDS.map(id => {

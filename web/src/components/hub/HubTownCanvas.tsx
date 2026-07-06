@@ -2471,7 +2471,7 @@ export function HubTownCanvas({
       let [ptx, pty] = [AVATAR_START.tx, AVATAR_START.ty + 1]
       if (animalIsSolid(ptx, pty)) [ptx, pty] = [AVATAR_START.tx + 1, AVATAR_START.ty]
       if (animalIsSolid(ptx, pty)) [ptx, pty] = [AVATAR_START.tx, AVATAR_START.ty]
-      animalSystem.spawnFollowerPet(activePet.variant, ptx, pty)
+      animalSystem.spawnFollowerPet(activePet.type as AnimalType, activePet.variant, ptx, pty)
     }
 
     // ── Weather overlay (screen-space, above the world incl. night dimming) ────

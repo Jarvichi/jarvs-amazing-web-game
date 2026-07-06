@@ -2,9 +2,15 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import {
   getActivePet, hasActivePet, adoptPet, renamePet, dismissPet,
   getTreatsRemainingToday, canGiveTreat, recordTreatGiven,
+  getAffectionCount, getAffectionRemaining, recordAffection,
   getOwnedAccessoryIds, ownsAccessory, grantAccessory,
   getEquippedAccessoryId, equipAccessory, unequipAccessory,
 } from './pet'
+
+// Satisfies the treat-interaction gate (3 Pet/Belly-Rubs/Brush interactions).
+function maxOutAffection() {
+  recordAffection(); recordAffection(); recordAffection()
+}
 
 // In-memory localStorage mock (tests run in node environment)
 const store = new Map<string, string>()
@@ -102,9 +108,11 @@ describe('treat cooldown', () => {
 
   it('decrements remaining count on each treat given', () => {
     adoptPet('dog', 'golden', 'Rex')
+    maxOutAffection()
     expect(canGiveTreat()).toBe(true)
     recordTreatGiven()
     expect(getTreatsRemainingToday()).toBe(1)
+    maxOutAffection()
     expect(canGiveTreat()).toBe(true)
     recordTreatGiven()
     expect(getTreatsRemainingToday()).toBe(0)
@@ -113,23 +121,50 @@ describe('treat cooldown', () => {
 
   it('floors at 0 and does not go negative', () => {
     adoptPet('dog', 'golden', 'Rex')
-    recordTreatGiven()
-    recordTreatGiven()
-    recordTreatGiven()
+    maxOutAffection(); recordTreatGiven()
+    maxOutAffection(); recordTreatGiven()
+    maxOutAffection(); recordTreatGiven()
     expect(getTreatsRemainingToday()).toBe(0)
   })
 
   it('resets to the max on a new day', () => {
     adoptPet('dog', 'golden', 'Rex')
-    recordTreatGiven()
-    recordTreatGiven()
+    maxOutAffection(); recordTreatGiven()
+    maxOutAffection(); recordTreatGiven()
     expect(getTreatsRemainingToday()).toBe(0)
     // Simulate a day change by rewriting the backing store with a stale date.
     const raw = JSON.parse(store.get('jarv_hub_pet')!)
     raw.treats.date = '2000-01-01'
     store.set('jarv_hub_pet', JSON.stringify(raw))
     expect(getTreatsRemainingToday()).toBe(2)
+    maxOutAffection()
     expect(canGiveTreat()).toBe(true)
+  })
+})
+
+describe('treat interaction gate', () => {
+  it('requires 3 interactions before a treat can be given', () => {
+    adoptPet('dog', 'golden', 'Rex')
+    expect(getAffectionCount()).toBe(0)
+    expect(getAffectionRemaining()).toBe(3)
+    expect(canGiveTreat()).toBe(false)
+    recordAffection()
+    recordAffection()
+    expect(getAffectionRemaining()).toBe(1)
+    expect(canGiveTreat()).toBe(false)
+    recordAffection()
+    expect(getAffectionCount()).toBe(3)
+    expect(getAffectionRemaining()).toBe(0)
+    expect(canGiveTreat()).toBe(true)
+  })
+
+  it('resets the interaction counter after a treat is given', () => {
+    adoptPet('dog', 'golden', 'Rex')
+    maxOutAffection()
+    expect(canGiveTreat()).toBe(true)
+    recordTreatGiven()
+    expect(getAffectionCount()).toBe(0)
+    expect(canGiveTreat()).toBe(false)
   })
 })
 

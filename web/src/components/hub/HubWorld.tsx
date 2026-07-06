@@ -36,7 +36,7 @@ import { TradeJournalModal } from './TradeJournalModal'
 import { BountyBoardModal } from './BountyBoardModal'
 import { hasUnclaimedBounties, getPendingBountyReport, getPendingBountyCollect, advanceBountyStep, getActiveBountyStep, isBountyCollectPickup, reconcileBountyPickups } from '../../game/hub/bounties'
 import { PetModal } from './PetModal'
-import { getActivePet, getTreatsRemainingToday, canGiveTreat, recordTreatGiven, grantAccessory } from '../../game/hub/pet'
+import { getActivePet, getTreatsRemainingToday, canGiveTreat, recordTreatGiven, recordAffection, grantAccessory } from '../../game/hub/pet'
 import { PLAYER_PET_ANIMAL_ID } from './hubAnimals'
 import { TownDirectory } from './TownDirectory'
 import { TownJournal } from './TownJournal'
@@ -1181,7 +1181,10 @@ function hasOfferableQuest(giverId: string): boolean {
           primary: true,
           onClick: () => {
             if (!canGiveTreat()) {
-              setDialogueEvent({ speakerName: pet.name, text: `${pet.name} has had plenty for today. Come back tomorrow!` })
+              const text = getTreatsRemainingToday() <= 0
+                ? `${pet.name} has had plenty for today. Come back tomorrow!`
+                : `${pet.name} isn't ready for a treat yet — spend a little more time with them first!`
+              setDialogueEvent({ speakerName: pet.name, text })
               return
             }
             const sent = petActionRef.current?.sendPetFetching(() => {
@@ -1194,9 +1197,9 @@ function hasOfferableQuest(giverId: string): boolean {
             setDialogueEvent(null)
           },
         },
-        { label: 'Pet', onClick: () => { petActionRef.current?.givePetAffection(); setDialogueEvent({ speakerName: pet.name, text: `${pet.name} leans into your hand, tail wagging.` }) } },
-        { label: 'Belly Rubs', onClick: () => { petActionRef.current?.givePetAffection(); setDialogueEvent({ speakerName: pet.name, text: `${pet.name} flops over for belly rubs, completely delighted.` }) } },
-        { label: 'Brush', onClick: () => { petActionRef.current?.givePetAffection(); setDialogueEvent({ speakerName: pet.name, text: `${pet.name}'s coat looks extra shiny now.` }) } },
+        { label: 'Pet', onClick: () => { petActionRef.current?.givePetAffection(); recordAffection(); refreshState(); setDialogueEvent({ speakerName: pet.name, text: `${pet.name} leans into your hand, tail wagging.` }) } },
+        { label: 'Belly Rubs', onClick: () => { petActionRef.current?.givePetAffection(); recordAffection(); refreshState(); setDialogueEvent({ speakerName: pet.name, text: `${pet.name} flops over for belly rubs, completely delighted.` }) } },
+        { label: 'Brush', onClick: () => { petActionRef.current?.givePetAffection(); recordAffection(); refreshState(); setDialogueEvent({ speakerName: pet.name, text: `${pet.name}'s coat looks extra shiny now.` }) } },
         { label: 'Manage', onClick: () => setPetModalOpen(true) },
         { label: 'Never mind', onClick: () => setDialogueEvent(null) },
       ]
