@@ -2415,6 +2415,11 @@ export default function App() {
     // Secret rare cards drawn this game
     const obtained = gameState.secretRaresObtained ?? []
     if (obtained.length > 0) {
+      // Drawing a secret-rare card only conjures it into the battle hand — grant it
+      // into the permanent collection too, or the news feed announces a card the
+      // player can never actually see in their collection.
+      addCardsToCollection(obtained.map(cardName => ({ cardName, count: 1 })))
+
       const TYPES_KEY = 'jarv_secret_types_seen'
       let seenTypes: Set<string>
       try {
