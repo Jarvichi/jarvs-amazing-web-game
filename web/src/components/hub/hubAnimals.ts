@@ -1174,6 +1174,7 @@ export function createAnimalSystem(opts: AnimalSystemOptions): AnimalSystem {
       sprite.position.copyFrom(a.sprite.position)
       sprite.scale.x = a.sprite.scale.x
       sprite.zIndex = a.sprite.zIndex + 0.5
+      sprite.eventMode = 'none'  // cosmetic overlay must not block taps on the dog beneath it
       a.sprite.parent?.addChild(sprite)
       a.accessorySprite = sprite
     }).catch(() => {})
