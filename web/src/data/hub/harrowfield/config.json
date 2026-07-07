@@ -1713,7 +1713,8 @@
       "questReceive": [
         "harrowfield-produce-to-ravenwatch",
         "harrowfield-shear-day"
-      ]
+      ],
+      "dislikes": ["warden-bell"]
     },
     {
       "id": "warden-bell",
@@ -1744,7 +1745,10 @@
       "questGive": "harrowfield-scarecrow-watch",
       "questReceive": [
         "harrowfield-scarecrow-watch"
-      ]
+      ],
+      "favoriteGiftItemId": "music-box",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": ["sturdy-boots"]
     }
   ],
   "interiors": {
@@ -2460,6 +2464,33 @@
     }
   },
   "interactables": [
+    {
+      "id": "harrowfield-forage-flower-1",
+      "tx": 2,
+      "ty": 9,
+      "reactions": [
+        { "type": "dialogue", "text": "A patch of white wildflowers growing by the field's edge." },
+        { "type": "forage" }
+      ]
+    },
+    {
+      "id": "harrowfield-forage-flower-2",
+      "tx": 17,
+      "ty": 13,
+      "reactions": [
+        { "type": "dialogue", "text": "Pink flowers growing wild among the crop rows." },
+        { "type": "forage" }
+      ]
+    },
+    {
+      "id": "harrowfield-forage-flower-3",
+      "tx": 29,
+      "ty": 12,
+      "reactions": [
+        { "type": "dialogue", "text": "A cluster of blue flowers, swaying in the field wind." },
+        { "type": "forage" }
+      ]
+    },
     {
       "id": "harrowfield-rain-barrel",
       "tx": 20,

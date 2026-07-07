@@ -486,6 +486,41 @@
           "desc": "A token of thanks from the folk of Appleford whose treasures you returned."
         }
       }
+    },
+    {
+      "id": "bess-orchards-trust",
+      "title": "The Orchard's Trust",
+      "type": "fetch",
+      "giverNpcId": "orchard-keeper-bess",
+      "receiverNpcId": "orchard-keeper-bess",
+      "prerequisite": "friendship:orchard-keeper-bess:5",
+      "offerDialogue": "You've earned more than my thanks, traveller \u2014 you've earned my trust, and I don't give that lightly. Sit with me a while. There's something I want you to have.",
+      "activeDialogue": "No rush. The trees have waited longer than I have.",
+      "completeDialogue": "There. Not every stranger who walks these rows becomes family. You have. Appleford is glad to have you.",
+      "steps": [
+        { "key": "report", "type": "report", "targetNpcId": "orchard-keeper-bess", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 90,
+        "friendship": { "orchard-keeper-bess": 10 }
+      }
+    },
+    {
+      "id": "hobs-grudge",
+      "title": "Bad Blood in the Rows",
+      "type": "fetch",
+      "giverNpcId": "orchard-hand-hob",
+      "receiverNpcId": "orchard-hand-hob",
+      "prerequisite": "hatred:orchard-hand-hob:1",
+      "offerDialogue": "Oh, it's you. Reckon you've cost me more baskets than the crows have. Fine \u2014 make yourself useful for once and report back when you have.",
+      "activeDialogue": "Well? My arms aren't getting any younger waiting on you.",
+      "completeDialogue": "About time. Here \u2014 take this and get out of my rows before you knock something else over.",
+      "steps": [
+        { "key": "report", "type": "report", "targetNpcId": "orchard-hand-hob", "required": 1 }
+      ],
+      "reward": {
+        "hubItem": { "itemId": "mouldy-slipper", "count": 1 }
+      }
     }
   ],
   "pickupItems": [
@@ -717,5 +752,12 @@
       "questId": "appleford-harvest-blessing"
     }
   ],
-  "blockedPaths": []
+  "blockedPaths": [],
+  "relationshipDialogue": {
+    "cooper-wend": {
+      "rival": {
+        "1": "You've been spending an awful lot of time with Tom lately. Careful — cider talk is cheap, but good barrels take real work."
+      }
+    }
+  }
 }

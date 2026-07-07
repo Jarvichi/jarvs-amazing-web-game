@@ -520,6 +520,41 @@
           "desc": "Proof of an honest produce run from Harrowfield to Ravenwatch. Quill will remember this."
         }
       }
+    },
+    {
+      "id": "bells-quiet-confidence",
+      "title": "A Quiet Confidence",
+      "type": "fetch",
+      "giverNpcId": "warden-bell",
+      "receiverNpcId": "warden-bell",
+      "prerequisite": "friendship:warden-bell:5",
+      "offerDialogue": "You've become someone this chapel trusts, traveller — and trust, once earned, deserves to be honoured. Sit with me a moment. There's something I'd like to share.",
+      "activeDialogue": "Quiet hands, patient heart. I'll be here when you're ready.",
+      "completeDialogue": "There. Not every visitor earns a place in this chapel's quiet keeping. You have. Go well, and go blessed.",
+      "steps": [
+        { "key": "report", "type": "report", "targetNpcId": "warden-bell", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 85,
+        "friendship": { "warden-bell": 10 }
+      }
+    },
+    {
+      "id": "rooks-toll",
+      "title": "Grinding an Axe",
+      "type": "fetch",
+      "giverNpcId": "miller-rook",
+      "receiverNpcId": "miller-rook",
+      "prerequisite": "hatred:miller-rook:1",
+      "offerDialogue": "You again. Every visit of yours costs me flour I can't spare. Fine — earn your keep for once and report back when you have.",
+      "activeDialogue": "Well? The stones don't turn themselves.",
+      "completeDialogue": "Took you long enough. Here — take it and let the mill grind in peace for once.",
+      "steps": [
+        { "key": "report", "type": "report", "targetNpcId": "miller-rook", "required": 1 }
+      ],
+      "reward": {
+        "hubItem": { "itemId": "mouldy-slipper", "count": 1 }
+      }
     }
   ],
   "pickupItems": [
@@ -779,5 +814,12 @@
       "questId": "harrowfield-produce-to-ravenwatch"
     }
   ],
-  "blockedPaths": []
+  "blockedPaths": [],
+  "relationshipDialogue": {
+    "pedlar-quill": {
+      "rival": {
+        "1": "Spending a lot of time up at the chapel these days, aren't you? Quiet hands don't fill a cart, friend. Just something to think about."
+      }
+    }
+  }
 }
