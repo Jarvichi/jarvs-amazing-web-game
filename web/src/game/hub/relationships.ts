@@ -109,3 +109,37 @@ export function addRelationshipPoints(
   save(store)
   return entry
 }
+
+// Rival points granted to an NPC when a same-town NPC it dislikes (docs
+// §7c "Rivalry") has its ally/romance track level up with the player.
+export const RIVALRY_POINTS = 4
+
+/** Minimal NPC shape rivalry needs — satisfied structurally by `HubNpc`. */
+export interface RivalNpc {
+  id: string
+  dislikes?: string[]
+}
+
+/**
+ * Grants relationship points and, if this pushes the NPC's ally/romance track
+ * up a level, applies the rivalry reaction: every same-town NPC who dislikes
+ * them gains `RIVALRY_POINTS` of their own `rival` track. The reactive
+ * flavor line needs no extra plumbing — it's just an ordinary
+ * `relationshipDialogue` entry for the disliking NPC's `rival` tier, which
+ * already fires automatically once that NPC's dominant track/level match.
+ */
+export function grantRelationshipWithRivalry(
+  npcId: string,
+  track: RelationshipTrack,
+  points: number,
+  townNpcs: RivalNpc[],
+): RelationshipEntry {
+  const before = getRelationshipLevel(npcId)
+  const entry = addRelationshipPoints(npcId, track, points)
+  if ((track === 'ally' || track === 'romance') && entry.level > before) {
+    for (const other of townNpcs) {
+      if (other.dislikes?.includes(npcId)) addRelationshipPoints(other.id, 'rival', RIVALRY_POINTS)
+    }
+  }
+  return entry
+}
