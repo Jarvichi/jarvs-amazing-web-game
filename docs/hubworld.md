@@ -16,7 +16,7 @@
 | `web/src/data/hub/questDefs.ts` | Parses `questDefs.json`; exports quest definitions and dialogue | `HUB_QUEST_DEFS`, `INN_RUMOURS`, `FRIENDSHIP_DIALOGUE` |
 | `web/src/game/hub/quests.ts` | Quest progress/status persistence (localStorage) | `getQuestState`, `setQuestStatus`, `incrementQuestProgress`, `getQuestProgress`, `resetQuest` |
 | `web/src/game/hub/pickups.ts` | Pickup state persistence (localStorage) | `getPickedUpIds`, `markPickedUp`, `isPickedUp`, `unmarkPickedUp` |
-| `web/src/game/hub/friendship.ts` | NPC friendship XP/level persistence (localStorage) | `getFriendshipLevel`, `addFriendshipXp`, `getFriendshipData` |
+| `web/src/game/hub/friendship.ts` | NPC friendship XP/level persistence (localStorage) — signed ladder, see §7f | `getFriendshipLevel`, `addFriendshipXp`, `getFriendshipData`, `MAX_FRIENDSHIP_LEVEL` |
 | `web/src/game/hub/reputation.ts` | Per-town reputation + per-building upgrade levels (localStorage) — see §10 | `getTownReputation`, `getUpgradeLevel`, `nextUpgrade`, `purchaseUpgrade`, `getUnlockedServices`, `hasTownService` |
 | `web/src/data/hub/buildingUpgrades.json` / `.ts` | Shared upgrade tracks keyed by building *kind* (costs, benefits, services, decor) — see §10 | `getUpgradeTrack`, `getReputationTier`, `REPUTATION_TIERS` |
 | `web/src/game/hub/relationships.ts` | NPC relationship-track (ally/rival/romance) persistence (localStorage) — see §7c | `getRelationship`, `getRelationshipTrack`, `getRelationshipLevel`, `addRelationshipPoints`, `grantRelationshipWithRivalry`, `relationshipProgress` |
@@ -719,6 +719,79 @@ import). An ungated bounty (no `prerequisite`) is always eligible, as before.
 5. Verify by reading the flow: raise the NPC's track/level until the bounty
    appears in the daily pool, confirm turn-in grants the reward and (for an
    `ally`/`romance` grant) still correctly feeds any configured rivalry.
+
+---
+
+## §7f — Disliked Gifts, Negative Friendship & Friendship-Extreme Quests
+
+Friendship (`web/src/game/hub/friendship.ts`) is signed — an NPC's standing
+can go negative ("hated"), not just sit at zero. This backs three related
+features: gifts an NPC dislikes cost friendship, quests that only open at max
+friendship, and quests that only open once an NPC hates the player.
+
+### Signed friendship ladder
+
+`XP_THRESHOLDS = [0, 10, 25, 50, 100]` is now mirrored below zero.
+`addFriendshipXp(npcId, xp)` recomputes the level from the running xp total
+every call (not an increment-only counter), so a negative delta correctly
+lowers the level, including past zero into negative territory. `getFriendshipLevel`
+is unchanged in shape — it just now returns something in roughly `[-5, 5]`
+instead of always `[0, 5]`. `MAX_FRIENDSHIP_LEVEL` (`= 5`) is exported for
+gating "as high as it goes" content.
+
+### Gift tiers (extends §7d)
+
+`HubNpc.dislikedGiftItemIds?: string[]` — hub-item ids (must be `category:
+'material'` to ever appear in the Give list) this NPC dislikes. `giveGiftToNpc`
+now has three tiers:
+
+| Tier | Condition | Effect |
+|---|---|---|
+| Favorite | `itemId === favoriteGiftItemId` | `+10` friendship, `+8` configured relationship track, "light up" line |
+| Disliked | `itemId` in `dislikedGiftItemIds` | `-8` friendship, **no** relationship change, a rejection line naming the item |
+| Neutral | anything else | `+3` friendship, `+2` ally relationship, an unenthusiastic acceptance line |
+
+The item is consumed in all three tiers — a disliked gift is still handed
+over, the NPC just isn't happy about it.
+
+### `hatred:<npcId>:<level>` prerequisite
+
+Mirrors `friendship:<npcId>:<level>` but checks the negative direction:
+`getFriendshipLevel(npcId) <= -<level>`. Implemented alongside the existing
+`friendship:`/`relationship:` clauses in both `checkPrerequisite`
+(`HubWorld.tsx`, for quests) and `checkBountyPrerequisite` (`bounties.ts`, for
+bounties). "Max friendship" gating needs no new syntax — use the existing
+`friendship:<npcId>:<level>` form with `<level>` set to `MAX_FRIENDSHIP_LEVEL`.
+
+### Hub-item quest rewards (`HubQuestReward.hubItem`)
+
+```ts
+export interface HubQuestReward {
+  // …
+  /** Hub-item id (hubItems.json) + count granted on quest completion. */
+  hubItem?: { itemId: string; count?: number }
+}
+```
+
+Applied in `grantQuestReward` via `addHubItem`, mirroring the `giveItem`
+reaction's `hubItem` field (§7) and `BountyReward`'s fields (§7e). Live
+example: Ravenwatch's `merchants-contempt` quest (prerequisite
+`hatred:merchant:1`) rewards a `mouldy-slipper` — see below.
+
+### Authoring checklist: friendship-extreme quest with a joke-item reward
+
+1. Gate the quest with `prerequisite: "friendship:<npc>:5"` (max) or
+   `"hatred:<npc>:<level>"` (hated), same syntax as any other quest
+   prerequisite (§14).
+2. For a hate-quest reward, prefer a flavorful junk item over crystals —
+   grant it via `reward.hubItem: { itemId, count? }`.
+3. **Give that item a real trade chain** (§16) rather than a dead end: author
+   a `tradeHubItem` buyer for it on some other NPC (a new one-node
+   `dialogueTree` is enough if that NPC doesn't have one yet). Live example:
+   Ravenwatch's `james-junk-trade` tree buys `mouldy-slipper` for 20💎.
+4. Run `npm run test` and `npm run build`.
+5. Verify by reading the flow: the quest only offers once the prerequisite is
+   met, turn-in grants the item, and the trade-chain buyer accepts it.
 
 ---
 
@@ -1578,7 +1651,8 @@ Harvest only** · Sailor Bess (Saltmere) ← 2 smoked herring → 60💎
 **during Midwinter only** (every festival now has a trade) · Net-Maker
 Quill (Saltmere) ← 3 feathers → feather pillow · The Prisoner
 (Ironhold dungeon) ← feather pillow → 55💎 + friendship · Grunda the
-Soaker (Hollowmere) ← music box → 170💎.
+Soaker (Hollowmere) ← music box → 170💎 · James (Ravenwatch) ← mouldy
+slipper → 20💎 (the reward from the `merchants-contempt` hate-quest, §7f).
 
 Reputation-gated premium stock: gilded compass (Ravenwatch Guild Hall,
 120💎) and music box (capital Grand Market Hall, 130💎), both

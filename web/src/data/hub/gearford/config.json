@@ -1863,7 +1863,8 @@
         "ty": 2
       },
       "favoriteGiftItemId": "pressed-flower",
-      "favoriteGiftTrack": "ally"
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": ["smoked-herring"]
     },
     {
       "id": "gearwright-orin",

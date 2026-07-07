@@ -86,6 +86,12 @@ function checkPrerequisite(prereq: string, town?: string): boolean {
       const parts = part.split(':')
       return getFriendshipLevel(parts[1]) >= parseInt(parts[2] ?? '1')
     }
+    if (part.startsWith('hatred:')) {
+      // hatred:<npcId>:<level> — friendship at or below the negated level
+      // (e.g. hatred:merchant:2 requires friendship level <= -2).
+      const parts = part.split(':')
+      return getFriendshipLevel(parts[1]) <= -parseInt(parts[2] ?? '1')
+    }
     if (part.startsWith('relationship:')) {
       // relationship:<npcId>:<track>:<level>
       const [, npcId, track, lvl] = part.split(':')
@@ -767,6 +773,10 @@ function formatQuestReward(reward: HubQuestDef['reward']): string {
       parts.push(`+${grant.points} ${grant.track} with ${getNpcDisplayName(npcId)}`)
     }
   }
+  if (reward.hubItem) {
+    const catalog = getHubItemCatalogEntry(reward.hubItem.itemId)
+    parts.push(`${catalog?.icon ?? '📦'} ${catalog?.name ?? reward.hubItem.itemId}`)
+  }
   return parts.length > 0 ? `You received: ${parts.join('  ·  ')}` : ''
 }
 
@@ -809,6 +819,9 @@ function grantQuestReward(quest: HubQuestDef, townNpcs: HubNpc[]): void {
   }
   if (reward.accessory) {
     grantAccessory(reward.accessory)
+  }
+  if (reward.hubItem) {
+    addHubItem(reward.hubItem.itemId, reward.hubItem.count ?? 1)
   }
 }
 
@@ -1012,6 +1025,7 @@ function hasOfferableQuest(giverId: string): boolean {
       innRumours?: Array<{ id: string; text: string }>
       dialogueTree?: string
       favoriteGiftItemId?: string; favoriteGiftTrack?: string
+      dislikedGiftItemIds?: string[]
     } | undefined =
       namedNpc ??
       locationData.HUB_ANIMALS.find(a => a.id === npcId)
@@ -1242,17 +1256,33 @@ function hasOfferableQuest(giverId: string): boolean {
 
   // Gifting a held material to an NPC — the generic counterpart to the
   // curated `tradeHubItem` dialogue-tree effect (docs/hubworld.md §16), but
-  // available on every named NPC with zero authoring required. A favorite
-  // gift (optional per-NPC `favoriteGiftItemId`) grants a bigger bonus on its
-  // configured track (default 'ally').
+  // available on every named NPC with zero authoring required. Three tiers:
+  // a favorite gift (`favoriteGiftItemId`) grants a bigger bonus on its
+  // configured track (default 'ally'); a disliked gift (`dislikedGiftItemIds`)
+  // costs friendship instead of gaining it; anything else is accepted but
+  // unenthusiastically (small bonus, no fanfare).
   const giveGiftToNpc = useCallback((
     npcId: string,
     speakerName: string,
-    npcDef: { favoriteGiftItemId?: string; favoriteGiftTrack?: string } | undefined,
+    npcDef: { favoriteGiftItemId?: string; favoriteGiftTrack?: string; dislikedGiftItemIds?: string[] } | undefined,
     itemId: string,
   ) => {
     if (!removeHubItem(itemId, 1)) { setDialogueEvent(null); return }
     const isFavorite = !!npcDef?.favoriteGiftItemId && npcDef.favoriteGiftItemId === itemId
+    const isDisliked = !isFavorite && !!npcDef?.dislikedGiftItemIds?.includes(itemId)
+    const who = speakerName || 'They'
+
+    if (isDisliked) {
+      const itemName = getHubItemCatalogEntry(itemId)?.name ?? 'gift'
+      addFriendshipXp(npcId, -8)
+      refreshState()
+      setDialogueEvent({
+        speakerName,
+        text: `${who} wrinkles their nose at the ${itemName}. "I really didn't want this."`,
+      })
+      return
+    }
+
     const track: RelationshipTrack =
       isFavorite && npcDef?.favoriteGiftTrack && (RELATIONSHIP_TRACKS as string[]).includes(npcDef.favoriteGiftTrack)
         ? (npcDef.favoriteGiftTrack as RelationshipTrack)
@@ -1263,8 +1293,8 @@ function hasOfferableQuest(giverId: string): boolean {
     setDialogueEvent({
       speakerName,
       text: isFavorite
-        ? `${speakerName || 'They'} light up. "This is exactly what I wanted — thank you!"`
-        : `${speakerName || 'They'} accept the gift graciously.`,
+        ? `${who} light up. "This is exactly what I wanted — thank you!"`
+        : `${who} accept the gift, though it doesn't seem to mean much to them.`,
     })
   }, [refreshState])
 

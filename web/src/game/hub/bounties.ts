@@ -154,6 +154,10 @@ function checkBountyPrerequisite(prereq: string): boolean {
       const parts = part.split(':')
       return getFriendshipLevel(parts[1]) >= parseInt(parts[2] ?? '1')
     }
+    if (part.startsWith('hatred:')) {
+      const parts = part.split(':')
+      return getFriendshipLevel(parts[1]) <= -parseInt(parts[2] ?? '1')
+    }
     if (part.startsWith('relationship:')) {
       const [, npcId, track, lvl] = part.split(':')
       const rel = getRelationship(npcId)

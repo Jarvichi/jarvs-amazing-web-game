@@ -9233,7 +9233,8 @@
       "ty": 22,
       "dialogue": [
         "Hello!"
-      ]
+      ],
+      "dialogueTree": "james-junk-trade"
     },
     {
       "id": "npc_1781726431819",
