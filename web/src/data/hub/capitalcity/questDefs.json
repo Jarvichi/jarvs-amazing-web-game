@@ -1255,6 +1255,41 @@
           "high-priest": 15
         }
       }
+    },
+    {
+      "id": "hales-trusted-blade",
+      "title": "A Trusted Blade",
+      "type": "fetch",
+      "giverNpcId": "watch-captain-hale",
+      "receiverNpcId": "watch-captain-hale",
+      "prerequisite": "friendship:watch-captain-hale:5",
+      "offerDialogue": "You've earned more than the watch's thanks, traveller — you've earned my trust, and that's not given lightly in Crownhaven. Stand with me a moment. There's something I want you to have.",
+      "activeDialogue": "No rush. The gates have stood longer than either of us.",
+      "completeDialogue": "There. Not many earn a captain's trust — you have. The watch will remember it.",
+      "steps": [
+        { "key": "report", "type": "report", "targetNpcId": "watch-captain-hale", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 95,
+        "friendship": { "watch-captain-hale": 10 }
+      }
+    },
+    {
+      "id": "bryns-cold-shoulder",
+      "title": "Off the Wall",
+      "type": "fetch",
+      "giverNpcId": "guard-bryn",
+      "receiverNpcId": "guard-bryn",
+      "prerequisite": "hatred:guard-bryn:1",
+      "offerDialogue": "You. I've had my fill of you loitering near my post. Fine — make yourself useful for once and report back when you have.",
+      "activeDialogue": "Well? The wall isn't getting any shorter while I wait.",
+      "completeDialogue": "About time. Here — take it and find somewhere else to loiter.",
+      "steps": [
+        { "key": "report", "type": "report", "targetNpcId": "guard-bryn", "required": 1 }
+      ],
+      "reward": {
+        "hubItem": { "itemId": "mouldy-slipper", "count": 1 }
+      }
     }
   ],
   "pickupItems": [
@@ -1765,5 +1800,12 @@
       "questId": "crownhaven-feast"
     }
   ],
-  "blockedPaths": []
+  "blockedPaths": [],
+  "relationshipDialogue": {
+    "banker": {
+      "rival": {
+        "1": "Spending time up at the mint again? Every coin that leaves Coyle's hammer still has to pass through my ledger, traveller. Don't let his pageantry fool you about who really keeps this city solvent."
+      }
+    }
+  }
 }

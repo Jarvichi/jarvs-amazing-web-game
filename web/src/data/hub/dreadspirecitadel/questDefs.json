@@ -541,6 +541,41 @@
           "desc": "Vesska's order halting the master's homecoming ritual. The citadel keeps its empty throne — and is glad of it."
         }
       }
+    },
+    {
+      "id": "castellans-final-record",
+      "title": "The Final Record",
+      "type": "fetch",
+      "giverNpcId": "the-castellan",
+      "receiverNpcId": "the-castellan",
+      "prerequisite": "friendship:the-castellan:5",
+      "offerDialogue": "In four centuries of service, few have earned what you have from me, traveller: trust. There is a record I keep for no one but myself. Sit a while. Let an old dead administrator show you.",
+      "activeDialogue": "Take your time. The citadel has kept its secrets far longer than either of us has drawn breath — or not, in my case.",
+      "completeDialogue": "There. Not every visitor earns a place in Dreadspire's true ledger. You have. The citadel will remember you long after it has forgotten most of the living.",
+      "steps": [
+        { "key": "report", "type": "report", "targetNpcId": "the-castellan", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "the-castellan": 10 }
+      }
+    },
+    {
+      "id": "gholls-contempt",
+      "title": "Out of the Dungeon",
+      "type": "fetch",
+      "giverNpcId": "dungeon-warden-gholl",
+      "receiverNpcId": "dungeon-warden-gholl",
+      "prerequisite": "hatred:dungeon-warden-gholl:1",
+      "offerDialogue": "You. I don't like the look of you skulking near my cells. Fine — prove you're not another prisoner in waiting and report back once you've done something useful.",
+      "activeDialogue": "Well? The cells don't watch themselves.",
+      "completeDialogue": "Hmph. Took you long enough. Take it and stay clear of my dungeon from here on.",
+      "steps": [
+        { "key": "report", "type": "report", "targetNpcId": "dungeon-warden-gholl", "required": 1 }
+      ],
+      "reward": {
+        "hubItem": { "itemId": "mouldy-slipper", "count": 1 }
+      }
     }
   ],
   "pickupItems": [
@@ -1009,6 +1044,11 @@
       },
       "rival": {
         "1": "You count bones like a thief counts exits. I am watching you, warm one. Every femur."
+      }
+    },
+    "cultist-ordrin": {
+      "rival": {
+        "1": "You've been spending time with Vesska, haven't you? I can smell the shadow-oil on you. MY shadow-oil, probably. The circle noticed. The circle is not pleased."
       }
     }
   },

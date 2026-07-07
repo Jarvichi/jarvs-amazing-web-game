@@ -3774,6 +3774,33 @@
   },
   "interactables": [
     {
+      "id": "capitalcity-forage-flower-1",
+      "tx": 32,
+      "ty": 44,
+      "reactions": [
+        { "type": "dialogue", "text": "A patch of white flowers growing at the plaza's edge." },
+        { "type": "forage" }
+      ]
+    },
+    {
+      "id": "capitalcity-forage-flower-2",
+      "tx": 60,
+      "ty": 62,
+      "reactions": [
+        { "type": "dialogue", "text": "Yellow flowers, planted for the coronation and never uprooted." },
+        { "type": "forage" }
+      ]
+    },
+    {
+      "id": "capitalcity-forage-flower-3",
+      "tx": 98,
+      "ty": 44,
+      "reactions": [
+        { "type": "dialogue", "text": "Pink flowers growing wild near the old noble manors." },
+        { "type": "forage" }
+      ]
+    },
+    {
       "id": "market-hall-music-box",
       "tx": 2,
       "ty": 2,
@@ -4383,6 +4410,7 @@
         "crownhaven-noble-debt",
         "crownhaven-stolen-coin"
       ],
+      "dislikes": ["mint-master"],
       "schedule": [
         {
           "startHour": 0,
@@ -5099,7 +5127,10 @@
         "The Crown Theatre will dazzle the realm — once the stage is ready.",
         "Rehearsals, ropes, and a thousand candles. Come back for the grand premiere!",
         "A performance worthy of a coronation takes time. Patience, friend."
-      ]
+      ],
+      "favoriteGiftItemId": "fancy-hat",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": ["sturdy-boots"]
     }
   ],
   "exteriorDecor": [

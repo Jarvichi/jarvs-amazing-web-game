@@ -543,6 +543,41 @@
           "queen": 20
         }
       }
+    },
+    {
+      "id": "aldrics-quiet-counsel",
+      "title": "A Quiet Counsel",
+      "type": "fetch",
+      "giverNpcId": "king",
+      "receiverNpcId": "king",
+      "prerequisite": "friendship:king:5",
+      "offerDialogue": "A crown is a lonely thing to wear, traveller — but you have made it a little less so. Sit with me a while. There is counsel I give to few, and friendship to fewer still.",
+      "activeDialogue": "No rush. The throne has waited longer than either of us.",
+      "completeDialogue": "There. Not every visitor to this court earns a king's true friendship — you have. The realm is fortunate to have you in it.",
+      "steps": [
+        { "key": "report", "type": "report", "targetNpcId": "king", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 110,
+        "friendship": { "king": 10 }
+      }
+    },
+    {
+      "id": "bricks-cold-post",
+      "title": "Not Technically Breaking Any Rules",
+      "type": "fetch",
+      "giverNpcId": "palace-guard",
+      "receiverNpcId": "palace-guard",
+      "prerequisite": "hatred:palace-guard:1",
+      "offerDialogue": "You again. I've counted the fence railings twice just to avoid looking at you. Fine — make yourself useful for once and report back when you have.",
+      "activeDialogue": "Well? I'm still counting railings.",
+      "completeDialogue": "About time. Take it and find somewhere else to loiter — preferably a different kingdom.",
+      "steps": [
+        { "key": "report", "type": "report", "targetNpcId": "palace-guard", "required": 1 }
+      ],
+      "reward": {
+        "hubItem": { "itemId": "mouldy-slipper", "count": 1 }
+      }
     }
   ],
   "pickupItems": [
@@ -904,5 +939,12 @@
         }
       }
     }
-  ]
+  ],
+  "relationshipDialogue": {
+    "royal-steward": {
+      "rival": {
+        "1": "Oh dear — you've been keeping company with Lady Penrose, haven't you? Mind yourself around her. Some of us have quite enough intrigue keeping this palace running without adding hers to the pile."
+      }
+    }
+  }
 }
