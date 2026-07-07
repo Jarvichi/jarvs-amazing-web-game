@@ -36,6 +36,7 @@
 | `web/src/game/hub/questItems.ts` | Held-quest-item id helpers (`quest:<questId>:<stepKey>`) — see §16 | `questItemId`, `isQuestItemId`, `questIdFromItemId` |
 | `web/src/game/hub/digs.ts` | Once-per-day dig-spot persistence (localStorage) — see §7 `dig` reaction, §16 | `canDigToday`, `recordDig` |
 | `web/src/components/hub/HubInventoryModal.tsx` | 🎒 Hub Inventory UI — held quest items, materials & tools, pet accessories — see §16 | `HubInventoryModal` |
+| `web/src/game/hub/talkCooldown.ts` | Once-per-day "Make conversation" persistence (localStorage) — see §7d | `canTalkToday`, `recordTalk` |
 
 ---
 
@@ -530,6 +531,56 @@ greeting:
 4. Run `npm run test` + `npm run build`; verify in-game that steering changes the
    track in the Town Directory → Relationship view, gated quests appear, and
    state survives a reload.
+
+---
+
+## §7d — Generic Talk / Give (every named NPC)
+
+Every named NPC gets two always-available dialogue choices — no authoring
+required — so the Town Directory's 💗 Relationship button has a real way to
+move even for the ~5 in 6 NPCs with no `dialogueTree` (§7b) and no active
+quest. These appear on the **default** dialogue branch only — an NPC with a
+screen, an active/offerable quest, a bounty report, or a dialogue tree keeps
+using that flow untouched; Talk/Give only fires once none of those match.
+
+- **🗣️ Make conversation** — grants a small flat friendship XP + 1 `ally`
+  relationship point. Limited to once per real day per NPC
+  (`canTalkToday`/`recordTalk`, `web/src/game/hub/talkCooldown.ts`, mirroring
+  the §7 `dig` reaction's cooldown pattern) so it can't be farmed by
+  repeatedly tapping the same NPC.
+- **🎁 Give a gift** — only shown if the player holds at least one `'material'`
+  category hub-item (§16). Advances to a second choice list, one button per
+  distinct held material + "Never mind" (the same chained-`DialogueChoice`
+  pattern used for pet/ambient-animal feeding). Picking one consumes it and
+  grants friendship + `ally` relationship points. If the item's id matches the
+  NPC's optional `favoriteGiftItemId` (see below), the bonus is bigger and
+  applies to `favoriteGiftTrack` instead (default `'ally'`).
+
+### Favorite gift (`HubNpc.favoriteGiftItemId` / `favoriteGiftTrack`)
+
+Optional fields on a `config.json` NPC entry:
+
+```jsonc
+{ "id": "scholar", "name": "Loremaster Caelen", /* … */,
+  "favoriteGiftItemId": "poetry-book", "favoriteGiftTrack": "romance" }
+```
+
+Both are additive and optional — omitting them (the default for almost every
+NPC today) just means every material gift grants the flat generic bonus.
+`favoriteGiftTrack` must be one of `RELATIONSHIP_TRACKS` (`'ally' | 'rival' |
+'romance'`) or it's ignored and treated as unset (falls back to `'ally'`).
+
+### Authoring checklist
+
+Nothing is required for the base mechanism — it works for every NPC in
+`HUB_NPCS` with zero JSON changes. To curate a favorite gift for a specific
+NPC:
+
+1. Add `favoriteGiftItemId`/`favoriteGiftTrack` to that NPC in its town
+   `config.json`.
+2. Run `npm run test` (loader tests parse all configs) and `npm run build`.
+3. Verify in-game: gifting the favorite item shows the bigger-bonus flavor
+   line and moves the configured track further than a generic material gift.
 
 ---
 

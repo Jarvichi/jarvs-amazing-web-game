@@ -11,7 +11,8 @@ import type { HubQuestDef, DialogueTree, DialogueChoiceDef, DialogueEffect } fro
 import { emitSound } from '../../game/sound'
 import { getPickedUpIds, markPickedUp, unmarkPickedUp } from '../../game/hub/pickups'
 import { getFriendshipLevel, addFriendshipXp, getFriendshipData } from '../../game/hub/friendship'
-import { addRelationshipPoints, getRelationship } from '../../game/hub/relationships'
+import { addRelationshipPoints, getRelationship, RELATIONSHIP_TRACKS, type RelationshipTrack } from '../../game/hub/relationships'
+import { canTalkToday, recordTalk } from '../../game/hub/talkCooldown'
 import { setDialogueFlag, hasDialogueFlag, markNodeSeen } from '../../game/hub/dialogueFlags'
 import { getQuestState, setQuestStatus, incrementQuestProgress, getQuestProgress, resetQuest } from '../../game/hub/quests'
 import { getHeardConvoIds, markConvoHeard } from '../../game/hub/innConvos'
@@ -28,7 +29,7 @@ import { ToolbarDropdown } from '../ui/Toolbar/ToolbarDropdown'
 import { User } from 'firebase/auth'
 import { loadPlayerName, addToConsumableStash } from '../../game/questline'
 import { LoginButton } from '../ui/LoginButton'
-import { addCollectible, addConsumable, getCollectibles, addHubItem, removeHubItem, getHubItemCount, hasHubItem, getHubItemCatalogEntry, spendTickets } from '../../game/itemStore'
+import { addCollectible, addConsumable, getCollectibles, addHubItem, removeHubItem, getHubItemCount, hasHubItem, getHubItemCatalogEntry, getHubItems, spendTickets } from '../../game/itemStore'
 import { questItemId } from '../../game/hub/questItems'
 import { QuestsModal } from './QuestsModal'
 import { HubInventoryModal } from './HubInventoryModal'
@@ -1009,6 +1010,7 @@ function hasOfferableQuest(giverId: string): boolean {
       questGive?: string; questReceive?: string | string[]
       innRumours?: Array<{ id: string; text: string }>
       dialogueTree?: string
+      favoriteGiftItemId?: string; favoriteGiftTrack?: string
     } | undefined =
       namedNpc ??
       locationData.HUB_ANIMALS.find(a => a.id === npcId)
@@ -1195,9 +1197,75 @@ function hasOfferableQuest(giverId: string): boolean {
       }
     }
 
-    // ── Default dialogue ─────────────────────────────────────────────────────
+    // ── Default dialogue: generic Talk / Give (every named NPC) ─────────────
+    // Gives every NPC — not just the ~1 in 6 with an authored dialogue tree —
+    // a real way to advance friendship/relationship, since simply cycling the
+    // plain `dialogue` array otherwise has zero mechanical effect.
+    if (namedNpc) {
+      const choices: DialogueChoice[] = []
+      const talkable = canTalkToday(npcId)
+      choices.push({
+        label: talkable ? '🗣️ Make conversation' : '🗣️ Make conversation (already caught up today)',
+        disabled: !talkable,
+        onClick: () => {
+          if (!talkable) return
+          recordTalk(npcId)
+          addFriendshipXp(npcId, 2)
+          addRelationshipPoints(npcId, 'ally', 1)
+          refreshState()
+          setDialogueEvent({ speakerName, text: 'Always good to catch up.' })
+        },
+      })
+      const giftable = getHubItems().filter(i => i.category === 'material')
+      if (giftable.length > 0) {
+        choices.push({
+          label: '🎁 Give a gift',
+          onClick: () => {
+            const giftChoices: DialogueChoice[] = giftable.map(item => ({
+              label: `${item.icon ?? '🎁'} ${item.name ?? item.id} ×${item.count}`,
+              onClick: () => giveGiftToNpc(npcId, speakerName, npcDef, item.id),
+            }))
+            giftChoices.push({ label: 'Never mind', onClick: () => setDialogueEvent(null) })
+            setDialogueEvent({ speakerName, text: 'What would you like to give?', choices: giftChoices })
+          },
+        })
+      }
+      choices.push({ label: 'Farewell', onClick: () => setDialogueEvent(null) })
+      setDialogueEvent({ speakerName, text: line, choices })
+      return
+    }
+
+    // ── Default dialogue (animals / unnamed) ─────────────────────────────────
     setDialogueEvent({ speakerName, text: line })
   }, [refreshState, handleNodeInteract])
+
+  // Gifting a held material to an NPC — the generic counterpart to the
+  // curated `tradeHubItem` dialogue-tree effect (docs/hubworld.md §16), but
+  // available on every named NPC with zero authoring required. A favorite
+  // gift (optional per-NPC `favoriteGiftItemId`) grants a bigger bonus on its
+  // configured track (default 'ally').
+  const giveGiftToNpc = useCallback((
+    npcId: string,
+    speakerName: string,
+    npcDef: { favoriteGiftItemId?: string; favoriteGiftTrack?: string } | undefined,
+    itemId: string,
+  ) => {
+    if (!removeHubItem(itemId, 1)) { setDialogueEvent(null); return }
+    const isFavorite = !!npcDef?.favoriteGiftItemId && npcDef.favoriteGiftItemId === itemId
+    const track: RelationshipTrack =
+      isFavorite && npcDef?.favoriteGiftTrack && (RELATIONSHIP_TRACKS as string[]).includes(npcDef.favoriteGiftTrack)
+        ? (npcDef.favoriteGiftTrack as RelationshipTrack)
+        : 'ally'
+    addFriendshipXp(npcId, isFavorite ? 10 : 3)
+    addRelationshipPoints(npcId, track, isFavorite ? 8 : 2)
+    refreshState()
+    setDialogueEvent({
+      speakerName,
+      text: isFavorite
+        ? `${speakerName || 'They'} light up. "This is exactly what I wanted — thank you!"`
+        : `${speakerName || 'They'} accept the gift graciously.`,
+    })
+  }, [refreshState])
 
   // Placed/quest animals route through the same handler as NPCs.
   const handleAnimalTap = useCallback((animalId: string) => {

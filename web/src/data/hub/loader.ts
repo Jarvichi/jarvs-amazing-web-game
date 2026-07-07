@@ -167,6 +167,10 @@ export interface HubNpc {
   homeBed?: { buildingId: string; tx: number; ty: number }
   /** Id of a branching dialogue tree (questDefs.json `dialogues`) to run on tap. */
   dialogueTree?: string
+  /** Hub-item id (hubItems.json) that grants a bonus friendship/relationship boost when gifted. */
+  favoriteGiftItemId?: string
+  /** Relationship track ('ally' | 'rival' | 'romance') the favorite-gift bonus applies to. Defaults to 'ally'. */
+  favoriteGiftTrack?: string
 }
 
 export type HubAnimalType =
