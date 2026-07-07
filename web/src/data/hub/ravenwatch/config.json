@@ -9275,7 +9275,8 @@
         "Hello!"
       ],
       "levelBuildingId": "townhall",
-      "minLevel": 2
+      "minLevel": 2,
+      "dislikes": ["npc_1781629843466"]
     }
   ],
   "ambientNpcSprites": [
