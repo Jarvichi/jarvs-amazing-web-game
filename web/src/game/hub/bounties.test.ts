@@ -19,6 +19,8 @@ import {
 } from './bounties'
 import { saveCrystals, loadCrystals } from '../collection'
 import { markPickedUp, isPickedUp } from './pickups'
+import { addRelationshipPoints, getRelationship } from './relationships'
+import { getFriendshipLevel } from './friendship'
 
 // In-memory localStorage mock (tests run in node environment)
 const store = new Map<string, string>()
@@ -62,6 +64,18 @@ describe('getDailyBounties', () => {
   it('changes with the date', () => {
     const other = new Date('2026-07-01T12:00:00Z')
     expect(getBountySlotKey(DAY)).not.toBe(getBountySlotKey(other))
+  })
+
+  it('excludes a relationship-gated bounty until its prerequisite is met', () => {
+    const includesGatedBounty = () => {
+      for (let day = 1; day <= 60; day++) {
+        if (getDailyBounties(new Date(2026, 0, day)).some(b => b.id === 'a-favor-for-a-friend')) return true
+      }
+      return false
+    }
+    expect(includesGatedBounty()).toBe(false)
+    addRelationshipPoints('scholar', 'ally', 10) // reaches relationship level 1
+    expect(includesGatedBounty()).toBe(true)
   })
 })
 
@@ -112,6 +126,20 @@ describe('accept / turn-in flow', () => {
     turnInBounty(bounty.id)
     expect(turnInBounty(bounty.id)).toBe(0)
     expect(loadCrystals()).toBe(bounty.reward.crystals)
+  })
+
+  it('turning in a bounty with friendship/relationship reward grants both and triggers rivalry', () => {
+    // 2 points -> relationship level 1 (unlocks the gated bounty's prerequisite).
+    addRelationshipPoints('scholar', 'ally', 2)
+    acceptBounty('a-favor-for-a-friend')
+    completeAllSteps('a-favor-for-a-friend')
+    const townNpcs = [{ id: 'scholar' }, { id: 'rival-npc', dislikes: ['scholar'] }]
+    // The reward's +8 ally points (2 -> 10) crosses into level 2, so scholar's
+    // disliker should gain rival points from the resulting rivalry reaction.
+    turnInBounty('a-favor-for-a-friend', townNpcs)
+    expect(getFriendshipLevel('scholar')).toBeGreaterThan(0)
+    expect(getRelationship('scholar').track).toBe('ally')
+    expect(getRelationship('rival-npc').track).toBe('rival')
   })
 
   it('persists accepted state across reloads', () => {

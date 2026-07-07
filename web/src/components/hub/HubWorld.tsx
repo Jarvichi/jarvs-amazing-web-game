@@ -11,7 +11,7 @@ import type { HubQuestDef, DialogueTree, DialogueChoiceDef, DialogueEffect } fro
 import { emitSound } from '../../game/sound'
 import { getPickedUpIds, markPickedUp, unmarkPickedUp } from '../../game/hub/pickups'
 import { getFriendshipLevel, addFriendshipXp, getFriendshipData } from '../../game/hub/friendship'
-import { addRelationshipPoints, getRelationship, getRelationshipLevel, RELATIONSHIP_TRACKS, type RelationshipTrack } from '../../game/hub/relationships'
+import { getRelationship, grantRelationshipWithRivalry, RELATIONSHIP_TRACKS, type RelationshipTrack } from '../../game/hub/relationships'
 import { canTalkToday, recordTalk } from '../../game/hub/talkCooldown'
 import { setDialogueFlag, hasDialogueFlag, markNodeSeen } from '../../game/hub/dialogueFlags'
 import { getQuestState, setQuestStatus, incrementQuestProgress, getQuestProgress, resetQuest } from '../../game/hub/quests'
@@ -73,10 +73,6 @@ interface QuestEvent {
 const T = 32
 
 const SPLASH_MS = 10_000
-
-// Rival points granted to an NPC when a same-town NPC it dislikes (§7c) has
-// its ally/romance track level up with the player.
-const RIVALRY_POINTS = 4
 
 let _hubSplashShown = false
 
@@ -788,22 +784,6 @@ function formatTradeReward(eff: Extract<DialogueEffect, { type: 'tradeHubItem' }
   return parts.join('  ·  ')
 }
 
-// Grants relationship points and, if this pushes the NPC's ally/romance track
-// up a level, applies the §7c rivalry reaction: every same-town NPC who
-// dislikes them gains rival points of their own. The reactive flavor line
-// needs no extra plumbing — it's just an ordinary `relationshipDialogue`
-// entry for the disliking NPC's `rival` tier (§7c), which already fires
-// automatically once that NPC's dominant track/level match.
-function grantRelationship(npcId: string, track: RelationshipTrack, points: number, townNpcs: HubNpc[]): void {
-  const before = getRelationshipLevel(npcId)
-  const entry = addRelationshipPoints(npcId, track, points)
-  if ((track === 'ally' || track === 'romance') && entry.level > before) {
-    for (const other of townNpcs) {
-      if (other.dislikes?.includes(npcId)) addRelationshipPoints(other.id, 'rival', RIVALRY_POINTS)
-    }
-  }
-}
-
 function grantQuestReward(quest: HubQuestDef, townNpcs: HubNpc[]): void {
   const { reward } = quest
   if (reward.crystals) {
@@ -823,7 +803,7 @@ function grantQuestReward(quest: HubQuestDef, townNpcs: HubNpc[]): void {
   }
   if (reward.relationship) {
     for (const [npcId, grant] of Object.entries(reward.relationship)) {
-      grantRelationship(npcId, grant.track, grant.points, townNpcs)
+      grantRelationshipWithRivalry(npcId, grant.track, grant.points, townNpcs)
     }
   }
   if (reward.accessory) {
@@ -951,7 +931,7 @@ function hasOfferableQuest(giverId: string): boolean {
           refreshState()
           break
         case 'relationship':
-          grantRelationship(eff.npcId ?? npcId, eff.track, eff.points, locationData.HUB_NPCS)
+          grantRelationshipWithRivalry(eff.npcId ?? npcId, eff.track, eff.points, locationData.HUB_NPCS)
           refreshState()
           break
         case 'quest': {
@@ -1000,7 +980,7 @@ function hasOfferableQuest(giverId: string): boolean {
             addFriendshipXp(eff.giveFriendship.npcId ?? npcId, eff.giveFriendship.xp)
           }
           if (eff.giveRelationship) {
-            grantRelationship(eff.giveRelationship.npcId ?? npcId, eff.giveRelationship.track, eff.giveRelationship.points, locationData.HUB_NPCS)
+            grantRelationshipWithRivalry(eff.giveRelationship.npcId ?? npcId, eff.giveRelationship.track, eff.giveRelationship.points, locationData.HUB_NPCS)
           }
           emitSound('shopPurchase')
           refreshState()
@@ -1231,7 +1211,7 @@ function hasOfferableQuest(giverId: string): boolean {
           if (!talkable) return
           recordTalk(npcId)
           addFriendshipXp(npcId, 2)
-          grantRelationship(npcId, 'ally', 1, locationData.HUB_NPCS)
+          grantRelationshipWithRivalry(npcId, 'ally', 1, locationData.HUB_NPCS)
           refreshState()
           setDialogueEvent({ speakerName, text: 'Always good to catch up.' })
         },
@@ -1277,7 +1257,7 @@ function hasOfferableQuest(giverId: string): boolean {
         ? (npcDef.favoriteGiftTrack as RelationshipTrack)
         : 'ally'
     addFriendshipXp(npcId, isFavorite ? 10 : 3)
-    grantRelationship(npcId, track, isFavorite ? 8 : 2, locationData.HUB_NPCS)
+    grantRelationshipWithRivalry(npcId, track, isFavorite ? 8 : 2, locationData.HUB_NPCS)
     refreshState()
     setDialogueEvent({
       speakerName,
@@ -1943,7 +1923,7 @@ function hasOfferableQuest(giverId: string): boolean {
         {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={questDefs} resolveNpcName={getNpcDisplayName}/>}
         {inventoryOpen && <HubInventoryModal onClose={() => setInventoryOpen(false)} questDefs={allQuestDefs} />}
         {tradeJournalOpen && <TradeJournalModal onClose={() => setTradeJournalOpen(false)} />}
-        {bountyBoardOpen && <BountyBoardModal onClose={() => setBountyBoardOpen(false)} resolveNpcName={getNpcDisplayName}/>}
+        {bountyBoardOpen && <BountyBoardModal onClose={() => setBountyBoardOpen(false)} resolveNpcName={getNpcDisplayName} townNpcs={locationData.HUB_NPCS}/>}
         {petModalOpen && <PetModal onClose={() => setPetModalOpen(false)} petActionRef={petActionRef} />}
         {directoryOpen && <TownDirectory onClose={() => setDirectoryOpen(false)} locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} onShowRelationship={setRelationshipNpcId} />}
         {journalOpen && <TownJournal onClose={() => setJournalOpen(false)} locationData={locationData} />}

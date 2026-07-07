@@ -19,7 +19,7 @@
 | `web/src/game/hub/friendship.ts` | NPC friendship XP/level persistence (localStorage) | `getFriendshipLevel`, `addFriendshipXp`, `getFriendshipData` |
 | `web/src/game/hub/reputation.ts` | Per-town reputation + per-building upgrade levels (localStorage) — see §10 | `getTownReputation`, `getUpgradeLevel`, `nextUpgrade`, `purchaseUpgrade`, `getUnlockedServices`, `hasTownService` |
 | `web/src/data/hub/buildingUpgrades.json` / `.ts` | Shared upgrade tracks keyed by building *kind* (costs, benefits, services, decor) — see §10 | `getUpgradeTrack`, `getReputationTier`, `REPUTATION_TIERS` |
-| `web/src/game/hub/relationships.ts` | NPC relationship-track (ally/rival/romance) persistence (localStorage) — see §7c | `getRelationship`, `getRelationshipTrack`, `getRelationshipLevel`, `addRelationshipPoints`, `relationshipProgress` |
+| `web/src/game/hub/relationships.ts` | NPC relationship-track (ally/rival/romance) persistence (localStorage) — see §7c | `getRelationship`, `getRelationshipTrack`, `getRelationshipLevel`, `addRelationshipPoints`, `grantRelationshipWithRivalry`, `relationshipProgress` |
 | `web/src/game/hub/dialogueFlags.ts` | Branching-dialogue flag + "seen" branch persistence (localStorage) — see §7b | `setDialogueFlag`, `hasDialogueFlag`, `getDialogueFlags`, `markNodeSeen`, `hasNodeSeen` |
 | `web/src/game/hub/innConvos.ts` | Inn conversation tracking (localStorage) | `getHeardConvoIds`, `markConvoHeard`, `isConvoHeard` |
 | `web/src/game/hub/interactables.ts` | Interactable grant + moved-position persistence (localStorage) | `interactableStoreKey`, `isInteractableGranted`, `markInteractableGranted`, `getInteractableMoves`, `setInteractableMove` |
@@ -536,13 +536,16 @@ greeting:
 
 Some NPCs dislike each other — befriending one sours the player's standing
 with anyone in the same town who dislikes them. This needs **no new points
-concept**: it reuses the existing `rival` track. Every relationship grant in
-`HubWorld.tsx` goes through the module-level `grantRelationship(npcId, track,
-points, townNpcs)` helper (not the raw `addRelationshipPoints` — that stays
-private to this helper). Whenever an `ally`/`romance` grant pushes that NPC's
-dominant track up a **level**, every NPC in the same town whose `dislikes`
-array contains that NPC's id gets `RIVALRY_POINTS` (4) added to their own
-`rival` track. `rival`-track grants never trigger further rivalry (no chains).
+concept**: it reuses the existing `rival` track. Every relationship grant
+(in `HubWorld.tsx` — quests, dialogue-tree effects, Talk/Give — and in
+`bounties.ts`, §7e) goes through the exported
+`grantRelationshipWithRivalry(npcId, track, points, townNpcs)` helper in
+`web/src/game/hub/relationships.ts` (not the raw `addRelationshipPoints` —
+that stays an internal building block). Whenever an `ally`/`romance` grant
+pushes that NPC's dominant track up a **level**, every NPC in the same town
+whose `dislikes` array contains that NPC's id gets `RIVALRY_POINTS` (4) added
+to their own `rival` track. `rival`-track grants never trigger further
+rivalry (no chains).
 
 - `HubNpc.dislikes?: string[]` — ids of other **same-town** NPCs this NPC
   dislikes. Scoped to one town by design — `dislikes` is checked against
@@ -620,6 +623,70 @@ NPC:
 2. Run `npm run test` (loader tests parse all configs) and `npm run build`.
 3. Verify in-game: gifting the favorite item shows the bigger-bonus flavor
    line and moves the configured track further than a generic material gift.
+
+---
+
+## §7e — Bounty Rewards & Gating (friendship / relationship)
+
+Bounties (`web/src/game/hub/bounties.ts`) can now grant friendship/relationship
+on turn-in, and can themselves be gated behind a relationship/friendship level
+— so a well-liked NPC can offer unique bounty content.
+
+### Reward shape (`BountyReward`)
+
+Mirrors `HubQuestReward` (§7c) exactly:
+
+```ts
+export interface BountyReward {
+  crystals: number
+  accessory?: string
+  friendship?: Record<string, number>            // npcId -> xp
+  relationship?: Record<string, RelationshipGrant> // npcId -> { track, points }
+}
+```
+
+Applied in `turnInBounty(id, townNpcs)` — the same NPC list `HubWorld.tsx`
+passes to `<BountyBoardModal townNpcs={locationData.HUB_NPCS} />`, so
+relationship grants correctly trigger the rivalry reaction (below) exactly
+like quest/dialogue-tree grants do.
+
+### Shared rivalry-aware granting (`relationships.ts`)
+
+The relationship-grant + rivalry logic (§7c "Rivalry") lives in
+`web/src/game/hub/relationships.ts` as `grantRelationshipWithRivalry(npcId,
+track, points, townNpcs)` — a pure function (no React), so both
+`HubWorld.tsx` (quests, dialogue-tree effects, Talk/Give) and `bounties.ts`
+(bounty rewards) call the same code path. Never call the raw
+`addRelationshipPoints` directly from a player-facing grant site — always go
+through `grantRelationshipWithRivalry` so rivalry stays consistent everywhere.
+
+### Gating (`BountyDef.prerequisite`)
+
+Optional `prerequisite?: string` on a bounty template, filtered in
+`getDailyBounties()` before the day's 3 are drawn. Supports the same
+`friendship:<npcId>:<level>` / `relationship:<npcId>:<track>:<level>` forms as
+quest `prerequisite` (§14) — parsed by a small **local**
+`checkBountyPrerequisite` in `bounties.ts` (deliberately not shared with
+`HubWorld.tsx`'s `checkPrerequisite`, since bounties are a plain non-React
+module and this parse is small/stable enough not to warrant a cross-layer
+import). An ungated bounty (no `prerequisite`) is always eligible, as before.
+
+### Authoring checklist: new gated/rewarding bounty
+
+1. Add `friendship`/`relationship` to the bounty's `reward` (either/both,
+   optional) using the shapes above.
+2. Add `prerequisite: "relationship:<npcId>:<track>:<level>"` (or
+   `friendship:<npcId>:<level>`) if this bounty should only appear once the
+   player has reached that standing with the NPC.
+3. **Append** new templates to the end of `BOUNTY_TEMPLATES` rather than
+   inserting them earlier — `getDailyBounties`'s date-seeded draw indexes into
+   the filtered pool, so appending keeps existing fixed-date test/story
+   expectations intact when the new template is filtered out (unmet
+   prerequisite).
+4. Run `npm run test` (`bounties.test.ts`) and `npm run build`.
+5. Verify by reading the flow: raise the NPC's track/level until the bounty
+   appears in the daily pool, confirm turn-in grants the reward and (for an
+   `ally`/`romance` grant) still correctly feeds any configured rivalry.
 
 ---
 

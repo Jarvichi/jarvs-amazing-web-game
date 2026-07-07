@@ -8,7 +8,9 @@
 import { saveCrystals, loadCrystals } from '../collection'
 import { grantAccessory } from './pet'
 import { isPickedUp, unmarkPickedUp } from './pickups'
-import type { HubQuestStep } from '../../data/hub/questDefs'
+import type { HubQuestStep, RelationshipGrant } from '../../data/hub/questDefs'
+import { addFriendshipXp, getFriendshipLevel } from './friendship'
+import { getRelationship, grantRelationshipWithRivalry, type RivalNpc } from './relationships'
 
 const KEY = 'jarv_hub_bounties'
 
@@ -16,6 +18,10 @@ export interface BountyReward {
   crystals: number
   /** Pet accessory id (from petAccessories.ts) granted on turn-in. */
   accessory?: string
+  /** npcId -> friendship xp granted on turn-in. */
+  friendship?: Record<string, number>
+  /** npcId -> relationship track/points granted on turn-in. */
+  relationship?: Record<string, RelationshipGrant>
 }
 
 export interface BountyDef {
@@ -25,6 +31,8 @@ export interface BountyDef {
   icon: string
   reward: BountyReward
   steps: HubQuestStep[]
+  /** Gates this bounty from the daily pool until met — see checkBountyPrerequisite. */
+  prerequisite?: string
 }
 
 const BOUNTY_TEMPLATES: BountyDef[] = [
@@ -87,6 +95,17 @@ const BOUNTY_TEMPLATES: BountyDef[] = [
       { key: 'report',  type: 'report',  targetNpcId: 'innkeeper-rosie',     required: 1 },
     ],
   },
+  // Relationship-gated: only offered once the scholar considers you an ally.
+  // Demonstrates unique bounty content unlocked by NPC relationship level.
+  {
+    id: 'a-favor-for-a-friend',
+    title: 'A Favor for a Friend',
+    desc: 'Loremaster Caelen trusts you enough to ask a personal favor. Hear him out.',
+    icon: '📜',
+    prerequisite: 'relationship:scholar:ally:1',
+    reward: { crystals: 30, friendship: { scholar: 8 }, relationship: { scholar: { track: 'ally', points: 8 } } },
+    steps: [{ key: 'report', type: 'report', targetNpcId: 'scholar', required: 1 }],
+  },
 ]
 
 const BOUNTIES_PER_DAY = 3
@@ -124,11 +143,31 @@ export function getBountySlotKey(at?: Date): string {
   return (at ?? nowOverride ?? new Date()).toISOString().slice(0, 10)
 }
 
+/** Supports the same `friendship:<npcId>:<level>` / `relationship:<npcId>:<track>:<level>`
+ *  forms as `checkPrerequisite` in HubWorld.tsx — duplicated locally (not
+ *  imported) since bounties are a plain, non-React module and this parse is
+ *  small/stable enough not to warrant a shared cross-layer abstraction. */
+function checkBountyPrerequisite(prereq: string): boolean {
+  return prereq.split('|').every(p => {
+    const part = p.trim()
+    if (part.startsWith('friendship:')) {
+      const parts = part.split(':')
+      return getFriendshipLevel(parts[1]) >= parseInt(parts[2] ?? '1')
+    }
+    if (part.startsWith('relationship:')) {
+      const [, npcId, track, lvl] = part.split(':')
+      const rel = getRelationship(npcId)
+      return rel.track === track && rel.level >= parseInt(lvl ?? '1')
+    }
+    return true
+  })
+}
+
 /** Returns today's 3 active bounties, deterministically chosen for the day. */
 export function getDailyBounties(at?: Date): BountyDef[] {
   const slotKey = getBountySlotKey(at)
   const rng     = makeSeededRng(dateHash(slotKey) ^ 0xfeedbeef)
-  const pool    = [...BOUNTY_TEMPLATES]
+  const pool    = BOUNTY_TEMPLATES.filter(b => !b.prerequisite || checkBountyPrerequisite(b.prerequisite))
   const result: BountyDef[] = []
   const used    = new Set<number>()
 
@@ -284,7 +323,7 @@ export function reconcileBountyPickups(at?: Date): void {
 
 /** Turns in an accepted bounty whose steps are all complete, granting its
  *  crystal reward. Returns the crystals granted (0 if not eligible). */
-export function turnInBounty(id: string): number {
+export function turnInBounty(id: string, townNpcs: RivalNpc[] = []): number {
   const state = getBountyState()
   if (!state.accepted.includes(id) || state.completed.includes(id)) return 0
   if (getActiveBountyStep(id) !== null) return 0
@@ -297,6 +336,14 @@ export function turnInBounty(id: string): number {
 
   saveCrystals(loadCrystals() + def.reward.crystals)
   if (def.reward.accessory) grantAccessory(def.reward.accessory)
+  if (def.reward.friendship) {
+    for (const [npcId, xp] of Object.entries(def.reward.friendship)) addFriendshipXp(npcId, xp)
+  }
+  if (def.reward.relationship) {
+    for (const [npcId, grant] of Object.entries(def.reward.relationship)) {
+      grantRelationshipWithRivalry(npcId, grant.track, grant.points, townNpcs)
+    }
+  }
   return def.reward.crystals
 }
 
