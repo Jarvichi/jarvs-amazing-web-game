@@ -5629,6 +5629,11 @@
       "rival": {
         "2": "Back again? Every bargain with you is a duel. Do not expect me to blink first."
       }
+    },
+    "npc_1781727321393": {
+      "rival": {
+        "1": "I hear you've been getting friendly with James. Careful who you trust, Commander."
+      }
     }
   },
   "blockedPaths": [

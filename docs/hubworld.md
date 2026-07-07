@@ -532,6 +532,45 @@ greeting:
    track in the Town Directory → Relationship view, gated quests appear, and
    state survives a reload.
 
+### Rivalry (`HubNpc.dislikes`)
+
+Some NPCs dislike each other — befriending one sours the player's standing
+with anyone in the same town who dislikes them. This needs **no new points
+concept**: it reuses the existing `rival` track. Every relationship grant in
+`HubWorld.tsx` goes through the module-level `grantRelationship(npcId, track,
+points, townNpcs)` helper (not the raw `addRelationshipPoints` — that stays
+private to this helper). Whenever an `ally`/`romance` grant pushes that NPC's
+dominant track up a **level**, every NPC in the same town whose `dislikes`
+array contains that NPC's id gets `RIVALRY_POINTS` (4) added to their own
+`rival` track. `rival`-track grants never trigger further rivalry (no chains).
+
+- `HubNpc.dislikes?: string[]` — ids of other **same-town** NPCs this NPC
+  dislikes. Scoped to one town by design — `dislikes` is checked against
+  `locationData.HUB_NPCS`, not a cross-town registry.
+- The reactive line needs no new plumbing — it's an ordinary
+  `relationshipDialogue` entry for the disliking NPC's `rival` tier (above).
+  It fires automatically the next time that NPC is talked to, exactly like any
+  other relationship-tier greeting.
+- Demo pair (Ravenwatch): `npc_1781727321393` ("The Wanderer") dislikes
+  `npc_1781629843466` ("James"). Both are plain flavor-only NPCs, so
+  befriending James via §7d's Talk/Give raises the Wanderer's `rival` track;
+  once it reaches level 1 the Wanderer's `relationshipDialogue.rival["1"]`
+  line fires.
+
+#### Authoring checklist: new rivalry pair
+
+1. Add `"dislikes": ["<other-npc-id>"]` to the disliking NPC in its town
+   `config.json`.
+2. Author a `relationshipDialogue` entry for that NPC's `rival` tier (this
+   doc's §7c schema, above) in the same town's `questDefs.json` — skip this if
+   the NPC has a `dialogueTree` (relationshipDialogue is shadowed either way).
+3. Run `npm run test` + `npm run build`.
+4. Verify by reading the flow through: repeatedly advance the liked NPC's
+   `ally`/`romance` track (via quests, dialogue-tree effects, or §7d Talk/Give)
+   until it levels up at least `10 / RIVALRY_POINTS` times (3, at the default
+   4 pts/level-up) to cross the disliking NPC's rival level 1 threshold, then
+   confirm the disliking NPC's next tap shows the grudge line.
+
 ---
 
 ## §7d — Generic Talk / Give (every named NPC)
