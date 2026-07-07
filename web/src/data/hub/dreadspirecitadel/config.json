@@ -630,7 +630,8 @@
         "Vesska took my shadow-oil. I can tell. The circle sulks differently when the oil is wrong."
       ],
       "questGive": "dreadspire-ritual-ingredients",
-      "questReceive": "dreadspire-ritual-ingredients"
+      "questReceive": "dreadspire-ritual-ingredients",
+      "dislikes": ["warlock-vesska"]
     },
     {
       "id": "bone-keeper-mald",
@@ -645,7 +646,10 @@
         "You want the deep ossuary? Mind the draught. And the things that enjoy the draught."
       ],
       "questGive": "dreadspire-bone-tally",
-      "questReceive": "dreadspire-bone-tally"
+      "questReceive": "dreadspire-bone-tally",
+      "favoriteGiftItemId": "bones",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": ["honey-cake"]
     },
     {
       "id": "shrine-tender",
@@ -1984,6 +1988,33 @@
     }
   },
   "interactables": [
+    {
+      "id": "dreadspire-forage-tree-1",
+      "tx": 22,
+      "ty": 28,
+      "reactions": [
+        { "type": "dialogue", "text": "A dead tree, twisted and bare — something might be tucked among its roots." },
+        { "type": "forage" }
+      ]
+    },
+    {
+      "id": "dreadspire-forage-bush-1",
+      "tx": 19,
+      "ty": 24,
+      "reactions": [
+        { "type": "dialogue", "text": "A withered bush by the outer ward, worth a closer look." },
+        { "type": "forage" }
+      ]
+    },
+    {
+      "id": "dreadspire-forage-bush-2",
+      "tx": 33,
+      "ty": 27,
+      "reactions": [
+        { "type": "dialogue", "text": "A dead bush near the citadel wall, roots half-exposed." },
+        { "type": "forage" }
+      ]
+    },
     {
       "id": "spellwright-den-item-0",
       "tx": 7,

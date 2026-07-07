@@ -1873,6 +1873,7 @@
         "palace-happy-cat",
         "palace-lost-keys"
       ],
+      "dislikes": ["lady-penrose"],
       "schedule": [
         {
           "startHour": 0,
@@ -2091,6 +2092,9 @@
       ],
       "questGive": "palace-queen-roses",
       "questReceive": "palace-queen-roses",
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": ["sturdy-boots"],
       "schedule": [
         {
           "startHour": 0,
@@ -4237,6 +4241,33 @@
     }
   },
   "interactables": [
+    {
+      "id": "royalpalace-forage-tree-1",
+      "tx": 32,
+      "ty": 24,
+      "reactions": [
+        { "type": "dialogue", "text": "An autumn-gold tree in the East Gardens, worth a closer look." },
+        { "type": "forage" }
+      ]
+    },
+    {
+      "id": "royalpalace-forage-flower-1",
+      "tx": 37,
+      "ty": 24,
+      "reactions": [
+        { "type": "dialogue", "text": "A patch of blue flowers growing between the garden's bird baths." },
+        { "type": "forage" }
+      ]
+    },
+    {
+      "id": "royalpalace-forage-bush-1",
+      "tx": 42,
+      "ty": 24,
+      "reactions": [
+        { "type": "dialogue", "text": "A tidy bush along the garden's far edge." },
+        { "type": "forage" }
+      ]
+    },
     {
       "id": "royalpalace-chicken-feed",
       "tx": 26,
