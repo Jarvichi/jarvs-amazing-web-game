@@ -1861,7 +1861,9 @@
         "buildingId": "worker-house-1",
         "tx": 7,
         "ty": 2
-      }
+      },
+      "favoriteGiftItemId": "pressed-flower",
+      "favoriteGiftTrack": "ally"
     },
     {
       "id": "gearwright-orin",
@@ -3614,6 +3616,22 @@
       "building": "gear-shop",
       "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
       "reactions": [{ "type": "buy", "slotIndex": 2 }]
+    },
+    {
+      "id": "gearford-secret-pressed-flower",
+      "tx": 19,
+      "ty": 13,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Tucked behind a loose paving stone, you find a flower pressed flat and dry."
+        },
+        {
+          "type": "giveItem",
+          "hubItem": { "itemId": "pressed-flower", "count": 1 },
+          "message": "You found a pressed flower!"
+        }
+      ]
     }
   ]
 }

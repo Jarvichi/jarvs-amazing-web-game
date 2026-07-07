@@ -282,6 +282,10 @@ export interface RawInteractableReaction {
     quantity: number
   }>
   crystals?: number
+  hubItem?: {
+    itemId: string
+    count?: number
+  }
   message?: string
   alreadyGrantedText?: string
 

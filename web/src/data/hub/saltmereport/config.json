@@ -1627,7 +1627,9 @@
         "Found a barrel of navy rum washed up under the south pier. Above my pay grade, that.",
         "Vane counts the cargo twice. I count my fingers after every shift."
       ],
-      "questGive": "saltmere-rum-run"
+      "questGive": "saltmere-rum-run",
+      "favoriteGiftItemId": "tin-whistle",
+      "favoriteGiftTrack": "ally"
     },
     {
       "id": "old-salt",
@@ -2552,6 +2554,22 @@
       "building": "chandlers",
       "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
       "reactions": [{ "type": "buy", "slotIndex": 2 }]
+    },
+    {
+      "id": "saltmere-secret-tin-whistle",
+      "tx": 30,
+      "ty": 18,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Half-buried under a coil of rope, a little tin whistle catches the light."
+        },
+        {
+          "type": "giveItem",
+          "hubItem": { "itemId": "tin-whistle", "count": 1 },
+          "message": "You found a tin whistle!"
+        }
+      ]
     }
   ],
   "animals": [

@@ -286,7 +286,7 @@ bounds, else a single tile.
 |---|---|---|
 | `dialogue` | `speakerName?`, `text` (string or string[]) | Shows the dialogue modal. A string[] cycles one entry per tap. |
 | `screen` | `screen` | Opens a screen via the same routing as NPC `screen` (e.g. `news`, `shop`, `interior:<id>`, `bounty-board`, `town-upgrades`, `adopt-pet` — see §8, minigame ids). |
-| `giveItem` | `collectible?`, `consumables?`, `crystals?`, `message?`, `alreadyGrantedText?` | One-time grant (persisted). Re-taps show `alreadyGrantedText` if set. Reward shapes match treasure rewards. `collectible.lore?` (optional flavor text) is stored on the item and already surfaced by `HomeShelf`/`ItemFoundScreen` — no extra wiring needed for lore notes. |
+| `giveItem` | `collectible?`, `consumables?`, `crystals?`, `hubItem?`, `message?`, `alreadyGrantedText?` | One-time grant (persisted). Re-taps show `alreadyGrantedText` if set. Reward shapes match treasure rewards. `collectible.lore?` (optional flavor text) is stored on the item and already surfaced by `HomeShelf`/`ItemFoundScreen` — no extra wiring needed for lore notes. `hubItem?: { itemId, count? }` grants a hub-item (`hubItems.json`, §16) via `addHubItem` — the only way a secret/discovery interactable can hand over a `'material'` item, e.g. a favorite gift (§7d). |
 | `quest` | `questId`, `speakerName?` | Offers the quest with Accept / Not now. The quest's `giverNpcId` in `questDefs.json` **must equal the interactable's id**. Honours prerequisites and the 2-active-quest cap. |
 | `move` | `to: {tx, ty}`, `message?` | Moves the owned decor to the target tile, live and persisted across reloads. Requires owned `decor`. |
 | `buy` | `slotIndex` | Sells the interactable's building's Nth daily-rotating shop-stock item (`getTodaysShopItems`, `SHOP_TRADER_REGISTRY`). Shares `DailyShopState` with `ShopScreen`, so both draw down the same stock. Requires `building`. |
@@ -341,6 +341,11 @@ be genuinely non-obvious, not flagged with the usual `!`.
 2. Add an interactable entry with **no `decor`** and **no `indicator`**: a
    `dialogue` reaction for discovery flavor, then a `giveItem` reaction
    granting a collectible. Use `collectible.lore` for a lore note's full text.
+   To hide a **secret gift item** instead (§7d — a favorite-gift NPC's
+   `favoriteGiftItemId`), use `giveItem`'s `hubItem: { itemId, count? }` field
+   so the discovery grants a `'material'` hub-item the player can then give
+   away, rather than a `collectible`. Live examples: `gearford-secret-pressed-flower`,
+   `thornwood-secret-river-glass`, `saltmere-secret-tin-whistle`.
 3. *(Optional — hidden-area reveal)* Pair this secret with a hidden area: add
    a `blockedPaths` entry in the town's `questDefs.json` (§2) whose
    `unlockedByInteractable` is this secret's `id`. The blocked/cleared decor
@@ -623,6 +628,11 @@ NPC:
 2. Run `npm run test` (loader tests parse all configs) and `npm run build`.
 3. Verify in-game: gifting the favorite item shows the bigger-bonus flavor
    line and moves the configured track further than a generic material gift.
+
+For an item worth hiding rather than buying, pair the favorite gift with a
+**secret** interactable elsewhere in the same town (§7's "new secret /
+dig-spot" checklist) that discovers the item via `giveItem`'s `hubItem` field
+— see the live examples there (Gearford/Thornwood Camp/Saltmere Port).
 
 ---
 
