@@ -2029,6 +2029,9 @@
       "building": "smithy",
       "questGive": "castle-weapon-cache",
       "questReceive": "castle-weapon-cache",
+      "favoriteGiftItemId": "bog-salve",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": ["poetry-book"],
       "schedule": [
         {
           "startHour": 0,
@@ -2095,6 +2098,7 @@
       "building": "quartermasters-store",
       "questGive": "castle-supply-tally",
       "questReceive": "castle-supply-tally",
+      "dislikes": ["castle-blacksmith"],
       "schedule": [
         {
           "startHour": 0,
@@ -4484,6 +4488,54 @@
     }
   },
   "interactables": [
+    {
+      "id": "ironholdkeep-forage-bush-1",
+      "tx": 20,
+      "ty": 45,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "lightBush"
+        }
+      ],
+      "reactions": [
+        { "type": "dialogue", "text": "A scrappy bush growing wild in the Outer Bailey." },
+        { "type": "forage" }
+      ]
+    },
+    {
+      "id": "ironholdkeep-forage-flower-1",
+      "tx": 21,
+      "ty": 47,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "yellowFlower"
+        }
+      ],
+      "reactions": [
+        { "type": "dialogue", "text": "A patch of wildflowers, somehow thriving between the flagstones." },
+        { "type": "forage" }
+      ]
+    },
+    {
+      "id": "ironholdkeep-forage-bush-2",
+      "tx": 20,
+      "ty": 49,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "darkBush"
+        }
+      ],
+      "reactions": [
+        { "type": "dialogue", "text": "A shaded bush near the dungeon wall, worth a closer look." },
+        { "type": "forage" }
+      ]
+    },
     {
       "id": "ironholdkeep-chicken-feed",
       "tx": 15,

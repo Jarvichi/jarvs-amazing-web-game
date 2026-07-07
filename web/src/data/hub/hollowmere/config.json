@@ -1178,7 +1178,8 @@
         "Buying, selling, no questions. Especially no questions about the inventory.",
         "The undead up at Gravemoor are lovely neighbours. Quiet. Very quiet.",
         "Everything here fell off a cart. A very specific, very unlucky cart."
-      ]
+      ],
+      "dislikes": ["goblin-curio-keep"]
     },
     {
       "id": "hedge-witch-morwen",
@@ -1307,7 +1308,10 @@
       "questReceive": [
         "mire-lost-items-1",
         "mire-lost-items-2"
-      ]
+      ],
+      "favoriteGiftItemId": "gilded-compass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": ["honey-cake"]
     }
   ],
   "interiors": {
@@ -1986,6 +1990,33 @@
     }
   },
   "interactables": [
+    {
+      "id": "hollowmere-forage-tree-1",
+      "tx": 9,
+      "ty": 0,
+      "reactions": [
+        { "type": "dialogue", "text": "A dead tree at the wood's edge — something might be nesting in its roots." },
+        { "type": "forage" }
+      ]
+    },
+    {
+      "id": "hollowmere-forage-tree-2",
+      "tx": 42,
+      "ty": 7,
+      "reactions": [
+        { "type": "dialogue", "text": "A dark, gnarled tree, worth a closer look." },
+        { "type": "forage" }
+      ]
+    },
+    {
+      "id": "hollowmere-forage-tree-3",
+      "tx": 31,
+      "ty": 23,
+      "reactions": [
+        { "type": "dialogue", "text": "One of the gnarled trees ringing the marsh — something might be tucked among its roots." },
+        { "type": "forage" }
+      ]
+    },
     {
       "id": "hollowmere-hollow",
       "tx": 29,

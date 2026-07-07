@@ -345,6 +345,41 @@
         "friendship": { "hedge-witch-morwen": 15 },
         "collectible": { "id": "hollowmere-feud-token", "name": "The Cauldron I.O.U.", "icon": "📜", "desc": "A note acknowledging Sythe's twenty-year-old cauldron debt to Morwen. She will treasure this forever." }
       }
+    },
+    {
+      "id": "morwens-real-secret",
+      "title": "A Secret of the Craft",
+      "type": "fetch",
+      "giverNpcId": "hedge-witch-morwen",
+      "receiverNpcId": "hedge-witch-morwen",
+      "prerequisite": "friendship:hedge-witch-morwen:5",
+      "offerDialogue": "You've earned more than a customer's welcome here, traveller. Sit by the cauldron a moment — there's a real secret of the craft I've never shared with an outsider.",
+      "activeDialogue": "No rush. The cauldron's been simmering longer than you've been alive.",
+      "completeDialogue": "There. Not many earn that from me — least of all someone who still smells of the nice town down south. Consider yourself Hollowmere's, now, as much as mine.",
+      "steps": [
+        { "key": "report", "type": "report", "targetNpcId": "hedge-witch-morwen", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 95,
+        "friendship": { "hedge-witch-morwen": 10 }
+      }
+    },
+    {
+      "id": "ogrims-bad-mood",
+      "title": "Banned From the Den",
+      "type": "fetch",
+      "giverNpcId": "ogrim-the-bouncer",
+      "receiverNpcId": "ogrim-the-bouncer",
+      "prerequisite": "hatred:ogrim-the-bouncer:1",
+      "offerDialogue": "You. I don't like you. Fine — earn your way back off my bad side. Report back once you've done something useful for once.",
+      "activeDialogue": "Well? I'm still not letting you back in until you have.",
+      "completeDialogue": "Took you long enough. Here. Now get out of my doorway before I change my mind about the whole 'not eating heroes' rule.",
+      "steps": [
+        { "key": "report", "type": "report", "targetNpcId": "ogrim-the-bouncer", "required": 1 }
+      ],
+      "reward": {
+        "hubItem": { "itemId": "mouldy-slipper", "count": 1 }
+      }
     }
   ],
   "pickupItems": [
@@ -400,5 +435,12 @@
 
     { "id": "medicine-vial", "tx": 3, "ty": 2, "tileId": "potions", "building": "witch-hut-brewing", "questId": "hollowmere-marsh-medicine" }
   ],
-  "blockedPaths": []
+  "blockedPaths": [],
+  "relationshipDialogue": {
+    "fang-the-fence": {
+      "rival": {
+        "1": "Heard you've been chatting up Snægg. Careful there — that goblin's 'finds' are worth half what mine are, and twice the trouble."
+      }
+    }
+  }
 }

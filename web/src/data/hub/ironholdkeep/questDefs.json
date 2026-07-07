@@ -870,6 +870,41 @@
       "reward": {
         "crystals": 80
       }
+    },
+    {
+      "id": "elwyns-sealed-archive",
+      "title": "The Sealed Archive",
+      "type": "fetch",
+      "giverNpcId": "castle-archivist",
+      "receiverNpcId": "castle-archivist",
+      "prerequisite": "friendship:castle-archivist:5",
+      "offerDialogue": "You've earned more than a scholar's thanks, traveller — you've earned a scholar's trust. There is a sealed record I've never shown an outsider. Come, sit. History deserves a witness.",
+      "activeDialogue": "Take your time. The archive has waited centuries; it can wait a moment longer.",
+      "completeDialogue": "There. Not every visitor earns a place in Ironhold's true history — you have. Guard it well.",
+      "steps": [
+        { "key": "report", "type": "report", "targetNpcId": "castle-archivist", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 90,
+        "friendship": { "castle-archivist": 10 }
+      }
+    },
+    {
+      "id": "olens-grudge",
+      "title": "State Your Business",
+      "type": "fetch",
+      "giverNpcId": "castle-gatekeeper",
+      "receiverNpcId": "castle-gatekeeper",
+      "prerequisite": "hatred:castle-gatekeeper:1",
+      "offerDialogue": "You again. I don't like the look of you, and I've said so at this gate before. Fine — prove your business is honest. Report back once it is.",
+      "activeDialogue": "Well? I'm still watching you.",
+      "completeDialogue": "Hmph. Take it and be on your way. Don't linger at my gate.",
+      "steps": [
+        { "key": "report", "type": "report", "targetNpcId": "castle-gatekeeper", "required": 1 }
+      ],
+      "reward": {
+        "hubItem": { "itemId": "mouldy-slipper", "count": 1 }
+      }
     }
   ],
   "pickupItems": [
@@ -1467,6 +1502,11 @@
         "2": "Doran gives a curt nod. \"You've stood enough watches with us. The wall counts you a friend now.\"",
         "3": "\"Half the recruits would follow you over the parapet if you asked. Don't let it go to your head.\"",
         "4": "\"There's a place on this wall for you any day you want it, traveller. That's the highest word I have.\""
+      }
+    },
+    "castle-quartermaster": {
+      "rival": {
+        "1": "\"You've been spending a lot of time with Kern lately. Tell him my ledger has never once been wrong — and I'd thank him to stop implying otherwise to every traveller who'll listen.\""
       }
     }
   },

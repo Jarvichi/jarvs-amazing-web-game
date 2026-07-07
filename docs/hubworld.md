@@ -779,8 +779,10 @@ example: Ravenwatch's `merchants-contempt` quest (prerequisite
 `hatred:merchant:1`) rewards a `mouldy-slipper` — see below. Reused (not
 re-minted) for Millhaven's `regattas-scorn` (Regatta Master Coll),
 Gravemoor's `pedlars-grudge` (The Spectral Pedlar), Appleford's `hobs-grudge`
-(Hob the Picker), and Harrowfield's `rooks-toll` (Miller Rook) hate-quests —
-all funnel to the same buyer, James in Ravenwatch (`james-junk-trade`), per §16's
+(Hob the Picker), Harrowfield's `rooks-toll` (Miller Rook), Hollowmere's
+`ogrims-bad-mood` (Ogrim the Bouncer), and Ironhold Keep's `olens-grudge`
+(Gatekeeper Olen) hate-quests — all funnel to the same buyer, James in
+Ravenwatch (`james-junk-trade`), per §16's
 "items are reused across multiple grant points" philosophy.
 
 ### Authoring checklist: friendship-extreme quest with a joke-item reward
