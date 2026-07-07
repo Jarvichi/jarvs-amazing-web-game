@@ -1288,7 +1288,10 @@
       "questReceive": [
         "appleford-honey-harvest",
         "appleford-honey-harvest-2"
-      ]
+      ],
+      "favoriteGiftItemId": "lavender-tonic",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": ["bog-salve"]
     },
     {
       "id": "cooper-wend",
@@ -1303,7 +1306,8 @@
         "Staves, hoops, and patience — that's a barrel. Rush any of the three and you've a puddle."
       ],
       "questGive": "appleford-coopers-order",
-      "questReceive": "appleford-coopers-order"
+      "questReceive": "appleford-coopers-order",
+      "dislikes": ["cider-brewer-tom"]
     },
     {
       "id": "market-trader-posy",
@@ -2098,6 +2102,33 @@
     }
   },
   "interactables": [
+    {
+      "id": "appleford-forage-tree-1",
+      "tx": 28,
+      "ty": 22,
+      "reactions": [
+        { "type": "dialogue", "text": "One of the orchard's older trees — something might be tucked among its roots." },
+        { "type": "forage" }
+      ]
+    },
+    {
+      "id": "appleford-forage-tree-2",
+      "tx": 1,
+      "ty": 26,
+      "reactions": [
+        { "type": "dialogue", "text": "An autumn-gold tree at the orchard's edge, worth a closer look." },
+        { "type": "forage" }
+      ]
+    },
+    {
+      "id": "appleford-forage-flower-1",
+      "tx": 13,
+      "ty": 22,
+      "reactions": [
+        { "type": "dialogue", "text": "A patch of pink wildflowers growing between the rows." },
+        { "type": "forage" }
+      ]
+    },
     {
       "id": "apiary-honey-shelf",
       "tx": 8,
