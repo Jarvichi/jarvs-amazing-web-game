@@ -293,6 +293,10 @@ export type HubInteractableReaction =
    *  rolls glowcaps/crystals/fireflies; 'rain' always yields rainwater;
    *  'fog' always yields grave-moss. */
   | { type: 'dig'; requiresItemId?: string; nightOnly?: boolean; weatherOnly?: string; lootTable?: 'earth' | 'hollow' | 'rain' | 'fog' }
+  /** Once-per-day forage spot — overlays an ordinary tree/bush/flower decor
+   *  tile. No tool/night/weather gating (unlike `dig`); rolls wild-berries,
+   *  crystals, or a rare four-leaf-clover collectible. */
+  | { type: 'forage' }
 
 export interface HubInteractable {
   id: string

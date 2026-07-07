@@ -9771,6 +9771,30 @@
       "building": "supply-shop",
       "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
       "reactions": [{ "type": "buy", "slotIndex": 2 }]
+    },
+    {
+      "id": "ravenwatch-forage-bush-1",
+      "tx": 0,
+      "ty": 16,
+      "reactions": [{ "type": "dialogue", "text": "A dense, dark bush — worth a closer look." }, { "type": "forage" }]
+    },
+    {
+      "id": "ravenwatch-forage-tree-1",
+      "tx": 34,
+      "ty": 29,
+      "reactions": [{ "type": "dialogue", "text": "Something might be growing at the foot of this old tree." }, { "type": "forage" }]
+    },
+    {
+      "id": "ravenwatch-forage-flower-1",
+      "tx": 33,
+      "ty": 17,
+      "reactions": [{ "type": "dialogue", "text": "A patch of wildflowers grows here." }, { "type": "forage" }]
+    },
+    {
+      "id": "ravenwatch-forage-flower-2",
+      "tx": 34,
+      "ty": 18,
+      "reactions": [{ "type": "dialogue", "text": "More wildflowers, swaying in the breeze." }, { "type": "forage" }]
     }
   ],
   "animals": [

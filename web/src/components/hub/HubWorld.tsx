@@ -56,6 +56,7 @@ import { HubInteractable, HubLocationBundle, HubQuestBundle, HubTreasure, HubNpc
 import { getUnreadCount } from '../../game/news'
 import { interactableStoreKey, isInteractableGranted, markInteractableGranted, getInteractableMoves, setInteractableMove } from '../../game/hub/interactables'
 import { canDigToday, recordDig } from '../../game/hub/digs'
+import { canForageToday, recordForage } from '../../game/hub/forages'
 import { getReputationTier } from '../../data/hub/buildingUpgrades'
 import { resolveWeather } from '../../game/hub/weather'
 import { recordSellerSeen, recordBuyerSeen } from '../../game/hub/tradeJournal'
@@ -1808,6 +1809,47 @@ function hasOfferableQuest(giverId: string): boolean {
         setDialogueEvent({
           speakerName: '',
           text: 'A patch of soft, diggable earth.',
+          choices: [confirm, { label: 'Leave it', onClick: () => setDialogueEvent(null) }],
+        })
+        return
+      }
+      case 'forage': {
+        // Once-per-day forage spot — overlays an ordinary tree/bush/flower
+        // decor tile (docs/hubworld.md §7). Unlike dig, no tool/night/weather
+        // gating: foraging is meant to be low-friction and always available.
+        if (!canForageToday(storeKey)) {
+          setDialogueEvent({ speakerName: '', text: "You've already foraged here today. Let it grow back." })
+          return
+        }
+        const confirm: DialogueChoice = {
+          label: 'Forage here',
+          primary: true,
+          onClick: () => {
+            recordForage(storeKey)
+            const roll = Math.random()
+            let text: string
+            if (roll < 0.45) {
+              addHubItem('wild-berries', 1)
+              emitSound('pickup')
+              text = 'You come away with a handful of ripe wild berries. 🫐'
+            } else if (roll < 0.8) {
+              const amount = 5 + Math.floor(Math.random() * 11) // 5–15
+              saveCrystals(loadCrystals() + amount)
+              onCrystalsChange?.(loadCrystals())
+              emitSound('treasure')
+              text = `Something small and bright is tucked in the leaves — ${amount} crystals. 💎`
+            } else {
+              addCollectible('four-leaf-clover', { name: 'Four-Leaf Clover', icon: '🍀', desc: 'A rare find among the ordinary three-leafed kind. Feels lucky.' })
+              emitSound('treasure')
+              text = 'Tucked in the greenery — a four-leaf clover! Added to your collection. 🍀'
+            }
+            refreshState()
+            setDialogueEvent({ speakerName: '', text, onClose: next })
+          },
+        }
+        setDialogueEvent({
+          speakerName: '',
+          text: 'A patch of wild growth, ripe for foraging.',
           choices: [confirm, { label: 'Leave it', onClick: () => setDialogueEvent(null) }],
         })
         return
