@@ -1134,6 +1134,9 @@
         "I was mayor when I died and nobody's run against me since. Democracy at its finest.",
         "We're dead, not rude. Wipe your feet and you're welcome anywhere in town."
       ],
+      "favoriteGiftItemId": "grave-moss",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": ["honey-cake"],
       "schedule": [
         {
           "startHour": 7,
@@ -1169,7 +1172,8 @@
         "Money means little to the dead, but haggling? Haggling is eternal.",
         "The blight took the town, but it couldn't take the market spirit. Literally, in my case."
       ],
-      "building": "undertaker"
+      "building": "undertaker",
+      "dislikes": ["brother-mortis"]
     },
     {
       "id": "grave-keeper-finch",
@@ -2561,6 +2565,33 @@
     }
   },
   "interactables": [
+    {
+      "id": "gravemoor-forage-tree-1",
+      "tx": 0,
+      "ty": 3,
+      "reactions": [
+        { "type": "dialogue", "text": "A gnarled dead tree — something might be tucked in its roots." },
+        { "type": "forage" }
+      ]
+    },
+    {
+      "id": "gravemoor-forage-tree-2",
+      "tx": 28,
+      "ty": 15,
+      "reactions": [
+        { "type": "dialogue", "text": "The whispering wood grows thick here. Worth a closer look." },
+        { "type": "forage" }
+      ]
+    },
+    {
+      "id": "gravemoor-forage-tree-3",
+      "tx": 42,
+      "ty": 11,
+      "reactions": [
+        { "type": "dialogue", "text": "A dead tree at the woodland's edge, roots half-exposed." },
+        { "type": "forage" }
+      ]
+    },
     {
       "id": "gravemoor-hollow",
       "tx": 17,

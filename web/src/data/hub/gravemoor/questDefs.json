@@ -550,6 +550,41 @@
           "desc": "A small token from Minister Fallow. The Gravemoor bell tolls no more — the town sleeps easier, and so do you."
         }
       }
+    },
+    {
+      "id": "widows-final-peace",
+      "title": "A Long-Awaited Peace",
+      "type": "fetch",
+      "giverNpcId": "weeping-widow",
+      "receiverNpcId": "weeping-widow",
+      "prerequisite": "friendship:weeping-widow:5",
+      "offerDialogue": "You have listened to an old ghost's grief more than anyone in two centuries. I think... I think I am ready to stop weeping. Will you sit with me a moment longer, one last time?",
+      "activeDialogue": "Take your time. I have waited this long; I can wait a little more.",
+      "completeDialogue": "There. The ache is quieter now — quiet enough to rest. Thank you, dear traveller. You have given a lonely spirit something she thought long lost: peace.",
+      "steps": [
+        { "key": "report", "type": "report", "targetNpcId": "weeping-widow", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 90,
+        "friendship": { "weeping-widow": 10 }
+      }
+    },
+    {
+      "id": "pedlars-grudge",
+      "title": "Bad for Business",
+      "type": "fetch",
+      "giverNpcId": "spectral-pedlar",
+      "receiverNpcId": "spectral-pedlar",
+      "prerequisite": "hatred:spectral-pedlar:1",
+      "offerDialogue": "Oh, it's you. Scared off three customers this week just by existing near my stall. Do something useful for once and report back when you have.",
+      "activeDialogue": "Well? Some of us have wares to move.",
+      "completeDialogue": "Took you long enough. Here — take this and get out of my sightline, you're bad for business.",
+      "steps": [
+        { "key": "report", "type": "report", "targetNpcId": "spectral-pedlar", "required": 1 }
+      ],
+      "reward": {
+        "hubItem": { "itemId": "mouldy-slipper", "count": 1 }
+      }
     }
   ],
   "pickupItems": [
@@ -707,5 +742,12 @@
       "questId": "gravemoor-hollow-tolling-3"
     }
   ],
-  "blockedPaths": []
+  "blockedPaths": [],
+  "relationshipDialogue": {
+    "restless-merchant-mora": {
+      "rival": {
+        "1": "Brother Mortis and his chapel bell, tolling right when I've a customer haggling. Coincidence? I think not. Thick as thieves, the two of you."
+      }
+    }
+  }
 }

@@ -776,7 +776,11 @@ export interface HubQuestReward {
 Applied in `grantQuestReward` via `addHubItem`, mirroring the `giveItem`
 reaction's `hubItem` field (§7) and `BountyReward`'s fields (§7e). Live
 example: Ravenwatch's `merchants-contempt` quest (prerequisite
-`hatred:merchant:1`) rewards a `mouldy-slipper` — see below.
+`hatred:merchant:1`) rewards a `mouldy-slipper` — see below. Reused (not
+re-minted) for Millhaven's `regattas-scorn` (Regatta Master Coll) and
+Gravemoor's `pedlars-grudge` (The Spectral Pedlar) hate-quests — all three
+funnel to the same buyer, James in Ravenwatch (`james-junk-trade`), per §16's
+"items are reused across multiple grant points" philosophy.
 
 ### Authoring checklist: friendship-extreme quest with a joke-item reward
 
