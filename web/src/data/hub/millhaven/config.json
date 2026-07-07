@@ -1736,6 +1736,7 @@
         "millhaven-festival-prep",
         "millhaven-market-restock"
       ],
+      "dislikes": ["dockhand-bram"],
       "schedule": [
         {
           "startHour": 0,
@@ -1779,6 +1780,9 @@
       ],
       "questGive": "millhaven-fresh-bread",
       "questReceive": "millhaven-fresh-bread",
+      "favoriteGiftItemId": "honey",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": ["fish-bait"],
       "schedule": [
         {
           "startHour": 0,
@@ -3022,6 +3026,54 @@
     }
   ],
   "interactables": [
+    {
+      "id": "millhaven-forage-bush-1",
+      "tx": 4,
+      "ty": 34,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "lightBush"
+        }
+      ],
+      "reactions": [
+        { "type": "dialogue", "text": "A tangled bush growing wild by the fisher-cottage field." },
+        { "type": "forage" }
+      ]
+    },
+    {
+      "id": "millhaven-forage-bush-2",
+      "tx": 24,
+      "ty": 34,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "darkBush"
+        }
+      ],
+      "reactions": [
+        { "type": "dialogue", "text": "A shaded bush behind the bakery, worth a closer look." },
+        { "type": "forage" }
+      ]
+    },
+    {
+      "id": "millhaven-forage-flower-1",
+      "tx": 10,
+      "ty": 34,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "yellowFlower"
+        }
+      ],
+      "reactions": [
+        { "type": "dialogue", "text": "A patch of wildflowers growing at the field's edge." },
+        { "type": "forage" }
+      ]
+    },
     {
       "id": "millhaven-bucket-stall",
       "tx": 39,

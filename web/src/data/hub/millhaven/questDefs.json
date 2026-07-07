@@ -601,6 +601,41 @@
           "market-trader": 15
         }
       }
+    },
+    {
+      "id": "tamsins-quiet-thanks",
+      "title": "A Quiet Thanks",
+      "type": "fetch",
+      "giverNpcId": "widow-tamsin",
+      "receiverNpcId": "widow-tamsin",
+      "prerequisite": "friendship:widow-tamsin:5",
+      "offerDialogue": "You've sat with an old widow more than anyone had to. I've something small for you, if you'll let me give it.",
+      "activeDialogue": "No rush. I'll still be here, mending nets I can't quite finish.",
+      "completeDialogue": "There. It isn't much, but it's given with a full heart — the first I've had in some time. Thank you, truly.",
+      "steps": [
+        { "key": "report", "type": "report", "targetNpcId": "widow-tamsin", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": { "widow-tamsin": 10 }
+      }
+    },
+    {
+      "id": "regattas-scorn",
+      "title": "Off the Course",
+      "type": "fetch",
+      "giverNpcId": "regatta-master",
+      "receiverNpcId": "regatta-master",
+      "prerequisite": "hatred:regatta-master:1",
+      "offerDialogue": "You? Wandering my course, gawking at my buoys? Fine — make yourself useful for once and report back when you have.",
+      "activeDialogue": "Well? The regatta won't organize itself.",
+      "completeDialogue": "Hmph. Didn't think you'd bother. Take this and stay off my dock.",
+      "steps": [
+        { "key": "report", "type": "report", "targetNpcId": "regatta-master", "required": 1 }
+      ],
+      "reward": {
+        "hubItem": { "itemId": "mouldy-slipper", "count": 1 }
+      }
     }
   ],
   "pickupItems": [
@@ -1082,5 +1117,12 @@
         }
       }
     }
-  ]
+  ],
+  "relationshipDialogue": {
+    "market-trader": {
+      "rival": {
+        "1": "Setting up shop is hard enough without Dockhand Bram tracking fish guts past my stall every morning. You two are thick as thieves lately, aren't you?"
+      }
+    }
+  }
 }
