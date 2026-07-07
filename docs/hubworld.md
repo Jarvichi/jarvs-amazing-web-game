@@ -37,6 +37,7 @@
 | `web/src/game/hub/digs.ts` | Once-per-day dig-spot persistence (localStorage) — see §7 `dig` reaction, §16 | `canDigToday`, `recordDig` |
 | `web/src/components/hub/HubInventoryModal.tsx` | 🎒 Hub Inventory UI — held quest items, materials & tools, pet accessories — see §16 | `HubInventoryModal` |
 | `web/src/game/hub/talkCooldown.ts` | Once-per-day "Make conversation" persistence (localStorage) — see §7d | `canTalkToday`, `recordTalk` |
+| `web/src/game/hub/forages.ts` | Once-per-day forage-spot persistence (localStorage) — see §7 `forage` reaction | `canForageToday`, `recordForage` |
 
 ---
 
@@ -293,6 +294,7 @@ bounds, else a single tile.
 | `buyPack` | — | Crystal-pack purchase flow (delegates to `onBuyCrystalPack`). Requires `building`. |
 | `buyHubItem` | `itemId`, `price`, `currency?`, `speakerName?`, `prerequisite?`, `lockedText?` | Always-available hub-item purchase (no daily rotation) — see §16. `itemId` must exist in `hubItems.json`; `currency` is `'crystals'` (default) or `'tickets'`. Unique items (e.g. the fishing rod) re-offer as "already owned" once bought. `speakerName` overrides the building-NPC speaker (useful for exterior stalls). `prerequisite` (§14 syntax, including `reputation:<tier>`) gates the offer — unmet shows `lockedText` (or a default refusal) instead. |
 | `dig` | `requiresItemId?`, `nightOnly?`, `weatherOnly?`, `lootTable?` | Once-per-day dig spot (see §16), gated on holding the tool hub-item (default `'spade'`). `nightOnly: true` makes it a **dark hollow** that refuses by day; `weatherOnly` (e.g. `"rain"`) makes it refuse unless the town's resolved weather (§12) matches — used by **rain barrels**. `lootTable: 'earth'` (default) rolls 50% worms (+2 fish bait) / 30% crystals (10–25) / 20% a dug-up trinket; `'hollow'` rolls 50% glowcap mushroom / 25% crystals (15–35) / 25% a firefly; `'rain'` always yields 1 rainwater; `'fog'` always yields 1 grave moss. Cooldown persists per spot per real day in `jarv_hub_digs` (`web/src/game/hub/digs.ts`). Pair with a `mediumDirt` decor tile (`zlayer: "below"`) for an earth patch, or `barrel` for a rain barrel. |
+| `forage` | — | Once-per-day forage spot, no fields. Unlike `dig`, no tool/night/weather gating — meant to overlay an ordinary tree/bush/flower `exteriorDecor` tile (no owned decor of its own) so any existing scenery can become forageable. Rolls 45% 1 wild berries / 35% crystals (5–15) / 20% a rare four-leaf-clover collectible. Cooldown persists per spot per real day in `jarv_hub_forages` (`web/src/game/hub/forages.ts`), same key convention as `dig`. |
 
 Reactions run in order; `dialogue` (and `message`-bearing reactions) chain the
 remainder through the dialogue's close. Conventions: at most one `screen` or
@@ -358,6 +360,26 @@ be genuinely non-obvious, not flagged with the usual `!`.
    correctly wherever the item is displayed, and — if paired with a hidden
    area — that area opens live (no reload) the moment the secret is found,
    and all of it persists across a reload.
+
+### Authoring checklist: new forage spot
+
+Unlike a secret, a forage spot should be **visible and obvious** — it overlays
+an *existing* `exteriorDecor` tile (a tree, bush, flower, or other plant
+scenery already in the town), so no owned `decor` or new art is needed.
+
+1. Pick an existing tree/bush/flower `exteriorDecor` entry's `tx`/`ty` (grep
+   the town's `exteriorDecor` array for a `tileId` containing `tree`, `bush`,
+   `shrub`, or `flower`) that isn't already occupied by another interactable,
+   NPC, or animal.
+2. Add an interactable entry at that same `tx`/`ty` with **no `decor`**: a
+   `dialogue` reaction for flavor, then a `{ "type": "forage" }` reaction (no
+   fields). Live examples: `ravenwatch-forage-bush-1`, `ravenwatch-forage-tree-1`,
+   `ravenwatch-forage-flower-1`/`-2`.
+3. Run `npm run test` and `npm run build`.
+4. Verify by reading the flow: the interactable sits directly on top of
+   already-rendered decor (no visual change needed), tapping it once a day
+   grants wild berries / crystals / a four-leaf clover, and re-tapping the
+   same day shows the "already foraged" line instead.
 
 ---
 

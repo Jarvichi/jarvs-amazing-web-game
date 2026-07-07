@@ -290,5 +290,12 @@
     "icon": "🎵",
     "desc": "A dented little whistle. Still plays a clean note if you blow just right.",
     "category": "material"
+  },
+  {
+    "id": "wild-berries",
+    "name": "Wild Berries",
+    "icon": "🫐",
+    "desc": "A handful of ripe berries, foraged straight from the bush.",
+    "category": "material"
   }
 ]
