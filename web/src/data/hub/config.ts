@@ -196,6 +196,11 @@ export interface RawNpc {
     tx: number
     ty: number
   }
+
+  /** Hub-item id (hubItems.json) that grants a bonus friendship/relationship boost when gifted. */
+  favoriteGiftItemId?: string
+  /** Relationship track the favorite-gift bonus applies to. Defaults to 'ally' if favoriteGiftItemId is set. */
+  favoriteGiftTrack?: string
 }
 
 export interface RawLockedDoor {

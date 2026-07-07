@@ -21,6 +21,9 @@ Use tokens sparingly. Carry out changes in small steps; commit and push between 
 
 DO NOT USE AGENTS - Unless I explicitly state for you to do so.
 
+## Verifying Changes
+`npm run build` (typecheck) and `npm run test` are the default way to verify a change — run them and trust them. Only fall back to launching the dev server and driving it in a browser when you are investigating or confirming a **visual** bug (layout, rendering, sprite/animation, canvas interaction) — not for logic/data changes, even ones that touch UI-adjacent code. Browser verification of this hub-world/PixiJS canvas is expensive (no DOM selectors for in-canvas elements, camera/pathfinding makes reaching a specific NPC slow) — don't reach for it by default.
+
 ## Git Workflow — Avoiding Conflicts
 Before starting any new work, always rebase onto the latest `main`:
 ```bash
