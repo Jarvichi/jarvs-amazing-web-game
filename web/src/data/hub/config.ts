@@ -201,6 +201,8 @@ export interface RawNpc {
   favoriteGiftItemId?: string
   /** Relationship track the favorite-gift bonus applies to. Defaults to 'ally' if favoriteGiftItemId is set. */
   favoriteGiftTrack?: string
+  /** Hub-item ids (hubItems.json) this NPC dislikes being gifted — costs friendship instead of gaining it. */
+  dislikedGiftItemIds?: string[]
 
   /** Ids of other same-town NPCs this NPC dislikes — befriending one raises this NPC's own 'rival' track. */
   dislikes?: string[]

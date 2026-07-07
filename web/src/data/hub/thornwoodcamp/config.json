@@ -509,7 +509,8 @@
         "thornwood-river-relay"
       ],
       "favoriteGiftItemId": "river-glass",
-      "favoriteGiftTrack": "ally"
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": ["chicken-feed"]
     }
   ],
   "animals": [

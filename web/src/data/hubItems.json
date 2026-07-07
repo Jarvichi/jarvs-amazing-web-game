@@ -297,5 +297,12 @@
     "icon": "🫐",
     "desc": "A handful of ripe berries, foraged straight from the bush.",
     "category": "material"
+  },
+  {
+    "id": "mouldy-slipper",
+    "name": "Mouldy Slipper",
+    "icon": "🥿",
+    "desc": "One slipper, thoroughly ruined. Its owner is not looking for it back.",
+    "category": "material"
   }
 ]

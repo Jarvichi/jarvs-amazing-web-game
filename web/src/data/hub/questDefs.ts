@@ -29,6 +29,8 @@ export interface HubQuestReward {
   unlock?: string
   /** Pet accessory id (from petAccessories.ts) granted on quest completion. */
   accessory?: string
+  /** Hub-item id (hubItems.json) + count granted on quest completion. */
+  hubItem?: { itemId: string; count?: number }
 }
 
 /** npcId -> track -> levelString -> line shown when that track is active. */

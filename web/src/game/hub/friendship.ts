@@ -1,6 +1,12 @@
+import { logError } from '../../logger'
+
 const KEY = 'jarv_hub_friendship'
 
-const XP_THRESHOLDS = [0, 10, 25, 50, 100]  // xp needed to reach levels 1-4
+// xp needed to reach levels 1-4 (mirrored below zero for negative/"hated" levels).
+const XP_THRESHOLDS = [0, 10, 25, 50, 100]
+
+/** Max level reachable in either direction (length of the threshold ladder). */
+export const MAX_FRIENDSHIP_LEVEL = XP_THRESHOLDS.length
 
 export interface FriendshipEntry {
   level: number
@@ -19,7 +25,9 @@ function load(): Record<string, FriendshipEntry> {
 function save(data: Record<string, FriendshipEntry>): void {
   try {
     localStorage.setItem(KEY, JSON.stringify(data))
-  } catch { /* ignore */ }
+  } catch (e) {
+    logError('friendship save failed', { error: String(e) })
+  }
 }
 
 export function getFriendshipData(): Record<string, FriendshipEntry> {
@@ -30,14 +38,28 @@ export function getFriendshipLevel(npcId: string): number {
   return load()[npcId]?.level ?? 0
 }
 
-/** Add XP to an NPC's friendship. Returns the new level. */
+/** Recompute a (possibly negative) level from a total xp value. */
+function levelForXp(xp: number): number {
+  const sign = xp < 0 ? -1 : 1
+  const abs = Math.abs(xp)
+  let level = 0
+  while (level < XP_THRESHOLDS.length && abs >= XP_THRESHOLDS[level]) {
+    level += 1
+  }
+  return sign * level
+}
+
+/**
+ * Add (or subtract) XP to an NPC's friendship and recompute its level from
+ * scratch — so a negative delta can lower the level (or push it negative,
+ * representing a "hated" standing), not just fail to raise it. Returns the
+ * new level.
+ */
 export function addFriendshipXp(npcId: string, xp: number): number {
   const data = load()
   const entry = data[npcId] ?? { level: 0, xp: 0 }
   entry.xp += xp
-  while (entry.level < XP_THRESHOLDS.length && entry.xp >= XP_THRESHOLDS[entry.level]) {
-    entry.level += 1
-  }
+  entry.level = levelForXp(entry.xp)
   data[npcId] = entry
   save(data)
   return entry.level

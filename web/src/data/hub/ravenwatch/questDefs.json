@@ -3798,6 +3798,41 @@
         }
       ],
       "reward": {}
+    },
+    {
+      "id": "elders-blessing",
+      "title": "A Lifetime's Trust",
+      "type": "fetch",
+      "giverNpcId": "elder",
+      "receiverNpcId": "elder",
+      "prerequisite": "friendship:elder:5",
+      "offerDialogue": "After everything we have shared, there is something I have wanted to ask — will you hear an old man's request?",
+      "activeDialogue": "Take your time. Whatever you decide, you have already given me more than you know.",
+      "completeDialogue": "You have been the truest friend this town has known. Whatever comes next, know you carry my blessing with you.",
+      "steps": [
+        { "key": "report", "type": "report", "targetNpcId": "elder", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "elder": 10 }
+      }
+    },
+    {
+      "id": "merchants-contempt",
+      "title": "A Reluctant Bargain",
+      "type": "fetch",
+      "giverNpcId": "merchant",
+      "receiverNpcId": "merchant",
+      "prerequisite": "hatred:merchant:1",
+      "offerDialogue": "You again. Fine — if you're so desperate to be useful, prove it. Report back once you've groveled enough.",
+      "activeDialogue": "Well? I don't have all day.",
+      "completeDialogue": "There. Take this and get out of my sight — and don't expect a 'thank you'.",
+      "steps": [
+        { "key": "report", "type": "report", "targetNpcId": "merchant", "required": 1 }
+      ],
+      "reward": {
+        "hubItem": { "itemId": "mouldy-slipper", "count": 1 }
+      }
     }
   ],
   "pickupItems": [
@@ -5604,7 +5639,8 @@
   "friendshipDialogue": {
     "elder": {
       "2": "Ah, I remember you. You found my pendants. Come and sit a moment.",
-      "4": "You have become part of this town's story now, traveller. Few earn that."
+      "4": "You have become part of this town's story now, traveller. Few earn that.",
+      "5": "There is nothing left I could teach you that friendship hasn't already."
     },
     "innkeeper-rosie": {
       "2": "Always good to see a friendly face! About that favour I mentioned…",
@@ -6361,6 +6397,48 @@
                   "type": "end"
                 }
               ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "james-junk-trade",
+      "npcId": "npc_1781629843466",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Hello! ...wait, do I smell something dreadful? Please tell me you're not carrying a mouldy slipper.",
+          "choices": [
+            {
+              "label": "Actually, I do have one.",
+              "next": "trade"
+            },
+            {
+              "label": "Just saying hi.",
+              "effects": [{ "type": "end" }]
+            }
+          ]
+        },
+        "trade": {
+          "text": "I collect the strangest things, truth be told. I'll take it off your hands.",
+          "choices": [
+            {
+              "label": "Hand it over. (1 mouldy slipper)",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "mouldy-slipper",
+                  "wantCount": 1,
+                  "giveCrystals": 20,
+                  "missingText": "You don't have one of those. Small mercies, I suppose.",
+                  "successText": "James pinches it between two fingers, delighted. \"Magnificent. Truly repulsive.\""
+                }
+              ]
+            },
+            {
+              "label": "Never mind.",
+              "effects": [{ "type": "end" }]
             }
           ]
         }
