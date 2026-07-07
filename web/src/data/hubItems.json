@@ -269,5 +269,26 @@
     "icon": "🧪",
     "desc": "Sythe's fog-brewed tonic. Even bone-keepers pay well for it.",
     "category": "material"
+  },
+  {
+    "id": "pressed-flower",
+    "name": "Pressed Flower",
+    "icon": "🌸",
+    "desc": "A wildflower pressed flat between old pages, still faintly fragrant.",
+    "category": "material"
+  },
+  {
+    "id": "river-glass",
+    "name": "River Glass",
+    "icon": "🔷",
+    "desc": "A shard of glass worn smooth and cloudy by years in the current.",
+    "category": "material"
+  },
+  {
+    "id": "tin-whistle",
+    "name": "Tin Whistle",
+    "icon": "🎵",
+    "desc": "A dented little whistle. Still plays a clean note if you blow just right.",
+    "category": "material"
   }
 ]

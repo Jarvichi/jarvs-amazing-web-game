@@ -507,7 +507,9 @@
       "questReceive": [
         "thornwood-travellers-aid",
         "thornwood-river-relay"
-      ]
+      ],
+      "favoriteGiftItemId": "river-glass",
+      "favoriteGiftTrack": "ally"
     }
   ],
   "animals": [
@@ -606,6 +608,22 @@
           "dx": 0,
           "dy": -1,
           "tileId": "scarecrowTop"
+        }
+      ]
+    },
+    {
+      "id": "thornwood-secret-river-glass",
+      "tx": 6,
+      "ty": 31,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Something glints in the grass — a shard of river glass, smoothed by years in the current."
+        },
+        {
+          "type": "giveItem",
+          "hubItem": { "itemId": "river-glass", "count": 1 },
+          "message": "You found a piece of river glass!"
         }
       ]
     }

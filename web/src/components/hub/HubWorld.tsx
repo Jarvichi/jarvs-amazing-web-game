@@ -1504,6 +1504,9 @@ function hasOfferableQuest(giverId: string): boolean {
           saveCrystals(loadCrystals() + r.crystals)
           onCrystalsChange?.(loadCrystals())
         }
+        if (r.hubItem) {
+          addHubItem(r.hubItem.itemId, r.hubItem.count ?? 1)
+        }
         refreshState()
         if (r.message) setDialogueEvent({ speakerName: '', text: r.message, onClose: next })
         else next()

@@ -273,6 +273,8 @@ export type HubInteractableReaction =
       collectible?: { id: string; name: string; icon: string; desc: string; lore?: string }
       consumables?: Array<{ id: string; quantity: number }>
       crystals?: number
+      /** Hub-item id (hubItems.json) + count to grant, e.g. a secret 'material' gift item. */
+      hubItem?: { itemId: string; count?: number }
       message?: string
       alreadyGrantedText?: string }
   | { type: 'quest'; questId: string; speakerName?: string }
