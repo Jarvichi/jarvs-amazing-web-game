@@ -2221,6 +2221,94 @@
       "building": "market-barn",
       "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
       "reactions": [{ "type": "buy", "slotIndex": 2 }]
+    },
+    {
+      "id": "appleford-secret-old-boundary-stone",
+      "tx": 7,
+      "ty": 12,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Half-hidden in the grass between the cider house and the chapel, a mossy boundary stone bears a faint carving."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "appleford-boundary-marker",
+            "name": "Mossy Boundary Stone",
+            "icon": "🪨",
+            "desc": "A worn stone marker, half-swallowed by moss.",
+            "lore": "The carving shows a small arrow pointing into the gap between the buildings — someone wanted this spot remembered."
+          },
+          "message": "You found an old boundary marker! Something nearby might be worth a second look."
+        }
+      ]
+    },
+    {
+      "id": "appleford-hidden-nook-cache",
+      "tx": 10,
+      "ty": 10,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Tucked in the gap the old stone pointed to, a small chest sits half-buried."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "appleford-hollow-cache",
+            "name": "Forgotten Harvest Tin",
+            "icon": "📦",
+            "desc": "A rusted tin, wedged between the cider house and the chapel for who knows how long.",
+            "lore": "Inside: a handful of old coins and a note reading 'For the next dry spell — B.' Bess never mentioned burying anything."
+          },
+          "message": "You found a forgotten stash!"
+        }
+      ]
+    },
+    {
+      "id": "appleford-secret-market-ledger",
+      "tx": 37,
+      "ty": 22,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "A torn page flutters against a fence post at the market yard's edge."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "appleford-ledger-page",
+            "name": "Torn Ledger Page",
+            "icon": "📜",
+            "desc": "A single page torn from a trader's account book.",
+            "lore": "Half the entries are crossed out and marked 'toll road — LOST'. Someone's been keeping track of what the bandits take."
+          },
+          "message": "You found a torn page from someone's ledger!"
+        }
+      ]
+    },
+    {
+      "id": "appleford-secret-pond-frog-charm",
+      "tx": 2,
+      "ty": 24,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Something small and shiny is caught in the reeds at the pond's edge."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "appleford-frog-charm",
+            "name": "Little Frog Charm",
+            "icon": "🐸",
+            "desc": "A tiny carved charm shaped like a frog, worn smooth.",
+            "lore": "A child's trinket, most likely — though the local frogs seem oddly fond of sitting near where it was dropped."
+          },
+          "message": "You found a tiny charm hidden in the reeds!"
+        }
+      ]
     }
   ],
   "festivalDecor": [

@@ -752,7 +752,25 @@
       "questId": "appleford-harvest-blessing"
     }
   ],
-  "blockedPaths": [],
+  "blockedPaths": [
+    {
+      "id": "appleford-hidden-nook",
+      "blockedTiles": [[10, 10]],
+      "unlockedByInteractable": "appleford-secret-old-boundary-stone",
+      "blocked": {
+        "decor": [
+          { "tx": 10, "ty": 10, "tileId": "darkBush" }
+        ],
+        "npcs": []
+      },
+      "cleared": {
+        "decor": [
+          { "tx": 10, "ty": 10, "tileId": "chest" }
+        ],
+        "npcs": []
+      }
+    }
+  ],
   "relationshipDialogue": {
     "cooper-wend": {
       "rival": {
