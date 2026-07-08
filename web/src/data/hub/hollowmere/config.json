@@ -2074,6 +2074,94 @@
       "building": "bonepile-curio",
       "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
       "reactions": [{ "type": "buy", "slotIndex": 2 }]
+    },
+    {
+      "id": "hollowmere-secret-hollow-charm",
+      "tx": 15,
+      "ty": 14,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Half-buried near the old crossroads stump, something small catches the torchlight."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "hollowmere-ward-charm",
+            "name": "Cracked Ward Charm",
+            "icon": "🔮",
+            "desc": "A small charm, its warding rune cracked clean through.",
+            "lore": "Hedge-Witch Morwen would say a broken ward is worse than none at all — it tells you something got past it, not that nothing tried."
+          },
+          "message": "You found a cracked ward charm."
+        }
+      ]
+    },
+    {
+      "id": "hollowmere-secret-mire-boot",
+      "tx": 10,
+      "ty": 23,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Sunk deep in the muck, a single boot pokes up out of the mire."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "hollowmere-lost-boot",
+            "name": "Waterlogged Boot",
+            "icon": "👢",
+            "desc": "A single boot, heavy with mire water and long since abandoned by its owner.",
+            "lore": "Mother Sump did say the marsh keeps what it takes. Whoever this belonged to, the mire isn't giving the other one back either."
+          },
+          "message": "You found a waterlogged boot stuck in the muck."
+        }
+      ]
+    },
+    {
+      "id": "hollowmere-secret-darkwood-tooth",
+      "tx": 41,
+      "ty": 14,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Wedged in the bark of a dead tree at the wood's edge, something long and sharp glints."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "hollowmere-fang-fragment",
+            "name": "Broken Fang",
+            "icon": "🦷",
+            "desc": "A broken tooth, far too large to have come from anything friendly.",
+            "lore": "Ogrim would probably want this back. Or maybe he wouldn't. Best not to ask which werewolf lost it, or why."
+          },
+          "message": "You found a broken fang wedged in the bark."
+        }
+      ]
+    },
+    {
+      "id": "hollowmere-hidden-mire-cache-loot",
+      "tx": 35,
+      "ty": 21,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Behind the stump the boot's trail led to, something round and metal sits half-sunk in the mud."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "hollowmere-sunken-lockbox",
+            "name": "Sunken Lockbox",
+            "icon": "📦",
+            "desc": "A small lockbox, pried open long ago and refilled by someone since.",
+            "lore": "Mother Sump's handwriting, if you know to look for it: 'Finders keepers. The mire agrees.'"
+          },
+          "message": "You found a sunken lockbox in the mud!"
+        }
+      ]
     }
   ]
 }

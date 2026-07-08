@@ -435,7 +435,25 @@
 
     { "id": "medicine-vial", "tx": 3, "ty": 2, "tileId": "potions", "building": "witch-hut-brewing", "questId": "hollowmere-marsh-medicine" }
   ],
-  "blockedPaths": [],
+  "blockedPaths": [
+    {
+      "id": "hollowmere-hidden-mire-cache",
+      "blockedTiles": [[35, 21]],
+      "unlockedByInteractable": "hollowmere-secret-mire-boot",
+      "blocked": {
+        "decor": [
+          { "tx": 35, "ty": 21, "tileId": "largeStump" }
+        ],
+        "npcs": []
+      },
+      "cleared": {
+        "decor": [
+          { "tx": 35, "ty": 21, "tileId": "chest" }
+        ],
+        "npcs": []
+      }
+    }
+  ],
   "relationshipDialogue": {
     "fang-the-fence": {
       "rival": {
