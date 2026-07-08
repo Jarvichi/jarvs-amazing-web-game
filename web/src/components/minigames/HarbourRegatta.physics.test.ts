@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
-  createRowState, applyStroke, decayLateral,
-  TARGET_STROKE_MS, MAX_LATERAL,
+  createRowState, applyStroke, decayLateral, aiDifficultyMultiplier,
+  TARGET_STROKE_MS, MAX_LATERAL, AI_DIFFICULTY_EASY, AI_DIFFICULTY_HARD,
 } from './HarbourRegatta.physics'
 
 describe('Harbour Regatta physics', () => {
@@ -83,5 +83,39 @@ describe('Harbour Regatta physics', () => {
   it('decayLateral is a no-op for non-positive dt', () => {
     const state = applyStroke(createRowState(), 'left', 1000)
     expect(decayLateral(state, 0)).toEqual(state)
+  })
+
+  it('skillEma trends toward 1 over consecutive well-timed alternating strokes', () => {
+    let state = createRowState()
+    const startEma = state.skillEma
+    let now = 1000
+    const sides: Array<'left' | 'right'> = ['left', 'right', 'left', 'right', 'left', 'right', 'left', 'right']
+    for (const side of sides) {
+      state = applyStroke(state, side, now)
+      now += TARGET_STROKE_MS
+    }
+    expect(state.skillEma).toBeGreaterThan(startEma)
+    expect(state.skillEma).toBeGreaterThan(0.9)
+  })
+
+  it('skillEma trends downward over consistently mistimed alternating strokes', () => {
+    let state = createRowState()
+    const startEma = state.skillEma
+    let now = 1000
+    const sides: Array<'left' | 'right'> = ['left', 'right', 'left', 'right', 'left', 'right', 'left', 'right']
+    for (const side of sides) {
+      state = applyStroke(state, side, now)
+      now += 40 // way faster than TARGET_STROKE_MS, well outside tolerance
+    }
+    expect(state.skillEma).toBeLessThan(startEma)
+  })
+
+  it('aiDifficultyMultiplier interpolates between the easy and hard bounds', () => {
+    expect(aiDifficultyMultiplier(0)).toBeCloseTo(AI_DIFFICULTY_EASY)
+    expect(aiDifficultyMultiplier(1)).toBeCloseTo(AI_DIFFICULTY_HARD)
+    expect(aiDifficultyMultiplier(0.5)).toBeCloseTo((AI_DIFFICULTY_EASY + AI_DIFFICULTY_HARD) / 2)
+    // clamps out-of-range input
+    expect(aiDifficultyMultiplier(-1)).toBeCloseTo(AI_DIFFICULTY_EASY)
+    expect(aiDifficultyMultiplier(2)).toBeCloseTo(AI_DIFFICULTY_HARD)
   })
 })
