@@ -2554,6 +2554,94 @@
       "building": "market-shed",
       "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
       "reactions": [{ "type": "buy", "slotIndex": 2 }]
+    },
+    {
+      "id": "harrowfield-secret-green-hymnal",
+      "tx": 17,
+      "ty": 7,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Wedged between the chapel wall and the village hall, a small scrap of paper is tucked out of the wind."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "harrowfield-hymnal-page",
+            "name": "Torn Hymnal Page",
+            "icon": "📜",
+            "desc": "A page torn from a chapel hymnal, the ink smudged with rain.",
+            "lore": "Sister Bell would recognize the hand — one of the harvest blessing verses, with a line scratched out and rewritten: 'watch the fields, watch what walks them.'"
+          },
+          "message": "You found a torn page from a hymnal."
+        }
+      ]
+    },
+    {
+      "id": "harrowfield-secret-strawman-button",
+      "tx": 10,
+      "ty": 15,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Caught in the straw between the barn and the windmill, something small and metal glints."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "harrowfield-strawman-button",
+            "name": "Straw-Stuffed Button",
+            "icon": "🔘",
+            "desc": "A plain button, still trailing a bit of straw and thread.",
+            "lore": "Pip swears the scarecrows have been moving. This button looks like it came off one of their coats — and it's warm, somehow, though it's been lying in the dirt."
+          },
+          "message": "You found a strange warm button. The scarecrows might be missing it."
+        }
+      ]
+    },
+    {
+      "id": "harrowfield-secret-millpond-gear",
+      "tx": 28,
+      "ty": 15,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Half-buried near the mill lane, a small brass gear turns faintly on its own, though nothing drives it."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "harrowfield-mill-gear",
+            "name": "Ever-Turning Gear",
+            "icon": "⚙️",
+            "desc": "A small brass gear that never quite stops spinning.",
+            "lore": "Miller Rook would swear his windmill's never lost a gear — and yet here one is, still turning, far from any mechanism that could drive it."
+          },
+          "message": "You found a small gear that keeps turning on its own."
+        }
+      ]
+    },
+    {
+      "id": "harrowfield-hidden-scarecrow-post-loot",
+      "tx": 9,
+      "ty": 10,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Where the wandering scarecrow used to stand, only a small chest remains, half-sunk in the dirt."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "harrowfield-scarecrow-cache",
+            "name": "Scarecrow's Cache",
+            "icon": "📦",
+            "desc": "A small chest, straw-lined, tucked where a scarecrow once stood.",
+            "lore": "Whatever walks in Harrowfield's fields at night, it seems to leave things behind as often as it takes them. Best not to ask why."
+          },
+          "message": "You found the scarecrow's hidden cache!"
+        }
+      ]
     }
   ],
   "festivalDecor": [
