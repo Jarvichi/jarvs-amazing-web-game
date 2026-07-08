@@ -12893,6 +12893,52 @@ html.light-mode .action-btn {
   min-width: 130px;
 }
 
+.regatta-oar-btn--due {
+  animation: regatta-oar-due-pulse 0.4s ease-in-out infinite;
+}
+
+@keyframes regatta-oar-due-pulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(255, 204, 0, 0.4); }
+  50%       { box-shadow: 0 0 16px rgba(255, 204, 0, 0.9); }
+}
+
+.regatta-oar-col {
+  width: 130px;
+}
+
+.regatta-cue-track {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  background: #10101e;
+  border: 1px solid #2a2a5a;
+  overflow: hidden;
+}
+
+.regatta-cue-sweet {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: #ffffff1a;
+}
+
+.regatta-cue-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  background: var(--color-gold);
+  animation-name: regatta-cue-sweep;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes regatta-cue-sweep {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
 /* ── Higher or Lower minigame ── */
 
 .hol-cards-row {

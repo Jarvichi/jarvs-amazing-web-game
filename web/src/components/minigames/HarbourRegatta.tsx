@@ -5,9 +5,14 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import {
-  createRowState, applyStroke, decayLateral, advanceAiProgress,
-  COURSE_LENGTH, type RowState, type OarSide,
+  createRowState, applyStroke, decayLateral, advanceAiProgress, aiDifficultyMultiplier,
+  COURSE_LENGTH, TARGET_STROKE_MS, STROKE_TOLERANCE_MS, type RowState, type OarSide,
 } from './HarbourRegatta.physics'
+
+function oppositeSide(side: OarSide | null): OarSide | null {
+  if (side === null) return null
+  return side === 'left' ? 'right' : 'left'
+}
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -21,6 +26,13 @@ const PLACE_LABELS = ['1st 🥇', '2nd 🥈', '3rd 🥉', '4th']
 
 const RENDER_INTERVAL_MS = 50
 const MAX_RACE_TIME_MS   = 60000
+
+// ── Rhythm cue ────────────────────────────────────────────────────────────────
+// The cue bar sweeps for the full window the scoring code cares about (up to
+// the "late" cutoff), with a marked "sweet spot" matching the tolerance band.
+const CUE_DURATION_MS     = TARGET_STROKE_MS + STROKE_TOLERANCE_MS
+const CUE_SWEET_START_PCT = ((TARGET_STROKE_MS - STROKE_TOLERANCE_MS) / CUE_DURATION_MS) * 100
+const CUE_SWEET_WIDTH_PCT = ((STROKE_TOLERANCE_MS * 2) / CUE_DURATION_MS) * 100
 
 // ── SVG layout ────────────────────────────────────────────────────────────────
 const SVG_W  = 380
@@ -43,6 +55,11 @@ interface Display {
   lateralOffset: number
 }
 
+interface Cue {
+  nextSide: OarSide | null  // which oar the player should tap next
+  tapAt: number | null      // ms timestamp of the stroke that set this cue
+}
+
 type Phase = 'intro' | 'racing' | 'result'
 
 export function HarbourRegatta({ onDone }: Props) {
@@ -50,6 +67,8 @@ export function HarbourRegatta({ onDone }: Props) {
   const [display, setDisplay] = useState<Display>({ progress: [0, 0, 0, 0], lateralOffset: 0 })
   const [finishOrder, setFinishOrder]     = useState<number[]>([])
   const [ticketsEarned, setTicketsEarned] = useState(0)
+  const [cue, setCue]           = useState<Cue>({ nextSide: null, tapAt: null })
+  const [cueActive, setCueActive] = useState(false)
 
   const rowStateRef    = useRef<RowState>(createRowState())
   const aiProgressRef  = useRef<number[]>([0, 0, 0])
@@ -69,13 +88,28 @@ export function HarbourRegatta({ onDone }: Props) {
     lastCommitRef.current = 0
     setDisplay({ progress: [0, 0, 0, 0], lateralOffset: 0 })
     setFinishOrder([])
+    setCue({ nextSide: null, tapAt: null })
     setPhase('racing')
   }
 
   const tapOar = useCallback((side: OarSide) => {
     if (finishedRef.current) return
-    rowStateRef.current = applyStroke(rowStateRef.current, side, performance.now())
+    const newState = applyStroke(rowStateRef.current, side, performance.now())
+    rowStateRef.current = newState
+    setCue({ nextSide: oppositeSide(newState.lastSide), tapAt: newState.lastTapAt })
   }, [])
+
+  // Drives the "tap now" glow: on within the scoring tolerance window around
+  // the ideal next-stroke time, off once that window passes.
+  useEffect(() => {
+    if (cue.tapAt === null || cue.nextSide === null) { setCueActive(false); return }
+    const readyInMs = Math.max(0, TARGET_STROKE_MS - STROKE_TOLERANCE_MS)
+    const lateInMs  = Math.max(0, TARGET_STROKE_MS + STROKE_TOLERANCE_MS)
+    setCueActive(false)
+    const readyTimer = setTimeout(() => setCueActive(true), readyInMs)
+    const lateTimer  = setTimeout(() => setCueActive(false), lateInMs)
+    return () => { clearTimeout(readyTimer); clearTimeout(lateTimer) }
+  }, [cue.tapAt, cue.nextSide])
 
   function finishRace(progresses: number[]) {
     finishedRef.current = true
@@ -99,8 +133,9 @@ export function HarbourRegatta({ onDone }: Props) {
       lastFrameRef.current = now
 
       rowStateRef.current = decayLateral(rowStateRef.current, dt)
+      const difficulty = aiDifficultyMultiplier(rowStateRef.current.skillEma)
       const ai = aiProgressRef.current
-      for (let i = 0; i < ai.length; i++) ai[i] = advanceAiProgress(ai[i], dt)
+      for (let i = 0; i < ai.length; i++) ai[i] = advanceAiProgress(ai[i], dt, difficulty)
 
       const progresses = [rowStateRef.current.progress, ai[0], ai[1], ai[2]]
       const timedOut = now - raceStartRef.current >= MAX_RACE_TIME_MS
@@ -144,6 +179,7 @@ export function HarbourRegatta({ onDone }: Props) {
         <p className="minigame-subtitle">
           Row your skiff round the harbour buoys! Tap LEFT and RIGHT oars in a
           steady alternating rhythm to go straight — favour one oar and you'll veer that way.
+          Watch the oar glow — tap it as the bar fills!
         </p>
 
         <div className="race-prize-table">
@@ -265,12 +301,29 @@ export function HarbourRegatta({ onDone }: Props) {
       {/* ── Oar controls ── */}
       {phase === 'racing' && (
         <div className="regatta-oars u-flex u-gap-6 u-just-c">
-          <button className="action-btn action-btn--large regatta-oar-btn" onClick={() => tapOar('left')}>
-            ⬅ LEFT OAR
-          </button>
-          <button className="action-btn action-btn--large regatta-oar-btn" onClick={() => tapOar('right')}>
-            RIGHT OAR ➡
-          </button>
+          {(['left', 'right'] as const).map(side => (
+            <div key={side} className="regatta-oar-col u-col u-items-c u-gap-2">
+              <button
+                className={`action-btn action-btn--large regatta-oar-btn${cueActive && cue.nextSide === side ? ' regatta-oar-btn--due' : ''}`}
+                onClick={() => tapOar(side)}
+              >
+                {side === 'left' ? '⬅ LEFT OAR' : 'RIGHT OAR ➡'}
+              </button>
+              <div className="regatta-cue-track">
+                <div
+                  className="regatta-cue-sweet"
+                  style={{ left: `${CUE_SWEET_START_PCT}%`, width: `${CUE_SWEET_WIDTH_PCT}%` }}
+                />
+                {cue.nextSide === side && cue.tapAt !== null && (
+                  <div
+                    key={cue.tapAt}
+                    className="regatta-cue-fill"
+                    style={{ animationDuration: `${CUE_DURATION_MS}ms` }}
+                  />
+                )}
+              </div>
+            </div>
+          ))}
         </div>
       )}
 
