@@ -4579,6 +4579,94 @@
       "building": "quartermasters-store",
       "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
       "reactions": [{ "type": "buy", "slotIndex": 2 }]
+    },
+    {
+      "id": "ironholdkeep-secret-ward-token",
+      "tx": 6,
+      "ty": 9,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Tucked into a crack in the west wall's old stonework, something small has been wedged there for ages."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "ironholdkeep-watch-token",
+            "name": "Tarnished Watch Token",
+            "icon": "🪙",
+            "desc": "A brass token stamped with the keep's old watch rotation mark.",
+            "lore": "Guard-Master Doran would recognize the mark — this rotation was retired decades ago, back when the west wall still had a name of its own."
+          },
+          "message": "You found an old watch token."
+        }
+      ]
+    },
+    {
+      "id": "ironholdkeep-secret-bailey-chalk",
+      "tx": 18,
+      "ty": 44,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Scratched into a flagstone near the gatehouse tunnel, a tally mark series is barely visible under the dust."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "ironholdkeep-tally-stone",
+            "name": "Scratched Tally Stone",
+            "icon": "🪨",
+            "desc": "A flagstone fragment scored with dozens of tally marks.",
+            "lore": "Gatekeeper Olen keeps his own count of every watch he's stood. This isn't his hand — someone else was counting something here, a long time before him."
+          },
+          "message": "You found a stone scratched with old tally marks."
+        }
+      ]
+    },
+    {
+      "id": "ironholdkeep-secret-drillyard-key",
+      "tx": 26,
+      "ty": 44,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Half-buried near the old drill yard, a heavy iron key is nearly rusted through."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "ironholdkeep-rusted-key",
+            "name": "Rusted Iron Key",
+            "icon": "🗝️",
+            "desc": "A heavy iron key, its teeth worn nearly smooth with rust.",
+            "lore": "Archivist Elwyn might know what it opens — the scriptorium's old ledgers mention a lower vault whose key was 'lost to the drill yard' generations back."
+          },
+          "message": "You found a rusted iron key. The scriptorium's records might explain what it opens."
+        }
+      ]
+    },
+    {
+      "id": "ironholdkeep-hidden-vault-cache-loot",
+      "tx": 9,
+      "ty": 43,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Behind the rubble the rusted key seemed to point toward, a small chest sits wedged against the boulevard wall."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "ironholdkeep-vault-relic",
+            "name": "Lower Vault Relic",
+            "icon": "📦",
+            "desc": "A small strongbox, its lock long since sprung.",
+            "lore": "Whatever the scriptorium's ledgers meant by 'the lower vault,' this might be all that's left of it. Archivist Elwyn would want to see this."
+          },
+          "message": "You found a relic from the lower vault!"
+        }
+      ]
     }
   ]
 }

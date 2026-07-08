@@ -1510,5 +1510,23 @@
       }
     }
   },
-  "blockedPaths": []
+  "blockedPaths": [
+    {
+      "id": "ironholdkeep-hidden-vault-cache",
+      "blockedTiles": [[9, 43]],
+      "unlockedByInteractable": "ironholdkeep-secret-drillyard-key",
+      "blocked": {
+        "decor": [
+          { "tx": 9, "ty": 43, "tileId": "smallRock" }
+        ],
+        "npcs": []
+      },
+      "cleared": {
+        "decor": [
+          { "tx": 9, "ty": 43, "tileId": "chest" }
+        ],
+        "npcs": []
+      }
+    }
+  ]
 }
