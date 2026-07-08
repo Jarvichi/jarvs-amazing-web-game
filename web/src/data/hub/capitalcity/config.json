@@ -3957,6 +3957,94 @@
       "building": "tailor",
       "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
       "reactions": [{ "type": "buy", "slotIndex": 1 }]
+    },
+    {
+      "id": "capitalcity-secret-temple-inscription",
+      "tx": 26,
+      "ty": 22,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "A faint inscription is carved into the stone between the cathedral and the library, half-worn by time."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "capitalcity-relic-shard",
+            "name": "Chipped Relic Shard",
+            "icon": "🪨",
+            "desc": "A fragment of carved stone, clearly once part of something larger.",
+            "lore": "High Priest Aldwin would recognize this — he's spoken of relics scattered in the troubles. This looks like it belongs to one of them. Perhaps there's more nearby."
+          },
+          "message": "You found a chipped relic shard! Something in the plaza might be worth a second look."
+        }
+      ]
+    },
+    {
+      "id": "capitalcity-secret-market-coin",
+      "tx": 43,
+      "ty": 13,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Wedged in the gap between the market hall and the bakery, a coin glints in the dirt."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "capitalcity-lost-coin",
+            "name": "Tarnished Crown Coin",
+            "icon": "🪙",
+            "desc": "An old coin, its face worn nearly smooth.",
+            "lore": "Matron Goldie would say it fell from someone's purse on market day — and that whoever dropped it never came back for it."
+          },
+          "message": "You found a tarnished old coin!"
+        }
+      ]
+    },
+    {
+      "id": "capitalcity-secret-riverside-hook",
+      "tx": 21,
+      "ty": 79,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Something metal glints beneath the reeds at the river's edge."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "capitalcity-bent-hook",
+            "name": "Bent Fishing Hook",
+            "icon": "🎣",
+            "desc": "An old fishing hook, bent nearly straight.",
+            "lore": "Angler Marsh would wince to see this — a hook lost is a fish story waiting to be told."
+          },
+          "message": "You found an old fishing hook caught in the reeds!"
+        }
+      ]
+    },
+    {
+      "id": "capitalcity-hidden-plaza-cache-loot",
+      "tx": 33,
+      "ty": 51,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Tucked beneath the garden path where the shard pointed, a small chest sits half-buried in the dirt."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "capitalcity-relic-casket",
+            "name": "Relic Casket",
+            "icon": "📦",
+            "desc": "A small stone casket, sealed with old wax.",
+            "lore": "Inside: a fragment of parchment reading 'Return to the Cathedral when whole.' Aldwin will want to see this."
+          },
+          "message": "You found a hidden relic casket!"
+        }
+      ]
     }
   ],
   "ambientNpcSprites": [

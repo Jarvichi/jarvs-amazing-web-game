@@ -1800,7 +1800,25 @@
       "questId": "crownhaven-feast"
     }
   ],
-  "blockedPaths": [],
+  "blockedPaths": [
+    {
+      "id": "capitalcity-hidden-plaza-cache",
+      "blockedTiles": [[33, 51]],
+      "unlockedByInteractable": "capitalcity-secret-temple-inscription",
+      "blocked": {
+        "decor": [
+          { "tx": 33, "ty": 51, "tileId": "darkBush" }
+        ],
+        "npcs": []
+      },
+      "cleared": {
+        "decor": [
+          { "tx": 33, "ty": 51, "tileId": "chest" }
+        ],
+        "npcs": []
+      }
+    }
+  ],
   "relationshipDialogue": {
     "banker": {
       "rival": {
