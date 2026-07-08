@@ -73,27 +73,64 @@ export function decayLateral(state: RowState, dtMs: number): RowState {
   return { ...state, lateralOffset: state.lateralOffset * decay }
 }
 
-const AI_BASE_SPEED_PER_MS = 0.030 // tuned so a well-rowed player finishes around the same time
-const AI_STALL_CHANCE_PER_SEC = 0.12
-const AI_SPEED_JITTER = 0.3 // +/- fraction of base speed per frame
+export const AI_DIFFICULTY_EASY = 0.85 // sharpens AI timing less when the player is struggling
+export const AI_DIFFICULTY_HARD = 1.15 // sharpens AI timing more when the player is rowing near-perfectly
 
-export const AI_DIFFICULTY_EASY = 0.85 // AI pace multiplier when the player is struggling with rhythm
-export const AI_DIFFICULTY_HARD = 1.15 // AI pace multiplier when the player is rowing near-perfectly
-
-// Maps the player's rolling rhythm quality (skillEma, 0..1) to an AI pace
-// multiplier: ease off on a struggling player, speed back up on a skilled one
-// so consistently perfect rowing doesn't trivialise the race.
+// Maps the player's rolling rhythm quality (skillEma, 0..1) to an AI difficulty
+// multiplier: ease off on a struggling player, tighten up on a skilled one so
+// consistently perfect rowing doesn't trivialise the race.
 export function aiDifficultyMultiplier(skillEma: number): number {
   const t = Math.max(0, Math.min(1, skillEma))
   return AI_DIFFICULTY_EASY + (AI_DIFFICULTY_HARD - AI_DIFFICULTY_EASY) * t
 }
 
-// Advance an AI skiff's progress by dtMs, with light randomised pacing/stalls
-// echoing MarbleRace's obstacle-chance drama (not deterministic — not unit tested).
-export function advanceAiProgress(progress: number, dtMs: number, speedMultiplier = 1): number {
-  if (dtMs <= 0) return progress
-  const stallChance = AI_STALL_CHANCE_PER_SEC * (dtMs / 1000)
-  if (Math.random() < stallChance) return progress
-  const jitter = 1 + (Math.random() * 2 - 1) * AI_SPEED_JITTER
-  return progress + AI_BASE_SPEED_PER_MS * speedMultiplier * dtMs * jitter
+export interface AiConfig {
+  timingStdDevMs: number // this boat's natural rhythm sloppiness
+  mistakeChance: number  // per-stroke chance of fumbling (repeating the same oar)
+}
+
+const AI_TIMING_STDDEV_MIN_MS = 60
+const AI_TIMING_STDDEV_MAX_MS = 220
+const AI_MISTAKE_CHANCE_MIN = 0.05
+const AI_MISTAKE_CHANCE_MAX = 0.15
+
+// Randomised once per race per AI boat, so each rival keeps a distinct pace
+// and consistency for the whole race instead of everyone converging on the
+// same average (which is what a per-frame-random continuous speed model did).
+export function createAiConfig(): AiConfig {
+  return {
+    timingStdDevMs: AI_TIMING_STDDEV_MIN_MS + Math.random() * (AI_TIMING_STDDEV_MAX_MS - AI_TIMING_STDDEV_MIN_MS),
+    mistakeChance: AI_MISTAKE_CHANCE_MIN + Math.random() * (AI_MISTAKE_CHANCE_MAX - AI_MISTAKE_CHANCE_MIN),
+  }
+}
+
+// Cheap roughly-gaussian noise via the sum of two uniforms (no new dependency).
+function sampledTimingErrorMs(stdDevMs: number): number {
+  const u1 = Math.random() - 0.5
+  const u2 = Math.random() - 0.5
+  return (u1 + u2) * stdDevMs
+}
+
+// Simulate one AI oar stroke through the exact same scoring function the
+// player's own taps go through, so AI pace/veer/lateral clamping all come
+// from one code path. The oar side alternates like a real rower, occasionally
+// repeating (a "crab") per `config.mistakeChance`; the next stroke is
+// scheduled around TARGET_STROKE_MS with per-boat timing noise, tightened by
+// `difficultyMultiplier` as the player's own rhythm improves.
+// Non-deterministic — not unit tested, same convention as the model it replaces.
+export function simulateAiStroke(
+  state: RowState, config: AiConfig, now: number, difficultyMultiplier: number,
+): { state: RowState; nextTapAt: number } {
+  const fumble = state.lastSide !== null && Math.random() < config.mistakeChance
+  const side: OarSide = fumble
+    ? state.lastSide as OarSide
+    : (state.lastSide === 'left' ? 'right' : state.lastSide === 'right' ? 'left' : (Math.random() < 0.5 ? 'left' : 'right'))
+
+  const nextState = applyStroke(state, side, now)
+
+  const effectiveStdDev = config.timingStdDevMs / Math.max(0.5, difficultyMultiplier)
+  const interval = TARGET_STROKE_MS + sampledTimingErrorMs(effectiveStdDev)
+  const nextTapAt = now + Math.max(120, interval)
+
+  return { state: nextState, nextTapAt }
 }

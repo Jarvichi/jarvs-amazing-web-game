@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import {
-  createRowState, applyStroke, decayLateral, aiDifficultyMultiplier,
+  createRowState, applyStroke, decayLateral, aiDifficultyMultiplier, createAiConfig,
   TARGET_STROKE_MS, MAX_LATERAL, AI_DIFFICULTY_EASY, AI_DIFFICULTY_HARD,
 } from './HarbourRegatta.physics'
 
@@ -117,5 +117,18 @@ describe('Harbour Regatta physics', () => {
     // clamps out-of-range input
     expect(aiDifficultyMultiplier(-1)).toBeCloseTo(AI_DIFFICULTY_EASY)
     expect(aiDifficultyMultiplier(2)).toBeCloseTo(AI_DIFFICULTY_HARD)
+  })
+
+  it('createAiConfig samples timingStdDevMs and mistakeChance within expected ranges, varying per call', () => {
+    const configs = Array.from({ length: 20 }, () => createAiConfig())
+    for (const c of configs) {
+      expect(c.timingStdDevMs).toBeGreaterThanOrEqual(60)
+      expect(c.timingStdDevMs).toBeLessThanOrEqual(220)
+      expect(c.mistakeChance).toBeGreaterThanOrEqual(0.05)
+      expect(c.mistakeChance).toBeLessThanOrEqual(0.15)
+    }
+    // Extremely unlikely all 20 samples land on the exact same value if truly randomised.
+    const distinctStdDevs = new Set(configs.map(c => c.timingStdDevMs)).size
+    expect(distinctStdDevs).toBeGreaterThan(1)
   })
 })

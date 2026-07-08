@@ -5,8 +5,10 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import {
-  createRowState, applyStroke, decayLateral, advanceAiProgress, aiDifficultyMultiplier,
-  COURSE_LENGTH, TARGET_STROKE_MS, STROKE_TOLERANCE_MS, type RowState, type OarSide,
+  createRowState, applyStroke, decayLateral, aiDifficultyMultiplier,
+  createAiConfig, simulateAiStroke,
+  COURSE_LENGTH, TARGET_STROKE_MS, STROKE_TOLERANCE_MS,
+  type RowState, type OarSide, type AiConfig,
 } from './HarbourRegatta.physics'
 
 function oppositeSide(side: OarSide | null): OarSide | null {
@@ -52,7 +54,7 @@ function progressToY(progress: number): number {
 
 interface Display {
   progress: number[]        // [player, ai1, ai2, ai3]
-  lateralOffset: number
+  lateralOffsets: number[]  // [player, ai1, ai2, ai3]
 }
 
 interface Cue {
@@ -64,14 +66,16 @@ type Phase = 'intro' | 'racing' | 'result'
 
 export function HarbourRegatta({ onDone }: Props) {
   const [phase, setPhase]     = useState<Phase>('intro')
-  const [display, setDisplay] = useState<Display>({ progress: [0, 0, 0, 0], lateralOffset: 0 })
+  const [display, setDisplay] = useState<Display>({ progress: [0, 0, 0, 0], lateralOffsets: [0, 0, 0, 0] })
   const [finishOrder, setFinishOrder]     = useState<number[]>([])
   const [ticketsEarned, setTicketsEarned] = useState(0)
   const [cue, setCue]           = useState<Cue>({ nextSide: null, tapAt: null })
   const [cueActive, setCueActive] = useState(false)
 
-  const rowStateRef    = useRef<RowState>(createRowState())
-  const aiProgressRef  = useRef<number[]>([0, 0, 0])
+  const rowStateRef      = useRef<RowState>(createRowState())
+  const aiStatesRef      = useRef<RowState[]>([createRowState(), createRowState(), createRowState()])
+  const aiConfigsRef     = useRef<AiConfig[]>([createAiConfig(), createAiConfig(), createAiConfig()])
+  const aiNextTapAtRef   = useRef<number[]>([0, 0, 0])
   const finishedRef    = useRef(false)
   const rafRef         = useRef<number | null>(null)
   const lastFrameRef   = useRef(0)
@@ -79,14 +83,17 @@ export function HarbourRegatta({ onDone }: Props) {
   const lastCommitRef  = useRef(0)
 
   function startRace() {
-    rowStateRef.current   = createRowState()
-    aiProgressRef.current = [0, 0, 0]
-    finishedRef.current   = false
+    rowStateRef.current  = createRowState()
+    aiStatesRef.current  = [createRowState(), createRowState(), createRowState()]
+    aiConfigsRef.current = [createAiConfig(), createAiConfig(), createAiConfig()]
+    finishedRef.current  = false
     const now = performance.now()
+    // Stagger each AI's first stroke so all 3 don't fire on the same frame.
+    aiNextTapAtRef.current = aiConfigsRef.current.map(() => now + Math.random() * 300)
     raceStartRef.current  = now
     lastFrameRef.current  = now
     lastCommitRef.current = 0
-    setDisplay({ progress: [0, 0, 0, 0], lateralOffset: 0 })
+    setDisplay({ progress: [0, 0, 0, 0], lateralOffsets: [0, 0, 0, 0] })
     setFinishOrder([])
     setCue({ nextSide: null, tapAt: null })
     setPhase('racing')
@@ -111,7 +118,7 @@ export function HarbourRegatta({ onDone }: Props) {
     return () => { clearTimeout(readyTimer); clearTimeout(lateTimer) }
   }, [cue.tapAt, cue.nextSide])
 
-  function finishRace(progresses: number[]) {
+  function finishRace(progresses: number[], lateralOffsets: number[]) {
     finishedRef.current = true
     const order = [0, 1, 2, 3].sort((a, b) => progresses[b] - progresses[a])
     const place = order.indexOf(PLAYER_IDX)
@@ -120,7 +127,7 @@ export function HarbourRegatta({ onDone }: Props) {
     setTicketsEarned(tickets)
     setDisplay({
       progress: progresses.map(p => Math.min(p, COURSE_LENGTH)),
-      lateralOffset: rowStateRef.current.lateralOffset,
+      lateralOffsets,
     })
     setPhase('result')
   }
@@ -134,14 +141,25 @@ export function HarbourRegatta({ onDone }: Props) {
 
       rowStateRef.current = decayLateral(rowStateRef.current, dt)
       const difficulty = aiDifficultyMultiplier(rowStateRef.current.skillEma)
-      const ai = aiProgressRef.current
-      for (let i = 0; i < ai.length; i++) ai[i] = advanceAiProgress(ai[i], dt, difficulty)
 
-      const progresses = [rowStateRef.current.progress, ai[0], ai[1], ai[2]]
+      const aiStates = aiStatesRef.current
+      const aiConfigs = aiConfigsRef.current
+      const aiNextTapAt = aiNextTapAtRef.current
+      for (let i = 0; i < aiStates.length; i++) {
+        aiStates[i] = decayLateral(aiStates[i], dt)
+        if (now >= aiNextTapAt[i]) {
+          const { state, nextTapAt } = simulateAiStroke(aiStates[i], aiConfigs[i], now, difficulty)
+          aiStates[i] = state
+          aiNextTapAt[i] = nextTapAt
+        }
+      }
+
+      const progresses = [rowStateRef.current.progress, ...aiStates.map(s => s.progress)]
+      const lateralOffsets = [rowStateRef.current.lateralOffset, ...aiStates.map(s => s.lateralOffset)]
       const timedOut = now - raceStartRef.current >= MAX_RACE_TIME_MS
 
       if (!finishedRef.current && (progresses.some(p => p >= COURSE_LENGTH) || timedOut)) {
-        finishRace(progresses)
+        finishRace(progresses, lateralOffsets)
         return
       }
 
@@ -149,7 +167,7 @@ export function HarbourRegatta({ onDone }: Props) {
         lastCommitRef.current = now
         setDisplay({
           progress: progresses.map(p => Math.min(p, COURSE_LENGTH)),
-          lateralOffset: rowStateRef.current.lateralOffset,
+          lateralOffsets,
         })
       }
       rafRef.current = requestAnimationFrame(frame)
@@ -275,7 +293,7 @@ export function HarbourRegatta({ onDone }: Props) {
 
           {/* ── Skiffs ── */}
           {LANE_XS.map((lx, i) => {
-            const x = lx + (i === PLAYER_IDX ? display.lateralOffset * LATERAL_PX_PER_UNIT : 0)
+            const x = lx + display.lateralOffsets[i] * LATERAL_PX_PER_UNIT
             const y = progressToY(display.progress[i])
             return (
               <g
