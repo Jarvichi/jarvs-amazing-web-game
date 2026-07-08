@@ -814,7 +814,25 @@
       "questId": "harrowfield-produce-to-ravenwatch"
     }
   ],
-  "blockedPaths": [],
+  "blockedPaths": [
+    {
+      "id": "harrowfield-hidden-scarecrow-post",
+      "blockedTiles": [[9, 10]],
+      "unlockedByInteractable": "harrowfield-secret-strawman-button",
+      "blocked": {
+        "decor": [
+          { "tx": 9, "ty": 10, "tileId": "scarecrowBottom" }
+        ],
+        "npcs": []
+      },
+      "cleared": {
+        "decor": [
+          { "tx": 9, "ty": 10, "tileId": "chest" }
+        ],
+        "npcs": []
+      }
+    }
+  ],
   "relationshipDialogue": {
     "pedlar-quill": {
       "rival": {
