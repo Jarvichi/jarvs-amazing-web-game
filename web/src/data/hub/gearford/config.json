@@ -3633,6 +3633,72 @@
           "message": "You found a pressed flower!"
         }
       ]
+    },
+    {
+      "id": "gearford-secret-forge-mark",
+      "tx": 21,
+      "ty": 11,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Scratched into a support beam between the coal yard and the machine workshop, a foreman's mark catches the light."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "gearford-forge-mark-token",
+            "name": "Foreman's Forge-Mark",
+            "icon": "⚙️",
+            "desc": "A small iron token stamped with a foreman's personal mark.",
+            "lore": "Engineer Vela would know this mark — every foreman stamps their own work, and this one's older than anyone currently on shift. Might be worth checking what else carries the same mark."
+          },
+          "message": "You found an old forge-mark token! Something else nearby might carry the same stamp."
+        }
+      ]
+    },
+    {
+      "id": "gearford-secret-miners-logbook",
+      "tx": 9,
+      "ty": 20,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Half-buried near the worker rows, a scrap of a logbook page flutters in the draft from the mine."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "gearford-logbook-page",
+            "name": "Torn Logbook Page",
+            "icon": "📓",
+            "desc": "A single page torn from a miner's shift logbook.",
+            "lore": "The handwriting's cramped and the ink's smudged with coal dust, but the entry's clear enough: 'Struck something odd in tunnel four. Told Dask. He didn't believe me either.'"
+          },
+          "message": "You found a torn page from a miner's logbook!"
+        }
+      ]
+    },
+    {
+      "id": "gearford-hidden-works-cache-loot",
+      "tx": 23,
+      "ty": 12,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Behind the fallen timber prop the mark pointed to, a small strongbox sits wedged against the wall."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "gearford-strongbox-find",
+            "name": "Foreman's Strongbox",
+            "icon": "📦",
+            "desc": "A dented iron strongbox, foreman-marked like the token that led here.",
+            "lore": "Inside: a handful of crystals and a note in the same cramped hand as the logbook page — 'For whoever finds this before the foreman does. — D.'"
+          },
+          "message": "You found a hidden strongbox!"
+        }
+      ]
     }
   ]
 }

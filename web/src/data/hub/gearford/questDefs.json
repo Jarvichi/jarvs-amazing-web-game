@@ -770,5 +770,23 @@
       "questId": "gearford-forge-the-key"
     }
   ],
-  "blockedPaths": []
+  "blockedPaths": [
+    {
+      "id": "gearford-hidden-works-cache",
+      "blockedTiles": [[23, 12]],
+      "unlockedByInteractable": "gearford-secret-forge-mark",
+      "blocked": {
+        "decor": [
+          { "tx": 23, "ty": 12, "tileId": "logPile" }
+        ],
+        "npcs": []
+      },
+      "cleared": {
+        "decor": [
+          { "tx": 23, "ty": 12, "tileId": "chest" }
+        ],
+        "npcs": []
+      }
+    }
+  ]
 }
