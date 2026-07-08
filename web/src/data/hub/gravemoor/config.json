@@ -2657,6 +2657,94 @@
       "building": "undertaker",
       "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
       "reactions": [{ "type": "buy", "slotIndex": 2 }]
+    },
+    {
+      "id": "gravemoor-secret-cemetery-locket",
+      "tx": 8,
+      "ty": 18,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Half-sunk in the mist near the cemetery gate, something small glints faintly."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "gravemoor-mourning-ring",
+            "name": "Tarnished Mourning Ring",
+            "icon": "💍",
+            "desc": "A small ring, its band gone black with age.",
+            "lore": "The Weeping Widow might recognize this — mourning rings were worn to remember the dead, back when Gravemoor still had the living to wear them."
+          },
+          "message": "You found a tarnished mourning ring."
+        }
+      ]
+    },
+    {
+      "id": "gravemoor-secret-square-token",
+      "tx": 23,
+      "ty": 13,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Beside the spectral stall, a coin unlike any current currency lies forgotten in the fog."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "gravemoor-spectral-token",
+            "name": "Spectral Market Token",
+            "icon": "🪙",
+            "desc": "A coin stamped with a mark no living mint would recognize.",
+            "lore": "The Spectral Pedlar trades in things stranger than crystals. This token probably still spends, somewhere the fog runs thicker."
+          },
+          "message": "You found a strange spectral token."
+        }
+      ]
+    },
+    {
+      "id": "gravemoor-secret-wood-epitaph",
+      "tx": 30,
+      "ty": 13,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Carved into a fallen branch deep in the whispering wood, a half-finished epitaph is barely legible."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "gravemoor-carved-epitaph",
+            "name": "Carved Epitaph Fragment",
+            "icon": "🪵",
+            "desc": "A strip of bark bearing part of a carved inscription.",
+            "lore": "'...and though the fog took my name, it did not take my—' The rest is lost to rot. Brother Mortis might finish the thought."
+          },
+          "message": "You found a fragment of a carved epitaph. Something else in town might complete it."
+        }
+      ]
+    },
+    {
+      "id": "gravemoor-hidden-roadside-cache-loot",
+      "tx": 22,
+      "ty": 27,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Behind the withered bush where the epitaph pointed, a small chest sits sunken in the ash."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "gravemoor-epitaph-completion",
+            "name": "Completed Epitaph Stone",
+            "icon": "🪦",
+            "desc": "A small gravestone fragment, the missing half of the carved epitaph.",
+            "lore": "'...and though the fog took my name, it did not take my voice.' Brother Mortis would want to hear this read aloud, just once."
+          },
+          "message": "You found the missing half of the epitaph!"
+        }
+      ]
     }
   ],
   "weather": {

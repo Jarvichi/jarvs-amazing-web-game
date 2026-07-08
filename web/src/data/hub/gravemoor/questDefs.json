@@ -742,7 +742,25 @@
       "questId": "gravemoor-hollow-tolling-3"
     }
   ],
-  "blockedPaths": [],
+  "blockedPaths": [
+    {
+      "id": "gravemoor-hidden-roadside-cache",
+      "blockedTiles": [[22, 27]],
+      "unlockedByInteractable": "gravemoor-secret-wood-epitaph",
+      "blocked": {
+        "decor": [
+          { "tx": 22, "ty": 27, "tileId": "deadBush" }
+        ],
+        "npcs": []
+      },
+      "cleared": {
+        "decor": [
+          { "tx": 22, "ty": 27, "tileId": "chest" }
+        ],
+        "npcs": []
+      }
+    }
+  ],
   "relationshipDialogue": {
     "restless-merchant-mora": {
       "rival": {
