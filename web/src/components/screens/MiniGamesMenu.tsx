@@ -25,6 +25,7 @@ import { VideoPoker } from '../minigames/VideoPoker'
 import { CityBuilder } from '../minigames/CityBuilder'
 import { Fishing } from '../minigames/Fishing'
 import { TowerDefence, TowerPool } from '../minigames/TowerDefence'
+import { HarbourRegatta } from '../minigames/HarbourRegatta'
 import { PageHeader } from '../ui/PageHeader'
 import { OverlayScreen } from '../ui/OverlayScreen'
 
@@ -142,6 +143,8 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
       if (opts?.score) setAchievementProgress('miniGame:fishing:bestWeightG', opts.score)
     } else if (gameId === 'towerDefence') {
       setAchievementProgress('miniGame:towerDefence:bestScore', newBest)
+    } else if (gameId === 'regatta') {
+      setAchievementProgress('miniGame:regatta:bestScore', newBest)
     }
 
     // Publish to leaderboard if signed in
@@ -237,6 +240,9 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
   if (subScreen === 'marblerace') {
     return <MarbleRace onDone={(t) => handleGameDone('marblerace', t)} />
   }
+  if (subScreen === 'regatta') {
+    return <HarbourRegatta onDone={(t) => handleGameDone('regatta', t)} />
+  }
   if (subScreen === 'higherOrLower') {
     return <HigherOrLower onDone={(t) => handleGameDone('higherOrLower', t)} />
   }
@@ -295,7 +301,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
             {/* Game grid */}
             <div className="minigame-grid">
-              {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence'] as MiniGameId[]).map(id => {
+              {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'regatta', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence'] as MiniGameId[]).map(id => {
                 const cost = MINI_GAME_COSTS[id]
                 const locked = currentCrystals < cost
                 const best = loadLocalHighScore(id)
@@ -380,7 +386,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
             <div className="lb-controls u-col u-gap-3">
               <div className="lb-game-tabs">
-                {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence'] as MiniGameId[]).map(id => (
+                {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'regatta', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence'] as MiniGameId[]).map(id => (
                   <button
                     key={id}
                     className={`filter-btn${lbGame === id ? ' filter-btn--active' : ''}`}

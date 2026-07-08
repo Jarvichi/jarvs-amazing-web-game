@@ -2147,6 +2147,38 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     tier: 2,
   },
 
+  // ─── Harbour Regatta Achievements ─────────────────────────
+  {
+    id: 'miniGame:regatta_first',
+    name: 'Cast Off',
+    description: 'Score at least 1 ticket in Harbour Regatta.',
+    category: 'misc',
+    progressKey: 'miniGame:regatta:bestScore',
+    target: 1,
+    reward: { type: 'crystals', crystals: 25 },
+    tier: 1,
+  },
+  {
+    id: 'miniGame:regatta_50',
+    name: 'Photo Finish at the Quay',
+    description: 'Score 50 tickets in a single Harbour Regatta.',
+    category: 'misc',
+    progressKey: 'miniGame:regatta:bestScore',
+    target: 50,
+    reward: { type: 'cards', count: 1 },
+    tier: 1,
+  },
+  {
+    id: 'miniGame:regatta_200',
+    name: 'Regatta Champion',
+    description: 'Score 200 tickets in a single Harbour Regatta.',
+    category: 'misc',
+    progressKey: 'miniGame:regatta:bestScore',
+    target: 200,
+    reward: { type: 'cards', count: 3 },
+    tier: 2,
+  },
+
   // ─── Higher or Lower Achievements ────────────────────────
   {
     id: 'miniGame:hol_first',
