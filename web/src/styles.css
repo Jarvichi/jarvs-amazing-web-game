@@ -12861,6 +12861,38 @@ html.light-mode .action-btn {
   white-space: nowrap;
 }
 
+/* ── Harbour Regatta ──────────────────────────────────────────────────────── */
+
+.regatta-buoy {
+  fill: #ff8800;
+  stroke: #3a2000;
+  stroke-width: 1.5;
+}
+
+.regatta-boat-hull {
+  stroke: #00000066;
+  stroke-width: 1.5;
+}
+
+.regatta-boat-hull--player {
+  stroke: var(--color-gold);
+  stroke-width: 2.5;
+}
+
+.regatta-boat-glow {
+  fill: none;
+  stroke-width: 2;
+  opacity: 0.35;
+}
+
+.regatta-oars {
+  margin: 10px 0 4px;
+}
+
+.regatta-oar-btn {
+  min-width: 130px;
+}
+
 /* ── Higher or Lower minigame ── */
 
 .hol-cards-row {

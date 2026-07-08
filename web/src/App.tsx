@@ -2825,7 +2825,7 @@ export default function App() {
           onNavigate={(s, buildingId) => {
             setReturnScreen('hubworld')
             setShopBuildingId(buildingId)
-            const HUB_MINIGAME_IDS: SubScreen[] = ['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence', 'citybuilder', 'prizes']
+            const HUB_MINIGAME_IDS: SubScreen[] = ['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'regatta', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence', 'citybuilder', 'prizes']
             if (HUB_MINIGAME_IDS.includes(s as SubScreen)) {
               setHubMiniGameEntry(s as SubScreen)
               setScreen('hub-minigame')

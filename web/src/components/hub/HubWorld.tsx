@@ -143,6 +143,7 @@ const SCREEN_ENTER_LABEL: Record<string, string> = {
   'hub-fishing':     'Cast a line?',
   marble:            'Play marbles?',
   marblerace:        'Watch a marble race?',
+  regatta:           'Race a skiff in the regatta?',
   tileflip:          'Play tile flip?',
   crystalcatch:      'Play crystal catch?',
   spinner:           'Give it a spin?',

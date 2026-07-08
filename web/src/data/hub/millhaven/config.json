@@ -2023,9 +2023,10 @@
       "ty": 33,
       "dialogue": [
         "One day Millhaven will host a proper boat regatta — skiffs racing the harbour buoys, crowds on the quay!",
-        "I'm still rigging the course and finding crews. Come back soon and you'll be able to race.",
+        "Rigging's done and the buoys are set — care to race a skiff?",
         "Mark my words: the Millhaven Regatta will be the finest sport on the coast."
-      ]
+      ],
+      "screen": "regatta"
     }
   ],
   "interiors": {
