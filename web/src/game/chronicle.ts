@@ -172,7 +172,7 @@ function grantReward(r: ChronicleReward): void {
       saveCrystals(loadCrystals() + r.amount)
       break
     case 'collectible':
-      addCollectible(r.itemId, { name: r.name, icon: r.icon, desc: r.desc, lore: r.lore })
+      addCollectible(r.itemId, { name: r.name, icon: r.icon, desc: r.desc, lore: r.lore, isKeepsake: true })
       break
   }
 }
