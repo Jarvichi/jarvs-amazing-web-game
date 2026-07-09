@@ -38,7 +38,7 @@ function getActiveHint(quest: HubQuestDef): string {
   return Object.values(activeDialogue)[Object.values(activeDialogue).length - 1] || "Hello"
 }
 
-export function QuestsModal({ onClose, onAbandon, questDefs, resolveNpcName = (id) => id }: Props) {
+export function QuestsContent({ onClose, onAbandon, questDefs, resolveNpcName = (id) => id }: Props) {
   const [confirmingId, setConfirmingId] = useState<string | null>(null)
 
   const active    = questDefs.filter(q => getQuestState(q.id).status === 'active')
@@ -49,7 +49,6 @@ export function QuestsModal({ onClose, onAbandon, questDefs, resolveNpcName = (i
   const acceptedBounties = getDailyBounties().filter(b => isBountyAccepted(b.id) && !isBountyCompleted(b.id))
 
   return (
-    <ModalBackdrop onClose={onClose}>
       <div className="quests-modal">
         <div className="quests-modal__header">
           <span>📜 Quests</span>
@@ -141,6 +140,13 @@ export function QuestsModal({ onClose, onAbandon, questDefs, resolveNpcName = (i
           </>
         )}
       </div>
+  )
+}
+
+export function QuestsModal(props: Props) {
+  return (
+    <ModalBackdrop onClose={props.onClose}>
+      <QuestsContent {...props} />
     </ModalBackdrop>
   )
 }

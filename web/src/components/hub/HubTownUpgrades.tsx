@@ -42,14 +42,13 @@ function reputationToNextTier(rep: number): { tier: number; label: string; progr
   return { tier, label, progress }
 }
 
-export function HubTownUpgrades({
+export function HubTownUpgradesContent({
   onClose, townName, reputation, crystals, rows, onUpgrade,
   tributeAmount, tributeAvailable, onCollectTribute,
 }: Props) {
   const rep = reputationToNextTier(reputation)
 
   return (
-    <ModalBackdrop onClose={onClose}>
       <div className="town-directory town-upgrades">
         <div className="town-directory__header">
           <span>🏗️ {townName} — Standing &amp; Upgrades</span>
@@ -133,6 +132,13 @@ export function HubTownUpgrades({
           </div>
         )}
       </div>
+  )
+}
+
+export function HubTownUpgrades(props: Props) {
+  return (
+    <ModalBackdrop onClose={props.onClose}>
+      <HubTownUpgradesContent {...props} />
     </ModalBackdrop>
   )
 }
