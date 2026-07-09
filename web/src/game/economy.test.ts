@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import {
   CRYSTAL_PACK_COST,
   DISENCHANT_VALUE,
+  AUGMENT_DISENCHANT_VALUE,
   MERCHANT_PRICES,
   MINI_GAME_COSTS,
   bulkCardCost,
@@ -24,6 +25,13 @@ describe('economy.json shape', () => {
     for (const r of RARITIES) {
       expect(typeof DISENCHANT_VALUE[r]).toBe('number')
       expect(DISENCHANT_VALUE[r]).toBeGreaterThan(0)
+    }
+  })
+
+  it('has all four rarities in augmentDisenchantValue', () => {
+    for (const r of RARITIES) {
+      expect(typeof AUGMENT_DISENCHANT_VALUE[r]).toBe('number')
+      expect(AUGMENT_DISENCHANT_VALUE[r]).toBeGreaterThan(0)
     }
   })
 
@@ -68,6 +76,16 @@ describe('merchant prices monotonicity', () => {
     expect(MERCHANT_PRICES.common).toBeLessThan(MERCHANT_PRICES.uncommon)
     expect(MERCHANT_PRICES.uncommon).toBeLessThan(MERCHANT_PRICES.rare)
     expect(MERCHANT_PRICES.rare).toBeLessThan(MERCHANT_PRICES.legendary)
+  })
+})
+
+// ── Augment disenchant value monotonicity ─────────────────────────────────────
+
+describe('augment disenchant value monotonicity', () => {
+  it('a common augment yields fewer souls than a legendary one', () => {
+    expect(AUGMENT_DISENCHANT_VALUE.common).toBeLessThan(AUGMENT_DISENCHANT_VALUE.uncommon)
+    expect(AUGMENT_DISENCHANT_VALUE.uncommon).toBeLessThan(AUGMENT_DISENCHANT_VALUE.rare)
+    expect(AUGMENT_DISENCHANT_VALUE.rare).toBeLessThan(AUGMENT_DISENCHANT_VALUE.legendary)
   })
 })
 

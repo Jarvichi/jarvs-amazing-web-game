@@ -14,6 +14,9 @@ export const CRYSTAL_PACK_COST: number = raw.crystalPackCost
 export const DISENCHANT_VALUE: Record<CardRarity, number> =
   raw.disenchantValue as Record<CardRarity, number>
 
+export const AUGMENT_DISENCHANT_VALUE: Record<CardRarity, number> =
+  raw.augmentDisenchantValue as Record<CardRarity, number>
+
 export const MERCHANT_PRICES: Record<CardRarity, number> =
   raw.merchantPrices as Record<CardRarity, number>
 

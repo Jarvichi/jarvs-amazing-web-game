@@ -12,6 +12,17 @@
     "holofoil": 250,
     "glass": 200
   },
+  "augmentDisenchantValue": {
+    "common": 50,
+    "uncommon": 100,
+    "rare": 200,
+    "epic": 350,
+    "legendary": 500,
+    "mythic": 1000,
+    "shiny": 750,
+    "holofoil": 750,
+    "glass": 600
+  },
   "merchantPrices": {
     "common": 40,
     "uncommon": 90,

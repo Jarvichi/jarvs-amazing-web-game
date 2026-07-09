@@ -6,7 +6,9 @@ import {
   upgradeAugment,
   upgradeAugmentStack,
   equipAugmentSet,
+  breakdownAugmentInstance,
   AUGMENT_UPGRADE_COST,
+  AUGMENT_DISENCHANT_VALUE,
   loadCollection,
 } from '../../game/collection'
 import {
@@ -260,6 +262,7 @@ export function AugmentCollectionScreen({ onBack, embedded }: Props) {
   const [groupOpen,     setGroupOpen]     = useState(false)
   const [detailInst,    setDetailInst]    = useState<{ card: Card; inst: AugmentInstance } | null>(null)
   const [upgradeError,  setUpgradeError]  = useState<string | null>(null)
+  const [breakdownMsg,  setBreakdownMsg]  = useState<string | null>(null)
   const [stackErrors,   setStackErrors]   = useState<Record<string, string | null>>({})
   const [detailCardName, setDetailCardName] = useState<string | null>(null)
   const [activeStack,   setActiveStack]   = useState<AugStack | null>(null)
@@ -291,6 +294,14 @@ export function AugmentCollectionScreen({ onBack, embedded }: Props) {
         }
       }
     }
+  }
+
+  function handleBreakdown(inst: AugmentInstance) {
+    const gained = breakdownAugmentInstance(inst.instanceId)
+    setBreakdownMsg(`+${gained} 👻 souls`)
+    setTimeout(() => setBreakdownMsg(null), 2500)
+    forceRefresh()
+    if (detailInst?.inst.instanceId === inst.instanceId) setDetailInst(null)
   }
 
   function handleUpgradeStack(stack: AugStack) {
@@ -467,6 +478,10 @@ export function AugmentCollectionScreen({ onBack, embedded }: Props) {
         <div style={{ color: '#ff6666', textAlign: 'center', fontSize: 12, padding: '4px 0' }}>{upgradeError}</div>
       )}
 
+      {breakdownMsg && (
+        <div style={{ color: '#cc88ff', textAlign: 'center', fontSize: 12, padding: '4px 0' }}>{breakdownMsg}</div>
+      )}
+
       {instances.length === 0 ? (
         <div style={{ textAlign: 'center', opacity: 0.6, marginTop: 48 }}>
           No augments owned yet. Earn augments from packs to equip them to your units.
@@ -541,6 +556,12 @@ export function AugmentCollectionScreen({ onBack, embedded }: Props) {
                             title={`Upgrade · ${AUGMENT_UPGRADE_COST} souls`}
                             style={{ padding: '1px 6px', fontSize: 11 }}
                           >↑</button>
+                          <button
+                            className="action-btn"
+                            onClick={e => { e.stopPropagation(); handleBreakdown(inst) }}
+                            title={`Break down · +${AUGMENT_DISENCHANT_VALUE[displayCard.rarity]} souls`}
+                            style={{ padding: '1px 6px', fontSize: 11 }}
+                          >💀</button>
                         </div>
                       </LazyCell>
                     ))}
@@ -561,6 +582,8 @@ export function AugmentCollectionScreen({ onBack, embedded }: Props) {
           augmentEquippedTo={detailInst.inst.equippedToCardName}
           canUpgrade={souls >= AUGMENT_UPGRADE_COST}
           onUpgrade={() => handleUpgrade(detailInst.inst)}
+          breakdownValue={AUGMENT_DISENCHANT_VALUE[detailInst.card.rarity]}
+          onBreakdown={() => handleBreakdown(detailInst.inst)}
           onClose={() => setDetailInst(null)}
         />
       )}
