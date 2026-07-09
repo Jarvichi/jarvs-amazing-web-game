@@ -16,7 +16,7 @@ interface Props {
   onShowRelationship: (npcId: string) => void
 }
 
-export function TownDirectory({ onClose, locationData, pinnedNpcId, onTogglePin, onShowRelationship }: Props) {
+export function TownDirectoryContent({ onClose, locationData, pinnedNpcId, onTogglePin, onShowRelationship }: Props) {
   const { gameHour } = useHubClock()
   const [onlyMet, setOnlyMet] = useState(false)
 
@@ -33,7 +33,6 @@ export function TownDirectory({ onClose, locationData, pinnedNpcId, onTogglePin,
     .sort((a, b) => a.name.localeCompare(b.name))
 
   return (
-    <ModalBackdrop onClose={onClose}>
       <div className="town-directory">
         <div className="town-directory__header">
           <span>🧭 Where is…?</span>
@@ -90,6 +89,13 @@ export function TownDirectory({ onClose, locationData, pinnedNpcId, onTogglePin,
           </div>
         )}
       </div>
+  )
+}
+
+export function TownDirectory(props: Props) {
+  return (
+    <ModalBackdrop onClose={props.onClose}>
+      <TownDirectoryContent {...props} />
     </ModalBackdrop>
   )
 }

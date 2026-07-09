@@ -31,17 +31,12 @@ import { loadPlayerName, addToConsumableStash } from '../../game/questline'
 import { LoginButton } from '../ui/LoginButton'
 import { addCollectible, addConsumable, getCollectibles, addHubItem, removeHubItem, getHubItemCount, hasHubItem, getHubItemCatalogEntry, getHubItems, spendTickets } from '../../game/itemStore'
 import { questItemId } from '../../game/hub/questItems'
-import { QuestsModal } from './QuestsModal'
-import { HubInventoryModal } from './HubInventoryModal'
-import { TradeJournalModal } from './TradeJournalModal'
+import { HubTabbedModal, type HubTabId } from './HubTabbedModal'
 import { BountyBoardModal } from './BountyBoardModal'
 import { hasUnclaimedBounties, getPendingBountyReport, getPendingBountyCollect, advanceBountyStep, getActiveBountyStep, isBountyCollectPickup, reconcileBountyPickups } from '../../game/hub/bounties'
-import { PetModal } from './PetModal'
 import { getActivePet, getTreatsRemainingToday, canGiveTreat, recordAffection, recordTreatGiven, getAffectionRemaining, grantAccessory } from '../../game/hub/pet'
 import { PLAYER_PET_ANIMAL_ID } from './hubAnimals'
-import { TownDirectory } from './TownDirectory'
-import { TownJournal } from './TownJournal'
-import { HubTownUpgrades, type UpgradeRow } from './HubTownUpgrades'
+import type { UpgradeRow } from './HubTownUpgrades'
 import { nextUpgrade, purchaseUpgrade, getTownReputation, getUpgradeLevel, setUpgradeKindResolver, tributeAmount, tributeAvailable, collectTribute } from '../../game/hub/reputation'
 import { RelationshipView } from './RelationshipView'
 import { resolveNpcPlace } from '../../game/hub/npcLocator'
@@ -243,14 +238,10 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   const [dialogueEvent,  setDialogueEvent]  = useState<QuestEvent | null>(null)
   const [interiorActive, setInteriorActive] = useState(false)
   const [pickedUpIds,    setPickedUpIds]    = useState<Set<string>>(() => { reconcileBountyPickups(); return getPickedUpIds() })
-  const [questsOpen,          setQuestsOpen]          = useState(false)
-  const [inventoryOpen,       setInventoryOpen]       = useState(false)
-  const [tradeJournalOpen,    setTradeJournalOpen]    = useState(false)
+  const [tabbedModalOpen,     setTabbedModalOpen]     = useState(false)
+  const [activeHubTab,        setActiveHubTab]        = useState<HubTabId>('quests')
   const [bountyBoardOpen,     setBountyBoardOpen]     = useState(false)
-  const [petModalOpen,        setPetModalOpen]        = useState(false)
-  const [directoryOpen,       setDirectoryOpen]       = useState(false)
-  const [journalOpen,         setJournalOpen]         = useState(false)
-  const [upgradesOpen,        setUpgradesOpen]        = useState(false)
+  function openHubTab(tab: HubTabId) { setActiveHubTab(tab); setTabbedModalOpen(true) }
   // buildingId → purchased upgrade level; read each frame by the canvas to
   // reveal unlocked decor live, and updated on purchase.
   const buildingUpgradeLevelsRef = useRef<Record<string, number>>({})
@@ -578,9 +569,9 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
       onNarratorLog?.(screen.slice(9))
       return
     }
-    if (screen === 'town-upgrades') { setUpgradesOpen(true); return }
+    if (screen === 'town-upgrades') { openHubTab('upgrades'); return }
     if (screen === 'bounty-board') { setBountyBoardOpen(true); return }
-    if (screen === 'adopt-pet') { setPetModalOpen(true); return }
+    if (screen === 'adopt-pet') { openHubTab('pet'); return }
     if (screen === 'worldmap') { onWorldMap?.(); return }
     if (screen === 'campaign') { onCampaign?.(); return }
     if (screen === 'endless') { onEndless?.(); return }
@@ -1331,7 +1322,7 @@ function hasOfferableQuest(giverId: string): boolean {
   const handleAnimalTap = useCallback((animalId: string) => {
     if (animalId === PLAYER_PET_ANIMAL_ID) {
       const pet = getActivePet()
-      if (!pet) { setPetModalOpen(true); return }
+      if (!pet) { openHubTab('pet'); return }
       const flavor = petFlavor(pet.type)
       const remaining = getTreatsRemainingToday()
       const affectionRemaining = getAffectionRemaining()
@@ -1364,7 +1355,7 @@ function hasOfferableQuest(giverId: string): boolean {
         { label: 'Pet', onClick: () => { petActionRef.current?.givePetAffection(); recordAffection(); refreshState(); setDialogueEvent({ speakerName: pet.name, text: flavor.pet(pet.name) }) } },
         { label: 'Belly Rubs', onClick: () => { petActionRef.current?.givePetAffection(); recordAffection(); refreshState(); setDialogueEvent({ speakerName: pet.name, text: flavor.bellyRubs(pet.name) }) } },
         { label: 'Brush', onClick: () => { petActionRef.current?.givePetAffection(); recordAffection(); refreshState(); setDialogueEvent({ speakerName: pet.name, text: flavor.brush(pet.name) }) } },
-        { label: 'Manage', onClick: () => setPetModalOpen(true) },
+        { label: 'Manage', onClick: () => openHubTab('pet') },
         { label: 'Never mind', onClick: () => setDialogueEvent(null) },
       ]
       setDialogueEvent({ speakerName: pet.name, text: 'What would you like to do?', choices })
@@ -1930,13 +1921,7 @@ function hasOfferableQuest(giverId: string): boolean {
           {activeFestival && (
             <ToolbarLabel className="title-deck-info">{activeFestival.icon} {activeFestival.name}</ToolbarLabel>
           )}
-        <ToolbarButton icon="📜" title="Quests" onClick={() => setQuestsOpen(true)} />
-        <ToolbarButton icon="🎒" title="Inventory" onClick={() => setInventoryOpen(true)} />
-        <ToolbarButton icon="💱" title="Trade Journal" onClick={() => setTradeJournalOpen(true)} />
-        <ToolbarButton icon="🧭" title="Where is…?" onClick={() => setDirectoryOpen(true)} />
-        <ToolbarButton icon="📖" title="Journal" onClick={() => setJournalOpen(true)} />
-        <ToolbarButton icon="🏗️" title="Town Upgrades" onClick={() => setUpgradesOpen(true)} />
-        {getActivePet() && <ToolbarButton icon="🐾" title="My Pet" onClick={() => setPetModalOpen(true)} />}
+        <ToolbarButton icon="📋" title="Menu" onClick={() => setTabbedModalOpen(true)} />
         <ToolbarButton icon="🗺" title="World Map" onClick={() => onWorldMap?.()}  disabled={getQuestState('thorin-the-last-watch').status !== 'completed'} />
 
         <ToolbarSpacer/>
@@ -2024,14 +2009,21 @@ function hasOfferableQuest(giverId: string): boolean {
           />
         )}
 
-        {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={questDefs} resolveNpcName={getNpcDisplayName}/>}
-        {inventoryOpen && <HubInventoryModal onClose={() => setInventoryOpen(false)} questDefs={allQuestDefs} />}
-        {tradeJournalOpen && <TradeJournalModal onClose={() => setTradeJournalOpen(false)} />}
+        {tabbedModalOpen && (
+          <HubTabbedModal
+            onClose={() => setTabbedModalOpen(false)}
+            activeTab={activeHubTab}
+            onTabChange={setActiveHubTab}
+            hasPet={!!getActivePet()}
+            onAbandon={handleQuestAbandon} questDefs={questDefs} resolveNpcName={getNpcDisplayName}
+            allQuestDefs={allQuestDefs}
+            locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} onShowRelationship={setRelationshipNpcId}
+            townName={town} reputation={getTownReputation(town)} crystals={loadCrystals()} rows={upgradeRows} onUpgrade={handleUpgrade}
+            tributeAmount={tributeAmount(town)} tributeAvailable={tributeAvailable(town)} onCollectTribute={handleCollectTribute}
+            petActionRef={petActionRef}
+          />
+        )}
         {bountyBoardOpen && <BountyBoardModal onClose={() => setBountyBoardOpen(false)} resolveNpcName={getNpcDisplayName} townNpcs={locationData.HUB_NPCS}/>}
-        {petModalOpen && <PetModal onClose={() => setPetModalOpen(false)} petActionRef={petActionRef} />}
-        {directoryOpen && <TownDirectory onClose={() => setDirectoryOpen(false)} locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} onShowRelationship={setRelationshipNpcId} />}
-        {journalOpen && <TownJournal onClose={() => setJournalOpen(false)} locationData={locationData} />}
-        {upgradesOpen && <HubTownUpgrades onClose={() => setUpgradesOpen(false)} townName={town} reputation={getTownReputation(town)} crystals={loadCrystals()} rows={upgradeRows} onUpgrade={handleUpgrade} tributeAmount={tributeAmount(town)} tributeAvailable={tributeAvailable(town)} onCollectTribute={handleCollectTribute} />}
         {relationshipNpcId && <RelationshipView npcName={getNpcDisplayName(relationshipNpcId)} entry={getRelationship(relationshipNpcId)} onClose={() => setRelationshipNpcId(null)} />}
         {openTreasure && <TreasureModal treasure={openTreasure} onClose={() => setOpenTreasure(null)} />}
 

@@ -36,7 +36,7 @@ interface Props {
   locationData: HubLocationBundle
 }
 
-export function TownJournal({ onClose, locationData }: Props) {
+export function TownJournalContent({ onClose, locationData }: Props) {
   const [tab, setTab] = useState<Tab>('animals')
 
   const seenAnimalTypes = getSeenAnimalTypes()
@@ -68,7 +68,6 @@ export function TownJournal({ onClose, locationData }: Props) {
   const overallPct = overallTotal > 0 ? Math.round((overallDiscovered / overallTotal) * 100) : 0
 
   return (
-    <ModalBackdrop onClose={onClose}>
       <div className="town-directory town-journal">
         <div className="town-directory__header">
           <span>📖 Town Journal</span>
@@ -164,6 +163,13 @@ export function TownJournal({ onClose, locationData }: Props) {
           </div>
         )}
       </div>
+  )
+}
+
+export function TownJournal(props: Props) {
+  return (
+    <ModalBackdrop onClose={props.onClose}>
+      <TownJournalContent {...props} />
     </ModalBackdrop>
   )
 }

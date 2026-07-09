@@ -135,7 +135,7 @@ function AccessoriesTab({ petActionRef, refresh }: {
   )
 }
 
-export function PetModal({ onClose, petActionRef }: Props) {
+export function PetContent({ onClose, petActionRef }: Props) {
   const [, setTick] = useState(0)
   const refresh = () => setTick(t => t + 1)
   const [renameValue, setRenameValue] = useState<string | null>(null)
@@ -171,7 +171,6 @@ export function PetModal({ onClose, petActionRef }: Props) {
   }
 
   return (
-    <ModalBackdrop onClose={onClose}>
       <div className="pet-modal">
         <div className="pet-modal__header">
           <span>🐾 {pet ? 'My Pet' : 'Pet Shelter'}</span>
@@ -227,6 +226,13 @@ export function PetModal({ onClose, petActionRef }: Props) {
           />
         )}
       </div>
+  )
+}
+
+export function PetModal(props: Props) {
+  return (
+    <ModalBackdrop onClose={props.onClose}>
+      <PetContent {...props} />
     </ModalBackdrop>
   )
 }

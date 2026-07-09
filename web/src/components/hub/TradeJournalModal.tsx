@@ -12,7 +12,7 @@ function itemDisplay(itemId: string): { name: string; icon: string } {
   return { name: catalog?.name ?? itemId, icon: catalog?.icon ?? '📦' }
 }
 
-export function TradeJournalModal({ onClose }: Props) {
+export function TradeJournalContent({ onClose }: Props) {
   const sellers = getKnownSellers()
   const buyers = getKnownBuyers()
 
@@ -44,7 +44,6 @@ export function TradeJournalModal({ onClose }: Props) {
   }
 
   return (
-    <ModalBackdrop onClose={onClose}>
       <div className="quests-modal">
         <div className="quests-modal__header">
           <span>💱 Trade Journal</span>
@@ -67,6 +66,13 @@ export function TradeJournalModal({ onClose }: Props) {
           buyers.map(buyerRow)
         )}
       </div>
+  )
+}
+
+export function TradeJournalModal(props: Props) {
+  return (
+    <ModalBackdrop onClose={props.onClose}>
+      <TradeJournalContent {...props} />
     </ModalBackdrop>
   )
 }

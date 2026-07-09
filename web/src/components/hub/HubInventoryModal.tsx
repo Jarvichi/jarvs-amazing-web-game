@@ -43,7 +43,7 @@ function activeQuestItemRows(questDefs: HubQuestDef[]): QuestItemRow[] {
   return rows
 }
 
-export function HubInventoryModal({ onClose, questDefs }: Props) {
+export function HubInventoryContent({ onClose, questDefs }: Props) {
   const questRows = activeQuestItemRows(questDefs)
 
   const hubItems = getHubItems()
@@ -61,7 +61,6 @@ export function HubInventoryModal({ onClose, questDefs }: Props) {
   )
 
   return (
-    <ModalBackdrop onClose={onClose}>
       <div className="quests-modal">
         <div className="quests-modal__header">
           <span>🎒 Inventory</span>
@@ -112,6 +111,13 @@ export function HubInventoryModal({ onClose, questDefs }: Props) {
           </div>
         )}
       </div>
+  )
+}
+
+export function HubInventoryModal(props: Props) {
+  return (
+    <ModalBackdrop onClose={props.onClose}>
+      <HubInventoryContent {...props} />
     </ModalBackdrop>
   )
 }
