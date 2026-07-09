@@ -2571,6 +2571,72 @@
           "message": "You found a tin whistle!"
         }
       ]
+    },
+    {
+      "id": "saltmereport-secret-dock-manifest",
+      "tx": 29,
+      "ty": 22,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Wedged between two mooring posts on the dock, a scrap of paper flutters against the salt spray."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "saltmereport-manifest-scrap",
+            "name": "Torn Manifest Scrap",
+            "icon": "📜",
+            "desc": "A torn corner of a cargo manifest, half the ink washed away by seawater.",
+            "lore": "Harbourmaster Vane keeps insisting the manifest doesn't lie. This scrap lists a cargo that never once appeared on his official count."
+          },
+          "message": "You found a torn scrap of a cargo manifest."
+        }
+      ]
+    },
+    {
+      "id": "saltmereport-secret-lighthouse-glass",
+      "tx": 44,
+      "ty": 26,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Tucked into a crack at the end of the jetty, a small piece of sea glass catches the light."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "saltmereport-sea-glass",
+            "name": "Polished Sea Glass",
+            "icon": "🔷",
+            "desc": "A smooth, sun-bleached piece of green glass, worn round by years in the tide.",
+            "lore": "Lighthouse Keeper Wren says the fog brings strange things ashore some nights. Whatever bottle this glass came from, the sea's had it a long, long time."
+          },
+          "message": "You found a piece of sea glass worn smooth by the tide."
+        }
+      ]
+    },
+    {
+      "id": "saltmereport-hidden-warehouse-cache-loot",
+      "tx": 20,
+      "ty": 35,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Behind the stack of unclaimed crates the manifest scrap seemed to reference, a small chest sits forgotten."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "saltmereport-smuggled-cache",
+            "name": "Unclaimed Cargo Chest",
+            "icon": "📦",
+            "desc": "A small chest, its markings scratched off and never claimed.",
+            "lore": "Whatever the Smuggler was moving through here, this crate never made it to its buyer. Vane's manifest was right all along — it just never mentioned this one."
+          },
+          "message": "You found an unclaimed cargo chest!"
+        }
+      ]
     }
   ],
   "animals": [

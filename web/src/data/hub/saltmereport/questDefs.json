@@ -1016,5 +1016,23 @@
       "questId": "saltmere-lost-manifest"
     }
   ],
-  "blockedPaths": []
+  "blockedPaths": [
+    {
+      "id": "saltmereport-hidden-warehouse-cache",
+      "blockedTiles": [[20, 35]],
+      "unlockedByInteractable": "saltmereport-secret-dock-manifest",
+      "blocked": {
+        "decor": [
+          { "tx": 20, "ty": 35, "tileId": "crate" }
+        ],
+        "npcs": []
+      },
+      "cleared": {
+        "decor": [
+          { "tx": 20, "ty": 35, "tileId": "chest" }
+        ],
+        "npcs": []
+      }
+    }
+  ]
 }
