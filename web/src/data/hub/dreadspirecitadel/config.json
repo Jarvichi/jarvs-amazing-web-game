@@ -2038,6 +2038,83 @@
       "building": "spellwright-den",
       "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
       "reactions": [{ "type": "buy", "slotIndex": 2 }]
+    },
+    {
+      "id": "dreadspire-secret-tower-note",
+      "tx": 30,
+      "ty": 15,
+      "reactions": [
+        { "type": "dialogue", "text": "A scrap of blackened parchment lies half-buried beside the flagstones, easy to miss." },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "dreadspire-tower-note",
+            "name": "Scorched Parchment",
+            "icon": "📜",
+            "desc": "A page charred at the edges, dropped somewhere near the towers.",
+            "lore": "'...the wards over the east stair fail at the turn of midnight, same as always. Nobody checks then. Told no one but you, and I intend to keep it that way. — a fellow guest of the citadel'"
+          },
+          "message": "You found a hidden note!"
+        }
+      ]
+    },
+    {
+      "id": "dreadspire-secret-shrine-carving",
+      "tx": 11,
+      "ty": 16,
+      "reactions": [
+        { "type": "dialogue", "text": "A shard of black stone, half-buried near the shrine wall, bears a carving that wasn't there before." },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "dreadspire-shrine-shard",
+            "name": "Carved Shard",
+            "icon": "🪨",
+            "desc": "A fragment of dark stone, etched with a symbol you don't recognize.",
+            "lore": "The shadow does not explain itself, but the mark matches an old warding sign — meant to keep something IN, not out."
+          },
+          "message": "You found a strange carved shard!"
+        }
+      ]
+    },
+    {
+      "id": "dreadspire-secret-gate-ledger",
+      "tx": 20,
+      "ty": 30,
+      "reactions": [
+        { "type": "dialogue", "text": "Tucked beneath a loose flagstone near the gate approach, a torn ledger page waits to be found." },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "dreadspire-gate-ledger-page",
+            "name": "Torn Ledger Page",
+            "icon": "📓",
+            "desc": "A page torn from some old accounting of the citadel's stores.",
+            "lore": "'...moved the last of the grave-goods behind the shrine's east wall before the warden's count. He'll never think to look there. — unsigned'"
+          },
+          "message": "You found a torn ledger page! Something nearby might have shifted."
+        }
+      ]
+    },
+    {
+      "id": "dreadspire-hidden-shrine-cache",
+      "tx": 10,
+      "ty": 23,
+      "reactions": [
+        { "type": "dialogue", "text": "The stones behind the shrine wall have shifted, revealing a cache someone left behind." },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "dreadspire-shrine-cache-relic",
+            "name": "Grave-Goods Bundle",
+            "icon": "💰",
+            "desc": "A small bundle of grave-goods, hidden away and forgotten.",
+            "lore": "Whoever hid this meant to come back before the warden's count. The warden counted anyway."
+          },
+          "crystals": 25,
+          "message": "You found a hidden cache! +25 crystals."
+        }
+      ]
     }
   ],
   "animals": [

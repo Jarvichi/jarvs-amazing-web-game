@@ -1052,5 +1052,13 @@
       }
     }
   },
-  "blockedPaths": []
+  "blockedPaths": [
+    {
+      "id": "dreadspire-hidden-shrine-nook",
+      "blockedTiles": [[10, 23]],
+      "unlockedByInteractable": "dreadspire-secret-gate-ledger",
+      "blocked": { "decor": [{ "tx": 10, "ty": 23, "tileId": "black_crystal2" }], "npcs": [] },
+      "cleared": { "decor": [{ "tx": 10, "ty": 23, "tileId": "chest" }], "npcs": [] }
+    }
+  ]
 }
