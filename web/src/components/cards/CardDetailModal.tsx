@@ -46,6 +46,8 @@ interface Props {
   augmentEquippedTo?: string | null
   canUpgrade?: boolean
   onUpgrade?: () => void
+  breakdownValue?: number
+  onBreakdown?: () => void
 }
 
 const RARITY_COLOUR: Record<string, string> = {
@@ -92,7 +94,7 @@ function affinityEffectText(effectType: string, effectAmount: number): string {
   return `×${effectAmount} ${effectType}`
 }
 
-export function CardDetailModal({ card, collection, deckEntries, onClose, extras = 0, disenchantValue = 0, onDisenchant, onMasterCard, commanderName, promotionsLeft = 0, onPromote, augmentLevel, augmentEquippedTo, canUpgrade, onUpgrade }: Props) {
+export function CardDetailModal({ card, collection, deckEntries, onClose, extras = 0, disenchantValue = 0, onDisenchant, onMasterCard, commanderName, promotionsLeft = 0, onPromote, augmentLevel, augmentEquippedTo, canUpgrade, onUpgrade, breakdownValue = 0, onBreakdown }: Props) {
   const owned  = getOwnedCount(collection, card.name)
   const inDeck = deckEntries?.find(e => e.cardName === card.name)?.count ?? 0
   const xp     = getMasteryXp(collection, card.name)
@@ -526,6 +528,15 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
               title={`Costs ${AUGMENT_UPGRADE_COST} souls`}
             >
               ↑ Upgrade ({AUGMENT_UPGRADE_COST} souls)
+            </button>
+          </div>
+        )}
+
+        {/* Augment breakdown action */}
+        {onBreakdown && (
+          <div className="cdm-actions">
+            <button className="extra-btn extra-btn--disenchant" onClick={onBreakdown}>
+              💀 Break Down (+{breakdownValue} 👻)
             </button>
           </div>
         )}

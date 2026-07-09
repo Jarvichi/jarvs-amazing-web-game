@@ -93,8 +93,8 @@ export const COPIES_MAX = 4
 import { loadPlayerStats } from './playerStats'
 export function getPlayerMaxDeckSize(): number { return loadPlayerStats().maxDeckSize }
 
-import { CRYSTAL_PACK_COST, DISENCHANT_VALUE } from './economy'
-export { CRYSTAL_PACK_COST, DISENCHANT_VALUE }
+import { CRYSTAL_PACK_COST, DISENCHANT_VALUE, AUGMENT_DISENCHANT_VALUE } from './economy'
+export { CRYSTAL_PACK_COST, DISENCHANT_VALUE, AUGMENT_DISENCHANT_VALUE }
 
 // ─── Starter data ─────────────────────────────────────────
 
@@ -316,6 +316,21 @@ export function unequipAugment(instanceId: string): void {
   if (!target) return
   target.equippedToCardName = null
   saveAugmentInstances(instances)
+}
+
+/** Break down an augment instance (equipped or not) into souls, keyed by its rarity.
+ *  Returns the number of souls gained (0 if the instance/card could not be found). */
+export function breakdownAugmentInstance(instanceId: string): number {
+  const instances = loadAugmentInstances()
+  const target = instances.find(i => i.instanceId === instanceId)
+  if (!target) return 0
+  const card = getAugmentCard(target.cardId)
+  if (!card) return 0
+
+  const gained = AUGMENT_DISENCHANT_VALUE[card.rarity]
+  saveAugmentInstances(instances.filter(i => i.instanceId !== instanceId))
+  incrementAugmentSouls(gained)
+  return gained
 }
 
 /** Upgrade an augment instance by 1 level. Costs AUGMENT_UPGRADE_COST souls.
