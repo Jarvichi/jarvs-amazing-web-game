@@ -11341,6 +11341,1407 @@
       "tags": [
         "citadel"
       ]
+    },
+    "stone-wall": {
+      "name": "Wall",
+      "attack": 0,
+      "maxHp": 40,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0
+    },
+    "lumber-camp": {
+      "name": "Lumber Camp",
+      "attack": 0,
+      "maxHp": 15,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "attackAura",
+        "amount": 1
+      }
+    },
+    "windmill": {
+      "name": "Windmill",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "mana",
+        "amount": 1
+      }
+    },
+    "farm": {
+      "name": "Farm",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "mana",
+        "amount": 1
+      }
+    },
+    "mana-spring": {
+      "name": "ManaSpring",
+      "attack": 0,
+      "maxHp": 15,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "manaSpeed",
+        "speedMult": 0.5
+      }
+    },
+    "healers-hut": {
+      "name": "Healer Hut",
+      "attack": 0,
+      "maxHp": 15,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "healAura",
+        "amount": 3,
+        "intervalMs": 8000
+      }
+    },
+    "stone-mason": {
+      "name": "Stone Mason",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "repairAura",
+        "amount": 8,
+        "intervalMs": 10000
+      }
+    },
+    "blacksmith": {
+      "name": "Blacksmith",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "attackAura",
+        "amount": 2
+      }
+    },
+    "barracks": {
+      "name": "Barracks",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "goblin",
+        "intervalMs": 7000
+      }
+    },
+    "arcane-tower": {
+      "name": "Arc.Tower",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "archer",
+        "intervalMs": 12000
+      }
+    },
+    "dragon-lair": {
+      "name": "DrgnLair",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "dragon",
+        "intervalMs": 25000
+      }
+    },
+    "crypt": {
+      "name": "Crypt",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "skeleton",
+        "intervalMs": 7000
+      }
+    },
+    "troll-den": {
+      "name": "Troll Den",
+      "attack": 0,
+      "maxHp": 35,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "troll",
+        "intervalMs": 20000
+      }
+    },
+    "garrison": {
+      "name": "Garrison",
+      "attack": 0,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "crossbow",
+        "intervalMs": 10000
+      }
+    },
+    "cathedral": {
+      "name": "Cathedral",
+      "attack": 0,
+      "maxHp": 40,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "paladin",
+        "intervalMs": 25000
+      }
+    },
+    "rogue-den": {
+      "name": "Rogue Den",
+      "attack": 0,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "rogue",
+        "intervalMs": 9000
+      }
+    },
+    "siege-works": {
+      "name": "Siege Works",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "catapult",
+        "intervalMs": 28000
+      }
+    },
+    "dark-shrine": {
+      "name": "Dark Shrine",
+      "attack": 0,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "werewolf",
+        "intervalMs": 14000
+      }
+    },
+    "iron-forge": {
+      "name": "Iron Forge",
+      "attack": 0,
+      "maxHp": 45,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "golem",
+        "intervalMs": 35000
+      }
+    },
+    "fairy-ring": {
+      "name": "Fairy Ring",
+      "attack": 0,
+      "maxHp": 15,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "pixie",
+        "intervalMs": 7000
+      }
+    },
+    "ogre-den": {
+      "name": "Ogre Den",
+      "attack": 0,
+      "maxHp": 28,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "ogre",
+        "intervalMs": 16000
+      }
+    },
+    "rat-burrow": {
+      "name": "Rat Burrow",
+      "attack": 0,
+      "maxHp": 14,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "plague-rat",
+        "intervalMs": 5000
+      }
+    },
+    "bandit-camp": {
+      "name": "Bandit Camp",
+      "attack": 0,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "bandit",
+        "intervalMs": 8000
+      }
+    },
+    "bat-cave": {
+      "name": "Bat Cave",
+      "attack": 0,
+      "maxHp": 14,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "bat",
+        "intervalMs": 6000
+      }
+    },
+    "scorpion-pit": {
+      "name": "Scorpion Pit",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "scorpion",
+        "intervalMs": 9000
+      }
+    },
+    "guard-post": {
+      "name": "Guard Post",
+      "attack": 0,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "shield-guard",
+        "intervalMs": 16000
+      }
+    },
+    "centaur-stable": {
+      "name": "Cntaur Stbl",
+      "attack": 0,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "centaur",
+        "intervalMs": 12000
+      }
+    },
+    "harpy-roost": {
+      "name": "Harpy Roost",
+      "attack": 0,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "harpy",
+        "intervalMs": 12000
+      }
+    },
+    "spirit-well": {
+      "name": "Spirit Well",
+      "attack": 0,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "specter",
+        "intervalMs": 10000
+      }
+    },
+    "lizard-warren": {
+      "name": "Lizard Den",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "lizardman",
+        "intervalMs": 11000
+      }
+    },
+    "ballista-tower": {
+      "name": "BallstaTwr",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "ballista",
+        "intervalMs": 15000
+      }
+    },
+    "vamp-coven": {
+      "name": "Vamp Coven",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "vampire",
+        "intervalMs": 14000
+      }
+    },
+    "aerie": {
+      "name": "Aerie",
+      "attack": 0,
+      "maxHp": 28,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "griffin",
+        "intervalMs": 20000
+      }
+    },
+    "mage-tower": {
+      "name": "Mage Tower",
+      "attack": 0,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "fire-mage",
+        "intervalMs": 18000
+      }
+    },
+    "gallows": {
+      "name": "Gallows",
+      "attack": 0,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "executioner",
+        "intervalMs": 20000
+      }
+    },
+    "mammoth-pen": {
+      "name": "Mammoth Pen",
+      "attack": 0,
+      "maxHp": 35,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "mammoth",
+        "intervalMs": 25000
+      }
+    },
+    "shadow-academy": {
+      "name": "Shadow Acad",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "dark-elf",
+        "intervalMs": 15000
+      }
+    },
+    "death-tower": {
+      "name": "Death Tower",
+      "attack": 0,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "necromancer",
+        "intervalMs": 18000
+      }
+    },
+    "giants-hall": {
+      "name": "Giant's Hall",
+      "attack": 0,
+      "maxHp": 40,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "giant",
+        "intervalMs": 45000
+      }
+    },
+    "wyvern-roost": {
+      "name": "Wyvern Roost",
+      "attack": 0,
+      "maxHp": 35,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "wyvern",
+        "intervalMs": 28000
+      }
+    },
+    "ancient-altar": {
+      "name": "Anc. Altar",
+      "attack": 0,
+      "maxHp": 50,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "behemoth",
+        "intervalMs": 70000
+      }
+    },
+    "thornwall": {
+      "name": "Thornwall",
+      "attack": 0,
+      "maxHp": 60,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0
+    },
+    "ancient-grove": {
+      "name": "Anc. Grove",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "vine-golem",
+        "intervalMs": 18000
+      }
+    },
+    "armory": {
+      "name": "Armory",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "ironclad-guard",
+        "intervalMs": 14000
+      }
+    },
+    "command-tent": {
+      "name": "Cmd. Tent",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "mana",
+        "amount": 1
+      }
+    },
+    "bone-wall": {
+      "name": "Bone Wall",
+      "attack": 0,
+      "maxHp": 50,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0
+    },
+    "soul-obelisk": {
+      "name": "Soul Obelisk",
+      "attack": 0,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "revenant",
+        "intervalMs": 11000
+      }
+    },
+    "mana-tower": {
+      "name": "Mana Tower",
+      "attack": 0,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "mana",
+        "amount": 1
+      }
+    },
+    "crystal-wall": {
+      "name": "Crystal Wall",
+      "attack": 0,
+      "maxHp": 60,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0
+    },
+    "leyline-node": {
+      "name": "Leyline Node",
+      "attack": 0,
+      "maxHp": 16,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "manaSpeed",
+        "speedMult": 0.5
+      }
+    },
+    "spore-tower": {
+      "name": "Spore Tower",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "spore-bat",
+        "intervalMs": 12000
+      }
+    },
+    "mushroom-circle": {
+      "name": "Mushroom Circle",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "healAura",
+        "amount": 2,
+        "intervalMs": 8000
+      }
+    },
+    "root-tap": {
+      "name": "Root Network",
+      "attack": 0,
+      "maxHp": 15,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "mana",
+        "amount": 1
+      }
+    },
+    "siege-tower": {
+      "name": "Siege Tower",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "attackAura",
+        "amount": 2
+      }
+    },
+    "fortified-wall": {
+      "name": "Fortified Wall",
+      "attack": 0,
+      "maxHp": 80,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0
+    },
+    "moat": {
+      "name": "Moat",
+      "attack": 0,
+      "maxHp": 9999,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "slowZone",
+        "slowFactor": 0.4,
+        "radius": 30
+      },
+      "isMoat": true
+    },
+    "lava-moat": {
+      "name": "Lava Moat",
+      "attack": 0,
+      "maxHp": 9999,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "slowZone",
+        "slowFactor": 0.35,
+        "radius": 28,
+        "damagePerSec": 15
+      },
+      "isMoat": true
+    },
+    "acid-moat": {
+      "name": "Acid Moat",
+      "attack": 0,
+      "maxHp": 9999,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "slowZone",
+        "slowFactor": 0.45,
+        "radius": 26,
+        "damagePerSec": 8
+      },
+      "isMoat": true
+    },
+    "spike-pit": {
+      "name": "Spike Pit",
+      "attack": 0,
+      "maxHp": 9999,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "slowZone",
+        "slowFactor": 0.5,
+        "radius": 24,
+        "damagePerSec": 12
+      },
+      "isMoat": true
+    },
+    "tar-pit": {
+      "name": "Tar Pit",
+      "attack": 0,
+      "maxHp": 9999,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "slowZone",
+        "slowFactor": 0.2,
+        "radius": 30
+      },
+      "isMoat": true
+    },
+    "frost-moat": {
+      "name": "Frost Moat",
+      "attack": 0,
+      "maxHp": 9999,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "slowZone",
+        "slowFactor": 0.25,
+        "radius": 28,
+        "damagePerSec": 4
+      },
+      "isMoat": true
+    },
+    "poison-bog": {
+      "name": "Poison Bog",
+      "attack": 0,
+      "maxHp": 9999,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "slowZone",
+        "slowFactor": 0.4,
+        "radius": 26,
+        "damagePerSec": 6
+      },
+      "isMoat": true
+    },
+    "lightning-rift": {
+      "name": "Lightning Rift",
+      "attack": 0,
+      "maxHp": 9999,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "slowZone",
+        "slowFactor": 0.45,
+        "radius": 26,
+        "damagePerSec": 10
+      },
+      "isMoat": true
+    },
+    "quicksand": {
+      "name": "Quicksand",
+      "attack": 0,
+      "maxHp": 9999,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "slowZone",
+        "slowFactor": 0.15,
+        "radius": 28
+      },
+      "isMoat": true
+    },
+    "blood-pool": {
+      "name": "Blood Pool",
+      "attack": 0,
+      "maxHp": 9999,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "slowZone",
+        "slowFactor": 0.35,
+        "radius": 28,
+        "damagePerSec": 5
+      },
+      "isMoat": true
+    },
+    "shadow-mire": {
+      "name": "Shadow Mire",
+      "attack": 0,
+      "maxHp": 9999,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "slowZone",
+        "slowFactor": 0.3,
+        "radius": 30
+      },
+      "isMoat": true
+    },
+    "death-altar": {
+      "name": "Death Altar",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "weak-skeleton",
+        "intervalMs": 8000
+      }
+    },
+    "necrotic-pool": {
+      "name": "Necrotic Pool",
+      "attack": 0,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "healAura",
+        "amount": 2,
+        "intervalMs": 8000
+      }
+    },
+    "graveblight-tower": {
+      "name": "Graveblight Tower",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "revenant",
+        "intervalMs": 7500
+      }
+    },
+    "arcane-forge": {
+      "name": "Arcane Forge",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "attackAura",
+        "amount": 3
+      }
+    },
+    "null-field": {
+      "name": "Null Field",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "manaSpeed",
+        "speedMult": 1.5
+      }
+    },
+    "arcane-conduit": {
+      "name": "Arcane Conduit",
+      "attack": 14,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 130,
+      "attackCooldownMs": 1600
+    },
+    "resonance-spire": {
+      "name": "Resonance Spire",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "repairAura",
+        "amount": 2
+      }
+    },
+    "coral-wall": {
+      "name": "Coral Wall",
+      "attack": 0,
+      "maxHp": 55,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0
+    },
+    "tide-shrine": {
+      "name": "Tide Shrine",
+      "attack": 0,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "mana",
+        "amount": 1
+      }
+    },
+    "sirens-post": {
+      "name": "Siren's Post",
+      "attack": 11,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 120,
+      "attackCooldownMs": 1700
+    },
+    "reef-mender": {
+      "name": "Reef Mender",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "repairAura",
+        "amount": 2
+      }
+    },
+    "depth-anchor": {
+      "name": "Depth Anchor",
+      "attack": 0,
+      "maxHp": 24,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "manaSpeed",
+        "speedMult": 0.5
+      }
+    },
+    "kraken-beacon": {
+      "name": "Kraken Beacon",
+      "attack": 0,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "reef-crawler",
+        "intervalMs": 5000
+      }
+    },
+    "gust-wall": {
+      "name": "Gust Wall",
+      "attack": 0,
+      "maxHp": 45,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0
+    },
+    "wind-shrine": {
+      "name": "Wind Shrine",
+      "attack": 0,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "mana",
+        "amount": 1
+      }
+    },
+    "storm-tower": {
+      "name": "Storm Tower",
+      "attack": 12,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 125,
+      "attackCooldownMs": 1600
+    },
+    "aerie-roost": {
+      "name": "Aerie Roost",
+      "attack": 0,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "wind-sprite",
+        "intervalMs": 5000
+      }
+    },
+    "sky-beacon": {
+      "name": "Sky Beacon",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "manaSpeed",
+        "speedMult": 0.5
+      }
+    },
+    "cloudfort": {
+      "name": "Cloudfort",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0
+    },
+    "thunder-battery": {
+      "name": "Thunder Battery",
+      "attack": 16,
+      "maxHp": 24,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 140,
+      "attackCooldownMs": 2000
+    },
+    "cinder-wall": {
+      "name": "Cinder Wall",
+      "attack": 0,
+      "maxHp": 50,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0
+    },
+    "ash-turret": {
+      "name": "Ash Turret",
+      "attack": 9,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 110,
+      "attackCooldownMs": 1400
+    },
+    "magma-vent": {
+      "name": "Magma Vent",
+      "attack": 0,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "ember-crawler",
+        "intervalMs": 5500
+      }
+    },
+    "fire-forge": {
+      "name": "Fire Forge",
+      "attack": 0,
+      "maxHp": 16,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "mana",
+        "amount": 1
+      }
+    },
+    "lava-spire": {
+      "name": "Lava Spire",
+      "attack": 16,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 130,
+      "attackCooldownMs": 1800,
+      "targetUnitType": "not_flying"
+    },
+    "ember-shrine": {
+      "name": "Ember Shrine",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "scorch-bat",
+        "intervalMs": 6000
+      }
+    },
+    "canopy-farm": {
+      "name": "Canopy Farm",
+      "attack": 0,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "mana",
+        "amount": 1
+      },
+      "tags": [
+        "canopy"
+      ]
+    },
+    "void-titan": {
+      "name": "Void Titan",
+      "attack": 80,
+      "maxHp": 350,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 20,
+      "attackRange": 8,
+      "attackCooldownMs": 1400,
+      "size": "large",
+      "tags": [
+        "melee",
+        "large",
+        "armored"
+      ],
+      "cardVariant": "mythic",
+      "onDeathEffect": {
+        "damage": 40,
+        "range": 120
+      }
+    },
+    "prism-wyrm": {
+      "name": "Prism Wyrm",
+      "attack": 55,
+      "maxHp": 220,
+      "isWall": false,
+      "bypassWall": true,
+      "flying": true,
+      "moveSpeed": 45,
+      "attackRange": 100,
+      "attackCooldownMs": 1200,
+      "size": "large",
+      "tags": [
+        "flying",
+        "ranged",
+        "magic",
+        "large"
+      ],
+      "cardVariant": "mythic"
+    },
+    "eternal-forge": {
+      "name": "Eternal Forge",
+      "attack": 0,
+      "maxHp": 280,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "size": "large",
+      "cardVariant": "mythic",
+      "structureEffect": {
+        "type": "spawn",
+        "intervalMs": 2000,
+        "unitTemplateRef": "forge-knight"
+      }
+    },
+    "dreadnought": {
+      "name": "Dreadnought",
+      "attack": 45,
+      "maxHp": 500,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 14,
+      "attackRange": 10,
+      "attackCooldownMs": 1800,
+      "size": "large",
+      "tags": [
+        "melee",
+        "large",
+        "armored",
+        "siege"
+      ],
+      "cardVariant": "mythic",
+      "halfHealthEffect": {
+        "damage": 60,
+        "range": 100
+      }
     }
   },
   "cards": [
@@ -11424,182 +12825,80 @@
       "rarity": "common",
       "cost": 1,
       "cardType": "structure",
-      "unit": {
-        "name": "Wall",
-        "attack": 0,
-        "maxHp": 40,
-        "isWall": true,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0
-      },
       "description": "Blocks melee units.",
       "deckCount": 3,
-      "lore": "The first answer to every problem. Usually the second answer too."
+      "lore": "The first answer to every problem. Usually the second answer too.",
+      "unitRef": "stone-wall"
     },
     {
       "name": "Lumber Camp",
       "rarity": "common",
       "cost": 2,
       "cardType": "structure",
-      "unit": {
-        "name": "Lumber Camp",
-        "attack": 0,
-        "maxHp": 15,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "attackAura",
-          "amount": 1
-        }
-      },
       "description": "All friendly units deal +1 damage. Upgrade: +1 more.",
       "deckCount": 2,
-      "lore": "Axes for trees, edges for everything else."
+      "lore": "Axes for trees, edges for everything else.",
+      "unitRef": "lumber-camp"
     },
     {
       "name": "Windmill",
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "structure",
-      "unit": {
-        "name": "Windmill",
-        "attack": 0,
-        "maxHp": 20,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "mana",
-          "amount": 1
-        }
-      },
       "description": "Converts wheat into bread each city tick. In battle: +1 max mana.",
       "deckCount": 2,
-      "lore": "The blades never stop. Neither does the hunger."
+      "lore": "The blades never stop. Neither does the hunger.",
+      "unitRef": "windmill"
     },
     {
       "name": "Farm",
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "structure",
-      "unit": {
-        "name": "Farm",
-        "attack": 0,
-        "maxHp": 20,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "mana",
-          "amount": 1
-        }
-      },
       "description": "+1 max mana. Upgrade: +1 more mana.",
       "deckCount": 2,
-      "lore": "Food is mana. Mana is power. This farmer has no idea what he's contributing to."
+      "lore": "Food is mana. Mana is power. This farmer has no idea what he's contributing to.",
+      "unitRef": "farm"
     },
     {
       "name": "Mana Spring",
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "structure",
-      "unit": {
-        "name": "ManaSpring",
-        "attack": 0,
-        "maxHp": 15,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "manaSpeed",
-          "speedMult": 0.5
-        }
-      },
       "description": "Mana regenerates 50% faster. Upgrade: another +50%.",
       "deckCount": 1,
-      "lore": "Nobody can explain where the water comes from. Nobody is asking anymore."
+      "lore": "Nobody can explain where the water comes from. Nobody is asking anymore.",
+      "unitRef": "mana-spring"
     },
     {
       "name": "Healer's Hut",
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "structure",
-      "unit": {
-        "name": "Healer Hut",
-        "attack": 0,
-        "maxHp": 15,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "healAura",
-          "amount": 3,
-          "intervalMs": 8000
-        }
-      },
       "description": "Heals all friendly units 3 HP every 8s. Upgrade: heals every 4s.",
       "deckCount": 1,
-      "lore": "\"Rest,\" she says. \"It'll hurt less tomorrow.\" She is usually right."
+      "lore": "\"Rest,\" she says. \"It'll hurt less tomorrow.\" She is usually right.",
+      "unitRef": "healers-hut"
     },
     {
       "name": "Stone Mason",
       "rarity": "rare",
       "cost": 4,
       "cardType": "structure",
-      "unit": {
-        "name": "Stone Mason",
-        "attack": 0,
-        "maxHp": 20,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "repairAura",
-          "amount": 8,
-          "intervalMs": 10000
-        }
-      },
       "description": "Repairs all friendly walls & structures 8 HP every 10s. Upgrade: every 5s.",
       "deckCount": 1,
-      "lore": "Builds walls by day, repairs them by night. He's given up asking why they keep breaking."
+      "lore": "Builds walls by day, repairs them by night. He's given up asking why they keep breaking.",
+      "unitRef": "stone-mason"
     },
     {
       "name": "Blacksmith",
       "rarity": "rare",
       "cost": 4,
       "cardType": "structure",
-      "unit": {
-        "name": "Blacksmith",
-        "attack": 0,
-        "maxHp": 20,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "attackAura",
-          "amount": 2
-        }
-      },
       "description": "All friendly units deal +2 damage. Upgrade: +2 more.",
       "deckCount": 1,
-      "lore": "Hammer, anvil, fire. In that order. He has opinions about everything else."
+      "lore": "Hammer, anvil, fire. In that order. He has opinions about everything else.",
+      "unitRef": "blacksmith"
     },
     {
       "name": "Barracks",
@@ -11609,24 +12908,10 @@
       "tags": [
         "forest"
       ],
-      "unit": {
-        "name": "Barracks",
-        "attack": 0,
-        "maxHp": 25,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "goblin",
-          "intervalMs": 7000
-        }
-      },
       "description": "Spawns a Goblin every 7s.",
       "deckCount": 2,
-      "lore": "Turns gold into goblins. Economists are still debating whether that's profitable."
+      "lore": "Turns gold into goblins. Economists are still debating whether that's profitable.",
+      "unitRef": "barracks"
     },
     {
       "name": "Arcane Tower",
@@ -11636,24 +12921,10 @@
       "tags": [
         "citadel"
       ],
-      "unit": {
-        "name": "Arc.Tower",
-        "attack": 0,
-        "maxHp": 20,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "archer",
-          "intervalMs": 12000
-        }
-      },
       "description": "Spawns an Archer every 12s.",
       "deckCount": 1,
-      "lore": "The archers it trains insist they learned everything naturally."
+      "lore": "The archers it trains insist they learned everything naturally.",
+      "unitRef": "arcane-tower"
     },
     {
       "name": "Dragon Lair",
@@ -11663,24 +12934,10 @@
       "tags": [
         "forest"
       ],
-      "unit": {
-        "name": "DrgnLair",
-        "attack": 0,
-        "maxHp": 30,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "dragon",
-          "intervalMs": 25000
-        }
-      },
       "description": "Spawns a Dragon every 25s.",
       "deckCount": 1,
-      "lore": "Do not approach. Do not inquire. Absolutely do not ask about the rent."
+      "lore": "Do not approach. Do not inquire. Absolutely do not ask about the rent.",
+      "unitRef": "dragon-lair"
     },
     {
       "name": "Sharpen Blades",
@@ -11846,24 +13103,10 @@
       "tags": [
         "ashen"
       ],
-      "unit": {
-        "name": "Crypt",
-        "attack": 0,
-        "maxHp": 20,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "skeleton",
-          "intervalMs": 7000
-        }
-      },
       "description": "Spawns a Skeleton every 7s.",
       "deckCount": 0,
-      "lore": "Nobody asked what's in there. Everyone agrees not to."
+      "lore": "Nobody asked what's in there. Everyone agrees not to.",
+      "unitRef": "crypt"
     },
     {
       "name": "Troll Den",
@@ -11873,24 +13116,10 @@
       "tags": [
         "forest"
       ],
-      "unit": {
-        "name": "Troll Den",
-        "attack": 0,
-        "maxHp": 35,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "troll",
-          "intervalMs": 20000
-        }
-      },
       "description": "Spawns a Troll every 20s.",
       "deckCount": 0,
-      "lore": "Smells terrible. Keeps the neighbours away."
+      "lore": "Smells terrible. Keeps the neighbours away.",
+      "unitRef": "troll-den"
     },
     {
       "name": "Garrison",
@@ -11900,24 +13129,10 @@
       "tags": [
         "citadel"
       ],
-      "unit": {
-        "name": "Garrison",
-        "attack": 0,
-        "maxHp": 22,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "crossbow",
-          "intervalMs": 10000
-        }
-      },
       "description": "Spawns a Crossbow every 10s.",
       "deckCount": 0,
-      "lore": "A crossbow and a grudge, supplied on rotation."
+      "lore": "A crossbow and a grudge, supplied on rotation.",
+      "unitRef": "garrison"
     },
     {
       "name": "Cathedral",
@@ -11927,24 +13142,10 @@
       "tags": [
         "citadel"
       ],
-      "unit": {
-        "name": "Cathedral",
-        "attack": 0,
-        "maxHp": 40,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "paladin",
-          "intervalMs": 25000
-        }
-      },
       "description": "Spawns a Paladin every 25s.",
       "deckCount": 0,
-      "lore": "Blessed walls. Blessed warriors. Blessed inconvenient for the enemy."
+      "lore": "Blessed walls. Blessed warriors. Blessed inconvenient for the enemy.",
+      "unitRef": "cathedral"
     },
     {
       "name": "Rogue Den",
@@ -11954,24 +13155,10 @@
       "tags": [
         "citadel"
       ],
-      "unit": {
-        "name": "Rogue Den",
-        "attack": 0,
-        "maxHp": 18,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "rogue",
-          "intervalMs": 9000
-        }
-      },
       "description": "Spawns a Rogue every 9s.",
       "deckCount": 0,
-      "lore": "No sign. No address. Impossible to miss."
+      "lore": "No sign. No address. Impossible to miss.",
+      "unitRef": "rogue-den"
     },
     {
       "name": "Siege Works",
@@ -11981,24 +13168,10 @@
       "tags": [
         "citadel"
       ],
-      "unit": {
-        "name": "Siege Works",
-        "attack": 0,
-        "maxHp": 25,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "catapult",
-          "intervalMs": 28000
-        }
-      },
       "description": "Spawns a Catapult every 28s.",
       "deckCount": 0,
-      "lore": "The engineers here have never met a wall they didn't want to destroy."
+      "lore": "The engineers here have never met a wall they didn't want to destroy.",
+      "unitRef": "siege-works"
     },
     {
       "name": "Dark Shrine",
@@ -12008,24 +13181,10 @@
       "tags": [
         "forest"
       ],
-      "unit": {
-        "name": "Dark Shrine",
-        "attack": 0,
-        "maxHp": 22,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "werewolf",
-          "intervalMs": 14000
-        }
-      },
       "description": "Spawns a Werewolf every 14s.",
       "deckCount": 0,
-      "lore": "Full moon schedule posted on the door."
+      "lore": "Full moon schedule posted on the door.",
+      "unitRef": "dark-shrine"
     },
     {
       "name": "Iron Forge",
@@ -12035,24 +13194,10 @@
       "tags": [
         "citadel"
       ],
-      "unit": {
-        "name": "Iron Forge",
-        "attack": 0,
-        "maxHp": 45,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "golem",
-          "intervalMs": 35000
-        }
-      },
       "description": "Spawns a Golem every 35s.",
       "deckCount": 0,
-      "lore": "Hammers day and night. Nobody sleeps within a mile."
+      "lore": "Hammers day and night. Nobody sleeps within a mile.",
+      "unitRef": "iron-forge"
     },
     {
       "name": "Fairy Ring",
@@ -12062,48 +13207,20 @@
       "tags": [
         "forest"
       ],
-      "unit": {
-        "name": "Fairy Ring",
-        "attack": 0,
-        "maxHp": 15,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "pixie",
-          "intervalMs": 7000
-        }
-      },
       "description": "Spawns a Pixie every 7s.",
       "deckCount": 0,
-      "lore": "\"Step inside the ring,\" they said. \"It'll be fun,\" they said."
+      "lore": "\"Step inside the ring,\" they said. \"It'll be fun,\" they said.",
+      "unitRef": "fairy-ring"
     },
     {
       "name": "Ogre Den",
       "rarity": "rare",
       "cost": 4,
       "cardType": "structure",
-      "unit": {
-        "name": "Ogre Den",
-        "attack": 0,
-        "maxHp": 28,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "ogre",
-          "intervalMs": 16000
-        }
-      },
       "description": "Spawns an Ogre every 16s.",
       "deckCount": 0,
-      "lore": "Listed as \"residential\" in the tax records."
+      "lore": "Listed as \"residential\" in the tax records.",
+      "unitRef": "ogre-den"
     },
     {
       "name": "Rally",
@@ -12480,24 +13597,10 @@
       "tags": [
         "ashen"
       ],
-      "unit": {
-        "name": "Rat Burrow",
-        "attack": 0,
-        "maxHp": 14,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "plague-rat",
-          "intervalMs": 5000
-        }
-      },
       "description": "Spawns a Plague Rat every 5s.",
       "deckCount": 2,
-      "lore": "The smell announces them long before they arrive."
+      "lore": "The smell announces them long before they arrive.",
+      "unitRef": "rat-burrow"
     },
     {
       "name": "Bandit Camp",
@@ -12507,24 +13610,10 @@
       "tags": [
         "citadel"
       ],
-      "unit": {
-        "name": "Bandit Camp",
-        "attack": 0,
-        "maxHp": 18,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "bandit",
-          "intervalMs": 8000
-        }
-      },
       "description": "Spawns a Bandit every 8s.",
       "deckCount": 2,
-      "lore": "Technically a business."
+      "lore": "Technically a business.",
+      "unitRef": "bandit-camp"
     },
     {
       "name": "Bat Cave",
@@ -12534,24 +13623,10 @@
       "tags": [
         "forest"
       ],
-      "unit": {
-        "name": "Bat Cave",
-        "attack": 0,
-        "maxHp": 14,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "bat",
-          "intervalMs": 6000
-        }
-      },
       "description": "Spawns a Bat every 6s.",
       "deckCount": 2,
-      "lore": "Dark inside. Dark outside. Mostly just dark."
+      "lore": "Dark inside. Dark outside. Mostly just dark.",
+      "unitRef": "bat-cave"
     },
     {
       "name": "Scorpion Pit",
@@ -12561,24 +13636,10 @@
       "tags": [
         "forest"
       ],
-      "unit": {
-        "name": "Scorpion Pit",
-        "attack": 0,
-        "maxHp": 20,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "scorpion",
-          "intervalMs": 9000
-        }
-      },
       "description": "Spawns a Scorpion every 9s.",
       "deckCount": 1,
-      "lore": "HR has filed fourteen complaints about working conditions."
+      "lore": "HR has filed fourteen complaints about working conditions.",
+      "unitRef": "scorpion-pit"
     },
     {
       "name": "Guard Post",
@@ -12588,24 +13649,10 @@
       "tags": [
         "citadel"
       ],
-      "unit": {
-        "name": "Guard Post",
-        "attack": 0,
-        "maxHp": 22,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "shield-guard",
-          "intervalMs": 16000
-        }
-      },
       "description": "Spawns a Shield Guard every 16s.",
       "deckCount": 1,
-      "lore": "Stand and deliver. Mostly stand."
+      "lore": "Stand and deliver. Mostly stand.",
+      "unitRef": "guard-post"
     },
     {
       "name": "Centaur Stable",
@@ -12615,24 +13662,10 @@
       "tags": [
         "forest"
       ],
-      "unit": {
-        "name": "Cntaur Stbl",
-        "attack": 0,
-        "maxHp": 22,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "centaur",
-          "intervalMs": 12000
-        }
-      },
       "description": "Spawns a Centaur every 12s.",
       "deckCount": 1,
-      "lore": "It's not a stable, they keep insisting."
+      "lore": "It's not a stable, they keep insisting.",
+      "unitRef": "centaur-stable"
     },
     {
       "name": "Harpy Roost",
@@ -12642,24 +13675,10 @@
       "tags": [
         "forest"
       ],
-      "unit": {
-        "name": "Harpy Roost",
-        "attack": 0,
-        "maxHp": 18,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "harpy",
-          "intervalMs": 12000
-        }
-      },
       "description": "Spawns a Harpy every 12s.",
       "deckCount": 1,
-      "lore": "Do not look up."
+      "lore": "Do not look up.",
+      "unitRef": "harpy-roost"
     },
     {
       "name": "Spirit Well",
@@ -12669,24 +13688,10 @@
       "tags": [
         "ashen"
       ],
-      "unit": {
-        "name": "Spirit Well",
-        "attack": 0,
-        "maxHp": 18,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "specter",
-          "intervalMs": 10000
-        }
-      },
       "description": "Spawns a Specter every 10s.",
       "deckCount": 1,
-      "lore": "The water is fine. The spirits are not."
+      "lore": "The water is fine. The spirits are not.",
+      "unitRef": "spirit-well"
     },
     {
       "name": "Lizard Warren",
@@ -12696,24 +13701,10 @@
       "tags": [
         "ashen"
       ],
-      "unit": {
-        "name": "Lizard Den",
-        "attack": 0,
-        "maxHp": 20,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "lizardman",
-          "intervalMs": 11000
-        }
-      },
       "description": "Spawns a Lizardman every 11s.",
       "deckCount": 1,
-      "lore": "Warm, underground, and excellent acoustics."
+      "lore": "Warm, underground, and excellent acoustics.",
+      "unitRef": "lizard-warren"
     },
     {
       "name": "Ballista Tower",
@@ -12723,24 +13714,10 @@
       "tags": [
         "citadel"
       ],
-      "unit": {
-        "name": "BallstaTwr",
-        "attack": 0,
-        "maxHp": 20,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "ballista",
-          "intervalMs": 15000
-        }
-      },
       "description": "Spawns a Ballista every 15s.",
       "deckCount": 1,
-      "lore": "The elevator is broken. Engineers don't care."
+      "lore": "The elevator is broken. Engineers don't care.",
+      "unitRef": "ballista-tower"
     },
     {
       "name": "Vamp. Coven",
@@ -12750,24 +13727,10 @@
       "tags": [
         "ashen"
       ],
-      "unit": {
-        "name": "Vamp Coven",
-        "attack": 0,
-        "maxHp": 20,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "vampire",
-          "intervalMs": 14000
-        }
-      },
       "description": "Spawns a Vampire every 14s.",
       "deckCount": 1,
-      "lore": "Meets at midnight. Dress code: dramatic."
+      "lore": "Meets at midnight. Dress code: dramatic.",
+      "unitRef": "vamp-coven"
     },
     {
       "name": "Aerie",
@@ -12777,48 +13740,20 @@
       "tags": [
         "forest"
       ],
-      "unit": {
-        "name": "Aerie",
-        "attack": 0,
-        "maxHp": 28,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "griffin",
-          "intervalMs": 20000
-        }
-      },
       "description": "Spawns a Griffin every 20s.",
       "deckCount": 1,
-      "lore": "Spectacular view. Treacherous access. Worth it."
+      "lore": "Spectacular view. Treacherous access. Worth it.",
+      "unitRef": "aerie"
     },
     {
       "name": "Mage Tower",
       "rarity": "rare",
       "cost": 4,
       "cardType": "structure",
-      "unit": {
-        "name": "Mage Tower",
-        "attack": 0,
-        "maxHp": 22,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "fire-mage",
-          "intervalMs": 18000
-        }
-      },
       "description": "Spawns a Fire Mage every 18s.",
       "deckCount": 1,
-      "lore": "Full of books, experiments, and extremely anxious junior mages."
+      "lore": "Full of books, experiments, and extremely anxious junior mages.",
+      "unitRef": "mage-tower"
     },
     {
       "name": "Gallows",
@@ -12828,48 +13763,20 @@
       "tags": [
         "citadel"
       ],
-      "unit": {
-        "name": "Gallows",
-        "attack": 0,
-        "maxHp": 18,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "executioner",
-          "intervalMs": 20000
-        }
-      },
       "description": "Spawns an Executioner every 20s.",
       "deckCount": 1,
-      "lore": "Structural integrity questionable. Attendance mandatory."
+      "lore": "Structural integrity questionable. Attendance mandatory.",
+      "unitRef": "gallows"
     },
     {
       "name": "Mammoth Pen",
       "rarity": "legendary",
       "cost": 5,
       "cardType": "structure",
-      "unit": {
-        "name": "Mammoth Pen",
-        "attack": 0,
-        "maxHp": 35,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "mammoth",
-          "intervalMs": 25000
-        }
-      },
       "description": "Spawns a Mammoth every 25s.",
       "deckCount": 1,
-      "lore": "Do not feed after dark. Do not feed before dark either."
+      "lore": "Do not feed after dark. Do not feed before dark either.",
+      "unitRef": "mammoth-pen"
     },
     {
       "name": "Shadow Academy",
@@ -12879,24 +13786,10 @@
       "tags": [
         "ashen"
       ],
-      "unit": {
-        "name": "Shadow Acad",
-        "attack": 0,
-        "maxHp": 20,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "dark-elf",
-          "intervalMs": 15000
-        }
-      },
       "description": "Spawns a Dark Elf every 15s.",
       "deckCount": 1,
-      "lore": "Curriculum: archery, shadows, and sighing at lesser beings."
+      "lore": "Curriculum: archery, shadows, and sighing at lesser beings.",
+      "unitRef": "shadow-academy"
     },
     {
       "name": "Death Tower",
@@ -12906,96 +13799,40 @@
       "tags": [
         "ashen"
       ],
-      "unit": {
-        "name": "Death Tower",
-        "attack": 0,
-        "maxHp": 22,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "necromancer",
-          "intervalMs": 18000
-        }
-      },
       "description": "Spawns a Necromancer every 18s.",
       "deckCount": 1,
-      "lore": "The door is unlocked. Nobody goes in uninvited."
+      "lore": "The door is unlocked. Nobody goes in uninvited.",
+      "unitRef": "death-tower"
     },
     {
       "name": "Giant's Hall",
       "rarity": "legendary",
       "cost": 5,
       "cardType": "structure",
-      "unit": {
-        "name": "Giant's Hall",
-        "attack": 0,
-        "maxHp": 40,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "giant",
-          "intervalMs": 45000
-        }
-      },
       "description": "Spawns a Giant every 45s.",
       "deckCount": 1,
-      "lore": "The ceiling keeps getting raised."
+      "lore": "The ceiling keeps getting raised.",
+      "unitRef": "giants-hall"
     },
     {
       "name": "Wyvern Roost",
       "rarity": "legendary",
       "cost": 5,
       "cardType": "structure",
-      "unit": {
-        "name": "Wyvern Roost",
-        "attack": 0,
-        "maxHp": 35,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "wyvern",
-          "intervalMs": 28000
-        }
-      },
       "description": "Spawns a Wyvern every 28s.",
       "deckCount": 1,
-      "lore": "Perched atop the cliff where nothing else dares to live."
+      "lore": "Perched atop the cliff where nothing else dares to live.",
+      "unitRef": "wyvern-roost"
     },
     {
       "name": "Ancient Altar",
       "rarity": "legendary",
       "cost": 7,
       "cardType": "structure",
-      "unit": {
-        "name": "Anc. Altar",
-        "attack": 0,
-        "maxHp": 50,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "behemoth",
-          "intervalMs": 70000
-        }
-      },
       "description": "Spawns a Behemoth every 70s.",
       "deckCount": 1,
-      "lore": "Old beyond memory. Hungry beyond measure."
+      "lore": "Old beyond memory. Hungry beyond measure.",
+      "unitRef": "ancient-altar"
     },
     {
       "name": "Field Medic",
@@ -13134,19 +13971,10 @@
       "tags": [
         "forest"
       ],
-      "unit": {
-        "name": "Thornwall",
-        "attack": 0,
-        "maxHp": 60,
-        "isWall": true,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0
-      },
       "description": "Reinforced thorn barrier — tougher than stone.",
       "deckCount": 0,
-      "lore": "The thorns grow back faster than you can cut them."
+      "lore": "The thorns grow back faster than you can cut them.",
+      "unitRef": "thornwall"
     },
     {
       "name": "Ancient Grove",
@@ -13156,24 +13984,10 @@
       "tags": [
         "forest"
       ],
-      "unit": {
-        "name": "Anc. Grove",
-        "attack": 0,
-        "maxHp": 30,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "vine-golem",
-          "intervalMs": 18000
-        }
-      },
       "description": "Spawns a Vine Golem every 18s.",
       "deckCount": 0,
-      "lore": "Old enough to remember when the forest covered everything."
+      "lore": "Old enough to remember when the forest covered everything.",
+      "unitRef": "ancient-grove"
     },
     {
       "name": "Ironclad Guard",
@@ -13248,24 +14062,10 @@
       "tags": [
         "citadel"
       ],
-      "unit": {
-        "name": "Armory",
-        "attack": 0,
-        "maxHp": 25,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "ironclad-guard",
-          "intervalMs": 14000
-        }
-      },
       "description": "Spawns an Ironclad Guard every 14s.",
       "deckCount": 0,
-      "lore": "Every soldier who leaves here is better armed. Most come back."
+      "lore": "Every soldier who leaves here is better armed. Most come back.",
+      "unitRef": "armory"
     },
     {
       "name": "Command Tent",
@@ -13275,23 +14075,10 @@
       "tags": [
         "citadel"
       ],
-      "unit": {
-        "name": "Cmd. Tent",
-        "attack": 0,
-        "maxHp": 20,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "mana",
-          "amount": 1
-        }
-      },
       "description": "+1 max mana. The iron citadel runs on logistics.",
       "deckCount": 0,
-      "lore": "Where strategy happens. Mostly arguing, but strategy."
+      "lore": "Where strategy happens. Mostly arguing, but strategy.",
+      "unitRef": "command-tent"
     },
     {
       "name": "Bone Archer",
@@ -13366,19 +14153,10 @@
       "tags": [
         "ashen"
       ],
-      "unit": {
-        "name": "Bone Wall",
-        "attack": 0,
-        "maxHp": 50,
-        "isWall": true,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0
-      },
       "description": "Skeletal barrier — sturdier than it looks.",
       "deckCount": 0,
-      "lore": "Unpleasant to look at. Effective to hide behind."
+      "lore": "Unpleasant to look at. Effective to hide behind.",
+      "unitRef": "bone-wall"
     },
     {
       "name": "Soul Obelisk",
@@ -13388,24 +14166,10 @@
       "tags": [
         "ashen"
       ],
-      "unit": {
-        "name": "Soul Obelisk",
-        "attack": 0,
-        "maxHp": 22,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "revenant",
-          "intervalMs": 11000
-        }
-      },
       "description": "Spawns a Revenant every 11s.",
       "deckCount": 0,
-      "lore": "Whispers things. Nobody agrees on what."
+      "lore": "Whispers things. Nobody agrees on what.",
+      "unitRef": "soul-obelisk"
     },
     {
       "name": "Arcane Golem",
@@ -13480,23 +14244,10 @@
       "tags": [
         "spire"
       ],
-      "unit": {
-        "name": "Mana Tower",
-        "attack": 0,
-        "maxHp": 18,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "mana",
-          "amount": 1
-        }
-      },
       "description": "+1 max mana. Channels ley-line energy.",
       "deckCount": 0,
-      "lore": "Taps directly into the Spire's mana grid. The Archivist has filed several complaints about this."
+      "lore": "Taps directly into the Spire's mana grid. The Archivist has filed several complaints about this.",
+      "unitRef": "mana-tower"
     },
     {
       "name": "Crystal Wall",
@@ -13506,19 +14257,10 @@
       "tags": [
         "spire"
       ],
-      "unit": {
-        "name": "Crystal Wall",
-        "attack": 0,
-        "maxHp": 60,
-        "isWall": true,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0
-      },
       "description": "Blocks melee units. Sturdier than stone.",
       "deckCount": 0,
-      "lore": "Grown, not built. The Spire's lattice does not distinguish between wall and corridor."
+      "lore": "Grown, not built. The Spire's lattice does not distinguish between wall and corridor.",
+      "unitRef": "crystal-wall"
     },
     {
       "name": "Leyline Node",
@@ -13528,23 +14270,10 @@
       "tags": [
         "spire"
       ],
-      "unit": {
-        "name": "Leyline Node",
-        "attack": 0,
-        "maxHp": 16,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "manaSpeed",
-          "speedMult": 0.5
-        }
-      },
       "description": "Mana regenerates 50% faster.",
       "deckCount": 0,
-      "lore": "An intersection of ley lines, tapped and stabilised. Mostly stabilised."
+      "lore": "An intersection of ley lines, tapped and stabilised. Mostly stabilised.",
+      "unitRef": "leyline-node"
     },
     {
       "name": "Mana Surge",
@@ -13651,24 +14380,10 @@
       "tags": [
         "forest"
       ],
-      "unit": {
-        "name": "Spore Tower",
-        "attack": 0,
-        "maxHp": 25,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "spore-bat",
-          "intervalMs": 12000
-        }
-      },
       "description": "Periodically launches a Spore Bat at the enemy.",
       "lore": "The tower does not stop. Not for weather. Not for war.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "spore-tower"
     },
     {
       "name": "Mushroom Circle",
@@ -13678,24 +14393,10 @@
       "tags": [
         "forest"
       ],
-      "unit": {
-        "name": "Mushroom Circle",
-        "attack": 0,
-        "maxHp": 20,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "healAura",
-          "amount": 2,
-          "intervalMs": 8000
-        }
-      },
       "description": "Regenerates nearby units with fungal energy.",
       "lore": "Step inside. Don't ask what the spores do.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "mushroom-circle"
     },
     {
       "name": "Root Tap",
@@ -13705,23 +14406,10 @@
       "tags": [
         "forest"
       ],
-      "unit": {
-        "name": "Root Network",
-        "attack": 0,
-        "maxHp": 15,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "mana",
-          "amount": 1
-        }
-      },
       "description": "Ancient root system — draws mana from the earth each turn.",
       "lore": "Every tree in the shard is connected. You just tapped in.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "root-tap"
     },
     {
       "name": "Overgrowth",
@@ -13876,23 +14564,10 @@
       "tags": [
         "iron"
       ],
-      "unit": {
-        "name": "Siege Tower",
-        "attack": 0,
-        "maxHp": 30,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "attackAura",
-          "amount": 2
-        }
-      },
       "description": "Elevated fortification — boosts nearby unit attack by 2.",
       "lore": "Height is an advantage. Build higher.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "siege-tower"
     },
     {
       "name": "Fortified Wall",
@@ -13902,19 +14577,10 @@
       "tags": [
         "iron"
       ],
-      "unit": {
-        "name": "Fortified Wall",
-        "attack": 0,
-        "maxHp": 80,
-        "isWall": true,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0
-      },
       "description": "Iron-reinforced wall — twice the HP of a stone wall.",
       "lore": "Iron holds. Stone merely delays.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "fortified-wall"
     },
     {
       "name": "Moat",
@@ -13924,25 +14590,10 @@
       "tags": [
         "iron"
       ],
-      "unit": {
-        "name": "Moat",
-        "attack": 0,
-        "maxHp": 9999,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "slowZone",
-          "slowFactor": 0.4,
-          "radius": 30
-        },
-        "isMoat": true
-      },
       "description": "Water barrier — slows all units that cross it. Cannot be destroyed.",
       "lore": "The water doesn't stop them. The mud does.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "moat"
     },
     {
       "name": "Lava Moat",
@@ -13952,26 +14603,10 @@
       "tags": [
         "fire"
       ],
-      "unit": {
-        "name": "Lava Moat",
-        "attack": 0,
-        "maxHp": 9999,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "slowZone",
-          "slowFactor": 0.35,
-          "radius": 28,
-          "damagePerSec": 15
-        },
-        "isMoat": true
-      },
       "description": "River of molten rock — slows enemies and burns them for 15 damage/s. Cannot be destroyed.",
       "lore": "The screaming gets quieter as the lava deepens.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "lava-moat"
     },
     {
       "name": "Acid Moat",
@@ -13981,26 +14616,10 @@
       "tags": [
         "iron"
       ],
-      "unit": {
-        "name": "Acid Moat",
-        "attack": 0,
-        "maxHp": 9999,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "slowZone",
-          "slowFactor": 0.45,
-          "radius": 26,
-          "damagePerSec": 8
-        },
-        "isMoat": true
-      },
       "description": "Corrosive channel — slows and deals 8 damage/s to crossing units. Cannot be destroyed.",
       "lore": "Armour is merely seasoning.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "acid-moat"
     },
     {
       "name": "Spike Pit",
@@ -14010,26 +14629,10 @@
       "tags": [
         "iron"
       ],
-      "unit": {
-        "name": "Spike Pit",
-        "attack": 0,
-        "maxHp": 9999,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "slowZone",
-          "slowFactor": 0.5,
-          "radius": 24,
-          "damagePerSec": 12
-        },
-        "isMoat": true
-      },
       "description": "Pit of iron spikes — slows and impales crossing units for 12 damage/s. Cannot be destroyed.",
       "lore": "Every step a decision. Most of them bad.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "spike-pit"
     },
     {
       "name": "Tar Pit",
@@ -14039,25 +14642,10 @@
       "tags": [
         "iron"
       ],
-      "unit": {
-        "name": "Tar Pit",
-        "attack": 0,
-        "maxHp": 9999,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "slowZone",
-          "slowFactor": 0.2,
-          "radius": 30
-        },
-        "isMoat": true
-      },
       "description": "Thick black tar — dramatically slows all units that cross it. Cannot be destroyed.",
       "lore": "Armies have been lost here. Most of them still are.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "tar-pit"
     },
     {
       "name": "Frost Moat",
@@ -14067,26 +14655,10 @@
       "tags": [
         "iron"
       ],
-      "unit": {
-        "name": "Frost Moat",
-        "attack": 0,
-        "maxHp": 9999,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "slowZone",
-          "slowFactor": 0.25,
-          "radius": 28,
-          "damagePerSec": 4
-        },
-        "isMoat": true
-      },
       "description": "Frozen channel — severely slows enemies and freezes them for 4 damage/s. Cannot be destroyed.",
       "lore": "The cold doesn't kill. It just makes you wish it would.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "frost-moat"
     },
     {
       "name": "Poison Bog",
@@ -14096,26 +14668,10 @@
       "tags": [
         "iron"
       ],
-      "unit": {
-        "name": "Poison Bog",
-        "attack": 0,
-        "maxHp": 9999,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "slowZone",
-          "slowFactor": 0.4,
-          "radius": 26,
-          "damagePerSec": 6
-        },
-        "isMoat": true
-      },
       "description": "Murky poisonous swamp — slows and poisons crossing units for 6 damage/s. Cannot be destroyed.",
       "lore": "The bubbles are from the bodies below.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "poison-bog"
     },
     {
       "name": "Lightning Rift",
@@ -14125,26 +14681,10 @@
       "tags": [
         "iron"
       ],
-      "unit": {
-        "name": "Lightning Rift",
-        "attack": 0,
-        "maxHp": 9999,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "slowZone",
-          "slowFactor": 0.45,
-          "radius": 26,
-          "damagePerSec": 10
-        },
-        "isMoat": true
-      },
       "description": "Crackling chasm of electricity — slows and shocks crossing units for 10 damage/s. Cannot be destroyed.",
       "lore": "You can hear it from a mile away. You can smell it from two.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "lightning-rift"
     },
     {
       "name": "Quicksand",
@@ -14154,25 +14694,10 @@
       "tags": [
         "iron"
       ],
-      "unit": {
-        "name": "Quicksand",
-        "attack": 0,
-        "maxHp": 9999,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "slowZone",
-          "slowFactor": 0.15,
-          "radius": 28
-        },
-        "isMoat": true
-      },
       "description": "Treacherous sand trap — nearly halts all units that cross it. Cannot be destroyed.",
       "lore": "Fighting it only makes it worse.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "quicksand"
     },
     {
       "name": "Blood Pool",
@@ -14182,26 +14707,10 @@
       "tags": [
         "iron"
       ],
-      "unit": {
-        "name": "Blood Pool",
-        "attack": 0,
-        "maxHp": 9999,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "slowZone",
-          "slowFactor": 0.35,
-          "radius": 28,
-          "damagePerSec": 5
-        },
-        "isMoat": true
-      },
       "description": "Grim pool of blood — slows and drains crossing units for 5 damage/s. Cannot be destroyed.",
       "lore": "Nobody ever asks whose blood it is.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "blood-pool"
     },
     {
       "name": "Shadow Mire",
@@ -14211,25 +14720,10 @@
       "tags": [
         "iron"
       ],
-      "unit": {
-        "name": "Shadow Mire",
-        "attack": 0,
-        "maxHp": 9999,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "slowZone",
-          "slowFactor": 0.3,
-          "radius": 30
-        },
-        "isMoat": true
-      },
       "description": "Void of shadow — heavily slows all units that cross it. Cannot be destroyed.",
       "lore": "Where shadows pool, so does dread.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "shadow-mire"
     },
     {
       "name": "Battle Hardened",
@@ -14355,24 +14849,10 @@
       "tags": [
         "ashen"
       ],
-      "unit": {
-        "name": "Death Altar",
-        "attack": 0,
-        "maxHp": 20,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "weak-skeleton",
-          "intervalMs": 8000
-        }
-      },
       "description": "Continuously raises weak skeletons from fallen enemies.",
       "lore": "Death is not the end here. It is the beginning of service.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "death-altar"
     },
     {
       "name": "Necrotic Pool",
@@ -14382,24 +14862,10 @@
       "tags": [
         "ashen"
       ],
-      "unit": {
-        "name": "Necrotic Pool",
-        "attack": 0,
-        "maxHp": 18,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "healAura",
-          "amount": 2,
-          "intervalMs": 8000
-        }
-      },
       "description": "Foul energy restores undead units nearby.",
       "lore": "The smell is not decay. It is potential.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "necrotic-pool"
     },
     {
       "name": "Graveblight Tower",
@@ -14409,24 +14875,10 @@
       "tags": [
         "ashen"
       ],
-      "unit": {
-        "name": "Graveblight Tower",
-        "attack": 0,
-        "maxHp": 30,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "revenant",
-          "intervalMs": 7500
-        }
-      },
       "description": "Raises powerful Revenants from the grave at intervals.",
       "lore": "The tower remembers everyone who has ever died near it.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "graveblight-tower"
     },
     {
       "name": "Undying Rage",
@@ -14581,23 +15033,10 @@
       "tags": [
         "arcane"
       ],
-      "unit": {
-        "name": "Arcane Forge",
-        "attack": 0,
-        "maxHp": 25,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "attackAura",
-          "amount": 3
-        }
-      },
       "description": "Magical enchantment forge — boosts nearby unit attack by 3.",
       "lore": "It doesn't make weapons. It makes weapons angry.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "arcane-forge"
     },
     {
       "name": "Null Field",
@@ -14607,23 +15046,10 @@
       "tags": [
         "arcane"
       ],
-      "unit": {
-        "name": "Null Field",
-        "attack": 0,
-        "maxHp": 20,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "manaSpeed",
-          "speedMult": 1.5
-        }
-      },
       "description": "Arcane disruption field — mana recharges 50% faster.",
       "lore": "It nullifies everything except mana. That was intentional.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "null-field"
     },
     {
       "name": "Crystal Resonance",
@@ -14704,48 +15130,26 @@
       "rarity": "rare",
       "cost": 4,
       "cardType": "structure",
-      "unit": {
-        "name": "Arcane Conduit",
-        "attack": 14,
-        "maxHp": 22,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 130,
-        "attackCooldownMs": 1600
-      },
       "description": "Ranged structure that fires arcane bolts. Long reach.",
       "deckCount": 0,
       "tags": [
         "spire"
       ],
-      "lore": "Channels raw ley-line energy into a focused beam. The Archivist has banned them from the reading rooms."
+      "lore": "Channels raw ley-line energy into a focused beam. The Archivist has banned them from the reading rooms.",
+      "unitRef": "arcane-conduit"
     },
     {
       "name": "Resonance Spire",
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "structure",
-      "unit": {
-        "name": "Resonance Spire",
-        "attack": 0,
-        "maxHp": 25,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "repairAura",
-          "amount": 2
-        }
-      },
       "description": "Heals nearby friendly units by 2 HP/tick.",
       "deckCount": 0,
       "tags": [
         "spire"
       ],
-      "lore": "The Spire hums at a frequency that knits crystal and flesh alike."
+      "lore": "The Spire hums at a frequency that knits crystal and flesh alike.",
+      "unitRef": "resonance-spire"
     },
     {
       "name": "Crystalline Shell",
@@ -14963,149 +15367,78 @@
       "rarity": "common",
       "cost": 1,
       "cardType": "structure",
-      "unit": {
-        "name": "Coral Wall",
-        "attack": 0,
-        "maxHp": 55,
-        "isWall": true,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0
-      },
       "description": "Blocks melee advance. Tougher than it looks.",
       "deckCount": 0,
       "tags": [
         "reef"
       ],
-      "lore": "Grown overnight. It takes longer to grow a conscience."
+      "lore": "Grown overnight. It takes longer to grow a conscience.",
+      "unitRef": "coral-wall"
     },
     {
       "name": "Tide Shrine",
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "structure",
-      "unit": {
-        "name": "Tide Shrine",
-        "attack": 0,
-        "maxHp": 18,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "mana",
-          "amount": 1
-        }
-      },
       "description": "+1 max mana. Channels tidal ley energy.",
       "deckCount": 0,
       "tags": [
         "reef"
       ],
-      "lore": "The tides flow twice a day. The mana flows whenever you need it."
+      "lore": "The tides flow twice a day. The mana flows whenever you need it.",
+      "unitRef": "tide-shrine"
     },
     {
       "name": "Siren's Post",
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "structure",
-      "unit": {
-        "name": "Siren's Post",
-        "attack": 11,
-        "maxHp": 20,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 120,
-        "attackCooldownMs": 1700
-      },
       "description": "Ranged structure. Lures enemies toward it, then attacks.",
       "deckCount": 0,
       "tags": [
         "reef"
       ],
-      "lore": "The song is optional. The attack is not."
+      "lore": "The song is optional. The attack is not.",
+      "unitRef": "sirens-post"
     },
     {
       "name": "Reef Mender",
       "rarity": "uncommon",
       "cost": 2,
       "cardType": "structure",
-      "unit": {
-        "name": "Reef Mender",
-        "attack": 0,
-        "maxHp": 20,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "repairAura",
-          "amount": 2
-        }
-      },
       "description": "Heals nearby friendly units by 2 HP/tick.",
       "deckCount": 0,
       "tags": [
         "reef"
       ],
-      "lore": "The reef heals itself. Given enough time. The mender speeds up the schedule."
+      "lore": "The reef heals itself. Given enough time. The mender speeds up the schedule.",
+      "unitRef": "reef-mender"
     },
     {
       "name": "Depth Anchor",
       "rarity": "rare",
       "cost": 3,
       "cardType": "structure",
-      "unit": {
-        "name": "Depth Anchor",
-        "attack": 0,
-        "maxHp": 24,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "manaSpeed",
-          "speedMult": 0.5
-        }
-      },
       "description": "Mana regenerates 50% faster.",
       "deckCount": 0,
       "tags": [
         "reef"
       ],
-      "lore": "Chains the ley current in place so it can't drift. The ley current resents this."
+      "lore": "Chains the ley current in place so it can't drift. The ley current resents this.",
+      "unitRef": "depth-anchor"
     },
     {
       "name": "Kraken Beacon",
       "rarity": "rare",
       "cost": 3,
       "cardType": "structure",
-      "unit": {
-        "name": "Kraken Beacon",
-        "attack": 0,
-        "maxHp": 22,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "reef-crawler",
-          "intervalMs": 5000
-        }
-      },
       "description": "Spawns a Reef Crawler every 5 seconds.",
       "deckCount": 0,
       "tags": [
         "reef"
       ],
-      "lore": "The signal draws them from the deep. They don't ask why. They never ask why."
+      "lore": "The signal draws them from the deep. They don't ask why. They never ask why.",
+      "unitRef": "kraken-beacon"
     },
     {
       "name": "Tidal Surge",
@@ -15358,167 +15691,91 @@
       "rarity": "common",
       "cost": 1,
       "cardType": "structure",
-      "unit": {
-        "name": "Gust Wall",
-        "attack": 0,
-        "maxHp": 45,
-        "isWall": true,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0
-      },
       "description": "Blocks melee. Made of condensed wind.",
       "deckCount": 0,
       "tags": [
         "sky"
       ],
-      "lore": "Not technically a wall. Technically a sustained gale. Practically identical."
+      "lore": "Not technically a wall. Technically a sustained gale. Practically identical.",
+      "unitRef": "gust-wall"
     },
     {
       "name": "Wind Shrine",
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "structure",
-      "unit": {
-        "name": "Wind Shrine",
-        "attack": 0,
-        "maxHp": 18,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "mana",
-          "amount": 1
-        }
-      },
       "description": "+1 max mana. Channels ley-wind currents.",
       "deckCount": 0,
       "tags": [
         "sky"
       ],
-      "lore": "Taps the upper ley current. The Cloudmarshal has three per island. She counts them."
+      "lore": "Taps the upper ley current. The Cloudmarshal has three per island. She counts them.",
+      "unitRef": "wind-shrine"
     },
     {
       "name": "Storm Tower",
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "structure",
-      "unit": {
-        "name": "Storm Tower",
-        "attack": 12,
-        "maxHp": 20,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 125,
-        "attackCooldownMs": 1600
-      },
       "description": "Ranged lightning structure. Long reach.",
       "deckCount": 0,
       "tags": [
         "sky"
       ],
-      "lore": "Discharges continuously. The operators wear rubber boots. This is considered standard kit."
+      "lore": "Discharges continuously. The operators wear rubber boots. This is considered standard kit.",
+      "unitRef": "storm-tower"
     },
     {
       "name": "Aerie Roost",
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "structure",
-      "unit": {
-        "name": "Aerie Roost",
-        "attack": 0,
-        "maxHp": 18,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "wind-sprite",
-          "intervalMs": 5000
-        }
-      },
       "description": "Spawns a Wind Sprite every 5 seconds.",
       "deckCount": 0,
       "tags": [
         "sky"
       ],
-      "lore": "The sprites nest here. They leave when called. Sometimes before they're called."
+      "lore": "The sprites nest here. They leave when called. Sometimes before they're called.",
+      "unitRef": "aerie-roost"
     },
     {
       "name": "Sky Beacon",
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "structure",
-      "unit": {
-        "name": "Sky Beacon",
-        "attack": 0,
-        "maxHp": 20,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "manaSpeed",
-          "speedMult": 0.5
-        }
-      },
       "description": "Mana regenerates 50% faster.",
       "deckCount": 0,
       "tags": [
         "sky"
       ],
-      "lore": "Broadcasts on the ley frequency. Mana responds like it has somewhere to be."
+      "lore": "Broadcasts on the ley frequency. Mana responds like it has somewhere to be.",
+      "unitRef": "sky-beacon"
     },
     {
       "name": "Cloudfort",
       "rarity": "rare",
       "cost": 4,
       "cardType": "structure",
-      "unit": {
-        "name": "Cloudfort",
-        "attack": 0,
-        "maxHp": 30,
-        "isWall": true,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0
-      },
       "description": "Extremely sturdy aerial wall.",
       "deckCount": 0,
       "tags": [
         "sky"
       ],
-      "lore": "Compressed cloudstuff, hardened by altitude magic. Nothing gets through. Nothing legitimate, anyway."
+      "lore": "Compressed cloudstuff, hardened by altitude magic. Nothing gets through. Nothing legitimate, anyway.",
+      "unitRef": "cloudfort"
     },
     {
       "name": "Thunder Battery",
       "rarity": "rare",
       "cost": 4,
       "cardType": "structure",
-      "unit": {
-        "name": "Thunder Battery",
-        "attack": 16,
-        "maxHp": 24,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 140,
-        "attackCooldownMs": 2000
-      },
       "description": "Powerful long-range storm cannon.",
       "deckCount": 0,
       "tags": [
         "sky"
       ],
-      "lore": "The Cloudmarshal designed this personally. It shows."
+      "lore": "The Cloudmarshal designed this personally. It shows.",
+      "unitRef": "thunder-battery"
     },
     {
       "name": "Wind Surge",
@@ -15816,147 +16073,78 @@
       "rarity": "common",
       "cost": 1,
       "cardType": "structure",
-      "unit": {
-        "name": "Cinder Wall",
-        "attack": 0,
-        "maxHp": 50,
-        "isWall": true,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0
-      },
       "description": "Sturdy wall. Blocks melee attackers.",
       "deckCount": 0,
       "tags": [
         "ember"
       ],
-      "lore": "Ash compacted under pressure. Holds well. Smells terrible."
+      "lore": "Ash compacted under pressure. Holds well. Smells terrible.",
+      "unitRef": "cinder-wall"
     },
     {
       "name": "Ash Turret",
       "rarity": "uncommon",
       "cost": 2,
       "cardType": "structure",
-      "unit": {
-        "name": "Ash Turret",
-        "attack": 9,
-        "maxHp": 20,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 110,
-        "attackCooldownMs": 1400
-      },
       "description": "Ranged structure. Fires ash-coated bolts.",
       "deckCount": 0,
       "tags": [
         "ember"
       ],
-      "lore": "The mechanism clogs. That's fine. So does the enemy."
+      "lore": "The mechanism clogs. That's fine. So does the enemy.",
+      "unitRef": "ash-turret"
     },
     {
       "name": "Magma Vent",
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "structure",
-      "unit": {
-        "name": "Magma Vent",
-        "attack": 0,
-        "maxHp": 18,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "ember-crawler",
-          "intervalMs": 5500
-        }
-      },
       "description": "Spawns an Ember Crawler every 5.5s.",
       "deckCount": 0,
       "tags": [
         "ember"
       ],
-      "lore": "A crack in the rock. Something keeps coming out of it. This is considered a feature."
+      "lore": "A crack in the rock. Something keeps coming out of it. This is considered a feature.",
+      "unitRef": "magma-vent"
     },
     {
       "name": "Fire Forge",
       "rarity": "uncommon",
       "cost": 2,
       "cardType": "structure",
-      "unit": {
-        "name": "Fire Forge",
-        "attack": 0,
-        "maxHp": 16,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "mana",
-          "amount": 1
-        }
-      },
       "description": "+1 max mana. The heat fuels the ley channels.",
       "deckCount": 0,
       "tags": [
         "ember"
       ],
-      "lore": "Taps geothermal ley-lines. Side effects include singed eyebrows and increased mana capacity."
+      "lore": "Taps geothermal ley-lines. Side effects include singed eyebrows and increased mana capacity.",
+      "unitRef": "fire-forge"
     },
     {
       "name": "Lava Spire",
       "rarity": "rare",
       "cost": 4,
       "cardType": "structure",
-      "unit": {
-        "name": "Lava Spire",
-        "attack": 16,
-        "maxHp": 25,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 130,
-        "attackCooldownMs": 1800,
-        "targetUnitType": "not_flying"
-      },
       "description": "Long-range high-damage structure. Targets ground units only.",
       "deckCount": 0,
       "tags": [
         "ember"
       ],
-      "lore": "The Warlord erected one before every major offensive. He considers them motivational."
+      "lore": "The Warlord erected one before every major offensive. He considers them motivational.",
+      "unitRef": "lava-spire"
     },
     {
       "name": "Ember Shrine",
       "rarity": "rare",
       "cost": 4,
       "cardType": "structure",
-      "unit": {
-        "name": "Ember Shrine",
-        "attack": 0,
-        "maxHp": 20,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "spawn",
-          "unitTemplateRef": "scorch-bat",
-          "intervalMs": 6000
-        }
-      },
       "description": "Spawns a Scorch Bat every 6s.",
       "deckCount": 0,
       "tags": [
         "ember"
       ],
-      "lore": "Ancient. Predates the Warlord. He keeps it lit because it keeps working."
+      "lore": "Ancient. Predates the Warlord. He keeps it lit because it keeps working.",
+      "unitRef": "ember-shrine"
     },
     {
       "name": "Burning Rush",
@@ -17107,30 +17295,14 @@
       "rarity": "common",
       "cost": 3,
       "cardType": "structure",
-      "unit": {
-        "name": "Canopy Farm",
-        "attack": 0,
-        "maxHp": 22,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "structureEffect": {
-          "type": "mana",
-          "amount": 1
-        },
-        "tags": [
-          "canopy"
-        ]
-      },
       "description": "+1 max mana. Upgrade: +1 more mana.",
       "deckCount": 2,
       "tags": [
         "canopy",
         "ancient"
       ],
-      "lore": "The canopy farms light and converts it. Inefficient for energy. Exceptional for power."
+      "lore": "The canopy farms light and converts it. Inefficient for energy. Exceptional for power.",
+      "unitRef": "canopy-farm"
     },
     {
       "name": "Ancient Blessing",
@@ -20858,58 +21030,20 @@
       "rarity": "mythic",
       "cost": 5,
       "cardType": "unit",
-      "unit": {
-        "name": "Void Titan",
-        "attack": 80,
-        "maxHp": 350,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 20,
-        "attackRange": 8,
-        "attackCooldownMs": 1400,
-        "size": "large",
-        "tags": [
-          "melee",
-          "large",
-          "armored"
-        ],
-        "cardVariant": "mythic",
-        "onDeathEffect": {
-          "damage": 40,
-          "range": 120
-        }
-      },
       "description": "Mythic colossus of absolute destruction. On death, detonates for 40 damage in 120px.",
       "lore": "The void does not hunger. It simply consumes.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "void-titan"
     },
     {
       "name": "Prism Wyrm",
       "rarity": "mythic",
       "cost": 5,
       "cardType": "unit",
-      "unit": {
-        "name": "Prism Wyrm",
-        "attack": 55,
-        "maxHp": 220,
-        "isWall": false,
-        "bypassWall": true,
-        "flying": true,
-        "moveSpeed": 45,
-        "attackRange": 100,
-        "attackCooldownMs": 1200,
-        "size": "large",
-        "tags": [
-          "flying",
-          "ranged",
-          "magic",
-          "large"
-        ],
-        "cardVariant": "mythic"
-      },
       "description": "Mythic sky serpent. Bypasses walls, flies over all obstacles, fires iridescent blasts.",
       "lore": "Light bends around it. So does loyalty.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "prism-wyrm"
     },
     {
       "name": "World's End",
@@ -20929,57 +21063,20 @@
       "rarity": "mythic",
       "cost": 5,
       "cardType": "structure",
-      "unit": {
-        "name": "Eternal Forge",
-        "attack": 0,
-        "maxHp": 280,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 0,
-        "attackRange": 0,
-        "attackCooldownMs": 0,
-        "size": "large",
-        "cardVariant": "mythic",
-        "structureEffect": {
-          "type": "spawn",
-          "intervalMs": 2000,
-          "unitTemplateRef": "forge-knight"
-        }
-      },
       "description": "Mythic structure — forges an armoured knight every 2 seconds. Cannot be destroyed.",
       "lore": "The hammer never rests. The forge never cools.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "eternal-forge"
     },
     {
       "name": "Dreadnought",
       "rarity": "mythic",
       "cost": 5,
       "cardType": "unit",
-      "unit": {
-        "name": "Dreadnought",
-        "attack": 45,
-        "maxHp": 500,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 14,
-        "attackRange": 10,
-        "attackCooldownMs": 1800,
-        "size": "large",
-        "tags": [
-          "melee",
-          "large",
-          "armored",
-          "siege"
-        ],
-        "cardVariant": "mythic",
-        "halfHealthEffect": {
-          "damage": 60,
-          "range": 100
-        }
-      },
       "description": "Mythic siege engine — absurd HP, unstoppable advance. At 50% HP detonates for 60 AoE.",
       "lore": "There is no wall it cannot break. There is no army it cannot outlast.",
-      "deckCount": 0
+      "deckCount": 0,
+      "unitRef": "dreadnought"
     },
     {
       "name": "Wizard Academy",
