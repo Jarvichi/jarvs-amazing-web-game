@@ -824,7 +824,25 @@
       "chain": "restock-sack"
     }
   ],
-  "blockedPaths": [],
+  "blockedPaths": [
+    {
+      "id": "millhaven-hidden-plaza-cache",
+      "blockedTiles": [[17, 16]],
+      "unlockedByInteractable": "millhaven-secret-pier-buoy",
+      "blocked": {
+        "decor": [
+          { "tx": 17, "ty": 16, "tileId": "crate" }
+        ],
+        "npcs": []
+      },
+      "cleared": {
+        "decor": [
+          { "tx": 17, "ty": 16, "tileId": "chest" }
+        ],
+        "npcs": []
+      }
+    }
+  ],
   "dialogues": [
     {
       "id": "tamsin-locket-trade",
