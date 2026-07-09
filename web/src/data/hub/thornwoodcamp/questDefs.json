@@ -646,6 +646,23 @@
           }
         ]
       }
+    },
+    {
+      "id": "thornwood-hidden-pathside-cache",
+      "blockedTiles": [[13, 31]],
+      "unlockedByInteractable": "thornwood-secret-southpath-tooth",
+      "blocked": {
+        "decor": [
+          { "tx": 13, "ty": 31, "tileId": "largeStump" }
+        ],
+        "npcs": []
+      },
+      "cleared": {
+        "decor": [
+          { "tx": 13, "ty": 31, "tileId": "chest" }
+        ],
+        "npcs": []
+      }
     }
   ]
 }

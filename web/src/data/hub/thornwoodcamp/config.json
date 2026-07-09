@@ -627,6 +627,72 @@
           "message": "You found a piece of river glass!"
         }
       ]
+    },
+    {
+      "id": "thornwood-secret-embercharm",
+      "tx": 10,
+      "ty": 17,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Half-buried in the frost near the north path, a small charm swings from a broken cord."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "thornwood-ember-charm",
+            "name": "Ember-Warmed Charm",
+            "icon": "🔥",
+            "desc": "A small stone charm, faintly warm to the touch even in the cold.",
+            "lore": "Warden Rell keeps the fire lit against the wolves. This charm feels like it's been sitting near a flame for years — though there's no fire out this far from camp."
+          },
+          "message": "You found a charm that's oddly warm to the touch."
+        }
+      ]
+    },
+    {
+      "id": "thornwood-secret-southpath-tooth",
+      "tx": 13,
+      "ty": 38,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Wedged between two roots along the south path, something long and sharp catches the light."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "thornwood-wolf-tooth",
+            "name": "Old Wolf Tooth",
+            "icon": "🦷",
+            "desc": "A large tooth, yellowed with age, worn smooth at the root.",
+            "lore": "Ranger Sable counts the pack every season. By the size of this, whatever wolf it belonged to was old before the bad winter Sable keeps mentioning."
+          },
+          "message": "You found an old wolf tooth."
+        }
+      ]
+    },
+    {
+      "id": "thornwood-hidden-pathside-cache-loot",
+      "tx": 13,
+      "ty": 31,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Behind the stump the old tooth seemed to point toward, a small chest is wedged into the roots."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "thornwood-ranger-cache",
+            "name": "Ranger's Hidden Cache",
+            "icon": "📦",
+            "desc": "A small weatherproofed chest, tucked where only someone tracking wolves would think to look.",
+            "lore": "Ranger Sable must have stashed this years ago and forgotten it — or never came back for it. Best not to guess which."
+          },
+          "message": "You found a ranger's hidden cache!"
+        }
+      ]
     }
   ],
   "pondTiles": [
