@@ -6,6 +6,7 @@ import rewardsJson      from '../data/rewards.json'
 import brokenRelicsJson from '../data/broken-relics.json'
 import { CardRarity } from './types'
 import { addCollectible, removeCollectible, getCollectibles, ItemDisplayFields } from './itemStore'
+import { getKnownCollectible } from './collectiblesCatalog'
 
 const DAILY_KEY = 'jarv_daily_login'
 const SEEN_COLLECTIBLES_KEY = 'jarv_seen_collectibles'
@@ -223,16 +224,21 @@ function isKeepsakeEntry(e: { id: string; name?: string; isKeepsake?: boolean })
 export function loadInventory(): UselessItem[] {
   const entries = getCollectibles()
   return entries.map(e => {
-    const isKeepsake = isKeepsakeEntry(e)
     // 1. Catalog (static items.json)
     const def = ALL_ITEMS.find(i => i.id === e.id)
-    if (def) return { id: e.id, name: def.name, icon: def.icon, desc: def.desc, lore: def.lore, acquiredDate: e.acquiredDate ?? '', isKeepsake }
-    // 2. Stored display fields (items added after the display-field fix)
+    if (def) return { id: e.id, name: def.name, icon: def.icon, desc: def.desc, lore: def.lore, acquiredDate: e.acquiredDate ?? '', isKeepsake: false }
+    // 2. Known narrative collectible — always resolved against the current
+    // definition, so a later data fix (e.g. a corrected icon) applies
+    // immediately for players who already own the item, not just future grants.
+    const known = getKnownCollectible(e.id)
+    if (known) return { id: e.id, name: known.name, icon: known.icon, desc: known.desc, lore: known.lore ?? '', acquiredDate: e.acquiredDate ?? '', isKeepsake: true }
+    const isKeepsake = isKeepsakeEntry(e)
+    // 3. Stored display fields (items added after the display-field fix)
     if (e.name) return { id: e.id, name: e.name, icon: e.icon ?? '❓', desc: e.desc ?? '', lore: e.lore ?? '', acquiredDate: e.acquiredDate ?? '', isKeepsake }
-    // 3. Reconstruct broken relic display from the dynamic id
+    // 4. Reconstruct broken relic display from the dynamic id
     const broken = resolveBrokenRelic(e.id)
     if (broken) return { id: e.id, ...broken, lore: '', acquiredDate: e.acquiredDate ?? '', isKeepsake }
-    // 4. Unknown item — show raw id as placeholder
+    // 5. Unknown item — show raw id as placeholder
     return { id: e.id, name: e.id, icon: '❓', desc: '', lore: '', acquiredDate: e.acquiredDate ?? '', isKeepsake }
   })
 }

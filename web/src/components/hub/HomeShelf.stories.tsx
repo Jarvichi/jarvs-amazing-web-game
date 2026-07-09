@@ -49,11 +49,14 @@ export const Populated: Story = {
     (Story) => {
       seedItemStore([
         { id: 'Bark Shield', type: 'relic', count: 1 },
+        // Stale entry stored before the questDefs.json icon fix, with the old
+        // broken icon string baked in and no isKeepsake flag (granted before
+        // that flag existed either) — resolved against the current known-
+        // collectible catalog by loadInventory(), not the stale stored fields.
         {
           id: 'hearthstone', type: 'item', count: 1, acquiredDate: '2026-01-01',
-          name: 'The Hearthstone', icon: '🔥',
+          name: 'The Hearthstone', icon: 'goldChest',
           desc: 'The reunified Hearthstone — three fragments made whole.',
-          isKeepsake: true,
         },
         {
           id: 'ravenwatch-church-key', type: 'item', count: 1, acquiredDate: '2026-01-02',
