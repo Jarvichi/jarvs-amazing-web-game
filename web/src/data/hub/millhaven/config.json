@@ -3324,6 +3324,94 @@
           "slotIndex": 2
         }
       ]
+    },
+    {
+      "id": "millhaven-secret-harbour-charm",
+      "tx": 23,
+      "ty": 10,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Tucked beneath the fishmonger's awning, a small carved charm has been wedged into a support post for years."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "millhaven-sailors-charm",
+            "name": "Weathered Sailor's Charm",
+            "icon": "⚓",
+            "desc": "A small wooden charm, carved in the shape of an anchor.",
+            "lore": "Sailor Finn would recognize the carving style — sailors used to nail these to the post before a long haul. Whoever left this one never came back to reclaim it."
+          },
+          "message": "You found a weathered sailor's charm."
+        }
+      ]
+    },
+    {
+      "id": "millhaven-secret-pier-buoy",
+      "tx": 38,
+      "ty": 17,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Half-tangled in old netting near the tackle stalls, a small buoy bobs against the pilings."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "millhaven-marker-buoy",
+            "name": "Faded Marker Buoy",
+            "icon": "🔴",
+            "desc": "A small buoy, its paint faded past recognition.",
+            "lore": "Dockhand Bram mentioned the storm dragged half the moorings loose last week. This one never made it back to its post."
+          },
+          "message": "You found a faded marker buoy tangled in the nets."
+        }
+      ]
+    },
+    {
+      "id": "millhaven-secret-smithy-tool",
+      "tx": 9,
+      "ty": 32,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Wedged behind the smithy's log pile, a small hand tool has rusted into the wood."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "millhaven-forge-tool",
+            "name": "Rusted Forge Tool",
+            "icon": "🔨",
+            "desc": "A small hand tool, its handle long rotted away.",
+            "lore": "Smith Garrick would swear he's never lost a tool in his life. This one's older than his apprenticeship, by the rust on it."
+          },
+          "message": "You found a rusted old forge tool."
+        }
+      ]
+    },
+    {
+      "id": "millhaven-hidden-plaza-cache-loot",
+      "tx": 17,
+      "ty": 16,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Behind the storm-blown crate the buoy seemed to be marking, a small chest sits half-buried in the mud."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "millhaven-storm-cache",
+            "name": "Storm-Washed Cache",
+            "icon": "📦",
+            "desc": "A small chest, salt-stained and swollen from the rain.",
+            "lore": "Whatever ship it fell from, the tide brought it all the way into the square. Regatta Master Coll would probably want to hear about this."
+          },
+          "message": "You found a storm-washed cache in the square!"
+        }
+      ]
     }
   ],
   "pondTiles": [
