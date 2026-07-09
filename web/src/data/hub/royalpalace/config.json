@@ -4353,6 +4353,94 @@
       "building": "treasury-annex",
       "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
       "reactions": [{ "type": "buy", "slotIndex": 2 }]
+    },
+    {
+      "id": "royalpalace-secret-garden-locket",
+      "tx": 15,
+      "ty": 18,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Half-hidden beneath a rose bush in the royal gardens, something small glints in the dirt."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "royalpalace-garden-locket",
+            "name": "Garden Locket",
+            "icon": "💍",
+            "desc": "A small locket, its clasp long since rusted shut.",
+            "lore": "Queen Maredith tends these gardens herself. If this is hers, she's never once mentioned losing it."
+          },
+          "message": "You found a small locket buried beneath the roses."
+        }
+      ]
+    },
+    {
+      "id": "royalpalace-secret-eastgarden-seal",
+      "tx": 35,
+      "ty": 24,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Pressed into the soil near the bird baths, a wax seal has hardened into a small disc."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "royalpalace-broken-seal",
+            "name": "Broken Wax Seal",
+            "icon": "📜",
+            "desc": "A disc of hardened wax, the royal crest pressed into one side, snapped clean in half.",
+            "lore": "Herald Fanshawe would recognize this crest — it matches the missing proclamations he's still hunting for. Someone broke this seal in a hurry."
+          },
+          "message": "You found half of a broken wax seal."
+        }
+      ]
+    },
+    {
+      "id": "royalpalace-secret-servants-ledger",
+      "tx": 9,
+      "ty": 31,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Tucked behind a stack of crates in the servants' yard, a torn ledger page flutters."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "royalpalace-ledger-scrap",
+            "name": "Torn Ledger Scrap",
+            "icon": "📒",
+            "desc": "A scrap of a ledger page, the numbers smudged but the total still legible.",
+            "lore": "Master Edric would want this back — 'every coin accounted for,' he always says. This page accounts for rather fewer coins than the vault claims to hold."
+          },
+          "message": "You found a torn scrap of ledger."
+        }
+      ]
+    },
+    {
+      "id": "royalpalace-hidden-avenue-cache-loot",
+      "tx": 13,
+      "ty": 32,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Behind the crates someone left blocking the avenue, a gilded chest sits forgotten against the wall."
+        },
+        {
+          "type": "giveItem",
+          "collectible": {
+            "id": "royalpalace-vault-shortfall",
+            "name": "Missing Vault Coin",
+            "icon": "🪙",
+            "desc": "A small pouch of coins, exactly matching the shortfall on the torn ledger page.",
+            "lore": "Master Edric's numbers were right after all. Someone just hid the difference rather than explain it."
+          },
+          "message": "You found the coins the ledger was missing!"
+        }
+      ]
     }
   ],
   "chickenZones": [

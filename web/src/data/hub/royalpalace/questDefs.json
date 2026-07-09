@@ -852,7 +852,25 @@
       "questId": "palace-queen-roses"
     }
   ],
-  "blockedPaths": [],
+  "blockedPaths": [
+    {
+      "id": "royalpalace-hidden-avenue-cache",
+      "blockedTiles": [[13, 32]],
+      "unlockedByInteractable": "royalpalace-secret-servants-ledger",
+      "blocked": {
+        "decor": [
+          { "tx": 13, "ty": 32, "tileId": "crate" }
+        ],
+        "npcs": []
+      },
+      "cleared": {
+        "decor": [
+          { "tx": 13, "ty": 32, "tileId": "goldChest" }
+        ],
+        "npcs": []
+      }
+    }
+  ],
   "dialogues": [
     {
       "id": "penrose-chat",
