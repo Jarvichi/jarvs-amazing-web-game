@@ -77,6 +77,9 @@ export interface ItemEntry {
   lore?: string
   /** Hub-items only: inventory grouping (see HubItemCategory). */
   category?: HubItemCategory
+  /** Items only: true for meaningful narrative/quest rewards, shown on the Home
+   *  Shelf as "Keepsakes" rather than grouped with daily-login/flavor junk. */
+  isKeepsake?: boolean
 }
 
 export interface ItemDisplayFields {
@@ -85,6 +88,7 @@ export interface ItemDisplayFields {
   desc?: string
   lore?: string
   category?: HubItemCategory
+  isKeepsake?: boolean
 }
 
 const ITEM_STORE_KEY = 'jarv_item_store'

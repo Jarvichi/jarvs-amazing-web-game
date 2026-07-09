@@ -7752,6 +7752,15 @@ body {
   flex: 1;
 }
 
+.shelf-section-label {
+  font-size: 10px;
+  color: #557755;
+  font-family: monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin: 4px 0 8px;
+}
+
 .shelf-empty-msg {
   font-size: 13px;
   color: #5a7a5a;

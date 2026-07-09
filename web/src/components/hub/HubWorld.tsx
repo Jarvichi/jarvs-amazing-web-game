@@ -651,7 +651,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     }
     if (reward.collectible) {
       const { id: cid, name, icon, desc } = reward.collectible
-      addCollectible(cid, { name, icon, desc })
+      addCollectible(cid, { name, icon, desc, isKeepsake: true })
     }
     if (reward.consumables) {
       for (const { id, quantity } of reward.consumables) {
@@ -803,7 +803,7 @@ function grantQuestReward(quest: HubQuestDef, townNpcs: HubNpc[]): void {
   }
   if (reward.collectible) {
     const { id, name, icon, desc } = reward.collectible
-    addCollectible(id, { name, icon, desc })
+    addCollectible(id, { name, icon, desc, isKeepsake: true })
   }
   if (reward.card) {
     addCardsToCollection([{ cardName: reward.card.name, count: reward.card.count ?? 1 }])
@@ -1083,7 +1083,7 @@ function hasOfferableQuest(giverId: string): boolean {
           }
           if (eff.giveCollectible) {
             const { id, name, icon, desc } = eff.giveCollectible
-            addCollectible(id, { name, icon, desc })
+            addCollectible(id, { name, icon, desc, isKeepsake: true })
           }
           if (eff.giveFriendship) {
             addFriendshipXp(eff.giveFriendship.npcId ?? npcId, eff.giveFriendship.xp)
@@ -1584,7 +1584,7 @@ function hasOfferableQuest(giverId: string): boolean {
         markInteractableGranted(storeKey)
         if (r.collectible) {
           const { id, name, icon, desc, lore } = r.collectible
-          addCollectible(id, { name, icon, desc, lore })
+          addCollectible(id, { name, icon, desc, lore, isKeepsake: true })
         }
         if (r.consumables) {
           for (const { id, quantity } of r.consumables) addConsumable(id, quantity)

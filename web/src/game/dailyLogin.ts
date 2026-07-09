@@ -35,6 +35,8 @@ export interface UselessItem {
   desc: string
   lore: string
   acquiredDate: string
+  /** True for meaningful narrative/quest rewards — see loadInventory(). */
+  isKeepsake?: boolean
 }
 
 // ── Reward pool ───────────────────────────────────────────────────────────────
@@ -196,19 +198,42 @@ export function removeFromInventory(id: string): void {
   removeCollectible(id)
 }
 
+// Ids of known flavor/luck loot stored with inline display fields (like keepsakes)
+// but that are not meaningful narrative rewards. Used only as a fallback for
+// entries acquired before the isKeepsake flag existed — see isKeepsakeEntry.
+const LEGACY_JUNK_IDS = new Set([
+  'pet-fetch-trinket', 'dug-old-boot', 'dug-cracked-marble', 'dug-rusty-key', 'dug-clay-whistle', 'four-leaf-clover',
+])
+
+/**
+ * Whether a stored item entry is a meaningful narrative/quest reward ("Keepsake")
+ * rather than daily-login/flavor junk. Trusts the explicit isKeepsake flag set at
+ * grant time when present; otherwise infers it for older entries stored before
+ * that flag existed — a non-catalog id carrying inline display fields, other than
+ * known flavor-loot ids and broken relics, can only have come from a narrative
+ * grant site (HubWorld quest/treasure/trade rewards, Chronicle rewards).
+ */
+function isKeepsakeEntry(e: { id: string; name?: string; isKeepsake?: boolean }): boolean {
+  if (e.isKeepsake !== undefined) return e.isKeepsake
+  if (ALL_ITEMS.some(i => i.id === e.id)) return false
+  if (e.id.startsWith('broken-relic-') || LEGACY_JUNK_IDS.has(e.id)) return false
+  return !!e.name
+}
+
 export function loadInventory(): UselessItem[] {
   const entries = getCollectibles()
   return entries.map(e => {
+    const isKeepsake = isKeepsakeEntry(e)
     // 1. Catalog (static items.json)
     const def = ALL_ITEMS.find(i => i.id === e.id)
-    if (def) return { id: e.id, name: def.name, icon: def.icon, desc: def.desc, lore: def.lore, acquiredDate: e.acquiredDate ?? '' }
+    if (def) return { id: e.id, name: def.name, icon: def.icon, desc: def.desc, lore: def.lore, acquiredDate: e.acquiredDate ?? '', isKeepsake }
     // 2. Stored display fields (items added after the display-field fix)
-    if (e.name) return { id: e.id, name: e.name, icon: e.icon ?? '❓', desc: e.desc ?? '', lore: e.lore ?? '', acquiredDate: e.acquiredDate ?? '' }
+    if (e.name) return { id: e.id, name: e.name, icon: e.icon ?? '❓', desc: e.desc ?? '', lore: e.lore ?? '', acquiredDate: e.acquiredDate ?? '', isKeepsake }
     // 3. Reconstruct broken relic display from the dynamic id
     const broken = resolveBrokenRelic(e.id)
-    if (broken) return { id: e.id, ...broken, lore: '', acquiredDate: e.acquiredDate ?? '' }
+    if (broken) return { id: e.id, ...broken, lore: '', acquiredDate: e.acquiredDate ?? '', isKeepsake }
     // 4. Unknown item — show raw id as placeholder
-    return { id: e.id, name: e.id, icon: '❓', desc: '', lore: '', acquiredDate: e.acquiredDate ?? '' }
+    return { id: e.id, name: e.id, icon: '❓', desc: '', lore: '', acquiredDate: e.acquiredDate ?? '', isKeepsake }
   })
 }
 
