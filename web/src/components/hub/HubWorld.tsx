@@ -837,16 +837,17 @@ function clearHeldQuestItems(quest: HubQuestDef): void {
   }
 }
 
-// Generic Talk / Give-a-gift choices, available on every named NPC regardless
+// Generic Talk / Give-a-gift options, available on every named NPC regardless
 // of whatever else is showing (screen, quest, dialogue tree, relationship or
-// friendship greeting) — appended as the closing section of the top-level
-// dialogue shown on an NPC tap. `onFarewell` lets a caller chain a follow-up
-// dialogueEvent (e.g. quest-reward text) once the player dismisses via Farewell.
-function buildTalkGiveChoices(
+// friendship greeting) — inserted ahead of whichever choice serves as the
+// dialogue's single trailing exit. Split out from buildTalkGiveChoices below
+// so callers whose flow already has its own exit (a quest offer's "Not now",
+// a dialogue tree's authored end-effect choice) can insert just the options
+// without also getting a second, competing "Farewell".
+function buildTalkGiveOptions(
   npcId: string,
   npcDef: NpcTapDef | undefined,
   speakerName: string,
-  onFarewell?: () => void,
 ): DialogueChoice[] {
   const choices: DialogueChoice[] = []
   const talkable = canTalkToday(npcId)
@@ -876,8 +877,23 @@ function buildTalkGiveChoices(
       },
     })
   }
-  choices.push({ label: 'Farewell', onClick: () => { setDialogueEvent(null); onFarewell?.() } })
   return choices
+}
+
+// buildTalkGiveOptions plus a trailing generic "Farewell" exit — for callers
+// whose flow has no exit choice of its own. `onFarewell` lets a caller chain
+// a follow-up dialogueEvent (e.g. quest-reward text) once the player
+// dismisses via Farewell.
+function buildTalkGiveChoices(
+  npcId: string,
+  npcDef: NpcTapDef | undefined,
+  speakerName: string,
+  onFarewell?: () => void,
+): DialogueChoice[] {
+  return [
+    ...buildTalkGiveOptions(npcId, npcDef, speakerName),
+    { label: 'Farewell', onClick: () => { setDialogueEvent(null); onFarewell?.() } },
+  ]
 }
 
 // Offer the first available quest given by `giverId` (an NPC or interactable id).
@@ -910,11 +926,11 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
               setDialogueEvent(null)
             },
           },
+          ...extraChoices,
           {
             label: 'Not now',
             onClick: () => setDialogueEvent(null),
           },
-          ...extraChoices,
         ],
       })
       return true
@@ -977,12 +993,34 @@ function hasOfferableQuest(giverId: string): boolean {
       (!c.requireWeather || c.requireWeather === currentWeather)
     )
     const speaker = node.speakerName ?? speakerName
-    const choices: DialogueChoice[] = visible.map((c, i) => ({
-      label:   c.label,
-      primary: i === 0,
-      onClick: () => applyChoice(tree, c, npcId, speakerName),
-    }))
-    const finalChoices = topLevel ? [...choices, ...buildTalkGiveChoices(npcId, npcDef, speaker)] : choices
+
+    let finalChoices: DialogueChoice[]
+    if (topLevel) {
+      // Some authored nodes already end in their own terminal "leave" choice
+      // (effects: [{ type: 'end' }], no `next`) — reuse that as the single
+      // trailing exit instead of also appending a generic "Farewell", so the
+      // player never sees two exit-style buttons. Nodes with no authored exit
+      // choice keep getting the full options+Farewell block, as before.
+      const isExitDef = (c: DialogueChoiceDef) => !c.next && (c.effects ?? []).some(e => e.type === 'end')
+      const nonExitDefs = visible.filter(c => !isExitDef(c))
+      const exitDefs    = visible.filter(isExitDef)
+      const toChoice = (c: DialogueChoiceDef, primary: boolean) => ({
+        label:   c.label,
+        primary,
+        onClick: () => applyChoice(tree, c, npcId, speakerName),
+      })
+      const nonExitChoices = nonExitDefs.map((c, i) => toChoice(c, i === 0))
+      finalChoices = exitDefs.length > 0
+        ? [...nonExitChoices, ...buildTalkGiveOptions(npcId, npcDef, speaker), ...exitDefs.map(c => toChoice(c, false))]
+        : [...nonExitChoices, ...buildTalkGiveChoices(npcId, npcDef, speaker)]
+    } else {
+      finalChoices = visible.map((c, i) => ({
+        label:   c.label,
+        primary: i === 0,
+        onClick: () => applyChoice(tree, c, npcId, speakerName),
+      }))
+    }
+
     setDialogueEvent({
       speakerName: speaker,
       text:        node.text,
@@ -1214,7 +1252,7 @@ function hasOfferableQuest(giverId: string): boolean {
     }
 
     // Second pass: first available quest whose prerequisites are met
-    if (tryOfferQuest(npcId, speakerName, undefined, buildTalkGiveChoices(npcId, npcDef, speakerName))) return
+    if (tryOfferQuest(npcId, speakerName, undefined, buildTalkGiveOptions(npcId, npcDef, speakerName))) return
 
     // (Screen NPCs are handled by the screen branch near the top of this
     // function, so there is no screen-navigation fallthrough here.)

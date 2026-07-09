@@ -390,8 +390,10 @@ Authored in `questDefs.json` under a top-level `dialogues` array and attached to
 an NPC via `dialogueTree` (the id of the tree). When such an NPC is tapped and has
 no higher-priority interaction (quest offer/completion, screen, friendship-tier
 line), `HubWorld.tsx` walks the tree instead of the linear `dialogue` cycle. The
-tree's entry (root) node also gets Talk/Give (§7d) appended to its authored
-choices; later nodes reached by picking a choice do not.
+tree's entry (root) node also gets Talk/Give (§7d) inserted ahead of the
+node's exit — its own authored `end`-effect "leave" choice if it has one, or
+else a generic trailing "Farewell" — so there is always exactly one exit,
+last; later nodes reached by picking a choice do not get Talk/Give at all.
 
 Types live in `web/src/data/hub/questDefs.ts`; the walker (`runDialogueNode` /
 `applyChoice`) lives in `web/src/components/hub/HubWorld.tsx`. Reuses the existing
@@ -610,20 +612,28 @@ rivalry (no chains).
 Every named NPC gets two always-available dialogue choices — no authoring
 required — so the Town Directory's 💗 Relationship button has a real way to
 move even for the ~5 in 6 NPCs with no `dialogueTree` (§7b) and no active
-quest. Talk/Give is appended as the closing section of every **top-level**
-NPC dialogue (the modal shown as the direct result of a tap) — after any
-screen-enter choice, quest offer/turn-in choice, dialogue-tree root node's
-authored choices, or a relationship/friendship flavor line — so it always
-coexists with an NPC's other content in the same modal (built by the shared
-`buildTalkGiveChoices` helper in `HubWorld.tsx`). Follow-up dialogueEvents
-reached by tapping an earlier choice — a dialogue tree's later nodes, the
-gift-item picker, a quest offer's Accept/Not-now decision reached mid-tree,
-or the reward text shown after a quest completes — do **not** get Talk/Give
-re-appended, since the player already made their choice for this
-interaction. Two exceptions keep the old plain-text/auto-dismiss behavior
-and never gain Talk/Give: a bounty-report tick (§7e) and Innkeeper Rosie's
-inn-rumour reveal, since both are automatic incidental side effects of a tap
-rather than a real conversation turn.
+quest. Talk/Give is inserted into every **top-level** NPC dialogue (the modal
+shown as the direct result of a tap) — after any screen-enter choice, quest
+offer/turn-in choice, dialogue-tree root node's authored choices, or a
+relationship/friendship flavor line — so it always coexists with an NPC's
+other content in the same modal. Follow-up dialogueEvents reached by tapping
+an earlier choice — a dialogue tree's later nodes, the gift-item picker, a
+quest offer's Accept/Not-now decision reached mid-tree, or the reward text
+shown after a quest completes — do **not** get Talk/Give re-appended, since
+the player already made their choice for this interaction. Two exceptions
+keep the old plain-text/auto-dismiss behavior and never gain Talk/Give: a
+bounty-report tick (§7e) and Innkeeper Rosie's inn-rumour reveal, since both
+are automatic incidental side effects of a tap rather than a real
+conversation turn.
+
+The dialogue always ends with **exactly one** trailing exit choice. Where the
+NPC's own flow already supplies a decline/exit — a quest offer's "Not now",
+or a dialogue tree root node's authored `end`-effect "leave" choice — that
+existing choice is reused as the single trailing exit, and only the
+🗣️/🎁 options are inserted ahead of it (`buildTalkGiveOptions` in
+`HubWorld.tsx`). Only when nothing already provides an exit does the closing
+section add its own generic "Farewell" (`buildTalkGiveChoices`, a thin
+wrapper around `buildTalkGiveOptions` that appends Farewell).
 
 - **🗣️ Make conversation** — grants a small flat friendship XP + 1 `ally`
   relationship point. Limited to once per real day per NPC
