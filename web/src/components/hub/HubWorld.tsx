@@ -71,6 +71,15 @@ interface QuestEvent {
   onClose?: () => void
 }
 
+interface NpcTapDef {
+  name?: string; dialogue?: string[]; screen?: string; building?: string
+  questGive?: string; questReceive?: string | string[]
+  innRumours?: Array<{ id: string; text: string }>
+  dialogueTree?: string
+  favoriteGiftItemId?: string; favoriteGiftTrack?: string
+  dislikedGiftItemIds?: string[]
+}
+
 const T = 32
 
 const SPLASH_MS = 10_000
@@ -837,10 +846,53 @@ function clearHeldQuestItems(quest: HubQuestDef): void {
   }
 }
 
+// Generic Talk / Give-a-gift choices, available on every named NPC regardless
+// of whatever else is showing (screen, quest, dialogue tree, relationship or
+// friendship greeting) — appended as the closing section of the top-level
+// dialogue shown on an NPC tap. `onFarewell` lets a caller chain a follow-up
+// dialogueEvent (e.g. quest-reward text) once the player dismisses via Farewell.
+function buildTalkGiveChoices(
+  npcId: string,
+  npcDef: NpcTapDef | undefined,
+  speakerName: string,
+  onFarewell?: () => void,
+): DialogueChoice[] {
+  const choices: DialogueChoice[] = []
+  const talkable = canTalkToday(npcId)
+  choices.push({
+    label: talkable ? '🗣️ Make conversation' : '🗣️ Make conversation (already caught up today)',
+    disabled: !talkable,
+    onClick: () => {
+      if (!talkable) return
+      recordTalk(npcId)
+      addFriendshipXp(npcId, 2)
+      grantRelationshipWithRivalry(npcId, 'ally', 1, locationData.HUB_NPCS)
+      refreshState()
+      setDialogueEvent({ speakerName, text: 'Always good to catch up.' })
+    },
+  })
+  const giftable = getHubItems().filter(i => i.category === 'material')
+  if (giftable.length > 0) {
+    choices.push({
+      label: '🎁 Give a gift',
+      onClick: () => {
+        const giftChoices: DialogueChoice[] = giftable.map(item => ({
+          label: `${item.icon ?? '🎁'} ${item.name ?? item.id} ×${item.count}`,
+          onClick: () => giveGiftToNpc(npcId, speakerName, npcDef, item.id),
+        }))
+        giftChoices.push({ label: 'Never mind', onClick: () => setDialogueEvent(null) })
+        setDialogueEvent({ speakerName, text: 'What would you like to give?', choices: giftChoices })
+      },
+    })
+  }
+  choices.push({ label: 'Farewell', onClick: () => { setDialogueEvent(null); onFarewell?.() } })
+  return choices
+}
+
 // Offer the first available quest given by `giverId` (an NPC or interactable id).
 // Returns true if an offer dialogue was shown; false if there is nothing to
 // offer (caller falls through to screens / default dialogue).
-function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: string): boolean {
+function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: string, extraChoices: DialogueChoice[] = []): boolean {
   const giveQuests = questDefs.filter(q => q.giverNpcId === giverId && (!onlyQuestId || q.id === onlyQuestId))
   const atOfferCap = questDefs.filter(q => getQuestState(q.id).status === 'active').length >= 2
   for (const quest of giveQuests) {
@@ -871,6 +923,7 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
             label: 'Not now',
             onClick: () => setDialogueEvent(null),
           },
+          ...extraChoices,
         ],
       })
       return true
@@ -893,24 +946,34 @@ function hasOfferableQuest(giverId: string): boolean {
 }
 
   // Mark a quest completed, grant its reward, and show its completion dialogue.
-  function completeQuestFor(quest: HubQuestDef, speakerName: string): void {
+  // `topLevel` marks this as the direct result of an NPC tap (not a follow-up
+  // click) — only then is Talk/Give appended to the completion choices, with
+  // Farewell chaining to the reward-text follow-up dialogueEvent instead of
+  // the plain onClose/auto-dismiss path (which no longer fires once choices
+  // are present).
+  function completeQuestFor(quest: HubQuestDef, speakerName: string, npcId?: string, npcDef?: NpcTapDef, topLevel = false): void {
     setQuestStatus(quest.id, 'completed')
     clearHeldQuestItems(quest)
     grantQuestReward(quest, locationData.HUB_NPCS)
     if (quest.reward.crystals) onCrystalsChange?.(loadCrystals())
     refreshState()
     const rewardText = formatQuestReward(quest.reward)
+    const afterClose = rewardText ? () => setDialogueEvent({ speakerName: '', text: rewardText }) : undefined
     setDialogueEvent({
       speakerName,
       text: quest.completeDialogue,
-      ...(rewardText ? { onClose: () => setDialogueEvent({ speakerName: '', text: rewardText }) } : {}),
+      ...(topLevel
+        ? { choices: buildTalkGiveChoices(npcId!, npcDef, speakerName, afterClose) }
+        : (afterClose ? { onClose: afterClose } : {})),
     })
   }
 
   // ── Branching dialogue-tree walker ──────────────────────────────────────────
   // Renders a node (text + visible choices) into the shared dialogue UI, then
   // applies a choice's effects and advances to the next node (or ends).
-  function runDialogueNode(tree: DialogueTree, nodeId: string, npcId: string, speakerName: string): void {
+  // `topLevel` marks the entry call (a fresh NPC tap) — only then is Talk/Give
+  // appended, so walking deeper into the tree doesn't re-show it at every node.
+  function runDialogueNode(tree: DialogueTree, nodeId: string, npcId: string, speakerName: string, npcDef?: NpcTapDef, topLevel = false): void {
     const node = tree.nodes[nodeId]
     if (!node) { setDialogueEvent(null); return }
     markNodeSeen(tree.id, nodeId)
@@ -922,15 +985,17 @@ function hasOfferableQuest(giverId: string): boolean {
       (!c.requireFestival || c.requireFestival === activeFestival?.id) &&
       (!c.requireWeather || c.requireWeather === currentWeather)
     )
+    const speaker = node.speakerName ?? speakerName
     const choices: DialogueChoice[] = visible.map((c, i) => ({
       label:   c.label,
       primary: i === 0,
       onClick: () => applyChoice(tree, c, npcId, speakerName),
     }))
+    const finalChoices = topLevel ? [...choices, ...buildTalkGiveChoices(npcId, npcDef, speaker)] : choices
     setDialogueEvent({
-      speakerName: node.speakerName ?? speakerName,
+      speakerName: speaker,
       text:        node.text,
-      ...(choices.length > 0 ? { choices } : {}),
+      ...(finalChoices.length > 0 ? { choices: finalChoices } : {}),
     })
   }
 
@@ -1020,14 +1085,7 @@ function hasOfferableQuest(giverId: string): boolean {
     // Placed animals (HUB_ANIMALS) reuse all NPC quest logic — they share the
     // same id space as quest giverNpcId / receiverNpcId / targetNpcId.
     const namedNpc = locationData.HUB_NPCS.find(n => n.id === npcId)
-    const npcDef: {
-      name?: string; dialogue?: string[]; screen?: string; building?: string
-      questGive?: string; questReceive?: string | string[]
-      innRumours?: Array<{ id: string; text: string }>
-      dialogueTree?: string
-      favoriteGiftItemId?: string; favoriteGiftTrack?: string
-      dislikedGiftItemIds?: string[]
-    } | undefined =
+    const npcDef: NpcTapDef | undefined =
       namedNpc ??
       locationData.HUB_ANIMALS.find(a => a.id === npcId)
     const speakerName = npcDef?.name ?? ''
@@ -1092,7 +1150,6 @@ function hasOfferableQuest(giverId: string): boolean {
         label: screenEnterLabel(screen),
         onClick: () => handleNodeInteract(screen, npcDef.building),
       }
-      const dismiss: DialogueChoice = { label: 'Maybe later', onClick: () => setDialogueEvent(null) }
 
       // Build at most one quest choice, in priority order: deliver → turn in →
       // accept. Shown first (primary) so it reads as the obvious action.
@@ -1122,7 +1179,7 @@ function hasOfferableQuest(giverId: string): boolean {
           onClick: () => { if (!tryOfferQuest(npcId, speakerName)) setDialogueEvent(null) } }
       }
 
-      const choices = [questChoice, enterChoice, dismiss].filter(Boolean) as DialogueChoice[]
+      const choices = [questChoice, enterChoice, ...buildTalkGiveChoices(npcId, npcDef, speakerName)].filter(Boolean) as DialogueChoice[]
       setDialogueEvent({ speakerName, text: line || "What'll it be?", choices })
       return
     }
@@ -1134,15 +1191,15 @@ function hasOfferableQuest(giverId: string): boolean {
       if (del) {
         incrementQuestProgress(del.quest.id, del.step.key)
         refreshState()
-        if (isQuestReadyToComplete(del.quest)) completeQuestFor(del.quest, speakerName)
+        if (isQuestReadyToComplete(del.quest)) completeQuestFor(del.quest, speakerName, npcId, npcDef, true)
         // Delivered but the quest still needs more — acknowledge so the player
         // sees feedback instead of (e.g.) the NPC's screen opening silently.
-        else setDialogueEvent({ speakerName, text: getActiveDialogue(del.quest) })
+        else setDialogueEvent({ speakerName, text: getActiveDialogue(del.quest), choices: buildTalkGiveChoices(npcId, npcDef, speakerName) })
         return
       }
       const ready = readyToHandIn()
       if (ready) {
-        completeQuestFor(ready, speakerName)
+        completeQuestFor(ready, speakerName, npcId, npcDef, true)
         return
       }
     }
@@ -1158,15 +1215,15 @@ function hasOfferableQuest(giverId: string): boolean {
     for (const quest of giveQuests) {
       if (getQuestState(quest.id).status !== 'active') continue
       if (quest.receiverNpcId === npcId && isQuestReadyToComplete(quest)) {
-        completeQuestFor(quest, speakerName)
+        completeQuestFor(quest, speakerName, npcId, npcDef, true)
         return
       }
-      setDialogueEvent({ speakerName, text: getActiveDialogue(quest) })
+      setDialogueEvent({ speakerName, text: getActiveDialogue(quest), choices: buildTalkGiveChoices(npcId, npcDef, speakerName) })
       return
     }
 
     // Second pass: first available quest whose prerequisites are met
-    if (tryOfferQuest(npcId, speakerName)) return
+    if (tryOfferQuest(npcId, speakerName, undefined, buildTalkGiveChoices(npcId, npcDef, speakerName))) return
 
     // (Screen NPCs are handled by the screen branch near the top of this
     // function, so there is no screen-navigation fallthrough here.)
@@ -1184,7 +1241,7 @@ function hasOfferableQuest(giverId: string): boolean {
         .filter(t => rel.level >= t.minLevel)
         .sort((a, b) => b.minLevel - a.minLevel)
       if (lines.length > 0) {
-        setDialogueEvent({ speakerName, text: lines[0].text })
+        setDialogueEvent({ speakerName, text: lines[0].text, choices: buildTalkGiveChoices(npcId, npcDef, speakerName) })
         return
       }
     }
@@ -1198,7 +1255,7 @@ function hasOfferableQuest(giverId: string): boolean {
         .filter(t => level >= t.minLevel)
         .sort((a, b) => b.minLevel - a.minLevel)
       if (tiers.length > 0) {
-        setDialogueEvent({ speakerName, text: tiers[0].text })
+        setDialogueEvent({ speakerName, text: tiers[0].text, choices: buildTalkGiveChoices(npcId, npcDef, speakerName) })
         return
       }
     }
@@ -1208,7 +1265,7 @@ function hasOfferableQuest(giverId: string): boolean {
     if (treeId) {
       const tree = ALL_QUESTS.HUB_DIALOGUES[treeId]
       if (tree) {
-        runDialogueNode(tree, tree.start, npcId, speakerName)
+        runDialogueNode(tree, tree.start, npcId, speakerName, npcDef, true)
         return
       }
     }
@@ -1218,36 +1275,7 @@ function hasOfferableQuest(giverId: string): boolean {
     // a real way to advance friendship/relationship, since simply cycling the
     // plain `dialogue` array otherwise has zero mechanical effect.
     if (namedNpc) {
-      const choices: DialogueChoice[] = []
-      const talkable = canTalkToday(npcId)
-      choices.push({
-        label: talkable ? '🗣️ Make conversation' : '🗣️ Make conversation (already caught up today)',
-        disabled: !talkable,
-        onClick: () => {
-          if (!talkable) return
-          recordTalk(npcId)
-          addFriendshipXp(npcId, 2)
-          grantRelationshipWithRivalry(npcId, 'ally', 1, locationData.HUB_NPCS)
-          refreshState()
-          setDialogueEvent({ speakerName, text: 'Always good to catch up.' })
-        },
-      })
-      const giftable = getHubItems().filter(i => i.category === 'material')
-      if (giftable.length > 0) {
-        choices.push({
-          label: '🎁 Give a gift',
-          onClick: () => {
-            const giftChoices: DialogueChoice[] = giftable.map(item => ({
-              label: `${item.icon ?? '🎁'} ${item.name ?? item.id} ×${item.count}`,
-              onClick: () => giveGiftToNpc(npcId, speakerName, npcDef, item.id),
-            }))
-            giftChoices.push({ label: 'Never mind', onClick: () => setDialogueEvent(null) })
-            setDialogueEvent({ speakerName, text: 'What would you like to give?', choices: giftChoices })
-          },
-        })
-      }
-      choices.push({ label: 'Farewell', onClick: () => setDialogueEvent(null) })
-      setDialogueEvent({ speakerName, text: line, choices })
+      setDialogueEvent({ speakerName, text: line, choices: buildTalkGiveChoices(npcId, npcDef, speakerName) })
       return
     }
 

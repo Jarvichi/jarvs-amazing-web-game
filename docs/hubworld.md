@@ -389,7 +389,9 @@ Reusable multi-choice NPC conversations that branch to different endings.
 Authored in `questDefs.json` under a top-level `dialogues` array and attached to
 an NPC via `dialogueTree` (the id of the tree). When such an NPC is tapped and has
 no higher-priority interaction (quest offer/completion, screen, friendship-tier
-line), `HubWorld.tsx` walks the tree instead of the linear `dialogue` cycle.
+line), `HubWorld.tsx` walks the tree instead of the linear `dialogue` cycle. The
+tree's entry (root) node also gets Talk/Give (§7d) appended to its authored
+choices; later nodes reached by picking a choice do not.
 
 Types live in `web/src/data/hub/questDefs.ts`; the walker (`runDialogueNode` /
 `applyChoice`) lives in `web/src/components/hub/HubWorld.tsx`. Reuses the existing
@@ -608,9 +610,20 @@ rivalry (no chains).
 Every named NPC gets two always-available dialogue choices — no authoring
 required — so the Town Directory's 💗 Relationship button has a real way to
 move even for the ~5 in 6 NPCs with no `dialogueTree` (§7b) and no active
-quest. These appear on the **default** dialogue branch only — an NPC with a
-screen, an active/offerable quest, a bounty report, or a dialogue tree keeps
-using that flow untouched; Talk/Give only fires once none of those match.
+quest. Talk/Give is appended as the closing section of every **top-level**
+NPC dialogue (the modal shown as the direct result of a tap) — after any
+screen-enter choice, quest offer/turn-in choice, dialogue-tree root node's
+authored choices, or a relationship/friendship flavor line — so it always
+coexists with an NPC's other content in the same modal (built by the shared
+`buildTalkGiveChoices` helper in `HubWorld.tsx`). Follow-up dialogueEvents
+reached by tapping an earlier choice — a dialogue tree's later nodes, the
+gift-item picker, a quest offer's Accept/Not-now decision reached mid-tree,
+or the reward text shown after a quest completes — do **not** get Talk/Give
+re-appended, since the player already made their choice for this
+interaction. Two exceptions keep the old plain-text/auto-dismiss behavior
+and never gain Talk/Give: a bounty-report tick (§7e) and Innkeeper Rosie's
+inn-rumour reveal, since both are automatic incidental side effects of a tap
+rather than a real conversation turn.
 
 - **🗣️ Make conversation** — grants a small flat friendship XP + 1 `ally`
   relationship point. Limited to once per real day per NPC
