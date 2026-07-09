@@ -1423,7 +1423,7 @@
         "collectible": {
           "id": "elder-token",
           "name": "Elder's Token",
-          "icon": "pendant",
+          "icon": "🪨",
           "desc": "A carved stone bearing a family mark. Found in the home steward's house under strange circumstances."
         },
         "friendship": {
@@ -1527,7 +1527,7 @@
         "collectible": {
           "id": "echo-records",
           "name": "Ancient Echo Records",
-          "icon": "blackclosedBook",
+          "icon": "📜",
           "desc": "Three pre-Fracture records referencing a hidden artefact called the Hearthstone."
         },
         "friendship": {
@@ -1695,7 +1695,7 @@
         "collectible": {
           "id": "card-forgery-analysis",
           "name": "Forgery Analysis",
-          "icon": "blueclosedBook",
+          "icon": "📘",
           "desc": "Naia's notes on the Echo printing technique used to forge Gildwyn's cards."
         },
         "friendship": {
@@ -1803,7 +1803,7 @@
         "collectible": {
           "id": "cipher-key",
           "name": "Echo Cipher Key",
-          "icon": "blueclosedBook",
+          "icon": "📘",
           "desc": "The completed cipher key assembled by Lyss and Naia — unlocks every Echo communication."
         },
         "friendship": {
@@ -1871,7 +1871,7 @@
         "collectible": {
           "id": "fracture-floats",
           "name": "Fracture-Touched Floats",
-          "icon": "pendant",
+          "icon": "🔵",
           "desc": "Net floats from the old fisherman's pond, saturated with Fracture energy from something hidden in the depths."
         },
         "friendship": {
@@ -2040,7 +2040,7 @@
         "collectible": {
           "id": "passage-key",
           "name": "Hidden Passage Key",
-          "icon": "pendant",
+          "icon": "🗝️",
           "desc": "A skeleton key found at the entrance to a secret passage running between the home district and the barracks."
         },
         "friendship": {
@@ -2211,7 +2211,7 @@
         "collectible": {
           "id": "heartstone-research",
           "name": "Heartstone Research",
-          "icon": "goldChest",
+          "icon": "📋",
           "desc": "Naia's compiled research identifying the three locations where the Hearthstone fragments were hidden after the Fracture."
         },
         "friendship": {
@@ -2340,7 +2340,7 @@
         "collectible": {
           "id": "echo-card-set",
           "name": "Echo Card Sets",
-          "icon": "blueclosedBook",
+          "icon": "🃏",
           "desc": "Three illegally modified card sets recovered from the Echo Deck Master's underground circuit."
         },
         "friendship": {
@@ -2437,7 +2437,7 @@
         "collectible": {
           "id": "fracture-analysis",
           "name": "Fracture Analysis Report",
-          "icon": "greenclosedBook",
+          "icon": "📗",
           "desc": "Aldric's completed analysis: activating the Hearthstone fragments would open a permanent Fracture rift."
         },
         "friendship": {
@@ -2477,7 +2477,7 @@
         "collectible": {
           "id": "pond-fragment",
           "name": "Pond Hearthstone Fragment",
-          "icon": "goldChest",
+          "icon": "💠",
           "desc": "A metal disc engraved with ancient patterns, retrieved from the shallows of the fisherman's pond. One of three Hearthstone fragments."
         },
         "friendship": {
@@ -2579,7 +2579,7 @@
         "collectible": {
           "id": "champions-shield",
           "name": "Champion's Shield",
-          "icon": "goldChest",
+          "icon": "🛡️",
           "desc": "The oldest artefact in the town's trophy collection, recovered from an Echo cache in the barracks."
         },
         "friendship": {
@@ -2646,7 +2646,7 @@
         "collectible": {
           "id": "passage-evidence",
           "name": "Passage Evidence Set",
-          "icon": "chest",
+          "icon": "🗂️",
           "desc": "Three items recovered from the hidden passage: an Echo communication device, patrol schedules, and an insignia stone."
         },
         "friendship": {
@@ -2837,7 +2837,7 @@
         "collectible": {
           "id": "heartstone-location-map",
           "name": "Heartstone Location Map",
-          "icon": "goldChest",
+          "icon": "🗺️",
           "desc": "Naia's complete documentation of all three Hearthstone fragment locations, with guardian protocols and activation risks."
         },
         "friendship": {
@@ -3137,7 +3137,7 @@
         "collectible": {
           "id": "fracture-card",
           "name": "The Fracture Card",
-          "icon": "goldChest",
+          "icon": "🎴",
           "desc": "A legendary card depicting the Fracture event, printed with ink that carries real Fracture energy. The only one of its kind."
         },
         "friendship": {
@@ -3255,7 +3255,7 @@
         "collectible": {
           "id": "fracture-pearl",
           "name": "Fracture Pearl",
-          "icon": "goldChest",
+          "icon": "🔮",
           "desc": "A natural crystallisation of Fracture energy, sealed in an ancient case found in the depths of the fisherman's pond. The key to the Hearthstone reunification protocol."
         },
         "friendship": {
@@ -3410,7 +3410,7 @@
         "collectible": {
           "id": "champions-pledge",
           "name": "Champions' Pledge",
-          "icon": "goldChest",
+          "icon": "📜",
           "desc": "A formal declaration in the name of every champion whose trophy hangs in the games hall. Witnessed by the Elder and sealed by Captain Thorin."
         },
         "friendship": {
@@ -3450,7 +3450,7 @@
         "collectible": {
           "id": "hearthstone-key",
           "name": "Hearthstone Key",
-          "icon": "pendant",
+          "icon": "🗝️",
           "desc": "The key to the home vault, bearing the seal of the first steward. Unlocks the chamber where a Hearthstone fragment has been guarded for generations."
         },
         "friendship": {
@@ -3537,7 +3537,7 @@
         "collectible": {
           "id": "convergence-pendant",
           "name": "Convergence Pendant",
-          "icon": "goldChest",
+          "icon": "📿",
           "desc": "A pendant forged from the four Convergence Shards — a symbol that the town stood together when it mattered most."
         },
         "friendship": {
@@ -3626,7 +3626,7 @@
         "collectible": {
           "id": "hearthstone",
           "name": "The Hearthstone",
-          "icon": "goldChest",
+          "icon": "🔥",
           "desc": "The reunified Hearthstone — three fragments made whole. The Fracture's hold on the town is broken, and this artefact stands as proof that the town endured."
         },
         "friendship": {
