@@ -1705,13 +1705,17 @@ Placed (named) animals keep their normal §8 quest/dialogue routing.
 
 Hub fishing NPCs use `"screen": "hub-fishing"` (Millhaven harbour, Capital
 City riverside, Ravenwatch pond). `handleNodeInteract` (HubWorld.tsx) blocks
-entry without a `fishing-rod` and consumes one `fish-bait` per trip; both are
-global, so one rod works in every town. The screen renders
-`<Fishing rewardMode="catch">` (App.tsx) — the caught fish is added to the
+entry without a `fishing-rod` or without holding at least one `fish-bait`;
+both are global, so one rod works in every town. Entry does **not** consume
+bait — each cast inside the minigame does. The screen renders
+`<Fishing rewardMode="catch">` (App.tsx), which shows the live bait count in
+its header and deducts one `fish-bait` (via `removeHubItem`) on every cast
+("CAST!" / "TRY AGAIN" / "FISH AGAIN"); once bait hits 0, casting is disabled
+and only "GIVE UP"/"DONE" remain to exit. The caught fish is added to the
 inventory as a tier-keyed hub-item (`fish-tiddler` … `fish-legendary`) and
 **no tickets are awarded**. The arcade fishing tile (MiniGamesMenu,
-`"screen": "fishing"` nowhere in hub configs anymore) is unchanged and still
-pays tickets.
+`"screen": "fishing"` nowhere in hub configs anymore) is unchanged, has no
+bait cost, and still pays tickets.
 
 ### Authoring checklist: new shop good + trade chain
 

@@ -13733,6 +13733,12 @@ html.light-mode .action-btn {
   text-transform: uppercase;
 }
 
+.fishing-bait-counter {
+  margin-top: 4px;
+  font-size: 0.9rem;
+  color: #999;
+}
+
 .fishing-scene {
   width: 100%;
   max-width: 320px;

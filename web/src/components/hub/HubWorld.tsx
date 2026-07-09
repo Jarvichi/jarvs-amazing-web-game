@@ -579,19 +579,19 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
       setDialogueEvent({ speakerName: "Commander's Post", text: "No commander has been assigned yet. Visit the title screen to choose one." })
       return
     }
-    // Hub fishing is gated on owning a rod and consumes 1 bait per trip.
+    // Hub fishing is gated on owning a rod and holding at least 1 bait.
     // Both are global hub-items, so a rod bought in Millhaven works at any
-    // town's fishing spot.
+    // town's fishing spot. Bait is consumed per cast inside Fishing.tsx,
+    // not on entry.
     if (screen === 'hub-fishing') {
       if (!hasHubItem('fishing-rod')) {
         setDialogueEvent({ speakerName: '', text: "You can't fish without a rod. Millhaven's harbour stall sells them." })
         return
       }
-      if (!removeHubItem('fish-bait', 1)) {
+      if (!hasHubItem('fish-bait')) {
         setDialogueEvent({ speakerName: '', text: "You're out of bait. Millhaven's harbour stall sells pots of fish bait." })
         return
       }
-      refreshState()
     }
     onNavigate?.(screen, buildingId)
   }, [onNavigate, onCampaign, onWorldMap, onNarratorLog, commander])

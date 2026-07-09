@@ -3,7 +3,7 @@
 // the leaderboard. 5% chance to snag an item or card instead of a fish.
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { addCollectible, addHubItem } from '../../game/itemStore'
+import { addCollectible, addHubItem, getHubItemCount, removeHubItem } from '../../game/itemStore'
 import { addCardsToCollection } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
 import ITEMS_DATA from '../../data/items.json'
@@ -132,9 +132,14 @@ interface Props {
 }
 
 export function Fishing({ onDone, rewardMode = 'tickets' }: Props) {
+  const usesBait = rewardMode === 'catch'
+
   const [phase, setPhase]   = useState<Phase>('idle')
   const [result, setResult] = useState<Catch | null>(null)
   const [biteMs, setBiteMs] = useState(BITE_WINDOW_MS)
+  const [baitCount, setBaitCount] = useState(() => usesBait ? getHubItemCount('fish-bait') : 0)
+
+  const canCast = !usesBait || baitCount > 0
 
   const waitRef     = useRef<ReturnType<typeof setTimeout>  | null>(null)
   const biteRef     = useRef<ReturnType<typeof setTimeout>  | null>(null)
@@ -149,6 +154,13 @@ export function Fishing({ onDone, rewardMode = 'tickets' }: Props) {
   useEffect(() => clearTimers, [clearTimers])
 
   function startCast() {
+    if (usesBait) {
+      let ok = false
+      try { ok = removeHubItem('fish-bait', 1) }
+      catch (e) { logError('Fishing: removeHubItem failed', { error: String(e) }) }
+      if (!ok) return
+      setBaitCount(getHubItemCount('fish-bait'))
+    }
     clearTimers()
     setPhase('waiting')
     const delay = 2000 + Math.random() * 4000
@@ -229,6 +241,7 @@ export function Fishing({ onDone, rewardMode = 'tickets' }: Props) {
     <div className="fishing-screen">
       <div className="fishing-header">
         <div className="fishing-title">🎣 FISHING</div>
+        {usesBait && <div className="fishing-bait-counter">🪱 {baitCount}</div>}
       </div>
 
       {/* Scene */}
@@ -282,7 +295,11 @@ export function Fishing({ onDone, rewardMode = 'tickets' }: Props) {
 
       {/* Status */}
       <div className="fishing-status">
-        {phase === 'idle'    && <p className="fishing-prompt">Cast your line and wait for a bite.</p>}
+        {phase === 'idle' && (
+          <p className="fishing-prompt">
+            {canCast ? 'Cast your line and wait for a bite.' : "Out of bait — no more casts."}
+          </p>
+        )}
         {phase === 'waiting' && <p className="fishing-prompt fishing-prompt--waiting">Waiting for a bite…</p>}
 
         {phase === 'bite' && (
@@ -335,9 +352,13 @@ export function Fishing({ onDone, rewardMode = 'tickets' }: Props) {
       {/* Controls */}
       <div className="fishing-controls u-col u-items-c u-gap-4">
         {phase === 'idle' && (
-          <button className="action-btn action-btn--gold" onClick={startCast}>
-            🎣 CAST!
-          </button>
+          canCast ? (
+            <button className="action-btn action-btn--gold" onClick={startCast}>
+              🎣 CAST!
+            </button>
+          ) : (
+            <button className="action-btn" disabled>Out of bait</button>
+          )
         )}
 
         {phase === 'waiting' && (
@@ -352,14 +373,14 @@ export function Fishing({ onDone, rewardMode = 'tickets' }: Props) {
 
         {phase === 'missed' && (
           <div className="fishing-btn-row u-flex u-gap-4 u-just-c">
-            <button className="action-btn action-btn--gold" onClick={startCast}>TRY AGAIN</button>
+            {canCast && <button className="action-btn action-btn--gold" onClick={startCast}>TRY AGAIN</button>}
             <button className="action-btn action-btn--danger" onClick={() => onDone(0, 0)}>GIVE UP</button>
           </div>
         )}
 
         {phase === 'caught' && (
           <div className="fishing-btn-row u-flex u-gap-4 u-just-c">
-            <button className="action-btn action-btn--gold" onClick={startCast}>FISH AGAIN</button>
+            {canCast && <button className="action-btn action-btn--gold" onClick={startCast}>FISH AGAIN</button>}
             <button className="action-btn" onClick={done}>DONE</button>
           </div>
         )}
