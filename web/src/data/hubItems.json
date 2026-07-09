@@ -24,7 +24,7 @@
     "id": "fish-bait",
     "name": "Fish Bait",
     "icon": "🪱",
-    "desc": "A pot of wriggling bait. One pot covers one fishing trip.",
+    "desc": "A pot of wriggling bait. One pot covers one cast.",
     "category": "material"
   },
   {
