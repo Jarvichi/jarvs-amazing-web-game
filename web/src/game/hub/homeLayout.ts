@@ -1,4 +1,5 @@
 import { logError } from '../../logger'
+import { getFurnitureDef, ownsFurniture } from './furniture'
 
 const KEY = 'jarv_hub_home_layout'
 
@@ -34,12 +35,27 @@ function save(data: Store): void {
   }
 }
 
-function inBounds(x: number, y: number): boolean {
-  return x >= 0 && x < HOME_GRID_COLS && y >= 0 && y < HOME_GRID_ROWS
+/** The footprint a piece occupies, accounting for rotation swapping width/height. */
+function footprintFor(itemId: string, rotation: 0 | 90 | 180 | 270): { w: number; h: number } {
+  const def = getFurnitureDef(itemId)
+  const { w, h } = def?.footprint ?? { w: 1, h: 1 }
+  return rotation === 90 || rotation === 270 ? { w: h, h: w } : { w, h }
 }
 
-function isOccupied(placed: PlacedFurniture[], x: number, y: number, excludeId?: string): boolean {
-  return placed.some(p => p.x === x && p.y === y && p.id !== excludeId)
+function inBounds(x: number, y: number, w: number, h: number): boolean {
+  return x >= 0 && y >= 0 && x + w <= HOME_GRID_COLS && y + h <= HOME_GRID_ROWS
+}
+
+function overlaps(ax: number, ay: number, aw: number, ah: number, bx: number, by: number, bw: number, bh: number): boolean {
+  return ax < bx + bw && ax + aw > bx && ay < by + bh && ay + ah > by
+}
+
+function isOccupied(placed: PlacedFurniture[], x: number, y: number, w: number, h: number, excludeId?: string): boolean {
+  return placed.some(p => {
+    if (p.id === excludeId) return false
+    const pf = footprintFor(p.itemId, p.rotation)
+    return overlaps(x, y, w, h, p.x, p.y, pf.w, pf.h)
+  })
 }
 
 export function loadHomeLayout(): PlacedFurniture[] {
@@ -50,11 +66,14 @@ export function isHomeLayoutEmpty(): boolean {
   return loadHomeLayout().length === 0
 }
 
-/** Places a new piece of furniture at (x, y). Returns null if out of bounds or the cell is occupied. */
+/** Places a new piece of furniture at (x, y). Returns null if the item isn't in the catalog or
+ *  isn't owned, the placement is out of bounds, or its footprint overlaps an existing piece. */
 export function placeFurniture(itemId: string, x: number, y: number, rotation: 0 | 90 | 180 | 270 = 0): PlacedFurniture | null {
-  if (!inBounds(x, y)) return null
+  if (!getFurnitureDef(itemId) || !ownsFurniture(itemId)) return null
+  const { w, h } = footprintFor(itemId, rotation)
+  if (!inBounds(x, y, w, h)) return null
   const data = load()
-  if (isOccupied(data.placed, x, y)) return null
+  if (isOccupied(data.placed, x, y, w, h)) return null
 
   const id = `${itemId}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
   const piece: PlacedFurniture = { id, itemId, x, y, rotation }
@@ -63,17 +82,20 @@ export function placeFurniture(itemId: string, x: number, y: number, rotation: 0
 }
 
 /** Moves an existing placement to (x, y). Returns false if the id is unknown, the target is out of
- *  bounds, or occupied by a different piece (moving onto its own current cell is allowed). */
+ *  bounds, or its footprint overlaps a different piece (moving onto its own current cell is allowed). */
 export function moveFurniture(id: string, x: number, y: number, rotation?: 0 | 90 | 180 | 270): boolean {
-  if (!inBounds(x, y)) return false
   const data = load()
   const piece = data.placed.find(p => p.id === id)
   if (!piece) return false
-  if (isOccupied(data.placed, x, y, id)) return false
+
+  const nextRotation = rotation ?? piece.rotation
+  const { w, h } = footprintFor(piece.itemId, nextRotation)
+  if (!inBounds(x, y, w, h)) return false
+  if (isOccupied(data.placed, x, y, w, h, id)) return false
 
   piece.x = x
   piece.y = y
-  if (rotation !== undefined) piece.rotation = rotation
+  piece.rotation = nextRotation
   save(data)
   return true
 }
