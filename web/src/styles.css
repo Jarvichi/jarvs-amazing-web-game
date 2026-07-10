@@ -8041,9 +8041,18 @@ body {
 
 .piece-action-bar {
   display: flex;
+  align-items: center;
   gap: 8px;
   justify-content: center;
   padding: 10px 12px;
+}
+
+.piece-action-bar-name {
+  font-size: 11px;
+  color: #c8e8c8;
+  font-family: monospace;
+  letter-spacing: 0.04em;
+  margin-right: 4px;
 }
 
 .action-btn--remove-armed {
