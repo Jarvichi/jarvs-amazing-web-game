@@ -14375,7 +14375,18 @@ html.light-mode .action-btn {
 .td-selected-action-btn:hover:not(.td-selected-action-btn--disabled) { background: #252525; }
 .td-selected-action-btn--sell    { border-color: #f44336; color: #f44336; }
 .td-selected-action-btn--sell:hover { background: rgba(244,67,54,0.12); }
+.td-selected-action-btn--sell-armed {
+  background: #f44336;
+  color: #fff;
+  animation: td-sell-armed-pulse 0.6s ease-in-out infinite alternate;
+}
+.td-selected-action-btn--sell-armed:hover { background: #d32f2f; }
 .td-selected-action-btn--cancel  { border-color: #444; color: #777; padding: 6px 10px; }
+
+@keyframes td-sell-armed-pulse {
+  from { box-shadow: 0 0 0 rgba(244,67,54,0.6); }
+  to   { box-shadow: 0 0 8px rgba(244,67,54,0.9); }
+}
 
 /* 2×2 upgrade option grid */
 .td-upgrade-options {

@@ -95,6 +95,21 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
   const [selectedTowerId, setSelectedTowerId] = useState<number | null>(null)
   const [hoveredCell, setHoveredCell] = useState<{ col: number; row: number } | null>(null)
   const [gridScale, setGridScale] = useState(1)
+  const [sellArmedId, setSellArmedId] = useState<number | null>(null)
+  const sellArmTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  function clearSellArm() {
+    if (sellArmTimeoutRef.current) {
+      clearTimeout(sellArmTimeoutRef.current)
+      sellArmTimeoutRef.current = null
+    }
+    setSellArmedId(null)
+  }
+
+  // A sell request is disarmed whenever the selection changes (deselect,
+  // pick a different tower) so "confirm" state never leaks onto another tower.
+  useEffect(() => { clearSellArm() }, [selectedTowerId])
+  useEffect(() => () => clearSellArm(), [])
 
   // Always derived from game state so it stays in sync after upgrades/moves
   const selectedTower = selectedTowerId !== null
@@ -254,6 +269,23 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
     setGame(prev => removeTower(prev, tower.id))
     setSelectedTowerId(null)
     setHoveredTower(null)
+    clearSellArm()
+  }
+
+  // First click arms a short-lived confirmation; a second click on the same
+  // tower within the window actually sells. Guards against accidental taps
+  // since SELL sits right next to the upgrade/cancel buttons.
+  function handleSellButtonClick(tower: TDTower) {
+    if (sellArmedId === tower.id) {
+      handleSellTower(tower)
+      return
+    }
+    if (sellArmTimeoutRef.current) clearTimeout(sellArmTimeoutRef.current)
+    setSellArmedId(tower.id)
+    sellArmTimeoutRef.current = setTimeout(() => {
+      sellArmTimeoutRef.current = null
+      setSellArmedId(null)
+    }, 2500)
   }
 
   function handleUpgradeTower(tower: TDTower, type: TDUpgradeType) {
@@ -494,9 +526,10 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
                 <span className="td-selected-panel-stats"> · {activeUnits.length}/{unitCount} units · {dps.toFixed(1)} dps · {rangeInCells.toFixed(1)}r</span>
               </div>
               <div className="td-selected-panel-row-actions">
-                <button className="td-selected-action-btn td-selected-action-btn--sell"
-                  onClick={() => handleSellTower(t)}>
-                  SELL +💧{refund}
+                <button
+                  className={`td-selected-action-btn td-selected-action-btn--sell${sellArmedId === t.id ? ' td-selected-action-btn--sell-armed' : ''}`}
+                  onClick={() => handleSellButtonClick(t)}>
+                  {sellArmedId === t.id ? 'Confirm sell?' : `SELL +💧${refund}`}
                 </button>
                 <button className="td-selected-action-btn td-selected-action-btn--cancel"
                   onClick={() => setSelectedTowerId(null)}>
