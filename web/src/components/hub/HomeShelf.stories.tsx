@@ -1,11 +1,24 @@
-import { fn } from 'storybook/test'
+import { fn, within, userEvent } from 'storybook/test'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { HomeShelf } from './HomeShelf'
 import type { ItemEntry } from '../../game/itemStore'
+import { saveCrystals } from '../../game/collection'
 
 // Seed the localStorage-backed item store the shelf reads (relics + items).
 function seedItemStore(items: ItemEntry[]): void {
   localStorage.setItem('jarv_item_store', JSON.stringify(items))
+}
+
+// Seed the decorate-tab stores: placed furniture, owned furniture ids, crystals.
+function seedDecorate(opts: { placed?: unknown[]; owned?: string[]; crystals?: number } = {}): void {
+  localStorage.setItem('jarv_hub_home_layout', JSON.stringify({ placed: opts.placed ?? [] }))
+  localStorage.setItem('jarv_hub_furniture_owned', JSON.stringify(opts.owned ?? []))
+  saveCrystals(opts.crystals ?? 100)
+}
+
+async function clickDecorateTab({ canvasElement }: { canvasElement: HTMLElement }) {
+  const canvas = within(canvasElement)
+  await userEvent.click(await canvas.findByRole('button', { name: 'DECORATE' }))
 }
 
 const meta = {
@@ -81,4 +94,31 @@ export const Populated: Story = {
       return <Story />
     },
   ],
+}
+
+export const DecorateEmpty: Story = {
+  args: { onBack: fn() },
+  decorators: [
+    (Story) => { seedItemStore([]); seedDecorate(); return <Story /> },
+  ],
+  play: clickDecorateTab,
+}
+
+export const DecoratePopulated: Story = {
+  args: { onBack: fn() },
+  decorators: [
+    (Story) => {
+      seedItemStore([])
+      seedDecorate({
+        owned: ['reading-lamp', 'cozy-rug', 'round-table'],
+        placed: [
+          { id: 'lamp-1', itemId: 'reading-lamp', x: 0, y: 0, rotation: 0 },
+          { id: 'rug-1', itemId: 'cozy-rug', x: 2, y: 1, rotation: 0 },
+        ],
+        crystals: 42,
+      })
+      return <Story />
+    },
+  ],
+  play: clickDecorateTab,
 }

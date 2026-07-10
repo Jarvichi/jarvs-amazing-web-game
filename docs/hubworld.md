@@ -1841,12 +1841,34 @@ error, matching every other hub store. Occupancy checks are region-based
 (every cell of a multi-cell footprint blocks placement, not just its
 origin cell) via the internal `footprintFor`/`overlaps` helpers.
 
-### Dependencies not yet built
+### UI — `web/src/components/hub/HomeShelf.tsx`
 
-- **Decoration UI**: not yet implemented. Will extend `HomeShelf.tsx` with
-  an edit mode that calls `placeFurniture`/`moveFurniture`/`removeFurniture`
-  and renders `loadHomeLayout()` on a grid, and a shop/earn flow that calls
-  `grantFurniture` (§19).
+`HomeShelf` (the `home-shelf` screen, reached with only an `onBack` prop —
+no new `App.tsx` routing was needed) gained a **SHELF / DECORATE** tab row
+(reusing `HallOfAchievements`/`TownJournal`'s `.hoa-tabs`/`.hoa-tab` CSS).
+SHELF is the original read-only relic/keepsake display, unchanged. DECORATE
+renders the grid, using three pure-visual pieces under
+`web/src/components/hub/home-shelf/` (each with a `.stories.tsx`):
+
+- `HomeGrid.tsx` — the `HOME_GRID_COLS × HOME_GRID_ROWS` grid; placed pieces
+  span their (rotation-aware) footprint via `gridColumn`/`gridRow`.
+- `FurniturePicker.tsx` — a horizontal strip over the full catalog; owned
+  pieces are plain, unowned ones show a price tag.
+- `PieceActionBar.tsx` — Rotate / Move / Remove for the selected piece.
+
+**Interaction** is tap-to-arm, tap-to-place — no drag-and-drop (none exists
+anywhere else in this codebase, and touch/tap matches every other hub
+interaction): tapping an owned picker item arms it, then tapping an empty
+grid cell calls `placeFurniture`; tapping a placed piece selects it and
+shows `PieceActionBar` (Rotate re-calls `moveFurniture` with the next
+rotation; Move arms the piece for relocation; Remove is a two-tap confirm,
+copying `TowerDefence.tsx`'s sell-arm timeout pattern). Tapping an unowned
+picker item opens a buy-confirm dialog (reusing `ShopScreen.tsx`'s
+`.shop-confirm-*` classes) showing price vs. `loadCrystals()`; confirming
+spends crystals inline (`saveCrystals`) then calls `grantFurniture`, same
+as `HubWorld.tsx`'s `buyHubItem` case. A failed `placeFurniture`/
+`moveFurniture` call (out of bounds/overlap) surfaces a brief inline
+message rather than failing silently.
 
 ---
 
