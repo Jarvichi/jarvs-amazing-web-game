@@ -15,6 +15,7 @@ import {
   mergeAugmentEffects,
 } from '../../game/collection'
 import { ALL_AUGMENT_SLOTS, AugmentSetDef, augmentSlotLabel, getAugmentCard, getAugmentSetDef, scaledAugmentEffect } from '../../game/augments'
+import { getCardThemeTags } from '../../game/cards'
 import { CardTile } from './CardTile'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { MasteryBar } from '../ui/MasteryBar'
@@ -143,6 +144,10 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
     for (const t of (u.tags ?? [])) {
       if (!traits.includes(t)) traits.push(t)
     }
+  }
+  // Append theme tags (biome/act) that aren't already represented
+  for (const t of getCardThemeTags(card.name)) {
+    if (!traits.includes(t)) traits.push(t)
   }
 
   // Compute total augment effect for live stat display

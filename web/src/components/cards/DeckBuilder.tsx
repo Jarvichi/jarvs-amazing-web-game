@@ -447,6 +447,20 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
   const maxDeckCost = deckCardObjects.reduce((m, c) => Math.max(m, c.cost), 0)
   const showManaWarning = maxDeckCost > 5 && !hasManaStructure
 
+  // Theme tag → count across the deck, for synergy highlighting
+  const deckThemeTagCounts = new Map<string, number>()
+  for (const c of deckCardObjects) {
+    for (const t of getCardThemeTags(c.name)) {
+      deckThemeTagCounts.set(t, (deckThemeTagCounts.get(t) ?? 0) + 1)
+    }
+  }
+  function hasDeckSynergy(cardName: string, requireOther: boolean): boolean {
+    return getCardThemeTags(cardName).some(t => {
+      const count = deckThemeTagCounts.get(t) ?? 0
+      return requireOther ? count > 1 : count > 0
+    })
+  }
+
   // Deck list sorted by cost then name, filtered by active search term
   const deckList = deck
     .filter(e => {
@@ -563,6 +577,7 @@ setCollectionCollapsed(false)
                             card={card}
                             onClick={() => removeCard(entry.cardName)}
                             showDetails={true}
+                            synergyActive={hasDeckSynergy(card.name, true)}
                           />
                           <div className="cell-footer">
                             <span className="cell-count">
@@ -828,6 +843,7 @@ setCollectionCollapsed(true)
                               card={card}
                               canAfford={canAdd}
                               onClick={canAdd ? () => addCard(card.name) : undefined}
+                              synergyActive={hasDeckSynergy(card.name, false)}
                             />
                             <div className="cell-footer">
                               <span className="cell-count">

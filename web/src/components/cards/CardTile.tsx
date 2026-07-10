@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card } from '../../game/types'
-import { rarityStars } from '../../game/cards'
+import { rarityStars, getCardThemeTags } from '../../game/cards'
 import { AUGMENT_SPRITE } from '../../game/augments'
 import { SpriteImg } from '../ui/SpriteImg'
 import { useCardDetail } from './useCardDetail'
@@ -130,9 +130,10 @@ interface Props {
   upgradeable?: boolean // collection: show UPGRADE badge
   displayCost?: number  // override displayed cost (e.g. after archetype discounts)
   showDetails?: boolean  // collection: show details button
+  synergyActive?: boolean // deck builder: highlight when this card shares a theme tag with the deck
 }
 
-export function CardTile({ card, canAfford = true, disabled = false, onClick, lockedSecs = 0, upgradeable = false , showDetails = false, displayCost }: Props) {
+export function CardTile({ card, canAfford = true, disabled = false, onClick, lockedSecs = 0, upgradeable = false , showDetails = false, displayCost, synergyActive = false }: Props) {
   const heroLocked = card.isHero && lockedSecs > 0
   const clickable = canAfford && !disabled && !heroLocked
   const { openDetail, cardDetailNode } = useCardDetail()
@@ -160,6 +161,7 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
 
   const isSecret = card.rarity === 'mythic' || card.rarity === 'shiny' || card.rarity === 'holofoil' || card.rarity === 'glass'
   const secretLabel: Record<string, string> = { mythic: 'MYTHIC', shiny: 'SHINY', holofoil: 'HOLO', glass: 'GLASS' }
+  const themeTag = getCardThemeTags(card.name)[0]
 
   return (
     <div
@@ -167,6 +169,7 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
         'card-tile',
         `card-tile--${card.rarity}`,
         clickable ? '' : 'card-tile--disabled',
+        synergyActive ? 'card-tile--synergy' : '',
       ].filter(Boolean).join(' ')}
       onClick={clickable ? onClick : undefined}
       title={heroLocked ? `Hero cards unlock after 30 seconds (${lockedSecs}s remaining)` : card.description}
@@ -211,6 +214,7 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
           {CATEGORY_ICON[getCardCategory(card)]}
           <span>{CATEGORY_LABEL[getCardCategory(card)]}</span>
         </div>
+        {themeTag && <div className="card-tag">{themeTag}</div>}
         {showDetails && (
           <div className="cell-footer">
               <button
