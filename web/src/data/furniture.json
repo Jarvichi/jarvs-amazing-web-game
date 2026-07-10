@@ -1,0 +1,14 @@
+[
+  { "id": "cozy-rug", "name": "Cozy Rug", "icon": "🟥", "desc": "A thick woven rug for cold floors.", "footprint": { "w": 2, "h": 2 }, "price": 30 },
+  { "id": "reading-lamp", "name": "Reading Lamp", "icon": "💡", "desc": "Warm light for late nights.", "footprint": { "w": 1, "h": 1 }, "price": 20 },
+  { "id": "oak-bookshelf", "name": "Oak Bookshelf", "icon": "📚", "desc": "Room for a modest library.", "footprint": { "w": 1, "h": 2 }, "price": 45 },
+  { "id": "round-table", "name": "Round Table", "icon": "🟤", "desc": "A sturdy little table for odds and ends.", "footprint": { "w": 2, "h": 1 }, "price": 35 },
+  { "id": "potted-fern", "name": "Potted Fern", "icon": "🪴", "desc": "Brings a bit of green indoors.", "footprint": { "w": 1, "h": 1 }, "price": 15 },
+  { "id": "armchair", "name": "Armchair", "icon": "💺", "desc": "Deep, worn-in, and comfortable.", "footprint": { "w": 1, "h": 1 }, "price": 25 },
+  { "id": "four-poster-bed", "name": "Four-Poster Bed", "icon": "🛏️", "desc": "A grand bed with carved posts.", "footprint": { "w": 2, "h": 2 }, "price": 60 },
+  { "id": "framed-portrait", "name": "Framed Portrait", "icon": "🖼️", "desc": "A portrait of someone important, probably.", "footprint": { "w": 1, "h": 1 }, "price": 18 },
+  { "id": "travel-chest", "name": "Travel Chest", "icon": "🧳", "desc": "Well-travelled and full of stories.", "footprint": { "w": 2, "h": 1 }, "price": 28 },
+  { "id": "hearth-stove", "name": "Hearth Stove", "icon": "🔥", "desc": "Keeps the whole room warm.", "footprint": { "w": 2, "h": 1 }, "price": 50 },
+  { "id": "candle-stand", "name": "Candle Stand", "icon": "🕯️", "desc": "A flickering, cozy glow.", "footprint": { "w": 1, "h": 1 }, "price": 12 },
+  { "id": "wall-clock", "name": "Wall Clock", "icon": "🕰️", "desc": "Ticks a little too loudly.", "footprint": { "w": 1, "h": 1 }, "price": 22 }
+]
