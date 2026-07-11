@@ -453,6 +453,11 @@
         "thornwood-embers-low",
         "thornwood-snare-line",
         "thornwood-wolf-watch-2"
+      ],
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
       ]
     },
     {
@@ -471,6 +476,11 @@
       "questReceive": [
         "shiny-stones",
         "thornwood-lost-treeline"
+      ],
+      "favoriteGiftItemId": "spice-pouch",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "butterfly"
       ]
     },
     {
@@ -490,6 +500,11 @@
         "thornwood-forage-mushrooms",
         "thornwood-wolf-watch",
         "thornwood-wolf-watch-2"
+      ],
+      "favoriteGiftItemId": "hearty-pie",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "tin-whistle"
       ]
     },
     {
@@ -510,7 +525,9 @@
       ],
       "favoriteGiftItemId": "river-glass",
       "favoriteGiftTrack": "ally",
-      "dislikedGiftItemIds": ["chicken-feed"]
+      "dislikedGiftItemIds": [
+        "chicken-feed"
+      ]
     }
   ],
   "animals": [
@@ -623,7 +640,10 @@
         },
         {
           "type": "giveItem",
-          "hubItem": { "itemId": "river-glass", "count": 1 },
+          "hubItem": {
+            "itemId": "river-glass",
+            "count": 1
+          },
           "message": "You found a piece of river glass!"
         }
       ]

@@ -1600,7 +1600,12 @@
         "buildingId": "harbourmaster-records",
         "tx": 2,
         "ty": 4
-      }
+      },
+      "favoriteGiftItemId": "gilded-compass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "wild-berries"
+      ]
     },
     {
       "id": "fishwife-pearl",
@@ -1614,7 +1619,12 @@
         "The reef's been restless. Old Salt says it's the kraken. Old Salt says a lot of things.",
         "You buy, or you're blocking the stall."
       ],
-      "building": "fish-market"
+      "building": "fish-market",
+      "favoriteGiftItemId": "fish-trophy",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "silk-ribbon"
+      ]
     },
     {
       "id": "dockhand-tam",
@@ -1630,7 +1640,9 @@
       "questGive": "saltmere-rum-run",
       "favoriteGiftItemId": "tin-whistle",
       "favoriteGiftTrack": "ally",
-      "dislikedGiftItemIds": ["poetry-book"]
+      "dislikedGiftItemIds": [
+        "poetry-book"
+      ]
     },
     {
       "id": "old-salt",
@@ -1643,7 +1655,12 @@
         "There's a cove east of here no chart will show you. The pirates make sure of that.",
         "The tide takes and the tide gives back. Rarely the same things, mind."
       ],
-      "questGive": "saltmere-lost-at-sea"
+      "questGive": "saltmere-lost-at-sea",
+      "favoriteGiftItemId": "honey-cake",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "firefly"
+      ]
     },
     {
       "id": "shipwright",
@@ -1657,7 +1674,12 @@
         "She'll float. Whether she floats *well* is a different conversation."
       ],
       "building": "shipwright",
-      "questGive": "saltmere-keel-repair"
+      "questGive": "saltmere-keel-repair",
+      "favoriteGiftItemId": "spice-pouch",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "butterfly"
+      ]
     },
     {
       "id": "customs-officer",
@@ -1671,7 +1693,12 @@
         "I've seen smugglers, thieves, and men who simply can't count. I'm still deciding which this is."
       ],
       "building": "customs-house",
-      "questGive": "saltmere-customs-discrepancy"
+      "questGive": "saltmere-customs-discrepancy",
+      "favoriteGiftItemId": "hearty-pie",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "tin-whistle"
+      ]
     },
     {
       "id": "lighthouse-keeper",
@@ -1713,7 +1740,12 @@
         "tx": 4,
         "ty": 4
       },
-      "questGive": "saltmere-oil-for-the-lamp"
+      "questGive": "saltmere-oil-for-the-lamp",
+      "favoriteGiftItemId": "honey-cake",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "firefly"
+      ]
     },
     {
       "id": "net-maker",
@@ -1728,7 +1760,12 @@
         "Good nets outlast the boats they're tied to. Mine, anyway."
       ],
       "building": "net-maker",
-      "questGive": "saltmere-net-gains"
+      "questGive": "saltmere-net-gains",
+      "favoriteGiftItemId": "river-glass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
+      ]
     },
     {
       "id": "chandler",
@@ -1742,7 +1779,12 @@
         "Buy local. The alternative is rowing to Ravenwatch, and nobody wants that."
       ],
       "building": "chandlers",
-      "questGive": "saltmere-ships-stores"
+      "questGive": "saltmere-ships-stores",
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
+      ]
     },
     {
       "id": "smokehouse-master",
@@ -1756,7 +1798,12 @@
         "Nothing wrong with a few scraps for a hungry mouth, so long as it's not from MY rack."
       ],
       "building": "smokehouse",
-      "questGive": "saltmere-smokehouse-scraps"
+      "questGive": "saltmere-smokehouse-scraps",
+      "favoriteGiftItemId": "honey",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
+      ]
     },
     {
       "id": "tavern-sailor",
@@ -1799,7 +1846,12 @@
         "buildingId": "sailors-inn-upstairs",
         "tx": 7,
         "ty": 2
-      }
+      },
+      "favoriteGiftItemId": "smoked-herring",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fancy-hat"
+      ]
     },
     {
       "id": "smuggler",
@@ -1811,6 +1863,11 @@
         "...Didn't see me. You didn't see anything, in fact.",
         "Rum's a victimless trade until the watch starts counting barrels.",
         "Whatever Vane thinks he knows, he can't prove. Keep it that way and we'll get along fine."
+      ],
+      "favoriteGiftItemId": "gilded-compass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "wild-berries"
       ]
     }
   ],
@@ -2537,24 +2594,57 @@
       "tx": 8,
       "ty": 2,
       "building": "chandlers",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
-      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 0
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 0
+        }
+      ]
     },
     {
       "id": "chandlers-item-1",
       "tx": 8,
       "ty": 3,
       "building": "chandlers",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
-      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 1
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 1
+        }
+      ]
     },
     {
       "id": "chandlers-item-2",
       "tx": 8,
       "ty": 4,
       "building": "chandlers",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
-      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 2
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 2
+        }
+      ]
     },
     {
       "id": "saltmere-secret-tin-whistle",
@@ -2567,7 +2657,10 @@
         },
         {
           "type": "giveItem",
-          "hubItem": { "itemId": "tin-whistle", "count": 1 },
+          "hubItem": {
+            "itemId": "tin-whistle",
+            "count": 1
+          },
           "message": "You found a tin whistle!"
         }
       ]
