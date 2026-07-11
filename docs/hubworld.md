@@ -660,10 +660,49 @@ Optional fields on a `config.json` NPC entry:
   "favoriteGiftItemId": "poetry-book", "favoriteGiftTrack": "romance" }
 ```
 
-Both are additive and optional — omitting them (the default for almost every
-NPC today) just means every material gift grants the flat generic bonus.
-`favoriteGiftTrack` must be one of `RELATIONSHIP_TRACKS` (`'ally' | 'rival' |
-'romance'`) or it's ignored and treated as unset (falls back to `'ally'`).
+Both are additive and optional — omitting them just means every material
+gift grants the flat generic bonus. `favoriteGiftTrack` must be one of
+`RELATIONSHIP_TRACKS` (`'ally' | 'rival' | 'romance'`) or it's ignored and
+treated as unset (falls back to `'ally'`).
+
+**Coverage**: as of the #1648 data pass, all 212 named NPCs across every
+town have `favoriteGiftItemId`/`dislikedGiftItemIds` set. NPCs with real
+characterization (dialogue trees, active quests, or an item `desc` in
+`hubItems.json` that names them/their role directly — e.g. `hearty-pie`:
+"Cook Mabel's egg-and-honey pie") got a hand-picked pair; everyone else was
+assigned via a `sprite`-keyed rotation (`sprite` is a cheap, already-
+populated role proxy on every NPC). New NPCs should follow the same
+convention: prefer a hand-picked thematic match when the NPC has any
+personality to draw on, otherwise reuse the fallback for their `sprite`
+below (or grep existing NPCs sharing that sprite for precedent):
+
+| sprite | favorite | disliked |
+|---|---|---|
+| `hub-npc-merchant` | `silk-ribbon` | `mouldy-slipper` |
+| `hub-npc-scholar` | `poetry-book` | `fish-bait` |
+| `hub-npc-elder` | `honey-cake` | `firefly` |
+| `hub-npc-soldier` | `sturdy-boots` | `pressed-flower` |
+| `hub-npc-dealer` | `gilded-compass` | `wild-berries` |
+| `hub-npc-supplies` | `spice-pouch` | `butterfly` |
+| `hub-npc-fisherman` | `fish-trophy` | `silk-ribbon` |
+| `hub-npc-trader` | `river-glass` | `mouldy-slipper` |
+| `hub-npc-arena` | `sturdy-boots` | `lost-locket` |
+| `hub-npc-guard` | `hearty-pie` | `tin-whistle` |
+| `hub-npc-herald` | `music-box` | `bog-salve` |
+| `hub-npc-gardener` | `pressed-flower` | `bones` |
+| `hub-npc-cook` | `honey` | `fish-bait` |
+| `hub-npc-child` | `tin-whistle` | `bog-salve` |
+| `knight` | `sturdy-boots` | `lost-locket` |
+| `hub-npc-harbourmaster` | `gilded-compass` | `wild-berries` |
+| `hub-npc-card-shop` | `silk-ribbon` | `chicken-feed` |
+| `hub-npc-gravedigger` | `lavender-tonic` | `honey-cake` |
+| `hub-npc-warlock` | `moon-draught` | `honey-cake` |
+| `phantom` | `bones` | `honey-cake` |
+| `ogre` | `hearty-pie` | `poetry-book` |
+| `goblin` | `lost-locket` | `pressed-flower` |
+| `hub-npc-cultist` | `grave-moss` | `silk-ribbon` |
+| `hub-npc-augment-shop` | `gilded-compass` | `wild-berries` |
+| `farmer` | `egg` | `silk-ribbon` |
 
 ### Authoring checklist
 
@@ -671,8 +710,9 @@ Nothing is required for the base mechanism — it works for every NPC in
 `HUB_NPCS` with zero JSON changes. To curate a favorite gift for a specific
 NPC:
 
-1. Add `favoriteGiftItemId`/`favoriteGiftTrack` to that NPC in its town
-   `config.json`.
+1. Add `favoriteGiftItemId`/`favoriteGiftTrack`/`dislikedGiftItemIds` to
+   that NPC in its town `config.json` — check other NPCs sharing the same
+   `sprite` for the town's existing convention before picking new items.
 2. Run `npm run test` (loader tests parse all configs) and `npm run build`.
 3. Verify in-game: gifting the favorite item shows the bigger-bonus flavor
    line and moves the configured track further than a generic material gift.
