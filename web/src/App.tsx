@@ -3277,7 +3277,7 @@ export default function App() {
       )}
 
       {screen === 'home-shelf' && (
-        <HomeShelf onBack={() => setScreen('hubworld')} />
+        <HomeShelf onBack={() => setScreen('hubworld')} houseKey={shopBuildingId} />
       )}
 
       {screen === 'heroCards' && (

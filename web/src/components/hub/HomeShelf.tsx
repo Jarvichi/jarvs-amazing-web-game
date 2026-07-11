@@ -15,6 +15,9 @@ import { loadCrystals, saveCrystals } from '../../game/collection'
 
 interface Props {
   onBack: () => void
+  /** Which owned house's furniture layout to edit — opaque key (e.g. `${town}:${buildingId}`).
+   *  Falls back to a shared 'default' bucket when no specific house is known. */
+  houseKey?: string
 }
 
 type ShelfEntry =
@@ -43,7 +46,7 @@ function nextRotation(r: 0 | 90 | 180 | 270): 0 | 90 | 180 | 270 {
 
 const REMOVE_ARM_MS = 2500
 
-export function HomeShelf({ onBack }: Props) {
+export function HomeShelf({ onBack, houseKey = 'default' }: Props) {
   const [tab, setTab] = useState<'shelf' | 'decorate'>('shelf')
 
   // ── Shelf tab (existing, unchanged) ──
@@ -69,7 +72,7 @@ export function HomeShelf({ onBack }: Props) {
   const [detail, setDetail] = useState<ShelfEntry | null>(null)
 
   // ── Decorate tab ──
-  const [placed, setPlaced] = useState<PlacedFurniture[]>(() => loadHomeLayout())
+  const [placed, setPlaced] = useState<PlacedFurniture[]>(() => loadHomeLayout(houseKey))
   const [ownedIds, setOwnedIds] = useState<string[]>(() => getOwnedFurnitureIds())
   const [crystals, setCrystals] = useState(() => loadCrystals())
   const [armedItemId, setArmedItemId] = useState<string | null>(null)
@@ -132,8 +135,8 @@ export function HomeShelf({ onBack }: Props) {
 
   function handleCellTap(x: number, y: number) {
     if (moveArmed && selectedPieceId) {
-      if (moveFurniture(selectedPieceId, x, y)) {
-        setPlaced(loadHomeLayout())
+      if (moveFurniture(houseKey, selectedPieceId, x, y)) {
+        setPlaced(loadHomeLayout(houseKey))
         setMoveArmed(false)
       } else {
         showMessage("That won't fit there.")
@@ -141,9 +144,9 @@ export function HomeShelf({ onBack }: Props) {
       return
     }
     if (armedItemId) {
-      const piece = placeFurniture(armedItemId, x, y)
+      const piece = placeFurniture(houseKey, armedItemId, x, y)
       if (piece) {
-        setPlaced(loadHomeLayout())
+        setPlaced(loadHomeLayout(houseKey))
         setArmedItemId(null)
       } else {
         showMessage("That won't fit there.")
@@ -160,8 +163,8 @@ export function HomeShelf({ onBack }: Props) {
   function handleRotate() {
     if (!selectedPiece) return
     const rotation = nextRotation(selectedPiece.rotation)
-    if (moveFurniture(selectedPiece.id, selectedPiece.x, selectedPiece.y, rotation)) {
-      setPlaced(loadHomeLayout())
+    if (moveFurniture(houseKey, selectedPiece.id, selectedPiece.x, selectedPiece.y, rotation)) {
+      setPlaced(loadHomeLayout(houseKey))
     } else {
       showMessage("Can't rotate — no room.")
     }
@@ -174,8 +177,8 @@ export function HomeShelf({ onBack }: Props) {
   function handleRemove() {
     if (!selectedPieceId) return
     if (removeArmedId === selectedPieceId) {
-      removeFurniture(selectedPieceId)
-      setPlaced(loadHomeLayout())
+      removeFurniture(houseKey, selectedPieceId)
+      setPlaced(loadHomeLayout(houseKey))
       setSelectedPieceId(null)
       return
     }

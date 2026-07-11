@@ -1,7 +1,7 @@
 import { logError } from '../../logger'
 import { getFurnitureDef, ownsFurniture } from './furniture'
 
-const KEY = 'jarv_hub_home_layout'
+const KEY_PREFIX = 'jarv_hub_home_layout'
 
 export const HOME_GRID_COLS = 8
 export const HOME_GRID_ROWS = 6
@@ -18,18 +18,25 @@ interface Store {
   placed: PlacedFurniture[]
 }
 
-function load(): Store {
+function storageKey(houseKey: string): string {
+  return `${KEY_PREFIX}:${houseKey}`
+}
+
+function load(houseKey: string): Store {
   try {
-    const raw = localStorage.getItem(KEY)
+    // 'default' (no real owned house known) falls back to the pre-per-house
+    // unscoped key once, so furniture placed before this scoping existed isn't orphaned.
+    const raw = localStorage.getItem(storageKey(houseKey))
+      ?? (houseKey === 'default' ? localStorage.getItem(KEY_PREFIX) : null)
     return raw ? (JSON.parse(raw) as Store) : { placed: [] }
   } catch {
     return { placed: [] }
   }
 }
 
-function save(data: Store): void {
+function save(houseKey: string, data: Store): void {
   try {
-    localStorage.setItem(KEY, JSON.stringify(data))
+    localStorage.setItem(storageKey(houseKey), JSON.stringify(data))
   } catch (e) {
     logError('home layout save failed', { error: String(e) })
   }
@@ -58,33 +65,33 @@ function isOccupied(placed: PlacedFurniture[], x: number, y: number, w: number, 
   })
 }
 
-export function loadHomeLayout(): PlacedFurniture[] {
-  return load().placed
+export function loadHomeLayout(houseKey: string): PlacedFurniture[] {
+  return load(houseKey).placed
 }
 
-export function isHomeLayoutEmpty(): boolean {
-  return loadHomeLayout().length === 0
+export function isHomeLayoutEmpty(houseKey: string): boolean {
+  return loadHomeLayout(houseKey).length === 0
 }
 
 /** Places a new piece of furniture at (x, y). Returns null if the item isn't in the catalog or
  *  isn't owned, the placement is out of bounds, or its footprint overlaps an existing piece. */
-export function placeFurniture(itemId: string, x: number, y: number, rotation: 0 | 90 | 180 | 270 = 0): PlacedFurniture | null {
+export function placeFurniture(houseKey: string, itemId: string, x: number, y: number, rotation: 0 | 90 | 180 | 270 = 0): PlacedFurniture | null {
   if (!getFurnitureDef(itemId) || !ownsFurniture(itemId)) return null
   const { w, h } = footprintFor(itemId, rotation)
   if (!inBounds(x, y, w, h)) return null
-  const data = load()
+  const data = load(houseKey)
   if (isOccupied(data.placed, x, y, w, h)) return null
 
   const id = `${itemId}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
   const piece: PlacedFurniture = { id, itemId, x, y, rotation }
-  save({ placed: [...data.placed, piece] })
+  save(houseKey, { placed: [...data.placed, piece] })
   return piece
 }
 
 /** Moves an existing placement to (x, y). Returns false if the id is unknown, the target is out of
  *  bounds, or its footprint overlaps a different piece (moving onto its own current cell is allowed). */
-export function moveFurniture(id: string, x: number, y: number, rotation?: 0 | 90 | 180 | 270): boolean {
-  const data = load()
+export function moveFurniture(houseKey: string, id: string, x: number, y: number, rotation?: 0 | 90 | 180 | 270): boolean {
+  const data = load(houseKey)
   const piece = data.placed.find(p => p.id === id)
   if (!piece) return false
 
@@ -96,15 +103,15 @@ export function moveFurniture(id: string, x: number, y: number, rotation?: 0 | 9
   piece.x = x
   piece.y = y
   piece.rotation = nextRotation
-  save(data)
+  save(houseKey, data)
   return true
 }
 
 /** Removes a placed piece by its instance id. Returns false if the id is unknown. */
-export function removeFurniture(id: string): boolean {
-  const data = load()
+export function removeFurniture(houseKey: string, id: string): boolean {
+  const data = load(houseKey)
   const next = data.placed.filter(p => p.id !== id)
   if (next.length === data.placed.length) return false
-  save({ placed: next })
+  save(houseKey, { placed: next })
   return true
 }

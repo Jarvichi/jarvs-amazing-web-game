@@ -87,7 +87,7 @@ interface Props {
   interiorEnterRef?: React.MutableRefObject<((buildingId: string) => void) | null>
   interiorExitRef?:  React.MutableRefObject<(() => void) | null>
   petActionRef?:     React.MutableRefObject<{ sendPetFetching: (onReturn: () => void) => boolean; givePetAffection: () => void; setPetAccessory: (assetId: string | null) => void } | null>
-  onEnterInterior?:  () => void
+  onEnterInterior?:  (buildingId: string) => void
   onExitInterior?:   () => void
   onTileTap?:        (tx: number, ty: number) => void
   pickedUpIds?:      Set<string>
@@ -1627,7 +1627,8 @@ export function HubTownCanvas({
       // visible is rendered from the player's placed furniture (homeLayout.ts)
       // at runtime, not upgrade-gated.
       if (interior.playerDecor) {
-        for (const piece of loadHomeLayout()) {
+        const houseKey = `${locationKey}:${buildingId}`
+        for (const piece of loadHomeLayout(houseKey)) {
           for (const offset of getFurnitureTileOffsets(piece.itemId)) {
             visibleDecor.push({ tx: piece.x + offset.dx, ty: piece.y + offset.dy, tileId: offset.tileId })
           }
@@ -1647,7 +1648,7 @@ export function HubTownCanvas({
       intOffY = Math.floor((MAP_H - intH) / 2)
 
       // Notify HubWorld that entry succeeded (must happen after all guard returns)
-      onEnterInteriorRef.current?.()
+      onEnterInteriorRef.current?.(buildingId)
 
       // Per-building audio: swap to the interior's music / ambiance (if authored)
       startInteriorAudio(interior.musicId, interior.ambianceId)
