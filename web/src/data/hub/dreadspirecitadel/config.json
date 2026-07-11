@@ -528,6 +528,11 @@
       "dialogue": [
         "I served this citadel once. I don't talk about that, usually.",
         "You keep coming back here. Most people don't, once they've seen the Outer Ward."
+      ],
+      "favoriteGiftItemId": "bog-salve",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "silk-ribbon"
       ]
     },
     {
@@ -547,6 +552,11 @@
         "dreadspire-dark-harvest",
         "dreadspire-harvest-2",
         "dreadspire-harvest-3"
+      ],
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
       ]
     },
     {
@@ -561,7 +571,12 @@
         "If you mean the citadel harm, I must stop you. If you mean it well, I must watch you suspiciously. Those are the rules."
       ],
       "questGive": "dreadspire-lost-watch",
-      "questReceive": "dreadspire-lost-watch"
+      "questReceive": "dreadspire-lost-watch",
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
+      ]
     },
     {
       "id": "warlock-vesska",
@@ -615,6 +630,11 @@
             "ty": 5
           }
         }
+      ],
+      "favoriteGiftItemId": "moon-draught",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "honey-cake"
       ]
     },
     {
@@ -631,7 +651,14 @@
       ],
       "questGive": "dreadspire-ritual-ingredients",
       "questReceive": "dreadspire-ritual-ingredients",
-      "dislikes": ["warlock-vesska"]
+      "dislikes": [
+        "warlock-vesska"
+      ],
+      "favoriteGiftItemId": "grave-moss",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "silk-ribbon"
+      ]
     },
     {
       "id": "bone-keeper-mald",
@@ -649,7 +676,9 @@
       "questReceive": "dreadspire-bone-tally",
       "favoriteGiftItemId": "bones",
       "favoriteGiftTrack": "ally",
-      "dislikedGiftItemIds": ["honey-cake"]
+      "dislikedGiftItemIds": [
+        "honey-cake"
+      ]
     },
     {
       "id": "shrine-tender",
@@ -665,7 +694,12 @@
         "Pray if you like. The shadow grants nothing, but it never lies to you either. Rare, these days."
       ],
       "questGive": "dreadspire-black-candles",
-      "questReceive": "dreadspire-black-candles"
+      "questReceive": "dreadspire-black-candles",
+      "favoriteGiftItemId": "bones",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "honey-cake"
+      ]
     },
     {
       "id": "alchemist-sythe",
@@ -681,7 +715,12 @@
         "Touch nothing green. Touch nothing that ISN'T green either, come to think of it."
       ],
       "questGive": "dreadspire-moon-herbs",
-      "questReceive": "dreadspire-moon-herbs"
+      "questReceive": "dreadspire-moon-herbs",
+      "favoriteGiftItemId": "grave-moss",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "honey-cake"
+      ]
     },
     {
       "id": "raven-keeper-corvane",
@@ -696,7 +735,12 @@
         "They fly the whole citadel, my birds. Drop me a token from each corner and I'll know my domain is whole."
       ],
       "questGive": "dreadspire-raven-tokens",
-      "questReceive": "dreadspire-raven-tokens"
+      "questReceive": "dreadspire-raven-tokens",
+      "favoriteGiftItemId": "feather",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "silk-ribbon"
+      ]
     },
     {
       "id": "dungeon-warden-gholl",
@@ -710,7 +754,12 @@
         "The lower vault stays sealed. Warlock's orders — Vesska's, not the master's. There is a difference, and it troubles me.",
         "If you've business in the deep cells, bring me leave from one who outranks dust. I'll know it when I see it."
       ],
-      "questReceive": "dreadspire-intrigue-2"
+      "questReceive": "dreadspire-intrigue-2",
+      "favoriteGiftItemId": "hearty-pie",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "tin-whistle"
+      ]
     },
     {
       "id": "the-defector",
@@ -724,7 +773,12 @@
         "I served the master once. Then I read what the ritual actually does, and I asked to leave. You can guess how that went.",
         "Get me out and I'll tell you what sleeps under this citadel. It is the only currency I have left."
       ],
-      "questGive": "dreadspire-intrigue-3"
+      "questGive": "dreadspire-intrigue-3",
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
+      ]
     },
     {
       "id": "ghost-servant-isolde",
@@ -764,6 +818,11 @@
             "ty": 4
           }
         }
+      ],
+      "favoriteGiftItemId": "bones",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "honey-cake"
       ]
     },
     {
@@ -777,6 +836,11 @@
         "Every hex has a price, and every price has a hex attached. Fair trade, I call it.",
         "The towers hoard their secrets. I sell mine — cheaper, and with fewer curses attached. Usually.",
         "One spell, properly cast, is worth a hundred swords poorly swung."
+      ],
+      "favoriteGiftItemId": "moon-draught",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "honey-cake"
       ]
     }
   ],
@@ -1993,8 +2057,13 @@
       "tx": 22,
       "ty": 28,
       "reactions": [
-        { "type": "dialogue", "text": "A dead tree, twisted and bare — something might be tucked among its roots." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "A dead tree, twisted and bare — something might be tucked among its roots."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -2002,8 +2071,13 @@
       "tx": 19,
       "ty": 24,
       "reactions": [
-        { "type": "dialogue", "text": "A withered bush by the outer ward, worth a closer look." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "A withered bush by the outer ward, worth a closer look."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -2011,8 +2085,13 @@
       "tx": 33,
       "ty": 27,
       "reactions": [
-        { "type": "dialogue", "text": "A dead bush near the citadel wall, roots half-exposed." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "A dead bush near the citadel wall, roots half-exposed."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -2020,31 +2099,67 @@
       "tx": 7,
       "ty": 2,
       "building": "spellwright-den",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
-      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 0
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 0
+        }
+      ]
     },
     {
       "id": "spellwright-den-item-1",
       "tx": 7,
       "ty": 3,
       "building": "spellwright-den",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
-      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 1
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 1
+        }
+      ]
     },
     {
       "id": "spellwright-den-item-2",
       "tx": 7,
       "ty": 4,
       "building": "spellwright-den",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
-      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 2
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 2
+        }
+      ]
     },
     {
       "id": "dreadspire-secret-tower-note",
       "tx": 30,
       "ty": 15,
       "reactions": [
-        { "type": "dialogue", "text": "A scrap of blackened parchment lies half-buried beside the flagstones, easy to miss." },
+        {
+          "type": "dialogue",
+          "text": "A scrap of blackened parchment lies half-buried beside the flagstones, easy to miss."
+        },
         {
           "type": "giveItem",
           "collectible": {
@@ -2063,7 +2178,10 @@
       "tx": 11,
       "ty": 16,
       "reactions": [
-        { "type": "dialogue", "text": "A shard of black stone, half-buried near the shrine wall, bears a carving that wasn't there before." },
+        {
+          "type": "dialogue",
+          "text": "A shard of black stone, half-buried near the shrine wall, bears a carving that wasn't there before."
+        },
         {
           "type": "giveItem",
           "collectible": {
@@ -2082,7 +2200,10 @@
       "tx": 20,
       "ty": 30,
       "reactions": [
-        { "type": "dialogue", "text": "Tucked beneath a loose flagstone near the gate approach, a torn ledger page waits to be found." },
+        {
+          "type": "dialogue",
+          "text": "Tucked beneath a loose flagstone near the gate approach, a torn ledger page waits to be found."
+        },
         {
           "type": "giveItem",
           "collectible": {
@@ -2101,7 +2222,10 @@
       "tx": 10,
       "ty": 23,
       "reactions": [
-        { "type": "dialogue", "text": "The stones behind the shrine wall have shifted, revealing a cache someone left behind." },
+        {
+          "type": "dialogue",
+          "text": "The stones behind the shrine wall have shifted, revealing a cache someone left behind."
+        },
         {
           "type": "giveItem",
           "collectible": {

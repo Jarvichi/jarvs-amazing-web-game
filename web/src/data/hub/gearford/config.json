@@ -1724,7 +1724,12 @@
         "buildingId": "foundry",
         "tx": 3,
         "ty": 4
-      }
+      },
+      "favoriteGiftItemId": "bog-salve",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
+      ]
     },
     {
       "id": "engineer-vela",
@@ -1771,7 +1776,12 @@
         "buildingId": "machine-workshop",
         "tx": 3,
         "ty": 4
-      }
+      },
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
+      ]
     },
     {
       "id": "foreman-dask",
@@ -1816,7 +1826,12 @@
         "buildingId": "mine-entrance",
         "tx": 3,
         "ty": 4
-      }
+      },
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
+      ]
     },
     {
       "id": "apprentice-tila",
@@ -1864,7 +1879,9 @@
       },
       "favoriteGiftItemId": "pressed-flower",
       "favoriteGiftTrack": "ally",
-      "dislikedGiftItemIds": ["smoked-herring"]
+      "dislikedGiftItemIds": [
+        "smoked-herring"
+      ]
     },
     {
       "id": "gearwright-orin",
@@ -1906,7 +1923,12 @@
         "buildingId": "gearwright-hall",
         "tx": 3,
         "ty": 4
-      }
+      },
+      "favoriteGiftItemId": "river-glass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
+      ]
     },
     {
       "id": "coal-hauler-bram",
@@ -1956,7 +1978,12 @@
         "buildingId": "miners-inn-bunkrooms",
         "tx": 3,
         "ty": 2
-      }
+      },
+      "favoriteGiftItemId": "pressed-flower",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "bones"
+      ]
     },
     {
       "id": "innkeep-mags",
@@ -2012,7 +2039,12 @@
         "buildingId": "miners-inn-bunkrooms",
         "tx": 10,
         "ty": 2
-      }
+      },
+      "favoriteGiftItemId": "honey",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
+      ]
     },
     {
       "id": "miner-jole",
@@ -2065,7 +2097,12 @@
         "buildingId": "miners-inn-bunkrooms",
         "tx": 8,
         "ty": 2
-      }
+      },
+      "favoriteGiftItemId": "lavender-tonic",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "honey-cake"
+      ]
     },
     {
       "id": "quartermaster-rell",
@@ -2102,6 +2139,11 @@
             "ty": 3
           }
         }
+      ],
+      "favoriteGiftItemId": "gilded-compass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "wild-berries"
       ]
     },
     {
@@ -2143,7 +2185,12 @@
         "buildingId": "worker-house-2",
         "tx": 2,
         "ty": 2
-      }
+      },
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
+      ]
     },
     {
       "id": "engineer-torvald",
@@ -2162,16 +2209,35 @@
           "startHour": 0,
           "endHour": 7,
           "activity": "sleep",
-          "location": { "type": "interior", "buildingId": "miners-inn-bunkrooms", "tx": 1, "ty": 2 }
+          "location": {
+            "type": "interior",
+            "buildingId": "miners-inn-bunkrooms",
+            "tx": 1,
+            "ty": 2
+          }
         },
         {
           "startHour": 7,
           "endHour": 24,
           "activity": "work",
-          "location": { "type": "interior", "buildingId": "tool-shop", "tx": 4, "ty": 3 }
+          "location": {
+            "type": "interior",
+            "buildingId": "tool-shop",
+            "tx": 4,
+            "ty": 3
+          }
         }
       ],
-      "homeBed": { "buildingId": "miners-inn-bunkrooms", "tx": 1, "ty": 2 }
+      "homeBed": {
+        "buildingId": "miners-inn-bunkrooms",
+        "tx": 1,
+        "ty": 2
+      },
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
+      ]
     },
     {
       "id": "sergeant-coldiron",
@@ -2190,16 +2256,35 @@
           "startHour": 0,
           "endHour": 7,
           "activity": "sleep",
-          "location": { "type": "interior", "buildingId": "miners-inn-bunkrooms", "tx": 3, "ty": 2 }
+          "location": {
+            "type": "interior",
+            "buildingId": "miners-inn-bunkrooms",
+            "tx": 3,
+            "ty": 2
+          }
         },
         {
           "startHour": 7,
           "endHour": 24,
           "activity": "work",
-          "location": { "type": "interior", "buildingId": "gear-shop", "tx": 4, "ty": 3 }
+          "location": {
+            "type": "interior",
+            "buildingId": "gear-shop",
+            "tx": 4,
+            "ty": 3
+          }
         }
       ],
-      "homeBed": { "buildingId": "miners-inn-bunkrooms", "tx": 3, "ty": 2 }
+      "homeBed": {
+        "buildingId": "miners-inn-bunkrooms",
+        "tx": 3,
+        "ty": 2
+      },
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
+      ]
     }
   ],
   "interiors": {
@@ -3575,48 +3660,114 @@
       "tx": 9,
       "ty": 3,
       "building": "tool-shop",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
-      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 0
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 0
+        }
+      ]
     },
     {
       "id": "tool-shop-item-1",
       "tx": 9,
       "ty": 4,
       "building": "tool-shop",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
-      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 1
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 1
+        }
+      ]
     },
     {
       "id": "tool-shop-item-2",
       "tx": 9,
       "ty": 5,
       "building": "tool-shop",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
-      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 2
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 2
+        }
+      ]
     },
     {
       "id": "gear-shop-item-0",
       "tx": 9,
       "ty": 3,
       "building": "gear-shop",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
-      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 0
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 0
+        }
+      ]
     },
     {
       "id": "gear-shop-item-1",
       "tx": 9,
       "ty": 4,
       "building": "gear-shop",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
-      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 1
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 1
+        }
+      ]
     },
     {
       "id": "gear-shop-item-2",
       "tx": 9,
       "ty": 5,
       "building": "gear-shop",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
-      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 2
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 2
+        }
+      ]
     },
     {
       "id": "gearford-secret-pressed-flower",
@@ -3629,7 +3780,10 @@
         },
         {
           "type": "giveItem",
-          "hubItem": { "itemId": "pressed-flower", "count": 1 },
+          "hubItem": {
+            "itemId": "pressed-flower",
+            "count": 1
+          },
           "message": "You found a pressed flower!"
         }
       ]
