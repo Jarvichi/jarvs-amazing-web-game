@@ -5456,10 +5456,11 @@
       "sprite": "hub-npc-herald",
       "tx": 60,
       "ty": 43,
+      "screen": "theatre",
       "dialogue": [
-        "The Crown Theatre will dazzle the realm — once the stage is ready.",
-        "Rehearsals, ropes, and a thousand candles. Come back for the grand premiere!",
-        "A performance worthy of a coronation takes time. Patience, friend."
+        "Welcome, welcome! The Crown Theatre is open for its first performances!",
+        "Step onto the stage and time your cues — the crowd is a fickle judge.",
+        "Rehearsals, ropes, a thousand candles... and now, an audience!"
       ],
       "favoriteGiftItemId": "fancy-hat",
       "favoriteGiftTrack": "ally",
