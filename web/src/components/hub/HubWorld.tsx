@@ -13,6 +13,7 @@ import { getPickedUpIds, markPickedUp, unmarkPickedUp } from '../../game/hub/pic
 import { getFriendshipLevel, addFriendshipXp, getFriendshipData } from '../../game/hub/friendship'
 import { getRelationship, grantRelationshipWithRivalry, RELATIONSHIP_TRACKS, type RelationshipTrack } from '../../game/hub/relationships'
 import { canTalkToday, recordTalk } from '../../game/hub/talkCooldown'
+import { canGiftToday, recordGift } from '../../game/hub/giftCooldown'
 import { setDialogueFlag, hasDialogueFlag, markNodeSeen } from '../../game/hub/dialogueFlags'
 import { getQuestState, setQuestStatus, incrementQuestProgress, getQuestProgress, resetQuest } from '../../game/hub/quests'
 import { getHeardConvoIds, markConvoHeard } from '../../game/hub/innConvos'
@@ -865,9 +866,12 @@ function buildTalkGiveOptions(
   })
   const giftable = getHubItems().filter(i => i.category === 'material')
   if (giftable.length > 0) {
+    const giftableToday = canGiftToday(npcId)
     choices.push({
-      label: '🎁 Give a gift',
+      label: giftableToday ? '🎁 Give a gift' : '🎁 Give a gift (already gifted today)',
+      disabled: !giftableToday,
       onClick: () => {
+        if (!giftableToday) return
         const giftChoices: DialogueChoice[] = giftable.map(item => ({
           label: `${item.icon ?? '🎁'} ${item.name ?? item.id} ×${item.count}`,
           onClick: () => giveGiftToNpc(npcId, speakerName, npcDef, item.id),
@@ -1325,7 +1329,9 @@ function hasOfferableQuest(giverId: string): boolean {
     npcDef: { favoriteGiftItemId?: string; favoriteGiftTrack?: string; dislikedGiftItemIds?: string[] } | undefined,
     itemId: string,
   ) => {
+    if (!canGiftToday(npcId)) { setDialogueEvent(null); return }
     if (!removeHubItem(itemId, 1)) { setDialogueEvent(null); return }
+    recordGift(npcId)
     const isFavorite = !!npcDef?.favoriteGiftItemId && npcDef.favoriteGiftItemId === itemId
     const isDisliked = !isFavorite && !!npcDef?.dislikedGiftItemIds?.includes(itemId)
     const who = speakerName || 'They'

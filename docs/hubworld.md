@@ -646,7 +646,10 @@ wrapper around `buildTalkGiveOptions` that appends Farewell).
   pattern used for pet/ambient-animal feeding). Picking one consumes it and
   grants friendship + `ally` relationship points. If the item's id matches the
   NPC's optional `favoriteGiftItemId` (see below), the bonus is bigger and
-  applies to `favoriteGiftTrack` instead (default `'ally'`).
+  applies to `favoriteGiftTrack` instead (default `'ally'`). Limited to once
+  per real day per NPC (`canGiftToday`/`recordGift`,
+  `web/src/game/hub/giftCooldown.ts`, mirroring `talkCooldown.ts`) so
+  friendship/relationship can't be farmed by repeatedly gifting the same NPC.
 
 ### Favorite gift (`HubNpc.favoriteGiftItemId` / `favoriteGiftTrack`)
 
