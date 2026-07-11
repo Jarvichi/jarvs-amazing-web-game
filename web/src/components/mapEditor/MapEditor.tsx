@@ -44,7 +44,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
     openInterior, closeInterior, openBuildingEditor, closeBuildingEditor, placeBuildingDoor,
     selectEntities, addToSelection,
     placeDecor, moveEntities, deleteEntities,
-    addPondTile, addBridgeTile, updatePondEntry, updateBridgeEntry, addNpcSpawnTile, addChickenZone, addArea,
+    addPondTile, addBridgeTile, updatePondEntry, updateBridgeEntry, addNpcSpawnTile, addChickenZone, addArea, addBuilding,
     convertStreetToPond, convertPondToStreet,
     batchUpdateZlayer, batchUpdateStreetPathType,
     updateDecorZlayer, updateDecorTileId, reorderDecor, updateGlow, updateDecorMinLevel, updateDecorHideAtLevel, updateBuildingLevelVisual, updateBuilding, addNpc, updateNpcDialogue, updateNpc,
@@ -343,6 +343,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
             onAddNpcSpawnTile={addNpcSpawnTile}
             onAddChickenZone={addChickenZone}
             onAddArea={addArea}
+            onAddBuilding={addBuilding}
             questPickupItems={questDefsData?.pickupItems ?? []}
           />
 

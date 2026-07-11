@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 import type { RawMapConfig, RawNpc, RawAnimal, RawInterior, RawBuilding, RawDecorItem, RawLockedDoor, SelectedEntity, ToolMode, Zlayer, MapEditorState } from './mapEditorTypes'
-import { toggleInSelection, nextAreaId, convertStreetToPond as cSTP, convertPondToStreet as cPTS, applyDeleteEntities, applyBatchUpdateZlayer, applyBatchUpdateStreetPathType } from './multiSelectHelpers'
+import { toggleInSelection, nextAreaId, nextBuildingId, convertStreetToPond as cSTP, convertPondToStreet as cPTS, applyDeleteEntities, applyBatchUpdateZlayer, applyBatchUpdateStreetPathType } from './multiSelectHelpers'
 
 type InteriorExit = NonNullable<RawInterior['exits']>[number]
 import hubConfig from '../../data/hub/ravenwatch/config.json'
@@ -491,6 +491,36 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
         ...s,
         configData: { ...prevConfig, areas },
         selectedEntities: [{ type: 'area' as const, index: newIndex }],
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  // Creates a building + a matching (same-id) empty interior + a default south-wall
+  // door, all as one undo step. Same-id building/interior satisfies the id-prefix
+  // rule doEnterInterior relies on to resolve upgrade level (see docs/hubworld.md).
+  const addBuilding = useCallback((tx1: number, ty1: number, tx2: number, ty2: number) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const id = nextBuildingId(prevConfig.buildings ?? [])
+      const rect: [number, number, number, number] = [tx1, ty1, tx2, ty2]
+      const doorRelTx = Math.floor((tx2 - tx1) / 2)
+      const newBuilding: RawBuilding = {
+        id, rect, wall: 'brick' as WallMaterial, roof: 'redSlateRoof' as RoofMaterial,
+        doors: [{ tx: doorRelTx, ty: 0 }],
+      }
+      const buildings = [...(prevConfig.buildings ?? []), newBuilding]
+      const width  = Math.max(4, tx2 - tx1 + 1)
+      const height = Math.max(4, ty2 - ty1 + 1)
+      const interior: RawInterior = { name: id, width, height, floorTileId: 'woodFloor', decor: [] }
+      const interiors = { ...(prevConfig.interiors ?? {}), [id]: interior }
+      const newIndex = buildings.length - 1
+      return {
+        ...s,
+        configData: { ...prevConfig, buildings, interiors },
+        selectedEntities: [{ type: 'building' as const, index: newIndex }],
         undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
         redoStack: [],
         isDirty: true,
@@ -1470,6 +1500,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     addNpcSpawnTile,
     addChickenZone,
     addArea,
+    addBuilding,
     convertStreetToPond,
     convertPondToStreet,
     batchUpdateZlayer,

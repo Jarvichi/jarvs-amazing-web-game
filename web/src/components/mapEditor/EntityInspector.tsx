@@ -858,6 +858,7 @@ function BuildingInspector({
   const [newW, setNewW]       = useState(10)
   const [newH, setNewH]       = useState(8)
   const [newFloor, setNewFloor] = useState('woodFloor')
+  const [newPlayerDecor, setNewPlayerDecor] = useState(false)
 
   function openForm() {
     setNewId(nextAutoId())
@@ -865,6 +866,7 @@ function BuildingInspector({
     setNewW(10)
     setNewH(8)
     setNewFloor('woodFloor')
+    setNewPlayerDecor(false)
     setShowForm(true)
   }
 
@@ -877,6 +879,7 @@ function BuildingInspector({
       height: newH,
       floorTileId: newFloor.trim() || 'woodFloor',
       decor: [],
+      ...(newPlayerDecor ? { playerDecor: true } : {}),
     }
     onAddInterior(id, interior)
     setShowForm(false)
@@ -928,6 +931,14 @@ function BuildingInspector({
         </Field>
         <Field label="Editing Level">
           <LevelStepper level={activeLevel} max={buildingMaxLevel(building)} onChange={onSetActiveLevel} />
+        </Field>
+        <Field label="Requires Ownership">
+          <input
+            type="checkbox"
+            checked={building.requiresOwnership ?? false}
+            onChange={e => onUpdateBuilding(buildingIndex, { requiresOwnership: e.target.checked || undefined })}
+            title="Door stays locked until purchased via Town Upgrades — e.g. a player house"
+          />
         </Field>
 
         {/* Per-level look — base (level 0) edits the building; higher levels write
@@ -1054,6 +1065,10 @@ function BuildingInspector({
                   {FLOOR_TILES.map(f => <option key={f} value={f}>{f}</option>)}
                 </select>
               </div>
+              <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontSize: 11, color: '#888' }}>
+                <input type="checkbox" checked={newPlayerDecor} onChange={e => setNewPlayerDecor(e.target.checked)} />
+                Player decor (unfurnished — renders the player's placed furniture)
+              </label>
               <div style={{ display: 'flex', gap: 6 }}>
                 <button
                   onClick={handleSave}
