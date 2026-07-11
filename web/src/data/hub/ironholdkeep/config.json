@@ -1939,7 +1939,12 @@
         "buildingId": "keep-solar",
         "tx": 1,
         "ty": 2
-      }
+      },
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "lost-locket"
+      ]
     },
     {
       "id": "castle-guard-master",
@@ -2013,7 +2018,12 @@
         "buildingId": "barracks",
         "tx": 9,
         "ty": 6
-      }
+      },
+      "favoriteGiftItemId": "hearty-pie",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "tin-whistle"
+      ]
     },
     {
       "id": "castle-blacksmith",
@@ -2031,7 +2041,9 @@
       "questReceive": "castle-weapon-cache",
       "favoriteGiftItemId": "bog-salve",
       "favoriteGiftTrack": "ally",
-      "dislikedGiftItemIds": ["poetry-book"],
+      "dislikedGiftItemIds": [
+        "poetry-book"
+      ],
       "schedule": [
         {
           "startHour": 0,
@@ -2098,7 +2110,9 @@
       "building": "quartermasters-store",
       "questGive": "castle-supply-tally",
       "questReceive": "castle-supply-tally",
-      "dislikes": ["castle-blacksmith"],
+      "dislikes": [
+        "castle-blacksmith"
+      ],
       "schedule": [
         {
           "startHour": 0,
@@ -2149,7 +2163,12 @@
         "buildingId": "quartermasters-store",
         "tx": 8,
         "ty": 5
-      }
+      },
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
+      ]
     },
     {
       "id": "castle-cook",
@@ -2205,7 +2224,12 @@
         "buildingId": "kitchens",
         "tx": 10,
         "ty": 5
-      }
+      },
+      "favoriteGiftItemId": "honey",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
+      ]
     },
     {
       "id": "castle-chaplain",
@@ -2271,7 +2295,12 @@
         "buildingId": "chapel-crypt",
         "tx": 10,
         "ty": 4
-      }
+      },
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
+      ]
     },
     {
       "id": "castle-archivist",
@@ -2326,7 +2355,12 @@
         "buildingId": "scriptorium",
         "tx": 1,
         "ty": 6
-      }
+      },
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
+      ]
     },
     {
       "id": "castle-stablehand",
@@ -2392,7 +2426,12 @@
         "buildingId": "stables",
         "tx": 10,
         "ty": 6
-      }
+      },
+      "favoriteGiftItemId": "fish-trophy",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "silk-ribbon"
+      ]
     },
     {
       "id": "castle-knight",
@@ -2465,7 +2504,12 @@
         "buildingId": "barracks",
         "tx": 6,
         "ty": 6
-      }
+      },
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
+      ]
     },
     {
       "id": "castle-squire",
@@ -2541,7 +2585,12 @@
         "buildingId": "barracks",
         "tx": 8,
         "ty": 6
-      }
+      },
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
+      ]
     },
     {
       "id": "castle-gatekeeper",
@@ -2585,6 +2634,11 @@
             "ty": 46
           }
         }
+      ],
+      "favoriteGiftItemId": "hearty-pie",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "tin-whistle"
       ]
     },
     {
@@ -2601,7 +2655,12 @@
       ],
       "building": "dungeon-cells",
       "questGive": "castle-prisoners-plea",
-      "questReceive": "castle-prisoners-plea"
+      "questReceive": "castle-prisoners-plea",
+      "favoriteGiftItemId": "honey-cake",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "firefly"
+      ]
     },
     {
       "id": "castle-guard-1",
@@ -2663,7 +2722,12 @@
         "buildingId": "barracks",
         "tx": 1,
         "ty": 6
-      }
+      },
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
+      ]
     },
     {
       "id": "castle-guard-2",
@@ -2725,7 +2789,12 @@
         "buildingId": "barracks",
         "tx": 2,
         "ty": 6
-      }
+      },
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
+      ]
     }
   ],
   "interiors": {
@@ -4500,8 +4569,13 @@
         }
       ],
       "reactions": [
-        { "type": "dialogue", "text": "A scrappy bush growing wild in the Outer Bailey." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "A scrappy bush growing wild in the Outer Bailey."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -4516,8 +4590,13 @@
         }
       ],
       "reactions": [
-        { "type": "dialogue", "text": "A patch of wildflowers, somehow thriving between the flagstones." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "A patch of wildflowers, somehow thriving between the flagstones."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -4532,8 +4611,13 @@
         }
       ],
       "reactions": [
-        { "type": "dialogue", "text": "A shaded bush near the dungeon wall, worth a closer look." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "A shaded bush near the dungeon wall, worth a closer look."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -4561,24 +4645,57 @@
       "tx": 9,
       "ty": 2,
       "building": "quartermasters-store",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
-      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 0
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 0
+        }
+      ]
     },
     {
       "id": "quartermasters-store-item-1",
       "tx": 9,
       "ty": 3,
       "building": "quartermasters-store",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
-      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 1
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 1
+        }
+      ]
     },
     {
       "id": "quartermasters-store-item-2",
       "tx": 9,
       "ty": 4,
       "building": "quartermasters-store",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
-      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 2
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 2
+        }
+      ]
     },
     {
       "id": "ironholdkeep-secret-ward-token",

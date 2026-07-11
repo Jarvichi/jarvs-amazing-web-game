@@ -8234,7 +8234,12 @@
         "buildingId": "inn-building-upstairs",
         "tx": 2,
         "ty": 1
-      }
+      },
+      "favoriteGiftItemId": "honey-cake",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "firefly"
+      ]
     },
     {
       "id": "merchant",
@@ -8287,7 +8292,12 @@
         "buildingId": "inn-building-upstairs",
         "tx": 4,
         "ty": 1
-      }
+      },
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
+      ]
     },
     {
       "id": "scholar",
@@ -8339,7 +8349,12 @@
         "buildingId": "inn-building-upstairs",
         "tx": 9,
         "ty": 1
-      }
+      },
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
+      ]
     },
     {
       "id": "fisherman",
@@ -8396,7 +8411,12 @@
         "buildingId": "inn-building-upstairs",
         "tx": 7,
         "ty": 1
-      }
+      },
+      "favoriteGiftItemId": "fish-trophy",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "silk-ribbon"
+      ]
     },
     {
       "id": "dealer",
@@ -8414,6 +8434,11 @@
       "questReceive": [
         "elder-rallying-the-hub",
         "dealer-echo-final-bet"
+      ],
+      "favoriteGiftItemId": "gilded-compass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "wild-berries"
       ]
     },
     {
@@ -8429,6 +8454,11 @@
         "The campaign banners are raised, Commander. Your forces await your orders.",
         "Every great victory began with a single step forward. Ready when you are.",
         "I have delivered the call to arms. The rest is in your hands, Commander."
+      ],
+      "favoriteGiftItemId": "music-box",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "bog-salve"
       ]
     },
     {
@@ -8442,6 +8472,11 @@
         "The endless pits never close, Commander. How long can you last?",
         "Wave after wave. Only the strongest endure.",
         "Glory awaits those who survive the endless onslaught."
+      ],
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
       ]
     },
     {
@@ -8455,6 +8490,11 @@
         "Today's challenge is set. Every commander faces the same deck.",
         "The daily trial resets at dawn. Will you answer the call?",
         "One challenge, one day. Prove your worth, Commander."
+      ],
+      "favoriteGiftItemId": "music-box",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "bog-salve"
       ]
     },
     {
@@ -8468,6 +8508,11 @@
         "This week's trial carries a story, Commander. The realm remembers those who answer.",
         "Three fragments forge a relic shard. The Chronicle rewards the persistent.",
         "A new trial begins each Monday at dawn. Every commander faces the same fate."
+      ],
+      "favoriteGiftItemId": "music-box",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "bog-salve"
       ]
     },
     {
@@ -8483,6 +8528,11 @@
         "No time for speeches. Pick your opponent and let the cards decide.",
         "The quick battle pits are open. Glory is one match away.",
         "I've seen a thousand commanders step into the pit. How will you fare?"
+      ],
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "lost-locket"
       ]
     },
     {
@@ -8497,6 +8547,11 @@
       "dialogue": [
         "Let's plan our strategy for the next battle.",
         "A strong army wins wars!"
+      ],
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "lost-locket"
       ]
     },
     {
@@ -8510,6 +8565,11 @@
       "questReceive": "the-password-part-3",
       "dialogue": [
         "Shall we review the troops available to us?"
+      ],
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "lost-locket"
       ]
     },
     {
@@ -8521,6 +8581,11 @@
       "screen": "minigames",
       "dialogue": [
         "Welcome to the games quarter! Try your luck."
+      ],
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
       ]
     },
     {
@@ -8532,6 +8597,11 @@
       "screen": "commander",
       "dialogue": [
         "Your forces await your orders, Commander."
+      ],
+      "favoriteGiftItemId": "honey-cake",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "firefly"
       ]
     },
     {
@@ -8550,10 +8620,39 @@
       "questGive": "gildwyns-missing-card",
       "questReceive": "gildwyn-the-fracture-card",
       "schedule": [
-        { "startHour": 6, "endHour": 20, "activity": "work", "location": { "type": "interior", "buildingId": "card-shop", "tx": 6, "ty": 3 } },
-        { "startHour": 20, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "inn-building-upstairs", "tx": 1, "ty": 1 } }
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "card-shop",
+            "tx": 6,
+            "ty": 3
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 6,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "inn-building-upstairs",
+            "tx": 1,
+            "ty": 1
+          }
+        }
       ],
-      "homeBed": { "buildingId": "inn-building-upstairs", "tx": 1, "ty": 1 }
+      "homeBed": {
+        "buildingId": "inn-building-upstairs",
+        "tx": 1,
+        "ty": 1
+      },
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "chicken-feed"
+      ]
     },
     {
       "id": "vorn",
@@ -8569,10 +8668,39 @@
         "Gildwyn keeps the day trade. I keep the legends."
       ],
       "schedule": [
-        { "startHour": 20, "endHour": 6, "activity": "work", "location": { "type": "interior", "buildingId": "card-shop", "tx": 6, "ty": 3 } },
-        { "startHour": 6, "endHour": 20, "activity": "sleep", "location": { "type": "interior", "buildingId": "inn-building-upstairs", "tx": 6, "ty": 1 } }
+        {
+          "startHour": 20,
+          "endHour": 6,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "card-shop",
+            "tx": 6,
+            "ty": 3
+          }
+        },
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "inn-building-upstairs",
+            "tx": 6,
+            "ty": 1
+          }
+        }
       ],
-      "homeBed": { "buildingId": "inn-building-upstairs", "tx": 6, "ty": 1 }
+      "homeBed": {
+        "buildingId": "inn-building-upstairs",
+        "tx": 6,
+        "ty": 1
+      },
+      "favoriteGiftItemId": "gilded-compass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "chicken-feed"
+      ]
     },
     {
       "id": "mira",
@@ -8590,10 +8718,39 @@
       "questGive": "miras-runaway-crystal",
       "questReceive": "vex-final-trade",
       "schedule": [
-        { "startHour": 6, "endHour": 20, "activity": "work", "location": { "type": "interior", "buildingId": "augment-shop", "tx": 3, "ty": 1 } },
-        { "startHour": 20, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "inn-building-upstairs", "tx": 3, "ty": 1 } }
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "augment-shop",
+            "tx": 3,
+            "ty": 1
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 6,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "inn-building-upstairs",
+            "tx": 3,
+            "ty": 1
+          }
+        }
       ],
-      "homeBed": { "buildingId": "inn-building-upstairs", "tx": 3, "ty": 1 }
+      "homeBed": {
+        "buildingId": "inn-building-upstairs",
+        "tx": 3,
+        "ty": 1
+      },
+      "favoriteGiftItemId": "gilded-compass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "wild-berries"
+      ]
     },
     {
       "id": "nox",
@@ -8609,10 +8766,39 @@
         "Mira keeps the daylight trade. I keep the connoisseurs."
       ],
       "schedule": [
-        { "startHour": 20, "endHour": 6, "activity": "work", "location": { "type": "interior", "buildingId": "augment-shop", "tx": 3, "ty": 1 } },
-        { "startHour": 6, "endHour": 20, "activity": "sleep", "location": { "type": "interior", "buildingId": "inn-building-upstairs", "tx": 8, "ty": 1 } }
+        {
+          "startHour": 20,
+          "endHour": 6,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "augment-shop",
+            "tx": 3,
+            "ty": 1
+          }
+        },
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "inn-building-upstairs",
+            "tx": 8,
+            "ty": 1
+          }
+        }
       ],
-      "homeBed": { "buildingId": "inn-building-upstairs", "tx": 8, "ty": 1 }
+      "homeBed": {
+        "buildingId": "inn-building-upstairs",
+        "tx": 8,
+        "ty": 1
+      },
+      "favoriteGiftItemId": "wraith-tonic",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "honey-cake"
+      ]
     },
     {
       "id": "bramble",
@@ -8630,10 +8816,39 @@
       "questGive": "brambles-first-delivery",
       "questReceive": "vex-final-trade",
       "schedule": [
-        { "startHour": 6, "endHour": 20, "activity": "work", "location": { "type": "interior", "buildingId": "supply-shop", "tx": 5, "ty": 5 } },
-        { "startHour": 20, "endHour": 6, "activity": "sleep", "location": { "type": "interior", "buildingId": "inn-building-upstairs", "tx": 5, "ty": 1 } }
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "supply-shop",
+            "tx": 5,
+            "ty": 5
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 6,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "inn-building-upstairs",
+            "tx": 5,
+            "ty": 1
+          }
+        }
       ],
-      "homeBed": { "buildingId": "inn-building-upstairs", "tx": 5, "ty": 1 }
+      "homeBed": {
+        "buildingId": "inn-building-upstairs",
+        "tx": 5,
+        "ty": 1
+      },
+      "favoriteGiftItemId": "spice-pouch",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "butterfly"
+      ]
     },
     {
       "id": "grix",
@@ -8649,10 +8864,39 @@
         "Bramble sleeps, Grix sells. Fair trade for fair hours."
       ],
       "schedule": [
-        { "startHour": 20, "endHour": 6, "activity": "work", "location": { "type": "interior", "buildingId": "supply-shop", "tx": 5, "ty": 5 } },
-        { "startHour": 6, "endHour": 20, "activity": "sleep", "location": { "type": "interior", "buildingId": "inn-building-upstairs", "tx": 10, "ty": 1 } }
+        {
+          "startHour": 20,
+          "endHour": 6,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "supply-shop",
+            "tx": 5,
+            "ty": 5
+          }
+        },
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "inn-building-upstairs",
+            "tx": 10,
+            "ty": 1
+          }
+        }
       ],
-      "homeBed": { "buildingId": "inn-building-upstairs", "tx": 10, "ty": 1 }
+      "homeBed": {
+        "buildingId": "inn-building-upstairs",
+        "tx": 10,
+        "ty": 1
+      },
+      "favoriteGiftItemId": "spice-pouch",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "silk-ribbon"
+      ]
     },
     {
       "id": "trader",
@@ -8667,6 +8911,11 @@
         "One person's junk is another's treasure. Have a rummage!",
         "I found this stuff all over the Fracture zones. Don't ask how.",
         "Make me an offer — I'm always looking to deal."
+      ],
+      "favoriteGiftItemId": "river-glass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
       ]
     },
     {
@@ -8680,6 +8929,11 @@
         "I keep the Fracture Chronicle, Commander. Each chapter brings us closer to the truth.",
         "The story of what shattered our world unfolds piece by piece. Come, read with me.",
         "A new chapter surfaces when the time is right. The Chronicle does not rush its telling."
+      ],
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
       ]
     },
     {
@@ -8707,6 +8961,11 @@
         "fisherman-depths-secret",
         "vex-final-trade",
         "thorin-the-last-watch"
+      ],
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
       ]
     },
     {
@@ -8718,6 +8977,11 @@
       "screen": "hall-of-achievements",
       "dialogue": [
         "Your deeds are recorded here, Commander. Come see your legacy."
+      ],
+      "favoriteGiftItemId": "honey-cake",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "firefly"
       ]
     },
     {
@@ -8730,6 +8994,11 @@
       "screen": "hall-of-achievements",
       "dialogue": [
         "Your deeds are recorded here, Commander. Come see your legacy."
+      ],
+      "favoriteGiftItemId": "honey-cake",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "firefly"
       ]
     },
     {
@@ -8743,6 +9012,11 @@
         "Your quarters are just inside, Commander. I keep your things in order.",
         "The shelf holds everything you've gathered on your journey.",
         "Rest is just as important as battle. Your quarters await."
+      ],
+      "favoriteGiftItemId": "honey-cake",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "firefly"
       ]
     },
     {
@@ -8755,6 +9029,11 @@
       "dialogue": [
         "Nothings biting today. Maybe try again later?",
         "The fish are shy around here. Patience is key."
+      ],
+      "favoriteGiftItemId": "fish-trophy",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "silk-ribbon"
       ]
     },
     {
@@ -8766,6 +9045,11 @@
       "screen": "hub-fishing",
       "dialogue": [
         "The pond is calm today. Care to fish?"
+      ],
+      "favoriteGiftItemId": "fish-trophy",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "silk-ribbon"
       ]
     },
     {
@@ -8778,6 +9062,11 @@
       "dialogue": [
         "Steady hands and a keen eye — care to roll?",
         "Every marble tells a story. Shall we write yours?"
+      ],
+      "favoriteGiftItemId": "gilded-compass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "wild-berries"
       ]
     },
     {
@@ -8790,6 +9079,11 @@
       "dialogue": [
         "Flip a tile, reveal your fate.",
         "Memory is a weapon. How sharp is yours?"
+      ],
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
       ]
     },
     {
@@ -8802,6 +9096,11 @@
       "dialogue": [
         "Crystals falling fast — catch them before they shatter!",
         "Speed and focus. That is all you need."
+      ],
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
       ]
     },
     {
@@ -8814,6 +9113,11 @@
       "dialogue": [
         "Give it a spin — luck favours the bold.",
         "The wheel knows no favourites. Try your luck!"
+      ],
+      "favoriteGiftItemId": "gilded-compass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "wild-berries"
       ]
     },
     {
@@ -8826,6 +9130,11 @@
       "dialogue": [
         "On your marks — the race is about to begin!",
         "Place your bets and pick your marble. May the fastest win."
+      ],
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "lost-locket"
       ]
     },
     {
@@ -8838,6 +9147,11 @@
       "dialogue": [
         "Higher or lower? Simple question, nerves of steel.",
         "Read the deck — or trust your gut."
+      ],
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
       ]
     },
     {
@@ -8850,6 +9164,11 @@
       "dialogue": [
         "Pull the lever and watch the reels spin!",
         "Three in a row and the jackpot is yours."
+      ],
+      "favoriteGiftItemId": "gilded-compass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "wild-berries"
       ]
     },
     {
@@ -8862,6 +9181,11 @@
       "dialogue": [
         "Best hand wins. Know when to hold, know when to fold.",
         "Poker face optional. Skill is not."
+      ],
+      "favoriteGiftItemId": "gilded-compass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "wild-berries"
       ]
     },
     {
@@ -8874,6 +9198,11 @@
       "dialogue": [
         "Got tickets? I've got prizes. Let's make a deal.",
         "Trade in your winning tickets for something special."
+      ],
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
       ]
     },
     {
@@ -8886,6 +9215,11 @@
       "dialogue": [
         "The enemy approaches. Build your defences and hold the line!",
         "Every tower placed is a life saved. Choose wisely."
+      ],
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
       ]
     },
     {
@@ -8898,6 +9232,11 @@
       "dialogue": [
         "A great city starts with a single road. Shall we begin?",
         "Lay the streets, raise the buildings — this town is yours to shape."
+      ],
+      "favoriteGiftItemId": "honey-cake",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "firefly"
       ]
     },
     {
@@ -8912,6 +9251,11 @@
         "Welcome home, Commander. Your quarters are ready.",
         "I have kept everything in order during your absence.",
         "Rest here. Tomorrow's battles can wait."
+      ],
+      "favoriteGiftItemId": "honey-cake",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "firefly"
       ]
     },
     {
@@ -8926,6 +9270,11 @@
         "I am cataloguing every tome in this wing. It may take years.",
         "The northern library holds records predating the Fracture. Fascinating.",
         "Please keep your voice down — scholars are studying."
+      ],
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
       ]
     },
     {
@@ -8941,6 +9290,11 @@
         "Every shard of the Fracture has been mapped, but the maps keep changing.",
         "I am charting safe passage routes through the ruins. Come back when it's done.",
         "A good map can save your life, Commander."
+      ],
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
       ]
     },
     {
@@ -8955,6 +9309,11 @@
         "Welcome to my lecture hall. The next session begins shortly.",
         "The study of Fracture shards is a discipline that demands precision.",
         "Ask your questions, Commander. I have taught armies wiser than you."
+      ],
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
       ]
     },
     {
@@ -8995,6 +9354,11 @@
           "id": "rumour-pond",
           "text": "Old Greyfish says the pond shimmers at night. Strange glimmers beneath the water, he says…"
         }
+      ],
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
       ]
     },
     {
@@ -9017,6 +9381,11 @@
         "The Merchant's Guild has connections across every shard. We can help.",
         "Trade is the lifeblood of any civilisation. Even one in pieces.",
         "You want something? Name your price, Commander."
+      ],
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
       ]
     },
     {
@@ -9031,6 +9400,11 @@
         "Everything is fairly priced here. No haggling.",
         "The market never closes, Commander. Always something new.",
         "I keep this hall running through chaos and war alike. That's my job."
+      ],
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
       ]
     },
     {
@@ -9049,6 +9423,11 @@
       "questReceive": [
         "orin-champions-shield",
         "orin-fake-trophy"
+      ],
+      "favoriteGiftItemId": "honey-cake",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "firefly"
       ]
     },
     {
@@ -9063,6 +9442,11 @@
         "Step right up! The games never stop here.",
         "Skill, luck, or cunning — what'll it be, Commander?",
         "Every game is a battle. You look like you enjoy battles."
+      ],
+      "favoriteGiftItemId": "gilded-compass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "wild-berries"
       ]
     },
     {
@@ -9091,6 +9475,11 @@
         "mira-anti-fracture-charms",
         "zev-games-hall-stands",
         "orin-champions-stand"
+      ],
+      "favoriteGiftItemId": "hearty-pie",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "tin-whistle"
       ]
     },
     {
@@ -9106,7 +9495,12 @@
         "Training is the difference between victory and defeat. Remember that."
       ],
       "questGive": "varn-training-weights",
-      "questReceive": "bramble-fortified-supplies"
+      "questReceive": "bramble-fortified-supplies",
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
+      ]
     },
     {
       "id": "marble-master-int",
@@ -9119,6 +9513,11 @@
       "dialogue": [
         "Steady hands and a keen eye — care to roll?",
         "Every marble tells a story. Shall we write yours?"
+      ],
+      "favoriteGiftItemId": "gilded-compass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "wild-berries"
       ]
     },
     {
@@ -9132,6 +9531,11 @@
       "dialogue": [
         "Flip a tile, reveal your fate.",
         "Memory is a weapon. How sharp is yours?"
+      ],
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
       ]
     },
     {
@@ -9145,6 +9549,11 @@
       "dialogue": [
         "Crystals falling fast — catch them before they shatter!",
         "Speed and focus. That is all you need."
+      ],
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
       ]
     },
     {
@@ -9158,6 +9567,11 @@
       "dialogue": [
         "Got tickets? I've got prizes. Let's make a deal.",
         "Trade in your winning tickets for something special."
+      ],
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
       ]
     },
     {
@@ -9171,6 +9585,11 @@
       "dialogue": [
         "Give it a spin — luck favours the bold.",
         "The wheel knows no favourites. Try your luck!"
+      ],
+      "favoriteGiftItemId": "gilded-compass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "wild-berries"
       ]
     },
     {
@@ -9184,6 +9603,11 @@
       "dialogue": [
         "On your marks — the race is about to begin!",
         "Place your bets and pick your marble. May the fastest win."
+      ],
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "lost-locket"
       ]
     },
     {
@@ -9197,6 +9621,11 @@
       "dialogue": [
         "Higher or lower? Simple question, nerves of steel.",
         "Read the deck — or trust your gut."
+      ],
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
       ]
     },
     {
@@ -9210,6 +9639,11 @@
       "dialogue": [
         "Pull the lever and watch the reels spin!",
         "Three in a row and the jackpot is yours."
+      ],
+      "favoriteGiftItemId": "gilded-compass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "wild-berries"
       ]
     },
     {
@@ -9223,6 +9657,11 @@
       "dialogue": [
         "Best hand wins. Know when to hold, know when to fold.",
         "Poker face optional. Skill is not."
+      ],
+      "favoriteGiftItemId": "gilded-compass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "wild-berries"
       ]
     },
     {
@@ -9234,7 +9673,12 @@
       "dialogue": [
         "Hello!"
       ],
-      "dialogueTree": "james-junk-trade"
+      "dialogueTree": "james-junk-trade",
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "lost-locket"
+      ]
     },
     {
       "id": "npc_1781726431819",
@@ -9264,6 +9708,11 @@
           },
           "activity": "sleep"
         }
+      ],
+      "favoriteGiftItemId": "bones",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "honey-cake"
       ]
     },
     {
@@ -9277,7 +9726,14 @@
       ],
       "levelBuildingId": "townhall",
       "minLevel": 2,
-      "dislikes": ["npc_1781629843466"]
+      "dislikes": [
+        "npc_1781629843466"
+      ],
+      "favoriteGiftItemId": "honey-cake",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "firefly"
+      ]
     }
   ],
   "ambientNpcSprites": [
@@ -9714,88 +10170,207 @@
       "tx": 12,
       "ty": 4,
       "building": "card-shop",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
-      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 0
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 0
+        }
+      ]
     },
     {
       "id": "card-shop-item-1",
       "tx": 12,
       "ty": 5,
       "building": "card-shop",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
-      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 1
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 1
+        }
+      ]
     },
     {
       "id": "card-shop-item-2",
       "tx": 12,
       "ty": 6,
       "building": "card-shop",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
-      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 2
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 2
+        }
+      ]
     },
     {
       "id": "card-shop-pack",
       "tx": 12,
       "ty": 7,
       "building": "card-shop",
-      "decor": [{ "dx": 0, "dy": 0, "spriteId": "hub-item-cards" }],
-      "reactions": [{ "type": "buyPack" }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "spriteId": "hub-item-cards"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buyPack"
+        }
+      ]
     },
     {
       "id": "augment-shop-item-0",
       "tx": 8,
       "ty": 4,
       "building": "augment-shop",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
-      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 0
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 0
+        }
+      ]
     },
     {
       "id": "supply-shop-item-0",
       "tx": 1,
       "ty": 5,
       "building": "supply-shop",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
-      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 0
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 0
+        }
+      ]
     },
     {
       "id": "supply-shop-item-1",
       "tx": 10,
       "ty": 5,
       "building": "supply-shop",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
-      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 1
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 1
+        }
+      ]
     },
     {
       "id": "supply-shop-item-2",
       "tx": 5,
       "ty": 7,
       "building": "supply-shop",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
-      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 2
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 2
+        }
+      ]
     },
     {
       "id": "ravenwatch-forage-bush-1",
       "tx": 0,
       "ty": 16,
-      "reactions": [{ "type": "dialogue", "text": "A dense, dark bush — worth a closer look." }, { "type": "forage" }]
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "A dense, dark bush — worth a closer look."
+        },
+        {
+          "type": "forage"
+        }
+      ]
     },
     {
       "id": "ravenwatch-forage-tree-1",
       "tx": 34,
       "ty": 29,
-      "reactions": [{ "type": "dialogue", "text": "Something might be growing at the foot of this old tree." }, { "type": "forage" }]
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Something might be growing at the foot of this old tree."
+        },
+        {
+          "type": "forage"
+        }
+      ]
     },
     {
       "id": "ravenwatch-forage-flower-1",
       "tx": 33,
       "ty": 17,
-      "reactions": [{ "type": "dialogue", "text": "A patch of wildflowers grows here." }, { "type": "forage" }]
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "A patch of wildflowers grows here."
+        },
+        {
+          "type": "forage"
+        }
+      ]
     },
     {
       "id": "ravenwatch-forage-flower-2",
       "tx": 34,
       "ty": 18,
-      "reactions": [{ "type": "dialogue", "text": "More wildflowers, swaying in the breeze." }, { "type": "forage" }]
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "More wildflowers, swaying in the breeze."
+        },
+        {
+          "type": "forage"
+        }
+      ]
     }
   ],
   "animals": [

@@ -1153,6 +1153,11 @@
       "dialogue": [
         "The wood listens here. So do I, mostly.",
         "You've walked through a seam or two yourself, I think. It shows, if you know where to look."
+      ],
+      "favoriteGiftItemId": "wild-berries",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fancy-hat"
       ]
     },
     {
@@ -1166,7 +1171,12 @@
         "You smell like a hero. Lucky for you, I'm off duty.",
         "We're monsters, not animals. The animals live in the nice town down south."
       ],
-      "building": "fang-den"
+      "building": "fang-den",
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
+      ]
     },
     {
       "id": "fang-the-fence",
@@ -1179,7 +1189,14 @@
         "The undead up at Gravemoor are lovely neighbours. Quiet. Very quiet.",
         "Everything here fell off a cart. A very specific, very unlucky cart."
       ],
-      "dislikes": ["goblin-curio-keep"]
+      "dislikes": [
+        "goblin-curio-keep"
+      ],
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
+      ]
     },
     {
       "id": "hedge-witch-morwen",
@@ -1200,6 +1217,11 @@
         "morwen-speak-with-animals",
         "hollowmere-witch-brew-2",
         "dreadspire-moon-herbs"
+      ],
+      "favoriteGiftItemId": "glowcap-mushroom",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
       ]
     },
     {
@@ -1219,6 +1241,11 @@
       "questReceive": [
         "apothecary-ingredients-1",
         "apothecary-ingredients-2"
+      ],
+      "favoriteGiftItemId": "rainwater",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
       ]
     },
     {
@@ -1234,7 +1261,12 @@
       ],
       "building": "bonepile-curio",
       "questGive": "curio-oddities",
-      "questReceive": "curio-oddities"
+      "questReceive": "curio-oddities",
+      "favoriteGiftItemId": "lost-locket",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
+      ]
     },
     {
       "id": "bog-troll-attendant",
@@ -1250,7 +1282,12 @@
       ],
       "building": "bathhouse",
       "questGive": "mud-wallow",
-      "questReceive": "mud-wallow"
+      "questReceive": "mud-wallow",
+      "favoriteGiftItemId": "music-box",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "bog-salve"
+      ]
     },
     {
       "id": "tame-ogre-keeper",
@@ -1291,6 +1328,11 @@
             "ty": 4
           }
         }
+      ],
+      "favoriteGiftItemId": "hearty-pie",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "poetry-book"
       ]
     },
     {
@@ -1311,7 +1353,9 @@
       ],
       "favoriteGiftItemId": "gilded-compass",
       "favoriteGiftTrack": "ally",
-      "dislikedGiftItemIds": ["honey-cake"]
+      "dislikedGiftItemIds": [
+        "honey-cake"
+      ]
     }
   ],
   "interiors": {
@@ -1995,8 +2039,13 @@
       "tx": 9,
       "ty": 0,
       "reactions": [
-        { "type": "dialogue", "text": "A dead tree at the wood's edge — something might be nesting in its roots." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "A dead tree at the wood's edge — something might be nesting in its roots."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -2004,8 +2053,13 @@
       "tx": 42,
       "ty": 7,
       "reactions": [
-        { "type": "dialogue", "text": "A dark, gnarled tree, worth a closer look." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "A dark, gnarled tree, worth a closer look."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -2013,8 +2067,13 @@
       "tx": 31,
       "ty": 23,
       "reactions": [
-        { "type": "dialogue", "text": "One of the gnarled trees ringing the marsh — something might be tucked among its roots." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "One of the gnarled trees ringing the marsh — something might be tucked among its roots."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -2056,24 +2115,57 @@
       "tx": 9,
       "ty": 2,
       "building": "bonepile-curio",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
-      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 0
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 0
+        }
+      ]
     },
     {
       "id": "bonepile-curio-item-1",
       "tx": 9,
       "ty": 3,
       "building": "bonepile-curio",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
-      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 1
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 1
+        }
+      ]
     },
     {
       "id": "bonepile-curio-item-2",
       "tx": 9,
       "ty": 4,
       "building": "bonepile-curio",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
-      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 2
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 2
+        }
+      ]
     },
     {
       "id": "hollowmere-secret-hollow-charm",

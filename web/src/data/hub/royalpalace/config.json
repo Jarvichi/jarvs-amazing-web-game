@@ -1873,7 +1873,9 @@
         "palace-happy-cat",
         "palace-lost-keys"
       ],
-      "dislikes": ["lady-penrose"],
+      "dislikes": [
+        "lady-penrose"
+      ],
       "schedule": [
         {
           "startHour": 0,
@@ -1912,7 +1914,12 @@
         "buildingId": "servants-quarters",
         "tx": 9,
         "ty": 3
-      }
+      },
+      "favoriteGiftItemId": "honey-cake",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "firefly"
+      ]
     },
     {
       "id": "royal-herald",
@@ -1958,6 +1965,11 @@
             "ty": 19
           }
         }
+      ],
+      "favoriteGiftItemId": "music-box",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "bog-salve"
       ]
     },
     {
@@ -2019,7 +2031,12 @@
         "buildingId": "gatehouse",
         "tx": 5,
         "ty": 5
-      }
+      },
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
+      ]
     },
     {
       "id": "king",
@@ -2076,7 +2093,12 @@
         "buildingId": "palace-3",
         "tx": 4,
         "ty": 3
-      }
+      },
+      "favoriteGiftItemId": "gilded-compass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
+      ]
     },
     {
       "id": "queen",
@@ -2094,7 +2116,9 @@
       "questReceive": "palace-queen-roses",
       "favoriteGiftItemId": "silk-ribbon",
       "favoriteGiftTrack": "ally",
-      "dislikedGiftItemIds": ["sturdy-boots"],
+      "dislikedGiftItemIds": [
+        "sturdy-boots"
+      ],
       "schedule": [
         {
           "startHour": 0,
@@ -2209,7 +2233,12 @@
         "buildingId": "palace-3",
         "tx": 4,
         "ty": 3
-      }
+      },
+      "favoriteGiftItemId": "feather",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "bones"
+      ]
     },
     {
       "id": "lady-penrose",
@@ -2228,7 +2257,12 @@
         "palace-court-intrigue-1",
         "palace-court-intrigue-3"
       ],
-      "dialogueTree": "penrose-chat"
+      "dialogueTree": "penrose-chat",
+      "favoriteGiftItemId": "gilded-compass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "wild-berries"
+      ]
     },
     {
       "id": "treasurer",
@@ -2278,6 +2312,11 @@
             "ty": 5
           }
         }
+      ],
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
       ]
     },
     {
@@ -2327,6 +2366,11 @@
             "ty": 4
           }
         }
+      ],
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
       ]
     },
     {
@@ -2382,7 +2426,12 @@
         "buildingId": "servants-quarters",
         "tx": 6,
         "ty": 3
-      }
+      },
+      "favoriteGiftItemId": "honey",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
+      ]
     },
     {
       "id": "royal-gardener",
@@ -2438,7 +2487,12 @@
         "buildingId": "servants-quarters",
         "tx": 9,
         "ty": 6
-      }
+      },
+      "favoriteGiftItemId": "pressed-flower",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "bones"
+      ]
     },
     {
       "id": "stable-master",
@@ -2488,6 +2542,11 @@
             "ty": 5
           }
         }
+      ],
+      "favoriteGiftItemId": "river-glass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
       ]
     },
     {
@@ -2498,6 +2557,11 @@
       "ty": 20,
       "dialogue": [
         "Hello! We only want to MEET the princess. Is that so much to ask?"
+      ],
+      "favoriteGiftItemId": "lost-locket",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
       ]
     },
     {
@@ -2508,6 +2572,11 @@
       "ty": 18,
       "dialogue": [
         "I'm here to see the princess, only she can help me!"
+      ],
+      "favoriteGiftItemId": "hearty-pie",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "poetry-book"
       ]
     },
     {
@@ -2518,6 +2587,11 @@
       "ty": 54,
       "dialogue": [
         "Hello!"
+      ],
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "lost-locket"
       ]
     },
     {
@@ -2528,6 +2602,11 @@
       "ty": 54,
       "dialogue": [
         "Hello!"
+      ],
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "lost-locket"
       ]
     },
     {
@@ -2541,6 +2620,11 @@
         "The crown's finest — kept safe in the annex until a worthy buyer comes along.",
         "Every coin in this room has a ledger entry. Every sale, too.",
         "The vault proper is for the king's treasures. This room is for yours."
+      ],
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
       ]
     }
   ],
@@ -4246,8 +4330,13 @@
       "tx": 32,
       "ty": 24,
       "reactions": [
-        { "type": "dialogue", "text": "An autumn-gold tree in the East Gardens, worth a closer look." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "An autumn-gold tree in the East Gardens, worth a closer look."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -4255,8 +4344,13 @@
       "tx": 37,
       "ty": 24,
       "reactions": [
-        { "type": "dialogue", "text": "A patch of blue flowers growing between the garden's bird baths." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "A patch of blue flowers growing between the garden's bird baths."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -4264,8 +4358,13 @@
       "tx": 42,
       "ty": 24,
       "reactions": [
-        { "type": "dialogue", "text": "A tidy bush along the garden's far edge." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "A tidy bush along the garden's far edge."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -4335,24 +4434,57 @@
       "tx": 9,
       "ty": 2,
       "building": "treasury-annex",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
-      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 0
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 0
+        }
+      ]
     },
     {
       "id": "treasury-annex-item-1",
       "tx": 9,
       "ty": 3,
       "building": "treasury-annex",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
-      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 1
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 1
+        }
+      ]
     },
     {
       "id": "treasury-annex-item-2",
       "tx": 9,
       "ty": 4,
       "building": "treasury-annex",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
-      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 2
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 2
+        }
+      ]
     },
     {
       "id": "royalpalace-secret-garden-locket",

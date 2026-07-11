@@ -1136,7 +1136,9 @@
       ],
       "favoriteGiftItemId": "grave-moss",
       "favoriteGiftTrack": "ally",
-      "dislikedGiftItemIds": ["honey-cake"],
+      "dislikedGiftItemIds": [
+        "honey-cake"
+      ],
       "schedule": [
         {
           "startHour": 7,
@@ -1173,7 +1175,14 @@
         "The blight took the town, but it couldn't take the market spirit. Literally, in my case."
       ],
       "building": "undertaker",
-      "dislikes": ["brother-mortis"]
+      "dislikes": [
+        "brother-mortis"
+      ],
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
+      ]
     },
     {
       "id": "grave-keeper-finch",
@@ -1193,6 +1202,11 @@
         "gravemoor-restless-remains",
         "gravemoor-restless-remains-2",
         "gravemoor-rest-in-ravenwatch"
+      ],
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
       ]
     },
     {
@@ -1234,6 +1248,11 @@
             "ty": 4
           }
         }
+      ],
+      "favoriteGiftItemId": "lavender-tonic",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "honey-cake"
       ]
     },
     {
@@ -1253,6 +1272,11 @@
       "questReceive": [
         "gravemoor-reunited-in-death",
         "gravemoor-wheres-mother"
+      ],
+      "favoriteGiftItemId": "lost-locket",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "honey-cake"
       ]
     },
     {
@@ -1269,7 +1293,12 @@
         "Find my commission papers and maybe — maybe — I can finally stand down."
       ],
       "questGive": "gravemoor-soldiers-orders",
-      "questReceive": "gravemoor-soldiers-orders"
+      "questReceive": "gravemoor-soldiers-orders",
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
+      ]
     },
     {
       "id": "spectral-pedlar",
@@ -1285,7 +1314,12 @@
         "My stock's gone walkabout among the graves. Recover it and we'll both profit."
       ],
       "questGive": "gravemoor-pedlars-stock",
-      "questReceive": "gravemoor-pedlars-stock"
+      "questReceive": "gravemoor-pedlars-stock",
+      "favoriteGiftItemId": "river-glass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
+      ]
     },
     {
       "id": "little-pip",
@@ -1301,7 +1335,12 @@
         "She had a sad face and a long grey dress. She used to sing to me."
       ],
       "questGive": "gravemoor-wheres-mother",
-      "questReceive": "gravemoor-wheres-mother"
+      "questReceive": "gravemoor-wheres-mother",
+      "favoriteGiftItemId": "tin-whistle",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "bog-salve"
+      ]
     },
     {
       "id": "brother-mortis",
@@ -1321,6 +1360,11 @@
         "gravemoor-hollow-tolling-1",
         "gravemoor-hollow-tolling-2",
         "gravemoor-hollow-tolling-3"
+      ],
+      "favoriteGiftItemId": "grave-moss",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "silk-ribbon"
       ]
     }
   ],
@@ -2570,8 +2614,13 @@
       "tx": 0,
       "ty": 3,
       "reactions": [
-        { "type": "dialogue", "text": "A gnarled dead tree — something might be tucked in its roots." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "A gnarled dead tree — something might be tucked in its roots."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -2579,8 +2628,13 @@
       "tx": 28,
       "ty": 15,
       "reactions": [
-        { "type": "dialogue", "text": "The whispering wood grows thick here. Worth a closer look." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "The whispering wood grows thick here. Worth a closer look."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -2588,8 +2642,13 @@
       "tx": 42,
       "ty": 11,
       "reactions": [
-        { "type": "dialogue", "text": "A dead tree at the woodland's edge, roots half-exposed." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "A dead tree at the woodland's edge, roots half-exposed."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -2639,24 +2698,57 @@
       "tx": 8,
       "ty": 3,
       "building": "undertaker",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
-      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 0
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 0
+        }
+      ]
     },
     {
       "id": "undertaker-item-1",
       "tx": 8,
       "ty": 4,
       "building": "undertaker",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
-      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 1
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 1
+        }
+      ]
     },
     {
       "id": "undertaker-item-2",
       "tx": 8,
       "ty": 5,
       "building": "undertaker",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
-      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 2
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 2
+        }
+      ]
     },
     {
       "id": "gravemoor-secret-cemetery-locket",

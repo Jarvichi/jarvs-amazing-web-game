@@ -3778,8 +3778,13 @@
       "tx": 32,
       "ty": 44,
       "reactions": [
-        { "type": "dialogue", "text": "A patch of white flowers growing at the plaza's edge." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "A patch of white flowers growing at the plaza's edge."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -3787,8 +3792,13 @@
       "tx": 60,
       "ty": 62,
       "reactions": [
-        { "type": "dialogue", "text": "Yellow flowers, planted for the coronation and never uprooted." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "Yellow flowers, planted for the coronation and never uprooted."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -3796,8 +3806,13 @@
       "tx": 98,
       "ty": 44,
       "reactions": [
-        { "type": "dialogue", "text": "Pink flowers growing wild near the old noble manors." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "Pink flowers growing wild near the old noble manors."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -3899,64 +3914,152 @@
       "tx": 11,
       "ty": 3,
       "building": "grand-bank",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
-      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 0
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 0
+        }
+      ]
     },
     {
       "id": "grand-bank-item-1",
       "tx": 11,
       "ty": 4,
       "building": "grand-bank",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
-      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 1
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 1
+        }
+      ]
     },
     {
       "id": "grand-bank-item-2",
       "tx": 11,
       "ty": 5,
       "building": "grand-bank",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
-      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 2
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 2
+        }
+      ]
     },
     {
       "id": "jeweller-item-0",
       "tx": 11,
       "ty": 3,
       "building": "jeweller",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
-      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 0
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 0
+        }
+      ]
     },
     {
       "id": "jeweller-item-1",
       "tx": 11,
       "ty": 4,
       "building": "jeweller",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
-      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 1
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 1
+        }
+      ]
     },
     {
       "id": "jeweller-item-2",
       "tx": 11,
       "ty": 5,
       "building": "jeweller",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
-      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 2
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 2
+        }
+      ]
     },
     {
       "id": "tailor-item-0",
       "tx": 11,
       "ty": 3,
       "building": "tailor",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
-      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 0
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 0
+        }
+      ]
     },
     {
       "id": "tailor-item-1",
       "tx": 11,
       "ty": 4,
       "building": "tailor",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
-      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 1
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 1
+        }
+      ]
     },
     {
       "id": "capitalcity-secret-temple-inscription",
@@ -4071,6 +4174,11 @@
       "dialogue": [
         "Every record in this archive is a fragment of something larger. I'm still piecing the rest together.",
         "You've seen things out there I can only read about. Tell me — does it match what's written here?"
+      ],
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
       ]
     },
     {
@@ -4130,7 +4238,12 @@
         "buildingId": "grand-inn-upstairs",
         "tx": 1,
         "ty": 1
-      }
+      },
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
+      ]
     },
     {
       "id": "watch-captain-hale",
@@ -4189,7 +4302,12 @@
         "buildingId": "guardhouse",
         "tx": 1,
         "ty": 1
-      }
+      },
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
+      ]
     },
     {
       "id": "royal-archivist",
@@ -4248,7 +4366,12 @@
         "buildingId": "library",
         "tx": 1,
         "ty": 1
-      }
+      },
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
+      ]
     },
     {
       "id": "market-matron",
@@ -4306,7 +4429,12 @@
         "buildingId": "market-hall-crownhaven",
         "tx": 1,
         "ty": 1
-      }
+      },
+      "favoriteGiftItemId": "honey-cake",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "firefly"
+      ]
     },
     {
       "id": "chancellor",
@@ -4364,7 +4492,12 @@
         "buildingId": "senate",
         "tx": 1,
         "ty": 1
-      }
+      },
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
+      ]
     },
     {
       "id": "high-priest",
@@ -4423,7 +4556,12 @@
         "buildingId": "cathedral",
         "tx": 1,
         "ty": 1
-      }
+      },
+      "favoriteGiftItemId": "honey-cake",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "firefly"
+      ]
     },
     {
       "id": "mint-master",
@@ -4478,7 +4616,12 @@
         "buildingId": "royal-mint",
         "tx": 1,
         "ty": 1
-      }
+      },
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
+      ]
     },
     {
       "id": "banker",
@@ -4498,7 +4641,9 @@
         "crownhaven-noble-debt",
         "crownhaven-stolen-coin"
       ],
-      "dislikes": ["mint-master"],
+      "dislikes": [
+        "mint-master"
+      ],
       "schedule": [
         {
           "startHour": 0,
@@ -4538,7 +4683,12 @@
         "buildingId": "grand-bank",
         "tx": 1,
         "ty": 1
-      }
+      },
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
+      ]
     },
     {
       "id": "tailor-pell",
@@ -4593,7 +4743,12 @@
         "buildingId": "tailor",
         "tx": 1,
         "ty": 1
-      }
+      },
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
+      ]
     },
     {
       "id": "jeweller-isolde",
@@ -4648,7 +4803,12 @@
         "buildingId": "jeweller",
         "tx": 1,
         "ty": 1
-      }
+      },
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
+      ]
     },
     {
       "id": "apothecary-mads",
@@ -4706,7 +4866,12 @@
         "buildingId": "apothecary",
         "tx": 1,
         "ty": 1
-      }
+      },
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
+      ]
     },
     {
       "id": "baker-otto",
@@ -4765,7 +4930,12 @@
         "buildingId": "bakery",
         "tx": 1,
         "ty": 1
-      }
+      },
+      "favoriteGiftItemId": "honey",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
+      ]
     },
     {
       "id": "blacksmith-dunn",
@@ -4823,7 +4993,12 @@
         "buildingId": "blacksmith",
         "tx": 1,
         "ty": 1
-      }
+      },
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
+      ]
     },
     {
       "id": "noble-lady-cora",
@@ -4879,7 +5054,12 @@
         "buildingId": "noble-manor-1-back",
         "tx": 1,
         "ty": 1
-      }
+      },
+      "favoriteGiftItemId": "honey-cake",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "firefly"
+      ]
     },
     {
       "id": "academy-master",
@@ -4935,7 +5115,12 @@
         "buildingId": "academy",
         "tx": 1,
         "ty": 1
-      }
+      },
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
+      ]
     },
     {
       "id": "busker-lyle",
@@ -4984,6 +5169,11 @@
             "ty": 4
           }
         }
+      ],
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
       ]
     },
     {
@@ -5036,6 +5226,11 @@
             "ty": 4
           }
         }
+      ],
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
       ]
     },
     {
@@ -5084,6 +5279,11 @@
             "ty": 4
           }
         }
+      ],
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
       ]
     },
     {
@@ -5098,6 +5298,11 @@
         "Cards! Fresh from the capital's own printers. Care to browse the stock?",
         "Every deck tells a story. Build yours here.",
         "The court plays for crowns; you can play for crystals."
+      ],
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "chicken-feed"
       ]
     },
     {
@@ -5111,6 +5316,11 @@
         "Potions, provisions, the practical sort of magic. What do you need?",
         "Stock up before you head back out past the walls.",
         "A well-supplied traveller is a living traveller."
+      ],
+      "favoriteGiftItemId": "spice-pouch",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "butterfly"
       ]
     },
     {
@@ -5125,6 +5335,11 @@
         "Augments, enhancements, little edges of power. Step up to the bench.",
         "The jewellers cut stones; I cut destinies. Or near enough.",
         "Bring me crystals and I'll bring out your cards' true potential."
+      ],
+      "favoriteGiftItemId": "gilded-compass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "wild-berries"
       ]
     },
     {
@@ -5138,6 +5353,11 @@
         "The Academy drills strategy above all. Shall we refine your deck?",
         "A clever deck wins more wars than a sharp sword.",
         "Theory here, practice in the field. Mind your curve."
+      ],
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
       ]
     },
     {
@@ -5151,6 +5371,11 @@
         "The cathedral keeps a hall of great deeds. Would you see the records?",
         "Every hero's feats are inscribed here, in gold and stone.",
         "Add your name to the hall, traveller. The realm remembers."
+      ],
+      "favoriteGiftItemId": "honey-cake",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "firefly"
       ]
     },
     {
@@ -5164,6 +5389,11 @@
         "Care for a flutter? The capital's tables never close.",
         "Fortune favours the bold — and occasionally the lucky.",
         "Crowns won, crowns lost. Pull up a chair."
+      ],
+      "favoriteGiftItemId": "gilded-compass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "wild-berries"
       ]
     },
     {
@@ -5177,6 +5407,11 @@
         "Quick hands at the mint? Test them — catch the falling crystals.",
         "Every coin starts as a tumble of raw crystal. Catch what you can.",
         "Sharp eyes, sharp reflexes, full purse."
+      ],
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
       ]
     },
     {
@@ -5190,6 +5425,11 @@
         "The coronation tournament wants challengers. Step into the ring?",
         "A quick battle to prove your mettle — no excuses.",
         "Win in the arena and the whole capital hears your name."
+      ],
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "lost-locket"
       ]
     },
     {
@@ -5203,6 +5443,11 @@
         "The riverside pond's full of fish, if you've the patience. Cast a line?",
         "Quiet water, quick catch. Best spot in the capital.",
         "Catch enough and even the palace kitchens will come calling."
+      ],
+      "favoriteGiftItemId": "fish-trophy",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "silk-ribbon"
       ]
     },
     {
@@ -5218,7 +5463,9 @@
       ],
       "favoriteGiftItemId": "fancy-hat",
       "favoriteGiftTrack": "ally",
-      "dislikedGiftItemIds": ["sturdy-boots"]
+      "dislikedGiftItemIds": [
+        "sturdy-boots"
+      ]
     }
   ],
   "exteriorDecor": [

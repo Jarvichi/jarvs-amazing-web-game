@@ -1565,6 +1565,11 @@
             "ty": 7
           }
         }
+      ],
+      "favoriteGiftItemId": "spice-pouch",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "butterfly"
       ]
     },
     {
@@ -1592,6 +1597,11 @@
             "ty": 13
           }
         }
+      ],
+      "favoriteGiftItemId": "fish-trophy",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "silk-ribbon"
       ]
     },
     {
@@ -1637,7 +1647,12 @@
         "buildingId": "inn-millhaven-upstairs",
         "tx": 2,
         "ty": 2
-      }
+      },
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
+      ]
     },
     {
       "id": "town-elder-millhaven",
@@ -1691,7 +1706,12 @@
         "buildingId": "inn-millhaven-upstairs",
         "tx": 4,
         "ty": 2
-      }
+      },
+      "favoriteGiftItemId": "honey-cake",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "firefly"
+      ]
     },
     {
       "id": "sailor-finn",
@@ -1717,6 +1737,11 @@
             "ty": 6
           }
         }
+      ],
+      "favoriteGiftItemId": "fish-trophy",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "silk-ribbon"
       ]
     },
     {
@@ -1736,7 +1761,9 @@
         "millhaven-festival-prep",
         "millhaven-market-restock"
       ],
-      "dislikes": ["dockhand-bram"],
+      "dislikes": [
+        "dockhand-bram"
+      ],
       "schedule": [
         {
           "startHour": 0,
@@ -1765,7 +1792,12 @@
         "buildingId": "inn-millhaven-upstairs",
         "tx": 7,
         "ty": 2
-      }
+      },
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
+      ]
     },
     {
       "id": "baker-pernel",
@@ -1782,7 +1814,9 @@
       "questReceive": "millhaven-fresh-bread",
       "favoriteGiftItemId": "honey",
       "favoriteGiftTrack": "ally",
-      "dislikedGiftItemIds": ["fish-bait"],
+      "dislikedGiftItemIds": [
+        "fish-bait"
+      ],
       "schedule": [
         {
           "startHour": 0,
@@ -1875,7 +1909,12 @@
         "buildingId": "smithy",
         "tx": 8,
         "ty": 5
-      }
+      },
+      "favoriteGiftItemId": "spice-pouch",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "butterfly"
+      ]
     },
     {
       "id": "dockhand-bram",
@@ -1928,7 +1967,12 @@
         "buildingId": "boathouse",
         "tx": 8,
         "ty": 5
-      }
+      },
+      "favoriteGiftItemId": "fish-trophy",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "silk-ribbon"
+      ]
     },
     {
       "id": "widow-tamsin",
@@ -1973,7 +2017,12 @@
         "buildingId": "fisher-cottage",
         "tx": 2,
         "ty": 2
-      }
+      },
+      "favoriteGiftItemId": "honey-cake",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "firefly"
+      ]
     },
     {
       "id": "harbour-angler",
@@ -1986,7 +2035,12 @@
         "Cast a line with me — the harbour's always biting.",
         "Patience and a steady hand, that's all it takes."
       ],
-      "screen": "hub-fishing"
+      "screen": "hub-fishing",
+      "favoriteGiftItemId": "fish-trophy",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "silk-ribbon"
+      ]
     },
     {
       "id": "quartermaster-millhaven",
@@ -1999,7 +2053,12 @@
         "A traveller far from home still needs to resupply. Take a look.",
         "Coin for goods, that's the honest trade of Millhaven."
       ],
-      "screen": "shop-supplies"
+      "screen": "shop-supplies",
+      "favoriteGiftItemId": "spice-pouch",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "butterfly"
+      ]
     },
     {
       "id": "card-trader-millhaven",
@@ -2013,7 +2072,12 @@
         "Browse the wares, friend. Every deck needs an edge."
       ],
       "screen": "shop-cards",
-      "building": "card-shop-millhaven"
+      "building": "card-shop-millhaven",
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "chicken-feed"
+      ]
     },
     {
       "id": "regatta-master",
@@ -2026,7 +2090,12 @@
         "Rigging's done and the buoys are set — care to race a skiff?",
         "Mark my words: the Millhaven Regatta will be the finest sport on the coast."
       ],
-      "screen": "regatta"
+      "screen": "regatta",
+      "favoriteGiftItemId": "gilded-compass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "wild-berries"
+      ]
     }
   ],
   "interiors": {
@@ -3039,8 +3108,13 @@
         }
       ],
       "reactions": [
-        { "type": "dialogue", "text": "A tangled bush growing wild by the fisher-cottage field." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "A tangled bush growing wild by the fisher-cottage field."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -3055,8 +3129,13 @@
         }
       ],
       "reactions": [
-        { "type": "dialogue", "text": "A shaded bush behind the bakery, worth a closer look." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "A shaded bush behind the bakery, worth a closer look."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -3071,8 +3150,13 @@
         }
       ],
       "reactions": [
-        { "type": "dialogue", "text": "A patch of wildflowers growing at the field's edge." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "A patch of wildflowers growing at the field's edge."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {

@@ -1252,7 +1252,12 @@
         "buildingId": "keepers-cottage",
         "tx": 1,
         "ty": 3
-      }
+      },
+      "favoriteGiftItemId": "honey-cake",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "firefly"
+      ]
     },
     {
       "id": "cider-brewer-tom",
@@ -1270,6 +1275,11 @@
       "questReceive": [
         "appleford-cider-pressing",
         "appleford-cider-pressing-2"
+      ],
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
       ]
     },
     {
@@ -1291,7 +1301,9 @@
       ],
       "favoriteGiftItemId": "lavender-tonic",
       "favoriteGiftTrack": "ally",
-      "dislikedGiftItemIds": ["bog-salve"]
+      "dislikedGiftItemIds": [
+        "bog-salve"
+      ]
     },
     {
       "id": "cooper-wend",
@@ -1307,7 +1319,14 @@
       ],
       "questGive": "appleford-coopers-order",
       "questReceive": "appleford-coopers-order",
-      "dislikes": ["cider-brewer-tom"]
+      "dislikes": [
+        "cider-brewer-tom"
+      ],
+      "favoriteGiftItemId": "egg",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "silk-ribbon"
+      ]
     },
     {
       "id": "market-trader-posy",
@@ -1325,6 +1344,11 @@
       "questGive": "appleford-cider-to-ravenwatch",
       "questReceive": [
         "appleford-orchard-pickers-2"
+      ],
+      "favoriteGiftItemId": "river-glass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
       ]
     },
     {
@@ -1340,7 +1364,12 @@
         "Quiet hands, full baskets, grateful hearts. That's all the sermon Appleford needs."
       ],
       "questGive": "appleford-harvest-blessing",
-      "questReceive": "appleford-harvest-blessing"
+      "questReceive": "appleford-harvest-blessing",
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
+      ]
     },
     {
       "id": "scrumping-wren",
@@ -1355,7 +1384,12 @@
         "When I grow up I'm going to own the whole orchard. And eat ALL the apples."
       ],
       "questGive": "appleford-scrumping",
-      "questReceive": "appleford-scrumping"
+      "questReceive": "appleford-scrumping",
+      "favoriteGiftItemId": "tin-whistle",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "bog-salve"
+      ]
     },
     {
       "id": "orchard-hand-hob",
@@ -1399,7 +1433,12 @@
         "buildingId": "orchard-cottage",
         "tx": 1,
         "ty": 3
-      }
+      },
+      "favoriteGiftItemId": "egg",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "silk-ribbon"
+      ]
     }
   ],
   "interiors": {
@@ -2107,8 +2146,13 @@
       "tx": 28,
       "ty": 22,
       "reactions": [
-        { "type": "dialogue", "text": "One of the orchard's older trees — something might be tucked among its roots." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "One of the orchard's older trees — something might be tucked among its roots."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -2116,8 +2160,13 @@
       "tx": 1,
       "ty": 26,
       "reactions": [
-        { "type": "dialogue", "text": "An autumn-gold tree at the orchard's edge, worth a closer look." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "An autumn-gold tree at the orchard's edge, worth a closer look."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -2125,8 +2174,13 @@
       "tx": 13,
       "ty": 22,
       "reactions": [
-        { "type": "dialogue", "text": "A patch of pink wildflowers growing between the rows." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "A patch of pink wildflowers growing between the rows."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -2203,24 +2257,57 @@
       "tx": 11,
       "ty": 2,
       "building": "market-barn",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
-      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 0
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 0
+        }
+      ]
     },
     {
       "id": "market-barn-item-1",
       "tx": 11,
       "ty": 3,
       "building": "market-barn",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
-      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 1
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 1
+        }
+      ]
     },
     {
       "id": "market-barn-item-2",
       "tx": 11,
       "ty": 4,
       "building": "market-barn",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
-      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 2
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 2
+        }
+      ]
     },
     {
       "id": "appleford-secret-old-boundary-stone",
