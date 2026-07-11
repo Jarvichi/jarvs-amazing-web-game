@@ -6443,30 +6443,6 @@
           ]
         }
       }
-    },
-    {
-      "id": "steward-maren-home",
-      "npcId": "home-shelf",
-      "start": "greet",
-      "nodes": {
-        "greet": {
-          "text": "Would you like to see the shelf, or come inside and look around?",
-          "choices": [
-            {
-              "label": "Show me the shelf.",
-              "effects": [{ "type": "screen", "screen": "home-shelf" }]
-            },
-            {
-              "label": "Let's go inside.",
-              "effects": [{ "type": "screen", "screen": "interior:player-quarters" }]
-            },
-            {
-              "label": "Never mind.",
-              "effects": [{ "type": "end" }]
-            }
-          ]
-        }
-      }
     }
   ]
 }

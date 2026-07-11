@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { createHubLocationData, createHubQuestData } from './loader'
-import { RawConfig } from './config'
+import { RawConfig, RawTileRectCoord } from './config'
 import { RawQuestConfig } from './questDefs'
 import { BASE_CHIP_TILES } from '../tiles/baseChipIndex'
 import ravenwatchConfig from './ravenwatch/config.json'
@@ -266,5 +266,33 @@ describe('blocked paths parsing', () => {
     expect(bundle.HUB_BLOCKED_PATHS).toHaveLength(1)
     expect(bundle.HUB_BLOCKED_PATHS[0].unlockedByInteractable).toBe('ravenwatch-hidden-grove-key')
     expect(bundle.HUB_BLOCKED_PATHS[0].questId).toBeUndefined()
+  })
+})
+
+describe('player-owned house fields', () => {
+  it('passes requiresOwnership through on a building and playerDecor through on its interior', () => {
+    const bundle = createHubLocationData(minimalConfig({
+      buildings: [{
+        id: 'test-house', rect: [0, 0, 2, 2] as unknown as RawTileRectCoord,
+        upgradeKind: 'playerHouse', requiresOwnership: true,
+      }],
+      interiors: {
+        'test-house': {
+          name: 'Test House', width: 4, height: 4,
+          floorTileId: 'parquetFloor', decor: [], playerDecor: true,
+        },
+      },
+    }))
+    expect(bundle.HUB_BUILDINGS[0].requiresOwnership).toBe(true)
+    expect(bundle.HUB_INTERIORS['test-house'].playerDecor).toBe(true)
+  })
+
+  it('both fields default to falsy/undefined for ordinary buildings, leaving existing towns unaffected', () => {
+    const bundle = createHubLocationData(minimalConfig({
+      buildings: [{ id: 'shop', rect: [0, 0, 2, 2] as unknown as RawTileRectCoord, upgradeKind: 'shop' }],
+      interiors: { shop: { name: 'Shop', width: 4, height: 4, floorTileId: 'woodFloor', decor: [] } },
+    }))
+    expect(bundle.HUB_BUILDINGS[0].requiresOwnership).toBeUndefined()
+    expect(bundle.HUB_INTERIORS.shop.playerDecor).toBeUndefined()
   })
 })
