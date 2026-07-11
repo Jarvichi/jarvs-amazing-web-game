@@ -1104,6 +1104,10 @@ function hasOfferableQuest(giverId: string): boolean {
           })
           return
         }
+        case 'screen':
+          setDialogueEvent(null)
+          handleNodeInteract(eff.screen)
+          return
         case 'end':
           ended = true
           break

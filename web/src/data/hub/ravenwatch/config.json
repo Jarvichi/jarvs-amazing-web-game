@@ -5380,6 +5380,15 @@
       "hours": "always",
       "wallTileId": "interiorWallWhite"
     },
+    "player-quarters": {
+      "name": "Your Room",
+      "width": 8,
+      "height": 7,
+      "decor": [],
+      "floorTileId": "parquetFloor",
+      "hours": "always",
+      "wallTileId": "interiorWallWhite"
+    },
     "card-shop": {
       "name": "Gildwyn's Card Emporium",
       "width": 13,
@@ -9007,7 +9016,7 @@
       "sprite": "hub-npc-elder",
       "tx": 27,
       "ty": 10,
-      "screen": "home-shelf",
+      "dialogueTree": "steward-maren-home",
       "dialogue": [
         "Your quarters are just inside, Commander. I keep your things in order.",
         "The shelf holds everything you've gathered on your journey.",

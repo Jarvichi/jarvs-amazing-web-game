@@ -237,6 +237,7 @@ export type DialogueEffect =
       giveRelationship?: { npcId?: string; track: RelationshipTrack; points: number }
       missingText: string
       successText: string }
+  | { type: 'screen'; screen: string }          // navigate to a screen (e.g. "interior:<id>")
   | { type: 'end' }                             // end the conversation
 
 export interface DialogueChoiceDef {

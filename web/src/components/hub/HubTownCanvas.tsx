@@ -28,6 +28,8 @@ import type { AnimalType } from '../../game/hub/animals'
 import { createWeatherSystem } from './hubWeather'
 import { resolveWeather } from '../../game/hub/weather'
 import { getActiveFestival } from '../../game/hub/hubCalendar'
+import { loadHomeLayout } from '../../game/hub/homeLayout'
+import { getFurnitureTileOffsets } from '../../game/hub/furnitureTiles'
 
 
 const T                 = 32
@@ -1611,6 +1613,16 @@ export function HubTownCanvas({
       const currentLevel = buildingUpgradeLevelsRef?.current[levelKey] ?? 0
       const visibleDecor   = interior.decor.filter(d => isVisibleAtLevel(d, currentLevel))
       const availableExits = (interior.exits ?? []).filter(e => (e.minLevel ?? 0) <= currentLevel)
+
+      // player-quarters has no baked-in decor — it's rendered entirely from
+      // the player's placed furniture (homeLayout.ts), not upgrade-gated.
+      if (buildingId === 'player-quarters') {
+        for (const piece of loadHomeLayout()) {
+          for (const offset of getFurnitureTileOffsets(piece.itemId)) {
+            visibleDecor.push({ tx: piece.x + offset.dx, ty: piece.y + offset.dy, tileId: offset.tileId })
+          }
+        }
+      }
 
       // Building hours check — block entry if closed
       if (!isBuildingOpen(interior, gameHourRef.current)) {
