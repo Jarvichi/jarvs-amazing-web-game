@@ -1494,6 +1494,16 @@ spawn, and blocked-path tiles all support a "📍 Pick on map" button that sets
 the location from the next canvas click (records the interior building when used
 inside a room). Dialogue-tree `nodes` are edited as JSON within the Dialogue tab.
 
+**Draw Building tool (🏛):** drag a rect on the exterior canvas to create a new
+building — this pushes a `RawBuilding` (default brick/redSlateRoof) plus a
+matching empty interior keyed by the **same id** as the building (required by
+the id-prefix rule — see §10) and a default south-wall door, all as one undo
+step. The Building inspector's "Requires Ownership" checkbox and the "+ New
+room" form's "Player decor" checkbox expose the `requiresOwnership`/
+`playerDecor` fields from §10's player-owned-house mechanism — tick both plus
+`Upgrade Kind: playerHouse` to turn a freshly drawn building into a purchasable,
+player-decorated house.
+
 ---
 
 ## §14 — Seasonal & Festival Events

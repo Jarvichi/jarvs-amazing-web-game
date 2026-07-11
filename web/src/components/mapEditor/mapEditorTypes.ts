@@ -3,7 +3,7 @@ import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMateri
 import type { NpcActivity } from '../../data/hub/loader'
 
 
-export type ToolMode = 'select' | 'place' | 'delete' | 'street' | 'pond' | 'bridge' | 'spawn' | 'chickenZone' | 'area'
+export type ToolMode = 'select' | 'place' | 'delete' | 'street' | 'pond' | 'bridge' | 'spawn' | 'chickenZone' | 'area' | 'building'
 export type Zlayer = 'solid' | 'below' | 'above'
 export type ViewMode = 'exterior' | 'interior' | 'building'
 
@@ -61,6 +61,7 @@ export interface RawBuilding {
   maxLevel?: number            // highest upgrade level this building can reach (defaults to its track length)
   levelDecor?: RawDecorItem[]  // per-building exterior decor revealed by upgrade level (each item carries minLevel)
   levelVisuals?: RawBuildingLevelVisual[]  // per-level footprint/wall/roof overrides
+  requiresOwnership?: boolean  // door stays locked until purchased (getUpgradeLevel >= 1) — e.g. a player house
 }
 
 export interface RawAnimal {
@@ -114,6 +115,7 @@ export interface RawInterior {
   wallTileId?: string
   wallMaterial?: string
   decor: RawDecorItem[]
+  playerDecor?: boolean  // render the player's placed furniture here at runtime (homeLayout.ts) — ships unfurnished
   hours?: { open: number; close: number } | 'always'
   musicId?: string
   ambianceId?: string

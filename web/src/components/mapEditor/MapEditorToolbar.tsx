@@ -63,6 +63,7 @@ const TOOLS: { mode: ToolMode; label: string; title: string }[] = [
   { mode: 'spawn',       label: '⊕', title: 'Place Spawn Tile' },
   { mode: 'chickenZone', label: '⊛', title: 'Draw Chicken Zone' },
   { mode: 'area',        label: '□', title: 'Draw Area' },
+  { mode: 'building',    label: '🏛', title: 'Draw Building' },
 ]
 
 export function MapEditorToolbar({

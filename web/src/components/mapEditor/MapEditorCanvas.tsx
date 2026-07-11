@@ -106,6 +106,7 @@ interface Props {
   onAddNpcSpawnTile:  (tx: number, ty: number) => void
   onAddChickenZone:   (tx1: number, ty1: number, tx2: number, ty2: number) => void
   onAddArea:           (tx1: number, ty1: number, tx2: number, ty2: number) => void
+  onAddBuilding:       (tx1: number, ty1: number, tx2: number, ty2: number) => void
   onPlaceBuildingDoor: (buildingIndex: number, absTx: number, absTy: number) => void
   showQuestItems:     boolean
   showBlockedPaths:   boolean
@@ -151,7 +152,7 @@ export function MapEditorCanvas(props: Props) {
 
   // Clear rect draw when tool switches away from a rect-draw tool
   useEffect(() => {
-    const rectTools: ToolMode[] = ['street', 'pond', 'bridge', 'chickenZone', 'area']
+    const rectTools: ToolMode[] = ['street', 'pond', 'bridge', 'chickenZone', 'area', 'building']
     if (!rectTools.includes(tool)) {
       rectDrawRef.current = null
       setRectPreview(null)
@@ -260,7 +261,7 @@ export function MapEditorCanvas(props: Props) {
           propsRef.current.onDeleteEntities([entity])
           propsRef.current.onSelectEntities([])
         }
-      } else if (vm !== 'building' && (t === 'street' || t === 'pond' || t === 'bridge' || t === 'chickenZone' || t === 'area')) {
+      } else if (vm !== 'building' && (t === 'street' || t === 'pond' || t === 'bridge' || t === 'chickenZone' || t === 'area' || t === 'building')) {
         rectDrawRef.current = { startTx: tx, startTy: ty, lastTx: tx, lastTy: ty }
         setRectPreviewRef.current({ sx: tx, sy: ty, ex: tx, ey: ty })
       } else if (t === 'spawn') {
@@ -314,6 +315,7 @@ export function MapEditorCanvas(props: Props) {
         else if (t === 'bridge')      propsRef.current.onAddBridgeTile(tx1, ty1, tx2, ty2)
         else if (t === 'chickenZone') propsRef.current.onAddChickenZone(tx1, ty1, tx2, ty2)
         else if (t === 'area')        propsRef.current.onAddArea(tx1, ty1, tx2, ty2)
+        else if (t === 'building')    propsRef.current.onAddBuilding(tx1, ty1, tx2, ty2)
         rectDrawRef.current = null
         setRectPreviewRef.current(null)
       }

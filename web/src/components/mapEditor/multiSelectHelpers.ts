@@ -27,6 +27,13 @@ export function nextAreaId(areas: { id: string }[]): string {
   return `area-${n}`
 }
 
+export function nextBuildingId(buildings: { id?: string }[]): string {
+  const ids = new Set(buildings.map(b => b.id))
+  let n = 1
+  while (ids.has(`building-${n}`)) n++
+  return `building-${n}`
+}
+
 export function convertStreetToPond(
   config: RawMapConfig, index: number,
 ): { config: RawMapConfig; pondIndex: number } | null {
