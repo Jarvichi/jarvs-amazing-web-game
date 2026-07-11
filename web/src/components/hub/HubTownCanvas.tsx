@@ -28,6 +28,8 @@ import type { AnimalType } from '../../game/hub/animals'
 import { createWeatherSystem } from './hubWeather'
 import { resolveWeather } from '../../game/hub/weather'
 import { getActiveFestival } from '../../game/hub/hubCalendar'
+import { loadHomeLayout } from '../../game/hub/homeLayout'
+import { getFurnitureTileOffsets } from '../../game/hub/furnitureTiles'
 
 
 const T                 = 32
@@ -1599,6 +1601,15 @@ export function HubTownCanvas({
         return
       }
 
+      // Ownership check — buildings tagged requiresOwnership (e.g. a player
+      // house) stay locked until the player has purchased at least level 1
+      // of their upgrade track (purchaseUpgrade in reputation.ts).
+      const ownedBuilding = HUB_BUILDINGS.find(b => b.id === buildingId)
+      if (ownedBuilding?.requiresOwnership && (buildingUpgradeLevelsRef?.current[buildingId] ?? 0) < 1) {
+        onDoorLockedRef.current?.(buildingId, 'unpurchased')
+        return
+      }
+
       const interior = HUB_INTERIORS[buildingId]
       if (!interior) return
 
@@ -1611,6 +1622,17 @@ export function HubTownCanvas({
       const currentLevel = buildingUpgradeLevelsRef?.current[levelKey] ?? 0
       const visibleDecor   = interior.decor.filter(d => isVisibleAtLevel(d, currentLevel))
       const availableExits = (interior.exits ?? []).filter(e => (e.minLevel ?? 0) <= currentLevel)
+
+      // playerDecor interiors ship unfurnished (decor: []) — everything
+      // visible is rendered from the player's placed furniture (homeLayout.ts)
+      // at runtime, not upgrade-gated.
+      if (interior.playerDecor) {
+        for (const piece of loadHomeLayout()) {
+          for (const offset of getFurnitureTileOffsets(piece.itemId)) {
+            visibleDecor.push({ tx: piece.x + offset.dx, ty: piece.y + offset.dy, tileId: offset.tileId })
+          }
+        }
+      }
 
       // Building hours check — block entry if closed
       if (!isBuildingOpen(interior, gameHourRef.current)) {

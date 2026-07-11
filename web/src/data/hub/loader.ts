@@ -68,6 +68,8 @@ export interface HubBuilding {
   roof?: RoofMaterial
   /** Upgrade track key (buildingUpgrades.json); set = building is upgradeable. */
   upgradeKind?: string
+  /** Entry is blocked (door "locked") until getUpgradeLevel(town, id) >= 1 — i.e. purchased. */
+  requiresOwnership?: boolean
   /** Per-building exterior decor revealed/retired by upgrade level (absolute tx/ty). */
   levelDecor?: Array<{ tx: number; ty: number; tileId: number; zlayer?: 'solid' | 'below' | 'above'; minLevel?: number; hideAtLevel?: number }>
   /**
@@ -131,6 +133,8 @@ export interface HubInterior {
   musicId?: string
   /** Ambiance bed id (AMBIANCE_TRACKS) — layered under the music while inside. */
   ambianceId?: string
+  /** Render the player's placed furniture (homeLayout.ts) here at runtime — see furnitureTiles.ts. */
+  playerDecor?: boolean
 }
 
 /** Visible activity an NPC performs while at a scheduled location. */
@@ -451,6 +455,7 @@ type RawBuilding = {
   id?: string; wall?: string; roof?: string;
   bundleID?: string;
   upgradeKind?: string;
+  requiresOwnership?: boolean;
   doors?:   Array<{ tx: number; ty: number; buildingId?: string, hideSign?: boolean }>
   windows?: Array<{ tx: number; ty: number; tileId: string }>
   decor?:   Array<{ tx: number; ty: number; tileId?: string; bundleID?: string; zlayer?: string }>
@@ -481,6 +486,7 @@ const HUB_BUILDINGS: HubBuilding[] = (rawConfig.buildings as RawBuilding[]).flat
     wall: resolveWallMaterial(b.wall, HUB_TOWN_NAME, `building "${b.id ?? '?'}"`),
     roof: resolveRoofMaterial(b.roof, HUB_TOWN_NAME, `building "${b.id ?? '?'}"`),
     upgradeKind: b.upgradeKind,
+    requiresOwnership: b.requiresOwnership,
     ...(i === 0 && levelDecor.length ? { levelDecor } : {}),
     ...(i === 0 && levelVisuals.length ? { levelVisuals } : {}),
   }))
@@ -602,6 +608,7 @@ const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
         hours: rawAny.hours as HubInterior['hours'],
         musicId:    rawAny.musicId as string | undefined,
         ambianceId: rawAny.ambianceId as string | undefined,
+        playerDecor: rawAny.playerDecor as boolean | undefined,
       } satisfies HubInterior,
     ]
   })

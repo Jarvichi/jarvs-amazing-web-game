@@ -66,6 +66,9 @@ export interface BaseBuilding {
   /** Highest upgrade level this building can reach (defaults to its track length). */
   maxLevel?: number
 
+  /** Entry is blocked (door "locked") until getUpgradeLevel(town, id) >= 1 — i.e. purchased. */
+  requiresOwnership?: boolean
+
   doors?: RawDoor[]
   windows?: RawWindow[]
   decor?: RawDecor[]
@@ -134,6 +137,8 @@ export interface RawInterior {
   musicId?: string
   /** Ambiance bed id (see AMBIANCE_TRACKS in sound.ts). */
   ambianceId?: string
+  /** Render the player's placed furniture (homeLayout.ts) here at runtime — see furnitureTiles.ts. */
+  playerDecor?: boolean
 }
 
 

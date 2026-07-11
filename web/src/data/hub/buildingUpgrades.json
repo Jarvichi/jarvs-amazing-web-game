@@ -103,6 +103,16 @@
       "service": "cottage-lantern"
     }
   ],
+  "playerHouse": [
+    {
+      "label": "Purchase",
+      "cost": 500,
+      "repReward": 50,
+      "repRequired": 0,
+      "benefit": "A house of your own — unfurnished, ready to decorate.",
+      "service": "player-house-purchase"
+    }
+  ],
   "workshop": [
     {
       "label": "Tool Crates",

@@ -461,6 +461,7 @@ Then on the NPC (in `config.json`): `"dialogueTree": "scholar-chat"` (keep a
 | `relationship` | `npcId?`, `track`, `points` | Add points to a relationship track (`ally`/`rival`/`romance`) — defaults to the speaking NPC. See §7c. |
 | `quest` | `questId` | Offer that quest (Accept / Not now). Resolves the quest's real `giverNpcId`. **Terminates** the walk. |
 | `tradeHubItem` | `wantItemId?`, `wantCount?`, `wantItems?`, `giveCrystals?`, `giveHubItem?`, `giveCollectible?`, `giveFriendship?`, `giveRelationship?`, `missingText`, `successText` | Repeatable barter — see §16. Takes `wantCount` (default 1) of a hub-item — or every entry of `wantItems: [{itemId, count?}]` for multi-item recipes (all-or-nothing, takes precedence over `wantItemId`) — and grants the `give*` rewards (`giveFriendship: {npcId?, xp}` and `giveRelationship: {npcId?, track, points}` default to the speaking NPC), showing `successText` (then advancing to `next` on close, so a sell menu can loop). If the player holds too few of anything, shows `missingText` and **terminates** the walk with no state change. Must be the **only/last** effect on its choice (it terminates the walk either way). |
+| `screen` | `screen` | Navigate to a screen (same string format as `RawNpc.screen` — e.g. `"interior:<id>"`, `"narrator:<id>"`, or a bare screen id). Routed through the same `handleNodeInteract` every screen-based NPC/interactable uses. **Terminates** the walk. |
 | `end` | — | End the conversation. |
 
 If a choice has neither a terminating effect (`quest`/`end`) nor `next`, the
@@ -1272,7 +1273,7 @@ falling back to a title-cased id.
 ### Upgrade catalog schema (`buildingUpgrades.json`)
 
 Keyed by `kind`; each value is an ordered list of levels (level 1 first). Built-in
-kinds: `shop`, `inn`, `tavern`, `cottage`, `workshop`, `shrine`, `default`.
+kinds: `shop`, `inn`, `tavern`, `cottage`, `workshop`, `shrine`, `playerHouse`, `default`.
 
 | Field | Type | Description |
 |---|---|---|
@@ -1323,6 +1324,34 @@ At runtime `HubTownCanvas` resolves the building's current level
 the level of the parent building whose id prefixes the interior id. `maxLevel`
 (optional) caps how many levels the editor offers; it defaults to the
 `upgradeKind` track length.
+
+### Player-owned buildings (`requiresOwnership`)
+
+A building tagged `"requiresOwnership": true` (`RawBuilding`, `web/src/data/hub/config.ts`)
+stays locked — its door behaves exactly like an item-gated `HUB_LOCKED_DOORS`
+entry — until `getUpgradeLevel(town, building.id) >= 1`, i.e. level 1 of its
+`upgradeKind` track has been purchased via the normal 🏗️ Town Upgrades flow
+(no separate "buy" mechanism — purchasing level 1 *is* buying it).
+`HubTownCanvas.tsx`'s `doEnterInterior` checks this before the usual
+key/hours checks and calls `onDoorLockedRef.current?.(buildingId,
+'unpurchased')` — `HubWorld.tsx`'s `handleDoorLocked` shows a prompt to visit
+Town Upgrades instead of entering.
+
+The `playerHouse` kind (`buildingUpgrades.json`) is a single-tier track —
+`level 0→1`, "Purchase" — meant for exactly this: pair `"upgradeKind":
+"playerHouse"` with `"requiresOwnership": true` on the building, and
+`"playerDecor": true` (§19) with an empty `"decor": []` on its interior.
+Additional tiers can be added later to unlock more rooms the normal way
+(`minLevel` on an interior `exits[]` entry, see the table above) — no new
+code needed, since `playerHouse`-tagged buildings resolve their upgrade
+level through the same `getUpgradeLevel`/`levelKey` machinery as any other
+building. **Id rule**: because `levelKey` resolution requires the
+*building* id to prefix the *interior* id (not the reverse — this bit an
+earlier `home`/`home-building` pairing where the interior id was shorter
+than the building id and never resolved), a player-house building and its
+top-level interior should use the **same id** (e.g. both `"ravenwatch-
+player-house"`), and any sub-room added later should extend that same
+prefix (e.g. `"ravenwatch-player-house-attic"`).
 
 ### Services
 
@@ -1954,3 +1983,44 @@ function — spending crystals is done inline by the calling UI (matching
 checks the balance, and calls `saveCrystals()` itself rather than delegating
 to the item store). A future shop/earn flow (#1646) calls `grantFurniture`
 after handling its own currency check.
+
+### Walkable room — player-owned houses
+
+The DECORATE grid (§18) has a real in-world counterpart: any interior
+tagged `playerDecor: true` renders the player's placed furniture as real
+sprites instead of static JSON decor. This is a generic mechanism (§10),
+not tied to one hardcoded interior — every town's player house works the
+same way once its building/interior pair exists (currently: none placed
+yet, pending the map editor "add building" tool).
+
+- **Unfurnished by convention**: a `playerDecor` interior's `decor` array
+  is `[]` in `config.json` — everything visible is computed at runtime.
+- **Dynamic decor**: `HubTownCanvas.tsx`'s `doEnterInterior` checks
+  `interior.playerDecor` (instead of a hardcoded building id) — when true,
+  after resolving the (empty) static decor, it appends entries built from
+  `loadHomeLayout()` via `web/src/game/hub/furnitureTiles.ts`'s
+  `getFurnitureTileOffsets(itemId)`, which maps each catalog id to one or
+  more `{dx, dy, tileId}` offsets (numeric tile ids, resolved through
+  `BASE_CHIP_TILES`) relative to the piece's anchor. No other change to the
+  rendering pipeline — the merged list feeds the same `renderDecorItems`
+  every interior uses. The furniture layout itself is global, not
+  per-town — buying houses in two towns furnishes the same shared layout in
+  both (documented limitation, not yet solved).
+- **Tile art is a stand-in for 7 of 12 items.** oak-bookshelf, four-poster-
+  bed, candle-stand, wall-clock, and cozy-rug reuse tiles that are good/exact
+  matches. round-table, potted-fern, armchair, framed-portrait, travel-chest,
+  hearth-stove, and reading-lamp reuse tiles that aren't a perfect visual
+  match for the catalog item (chosen for the closest available look).
+  New furniture added to `furniture.json` needs a matching entry in
+  `furnitureTiles.ts` or it simply won't render in the room (still shows
+  fine in the DECORATE grid, which uses the catalog's `icon` emoji, not
+  interior tiles).
+- **Rotation is not visually applied** in the room — only the DECORATE
+  grid's placement/collision logic respects it. Correctly rotating a
+  multi-tile composition means swapping which sub-tile art goes in which
+  cell, not just an image transform, and wasn't worth the complexity for
+  stand-in tiles.
+- **Footprints aren't stretched.** A single-source-tile item (e.g.
+  round-table, 2×1) renders one sprite at its anchor cell only —
+  `renderDecorItems` has no support for scaling a decor sprite across
+  multiple tiles.

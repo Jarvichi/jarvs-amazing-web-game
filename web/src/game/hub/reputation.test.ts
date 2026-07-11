@@ -132,6 +132,24 @@ describe('unlocked services', () => {
   })
 })
 
+describe('playerHouse building track', () => {
+  const playerHouse = getUpgradeTrack('playerHouse')
+
+  it('is a single-tier, unlocked-from-the-start purchase', () => {
+    expect(playerHouse.length).toBe(1)
+    expect(playerHouse[0].repRequired).toBe(0)
+  })
+
+  it('purchasing it raises the level to 1 and maxes the track', () => {
+    saveCrystals(playerHouse[0].cost)
+    const res = purchaseUpgrade(TOWN, 'player-house', 'playerHouse')
+    expect(res.ok).toBe(true)
+    expect(getUpgradeLevel(TOWN, 'player-house')).toBe(1)
+    expect(loadCrystals()).toBe(0)
+    expect(nextUpgrade(TOWN, 'player-house', 'playerHouse').maxed).toBe(true)
+  })
+})
+
 describe('daily tribute', () => {
   it('offers nothing until a service is unlocked', () => {
     setUpgradeKindResolver((_t, id) => (id === 'cider-house' ? 'shop' : undefined))

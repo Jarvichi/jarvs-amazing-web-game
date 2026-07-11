@@ -752,6 +752,8 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
       setDialogueLine('This building is closed right now. Come back later.')
     } else if (requiredItem.startsWith('quest:')) {
       setDialogueLine("This passage is sealed. You'll need to discover it first.")
+    } else if (requiredItem === 'unpurchased') {
+      setDialogueLine("You don't own this yet — visit Town Upgrades (🏗️) to purchase it.")
     } else {
       const itemName = requiredItem.replace(/-/g, ' ')
       setDialogueLine(`This door is locked. You need a ${itemName} to enter.`)
