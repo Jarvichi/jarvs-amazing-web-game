@@ -15368,6 +15368,65 @@ html.light-mode .action-btn {
   font-family: monospace;
 }
 
+/* ── Theatre / Curtain Call screen ─────────────────────────────────────── */
+.theatre-act-counter {
+  font-size: 13px;
+  color: #c8a8e8;
+  font-family: monospace;
+}
+
+.theatre-stage {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  height: 28px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.theatre-zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: rgba(255,215,0,0.28);
+  border-left: 1px solid #ffd700;
+  border-right: 1px solid #ffd700;
+}
+
+.theatre-marker {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 4px;
+  margin-left: -2px;
+  background: #ff5a5a;
+  box-shadow: 0 0 8px #ff5a5a;
+}
+
+.theatre-cue-btn {
+  min-width: 160px;
+  font-size: 15px;
+}
+
+.theatre-flash {
+  font-size: 16px;
+  font-family: monospace;
+  font-weight: bold;
+  animation: theatre-flash-pop 0.5s ease-out;
+}
+
+.theatre-flash--miss    { color: #ff6a6a; }
+.theatre-flash--good    { color: #88ddff; }
+.theatre-flash--perfect { color: #ffd700; text-shadow: 0 0 12px #ffd700; }
+
+@keyframes theatre-flash-pop {
+  0%   { opacity: 0; transform: scale(0.7); }
+  30%  { opacity: 1; transform: scale(1.15); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
 /* ── Hub World Persistent HUD ──────────────────────────────────────────── */
 .hub-hud {
   position: absolute;
