@@ -1552,7 +1552,12 @@
         "buildingId": "farmhouse",
         "tx": 1,
         "ty": 3
-      }
+      },
+      "favoriteGiftItemId": "honey-cake",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "firefly"
+      ]
     },
     {
       "id": "farmhand-pip",
@@ -1597,7 +1602,12 @@
         "buildingId": "farmhouse",
         "tx": 4,
         "ty": 3
-      }
+      },
+      "favoriteGiftItemId": "spice-pouch",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "butterfly"
+      ]
     },
     {
       "id": "miller-rook",
@@ -1615,6 +1625,11 @@
       "questReceive": [
         "harrowfield-millers-flour",
         "harrowfield-flour-delivery"
+      ],
+      "favoriteGiftItemId": "silk-ribbon",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
       ]
     },
     {
@@ -1661,7 +1676,12 @@
         "buildingId": "mill-cottage",
         "tx": 4,
         "ty": 3
-      }
+      },
+      "favoriteGiftItemId": "pressed-flower",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "bones"
+      ]
     },
     {
       "id": "baker-tovi",
@@ -1680,6 +1700,11 @@
         "harrowfield-bakers-bread",
         "harrowfield-bread-run",
         "harrowfield-flour-delivery"
+      ],
+      "favoriteGiftItemId": "honey",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
       ]
     },
     {
@@ -1695,7 +1720,12 @@
         "Mind the lane — the cart ruts'll have your ankle if the mud doesn't."
       ],
       "questGive": "harrowfield-washday",
-      "questReceive": "harrowfield-washday"
+      "questReceive": "harrowfield-washday",
+      "favoriteGiftItemId": "pressed-flower",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "bones"
+      ]
     },
     {
       "id": "pedlar-quill",
@@ -1714,7 +1744,14 @@
         "harrowfield-produce-to-ravenwatch",
         "harrowfield-shear-day"
       ],
-      "dislikes": ["warden-bell"]
+      "dislikes": [
+        "warden-bell"
+      ],
+      "favoriteGiftItemId": "river-glass",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "mouldy-slipper"
+      ]
     },
     {
       "id": "warden-bell",
@@ -1729,7 +1766,12 @@
         "Quiet hands and full barns. That's all the sermon Harrowfield needs."
       ],
       "questGive": "harrowfield-harvest-blessing",
-      "questReceive": "harrowfield-harvest-blessing"
+      "questReceive": "harrowfield-harvest-blessing",
+      "favoriteGiftItemId": "poetry-book",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "fish-bait"
+      ]
     },
     {
       "id": "child-bram",
@@ -1748,7 +1790,9 @@
       ],
       "favoriteGiftItemId": "music-box",
       "favoriteGiftTrack": "ally",
-      "dislikedGiftItemIds": ["sturdy-boots"]
+      "dislikedGiftItemIds": [
+        "sturdy-boots"
+      ]
     }
   ],
   "interiors": {
@@ -2469,8 +2513,13 @@
       "tx": 2,
       "ty": 9,
       "reactions": [
-        { "type": "dialogue", "text": "A patch of white wildflowers growing by the field's edge." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "A patch of white wildflowers growing by the field's edge."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -2478,8 +2527,13 @@
       "tx": 17,
       "ty": 13,
       "reactions": [
-        { "type": "dialogue", "text": "Pink flowers growing wild among the crop rows." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "Pink flowers growing wild among the crop rows."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -2487,8 +2541,13 @@
       "tx": 29,
       "ty": 12,
       "reactions": [
-        { "type": "dialogue", "text": "A cluster of blue flowers, swaying in the field wind." },
-        { "type": "forage" }
+        {
+          "type": "dialogue",
+          "text": "A cluster of blue flowers, swaying in the field wind."
+        },
+        {
+          "type": "forage"
+        }
       ]
     },
     {
@@ -2536,24 +2595,57 @@
       "tx": 11,
       "ty": 2,
       "building": "market-shed",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 0 }],
-      "reactions": [{ "type": "buy", "slotIndex": 0 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 0
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 0
+        }
+      ]
     },
     {
       "id": "market-shed-item-1",
       "tx": 11,
       "ty": 3,
       "building": "market-shed",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 1 }],
-      "reactions": [{ "type": "buy", "slotIndex": 1 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 1
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 1
+        }
+      ]
     },
     {
       "id": "market-shed-item-2",
       "tx": 11,
       "ty": 4,
       "building": "market-shed",
-      "decor": [{ "dx": 0, "dy": 0, "shopArtSlot": 2 }],
-      "reactions": [{ "type": "buy", "slotIndex": 2 }]
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "shopArtSlot": 2
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buy",
+          "slotIndex": 2
+        }
+      ]
     },
     {
       "id": "harrowfield-secret-green-hymnal",
