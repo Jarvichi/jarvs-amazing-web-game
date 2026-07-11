@@ -15427,6 +15427,66 @@ html.light-mode .action-btn {
   100% { opacity: 1; transform: scale(1); }
 }
 
+.theatre-stage-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  height: 96px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.theatre-avatar-platform {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 6px;
+}
+
+.theatre-avatar-platform::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 84px;
+  height: 84px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, rgba(255,215,0,0.28) 0%, rgba(255,215,0,0) 70%);
+  pointer-events: none;
+}
+
+.theatre-avatar-platform::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 60px;
+  height: 10px;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.55);
+  border-radius: 50%;
+  filter: blur(1px);
+}
+
+.theatre-avatar-img {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  z-index: 1;
+}
+
+.theatre-reaction-pop {
+  position: absolute;
+  font-size: 20px;
+  pointer-events: none;
+  animation: pop-float 0.9s ease-out forwards;
+  transform: translate(-50%, -50%);
+}
+
 /* ── Hub World Persistent HUD ──────────────────────────────────────────── */
 .hub-hud {
   position: absolute;

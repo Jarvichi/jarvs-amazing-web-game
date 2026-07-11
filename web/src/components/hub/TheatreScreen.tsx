@@ -7,6 +7,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { playMinigameCorrect, playMinigameWrong } from '../../game/sound'
 import { addTickets } from '../../game/miniGames'
 import { incrementAchievementProgress, setAchievementProgress } from '../../game/achievements'
+import { loadPlayerAvatar } from '../../game/questline'
 
 interface Props {
   onBack: () => void
@@ -14,9 +15,20 @@ interface Props {
 
 type Grade = 'miss' | 'good' | 'perfect'
 
+interface Reaction {
+  id:    number
+  x:     number
+  y:     number
+  label: string
+}
+
 const TOTAL_ACTS = 5
 const TICKETS: Record<Grade, number> = { miss: 0, good: 10, perfect: 20 }
 const GRADE_LABEL: Record<Grade, string> = { miss: 'MISS', good: 'GOOD', perfect: 'PERFECT!' }
+const CHEER_EMOJI = ['👏', '👏', '🙌', '💐']
+const BOO_EMOJI   = ['👎', '🍅', '😒']
+
+let nextReactionId = 1
 
 // Zone half-width (% of the 0-100 bar) shrinks each act; sweep period speeds up.
 function actZoneHalfWidth(act: number): number {
@@ -31,12 +43,16 @@ function randomZoneCenter(halfWidth: number): number {
 }
 
 export function TheatreScreen({ onBack }: Props) {
+  const [avatarSlug] = useState(() => loadPlayerAvatar())
+  const avatarSrc = `${(import.meta as { env: { BASE_URL: string } }).env.BASE_URL}sprites/${avatarSlug}.svg`
+
   const [phase, setPhase] = useState<'ready' | 'playing' | 'result'>('ready')
   const [act, setAct] = useState(0)
   const [markerPos, setMarkerPos] = useState(0)
   const [zoneCenter, setZoneCenter] = useState(50)
   const [grades, setGrades] = useState<Grade[]>([])
   const [flash, setFlash] = useState<Grade | null>(null)
+  const [reactions, setReactions] = useState<Reaction[]>([])
 
   const startRef = useRef(0)
   const rafRef = useRef<number | null>(null)
@@ -81,6 +97,21 @@ export function TheatreScreen({ onBack }: Props) {
     startAct(0)
   }
 
+  function spawnReactions(kind: 'cheer' | 'boo', count: number, big = false) {
+    const pool = kind === 'cheer' ? CHEER_EMOJI : BOO_EMOJI
+    const batch: Reaction[] = Array.from({ length: count }, () => ({
+      id:    nextReactionId++,
+      x:     40 + Math.random() * 20,
+      y:     Math.random() * 20,
+      label: pool[Math.floor(Math.random() * pool.length)],
+    }))
+    setReactions(prev => [...prev, ...batch])
+    const ids = batch.map(r => r.id)
+    setTimeout(() => {
+      setReactions(prev => prev.filter(r => !ids.includes(r.id)))
+    }, big ? 1400 : 900)
+  }
+
   function cue() {
     if (phase !== 'playing' || lockedRef.current) return
     lockedRef.current = true
@@ -98,6 +129,8 @@ export function TheatreScreen({ onBack }: Props) {
 
     setFlash(grade)
     setGrades(prev => [...prev, grade])
+    if (grade === 'miss') spawnReactions('boo', 3)
+    else spawnReactions('cheer', grade === 'perfect' ? 4 : 3)
     setTimeout(() => {
       setFlash(null)
       const nextAct = actRef.current + 1
@@ -111,11 +144,15 @@ export function TheatreScreen({ onBack }: Props) {
 
   function finishShow(finalGrades: Grade[]) {
     const total = finalGrades.reduce((sum, g) => sum + TICKETS[g], 0)
+    const perfects = finalGrades.filter(g => g === 'perfect').length
     addTickets(total)
     incrementAchievementProgress('miniGame:gamesPlayed')
     incrementAchievementProgress('miniGame:ticketsEarned', total)
     setAchievementProgress('miniGame:theatre:bestScore', total)
     setPhase('result')
+    if (perfects === TOTAL_ACTS || total >= 40) spawnReactions('cheer', total >= 70 ? 8 : 5, true)
+    else if (total === 0) spawnReactions('boo', 6, true)
+    else spawnReactions('cheer', 3, true)
   }
 
   const total = grades.reduce((sum, g) => sum + TICKETS[g], 0)
@@ -134,6 +171,23 @@ export function TheatreScreen({ onBack }: Props) {
   return (
     <div className="minigame-screen theatre-screen">
       <div className="minigame-title">🎭 CURTAIN CALL</div>
+
+      {phase !== 'ready' && (
+        <div className="theatre-stage-wrap">
+          <div className="theatre-avatar-platform">
+            <img className="theatre-avatar-img" src={avatarSrc} alt="Your performer" />
+          </div>
+          {reactions.map(r => (
+            <div
+              key={r.id}
+              className="theatre-reaction-pop"
+              style={{ left: `${r.x}%`, top: `${r.y}%` }}
+            >
+              {r.label}
+            </div>
+          ))}
+        </div>
+      )}
 
       {phase === 'ready' && (
         <div className="minigame-ready u-col u-items-c u-gap-5">
