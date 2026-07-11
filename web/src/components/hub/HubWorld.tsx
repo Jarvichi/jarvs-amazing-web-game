@@ -152,6 +152,7 @@ const SCREEN_ENTER_LABEL: Record<string, string> = {
   tileflip:          'Play tile flip?',
   crystalcatch:      'Play crystal catch?',
   spinner:           'Give it a spin?',
+  theatre:           'Watch the performance?',
   'narrator:mira':    'Ask what she remembers?',
   'narrator:vask':    'Ask about her past?',
   'narrator:pilgrim': 'Listen to their words?',

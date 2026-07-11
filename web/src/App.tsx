@@ -64,6 +64,7 @@ import { NodeMap }            from './components/campaign/NodeMap'
 import { HubWorld }           from './components/hub/HubWorld'
 import { HubWorldMap }        from './components/hub/HubWorldMap'
 import { CasinoScreen }       from './components/hub/CasinoScreen'
+import { TheatreScreen }      from './components/hub/TheatreScreen'
 import { PostBattleReward }   from './components/battle/PostBattleReward'
 import { ActComplete }        from './components/battle/ActComplete'
 import { RelicSelectScreen }  from './components/campaign/RelicSelectScreen'
@@ -251,6 +252,7 @@ type Screen =
   | 'hub-minigame'
   | 'hub-fishing'
   | 'casino'
+  | 'theatre'
   | 'worldmap'
   | 'location'
   | 'sceneryPreview'
@@ -3398,6 +3400,12 @@ export default function App() {
       {screen === 'hub-fishing' && (
         <OverlayScreen title="🎣 FISHING" onBack={() => setScreen('hubworld')}>
           <Fishing rewardMode="catch" onDone={() => setScreen('hubworld')} />
+        </OverlayScreen>
+      )}
+
+      {screen === 'theatre' && (
+        <OverlayScreen title="🎭 CROWN THEATRE" onBack={() => setScreen('hubworld')}>
+          <TheatreScreen onBack={() => setScreen('hubworld')} />
         </OverlayScreen>
       )}
 
