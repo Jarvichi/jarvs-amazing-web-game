@@ -1250,6 +1250,14 @@ function InteriorInspector({
                 {AMBIANCE_IDS.map(id => <option key={id} value={id}>{id}</option>)}
               </select>
             </Field>
+            <Field label="Player Decor">
+              <input
+                type="checkbox"
+                checked={interior.playerDecor ?? false}
+                onChange={e => onUpdateInteriorProps(interiorId, { playerDecor: e.target.checked || undefined })}
+                title="Unfurnished — renders the player's placed furniture (homeLayout.ts) at runtime"
+              />
+            </Field>
             <Field label="Editing Level">
               <LevelStepper level={activeLevel} max={levelMax} onChange={onSetActiveLevel} />
               <div style={{ color: '#777', fontSize: 10, marginTop: 4 }}>

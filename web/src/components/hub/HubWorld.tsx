@@ -238,6 +238,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   const [dialogueLine,   setDialogueLine]   = useState<string | null>(null)
   const [dialogueEvent,  setDialogueEvent]  = useState<QuestEvent | null>(null)
   const [interiorActive, setInteriorActive] = useState(false)
+  const [activeBuildingId, setActiveBuildingId] = useState<string | null>(null)
   const [pickedUpIds,    setPickedUpIds]    = useState<Set<string>>(() => { reconcileBountyPickups(); return getPickedUpIds() })
   const [tabbedModalOpen,     setTabbedModalOpen]     = useState(false)
   const [activeHubTab,        setActiveHubTab]        = useState<HubTabId>('quests')
@@ -604,6 +605,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   const handleLeaveInterior = useCallback(() => {
     interiorExitRef.current?.()
     setInteriorActive(false)
+    setActiveBuildingId(null)
   }, [])
 
   const handleQuestAbandon = useCallback((questId: string) => {
@@ -2018,8 +2020,8 @@ function hasOfferableQuest(giverId: string): boolean {
             interiorEnterRef={interiorEnterRef}
             interiorExitRef={interiorExitRef}
             petActionRef={petActionRef}
-            onEnterInterior={() => setInteriorActive(true)}
-            onExitInterior={() => setInteriorActive(false)}
+            onEnterInterior={(buildingId) => { setInteriorActive(true); setActiveBuildingId(buildingId) }}
+            onExitInterior={() => { setInteriorActive(false); setActiveBuildingId(null) }}
             onTileTap={onTileTap}
             pickedUpIds={pickedUpIds}
             onItemPickup={handleItemPickup}
@@ -2084,6 +2086,16 @@ function hasOfferableQuest(giverId: string): boolean {
             after?.()
           }}
         />
+
+        {interiorActive && activeBuildingId && locationData.HUB_INTERIORS[activeBuildingId]?.playerDecor && (
+          <button
+            className="action-btn"
+            style={{ position: 'absolute', top: 16, right: 96, zIndex: 10 }}
+            onClick={() => handleNodeInteract('home-shelf', `${town}:${activeBuildingId}`)}
+          >
+            🛋 DECORATE
+          </button>
+        )}
 
         {interiorActive && (
           <button
