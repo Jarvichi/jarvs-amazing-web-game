@@ -11,6 +11,7 @@ import {
   loadLocalHighScore, saveLocalHighScore,
   publishMiniGameScore, fetchMiniGameLeaderboard, MiniGameLeaderboardEntry,
 } from '../../game/miniGames'
+import { claimDailyChallengeIfEligible, DAILY_CHALLENGE_BONUS_TICKETS } from '../../game/miniGameDailyChallenge'
 import { loadCrystals, saveCrystals, addCardsToCollection, loadCollection, getOwnedCount } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
 import { incrementAchievementProgress, setAchievementProgress } from '../../game/achievements'
@@ -109,6 +110,12 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
     if (ticketsEarned > 0) {
       addTickets(ticketsEarned)
       refreshTickets()
+    }
+
+    if (claimDailyChallengeIfEligible(gameId, ticketsEarned)) {
+      refreshTickets()
+      incrementAchievementProgress('miniGame:dailyChallengesCompleted')
+      showToast(`🎯 Daily Challenge complete! +${DAILY_CHALLENGE_BONUS_TICKETS} bonus tickets!`)
     }
 
     // Track achievements

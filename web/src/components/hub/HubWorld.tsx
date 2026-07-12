@@ -46,7 +46,7 @@ import { getCollectedTreasureIds, markTreasureCollected } from '../../game/hub/t
 import { useHubClock } from '../../hooks/useHubClock'
 import { formatGameTime, hourInRange } from '../../game/hub/hubClock'
 import { getActiveFestival } from '../../game/hub/hubCalendar'
-import { getDailyChallengeNPCDialogue } from '../../game/hub/npcDialogue'
+import { getDailyChallengeNPCDialogue, getMiniGameChallengeNPCDialogue } from '../../game/hub/npcDialogue'
 import {  ALL_QUESTS, FRIENDSHIP_DIALOGUE, RELATIONSHIP_DIALOGUE, RAVENWATCH } from '../../data/hub/hubWorldFactory'
 import { HubInteractable, HubLocationBundle, HubQuestBundle, HubTreasure, HubNpc } from '../../data/hub/loader'
 import { getUnreadCount } from '../../game/news'
@@ -373,6 +373,25 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   const npcProximityDialogueRef = useRef(new Map<string, { atDistance: number; text: string }[]>())
   npcProximityDialogueRef.current = new Map([
     ['challenge-herald', getDailyChallengeNPCDialogue()],
+    // Arcade NPCs — exterior + interior pairs each announce that game's daily
+    // ticket-score challenge. 'fishing'/'regatta' have no dedicated hub NPC yet.
+    ['marble-master', getMiniGameChallengeNPCDialogue('marble')],
+    ['marble-master-int', getMiniGameChallengeNPCDialogue('marble')],
+    ['the-flipper', getMiniGameChallengeNPCDialogue('tileflip')],
+    ['the-flipper-int', getMiniGameChallengeNPCDialogue('tileflip')],
+    ['crystal-keeper', getMiniGameChallengeNPCDialogue('crystalcatch')],
+    ['crystal-keeper-int', getMiniGameChallengeNPCDialogue('crystalcatch')],
+    ['spinner-sal', getMiniGameChallengeNPCDialogue('spinner')],
+    ['spinner-sal-int', getMiniGameChallengeNPCDialogue('spinner')],
+    ['race-marshal', getMiniGameChallengeNPCDialogue('marblerace')],
+    ['race-marshal-int', getMiniGameChallengeNPCDialogue('marblerace')],
+    ['card-sharp', getMiniGameChallengeNPCDialogue('higherOrLower')],
+    ['card-sharp-int', getMiniGameChallengeNPCDialogue('higherOrLower')],
+    ['reels-remy', getMiniGameChallengeNPCDialogue('fruitMachine')],
+    ['reels-remy-int', getMiniGameChallengeNPCDialogue('fruitMachine')],
+    ['poker-pete', getMiniGameChallengeNPCDialogue('videoPoker')],
+    ['poker-pete-int', getMiniGameChallengeNPCDialogue('videoPoker')],
+    ['siege-master', getMiniGameChallengeNPCDialogue('towerDefence')],
   ])
 
   // Interactable indicator conditions (e.g. 'unread-news'): read imperatively by PixiJS ticker
