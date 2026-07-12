@@ -5433,6 +5433,24 @@
       ]
     },
     {
+      "id": "draft-master-crownhaven",
+      "name": "Draft Master Wren",
+      "sprite": "hub-npc-arena",
+      "tx": 83,
+      "ty": 81,
+      "screen": "carddraft",
+      "dialogue": [
+        "No collection? No problem. Draft a deck right here and prove your mettle.",
+        "Pick your cards, traveller — eight choices shape a whole army.",
+        "Every draft is a new deck. Every deck is a new war."
+      ],
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "lost-locket"
+      ]
+    },
+    {
       "id": "riverside-angler",
       "name": "Angler Marsh",
       "sprite": "hub-npc-fisherman",

@@ -8573,6 +8573,24 @@
       ]
     },
     {
+      "id": "draft-master-ravenwatch",
+      "name": "Draft Master Corrin",
+      "sprite": "hub-npc-arena",
+      "tx": 37,
+      "ty": 21,
+      "screen": "carddraft",
+      "dialogue": [
+        "No collection? No problem. Draft a deck right here and prove your mettle.",
+        "Pick your cards, Commander — eight choices shape a whole army.",
+        "Every draft is a new deck. Every deck is a new war."
+      ],
+      "favoriteGiftItemId": "sturdy-boots",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "lost-locket"
+      ]
+    },
+    {
       "id": "minigames-npc",
       "name": "Minigame Host",
       "sprite": "hub-npc-merchant",
