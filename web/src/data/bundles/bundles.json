@@ -1576,5 +1576,62 @@
         "zlayer": "solid"
       }
     ]
+  },
+  {
+    "bundleID": "3 rows of wheat",
+    "tiles": [
+      {
+        "tileID": "cropWheatBottom",
+        "x": 0,
+        "y": 0,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "cropWheatMiddle",
+        "x": 0,
+        "y": 1,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "cropWheatMiddle",
+        "x": 0,
+        "y": 2,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "cropWheatTop",
+        "x": 0,
+        "y": 3,
+        "zlayer": "solid"
+      }
+    ]
+  },
+  {
+    "bundleID": "washing line with clothes",
+    "tiles": [
+      {
+        "tileID": "washingLineClothesBottomLeft",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "tileID": "washingLineEmptyTopLeft",
+        "x": 0,
+        "y": 1,
+        "zlayer": "above"
+      },
+      {
+        "tileID": "washingLineClothesTopRight",
+        "x": 1,
+        "y": 1,
+        "zlayer": "solid"
+      },
+      {
+        "tileID": "washingLineClothesBottomRight",
+        "x": 1,
+        "y": 0,
+        "zlayer": "solid"
+      }
+    ]
   }
 ]
