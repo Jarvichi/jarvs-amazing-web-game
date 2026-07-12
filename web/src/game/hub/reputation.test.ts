@@ -11,6 +11,7 @@ import {
   tributeAmount,
   tributeAvailable,
   collectTribute,
+  countOwnedPlayerHouses,
 } from './reputation'
 import { saveCrystals, loadCrystals } from '../collection'
 import { getUpgradeTrack } from '../../data/hub/buildingUpgrades'
@@ -147,6 +148,28 @@ describe('playerHouse building track', () => {
     expect(getUpgradeLevel(TOWN, 'player-house')).toBe(1)
     expect(loadCrystals()).toBe(0)
     expect(nextUpgrade(TOWN, 'player-house', 'playerHouse').maxed).toBe(true)
+  })
+
+  it('prices scale with how many player houses are already owned across all towns', () => {
+    expect(nextUpgrade('Millhaven', 'building-1', 'playerHouse').cost).toBe(2500)
+    saveCrystals(2500)
+    expect(purchaseUpgrade('Millhaven', 'building-1', 'playerHouse').ok).toBe(true)
+
+    expect(nextUpgrade('Ravenwatch', 'building-1', 'playerHouse').cost).toBe(10000)
+    saveCrystals(10000)
+    expect(purchaseUpgrade('Ravenwatch', 'building-1', 'playerHouse').ok).toBe(true)
+
+    expect(nextUpgrade('Crownhaven', 'building-1', 'playerHouse').cost).toBe(25000)
+  })
+
+  it('formula extrapolates past the third house by continuing to double', () => {
+    expect(countOwnedPlayerHouses()).toBe(0) // sanity: fresh store
+    for (const t of ['Millhaven', 'Ravenwatch', 'Crownhaven']) {
+      saveCrystals(nextUpgrade(t, 'building-1', 'playerHouse').cost)
+      purchaseUpgrade(t, 'building-1', 'playerHouse')
+    }
+    expect(countOwnedPlayerHouses()).toBe(3)
+    expect(nextUpgrade('SomeFourthTown', 'building-1', 'playerHouse').cost).toBe(55000)
   })
 })
 
