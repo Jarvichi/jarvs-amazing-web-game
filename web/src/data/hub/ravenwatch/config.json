@@ -2704,6 +2704,7 @@
         }
       ],
       "requiresOwnership": true,
+      "upgradeKind": "playerHouse",
       "comment": "Lakeside Cottage"
     }
   ],
@@ -8593,11 +8594,12 @@
       ]
     },
     "building-1": {
-      "name": "building-1",
+      "name": "Lakeside Cottage",
       "width": 6,
       "height": 6,
       "floorTileId": "woodFloor",
-      "decor": []
+      "decor": [],
+      "playerDecor": true
     }
   },
   "npcs": [
