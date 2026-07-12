@@ -1218,6 +1218,20 @@ export default function App() {
     if (isCampaignRef.current) rollRareEvent()
   }, [startBattle, rollRareEvent])
 
+  // Shared by the world-map's node picker and a town's direct-exit tiles
+  // (screen === 'town:<mapId>'): jump straight to another town's hub.
+  const goToWorldLocation = useCallback((id: string) => {
+    if (id === 'ravenwatch') {
+      setCurrentWorldLocation(id)
+      setCurrentLocationKey('ravenwatch')
+      setScreen('hubworld')
+    } else if (LOCATION_REGISTRY[id]) {
+      setCurrentWorldLocation(id)
+      setCurrentLocationKey(id)
+      setScreen('location')
+    }
+  }, [])
+
   // Re-run the current world-map battle after a loss ("Try Again").
   const handleWorldBattleRetry = useCallback(() => {
     const nodeId = worldBattleNodeIdRef.current
@@ -2868,6 +2882,7 @@ export default function App() {
           onCampaign={() => { setReturnScreen('hubworld'); handleCampaign() }}
           onEndless={() => { setReturnScreen('hubworld'); handleEndless() }}
           onWorldMap={() => setScreen('worldmap')}
+          onNavigateTown={goToWorldLocation}
           onNarratorLog={(characterId) => { setReturnScreen('hubworld'); setActiveNarratorLog(characterId); setScreen('narratorJournal') }}
           onPlayerTap={() => { setReturnScreen('hubworld'); setScreen('player') }}
           crystals={crystals}
@@ -2901,14 +2916,8 @@ export default function App() {
         <HubWorldMap
           key={worldMapKey}
           onSelectNode={(node) => {
-            if (node.id === 'ravenwatch') {
-              setCurrentWorldLocation(node.id)
-              setCurrentLocationKey('ravenwatch')
-              setScreen('hubworld')
-            } else if (node.locationKey && LOCATION_REGISTRY[node.locationKey]) {
-              setCurrentWorldLocation(node.id)
-              setCurrentLocationKey(node.locationKey)
-              setScreen('location')
+            if (node.id === 'ravenwatch' || (node.locationKey && LOCATION_REGISTRY[node.locationKey])) {
+              goToWorldLocation(node.id === 'ravenwatch' ? node.id : node.locationKey!)
             } else if (node.type === 'battle') {
               if (!isNodeCleared(node.id)) {
                 handleWorldBattle(node)

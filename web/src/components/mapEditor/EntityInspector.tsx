@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import type { SelectedEntity, RawMapConfig, RawInterior, RawBlockedPath, RawLockedDoor, Zlayer, RawDecorItem, RawNpc, RawBuilding, RawAnimal, RawInteractable, RawInteractableReaction, RawWeather, PickKind } from './mapEditorTypes'
 import type { MapId } from '../../data/hub/hubWorldFactory'
 import { EntityRefPicker } from './EntityRefPicker'
-import { buildingRefOptions, allQuestOptions, hubItemRefOptions, type RefOption } from './entityRefs'
+import { buildingRefOptions, allQuestOptions, hubItemRefOptions, TOWN_LABELS, type RefOption } from './entityRefs'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import { resolveTileRef, PATH_TILE } from '../../data/tiles/tileIndex'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
@@ -2241,7 +2241,14 @@ function TownExtraSections({ configData, onUpdateConfig, onPickLocation, inputSt
               <input type="number" style={numSm} value={e.ty} onChange={ev => onUpdateConfig({ exitTiles: exits.map((x, j) => j === i ? { ...x, ty: Number(ev.target.value) } : x) })} />
               <select style={{ ...inputStyle, flex: 1, minWidth: 70 }} value={e.screen} onChange={ev => onUpdateConfig({ exitTiles: exits.map((x, j) => j === i ? { ...x, screen: ev.target.value } : x) })}>
                 <option value="">— pick screen —</option>
-                {SCREEN_IDS.map(s => <option key={s} value={s}>{s}</option>)}
+                <optgroup label="Screens">
+                  {SCREEN_IDS.map(s => <option key={s} value={s}>{s}</option>)}
+                </optgroup>
+                <optgroup label="Towns (go directly to)">
+                  {(Object.keys(TOWN_LABELS) as MapId[]).map(id => (
+                    <option key={id} value={`town:${id}`}>{TOWN_LABELS[id]}</option>
+                  ))}
+                </optgroup>
               </select>
               {onPickLocation && <button style={pickBtn} onClick={() => onPickLocation('exitTile', i)}>📍</button>}
               <button style={xBtn} onClick={() => onUpdateConfig({ exitTiles: exits.filter((_, j) => j !== i) })}>✕</button>
