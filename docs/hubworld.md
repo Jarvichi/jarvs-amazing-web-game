@@ -1353,6 +1353,17 @@ top-level interior should use the **same id** (e.g. both `"ravenwatch-
 player-house"`), and any sub-room added later should extend that same
 prefix (e.g. `"ravenwatch-player-house-attic"`).
 
+**Pricing is dynamic, unlike every other kind.** `buildingUpgrades.json`'s
+`playerHouse.cost` (2500) is only the documented baseline — the real price
+is computed in `reputation.ts`'s `nextUpgrade`, which special-cases
+`kind === 'playerHouse'` to charge `price(N) = 7500 × 2^(N-1) − 5000` for
+the Nth player house the player owns **across every town** (not per-town):
+2,500 / 10,000 / 25,000 / 55,000 / ... `countOwnedPlayerHouses()` (also in
+`reputation.ts`) tallies ownership by scanning every town in
+`LOCATION_REGISTRY` for `upgradeKind === 'playerHouse'` buildings at
+level ≥ 1. `purchaseUpgrade` charges whatever `nextUpgrade` just computed,
+so the displayed and charged prices can't drift apart.
+
 ### Services
 
 Each unlocked `service` id is readable via `getUnlockedServices(town)` /

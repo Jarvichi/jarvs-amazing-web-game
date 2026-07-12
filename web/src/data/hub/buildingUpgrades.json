@@ -106,7 +106,7 @@
   "playerHouse": [
     {
       "label": "Purchase",
-      "cost": 500,
+      "cost": 2500,
       "repReward": 50,
       "repRequired": 0,
       "benefit": "A house of your own — unfurnished, ready to decorate.",

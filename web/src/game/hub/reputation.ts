@@ -15,6 +15,7 @@ import {
   getReputationTier,
   type BuildingUpgradeLevel,
 } from '../../data/hub/buildingUpgrades'
+import { LOCATION_REGISTRY } from '../../data/hub/hubWorldFactory'
 
 const KEY = 'jarv_hub_reputation'
 
@@ -70,6 +71,34 @@ export function getUpgradeLevel(town: string, buildingId: string): number {
   return townState(load(), town).levels[buildingId] ?? 0
 }
 
+// ── Player-house dynamic pricing ─────────────────────────────────────────────
+//
+// Unlike every other upgrade kind, `playerHouse` cost isn't a static
+// per-level number from buildingUpgrades.json — it scales with how many
+// player houses the player already owns *across every town*, not just the
+// one they're buying in. This is a real-estate-style "each house costs more
+// than the last" curve, so it lives here rather than in the generic catalog.
+
+/** Crystal cost of the player's *next* player-house purchase, based on how
+ *  many they already own across every town. Doubles the running cost each
+ *  additional house: 2500, 10000, 25000, 55000, 115000, ... */
+function playerHousePrice(ownedCount: number): number {
+  const n = ownedCount + 1 // 1-indexed: the house about to be purchased
+  return 7500 * 2 ** (n - 1) - 5000
+}
+
+/** Count of player-house buildings currently owned (purchased) across every town. */
+export function countOwnedPlayerHouses(): number {
+  let count = 0
+  for (const { locationData } of Object.values(LOCATION_REGISTRY)) {
+    const t = locationData.HUB_TOWN_NAME
+    for (const b of locationData.HUB_BUILDINGS) {
+      if (b.id && b.upgradeKind === 'playerHouse' && getUpgradeLevel(t, b.id) >= 1) count++
+    }
+  }
+  return count
+}
+
 // ── Next-upgrade query ───────────────────────────────────────────────────────
 
 export interface NextUpgrade {
@@ -101,11 +130,12 @@ export function nextUpgrade(town: string, buildingId: string, kind: string | und
   }
 
   const def = track[level]
+  const cost = kind === 'playerHouse' ? playerHousePrice(countOwnedPlayerHouses()) : def.cost
   return {
-    def,
+    def: { ...def, cost },
     level,
     total,
-    cost: def.cost,
+    cost,
     repRequired: def.repRequired,
     repLocked: state.rep < def.repRequired,
     maxed: false,
