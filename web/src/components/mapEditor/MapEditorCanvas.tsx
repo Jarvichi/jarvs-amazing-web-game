@@ -4,7 +4,6 @@ import { usePixiApp } from '../../hooks/usePixiApp'
 import { loadTileRef, loadSpriteTexture } from '../../utils/pixiHelpers'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import type { RawMapConfig, RawDecorItem, RawBlockedPath, RawLockedDoor, RawNpc, SelectedEntity, ToolMode, Zlayer } from './mapEditorTypes'
-import { hourInRange } from '../../game/hub/hubClock'
 import { resolveVariantTint, AnimalType } from '../../game/hub/animals'
 import { WALL_TILES } from '../../data/tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
@@ -15,20 +14,10 @@ import { expandBundleDecor } from '../../data/bundles/bundleLoader'
 import { RawQuestPickupItem } from '../../data/hub/hubWorldFactory'
 import { resolveNpcSprite } from './spriteList'
 import { isSameEntityRef } from './multiSelectHelpers'
+import { getScheduledLocation } from './npcSchedulePreview'
 
 const T           = 32
 const INTERIOR_PAD = 10  // tiles of surrounding space around active room in interior view
-
-/** Where a scheduled NPC would be at `hour` — mirrors getNpcLocation in
- *  web/src/game/hub/hubNpcSchedule.ts, reimplemented against the editor's
- *  RawNpc (structurally close to HubNpc but not identical) to avoid a cast. */
-function getScheduledLocation(npc: RawNpc, hour: number): NonNullable<RawNpc['schedule']>[number]['location'] | null {
-  if (!npc.schedule?.length) return null
-  for (const entry of npc.schedule) {
-    if (hourInRange(hour, entry.startHour, entry.endHour)) return entry.location
-  }
-  return null
-}
 
 const WALL_COLORS: Record<string, number> = {
   brick:               0x8b5e4a,
@@ -406,7 +395,7 @@ export function MapEditorCanvas(props: Props) {
     if (!isInterior && !isBuilding && showAreas) {
       renderAreasOverlay(questLayer, selLayer)
     }
-    if (!isInterior && !isBuilding) {
+    if (!isInterior && !isBuilding && showAnimalAreas) {
       renderChickenZonesOverlay(questLayer, selLayer)
     }
     if (!isBuilding && showInteractables) {
@@ -1399,7 +1388,8 @@ export function MapEditorCanvas(props: Props) {
     })
   }
 
-  // ── Chicken zones overlay (always visible in exterior) ─────────────────────────
+  // ── Chicken zones overlay (a pen rect chickens wander within — shown behind
+  //    the same toggle as cat/dog wander areas, since it's the same concept) ──
   function renderChickenZonesOverlay(layer: PIXI.Container, selLayer: PIXI.Graphics) {
     ;(propsRef.current.configData.chickenZones ?? []).forEach((zone, zIdx) => {
       const isSel = isEntitySelected({ type: 'chickenZone', index: zIdx })
