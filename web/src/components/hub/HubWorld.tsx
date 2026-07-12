@@ -45,7 +45,7 @@ import { TreasureModal } from './TreasureModal'
 import { getCollectedTreasureIds, markTreasureCollected } from '../../game/hub/treasures'
 import { useHubClock } from '../../hooks/useHubClock'
 import { formatGameTime, hourInRange } from '../../game/hub/hubClock'
-import { getActiveFestival } from '../../game/hub/hubCalendar'
+import { Festival, getActiveFestival } from '../../game/hub/hubCalendar'
 import { getDailyChallengeNPCDialogue, getMiniGameChallengeNPCDialogue } from '../../game/hub/npcDialogue'
 import {  ALL_QUESTS, FRIENDSHIP_DIALOGUE, RELATIONSHIP_DIALOGUE, RAVENWATCH } from '../../data/hub/hubWorldFactory'
 import { HubInteractable, HubLocationBundle, HubQuestBundle, HubTreasure, HubNpc } from '../../data/hub/loader'
@@ -1981,42 +1981,8 @@ function hasOfferableQuest(giverId: string): boolean {
   }
 
   return (
-    <OverlayScreen title={`🏠 ${locationData.HUB_TOWN_NAME}`}>
-      <Toolbar>
-          <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>💎 {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
-          <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
-          <ToolbarLabel className="title-deck-info">{isGameNight ? '🌙' : '☀️'} {formatGameTime()}</ToolbarLabel>
-          {activeFestival && (
-            <ToolbarLabel className="title-deck-info">{activeFestival.icon} {activeFestival.name}</ToolbarLabel>
-          )}
-        <ToolbarButton icon="📋" title="Menu" onClick={() => setTabbedModalOpen(true)} />
-        <ToolbarButton icon="🗺" title="World Map" onClick={() => onWorldMap?.()}  disabled={getQuestState('thorin-the-last-watch').status !== 'completed'} />
-
-        <ToolbarSpacer/>
-        <div className="toolbar-overflow-inline">
-        <LoginButton onSignIn={() => onLoginToggle?.()} onSignOut={() => onSignOut?.()} onPlayerTap={onPlayerTap} user={user} playerName={playerName} />
-        <ToolbarButton
-          className="title-auth-btn"
-          onClick={onFeedback}
-          title="Send feedback or report a bug"
-          icon={'🗣️'}
-        />
-        <ToolbarButton className="action-btn hub-hud__btn" onClick={onBack} icon={'⚙'}/>          
-        </div>
-        <div className="toolbar-overflow-dropdown">
-          <ToolbarDropdown label="📊" align="right">
-        <LoginButton onSignIn={() => onLoginToggle?.()} onSignOut={() => onSignOut?.()} onPlayerTap={onPlayerTap} user={user} playerName={playerName} />
-        <ToolbarButton
-          className="title-auth-btn"
-          onClick={onFeedback}
-          title="Send feedback or report a bug"
-          icon={'🗣️'}
-        />
-        <ToolbarButton className="action-btn hub-hud__btn" onClick={onBack} icon={'⚙'}/>          </ToolbarDropdown>
-        </div>
-
-
-      </Toolbar>
+    <OverlayScreen title={`🏠 ${locationData.HUB_TOWN_NAME}`} right={activeFestival && `${activeFestival.icon} ${activeFestival.name}`}>
+      {HubWorldToolbar(wrongSave, crystals, collectionCount, catalogTotal, isGameNight,  setTabbedModalOpen, onWorldMap, onLoginToggle, onSignOut, onPlayerTap, user, playerName, onFeedback, onBack)}
 
       <div
         className="nm-map nm-map--camp"
@@ -2144,3 +2110,36 @@ function hasOfferableQuest(giverId: string): boolean {
   )
 }
 
+
+function HubWorldToolbar(wrongSave: { cards: number; crystals: number; deck: number } | null, crystals: number, collectionCount: number, catalogTotal: number, isGameNight: boolean,  setTabbedModalOpen: React.Dispatch<React.SetStateAction<boolean>>, onWorldMap: (() => void) | undefined, onLoginToggle: (() => void) | undefined, onSignOut: (() => void) | undefined, onPlayerTap: (() => void) | undefined, user: User | null, playerName: string, onFeedback: () => void, onBack: () => void) {
+  return <Toolbar>
+    <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>💎 {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
+    <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
+    <ToolbarLabel className="title-deck-info">{isGameNight ? '🌙' : '☀️'} {formatGameTime()}</ToolbarLabel>
+    <ToolbarButton icon="📋" title="Menu" onClick={() => setTabbedModalOpen(true)} />
+    <ToolbarButton icon="🗺" title="World Map" onClick={() => onWorldMap?.()} disabled={getQuestState('thorin-the-last-watch').status !== 'completed'} />
+
+    <ToolbarSpacer />
+    <div className="toolbar-overflow-inline">
+      <LoginButton onSignIn={() => onLoginToggle?.()} onSignOut={() => onSignOut?.()} onPlayerTap={onPlayerTap} user={user} playerName={playerName} />
+      <ToolbarButton
+        className="title-auth-btn"
+        onClick={onFeedback}
+        title="Send feedback or report a bug"
+        icon={'🗣️'} />
+      <ToolbarButton className="action-btn hub-hud__btn" onClick={onBack} icon={'⚙'} />
+    </div>
+    <div className="toolbar-overflow-dropdown">
+      <ToolbarDropdown label="📊" align="right">
+        <LoginButton onSignIn={() => onLoginToggle?.()} onSignOut={() => onSignOut?.()} onPlayerTap={onPlayerTap} user={user} playerName={playerName} />
+        <ToolbarButton
+          className="title-auth-btn"
+          onClick={onFeedback}
+          title="Send feedback or report a bug"
+          icon={'🗣️'} />
+        <ToolbarButton className="action-btn hub-hud__btn" onClick={onBack} icon={'⚙'} />          </ToolbarDropdown>
+    </div>
+
+
+  </Toolbar>
+}
