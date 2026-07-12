@@ -7,12 +7,16 @@
 import { WALL_TILES, ROOF_TILES, ROOF_ROWS, getWallTile } from './buildingMaterials'
 import type { WallMaterial, RoofMaterial } from './buildingMaterials'
 
-/** A door tile, in absolute tile coords. Only doors sitting at `rect.y2 + 1`
- *  (the south face) get a rendered sprite; doors elsewhere are invisible
- *  walk-in triggers only (see the door-pass skip check below). */
+/** A door tile, in absolute tile coords — `(tx, ty)` is the player's walk-in
+ *  trigger tile. The door sprite always renders one tile north (up) of that,
+ *  for any door whose tx falls within a rect's horizontal span (used only to
+ *  pick the matching wall's door-tile art). Set `hideSprite` for a door that
+ *  should stay a fully invisible walk-in trigger (e.g. a hidden side/back
+ *  entrance). */
 export interface BuildingDoorTile {
   tx: number
   ty: number
+  hideSprite?: boolean
 }
 
 /**
@@ -62,13 +66,17 @@ export function placeBuildingTiles(
     }
   }
 
-  // Door pass — south-facing doors, inserted after wall tiles so they overdraw
+  // Door pass — inserted after wall tiles so they overdraw. Anchored on the
+  // door's own tile (its walk-in trigger), not the rect's south edge, so a
+  // door can sit anywhere relative to the building (e.g. above a flight of
+  // steps) and still render — matching tx to this rect only picks which
+  // wall's door art to use.
   const wallTiles = WALL_TILES[wall]
   for (const door of doors) {
-    if (door.ty !== y2 + 1 || door.tx < x1 || door.tx > x2) continue
-    place(wallTiles.doorArchTop, door.tx, y2 - 1)
-    place(wallTiles.doorTop,     door.tx, y2 - 1)
-    place(wallTiles.doorBottom,  door.tx, y2 - 0)
+    if (door.hideSprite || door.tx < x1 || door.tx > x2) continue
+    place(wallTiles.doorArchTop, door.tx, door.ty - 2)
+    place(wallTiles.doorTop,     door.tx, door.ty - 2)
+    place(wallTiles.doorBottom,  door.tx, door.ty - 1)
   }
 
   return placements

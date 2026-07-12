@@ -28,6 +28,9 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
   const [showBlockedPaths, setShowBlockedPaths] = useState(false)
   const [showAreas, setShowAreas] = useState(false)
   const [showInteractables, setShowInteractables] = useState(false)
+  const [showExitTiles, setShowExitTiles] = useState(false)
+  const [showAnimalAreas, setShowAnimalAreas] = useState(false)
+  const [previewHour, setPreviewHour] = useState<number | null>(null)
   const [questDefsData, setQuestDefsData] = useState<QuestDefsJson | null>(
     () => QUEST_DEFS_BY_MAP[initialMapId] ? structuredClone(QUEST_DEFS_BY_MAP[initialMapId]!) : null,
   )
@@ -276,11 +279,15 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
         showBlockedPaths={showBlockedPaths}
         showAreas={showAreas}
         showInteractables={showInteractables}
+        showExitTiles={showExitTiles}
+        showAnimalAreas={showAnimalAreas}
+        previewHour={previewHour}
         drawerOpen={drawerOpen}
         hasDuplicateQuestIds={hasDuplicateQuestIds}
         configData={state.configData}
         previewFestivalId={state.previewFestivalId}
         onPreviewFestivalChange={setPreviewFestival}
+        onPreviewHourChange={setPreviewHour}
         onMapChange={setMapId}
         onToolChange={setTool}
         onUndo={undo}
@@ -291,6 +298,8 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
         onBlockedPathsToggle={() => setShowBlockedPaths(b => !b)}
         onAreasToggle={() => setShowAreas(a => !a)}
         onInteractablesToggle={() => setShowInteractables(i => !i)}
+        onExitTilesToggle={() => setShowExitTiles(e => !e)}
+        onAnimalAreasToggle={() => setShowAnimalAreas(a => !a)}
         onDrawerToggle={() => setDrawerOpen(o => !o)}
         questDefsData={questDefsData as Record<string, unknown> | null}
         onSaved={markSaved}
@@ -335,6 +344,9 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
             showBlockedPaths={showBlockedPaths}
             showAreas={showAreas}
             showInteractables={showInteractables}
+            showExitTiles={showExitTiles}
+            showAnimalAreas={showAnimalAreas}
+            previewHour={previewHour}
             blockedPaths={(questDefsData?.blockedPaths as RawBlockedPath[]) ?? []}
             selectedEntities={state.selectedEntities}
             viewMode={state.viewMode}
@@ -389,6 +401,13 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
                 const items = [...(prev.pickupItems ?? [])]
                 if (!items[index]) return prev
                 items[index] = { ...items[index], ...patch }
+                return { ...prev, pickupItems: items }
+              })}
+              onUpdatePickupExtraTiles={(index, extraTiles) => setQuestDefsData(prev => {
+                if (!prev) return prev
+                const items = [...(prev.pickupItems ?? [])]
+                if (!items[index]) return prev
+                items[index] = { ...items[index], extraTiles: extraTiles.length > 0 ? extraTiles : undefined }
                 return { ...prev, pickupItems: items }
               })}
               onDialogueChange={updateNpcDialogue}

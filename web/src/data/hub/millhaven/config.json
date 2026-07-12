@@ -1596,6 +1596,28 @@
             "tx": 23,
             "ty": 13
           }
+        },
+        {
+          "startHour": 20,
+          "endHour": 24,
+          "location": {
+            "type": "interior",
+            "buildingId": "inn-millhaven",
+            "tx": 5,
+            "ty": 3
+          },
+          "activity": "eat"
+        },
+        {
+          "startHour": 0,
+          "endHour": 6,
+          "location": {
+            "type": "interior",
+            "buildingId": "fishmonger",
+            "tx": 5,
+            "ty": 3
+          },
+          "activity": "sleep"
         }
       ],
       "favoriteGiftItemId": "fish-trophy",
@@ -3060,8 +3082,8 @@
     {
       "id": "kipper",
       "type": "cat",
-      "tx": 17,
-      "ty": 14,
+      "tx": 18,
+      "ty": 15,
       "variant": "orange",
       "name": "Kipper",
       "dialogue": [
@@ -3069,10 +3091,10 @@
       ],
       "roam": true,
       "areaRect": [
-        0,
-        0,
+        -5,
+        -5,
         10,
-        10
+        11
       ],
       "questGive": "kippers-kipper",
       "dialogueTree": "kipper-truth"

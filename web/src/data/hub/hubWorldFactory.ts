@@ -75,6 +75,9 @@ export interface RawQuestPickupItem {
   tx: number
   ty: number
   tileId: string
+  /** Extra visual-only tiles offset from (tx, ty) — e.g. a lantern split across
+   *  a top/bottom tile pair. Share the primary tile's collection/visibility. */
+  extraTiles?: Array<{ dx: number; dy: number; tileId: string }>
   questId?: string
   building?: string
   chain?: string

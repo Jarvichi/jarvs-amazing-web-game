@@ -560,9 +560,12 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
       const id = nextBuildingId(prevConfig.buildings ?? [])
       const rect: [number, number, number, number] = [tx1, ty1, tx2, ty2]
       const doorRelTx = Math.floor((tx2 - tx1) / 2)
+      // Relative to this single-rect building's origin (ox = tx1, oy = ty2), the
+      // south face — the only row that renders a visible door sprite — is at
+      // absolute ty2 + 1, i.e. relative ty = 1 (not 0, which sits on the wall itself).
       const newBuilding: RawBuilding = {
         id, rect, wall: 'brick' as WallMaterial, roof: 'redSlateRoof' as RoofMaterial,
-        doors: [{ tx: doorRelTx, ty: 0 }],
+        doors: [{ tx: doorRelTx, ty: 1 }],
       }
       const buildings = [...(prevConfig.buildings ?? []), newBuilding]
       const width  = Math.max(4, tx2 - tx1 + 1)
@@ -691,30 +694,47 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     })
   }, [])
 
-  const reorderDecor = useCallback((entity: SelectedEntity, direction: 'forward' | 'back') => {
+  const reorderDecor = useCallback((entity: SelectedEntity, direction: 'forward' | 'back' | 'toFront' | 'toBack') => {
     setState(s => {
       const prevConfig = s.configData
       const i = entity.index
-      const swapWith = direction === 'forward' ? i + 1 : i - 1
       let newConfig = prevConfig
 
+      // Moves the item at index `i` to index `dest` within `arr`, preserving the
+      // relative order of everything else (a swap only works for single-step moves).
+      const moveTo = <T,>(arr: T[], dest: number): T[] | null => {
+        if (dest < 0 || dest >= arr.length || dest === i) return null
+        const next = [...arr]
+        const [item] = next.splice(i, 1)
+        next.splice(dest, 0, item)
+        return next
+      }
+      const destOf = (len: number) => {
+        if (direction === 'forward') return i + 1
+        if (direction === 'back') return i - 1
+        if (direction === 'toFront') return len - 1
+        return 0
+      }
+
+      let dest = -1
       if (entity.type === 'exteriorDecor') {
-        const decor = [...(prevConfig.exteriorDecor ?? [])]
-        if (swapWith < 0 || swapWith >= decor.length) return s
-        ;[decor[i], decor[swapWith]] = [decor[swapWith], decor[i]]
+        const arr = prevConfig.exteriorDecor ?? []
+        dest = destOf(arr.length)
+        const decor = moveTo(arr, dest)
+        if (!decor) return s
         newConfig = { ...prevConfig, exteriorDecor: decor }
       } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
         const interior = prevConfig.interiors[entity.interiorId]
-        const decor = [...interior.decor]
-        if (swapWith < 0 || swapWith >= decor.length) return s
-        ;[decor[i], decor[swapWith]] = [decor[swapWith], decor[i]]
+        dest = destOf(interior.decor.length)
+        const decor = moveTo(interior.decor, dest)
+        if (!decor) return s
         newConfig = { ...prevConfig, interiors: { ...prevConfig.interiors, [entity.interiorId]: { ...interior, decor } } }
       } else {
         return s
       }
 
       const newSelected = s.selectedEntities.map(e =>
-        e.type === entity.type && e.index === i ? { ...e, index: swapWith } : e
+        e.type === entity.type && e.index === i ? { ...e, index: dest } : e
       )
       return {
         ...s,

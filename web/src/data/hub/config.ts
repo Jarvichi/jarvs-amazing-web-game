@@ -341,7 +341,7 @@ export interface RawAnimal {
   questGive?: string
   questReceive?: string | string[]
   roam?: boolean                     // default false for placed animals
-  areaRect?: number[]  // [tx, ty, w, h] roam bounds (JSON infers number[])
+  areaRect?: number[]  // [dx, dy, w, h] roam bounds, relative to this animal's own (tx, ty) (JSON infers number[])
   dialogueTree?: string              // id of a branching dialogue tree (questDefs.json `dialogues`)
 }
 

@@ -246,6 +246,8 @@ export function HubTownCanvas({
 
     // Keyed by pickupId; used to imperatively show/hide sprites when items are collected
     const pickupSprites  = new Map<string, PIXI.Sprite>()
+    // Supplementary visual-only tiles (pickup.extraTiles) — hidden/shown together with the primary sprite above.
+    const pickupExtraSprites = new Map<string, PIXI.Sprite[]>()
     const pickupQuestIds = new Map<string, string>()  // pickupId → questId, for ticker gating
 
     // Night-glow sources flagged on decor / quest items (carved by the night overlay).
@@ -344,7 +346,7 @@ export function HubTownCanvas({
         rect: [number, number, number, number],
         wall: WallMaterial,
         roof: RoofMaterial,
-        doors: { tx: number; ty: number }[],
+        doors: { tx: number; ty: number; hideSprite?: boolean }[],
         track: { buildingId: string; minLevel: number; nextLevel: number } | null,
         initiallyVisible: boolean,
       ) => {
@@ -379,7 +381,7 @@ export function HubTownCanvas({
         // Pass every door; placeBuildingTiles matches them to a footprint by
         // position (south edge), mirroring the original renderer — door buildingId
         // does not always equal the building's id, so we must not filter by id.
-        const doors = HUB_DOORS.map(d => ({ tx: d.tx, ty: d.ty }))
+        const doors = HUB_DOORS.map(d => ({ tx: d.tx, ty: d.ty, hideSprite: d.hideSprite }))
 
         // Distinct visual thresholds: base (0) plus each levelVisuals minLevel.
         const thresholds = [0, ...((building.levelVisuals ?? []).map(v => v.minLevel))]
@@ -984,10 +986,11 @@ export function HubTownCanvas({
             // Skip already-collected items; also skip chain items whose prerequisite isn't done
             if (pickedUpRef.current.has(pickup.id)) continue
             if (pickup.chain && !pickedUpRef.current.has(pickup.chain)) continue
+            const initiallyVisible = !pickup.questId || (activeQuestIdsRef?.current.has(pickup.questId) ?? true)
             const s = new PIXI.Sprite(tex)
             s.position.set(pickup.tx * T, pickup.ty * T)
             s.width = T; s.height = T
-            s.visible = !pickup.questId || (activeQuestIdsRef?.current.has(pickup.questId) ?? true)
+            s.visible = initiallyVisible
             if (pickup.questId) pickupQuestIds.set(pickup.id, pickup.questId)
             if (!pickup.requireTouch) {
               s.eventMode = 'static'
@@ -995,11 +998,15 @@ export function HubTownCanvas({
               s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
                 e.stopPropagation()
                 s.visible = false
+                for (const extra of pickupExtraSprites.get(pickup.id) ?? []) extra.visible = false
                 pickedUpRef.current.add(pickup.id)
                 // Reveal any chained item now that this one is collected
                 for (const [pid, sprite] of pickupSprites) {
                   const def = HUB_PICKUP_ITEMS.find(p => p.id === pid)
-                  if (def?.chain === pickup.id) sprite.visible = true
+                  if (def?.chain === pickup.id) {
+                    sprite.visible = true
+                    for (const extra of pickupExtraSprites.get(pid) ?? []) extra.visible = true
+                  }
                 }
                 onItemPickupRef.current?.(pickup.id, pickup.questId)
               })
@@ -1007,6 +1014,19 @@ export function HubTownCanvas({
             pickupLayer.addChild(s)
             pickupSprites.set(pickup.id, s)
             if (pickup.glow) pickupGlows.push({ id: pickup.id, radius: (pickup.glowRadius ?? 2) * T, pulse: !!pickup.pulse })
+            for (const extra of pickup.extraTiles ?? []) {
+              loadTileRef(extra.tileId).then(extraTex => {
+                if (app.renderer == null) return
+                const es = new PIXI.Sprite(extraTex)
+                es.position.set((pickup.tx + extra.dx) * T, (pickup.ty + extra.dy) * T)
+                es.width = T; es.height = T
+                es.visible = initiallyVisible && !pickedUpRef.current.has(pickup.id)
+                pickupLayer.addChild(es)
+                const list = pickupExtraSprites.get(pickup.id) ?? []
+                list.push(es)
+                pickupExtraSprites.set(pickup.id, list)
+              }).catch(() => {})
+            }
           }
         }).catch(() => {})
       }
@@ -1874,10 +1894,11 @@ export function HubTownCanvas({
             for (const pickup of pickups) {
               if (pickedUpRef.current.has(pickup.id)) continue
               if (pickup.chain && !pickedUpRef.current.has(pickup.chain)) continue
+              const initiallyVisible = !pickup.questId || (activeQuestIdsRef?.current.has(pickup.questId) ?? true)
               const s = new PIXI.Sprite(tex)
               s.position.set(pickup.tx * T, pickup.ty * T)
               s.width = T; s.height = T
-              s.visible = !pickup.questId || (activeQuestIdsRef?.current.has(pickup.questId) ?? true)
+              s.visible = initiallyVisible
               if (pickup.questId) pickupQuestIds.set(pickup.id, pickup.questId)
               if (!pickup.requireTouch) {
                 s.eventMode = 'static'
@@ -1885,17 +1906,34 @@ export function HubTownCanvas({
                 s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
                   e.stopPropagation()
                   s.visible = false
+                  for (const extra of pickupExtraSprites.get(pickup.id) ?? []) extra.visible = false
                   pickedUpRef.current.add(pickup.id)
                   // Reveal chained exterior pickups if applicable
                   for (const [pid, sprite] of pickupSprites) {
                     const def = HUB_PICKUP_ITEMS.find(p => p.id === pid)
-                    if (def?.chain === pickup.id) sprite.visible = true
+                    if (def?.chain === pickup.id) {
+                      sprite.visible = true
+                      for (const extra of pickupExtraSprites.get(pid) ?? []) extra.visible = true
+                    }
                   }
                   onItemPickupRef.current?.(pickup.id, pickup.questId)
                 })
               }
               decorBelowContainer.addChild(s)
               pickupSprites.set(pickup.id, s)
+              for (const extra of pickup.extraTiles ?? []) {
+                loadTileRef(extra.tileId).then(extraTex => {
+                  if (!interiorActive || currentInteriorId !== buildingId) return
+                  const es = new PIXI.Sprite(extraTex)
+                  es.position.set((pickup.tx + extra.dx) * T, (pickup.ty + extra.dy) * T)
+                  es.width = T; es.height = T
+                  es.visible = initiallyVisible && !pickedUpRef.current.has(pickup.id)
+                  decorBelowContainer.addChild(es)
+                  const list = pickupExtraSprites.get(pickup.id) ?? []
+                  list.push(es)
+                  pickupExtraSprites.set(pickup.id, list)
+                }).catch(() => {})
+              }
             }
           }).catch(() => {})
         }

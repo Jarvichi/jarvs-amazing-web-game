@@ -340,22 +340,22 @@
   "exitTiles": [
     {
       "tx": 36,
-      "ty": 67,
+      "ty": 69,
       "screen": "worldmap"
     },
     {
       "tx": 37,
-      "ty": 67,
+      "ty": 69,
       "screen": "worldmap"
     },
     {
       "tx": 38,
-      "ty": 67,
+      "ty": 69,
       "screen": "worldmap"
     },
     {
       "tx": 39,
-      "ty": 67,
+      "ty": 69,
       "screen": "worldmap"
     }
   ],
@@ -1137,17 +1137,17 @@
     {
       "rect": [
         39,
-        66,
+        65,
         40,
-        66
+        65
       ]
     },
     {
       "rect": [
         34,
-        66,
+        65,
         35,
-        66
+        65
       ]
     },
     {
@@ -2089,8 +2089,10 @@
       "doors": [
         {
           "tx": 6,
-          "ty": 0,
-          "buildingId": "town-hall"
+          "ty": -1,
+          "buildingId": "town-hall",
+          "tyAdjust": 1,
+          "hideSign": true
         }
       ],
       "windows": [
@@ -2380,9 +2382,11 @@
       "roof": "greySlateRoof",
       "doors": [
         {
-          "tx": 34,
-          "ty": 1,
-          "buildingId": "gatehouse-west"
+          "tx": 35,
+          "ty": -1,
+          "buildingId": "gatehouse-west",
+          "hideSign": true,
+          "hideSprite": true
         }
       ],
       "decor": [
@@ -2520,9 +2524,11 @@
       "roof": "greySlateRoof",
       "doors": [
         {
-          "tx": 0,
-          "ty": 1,
-          "buildingId": "gatehouse-east"
+          "tx": -1,
+          "ty": -1,
+          "buildingId": "gatehouse-east",
+          "hideSign": true,
+          "hideSprite": true
         }
       ],
       "decor": [
@@ -2660,8 +2666,8 @@
       "roof": "strawRoof",
       "doors": [
         {
-          "tx": 2,
-          "ty": -1
+          "tx": 3,
+          "ty": 1
         }
       ],
       "windows": [
@@ -2697,7 +2703,8 @@
           "zlayer": "solid"
         }
       ],
-      "requiresOwnership": true
+      "requiresOwnership": true,
+      "comment": "Lakeside Cottage"
     }
   ],
   "exteriorDecor": [
@@ -2939,7 +2946,8 @@
     {
       "tx": 46,
       "ty": 2,
-      "bundleID": "dark-tree"
+      "bundleID": "dark-tree",
+      "zlayer": "above"
     },
     {
       "tx": 68,
@@ -2959,11 +2967,6 @@
     {
       "tx": 61,
       "ty": 7,
-      "bundleID": "dark-tree"
-    },
-    {
-      "tx": 52,
-      "ty": 9,
       "bundleID": "dark-tree"
     },
     {
@@ -3028,6 +3031,12 @@
       "tx": 35,
       "ty": 32,
       "tileId": "darkTreeColumnRight"
+    },
+    {
+      "tx": 48,
+      "ty": 4,
+      "bundleID": "dark-tree",
+      "zlayer": "above"
     },
     {
       "tx": 34,
@@ -4377,37 +4386,37 @@
       "tx": 46,
       "ty": 3,
       "bundleID": "light-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 46,
       "ty": 4,
       "bundleID": "dark-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 46,
       "ty": 5,
       "bundleID": "light-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 46,
       "ty": 6,
       "bundleID": "dark-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 46,
       "ty": 7,
       "bundleID": "light-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 46,
       "ty": 8,
       "bundleID": "dark-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 63,
@@ -4470,6 +4479,12 @@
       "zlayer": "solid"
     },
     {
+      "tx": 49,
+      "ty": 4,
+      "tileId": "stoneWallTopBotton",
+      "zlayer": "solid"
+    },
+    {
       "tx": 62,
       "ty": 8,
       "tileId": "stoneWallLeftRight",
@@ -4527,7 +4542,7 @@
       "tx": 54,
       "ty": 9,
       "tileId": "darkBush",
-      "zlayer": "solid"
+      "zlayer": "below"
     },
     {
       "tx": 60,
@@ -4779,43 +4794,43 @@
       "tx": 44,
       "ty": 8,
       "bundleID": "light-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 44,
       "ty": 2,
       "bundleID": "light-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 44,
       "ty": 3,
       "bundleID": "dark-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 44,
       "ty": 4,
       "bundleID": "light-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 44,
       "ty": 5,
       "bundleID": "dark-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 44,
       "ty": 6,
       "bundleID": "light-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 44,
       "ty": 7,
       "bundleID": "dark-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 51,
@@ -4850,12 +4865,6 @@
     {
       "tx": 49,
       "ty": 5,
-      "tileId": "stoneWallTopBotton",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 49,
-      "ty": 4,
       "tileId": "stoneWallTopBotton",
       "zlayer": "solid"
     },
@@ -4981,7 +4990,7 @@
     },
     {
       "tx": 22,
-      "ty": 26,
+      "ty": 27,
       "bundleID": "dark-tree",
       "zlayer": "solid"
     },
@@ -5073,66 +5082,60 @@
       "tx": 52,
       "ty": 10,
       "bundleID": "light-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 50,
       "ty": 10,
       "bundleID": "dark-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
-      "tx": 50,
-      "ty": 9,
+      "tx": 48,
+      "ty": 6,
       "bundleID": "light-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 48,
       "ty": 10,
       "bundleID": "light-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 48,
-      "ty": 9,
+      "ty": 8,
       "bundleID": "dark-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 46,
       "ty": 9,
       "bundleID": "light-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 46,
       "ty": 10,
       "bundleID": "dark-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 44,
       "ty": 9,
       "bundleID": "dark-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 44,
       "ty": 10,
       "bundleID": "light-tree",
-      "zlayer": "solid"
+      "zlayer": "above"
     },
     {
       "tx": 53,
       "ty": 18,
       "tileId": "mushroomBasket",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 52,
-      "ty": 18,
-      "tileId": "crate",
       "zlayer": "solid"
     },
     {
@@ -8477,10 +8480,23 @@
     },
     "card-shop-bldg-1": {
       "name": "Stock Room",
-      "width": 11,
+      "width": 13,
       "height": 8,
       "floorTileId": "woodFloor",
-      "decor": [],
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 3,
+          "bundleID": "simple-bed",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 3,
+          "bundleID": "simple-bed",
+          "zlayer": "solid"
+        }
+      ],
       "exits": [
         {
           "tx": 5,
@@ -9036,8 +9052,8 @@
       "name": "Gildwyn",
       "sprite": "hub-npc-card-shop",
       "building": "card-shop",
-      "tx": 6,
-      "ty": 3,
+      "tx": 4,
+      "ty": 5,
       "screen": "shop-cards",
       "dialogue": [
         "Welcome to my emporium! Finest cards in the realm.",
@@ -9086,8 +9102,8 @@
       "name": "Vorn",
       "sprite": "hub-npc-vorn",
       "building": "card-shop",
-      "tx": 6,
-      "ty": 3,
+      "tx": 8,
+      "ty": 5,
       "screen": "shop-cards",
       "dialogue": [
         "I only come out at night. And I only deal in the extraordinary.",
@@ -9112,8 +9128,8 @@
           "activity": "sleep",
           "location": {
             "type": "interior",
-            "buildingId": "inn-building-upstairs",
-            "tx": 6,
+            "buildingId": "card-shop-bldg",
+            "tx": 1,
             "ty": 1
           }
         }
@@ -9134,8 +9150,8 @@
       "name": "Mira the Enchantress",
       "sprite": "hub-npc-augment-shop",
       "building": "augment-shop",
-      "tx": 3,
-      "ty": 1,
+      "tx": 7,
+      "ty": 5,
       "screen": "shop-augments",
       "dialogue": [
         "Enchantments can turn the tide of battle. Let me show you.",
@@ -10492,7 +10508,7 @@
     {
       "id": "ravenwatch-secret-pond-note",
       "tx": 54,
-      "ty": 52,
+      "ty": 51,
       "reactions": [
         {
           "type": "dialogue",
@@ -10601,8 +10617,8 @@
     },
     {
       "id": "card-shop-item-0",
-      "tx": 12,
-      "ty": 4,
+      "tx": 2,
+      "ty": 6,
       "building": "card-shop",
       "decor": [
         {
@@ -10620,8 +10636,8 @@
     },
     {
       "id": "card-shop-item-1",
-      "tx": 12,
-      "ty": 5,
+      "tx": 10,
+      "ty": 4,
       "building": "card-shop",
       "decor": [
         {
@@ -10639,7 +10655,7 @@
     },
     {
       "id": "card-shop-item-2",
-      "tx": 12,
+      "tx": 10,
       "ty": 6,
       "building": "card-shop",
       "decor": [
@@ -10658,8 +10674,8 @@
     },
     {
       "id": "card-shop-pack",
-      "tx": 12,
-      "ty": 7,
+      "tx": 2,
+      "ty": 4,
       "building": "card-shop",
       "decor": [
         {
@@ -10676,8 +10692,8 @@
     },
     {
       "id": "augment-shop-item-0",
-      "tx": 8,
-      "ty": 4,
+      "tx": 3,
+      "ty": 2,
       "building": "augment-shop",
       "decor": [
         {
@@ -10829,8 +10845,8 @@
     },
     {
       "id": "interactable-1783854145276",
-      "tx": 34,
-      "ty": 15,
+      "tx": 39,
+      "ty": 13,
       "decor": [
         {
           "dx": 0,
@@ -10841,6 +10857,25 @@
       "reactions": [
         {
           "type": "forage"
+        }
+      ]
+    },
+    {
+      "id": "interactable-1783855868980",
+      "tx": 52,
+      "ty": 18,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "crate",
+          "zlayer": "solid"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "What's in the box?"
         }
       ]
     }

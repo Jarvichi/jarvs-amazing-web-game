@@ -14,6 +14,9 @@ import type { AnimalType } from '../../game/hub/animals'
 import { BUILDING_MUSIC_IDS, AMBIANCE_IDS } from '../../game/sound'
 import { getUpgradeTrack, UPGRADE_CATALOG } from '../../data/hub/buildingUpgrades'
 import type { BundleTileRaw } from '../../data/bundles/bundleEditorApi'
+import type { NpcActivity } from '../../data/hub/loader'
+
+type ReorderDirection = 'forward' | 'back' | 'toFront' | 'toBack'
 
 /** Swap two elements' positions, returning a new array. */
 function swap<T>(arr: T[], i: number, j: number): T[] {
@@ -83,6 +86,7 @@ interface Props {
   onZlayerChange:        (entity: SelectedEntity, z: Zlayer) => void
   onUpdateGlow?:         (entity: SelectedEntity, patch: GlowPatch) => void
   onUpdatePickupGlow?:   (index: number, patch: GlowPatch) => void
+  onUpdatePickupExtraTiles?: (index: number, tiles: Array<{ dx: number; dy: number; tileId: string }>) => void
   onDialogueChange:      (index: number, dialogue: string[]) => void
   onOpenInterior:        (id: string) => void
   onCloseInterior:       () => void
@@ -123,7 +127,7 @@ interface Props {
   onBatchUpdateStreetPathType?: (entities: SelectedEntity[], pathType: string | undefined) => void
   onSaveAsBundle?:              (bundleId: string, tiles: BundleTileRaw[]) => Promise<void>
   onUpdateDecorTileId?:         (entity: SelectedEntity, tileId: string) => void
-  onReorderDecor?:              (entity: SelectedEntity, direction: 'forward' | 'back') => void
+  onReorderDecor?:              (entity: SelectedEntity, direction: ReorderDirection) => void
   onConvertDecorToInteractable?: (entity: SelectedEntity) => void
   onConvertStreetToPond?:       (index: number) => void
   onConvertPondToStreet?:       (index: number) => void
@@ -343,7 +347,7 @@ function GlowControls({ glow, glowRadius, pulse, onChange }: {
 }
 
 function DecorInspector({
-  item, entity, onMove, onZlayer, onGlow, onDelete, onMinLevel, onHideAtLevel, maxLevel, onTileChange, onReorder, onConvertToInteractable,
+  item, entity, onMove, onZlayer, onGlow, onDelete, onMinLevel, onHideAtLevel, maxLevel, onTileChange, onReorder, listLength, onConvertToInteractable,
 }: {
   item: RawDecorItem
   entity: SelectedEntity
@@ -355,7 +359,9 @@ function DecorInspector({
   onHideAtLevel?: (hideAtLevel: number | undefined) => void
   maxLevel?: number
   onTileChange?: (tileId: string) => void
-  onReorder?: (direction: 'forward' | 'back') => void
+  onReorder?: (direction: ReorderDirection) => void
+  /** Length of the decor array this item lives in — used to show its z-order position. */
+  listLength?: number
   onConvertToInteractable?: () => void
 }) {
   const [pickingTile, setPickingTile] = useState(false)
@@ -442,20 +448,42 @@ function DecorInspector({
       {onGlow && <GlowControls glow={item.glow} glowRadius={item.glowRadius} pulse={item.pulse} onChange={onGlow} />}
       {onReorder && (
         <Field label="Draw Order">
-          <div style={{ display: 'flex', gap: 4 }}>
+          {listLength != null && (
+            <div style={{ fontSize: 11, color: '#aaa', marginBottom: 4 }}>
+              Layer <span style={{ color: '#f0c040', fontFamily: 'monospace' }}>{entity.index + 1}</span> of {listLength}
+              {' '}({entity.index === 0 ? 'back-most' : entity.index === listLength - 1 ? 'front-most' : 'middle'})
+            </div>
+          )}
+          <div style={{ display: 'flex', gap: 4, marginBottom: 4 }}>
             <button
               onClick={() => onReorder('back')}
-              title="Draw behind (move earlier in list)"
+              title="Draw behind (move one step earlier)"
               style={{ flex: 1, padding: '4px 0', background: '#1e2a1e', border: '1px solid #3a5a3a', color: '#8d8', borderRadius: 3, fontSize: 11, cursor: 'pointer' }}
             >
               ↓ Send Back
             </button>
             <button
               onClick={() => onReorder('forward')}
-              title="Draw in front (move later in list)"
+              title="Draw in front (move one step later)"
               style={{ flex: 1, padding: '4px 0', background: '#1e2a4e', border: '1px solid #3a5a8e', color: '#8af', borderRadius: 3, fontSize: 11, cursor: 'pointer' }}
             >
               ↑ Bring Forward
+            </button>
+          </div>
+          <div style={{ display: 'flex', gap: 4 }}>
+            <button
+              onClick={() => onReorder('toBack')}
+              title="Push to the very back (lowest layer)"
+              style={{ flex: 1, padding: '4px 0', background: '#141e14', border: '1px solid #2a3a2a', color: '#6a6', borderRadius: 3, fontSize: 10, cursor: 'pointer' }}
+            >
+              ⇊ Push to Back
+            </button>
+            <button
+              onClick={() => onReorder('toFront')}
+              title="Bring to the very front (highest layer)"
+              style={{ flex: 1, padding: '4px 0', background: '#141e30', border: '1px solid #2a3a5a', color: '#69c', borderRadius: 3, fontSize: 10, cursor: 'pointer' }}
+            >
+              ⇈ Bring to Front
             </button>
           </div>
         </Field>
@@ -530,6 +558,17 @@ function NpcInspector({
         />
         <div style={{ color: '#666', fontSize: 10, marginTop: 2 }}>One line = one dialogue entry</div>
       </Field>
+      <Field label="Screen">
+        <input
+          type="text"
+          value={npc.screen ?? ''}
+          placeholder="e.g. adopt-pet"
+          onChange={e => onUpdate({ screen: e.target.value || undefined })}
+          style={{ width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 12, boxSizing: 'border-box' }}
+        />
+        <div style={{ color: '#666', fontSize: 10, marginTop: 2 }}>Opens a screen/modal (e.g. 'adopt-pet') via a dialogue choice, in addition to dialogue.</div>
+      </Field>
+      <NpcScheduleEditor npc={npc} buildingIds={buildingIds} onUpdate={onUpdate} />
       <Field label="Min Building Level">
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
           <input
@@ -585,6 +624,98 @@ function NpcInspector({
         Delete NPC
       </button>
     </div>
+  )
+}
+
+const NPC_ACTIVITIES: NpcActivity[] = ['work', 'eat', 'idle-chat', 'sleep', 'sweep', 'fish']
+
+type NpcScheduleEntry = NonNullable<RawNpc['schedule']>[number]
+
+function NpcScheduleEditor({
+  npc, buildingIds, onUpdate,
+}: {
+  npc: RawNpc
+  buildingIds: string[]
+  onUpdate: (partial: Partial<RawNpc>) => void
+}) {
+  const inp: React.CSSProperties = {
+    background: '#111', border: '1px solid #444', color: '#eee',
+    borderRadius: 3, fontSize: 11, padding: '3px 5px', boxSizing: 'border-box',
+  }
+  const addBtn: React.CSSProperties = { padding: '2px 8px', background: '#1e2e1e', border: '1px solid #3a5a3a', color: '#6d6', borderRadius: 3, fontSize: 10, cursor: 'pointer', alignSelf: 'flex-start' }
+  const delBtn: React.CSSProperties = { padding: '2px 6px', background: '#3a1a1a', border: '1px solid #622', color: '#f88', borderRadius: 3, fontSize: 10, cursor: 'pointer' }
+
+  const entries = npc.schedule ?? []
+  const setEntries = (next: NpcScheduleEntry[]) => onUpdate({ schedule: next.length ? next : undefined })
+  const updateEntry = (i: number, partial: Partial<NpcScheduleEntry>) =>
+    setEntries(entries.map((e, j) => j === i ? { ...e, ...partial } : e))
+
+  return (
+    <Field label="Schedule">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {entries.map((entry, i) => (
+          <div key={i} style={{ border: '1px solid #333', borderRadius: 4, padding: 6, background: '#181818' }}>
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginBottom: 4 }}>
+              <label style={{ fontSize: 10, color: '#888' }}>Start</label>
+              <input type="number" min={0} max={23} value={entry.startHour} style={{ ...inp, width: 44 }}
+                onChange={e => updateEntry(i, { startHour: Number(e.target.value) })} />
+              <label style={{ fontSize: 10, color: '#888' }}>End</label>
+              <input type="number" min={0} max={24} value={entry.endHour} style={{ ...inp, width: 44 }}
+                onChange={e => updateEntry(i, { endHour: Number(e.target.value) })} />
+              <select value={entry.activity ?? ''} style={{ ...inp, flex: 1 }}
+                onChange={e => updateEntry(i, { activity: (e.target.value || undefined) as NpcActivity | undefined })}>
+                <option value="">— activity —</option>
+                {NPC_ACTIVITIES.map(a => <option key={a} value={a}>{a}</option>)}
+              </select>
+              <button style={delBtn} onClick={() => setEntries(entries.filter((_, j) => j !== i))}>✕</button>
+            </div>
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+              <select
+                value={entry.location.type}
+                style={{ ...inp, width: 76 }}
+                onChange={e => {
+                  const type = e.target.value as 'exterior' | 'interior'
+                  updateEntry(i, {
+                    location: type === 'exterior'
+                      ? { type: 'exterior', tx: entry.location.tx, ty: entry.location.ty }
+                      : { type: 'interior', buildingId: buildingIds[0] ?? '', tx: entry.location.tx, ty: entry.location.ty },
+                  })
+                }}
+              >
+                <option value="exterior">exterior</option>
+                <option value="interior">interior</option>
+              </select>
+              {entry.location.type === 'interior' && (
+                <select
+                  value={entry.location.buildingId}
+                  style={{ ...inp, flex: 1 }}
+                  onChange={e => updateEntry(i, { location: { ...entry.location, type: 'interior', buildingId: e.target.value } as NpcScheduleEntry['location'] })}
+                >
+                  {buildingIds.map(id => <option key={id} value={id}>{id}</option>)}
+                </select>
+              )}
+              <label style={{ fontSize: 10, color: '#888' }}>X</label>
+              <input type="number" value={entry.location.tx} style={{ ...inp, width: 44 }}
+                onChange={e => updateEntry(i, { location: { ...entry.location, tx: Number(e.target.value) } as NpcScheduleEntry['location'] })} />
+              <label style={{ fontSize: 10, color: '#888' }}>Y</label>
+              <input type="number" value={entry.location.ty} style={{ ...inp, width: 44 }}
+                onChange={e => updateEntry(i, { location: { ...entry.location, ty: Number(e.target.value) } as NpcScheduleEntry['location'] })} />
+            </div>
+          </div>
+        ))}
+        <button
+          style={addBtn}
+          onClick={() => setEntries([...entries, {
+            startHour: 8, endHour: 12, location: { type: 'exterior', tx: npc.tx, ty: npc.ty },
+          }])}
+        >
+          + Add schedule entry
+        </button>
+      </div>
+      <div style={{ color: '#666', fontSize: 10, marginTop: 3 }}>
+        Time-of-day locations (interior entries can move this NPC inside a building). Use the toolbar's preview-hour control to see this rendered on the canvas.
+      </div>
+    </Field>
   )
 }
 
@@ -667,9 +798,9 @@ function AnimalInspector({
         />
       </Field>
       {animal.roam && (
-        <Field label="Area Rect">
+        <Field label="Wander Area (offset from this animal)">
           <div style={{ display: 'flex', gap: 4 }}>
-            {(['x', 'y', 'w', 'h'] as const).map((k, ki) => (
+            {(['dx', 'dy', 'w', 'h'] as const).map((k, ki) => (
               <input
                 key={k}
                 type="number"
@@ -766,6 +897,40 @@ function QuestItemInspector({
         Delete {label}
       </button>
     </div>
+  )
+}
+
+/** Editable list of supplementary visual-only tiles offset from a parent
+ *  item's anchor — e.g. a pickup's extraTiles (a lantern's second tile). */
+function ExtraTilesEditor({ tiles, onChange }: {
+  tiles: Array<{ dx: number; dy: number; tileId: string }>
+  onChange: (tiles: Array<{ dx: number; dy: number; tileId: string }>) => void
+}) {
+  const [pickingIndex, setPickingIndex] = useState<number | null>(null)
+  const numSm: React.CSSProperties = { width: 44, padding: '2px 4px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }
+  return (
+    <Field label={`Extra tiles (${tiles.length}) — offset from anchor`}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+        {tiles.map((t, i) => (
+          <div key={i} style={{ background: '#16161e', border: '1px solid #2a2a3a', borderRadius: 3, padding: 4 }}>
+            <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+              <div onClick={() => setPickingIndex(p => p === i ? null : i)} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                <TilePreview tileId={t.tileId} /><span style={{ fontSize: 10, color: '#666' }}>✎</span>
+              </div>
+              <label style={{ fontSize: 9, color: '#888' }}>dx</label>
+              <input type="number" style={numSm} value={t.dx} onChange={e => onChange(tiles.map((x, j) => j === i ? { ...x, dx: Number(e.target.value) } : x))} />
+              <label style={{ fontSize: 9, color: '#888' }}>dy</label>
+              <input type="number" style={numSm} value={t.dy} onChange={e => onChange(tiles.map((x, j) => j === i ? { ...x, dy: Number(e.target.value) } : x))} />
+              <button style={{ marginLeft: 'auto', padding: '1px 5px', background: '#4a1a1a', border: '1px solid #922', color: '#f88', borderRadius: 3, fontSize: 10, cursor: 'pointer' }}
+                onClick={() => onChange(tiles.filter((_, j) => j !== i))}>✕</button>
+            </div>
+            {pickingIndex === i && <TilePicker current={t.tileId} onChange={tileId => onChange(tiles.map((x, j) => j === i ? { ...x, tileId } : x))} onClose={() => setPickingIndex(null)} />}
+          </div>
+        ))}
+        <button style={{ padding: '2px 8px', background: '#1e2e1e', border: '1px solid #3a5a3a', color: '#6d6', borderRadius: 3, fontSize: 10, cursor: 'pointer', alignSelf: 'flex-start' }}
+          onClick={() => onChange([...tiles, { dx: 0, dy: 1, tileId: 'signpost' }])}>+ Add tile</button>
+      </div>
+    </Field>
   )
 }
 
@@ -930,6 +1095,14 @@ function BuildingInspector({
           <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{building.id}</span>
         </Field>
       )}
+      <Field label="Name (authoring only, not shown to players)">
+        <input
+          style={inputStyle}
+          value={building.comment ?? ''}
+          placeholder="e.g. Blacksmith's forge"
+          onChange={e => onUpdateBuilding(buildingIndex, { comment: e.target.value || undefined })}
+        />
+      </Field>
       <Field label="Rect">
         <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>
           ({tx1},{ty1}) → ({tx2},{ty2}) — {tx2 - tx1 + 1}×{ty2 - ty1 + 1} tiles
@@ -965,6 +1138,40 @@ function BuildingInspector({
           Multi-rect buildings can't be resized here — edit the rects directly in JSON.
         </div>
       )}
+
+      {/* ── Doors list ──────────────────────────────────────────────────── */}
+      <Field label={`Doors (${(building.doors ?? []).length})`}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          {(building.doors ?? []).map((d, i) => {
+            const doorRects = (building.rects ?? (building.rect ? [building.rect] : [])) as [number, number, number, number][]
+            const doorOx = Math.min(...doorRects.map(r => r[0]))
+            const doorOy = Math.max(...doorRects.map(r => r[3]))
+            const doorAbsTx = doorOx + d.tx
+            const doorAbsTy = doorOy + d.ty
+            return (
+              <div key={i} style={{ display: 'flex', gap: 4, alignItems: 'center', background: '#16161e', border: '1px solid #2a2a3a', borderRadius: 3, padding: 4 }}>
+                <label style={{ fontSize: 9, color: '#888' }}>X</label>
+                <input type="number" style={numStyle} value={doorAbsTx} onChange={e => {
+                  const doors = (building.doors ?? []).map((x, j) => j === i ? { ...x, tx: Number(e.target.value) - doorOx } : x)
+                  onUpdateBuilding(buildingIndex, { doors })
+                }} />
+                <label style={{ fontSize: 9, color: '#888' }}>Y</label>
+                <input type="number" style={numStyle} value={doorAbsTy} onChange={e => {
+                  const doors = (building.doors ?? []).map((x, j) => j === i ? { ...x, ty: Number(e.target.value) - doorOy } : x)
+                  onUpdateBuilding(buildingIndex, { doors })
+                }} />
+                <button
+                  style={{ marginLeft: 'auto', padding: '1px 5px', background: '#4a1a1a', border: '1px solid #922', color: '#f88', borderRadius: 3, fontSize: 10, cursor: 'pointer' }}
+                  onClick={() => onUpdateBuilding(buildingIndex, { doors: (building.doors ?? []).filter((_, j) => j !== i) })}
+                >✕</button>
+              </div>
+            )
+          })}
+          <div style={{ color: '#666', fontSize: 9 }}>
+            Place tool + no tile selected, click a wall tile to add a door — the sprite (if shown) renders one tile north of it; hidden doors are marked with 🚪 here.
+          </div>
+        </div>
+      </Field>
 
       {/* ── Upgrade levels ─────────────────────────────────────────────── */}
       <div style={{ borderTop: '1px solid #333', marginTop: 4, paddingTop: 10 }}>
@@ -1179,7 +1386,7 @@ function InteriorInspector({
   onMoveEntity: (entity: SelectedEntity, tx: number, ty: number) => void
   onZlayerChange: (entity: SelectedEntity, z: Zlayer) => void
   onDelete: (entity: SelectedEntity) => void
-  onReorderInteriorDecor?: (entity: SelectedEntity, direction: 'forward' | 'back') => void
+  onReorderInteriorDecor?: (entity: SelectedEntity, direction: ReorderDirection) => void
   onUpdateDecorTileId?: (entity: SelectedEntity, tileId: string) => void
 }) {
   const [showExitForm, setShowExitForm] = useState(false)
@@ -1453,6 +1660,7 @@ function InteriorInspector({
               onDelete={() => onDelete(selectedEntity)}
               onTileChange={onUpdateDecorTileId ? tileId => onUpdateDecorTileId(selectedEntity, tileId) : undefined}
               onReorder={onReorderInteriorDecor ? dir => onReorderInteriorDecor(selectedEntity, dir) : undefined}
+              listLength={interior.decor.length}
             />
           </div>
         )}
@@ -1834,9 +2042,15 @@ function InteractableInspector({ it, onUpdate, onMove, onDelete, onPick, buildin
           {decor.map((d, i) => (
             <div key={i} style={{ background: '#16161e', border: '1px solid #2a2a3a', borderRadius: 3, padding: 4 }}>
               <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
-                <div onClick={() => setPickingDecor(p => p === i ? null : i)} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                  <TilePreview tileId={d.tileId} /><span style={{ fontSize: 10, color: '#666' }}>✎</span>
-                </div>
+                {d.shopArtSlot != null ? (
+                  <span style={{ fontSize: 10, color: '#8af', whiteSpace: 'nowrap' }} title="Renders today's live shop-stock art at runtime — not previewable here">🛒 shop slot #{d.shopArtSlot}</span>
+                ) : d.spriteId != null ? (
+                  <span style={{ fontSize: 10, color: '#8af', whiteSpace: 'nowrap' }} title={`web/public/sprites/${d.spriteId}.svg`}>🖼 {d.spriteId}</span>
+                ) : (
+                  <div onClick={() => setPickingDecor(p => p === i ? null : i)} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                    <TilePreview tileId={d.tileId ?? ''} /><span style={{ fontSize: 10, color: '#666' }}>✎</span>
+                  </div>
+                )}
                 <label style={{ fontSize: 9, color: '#888' }}>dx</label>
                 <input type="number" style={numSm} value={d.dx} onChange={e => onUpdate({ decor: decor.map((x, j) => j === i ? { ...x, dx: Number(e.target.value) } : x) })} />
                 <label style={{ fontSize: 9, color: '#888' }}>dy</label>
@@ -1844,7 +2058,9 @@ function InteractableInspector({ it, onUpdate, onMove, onDelete, onPick, buildin
                 <button style={{ marginLeft: 'auto', padding: '1px 5px', background: '#4a1a1a', border: '1px solid #922', color: '#f88', borderRadius: 3, fontSize: 10, cursor: 'pointer' }}
                   onClick={() => onUpdate({ decor: decor.filter((_, j) => j !== i) })}>✕</button>
               </div>
-              {pickingDecor === i && <TilePicker current={d.tileId} onChange={tileId => onUpdate({ decor: decor.map((x, j) => j === i ? { ...x, tileId } : x) })} onClose={() => setPickingDecor(null)} />}
+              {pickingDecor === i && d.shopArtSlot == null && d.spriteId == null && (
+                <TilePicker current={d.tileId ?? ''} onChange={tileId => onUpdate({ decor: decor.map((x, j) => j === i ? { ...x, tileId } : x) })} onClose={() => setPickingDecor(null)} />
+              )}
               <div style={{ display: 'flex', gap: 4, alignItems: 'center', marginTop: 4 }}>
                 {(['solid', 'below', 'above'] as const).map(z => (
                   <button
@@ -2403,7 +2619,7 @@ function SpawnTileInspector({
 export function EntityInspector({
   selectedEntities, mapId, configData, activeInteriorId, activeBuildingIndex, activeLevel, viewMode,
   onSetActiveLevel, onUpdateBuilding, onResizeBuilding, onUpdateBuildingLevelVisual, onUpdateDecorMinLevel, onUpdateDecorHideAtLevel,
-  onDelete, onMoveEntity, onZlayerChange, onUpdateGlow, onUpdatePickupGlow, onDialogueChange,
+  onDelete, onMoveEntity, onZlayerChange, onUpdateGlow, onUpdatePickupGlow, onUpdatePickupExtraTiles, onDialogueChange,
   onOpenInterior, onCloseInterior, onOpenBuildingEditor, onCloseBuildingEditor, onUpdateStreetEntry,
   onResizeInterior, onAddInterior, onAddInteriorExit, onUpdateInteriorProps, onUpdateInteriorExit,
   onRemoveInteriorExit,
@@ -2485,9 +2701,14 @@ export function EntityInspector({
     )
   }
 
-  const isQuestItemSelected = selectedEntity?.type === 'treasure'
+  // Entity types with their own dedicated inspector panel below — selecting one
+  // of these inside an interior should reach that panel instead of the interior
+  // overview (InteriorInspector) that would otherwise swallow the selection.
+  const hasOwnInspectorPanel = selectedEntity?.type === 'treasure'
     || selectedEntity?.type === 'pickupItem'
     || selectedEntity?.type === 'animal'
+    || selectedEntity?.type === 'npc'
+    || selectedEntity?.type === 'interactable'
 
   if (viewMode === 'building' && activeBuildingIndex != null) {
     const b = (configData.buildings ?? [])[activeBuildingIndex]
@@ -2534,6 +2755,7 @@ export function EntityInspector({
           onHideAtLevel={v => onUpdateDecorHideAtLevel(sel, v)}
           onTileChange={onUpdateDecorTileId ? (tid: string) => onUpdateDecorTileId(sel, tid) : undefined}
           onReorder={onReorderDecor ? dir => onReorderDecor(sel, dir) : undefined}
+          listLength={b?.decor?.length}
           onDelete={() => onDelete(sel)}
         />
       )
@@ -2550,6 +2772,7 @@ export function EntityInspector({
           onHideAtLevel={v => onUpdateDecorHideAtLevel(sel, v)}
           onTileChange={onUpdateDecorTileId ? (tid: string) => onUpdateDecorTileId(sel, tid) : undefined}
           onReorder={onReorderDecor ? dir => onReorderDecor(sel, dir) : undefined}
+          listLength={b?.levelDecor?.length}
           onDelete={() => onDelete(sel)}
         />
       )
@@ -2608,7 +2831,7 @@ export function EntityInspector({
               {numInput(absTy, ty => onMoveEntity(sel, absTx, ty))}
             </div>
             <div style={{ color: '#666', fontSize: 9, marginTop: 2 }}>
-              Only doors on a building's south face get a visible sprite — elsewhere the door is an invisible walk-in trigger.
+              (X, Y) is where the player walks in. The door sprite (if shown) always renders one tile north of it.
             </div>
           </Field>
           <Field label="Links to interior (optional)">
@@ -2618,6 +2841,26 @@ export function EntityInspector({
               placeholder="Search buildings…"
               onChange={v => onUpdateBuilding(activeBuildingIndex, { doors: (b.doors ?? []).map((x, i) => i === sel.index ? { ...x, buildingId: v || undefined } : x) })}
             />
+          </Field>
+          <Field label="Appearance">
+            <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontSize: 11 }}>
+              <input
+                type="checkbox"
+                checked={!d.hideSprite}
+                onChange={e => onUpdateBuilding(activeBuildingIndex, { doors: (b.doors ?? []).map((x, i) => i === sel.index ? { ...x, hideSprite: e.target.checked ? undefined : true } : x) })}
+              />
+              Show door sprite
+            </label>
+            {!d.hideSprite && (
+              <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontSize: 11, marginTop: 4 }}>
+                <input
+                  type="checkbox"
+                  checked={!d.hideSign}
+                  onChange={e => onUpdateBuilding(activeBuildingIndex, { doors: (b.doors ?? []).map((x, i) => i === sel.index ? { ...x, hideSign: e.target.checked ? undefined : true } : x) })}
+                />
+                Show door sign
+              </label>
+            )}
           </Field>
           <button
             onClick={() => onDelete(sel)}
@@ -2637,16 +2880,50 @@ export function EntityInspector({
         </div>
         <div style={bodyStyle}>
           <div style={{ color: '#777', fontSize: 10, marginBottom: 8 }}>
-            Select tool to select/delete items. Place tool + tile to add decor, or no tile selected to toggle a door (any tile — only south-face doors get a visible sprite). Window tool + tile places a window.
+            Select tool to select/delete items. Place tool + tile to add decor, or no tile selected to toggle a door (any tile — shows a sprite one tile north by default; toggle it off in the door's inspector for a hidden trigger, marked with 🚪). Window tool + tile places a window.
           </div>
           {levelSlider}
+          {b && (
+            <Field label={`Doors (${(b.doors ?? []).length})`}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                {(b.doors ?? []).map((d, i) => {
+                  const doorRects = (b.rects ?? (b.rect ? [b.rect] : [])) as [number, number, number, number][]
+                  const doorOx = Math.min(...doorRects.map(r => r[0]))
+                  const doorOy = Math.max(...doorRects.map(r => r[3]))
+                  const doorAbsTx = doorOx + d.tx
+                  const doorAbsTy = doorOy + d.ty
+                  const isThisSel = sel?.type === 'buildingDoor' && sel.index === i
+                  return (
+                    <div key={i} style={{ display: 'flex', gap: 4, alignItems: 'center', background: isThisSel ? '#2a2410' : '#16161e', border: isThisSel ? '1px solid #f0c040' : '1px solid #2a2a3a', borderRadius: 3, padding: 4 }}>
+                      <label style={{ fontSize: 9, color: '#888' }}>X</label>
+                      <input type="number" style={{ width: 44, padding: '2px 4px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }} value={doorAbsTx} onChange={e => {
+                        const doors = (b.doors ?? []).map((x, j) => j === i ? { ...x, tx: Number(e.target.value) - doorOx } : x)
+                        onUpdateBuilding(activeBuildingIndex, { doors })
+                      }} />
+                      <label style={{ fontSize: 9, color: '#888' }}>Y</label>
+                      <input type="number" style={{ width: 44, padding: '2px 4px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }} value={doorAbsTy} onChange={e => {
+                        const doors = (b.doors ?? []).map((x, j) => j === i ? { ...x, ty: Number(e.target.value) - doorOy } : x)
+                        onUpdateBuilding(activeBuildingIndex, { doors })
+                      }} />
+                      {d.buildingId && <span style={{ fontSize: 9, color: '#666', marginLeft: 4 }}>→ {d.buildingId}</span>}
+                      <button
+                        style={{ marginLeft: 'auto', padding: '1px 5px', background: '#4a1a1a', border: '1px solid #922', color: '#f88', borderRadius: 3, fontSize: 10, cursor: 'pointer' }}
+                        onClick={() => onUpdateBuilding(activeBuildingIndex, { doors: (b.doors ?? []).filter((_, j) => j !== i) })}
+                      >✕</button>
+                    </div>
+                  )
+                })}
+                {(b.doors ?? []).length === 0 && <div style={{ color: '#666', fontSize: 10 }}>No doors yet.</div>}
+              </div>
+            </Field>
+          )}
           {body}
         </div>
       </div>
     )
   }
 
-  if (viewMode === 'interior' && activeInteriorId && !isQuestItemSelected) {
+  if (viewMode === 'interior' && activeInteriorId && !hasOwnInspectorPanel) {
     const interior = configData.interiors?.[activeInteriorId]
     // Resolve the owning building so the level stepper matches what's reachable in-game.
     const ownerBuilding = (configData.buildings ?? []).find(b => {
@@ -2740,6 +3017,7 @@ export function EntityInspector({
             onDelete={() => onDelete(selectedEntity)}
             onTileChange={onUpdateDecorTileId ? tileId => onUpdateDecorTileId(selectedEntity, tileId) : undefined}
             onReorder={onReorderDecor ? dir => onReorderDecor(selectedEntity, dir) : undefined}
+            listLength={items.length}
             onConvertToInteractable={onConvertDecorToInteractable ? () => onConvertDecorToInteractable(selectedEntity) : undefined}
           />
         </div>
@@ -2864,6 +3142,12 @@ export function EntityInspector({
             <GlowControls
               glow={p.glow} glowRadius={p.glowRadius} pulse={p.pulse}
               onChange={patch => onUpdatePickupGlow(selectedEntity.index, patch)}
+            />
+          )}
+          {onUpdatePickupExtraTiles && (
+            <ExtraTilesEditor
+              tiles={p.extraTiles ?? []}
+              onChange={tiles => onUpdatePickupExtraTiles(selectedEntity.index, tiles)}
             />
           )}
         </div>
