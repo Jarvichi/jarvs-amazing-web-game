@@ -181,8 +181,8 @@ export function MapEditorCanvas(props: Props) {
         dragRef.current = {
           entities: dragEntities.map(ent => ({
             entity: ent,
-            offsetX: anchorTx - getEntityTx(cfg, ent, propsRef.current.questPickupItems),
-            offsetY: anchorTy - getEntityTy(cfg, ent, propsRef.current.questPickupItems),
+            offsetX: anchorTx - getEntityTx(cfg, ent, propsRef.current.questPickupItems, propsRef.current.previewHour),
+            offsetY: anchorTy - getEntityTy(cfg, ent, propsRef.current.questPickupItems, propsRef.current.previewHour),
           })),
           lastTx: anchorTx, lastTy: anchorTy,
         }
@@ -430,6 +430,9 @@ export function MapEditorCanvas(props: Props) {
       catcher.eventMode = 'static'
       catcher.cursor = 'crosshair'
       catcher.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+        // Without this the event bubbles up to the top-level stage pointerdown
+        // handler (pick-mode is also handled there), firing onPickTile twice.
+        e.stopPropagation()
         const { x: ox, y: oy } = worldOriginRef.current
         const pos = e.getLocalPosition(stage)
         propsRef.current.onPickTile?.(Math.floor((pos.x - ox) / T), Math.floor((pos.y - oy) / T))
@@ -446,6 +449,10 @@ export function MapEditorCanvas(props: Props) {
       placeCatcher.eventMode = 'static'
       placeCatcher.cursor = 'copy'
       placeCatcher.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+        // Without this the event bubbles up to the top-level stage pointerdown
+        // handler (place-mode is also handled there), firing onPlaceDecor twice
+        // — placing two identical decor items per click.
+        e.stopPropagation()
         const { x: ox, y: oy } = worldOriginRef.current
         const pos = e.getLocalPosition(stage)
         propsRef.current.onPlaceDecor(Math.floor((pos.x - ox) / T), Math.floor((pos.y - oy) / T))
@@ -674,13 +681,13 @@ export function MapEditorCanvas(props: Props) {
         sp.width  = T * 1.5; sp.height = T * 1.5
         sp.x      = px * T - T * 0.25
         sp.y      = py * T - T * 0.5
-        if (isPreview) {
-          sp.alpha = 0.85
-        } else {
-          sp.eventMode = 'static'; sp.cursor = 'pointer'
-          sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
-            handleEntityPointerDown(e, { type: 'npc', index: nIdx }, npc.tx, npc.ty))
-        }
+        if (isPreview) sp.alpha = 0.85
+        // Previewed (scheduled) NPCs are still selectable/draggable — dragging
+        // them updates the schedule entry active at the previewed hour (see
+        // handleMoveEntities in MapEditor.tsx), not the static tx/ty.
+        sp.eventMode = 'static'; sp.cursor = 'pointer'
+        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
+          handleEntityPointerDown(e, { type: 'npc', index: nIdx }, px, py))
         if (isSel) {
           selLayer.rect(sp.x - 2, sp.y - 2, sp.width + 4, sp.height + 4)
             .stroke({ color: 0xf0c040, width: 2 })
@@ -1077,13 +1084,13 @@ export function MapEditorCanvas(props: Props) {
         sp.x = px * T - T * 0.25
         sp.y = py * T - T * 0.5
         if (dimmed) sp.alpha = 0.3
-        if (isPreview) {
-          sp.alpha = (sp.alpha ?? 1) * 0.85
-        } else {
-          sp.eventMode = 'static'; sp.cursor = 'pointer'
-          sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
-            handleEntityPointerDown(e, { type: 'npc', index: nIdx }, npc.tx, npc.ty))
-        }
+        if (isPreview) sp.alpha = (sp.alpha ?? 1) * 0.85
+        // Previewed (scheduled) NPCs are still selectable/draggable — dragging
+        // them updates the schedule entry active at the previewed hour (see
+        // handleMoveEntities in MapEditor.tsx), not the static tx/ty.
+        sp.eventMode = 'static'; sp.cursor = 'pointer'
+        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
+          handleEntityPointerDown(e, { type: 'npc', index: nIdx }, px, py))
         if (isSel) selLayer.rect(sp.x - 2, sp.y - 2, sp.width + 4, sp.height + 4).stroke({ color: 0xf0c040, width: 2 })
         npcLayer.addChild(sp)
       }).catch(() => {
@@ -1772,9 +1779,13 @@ function hitTest(
   return null
 }
 
-function getEntityTx(cfg: RawMapConfig, entity: SelectedEntity, questPickupItems?: RawQuestPickupItem[]): number {
+function getEntityTx(cfg: RawMapConfig, entity: SelectedEntity, questPickupItems?: RawQuestPickupItem[], previewHour?: number | null): number {
   if (entity.type === 'exteriorDecor') return cfg.exteriorDecor?.[entity.index]?.tx ?? 0
-  if (entity.type === 'npc') return cfg.npcs?.[entity.index]?.tx ?? 0
+  if (entity.type === 'npc') {
+    const npc = cfg.npcs?.[entity.index]
+    const scheduled = npc && previewHour != null ? getScheduledLocation(npc, previewHour) : null
+    return scheduled?.tx ?? npc?.tx ?? 0
+  }
   if (entity.type === 'animal') return cfg.animals?.[entity.index]?.tx ?? 0
   if (entity.type === 'interiorDecor') return cfg.interiors?.[entity.interiorId]?.decor[entity.index]?.tx ?? 0
   if (entity.type === 'buildingLevelDecor') return cfg.buildings?.[entity.buildingIndex]?.levelDecor?.[entity.index]?.tx ?? 0
@@ -1827,9 +1838,13 @@ function getEntityTx(cfg: RawMapConfig, entity: SelectedEntity, questPickupItems
   return 0
 }
 
-function getEntityTy(cfg: RawMapConfig, entity: SelectedEntity, questPickupItems?: RawQuestPickupItem[]): number {
+function getEntityTy(cfg: RawMapConfig, entity: SelectedEntity, questPickupItems?: RawQuestPickupItem[], previewHour?: number | null): number {
   if (entity.type === 'exteriorDecor') return cfg.exteriorDecor?.[entity.index]?.ty ?? 0
-  if (entity.type === 'npc') return cfg.npcs?.[entity.index]?.ty ?? 0
+  if (entity.type === 'npc') {
+    const npc = cfg.npcs?.[entity.index]
+    const scheduled = npc && previewHour != null ? getScheduledLocation(npc, previewHour) : null
+    return scheduled?.ty ?? npc?.ty ?? 0
+  }
   if (entity.type === 'animal') return cfg.animals?.[entity.index]?.ty ?? 0
   if (entity.type === 'interiorDecor') return cfg.interiors?.[entity.interiorId]?.decor[entity.index]?.ty ?? 0
   if (entity.type === 'buildingLevelDecor') return cfg.buildings?.[entity.buildingIndex]?.levelDecor?.[entity.index]?.ty ?? 0

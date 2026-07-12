@@ -266,6 +266,20 @@
         37,
         15
       ]
+    },
+    {
+      "rect": [
+        36,
+        35,
+        44,
+        35
+      ]
+    },
+    {
+      "tile": [
+        44,
+        34
+      ]
     }
   ],
   "buildings": [
@@ -772,6 +786,26 @@
           "minLevel": 3
         }
       ]
+    },
+    {
+      "id": "building-1",
+      "rect": [
+        41,
+        27,
+        47,
+        33
+      ],
+      "wall": "whiteStone",
+      "roof": "redSlateRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1
+        }
+      ],
+      "windows": [],
+      "decor": [],
+      "comment": "Ocean Heights"
     }
   ],
   "exteriorDecor": [
@@ -1545,8 +1579,8 @@
       "id": "mill-owner",
       "name": "Miller Oswin",
       "sprite": "hub-npc-supplies",
-      "tx": 2,
-      "ty": 8,
+      "tx": 7,
+      "ty": 4,
       "dialogue": [
         "Millhaven's mill has ground grain for this coast for sixty years.",
         "Three grain sacks went missing from the store. Someone's been helping themselves.",
@@ -1564,13 +1598,25 @@
             "tx": 4,
             "ty": 7
           }
+        },
+        {
+          "startHour": 20,
+          "endHour": 6,
+          "location": {
+            "type": "interior",
+            "buildingId": "mill",
+            "tx": 7,
+            "ty": 4
+          },
+          "activity": "sleep"
         }
       ],
       "favoriteGiftItemId": "spice-pouch",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
         "butterfly"
-      ]
+      ],
+      "building": "mill"
     },
     {
       "id": "fishmonger-marta",
@@ -1740,9 +1786,9 @@
     {
       "id": "sailor-finn",
       "name": "Sailor Finn",
-      "sprite": "hub-npc-fisherman",
-      "tx": 29,
-      "ty": 4,
+      "sprite": "hub-npc-sailor",
+      "tx": 33,
+      "ty": 6,
       "dialogue": [
         "The tides have been off all week. Something in the currents.",
         "I've seen three ships go dark past the reef. No word from them.",
@@ -2022,7 +2068,7 @@
             "type": "interior",
             "buildingId": "fisher-cottage",
             "tx": 2,
-            "ty": 2
+            "ty": 1
           }
         },
         {
@@ -2980,13 +3026,13 @@
           "bundleID": "simple-bed"
         },
         {
-          "tx": 7,
-          "ty": 1,
+          "tx": 6,
+          "ty": 0,
           "tileId": "bookshelfTop"
         },
         {
-          "tx": 7,
-          "ty": 2,
+          "tx": 6,
+          "ty": 1,
           "tileId": "bookshelfBottom"
         },
         {
@@ -3005,9 +3051,15 @@
           "tileId": "potOfFlowers"
         },
         {
-          "tx": 8,
-          "ty": 6,
+          "tx": 5,
+          "ty": 5,
           "tileId": "candlestickLitBottom"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "candlestickLitTop",
+          "zlayer": "solid"
         }
       ],
       "exits": []
@@ -3041,6 +3093,13 @@
           "entryTy": 1
         }
       ]
+    },
+    "building-1": {
+      "name": "building-1",
+      "width": 5,
+      "height": 5,
+      "floorTileId": "woodFloor",
+      "decor": []
     }
   },
   "treasures": [
@@ -3581,7 +3640,7 @@
         40,
         25,
         47,
-        36
+        30
       ]
     },
     {

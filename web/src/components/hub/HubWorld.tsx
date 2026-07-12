@@ -210,6 +210,9 @@ export interface Props {
   onCampaign?:        () => void
   onEndless?:         () => void
   onWorldMap?:        () => void
+  /** An exit tile's `screen` is `town:<mapId>` — travel directly to another
+   *  town's hub without going through the world map screen. */
+  onNavigateTown?:    (mapId: string) => void
   onPlayerTap?:       () => void
   onNarratorLog?:     (characterId: string) => void
   crystals?:          number
@@ -230,7 +233,7 @@ export interface Props {
   onBuyCrystalPack?:  (qty: number) => void
 }
 
-export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap, onPlayerTap, onNarratorLog,
+export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap, onNavigateTown, onPlayerTap, onNarratorLog,
   locationData, locationQuests, questDefs, allQuestDefs,
   crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onCrystalsChange, onTileTap, onBuyCrystalPack }: Props) {
   const [splashVisible, setSplashVisible] = useState(() => !_hubSplashShown && !loadSkipIntro())
@@ -595,6 +598,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     if (screen === 'bounty-board') { setBountyBoardOpen(true); return }
     if (screen === 'adopt-pet') { openHubTab('pet'); return }
     if (screen === 'worldmap') { onWorldMap?.(); return }
+    if (screen.startsWith('town:')) { onNavigateTown?.(screen.slice(5)); return }
     if (screen === 'campaign') { onCampaign?.(); return }
     if (screen === 'endless') { onEndless?.(); return }
     if (screen === 'commander' && !commander) {
@@ -616,7 +620,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
       }
     }
     onNavigate?.(screen, buildingId)
-  }, [onNavigate, onCampaign, onWorldMap, onNarratorLog, commander])
+  }, [onNavigate, onCampaign, onWorldMap, onNavigateTown, onNarratorLog, commander])
 
   const handleReturn = useCallback(() => {
     returnRef.current?.()

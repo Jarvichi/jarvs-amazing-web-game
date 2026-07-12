@@ -37,6 +37,16 @@
       "tx": 59,
       "ty": 99,
       "screen": "worldmap"
+    },
+    {
+      "tx": 56,
+      "ty": 0,
+      "screen": "town:royalpalace"
+    },
+    {
+      "tx": 57,
+      "ty": 0,
+      "screen": "town:royalpalace"
     }
   ],
   "areas": [
@@ -309,13 +319,13 @@
     },
     {
       "tile": [
-        45,
+        47,
         90
       ]
     },
     {
       "tile": [
-        99,
+        98,
         90
       ]
     },
@@ -327,10 +337,76 @@
     },
     {
       "rect": [
-        16,
+        15,
         90,
-        17,
+        16,
         90
+      ]
+    },
+    {
+      "rect": [
+        34,
+        99,
+        39,
+        99
+      ]
+    },
+    {
+      "rect": [
+        40,
+        99,
+        43,
+        99
+      ]
+    },
+    {
+      "tile": [
+        43,
+        98
+      ]
+    },
+    {
+      "rect": [
+        39,
+        93,
+        39,
+        98
+      ]
+    },
+    {
+      "tile": [
+        29,
+        90
+      ]
+    },
+    {
+      "rect": [
+        44,
+        99,
+        47,
+        99
+      ]
+    },
+    {
+      "rect": [
+        99,
+        56,
+        99,
+        63
+      ]
+    },
+    {
+      "rect": [
+        35,
+        89,
+        35,
+        90
+      ]
+    },
+    {
+      "tile": [
+        47,
+        41
       ]
     }
   ],
@@ -786,14 +862,14 @@
           "minLevel": 2
         },
         {
-          "tx": 96,
-          "ty": 30,
+          "tx": 98,
+          "ty": 24,
           "tileId": "innSign",
           "minLevel": 3
         },
         {
           "tx": 95,
-          "ty": 29,
+          "ty": 24,
           "tileId": "floorLantern",
           "minLevel": 3
         }
@@ -936,38 +1012,32 @@
       ],
       "levelDecor": [
         {
-          "tx": 94,
-          "ty": 42,
+          "tx": 95,
+          "ty": 41,
           "tileId": "pinkFlower",
           "minLevel": 1
         },
         {
-          "tx": 96,
-          "ty": 42,
+          "tx": 97,
+          "ty": 41,
           "tileId": "blueFlower",
           "minLevel": 1
         },
         {
-          "tx": 93,
-          "ty": 42,
+          "tx": 92,
+          "ty": 41,
           "tileId": "potOfFlowers",
           "minLevel": 2
         },
         {
-          "tx": 97,
-          "ty": 42,
+          "tx": 100,
+          "ty": 41,
           "tileId": "potOfFlowers",
           "minLevel": 2
         },
         {
-          "tx": 95,
-          "ty": 44,
-          "tileId": "floorLantern",
-          "minLevel": 3
-        },
-        {
-          "tx": 96,
-          "ty": 43,
+          "tx": 101,
+          "ty": 41,
           "tileId": "potOfFlowers",
           "minLevel": 3
         }
@@ -1035,10 +1105,10 @@
       "id": "senate",
       "upgradeKind": "default",
       "rect": [
-        42,
-        56,
-        54,
-        63
+        41,
+        33,
+        53,
+        40
       ],
       "wall": "ornateStone",
       "roof": "blueSlateRoof",
@@ -1052,38 +1122,38 @@
       ],
       "levelDecor": [
         {
-          "tx": 47,
-          "ty": 64,
+          "tx": 45,
+          "ty": 41,
           "tileId": "lightBush",
           "minLevel": 1
         },
         {
           "tx": 49,
-          "ty": 64,
+          "ty": 41,
           "tileId": "lightBush",
           "minLevel": 1
         },
         {
           "tx": 46,
-          "ty": 64,
+          "ty": 41,
+          "tileId": "potOfFlowers",
+          "minLevel": 2
+        },
+        {
+          "tx": 52,
+          "ty": 41,
           "tileId": "potOfFlowers",
           "minLevel": 2
         },
         {
           "tx": 50,
-          "ty": 64,
-          "tileId": "potOfFlowers",
-          "minLevel": 2
-        },
-        {
-          "tx": 48,
-          "ty": 66,
+          "ty": 41,
           "tileId": "largeSign",
           "minLevel": 3
         },
         {
-          "tx": 47,
-          "ty": 65,
+          "tx": 48,
+          "ty": 41,
           "tileId": "potOfFlowers",
           "minLevel": 3
         }
@@ -1093,10 +1163,10 @@
       "id": "noble-manor-2",
       "upgradeKind": "cottage",
       "rect": [
-        90,
-        56,
-        100,
-        63
+        94,
+        48,
+        104,
+        55
       ],
       "wall": "renderedBrick",
       "roof": "yellowSlateRoof",
@@ -1151,9 +1221,9 @@
       "id": "grand-bank",
       "upgradeKind": "shop",
       "rect": [
-        40,
+        42,
         82,
-        50,
+        52,
         89
       ],
       "wall": "castleStone",
@@ -1333,11 +1403,209 @@
       "roof": "strawRoof",
       "doors": [
         {
-          "tx": 4,
-          "ty": 0
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true
         }
       ],
-      "requiresOwnership": true
+      "requiresOwnership": true,
+      "decor": [
+        {
+          "tx": 5,
+          "ty": -1,
+          "tileId": "windowTop2",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 0,
+          "tileId": "windowBottom2",
+          "zlayer": "solid"
+        }
+      ],
+      "comment": "Meadow View",
+      "levelDecor": [
+        {
+          "tx": 10,
+          "ty": 97,
+          "bundleID": "3 rows of wheat",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 98,
+          "bundleID": "3 rows of wheat",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": 96,
+          "bundleID": "3 rows of wheat",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 13,
+          "ty": 98,
+          "bundleID": "3 rows of wheat",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 14,
+          "ty": 97,
+          "bundleID": "3 rows of wheat",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 15,
+          "ty": 97,
+          "bundleID": "3 rows of wheat",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 17,
+          "ty": 96,
+          "bundleID": "3 rows of wheat",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 18,
+          "ty": 98,
+          "bundleID": "3 rows of wheat",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 19,
+          "ty": 97,
+          "bundleID": "3 rows of wheat",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 20,
+          "ty": 96,
+          "bundleID": "3 rows of wheat",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 21,
+          "ty": 97,
+          "bundleID": "3 rows of wheat",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 22,
+          "ty": 98,
+          "bundleID": "3 rows of wheat",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 24,
+          "ty": 97,
+          "bundleID": "3 rows of wheat",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 25,
+          "ty": 96,
+          "bundleID": "3 rows of wheat",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 26,
+          "ty": 96,
+          "bundleID": "3 rows of wheat",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 28,
+          "ty": 96,
+          "bundleID": "3 rows of wheat",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 27,
+          "ty": 98,
+          "bundleID": "3 rows of wheat",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 29,
+          "ty": 97,
+          "bundleID": "3 rows of wheat",
+          "zlayer": "solid"
+        }
+      ]
+    },
+    {
+      "id": "building-2",
+      "rect": [
+        27,
+        83,
+        32,
+        89
+      ],
+      "wall": "woodWall",
+      "roof": "woodRoof",
+      "doors": [
+        {
+          "tx": 2,
+          "ty": 1
+        }
+      ],
+      "comment": "Grangers Barn"
+    },
+    {
+      "id": "building-3",
+      "rect": [
+        33,
+        82,
+        39,
+        89
+      ],
+      "wall": "tudorFrame",
+      "roof": "yellowSlateRoof",
+      "doors": [
+        {
+          "tx": 2,
+          "ty": 1
+        }
+      ],
+      "comment": "Grangers Farmhouse"
+    },
+    {
+      "id": "building-4",
+      "rect": [
+        31,
+        92,
+        38,
+        98
+      ],
+      "wall": "renderedBrick",
+      "roof": "redSlateRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1
+        }
+      ],
+      "comment": "Grangers Storehouse"
+    },
+    {
+      "id": "building-5",
+      "rect": [
+        40,
+        92,
+        46,
+        97
+      ],
+      "wall": "renderedBrick",
+      "roof": "redSlateRoof",
+      "doors": [
+        {
+          "tx": 3,
+          "ty": 1
+        }
+      ],
+      "comment": "Grangers Annex"
     }
   ],
   "interiors": {
@@ -3198,49 +3466,107 @@
       "wallTileId": "castleStone",
       "decor": [
         {
-          "tx": 1,
-          "ty": -1,
-          "tileId": "windowTop"
-        },
-        {
-          "tx": 4,
-          "ty": -1,
-          "tileId": "windowTop"
-        },
-        {
-          "tx": 7,
-          "ty": -1,
-          "tileId": "windowTop"
-        },
-        {
-          "tx": 10,
-          "ty": -1,
-          "tileId": "windowTop"
-        },
-        {
           "tx": 7,
           "ty": 1,
           "tileId": "roundTableWithCloth"
         },
         {
-          "tx": 1,
+          "tx": 11,
           "ty": 1,
-          "tileId": "pileOfPapers"
-        },
-        {
-          "tx": 12,
-          "ty": 3,
           "tileId": "deskTop"
         },
         {
-          "tx": 2,
-          "ty": 8,
+          "tx": 10,
+          "ty": 1,
           "tileId": "stool"
         },
         {
-          "tx": 11,
-          "ty": 8,
+          "tx": 9,
+          "ty": -1,
           "tileId": "wallClock"
+        },
+        {
+          "tx": 5,
+          "ty": 7,
+          "tileId": "counterTopDarkWoodBottomLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 7,
+          "tileId": "counterTopDarkWoodBottomRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 7,
+          "tileId": "counterTopDarkWoodHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 6,
+          "tileId": "counterTopDarkWoodVerticalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 6,
+          "tileId": "counterTopDarkWoodVerticalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 5,
+          "tileId": "counterTopDarkWoodTopRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 5,
+          "tileId": "counterTopDarkWoodHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 6,
+          "tileId": "pileOfPapers"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "counterTopDarkWoodTopLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "quilAndInk",
+          "zlayer": "above"
+        },
+        {
+          "tx": 6,
+          "ty": 0,
+          "tileId": "mirrorBottom",
+          "zlayer": "below"
+        },
+        {
+          "tx": 6,
+          "ty": -1,
+          "tileId": "mirrorTop",
+          "zlayer": "below"
+        },
+        {
+          "tx": 3,
+          "ty": -1,
+          "tileId": "horn",
+          "zlayer": "below"
+        },
+        {
+          "tx": 7,
+          "ty": 6,
+          "tileId": "letter",
+          "zlayer": "above"
         }
       ],
       "exits": [
@@ -3257,60 +3583,419 @@
     "theatre-back": {
       "name": "Backstage",
       "width": 13,
-      "height": 9,
+      "height": 10,
       "floorTileId": "redCarpetFloor",
-      "wallTileId": "castleStone",
+      "wallTileId": "interiorWallWhite",
       "decor": [
         {
-          "tx": 1,
-          "ty": -1,
-          "tileId": "windowTop"
-        },
-        {
-          "tx": 4,
-          "ty": -1,
-          "tileId": "windowTop"
-        },
-        {
-          "tx": 7,
-          "ty": -1,
-          "tileId": "windowTop"
-        },
-        {
-          "tx": 10,
-          "ty": -1,
-          "tileId": "windowTop"
-        },
-        {
-          "tx": 6,
-          "ty": 1,
-          "tileId": "roundTableWithCloth"
-        },
-        {
-          "tx": 1,
-          "ty": 1,
-          "tileId": "pileOfPapers"
+          "tx": 11,
+          "ty": 2,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "solid"
         },
         {
           "tx": 11,
-          "ty": 1,
+          "ty": 2,
           "tileId": "deskTop"
         },
         {
           "tx": 2,
-          "ty": 7,
+          "ty": 8,
           "tileId": "stool"
         },
         {
           "tx": 10,
-          "ty": 7,
+          "ty": 8,
           "tileId": "wallClock"
+        },
+        {
+          "tx": 11,
+          "ty": 2,
+          "tileId": "pileOfPapers"
+        },
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "benchLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 7,
+          "tileId": "benchLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "benchLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 5,
+          "tileId": "benchLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
+          "ty": 5,
+          "tileId": "benchMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
+          "ty": 7,
+          "tileId": "benchMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 7,
+          "tileId": "benchMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 7,
+          "tileId": "benchMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 5,
+          "tileId": "benchMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 5,
+          "tileId": "benchMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "benchMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": 5,
+          "tileId": "benchMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 5,
+          "tileId": "benchMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 7,
+          "tileId": "benchMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 7,
+          "tileId": "benchMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": 7,
+          "tileId": "benchMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 7,
+          "tileId": "benchRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "benchRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 5,
+          "tileId": "benchRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 7,
+          "tileId": "benchRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 3,
+          "ty": 2,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 5,
+          "ty": 2,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 6,
+          "ty": 2,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 7,
+          "ty": 2,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 8,
+          "ty": 2,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 9,
+          "ty": 2,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 10,
+          "ty": 2,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 1,
+          "ty": 3,
+          "tileId": "boardwalkHorizontalSupport",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": 3,
+          "tileId": "boardwalkHorizontalSupport",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 3,
+          "tileId": "boardwalkHorizontalSupport",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "boardwalkHorizontalSupport",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "boardwalkHorizontalSupport",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 3,
+          "tileId": "boardwalkHorizontalSupport",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 3,
+          "tileId": "boardwalkHorizontalSupport",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": 3,
+          "tileId": "boardwalkHorizontalSupport",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 3,
+          "tileId": "boardwalkHorizontalSupport",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 3,
+          "tileId": "boardwalkHorizontalSupport",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 3,
+          "tileId": "boardwalkHorizontalSupport",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 3,
+          "tileId": "brownStairCarpet",
+          "zlayer": "below"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "redCurtainBot",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "redCurtainTop",
+          "zlayer": "below"
+        },
+        {
+          "tx": 11,
+          "ty": 1,
+          "tileId": "redCurtainBot",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": -1,
+          "tileId": "redCurtainTop",
+          "zlayer": "below"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "redCurtainTop",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": -1,
+          "tileId": "redCurtainTop",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "redCurtainBot",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "redCurtainBot",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 0,
+          "tileId": "redCurtainMid",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": 0,
+          "tileId": "redCurtainMid",
+          "zlayer": "below"
+        },
+        {
+          "tx": 10,
+          "ty": 0,
+          "tileId": "redCurtainMid",
+          "zlayer": "below"
+        },
+        {
+          "tx": 11,
+          "ty": 0,
+          "tileId": "redCurtainMid",
+          "zlayer": "below"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "skull",
+          "zlayer": "below"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "sword",
+          "zlayer": "below"
         }
       ],
       "exits": [
         {
           "tx": 6,
-          "ty": 1,
+          "ty": 2,
           "toInteriorId": "theatre",
           "entryTx": 12,
           "entryTy": 0,
@@ -3839,6 +4524,34 @@
       "name": "building-1",
       "width": 10,
       "height": 7,
+      "floorTileId": "woodFloor",
+      "decor": []
+    },
+    "building-2": {
+      "name": "building-2",
+      "width": 6,
+      "height": 7,
+      "floorTileId": "woodFloor",
+      "decor": []
+    },
+    "building-3": {
+      "name": "building-3",
+      "width": 6,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "decor": []
+    },
+    "building-4": {
+      "name": "building-4",
+      "width": 8,
+      "height": 7,
+      "floorTileId": "woodFloor",
+      "decor": []
+    },
+    "building-5": {
+      "name": "building-5",
+      "width": 7,
+      "height": 6,
       "floorTileId": "woodFloor",
       "decor": []
     }
@@ -5308,7 +6021,7 @@
       "id": "guard-bryn",
       "name": "Guardsman Bryn",
       "sprite": "hub-npc-soldier",
-      "tx": 90,
+      "tx": 91,
       "ty": 79,
       "dialogue": [
         "Captain's got me walking the south wall till my boots wear through.",
@@ -5471,8 +6184,8 @@
       "id": "mint-coinwright",
       "name": "Coinwright Bessa",
       "sprite": "hub-npc-merchant",
-      "tx": 82,
-      "ty": 87,
+      "tx": 81,
+      "ty": 90,
       "screen": "crystalcatch",
       "dialogue": [
         "Quick hands at the mint? Test them — catch the falling crystals.",
@@ -5489,8 +6202,8 @@
       "id": "guard-arena-master",
       "name": "Arena Master Brom",
       "sprite": "hub-npc-arena",
-      "tx": 85,
-      "ty": 81,
+      "tx": 90,
+      "ty": 82,
       "screen": "quickbattle",
       "dialogue": [
         "The coronation tournament wants challengers. Step into the ring?",
@@ -5507,8 +6220,8 @@
       "id": "draft-master-crownhaven",
       "name": "Draft Master Wren",
       "sprite": "hub-npc-arena",
-      "tx": 83,
-      "ty": 81,
+      "tx": 87,
+      "ty": 82,
       "screen": "carddraft",
       "dialogue": [
         "No collection? No problem. Draft a deck right here and prove your mettle.",
@@ -5543,8 +6256,8 @@
       "id": "theatre-impresario",
       "name": "Impresario Vane",
       "sprite": "hub-npc-herald",
-      "tx": 60,
-      "ty": 43,
+      "tx": 6,
+      "ty": 6,
       "screen": "theatre",
       "dialogue": [
         "Welcome, welcome! The Crown Theatre is open for its first performances!",
@@ -5555,7 +6268,8 @@
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
         "sturdy-boots"
-      ]
+      ],
+      "building": "theatre"
     }
   ],
   "exteriorDecor": [
@@ -5567,28 +6281,6 @@
       "ty": 53,
       "bundleID": "fountain",
       "zlayer": "solid"
-    },
-    {
-      "tx": 40,
-      "ty": 46,
-      "tileId": "angelStatueTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 40,
-      "ty": 47,
-      "tileId": "angelStatueBottom"
-    },
-    {
-      "tx": 72,
-      "ty": 46,
-      "tileId": "angelStatueTop",
-      "zlayer": "above"
-    },
-    {
-      "tx": 72,
-      "ty": 47,
-      "tileId": "angelStatueBottom"
     },
     {
       "tx": 58,
@@ -5930,25 +6622,25 @@
       "tileId": "lampPostBottom"
     },
     {
-      "tx": 90,
-      "ty": 31,
+      "tx": 84,
+      "ty": 32,
       "tileId": "lampPostTop",
       "zlayer": "above"
     },
     {
-      "tx": 90,
-      "ty": 32,
+      "tx": 84,
+      "ty": 33,
       "tileId": "lampPostBottom"
     },
     {
-      "tx": 109,
-      "ty": 31,
+      "tx": 117,
+      "ty": 36,
       "tileId": "lampPostTop",
       "zlayer": "above"
     },
     {
-      "tx": 109,
-      "ty": 32,
+      "tx": 117,
+      "ty": 37,
       "tileId": "lampPostBottom"
     },
     {
@@ -6480,13 +7172,7 @@
       "comment": "Old Town — manor gardens & lamps"
     },
     {
-      "tx": 86,
-      "ty": 31,
-      "bundleID": "mixed-tree-cluster-V",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 92,
+      "tx": 94,
       "ty": 31,
       "bundleID": "mixed-tree-cluster-V",
       "zlayer": "solid"
@@ -6498,13 +7184,19 @@
       "zlayer": "solid"
     },
     {
+      "tx": 102,
+      "ty": 31,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
       "tx": 106,
       "ty": 31,
       "bundleID": "mixed-tree-cluster-V",
       "zlayer": "solid"
     },
     {
-      "tx": 112,
+      "tx": 90,
       "ty": 31,
       "bundleID": "mixed-tree-cluster-V",
       "zlayer": "solid"
@@ -6560,8 +7252,8 @@
       "tileId": "pinkFlower"
     },
     {
-      "tx": 108,
-      "ty": 30,
+      "tx": 107,
+      "ty": 27,
       "tileId": "mailBox"
     },
     {
@@ -6575,58 +7267,17 @@
       "tileId": "potOfFlowers"
     },
     {
-      "tx": 104,
-      "ty": 31,
-      "tileId": "washingLineEmptyTopLeft",
-      "zlayer": "above"
-    },
-    {
-      "tx": 104,
-      "ty": 32,
-      "tileId": "washingLineClothesBottomLeft"
-    },
-    {
       "comment": "Guard Quarter — braziers, walls & banners"
     },
     {
       "tx": 53,
       "ty": 93,
-      "tileId": "stoneCityWallTop"
+      "tileId": "stoneWallLeft"
     },
     {
       "tx": 60,
       "ty": 93,
-      "tileId": "stoneCityWallTop"
-    },
-    {
-      "tx": 61,
-      "ty": 93,
-      "tileId": "stoneCityWallTop"
-    },
-    {
-      "tx": 52,
-      "ty": 93,
-      "tileId": "stoneCityWallTop"
-    },
-    {
-      "tx": 62,
-      "ty": 93,
-      "tileId": "stoneCityWallTop"
-    },
-    {
-      "tx": 51,
-      "ty": 93,
-      "tileId": "stoneCityWallTop"
-    },
-    {
-      "tx": 63,
-      "ty": 93,
-      "tileId": "stoneCityWallTop"
-    },
-    {
-      "tx": 50,
-      "ty": 93,
-      "tileId": "stoneCityWallTop"
+      "tileId": "stoneWallRight"
     },
     {
       "tx": 70,
@@ -6699,7 +7350,7 @@
       "tileId": "stoneCityWallTop"
     },
     {
-      "tx": 98,
+      "tx": 99,
       "ty": 90,
       "tileId": "stoneCityWallTop"
     },
@@ -6945,14 +7596,14 @@
       "zlayer": "above"
     },
     {
-      "tx": 52,
-      "ty": 85,
+      "tx": 54,
+      "ty": 86,
       "bundleID": "dark-tree",
       "zlayer": "solid"
     },
     {
-      "tx": 62,
-      "ty": 85,
+      "tx": 58,
+      "ty": 86,
       "bundleID": "dark-tree",
       "zlayer": "solid"
     },
@@ -7522,6 +8173,118 @@
       "ty": 79,
       "bundleID": "bridge4x9",
       "zlayer": "below"
+    },
+    {
+      "tx": 10,
+      "ty": 98,
+      "bundleID": "ploughed-field-6x5",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 17,
+      "ty": 98,
+      "bundleID": "ploughed-field-6x5",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 24,
+      "ty": 98,
+      "bundleID": "ploughed-field-6x5",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 52,
+      "ty": 93,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 51,
+      "ty": 93,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 50,
+      "ty": 93,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 49,
+      "ty": 93,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 48,
+      "ty": 93,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 61,
+      "ty": 93,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 62,
+      "ty": 93,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 63,
+      "ty": 93,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 64,
+      "ty": 93,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 65,
+      "ty": 93,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 47,
+      "ty": 93,
+      "tileId": "stoneWallRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 66,
+      "ty": 93,
+      "tileId": "stoneWallLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 48,
+      "ty": 97,
+      "bundleID": "washing line with clothes",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 41,
+      "ty": 47,
+      "bundleID": "angel-statue",
+      "zlayer": "solid",
+      "glow": true,
+      "pulse": true
+    },
+    {
+      "tx": 72,
+      "ty": 47,
+      "bundleID": "angel-statue",
+      "zlayer": "solid",
+      "glow": true,
+      "pulse": true
     }
   ],
   "bridgeTiles": [
