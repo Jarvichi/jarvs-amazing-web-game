@@ -3527,33 +3527,13 @@
       "width": 13,
       "height": 9,
       "floorTileId": "redCarpetFloor",
-      "wallTileId": "castleStone",
+      "wallTileId": "interiorWallWhite",
       "decor": [
         {
           "tx": 11,
           "ty": 1,
           "tileId": "boardwalkHorizontal",
           "zlayer": "solid"
-        },
-        {
-          "tx": 1,
-          "ty": -1,
-          "tileId": "windowTop"
-        },
-        {
-          "tx": 4,
-          "ty": -1,
-          "tileId": "windowTop"
-        },
-        {
-          "tx": 7,
-          "ty": -1,
-          "tileId": "windowTop"
-        },
-        {
-          "tx": 10,
-          "ty": -1,
-          "tileId": "windowTop"
         },
         {
           "tx": 11,
