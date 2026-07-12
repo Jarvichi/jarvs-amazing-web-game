@@ -51,7 +51,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
     addPondTile, addBridgeTile, updatePondEntry, updateBridgeEntry, addNpcSpawnTile, addChickenZone, addArea, addBuilding,
     convertStreetToPond, convertPondToStreet,
     batchUpdateZlayer, batchUpdateStreetPathType,
-    updateDecorZlayer, updateDecorTileId, reorderDecor, updateGlow, updateDecorMinLevel, updateDecorHideAtLevel, updateBuildingLevelVisual, updateBuilding, resizeBuilding, addNpc, updateNpcDialogue, updateNpc,
+    updateDecorZlayer, updateDecorTileId, reorderDecor, updateGlow, updateDecorMinLevel, updateDecorHideAtLevel, updateBuildingLevelVisual, updateBuilding, makeBuildingPlayerHouse, resizeBuilding, addNpc, updateNpcDialogue, updateNpc,
     addAnimal, updateAnimal,
     updateTreasure, updateConfig,
     updateArea, updateMapProps, resizeMap,
@@ -410,6 +410,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
               viewMode={state.viewMode}
               onSetActiveLevel={setActiveLevel}
               onUpdateBuilding={updateBuilding}
+              onMakePlayerHouse={makeBuildingPlayerHouse}
               onResizeBuilding={resizeBuilding}
               onUpdateBuildingLevelVisual={updateBuildingLevelVisual}
               onUpdateDecorMinLevel={updateDecorMinLevel}
