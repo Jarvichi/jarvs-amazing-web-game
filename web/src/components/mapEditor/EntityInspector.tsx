@@ -77,6 +77,7 @@ interface Props {
   activeLevel:      number
   onSetActiveLevel:      (level: number) => void
   onUpdateBuilding:      (index: number, patch: Partial<RawBuilding>) => void
+  onMakePlayerHouse:     (index: number) => void
   onResizeBuilding?:     (index: number, dir: 'top' | 'bottom' | 'left' | 'right', grow?: boolean) => void
   onUpdateBuildingLevelVisual: (buildingIndex: number, minLevel: number, patch: Partial<{ rect: [number, number, number, number]; wall: WallMaterial; roof: RoofMaterial }>) => void
   onUpdateDecorMinLevel: (entity: SelectedEntity, minLevel: number | undefined) => void
@@ -1023,6 +1024,7 @@ function StreetInspector({
 function BuildingInspector({
   building, buildingIndex, activeLevel, onSetActiveLevel, onUpdateBuilding, onUpdateBuildingLevelVisual,
   onOpenInterior, onOpenBuildingEditor, interiorIds, existingInteriorIds, onAddInterior, onResizeBuilding,
+  onMakePlayerHouse, hasMatchingInterior, isPlayerHouse,
 }: {
   building: RawBuilding
   buildingIndex: number
@@ -1036,6 +1038,9 @@ function BuildingInspector({
   existingInteriorIds: string[]
   onAddInterior: (id: string, interior: RawInterior) => void
   onResizeBuilding?: (index: number, dir: 'top' | 'bottom' | 'left' | 'right', grow?: boolean) => void
+  onMakePlayerHouse: (index: number) => void
+  hasMatchingInterior: boolean
+  isPlayerHouse: boolean
 }) {
   const [tx1, ty1, tx2, ty2] = building.rect ?? [0, 0, 0, 0]
   const [showForm, setShowForm] = useState(false)
@@ -1210,6 +1215,25 @@ function BuildingInspector({
             title="Door stays locked until purchased via Town Upgrades — e.g. a player house"
           />
         </Field>
+        <button
+          onClick={() => onMakePlayerHouse(buildingIndex)}
+          disabled={!hasMatchingInterior || isPlayerHouse}
+          title={
+            !hasMatchingInterior
+              ? 'Add a matching interior first (use + New room below)'
+              : 'Sets Upgrade Kind: playerHouse + Requires Ownership on this building, and Player Decor on its interior — all at once'
+          }
+          style={{
+            width: '100%', padding: '5px 0', borderRadius: 3, fontSize: 11, marginTop: 6,
+            cursor: (!hasMatchingInterior || isPlayerHouse) ? 'default' : 'pointer',
+            background: isPlayerHouse ? '#16241a' : '#1a2e1a',
+            border: `1px solid ${isPlayerHouse ? '#2a4a2a' : '#3a6a3a'}`,
+            color: isPlayerHouse ? '#6a8a6a' : '#8adb8a',
+            opacity: (!hasMatchingInterior && !isPlayerHouse) ? 0.5 : 1,
+          }}
+        >
+          {isPlayerHouse ? '✓ Player House' : '🏠 Make Player House'}
+        </button>
 
         {/* Per-level look — base (level 0) edits the building; higher levels write
             a levelVisuals override that kicks in once the building is upgraded. */}
@@ -2631,7 +2655,7 @@ function SpawnTileInspector({
 
 export function EntityInspector({
   selectedEntities, mapId, configData, activeInteriorId, activeBuildingIndex, activeLevel, viewMode,
-  onSetActiveLevel, onUpdateBuilding, onResizeBuilding, onUpdateBuildingLevelVisual, onUpdateDecorMinLevel, onUpdateDecorHideAtLevel,
+  onSetActiveLevel, onUpdateBuilding, onMakePlayerHouse, onResizeBuilding, onUpdateBuildingLevelVisual, onUpdateDecorMinLevel, onUpdateDecorHideAtLevel,
   onDelete, onMoveEntity, onZlayerChange, onUpdateGlow, onUpdatePickupGlow, onUpdatePickupExtraTiles, onDialogueChange,
   onOpenInterior, onCloseInterior, onOpenBuildingEditor, onCloseBuildingEditor, onUpdateStreetEntry,
   onResizeInterior, onAddInterior, onAddInteriorExit, onUpdateInteriorProps, onUpdateInteriorExit,
@@ -3252,6 +3276,9 @@ export function EntityInspector({
         })
       : []
     const existingLock = buildingId ? (configData.lockedDoors ?? []).find(d => d.buildingId === buildingId) : undefined
+    const matchedInterior = buildingId ? configData.interiors?.[buildingId] : undefined
+    const isPlayerHouse = building.upgradeKind === 'playerHouse'
+      && !!building.requiresOwnership && !!matchedInterior?.playerDecor
 
     return (
       <div style={panelStyle}>
@@ -3270,6 +3297,9 @@ export function EntityInspector({
             existingInteriorIds={Object.keys(configData.interiors ?? {})}
             onAddInterior={onAddInterior}
             onResizeBuilding={onResizeBuilding}
+            onMakePlayerHouse={onMakePlayerHouse}
+            hasMatchingInterior={!!matchedInterior}
+            isPlayerHouse={isPlayerHouse}
           />
           {buildingId && !existingLock && (
             <div style={{ borderTop: '1px solid #333', marginTop: 10, paddingTop: 10 }}>

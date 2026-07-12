@@ -991,6 +991,29 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     })
   }, [])
 
+  // Atomically tags a building + its matching interior as a purchasable,
+  // player-decorated house — the 3-field pattern from docs/hubworld.md §10/§13
+  // that's easy to half-apply since the fields live in two separate panels.
+  const makeBuildingPlayerHouse = useCallback((index: number) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const buildings = [...(prevConfig.buildings ?? [])]
+      const building = buildings[index]
+      const id = building?.id
+      const interior = id ? prevConfig.interiors?.[id] : undefined
+      if (!building || !id || !interior) return s
+      buildings[index] = { ...building, upgradeKind: 'playerHouse', requiresOwnership: true }
+      const interiors = { ...prevConfig.interiors, [id]: { ...interior, playerDecor: true } }
+      return {
+        ...s,
+        configData: { ...prevConfig, buildings, interiors },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
   // Grows/shrinks a single-rect building's footprint by one tile on the given
   // edge. Doors/windows/decor are stored relative to the building's (ox, oy)
   // origin (ox = min x1, oy = max y2) — growing/shrinking on the left or
@@ -1655,6 +1678,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     updateDecorHideAtLevel,
     updateBuildingLevelVisual,
     updateBuilding,
+    makeBuildingPlayerHouse,
     resizeBuilding,
     addNpc,
     updateNpcDialogue,
