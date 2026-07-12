@@ -17,6 +17,7 @@ export type QuickBattleMode =
   | 'easy' | 'normal' | 'mirror' | 'unlimited' | 'chaos'
   | 'only-units' | 'only-spells' | 'only-buildings'
   | 'common-only' | 'uncommon-only' | 'rare-only' | 'legendary-only' | 'hero-only'
+  | 'draft'
 
 export function loadCurrentDeckInfo(): { playerCards: Card[]; deckBonus: number } {
   const collection  = loadCollection()

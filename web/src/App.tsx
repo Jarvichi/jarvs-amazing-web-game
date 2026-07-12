@@ -5,7 +5,7 @@ import { recordScreen } from './utils/crashSentinel'
 import { useStartupData } from './hooks/useStartupData'
 import { useCloudSync } from './hooks/useCloudSync'
 import { useRegisterSW } from 'virtual:pwa-register/react'
-import { GameState, Card, StanceRules, Archetype } from './game/types'
+import { GameState, Card, StanceRules, Archetype, SECRET_RARITIES } from './game/types'
 import { newGame, MAX_HANDICAP } from './game/engine'
 import { playCard, playAoeCard } from './game/engine/cards'
 import { makeNodeDeck } from './game/cards'
@@ -57,6 +57,7 @@ import { Battlefield }        from './components/battle/Battlefield'
 import { GameOver }           from './components/battle/GameOver'
 import { TitleScreen }        from './components/title/TitleScreen'
 import { QuickBattleMode, QuickBattleScreen }  from './components/screens/QuickBattleScreen'
+import { CardDraftScreen }    from './components/screens/CardDraftScreen'
 import { CollectionScreen }   from './components/screens/CollectionScreen'
 import { DeckBuilder }        from './components/cards/DeckBuilder'
 import { PackOpening }        from './components/cards/PackOpening'
@@ -238,6 +239,7 @@ type Screen =
   | 'minigames'
   | 'playerstats'
   | 'quickbattle'
+  | 'carddraft'
   | 'statupgrade'
   | 'camp'
   | 'codex'
@@ -440,6 +442,7 @@ export default function App() {
   const isDailyChallengeRef = useRef(false)                  // true while playing the daily challenge
   const isWeeklyChallengeRef = useRef(false)                 // true while playing the weekly challenge
   const isTrainingModeRef   = useRef(false)                  // true while playing a training battle
+  const isDraftModeRef      = useRef(false)                  // true while playing a Card Draft battle
    const quickBattleModeRef = useRef<QuickBattleMode>('easy')                //  Quick Battle Mode
   const worldBattleNodeIdRef = useRef<string | null>(null)
 
@@ -824,6 +827,24 @@ export default function App() {
     }
   }, [launchQuickBattle])
 
+  const handleDraftComplete = useCallback((pickedCardNames: string[]) => {
+    isCampaignRef.current = false
+    isDailyChallengeRef.current = false
+    isWeeklyChallengeRef.current = false
+    isDraftModeRef.current = true
+    quickBattleModeRef.current = 'draft'
+    battleFlawlessRef.current = true
+    battleUsedStructure.current = false
+    battleUsedMobileUnit.current = false
+    prevOpponentUnitsRef.current = new Map()
+    prevPlayerUnitsRef.current = new Map()
+    const draftedCards = makeNodeDeck(pickedCardNames.flatMap(name => [name, name, name]))
+    const opponentCardPool = getCardCatalog().filter(c => !SECRET_RARITIES.has(c.rarity))
+    battleAllLegendaryRef.current = draftedCards.length > 0 && draftedCards.every(c => c.rarity === 'legendary')
+    startBattle(newGame({ playerCards: draftedCards, opponentHandicap: handicap, opponentCardPool }))
+    rollRareEvent()
+  }, [handicap])
+
   const launchEndless = useCallback(() => {
     clearBattleState()
     isCampaignRef.current = false
@@ -957,6 +978,13 @@ export default function App() {
       isTrainingModeRef.current = false
       dispatch({ type: 'END' })
       setScreen('training')
+      return
+    }
+    // Card Draft: send back to the draft screen for a fresh draft (no persisted deck to replay)
+    if (isDraftModeRef.current) {
+      isDraftModeRef.current = false
+      dispatch({ type: 'END' })
+      setScreen('carddraft')
       return
     }
     isCampaignRef.current       = false
@@ -2481,6 +2509,7 @@ export default function App() {
         break
       case 'normal':
       case 'mirror':
+      case 'draft':
         pack = generatePack()
         break
       case 'unlimited':
@@ -2568,6 +2597,7 @@ export default function App() {
     isCampaignRef.current = false
     isDailyChallengeRef.current = false
     isWeeklyChallengeRef.current = false
+    isDraftModeRef.current = false
     const currentRun = run
 
     const isLoss = gameState?.phase.type === 'gameOver' && gameState.phase.winner !== 'player'
@@ -3313,6 +3343,10 @@ export default function App() {
 
       {screen === 'quickbattle' && (
         <QuickBattleScreen onStartBattle={handlePlay} onBack={() => setScreen(returnScreen)} />
+      )}
+
+      {screen === 'carddraft' && (
+        <CardDraftScreen onComplete={handleDraftComplete} onBack={() => setScreen(returnScreen)} />
       )}
 
       {screen === 'dailychallenge' && (
