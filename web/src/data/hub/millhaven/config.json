@@ -797,6 +797,8 @@
       ],
       "wall": "whiteStone",
       "roof": "redSlateRoof",
+      "upgradeKind": "playerHouse",
+      "requiresOwnership": true,
       "doors": [
         {
           "tx": 3,
@@ -3095,11 +3097,12 @@
       ]
     },
     "building-1": {
-      "name": "building-1",
+      "name": "Ocean Heights",
       "width": 5,
       "height": 5,
       "floorTileId": "woodFloor",
-      "decor": []
+      "decor": [],
+      "playerDecor": true
     }
   },
   "treasures": [
