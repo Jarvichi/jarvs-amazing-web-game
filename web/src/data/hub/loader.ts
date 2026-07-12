@@ -85,6 +85,9 @@ export interface HubDoor {
   tx: number
   ty: number
   hideSign?: boolean
+  /** Keep this door a fully invisible walk-in trigger. Doors render by default
+   *  (one tile north of the entry tile). */
+  hideSprite?: boolean
 }
 
 export interface DecorGlow {
@@ -205,6 +208,7 @@ export interface HubPickupItem extends DecorGlow {
   tx: number
   ty: number
   tileId: number
+  extraTiles?: Array<{ dx: number; dy: number; tileId: number }>
   building?: string
   questId?: string
   chain?: string
@@ -458,7 +462,7 @@ type RawBuilding = {
   bundleID?: string;
   upgradeKind?: string;
   requiresOwnership?: boolean;
-  doors?:   Array<{ tx: number; ty: number; buildingId?: string, hideSign?: boolean }>
+  doors?:   Array<{ tx: number; ty: number; buildingId?: string, hideSign?: boolean, hideSprite?: boolean }>
   windows?: Array<{ tx: number; ty: number; tileId: string }>
   decor?:   Array<{ tx: number; ty: number; tileId?: string; bundleID?: string; zlayer?: string }>
   levelDecor?: Array<{ tx?: number; ty?: number; tileId?: string; zlayer?: string; minLevel?: number; hideAtLevel?: number }>
@@ -518,10 +522,10 @@ for (const b of rawConfig.buildings as RawBuilding[]) {
     continue
   }
   for (const d of b.doors ?? []) {
-    // The authored position is used as-is: doors on a building's south face
-    // (ty2+1) get a rendered sprite (see buildingRender.ts); doors elsewhere
-    // are invisible walk-in triggers only. No position snapping.
-    _nestedDoors.push({ buildingId: d.buildingId ?? b.id ?? '', tx: ox + d.tx, ty: oy + d.ty, hideSign: d.hideSign })
+    // The authored position is used as-is, anywhere relative to the building —
+    // the door sprite always renders one tile north of it (see
+    // buildingRender.ts) unless hideSprite keeps it a fully invisible trigger.
+    _nestedDoors.push({ buildingId: d.buildingId ?? b.id ?? '', tx: ox + d.tx, ty: oy + d.ty, hideSign: d.hideSign, hideSprite: d.hideSprite })
   }
   for (const w of b.windows ?? [])
     _nestedWindows.push({ tx: ox + w.tx, ty: oy + w.ty, tileId: resolveTileId(w.tileId) })
@@ -824,7 +828,7 @@ const HUB_BLOCKED_PATHS: BlockedPath[] = (
   cleared:               resolveBlockedPathState(bp.cleared),
 }))
 
-type RawPickup = { id: string; tx: number; ty: number; tileId: string; building?: string; questId?: string; chain?: string; requireTouch?: boolean; glow?: boolean; glowRadius?: number; pulse?: boolean }
+type RawPickup = { id: string; tx: number; ty: number; tileId: string; extraTiles?: Array<{ dx: number; dy: number; tileId: string }>; building?: string; questId?: string; chain?: string; requireTouch?: boolean; glow?: boolean; glowRadius?: number; pulse?: boolean }
 const HUB_PICKUP_ITEMS: HubPickupItem[] = (
   (rawQuestConfig as unknown as { pickupItems?: RawPickup[] }).pickupItems ?? []
 ).map(p => ({
@@ -832,6 +836,7 @@ const HUB_PICKUP_ITEMS: HubPickupItem[] = (
   tx:           p.tx,
   ty:           p.ty,
   tileId:       resolveTileId(p.tileId),
+  extraTiles:   p.extraTiles?.map(t => ({ dx: t.dx, dy: t.dy, tileId: resolveTileId(t.tileId) })),
   building:     p.building,
   questId:      p.questId,
   chain:        p.chain,

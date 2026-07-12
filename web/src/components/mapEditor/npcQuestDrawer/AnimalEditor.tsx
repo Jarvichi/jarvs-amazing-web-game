@@ -98,9 +98,9 @@ export function AnimalEditor({ animal, onUpdate, onDelete, onPickLocation }: {
         </label>
       </Field>
       {animal.roam && (
-        <Field label="Area Rect (x, y, w, h)">
+        <Field label="Wander Area (dx, dy, w, h — offset from this animal)">
           <div style={{ display: 'flex', gap: 4 }}>
-            {(['x', 'y', 'w', 'h'] as const).map((k, ki) => (
+            {(['dx', 'dy', 'w', 'h'] as const).map((k, ki) => (
               <input
                 key={k}
                 type="number"

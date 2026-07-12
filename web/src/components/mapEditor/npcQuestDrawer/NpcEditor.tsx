@@ -6,7 +6,7 @@ import { SpriteSearchPicker } from '../SpritePicker'
 import { AnimalEditor } from './AnimalEditor'
 import type { MapId } from '../../../data/hub/hubWorldFactory'
 import { EntityRefPicker } from '../EntityRefPicker'
-import { buildingRefOptions, questRefOptions, dialogueTreeRefOptions, type RefOption } from '../entityRefs'
+import { buildingRefOptions, interiorRefOptions, questRefOptions, dialogueTreeRefOptions, type RefOption } from '../entityRefs'
 import { SCREEN_IDS } from '../EntityInspector'
 
 // Screens reachable from an NPC's dialogue: the standard SCREEN_IDS list, plus
@@ -34,6 +34,7 @@ interface Props {
 // Reference options threaded into the NPC sub-editors.
 interface NpcRefOpts {
   buildings: RefOption[]
+  interiors: RefOption[]
   questGive: RefOption[]
   questReceive: RefOption[]
   dialogueTrees: RefOption[]
@@ -74,10 +75,13 @@ const BTN_PICK: React.CSSProperties = {
 
 type ScheduleRow = NonNullable<RawNpc['schedule']>[number]
 
-function ScheduleEditor({ schedule, onChange, buildings }: {
+function ScheduleEditor({ schedule, onChange, interiors }: {
   schedule: ScheduleRow[]
   onChange: (s: ScheduleRow[]) => void
-  buildings: RefOption[]
+  /** Interior room ids (not building ids) — a schedule's interior location is
+   *  matched against configData.interiors keys at runtime, and multi-room
+   *  buildings have extra rooms whose id differs from the building's own id. */
+  interiors: RefOption[]
 }) {
   function update(i: number, partial: Partial<ScheduleRow>) {
     onChange(schedule.map((r, idx) => idx === i ? { ...r, ...partial } as ScheduleRow : r))
@@ -117,7 +121,7 @@ function ScheduleEditor({ schedule, onChange, buildings }: {
             </select>
             {row.location.type === 'interior' && (
               <div style={{ width: 110 }}>
-                <EntityRefPicker value={row.location.buildingId} options={buildings} placeholder="building…"
+                <EntityRefPicker value={row.location.buildingId} options={interiors} placeholder="room…"
                   onChange={v => setLocation(i, { ...row.location, type: 'interior', buildingId: v })} />
               </div>
             )}
@@ -297,7 +301,7 @@ function NpcFullEditor({ npc, opts, onUpdate, onPickLocation }: {
       <Field label="Schedule">
         <ScheduleEditor
           schedule={npc.schedule ?? []}
-          buildings={opts.buildings}
+          interiors={opts.interiors}
           onChange={s => onUpdate({ schedule: s.length > 0 ? s : undefined })}
         />
       </Field>
@@ -339,6 +343,7 @@ export function NpcEditor({
   const localQuests = (questDefsData.quests as Array<{ id: string; title?: string }> | undefined) ?? []
   const refOpts: NpcRefOpts = {
     buildings: buildingRefOptions(mapId, configData.buildings ?? []),
+    interiors: interiorRefOptions(mapId, configData.interiors),
     questGive: questRefOptions(mapId, localQuests, false),     // this NPC gives quests from its own town
     questReceive: questRefOptions(mapId, localQuests, true),   // may receive cross-town deliveries
     dialogueTrees: dialogueTreeRefOptions(mapId, (questDefsData.dialogues as Array<{ id: string }> | undefined) ?? []),

@@ -3,7 +3,8 @@ import * as PIXI from 'pixi.js'
 import { usePixiApp } from '../../hooks/usePixiApp'
 import { loadTileRef, loadSpriteTexture } from '../../utils/pixiHelpers'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
-import type { RawMapConfig, RawDecorItem, RawBlockedPath, RawLockedDoor, SelectedEntity, ToolMode, Zlayer } from './mapEditorTypes'
+import type { RawMapConfig, RawDecorItem, RawBlockedPath, RawLockedDoor, RawNpc, SelectedEntity, ToolMode, Zlayer } from './mapEditorTypes'
+import { hourInRange } from '../../game/hub/hubClock'
 import { resolveVariantTint, AnimalType } from '../../game/hub/animals'
 import { WALL_TILES } from '../../data/tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
@@ -17,6 +18,17 @@ import { isSameEntityRef } from './multiSelectHelpers'
 
 const T           = 32
 const INTERIOR_PAD = 10  // tiles of surrounding space around active room in interior view
+
+/** Where a scheduled NPC would be at `hour` — mirrors getNpcLocation in
+ *  web/src/game/hub/hubNpcSchedule.ts, reimplemented against the editor's
+ *  RawNpc (structurally close to HubNpc but not identical) to avoid a cast. */
+function getScheduledLocation(npc: RawNpc, hour: number): NonNullable<RawNpc['schedule']>[number]['location'] | null {
+  if (!npc.schedule?.length) return null
+  for (const entry of npc.schedule) {
+    if (hourInRange(hour, entry.startHour, entry.endHour)) return entry.location
+  }
+  return null
+}
 
 const WALL_COLORS: Record<string, number> = {
   brick:               0x8b5e4a,
@@ -113,6 +125,9 @@ interface Props {
   showBlockedPaths:   boolean
   showAreas:          boolean
   showInteractables:  boolean
+  showExitTiles:      boolean
+  showAnimalAreas:    boolean
+  previewHour:        number | null
   blockedPaths:       RawBlockedPath[]
   questPickupItems:   RawQuestPickupItem[]
 }
@@ -120,7 +135,7 @@ interface Props {
 export function MapEditorCanvas(props: Props) {
   const {
     configData, tool, showGrid, showBuildingArt = true, selectedEntities, viewMode, activeInteriorId, activeBuildingIndex, activeLevel, previewFestivalId,
-    activeTileId, activeBundleId, activeZlayer, pickActive, showQuestItems, showBlockedPaths, showAreas, showInteractables, blockedPaths, questPickupItems,
+    activeTileId, activeBundleId, activeZlayer, pickActive, showQuestItems, showBlockedPaths, showAreas, showInteractables, showExitTiles, showAnimalAreas, previewHour, blockedPaths, questPickupItems,
     onPlaceDecor, onAddStreet,
   } = props
 
@@ -253,8 +268,8 @@ export function MapEditorCanvas(props: Props) {
         }
       } else if (t === 'place' && vm === 'building' && abIdx != null && !tid && !bid) {
         // In building mode with no active tile: toggle a door (any tile —
-        // only doors on the south face render a sprite; elsewhere they're
-        // invisible walk-in triggers).
+        // shows a sprite one tile north by default; hidden via the door's
+        // inspector for an invisible walk-in trigger).
         propsRef.current.onPlaceBuildingDoor(abIdx, tx, ty)
       } else if (t === 'buildingWindow' && vm === 'building' && abIdx != null && tid) {
         propsRef.current.onPlaceBuildingWindow(abIdx, tx, ty, tid)
@@ -397,6 +412,12 @@ export function MapEditorCanvas(props: Props) {
     if (!isBuilding && showInteractables) {
       renderInteractablesOverlay(version, questLayer, selLayer)
     }
+    if (!isInterior && !isBuilding && showExitTiles) {
+      renderExitTilesOverlay(questLayer, selLayer)
+    }
+    if (!isBuilding && showAnimalAreas) {
+      renderAnimalAreaRectsOverlay(questLayer, selLayer)
+    }
 
     if (showGrid) drawGrid(gridLayer)
     drawSelection(selLayer)
@@ -538,10 +559,9 @@ export function MapEditorCanvas(props: Props) {
       const useArt = showBuildingArt && vis.wall && vis.roof && WALL_TILES[vis.wall as WallMaterial]
       const ox = Math.min(...allRects.map(r => r[0]))
       const oy = Math.max(...allRects.map(r => r[3]))
-      // Authored position is used as-is — placeBuildingTiles only draws a door
-      // sprite when it lands exactly on a south face (rect.y2 + 1); doors
-      // elsewhere are invisible walk-in triggers, matching runtime behavior.
-      const absDoors: BuildingDoorTile[] = (b.doors ?? []).map(d => ({ tx: ox + d.tx, ty: oy + d.ty }))
+      // Authored position is used as-is — placeBuildingTiles renders the door
+      // sprite one tile north of it unless hideSprite keeps it invisible.
+      const absDoors: BuildingDoorTile[] = (b.doors ?? []).map(d => ({ tx: ox + d.tx, ty: oy + d.ty, hideSprite: d.hideSprite }))
       if (useArt) {
         for (const rect of renderRects) {
           const placements = placeBuildingTiles(rect, vis.wall as WallMaterial, vis.roof as RoofMaterial, absDoors)
@@ -646,17 +666,32 @@ export function MapEditorCanvas(props: Props) {
     // NPCs
     const npcs = configData.npcs ?? []
     npcs.forEach((npc, nIdx) => {
-      if (npc.building) return
+      // With a preview hour set, a scheduled NPC's exterior/interior split for
+      // THIS pass is driven by its schedule, not the static `building` field —
+      // it overrides where the NPC would normally show.
+      const scheduled = previewHour != null ? getScheduledLocation(npc, previewHour) : null
+      let px: number, py: number, isPreview: boolean
+      if (scheduled) {
+        if (scheduled.type !== 'exterior') return  // inside a building right now
+        px = scheduled.tx; py = scheduled.ty; isPreview = true
+      } else {
+        if (npc.building) return
+        px = npc.tx; py = npc.ty; isPreview = false
+      }
       const isSel = isEntitySelected({ type: 'npc', index: nIdx })
       loadSpriteTexture(resolveNpcSprite(npc.sprite)).then(tex => {
         if (renderVersionRef.current !== version) return
         const sp = new PIXI.Sprite(tex)
         sp.width  = T * 1.5; sp.height = T * 1.5
-        sp.x      = npc.tx * T - T * 0.25
-        sp.y      = npc.ty * T - T * 0.5
-        sp.eventMode = 'static'; sp.cursor = 'pointer'
-        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
-          handleEntityPointerDown(e, { type: 'npc', index: nIdx }, npc.tx, npc.ty))
+        sp.x      = px * T - T * 0.25
+        sp.y      = py * T - T * 0.5
+        if (isPreview) {
+          sp.alpha = 0.85
+        } else {
+          sp.eventMode = 'static'; sp.cursor = 'pointer'
+          sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
+            handleEntityPointerDown(e, { type: 'npc', index: nIdx }, npc.tx, npc.ty))
+        }
         if (isSel) {
           selLayer.rect(sp.x - 2, sp.y - 2, sp.width + 4, sp.height + 4)
             .stroke({ color: 0xf0c040, width: 2 })
@@ -665,7 +700,7 @@ export function MapEditorCanvas(props: Props) {
       }).catch(() => {
         if (renderVersionRef.current !== version) return
         const g = new PIXI.Graphics()
-        g.circle(npc.tx * T + T / 2, npc.ty * T + T / 2, T / 3).fill(0xff88aa)
+        g.circle(px * T + T / 2, py * T + T / 2, T / 3).fill(0xff88aa)
         npcLayer.addChild(g)
       })
     })
@@ -803,7 +838,7 @@ export function MapEditorCanvas(props: Props) {
 
     // Building tiles
     const useArt = showBuildingArt && b.wall && b.roof && WALL_TILES[b.wall as WallMaterial]
-    const absDoors: BuildingDoorTile[] = (b.doors ?? []).map(d => ({ tx: ox + d.tx, ty: oy + d.ty }))
+    const absDoors: BuildingDoorTile[] = (b.doors ?? []).map(d => ({ tx: ox + d.tx, ty: oy + d.ty, hideSprite: d.hideSprite }))
 
     if (useArt) {
       for (const rect of allRects) {
@@ -839,18 +874,26 @@ export function MapEditorCanvas(props: Props) {
       buildingLayer.addChild(gfx)
     }
 
-    // Doors — interactive hit zones at their rendered positions
+    // Doors — always show a marker at the entry (trigger) tile. Doors with a
+    // sprite already get real door art drawn one tile north; hidden ones
+    // (hideSprite) get a clearly visible marker so authors can still find them.
     for (let di = 0; di < (b.doors ?? []).length; di++) {
       const d = b.doors![di]
       const absTx = ox + d.tx
-      const absTy = oy + d.ty  // rendered tile row (south face + 1)
+      const absTy = oy + d.ty
       const entity: SelectedEntity = { type: 'buildingDoor', buildingIndex: bIdx, index: di }
       const isSel = isEntitySelected(entity)
       const hitGfx = new PIXI.Graphics()
-      hitGfx.rect(absTx * T, absTy * T, T, T).fill({ color: 0xffffff, alpha: 0.01 })
+      hitGfx.rect(absTx * T, absTy * T, T, T).fill({ color: 0xffcc44, alpha: d.hideSprite ? 0.35 : 0.02 })
+        .stroke({ color: isSel ? 0xf0c040 : 0xcc9922, width: d.hideSprite ? 1 : 0 })
       hitGfx.eventMode = 'static'; hitGfx.cursor = 'pointer'
       hitGfx.on('pointerdown', (e: PIXI.FederatedPointerEvent) => handleEntityPointerDown(e, entity, absTx, absTy))
       buildingLayer.addChild(hitGfx)
+      if (d.hideSprite) {
+        const lbl = new PIXI.Text({ text: '🚪', style: { fontSize: 14 } })
+        lbl.x = absTx * T + 8; lbl.y = absTy * T + 4
+        buildingLayer.addChild(lbl)
+      }
       if (isSel) selLayer.rect(absTx * T - 1, absTy * T - 1, T + 2, T + 2).stroke({ color: 0xf0c040, width: 2 })
     }
 
@@ -1024,25 +1067,40 @@ export function MapEditorCanvas(props: Props) {
 
     // ── Interior NPCs ────────────────────────────────────────────────────────
     ;(configData.npcs ?? []).forEach((npc, nIdx) => {
-      if (npc.building !== iid) return
+      // A scheduled NPC shows up here if its schedule places it in THIS
+      // building at the preview hour, even if its static `building` field
+      // points elsewhere (a traveling NPC) — schedule wins over the static field.
+      const scheduled = previewHour != null ? getScheduledLocation(npc, previewHour) : null
+      let px: number, py: number, isPreview: boolean
+      if (scheduled) {
+        if (scheduled.type !== 'interior' || scheduled.buildingId !== iid) return
+        px = scheduled.tx; py = scheduled.ty; isPreview = true
+      } else {
+        if (npc.building !== iid) return
+        px = npc.tx; py = npc.ty; isPreview = false
+      }
       const isSel = isEntitySelected({ type: 'npc', index: nIdx })
       const dimmed = !isVisibleAtLevel(npc, activeLevel)  // NPC absent at this upgrade level (below minLevel or past hideAtLevel)
       loadSpriteTexture(resolveNpcSprite(npc.sprite)).then(tex => {
         if (renderVersionRef.current !== version) return
         const sp = new PIXI.Sprite(tex)
         sp.width = T * 1.5; sp.height = T * 1.5
-        sp.x = npc.tx * T - T * 0.25
-        sp.y = npc.ty * T - T * 0.5
+        sp.x = px * T - T * 0.25
+        sp.y = py * T - T * 0.5
         if (dimmed) sp.alpha = 0.3
-        sp.eventMode = 'static'; sp.cursor = 'pointer'
-        sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
-          handleEntityPointerDown(e, { type: 'npc', index: nIdx }, npc.tx, npc.ty))
+        if (isPreview) {
+          sp.alpha = (sp.alpha ?? 1) * 0.85
+        } else {
+          sp.eventMode = 'static'; sp.cursor = 'pointer'
+          sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
+            handleEntityPointerDown(e, { type: 'npc', index: nIdx }, npc.tx, npc.ty))
+        }
         if (isSel) selLayer.rect(sp.x - 2, sp.y - 2, sp.width + 4, sp.height + 4).stroke({ color: 0xf0c040, width: 2 })
         npcLayer.addChild(sp)
       }).catch(() => {
         if (renderVersionRef.current !== version) return
         const g = new PIXI.Graphics()
-        g.circle(npc.tx * T + T / 2, npc.ty * T + T / 2, T / 3).fill(0xff88aa)
+        g.circle(px * T + T / 2, py * T + T / 2, T / 3).fill(0xff88aa)
         npcLayer.addChild(g)
       })
     })
@@ -1259,7 +1317,18 @@ export function MapEditorCanvas(props: Props) {
     })
     // Quest pickup items come from questDefs.json (passed via prop), not configData
     questPickupItems.forEach((p, i) => {
-      if (!p.building) renderItem(p.tx, p.ty, p.tileId, { type: 'pickupItem', index: i }, PICKUP_COLOR)
+      if (p.building) return
+      renderItem(p.tx, p.ty, p.tileId, { type: 'pickupItem', index: i }, PICKUP_COLOR)
+      // Extra tiles are visual-only previews — no separate hit area/selection.
+      for (const extra of p.extraTiles ?? []) {
+        loadTileRef(tileNumericId(extra.tileId)).then(tex => {
+          if (renderVersionRef.current !== version) return
+          const sp = new PIXI.Sprite(tex)
+          sp.x = (p.tx + extra.dx) * T; sp.y = (p.ty + extra.dy) * T
+          sp.tint = PICKUP_COLOR
+          questLayer.addChild(sp)
+        }).catch(() => {})
+      }
     })
   }
 
@@ -1278,6 +1347,54 @@ export function MapEditorCanvas(props: Props) {
       layer.addChild(gfx)
       const lbl = new PIXI.Text({ text: area.name, style: { fontSize: 9, fill: isSel ? 0xf0c040 : 0xaa66ff } })
       lbl.x = area.tx * T + 4; lbl.y = area.ty * T + 4
+      layer.addChild(lbl)
+    })
+  }
+
+  // ── Exit tiles overlay ───────────────────────────────────────────────────────
+  function renderExitTilesOverlay(layer: PIXI.Container, selLayer: PIXI.Graphics) {
+    ;(propsRef.current.configData.exitTiles ?? []).forEach((exit, eIdx) => {
+      const isSel = isEntitySelected({ type: 'exitTile', index: eIdx })
+      const gfx = new PIXI.Graphics()
+      gfx.rect(exit.tx * T, exit.ty * T, T, T)
+        .fill({ color: 0x44dd88, alpha: 0.18 })
+        .stroke({ color: isSel ? 0xf0c040 : 0x44dd88, width: isSel ? 2 : 1 })
+      gfx.eventMode = 'static'; gfx.cursor = 'pointer'
+      gfx.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
+        handleEntityPointerDown(e, { type: 'exitTile', index: eIdx }, exit.tx, exit.ty))
+      layer.addChild(gfx)
+      const lbl = new PIXI.Text({ text: exit.screen, style: { fontSize: 9, fill: isSel ? 0xf0c040 : 0x44dd88 } })
+      lbl.x = exit.tx * T + 2; lbl.y = exit.ty * T - 10
+      layer.addChild(lbl)
+    })
+  }
+
+  // ── Animal wander-area overlay ──────────────────────────────────────────────────
+  function renderAnimalAreaRectsOverlay(layer: PIXI.Container, selLayer: PIXI.Graphics) {
+    const { configData: cfg, viewMode: vm, activeInteriorId: iid } = propsRef.current
+    const iidCtx = vm === 'interior' ? iid : undefined
+    ;(cfg.animals ?? []).forEach((animal, aIdx) => {
+      if (!animal.areaRect) return
+      if ((animal.building ?? undefined) !== iidCtx) return
+      const isSel = isEntitySelected({ type: 'animal', index: aIdx })
+      // areaRect is [dx, dy, w, h] relative to the animal's own (tx, ty) — confirmed
+      // from existing data (e.g. Kipper [0,0,10,10], Ralph [-1,-1,4,2]), not an
+      // absolute world rect. w/h can be negative (authoring quirk), so normalize.
+      const [dx, dy, w, h] = animal.areaRect
+      const x = animal.tx + Math.min(dx, dx + w)
+      const y = animal.ty + Math.min(dy, dy + h)
+      const rw = Math.abs(w)
+      const rh = Math.abs(h)
+      const gfx = new PIXI.Graphics()
+      gfx.rect(x * T, y * T, rw * T, rh * T)
+        .fill({ color: 0x66cc33, alpha: 0.10 })
+        .stroke({ color: isSel ? 0xf0c040 : 0x66cc33, width: isSel ? 2 : 1 })
+      gfx.eventMode = 'static'; gfx.cursor = 'pointer'
+      gfx.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
+        handleEntityPointerDown(e, { type: 'animal', index: aIdx }, animal.tx, animal.ty))
+      layer.addChild(gfx)
+      const lbl = new PIXI.Text({ text: `🐾 ${animal.name ?? animal.id}`, style: { fontSize: 9, fill: isSel ? 0xf0c040 : 0x66cc33 } })
+      lbl.x = x * T + 4; lbl.y = y * T + 4
       layer.addChild(lbl)
     })
   }
@@ -1310,7 +1427,18 @@ export function MapEditorCanvas(props: Props) {
       if (isInterior ? it.building !== iid : !!it.building) return
       const isSel = isEntitySelected({ type: 'interactable', index: idx })
       // Render the owned decor tiles (so the object is visible like in-game).
+      // shopArtSlot/spriteId entries don't have an atlas tileId to preview —
+      // show a placeholder marker instead of resolving to the wrong tile (id 0).
       for (const d of it.decor ?? []) {
+        if (d.tileId == null) {
+          const ph = new PIXI.Graphics()
+          ph.rect((it.tx + d.dx) * T, (it.ty + d.dy) * T, T, T).fill({ color: 0x33bbee, alpha: 0.25 })
+          layer.addChild(ph)
+          const phLbl = new PIXI.Text({ text: d.shopArtSlot != null ? '🛒' : '🖼', style: { fontSize: 14 } })
+          phLbl.x = (it.tx + d.dx) * T + 8; phLbl.y = (it.ty + d.dy) * T + 4
+          layer.addChild(phLbl)
+          continue
+        }
         const numId = tileNumericId(d.tileId)
         loadTileRef(numId).then(tex => {
           if (renderVersionRef.current !== version) return
@@ -1508,7 +1636,7 @@ function hitTest(
       if (ox + windows[i].tx === tx && oy + windows[i].ty + 1 === ty)
         return { type: 'buildingWindow', buildingIndex: activeBuildingIndex, index: i }
     }
-    // Doors (relative coords, stored as south-face relative)
+    // Doors (relative coords; hit-test matches the entry/trigger tile itself)
     const doors = b.doors ?? []
     for (let i = doors.length - 1; i >= 0; i--) {
       if (ox + doors[i].tx === tx && oy + doors[i].ty === ty)

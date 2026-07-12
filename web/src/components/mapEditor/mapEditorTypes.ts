@@ -39,6 +39,12 @@ export interface RawBuildingDoor {
   tx: number
   ty: number
   buildingId?: string
+  /** Hide the door-sign label at runtime (still walkable) — HubTownCanvas.tsx skips drawing the sign when true. */
+  hideSign?: boolean
+  /** Keep this door a fully invisible walk-in trigger (e.g. a hidden side/back
+   *  entrance) instead of rendering door art (always one tile north of the
+   *  entry tile). Doors render by default. */
+  hideSprite?: boolean
 }
 
 export interface RawBuildingWindow {
@@ -51,6 +57,8 @@ export interface RawBuilding {
   rect?: [number, number, number, number]
   rects?: [number, number, number, number][]
   id?: string
+  /** Free-text authoring label — never shown to players, just for editor bookkeeping. */
+  comment?: string
   wall?: WallMaterial
   roof?: RoofMaterial
   bundleID?: string
@@ -152,7 +160,13 @@ export interface RawLockedDoor {
 export interface RawInteractableDecor {
   dx: number
   dy: number
-  tileId: string
+  /** Tile-atlas tile. Mutually exclusive with spriteId/shopArtSlot. */
+  tileId?: string
+  /** web/public/sprites/<spriteId>.svg — a fixed decorative sprite. */
+  spriteId?: string
+  /** Renders today's live shop-stock art for this shop's Nth for-sale slot
+   *  (resolved at runtime from getTodaysShopItems — not previewable in the editor). */
+  shopArtSlot?: number
   zlayer?: string
   glow?: boolean        // emit a night light glow
   glowRadius?: number   // glow radius in tiles

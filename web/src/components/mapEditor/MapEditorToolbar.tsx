@@ -34,11 +34,15 @@ interface Props {
   showBlockedPaths:     boolean
   showAreas:            boolean
   showInteractables:    boolean
+  showExitTiles:        boolean
+  showAnimalAreas:      boolean
+  previewHour:          number | null
   drawerOpen:           boolean
   hasDuplicateQuestIds: boolean
   configData:           RawMapConfig
   previewFestivalId:    string | null
   onPreviewFestivalChange: (id: string | null) => void
+  onPreviewHourChange:  (hour: number | null) => void
   onMapChange:          (id: MapId) => void
   onToolChange:         (t: ToolMode) => void
   onUndo:               () => void
@@ -49,6 +53,8 @@ interface Props {
   onBlockedPathsToggle: () => void
   onAreasToggle:        () => void
   onInteractablesToggle: () => void
+  onExitTilesToggle:    () => void
+  onAnimalAreasToggle:  () => void
   onDrawerToggle:       () => void
   questDefsData:        Record<string, unknown> | null
   onSaved:              () => void
@@ -69,9 +75,9 @@ const TOOLS: { mode: ToolMode; label: string; title: string }[] = [
 ]
 
 export function MapEditorToolbar({
-  mapId, tool, canUndo, canRedo, isDirty, showGrid, showBuildingArt, showQuestItems, showBlockedPaths, showAreas, showInteractables, drawerOpen, hasDuplicateQuestIds,
-  configData, questDefsData, previewFestivalId, onPreviewFestivalChange, onMapChange, onToolChange, onUndo, onRedo,
-  onGridToggle, onBuildingArtToggle, onQuestItemsToggle, onBlockedPathsToggle, onAreasToggle, onInteractablesToggle, onDrawerToggle, onSaved,
+  mapId, tool, canUndo, canRedo, isDirty, showGrid, showBuildingArt, showQuestItems, showBlockedPaths, showAreas, showInteractables, showExitTiles, showAnimalAreas, previewHour, drawerOpen, hasDuplicateQuestIds,
+  configData, questDefsData, previewFestivalId, onPreviewFestivalChange, onPreviewHourChange, onMapChange, onToolChange, onUndo, onRedo,
+  onGridToggle, onBuildingArtToggle, onQuestItemsToggle, onBlockedPathsToggle, onAreasToggle, onInteractablesToggle, onExitTilesToggle, onAnimalAreasToggle, onDrawerToggle, onSaved,
 }: Props) {
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'ok' | 'error'>('idle')
   const [saveError, setSaveError] = useState('')
@@ -258,6 +264,49 @@ export function MapEditorToolbar({
       >
         ⊡
       </button>
+
+      {/* Exit tiles overlay toggle */}
+      <button
+        title="Toggle exit tiles (warps to other screens)"
+        onClick={onExitTilesToggle}
+        style={{
+          ...btnBase,
+          background:  showExitTiles ? '#0e2a1a' : '#1e1e3e',
+          color:       showExitTiles ? '#44dd88' : '#666',
+          borderColor: showExitTiles ? '#1a7a4a' : '#444',
+        }}
+      >
+        ⇥
+      </button>
+
+      {/* Animal wander-area overlay toggle */}
+      <button
+        title="Toggle animal wander areas"
+        onClick={onAnimalAreasToggle}
+        style={{
+          ...btnBase,
+          background:  showAnimalAreas ? '#2a2a0e' : '#1e1e3e',
+          color:       showAnimalAreas ? '#cccc44' : '#666',
+          borderColor: showAnimalAreas ? '#7a7a1a' : '#444',
+        }}
+      >
+        🐾
+      </button>
+
+      {/* Preview hour control */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginLeft: 4 }} title="Preview NPC schedule positions at a given hour">
+        <span style={{ fontSize: 11, color: '#888' }}>🕐</span>
+        <input
+          type="number" min={0} max={23}
+          value={previewHour ?? ''}
+          placeholder="off"
+          onChange={e => onPreviewHourChange(e.target.value === '' ? null : Math.max(0, Math.min(23, Number(e.target.value))))}
+          style={{ width: 44, padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }}
+        />
+        {previewHour != null && (
+          <button onClick={() => onPreviewHourChange(null)} title="Clear preview hour" style={{ padding: '2px 6px', background: '#333', border: '1px solid #555', color: '#aaa', cursor: 'pointer', borderRadius: 3, fontSize: 10 }}>✕</button>
+        )}
+      </div>
 
       {/* NPC & Quest drawer toggle */}
       <button
