@@ -1822,6 +1822,16 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     tier: 1,
   },
   {
+    id: 'miniGame:daily_challenge_1',
+    name: 'Challenger',
+    description: 'Beat an arcade mini game\'s daily ticket challenge.',
+    category: 'misc',
+    progressKey: 'miniGame:dailyChallengesCompleted',
+    target: 1,
+    reward: { type: 'crystals', crystals: 75 },
+    tier: 1,
+  },
+  {
     id: 'miniGame:marble_100',
     name: 'Marble Champion',
     description: 'Score 100 tickets in a single Marble Run session.',

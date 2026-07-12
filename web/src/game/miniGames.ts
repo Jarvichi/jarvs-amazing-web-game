@@ -220,7 +220,7 @@ export interface MiniGameLeaderboardEntry {
   achievedAt:    Date
 }
 
-function getTodayDate(): string {
+export function getTodayDate(): string {
   return new Date().toISOString().slice(0, 10)
 }
 
