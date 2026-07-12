@@ -1592,18 +1592,19 @@
           "endHour": 20,
           "activity": "work",
           "location": {
-            "type": "exterior",
-            "tx": 23,
-            "ty": 13
+            "type": "interior",
+            "buildingId": "fishmonger",
+            "tx": 5,
+            "ty": 3
           }
         },
         {
           "startHour": 20,
-          "endHour": 24,
+          "endHour": 0,
           "location": {
             "type": "interior",
             "buildingId": "inn-millhaven",
-            "tx": 5,
+            "tx": 9,
             "ty": 3
           },
           "activity": "eat"
@@ -1613,9 +1614,9 @@
           "endHour": 6,
           "location": {
             "type": "interior",
-            "buildingId": "fishmonger",
-            "tx": 5,
-            "ty": 3
+            "buildingId": "fishmonger-backroom",
+            "tx": 1,
+            "ty": 2
           },
           "activity": "sleep"
         }
@@ -2351,7 +2352,16 @@
           "zlayer": "solid"
         }
       ],
-      "exits": []
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 0,
+          "toInteriorId": "fishmonger-backroom",
+          "entryTx": 5,
+          "entryTy": 6,
+          "direction": "back"
+        }
+      ]
     },
     "inn-millhaven": {
       "name": "The Anchor Inn",
@@ -3001,6 +3011,36 @@
         }
       ],
       "exits": []
+    },
+    "fishmonger-backroom": {
+      "name": "fishmonger-backroom",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 3,
+          "bundleID": "simple-bed",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 3,
+          "bundleID": "simple-bed",
+          "zlayer": "solid"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 5,
+          "ty": 7,
+          "toInteriorId": "fishmonger",
+          "direction": "front",
+          "entryTx": 5,
+          "entryTy": 1
+        }
+      ]
     }
   },
   "treasures": [

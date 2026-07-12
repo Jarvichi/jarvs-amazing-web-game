@@ -279,9 +279,9 @@ export function MapEditorToolbar({
         ⇥
       </button>
 
-      {/* Animal wander-area overlay toggle */}
+      {/* Animal wander-area overlay toggle (also covers chicken pen zones) */}
       <button
-        title="Toggle animal wander areas"
+        title="Toggle wander areas (cats/dogs + chicken pens)"
         onClick={onAnimalAreasToggle}
         style={{
           ...btnBase,

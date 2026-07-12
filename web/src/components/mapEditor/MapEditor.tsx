@@ -13,6 +13,7 @@ import { NpcQuestDrawer } from './npcQuestDrawer/NpcQuestDrawer'
 import type { DrawerTab } from './npcQuestDrawer/npcQuestDrawerTypes'
 import { appendBundle } from '../../data/bundles/bundleEditorApi'
 import type { BundleTileRaw } from '../../data/bundles/bundleEditorApi'
+import { getScheduledEntryIndex } from './npcSchedulePreview'
 
 
 interface Props {
@@ -107,7 +108,13 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
   // Intercept pickupItem moves/deletes to update questDefsData instead of configData
   const handleMoveEntities = useCallback((moves: { entity: SelectedEntity; tx: number; ty: number }[]) => {
     const pickupMoves = moves.filter(m => m.entity.type === 'pickupItem')
-    const otherMoves  = moves.filter(m => m.entity.type !== 'pickupItem')
+    // While previewing a specific hour, dragging a scheduled NPC should edit
+    // whichever schedule entry is active at that hour (not its static tx/ty) —
+    // otherwise the drag silently edits a position the preview isn't even
+    // showing. NPCs with no matching entry for this hour fall through to the
+    // normal static move, same as when no hour is being previewed.
+    const npcMoves = previewHour != null ? moves.filter(m => m.entity.type === 'npc') : []
+    const otherMoves = moves.filter(m => m.entity.type !== 'pickupItem' && !npcMoves.includes(m))
     if (pickupMoves.length > 0) {
       setQuestDefsData(prev => {
         if (!prev) return prev
@@ -119,8 +126,24 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
         return { ...prev, pickupItems: items }
       })
     }
-    if (otherMoves.length > 0) moveEntities(otherMoves)
-  }, [moveEntities])
+    const staticMoves: typeof moves = []
+    for (const move of npcMoves) {
+      const npc = state.configData.npcs?.[move.entity.index]
+      const entryIdx = npc ? getScheduledEntryIndex(npc, previewHour!) : -1
+      if (!npc || entryIdx === -1) {
+        staticMoves.push(move)
+        continue
+      }
+      const entry = npc.schedule![entryIdx]
+      const location = entry.location.type === 'interior'
+        ? { ...entry.location, tx: move.tx, ty: move.ty }
+        : { type: 'exterior' as const, tx: move.tx, ty: move.ty }
+      updateNpc(move.entity.index, {
+        schedule: npc.schedule!.map((e, i) => i === entryIdx ? { ...e, location } : e),
+      })
+    }
+    if (otherMoves.length > 0 || staticMoves.length > 0) moveEntities([...otherMoves, ...staticMoves])
+  }, [moveEntities, previewHour, state.configData.npcs, updateNpc])
 
   const handleDeleteEntities = useCallback((entities: SelectedEntity[]) => {
     const pickups = entities.filter(e => e.type === 'pickupItem')
