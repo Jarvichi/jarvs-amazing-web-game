@@ -41,13 +41,13 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
 
   const {
     state, setMapId, setTool, setActiveTile, setZlayer, setActiveLevel, setPreviewFestival,
-    openInterior, closeInterior, openBuildingEditor, closeBuildingEditor, placeBuildingDoor,
+    openInterior, closeInterior, openBuildingEditor, closeBuildingEditor, placeBuildingDoor, placeBuildingWindow,
     selectEntities, addToSelection,
     placeDecor, moveEntities, deleteEntities,
     addPondTile, addBridgeTile, updatePondEntry, updateBridgeEntry, addNpcSpawnTile, addChickenZone, addArea, addBuilding,
     convertStreetToPond, convertPondToStreet,
     batchUpdateZlayer, batchUpdateStreetPathType,
-    updateDecorZlayer, updateDecorTileId, reorderDecor, updateGlow, updateDecorMinLevel, updateDecorHideAtLevel, updateBuildingLevelVisual, updateBuilding, addNpc, updateNpcDialogue, updateNpc,
+    updateDecorZlayer, updateDecorTileId, reorderDecor, updateGlow, updateDecorMinLevel, updateDecorHideAtLevel, updateBuildingLevelVisual, updateBuilding, resizeBuilding, addNpc, updateNpcDialogue, updateNpc,
     addAnimal, updateAnimal,
     updateTreasure, updateConfig,
     updateArea, updateMapProps, resizeMap,
@@ -193,6 +193,21 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
     selectEntities([{ type: 'interactable', index: list.length }])
   }, [centreTile, state.configData.interactables, updateConfig, selectEntities])
 
+  const handleConvertDecorToInteractable = useCallback((entity: SelectedEntity) => {
+    if (entity.type !== 'exteriorDecor') return
+    const items = state.configData.exteriorDecor ?? []
+    const item = items[entity.index]
+    if (!item || item.tx == null || item.ty == null) return
+    const list = state.configData.interactables ?? []
+    const decor = item.tileId ? [{ dx: 0, dy: 0, tileId: item.tileId, zlayer: item.zlayer, glow: item.glow, glowRadius: item.glowRadius, pulse: item.pulse }] : undefined
+    updateConfig({
+      exteriorDecor: items.filter((_, i) => i !== entity.index),
+      interactables: [...list, { id: `interactable-${Date.now()}`, tx: item.tx, ty: item.ty, decor, reactions: [{ type: 'dialogue', text: '' }] }],
+    })
+    setShowInteractables(true)
+    selectEntities([{ type: 'interactable', index: list.length }])
+  }, [state.configData.exteriorDecor, state.configData.interactables, updateConfig, selectEntities])
+
   const handleAddBlockedPath = useCallback(() => {
     const { tx, ty } = centreTile()
     const list = (questDefsData?.blockedPaths as RawBlockedPath[]) ?? []
@@ -335,6 +350,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
             onAddToSelection={addToSelection}
             onPlaceDecor={placeDecor}
             onPlaceBuildingDoor={placeBuildingDoor}
+            onPlaceBuildingWindow={placeBuildingWindow}
             onMoveEntities={handleMoveEntities}
             onDeleteEntities={handleDeleteEntities}
             onAddStreet={addStreet}
@@ -359,6 +375,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
               viewMode={state.viewMode}
               onSetActiveLevel={setActiveLevel}
               onUpdateBuilding={updateBuilding}
+              onResizeBuilding={resizeBuilding}
               onUpdateBuildingLevelVisual={updateBuildingLevelVisual}
               onUpdateDecorMinLevel={updateDecorMinLevel}
               onUpdateDecorHideAtLevel={updateDecorHideAtLevel}
@@ -417,6 +434,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
               onBatchUpdateStreetPathType={batchUpdateStreetPathType}
               onUpdateDecorTileId={updateDecorTileId}
               onReorderDecor={reorderDecor}
+              onConvertDecorToInteractable={handleConvertDecorToInteractable}
               onSaveAsBundle={(bundleId: string, tiles: BundleTileRaw[]) => appendBundle(bundleId, tiles)}
               onConvertStreetToPond={convertStreetToPond}
               onConvertPondToStreet={convertPondToStreet}

@@ -685,7 +685,7 @@
     {
       "id": "fish-basket-2",
       "tx": 33,
-      "ty": 16,
+      "ty": 15,
       "tileId": "mushroomBasket",
       "questId": "millhaven-missing-catch"
     },

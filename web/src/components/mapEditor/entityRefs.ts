@@ -10,6 +10,7 @@ import type { MapId, QuestDefsJson } from '../../data/hub/hubWorldFactory'
 import { QUEST_DEFS_BY_MAP } from '../../data/hub/hubWorldFactory'
 import type { RawMapConfig } from './mapEditorTypes'
 import { RAW_CONFIGS } from './useMapEditorState'
+import hubItems from '../../data/hubItems.json'
 
 export interface RefOption {
   value: string
@@ -125,6 +126,16 @@ export function allQuestOptions(): RefOption[] {
     }
   }
   return out
+}
+
+// Hub-item options across the single global catalog (web/src/data/hubItems.json).
+type HubItemLite = { id: string; name: string; category?: string }
+export function hubItemRefOptions(): RefOption[] {
+  return (hubItems as HubItemLite[]).map(item => ({
+    value: item.id,
+    label: `${item.name} (${item.id})`,
+    group: item.category,
+  }))
 }
 
 /** Town that defines a given quest id (for cross-town badges). */

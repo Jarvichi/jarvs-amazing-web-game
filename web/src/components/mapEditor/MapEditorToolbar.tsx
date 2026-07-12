@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import type { ToolMode } from './mapEditorTypes'
 import { saveMap, saveQuestDefs } from './mapEditorApi'
+import { markSelfSave } from '../../utils/hotReloadGuard'
 import type { RawMapConfig } from './mapEditorTypes'
 import { MapId } from '../../data/hub/hubWorldFactory'
 import { FESTIVALS } from '../../game/hub/hubCalendar'
@@ -64,6 +65,7 @@ const TOOLS: { mode: ToolMode; label: string; title: string }[] = [
   { mode: 'chickenZone', label: '⊛', title: 'Draw Chicken Zone' },
   { mode: 'area',        label: '□', title: 'Draw Area' },
   { mode: 'building',    label: '🏛', title: 'Draw Building' },
+  { mode: 'buildingWindow', label: '⊞', title: 'Place Window (building view, with a tile selected)' },
 ]
 
 export function MapEditorToolbar({
@@ -77,6 +79,7 @@ export function MapEditorToolbar({
   const handleSave = async () => {
     setSaveState('saving')
     setSaveError('')
+    markSelfSave()
     try {
       await saveMap(mapId, configData)
       if (questDefsData) await saveQuestDefs(mapId, questDefsData)

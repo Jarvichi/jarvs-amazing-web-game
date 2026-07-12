@@ -18,6 +18,7 @@ import hollowmereConfig from '../../data/hub/hollowmere/config.json'
 import dreadspirecitadelConfig from '../../data/hub/dreadspirecitadel/config.json'
 import { MapId } from '../../data/hub/hubWorldFactory'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
+import { isSelfSave } from '../../utils/hotReloadGuard'
 
 // Exported so cross-town reference pickers (entityRefs.ts) can read every town's
 // NPCs / buildings / interiors without re-importing all the config JSON.
@@ -35,6 +36,33 @@ export const RAW_CONFIGS: Record<MapId, RawMapConfig> = {
   gravemoor: gravemoorConfig as unknown as RawMapConfig,
   hollowmere: hollowmereConfig as unknown as RawMapConfig,
   dreadspirecitadel: dreadspirecitadelConfig as unknown as RawMapConfig,
+}
+
+// Saving writes straight onto these same config.json files, which Vite would
+// otherwise respond to with a full page reload (see hotReloadGuard.ts). A
+// self-triggered save's data already matches what's in memory, so we no-op;
+// an external change (another tab, or a hand-edit) also no-ops but warns,
+// since silently reloading could discard unsaved work in this tab.
+if (import.meta.hot) {
+  import.meta.hot.accept([
+    '../../data/hub/ravenwatch/config.json',
+    '../../data/hub/millhaven/config.json',
+    '../../data/hub/ironholdkeep/config.json',
+    '../../data/hub/thornwoodcamp/config.json',
+    '../../data/hub/capitalcity/config.json',
+    '../../data/hub/royalpalace/config.json',
+    '../../data/hub/saltmereport/config.json',
+    '../../data/hub/gearford/config.json',
+    '../../data/hub/harrowfield/config.json',
+    '../../data/hub/appleford/config.json',
+    '../../data/hub/gravemoor/config.json',
+    '../../data/hub/hollowmere/config.json',
+    '../../data/hub/dreadspirecitadel/config.json',
+  ], () => {
+    if (!isSelfSave()) {
+      console.warn('[map editor] A hub config.json changed on disk outside this tab. Refresh to pick it up — unsaved changes here were left alone.')
+    }
+  })
 }
 
 const MAX_UNDO = 50
@@ -180,6 +208,31 @@ function applyMove(prevConfig: RawMapConfig, entity: SelectedEntity, tx: number,
     const decor = [...b.decor!]
     decor[entity.index] = { ...decor[entity.index], tx: tx - ox, ty: ty - oy }
     buildings[entity.buildingIndex] = { ...b, decor }
+    newConfig = { ...prevConfig, buildings }
+  } else if (entity.type === 'buildingDoor') {
+    // tx/ty are absolute; convert to relative before storing
+    const buildings = [...(prevConfig.buildings ?? [])]
+    const b = buildings[entity.buildingIndex]
+    if (!b?.doors?.[entity.index]) return prevConfig
+    const allRects = (b.rects ?? (b.rect ? [b.rect] : [])) as [number, number, number, number][]
+    const ox = Math.min(...allRects.map(r => r[0]))
+    const oy = Math.max(...allRects.map(r => r[3]))
+    const doors = [...b.doors]
+    doors[entity.index] = { ...doors[entity.index], tx: tx - ox, ty: ty - oy }
+    buildings[entity.buildingIndex] = { ...b, doors }
+    newConfig = { ...prevConfig, buildings }
+  } else if (entity.type === 'buildingWindow') {
+    // tx/ty are absolute; convert to relative before storing
+    const buildings = [...(prevConfig.buildings ?? [])]
+    const b = buildings[entity.buildingIndex]
+    if (!b?.windows?.[entity.index]) return prevConfig
+    const allRects = (b.rects ?? (b.rect ? [b.rect] : [])) as [number, number, number, number][]
+    const ox = Math.min(...allRects.map(r => r[0]))
+    const oy = Math.max(...allRects.map(r => r[3]))
+    const windows = [...b.windows]
+    // Matches getEntityTy's +1 (window sprites render 1 tile below their stored ty).
+    windows[entity.index] = { ...windows[entity.index], tx: tx - ox, ty: ty - oy - 1 }
+    buildings[entity.buildingIndex] = { ...b, windows }
     newConfig = { ...prevConfig, buildings }
   } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
     const interior = prevConfig.interiors[entity.interiorId]
@@ -918,6 +971,48 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     })
   }, [])
 
+  // Grows/shrinks a single-rect building's footprint by one tile on the given
+  // edge. Doors/windows/decor are stored relative to the building's (ox, oy)
+  // origin (ox = min x1, oy = max y2) — growing/shrinking on the left or
+  // bottom edge moves that origin, so their relative coords are compensated
+  // to keep them visually anchored at the same absolute position. Only
+  // single-rect buildings (`rect`, not `rects`) are supported.
+  const resizeBuilding = useCallback((index: number, dir: 'top' | 'bottom' | 'left' | 'right', grow = true) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const buildings = [...(prevConfig.buildings ?? [])]
+      const b = buildings[index]
+      if (!b?.rect) return s
+      const MIN = 3
+      const [x1, y1, x2, y2] = b.rect
+      if (!grow) {
+        if ((dir === 'left' || dir === 'right') && x2 - x1 + 1 <= MIN) return s
+        if ((dir === 'top' || dir === 'bottom') && y2 - y1 + 1 <= MIN) return s
+      }
+
+      let newRect: [number, number, number, number] = [x1, y1, x2, y2]
+      let dTx = 0  // compensating shift applied to doors/windows/decor tx
+      let dTy = 0  // compensating shift applied to doors/windows/decor ty
+      if (dir === 'left')  { newRect = grow ? [x1 - 1, y1, x2, y2] : [x1 + 1, y1, x2, y2]; dTx = grow ? 1 : -1 }
+      if (dir === 'right') { newRect = grow ? [x1, y1, x2 + 1, y2] : [x1, y1, x2 - 1, y2] }
+      if (dir === 'top')   { newRect = grow ? [x1, y1 - 1, x2, y2] : [x1, y1 + 1, x2, y2] }
+      if (dir === 'bottom'){ newRect = grow ? [x1, y1, x2, y2 + 1] : [x1, y1, x2, y2 - 1]; dTy = grow ? -1 : 1 }
+
+      const shiftDoors   = (dTx || dTy) ? (b.doors ?? []).map(d => ({ ...d, tx: d.tx + dTx, ty: d.ty + dTy })) : b.doors
+      const shiftWindows = (dTx || dTy) ? (b.windows ?? []).map(w => ({ ...w, tx: w.tx + dTx, ty: w.ty + dTy })) : b.windows
+      const shiftDecor   = (dTx || dTy) ? (b.decor ?? []).map(d => ({ ...d, tx: (d.tx ?? 0) + dTx, ty: (d.ty ?? 0) + dTy })) : b.decor
+
+      buildings[index] = { ...b, rect: newRect, doors: shiftDoors, windows: shiftWindows, decor: shiftDecor }
+      return {
+        ...s,
+        configData: { ...prevConfig, buildings },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty:   true,
+      }
+    })
+  }, [])
+
   const updateNpcDialogue = useCallback((index: number, dialogue: string[]) => {
     setState(s => {
       const prevConfig = s.configData
@@ -1471,6 +1566,32 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     })
   }, [])
 
+  const placeBuildingWindow = useCallback((buildingIndex: number, absTx: number, absTy: number, tileId: string) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const buildings = [...(prevConfig.buildings ?? [])]
+      const b = buildings[buildingIndex]
+      if (!b) return s
+      const allRects = (b.rects ?? (b.rect ? [b.rect] : [])) as [number, number, number, number][]
+      const ox = Math.min(...allRects.map(r => r[0]))
+      const oy = Math.max(...allRects.map(r => r[3]))
+      const relTx = absTx - ox
+      // Window sprites render 1 tile below their stored ty (see getEntityTy /
+      // the +1 in the window render passes) — subtract it back out here so a
+      // window ends up exactly on the clicked tile.
+      const relTy = absTy - oy - 1
+      const windows = [...(b.windows ?? []), { tx: relTx, ty: relTy, tileId }]
+      buildings[buildingIndex] = { ...b, windows }
+      return {
+        ...s,
+        configData: { ...prevConfig, buildings },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty:   true,
+      }
+    })
+  }, [])
+
   const markSaved = useCallback(() => {
     setState(s => ({ ...s, isDirty: false }))
   }, [])
@@ -1488,6 +1609,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     openBuildingEditor,
     closeBuildingEditor,
     placeBuildingDoor,
+    placeBuildingWindow,
     selectEntities,
     addToSelection,
     placeDecor,
@@ -1513,6 +1635,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     updateDecorHideAtLevel,
     updateBuildingLevelVisual,
     updateBuilding,
+    resizeBuilding,
     addNpc,
     updateNpcDialogue,
     updateNpc,

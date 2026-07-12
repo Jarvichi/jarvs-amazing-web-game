@@ -9,13 +9,33 @@
   },
   "exitTiles": [
     {
+      "tx": 55,
+      "ty": 99,
+      "screen": "worldmap"
+    },
+    {
+      "tx": 54,
+      "ty": 99,
+      "screen": "worldmap"
+    },
+    {
       "tx": 56,
-      "ty": 93,
+      "ty": 99,
       "screen": "worldmap"
     },
     {
       "tx": 57,
-      "ty": 93,
+      "ty": 99,
+      "screen": "worldmap"
+    },
+    {
+      "tx": 58,
+      "ty": 99,
+      "screen": "worldmap"
+    },
+    {
+      "tx": 59,
+      "ty": 99,
       "screen": "worldmap"
     }
   ],
@@ -90,66 +110,66 @@
   "streets": [
     {
       "rect": [
-        0,
+        8,
         14,
-        119,
+        111,
         15
       ]
     },
     {
       "rect": [
-        0,
+        8,
         28,
-        119,
+        111,
         29
       ]
     },
     {
       "rect": [
-        0,
+        8,
         42,
-        119,
+        111,
         43
       ]
     },
     {
       "rect": [
-        0,
+        8,
         64,
-        119,
+        111,
         65
       ]
     },
     {
       "rect": [
-        0,
+        8,
         80,
-        119,
+        111,
         81
       ]
     },
     {
       "rect": [
-        0,
-        88,
-        119,
-        89
+        8,
+        91,
+        111,
+        92
       ]
     },
     {
       "rect": [
         8,
-        0,
+        14,
         9,
-        99
+        92
       ]
     },
     {
       "rect": [
         24,
-        0,
+        14,
         25,
-        99
+        92
       ]
     },
     {
@@ -163,17 +183,17 @@
     {
       "rect": [
         88,
-        0,
+        14,
         89,
-        99
+        92
       ]
     },
     {
       "rect": [
         110,
-        0,
+        14,
         111,
-        99
+        92
       ]
     },
     {
@@ -285,6 +305,32 @@
       "tile": [
         48,
         13
+      ]
+    },
+    {
+      "tile": [
+        45,
+        90
+      ]
+    },
+    {
+      "tile": [
+        99,
+        90
+      ]
+    },
+    {
+      "tile": [
+        75,
+        90
+      ]
+    },
+    {
+      "rect": [
+        16,
+        90,
+        17,
+        90
       ]
     }
   ],
@@ -1106,9 +1152,9 @@
       "upgradeKind": "shop",
       "rect": [
         40,
-        79,
+        82,
         50,
-        86
+        89
       ],
       "wall": "castleStone",
       "roof": "greySlateRoof",
@@ -1164,9 +1210,9 @@
       "upgradeKind": "workshop",
       "rect": [
         70,
-        79,
+        82,
         80,
-        86
+        89
       ],
       "wall": "reinforcedStone",
       "roof": "metalRoof",
@@ -1222,9 +1268,9 @@
       "upgradeKind": "workshop",
       "rect": [
         92,
-        79,
+        82,
         106,
-        86
+        89
       ],
       "wall": "castleStone",
       "roof": "greySlateRoof",
@@ -1274,6 +1320,24 @@
           "minLevel": 3
         }
       ]
+    },
+    {
+      "id": "building-1",
+      "rect": [
+        12,
+        83,
+        21,
+        89
+      ],
+      "wall": "tudorFrame",
+      "roof": "strawRoof",
+      "doors": [
+        {
+          "tx": 4,
+          "ty": 0
+        }
+      ],
+      "requiresOwnership": true
     }
   ],
   "interiors": {
@@ -3165,7 +3229,7 @@
         },
         {
           "tx": 12,
-          "ty": 1,
+          "ty": 3,
           "tileId": "deskTop"
         },
         {
@@ -3770,6 +3834,13 @@
           "direction": "front"
         }
       ]
+    },
+    "building-1": {
+      "name": "building-1",
+      "width": 10,
+      "height": 7,
+      "floorTileId": "woodFloor",
+      "decor": []
     }
   },
   "interactables": [
@@ -4159,7 +4230,7 @@
   "npcSpawnTiles": [
     [
       56,
-      91
+      96
     ]
   ],
   "npcs": [
@@ -5382,7 +5453,7 @@
       "id": "crownhaven-dealer",
       "name": "Gildric the Dealer",
       "sprite": "hub-npc-dealer",
-      "tx": 55,
+      "tx": 54,
       "ty": 79,
       "screen": "casino",
       "dialogue": [
@@ -6518,43 +6589,43 @@
       "comment": "Guard Quarter — braziers, walls & banners"
     },
     {
-      "tx": 54,
-      "ty": 90,
-      "tileId": "stoneCityWallTop"
-    },
-    {
-      "tx": 56,
-      "ty": 90,
-      "tileId": "stoneCityWallTop"
-    },
-    {
-      "tx": 58,
-      "ty": 90,
+      "tx": 53,
+      "ty": 93,
       "tileId": "stoneCityWallTop"
     },
     {
       "tx": 60,
-      "ty": 90,
+      "ty": 93,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 61,
+      "ty": 93,
+      "tileId": "stoneCityWallTop"
+    },
+    {
+      "tx": 52,
+      "ty": 93,
       "tileId": "stoneCityWallTop"
     },
     {
       "tx": 62,
-      "ty": 90,
+      "ty": 93,
       "tileId": "stoneCityWallTop"
     },
     {
-      "tx": 64,
-      "ty": 90,
+      "tx": 51,
+      "ty": 93,
       "tileId": "stoneCityWallTop"
     },
     {
-      "tx": 66,
-      "ty": 90,
+      "tx": 63,
+      "ty": 93,
       "tileId": "stoneCityWallTop"
     },
     {
-      "tx": 68,
-      "ty": 90,
+      "tx": 50,
+      "ty": 93,
       "tileId": "stoneCityWallTop"
     },
     {
@@ -6857,14 +6928,14 @@
       "comment": "South gate — road sign & approach"
     },
     {
-      "tx": 52,
-      "ty": 90,
+      "tx": 53,
+      "ty": 89,
       "tileId": "roadSignTop",
       "zlayer": "above"
     },
     {
-      "tx": 52,
-      "ty": 91,
+      "tx": 53,
+      "ty": 90,
       "tileId": "roadSignBottom"
     },
     {

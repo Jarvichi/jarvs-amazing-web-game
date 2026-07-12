@@ -7,12 +7,12 @@
 import { WALL_TILES, ROOF_TILES, ROOF_ROWS, getWallTile } from './buildingMaterials'
 import type { WallMaterial, RoofMaterial } from './buildingMaterials'
 
-/** A south-facing door tile, in absolute tile coords, sitting at `rect.y2 + 1`. */
+/** A door tile, in absolute tile coords. Only doors sitting at `rect.y2 + 1`
+ *  (the south face) get a rendered sprite; doors elsewhere are invisible
+ *  walk-in triggers only (see the door-pass skip check below). */
 export interface BuildingDoorTile {
   tx: number
   ty: number
-  /** Tiles to shift the rendered door upward (0 = standard south face). */
-  tyAdjust?: number
 }
 
 /**
@@ -66,10 +66,9 @@ export function placeBuildingTiles(
   const wallTiles = WALL_TILES[wall]
   for (const door of doors) {
     if (door.ty !== y2 + 1 || door.tx < x1 || door.tx > x2) continue
-    const adj = door.tyAdjust ?? 0
-    place(wallTiles.doorArchTop, door.tx, y2 - 1 - adj)
-    place(wallTiles.doorTop,     door.tx, y2 - 1 - adj)
-    place(wallTiles.doorBottom,  door.tx, y2 - 0 - adj)
+    place(wallTiles.doorArchTop, door.tx, y2 - 1)
+    place(wallTiles.doorTop,     door.tx, y2 - 1)
+    place(wallTiles.doorBottom,  door.tx, y2 - 0)
   }
 
   return placements

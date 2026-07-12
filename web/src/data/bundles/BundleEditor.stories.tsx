@@ -7,6 +7,17 @@ import { usePixiApp } from '../../hooks/usePixiApp'
 import { loadTileRef } from '../../utils/pixiHelpers'
 import { BASE_CHIP_TILES } from '../tiles/baseChipIndex'
 import { resolveTileRef } from '../tiles/tileIndex'
+import { isSelfSave } from '../../utils/hotReloadGuard'
+
+// Same full-reload issue as bundleLoader.ts — this story also statically
+// imports bundles.json, a separate import chain from the one accepted there.
+if (import.meta.hot) {
+  import.meta.hot.accept('./bundles.json', () => {
+    if (!isSelfSave()) {
+      console.warn('[bundle editor] bundles.json changed on disk outside this tab. Refresh to pick it up — unsaved changes here were left alone.')
+    }
+  })
+}
 
 const T   = 32
 const PAD = 1

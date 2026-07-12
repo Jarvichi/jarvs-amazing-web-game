@@ -262,6 +262,9 @@ export interface RawInteractableDecor {
    *  resolved from getTodaysShopItems()[slot].grant.kind at render time. */
   shopArtSlot?: number
   zlayer?: string
+  glow?: boolean        // emit a night light glow
+  glowRadius?: number   // glow radius in tiles
+  pulse?: boolean       // animate the glow radius
 }
 
 export interface RawInteractableReaction {

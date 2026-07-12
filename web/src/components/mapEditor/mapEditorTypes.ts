@@ -3,7 +3,7 @@ import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMateri
 import type { NpcActivity } from '../../data/hub/loader'
 
 
-export type ToolMode = 'select' | 'place' | 'delete' | 'street' | 'pond' | 'bridge' | 'spawn' | 'chickenZone' | 'area' | 'building'
+export type ToolMode = 'select' | 'place' | 'delete' | 'street' | 'pond' | 'bridge' | 'spawn' | 'chickenZone' | 'area' | 'building' | 'buildingWindow'
 export type Zlayer = 'solid' | 'below' | 'above'
 export type ViewMode = 'exterior' | 'interior' | 'building'
 
@@ -92,6 +92,7 @@ export interface RawNpc {
   questReceive?: string | string[]
   isGhost?: boolean
   dialogueTree?: string   // id of a branching dialogue tree (questDefs.json `dialogues`)
+  screen?: string   // opens a screen/modal (e.g. 'adopt-pet') via a dialogue choice, in addition to dialogue
   minLevel?: number   // building upgrade level at which this NPC first appears (0/undefined = always)
   hideAtLevel?: number // building upgrade level at which this NPC disappears (undefined = never)
   levelBuildingId?: string // exterior NPCs: building whose upgrade level gates this NPC's visibility
@@ -153,10 +154,13 @@ export interface RawInteractableDecor {
   dy: number
   tileId: string
   zlayer?: string
+  glow?: boolean        // emit a night light glow
+  glowRadius?: number   // glow radius in tiles
+  pulse?: boolean       // animate the glow radius
 }
 
 export interface RawInteractableReaction {
-  type: string   // 'dialogue' | 'screen' | 'giveItem' | 'quest' | 'move'
+  type: string   // 'dialogue' | 'screen' | 'giveItem' | 'quest' | 'move' | 'buy' | 'buyPack' | 'buyHubItem' | 'dig' | 'forage'
   // dialogue
   speakerName?: string
   text?: string | string[]
@@ -172,6 +176,19 @@ export interface RawInteractableReaction {
   questId?: string
   // move
   to?: { tx: number; ty: number }
+  // buy
+  slotIndex?: number
+  // buyHubItem
+  itemId?: string
+  price?: number
+  currency?: 'crystals' | 'tickets'
+  prerequisite?: string
+  lockedText?: string
+  // dig
+  requiresItemId?: string
+  nightOnly?: boolean
+  weatherOnly?: string
+  lootTable?: 'earth' | 'hollow' | 'rain' | 'fog'
 }
 
 export interface RawInteractable {
@@ -213,7 +230,7 @@ export interface RawMapConfig {
   interiors?: Record<string, RawInterior>
   npcs?: RawNpc[]
   animals?: RawAnimal[]
-  doors?: Array<{ buildingId: string; tx: number; ty: number; tyAdjust?: number }>
+  doors?: Array<{ buildingId: string; tx: number; ty: number }>
   npcSpawnTiles?: [number, number][]
   ambientNpcSprites?: string[]
   treasures?: Array<{

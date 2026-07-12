@@ -1056,6 +1056,16 @@ export const BASE_CHIP_TILES = {
   pumpkin1Lit:  13497,          // localId 2497
   goldFish:     13762,          // localId 2762
 
+
+      floatingDuck1TL: 12056,
+    floatingDuck1TM: 12057,
+    floatingDuck1TR: 12058,
+    floatingwatermellon: 12062,
+    floatingDuck1BL: 12117,
+    floatingDuck1BM: 12118,
+    floatingDuck1BR: 12119,
+    floatingDuck1: 12129,
+    floatingDuck2: 12190,
   // ── Icons sheet tiles (globalId = 20000 + localTileIndex) ──
   coin:        20199,
   playingCard: 20222,

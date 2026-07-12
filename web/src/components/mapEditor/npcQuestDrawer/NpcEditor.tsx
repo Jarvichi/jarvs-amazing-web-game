@@ -7,6 +7,13 @@ import { AnimalEditor } from './AnimalEditor'
 import type { MapId } from '../../../data/hub/hubWorldFactory'
 import { EntityRefPicker } from '../EntityRefPicker'
 import { buildingRefOptions, questRefOptions, dialogueTreeRefOptions, type RefOption } from '../entityRefs'
+import { SCREEN_IDS } from '../EntityInspector'
+
+// Screens reachable from an NPC's dialogue: the standard SCREEN_IDS list, plus
+// special dispatcher keywords handled directly in HubWorld.tsx's
+// handleNodeInteract (not full-blown screens, e.g. modals / one-off flows).
+const NPC_SCREEN_KEYWORDS = ['adopt-pet', 'town-upgrades', 'bounty-board', 'worldmap', 'campaign', 'endless', 'hub-fishing', 'commander']
+const NPC_SCREEN_OPTIONS = Array.from(new Set([...SCREEN_IDS, ...NPC_SCREEN_KEYWORDS])).sort()
 
 export type { PickKind } from '../mapEditorTypes'
 import type { PickKind } from '../mapEditorTypes'
@@ -251,6 +258,20 @@ function NpcFullEditor({ npc, opts, onUpdate, onPickLocation }: {
       <Field label="Dialogue Tree (optional)">
         <EntityRefPicker value={npc.dialogueTree ?? ''} options={opts.dialogueTrees} placeholder="Search dialogue trees…"
           onChange={v => onUpdate({ dialogueTree: v || undefined })} />
+      </Field>
+      <Field label="Screen (optional)">
+        <input
+          style={INPUT} list={`npc-screen-options-${npc.id}`}
+          value={npc.screen ?? ''}
+          placeholder="e.g. adopt-pet, interior:some-building, narrator:some text…"
+          onChange={e => onUpdate({ screen: e.target.value || undefined })}
+        />
+        <datalist id={`npc-screen-options-${npc.id}`}>
+          {NPC_SCREEN_OPTIONS.map(s => <option key={s} value={s} />)}
+        </datalist>
+        <div style={{ color: '#666', fontSize: 10, marginTop: 2 }}>
+          Opens a screen or modal when talked to, offered as a dialogue choice alongside their normal dialogue — doesn't replace it.
+        </div>
       </Field>
       <Field label="Quest Give">
         <EntityRefPicker value={npc.questGive ?? ''} options={opts.questGive} placeholder="Search quests…"
