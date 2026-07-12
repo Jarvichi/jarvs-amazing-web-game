@@ -1220,12 +1220,30 @@ export function HubTownCanvas({
     }
 
     // ── NPC name tags (show within 5 tiles of avatar) ─────────────────────────
-    const npcNameTags: { npcId: string; tag: PIXI.Container }[] = []
+    // Name tags play a 4s-show / 500ms-fade intro each time the player enters
+    // range; speech bubbles for that NPC are suppressed until the intro ends,
+    // so the two never render on top of each other.
+    interface NpcNameTagState {
+      npcId:       string
+      tag:         PIXI.Container
+      phase:       'hidden' | 'showing' | 'fading'
+      timer:       number
+      wasInRange:  boolean
+      bubbleReady: boolean
+    }
+    const NAME_TAG_SHOW_MS = 4000
+    const NAME_TAG_FADE_MS = 500
+    const npcNameTags: NpcNameTagState[] = []
     for (const { npc, cx, cy } of npcBubbleTargets) {
       const tag = createNameTag(npc.name, cx, cy)
       tag.visible = false
       bubbleLayer.addChild(tag)
-      npcNameTags.push({ npcId: npc.id, tag })
+      npcNameTags.push({ npcId: npc.id, tag, phase: 'hidden', timer: 0, wasInRange: false, bubbleReady: false })
+    }
+    const npcTagStateById = new Map(npcNameTags.map(s => [s.npcId, s]))
+    function isNameTagBlockingBubble(npcId: string): boolean {
+      const s = npcTagStateById.get(npcId)
+      return !!s && s.wasInRange && !s.bubbleReady
     }
 
     // ── Card-unit NPCs ─────────────────────────────────────────────────────────
@@ -1720,7 +1738,7 @@ export function HubTownCanvas({
       // Hide exterior overlays so they don't bleed into the interior view
       for (const ind of questIndicators.values()) ind.visible = false
       for (const entry of exteriorInteractables.values()) { if (entry.indicator) entry.indicator.visible = false }
-      for (const { tag } of npcNameTags) tag.visible = false
+      for (const s of npcNameTags) { s.tag.visible = false; s.phase = 'hidden'; s.wasInRange = false; s.bubbleReady = false }
 
       // Build walkable set
       interiorWalkable = new Set<string>()
@@ -2641,16 +2659,40 @@ export function HubTownCanvas({
       }
       if (zDirty) { spriteLayer.sortChildren(); worldLayer.sortChildren() }
 
-      // NPC name tag proximity (exterior only)
+      // NPC name tag proximity (exterior only) — show/fade intro state machine
       if (!interiorActive) {
         const [atx, aty] = currentTile
-        for (const { npcId, tag } of npcNameTags) {
-          const container = namedNpcContainers.get(npcId)
+        for (const state of npcNameTags) {
+          const { tag } = state
+          const container = namedNpcContainers.get(state.npcId)
           const npcOnExterior = container?.visible ?? true
-          const ws = namedNpcWalkStates.get(npcId)
+          const ws = namedNpcWalkStates.get(state.npcId)
           const ntx = ws?.currentTx ?? 0
           const nty = ws?.currentTy ?? 0
-          tag.visible = npcOnExterior && Math.max(Math.abs(ntx - atx), Math.abs(nty - aty)) <= 5
+          const inRange = npcOnExterior && Math.max(Math.abs(ntx - atx), Math.abs(nty - aty)) <= 5
+
+          if (inRange && !state.wasInRange) {
+            state.phase = 'showing'
+            state.timer = NAME_TAG_SHOW_MS
+            state.bubbleReady = false
+            tag.alpha = 1
+            tag.visible = true
+          } else if (!inRange && state.wasInRange) {
+            state.phase = 'hidden'
+            state.bubbleReady = false
+            tag.visible = false
+          }
+          state.wasInRange = inRange
+
+          if (inRange && state.phase === 'showing') {
+            state.timer -= ticker.deltaMS
+            if (state.timer <= 0) { state.phase = 'fading'; state.timer = NAME_TAG_FADE_MS }
+          } else if (inRange && state.phase === 'fading') {
+            state.timer -= ticker.deltaMS
+            tag.alpha = Math.max(0, state.timer / NAME_TAG_FADE_MS)
+            if (state.timer <= 0) { state.phase = 'hidden'; state.bubbleReady = true; tag.visible = false }
+          }
+
           if (npcOnExterior && container?.children.length) {
             const s = container.children[0] as PIXI.Sprite
             tag.position.set(s.x, s.y - SPRITE_SIZE - 4)
@@ -2733,7 +2775,7 @@ export function HubTownCanvas({
           const dist = Math.max(Math.abs(ws.currentTx - atx), Math.abs(ws.currentTy - aty))
           dialogues.sort((a, b) => a.atDistance - b.atDistance)
           const match = dialogues.find(p => dist <= p.atDistance)
-          const newText = match ? match.text : null
+          const newText = (match && !isNameTagBlockingBubble(npcId)) ? match.text : null
           const entry = namedNpcProximityBubbles.get(npcId) ?? { bubble: null, lastText: null }
           if (newText !== entry.lastText) {
             if (entry.bubble) { bubbleLayer.removeChild(entry.bubble); entry.bubble = null }
@@ -2990,8 +3032,9 @@ export function HubTownCanvas({
           if (nextSpawnTimer <= 0) {
             lastBubbleIdx = (lastBubbleIdx + 1) % npcBubbleTargets.length
             const { npc, cx, cy } = npcBubbleTargets[lastBubbleIdx]
-            // Don't show bubble for NPCs that have moved inside a building
-            if (namedNpcContainers.get(npc.id)?.visible !== false) {
+            // Don't show bubble for NPCs that have moved inside a building, or
+            // whose name tag intro is currently playing
+            if (!isNameTagBlockingBubble(npc.id) && namedNpcContainers.get(npc.id)?.visible !== false) {
               const didx = npcDialogueIndex.get(npc.id) ?? 0
               const line = npc.dialogue[didx % npc.dialogue.length]
               const container = createSpeechBubble(line, cx, cy)
