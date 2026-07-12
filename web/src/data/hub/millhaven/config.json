@@ -1577,8 +1577,8 @@
       "name": "Fishwife Marta",
       "dialogueTree": "marta-fish-trade",
       "sprite": "hub-npc-fisherman",
-      "tx": 23,
-      "ty": 13,
+      "tx": 5,
+      "ty": 3,
       "dialogue": [
         "The catch has been thin lately. Strange currents, says Sailor Finn.",
         "I've got fish baskets missing somewhere around the docks.",
@@ -1602,7 +1602,8 @@
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
         "silk-ribbon"
-      ]
+      ],
+      "building": "fishmonger"
     },
     {
       "id": "innkeeper-millhaven",
@@ -3433,8 +3434,8 @@
     },
     {
       "id": "millhaven-secret-pier-buoy",
-      "tx": 38,
-      "ty": 17,
+      "tx": 46,
+      "ty": 12,
       "reactions": [
         {
           "type": "dialogue",
@@ -3450,6 +3451,13 @@
             "lore": "Dockhand Bram mentioned the storm dragged half the moorings loose last week. This one never made it back to its post."
           },
           "message": "You found a faded marker buoy tangled in the nets."
+        }
+      ],
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "toy"
         }
       ]
     },
@@ -3477,8 +3485,8 @@
     },
     {
       "id": "millhaven-hidden-plaza-cache-loot",
-      "tx": 17,
-      "ty": 16,
+      "tx": 20,
+      "ty": 18,
       "reactions": [
         {
           "type": "dialogue",
@@ -3494,6 +3502,13 @@
             "lore": "Whatever ship it fell from, the tide brought it all the way into the square. Regatta Master Coll would probably want to hear about this."
           },
           "message": "You found a storm-washed cache in the square!"
+        }
+      ],
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "crate"
         }
       ]
     }
