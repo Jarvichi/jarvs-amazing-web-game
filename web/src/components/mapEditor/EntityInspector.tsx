@@ -514,11 +514,14 @@ function DecorInspector({
 }
 
 function NpcInspector({
-  npc, entity, buildingIds, onMove, onDelete, onDialogueChange, onUpdate, onPickLocation,
+  npc, entity, buildingIds, interiorIds, onMove, onDelete, onDialogueChange, onUpdate, onPickLocation,
 }: {
   npc: RawNpc
   entity: SelectedEntity & { type: 'npc' }
   buildingIds: string[]
+  /** Interior room ids (configData.interiors keys) — distinct from building ids:
+   *  multi-room buildings have extra rooms whose id differs from the building's own id. */
+  interiorIds: string[]
   onMove: (tx: number, ty: number) => void
   onDelete: () => void
   onDialogueChange: (d: string[]) => void
@@ -568,7 +571,7 @@ function NpcInspector({
         />
         <div style={{ color: '#666', fontSize: 10, marginTop: 2 }}>Opens a screen/modal (e.g. 'adopt-pet') via a dialogue choice, in addition to dialogue.</div>
       </Field>
-      <NpcScheduleEditor npc={npc} buildingIds={buildingIds} onUpdate={onUpdate} />
+      <NpcScheduleEditor npc={npc} interiorIds={interiorIds} onUpdate={onUpdate} />
       <Field label="Min Building Level">
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
           <input
@@ -632,10 +635,10 @@ const NPC_ACTIVITIES: NpcActivity[] = ['work', 'eat', 'idle-chat', 'sleep', 'swe
 type NpcScheduleEntry = NonNullable<RawNpc['schedule']>[number]
 
 function NpcScheduleEditor({
-  npc, buildingIds, onUpdate,
+  npc, interiorIds, onUpdate,
 }: {
   npc: RawNpc
-  buildingIds: string[]
+  interiorIds: string[]
   onUpdate: (partial: Partial<RawNpc>) => void
 }) {
   const inp: React.CSSProperties = {
@@ -678,7 +681,7 @@ function NpcScheduleEditor({
                   updateEntry(i, {
                     location: type === 'exterior'
                       ? { type: 'exterior', tx: entry.location.tx, ty: entry.location.ty }
-                      : { type: 'interior', buildingId: buildingIds[0] ?? '', tx: entry.location.tx, ty: entry.location.ty },
+                      : { type: 'interior', buildingId: interiorIds[0] ?? '', tx: entry.location.tx, ty: entry.location.ty },
                   })
                 }}
               >
@@ -691,7 +694,10 @@ function NpcScheduleEditor({
                   style={{ ...inp, flex: 1 }}
                   onChange={e => updateEntry(i, { location: { ...entry.location, type: 'interior', buildingId: e.target.value } as NpcScheduleEntry['location'] })}
                 >
-                  {buildingIds.map(id => <option key={id} value={id}>{id}</option>)}
+                  {!interiorIds.includes(entry.location.buildingId) && entry.location.buildingId && (
+                    <option value={entry.location.buildingId}>{entry.location.buildingId} (unknown room)</option>
+                  )}
+                  {interiorIds.map(id => <option key={id} value={id}>{id}</option>)}
                 </select>
               )}
               <label style={{ fontSize: 10, color: '#888' }}>X</label>
@@ -3061,6 +3067,7 @@ export function EntityInspector({
             npc={npc}
             entity={selectedEntity}
             buildingIds={(configData.buildings ?? []).map(b => b.id).filter((id): id is string => !!id)}
+            interiorIds={Object.keys(configData.interiors ?? {})}
             onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
             onDelete={() => onDelete(selectedEntity)}
             onDialogueChange={d => onDialogueChange(selectedEntity.index, d)}
