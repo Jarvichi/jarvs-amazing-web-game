@@ -3810,11 +3810,18 @@
       "activeDialogue": "Take your time. Whatever you decide, you have already given me more than you know.",
       "completeDialogue": "You have been the truest friend this town has known. Whatever comes next, know you carry my blessing with you.",
       "steps": [
-        { "key": "report", "type": "report", "targetNpcId": "elder", "required": 1 }
+        {
+          "key": "report",
+          "type": "report",
+          "targetNpcId": "elder",
+          "required": 1
+        }
       ],
       "reward": {
         "crystals": 100,
-        "friendship": { "elder": 10 }
+        "friendship": {
+          "elder": 10
+        }
       }
     },
     {
@@ -3828,18 +3835,26 @@
       "activeDialogue": "Well? I don't have all day.",
       "completeDialogue": "There. Take this and get out of my sight — and don't expect a 'thank you'.",
       "steps": [
-        { "key": "report", "type": "report", "targetNpcId": "merchant", "required": 1 }
+        {
+          "key": "report",
+          "type": "report",
+          "targetNpcId": "merchant",
+          "required": 1
+        }
       ],
       "reward": {
-        "hubItem": { "itemId": "mouldy-slipper", "count": 1 }
+        "hubItem": {
+          "itemId": "mouldy-slipper",
+          "count": 1
+        }
       }
     }
   ],
   "pickupItems": [
     {
       "id": "naia-rare-tome",
-      "tx": 47,
-      "ty": 54,
+      "tx": 43,
+      "ty": 51,
       "tileId": "blackclosedBook",
       "questId": "naia-allys-tome"
     },
@@ -4549,7 +4564,7 @@
     },
     {
       "id": "echo-notice-2",
-      "tx": 35,
+      "tx": 34,
       "ty": 22,
       "tileId": "closedBook",
       "questId": "thorin-echo-warning"
@@ -4845,8 +4860,8 @@
     },
     {
       "id": "supplier-manifest",
-      "tx": 35,
-      "ty": 24,
+      "tx": 37,
+      "ty": 21,
       "tileId": "closedBook",
       "questId": "vex-echo-supplier"
     },
@@ -5408,7 +5423,7 @@
     },
     {
       "id": "harbour-pkg-1",
-      "tx": 34,
+      "tx": 32,
       "ty": 22,
       "tileId": "crate",
       "questId": "rosie-safe-harbour"
@@ -5587,14 +5602,14 @@
     {
       "id": "midsummer-lantern-1",
       "tx": 33,
-      "ty": 30,
+      "ty": 31,
       "tileId": "candlestickLitTop",
       "questId": "midsummer-lanterns"
     },
     {
       "id": "midsummer-lantern-2",
       "tx": 41,
-      "ty": 30,
+      "ty": 31,
       "tileId": "candlestickLitTop",
       "questId": "midsummer-lanterns"
     },
@@ -6148,16 +6163,16 @@
       "id": "ravenwatch-hidden-grove",
       "blockedTiles": [
         [
-          9,
-          23
+          13,
+          29
         ]
       ],
       "unlockedByInteractable": "ravenwatch-secret-old-marker",
       "blocked": {
         "decor": [
           {
-            "tx": 9,
-            "ty": 23,
+            "tx": 13,
+            "ty": 29,
             "tileId": "darkBush"
           }
         ],
@@ -6167,7 +6182,7 @@
         "decor": [
           {
             "tx": 9,
-            "ty": 23,
+            "ty": 31,
             "tileId": "chest"
           }
         ],
@@ -6416,7 +6431,11 @@
             },
             {
               "label": "Just saying hi.",
-              "effects": [{ "type": "end" }]
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
             }
           ]
         },
@@ -6438,7 +6457,11 @@
             },
             {
               "label": "Never mind.",
-              "effects": [{ "type": "end" }]
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
             }
           ]
         }

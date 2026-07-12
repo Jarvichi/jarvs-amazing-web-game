@@ -85,7 +85,6 @@ export interface HubDoor {
   tx: number
   ty: number
   hideSign?: boolean
-  tyAdjust?: number  // tiles to shift the render position upward (0 = standard south-face)
 }
 
 export interface DecorGlow {
@@ -270,6 +269,9 @@ export interface HubInteractableDecor {
    *  by grant.kind) for this shop's Nth for-sale slot. */
   shopArtSlot?: number
   zlayer?: 'solid' | 'below' | 'above'
+  glow?: boolean        // emit a night light glow
+  glowRadius?: number   // glow radius in tiles
+  pulse?: boolean       // animate the glow radius
 }
 
 export type HubInteractableReaction =
@@ -516,20 +518,10 @@ for (const b of rawConfig.buildings as RawBuilding[]) {
     continue
   }
   for (const d of b.doors ?? []) {
-    const absTy = oy + d.ty
-    // Find the rect whose south face (ty2+1) the door will match against.
-    // If no rect has ty2+1 === absTy, find the nearest rect above and compute tyAdjust
-    // so the renderer shifts the door tiles up by that amount.
-    let storeTy  = absTy
-    let tyAdjust = 0
-    if (!rectList.some(r => r[3] + 1 === absTy)) {
-      const candidate = rectList
-        .map(r => r[3] + 1)
-        .filter(ty2p1 => ty2p1 > absTy)
-        .sort((a, b) => a - b)[0]
-      if (candidate !== undefined) { storeTy = candidate; tyAdjust = candidate - absTy }
-    }
-    _nestedDoors.push({ buildingId: d.buildingId ?? b.id ?? '', tx: ox + d.tx, ty: storeTy, hideSign: d.hideSign, ...(tyAdjust ? { tyAdjust } : {}) })
+    // The authored position is used as-is: doors on a building's south face
+    // (ty2+1) get a rendered sprite (see buildingRender.ts); doors elsewhere
+    // are invisible walk-in triggers only. No position snapping.
+    _nestedDoors.push({ buildingId: d.buildingId ?? b.id ?? '', tx: ox + d.tx, ty: oy + d.ty, hideSign: d.hideSign })
   }
   for (const w of b.windows ?? [])
     _nestedWindows.push({ tx: ox + w.tx, ty: oy + w.ty, tileId: resolveTileId(w.tileId) })
@@ -666,6 +658,9 @@ const HUB_INTERACTABLES: HubInteractable[] = (
     spriteId:    d.spriteId,
     shopArtSlot: d.shopArtSlot,
     zlayer:      d.zlayer as HubInteractableDecor['zlayer'],
+    glow:        d.glow,
+    glowRadius:  d.glowRadius,
+    pulse:       d.pulse,
   }))
   // Hit area: explicit rect → owned-decor bounds → single tile
   const hitRect = i.hitRect ?? (decor && decor.length > 0

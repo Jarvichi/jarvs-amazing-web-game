@@ -578,7 +578,7 @@
     {
       "rect": [
         25,
-        10,
+        8,
         26,
         10
       ]
@@ -748,12 +748,6 @@
       ]
     },
     {
-      "tile": [
-        35,
-        65
-      ]
-    },
-    {
       "rect": [
         24,
         49,
@@ -871,9 +865,9 @@
     },
     {
       "rect": [
-        47,
+        46,
         34,
-        48,
+        47,
         34
       ]
     },
@@ -1121,6 +1115,48 @@
         48,
         43
       ]
+    },
+    {
+      "rect": [
+        9,
+        29,
+        13,
+        29
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        9,
+        30,
+        9,
+        31
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        39,
+        66,
+        40,
+        66
+      ]
+    },
+    {
+      "rect": [
+        34,
+        66,
+        35,
+        66
+      ]
+    },
+    {
+      "rect": [
+        53,
+        47,
+        53,
+        48
+      ]
     }
   ],
   "buildings": [
@@ -1315,9 +1351,9 @@
     {
       "rect": [
         22,
-        3,
+        1,
         29,
-        9
+        7
       ],
       "id": "home-building",
       "wall": "woodWall",
@@ -1917,9 +1953,9 @@
     },
     {
       "rect": [
-        44,
+        43,
         27,
-        51,
+        50,
         33
       ],
       "id": "arcade-building-w",
@@ -2053,7 +2089,7 @@
       "doors": [
         {
           "tx": 6,
-          "ty": -1,
+          "ty": 0,
           "buildingId": "town-hall"
         }
       ],
@@ -2345,8 +2381,130 @@
       "doors": [
         {
           "tx": 34,
-          "ty": 0,
+          "ty": 1,
           "buildingId": "gatehouse-west"
+        }
+      ],
+      "decor": [
+        {
+          "tx": 31,
+          "ty": -2,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 31,
+          "ty": -4,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 28,
+          "ty": -2,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 28,
+          "ty": -4,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 25,
+          "ty": -2,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 25,
+          "ty": -4,
+          "tileId": "roundWindowLit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 22,
+          "ty": -2,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 22,
+          "ty": -4,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 19,
+          "ty": -2,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 19,
+          "ty": -4,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": -2,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": -4,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": -2,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": -4,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": -2,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": -4,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": -2,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": -4,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 15,
+          "ty": -2,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 15,
+          "ty": -4,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
         }
       ]
     },
@@ -2363,10 +2521,183 @@
       "doors": [
         {
           "tx": 0,
-          "ty": 0,
+          "ty": 1,
           "buildingId": "gatehouse-east"
         }
+      ],
+      "decor": [
+        {
+          "tx": 3,
+          "ty": -2,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": -4,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": -2,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": -4,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": -2,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": -4,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": -2,
+          "tileId": "roundWindowLit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": -4,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 15,
+          "ty": -2,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 15,
+          "ty": -4,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 19,
+          "ty": -2,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 19,
+          "ty": -4,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 25,
+          "ty": -4,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 22,
+          "ty": -4,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 22,
+          "ty": -2,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 25,
+          "ty": -2,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 31,
+          "ty": -2,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 28,
+          "ty": -2,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 28,
+          "ty": -4,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 31,
+          "ty": -4,
+          "tileId": "roundWindowUnlit",
+          "zlayer": "solid"
+        }
       ]
+    },
+    {
+      "id": "building-1",
+      "rect": [
+        50,
+        40,
+        56,
+        46
+      ],
+      "wall": "tudorFrame",
+      "roof": "strawRoof",
+      "doors": [
+        {
+          "tx": 2,
+          "ty": -1
+        }
+      ],
+      "windows": [
+        {
+          "tx": 2,
+          "ty": -1,
+          "tileId": "windowBottom"
+        }
+      ],
+      "decor": [
+        {
+          "tx": 2,
+          "ty": -1,
+          "tileId": "windowTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
+          "ty": -1,
+          "tileId": "windowTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
+          "ty": 0,
+          "tileId": "windowBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
+          "ty": 0,
+          "tileId": "windowBottom",
+          "zlayer": "solid"
+        }
+      ],
+      "requiresOwnership": true
     }
   ],
   "exteriorDecor": [
@@ -2392,7 +2723,7 @@
     },
     {
       "tx": 24,
-      "ty": 10,
+      "ty": 9,
       "tileId": "mailBox"
     },
     {
@@ -2581,8 +2912,8 @@
       "tileId": "smallRock"
     },
     {
-      "tx": 12,
-      "ty": 1,
+      "tx": 23,
+      "ty": 0,
       "bundleID": "dark-tree"
     },
     {
@@ -2919,24 +3250,9 @@
       "tileId": "darkTreeBottomRight"
     },
     {
-      "tx": 53,
-      "ty": 43,
-      "tileId": "darkTreeTopLeft"
-    },
-    {
-      "tx": 54,
-      "ty": 43,
-      "tileId": "darkTreeTopRight"
-    },
-    {
-      "tx": 53,
-      "ty": 44,
+      "tx": 50,
+      "ty": 35,
       "bundleID": "dark-tree"
-    },
-    {
-      "tx": 54,
-      "ty": 44,
-      "tileId": "darkTreeBottomRight"
     },
     {
       "tx": 68,
@@ -2991,11 +3307,6 @@
     {
       "tx": 29,
       "ty": 29,
-      "tileId": "lightBush"
-    },
-    {
-      "tx": 34,
-      "ty": 15,
       "tileId": "lightBush"
     },
     {
@@ -3094,8 +3405,8 @@
       "tileId": "whiteFlower"
     },
     {
-      "tx": 34,
-      "ty": 18,
+      "tx": 40,
+      "ty": 20,
       "tileId": "pinkFlower"
     },
     {
@@ -3110,12 +3421,7 @@
     },
     {
       "tx": 34,
-      "ty": 20,
-      "tileId": "whiteFlower"
-    },
-    {
-      "tx": 40,
-      "ty": 20,
+      "ty": 18,
       "tileId": "pinkFlower"
     },
     {
@@ -4921,7 +5227,7 @@
     },
     {
       "tx": 55,
-      "ty": 44,
+      "ty": 36,
       "bundleID": "dark-tree-column-4",
       "zlayer": "solid"
     },
@@ -4992,8 +5298,8 @@
       "zlayer": "solid"
     },
     {
-      "tx": 49,
-      "ty": 35,
+      "tx": 51,
+      "ty": 33,
       "bundleID": "mixed-tree-cluster-V",
       "zlayer": "solid"
     },
@@ -5004,8 +5310,8 @@
       "zlayer": "solid"
     },
     {
-      "tx": 53,
-      "ty": 47,
+      "tx": 51,
+      "ty": 35,
       "bundleID": "dark-tree-cluster-V",
       "zlayer": "solid"
     },
@@ -5046,7 +5352,7 @@
       "zlayer": "solid"
     },
     {
-      "tx": 24,
+      "tx": 13,
       "ty": 2,
       "bundleID": "mixed-tree-cluster-V",
       "zlayer": "solid"
@@ -5076,8 +5382,8 @@
       "zlayer": "solid"
     },
     {
-      "tx": 61,
-      "ty": 27,
+      "tx": 58,
+      "ty": 29,
       "bundleID": "mixed-tree-cluster-V",
       "zlayer": "solid"
     },
@@ -5263,6 +5569,102 @@
       "glow": true,
       "glowRadius": 1.5,
       "pulse": true
+    },
+    {
+      "tx": 29,
+      "ty": 68,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 26,
+      "ty": 69,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 19,
+      "ty": 68,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 23,
+      "ty": 68,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 10,
+      "ty": 68,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 15,
+      "ty": 69,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 3,
+      "ty": 68,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 6,
+      "ty": 69,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 46,
+      "ty": 68,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 42,
+      "ty": 69,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 71,
+      "ty": 68,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 68,
+      "ty": 69,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 64,
+      "ty": 68,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 60,
+      "ty": 69,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 56,
+      "ty": 68,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 52,
+      "ty": 69,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
     }
   ],
   "pondTiles": [
@@ -8173,6 +8575,13 @@
           "entryTy": 1
         }
       ]
+    },
+    "building-1": {
+      "name": "building-1",
+      "width": 6,
+      "height": 6,
+      "floorTileId": "woodFloor",
+      "decor": []
     }
   },
   "npcs": [
@@ -8576,8 +8985,8 @@
       "id": "draft-master-ravenwatch",
       "name": "Draft Master Corrin",
       "sprite": "hub-npc-arena",
-      "tx": 37,
-      "ty": 21,
+      "tx": 58,
+      "ty": 35,
       "screen": "carddraft",
       "dialogue": [
         "No collection? No problem. Draft a deck right here and prove your mettle.",
@@ -9024,7 +9433,7 @@
       "name": "Steward Maren",
       "sprite": "hub-npc-elder",
       "tx": 27,
-      "ty": 10,
+      "ty": 9,
       "screen": "home-shelf",
       "dialogue": [
         "Your quarters are just inside, Commander. I keep your things in order.",
@@ -9752,6 +10161,17 @@
       "dislikedGiftItemIds": [
         "firefly"
       ]
+    },
+    {
+      "id": "npc_1783847887990",
+      "name": "Shelter Keeper",
+      "sprite": "",
+      "tx": 23,
+      "ty": 10,
+      "dialogue": [
+        "Looking for a companion? We've got a few dogs here who'd love a home."
+      ],
+      "screen": "adopt-pet"
     }
   ],
   "ambientNpcSprites": [
@@ -9877,8 +10297,8 @@
   "interactables": [
     {
       "id": "ravenwatch-rain-barrel",
-      "tx": 39,
-      "ty": 36,
+      "tx": 44,
+      "ty": 22,
       "decor": [
         {
           "dx": 0,
@@ -10009,31 +10429,6 @@
       ]
     },
     {
-      "id": "ravenwatch-pet-shelter",
-      "tx": 39,
-      "ty": 21,
-      "decor": [
-        {
-          "dx": 0,
-          "dy": 0,
-          "tileId": "wolfSign"
-        }
-      ],
-      "reactions": [
-        {
-          "type": "dialogue",
-          "speakerName": "Shelter Keeper",
-          "text": [
-            "Looking for a companion? We've got a few dogs here who'd love a home."
-          ]
-        },
-        {
-          "type": "screen",
-          "screen": "adopt-pet"
-        }
-      ]
-    },
-    {
       "id": "ravenwatch-church-key",
       "tx": 5,
       "ty": 5,
@@ -10067,8 +10462,8 @@
     },
     {
       "id": "ravenwatch-secret-alley-note",
-      "tx": 34,
-      "ty": 23,
+      "tx": 9,
+      "ty": 21,
       "reactions": [
         {
           "type": "dialogue",
@@ -10085,12 +10480,19 @@
           },
           "message": "You found a hidden note!"
         }
+      ],
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "note"
+        }
       ]
     },
     {
       "id": "ravenwatch-secret-pond-note",
-      "tx": 37,
-      "ty": 51,
+      "tx": 54,
+      "ty": 52,
       "reactions": [
         {
           "type": "dialogue",
@@ -10107,12 +10509,19 @@
           },
           "message": "You found a hidden journal page!"
         }
+      ],
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "note"
+        }
       ]
     },
     {
       "id": "ravenwatch-secret-old-marker",
-      "tx": 19,
-      "ty": 22,
+      "tx": 17,
+      "ty": 17,
       "reactions": [
         {
           "type": "dialogue",
@@ -10128,6 +10537,13 @@
             "lore": "The carving matches a mark you've seen elsewhere in town — worth following up on."
           },
           "message": "You found a strange carved marker! Something nearby might have shifted."
+        }
+      ],
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "smallSign"
         }
       ]
     },
@@ -10336,8 +10752,8 @@
     },
     {
       "id": "ravenwatch-forage-bush-1",
-      "tx": 0,
-      "ty": 16,
+      "tx": 13,
+      "ty": 14,
       "reactions": [
         {
           "type": "dialogue",
@@ -10360,7 +10776,11 @@
         {
           "type": "forage"
         }
-      ]
+      ],
+      "hitRect": {
+        "w": 2,
+        "h": 5
+      }
     },
     {
       "id": "ravenwatch-forage-flower-1",
@@ -10378,13 +10798,47 @@
     },
     {
       "id": "ravenwatch-forage-flower-2",
-      "tx": 34,
-      "ty": 18,
+      "tx": 40,
+      "ty": 20,
       "reactions": [
         {
           "type": "dialogue",
           "text": "More wildflowers, swaying in the breeze."
         },
+        {
+          "type": "forage"
+        }
+      ]
+    },
+    {
+      "id": "interactable-1783854136482",
+      "tx": 34,
+      "ty": 20,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "whiteFlower"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "forage"
+        }
+      ]
+    },
+    {
+      "id": "interactable-1783854145276",
+      "tx": 34,
+      "ty": 15,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "lightBush"
+        }
+      ],
+      "reactions": [
         {
           "type": "forage"
         }

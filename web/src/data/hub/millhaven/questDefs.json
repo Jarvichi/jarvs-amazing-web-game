@@ -613,11 +613,18 @@
       "activeDialogue": "No rush. I'll still be here, mending nets I can't quite finish.",
       "completeDialogue": "There. It isn't much, but it's given with a full heart — the first I've had in some time. Thank you, truly.",
       "steps": [
-        { "key": "report", "type": "report", "targetNpcId": "widow-tamsin", "required": 1 }
+        {
+          "key": "report",
+          "type": "report",
+          "targetNpcId": "widow-tamsin",
+          "required": 1
+        }
       ],
       "reward": {
         "crystals": 80,
-        "friendship": { "widow-tamsin": 10 }
+        "friendship": {
+          "widow-tamsin": 10
+        }
       }
     },
     {
@@ -631,10 +638,18 @@
       "activeDialogue": "Well? The regatta won't organize itself.",
       "completeDialogue": "Hmph. Didn't think you'd bother. Take this and stay off my dock.",
       "steps": [
-        { "key": "report", "type": "report", "targetNpcId": "regatta-master", "required": 1 }
+        {
+          "key": "report",
+          "type": "report",
+          "targetNpcId": "regatta-master",
+          "required": 1
+        }
       ],
       "reward": {
-        "hubItem": { "itemId": "mouldy-slipper", "count": 1 }
+        "hubItem": {
+          "itemId": "mouldy-slipper",
+          "count": 1
+        }
       }
     }
   ],
@@ -670,7 +685,7 @@
     {
       "id": "fish-basket-2",
       "tx": 33,
-      "ty": 16,
+      "ty": 15,
       "tileId": "mushroomBasket",
       "questId": "millhaven-missing-catch"
     },
@@ -827,17 +842,30 @@
   "blockedPaths": [
     {
       "id": "millhaven-hidden-plaza-cache",
-      "blockedTiles": [[17, 16]],
+      "blockedTiles": [
+        [
+          17,
+          16
+        ]
+      ],
       "unlockedByInteractable": "millhaven-secret-pier-buoy",
       "blocked": {
         "decor": [
-          { "tx": 17, "ty": 16, "tileId": "crate" }
+          {
+            "tx": 17,
+            "ty": 16,
+            "tileId": "crate"
+          }
         ],
         "npcs": []
       },
       "cleared": {
         "decor": [
-          { "tx": 17, "ty": 16, "tileId": "chest" }
+          {
+            "tx": 17,
+            "ty": 16,
+            "tileId": "chest"
+          }
         ],
         "npcs": []
       }

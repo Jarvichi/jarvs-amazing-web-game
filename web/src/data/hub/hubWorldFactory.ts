@@ -39,6 +39,35 @@ import dreadspirecitadel_config from './dreadspirecitadel/config.json'
 import dreadspirecitadel_quests from './dreadspirecitadel/questDefs.json'
 
 import { HubQuestDef } from "./questDefs";
+import { isSelfSave } from '../../utils/hotReloadGuard'
+
+// Map-editor / bundle-editor saves write straight onto these same config.json
+// / questDefs.json files, which are also statically imported here — a second,
+// independent import chain from the one accepted in
+// web/src/components/mapEditor/useMapEditorState.ts. Vite needs an accept
+// boundary in every import chain from a changed file up to the app root, or
+// it falls back to a full page reload. See hotReloadGuard.ts for details.
+if (import.meta.hot) {
+  import.meta.hot.accept([
+    './ravenwatch/config.json', './ravenwatch/questDefs.json',
+    './ironholdkeep/config.json', './ironholdkeep/questDefs.json',
+    './millhaven/config.json', './millhaven/questDefs.json',
+    './thornwoodcamp/config.json', './thornwoodcamp/questDefs.json',
+    './capitalcity/config.json', './capitalcity/questDefs.json',
+    './royalpalace/config.json', './royalpalace/questDefs.json',
+    './saltmereport/config.json', './saltmereport/questDefs.json',
+    './gearford/config.json', './gearford/questDefs.json',
+    './harrowfield/config.json', './harrowfield/questDefs.json',
+    './appleford/config.json', './appleford/questDefs.json',
+    './gravemoor/config.json', './gravemoor/questDefs.json',
+    './hollowmere/config.json', './hollowmere/questDefs.json',
+    './dreadspirecitadel/config.json', './dreadspirecitadel/questDefs.json',
+  ], () => {
+    if (!isSelfSave()) {
+      console.warn('[hub data] A hub config.json/questDefs.json changed on disk outside this tab. Refresh to pick it up — unsaved changes here were left alone.')
+    }
+  })
+}
 
 
 export interface RawQuestPickupItem {

@@ -1267,11 +1267,18 @@
       "activeDialogue": "No rush. The gates have stood longer than either of us.",
       "completeDialogue": "There. Not many earn a captain's trust — you have. The watch will remember it.",
       "steps": [
-        { "key": "report", "type": "report", "targetNpcId": "watch-captain-hale", "required": 1 }
+        {
+          "key": "report",
+          "type": "report",
+          "targetNpcId": "watch-captain-hale",
+          "required": 1
+        }
       ],
       "reward": {
         "crystals": 95,
-        "friendship": { "watch-captain-hale": 10 }
+        "friendship": {
+          "watch-captain-hale": 10
+        }
       }
     },
     {
@@ -1285,10 +1292,18 @@
       "activeDialogue": "Well? The wall isn't getting any shorter while I wait.",
       "completeDialogue": "About time. Here — take it and find somewhere else to loiter.",
       "steps": [
-        { "key": "report", "type": "report", "targetNpcId": "guard-bryn", "required": 1 }
+        {
+          "key": "report",
+          "type": "report",
+          "targetNpcId": "guard-bryn",
+          "required": 1
+        }
       ],
       "reward": {
-        "hubItem": { "itemId": "mouldy-slipper", "count": 1 }
+        "hubItem": {
+          "itemId": "mouldy-slipper",
+          "count": 1
+        }
       }
     }
   ],
@@ -1803,17 +1818,30 @@
   "blockedPaths": [
     {
       "id": "capitalcity-hidden-plaza-cache",
-      "blockedTiles": [[33, 51]],
+      "blockedTiles": [
+        [
+          33,
+          51
+        ]
+      ],
       "unlockedByInteractable": "capitalcity-secret-temple-inscription",
       "blocked": {
         "decor": [
-          { "tx": 33, "ty": 51, "tileId": "darkBush" }
+          {
+            "tx": 33,
+            "ty": 51,
+            "tileId": "darkBush"
+          }
         ],
         "npcs": []
       },
       "cleared": {
         "decor": [
-          { "tx": 33, "ty": 51, "tileId": "chest" }
+          {
+            "tx": 33,
+            "ty": 51,
+            "tileId": "chest"
+          }
         ],
         "npcs": []
       }

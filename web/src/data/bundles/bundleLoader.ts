@@ -1,6 +1,17 @@
 import rawBundles from './bundles.json'
 import { BASE_CHIP_TILES } from '../tiles/baseChipIndex'
 import { HubDoor } from '../hub/loader'
+import { isSelfSave } from '../../utils/hotReloadGuard'
+
+// Same full-reload issue as the map editor (see hotReloadGuard.ts): saving
+// writes straight onto bundles.json, which is also statically imported here.
+if (import.meta.hot) {
+  import.meta.hot.accept('./bundles.json', () => {
+    if (!isSelfSave()) {
+      console.warn('[bundle editor] bundles.json changed on disk outside this tab. Refresh to pick it up — unsaved changes here were left alone.')
+    }
+  })
+}
 
 export type BundleTileType = 'decor' | 'window' | 'door'
 

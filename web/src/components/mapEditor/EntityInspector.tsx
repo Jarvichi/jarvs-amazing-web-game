@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import type { SelectedEntity, RawMapConfig, RawInterior, RawBlockedPath, RawLockedDoor, Zlayer, RawDecorItem, RawNpc, RawBuilding, RawAnimal, RawInteractable, RawInteractableReaction, RawWeather, PickKind } from './mapEditorTypes'
 import type { MapId } from '../../data/hub/hubWorldFactory'
 import { EntityRefPicker } from './EntityRefPicker'
-import { buildingRefOptions, allQuestOptions, type RefOption } from './entityRefs'
+import { buildingRefOptions, allQuestOptions, hubItemRefOptions, type RefOption } from './entityRefs'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import { resolveTileRef, PATH_TILE } from '../../data/tiles/tileIndex'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
@@ -14,6 +14,13 @@ import type { AnimalType } from '../../game/hub/animals'
 import { BUILDING_MUSIC_IDS, AMBIANCE_IDS } from '../../game/sound'
 import { getUpgradeTrack, UPGRADE_CATALOG } from '../../data/hub/buildingUpgrades'
 import type { BundleTileRaw } from '../../data/bundles/bundleEditorApi'
+
+/** Swap two elements' positions, returning a new array. */
+function swap<T>(arr: T[], i: number, j: number): T[] {
+  const next = [...arr]
+  ;[next[i], next[j]] = [next[j], next[i]]
+  return next
+}
 
 /** Highest upgrade level a building can reach: explicit maxLevel, else its kind track length. */
 function buildingMaxLevel(building: RawBuilding): number {
@@ -31,7 +38,7 @@ const FLOOR_TILES = [
 
 const UPGRADE_KINDS = Object.keys(UPGRADE_CATALOG)
 
-const SCREEN_IDS = [
+export const SCREEN_IDS = [
   'campaign', 'casino', 'chronicle', 'citybuilder', 'codex', 'collection-tabs',
   'commander', 'crystalcatch', 'dailychallenge', 'deckbuilder', 'endless', 'fishing',
   'fruitMachine', 'hall-of-achievements', 'higherOrLower', 'home-shelf', 'marble',
@@ -67,6 +74,7 @@ interface Props {
   activeLevel:      number
   onSetActiveLevel:      (level: number) => void
   onUpdateBuilding:      (index: number, patch: Partial<RawBuilding>) => void
+  onResizeBuilding?:     (index: number, dir: 'top' | 'bottom' | 'left' | 'right', grow?: boolean) => void
   onUpdateBuildingLevelVisual: (buildingIndex: number, minLevel: number, patch: Partial<{ rect: [number, number, number, number]; wall: WallMaterial; roof: RoofMaterial }>) => void
   onUpdateDecorMinLevel: (entity: SelectedEntity, minLevel: number | undefined) => void
   onUpdateDecorHideAtLevel: (entity: SelectedEntity, hideAtLevel: number | undefined) => void
@@ -116,6 +124,7 @@ interface Props {
   onSaveAsBundle?:              (bundleId: string, tiles: BundleTileRaw[]) => Promise<void>
   onUpdateDecorTileId?:         (entity: SelectedEntity, tileId: string) => void
   onReorderDecor?:              (entity: SelectedEntity, direction: 'forward' | 'back') => void
+  onConvertDecorToInteractable?: (entity: SelectedEntity) => void
   onConvertStreetToPond?:       (index: number) => void
   onConvertPondToStreet?:       (index: number) => void
   onUpdatePondEntry?:           (index: number, data: { rect?: number[]; tile?: number[] }) => void
@@ -334,7 +343,7 @@ function GlowControls({ glow, glowRadius, pulse, onChange }: {
 }
 
 function DecorInspector({
-  item, entity, onMove, onZlayer, onGlow, onDelete, onMinLevel, onHideAtLevel, maxLevel, onTileChange, onReorder,
+  item, entity, onMove, onZlayer, onGlow, onDelete, onMinLevel, onHideAtLevel, maxLevel, onTileChange, onReorder, onConvertToInteractable,
 }: {
   item: RawDecorItem
   entity: SelectedEntity
@@ -347,6 +356,7 @@ function DecorInspector({
   maxLevel?: number
   onTileChange?: (tileId: string) => void
   onReorder?: (direction: 'forward' | 'back') => void
+  onConvertToInteractable?: () => void
 }) {
   const [pickingTile, setPickingTile] = useState(false)
   const tileId = item.tileId || ''
@@ -449,6 +459,18 @@ function DecorInspector({
             </button>
           </div>
         </Field>
+      )}
+      {onConvertToInteractable && (
+        <button
+          onClick={onConvertToInteractable}
+          title="Turn this decor tile into an interactable with reactions (dialogue, forage, shop, etc.)"
+          style={{
+            width: '100%', padding: '6px 0', background: '#12324a', border: '1px solid #2a6a9e',
+            color: '#7cf', cursor: 'pointer', borderRadius: 3, fontSize: 12, marginTop: 4,
+          }}
+        >
+          ⇄ Convert to Interactable
+        </button>
       )}
       <button
         onClick={onDelete}
@@ -829,7 +851,7 @@ function StreetInspector({
 
 function BuildingInspector({
   building, buildingIndex, activeLevel, onSetActiveLevel, onUpdateBuilding, onUpdateBuildingLevelVisual,
-  onOpenInterior, onOpenBuildingEditor, interiorIds, existingInteriorIds, onAddInterior,
+  onOpenInterior, onOpenBuildingEditor, interiorIds, existingInteriorIds, onAddInterior, onResizeBuilding,
 }: {
   building: RawBuilding
   buildingIndex: number
@@ -842,6 +864,7 @@ function BuildingInspector({
   interiorIds: string[]
   existingInteriorIds: string[]
   onAddInterior: (id: string, interior: RawInterior) => void
+  onResizeBuilding?: (index: number, dir: 'top' | 'bottom' | 'left' | 'right', grow?: boolean) => void
 }) {
   const [tx1, ty1, tx2, ty2] = building.rect ?? [0, 0, 0, 0]
   const [showForm, setShowForm] = useState(false)
@@ -894,6 +917,10 @@ function BuildingInspector({
     width: 52, padding: '3px 5px', background: '#111', border: '1px solid #444',
     color: '#eee', borderRadius: 3, fontSize: 11,
   }
+  const btnSm: React.CSSProperties = {
+    padding: '3px 8px', fontSize: 10, cursor: 'pointer', borderRadius: 3,
+    background: '#1a2030', border: '1px solid #2a3050', color: '#88aaee',
+  }
   const idConflict = existingInteriorIds.includes(newId.trim())
 
   return (
@@ -908,6 +935,36 @@ function BuildingInspector({
           ({tx1},{ty1}) → ({tx2},{ty2}) — {tx2 - tx1 + 1}×{ty2 - ty1 + 1} tiles
         </span>
       </Field>
+      {onResizeBuilding && building.rect && !building.rects && (
+        <Field label="Resize">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: 4 }}>
+              <button style={btnSm} onClick={() => onResizeBuilding(buildingIndex, 'top', false)}>− row top</button>
+              <button style={btnSm} onClick={() => onResizeBuilding(buildingIndex, 'top', true)}>+ row top</button>
+            </div>
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <button style={btnSm} onClick={() => onResizeBuilding(buildingIndex, 'left', false)}>− col left</button>
+                <button style={btnSm} onClick={() => onResizeBuilding(buildingIndex, 'left', true)}>+ col left</button>
+              </div>
+              <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa', minWidth: 60, textAlign: 'center' }}>{tx2 - tx1 + 1} × {ty2 - ty1 + 1}</span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <button style={btnSm} onClick={() => onResizeBuilding(buildingIndex, 'right', false)}>− col right</button>
+                <button style={btnSm} onClick={() => onResizeBuilding(buildingIndex, 'right', true)}>+ col right</button>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 4 }}>
+              <button style={btnSm} onClick={() => onResizeBuilding(buildingIndex, 'bottom', false)}>− row bottom</button>
+              <button style={btnSm} onClick={() => onResizeBuilding(buildingIndex, 'bottom', true)}>+ row bottom</button>
+            </div>
+          </div>
+        </Field>
+      )}
+      {building.rects && (
+        <div style={{ color: '#666', fontSize: 9, marginTop: -4, marginBottom: 6 }}>
+          Multi-rect buildings can't be resized here — edit the rects directly in JSON.
+        </div>
+      )}
 
       {/* ── Upgrade levels ─────────────────────────────────────────────── */}
       <div style={{ borderTop: '1px solid #333', marginTop: 4, paddingTop: 10 }}>
@@ -1620,12 +1677,13 @@ function TreasureInspector({ treasure, onUpdate, onMove, onDelete, onPick, build
 }
 
 // ── Interactables ──────────────────────────────────────────────────────────────
-const REACTION_TYPES = ['dialogue', 'screen', 'giveItem', 'quest', 'move'] as const
+const REACTION_TYPES = ['dialogue', 'screen', 'giveItem', 'quest', 'move', 'buy', 'buyPack', 'buyHubItem', 'dig', 'forage'] as const
 
-function ReactionEditor({ reaction, onChange, questOptions }: {
+function ReactionEditor({ reaction, onChange, questOptions, hubItemOptions }: {
   reaction: RawInteractableReaction
   onChange: (r: RawInteractableReaction) => void
   questOptions: RefOption[]
+  hubItemOptions: RefOption[]
 }) {
   const inp: React.CSSProperties = { width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box' }
   const numSm: React.CSSProperties = { width: 50, padding: '2px 4px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }
@@ -1686,11 +1744,52 @@ function ReactionEditor({ reaction, onChange, questOptions }: {
           </div>
         </>
       )}
+
+      {reaction.type === 'buy' && (
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <label style={{ fontSize: 10, color: '#888' }}>Shop slot index</label>
+          <input type="number" style={numSm} value={reaction.slotIndex ?? 0} onChange={e => onChange({ ...reaction, slotIndex: Number(e.target.value) })} />
+        </div>
+      )}
+
+      {reaction.type === 'buyHubItem' && (
+        <>
+          <EntityRefPicker value={reaction.itemId ?? ''} options={hubItemOptions} placeholder="Search hub items…" onChange={v => onChange({ ...reaction, itemId: v })} />
+          <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+            <label style={{ fontSize: 10, color: '#888' }}>Price</label>
+            <input type="number" style={numSm} value={reaction.price ?? 0} onChange={e => onChange({ ...reaction, price: Number(e.target.value) })} />
+            <select style={inp} value={reaction.currency ?? 'crystals'} onChange={e => onChange({ ...reaction, currency: e.target.value === 'tickets' ? 'tickets' : undefined })}>
+              <option value="crystals">crystals</option>
+              <option value="tickets">tickets</option>
+            </select>
+          </div>
+          <input style={inp} placeholder="speaker name (optional)" value={reaction.speakerName ?? ''} onChange={e => onChange({ ...reaction, speakerName: e.target.value || undefined })} />
+          <input style={inp} placeholder="prerequisite (optional)" value={reaction.prerequisite ?? ''} onChange={e => onChange({ ...reaction, prerequisite: e.target.value || undefined })} />
+          <input style={inp} placeholder="locked text (optional)" value={reaction.lockedText ?? ''} onChange={e => onChange({ ...reaction, lockedText: e.target.value || undefined })} />
+        </>
+      )}
+
+      {reaction.type === 'dig' && (
+        <>
+          <EntityRefPicker value={reaction.requiresItemId ?? ''} options={hubItemOptions} placeholder="Search hub items… (default: spade)" onChange={v => onChange({ ...reaction, requiresItemId: v || undefined })} />
+          <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#ccc' }}>
+            <input type="checkbox" checked={!!reaction.nightOnly} onChange={e => onChange({ ...reaction, nightOnly: e.target.checked || undefined })} />
+            Night only
+          </label>
+          <input style={inp} placeholder="weather only (optional)" value={reaction.weatherOnly ?? ''} onChange={e => onChange({ ...reaction, weatherOnly: e.target.value || undefined })} />
+          <select style={inp} value={reaction.lootTable ?? 'earth'} onChange={e => onChange({ ...reaction, lootTable: e.target.value as RawInteractableReaction['lootTable'] })}>
+            <option value="earth">earth</option>
+            <option value="hollow">hollow</option>
+            <option value="rain">rain</option>
+            <option value="fog">fog</option>
+          </select>
+        </>
+      )}
     </div>
   )
 }
 
-function InteractableInspector({ it, onUpdate, onMove, onDelete, onPick, buildingOptions, questOptions }: {
+function InteractableInspector({ it, onUpdate, onMove, onDelete, onPick, buildingOptions, questOptions, hubItemOptions }: {
   it: RawInteractable
   onUpdate: (patch: Partial<RawInteractable>) => void
   onMove: (tx: number, ty: number) => void
@@ -1698,6 +1797,7 @@ function InteractableInspector({ it, onUpdate, onMove, onDelete, onPick, buildin
   onPick?: () => void
   buildingOptions: RefOption[]
   questOptions: RefOption[]
+  hubItemOptions: RefOption[]
 }) {
   const [pickingDecor, setPickingDecor] = useState<number | null>(null)
   const inp: React.CSSProperties = { width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box' }
@@ -1745,6 +1845,38 @@ function InteractableInspector({ it, onUpdate, onMove, onDelete, onPick, buildin
                   onClick={() => onUpdate({ decor: decor.filter((_, j) => j !== i) })}>✕</button>
               </div>
               {pickingDecor === i && <TilePicker current={d.tileId} onChange={tileId => onUpdate({ decor: decor.map((x, j) => j === i ? { ...x, tileId } : x) })} onClose={() => setPickingDecor(null)} />}
+              <div style={{ display: 'flex', gap: 4, alignItems: 'center', marginTop: 4 }}>
+                {(['solid', 'below', 'above'] as const).map(z => (
+                  <button
+                    key={z}
+                    onClick={() => onUpdate({ decor: decor.map((x, j) => j === i ? { ...x, zlayer: z === 'solid' ? undefined : z } : x) })}
+                    style={{
+                      padding: '2px 6px', fontSize: 10, cursor: 'pointer',
+                      background: (d.zlayer ?? 'solid') === z ? '#f0c040' : '#333',
+                      color: (d.zlayer ?? 'solid') === z ? '#1a1a2e' : '#aaa',
+                      border: 'none', borderRadius: 3,
+                    }}
+                  >
+                    {z}
+                  </button>
+                ))}
+                <button
+                  disabled={i === 0}
+                  title="Draw behind (move earlier in list)"
+                  onClick={() => onUpdate({ decor: swap(decor, i, i - 1) })}
+                  style={{ marginLeft: 'auto', padding: '2px 6px', background: '#1e2a1e', border: '1px solid #3a5a3a', color: '#8d8', borderRadius: 3, fontSize: 10, cursor: i === 0 ? 'default' : 'pointer', opacity: i === 0 ? 0.4 : 1 }}
+                >↓ Back</button>
+                <button
+                  disabled={i === decor.length - 1}
+                  title="Draw in front (move later in list)"
+                  onClick={() => onUpdate({ decor: swap(decor, i, i + 1) })}
+                  style={{ padding: '2px 6px', background: '#1e2a4e', border: '1px solid #3a5a8e', color: '#8af', borderRadius: 3, fontSize: 10, cursor: i === decor.length - 1 ? 'default' : 'pointer', opacity: i === decor.length - 1 ? 0.4 : 1 }}
+                >↑ Front</button>
+              </div>
+              <GlowControls
+                glow={d.glow} glowRadius={d.glowRadius} pulse={d.pulse}
+                onChange={patch => onUpdate({ decor: decor.map((x, j) => j === i ? { ...x, ...patch } : x) })}
+              />
             </div>
           ))}
           <button style={{ padding: '2px 8px', background: '#1e2e1e', border: '1px solid #3a5a3a', color: '#6d6', borderRadius: 3, fontSize: 10, cursor: 'pointer', alignSelf: 'flex-start' }}
@@ -1764,7 +1896,7 @@ function InteractableInspector({ it, onUpdate, onMove, onDelete, onPick, buildin
                 <button style={{ padding: '0 6px', background: '#4a1a1a', border: '1px solid #922', color: '#f88', borderRadius: 3, fontSize: 10, cursor: 'pointer' }}
                   onClick={() => onUpdate({ reactions: reactions.filter((_, j) => j !== i) })}>✕</button>
               </div>
-              <ReactionEditor reaction={r} questOptions={questOptions} onChange={nr => onUpdate({ reactions: reactions.map((x, j) => j === i ? nr : x) })} />
+              <ReactionEditor reaction={r} questOptions={questOptions} hubItemOptions={hubItemOptions} onChange={nr => onUpdate({ reactions: reactions.map((x, j) => j === i ? nr : x) })} />
             </div>
           ))}
           <button style={{ padding: '2px 8px', background: '#1e2e1e', border: '1px solid #3a5a3a', color: '#6d6', borderRadius: 3, fontSize: 10, cursor: 'pointer', alignSelf: 'flex-start' }}
@@ -2270,7 +2402,7 @@ function SpawnTileInspector({
 
 export function EntityInspector({
   selectedEntities, mapId, configData, activeInteriorId, activeBuildingIndex, activeLevel, viewMode,
-  onSetActiveLevel, onUpdateBuilding, onUpdateBuildingLevelVisual, onUpdateDecorMinLevel, onUpdateDecorHideAtLevel,
+  onSetActiveLevel, onUpdateBuilding, onResizeBuilding, onUpdateBuildingLevelVisual, onUpdateDecorMinLevel, onUpdateDecorHideAtLevel,
   onDelete, onMoveEntity, onZlayerChange, onUpdateGlow, onUpdatePickupGlow, onDialogueChange,
   onOpenInterior, onCloseInterior, onOpenBuildingEditor, onCloseBuildingEditor, onUpdateStreetEntry,
   onResizeInterior, onAddInterior, onAddInteriorExit, onUpdateInteriorProps, onUpdateInteriorExit,
@@ -2284,6 +2416,7 @@ export function EntityInspector({
   onUpdateTreasure, onUpdateInteractable, onUpdateConfig,
   onAddTreasure, onAddInteractable, onAddBlockedPath,
   onDeleteEntities, onBatchUpdateZlayer, onBatchUpdateStreetPathType, onSaveAsBundle, onUpdateDecorTileId, onReorderDecor,
+  onConvertDecorToInteractable,
   onConvertStreetToPond, onConvertPondToStreet,
   onUpdatePondEntry, onDeletePondTile,
   onUpdateBridgeEntry, onDeleteBridgeTile,
@@ -2292,9 +2425,11 @@ export function EntityInspector({
   // Existing sub-inspectors operate on a single entity; multi-select shows a
   // dedicated batch panel instead (handled below).
   const selectedEntity = selectedEntities[0] ?? null
+  const [windowTilePickIndex, setWindowTilePickIndex] = useState<number | null>(null)
   // Reference options for the searchable id pickers in the inspectors.
   const buildingOpts = buildingRefOptions(mapId, configData.buildings ?? [])
   const allQuestOpts = allQuestOptions()
+  const hubItemOpts = hubItemRefOptions()
   const panelStyle: React.CSSProperties = {
     display: 'flex', flexDirection: 'column', height: '100%',
     background: '#1a1a2e', color: '#ccc', fontSize: 12,
@@ -2420,11 +2555,33 @@ export function EntityInspector({
       )
     } else if (sel?.type === 'buildingWindow' && b?.windows?.[sel.index]) {
       const w = b.windows[sel.index]
+      const allRects = (b.rects ?? (b.rect ? [b.rect] : [])) as [number, number, number, number][]
+      const ox = Math.min(...allRects.map(r => r[0]))
+      const oy = Math.max(...allRects.map(r => r[3]))
+      const absTx = ox + w.tx
+      const absTy = oy + w.ty + 1
+      const pickingWindowTile = windowTilePickIndex === sel.index
       body = (
         <div>
-          <Field label="Tile"><span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{w.tileId}</span></Field>
-          <Field label="Position (rel)">
-            <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>tx {w.tx}, ty {w.ty}</span>
+          <Field label="Tile">
+            <div onClick={() => setWindowTilePickIndex(pickingWindowTile ? null : sel.index)} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6 }} title="Click to change tile">
+              <TilePreview tileId={w.tileId} /><span style={{ fontSize: 10, color: '#666' }}>✎</span>
+            </div>
+            {pickingWindowTile && (
+              <TilePicker
+                current={w.tileId}
+                onChange={tileId => onUpdateBuilding(activeBuildingIndex, { windows: (b.windows ?? []).map((x, i) => i === sel.index ? { ...x, tileId } : x) })}
+                onClose={() => setWindowTilePickIndex(null)}
+              />
+            )}
+          </Field>
+          <Field label="Position">
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+              <label style={{ fontSize: 11, color: '#888' }}>X</label>
+              {numInput(absTx, tx => onMoveEntity(sel, tx, absTy))}
+              <label style={{ fontSize: 11, color: '#888' }}>Y</label>
+              {numInput(absTy, ty => onMoveEntity(sel, absTx, ty))}
+            </div>
           </Field>
           <button
             onClick={() => onDelete(sel)}
@@ -2436,16 +2593,32 @@ export function EntityInspector({
       )
     } else if (sel?.type === 'buildingDoor' && b?.doors?.[sel.index]) {
       const d = b.doors[sel.index]
+      const allRects = (b.rects ?? (b.rect ? [b.rect] : [])) as [number, number, number, number][]
+      const ox = Math.min(...allRects.map(r => r[0]))
+      const oy = Math.max(...allRects.map(r => r[3]))
+      const absTx = ox + d.tx
+      const absTy = oy + d.ty
       body = (
         <div>
-          <Field label="Position (rel)">
-            <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>tx {d.tx}, ty {d.ty}</span>
+          <Field label="Position">
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+              <label style={{ fontSize: 11, color: '#888' }}>X</label>
+              {numInput(absTx, tx => onMoveEntity(sel, tx, absTy))}
+              <label style={{ fontSize: 11, color: '#888' }}>Y</label>
+              {numInput(absTy, ty => onMoveEntity(sel, absTx, ty))}
+            </div>
+            <div style={{ color: '#666', fontSize: 9, marginTop: 2 }}>
+              Only doors on a building's south face get a visible sprite — elsewhere the door is an invisible walk-in trigger.
+            </div>
           </Field>
-          {d.buildingId && (
-            <Field label="Interior ID">
-              <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{d.buildingId}</span>
-            </Field>
-          )}
+          <Field label="Links to interior (optional)">
+            <EntityRefPicker
+              value={d.buildingId ?? ''}
+              options={buildingOpts}
+              placeholder="Search buildings…"
+              onChange={v => onUpdateBuilding(activeBuildingIndex, { doors: (b.doors ?? []).map((x, i) => i === sel.index ? { ...x, buildingId: v || undefined } : x) })}
+            />
+          </Field>
           <button
             onClick={() => onDelete(sel)}
             style={{ width: '100%', padding: '6px 0', background: '#5a1a1a', border: '1px solid #922', color: '#f88', cursor: 'pointer', borderRadius: 3, fontSize: 12, marginTop: 6 }}
@@ -2464,7 +2637,7 @@ export function EntityInspector({
         </div>
         <div style={bodyStyle}>
           <div style={{ color: '#777', fontSize: 10, marginBottom: 8 }}>
-            Select tool to select/delete items. Place tool + tile to add decor. No tile selected → click south face to toggle a door.
+            Select tool to select/delete items. Place tool + tile to add decor, or no tile selected to toggle a door (any tile — only south-face doors get a visible sprite). Window tool + tile places a window.
           </div>
           {levelSlider}
           {body}
@@ -2567,6 +2740,7 @@ export function EntityInspector({
             onDelete={() => onDelete(selectedEntity)}
             onTileChange={onUpdateDecorTileId ? tileId => onUpdateDecorTileId(selectedEntity, tileId) : undefined}
             onReorder={onReorderDecor ? dir => onReorderDecor(selectedEntity, dir) : undefined}
+            onConvertToInteractable={onConvertDecorToInteractable ? () => onConvertDecorToInteractable(selectedEntity) : undefined}
           />
         </div>
       </div>
@@ -2797,6 +2971,7 @@ export function EntityInspector({
             interiorIds={interiorIds}
             existingInteriorIds={Object.keys(configData.interiors ?? {})}
             onAddInterior={onAddInterior}
+            onResizeBuilding={onResizeBuilding}
           />
           {buildingId && !existingLock && (
             <div style={{ borderTop: '1px solid #333', marginTop: 10, paddingTop: 10 }}>
@@ -2887,6 +3062,7 @@ export function EntityInspector({
             it={it}
             buildingOptions={buildingOpts}
             questOptions={allQuestOpts}
+            hubItemOptions={hubItemOpts}
             onUpdate={patch => onUpdateInteractable(selectedEntity.index, patch)}
             onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
             onDelete={() => onDelete(selectedEntity)}

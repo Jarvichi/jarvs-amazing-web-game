@@ -344,7 +344,7 @@ export function HubTownCanvas({
         rect: [number, number, number, number],
         wall: WallMaterial,
         roof: RoofMaterial,
-        doors: { tx: number; ty: number; tyAdjust?: number }[],
+        doors: { tx: number; ty: number }[],
         track: { buildingId: string; minLevel: number; nextLevel: number } | null,
         initiallyVisible: boolean,
       ) => {
@@ -379,7 +379,7 @@ export function HubTownCanvas({
         // Pass every door; placeBuildingTiles matches them to a footprint by
         // position (south edge), mirroring the original renderer — door buildingId
         // does not always equal the building's id, so we must not filter by id.
-        const doors = HUB_DOORS.map(d => ({ tx: d.tx, ty: d.ty, tyAdjust: d.tyAdjust }))
+        const doors = HUB_DOORS.map(d => ({ tx: d.tx, ty: d.ty }))
 
         // Distinct visual thresholds: base (0) plus each levelVisuals minLevel.
         const thresholds = [0, ...((building.levelVisuals ?? []).map(v => v.minLevel))]
@@ -607,6 +607,7 @@ export function HubTownCanvas({
         }
         for (const d of decor) {
           const parent = d.zlayer === 'above' ? above! : root
+          if (d.glow) decorGlows.push({ x: (pos.tx + d.dx) * T + T / 2, y: (pos.ty + d.dy) * T + T / 2, radius: (d.glowRadius ?? 2) * T, pulse: !!d.pulse })
           if (d.spriteId) {
             loadTextureUrl(`${base}sprites/${d.spriteId}.svg`).then(tex => {
               if (app.renderer == null || !stillCurrent()) return

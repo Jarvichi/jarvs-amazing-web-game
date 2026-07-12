@@ -108,6 +108,7 @@ interface Props {
   onAddArea:           (tx1: number, ty1: number, tx2: number, ty2: number) => void
   onAddBuilding:       (tx1: number, ty1: number, tx2: number, ty2: number) => void
   onPlaceBuildingDoor: (buildingIndex: number, absTx: number, absTy: number) => void
+  onPlaceBuildingWindow: (buildingIndex: number, absTx: number, absTy: number, tileId: string) => void
   showQuestItems:     boolean
   showBlockedPaths:   boolean
   showAreas:          boolean
@@ -251,8 +252,12 @@ export function MapEditorCanvas(props: Props) {
           propsRef.current.onSelectEntities([])
         }
       } else if (t === 'place' && vm === 'building' && abIdx != null && !tid && !bid) {
-        // In building mode with no active tile: toggle a door on the south face
+        // In building mode with no active tile: toggle a door (any tile —
+        // only doors on the south face render a sprite; elsewhere they're
+        // invisible walk-in triggers).
         propsRef.current.onPlaceBuildingDoor(abIdx, tx, ty)
+      } else if (t === 'buildingWindow' && vm === 'building' && abIdx != null && tid) {
+        propsRef.current.onPlaceBuildingWindow(abIdx, tx, ty, tid)
       } else if (t === 'place' && (tid || bid)) {
         propsRef.current.onPlaceDecor(tx, ty)
       } else if (t === 'delete') {
@@ -533,13 +538,10 @@ export function MapEditorCanvas(props: Props) {
       const useArt = showBuildingArt && vis.wall && vis.roof && WALL_TILES[vis.wall as WallMaterial]
       const ox = Math.min(...allRects.map(r => r[0]))
       const oy = Math.max(...allRects.map(r => r[3]))
-      const absDoors: BuildingDoorTile[] = (b.doors ?? []).flatMap(d => {
-        const absTy = oy + d.ty
-        if (allRects.some(r => r[3] + 1 === absTy)) return [{ tx: ox + d.tx, ty: absTy }]
-        const candidate = allRects.map(r => r[3] + 1).filter(ty2p1 => ty2p1 > absTy).sort((a, b) => a - b)[0]
-        if (candidate !== undefined) return [{ tx: ox + d.tx, ty: candidate, tyAdjust: candidate - absTy }]
-        return []
-      })
+      // Authored position is used as-is — placeBuildingTiles only draws a door
+      // sprite when it lands exactly on a south face (rect.y2 + 1); doors
+      // elsewhere are invisible walk-in triggers, matching runtime behavior.
+      const absDoors: BuildingDoorTile[] = (b.doors ?? []).map(d => ({ tx: ox + d.tx, ty: oy + d.ty }))
       if (useArt) {
         for (const rect of renderRects) {
           const placements = placeBuildingTiles(rect, vis.wall as WallMaterial, vis.roof as RoofMaterial, absDoors)
@@ -801,13 +803,7 @@ export function MapEditorCanvas(props: Props) {
 
     // Building tiles
     const useArt = showBuildingArt && b.wall && b.roof && WALL_TILES[b.wall as WallMaterial]
-    const absDoors: BuildingDoorTile[] = (b.doors ?? []).flatMap(d => {
-      const absTy = oy + d.ty
-      if (allRects.some(r => r[3] + 1 === absTy)) return [{ tx: ox + d.tx, ty: absTy }]
-      const candidate = allRects.map(r => r[3] + 1).filter(ty2p1 => ty2p1 > absTy).sort((a, c) => a - c)[0]
-      if (candidate !== undefined) return [{ tx: ox + d.tx, ty: candidate, tyAdjust: candidate - absTy }]
-      return []
-    })
+    const absDoors: BuildingDoorTile[] = (b.doors ?? []).map(d => ({ tx: ox + d.tx, ty: oy + d.ty }))
 
     if (useArt) {
       for (const rect of allRects) {
