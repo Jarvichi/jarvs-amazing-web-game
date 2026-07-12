@@ -3466,49 +3466,107 @@
       "wallTileId": "castleStone",
       "decor": [
         {
-          "tx": 1,
-          "ty": -1,
-          "tileId": "windowTop"
-        },
-        {
-          "tx": 4,
-          "ty": -1,
-          "tileId": "windowTop"
-        },
-        {
-          "tx": 7,
-          "ty": -1,
-          "tileId": "windowTop"
-        },
-        {
-          "tx": 10,
-          "ty": -1,
-          "tileId": "windowTop"
-        },
-        {
           "tx": 7,
           "ty": 1,
           "tileId": "roundTableWithCloth"
         },
         {
-          "tx": 1,
+          "tx": 11,
           "ty": 1,
-          "tileId": "pileOfPapers"
-        },
-        {
-          "tx": 12,
-          "ty": 3,
           "tileId": "deskTop"
         },
         {
-          "tx": 2,
-          "ty": 8,
+          "tx": 10,
+          "ty": 1,
           "tileId": "stool"
         },
         {
-          "tx": 11,
-          "ty": 8,
+          "tx": 9,
+          "ty": -1,
           "tileId": "wallClock"
+        },
+        {
+          "tx": 5,
+          "ty": 7,
+          "tileId": "counterTopDarkWoodBottomLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 7,
+          "tileId": "counterTopDarkWoodBottomRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 7,
+          "tileId": "counterTopDarkWoodHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 6,
+          "tileId": "counterTopDarkWoodVerticalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 6,
+          "tileId": "counterTopDarkWoodVerticalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 5,
+          "tileId": "counterTopDarkWoodTopRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 5,
+          "tileId": "counterTopDarkWoodHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 6,
+          "tileId": "pileOfPapers"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "counterTopDarkWoodTopLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "quilAndInk",
+          "zlayer": "above"
+        },
+        {
+          "tx": 6,
+          "ty": 0,
+          "tileId": "mirrorBottom",
+          "zlayer": "below"
+        },
+        {
+          "tx": 6,
+          "ty": -1,
+          "tileId": "mirrorTop",
+          "zlayer": "below"
+        },
+        {
+          "tx": 3,
+          "ty": -1,
+          "tileId": "horn",
+          "zlayer": "below"
+        },
+        {
+          "tx": 7,
+          "ty": 6,
+          "tileId": "letter",
+          "zlayer": "above"
         }
       ],
       "exits": [
@@ -3525,293 +3583,419 @@
     "theatre-back": {
       "name": "Backstage",
       "width": 13,
-      "height": 9,
+      "height": 10,
       "floorTileId": "redCarpetFloor",
       "wallTileId": "interiorWallWhite",
       "decor": [
         {
           "tx": 11,
-          "ty": 1,
+          "ty": 2,
           "tileId": "boardwalkHorizontal",
           "zlayer": "solid"
         },
         {
           "tx": 11,
-          "ty": 1,
+          "ty": 2,
           "tileId": "deskTop"
         },
         {
           "tx": 2,
-          "ty": 7,
+          "ty": 8,
           "tileId": "stool"
         },
         {
           "tx": 10,
-          "ty": 7,
+          "ty": 8,
           "tileId": "wallClock"
         },
         {
           "tx": 11,
-          "ty": 1,
+          "ty": 2,
           "tileId": "pileOfPapers"
         },
         {
           "tx": 1,
-          "ty": 6,
+          "ty": 7,
           "tileId": "benchLeft",
           "zlayer": "solid"
         },
         {
           "tx": 7,
-          "ty": 6,
+          "ty": 7,
           "tileId": "benchLeft",
           "zlayer": "solid"
         },
         {
           "tx": 1,
-          "ty": 4,
+          "ty": 5,
           "tileId": "benchLeft",
           "zlayer": "solid"
         },
         {
           "tx": 7,
-          "ty": 4,
+          "ty": 5,
           "tileId": "benchLeft",
           "zlayer": "solid"
         },
         {
           "tx": 2,
-          "ty": 4,
+          "ty": 5,
           "tileId": "benchMiddle",
           "zlayer": "solid"
         },
         {
           "tx": 2,
-          "ty": 6,
+          "ty": 7,
           "tileId": "benchMiddle",
           "zlayer": "solid"
         },
         {
           "tx": 3,
-          "ty": 6,
+          "ty": 7,
           "tileId": "benchMiddle",
           "zlayer": "solid"
         },
         {
           "tx": 4,
-          "ty": 6,
+          "ty": 7,
           "tileId": "benchMiddle",
           "zlayer": "solid"
         },
         {
           "tx": 3,
-          "ty": 4,
+          "ty": 5,
           "tileId": "benchMiddle",
           "zlayer": "solid"
         },
         {
           "tx": 4,
-          "ty": 4,
+          "ty": 5,
           "tileId": "benchMiddle",
           "zlayer": "solid"
         },
         {
           "tx": 8,
-          "ty": 4,
+          "ty": 5,
           "tileId": "benchMiddle",
           "zlayer": "solid"
         },
         {
           "tx": 10,
-          "ty": 4,
+          "ty": 5,
           "tileId": "benchMiddle",
           "zlayer": "solid"
         },
         {
           "tx": 9,
-          "ty": 4,
+          "ty": 5,
           "tileId": "benchMiddle",
           "zlayer": "solid"
         },
         {
           "tx": 8,
-          "ty": 6,
+          "ty": 7,
           "tileId": "benchMiddle",
           "zlayer": "solid"
         },
         {
           "tx": 9,
-          "ty": 6,
+          "ty": 7,
           "tileId": "benchMiddle",
           "zlayer": "solid"
         },
         {
           "tx": 10,
-          "ty": 6,
+          "ty": 7,
           "tileId": "benchMiddle",
           "zlayer": "solid"
         },
         {
           "tx": 5,
-          "ty": 6,
+          "ty": 7,
           "tileId": "benchRight",
           "zlayer": "solid"
         },
         {
           "tx": 5,
-          "ty": 4,
+          "ty": 5,
           "tileId": "benchRight",
           "zlayer": "solid"
         },
         {
           "tx": 11,
-          "ty": 4,
+          "ty": 5,
           "tileId": "benchRight",
           "zlayer": "solid"
         },
         {
           "tx": 11,
-          "ty": 6,
+          "ty": 7,
           "tileId": "benchRight",
           "zlayer": "solid"
         },
         {
           "tx": 1,
-          "ty": 1,
+          "ty": 2,
           "tileId": "boardwalkHorizontal",
           "zlayer": "below"
         },
         {
           "tx": 2,
-          "ty": 1,
+          "ty": 2,
           "tileId": "boardwalkHorizontal",
           "zlayer": "below"
         },
         {
           "tx": 3,
-          "ty": 1,
+          "ty": 2,
           "tileId": "boardwalkHorizontal",
           "zlayer": "below"
         },
         {
           "tx": 4,
-          "ty": 1,
+          "ty": 2,
           "tileId": "boardwalkHorizontal",
           "zlayer": "below"
         },
         {
           "tx": 5,
-          "ty": 1,
+          "ty": 2,
           "tileId": "boardwalkHorizontal",
           "zlayer": "below"
         },
         {
           "tx": 6,
-          "ty": 1,
+          "ty": 2,
           "tileId": "boardwalkHorizontal",
           "zlayer": "below"
         },
         {
           "tx": 7,
-          "ty": 1,
+          "ty": 2,
           "tileId": "boardwalkHorizontal",
           "zlayer": "below"
         },
         {
           "tx": 8,
-          "ty": 1,
+          "ty": 2,
           "tileId": "boardwalkHorizontal",
           "zlayer": "below"
         },
         {
           "tx": 9,
-          "ty": 1,
+          "ty": 2,
           "tileId": "boardwalkHorizontal",
           "zlayer": "below"
         },
         {
           "tx": 10,
-          "ty": 1,
+          "ty": 2,
           "tileId": "boardwalkHorizontal",
           "zlayer": "below"
         },
         {
           "tx": 1,
-          "ty": 2,
+          "ty": 3,
           "tileId": "boardwalkHorizontalSupport",
           "zlayer": "below"
         },
         {
           "tx": 2,
-          "ty": 2,
+          "ty": 3,
           "tileId": "boardwalkHorizontalSupport",
           "zlayer": "solid"
         },
         {
           "tx": 3,
-          "ty": 2,
+          "ty": 3,
           "tileId": "boardwalkHorizontalSupport",
           "zlayer": "solid"
         },
         {
           "tx": 4,
-          "ty": 2,
+          "ty": 3,
           "tileId": "boardwalkHorizontalSupport",
           "zlayer": "solid"
         },
         {
           "tx": 5,
-          "ty": 2,
+          "ty": 3,
           "tileId": "boardwalkHorizontalSupport",
           "zlayer": "solid"
         },
         {
           "tx": 6,
-          "ty": 2,
+          "ty": 3,
           "tileId": "boardwalkHorizontalSupport",
           "zlayer": "solid"
         },
         {
           "tx": 11,
-          "ty": 2,
+          "ty": 3,
           "tileId": "boardwalkHorizontalSupport",
           "zlayer": "solid"
         },
         {
           "tx": 10,
-          "ty": 2,
+          "ty": 3,
           "tileId": "boardwalkHorizontalSupport",
           "zlayer": "solid"
         },
         {
           "tx": 9,
-          "ty": 2,
+          "ty": 3,
           "tileId": "boardwalkHorizontalSupport",
           "zlayer": "solid"
         },
         {
           "tx": 8,
-          "ty": 2,
+          "ty": 3,
           "tileId": "boardwalkHorizontalSupport",
           "zlayer": "solid"
         },
         {
           "tx": 7,
-          "ty": 2,
+          "ty": 3,
           "tileId": "boardwalkHorizontalSupport",
           "zlayer": "solid"
         },
         {
           "tx": 1,
-          "ty": 2,
+          "ty": 3,
           "tileId": "brownStairCarpet",
+          "zlayer": "below"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "redCurtainBot",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "redCurtainTop",
+          "zlayer": "below"
+        },
+        {
+          "tx": 11,
+          "ty": 1,
+          "tileId": "redCurtainBot",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": -1,
+          "tileId": "redCurtainTop",
+          "zlayer": "below"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "redCurtainTop",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": -1,
+          "tileId": "redCurtainTop",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "redCurtainBot",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "redCurtainBot",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 0,
+          "tileId": "redCurtainMid",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": 0,
+          "tileId": "redCurtainMid",
+          "zlayer": "below"
+        },
+        {
+          "tx": 10,
+          "ty": 0,
+          "tileId": "redCurtainMid",
+          "zlayer": "below"
+        },
+        {
+          "tx": 11,
+          "ty": 0,
+          "tileId": "redCurtainMid",
+          "zlayer": "below"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "boardwalkHorizontal",
+          "zlayer": "below"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "skull",
+          "zlayer": "below"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "sword",
           "zlayer": "below"
         }
       ],
       "exits": [
         {
           "tx": 6,
-          "ty": 1,
+          "ty": 2,
           "toInteriorId": "theatre",
           "entryTx": 12,
           "entryTy": 0,
@@ -6072,8 +6256,8 @@
       "id": "theatre-impresario",
       "name": "Impresario Vane",
       "sprite": "hub-npc-herald",
-      "tx": 7,
-      "ty": 5,
+      "tx": 6,
+      "ty": 6,
       "screen": "theatre",
       "dialogue": [
         "Welcome, welcome! The Crown Theatre is open for its first performances!",
