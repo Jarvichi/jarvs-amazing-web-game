@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect, useRef, useMemo, useReducer } 
 import { resolvedNodeOpts, loadHandicap, HANDICAP_KEY, buildQuickBattleOpts, loadCurrentDeckInfo } from './game/campaignHelpers'
 import { usePlaytime } from './hooks/usePlaytime'
 import { recordScreen } from './utils/crashSentinel'
+import { getGlStats } from './utils/pixiTelemetry'
 import { useStartupData } from './hooks/useStartupData'
 import { useCloudSync } from './hooks/useCloudSync'
 import { useRegisterSW } from 'virtual:pwa-register/react'
@@ -261,6 +262,10 @@ type Screen =
   | 'sceneryPreview'
 
 
+// Below this, a tab switch/app-switcher glance isn't worth a Rollbar breadcrumb —
+// only log genuine "away for a while" returns.
+const VISIBILITY_BREADCRUMB_THRESHOLD_MS = 15_000
+
 const STANCE_RULES_BY_NODE_TYPE: Partial<Record<string, StanceRules>> = {
   // Normal battles: no restrictions (current behaviour)
   battle: undefined,
@@ -508,6 +513,9 @@ export default function App() {
   const [pendingBattleIsCampaign, setPendingBattleIsCampaign] = useState(false)
   const campaignPlayCountsRef = useRef<Record<string, number>>({})  // per-battle play tracking
   const gameStateRef = useRef<GameState | null>(null)  // always-current snapshot for callbacks
+  const screenRef = useRef<Screen>(screen)  // always-current snapshot for the visibility handler below
+  const currentLocationKeyRef = useRef<string>(currentLocationKey)
+  const hiddenAtRef = useRef<number | null>(null)  // timestamp the tab was last hidden, for the visibility breadcrumb
 
   // Unit death tracking
   const prevPlayerUnitsRef   = useRef<Map<string, string>>(new Map())
@@ -567,6 +575,8 @@ export default function App() {
   // Keep gameStateRef in sync so callbacks can read current state without stale closures
   gameStateRef.current = gameState
   runRef.current = run
+  screenRef.current = screen
+  currentLocationKeyRef.current = currentLocationKey
 
   // ── Crash sentinel: record screen transitions so unclean exits (iOS page
   // kills) report where the player was when the page died ──
@@ -577,7 +587,28 @@ export default function App() {
   // ── Page visibility: pause game loop when tab is hidden ──
   const [isTabHidden, setIsTabHidden] = useState(() => document.hidden)
   useEffect(() => {
-    function handleVisibility() { setIsTabHidden(document.hidden) }
+    function handleVisibility() {
+      const hidden = document.hidden
+      setIsTabHidden(hidden)
+      if (hidden) {
+        hiddenAtRef.current = Date.now()
+        return
+      }
+      // Breadcrumb for any "blank screen after being away" report — logged on
+      // every meaningful return from background, not just when something goes
+      // wrong, so a later crash/error report can be correlated against how
+      // long the tab sat backgrounded and what screen it resumed on.
+      const hiddenMs = hiddenAtRef.current != null ? Date.now() - hiddenAtRef.current : null
+      hiddenAtRef.current = null
+      if (hiddenMs != null && hiddenMs >= VISIBILITY_BREADCRUMB_THRESHOLD_MS) {
+        rollbar?.info('[visibility] tab resumed after background', {
+          hiddenMs,
+          screen: screenRef.current,
+          location: currentLocationKeyRef.current,
+          ...getGlStats(),
+        })
+      }
+    }
     document.addEventListener('visibilitychange', handleVisibility)
     return () => document.removeEventListener('visibilitychange', handleVisibility)
   }, [])
