@@ -250,6 +250,7 @@ type Screen =
   | 'player'
   | 'collection-tabs'
   | 'home-shelf'
+  | 'home-shelf-decorate'
   | 'hubworld'
   | 'hub-minigame'
   | 'hub-fishing'
@@ -3317,8 +3318,12 @@ export default function App() {
         />
       )}
 
-      {screen === 'home-shelf' && (
-        <HomeShelf onBack={() => setScreen('hubworld')} houseKey={shopBuildingId} />
+      {(screen === 'home-shelf' || screen === 'home-shelf-decorate') && (
+        <HomeShelf
+          onBack={() => setScreen('hubworld')}
+          houseKey={shopBuildingId}
+          initialTab={screen === 'home-shelf-decorate' ? 'decorate' : 'shelf'}
+        />
       )}
 
       {screen === 'heroCards' && (

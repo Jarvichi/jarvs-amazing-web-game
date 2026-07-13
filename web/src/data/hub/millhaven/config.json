@@ -3098,11 +3098,42 @@
     },
     "building-1": {
       "name": "Ocean Heights",
-      "width": 5,
-      "height": 5,
+      "width": 10,
+      "height": 8,
       "floorTileId": "woodFloor",
       "decor": [],
-      "playerDecor": true
+      "playerDecor": true,
+      "exits": [
+        {
+          "tx": 9,
+          "ty": 4,
+          "toInteriorId": "building-1-second-room",
+          "entryTx": 1,
+          "entryTy": 4,
+          "direction": "right",
+          "minLevel": 2,
+          "label": "Second Room"
+        }
+      ]
+    },
+    "building-1-second-room": {
+      "name": "Ocean Heights — Guest Room",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "decor": [],
+      "playerDecor": true,
+      "exits": [
+        {
+          "tx": 0,
+          "ty": 4,
+          "toInteriorId": "building-1",
+          "entryTx": 8,
+          "entryTy": 4,
+          "direction": "left",
+          "label": "Back"
+        }
+      ]
     }
   },
   "treasures": [

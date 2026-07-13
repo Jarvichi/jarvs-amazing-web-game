@@ -111,6 +111,14 @@
       "repRequired": 0,
       "benefit": "A house of your own — unfurnished, ready to decorate.",
       "service": "player-house-purchase"
+    },
+    {
+      "label": "Expand",
+      "cost": 5000,
+      "repReward": 50,
+      "repRequired": 0,
+      "benefit": "A second room, ready to decorate.",
+      "service": "player-house-expand"
     }
   ],
   "workshop": [

@@ -28,5 +28,16 @@ describe('player-house tag consistency (all towns)', () => {
         })
       }
     }
+
+    // Every minLevel-gated exit (e.g. a purchasable second room) must point at
+    // an interior that actually exists — otherwise the door opens onto nothing.
+    for (const [interiorId, interior] of Object.entries(locationData.HUB_INTERIORS)) {
+      for (const exit of interior.exits ?? []) {
+        if (exit.minLevel === undefined) continue
+        it(`${townKey}/${interiorId}: minLevel-gated exit "${exit.label ?? exit.toInteriorId}" targets a real interior`, () => {
+          expect(locationData.HUB_INTERIORS[exit.toInteriorId], `${townKey}/${interiorId}'s exit to "${exit.toInteriorId}" has no matching interior`).toBeTruthy()
+        })
+      }
+    }
   }
 })
