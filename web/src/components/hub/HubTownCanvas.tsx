@@ -1614,7 +1614,11 @@ export function HubTownCanvas({
           interiorLayer.removeChild(avatar)
           avatarLayer.addChild(avatar)
           avatarInInterior = false
+          // A purchased room slot (or any hand-authored sub-room) has no
+          // exterior door of its own — its id is `<mainBuildingId>-<slotId>`,
+          // so fall back to the door of the building whose id prefixes it.
           const door = HUB_DOORS.find(d => d.buildingId === currentInteriorId)
+            ?? HUB_DOORS.find(d => !!currentInteriorId && currentInteriorId.startsWith(`${d.buildingId}-`))
           if (door) {
             avatar.x = door.tx * T + T / 2
             avatar.y = door.ty * T + T
