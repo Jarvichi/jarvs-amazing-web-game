@@ -18,6 +18,9 @@ interface Props {
   /** Which owned house's furniture layout to edit — opaque key (e.g. `${town}:${buildingId}`).
    *  Falls back to a shared 'default' bucket when no specific house is known. */
   houseKey?: string
+  /** Which tab to open on — defaults to 'shelf' (e.g. Ravenwatch's Steward Maren).
+   *  The in-house 🛋 DECORATE button passes 'decorate' to skip straight past SHELF. */
+  initialTab?: 'shelf' | 'decorate'
 }
 
 type ShelfEntry =
@@ -46,8 +49,8 @@ function nextRotation(r: 0 | 90 | 180 | 270): 0 | 90 | 180 | 270 {
 
 const REMOVE_ARM_MS = 2500
 
-export function HomeShelf({ onBack, houseKey = 'default' }: Props) {
-  const [tab, setTab] = useState<'shelf' | 'decorate'>('shelf')
+export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }: Props) {
+  const [tab, setTab] = useState<'shelf' | 'decorate'>(initialTab)
 
   // ── Shelf tab (existing, unchanged) ──
   const items  = loadInventory()

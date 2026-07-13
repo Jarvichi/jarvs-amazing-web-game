@@ -2081,7 +2081,7 @@ function hasOfferableQuest(giverId: string): boolean {
           <button
             className="action-btn"
             style={{ position: 'absolute', top: 16, right: 96, zIndex: 10 }}
-            onClick={() => handleNodeInteract('home-shelf', `${town}:${activeBuildingId}`)}
+            onClick={() => handleNodeInteract('home-shelf-decorate', `${town}:${activeBuildingId}`)}
           >
             🛋 DECORATE
           </button>

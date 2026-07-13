@@ -1669,7 +1669,9 @@ export function HubTownCanvas({
         const houseKey = `${locationKey}:${buildingId}`
         for (const piece of loadHomeLayout(houseKey)) {
           for (const offset of getFurnitureTileOffsets(piece.itemId)) {
-            visibleDecor.push({ tx: piece.x + offset.dx, ty: piece.y + offset.dy, tileId: offset.tileId })
+            // DECORATE grid coords are 0-indexed within the walkable floor, which
+            // itself starts at (1,1) inside the room's 1-tile wall border.
+            visibleDecor.push({ tx: piece.x + 1 + offset.dx, ty: piece.y + 1 + offset.dy, tileId: offset.tileId })
           }
         }
       }

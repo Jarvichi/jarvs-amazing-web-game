@@ -1337,32 +1337,37 @@ key/hours checks and calls `onDoorLockedRef.current?.(buildingId,
 'unpurchased')` — `HubWorld.tsx`'s `handleDoorLocked` shows a prompt to visit
 Town Upgrades instead of entering.
 
-The `playerHouse` kind (`buildingUpgrades.json`) is a single-tier track —
-`level 0→1`, "Purchase" — meant for exactly this: pair `"upgradeKind":
+The `playerHouse` kind (`buildingUpgrades.json`) is a two-tier track —
+`level 0→1` "Purchase" (the house itself), `level 1→2` "Expand" (a second
+room, see §19) — meant for exactly this: pair `"upgradeKind":
 "playerHouse"` with `"requiresOwnership": true` on the building, and
 `"playerDecor": true` (§19) with an empty `"decor": []` on its interior.
-Additional tiers can be added later to unlock more rooms the normal way
-(`minLevel` on an interior `exits[]` entry, see the table above) — no new
-code needed, since `playerHouse`-tagged buildings resolve their upgrade
-level through the same `getUpgradeLevel`/`levelKey` machinery as any other
-building. **Id rule**: because `levelKey` resolution requires the
-*building* id to prefix the *interior* id (not the reverse — this bit an
-earlier `home`/`home-building` pairing where the interior id was shorter
-than the building id and never resolved), a player-house building and its
-top-level interior should use the **same id** (e.g. both `"ravenwatch-
-player-house"`), and any sub-room added later should extend that same
-prefix (e.g. `"ravenwatch-player-house-attic"`).
+Further tiers/rooms can be added the same way (`minLevel` on an interior
+`exits[]` entry, see the table above) — no new code needed, since
+`playerHouse`-tagged buildings resolve their upgrade level through the
+same `getUpgradeLevel`/`levelKey` machinery as any other building. **Id
+rule**: because `levelKey` resolution requires the *building* id to prefix
+the *interior* id (not the reverse — this bit an earlier `home`/`home-building`
+pairing where the interior id was shorter than the building id and never
+resolved), a player-house building and its top-level interior should use
+the **same id** (e.g. both `"building-1"`), and any sub-room added later
+should extend that same prefix (e.g. `"building-1-second-room"` — the
+live pattern all three current player houses use).
 
-**Pricing is dynamic, unlike every other kind.** `buildingUpgrades.json`'s
-`playerHouse.cost` (2500) is only the documented baseline — the real price
-is computed in `reputation.ts`'s `nextUpgrade`, which special-cases
-`kind === 'playerHouse'` to charge `price(N) = 7500 × 2^(N-1) − 5000` for
-the Nth player house the player owns **across every town** (not per-town):
-2,500 / 10,000 / 25,000 / 55,000 / ... `countOwnedPlayerHouses()` (also in
+**Pricing is dynamic for tier 1 only, unlike every other kind's static
+per-level cost.** `buildingUpgrades.json`'s `playerHouse[0].cost` (2500) is
+only the documented baseline — the real tier-1 price is computed in
+`reputation.ts`'s `nextUpgrade`, which special-cases `kind === 'playerHouse'
+&& level === 0` to charge `price(N) = 7500 × 2^(N-1) − 5000` for the Nth
+player house the player owns **across every town** (not per-town): 2,500 /
+10,000 / 25,000 / 55,000 / ... `countOwnedPlayerHouses()` (also in
 `reputation.ts`) tallies ownership by scanning every town in
 `LOCATION_REGISTRY` for `upgradeKind === 'playerHouse'` buildings at
 level ≥ 1. `purchaseUpgrade` charges whatever `nextUpgrade` just computed,
-so the displayed and charged prices can't drift apart.
+so the displayed and charged prices can't drift apart. Tier 2 ("Expand")
+and any higher tiers are **not** part of this override — they're priced
+straight from the catalog like any other kind's higher tiers, since
+they're a per-house upgrade rather than a new-house purchase.
 
 ### Services
 
@@ -2011,9 +2016,18 @@ The DECORATE grid (§18) has a real in-world counterpart: any interior
 tagged `playerDecor: true` renders the player's placed furniture as real
 sprites instead of static JSON decor. This is a generic mechanism (§10),
 not tied to one hardcoded interior — every town's player house works the
-same way once its building/interior pair exists (currently: none placed
-yet, pending the map editor "add building" tool).
+same way once its building/interior pair exists. Three are live today:
+Millhaven's `building-1` ("Ocean Heights"), Ravenwatch's `building-1`
+("Lakeside Cottage"), and Capital City's `building-1` ("Meadow View").
 
+- **Room size must match the DECORATE grid.** The walkable floor of an
+  interior is `width-2 × height-2` (`HubTownCanvas.tsx` carves a 1-tile
+  wall border on every side), while the DECORATE grid is a fixed
+  `HOME_GRID_COLS × HOME_GRID_ROWS` = 8×6 (`homeLayout.ts`). A `playerDecor`
+  interior's `width`/`height` should therefore be `HOME_GRID_COLS+2 ×
+  HOME_GRID_ROWS+2` = **10×8** — anything smaller clips placed furniture
+  into (or entirely off) the walkable floor. The three live player houses
+  all use 10×8.
 - **Unfurnished by convention**: a `playerDecor` interior's `decor` array
   is `[]` in `config.json` — everything visible is computed at runtime.
 - **Dynamic decor**: `HubTownCanvas.tsx`'s `doEnterInterior` checks
@@ -2022,11 +2036,29 @@ yet, pending the map editor "add building" tool).
   `loadHomeLayout()` via `web/src/game/hub/furnitureTiles.ts`'s
   `getFurnitureTileOffsets(itemId)`, which maps each catalog id to one or
   more `{dx, dy, tileId}` offsets (numeric tile ids, resolved through
-  `BASE_CHIP_TILES`) relative to the piece's anchor. No other change to the
-  rendering pipeline — the merged list feeds the same `renderDecorItems`
-  every interior uses. The furniture layout itself is global, not
-  per-town — buying houses in two towns furnishes the same shared layout in
-  both (documented limitation, not yet solved).
+  `BASE_CHIP_TILES`) relative to the piece's anchor. DECORATE-grid
+  coordinates are 0-indexed within the walkable floor, so the anchor is
+  offset by `+1` in both axes before being pushed onto the room's decor
+  list, to land inside the wall border rather than on it. No other change
+  to the rendering pipeline — the merged list feeds the same
+  `renderDecorItems` every interior uses.
+- **Furniture layout is scoped per house, not global.** `houseKey =
+  ${locationKey}:${buildingId}` (`HubTownCanvas.tsx`) and the matching
+  `${town}:${activeBuildingId}` string the 🛋 DECORATE button passes
+  through `HubWorld.tsx` — so each town's house (and each of its rooms,
+  see below) has its own independent `jarv_hub_home_layout:<houseKey>`
+  entry in localStorage; buying houses in two towns does **not** share a
+  layout between them.
+- **Buying more rooms**: `playerHouse` (`buildingUpgrades.json`) is a
+  two-tier track — tier 1 "Purchase" (the house itself), tier 2 "Expand"
+  (a second room). A second room is an ordinary `playerDecor: true`
+  sub-room interior, id-prefixed by the main room's id per the rule above
+  (e.g. `building-1-second-room`), connected by a `minLevel: 2`-gated
+  `exits[]` entry on the main room (only appears once "Expand" is bought)
+  plus a plain return `exits[]` entry on the sub-room back to the main
+  room. Because the sub-room has its own id, it automatically gets its own
+  independent DECORATE layout — no extra plumbing needed. All three live
+  player houses follow this pattern today.
 - **Tile art is a stand-in for 7 of 12 items.** oak-bookshelf, four-poster-
   bed, candle-stand, wall-clock, and cozy-rug reuse tiles that are good/exact
   matches. round-table, potted-fern, armchair, framed-portrait, travel-chest,
