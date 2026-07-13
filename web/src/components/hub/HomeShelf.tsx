@@ -14,7 +14,12 @@ import {
 import {
   RoomSlotDef, getAllRoomSlotDefs, getRoomSlotDef, getPurchasedSlotIds, purchaseRoomSlot,
 } from '../../game/hub/houseRooms'
+import { RoomStyle, getRoomStyle, setRoomFloor, setRoomWall } from '../../game/hub/roomStyle'
 import { loadCrystals, saveCrystals } from '../../game/collection'
+import { FLOOR_TILES } from '../../data/tiles/floorTiles'
+import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
+import { WALL_TILES, WallMaterial } from '../../data/tiles/buildingMaterials'
+import { TileStylePicker, TileStyleOption } from './home-shelf/TileStylePicker'
 
 interface Props {
   onBack: () => void
@@ -55,7 +60,25 @@ function nextRotation(r: 0 | 90 | 180 | 270): 0 | 90 | 180 | 270 {
   return ROTATION_ORDER[(ROTATION_ORDER.indexOf(r) + 1) % ROTATION_ORDER.length]
 }
 
+/** "darkStoneFloor" -> "Dark Stone Floor" */
+function humanizeCamelCase(id: string): string {
+  const spaced = id.replace(/([a-z])([A-Z])/g, '$1 $2')
+  return spaced.charAt(0).toUpperCase() + spaced.slice(1)
+}
+
+const CHIP_TILES = BASE_CHIP_TILES as Record<string, number>
+const WALL_MATERIALS = Object.keys(WALL_TILES) as WallMaterial[]
+const FLOOR_OPTIONS: TileStyleOption[] = FLOOR_TILES.map(id => ({
+  key: id, tileNumericId: CHIP_TILES[id], label: humanizeCamelCase(id),
+}))
+const WALL_OPTIONS: TileStyleOption[] = WALL_MATERIALS.map(m => ({
+  key: m, tileNumericId: WALL_TILES[m].middleTop, label: humanizeCamelCase(m),
+}))
+
 const REMOVE_ARM_MS = 2500
+const STYLE_PRICE = 150
+
+type PendingStyleBuy = { kind: 'floor'; tileId: string } | { kind: 'wall'; material: WallMaterial }
 
 export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }: Props) {
   const [tab, setTab] = useState<'shelf' | 'decorate' | 'rooms'>(initialTab)
@@ -100,6 +123,9 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
   const [removeArmedId, setRemoveArmedId] = useState<string | null>(null)
   const [pendingBuy, setPendingBuy] = useState<FurnitureDef | null>(null)
   const [message, setMessage] = useState<string | null>(null)
+  const [decorateView, setDecorateView] = useState<'furniture' | 'style'>('furniture')
+  const [roomStyle, setRoomStyleState] = useState<RoomStyle>(() => getRoomStyle(roomHouseKey))
+  const [pendingStyleBuy, setPendingStyleBuy] = useState<PendingStyleBuy | null>(null)
   const removeArmTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const messageTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -238,10 +264,40 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
   function handleSelectRoom(roomId: string) {
     if (roomId === selectedRoomId) return
     setSelectedRoomId(roomId)
-    setPlaced(loadHomeLayout(roomId === 'main' ? houseKey : `${houseKey}-${roomId}`))
+    const nextHouseKey = roomId === 'main' ? houseKey : `${houseKey}-${roomId}`
+    setPlaced(loadHomeLayout(nextHouseKey))
+    setRoomStyleState(getRoomStyle(nextHouseKey))
     setArmedItemId(null)
     setSelectedPieceId(null)
     setMoveArmed(false)
+  }
+
+  function handlePickFloor(tileId: string) {
+    if (roomStyle.floorTileId !== tileId) setPendingStyleBuy({ kind: 'floor', tileId })
+  }
+
+  function handlePickWall(material: WallMaterial) {
+    if (roomStyle.wallMaterial !== material) setPendingStyleBuy({ kind: 'wall', material })
+  }
+
+  function handleCancelStyleBuy() {
+    setPendingStyleBuy(null)
+  }
+
+  function handleConfirmStyleBuy() {
+    if (!pendingStyleBuy) return
+    if (crystals < STYLE_PRICE) {
+      showMessage("That's more crystals than you have.")
+      setPendingStyleBuy(null)
+      return
+    }
+    const next = crystals - STYLE_PRICE
+    saveCrystals(next)
+    setCrystals(next)
+    if (pendingStyleBuy.kind === 'floor') setRoomFloor(roomHouseKey, pendingStyleBuy.tileId)
+    else setRoomWall(roomHouseKey, pendingStyleBuy.material)
+    setRoomStyleState(getRoomStyle(roomHouseKey))
+    setPendingStyleBuy(null)
   }
 
   // While a piece is armed to move, hide it from the grid so its own cells
@@ -330,39 +386,77 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
               })}
             </div>
           )}
+          {houseKey !== 'default' && (
+            <div className="hoa-tabs">
+              <button
+                className={`hoa-tab${decorateView === 'furniture' ? ' hoa-tab--active' : ''}`}
+                onClick={() => setDecorateView('furniture')}
+              >
+                Furnish
+              </button>
+              <button
+                className={`hoa-tab${decorateView === 'style' ? ' hoa-tab--active' : ''}`}
+                onClick={() => setDecorateView('style')}
+              >
+                Style
+              </button>
+            </div>
+          )}
           {message && <div className="home-decorate-msg">{message}</div>}
-          {armedItemId && !message && (
-            <div className="home-decorate-hint">Tap an empty spot to place {getFurnitureDef(armedItemId)?.name ?? 'it'}.</div>
-          )}
-          {moveArmed && !message && (
-            <div className="home-decorate-hint">Tap an empty spot to move it there.</div>
-          )}
 
-          <HomeGrid
-            placed={displayedPlaced}
-            getDef={getFurnitureDef}
-            selectedId={selectedPieceId}
-            tappable={!!armedItemId || moveArmed}
-            onCellTap={handleCellTap}
-            onPieceTap={handlePieceTap}
-          />
+          {decorateView === 'furniture' ? (
+            <>
+              {armedItemId && !message && (
+                <div className="home-decorate-hint">Tap an empty spot to place {getFurnitureDef(armedItemId)?.name ?? 'it'}.</div>
+              )}
+              {moveArmed && !message && (
+                <div className="home-decorate-hint">Tap an empty spot to move it there.</div>
+              )}
 
-          {selectedPiece && selectedDef && (
-            <PieceActionBar
-              pieceName={selectedDef.name}
-              removeArmed={removeArmedId === selectedPiece.id}
-              onRotate={handleRotate}
-              onMove={handleMove}
-              onRemove={handleRemove}
-            />
+              <HomeGrid
+                placed={displayedPlaced}
+                getDef={getFurnitureDef}
+                selectedId={selectedPieceId}
+                tappable={!!armedItemId || moveArmed}
+                onCellTap={handleCellTap}
+                onPieceTap={handlePieceTap}
+              />
+
+              {selectedPiece && selectedDef && (
+                <PieceActionBar
+                  pieceName={selectedDef.name}
+                  removeArmed={removeArmedId === selectedPiece.id}
+                  onRotate={handleRotate}
+                  onMove={handleMove}
+                  onRemove={handleRemove}
+                />
+              )}
+
+              <FurniturePicker
+                defs={getAllFurnitureDefs()}
+                ownedIds={ownedIds}
+                armedId={armedItemId}
+                onPick={handlePickFurniture}
+              />
+            </>
+          ) : (
+            <>
+              <div className="shelf-section-label">FLOOR</div>
+              <TileStylePicker
+                options={FLOOR_OPTIONS}
+                selectedKey={roomStyle.floorTileId}
+                price={STYLE_PRICE}
+                onPick={handlePickFloor}
+              />
+              <div className="shelf-section-label">WALLS</div>
+              <TileStylePicker
+                options={WALL_OPTIONS}
+                selectedKey={roomStyle.wallMaterial}
+                price={STYLE_PRICE}
+                onPick={id => handlePickWall(id as WallMaterial)}
+              />
+            </>
           )}
-
-          <FurniturePicker
-            defs={getAllFurnitureDefs()}
-            ownedIds={ownedIds}
-            armedId={armedItemId}
-            onPick={handlePickFurniture}
-          />
         </div>
       )}
 
@@ -454,6 +548,28 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
                 onClick={handleConfirmRoomBuy}
               >
                 Build for {pendingRoomBuy.price.toLocaleString()} 💎
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {pendingStyleBuy && (
+        <div className="shop-confirm-backdrop" onClick={handleCancelStyleBuy}>
+          <div className="shop-confirm-modal" onClick={e => e.stopPropagation()}>
+            <div className="shop-confirm-title">
+              {humanizeCamelCase(pendingStyleBuy.kind === 'floor' ? pendingStyleBuy.tileId : pendingStyleBuy.material)}
+            </div>
+            <div className="shop-confirm-body">
+              Change {pendingStyleBuy.kind} for {STYLE_PRICE} 💎? You have {crystals.toLocaleString()} 💎.
+            </div>
+            <div className="shop-confirm-actions">
+              <button className="action-btn" onClick={handleCancelStyleBuy}>Cancel</button>
+              <button
+                className={`action-btn action-btn--gold shop-card-buy-btn${crystals < STYLE_PRICE ? ' shop-card-buy-btn--poor' : ''}`}
+                onClick={handleConfirmStyleBuy}
+              >
+                Change for {STYLE_PRICE} 💎
               </button>
             </div>
           </div>

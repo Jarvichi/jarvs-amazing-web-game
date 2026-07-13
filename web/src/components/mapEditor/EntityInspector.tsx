@@ -15,6 +15,8 @@ import { BUILDING_MUSIC_IDS, AMBIANCE_IDS } from '../../game/sound'
 import { getUpgradeTrack, UPGRADE_CATALOG } from '../../data/hub/buildingUpgrades'
 import type { BundleTileRaw } from '../../data/bundles/bundleEditorApi'
 import type { NpcActivity } from '../../data/hub/loader'
+import { FLOOR_TILES } from '../../data/tiles/floorTiles'
+import { TileSwatch } from '../shared/TileSwatch'
 
 type ReorderDirection = 'forward' | 'back' | 'toFront' | 'toBack'
 
@@ -29,15 +31,6 @@ function swap<T>(arr: T[], i: number, j: number): T[] {
 function buildingMaxLevel(building: RawBuilding): number {
   return building.maxLevel ?? getUpgradeTrack(building.upgradeKind).length
 }
-
-const FLOOR_TILES = [
-  'woodFloor', 'stoneFloor', 'cobblestoneFloor', 'quarteredFloor', 'checkeredFloor',
-  'redCarpetFloor', 'darkWoodFloor', 'darkStoneFloor', 'darkCobblestoneFloor',
-  'darkQuarteredFloor', 'darkCheckeredFloor', 'yellowCarpetFloor', 'parquetFloor',
-  'smallStoneFloor', 'diagonalFloor', 'fourByFourTileFloor', 'meshFloor', 'ornateFloor',
-  'darkParquetFloor', 'goldSmallTileFloor', 'darkDiagonalFloor', 'darkFourByFourTileFloor',
-  'lightMeshFloor', 'blueOrnateFloor',
-]
 
 const UPGRADE_KINDS = Object.keys(UPGRADE_CATALOG)
 
@@ -148,34 +141,7 @@ const S = 20  // thumbnail size for tile picker grid
 
 function TileThumb({ tileId }: { tileId: string }) {
   const id = (BASE_CHIP_TILES as Record<string, number>)[tileId]
-  if (id === undefined) return null
-  if (id >= 10000) {
-    let ref: ReturnType<typeof resolveTileRef> | undefined
-    try { ref = resolveTileRef(id) } catch { /* unknown */ }
-    if (!ref) return null
-    const col = ref.id % ref.columns
-    const row = Math.floor(ref.id / ref.columns)
-    return (
-      <div style={{
-        width: S, height: S, flexShrink: 0, imageRendering: 'pixelated',
-        backgroundImage: `url("${ref.file}")`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: ref.columns === 1 ? `${S}px ${S}px` : `${ref.columns * S}px auto`,
-        backgroundPosition: ref.columns === 1 ? '0 0' : `-${col * S}px -${row * S}px`,
-      }} />
-    )
-  }
-  const col = id % COLS
-  const row = Math.floor(id / COLS)
-  return (
-    <div style={{
-      width: S, height: S, flexShrink: 0, imageRendering: 'pixelated',
-      backgroundImage: `url("${SHEET_URL}")`,
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: `${COLS * S}px auto`,
-      backgroundPosition: `-${col * S}px -${row * S}px`,
-    }} />
-  )
+  return <TileSwatch tileNumericId={id} size={S} />
 }
 
 function TilePicker({ current, onChange, onClose }: {

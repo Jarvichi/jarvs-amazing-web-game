@@ -40,6 +40,9 @@
 | `web/src/game/hub/forages.ts` | Once-per-day forage-spot persistence (localStorage) — see §7 `forage` reaction | `canForageToday`, `recordForage` |
 | `web/src/data/roomSlots.json` | Purchasable player-house room-slot catalog (basement/first-floor/left/right/rear) — see §19 "Room Slots" | consumed by `houseRooms.ts` |
 | `web/src/game/hub/houseRooms.ts` | Per-house purchased-slot persistence + dynamic interior/exit synthesis (localStorage) — see §19 "Room Slots" | `getRoomSlotDef`, `getAllRoomSlotDefs`, `getPurchasedSlotIds`, `hasPurchasedSlot`, `purchaseRoomSlot`, `parseSlotBuildingId`, `buildMainRoomExit`, `synthesizeSlotInterior` |
+| `web/src/game/hub/roomStyle.ts` | Per-room floor/wall style persistence (localStorage) — see §19 "Room Style" | `getRoomStyle`, `setRoomFloor`, `setRoomWall`, `getResolvedRoomStyle` |
+| `web/src/data/tiles/floorTiles.ts` | Shared floor-tile catalog, reused by the map editor and the room-style picker — see §19 "Room Style" | `FLOOR_TILES` |
+| `web/src/components/shared/TileSwatch.tsx` | CSS tile-swatch renderer (by resolved numeric tile id), shared by the map editor and the room-style picker — see §19 "Room Style" | `TileSwatch` |
 
 ---
 
@@ -2168,3 +2171,47 @@ flow) → `purchaseRoomSlot`.
 3. Verify in-game: the new slot appears in the ROOMS tab, purchases,
    appears as a real door/marker in the main room immediately, and its own
    room is enterable and independently decoratable.
+
+### Room Style — per-room floor & wall customization
+
+Each room a player owns (the main room, and any purchased room slot above)
+can independently swap its floor tile and wall material from the DECORATE
+tab's **STYLE** view (alongside a **FURNISH** view — the pre-existing
+furniture-placement UI), for a flat crystal fee per change (`STYLE_PRICE`
+in `HomeShelf.tsx`).
+
+**Catalogs** — reused rather than duplicated:
+- `web/src/data/tiles/floorTiles.ts` — `FLOOR_TILES` (24 options), shared
+  with the map editor's own floor-tile dropdowns (`EntityInspector.tsx`).
+- `Object.keys(WALL_TILES) as WallMaterial[]` (`buildingMaterials.ts`) —
+  the same 14 wall materials every building/interior already uses.
+- `web/src/components/shared/TileSwatch.tsx` — a small CSS-swatch renderer
+  (by resolved numeric tile id) extracted out of the map editor's
+  `TileThumb`, so both the editor's tile pickers and the player-facing
+  `TileStylePicker` (`home-shelf/TileStylePicker.tsx`) draw from one
+  rendering path. A wall material's swatch uses its `WallTileSet.middleTop`
+  tile as the representative preview.
+
+**Persistence** — `web/src/game/hub/roomStyle.ts` (key
+`jarv_hub_room_style:<houseKey>`, same `${town}:${buildingId}` /
+`${town}:${buildingId}-${slotId}` scoping as `homeLayout.ts`/
+`houseRooms.ts`, so a purchased room slot styles independently of the main
+room): `getRoomStyle`/`setRoomFloor`/`setRoomWall` store the raw string
+tile/material names; `getResolvedRoomStyle` additionally resolves the
+floor tile name to the numeric id `HubInterior.floorTileId` expects
+(mirrors `houseRooms.ts`'s `synthesizeSlotInterior` doing the same lookup).
+
+**Rendering** — `HubTownCanvas.tsx`'s `doEnterInterior`, inside the existing
+`if (interior.playerDecor)` branch (where `houseKey` is already computed
+for furniture): looks up `getResolvedRoomStyle(houseKey)` and, if either
+field is set, applies it as an override via object-spread —
+`interior = { ...interior, ...override }` — never mutated in place, since
+for the main room `interior` may be a direct reference into the shared,
+module-level `HUB_INTERIORS` record.
+
+**UI** — `HomeShelf.tsx`'s DECORATE tab gains a second-level `hoa-tabs`
+toggle (FURNISH/STYLE, hidden for the `'default'` bucket, same as the ROOMS
+tab). The STYLE view shows two `TileStylePicker` rows (Floor, Walls); tapping
+an unselected swatch opens the usual `.shop-confirm-*` buy-confirm modal,
+then calls `setRoomFloor`/`setRoomWall` on the currently-selected room's
+`roomHouseKey`.

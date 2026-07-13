@@ -30,6 +30,7 @@ import { resolveWeather } from '../../game/hub/weather'
 import { getActiveFestival } from '../../game/hub/hubCalendar'
 import { loadHomeLayout } from '../../game/hub/homeLayout'
 import { getFurnitureTileOffsets } from '../../game/hub/furnitureTiles'
+import { getResolvedRoomStyle } from '../../game/hub/roomStyle'
 import {
   getPurchasedSlotIds, getRoomSlotDef, buildMainRoomExit, parseSlotBuildingId, synthesizeSlotInterior,
 } from '../../game/hub/houseRooms'
@@ -1696,9 +1697,20 @@ export function HubTownCanvas({
 
       // playerDecor interiors ship unfurnished (decor: []) — everything
       // visible is rendered from the player's placed furniture (homeLayout.ts)
-      // at runtime, not upgrade-gated.
+      // at runtime, not upgrade-gated. They can also carry a player-chosen
+      // floor/wall material (roomStyle.ts), overriding the template default —
+      // spread onto a new object since `interior` may be a direct reference
+      // into the shared, module-level HUB_INTERIORS record for the main room.
       if (interior.playerDecor) {
         const houseKey = `${locationKey}:${buildingId}`
+        const style = getResolvedRoomStyle(houseKey)
+        if (style.floorTileId !== undefined || style.wallMaterial !== undefined) {
+          interior = {
+            ...interior,
+            ...(style.floorTileId !== undefined && { floorTileId: style.floorTileId }),
+            ...(style.wallMaterial !== undefined && { wallMaterial: style.wallMaterial }),
+          }
+        }
         for (const piece of loadHomeLayout(houseKey)) {
           for (const offset of getFurnitureTileOffsets(piece.itemId)) {
             // DECORATE grid coords are 0-indexed within the walkable floor, which
