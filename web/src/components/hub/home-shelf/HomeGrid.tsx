@@ -41,7 +41,14 @@ export function HomeGrid({ placed, getDef, selectedId, tappable, onCellTap, onPi
   }
 
   return (
-    <div className="home-grid">
+    <div
+      className="home-grid"
+      style={{
+        gridTemplateColumns: `repeat(${HOME_GRID_COLS}, 1fr)`,
+        gridTemplateRows: `repeat(${HOME_GRID_ROWS}, 1fr)`,
+        aspectRatio: `${HOME_GRID_COLS} / ${HOME_GRID_ROWS}`,
+      }}
+    >
       {cells}
       {placed.map(p => {
         const def = getDef(p.itemId)
