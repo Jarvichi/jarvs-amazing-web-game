@@ -7928,11 +7928,10 @@ body {
 }
 
 .home-grid {
+  /* grid-template-columns/rows and aspect-ratio are set inline from
+     HOME_GRID_COLS/HOME_GRID_ROWS (homeLayout.ts) — see HomeGrid.tsx */
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: repeat(6, 1fr);
   gap: 3px;
-  aspect-ratio: 8 / 6;
   background: rgba(20,30,20,0.4);
   border: 1px solid #2a3a2a;
   border-radius: 3px;

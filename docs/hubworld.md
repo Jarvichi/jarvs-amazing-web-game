@@ -1949,7 +1949,11 @@ pure-visual pieces under `web/src/components/hub/home-shelf/` (each with a
 `.stories.tsx`):
 
 - `HomeGrid.tsx` — the `HOME_GRID_COLS × HOME_GRID_ROWS` grid; placed pieces
-  span their (rotation-aware) footprint via `gridColumn`/`gridRow`.
+  span their (rotation-aware) footprint via `gridColumn`/`gridRow`. The
+  container's `grid-template-columns`/`-rows`/`aspect-ratio` are set inline
+  from those same constants (not in `styles.css`'s `.home-grid` rule, which
+  only holds non-dimension styling) — resizing the grid is a two-constant
+  change in `homeLayout.ts`, not also a CSS edit.
 - `FurniturePicker.tsx` — a horizontal strip over the full catalog; owned
   pieces are plain, unowned ones show a price tag.
 - `PieceActionBar.tsx` — Rotate / Move / Remove for the selected piece.
