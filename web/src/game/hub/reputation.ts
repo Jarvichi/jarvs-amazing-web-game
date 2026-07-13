@@ -131,7 +131,7 @@ export function nextUpgrade(town: string, buildingId: string, kind: string | und
 
   const def = track[level]
   // Dynamic pricing only applies to the first tier (buying the house itself) —
-  // higher tiers (e.g. "Expand") are per-house upgrades, priced statically
+  // any future higher tier would be a per-house upgrade, priced statically
   // from the catalog like every other kind's higher tiers.
   const cost = kind === 'playerHouse' && level === 0 ? playerHousePrice(countOwnedPlayerHouses()) : def.cost
   return {

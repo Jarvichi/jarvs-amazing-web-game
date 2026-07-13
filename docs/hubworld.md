@@ -38,6 +38,8 @@
 | `web/src/components/hub/HubInventoryModal.tsx` | 🎒 Hub Inventory UI — held quest items, materials & tools, pet accessories — see §16 | `HubInventoryModal` |
 | `web/src/game/hub/talkCooldown.ts` | Once-per-day "Make conversation" persistence (localStorage) — see §7d | `canTalkToday`, `recordTalk` |
 | `web/src/game/hub/forages.ts` | Once-per-day forage-spot persistence (localStorage) — see §7 `forage` reaction | `canForageToday`, `recordForage` |
+| `web/src/data/roomSlots.json` | Purchasable player-house room-slot catalog (basement/first-floor/left/right/rear) — see §19 "Room Slots" | consumed by `houseRooms.ts` |
+| `web/src/game/hub/houseRooms.ts` | Per-house purchased-slot persistence + dynamic interior/exit synthesis (localStorage) — see §19 "Room Slots" | `getRoomSlotDef`, `getAllRoomSlotDefs`, `getPurchasedSlotIds`, `hasPurchasedSlot`, `purchaseRoomSlot`, `parseSlotBuildingId`, `buildMainRoomExit`, `synthesizeSlotInterior` |
 
 ---
 
@@ -1337,37 +1339,32 @@ key/hours checks and calls `onDoorLockedRef.current?.(buildingId,
 'unpurchased')` — `HubWorld.tsx`'s `handleDoorLocked` shows a prompt to visit
 Town Upgrades instead of entering.
 
-The `playerHouse` kind (`buildingUpgrades.json`) is a two-tier track —
-`level 0→1` "Purchase" (the house itself), `level 1→2` "Expand" (a second
-room, see §19) — meant for exactly this: pair `"upgradeKind":
+The `playerHouse` kind (`buildingUpgrades.json`) is a single-tier track —
+`level 0→1` "Purchase" — meant for exactly this: pair `"upgradeKind":
 "playerHouse"` with `"requiresOwnership": true` on the building, and
 `"playerDecor": true` (§19) with an empty `"decor": []` on its interior.
-Further tiers/rooms can be added the same way (`minLevel` on an interior
-`exits[]` entry, see the table above) — no new code needed, since
-`playerHouse`-tagged buildings resolve their upgrade level through the
-same `getUpgradeLevel`/`levelKey` machinery as any other building. **Id
-rule**: because `levelKey` resolution requires the *building* id to prefix
-the *interior* id (not the reverse — this bit an earlier `home`/`home-building`
-pairing where the interior id was shorter than the building id and never
-resolved), a player-house building and its top-level interior should use
-the **same id** (e.g. both `"building-1"`), and any sub-room added later
-should extend that same prefix (e.g. `"building-1-second-room"` — the
-live pattern all three current player houses use).
+**Id rule**: because `levelKey` resolution requires the *building* id to
+prefix the *interior* id (not the reverse — this bit an earlier
+`home`/`home-building` pairing where the interior id was shorter than the
+building id and never resolved), a player-house building and its top-level
+interior should use the **same id** (e.g. both `"building-1"`).
 
-**Pricing is dynamic for tier 1 only, unlike every other kind's static
-per-level cost.** `buildingUpgrades.json`'s `playerHouse[0].cost` (2500) is
-only the documented baseline — the real tier-1 price is computed in
-`reputation.ts`'s `nextUpgrade`, which special-cases `kind === 'playerHouse'
-&& level === 0` to charge `price(N) = 7500 × 2^(N-1) − 5000` for the Nth
-player house the player owns **across every town** (not per-town): 2,500 /
-10,000 / 25,000 / 55,000 / ... `countOwnedPlayerHouses()` (also in
-`reputation.ts`) tallies ownership by scanning every town in
-`LOCATION_REGISTRY` for `upgradeKind === 'playerHouse'` buildings at
-level ≥ 1. `purchaseUpgrade` charges whatever `nextUpgrade` just computed,
-so the displayed and charged prices can't drift apart. Tier 2 ("Expand")
-and any higher tiers are **not** part of this override — they're priced
-straight from the catalog like any other kind's higher tiers, since
-they're a per-house upgrade rather than a new-house purchase.
+Additional rooms are **not** further upgrade tiers — see §19's Room Slots
+for the player-facing "buy a room" system (basement/first-floor/left/right/
+rear), which synthesizes each purchased room from a shared catalog template
+at runtime instead of authoring more `playerHouse` levels.
+
+**Pricing is dynamic, unlike every other kind's static per-level cost.**
+`buildingUpgrades.json`'s `playerHouse[0].cost` (2500) is only the
+documented baseline — the real price is computed in `reputation.ts`'s
+`nextUpgrade`, which special-cases `kind === 'playerHouse'` to charge
+`price(N) = 7500 × 2^(N-1) − 5000` for the Nth player house the player owns
+**across every town** (not per-town): 2,500 / 10,000 / 25,000 / 55,000 /
+... `countOwnedPlayerHouses()` (also in `reputation.ts`) tallies ownership
+by scanning every town in `LOCATION_REGISTRY` for `upgradeKind ===
+'playerHouse'` buildings at level ≥ 1. `purchaseUpgrade` charges whatever
+`nextUpgrade` just computed, so the displayed and charged prices can't
+drift apart.
 
 ### Services
 
@@ -2049,16 +2046,8 @@ Millhaven's `building-1` ("Ocean Heights"), Ravenwatch's `building-1`
   see below) has its own independent `jarv_hub_home_layout:<houseKey>`
   entry in localStorage; buying houses in two towns does **not** share a
   layout between them.
-- **Buying more rooms**: `playerHouse` (`buildingUpgrades.json`) is a
-  two-tier track — tier 1 "Purchase" (the house itself), tier 2 "Expand"
-  (a second room). A second room is an ordinary `playerDecor: true`
-  sub-room interior, id-prefixed by the main room's id per the rule above
-  (e.g. `building-1-second-room`), connected by a `minLevel: 2`-gated
-  `exits[]` entry on the main room (only appears once "Expand" is bought)
-  plus a plain return `exits[]` entry on the sub-room back to the main
-  room. Because the sub-room has its own id, it automatically gets its own
-  independent DECORATE layout — no extra plumbing needed. All three live
-  player houses follow this pattern today.
+- **Buying more rooms**: see "Room Slots" below — a player-facing, per-room
+  purchase, not another `playerHouse` upgrade tier.
 - **Tile art is a stand-in for 7 of 12 items.** oak-bookshelf, four-poster-
   bed, candle-stand, wall-clock, and cozy-rug reuse tiles that are good/exact
   matches. round-table, potted-fern, armchair, framed-portrait, travel-chest,
@@ -2077,3 +2066,71 @@ Millhaven's `building-1` ("Ocean Heights"), Ravenwatch's `building-1`
   round-table, 2×1) renders one sprite at its anchor cell only —
   `renderDecorItems` has no support for scaling a decor sprite across
   multiple tiles.
+
+### Room Slots — purchasable rooms
+
+A player-facing "buy a room" system, independent of the `playerHouse`
+upgrade-track mechanism above. One shared catalog of five room types —
+`web/src/data/roomSlots.json` — is reused across every player house in
+every town; buying a slot for a specific house synthesizes that room's
+`HubInterior` at runtime from the catalog template, so adding a slot type
+or a new player-house town never needs per-room JSON authoring.
+
+| id | name | price | direction | notes |
+|---|---|---|---|---|
+| `left` | Left Room | 3,000 | `left` | wall-gap door, west wall |
+| `right` | Right Room | 3,000 | `right` | wall-gap door, east wall |
+| `rear` | Rear Room | 3,500 | `back`/`front` | wall-gap door, north wall |
+| `basement` | Basement | 4,000 | `down`/`up` | floor marker, no wall gap |
+| `first-floor` | Upper Floor | 4,500 | `up`/`down` | floor marker, no wall gap |
+
+Each catalog entry (`RoomSlotDef`, `web/src/game/hub/houseRooms.ts`) carries
+a `mainExit` (the door/marker the main room gets once purchased) and a
+`roomExit` (the door/marker back to the main room, inside the slot's own
+10×8 interior) — mirrored docking positions, same convention as any other
+hand-authored two-way room pair (`entryTx`/`entryTy` land just inside the
+opposite wall). `left`/`right`/`rear` punch a real wall gap (`direction`
+`left`/`right`/`front`/`back`, same wall-gap mechanics `HubTownCanvas.tsx`
+already has for any authored exit); `basement`/`first-floor` are plain
+floor-level passage markers (`direction` `up`/`down`, rendered as a ▲/▼
+text glyph, same as any multi-story building's stairs) — no wall gap, so
+`homeLayout.ts` permanently reserves the two DECORATE cells under those
+markers (`RESERVED_CELLS`) so furniture can't be placed on top of them, in
+every house regardless of whether those slots are bought.
+
+**Persistence** — `web/src/game/hub/houseRooms.ts` (key
+`jarv_hub_house_rooms:<houseKey>`, same `${town}:${buildingId}` scoping as
+`homeLayout.ts`): `getPurchasedSlotIds`, `hasPurchasedSlot`,
+`purchaseRoomSlot` (idempotent grant; the caller spends crystals itself,
+matching `furniture.ts`'s `grantFurniture` convention).
+
+**Runtime synthesis** — `HubTownCanvas.tsx`'s `doEnterInterior`:
+- If `HUB_INTERIORS[buildingId]` misses, checks whether `buildingId` is
+  `<mainHouseId>-<slotId>` for a `playerHouse` building with that slot
+  purchased, and if so calls `synthesizeSlotInterior` to build a real
+  `HubInterior` (10×8, `playerDecor: true`, one `roomExit`) from the
+  catalog template — everything downstream (walls, floor, furniture
+  rendering, exits) already works generically off any `HubInterior`, so
+  nothing else needs to change.
+- A player-house **main** room's `availableExits` is the union of its
+  static authored `exits` (if any) and one synthesized `buildMainRoomExit`
+  per purchased slot — computed fresh every time the room is entered, so a
+  purchase shows up immediately without a reload.
+
+**UI** — `HomeShelf.tsx`'s third `ROOMS` tab (alongside `SHELF`/`DECORATE`,
+same `hoa-tabs` bar, no new `Screen`/routing needed since it already
+receives `houseKey`): lists all five slots, tap an unowned one → buy-confirm
+(reuses `.shop-confirm-*`, same pattern as the DECORATE tab's furniture-buy
+flow) → `purchaseRoomSlot`.
+
+**Authoring checklist: new slot type**
+1. Add an entry to `roomSlots.json` with a unique `id`, `price`,
+   `floorTileId` (a `baseChipIndex.ts` constant), and mirrored `mainExit`/
+   `roomExit` docking positions (wall-gap directions need a wall-boundary
+   `tx`/`ty`; `up`/`down` can be any open floor tile, but reserve it in
+   `homeLayout.ts`'s `RESERVED_CELLS` the same way).
+2. Run `npm run test` (`houseRooms.test.ts`, `homeLayout.test.ts`) and
+   `npm run build`.
+3. Verify in-game: the new slot appears in the ROOMS tab, purchases,
+   appears as a real door/marker in the main room immediately, and its own
+   room is enterable and independently decoratable.
