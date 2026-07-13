@@ -4,6 +4,8 @@ import {
   HOME_GRID_COLS, HOME_GRID_ROWS,
 } from './homeLayout'
 import { grantFurniture } from './furniture'
+import { shelfItemDisplayId } from './shelfDecor'
+import { addToInventory } from '../dailyLogin'
 
 function installLocalStorageStub(): Map<string, string> {
   const store = new Map<string, string>()
@@ -175,6 +177,29 @@ describe('homeLayout', () => {
       placeFurniture('default', LAMP, 1, 1)
       expect(store.has('jarv_hub_home_layout:default')).toBe(true)
       expect(store.has('jarv_hub_home_layout')).toBe(false)
+    })
+  })
+
+  describe('shelf-decor placement', () => {
+    it('places a shelf item (keepsake/junk) the player owns', () => {
+      addToInventory({ id: 'trinket-1', name: 'Old Trinket', icon: '🔮', desc: '', lore: '' })
+      const itemId = shelfItemDisplayId('trinket-1')
+      const piece = placeFurniture(HOUSE, itemId, 2, 5)
+      expect(piece).toMatchObject({ itemId, x: 2, y: 5, rotation: 0 })
+      expect(loadHomeLayout(HOUSE)).toHaveLength(1)
+    })
+
+    it('rejects a shelf-item id the player does not own', () => {
+      expect(placeFurniture(HOUSE, shelfItemDisplayId('never-owned'), 0, 0)).toBeNull()
+      expect(loadHomeLayout(HOUSE)).toHaveLength(0)
+    })
+
+    it('shelf-decor pieces are always a 1x1 footprint, occupying just their own cell', () => {
+      addToInventory({ id: 'trinket-1', name: 'Old Trinket', icon: '🔮', desc: '', lore: '' })
+      const itemId = shelfItemDisplayId('trinket-1')
+      expect(placeFurniture(HOUSE, itemId, 2, 5)).not.toBeNull()
+      expect(placeFurniture(HOUSE, LAMP, 2, 5)).toBeNull() // occupied
+      expect(placeFurniture(HOUSE, LAMP, 3, 5)).not.toBeNull() // adjacent cell is free
     })
   })
 })

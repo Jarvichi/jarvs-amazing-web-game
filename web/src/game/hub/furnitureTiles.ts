@@ -17,6 +17,7 @@
 // tiles that aren't a perfect visual match for their catalog item).
 
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
+import { isShelfDecorId } from './shelfDecor'
 
 export interface FurnitureTileOffset {
   dx: number
@@ -57,7 +58,13 @@ const FURNITURE_TILES_RAW: Record<string, RawOffset[]> = {
 
 const CHIP_TILES = BASE_CHIP_TILES as Record<string, number>
 
+// Shelf-decor pieces (keepsakes, relics, odds & ends — see shelfDecor.ts) aren't
+// in FURNITURE_TILES_RAW above; they render as one generic display stand-in
+// tile in-world (the DECORATE grid still shows their real icon/name).
+const SHELF_DECOR_TILE_ID = 'smallChest'
+
 export function getFurnitureTileOffsets(itemId: string): FurnitureTileOffset[] {
+  if (isShelfDecorId(itemId)) return [{ dx: 0, dy: 0, tileId: CHIP_TILES[SHELF_DECOR_TILE_ID] ?? 0 }]
   const raw = FURNITURE_TILES_RAW[itemId] ?? []
   return raw.map(o => ({ dx: o.dx, dy: o.dy, tileId: CHIP_TILES[o.tileId] ?? 0 }))
 }

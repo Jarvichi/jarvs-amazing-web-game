@@ -1,5 +1,6 @@
 import { logError } from '../../logger'
 import { getFurnitureDef, ownsFurniture } from './furniture'
+import { isShelfDecorId, ownsShelfDecor } from './shelfDecor'
 
 const KEY_PREFIX = 'jarv_hub_home_layout'
 
@@ -47,11 +48,21 @@ function save(houseKey: string, data: Store): void {
   }
 }
 
-/** The footprint a piece occupies, accounting for rotation swapping width/height. */
+/** The footprint a piece occupies, accounting for rotation swapping width/height.
+ *  Shelf-decor pieces (keepsakes, relics, odds & ends off the SHELF tab) are
+ *  always a plain 1x1 — they're not in furniture.json, just placed as-is. */
 function footprintFor(itemId: string, rotation: 0 | 90 | 180 | 270): { w: number; h: number } {
+  if (isShelfDecorId(itemId)) return { w: 1, h: 1 }
   const def = getFurnitureDef(itemId)
   const { w, h } = def?.footprint ?? { w: 1, h: 1 }
   return rotation === 90 || rotation === 270 ? { w: h, h: w } : { w, h }
+}
+
+/** Whether itemId can be placed at all — either an owned furniture.json catalog
+ *  piece, or a shelf-decor id the player currently still owns (see shelfDecor.ts). */
+function isPlaceable(itemId: string): boolean {
+  if (isShelfDecorId(itemId)) return ownsShelfDecor(itemId)
+  return !!getFurnitureDef(itemId) && ownsFurniture(itemId)
 }
 
 function inBounds(x: number, y: number, w: number, h: number): boolean {
@@ -96,7 +107,7 @@ export function isHomeLayoutEmpty(houseKey: string): boolean {
 /** Places a new piece of furniture at (x, y). Returns null if the item isn't in the catalog or
  *  isn't owned, the placement is out of bounds, or its footprint overlaps an existing piece. */
 export function placeFurniture(houseKey: string, itemId: string, x: number, y: number, rotation: 0 | 90 | 180 | 270 = 0): PlacedFurniture | null {
-  if (!getFurnitureDef(itemId) || !ownsFurniture(itemId)) return null
+  if (!isPlaceable(itemId)) return null
   const { w, h } = footprintFor(itemId, rotation)
   if (!inBounds(x, y, w, h) || overlapsReserved(x, y, w, h)) return null
   const data = load(houseKey)
