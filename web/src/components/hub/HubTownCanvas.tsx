@@ -20,7 +20,7 @@ import { getAugmentCard, AUGMENT_SPRITE } from '../../game/augments'
 import { createChunkCuller } from '../../utils/chunkCull'
 import { CommanderState } from '../../game/commander'
 import rollbar from '../../rollbar'
-import { HubInteractable, HubInteriorExit, HubLocationBundle, HubNpc, HubQuestBundle, HubStreetGroup, NpcScheduleEntry, isVisibleAtLevel } from '../../data/hub/loader'
+import { HubInteractable, HubInterior, HubInteriorExit, HubLocationBundle, HubNpc, HubQuestBundle, HubStreetGroup, NpcScheduleEntry, isVisibleAtLevel } from '../../data/hub/loader'
 import { createAnimalSystem, AnimalSystem, GlowSource, PLAYER_OWNER_ID } from './hubAnimals'
 import { getActivePet } from '../../game/hub/pet'
 import { isInteractableGranted, interactableStoreKey } from '../../game/hub/interactables'
@@ -1537,6 +1537,11 @@ export function HubTownCanvas({
     // ── Interior state ─────────────────────────────────────────────────────────
     let interiorActive      = false
     let currentInteriorId: string | null = null
+    // The resolved interior for currentInteriorId — may be a synthesized room-slot
+    // interior (houseRooms.ts) that doesn't exist in the static HUB_INTERIORS map,
+    // so anything needing "the interior currently being stood in" must read this,
+    // not re-derive it via HUB_INTERIORS[currentInteriorId].
+    let currentInteriorObj: HubInterior | null = null
     let interiorCurrentTile: [number, number] = [0, 0]
     let interiorWalkable    = new Set<string>()
     let interiorWalkQueue:  [number, number][] = []
@@ -1620,7 +1625,8 @@ export function HubTownCanvas({
         interiorLayer.visible = false
         interiorLayer.removeChildren()
         interiorAnimals.length = 0
-        currentInteriorId = null
+        currentInteriorId  = null
+        currentInteriorObj = null
         highlightGfx.clear()
         stopInteriorAudio()  // resume town theme + drop ambiance
         onExitInteriorRef.current?.()
@@ -1757,6 +1763,7 @@ export function HubTownCanvas({
       const defaultEntryTile: [number, number] = [entryTx ?? exitTx, entryTy ?? (interior.height - 2)]
       interiorCurrentTile = defaultEntryTile
       currentInteriorId   = buildingId
+      currentInteriorObj  = interior
       interiorExitTile    = isSubRoom ? [-1, -1] : [exitTx, interior.height - 1]
       interiorActive      = true
       interiorIsWalking   = false
@@ -2424,7 +2431,7 @@ export function HubTownCanvas({
 
     app.stage.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
       if (interiorActive) {
-        const interior = HUB_INTERIORS[currentInteriorId!]
+        const interior = currentInteriorObj
         if (!interior) return
         const { x, y } = e.getLocalPosition(interiorLayer)
         const tapTx = Math.max(0, Math.min(interior.width - 1, Math.floor(x / T)))
