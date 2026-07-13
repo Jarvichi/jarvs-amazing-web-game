@@ -15,6 +15,7 @@ import {
   RoomSlotDef, getAllRoomSlotDefs, getRoomSlotDef, getPurchasedSlotIds, purchaseRoomSlot,
 } from '../../game/hub/houseRooms'
 import { RoomStyle, getRoomStyle, setRoomFloor, setRoomWall } from '../../game/hub/roomStyle'
+import { isShelfDecorId, shelfItemDisplayId, shelfRelicDisplayId } from '../../game/hub/shelfDecor'
 import { loadCrystals, saveCrystals } from '../../game/collection'
 import { FLOOR_TILES } from '../../data/tiles/floorTiles'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
@@ -66,6 +67,13 @@ function humanizeCamelCase(id: string): string {
   return spaced.charAt(0).toUpperCase() + spaced.slice(1)
 }
 
+/** A shelf item/relic reused as a placeable — always "owned" (it's already on
+ *  the shelf) and always a plain 1x1, so it fits FurnitureDef/FurniturePicker
+ *  as-is without any special-casing in the picker or grid components. */
+function shelfPlaceableDef(id: string, name: string, icon: string): FurnitureDef {
+  return { id, name, icon, desc: '', footprint: { w: 1, h: 1 }, price: 0 }
+}
+
 const CHIP_TILES = BASE_CHIP_TILES as Record<string, number>
 const WALL_MATERIALS = Object.keys(WALL_TILES) as WallMaterial[]
 const FLOOR_OPTIONS: TileStyleOption[] = FLOOR_TILES.map(id => ({
@@ -92,6 +100,14 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
   const relicEntries:    ShelfEntry[] = relics.map(r => ({ kind: 'relic' as const, relic: r }))
   const keepsakeEntries: ShelfEntry[] = items.filter(i => i.isKeepsake).map(i => ({ kind: 'item' as const, item: i }))
   const junkEntries:     ShelfEntry[] = items.filter(i => !i.isKeepsake).map(i => ({ kind: 'item' as const, item: i }))
+
+  // Anything on the shelf (relics, keepsakes, odds & ends) can also be placed
+  // in the DECORATE grid as a 1x1 display piece — already owned, nothing to buy.
+  const shelfDecorDefs: FurnitureDef[] = [
+    ...relics.map(r => shelfPlaceableDef(shelfRelicDisplayId(r.name), r.name, r.icon)),
+    ...items.map(i => shelfPlaceableDef(shelfItemDisplayId(i.id), i.name, i.icon)),
+  ]
+  const shelfDecorIds = shelfDecorDefs.map(d => d.id)
 
   const isEmpty = relicEntries.length === 0 && keepsakeEntries.length === 0 && junkEntries.length === 0
 
@@ -149,13 +165,18 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
     messageTimeoutRef.current = setTimeout(() => { messageTimeoutRef.current = null; setMessage(null) }, 2200)
   }
 
+  /** Resolves either a furniture.json catalog id or a shelf-decor id (see shelfDecor.ts). */
+  function getPlaceableDef(itemId: string): FurnitureDef | undefined {
+    return getFurnitureDef(itemId) ?? shelfDecorDefs.find(d => d.id === itemId)
+  }
+
   const selectedPiece = selectedPieceId ? placed.find(p => p.id === selectedPieceId) ?? null : null
-  const selectedDef = selectedPiece ? getFurnitureDef(selectedPiece.itemId) : null
+  const selectedDef = selectedPiece ? getPlaceableDef(selectedPiece.itemId) : null
 
   function handlePickFurniture(itemId: string) {
     setSelectedPieceId(null)
     setMoveArmed(false)
-    if (ownedIds.includes(itemId)) {
+    if (isShelfDecorId(itemId) || ownedIds.includes(itemId)) {
       setArmedItemId(prev => (prev === itemId ? null : itemId))
       return
     }
@@ -407,7 +428,7 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
           {decorateView === 'furniture' ? (
             <>
               {armedItemId && !message && (
-                <div className="home-decorate-hint">Tap an empty spot to place {getFurnitureDef(armedItemId)?.name ?? 'it'}.</div>
+                <div className="home-decorate-hint">Tap an empty spot to place {getPlaceableDef(armedItemId)?.name ?? 'it'}.</div>
               )}
               {moveArmed && !message && (
                 <div className="home-decorate-hint">Tap an empty spot to move it there.</div>
@@ -415,7 +436,7 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
 
               <HomeGrid
                 placed={displayedPlaced}
-                getDef={getFurnitureDef}
+                getDef={getPlaceableDef}
                 selectedId={selectedPieceId}
                 tappable={!!armedItemId || moveArmed}
                 onCellTap={handleCellTap}
@@ -438,6 +459,18 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
                 armedId={armedItemId}
                 onPick={handlePickFurniture}
               />
+
+              {shelfDecorDefs.length > 0 && (
+                <>
+                  <div className="shelf-section-label">FROM THE SHELF</div>
+                  <FurniturePicker
+                    defs={shelfDecorDefs}
+                    ownedIds={shelfDecorIds}
+                    armedId={armedItemId}
+                    onPick={handlePickFurniture}
+                  />
+                </>
+              )}
             </>
           ) : (
             <>

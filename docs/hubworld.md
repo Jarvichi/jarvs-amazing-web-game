@@ -43,6 +43,7 @@
 | `web/src/game/hub/roomStyle.ts` | Per-room floor/wall style persistence (localStorage) — see §19 "Room Style" | `getRoomStyle`, `setRoomFloor`, `setRoomWall`, `getResolvedRoomStyle` |
 | `web/src/data/tiles/floorTiles.ts` | Shared floor-tile catalog, reused by the map editor and the room-style picker — see §19 "Room Style" | `FLOOR_TILES` |
 | `web/src/components/shared/TileSwatch.tsx` | CSS tile-swatch renderer (by resolved numeric tile id), shared by the map editor and the room-style picker — see §19 "Room Style" | `TileSwatch` |
+| `web/src/game/hub/shelfDecor.ts` | Bridges SHELF-tab items (relics, keepsakes, odds & ends) into homeLayout.ts's placement system — see §19 "Shelf Decor" | `shelfItemDisplayId`, `shelfRelicDisplayId`, `isShelfDecorId`, `getShelfDecorDef`, `ownsShelfDecor` |
 
 ---
 
@@ -2215,3 +2216,53 @@ tab). The STYLE view shows two `TileStylePicker` rows (Floor, Walls); tapping
 an unselected swatch opens the usual `.shop-confirm-*` buy-confirm modal,
 then calls `setRoomFloor`/`setRoomWall` on the currently-selected room's
 `roomHouseKey`.
+
+### Shelf Decor — displaying quest/shelf items in the house
+
+Anything visible on the SHELF tab (relics, keepsakes, odds & ends) can also
+be placed in the DECORATE grid as a plain 1x1 display piece, free (it's
+already owned) — reusing the exact same `homeLayout.ts` placement grid,
+collision rules, and `FurniturePicker`/`PieceActionBar` UI as real
+furniture, rather than building a parallel placement system.
+
+**Bridging module** — `web/src/game/hub/shelfDecor.ts` gives a shelf item or
+relic an opaque placement id that homeLayout.ts can treat like any other
+`itemId`, without homeLayout.ts needing to know two separate item universes
+exist:
+- `shelfItemDisplayId(itemId)` / `shelfRelicDisplayId(relicName)` — prefix
+  a real `dailyLogin.ts` item id / relic name (`shelf-item:<id>` /
+  `shelf-relic:<name>`) so it can never collide with a `furniture.json` id.
+- `isShelfDecorId(id)` — cheap prefix check.
+- `getShelfDecorDef(id)` / `ownsShelfDecor(id)` — resolve a placement id back
+  to `{ name, icon }` by looking the underlying id/name up in
+  `loadInventory()` / `loadEarnedRelics()` + `getRelicDef()` live (not a
+  snapshot) — so an item sold/traded away after being placed stops
+  resolving, same graceful-degradation-to-`❓` fallback pattern used
+  elsewhere for unknown ids.
+
+**`homeLayout.ts` integration** — three small hooks, no parallel grid/store:
+- `footprintFor()` returns a fixed `{w:1,h:1}` for any `isShelfDecorId(itemId)`
+  (never in `furniture.json`, so `getFurnitureDef` would miss).
+- `placeFurniture`'s ownership gate (`isPlaceable()`) checks
+  `ownsShelfDecor(itemId)` instead of the furniture catalog when the id is a
+  shelf-decor id.
+- Placed shelf-decor pieces live in the exact same per-house
+  `jarv_hub_home_layout:<houseKey>` array as furniture — no new storage key.
+
+**In-world rendering** — `furnitureTiles.ts`'s `getFurnitureTileOffsets`
+(the map from a placed piece's `itemId` to the real tile(s) rendered in the
+walkable room, see "Walkable room" above) special-cases `isShelfDecorId`
+ids to a single generic stand-in tile (`smallChest`) — the DECORATE grid
+still shows each piece's real icon/name (so players can tell their relics
+apart while arranging them), but in-world they're indistinguishable from
+each other, same "not worth the complexity" tradeoff already accepted for
+furniture's own imperfect stand-in tiles.
+
+**UI** — `HomeShelf.tsx`'s DECORATE → FURNISH view gets a second
+`FurniturePicker` row below the furniture one, labeled "FROM THE SHELF",
+built from synthetic `FurnitureDef`-shaped objects (`shelfPlaceableDef`) so
+it drops into the existing `FurniturePicker`/`HomeGrid`/`PieceActionBar`
+components unmodified. `getPlaceableDef()` is the one place that resolves
+either a real furniture id or a shelf-decor id, used everywhere `HomeShelf.tsx`
+previously called `getFurnitureDef` directly for a placed/armed piece's
+display info.
