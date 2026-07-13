@@ -111,10 +111,13 @@ export function usePixiApp(
     }
 
     // Creates and initialises a fresh Application, appending its canvas and
-    // calling onReady once ready. Called on mount, and again to rebuild the
-    // scene from scratch after an unrecoverable webglcontextlost.
-    const buildApp = () => {
+    // calling onReady once ready. Called on mount (isRebuild=false), and
+    // again to rebuild the scene from scratch after an unrecoverable
+    // webglcontextlost (isRebuild=true) — logged distinctly from the initial
+    // mount so Rollbar shows whether recovery actually completed.
+    const buildApp = (isRebuild: boolean) => {
       initialized = false
+      const buildStartedAt = Date.now()
       const app = new PIXI.Application()
       appRef.current = app
 
@@ -131,9 +134,14 @@ export function usePixiApp(
         noteContextCreated(contextInfo)
         if (destroyed) {
           // Cleanup ran before init resolved — destroy properly to release the WebGL context.
-          rollbar?.warn('[usePixiApp] init resolved after unmount — destroying orphan app')
+          rollbar?.warn('[usePixiApp] init resolved after unmount — destroying orphan app', { isRebuild, rebuildAttempts })
           teardown(app)
           return
+        }
+        if (isRebuild) {
+          rollbar?.info('[usePixiApp] webgl context recovered — rebuild succeeded', {
+            ...contextInfo, ...getGlStats(), rebuildAttempts, rebuildMs: Date.now() - buildStartedAt,
+          })
         }
         const canvas = app.canvas as HTMLCanvasElement
         // Intentional loss during our own teardown never reaches this listener:
@@ -143,20 +151,26 @@ export function usePixiApp(
           e.preventDefault()  // signal we intend to recover, not abandon the canvas
           rebuildAttempts++
           if (rebuildAttempts > MAX_CONTEXT_REBUILD_ATTEMPTS) {
-            rollbar?.error('[usePixiApp] webglcontextlost — giving up after repeated rebuild failures', { ...contextInfo, ...getGlStats(), rebuildAttempts })
+            rollbar?.error('[usePixiApp] webglcontextlost — giving up after repeated rebuild failures', {
+              ...contextInfo, ...getGlStats(), rebuildAttempts, visibility: document.visibilityState,
+            })
             teardown(app)
             return
           }
-          rollbar?.warn('[usePixiApp] webglcontextlost — rebuilding app', { ...contextInfo, ...getGlStats(), rebuildAttempts })
+          rollbar?.warn('[usePixiApp] webglcontextlost — rebuilding app', {
+            ...contextInfo, ...getGlStats(), rebuildAttempts, visibility: document.visibilityState,
+          })
           teardown(app)
-          if (!destroyed) buildApp()
+          if (!destroyed) buildApp(true)
         }
         canvas.addEventListener('webglcontextlost', contextLostHandler)
         container.appendChild(canvas)
         onReady(app)
       }).catch(e => {
         console.error('[usePixiApp] app.init failed', e)
-        rollbar?.error('[usePixiApp] app.init failed', { message: (e as Error)?.message, ...contextInfo, ...getGlStats() })
+        rollbar?.error(isRebuild ? '[usePixiApp] rebuild after context loss failed' : '[usePixiApp] app.init failed', {
+          message: (e as Error)?.message, ...contextInfo, ...getGlStats(), isRebuild, rebuildAttempts,
+        })
         // Release any partial WebGL context created before the failure to prevent
         // context accumulation that crashes the browser after repeated navigations.
         try {
@@ -168,7 +182,7 @@ export function usePixiApp(
       })
     }
 
-    buildApp()
+    buildApp(false)
 
     return () => {
       destroyed = true
