@@ -4523,8 +4523,8 @@
     },
     "building-1": {
       "name": "Meadow View",
-      "width": 10,
-      "height": 8,
+      "width": 11,
+      "height": 9,
       "floorTileId": "woodFloor",
       "decor": [],
       "playerDecor": true
