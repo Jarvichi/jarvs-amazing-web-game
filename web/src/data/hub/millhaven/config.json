@@ -3098,8 +3098,8 @@
     },
     "building-1": {
       "name": "Ocean Heights",
-      "width": 10,
-      "height": 8,
+      "width": 11,
+      "height": 9,
       "floorTileId": "woodFloor",
       "decor": [],
       "playerDecor": true

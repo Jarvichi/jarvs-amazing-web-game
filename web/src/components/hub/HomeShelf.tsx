@@ -12,15 +12,19 @@ import {
   FurnitureDef, getFurnitureDef, getAllFurnitureDefs, getOwnedFurnitureIds, grantFurniture,
 } from '../../game/hub/furniture'
 import {
-  RoomSlotDef, getAllRoomSlotDefs, getPurchasedSlotIds, purchaseRoomSlot,
+  RoomSlotDef, getAllRoomSlotDefs, getRoomSlotDef, getPurchasedSlotIds, purchaseRoomSlot,
 } from '../../game/hub/houseRooms'
 import { loadCrystals, saveCrystals } from '../../game/collection'
 
 interface Props {
   onBack: () => void
-  /** Which owned house's furniture layout (and room-slot purchases) to edit —
-   *  opaque key (e.g. `${town}:${buildingId}`). Falls back to a shared
-   *  'default' bucket when no specific house is known. */
+  /** The MAIN room's key for the owned house being edited — opaque, e.g.
+   *  `${town}:${mainBuildingId}` (never a sub-room id, even if the player
+   *  opened this from inside one — HubWorld.tsx resolves that). Falls back
+   *  to a shared 'default' bucket when no specific house is known (e.g.
+   *  Ravenwatch's Steward Maren, a SHELF-only entry point). A purchased
+   *  room slot's own furniture layout lives at `${houseKey}-${slotId}`,
+   *  selected via the DECORATE tab's room picker. */
   houseKey?: string
   /** Which tab to open on — defaults to 'shelf' (e.g. Ravenwatch's Steward Maren).
    *  The in-house 🛋 DECORATE button passes 'decorate' to skip straight past SHELF. */
@@ -79,7 +83,15 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
   const [detail, setDetail] = useState<ShelfEntry | null>(null)
 
   // ── Decorate tab ──
-  const [placed, setPlaced] = useState<PlacedFurniture[]>(() => loadHomeLayout(houseKey))
+  // A purchased room slot's furniture is a fully independent layout, keyed
+  // `${houseKey}-${slotId}` (matching the interior id HubTownCanvas.tsx
+  // synthesizes for it) — 'main' (the sentinel for houseKey itself) plus one
+  // entry per purchased slot. Switching rooms reloads `placed` for the newly
+  // selected key; it doesn't refetch on every render, so handleSelectRoom is
+  // the only place that changes which room's layout is being edited.
+  const [selectedRoomId, setSelectedRoomId] = useState<string>('main')
+  const roomHouseKey = selectedRoomId === 'main' ? houseKey : `${houseKey}-${selectedRoomId}`
+  const [placed, setPlaced] = useState<PlacedFurniture[]>(() => loadHomeLayout(roomHouseKey))
   const [ownedIds, setOwnedIds] = useState<string[]>(() => getOwnedFurnitureIds())
   const [crystals, setCrystals] = useState(() => loadCrystals())
   const [armedItemId, setArmedItemId] = useState<string | null>(null)
@@ -168,8 +180,8 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
 
   function handleCellTap(x: number, y: number) {
     if (moveArmed && selectedPieceId) {
-      if (moveFurniture(houseKey, selectedPieceId, x, y)) {
-        setPlaced(loadHomeLayout(houseKey))
+      if (moveFurniture(roomHouseKey, selectedPieceId, x, y)) {
+        setPlaced(loadHomeLayout(roomHouseKey))
         setMoveArmed(false)
       } else {
         showMessage("That won't fit there.")
@@ -177,9 +189,9 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
       return
     }
     if (armedItemId) {
-      const piece = placeFurniture(houseKey, armedItemId, x, y)
+      const piece = placeFurniture(roomHouseKey, armedItemId, x, y)
       if (piece) {
-        setPlaced(loadHomeLayout(houseKey))
+        setPlaced(loadHomeLayout(roomHouseKey))
         setArmedItemId(null)
       } else {
         showMessage("That won't fit there.")
@@ -196,8 +208,8 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
   function handleRotate() {
     if (!selectedPiece) return
     const rotation = nextRotation(selectedPiece.rotation)
-    if (moveFurniture(houseKey, selectedPiece.id, selectedPiece.x, selectedPiece.y, rotation)) {
-      setPlaced(loadHomeLayout(houseKey))
+    if (moveFurniture(roomHouseKey, selectedPiece.id, selectedPiece.x, selectedPiece.y, rotation)) {
+      setPlaced(loadHomeLayout(roomHouseKey))
     } else {
       showMessage("Can't rotate — no room.")
     }
@@ -210,8 +222,8 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
   function handleRemove() {
     if (!selectedPieceId) return
     if (removeArmedId === selectedPieceId) {
-      removeFurniture(houseKey, selectedPieceId)
-      setPlaced(loadHomeLayout(houseKey))
+      removeFurniture(roomHouseKey, selectedPieceId)
+      setPlaced(loadHomeLayout(roomHouseKey))
       setSelectedPieceId(null)
       return
     }
@@ -221,6 +233,15 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
       removeArmTimeoutRef.current = null
       setRemoveArmedId(null)
     }, REMOVE_ARM_MS)
+  }
+
+  function handleSelectRoom(roomId: string) {
+    if (roomId === selectedRoomId) return
+    setSelectedRoomId(roomId)
+    setPlaced(loadHomeLayout(roomId === 'main' ? houseKey : `${houseKey}-${roomId}`))
+    setArmedItemId(null)
+    setSelectedPieceId(null)
+    setMoveArmed(false)
   }
 
   // While a piece is armed to move, hide it from the grid so its own cells
@@ -238,7 +259,9 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
       <div className="hoa-tabs">
         <button className={`hoa-tab${tab === 'shelf' ? ' hoa-tab--active' : ''}`} onClick={() => setTab('shelf')}>SHELF</button>
         <button className={`hoa-tab${tab === 'decorate' ? ' hoa-tab--active' : ''}`} onClick={() => setTab('decorate')}>DECORATE</button>
-        <button className={`hoa-tab${tab === 'rooms' ? ' hoa-tab--active' : ''}`} onClick={() => setTab('rooms')}>ROOMS</button>
+        {houseKey !== 'default' && (
+          <button className={`hoa-tab${tab === 'rooms' ? ' hoa-tab--active' : ''}`} onClick={() => setTab('rooms')}>ROOMS</button>
+        )}
       </div>
 
       {tab === 'shelf' && (
@@ -285,6 +308,28 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
 
       {tab === 'decorate' && (
         <div className="shelf-room">
+          {houseKey !== 'default' && purchasedSlotIds.length > 0 && (
+            <div className="hoa-tabs">
+              <button
+                className={`hoa-tab${selectedRoomId === 'main' ? ' hoa-tab--active' : ''}`}
+                onClick={() => handleSelectRoom('main')}
+              >
+                Main Room
+              </button>
+              {purchasedSlotIds.map(id => {
+                const slot = getRoomSlotDef(id)
+                return slot && (
+                  <button
+                    key={id}
+                    className={`hoa-tab${selectedRoomId === id ? ' hoa-tab--active' : ''}`}
+                    onClick={() => handleSelectRoom(id)}
+                  >
+                    {slot.name}
+                  </button>
+                )
+              })}
+            </div>
+          )}
           {message && <div className="home-decorate-msg">{message}</div>}
           {armedItemId && !message && (
             <div className="home-decorate-hint">Tap an empty spot to place {getFurnitureDef(armedItemId)?.name ?? 'it'}.</div>

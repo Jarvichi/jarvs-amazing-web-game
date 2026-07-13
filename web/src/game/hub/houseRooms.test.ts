@@ -3,6 +3,7 @@ import {
   getRoomSlotDef, getAllRoomSlotDefs, getPurchasedSlotIds, hasPurchasedSlot, purchaseRoomSlot,
   parseSlotBuildingId, buildMainRoomExit, synthesizeSlotInterior,
 } from './houseRooms'
+import { HOME_GRID_COLS, HOME_GRID_ROWS } from './homeLayout'
 
 function installLocalStorageStub(): void {
   const store = new Map<string, string>()
@@ -99,8 +100,8 @@ describe('exit synthesis', () => {
     const interior = synthesizeSlotInterior('building-1', 'Ocean Heights', slot)
     expect(interior.id).toBe('building-1-basement')
     expect(interior.name).toBe('Ocean Heights — Basement')
-    expect(interior.width).toBe(10)
-    expect(interior.height).toBe(8)
+    expect(interior.width).toBe(HOME_GRID_COLS + 2)
+    expect(interior.height).toBe(HOME_GRID_ROWS + 2)
     expect(interior.playerDecor).toBe(true)
     expect(interior.decor).toEqual([])
     expect(interior.floorTileId).toBeGreaterThan(0)

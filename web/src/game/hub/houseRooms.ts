@@ -1,6 +1,7 @@
 import { logError } from '../../logger'
 import ROOM_SLOTS_DATA from '../../data/roomSlots.json'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
+import { HOME_GRID_COLS, HOME_GRID_ROWS } from './homeLayout'
 import type { HubInterior, HubInteriorExit } from '../../data/hub/loader'
 
 // Player-owned room slots: independently purchasable rooms (basement, first
@@ -123,8 +124,8 @@ export function synthesizeSlotInterior(mainBuildingId: string, mainName: string,
   return {
     id: `${mainBuildingId}-${slot.id}`,
     name: `${mainName} — ${slot.name}`,
-    width: 10,
-    height: 8,
+    width: HOME_GRID_COLS + 2,
+    height: HOME_GRID_ROWS + 2,
     decor: [],
     floorTileId: CHIP_TILES[slot.floorTileId] ?? CHIP_TILES.woodFloor,
     playerDecor: true,

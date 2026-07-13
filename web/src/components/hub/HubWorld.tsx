@@ -261,6 +261,17 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
 
   // ── Town reputation & building upgrades ───────────────────────────────────
   const town = locationData.HUB_TOWN_NAME
+
+  // Resolves a purchased room slot's sub-room id (e.g. "building-1-left")
+  // back to its main playerHouse building id — same prefix rule houseRooms.ts
+  // and HubTownCanvas.tsx use elsewhere. Returns the id unchanged if it's
+  // already the main building (or not a player house at all).
+  function mainPlayerHouseId(buildingId: string): string {
+    const direct = locationData.HUB_BUILDINGS.find(b => b.id === buildingId && b.upgradeKind === 'playerHouse')
+    if (direct?.id) return direct.id
+    const parent = locationData.HUB_BUILDINGS.find(b => b.id && b.upgradeKind === 'playerHouse' && buildingId.startsWith(`${b.id}-`))
+    return parent?.id ?? buildingId
+  }
   // Register how the reputation store resolves a building's upgrade kind, and
   // seed the canvas decor ref with each building's current upgrade level.
   useEffect(() => {
@@ -2081,7 +2092,7 @@ function hasOfferableQuest(giverId: string): boolean {
           <button
             className="action-btn"
             style={{ position: 'absolute', top: 16, right: 96, zIndex: 10 }}
-            onClick={() => handleNodeInteract('home-shelf-decorate', `${town}:${activeBuildingId}`)}
+            onClick={() => handleNodeInteract('home-shelf-decorate', `${town}:${mainPlayerHouseId(activeBuildingId)}`)}
           >
             🛋 DECORATE
           </button>

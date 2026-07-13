@@ -3,8 +3,13 @@ import { getFurnitureDef, ownsFurniture } from './furniture'
 
 const KEY_PREFIX = 'jarv_hub_home_layout'
 
-export const HOME_GRID_COLS = 8
-export const HOME_GRID_ROWS = 6
+// Odd on purpose — a player-house room's outer width/height is always
+// HOME_GRID_*+2 (the 1-tile wall border on every side, see HubTownCanvas.tsx),
+// so odd grid dimensions give the room itself odd outer dimensions too,
+// which centers symmetric features (the front door, the rear-room passage)
+// on a single tile instead of straddling two.
+export const HOME_GRID_COLS = 9
+export const HOME_GRID_ROWS = 7
 
 export interface PlacedFurniture {
   id: string       // instance id (unique per placement, not the catalog itemId)
@@ -58,14 +63,14 @@ function overlaps(ax: number, ay: number, aw: number, ah: number, bx: number, by
 }
 
 // DECORATE cells permanently reserved for the basement/first-floor room-slot
-// passage markers (houseRooms.ts's roomSlots catalog: world tx=3,ty=3 and
-// tx=6,ty=3, offset -1/-1 into DECORATE-grid coordinates) — furniture can't
+// passage markers (houseRooms.ts's roomSlots catalog: world tx=3,ty=4 and
+// tx=7,ty=4, offset -1/-1 into DECORATE-grid coordinates) — furniture can't
 // be placed on top of them, in every house, whether or not those slots have
 // actually been purchased. Simpler than tracking per-house slot ownership
-// here, at the cost of 2 permanently-unusable cells out of 48.
+// here, at the cost of 2 permanently-unusable cells out of 63.
 const RESERVED_CELLS: ReadonlyArray<{ x: number; y: number }> = [
-  { x: 2, y: 2 }, // basement marker
-  { x: 5, y: 2 }, // first-floor marker
+  { x: 2, y: 3 }, // basement marker
+  { x: 6, y: 3 }, // first-floor marker
 ]
 
 function overlapsReserved(x: number, y: number, w: number, h: number): boolean {
