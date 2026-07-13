@@ -30,6 +30,9 @@ import { resolveWeather } from '../../game/hub/weather'
 import { getActiveFestival } from '../../game/hub/hubCalendar'
 import { loadHomeLayout } from '../../game/hub/homeLayout'
 import { getFurnitureTileOffsets } from '../../game/hub/furnitureTiles'
+import {
+  getPurchasedSlotIds, getRoomSlotDef, buildMainRoomExit, parseSlotBuildingId, synthesizeSlotInterior,
+} from '../../game/hub/houseRooms'
 
 
 const T                 = 32
@@ -1649,7 +1652,20 @@ export function HubTownCanvas({
         return
       }
 
-      const interior = HUB_INTERIORS[buildingId]
+      // Player-owned room slots (basement/first-floor/left/right/rear, see
+      // houseRooms.ts) aren't authored in config.json — if the static lookup
+      // misses, check whether buildingId is `<mainHouseId>-<slotId>` for a
+      // slot the player has actually purchased, and synthesize its interior
+      // from the shared catalog template.
+      let interior = HUB_INTERIORS[buildingId]
+      if (!interior) {
+        const mainHouse = HUB_BUILDINGS.find(b => b.id && b.upgradeKind === 'playerHouse' && buildingId.startsWith(`${b.id}-`))
+        const slot = mainHouse?.id ? parseSlotBuildingId(buildingId, mainHouse.id) : undefined
+        if (mainHouse?.id && slot && getPurchasedSlotIds(`${locationKey}:${mainHouse.id}`).includes(slot.id)) {
+          const mainName = HUB_INTERIORS[mainHouse.id]?.name ?? mainHouse.id
+          interior = synthesizeSlotInterior(mainHouse.id, mainName, slot)
+        }
+      }
       if (!interior) return
 
       // ── Upgrade-level gating ───────────────────────────────────────────────
@@ -1659,8 +1675,18 @@ export function HubTownCanvas({
       // prefixes this interior's id.
       const levelKey = HUB_BUILDINGS.find(b => b.id && buildingId.startsWith(b.id) && b.upgradeKind)?.id ?? buildingId
       const currentLevel = buildingUpgradeLevelsRef?.current[levelKey] ?? 0
-      const visibleDecor   = interior.decor.filter(d => isVisibleAtLevel(d, currentLevel))
-      const availableExits = (interior.exits ?? []).filter(e => (e.minLevel ?? 0) <= currentLevel)
+      const visibleDecor = interior.decor.filter(d => isVisibleAtLevel(d, currentLevel))
+      const staticExits  = (interior.exits ?? []).filter(e => (e.minLevel ?? 0) <= currentLevel)
+      // A player-house main room also exposes one exit per purchased room
+      // slot — these are synthesized from houseRooms.ts, not authored here.
+      const isPlayerHouseMain = HUB_BUILDINGS.some(b => b.id === buildingId && b.upgradeKind === 'playerHouse')
+      const dynamicExits = isPlayerHouseMain
+        ? getPurchasedSlotIds(`${locationKey}:${buildingId}`)
+            .map(id => getRoomSlotDef(id))
+            .filter((s): s is NonNullable<typeof s> => !!s)
+            .map(slot => buildMainRoomExit(slot, `${buildingId}-${slot.id}`))
+        : []
+      const availableExits = [...staticExits, ...dynamicExits]
 
       // playerDecor interiors ship unfurnished (decor: []) — everything
       // visible is rendered from the player's placed furniture (homeLayout.ts)

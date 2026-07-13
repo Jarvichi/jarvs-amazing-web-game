@@ -57,6 +57,21 @@ function overlaps(ax: number, ay: number, aw: number, ah: number, bx: number, by
   return ax < bx + bw && ax + aw > bx && ay < by + bh && ay + ah > by
 }
 
+// DECORATE cells permanently reserved for the basement/first-floor room-slot
+// passage markers (houseRooms.ts's roomSlots catalog: world tx=3,ty=3 and
+// tx=6,ty=3, offset -1/-1 into DECORATE-grid coordinates) — furniture can't
+// be placed on top of them, in every house, whether or not those slots have
+// actually been purchased. Simpler than tracking per-house slot ownership
+// here, at the cost of 2 permanently-unusable cells out of 48.
+const RESERVED_CELLS: ReadonlyArray<{ x: number; y: number }> = [
+  { x: 2, y: 2 }, // basement marker
+  { x: 5, y: 2 }, // first-floor marker
+]
+
+function overlapsReserved(x: number, y: number, w: number, h: number): boolean {
+  return RESERVED_CELLS.some(c => overlaps(x, y, w, h, c.x, c.y, 1, 1))
+}
+
 function isOccupied(placed: PlacedFurniture[], x: number, y: number, w: number, h: number, excludeId?: string): boolean {
   return placed.some(p => {
     if (p.id === excludeId) return false
@@ -78,7 +93,7 @@ export function isHomeLayoutEmpty(houseKey: string): boolean {
 export function placeFurniture(houseKey: string, itemId: string, x: number, y: number, rotation: 0 | 90 | 180 | 270 = 0): PlacedFurniture | null {
   if (!getFurnitureDef(itemId) || !ownsFurniture(itemId)) return null
   const { w, h } = footprintFor(itemId, rotation)
-  if (!inBounds(x, y, w, h)) return null
+  if (!inBounds(x, y, w, h) || overlapsReserved(x, y, w, h)) return null
   const data = load(houseKey)
   if (isOccupied(data.placed, x, y, w, h)) return null
 
@@ -97,7 +112,7 @@ export function moveFurniture(houseKey: string, id: string, x: number, y: number
 
   const nextRotation = rotation ?? piece.rotation
   const { w, h } = footprintFor(piece.itemId, nextRotation)
-  if (!inBounds(x, y, w, h)) return false
+  if (!inBounds(x, y, w, h) || overlapsReserved(x, y, w, h)) return false
   if (isOccupied(data.placed, x, y, w, h, id)) return false
 
   piece.x = x

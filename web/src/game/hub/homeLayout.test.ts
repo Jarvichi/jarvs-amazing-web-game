@@ -72,10 +72,10 @@ describe('homeLayout', () => {
   })
 
   it('a multi-cell footprint blocks every cell it covers, not just its origin', () => {
-    expect(placeFurniture(HOUSE, TABLE, 2, 2)).not.toBeNull() // covers (2,2) and (3,2)
-    expect(placeFurniture(HOUSE, LAMP, 3, 2)).toBeNull()
-    expect(placeFurniture(HOUSE, LAMP, 2, 2)).toBeNull()
-    expect(placeFurniture(HOUSE, LAMP, 4, 2)).not.toBeNull() // just outside the footprint
+    expect(placeFurniture(HOUSE, TABLE, 2, 3)).not.toBeNull() // covers (2,3) and (3,3)
+    expect(placeFurniture(HOUSE, LAMP, 3, 3)).toBeNull()
+    expect(placeFurniture(HOUSE, LAMP, 2, 3)).toBeNull()
+    expect(placeFurniture(HOUSE, LAMP, 4, 3)).not.toBeNull() // just outside the footprint
   })
 
   it('rotation swaps footprint dimensions for bounds checking', () => {
@@ -84,6 +84,22 @@ describe('homeLayout', () => {
     expect(placeFurniture(HOUSE, TABLE, 0, HOME_GRID_ROWS - 2, 90)).not.toBeNull()
     // Unrotated, a 2-wide piece can't fit in the last single row.
     expect(placeFurniture(HOUSE, TABLE, 0, HOME_GRID_ROWS - 1)).toBeNull()
+  })
+
+  it('rejects placement on the basement/first-floor room-slot marker cells', () => {
+    expect(placeFurniture(HOUSE, LAMP, 2, 2)).toBeNull() // basement marker
+    expect(placeFurniture(HOUSE, LAMP, 5, 2)).toBeNull() // first-floor marker
+    expect(loadHomeLayout(HOUSE)).toHaveLength(0)
+  })
+
+  it('rejects a multi-cell piece whose footprint covers a reserved cell', () => {
+    expect(placeFurniture(HOUSE, TABLE, 1, 2)).toBeNull() // would cover (1,2) and (2,2) — the latter reserved
+    expect(loadHomeLayout(HOUSE)).toHaveLength(0)
+  })
+
+  it('rejects moving a piece onto a reserved cell', () => {
+    const piece = placeFurniture(HOUSE, LAMP, 0, 0)!
+    expect(moveFurniture(HOUSE, piece.id, 2, 2)).toBe(false)
   })
 
   it('moves a piece to a free cell', () => {
@@ -106,10 +122,10 @@ describe('homeLayout', () => {
   })
 
   it('removes a piece and frees its cell', () => {
-    const piece = placeFurniture(HOUSE, LAMP, 2, 2)!
+    const piece = placeFurniture(HOUSE, LAMP, 2, 3)!
     expect(removeFurniture(HOUSE, piece.id)).toBe(true)
     expect(loadHomeLayout(HOUSE)).toHaveLength(0)
-    expect(placeFurniture(HOUSE, LAMP, 2, 2)).not.toBeNull()
+    expect(placeFurniture(HOUSE, LAMP, 2, 3)).not.toBeNull()
   })
 
   it('returns false when removing an unknown id', () => {

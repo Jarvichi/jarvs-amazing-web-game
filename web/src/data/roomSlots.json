@@ -1,0 +1,42 @@
+[
+  {
+    "id": "left",
+    "name": "Left Room",
+    "price": 3000,
+    "floorTileId": "woodFloor",
+    "mainExit": { "tx": 0, "ty": 3, "direction": "left", "entryTx": 8, "entryTy": 3 },
+    "roomExit": { "tx": 9, "ty": 3, "direction": "right", "entryTx": 1, "entryTy": 3 }
+  },
+  {
+    "id": "right",
+    "name": "Right Room",
+    "price": 3000,
+    "floorTileId": "woodFloor",
+    "mainExit": { "tx": 9, "ty": 3, "direction": "right", "entryTx": 1, "entryTy": 3 },
+    "roomExit": { "tx": 0, "ty": 3, "direction": "left", "entryTx": 8, "entryTy": 3 }
+  },
+  {
+    "id": "rear",
+    "name": "Rear Room",
+    "price": 3500,
+    "floorTileId": "woodFloor",
+    "mainExit": { "tx": 5, "ty": 0, "direction": "back", "entryTx": 5, "entryTy": 6 },
+    "roomExit": { "tx": 5, "ty": 7, "direction": "front", "entryTx": 5, "entryTy": 1 }
+  },
+  {
+    "id": "basement",
+    "name": "Basement",
+    "price": 4000,
+    "floorTileId": "stoneFloor",
+    "mainExit": { "tx": 3, "ty": 3, "direction": "down", "entryTx": 3, "entryTy": 3 },
+    "roomExit": { "tx": 3, "ty": 3, "direction": "up", "entryTx": 3, "entryTy": 3 }
+  },
+  {
+    "id": "first-floor",
+    "name": "Upper Floor",
+    "price": 4500,
+    "floorTileId": "woodFloor",
+    "mainExit": { "tx": 6, "ty": 3, "direction": "up", "entryTx": 6, "entryTy": 3 },
+    "roomExit": { "tx": 6, "ty": 3, "direction": "down", "entryTx": 6, "entryTy": 3 }
+  }
+]

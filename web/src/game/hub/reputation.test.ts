@@ -136,29 +136,17 @@ describe('unlocked services', () => {
 describe('playerHouse building track', () => {
   const playerHouse = getUpgradeTrack('playerHouse')
 
-  it('is a two-tier track (Purchase + Expand), unlocked-from-the-start', () => {
-    expect(playerHouse.length).toBe(2)
+  it('is a single-tier, unlocked-from-the-start purchase', () => {
+    expect(playerHouse.length).toBe(1)
     expect(playerHouse[0].repRequired).toBe(0)
-    expect(playerHouse[1].repRequired).toBe(0)
   })
 
-  it('purchasing tier 1 raises the level to 1 without maxing the track', () => {
+  it('purchasing it raises the level to 1 and maxes the track', () => {
     saveCrystals(playerHouse[0].cost)
     const res = purchaseUpgrade(TOWN, 'player-house', 'playerHouse')
     expect(res.ok).toBe(true)
     expect(getUpgradeLevel(TOWN, 'player-house')).toBe(1)
     expect(loadCrystals()).toBe(0)
-    expect(nextUpgrade(TOWN, 'player-house', 'playerHouse').maxed).toBe(false)
-  })
-
-  it('tier 2 ("Expand") is priced statically from the catalog, not the dynamic per-house formula', () => {
-    saveCrystals(playerHouse[0].cost)
-    purchaseUpgrade(TOWN, 'player-house', 'playerHouse')
-    expect(nextUpgrade(TOWN, 'player-house', 'playerHouse').cost).toBe(playerHouse[1].cost)
-    saveCrystals(playerHouse[1].cost)
-    const res = purchaseUpgrade(TOWN, 'player-house', 'playerHouse')
-    expect(res.ok).toBe(true)
-    expect(getUpgradeLevel(TOWN, 'player-house')).toBe(2)
     expect(nextUpgrade(TOWN, 'player-house', 'playerHouse').maxed).toBe(true)
   })
 

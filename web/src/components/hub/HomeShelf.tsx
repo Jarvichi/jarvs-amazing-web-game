@@ -11,16 +11,20 @@ import {
 import {
   FurnitureDef, getFurnitureDef, getAllFurnitureDefs, getOwnedFurnitureIds, grantFurniture,
 } from '../../game/hub/furniture'
+import {
+  RoomSlotDef, getAllRoomSlotDefs, getPurchasedSlotIds, purchaseRoomSlot,
+} from '../../game/hub/houseRooms'
 import { loadCrystals, saveCrystals } from '../../game/collection'
 
 interface Props {
   onBack: () => void
-  /** Which owned house's furniture layout to edit — opaque key (e.g. `${town}:${buildingId}`).
-   *  Falls back to a shared 'default' bucket when no specific house is known. */
+  /** Which owned house's furniture layout (and room-slot purchases) to edit —
+   *  opaque key (e.g. `${town}:${buildingId}`). Falls back to a shared
+   *  'default' bucket when no specific house is known. */
   houseKey?: string
   /** Which tab to open on — defaults to 'shelf' (e.g. Ravenwatch's Steward Maren).
    *  The in-house 🛋 DECORATE button passes 'decorate' to skip straight past SHELF. */
-  initialTab?: 'shelf' | 'decorate'
+  initialTab?: 'shelf' | 'decorate' | 'rooms'
 }
 
 type ShelfEntry =
@@ -50,7 +54,7 @@ function nextRotation(r: 0 | 90 | 180 | 270): 0 | 90 | 180 | 270 {
 const REMOVE_ARM_MS = 2500
 
 export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }: Props) {
-  const [tab, setTab] = useState<'shelf' | 'decorate'>(initialTab)
+  const [tab, setTab] = useState<'shelf' | 'decorate' | 'rooms'>(initialTab)
 
   // ── Shelf tab (existing, unchanged) ──
   const items  = loadInventory()
@@ -86,6 +90,10 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
   const [message, setMessage] = useState<string | null>(null)
   const removeArmTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const messageTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // ── Rooms tab ──
+  const [purchasedSlotIds, setPurchasedSlotIds] = useState<string[]>(() => getPurchasedSlotIds(houseKey))
+  const [pendingRoomBuy, setPendingRoomBuy] = useState<RoomSlotDef | null>(null)
 
   function clearRemoveArm() {
     if (removeArmTimeoutRef.current) { clearTimeout(removeArmTimeoutRef.current); removeArmTimeoutRef.current = null }
@@ -134,6 +142,28 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
     setOwnedIds(getOwnedFurnitureIds())
     setArmedItemId(pendingBuy.id)
     setPendingBuy(null)
+  }
+
+  function handlePickRoomSlot(slot: RoomSlotDef) {
+    if (!purchasedSlotIds.includes(slot.id)) setPendingRoomBuy(slot)
+  }
+
+  function handleCancelRoomBuy() {
+    setPendingRoomBuy(null)
+  }
+
+  function handleConfirmRoomBuy() {
+    if (!pendingRoomBuy) return
+    if (crystals < pendingRoomBuy.price) {
+      showMessage("That's more crystals than you have.")
+      return
+    }
+    const next = crystals - pendingRoomBuy.price
+    saveCrystals(next)
+    setCrystals(next)
+    purchaseRoomSlot(houseKey, pendingRoomBuy.id)
+    setPurchasedSlotIds(getPurchasedSlotIds(houseKey))
+    setPendingRoomBuy(null)
   }
 
   function handleCellTap(x: number, y: number) {
@@ -203,11 +233,12 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
     <OverlayScreen
       title="HOME"
       onBack={onBack}
-      right={tab === 'decorate' ? <span className="crystal-count">💎 {crystals.toLocaleString()}</span> : undefined}
+      right={tab !== 'shelf' ? <span className="crystal-count">💎 {crystals.toLocaleString()}</span> : undefined}
     >
       <div className="hoa-tabs">
         <button className={`hoa-tab${tab === 'shelf' ? ' hoa-tab--active' : ''}`} onClick={() => setTab('shelf')}>SHELF</button>
         <button className={`hoa-tab${tab === 'decorate' ? ' hoa-tab--active' : ''}`} onClick={() => setTab('decorate')}>DECORATE</button>
+        <button className={`hoa-tab${tab === 'rooms' ? ' hoa-tab--active' : ''}`} onClick={() => setTab('rooms')}>ROOMS</button>
       </div>
 
       {tab === 'shelf' && (
@@ -290,6 +321,31 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
         </div>
       )}
 
+      {tab === 'rooms' && (
+        <div className="shelf-room">
+          <div className="town-directory__list">
+            {getAllRoomSlotDefs().map(slot => {
+              const owned = purchasedSlotIds.includes(slot.id)
+              return (
+                <div key={slot.id} className="town-directory__row">
+                  <div className="town-directory__info">
+                    <span className="town-directory__name">{slot.name}</span>
+                    {!owned && <span className="town-directory__place">💎 {slot.price.toLocaleString()}</span>}
+                  </div>
+                  <button
+                    className="action-btn action-btn--gold town-upgrades__btn"
+                    disabled={owned}
+                    onClick={() => handlePickRoomSlot(slot)}
+                  >
+                    {owned ? 'Built' : `Buy · 💎 ${slot.price.toLocaleString()}`}
+                  </button>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
       {detail && (
         <div className="shelf-modal-backdrop" onClick={() => setDetail(null)}>
           <div className="shelf-modal" onClick={e => e.stopPropagation()}>
@@ -333,6 +389,26 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
                 onClick={handleConfirmBuy}
               >
                 Buy for {pendingBuy.price} 💎
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {pendingRoomBuy && (
+        <div className="shop-confirm-backdrop" onClick={handleCancelRoomBuy}>
+          <div className="shop-confirm-modal" onClick={e => e.stopPropagation()}>
+            <div className="shop-confirm-title">{pendingRoomBuy.name}</div>
+            <div className="shop-confirm-body">
+              Build for {pendingRoomBuy.price.toLocaleString()} 💎? You have {crystals.toLocaleString()} 💎.
+            </div>
+            <div className="shop-confirm-actions">
+              <button className="action-btn" onClick={handleCancelRoomBuy}>Cancel</button>
+              <button
+                className={`action-btn action-btn--gold shop-card-buy-btn${crystals < pendingRoomBuy.price ? ' shop-card-buy-btn--poor' : ''}`}
+                onClick={handleConfirmRoomBuy}
+              >
+                Build for {pendingRoomBuy.price.toLocaleString()} 💎
               </button>
             </div>
           </div>
