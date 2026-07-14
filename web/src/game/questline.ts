@@ -628,8 +628,9 @@ export function loadRun(): RunState | null {
     }
 
     return parsed
-  } catch {
+  } catch (e) {
     // Corrupt JSON — clear and start fresh
+    logError('loadRun: corrupt saved run — clearing and starting fresh', { error: String(e) })
     try { localStorage.removeItem(RUN_KEY) } catch { /* ignore */ }
     return null
   }

@@ -45,7 +45,10 @@ export function loadBattleState(): GameState | null {
     // counter restarts at 0 after a reload — bump it so new spawns can't collide.
     syncUnitIdCounter(parsed.field)
     return parsed
-  } catch { return null }
+  } catch (e) {
+    logError('loadBattleState: corrupt saved battle state — discarding', { error: String(e) })
+    return null
+  }
 }
 
 /** Remove the persisted battle state (call on battle end or game reset). */
