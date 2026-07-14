@@ -1220,6 +1220,15 @@
         "Raiders hit the east rows last week. Took apples, baskets, and my best ladder.",
         "An orchard is patience you can eat. Remember that."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Mind the east rows. Every tree here has a name and I know them all."
+        ],
+        "sleep": [
+          "...mmh... the east rows... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the east rows... zzz...",
       "questGive": "appleford-scattered-harvest",
       "questReceive": [
         "appleford-scattered-harvest",
@@ -1402,6 +1411,15 @@
         "Best apples are always the ones just out of reach. Orchard's little joke.",
         "Fill a crate, haul it to Posy, start again. It's honest work, if you like apples. I'm sick of apples."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Up the ladder again. My arms have opinions, but the apples don't care."
+        ],
+        "sleep": [
+          "...mmh... one more basket... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... one more basket... zzz...",
       "questGive": "appleford-orchard-pickers",
       "questReceive": [
         "appleford-orchard-pickers"

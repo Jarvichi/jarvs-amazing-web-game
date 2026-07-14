@@ -1300,6 +1300,15 @@
         "Folk think monsters can't be kind. Folk never met Mott, or Mott's pens.",
         "You want to learn beast-taming? Start small. Start with the ones that bite least."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Easy now, easy. These beasts just want to be asked nicely."
+        ],
+        "sleep": [
+          "...mmh... gentle as lambs... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... gentle as lambs... zzz...",
       "questGive": "beast-taming-1",
       "questReceive": [
         "beast-taming-1",

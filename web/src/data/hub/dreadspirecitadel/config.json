@@ -590,6 +590,18 @@
         "Four centuries of research and I have proven, conclusively, that the dead make poor conversationalists.",
         "If Ordrin asks, I did NOT borrow his shadow-oil. I liberated it. There is a difference."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Mind the sigils while I work. The floor ones bite, remember."
+        ],
+        "idle-chat": [
+          "Even a warlock needs a moment away from the sigils. Don't tell Ordrin I said that."
+        ],
+        "sleep": [
+          "...mmh... the sigils... unfinished... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the sigils... unfinished... zzz...",
       "questGive": "dreadspire-intrigue-1",
       "questReceive": [
         "dreadspire-intrigue-1",
@@ -793,6 +805,15 @@
         "I dropped the master's old keys somewhere on my rounds. Four centuries of rounds. They could be anywhere.",
         "Mind the crypt door. It sticks. Everything down here sticks, including time."
       ],
+      "dialogueByActivity": {
+        "sweep": [
+          "Dust to sweep, dust to dust. Four centuries in and the work still isn't done."
+        ],
+        "sleep": [
+          "...zzz... the work is eternal... so am I... zzz..."
+        ]
+      },
+      "sleepDialogue": "...zzz... the work is eternal... so am I... zzz...",
       "questGive": "dreadspire-lost-keys",
       "questReceive": "dreadspire-lost-keys",
       "schedule": [

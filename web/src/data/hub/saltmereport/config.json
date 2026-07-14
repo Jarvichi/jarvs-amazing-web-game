@@ -1569,6 +1569,15 @@
         "Cargo's been going missing off the quay. The manifest doesn't lie — people do.",
         "Pirates to the north, smugglers to the south, and paperwork in every direction."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Every crate on this dock answers to me. Mind you sign for what you take."
+        ],
+        "sleep": [
+          "...mmh... the manifest... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the manifest... zzz...",
       "building": "harbourmaster",
       "questGive": "saltmere-lost-cargo",
       "questReceive": "saltmere-rum-run",
@@ -1712,6 +1721,15 @@
         "Oil runs low faster than it should. Someone's skimming, or the wick's thirstier than it used to be.",
         "I watch so the rest of you can sleep. Mind you remember that, next time the bell rings."
       ],
+      "dialogueByActivity": {
+        "idle-chat": [
+          "The lamp's burning steady tonight. That's one less thing to worry about."
+        ],
+        "sleep": [
+          "...mmh... mind the lamp... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... mind the lamp... zzz...",
       "schedule": [
         {
           "startHour": 6,
@@ -1817,6 +1835,15 @@
         "The Brined Anchor pours the only rum on this coast worth drinking. Present company excepted, obviously.",
         "Sleep below deck, drink above it. That's balance, that is."
       ],
+      "dialogueByActivity": {
+        "idle-chat": [
+          "Pull up a stool. I've a story about the Horn that gets taller every telling."
+        ],
+        "sleep": [
+          "...mmh... below deck... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... below deck... zzz...",
       "building": "sailors-inn",
       "schedule": [
         {

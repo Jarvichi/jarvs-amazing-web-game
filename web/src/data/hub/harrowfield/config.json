@@ -1570,6 +1570,15 @@
         "Three seed-grain sacks have gone missing. Maeve will have my ears if they're not found.",
         "The scarecrow moved again last night. I'm not paid enough to ask it why."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Sowing, hoeing, mowing. The fields don't care what day it is."
+        ],
+        "sleep": [
+          "...mmh... the scarecrow... moved... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the scarecrow... moved... zzz...",
       "questGive": "harrowfield-seed-grain",
       "questReceive": [
         "harrowfield-seed-grain",
@@ -1644,6 +1653,15 @@
         "Floss keeps the flock, but she can't mend a fence. The ewes are through the gap again.",
         "Wool to the market, mutton never if I can help it. I get attached, see."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Floss has the flock in hand. Mostly. The ewes have other ideas some days."
+        ],
+        "sleep": [
+          "...mmh... mend the fence... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... mend the fence... zzz...",
       "questGive": "harrowfield-mend-pasture",
       "questReceive": [
         "harrowfield-mend-pasture",
