@@ -2035,7 +2035,15 @@ export function HubTownCanvas({
       // Interior NPCs — rendered inside the room, tappable
       const interiorNpcList: HubNpc[] = (INTERIOR_NPCS[buildingId] ?? []).filter(n => isVisibleAtLevel(n, currentLevel))
       for (const npc of interiorNpcList) {
-        loadTextureUrl(`${base}sprites/${resolveNpcSprite(npc.sprite)}.svg`).then(tex => {
+        // Activity pose swap, mirroring the exterior ticker logic — resolved once
+        // here since this block only reruns when the player re-enters the room.
+        const interiorSpriteSlug = resolveNpcSprite(npc.sprite)
+        const interiorBaseTexUrl = `${base}sprites/${interiorSpriteSlug}.svg`
+        const interiorActivity = npc.schedule ? getNpcActivity(npc, gameHourRef.current) : null
+        const interiorTexLoader = interiorActivity
+          ? loadTextureUrl(`${base}sprites/${interiorSpriteSlug}-${interiorActivity}.svg`).catch(() => loadTextureUrl(interiorBaseTexUrl))
+          : loadTextureUrl(interiorBaseTexUrl)
+        interiorTexLoader.then(tex => {
           if (!interiorActive || currentInteriorId !== buildingId) return
           const s = new PIXI.Sprite(tex)
           s.width = SPRITE_SIZE; s.height = SPRITE_SIZE
@@ -2064,7 +2072,15 @@ export function HubTownCanvas({
       })
       for (const npc of scheduledVisitors) {
         const loc = getNpcLocation(npc, gameHourRef.current) as { type: 'interior'; buildingId: string; tx: number; ty: number }
-        loadTextureUrl(`${base}sprites/${resolveNpcSprite(npc.sprite)}.svg`).then(tex => {
+        // Activity pose swap, mirroring the exterior ticker logic — resolved once
+        // here since this block only reruns when the player re-enters the room.
+        const visitorSpriteSlug = resolveNpcSprite(npc.sprite)
+        const visitorBaseTexUrl = `${base}sprites/${visitorSpriteSlug}.svg`
+        const visitorActivity = getNpcActivity(npc, gameHourRef.current)
+        const visitorTexLoader = visitorActivity
+          ? loadTextureUrl(`${base}sprites/${visitorSpriteSlug}-${visitorActivity}.svg`).catch(() => loadTextureUrl(visitorBaseTexUrl))
+          : loadTextureUrl(visitorBaseTexUrl)
+        visitorTexLoader.then(tex => {
           if (!interiorActive || currentInteriorId !== buildingId) return
           const s = new PIXI.Sprite(tex)
           s.width = SPRITE_SIZE; s.height = SPRITE_SIZE
