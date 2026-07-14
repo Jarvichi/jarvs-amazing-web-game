@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- walk frame 2 — mid stride, body 1px higher -->
+  <!-- shadow -->
+  <ellipse cx="16" cy="29" rx="6" ry="2" fill="rgba(0,0,0,0.2)"/>
+  <!-- boots -->
+  <rect x="11" y="25" width="4" height="2" rx="1" fill="#1a0a00"/>
+  <rect x="17" y="25" width="4" height="2" rx="1" fill="#1a0a00"/>
+  <!-- legs -->
+  <rect x="12" y="20" width="3" height="7" rx="1" fill="#4a2a10"/>
+  <rect x="17" y="20" width="3" height="7" rx="1" fill="#4a2a10"/>
+  <!-- tunic -->
+  <rect x="10" y="11" width="12" height="10" rx="2" fill="#aa2a2a"/>
+  <!-- gold trim -->
+  <rect x="10" y="11" width="12" height="2" rx="1" fill="#d4a020"/>
+  <rect x="10" y="19" width="12" height="2" rx="1" fill="#d4a020"/>
+  <!-- arms -->
+  <rect x="8"  y="12" width="3" height="7" rx="1" fill="#c8a070"/>
+  <rect x="21" y="12" width="3" height="7" rx="1" fill="#c8a070"/>
+  <!-- coin pouch -->
+  <circle cx="9" cy="21" r="3" fill="#d4a020"/>
+  <!-- head -->
+  <circle cx="16" cy="7" r="5" fill="#c8a070"/>
+  <!-- merchant hat -->
+  <rect x="11" y="2" width="10" height="4" rx="2" fill="#2a1a00"/>
+  <rect x="9"  y="4" width="14" height="2" rx="1" fill="#2a1a00"/>
+  <!-- eyes -->
+  <rect x="13" y="7" width="2" height="2" rx="1" fill="#1a0a00"/>
+  <rect x="17" y="7" width="2" height="2" rx="1" fill="#1a0a00"/>
+</svg>
