@@ -44,7 +44,8 @@ import { resolveNpcPlace } from '../../game/hub/npcLocator'
 import { TreasureModal } from './TreasureModal'
 import { getCollectedTreasureIds, markTreasureCollected } from '../../game/hub/treasures'
 import { useHubClock } from '../../hooks/useHubClock'
-import { formatGameTime, hourInRange } from '../../game/hub/hubClock'
+import { formatGameTime, hourInRange, getGameHour } from '../../game/hub/hubClock'
+import { isNpcAsleep } from '../../game/hub/hubNpcSchedule'
 import { Festival, getActiveFestival } from '../../game/hub/hubCalendar'
 import { getDailyChallengeNPCDialogue, getMiniGameChallengeNPCDialogue } from '../../game/hub/npcDialogue'
 import {  ALL_QUESTS, FRIENDSHIP_DIALOGUE, RELATIONSHIP_DIALOGUE, RAVENWATCH } from '../../data/hub/hubWorldFactory'
@@ -1162,6 +1163,17 @@ function hasOfferableQuest(giverId: string): boolean {
       locationData.HUB_ANIMALS.find(a => a.id === npcId)
     const speakerName = npcDef?.name ?? ''
     if (namedNpc) recordNpcMet(npcId)
+
+    // Sleeping NPCs don't chat, trade, or take quest hand-ins — the whole
+    // cascade below assumes an awake NPC. Sleep windows are short in real
+    // time (a full game day is 30 real minutes), so nothing is soft-locked.
+    if (namedNpc?.schedule && isNpcAsleep(namedNpc, getGameHour())) {
+      setDialogueEvent({
+        speakerName,
+        text: namedNpc.sleepDialogue ?? `💤 ${speakerName} is fast asleep.`,
+      })
+      return
+    }
 
     // ── Bounty report (takes priority — a bounty's report step is satisfied
     // by talking to the named NPC, independent of any quest dialogue). ──────

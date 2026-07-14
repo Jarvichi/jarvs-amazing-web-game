@@ -34,6 +34,11 @@ export function getNpcDialoguePool(npc: HubNpc, gameHour: number): string[] {
   return pool?.length ? pool : npc.dialogue
 }
 
+/** True while the NPC's schedule has them sleeping. */
+export function isNpcAsleep(npc: HubNpc, gameHour: number): boolean {
+  return getNpcActivity(npc, gameHour) === 'sleep'
+}
+
 export function isNpcInBuilding(npc: HubNpc, buildingId: string, gameHour: number): boolean {
   const loc = getNpcLocation(npc, gameHour)
   return loc?.type === 'interior' && loc.buildingId === buildingId

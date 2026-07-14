@@ -175,6 +175,9 @@ export interface HubNpc {
    *  activity (getNpcActivity) has a non-empty entry here, those lines are
    *  cycled instead of the flat `dialogue` array. */
   dialogueByActivity?: Partial<Record<NpcActivity, string[]>>
+  /** Line shown when tapped while the schedule has this NPC sleeping.
+   *  Defaults to a generic "fast asleep" narration. */
+  sleepDialogue?: string
   /** Id of a branching dialogue tree (questDefs.json `dialogues`) to run on tap. */
   dialogueTree?: string
   /** Hub-item id (hubItems.json) that grants a bonus friendship/relationship boost when gifted. */

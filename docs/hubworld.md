@@ -616,6 +616,14 @@ rivalry (no chains).
 
 ## §7d — Generic Talk / Give (every named NPC)
 
+Before any of this: if the tapped NPC's schedule (§9) currently has them
+`sleep`ing, `handleNpcTap` short-circuits with a plain sleep line
+(`sleepDialogue`, or a generic "fast asleep" default) and returns — no
+bounty report, quest offer/turn-in, dialogue tree, or Talk/Give. Sleep
+windows are short in real time (30 real minutes = a full game day), so
+nothing becomes unreachable; the player just has to come back later or wait
+a few minutes.
+
 Every named NPC gets two always-available dialogue choices — no authoring
 required — so the Town Directory's 💗 Relationship button has a real way to
 move even for the ~5 in 6 NPCs with no `dialogueTree` (§7b) and no active
@@ -1203,6 +1211,7 @@ schedules and activities are also editable in the in-app map editor
 | `location.buildingId` | `string` | interior only | Building `id` the NPC waits inside. The exterior sprite hides; if the player enters that building the NPC renders inside (its activity pose shows there too). |
 | `homeBed` | `{ buildingId, tx, ty }` | | Reserved sleeping spot reference (used by night logic). |
 | `dialogueByActivity` | `Partial<Record<NpcActivity, string[]>>` | | Optional activity-specific dialogue pools, e.g. `{ "sleep": ["Zzz..."] }`. When the NPC's current scheduled activity has a non-empty entry here, `getNpcDialoguePool()` cycles those lines instead of the flat `dialogue` array (tap dialogue and ambient speech bubbles both use it). NPCs without a matching entry keep using `dialogue`, so this is fully backward compatible. |
+| `sleepDialogue` | `string` | | Line shown (as plain narration, no Talk/Give/quest options) when the NPC is tapped while `sleep`ing per its schedule (§7d). Defaults to a generic "💤 {name} is fast asleep." when omitted. |
 
 On a game-hour boundary the NPC pathfinds to the new location (emerging at / walking
 to the relevant door for interior transitions). The activity pose only shows while
