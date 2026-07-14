@@ -1108,6 +1108,8 @@ export function HubTownCanvas({
       isWalking: boolean
       isInside: boolean
       currentBuildingId: string | null
+      animFrame: number
+      animTimer: number
     }
     const namedNpcWalkStates = new Map<string, NamedNpcWalkState>()
     // Proximity bubbles for named NPCs driven by npcProximityDialogue ref
@@ -1116,6 +1118,7 @@ export function HubTownCanvas({
     const namedNpcActivity       = new Map<string, ReturnType<typeof getNpcActivity>>()
     const namedNpcBaseTex        = new Map<string, PIXI.Texture>()
     const namedNpcPoseTex        = new Map<string, PIXI.Texture>()  // keyed `${npcId}:${activity}`
+    const namedNpcAnimFrames     = new Map<string, PIXI.Texture[]>()  // 3-frame walk cycle, if authored
     // Interior quest indicators: rebuilt each time we enter a building
     const interiorQuestIndicators     = new Map<string, PIXI.Text>()
     const interiorIndicatorBaseY      = new Map<string, number>()
@@ -1135,6 +1138,8 @@ export function HubTownCanvas({
         isWalking: false,
         isInside: initLoc?.type === 'interior',
         currentBuildingId: initLoc?.type === 'interior' ? initLoc.buildingId : null,
+        animFrame: 0,
+        animTimer: 0,
       }
       namedNpcWalkStates.set(npc.id, walkState)
       if (npc.schedule) namedNpcActivity.set(npc.id, getNpcActivity(npc, gameHourRef.current))
@@ -1204,6 +1209,15 @@ export function HubTownCanvas({
               .then(poseTex => { namedNpcPoseTex.set(`${npc.id}:${activity}`, poseTex) })
               .catch(() => { /* no pose art — keep base sprite */ })
           }
+        }
+
+        // Load a 3-frame walk cycle (`{sprite}-1/2/3.svg`), if authored — cycled
+        // in the ticker below while the NPC is walking. Missing frames just
+        // mean no walk animation, same fallback discipline as pose art.
+        if (!isCommanderNpc) {
+          loadAnimFrames(npcSpriteSlug, 3)
+            .then(frames => { namedNpcAnimFrames.set(npc.id, frames) })
+            .catch(() => {})
         }
 
         if (isCommanderNpc) {
@@ -2754,12 +2768,24 @@ export function HubTownCanvas({
         }
 
         // Activity pose swap — use the activity pose sprite while the NPC is at its
-        // post (not walking/indoors), the base sprite otherwise.
+        // post (not walking/indoors), the base sprite otherwise. While walking,
+        // cycle the 3-frame walk animation instead, if one was authored.
         for (const [npcId, baseTex] of namedNpcBaseTex) {
           const ws = namedNpcWalkStates.get(npcId)
           const container = namedNpcContainers.get(npcId)
           const s = container?.children[0] as PIXI.Sprite | undefined
           if (!s) continue
+          const animFrames = namedNpcAnimFrames.get(npcId)
+          if (ws && ws.isWalking && animFrames && animFrames.length > 0) {
+            ws.animTimer -= ticker.deltaMS
+            if (ws.animTimer <= 0) {
+              ws.animTimer = 200
+              ws.animFrame = (ws.animFrame + 1) % animFrames.length
+              s.texture = animFrames[ws.animFrame]
+            }
+            continue
+          }
+          if (ws) { ws.animFrame = 0; ws.animTimer = 0 }
           const activity = (ws && !ws.isWalking && !ws.isInside) ? namedNpcActivity.get(npcId) ?? null : null
           const poseTex = activity ? namedNpcPoseTex.get(`${npcId}:${activity}`) : undefined
           const wantTex = poseTex ?? baseTex
