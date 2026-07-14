@@ -3,6 +3,7 @@ import { resolvedNodeOpts, loadHandicap, HANDICAP_KEY, buildQuickBattleOpts, loa
 import { usePlaytime } from './hooks/usePlaytime'
 import { recordScreen } from './utils/crashSentinel'
 import { getGlStats } from './utils/pixiTelemetry'
+import { journal, flushResumeJournal } from './utils/resumeJournal'
 import { useStartupData } from './hooks/useStartupData'
 import { useCloudSync } from './hooks/useCloudSync'
 import { useRegisterSW } from 'virtual:pwa-register/react'
@@ -299,6 +300,8 @@ export default function App() {
       }
     },
     onNeedRefresh() {
+      journal('sw-need-refresh')
+      rollbar?.info('[sw] update available — applying skipWaiting')
       updateServiceWorker(true)
     },
   })
@@ -308,7 +311,15 @@ export default function App() {
   useEffect(() => {
     if (!navigator.serviceWorker) return
     let reloading = false
-    const handler = () => { if (!reloading) { reloading = true; window.location.reload() } }
+    const handler = () => {
+      if (reloading) return
+      reloading = true
+      // Journaled (not just logged live) because this reload typically fires
+      // right at foreground resume, when a live Rollbar event has no time to
+      // send — the journal entry survives the reload and is flushed at boot.
+      journal('sw-controllerchange-reload', { visibility: document.visibilityState })
+      window.location.reload()
+    }
     navigator.serviceWorker.addEventListener('controllerchange', handler)
     return () => navigator.serviceWorker.removeEventListener('controllerchange', handler)
   }, [])
@@ -592,6 +603,7 @@ export default function App() {
       setIsTabHidden(hidden)
       if (hidden) {
         hiddenAtRef.current = Date.now()
+        journal('hidden', { screen: screenRef.current }, { coalesce: true })
         return
       }
       // Breadcrumb for any "blank screen after being away" report — logged on
@@ -607,6 +619,10 @@ export default function App() {
           location: currentLocationKeyRef.current,
           ...getGlStats(),
         })
+        journal('visible', { hiddenMs, screen: screenRef.current })
+        // Deliver anything journaled while backgrounded (context losses,
+        // deferred rebuilds) now that the network is reliable again.
+        flushResumeJournal('resume')
       }
     }
     document.addEventListener('visibilitychange', handleVisibility)
