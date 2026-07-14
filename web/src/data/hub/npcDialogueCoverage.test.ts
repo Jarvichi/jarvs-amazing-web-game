@@ -8,14 +8,11 @@ import { LOCATION_REGISTRY } from './hubWorldFactory'
 // check) — otherwise a sleeping NPC either bubbles nothing or falls back to
 // the generic "fast asleep" default instead of an authored line.
 //
-// Scoped to towns that have completed their #1960 content batch so far;
-// widen TOWNS_WITH_CONTENT as each subsequent batch lands, and drop the
-// allowlist entirely once every town is covered.
-const TOWNS_WITH_CONTENT = ['millhaven', 'capital-city', 'royal-palace', 'ironhold-keep', 'gearford', 'ravenwatch']
-
+// Runs against every town in LOCATION_REGISTRY — #1960's content pass now
+// covers every town with scheduled NPCs, so any new sleep-scheduled NPC
+// added later (in any town) is covered by this guard automatically.
 describe('scheduled-NPC sleep dialogue coverage', () => {
-  for (const townKey of TOWNS_WITH_CONTENT) {
-    const { locationData } = LOCATION_REGISTRY[townKey]
+  for (const [townKey, { locationData }] of Object.entries(LOCATION_REGISTRY)) {
 
     for (const npc of locationData.HUB_NPCS) {
       const hasSleepSchedule = npc.schedule?.some(entry => entry.activity === 'sleep')

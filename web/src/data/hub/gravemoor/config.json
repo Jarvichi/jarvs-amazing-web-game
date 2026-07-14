@@ -1134,6 +1134,15 @@
         "I was mayor when I died and nobody's run against me since. Democracy at its finest.",
         "We're dead, not rude. Wipe your feet and you're welcome anywhere in town."
       ],
+      "dialogueByActivity": {
+        "idle-chat": [
+          "Welcome to Gravemoor! Population: technically zero. Spiritually: thriving."
+        ],
+        "sleep": [
+          "...zzz... nobody's run against me... zzz..."
+        ]
+      },
+      "sleepDialogue": "...zzz... nobody's run against me... zzz...",
       "favoriteGiftItemId": "grave-moss",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -1153,6 +1162,7 @@
         {
           "startHour": 20,
           "endHour": 7,
+          "activity": "sleep",
           "location": {
             "type": "interior",
             "buildingId": "ruined-town-hall",
@@ -1221,6 +1231,15 @@
         "The dead are good company. Quiet. Never complain about the digging.",
         "Mind the soft ground by the new plots. You'd not be the first to fall in."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Mind the soft ground. Somebody's got to keep these holes tidy."
+        ],
+        "sleep": [
+          "...mmh... the new plots... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the new plots... zzz...",
       "questGive": "gravemoor-six-feet-under",
       "questReceive": [
         "gravemoor-six-feet-under",
