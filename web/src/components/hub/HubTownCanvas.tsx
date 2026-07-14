@@ -78,6 +78,8 @@ interface Props {
   onAreaEnter:      (areaName: string | null) => void
   onNodeInteract:   (screen: string) => void
   onAvatarMove:     (px: number, py: number) => void
+  /** Fires once per tile the avatar walks onto (a discrete "step"). */
+  onAvatarStep?:    () => void
   returnRef?:       React.MutableRefObject<(() => void) | null>
   unitCards?:       string[]
   commander?:       CommanderState
@@ -125,7 +127,7 @@ interface Props {
 }
 
 export function HubTownCanvas({
-  onAreaEnter, onNodeInteract, onAvatarMove,
+  onAreaEnter, onNodeInteract, onAvatarMove, onAvatarStep,
   returnRef, unitCards, commander, onNpcTap, onAnimalTap, onAnimalSeen, onAmbientAnimalTap,
   interiorEnterRef, interiorExitRef, petActionRef, onEnterInterior, onExitInterior, onTileTap,
   pickedUpIds, onItemPickup, doorKeys, onDoorLocked, questNpcState, activeQuestIdsRef,
@@ -161,6 +163,8 @@ export function HubTownCanvas({
   onNodeInteractRef.current = onNodeInteract
   const onAvatarMoveRef   = useRef(onAvatarMove)
   onAvatarMoveRef.current = onAvatarMove
+  const onAvatarStepRef   = useRef(onAvatarStep)
+  onAvatarStepRef.current = onAvatarStep
   const onNpcTapRef       = useRef(onNpcTap)
   onNpcTapRef.current     = onNpcTap
   const onAnimalTapRef    = useRef(onAnimalTap)
@@ -2384,6 +2388,7 @@ export function HubTownCanvas({
         currentTile = [tx, ty]
         _savedTiles.set(locationKey, [tx, ty])
         emitSound('hubFootstep')  // throttled internally
+        onAvatarStepRef.current?.()
 
         // Touch-pickup: collect requireTouch items when avatar walks onto their tile
         for (const [pid, sprite] of pickupSprites) {

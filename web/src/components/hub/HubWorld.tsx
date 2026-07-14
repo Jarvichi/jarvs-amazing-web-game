@@ -571,6 +571,26 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     return () => clearTimeout(id)
   }, [dialogueEvent, dialogueLine])
 
+  // Auto-dismiss dialogue after the avatar takes 5 steps — skip if it has choices
+  // (quest offers need manual input). Counter resets whenever the dialogue changes.
+  const dialogueStepsRef = useRef(0)
+  useEffect(() => {
+    dialogueStepsRef.current = 0
+  }, [dialogueEvent, dialogueLine])
+
+  const handleAvatarStep = useCallback(() => {
+    const hasContent = !!(dialogueEvent?.text ?? dialogueLine)
+    const hasChoices  = !!(dialogueEvent?.choices?.length)
+    if (!hasContent || hasChoices) return
+    dialogueStepsRef.current += 1
+    if (dialogueStepsRef.current >= 5) {
+      const after = dialogueEvent?.onClose
+      setDialogueEvent(null)
+      setDialogueLine(null)
+      after?.()
+    }
+  }, [dialogueEvent, dialogueLine])
+
   // Live player world-pixel position, read imperatively by the minimap's rAF loop.
   const playerPixelRef = useRef({
     x: locationData.AVATAR_START.tx * T + T / 2,
@@ -2026,6 +2046,7 @@ function hasOfferableQuest(giverId: string): boolean {
             onAreaEnter={handleAreaEnter}
             onNodeInteract={handleNodeInteract}
             onAvatarMove={handleAvatarMove}
+            onAvatarStep={handleAvatarStep}
             returnRef={returnRef}
             unitCards={unitCards}
             commander={commander}
