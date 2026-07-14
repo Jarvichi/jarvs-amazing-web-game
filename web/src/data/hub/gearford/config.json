@@ -1691,6 +1691,15 @@
         "Somebody's been lifting tools from the yard. A foundry without tools is just a very warm room.",
         "Hear that hammering? That's the sound of nothing being wrong. I like that sound."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Hear that hammering? That's the sound of nothing being wrong."
+        ],
+        "sleep": [
+          "...mmh... coal, iron... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... coal, iron... zzz...",
       "questGive": "gearford-stolen-tools",
       "questReceive": [
         "gearford-stolen-tools",
@@ -1742,6 +1751,15 @@
         "Every machine wants to work. You just have to convince it the work is yours.",
         "The forge eats coal like a dragon eats... well, everything. We're always short."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Every machine wants to work. Convincing it takes patience."
+        ],
+        "sleep": [
+          "...mmh... convince the gears... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... convince the gears... zzz...",
       "questGive": "gearford-coal-run",
       "questReceive": [
         "gearford-coal-run",
@@ -1794,6 +1812,15 @@
         "Between the bandits on the toll road and the mine collapse, half my crew won't travel.",
         "You look sturdy. Ever considered honest work? No? Smart."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Shift's on. Keep up or get out of the way."
+        ],
+        "sleep": [
+          "...mmh... the crew roster... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the crew roster... zzz...",
       "questGive": "gearford-ore-haul",
       "questReceive": [
         "gearford-ore-haul",
@@ -1844,6 +1871,15 @@
         "I dropped a whole tray of parts in the yard yesterday. They went EVERYWHERE.",
         "One day I'll forge a blade so fine they'll sing songs. For now: more carrying."
       ],
+      "dialogueByActivity": {
+        "idle-chat": [
+          "Brunn says I'll be a real gearwright someday. Someday's taking a while."
+        ],
+        "sleep": [
+          "...mmh... more carrying... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... more carrying... zzz...",
       "questGive": "gearford-scattered-parts",
       "questReceive": [
         "gearford-scattered-parts",
@@ -1894,6 +1930,15 @@
         "Ravenwatch sent word: their gaol lock's jammed and the guard captain wants a new key forged.",
         "Bring me good iron and I'll cut you a key that'd open the gates of dawn."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Miss one tooth and the whole thing seizes. Patience, always patience."
+        ],
+        "sleep": [
+          "...mmh... one more tooth... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... one more tooth... zzz...",
       "questGive": "gearford-forge-the-key",
       "questReceive": "gearford-forge-the-key",
       "schedule": [
@@ -1941,6 +1986,15 @@
         "The old depot south of town's still half-full. Nobody hauls it — too lazy, too scared.",
         "A full barrow and an empty road. That's all a hauler wants out of life."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Coal in, slag out. Mind the barrow, it doesn't slow for anyone."
+        ],
+        "sleep": [
+          "...mmh... one more load... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... one more load... zzz...",
       "schedule": [
         {
           "startHour": 6,
@@ -1996,6 +2050,15 @@
         "Miners drink like the mine's about to close. Some weeks it nearly is.",
         "Rats in my store again. Eating better than my guests, the little tyrants."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Welcome to the Pickaxe Rest. Ale's warm, stew's warmer."
+        ],
+        "sleep": [
+          "...mmh... the rats again... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the rats again... zzz...",
       "questGive": "gearford-rats-in-the-store",
       "questReceive": [
         "gearford-rats-in-the-store",
@@ -2057,6 +2120,15 @@
         "Lost my good lamp in the west drift. Pitch black down there without it.",
         "The ore's rich this season. Pity the road out is so poor."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Down the shaft again. Mind the timbers on your way past."
+        ],
+        "sleep": [
+          "...mmh... the west drift... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the west drift... zzz...",
       "questGive": "gearford-lost-lamp",
       "questReceive": "gearford-lost-lamp",
       "schedule": [
@@ -2115,6 +2187,15 @@
         "Half the stores went walkabout in the last delivery. Slipshod loading, I call it.",
         "Order is the only ore that never runs dry. Remember that."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Every crate gets logged. Lose one and you'll hear about it."
+        ],
+        "sleep": [
+          "...mmh... the ledger... don't lose it... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the ledger... don't lose it... zzz...",
       "questGive": "gearford-missing-stores",
       "questReceive": "gearford-missing-stores",
       "schedule": [
@@ -2157,6 +2238,15 @@
         "A valve's seized and a flywheel's cracked. Vela knows the parts I need.",
         "Keep her turning and Gearford breathes. Let her stop and we drown in the dark."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Keep her turning. The pump doesn't get a day off."
+        ],
+        "sleep": [
+          "...mmh... the flywheel... turning... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the flywheel... turning... zzz...",
       "questReceive": "gearford-broken-pump-3",
       "schedule": [
         {
@@ -2204,6 +2294,15 @@
         "Half of Gearford's collapsed twice over. I keep the plans for what worked.",
         "You don't build a keep in a day. You build it in a thousand right decisions."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Good bones first, everything else after. That's the whole trade."
+        ],
+        "sleep": [
+          "...mmh... check the foundations... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... check the foundations... zzz...",
       "schedule": [
         {
           "startHour": 0,
@@ -2251,6 +2350,15 @@
         "A war's won by whoever counts their troops correctly. I count carefully.",
         "Gear's cheap. The people who wear it into a fight are what costs you."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Counting troops again. It's the only arithmetic that matters out here."
+        ],
+        "sleep": [
+          "...mmh... count 'em again... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... count 'em again... zzz...",
       "schedule": [
         {
           "startHour": 0,
