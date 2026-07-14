@@ -2,6 +2,8 @@ import { useEffect, useRef } from 'react'
 import * as PIXI from 'pixi.js'
 import rollbar from '../rollbar'
 import { noteContextCreated, noteContextDestroyed, getGlStats } from '../utils/pixiTelemetry'
+import { createContextLossController, type ContextLossEvent } from './pixiContextLossController'
+import { journal } from '../utils/resumeJournal'
 
 /**
  * Initialises a PixiJS v8 Application and mounts its canvas into the given container.
@@ -64,9 +66,10 @@ function releaseCanvasBackingStore(canvas: HTMLCanvasElement) {
 
 // A browser that backgrounds a tab long enough to reclaim its GPU context often
 // never fires webglcontextrestored on the old context — recovery instead relies
-// on requesting a brand-new context on a brand-new canvas. Cap rebuild attempts
-// so a hard GPU failure (context lost immediately on every new context too)
-// logs and gives up instead of spinning forever.
+// on requesting a brand-new context on a brand-new canvas. Cap consecutive
+// rebuild attempts (the counter re-arms after each success) so a hard GPU
+// failure (context lost immediately on every new context too) logs and gives
+// up instead of spinning forever.
 const MAX_CONTEXT_REBUILD_ATTEMPTS = 3
 
 export function usePixiApp(
@@ -84,7 +87,6 @@ export function usePixiApp(
     let destroyed = false
     let initialized = false
     let contextLostHandler: ((e: Event) => void) | null = null
-    let rebuildAttempts = 0
 
     const resizeEl = opts?.resizeTo?.current ?? undefined
     const initW = resizeEl?.clientWidth  || width
@@ -110,6 +112,53 @@ export function usePixiApp(
       noteContextDestroyed(contextInfo)
     }
 
+    // Tears down the current app (if any) and clears the hook's live-app state,
+    // so a rebuild always starts from a clean slate and the unmount cleanup
+    // never double-destroys.
+    const teardownCurrent = () => {
+      const app = appRef.current
+      if (app && initialized) teardown(app)
+      appRef.current = null
+      initialized = false
+    }
+
+    // Maps recovery state transitions to Rollbar + the persisted resume journal.
+    // Live Rollbar events fired while the tab is hidden are often never
+    // delivered on mobile — the journal entries are the reliable record and are
+    // flushed as one event at the next boot or foreground resume.
+    const notify = (event: ContextLossEvent, data: { attempts: number; hidden: boolean }) => {
+      const payload = { ...contextInfo, ...getGlStats(), rebuildAttempts: data.attempts, visibility: document.visibilityState }
+      switch (event) {
+        case 'contextlost':
+          journal('webglcontextlost', { hidden: data.hidden, attempts: data.attempts })
+          break
+        case 'rebuild-deferred':
+          rollbar?.warn('[usePixiApp] webglcontextlost while hidden — deferring rebuild to resume', payload)
+          journal('rebuild-deferred', { attempts: data.attempts })
+          break
+        case 'rebuild-started':
+          rollbar?.warn('[usePixiApp] webglcontextlost — rebuilding app', payload)
+          journal('rebuild-started', { attempts: data.attempts })
+          break
+        case 'silent-context-loss':
+          rollbar?.warn('[usePixiApp] context silently lost while backgrounded — rebuilding on resume', payload)
+          journal('silent-context-loss', { attempts: data.attempts })
+          break
+        case 'rebuild-given-up':
+          rollbar?.error('[usePixiApp] webglcontextlost — giving up after repeated rebuild failures', payload)
+          journal('rebuild-given-up', { attempts: data.attempts })
+          break
+      }
+    }
+
+    const controller = createContextLossController({
+      maxAttempts: MAX_CONTEXT_REBUILD_ATTEMPTS,
+      isHidden: () => document.hidden,
+      teardown: teardownCurrent,
+      rebuild: () => { if (!destroyed) buildApp(true) },
+      notify,
+    })
+
     // Creates and initialises a fresh Application, appending its canvas and
     // calling onReady once ready. Called on mount (isRebuild=false), and
     // again to rebuild the scene from scratch after an unrecoverable
@@ -134,14 +183,17 @@ export function usePixiApp(
         noteContextCreated(contextInfo)
         if (destroyed) {
           // Cleanup ran before init resolved — destroy properly to release the WebGL context.
-          rollbar?.warn('[usePixiApp] init resolved after unmount — destroying orphan app', { isRebuild, rebuildAttempts })
+          rollbar?.warn('[usePixiApp] init resolved after unmount — destroying orphan app', { isRebuild, rebuildAttempts: controller.attempts() })
           teardown(app)
           return
         }
         if (isRebuild) {
+          const rebuildMs = Date.now() - buildStartedAt
           rollbar?.info('[usePixiApp] webgl context recovered — rebuild succeeded', {
-            ...contextInfo, ...getGlStats(), rebuildAttempts, rebuildMs: Date.now() - buildStartedAt,
+            ...contextInfo, ...getGlStats(), rebuildAttempts: controller.attempts(), rebuildMs,
           })
+          journal('rebuild-succeeded', { rebuildMs })
+          controller.onRebuildSucceeded()
         }
         const canvas = app.canvas as HTMLCanvasElement
         // Intentional loss during our own teardown never reaches this listener:
@@ -149,19 +201,7 @@ export function usePixiApp(
         // stops immediate propagation before this handler would fire.
         contextLostHandler = (e: Event) => {
           e.preventDefault()  // signal we intend to recover, not abandon the canvas
-          rebuildAttempts++
-          if (rebuildAttempts > MAX_CONTEXT_REBUILD_ATTEMPTS) {
-            rollbar?.error('[usePixiApp] webglcontextlost — giving up after repeated rebuild failures', {
-              ...contextInfo, ...getGlStats(), rebuildAttempts, visibility: document.visibilityState,
-            })
-            teardown(app)
-            return
-          }
-          rollbar?.warn('[usePixiApp] webglcontextlost — rebuilding app', {
-            ...contextInfo, ...getGlStats(), rebuildAttempts, visibility: document.visibilityState,
-          })
-          teardown(app)
-          if (!destroyed) buildApp(true)
+          controller.onContextLost()
         }
         canvas.addEventListener('webglcontextlost', contextLostHandler)
         container.appendChild(canvas)
@@ -169,8 +209,9 @@ export function usePixiApp(
       }).catch(e => {
         console.error('[usePixiApp] app.init failed', e)
         rollbar?.error(isRebuild ? '[usePixiApp] rebuild after context loss failed' : '[usePixiApp] app.init failed', {
-          message: (e as Error)?.message, ...contextInfo, ...getGlStats(), isRebuild, rebuildAttempts,
+          message: (e as Error)?.message, ...contextInfo, ...getGlStats(), isRebuild, rebuildAttempts: controller.attempts(),
         })
+        if (isRebuild) journal('rebuild-failed', { message: (e as Error)?.message })
         // Release any partial WebGL context created before the failure to prevent
         // context accumulation that crashes the browser after repeated navigations.
         try {
@@ -184,7 +225,25 @@ export function usePixiApp(
 
     buildApp(false)
 
+    // iOS can reclaim a backgrounded tab's WebGL context without ever firing
+    // webglcontextlost on it. Probe the context on every return to foreground
+    // and rebuild if it died silently; this is also where a rebuild deferred
+    // during a hidden-tab context loss actually runs.
+    const isContextLost = (): boolean => {
+      const app = appRef.current
+      if (!initialized || !app || !app.renderer) return false
+      if (app.renderer.name !== 'webgl') return false  // WebGPU/canvas renderers need different handling; not used today
+      const gl = (app.renderer as PIXI.WebGLRenderer).gl
+      return !gl || gl.isContextLost()
+    }
+    const visibilityHandler = () => {
+      if (document.visibilityState !== 'visible' || destroyed) return
+      controller.onVisible(isContextLost)
+    }
+    document.addEventListener('visibilitychange', visibilityHandler)
+
     return () => {
+      document.removeEventListener('visibilitychange', visibilityHandler)
       destroyed = true
       if (initialized && appRef.current) {
         teardown(appRef.current)

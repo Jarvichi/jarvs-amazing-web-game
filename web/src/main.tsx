@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import rollbar from './rollbar'
 import { setErrorLogger } from './logger'
 import { initCrashSentinel } from './utils/crashSentinel'
+import { initResumeJournal } from './utils/resumeJournal'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import App from './App'
 
@@ -12,6 +13,11 @@ setErrorLogger((msg, ctx) => rollbar.error(msg, ctx as object))
 // killing the page under memory pressure) — before React renders, so crash
 // loops are reported even when rendering itself dies.
 initCrashSentinel()
+
+// Flush lifecycle breadcrumbs stranded by the previous session (background
+// page kill, service-worker reload) and start journaling this session's
+// resume behaviour — also before React renders, for the same reason.
+initResumeJournal()
 
 // Unlock any achievements whose progress target was already met before the
 // achievement was added (e.g. after a game update adds new achievements).
