@@ -8614,6 +8614,15 @@
         "I remember when this courtyard was full of laughter. The Fracture changed everything.",
         "There is strength in preparation. Make sure your deck is ready before you venture out."
       ],
+      "dialogueByActivity": {
+        "idle-chat": [
+          "I remember when this courtyard was full of laughter. It's quieter now, but I still sit here."
+        ],
+        "sleep": [
+          "...mmh... the courtyard... full of laughter... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the courtyard... full of laughter... zzz...",
       "questGive": "lost-pendant",
       "questReceive": [
         "aldous-family-heirloom",
@@ -8679,6 +8688,15 @@
         "I once traded with caravans from the eastern reaches. Those days feel like a dream now.",
         "Keep your coin close, wanderer. Not everyone in this town has honest intentions."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Business is slow, but the stall's open. Take a look, if you like."
+        ],
+        "sleep": [
+          "...mmh... the eastern caravans... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the eastern caravans... zzz...",
       "questGive": "merchants-herb",
       "questReceive": "thorin-the-last-watch",
       "schedule": [
@@ -8738,6 +8756,15 @@
         "The archives hold centuries of knowledge. Most of it was lost in the Fracture. What remains is precious.",
         "Do not underestimate the power of knowing your enemy, Commander."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Quiet, please. The Fracture shards don't catalogue themselves."
+        ],
+        "sleep": [
+          "...mmh... the shard catalogue... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the shard catalogue... zzz...",
       "schedule": [
         {
           "startHour": 0,
@@ -8794,6 +8821,15 @@
         "I pulled out a strange glowing fish last week. Threw it back — some things are better left undisturbed.",
         "Patience, wanderer. The best things in life take time."
       ],
+      "dialogueByActivity": {
+        "fish": [
+          "Quiet water today. That's never a good sign, this close to the Fracture."
+        ],
+        "sleep": [
+          "...mmh... something stirring... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... something stirring... zzz...",
       "questGive": "greyfishs-bait",
       "questReceive": [
         "fisherman-fracture-depths",
@@ -9062,6 +9098,15 @@
         "I just got a new shipment in. Take a look!",
         "Every card tells a story, wanderer."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Welcome to my emporium! Finest cards in the realm, freshly stocked."
+        ],
+        "sleep": [
+          "...mmh... the new shipment... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the new shipment... zzz...",
       "questGive": "gildwyns-missing-card",
       "questReceive": "gildwyn-the-fracture-card",
       "schedule": [
@@ -9112,6 +9157,15 @@
         "The shadows are patient with rare cards — they wait for the right buyer.",
         "Gildwyn keeps the day trade. I keep the legends."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "The extraordinary finds its way to those who wait in shadow."
+        ],
+        "sleep": [
+          "...mmh... the legends... wait... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the legends... wait... zzz...",
       "schedule": [
         {
           "startHour": 20,
@@ -9160,6 +9214,15 @@
         "The art of augmentation is older than the Fracture itself.",
         "I sense great potential in you, wanderer. Let's refine it."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Let me show you what a proper enchantment can do."
+        ],
+        "sleep": [
+          "...mmh... refine the augment... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... refine the augment... zzz...",
       "questGive": "miras-runaway-crystal",
       "questReceive": "vex-final-trade",
       "schedule": [
@@ -9210,6 +9273,15 @@
         "A night owl's selection — curated, not cluttered.",
         "Mira keeps the daylight trade. I keep the connoisseurs."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Curated, not cluttered. The night trade prefers it that way."
+        ],
+        "sleep": [
+          "...mmh... curated... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... curated... zzz...",
       "schedule": [
         {
           "startHour": 20,
@@ -9258,6 +9330,15 @@
         "Stock up before you head out — the roads aren't safe.",
         "I've been supplying adventurers for thirty years. I know what keeps folks alive."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Reliable gear, fair prices. Same as it's been for thirty years."
+        ],
+        "sleep": [
+          "...mmh... stock the shelves... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... stock the shelves... zzz...",
       "questGive": "brambles-first-delivery",
       "questReceive": "vex-final-trade",
       "schedule": [
@@ -9308,6 +9389,15 @@
         "Goblin prices — same as everyone else, honest!",
         "Bramble sleeps, Grix sells. Fair trade for fair hours."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Psst! Grix open now. Best deals happen when Bramble's asleep."
+        ],
+        "sleep": [
+          "...zzz... best deals... zzz..."
+        ]
+      },
+      "sleepDialogue": "...zzz... best deals... zzz...",
       "schedule": [
         {
           "startHour": 20,
@@ -10134,6 +10224,12 @@
       "dialogue": [
         "Hello!"
       ],
+      "dialogueByActivity": {
+        "sleep": [
+          "...zzz... the sermon can wait... zzz..."
+        ]
+      },
+      "sleepDialogue": "...zzz... the sermon can wait... zzz...",
       "building": "church",
       "isGhost": true,
       "homeBed": {
