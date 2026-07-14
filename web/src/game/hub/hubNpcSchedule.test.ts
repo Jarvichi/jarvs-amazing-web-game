@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { getNpcActivity, getNpcDialoguePool, NPC_ACTIVITIES } from './hubNpcSchedule'
+import { getNpcActivity, getNpcDialoguePool, isNpcAsleep, NPC_ACTIVITIES } from './hubNpcSchedule'
 import type { HubNpc } from '../../data/hub/loader'
 
 const npc: HubNpc = {
@@ -66,5 +66,45 @@ describe('getNpcDialoguePool', () => {
       dialogueByActivity: { work: [] },
     }
     expect(getNpcDialoguePool(emptyPool, 12)).toBe(flatDialogue)
+  })
+})
+
+describe('isNpcAsleep', () => {
+  const sleeper: HubNpc = {
+    id: 'baker-pernel', name: 'Baker Pernel', sprite: 'hub-npc-merchant', tx: 5, ty: 5, dialogue: [],
+    schedule: [
+      { startHour: 0, endHour: 6, activity: 'sleep', location: { type: 'interior', buildingId: 'inn', tx: 9, ty: 2 } },
+      { startHour: 6, endHour: 18, activity: 'work', location: { type: 'interior', buildingId: 'bakery', tx: 3, ty: 4 } },
+      { startHour: 18, endHour: 24, activity: 'work', location: { type: 'exterior', tx: 8, ty: 7 } },
+    ],
+  }
+
+  it('is true inside the sleep window', () => {
+    expect(isNpcAsleep(sleeper, 0)).toBe(true)
+    expect(isNpcAsleep(sleeper, 2)).toBe(true)
+    expect(isNpcAsleep(sleeper, 5)).toBe(true)
+  })
+
+  it('is false once the sleep window ends', () => {
+    expect(isNpcAsleep(sleeper, 6)).toBe(false)
+    expect(isNpcAsleep(sleeper, 12)).toBe(false)
+  })
+
+  it('is false for NPCs without a schedule', () => {
+    expect(isNpcAsleep({ ...sleeper, schedule: undefined }, 2)).toBe(false)
+  })
+
+  it('handles a midnight-wrapping sleep window', () => {
+    const wrapsMidnight: HubNpc = {
+      ...sleeper,
+      schedule: [
+        { startHour: 22, endHour: 6, activity: 'sleep', location: { type: 'interior', buildingId: 'inn', tx: 1, ty: 1 } },
+        { startHour: 6, endHour: 22, activity: 'work', location: { type: 'exterior', tx: 5, ty: 5 } },
+      ],
+    }
+    expect(isNpcAsleep(wrapsMidnight, 23)).toBe(true)
+    expect(isNpcAsleep(wrapsMidnight, 3)).toBe(true)
+    expect(isNpcAsleep(wrapsMidnight, 6)).toBe(false)
+    expect(isNpcAsleep(wrapsMidnight, 21)).toBe(false)
   })
 })
