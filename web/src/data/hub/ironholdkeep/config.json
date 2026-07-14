@@ -1874,6 +1874,18 @@
         "The patrol routes have been compromised. We need those reports.",
         "You fight well, traveller. Ravenwatch is lucky to have you."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Three centuries this keep has stood. Not on my watch will it fall."
+        ],
+        "idle-chat": [
+          "Even a commander gets a moment's peace, now and then."
+        ],
+        "sleep": [
+          "...mmh... hold the line... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... hold the line... zzz...",
       "building": "keep",
       "questGive": "castle-missing-patrol",
       "questReceive": "castle-missing-patrol",
@@ -1957,6 +1969,15 @@
         "Every soldier here answers to me before they answer to the Commander.",
         "Stand a watch with us sometime, traveller. You'd learn something."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Drill, drill, and drill again. Discipline wins sieges."
+        ],
+        "sleep": [
+          "...mmh... drill formation... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... drill formation... zzz...",
       "questGive": "castle-watch-rotation",
       "questReceive": "castle-watch-rotation",
       "schedule": [
@@ -2036,6 +2057,15 @@
         "The weapon crates haven't been accounted for since the last resupply.",
         "Iron doesn't lie — only men do."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Every blade matters. Mind the sparks and let me work."
+        ],
+        "sleep": [
+          "...mmh... hammer down... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... hammer down... zzz...",
       "building": "smithy",
       "questGive": "castle-weapon-cache",
       "questReceive": "castle-weapon-cache",
@@ -2107,6 +2137,15 @@
         "Grain, iron, arrows, salt — a castle eats as surely as it fights.",
         "If you're after supplies, mind you sign for them."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Sign the ledger or leave it be — those are your options."
+        ],
+        "sleep": [
+          "...mmh... the ledger... balance... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the ledger... balance... zzz...",
       "building": "quartermasters-store",
       "questGive": "castle-supply-tally",
       "questReceive": "castle-supply-tally",
@@ -2182,6 +2221,18 @@
         "Get out of my kitchen unless you're bringing me something to cook with.",
         "There's stew on the hearth if the guards have left any."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Out of my kitchen, unless you're carrying something useful."
+        ],
+        "sweep": [
+          "A clean hearth makes a hot stew. Mind the ash."
+        ],
+        "sleep": [
+          "...mmh... more stew... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... more stew... zzz...",
       "building": "kitchens",
       "questGive": "castle-feast-preparations",
       "questReceive": "castle-feast-preparations",
@@ -2242,6 +2293,15 @@
         "The crypt below holds the lords of Ironhold, back to the first stone laid.",
         "Light a candle for the fallen. There are always more of them than we'd like."
       ],
+      "dialogueByActivity": {
+        "idle-chat": [
+          "Peace finds even iron men, in time."
+        ],
+        "sleep": [
+          "...mmh... light a candle... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... light a candle... zzz...",
       "building": "chapel",
       "questGive": "castle-restless-crypt",
       "questReceive": "castle-restless-crypt",
@@ -2313,6 +2373,15 @@
         "A siege chronicle was separated from the archives. It belongs here.",
         "History is the only weapon that never dulls."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Quiet in the scriptorium, please. History doesn't like to be rushed."
+        ],
+        "sleep": [
+          "...mmh... the chronicle... where..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the chronicle... where...",
       "building": "scriptorium",
       "questGive": "castle-siege-memory",
       "questReceive": "castle-siege-memory",
@@ -2373,6 +2442,18 @@
         "Mind where you step — a war horse spooks at less than you'd think.",
         "If you ride out, I'll have a mount saddled before you reach the gate."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Mind where you step — the destriers spook at less than you'd think."
+        ],
+        "sweep": [
+          "Straw goes out, fresh bedding goes in. Same as every day."
+        ],
+        "sleep": [
+          "...mmh... the destriers... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the destriers... zzz...",
       "building": "stables",
       "questGive": "castle-lost-foal",
       "questReceive": "castle-lost-foal",
@@ -2444,6 +2525,15 @@
         "A knight without a cause is just a man in expensive metal.",
         "The Guard-Master sets the rotation. Take it up with him."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "This wall has held two winters. It'll hold today too."
+        ],
+        "sleep": [
+          "...mmh... hold the wall... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... hold the wall... zzz...",
       "questReceive": "castle-watch-rotation",
       "schedule": [
         {
@@ -2523,6 +2613,15 @@
         "Sir Garrick says I've a good arm. He says it rarely, mind.",
         "I dropped a training sword somewhere out here. Don't tell the Guard-Master."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Polishing armour again. One day it'll be my own."
+        ],
+        "sleep": [
+          "...mmh... one day... a knight... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... one day... a knight... zzz...",
       "questGive": "castle-squires-trial",
       "questReceive": "castle-squires-trial",
       "schedule": [
@@ -2603,6 +2702,11 @@
         "State your business at the gate or state it elsewhere.",
         "Safe roads, traveller. The world beyond these walls is less forgiving."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "State your business at the gate, traveller. Then move along."
+        ]
+      },
       "schedule": [
         {
           "startHour": 0,
@@ -2673,6 +2777,15 @@
         "Three of us dropped our patrol papers during the last drill. Embarrassing.",
         "The south gate is yours to use, traveller."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "South gate's clear. Move along, traveller."
+        ],
+        "sleep": [
+          "...mmh... the patrol route... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the patrol route... zzz...",
       "questReceive": "castle-missing-patrol",
       "schedule": [
         {
@@ -2740,6 +2853,15 @@
         "I lost my patrol report somewhere out in the courtyard. The Commander will have my head.",
         "Ironhold has never fallen. Long may that last."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Eastern wall's quiet. Keeping it that way."
+        ],
+        "sleep": [
+          "...mmh... the eastern wall... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the eastern wall... zzz...",
       "questReceive": "castle-missing-patrol",
       "schedule": [
         {
