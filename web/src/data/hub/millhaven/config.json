@@ -1588,6 +1588,17 @@
         "Three grain sacks went missing from the store. Someone's been helping themselves.",
         "If you find those sacks, I'll remember the favour."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Mind the grindstone, it doesn't stop for anyone.",
+          "Sixty years and this mill's never missed a season."
+        ],
+        "sleep": [
+          "...mmh... turn the wheel... zzz...",
+          "Zzz... sacks... count 'em twice... zzz..."
+        ]
+      },
+      "sleepDialogue": "Zzz... turn the wheel... zzz...",
       "questGive": "millhaven-mill-grain",
       "questReceive": "millhaven-mill-grain",
       "schedule": [
@@ -1641,6 +1652,7 @@
           "Nothing like a hot stew after a day on the docks."
         ]
       },
+      "sleepDialogue": "Zzz... not the nets... five more minutes...",
       "questGive": "millhaven-missing-catch",
       "questReceive": "millhaven-missing-catch",
       "schedule": [
@@ -1704,6 +1716,7 @@
           "Welcome to The Anchor, best beds on the Millhaven coast."
         ]
       },
+      "sleepDialogue": "...mmh... last call... zzz...",
       "building": "inn-millhaven",
       "questGive": "millhaven-message-to-ravenwatch",
       "questReceive": "millhaven-message-to-ravenwatch",
@@ -1753,6 +1766,16 @@
         "The castle to the south needs resupply. We've been meaning to send a courier.",
         "If you're heading to Ironhold Keep, perhaps you could take our supply manifest to Commander Varek?"
       ],
+      "dialogueByActivity": {
+        "idle-chat": [
+          "The council chamber's quiet this time of day. Suits me fine.",
+          "I remember when the harbour was half this size."
+        ],
+        "sleep": [
+          "...mmh... the manifest... in the morning... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the manifest... in the morning... zzz...",
       "building": "town-hall-millhaven",
       "questGive": "millhaven-supplies-for-keep",
       "questReceive": "millhaven-supplies-for-keep",
@@ -1812,6 +1835,12 @@
         "I've seen three ships go dark past the reef. No word from them.",
         "Marta thinks I'm superstitious. Maybe I am."
       ],
+      "dialogueByActivity": {
+        "fish": [
+          "Line's been quiet all morning. That's never a good sign out here.",
+          "Watch the reef line. It's been swallowing more than fish lately."
+        ]
+      },
       "questGive": "millhaven-lost-at-sea",
       "questReceive": "millhaven-missing-catch",
       "schedule": [
@@ -1843,6 +1872,15 @@
         "Trade's been slow. Travellers don't stop here like they used to.",
         "Nice to see a fresh face in Millhaven."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Rope, ribbon, nails — name it and I'll have it under the counter somewhere."
+        ],
+        "sleep": [
+          "...mmh... stock the shelves... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... stock the shelves... zzz...",
       "building": "market-hall",
       "questGive": "millhaven-festival-prep",
       "questReceive": [
@@ -1966,6 +2004,16 @@
         "Net hooks, anchor chain, blades — if it's iron, I've hammered it.",
         "Scrap's been going missing from my yard. A smith can't work without iron."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Hold still or don't stand so close — the anvil doesn't wait for anyone."
+        ],
+        "sleep": [
+          "...mmh... hammer's down... zzz...",
+          "Zzz... quench it... zzz..."
+        ]
+      },
+      "sleepDialogue": "Zzz... hammer's down... zzz...",
       "questGive": "millhaven-scrap-iron",
       "questReceive": "millhaven-scrap-iron",
       "schedule": [
@@ -2024,6 +2072,15 @@
         "Storm last week dragged half our nets out past the moorings.",
         "The boathouse keeps the town's boats — and most of its gossip."
       ],
+      "dialogueByActivity": {
+        "idle-chat": [
+          "Lantern's lit, boats are in. Good a time as any to swap stories."
+        ],
+        "sleep": [
+          "...mmh... tie it off... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... tie it off... zzz...",
       "questGive": "millhaven-lost-nets",
       "questReceive": "millhaven-lost-nets",
       "schedule": [
@@ -2083,6 +2140,15 @@
         "I lost my late husband's locket somewhere out in the town. It's all I have of him.",
         "You have a kind face. Perhaps you'd keep an eye out for it?"
       ],
+      "dialogueByActivity": {
+        "idle-chat": [
+          "I sit by the window most evenings. It's quiet, but it's mine."
+        ],
+        "sleep": [
+          "...mmh... his voice... I still hear it... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... his voice... I still hear it... zzz...",
       "building": "fisher-cottage",
       "questGive": "millhaven-lost-locket",
       "questReceive": "millhaven-lost-locket",
