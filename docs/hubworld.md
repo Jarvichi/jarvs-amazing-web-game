@@ -458,6 +458,8 @@ Then on the NPC (in `config.json`): `"dialogueTree": "scholar-chat"` (keep a
 | `hideIfFlag` | string? | Choice hidden once the flag is set. |
 | `requireFestival` | string? | Choice only shown while that festival is active (§14 festival ids, e.g. `"midsummer"`). |
 | `requireWeather` | string? | Choice only shown while the town's resolved weather (§12) matches (`"clear"`/`"rain"`/`"snow"`/`"fog"`). Weather is date/season-driven — for QA, force `"weather": {"type": "snow"}` in the town config, or use Millhaven (rains year-round). |
+| `requireTimeOfDay` | `"day"` \| `"night"` \| `"dawn"`? | Choice only shown while `hubClock.getTimeOfDay(gameHour)` matches: night 20:00–05:59, dawn 06:00–07:59, day otherwise (§9). |
+| `requireActivity` | `NpcActivity`? | Choice only shown while the speaking NPC's own schedule (§9) currently has this activity (`getNpcActivity`). No effect on NPCs without a `schedule`. |
 
 #### `DialogueEffect` types
 | `type` | Fields | Behaviour |

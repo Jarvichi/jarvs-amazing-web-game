@@ -1,4 +1,5 @@
 import type { RelationshipTrack } from '../../game/hub/relationships'
+import type { NpcActivity } from './loader'
 
 export interface HubQuestStep {
   key: string
@@ -249,6 +250,8 @@ export interface DialogueChoiceDef {
   requireWeather?: string  // only show this choice while the town's weather matches ('clear'|'rain'|'snow'|'fog')
   requireQuest?: string    // only show this choice once that quest is completed
   hideIfQuest?: string     // hide this choice once that quest is completed
+  requireTimeOfDay?: 'day' | 'night' | 'dawn' // only show this choice during that time bucket (hubClock getTimeOfDay)
+  requireActivity?: NpcActivity               // only show this choice while the speaking NPC's schedule has this activity
 }
 
 export interface DialogueNode {

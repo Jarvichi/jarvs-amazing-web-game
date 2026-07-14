@@ -44,8 +44,8 @@ import { resolveNpcPlace } from '../../game/hub/npcLocator'
 import { TreasureModal } from './TreasureModal'
 import { getCollectedTreasureIds, markTreasureCollected } from '../../game/hub/treasures'
 import { useHubClock } from '../../hooks/useHubClock'
-import { formatGameTime, hourInRange, getGameHour } from '../../game/hub/hubClock'
-import { isNpcAsleep } from '../../game/hub/hubNpcSchedule'
+import { formatGameTime, hourInRange, getGameHour, getTimeOfDay } from '../../game/hub/hubClock'
+import { isNpcAsleep, getNpcActivity } from '../../game/hub/hubNpcSchedule'
 import { Festival, getActiveFestival } from '../../game/hub/hubCalendar'
 import { getDailyChallengeNPCDialogue, getMiniGameChallengeNPCDialogue } from '../../game/hub/npcDialogue'
 import {  ALL_QUESTS, FRIENDSHIP_DIALOGUE, RELATIONSHIP_DIALOGUE, RAVENWATCH } from '../../data/hub/hubWorldFactory'
@@ -1034,7 +1034,10 @@ function hasOfferableQuest(giverId: string): boolean {
       (!c.requireQuest || getQuestState(c.requireQuest).status === 'completed') &&
       (!c.hideIfQuest  || getQuestState(c.hideIfQuest).status !== 'completed') &&
       (!c.requireFestival || c.requireFestival === activeFestival?.id) &&
-      (!c.requireWeather || c.requireWeather === currentWeather)
+      (!c.requireWeather || c.requireWeather === currentWeather) &&
+      (!c.requireTimeOfDay || c.requireTimeOfDay === getTimeOfDay(gameHour)) &&
+      (!c.requireActivity  || (!!npcDef && 'schedule' in npcDef &&
+          getNpcActivity(npcDef as HubNpc, gameHour) === c.requireActivity))
     )
     const speaker = node.speakerName ?? speakerName
 
@@ -1051,7 +1054,7 @@ function hasOfferableQuest(giverId: string): boolean {
       const toChoice = (c: DialogueChoiceDef, primary: boolean) => ({
         label:   c.label,
         primary,
-        onClick: () => applyChoice(tree, c, npcId, speakerName),
+        onClick: () => applyChoice(tree, c, npcId, speakerName, npcDef),
       })
       const nonExitChoices = nonExitDefs.map((c, i) => toChoice(c, i === 0))
       finalChoices = exitDefs.length > 0
@@ -1061,7 +1064,7 @@ function hasOfferableQuest(giverId: string): boolean {
       finalChoices = visible.map((c, i) => ({
         label:   c.label,
         primary: i === 0,
-        onClick: () => applyChoice(tree, c, npcId, speakerName),
+        onClick: () => applyChoice(tree, c, npcId, speakerName, npcDef),
       }))
     }
 
@@ -1072,7 +1075,7 @@ function hasOfferableQuest(giverId: string): boolean {
     })
   }
 
-  function applyChoice(tree: DialogueTree, choice: DialogueChoiceDef, npcId: string, speakerName: string): void {
+  function applyChoice(tree: DialogueTree, choice: DialogueChoiceDef, npcId: string, speakerName: string, npcDef?: NpcTapDef): void {
     let ended = false
     for (const eff of choice.effects ?? []) {
       switch (eff.type) {
@@ -1140,7 +1143,7 @@ function hasOfferableQuest(giverId: string): boolean {
           setDialogueEvent({
             speakerName,
             text: eff.successText,
-            ...(choice.next ? { onClose: () => runDialogueNode(tree, choice.next!, npcId, speakerName) } : {}),
+            ...(choice.next ? { onClose: () => runDialogueNode(tree, choice.next!, npcId, speakerName, npcDef) } : {}),
           })
           return
         }
@@ -1149,7 +1152,7 @@ function hasOfferableQuest(giverId: string): boolean {
           break
       }
     }
-    if (!ended && choice.next) runDialogueNode(tree, choice.next, npcId, speakerName)
+    if (!ended && choice.next) runDialogueNode(tree, choice.next, npcId, speakerName, npcDef)
     else setDialogueEvent(null)
   }
 
