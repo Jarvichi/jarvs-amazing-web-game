@@ -192,3 +192,7 @@ function buildExtendedStory(ts: ExtendedTilesetConfig): Story {
 
 export const Pictsquare2021: Story = buildExtendedStory(EXTENDED_TILESETS.find(t => t.name === 'pictsquare2021')!)
 export const Icons: Story          = buildExtendedStory(EXTENDED_TILESETS.find(t => t.name === 'icons')!)
+export const Addwork: Story        = buildExtendedStory(EXTENDED_TILESETS.find(t => t.name === 'addwork')!)
+export const Door1: Story          = buildExtendedStory(EXTENDED_TILESETS.find(t => t.name === 'door1')!)
+export const Door2: Story          = buildExtendedStory(EXTENDED_TILESETS.find(t => t.name === 'door2')!)
+export const Door3: Story          = buildExtendedStory(EXTENDED_TILESETS.find(t => t.name === 'door3')!)

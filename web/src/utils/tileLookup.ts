@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
-import { ENV_TILES, PATH, TILE_SIZE, PATH_TILE, EnvTileDef } from '../data/tiles/tileIndex'
-import { loadTileTexture } from './pixiHelpers'
+import { ENV_TILES, PATH, TILE_SIZE, PATH_TILE, PATH_TILE_ANIM, EnvTileDef } from '../data/tiles/tileIndex'
+import { loadTileTexture, animateTileSprites } from './pixiHelpers'
 
 // ── 8-neighbor tile lookup tables ─────────────────────────────────────────────
 // Normalized 8-bit key: bit0=N, bit1=NE(only if N&&E), bit2=E, bit3=SE(only if S&&E),
@@ -123,15 +123,22 @@ export async function renderPathTiles(
     byVariant.get(v)!.push({ tx, ty })
   }
 
+  const anim = PATH_TILE_ANIM[pathFile]
+
   await Promise.all(
     Array.from(byVariant.entries()).map(async ([v, tiles]) => {
       let tex: PIXI.Texture
       try { tex = await loadTileTexture(tileUrl, v, 8) } catch { return }
       if (container.destroyed) return
+      const sprites: PIXI.Sprite[] = []
       for (const { tx, ty } of tiles) {
         const s = new PIXI.Sprite(tex)
         s.position.set(tx * T, ty * T)
         container.addChild(s)
+        sprites.push(s)
+      }
+      if (anim) {
+        animateTileSprites(sprites, tex.source, anim, Math.floor(v / 8), v % 8)
       }
     })
   )

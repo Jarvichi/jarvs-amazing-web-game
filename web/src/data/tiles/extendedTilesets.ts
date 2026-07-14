@@ -11,6 +11,10 @@
 //   10000–10999 Crystal tiles — individual PNGs (see extendedTileDefs.ts)
 //   11000–19999 pictsquare2021.png
 //   20000–24999 icons.png
+//   25000–25999 addwork.png (misc scenery/decor work sheet)
+//   26000–26999 doors/Door1_pipo.png
+//   27000–27999 doors/Door2_pipo.png
+//   28000–28999 doors/Door3_pipo.png
 
 export interface ExtendedTilesetConfig {
   name: string
@@ -36,5 +40,33 @@ export const EXTENDED_TILESETS: ExtendedTilesetConfig[] = [
     columns: 16,
     tilecount: 512,
     globalIdStart: 20000,
+  },
+  {
+    name: 'addwork',
+    image: '/world/addwork.png',
+    columns: 12,
+    tilecount: 768,
+    globalIdStart: 25000,
+  },
+  {
+    name: 'door1',
+    image: '/world/doors/Door1_pipo.png',
+    columns: 6,
+    tilecount: 72,
+    globalIdStart: 26000,
+  },
+  {
+    name: 'door2',
+    image: '/world/doors/Door2_pipo.png',
+    columns: 6,
+    tilecount: 72,
+    globalIdStart: 27000,
+  },
+  {
+    name: 'door3',
+    image: '/world/doors/Door3_pipo.png',
+    columns: 12,
+    tilecount: 144,
+    globalIdStart: 28000,
   },
 ]
