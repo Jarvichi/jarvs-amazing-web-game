@@ -11,7 +11,7 @@ import { LOCATION_REGISTRY } from './hubWorldFactory'
 // Scoped to towns that have completed their #1960 content batch so far;
 // widen TOWNS_WITH_CONTENT as each subsequent batch lands, and drop the
 // allowlist entirely once every town is covered.
-const TOWNS_WITH_CONTENT = ['millhaven', 'capital-city', 'royal-palace', 'ironhold-keep', 'gearford']
+const TOWNS_WITH_CONTENT = ['millhaven', 'capital-city', 'royal-palace', 'ironhold-keep', 'gearford', 'ravenwatch']
 
 describe('scheduled-NPC sleep dialogue coverage', () => {
   for (const townKey of TOWNS_WITH_CONTENT) {
