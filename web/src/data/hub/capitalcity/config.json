@@ -4980,6 +4980,15 @@
         "Half my guests are here for the coronation. The other half are avoiding it.",
         "If Captain Hale sends you with anything, I'll see it gets where it's going."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Welcome to The Gilded Goose. Rooms are honest, prices less so."
+        ],
+        "sleep": [
+          "...mmh... check the guest book... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... check the guest book... zzz...",
       "questReceive": [
         "crownhaven-gate-key",
         "crownhaven-feast"
@@ -5043,6 +5052,15 @@
         "The old postern gate key went missing on patrol. If it falls into the wrong hands, the palace will have my head.",
         "Keep your nose clean in my city, traveller."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Guardhouse business. Move along unless you've something to report."
+        ],
+        "sleep": [
+          "...mmh... the postern gate... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the postern gate... zzz...",
       "questGive": "crownhaven-gate-key",
       "questReceive": [
         "crownhaven-cutpurse",
@@ -5108,6 +5126,15 @@
         "The couriers dropped them somewhere between here and the gates, I'm certain of it.",
         "History is just paperwork that survived, you know."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Quiet, please — the library keeps its own kind of silence."
+        ],
+        "sleep": [
+          "...mmh... shelve it under... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... shelve it under... zzz...",
       "questGive": "crownhaven-census",
       "questReceive": [
         "crownhaven-census",
@@ -5171,6 +5198,15 @@
         "You want gossip, try the inn. You want a fair price, you talk to me.",
         "Mind the fountain — the pigeons have opinions."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Fresh stalls, fair prices — same as it's been for forty years."
+        ],
+        "sleep": [
+          "...mmh... turnips are forever... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... turnips are forever... zzz...",
       "questGive": "crownhaven-market-day",
       "questReceive": [
         "crownhaven-market-day",
@@ -5234,6 +5270,15 @@
         "Crownhaven looks to Ravenwatch for the old records. We must keep the two cities in step.",
         "Serve the crown well and the crown remembers."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "The senate floor waits for no one, least of all me."
+        ],
+        "sleep": [
+          "...mmh... the charter... needs a seal... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the charter... needs a seal... zzz...",
       "questGive": "crownhaven-charter",
       "questReceive": [
         "crownhaven-charter",
@@ -5297,6 +5342,15 @@
         "The cathedral's relics were scattered in the troubles. We would see them home.",
         "The bell has been silent too long. A city should hear its own heart."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "The cathedral doors are open, child, as they always are."
+        ],
+        "sleep": [
+          "...mmh... the bell... someday... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the bell... someday... zzz...",
       "questGive": "crownhaven-relics",
       "questReceive": [
         "crownhaven-relics",
@@ -5361,6 +5415,15 @@
         "Lose a mint die and you may as well hand a forger the keys to the treasury.",
         "Gold is heavy for a reason — it keeps honest folk grounded."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Strike's clean or it's scrap — the crown doesn't take seconds."
+        ],
+        "sleep": [
+          "...mmh... the die... where'd I leave it... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the die... where'd I leave it... zzz...",
       "questGive": "crownhaven-mint-dies",
       "questReceive": "crownhaven-mint-dies",
       "schedule": [
@@ -5421,6 +5484,15 @@
         "A noble's debt is a delicate thing. Discretion is half my trade.",
         "Vault's sealed tight — only the watch and I hold a key."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Ledgers balance or they don't — there's no third option in banking."
+        ],
+        "sleep": [
+          "...mmh... the vault... locked... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the vault... locked... zzz...",
       "questGive": "crownhaven-stolen-coin",
       "questReceive": [
         "crownhaven-tax-records",
@@ -5488,6 +5560,15 @@
         "A good seam is invisible. Like a good tailor.",
         "Bring me bolts of silk and I'll dress you fit for the throne room."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Pins in the cushion, not in the customer — mind the fitting."
+        ],
+        "sleep": [
+          "...mmh... one more stitch... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... one more stitch... zzz...",
       "questGive": "crownhaven-silk",
       "questReceive": "crownhaven-silk",
       "schedule": [
@@ -5548,6 +5629,15 @@
         "Raw gems are dull little pebbles until I coax the fire out of them.",
         "Careful where you tread; I've dropped stones worth more than your boots."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Steady hands, good light — the rest is patience."
+        ],
+        "sleep": [
+          "...mmh... the setting... just so... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the setting... just so... zzz...",
       "questGive": "crownhaven-gems",
       "questReceive": "crownhaven-gems",
       "schedule": [
@@ -5608,6 +5698,15 @@
         "Half of healing is herbs; the other half is convincing the patient they're healed.",
         "The academy sends me their wildest experiments. I send back the survivors."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Careful with the green bottles — I said MIND them, not taste them."
+        ],
+        "sleep": [
+          "...mmh... the tincture... needs stirring... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the tincture... needs stirring... zzz...",
       "questGive": "crownhaven-remedy",
       "questReceive": [
         "crownhaven-remedy",
@@ -5672,6 +5771,15 @@
         "Coronation feast's coming. I'll be up to my elbows in flour for a week.",
         "Grain's dear this season. Bring me sacks and I'll bake you a king's loaf."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Ovens are hot and the bells haven't even rung yet."
+        ],
+        "sleep": [
+          "...mmh... proving basket... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... proving basket... zzz...",
       "questGive": "crownhaven-bread",
       "questReceive": [
         "crownhaven-bread",
@@ -5735,6 +5843,15 @@
         "A blade's only as honest as the hand that swings it.",
         "Bring me steel and I'll give the watch the edge it needs."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Mind the sparks — the forge doesn't care whose boots are in the way."
+        ],
+        "sleep": [
+          "...mmh... hammer down... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... hammer down... zzz...",
       "questGive": "crownhaven-armoury",
       "questReceive": [
         "crownhaven-armoury",
@@ -5799,6 +5916,15 @@
         "My family's locket was lost in the gardens. It is all I have of my mother.",
         "Debts and lockets — a noblewoman's life is keeping track of what she's misplaced."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "The manor accounts don't balance themselves, more's the pity."
+        ],
+        "sleep": [
+          "...mmh... the locket... where..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the locket... where...",
       "questGive": "crownhaven-lost-locket",
       "questReceive": "crownhaven-lost-locket",
       "schedule": [
@@ -5860,6 +5986,15 @@
         "My lecture notes have scattered to the four winds. Or four districts, more likely.",
         "Knowledge, like coin, is only useful in circulation."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Quiet in the lecture hall, please — or don't, and learn nothing."
+        ],
+        "sleep": [
+          "...mmh... citation needed... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... citation needed... zzz...",
       "questGive": "crownhaven-lecture",
       "questReceive": "crownhaven-lecture",
       "schedule": [
@@ -5920,6 +6055,15 @@
         "Snapped three lute strings practising for the coronation. Three!",
         "Every great city deserves a great song. I'm still writing Crownhaven's."
       ],
+      "dialogueByActivity": {
+        "idle-chat": [
+          "Request anything — well, anything I know four chords for."
+        ],
+        "sleep": [
+          "...mmh... one more verse... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... one more verse... zzz...",
       "questGive": "crownhaven-buskers-strings",
       "questReceive": "crownhaven-buskers-strings",
       "schedule": [
@@ -5974,6 +6118,15 @@
         "Lost half my scrolls to the wind. A herald with no words is just a loud nuisance.",
         "Stand for the crown, traveller. The capital is watching."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Hear ye, hear ye! Mind the Chancellor's latest decree."
+        ],
+        "sleep": [
+          "...mmh... hear ye... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... hear ye... zzz...",
       "questGive": "crownhaven-proclamation",
       "questReceive": [
         "crownhaven-proclamation",
@@ -6030,6 +6183,15 @@
         "See anything suspicious, you tell me first, the captain second.",
         "Quiet night. Round here, that's the best kind."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Eyes on the wall. Captain's watching the watchman tonight."
+        ],
+        "sleep": [
+          "...mmh... south wall... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... south wall... zzz...",
       "questGive": "crownhaven-cutpurse",
       "questReceive": "crownhaven-patrol",
       "schedule": [

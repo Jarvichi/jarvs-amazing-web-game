@@ -1866,6 +1866,15 @@
         "Their Majesties are in session. The gardens, however, receive all visitors.",
         "If you've a strong back and a willing heart, the crown has no end of small disasters for you."
       ],
+      "dialogueByActivity": {
+        "idle-chat": [
+          "Oh dear, oh dear — always something misplaced at this palace."
+        ],
+        "sleep": [
+          "...mmh... the misplaced ledger... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the misplaced ledger... zzz...",
       "questGive": "new-quest-1",
       "questReceive": [
         "palace-lost-regalia",
@@ -1932,6 +1941,16 @@
         "Hear ye, hear ye — the proclamations have gone missing again. A herald with no words is merely a man shouting.",
         "Protocol is the art of standing in the right place while important things happen elsewhere."
       ],
+      "dialogueByActivity": {
+        "idle-chat": [
+          "Presenting: you. To no one in particular. Still a slow morning.",
+          "Protocol dictates I stand here looking important. It's working, I think."
+        ],
+        "sleep": [
+          "...mmh... presenting... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... presenting... zzz...",
       "questGive": "palace-herald-proclamation",
       "questReceive": "palace-herald-proclamation",
       "schedule": [
@@ -1949,6 +1968,7 @@
         {
           "startHour": 8,
           "endHour": 18,
+          "activity": "idle-chat",
           "location": {
             "type": "exterior",
             "tx": 10,
@@ -1983,6 +2003,15 @@
         "Nobody enters the throne room without an appointment. Or a mop. The mop people go everywhere.",
         "Quietest post in the kingdom, this. I've counted the fence railings twice."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Move along. Or stand there. Either way, I'm watching."
+        ],
+        "sleep": [
+          "...mmh... the railings... counted twice... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the railings... counted twice... zzz...",
       "questGive": "palace-guard-watch",
       "questReceive": "palace-guard-watch",
       "schedule": [
@@ -2000,6 +2029,7 @@
         {
           "startHour": 6,
           "endHour": 14,
+          "activity": "work",
           "location": {
             "type": "exterior",
             "tx": 18,
@@ -2009,6 +2039,7 @@
         {
           "startHour": 14,
           "endHour": 22,
+          "activity": "work",
           "location": {
             "type": "exterior",
             "tx": 20,
@@ -2050,6 +2081,15 @@
         "A crown is heavier than it looks, and most of the weight is other people's problems.",
         "Serve the realm well and the realm remembers. Mostly. When it isn't distracted."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "The court is in session. State your business, or admire the throne from a distance."
+        ],
+        "sleep": [
+          "...mmh... the crown... too heavy... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the crown... too heavy... zzz...",
       "questGive": "palace-court-intrigue-2",
       "questReceive": [
         "palace-court-intrigue-1",
@@ -2070,6 +2110,7 @@
         {
           "startHour": 8,
           "endHour": 18,
+          "activity": "work",
           "location": {
             "type": "interior",
             "buildingId": "palace",
@@ -2112,6 +2153,18 @@
         "The King rules the realm; I rule the garden. We are each terrified of the other's domain.",
         "A kingdom is judged by its kindnesses, not its conquests. Remember that, if you remember nothing else."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Court business, before the garden. The roses can wait a morning."
+        ],
+        "idle-chat": [
+          "Mind the roses — they answer to no one, least of all a queen."
+        ],
+        "sleep": [
+          "...mmh... the roses... need water... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the roses... need water... zzz...",
       "questGive": "palace-queen-roses",
       "questReceive": "palace-queen-roses",
       "favoriteGiftItemId": "silk-ribbon",
@@ -2134,6 +2187,7 @@
         {
           "startHour": 8,
           "endHour": 12,
+          "activity": "work",
           "location": {
             "type": "interior",
             "buildingId": "palace",
@@ -2181,6 +2235,16 @@
         "Everyone says a princess should be content. I should be content the moment my cat is.",
         "The goblin and the ogre by the fountain only wish to meet me. Steward Marigold won't allow it. Isn't that sad?"
       ],
+      "dialogueByActivity": {
+        "idle-chat": [
+          "Do you think Kipper misses me as much as I miss him? Say yes.",
+          "The goblin and the ogre wave to me from the fountain. I wave back. Steward Marigold sighs."
+        ],
+        "sleep": [
+          "...mmh... Kipper... come home... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... Kipper... come home... zzz...",
       "questGive": "palace-princess-gift",
       "questReceive": [
         "palace-princess-gift",
@@ -2201,6 +2265,7 @@
         {
           "startHour": 8,
           "endHour": 12,
+          "activity": "idle-chat",
           "location": {
             "type": "interior",
             "buildingId": "palace-1",
@@ -2221,6 +2286,7 @@
         {
           "startHour": 18,
           "endHour": 24,
+          "activity": "idle-chat",
           "location": {
             "type": "interior",
             "buildingId": "palace-1",
@@ -2276,6 +2342,15 @@
         "The audit is overdue and the inner vault stays sealed until the ledgers balance.",
         "Bring me the scattered tallies and I'll open the deep vault myself."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "The vault stays sealed until the ledgers balance. Every coin, every time."
+        ],
+        "sleep": [
+          "...mmh... the tallies... don't add up... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the tallies... don't add up... zzz...",
       "questGive": "palace-vault-audit",
       "questReceive": "palace-vault-audit",
       "schedule": [
@@ -2331,6 +2406,15 @@
         "The crypt below holds kings long past. They keep their counsel well.",
         "Our candles have a way of wandering off. A chapel without light is only a cold stone room."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Peace, traveller. Light a candle if you've a mind to."
+        ],
+        "sleep": [
+          "...mmh... keep their counsel... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... keep their counsel... zzz...",
       "questGive": "palace-chapel-candles",
       "questReceive": "palace-chapel-candles",
       "schedule": [
@@ -2348,6 +2432,7 @@
         {
           "startHour": 6,
           "endHour": 22,
+          "activity": "work",
           "location": {
             "type": "interior",
             "buildingId": "royal-chapel",
@@ -2385,6 +2470,15 @@
         "A royal feast does not cook itself, more's the pity. I've asked the cauldron. It just bubbles at me.",
         "Fetch me what I need and the court eats like kings. Which, conveniently, they are."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Out of my kitchen, unless you're carrying something I asked for!"
+        ],
+        "sleep": [
+          "...mmh... more butter... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... more butter... zzz...",
       "questGive": "palace-kitchen-feast",
       "questReceive": "palace-kitchen-feast",
       "schedule": [
@@ -2444,6 +2538,15 @@
         "The Queen wants roses, the King wants order, and the rabbits want my lettuces. Everyone wants something.",
         "If you've a good eye, there's a rare bloom or two I've lost track of out here."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Mind the beds! I only just got the begonias straightened out."
+        ],
+        "sleep": [
+          "...mmh... the roses... need pruning... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the roses... need pruning... zzz...",
       "questGive": "palace-royal-bloom",
       "questReceive": [
         "palace-royal-bloom",
@@ -2506,6 +2609,15 @@
         "One of the ponies slipped its tack and bolted half the gear across the grounds. Royal beasts, royal nuisance.",
         "Help me round up the lost harness and there's coin in it for you."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Easy now — mind the stalls, the horses spook easy this morning."
+        ],
+        "sleep": [
+          "...mmh... the tack... put it back... zzz..."
+        ]
+      },
+      "sleepDialogue": "...mmh... the tack... put it back... zzz...",
       "questGive": "palace-runaway-pony",
       "questReceive": "palace-runaway-pony",
       "schedule": [
