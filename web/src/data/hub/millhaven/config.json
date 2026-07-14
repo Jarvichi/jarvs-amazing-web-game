@@ -1632,6 +1632,15 @@
         "I've got fish baskets missing somewhere around the docks.",
         "Fresh catch, get your fresh catch! Don't let the gulls beat you to it."
       ],
+      "dialogueByActivity": {
+        "sleep": [
+          "...mmph... not the nets... five more minutes...",
+          "Zzz... tide's out... zzz..."
+        ],
+        "eat": [
+          "Nothing like a hot stew after a day on the docks."
+        ]
+      },
       "questGive": "millhaven-missing-catch",
       "questReceive": "millhaven-missing-catch",
       "schedule": [
@@ -1684,10 +1693,17 @@
       "tx": 3,
       "ty": 4,
       "dialogue": [
-        "Welcome to The Anchor, best beds on the Millhaven coast.",
         "A merchant from Ravenwatch left a letter here. Meant for someone called Elder Elara.",
         "You look like someone who travels. That letter's been sitting here long enough."
       ],
+      "dialogueByActivity": {
+        "sleep": [
+          "...mmh... last call... zzz..."
+        ],
+        "work": [
+          "Welcome to The Anchor, best beds on the Millhaven coast."
+        ]
+      },
       "building": "inn-millhaven",
       "questGive": "millhaven-message-to-ravenwatch",
       "questReceive": "millhaven-message-to-ravenwatch",
@@ -1878,10 +1894,18 @@
       "tx": 20,
       "ty": 32,
       "dialogue": [
-        "Fresh loaves out of the oven — mind, they're still warm.",
         "Half the town runs on my bread and the other half on Marta's fish.",
         "If you're passing the docks, folk down there are always after a delivery."
       ],
+      "dialogueByActivity": {
+        "work": [
+          "Fresh loaves out of the oven — mind, they're still warm."
+        ],
+        "sleep": [
+          "...mmh... the proving basket... five more minutes...",
+          "Zzz... knead... fold... zzz..."
+        ]
+      },
       "questGive": "millhaven-fresh-bread",
       "questReceive": "millhaven-fresh-bread",
       "favoriteGiftItemId": "honey",
