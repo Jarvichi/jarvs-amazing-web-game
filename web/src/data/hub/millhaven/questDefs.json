@@ -960,7 +960,25 @@
               ]
             },
             {
+              "label": "You're up late.",
+              "next": "night-chat",
+              "requireTimeOfDay": "night"
+            },
+            {
               "label": "Another time.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "night-chat": {
+          "text": "Late crowd's the best crowd — sailors with coin to spend and stories nobody sober would believe. Come sunrise I'm just the fellow who makes the beds.",
+          "choices": [
+            {
+              "label": "Fair enough.",
               "effects": [
                 {
                   "type": "end"

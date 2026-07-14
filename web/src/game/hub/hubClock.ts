@@ -46,3 +46,12 @@ export function hourInRange(hour: number, start: number, end: number): boolean {
   // wraps midnight, e.g. start=22 end=6
   return hour >= start || hour < end
 }
+
+export type TimeOfDay = 'night' | 'dawn' | 'day'
+
+/** Bucketed time of day: night 20:00–05:59, dawn 06:00–07:59, else day. */
+export function getTimeOfDay(hour = getGameHour()): TimeOfDay {
+  if (isNight(hour)) return 'night'
+  if (isDawn(hour)) return 'dawn'
+  return 'day'
+}
