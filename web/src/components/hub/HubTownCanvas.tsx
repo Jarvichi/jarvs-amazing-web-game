@@ -9,7 +9,7 @@ import { getTodaysShopItems } from '../../game/hub/shopStock'
 import { loadDailyShopState, isShopItemSold } from '../../game/shopSchedule'
 import { PATH_TILE } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
-import { isBuildingOpen, getNpcLocation, getNpcActivity } from '../../game/hub/hubNpcSchedule'
+import { isBuildingOpen, getNpcLocation, getNpcActivity, getNpcDialoguePool } from '../../game/hub/hubNpcSchedule'
 import { getGameHour, getGameMinute } from '../../game/hub/hubClock'
 import { emitSound, startInteriorAudio, stopInteriorAudio, setNightAmbiance } from '../../game/sound'
 import { WALL_TILES } from '../../data/tiles/buildingMaterials'
@@ -1148,7 +1148,8 @@ export function HubTownCanvas({
         e.stopPropagation()
         if (npc.dialogue.length > 0 || npc.screen || npc.questGive || npc.questReceive || npc.dialogueTree) {
           const idx = npcDialogueIndex.get(npc.id) ?? 0
-          onNpcTapRef.current?.(npc.dialogue[idx % npc.dialogue.length] ?? '', npc.id)
+          const pool = getNpcDialoguePool(npc, gameHourRef.current)
+          onNpcTapRef.current?.(pool[idx % pool.length] ?? '', npc.id)
           npcDialogueIndex.set(npc.id, idx + 1)
         }
       })
@@ -2032,7 +2033,8 @@ export function HubTownCanvas({
             e.stopPropagation()
             if (npc.dialogue.length > 0 || npc.screen || npc.questGive || npc.questReceive || npc.dialogueTree) {
               const idx = npcDialogueIndex.get(npc.id) ?? 0
-              onNpcTapRef.current?.(npc.dialogue[idx % npc.dialogue.length] ?? '', npc.id)
+              const pool = getNpcDialoguePool(npc, gameHourRef.current)
+              onNpcTapRef.current?.(pool[idx % pool.length] ?? '', npc.id)
               npcDialogueIndex.set(npc.id, idx + 1)
             }
           })
@@ -2060,7 +2062,8 @@ export function HubTownCanvas({
             e.stopPropagation()
             if (npc.dialogue.length > 0 || npc.questGive || npc.questReceive || npc.dialogueTree) {
               const idx = npcDialogueIndex.get(npc.id) ?? 0
-              onNpcTapRef.current?.(npc.dialogue[idx % npc.dialogue.length] ?? '', npc.id)
+              const pool = getNpcDialoguePool(npc, gameHourRef.current)
+              onNpcTapRef.current?.(pool[idx % pool.length] ?? '', npc.id)
               npcDialogueIndex.set(npc.id, idx + 1)
             }
           })
@@ -3087,7 +3090,8 @@ export function HubTownCanvas({
             // whose name tag intro is currently playing
             if (!isNameTagBlockingBubble(npc.id) && namedNpcContainers.get(npc.id)?.visible !== false) {
               const didx = npcDialogueIndex.get(npc.id) ?? 0
-              const line = npc.dialogue[didx % npc.dialogue.length]
+              const pool = getNpcDialoguePool(npc, gameHourRef.current)
+              const line = pool[didx % pool.length]
               const container = createSpeechBubble(line, cx, cy)
               bubbleLayer.addChild(container)
               activeBubbles.push({ container, timer: BUBBLE_SHOW_MS, phase: 'showing', npcId: npc.id })

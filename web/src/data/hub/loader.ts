@@ -171,6 +171,10 @@ export interface HubNpc {
   levelBuildingId?: string
   schedule?: NpcScheduleEntry[]
   homeBed?: { buildingId: string; tx: number; ty: number }
+  /** Optional activity-specific dialogue pools. When the NPC's current schedule
+   *  activity (getNpcActivity) has a non-empty entry here, those lines are
+   *  cycled instead of the flat `dialogue` array. */
+  dialogueByActivity?: Partial<Record<NpcActivity, string[]>>
   /** Id of a branching dialogue tree (questDefs.json `dialogues`) to run on tap. */
   dialogueTree?: string
   /** Hub-item id (hubItems.json) that grants a bonus friendship/relationship boost when gifted. */

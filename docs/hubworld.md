@@ -1202,6 +1202,7 @@ schedules and activities are also editable in the in-app map editor
 | `location.tx` / `ty` | `number` | ✓ | Exterior: absolute hub coords. Interior: coords within that building's room grid. |
 | `location.buildingId` | `string` | interior only | Building `id` the NPC waits inside. The exterior sprite hides; if the player enters that building the NPC renders inside (its activity pose shows there too). |
 | `homeBed` | `{ buildingId, tx, ty }` | | Reserved sleeping spot reference (used by night logic). |
+| `dialogueByActivity` | `Partial<Record<NpcActivity, string[]>>` | | Optional activity-specific dialogue pools, e.g. `{ "sleep": ["Zzz..."] }`. When the NPC's current scheduled activity has a non-empty entry here, `getNpcDialoguePool()` cycles those lines instead of the flat `dialogue` array (tap dialogue and ambient speech bubbles both use it). NPCs without a matching entry keep using `dialogue`, so this is fully backward compatible. |
 
 On a game-hour boundary the NPC pathfinds to the new location (emerging at / walking
 to the relevant door for interior transitions). The activity pose only shows while
@@ -1234,8 +1235,12 @@ workflow in `AGENTS.md` (32×32 SVG, create/commit/push one at a time).
 1. Add/extend the NPC's `schedule` in the town `config.json`, setting `activity`
    on the relevant entries (use the activity keys above).
 2. (Optional) Author `{sprite}-{activity}.svg` pose sprites for a richer look.
-3. Run `npm run test` (loader + schedule tests) and `npm run build`.
-4. Verify in-game: at the relevant hours the NPC is at its post in its activity
+3. (Optional) Author `dialogueByActivity` pools so tap dialogue and ambient
+   speech bubbles match what the NPC is currently doing — mandatory in
+   practice for a `sleep` entry, since a sleeping NPC shouldn't say a
+   work-hours line (see field reference above).
+4. Run `npm run test` (loader + schedule tests) and `npm run build`.
+5. Verify in-game: at the relevant hours the NPC is at its post in its activity
    pose; the pose reverts to the base sprite while it walks at an hour boundary.
 
 ---

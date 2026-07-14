@@ -25,6 +25,15 @@ export function getNpcActivity(npc: HubNpc, gameHour: number): NpcActivity | nul
   return null
 }
 
+/** The dialogue pool an NPC should draw from right now: the activity-specific
+ *  pool when one is authored for the current scheduled activity, otherwise
+ *  the flat `dialogue` array. */
+export function getNpcDialoguePool(npc: HubNpc, gameHour: number): string[] {
+  const activity = getNpcActivity(npc, gameHour)
+  const pool = activity ? npc.dialogueByActivity?.[activity] : undefined
+  return pool?.length ? pool : npc.dialogue
+}
+
 export function isNpcInBuilding(npc: HubNpc, buildingId: string, gameHour: number): boolean {
   const loc = getNpcLocation(npc, gameHour)
   return loc?.type === 'interior' && loc.buildingId === buildingId
