@@ -147,6 +147,32 @@ export const PATH_TILE = {
   longGrass:    '/world/[A]_type3/[A]LongGrass_pipo.png',
 } as const
 
+// ── Animated tile sheets ───────────────────────────────────────────────────────
+// Some PATH_TILE sheets pack multiple animation frames side-by-side as repeated
+// copies of the base 8-col combo grid (e.g. water: 8 combo-cols × 8 frames = 64
+// actual columns). `columns` below is the base grid width (always 8 for these);
+// `frameCount` is how many frame-blocks are laid out horizontally.
+export interface TileAnim {
+  columns: number         // width of one frame-block (base combo grid)
+  frameCount: number      // number of frame-blocks laid out horizontally
+  frameDurationMs: number // time each frame is shown
+}
+
+export const PATH_TILE_ANIM: Record<string, TileAnim> = {
+  [PATH_TILE.water1]: { columns: 8, frameCount: 8, frameDurationMs: 150 },
+  [PATH_TILE.water2]: { columns: 8, frameCount: 8, frameDurationMs: 150 },
+  [PATH_TILE.water3]: { columns: 8, frameCount: 8, frameDurationMs: 150 },
+  [PATH_TILE.water4]: { columns: 8, frameCount: 8, frameDurationMs: 150 },
+  [PATH_TILE.water5]: { columns: 8, frameCount: 8, frameDurationMs: 150 },
+  [PATH_TILE.water6]: { columns: 8, frameCount: 8, frameDurationMs: 150 },
+  [PATH_TILE.water7]: { columns: 8, frameCount: 8, frameDurationMs: 150 },
+}
+
+/** Index (0…frameCount-1) of the frame that should be showing right now. */
+export function currentAnimFrame(anim: TileAnim, t: number = performance.now()): number {
+  return Math.floor(t / anim.frameDurationMs) % anim.frameCount
+}
+
 // ── Tileset image paths (relative to /public) ─────────────────────────────────
 export const TILESET_IMAGE = {
   baseChip:   '/world/SampleMap/[Base]BaseChip_pipo.png',

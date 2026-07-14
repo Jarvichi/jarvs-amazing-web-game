@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 import { spriteSlug } from '../game/sprites'
-import { resolveTileRef } from '../data/tiles/tileIndex'
+import { resolveTileRef, currentAnimFrame, TileAnim } from '../data/tiles/tileIndex'
 
 // ── Texture cache ─────────────────────────────────────────────────────────────
 // Keyed by full URL so the same texture is never loaded twice across components.
@@ -32,6 +32,41 @@ export async function loadAnimFrames(name: string, frameCount: number): Promise<
       _load(`${base}sprites/${slug}-${i + 1}.svg`),
     ),
   )
+}
+
+/**
+ * Animate a group of sprites that all share one tile-sheet texture source and
+ * show the same combo tile at a different animation frame (e.g. a water path
+ * tile). `baseRow`/`baseCol` locate that combo tile within one frame-block;
+ * frames are additional copies of the same grid laid out to the right of it.
+ * Stops automatically once every sprite is destroyed.
+ */
+export function animateTileSprites(
+  sprites: PIXI.Sprite[],
+  source: PIXI.Texture['source'],
+  anim: TileAnim,
+  baseRow: number,
+  baseCol: number,
+): void {
+  const s = 32
+  const totalCols = anim.columns * anim.frameCount
+  let lastFrame = -1
+  const tick = () => {
+    if (sprites.every(sp => sp.destroyed)) {
+      PIXI.Ticker.shared.remove(tick)
+      return
+    }
+    const frame = currentAnimFrame(anim)
+    if (frame === lastFrame) return
+    lastFrame = frame
+    const x = (baseCol + frame * anim.columns) * s
+    const y = baseRow * s
+    const tex = new PIXI.Texture({ source, frame: new PIXI.Rectangle(x, y, s, s) })
+    for (const sp of sprites) {
+      if (!sp.destroyed) sp.texture = tex
+    }
+  }
+  PIXI.Ticker.shared.add(tick)
 }
 
 /**

@@ -1375,6 +1375,16 @@
           "tx": 1,
           "ty": -1,
           "tileId": "windowBottom4"
+        },
+        {
+          "tx": 6,
+          "ty": -2,
+          "tileId": "windowTop4"
+        },
+        {
+          "tx": 6,
+          "ty": -1,
+          "tileId": "windowBottom4"
         }
       ],
       "upgradeKind": "cottage"
