@@ -6,6 +6,10 @@ export interface DialogueChoice {
   primary?: boolean
   /** Visually dims the choice (e.g. an action that isn't available yet) without blocking the tap — onClick still fires so it can explain why. */
   disabled?: boolean
+  /** Marks a "walk away" choice (Farewell, Not now, Cancel, ...) that declines
+   *  without side effects — the auto-dismiss-on-walk logic in HubWorld looks
+   *  for this to know it's safe to close a choice-bearing dialogue. */
+  isExit?: boolean
 }
 
 interface Props {
