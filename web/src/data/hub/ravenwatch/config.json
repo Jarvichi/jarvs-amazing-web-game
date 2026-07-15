@@ -10420,14 +10420,15 @@
   ],
   "interactables": [
     {
-      "id": "ravenwatch-rain-barrel",
+      "id": "ravenwatch-rain-puddle",
       "tx": 44,
       "ty": 22,
       "decor": [
         {
           "dx": 0,
           "dy": 0,
-          "tileId": "barrel"
+          "tileId": "lightPuddle",
+          "zlayer": "below"
         }
       ],
       "reactions": [

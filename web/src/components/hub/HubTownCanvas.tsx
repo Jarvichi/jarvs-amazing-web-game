@@ -62,9 +62,10 @@ const INTERACTABLE_AURA_PULSE_MAX    = 1.0       // ...and the brightest
 const INTERACTABLE_AURA_PULSE_PERIOD = 2400      // ms per full pulse cycle — slow, calm breathing
 // Reaction types that mean "the player is meant to find and use this" — gates the aura.
 // Deliberately excludes dialogue/giveItem-only secrets, which are authored to stay hidden
-// (docs/hubworld.md §7), regardless of whether they own decor. `dig` is left out for now —
-// dig spots already carry a distinct decor tile (dirt patch / rain barrel) unlike forage's
-// plain tree/bush/flower overlay, so they don't share forage's discoverability problem.
+// (docs/hubworld.md §7), regardless of whether they own decor. `dig` isn't included here
+// directly — it's handled specially in interactableWantsAura below, since only weather-gated
+// dig spots (rain puddles, fog moss) share forage's problem of reusing an ordinary-looking
+// prop; earth/hollow dig spots pair with a dirt patch, which already reads as diggable.
 const AURA_REACTION_TYPES = new Set(['buy', 'buyPack', 'buyHubItem', 'screen', 'quest', 'move', 'forage'])
 
 const _savedTiles = new Map<string, [number, number]>()
@@ -610,7 +611,9 @@ export function HubTownCanvas({
     }
 
     function interactableWantsAura(def: HubInteractable): boolean {
-      return def.reactions.some(r => AURA_REACTION_TYPES.has(r.type))
+      return def.reactions.some(r =>
+        r.type === 'dig' ? r.weatherOnly != null : AURA_REACTION_TYPES.has(r.type)
+      )
     }
 
     function buildInteractableAura(footprintW: number, footprintH: number, color: number): PIXI.Graphics {

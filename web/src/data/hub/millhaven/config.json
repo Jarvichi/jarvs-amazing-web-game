@@ -3396,14 +3396,15 @@
       ]
     },
     {
-      "id": "millhaven-rain-barrel",
+      "id": "millhaven-rain-puddle",
       "tx": 10,
       "ty": 13,
       "decor": [
         {
           "dx": 0,
           "dy": 0,
-          "tileId": "barrel"
+          "tileId": "lightPuddle",
+          "zlayer": "below"
         }
       ],
       "reactions": [

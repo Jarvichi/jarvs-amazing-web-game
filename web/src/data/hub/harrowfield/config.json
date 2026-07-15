@@ -2569,14 +2569,15 @@
       ]
     },
     {
-      "id": "harrowfield-rain-barrel",
+      "id": "harrowfield-rain-puddle",
       "tx": 20,
       "ty": 6,
       "decor": [
         {
           "dx": 0,
           "dy": 0,
-          "tileId": "barrel"
+          "tileId": "lightPuddle",
+          "zlayer": "below"
         }
       ],
       "reactions": [
