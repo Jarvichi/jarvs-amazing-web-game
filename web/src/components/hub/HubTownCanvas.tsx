@@ -54,10 +54,16 @@ const NIGHT_NPC_LIGHT_R  = 2 * T   // small glow radius around each NPC
 const INTERACTABLE_AURA_ENABLED      = true
 const INTERACTABLE_AURA_COLOR        = 0x7ec8ff  // faint sky-blue
 const INTERACTABLE_AURA_RADIUS_PAD   = 6         // px the aura extends past the object's footprint
-const INTERACTABLE_AURA_LAYER_ALPHA  = 0.10      // alpha of each stacked ring (rings compound for a soft falloff)
-const INTERACTABLE_AURA_PULSE_MIN    = 0.6       // aura alpha multiplier at the dimmest point of the pulse
+const INTERACTABLE_AURA_FILL_ALPHA   = 0.12      // soft inner glow fill
+const INTERACTABLE_AURA_RING_ALPHA   = 0.55      // crisp outline ring — the main visibility driver
+const INTERACTABLE_AURA_RING_WIDTH   = 1.5       // px
+const INTERACTABLE_AURA_PULSE_MIN    = 0.7       // aura alpha multiplier at the dimmest point of the pulse
 const INTERACTABLE_AURA_PULSE_MAX    = 1.0       // ...and the brightest
-const INTERACTABLE_AURA_PULSE_PERIOD = 2200      // ms per full pulse cycle
+const INTERACTABLE_AURA_PULSE_PERIOD = 1800      // ms per full pulse cycle
+// Reaction types that mean "the player is meant to find and use this" — gates the aura.
+// Deliberately excludes dialogue/giveItem-only secrets and dig/forage spots, which are
+// authored to stay non-obvious (docs/hubworld.md §7), regardless of whether they own decor.
+const AURA_REACTION_TYPES = new Set(['buy', 'buyPack', 'buyHubItem', 'screen', 'quest', 'move'])
 
 const _savedTiles = new Map<string, [number, number]>()
 export function getSavedHubTile(locationKey?: string): [number, number] | null {
@@ -601,14 +607,19 @@ export function HubTownCanvas({
       return { x: tx * T + (def.hitRect.w * T) / 2 + ind.dx * T, y: ty * T - 6 + ind.dy * T }
     }
 
+    function interactableWantsAura(def: HubInteractable): boolean {
+      return def.reactions.some(r => AURA_REACTION_TYPES.has(r.type))
+    }
+
     function buildInteractableAura(footprintW: number, footprintH: number): PIXI.Graphics {
       const cx = (footprintW * T) / 2
       const cy = (footprintH * T) / 2
       const baseR = (Math.max(footprintW, footprintH) * T) / 2 + INTERACTABLE_AURA_RADIUS_PAD
       const aura = new PIXI.Graphics()
-      // Two stacked circles fake a soft radial falloff (Graphics.fill has no gradient support).
-      aura.circle(cx, cy, baseR).fill({ color: INTERACTABLE_AURA_COLOR, alpha: INTERACTABLE_AURA_LAYER_ALPHA })
-      aura.circle(cx, cy, baseR * 0.6).fill({ color: INTERACTABLE_AURA_COLOR, alpha: INTERACTABLE_AURA_LAYER_ALPHA })
+      // Soft fill for a touch of glow, plus a crisp stroked ring — the ring is what actually
+      // reads as "tap this" at a glance regardless of the background art underneath it.
+      aura.circle(cx, cy, baseR).fill({ color: INTERACTABLE_AURA_COLOR, alpha: INTERACTABLE_AURA_FILL_ALPHA })
+      aura.circle(cx, cy, baseR).stroke({ color: INTERACTABLE_AURA_COLOR, alpha: INTERACTABLE_AURA_RING_ALPHA, width: INTERACTABLE_AURA_RING_WIDTH })
       aura.eventMode = 'none'   // purely decorative — never steals taps from the real hit area
       return aura
     }
@@ -635,12 +646,12 @@ export function HubTownCanvas({
 
       let above: PIXI.Container | null = null
       let aura: PIXI.Graphics | null = null
+      if (INTERACTABLE_AURA_ENABLED && interactableWantsAura(def)) {
+        aura = buildInteractableAura(def.hitRect.w, def.hitRect.h)
+        root.addChild(aura)
+      }
       const decor = (def.decor ?? []).filter(d => d.tileId !== 666)
       if (decor.length > 0) {
-        if (INTERACTABLE_AURA_ENABLED) {
-          aura = buildInteractableAura(def.hitRect.w, def.hitRect.h)
-          root.addChild(aura)
-        }
         if (decor.some(d => d.zlayer === 'above')) {
           above = new PIXI.Container()
           above.position.set(pos.tx * T, pos.ty * T)
