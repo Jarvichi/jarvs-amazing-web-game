@@ -638,12 +638,27 @@ export function HubTownCanvas({
     ): void {
       const pos = interactableMovesRef?.current.get(def.id) ?? { tx: def.tx, ty: def.ty }
       const decor = (def.decor ?? []).filter(d => d.tileId !== 666)
+
+      // Aura is a standalone sibling of root (not its child) added to target *before* root,
+      // so it paints behind root/static decor via plain insertion order — needed because
+      // interiorLayer (unlike spriteLayer) isn't sortableChildren, so zIndex alone wouldn't
+      // order it there. eventMode 'none' (set in buildInteractableAura) keeps it out of
+      // hit-testing entirely, so it can never itself intercept a tap.
+      let aura: PIXI.Graphics | null = null
+      if (INTERACTABLE_AURA_ENABLED && interactableWantsAura(def)) {
+        const auraColor = def.building ? INTERACTABLE_AURA_COLOR_INTERIOR : INTERACTABLE_AURA_COLOR_EXTERIOR
+        aura = buildInteractableAura(def.hitRect.w, def.hitRect.h, auraColor)
+        aura.position.set(pos.tx * T, pos.ty * T)
+        aura.zIndex = interactableZIndex(def, pos.ty) - 2   // behind root and same-row static decor when zIndex-sorted
+        target.addChild(aura)
+      }
+
       const root = new PIXI.Container()
       root.position.set(pos.tx * T, pos.ty * T)
-      // Pure hit-area interactables (no owned decor) overlay pre-existing static art — sit one
-      // tick below the usual tie-breaking zIndex so the aura renders behind that art, not in
-      // front of it (the +1.5 in interactableZIndex is meant to protect *owned* decor sprites).
-      root.zIndex = decor.length > 0 ? interactableZIndex(def, pos.ty) : interactableZIndex(def, pos.ty) - 1
+      // Tap hit-testing depends on this zIndex on layers that are sortableChildren (spriteLayer
+      // is; interiorLayer isn't) — always use the tie-winning value, never lower it for aura-only
+      // objects, or overlapping objects can start winning taps instead.
+      root.zIndex = interactableZIndex(def, pos.ty)
       root.eventMode = 'static'
       root.cursor    = 'pointer'
       root.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
@@ -653,12 +668,6 @@ export function HubTownCanvas({
       target.addChild(root)
 
       let above: PIXI.Container | null = null
-      let aura: PIXI.Graphics | null = null
-      if (INTERACTABLE_AURA_ENABLED && interactableWantsAura(def)) {
-        const auraColor = def.building ? INTERACTABLE_AURA_COLOR_INTERIOR : INTERACTABLE_AURA_COLOR_EXTERIOR
-        aura = buildInteractableAura(def.hitRect.w, def.hitRect.h, auraColor)
-        root.addChild(aura)
-      }
       if (decor.length > 0) {
         if (decor.some(d => d.zlayer === 'above')) {
           above = new PIXI.Container()
