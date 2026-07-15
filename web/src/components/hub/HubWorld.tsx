@@ -557,22 +557,31 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // Auto-dismiss dialogue after 15 s — skip if it has choices (quest offers need manual input)
-  useEffect(() => {
-    const hasContent = !!(dialogueEvent?.text ?? dialogueLine)
-    const hasChoices  = !!(dialogueEvent?.choices?.length)
-    if (!hasContent || hasChoices) return
+  // Auto-dismiss the current dialogue as if the player had walked away: for a
+  // plain info line this just closes it; for a choice-bearing dialogue it
+  // takes the marked "exit" choice (Farewell / Not now / Cancel / ...) so any
+  // chained follow-up (e.g. a quest-reward line) still plays. Dialogues whose
+  // choices require a real decision (none are marked isExit) are left alone.
+  const dismissDialogueOnWalkAway = useCallback(() => {
+    const exitChoice = dialogueEvent?.choices?.find(c => c.isExit)
+    if (dialogueEvent?.choices?.length && !exitChoice) return
+    if (exitChoice) { exitChoice.onClick(); return }
     const after = dialogueEvent?.onClose
-    const id = setTimeout(() => {
-      setDialogueEvent(null)
-      setDialogueLine(null)
-      after?.()
-    }, 15_000)
-    return () => clearTimeout(id)
+    setDialogueEvent(null)
+    setDialogueLine(null)
+    after?.()
   }, [dialogueEvent, dialogueLine])
 
-  // Auto-dismiss dialogue after the avatar takes 5 steps — skip if it has choices
-  // (quest offers need manual input). Counter resets whenever the dialogue changes.
+  // Auto-dismiss dialogue after 15 s
+  useEffect(() => {
+    const hasContent = !!(dialogueEvent?.text ?? dialogueLine)
+    if (!hasContent) return
+    const id = setTimeout(dismissDialogueOnWalkAway, 15_000)
+    return () => clearTimeout(id)
+  }, [dialogueEvent, dialogueLine, dismissDialogueOnWalkAway])
+
+  // Auto-dismiss dialogue after the avatar takes 5 steps. Counter resets
+  // whenever the dialogue changes.
   const dialogueStepsRef = useRef(0)
   useEffect(() => {
     dialogueStepsRef.current = 0
@@ -580,16 +589,12 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
 
   const handleAvatarStep = useCallback(() => {
     const hasContent = !!(dialogueEvent?.text ?? dialogueLine)
-    const hasChoices  = !!(dialogueEvent?.choices?.length)
-    if (!hasContent || hasChoices) return
+    if (!hasContent) return
     dialogueStepsRef.current += 1
     if (dialogueStepsRef.current >= 5) {
-      const after = dialogueEvent?.onClose
-      setDialogueEvent(null)
-      setDialogueLine(null)
-      after?.()
+      dismissDialogueOnWalkAway()
     }
-  }, [dialogueEvent, dialogueLine])
+  }, [dialogueEvent, dialogueLine, dismissDialogueOnWalkAway])
 
   // Live player world-pixel position, read imperatively by the minimap's rAF loop.
   const playerPixelRef = useRef({
@@ -936,7 +941,7 @@ function buildTalkGiveOptions(
           label: `${item.icon ?? '🎁'} ${item.name ?? item.id} ×${item.count}`,
           onClick: () => giveGiftToNpc(npcId, speakerName, npcDef, item.id),
         }))
-        giftChoices.push({ label: 'Never mind', onClick: () => setDialogueEvent(null) })
+        giftChoices.push({ label: 'Never mind', isExit: true, onClick: () => setDialogueEvent(null) })
         setDialogueEvent({ speakerName, text: 'What would you like to give?', choices: giftChoices })
       },
     })
@@ -956,7 +961,7 @@ function buildTalkGiveChoices(
 ): DialogueChoice[] {
   return [
     ...buildTalkGiveOptions(npcId, npcDef, speakerName),
-    { label: 'Farewell', onClick: () => { setDialogueEvent(null); onFarewell?.() } },
+    { label: 'Farewell', isExit: true, onClick: () => { setDialogueEvent(null); onFarewell?.() } },
   ]
 }
 
@@ -993,6 +998,7 @@ function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: strin
           ...extraChoices,
           {
             label: 'Not now',
+            isExit: true,
             onClick: () => setDialogueEvent(null),
           },
         ],
@@ -1071,14 +1077,15 @@ function hasOfferableQuest(giverId: string): boolean {
       const isExitDef = (c: DialogueChoiceDef) => !c.next && (c.effects ?? []).some(e => e.type === 'end')
       const nonExitDefs = visible.filter(c => !isExitDef(c))
       const exitDefs    = visible.filter(isExitDef)
-      const toChoice = (c: DialogueChoiceDef, primary: boolean) => ({
+      const toChoice = (c: DialogueChoiceDef, primary: boolean, isExit?: boolean) => ({
         label:   c.label,
         primary,
+        isExit,
         onClick: () => applyChoice(tree, c, npcId, speakerName, npcDef),
       })
       const nonExitChoices = nonExitDefs.map((c, i) => toChoice(c, i === 0))
       finalChoices = exitDefs.length > 0
-        ? [...nonExitChoices, ...buildTalkGiveOptions(npcId, npcDef, speaker), ...exitDefs.map(c => toChoice(c, false))]
+        ? [...nonExitChoices, ...buildTalkGiveOptions(npcId, npcDef, speaker), ...exitDefs.map(c => toChoice(c, false, true))]
         : [...nonExitChoices, ...buildTalkGiveChoices(npcId, npcDef, speaker)]
     } else {
       finalChoices = visible.map((c, i) => ({
@@ -1474,7 +1481,7 @@ function hasOfferableQuest(giverId: string): boolean {
         { label: 'Belly Rubs', onClick: () => { petActionRef.current?.givePetAffection(); recordAffection(); refreshState(); setDialogueEvent({ speakerName: pet.name, text: flavor.bellyRubs(pet.name) }) } },
         { label: 'Brush', onClick: () => { petActionRef.current?.givePetAffection(); recordAffection(); refreshState(); setDialogueEvent({ speakerName: pet.name, text: flavor.brush(pet.name) }) } },
         { label: 'Manage', onClick: () => openHubTab('pet') },
-        { label: 'Never mind', onClick: () => setDialogueEvent(null) },
+        { label: 'Never mind', isExit: true, onClick: () => setDialogueEvent(null) },
       ]
       setDialogueEvent({ speakerName: pet.name, text: 'What would you like to do?', choices })
       return
@@ -1515,7 +1522,7 @@ function hasOfferableQuest(giverId: string): boolean {
               setDialogueEvent({ speakerName: 'Chicken', text })
             },
           },
-          { label: 'Not now', onClick: () => setDialogueEvent(null) },
+          { label: 'Not now', isExit: true, onClick: () => setDialogueEvent(null) },
         ],
       })
       return true
@@ -1541,7 +1548,7 @@ function hasOfferableQuest(giverId: string): boolean {
               })
             },
           },
-          { label: 'Not this one', onClick: () => setDialogueEvent(null) },
+          { label: 'Not this one', isExit: true, onClick: () => setDialogueEvent(null) },
         ],
       })
       return true
@@ -1576,7 +1583,7 @@ function hasOfferableQuest(giverId: string): boolean {
               }
             },
           },
-          { label: 'Let it be', onClick: () => setDialogueEvent(null) },
+          { label: 'Let it be', isExit: true, onClick: () => setDialogueEvent(null) },
         ],
       })
       return true
@@ -1614,7 +1621,7 @@ function hasOfferableQuest(giverId: string): boolean {
               })
             },
           },
-          { label: 'Not now', onClick: () => setDialogueEvent(null) },
+          { label: 'Not now', isExit: true, onClick: () => setDialogueEvent(null) },
         ],
       })
       return true
@@ -1744,7 +1751,7 @@ function hasOfferableQuest(giverId: string): boolean {
             setDialogueEvent({ speakerName, text: `Sold! Enjoy the ${item.itemName}.`, onClose: next })
           },
         }
-        const cancel: DialogueChoice = { label: 'Maybe not', onClick: () => setDialogueEvent(null) }
+        const cancel: DialogueChoice = { label: 'Maybe not', isExit: true, onClick: () => setDialogueEvent(null) }
         setDialogueEvent({ speakerName, text: `Care to buy ${item.itemName} for ${item.price} crystals?`, choices: [confirm, cancel] })
         return
       }
@@ -1774,7 +1781,7 @@ function hasOfferableQuest(giverId: string): boolean {
             onClick: () => buyQty(q),
           })),
           ...(maxQty > 0 ? [{ label: `MAX ×${maxQty} — ${CRYSTAL_PACK_COST * maxQty} 💎`, onClick: () => buyQty(maxQty) }] : []),
-          { label: 'Maybe not', onClick: () => setDialogueEvent(null) },
+          { label: 'Maybe not', isExit: true, onClick: () => setDialogueEvent(null) },
         ]
         setDialogueEvent({ speakerName, text: 'How many packs would you like?', choices })
         return
@@ -1831,7 +1838,7 @@ function hasOfferableQuest(giverId: string): boolean {
             setDialogueEvent({ speakerName, text: `Sold! Enjoy the ${catalog.name}.`, onClose: next })
           },
         }
-        const cancel: DialogueChoice = { label: 'Maybe not', onClick: () => setDialogueEvent(null) }
+        const cancel: DialogueChoice = { label: 'Maybe not', isExit: true, onClick: () => setDialogueEvent(null) }
         setDialogueEvent({
           speakerName,
           text: `${catalog.icon} ${catalog.desc} Care to buy a ${catalog.name} for ${r.price} ${currencyIcon}?`,
@@ -1884,7 +1891,7 @@ function hasOfferableQuest(giverId: string): boolean {
           setDialogueEvent({
             speakerName: '',
             text: 'The rain barrel brims with fresh water, drumming softly under the downpour.',
-            choices: [confirm, { label: 'Leave it', onClick: () => setDialogueEvent(null) }],
+            choices: [confirm, { label: 'Leave it', isExit: true, onClick: () => setDialogueEvent(null) }],
           })
           return
         }
@@ -1903,7 +1910,7 @@ function hasOfferableQuest(giverId: string): boolean {
           setDialogueEvent({
             speakerName: '',
             text: 'Thick fog clings low to the ground here, and moss grows fat and pale between the roots.',
-            choices: [confirm, { label: 'Leave it', onClick: () => setDialogueEvent(null) }],
+            choices: [confirm, { label: 'Leave it', isExit: true, onClick: () => setDialogueEvent(null) }],
           })
           return
         }
@@ -1937,7 +1944,7 @@ function hasOfferableQuest(giverId: string): boolean {
           setDialogueEvent({
             speakerName: '',
             text: 'A deep, dark hollow. Your lantern pushes the shadows back just enough.',
-            choices: [confirm, { label: 'Leave it', onClick: () => setDialogueEvent(null) }],
+            choices: [confirm, { label: 'Leave it', isExit: true, onClick: () => setDialogueEvent(null) }],
           })
           return
         }
@@ -1977,7 +1984,7 @@ function hasOfferableQuest(giverId: string): boolean {
         setDialogueEvent({
           speakerName: '',
           text: 'A patch of soft, diggable earth.',
-          choices: [confirm, { label: 'Leave it', onClick: () => setDialogueEvent(null) }],
+          choices: [confirm, { label: 'Leave it', isExit: true, onClick: () => setDialogueEvent(null) }],
         })
         return
       }
@@ -2018,7 +2025,7 @@ function hasOfferableQuest(giverId: string): boolean {
         setDialogueEvent({
           speakerName: '',
           text: 'A patch of wild growth, ripe for foraging.',
-          choices: [confirm, { label: 'Leave it', onClick: () => setDialogueEvent(null) }],
+          choices: [confirm, { label: 'Leave it', isExit: true, onClick: () => setDialogueEvent(null) }],
         })
         return
       }
