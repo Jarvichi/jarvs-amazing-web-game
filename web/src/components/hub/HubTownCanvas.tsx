@@ -47,23 +47,24 @@ const NIGHT_NPC_LIGHT_R  = 2 * T   // small glow radius around each NPC
 
 // ── Interactable affordance aura ────────────────────────────────────────────
 // A faint pulsing halo drawn behind tap-reactive objects that own visible decor
-// (stalls, notice boards, chests, etc.), so players can spot what's interactable
-// without a wiki. Deliberately skips interactables with no owned decor (secrets,
-// dig spots, forage spots) — those are authored to stay non-obvious, see
-// docs/hubworld.md §7. Tune these to iterate on the look.
+// (stalls, notice boards, chests, forage spots, etc.), so players can spot what's
+// interactable without a wiki. Deliberately skips true secrets (dialogue/giveItem-only,
+// authored to stay hidden — see docs/hubworld.md §7). Tune these to iterate on the look.
 const INTERACTABLE_AURA_ENABLED      = true
 const INTERACTABLE_AURA_COLOR        = 0x7ec8ff  // faint sky-blue
 const INTERACTABLE_AURA_RADIUS_PAD   = 6         // px the aura extends past the object's footprint
-const INTERACTABLE_AURA_FILL_ALPHA   = 0.12      // soft inner glow fill
-const INTERACTABLE_AURA_RING_ALPHA   = 0.55      // crisp outline ring — the main visibility driver
-const INTERACTABLE_AURA_RING_WIDTH   = 1.5       // px
-const INTERACTABLE_AURA_PULSE_MIN    = 0.7       // aura alpha multiplier at the dimmest point of the pulse
+const INTERACTABLE_AURA_OUTER_ALPHA  = 0.10      // outermost soft layer
+const INTERACTABLE_AURA_MID_ALPHA    = 0.10
+const INTERACTABLE_AURA_INNER_ALPHA  = 0.14      // brightest, innermost layer
+const INTERACTABLE_AURA_PULSE_MIN    = 0.6       // aura alpha multiplier at the dimmest point of the pulse
 const INTERACTABLE_AURA_PULSE_MAX    = 1.0       // ...and the brightest
-const INTERACTABLE_AURA_PULSE_PERIOD = 1800      // ms per full pulse cycle
+const INTERACTABLE_AURA_PULSE_PERIOD = 2400      // ms per full pulse cycle — slow, calm breathing
 // Reaction types that mean "the player is meant to find and use this" — gates the aura.
-// Deliberately excludes dialogue/giveItem-only secrets and dig/forage spots, which are
-// authored to stay non-obvious (docs/hubworld.md §7), regardless of whether they own decor.
-const AURA_REACTION_TYPES = new Set(['buy', 'buyPack', 'buyHubItem', 'screen', 'quest', 'move'])
+// Deliberately excludes dialogue/giveItem-only secrets, which are authored to stay hidden
+// (docs/hubworld.md §7), regardless of whether they own decor. `dig` is left out for now —
+// dig spots already carry a distinct decor tile (dirt patch / rain barrel) unlike forage's
+// plain tree/bush/flower overlay, so they don't share forage's discoverability problem.
+const AURA_REACTION_TYPES = new Set(['buy', 'buyPack', 'buyHubItem', 'screen', 'quest', 'move', 'forage'])
 
 const _savedTiles = new Map<string, [number, number]>()
 export function getSavedHubTile(locationKey?: string): [number, number] | null {
@@ -616,10 +617,12 @@ export function HubTownCanvas({
       const cy = (footprintH * T) / 2
       const baseR = (Math.max(footprintW, footprintH) * T) / 2 + INTERACTABLE_AURA_RADIUS_PAD
       const aura = new PIXI.Graphics()
-      // Soft fill for a touch of glow, plus a crisp stroked ring — the ring is what actually
-      // reads as "tap this" at a glance regardless of the background art underneath it.
-      aura.circle(cx, cy, baseR).fill({ color: INTERACTABLE_AURA_COLOR, alpha: INTERACTABLE_AURA_FILL_ALPHA })
-      aura.circle(cx, cy, baseR).stroke({ color: INTERACTABLE_AURA_COLOR, alpha: INTERACTABLE_AURA_RING_ALPHA, width: INTERACTABLE_AURA_RING_WIDTH })
+      // Three concentric soft fills (decreasing radius, mildly increasing alpha toward the
+      // center) fake a gentle bloom with no distinct edge — deliberately no stroke/outline,
+      // which read as UI chrome rather than ambient light.
+      aura.circle(cx, cy, baseR).fill({ color: INTERACTABLE_AURA_COLOR, alpha: INTERACTABLE_AURA_OUTER_ALPHA })
+      aura.circle(cx, cy, baseR * 0.7).fill({ color: INTERACTABLE_AURA_COLOR, alpha: INTERACTABLE_AURA_MID_ALPHA })
+      aura.circle(cx, cy, baseR * 0.4).fill({ color: INTERACTABLE_AURA_COLOR, alpha: INTERACTABLE_AURA_INNER_ALPHA })
       aura.eventMode = 'none'   // purely decorative — never steals taps from the real hit area
       return aura
     }
