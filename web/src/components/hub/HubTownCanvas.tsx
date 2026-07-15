@@ -45,6 +45,20 @@ const NIGHT_LIGHT_INNER  = 4 * T   // fully lit within this radius of avatar
 const NIGHT_LIGHT_OUTER  = 7 * T   // fully dark beyond this radius
 const NIGHT_NPC_LIGHT_R  = 2 * T   // small glow radius around each NPC
 
+// ── Interactable affordance aura ────────────────────────────────────────────
+// A faint pulsing halo drawn behind tap-reactive objects that own visible decor
+// (stalls, notice boards, chests, etc.), so players can spot what's interactable
+// without a wiki. Deliberately skips interactables with no owned decor (secrets,
+// dig spots, forage spots) — those are authored to stay non-obvious, see
+// docs/hubworld.md §7. Tune these to iterate on the look.
+const INTERACTABLE_AURA_ENABLED      = true
+const INTERACTABLE_AURA_COLOR        = 0x7ec8ff  // faint sky-blue
+const INTERACTABLE_AURA_RADIUS_PAD   = 6         // px the aura extends past the object's footprint
+const INTERACTABLE_AURA_LAYER_ALPHA  = 0.10      // alpha of each stacked ring (rings compound for a soft falloff)
+const INTERACTABLE_AURA_PULSE_MIN    = 0.6       // aura alpha multiplier at the dimmest point of the pulse
+const INTERACTABLE_AURA_PULSE_MAX    = 1.0       // ...and the brightest
+const INTERACTABLE_AURA_PULSE_PERIOD = 2200      // ms per full pulse cycle
+
 const _savedTiles = new Map<string, [number, number]>()
 export function getSavedHubTile(locationKey?: string): [number, number] | null {
   return _savedTiles.get(locationKey ?? 'ravenwatch') ?? null
@@ -554,6 +568,7 @@ export function HubTownCanvas({
       indicator:      PIXI.Text | null
       indicatorBaseY: number
       soldBadge:      PIXI.Text | null
+      aura:           PIXI.Graphics | null   // faint affordance halo, see INTERACTABLE_AURA_* config
     }
     const exteriorInteractables = new Map<string, InteractableEntry>()
     const interiorInteractables = new Map<string, InteractableEntry>()
@@ -586,6 +601,18 @@ export function HubTownCanvas({
       return { x: tx * T + (def.hitRect.w * T) / 2 + ind.dx * T, y: ty * T - 6 + ind.dy * T }
     }
 
+    function buildInteractableAura(footprintW: number, footprintH: number): PIXI.Graphics {
+      const cx = (footprintW * T) / 2
+      const cy = (footprintH * T) / 2
+      const baseR = (Math.max(footprintW, footprintH) * T) / 2 + INTERACTABLE_AURA_RADIUS_PAD
+      const aura = new PIXI.Graphics()
+      // Two stacked circles fake a soft radial falloff (Graphics.fill has no gradient support).
+      aura.circle(cx, cy, baseR).fill({ color: INTERACTABLE_AURA_COLOR, alpha: INTERACTABLE_AURA_LAYER_ALPHA })
+      aura.circle(cx, cy, baseR * 0.6).fill({ color: INTERACTABLE_AURA_COLOR, alpha: INTERACTABLE_AURA_LAYER_ALPHA })
+      aura.eventMode = 'none'   // purely decorative — never steals taps from the real hit area
+      return aura
+    }
+
     function buildInteractable(
       def: HubInteractable,
       target: PIXI.Container,
@@ -607,8 +634,13 @@ export function HubTownCanvas({
       target.addChild(root)
 
       let above: PIXI.Container | null = null
+      let aura: PIXI.Graphics | null = null
       const decor = (def.decor ?? []).filter(d => d.tileId !== 666)
       if (decor.length > 0) {
+        if (INTERACTABLE_AURA_ENABLED) {
+          aura = buildInteractableAura(def.hitRect.w, def.hitRect.h)
+          root.addChild(aura)
+        }
         if (decor.some(d => d.zlayer === 'above')) {
           above = new PIXI.Container()
           above.position.set(pos.tx * T, pos.ty * T)
@@ -705,7 +737,7 @@ export function HubTownCanvas({
         indicatorBaseY = y
       }
 
-      const entry: InteractableEntry = { def, root, above, indicator, indicatorBaseY, soldBadge: null }
+      const entry: InteractableEntry = { def, root, above, indicator, indicatorBaseY, soldBadge: null, aura }
       registry.set(def.id, entry)
 
       // Seed the "Sold" badge on cold build (e.g. entering the shop after a
@@ -2914,6 +2946,15 @@ export function HubTownCanvas({
         const on = interactableIndicatorsRef?.current.get(entry.def.indicator.condition) ?? false
         entry.indicator.visible = on
         if (on) entry.indicator.y = entry.indicatorBaseY + Math.sin(performance.now() / 400) * 3
+      }
+
+      // Interactable aura — faint pulse flagging tap-reactive objects (INTERACTABLE_AURA_* config at top of file)
+      if (INTERACTABLE_AURA_ENABLED) {
+        const phase = (Math.sin((performance.now() / INTERACTABLE_AURA_PULSE_PERIOD) * Math.PI * 2) + 1) / 2
+        const auraAlpha = INTERACTABLE_AURA_PULSE_MIN + phase * (INTERACTABLE_AURA_PULSE_MAX - INTERACTABLE_AURA_PULSE_MIN)
+        for (const entry of activeInteractables.values()) {
+          if (entry.aura) entry.aura.alpha = auraAlpha
+        }
       }
 
       // Named NPC schedule walk — fire walks when game hour changes
