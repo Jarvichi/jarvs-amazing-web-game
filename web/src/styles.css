@@ -10325,6 +10325,15 @@ html.light-mode .action-btn {
   color: var(--color-gold-light);
 }
 
+.minigame-card-challenge {
+  font-size: var(--font-sm);
+  color: #88aacc;
+}
+
+.minigame-card-challenge--done {
+  color: #7ddc7d;
+}
+
 .minigame-coming-soon {
   font-size: var(--font-md);
   color: #5555aa;

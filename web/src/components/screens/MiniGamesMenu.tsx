@@ -11,7 +11,10 @@ import {
   loadLocalHighScore, saveLocalHighScore,
   publishMiniGameScore, fetchMiniGameLeaderboard, MiniGameLeaderboardEntry,
 } from '../../game/miniGames'
-import { claimDailyChallengeIfEligible, DAILY_CHALLENGE_BONUS_TICKETS } from '../../game/miniGameDailyChallenge'
+import {
+  claimDailyChallengeIfEligible, DAILY_CHALLENGE_BONUS_TICKETS,
+  getDailyChallengeTarget, isDailyChallengeClaimed,
+} from '../../game/miniGameDailyChallenge'
 import { loadCrystals, saveCrystals, addCardsToCollection, loadCollection, getOwnedCount } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
 import { incrementAchievementProgress, setAchievementProgress } from '../../game/achievements'
@@ -312,6 +315,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
                 const cost = MINI_GAME_COSTS[id]
                 const locked = currentCrystals < cost
                 const best = loadLocalHighScore(id)
+                const challengeDone = isDailyChallengeClaimed(id)
                 return (
                   <div key={id} className={`minigame-card u-col u-items-c u-gap-3 u-text-c${locked ? ' minigame-card--locked' : ''}`}>
                     <div className="minigame-card-icon">{MINI_GAME_ICONS[id]}</div>
@@ -320,6 +324,11 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
                     <div className="minigame-card-meta u-flex u-gap-6">
                       <span className="minigame-card-cost">💎 {cost}</span>
                       {best > 0 && <span className="minigame-card-best">Best: {best} 🎫</span>}
+                    </div>
+                    <div className={`minigame-card-challenge${challengeDone ? ' minigame-card-challenge--done' : ''}`}>
+                      {challengeDone
+                        ? '✅ Today\'s challenge complete!'
+                        : `🎯 Beat ${getDailyChallengeTarget(id)} for +${DAILY_CHALLENGE_BONUS_TICKETS} 🎫`}
                     </div>
                     <button
                       className={`action-btn${locked ? '' : ' action-btn--gold'}`}
