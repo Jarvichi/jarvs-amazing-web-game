@@ -51,7 +51,8 @@ const NIGHT_NPC_LIGHT_R  = 2 * T   // small glow radius around each NPC
 // interactable without a wiki. Deliberately skips true secrets (dialogue/giveItem-only,
 // authored to stay hidden — see docs/hubworld.md §7). Tune these to iterate on the look.
 const INTERACTABLE_AURA_ENABLED      = true
-const INTERACTABLE_AURA_COLOR        = 0x7ec8ff  // faint sky-blue
+const INTERACTABLE_AURA_COLOR_EXTERIOR = 0xffa94d  // warm orange, outdoors
+const INTERACTABLE_AURA_COLOR_INTERIOR = 0x7ec8ff  // faint sky-blue, indoors
 const INTERACTABLE_AURA_RADIUS_PAD   = 6         // px the aura extends past the object's footprint
 const INTERACTABLE_AURA_OUTER_ALPHA  = 0.10      // outermost soft layer
 const INTERACTABLE_AURA_MID_ALPHA    = 0.10
@@ -612,7 +613,7 @@ export function HubTownCanvas({
       return def.reactions.some(r => AURA_REACTION_TYPES.has(r.type))
     }
 
-    function buildInteractableAura(footprintW: number, footprintH: number): PIXI.Graphics {
+    function buildInteractableAura(footprintW: number, footprintH: number, color: number): PIXI.Graphics {
       const cx = (footprintW * T) / 2
       const cy = (footprintH * T) / 2
       const baseR = (Math.max(footprintW, footprintH) * T) / 2 + INTERACTABLE_AURA_RADIUS_PAD
@@ -620,9 +621,9 @@ export function HubTownCanvas({
       // Three concentric soft fills (decreasing radius, mildly increasing alpha toward the
       // center) fake a gentle bloom with no distinct edge — deliberately no stroke/outline,
       // which read as UI chrome rather than ambient light.
-      aura.circle(cx, cy, baseR).fill({ color: INTERACTABLE_AURA_COLOR, alpha: INTERACTABLE_AURA_OUTER_ALPHA })
-      aura.circle(cx, cy, baseR * 0.7).fill({ color: INTERACTABLE_AURA_COLOR, alpha: INTERACTABLE_AURA_MID_ALPHA })
-      aura.circle(cx, cy, baseR * 0.4).fill({ color: INTERACTABLE_AURA_COLOR, alpha: INTERACTABLE_AURA_INNER_ALPHA })
+      aura.circle(cx, cy, baseR).fill({ color, alpha: INTERACTABLE_AURA_OUTER_ALPHA })
+      aura.circle(cx, cy, baseR * 0.7).fill({ color, alpha: INTERACTABLE_AURA_MID_ALPHA })
+      aura.circle(cx, cy, baseR * 0.4).fill({ color, alpha: INTERACTABLE_AURA_INNER_ALPHA })
       aura.eventMode = 'none'   // purely decorative — never steals taps from the real hit area
       return aura
     }
@@ -636,9 +637,13 @@ export function HubTownCanvas({
       stillCurrent: () => boolean,
     ): void {
       const pos = interactableMovesRef?.current.get(def.id) ?? { tx: def.tx, ty: def.ty }
+      const decor = (def.decor ?? []).filter(d => d.tileId !== 666)
       const root = new PIXI.Container()
       root.position.set(pos.tx * T, pos.ty * T)
-      root.zIndex = interactableZIndex(def, pos.ty)
+      // Pure hit-area interactables (no owned decor) overlay pre-existing static art — sit one
+      // tick below the usual tie-breaking zIndex so the aura renders behind that art, not in
+      // front of it (the +1.5 in interactableZIndex is meant to protect *owned* decor sprites).
+      root.zIndex = decor.length > 0 ? interactableZIndex(def, pos.ty) : interactableZIndex(def, pos.ty) - 1
       root.eventMode = 'static'
       root.cursor    = 'pointer'
       root.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
@@ -650,10 +655,10 @@ export function HubTownCanvas({
       let above: PIXI.Container | null = null
       let aura: PIXI.Graphics | null = null
       if (INTERACTABLE_AURA_ENABLED && interactableWantsAura(def)) {
-        aura = buildInteractableAura(def.hitRect.w, def.hitRect.h)
+        const auraColor = def.building ? INTERACTABLE_AURA_COLOR_INTERIOR : INTERACTABLE_AURA_COLOR_EXTERIOR
+        aura = buildInteractableAura(def.hitRect.w, def.hitRect.h, auraColor)
         root.addChild(aura)
       }
-      const decor = (def.decor ?? []).filter(d => d.tileId !== 666)
       if (decor.length > 0) {
         if (decor.some(d => d.zlayer === 'above')) {
           above = new PIXI.Container()
