@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Towering armoured herald with banner and writ -->
+  <!-- Banner pole -->
+  <rect x="25" y="2" width="1.6" height="26" rx="0.8" fill="#7E8299"/>
+  <path d="M26.6,3 L31.5,4.5 L26.6,9 Z" fill="#5E6A8C"/>
+  <circle cx="29" cy="5.5" r="0.9" fill="#E8B94A"/>
+  <!-- Crowned great helm -->
+  <rect x="10.5" y="3.5" width="11" height="9" rx="2.5" fill="#C9CBDA"/>
+  <path d="M11,3.5 L12.5,0.8 L14,3.5 L16,0.8 L18,3.5 L19.5,0.8 L21,3.5 Z" fill="#E8B94A"/>
+  <rect x="11.5" y="7.5" width="9" height="2" fill="#3A3F55"/>
+  <circle cx="14" cy="8.5" r="0.8" fill="#E8EAF4"/>
+  <circle cx="18" cy="8.5" r="0.8" fill="#E8EAF4"/>
+  <!-- Massive pale cloak/body -->
+  <path d="M8,13 L7,27 L25,27 L24,13 Q16,16.5 8,13 Z" fill="#C9CBDA"/>
+  <path d="M8,13 L7,27 L11,27 L11.5,14.5 Z" fill="#A6A9C0"/>
+  <rect x="9" y="17" width="15" height="1.4" fill="#7E8299"/>
+  <rect x="9" y="21" width="15" height="1.4" fill="#7E8299"/>
+  <!-- Vigil flame chest sigil -->
+  <ellipse cx="16.5" cy="19.4" rx="1.8" ry="2.4" fill="#E8B94A"/>
+  <ellipse cx="16.5" cy="19.8" rx="0.9" ry="1.3" fill="#FFE08A"/>
+  <!-- Pauldrons -->
+  <circle cx="8.5" cy="14" r="3.2" fill="#A6A9C0"/>
+  <circle cx="23.5" cy="14" r="3.2" fill="#A6A9C0"/>
+  <!-- The writ (unrolled scroll in hand) -->
+  <rect x="2.5" y="16" width="5.5" height="7" rx="1" fill="#F2E9D8"/>
+  <line x1="3.5" y1="18" x2="7" y2="18" stroke="#7E8299" stroke-width="0.6"/>
+  <line x1="3.5" y1="19.5" x2="7" y2="19.5" stroke="#7E8299" stroke-width="0.6"/>
+  <line x1="3.5" y1="21" x2="7" y2="21" stroke="#7E8299" stroke-width="0.6"/>
+  <!-- Legs -->
+  <rect x="11" y="27" width="4.5" height="4" rx="1" fill="#454E6B"/>
+  <rect x="17" y="27" width="4.5" height="4" rx="1" fill="#454E6B"/>
+  <!-- Mist at feet -->
+  <ellipse cx="16" cy="30" rx="11" ry="1.8" fill="#E8EAF4" opacity="0.4"/>
+</svg>
