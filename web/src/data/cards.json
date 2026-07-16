@@ -12742,6 +12742,298 @@
         "damage": 60,
         "range": 100
       }
+    },
+    "pale-sentry": {
+      "name": "Pale Sentry",
+      "attack": 3,
+      "maxHp": 12,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 60,
+      "attackRange": 5,
+      "attackCooldownMs": 1100,
+      "flying": false,
+      "tags": ["fast", "small"],
+      "strengths": ["fast", "melee"],
+      "weaknesses": ["armored", "ranged"],
+      "size": "small",
+      "affinity": {
+        "withName": "Mist Skirmisher",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.2,
+        "label": "March Step"
+      }
+    },
+    "mist-skirmisher": {
+      "name": "Mist Skirmisher",
+      "attack": 5,
+      "maxHp": 16,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 50,
+      "attackRange": 5,
+      "attackCooldownMs": 1200,
+      "flying": false,
+      "tags": ["melee", "fast"],
+      "strengths": ["ranged"],
+      "weaknesses": ["armored"],
+      "size": "small"
+    },
+    "candle-bearer": {
+      "name": "Candle Bearer",
+      "attack": 3,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 35,
+      "attackRange": 60,
+      "attackCooldownMs": 1600,
+      "flying": false,
+      "tags": ["ranged", "magic"],
+      "strengths": ["melee"],
+      "weaknesses": ["fast"],
+      "size": "small"
+    },
+    "lantern-post": {
+      "name": "Lantern Post",
+      "attack": 4,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 120,
+      "attackCooldownMs": 1800,
+      "tags": ["ranged"]
+    },
+    "marchland-pikeman": {
+      "name": "Marchland Pikeman",
+      "attack": 7,
+      "maxHp": 26,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 40,
+      "attackRange": 5,
+      "attackCooldownMs": 1300,
+      "flying": false,
+      "tags": ["melee", "armored"],
+      "strengths": ["fast"],
+      "weaknesses": ["magic"],
+      "size": "medium"
+    },
+    "unremembered-soldier": {
+      "name": "Unremembered Soldier",
+      "attack": 6,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 38,
+      "attackRange": 5,
+      "attackCooldownMs": 1300,
+      "flying": false,
+      "tags": ["melee"],
+      "strengths": ["small"],
+      "weaknesses": ["siege"],
+      "size": "medium"
+    },
+    "mist-archer": {
+      "name": "Mist Archer",
+      "attack": 6,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 42,
+      "attackRange": 130,
+      "attackCooldownMs": 1500,
+      "flying": false,
+      "tags": ["ranged"],
+      "strengths": ["flying"],
+      "weaknesses": ["melee", "fast"],
+      "size": "small"
+    },
+    "pale-rider": {
+      "name": "Pale Rider",
+      "attack": 9,
+      "maxHp": 28,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 75,
+      "attackRange": 5,
+      "attackCooldownMs": 1200,
+      "flying": false,
+      "tags": ["fast", "melee"],
+      "strengths": ["ranged", "small"],
+      "weaknesses": ["armored"],
+      "size": "medium"
+    },
+    "candle-shrine": {
+      "name": "Candle Shrine",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "mana",
+        "amount": 1
+      },
+      "tags": ["forgotten"]
+    },
+    "mist-barracks": {
+      "name": "Mist Barracks",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "mist-skirmisher",
+        "intervalMs": 12000
+      },
+      "tags": ["forgotten"]
+    },
+    "watch-beacon": {
+      "name": "Watch Beacon",
+      "attack": 6,
+      "maxHp": 26,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 140,
+      "attackCooldownMs": 1700,
+      "tags": ["ranged"]
+    },
+    "border-palisade": {
+      "name": "Border Palisade",
+      "attack": 0,
+      "maxHp": 60,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "tags": ["melee"],
+      "size": "medium"
+    },
+    "wardstone": {
+      "name": "Wardstone",
+      "attack": 0,
+      "maxHp": 85,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "tags": ["armored"],
+      "size": "medium"
+    },
+    "pale-vanguard": {
+      "name": "Pale Vanguard",
+      "attack": 11,
+      "maxHp": 44,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 40,
+      "attackRange": 5,
+      "attackCooldownMs": 1400,
+      "flying": false,
+      "tags": ["melee", "armored"],
+      "strengths": ["melee", "fast"],
+      "weaknesses": ["magic"],
+      "size": "large",
+      "affinity": {
+        "withName": "The Pale Herald",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Herald's Writ"
+      }
+    },
+    "unremembered-choir": {
+      "name": "Unremembered Choir",
+      "attack": 8,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 30,
+      "attackRange": 150,
+      "attackCooldownMs": 1900,
+      "flying": false,
+      "tags": ["ranged", "magic"],
+      "strengths": ["armored"],
+      "weaknesses": ["fast", "melee"],
+      "size": "medium"
+    },
+    "pale-monolith": {
+      "name": "Pale Monolith",
+      "attack": 0,
+      "maxHp": 45,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "pale-sentry",
+        "intervalMs": 10000
+      },
+      "tags": ["forgotten"]
+    },
+    "knight-of-the-vigil": {
+      "name": "Knight of the Vigil",
+      "attack": 14,
+      "maxHp": 60,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 35,
+      "attackRange": 5,
+      "attackCooldownMs": 1500,
+      "flying": false,
+      "tags": ["melee", "armored", "large"],
+      "strengths": ["melee", "small"],
+      "weaknesses": ["magic", "flying"],
+      "size": "large",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 90,
+        "engageRange": 190
+      }
+    },
+    "the-waiting-mist": {
+      "name": "The Waiting Mist",
+      "attack": 10,
+      "maxHp": 40,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 55,
+      "attackRange": 60,
+      "attackCooldownMs": 1600,
+      "flying": true,
+      "tags": ["flying", "magic"],
+      "strengths": ["melee", "armored"],
+      "weaknesses": ["ranged"],
+      "size": "large"
+    },
+    "the-pale-herald": {
+      "name": "The Pale Herald",
+      "attack": 16,
+      "maxHp": 78,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 30,
+      "attackRange": 5,
+      "attackCooldownMs": 1400,
+      "flying": false,
+      "tags": ["melee", "large", "armored"],
+      "strengths": ["melee", "small"],
+      "weaknesses": ["magic", "flying"],
+      "size": "large"
     }
   },
   "cards": [
@@ -21116,6 +21408,300 @@
         "citadel"
       ],
       "lore": "Honor is a shield. The actual shields help too."
+    },
+    {
+      "name": "Pale Sentry",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "pale-sentry",
+      "description": "A quick scout of the Marches, half-hidden in mist.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "It watched the border for a kingdom no map admits to. Now the maps are wrong, and it knows it."
+    },
+    {
+      "name": "Mist Skirmisher",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "mist-skirmisher",
+      "description": "A fast fighter who strikes out of the fog.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "You hear the footsteps after the blade. The mist keeps its own order of events."
+    },
+    {
+      "name": "Candle Bearer",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "candle-bearer",
+      "description": "A robed keeper whose vigil flame scorches at range.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "One candle, carried for three hundred years. It has never gone out. Neither has she."
+    },
+    {
+      "name": "Lantern Post",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "structure",
+      "unitRef": "lantern-post",
+      "description": "A watch-lantern that burns approaching enemies.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "The lamps along the Marches were lit before the Fracture. Someone kept them fed."
+    },
+    {
+      "name": "Vigil Prayer",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffHeal",
+        "amount": 6
+      },
+      "description": "Heals all friendly units by 6.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "The words were written for the dead. They work on the living too."
+    },
+    {
+      "name": "March Ration",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffSpeed",
+        "amount": 10
+      },
+      "description": "All friendly mobile units move faster.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "Wheat from fields that don't exist. It tastes like a childhood you never had."
+    },
+    {
+      "name": "Marchland Pikeman",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "marchland-pikeman",
+      "description": "An armoured line-holder of the border marches.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "The pike drill hasn't changed in three centuries. Nothing in Amarath has."
+    },
+    {
+      "name": "Unremembered Soldier",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "unremembered-soldier",
+      "description": "A steady infantry soldier of the returned kingdom.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "He remembers your great-grandmother's bakery. You don't remember his entire nation."
+    },
+    {
+      "name": "Mist Archer",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "mist-archer",
+      "description": "A long-range archer who looses from inside the fog.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "She aims at where things were. In the mist, that's where they still are."
+    },
+    {
+      "name": "Pale Rider",
+      "rarity": "uncommon",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "pale-rider",
+      "description": "A swift cavalry outrider of the Pale Court.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "The horse was bred in the void. It doesn't cast a shadow, and it minds that you noticed."
+    },
+    {
+      "name": "Candle Shrine",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "candle-shrine",
+      "description": "A vigil shrine that raises your maximum mana.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "Every flame is a name. Feed the shrine and it lends you a few."
+    },
+    {
+      "name": "Mist Barracks",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "mist-barracks",
+      "description": "Spawner. Periodically releases Mist Skirmishers.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "The muster horn is silent. The soldiers come anyway. They've had centuries of practice."
+    },
+    {
+      "name": "Watch Beacon",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "watch-beacon",
+      "description": "A tall border beacon with long attack range.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "It was built to warn Amarath about the Dominion. It works in both directions."
+    },
+    {
+      "name": "Border Palisade",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unitRef": "border-palisade",
+      "description": "A defensive wall of pale marchwood.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "The trees it was cut from grew in the void. The axe still hasn't forgiven anyone."
+    },
+    {
+      "name": "Wardstone",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "wardstone",
+      "description": "A heavy warding stone — a wall that endures.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "A boundary stone with the kingdom's true name carved on it. Reading it gives you a headache and a memory."
+    },
+    {
+      "name": "Memory Ward",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffMaxHp",
+        "amount": 8
+      },
+      "description": "All friendly units gain +8 max HP.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "Being remembered makes things harder to kill. Amarath learned that the long way."
+    },
+    {
+      "name": "Fog Veil",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffRange",
+        "amount": 15
+      },
+      "description": "All attacking units gain +15 attack range.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "The mist doesn't blind you. It blinds everyone else first."
+    },
+    {
+      "name": "Candlefall",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "aoe",
+        "damage": 6,
+        "range": 100
+      },
+      "description": "Burning wax rains on an area, damaging enemies within it.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "Ten thousand vigil candles, tipped at once. The Court calls it mourning. The Marches call it artillery."
+    },
+    {
+      "name": "Pale Vanguard",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "pale-vanguard",
+      "description": "An elite shock-guard of the Herald's escort.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "First across the border. First to be forgotten. First to come back."
+    },
+    {
+      "name": "Unremembered Choir",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "unremembered-choir",
+      "description": "A choir whose remembered hymns strike at long range.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "They sing the old anthem of the Grand Dominion. Nobody alive on your side knows the words. That's the weapon."
+    },
+    {
+      "name": "Pale Monolith",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "structure",
+      "unitRef": "pale-monolith",
+      "description": "Spawner. Periodically wakes Pale Sentries from the stone.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "The census of a lost kingdom, carved standing up. Some entries can still walk."
+    },
+    {
+      "name": "Rite of Return",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffMaxHp",
+        "amount": 12
+      },
+      "description": "All friendly units gain +12 max HP.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "The rite that held a kingdom together in the dark. It holds soldiers together just fine."
+    },
+    {
+      "name": "Knight of the Vigil",
+      "rarity": "epic",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "knight-of-the-vigil",
+      "description": "A towering knight sworn to the vigil, guarding your base.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "He stood watch for three hundred years without relief. He does not consider your battle an emergency."
+    },
+    {
+      "name": "The Waiting Mist",
+      "rarity": "epic",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "the-waiting-mist",
+      "description": "A drifting mass of vigil-mist that flies over walls.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "It isn't weather. It's patience, condensed."
+    },
+    {
+      "name": "The Pale Herald",
+      "rarity": "legendary",
+      "cost": 7,
+      "cardType": "unit",
+      "unitRef": "the-pale-herald",
+      "description": "The voice of the Pale Court — an armoured giant bearing the writ of return.",
+      "deckCount": 0,
+      "tags": ["forgotten", "marches"],
+      "lore": "He carries a proclamation with no signatures, because every hand that signed it was erased. He intends to collect them all back."
     }
   ],
   "heroCards": [
@@ -21547,6 +22133,38 @@
       },
       "description": "HERO: Deploys the Builder — repairs or upgrades a building every 3s (3 charges). After all charges are spent, he sprints to the enemy base avoiding enemies and detonates on the first enemy building he reaches! All units gain +18 max HP.",
       "lore": "Can fix anything. Given enough time. And lumber."
+    },
+    {
+      "id": "hero-warden-of-the-marches",
+      "name": "Warden of the Marches",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "unit",
+      "isHero": true,
+      "unit": {
+        "name": "Marches Warden",
+        "attack": 12,
+        "maxHp": 55,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 40,
+        "attackRange": 5,
+        "attackCooldownMs": 1400,
+        "flying": false,
+        "tags": ["melee", "armored"],
+        "size": "large",
+        "unitTrait": {
+          "guardBase": true,
+          "baseGuardRange": 100,
+          "engageRange": 200
+        }
+      },
+      "heroEffect": {
+        "type": "buffMaxHp",
+        "amount": 12
+      },
+      "description": "HERO: Deploys the Marches Warden — a border commander who holds the line near your base and engages anything that crosses it. All units gain +12 max HP.",
+      "lore": "The Dominion never posted a warden to the eastern blank. Somebody took the job anyway."
     }
   ]
 }
