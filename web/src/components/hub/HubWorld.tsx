@@ -1178,6 +1178,12 @@ function hasOfferableQuest(giverId: string): boolean {
           })
           return
         }
+        case 'screen':
+          // Navigate to a screen (campaign2, interior:<id>, …) through the same
+          // router every screen-based NPC/interactable uses. Terminates the walk.
+          setDialogueEvent(null)
+          handleNodeInteract(eff.screen)
+          return
         case 'end':
           ended = true
           break

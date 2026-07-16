@@ -238,6 +238,7 @@ export type DialogueEffect =
       giveRelationship?: { npcId?: string; track: RelationshipTrack; points: number }
       missingText: string
       successText: string }
+  | { type: 'screen'; screen: string }          // navigate to a screen (same ids as RawNpc.screen, e.g. 'campaign2', 'interior:<id>') — terminates the walk
   | { type: 'end' }                             // end the conversation
 
 export interface DialogueChoiceDef {
