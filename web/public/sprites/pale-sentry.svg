@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Hooded head -->
+  <circle cx="16" cy="9" r="5" fill="#5E6A8C"/>
+  <path d="M11,9 Q16,2 21,9 L21,11 Q16,8 11,11 Z" fill="#454E6B"/>
+  <circle cx="16" cy="10" r="3" fill="#E3D9CF"/>
+  <circle cx="15" cy="10" r="0.7" fill="#3A3F55"/>
+  <circle cx="17.5" cy="10" r="0.7" fill="#3A3F55"/>
+  <!-- Slim cloaked body -->
+  <path d="M12,14 L11,23 L21,23 L20,14 Q16,16 12,14 Z" fill="#5E6A8C"/>
+  <rect x="13" y="17" width="6" height="1.2" fill="#454E6B"/>
+  <!-- Watch-lantern on belt -->
+  <circle cx="19.5" cy="20" r="1.6" fill="#E8B94A"/>
+  <circle cx="19.5" cy="20" r="0.8" fill="#FFB347"/>
+  <!-- Spear arm -->
+  <rect x="8" y="14" width="3" height="6" rx="1" fill="#5E6A8C"/>
+  <rect x="8.5" y="6" width="1.4" height="18" rx="0.7" fill="#7E8299"/>
+  <path d="M9.2,2 L11,6.5 L7.4,6.5 Z" fill="#C9CBDA"/>
+  <!-- Legs (neutral) -->
+  <rect x="12" y="23" width="3.5" height="7" rx="1" fill="#454E6B"/>
+  <rect x="16.5" y="23" width="3.5" height="7" rx="1" fill="#454E6B"/>
+  <rect x="11" y="28" width="5.5" height="3" rx="1" fill="#3A3F55"/>
+  <rect x="16" y="28" width="5.5" height="3" rx="1" fill="#3A3F55"/>
+</svg>
