@@ -918,6 +918,39 @@ export const ACTS: Record<string, Act> = {
   world:     ACT_WORLD,
 }
 
+// ─── Campaigns ────────────────────────────────────────────
+
+export interface CampaignDef {
+  id: string
+  name: string
+  /** Act started when the player begins this campaign fresh. */
+  startActId: string
+  /** Completing this act completes the campaign. */
+  finaleActId: string
+}
+
+/** The story arcs, in order. Acts belong to campaign 2 iff their id starts with 'c2'. */
+export const CAMPAIGNS: CampaignDef[] = [
+  { id: 'c1', name: 'The Shattered Dominion', startActId: 'act1',   finaleActId: 'actfinale' },
+  { id: 'c2', name: 'The Forgotten Kingdom',  startActId: 'c2act1', finaleActId: 'c2finale' },
+]
+
+export function getCampaign(campaignId: string): CampaignDef | null {
+  return CAMPAIGNS.find(c => c.id === campaignId) ?? null
+}
+
+/** The campaign an act belongs to. Standalone maps (world battles) return campaign 1. */
+export function getCampaignForAct(actId: string): CampaignDef {
+  return actId.startsWith('c2') ? CAMPAIGNS[1] : CAMPAIGNS[0]
+}
+
+/** True once the player has beaten the campaign's finale act at least once. */
+export function isCampaignComplete(campaignId: string): boolean {
+  const campaign = getCampaign(campaignId)
+  if (!campaign) return false
+  return loadActCount(campaign.finaleActId) > 0
+}
+
 // ─── Node history (persistent across runs) ───────────────
 
 const NODE_HISTORY_KEY = 'jarv_node_history'
