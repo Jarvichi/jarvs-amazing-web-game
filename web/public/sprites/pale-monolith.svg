@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground -->
+  <ellipse cx="16" cy="29.5" rx="11" ry="2" fill="#7E8299" opacity="0.5"/>
+  <!-- Central monolith -->
+  <path d="M11,29 L12,6 L20,6 L21,29 Z" fill="#C9CBDA"/>
+  <path d="M12.8,29 L13.5,7.5 L16,7.5 L16,29 Z" fill="#DDDEE8"/>
+  <!-- Carved standing figures (the census) -->
+  <path d="M14,11 Q15,9.5 16,11 L16,16 L14,16 Z" fill="#8E92A8"/>
+  <path d="M17,12 Q18,10.5 19,12 L19,17 L17,17 Z" fill="#8E92A8"/>
+  <path d="M14.5,19 Q15.5,17.5 16.5,19 L16.5,24 L14.5,24 Z" fill="#8E92A8"/>
+  <!-- One figure stepping OUT of the stone -->
+  <circle cx="24" cy="20" r="2" fill="#C9CBDA"/>
+  <path d="M22.5,22.5 L22,28 L26,28 L25.5,22.5 Q24,23.5 22.5,22.5 Z" fill="#C9CBDA"/>
+  <path d="M21.5,22 Q20,21 21,19.5" stroke="#E8EAF4" stroke-width="0.8" fill="none"/>
+  <!-- Flanking small stones -->
+  <path d="M5,29 L6,17 L9,15 L10,29 Z" fill="#A6A9C0"/>
+  <path d="M26.5,29 L26.5,22.5" stroke="none"/>
+  <!-- Pale glow seam -->
+  <rect x="15.6" y="6" width="0.8" height="23" fill="#E8EAF4" opacity="0.8"/>
+  <ellipse cx="16" cy="17" rx="7" ry="11" fill="#E8EAF4" opacity="0.1"/>
+  <!-- Mist -->
+  <ellipse cx="16" cy="28.8" rx="9" ry="1.5" fill="#E8EAF4" opacity="0.45"/>
+</svg>
