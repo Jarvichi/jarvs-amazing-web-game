@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground -->
+  <ellipse cx="16" cy="29.5" rx="9" ry="2" fill="#7E8299" opacity="0.5"/>
+  <!-- Tall stone tower, tapering -->
+  <path d="M11.5,29 L13,9 L19,9 L20.5,29 Z" fill="#9FA3BC"/>
+  <path d="M13,9 L19,9 L18.6,14 L13.4,14 Z" fill="#C9CBDA"/>
+  <rect x="12.6" y="19" width="6.8" height="1" fill="#7E8299"/>
+  <rect x="12.2" y="24" width="7.6" height="1" fill="#7E8299"/>
+  <!-- Arrow slit -->
+  <rect x="15.4" y="16" width="1.2" height="4" rx="0.6" fill="#3A3F55"/>
+  <!-- Beacon platform -->
+  <rect x="10.5" y="7.4" width="11" height="2" rx="0.8" fill="#454E6B"/>
+  <!-- Beacon lamp -->
+  <rect x="14.4" y="2" width="3.2" height="5.4" rx="1" fill="#3A3F55"/>
+  <ellipse cx="16" cy="3.6" rx="1.1" ry="1.7" fill="#FFB347"/>
+  <ellipse cx="16" cy="4" rx="0.55" ry="0.9" fill="#FFE08A"/>
+  <!-- Glow -->
+  <circle cx="16" cy="4.6" r="5.5" fill="#FFB347" opacity="0.25"/>
+  <!-- Crenellation -->
+  <rect x="10.5" y="6" width="2" height="1.6" fill="#454E6B"/>
+  <rect x="19.5" y="6" width="2" height="1.6" fill="#454E6B"/>
+</svg>
