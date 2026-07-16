@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Robes sway left, notes drift -->
+  <circle cx="9" cy="12" r="3.6" fill="#9FA3BC"/>
+  <path d="M5.4,12 Q9,7 12.6,12 L12.6,14 Q9,11.5 5.4,14 Z" fill="#7E8299"/>
+  <path d="M6,15 L4,29 L12,29 L12,15 Q9,16.5 6,15 Z" fill="#9FA3BC"/>
+  <circle cx="23" cy="12" r="3.6" fill="#9FA3BC"/>
+  <path d="M19.4,12 Q23,7 26.6,12 L26.6,14 Q23,11.5 19.4,14 Z" fill="#7E8299"/>
+  <path d="M20,15 L18,29 L26,29 L26,15 Q23,16.5 20,15 Z" fill="#9FA3BC"/>
+  <circle cx="16" cy="10" r="4.2" fill="#C9CBDA"/>
+  <path d="M11.8,10 Q16,4.5 20.2,10 L20.2,12.5 Q16,9.5 11.8,12.5 Z" fill="#454E6B"/>
+  <ellipse cx="16" cy="11.5" rx="1" ry="1.4" fill="#3A3F55"/>
+  <path d="M12.5,14 L10,31 L20,31 L19.5,14 Q16,16 12.5,14 Z" fill="#C9CBDA"/>
+  <rect x="13.5" y="18" width="5" height="1.1" fill="#7E8299"/>
+  <circle cx="10.5" cy="4.5" r="0.9" fill="#E8EAF4"/>
+  <rect x="11.2" y="2" width="0.6" height="3" fill="#E8EAF4"/>
+  <circle cx="18.5" cy="4" r="0.9" fill="#E8EAF4"/>
+  <rect x="19.2" y="1.5" width="0.6" height="3" fill="#E8EAF4"/>
+  <ellipse cx="16" cy="30" rx="9" ry="1.8" fill="#E8B94A" opacity="0.25"/>
+</svg>
