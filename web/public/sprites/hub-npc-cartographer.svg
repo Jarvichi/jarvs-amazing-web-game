@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- shadow -->
+  <ellipse cx="16" cy="29" rx="5" ry="2" fill="rgba(0,0,0,0.25)"/>
+  <!-- boots -->
+  <rect x="11" y="25" width="4" height="3" rx="1" fill="#3a3226"/>
+  <rect x="17" y="25" width="4" height="3" rx="1" fill="#3a3226"/>
+  <!-- travel-worn trousers -->
+  <rect x="12" y="20" width="3" height="6" rx="1" fill="#4a4438"/>
+  <rect x="17" y="20" width="3" height="6" rx="1" fill="#4a4438"/>
+  <!-- surveyor's coat, ink-stained teal -->
+  <rect x="9" y="11" width="14" height="10" rx="2" fill="#2f6b66"/>
+  <rect x="15" y="12" width="2" height="8" rx="1" fill="#245450"/>
+  <!-- satchel strap + satchel of maps -->
+  <path d="M9,12 L23,19 L23,21 L9,14 Z" fill="#8a6f4d"/>
+  <rect x="21" y="19" width="6" height="5" rx="1" fill="#8a6f4d"/>
+  <rect x="21.5" y="19.5" width="5" height="1.6" fill="#6f583c"/>
+  <!-- rolled map poking out of satchel -->
+  <rect x="25.4" y="15.5" width="1.8" height="5" rx="0.9" fill="#F2E9D8" transform="rotate(18 26.3 18)"/>
+  <!-- arms -->
+  <rect x="7" y="13" width="4" height="6" rx="1.5" fill="#2f6b66"/>
+  <rect x="21" y="13" width="4" height="6" rx="1.5" fill="#2f6b66"/>
+  <!-- unrolled map held in left hand -->
+  <rect x="3.5" y="16" width="6" height="4.6" rx="0.8" fill="#F2E9D8"/>
+  <line x1="4.5" y1="17.4" x2="8.6" y2="17.4" stroke="#7E8299" stroke-width="0.5"/>
+  <line x1="4.5" y1="18.6" x2="8.6" y2="18.6" stroke="#7E8299" stroke-width="0.5"/>
+  <line x1="7" y1="16.4" x2="7" y2="20.2" stroke="#8E3B3B" stroke-width="0.5" stroke-dasharray="1,0.8"/>
+  <!-- head -->
+  <circle cx="16" cy="7.5" r="4.2" fill="#e8c49a"/>
+  <!-- spectacles -->
+  <circle cx="14.4" cy="7.8" r="1.3" fill="none" stroke="#3a3f55" stroke-width="0.7"/>
+  <circle cx="17.8" cy="7.8" r="1.3" fill="none" stroke="#3a3f55" stroke-width="0.7"/>
+  <line x1="15.7" y1="7.8" x2="16.5" y2="7.8" stroke="#3a3f55" stroke-width="0.7"/>
+  <!-- wide-brim surveyor hat -->
+  <ellipse cx="16" cy="4.6" rx="6.4" ry="1.6" fill="#245450"/>
+  <path d="M12,4.6 Q16,0.8 20,4.6 Z" fill="#2f6b66"/>
+  <!-- quill tucked in hatband -->
+  <path d="M20.5,3.4 L23.5,1 L23.9,1.6 L21.2,4.1 Z" fill="#E8EAF4"/>
+</svg>

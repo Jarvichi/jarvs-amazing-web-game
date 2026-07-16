@@ -1864,6 +1864,24 @@
   "ambientNpcSprites": [],
   "npcs": [
     {
+      "id": "castle-cartographer",
+      "name": "Cartographer Elsben",
+      "sprite": "hub-npc-cartographer",
+      "tx": 21,
+      "ty": 43,
+      "dialogue": [
+        "Every map of the Dominion agrees on one thing: east of here, nothing. Forty leagues of nothing. I have started to wonder who decided that.",
+        "I've surveyed this border three times. My instruments keep finding a road. There is no road on any chart I own.",
+        "A cartographer draws what is there. Nobody trained me for what has been... removed."
+      ],
+      "postCampaignDialogue": [
+        "Worldmender! My new surveys — since the mending, they show a KINGDOM in the blank quarter. Roads. Towns. It was always there. We just... stopped being able to remember it.",
+        "The border scouts have gone quiet, and there are lights in the eastern mist. Lanterns. Somebody is keeping them lit, and it isn't us.",
+        "I keep comparing the old maps to the new survey. The old maps aren't wrong, Worldmender. They were edited."
+      ],
+      "dialogueTree": "elsben-maps"
+    },
+    {
       "id": "castle-commander",
       "name": "Commander Varek",
       "sprite": "hub-npc-arena",
