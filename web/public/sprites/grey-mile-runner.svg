@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Dust wisp behind -->
+  <ellipse cx="16" cy="24" rx="10" ry="3" fill="#E8EAF4" opacity="0.3"/>
+  <!-- Head with half-mask -->
+  <circle cx="16" cy="9" r="5" fill="#E3D9CF"/>
+  <path d="M11,9 A5,5 0 0 1 21,9 L21,7 Q16,4 11,7 Z" fill="#3A3F55"/>
+  <rect x="11.5" y="10.5" width="9" height="3" rx="1.5" fill="#A6A9C0"/>
+  <circle cx="14" cy="8.8" r="0.8" fill="#454E6B"/>
+  <circle cx="18" cy="8.8" r="0.8" fill="#454E6B"/>
+  <!-- Light body -->
+  <path d="M12,14 L12,22 L20,22 L20,14 Q16,16 12,14 Z" fill="#A6A9C0"/>
+  <rect x="12" y="17.5" width="8" height="1.4" fill="#7E8299"/>
+  <!-- Courier satchel on back -->
+  <rect x="20.5" y="13" width="4.5" height="6.5" rx="1" fill="#8A6F4D"/>
+  <rect x="20.9" y="14.8" width="3.7" height="0.8" fill="#C9CBDA"/>
+  <!-- Arms -->
+  <rect x="8" y="14" width="3.5" height="6" rx="1" fill="#A6A9C0"/>
+  <rect x="20.5" y="19.5" width="3.5" height="4" rx="1" fill="#A6A9C0"/>
+  <!-- Legs (neutral) -->
+  <rect x="12" y="22" width="3.5" height="8" rx="1" fill="#454E6B"/>
+  <rect x="16.5" y="22" width="3.5" height="8" rx="1" fill="#454E6B"/>
+  <rect x="11" y="28" width="5.5" height="3" rx="1" fill="#3A3F55"/>
+  <rect x="16" y="28" width="5.5" height="3" rx="1" fill="#3A3F55"/>
+</svg>
