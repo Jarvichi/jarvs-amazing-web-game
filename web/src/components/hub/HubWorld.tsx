@@ -209,6 +209,8 @@ export interface Props {
   onBack:             () => void
   onNavigate?:        (screen: string, buildingId?: string) => void
   onCampaign?:        () => void
+  /** Launch campaign 2 (The Forgotten Kingdom) — from Elsben in Ironhold Keep. */
+  onCampaign2?:       () => void
   onEndless?:         () => void
   onWorldMap?:        () => void
   /** An exit tile's `screen` is `town:<mapId>` — travel directly to another
@@ -234,7 +236,7 @@ export interface Props {
   onBuyCrystalPack?:  (qty: number) => void
 }
 
-export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap, onNavigateTown, onPlayerTap, onNarratorLog,
+export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndless, onWorldMap, onNavigateTown, onPlayerTap, onNarratorLog,
   locationData, locationQuests, questDefs, allQuestDefs,
   crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onCrystalsChange, onTileTap, onBuyCrystalPack }: Props) {
   const [splashVisible, setSplashVisible] = useState(() => !_hubSplashShown && !loadSkipIntro())
@@ -637,6 +639,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     if (screen === 'worldmap') { onWorldMap?.(); return }
     if (screen.startsWith('town:')) { onNavigateTown?.(screen.slice(5)); return }
     if (screen === 'campaign') { onCampaign?.(); return }
+    if (screen === 'campaign2') { onCampaign2?.(); return }
     if (screen === 'endless') { onEndless?.(); return }
     if (screen === 'commander' && !commander) {
       setDialogueEvent({ speakerName: "Commander's Post", text: "No commander has been assigned yet. Visit the title screen to choose one." })
@@ -657,7 +660,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
       }
     }
     onNavigate?.(screen, buildingId)
-  }, [onNavigate, onCampaign, onWorldMap, onNavigateTown, onNarratorLog, commander])
+  }, [onNavigate, onCampaign, onCampaign2, onWorldMap, onNavigateTown, onNarratorLog, commander])
 
   const handleReturn = useCallback(() => {
     returnRef.current?.()

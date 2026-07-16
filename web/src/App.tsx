@@ -26,7 +26,7 @@ import { applyStatUpgrade } from './game/playerStats'
 import {
   loadRun, saveRun, clearRun, newRun, LIVES_START, LIVES_MAX,
   getAvailableNodeIds, skipSiblings, isActComplete,
-  generateRewardChoices, generateEndlessRewardChoices, generateMerchantCards, MERCHANT_PRICES, ACTS, getNextAct,
+  generateRewardChoices, generateEndlessRewardChoices, generateMerchantCards, MERCHANT_PRICES, ACTS, getNextAct, getCampaignForAct,
   loadFatigued, saveFatigued, clearFatigued, getTopPlayedCards,
   hasSeenIntro, markIntroSeen,
   loadRunCount, incrementRunCount, getAct1Intro,
@@ -137,6 +137,7 @@ import { BattleSummary }    from './components/battle/BattleSummary'
 import { VictoryPanel }     from './components/battle/VictoryPanel'
 import { RelicSpinScreen }  from './components/campaign/RelicSpinScreen'
 import { CampaignVictoryScreen } from './components/battle/CampaignVictoryScreen'
+import { ToBeContinuedScreen } from './components/battle/ToBeContinuedScreen'
 import { CampaignFailedScreen }  from './components/battle/CampaignFailedScreen'
 import { StatUpgradeScreen }     from './components/campaign/StatUpgradeScreen'
 import { PlayerStatsScreen }     from './components/screens/PlayerStatsScreen'
@@ -224,6 +225,7 @@ type Screen =
   | 'shop-augments'
   | 'shop-supplies'
   | 'campaignvictory'
+  | 'tobecontinued'
   | 'itemfound'
   | 'character'
   | 'replayBriefing'
@@ -512,6 +514,7 @@ export default function App() {
   const [cardRestPlayCounts, setCardRestPlayCounts] = useState<Record<string, number>>({})
   const [bonusPackCards, setBonusPackCards]     = useState<string[]>([])
   const [campaignRestingAlert, setCampaignRestingAlert] = useState(false)
+  const [campaign2AbandonConfirm, setCampaign2AbandonConfirm] = useState(false)
   const [streakBrokenData, setStreakBrokenData] = useState<{ streak: number; bestStreak: number } | null>(null)
   // Secret 5 — Time Capsule on 100th battle
   const [timeCapsuleVisible, setTimeCapsuleVisible] = useState(false)
@@ -1085,7 +1088,7 @@ export default function App() {
 
   // ── Campaign ─────────────────────────────────────────────
 
-  const handleCampaign = useCallback(() => {
+  const launchCampaign = useCallback((startActId: string) => {
     const doLaunch = () => {
     const existing = loadRun()
 
@@ -1162,7 +1165,7 @@ export default function App() {
     }
 
     // ── Fresh run ─────────────────────────────────────────────────────────────
-    const actId = 'act1'
+    const actId = startActId
     const act = ACTS[actId]
     const completionCount = loadActCount(actId)
 
@@ -1238,6 +1241,22 @@ export default function App() {
       doLaunch()
     }
   }, [])
+
+  const handleCampaign = useCallback(() => {
+    launchCampaign('act1')
+  }, [launchCampaign])
+
+  // Campaign 2 is launched from Cartographer Elsben in Ironhold Keep. If a
+  // campaign-1 run is in progress it must be explicitly abandoned first —
+  // both campaigns share the single active-run slot.
+  const handleCampaign2 = useCallback(() => {
+    const existing = loadRun()
+    if (existing && getCampaignForAct(existing.actId).id !== 'c2') {
+      setCampaign2AbandonConfirm(true)
+      return
+    }
+    launchCampaign('c2act1')
+  }, [launchCampaign])
 
   const handleWorldBattle = useCallback((worldNode: WorldNodeDef) => {
     if (!worldNode.battleConfig) return
@@ -2006,6 +2025,17 @@ export default function App() {
         } else {
           maybeShowCardRest(null)
         }
+        return
+      }
+
+      // ── No next act ─────────────────────────────────────────────────────────
+      // If this act is its campaign's finale, the campaign is won. Otherwise the
+      // player has reached the end of the authored acts of an in-progress arc
+      // (campaign 2 lands act by act) — show "to be continued" instead.
+      const campaign = getCampaignForAct(currentRun.actId)
+      if (currentRun.actId !== campaign.finaleActId) {
+        rollbar.info('End of authored acts — showing tobecontinued', { actId: currentRun.actId, campaignId: campaign.id })
+        setScreen('tobecontinued')
         return
       }
 
@@ -2928,6 +2958,7 @@ export default function App() {
             }
           }}
           onCampaign={() => { setReturnScreen('hubworld'); handleCampaign() }}
+          onCampaign2={() => { setReturnScreen('hubworld'); handleCampaign2() }}
           onEndless={() => { setReturnScreen('hubworld'); handleEndless() }}
           onWorldMap={() => setScreen('worldmap')}
           onNavigateTown={goToWorldLocation}
@@ -3188,6 +3219,20 @@ export default function App() {
         />
       )}
 
+      {campaign2AbandonConfirm && (
+        <ConfirmModal
+          title="Abandon Current Run?"
+          body="You have a campaign run in progress. Setting out for the Forgotten Kingdom will abandon it — unused consumables return to your stash, but map progress is lost."
+          confirmLabel="Abandon & Set Out"
+          onConfirm={() => {
+            setCampaign2AbandonConfirm(false)
+            clearRun(); setRun(null)
+            launchCampaign('c2act1')
+          }}
+          onCancel={() => setCampaign2AbandonConfirm(false)}
+        />
+      )}
+
       {screen === 'itemfound' && foundItem && (
         <ItemFoundScreen
           item={{ ...foundItem, acquiredDate: '' }}
@@ -3383,6 +3428,16 @@ export default function App() {
 
       {screen === 'campaignvictory' && (
         <CampaignVictoryScreen onBeginAnew={() => setScreen('statupgrade')} />
+      )}
+
+      {screen === 'tobecontinued' && (
+        <ToBeContinuedScreen
+          campaignName={run ? getCampaignForAct(run.actId).name : 'The Forgotten Kingdom'}
+          onContinue={() => {
+            clearRun(); setRun(null); clearFatigued(); setFatiguedCards([])
+            setScreen(returnScreen)
+          }}
+        />
       )}
 
       {screen === 'statupgrade' && (
