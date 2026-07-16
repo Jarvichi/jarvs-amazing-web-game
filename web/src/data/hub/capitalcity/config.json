@@ -5052,6 +5052,11 @@
         "The old postern gate key went missing on patrol. If it falls into the wrong hands, the palace will have my head.",
         "Keep your nose clean in my city, traveller."
       ],
+      "postCampaignDialogue": [
+        "The Worldmender, in my ward. Crime's down since the mending — hard to pick pockets when everyone's celebrating.",
+        "Between us: the crown's been asking the watch about the eastern roads. Merchants report lantern-light past the border. Above my pay grade, that.",
+        "The Fracture's sealed and the city sleeps easy. I still don't. Old habit."
+      ],
       "dialogueByActivity": {
         "work": [
           "Guardhouse business. Move along unless you've something to report."
@@ -5125,6 +5130,11 @@
         "The royal survey of the outer provinces is three scrolls short. Three!",
         "The couriers dropped them somewhere between here and the gates, I'm certain of it.",
         "History is just paperwork that survived, you know."
+      ],
+      "postCampaignDialogue": [
+        "Since the mending, the archive doesn't add up. There's a treaty in the vaults with a blank space where the second signatory should be. The seal is real. The kingdom it belongs to isn't anywhere.",
+        "You mended the world, and I'm grateful — but somebody should tell the paperwork. I keep finding references to an eastern census that doesn't exist.",
+        "History is paperwork that survived. I'm starting to wonder about the paperwork that didn't."
       ],
       "dialogueByActivity": {
         "work": [
@@ -5269,6 +5279,11 @@
         "The capital does not run on goodwill, traveller. It runs on charters, seals, and very tired clerks.",
         "Crownhaven looks to Ravenwatch for the old records. We must keep the two cities in step.",
         "Serve the crown well and the crown remembers."
+      ],
+      "postCampaignDialogue": [
+        "Worldmender. The crown's gratitude is on record — I filed it personally.",
+        "The eastern reports are a nuisance. Lights, roads, banners in the mist. I've commissioned a survey and I expect it to say 'weather'.",
+        "Serve the crown well and the crown remembers. Lately I find myself wondering what the crown has forgotten."
       ],
       "dialogueByActivity": {
         "work": [

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <circle cx="16" cy="10" r="5" fill="#E3D9CF"/>
+  <path d="M11,10 Q16,4 21,10 L21,9 Q16,5.5 11,9 Z" fill="#7E8299"/>
+  <rect x="11" y="9.6" width="10" height="1.2" fill="#7E8299"/>
+  <circle cx="14" cy="11" r="0.8" fill="#3A3F55"/>
+  <circle cx="18" cy="11" r="0.8" fill="#3A3F55"/>
+  <path d="M12,15 L12,24 L20,24 L20,15 Q16,17 12,15 Z" fill="#5E6A8C"/>
+  <rect x="14.5" y="15.5" width="3" height="8" fill="#C9CBDA" opacity="0.75"/>
+  <rect x="12" y="19" width="8" height="1.2" fill="#454E6B"/>
+  <rect x="20.5" y="15" width="3.5" height="6" rx="1" fill="#5E6A8C"/>
+  <rect x="23" y="11" width="1.6" height="9" rx="0.8" fill="#C9CBDA"/>
+  <rect x="22" y="19" width="3.6" height="1.4" rx="0.6" fill="#E8B94A"/>
+  <rect x="8" y="15" width="3.5" height="6" rx="1" fill="#5E6A8C"/>
+  <path d="M5.5,15.5 L10,15.5 L10,21.5 Q7.7,23.5 5.5,21.5 Z" fill="#7E8299"/>
+  <!-- Legs stride A -->
+  <rect x="10" y="24" width="3.5" height="7" rx="1" fill="#454E6B"/>
+  <rect x="18" y="24" width="3.5" height="5.5" rx="1" fill="#454E6B"/>
+  <rect x="9" y="29" width="5.5" height="2.6" rx="1" fill="#3A3F55"/>
+  <rect x="18" y="27.5" width="5" height="2.6" rx="1" fill="#3A3F55"/>
+</svg>

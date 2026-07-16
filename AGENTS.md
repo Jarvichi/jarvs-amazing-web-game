@@ -361,7 +361,7 @@ All hub world JSON schemas (blocked paths, pickup items, NPCs, tile IDs, sprite 
 
 ## Acts — Design Rules
 
-All rules for acts, the campaign map, node types, relics, heroes, lives system, music, boss traits, and card authoring are in **[`docs/acts.md`](docs/acts.md)**. Read it before:
+All rules for acts, the campaign map, node types, relics, heroes, lives system, music, boss traits, and card authoring are in **[`docs/acts.md`](docs/acts.md)**. The second campaign's story bible (premise, per-act bosses/relics/heroes for `c2act*`) is **[`docs/campaign2.md`](docs/campaign2.md)** — read it before authoring any campaign 2 act. Read `docs/acts.md` before:
 - Creating or modifying act JSON files (`web/src/data/acts/*.json`)
 - Adding new node types, relics, hero cards, or boss mechanics
 - Authoring campaign story text or replay variants

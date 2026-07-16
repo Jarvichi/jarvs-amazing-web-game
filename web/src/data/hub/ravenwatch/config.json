@@ -8766,6 +8766,11 @@
         "The archives hold centuries of knowledge. Most of it was lost in the Fracture. What remains is precious.",
         "Do not underestimate the power of knowing your enemy, Commander."
       ],
+      "postCampaignDialogue": [
+        "You sealed the Fracture, Commander. The scholarly consensus is astonishment. My consensus is: I told them you would.",
+        "A puzzle for you: when the world mended, everything the Fracture scattered came back. Everything. Now ask yourself — what did the Fracture take that we never missed?",
+        "Know your enemy, I always said. Our next enemy may be one nobody CAN know. The old texts have holes in them shaped like a kingdom."
+      ],
       "dialogueByActivity": {
         "work": [
           "Quiet, please. The Fracture shards don't catalogue themselves."

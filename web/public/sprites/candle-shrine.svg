@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground -->
+  <ellipse cx="16" cy="29" rx="11" ry="2.2" fill="#7E8299" opacity="0.5"/>
+  <!-- Stone shrine arch -->
+  <path d="M8,28 L8,14 Q16,6 24,14 L24,28 Z" fill="#A6A9C0"/>
+  <path d="M11,28 L11,16 Q16,10.5 21,16 L21,28 Z" fill="#454E6B"/>
+  <!-- Shrine steps -->
+  <rect x="6.5" y="27" width="19" height="2.4" rx="0.8" fill="#C9CBDA"/>
+  <!-- Candle cluster inside -->
+  <rect x="13" y="21.5" width="1.6" height="5.5" fill="#F2E9D8"/>
+  <rect x="15.4" y="20" width="1.8" height="7" fill="#F2E9D8"/>
+  <rect x="18" y="22.5" width="1.4" height="4.5" fill="#F2E9D8"/>
+  <ellipse cx="13.8" cy="20.6" rx="0.9" ry="1.3" fill="#FFB347"/>
+  <ellipse cx="16.3" cy="19" rx="1" ry="1.5" fill="#FFB347"/>
+  <ellipse cx="18.7" cy="21.6" rx="0.8" ry="1.2" fill="#FFB347"/>
+  <ellipse cx="16.3" cy="19.3" rx="0.5" ry="0.8" fill="#FFE08A"/>
+  <!-- Warm glow -->
+  <circle cx="16" cy="21" r="6.5" fill="#FFB347" opacity="0.22"/>
+  <!-- Mana crystal set in the keystone -->
+  <path d="M16,7.5 L18,10.5 L16,13.5 L14,10.5 Z" fill="#7FB7E8"/>
+  <path d="M16,8.6 L17.2,10.5 L16,12.4 L14.8,10.5 Z" fill="#B8DCF7"/>
+</svg>

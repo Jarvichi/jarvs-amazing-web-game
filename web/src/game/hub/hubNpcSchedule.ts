@@ -1,4 +1,5 @@
 import { hourInRange } from './hubClock'
+import { isCampaignComplete } from '../questline'
 import type { HubNpc, HubInterior, NpcScheduleEntry, NpcActivity } from '../../data/hub/loader'
 
 /**
@@ -26,12 +27,15 @@ export function getNpcActivity(npc: HubNpc, gameHour: number): NpcActivity | nul
 }
 
 /** The dialogue pool an NPC should draw from right now: the activity-specific
- *  pool when one is authored for the current scheduled activity, otherwise
- *  the flat `dialogue` array. */
+ *  pool when one is authored for the current scheduled activity, otherwise the
+ *  post-campaign lines once campaign 1 is complete, otherwise the flat
+ *  `dialogue` array. */
 export function getNpcDialoguePool(npc: HubNpc, gameHour: number): string[] {
   const activity = getNpcActivity(npc, gameHour)
   const pool = activity ? npc.dialogueByActivity?.[activity] : undefined
-  return pool?.length ? pool : npc.dialogue
+  if (pool?.length) return pool
+  if (npc.postCampaignDialogue?.length && isCampaignComplete('c1')) return npc.postCampaignDialogue
+  return npc.dialogue
 }
 
 /** True while the NPC's schedule has them sleeping. */

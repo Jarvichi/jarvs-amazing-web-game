@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#08070c"/>
+  <!-- Darkness with one warm lantern -->
+  <radialGradient id="c2o2-glow" cx="50%" cy="45%" r="55%">
+    <stop offset="0%" stop-color="#FFB347" stop-opacity="0.5"/>
+    <stop offset="45%" stop-color="#8a5f2a" stop-opacity="0.25"/>
+    <stop offset="100%" stop-color="#08070c" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#c2o2-glow)"/>
+  <!-- Lantern -->
+  <rect x="186" y="70" width="28" height="42" rx="5" fill="#20263c"/>
+  <rect x="182" y="66" width="36" height="7" rx="3" fill="#2b3149"/>
+  <rect x="182" y="110" width="36" height="7" rx="3" fill="#2b3149"/>
+  <rect x="196" y="52" width="8" height="14" rx="3" fill="#2b3149"/>
+  <rect x="191" y="76" width="18" height="31" fill="#FFB347" opacity="0.9"/>
+  <!-- Candle inside -->
+  <rect x="197" y="92" width="6" height="14" fill="#F2E9D8"/>
+  <ellipse cx="200" cy="87" rx="4" ry="7" fill="#FFE08A"/>
+  <ellipse cx="200" cy="89" rx="2" ry="3.6" fill="#FFF6D8"/>
+  <!-- Hands receiving it -->
+  <path d="M150,150 Q170,132 186,124 L192,132 Q176,142 162,158 Z" fill="#c9a985"/>
+  <path d="M250,150 Q230,132 214,124 L208,132 Q224,142 238,158 Z" fill="#c9a985"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">ONE FLAME OF THE VIGIL · THREE HUNDRED YEARS OLD</text>
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2o1-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#242b48"/>
+    <stop offset="100%" stop-color="#4a5170"/>
+  </linearGradient>
+  <rect width="400" height="200" fill="url(#c2o1-sky)"/>
+  <!-- Churned battlefield ground -->
+  <rect y="176" width="400" height="64" fill="#2b2f42"/>
+  <path d="M0,176 Q60,168 120,176 Q200,184 280,174 Q340,168 400,176 L400,240 L0,240 Z" fill="#232739"/>
+  <!-- Kneeling herald: large pale figure -->
+  <g>
+    <rect x="168" y="96" width="44" height="12" rx="4" fill="#9FA3BC"/>
+    <path d="M170,86 L176,74 L182,86 L188,74 L194,86 L200,74 L206,86 Z" fill="#FFD24A"/>
+    <rect x="172" y="102" width="36" height="6" fill="#20263c"/>
+    <circle cx="182" cy="105" r="2" fill="#E8EAF4"/>
+    <circle cx="196" cy="105" r="2" fill="#E8EAF4"/>
+    <path d="M160,110 L154,190 L226,190 L220,110 Q190,124 160,110 Z" fill="#9FA3BC"/>
+    <!-- Kneeling leg -->
+    <rect x="164" y="186" width="52" height="10" rx="4" fill="#454E6B"/>
+  </g>
+  <!-- Planted banner beside him -->
+  <rect x="242" y="60" width="4" height="132" rx="2" fill="#5B5346"/>
+  <path d="M246,64 L296,72 L246,96 Z" fill="#5E6A8C"/>
+  <circle cx="268" cy="76" r="4" fill="#FFD24A"/>
+  <!-- Mist low over the field -->
+  <ellipse cx="100" cy="196" rx="130" ry="18" fill="#ced3e6" opacity="0.35"/>
+  <ellipse cx="320" cy="200" rx="120" ry="16" fill="#ced3e6" opacity="0.3"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">"AMARATH HAS RETURNED. NOW YOU KNOW."</text>
+</svg>

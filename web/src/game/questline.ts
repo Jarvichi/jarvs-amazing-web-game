@@ -17,6 +17,7 @@ import act11Data from '../data/acts/act11.json'
 import act12Data from '../data/acts/act12.json'
 import act13Data    from '../data/acts/act13.json'
 import actFinaleData from '../data/acts/actfinale.json'
+import c2act1Data from '../data/acts/c2act1.json'
 import worldBattlesData from '../data/acts/worldbattles.json'
 import consumablesData from '../data/consumables.json'
 
@@ -897,6 +898,7 @@ export const ACT_11: Act = act11Data as Act
 export const ACT_12: Act = act12Data as Act
 export const ACT_13:     Act = act13Data    as Act
 export const ACT_FINALE: Act = actFinaleData as Act
+export const C2_ACT_1: Act = c2act1Data as Act
 /** Standalone battles launched from the world map — never part of campaign progression. */
 export const ACT_WORLD: Act = worldBattlesData as Act
 
@@ -915,7 +917,41 @@ export const ACTS: Record<string, Act> = {
   act12: ACT_12,
   act13:     ACT_13,
   actfinale: ACT_FINALE,
+  c2act1:    C2_ACT_1,
   world:     ACT_WORLD,
+}
+
+// ─── Campaigns ────────────────────────────────────────────
+
+export interface CampaignDef {
+  id: string
+  name: string
+  /** Act started when the player begins this campaign fresh. */
+  startActId: string
+  /** Completing this act completes the campaign. */
+  finaleActId: string
+}
+
+/** The story arcs, in order. Acts belong to campaign 2 iff their id starts with 'c2'. */
+export const CAMPAIGNS: CampaignDef[] = [
+  { id: 'c1', name: 'The Shattered Dominion', startActId: 'act1',   finaleActId: 'actfinale' },
+  { id: 'c2', name: 'The Forgotten Kingdom',  startActId: 'c2act1', finaleActId: 'c2finale' },
+]
+
+export function getCampaign(campaignId: string): CampaignDef | null {
+  return CAMPAIGNS.find(c => c.id === campaignId) ?? null
+}
+
+/** The campaign an act belongs to. Standalone maps (world battles) return campaign 1. */
+export function getCampaignForAct(actId: string): CampaignDef {
+  return actId.startsWith('c2') ? CAMPAIGNS[1] : CAMPAIGNS[0]
+}
+
+/** True once the player has beaten the campaign's finale act at least once. */
+export function isCampaignComplete(campaignId: string): boolean {
+  const campaign = getCampaign(campaignId)
+  if (!campaign) return false
+  return loadActCount(campaign.finaleActId) > 0
 }
 
 // ─── Node history (persistent across runs) ───────────────
@@ -969,7 +1005,7 @@ export const BOSS_AVATAR_SLUGS = [
   'boss-thornlord', 'boss-kragg', 'boss-ashwalker', 'boss-archivist',
   'boss-tidal-sovereign', 'boss-cloudmarshal', 'boss-cinderwarlord', 'boss-rootqueen',
   'boss-paleengine', 'boss-dunebaron', 'boss-elderwarden', 'boss-harbormaster',
-  'boss-grandautomaton',
+  'boss-grandautomaton', 'boss-paleherald',
 ] as const
 export const AVATAR_SLUGS = [...BASE_AVATAR_SLUGS, ...STREAK_AVATAR_SLUGS, ...BOSS_AVATAR_SLUGS] as const
 export type AvatarSlug = typeof AVATAR_SLUGS[number]
@@ -999,6 +1035,7 @@ export const BOSS_AVATAR_LABELS: Record<string, string> = {
   'boss-elderwarden':     'The Elder Warden',
   'boss-harbormaster':    'The Harbormaster',
   'boss-grandautomaton':  'The Grand Automaton',
+  'boss-paleherald':      'The Pale Herald',
 }
 
 export function loadUnlockedAvatars(): string[] {

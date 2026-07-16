@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2o3-dawn" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#3a4160"/>
+    <stop offset="70%" stop-color="#6b7294"/>
+    <stop offset="100%" stop-color="#8e94b4"/>
+  </linearGradient>
+  <rect width="400" height="200" fill="url(#c2o3-dawn)"/>
+  <!-- Grey causeway running east -->
+  <path d="M0,240 L180,110 L200,110 L120,240 Z" fill="#4a5170"/>
+  <path d="M186,112 L194,112 L188,140 L182,140 Z" fill="#565e80"/>
+  <!-- Unlit lamps lining it -->
+  <g fill="#20263c">
+    <rect x="150" y="136" width="3" height="30"/>
+    <circle cx="151.5" cy="132" r="4.5" fill="#2b3149"/>
+    <rect x="192" y="116" width="2.4" height="24"/>
+    <circle cx="193.2" cy="113" r="3.6" fill="#2b3149"/>
+    <rect x="222" y="102" width="2" height="18"/>
+    <circle cx="223" cy="100" r="2.8" fill="#2b3149"/>
+    <rect x="243" y="93" width="1.6" height="14"/>
+    <circle cx="243.8" cy="91.5" r="2.2" fill="#2b3149"/>
+  </g>
+  <!-- Distant kingdom silhouette: towers in mist -->
+  <g fill="#333a58" opacity="0.9">
+    <rect x="286" y="66" width="10" height="40"/>
+    <path d="M286,66 L291,54 L296,66 Z"/>
+    <rect x="304" y="58" width="12" height="48"/>
+    <path d="M304,58 L310,44 L316,58 Z"/>
+    <rect x="324" y="70" width="9" height="36"/>
+    <path d="M324,70 L328.5,60 L333,70 Z"/>
+  </g>
+  <!-- One tiny candle lit in a distant window -->
+  <rect x="308" y="72" width="3" height="4" fill="#FFB347"/>
+  <!-- Mist bands -->
+  <ellipse cx="260" cy="120" rx="170" ry="20" fill="#ced3e6" opacity="0.35"/>
+  <ellipse cx="140" cy="180" rx="180" ry="26" fill="#ced3e6" opacity="0.4"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THE HERALD WAS ONLY THE ANNOUNCEMENT</text>
+</svg>

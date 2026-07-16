@@ -178,6 +178,10 @@ export interface HubNpc {
   /** Line shown when tapped while the schedule has this NPC sleeping.
    *  Defaults to a generic "fast asleep" narration. */
   sleepDialogue?: string
+  /** Lines cycled INSTEAD of `dialogue` once campaign 1 is complete
+   *  (isCampaignComplete('c1')) — how the world acknowledges the sealed
+   *  Fracture. Activity pools (dialogueByActivity) still take precedence. */
+  postCampaignDialogue?: string[]
   /** Id of a branching dialogue tree (questDefs.json `dialogues`) to run on tap. */
   dialogueTree?: string
   /** Hub-item id (hubItems.json) that grants a bonus friendship/relationship boost when gifted. */

@@ -1864,6 +1864,24 @@
   "ambientNpcSprites": [],
   "npcs": [
     {
+      "id": "castle-cartographer",
+      "name": "Cartographer Elsben",
+      "sprite": "hub-npc-cartographer",
+      "tx": 21,
+      "ty": 43,
+      "dialogue": [
+        "Every map of the Dominion agrees on one thing: east of here, nothing. Forty leagues of nothing. I have started to wonder who decided that.",
+        "I've surveyed this border three times. My instruments keep finding a road. There is no road on any chart I own.",
+        "A cartographer draws what is there. Nobody trained me for what has been... removed."
+      ],
+      "postCampaignDialogue": [
+        "Worldmender! My new surveys — since the mending, they show a KINGDOM in the blank quarter. Roads. Towns. It was always there. We just... stopped being able to remember it.",
+        "The border scouts have gone quiet, and there are lights in the eastern mist. Lanterns. Somebody is keeping them lit, and it isn't us.",
+        "I keep comparing the old maps to the new survey. The old maps aren't wrong, Worldmender. They were edited."
+      ],
+      "dialogueTree": "elsben-maps"
+    },
+    {
       "id": "castle-commander",
       "name": "Commander Varek",
       "sprite": "hub-npc-arena",
@@ -1873,6 +1891,11 @@
         "Ironhold Keep has stood for three centuries. I intend to see it stand for three more.",
         "The patrol routes have been compromised. We need those reports.",
         "You fight well, traveller. Ravenwatch is lucky to have you."
+      ],
+      "postCampaignDialogue": [
+        "Worldmender. The Keep stands because you sealed the Fracture — I don't forget debts of that size.",
+        "Peace, at last. Except my eastern patrols have stopped reporting, and I don't like the mist this season. Speak to Elsben — the cartographer. He's seen something on his surveys.",
+        "Three centuries this keep has watched the east and seen nothing. Now there are lights out there. I've doubled the watch."
       ],
       "dialogueByActivity": {
         "work": [
@@ -1968,6 +1991,11 @@
         "Discipline wins sieges, not bravado. Drill, drill, and drill again.",
         "Every soldier here answers to me before they answer to the Commander.",
         "Stand a watch with us sometime, traveller. You'd learn something."
+      ],
+      "postCampaignDialogue": [
+        "The Fracture's sealed and my drill schedule hasn't changed one minute. Discipline doesn't take holidays, Worldmender.",
+        "New standing order: nobody walks the east road alone. Not since the scouts went quiet.",
+        "The recruits sing songs about you now. Off-key. I've made it a disciplinary matter."
       ],
       "dialogueByActivity": {
         "work": [
@@ -2372,6 +2400,11 @@
         "The keep's records go back to the founding. Most of them, anyway.",
         "A siege chronicle was separated from the archives. It belongs here.",
         "History is the only weapon that never dulls."
+      ],
+      "postCampaignDialogue": [
+        "I've been re-shelving the pre-Fracture archives since the mending. There are gaps, Worldmender. Not missing books — missing SUBJECTS. Whole shelves that end mid-argument.",
+        "The oldest ledgers reference a 'loyal eastern province' — and then simply stop mentioning it. No war, no decree. It's as if the east was... unwritten.",
+        "You sealed the Fracture, and history is the better for it. But I begin to suspect history itself has a wound we never noticed."
       ],
       "dialogueByActivity": {
         "work": [

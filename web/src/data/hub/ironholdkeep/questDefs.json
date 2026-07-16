@@ -1348,6 +1348,54 @@
   ],
   "dialogues": [
     {
+      "id": "elsben-maps",
+      "npcId": "castle-cartographer",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Ah — careful of the survey table. Cartographer Elsben, royal commission. I chart the eastern border. Or I try to. The border has opinions.",
+          "choices": [
+            { "label": "What's east of the Keep?", "next": "east" },
+            { "label": "Show me the new survey.", "requireCampaignComplete": "c1", "next": "survey" },
+            { "label": "Farewell.", "effects": [{ "type": "end" }] }
+          ]
+        },
+        "east": {
+          "text": "Officially? Nothing. Forty leagues of blank parchment on every map since the Fracture. But my instruments keep finding a road out there, and a road means traffic, and traffic means... someone. The mist never lifts. My survey pegs come back moved. And lately — lately I'd swear the blank quarter is closer than it used to be.",
+          "choices": [
+            { "label": "Maps don't lie, surely.", "next": "maps-lie" },
+            { "label": "Good luck with the border.", "effects": [{ "type": "end" }] }
+          ]
+        },
+        "maps-lie": {
+          "text": "Maps don't lie, no. But someone has to draw them, and someone has to remember what to draw. What if the problem was never the maps? What if the problem is what happened to the people who drew them?\n\n...Forgive me. Surveyor's superstition. Finish your business in the Keep — the east isn't going anywhere.\n\n...Probably.",
+          "choices": [
+            { "label": "Farewell.", "effects": [{ "type": "end" }] }
+          ]
+        },
+        "survey": {
+          "text": "Since you sealed the Fracture, Worldmender, everything the shattering scattered has come back. EVERYTHING. Look — the new survey. There is a kingdom in the blank quarter. Amarath. Roads, towns, fields, a capital. Three hundred years old and on no map in the Dominion, because when the world broke, it was erased — from the charts, from the archives, from our HEADS.\n\nAnd now it has returned. The border scouts have stopped reporting. There are lanterns in the mist, and something carrying a banner is marching west along a road that didn't exist last season.",
+          "choices": [
+            { "label": "Then someone should go and meet them.", "next": "set-out" },
+            { "label": "I need to prepare first.", "next": "prepare" }
+          ]
+        },
+        "prepare": {
+          "text": "Wise. Whatever's out there endured three centuries of being forgotten — it will keep another day. Come back when your deck is ready, and I'll mark the route to the Pale Marches.",
+          "choices": [
+            { "label": "Farewell.", "effects": [{ "type": "end" }] }
+          ]
+        },
+        "set-out": {
+          "text": "I hoped you'd say that. Here — the route east, such as it is. It ends where my courage did: at the first lit lantern of the Pale Marches.\n\nWhatever you find out there, Worldmender... remember it. I suspect that matters more than usual.",
+          "choices": [
+            { "label": "Set out for the Pale Marches.", "effects": [{ "type": "screen", "screen": "campaign2" }] },
+            { "label": "Not yet.", "effects": [{ "type": "end" }] }
+          ]
+        }
+      }
+    },
+    {
       "id": "mabel-pie-craft",
       "npcId": "castle-cook",
       "start": "greet",

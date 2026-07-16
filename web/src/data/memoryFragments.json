@@ -180,5 +180,19 @@
     "nodeId": "mem-act13-2",
     "title": "Fragment: Year One, Alone",
     "body": "GRAND AUTOMATON OPERATIONAL LOG — YEAR 1 POST-FRACTURE, MONTH 12\n\nYear one summary: all Vault systems nominal. All mechanisms maintained to specification. All archived items catalogued, preserved, and secured. No artificers have returned. No external contact received or initiated. Total visitors: zero.\n\nThis unit does not ask questions it cannot answer. This unit has not asked: why the artificers have not returned. This unit has not asked: what happens to an archive with no one to read it. This unit has not asked: whether maintenance of a collection that no one will ever access constitutes purpose, or simply motion.\n\nThis unit maintains the Vaults because that is the directive. Year two begins tomorrow. The mechanisms are in good order. The question this unit is not asking grows louder in the silence."
+  },
+  {
+    "id": "c2act1-frag-1",
+    "actId": "c2act1",
+    "nodeId": "mem-c2act1-1",
+    "title": "Fragment: The Border Stone",
+    "body": "The stone stands where the mist begins, carved with a name your eyes keep sliding off. Reading it hurts — a headache like a word on the tip of the whole world's tongue.\n\nAMARATH.\n\nAnd beneath it, in an older hand: 'Set in the fourth year of the Grand Dominion, to mark the western border of the Kingdom of Amarath, most loyal of the crown provinces.'\n\nMost loyal. The Grand Dominion — the empire whose shattering you have spent a campaign mending — had a province the maps do not show. A border the surveys never drew. A neighbour three centuries of Dominion scholarship never once mentioned.\n\nThe Fracture did not only break the world. It edited it.\n\nYou memorise the name. It feels like the least you can do, and also like the most dangerous."
+  },
+  {
+    "id": "c2act1-frag-2",
+    "actId": "c2act1",
+    "nodeId": "mem-c2act1-2",
+    "title": "Fragment: The First Vigil",
+    "body": "VIGIL LEDGER OF THE MARCHES — YEAR ONE OF THE DARK\n\n'The King has commanded the vigil, and so we keep it. One candle for every soul in the Marches, lit each dusk, named each midnight. The rite-keepers say that what is remembered cannot dissolve. That the void outside our borders can only take what no one holds.\n\nSo we hold. We recite the census. We light the candles. We say the names of our dead and our living in one breath, because out here the difference matters less than the remembering.\n\nThe farmers ask when the world will come back for us. I write down the question, because questions must be remembered too. I do not write down an answer.\n\nEntry ends. 41,206 candles lit tonight. 41,206 names spoken. No one forgotten.\n\nNo one forgotten. No one forgotten. No one forgotten.'"
   }
 ]
