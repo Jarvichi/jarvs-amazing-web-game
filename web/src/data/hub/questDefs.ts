@@ -246,6 +246,7 @@ export interface DialogueChoiceDef {
   effects?: DialogueEffect[]
   requireFlag?: string     // only show this choice if the flag is set
   hideIfFlag?: string      // hide this choice once the flag is set
+  requireCampaignComplete?: string // only show once this campaign is complete ('c1' | 'c2') — derived from act counts, works retroactively
   requireFestival?: string // only show this choice while that festival is active (hubCalendar)
   requireWeather?: string  // only show this choice while the town's weather matches ('clear'|'rain'|'snow'|'fog')
   requireQuest?: string    // only show this choice once that quest is completed

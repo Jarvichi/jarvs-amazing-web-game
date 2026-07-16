@@ -456,6 +456,7 @@ Then on the NPC (in `config.json`): `"dialogueTree": "scholar-chat"` (keep a
 | `effects` | `DialogueEffect[]`? | Run in order before navigation. |
 | `requireFlag` | string? | Choice only shown if the flag is set. |
 | `hideIfFlag` | string? | Choice hidden once the flag is set. |
+| `requireCampaignComplete` | string? | Choice only shown once that campaign is complete (`"c1"` = The Shattered Dominion, `"c2"` = The Forgotten Kingdom). Derived live from act-completion counts (`isCampaignComplete` in `questline.ts`), so it works retroactively for players who finished before the field existed. Used by Cartographer Elsben (Ironhold Keep) to gate the campaign 2 launch. |
 | `requireFestival` | string? | Choice only shown while that festival is active (§14 festival ids, e.g. `"midsummer"`). |
 | `requireWeather` | string? | Choice only shown while the town's resolved weather (§12) matches (`"clear"`/`"rain"`/`"snow"`/`"fog"`). Weather is date/season-driven — for QA, force `"weather": {"type": "snow"}` in the town config, or use Millhaven (rains year-round). |
 | `requireTimeOfDay` | `"day"` \| `"night"` \| `"dawn"`? | Choice only shown while `hubClock.getTimeOfDay(gameHour)` matches: night 20:00–05:59, dawn 06:00–07:59, day otherwise (§9). |
@@ -469,7 +470,7 @@ Then on the NPC (in `config.json`): `"dialogueTree": "scholar-chat"` (keep a
 | `relationship` | `npcId?`, `track`, `points` | Add points to a relationship track (`ally`/`rival`/`romance`) — defaults to the speaking NPC. See §7c. |
 | `quest` | `questId` | Offer that quest (Accept / Not now). Resolves the quest's real `giverNpcId`. **Terminates** the walk. |
 | `tradeHubItem` | `wantItemId?`, `wantCount?`, `wantItems?`, `giveCrystals?`, `giveHubItem?`, `giveCollectible?`, `giveFriendship?`, `giveRelationship?`, `missingText`, `successText` | Repeatable barter — see §16. Takes `wantCount` (default 1) of a hub-item — or every entry of `wantItems: [{itemId, count?}]` for multi-item recipes (all-or-nothing, takes precedence over `wantItemId`) — and grants the `give*` rewards (`giveFriendship: {npcId?, xp}` and `giveRelationship: {npcId?, track, points}` default to the speaking NPC), showing `successText` (then advancing to `next` on close, so a sell menu can loop). If the player holds too few of anything, shows `missingText` and **terminates** the walk with no state change. Must be the **only/last** effect on its choice (it terminates the walk either way). |
-| `screen` | `screen` | Navigate to a screen (same string format as `RawNpc.screen` — e.g. `"interior:<id>"`, `"narrator:<id>"`, or a bare screen id). Routed through the same `handleNodeInteract` every screen-based NPC/interactable uses. **Terminates** the walk. |
+| `screen` | `screen` | Navigate to a screen (same string format as `RawNpc.screen` — e.g. `"interior:<id>"`, `"narrator:<id>"`, or a bare screen id; `"campaign"` and `"campaign2"` launch the respective campaigns). Routed through the same `handleNodeInteract` every screen-based NPC/interactable uses. **Terminates** the walk. |
 | `end` | — | End the conversation. |
 
 If a choice has neither a terminating effect (`quest`/`end`) nor `next`, the
@@ -1214,6 +1215,7 @@ schedules and activities are also editable in the in-app map editor
 | `homeBed` | `{ buildingId, tx, ty }` | | Reserved sleeping spot reference (used by night logic). |
 | `dialogueByActivity` | `Partial<Record<NpcActivity, string[]>>` | | Optional activity-specific dialogue pools, e.g. `{ "sleep": ["Zzz..."] }`. When the NPC's current scheduled activity has a non-empty entry here, `getNpcDialoguePool()` cycles those lines instead of the flat `dialogue` array (tap dialogue and ambient speech bubbles both use it). NPCs without a matching entry keep using `dialogue`, so this is fully backward compatible. |
 | `sleepDialogue` | `string` | | Line shown (as plain narration, no Talk/Give/quest options) when the NPC is tapped while `sleep`ing per its schedule (§7d). Defaults to a generic "💤 {name} is fast asleep." when omitted. |
+| `postCampaignDialogue` | `string[]` | | Lines cycled **instead of** the flat `dialogue` array once campaign 1 is complete (`isCampaignComplete('c1')` — derived from act counts, so retroactive). This is how the world acknowledges the sealed Fracture after the first campaign. Activity pools (`dialogueByActivity`) still take precedence when their activity matches. Fully backward compatible — NPCs without the field keep `dialogue` forever. |
 
 On a game-hour boundary the NPC pathfinds to the new location (emerging at / walking
 to the relevant door for interior transitions). The activity pose only shows while

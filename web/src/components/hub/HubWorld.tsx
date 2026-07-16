@@ -28,7 +28,7 @@ import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
 import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
 import { ToolbarDropdown } from '../ui/Toolbar/ToolbarDropdown'
 import { User } from 'firebase/auth'
-import { loadPlayerName, addToConsumableStash } from '../../game/questline'
+import { loadPlayerName, addToConsumableStash, isCampaignComplete } from '../../game/questline'
 import { LoginButton } from '../ui/LoginButton'
 import { addCollectible, addConsumable, getCollectibles, addHubItem, removeHubItem, getHubItemCount, hasHubItem, getHubItemCatalogEntry, getHubItems, spendTickets } from '../../game/itemStore'
 import { questItemId } from '../../game/hub/questItems'
@@ -1060,6 +1060,7 @@ function hasOfferableQuest(giverId: string): boolean {
     const visible = (node.choices ?? []).filter(c =>
       (!c.requireFlag  || hasDialogueFlag(c.requireFlag)) &&
       (!c.hideIfFlag   || !hasDialogueFlag(c.hideIfFlag)) &&
+      (!c.requireCampaignComplete || isCampaignComplete(c.requireCampaignComplete)) &&
       (!c.requireQuest || getQuestState(c.requireQuest).status === 'completed') &&
       (!c.hideIfQuest  || getQuestState(c.hideIfQuest).status !== 'completed') &&
       (!c.requireFestival || c.requireFestival === activeFestival?.id) &&
