@@ -1,0 +1,542 @@
+{
+  "id": "c2act1",
+  "title": "ACT I",
+  "subtitle": "The Pale Marches",
+  "rewardRelic": "Vigil Candle",
+  "rewardRelicDesc": "All your units gain +2 max HP at battle start and slowly mend, recovering 2 HP every 6 seconds.",
+  "environment": "frost",
+  "rewardTags": [
+    "forgotten",
+    "marches"
+  ],
+  "replayModifiers": [
+    {
+      "type": "enemyHpPercent",
+      "value": 15,
+      "label": "+15% enemy HP"
+    },
+    {
+      "type": "enemyIntervalReduction",
+      "value": 500,
+      "label": "Enemies act faster"
+    },
+    {
+      "type": "enemyHandBonus",
+      "value": 1,
+      "label": "Enemies start +1 card"
+    },
+    {
+      "type": "crystalBonus",
+      "value": 10,
+      "label": "+10 crystals per battle"
+    },
+    {
+      "type": "enemyHpPercent",
+      "value": 25,
+      "label": "+25% enemy HP"
+    }
+  ],
+  "startNodeIds": [
+    "marches-gate"
+  ],
+  "variantPools": {
+    "jarvMoods": [
+      "Now, officially, the Worldmender — a title that was supposed to come with a retirement.",
+      "Now, once again, the person the Dominion sends when the maps stop making sense.",
+      "Now, by popular acclaim, the mender of a world that has just presented its next invoice.",
+      "Now, quietly, the only person who isn't surprised that mending the world had a clause in the fine print."
+    ],
+    "marchesDesc": [
+      "East of Ironhold Keep, the maps have always shown an empty quarter. The mist starts where the ink stops. It has never lifted, and nobody remembers it arriving.",
+      "The Pale Marches sit under a mist that doesn't behave like weather. Lanterns burn along roads no Dominion crew ever built. Somebody has been keeping them lit.",
+      "The border country east of Ironhold was always called empty. It was never empty. It was forgotten — and the difference between those two words is now marching west."
+    ],
+    "heraldDesc": [
+      "The Pale Herald carries a proclamation with no signatures. Every hand that signed it was erased with the kingdom it served. He intends to collect them all back.",
+      "The Herald does not shout. He announces — and the mist carries it the way a court carries a verdict. Amarath has returned, and it remembers everything.",
+      "The Herald's writ names a kingdom that appears on no map you have ever owned. He finds your maps very interesting. He finds them evidence."
+    ],
+    "priorRunOpenings": [
+      "The mist parted the same way it did last time — reluctantly, and only exactly as far as it had to.",
+      "The first lantern on the march road was already lit when you arrived. You never saw anyone light it. You never do.",
+      "The Herald's vanguard held the same line as before. Amarath does not improvise. It remembers.",
+      "You knew the toll bridge would be watched. You'd paid attention last time. The mist had paid attention to you paying attention."
+    ]
+  },
+  "midRunTemplates": [
+    "The {ordinalLower} time into the Pale Marches. The mist recognises you now, which is more than the rest of the world managed for Amarath.",
+    "Campaign {n}. The lanterns along the march road are lit before you reach them, every time.",
+    "{n} campaigns. The Herald's proclamation has not changed a word. Neither has his opinion of your maps.",
+    "Run {n}. The blank quarter of the map is less blank every time you cross it. You are becoming the person who remembers.",
+    "The {ordinalLower} crossing of the Marches. The border stones still give you a headache. The memory that comes with it is worth it."
+  ],
+  "introRules": [
+    {
+      "condition": {
+        "op": "gte",
+        "value": 10
+      },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:priorRunOpenings:1}"
+        },
+        {
+          "title": "THE PALE MARCHES",
+          "text": "{pool:marchesDesc:1}\n\n{pool:heraldDesc:1}"
+        }
+      ]
+    },
+    {
+      "condition": {
+        "op": "range",
+        "min": 2,
+        "max": 9
+      },
+      "panels": [
+        {
+          "title": "THE PALE MARCHES",
+          "text": "The mist is waiting at the border — again.\n\n{pool:priorRunOpenings:0}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:marchesDesc:2}"
+        },
+        {
+          "title": "THE HERALD",
+          "text": "{pool:heraldDesc:0}"
+        }
+      ]
+    }
+  ],
+  "intro": [
+    {
+      "title": "AFTER THE MENDING",
+      "text": "The Fracture is sealed. The shards are one Dominion again, and the world calls you Worldmender.\n\nThe celebrations lasted a season. The reports from the east lasted longer.",
+      "image": "cutscenes/c2act1-intro-1.svg"
+    },
+    {
+      "title": "THE BLANK QUARTER",
+      "text": "East of Ironhold Keep, every map shows an empty quarter. Cartographer Elsben's new surveys show something else: roads. Towns. Fields under a mist that never lifts.\n\nA kingdom — where every map in the Dominion agrees there has never been anything at all.",
+      "image": "cutscenes/c2act1-intro-2.svg"
+    },
+    {
+      "title": "THE PALE MARCHES",
+      "text": "When the world mended, everything the Fracture had scattered came back. Everything.\n\nBorder scouts have stopped reporting in. Lanterns burn along roads nobody built. Something is marching west out of the mist, and it carries a proclamation.\n\nYou go east.",
+      "image": "cutscenes/c2act1-intro-3.svg"
+    }
+  ],
+  "outro": [
+    {
+      "title": "THE HERALD FALLS",
+      "text": "The Pale Herald kneels in the churned mud of the border, his banner planted beside him. He does not seem defeated. He seems finished — the way a messenger is finished when the message is delivered.\n\n'Amarath has returned,' he says. 'Now you know. That was all the writ required.'",
+      "image": "cutscenes/c2act1-outro-1.svg"
+    },
+    {
+      "title": "THE VIGIL CANDLE",
+      "text": "He leaves you his lantern. Inside burns a candle that has not gone out in three hundred years — one flame of the vigil that held a forgotten kingdom together in the dark.\n\nIt is warm in a way that has nothing to do with fire.",
+      "image": "cutscenes/c2act1-outro-2.svg"
+    },
+    {
+      "title": "EAST",
+      "text": "Beyond the Marches, the mist thins just enough to show the shape of a road — a grey causeway running east, lined with unlit lamps, toward a kingdom the world forgot.\n\nThe Herald was only the announcement. The Pale Court is waiting.",
+      "image": "cutscenes/c2act1-outro-3.svg"
+    }
+  ],
+  "nodes": {
+    "marches-gate": {
+      "id": "marches-gate",
+      "type": "battle",
+      "label": "The Broken Milestone",
+      "description": "The last Dominion waymarker — and the first pickets in the mist.",
+      "row": 0,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "mist-picket",
+        "toll-bridge"
+      ],
+      "handicap": 14,
+      "opponentIntervalMs": 3400,
+      "opponentBaseHp": 215,
+      "environment": "frost",
+      "enemyDeck": [
+        "Pale Sentry",
+        "Mist Skirmisher",
+        "Lantern Post",
+        "Vigil Prayer"
+      ]
+    },
+    "mist-picket": {
+      "id": "mist-picket",
+      "type": "battle",
+      "label": "Mist Picket",
+      "description": "Sentries hold the western fenceline of the Marches.",
+      "row": 1,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "waymeet-shrine",
+        "wardens-camp"
+      ],
+      "handicap": 16,
+      "opponentIntervalMs": 3300,
+      "opponentBaseHp": 222,
+      "environment": "frost",
+      "enemyDeck": [
+        "Pale Sentry",
+        "Mist Archer",
+        "Border Palisade",
+        "Mist Skirmisher",
+        "March Ration"
+      ]
+    },
+    "toll-bridge": {
+      "id": "toll-bridge",
+      "type": "battle",
+      "label": "Old Toll Bridge",
+      "description": "A bridge that was never on the survey — with a garrison that was never on the rolls.",
+      "row": 1,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "blank-map",
+        "drovers-market"
+      ],
+      "handicap": 16,
+      "opponentIntervalMs": 3300,
+      "opponentBaseHp": 222,
+      "environment": "frost",
+      "enemyDeck": [
+        "Marchland Pikeman",
+        "Pale Sentry",
+        "Wardstone",
+        "Candle Bearer",
+        "Vigil Prayer"
+      ]
+    },
+    "waymeet-shrine": {
+      "id": "waymeet-shrine",
+      "type": "event",
+      "label": "Waymeet Shrine",
+      "description": "A crossroads shrine crowded with candles — all of them lit.",
+      "row": 2,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "vanguard-line",
+        "mem-c2act1-1"
+      ],
+      "eventConfig": {
+        "title": "The Waymeet Shrine",
+        "description": "Hundreds of candles burn at the crossroads shrine, each one wax-sealed with a name you can't read. The mist keeps a respectful distance from the light. One alcove stands empty, waiting for an offering.",
+        "pools": [
+          [
+            {
+              "label": "Read the sealed names (lose 6 HP, gain a rare card)",
+              "consequence": "The names cost you — and teach you. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the offering bowl (gain 60 crystals)",
+              "consequence": "You pocket the crystals. The candles flicker, unimpressed.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 60
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest in the candlelight (heal 10 HP)",
+              "consequence": "The vigil warmth knits you back together. You heal 10 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 10
+              }
+            }
+          ],
+          [
+            {
+              "label": "Bow and move on",
+              "consequence": "You leave the shrine undisturbed.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "wardens-camp": {
+      "id": "wardens-camp",
+      "type": "rest",
+      "label": "Warden's Camp",
+      "description": "An abandoned Dominion border post. The stove still works.",
+      "row": 2,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "vanguard-line"
+      ],
+      "restHeal": 8
+    },
+    "blank-map": {
+      "id": "blank-map",
+      "type": "event",
+      "label": "The Surveyor's Kit",
+      "description": "A cartographer's camp, abandoned mid-measurement.",
+      "row": 2,
+      "col": 2,
+      "rowCols": 4,
+      "childIds": [
+        "choir-ford"
+      ],
+      "eventConfig": {
+        "title": "The Surveyor's Kit",
+        "description": "A survey camp sits abandoned in the fog — theodolite still standing, notebook open. The last entry reads: 'The bridge is NOT new. The bridge is OLD. Check the archive. Check the archive. Check the ar—'. The kit is still valuable.",
+        "pools": [
+          [
+            {
+              "label": "Study the half-finished map (gain a rare card)",
+              "consequence": "The surveyor's notes sharpen your eye for the ground ahead. You receive a rare card.",
+              "effect": {
+                "type": "gainCard",
+                "rarity": "rare"
+              }
+            }
+          ],
+          [
+            {
+              "label": "Sell the brass instruments (gain 70 crystals)",
+              "consequence": "Fine Dominion brasswork. You gain 70 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 70
+              }
+            }
+          ],
+          [
+            {
+              "label": "Eat the untouched rations (heal 8 HP)",
+              "consequence": "Cold, but decent. You heal 8 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 8
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave everything for the search party",
+              "consequence": "If there is ever a search party. You move on.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "drovers-market": {
+      "id": "drovers-market",
+      "type": "merchant",
+      "label": "Drover's Rest",
+      "description": "A market stall serving a road that shouldn't exist.",
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "choir-ford"
+      ]
+    },
+    "vanguard-line": {
+      "id": "vanguard-line",
+      "type": "elite",
+      "label": "The Vanguard Line",
+      "description": "The Herald's escort holds the west road in parade order.",
+      "row": 3,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "palisade-push"
+      ],
+      "handicap": 20,
+      "opponentIntervalMs": 3100,
+      "opponentBaseHp": 238,
+      "environment": "frost",
+      "enemyDeck": [
+        "Pale Vanguard",
+        "Marchland Pikeman",
+        "Mist Barracks",
+        "Wardstone",
+        "Memory Ward",
+        "Candlefall"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "mem-c2act1-1": {
+      "id": "mem-c2act1-1",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A border stone with the kingdom's true name — and the day it stopped being read.",
+      "row": 3,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "palisade-push"
+      ],
+      "fragmentId": "c2act1-frag-1",
+      "environment": "frost"
+    },
+    "choir-ford": {
+      "id": "choir-ford",
+      "type": "elite",
+      "label": "Choir at the Ford",
+      "description": "A hymn you have never heard, in a language you somehow know.",
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "fog-riders"
+      ],
+      "handicap": 20,
+      "opponentIntervalMs": 3100,
+      "opponentBaseHp": 238,
+      "environment": "frost",
+      "enemyDeck": [
+        "Unremembered Choir",
+        "Candle Bearer",
+        "Candle Shrine",
+        "Unremembered Soldier",
+        "Fog Veil",
+        "Vigil Prayer"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "palisade-push": {
+      "id": "palisade-push",
+      "type": "battle",
+      "label": "Palisade Push",
+      "description": "The vanguard's field works block the road west.",
+      "row": 4,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "last-lamp"
+      ],
+      "handicap": 22,
+      "opponentIntervalMs": 3000,
+      "opponentBaseHp": 246,
+      "environment": "frost",
+      "enemyDeck": [
+        "Marchland Pikeman",
+        "Border Palisade",
+        "Watch Beacon",
+        "Unremembered Soldier",
+        "Memory Ward",
+        "Mist Archer"
+      ]
+    },
+    "fog-riders": {
+      "id": "fog-riders",
+      "type": "battle",
+      "label": "Riders in the Fog",
+      "description": "Cavalry with no hoofbeats, closing fast.",
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "last-lamp",
+        "mem-c2act1-2"
+      ],
+      "handicap": 22,
+      "opponentIntervalMs": 3000,
+      "opponentBaseHp": 246,
+      "environment": "frost",
+      "enemyDeck": [
+        "Pale Rider",
+        "Mist Skirmisher",
+        "Mist Barracks",
+        "March Ration",
+        "Fog Veil",
+        "Pale Sentry"
+      ]
+    },
+    "last-lamp": {
+      "id": "last-lamp",
+      "type": "rest",
+      "label": "The Last Lamp",
+      "description": "The final lit lantern before the Herald's ground. Warm, somehow.",
+      "row": 5,
+      "col": 0,
+      "rowCols": 2,
+      "childIds": [
+        "herald-node"
+      ],
+      "restHeal": 10
+    },
+    "mem-c2act1-2": {
+      "id": "mem-c2act1-2",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A vigil ledger — the first year of a kingdom keeping itself alive by remembering.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "herald-node"
+      ],
+      "fragmentId": "c2act1-frag-2",
+      "environment": "frost"
+    },
+    "herald-node": {
+      "id": "herald-node",
+      "type": "boss",
+      "label": "The Pale Herald",
+      "description": "The voice of the Pale Court, come to deliver the writ of return.",
+      "row": 6,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
+      "handicap": 24,
+      "opponentIntervalMs": 5000,
+      "opponentBaseHp": 258,
+      "environment": "frost",
+      "enemyDeck": [
+        "The Pale Herald",
+        "Knight of the Vigil",
+        "Pale Vanguard",
+        "Mist Barracks",
+        "Watch Beacon",
+        "Candlefall",
+        "Rite of Return"
+      ],
+      "bossAI": "paleherald",
+      "bossDialogue": [
+        "HEAR THE WRIT OF AMARATH. The kingdom you forgot has returned, Worldmender. You mended the world. You mended us with it.",
+        "Three hundred years of vigil. Three hundred years of candles. Not one of your maps spared us one inch of ink.",
+        "I am only the announcement. What follows me is the Court. Stand aside, or be the first thing Amarath is remembered for."
+      ],
+      "bossCard": "The Pale Herald"
+    }
+  }
+}
