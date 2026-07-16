@@ -13034,6 +13034,298 @@
       "strengths": ["melee", "small"],
       "weaknesses": ["magic", "flying"],
       "size": "large"
+    },
+    "causeway-sentry": {
+      "name": "Causeway Sentry",
+      "attack": 3,
+      "maxHp": 13,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 58,
+      "attackRange": 5,
+      "attackCooldownMs": 1100,
+      "flying": false,
+      "tags": ["fast", "small"],
+      "strengths": ["fast", "melee"],
+      "weaknesses": ["armored", "ranged"],
+      "size": "small",
+      "affinity": {
+        "withName": "Grey Mile Runner",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.15,
+        "label": "Mile Marker"
+      }
+    },
+    "grey-mile-runner": {
+      "name": "Grey Mile Runner",
+      "attack": 5,
+      "maxHp": 17,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 52,
+      "attackRange": 5,
+      "attackCooldownMs": 1200,
+      "flying": false,
+      "tags": ["melee", "fast"],
+      "strengths": ["ranged"],
+      "weaknesses": ["armored"],
+      "size": "small"
+    },
+    "candle-warden": {
+      "name": "Candle Warden",
+      "attack": 4,
+      "maxHp": 21,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 34,
+      "attackRange": 65,
+      "attackCooldownMs": 1600,
+      "flying": false,
+      "tags": ["ranged", "magic"],
+      "strengths": ["melee"],
+      "weaknesses": ["fast"],
+      "size": "small"
+    },
+    "causeway-lamp": {
+      "name": "Causeway Lamp",
+      "attack": 4,
+      "maxHp": 23,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 125,
+      "attackCooldownMs": 1800,
+      "tags": ["ranged"]
+    },
+    "tollgate-pikeman": {
+      "name": "Tollgate Pikeman",
+      "attack": 7,
+      "maxHp": 28,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 40,
+      "attackRange": 5,
+      "attackCooldownMs": 1300,
+      "flying": false,
+      "tags": ["melee", "armored"],
+      "strengths": ["fast"],
+      "weaknesses": ["magic"],
+      "size": "medium"
+    },
+    "unremembered-toll-taker": {
+      "name": "Unremembered Toll-Taker",
+      "attack": 6,
+      "maxHp": 32,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 38,
+      "attackRange": 5,
+      "attackCooldownMs": 1300,
+      "flying": false,
+      "tags": ["melee"],
+      "strengths": ["small"],
+      "weaknesses": ["siege"],
+      "size": "medium"
+    },
+    "causeway-archer": {
+      "name": "Causeway Archer",
+      "attack": 6,
+      "maxHp": 19,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 42,
+      "attackRange": 135,
+      "attackCooldownMs": 1500,
+      "flying": false,
+      "tags": ["ranged"],
+      "strengths": ["flying"],
+      "weaknesses": ["melee", "fast"],
+      "size": "small"
+    },
+    "grey-rider": {
+      "name": "Grey Rider",
+      "attack": 9,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 76,
+      "attackRange": 5,
+      "attackCooldownMs": 1200,
+      "flying": false,
+      "tags": ["fast", "melee"],
+      "strengths": ["ranged", "small"],
+      "weaknesses": ["armored"],
+      "size": "medium"
+    },
+    "weighbridge-shrine": {
+      "name": "Weighbridge Shrine",
+      "attack": 0,
+      "maxHp": 21,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "mana",
+        "amount": 1
+      },
+      "tags": ["forgotten"]
+    },
+    "toll-barracks": {
+      "name": "Toll Barracks",
+      "attack": 0,
+      "maxHp": 32,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "grey-mile-runner",
+        "intervalMs": 12000
+      },
+      "tags": ["forgotten"]
+    },
+    "watchlamp-tower": {
+      "name": "Watchlamp Tower",
+      "attack": 6,
+      "maxHp": 28,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 145,
+      "attackCooldownMs": 1700,
+      "tags": ["ranged"]
+    },
+    "causeway-rail": {
+      "name": "Causeway Rail",
+      "attack": 0,
+      "maxHp": 64,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "tags": ["melee"],
+      "size": "medium"
+    },
+    "milestone-cairn": {
+      "name": "Milestone Cairn",
+      "attack": 0,
+      "maxHp": 90,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "tags": ["armored"],
+      "size": "medium"
+    },
+    "toll-escort": {
+      "name": "Toll Escort",
+      "attack": 12,
+      "maxHp": 47,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 40,
+      "attackRange": 5,
+      "attackCooldownMs": 1400,
+      "flying": false,
+      "tags": ["melee", "armored"],
+      "strengths": ["melee", "fast"],
+      "weaknesses": ["magic"],
+      "size": "large",
+      "affinity": {
+        "withName": "The Toll Warden",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Warden's Toll"
+      }
+    },
+    "causeway-chorus": {
+      "name": "Causeway Chorus",
+      "attack": 8,
+      "maxHp": 32,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 30,
+      "attackRange": 155,
+      "attackCooldownMs": 1900,
+      "flying": false,
+      "tags": ["ranged", "magic"],
+      "strengths": ["armored"],
+      "weaknesses": ["fast", "melee"],
+      "size": "medium"
+    },
+    "milestone-effigy": {
+      "name": "Milestone Effigy",
+      "attack": 0,
+      "maxHp": 48,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "causeway-sentry",
+        "intervalMs": 10000
+      },
+      "tags": ["forgotten"]
+    },
+    "knight-of-the-toll": {
+      "name": "Knight of the Toll",
+      "attack": 15,
+      "maxHp": 64,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 35,
+      "attackRange": 5,
+      "attackCooldownMs": 1500,
+      "flying": false,
+      "tags": ["melee", "armored", "large"],
+      "strengths": ["melee", "small"],
+      "weaknesses": ["magic", "flying"],
+      "size": "large",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 90,
+        "engageRange": 190
+      }
+    },
+    "the-endless-ledger": {
+      "name": "The Endless Ledger",
+      "attack": 11,
+      "maxHp": 43,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 56,
+      "attackRange": 60,
+      "attackCooldownMs": 1600,
+      "flying": true,
+      "tags": ["flying", "magic"],
+      "strengths": ["melee", "armored"],
+      "weaknesses": ["ranged"],
+      "size": "large"
+    },
+    "the-toll-warden": {
+      "name": "The Toll Warden",
+      "attack": 17,
+      "maxHp": 84,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 30,
+      "attackRange": 5,
+      "attackCooldownMs": 1400,
+      "flying": false,
+      "tags": ["melee", "large", "armored"],
+      "strengths": ["melee", "small"],
+      "weaknesses": ["magic", "flying"],
+      "size": "large"
     }
   },
   "cards": [
@@ -21702,6 +21994,300 @@
       "deckCount": 0,
       "tags": ["forgotten", "marches"],
       "lore": "He carries a proclamation with no signatures, because every hand that signed it was erased. He intends to collect them all back."
+    },
+    {
+      "name": "Causeway Sentry",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "causeway-sentry",
+      "description": "A watcher of the toll-road, counting travellers no map remembers.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "She counts every traveller on the road, because someone must, and because the counting is the closest thing left to a name."
+    },
+    {
+      "name": "Grey Mile Runner",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "grey-mile-runner",
+      "description": "A swift courier who never stops running the causeway.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "He has run this mile for three hundred years without once arriving anywhere. The road doesn't end. It just keeps being paid for."
+    },
+    {
+      "name": "Candle Warden",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "candle-warden",
+      "description": "A robed toll-keeper whose single candle scorches at range.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "One flame, carried at arm's length down an unlit road. She doesn't call it courage. She calls it the job."
+    },
+    {
+      "name": "Causeway Lamp",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "structure",
+      "unitRef": "causeway-lamp",
+      "description": "An unlit watch-lamp that ignites against approaching enemies.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "Unlit until you're close enough to owe something. Then it burns exactly bright enough to see the toll board."
+    },
+    {
+      "name": "Toll Chit",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffHeal",
+        "amount": 6
+      },
+      "description": "Heals all friendly units by 6.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "A scrap of paper that says a debt was paid. It is worth nothing anywhere else in the world, and everything here."
+    },
+    {
+      "name": "Debtor's Pace",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffSpeed",
+        "amount": 10
+      },
+      "description": "All friendly mobile units move faster.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "Walk faster and the toll stays the same. Amarath was never in the business of mercy — only arithmetic."
+    },
+    {
+      "name": "Tollgate Pikeman",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "tollgate-pikeman",
+      "description": "An armoured line-holder guarding the tollgate.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "He has held this gate since before the causeway had a name for what crosses it. He is very good at his one job."
+    },
+    {
+      "name": "Unremembered Toll-Taker",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "unremembered-toll-taker",
+      "description": "A steady infantry collector of the returned kingdom.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "She remembers every coin that ever crossed this road, and the face of everyone who paid it. Yours is the first she doesn't."
+    },
+    {
+      "name": "Causeway Archer",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "causeway-archer",
+      "description": "A long-range archer loosing from the mile markers.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "She shoots at silhouettes on the mile markers, because the mist gives her nothing else to aim at."
+    },
+    {
+      "name": "Grey Rider",
+      "rarity": "uncommon",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "grey-rider",
+      "description": "A swift outrider patrolling the causeway.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "The horse doesn't tire. Three hundred years of not-existing does that to a thing."
+    },
+    {
+      "name": "Weighbridge Shrine",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "weighbridge-shrine",
+      "description": "A toll-weighing shrine that raises your maximum mana.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "Every traveller is weighed here — not in pounds, in years remembered. Amarath keeps very careful scales."
+    },
+    {
+      "name": "Toll Barracks",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "toll-barracks",
+      "description": "Spawner. Periodically releases Grey Mile Runners.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "Quarters for a garrison that was never relieved, on a road that was never finished being built."
+    },
+    {
+      "name": "Watchlamp Tower",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "watchlamp-tower",
+      "description": "A tall causeway tower with long attack range.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "Built to watch travellers arrive. Nobody built it to watch them leave."
+    },
+    {
+      "name": "Causeway Rail",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unitRef": "causeway-rail",
+      "description": "A defensive rail of quarried grey stone.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "Stone quarried from a kingdom that technically didn't exist yet. It holds up fine anyway."
+    },
+    {
+      "name": "Milestone Cairn",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "milestone-cairn",
+      "description": "A stacked cairn of milestones — a wall that endures.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "Stacked from the actual milestones — every one that used to mark a mile nobody could find on a map."
+    },
+    {
+      "name": "Ledger of Debts",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffMaxHp",
+        "amount": 8
+      },
+      "description": "All friendly units gain +8 max HP.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "Every name that ever crossed unpaid is written here. The ink has never faded. It has had nothing else to do."
+    },
+    {
+      "name": "Grey Mist Veil",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffRange",
+        "amount": 15
+      },
+      "description": "All attacking units gain +15 attack range.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "The mist over the causeway isn't fog. It's the accumulated breath of everyone still waiting to be let through."
+    },
+    {
+      "name": "Toll Bell Peal",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "aoe",
+        "damage": 6,
+        "range": 100
+      },
+      "description": "The toll bell tolls, damaging enemies within its ring.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "One bell, rung for every traveller who couldn't pay. It has not stopped ringing since the day Amarath vanished."
+    },
+    {
+      "name": "Toll Escort",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "toll-escort",
+      "description": "An elite guard of the Toll Warden's retinue.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "Sworn to the Warden's ledger before sworn to any king. The debt outlived the kingdom that recorded it."
+    },
+    {
+      "name": "Causeway Chorus",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "causeway-chorus",
+      "description": "A chorus whose toll-song strikes at long range.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "They sing the toll-song at the gate — the same four verses, three hundred years running. Nobody has ever heard the fifth."
+    },
+    {
+      "name": "Milestone Effigy",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "structure",
+      "unitRef": "milestone-effigy",
+      "description": "Spawner. Periodically wakes Causeway Sentries from stone.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "Carved in the shape of a mile marker, and just as patient. It remembers exactly how far you have left to go."
+    },
+    {
+      "name": "Writ of Passage",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffMaxHp",
+        "amount": 12
+      },
+      "description": "All friendly units gain +12 max HP.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "Signed by a chancellor who was erased before the ink dried. It is somehow still the only document that matters here."
+    },
+    {
+      "name": "Knight of the Toll",
+      "rarity": "epic",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "knight-of-the-toll",
+      "description": "A towering knight who guards the tollgate above all else.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "He has never once let a debtor pass free. He has also never once demanded a debt he thought unfair."
+    },
+    {
+      "name": "The Endless Ledger",
+      "rarity": "epic",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "the-endless-ledger",
+      "description": "A drifting ledger of debts that flies over walls.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "It has no pages. It doesn't need them. Every toll ever owed is written on it, and none of them are crossed out."
+    },
+    {
+      "name": "The Toll Warden",
+      "rarity": "legendary",
+      "cost": 7,
+      "cardType": "unit",
+      "unitRef": "the-toll-warden",
+      "description": "The lord of the causeway — a titan demanding a toll no traveller can pay.",
+      "deckCount": 0,
+      "tags": ["forgotten", "causeway"],
+      "lore": "He does not ask for coin. He asks for centuries — the ones the Dominion's forgetting cost his kingdom. No traveller has ever had that much to give."
     }
   ],
   "heroCards": [
@@ -22165,6 +22751,38 @@
       },
       "description": "HERO: Deploys the Marches Warden — a border commander who holds the line near your base and engages anything that crosses it. All units gain +12 max HP.",
       "lore": "The Dominion never posted a warden to the eastern blank. Somebody took the job anyway."
+    },
+    {
+      "id": "hero-causeway-guide",
+      "name": "Causeway Guide",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "unit",
+      "isHero": true,
+      "unit": {
+        "name": "Grey Guide",
+        "attack": 13,
+        "maxHp": 58,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 42,
+        "attackRange": 5,
+        "attackCooldownMs": 1400,
+        "flying": false,
+        "tags": ["melee", "armored"],
+        "size": "large",
+        "unitTrait": {
+          "guardBase": true,
+          "baseGuardRange": 95,
+          "engageRange": 195
+        }
+      },
+      "heroEffect": {
+        "type": "buffMaxHp",
+        "amount": 14
+      },
+      "description": "HERO: Deploys the Grey Guide — a causeway pathfinder who holds the line near your base and engages anything that crosses it. All units gain +14 max HP.",
+      "lore": "No map shows the causeway's true turns. She walked it before the mist had a name for it, and she still knows every unlit lamp by heart."
     }
   ]
 }
