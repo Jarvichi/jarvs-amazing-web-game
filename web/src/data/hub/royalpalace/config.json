@@ -1941,6 +1941,11 @@
         "Hear ye, hear ye — the proclamations have gone missing again. A herald with no words is merely a man shouting.",
         "Protocol is the art of standing in the right place while important things happen elsewhere."
       ],
+      "postCampaignDialogue": [
+        "Announcing the Worldmender requires seventeen syllables of formal title now. I have been practising.",
+        "Protocol note: there is no established etiquette for greeting an emissary from a kingdom that does not officially exist. I have raised it with the Steward. Twice.",
+        "Important things are happening elsewhere again. East, this time. I can feel it through the protocol."
+      ],
       "dialogueByActivity": {
         "idle-chat": [
           "Presenting: you. To no one in particular. Still a slow morning.",
@@ -2080,6 +2085,11 @@
         "Ah, a new face. The court is forever full of old ones, all of them wanting something.",
         "A crown is heavier than it looks, and most of the weight is other people's problems.",
         "Serve the realm well and the realm remembers. Mostly. When it isn't distracted."
+      ],
+      "postCampaignDialogue": [
+        "Worldmender! The realm owes you a debt no treasury can settle. Kindly do not tell Master Edric I said that.",
+        "A sealed Fracture, a whole Dominion, and peace at every border. Almost every border. The east sends... reports. I have chosen to call them reports rather than omens.",
+        "Serve the realm well and the realm remembers. You mended the realm, so it remembers you doubly. I only wonder — what did the realm forget, all those years it was broken?"
       ],
       "dialogueByActivity": {
         "work": [

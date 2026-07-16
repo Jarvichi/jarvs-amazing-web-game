@@ -1835,6 +1835,11 @@
         "I've seen three ships go dark past the reef. No word from them.",
         "Marta thinks I'm superstitious. Maybe I am."
       ],
+      "postCampaignDialogue": [
+        "The sea's been calm since you mended the world. TOO calm, some nights. Like it's listening.",
+        "Coasters coming down from the north say there's a new shoreline east past the marches. Whole harbours nobody's ever charted. Marta thinks they'd been drinking. All of them? Every crew?",
+        "Superstitious, am I? I've started lighting a candle in the window at night. Don't know where I picked that up. Feels... polite."
+      ],
       "dialogueByActivity": {
         "fish": [
           "Line's been quiet all morning. That's never a good sign out here.",
