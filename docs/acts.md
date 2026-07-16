@@ -195,9 +195,9 @@ Every node should support a **peek** interaction before the player commits:
 
 ### 4.1 Campaign Structure
 
-The full campaign consists of **25 acts** that tell a complete story arc. After act 25 the story ends and a **second 25-act arc** begins, set in the same game world, dealing with the aftermath and introducing a new plot. Each 25-act block is self-contained.
+The first campaign consists of **13 acts plus a finale** (act1–act13 → actfinale) telling a complete story arc — Jarv's journey through the Shattered Dominion to the Fractured Core. It is fully implemented.
 
-Current implementation has **4 acts** (Act 1–4). Acts 5–25 are yet to be written.
+After the finale a **second 13-act arc** begins, set in the same game world, dealing with the aftermath and introducing a new plot (acts `c2act1`…`c2act13` → `c2finale`). Its story bible is **`docs/campaign2.md`** — always read it before authoring campaign 2 content.
 
 ### 4.2 Story Continuity Rules
 
