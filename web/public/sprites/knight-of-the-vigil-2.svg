@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Great helm with candle crest -->
+  <rect x="11" y="4" width="10" height="8" rx="2.5" fill="#A6A9C0"/>
+  <rect x="12" y="7.5" width="8" height="1.8" fill="#3A3F55"/>
+  <circle cx="14" cy="8.4" r="0.7" fill="#FFB347"/>
+  <circle cx="18" cy="8.4" r="0.7" fill="#FFB347"/>
+  <!-- Candle crest -->
+  <rect x="15.3" y="1.5" width="1.4" height="3" fill="#F2E9D8"/>
+  <ellipse cx="16" cy="0.9" rx="0.9" ry="1.2" fill="#FFB347"/>
+  <!-- Massive plate body -->
+  <path d="M9,12 L9,24 L23,24 L23,12 Q16,15 9,12 Z" fill="#C9CBDA"/>
+  <rect x="9" y="15.5" width="14" height="1.4" fill="#7E8299"/>
+  <rect x="9" y="19.5" width="14" height="1.4" fill="#7E8299"/>
+  <!-- Vigil flame emblem -->
+  <ellipse cx="16" cy="18" rx="1.6" ry="2.2" fill="#E8B94A"/>
+  <ellipse cx="16" cy="18.4" rx="0.8" ry="1.2" fill="#FFE08A"/>
+  <!-- Pauldrons -->
+  <circle cx="9" cy="13.5" r="3" fill="#A6A9C0"/>
+  <circle cx="23" cy="13.5" r="3" fill="#A6A9C0"/>
+  <!-- Greatsword planted point-down -->
+  <rect x="26" y="8" width="2" height="16" rx="1" fill="#C9CBDA"/>
+  <path d="M27,26.5 L26,24 L28,24 Z" fill="#C9CBDA"/>
+  <rect x="24.6" y="7" width="4.8" height="1.6" rx="0.8" fill="#E8B94A"/>
+  <!-- Legs (neutral, heavy) -->
+  <rect x="11" y="24" width="4.5" height="6" rx="1" fill="#7E8299"/>
+  <rect x="16.5" y="24" width="4.5" height="6" rx="1" fill="#7E8299"/>
+  <rect x="10" y="28.5" width="6.5" height="3" rx="1" fill="#454E6B"/>
+  <rect x="15.5" y="28.5" width="6.5" height="3" rx="1" fill="#454E6B"/>
+</svg>
