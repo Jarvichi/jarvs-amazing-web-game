@@ -1002,7 +1002,7 @@ export const BOSS_AVATAR_SLUGS = [
   'boss-thornlord', 'boss-kragg', 'boss-ashwalker', 'boss-archivist',
   'boss-tidal-sovereign', 'boss-cloudmarshal', 'boss-cinderwarlord', 'boss-rootqueen',
   'boss-paleengine', 'boss-dunebaron', 'boss-elderwarden', 'boss-harbormaster',
-  'boss-grandautomaton',
+  'boss-grandautomaton', 'boss-paleherald',
 ] as const
 export const AVATAR_SLUGS = [...BASE_AVATAR_SLUGS, ...STREAK_AVATAR_SLUGS, ...BOSS_AVATAR_SLUGS] as const
 export type AvatarSlug = typeof AVATAR_SLUGS[number]
@@ -1032,6 +1032,7 @@ export const BOSS_AVATAR_LABELS: Record<string, string> = {
   'boss-elderwarden':     'The Elder Warden',
   'boss-harbormaster':    'The Harbormaster',
   'boss-grandautomaton':  'The Grand Automaton',
+  'boss-paleherald':      'The Pale Herald',
 }
 
 export function loadUnlockedAvatars(): string[] {

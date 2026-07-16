@@ -263,5 +263,22 @@
         "type": "structureDraw"
       }
     ]
+  },
+  {
+    "name": "Vigil Candle",
+    "icon": "🕯️",
+    "desc": "All your units gain +2 max HP at battle start and slowly mend, recovering 2 HP every 6 seconds.",
+    "lore": "One flame of Amarath's vigil, surrendered by the Pale Herald at the border. It has burned for three hundred years on nothing but being remembered. Units who fight in its light find their wounds closing — being held in mind, it turns out, is a kind of mending.",
+    "effects": [
+      {
+        "type": "unitHp",
+        "amount": 2
+      },
+      {
+        "type": "tickHeal",
+        "amount": 2,
+        "intervalMs": 6000
+      }
+    ]
   }
 ]
