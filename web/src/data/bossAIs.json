@@ -1676,5 +1676,103 @@
         ]
       }
     ]
+  },
+  {
+    "id": "tollwarden",
+    "intervalMs": 5000,
+    "idleMessage": "The scale on his belt does not move on its own…",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE TOLL WARDEN plants his standard at the causeway's centre.",
+      "\"Every traveller pays. You will not be the exception, Worldmender.\""
+    ],
+    "trait": {
+      "name": "Toll of the Mile",
+      "implemented": true,
+      "trigger": "periodic",
+      "triggerIntervalMs": 45000,
+      "type": "column_aoe",
+      "description": "Every 45 seconds the causeway itself exacts its toll — a column of buried milestones ignites underfoot, dealing 7 damage to all units caught in that column and slowing them for 4 seconds.",
+      "mechanics": {
+        "pulseDamage": 7,
+        "pulseColumn": "random",
+        "slowDurationMs": 4000,
+        "slowFactor": 0.5,
+        "chargeUpMs": 1500
+      },
+      "announceText": "The causeway stones begin to glow underfoot — the toll is due!",
+      "fireText": "THE TOLL IS PAID — a column of the causeway ignites!"
+    },
+    "phases": [
+      {
+        "condition": {
+          "gameTimeLt": 30000
+        },
+        "priorities": [
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "mana"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_asc"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      },
+      {
+        "condition": {
+          "gameTimeGte": 30000,
+          "gameTimeLt": 75000
+        },
+        "priorities": [
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costGte": 4,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "none"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ],
+        "announceOnce": "\"The Marches were only the toll road's threshold.\""
+      },
+      {
+        "condition": null,
+        "manaOverride": 9,
+        "maxPlaysOverride": 4,
+        "announceOnce": "\"NO TRAVELLER PASSES UNWEIGHED. PAY, OR BE WEIGHED ANYWAY.\"",
+        "priorities": [
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      }
+    ]
   }
 ]
