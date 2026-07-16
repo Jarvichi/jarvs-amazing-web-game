@@ -1,0 +1,551 @@
+{
+  "id": "c2act2",
+  "title": "ACT II",
+  "subtitle": "The Grey Causeway",
+  "rewardRelic": "Toll Warden's Scale",
+  "rewardRelicDesc": "Your base gains +10 max HP, and every card you play permanently adds +1 attack to all your units — the scale keeps its own ledger.",
+  "environment": "ruins",
+  "rewardTags": [
+    "forgotten",
+    "causeway"
+  ],
+  "replayModifiers": [
+    {
+      "type": "enemyHpPercent",
+      "value": 15,
+      "label": "+15% enemy HP"
+    },
+    {
+      "type": "enemyIntervalReduction",
+      "value": 500,
+      "label": "Enemies act faster"
+    },
+    {
+      "type": "enemyHandBonus",
+      "value": 1,
+      "label": "Enemies start +1 card"
+    },
+    {
+      "type": "crystalBonus",
+      "value": 10,
+      "label": "+10 crystals per battle"
+    },
+    {
+      "type": "enemyHpPercent",
+      "value": 25,
+      "label": "+25% enemy HP"
+    }
+  ],
+  "startNodeIds": [
+    "causeway-gate"
+  ],
+  "variantPools": {
+    "jarvMoods": [
+      "Now, one border further east, carrying a candle that has not gone out since the Marches.",
+      "Now, walking a road the Dominion's maps never drew, toward a toll no map ever priced.",
+      "Now, the person Amarath sent its Herald to warn, walking into the warning anyway.",
+      "Now, still the Worldmender, discovering that mending a world does not stop it from billing you."
+    ],
+    "causewayDesc": [
+      "The Grey Causeway runs a mile dead straight into Amarath, stone the colour of old rain. Every lamp along it stands unlit, waiting for a traveller worth the oil.",
+      "This is the road every Dominion envoy should have walked to Amarath, and none ever did. Three hundred years of lamps lit for guests who never came.",
+      "The causeway does not feel abandoned. It feels attended — swept, mended, watched. Something has been keeping this road ready the entire time nobody used it."
+    ],
+    "wardenDesc": [
+      "The Toll Warden keeps a ledger with no entries from outside Amarath. He intends to fix that personally, one traveller at a time.",
+      "He does not ask for coin. He asks for the centuries the Dominion's forgetting cost his kingdom, and he does not believe you have brought enough.",
+      "Eleven generations of his family have kept this gate. He is the first to keep it for a road nobody walked. He has not once considered closing it."
+    ],
+    "priorRunOpenings": [
+      "The first lamp on the causeway was cold when you reached it, same as always — it only lights once you're closer than the Warden thinks proper.",
+      "You remembered the milestones this time. The causeway remembered you remembering them.",
+      "The tollhouse ledger was still open to the same page. You are becoming a repeat entry.",
+      "The Warden's scale was already out when you arrived. He does not believe in being surprised twice."
+    ]
+  },
+  "midRunTemplates": [
+    "The {ordinalLower} walk down the Grey Causeway. The lamps light a little sooner every time — for you, at least.",
+    "Campaign {n}. The Warden's ledger has a whole page for you now, all of it unpaid by his accounting.",
+    "{n} tolls collected, by his count. You have stopped arguing about the number.",
+    "Run {n}. The causeway is a mile long every time, and every time it feels like it's getting shorter.",
+    "The {ordinalLower} crossing. You know the milestones by name now. Amarath had names for them first."
+  ],
+  "introRules": [
+    {
+      "condition": {
+        "op": "gte",
+        "value": 10
+      },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:priorRunOpenings:1}"
+        },
+        {
+          "title": "THE GREY CAUSEWAY",
+          "text": "{pool:causewayDesc:1}\n\n{pool:wardenDesc:1}"
+        }
+      ]
+    },
+    {
+      "condition": {
+        "op": "range",
+        "min": 2,
+        "max": 9
+      },
+      "panels": [
+        {
+          "title": "THE GREY CAUSEWAY",
+          "text": "The lamps are still unlit at the gate — again.\n\n{pool:priorRunOpenings:0}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:causewayDesc:2}"
+        },
+        {
+          "title": "THE TOLL WARDEN",
+          "text": "{pool:wardenDesc:0}"
+        }
+      ]
+    }
+  ],
+  "intro": [
+    {
+      "title": "THE HERALD'S WRIT",
+      "text": "The Pale Herald knelt in the mud of the border and told you the truth as he understood it: Amarath has returned, and it remembers everything.\n\nHe left you his lantern. The candle inside has not gone out since.",
+      "image": "cutscenes/c2act2-intro-1.svg"
+    },
+    {
+      "title": "THE GREY CAUSEWAY",
+      "text": "Beyond the Marches, the mist thins into a road: a mile of grey stone running dead straight into Amarath, lined with lamps that have never once been lit for a guest.\n\nThe Herald was only the announcement. This is the toll road into the kingdom itself.",
+      "image": "cutscenes/c2act2-intro-2.svg"
+    },
+    {
+      "title": "THE COURT WAITS",
+      "text": "Every Dominion envoy who should have walked this causeway in three hundred years, never did. Amarath kept the lamps lit anyway, and kept a ledger of everyone who owed it a toll.\n\nYou are about to be the first entry from outside in three centuries. You go east.",
+      "image": "cutscenes/c2act2-intro-3.svg"
+    }
+  ],
+  "outro": [
+    {
+      "title": "THE WARDEN'S FALL",
+      "text": "The Toll Warden goes down at the gate he has kept for three hundred years, his scale still balanced in one hand. He does not look surprised. He looks, for the first time, like a man who has finally been asked a fair price and paid it.\n\n'Centuries,' he says. 'That was always the toll. Nobody said it had to be my centuries you spent.'",
+      "image": "cutscenes/c2act2-outro-1.svg"
+    },
+    {
+      "title": "THE TOLL WARDEN'S SCALE",
+      "text": "He leaves you the scale from around his neck — the one that weighed every traveller who never came. It still tips, faintly, on its own. It has not found balance in three hundred years, and it does not stop looking.",
+      "image": "cutscenes/c2act2-outro-2.svg"
+    },
+    {
+      "title": "THE FIELDS BEYOND",
+      "text": "Past the last unlit lamp, the causeway opens onto farmland: rows of pale grain under the same unmoving mist, growing something that isn't wheat.\n\nThe Unremembered Fields. Somewhere in that grain, Amarath grows back everything the Dominion's forgetting took from it. The Court is still waiting at the end of it.",
+      "image": "cutscenes/c2act2-outro-3.svg"
+    }
+  ],
+  "nodes": {
+    "causeway-gate": {
+      "id": "causeway-gate",
+      "type": "battle",
+      "label": "The Sundered Tollgate",
+      "description": "The first gate on the causeway — its arm broken, its ledger still open.",
+      "row": 0,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "unlit-mile",
+        "farthing-crossing"
+      ],
+      "handicap": 16,
+      "opponentIntervalMs": 3300,
+      "opponentBaseHp": 222,
+      "environment": "ruins",
+      "enemyDeck": [
+        "Causeway Sentry",
+        "Grey Mile Runner",
+        "Causeway Lamp",
+        "Toll Chit"
+      ]
+    },
+    "unlit-mile": {
+      "id": "unlit-mile",
+      "type": "battle",
+      "label": "The Unlit Mile",
+      "description": "A stretch of causeway where every lamp has stood cold for three hundred years.",
+      "row": 1,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "lamplighters-vigil",
+        "waystation-hearth"
+      ],
+      "handicap": 18,
+      "opponentIntervalMs": 3200,
+      "opponentBaseHp": 230,
+      "environment": "ruins",
+      "enemyDeck": [
+        "Causeway Sentry",
+        "Causeway Archer",
+        "Causeway Rail",
+        "Grey Mile Runner",
+        "Debtor's Pace"
+      ]
+    },
+    "farthing-crossing": {
+      "id": "farthing-crossing",
+      "type": "battle",
+      "label": "The Farthing Crossing",
+      "description": "A minor crossroads garrisoned like it still matters — because to Amarath, it does.",
+      "row": 1,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-ledger-of-fares",
+        "tollmans-cart"
+      ],
+      "handicap": 18,
+      "opponentIntervalMs": 3200,
+      "opponentBaseHp": 230,
+      "environment": "ruins",
+      "enemyDeck": [
+        "Tollgate Pikeman",
+        "Causeway Sentry",
+        "Milestone Cairn",
+        "Candle Warden",
+        "Toll Chit"
+      ]
+    },
+    "lamplighters-vigil": {
+      "id": "lamplighters-vigil",
+      "type": "event",
+      "label": "The Lamplighter's Vigil",
+      "description": "A solitary lamplighter still tends lamps that haven't held a flame in three centuries.",
+      "row": 2,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-toll-collectors",
+        "mem-c2act2-1"
+      ],
+      "eventConfig": {
+        "title": "The Lamplighter's Vigil",
+        "description": "She moves lamp to lamp with a taper and a spare tin of oil, relighting wicks that go dark again the moment she passes. She has done this every dusk for three hundred years. She does not look tired. She looks like someone with a job that still matters to her.",
+        "pools": [
+          [
+            {
+              "label": "Help relight the vigil lamps (lose 6 HP, gain a rare card)",
+              "consequence": "The work is honest and it costs you. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the spare oil reserve (gain 60 crystals)",
+              "consequence": "She doesn't seem to mind. There is always more oil where three centuries came from. You gain 60 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 60
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest by the one lit lamp (heal 10 HP)",
+              "consequence": "The warmth is real, even if the guest it was meant for never was. You heal 10 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 10
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave her to her work",
+              "consequence": "You leave the lamplighter to her vigil.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "waystation-hearth": {
+      "id": "waystation-hearth",
+      "type": "rest",
+      "label": "The Waystation Hearth",
+      "description": "A traveller's waystation, kept ready for guests who never arrived.",
+      "row": 2,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-toll-collectors"
+      ],
+      "restHeal": 9
+    },
+    "the-ledger-of-fares": {
+      "id": "the-ledger-of-fares",
+      "type": "event",
+      "label": "The Ledger of Fares",
+      "description": "An abandoned tollhouse, its strongbox open and its ledger still recording names.",
+      "row": 2,
+      "col": 2,
+      "rowCols": 4,
+      "childIds": [
+        "the-unpaid-line"
+      ],
+      "eventConfig": {
+        "title": "The Ledger of Fares",
+        "description": "The tollhouse is empty but not abandoned — the ledger on the counter is open to today's page, ink still wet, though no hand is in sight. Every name on every page above it is Amarath's own. The strongbox beside it has never once been emptied by a Dominion traveller.",
+        "pools": [
+          [
+            {
+              "label": "Read the fare ledger (lose 6 HP, gain a rare card)",
+              "consequence": "Three hundred years of names, and yours is about to be the first from outside. It costs you. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Pocket the strongbox (gain 70 crystals)",
+              "consequence": "Coin nobody was ever going to collect. You gain 70 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 70
+              }
+            }
+          ],
+          [
+            {
+              "label": "Eat the tollhouse rations (heal 8 HP)",
+              "consequence": "Preserved past any reasonable shelf life, and somehow still good. You heal 8 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 8
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the ledger unread",
+              "consequence": "Some debts are better left unclaimed. You move on.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "tollmans-cart": {
+      "id": "tollmans-cart",
+      "type": "merchant",
+      "label": "The Tollman's Cart",
+      "description": "A merchant's cart parked at a crossing that hasn't seen trade in centuries.",
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-unpaid-line"
+      ]
+    },
+    "the-toll-collectors": {
+      "id": "the-toll-collectors",
+      "type": "elite",
+      "label": "The Toll Collectors",
+      "description": "A file of collectors holding the causeway in strict, patient order.",
+      "row": 3,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "milestone-forty"
+      ],
+      "handicap": 22,
+      "opponentIntervalMs": 3000,
+      "opponentBaseHp": 246,
+      "environment": "ruins",
+      "enemyDeck": [
+        "Toll Escort",
+        "Tollgate Pikeman",
+        "Toll Barracks",
+        "Milestone Cairn",
+        "Ledger of Debts",
+        "Toll Bell Peal"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "mem-c2act2-1": {
+      "id": "mem-c2act2-1",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A tollgate charter, founding the causeway on a toll of one memory freely given.",
+      "row": 3,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "milestone-forty"
+      ],
+      "fragmentId": "c2act2-frag-1",
+      "environment": "ruins"
+    },
+    "the-unpaid-line": {
+      "id": "the-unpaid-line",
+      "type": "elite",
+      "label": "The Unpaid Line",
+      "description": "A queue of collectors, still holding places for travellers who never came.",
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-long-dark-mile"
+      ],
+      "handicap": 22,
+      "opponentIntervalMs": 3000,
+      "opponentBaseHp": 246,
+      "environment": "ruins",
+      "enemyDeck": [
+        "Causeway Chorus",
+        "Candle Warden",
+        "Weighbridge Shrine",
+        "Unremembered Toll-Taker",
+        "Grey Mist Veil",
+        "Toll Chit"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "milestone-forty": {
+      "id": "milestone-forty",
+      "type": "battle",
+      "label": "Milestone Forty",
+      "description": "A stacked cairn marking the causeway's fortieth mile, and its garrison.",
+      "row": 4,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-final-lamp"
+      ],
+      "handicap": 24,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 254,
+      "environment": "ruins",
+      "enemyDeck": [
+        "Tollgate Pikeman",
+        "Causeway Rail",
+        "Watchlamp Tower",
+        "Unremembered Toll-Taker",
+        "Ledger of Debts",
+        "Causeway Archer"
+      ]
+    },
+    "the-long-dark-mile": {
+      "id": "the-long-dark-mile",
+      "type": "battle",
+      "label": "The Long Dark Mile",
+      "description": "The causeway's final stretch, where even the mist gives up trying to lighten it.",
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-final-lamp",
+        "mem-c2act2-2"
+      ],
+      "handicap": 24,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 254,
+      "environment": "ruins",
+      "enemyDeck": [
+        "Grey Rider",
+        "Grey Mile Runner",
+        "Toll Barracks",
+        "Debtor's Pace",
+        "Grey Mist Veil",
+        "Causeway Sentry"
+      ]
+    },
+    "the-final-lamp": {
+      "id": "the-final-lamp",
+      "type": "rest",
+      "label": "The Final Lamp",
+      "description": "The last lamp before the tollgate proper. Someone has already lit it.",
+      "row": 5,
+      "col": 0,
+      "rowCols": 2,
+      "childIds": [
+        "tollwarden-node"
+      ],
+      "restHeal": 11
+    },
+    "mem-c2act2-2": {
+      "id": "mem-c2act2-2",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A court chronicle entry on the Toll Warden's appointment — and his vow.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "tollwarden-node"
+      ],
+      "fragmentId": "c2act2-frag-2",
+      "environment": "ruins"
+    },
+    "tollwarden-node": {
+      "id": "tollwarden-node",
+      "type": "boss",
+      "label": "The Toll Warden",
+      "description": "Eleven generations of gatekeepers end here, with a scale that has never once balanced.",
+      "row": 6,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
+      "handicap": 26,
+      "opponentIntervalMs": 5000,
+      "opponentBaseHp": 268,
+      "environment": "ruins",
+      "enemyDeck": [
+        "The Toll Warden",
+        "Knight of the Toll",
+        "Toll Escort",
+        "Toll Barracks",
+        "Watchlamp Tower",
+        "Toll Bell Peal",
+        "Writ of Passage"
+      ],
+      "bossAI": "tollwarden",
+      "bossDialogue": [
+        "You crossed the Marches. You have not yet paid to cross the causeway, Worldmender. Every traveller pays.",
+        "Three hundred years unlit, these lamps. Three hundred years of tolls nobody came to collect. I have been keeping the ledger open for you specifically.",
+        "The Court sent the Herald to announce us. It sent me to collect. Stand at the gate, or be entered in the ledger as unpaid."
+      ],
+      "bossCard": "The Toll Warden"
+    }
+  }
+}

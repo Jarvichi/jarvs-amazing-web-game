@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0d0b08"/>
+  <!-- Tollhouse counter with an open ledger -->
+  <rect x="30" y="60" width="340" height="140" rx="4" fill="#E8DFC8"/>
+  <rect x="30" y="60" width="340" height="140" rx="4" fill="none" stroke="#8A6F4D" stroke-width="3"/>
+  <!-- Open ledger book -->
+  <path d="M90,90 L200,78 L310,90 L310,180 L200,168 L90,180 Z" fill="#F2E9D8"/>
+  <line x1="200" y1="78" x2="200" y2="168" stroke="#8A6F4D" stroke-width="1.4"/>
+  <g stroke="#5B5346" stroke-width="1">
+    <line x1="102" y1="104" x2="188" y2="98"/>
+    <line x1="102" y1="120" x2="188" y2="114"/>
+    <line x1="102" y1="136" x2="188" y2="130"/>
+    <line x1="102" y1="152" x2="188" y2="146"/>
+    <line x1="212" y1="98" x2="298" y2="104"/>
+    <line x1="212" y1="114" x2="298" y2="120"/>
+    <line x1="212" y1="130" x2="298" y2="136"/>
+  </g>
+  <!-- A single fresh, empty line waiting -->
+  <line x1="212" y1="146" x2="298" y2="152" stroke="#8E3B3B" stroke-width="1.4" opacity="0.8"/>
+  <text x="255" y="163" text-anchor="middle" font-family="monospace" font-size="8" fill="#8E3B3B">next entry ?</text>
+  <!-- Distant kingdom silhouette through the tollhouse window -->
+  <g fill="#333a58" opacity="0.85">
+    <rect x="330" y="30" width="10" height="30" rx="1"/>
+    <rect x="345" y="20" width="12" height="40" rx="1"/>
+  </g>
+  <!-- Candle on the ledger -->
+  <rect x="330" y="130" width="6" height="16" fill="#F2E9D8"/>
+  <ellipse cx="333" cy="124" rx="3.4" ry="5.6" fill="#FFB347"/>
+  <circle cx="333" cy="126" r="12" fill="#FFB347" opacity="0.18"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THREE CENTURIES OF NAMES. NONE FROM OUTSIDE. YET.</text>
+</svg>

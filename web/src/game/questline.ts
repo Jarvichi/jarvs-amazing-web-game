@@ -18,6 +18,7 @@ import act12Data from '../data/acts/act12.json'
 import act13Data    from '../data/acts/act13.json'
 import actFinaleData from '../data/acts/actfinale.json'
 import c2act1Data from '../data/acts/c2act1.json'
+import c2act2Data from '../data/acts/c2act2.json'
 import worldBattlesData from '../data/acts/worldbattles.json'
 import consumablesData from '../data/consumables.json'
 
@@ -899,6 +900,7 @@ export const ACT_12: Act = act12Data as Act
 export const ACT_13:     Act = act13Data    as Act
 export const ACT_FINALE: Act = actFinaleData as Act
 export const C2_ACT_1: Act = c2act1Data as Act
+export const C2_ACT_2: Act = c2act2Data as Act
 /** Standalone battles launched from the world map — never part of campaign progression. */
 export const ACT_WORLD: Act = worldBattlesData as Act
 
@@ -918,6 +920,7 @@ export const ACTS: Record<string, Act> = {
   act13:     ACT_13,
   actfinale: ACT_FINALE,
   c2act1:    C2_ACT_1,
+  c2act2:    C2_ACT_2,
   world:     ACT_WORLD,
 }
 

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a2i1-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#242b48"/>
+    <stop offset="100%" stop-color="#4a5170"/>
+  </linearGradient>
+  <rect width="400" height="200" fill="url(#c2a2i1-sky)"/>
+  <!-- Churned battlefield ground, receding behind -->
+  <rect y="176" width="400" height="64" fill="#2b2f42"/>
+  <path d="M0,176 Q60,168 120,176 Q200,184 280,174 Q340,168 400,176 L400,240 L0,240 Z" fill="#232739"/>
+  <!-- Planted banner, now distant and abandoned -->
+  <rect x="70" y="80" width="3" height="96" rx="1.5" fill="#5B5346" opacity="0.7"/>
+  <path d="M73,84 L103,90 L73,102 Z" fill="#5E6A8C" opacity="0.6"/>
+  <!-- Jarv silhouette walking east, carrying the lantern -->
+  <g fill="#11141f">
+    <circle cx="220" cy="150" r="10"/>
+    <rect x="209" y="160" width="22" height="34" rx="4"/>
+  </g>
+  <rect x="234" y="172" width="8" height="12" rx="1.5" fill="#20263c"/>
+  <rect x="236" y="168" width="4" height="6" fill="#FFB347" opacity="0.9"/>
+  <circle cx="238" cy="178" r="7" fill="#FFB347" opacity="0.25"/>
+  <!-- Road ahead into the mist -->
+  <path d="M260,240 L320,140 L332,140 L280,240 Z" fill="#3a4160" opacity="0.85"/>
+  <ellipse cx="260" cy="196" rx="140" ry="24" fill="#ced3e6" opacity="0.35"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THE HERALD WAS ONLY THE ANNOUNCEMENT</text>
+</svg>
