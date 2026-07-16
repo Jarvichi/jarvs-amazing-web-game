@@ -2053,9 +2053,12 @@ function hasOfferableQuest(giverId: string): boolean {
         className="nm-map nm-map--camp"
         style={{ position: 'relative', flex: 1, overflow: 'hidden' }}
       >
+        {/* overflow: hidden keeps this a scroll container the follow-camera can
+            drive via scrollLeft/scrollTop while blocking user drag/wheel/scrollbar
+            scrolling, which would shift the camera off the avatar. */}
         <div
           ref={scrollRef}
-          style={{ overflowX: 'auto', overflowY: 'auto', width: '100%', height: '100%' }}
+          style={{ overflowX: 'hidden', overflowY: 'hidden', width: '100%', height: '100%' }}
         >
           <HubTownCanvas
             onAreaEnter={handleAreaEnter}

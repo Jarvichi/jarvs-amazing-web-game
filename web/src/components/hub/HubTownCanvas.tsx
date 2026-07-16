@@ -225,7 +225,10 @@ export function HubTownCanvas({
   const lastScheduleHourRef   = useRef(gameHour ?? 12)
 
   usePixiApp(containerRef, MAP_W, MAP_H, (app) => {
-    app.canvas.style.touchAction = 'pan-x pan-y'
+    // The camera follows the avatar; user drags must never pan the viewport,
+    // so suppress all browser touch gestures on the canvas. Taps still fire
+    // as pointer events.
+    app.canvas.style.touchAction = 'none'
 
     // ── Camera ─────────────────────────────────────────────────────────────────
     // All world content lives in worldRoot so the canvas can stay viewport-sized
