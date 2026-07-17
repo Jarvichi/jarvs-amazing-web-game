@@ -31,6 +31,7 @@ interface Props {
   worldMap: WorldMap
   run?: RunState               // campaign mode: required when clearedNodeIds absent
   clearedNodeIds?: Set<string> // world mode: required when run absent
+  restrictedNodeIds?: Set<string> // world mode: towns locked by admin town-access setting
   mapWidth?: number            // override canvas width (world map uses 700)
   mapHeight?: number           // override canvas height (world map uses 520)
   setPeekNode: (node: QuestNode | null) => void
@@ -59,7 +60,8 @@ export function getNodeStatus(nodeId: string, availableIds: string[], run: RunSt
   return 'locked'
 }
 
-export function getWorldNodeStatus(node: QuestNode, clearedNodeIds: Set<string>): NodeStatus {
+export function getWorldNodeStatus(node: QuestNode, clearedNodeIds: Set<string>, restrictedNodeIds?: Set<string>): NodeStatus {
+  if (restrictedNodeIds?.has(node.id)) return 'locked'
   if (clearedNodeIds.has(node.id)) return 'completed'
   if (!node.requiredClears?.length) return 'available'
   const cleared = node.requiredClears.every(req => {
@@ -588,7 +590,7 @@ function updateMarkerStyle(
 
 // ── Main component ─────────────────────────────────────────────────────────────
 
-export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, mapWidth: mapWidthProp, mapHeight: mapHeightProp, setPeekNode, showPaths }: Props) {
+export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNodeIds, mapWidth: mapWidthProp, mapHeight: mapHeightProp, setPeekNode, showPaths }: Props) {
   const isFreeform = useMemo(() => Object.values(worldMap.nodes).some(n => n.x !== undefined), [worldMap.nodes])
 
   const availableIds      = useMemo(() => run ? getAvailableNodeIds(worldMap.nodes, run) : [], [worldMap.nodes, run])
@@ -667,7 +669,7 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, mapWidth: ma
 
       for (const node of Object.values(worldMap.nodes)) {
         if (deadRef.current) return
-        const available = getWorldNodeStatus(node, clearedNodeIds ?? new Set()) !== 'locked'
+        const available = getWorldNodeStatus(node, clearedNodeIds ?? new Set(), restrictedNodeIds) !== 'locked'
         const isCurrent = node.id === currentLocation
         const container = new PIXI.Container()
         container.position.set(node.x!, node.y!)
@@ -691,7 +693,7 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, mapWidth: ma
           }
         }
 
-        const status = getWorldNodeStatus(node, clearedNodeIds ?? new Set())
+        const status = getWorldNodeStatus(node, clearedNodeIds ?? new Set(), restrictedNodeIds)
         if (status === 'locked') {
           container.alpha = 0.38
           const lockLabel = new PIXI.Text({ text: '🔒',

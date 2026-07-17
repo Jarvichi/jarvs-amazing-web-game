@@ -91,13 +91,15 @@ import { GiftAdminScreen }  from './components/admin/GiftAdminScreen'
 import { LoginModal }        from './components/modals/LoginModal'
 import { InventoryScreen }   from './components/screens/InventoryScreen'
 import { markDailyRewardClaimed, addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
-import { applyGiftRewards, GiftDef } from './game/gifts'
+import { applyGiftRewards, GiftDef, GIFT_OWNER_UID } from './game/gifts'
+import { fetchEnabledTownIds, isTownAccessible } from './game/townAccess'
 import { NewsScreen }      from './components/screens/NewsScreen'
 import { NewsAdminScreen } from './components/admin/NewsAdminScreen'
 import { CampaignAdminScreen } from './components/admin/CampaignAdminScreen'
 import { SceneryAdminScreen } from './components/admin/SceneryAdminScreen'
 import { FeedbackModal } from './components/modals/FeedbackModal'
 import { FeedbackAdminScreen } from './components/admin/FeedbackAdminScreen'
+import { TownAccessAdminScreen } from './components/admin/TownAccessAdminScreen'
 import { DeckSelectorModal } from './components/cards/DeckSelectorModal'
 import { loadDeckSlot } from './game/collection'
 import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
@@ -240,6 +242,7 @@ type Screen =
   | 'newsAdmin'
   | 'campaignAdmin'
   | 'feedbackAdmin'
+  | 'townAccessAdmin'
   | 'minigames'
   | 'playerstats'
   | 'quickbattle'
@@ -551,6 +554,22 @@ export default function App() {
 
   // Firebase auth
   const { user, authLoading } = useAuth()
+  const isAdmin = user?.uid === GIFT_OWNER_UID
+
+  // Admin-controlled hub-world town access — locked until fetched/enabled.
+  const [enabledTownIds, setEnabledTownIds] = useState<Set<string>>(new Set())
+  useEffect(() => {
+    fetchEnabledTownIds().then(ids => setEnabledTownIds(new Set(ids)))
+  }, [])
+  const restrictedTownNodeIds = useMemo(() => {
+    const ids = new Set<string>()
+    for (const node of WORLD_MAP_NODES) {
+      if (node.locationKey && !isTownAccessible(node.locationKey, enabledTownIds, isAdmin)) {
+        ids.add(node.id)
+      }
+    }
+    return ids
+  }, [enabledTownIds, isAdmin])
 
   // Per-battle misc achievement flags
   const battleFlawlessRef    = useRef(true)
@@ -1293,11 +1312,12 @@ export default function App() {
       setCurrentLocationKey('ravenwatch')
       setScreen('hubworld')
     } else if (LOCATION_REGISTRY[id]) {
+      if (!isTownAccessible(id, enabledTownIds, isAdmin)) return
       setCurrentWorldLocation(id)
       setCurrentLocationKey(id)
       setScreen('location')
     }
-  }, [])
+  }, [enabledTownIds, isAdmin])
 
   // Re-run the current world-map battle after a loss ("Try Again").
   const handleWorldBattleRetry = useCallback(() => {
@@ -2914,6 +2934,7 @@ export default function App() {
           onNewsAdmin={() => setScreen('newsAdmin')}
           onCampaignAdmin={() => setScreen('campaignAdmin')}
           onFeedbackAdmin={() => setScreen('feedbackAdmin')}
+          onTownAccessAdmin={() => setScreen('townAccessAdmin')}
           onHubWorld={() => setScreen('hubworld')}
           onTitleScreen={() => setScreen('title')}
           onSceneryPreview={() => setScreen('sceneryPreview')}
@@ -3009,6 +3030,7 @@ export default function App() {
           onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
           onPlayerTap={() => { setReturnScreen('hubworld'); setScreen('player') }}
           onFeedback={() => setFeedbackOpen(true)}
+          restrictedNodeIds={restrictedTownNodeIds}
         />
       )}
 
@@ -3045,6 +3067,10 @@ export default function App() {
 
       {screen === 'feedbackAdmin' && (
         <FeedbackAdminScreen onBack={() => setScreen('settings')} />
+      )}
+
+      {screen === 'townAccessAdmin' && (
+        <TownAccessAdminScreen onBack={() => setScreen('settings')} />
       )}
 
       {screen === 'sceneryPreview' && (

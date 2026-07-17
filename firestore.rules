@@ -54,6 +54,13 @@ service cloud.firestore {
       allow write: if request.auth != null;
     }
 
+    // ── Hub-world town access (admin-controlled) ────────────────────────────
+    // Anyone can read which towns are open. Only the admin account can write.
+    match /globalState/townAccess {
+      allow read: if true;
+      allow write: if request.auth.uid == "pAB2tLH049PCOI73cQpFlisKpDw1";
+    }
+
     // ── Minigame leaderboards ────────────────────────────────────────────────
     // Anyone can read leaderboard entries.
     // Authenticated users can only write their own entry (keyed by their uid).
