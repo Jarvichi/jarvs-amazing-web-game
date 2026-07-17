@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground -->
+  <ellipse cx="16" cy="29.5" rx="12" ry="2" fill="#7E8299" opacity="0.5"/>
+  <!-- Reading-room alcove -->
+  <rect x="4" y="15" width="24" height="13" rx="1" fill="#9FA3BC"/>
+  <rect x="4" y="19" width="24" height="1" fill="#7E8299"/>
+  <!-- Peaked gable roof -->
+  <path d="M2.5,15 L16,6 L29.5,15 Z" fill="#2B2F3E"/>
+  <path d="M6,15 L16,8.4 L26,15 Z" fill="#454E6B"/>
+  <!-- Ridge lines -->
+  <line x1="9" y1="13" x2="13" y2="10.4" stroke="#7E8299" stroke-width="0.6"/>
+  <line x1="13" y1="13" x2="16.5" y2="10.6" stroke="#7E8299" stroke-width="0.6"/>
+  <line x1="19" y1="13" x2="15.5" y2="10.6" stroke="#7E8299" stroke-width="0.6"/>
+  <line x1="23" y1="13" x2="19" y2="10.4" stroke="#7E8299" stroke-width="0.6"/>
+  <!-- Sealed door -->
+  <rect x="13.5" y="20" width="5" height="8" rx="1.5" fill="#2B2F3E"/>
+  <circle cx="17.3" cy="24.2" r="0.5" fill="#E8B94A"/>
+  <!-- Windows glowing faint -->
+  <rect x="7" y="21" width="3.4" height="3.4" rx="0.6" fill="#FFB347" opacity="0.8"/>
+  <rect x="21.6" y="21" width="3.4" height="3.4" rx="0.6" fill="#FFB347" opacity="0.8"/>
+  <!-- Sealed-page banner over door -->
+  <rect x="15.4" y="15.5" width="1.2" height="4" fill="#5E6A8C"/>
+  <path d="M14,15.5 L18,15.5 L16,17.8 Z" fill="#F2E9D8"/>
+  <!-- Mist seeping from the door -->
+  <ellipse cx="16" cy="28.2" rx="6" ry="1.4" fill="#E8EAF4" opacity="0.55"/>
+  <ellipse cx="11" cy="27.4" rx="3.5" ry="1" fill="#E8EAF4" opacity="0.4"/>
+</svg>
