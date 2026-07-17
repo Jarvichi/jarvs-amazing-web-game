@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Drifting cloud of unbound pages -->
+  <ellipse cx="16" cy="18" rx="12" ry="7" fill="#F2E9D8" opacity="0.5"/>
+  <ellipse cx="12" cy="15" rx="7" ry="5" fill="#F2E9D8" opacity="0.65"/>
+  <ellipse cx="21" cy="14" rx="6" ry="4.5" fill="#F2E9D8" opacity="0.65"/>
+  <ellipse cx="16" cy="12" rx="8" ry="5" fill="#FBF6EA" opacity="0.8"/>
+  <ellipse cx="16" cy="15" rx="5" ry="3.6" fill="#A6A9C0" opacity="0.6"/>
+  <rect x="15.4" y="12" width="1.2" height="10" rx="0.6" fill="#2B2F3E"/>
+  <path d="M16,12 Q22,10.5 21,16.5 Q18,14.5 16,12 Z" fill="#F2E9D8"/>
+  <circle cx="13.5" cy="13" r="1.1" fill="#E8B94A"/>
+  <circle cx="18.5" cy="13" r="1.1" fill="#E8B94A"/>
+  <circle cx="13.5" cy="12.7" r="0.4" fill="#FFE08A"/>
+  <circle cx="18.5" cy="12.7" r="0.4" fill="#FFE08A"/>
+  <path d="M6,22 Q4,25 6.5,27 Q7.5,24.5 9,23.5 Z" fill="#F2E9D8" opacity="0.5"/>
+  <path d="M26,22 Q28,25 25.5,27 Q24.5,24.5 23,23.5 Z" fill="#F2E9D8" opacity="0.5"/>
+  <path d="M14,24 Q13,27.5 16,29 Q17,26.5 18,25 Z" fill="#F2E9D8" opacity="0.45"/>
+</svg>
