@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a3i1-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#242b48"/>
+    <stop offset="100%" stop-color="#4a5170"/>
+  </linearGradient>
+  <rect width="400" height="200" fill="url(#c2a3i1-sky)"/>
+  <!-- Causeway stone giving way to turned earth -->
+  <rect y="176" width="200" height="64" fill="#3a3f52"/>
+  <rect x="200" y="176" width="200" height="64" fill="#4a4634"/>
+  <g stroke="#6a6450" stroke-width="1" opacity="0.6">
+    <line x1="220" y1="240" x2="230" y2="176"/>
+    <line x1="250" y1="240" x2="256" y2="176"/>
+    <line x1="285" y1="240" x2="288" y2="176"/>
+    <line x1="320" y1="240" x2="318" y2="176"/>
+    <line x1="355" y1="240" x2="348" y2="176"/>
+  </g>
+  <!-- Jarv silhouette walking east, carrying the Warden's scale -->
+  <g fill="#11141f">
+    <circle cx="190" cy="150" r="10"/>
+    <rect x="179" y="160" width="22" height="34" rx="4"/>
+  </g>
+  <rect x="168" y="170" width="18" height="1.6" fill="#8A6F4D" transform="rotate(-6 177 171)"/>
+  <path d="M164,168 Q168,172 172,168 Z" fill="#454E6B"/>
+  <path d="M180,166 Q184,170 188,166 Z" fill="#454E6B"/>
+  <!-- Turned furrow ahead -->
+  <ellipse cx="230" cy="196" rx="140" ry="24" fill="#d8cf9a" opacity="0.2"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THE ROAD SIMPLY STOPS BEING A ROAD</text>
+</svg>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a3o1-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#242b48"/>
+    <stop offset="100%" stop-color="#4a5170"/>
+  </linearGradient>
+  <rect width="400" height="200" fill="url(#c2a3o1-sky)"/>
+  <rect y="176" width="400" height="64" fill="#4a4634"/>
+  <!-- Three stilled harvest effigies, straw gone dark -->
+  <g fill="#2f2b1e" opacity="0.9">
+    <rect x="90" y="150" width="3" height="30"/>
+    <rect x="72" y="156" width="40" height="2.4" rx="1"/>
+    <circle cx="91.5" cy="146" r="6"/>
+    <rect x="300" y="150" width="3" height="30"/>
+    <rect x="282" y="156" width="40" height="2.4" rx="1"/>
+    <circle cx="301.5" cy="146" r="6"/>
+  </g>
+  <!-- The Gleaner Queen, fallen, sickle laid down -->
+  <g>
+    <rect x="168" y="150" width="4" height="34" fill="#7E8299" transform="rotate(70 170 167)"/>
+    <path d="M175,146 L200,150 L188,164 Z" fill="#C9CBDA" transform="rotate(70 187 155)"/>
+    <path d="M160,110 L152,190 L228,190 L220,110 Q190,124 160,110 Z" fill="#9FA3BC" transform="rotate(78 190 150)"/>
+    <path d="M175,90 Q190,80 205,90 L205,84 Q190,72 175,84 Z" fill="#D9C27E" transform="rotate(78 190 150)"/>
+  </g>
+  <!-- Mist low over the field -->
+  <ellipse cx="100" cy="196" rx="130" ry="18" fill="#ced3e6" opacity="0.35"/>
+  <ellipse cx="320" cy="200" rx="120" ry="16" fill="#ced3e6" opacity="0.3"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">"I NEVER ONCE DROPPED A NAME ON PURPOSE"</text>
+</svg>

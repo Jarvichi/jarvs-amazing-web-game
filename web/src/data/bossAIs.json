@@ -1774,5 +1774,106 @@
         ]
       }
     ]
+  },
+  {
+    "id": "gleanerqueen",
+    "intervalMs": 5000,
+    "idleMessage": "The wheat around her does not stop moving…",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE GLEANER QUEEN rises from the memory-wheat, sickle in hand.",
+      "\"The Court sent a Herald to announce us, and a Warden to collect. It sent me to glean what's left, Worldmender.\""
+    ],
+    "trait": {
+      "name": "Effigy Harvest",
+      "implemented": true,
+      "trigger": "hp_pct",
+      "triggerHpPct": 50,
+      "type": "split",
+      "description": "At 50% HP the Gleaner Queen scatters into three harvest effigies bound from straw and stolen memory, each carrying a third of her HP. All three effigies must fall to win the battle.",
+      "mechanics": {
+        "splitCount": 3,
+        "hpDivisor": 3,
+        "positions": [
+          "left_flank",
+          "centre",
+          "right_flank"
+        ],
+        "allMustDie": true
+      },
+      "announceText": "The Gleaner Queen SCATTERS — three harvest effigies rise from the wheat! Fell them all!",
+      "splitLog": "Straw and sickles reshape themselves into three effigies across the field. Destroy them ALL!"
+    },
+    "phases": [
+      {
+        "condition": {
+          "gameTimeLt": 30000
+        },
+        "priorities": [
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "mana"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_asc"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      },
+      {
+        "condition": {
+          "gameTimeGte": 30000,
+          "gameTimeLt": 75000
+        },
+        "priorities": [
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costGte": 4,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "none"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ],
+        "announceOnce": "\"The causeway only taught you to pay. The field will teach you to be gleaned.\""
+      },
+      {
+        "condition": null,
+        "manaOverride": 9,
+        "maxPlaysOverride": 4,
+        "announceOnce": "\"EVERY SHEAF REMEMBERS A NAME THE WORLD DROPPED. YOURS WILL MAKE A FINE ADDITION.\"",
+        "priorities": [
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      }
+    ]
   }
 ]

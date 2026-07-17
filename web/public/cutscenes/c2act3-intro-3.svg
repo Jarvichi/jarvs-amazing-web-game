@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a3i3-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#1c2138"/>
+    <stop offset="100%" stop-color="#565e80"/>
+  </linearGradient>
+  <rect width="400" height="200" fill="url(#c2a3i3-sky)"/>
+  <rect y="176" width="400" height="64" fill="#4a4634"/>
+  <!-- Scarecrow silhouettes standing watch across the rows -->
+  <g fill="#20263c">
+    <rect x="70" y="150" width="3" height="30"/>
+    <rect x="52" y="156" width="40" height="2.4" rx="1"/>
+    <circle cx="71.5" cy="146" r="6"/>
+    <rect x="190" y="140" width="3" height="40"/>
+    <rect x="168" y="148" width="46" height="2.6" rx="1"/>
+    <circle cx="191.5" cy="134" r="7"/>
+    <rect x="320" y="152" width="3" height="28"/>
+    <rect x="304" y="158" width="34" height="2.2" rx="1"/>
+    <circle cx="321.5" cy="149" r="5.6"/>
+  </g>
+  <!-- A distant, taller silhouette watching from the furthest row -->
+  <g fill="#11141f" opacity="0.85">
+    <rect x="248" y="110" width="2" height="46" transform="rotate(6 249 133)"/>
+    <path d="M240,116 Q249,104 258,116 L258,120 Q249,113 240,120 Z"/>
+    <path d="M232,132 Q249,138 266,132 L264,150 L234,150 Z"/>
+  </g>
+  <!-- Golden glow eyes far off -->
+  <circle cx="245" cy="116" r="1" fill="#FFB347"/>
+  <circle cx="253" cy="116" r="1" fill="#FFB347"/>
+  <!-- Mist -->
+  <ellipse cx="200" cy="196" rx="200" ry="24" fill="#ced3e6" opacity="0.35"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">SOMETHING IN THE ROWS IS ALREADY WATCHING</text>
+</svg>

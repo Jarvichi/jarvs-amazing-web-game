@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Dust wisp behind -->
+  <ellipse cx="16" cy="25" rx="10" ry="3" fill="#E8DCA8" opacity="0.3"/>
+  <!-- Head with half-mask (body 1px lower mid-stride) -->
+  <circle cx="16" cy="10" r="5" fill="#E3D9CF"/>
+  <path d="M11,10 A5,5 0 0 1 21,10 L21,8 Q16,5 11,8 Z" fill="#3A3F55"/>
+  <rect x="11.5" y="11.5" width="9" height="3" rx="1.5" fill="#A6A9C0"/>
+  <circle cx="14" cy="9.8" r="0.8" fill="#454E6B"/>
+  <circle cx="18" cy="9.8" r="0.8" fill="#454E6B"/>
+  <!-- Light body -->
+  <path d="M12,15 L12,23 L20,23 L20,15 Q16,17 12,15 Z" fill="#A6A9C0"/>
+  <rect x="12" y="18.5" width="8" height="1.4" fill="#7E8299"/>
+  <!-- Grain satchel on back -->
+  <rect x="20.5" y="14" width="4.5" height="6.5" rx="1" fill="#8A6F4D"/>
+  <rect x="20.9" y="15.8" width="3.7" height="0.8" fill="#D9C27E"/>
+  <ellipse cx="22.7" cy="14" rx="2.3" ry="1" fill="#E8DCA8"/>
+  <!-- Arms -->
+  <rect x="8" y="15" width="3.5" height="6" rx="1" fill="#A6A9C0"/>
+  <rect x="20.5" y="20.5" width="3.5" height="4" rx="1" fill="#A6A9C0"/>
+  <!-- Legs stride B -->
+  <rect x="18" y="23" width="3.5" height="8" rx="1" fill="#454E6B"/>
+  <rect x="10" y="23" width="3.5" height="6" rx="1" fill="#454E6B"/>
+  <rect x="18" y="29.5" width="5.5" height="2.6" rx="1" fill="#3A3F55"/>
+  <rect x="9" y="27.5" width="5" height="2.6" rx="1" fill="#3A3F55"/>
+</svg>

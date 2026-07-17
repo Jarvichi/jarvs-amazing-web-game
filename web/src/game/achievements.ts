@@ -894,6 +894,41 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     tier: 2,
   },
 
+  // Campaign 2, Act 3 — The Unremembered Fields
+  {
+    id: 'campaign:c2act3:1',
+    name: 'The First Sheaf',
+    description: 'Complete Campaign 2 Act 3 — The Unremembered Fields',
+    category: 'campaign',
+    progressKey: 'campaign:c2act3',
+    target: 1,
+    reward: { type: 'crystals', crystals: 700 },
+    tier: 1,
+  },
+  {
+    id: 'campaign:c2act3:10',
+    name: 'Harvester of the Unremembered Fields',
+    description: 'Complete Campaign 2 Act 3 ten times',
+    category: 'campaign',
+    progressKey: 'campaign:c2act3',
+    target: 10,
+    reward: { type: 'crystals', crystals: 3400 },
+    tier: 2,
+  },
+  {
+    id: 'campaign:c2act3:100',
+    name: 'The Fields Remember Your Name',
+    description: 'Complete Campaign 2 Act 3 one hundred times',
+    category: 'campaign',
+    progressKey: 'campaign:c2act3',
+    target: 100,
+    reward: {
+      type: 'item',
+      item: { id: 'gleaner_queens_chaff', name: "Gleaner Queen's Chaff", icon: '🌾', desc: 'A handful of chaff from a hundred harvests. Something in it still remembers being wheat.' },
+    },
+    tier: 2,
+  },
+
   // ── Boss avatar unlocks (one per act, triggered on first act completion) ─
 
   { id: 'campaign:act1:boss',  name: 'Face of the Thornlord',       description: 'Defeat Act 1 to unlock the Thornlord avatar',       category: 'campaign', progressKey: 'campaign:act1',  target: 1, reward: { type: 'avatar', avatarSlug: 'boss-thornlord' },       tier: 1 },
@@ -912,6 +947,7 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
   { id: 'campaign:actfinale:boss', name: 'Face of the Fracture',       description: 'Defeat the Finale to unlock the Fracture avatar',     category: 'campaign', progressKey: 'campaign:actfinale', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-thefracture' },     tier: 1 },
   { id: 'campaign:c2act1:boss',    name: 'Face of the Pale Herald',    description: 'Defeat Campaign 2 Act 1 to unlock the Pale Herald avatar', category: 'campaign', progressKey: 'campaign:c2act1', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-paleherald' },      tier: 1 },
   { id: 'campaign:c2act2:boss',    name: 'Face of the Toll Warden',    description: 'Defeat Campaign 2 Act 2 to unlock the Toll Warden avatar', category: 'campaign', progressKey: 'campaign:c2act2', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-tollwarden' },      tier: 1 },
+  { id: 'campaign:c2act3:boss',    name: 'Face of the Gleaner Queen',  description: 'Defeat Campaign 2 Act 3 to unlock the Gleaner Queen avatar', category: 'campaign', progressKey: 'campaign:c2act3', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-gleanerqueen' },    tier: 1 },
 
   // ── Boss Cards — earned by repeat boss completions (10/20/30/40 runs) ────
   // Act 1 — Thornlord

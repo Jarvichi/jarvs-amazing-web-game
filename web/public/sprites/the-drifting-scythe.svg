@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Drifting sentient chaff-mist -->
+  <ellipse cx="16" cy="18" rx="12" ry="7" fill="#E8EAF4" opacity="0.55"/>
+  <ellipse cx="12" cy="15" rx="7" ry="5" fill="#E8EAF4" opacity="0.7"/>
+  <ellipse cx="21" cy="14" rx="6" ry="4.5" fill="#E8EAF4" opacity="0.7"/>
+  <ellipse cx="16" cy="12" rx="8" ry="5" fill="#F4F5FA" opacity="0.8"/>
+  <!-- Deep core -->
+  <ellipse cx="16" cy="15" rx="5" ry="3.6" fill="#A6A9C0" opacity="0.6"/>
+  <!-- Spectral scythe carried within -->
+  <rect x="15.4" y="12" width="1.2" height="10" rx="0.6" fill="#8A6F4D"/>
+  <path d="M16,12 Q22,10.5 21,16.5 Q18,14.5 16,12 Z" fill="#F2E9D8"/>
+  <!-- Two wheat-gold eyes -->
+  <circle cx="13.5" cy="13" r="1.1" fill="#D9C27E"/>
+  <circle cx="18.5" cy="13" r="1.1" fill="#D9C27E"/>
+  <circle cx="13.5" cy="12.7" r="0.4" fill="#FFE08A"/>
+  <circle cx="18.5" cy="12.7" r="0.4" fill="#FFE08A"/>
+  <!-- Trailing chaff wisps -->
+  <path d="M6,22 Q4,25 6.5,27 Q7.5,24.5 9,23.5 Z" fill="#E8EAF4" opacity="0.5"/>
+  <path d="M26,22 Q28,25 25.5,27 Q24.5,24.5 23,23.5 Z" fill="#E8EAF4" opacity="0.5"/>
+  <path d="M14,24 Q13,27.5 16,29 Q17,26.5 18,25 Z" fill="#E8EAF4" opacity="0.45"/>
+</svg>

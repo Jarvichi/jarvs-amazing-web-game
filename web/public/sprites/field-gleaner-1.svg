@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Hooded head (body 1px lower mid-stride) -->
+  <circle cx="16" cy="10" r="5" fill="#7E8299"/>
+  <path d="M11,10 Q16,3 21,10 L21,12 Q16,9 11,12 Z" fill="#5E6A8C"/>
+  <circle cx="16" cy="11" r="3" fill="#E3D9CF"/>
+  <circle cx="15" cy="11" r="0.7" fill="#3A3F55"/>
+  <circle cx="17.5" cy="11" r="0.7" fill="#3A3F55"/>
+  <!-- Slim cloaked body -->
+  <path d="M12,15 L11,24 L21,24 L20,15 Q16,17 12,15 Z" fill="#7E8299"/>
+  <rect x="13" y="18" width="6" height="1.2" fill="#5E6A8C"/>
+  <!-- Grain basket on back -->
+  <rect x="19.5" y="15.5" width="4" height="5" rx="1" fill="#8A6F4D"/>
+  <ellipse cx="21.5" cy="15.5" rx="2.2" ry="1" fill="#D9C27E"/>
+  <rect x="20" y="16.2" width="3" height="1.2" fill="#E8DCA8"/>
+  <!-- Sickle arm -->
+  <rect x="8" y="15" width="3" height="6" rx="1" fill="#7E8299"/>
+  <path d="M7,15 Q4,13 5,10 Q7,11.5 8,14 Z" fill="#D9C27E"/>
+  <!-- Legs stride A -->
+  <rect x="10" y="24" width="3.5" height="7" rx="1" fill="#454E6B"/>
+  <rect x="18" y="24" width="3.5" height="5.5" rx="1" fill="#454E6B"/>
+  <rect x="9" y="29" width="5.5" height="2.6" rx="1" fill="#3A3F55"/>
+  <rect x="18" y="27.5" width="5" height="2.6" rx="1" fill="#3A3F55"/>
+</svg>
