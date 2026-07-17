@@ -29,9 +29,10 @@ interface Props {
   onSignOut?:    () => void
   onPlayerTap?:  () => void
   onFeedback?:   () => void
+  restrictedNodeIds?: Set<string>
 }
 
-export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, onPlayerTap, onFeedback }: Props) {
+export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, onPlayerTap, onFeedback, restrictedNodeIds }: Props) {
   const [peekNode, setPeekNode] = useState<WorldNodeDef | null>(null)
   const [questsOpen, setQuestsOpen] = useState(false)
   const [wrongSave, setWrongSave]   = useState<{ cards: number; crystals: number; deck: number } | null>(null)
@@ -111,6 +112,7 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
           id="hub-world"
           worldMap={WORLD_MAP}
           clearedNodeIds={clearedNodeIds}
+          restrictedNodeIds={restrictedNodeIds}
           mapWidth={1600}
           mapHeight={1400}
           setPeekNode={setPeekNode}
@@ -121,7 +123,7 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
             node={peekNode}
             mode="world"
             isCleared={isNodeCleared(peekNode.id)}
-            isAvailable={getWorldNodeStatus(peekNode, clearedNodeIds) !== 'locked'}
+            isAvailable={getWorldNodeStatus(peekNode, clearedNodeIds, restrictedNodeIds) !== 'locked'}
             onEnter={() => { setPeekNode(null); onSelectNode(peekNode) }}
             onClose={() => setPeekNode(null)}
           />

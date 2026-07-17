@@ -26,6 +26,7 @@ interface Props {
   onNewsAdmin?: () => void
   onCampaignAdmin?: () => void
   onFeedbackAdmin?: () => void
+  onTownAccessAdmin?: () => void
   onHubWorld?: () => void
   onTitleScreen?: () => void
   onCheckForUpdates?: () => Promise<void>
@@ -162,7 +163,7 @@ function exportLocalStorage(): void {
   URL.revokeObjectURL(url)
 }
 
-export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged, onGiftAdmin, onNewsAdmin, onCampaignAdmin, onFeedbackAdmin, onHubWorld, onTitleScreen, onCheckForUpdates, onSceneryPreview }: Props) {
+export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged, onGiftAdmin, onNewsAdmin, onCampaignAdmin, onFeedbackAdmin, onTownAccessAdmin, onHubWorld, onTitleScreen, onCheckForUpdates, onSceneryPreview }: Props) {
   const [soundOn,       setSoundOn]       = useState(isSoundEnabled)
   const [soundVolume,   setSoundVolumeState]   = useState(getSoundVolume)
   const [musicVolume,   setMusicVolumeState]   = useState(getMusicVolume)
@@ -684,7 +685,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
           </Section>
         )}
 
-        {user?.uid === GIFT_OWNER_UID && (onGiftAdmin || onNewsAdmin || onFeedbackAdmin) && (
+        {user?.uid === GIFT_OWNER_UID && (onGiftAdmin || onNewsAdmin || onFeedbackAdmin || onCampaignAdmin || onTownAccessAdmin) && (
           <Section bordered title="ADMIN">
             {onGiftAdmin && (
               <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
@@ -720,6 +721,15 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                   <div className="settings-sublabel">View and delete player-submitted feedback</div>
                 </div>
                 <button className="action-btn action-btn--gold" onClick={onFeedbackAdmin}>OPEN</button>
+              </div>
+            )}
+            {onTownAccessAdmin && (
+              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
+                <div>
+                  <div className="settings-label">Town access</div>
+                  <div className="settings-sublabel">Choose which hub-world towns players can enter</div>
+                </div>
+                <button className="action-btn action-btn--gold" onClick={onTownAccessAdmin}>OPEN</button>
               </div>
             )}
             <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
