@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a4i2-hall" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#171b28"/>
+    <stop offset="100%" stop-color="#2b3149"/>
+  </linearGradient>
+  <rect width="400" height="200" fill="url(#c2a4i2-hall)"/>
+  <!-- Aisle floor -->
+  <rect y="176" width="400" height="24" fill="#12141f"/>
+  <!-- Rows of shelving receding into the dark -->
+  <g fill="#3a4160">
+    <rect x="20" y="40" width="30" height="140"/>
+    <rect x="80" y="52" width="24" height="128"/>
+    <rect x="130" y="62" width="20" height="118"/>
+    <rect x="250" y="62" width="20" height="118"/>
+    <rect x="296" y="52" width="24" height="128"/>
+    <rect x="350" y="40" width="30" height="140"/>
+  </g>
+  <!-- Reading-lamps along the aisle -->
+  <g fill="#E8B94A">
+    <circle cx="35" cy="70" r="3"/>
+    <circle cx="92" cy="80" r="2.6"/>
+    <circle cx="140" cy="90" r="2.2"/>
+    <circle cx="260" cy="90" r="2.2"/>
+    <circle cx="308" cy="80" r="2.6"/>
+    <circle cx="365" cy="70" r="3"/>
+  </g>
+  <g fill="#FFB347" opacity="0.25">
+    <circle cx="35" cy="70" r="9"/>
+    <circle cx="92" cy="80" r="8"/>
+    <circle cx="308" cy="80" r="8"/>
+    <circle cx="365" cy="70" r="9"/>
+  </g>
+  <!-- Vanishing aisle mist -->
+  <ellipse cx="200" cy="130" rx="80" ry="60" fill="#0a0c14" opacity="0.4"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">AISLE AFTER AISLE, LIT BY LAMPS THAT NEVER GO DARK</text>
+</svg>

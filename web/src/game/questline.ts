@@ -20,6 +20,7 @@ import actFinaleData from '../data/acts/actfinale.json'
 import c2act1Data from '../data/acts/c2act1.json'
 import c2act2Data from '../data/acts/c2act2.json'
 import c2act3Data from '../data/acts/c2act3.json'
+import c2act4Data from '../data/acts/c2act4.json'
 import worldBattlesData from '../data/acts/worldbattles.json'
 import consumablesData from '../data/consumables.json'
 
@@ -903,6 +904,7 @@ export const ACT_FINALE: Act = actFinaleData as Act
 export const C2_ACT_1: Act = c2act1Data as Act
 export const C2_ACT_2: Act = c2act2Data as Act
 export const C2_ACT_3: Act = c2act3Data as Act
+export const C2_ACT_4: Act = c2act4Data as Act
 /** Standalone battles launched from the world map — never part of campaign progression. */
 export const ACT_WORLD: Act = worldBattlesData as Act
 
@@ -924,6 +926,7 @@ export const ACTS: Record<string, Act> = {
   c2act1:    C2_ACT_1,
   c2act2:    C2_ACT_2,
   c2act3:    C2_ACT_3,
+  c2act4:    C2_ACT_4,
   world:     ACT_WORLD,
 }
 
@@ -1012,6 +1015,7 @@ export const BOSS_AVATAR_SLUGS = [
   'boss-tidal-sovereign', 'boss-cloudmarshal', 'boss-cinderwarlord', 'boss-rootqueen',
   'boss-paleengine', 'boss-dunebaron', 'boss-elderwarden', 'boss-harbormaster',
   'boss-grandautomaton', 'boss-paleherald', 'boss-tollwarden', 'boss-gleanerqueen',
+  'boss-nameeater',
 ] as const
 export const AVATAR_SLUGS = [...BASE_AVATAR_SLUGS, ...STREAK_AVATAR_SLUGS, ...BOSS_AVATAR_SLUGS] as const
 export type AvatarSlug = typeof AVATAR_SLUGS[number]
@@ -1044,6 +1048,7 @@ export const BOSS_AVATAR_LABELS: Record<string, string> = {
   'boss-paleherald':      'The Pale Herald',
   'boss-tollwarden':      'The Toll Warden',
   'boss-gleanerqueen':    'The Gleaner Queen',
+  'boss-nameeater':       'The Name-Eater',
 }
 
 export function loadUnlockedAvatars(): string[] {

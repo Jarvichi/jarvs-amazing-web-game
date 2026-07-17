@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a4o3-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#171b28"/>
+    <stop offset="100%" stop-color="#3a4160"/>
+  </linearGradient>
+  <rect width="400" height="200" fill="url(#c2a4o3-sky)"/>
+  <!-- Archive rooftops giving way to the Candle City skyline -->
+  <rect y="176" width="400" height="64" fill="#2b3149"/>
+  <g fill="#171b28">
+    <rect x="10" y="130" width="20" height="46"/>
+    <rect x="36" y="118" width="18" height="58"/>
+  </g>
+  <!-- Ten thousand vigil flames across a distant skyline -->
+  <g fill="#3a4160">
+    <rect x="90" y="90" width="16" height="86"/>
+    <rect x="112" y="70" width="16" height="106"/>
+    <rect x="134" y="100" width="16" height="76"/>
+    <rect x="170" y="60" width="18" height="116"/>
+    <rect x="196" y="80" width="16" height="96"/>
+    <rect x="220" y="50" width="18" height="126"/>
+    <rect x="246" y="86" width="16" height="90"/>
+    <rect x="270" y="66" width="18" height="110"/>
+    <rect x="296" y="96" width="16" height="80"/>
+    <rect x="330" y="76" width="18" height="100"/>
+  </g>
+  <g fill="#FFB347" opacity="0.85">
+    <circle cx="96" cy="102" r="1.4"/>
+    <circle cx="118" cy="86" r="1.4"/>
+    <circle cx="140" cy="112" r="1.4"/>
+    <circle cx="176" cy="76" r="1.6"/>
+    <circle cx="202" cy="94" r="1.4"/>
+    <circle cx="226" cy="66" r="1.6"/>
+    <circle cx="252" cy="100" r="1.4"/>
+    <circle cx="276" cy="82" r="1.6"/>
+    <circle cx="302" cy="110" r="1.4"/>
+    <circle cx="336" cy="90" r="1.6"/>
+  </g>
+  <ellipse cx="230" cy="130" rx="150" ry="30" fill="#FFB347" opacity="0.1"/>
+  <!-- Mist bands -->
+  <ellipse cx="200" cy="180" rx="220" ry="18" fill="#ced3e6" opacity="0.3"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">TEN THOUSAND VIGIL FLAMES, STILL BURNING</text>
+</svg>

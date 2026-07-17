@@ -24,12 +24,13 @@ import actFinaleData from '../data/acts/actfinale.json'
 import c2act1Data from '../data/acts/c2act1.json'
 import c2act2Data from '../data/acts/c2act2.json'
 import c2act3Data from '../data/acts/c2act3.json'
+import c2act4Data from '../data/acts/c2act4.json'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ALL_ACTS: any[] = [
   act1Data, act2Data, act3Data, act4Data, act5Data,
   act6Data, act7Data, act8Data, act9Data, act10Data,
-  act11Data, act12Data, act13Data, actFinaleData, c2act1Data, c2act2Data, c2act3Data,
+  act11Data, act12Data, act13Data, actFinaleData, c2act1Data, c2act2Data, c2act3Data, c2act4Data,
 ]
 
 const FRAGMENT_KEY        = 'jarv_memory_fragments'

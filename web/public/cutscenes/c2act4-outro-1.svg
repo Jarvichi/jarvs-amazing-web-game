@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a4o1-hall" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#171b28"/>
+    <stop offset="100%" stop-color="#2b3149"/>
+  </linearGradient>
+  <rect width="400" height="200" fill="url(#c2a4o1-hall)"/>
+  <rect y="176" width="400" height="24" fill="#12141f"/>
+  <!-- Toppled, closing shelving around the fallen Name-Eater -->
+  <g fill="#171b28">
+    <rect x="30" y="60" width="24" height="120"/>
+    <rect x="346" y="60" width="24" height="120"/>
+  </g>
+  <!-- The Name-Eater, folded down among the stacks -->
+  <g>
+    <rect x="180" y="120" width="40" height="40" rx="10" fill="#2B2F3E"/>
+    <path d="M185,120 Q200,100 215,120 L215,128 Q200,116 185,128 Z" fill="#F2E9D8" opacity="0.8"/>
+    <circle cx="192" cy="140" r="2.2" fill="#FFB347" opacity="0.5"/>
+    <circle cx="208" cy="140" r="2.2" fill="#FFB347" opacity="0.5"/>
+    <rect x="185" y="160" width="30" height="16" rx="4" fill="#454E6B"/>
+  </g>
+  <ellipse cx="200" cy="182" rx="70" ry="10" fill="#E8B94A" opacity="0.12"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">"I WAS NEVER UNFED, ONLY UNGOVERNED"</text>
+</svg>

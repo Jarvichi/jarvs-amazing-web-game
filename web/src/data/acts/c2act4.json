@@ -1,0 +1,551 @@
+{
+  "id": "c2act4",
+  "title": "ACT IV",
+  "subtitle": "The Archive of Names",
+  "rewardRelic": "Index of the Lost",
+  "rewardRelicDesc": "All friendly units gain +2 attack and +4 max HP — you carry the shape of what the Archive lost, and it carries you back.",
+  "environment": "vault",
+  "rewardTags": [
+    "forgotten",
+    "archive"
+  ],
+  "replayModifiers": [
+    {
+      "type": "enemyHpPercent",
+      "value": 15,
+      "label": "+15% enemy HP"
+    },
+    {
+      "type": "enemyIntervalReduction",
+      "value": 500,
+      "label": "Enemies act faster"
+    },
+    {
+      "type": "enemyHandBonus",
+      "value": 1,
+      "label": "Enemies start +1 card"
+    },
+    {
+      "type": "crystalBonus",
+      "value": 10,
+      "label": "+10 crystals per battle"
+    },
+    {
+      "type": "enemyHpPercent",
+      "value": 25,
+      "label": "+25% enemy HP"
+    }
+  ],
+  "startNodeIds": [
+    "threshold-stacks"
+  ],
+  "variantPools": {
+    "jarvMoods": [
+      "Now, past the last granary of the fields, carrying a sheaf that has not once stopped being warm.",
+      "Now, the Worldmender, walking into a hall that shelves the things a kingdom refused to let stay lost.",
+      "Now, wondering what it costs a place to keep every name the world dropped, and never once put one back.",
+      "Now, past the Gleaner Queen's fall, learning that the fields were only the outer wall of something far larger."
+    ],
+    "archiveDesc": [
+      "The Archive of Names runs further than the mist should allow — aisle after aisle of sealed registers, lit by reading-lamps that have not gone dark in three centuries.",
+      "This is where Amarath shelved every name the Fracture erased. It does not read like a library. It reads like a held breath, three hundred years long.",
+      "The archivists here do not look up as you pass. They are not the enemy — the Court is. But something moves between the shelves that even they don't fully trust."
+    ],
+    "eaterDesc": [
+      "The Name-Eater has kept the deep stacks since before the current archivists were born. Prisoner and librarian both, the Court says, and has never once clarified which came first.",
+      "It does not hunt for cruelty. It is fed on purpose, on names nobody will miss, and it has spent three centuries disagreeing with the Court about which names those are.",
+      "Eleven wings of shelving answer to it, and it has never once let a name go unread before it was gleaned. It has not decided yet whether yours counts as one it's owed."
+    ],
+    "priorRunOpenings": [
+      "The threshold shelf was still warm when you reached it, same as always — the Archive remembers being entered even when it doesn't remember by whom.",
+      "You knew the aisle markers this time. The dark between the shelves knew you knowing them.",
+      "The reading-lamp at the door was already lit to your usual page. You are becoming a familiar entry.",
+      "The Name-Eater's stacks were already disturbed when you arrived. It does not believe in being surprised twice, either."
+    ]
+  },
+  "midRunTemplates": [
+    "The {ordinalLower} walk through the Archive of Names. The reading-lamps light themselves a little sooner every time.",
+    "Campaign {n}. The deep stacks have a whole shelf reserved for you now, all of it already read.",
+    "{n} entries counted, by the ledger at the door. You have stopped correcting the number.",
+    "Run {n}. The aisles are the same length every time, and every time they feel like they're expecting you.",
+    "The {ordinalLower} crossing. You know the shelf-marks by name now. The Archive had names for them first."
+  ],
+  "introRules": [
+    {
+      "condition": {
+        "op": "gte",
+        "value": 10
+      },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:priorRunOpenings:1}"
+        },
+        {
+          "title": "THE ARCHIVE OF NAMES",
+          "text": "{pool:archiveDesc:1}\n\n{pool:eaterDesc:1}"
+        }
+      ]
+    },
+    {
+      "condition": {
+        "op": "range",
+        "min": 2,
+        "max": 9
+      },
+      "panels": [
+        {
+          "title": "THE ARCHIVE OF NAMES",
+          "text": "The threshold shelf is freshly dusted — again.\n\n{pool:priorRunOpenings:0}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:archiveDesc:2}"
+        },
+        {
+          "title": "THE NAME-EATER",
+          "text": "{pool:eaterDesc:0}"
+        }
+      ]
+    }
+  ],
+  "intro": [
+    {
+      "title": "THE QUEEN'S SHEAF",
+      "text": "The Gleaner Queen fell in three scattered pieces and left you her sheaf anyway — grain that still remembers every name it ever returned. Past the last granary, the fields simply stop, and the ground becomes a threshold of dressed stone shelving.",
+      "image": "cutscenes/c2act4-intro-1.svg"
+    },
+    {
+      "title": "THE ARCHIVE OF NAMES",
+      "text": "Amarath shelves what it cannot bear to lose twice: every erased name, in sealed registers under reading-lamps that have not gone dark in three centuries. It runs further than any hall should. It is not finished being full.",
+      "image": "cutscenes/c2act4-intro-2.svg"
+    },
+    {
+      "title": "THE THING BETWEEN THE SHELVES",
+      "text": "The archivists are not the enemy — the Court is. But somewhere in the deep stacks, something the Court calls both prisoner and librarian keeps its own accounting of who's owed what. You go in anyway, sheaf in hand, to find what the Fracture erased of a kingdom that was never Amarath's to forget.",
+      "image": "cutscenes/c2act4-intro-3.svg"
+    }
+  ],
+  "outro": [
+    {
+      "title": "THE NAME-EATER'S ACCOUNTING",
+      "text": "It does not fall like a monster. It folds, shelf by shelf, the way a ledger closes. \"I was never unfed,\" it says, \"only ungoverned. Tell the Court that, Worldmender, if it still remembers how to listen.\" You take the index it leaves behind. It does not fight you for it.",
+      "image": "cutscenes/c2act4-outro-1.svg"
+    },
+    {
+      "title": "INDEX OF THE LOST",
+      "text": "It leaves you an index bound from every name it ever catalogued and never once misplaced — a record of what was lost, cross-referenced against what came back. Holding it, you know exactly what you're still carrying, and exactly what it cost.",
+      "image": "cutscenes/c2act4-outro-2.svg"
+    },
+    {
+      "title": "THE CANDLE CITY AHEAD",
+      "text": "Past the last reading-room, the shelving gives way to a skyline of ten thousand vigil flames — the Candle City, Amarath's second seat, lit against a dark it has never once trusted to stay gone. Somewhere in it, a Lamplighter General is already counting the wicks that still need tending.",
+      "image": "cutscenes/c2act4-outro-3.svg"
+    }
+  ],
+  "nodes": {
+    "threshold-stacks": {
+      "id": "threshold-stacks",
+      "type": "battle",
+      "label": "The Threshold Stacks",
+      "description": "Where the last turned furrow gives way to the first dressed shelf of the Archive.",
+      "row": 0,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "the-first-aisle",
+        "the-outer-shelves"
+      ],
+      "handicap": 20,
+      "opponentIntervalMs": 3100,
+      "opponentBaseHp": 238,
+      "environment": "vault",
+      "enemyDeck": [
+        "Stack Runner",
+        "Lamp Acolyte",
+        "Index Warden",
+        "Reading Lamp"
+      ]
+    },
+    "the-first-aisle": {
+      "id": "the-first-aisle",
+      "type": "battle",
+      "label": "The First Aisle",
+      "description": "A shelf-lined aisle still smelling of turned earth from the fields behind it.",
+      "row": 1,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-lantern-vigil",
+        "the-reading-hearth"
+      ],
+      "handicap": 22,
+      "opponentIntervalMs": 3000,
+      "opponentBaseHp": 246,
+      "environment": "vault",
+      "enemyDeck": [
+        "Stack Runner",
+        "Index Warden",
+        "Shelf Barricade",
+        "Register Bearer",
+        "Quickening Ink"
+      ]
+    },
+    "the-outer-shelves": {
+      "id": "the-outer-shelves",
+      "type": "battle",
+      "label": "The Outer Shelves",
+      "description": "A wing garrisoned like it still needs guarding — because to Amarath, it does.",
+      "row": 1,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-sealed-ledger",
+        "the-catalogue-cart"
+      ],
+      "handicap": 22,
+      "opponentIntervalMs": 3000,
+      "opponentBaseHp": 246,
+      "environment": "vault",
+      "enemyDeck": [
+        "Lamp Acolyte",
+        "Lectern Archer",
+        "Reading Lamp",
+        "Sealed Stack",
+        "Parchment Poultice"
+      ]
+    },
+    "the-lantern-vigil": {
+      "id": "the-lantern-vigil",
+      "type": "event",
+      "label": "The Lantern Vigil",
+      "description": "A reading-lamp kept lit over a bare shelf, tended by no hand you can see.",
+      "row": 2,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-warden-line",
+        "mem-c2act4-1"
+      ],
+      "eventConfig": {
+        "title": "The Lantern Vigil",
+        "description": "It has burned over this one bare shelf for three hundred years, wick trimmed every dusk by a hand you never see. It does not flicker. It looks like something that still has somewhere to shelve.",
+        "pools": [
+          [
+            {
+              "label": "Trim the vigil-lamp's wick (lose 6 HP, gain a rare card)",
+              "consequence": "The oil is old and it costs you to handle it. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the oil left at its base (gain 60 crystals)",
+              "consequence": "Someone leaves oil for it every dawn, for a lamp that was never quite allowed to matter. You gain 60 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 60
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest in its steady light (heal 10 HP)",
+              "consequence": "The light holds the dark back better than it has any right to. You heal 10 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 10
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the vigil undisturbed",
+              "consequence": "You leave the lamp to its watch.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-reading-hearth": {
+      "id": "the-reading-hearth",
+      "type": "rest",
+      "label": "The Reading Hearth",
+      "description": "A working reading-hearth, kept lit for archivists who never stop needing it.",
+      "row": 2,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-warden-line"
+      ],
+      "restHeal": 9
+    },
+    "the-sealed-ledger": {
+      "id": "the-sealed-ledger",
+      "type": "event",
+      "label": "The Sealed Ledger",
+      "description": "An open reading-room, empty of readers but not of record.",
+      "row": 2,
+      "col": 2,
+      "rowCols": 4,
+      "childIds": [
+        "the-unshelved-row"
+      ],
+      "eventConfig": {
+        "title": "The Sealed Ledger",
+        "description": "The lectern holds a ledger of every shelving recorded in a hand that hasn't held a pen in three hundred years, ink still wet, though no hand is in sight. Every name on every page is Amarath's own. Yours would be the first from outside.",
+        "pools": [
+          [
+            {
+              "label": "Read the sealed ledger (lose 6 HP, gain a rare card)",
+              "consequence": "Three hundred years of names, and yours is about to be the first from outside. It costs you. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the sealed record cache (gain 70 crystals)",
+              "consequence": "A cache nobody was ever going to collect. You gain 70 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 70
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest among the reading-room stacks (heal 8 HP)",
+              "consequence": "Quieter than any room has a right to be. You heal 8 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 8
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the ledger unread",
+              "consequence": "Some records are better left uncounted. You move on.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-catalogue-cart": {
+      "id": "the-catalogue-cart",
+      "type": "merchant",
+      "label": "The Catalogue Cart",
+      "description": "A merchant's cart parked at a reading-room that hasn't seen trade in centuries.",
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-unshelved-row"
+      ]
+    },
+    "the-warden-line": {
+      "id": "the-warden-line",
+      "type": "elite",
+      "label": "The Warden Line",
+      "description": "A file of archive wardens holding the deep stacks in strict, patient order.",
+      "row": 3,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-deep-stacks"
+      ],
+      "handicap": 26,
+      "opponentIntervalMs": 2800,
+      "opponentBaseHp": 262,
+      "environment": "vault",
+      "enemyDeck": [
+        "Archive Warden",
+        "Register Bearer",
+        "Watch-Lectern",
+        "Sealed Stack",
+        "Marginal Notes",
+        "Silence Bell"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "mem-c2act4-1": {
+      "id": "mem-c2act4-1",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A founding record of the Archive's very first shelving.",
+      "row": 3,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-deep-stacks"
+      ],
+      "fragmentId": "c2act4-frag-1",
+      "environment": "vault"
+    },
+    "the-unshelved-row": {
+      "id": "the-unshelved-row",
+      "type": "elite",
+      "label": "The Unshelved Row",
+      "description": "A row of archivists, still holding places for a cataloguing that never comes.",
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-last-registry"
+      ],
+      "handicap": 26,
+      "opponentIntervalMs": 2800,
+      "opponentBaseHp": 262,
+      "environment": "vault",
+      "enemyDeck": [
+        "Choir of Sealed Names",
+        "Hollow Cataloguer",
+        "Cataloguer Automaton",
+        "Sealed Courier",
+        "Lamp-Oil Reserve",
+        "Parchment Poultice"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "the-deep-stacks": {
+      "id": "the-deep-stacks",
+      "type": "battle",
+      "label": "The Deep Stacks",
+      "description": "Shelving garrisoned like a border, deep enough that the mist forgets to follow.",
+      "row": 4,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-final-lamp"
+      ],
+      "handicap": 28,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 270,
+      "environment": "vault",
+      "enemyDeck": [
+        "Register Bearer",
+        "Shelf Barricade",
+        "Watch-Lectern",
+        "Sealed Courier",
+        "Marginal Notes",
+        "Lectern Archer"
+      ]
+    },
+    "the-last-registry": {
+      "id": "the-last-registry",
+      "type": "battle",
+      "label": "The Last Registry",
+      "description": "The Archive's final registry room, where even the reading-lamps burn lower.",
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-final-lamp",
+        "mem-c2act4-2"
+      ],
+      "handicap": 28,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 270,
+      "environment": "vault",
+      "enemyDeck": [
+        "Stackbound Knight",
+        "Sealed Courier",
+        "Cataloguer Automaton",
+        "Silence Bell",
+        "Lamp-Oil Reserve",
+        "Hollow Cataloguer"
+      ]
+    },
+    "the-final-lamp": {
+      "id": "the-final-lamp",
+      "type": "rest",
+      "label": "The Final Lamp",
+      "description": "The last reading-lamp before the deep stacks proper. Someone has already trimmed its wick.",
+      "row": 5,
+      "col": 0,
+      "rowCols": 2,
+      "childIds": [
+        "nameeater-node"
+      ],
+      "restHeal": 11
+    },
+    "mem-c2act4-2": {
+      "id": "mem-c2act4-2",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A librarian's note on the day the Name-Eater first appeared.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "nameeater-node"
+      ],
+      "fragmentId": "c2act4-frag-2",
+      "environment": "vault"
+    },
+    "nameeater-node": {
+      "id": "nameeater-node",
+      "type": "boss",
+      "label": "The Name-Eater",
+      "description": "Eleven wings of shelving end here, with a warden the Court calls both prisoner and librarian.",
+      "row": 6,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
+      "handicap": 30,
+      "opponentIntervalMs": 5000,
+      "opponentBaseHp": 288,
+      "environment": "vault",
+      "enemyDeck": [
+        "The Name-Eater",
+        "Archive Warden",
+        "Stackbound Knight",
+        "The Unbound Index",
+        "Choir of Sealed Names",
+        "Reading Room Sentry",
+        "Writ of Erasure"
+      ],
+      "bossAI": "nameeater",
+      "bossDialogue": [
+        "You crossed the fields, Worldmender. The Queen gleaned what the world dropped. I keep what the world was made to forget.",
+        "The Court calls me prisoner. The Court also calls me librarian. It has never once had to choose, because I have never once let a shelf go unread.",
+        "Every register in this hall remembers a name the world erased. The Court sent me to see that yours joins them. I have not been hungry in three hundred years for nothing."
+      ],
+      "bossCard": "The Name-Eater"
+    }
+  }
+}

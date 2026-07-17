@@ -312,5 +312,21 @@
         "amount": 2
       }
     ]
+  },
+  {
+    "name": "Index of the Lost",
+    "icon": "📇",
+    "desc": "All friendly units gain +2 attack and +4 max HP — you carry the shape of what the Archive lost, and it carries you back.",
+    "lore": "Bound from every name the Name-Eater ever catalogued and never once misplaced, cross-referenced against what came back. Holding it, you know exactly what's missing, and exactly what to do about it.",
+    "effects": [
+      {
+        "type": "unitAtk",
+        "amount": 2
+      },
+      {
+        "type": "unitHp",
+        "amount": 4
+      }
+    ]
   }
 ]
