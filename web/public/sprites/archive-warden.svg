@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Kettle helm -->
+  <circle cx="15" cy="9" r="5" fill="#E3D9CF"/>
+  <path d="M9,9 Q15,1.5 21,9 L22,10 L8,10 Z" fill="#9FA3BC"/>
+  <circle cx="13.5" cy="10.5" r="0.7" fill="#2B2F3E"/>
+  <circle cx="16.5" cy="10.5" r="0.7" fill="#2B2F3E"/>
+  <!-- Armoured body -->
+  <path d="M11,14 L11,23 L20,23 L20,14 Q15.5,16 11,14 Z" fill="#9FA3BC"/>
+  <rect x="11" y="16" width="9" height="1.2" fill="#7E8299"/>
+  <rect x="11" y="19" width="9" height="1.2" fill="#7E8299"/>
+  <!-- Sealed tome carried as a shield -->
+  <path d="M6,14 L11,14 L11,21 Q8.5,23 6,21 Z" fill="#2B2F3E"/>
+  <circle cx="8.5" cy="17.5" r="1.4" fill="#E8B94A"/>
+  <!-- Warden's rod -->
+  <rect x="22" y="14" width="3" height="6" rx="1" fill="#9FA3BC"/>
+  <rect x="23.5" y="5" width="1.4" height="12" rx="0.7" fill="#C9CBDA"/>
+  <rect x="21.6" y="5" width="3.8" height="2" rx="0.4" fill="#E8B94A"/>
+  <circle cx="24.2" cy="4" r="1.6" fill="#E8B94A"/>
+  <circle cx="24.2" cy="4" r="0.7" fill="#2B2F3E"/>
+  <!-- Legs (neutral) -->
+  <rect x="11.5" y="23" width="3.5" height="7" rx="1" fill="#454E6B"/>
+  <rect x="16" y="23" width="3.5" height="7" rx="1" fill="#454E6B"/>
+  <rect x="10.5" y="28" width="5.5" height="3" rx="1" fill="#3A3F55"/>
+  <rect x="15.5" y="28" width="5.5" height="3" rx="1" fill="#3A3F55"/>
+</svg>
