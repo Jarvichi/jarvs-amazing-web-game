@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a2o3-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#3a4160"/>
+    <stop offset="70%" stop-color="#6b7294"/>
+    <stop offset="100%" stop-color="#8e94b4"/>
+  </linearGradient>
+  <rect width="400" height="180" fill="url(#c2a2o3-sky)"/>
+  <!-- Fields of pale grain, rows receding -->
+  <rect y="150" width="400" height="90" fill="#4a5170"/>
+  <g stroke="#c9cf7a" stroke-width="1.2" opacity="0.7">
+    <line x1="20" y1="240" x2="60" y2="160"/>
+    <line x1="70" y1="240" x2="100" y2="160"/>
+    <line x1="120" y1="240" x2="140" y2="160"/>
+    <line x1="180" y1="240" x2="190" y2="160"/>
+    <line x1="240" y1="240" x2="240" y2="160"/>
+    <line x1="300" y1="240" x2="290" y2="160"/>
+    <line x1="350" y1="240" x2="330" y2="160"/>
+  </g>
+  <g fill="#d8dc9e" opacity="0.6">
+    <ellipse cx="60" cy="158" rx="6" ry="3"/>
+    <ellipse cx="140" cy="158" rx="6" ry="3"/>
+    <ellipse cx="240" cy="158" rx="6" ry="3"/>
+    <ellipse cx="330" cy="158" rx="6" ry="3"/>
+  </g>
+  <!-- Distant Court towers still on the horizon -->
+  <g fill="#333a58" opacity="0.8">
+    <rect x="286" y="96" width="9" height="40"/>
+    <path d="M286,96 L290.5,84 L295,96 Z"/>
+    <rect x="304" y="88" width="11" height="48"/>
+    <path d="M304,88 L309.5,74 L315,88 Z"/>
+  </g>
+  <!-- Mist bands -->
+  <ellipse cx="200" cy="160" rx="220" ry="18" fill="#ced3e6" opacity="0.35"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">SOMEWHERE IN THAT GRAIN, AMARATH GROWS BACK WHAT IT LOST</text>
+</svg>

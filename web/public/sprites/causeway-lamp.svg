@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground -->
+  <ellipse cx="16" cy="29" rx="10" ry="2.2" fill="#7E8299" opacity="0.5"/>
+  <!-- Stone post -->
+  <rect x="14.6" y="9" width="2.8" height="20" rx="1" fill="#A6A9C0"/>
+  <rect x="14.2" y="27" width="3.6" height="2.5" rx="0.8" fill="#5E6A8C"/>
+  <!-- Cross arm -->
+  <rect x="10" y="9" width="12" height="1.8" rx="0.9" fill="#A6A9C0"/>
+  <!-- Hanging lamp (unlit-until-triggered look) -->
+  <rect x="18.6" y="10.6" width="0.8" height="2.4" fill="#3A3F55"/>
+  <rect x="16" y="12.8" width="6" height="7.6" rx="1.2" fill="#3A3F55"/>
+  <rect x="17.1" y="13.8" width="3.8" height="5.6" fill="#FFB347"/>
+  <ellipse cx="19" cy="16.6" rx="1.1" ry="1.8" fill="#FFE08A"/>
+  <!-- Glow -->
+  <circle cx="19" cy="16.6" r="5.8" fill="#FFB347" opacity="0.2"/>
+  <!-- Toll bell finial on post top -->
+  <path d="M14.4,6 L17.6,6 L17,9 L15,9 Z" fill="#E8B94A"/>
+  <circle cx="16" cy="5.4" r="1" fill="#E8B94A"/>
+  <!-- Mist -->
+  <ellipse cx="10" cy="27.5" rx="6" ry="1.6" fill="#E8EAF4" opacity="0.4"/>
+</svg>

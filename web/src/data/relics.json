@@ -280,5 +280,21 @@
         "intervalMs": 6000
       }
     ]
+  },
+  {
+    "name": "Toll Warden's Scale",
+    "icon": "⚖️",
+    "desc": "Your base gains +10 max HP, and every card you play permanently adds +1 attack to all your units — the scale keeps its own ledger.",
+    "lore": "Taken from around the Toll Warden's neck when he fell. It has weighed every traveller who crossed the causeway for three hundred years, tipping further from balance every time. It has not once come out even.",
+    "effects": [
+      {
+        "type": "baseHp",
+        "amount": 10
+      },
+      {
+        "type": "onPlayAtk",
+        "amount": 1
+      }
+    ]
   }
 ]

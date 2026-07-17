@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a2o1-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#242b48"/>
+    <stop offset="100%" stop-color="#4a5170"/>
+  </linearGradient>
+  <rect width="400" height="200" fill="url(#c2a2o1-sky)"/>
+  <!-- Causeway stone ground -->
+  <rect y="176" width="400" height="64" fill="#3a3f52"/>
+  <path d="M0,176 Q60,170 120,176 Q200,182 280,174 Q340,170 400,176 L400,240 L0,240 Z" fill="#2f3446"/>
+  <!-- Kneeling Toll Warden -->
+  <g>
+    <rect x="168" y="96" width="44" height="12" rx="4" fill="#9FA3BC"/>
+    <rect x="184" y="86" width="12" height="4" fill="#7E8299"/>
+    <circle cx="184" cy="86" r="2" fill="#454E6B"/>
+    <circle cx="196" cy="86" r="2" fill="#454E6B"/>
+    <rect x="172" y="102" width="36" height="6" fill="#20263c"/>
+    <circle cx="182" cy="105" r="2" fill="#FFB347"/>
+    <circle cx="196" cy="105" r="2" fill="#FFB347"/>
+    <path d="M160,110 L154,190 L226,190 L220,110 Q190,124 160,110 Z" fill="#9FA3BC"/>
+    <!-- Kneeling leg -->
+    <rect x="164" y="186" width="52" height="10" rx="4" fill="#3A3F55"/>
+  </g>
+  <!-- Toll scale, still held out, tipping -->
+  <rect x="238" y="120" width="3" height="48" fill="#7E8299"/>
+  <rect x="222" y="112" width="34" height="4" rx="2" fill="#8A6F4D" transform="rotate(-8 239 114)"/>
+  <path d="M220,134 Q228,142 236,134 Z" fill="#454E6B"/>
+  <path d="M244,124 Q252,132 260,124 Z" fill="#454E6B"/>
+  <!-- Mist low over the field -->
+  <ellipse cx="100" cy="196" rx="130" ry="18" fill="#ced3e6" opacity="0.35"/>
+  <ellipse cx="320" cy="200" rx="120" ry="16" fill="#ced3e6" opacity="0.3"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">"THAT WAS ALWAYS THE TOLL. NOT THAT IT HAD TO BE MINE."</text>
+</svg>

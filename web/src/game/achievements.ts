@@ -859,6 +859,41 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     tier: 2,
   },
 
+  // Campaign 2, Act 2 — The Grey Causeway
+  {
+    id: 'campaign:c2act2:1',
+    name: 'The Toll Unpaid',
+    description: 'Complete Campaign 2 Act 2 — The Grey Causeway',
+    category: 'campaign',
+    progressKey: 'campaign:c2act2',
+    target: 1,
+    reward: { type: 'crystals', crystals: 650 },
+    tier: 1,
+  },
+  {
+    id: 'campaign:c2act2:10',
+    name: 'Warden of the Milestones',
+    description: 'Complete Campaign 2 Act 2 ten times',
+    category: 'campaign',
+    progressKey: 'campaign:c2act2',
+    target: 10,
+    reward: { type: 'crystals', crystals: 3200 },
+    tier: 2,
+  },
+  {
+    id: 'campaign:c2act2:100',
+    name: 'The Causeway Remembers Your Step',
+    description: 'Complete Campaign 2 Act 2 one hundred times',
+    category: 'campaign',
+    progressKey: 'campaign:c2act2',
+    target: 100,
+    reward: {
+      type: 'item',
+      item: { id: 'tollwardens_ledger_page', name: "Toll Warden's Ledger Page", icon: '📜', desc: 'A single page from a ledger three centuries deep. Your name is on it now.' },
+    },
+    tier: 2,
+  },
+
   // ── Boss avatar unlocks (one per act, triggered on first act completion) ─
 
   { id: 'campaign:act1:boss',  name: 'Face of the Thornlord',       description: 'Defeat Act 1 to unlock the Thornlord avatar',       category: 'campaign', progressKey: 'campaign:act1',  target: 1, reward: { type: 'avatar', avatarSlug: 'boss-thornlord' },       tier: 1 },
@@ -876,6 +911,7 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
   { id: 'campaign:act13:boss',   name: 'Face of the Grand Automaton', description: 'Defeat Act 13 to unlock the Grand Automaton avatar', category: 'campaign', progressKey: 'campaign:act13',   target: 1, reward: { type: 'avatar', avatarSlug: 'boss-grandautomaton' },  tier: 1 },
   { id: 'campaign:actfinale:boss', name: 'Face of the Fracture',       description: 'Defeat the Finale to unlock the Fracture avatar',     category: 'campaign', progressKey: 'campaign:actfinale', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-thefracture' },     tier: 1 },
   { id: 'campaign:c2act1:boss',    name: 'Face of the Pale Herald',    description: 'Defeat Campaign 2 Act 1 to unlock the Pale Herald avatar', category: 'campaign', progressKey: 'campaign:c2act1', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-paleherald' },      tier: 1 },
+  { id: 'campaign:c2act2:boss',    name: 'Face of the Toll Warden',    description: 'Defeat Campaign 2 Act 2 to unlock the Toll Warden avatar', category: 'campaign', progressKey: 'campaign:c2act2', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-tollwarden' },      tier: 1 },
 
   // ── Boss Cards — earned by repeat boss completions (10/20/30/40 runs) ────
   // Act 1 — Thornlord

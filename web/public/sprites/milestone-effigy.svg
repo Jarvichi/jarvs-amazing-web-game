@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground -->
+  <ellipse cx="16" cy="29.5" rx="10" ry="2" fill="#7E8299" opacity="0.5"/>
+  <!-- Standing milestone effigy, humanoid silhouette carved in stone -->
+  <path d="M11,29 L11.5,18 Q11.5,10 16,8 Q20.5,10 20.5,18 L21,29 Z" fill="#9FA3BC"/>
+  <circle cx="16" cy="8.5" r="4" fill="#A6A9C0"/>
+  <path d="M12.3,8.5 Q16,3 19.7,8.5 L19.7,10 Q16,7.5 12.3,10 Z" fill="#8E92A8"/>
+  <!-- Carved toll-count numerals, faintly glowing -->
+  <rect x="14" y="14" width="4" height="1.2" rx="0.6" fill="#E8B94A" opacity="0.85"/>
+  <rect x="13" y="17.5" width="6" height="1.2" rx="0.6" fill="#E8B94A" opacity="0.7"/>
+  <rect x="14" y="21" width="4" height="1.2" rx="0.6" fill="#E8B94A" opacity="0.8"/>
+  <!-- Rune glow -->
+  <ellipse cx="16" cy="17" rx="6" ry="10" fill="#E8B94A" opacity="0.1"/>
+  <!-- Cracks -->
+  <path d="M12,26 L13.5,23 L12.8,20" stroke="#5E6270" stroke-width="0.8" fill="none"/>
+  <path d="M20.5,25 L19.4,22.5" stroke="#5E6270" stroke-width="0.8" fill="none"/>
+  <!-- Mist -->
+  <ellipse cx="16" cy="28.6" rx="8" ry="1.4" fill="#E8EAF4" opacity="0.45"/>
+</svg>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a2i2-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#1c2138"/>
+    <stop offset="100%" stop-color="#565e80"/>
+  </linearGradient>
+  <rect width="400" height="200" fill="url(#c2a2i2-sky)"/>
+  <!-- The causeway running dead straight into the distance -->
+  <path d="M40,240 L184,60 L216,60 L280,240 Z" fill="#4a5170"/>
+  <path d="M186,62 L214,62 L250,190 L150,190 Z" fill="#3a4160" opacity="0.5"/>
+  <!-- Grey stone joints -->
+  <g stroke="#5c6488" stroke-width="1" opacity="0.6">
+    <line x1="160" y1="200" x2="240" y2="200"/>
+    <line x1="176" y1="150" x2="228" y2="150"/>
+    <line x1="190" y1="110" x2="212" y2="110"/>
+  </g>
+  <!-- Rows of unlit lamps down both sides -->
+  <g fill="#20263c">
+    <rect x="120" y="178" width="3.4" height="34" /><circle cx="121.7" cy="174" r="5" fill="#2b3149"/>
+    <rect x="280" y="178" width="3.4" height="34"/><circle cx="281.7" cy="174" r="5" fill="#2b3149"/>
+    <rect x="164" y="120" width="2.4" height="24"/><circle cx="165.2" cy="117" r="3.6" fill="#2b3149"/>
+    <rect x="236" y="120" width="2.4" height="24"/><circle cx="237.2" cy="117" r="3.6" fill="#2b3149"/>
+    <rect x="190" y="82" width="1.6" height="14"/><circle cx="190.8" cy="80" r="2.2" fill="#2b3149"/>
+    <rect x="210" y="82" width="1.6" height="14"/><circle cx="210.8" cy="80" r="2.2" fill="#2b3149"/>
+  </g>
+  <!-- Mist -->
+  <ellipse cx="200" cy="200" rx="200" ry="26" fill="#ced3e6" opacity="0.4"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">A MILE OF LAMPS, LIT FOR GUESTS WHO NEVER CAME</text>
+</svg>

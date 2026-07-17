@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Stride A: standard sways back -->
+  <rect x="25" y="3" width="1.6" height="26" rx="0.8" fill="#7E8299" transform="rotate(4 25.8 16)"/>
+  <path d="M26.6,4 L31.2,6 L26.6,10 Z" fill="#454E6B"/>
+  <circle cx="28.8" cy="6.6" r="0.9" fill="#E8B94A"/>
+  <rect x="10.5" y="4.5" width="11" height="9" rx="2.5" fill="#9FA3BC"/>
+  <rect x="14.4" y="1.6" width="3.2" height="1" fill="#7E8299"/>
+  <rect x="15.3" y="2.6" width="1.4" height="2" fill="#8A6F4D"/>
+  <circle cx="14.4" cy="1.6" r="1" fill="#454E6B"/>
+  <circle cx="17.6" cy="1.6" r="1" fill="#454E6B"/>
+  <rect x="11.5" y="8.5" width="9" height="2" fill="#3A3F55"/>
+  <circle cx="14" cy="9.5" r="0.8" fill="#FFB347"/>
+  <circle cx="18" cy="9.5" r="0.8" fill="#FFB347"/>
+  <path d="M8,14 L7,28 L25,28 L24,14 Q16,17.5 8,14 Z" fill="#9FA3BC"/>
+  <path d="M8,14 L7,28 L11,28 L11.5,15.5 Z" fill="#7E8299"/>
+  <rect x="9" y="18" width="15" height="1.4" fill="#454E6B"/>
+  <rect x="9" y="22" width="15" height="1.4" fill="#454E6B"/>
+  <circle cx="16.5" cy="20.6" r="2.1" fill="#E8B94A"/>
+  <circle cx="16.5" cy="20.6" r="1.1" fill="#FFE08A"/>
+  <circle cx="8.5" cy="15" r="3.2" fill="#7E8299"/>
+  <circle cx="23.5" cy="15" r="3.2" fill="#7E8299"/>
+  <rect x="1.5" y="19.5" width="1.2" height="7" fill="#7E8299"/>
+  <rect x="0" y="17" width="8" height="1.2" rx="0.6" fill="#8A6F4D"/>
+  <line x1="1.4" y1="18.2" x2="1.4" y2="21.4" stroke="#7E8299" stroke-width="0.5"/>
+  <path d="M-0.6,21.4 Q1.4,23.6 3.4,21.4 Z" fill="#454E6B"/>
+  <line x1="6.6" y1="18.2" x2="6.6" y2="21.4" stroke="#7E8299" stroke-width="0.5"/>
+  <path d="M4.6,21.4 Q6.6,23.6 8.6,21.4 Z" fill="#454E6B"/>
+  <!-- Legs stride A -->
+  <rect x="9.5" y="28" width="4.5" height="3.6" rx="1" fill="#3A3F55"/>
+  <rect x="18.5" y="28" width="4.5" height="2.8" rx="1" fill="#3A3F55"/>
+  <ellipse cx="16" cy="30.5" rx="11" ry="1.5" fill="#E8EAF4" opacity="0.4"/>
+</svg>

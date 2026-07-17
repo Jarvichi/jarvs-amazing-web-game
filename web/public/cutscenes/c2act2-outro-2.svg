@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#08070c"/>
+  <!-- Darkness with the scale catching a faint gold light -->
+  <radialGradient id="c2a2o2-glow" cx="50%" cy="45%" r="55%">
+    <stop offset="0%" stop-color="#E8B94A" stop-opacity="0.4"/>
+    <stop offset="45%" stop-color="#5a4a1f" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#08070c" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#c2a2o2-glow)"/>
+  <!-- The scale, held aloft -->
+  <rect x="197" y="70" width="6" height="60" fill="#7E8299"/>
+  <rect x="160" y="64" width="80" height="5" rx="2.5" fill="#8A6F4D"/>
+  <line x1="168" y1="69" x2="168" y2="96" stroke="#7E8299" stroke-width="1"/>
+  <path d="M150,96 Q168,112 186,96 Z" fill="#454E6B"/>
+  <line x1="232" y1="69" x2="232" y2="96" stroke="#7E8299" stroke-width="1"/>
+  <path d="M214,96 Q232,112 250,96 Z" fill="#454E6B"/>
+  <circle cx="200" cy="61" r="2.4" fill="#E8B94A"/>
+  <!-- Hands receiving it -->
+  <path d="M150,170 Q170,152 186,144 L192,152 Q176,162 162,178 Z" fill="#c9a985"/>
+  <path d="M250,170 Q230,152 214,144 L208,152 Q224,162 238,178 Z" fill="#c9a985"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">A SCALE THAT HAS NEVER ONCE COME OUT EVEN</text>
+</svg>
