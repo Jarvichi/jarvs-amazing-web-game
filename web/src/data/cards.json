@@ -13590,6 +13590,291 @@
       "strengths": ["melee", "small"],
       "weaknesses": ["ranged", "flying"],
       "size": "large"
+    },
+    "stack-runner": {
+      "name": "Stack Runner",
+      "attack": 4,
+      "maxHp": 14,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 60,
+      "attackRange": 5,
+      "attackCooldownMs": 1050,
+      "flying": false,
+      "tags": ["fast", "small"],
+      "strengths": ["fast", "melee"],
+      "weaknesses": ["armored", "ranged"],
+      "size": "small"
+    },
+    "lamp-acolyte": {
+      "name": "Lamp Acolyte",
+      "attack": 5,
+      "maxHp": 19,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 36,
+      "attackRange": 70,
+      "attackCooldownMs": 1550,
+      "flying": false,
+      "tags": ["ranged", "magic"],
+      "strengths": ["melee"],
+      "weaknesses": ["fast"],
+      "size": "small"
+    },
+    "index-warden": {
+      "name": "Index Warden",
+      "attack": 6,
+      "maxHp": 24,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 30,
+      "attackRange": 5,
+      "attackCooldownMs": 1300,
+      "flying": false,
+      "tags": ["melee"],
+      "strengths": ["ranged"],
+      "weaknesses": ["fast"],
+      "size": "small"
+    },
+    "reading-lamp": {
+      "name": "Reading Lamp",
+      "attack": 5,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 130,
+      "attackCooldownMs": 1750,
+      "tags": ["ranged"]
+    },
+    "register-bearer": {
+      "name": "Register Bearer",
+      "attack": 8,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 38,
+      "attackRange": 5,
+      "attackCooldownMs": 1350,
+      "flying": false,
+      "tags": ["melee", "armored"],
+      "strengths": ["fast"],
+      "weaknesses": ["magic"],
+      "size": "medium"
+    },
+    "hollow-cataloguer": {
+      "name": "Hollow Cataloguer",
+      "attack": 7,
+      "maxHp": 34,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 36,
+      "attackRange": 5,
+      "attackCooldownMs": 1350,
+      "flying": false,
+      "tags": ["melee"],
+      "strengths": ["small"],
+      "weaknesses": ["siege"],
+      "size": "medium"
+    },
+    "lectern-archer": {
+      "name": "Lectern Archer",
+      "attack": 7,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 40,
+      "attackRange": 140,
+      "attackCooldownMs": 1550,
+      "flying": false,
+      "tags": ["ranged"],
+      "strengths": ["flying"],
+      "weaknesses": ["melee", "fast"],
+      "size": "small"
+    },
+    "sealed-courier": {
+      "name": "Sealed Courier",
+      "attack": 10,
+      "maxHp": 32,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 80,
+      "attackRange": 5,
+      "attackCooldownMs": 1250,
+      "flying": false,
+      "tags": ["fast", "melee"],
+      "strengths": ["ranged", "small"],
+      "weaknesses": ["armored"],
+      "size": "medium"
+    },
+    "index-engine": {
+      "name": "Index Engine",
+      "attack": 0,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "mana",
+        "amount": 1
+      },
+      "tags": ["forgotten"]
+    },
+    "cataloguer-automaton": {
+      "name": "Cataloguer Automaton",
+      "attack": 0,
+      "maxHp": 33,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "stack-runner",
+        "intervalMs": 11500
+      },
+      "tags": ["forgotten"]
+    },
+    "watch-lectern": {
+      "name": "Watch-Lectern",
+      "attack": 7,
+      "maxHp": 29,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 150,
+      "attackCooldownMs": 1650,
+      "tags": ["ranged"]
+    },
+    "shelf-barricade": {
+      "name": "Shelf Barricade",
+      "attack": 0,
+      "maxHp": 66,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "tags": ["melee"],
+      "size": "medium"
+    },
+    "sealed-stack": {
+      "name": "Sealed Stack",
+      "attack": 0,
+      "maxHp": 94,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "tags": ["armored"],
+      "size": "medium"
+    },
+    "archive-warden": {
+      "name": "Archive Warden",
+      "attack": 13,
+      "maxHp": 50,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 38,
+      "attackRange": 5,
+      "attackCooldownMs": 1400,
+      "flying": false,
+      "tags": ["melee", "armored"],
+      "strengths": ["melee", "fast"],
+      "weaknesses": ["magic"],
+      "size": "large",
+      "affinity": {
+        "withName": "The Name-Eater",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Archive Warden's Vigil"
+      }
+    },
+    "choir-of-sealed-names": {
+      "name": "Choir of Sealed Names",
+      "attack": 9,
+      "maxHp": 34,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 28,
+      "attackRange": 160,
+      "attackCooldownMs": 2000,
+      "flying": false,
+      "tags": ["ranged", "magic"],
+      "strengths": ["armored"],
+      "weaknesses": ["fast", "melee"],
+      "size": "medium"
+    },
+    "reading-room-sentry": {
+      "name": "Reading Room Sentry",
+      "attack": 0,
+      "maxHp": 50,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "stack-runner",
+        "intervalMs": 9500
+      },
+      "tags": ["forgotten"]
+    },
+    "stackbound-knight": {
+      "name": "Stackbound Knight",
+      "attack": 17,
+      "maxHp": 70,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 32,
+      "attackRange": 5,
+      "attackCooldownMs": 1550,
+      "flying": false,
+      "tags": ["melee", "armored", "large"],
+      "strengths": ["melee", "small"],
+      "weaknesses": ["magic", "flying"],
+      "size": "large",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 95,
+        "engageRange": 195
+      }
+    },
+    "the-unbound-index": {
+      "name": "The Unbound Index",
+      "attack": 12,
+      "maxHp": 47,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 60,
+      "attackRange": 65,
+      "attackCooldownMs": 1650,
+      "flying": true,
+      "tags": ["flying", "magic"],
+      "strengths": ["melee", "armored"],
+      "weaknesses": ["ranged"],
+      "size": "large"
+    },
+    "the-name-eater": {
+      "name": "The Name-Eater",
+      "attack": 20,
+      "maxHp": 98,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 30,
+      "attackRange": 5,
+      "attackCooldownMs": 1450,
+      "flying": false,
+      "tags": ["melee", "large", "magic"],
+      "strengths": ["melee", "small"],
+      "weaknesses": ["ranged", "flying"],
+      "size": "large"
     }
   },
   "cards": [
@@ -22827,6 +23112,300 @@
       "deckCount": 0,
       "tags": ["forgotten", "fields"],
       "lore": "She does not glean out of cruelty. She gleans because leaving a memory ungathered, out here, is the same as losing it twice. She has not decided yet whether yours counts as lost."
+    },
+    {
+      "name": "Stack Runner",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "stack-runner",
+      "description": "A quick-footed runner who threads the aisles faster than the shelves can close behind her.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "She has run the same aisle for three hundred years and never once lost her place in the stacks. The stacks, it must be said, have tried."
+    },
+    {
+      "name": "Lamp Acolyte",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "lamp-acolyte",
+      "description": "An acolyte who reads by a portable reading-lamp, and strikes at whatever the light finds first.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "She was taught that a name unread is a name still lost. She has not let the wick go out since her ordination."
+    },
+    {
+      "name": "Index Warden",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "index-warden",
+      "description": "A ledger-sworn guard who holds an aisle the way the Archive holds every name it ever shelved.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "He does not know whose name is on the shelf behind him. He has decided, three centuries in, that it doesn't matter. It is still his to keep."
+    },
+    {
+      "name": "Reading Lamp",
+      "rarity": "common",
+      "cardType": "structure",
+      "cost": 2,
+      "unitRef": "reading-lamp",
+      "description": "A standing reading-lamp that strikes at anything crossing its light.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "Lit the day the first name was shelved. It has never once been allowed to gutter — not through the dark, not through the Fracture, not through anything."
+    },
+    {
+      "name": "Parchment Poultice",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffHeal",
+        "amount": 7
+      },
+      "description": "Heals all friendly units by 7.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "Ground from the endpapers of registers too damaged to shelve. Even ruined, the ink remembers how to mend."
+    },
+    {
+      "name": "Quickening Ink",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffSpeed",
+        "amount": 11
+      },
+      "description": "All friendly mobile units move faster.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "A cataloguer's trick — ink that writes itself faster than the hand holding the pen. Nobody has ever caught the shelving up."
+    },
+    {
+      "name": "Register Bearer",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "register-bearer",
+      "description": "An armoured bearer who carries sealed registers into the line rather than leave them behind.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "He has never once dropped a register, not in three hundred years of carrying them. He does not intend to start over you."
+    },
+    {
+      "name": "Hollow Cataloguer",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "hollow-cataloguer",
+      "description": "A steady cataloguer given a body and a task after its own name was shelved.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "It does not remember what it was called. It remembers exactly where it is shelved, down to the row. That is enough to keep working."
+    },
+    {
+      "name": "Lectern Archer",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "lectern-archer",
+      "description": "A long-range archer loosing arrows from atop the reading lecterns.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "She shoots at the dark between the shelves, because the dark is the only part of the Archive that has ever moved on its own."
+    },
+    {
+      "name": "Sealed Courier",
+      "rarity": "uncommon",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "sealed-courier",
+      "description": "A swift courier who runs sealed registers between wings faster than the stacks can shift.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "The seal on her satchel has never once been broken in transit. She takes that more personally than her own name, which she also no longer has."
+    },
+    {
+      "name": "Index Engine",
+      "rarity": "uncommon",
+      "cardType": "structure",
+      "cost": 3,
+      "unitRef": "index-engine",
+      "description": "A cataloguing engine that raises your maximum mana.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "It cross-references every shelf in the wing at once. Somewhere in that constant reckoning, it found room to spare."
+    },
+    {
+      "name": "Cataloguer Automaton",
+      "rarity": "uncommon",
+      "cardType": "structure",
+      "cost": 3,
+      "unitRef": "cataloguer-automaton",
+      "description": "Spawner. Periodically wakes Stack Runners from sealed shelving.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "It was built to shelve names, not people. It has stopped drawing the distinction. Nobody has told it to."
+    },
+    {
+      "name": "Watch-Lectern",
+      "rarity": "uncommon",
+      "cardType": "structure",
+      "cost": 3,
+      "unitRef": "watch-lectern",
+      "description": "A tall lectern-tower with long attack range.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "Built to watch the far stacks for the thing that moves between them. It has never once looked away."
+    },
+    {
+      "name": "Shelf Barricade",
+      "rarity": "uncommon",
+      "cardType": "structure",
+      "cost": 2,
+      "unitRef": "shelf-barricade",
+      "description": "A defensive barricade built from toppled shelving and bound ledgers.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "Every plank in it once held somebody's forgetting. Stacked crosswise, it holds a line instead."
+    },
+    {
+      "name": "Sealed Stack",
+      "rarity": "uncommon",
+      "cardType": "structure",
+      "cost": 3,
+      "unitRef": "sealed-stack",
+      "description": "A dense wall of sealed registers, stacked floor to ceiling.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "Sealed under the Court's own writ, on the grounds that some names are safer shelved than read. It is heavier than any wall has a right to be."
+    },
+    {
+      "name": "Marginal Notes",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffMaxHp",
+        "amount": 9
+      },
+      "description": "All friendly units gain +9 max HP.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "Every margin in the Archive is written full — corrections, warnings, one word repeated so often it stopped reading like a word at all: remember."
+    },
+    {
+      "name": "Lamp-Oil Reserve",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffRange",
+        "amount": 16
+      },
+      "description": "All attacking units gain +16 attack range.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "Oil rationed for three centuries so the reading-lamps would never once go dark between the shelves. There is, it turns out, more of it than anyone admitted."
+    },
+    {
+      "name": "Silence Bell",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "aoe",
+        "damage": 7,
+        "range": 105
+      },
+      "description": "The silence bell tolls, damaging enemies within its ring.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "Rung whenever the reading rooms need quiet enough to hear a name being read for the first time in three hundred years."
+    },
+    {
+      "name": "Archive Warden",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "archive-warden",
+      "description": "An elite warden who has guarded the deep stacks since before the Fracture ever needed guarding against.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "Sworn to the Archive before sworn to any court. He has stood between the shelves and the thing that feeds on them longer than the thing has been hungry."
+    },
+    {
+      "name": "Choir of Sealed Names",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "choir-of-sealed-names",
+      "description": "A choir of sealed registers that sings the names shelved around it at long range.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "They sing the same litany at the reading room's centre, one name a verse, three hundred years running. They have never once reached the end of the shelf."
+    },
+    {
+      "name": "Reading Room Sentry",
+      "rarity": "rare",
+      "cardType": "structure",
+      "cost": 5,
+      "unitRef": "reading-room-sentry",
+      "description": "Spawner. Periodically wakes Stack Runners from stone and sealed vellum.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "Carved in the shape of a watching cataloguer, and just as patient. It knows exactly how much of the wing is left unshelved."
+    },
+    {
+      "name": "Writ of Erasure",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffMaxHp",
+        "amount": 13
+      },
+      "description": "All friendly units gain +13 max HP.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "Signed to erase a name from the world. It erased the name from everywhere except the shelf that held it, which is, in the Archive's accounting, the only place that ever mattered."
+    },
+    {
+      "name": "Stackbound Knight",
+      "rarity": "epic",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "stackbound-knight",
+      "description": "A towering knight bound to the deep stacks, guarding them above all else.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "He has never once let a reader leave with more than they were owed. He has also never once turned away a name that came home on its own."
+    },
+    {
+      "name": "The Unbound Index",
+      "rarity": "epic",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "the-unbound-index",
+      "description": "A drifting index of unshelved pages that flies over walls, hunting for the entry it's missing.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "It was never bound into any register. Three hundred years loose in the stacks have taught it to want to be."
+    },
+    {
+      "name": "The Name-Eater",
+      "rarity": "legendary",
+      "cost": 7,
+      "cardType": "unit",
+      "unitRef": "the-name-eater",
+      "description": "The thing between the shelves — prisoner and librarian both, and hungrier than either title admits.",
+      "deckCount": 0,
+      "tags": ["forgotten", "archive"],
+      "lore": "The Court keeps it fed on names nobody will miss. It has never once, in three hundred years, agreed on which names those are."
     }
   ],
   "heroCards": [
@@ -23354,6 +23933,38 @@
       },
       "description": "HERO: Deploys the First Reaper — the harvester who cut the very first sheaf of memory-wheat in the void. All units gain +3 attack.",
       "lore": "Nobody ordained her the first. She simply refused to let the field go unharvested while there was still a hand left to hold the sickle. Three centuries on, the fields still cut the way she taught them."
+    },
+    {
+      "id": "hero-returned-archivist",
+      "name": "The Archivist Returned",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "unit",
+      "isHero": true,
+      "unit": {
+        "name": "Returned Archivist",
+        "attack": 10,
+        "maxHp": 52,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 34,
+        "attackRange": 120,
+        "attackCooldownMs": 1500,
+        "flying": false,
+        "tags": ["ranged", "magic"],
+        "size": "medium",
+        "unitTrait": {
+          "guardBase": true,
+          "baseGuardRange": 90,
+          "engageRange": 185
+        }
+      },
+      "heroEffect": {
+        "type": "buffMaxHp",
+        "amount": 8
+      },
+      "description": "HERO: Deploys the Returned Archivist — a Dominion archivist whose own name was gleaned back from the Archive's stacks. All units gain +8 max HP.",
+      "lore": "Campaign 1 knew an Archivist who never left the Crystal Spire. This one is not him — only someone who once did the same work, in a kingdom that no longer had a name to file her under. The Archive gave hers back. She has not stopped reading since."
     }
   ]
 }
