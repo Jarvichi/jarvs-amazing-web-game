@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Gallop pose A: legs gathered -->
+  <path d="M5,23 L7,16 Q9,13 13,14 L21,14 Q25,14 26,17 L27,21 L25,23 Z" fill="#C9CBDA"/>
+  <path d="M24,15 L29,11 L30,13 L27,17 Z" fill="#C9CBDA"/>
+  <circle cx="27.8" cy="13" r="0.7" fill="#3A3F55"/>
+  <path d="M22,13 Q24,10 27,11 L25,14 Z" fill="#E8EAF4" opacity="0.8"/>
+  <rect x="13" y="7.5" width="6" height="8" rx="2" fill="#454E6B"/>
+  <circle cx="16" cy="6" r="3.4" fill="#E3D9CF"/>
+  <path d="M12.6,6 Q16,1.5 19.4,6 L19.4,7.4 Q16,5 12.6,7.4 Z" fill="#2B2F3E"/>
+  <rect x="19.5" y="5" width="1.2" height="14" rx="0.6" fill="#2B2F3E" transform="rotate(18 20 12)"/>
+  <path d="M24.6,3.6 L26.4,6.4 L23.2,6.6 Z" fill="#F2E9D8"/>
+  <circle cx="26.6" cy="7.8" r="1.6" fill="#E8B94A"/>
+  <!-- Legs gathered under body -->
+  <rect x="9.5" y="22" width="2.4" height="8" rx="1" fill="#A6A9C0" transform="rotate(18 10.7 26)"/>
+  <rect x="13" y="23" width="2.4" height="7" rx="1" fill="#A6A9C0" transform="rotate(8 14.2 26.5)"/>
+  <rect x="18" y="23" width="2.4" height="7" rx="1" fill="#A6A9C0" transform="rotate(-8 19.2 26.5)"/>
+  <rect x="21.5" y="22" width="2.4" height="8" rx="1" fill="#A6A9C0" transform="rotate(-18 22.7 26)"/>
+  <path d="M5.5,17 Q2.5,19 3.5,23 Q5,21 6.5,20.5 Z" fill="#E8EAF4" opacity="0.8"/>
+</svg>
