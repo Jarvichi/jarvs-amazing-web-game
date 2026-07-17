@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground -->
+  <ellipse cx="16" cy="29.5" rx="9" ry="2" fill="#7E8299" opacity="0.5"/>
+  <!-- Tall timber tower -->
+  <path d="M11.5,29 L13,9 L19,9 L20.5,29 Z" fill="#9FA3BC"/>
+  <path d="M13,9 L19,9 L18.6,14 L13.4,14 Z" fill="#C9CBDA"/>
+  <rect x="12.6" y="19" width="6.8" height="1" fill="#7E8299"/>
+  <rect x="12.2" y="24" width="7.6" height="1" fill="#7E8299"/>
+  <!-- Arrow slit -->
+  <rect x="15.4" y="16" width="1.2" height="4" rx="0.6" fill="#3A3F55"/>
+  <!-- Scarecrow platform -->
+  <rect x="10.5" y="7.4" width="11" height="2" rx="0.8" fill="#454E6B"/>
+  <!-- Scarecrow sackcloth head -->
+  <circle cx="16" cy="4" r="3" fill="#D9C27E"/>
+  <path d="M13.4,4 Q16,1 18.6,4 L18.6,5 Q16,3.2 13.4,5 Z" fill="#8A6F4D"/>
+  <path d="M14.5,3 L15.2,4.6 M17.5,3 L16.8,4.6" stroke="#3A3F55" stroke-width="0.6"/>
+  <!-- Cross-arms -->
+  <rect x="9" y="5.6" width="14" height="1.4" rx="0.7" fill="#8A6F4D"/>
+  <!-- Glow -->
+  <circle cx="16" cy="4.6" r="5.5" fill="#FFB347" opacity="0.2"/>
+  <!-- Crenellation -->
+  <rect x="10.5" y="6" width="2" height="1.6" fill="#454E6B"/>
+  <rect x="19.5" y="6" width="2" height="1.6" fill="#454E6B"/>
+</svg>
