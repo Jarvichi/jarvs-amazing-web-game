@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a3o2-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#1c2138"/>
+    <stop offset="100%" stop-color="#565e80"/>
+  </linearGradient>
+  <rect width="400" height="200" fill="url(#c2a3o2-sky)"/>
+  <rect y="176" width="400" height="64" fill="#4a4634"/>
+  <!-- The Sheaf of Names, held up and glowing -->
+  <g transform="translate(200 130)">
+    <rect x="-2" y="0" width="4" height="46" rx="2" fill="#8A6F4D"/>
+    <path d="M-14,-6 Q0,-30 14,-6 Q6,4 0,10 Q-6,4 -14,-6 Z" fill="#D9C27E"/>
+    <path d="M-8,-4 Q0,-20 8,-4 Q4,2 0,6 Q-4,2 -8,-4 Z" fill="#E8DCA8"/>
+    <rect x="-9" y="-2" width="18" height="3" rx="1.4" fill="#8A6F4D"/>
+  </g>
+  <!-- Glow -->
+  <circle cx="200" cy="110" r="60" fill="#D9C27E" opacity="0.16"/>
+  <circle cx="200" cy="110" r="30" fill="#FFE08A" opacity="0.18"/>
+  <!-- Mist -->
+  <ellipse cx="200" cy="196" rx="200" ry="22" fill="#ced3e6" opacity="0.35"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">IT HAS NOT ONCE FORGOTTEN WHAT IT'S FOR</text>
+</svg>
