@@ -1875,5 +1875,102 @@
         ]
       }
     ]
+  },
+  {
+    "id": "nameeater",
+    "intervalMs": 5000,
+    "idleMessage": "The dark between the shelves does not stay still…",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE NAME-EATER rises from between the deep stacks, ink-dark and crowned in loose pages.",
+      "\"The Queen gleaned what the world dropped. I keep what the world was made to forget. The Court calls me both prisoner and librarian. Ask it which, and it will change the subject.\""
+    ],
+    "trait": {
+      "name": "Between the Shelves",
+      "implemented": true,
+      "trigger": "hp_pct_multi",
+      "triggerHpPcts": [66, 33],
+      "type": "burrow",
+      "description": "At 66% and 33% HP the Name-Eater slips between the shelves — untargetable for a stretch — then resurfaces beside the player's strongest unit, landing hard enough to jolt everything nearby.",
+      "mechanics": {
+        "invulnerableDurationMs": 2500,
+        "landingDamage": 6,
+        "landingRadiusTiles": 2,
+        "repositionTarget": "nearest_player_highest_hp"
+      },
+      "announceText": "THE NAME-EATER slips BETWEEN THE SHELVES — the stacks close over it!",
+      "landText": "It resurfaces at your strongest unit's shoulder, and the shelves around it slam shut."
+    },
+    "phases": [
+      {
+        "condition": {
+          "gameTimeLt": 30000
+        },
+        "priorities": [
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "mana"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_asc"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      },
+      {
+        "condition": {
+          "gameTimeGte": 30000,
+          "gameTimeLt": 75000
+        },
+        "priorities": [
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costGte": 4,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "none"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ],
+        "announceOnce": "\"The fields taught you to be gleaned. The Archive will teach you to be shelved.\""
+      },
+      {
+        "condition": null,
+        "manaOverride": 9,
+        "maxPlaysOverride": 4,
+        "announceOnce": "\"EVERY REGISTER IN THIS HALL REMEMBERS A NAME THE WORLD ERASED. YOURS WILL MAKE A FINE ADDITION.\"",
+        "priorities": [
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      }
+    ]
   }
 ]
