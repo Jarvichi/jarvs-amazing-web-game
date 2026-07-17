@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Faded harvester infantry -->
+  <circle cx="16" cy="9" r="5" fill="#E3D9CF"/>
+  <path d="M11,9 Q16,3 21,9 L21,8 Q16,4.5 11,8 Z" fill="#7E8299"/>
+  <rect x="11" y="8.6" width="10" height="1.2" fill="#7E8299"/>
+  <circle cx="14" cy="10" r="0.8" fill="#3A3F55"/>
+  <circle cx="18" cy="10" r="0.8" fill="#3A3F55"/>
+  <!-- Tabard body, wheat-gold sash half-faded -->
+  <path d="M12,14 L12,23 L20,23 L20,14 Q16,16 12,14 Z" fill="#454E6B"/>
+  <rect x="14.5" y="14.5" width="3" height="8" fill="#D9C27E" opacity="0.6"/>
+  <rect x="12" y="18" width="8" height="1.2" fill="#5E6A8C"/>
+  <!-- Sickle arm -->
+  <rect x="20.5" y="14" width="3.5" height="6" rx="1" fill="#454E6B"/>
+  <path d="M23,10 Q26,12 24.5,15.5 Q22.8,13.5 23,10 Z" fill="#C9CBDA"/>
+  <rect x="22" y="18" width="3.6" height="1.4" rx="0.6" fill="#D9C27E"/>
+  <!-- Grain-basket arm -->
+  <rect x="8" y="14" width="3.5" height="6" rx="1" fill="#454E6B"/>
+  <rect x="5.4" y="14.5" width="4.6" height="6.5" rx="0.6" fill="#8A6F4D"/>
+  <line x1="6" y1="16.2" x2="9.4" y2="16.2" stroke="#E8DCA8" stroke-width="0.5"/>
+  <line x1="6" y1="17.6" x2="9.4" y2="17.6" stroke="#E8DCA8" stroke-width="0.5"/>
+  <line x1="6" y1="19" x2="9.4" y2="19" stroke="#E8DCA8" stroke-width="0.5"/>
+  <!-- Legs (neutral) -->
+  <rect x="12" y="23" width="3.5" height="7" rx="1" fill="#454E6B"/>
+  <rect x="16.5" y="23" width="3.5" height="7" rx="1" fill="#454E6B"/>
+  <rect x="11" y="28" width="5.5" height="3" rx="1" fill="#3A3F55"/>
+  <rect x="16" y="28" width="5.5" height="3" rx="1" fill="#3A3F55"/>
+</svg>
