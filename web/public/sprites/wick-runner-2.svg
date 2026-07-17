@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Hooded head -->
+  <circle cx="16" cy="9" r="5" fill="#C9CBDA"/>
+  <path d="M11,9 Q16,2 21,9 L21,11 Q16,8 11,11 Z" fill="#5E6A8C"/>
+  <circle cx="16" cy="10" r="3" fill="#E3D9CF"/>
+  <circle cx="15" cy="10" r="0.7" fill="#2B2F3E"/>
+  <circle cx="17.5" cy="10" r="0.7" fill="#2B2F3E"/>
+  <!-- Slim robed body -->
+  <path d="M12,14 L11,23 L21,23 L20,14 Q16,16 12,14 Z" fill="#C9CBDA"/>
+  <rect x="13" y="17" width="6" height="1.2" fill="#5E6A8C"/>
+  <!-- Wick canister on back -->
+  <rect x="19.5" y="14.5" width="4" height="5" rx="1" fill="#5E6A8C"/>
+  <ellipse cx="21.5" cy="14.3" rx="2.2" ry="1" fill="#F2E9D8"/>
+  <rect x="20" y="15.2" width="3" height="1.2" fill="#E8B94A"/>
+  <!-- Unlit spare taper -->
+  <rect x="8" y="14" width="3" height="6" rx="1" fill="#C9CBDA"/>
+  <rect x="6.4" y="12.3" width="4.6" height="2" rx="1" fill="#F2E9D8"/>
+  <!-- Legs (neutral) -->
+  <rect x="12" y="23" width="3.5" height="7" rx="1" fill="#2B2F3E"/>
+  <rect x="16.5" y="23" width="3.5" height="7" rx="1" fill="#2B2F3E"/>
+  <rect x="11" y="28" width="5.5" height="3" rx="1" fill="#3A3F55"/>
+  <rect x="16" y="28" width="5.5" height="3" rx="1" fill="#3A3F55"/>
+</svg>
