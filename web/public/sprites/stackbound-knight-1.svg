@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Heavy plumed helm (body 1px lower mid-stride) -->
+  <circle cx="16" cy="10" r="5.5" fill="#9FA3BC"/>
+  <path d="M10.5,10 Q16,3 21.5,10 L21.5,12 L10.5,12 Z" fill="#7E8299"/>
+  <path d="M15,3.5 Q16,1 17,3.5 L16.8,6 L15.2,6 Z" fill="#E8B94A"/>
+  <rect x="12" y="9.5" width="8" height="2" fill="#2B2F3E"/>
+  <circle cx="14" cy="10.5" r="0.7" fill="#FFB347"/>
+  <circle cx="18" cy="10.5" r="0.7" fill="#FFB347"/>
+  <!-- Broad plate body -->
+  <path d="M10,15 L10,25 L22,25 L22,15 Q16,17.5 10,15 Z" fill="#9FA3BC"/>
+  <rect x="10" y="18" width="12" height="1.3" fill="#7E8299"/>
+  <rect x="10" y="21.5" width="12" height="1.3" fill="#7E8299"/>
+  <!-- Sealed-shelf sigil -->
+  <circle cx="16" cy="19.8" r="2.1" fill="#E8B94A"/>
+  <circle cx="16" cy="19.8" r="1.1" fill="#FFE08A"/>
+  <!-- Book-shield -->
+  <rect x="4.5" y="14" width="5.5" height="10" rx="1.5" fill="#454E6B"/>
+  <rect x="5.5" y="15" width="3.5" height="8" rx="1" fill="#2B2F3E"/>
+  <circle cx="7.2" cy="19" r="1.2" fill="#E8B94A"/>
+  <!-- Greatsword -->
+  <rect x="22.5" y="15" width="3.5" height="6.5" rx="1" fill="#9FA3BC"/>
+  <rect x="24.2" y="7" width="1.8" height="15" rx="0.9" fill="#C9CBDA"/>
+  <rect x="22.8" y="20.6" width="4.6" height="1.5" rx="0.7" fill="#E8B94A"/>
+  <!-- Legs stride A -->
+  <rect x="10" y="25" width="4" height="6.5" rx="1" fill="#454E6B"/>
+  <rect x="18" y="25" width="4" height="5" rx="1" fill="#454E6B"/>
+  <rect x="9" y="30.5" width="6" height="1.5" rx="0.8" fill="#3A3F55"/>
+  <rect x="17.5" y="29" width="5.5" height="1.5" rx="0.8" fill="#3A3F55"/>
+</svg>
