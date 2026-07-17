@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Three hooded choristers in a row (drifting shift B) -->
+  <circle cx="9.4" cy="10.6" r="3.6" fill="#A6A9C0"/>
+  <path d="M5.8,10.6 Q9.4,5.6 13,10.6 L13,12.6 Q9.4,10.1 5.8,12.6 Z" fill="#7E8299"/>
+  <path d="M6.4,13.6 L5.4,27.6 L13.4,27.6 L12.4,13.6 Q9.4,15.1 6.4,13.6 Z" fill="#A6A9C0"/>
+  <circle cx="22.6" cy="11.4" r="3.6" fill="#A6A9C0"/>
+  <path d="M19,11.4 Q22.6,6.4 26.2,11.4 L26.2,13.4 Q22.6,10.9 19,13.4 Z" fill="#7E8299"/>
+  <path d="M19.6,14.4 L18.6,28.4 L26.6,28.4 L25.6,14.4 Q22.6,15.9 19.6,14.4 Z" fill="#A6A9C0"/>
+  <!-- Front centre singer -->
+  <circle cx="16" cy="9.4" r="4.2" fill="#C9CBDA"/>
+  <path d="M11.8,9.4 Q16,3.9 20.2,9.4 L20.2,11.9 Q16,8.9 11.8,11.9 Z" fill="#454E6B"/>
+  <ellipse cx="16" cy="10.9" rx="1" ry="1.4" fill="#2B2F3E"/>
+  <path d="M12.5,13.4 L11,30.4 L21,30.4 L19.5,13.4 Q16,15.4 12.5,13.4 Z" fill="#C9CBDA"/>
+  <rect x="13.5" y="17.4" width="5" height="1.1" fill="#7E8299"/>
+  <!-- Rising ember glyphs -->
+  <path d="M12,3.4 L12.9,4.4 L12,5.4 L11.1,4.4 Z" fill="#F2E9D8"/>
+  <path d="M20,2.2 L20.9,3.2 L20,4.2 L19.1,3.2 Z" fill="#F2E9D8"/>
+  <!-- Candle-gold glow at feet -->
+  <ellipse cx="16" cy="29.5" rx="9" ry="1.8" fill="#E8B94A" opacity="0.25"/>
+</svg>

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a5i2-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0e1019"/>
+    <stop offset="100%" stop-color="#2b3149"/>
+  </linearGradient>
+  <rect width="400" height="176" fill="url(#c2a5i2-sky)"/>
+  <!-- Street level, tenements with a candlelit window in every one -->
+  <rect y="150" width="400" height="90" fill="#171b28"/>
+  <g fill="#2b3149">
+    <rect x="10" y="60" width="60" height="120"/>
+    <rect x="80" y="40" width="60" height="140"/>
+    <rect x="150" y="70" width="60" height="110"/>
+    <rect x="220" y="46" width="60" height="134"/>
+    <rect x="290" y="66" width="60" height="114"/>
+    <rect x="350" y="48" width="46" height="132"/>
+  </g>
+  <!-- Every window holds a candle -->
+  <g fill="#FFB347" opacity="0.9">
+    <rect x="18" y="72" width="8" height="10" rx="1"/>
+    <rect x="34" y="90" width="8" height="10" rx="1"/>
+    <rect x="50" y="72" width="8" height="10" rx="1"/>
+    <rect x="18" y="110" width="8" height="10" rx="1"/>
+    <rect x="50" y="130" width="8" height="10" rx="1"/>
+    <rect x="90" y="54" width="8" height="10" rx="1"/>
+    <rect x="108" y="72" width="8" height="10" rx="1"/>
+    <rect x="124" y="54" width="8" height="10" rx="1"/>
+    <rect x="90" y="100" width="8" height="10" rx="1"/>
+    <rect x="124" y="120" width="8" height="10" rx="1"/>
+    <rect x="160" y="86" width="8" height="10" rx="1"/>
+    <rect x="184" y="100" width="8" height="10" rx="1"/>
+    <rect x="160" y="126" width="8" height="10" rx="1"/>
+    <rect x="230" y="60" width="8" height="10" rx="1"/>
+    <rect x="252" y="80" width="8" height="10" rx="1"/>
+    <rect x="230" y="104" width="8" height="10" rx="1"/>
+    <rect x="264" y="122" width="8" height="10" rx="1"/>
+    <rect x="300" y="82" width="8" height="10" rx="1"/>
+    <rect x="322" y="100" width="8" height="10" rx="1"/>
+    <rect x="300" y="128" width="8" height="10" rx="1"/>
+    <rect x="360" y="64" width="8" height="10" rx="1"/>
+    <rect x="378" y="86" width="8" height="10" rx="1"/>
+    <rect x="360" y="112" width="8" height="10" rx="1"/>
+  </g>
+  <ellipse cx="200" cy="120" rx="200" ry="50" fill="#FFB347" opacity="0.06"/>
+  <!-- A lamplighter on the street with a taper, seen from behind -->
+  <g fill="#11141f">
+    <circle cx="200" cy="176" r="7"/>
+    <rect x="192" y="182" width="16" height="24" rx="3"/>
+  </g>
+  <rect x="184" y="184" width="10" height="1.6" fill="#E8B94A" transform="rotate(-30 189 185)"/>
+  <circle cx="181" cy="180" r="1.4" fill="#FFE08A"/>
+  <!-- Mist bands -->
+  <ellipse cx="200" cy="180" rx="220" ry="14" fill="#ced3e6" opacity="0.25"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">EVERY WINDOW HOLDS A CANDLE</text>
+</svg>

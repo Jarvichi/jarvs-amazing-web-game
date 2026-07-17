@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground -->
+  <ellipse cx="16" cy="29.5" rx="13" ry="2" fill="#7E8299" opacity="0.5"/>
+  <!-- Row of stacked wax-crates -->
+  <rect x="5" y="12" width="5" height="17" rx="0.6" fill="#A6A9C0"/>
+  <rect x="11" y="10" width="5" height="19" rx="0.6" fill="#C9CBDA"/>
+  <rect x="17" y="11" width="5" height="18" rx="0.6" fill="#A6A9C0"/>
+  <rect x="23" y="13" width="5" height="16" rx="0.6" fill="#C9CBDA"/>
+  <!-- Grain of the shelving -->
+  <line x1="7.5" y1="14" x2="7.5" y2="27" stroke="#7E8299" stroke-width="0.7"/>
+  <line x1="13.5" y1="12" x2="13.5" y2="27" stroke="#7E8299" stroke-width="0.7"/>
+  <line x1="19.5" y1="13" x2="19.5" y2="27" stroke="#7E8299" stroke-width="0.7"/>
+  <line x1="25.5" y1="15" x2="25.5" y2="27" stroke="#7E8299" stroke-width="0.7"/>
+  <!-- Iron cross-rails -->
+  <rect x="4" y="17" width="25" height="1.6" rx="0.8" fill="#2B2F3E"/>
+  <rect x="4" y="23" width="25" height="1.6" rx="0.8" fill="#2B2F3E"/>
+  <!-- Mist drifting through -->
+  <ellipse cx="10" cy="27.5" rx="6" ry="1.4" fill="#E8EAF4" opacity="0.45"/>
+  <ellipse cx="22" cy="28.2" rx="5" ry="1.2" fill="#E8EAF4" opacity="0.4"/>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Hooded head (body 1px lower mid-stride) -->
+  <circle cx="16" cy="10" r="5" fill="#7E8299"/>
+  <path d="M11,10 Q16,3.5 21,10 L21,12 Q16,9 11,12 Z" fill="#5E6A8C"/>
+  <circle cx="16" cy="11" r="2.8" fill="#E3D9CF"/>
+  <circle cx="15" cy="11" r="0.7" fill="#2B2F3E"/>
+  <circle cx="17.5" cy="11" r="0.7" fill="#2B2F3E"/>
+  <!-- Body -->
+  <path d="M12,15 L12,23 L20,23 L20,15 Q16,17 12,15 Z" fill="#A6A9C0"/>
+  <rect x="12" y="18.5" width="8" height="1.2" fill="#5E6A8C"/>
+  <!-- Candle quiver -->
+  <rect x="19.5" y="14.5" width="3.5" height="8" rx="1" fill="#2B2F3E"/>
+  <path d="M20.4,13 L21,14.6 L19.8,14.6 Z" fill="#F2E9D8"/>
+  <path d="M22,13 L22.6,14.6 L21.4,14.6 Z" fill="#F2E9D8"/>
+  <!-- Bow arm and bow -->
+  <rect x="7.5" y="15" width="4" height="5.5" rx="1" fill="#A6A9C0"/>
+  <path d="M6.5,9 Q2.5,17.5 6.5,26" stroke="#454E6B" stroke-width="1.5" fill="none"/>
+  <line x1="6.5" y1="9" x2="6.5" y2="26" stroke="#C9CBDA" stroke-width="0.7"/>
+  <!-- Legs stride A -->
+  <rect x="10" y="23" width="3.5" height="7.5" rx="1" fill="#454E6B"/>
+  <rect x="18" y="23" width="3.5" height="6" rx="1" fill="#454E6B"/>
+  <rect x="9" y="29.5" width="5.5" height="2.6" rx="1" fill="#3A3F55"/>
+  <rect x="18" y="28" width="5" height="2.6" rx="1" fill="#3A3F55"/>
+</svg>

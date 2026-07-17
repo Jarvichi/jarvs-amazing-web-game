@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a5o3-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#171b28"/>
+    <stop offset="100%" stop-color="#3a4160"/>
+  </linearGradient>
+  <rect width="400" height="176" fill="url(#c2a5o3-sky)"/>
+  <!-- City gate behind, road dropping toward a misaligned coastline -->
+  <rect y="176" width="150" height="64" fill="#2b3149"/>
+  <rect x="150" y="176" width="250" height="64" fill="#1a2438"/>
+  <!-- Rising tide water -->
+  <path d="M150,200 Q250,190 400,205 L400,240 L150,240 Z" fill="#26456b" opacity="0.75"/>
+  <path d="M150,208 Q250,198 400,212" stroke="#5E9BC9" stroke-width="1.2" fill="none" opacity="0.6"/>
+  <!-- Drowned towers standing in the tide, holding their shape underwater -->
+  <g fill="#171b28">
+    <rect x="210" y="120" width="14" height="90"/>
+    <rect x="205" y="112" width="24" height="10"/>
+    <rect x="260" y="140" width="12" height="70"/>
+    <rect x="255" y="132" width="22" height="10"/>
+    <rect x="320" y="128" width="14" height="82"/>
+    <rect x="315" y="120" width="24" height="10"/>
+  </g>
+  <g fill="#26456b" opacity="0.5">
+    <rect x="210" y="180" width="14" height="30"/>
+    <rect x="260" y="182" width="12" height="28"/>
+    <rect x="320" y="184" width="14" height="26"/>
+  </g>
+  <!-- A single watch-flame still burning on the road behind -->
+  <rect x="60" y="160" width="1.6" height="16" fill="#454E6B"/>
+  <circle cx="60.8" cy="158" r="2.2" fill="#E8B94A"/>
+  <circle cx="60.8" cy="158" r="5" fill="#FFB347" opacity="0.2"/>
+  <!-- Something watching from the new waterline -->
+  <circle cx="300" cy="196" r="1.4" fill="#5E9BC9"/>
+  <circle cx="308" cy="194" r="1.4" fill="#5E9BC9"/>
+  <ellipse cx="304" cy="196" rx="10" ry="4" fill="#5E9BC9" opacity="0.15"/>
+  <!-- Mist -->
+  <ellipse cx="200" cy="180" rx="220" ry="16" fill="#ced3e6" opacity="0.2"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THE COAST CAME BACK MISALIGNED</text>
+</svg>

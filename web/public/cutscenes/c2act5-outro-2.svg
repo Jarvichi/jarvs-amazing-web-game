@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a5o2-bg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#1e2436"/>
+    <stop offset="100%" stop-color="#3a4160"/>
+  </linearGradient>
+  <rect width="400" height="200" fill="url(#c2a5o2-bg)"/>
+  <!-- Close study of the Lamplighter's Wick, held up and lit -->
+  <ellipse cx="200" cy="95" rx="100" ry="75" fill="#FFB347" opacity="0.14"/>
+  <!-- Hands holding it (silhouette) -->
+  <rect x="150" y="120" width="16" height="22" rx="4" fill="#11141f"/>
+  <rect x="234" y="120" width="16" height="22" rx="4" fill="#11141f"/>
+  <!-- The wick stub itself -->
+  <rect x="196" y="90" width="8" height="34" rx="2" fill="#F2E9D8"/>
+  <rect x="198.5" y="72" width="3" height="20" rx="1.5" fill="#E8B94A"/>
+  <path d="M200,58 Q206,68 200,74 Q194,68 200,58 Z" fill="#FFE08A"/>
+  <circle cx="200" cy="66" r="16" fill="#FFB347" opacity="0.25"/>
+  <circle cx="200" cy="66" r="8" fill="#FFB347" opacity="0.3"/>
+  <!-- Mist bands -->
+  <ellipse cx="200" cy="170" rx="200" ry="16" fill="#ced3e6" opacity="0.22"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">LAMPLIGHTER'S WICK</text>
+</svg>

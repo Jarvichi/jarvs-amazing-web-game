@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a5o1-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#171b28"/>
+    <stop offset="100%" stop-color="#2b3149"/>
+  </linearGradient>
+  <rect width="400" height="176" fill="url(#c2a5o1-sky)"/>
+  <rect y="176" width="400" height="64" fill="#12141f"/>
+  <!-- The General, scepter lowered, company standing down behind her -->
+  <g fill="#171b28">
+    <circle cx="170" cy="150" r="6"/>
+    <rect x="163" y="156" width="14" height="20" rx="2"/>
+    <circle cx="230" cy="150" r="6"/>
+    <rect x="223" y="156" width="14" height="20" rx="2"/>
+  </g>
+  <g fill="#2b3149">
+    <circle cx="200" cy="128" r="9"/>
+    <rect x="188" y="137" width="24" height="38" rx="4"/>
+  </g>
+  <!-- Lowered scepter -->
+  <rect x="212" y="150" width="1.6" height="20" rx="0.8" fill="#C9CBDA" transform="rotate(60 213 160)"/>
+  <circle cx="224" cy="168" r="1.8" fill="#E8B94A"/>
+  <circle cx="224" cy="168" r="4" fill="#FFB347" opacity="0.35"/>
+  <ellipse cx="200" cy="176" rx="90" ry="10" fill="#E8B94A" opacity="0.12"/>
+  <!-- Mist -->
+  <ellipse cx="200" cy="180" rx="220" ry="16" fill="#ced3e6" opacity="0.25"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">"NOT ONE LINE OF IT SAID WHAT TO DO WITH YOU"</text>
+</svg>

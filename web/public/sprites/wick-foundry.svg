@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground -->
+  <ellipse cx="16" cy="29.5" rx="10" ry="2" fill="#7E8299" opacity="0.5"/>
+  <!-- Cabinet body -->
+  <rect x="9" y="10" width="14" height="19" rx="4" fill="#A6A9C0"/>
+  <rect x="9" y="10" width="14" height="3.4" rx="1.6" fill="#C9CBDA"/>
+  <!-- Wick-casting gear -->
+  <circle cx="16" cy="6.5" r="3" fill="#7E8299"/>
+  <circle cx="16" cy="6.5" r="1.4" fill="#C9CBDA"/>
+  <rect x="15.4" y="2.6" width="1.2" height="2" fill="#7E8299"/>
+  <!-- Bands -->
+  <rect x="9" y="16" width="14" height="1.2" fill="#7E8299"/>
+  <rect x="9" y="21" width="14" height="1.2" fill="#7E8299"/>
+  <!-- Glowing wick-mould window -->
+  <path d="M16,19 L18.4,22 L16,25 L13.6,22 Z" fill="#E8B94A"/>
+  <path d="M16,20.2 L17.2,22 L16,23.8 L14.8,22 Z" fill="#FFE08A"/>
+  <!-- Sealed wax drawer -->
+  <rect x="13.5" y="25" width="5" height="4" rx="0.8" fill="#2B2F3E"/>
+  <!-- Glow -->
+  <circle cx="16" cy="22" r="6" fill="#E8B94A" opacity="0.18"/>
+</svg>

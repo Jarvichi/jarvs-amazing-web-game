@@ -13,7 +13,7 @@ interface Props {
 
 const ACT_IDS = [
   'act1','act2','act3','act4','act5','act6','act7',
-  'act8','act9','act10','act11','act12','act13','actfinale','c2act1','c2act2','c2act3','c2act4',
+  'act8','act9','act10','act11','act12','act13','actfinale','c2act1','c2act2','c2act3','c2act4','c2act5',
 ]
 const NODE_TYPES: NodeType[] = ['battle', 'elite', 'boss', 'rest', 'event', 'merchant']
 

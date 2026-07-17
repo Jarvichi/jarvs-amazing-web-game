@@ -964,6 +964,41 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     tier: 2,
   },
 
+  // Campaign 2, Act 5 — The Candle City
+  {
+    id: 'campaign:c2act5:1',
+    name: 'The First Wick',
+    description: 'Complete Campaign 2 Act 5 — The Candle City',
+    category: 'campaign',
+    progressKey: 'campaign:c2act5',
+    target: 1,
+    reward: { type: 'crystals', crystals: 800 },
+    tier: 1,
+  },
+  {
+    id: 'campaign:c2act5:10',
+    name: 'Sergeant of the Vigil Round',
+    description: 'Complete Campaign 2 Act 5 ten times',
+    category: 'campaign',
+    progressKey: 'campaign:c2act5',
+    target: 10,
+    reward: { type: 'crystals', crystals: 3800 },
+    tier: 2,
+  },
+  {
+    id: 'campaign:c2act5:100',
+    name: 'The City Remembers Your Name',
+    description: 'Complete Campaign 2 Act 5 one hundred times',
+    category: 'campaign',
+    progressKey: 'campaign:c2act5',
+    target: 100,
+    reward: {
+      type: 'item',
+      item: { id: 'lamplighter_generals_wickmark', name: "Lamplighter General's Wickmark", icon: '🕯️', desc: 'A company wickmark from a hundred vigils. It has never once let your name go dark.' },
+    },
+    tier: 2,
+  },
+
   // ── Boss avatar unlocks (one per act, triggered on first act completion) ─
 
   { id: 'campaign:act1:boss',  name: 'Face of the Thornlord',       description: 'Defeat Act 1 to unlock the Thornlord avatar',       category: 'campaign', progressKey: 'campaign:act1',  target: 1, reward: { type: 'avatar', avatarSlug: 'boss-thornlord' },       tier: 1 },
@@ -984,6 +1019,7 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
   { id: 'campaign:c2act2:boss',    name: 'Face of the Toll Warden',    description: 'Defeat Campaign 2 Act 2 to unlock the Toll Warden avatar', category: 'campaign', progressKey: 'campaign:c2act2', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-tollwarden' },      tier: 1 },
   { id: 'campaign:c2act3:boss',    name: 'Face of the Gleaner Queen',  description: 'Defeat Campaign 2 Act 3 to unlock the Gleaner Queen avatar', category: 'campaign', progressKey: 'campaign:c2act3', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-gleanerqueen' },    tier: 1 },
   { id: 'campaign:c2act4:boss',    name: 'Face of the Name-Eater',     description: 'Defeat Campaign 2 Act 4 to unlock the Name-Eater avatar', category: 'campaign', progressKey: 'campaign:c2act4', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-nameeater' },       tier: 1 },
+  { id: 'campaign:c2act5:boss',    name: 'Face of the Lamplighter General', description: 'Defeat Campaign 2 Act 5 to unlock the Lamplighter General avatar', category: 'campaign', progressKey: 'campaign:c2act5', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-lamplighter' }, tier: 1 },
 
   // ── Boss Cards — earned by repeat boss completions (10/20/30/40 runs) ────
   // Act 1 — Thornlord
