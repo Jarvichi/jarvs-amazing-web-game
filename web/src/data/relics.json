@@ -296,5 +296,21 @@
         "amount": 1
       }
     ]
+  },
+  {
+    "name": "Sheaf of Names",
+    "icon": "🌾",
+    "desc": "Your maximum mana is increased by 1, and you begin every battle with 2 mana already banked — names given back, spent again.",
+    "lore": "Bound from the memory-wheat of the first harvest the Gleaner Queen ever gleaned. Every grain in it once belonged to somebody's forgetting. Holding it, you start each fight already a little less empty-handed than you were.",
+    "effects": [
+      {
+        "type": "maxMana",
+        "amount": 1
+      },
+      {
+        "type": "startMana",
+        "amount": 2
+      }
+    ]
   }
 ]
