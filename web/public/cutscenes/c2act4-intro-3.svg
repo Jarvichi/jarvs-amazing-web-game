@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a4i3-hall" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0e1019"/>
+    <stop offset="100%" stop-color="#1e2436"/>
+  </linearGradient>
+  <rect width="400" height="200" fill="url(#c2a4i3-hall)"/>
+  <rect y="176" width="400" height="24" fill="#0a0c14"/>
+  <!-- Dark stacks looming close -->
+  <g fill="#171b28">
+    <rect x="0" y="20" width="60" height="160"/>
+    <rect x="340" y="20" width="60" height="160"/>
+  </g>
+  <!-- A hooded archivist, distant, back turned -->
+  <g fill="#2b3149" opacity="0.8">
+    <circle cx="130" cy="150" r="7"/>
+    <rect x="118" y="160" width="24" height="24" rx="4"/>
+  </g>
+  <!-- Two candle-gold eyes watching from between the shelves -->
+  <circle cx="270" cy="120" r="2.4" fill="#FFB347"/>
+  <circle cx="284" cy="118" r="2.4" fill="#FFB347"/>
+  <circle cx="277" cy="119" r="16" fill="#FFB347" opacity="0.12"/>
+  <!-- Loose pages drifting -->
+  <g fill="#F2E9D8" opacity="0.5">
+    <rect x="250" y="140" width="4" height="5" transform="rotate(15 252 142)"/>
+    <rect x="300" y="150" width="4" height="5" transform="rotate(-12 302 152)"/>
+  </g>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">SOMETHING WATCHES FROM BETWEEN THE SHELVES</text>
+</svg>

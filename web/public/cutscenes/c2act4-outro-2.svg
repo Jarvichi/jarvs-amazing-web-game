@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a4o2-bg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#1e2436"/>
+    <stop offset="100%" stop-color="#3a4160"/>
+  </linearGradient>
+  <rect width="400" height="200" fill="url(#c2a4o2-bg)"/>
+  <!-- Close study of the Index of the Lost, held up -->
+  <ellipse cx="200" cy="100" rx="90" ry="70" fill="#E8B94A" opacity="0.1"/>
+  <rect x="150" y="60" width="100" height="80" rx="4" fill="#2B2F3E"/>
+  <rect x="158" y="68" width="84" height="64" fill="#F2E9D8"/>
+  <g stroke="#7E8299" stroke-width="1.4">
+    <line x1="166" y1="82" x2="234" y2="82"/>
+    <line x1="166" y1="94" x2="234" y2="94"/>
+    <line x1="166" y1="106" x2="234" y2="106"/>
+    <line x1="166" y1="118" x2="220" y2="118"/>
+  </g>
+  <circle cx="200" cy="100" r="10" fill="#E8B94A"/>
+  <circle cx="200" cy="100" r="5" fill="#FFE08A"/>
+  <!-- Hands holding it (silhouette) -->
+  <rect x="146" y="128" width="16" height="20" rx="4" fill="#11141f"/>
+  <rect x="238" y="128" width="16" height="20" rx="4" fill="#11141f"/>
+  <!-- Mist bands -->
+  <ellipse cx="200" cy="176" rx="200" ry="16" fill="#ced3e6" opacity="0.25"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">INDEX OF THE LOST</text>
+</svg>
