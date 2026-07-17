@@ -236,5 +236,19 @@
     "nodeId": "mem-c2act4-2",
     "title": "Fragment: The Librarian's Note",
     "body": "A LIBRARIAN'S PERSONAL NOTE, PINNED INSIDE THE DEEP STACKS\n\n'It appeared the day wing four sealed its last shelf — nobody built it, nobody summoned it, it was simply between the registers the next morning, reading them in an order none of us had catalogued. We called the Court. The Court came, looked at it for a long while, and then did something I did not expect: it left the thing exactly where it was, and appointed it Warden of the Deep Stacks.\n\nI asked the Court steward why. She said: because it has never once misfiled a name, and because a thing that hungers for what's already lost is safer than a thing that hungers for what isn't. I did not find that reassuring. I still don't.\n\nIt has fed on names nobody claimed for three hundred years now. It has also, in that time, returned eleven names to archivists who didn't know they were owed one. I keep a running count of both numbers. I am not certain which one is supposed to make me feel better.\n\nIt does not speak often. When it does, it only ever asks one question: whose name is next.'"
+  },
+  {
+    "id": "c2act5-frag-1",
+    "actId": "c2act5",
+    "nodeId": "mem-c2act5-1",
+    "title": "Fragment: The First Watch Order",
+    "body": "FOUNDING CHARTER OF THE LAMPLIGHTER COMPANIES — YEAR ONE OF THE DARK\n\n'The King's rite holds the kingdom together, but a rite is not a roof, and a roof needs a hand to keep the roof-lamp burning. So the order went out to every street with a window in it: light a candle, and keep it lit, and when you cannot keep it lit yourself, teach the house beside you how.\n\nWe called the first hundred who answered the Lamplighter Company. We did not expect to need a second hundred. We were wrong within the season — the dark tests every wick it can reach, and a kingdom held together by will alone cannot afford a single window going dark unnoticed.\n\nSo the doctrine was born, plain as the charter that founded it: light on the hour, snuff on the hour, and a company for every street so that no candle in Amarath ever burns, or fails to burn, alone. Three centuries on, I am told the doctrine has not changed one line. I believe it. Doctrine is the only thing in this kingdom that does not have to remember to keep burning.'"
+  },
+  {
+    "id": "c2act5-frag-2",
+    "actId": "c2act5",
+    "nodeId": "mem-c2act5-2",
+    "title": "Fragment: The Guttering of Threadneedle Row",
+    "body": "A LAMPLIGHTER'S LOG, RECOVERED FROM A WATCH-POST ON THREADNEEDLE ROW\n\n'Third bell, and Threadneedle Row has gone dark house by house — not snuffed, not stolen, just gone, the way a name goes when nobody says it long enough. I lit forty windows myself before dawn and thirty-one of them had guttered again by the time I reached the end of the street. I do not have a doctrine for a street that will not stay lit.\n\nThe company sergeant told me not to write this down. I am writing it down anyway. If a whole row can go dark and come back dark no matter how many times we light it, then the rite is not holding everything the Court says it is holding, and somebody above my rank ought to know that before the next row does the same.\n\nI relit Threadneedle Row a fourth time before the log closed. It held until morning. I do not know if that is a victory or a postponement. In this company, I have learned, they are often the same thing.'"
   }
 ]

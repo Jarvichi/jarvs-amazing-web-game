@@ -328,5 +328,17 @@
         "amount": 4
       }
     ]
+  },
+  {
+    "name": "Lamplighter's Wick",
+    "icon": "🪔",
+    "desc": "Once per battle, the first friendly unit that falls is relit at half its original HP — the wick catches before the flame can go out for good.",
+    "lore": "Taken from the General's own scepter after the wax-fall stopped falling. It still holds a flame that does not ask the Court's permission to keep burning.",
+    "effects": [
+      {
+        "type": "unitRevive",
+        "hp": "half"
+      }
+    ]
   }
 ]

@@ -1,0 +1,551 @@
+{
+  "id": "c2act5",
+  "title": "ACT V",
+  "subtitle": "The Candle City",
+  "rewardRelic": "Lamplighter's Wick",
+  "rewardRelicDesc": "Once per battle, the first friendly unit that falls is relit at half its original HP — the wick catches before the flame can go out for good.",
+  "environment": "citadel",
+  "rewardTags": [
+    "forgotten",
+    "candlecity"
+  ],
+  "replayModifiers": [
+    {
+      "type": "enemyHpPercent",
+      "value": 15,
+      "label": "+15% enemy HP"
+    },
+    {
+      "type": "enemyIntervalReduction",
+      "value": 500,
+      "label": "Enemies act faster"
+    },
+    {
+      "type": "enemyHandBonus",
+      "value": 1,
+      "label": "Enemies start +1 card"
+    },
+    {
+      "type": "crystalBonus",
+      "value": 10,
+      "label": "+10 crystals per battle"
+    },
+    {
+      "type": "enemyHpPercent",
+      "value": 25,
+      "label": "+25% enemy HP"
+    }
+  ],
+  "startNodeIds": [
+    "threshold-wicks"
+  ],
+  "variantPools": {
+    "jarvMoods": [
+      "Now, past the Archive and its accounting, carrying an index that knows exactly what's missing.",
+      "Now, the Worldmender, walking into the first city Amarath ever let you see standing.",
+      "Now, wondering what it costs a kingdom to keep ten thousand candles lit against a dark that already came back once.",
+      "Now, past the Name-Eater's fall, learning that the Archive was only ever the storeroom. This is where Amarath actually lives."
+    ],
+    "cityDesc": [
+      "The Candle City runs uphill from the Archive's last threshold, every window holding a flame, every street its own lamplighter company keeping doctrine three centuries deep.",
+      "This is not a ruin and not a vault. It is alive — crowded, devout, ordinary — and every one of its ten thousand vigil flames is watched by someone who has never known a night without a watch to keep.",
+      "The people here are not the enemy. They are lighting their windows the way they have every night since the void, on Court orders that call the Worldmender an invading army. Most of them do not know why."
+    ],
+    "generalDesc": [
+      "The Lamplighter General commands every flame-keeper company in the city as a standing military order — light on the hour, snuff on the hour, no exceptions the Court has ever written down.",
+      "She did not choose the doctrine. She has simply never once, in three centuries of drill, been given a reason to question it — until an order came down to let a district go dark on purpose.",
+      "Eleven companies answer to her wick-scepter, and she has never once let a street burn unwatched. She has not decided yet whether the Worldmender counts as a fire to put out or a name to relight."
+    ],
+    "priorRunOpenings": [
+      "The threshold wick was already lit when you reached it, same as always — the city remembers being entered even when it doesn't remember by whom.",
+      "You knew the company markers this time. The vigil round knew you knowing them.",
+      "The watch-lamp at the gate was already trimmed to your usual hour. You are becoming a familiar entry in someone's ledger.",
+      "The General's companies were already drilling when you arrived. She does not believe in being surprised twice, either."
+    ]
+  },
+  "midRunTemplates": [
+    "The {ordinalLower} walk through the Candle City. The watch-lamps light themselves a little sooner every time.",
+    "Campaign {n}. The lamplighter companies have a whole street reserved for you now, all of it already lit.",
+    "{n} vigils counted, by the round at the gate. You have stopped correcting the number.",
+    "Run {n}. The streets are the same length every time, and every time the flames seem to expect you.",
+    "The {ordinalLower} crossing. You know the company markers by name now. The city had names for them first."
+  ],
+  "introRules": [
+    {
+      "condition": {
+        "op": "gte",
+        "value": 10
+      },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:priorRunOpenings:1}"
+        },
+        {
+          "title": "THE CANDLE CITY",
+          "text": "{pool:cityDesc:1}\n\n{pool:generalDesc:1}"
+        }
+      ]
+    },
+    {
+      "condition": {
+        "op": "range",
+        "min": 2,
+        "max": 9
+      },
+      "panels": [
+        {
+          "title": "THE CANDLE CITY",
+          "text": "The threshold wick is freshly trimmed — again.\n\n{pool:priorRunOpenings:0}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:cityDesc:2}"
+        },
+        {
+          "title": "THE LAMPLIGHTER GENERAL",
+          "text": "{pool:generalDesc:0}"
+        }
+      ]
+    }
+  ],
+  "intro": [
+    {
+      "title": "THE INDEX OF THE LOST",
+      "text": "The Name-Eater folded shelf by shelf and left you an index bound from every name it ever catalogued — a record of what was lost, cross-referenced against what came back. Past the Archive's last reading-room, the shelving gives way to a skyline of ten thousand vigil flames.",
+      "image": "cutscenes/c2act5-intro-1.svg"
+    },
+    {
+      "title": "THE CANDLE CITY",
+      "text": "This is Amarath's second seat, and it is not a vault or a battlefield — it is a city, lit window by window by lamplighter companies who have kept the same doctrine for three centuries: light on the hour, snuff on the hour. The people here are ordinary. The Court's orders about you are not.",
+      "image": "cutscenes/c2act5-intro-2.svg"
+    },
+    {
+      "title": "THE LAMPLIGHTER GENERAL",
+      "text": "The Court has named the Worldmender an invading army and given the city's flame-keepers standing orders to treat you as one. The lamplighters are not the enemy — the Court is. But the General commands eleven companies who have never once questioned a lit window, and she will not start with you.",
+      "image": "cutscenes/c2act5-intro-3.svg"
+    }
+  ],
+  "outro": [
+    {
+      "title": "THE GENERAL'S ACCOUNTING",
+      "text": "She does not fall like a soldier. She lowers the wick-scepter the way a company stands down at dawn. \"Three centuries of doctrine,\" she says, \"and not one line of it said what to do with a fire that isn't ours to put out. Tell the Court that, if it still remembers how to listen.\" She hands you her scepter's wick. It is still warm.",
+      "image": "cutscenes/c2act5-outro-1.svg"
+    },
+    {
+      "title": "LAMPLIGHTER'S WICK",
+      "text": "It is a small thing to have cost so many companies so many centuries — a single wick that relights whatever the wax-fall smothers. Holding it, you understand the doctrine better than the General ever explained it: nothing is allowed to go out for good. Not even, it turns out, you.",
+      "image": "cutscenes/c2act5-outro-2.svg"
+    },
+    {
+      "title": "THE SUNKEN BORDER AHEAD",
+      "text": "Past the city's last lit gate, the road drops toward a coastline that came back wrong — towers standing in a tide that shouldn't reach them, drowned streets holding their shape underwater like a memory that refused to dissolve. Somewhere out past the new waterline, something is already watching the road come down to meet it.",
+      "image": "cutscenes/c2act5-outro-3.svg"
+    }
+  ],
+  "nodes": {
+    "threshold-wicks": {
+      "id": "threshold-wicks",
+      "type": "battle",
+      "label": "The Threshold Wicks",
+      "description": "Where the Archive's last reading-lamp gives way to the city's first vigil flame.",
+      "row": 0,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "the-first-district",
+        "the-outer-wards"
+      ],
+      "handicap": 22,
+      "opponentIntervalMs": 3000,
+      "opponentBaseHp": 246,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Wick Runner",
+        "Candle Acolyte",
+        "Lamplighter Cadet",
+        "Watch Lamp"
+      ]
+    },
+    "the-first-district": {
+      "id": "the-first-district",
+      "type": "battle",
+      "label": "The First District",
+      "description": "A tenement street still smelling of Archive dust from the threshold behind it.",
+      "row": 1,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-vigil-round",
+        "the-warming-hearth"
+      ],
+      "handicap": 24,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 254,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Wick Runner",
+        "Lamplighter Cadet",
+        "Wax Barricade",
+        "Wax Bearer",
+        "Swift Wick"
+      ]
+    },
+    "the-outer-wards": {
+      "id": "the-outer-wards",
+      "type": "battle",
+      "label": "The Outer Wards",
+      "description": "A ward garrisoned like it still needs guarding — because to the Court, it does.",
+      "row": 1,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-sealed-curfew",
+        "the-chandlers-cart"
+      ],
+      "handicap": 24,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 254,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Candle Acolyte",
+        "Sconce Archer",
+        "Watch Lamp",
+        "Sealed Sconce",
+        "Tallow Balm"
+      ]
+    },
+    "the-vigil-round": {
+      "id": "the-vigil-round",
+      "type": "event",
+      "label": "The Vigil Round",
+      "description": "The nightly round where a company checks every window on a street, one by one.",
+      "row": 2,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-company-line",
+        "mem-c2act5-1"
+      ],
+      "eventConfig": {
+        "title": "The Vigil Round",
+        "description": "A lamplighter sergeant walks the round with a taper and a ledger, checking every window on the street against a list three centuries long. She does not ask why you're watching. She only asks whether you intend to help carry the taper.",
+        "pools": [
+          [
+            {
+              "label": "Carry the taper for the round (lose 6 HP, gain a rare card)",
+              "consequence": "Every window checked costs a little of your own light. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the company's ration oil (gain 60 crystals)",
+              "consequence": "Oil set aside for a round that never quite runs short. You gain 60 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 60
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest at the company brazier (heal 10 HP)",
+              "consequence": "The brazier holds the dark back better than it has any right to. You heal 10 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 10
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the round to its street",
+              "consequence": "You leave the sergeant to her ledger.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-warming-hearth": {
+      "id": "the-warming-hearth",
+      "type": "rest",
+      "label": "The Warming Hearth",
+      "description": "A company hearth, kept lit for lamplighters coming off a cold round.",
+      "row": 2,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-company-line"
+      ],
+      "restHeal": 9
+    },
+    "the-sealed-curfew": {
+      "id": "the-sealed-curfew",
+      "type": "event",
+      "label": "The Sealed Curfew",
+      "description": "A watch-post posting curfew orders that read like they were never meant for a district this ordinary.",
+      "row": 2,
+      "col": 2,
+      "rowCols": 4,
+      "childIds": [
+        "the-unlit-row"
+      ],
+      "eventConfig": {
+        "title": "The Sealed Curfew",
+        "description": "The writ nailed to the post names every household on the ward and the hour each is due to go dark. It is signed by the Court, countersigned by nobody the ward has ever met, and dated the same day the vanguard crossed the Marches.",
+        "pools": [
+          [
+            {
+              "label": "Read the sealed curfew writ (lose 6 HP, gain a rare card)",
+              "consequence": "Every household named costs you something to read past. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the watch-post's oil cache (gain 70 crystals)",
+              "consequence": "A cache nobody on this ward was ever going to collect. You gain 70 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 70
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest behind the watch-post's shutters (heal 8 HP)",
+              "consequence": "Quieter than a curfew street has any right to be. You heal 8 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 8
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the writ unread",
+              "consequence": "Some orders are better left uncounted. You move on.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-chandlers-cart": {
+      "id": "the-chandlers-cart",
+      "type": "merchant",
+      "label": "The Chandler's Cart",
+      "description": "A chandler's cart parked at a ward that hasn't seen open trade in centuries.",
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-unlit-row"
+      ]
+    },
+    "the-company-line": {
+      "id": "the-company-line",
+      "type": "elite",
+      "label": "The Company Line",
+      "description": "A file of lamplighter sergeants holding the ward in strict, patient formation.",
+      "row": 3,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-deep-wards"
+      ],
+      "handicap": 28,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 270,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Company Sergeant",
+        "Wax Bearer",
+        "Beacon Tower",
+        "Sealed Sconce",
+        "Vigil Oil",
+        "Curfew Bell"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "mem-c2act5-1": {
+      "id": "mem-c2act5-1",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A founding charter of the very first lamplighter companies.",
+      "row": 3,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-deep-wards"
+      ],
+      "fragmentId": "c2act5-frag-1",
+      "environment": "citadel"
+    },
+    "the-unlit-row": {
+      "id": "the-unlit-row",
+      "type": "elite",
+      "label": "The Unlit Row",
+      "description": "A row of lamplighters, still holding posts for windows that keep going dark anyway.",
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-last-vigil"
+      ],
+      "handicap": 28,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 270,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Choir of Watch Flames",
+        "Hollow Snuffer",
+        "Candle Automaton",
+        "Company Courier",
+        "Wick Oil Cache",
+        "Tallow Balm"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "the-deep-wards": {
+      "id": "the-deep-wards",
+      "type": "battle",
+      "label": "The Deep Wards",
+      "description": "Streets garrisoned like a border, deep enough that the mist forgets to follow.",
+      "row": 4,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-final-taper"
+      ],
+      "handicap": 30,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 278,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Wax Bearer",
+        "Wax Barricade",
+        "Beacon Tower",
+        "Company Courier",
+        "Vigil Oil",
+        "Sconce Archer"
+      ]
+    },
+    "the-last-vigil": {
+      "id": "the-last-vigil",
+      "type": "battle",
+      "label": "The Last Vigil",
+      "description": "The city's final vigil-ward, where even the watch-lamps burn lower.",
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-final-taper",
+        "mem-c2act5-2"
+      ],
+      "handicap": 30,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 278,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Wickbound Knight",
+        "Company Courier",
+        "Candle Automaton",
+        "Curfew Bell",
+        "Wick Oil Cache",
+        "Hollow Snuffer"
+      ]
+    },
+    "the-final-taper": {
+      "id": "the-final-taper",
+      "type": "rest",
+      "label": "The Final Taper",
+      "description": "The last watch-lamp before the General's own ward. Someone has already trimmed its wick.",
+      "row": 5,
+      "col": 0,
+      "rowCols": 2,
+      "childIds": [
+        "lamplighter-node"
+      ],
+      "restHeal": 11
+    },
+    "mem-c2act5-2": {
+      "id": "mem-c2act5-2",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A lamplighter's log from the night a district's candles guttered.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "lamplighter-node"
+      ],
+      "fragmentId": "c2act5-frag-2",
+      "environment": "citadel"
+    },
+    "lamplighter-node": {
+      "id": "lamplighter-node",
+      "type": "boss",
+      "label": "The Lamplighter General",
+      "description": "Eleven companies end here, before a commander who has never once let a street burn unwatched.",
+      "row": 6,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
+      "handicap": 32,
+      "opponentIntervalMs": 5000,
+      "opponentBaseHp": 298,
+      "environment": "citadel",
+      "enemyDeck": [
+        "The Lamplighter General",
+        "Company Sergeant",
+        "Wickbound Knight",
+        "The Unbound Flame",
+        "Choir of Watch Flames",
+        "Beacon Sentry",
+        "Curfew Writ"
+      ],
+      "bossAI": "lamplighter",
+      "bossDialogue": [
+        "You crossed the Archive, Worldmender. The Name-Eater kept what the Court could not bear to lose. I keep what the Court will not let stay lit.",
+        "Three centuries of drill taught this company one doctrine: light on command, dark on command. The Court has named you an invading army. I have never once questioned an order before tonight.",
+        "Ten thousand flames answer to my scepter, and not one of them has ever asked permission to go out. I do not know yet if you're a fire to put out or a name I'm still owed. Let's find out."
+      ],
+      "bossCard": "The Lamplighter General"
+    }
+  }
+}
