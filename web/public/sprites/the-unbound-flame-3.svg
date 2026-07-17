@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Drift phase B: ember mass leans right, sparks trail left -->
+  <ellipse cx="17" cy="17" rx="12" ry="7" fill="#FFD27A" opacity="0.5"/>
+  <ellipse cx="13" cy="14" rx="7" ry="5" fill="#FFD27A" opacity="0.65"/>
+  <ellipse cx="22" cy="13" rx="6" ry="4.5" fill="#FFD27A" opacity="0.65"/>
+  <ellipse cx="17" cy="11" rx="8" ry="5" fill="#FFE9B0" opacity="0.8"/>
+  <ellipse cx="17" cy="14" rx="5" ry="3.6" fill="#E8B94A" opacity="0.6"/>
+  <rect x="16.4" y="11" width="1.2" height="10" rx="0.6" fill="#2B2F3E"/>
+  <path d="M17,11 Q23,9.5 22,15.5 Q19,13.5 17,11 Z" fill="#FFD27A"/>
+  <circle cx="14.5" cy="12" r="1.1" fill="#E8B94A"/>
+  <circle cx="19.5" cy="12" r="1.1" fill="#E8B94A"/>
+  <circle cx="14.5" cy="11.7" r="0.4" fill="#FFE08A"/>
+  <circle cx="19.5" cy="11.7" r="0.4" fill="#FFE08A"/>
+  <path d="M5,21 Q1.5,23 2,26.5 Q4,24.5 5.5,24 Z" fill="#FFD27A" opacity="0.5"/>
+  <path d="M25,24 Q23,27 25.5,29 Q26.5,26.5 28,25.5 Z" fill="#FFD27A" opacity="0.5"/>
+  <path d="M17,24 Q16,27.5 19,29 Q20,26.5 21,25 Z" fill="#FFD27A" opacity="0.45"/>
+</svg>
