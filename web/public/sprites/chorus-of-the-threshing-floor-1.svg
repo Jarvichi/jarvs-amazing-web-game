@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Three hooded threshers, sway left -->
+  <circle cx="8" cy="12" r="3.6" fill="#9FA3BC"/>
+  <path d="M4.4,12 Q8,7 11.6,12 L11.6,14 Q8,11.5 4.4,14 Z" fill="#7E8299"/>
+  <path d="M5,15 L4,29 L12,29 L11,15 Q8,16.5 5,15 Z" fill="#9FA3BC"/>
+  <circle cx="22" cy="11" r="3.6" fill="#9FA3BC"/>
+  <path d="M18.4,11 Q22,6 25.6,11 L25.6,13 Q22,10.5 18.4,13 Z" fill="#7E8299"/>
+  <path d="M19,14 L18,28 L26,28 L25,14 Q22,15.5 19,14 Z" fill="#9FA3BC"/>
+  <circle cx="15" cy="10" r="4.2" fill="#C9CBDA"/>
+  <path d="M10.8,10 Q15,4.5 19.2,10 L19.2,12.5 Q15,9.5 10.8,12.5 Z" fill="#454E6B"/>
+  <ellipse cx="15" cy="11.5" rx="1" ry="1.4" fill="#3A3F55"/>
+  <path d="M11.5,14 L10,31 L20,31 L18.5,14 Q15,16 11.5,14 Z" fill="#C9CBDA"/>
+  <rect x="12.5" y="18" width="5" height="1.1" fill="#7E8299"/>
+  <circle cx="11" cy="5" r="0.9" fill="#E8DCA8"/>
+  <rect x="11.7" y="2.5" width="0.6" height="3" fill="#E8DCA8"/>
+  <circle cx="19" cy="4.5" r="0.9" fill="#E8DCA8"/>
+  <rect x="19.7" y="2" width="0.6" height="3" fill="#E8DCA8"/>
+  <ellipse cx="15" cy="30.5" rx="9" ry="1.8" fill="#D9C27E" opacity="0.25"/>
+</svg>
