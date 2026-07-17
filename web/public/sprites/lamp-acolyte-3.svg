@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Hooded head (body 1px lower mid-stride) -->
+  <circle cx="16" cy="10" r="5" fill="#7E8299"/>
+  <path d="M11,10 Q16,3 21,10 L21,12 Q16,9 11,12 Z" fill="#5E6A8C"/>
+  <circle cx="16" cy="11" r="3" fill="#E3D9CF"/>
+  <circle cx="15" cy="11" r="0.7" fill="#2B2F3E"/>
+  <circle cx="17.5" cy="11" r="0.7" fill="#2B2F3E"/>
+  <!-- Robed body -->
+  <path d="M12,15 L11,24 L21,24 L20,15 Q16,17 12,15 Z" fill="#7E8299"/>
+  <rect x="13" y="18" width="6" height="1.2" fill="#5E6A8C"/>
+  <!-- Held reading-lamp -->
+  <circle cx="7.8" cy="10" r="5" fill="#FFB347" opacity="0.15"/>
+  <rect x="7" y="11" width="1.6" height="12" rx="0.8" fill="#454E6B"/>
+  <rect x="5.5" y="8" width="4.6" height="4" rx="1" fill="#E8B94A"/>
+  <circle cx="7.8" cy="10" r="1" fill="#FFE08A"/>
+  <!-- Sealed book at hip -->
+  <rect x="20" y="16" width="3.5" height="4.5" rx="0.6" fill="#2B2F3E"/>
+  <rect x="20.4" y="16.4" width="2.7" height="3.7" fill="#F2E9D8"/>
+  <!-- Legs stride B -->
+  <rect x="18" y="24" width="3.5" height="7" rx="1" fill="#454E6B"/>
+  <rect x="10" y="24" width="3.5" height="5.5" rx="1" fill="#454E6B"/>
+  <rect x="18" y="29" width="5.5" height="2.6" rx="1" fill="#3A3F55"/>
+  <rect x="9" y="27.5" width="5" height="2.6" rx="1" fill="#3A3F55"/>
+</svg>
