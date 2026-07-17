@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Wick-scepter pole -->
+  <rect x="25" y="2" width="1.6" height="26" rx="0.8" fill="#7E8299"/>
+  <path d="M26.6,2.5 Q32.5,4 30.5,9.5 Q27.8,6.5 26.6,2.5 Z" fill="#C9CBDA"/>
+  <circle cx="26.6" cy="3" r="0.9" fill="#E8B94A"/>
+  <!-- Command-helm, crowned in watch-flames -->
+  <rect x="10.5" y="3.5" width="11" height="9" rx="2.5" fill="#2B2F3E"/>
+  <path d="M11,3.5 Q13,0 15,3 Q16,0.5 17,3 Q19,0 21,3.5 Z" fill="#F2E9D8"/>
+  <circle cx="12.5" cy="1.6" r="0.9" fill="#FFE08A"/>
+  <circle cx="16" cy="0.8" r="0.9" fill="#FFE08A"/>
+  <circle cx="19.5" cy="1.6" r="0.9" fill="#FFE08A"/>
+  <rect x="11.5" y="7.5" width="9" height="2" fill="#454E6B"/>
+  <circle cx="14" cy="8.5" r="0.8" fill="#FFB347"/>
+  <circle cx="18" cy="8.5" r="0.8" fill="#FFB347"/>
+  <!-- Massive command-cloak -->
+  <path d="M8,13 L7,27 L25,27 L24,13 Q16,16.5 8,13 Z" fill="#454E6B"/>
+  <path d="M8,13 L7,27 L11,27 L11.5,14.5 Z" fill="#2B2F3E"/>
+  <rect x="9" y="17" width="15" height="1.4" fill="#2B2F3E"/>
+  <rect x="9" y="21" width="15" height="1.4" fill="#2B2F3E"/>
+  <!-- Company chest sigil -->
+  <circle cx="16.5" cy="19.6" r="2.1" fill="#E8B94A"/>
+  <circle cx="16.5" cy="19.6" r="1.1" fill="#FFE08A"/>
+  <!-- Pauldrons -->
+  <circle cx="8.5" cy="14" r="3.2" fill="#2B2F3E"/>
+  <circle cx="23.5" cy="14" r="3.2" fill="#2B2F3E"/>
+  <!-- Curfew-bell held out -->
+  <rect x="1.5" y="18.5" width="1.2" height="7" fill="#7E8299"/>
+  <rect x="0" y="16" width="8" height="1.2" rx="0.6" fill="#2B2F3E"/>
+  <line x1="1.4" y1="17.2" x2="1.4" y2="20.4" stroke="#7E8299" stroke-width="0.5"/>
+  <path d="M-0.6,20.4 Q1.4,22.6 3.4,20.4 Z" fill="#F2E9D8"/>
+  <line x1="6.6" y1="17.2" x2="6.6" y2="20.4" stroke="#7E8299" stroke-width="0.5"/>
+  <path d="M4.6,20.4 Q6.6,22.6 8.6,20.4 Z" fill="#F2E9D8"/>
+  <!-- Legs -->
+  <rect x="11" y="27" width="4.5" height="4" rx="1" fill="#2B2F3E"/>
+  <rect x="17" y="27" width="4.5" height="4" rx="1" fill="#2B2F3E"/>
+  <!-- Mist at feet -->
+  <ellipse cx="16" cy="30" rx="11" ry="1.8" fill="#E8EAF4" opacity="0.4"/>
+</svg>
