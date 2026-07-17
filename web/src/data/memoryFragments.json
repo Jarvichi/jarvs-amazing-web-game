@@ -222,5 +222,19 @@
     "nodeId": "mem-c2act3-2",
     "title": "Fragment: The Gleaner's Ledger",
     "body": "A GLEANER'S PERSONAL LEDGER, RECOVERED FROM THE UNREMEMBERED FIELDS\n\n'Row 40, east furrow: gleaned a woman's wedding song, three verses, tune intact. Left it with the miller's widow — it was hers before the dark, though she does not remember losing it, only finding it again.\n\nRow 6, west furrow: gleaned the taste of a fruit that no longer grows anywhere in Amarath. Could not find its owner. Filed under: unclaimed.\n\nRow 51: gleaned a child's fear of the mist. Did not return it. Some things are kinder gleaned than kept.\n\nThe Queen asks me, some evenings, whether I have ever gleaned something that wasn't ours to take back — some scrap of the wider Dominion's own forgetting, blown into our furrows on a wind we didn't ask for. I tell her no. I have started keeping a second ledger, in a hand she does not know, in case the answer changes.'"
+  },
+  {
+    "id": "c2act4-frag-1",
+    "actId": "c2act4",
+    "nodeId": "mem-c2act4-1",
+    "title": "Fragment: The Founding Shelving",
+    "body": "FOUNDING RECORD OF THE ARCHIVE OF NAMES — FIRST SHELVING, YEAR ONE OF THE DARK\n\n'Every name the void took arrived the same way: unannounced, unattached to a face, and impossible to put down. The first archivists tried burning them, out of mercy, and found that a burned name comes back anyway, worse for the burning. So the King's order changed: nothing erased is to be destroyed. Everything erased is to be shelved.\n\nWe built the first wing in nine days, out of whatever stone the fields would spare. It was full in six. We built a second wing. It was full in four. We have not stopped building since, and we have never once caught up to what the world keeps forgetting.\n\nThe rite-keepers say a shelved name is a name that can still, someday, be read back to whoever it belonged to. I believe them, because the alternative is that we are only building a very large grave and calling it a library.\n\nEntry ends. Wing eleven opens next season. We are already behind on wing twelve.'"
+  },
+  {
+    "id": "c2act4-frag-2",
+    "actId": "c2act4",
+    "nodeId": "mem-c2act4-2",
+    "title": "Fragment: The Librarian's Note",
+    "body": "A LIBRARIAN'S PERSONAL NOTE, PINNED INSIDE THE DEEP STACKS\n\n'It appeared the day wing four sealed its last shelf — nobody built it, nobody summoned it, it was simply between the registers the next morning, reading them in an order none of us had catalogued. We called the Court. The Court came, looked at it for a long while, and then did something I did not expect: it left the thing exactly where it was, and appointed it Warden of the Deep Stacks.\n\nI asked the Court steward why. She said: because it has never once misfiled a name, and because a thing that hungers for what's already lost is safer than a thing that hungers for what isn't. I did not find that reassuring. I still don't.\n\nIt has fed on names nobody claimed for three hundred years now. It has also, in that time, returned eleven names to archivists who didn't know they were owed one. I keep a running count of both numbers. I am not certain which one is supposed to make me feel better.\n\nIt does not speak often. When it does, it only ever asks one question: whose name is next.'"
   }
 ]
