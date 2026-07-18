@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import * as PIXI from 'pixi.js'
 import rollbar from '../rollbar'
 import { noteContextCreated, noteContextDestroyed, getGlStats } from '../utils/pixiTelemetry'
-import { createContextLossController, type ContextLossEvent } from './pixiContextLossController'
+import { createContextLossController, type ContextLossEvent, type ContextLossEventData } from './pixiContextLossController'
 import { journal } from '../utils/resumeJournal'
 
 /**
@@ -67,9 +67,9 @@ function releaseCanvasBackingStore(canvas: HTMLCanvasElement) {
 // A browser that backgrounds a tab long enough to reclaim its GPU context often
 // never fires webglcontextrestored on the old context — recovery instead relies
 // on requesting a brand-new context on a brand-new canvas. Cap consecutive
-// rebuild attempts (the counter re-arms after each success) so a hard GPU
-// failure (context lost immediately on every new context too) logs and gives
-// up instead of spinning forever.
+// rebuild attempts (the counter re-arms after each success, and again on each
+// foreground resume) so a hard GPU failure (context lost immediately on every
+// new context too) pauses and logs instead of spinning in a tight loop.
 const MAX_CONTEXT_REBUILD_ATTEMPTS = 3
 
 export function usePixiApp(
@@ -126,7 +126,7 @@ export function usePixiApp(
     // Live Rollbar events fired while the tab is hidden are often never
     // delivered on mobile — the journal entries are the reliable record and are
     // flushed as one event at the next boot or foreground resume.
-    const notify = (event: ContextLossEvent, data: { attempts: number; hidden: boolean }) => {
+    const notify = (event: ContextLossEvent, data: ContextLossEventData) => {
       const payload = { ...contextInfo, ...getGlStats(), rebuildAttempts: data.attempts, visibility: document.visibilityState }
       switch (event) {
         case 'contextlost':
@@ -147,6 +147,14 @@ export function usePixiApp(
         case 'rebuild-given-up':
           rollbar?.error('[usePixiApp] webglcontextlost — giving up after repeated rebuild failures', payload)
           journal('rebuild-given-up', { attempts: data.attempts })
+          break
+        case 'retry-scheduled':
+          // The init failure itself was already reported by buildApp's catch.
+          journal('init-retry-scheduled', { attempts: data.attempts, delayMs: data.delayMs })
+          break
+        case 'budget-rearmed':
+          rollbar?.info('[usePixiApp] foreground resume after give-up — re-arming rebuild budget', payload)
+          journal('budget-rearmed', {})
           break
       }
     }
@@ -211,7 +219,7 @@ export function usePixiApp(
         rollbar?.error(isRebuild ? '[usePixiApp] rebuild after context loss failed' : '[usePixiApp] app.init failed', {
           message: (e as Error)?.message, ...contextInfo, ...getGlStats(), isRebuild, rebuildAttempts: controller.attempts(),
         })
-        if (isRebuild) journal('rebuild-failed', { message: (e as Error)?.message })
+        journal(isRebuild ? 'rebuild-failed' : 'init-failed', { message: (e as Error)?.message })
         // Release any partial WebGL context created before the failure to prevent
         // context accumulation that crashes the browser after repeated navigations.
         try {
@@ -220,6 +228,10 @@ export function usePixiApp(
           releaseCanvasBackingStore(app.canvas as HTMLCanvasElement)
         } catch { /* partial init — best effort */ }
         if (appRef.current === app) appRef.current = null
+        // A failed init is usually transient memory/GPU pressure (the black-
+        // screen-on-fresh-tab scenario) — retry on a backoff instead of leaving
+        // a permanently empty canvas.
+        if (!destroyed) controller.onInitFailed()
       })
     }
 
@@ -231,7 +243,12 @@ export function usePixiApp(
     // during a hidden-tab context loss actually runs.
     const isContextLost = (): boolean => {
       const app = appRef.current
-      if (!initialized || !app || !app.renderer) return false
+      // No app at all means a failed init discarded it — the canvas is missing
+      // and needs a rebuild, which is a loss for the probe's purposes.
+      if (!app) return true
+      if (!initialized) return false  // init still in flight — let it finish
+      // Initialised app whose renderer is gone: context evicted out from under us.
+      if (!app.renderer) return true
       if (app.renderer.name !== 'webgl') return false  // WebGPU/canvas renderers need different handling; not used today
       const gl = (app.renderer as PIXI.WebGLRenderer).gl
       return !gl || gl.isContextLost()
@@ -245,6 +262,7 @@ export function usePixiApp(
     return () => {
       document.removeEventListener('visibilitychange', visibilityHandler)
       destroyed = true
+      controller.dispose()
       if (initialized && appRef.current) {
         teardown(appRef.current)
       }
