@@ -8,9 +8,11 @@ import {
 
 interface Props {
   onBack: () => void
+  previewAsPlayer: boolean
+  onTogglePreviewAsPlayer: () => void
 }
 
-export function TownAccessAdminScreen({ onBack }: Props) {
+export function TownAccessAdminScreen({ onBack, previewAsPlayer, onTogglePreviewAsPlayer }: Props) {
   const [enabled, setEnabled] = useState<Set<string>>(new Set())
   const [loading, setLoading] = useState(true)
   const [status, setStatus] = useState<string | null>(null)
@@ -34,6 +36,26 @@ export function TownAccessAdminScreen({ onBack }: Props) {
 
   return (
     <OverlayScreen title="TOWN ACCESS" onBack={onBack}>
+      <Section bordered title="Preview">
+        <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
+          <div>
+            <div className="settings-label">Preview as player</div>
+            <div className="settings-sublabel">
+              See the world map fogged over exactly like a non-admin player would.
+              Come back here (or Settings) to turn it back off.
+            </div>
+          </div>
+          <div
+            className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select"
+            onClick={onTogglePreviewAsPlayer}
+          >
+            <div className={`settings-toggle-track${previewAsPlayer ? ' settings-toggle-track--on' : ''}`}>
+              <div className="settings-toggle-thumb" />
+            </div>
+          </div>
+        </div>
+      </Section>
+
       <Section title="Always Open">
         <div className="settings-sublabel" style={{ marginBottom: '6px' }}>
           These towns are reachable by every player and cannot be locked.
@@ -48,7 +70,8 @@ export function TownAccessAdminScreen({ onBack }: Props) {
       <Section bordered title="Toggleable Towns">
         <div className="settings-sublabel" style={{ marginBottom: '6px' }}>
           Locked towns are unreachable for regular players — on the world map and via
-          in-town exits — until enabled here. Your admin account always has full access.
+          in-town exits — until enabled here. Your admin account always has full access,
+          unless "Preview as player" above is on.
         </div>
         {loading && <div className="settings-sublabel">Loading…</div>}
         {!loading && TOGGLEABLE_LOCATIONS.map(({ id, label }) => {

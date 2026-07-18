@@ -80,3 +80,19 @@ export function isTownAccessible(locationId: string, enabledTownIds: Set<string>
   if (ALWAYS_OPEN_LOCATION_IDS.includes(locationId)) return true
   return enabledTownIds.has(locationId)
 }
+
+// ── Admin "preview as player" toggle ────────────────────────────────────────
+// Local-only per-device flag: while on, the admin account's town-access
+// bypass is suppressed so they see the fogged world map exactly as a regular
+// player would. Doesn't affect anything else admin-only (Settings stays
+// reachable so it can be switched back off).
+
+const PREVIEW_AS_PLAYER_KEY = 'jarv_town_access_preview_as_player'
+
+export function loadPreviewAsPlayer(): boolean {
+  try { return localStorage.getItem(PREVIEW_AS_PLAYER_KEY) === 'true' } catch { return false }
+}
+
+export function savePreviewAsPlayer(value: boolean): void {
+  try { localStorage.setItem(PREVIEW_AS_PLAYER_KEY, String(value)) } catch { /* ignore */ }
+}

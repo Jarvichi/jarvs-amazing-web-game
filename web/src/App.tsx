@@ -92,7 +92,7 @@ import { LoginModal }        from './components/modals/LoginModal'
 import { InventoryScreen }   from './components/screens/InventoryScreen'
 import { markDailyRewardClaimed, addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
 import { applyGiftRewards, GiftDef, GIFT_OWNER_UID } from './game/gifts'
-import { fetchEnabledTownIds, isTownAccessible } from './game/townAccess'
+import { fetchEnabledTownIds, isTownAccessible, loadPreviewAsPlayer, savePreviewAsPlayer } from './game/townAccess'
 import { NewsScreen }      from './components/screens/NewsScreen'
 import { NewsAdminScreen } from './components/admin/NewsAdminScreen'
 import { CampaignAdminScreen } from './components/admin/CampaignAdminScreen'
@@ -561,15 +561,19 @@ export default function App() {
   useEffect(() => {
     fetchEnabledTownIds().then(ids => setEnabledTownIds(new Set(ids)))
   }, [])
+  // "Preview as player" lets the admin see the fogged map as a regular
+  // player would, by suppressing their own town-access bypass.
+  const [previewAsPlayer, setPreviewAsPlayer] = useState<boolean>(loadPreviewAsPlayer)
+  const bypassTownAccess = isAdmin && !previewAsPlayer
   const restrictedTownNodeIds = useMemo(() => {
     const ids = new Set<string>()
     for (const node of WORLD_MAP_NODES) {
-      if (node.locationKey && !isTownAccessible(node.locationKey, enabledTownIds, isAdmin)) {
+      if (node.locationKey && !isTownAccessible(node.locationKey, enabledTownIds, bypassTownAccess)) {
         ids.add(node.id)
       }
     }
     return ids
-  }, [enabledTownIds, isAdmin])
+  }, [enabledTownIds, bypassTownAccess])
 
   // Per-battle misc achievement flags
   const battleFlawlessRef    = useRef(true)
@@ -1312,12 +1316,12 @@ export default function App() {
       setCurrentLocationKey('ravenwatch')
       setScreen('hubworld')
     } else if (LOCATION_REGISTRY[id]) {
-      if (!isTownAccessible(id, enabledTownIds, isAdmin)) return
+      if (!isTownAccessible(id, enabledTownIds, bypassTownAccess)) return
       setCurrentWorldLocation(id)
       setCurrentLocationKey(id)
       setScreen('location')
     }
-  }, [enabledTownIds, isAdmin])
+  }, [enabledTownIds, bypassTownAccess])
 
   // Re-run the current world-map battle after a loss ("Try Again").
   const handleWorldBattleRetry = useCallback(() => {
@@ -3031,6 +3035,7 @@ export default function App() {
           onPlayerTap={() => { setReturnScreen('hubworld'); setScreen('player') }}
           onFeedback={() => setFeedbackOpen(true)}
           restrictedNodeIds={restrictedTownNodeIds}
+          previewingAsPlayer={isAdmin && previewAsPlayer}
         />
       )}
 
@@ -3070,7 +3075,15 @@ export default function App() {
       )}
 
       {screen === 'townAccessAdmin' && (
-        <TownAccessAdminScreen onBack={() => setScreen('settings')} />
+        <TownAccessAdminScreen
+          onBack={() => setScreen('settings')}
+          previewAsPlayer={previewAsPlayer}
+          onTogglePreviewAsPlayer={() => {
+            const next = !previewAsPlayer
+            savePreviewAsPlayer(next)
+            setPreviewAsPlayer(next)
+          }}
+        />
       )}
 
       {screen === 'sceneryPreview' && (
