@@ -291,8 +291,10 @@ function formatTimeAgo(date: Date): string {
 }
 
 export default function App() {
-  // ── PWA auto-update ───────────────────────────────────────────────────────────
+  // ── PWA update (prompt mode) ──────────────────────────────────────────────────
   const swRegRef = useRef<ServiceWorkerRegistration | null>(null)
+  // Lets the player dismiss the update prompt for the rest of the session.
+  const [updateDismissed, setUpdateDismissed] = useState(false)
   const { needRefresh: [needRefresh], updateServiceWorker } = useRegisterSW({
     onRegisteredSW(_url, r) {
       swRegRef.current = r ?? null
@@ -305,23 +307,28 @@ export default function App() {
       }
     },
     onNeedRefresh() {
-      journal('sw-need-refresh')
-      rollbar?.info('[sw] update available — applying skipWaiting')
-      updateServiceWorker(true)
+      // Prompt mode: don't auto-apply. Surface the toast (driven by needRefresh)
+      // and let the player reload at a safe moment. Auto-reloading here is what
+      // black-screened memory-pressured devices on resume.
+      journal('sw-update-available')
+      rollbar?.info('[sw] update available — awaiting player confirmation')
     },
   })
-  // Attached at mount (synchronously, before any async SW lifecycle callbacks)
-  // so we never miss the controllerchange event when skipWaiting activates a
-  // new service worker before onRegisteredSW has run.
+  // Reload once the new SW takes control. In prompt mode the new SW only
+  // activates after the player taps UPDATE (updateServiceWorker posts
+  // SKIP_WAITING) — or when another tab accepts the update — so this no longer
+  // fires spontaneously on resume. Attached at mount so we never miss the
+  // controllerchange event.
   useEffect(() => {
     if (!navigator.serviceWorker) return
     let reloading = false
     const handler = () => {
       if (reloading) return
       reloading = true
-      // Journaled (not just logged live) because this reload typically fires
-      // right at foreground resume, when a live Rollbar event has no time to
-      // send — the journal entry survives the reload and is flushed at boot.
+      // Journaled (not just logged live) because a live Rollbar event may not
+      // have time to send before the reload — the journal entry survives it and
+      // is flushed at boot. A reload with no preceding sw-update-accepted this
+      // session means another tab accepted the update.
       journal('sw-controllerchange-reload', { visibility: document.visibilityState })
       window.location.reload()
     }
@@ -3647,6 +3654,32 @@ export default function App() {
               <span className="ach-toast-sub">Achievement unlocked!</span>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Service-worker update prompt — replaces the old force-reload-on-resume.
+          The player reloads on their terms; dismiss hides it for the session. */}
+      {needRefresh && !updateDismissed && (
+        <div className="sw-update-toast">
+          <span className="sw-update-toast-text">A new version is available.</span>
+          <div className="sw-update-toast-actions">
+            <button
+              className="action-btn action-btn--sm"
+              onClick={() => {
+                journal('sw-update-accepted')
+                updateServiceWorker(true)
+              }}
+            >
+              UPDATE
+            </button>
+            <button
+              className="sw-update-toast-dismiss"
+              aria-label="Dismiss update"
+              onClick={() => setUpdateDismissed(true)}
+            >
+              ×
+            </button>
+          </div>
         </div>
       )}
 

@@ -7568,6 +7568,42 @@ body {
   to   { opacity: 1; transform: translateX(0); }
 }
 
+/* ── Service-worker update prompt ─────────────────────────── */
+
+.sw-update-toast {
+  position: fixed;
+  bottom: 80px;
+  left: 12px;
+  z-index: 9000;
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #0a1420;
+  border: 1px solid #2a5a8a;
+  color: #88ccff;
+  font-size: var(--font-sm);
+  padding: 10px 12px;
+  box-shadow: 0 2px 8px rgba(0, 120, 255, 0.12);
+  animation: ach-toast-in 0.3s ease;
+}
+
+.sw-update-toast-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sw-update-toast-dismiss {
+  background: none;
+  border: none;
+  color: #4a7aaa;
+  font-size: var(--font-md);
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
 /* ── Hall of Achievements ───────────────────────────────────────────────── */
 
 .hoa-tabs {
