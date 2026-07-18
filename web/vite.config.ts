@@ -14,10 +14,15 @@ export default defineConfig({
     __BUILD_DATE__: JSON.stringify(new Date().toISOString())
   },
   plugins: [react(), VitePWA({
-    registerType: 'autoUpdate',
+    // 'prompt' (not 'autoUpdate') so a newly-installed SW never applies itself:
+    // the app surfaces a "new version" prompt and only reloads when the player
+    // accepts. Combined with removing skipWaiting/clientsClaim below, this stops
+    // the force-reload-on-resume that black-screened memory-pressured devices.
+    registerType: 'prompt',
     workbox: {
-      skipWaiting: true,
-      clientsClaim: true,
+      // No skipWaiting/clientsClaim: the new SW waits in the background until
+      // the app calls updateServiceWorker(true) on the player's tap. Until then
+      // the old SW keeps serving a consistent asset set (no stale-chunk risk).
       // Cache all static assets with cache-first strategy
       globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
       runtimeCaching: [{
