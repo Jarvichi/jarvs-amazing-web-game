@@ -749,7 +749,8 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
         fogCtx.fillStyle = 'rgba(195,200,210,0.94)'
         fogCtx.fillRect(0, 0, mapWidth, mapHeight)
         fogCtx.globalCompositeOperation = 'destination-out'
-        fogCtx.lineCap = 'round'
+        fogCtx.lineCap  = 'round'
+        fogCtx.lineJoin = 'round'
 
         const seenEdges = new Set<string>()
         for (const node of Object.values(worldMap.nodes)) {
@@ -773,8 +774,15 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
             const target = worldMap.nodes[connId]
             if (!target || target.x === undefined || target.y === undefined) continue
 
+            // Follow the same elbow route (horizontal → vertical → horizontal via
+            // the midpoint column) that buildWorldPathTiles draws the road tiles
+            // along, so the reveal swath fully covers the actual bent road art
+            // instead of just a straight line between the two node centers.
+            const midX = (node.x + target.x) / 2
             const path = new Path2D()
             path.moveTo(node.x, node.y)
+            path.lineTo(midX, node.y)
+            path.lineTo(midX, target.y)
             path.lineTo(target.x, target.y)
             fogCtx.strokeStyle = 'rgba(0,0,0,1)'
             fogCtx.globalAlpha = 0.45
