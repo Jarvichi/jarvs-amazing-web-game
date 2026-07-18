@@ -133,9 +133,6 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
         {fogTapped && (
           <div className="nm-peek-backdrop" onClick={() => setFogTapped(false)}>
             <div className="nm-peek-panel" onClick={e => e.stopPropagation()}>
-              <div className="nm-peek-header u-col u-items-c u-gap-1">
-                <span className="nm-peek-icon">🌫</span>
-              </div>
               <div className="nm-peek-desc" style={{ textAlign: 'center' }}>
                 The fog is too thick to proceed.
               </div>
