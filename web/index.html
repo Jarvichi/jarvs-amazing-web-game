@@ -27,7 +27,7 @@
       captureUnhandledRejections: true,
       ignoredMessages: [/runtime\.sendMessage/],
       payload: {
-        environment: (window.location.hostname === 'jawg.uk' || window.location.hostname.includes('github.io'))
+        environment: (window.location.hostname === 'jawg.uk' || window.location.hostname === 'jarvichi.github.io')
           ? 'production'
           : window.location.hostname === 'localhost'
           ? 'development'
