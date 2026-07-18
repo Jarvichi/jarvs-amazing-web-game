@@ -122,6 +122,30 @@ export function usePixiApp(
       initialized = false
     }
 
+    // User-visible fallback shown when automatic recovery gives up: replaces
+    // the silent black canvas with a message and a RETRY button that resets
+    // the attempt budget. Removed whenever a build starts (manual retry or a
+    // resume-triggered rebuild) and on unmount.
+    let fallbackEl: HTMLDivElement | null = null
+    const removeFallback = () => {
+      fallbackEl?.remove()
+      fallbackEl = null
+    }
+    const showFallback = () => {
+      if (fallbackEl || destroyed) return
+      const el = document.createElement('div')
+      el.style.cssText = 'display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;min-height:160px;text-align:center;'
+      const msg = document.createElement('p')
+      msg.textContent = 'Graphics failed to load.'
+      const btn = document.createElement('button')
+      btn.className = 'action-btn'
+      btn.textContent = 'RETRY'
+      btn.onclick = () => controller.manualRetry()
+      el.append(msg, btn)
+      container.appendChild(el)
+      fallbackEl = el
+    }
+
     // Maps recovery state transitions to Rollbar + the persisted resume journal.
     // Live Rollbar events fired while the tab is hidden are often never
     // delivered on mobile — the journal entries are the reliable record and are
@@ -147,6 +171,7 @@ export function usePixiApp(
         case 'rebuild-given-up':
           rollbar?.error('[usePixiApp] webglcontextlost — giving up after repeated rebuild failures', payload)
           journal('rebuild-given-up', { attempts: data.attempts })
+          showFallback()
           break
         case 'retry-scheduled':
           // The init failure itself was already reported by buildApp's catch.
@@ -173,6 +198,7 @@ export function usePixiApp(
     // webglcontextlost (isRebuild=true) — logged distinctly from the initial
     // mount so Rollbar shows whether recovery actually completed.
     const buildApp = (isRebuild: boolean) => {
+      removeFallback()
       initialized = false
       const buildStartedAt = Date.now()
       const app = new PIXI.Application()
@@ -263,6 +289,7 @@ export function usePixiApp(
       document.removeEventListener('visibilitychange', visibilityHandler)
       destroyed = true
       controller.dispose()
+      removeFallback()
       if (initialized && appRef.current) {
         teardown(appRef.current)
       }
