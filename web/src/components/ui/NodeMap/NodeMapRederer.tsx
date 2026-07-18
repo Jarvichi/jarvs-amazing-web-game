@@ -32,6 +32,7 @@ interface Props {
   run?: RunState               // campaign mode: required when clearedNodeIds absent
   clearedNodeIds?: Set<string> // world mode: required when run absent
   restrictedNodeIds?: Set<string> // world mode: towns locked by admin town-access setting
+  onFoggedTap?: (node: QuestNode) => void // world mode: tapped a restrictedNodeIds town
   mapWidth?: number            // override canvas width (world map uses 700)
   mapHeight?: number           // override canvas height (world map uses 520)
   setPeekNode: (node: QuestNode | null) => void
@@ -590,7 +591,7 @@ function updateMarkerStyle(
 
 // ── Main component ─────────────────────────────────────────────────────────────
 
-export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNodeIds, mapWidth: mapWidthProp, mapHeight: mapHeightProp, setPeekNode, showPaths }: Props) {
+export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNodeIds, onFoggedTap, mapWidth: mapWidthProp, mapHeight: mapHeightProp, setPeekNode, showPaths }: Props) {
   const isFreeform = useMemo(() => Object.values(worldMap.nodes).some(n => n.x !== undefined), [worldMap.nodes])
 
   const availableIds      = useMemo(() => run ? getAvailableNodeIds(worldMap.nodes, run) : [], [worldMap.nodes, run])
@@ -669,6 +670,33 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
 
       for (const node of Object.values(worldMap.nodes)) {
         if (deadRef.current) return
+
+        // Admin-disabled town: hidden under fog instead of the usual lock icon.
+        // Still tappable so a curious player learns why, but never walked to or peeked.
+        if (restrictedNodeIds?.has(node.id)) {
+          const fogContainer = new PIXI.Container()
+          fogContainer.position.set(node.x!, node.y!)
+
+          const fog = new PIXI.Graphics()
+          for (const [ox, oy, r] of [[0, 0, 22], [-13, 5, 14], [13, 5, 14], [0, -11, 15]] as const) {
+            fog.circle(ox, oy, r).fill({ color: 0xaaaaaa, alpha: 0.5 })
+          }
+          fogContainer.addChild(fog)
+
+          const fogIcon = new PIXI.Text({ text: '🌫',
+            style: { fontSize: 16, fontFamily: 'monospace' } })
+          fogIcon.anchor.set(0.5)
+          fogContainer.addChild(fogIcon)
+
+          makeClickable(fogContainer, () => {
+            if (isWalkingRef.current) return
+            onFoggedTap?.(node)
+          })
+
+          worldLayer.addChild(fogContainer)
+          continue
+        }
+
         const available = getWorldNodeStatus(node, clearedNodeIds ?? new Set(), restrictedNodeIds) !== 'locked'
         const isCurrent = node.id === currentLocation
         const container = new PIXI.Container()

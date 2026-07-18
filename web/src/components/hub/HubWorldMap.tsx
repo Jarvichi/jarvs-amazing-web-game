@@ -36,6 +36,7 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
   const [peekNode, setPeekNode] = useState<WorldNodeDef | null>(null)
   const [questsOpen, setQuestsOpen] = useState(false)
   const [wrongSave, setWrongSave]   = useState<{ cards: number; crystals: number; deck: number } | null>(null)
+  const [fogTapped, setFogTapped]   = useState(false)
 
   const { isNight: isGameNight } = useHubClock()
   const playerName = loadPlayerName()
@@ -113,6 +114,7 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
           worldMap={WORLD_MAP}
           clearedNodeIds={clearedNodeIds}
           restrictedNodeIds={restrictedNodeIds}
+          onFoggedTap={() => setFogTapped(true)}
           mapWidth={1600}
           mapHeight={1400}
           setPeekNode={setPeekNode}
@@ -127,6 +129,21 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
             onEnter={() => { setPeekNode(null); onSelectNode(peekNode) }}
             onClose={() => setPeekNode(null)}
           />
+        )}
+        {fogTapped && (
+          <div className="nm-peek-backdrop" onClick={() => setFogTapped(false)}>
+            <div className="nm-peek-panel" onClick={e => e.stopPropagation()}>
+              <div className="nm-peek-header u-col u-items-c u-gap-1">
+                <span className="nm-peek-icon">🌫</span>
+              </div>
+              <div className="nm-peek-desc" style={{ textAlign: 'center' }}>
+                The fog is too thick to proceed.
+              </div>
+              <div className="nm-peek-actions u-flex u-gap-4">
+                <button className="action-btn nm-peek-back-btn u-grow" onClick={() => setFogTapped(false)}>BACK</button>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </OverlayScreen>
