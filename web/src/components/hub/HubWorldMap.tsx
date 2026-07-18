@@ -30,9 +30,10 @@ interface Props {
   onPlayerTap?:  () => void
   onFeedback?:   () => void
   restrictedNodeIds?: Set<string>
+  previewingAsPlayer?: boolean
 }
 
-export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, onPlayerTap, onFeedback, restrictedNodeIds }: Props) {
+export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, onPlayerTap, onFeedback, restrictedNodeIds, previewingAsPlayer }: Props) {
   const [peekNode, setPeekNode] = useState<WorldNodeDef | null>(null)
   const [questsOpen, setQuestsOpen] = useState(false)
   const [wrongSave, setWrongSave]   = useState<{ cards: number; crystals: number; deck: number } | null>(null)
@@ -78,6 +79,13 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
         <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>💎 {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
         <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
         <ToolbarLabel className="title-deck-info">{isGameNight ? '🌙' : '☀️'} {formatGameTime()}</ToolbarLabel>
+        {previewingAsPlayer && (
+          <ToolbarLabel className="title-deck-info">
+            <span title="Admin bypass is off — Settings > Town Access to turn it back on">
+              PREVIEWING AS PLAYER
+            </span>
+          </ToolbarLabel>
+        )}
         <ToolbarButton icon="📜" title="Quests" onClick={() => setQuestsOpen(true)} />
         <ToolbarButton icon="🏠" title="Back to Town" onClick={onBack} />
         <ToolbarSpacer />
@@ -133,9 +141,6 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
         {fogTapped && (
           <div className="nm-peek-backdrop" onClick={() => setFogTapped(false)}>
             <div className="nm-peek-panel" onClick={e => e.stopPropagation()}>
-              <div className="nm-peek-header u-col u-items-c u-gap-1">
-                <span className="nm-peek-icon">🌫</span>
-              </div>
               <div className="nm-peek-desc" style={{ textAlign: 'center' }}>
                 The fog is too thick to proceed.
               </div>
