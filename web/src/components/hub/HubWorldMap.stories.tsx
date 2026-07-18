@@ -25,3 +25,17 @@ export const Default: Story = {
     user:         null,
   },
 }
+
+export const FoggedTowns: Story = {
+  args: {
+    onSelectNode: fn(),
+    onBack:       fn(),
+    onFeedback:   fn(),
+    user:         null,
+    restrictedNodeIds: new Set([
+      'gravemoor', 'hollowmere', 'appleford', 'harrowfield', 'capital-city',
+      'gearford', 'ironhold-keep', 'thornwood-camp', 'saltmere-port',
+      'royal-palace', 'dreadspire-citadel',
+    ]),
+  },
+}

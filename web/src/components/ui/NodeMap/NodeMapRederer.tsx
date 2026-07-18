@@ -671,28 +671,16 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
       for (const node of Object.values(worldMap.nodes)) {
         if (deadRef.current) return
 
-        // Admin-disabled town: hidden under fog instead of the usual lock icon.
-        // Still tappable so a curious player learns why, but never walked to or peeked.
+        // Admin-disabled town: the map-wide fog overlay below hides it visually;
+        // this is just an invisible hit area so a tap still reports the fog message.
         if (restrictedNodeIds?.has(node.id)) {
           const fogContainer = new PIXI.Container()
           fogContainer.position.set(node.x!, node.y!)
-
-          const fog = new PIXI.Graphics()
-          for (const [ox, oy, r] of [[0, 0, 22], [-13, 5, 14], [13, 5, 14], [0, -11, 15]] as const) {
-            fog.circle(ox, oy, r).fill({ color: 0xaaaaaa, alpha: 0.5 })
-          }
-          fogContainer.addChild(fog)
-
-          const fogIcon = new PIXI.Text({ text: '🌫',
-            style: { fontSize: 16, fontFamily: 'monospace' } })
-          fogIcon.anchor.set(0.5)
-          fogContainer.addChild(fogIcon)
-
+          fogContainer.hitArea = new PIXI.Circle(0, 0, 26)
           makeClickable(fogContainer, () => {
             if (isWalkingRef.current) return
             onFoggedTap?.(node)
           })
-
           worldLayer.addChild(fogContainer)
           continue
         }
@@ -747,6 +735,64 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
         }
 
         worldLayer.addChild(container)
+      }
+
+      // Fog of war — hides the whole map except unlocked towns and the routes
+      // between them. Uses the same canvas 2D destination-out "reveal hole"
+      // technique as HubTownCanvas's night overlay, drawn once (this scene is
+      // static, unlike the per-frame torch light that follows the avatar).
+      if (restrictedNodeIds && restrictedNodeIds.size > 0) {
+        const fogCanvas = document.createElement('canvas')
+        fogCanvas.width  = mapWidth
+        fogCanvas.height = mapHeight
+        const fogCtx = fogCanvas.getContext('2d')!
+        fogCtx.fillStyle = 'rgba(195,200,210,0.94)'
+        fogCtx.fillRect(0, 0, mapWidth, mapHeight)
+        fogCtx.globalCompositeOperation = 'destination-out'
+        fogCtx.lineCap = 'round'
+
+        const seenEdges = new Set<string>()
+        for (const node of Object.values(worldMap.nodes)) {
+          if (restrictedNodeIds.has(node.id) || node.x === undefined || node.y === undefined) continue
+
+          // Soft halo revealing the unlocked town itself.
+          const grad = fogCtx.createRadialGradient(node.x, node.y, 28, node.x, node.y, 85)
+          grad.addColorStop(0, 'rgba(0,0,0,1)')
+          grad.addColorStop(1, 'rgba(0,0,0,0)')
+          fogCtx.fillStyle = grad
+          fogCtx.beginPath()
+          fogCtx.arc(node.x, node.y, 85, 0, Math.PI * 2)
+          fogCtx.fill()
+
+          // Soft swath revealing the route to every other unlocked, connected node.
+          for (const connId of (node.connections ?? node.childIds)) {
+            if (restrictedNodeIds.has(connId)) continue
+            const edgeKey = [node.id, connId].sort().join('|')
+            if (seenEdges.has(edgeKey)) continue
+            seenEdges.add(edgeKey)
+            const target = worldMap.nodes[connId]
+            if (!target || target.x === undefined || target.y === undefined) continue
+
+            const path = new Path2D()
+            path.moveTo(node.x, node.y)
+            path.lineTo(target.x, target.y)
+            fogCtx.strokeStyle = 'rgba(0,0,0,1)'
+            fogCtx.globalAlpha = 0.45
+            fogCtx.lineWidth = 130
+            fogCtx.stroke(path)
+            fogCtx.globalAlpha = 1
+            fogCtx.lineWidth = 60
+            fogCtx.stroke(path)
+          }
+        }
+        fogCtx.globalCompositeOperation = 'source-over'
+
+        const fogTexture = PIXI.Texture.from(fogCanvas)
+        const fogSprite  = new PIXI.Sprite(fogTexture)
+        fogSprite.width     = mapWidth
+        fogSprite.height    = mapHeight
+        fogSprite.eventMode = 'none' // must not block taps on the (invisible) restricted-node hit areas
+        app.stage.addChild(fogSprite)
       }
 
       // Pulsing ring on currentLocation node
