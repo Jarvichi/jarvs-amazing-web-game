@@ -72,6 +72,44 @@ export function getWorldNodeStatus(node: QuestNode, clearedNodeIds: Set<string>,
   return cleared ? 'available' : 'locked'
 }
 
+interface PixelPoint { x: number; y: number }
+interface TileCorner { tx: number; ty: number }
+
+// The single-bend elbow between two points: horizontal at a's row, vertical
+// at the midpoint column, horizontal at b's row — as 4 corner tile coords.
+function elbowCorners(a: PixelPoint, b: PixelPoint, T: number): TileCorner[] {
+  const aTx = Math.floor(a.x / T), aTy = Math.floor(a.y / T)
+  const bTx = Math.floor(b.x / T), bTy = Math.floor(b.y / T)
+  const midTx = Math.floor((a.x + b.x) / 2 / T)
+  return [{ tx: aTx, ty: aTy }, { tx: midTx, ty: aTy }, { tx: midTx, ty: bTy }, { tx: bTx, ty: bTy }]
+}
+
+// Full corner-tile list for an edge, optionally steered through hand-authored
+// waypoints (see QuestNode.connectionWaypoints). With no waypoints this is
+// exactly elbowCorners(node, target, T) — a single bend, unchanged from before.
+function edgeCorners(node: PixelPoint, target: PixelPoint, waypoints: PixelPoint[] | undefined, T: number): TileCorner[] {
+  const pts = [node, ...(waypoints ?? []), target]
+  const corners: TileCorner[] = []
+  for (let i = 0; i < pts.length - 1; i++) {
+    const seg = elbowCorners(pts[i], pts[i + 1], T)
+    corners.push(...(i === 0 ? seg : seg.slice(1))) // dedupe the shared join corner
+  }
+  return corners
+}
+
+// Fills every tile along a corner-to-corner path, where each consecutive
+// pair shares either a row (ty) or a column (tx) — guaranteed by elbowCorners.
+function fillCornerPath(pathSet: Set<string>, key: (tx: number, ty: number) => string, corners: TileCorner[]): void {
+  for (let i = 0; i < corners.length - 1; i++) {
+    const a = corners[i], b = corners[i + 1]
+    if (a.ty === b.ty) {
+      for (let tx = Math.min(a.tx, b.tx); tx <= Math.max(a.tx, b.tx); tx++) pathSet.add(key(tx, a.ty))
+    } else {
+      for (let ty = Math.min(a.ty, b.ty); ty <= Math.max(a.ty, b.ty); ty++) pathSet.add(key(a.tx, ty))
+    }
+  }
+}
+
 async function buildWorldPathTiles(
   container: PIXI.Container,
   nodes: QuestNode[],
@@ -91,16 +129,11 @@ async function buildWorldPathTiles(
       const target = nodes.find(n => n.id === connId)
       if (!target || target.x === undefined || node.x === undefined) continue
 
-      const aTx = Math.floor(node.x   / T), aTy = Math.floor(node.y!  / T)
-      const bTx = Math.floor(target.x / T), bTy = Math.floor(target.y! / T)
-      const midTx = Math.floor((node.x + target.x) / 2 / T)
-
-      for (let tx = Math.min(aTx, midTx); tx <= Math.max(aTx, midTx); tx++)
-        pathSet.add(key(tx, aTy))
-      for (let ty = Math.min(aTy, bTy); ty <= Math.max(aTy, bTy); ty++)
-        pathSet.add(key(midTx, ty))
-      for (let tx = Math.min(midTx, bTx); tx <= Math.max(midTx, bTx); tx++)
-        pathSet.add(key(tx, bTy))
+      const corners = edgeCorners(
+        { x: node.x, y: node.y! }, { x: target.x, y: target.y! },
+        node.connectionWaypoints?.[connId], T,
+      )
+      fillCornerPath(pathSet, key, corners)
     }
   }
 
@@ -773,17 +806,28 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
             seenEdges.add(edgeKey)
             const target = worldMap.nodes[connId]
             if (!target || target.x === undefined || target.y === undefined) continue
+            const nodeX = node.x, nodeY = node.y, targetX = target.x, targetY = target.y
 
-            // Follow the same elbow route (horizontal → vertical → horizontal via
-            // the midpoint column) that buildWorldPathTiles draws the road tiles
-            // along, so the reveal swath fully covers the actual bent road art
-            // instead of just a straight line between the two node centers.
-            const midX = (node.x + target.x) / 2
+            // Follow the exact same corner list buildWorldPathTiles draws the
+            // road tiles along (including any hand-authored connectionWaypoints),
+            // so the reveal swath fully covers the actual bent road art instead
+            // of a straight line — and can never drift out of sync with it,
+            // since both come from the same edgeCorners() call. Interior bends
+            // snap to their tile center (matching the drawn tile); the two
+            // endpoints stay at the real node/target pixel position so halos
+            // still center correctly.
+            const corners = edgeCorners(
+              { x: nodeX, y: nodeY }, { x: targetX, y: targetY },
+              node.connectionWaypoints?.[connId], TILE_SIZE,
+            )
             const path = new Path2D()
-            path.moveTo(node.x, node.y)
-            path.lineTo(midX, node.y)
-            path.lineTo(midX, target.y)
-            path.lineTo(target.x, target.y)
+            corners.forEach((c, i) => {
+              const last = corners.length - 1
+              const px = i === 0 ? nodeX : i === last ? targetX : c.tx * TILE_SIZE + TILE_SIZE / 2
+              const py = i === 0 ? nodeY : i === last ? targetY : c.ty * TILE_SIZE + TILE_SIZE / 2
+              if (i === 0) path.moveTo(px, py)
+              else path.lineTo(px, py)
+            })
             fogCtx.strokeStyle = 'rgba(0,0,0,1)'
             fogCtx.globalAlpha = 0.45
             fogCtx.lineWidth = 130

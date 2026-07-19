@@ -151,6 +151,14 @@ export interface QuestNode {
   y?: number
   // Bidirectional connections for world maps (supersedes childIds when present)
   connections?: string[]
+  // World map (freeform) only: hand-authored bend points for a specific
+  // outgoing edge, keyed by the target id (must be present in `connections`).
+  // The route is steered through these pixel points, in order, before
+  // reaching the target, using the same elbow (H/V/H) logic as an edge with
+  // no waypoints. Purely cosmetic — never affects gating/traversal (still
+  // driven by `connections`/`requiredClears`). Consumed only by the freeform
+  // world-map renderer in NodeMapRederer.tsx.
+  connectionWaypoints?: Record<string, { x: number; y: number }[]>
   // World map status: locked until these node IDs are cleared
   requiredClears?: string[]
   // Hub location key — reference into LOCATION_REGISTRY
