@@ -120,7 +120,7 @@ import { isNoDamageMode } from './game/debug'
 import { saveBattleState, loadBattleState, clearBattleState } from './game/battleState'
 import { loadCommander, promoteCommander, CommanderState } from './game/commander'
 
-import { WORLD_MAP, WORLD_MAP_NODES, type WorldNodeDef } from './data/world/worldMapDef'
+import { WORLD_MAP_NODES, type WorldNodeDef } from './data/world/worldMapDef'
 import { setCurrentWorldLocation, getCurrentWorldLocation, markNodeCleared, isNodeCleared } from './game/world/worldState'
 import { CommanderScreen } from './components/screens/CommanderScreen'
 import { TrainingScreen }  from './components/screens/TrainingScreen'
@@ -572,32 +572,20 @@ export default function App() {
   // player would, by suppressing their own town-access bypass.
   const [previewAsPlayer, setPreviewAsPlayer] = useState<boolean>(loadPreviewAsPlayer)
   const bypassTownAccess = isAdmin && !previewAsPlayer
-  // Fogged nodes: locked towns themselves, plus any battle/waypoint node whose
-  // own connections only ever lead to a locked town (so it has no reachable
-  // purpose right now) — a battle node right next to Ravenwatch stays fogged
-  // if its only destination is a currently-locked town, while one that leads
-  // on to an unlocked town (however many hops away) stays revealed.
+  // Fogged nodes: only actual locations (towns/castles/camps/ports — anything
+  // with a locationKey) that the admin hasn't enabled. Battle/waypoint nodes
+  // are never admin-fogged — connections is a road-drawing convenience, not a
+  // proxy for requiredClears gating, so treating "leads to a locked town" as
+  // fog-worthy could hide a battle a player still needs to clear a further-
+  // along, already-enabled town's requiredClears, softlocking it. Battle
+  // availability stays governed only by the pre-existing progression system.
   const restrictedTownNodeIds = useMemo(() => {
     const ids = new Set<string>()
     if (bypassTownAccess) return ids // admin bypass: nothing is fogged
-
-    const nodesById = WORLD_MAP.nodes
-    const memo = new Map<string, boolean>()
-    const leadsSomewhereOpen = (id: string): boolean => {
-      if (memo.has(id)) return memo.get(id)!
-      memo.set(id, false) // cycle guard while this id is being resolved
-      const node = nodesById[id]
-      const result = node
-        ? node.locationKey
-          ? isTownAccessible(node.locationKey, enabledTownIds, false)
-          : (node.connections ?? node.childIds).some(leadsSomewhereOpen)
-        : false
-      memo.set(id, result)
-      return result
-    }
-
     for (const node of WORLD_MAP_NODES) {
-      if (!leadsSomewhereOpen(node.id)) ids.add(node.id)
+      if (node.locationKey && !isTownAccessible(node.locationKey, enabledTownIds, false)) {
+        ids.add(node.id)
+      }
     }
     return ids
   }, [enabledTownIds, bypassTownAccess])
