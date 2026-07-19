@@ -3668,8 +3668,12 @@ export default function App() {
       )}
 
       {/* Service-worker update prompt — replaces the old force-reload-on-resume.
-          The player reloads on their terms; dismiss hides it for the session. */}
-      {needRefresh && !updateDismissed && (
+          The player reloads on their terms; dismiss hides it for the session.
+          Only surfaced on the title screen or a hub town (screen 'hubworld' /
+          'location', both rendered by HubWorld) — safe, non-disruptive spots to
+          reload from, never mid-battle or in a menu. */}
+      {needRefresh && !updateDismissed
+        && (screen === 'title' || screen === 'hubworld' || screen === 'location') && (
         <div className="sw-update-toast">
           <span className="sw-update-toast-text">A new version is available.</span>
           <div className="sw-update-toast-actions">
