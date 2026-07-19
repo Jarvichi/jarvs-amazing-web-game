@@ -120,7 +120,7 @@ import { isNoDamageMode } from './game/debug'
 import { saveBattleState, loadBattleState, clearBattleState } from './game/battleState'
 import { loadCommander, promoteCommander, CommanderState } from './game/commander'
 
-import { WORLD_MAP_NODES, type WorldNodeDef } from './data/world/worldMapDef'
+import { WORLD_MAP, WORLD_MAP_NODES, type WorldNodeDef } from './data/world/worldMapDef'
 import { setCurrentWorldLocation, getCurrentWorldLocation, markNodeCleared, isNodeCleared } from './game/world/worldState'
 import { CommanderScreen } from './components/screens/CommanderScreen'
 import { TrainingScreen }  from './components/screens/TrainingScreen'
@@ -572,18 +572,40 @@ export default function App() {
   // player would, by suppressing their own town-access bypass.
   const [previewAsPlayer, setPreviewAsPlayer] = useState<boolean>(loadPreviewAsPlayer)
   const bypassTownAccess = isAdmin && !previewAsPlayer
-  // Fogged nodes: only actual locations (towns/castles/camps/ports — anything
-  // with a locationKey) that the admin hasn't enabled. Battle/waypoint nodes
-  // are never admin-fogged — connections is a road-drawing convenience, not a
-  // proxy for requiredClears gating, so treating "leads to a locked town" as
-  // fog-worthy could hide a battle a player still needs to clear a further-
-  // along, already-enabled town's requiredClears, softlocking it. Battle
-  // availability stays governed only by the pre-existing progression system.
+  // Fogged nodes: locations (towns/castles/camps/ports) the admin hasn't
+  // enabled, plus any battle/waypoint node that isn't a requiredClears
+  // prerequisite (directly, or transitively through an OR-alternative) for
+  // reaching a currently-open town. Deliberately based on requiredClears —
+  // the real gameplay gate — rather than `connections` (a road-drawing
+  // convenience graph that mostly but doesn't always match it: e.g. Forest
+  // Path/Bridge Battle gate Ironhold Keep, Thornwood Camp, and River
+  // Crossing independently, not chained through Ironhold Keep, even though
+  // `connections` draws them as one line). Using `connections` instead
+  // could fog a battle a player still needs to satisfy a further-along,
+  // already-enabled town's requiredClears — softlocking it.
   const restrictedTownNodeIds = useMemo(() => {
     const ids = new Set<string>()
     if (bypassTownAccess) return ids // admin bypass: nothing is fogged
+
+    const nodesById = WORLD_MAP.nodes
+    const openTownIds = WORLD_MAP_NODES
+      .filter(n => n.locationKey && isTownAccessible(n.locationKey, enabledTownIds, false))
+      .map(n => n.id)
+
+    const neededIds = new Set<string>()
+    const markNeeded = (id: string): void => {
+      if (neededIds.has(id)) return
+      neededIds.add(id)
+      for (const group of nodesById[id]?.requiredClears ?? []) {
+        for (const altId of group.split('|')) markNeeded(altId)
+      }
+    }
+    openTownIds.forEach(markNeeded)
+
     for (const node of WORLD_MAP_NODES) {
-      if (node.locationKey && !isTownAccessible(node.locationKey, enabledTownIds, false)) {
+      if (node.locationKey) {
+        if (!isTownAccessible(node.locationKey, enabledTownIds, false)) ids.add(node.id)
+      } else if (!neededIds.has(node.id)) {
         ids.add(node.id)
       }
     }
