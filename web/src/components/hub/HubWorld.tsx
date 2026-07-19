@@ -14,6 +14,7 @@ import { getFriendshipLevel, addFriendshipXp, getFriendshipData } from '../../ga
 import { getRelationship, grantRelationshipWithRivalry, RELATIONSHIP_TRACKS, type RelationshipTrack } from '../../game/hub/relationships'
 import { canTalkToday, recordTalk } from '../../game/hub/talkCooldown'
 import { canGiftToday, recordGift } from '../../game/hub/giftCooldown'
+import { canHearRumourToday, recordRumourHeard } from '../../game/hub/rumourCooldown'
 import { setDialogueFlag, hasDialogueFlag, markNodeSeen } from '../../game/hub/dialogueFlags'
 import { getQuestState, setQuestStatus, incrementQuestProgress, getQuestProgress, resetQuest } from '../../game/hub/quests'
 import { getHeardConvoIds, markConvoHeard, resetHeardConvoIds } from '../../game/hub/innConvos'
@@ -949,6 +950,27 @@ function buildTalkGiveOptions(
       },
     })
   }
+  if (npcDef?.innRumours && npcDef.innRumours.length > 0) {
+    const rumours = npcDef.innRumours
+    const rumourableToday = canHearRumourToday(npcId)
+    choices.push({
+      label: rumourableToday ? '🗞️ Ask about news' : '🗞️ Ask about news (already caught up today)',
+      disabled: !rumourableToday,
+      onClick: () => {
+        if (!rumourableToday) return
+        recordRumourHeard(npcId)
+        const heard = getHeardConvoIds()
+        let unheard = rumours.filter(r => !heard.has(r.id))
+        if (unheard.length === 0) {
+          resetHeardConvoIds(rumours.map(r => r.id))
+          unheard = rumours
+        }
+        const rumour = unheard[0]
+        markConvoHeard(rumour.id)
+        setDialogueEvent({ speakerName, text: rumour.text })
+      },
+    })
+  }
   return choices
 }
 
@@ -1248,20 +1270,6 @@ function hasOfferableQuest(giverId: string): boolean {
         if (q.receiverNpcId === npcId && isQuestReadyToComplete(q)) return q
       }
       return null
-    }
-
-    // ── Inn rumour handling (Innkeeper Rosie) ───────────────────────────────
-    if (npcId === 'innkeeper-rosie' && npcDef?.innRumours) {
-      const heard = getHeardConvoIds()
-      let unheard = npcDef.innRumours.filter(r => !heard.has(r.id))
-      if (unheard.length === 0) {
-        resetHeardConvoIds(npcDef.innRumours.map(r => r.id))
-        unheard = npcDef.innRumours
-      }
-      const rumour = unheard[0]
-      markConvoHeard(rumour.id)
-      setDialogueEvent({ speakerName, text: rumour.text })
-      return
     }
 
     // ── Screen NPCs: open dialogue (don't navigate on tap) ──────────────────
