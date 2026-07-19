@@ -9885,6 +9885,14 @@
       ],
       "innRumours": [
         {
+          "id": "rumour-bram",
+          "text": "Cartographer Bram has been charting every street twice. Something about the maps not matching what he remembers."
+        },
+        {
+          "id": "rumour-fisherman",
+          "text": "Old Greyfish has been sleeping at the pond lately. Says he doesn't trust what's happening under the water."
+        },
+        {
           "id": "rumour-barracks",
           "text": "The south barracks wing has been sealed for years. Captain Thorin keeps to himself about it…"
         },

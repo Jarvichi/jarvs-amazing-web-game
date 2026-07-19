@@ -103,22 +103,6 @@ function RelationshipEditor({ data, onChange, npcOptions }: { data: Record<strin
   )
 }
 
-// innRumours: [{ id, text }]
-function RumoursEditor({ data, onChange }: { data: Array<{ id: string; text: string }>; onChange: (d: Array<{ id: string; text: string }>) => void }) {
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-      {data.map((r, i) => (
-        <div key={i} style={{ display: 'flex', gap: 4, alignItems: 'flex-start' }}>
-          <input style={{ ...INPUT, width: 90, flex: '0 0 90px', fontFamily: 'monospace' }} value={r.id} onChange={e => onChange(data.map((x, j) => j === i ? { ...x, id: e.target.value } : x))} />
-          <textarea style={{ ...INPUT, resize: 'vertical', fontFamily: 'inherit' }} rows={2} value={r.text} onChange={e => onChange(data.map((x, j) => j === i ? { ...x, text: e.target.value } : x))} />
-          <button style={BTN_X} onClick={() => onChange(data.filter((_, j) => j !== i))}>✕</button>
-        </div>
-      ))}
-      <button style={BTN_ADD} onClick={() => onChange([...data, { id: '', text: '' }])}>+ Add rumour</button>
-    </div>
-  )
-}
-
 // dialogues: [{ id, npcId, start, nodes }] — fields + JSON node editor.
 function DialogueTreeRow({ dlg, onChange, onDelete, npcOptions }: { dlg: Record<string, unknown>; onChange: (d: Record<string, unknown>) => void; onDelete: () => void; npcOptions: RefOption[] }) {
   const [nodesText, setNodesText] = useState(() => JSON.stringify(dlg.nodes ?? {}, null, 1))
@@ -153,16 +137,12 @@ export function DialogueEditor({ mapId, configData, questDefsData, onQuestDefsCh
   const q = questDefsData as unknown as Record<string, unknown>
   const friendship = (q.friendshipDialogue as Record<string, Record<string, string>>) ?? {}
   const relationship = (q.relationshipDialogue as Record<string, Record<string, Record<string, string>>>) ?? {}
-  const rumours = (q.innRumours as Array<{ id: string; text: string }>) ?? []
   const dialogues = (q.dialogues as Array<Record<string, unknown>>) ?? []
   const npcOptions = npcRefOptions(mapId, configData.npcs ?? [], false)
   const patch = (key: string, value: unknown) => onQuestDefsChange(prev => ({ ...(prev as object), [key]: value }) as QuestDefsJson)
 
   return (
     <div style={{ flex: 1, overflowY: 'auto', padding: 8, color: '#ccc' }}>
-      <Section title={`Inn Rumours (${rumours.length})`} color="#f0c040">
-        <RumoursEditor data={rumours} onChange={d => patch('innRumours', d)} />
-      </Section>
       <Section title={`Friendship Dialogue (${Object.keys(friendship).length})`} color="#88ffaa">
         <FriendshipEditor data={friendship} npcOptions={npcOptions} onChange={d => patch('friendshipDialogue', d)} />
       </Section>

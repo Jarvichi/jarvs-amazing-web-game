@@ -157,11 +157,6 @@ export interface QuestPickupItem {
   chain?: string
 }
 
-export interface QuestInnRumour{
-  id: string
-  text: string
-}
-
 export type FriendshipDialogue = Record<
   string,                  // npc id
   Record<string, string>   // friendship level -> dialogue
@@ -272,7 +267,6 @@ export interface DialogueTree {
 export interface RawQuestConfig {
   quests: QuestDefinition[]
   pickupItems?: QuestPickupItem[]
-  innRumours?: QuestInnRumour[]
   friendshipDialogue?: FriendshipDialogue
   relationshipDialogue?: RelationshipDialogue
   blockedPaths?: QuestBlockedPaths[]

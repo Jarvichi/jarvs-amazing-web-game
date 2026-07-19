@@ -16,7 +16,7 @@ import { canTalkToday, recordTalk } from '../../game/hub/talkCooldown'
 import { canGiftToday, recordGift } from '../../game/hub/giftCooldown'
 import { setDialogueFlag, hasDialogueFlag, markNodeSeen } from '../../game/hub/dialogueFlags'
 import { getQuestState, setQuestStatus, incrementQuestProgress, getQuestProgress, resetQuest } from '../../game/hub/quests'
-import { getHeardConvoIds, markConvoHeard } from '../../game/hub/innConvos'
+import { getHeardConvoIds, markConvoHeard, resetHeardConvoIds } from '../../game/hub/innConvos'
 import { loadDeck, loadCollection, loadCrystals, saveCrystals, addCardsToCollection, addAugmentInstance, CRYSTAL_PACK_COST } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
 import { CommanderState } from '../../game/commander'
@@ -1253,13 +1253,15 @@ function hasOfferableQuest(giverId: string): boolean {
     // ── Inn rumour handling (Innkeeper Rosie) ───────────────────────────────
     if (npcId === 'innkeeper-rosie' && npcDef?.innRumours) {
       const heard = getHeardConvoIds()
-      const unheard = npcDef.innRumours.filter(r => !heard.has(r.id))
-      if (unheard.length > 0) {
-        const rumour = unheard[0]
-        markConvoHeard(rumour.id)
-        setDialogueEvent({ speakerName, text: rumour.text })
-        return
+      let unheard = npcDef.innRumours.filter(r => !heard.has(r.id))
+      if (unheard.length === 0) {
+        resetHeardConvoIds(npcDef.innRumours.map(r => r.id))
+        unheard = npcDef.innRumours
       }
+      const rumour = unheard[0]
+      markConvoHeard(rumour.id)
+      setDialogueEvent({ speakerName, text: rumour.text })
+      return
     }
 
     // ── Screen NPCs: open dialogue (don't navigate on tap) ──────────────────

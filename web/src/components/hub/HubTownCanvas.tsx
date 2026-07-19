@@ -175,7 +175,7 @@ export function HubTownCanvas({
     EXIT_TILES: exitTilesData,
     HUB_TOWN_NAME: locationKey,
   } = locationData
-  const {HUB_QUEST_DEFS,INN_RUMOURS,FRIENDSHIP_DIALOGUE,HUB_PICKUP_ITEMS,HUB_BLOCKED_PATHS} = questData
+  const {HUB_QUEST_DEFS,FRIENDSHIP_DIALOGUE,HUB_PICKUP_ITEMS,HUB_BLOCKED_PATHS} = questData
   const HUB_ENV = locationData?.ENVIRONMENT || 'camp'
   const HUB_WEATHER = locationData?.WEATHER
   const COURTYARD_PX = { x: AVATAR_START.tx * T + T / 2, y: AVATAR_START.ty * T + T }

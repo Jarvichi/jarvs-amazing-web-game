@@ -5621,36 +5621,6 @@
       "questId": "midsummer-lanterns"
     }
   ],
-  "innRumours": [
-    {
-      "id": "rumour-bram",
-      "text": "Cartographer Bram has been charting every street twice. Something about the maps not matching what he remembers."
-    },
-    {
-      "id": "rumour-fisherman",
-      "text": "Old Greyfish has been sleeping at the pond lately. Says he doesn't trust what's happening under the water."
-    },
-    {
-      "id": "rumour-barracks",
-      "text": "The south barracks wing has been sealed for years. Captain Thorin keeps to himself about it…"
-    },
-    {
-      "id": "rumour-elder",
-      "text": "The Elder was pacing the courtyard today, muttering about lost things."
-    },
-    {
-      "id": "rumour-vex",
-      "text": "Vex keeps badgering every traveller about rare herbs. If you find some, he pays well."
-    },
-    {
-      "id": "rumour-naia",
-      "text": "That archivist Naia never leaves the scholars' hall. Something about old books she cannot find."
-    },
-    {
-      "id": "rumour-pond",
-      "text": "Old Greyfish says the pond shimmers at night. Strange glimmers beneath the water, he says…"
-    }
-  ],
   "friendshipDialogue": {
     "elder": {
       "2": "Ah, I remember you. You found my pendants. Come and sit a moment.",
