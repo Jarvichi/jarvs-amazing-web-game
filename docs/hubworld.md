@@ -638,11 +638,13 @@ other content in the same modal. Follow-up dialogueEvents reached by tapping
 an earlier choice — a dialogue tree's later nodes, the gift-item picker, a
 quest offer's Accept/Not-now decision reached mid-tree, or the reward text
 shown after a quest completes — do **not** get Talk/Give re-appended, since
-the player already made their choice for this interaction. Two exceptions
-keep the old plain-text/auto-dismiss behavior and never gain Talk/Give: a
-bounty-report tick (§7e) and Innkeeper Rosie's inn-rumour reveal, since both
-are automatic incidental side effects of a tap rather than a real
-conversation turn.
+the player already made their choice for this interaction. One exception
+keeps the old plain-text/auto-dismiss behavior and never gains Talk/Give: a
+bounty-report tick (§7e), an automatic incidental side effect of a tap rather
+than a real conversation turn. Innkeeper Rosie's inn-rumour reveal is *not*
+such an exception — "🗞️ Ask about news" is one of the Talk/Give-family
+choices (`buildTalkGiveOptions`), so it always appears alongside Make
+Conversation/Give a Gift rather than preempting them.
 
 The dialogue always ends with **exactly one** trailing exit choice. Where the
 NPC's own flow already supplies a decline/exit — a quest offer's "Not now",
@@ -668,6 +670,14 @@ wrapper around `buildTalkGiveOptions` that appends Farewell).
   per real day per NPC (`canGiftToday`/`recordGift`,
   `web/src/game/hub/giftCooldown.ts`, mirroring `talkCooldown.ts`) so
   friendship/relationship can't be farmed by repeatedly gifting the same NPC.
+- **🗞️ Ask about news** — only shown for NPCs with an authored `innRumours`
+  list on their `config.json` entry (currently just Innkeeper Rosie). Reveals
+  one rumour, cycling through the list in order and looping back to the start
+  once all have been heard (`getHeardConvoIds`/`markConvoHeard`/
+  `resetHeardConvoIds`, `web/src/game/hub/innConvos.ts`). Limited to once per
+  real day per NPC (`canHearRumourToday`/`recordRumourHeard`,
+  `web/src/game/hub/rumourCooldown.ts`, mirroring `talkCooldown.ts`) so it
+  coexists with Make Conversation/Give a Gift instead of preempting them.
 
 ### Favorite gift (`HubNpc.favoriteGiftItemId` / `favoriteGiftTrack`)
 
