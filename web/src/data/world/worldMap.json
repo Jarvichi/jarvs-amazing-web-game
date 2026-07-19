@@ -15,7 +15,7 @@
     "forest-path": {
       "id": "forest-path", "type": "battle", "label": "Forest Path", "description": "",
       "row": 1, "col": 0, "rowCols": 2, "childIds": [],
-      "x": 728, "y": 612,
+      "x": 756, "y": 612,
       "connections": ["ironhold-keep"],
       "requiredClears": [],
       "battleConfig": { "actId": "act1", "nodeId": "goblin-raid" },
@@ -24,7 +24,7 @@
     "bridge-battle": {
       "id": "bridge-battle", "type": "battle", "label": "Bridge Battle", "description": "",
       "row": 1, "col": 1, "rowCols": 2, "childIds": [],
-      "x": 872, "y": 612,
+      "x": 844, "y": 612,
       "connections": ["ironhold-keep"],
       "requiredClears": [],
       "battleConfig": { "actId": "act1", "nodeId": "shrine" },
