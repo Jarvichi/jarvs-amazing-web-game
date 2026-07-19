@@ -10,10 +10,10 @@
 
 | File | Owns | TypeScript exports |
 |---|---|---|
-| `web/src/data/hub/config.json` | Map geometry, buildings, doors, NPCs, exterior decor, interiors, windows, interactables | parsed by `loader.ts` |
-| `web/src/data/hub/questDefs.json` | Quests, pickup items, blocked paths, inn rumours, friendship dialogue, dialogue trees, relationship dialogue | parsed by `loader.ts` and `questDefs.ts` |
+| `web/src/data/hub/config.json` | Map geometry, buildings, doors, NPCs (incl. each NPC's own `innRumours`), exterior decor, interiors, windows, interactables | parsed by `loader.ts` |
+| `web/src/data/hub/questDefs.json` | Quests, pickup items, blocked paths, friendship dialogue, dialogue trees, relationship dialogue | parsed by `loader.ts` and `questDefs.ts` |
 | `web/src/data/hub/loader.ts` | Parses both JSON files; exports all map/NPC/item/path data | `MAP_W`, `MAP_H`, `AVATAR_START`, `HUB_AREAS`, `HUB_STREET_TILES`, `HUB_BUILDINGS`, `HUB_DOORS`, `HUB_INTERIORS`, `EXTERIOR_DECOR`, `HUB_NPCS`, `EXTERIOR_NPCS`, `INTERIOR_NPCS`, `HUB_PICKUP_ITEMS`, `HUB_BLOCKED_PATHS`, `HUB_LOCKED_DOORS`, … |
-| `web/src/data/hub/questDefs.ts` | Parses `questDefs.json`; exports quest definitions and dialogue | `HUB_QUEST_DEFS`, `INN_RUMOURS`, `FRIENDSHIP_DIALOGUE` |
+| `web/src/data/hub/questDefs.ts` | Parses `questDefs.json`; exports quest definitions and dialogue | `HUB_QUEST_DEFS`, `FRIENDSHIP_DIALOGUE` |
 | `web/src/game/hub/quests.ts` | Quest progress/status persistence (localStorage) | `getQuestState`, `setQuestStatus`, `incrementQuestProgress`, `getQuestProgress`, `resetQuest` |
 | `web/src/game/hub/pickups.ts` | Pickup state persistence (localStorage) | `getPickedUpIds`, `markPickedUp`, `isPickedUp`, `unmarkPickedUp` |
 | `web/src/game/hub/friendship.ts` | NPC friendship XP/level persistence (localStorage) — signed ladder, see §7f | `getFriendshipLevel`, `addFriendshipXp`, `getFriendshipData`, `MAX_FRIENDSHIP_LEVEL` |
@@ -21,7 +21,7 @@
 | `web/src/data/hub/buildingUpgrades.json` / `.ts` | Shared upgrade tracks keyed by building *kind* (costs, benefits, services, decor) — see §10 | `getUpgradeTrack`, `getReputationTier`, `REPUTATION_TIERS` |
 | `web/src/game/hub/relationships.ts` | NPC relationship-track (ally/rival/romance) persistence (localStorage) — see §7c | `getRelationship`, `getRelationshipTrack`, `getRelationshipLevel`, `addRelationshipPoints`, `grantRelationshipWithRivalry`, `relationshipProgress` |
 | `web/src/game/hub/dialogueFlags.ts` | Branching-dialogue flag + "seen" branch persistence (localStorage) — see §7b | `setDialogueFlag`, `hasDialogueFlag`, `getDialogueFlags`, `markNodeSeen`, `hasNodeSeen` |
-| `web/src/game/hub/innConvos.ts` | Inn conversation tracking (localStorage) | `getHeardConvoIds`, `markConvoHeard`, `isConvoHeard` |
+| `web/src/game/hub/innConvos.ts` | Inn conversation tracking (localStorage) | `getHeardConvoIds`, `markConvoHeard`, `isConvoHeard`, `resetHeardConvoIds` |
 | `web/src/game/hub/interactables.ts` | Interactable grant + moved-position persistence (localStorage) | `interactableStoreKey`, `isInteractableGranted`, `markInteractableGranted`, `getInteractableMoves`, `setInteractableMove` |
 | `web/src/game/hub/animals.ts` | Pure animal logic — `ANIMAL_SPECS` registry (per-type data), spawn maths, tint resolution | `ANIMAL_SPECS`, `computeProceduralCounts`, `resolveVariantTint`, `ANIMAL_CAPS`, `TINT_PALETTES` |
 | `web/src/components/hub/hubAnimals.ts` | PixiJS animal manager — spawns & ticks all animal types | `createAnimalSystem` |
@@ -1516,13 +1516,13 @@ or unedited keys are preserved).
 | mapW/H, townName, environment (config) | Town panel (no selection) |
 | avatarStart, exitTiles, weather, ambientNpcSprites, npcSpawnTiles, pondTiles, chickenZones (config) | Town panel → extra sections |
 | buildings, exteriorDecor, interiors, streets, areas, doors (config) | Canvas tools + Building/Interior/Street/Area inspectors |
-| npcs, animals (config) | NPC drawer (NPCs tab) + canvas |
+| npcs, animals, innRumours (config, per-NPC) | NPC drawer (NPCs tab) + canvas |
 | treasures (config) | "+ Add Treasure" + Treasure inspector; quest-items overlay |
 | interactables (config) | Interactables overlay toggle + Interactable inspector (incl. reactions) |
 | lockedDoors (config) | Building inspector → locked door |
 | quests, pickupItems (questDefs) | NPC drawer (Quests tab) |
 | blockedPaths (questDefs) | "+ Add Road Block" + Blocked Path inspector; blocked-paths overlay |
-| innRumours, friendshipDialogue, relationshipDialogue, dialogues (questDefs) | NPC drawer (Dialogue tab) |
+| friendshipDialogue, relationshipDialogue, dialogues (questDefs) | NPC drawer (Dialogue tab) |
 
 **Pick-on-map:** NPCs, animals, treasures, interactables, exit tiles, avatar
 spawn, and blocked-path tiles all support a "📍 Pick on map" button that sets

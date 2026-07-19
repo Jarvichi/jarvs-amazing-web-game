@@ -164,7 +164,6 @@ const ALL_QUEST_BUNDLES: HubQuestBundle[] = [
 
 export const ALL_QUESTS : HubQuestBundle = {
   HUB_QUEST_DEFS:    ALL_QUEST_BUNDLES.flatMap(b => b.HUB_QUEST_DEFS),
-  INN_RUMOURS:       ALL_QUEST_BUNDLES.flatMap(b => b.INN_RUMOURS ?? []),
   FRIENDSHIP_DIALOGUE: Object.assign({}, ...ALL_QUEST_BUNDLES.map(b => b.FRIENDSHIP_DIALOGUE)),
   RELATIONSHIP_DIALOGUE: Object.assign({}, ...ALL_QUEST_BUNDLES.map(b => b.RELATIONSHIP_DIALOGUE)),
   HUB_PICKUP_ITEMS:  ALL_QUEST_BUNDLES.flatMap(b => b.HUB_PICKUP_ITEMS),

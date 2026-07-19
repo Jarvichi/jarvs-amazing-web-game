@@ -2,7 +2,7 @@ import { BASE_CHIP_TILES } from '../tiles/baseChipIndex'
 import { WALL_TILES, ROOF_TILES } from '../tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../tiles/buildingMaterials'
 import { expandBundleDecor, expandBundleWindows, expandBundleDoors } from '../bundles/bundleLoader'
-import { DialogueTree, FriendshipDialogue, HubQuestDef, QuestInnRumour, RawQuestConfig, RelationshipDialogue } from './questDefs'
+import { DialogueTree, FriendshipDialogue, HubQuestDef, RawQuestConfig, RelationshipDialogue } from './questDefs'
 import { RawAnimal, RawConfig, RawInteractable } from './config'
 import rollbar from '../../rollbar'
 
@@ -396,7 +396,6 @@ export interface HubLocationBundle {
 
 export interface HubQuestBundle {
   HUB_QUEST_DEFS: HubQuestDef[]
-  INN_RUMOURS?: QuestInnRumour[]
   FRIENDSHIP_DIALOGUE: FriendshipDialogue
   RELATIONSHIP_DIALOGUE: RelationshipDialogue
   HUB_PICKUP_ITEMS: HubPickupItem[]
@@ -806,8 +805,6 @@ export function createHubQuestData(
 
 const HUB_QUEST_DEFS: HubQuestDef[] = rawQuestConfig.quests as unknown as HubQuestDef[] || {}
 
-const INN_RUMOURS = rawQuestConfig.innRumours || []
-
 const FRIENDSHIP_DIALOGUE = rawQuestConfig.friendshipDialogue || {}
 
 const RELATIONSHIP_DIALOGUE: RelationshipDialogue = rawQuestConfig.relationshipDialogue || {}
@@ -865,7 +862,6 @@ const HUB_DIALOGUES: Record<string, DialogueTree> = Object.fromEntries(
 
 
     HUB_QUEST_DEFS,
-    INN_RUMOURS,
     FRIENDSHIP_DIALOGUE,
     RELATIONSHIP_DIALOGUE,
     HUB_BLOCKED_PATHS,

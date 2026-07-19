@@ -28,3 +28,9 @@ export function markConvoHeard(id: string): void {
 export function isConvoHeard(id: string): boolean {
   return load().has(id)
 }
+
+export function resetHeardConvoIds(ids: string[]): void {
+  const heard = load()
+  ids.forEach(id => heard.delete(id))
+  save(heard)
+}
