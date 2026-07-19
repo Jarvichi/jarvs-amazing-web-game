@@ -27,11 +27,14 @@ export const Default: Story = {
 }
 
 // Only Thornwood Camp is admin-enabled (plus the always-open Ravenwatch and
-// Millhaven). Matches what App.tsx's restrictedTownNodeIds would compute for
-// that config: every other town is fogged, and so is every battle node whose
-// only destination is one of those locked towns (Forest Path / Bridge Battle,
-// which solely gate the locked Ironhold Keep) — while River Crossing stays
-// open since it leads on to the unlocked Millhaven.
+// Millhaven). Matches what App.tsx's restrictedTownNodeIds actually computes
+// for that config: fog only ever covers locations (towns/castles/camps/
+// ports), never battle nodes — so Forest Path and Bridge Battle stay fully
+// visible and clickable (they have no locationKey and no requiredClears, so
+// hiding them would strand Thornwood Camp's own requiredClears — which only
+// needs one of those two battles cleared — behind fog with no way to satisfy
+// it). Only Ironhold Keep itself (and every other non-enabled location) is
+// fogged; the road into it fades into the fog since one endpoint is hidden.
 export const FoggedTowns: Story = {
   args: {
     onSelectNode: fn(),
@@ -39,15 +42,9 @@ export const FoggedTowns: Story = {
     onFeedback:   fn(),
     user:         null,
     restrictedNodeIds: new Set([
-      'forest-path', 'bridge-battle', 'ironhold-keep', 'b-blight-fields',
-      'gravemoor', 'b-grave-mists', 'b-crypt-road', 'hollowmere',
-      'b-howling-dark', 'b-dread-gate', 'dreadspire-citadel', 'b-east-road',
-      'appleford', 'b-orchard-raid', 'b-salt-marsh', 'saltmere-port',
-      'b-pirate-cove', 'b-smugglers-landing', 'b-south-road', 'harrowfield',
-      'b-scarecrow-fields', 'b-river-ford', 'b-royal-checkpoint',
-      'capital-city', 'royal-palace', 'b-tournament', 'b-west-road',
-      'b-mine-trouble', 'gearford', 'b-smoke-fields', 'b-foundry-gate',
-      'b-bandit-toll',
+      'ironhold-keep', 'gravemoor', 'hollowmere', 'dreadspire-citadel',
+      'appleford', 'saltmere-port', 'harrowfield', 'capital-city',
+      'royal-palace', 'gearford',
     ]),
   },
 }
