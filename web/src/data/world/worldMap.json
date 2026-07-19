@@ -17,6 +17,7 @@
       "row": 1, "col": 0, "rowCols": 1, "childIds": [],
       "x": 728, "y": 612,
       "connections": ["ironhold-keep"],
+      "connectionWaypoints": { "ironhold-keep": [{ "x": 728, "y": 550 }] },
       "requiredClears": [],
       "battleConfig": { "actId": "act1", "nodeId": "goblin-raid" },
       "decorTiles": [9]
@@ -26,6 +27,7 @@
       "row": 1, "col": 1, "rowCols": 1, "childIds": [],
       "x": 872, "y": 612,
       "connections": ["ironhold-keep"],
+      "connectionWaypoints": { "ironhold-keep": [{ "x": 872, "y": 550 }] },
       "requiredClears": [],
       "battleConfig": { "actId": "act1", "nodeId": "shrine" },
       "decorTiles": [18]
