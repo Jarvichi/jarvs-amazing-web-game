@@ -90,6 +90,10 @@ type PendingStyleBuy = { kind: 'floor'; tileId: string } | { kind: 'wall'; mater
 
 export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }: Props) {
   const [tab, setTab] = useState<'shelf' | 'decorate' | 'rooms'>(initialTab)
+  // DECORATE (like ROOMS) only makes sense tied to a real owned house — a
+  // stray 'decorate' tab with no house context would edit an orphaned
+  // 'default' bucket that isn't shown anywhere in the world.
+  const effectiveTab = tab === 'decorate' && houseKey === 'default' ? 'shelf' : tab
 
   // ── Shelf tab (existing, unchanged) ──
   const items  = loadInventory()
@@ -331,17 +335,19 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
     <OverlayScreen
       title="HOME"
       onBack={onBack}
-      right={tab !== 'shelf' ? <span className="crystal-count">💎 {crystals.toLocaleString()}</span> : undefined}
+      right={effectiveTab !== 'shelf' ? <span className="crystal-count">💎 {crystals.toLocaleString()}</span> : undefined}
     >
       <div className="hoa-tabs">
-        <button className={`hoa-tab${tab === 'shelf' ? ' hoa-tab--active' : ''}`} onClick={() => setTab('shelf')}>SHELF</button>
-        <button className={`hoa-tab${tab === 'decorate' ? ' hoa-tab--active' : ''}`} onClick={() => setTab('decorate')}>DECORATE</button>
+        <button className={`hoa-tab${effectiveTab === 'shelf' ? ' hoa-tab--active' : ''}`} onClick={() => setTab('shelf')}>SHELF</button>
         {houseKey !== 'default' && (
-          <button className={`hoa-tab${tab === 'rooms' ? ' hoa-tab--active' : ''}`} onClick={() => setTab('rooms')}>ROOMS</button>
+          <button className={`hoa-tab${effectiveTab === 'decorate' ? ' hoa-tab--active' : ''}`} onClick={() => setTab('decorate')}>DECORATE</button>
+        )}
+        {houseKey !== 'default' && (
+          <button className={`hoa-tab${effectiveTab === 'rooms' ? ' hoa-tab--active' : ''}`} onClick={() => setTab('rooms')}>ROOMS</button>
         )}
       </div>
 
-      {tab === 'shelf' && (
+      {effectiveTab === 'shelf' && (
         <div className="shelf-room">
           {isEmpty && (
             <div className="shelf-empty-msg">Your shelves are bare. Collect items to fill them.</div>
@@ -383,7 +389,7 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
         </div>
       )}
 
-      {tab === 'decorate' && (
+      {effectiveTab === 'decorate' && (
         <div className="shelf-room">
           {houseKey !== 'default' && purchasedSlotIds.length > 0 && (
             <div className="hoa-tabs">
@@ -493,7 +499,7 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
         </div>
       )}
 
-      {tab === 'rooms' && (
+      {effectiveTab === 'rooms' && (
         <div className="shelf-room">
           <div className="town-directory__list">
             {getAllRoomSlotDefs().map(slot => {

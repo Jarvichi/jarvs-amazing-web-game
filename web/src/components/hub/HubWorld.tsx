@@ -34,6 +34,7 @@ import { LoginButton } from '../ui/LoginButton'
 import { addCollectible, addConsumable, getCollectibles, addHubItem, removeHubItem, getHubItemCount, hasHubItem, getHubItemCatalogEntry, getHubItems, spendTickets } from '../../game/itemStore'
 import { questItemId } from '../../game/hub/questItems'
 import { HubTabbedModal, type HubTabId } from './HubTabbedModal'
+import { PetShelterModal } from './PetShelterModal'
 import { BountyBoardModal } from './BountyBoardModal'
 import { hasUnclaimedBounties, getPendingBountyReport, getPendingBountyCollect, advanceBountyStep, getActiveBountyStep, isBountyCollectPickup, reconcileBountyPickups } from '../../game/hub/bounties'
 import { getActivePet, getTreatsRemainingToday, canGiveTreat, recordAffection, recordTreatGiven, getAffectionRemaining, grantAccessory } from '../../game/hub/pet'
@@ -251,6 +252,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
   const [tabbedModalOpen,     setTabbedModalOpen]     = useState(false)
   const [activeHubTab,        setActiveHubTab]        = useState<HubTabId>('quests')
   const [bountyBoardOpen,     setBountyBoardOpen]     = useState(false)
+  const [petShelterOpen,      setPetShelterOpen]      = useState(false)
   function openHubTab(tab: HubTabId) { setActiveHubTab(tab); setTabbedModalOpen(true) }
   // buildingId → purchased upgrade level; read each frame by the canvas to
   // reveal unlocked decor live, and updated on purchase.
@@ -636,7 +638,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
     }
     if (screen === 'town-upgrades') { openHubTab('upgrades'); return }
     if (screen === 'bounty-board') { setBountyBoardOpen(true); return }
-    if (screen === 'adopt-pet') { openHubTab('pet'); return }
+    if (screen === 'adopt-pet') { setPetShelterOpen(true); return }
     if (screen === 'worldmap') { onWorldMap?.(); return }
     if (screen.startsWith('town:')) { onNavigateTown?.(screen.slice(5)); return }
     if (screen === 'campaign') { onCampaign?.(); return }
@@ -2147,6 +2149,7 @@ function hasOfferableQuest(giverId: string): boolean {
           />
         )}
         {bountyBoardOpen && <BountyBoardModal onClose={() => setBountyBoardOpen(false)} resolveNpcName={getNpcDisplayName} townNpcs={locationData.HUB_NPCS}/>}
+        {petShelterOpen && <PetShelterModal onClose={() => setPetShelterOpen(false)} onAdopted={() => setPetShelterOpen(false)} />}
         {relationshipNpcId && <RelationshipView npcName={getNpcDisplayName(relationshipNpcId)} entry={getRelationship(relationshipNpcId)} onClose={() => setRelationshipNpcId(null)} />}
         {openTreasure && <TreasureModal treasure={openTreasure} onClose={() => setOpenTreasure(null)} />}
 
