@@ -9,9 +9,14 @@ function seedItemStore(items: ItemEntry[]): void {
   localStorage.setItem('jarv_item_store', JSON.stringify(items))
 }
 
+// DECORATE only renders for a real owned-house key (not the 'default' bucket)
+// — see HomeShelf.tsx's houseKey !== 'default' gating — so these stories use
+// a stand-in house key, matching how the in-house 🛋 DECORATE button invokes it.
+const HOUSE_KEY = 'ravenwatch:building-1'
+
 // Seed the decorate-tab stores: placed furniture, owned furniture ids, crystals.
 function seedDecorate(opts: { placed?: unknown[]; owned?: string[]; crystals?: number } = {}): void {
-  localStorage.setItem('jarv_hub_home_layout', JSON.stringify({ placed: opts.placed ?? [] }))
+  localStorage.setItem(`jarv_hub_home_layout:${HOUSE_KEY}`, JSON.stringify({ placed: opts.placed ?? [] }))
   localStorage.setItem('jarv_hub_furniture_owned', JSON.stringify(opts.owned ?? []))
   saveCrystals(opts.crystals ?? 100)
 }
@@ -97,7 +102,7 @@ export const Populated: Story = {
 }
 
 export const DecorateEmpty: Story = {
-  args: { onBack: fn() },
+  args: { onBack: fn(), houseKey: HOUSE_KEY },
   decorators: [
     (Story) => { seedItemStore([]); seedDecorate(); return <Story /> },
   ],
@@ -105,7 +110,7 @@ export const DecorateEmpty: Story = {
 }
 
 export const DecoratePopulated: Story = {
-  args: { onBack: fn() },
+  args: { onBack: fn(), houseKey: HOUSE_KEY },
   decorators: [
     (Story) => {
       seedItemStore([])
