@@ -31,7 +31,7 @@ export interface Props {
   onDeleteObstacle: (index: number) => void
 }
 
-const HANDLE_RADIUS = 6
+const HANDLE_RADIUS = 8
 const SELECTED_COLOR = 0xffcc33
 const HANDLE_COLOR = 0x33ccff
 const OBSTACLE_COLOR = 0xff5566
@@ -126,9 +126,12 @@ function drawGuides(g: PIXI.Graphics, w: number, h: number) {
   for (let r = 0; r <= rows; r++) g.moveTo(0, r * TILE_SIZE).lineTo(w, r * TILE_SIZE)
   g.stroke({ color: 0xffffff, width: 1, alpha: 0.06 })
 
+  // TERRAIN_CLEAR_Y corridors are lateral (y-axis) positions procedural terrain
+  // avoids — lateral y maps to screen-x (gameToPixel's px depends only on y),
+  // so each corridor is a vertical line spanning the full forward (x) extent.
   for (const cy of TERRAIN_CLEAR_Y) {
-    const { py } = gameToPixel(250, cy, w, h)
-    g.moveTo(0, py).lineTo(w, py).stroke({ color: 0x33ff99, width: 2, alpha: 0.35 })
+    const { px } = gameToPixel(0, cy, w, h)
+    g.moveTo(px, 0).lineTo(px, h).stroke({ color: 0x33ff99, width: 2, alpha: 0.35 })
   }
 }
 
@@ -177,6 +180,7 @@ function drawEditOverlay(
       handle.position.set(px, py)
       handle.eventMode = 'static'
       handle.cursor = 'pointer'
+      handle.hitArea = new PIXI.Circle(0, 0, HANDLE_RADIUS * 2)
       handle.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
         e.stopPropagation()
         if (tool === 'delete') { onDeleteRoadPoint(roadIndex, pointIndex); return }
@@ -196,6 +200,7 @@ function drawEditOverlay(
     handle.position.set(px, py)
     handle.eventMode = 'static'
     handle.cursor = 'pointer'
+    handle.hitArea = new PIXI.Circle(0, 0, HANDLE_RADIUS * 2)
     handle.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
       e.stopPropagation()
       if (tool === 'delete') { onDeleteObstacle(index); return }
