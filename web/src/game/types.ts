@@ -392,6 +392,12 @@ export type GamePhase =
 
 export const LANE_WIDTH = 500
 
+/** Fixed width/height ratio the battlefield always renders at (production and the
+ *  battlefield editor) — matches a modern phone's portrait shape (e.g. 390x844).
+ *  The battlefield letterboxes (centers with dead space) rather than stretching
+ *  to fill wider/shorter containers. See web/src/hooks/useLetterboxSize.ts. */
+export const BATTLEFIELD_ASPECT_RATIO = 9 / 19.5
+
 /** In endless mode, player structures may not be placed beyond this forward x-coordinate (3 rows from base). */
 export const ENDLESS_STRUCTURE_MAX_X = 60
 
