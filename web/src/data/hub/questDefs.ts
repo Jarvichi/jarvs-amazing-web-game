@@ -264,14 +264,29 @@ export interface DialogueTree {
   nodes: Record<string, DialogueNode>
 }
 
+// ── Conversation topics ("Make Conversation" menu) ──────────────────────────
+// A per-NPC list of selectable chat topics, shown when "🗣️ Make conversation"
+// is tapped. Each topic is just a menu entry (button label) pointing at an
+// ordinary DialogueTree — authored in the same `dialogues` array above and
+// walked by the same runDialogueNode/applyChoice engine — so no new branching
+// engine is needed. An NPC with no (or no valid) topics falls back to the
+// legacy flat "Always good to catch up" line. See docs/hubworld.md §7g.
+export interface ConversationTopicDef {
+  id: string        // referenced by HubNpc.conversationTopics
+  npcId?: string     // documentation only — which NPC this belongs to
+  label: string      // topic-picker button text, e.g. "🕯️ Ask about the missing pendant"
+  treeId: string     // id into this town's `dialogues` array (DialogueTree.id)
+}
+
 export interface RawQuestConfig {
   quests: QuestDefinition[]
   pickupItems?: QuestPickupItem[]
   friendshipDialogue?: FriendshipDialogue
   relationshipDialogue?: RelationshipDialogue
   blockedPaths?: QuestBlockedPaths[]
-  // `dialogues` (DialogueTree[]) is read in loader.ts via an `as unknown` cast —
-  // it is intentionally not declared here so the raw JSON (whose effect `type`
-  // widens to `string`) assigns to RawQuestConfig without a union mismatch.
+  // `dialogues` (DialogueTree[]) and `conversationTopics` (ConversationTopicDef[])
+  // are read in loader.ts via an `as unknown` cast — intentionally not declared
+  // here so the raw JSON (whose effect `type` widens to `string`) assigns to
+  // RawQuestConfig without a union mismatch.
 }
 

@@ -7,7 +7,7 @@ import type { MinimapObjective } from './HubMinimap'
 import { HubReturnButton } from './HubReturnButton'
 import { HubDialogue } from './HubDialogue'
 import type { DialogueChoice } from './HubDialogue'
-import type { HubQuestDef, DialogueTree, DialogueChoiceDef, DialogueEffect } from '../../data/hub/questDefs'
+import type { HubQuestDef, DialogueTree, DialogueChoiceDef, DialogueEffect, ConversationTopicDef } from '../../data/hub/questDefs'
 import { emitSound } from '../../game/sound'
 import { getPickedUpIds, markPickedUp, unmarkPickedUp } from '../../game/hub/pickups'
 import { getFriendshipLevel, addFriendshipXp, getFriendshipData } from '../../game/hub/friendship'
@@ -75,6 +75,7 @@ interface NpcTapDef {
   questGive?: string; questReceive?: string | string[]
   innRumours?: Array<{ id: string; text: string }>
   dialogueTree?: string
+  conversationTopics?: string[]
   favoriteGiftItemId?: string; favoriteGiftTrack?: string
   dislikedGiftItemIds?: string[]
 }
@@ -934,11 +935,38 @@ function buildTalkGiveOptions(
     disabled: !talkable,
     onClick: () => {
       if (!talkable) return
-      recordTalk(npcId)
-      addFriendshipXp(npcId, 2)
-      grantRelationshipWithRivalry(npcId, 'ally', 1, locationData.HUB_NPCS)
-      refreshState()
-      setDialogueEvent({ speakerName, text: 'Always good to catch up.' })
+
+      // Per-NPC authored topics (questDefs.json `conversationTopics`, §7g) —
+      // each points at an ordinary DialogueTree, both must resolve or the
+      // topic is silently dropped (a stale/typo'd id shouldn't break the menu).
+      const topics = (npcDef?.conversationTopics ?? [])
+        .map(id => allQuests.HUB_CONVERSATION_TOPICS[id])
+        .filter((t): t is ConversationTopicDef => !!t && !!allQuests.HUB_DIALOGUES[t.treeId])
+
+      if (topics.length === 0) {
+        // No authored topics for this NPC — exact legacy behavior.
+        recordTalk(npcId)
+        addFriendshipXp(npcId, 2)
+        grantRelationshipWithRivalry(npcId, 'ally', 1, locationData.HUB_NPCS)
+        refreshState()
+        setDialogueEvent({ speakerName, text: 'Always good to catch up.' })
+        return
+      }
+
+      // Topic picker — mirrors the "🎁 Give a gift" nested-choice pattern
+      // below: opening the menu doesn't burn the day's cooldown, only
+      // actually picking a topic does, so backing out via "Never mind"
+      // doesn't cost the player their one conversation today.
+      const topicChoices: DialogueChoice[] = topics.map(t => ({
+        label: t.label,
+        onClick: () => {
+          recordTalk(npcId)
+          const tree = allQuests.HUB_DIALOGUES[t.treeId]
+          runDialogueNode(tree, tree.start, npcId, speakerName, npcDef, false)
+        },
+      }))
+      topicChoices.push({ label: 'Never mind', isExit: true, onClick: () => setDialogueEvent(null) })
+      setDialogueEvent({ speakerName, text: 'What would you like to talk about?', choices: topicChoices })
     },
   })
   const giftable = getHubItems().filter(i => i.category === 'material')
