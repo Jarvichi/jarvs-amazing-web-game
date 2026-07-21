@@ -1,6 +1,7 @@
 import { fn } from 'storybook/test'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { HubWorldMap } from './HubWorldMap'
+import { ALL_QUEST_DEFS } from '../../data/hub/hubTownStoryFixtures'
 
 const meta = {
   component: HubWorldMap,
@@ -23,6 +24,7 @@ export const Default: Story = {
     onBack:       fn(),
     onFeedback:   fn(),
     user:         null,
+    allQuestDefs: ALL_QUEST_DEFS,
   },
 }
 
@@ -43,6 +45,7 @@ export const FoggedTowns: Story = {
     onBack:       fn(),
     onFeedback:   fn(),
     user:         null,
+    allQuestDefs: ALL_QUEST_DEFS,
     restrictedNodeIds: new Set([
       'appleford', 'b-bandit-toll', 'b-blight-fields', 'b-crypt-road',
       'b-dread-gate', 'b-east-road', 'b-foundry-gate', 'b-grave-mists',

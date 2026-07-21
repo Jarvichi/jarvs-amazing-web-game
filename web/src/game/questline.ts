@@ -3,26 +3,6 @@ import { loadPlayerStats } from './playerStats'
 import { logError } from '../logger'
 import { getCardCatalog } from './cards'
 import { addConsumable, removeConsumable, getConsumables } from './itemStore'
-import act1Data from '../data/acts/act1.json'
-import act2Data from '../data/acts/act2.json'
-import act3Data from '../data/acts/act3.json'
-import act4Data from '../data/acts/act4.json'
-import act5Data from '../data/acts/act5.json'
-import act6Data from '../data/acts/act6.json'
-import act7Data from '../data/acts/act7.json'
-import act8Data  from '../data/acts/act8.json'
-import act9Data  from '../data/acts/act9.json'
-import act10Data from '../data/acts/act10.json'
-import act11Data from '../data/acts/act11.json'
-import act12Data from '../data/acts/act12.json'
-import act13Data    from '../data/acts/act13.json'
-import actFinaleData from '../data/acts/actfinale.json'
-import c2act1Data from '../data/acts/c2act1.json'
-import c2act2Data from '../data/acts/c2act2.json'
-import c2act3Data from '../data/acts/c2act3.json'
-import c2act4Data from '../data/acts/c2act4.json'
-import c2act5Data from '../data/acts/c2act5.json'
-import worldBattlesData from '../data/acts/worldbattles.json'
 import consumablesData from '../data/consumables.json'
 
 // ─── Consumables ──────────────────────────────────────────
@@ -518,8 +498,9 @@ export function resolveActIntro(act: Act, n: number): CutscenePanel[] {
 }
 
 /** Thin wrapper for backward compatibility — new code should call resolveActIntro directly. */
-export function getAct1Intro(runCount: number): CutscenePanel[] {
-  return resolveActIntro(ACT_1, runCount)
+export async function getAct1Intro(runCount: number): Promise<CutscenePanel[]> {
+  const act1 = await loadAct('act1')
+  return resolveActIntro(act1, runCount)
 }
 
 // ─── Ordinal helper ───────────────────────────────────────────────────────────
@@ -566,7 +547,13 @@ export interface RunState {
 
 const RUN_KEY = 'jarv_run'
 
-export function loadRun(): RunState | null {
+/**
+ * Parses the saved run and migrates/repairs fields that don't need act data.
+ * Does NOT validate actId/node ids against the act's node map — callers that
+ * need the fully act-validated run should use loadRun() instead. Safe to call
+ * synchronously (e.g. from a render body or a useState initializer).
+ */
+export function loadRunRaw(): RunState | null {
   try {
     const raw = localStorage.getItem(RUN_KEY)
     if (!raw) return null
@@ -595,51 +582,6 @@ export function loadRun(): RunState | null {
     if (typeof parsed.livesRemaining !== 'number') parsed.livesRemaining = parsed.maxLives
     parsed.livesRemaining = Math.max(0, Math.min(parsed.maxLives, parsed.livesRemaining))
 
-    // Ensure actId is valid
-    const act = ACTS[parsed.actId]
-    if (!act) {
-      console.warn('[run] Invalid actId — clearing run')
-      localStorage.removeItem(RUN_KEY)
-      return null
-    }
-
-    // Remove any node IDs that don't exist in the act
-    const validIds = new Set(Object.keys(act.nodes))
-    parsed.completedNodeIds = parsed.completedNodeIds.filter(id => validIds.has(id))
-    parsed.skippedNodeIds   = parsed.skippedNodeIds.filter(id => validIds.has(id))
-    if (parsed.pendingNodeId && !validIds.has(parsed.pendingNodeId)) {
-      parsed.pendingNodeId = null
-    }
-
-    // Repair saves corrupted by the convergence-node skip bug (fixed in skipSiblings):
-    // A node Y was incorrectly skipped if any of its completed parents has no other completed child.
-    // Such a node is still reachable and must be un-skipped so the map isn't deadlocked.
-    {
-      const completedSet = new Set(parsed.completedNodeIds)
-      const parentMap = buildParentMap(act.nodes)
-      const toUnSkip = parsed.skippedNodeIds.filter(nodeId => {
-        const parents = parentMap[nodeId] ?? []
-        return parents.some(pid => {
-          if (!completedSet.has(pid)) return false
-          return !act.nodes[pid].childIds.some(cid => cid !== nodeId && completedSet.has(cid))
-        })
-      })
-      if (toUnSkip.length > 0) {
-        const unSkipSet = new Set(toUnSkip)
-        parsed.skippedNodeIds = parsed.skippedNodeIds.filter(id => !unSkipSet.has(id))
-        saveRun(parsed)
-      }
-    }
-
-    // If act is already complete with no pendingNode, clear run so a fresh one starts —
-    // unless pendingActComplete is set (player is on the act-complete screen) or
-    // pendingRelicSelect is set (player exited mid relic-select between acts).
-    if (isActComplete(act, parsed) && !parsed.pendingNodeId && !parsed.pendingActComplete && !parsed.pendingRelicSelect) {
-      console.warn('[run] Act already complete — clearing stale run')
-      localStorage.removeItem(RUN_KEY)
-      return null
-    }
-
     return parsed
   } catch (e) {
     // Corrupt JSON — clear and start fresh
@@ -647,6 +589,64 @@ export function loadRun(): RunState | null {
     try { localStorage.removeItem(RUN_KEY) } catch { /* ignore */ }
     return null
   }
+}
+
+/**
+ * Full act-validated load: loadRunRaw() plus the repairs that need the act's
+ * node map (dropping stale node ids, un-skipping convergence-bug victims,
+ * clearing a stale already-complete run). Async because the act may need to
+ * be fetched.
+ */
+export async function loadRun(): Promise<RunState | null> {
+  const parsed = loadRunRaw()
+  if (!parsed) return null
+
+  // Ensure actId is valid
+  const act = await loadAct(parsed.actId).catch(() => undefined)
+  if (!act) {
+    console.warn('[run] Invalid actId — clearing run')
+    localStorage.removeItem(RUN_KEY)
+    return null
+  }
+
+  // Remove any node IDs that don't exist in the act
+  const validIds = new Set(Object.keys(act.nodes))
+  parsed.completedNodeIds = parsed.completedNodeIds.filter(id => validIds.has(id))
+  parsed.skippedNodeIds   = parsed.skippedNodeIds.filter(id => validIds.has(id))
+  if (parsed.pendingNodeId && !validIds.has(parsed.pendingNodeId)) {
+    parsed.pendingNodeId = null
+  }
+
+  // Repair saves corrupted by the convergence-node skip bug (fixed in skipSiblings):
+  // A node Y was incorrectly skipped if any of its completed parents has no other completed child.
+  // Such a node is still reachable and must be un-skipped so the map isn't deadlocked.
+  {
+    const completedSet = new Set(parsed.completedNodeIds)
+    const parentMap = buildParentMap(act.nodes)
+    const toUnSkip = parsed.skippedNodeIds.filter(nodeId => {
+      const parents = parentMap[nodeId] ?? []
+      return parents.some(pid => {
+        if (!completedSet.has(pid)) return false
+        return !act.nodes[pid].childIds.some(cid => cid !== nodeId && completedSet.has(cid))
+      })
+    })
+    if (toUnSkip.length > 0) {
+      const unSkipSet = new Set(toUnSkip)
+      parsed.skippedNodeIds = parsed.skippedNodeIds.filter(id => !unSkipSet.has(id))
+      saveRun(parsed)
+    }
+  }
+
+  // If act is already complete with no pendingNode, clear run so a fresh one starts —
+  // unless pendingActComplete is set (player is on the act-complete screen) or
+  // pendingRelicSelect is set (player exited mid relic-select between acts).
+  if (isActComplete(act, parsed) && !parsed.pendingNodeId && !parsed.pendingActComplete && !parsed.pendingRelicSelect) {
+    console.warn('[run] Act already complete — clearing stale run')
+    localStorage.removeItem(RUN_KEY)
+    return null
+  }
+
+  return parsed
 }
 
 export function saveRun(run: RunState): void {
@@ -895,50 +895,66 @@ export function generateEndlessRewardChoices(wave: number): string[] {
 }
 
 // ─── Acts ─────────────────────────────────────────────────
+//
+// Act JSON is heavy (~30-50KB each, ~582KB combined) and only one act is ever
+// in play at a time, so each act is dynamically imported on first use and
+// cached rather than statically imported up front. See loadAct/getCachedAct.
+// New acts: add a loader entry here — no other wiring needed.
 
-export const ACT_1: Act = act1Data as Act
-export const ACT_2: Act = act2Data as Act
-export const ACT_3: Act = act3Data as Act
-export const ACT_4: Act = act4Data as Act
-export const ACT_5: Act = act5Data as Act
-export const ACT_6: Act = act6Data as Act
-export const ACT_7: Act = act7Data as Act
-export const ACT_8:  Act = act8Data  as Act
-export const ACT_9:  Act = act9Data  as Act
-export const ACT_10: Act = act10Data as Act
-export const ACT_11: Act = act11Data as Act
-export const ACT_12: Act = act12Data as Act
-export const ACT_13:     Act = act13Data    as Act
-export const ACT_FINALE: Act = actFinaleData as Act
-export const C2_ACT_1: Act = c2act1Data as Act
-export const C2_ACT_2: Act = c2act2Data as Act
-export const C2_ACT_3: Act = c2act3Data as Act
-export const C2_ACT_4: Act = c2act4Data as Act
-export const C2_ACT_5: Act = c2act5Data as Act
-/** Standalone battles launched from the world map — never part of campaign progression. */
-export const ACT_WORLD: Act = worldBattlesData as Act
+const ACT_LOADERS: Record<string, () => Promise<{ default: unknown }>> = {
+  act1:      () => import('../data/acts/act1.json'),
+  act2:      () => import('../data/acts/act2.json'),
+  act3:      () => import('../data/acts/act3.json'),
+  act4:      () => import('../data/acts/act4.json'),
+  act5:      () => import('../data/acts/act5.json'),
+  act6:      () => import('../data/acts/act6.json'),
+  act7:      () => import('../data/acts/act7.json'),
+  act8:      () => import('../data/acts/act8.json'),
+  act9:      () => import('../data/acts/act9.json'),
+  act10:     () => import('../data/acts/act10.json'),
+  act11:     () => import('../data/acts/act11.json'),
+  act12:     () => import('../data/acts/act12.json'),
+  act13:     () => import('../data/acts/act13.json'),
+  actfinale: () => import('../data/acts/actfinale.json'),
+  c2act1:    () => import('../data/acts/c2act1.json'),
+  c2act2:    () => import('../data/acts/c2act2.json'),
+  c2act3:    () => import('../data/acts/c2act3.json'),
+  c2act4:    () => import('../data/acts/c2act4.json'),
+  c2act5:    () => import('../data/acts/c2act5.json'),
+  /** Standalone battles launched from the world map — never part of campaign progression. */
+  world:     () => import('../data/acts/worldbattles.json'),
+}
 
-export const ACTS: Record<string, Act> = {
-  act1:  ACT_1,
-  act2:  ACT_2,
-  act3:  ACT_3,
-  act4:  ACT_4,
-  act5:  ACT_5,
-  act6:  ACT_6,
-  act7:  ACT_7,
-  act8:  ACT_8,
-  act9:  ACT_9,
-  act10: ACT_10,
-  act11: ACT_11,
-  act12: ACT_12,
-  act13:     ACT_13,
-  actfinale: ACT_FINALE,
-  c2act1:    C2_ACT_1,
-  c2act2:    C2_ACT_2,
-  c2act3:    C2_ACT_3,
-  c2act4:    C2_ACT_4,
-  c2act5:    C2_ACT_5,
-  world:     ACT_WORLD,
+/** All campaign act ids, in authored order (excludes the standalone 'world' battles map). */
+export const ACT_IDS: string[] = Object.keys(ACT_LOADERS).filter(id => id !== 'world')
+
+const actPromiseCache  = new Map<string, Promise<Act>>()
+const resolvedActCache = new Map<string, Act>()
+
+/** Loads (and caches) an act's data by id. Rejects if actId is unknown. */
+export function loadAct(actId: string): Promise<Act> {
+  const cached = actPromiseCache.get(actId)
+  if (cached) return cached
+
+  const loader = ACT_LOADERS[actId]
+  if (!loader) {
+    const rejected = Promise.reject(new Error(`Unknown actId: ${actId}`))
+    actPromiseCache.set(actId, rejected)
+    return rejected
+  }
+
+  const promise = loader().then(m => {
+    const act = m.default as Act
+    resolvedActCache.set(actId, act)
+    return act
+  })
+  actPromiseCache.set(actId, promise)
+  return promise
+}
+
+/** Synchronous, no-fetch read of an already-loaded act. Undefined if not loaded yet. */
+export function getCachedAct(actId: string): Act | undefined {
+  return resolvedActCache.get(actId)
 }
 
 // ─── Campaigns ────────────────────────────────────────────
@@ -1003,10 +1019,11 @@ export function recordNodeComplete(actId: string, nodeId: string): void {
 }
 
 /** Returns the act that follows this one in the campaign, or null if it's the last. */
-export function getNextAct(actId: string): Act | null {
-  const nextId = ACTS[actId]?.nextActId
+export async function getNextAct(actId: string): Promise<Act | null> {
+  const cur = await loadAct(actId).catch(() => undefined)
+  const nextId = cur?.nextActId
   if (!nextId) return null
-  return ACTS[nextId] ?? null
+  return loadAct(nextId).catch(() => null)
 }
 
 // ─── Player character ─────────────────────────────────────────────────────────

@@ -7,7 +7,7 @@
 // interior/pickup) only include other towns when `crossTown` is set.
 
 import type { MapId, QuestDefsJson } from '../../data/hub/hubWorldFactory'
-import { QUEST_DEFS_BY_MAP } from '../../data/hub/hubWorldFactory'
+import { QUEST_DEFS_BY_MAP } from '../../data/hub/hubTownRawQuestConfigs'
 import type { RawMapConfig } from './mapEditorTypes'
 import { RAW_CONFIGS } from './useMapEditorState'
 import hubItems from '../../data/hubItems.json'

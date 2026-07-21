@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { LOCATION_REGISTRY } from './hubWorldFactory'
+import { getHubWorldData } from './hubWorldFactory'
+
+const { locationRegistry: LOCATION_REGISTRY } = await getHubWorldData()
 
 // Guard for the activity-aware dialogue content pass (#1960): every scheduled
 // NPC whose schedule includes a `sleep` entry must have both a non-empty

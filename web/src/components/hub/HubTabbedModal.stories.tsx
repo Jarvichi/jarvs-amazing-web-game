@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { fn } from 'storybook/test'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { HubTabbedModal, type HubTabId } from './HubTabbedModal'
-import { RAVENWATCH } from '../../data/hub/hubWorldFactory'
+import { RAVENWATCH } from '../../data/hub/hubTownStoryFixtures'
 import { getUpgradeTrack } from '../../data/hub/buildingUpgrades'
 import type { UpgradeRow } from './HubTownUpgrades'
 

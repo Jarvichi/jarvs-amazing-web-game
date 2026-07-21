@@ -12,7 +12,7 @@
 // "The Hearthstone" would keep seeing the old broken icon forever, because the
 // display fields are captured inline into the player's save at grant time.
 
-import { ALL_QUEST_DEFS, ALL_QUESTS, LOCATION_REGISTRY } from '../data/hub/hubWorldFactory'
+import { peekHubWorldData, HubWorldData } from '../data/hub/hubWorldFactory'
 import chronicleData from '../data/chronicle.json'
 
 export interface KnownCollectible {
@@ -22,16 +22,16 @@ export interface KnownCollectible {
   lore?: string
 }
 
-function buildKnownCollectibles(): Record<string, KnownCollectible> {
+function buildKnownCollectibles(hubData: HubWorldData): Record<string, KnownCollectible> {
   const known: Record<string, KnownCollectible> = {}
 
   // Quest-completion rewards (HubWorld.tsx grantQuestReward)
-  for (const quest of ALL_QUEST_DEFS) {
+  for (const quest of hubData.allQuestDefs) {
     const c = quest.reward.collectible
     if (c) known[c.id] = { name: c.name, icon: c.icon, desc: c.desc }
   }
 
-  for (const { locationData } of Object.values(LOCATION_REGISTRY)) {
+  for (const { locationData } of Object.values(hubData.locationRegistry)) {
     // World-exploration finds (HubWorld.tsx giveItem reaction)
     for (const interactable of locationData.HUB_INTERACTABLES) {
       for (const reaction of interactable.reactions) {
@@ -49,7 +49,7 @@ function buildKnownCollectibles(): Record<string, KnownCollectible> {
   }
 
   // Barter-trade rewards (HubWorld.tsx tradeHubItem dialogue effect)
-  for (const tree of Object.values(ALL_QUESTS.HUB_DIALOGUES)) {
+  for (const tree of Object.values(hubData.allQuests.HUB_DIALOGUES)) {
     for (const node of Object.values(tree.nodes)) {
       for (const choice of node.choices ?? []) {
         for (const effect of choice.effects ?? []) {
@@ -75,9 +75,22 @@ function buildKnownCollectibles(): Record<string, KnownCollectible> {
   return known
 }
 
-const KNOWN_COLLECTIBLES = buildKnownCollectibles()
+// Hub town data is lazy-loaded (see hubWorldFactory.ts) and may not have
+// loaded yet — e.g. loadInventory() can run before the player has ever opened
+// the hub. Rather than trigger a fetch here (which would pull ~1.5MB of town
+// JSON into memory at whatever moment this first runs, defeating the point of
+// making it lazy), this only builds the catalog once hub data has already
+// been loaded by something else (normally opening the hub world). Until then,
+// getKnownCollectible() returns undefined and callers fall back to the
+// item's own stored display fields — see loadInventory() in dailyLogin.ts.
+let cachedCatalog: Record<string, KnownCollectible> | undefined
 
 /** Look up the current authoritative definition for a narrative-reward collectible id. */
 export function getKnownCollectible(id: string): KnownCollectible | undefined {
-  return KNOWN_COLLECTIBLES[id]
+  if (!cachedCatalog) {
+    const hubData = peekHubWorldData()
+    if (!hubData) return undefined
+    cachedCatalog = buildKnownCollectibles(hubData)
+  }
+  return cachedCatalog[id]
 }

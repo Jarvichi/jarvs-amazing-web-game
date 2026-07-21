@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useEffect, useRef, useMemo, useReducer } from 'react'
+import React, { useState, useCallback, useEffect, useRef, useMemo, useReducer, lazy, Suspense } from 'react'
+import { ScreenLoadingFallback } from './components/ScreenLoadingFallback'
 import { resolvedNodeOpts, loadHandicap, HANDICAP_KEY, buildQuickBattleOpts, loadCurrentDeckInfo } from './game/campaignHelpers'
 import { usePlaytime } from './hooks/usePlaytime'
 import { recordScreen } from './utils/crashSentinel'
@@ -24,9 +25,10 @@ import {
 import { getCardCatalog } from './game/cards'
 import { applyStatUpgrade } from './game/playerStats'
 import {
-  loadRun, saveRun, clearRun, newRun, LIVES_START, LIVES_MAX,
+  loadRun, loadRunRaw, saveRun, clearRun, newRun, LIVES_START, LIVES_MAX,
   getAvailableNodeIds, skipSiblings, isActComplete,
-  generateRewardChoices, generateEndlessRewardChoices, generateMerchantCards, MERCHANT_PRICES, ACTS, getNextAct, getCampaignForAct,
+  generateRewardChoices, generateEndlessRewardChoices, generateMerchantCards, MERCHANT_PRICES,
+  loadAct, getCachedAct, getCampaignForAct,
   loadFatigued, saveFatigued, clearFatigued, getTopPlayedCards,
   hasSeenIntro, markIntroSeen,
   loadRunCount, incrementRunCount, getAct1Intro,
@@ -40,76 +42,78 @@ import {
   setLastRunFailed, loadLastRunFailed, clearLastRunFailed,
   ARCHETYPE_STARTER_PACK, loadPlayerArchetype,
 } from './game/questline'
-import { CardRestSelect }       from './components/cards/CardRestSelect'
-import { CampScreen, CampChoice } from './components/campaign/CampScreen'
-import { EventScreen }          from './components/campaign/EventScreen'
+const CardRestSelect = lazy(() => import('./components/cards/CardRestSelect').then(m => ({ default: m.CardRestSelect })))
+import type { CampChoice } from './components/campaign/CampScreen'
+const CampScreen = lazy(() => import('./components/campaign/CampScreen').then(m => ({ default: m.CampScreen })))
+const EventScreen = lazy(() => import('./components/campaign/EventScreen').then(m => ({ default: m.EventScreen })))
 import { MerchantScreen, MerchantItem, cardMerchantItem } from './components/campaign/MerchantScreen'
-import { MysteryScreen } from './components/campaign/MysteryScreen'
-import { MemoryFragmentScreen } from './components/campaign/MemoryFragmentScreen'
+const MysteryScreen = lazy(() => import('./components/campaign/MysteryScreen').then(m => ({ default: m.MysteryScreen })))
+const MemoryFragmentScreen = lazy(() => import('./components/campaign/MemoryFragmentScreen').then(m => ({ default: m.MemoryFragmentScreen })))
 import { MemoryFragment, isFragmentDiscovered, markFragmentDiscovered, isHubWorldUnlocked, unlockHubWorld, areAllCampaignFragmentsDiscovered, loadHubDefault, saveHubDefault } from './game/codex'
-import { CharacterEncounterScreen } from './components/campaign/CharacterEncounterScreen'
-import { NarratorJournalScreen } from './components/hub/NarratorJournalScreen'
+const CharacterEncounterScreen = lazy(() => import('./components/campaign/CharacterEncounterScreen').then(m => ({ default: m.CharacterEncounterScreen })))
+const NarratorJournalScreen = lazy(() => import('./components/hub/NarratorJournalScreen').then(m => ({ default: m.NarratorJournalScreen })))
 import { CharacterChoice, recordCharacterEncounter, getCharacterEncounterChance, resolveCharacterEncounterId } from './game/characters'
 import memoryFragmentsData from './data/memoryFragments.json'
 import { ItemFoundScreen }    from './components/modals/ItemFoundScreen'
-import { CharacterScreen }    from './components/screens/CharacterScreen'
-import { CutsceneScreen }       from './components/campaign/CutsceneScreen'
-import { BossDialogueScreen }   from './components/battle/BossDialogueScreen'
-import { Battlefield }        from './components/battle/Battlefield'
-import { GameOver }           from './components/battle/GameOver'
+const CharacterScreen = lazy(() => import('./components/screens/CharacterScreen').then(m => ({ default: m.CharacterScreen })))
+const CutsceneScreen = lazy(() => import('./components/campaign/CutsceneScreen').then(m => ({ default: m.CutsceneScreen })))
+const BossDialogueScreen = lazy(() => import('./components/battle/BossDialogueScreen').then(m => ({ default: m.BossDialogueScreen })))
+const Battlefield = lazy(() => import('./components/battle/Battlefield').then(m => ({ default: m.Battlefield })))
+const GameOver = lazy(() => import('./components/battle/GameOver').then(m => ({ default: m.GameOver })))
 import { TitleScreen }        from './components/title/TitleScreen'
-import { QuickBattleMode, QuickBattleScreen }  from './components/screens/QuickBattleScreen'
-import { CardDraftScreen }    from './components/screens/CardDraftScreen'
-import { CollectionScreen }   from './components/screens/CollectionScreen'
-import { DeckBuilder }        from './components/cards/DeckBuilder'
-import { PackOpening }        from './components/cards/PackOpening'
+import type { QuickBattleMode } from './components/screens/QuickBattleScreen'
+const QuickBattleScreen = lazy(() => import('./components/screens/QuickBattleScreen').then(m => ({ default: m.QuickBattleScreen })))
+const CardDraftScreen = lazy(() => import('./components/screens/CardDraftScreen').then(m => ({ default: m.CardDraftScreen })))
+const CollectionScreen = lazy(() => import('./components/screens/CollectionScreen').then(m => ({ default: m.CollectionScreen })))
+const DeckBuilder = lazy(() => import('./components/cards/DeckBuilder').then(m => ({ default: m.DeckBuilder })))
+const PackOpening = lazy(() => import('./components/cards/PackOpening').then(m => ({ default: m.PackOpening })))
 import { NodeMap }            from './components/campaign/NodeMap'
-import { HubWorld }           from './components/hub/HubWorld'
-import { HubWorldMap }        from './components/hub/HubWorldMap'
-import { CasinoScreen }       from './components/hub/CasinoScreen'
-import { TheatreScreen }      from './components/hub/TheatreScreen'
-import { PostBattleReward }   from './components/battle/PostBattleReward'
-import { ActComplete }        from './components/battle/ActComplete'
-import { RelicSelectScreen }  from './components/campaign/RelicSelectScreen'
-import { ReplayBriefingScreen } from './components/campaign/ReplayBriefingScreen'
-import { StarterPackSelect }  from './components/cards/StarterPackSelect'
+const HubWorld = lazy(() => import('./components/hub/HubWorld').then(m => ({ default: m.HubWorld })))
+const HubWorldMap = lazy(() => import('./components/hub/HubWorldMap').then(m => ({ default: m.HubWorldMap })))
+const CasinoScreen = lazy(() => import('./components/hub/CasinoScreen').then(m => ({ default: m.CasinoScreen })))
+const TheatreScreen = lazy(() => import('./components/hub/TheatreScreen').then(m => ({ default: m.TheatreScreen })))
+const PostBattleReward = lazy(() => import('./components/battle/PostBattleReward').then(m => ({ default: m.PostBattleReward })))
+const ActComplete = lazy(() => import('./components/battle/ActComplete').then(m => ({ default: m.ActComplete })))
+const RelicSelectScreen = lazy(() => import('./components/campaign/RelicSelectScreen').then(m => ({ default: m.RelicSelectScreen })))
+const ReplayBriefingScreen = lazy(() => import('./components/campaign/ReplayBriefingScreen').then(m => ({ default: m.ReplayBriefingScreen })))
+const StarterPackSelect = lazy(() => import('./components/cards/StarterPackSelect').then(m => ({ default: m.StarterPackSelect })))
 import { SettingsScreen, applyTextSettings, loadSkipIntro, load8bitEnabled, apply8bitMode, applyLightMode, loadLightMode } from './components/screens/SettingsScreen'
 import { IntroScreen } from './components/title/IntroScreen'
-import { FakeCrashEvent }     from './components/rare-events/FakeCrashEvent'
-import { BlackjackEvent }     from './components/rare-events/BlackjackEvent'
-import { WrongNumberEvent }   from './components/rare-events/WrongNumberEvent'
-import { NarratorEvent }      from './components/rare-events/NarratorEvent'
-import { LiarsDiceEvent }     from './components/rare-events/LiarsDiceEvent'
-import { GamblerEvent }       from './components/rare-events/GamblerEvent'
-import { DevBuildEvent }        from './components/rare-events/DevBuildEvent'
-import { GlitchedCardEvent }    from './components/rare-events/GlitchedCardEvent'
-import { ConfusedTouristEvent } from './components/rare-events/ConfusedTouristEvent'
+const FakeCrashEvent = lazy(() => import('./components/rare-events/FakeCrashEvent').then(m => ({ default: m.FakeCrashEvent })))
+const BlackjackEvent = lazy(() => import('./components/rare-events/BlackjackEvent').then(m => ({ default: m.BlackjackEvent })))
+const WrongNumberEvent = lazy(() => import('./components/rare-events/WrongNumberEvent').then(m => ({ default: m.WrongNumberEvent })))
+const NarratorEvent = lazy(() => import('./components/rare-events/NarratorEvent').then(m => ({ default: m.NarratorEvent })))
+const LiarsDiceEvent = lazy(() => import('./components/rare-events/LiarsDiceEvent').then(m => ({ default: m.LiarsDiceEvent })))
+const GamblerEvent = lazy(() => import('./components/rare-events/GamblerEvent').then(m => ({ default: m.GamblerEvent })))
+const DevBuildEvent = lazy(() => import('./components/rare-events/DevBuildEvent').then(m => ({ default: m.DevBuildEvent })))
+const GlitchedCardEvent = lazy(() => import('./components/rare-events/GlitchedCardEvent').then(m => ({ default: m.GlitchedCardEvent })))
+const ConfusedTouristEvent = lazy(() => import('./components/rare-events/ConfusedTouristEvent').then(m => ({ default: m.ConfusedTouristEvent })))
 import { CardTile }           from './components/cards/CardTile'
 import { DailyLoginModal }   from './components/screens/DailyLoginModal'
 import { GiftClaimModal }    from './components/admin/GiftClaimModal'
-import { GiftAdminScreen }  from './components/admin/GiftAdminScreen'
+const GiftAdminScreen = lazy(() => import('./components/admin/GiftAdminScreen').then(m => ({ default: m.GiftAdminScreen })))
 import { LoginModal }        from './components/modals/LoginModal'
-import { InventoryScreen }   from './components/screens/InventoryScreen'
+const InventoryScreen = lazy(() => import('./components/screens/InventoryScreen').then(m => ({ default: m.InventoryScreen })))
 import { markDailyRewardClaimed, addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
 import { applyGiftRewards, GiftDef, GIFT_OWNER_UID } from './game/gifts'
 import { fetchEnabledTownIds, isTownAccessible, loadPreviewAsPlayer, savePreviewAsPlayer } from './game/townAccess'
-import { NewsScreen }      from './components/screens/NewsScreen'
-import { NewsAdminScreen } from './components/admin/NewsAdminScreen'
-import { CampaignAdminScreen } from './components/admin/CampaignAdminScreen'
-import { SceneryAdminScreen } from './components/admin/SceneryAdminScreen'
+const NewsScreen = lazy(() => import('./components/screens/NewsScreen').then(m => ({ default: m.NewsScreen })))
+const NewsAdminScreen = lazy(() => import('./components/admin/NewsAdminScreen').then(m => ({ default: m.NewsAdminScreen })))
+const CampaignAdminScreen = lazy(() => import('./components/admin/CampaignAdminScreen').then(m => ({ default: m.CampaignAdminScreen })))
+const SceneryAdminScreen = lazy(() => import('./components/admin/SceneryAdminScreen').then(m => ({ default: m.SceneryAdminScreen })))
 import { FeedbackModal } from './components/modals/FeedbackModal'
-import { FeedbackAdminScreen } from './components/admin/FeedbackAdminScreen'
-import { TownAccessAdminScreen } from './components/admin/TownAccessAdminScreen'
+const FeedbackAdminScreen = lazy(() => import('./components/admin/FeedbackAdminScreen').then(m => ({ default: m.FeedbackAdminScreen })))
+const TownAccessAdminScreen = lazy(() => import('./components/admin/TownAccessAdminScreen').then(m => ({ default: m.TownAccessAdminScreen })))
 import { DeckSelectorModal } from './components/cards/DeckSelectorModal'
 import { loadDeckSlot } from './game/collection'
 import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
 import { getWeeklyChallenge, getWeeklyPlayerDeck, getWeeklyOpponentDeck, getWeeklyChallengeState, saveWeeklyChallengeResult, grantWeeklyReward, publishWeeklyResult, WeeklyRewardResult } from './game/weeklyChallenge'
-import { WeeklyChallengeScreen } from './components/screens/WeeklyChallengeScreen'
+const WeeklyChallengeScreen = lazy(() => import('./components/screens/WeeklyChallengeScreen').then(m => ({ default: m.WeeklyChallengeScreen })))
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic, rollExoticDrop } from './game/relics'
 import { recordQuestKills, recordQuestWin, recordQuestCardPlayed, recordQuestBossDefeat, QuestChainDef } from './game/quests'
 import { recordChronicleWin, describeReward, ChronicleChapterDef } from './game/chronicle'
-import { ChronicleScreen } from './components/screens/ChronicleScreen'
-import { BossEpilogueScreen } from './components/campaign/BossEpilogueScreen'
+const ChronicleScreen = lazy(() => import('./components/screens/ChronicleScreen').then(m => ({ default: m.ChronicleScreen })))
+const BossEpilogueScreen = lazy(() => import('./components/campaign/BossEpilogueScreen').then(m => ({ default: m.BossEpilogueScreen })))
 import bossEpiloguesData from './data/bossEpilogues.json'
 import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, playBattleStart, playVictory, playDefeat, stopBattleMusic, stopGameOverMusic } from './game/sound'
 import { useMusic } from './hooks/useMusic'
@@ -122,38 +126,39 @@ import { loadCommander, promoteCommander, CommanderState } from './game/commande
 
 import { WORLD_MAP, WORLD_MAP_NODES, type WorldNodeDef } from './data/world/worldMapDef'
 import { setCurrentWorldLocation, getCurrentWorldLocation, markNodeCleared, isNodeCleared } from './game/world/worldState'
-import { CommanderScreen } from './components/screens/CommanderScreen'
-import { TrainingScreen }  from './components/screens/TrainingScreen'
+const CommanderScreen = lazy(() => import('./components/screens/CommanderScreen').then(m => ({ default: m.CommanderScreen })))
+const TrainingScreen = lazy(() => import('./components/screens/TrainingScreen').then(m => ({ default: m.TrainingScreen })))
 import {
   incrementAchievementProgress, setAchievementProgress, AchievementDef,
 } from './game/achievements'
 import { incrementAugmentSouls } from './game/collection'
-import { AchievementsScreen }  from './components/screens/AchievementsScreen'
-import { HallOfAchievements }   from './components/hub/HallOfAchievements'
-import { HomeShelf }             from './components/hub/HomeShelf'
-import { HeroCardsScreen }   from './components/screens/HeroCardsScreen'
-import FingerSmash from './components/battle/FingerSmash'
-import BossShockwave from './components/battle/BossShockwave'
-import { ShopScreen }        from './components/screens/ShopScreen'
-import { BattleSummary }    from './components/battle/BattleSummary'
-import { VictoryPanel }     from './components/battle/VictoryPanel'
-import { RelicSpinScreen }  from './components/campaign/RelicSpinScreen'
-import { CampaignVictoryScreen } from './components/battle/CampaignVictoryScreen'
-import { ToBeContinuedScreen } from './components/battle/ToBeContinuedScreen'
-import { CampaignFailedScreen }  from './components/battle/CampaignFailedScreen'
-import { StatUpgradeScreen }     from './components/campaign/StatUpgradeScreen'
-import { PlayerStatsScreen }     from './components/screens/PlayerStatsScreen'
-import { CodexScreen }          from './components/screens/CodexScreen'
-import { DailyChallengeScreen } from './components/screens/DailyChallengeScreen'
+const AchievementsScreen = lazy(() => import('./components/screens/AchievementsScreen').then(m => ({ default: m.AchievementsScreen })))
+const HallOfAchievements = lazy(() => import('./components/hub/HallOfAchievements').then(m => ({ default: m.HallOfAchievements })))
+const HomeShelf = lazy(() => import('./components/hub/HomeShelf').then(m => ({ default: m.HomeShelf })))
+const HeroCardsScreen = lazy(() => import('./components/screens/HeroCardsScreen').then(m => ({ default: m.HeroCardsScreen })))
+const FingerSmash = lazy(() => import('./components/battle/FingerSmash'))
+const BossShockwave = lazy(() => import('./components/battle/BossShockwave'))
+const ShopScreen = lazy(() => import('./components/screens/ShopScreen').then(m => ({ default: m.ShopScreen })))
+const BattleSummary = lazy(() => import('./components/battle/BattleSummary').then(m => ({ default: m.BattleSummary })))
+const VictoryPanel = lazy(() => import('./components/battle/VictoryPanel').then(m => ({ default: m.VictoryPanel })))
+const RelicSpinScreen = lazy(() => import('./components/campaign/RelicSpinScreen').then(m => ({ default: m.RelicSpinScreen })))
+const CampaignVictoryScreen = lazy(() => import('./components/battle/CampaignVictoryScreen').then(m => ({ default: m.CampaignVictoryScreen })))
+const ToBeContinuedScreen = lazy(() => import('./components/battle/ToBeContinuedScreen').then(m => ({ default: m.ToBeContinuedScreen })))
+const CampaignFailedScreen = lazy(() => import('./components/battle/CampaignFailedScreen').then(m => ({ default: m.CampaignFailedScreen })))
+const StatUpgradeScreen = lazy(() => import('./components/campaign/StatUpgradeScreen').then(m => ({ default: m.StatUpgradeScreen })))
+const PlayerStatsScreen = lazy(() => import('./components/screens/PlayerStatsScreen').then(m => ({ default: m.PlayerStatsScreen })))
+const CodexScreen = lazy(() => import('./components/screens/CodexScreen').then(m => ({ default: m.CodexScreen })))
+const DailyChallengeScreen = lazy(() => import('./components/screens/DailyChallengeScreen').then(m => ({ default: m.DailyChallengeScreen })))
 import { ConfirmModal }          from './components/modals/ConfirmModal'
 import { StreakBrokenModal }     from './components/modals/StreakBrokenModal'
-import { EndlessLeaderboardScreen } from './components/screens/EndlessLeaderboardScreen'
-import { MiniGamesMenu, SubScreen } from './components/screens/MiniGamesMenu'
-import { Fishing } from './components/minigames/Fishing'
+const EndlessLeaderboardScreen = lazy(() => import('./components/screens/EndlessLeaderboardScreen').then(m => ({ default: m.EndlessLeaderboardScreen })))
+import type { SubScreen } from './components/screens/MiniGamesMenu'
+const MiniGamesMenu = lazy(() => import('./components/screens/MiniGamesMenu').then(m => ({ default: m.MiniGamesMenu })))
+const Fishing = lazy(() => import('./components/minigames/Fishing').then(m => ({ default: m.Fishing })))
 import { OverlayScreen } from './components/ui/OverlayScreen'
-import { AugmentCollectionScreen } from './components/screens/AugmentCollectionScreen'
-import { PlayerScreen }            from './components/screens/PlayerScreen'
-import { CollectionTabScreen }     from './components/screens/CollectionTabScreen'
+const AugmentCollectionScreen = lazy(() => import('./components/screens/AugmentCollectionScreen').then(m => ({ default: m.AugmentCollectionScreen })))
+const PlayerScreen = lazy(() => import('./components/screens/PlayerScreen').then(m => ({ default: m.PlayerScreen })))
+const CollectionTabScreen = lazy(() => import('./components/screens/CollectionTabScreen').then(m => ({ default: m.CollectionTabScreen })))
 import './styles.css'
 import { publishSecretRareWin, type SecretRarityType } from './game/secretRareNews'
 import brokenRelicsData from './data/broken-relics.json'
@@ -161,7 +166,7 @@ import rollbar, { updateRollbarPerson } from './rollbar'
 import { useAuth } from './hooks/useAuth'
 import { auth } from './firebase'
 import { uploadSave, applySave } from './game/cloudSave'
-import { ALL_QUEST_DEFS, LOCATION_REGISTRY } from './data/hub/hubWorldFactory'
+import { getHubWorldData, type HubWorldData } from './data/hub/hubWorldFactory'
 
 // Apply saved display settings on load
 applyTextSettings()
@@ -339,8 +344,18 @@ export default function App() {
   // ── Startup: auto-resume a pending campaign battle on page refresh ──────────
   // If the player refreshed mid-battle, pendingNodeId is still set. We build the
   // game state immediately so they land straight back in the battle.
+  //
+  // Act data is now lazy-loaded (see questline.ts loadAct), so it is never
+  // available synchronously this early at boot — getCachedAct always misses
+  // here, so the two branches below that need it (pendingNodeId battle-resume,
+  // and the isActComplete check) fall through exactly like they would if the
+  // act had failed to load, showing a provisional screen. The resume effect
+  // further down finishes the job once the act has actually loaded, correcting
+  // the screen/gameState if a resume was warranted. Every other branch here
+  // (0-lives, pendingActComplete/pendingRelicSelect, hubworld-default,
+  // endless-restore, plain intro/title) needs no act data and is unaffected.
   const [_startup] = useState(() => {
-    const savedRun = loadRun()
+    const savedRun = loadRunRaw()
     // Guard: a run drained to 0 lives is unplayable. Normally hitting 0 lives clears
     // the run via the campaign-failed flow, so a *persisted* 0-life run is a corrupted
     // /zombie state (e.g. from the pre-#1702 bug where losing a non-campaign battle
@@ -354,7 +369,7 @@ export default function App() {
       return { screen: 'campaignfailed' as Screen, gameState: null as GameState | null, run: null as RunState | null, isCampaign: false }
     }
     if (savedRun?.pendingNodeId) {
-      const act  = ACTS[savedRun.actId]
+      const act  = getCachedAct(savedRun.actId)
       const node = act?.nodes[savedRun.pendingNodeId]
       if (node && (node.type === 'battle' || node.type === 'boss' || node.type === 'elite')) {
         // If a mid-battle save exists, restore it exactly — no fresh start for cheaters
@@ -389,7 +404,7 @@ export default function App() {
       return { screen: 'actcomplete' as Screen, gameState: null as GameState | null, run: savedRun, isCampaign: false }
     }
     // If the act is complete but pendingActComplete was cleared, also restore to actcomplete.
-    const savedAct = savedRun ? ACTS[savedRun.actId] : null
+    const savedAct = savedRun ? getCachedAct(savedRun.actId) : null
     if (savedRun && savedAct && isActComplete(savedAct, savedRun)) {
       return { screen: 'actcomplete' as Screen, gameState: null as GameState | null, run: savedRun, isCampaign: false }
     }
@@ -408,12 +423,25 @@ export default function App() {
   const [returnScreen, setReturnScreen]  = useState<Screen>('title')
   const [shopBuildingId, setShopBuildingId] = useState<string | undefined>(undefined)
   // Restore the town the player was last in (persisted in worldState). The saved
-  // value is a world-map node id; for town nodes that id equals the LOCATION_REGISTRY
-  // key. Fall back to ravenwatch if the saved id isn't a known town (e.g. a battle node).
-  const [currentLocationKey, setCurrentLocationKey] = useState<string>(() => {
-    const saved = getCurrentWorldLocation()
-    return LOCATION_REGISTRY[saved] ? saved : 'ravenwatch'
-  })
+  // value is a world-map node id; for town nodes that id equals the hub data's
+  // locationRegistry key. Hub data is lazy-loaded (see hubData below), so this
+  // can't validate against it synchronously — an effect corrects an invalid
+  // saved id back to ravenwatch once hub data has loaded.
+  const [currentLocationKey, setCurrentLocationKey] = useState<string>(() => getCurrentWorldLocation() || 'ravenwatch')
+
+  // ── Hub town data (lazy-loaded) ──────────────────────────────────────────────
+  // All 13 towns' config/quest data (~1.5MB) is only fetched once the player
+  // actually heads toward the hub — never at boot.
+  const [hubData, setHubData] = useState<HubWorldData | null>(null)
+  useEffect(() => {
+    if (hubData) return
+    if (screen === 'hubworld' || screen === 'location' || screen === 'worldmap') {
+      getHubWorldData().then(setHubData)
+    }
+  }, [screen, hubData])
+  useEffect(() => {
+    if (hubData && !hubData.locationRegistry[currentLocationKey]) setCurrentLocationKey('ravenwatch')
+  }, [hubData, currentLocationKey])
   const [miniGamesEntry, setMiniGamesEntry] = useState<'menu' | 'citybuilder'>('menu')
   const [hubMiniGameEntry, setHubMiniGameEntry] = useState<SubScreen>('menu')
   const [showTitleLoginModal, setShowTitleLoginModal] = useState(false)
@@ -474,6 +502,100 @@ export default function App() {
   const isDraftModeRef      = useRef(false)                  // true while playing a Card Draft battle
    const quickBattleModeRef = useRef<QuickBattleMode>('easy')                //  Quick Battle Mode
   const worldBattleNodeIdRef = useRef<string | null>(null)
+
+  // ── Current run's act data (lazy-loaded) ────────────────────────────────────
+  // Loaded async whenever run.actId changes; actDataFailed distinguishes "still
+  // loading" from "genuinely invalid actId" for the data-guard effect below.
+  const [actData, setActData]             = useState<Act | null>(() => run ? getCachedAct(run.actId) ?? null : null)
+  const [actDataFailed, setActDataFailed] = useState(false)
+  const [hasNextAct, setHasNextAct]       = useState(false)
+
+  useEffect(() => {
+    if (!run) { setActData(null); setActDataFailed(false); return }
+    const cached = getCachedAct(run.actId)
+    if (cached) { setActData(cached); setActDataFailed(false); return }
+    setActData(null)
+    setActDataFailed(false)
+    let cancelled = false
+    loadAct(run.actId)
+      .then(act => { if (!cancelled) { setActData(act); setActDataFailed(false) } })
+      .catch(() => { if (!cancelled) { setActData(null); setActDataFailed(true) } })
+    return () => { cancelled = true }
+  }, [run?.actId])
+
+  // Whether a next act exists after the current one — used by the ActComplete screen.
+  useEffect(() => {
+    const nextActId = actData?.nextActId
+    if (!nextActId) { setHasNextAct(false); return }
+    let cancelled = false
+    loadAct(nextActId)
+      .then(() => { if (!cancelled) setHasNextAct(true) })
+      .catch(() => { if (!cancelled) setHasNextAct(false) })
+    return () => { cancelled = true }
+  }, [actData?.nextActId])
+
+  // ── Startup resume, part 2 ───────────────────────────────────────────────────
+  // Finishes what the synchronous _startup initializer above couldn't: the
+  // pendingNodeId battle-resume and the isActComplete check both need act data,
+  // which is never available synchronously at boot. Runs once on mount; every
+  // other startup branch (0-lives, pendingActComplete/pendingRelicSelect,
+  // hubworld-default, endless-restore, plain intro/title) needed no act data
+  // and was already decided correctly by the synchronous initializer.
+  useEffect(() => {
+    const savedRun = _startup.run
+    if (!savedRun) return
+    let cancelled = false
+    ;(async () => {
+      if (savedRun.pendingNodeId) {
+        const act  = await loadAct(savedRun.actId).catch(() => undefined)
+        const node = act?.nodes[savedRun.pendingNodeId]
+        if (node && (node.type === 'battle' || node.type === 'boss' || node.type === 'elite')) {
+          if (cancelled) return
+          const startupArch = loadPlayerArchetype()
+          const savedBattle = loadBattleState()
+          isCampaignRef.current = true
+          if (savedBattle) {
+            incrementAchievementProgress('misc:refresh_cheat')
+            if (startupArch) savedBattle.archetypePassive = startupArch
+            dispatch({ type: 'START', gameState: savedBattle })
+            setRun(savedRun)
+            setScreen('playing')
+            return
+          }
+          const collection  = loadCollection()
+          const fatigued    = loadFatigued()
+          const deckEntries = loadDeck().filter(e => !fatigued.includes(e.cardName))
+          const playerCards = buildDeckCards(deckEntries, collection)
+          const earnedEntries = (savedRun.earnedCards ?? []).map(n => ({ cardName: n, count: 1 }))
+          if (earnedEntries.length > 0) playerCards.push(...buildDeckCards(earnedEntries, collection))
+          const mods = act ? getModifiersByCount(act, savedRun.activeModifierCount) : []
+          const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods) })
+          state.playerBase = { hp: savedRun.playerHp, maxHp: savedRun.maxHp }
+          if (savedRun.activeRelic) getRelicDef(savedRun.activeRelic)?.applyToGame(state)
+          if (startupArch) state.archetypePassive = startupArch
+          dispatch({ type: 'START', gameState: state })
+          setRun(savedRun)
+          setScreen('playing')
+          return
+        }
+        // Act missing or node not a battle node — fall through, exactly like the
+        // synchronous initializer's fallthrough when act data was unavailable.
+      }
+      if (savedRun.pendingActComplete || savedRun.pendingRelicSelect) return // already resolved synchronously
+      const act = getCachedAct(savedRun.actId) ?? (await loadAct(savedRun.actId).catch(() => undefined))
+      if (cancelled) return
+      if (act && isActComplete(act, savedRun)) {
+        setRun(savedRun)
+        setScreen('actcomplete')
+      }
+      // hubworld-default / endless-restore / plain intro-title fallback need no
+      // act data and were already decided correctly by the sync initializer.
+    })()
+    return () => { cancelled = true }
+    // Intentionally runs once on mount only — _startup is captured from the
+    // initial render and never changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Cutscenes & boss dialogue
   const [cutscenePanels, setCutscenePanels]   = useState<CutscenePanel[]>([])
@@ -743,7 +865,7 @@ export default function App() {
     } else if (screen === 'bossEpilogue' && epiloguePanels.length === 0) {
       rollbar.error('bossEpilogue screen reached with no panels', { runActId: run?.actId })
       setScreen(run?.pendingActComplete ? 'actcomplete' : fallback)
-    } else if (screen === 'actcomplete' && (!run || !ACTS[run.actId])) {
+    } else if (screen === 'actcomplete' && (!run || actDataFailed)) {
       rollbar.error('actcomplete screen reached without valid run/actData', { runActId: run?.actId })
       clearRun()
       setRun(null)
@@ -763,13 +885,13 @@ export default function App() {
     } else if (screen === 'itemfound' && !foundItem) {
       rollbar.error('itemfound screen reached without foundItem', { runActId: run?.actId })
       setScreen(fallback)
-    } else if (screen === 'nodemap' && (!run || !ACTS[run.actId])) {
+    } else if (screen === 'nodemap' && (!run || actDataFailed)) {
       rollbar.error('nodemap screen reached without valid run/actData', { runActId: run?.actId })
       clearRun()
       setRun(null)
       setScreen('title')
     }
-  }, [screen, cutscenePanels, epiloguePanels, run, bossDialogueNode, activeEvent, merchantItems, mysteryReward, foundItem])
+  }, [screen, cutscenePanels, epiloguePanels, run, bossDialogueNode, activeEvent, merchantItems, mysteryReward, foundItem, actDataFailed])
 
   // Show boss fight splash when phase 2 triggers.
   useEffect(() => {
@@ -909,7 +1031,7 @@ export default function App() {
     if (screen === 'title') swRegRef.current?.update().catch(() => {})
   }, [screen])
 
-  useMusic(screen, gameState, run)
+  useMusic(screen, gameState, run, actData)
 
   // ── Free play ────────────────────────────────────────────
 
@@ -1149,8 +1271,8 @@ export default function App() {
   // ── Campaign ─────────────────────────────────────────────
 
   const launchCampaign = useCallback((startActId: string) => {
-    const doLaunch = () => {
-    const existing = loadRun()
+    const doLaunch = async () => {
+    const existing = await loadRun()
 
     const goToNodemap = () => {
       const fat = loadFatigued()
@@ -1165,7 +1287,7 @@ export default function App() {
       const activeRun = existing
       saveRun(activeRun)  // Persist any stash drain so a page refresh doesn't lose bought consumables
       setRun(activeRun)
-      const act = ACTS[activeRun.actId]
+      const act = await loadAct(activeRun.actId)
 
       if (activeRun.pendingNodeId) {
         const node = act.nodes[activeRun.pendingNodeId]
@@ -1226,23 +1348,23 @@ export default function App() {
 
     // ── Fresh run ─────────────────────────────────────────────────────────────
     const actId = startActId
-    const act = ACTS[actId]
+    const act = await loadAct(actId)
     const completionCount = loadActCount(actId)
 
-    const proceedWithModifiers = (chosenModifierCount: number) => {
+    const proceedWithModifiers = async (chosenModifierCount: number) => {
       let activeRun = newRun(actId, chosenModifierCount)
       const earned = loadEarnedRelics()
       saveRun(activeRun)
       setRun(activeRun)
 
-      const proceedAfterRelicSelect = (chosenRelic: string | null) => {
+      const proceedAfterRelicSelect = async (chosenRelic: string | null) => {
         rollbar.info('proceedAfterRelicSelect: relic chosen', { actId, chosenRelic, earnedCount: earned.length })
         const runWithRelic = { ...activeRun, activeRelic: chosenRelic }
         saveRun(runWithRelic)
         setRun(runWithRelic)
         const runCount = incrementRunCount()
         const introToShow = actId === 'act1'
-          ? getAct1Intro(runCount)
+          ? await getAct1Intro(runCount)
           : (act.intro ?? [])
         markIntroSeen(actId)
         rollbar.info('proceedAfterRelicSelect: showing intro or nodemap', {
@@ -1257,7 +1379,7 @@ export default function App() {
               actId,
               runRefActId: runRef.current?.actId,
               hasRun: !!runRef.current,
-              hasActData: !!(runRef.current && ACTS[runRef.current.actId]),
+              hasActData: !!(runRef.current && getCachedAct(runRef.current.actId)),
             })
             setCutscenePanels([])
             goToNodemap()
@@ -1309,8 +1431,8 @@ export default function App() {
   // Campaign 2 is launched from Cartographer Elsben in Ironhold Keep. If a
   // campaign-1 run is in progress it must be explicitly abandoned first —
   // both campaigns share the single active-run slot.
-  const handleCampaign2 = useCallback(() => {
-    const existing = loadRun()
+  const handleCampaign2 = useCallback(async () => {
+    const existing = await loadRun()
     if (existing && getCampaignForAct(existing.actId).id !== 'c2') {
       setCampaign2AbandonConfirm(true)
       return
@@ -1318,10 +1440,10 @@ export default function App() {
     launchCampaign('c2act1')
   }, [launchCampaign])
 
-  const handleWorldBattle = useCallback((worldNode: WorldNodeDef) => {
+  const handleWorldBattle = useCallback(async (worldNode: WorldNodeDef) => {
     if (!worldNode.battleConfig) return
     const { actId, nodeId } = worldNode.battleConfig
-    const act = ACTS[actId]
+    const act = await loadAct(actId).catch(() => undefined)
     if (!act) return
     const node = act.nodes[nodeId]
     if (!node) return
@@ -1352,13 +1474,13 @@ export default function App() {
       setCurrentWorldLocation(id)
       setCurrentLocationKey('ravenwatch')
       setScreen('hubworld')
-    } else if (LOCATION_REGISTRY[id]) {
+    } else if (hubData?.locationRegistry[id]) {
       if (!isTownAccessible(id, enabledTownIds, bypassTownAccess)) return
       setCurrentWorldLocation(id)
       setCurrentLocationKey(id)
       setScreen('location')
     }
-  }, [enabledTownIds, bypassTownAccess])
+  }, [enabledTownIds, bypassTownAccess, hubData])
 
   // Re-run the current world-map battle after a loss ("Try Again").
   const handleWorldBattleRetry = useCallback(() => {
@@ -1372,8 +1494,8 @@ export default function App() {
 
   const handleSelectNode = useCallback((node: QuestNode) => {
     const currentRun = run
-    if (!currentRun) return
-    const act = ACTS[currentRun.actId]
+    if (!currentRun || !actData) return
+    const act = actData
 
     // Mark siblings as skipped (branch choice)
     const afterSkip = skipSiblings(act.nodes, node.id, currentRun)
@@ -1483,7 +1605,7 @@ export default function App() {
     state.stanceRules = STANCE_RULES_BY_NODE_TYPE[node.type]
     startBattle(state)
     rollRareEvent()
-  }, [run])
+  }, [run, actData])
 
   const handleBossDialogueDone = useCallback(() => {
     const node = bossDialogueNode
@@ -1505,7 +1627,7 @@ export default function App() {
     const earnedEntries = (run.earnedCards ?? []).map(n => ({ cardName: n, count: 1 }))
     if (earnedEntries.length > 0) playerCards.push(...buildDeckCards(earnedEntries, collection))
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
-    const act = ACTS[run.actId]
+    const act = actData ?? undefined
     const mods761 = act ? getModifiersByCount(act, run.activeModifierCount) : []
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods761) })
     state.playerBase = { hp: run.playerHp, maxHp: run.maxHp }
@@ -1513,7 +1635,7 @@ export default function App() {
     state.stanceRules = STANCE_RULES_BY_NODE_TYPE[node.type]
     startBattle(state)
     rollRareEvent()
-  }, [bossDialogueNode, run])
+  }, [bossDialogueNode, run, actData])
 
   const handleEventChoice = useCallback((choice: EventChoice) => {
     const currentRun = run
@@ -1674,7 +1796,7 @@ export default function App() {
   const handleCharacterDone = useCallback((choice?: CharacterChoice) => {
     const currentRun = run
     if (!currentRun || !activeCharacterEncounter) { setScreen('nodemap'); return }
-    const act = ACTS[currentRun.actId]
+    const act = actData
     if (!act) { setScreen('nodemap'); return }
 
     recordCharacterEncounter(activeCharacterEncounter.characterId, choice?.label)
@@ -1714,7 +1836,7 @@ export default function App() {
     } else {
       setScreen('nodemap')
     }
-  }, [run, activeCharacterEncounter])
+  }, [run, activeCharacterEncounter, actData])
 
   const handleMemoryCollect = useCallback(() => {
     const currentRun = run
@@ -1762,8 +1884,8 @@ export default function App() {
 
   const handleCampaignWin = useCallback(() => {
     const currentRun = run
-    if (!currentRun || !gameState) return
-    const act = ACTS[currentRun.actId]
+    if (!currentRun || !gameState || !actData) return
+    const act = actData
     const nodeId = currentRun.pendingNodeId!
     const node = act.nodes[nodeId]
 
@@ -1860,7 +1982,7 @@ export default function App() {
     setRewardChoices(choices)
     setRewardCrystals(crystalReward)
     setScreen('reward')
-  }, [run, gameState])
+  }, [run, gameState, actData])
 
   const handleRewardPick = useCallback((cardName: string) => {
     addCardsToCollection([{ cardName, count: 1 }])
@@ -1954,13 +2076,13 @@ export default function App() {
     dispatch({ type: 'SET_SPEED', multiplier: next })
   }, [battle.speedMultiplier])
 
-  const handleActComplete = useCallback(() => {
+  const handleActComplete = useCallback(async () => {
     const currentRun = run
     if (!currentRun) {
       rollbar.error('handleActComplete called with null run', { screen })
       return
     }
-    const act = ACTS[currentRun.actId]
+    const act = actData
     rollbar.info('Act complete: beginning transition', {
       actId: currentRun.actId,
       equippedRelic: currentRun.activeRelic,
@@ -1975,7 +2097,7 @@ export default function App() {
     // Guard: never break the relic just earned this act
     const equippedRelic = currentRun.activeRelic
 
-    const proceedFromSpin = (willBreak: boolean) => {
+    const proceedFromSpin = async (willBreak: boolean) => {
       rollbar.info('proceedFromSpin called', { actId: currentRun.actId, willBreak, equippedRelic, rewardRelic: act?.rewardRelic })
       if (willBreak && equippedRelic && equippedRelic !== act?.rewardRelic) {
         removeEarnedRelic(equippedRelic)
@@ -1992,7 +2114,8 @@ export default function App() {
         })
       }
 
-      const nextAct = getNextAct(currentRun.actId)
+      const nextActId = act?.nextActId
+      const nextAct = nextActId ? await loadAct(nextActId).catch(() => null) : null
 
       if (nextAct) {
         // ── Progress to next act ──────────────────────────────
@@ -2041,7 +2164,7 @@ export default function App() {
                 toActId: nextAct.id,
                 runRefActId: runRef.current?.actId,
                 hasRun: !!runRef.current,
-                hasActData: !!(runRef.current && ACTS[runRef.current.actId]),
+                hasActData: !!(runRef.current && getCachedAct(runRef.current.actId)),
               })
               setCutscenePanels([])
               setScreen('nodemap')
@@ -2126,7 +2249,7 @@ export default function App() {
     }
 
     proceedFromSpin(false)
-  }, [run])
+  }, [run, actData])
 
 
   const handleCardRestConfirm = useCallback((resting: string[]) => {
@@ -2175,7 +2298,8 @@ export default function App() {
   const handleCampaignRetry = useCallback(() => {
     const currentRun = run
     if (!currentRun) { setScreen('title'); return }
-    const act = ACTS[currentRun.actId]
+    if (!actData) { setScreen('nodemap'); return }
+    const act = actData
     const nodeId = currentRun.pendingNodeId
     if (!nodeId) { setScreen('nodemap'); return }
     const node = act.nodes[nodeId]
@@ -2234,7 +2358,7 @@ export default function App() {
     state.stanceRules = STANCE_RULES_BY_NODE_TYPE[node.type]
     startBattle(state)
     rollRareEvent()
-  }, [run])
+  }, [run, actData])
 
   const handleAbandonRun = useCallback(() => {
     clearRun()
@@ -2889,13 +3013,13 @@ export default function App() {
 
   // ── Render ───────────────────────────────────────────────
 
-  const actData = run ? ACTS[run.actId] ?? null : null
   const actTheme = run?.actId
 
   return (
     <div className="game-container">
       <div className="game-title">JARV'S AMAZING WEB GAME</div>
 
+      <Suspense fallback={<ScreenLoadingFallback />}>
       {/* Event card reveal overlay */}
       {pendingEventCard && (() => {
         const catalog = getCardCatalog()
@@ -2990,22 +3114,7 @@ export default function App() {
       )}
 
 
-      {/* {screen === 'location' && LOCATION_REGISTRY[currentLocationKey] && (
-        <HubLocationWorld
-          locationData={LOCATION_REGISTRY[currentLocationKey].locationData}
-          locationQuests={LOCATION_REGISTRY[currentLocationKey].locationQuests}
-          questDefs={LOCATION_REGISTRY[currentLocationKey].questDefs}
-          allQuestDefs={ ALL_QUEST_DEFS}
-          user={user}
-          crystals={crystals}
-          commander={commander ?? undefined}
-          onBack={() => setScreen('worldmap')}
-          onCrystalsChange={(n) => { saveCrystals(n); setCrystals(n) }}
-          onFeedback={() => setFeedbackOpen(true)}
-        />
-      )} */}
-
-      {(screen === 'hubworld' || screen === 'location') && (
+      {(screen === 'hubworld' || screen === 'location') && hubData && (
         <HubWorld
           onBack={() => setScreen('settings')}
           onNavigate={(s, buildingId) => {
@@ -3030,11 +3139,14 @@ export default function App() {
           user={user}
           commander={commander ?? undefined}
 
-          locationData={LOCATION_REGISTRY[currentLocationKey].locationData}
-          locationQuests={LOCATION_REGISTRY[currentLocationKey].locationQuests}
-          questDefs={LOCATION_REGISTRY[currentLocationKey].questDefs}
-          allQuestDefs={ ALL_QUEST_DEFS}
-
+          locationData={hubData.locationRegistry[currentLocationKey].locationData}
+          locationQuests={hubData.locationRegistry[currentLocationKey].locationQuests}
+          questDefs={hubData.locationRegistry[currentLocationKey].questDefs}
+          allQuestDefs={hubData.allQuestDefs}
+          locationRegistry={hubData.locationRegistry}
+          allQuests={hubData.allQuests}
+          friendshipDialogue={hubData.friendshipDialogue}
+          relationshipDialogue={hubData.relationshipDialogue}
 
           isSignedIn={user != null && !user.isAnonymous}
           onSignIn={() => setShowTitleLoginModal(true)}
@@ -3053,11 +3165,11 @@ export default function App() {
         />
       )}
 
-      {screen === 'worldmap' && (
+      {screen === 'worldmap' && hubData && (
         <HubWorldMap
           key={worldMapKey}
           onSelectNode={(node) => {
-            if (node.id === 'ravenwatch' || (node.locationKey && LOCATION_REGISTRY[node.locationKey])) {
+            if (node.id === 'ravenwatch' || (node.locationKey && hubData.locationRegistry[node.locationKey])) {
               goToWorldLocation(node.id === 'ravenwatch' ? node.id : node.locationKey!)
             } else if (node.type === 'battle') {
               if (!isNodeCleared(node.id)) {
@@ -3073,23 +3185,9 @@ export default function App() {
           onFeedback={() => setFeedbackOpen(true)}
           restrictedNodeIds={restrictedTownNodeIds}
           previewingAsPlayer={isAdmin && previewAsPlayer}
+          allQuestDefs={hubData.allQuestDefs}
         />
       )}
-
-      {/* {screen === 'location' && LOCATION_REGISTRY[currentLocationKey] && (
-        <HubLocationWorld
-          locationData={LOCATION_REGISTRY[currentLocationKey].locationData}
-          locationQuests={LOCATION_REGISTRY[currentLocationKey].locationQuests}
-          questDefs={LOCATION_REGISTRY[currentLocationKey].questDefs}
-          allQuestDefs={ ALL_QUEST_DEFS}
-          user={user}
-          crystals={crystals}
-          commander={commander ?? undefined}
-          onBack={() => setScreen('worldmap')}
-          onCrystalsChange={(n) => { saveCrystals(n); setCrystals(n) }}
-          onFeedback={() => setFeedbackOpen(true)}
-        />
-      )} */}
 
       {screen === 'giftAdmin' && (
         <GiftAdminScreen onBack={() => setScreen('settings')} />
@@ -3151,7 +3249,7 @@ export default function App() {
         <PostBattleReward
           choices={rewardChoices}
           crystals={rewardCrystals}
-          nodeType={run ? ACTS[run.actId].nodes[run.completedNodeIds[run.completedNodeIds.length - 1]]?.type ?? 'battle' : 'battle'}
+          nodeType={run && actData ? actData.nodes[run.completedNodeIds[run.completedNodeIds.length - 1]]?.type ?? 'battle' : 'battle'}
           onPick={handleRewardPick}
           onSkip={handleRewardSkip}
           battleSummary={summaryStats ?? undefined}
@@ -3165,7 +3263,7 @@ export default function App() {
           relicName={actData.rewardRelic}
           relicDesc={actData.rewardRelicDesc}
           onContinue={handleActComplete}
-          hasNextAct={!!getNextAct(actData.id)}
+          hasNextAct={hasNextAct}
         />
       )}
 
@@ -3326,7 +3424,10 @@ export default function App() {
 
       {screen === 'replayBriefing' && replayBriefingRef.current && (() => {
         const { actId, completionCount, lastRunFailed, proceed } = replayBriefingRef.current!
-        const act = ACTS[actId]
+        // launchCampaign() already awaited loadAct(actId) before setting this ref,
+        // so the act is guaranteed to be in cache by the time this renders.
+        const act = getCachedAct(actId)
+        if (!act) return null
         return (
           <ReplayBriefingScreen
             act={act}
@@ -3707,7 +3808,7 @@ export default function App() {
         if (gameState.phase.type === 'celebration') {
           return (
             <>
-              <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={false} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onCycleSpeed={handleCycleSpeed} onCounterSpell={() => dispatch({ type: 'COUNTER_SPELL' })} />
+              <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={false} activeModifiers={run && actData ? getModifiersByCount(actData, run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onCycleSpeed={handleCycleSpeed} onCounterSpell={() => dispatch({ type: 'COUNTER_SPELL' })} />
               <VictoryPanel
                 playerScore={gameState.playerScore}
                 opponentScore={gameState.opponentScore}
@@ -3724,7 +3825,7 @@ export default function App() {
           const fp = gameState.phase as { type: 'fingerSmash'; wave: number; smashedNames: string[]; rewardDue: boolean }
           return (
             <>
-              <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onCycleSpeed={handleCycleSpeed} onCounterSpell={() => dispatch({ type: 'COUNTER_SPELL' })} />
+              <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run && actData ? getModifiersByCount(actData, run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onCycleSpeed={handleCycleSpeed} onCounterSpell={() => dispatch({ type: 'COUNTER_SPELL' })} />
               <FingerSmash
                 smashedNames={fingerSmashNames}
                 onDone={() => {
@@ -3786,7 +3887,7 @@ export default function App() {
           />
         ) : (
           <>
-            <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onCycleSpeed={handleCycleSpeed} onCounterSpell={() => dispatch({ type: 'COUNTER_SPELL' })} />
+            <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run && actData ? getModifiersByCount(actData, run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onCycleSpeed={handleCycleSpeed} onCounterSpell={() => dispatch({ type: 'COUNTER_SPELL' })} />
             {showBossShockwave && <BossShockwave onDone={() => dispatch({ type: 'HIDE_BOSS_SHOCKWAVE' })} />}
             {activeRareEvent === 'fakeCrash'   && <FakeCrashEvent   onDone={handleRareEventDone} />}
             {activeRareEvent === 'blackjack'   && <BlackjackEvent   onDone={handleRareEventDone} />}
@@ -4049,6 +4150,7 @@ export default function App() {
           }}
         />
       )}
+      </Suspense>
     </div>
   )
 }

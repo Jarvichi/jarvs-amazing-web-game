@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import {
   getCodexCards, getCodexRelics, getCodexWorld, getCodexFragments, getCodexConversations, getCodexChronicle,
@@ -194,10 +194,18 @@ export function CodexScreen({ onDone }: Props) {
 
   const cards         = useMemo(() => getCodexCards(),         [])
   const relics        = useMemo(() => getCodexRelics(),        [])
-  const world         = useMemo(() => getCodexWorld(),         [])
   const fragments     = useMemo(() => getCodexFragments(),     [])
   const conversations = useMemo(() => getCodexConversations(), [])
   const chronicle     = useMemo(() => getCodexChronicle(),     [])
+
+  // World lore spans every act, so it's loaded on demand (this screen is
+  // navigated to, not part of boot) rather than kept eagerly in memory.
+  const [world, setWorld] = useState<CodexWorldEntry[]>([])
+  useEffect(() => {
+    let cancelled = false
+    getCodexWorld().then(entries => { if (!cancelled) setWorld(entries) })
+    return () => { cancelled = true }
+  }, [])
 
   const filteredCards = useMemo<CodexCardEntry[]>(() => {
     let list = cards

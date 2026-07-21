@@ -5,7 +5,7 @@ import { EntityInspector } from './EntityInspector'
 import { MapEditorCanvas } from './MapEditorCanvas'
 import { useMapEditorState } from './useMapEditorState'
 import type { MapId,  QuestDefsJson } from '../../data/hub/hubWorldFactory'
-import  {  QUEST_DEFS_BY_MAP } from '../../data/hub/hubWorldFactory'
+import  {  QUEST_DEFS_BY_MAP } from '../../data/hub/hubTownRawQuestConfigs'
 
 import { SelectedEntity } from './mapEditorTypes'
 import type { RawBlockedPath, RawInteractable, PickKind } from './mapEditorTypes'

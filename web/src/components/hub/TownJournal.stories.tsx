@@ -1,7 +1,7 @@
 import { fn } from 'storybook/test'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { TownJournal } from './TownJournal'
-import { RAVENWATCH } from '../../data/hub/hubWorldFactory'
+import { RAVENWATCH } from '../../data/hub/hubTownStoryFixtures'
 
 const meta = {
   component: TownJournal,

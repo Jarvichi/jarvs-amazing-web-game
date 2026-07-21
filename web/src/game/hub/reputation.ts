@@ -15,7 +15,7 @@ import {
   getReputationTier,
   type BuildingUpgradeLevel,
 } from '../../data/hub/buildingUpgrades'
-import { LOCATION_REGISTRY } from '../../data/hub/hubWorldFactory'
+import type { LocationEntry } from '../../data/hub/hubWorldFactory'
 
 const KEY = 'jarv_hub_reputation'
 
@@ -87,10 +87,13 @@ function playerHousePrice(ownedCount: number): number {
   return 7500 * 2 ** (n - 1) - 5000
 }
 
-/** Count of player-house buildings currently owned (purchased) across every town. */
-export function countOwnedPlayerHouses(): number {
+/** Count of player-house buildings currently owned (purchased) across every town.
+ *  Takes the caller's already-loaded location registry — hub town data is
+ *  lazy-loaded, and by the time this is called (from the hub UI) it's already
+ *  in hand, so there's no need for this module to load it independently. */
+export function countOwnedPlayerHouses(locationRegistry: Record<string, LocationEntry>): number {
   let count = 0
-  for (const { locationData } of Object.values(LOCATION_REGISTRY)) {
+  for (const { locationData } of Object.values(locationRegistry)) {
     const t = locationData.HUB_TOWN_NAME
     for (const b of locationData.HUB_BUILDINGS) {
       if (b.id && b.upgradeKind === 'playerHouse' && getUpgradeLevel(t, b.id) >= 1) count++
@@ -118,7 +121,7 @@ export interface NextUpgrade {
   maxed: boolean
 }
 
-export function nextUpgrade(town: string, buildingId: string, kind: string | undefined): NextUpgrade {
+export function nextUpgrade(town: string, buildingId: string, kind: string | undefined, locationRegistry: Record<string, LocationEntry>): NextUpgrade {
   const track = getUpgradeTrack(kind)
   const data = load()
   const state = townState(data, town)
@@ -133,7 +136,7 @@ export function nextUpgrade(town: string, buildingId: string, kind: string | und
   // Dynamic pricing only applies to the first tier (buying the house itself) —
   // any future higher tier would be a per-house upgrade, priced statically
   // from the catalog like every other kind's higher tiers.
-  const cost = kind === 'playerHouse' && level === 0 ? playerHousePrice(countOwnedPlayerHouses()) : def.cost
+  const cost = kind === 'playerHouse' && level === 0 ? playerHousePrice(countOwnedPlayerHouses(locationRegistry)) : def.cost
   return {
     def: { ...def, cost },
     level,
@@ -156,8 +159,8 @@ export type PurchaseResult =
  * reputation gate and the crystal balance, then deducts crystals, increments
  * the level, and grants reputation. All-or-nothing.
  */
-export function purchaseUpgrade(town: string, buildingId: string, kind: string | undefined): PurchaseResult {
-  const next = nextUpgrade(town, buildingId, kind)
+export function purchaseUpgrade(town: string, buildingId: string, kind: string | undefined, locationRegistry: Record<string, LocationEntry>): PurchaseResult {
+  const next = nextUpgrade(town, buildingId, kind, locationRegistry)
   if (next.maxed || !next.def) return { ok: false, reason: 'maxed' }
   if (next.repLocked) return { ok: false, reason: 'rep-locked' }
 

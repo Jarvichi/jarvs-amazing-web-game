@@ -3,7 +3,7 @@ import { fn } from 'storybook/test'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { HubWorld } from './HubWorld'
 import { setQuestStatus, getQuestProgress } from '../../game/hub/quests'
-import { ALL_QUEST_DEFS, RAVENWATCH, RAVENWATCH_QUESTS } from '../../data/hub/hubWorldFactory'
+import { ALL_QUEST_DEFS, ALL_QUESTS, FRIENDSHIP_DIALOGUE, RELATIONSHIP_DIALOGUE, LOCATION_REGISTRY, RAVENWATCH, RAVENWATCH_QUESTS } from '../../data/hub/hubTownStoryFixtures'
 import { HubLocationBundle, HubQuestBundle } from '../../data/hub/loader'
 
 const meta = {
@@ -105,6 +105,10 @@ function makeQuestStory(questId: string, locationData: HubLocationBundle, locati
       locationQuests: locationQuests,
       questDefs: ALL_QUEST_DEFS,
       allQuestDefs: ALL_QUEST_DEFS,
+      locationRegistry: LOCATION_REGISTRY,
+      allQuests: ALL_QUESTS,
+      friendshipDialogue: FRIENDSHIP_DIALOGUE,
+      relationshipDialogue: RELATIONSHIP_DIALOGUE,
     },
   }
 }

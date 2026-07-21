@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react'
 import { type User } from 'firebase/auth'
 import { loadDeck, loadCollection, deckTotalCards, isDeckValid, COPIES_MAX, loadWinStreak, loadBestStreak } from '../../game/collection'
-import { loadPlayerName, loadRun } from '../../game/questline'
+import { loadPlayerName, loadRunRaw } from '../../game/questline'
 import { getCardCatalog } from '../../game/cards'
 import { hasUnclaimedAchievements } from '../../game/achievements'
 import { getDailyShopSellSlots } from '../../game/shopSchedule'
@@ -64,7 +64,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
   const deck             = loadDeck()
   const count            = deckTotalCards(deck)
   const valid            = isDeckValid(deck)
-  const savedRun         = loadRun()
+  const savedRun         = loadRunRaw()
   const collection       = loadCollection()
   const totalOwned       = collection.reduce((s, e) => s + e.count, 0)
   const campaignUnlocked = savedRun !== null || totalOwned >= CAMPAIGN_UNLOCK_CARDS

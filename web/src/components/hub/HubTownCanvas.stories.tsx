@@ -16,7 +16,7 @@ import {
   GRAVEMOOR, GRAVEMOOR_QUESTS,
   HOLLOWMERE, HOLLOWMERE_QUESTS,
   DREADSPIRECITADEL, DREADSPIRECITADEL_QUESTS,
-} from '../../data/hub/hubWorldFactory'
+} from '../../data/hub/hubTownStoryFixtures'
 
 const PAN_STEP = 64
 
