@@ -11,7 +11,7 @@ import type { RoadDef, TerrainObstacle, TerrainType, ToolMode, SelectedEntity } 
 
 export interface Props {
   environment: string
-  envDef: EnvTileDef
+  envDef?: EnvTileDef
   /** Stable key for WYSIWYG decor scatter — pass actId+nodeId. */
   id: string
   roads: RoadDef[]

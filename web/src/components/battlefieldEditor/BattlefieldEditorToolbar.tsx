@@ -1,0 +1,134 @@
+import React, { useState } from 'react'
+import type { Act, ToolMode, TerrainType, EditTarget } from './battlefieldEditorTypes'
+import { BATTLEFIELD_ACT_IDS } from './useBattlefieldEditorState'
+import { saveBattlefieldAct } from './battlefieldEditorApi'
+import { markSelfSave } from '../../utils/hotReloadGuard'
+
+const TOOLS: { tool: ToolMode; label: string }[] = [
+  { tool: 'select', label: 'Select' },
+  { tool: 'road', label: 'Road' },
+  { tool: 'obstacle', label: 'Obstacle' },
+  { tool: 'delete', label: 'Delete' },
+]
+
+const OBSTACLE_TYPES: TerrainType[] = ['rock', 'tree', 'water', 'ruin']
+
+export interface Props {
+  actId: string
+  actData: Act
+  nodeId: EditTarget
+  tool: ToolMode
+  activeObstacleType: TerrainType
+  inProgressRoadIndex: number | null
+  showGuides: boolean
+  environment: string
+  canUndo: boolean
+  canRedo: boolean
+  isDirty: boolean
+  onSetActId: (actId: string) => void
+  onSetNodeId: (nodeId: EditTarget) => void
+  onSetTool: (tool: ToolMode) => void
+  onSetActiveObstacleType: (type: TerrainType) => void
+  onFinishRoad: () => void
+  onToggleGuides: () => void
+  onUndo: () => void
+  onRedo: () => void
+  onSaved: () => void
+}
+
+export function BattlefieldEditorToolbar(props: Props) {
+  const {
+    actId, actData, nodeId, tool, activeObstacleType, inProgressRoadIndex, showGuides,
+    environment, canUndo, canRedo, isDirty,
+    onSetActId, onSetNodeId, onSetTool, onSetActiveObstacleType, onFinishRoad,
+    onToggleGuides, onUndo, onRedo, onSaved,
+  } = props
+
+  const [saveState, setSaveState] = useState<'idle' | 'saving' | 'ok' | 'error'>('idle')
+  const [saveError, setSaveError] = useState('')
+
+  const handleSave = async () => {
+    setSaveState('saving')
+    setSaveError('')
+    markSelfSave()
+    try {
+      await saveBattlefieldAct(actId, actData)
+      setSaveState('ok')
+      onSaved()
+      setTimeout(() => setSaveState('idle'), 2000)
+    } catch (e) {
+      setSaveState('error')
+      setSaveError(e instanceof Error ? e.message : String(e))
+      setTimeout(() => setSaveState('idle'), 4000)
+    }
+  }
+
+  const nodeIds = Object.keys(actData.nodes)
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: 8, borderBottom: '1px solid #333', flexWrap: 'wrap' }}>
+      <label>
+        Act:{' '}
+        <select value={actId} onChange={e => onSetActId(e.target.value)}>
+          {BATTLEFIELD_ACT_IDS.map(id => <option key={id} value={id}>{id}</option>)}
+        </select>
+      </label>
+
+      <label>
+        Node:{' '}
+        <select value={nodeId} onChange={e => onSetNodeId(e.target.value)}>
+          <option value="act-default">(act default)</option>
+          {nodeIds.map(id => <option key={id} value={id}>{actData.nodes[id].label || id}</option>)}
+        </select>
+      </label>
+
+      <span style={{ fontSize: 11, opacity: 0.7 }}>env: {environment}</span>
+
+      <div style={{ display: 'flex', gap: 4 }}>
+        {TOOLS.map(t => (
+          <button
+            key={t.tool}
+            onClick={() => onSetTool(t.tool)}
+            style={{ fontWeight: tool === t.tool ? 'bold' : 'normal', textDecoration: tool === t.tool ? 'underline' : 'none' }}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {tool === 'obstacle' && (
+        <label>
+          Type:{' '}
+          <select value={activeObstacleType} onChange={e => onSetActiveObstacleType(e.target.value as TerrainType)}>
+            {OBSTACLE_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+          </select>
+        </label>
+      )}
+
+      {tool === 'road' && inProgressRoadIndex !== null && (
+        <button onClick={onFinishRoad}>Finish road</button>
+      )}
+
+      <label style={{ fontSize: 11 }}>
+        <input type="checkbox" checked={showGuides} onChange={onToggleGuides} /> Guides
+      </label>
+
+      <button onClick={onUndo} disabled={!canUndo}>Undo</button>
+      <button onClick={onRedo} disabled={!canRedo}>Redo</button>
+
+      <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 8 }}>
+        {saveState === 'error' && <span style={{ color: '#f88', fontSize: 10 }}>{saveError}</span>}
+        <button
+          onClick={handleSave}
+          disabled={saveState === 'saving'}
+          style={{
+            color: saveState === 'ok' ? '#8f8' : saveState === 'error' ? '#f88' : undefined,
+            fontWeight: isDirty ? 'bold' : 'normal',
+          }}
+        >
+          {saveState === 'saving' ? 'Saving…' : saveState === 'ok' ? '✓ Saved' : saveState === 'error' ? 'Save failed' : isDirty ? 'Save*' : 'Save'}
+        </button>
+      </div>
+    </div>
+  )
+}
