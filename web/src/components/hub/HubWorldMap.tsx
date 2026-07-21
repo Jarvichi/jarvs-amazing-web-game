@@ -19,7 +19,7 @@ import { LoginButton } from '../ui/LoginButton'
 import type { User } from 'firebase/auth'
 import { NodeMapRederer, getWorldNodeStatus } from '../ui/NodeMap/NodeMapRederer'
 import { NodePeekModal } from '../ui/NodeMap/NodePeekModal'
-import { ALL_QUEST_DEFS } from '../../data/hub/hubWorldFactory'
+import type { HubQuestDef } from '../../data/hub/questDefs'
 
 interface Props {
   onSelectNode:  (node: WorldNodeDef) => void
@@ -31,9 +31,11 @@ interface Props {
   onFeedback?:   () => void
   restrictedNodeIds?: Set<string>
   previewingAsPlayer?: boolean
+  /** Every town's quest defs — lazy-loaded by App.tsx. */
+  allQuestDefs: HubQuestDef[]
 }
 
-export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, onPlayerTap, onFeedback, restrictedNodeIds, previewingAsPlayer }: Props) {
+export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, onPlayerTap, onFeedback, restrictedNodeIds, previewingAsPlayer, allQuestDefs }: Props) {
   const [peekNode, setPeekNode] = useState<WorldNodeDef | null>(null)
   const [questsOpen, setQuestsOpen] = useState(false)
   const [wrongSave, setWrongSave]   = useState<{ cards: number; crystals: number; deck: number } | null>(null)
@@ -58,7 +60,7 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
   }, [])
 
   const handleQuestAbandon = (questId: string) => {
-    const quest = ALL_QUEST_DEFS.find(q => q.id === questId)
+    const quest = allQuestDefs.find(q => q.id === questId)
     if (!quest) return
     unmarkPickedUp(quest.steps.flatMap(s => s.pickupIds ?? []))
     resetQuest(questId)
@@ -114,7 +116,7 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
         </div>
       </Toolbar>
 
-      {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={ALL_QUEST_DEFS} />}
+      {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={allQuestDefs} />}
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minHeight: 0 }}>
         <NodeMapRederer

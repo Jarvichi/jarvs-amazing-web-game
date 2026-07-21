@@ -15,6 +15,7 @@ import {
 } from './reputation'
 import { saveCrystals, loadCrystals } from '../collection'
 import { getUpgradeTrack } from '../../data/hub/buildingUpgrades'
+import { getHubWorldData } from '../../data/hub/hubWorldFactory'
 
 // In-memory localStorage mock (tests run in node environment)
 const store = new Map<string, string>()
@@ -33,6 +34,7 @@ beforeEach(() => {
 
 const TOWN = 'Appleford'
 const shop = getUpgradeTrack('shop')
+const { locationRegistry } = await getHubWorldData()
 
 describe('reputation default state', () => {
   it('returns zero reputation and level for an unknown town/building', () => {
@@ -42,7 +44,7 @@ describe('reputation default state', () => {
   })
 
   it('reports the first level as the next upgrade', () => {
-    const n = nextUpgrade(TOWN, 'cider-house', 'shop')
+    const n = nextUpgrade(TOWN, 'cider-house', 'shop', locationRegistry)
     expect(n.level).toBe(0)
     expect(n.total).toBe(shop.length)
     expect(n.cost).toBe(shop[0].cost)
@@ -54,7 +56,7 @@ describe('reputation default state', () => {
 describe('purchaseUpgrade', () => {
   it('spends crystals, raises the level and grants reputation', () => {
     saveCrystals(1000)
-    const res = purchaseUpgrade(TOWN, 'cider-house', 'shop')
+    const res = purchaseUpgrade(TOWN, 'cider-house', 'shop', locationRegistry)
     expect(res.ok).toBe(true)
     expect(loadCrystals()).toBe(1000 - shop[0].cost)
     expect(getUpgradeLevel(TOWN, 'cider-house')).toBe(1)
@@ -63,7 +65,7 @@ describe('purchaseUpgrade', () => {
 
   it('refuses when the player cannot afford it', () => {
     saveCrystals(shop[0].cost - 1)
-    const res = purchaseUpgrade(TOWN, 'cider-house', 'shop')
+    const res = purchaseUpgrade(TOWN, 'cider-house', 'shop', locationRegistry)
     expect(res).toEqual({ ok: false, reason: 'insufficient-crystals' })
     expect(loadCrystals()).toBe(shop[0].cost - 1)
     expect(getUpgradeLevel(TOWN, 'cider-house')).toBe(0)
@@ -72,11 +74,11 @@ describe('purchaseUpgrade', () => {
   it('blocks higher tiers behind a town reputation gate', () => {
     saveCrystals(100000)
     // Level 1 is ungated.
-    expect(purchaseUpgrade(TOWN, 'cider-house', 'shop').ok).toBe(true)
+    expect(purchaseUpgrade(TOWN, 'cider-house', 'shop', locationRegistry).ok).toBe(true)
     // Level 2 requires more reputation than a single building can provide.
-    const gated = nextUpgrade(TOWN, 'cider-house', 'shop')
+    const gated = nextUpgrade(TOWN, 'cider-house', 'shop', locationRegistry)
     if (gated.repRequired > getTownReputation(TOWN)) {
-      const res = purchaseUpgrade(TOWN, 'cider-house', 'shop')
+      const res = purchaseUpgrade(TOWN, 'cider-house', 'shop', locationRegistry)
       expect(res).toEqual({ ok: false, reason: 'rep-locked' })
       expect(getUpgradeLevel(TOWN, 'cider-house')).toBe(1)
     }
@@ -85,14 +87,14 @@ describe('purchaseUpgrade', () => {
   it('unlocks gated tiers once enough reputation is earned town-wide', () => {
     saveCrystals(100000)
     // Invest across several buildings to accumulate town reputation.
-    purchaseUpgrade(TOWN, 'b1', 'shop')
-    purchaseUpgrade(TOWN, 'b2', 'shop')
-    purchaseUpgrade(TOWN, 'b3', 'shop')
-    purchaseUpgrade(TOWN, 'b4', 'shop')
+    purchaseUpgrade(TOWN, 'b1', 'shop', locationRegistry)
+    purchaseUpgrade(TOWN, 'b2', 'shop', locationRegistry)
+    purchaseUpgrade(TOWN, 'b3', 'shop', locationRegistry)
+    purchaseUpgrade(TOWN, 'b4', 'shop', locationRegistry)
     // With enough rep, b1 can now reach level 2.
-    const n = nextUpgrade(TOWN, 'b1', 'shop')
+    const n = nextUpgrade(TOWN, 'b1', 'shop', locationRegistry)
     if (getTownReputation(TOWN) >= n.repRequired) {
-      expect(purchaseUpgrade(TOWN, 'b1', 'shop').ok).toBe(true)
+      expect(purchaseUpgrade(TOWN, 'b1', 'shop', locationRegistry).ok).toBe(true)
       expect(getUpgradeLevel(TOWN, 'b1')).toBe(2)
     }
   })
@@ -100,17 +102,17 @@ describe('purchaseUpgrade', () => {
   it('reports maxed once every level is purchased', () => {
     saveCrystals(1000000)
     // Build up enough town reputation (via other buildings) to clear the gates.
-    for (let i = 0; i < 12; i++) purchaseUpgrade(TOWN, `dummy-${i}`, 'shop')
-    for (let i = 0; i < shop.length; i++) purchaseUpgrade(TOWN, 'cider-house', 'shop')
-    const n = nextUpgrade(TOWN, 'cider-house', 'shop')
+    for (let i = 0; i < 12; i++) purchaseUpgrade(TOWN, `dummy-${i}`, 'shop', locationRegistry)
+    for (let i = 0; i < shop.length; i++) purchaseUpgrade(TOWN, 'cider-house', 'shop', locationRegistry)
+    const n = nextUpgrade(TOWN, 'cider-house', 'shop', locationRegistry)
     expect(n.maxed).toBe(true)
     expect(n.def).toBeNull()
-    expect(purchaseUpgrade(TOWN, 'cider-house', 'shop')).toEqual({ ok: false, reason: 'maxed' })
+    expect(purchaseUpgrade(TOWN, 'cider-house', 'shop', locationRegistry)).toEqual({ ok: false, reason: 'maxed' })
   })
 
   it('persists across reloads', () => {
     saveCrystals(1000)
-    purchaseUpgrade(TOWN, 'cider-house', 'shop')
+    purchaseUpgrade(TOWN, 'cider-house', 'shop', locationRegistry)
     // A fresh read goes through localStorage again.
     expect(getUpgradeLevel(TOWN, 'cider-house')).toBe(1)
     expect(getTownReputation(TOWN)).toBe(shop[0].repReward)
@@ -122,13 +124,13 @@ describe('unlocked services', () => {
     saveCrystals(100000)
     setUpgradeKindResolver((_town, id) => (id === 'cider-house' ? 'shop' : undefined))
     expect(getUnlockedServices(TOWN)).toEqual([])
-    purchaseUpgrade(TOWN, 'cider-house', 'shop')
+    purchaseUpgrade(TOWN, 'cider-house', 'shop', locationRegistry)
     expect(hasTownService(TOWN, shop[0].service!)).toBe(true)
   })
 
   it('returns nothing when no resolver is registered', () => {
     saveCrystals(1000)
-    purchaseUpgrade(TOWN, 'cider-house', 'shop')
+    purchaseUpgrade(TOWN, 'cider-house', 'shop', locationRegistry)
     expect(getUnlockedServices(TOWN)).toEqual([])
   })
 })
@@ -143,33 +145,33 @@ describe('playerHouse building track', () => {
 
   it('purchasing it raises the level to 1 and maxes the track', () => {
     saveCrystals(playerHouse[0].cost)
-    const res = purchaseUpgrade(TOWN, 'player-house', 'playerHouse')
+    const res = purchaseUpgrade(TOWN, 'player-house', 'playerHouse', locationRegistry)
     expect(res.ok).toBe(true)
     expect(getUpgradeLevel(TOWN, 'player-house')).toBe(1)
     expect(loadCrystals()).toBe(0)
-    expect(nextUpgrade(TOWN, 'player-house', 'playerHouse').maxed).toBe(true)
+    expect(nextUpgrade(TOWN, 'player-house', 'playerHouse', locationRegistry).maxed).toBe(true)
   })
 
   it('prices scale with how many player houses are already owned across all towns', () => {
-    expect(nextUpgrade('Millhaven', 'building-1', 'playerHouse').cost).toBe(2500)
+    expect(nextUpgrade('Millhaven', 'building-1', 'playerHouse', locationRegistry).cost).toBe(2500)
     saveCrystals(2500)
-    expect(purchaseUpgrade('Millhaven', 'building-1', 'playerHouse').ok).toBe(true)
+    expect(purchaseUpgrade('Millhaven', 'building-1', 'playerHouse', locationRegistry).ok).toBe(true)
 
-    expect(nextUpgrade('Ravenwatch', 'building-1', 'playerHouse').cost).toBe(10000)
+    expect(nextUpgrade('Ravenwatch', 'building-1', 'playerHouse', locationRegistry).cost).toBe(10000)
     saveCrystals(10000)
-    expect(purchaseUpgrade('Ravenwatch', 'building-1', 'playerHouse').ok).toBe(true)
+    expect(purchaseUpgrade('Ravenwatch', 'building-1', 'playerHouse', locationRegistry).ok).toBe(true)
 
-    expect(nextUpgrade('Crownhaven', 'building-1', 'playerHouse').cost).toBe(25000)
+    expect(nextUpgrade('Crownhaven', 'building-1', 'playerHouse', locationRegistry).cost).toBe(25000)
   })
 
   it('formula extrapolates past the third house by continuing to double', () => {
-    expect(countOwnedPlayerHouses()).toBe(0) // sanity: fresh store
+    expect(countOwnedPlayerHouses(locationRegistry)).toBe(0) // sanity: fresh store
     for (const t of ['Millhaven', 'Ravenwatch', 'Crownhaven']) {
-      saveCrystals(nextUpgrade(t, 'building-1', 'playerHouse').cost)
-      purchaseUpgrade(t, 'building-1', 'playerHouse')
+      saveCrystals(nextUpgrade(t, 'building-1', 'playerHouse', locationRegistry).cost)
+      purchaseUpgrade(t, 'building-1', 'playerHouse', locationRegistry)
     }
-    expect(countOwnedPlayerHouses()).toBe(3)
-    expect(nextUpgrade('SomeFourthTown', 'building-1', 'playerHouse').cost).toBe(55000)
+    expect(countOwnedPlayerHouses(locationRegistry)).toBe(3)
+    expect(nextUpgrade('SomeFourthTown', 'building-1', 'playerHouse', locationRegistry).cost).toBe(55000)
   })
 })
 
@@ -183,7 +185,7 @@ describe('daily tribute', () => {
   it('scales with unlocked services and credits crystals once per day', () => {
     setUpgradeKindResolver((_t, id) => (id === 'cider-house' ? 'shop' : undefined))
     saveCrystals(100000)
-    purchaseUpgrade(TOWN, 'cider-house', 'shop')   // unlocks 1 service
+    purchaseUpgrade(TOWN, 'cider-house', 'shop', locationRegistry)   // unlocks 1 service
     const amount = tributeAmount(TOWN)
     expect(amount).toBeGreaterThan(0)
 

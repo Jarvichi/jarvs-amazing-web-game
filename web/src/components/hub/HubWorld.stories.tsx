@@ -17,7 +17,8 @@ import {
   GRAVEMOOR, GRAVEMOOR_QUESTS,
   HOLLOWMERE, HOLLOWMERE_QUESTS,
   DREADSPIRECITADEL, DREADSPIRECITADEL_QUESTS,
-} from '../../data/hub/hubWorldFactory'
+  LOCATION_REGISTRY, ALL_QUESTS, FRIENDSHIP_DIALOGUE, RELATIONSHIP_DIALOGUE,
+} from '../../data/hub/hubTownStoryFixtures'
 
 const meta = {
   component: HubWorld,
@@ -45,8 +46,8 @@ export const Default: Story = {
     locationData:    RAVENWATCH,
     locationQuests: RAVENWATCH_QUESTS,
     questDefs:       RAVENWATCH_QUESTS.HUB_QUEST_DEFS,
-    allQuestDefs:    ALL_QUEST_DEFS   
-  },
+    allQuestDefs: ALL_QUEST_DEFS,
+    locationRegistry: LOCATION_REGISTRY, allQuests: ALL_QUESTS, friendshipDialogue: FRIENDSHIP_DIALOGUE, relationshipDialogue: RELATIONSHIP_DIALOGUE},
 }
 
 function tileInspector (args: Props){
@@ -91,8 +92,8 @@ export const TileInspector: Story = {
         locationData:    RAVENWATCH,
     locationQuests: RAVENWATCH_QUESTS,
     questDefs:       RAVENWATCH_QUESTS.HUB_QUEST_DEFS,
-    allQuestDefs:    ALL_QUEST_DEFS   
-  },
+    allQuestDefs: ALL_QUEST_DEFS,
+    locationRegistry: LOCATION_REGISTRY, allQuests: ALL_QUESTS, friendshipDialogue: FRIENDSHIP_DIALOGUE, relationshipDialogue: RELATIONSHIP_DIALOGUE},
 }
 
 export const MillhavenTileInspector: Story = {
@@ -105,8 +106,8 @@ export const MillhavenTileInspector: Story = {
     locationData:    MILLHAVE,
     locationQuests: MILLHAVE_QUESTS,
     questDefs:       MILLHAVE_QUESTS.HUB_QUEST_DEFS,
-    allQuestDefs:    ALL_QUEST_DEFS   
-  },
+    allQuestDefs: ALL_QUEST_DEFS,
+    locationRegistry: LOCATION_REGISTRY, allQuests: ALL_QUESTS, friendshipDialogue: FRIENDSHIP_DIALOGUE, relationshipDialogue: RELATIONSHIP_DIALOGUE},
 }
 
 export const IronholdKeepTileInspector: Story = {
@@ -116,7 +117,7 @@ export const IronholdKeepTileInspector: Story = {
     onBack: fn(), onFeedback: fn(), user: null,
     locationData: IRONHOLDKEEP, locationQuests: IRONHOLDKEEP_QUESTS,
     questDefs: IRONHOLDKEEP_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
-  },
+    locationRegistry: LOCATION_REGISTRY, allQuests: ALL_QUESTS, friendshipDialogue: FRIENDSHIP_DIALOGUE, relationshipDialogue: RELATIONSHIP_DIALOGUE},
 }
 
 export const ThornwoodCampTileInspector: Story = {
@@ -126,7 +127,7 @@ export const ThornwoodCampTileInspector: Story = {
     onBack: fn(), onFeedback: fn(), user: null,
     locationData: THORNWOODCAMP, locationQuests: THORNWOODCAMP_QUESTS,
     questDefs: THORNWOODCAMP_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
-  },
+    locationRegistry: LOCATION_REGISTRY, allQuests: ALL_QUESTS, friendshipDialogue: FRIENDSHIP_DIALOGUE, relationshipDialogue: RELATIONSHIP_DIALOGUE},
 }
 
 export const CapitalCityTileInspector: Story = {
@@ -136,7 +137,7 @@ export const CapitalCityTileInspector: Story = {
     onBack: fn(), onFeedback: fn(), user: null,
     locationData: CAPITALCITY, locationQuests: CAPITALCITY_QUESTS,
     questDefs: CAPITALCITY_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
-  },
+    locationRegistry: LOCATION_REGISTRY, allQuests: ALL_QUESTS, friendshipDialogue: FRIENDSHIP_DIALOGUE, relationshipDialogue: RELATIONSHIP_DIALOGUE},
 }
 
 export const RoyalPalaceTileInspector: Story = {
@@ -146,7 +147,7 @@ export const RoyalPalaceTileInspector: Story = {
     onBack: fn(), onFeedback: fn(), user: null,
     locationData: ROYALPALACE, locationQuests: ROYALPALACE_QUESTS,
     questDefs: ROYALPALACE_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
-  },
+    locationRegistry: LOCATION_REGISTRY, allQuests: ALL_QUESTS, friendshipDialogue: FRIENDSHIP_DIALOGUE, relationshipDialogue: RELATIONSHIP_DIALOGUE},
 }
 
 export const SaltmerePortTileInspector: Story = {
@@ -156,7 +157,7 @@ export const SaltmerePortTileInspector: Story = {
     onBack: fn(), onFeedback: fn(), user: null,
     locationData: SALTMEREPORT, locationQuests: SALTMEREPORT_QUESTS,
     questDefs: SALTMEREPORT_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
-  },
+    locationRegistry: LOCATION_REGISTRY, allQuests: ALL_QUESTS, friendshipDialogue: FRIENDSHIP_DIALOGUE, relationshipDialogue: RELATIONSHIP_DIALOGUE},
 }
 
 export const GearfordTileInspector: Story = {
@@ -166,7 +167,7 @@ export const GearfordTileInspector: Story = {
     onBack: fn(), onFeedback: fn(), user: null,
     locationData: GEARFORD, locationQuests: GEARFORD_QUESTS,
     questDefs: GEARFORD_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
-  },
+    locationRegistry: LOCATION_REGISTRY, allQuests: ALL_QUESTS, friendshipDialogue: FRIENDSHIP_DIALOGUE, relationshipDialogue: RELATIONSHIP_DIALOGUE},
 }
 
 export const HarrowfieldTileInspector: Story = {
@@ -176,7 +177,7 @@ export const HarrowfieldTileInspector: Story = {
     onBack: fn(), onFeedback: fn(), user: null,
     locationData: HARROWFIELD, locationQuests: HARROWFIELD_QUESTS,
     questDefs: HARROWFIELD_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
-  },
+    locationRegistry: LOCATION_REGISTRY, allQuests: ALL_QUESTS, friendshipDialogue: FRIENDSHIP_DIALOGUE, relationshipDialogue: RELATIONSHIP_DIALOGUE},
 }
 
 export const ApplefordTileInspector: Story = {
@@ -186,7 +187,7 @@ export const ApplefordTileInspector: Story = {
     onBack: fn(), onFeedback: fn(), user: null,
     locationData: APPLEFORD, locationQuests: APPLEFORD_QUESTS,
     questDefs: APPLEFORD_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
-  },
+    locationRegistry: LOCATION_REGISTRY, allQuests: ALL_QUESTS, friendshipDialogue: FRIENDSHIP_DIALOGUE, relationshipDialogue: RELATIONSHIP_DIALOGUE},
 }
 
 export const GravemoorTileInspector: Story = {
@@ -196,7 +197,7 @@ export const GravemoorTileInspector: Story = {
     onBack: fn(), onFeedback: fn(), user: null,
     locationData: GRAVEMOOR, locationQuests: GRAVEMOOR_QUESTS,
     questDefs: GRAVEMOOR_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
-  },
+    locationRegistry: LOCATION_REGISTRY, allQuests: ALL_QUESTS, friendshipDialogue: FRIENDSHIP_DIALOGUE, relationshipDialogue: RELATIONSHIP_DIALOGUE},
 }
 
 export const HollowmereTileInspector: Story = {
@@ -206,7 +207,7 @@ export const HollowmereTileInspector: Story = {
     onBack: fn(), onFeedback: fn(), user: null,
     locationData: HOLLOWMERE, locationQuests: HOLLOWMERE_QUESTS,
     questDefs: HOLLOWMERE_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
-  },
+    locationRegistry: LOCATION_REGISTRY, allQuests: ALL_QUESTS, friendshipDialogue: FRIENDSHIP_DIALOGUE, relationshipDialogue: RELATIONSHIP_DIALOGUE},
 }
 
 export const DreadspirecCitadelTileInspector: Story = {
@@ -216,5 +217,5 @@ export const DreadspirecCitadelTileInspector: Story = {
     onBack: fn(), onFeedback: fn(), user: null,
     locationData: DREADSPIRECITADEL, locationQuests: DREADSPIRECITADEL_QUESTS,
     questDefs: DREADSPIRECITADEL_QUESTS.HUB_QUEST_DEFS, allQuestDefs: ALL_QUEST_DEFS,
-  },
+    locationRegistry: LOCATION_REGISTRY, allQuests: ALL_QUESTS, friendshipDialogue: FRIENDSHIP_DIALOGUE, relationshipDialogue: RELATIONSHIP_DIALOGUE},
 }

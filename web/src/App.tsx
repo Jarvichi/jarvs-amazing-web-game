@@ -166,7 +166,7 @@ import rollbar, { updateRollbarPerson } from './rollbar'
 import { useAuth } from './hooks/useAuth'
 import { auth } from './firebase'
 import { uploadSave, applySave } from './game/cloudSave'
-import { ALL_QUEST_DEFS, LOCATION_REGISTRY } from './data/hub/hubWorldFactory'
+import { getHubWorldData, type HubWorldData } from './data/hub/hubWorldFactory'
 
 // Apply saved display settings on load
 applyTextSettings()
@@ -423,12 +423,25 @@ export default function App() {
   const [returnScreen, setReturnScreen]  = useState<Screen>('title')
   const [shopBuildingId, setShopBuildingId] = useState<string | undefined>(undefined)
   // Restore the town the player was last in (persisted in worldState). The saved
-  // value is a world-map node id; for town nodes that id equals the LOCATION_REGISTRY
-  // key. Fall back to ravenwatch if the saved id isn't a known town (e.g. a battle node).
-  const [currentLocationKey, setCurrentLocationKey] = useState<string>(() => {
-    const saved = getCurrentWorldLocation()
-    return LOCATION_REGISTRY[saved] ? saved : 'ravenwatch'
-  })
+  // value is a world-map node id; for town nodes that id equals the hub data's
+  // locationRegistry key. Hub data is lazy-loaded (see hubData below), so this
+  // can't validate against it synchronously — an effect corrects an invalid
+  // saved id back to ravenwatch once hub data has loaded.
+  const [currentLocationKey, setCurrentLocationKey] = useState<string>(() => getCurrentWorldLocation() || 'ravenwatch')
+
+  // ── Hub town data (lazy-loaded) ──────────────────────────────────────────────
+  // All 13 towns' config/quest data (~1.5MB) is only fetched once the player
+  // actually heads toward the hub — never at boot.
+  const [hubData, setHubData] = useState<HubWorldData | null>(null)
+  useEffect(() => {
+    if (hubData) return
+    if (screen === 'hubworld' || screen === 'location' || screen === 'worldmap') {
+      getHubWorldData().then(setHubData)
+    }
+  }, [screen, hubData])
+  useEffect(() => {
+    if (hubData && !hubData.locationRegistry[currentLocationKey]) setCurrentLocationKey('ravenwatch')
+  }, [hubData, currentLocationKey])
   const [miniGamesEntry, setMiniGamesEntry] = useState<'menu' | 'citybuilder'>('menu')
   const [hubMiniGameEntry, setHubMiniGameEntry] = useState<SubScreen>('menu')
   const [showTitleLoginModal, setShowTitleLoginModal] = useState(false)
@@ -1461,13 +1474,13 @@ export default function App() {
       setCurrentWorldLocation(id)
       setCurrentLocationKey('ravenwatch')
       setScreen('hubworld')
-    } else if (LOCATION_REGISTRY[id]) {
+    } else if (hubData?.locationRegistry[id]) {
       if (!isTownAccessible(id, enabledTownIds, bypassTownAccess)) return
       setCurrentWorldLocation(id)
       setCurrentLocationKey(id)
       setScreen('location')
     }
-  }, [enabledTownIds, bypassTownAccess])
+  }, [enabledTownIds, bypassTownAccess, hubData])
 
   // Re-run the current world-map battle after a loss ("Try Again").
   const handleWorldBattleRetry = useCallback(() => {
@@ -3101,22 +3114,7 @@ export default function App() {
       )}
 
 
-      {/* {screen === 'location' && LOCATION_REGISTRY[currentLocationKey] && (
-        <HubLocationWorld
-          locationData={LOCATION_REGISTRY[currentLocationKey].locationData}
-          locationQuests={LOCATION_REGISTRY[currentLocationKey].locationQuests}
-          questDefs={LOCATION_REGISTRY[currentLocationKey].questDefs}
-          allQuestDefs={ ALL_QUEST_DEFS}
-          user={user}
-          crystals={crystals}
-          commander={commander ?? undefined}
-          onBack={() => setScreen('worldmap')}
-          onCrystalsChange={(n) => { saveCrystals(n); setCrystals(n) }}
-          onFeedback={() => setFeedbackOpen(true)}
-        />
-      )} */}
-
-      {(screen === 'hubworld' || screen === 'location') && (
+      {(screen === 'hubworld' || screen === 'location') && hubData && (
         <HubWorld
           onBack={() => setScreen('settings')}
           onNavigate={(s, buildingId) => {
@@ -3141,11 +3139,14 @@ export default function App() {
           user={user}
           commander={commander ?? undefined}
 
-          locationData={LOCATION_REGISTRY[currentLocationKey].locationData}
-          locationQuests={LOCATION_REGISTRY[currentLocationKey].locationQuests}
-          questDefs={LOCATION_REGISTRY[currentLocationKey].questDefs}
-          allQuestDefs={ ALL_QUEST_DEFS}
-
+          locationData={hubData.locationRegistry[currentLocationKey].locationData}
+          locationQuests={hubData.locationRegistry[currentLocationKey].locationQuests}
+          questDefs={hubData.locationRegistry[currentLocationKey].questDefs}
+          allQuestDefs={hubData.allQuestDefs}
+          locationRegistry={hubData.locationRegistry}
+          allQuests={hubData.allQuests}
+          friendshipDialogue={hubData.friendshipDialogue}
+          relationshipDialogue={hubData.relationshipDialogue}
 
           isSignedIn={user != null && !user.isAnonymous}
           onSignIn={() => setShowTitleLoginModal(true)}
@@ -3164,11 +3165,11 @@ export default function App() {
         />
       )}
 
-      {screen === 'worldmap' && (
+      {screen === 'worldmap' && hubData && (
         <HubWorldMap
           key={worldMapKey}
           onSelectNode={(node) => {
-            if (node.id === 'ravenwatch' || (node.locationKey && LOCATION_REGISTRY[node.locationKey])) {
+            if (node.id === 'ravenwatch' || (node.locationKey && hubData.locationRegistry[node.locationKey])) {
               goToWorldLocation(node.id === 'ravenwatch' ? node.id : node.locationKey!)
             } else if (node.type === 'battle') {
               if (!isNodeCleared(node.id)) {
@@ -3184,23 +3185,9 @@ export default function App() {
           onFeedback={() => setFeedbackOpen(true)}
           restrictedNodeIds={restrictedTownNodeIds}
           previewingAsPlayer={isAdmin && previewAsPlayer}
+          allQuestDefs={hubData.allQuestDefs}
         />
       )}
-
-      {/* {screen === 'location' && LOCATION_REGISTRY[currentLocationKey] && (
-        <HubLocationWorld
-          locationData={LOCATION_REGISTRY[currentLocationKey].locationData}
-          locationQuests={LOCATION_REGISTRY[currentLocationKey].locationQuests}
-          questDefs={LOCATION_REGISTRY[currentLocationKey].questDefs}
-          allQuestDefs={ ALL_QUEST_DEFS}
-          user={user}
-          crystals={crystals}
-          commander={commander ?? undefined}
-          onBack={() => setScreen('worldmap')}
-          onCrystalsChange={(n) => { saveCrystals(n); setCrystals(n) }}
-          onFeedback={() => setFeedbackOpen(true)}
-        />
-      )} */}
 
       {screen === 'giftAdmin' && (
         <GiftAdminScreen onBack={() => setScreen('settings')} />

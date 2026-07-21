@@ -1,74 +1,6 @@
 import { createHubLocationData, createHubQuestData, HubLocationBundle, HubQuestBundle } from "./loader";
-import ravenwatch_config from './ravenwatch/config.json'
-import rawQuestConfig from './ravenwatch/questDefs.json'
-
-import ironholdkeep_config from './ironholdkeep/config.json'
-import ironholdkeep_quests from './ironholdkeep/questDefs.json'
-
-import millhaven_config from './millhaven/config.json'
-import millhaven_quests from './millhaven/questDefs.json'
-
-import thornwoodcamp_config from './thornwoodcamp/config.json'
-import thornwoodcamp_quests from './thornwoodcamp/questDefs.json'
-
-import capitalcity_config from './capitalcity/config.json'
-import capitalcity_quests from './capitalcity/questDefs.json'
-
-import royalpalace_config from './royalpalace/config.json'
-import royalpalace_quests from './royalpalace/questDefs.json'
-
-import saltmereport_config from './saltmereport/config.json'
-import saltmereport_quests from './saltmereport/questDefs.json'
-
-import gearford_config from './gearford/config.json'
-import gearford_quests from './gearford/questDefs.json'
-
-import harrowfield_config from './harrowfield/config.json'
-import harrowfield_quests from './harrowfield/questDefs.json'
-
-import appleford_config from './appleford/config.json'
-import appleford_quests from './appleford/questDefs.json'
-
-import gravemoor_config from './gravemoor/config.json'
-import gravemoor_quests from './gravemoor/questDefs.json'
-
-import hollowmere_config from './hollowmere/config.json'
-import hollowmere_quests from './hollowmere/questDefs.json'
-
-import dreadspirecitadel_config from './dreadspirecitadel/config.json'
-import dreadspirecitadel_quests from './dreadspirecitadel/questDefs.json'
-
-import { HubQuestDef } from "./questDefs";
-import { isSelfSave } from '../../utils/hotReloadGuard'
-
-// Map-editor / bundle-editor saves write straight onto these same config.json
-// / questDefs.json files, which are also statically imported here — a second,
-// independent import chain from the one accepted in
-// web/src/components/mapEditor/useMapEditorState.ts. Vite needs an accept
-// boundary in every import chain from a changed file up to the app root, or
-// it falls back to a full page reload. See hotReloadGuard.ts for details.
-if (import.meta.hot) {
-  import.meta.hot.accept([
-    './ravenwatch/config.json', './ravenwatch/questDefs.json',
-    './ironholdkeep/config.json', './ironholdkeep/questDefs.json',
-    './millhaven/config.json', './millhaven/questDefs.json',
-    './thornwoodcamp/config.json', './thornwoodcamp/questDefs.json',
-    './capitalcity/config.json', './capitalcity/questDefs.json',
-    './royalpalace/config.json', './royalpalace/questDefs.json',
-    './saltmereport/config.json', './saltmereport/questDefs.json',
-    './gearford/config.json', './gearford/questDefs.json',
-    './harrowfield/config.json', './harrowfield/questDefs.json',
-    './appleford/config.json', './appleford/questDefs.json',
-    './gravemoor/config.json', './gravemoor/questDefs.json',
-    './hollowmere/config.json', './hollowmere/questDefs.json',
-    './dreadspirecitadel/config.json', './dreadspirecitadel/questDefs.json',
-  ], () => {
-    if (!isSelfSave()) {
-      console.warn('[hub data] A hub config.json/questDefs.json changed on disk outside this tab. Refresh to pick it up — unsaved changes here were left alone.')
-    }
-  })
-}
-
+import type { RawConfig } from './config'
+import { HubQuestDef, RawQuestConfig } from "./questDefs";
 
 export interface RawQuestPickupItem {
   id: string
@@ -101,110 +33,131 @@ export type MapId =
   | 'hollowmere'
   | 'dreadspirecitadel'
 export type QuestDefsJson = { pickupItems?: RawQuestPickupItem[]; [key: string]: unknown }
-export const QUEST_DEFS_BY_MAP: Record<MapId, QuestDefsJson> = {
-  ravenwatch: rawQuestConfig as QuestDefsJson,
-  millhaven: millhaven_quests as  QuestDefsJson,
-  ironholdkeep: ironholdkeep_quests as QuestDefsJson,
-  thornwoodcamp: thornwoodcamp_quests as QuestDefsJson,
-  capitalcity: capitalcity_quests as QuestDefsJson,
-  royalpalace: royalpalace_quests as QuestDefsJson,
-  saltmereport: saltmereport_quests as QuestDefsJson,
-  gearford: gearford_quests as QuestDefsJson,
-  harrowfield: harrowfield_quests as QuestDefsJson,
-  appleford: appleford_quests as QuestDefsJson,
-  gravemoor: gravemoor_quests as QuestDefsJson,
-  hollowmere: hollowmere_quests as QuestDefsJson,
-  dreadspirecitadel: dreadspirecitadel_quests as QuestDefsJson,
-}
-
-
-export const RAVENWATCH = createHubLocationData(ravenwatch_config)
-export const IRONHOLDKEEP = createHubLocationData(ironholdkeep_config)
-export const MILLHAVE = createHubLocationData(millhaven_config)
-export const THORNWOODCAMP = createHubLocationData(thornwoodcamp_config)
-export const CAPITALCITY = createHubLocationData(capitalcity_config)
-export const ROYALPALACE = createHubLocationData(royalpalace_config)
-export const SALTMEREPORT = createHubLocationData(saltmereport_config)
-export const GEARFORD = createHubLocationData(gearford_config)
-export const HARROWFIELD = createHubLocationData(harrowfield_config)
-export const APPLEFORD = createHubLocationData(appleford_config)
-export const GRAVEMOOR = createHubLocationData(gravemoor_config)
-export const HOLLOWMERE = createHubLocationData(hollowmere_config)
-export const DREADSPIRECITADEL = createHubLocationData(dreadspirecitadel_config)
-
-export const RAVENWATCH_QUESTS = createHubQuestData(rawQuestConfig)
-export const IRONHOLDKEEP_QUESTS  = createHubQuestData(ironholdkeep_quests)
-export const MILLHAVE_QUESTS  = createHubQuestData(millhaven_quests)
-export const THORNWOODCAMP_QUESTS = createHubQuestData(thornwoodcamp_quests)
-export const CAPITALCITY_QUESTS = createHubQuestData(capitalcity_quests)
-export const ROYALPALACE_QUESTS = createHubQuestData(royalpalace_quests)
-export const SALTMEREPORT_QUESTS = createHubQuestData(saltmereport_quests)
-export const GEARFORD_QUESTS = createHubQuestData(gearford_quests)
-export const HARROWFIELD_QUESTS = createHubQuestData(harrowfield_quests)
-export const APPLEFORD_QUESTS = createHubQuestData(appleford_quests)
-export const GRAVEMOOR_QUESTS = createHubQuestData(gravemoor_quests)
-export const HOLLOWMERE_QUESTS = createHubQuestData(hollowmere_quests)
-export const DREADSPIRECITADEL_QUESTS = createHubQuestData(dreadspirecitadel_quests)
-
-const ALL_QUEST_BUNDLES: HubQuestBundle[] = [
-  RAVENWATCH_QUESTS,
-  IRONHOLDKEEP_QUESTS,
-  MILLHAVE_QUESTS,
-  THORNWOODCAMP_QUESTS,
-  CAPITALCITY_QUESTS,
-  ROYALPALACE_QUESTS,
-  SALTMEREPORT_QUESTS,
-  GEARFORD_QUESTS,
-  HARROWFIELD_QUESTS,
-  APPLEFORD_QUESTS,
-  GRAVEMOOR_QUESTS,
-  HOLLOWMERE_QUESTS,
-  DREADSPIRECITADEL_QUESTS,
-]
-
-export const ALL_QUESTS : HubQuestBundle = {
-  HUB_QUEST_DEFS:    ALL_QUEST_BUNDLES.flatMap(b => b.HUB_QUEST_DEFS),
-  FRIENDSHIP_DIALOGUE: Object.assign({}, ...ALL_QUEST_BUNDLES.map(b => b.FRIENDSHIP_DIALOGUE)),
-  RELATIONSHIP_DIALOGUE: Object.assign({}, ...ALL_QUEST_BUNDLES.map(b => b.RELATIONSHIP_DIALOGUE)),
-  HUB_PICKUP_ITEMS:  ALL_QUEST_BUNDLES.flatMap(b => b.HUB_PICKUP_ITEMS),
-  HUB_BLOCKED_PATHS: ALL_QUEST_BUNDLES.flatMap(b => b.HUB_BLOCKED_PATHS),
-  HUB_DIALOGUES:     Object.assign({}, ...ALL_QUEST_BUNDLES.map(b => b.HUB_DIALOGUES)),
-}
-
-export const ALL_QUEST_DEFS = [
-  ...Object.values(ALL_QUESTS.HUB_QUEST_DEFS).flat(),
-]
-
-
-export const FRIENDSHIP_DIALOGUE = {
-  ...ALL_QUESTS.FRIENDSHIP_DIALOGUE,
-}
-
-export const RELATIONSHIP_DIALOGUE = {
-  ...ALL_QUESTS.RELATIONSHIP_DIALOGUE,
-}
 
 export interface LocationEntry {
   locationData: HubLocationBundle
   locationQuests: HubQuestBundle
-  questDefs:    HubQuestDef[]
+  questDefs: HubQuestDef[]
 }
 
-// Maps locationKey → data bundle.
-// To add a new location: create web/src/data/<key>/ with config.json + questDefs.json + loader.ts,
-// then add one entry here.
-export const LOCATION_REGISTRY: Record<string, LocationEntry> = {
-  'ravenwatch':    { locationData: RAVENWATCH,  locationQuests: RAVENWATCH_QUESTS,  questDefs: RAVENWATCH_QUESTS.HUB_QUEST_DEFS },
-  'ironhold-keep': { locationData: IRONHOLDKEEP, locationQuests:IRONHOLDKEEP_QUESTS, questDefs: IRONHOLDKEEP_QUESTS.HUB_QUEST_DEFS },
-  'millhaven':     { locationData: MILLHAVE, locationQuests:MILLHAVE_QUESTS, questDefs: MILLHAVE_QUESTS.HUB_QUEST_DEFS },
-  'thornwood-camp':     { locationData: THORNWOODCAMP, locationQuests: THORNWOODCAMP_QUESTS, questDefs: THORNWOODCAMP_QUESTS.HUB_QUEST_DEFS },
-  'capital-city':       { locationData: CAPITALCITY, locationQuests: CAPITALCITY_QUESTS, questDefs: CAPITALCITY_QUESTS.HUB_QUEST_DEFS },
-  'royal-palace':       { locationData: ROYALPALACE, locationQuests: ROYALPALACE_QUESTS, questDefs: ROYALPALACE_QUESTS.HUB_QUEST_DEFS },
-  'saltmere-port':      { locationData: SALTMEREPORT, locationQuests: SALTMEREPORT_QUESTS, questDefs: SALTMEREPORT_QUESTS.HUB_QUEST_DEFS },
-  'gearford':           { locationData: GEARFORD, locationQuests: GEARFORD_QUESTS, questDefs: GEARFORD_QUESTS.HUB_QUEST_DEFS },
-  'harrowfield':        { locationData: HARROWFIELD, locationQuests: HARROWFIELD_QUESTS, questDefs: HARROWFIELD_QUESTS.HUB_QUEST_DEFS },
-  'appleford':          { locationData: APPLEFORD, locationQuests: APPLEFORD_QUESTS, questDefs: APPLEFORD_QUESTS.HUB_QUEST_DEFS },
-  'gravemoor':          { locationData: GRAVEMOOR, locationQuests: GRAVEMOOR_QUESTS, questDefs: GRAVEMOOR_QUESTS.HUB_QUEST_DEFS },
-  'hollowmere':         { locationData: HOLLOWMERE, locationQuests: HOLLOWMERE_QUESTS, questDefs: HOLLOWMERE_QUESTS.HUB_QUEST_DEFS },
-  'dreadspire-citadel': { locationData: DREADSPIRECITADEL, locationQuests: DREADSPIRECITADEL_QUESTS, questDefs: DREADSPIRECITADEL_QUESTS.HUB_QUEST_DEFS },
+export interface HubWorldData {
+  /** Maps locationKey (used by App.tsx/world-map nodes) → data bundle. */
+  locationRegistry: Record<string, LocationEntry>
+  allQuests: HubQuestBundle
+  allQuestDefs: HubQuestDef[]
+  friendshipDialogue: HubQuestBundle['FRIENDSHIP_DIALOGUE']
+  relationshipDialogue: HubQuestBundle['RELATIONSHIP_DIALOGUE']
+}
+
+// Every town's config.json/questDefs.json is dynamically imported and
+// aggregated on first use (see getHubWorldData) rather than statically
+// imported up front — this data (~1.5MB combined across 13 towns) is only
+// needed once a player actually opens the hub world, not at app boot.
+// To add a new location: create web/src/data/<key>/ with config.json +
+// questDefs.json + loader.ts, then add one entry to CONFIG_LOADERS,
+// QUEST_LOADERS, and LOCATION_KEY_BY_MAP_ID below.
+
+const CONFIG_LOADERS: Record<MapId, () => Promise<{ default: RawConfig }>> = {
+  ravenwatch:        () => import('./ravenwatch/config.json'),
+  ironholdkeep:      () => import('./ironholdkeep/config.json'),
+  millhaven:         () => import('./millhaven/config.json'),
+  thornwoodcamp:     () => import('./thornwoodcamp/config.json'),
+  capitalcity:       () => import('./capitalcity/config.json'),
+  royalpalace:       () => import('./royalpalace/config.json'),
+  saltmereport:      () => import('./saltmereport/config.json'),
+  gearford:          () => import('./gearford/config.json'),
+  harrowfield:       () => import('./harrowfield/config.json'),
+  appleford:         () => import('./appleford/config.json'),
+  gravemoor:         () => import('./gravemoor/config.json'),
+  hollowmere:        () => import('./hollowmere/config.json'),
+  dreadspirecitadel: () => import('./dreadspirecitadel/config.json'),
+}
+
+const QUEST_LOADERS: Record<MapId, () => Promise<{ default: RawQuestConfig }>> = {
+  ravenwatch:        () => import('./ravenwatch/questDefs.json'),
+  ironholdkeep:      () => import('./ironholdkeep/questDefs.json'),
+  millhaven:         () => import('./millhaven/questDefs.json'),
+  thornwoodcamp:     () => import('./thornwoodcamp/questDefs.json'),
+  capitalcity:       () => import('./capitalcity/questDefs.json'),
+  royalpalace:       () => import('./royalpalace/questDefs.json'),
+  saltmereport:      () => import('./saltmereport/questDefs.json'),
+  gearford:          () => import('./gearford/questDefs.json'),
+  harrowfield:       () => import('./harrowfield/questDefs.json'),
+  appleford:         () => import('./appleford/questDefs.json'),
+  gravemoor:         () => import('./gravemoor/questDefs.json'),
+  hollowmere:        () => import('./hollowmere/questDefs.json'),
+  dreadspirecitadel: () => import('./dreadspirecitadel/questDefs.json'),
+}
+
+/** locationKey (App.tsx/world-map convention) for each MapId. */
+const LOCATION_KEY_BY_MAP_ID: Record<MapId, string> = {
+  ravenwatch:        'ravenwatch',
+  ironholdkeep:      'ironhold-keep',
+  millhaven:         'millhaven',
+  thornwoodcamp:     'thornwood-camp',
+  capitalcity:       'capital-city',
+  royalpalace:       'royal-palace',
+  saltmereport:      'saltmere-port',
+  gearford:          'gearford',
+  harrowfield:       'harrowfield',
+  appleford:         'appleford',
+  gravemoor:         'gravemoor',
+  hollowmere:        'hollowmere',
+  dreadspirecitadel: 'dreadspire-citadel',
+}
+
+const MAP_IDS = Object.keys(CONFIG_LOADERS) as MapId[]
+
+let cachedData: HubWorldData | undefined
+let pendingData: Promise<HubWorldData> | undefined
+
+/** Loads (and caches) every town's hub data, aggregated. Cheap on repeat calls. */
+export function getHubWorldData(): Promise<HubWorldData> {
+  if (cachedData) return Promise.resolve(cachedData)
+  if (!pendingData) {
+    pendingData = Promise.all(
+      MAP_IDS.map(async mapId => {
+        const [configModule, questModule] = await Promise.all([CONFIG_LOADERS[mapId](), QUEST_LOADERS[mapId]()])
+        return {
+          mapId,
+          locationData: createHubLocationData(configModule.default),
+          locationQuests: createHubQuestData(questModule.default),
+        }
+      }),
+    ).then(results => {
+      const locationRegistry: Record<string, LocationEntry> = {}
+      const bundles: HubQuestBundle[] = []
+      for (const { mapId, locationData, locationQuests } of results) {
+        bundles.push(locationQuests)
+        locationRegistry[LOCATION_KEY_BY_MAP_ID[mapId]] = {
+          locationData, locationQuests, questDefs: locationQuests.HUB_QUEST_DEFS,
+        }
+      }
+
+      const allQuests: HubQuestBundle = {
+        HUB_QUEST_DEFS:        bundles.flatMap(b => b.HUB_QUEST_DEFS),
+        FRIENDSHIP_DIALOGUE:   Object.assign({}, ...bundles.map(b => b.FRIENDSHIP_DIALOGUE)),
+        RELATIONSHIP_DIALOGUE: Object.assign({}, ...bundles.map(b => b.RELATIONSHIP_DIALOGUE)),
+        HUB_PICKUP_ITEMS:      bundles.flatMap(b => b.HUB_PICKUP_ITEMS),
+        HUB_BLOCKED_PATHS:     bundles.flatMap(b => b.HUB_BLOCKED_PATHS),
+        HUB_DIALOGUES:         Object.assign({}, ...bundles.map(b => b.HUB_DIALOGUES)),
+      }
+
+      const data: HubWorldData = {
+        locationRegistry,
+        allQuests,
+        allQuestDefs: [...allQuests.HUB_QUEST_DEFS],
+        friendshipDialogue: { ...allQuests.FRIENDSHIP_DIALOGUE },
+        relationshipDialogue: { ...allQuests.RELATIONSHIP_DIALOGUE },
+      }
+      cachedData = data
+      return data
+    })
+  }
+  return pendingData
+}
+
+/** Synchronous, no-fetch read of already-loaded hub data. Undefined if not loaded yet. */
+export function peekHubWorldData(): HubWorldData | undefined {
+  return cachedData
 }

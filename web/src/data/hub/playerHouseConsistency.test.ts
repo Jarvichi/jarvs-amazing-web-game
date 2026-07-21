@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { LOCATION_REGISTRY } from './hubWorldFactory'
+import { getHubWorldData } from './hubWorldFactory'
+
+const { locationRegistry: LOCATION_REGISTRY } = await getHubWorldData()
 
 // Regression sentinel for the player-house authoring trap (see docs/hubworld.md
 // §10/§13): a building can be tagged `requiresOwnership`/`upgradeKind` without

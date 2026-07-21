@@ -50,7 +50,7 @@ import { formatGameTime, hourInRange, getGameHour, getTimeOfDay } from '../../ga
 import { isNpcAsleep, getNpcActivity } from '../../game/hub/hubNpcSchedule'
 import { Festival, getActiveFestival } from '../../game/hub/hubCalendar'
 import { getDailyChallengeNPCDialogue, getMiniGameChallengeNPCDialogue } from '../../game/hub/npcDialogue'
-import {  ALL_QUESTS, FRIENDSHIP_DIALOGUE, RELATIONSHIP_DIALOGUE, RAVENWATCH } from '../../data/hub/hubWorldFactory'
+import type { LocationEntry } from '../../data/hub/hubWorldFactory'
 import { HubInteractable, HubLocationBundle, HubQuestBundle, HubTreasure, HubNpc } from '../../data/hub/loader'
 import { getUnreadCount } from '../../game/news'
 import { interactableStoreKey, isInteractableGranted, markInteractableGranted, getInteractableMoves, setInteractableMove } from '../../game/hub/interactables'
@@ -229,6 +229,12 @@ export interface Props {
     locationQuests: HubQuestBundle
     questDefs:       HubQuestDef[]
     allQuestDefs:    HubQuestDef[]
+    /** All towns' hub data, keyed by locationKey — needed for cross-town
+     *  reputation pricing (countOwnedPlayerHouses). Lazy-loaded by App.tsx. */
+    locationRegistry: Record<string, LocationEntry>
+    allQuests:            HubQuestBundle
+    friendshipDialogue:   HubQuestBundle['FRIENDSHIP_DIALOGUE']
+    relationshipDialogue: HubQuestBundle['RELATIONSHIP_DIALOGUE']
 
   onSignIn?:   () => void
   onSignOut?:         () => void
@@ -239,7 +245,7 @@ export interface Props {
 }
 
 export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndless, onWorldMap, onNavigateTown, onPlayerTap, onNarratorLog,
-  locationData, locationQuests, questDefs, allQuestDefs,
+  locationData, locationQuests, questDefs, allQuestDefs, locationRegistry, allQuests, friendshipDialogue, relationshipDialogue,
   crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onCrystalsChange, onTileTap, onBuyCrystalPack }: Props) {
   const [splashVisible, setSplashVisible] = useState(() => !_hubSplashShown && !loadSkipIntro())
   const [splashFading,  setSplashFading]  = useState(false)
@@ -298,13 +304,13 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
       const id = b.id as string
       const name = locationData.HUB_INTERIORS[id]?.name
         ?? id.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
-      const next = nextUpgrade(town, id, b.upgradeKind)
+      const next = nextUpgrade(town, id, b.upgradeKind, locationRegistry)
       return { buildingId: id, name, kind: b.upgradeKind as string, level: next.level, total: next.total, next }
     })
 
   const handleUpgrade = useCallback((buildingId: string) => {
     const b = locationData.HUB_BUILDINGS.find(x => x.id === buildingId)
-    const res = purchaseUpgrade(town, buildingId, b?.upgradeKind)
+    const res = purchaseUpgrade(town, buildingId, b?.upgradeKind, locationRegistry)
     if (res.ok) {
       onCrystalsChange?.(loadCrystals())
       buildingUpgradeLevelsRef.current[buildingId] = res.newLevel
@@ -317,7 +323,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
           : 'That building is already fully upgraded.'
       setDialogueEvent({ speakerName: 'Town Steward', text: msg })
     }
-  }, [locationData, town, onCrystalsChange, refreshState])
+  }, [locationData, town, onCrystalsChange, refreshState, locationRegistry])
 
   const handleCollectTribute = useCallback(() => {
     const amount = collectTribute(town)
@@ -1369,7 +1375,7 @@ function hasOfferableQuest(giverId: string): boolean {
     // active, it flavours the greeting at the matching level. NPCs steered via a
     // dialogue tree should not author relationshipDialogue (the tree below is how
     // the player steers — a greeting here would shadow it).
-    const relTracks = RELATIONSHIP_DIALOGUE[npcId]
+    const relTracks = relationshipDialogue[npcId]
     const rel = getRelationship(npcId)
     if (!npcDef?.dialogueTree && relTracks && rel.track && relTracks[rel.track]) {
       const lines = Object.entries(relTracks[rel.track]!)
@@ -1383,7 +1389,7 @@ function hasOfferableQuest(giverId: string): boolean {
     }
 
     // ── Friendship tier dialogue override ───────────────────────────────────
-    const friendTiers = FRIENDSHIP_DIALOGUE[npcId]
+    const friendTiers = friendshipDialogue[npcId]
     if (friendTiers) {
       const level = getFriendshipLevel(npcId)
       const tiers = Object.entries(friendTiers)
@@ -1399,7 +1405,7 @@ function hasOfferableQuest(giverId: string): boolean {
     // ── Branching dialogue tree (ordinary chat) ─────────────────────────────
     const treeId = npcDef?.dialogueTree
     if (treeId) {
-      const tree = ALL_QUESTS.HUB_DIALOGUES[treeId]
+      const tree = allQuests.HUB_DIALOGUES[treeId]
       if (tree) {
         runDialogueNode(tree, tree.start, npcId, speakerName, npcDef, true)
         return

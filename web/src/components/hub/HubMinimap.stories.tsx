@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { HubMinimap, MinimapObjective } from './HubMinimap'
-import { RAVENWATCH } from '../../data/hub/hubWorldFactory'
+import { RAVENWATCH } from '../../data/hub/hubTownStoryFixtures'
 
 // Story-friendly wrapper: HubMinimap reads the player position and viewport
 // imperatively via refs, so we set those up here and feed it static demo data.

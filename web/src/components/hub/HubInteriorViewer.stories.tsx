@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { HubInteriorViewer } from './HubInteriorViewer'
-import { IRONHOLDKEEP, MILLHAVE, RAVENWATCH } from '../../data/hub/hubWorldFactory'
+import { IRONHOLDKEEP, MILLHAVE, RAVENWATCH } from '../../data/hub/hubTownStoryFixtures'
 
 const meta = {
   component: HubInteriorViewer,
