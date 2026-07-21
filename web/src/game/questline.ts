@@ -1,4 +1,5 @@
 import { CardRarity, Archetype } from './types'
+import type { RoadDef } from './engine/terrain'
 import { loadPlayerStats } from './playerStats'
 import { logError } from '../logger'
 import { getCardCatalog } from './cards'
@@ -162,6 +163,8 @@ export interface QuestNode {
   enemyDeck?: string[]
   /** Visual background theme for this node's battlefield ('forest' | 'ruins' | 'camp' | 'citadel' | 'ashen'). */
   environment?: string
+  /** Battlefield road paths for this node, overriding the act's `roads`. Rendered only — does not affect unit movement. */
+  roads?: RoadDef[]
   /** Override opponent play interval (ms). Replaces handicap-derived default. */
   opponentIntervalMs?: number
   /** Override opponent base HP. Replaces engine default (95 for bosses, 82 for others). */
@@ -295,6 +298,14 @@ export interface WorldMap {
    * All values are pixel coordinates relative to the map canvas size.
    */
   rivers?: Array<{ x1: number; y1: number; x2: number; y2: number; cx1: number; cy1: number; cx2: number; cy2: number }>
+
+  /**
+   * Default battlefield road paths for battles in this act, in game-unit coords
+   * (x 0–500 forward base→base, y -80..80 lateral) — the same space as
+   * TerrainObstacle. Rendered on the combat lane only (not the node-map
+   * screen); a QuestNode's own `roads` overrides this per-node. Visual only.
+   */
+  roads?: RoadDef[]
 
 }
 

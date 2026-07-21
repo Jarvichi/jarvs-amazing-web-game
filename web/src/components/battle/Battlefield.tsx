@@ -851,7 +851,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
         onContextMenu={pendingAoeCard ? (e) => { e.preventDefault(); setPendingAoeCard(null); setAoeHoverPos(null) } : undefined}
       >
         <div className="lane-ground" />
-        <BattlefieldTerrainCanvas environment={state.environment} id={state.environment} terrain={state.terrain} />
+        <BattlefieldTerrainCanvas environment={state.environment} id={state.environment} terrain={state.terrain} roads={state.roads} />
         {isDebugMode() && (state.terrain ?? []).map(obs => {
           // Avoidance ellipse matching TERRAIN_AVOID_SHAPE used by the engine.
           // x-axis (forward/vertical on screen): 500 units → 100% field height → 0.2% per unit

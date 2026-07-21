@@ -5,7 +5,7 @@ import { loadTileTexture } from './pixiHelpers'
 import { drawTerrainItem } from './terrainGfx'
 import { seededRand, hashStr, getTerrainItems, type TerrainItem } from './mapUtils'
 import { renderPathTiles } from './tileLookup'
-import type { TerrainObstacle } from '../game/engine/terrain'
+import type { TerrainObstacle, RoadDef } from '../game/engine/terrain'
 
 // Divisor controlling how obstacle radius (game units) maps to tile-ring radius (tiles).
 // Tuned against the realistic range of obstacle radius (20-32) and lane CSS height (~318-842px)
@@ -229,6 +229,74 @@ export async function buildDecorGfx(
       s.position.set(c * TILE_SIZE, r * TILE_SIZE)
       container.addChild(s)
     }
+  }
+}
+
+/**
+ * Renders act/node-authored road paths on the battlefield lane, using the same
+ * renderPathTiles() autotiler as hub streets and battlefield water patches.
+ * Visual only — does not affect unit movement/avoidance.
+ *
+ * Game coords → tile coords use the same projection as buildTerrainDecorGfx's
+ * toTile(): tcx = (0.5 + (y/80)*0.36) * w/TILE_SIZE, tcy = (1 - x/500) * h/TILE_SIZE.
+ */
+export async function buildRoadGfx(
+  container: PIXI.Container,
+  roads: RoadDef[],
+  opts: { environment?: string; envDef?: EnvTileDef },
+  w: number,
+  h: number,
+): Promise<void> {
+  if (roads.length === 0) return
+  const def = opts.envDef ?? ENV_TILES[opts.environment ?? '']
+
+  const toTile = (x: number, y: number) => ({
+    tcx: Math.round(((0.5 + (y / 80) * 0.36) * w) / TILE_SIZE),
+    tcy: Math.round(((1 - x / 500) * h) / TILE_SIZE),
+  })
+
+  for (const road of roads) {
+    if (container.destroyed) return
+    if (road.points.length < 2) continue
+
+    // Rasterize the centerline tile-by-tile between consecutive waypoints.
+    const centerline = new Set<string>()
+    let prev = toTile(road.points[0].x, road.points[0].y)
+    centerline.add(`${prev.tcx},${prev.tcy}`)
+    for (let i = 1; i < road.points.length; i++) {
+      const cur = toTile(road.points[i].x, road.points[i].y)
+      const dx = cur.tcx - prev.tcx
+      const dy = cur.tcy - prev.tcy
+      const steps = Math.max(Math.abs(dx), Math.abs(dy))
+      for (let s = 1; s <= steps; s++) {
+        const tx = Math.round(prev.tcx + (dx * s) / steps)
+        const ty = Math.round(prev.tcy + (dy * s) / steps)
+        centerline.add(`${tx},${ty}`)
+      }
+      prev = cur
+    }
+
+    // Widen the centerline into a band via circular dilation — the same
+    // technique buildTerrainDecorGfx uses for its obstacle ringSet. Note the
+    // resulting band diameter is 2*floor(width/2)+1, so this is an
+    // approximate (not exact-integer) tile width.
+    const width = road.width ?? 2
+    const tileRadius = Math.max(0, Math.floor(width / 2))
+    const roadSet = new Set<string>()
+    for (const key of centerline) {
+      const [c, r] = key.split(',').map(Number)
+      for (let dr = -tileRadius; dr <= tileRadius; dr++) {
+        for (let dc = -tileRadius; dc <= tileRadius; dc++) {
+          if (dr * dr + dc * dc > tileRadius * tileRadius) continue
+          roadSet.add(`${c + dc},${r + dr}`)
+        }
+      }
+    }
+
+    const roadContainer = new PIXI.Container()
+    container.addChild(roadContainer)
+    await renderPathTiles(roadContainer, roadSet, opts.environment, road.tileFile, width > 1, def)
+    if (container.destroyed) return
   }
 }
 
