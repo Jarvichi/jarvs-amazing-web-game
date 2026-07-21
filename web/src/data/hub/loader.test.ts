@@ -189,6 +189,25 @@ describe('dialogue trees parsing', () => {
   })
 })
 
+describe('conversation topics parsing', () => {
+  it('returns {} when the conversationTopics key is absent', () => {
+    const bundle = createHubQuestData(minimalQuestConfig({}))
+    expect(bundle.HUB_CONVERSATION_TOPICS).toEqual({})
+  })
+
+  it('parses a topic array into a map keyed by id, preserving label + treeId', () => {
+    const bundle = createHubQuestData(minimalQuestConfig({
+      conversationTopics: [
+        { id: 'elder-topic-pendant', npcId: 'elder', label: '🕯️ Ask about the missing pendant', treeId: 'elder-topic-pendant' },
+      ],
+    }))
+    expect(Object.keys(bundle.HUB_CONVERSATION_TOPICS)).toEqual(['elder-topic-pendant'])
+    const topic = bundle.HUB_CONVERSATION_TOPICS['elder-topic-pendant']
+    expect(topic.label).toBe('🕯️ Ask about the missing pendant')
+    expect(topic.treeId).toBe('elder-topic-pendant')
+  })
+})
+
 describe('ravenwatch config', () => {
   it('contains the notice-board interactable with 4 resolved decor tiles', () => {
     const bundle = createHubLocationData(ravenwatchConfig as unknown as RawConfig)

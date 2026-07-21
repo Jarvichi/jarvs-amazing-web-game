@@ -8633,6 +8633,11 @@
         ]
       },
       "sleepDialogue": "...mmh... the courtyard... full of laughter... zzz...",
+      "conversationTopics": [
+        "elder-topic-pendant",
+        "elder-topic-before-fracture",
+        "elder-topic-roads"
+      ],
       "questGive": "lost-pendant",
       "questReceive": [
         "aldous-family-heirloom",
@@ -8707,6 +8712,11 @@
         ]
       },
       "sleepDialogue": "...mmh... the eastern caravans... zzz...",
+      "conversationTopics": [
+        "merchant-topic-routes",
+        "merchant-topic-caravans",
+        "merchant-topic-trust"
+      ],
       "questGive": "merchants-herb",
       "questReceive": "thorin-the-last-watch",
       "schedule": [
@@ -8845,6 +8855,11 @@
         ]
       },
       "sleepDialogue": "...mmh... something stirring... zzz...",
+      "conversationTopics": [
+        "fisherman-topic-water",
+        "fisherman-topic-glowfish",
+        "fisherman-topic-patience"
+      ],
       "questGive": "greyfishs-bait",
       "questReceive": [
         "fisherman-fracture-depths",
@@ -8907,6 +8922,11 @@
         "The wheel never lies. Step right up — fortune favours the bold.",
         "I've seen a thousand players. The ones who win? They trust their instincts.",
         "One spin, one chance. What do you say, friend?"
+      ],
+      "conversationTopics": [
+        "dealer-topic-advice",
+        "dealer-topic-bigwin",
+        "dealer-topic-skeptic"
       ],
       "questGive": "dealer-lucky-charm",
       "questReceive": [
@@ -9877,6 +9897,11 @@
         "Welcome to the Wanderer's Rest! A warm meal and a dry bed awaits.",
         "You look like you've seen better days, Commander. Rest up.",
         "Rooms are cheap, ale is cheaper. Stay as long as you need."
+      ],
+      "conversationTopics": [
+        "innkeeper-rosie-topic-business",
+        "innkeeper-rosie-topic-selfcare",
+        "innkeeper-rosie-topic-history"
       ],
       "questGive": "innkeepers-package",
       "questReceive": [

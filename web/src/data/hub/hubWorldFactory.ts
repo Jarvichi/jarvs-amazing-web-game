@@ -141,6 +141,7 @@ export function getHubWorldData(): Promise<HubWorldData> {
         HUB_PICKUP_ITEMS:      bundles.flatMap(b => b.HUB_PICKUP_ITEMS),
         HUB_BLOCKED_PATHS:     bundles.flatMap(b => b.HUB_BLOCKED_PATHS),
         HUB_DIALOGUES:         Object.assign({}, ...bundles.map(b => b.HUB_DIALOGUES)),
+        HUB_CONVERSATION_TOPICS: Object.assign({}, ...bundles.map(b => b.HUB_CONVERSATION_TOPICS)),
       }
 
       const data: HubWorldData = {

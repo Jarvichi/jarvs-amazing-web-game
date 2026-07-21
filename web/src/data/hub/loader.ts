@@ -2,7 +2,7 @@ import { BASE_CHIP_TILES } from '../tiles/baseChipIndex'
 import { WALL_TILES, ROOF_TILES } from '../tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../tiles/buildingMaterials'
 import { expandBundleDecor, expandBundleWindows, expandBundleDoors } from '../bundles/bundleLoader'
-import { DialogueTree, FriendshipDialogue, HubQuestDef, RawQuestConfig, RelationshipDialogue } from './questDefs'
+import { ConversationTopicDef, DialogueTree, FriendshipDialogue, HubQuestDef, RawQuestConfig, RelationshipDialogue } from './questDefs'
 import { RawAnimal, RawConfig, RawInteractable } from './config'
 import rollbar from '../../rollbar'
 
@@ -184,6 +184,10 @@ export interface HubNpc {
   postCampaignDialogue?: string[]
   /** Id of a branching dialogue tree (questDefs.json `dialogues`) to run on tap. */
   dialogueTree?: string
+  /** Ordered ids (questDefs.json `conversationTopics`) offered as topic choices
+   *  when "🗣️ Make conversation" is tapped. Empty/absent falls back to the
+   *  flat legacy "Always good to catch up" line. */
+  conversationTopics?: string[]
   /** Hub-item id (hubItems.json) that grants a bonus friendship/relationship boost when gifted. */
   favoriteGiftItemId?: string
   /** Relationship track ('ally' | 'rival' | 'romance') the favorite-gift bonus applies to. Defaults to 'ally'. */
@@ -401,6 +405,7 @@ export interface HubQuestBundle {
   HUB_PICKUP_ITEMS: HubPickupItem[]
   HUB_BLOCKED_PATHS: BlockedPath[]
   HUB_DIALOGUES: Record<string, DialogueTree>
+  HUB_CONVERSATION_TOPICS: Record<string, ConversationTopicDef>
 }
 
 export function createHubLocationData(
@@ -858,6 +863,10 @@ const HUB_DIALOGUES: Record<string, DialogueTree> = Object.fromEntries(
   ((rawQuestConfig as unknown as { dialogues?: DialogueTree[] }).dialogues ?? []).map(d => [d.id, d])
 )
 
+const HUB_CONVERSATION_TOPICS: Record<string, ConversationTopicDef> = Object.fromEntries(
+  ((rawQuestConfig as unknown as { conversationTopics?: ConversationTopicDef[] }).conversationTopics ?? []).map(t => [t.id, t])
+)
+
   return {
 
 
@@ -867,5 +876,6 @@ const HUB_DIALOGUES: Record<string, DialogueTree> = Object.fromEntries(
     HUB_BLOCKED_PATHS,
     HUB_PICKUP_ITEMS,
     HUB_DIALOGUES,
+    HUB_CONVERSATION_TOPICS,
   }
 }

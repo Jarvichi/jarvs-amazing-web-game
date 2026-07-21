@@ -11,7 +11,7 @@
 | File | Owns | TypeScript exports |
 |---|---|---|
 | `web/src/data/hub/config.json` | Map geometry, buildings, doors, NPCs (incl. each NPC's own `innRumours`), exterior decor, interiors, windows, interactables | parsed by `loader.ts` |
-| `web/src/data/hub/questDefs.json` | Quests, pickup items, blocked paths, friendship dialogue, dialogue trees, relationship dialogue | parsed by `loader.ts` and `questDefs.ts` |
+| `web/src/data/hub/questDefs.json` | Quests, pickup items, blocked paths, friendship dialogue, dialogue trees, relationship dialogue, conversation topics (§7g) | parsed by `loader.ts` and `questDefs.ts` |
 | `web/src/data/hub/loader.ts` | Parses both JSON files; exports all map/NPC/item/path data | `MAP_W`, `MAP_H`, `AVATAR_START`, `HUB_AREAS`, `HUB_STREET_TILES`, `HUB_BUILDINGS`, `HUB_DOORS`, `HUB_INTERIORS`, `EXTERIOR_DECOR`, `HUB_NPCS`, `EXTERIOR_NPCS`, `INTERIOR_NPCS`, `HUB_PICKUP_ITEMS`, `HUB_BLOCKED_PATHS`, `HUB_LOCKED_DOORS`, … |
 | `web/src/data/hub/questDefs.ts` | Parses `questDefs.json`; exports quest definitions and dialogue | `HUB_QUEST_DEFS`, `FRIENDSHIP_DIALOGUE` |
 | `web/src/game/hub/quests.ts` | Quest progress/status persistence (localStorage) | `getQuestState`, `setQuestStatus`, `incrementQuestProgress`, `getQuestProgress`, `resetQuest` |
@@ -895,6 +895,163 @@ buyer, James in Ravenwatch (`james-junk-trade`), per §16's
 4. Run `npm run test` and `npm run build`.
 5. Verify by reading the flow: the quest only offers once the prerequisite is
    met, turn-in grants the item, and the trade-chain buyer accepts it.
+
+---
+
+## §7g — Conversation Topics (branching "Make Conversation" menu)
+
+Before this feature, every NPC's "🗣️ Make conversation" choice (§7d) did the
+exact same thing regardless of who was tapped: grant a flat +2 friendship XP
+and +1 `ally` relationship point, and show one hardcoded line ("Always good to
+catch up."). Conversation topics replace that flat response, for NPCs that
+have them authored, with a topic-picker menu that branches into a short
+back-and-forth — 2 exchanges deep — ending in a friendship gain, loss, or no
+change depending on which responses the player picks.
+
+This is built entirely on top of §7b's existing dialogue-tree engine — **no
+new branching engine was added**. A "topic" is just a menu entry (a button
+label) pointing at an ordinary `DialogueTree`, authored in the same
+`dialogues` array §7b already uses and walked by the same
+`runDialogueNode`/`applyChoice` functions in `HubWorld.tsx`. An NPC with no
+(or no valid) topics falls back to the exact legacy flat-line behavior — this
+is an opt-in, incrementally-adoptable content layer, same as `dialogueTree`
+itself; most NPCs will have neither for a long while.
+
+### Full schema
+
+```jsonc
+// questDefs.json (top level, alongside "quests" and "dialogues")
+"conversationTopics": [
+  {
+    "id": "elder-topic-pendant",        // referenced by HubNpc.conversationTopics
+    "npcId": "elder",                   // documentation only
+    "label": "🕯️ Ask about the missing pendant",  // topic-picker button text
+    "treeId": "elder-topic-pendant"     // id into this town's `dialogues` array
+  }
+],
+"dialogues": [
+  {
+    "id": "elder-topic-pendant",        // the tree the topic entry above points at
+    "npcId": "elder",
+    "start": "start",
+    "nodes": {
+      "start": {
+        "text": "That pendant... it wasn't just any trinket. Why do you ask?",
+        "choices": [
+          { "label": "It clearly still weighs on you.", "next": "warm" },
+          { "label": "Any leads on where it ended up?", "next": "practical" },
+          { "label": "It's just a bauble — why the fuss?", "next": "blunt" }
+        ]
+      },
+      "warm": {
+        "text": "You've a kind ear, wanderer. It belonged to my late wife...",
+        "choices": [
+          { "label": "Tell me more about her, if you'd like.",
+            "effects": [{ "type": "friendship", "xp": 8 },
+                        { "type": "relationship", "track": "ally", "points": 2 },
+                        { "type": "end" }] },
+          { "label": "I'm sorry. I hope it turns up.",
+            "effects": [{ "type": "friendship", "xp": 4 }, { "type": "end" }] }
+        ]
+      },
+      "practical": { "text": "…", "choices": [ /* neutral endings, no friendship effect */ ] },
+      "blunt":     { "text": "…", "choices": [ /* friendship xp: -8 / -3, then end */ ] }
+    }
+  }
+]
+```
+
+Then on the NPC (in `config.json`): `"conversationTopics": ["elder-topic-pendant", "elder-topic-before-fracture", "elder-topic-roads"]`
+(ordered ids, shown as menu buttons in that order).
+
+### Field reference
+
+#### `ConversationTopicDef`
+| Field | Type | Notes |
+|---|---|---|
+| `id` | string | Referenced by `HubNpc.conversationTopics`. |
+| `npcId` | string? | Documentation only — which NPC this belongs to. |
+| `label` | string | Topic-picker button text (icon + short prompt). |
+| `treeId` | string | Id of the `DialogueTree` (in this town's `dialogues` array) this topic walks. Conventionally the same string as `id`, but kept as a separate field in case a future topic wants to reuse a tree. |
+
+The tree itself uses the exact `DialogueTree`/`DialogueNode`/`DialogueChoiceDef`/
+`DialogueEffect` schema documented in §7b — nothing new there.
+
+### Authored convention (2 exchanges deep)
+
+Every pilot topic (below) follows the same shape, recommended for new topics
+too:
+1. `start` node — the topic prompt — offers **3 first-tier choices** by tone
+   (warm/curious, practical/neutral, blunt/dismissive).
+2. Each tone leads to its own reaction node (the NPC's in-character response),
+   which offers **2 second-tier choices** (double down vs. soften/hedge) that
+   each carry the ending effects directly (`friendship` + `end`, plus
+   `relationship: ally` on the single best ending) — no third node needed.
+3. Standardized deltas keep the template predictable: **good = `+8`
+   friendship (best choice also `+2 ally`) / `+4` (softer good choice)**,
+   **neutral = no `friendship` effect at all**, **bad = `-8` / `-3`**. Tune
+   flavor text per NPC/topic; keep the numbers unless there's a specific
+   reason to diverge.
+
+### Behavior (`HubWorld.tsx`, `buildTalkGiveOptions`)
+
+- The "🗣️ Make conversation" choice resolves `npcDef.conversationTopics` to
+  `ConversationTopicDef`s via `allQuests.HUB_CONVERSATION_TOPICS`, keeping
+  only entries whose `treeId` also resolves in `allQuests.HUB_DIALOGUES` — a
+  stale/typo'd id just drops that topic instead of breaking the menu (the
+  coverage test below is the real authoring guard).
+- If zero topics resolve, behavior is **byte-for-byte** the old flat line:
+  `addFriendshipXp(npcId, 2)` + `grantRelationshipWithRivalry(npcId, 'ally', 1, ...)`
+  + "Always good to catch up."
+- Otherwise, a topic-picker `dialogueEvent` is shown ("What would you like to
+  talk about?") with one button per topic plus "Never mind". This mirrors the
+  "🎁 Give a gift" nested-picker pattern (§7d): opening the menu does **not**
+  burn the day's cooldown — `canTalkToday`/`recordTalk` fire only once a topic
+  is actually picked, so backing out via "Never mind" doesn't cost the
+  player's one conversation for the day.
+- Picking a topic calls `runDialogueNode(tree, tree.start, npcId, speakerName, npcDef, false)`
+  — `topLevel = false` because this is a nested follow-up screen, so
+  Talk/Give is **not** re-appended mid-conversation (same rule as any other
+  follow-up dialogueEvent, §7d).
+
+### Persistence
+
+None new — reuses §7b's `dialogueFlags` (`markNodeSeen`/`hasDialogueFlag`) and
+the existing friendship/relationship stores exactly as-is.
+
+### Authoring checklist
+
+1. Author each topic's branching content as an ordinary tree in `dialogues`
+   (§7b), following the 2-exchange convention above — at least one clearly
+   good ending (`friendship` +, best one paired with `relationship: ally`),
+   one neutral ending (no `friendship` effect), and one bad ending
+   (`friendship` −).
+2. Add a matching entry to `conversationTopics` (`id`, `label`, `treeId`).
+3. Attach the ordered topic ids to the NPC via `conversationTopics: string[]`
+   in `config.json`.
+4. Run `npm run test` (loader parsing + `npcDialogueCoverage.test.ts`'s
+   `conversation topic coverage` / `conversation topic trees terminate`
+   guards) and `npm run build`.
+5. Verify in-game: tapping "Make conversation" on the NPC shows the topic
+   menu (not the flat line); each topic branches to distinct good/neutral/bad
+   endings with the right friendship/relationship deltas; opening then
+   backing out of the menu doesn't burn the day's cooldown; an NPC with no
+   authored topics still shows the exact legacy flat-line behavior.
+
+### Pilot content (Ravenwatch)
+
+Five flavor-rich exterior NPCs with no `dialogueTree` of their own got a
+full 3-topic pass as the reference implementation: **The Elder** (`elder`:
+`elder-topic-pendant`, `elder-topic-before-fracture`, `elder-topic-roads`),
+**Vex the Merchant** (`merchant`: `merchant-topic-routes`,
+`merchant-topic-caravans`, `merchant-topic-trust`), **Old Greyfish**
+(`fisherman`: `fisherman-topic-water`, `fisherman-topic-glowfish`,
+`fisherman-topic-patience`), **Vince the Dealer** (`dealer`:
+`dealer-topic-advice`, `dealer-topic-bigwin`, `dealer-topic-skeptic`), and
+**Innkeeper Rosie** (`innkeeper-rosie`: `innkeeper-rosie-topic-business`,
+`innkeeper-rosie-topic-selfcare`, `innkeeper-rosie-topic-history`). Every
+other NPC in every town still uses the flat legacy line until more topics are
+authored for them, following this checklist.
 
 ---
 

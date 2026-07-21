@@ -6436,6 +6436,1718 @@
           ]
         }
       }
+    },
+    {
+      "id": "elder-topic-pendant",
+      "npcId": "elder",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "That pendant... it wasn't just any trinket. Why do you ask?",
+          "choices": [
+            {
+              "label": "It clearly still weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Any leads on where it ended up?",
+              "next": "practical"
+            },
+            {
+              "label": "It's just a bauble — why the fuss?",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "You've a kind ear, wanderer. It belonged to my late wife. I've carried the loss of it as long as the loss of her.",
+          "choices": [
+            {
+              "label": "Tell me more about her, if you'd like.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "I'm sorry. I hope it turns up.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "No leads worth chasing, or I'd have chased them myself. Just... keep an eye out, if you're able.",
+          "choices": [
+            {
+              "label": "I'll keep watch as I travel.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Can't promise anything, but I'll try.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...A bauble. Right. Forget I mentioned it.",
+          "choices": [
+            {
+              "label": "It really is just an old trinket, Elder.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "elder-topic-before-fracture",
+      "npcId": "elder",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Before the Fracture? This courtyard used to ring with laughter from dawn till dusk. Feels like another lifetime.",
+          "choices": [
+            {
+              "label": "I'd like to hear about it.",
+              "next": "warm"
+            },
+            {
+              "label": "How did the Fracture change things, practically?",
+              "next": "practical"
+            },
+            {
+              "label": "Sounds like ancient history to me.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "Heh. There was a bard who played by the well every evening, and the children chased fireflies past curfew. I miss it more than I let on.",
+          "choices": [
+            {
+              "label": "Thank you for sharing that with me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "I hope we see days like that again.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Trade slowed, patrols doubled, and half the town learned to sleep with one eye open. That's the shape of it.",
+          "choices": [
+            {
+              "label": "Understood. I'll stay alert out there.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Noted.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Ancient history. Yes. Forgive an old man for dwelling on it.",
+          "choices": [
+            {
+              "label": "It's the past. No use dwelling on it.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "I didn't mean it like that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "elder-topic-roads",
+      "npcId": "elder",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The roads beyond the outer walls grow darker by the day. I worry every time I see a wanderer head out.",
+          "choices": [
+            {
+              "label": "I know you mean that as care, not just caution.",
+              "next": "warm"
+            },
+            {
+              "label": "Any practical advice before I head out?",
+              "next": "practical"
+            },
+            {
+              "label": "I'm not afraid of a little dark road.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...I do. I've buried enough people who thought themselves untouchable. Watch yourself out there, truly.",
+          "choices": [
+            {
+              "label": "I'll be careful. I promise.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "I hear you, Elder.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Travel by daylight where you can, keep your deck ready, and don't linger past the old milestones after dusk.",
+          "choices": [
+            {
+              "label": "Good advice. I'll follow it.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "I'll keep that in mind.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Reckless, is what that is. Fine. Don't say I didn't warn you.",
+          "choices": [
+            {
+              "label": "I can handle myself out there.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "I didn't mean to brush off your concern.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "merchant-topic-routes",
+      "npcId": "merchant",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Business has been slow since the Fracture. The routes east aren't safe, and fewer wagons roll through here every season.",
+          "choices": [
+            {
+              "label": "That must be a real hardship for you.",
+              "next": "warm"
+            },
+            {
+              "label": "What's actually still selling, then?",
+              "next": "practical"
+            },
+            {
+              "label": "Sounds like your problem, not mine.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It is. Some nights I wonder if I should've left this trade years ago. Good of you to ask.",
+          "choices": [
+            {
+              "label": "You've built something worth holding onto. Don't give up on it.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "I hope things turn around for you soon.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Local goods, mostly — dried herbs, tools, the odd trinket. Nothing worth writing home about, but it keeps the stall open.",
+          "choices": [
+            {
+              "label": "Good to know. I'll check back.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Good talk.",
+          "choices": [
+            {
+              "label": "Everyone's got problems, Vex. Yours aren't special.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "That was harsher than I meant it.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "merchant-topic-caravans",
+      "npcId": "merchant",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "I once traded with caravans from the eastern reaches. Silks, spices, stories from places you've never heard of. Feels like a dream now.",
+          "choices": [
+            {
+              "label": "I'd love to hear one of those stories.",
+              "next": "warm"
+            },
+            {
+              "label": "What would you bring back first, if the routes reopened?",
+              "next": "practical"
+            },
+            {
+              "label": "Sounds made up, honestly.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "Heh, alright — there was a caravan master who swore he'd crossed paths with a sand-wyrm twice his wagon's length...",
+          "choices": [
+            {
+              "label": "Thank you for that — I mean it.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "That's a good one. Thanks for sharing.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Spices, first. This town's food could use it. Then proper steel — ours is serviceable, not fine.",
+          "choices": [
+            {
+              "label": "Practical answer. I like it.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Makes sense.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Made up. Sure. Believe what you like.",
+          "choices": [
+            {
+              "label": "I didn't mean to call you a liar, but come on.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "That was uncalled for — sorry.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "merchant-topic-trust",
+      "npcId": "merchant",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Keep your coin close, wanderer. Not everyone in this town has honest intentions. Why do you ask?",
+          "choices": [
+            {
+              "label": "I ask because I want to watch out for you too.",
+              "next": "warm"
+            },
+            {
+              "label": "Just curious — purely as gossip.",
+              "next": "practical"
+            },
+            {
+              "label": "Come on, name names. Who is it?",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...Appreciated, truly. Just — keep an eye on your purse near the casino floor. That's all I'll say.",
+          "choices": [
+            {
+              "label": "Understood. Thank you for trusting me with that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Noted. I'll be careful.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "It's just idle talk on my part. Nothing worth repeating, really.",
+          "choices": [
+            {
+              "label": "Fair enough, forget I asked.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Alright, no worries.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...I don't air grievances for sport. This conversation's over.",
+          "choices": [
+            {
+              "label": "Fine, keep your secrets then.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "You're right, that wasn't fair of me to push.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "fisherman-topic-water",
+      "npcId": "fisherman",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The water's gone quiet lately — something's stirring beneath. Been sitting at this pond since before the Fracture, and I've never seen it like this.",
+          "choices": [
+            {
+              "label": "That sounds unsettling. Are you doing alright?",
+              "next": "warm"
+            },
+            {
+              "label": "Have you changed how you fish because of it?",
+              "next": "practical"
+            },
+            {
+              "label": "It's just water, old man.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...I'm managing. Just old bones and older instincts telling me to be careful. Thank you for asking, truly.",
+          "choices": [
+            {
+              "label": "I'll keep an eye on the water for you too.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Take care of yourself out here.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Aye — I fish shallower now, and never after dusk. Old habits, new caution.",
+          "choices": [
+            {
+              "label": "Sensible. I'll remember that.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Just water. Sure. Forget an old man's nerves, then.",
+          "choices": [
+            {
+              "label": "It really is just superstition.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry, that was dismissive of me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "fisherman-topic-glowfish",
+      "npcId": "fisherman",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Pulled out a strange glowing fish last week. Threw it back — some things are better left undisturbed.",
+          "choices": [
+            {
+              "label": "I respect that you left it be.",
+              "next": "warm"
+            },
+            {
+              "label": "What did it actually look like?",
+              "next": "practical"
+            },
+            {
+              "label": "You should've kept it — could've been worth something.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...Not many would understand that. Some things aren't meant for coin or curiosity. Glad you see it too.",
+          "choices": [
+            {
+              "label": "Some mysteries deserve to stay mysteries.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "That took real restraint, I think.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Pale blue light under its scales, like moonlight caught in water. Never seen the like before or since.",
+          "choices": [
+            {
+              "label": "Fascinating. Thanks for describing it.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Strange indeed.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Worth something. Heh. Not everything's got a price, wanderer.",
+          "choices": [
+            {
+              "label": "Everything's got a price if you look hard enough.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "You're right, I shouldn't have said that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "fisherman-topic-patience",
+      "npcId": "fisherman",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Patience, wanderer. The best things in life take time. Want me to show you, properly?",
+          "choices": [
+            {
+              "label": "Yes — I'd genuinely like to learn.",
+              "next": "warm"
+            },
+            {
+              "label": "Just give me the short version.",
+              "next": "practical"
+            },
+            {
+              "label": "I don't have time to sit around fishing.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "Good. Sit, then. Watch the line, not the water — the water lies, the line doesn't.",
+          "choices": [
+            {
+              "label": "Thank you for teaching me properly.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "That was oddly peaceful. Thanks.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Short version: still your hands, still your mind, and don't yank the line the second it twitches.",
+          "choices": [
+            {
+              "label": "Got it. I'll try that.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Noted, thanks.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Suit yourself, then.",
+          "choices": [
+            {
+              "label": "Some of us have real work to do.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry, I didn't mean it like that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "dealer-topic-advice",
+      "npcId": "dealer",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The wheel never lies. Step right up — you want a tip, or you just here to talk?",
+          "choices": [
+            {
+              "label": "I want real advice — I'll actually use it.",
+              "next": "warm"
+            },
+            {
+              "label": "Just give me the odds, straight.",
+              "next": "practical"
+            },
+            {
+              "label": "It's all rigged anyway, isn't it?",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...Alright then. Trust your gut on the first spin, not the fifth. Most players lose it chasing the fourth.",
+          "choices": [
+            {
+              "label": "That's genuinely useful. Thank you, Vince.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "I'll remember that. Thanks.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Odds favor the house, same as anywhere. Play for fun, quit while it still is fun.",
+          "choices": [
+            {
+              "label": "Fair enough, appreciate the honesty.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Noted.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Rigged. Right. Every table in every town, all rigged, just for you.",
+          "choices": [
+            {
+              "label": "I'm just saying what everyone thinks.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "That was out of line, forget I said it.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "dealer-topic-bigwin",
+      "npcId": "dealer",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "I've seen a thousand players. Want to hear about my worst night at this table, or my best?",
+          "choices": [
+            {
+              "label": "Whichever one still means something to you.",
+              "next": "warm"
+            },
+            {
+              "label": "The best one — what happened?",
+              "next": "practical"
+            },
+            {
+              "label": "Let me guess, you always win. Sure.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...The worst one, then. Lost this stall twice over one winter, clawed it back spin by spin. Nobody usually asks it that way.",
+          "choices": [
+            {
+              "label": "That takes real grit, Vince. Respect.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Glad you pulled through it.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Best night, a stranger bet everything on red thirteen times running. Walked out with enough to buy the block.",
+          "choices": [
+            {
+              "label": "That's a hell of a story.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Wild. Thanks for sharing.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Sure. Whatever you say, wanderer.",
+          "choices": [
+            {
+              "label": "I'm just being realistic about it.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "That came out more cynical than I meant.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "dealer-topic-skeptic",
+      "npcId": "dealer",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The wheel never lies, friend. Care to test that?",
+          "choices": [
+            {
+              "label": "Prove it, then. I like the nerve of the claim.",
+              "next": "warm"
+            },
+            {
+              "label": "Prove it — show me how the odds actually work.",
+              "next": "practical"
+            },
+            {
+              "label": "That's a lie you tell to take people's money.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...Ha! Bold. That's the only compliment I take seriously around here. Alright, watch closely.",
+          "choices": [
+            {
+              "label": "I like a man who backs up his talk.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Show me, then.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Every spin's independent — no memory, no pattern. The 'lie' folks fall for is thinking otherwise.",
+          "choices": [
+            {
+              "label": "That's actually a fair answer.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Alright, that tracks.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...A liar, now. That's a hell of an accusation to make at my own table.",
+          "choices": [
+            {
+              "label": "It's the truth and you know it.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "That was too far, I'm sorry.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "innkeeper-rosie-topic-business",
+      "npcId": "innkeeper-rosie",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Welcome back! Business? Steady enough to keep the lights on and the stew pot full. Why do you ask?",
+          "choices": [
+            {
+              "label": "I ask because I care how you're doing, Rosie.",
+              "next": "warm"
+            },
+            {
+              "label": "What are your rates like these days?",
+              "next": "practical"
+            },
+            {
+              "label": "Seems pretty slow in here, honestly.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...That's kind of you to say. Truly. Most folks just want a bed and don't think twice about who makes it.",
+          "choices": [
+            {
+              "label": "You deserve more credit than you get.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Well, I noticed. Thank you for all you do.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Fair as I can make them — a bed's a bed, and coin's tight for everyone these days.",
+          "choices": [
+            {
+              "label": "Sounds reasonable. Thanks, Rosie.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Slow. Well. I do what I can with what comes through the door.",
+          "choices": [
+            {
+              "label": "Just being honest, is all.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "That wasn't fair of me to say.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "innkeeper-rosie-topic-selfcare",
+      "npcId": "innkeeper-rosie",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "You look like you've seen better days, Commander. Rest up! ...What, why the look?",
+          "choices": [
+            {
+              "label": "I was going to ask you the same thing, actually.",
+              "next": "warm"
+            },
+            {
+              "label": "Who covers the inn when you do rest?",
+              "next": "practical"
+            },
+            {
+              "label": "Not my problem how tired you are.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...Oh. Nobody's asked me that in a long while. I manage. Mostly.",
+          "choices": [
+            {
+              "label": "You deserve rest too, Rosie. Truly.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "I hope you find a quiet moment soon.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "My cousin minds the front for an hour most evenings so I can sit down properly, at least.",
+          "choices": [
+            {
+              "label": "Good that you've got some help, then.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Glad to hear it.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Of course.",
+          "choices": [
+            {
+              "label": "I didn't come here for a sob story.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "That was thoughtless of me, sorry.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "innkeeper-rosie-topic-history",
+      "npcId": "innkeeper-rosie",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "How'd I end up running the Wanderer's Rest? Now that's a story, if you've got the time.",
+          "choices": [
+            {
+              "label": "I've got the time. Please, tell me.",
+              "next": "warm"
+            },
+            {
+              "label": "Just the short version — how'd it start?",
+              "next": "practical"
+            },
+            {
+              "label": "Must be exhausting. Why even bother?",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "My mother ran this place before me, and hers before that. When she passed, I couldn't imagine anyone else's hands on these keys.",
+          "choices": [
+            {
+              "label": "That's a beautiful thing to carry on.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thank you for telling me that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Inherited it from my mother, plain and simple. Kept the name, kept the recipes, kept the doors open.",
+          "choices": [
+            {
+              "label": "Makes sense. Thanks for sharing.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know the history.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Why bother. Right.",
+          "choices": [
+            {
+              "label": "I just mean it sounds like a lot of work for little reward.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "That came out wrong — I didn't mean it that way.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "conversationTopics": [
+    {
+      "id": "elder-topic-pendant",
+      "npcId": "elder",
+      "label": "🕯️ Ask about the missing pendant",
+      "treeId": "elder-topic-pendant"
+    },
+    {
+      "id": "elder-topic-before-fracture",
+      "npcId": "elder",
+      "label": "📜 Ask what the courtyard was like before",
+      "treeId": "elder-topic-before-fracture"
+    },
+    {
+      "id": "elder-topic-roads",
+      "npcId": "elder",
+      "label": "🗺️ Ask about the roads beyond the walls",
+      "treeId": "elder-topic-roads"
+    },
+    {
+      "id": "merchant-topic-routes",
+      "npcId": "merchant",
+      "label": "🐫 Ask about the state of trade",
+      "treeId": "merchant-topic-routes"
+    },
+    {
+      "id": "merchant-topic-caravans",
+      "npcId": "merchant",
+      "label": "🌅 Ask about the old caravan days",
+      "treeId": "merchant-topic-caravans"
+    },
+    {
+      "id": "merchant-topic-trust",
+      "npcId": "merchant",
+      "label": "🔒 Ask who in town he doesn't trust",
+      "treeId": "merchant-topic-trust"
+    },
+    {
+      "id": "fisherman-topic-water",
+      "npcId": "fisherman",
+      "label": "🌊 Ask about the quiet water",
+      "treeId": "fisherman-topic-water"
+    },
+    {
+      "id": "fisherman-topic-glowfish",
+      "npcId": "fisherman",
+      "label": "✨ Ask about the glowing fish he threw back",
+      "treeId": "fisherman-topic-glowfish"
+    },
+    {
+      "id": "fisherman-topic-patience",
+      "npcId": "fisherman",
+      "label": "🎣 Ask him to teach you patience",
+      "treeId": "fisherman-topic-patience"
+    },
+    {
+      "id": "dealer-topic-advice",
+      "npcId": "dealer",
+      "label": "🎲 Ask for gambling advice",
+      "treeId": "dealer-topic-advice"
+    },
+    {
+      "id": "dealer-topic-bigwin",
+      "npcId": "dealer",
+      "label": "💰 Ask about his biggest win or loss",
+      "treeId": "dealer-topic-bigwin"
+    },
+    {
+      "id": "dealer-topic-skeptic",
+      "npcId": "dealer",
+      "label": "🃏 Challenge his claim that 'the wheel never lies'",
+      "treeId": "dealer-topic-skeptic"
+    },
+    {
+      "id": "innkeeper-rosie-topic-business",
+      "npcId": "innkeeper-rosie",
+      "label": "🛏️ Ask how the inn's business is going",
+      "treeId": "innkeeper-rosie-topic-business"
+    },
+    {
+      "id": "innkeeper-rosie-topic-selfcare",
+      "npcId": "innkeeper-rosie",
+      "label": "☕ Ask if she ever rests herself",
+      "treeId": "innkeeper-rosie-topic-selfcare"
+    },
+    {
+      "id": "innkeeper-rosie-topic-history",
+      "npcId": "innkeeper-rosie",
+      "label": "📖 Ask how she ended up running the inn",
+      "treeId": "innkeeper-rosie-topic-history"
     }
   ]
 }
