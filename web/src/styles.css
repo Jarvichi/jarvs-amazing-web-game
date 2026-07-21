@@ -208,15 +208,38 @@ body {
 
 /* ─── Battlefield ────────────────────────────────────── */
 
+/* The outer "stage" — fills whatever space the game container gives it, and
+   centers the fixed-aspect-ratio frame inside it (letterboxing any extra room). */
 .battlefield {
   position: relative;
   min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--game-bg);
+}
+
+/* The inner "frame" — locked to BATTLEFIELD_ASPECT_RATIO via inline width/height
+   from useLetterboxSize, so the battlefield renders identically shaped on every
+   device. Positioning ancestor for every absolutely-positioned battle element. */
+.battlefield-frame {
+  position: relative;
+  overflow: hidden;
   /* Fixed bands reserved for the floating bar clusters. The lane fills the space
-     between them, so the play area's size depends only on the viewport — never on
+     between them, so the play area's size depends only on the frame — never on
      bar content (long scores, wave status, event tags, card-bar height changes). */
   --bf-top-buffer: 80px;
   --bf-bottom-buffer: 230px;
 }
+
+/* Narrower-frame tuning — keyed off the letterboxed frame's own computed width
+   (set as classes from Battlefield.tsx), not the device viewport: a wide desktop
+   window letterboxed down to a phone-width frame needs the same phone tuning a
+   real phone gets, which a viewport @media query alone could never detect. */
+.battlefield-frame--compact { --bf-top-buffer: 74px; --bf-bottom-buffer: 200px; }
+.battlefield-frame--compact .lane { min-height: 120px; }
+.battlefield-frame--tiny { --bf-top-buffer: 68px; --bf-bottom-buffer: 182px; }
+.battlefield-frame--tiny .lane { min-height: 90px; }
 
 /* Floating bar clusters: absolutely positioned in the reserved bands above/below
    the lane. Their content can grow/wrap without ever resizing or reflowing the lane. */
@@ -1383,15 +1406,12 @@ body {
   .game-container { padding: 4px 6px; }
   .game-title { font-size: var(--font-base); letter-spacing: 1px; }
 
-  .battlefield { --bf-top-buffer: 74px; --bf-bottom-buffer: 200px; }
-
   .hand-cards { gap: 4px; padding-bottom: 4px; }
   .card-tile { width: 78px; padding: 6px 8px; }
   .card-title { font-size: var(--font-xxs); }
   .card-stats { font-size: 0.571rem; }
   .card-tag   { font-size: 0.5rem; }
 
-  .lane { min-height: 120px; }
   .lane-unit-name { font-size: 0.571rem; }
   .mana-pip { width: 8px; height: 8px; }
 
@@ -1408,9 +1428,6 @@ body {
   .hand-cards { gap: 3px; }
   .hand-cards .card-tile { padding: 4px 5px; }
   .card-title { font-size: 0.571rem; }
-
-  .lane { min-height: 90px; }
-  .battlefield { --bf-top-buffer: 68px; --bf-bottom-buffer: 182px; }
 }
 
 /* ─── Intro Screen ───────────────────────────────────── */
