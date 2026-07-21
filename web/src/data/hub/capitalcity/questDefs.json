@@ -11477,7 +11477,8 @@
       "id": "capitalcity-mira-archive-topic-auto-2",
       "npcId": "mira-archive",
       "label": "💬 \"You've seen things out there I can only read…\"",
-      "treeId": "capitalcity-mira-archive-topic-auto-2"
+      "treeId": "capitalcity-mira-archive-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-innkeeper-crownhaven-topic-auto-1",
@@ -11489,13 +11490,15 @@
       "id": "capitalcity-innkeeper-crownhaven-topic-auto-2",
       "npcId": "innkeeper-crownhaven",
       "label": "💬 \"Half my guests are here for the coronation.\"",
-      "treeId": "capitalcity-innkeeper-crownhaven-topic-auto-2"
+      "treeId": "capitalcity-innkeeper-crownhaven-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-innkeeper-crownhaven-topic-auto-3",
       "npcId": "innkeeper-crownhaven",
       "label": "💬 \"If Captain Hale sends you with anything, I'll…\"",
-      "treeId": "capitalcity-innkeeper-crownhaven-topic-auto-3"
+      "treeId": "capitalcity-innkeeper-crownhaven-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-watch-captain-hale-topic-auto-1",
@@ -11507,13 +11510,15 @@
       "id": "capitalcity-watch-captain-hale-topic-auto-2",
       "npcId": "watch-captain-hale",
       "label": "💬 \"The old postern gate key went missing on patrol.\"",
-      "treeId": "capitalcity-watch-captain-hale-topic-auto-2"
+      "treeId": "capitalcity-watch-captain-hale-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-watch-captain-hale-topic-auto-3",
       "npcId": "watch-captain-hale",
       "label": "💬 \"Keep your nose clean in my city, traveller.\"",
-      "treeId": "capitalcity-watch-captain-hale-topic-auto-3"
+      "treeId": "capitalcity-watch-captain-hale-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-royal-archivist-topic-auto-1",
@@ -11525,13 +11530,15 @@
       "id": "capitalcity-royal-archivist-topic-auto-2",
       "npcId": "royal-archivist",
       "label": "💬 \"The couriers dropped them somewhere between…\"",
-      "treeId": "capitalcity-royal-archivist-topic-auto-2"
+      "treeId": "capitalcity-royal-archivist-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-royal-archivist-topic-auto-3",
       "npcId": "royal-archivist",
       "label": "💬 \"History is just paperwork that survived, you…\"",
-      "treeId": "capitalcity-royal-archivist-topic-auto-3"
+      "treeId": "capitalcity-royal-archivist-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-market-matron-topic-auto-1",
@@ -11543,13 +11550,15 @@
       "id": "capitalcity-market-matron-topic-auto-2",
       "npcId": "market-matron",
       "label": "💬 \"You want gossip, try the inn.\"",
-      "treeId": "capitalcity-market-matron-topic-auto-2"
+      "treeId": "capitalcity-market-matron-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-market-matron-topic-auto-3",
       "npcId": "market-matron",
       "label": "💬 \"Mind the fountain — the pigeons have opinions.\"",
-      "treeId": "capitalcity-market-matron-topic-auto-3"
+      "treeId": "capitalcity-market-matron-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-chancellor-topic-auto-1",
@@ -11561,13 +11570,15 @@
       "id": "capitalcity-chancellor-topic-auto-2",
       "npcId": "chancellor",
       "label": "💬 \"Crownhaven looks to Ravenwatch for the old…\"",
-      "treeId": "capitalcity-chancellor-topic-auto-2"
+      "treeId": "capitalcity-chancellor-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-chancellor-topic-auto-3",
       "npcId": "chancellor",
       "label": "💬 \"Serve the crown well and the crown remembers.\"",
-      "treeId": "capitalcity-chancellor-topic-auto-3"
+      "treeId": "capitalcity-chancellor-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-high-priest-topic-auto-1",
@@ -11579,13 +11590,15 @@
       "id": "capitalcity-high-priest-topic-auto-2",
       "npcId": "high-priest",
       "label": "💬 \"The cathedral's relics were scattered in the…\"",
-      "treeId": "capitalcity-high-priest-topic-auto-2"
+      "treeId": "capitalcity-high-priest-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-high-priest-topic-auto-3",
       "npcId": "high-priest",
       "label": "💬 \"The bell has been silent too long.\"",
-      "treeId": "capitalcity-high-priest-topic-auto-3"
+      "treeId": "capitalcity-high-priest-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-mint-master-topic-auto-1",
@@ -11597,13 +11610,15 @@
       "id": "capitalcity-mint-master-topic-auto-2",
       "npcId": "mint-master",
       "label": "💬 \"Lose a mint die and you may as well hand a…\"",
-      "treeId": "capitalcity-mint-master-topic-auto-2"
+      "treeId": "capitalcity-mint-master-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-mint-master-topic-auto-3",
       "npcId": "mint-master",
       "label": "💬 \"Gold is heavy for a reason — it keeps honest…\"",
-      "treeId": "capitalcity-mint-master-topic-auto-3"
+      "treeId": "capitalcity-mint-master-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-banker-topic-auto-1",
@@ -11615,13 +11630,15 @@
       "id": "capitalcity-banker-topic-auto-2",
       "npcId": "banker",
       "label": "💬 \"A noble's debt is a delicate thing.\"",
-      "treeId": "capitalcity-banker-topic-auto-2"
+      "treeId": "capitalcity-banker-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-banker-topic-auto-3",
       "npcId": "banker",
       "label": "💬 \"Vault's sealed tight — only the watch and I…\"",
-      "treeId": "capitalcity-banker-topic-auto-3"
+      "treeId": "capitalcity-banker-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-tailor-pell-topic-auto-1",
@@ -11633,13 +11650,15 @@
       "id": "capitalcity-tailor-pell-topic-auto-2",
       "npcId": "tailor-pell",
       "label": "💬 \"A good seam is invisible.\"",
-      "treeId": "capitalcity-tailor-pell-topic-auto-2"
+      "treeId": "capitalcity-tailor-pell-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-tailor-pell-topic-auto-3",
       "npcId": "tailor-pell",
       "label": "💬 \"Bring me bolts of silk and I'll dress you fit…\"",
-      "treeId": "capitalcity-tailor-pell-topic-auto-3"
+      "treeId": "capitalcity-tailor-pell-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-jeweller-isolde-topic-auto-1",
@@ -11651,13 +11670,15 @@
       "id": "capitalcity-jeweller-isolde-topic-auto-2",
       "npcId": "jeweller-isolde",
       "label": "💬 \"Raw gems are dull little pebbles until I coax…\"",
-      "treeId": "capitalcity-jeweller-isolde-topic-auto-2"
+      "treeId": "capitalcity-jeweller-isolde-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-jeweller-isolde-topic-auto-3",
       "npcId": "jeweller-isolde",
       "label": "💬 \"Careful where you tread; I've dropped stones…\"",
-      "treeId": "capitalcity-jeweller-isolde-topic-auto-3"
+      "treeId": "capitalcity-jeweller-isolde-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-apothecary-mads-topic-auto-1",
@@ -11669,13 +11690,15 @@
       "id": "capitalcity-apothecary-mads-topic-auto-2",
       "npcId": "apothecary-mads",
       "label": "💬 \"Half of healing is herbs; the other half is…\"",
-      "treeId": "capitalcity-apothecary-mads-topic-auto-2"
+      "treeId": "capitalcity-apothecary-mads-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-apothecary-mads-topic-auto-3",
       "npcId": "apothecary-mads",
       "label": "💬 \"The academy sends me their wildest experiments.\"",
-      "treeId": "capitalcity-apothecary-mads-topic-auto-3"
+      "treeId": "capitalcity-apothecary-mads-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-baker-otto-topic-auto-1",
@@ -11687,13 +11710,15 @@
       "id": "capitalcity-baker-otto-topic-auto-2",
       "npcId": "baker-otto",
       "label": "💬 \"Coronation feast's coming.\"",
-      "treeId": "capitalcity-baker-otto-topic-auto-2"
+      "treeId": "capitalcity-baker-otto-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-baker-otto-topic-auto-3",
       "npcId": "baker-otto",
       "label": "💬 \"Grain's dear this season.\"",
-      "treeId": "capitalcity-baker-otto-topic-auto-3"
+      "treeId": "capitalcity-baker-otto-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-blacksmith-dunn-topic-auto-1",
@@ -11705,13 +11730,15 @@
       "id": "capitalcity-blacksmith-dunn-topic-auto-2",
       "npcId": "blacksmith-dunn",
       "label": "💬 \"A blade's only as honest as the hand that…\"",
-      "treeId": "capitalcity-blacksmith-dunn-topic-auto-2"
+      "treeId": "capitalcity-blacksmith-dunn-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-blacksmith-dunn-topic-auto-3",
       "npcId": "blacksmith-dunn",
       "label": "💬 \"Bring me steel and I'll give the watch the edge…\"",
-      "treeId": "capitalcity-blacksmith-dunn-topic-auto-3"
+      "treeId": "capitalcity-blacksmith-dunn-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-noble-lady-cora-topic-auto-1",
@@ -11723,13 +11750,15 @@
       "id": "capitalcity-noble-lady-cora-topic-auto-2",
       "npcId": "noble-lady-cora",
       "label": "💬 \"My family's locket was lost in the gardens.\"",
-      "treeId": "capitalcity-noble-lady-cora-topic-auto-2"
+      "treeId": "capitalcity-noble-lady-cora-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-noble-lady-cora-topic-auto-3",
       "npcId": "noble-lady-cora",
       "label": "💬 \"Debts and lockets — a noblewoman's life is…\"",
-      "treeId": "capitalcity-noble-lady-cora-topic-auto-3"
+      "treeId": "capitalcity-noble-lady-cora-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-academy-master-topic-auto-1",
@@ -11741,13 +11770,15 @@
       "id": "capitalcity-academy-master-topic-auto-2",
       "npcId": "academy-master",
       "label": "💬 \"My lecture notes have scattered to the four…\"",
-      "treeId": "capitalcity-academy-master-topic-auto-2"
+      "treeId": "capitalcity-academy-master-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-academy-master-topic-auto-3",
       "npcId": "academy-master",
       "label": "💬 \"Knowledge, like coin, is only useful in…\"",
-      "treeId": "capitalcity-academy-master-topic-auto-3"
+      "treeId": "capitalcity-academy-master-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-busker-lyle-topic-auto-1",
@@ -11759,13 +11790,15 @@
       "id": "capitalcity-busker-lyle-topic-auto-2",
       "npcId": "busker-lyle",
       "label": "💬 \"Snapped three lute strings practising for the…\"",
-      "treeId": "capitalcity-busker-lyle-topic-auto-2"
+      "treeId": "capitalcity-busker-lyle-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-busker-lyle-topic-auto-3",
       "npcId": "busker-lyle",
       "label": "💬 \"Every great city deserves a great song.\"",
-      "treeId": "capitalcity-busker-lyle-topic-auto-3"
+      "treeId": "capitalcity-busker-lyle-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-herald-jana-topic-auto-1",
@@ -11777,13 +11810,15 @@
       "id": "capitalcity-herald-jana-topic-auto-2",
       "npcId": "herald-jana",
       "label": "💬 \"Lost half my scrolls to the wind.\"",
-      "treeId": "capitalcity-herald-jana-topic-auto-2"
+      "treeId": "capitalcity-herald-jana-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-herald-jana-topic-auto-3",
       "npcId": "herald-jana",
       "label": "💬 \"Stand for the crown, traveller.\"",
-      "treeId": "capitalcity-herald-jana-topic-auto-3"
+      "treeId": "capitalcity-herald-jana-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-guard-bryn-topic-auto-1",
@@ -11795,13 +11830,15 @@
       "id": "capitalcity-guard-bryn-topic-auto-2",
       "npcId": "guard-bryn",
       "label": "💬 \"See anything suspicious, you tell me first, the…\"",
-      "treeId": "capitalcity-guard-bryn-topic-auto-2"
+      "treeId": "capitalcity-guard-bryn-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-guard-bryn-topic-auto-3",
       "npcId": "guard-bryn",
       "label": "💬 \"Quiet night.\"",
-      "treeId": "capitalcity-guard-bryn-topic-auto-3"
+      "treeId": "capitalcity-guard-bryn-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-card-vendor-crownhaven-topic-auto-1",
@@ -11813,13 +11850,15 @@
       "id": "capitalcity-card-vendor-crownhaven-topic-auto-2",
       "npcId": "card-vendor-crownhaven",
       "label": "💬 \"Every deck tells a story.\"",
-      "treeId": "capitalcity-card-vendor-crownhaven-topic-auto-2"
+      "treeId": "capitalcity-card-vendor-crownhaven-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-card-vendor-crownhaven-topic-auto-3",
       "npcId": "card-vendor-crownhaven",
       "label": "💬 \"The court plays for crowns; you can play for…\"",
-      "treeId": "capitalcity-card-vendor-crownhaven-topic-auto-3"
+      "treeId": "capitalcity-card-vendor-crownhaven-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-supplies-vendor-crownhaven-topic-auto-1",
@@ -11831,13 +11870,15 @@
       "id": "capitalcity-supplies-vendor-crownhaven-topic-auto-2",
       "npcId": "supplies-vendor-crownhaven",
       "label": "💬 \"Stock up before you head back out past the walls.\"",
-      "treeId": "capitalcity-supplies-vendor-crownhaven-topic-auto-2"
+      "treeId": "capitalcity-supplies-vendor-crownhaven-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-supplies-vendor-crownhaven-topic-auto-3",
       "npcId": "supplies-vendor-crownhaven",
       "label": "💬 \"A well-supplied traveller is a living traveller.\"",
-      "treeId": "capitalcity-supplies-vendor-crownhaven-topic-auto-3"
+      "treeId": "capitalcity-supplies-vendor-crownhaven-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-augment-vendor-crownhaven-topic-auto-1",
@@ -11849,13 +11890,15 @@
       "id": "capitalcity-augment-vendor-crownhaven-topic-auto-2",
       "npcId": "augment-vendor-crownhaven",
       "label": "💬 \"The jewellers cut stones; I cut destinies.\"",
-      "treeId": "capitalcity-augment-vendor-crownhaven-topic-auto-2"
+      "treeId": "capitalcity-augment-vendor-crownhaven-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-augment-vendor-crownhaven-topic-auto-3",
       "npcId": "augment-vendor-crownhaven",
       "label": "💬 \"Bring me crystals and I'll bring out your…\"",
-      "treeId": "capitalcity-augment-vendor-crownhaven-topic-auto-3"
+      "treeId": "capitalcity-augment-vendor-crownhaven-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-academy-tactician-topic-auto-1",
@@ -11867,13 +11910,15 @@
       "id": "capitalcity-academy-tactician-topic-auto-2",
       "npcId": "academy-tactician",
       "label": "💬 \"A clever deck wins more wars than a sharp sword.\"",
-      "treeId": "capitalcity-academy-tactician-topic-auto-2"
+      "treeId": "capitalcity-academy-tactician-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-academy-tactician-topic-auto-3",
       "npcId": "academy-tactician",
       "label": "💬 \"Theory here, practice in the field.\"",
-      "treeId": "capitalcity-academy-tactician-topic-auto-3"
+      "treeId": "capitalcity-academy-tactician-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-reliquary-keeper-topic-auto-1",
@@ -11885,13 +11930,15 @@
       "id": "capitalcity-reliquary-keeper-topic-auto-2",
       "npcId": "reliquary-keeper",
       "label": "💬 \"Every hero's feats are inscribed here, in gold…\"",
-      "treeId": "capitalcity-reliquary-keeper-topic-auto-2"
+      "treeId": "capitalcity-reliquary-keeper-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-reliquary-keeper-topic-auto-3",
       "npcId": "reliquary-keeper",
       "label": "💬 \"Add your name to the hall, traveller.\"",
-      "treeId": "capitalcity-reliquary-keeper-topic-auto-3"
+      "treeId": "capitalcity-reliquary-keeper-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-crownhaven-dealer-topic-auto-1",
@@ -11903,13 +11950,15 @@
       "id": "capitalcity-crownhaven-dealer-topic-auto-2",
       "npcId": "crownhaven-dealer",
       "label": "💬 \"Fortune favours the bold — and occasionally the…\"",
-      "treeId": "capitalcity-crownhaven-dealer-topic-auto-2"
+      "treeId": "capitalcity-crownhaven-dealer-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-crownhaven-dealer-topic-auto-3",
       "npcId": "crownhaven-dealer",
       "label": "💬 \"Crowns won, crowns lost.\"",
-      "treeId": "capitalcity-crownhaven-dealer-topic-auto-3"
+      "treeId": "capitalcity-crownhaven-dealer-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-mint-coinwright-topic-auto-1",
@@ -11921,13 +11970,15 @@
       "id": "capitalcity-mint-coinwright-topic-auto-2",
       "npcId": "mint-coinwright",
       "label": "💬 \"Every coin starts as a tumble of raw crystal.\"",
-      "treeId": "capitalcity-mint-coinwright-topic-auto-2"
+      "treeId": "capitalcity-mint-coinwright-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-mint-coinwright-topic-auto-3",
       "npcId": "mint-coinwright",
       "label": "💬 \"Sharp eyes, sharp reflexes, full purse.\"",
-      "treeId": "capitalcity-mint-coinwright-topic-auto-3"
+      "treeId": "capitalcity-mint-coinwright-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-guard-arena-master-topic-auto-1",
@@ -11939,13 +11990,15 @@
       "id": "capitalcity-guard-arena-master-topic-auto-2",
       "npcId": "guard-arena-master",
       "label": "💬 \"A quick battle to prove your mettle — no excuses.\"",
-      "treeId": "capitalcity-guard-arena-master-topic-auto-2"
+      "treeId": "capitalcity-guard-arena-master-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-guard-arena-master-topic-auto-3",
       "npcId": "guard-arena-master",
       "label": "💬 \"Win in the arena and the whole capital hears…\"",
-      "treeId": "capitalcity-guard-arena-master-topic-auto-3"
+      "treeId": "capitalcity-guard-arena-master-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-draft-master-crownhaven-topic-auto-1",
@@ -11957,13 +12010,15 @@
       "id": "capitalcity-draft-master-crownhaven-topic-auto-2",
       "npcId": "draft-master-crownhaven",
       "label": "💬 \"Pick your cards, traveller — eight choices…\"",
-      "treeId": "capitalcity-draft-master-crownhaven-topic-auto-2"
+      "treeId": "capitalcity-draft-master-crownhaven-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-draft-master-crownhaven-topic-auto-3",
       "npcId": "draft-master-crownhaven",
       "label": "💬 \"Every draft is a new deck.\"",
-      "treeId": "capitalcity-draft-master-crownhaven-topic-auto-3"
+      "treeId": "capitalcity-draft-master-crownhaven-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-riverside-angler-topic-auto-1",
@@ -11975,13 +12030,15 @@
       "id": "capitalcity-riverside-angler-topic-auto-2",
       "npcId": "riverside-angler",
       "label": "💬 \"Quiet water, quick catch.\"",
-      "treeId": "capitalcity-riverside-angler-topic-auto-2"
+      "treeId": "capitalcity-riverside-angler-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-riverside-angler-topic-auto-3",
       "npcId": "riverside-angler",
       "label": "💬 \"Catch enough and even the palace kitchens will…\"",
-      "treeId": "capitalcity-riverside-angler-topic-auto-3"
+      "treeId": "capitalcity-riverside-angler-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "capitalcity-theatre-impresario-topic-auto-1",
@@ -11993,13 +12050,15 @@
       "id": "capitalcity-theatre-impresario-topic-auto-2",
       "npcId": "theatre-impresario",
       "label": "💬 \"Step onto the stage and time your cues — the…\"",
-      "treeId": "capitalcity-theatre-impresario-topic-auto-2"
+      "treeId": "capitalcity-theatre-impresario-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "capitalcity-theatre-impresario-topic-auto-3",
       "npcId": "theatre-impresario",
       "label": "💬 \"Rehearsals, ropes, a thousand candles...\"",
-      "treeId": "capitalcity-theatre-impresario-topic-auto-3"
+      "treeId": "capitalcity-theatre-impresario-topic-auto-3",
+      "requireFriendshipLevel": 2
     }
   ]
 }

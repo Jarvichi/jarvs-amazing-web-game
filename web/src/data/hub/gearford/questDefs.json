@@ -4690,13 +4690,15 @@
       "id": "gearford-forgemaster-brunn-topic-auto-2",
       "npcId": "forgemaster-brunn",
       "label": "💬 \"Somebody's been lifting tools from the yard.\"",
-      "treeId": "gearford-forgemaster-brunn-topic-auto-2"
+      "treeId": "gearford-forgemaster-brunn-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "gearford-forgemaster-brunn-topic-auto-3",
       "npcId": "forgemaster-brunn",
       "label": "💬 \"Hear that hammering?\"",
-      "treeId": "gearford-forgemaster-brunn-topic-auto-3"
+      "treeId": "gearford-forgemaster-brunn-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "gearford-engineer-vela-topic-auto-1",
@@ -4708,13 +4710,15 @@
       "id": "gearford-engineer-vela-topic-auto-2",
       "npcId": "engineer-vela",
       "label": "💬 \"Every machine wants to work.\"",
-      "treeId": "gearford-engineer-vela-topic-auto-2"
+      "treeId": "gearford-engineer-vela-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "gearford-engineer-vela-topic-auto-3",
       "npcId": "engineer-vela",
       "label": "💬 \"The forge eats coal like a dragon eats...\"",
-      "treeId": "gearford-engineer-vela-topic-auto-3"
+      "treeId": "gearford-engineer-vela-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "gearford-foreman-dask-topic-auto-1",
@@ -4726,13 +4730,15 @@
       "id": "gearford-foreman-dask-topic-auto-2",
       "npcId": "foreman-dask",
       "label": "💬 \"Between the bandits on the toll road and the…\"",
-      "treeId": "gearford-foreman-dask-topic-auto-2"
+      "treeId": "gearford-foreman-dask-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "gearford-foreman-dask-topic-auto-3",
       "npcId": "foreman-dask",
       "label": "💬 \"You look sturdy.\"",
-      "treeId": "gearford-foreman-dask-topic-auto-3"
+      "treeId": "gearford-foreman-dask-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "gearford-apprentice-tila-topic-auto-1",
@@ -4744,13 +4750,15 @@
       "id": "gearford-apprentice-tila-topic-auto-2",
       "npcId": "apprentice-tila",
       "label": "💬 \"I dropped a whole tray of parts in the yard…\"",
-      "treeId": "gearford-apprentice-tila-topic-auto-2"
+      "treeId": "gearford-apprentice-tila-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "gearford-apprentice-tila-topic-auto-3",
       "npcId": "apprentice-tila",
       "label": "💬 \"One day I'll forge a blade so fine they'll sing…\"",
-      "treeId": "gearford-apprentice-tila-topic-auto-3"
+      "treeId": "gearford-apprentice-tila-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "gearford-gearwright-orin-topic-auto-1",
@@ -4762,13 +4770,15 @@
       "id": "gearford-gearwright-orin-topic-auto-2",
       "npcId": "gearwright-orin",
       "label": "💬 \"Ravenwatch sent word: their gaol lock's jammed…\"",
-      "treeId": "gearford-gearwright-orin-topic-auto-2"
+      "treeId": "gearford-gearwright-orin-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "gearford-gearwright-orin-topic-auto-3",
       "npcId": "gearwright-orin",
       "label": "💬 \"Bring me good iron and I'll cut you a key…\"",
-      "treeId": "gearford-gearwright-orin-topic-auto-3"
+      "treeId": "gearford-gearwright-orin-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "gearford-coal-hauler-bram-topic-auto-1",
@@ -4780,13 +4790,15 @@
       "id": "gearford-coal-hauler-bram-topic-auto-2",
       "npcId": "coal-hauler-bram",
       "label": "💬 \"The old depot south of town's still half-full.\"",
-      "treeId": "gearford-coal-hauler-bram-topic-auto-2"
+      "treeId": "gearford-coal-hauler-bram-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "gearford-coal-hauler-bram-topic-auto-3",
       "npcId": "coal-hauler-bram",
       "label": "💬 \"A full barrow and an empty road.\"",
-      "treeId": "gearford-coal-hauler-bram-topic-auto-3"
+      "treeId": "gearford-coal-hauler-bram-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "gearford-innkeep-mags-topic-auto-1",
@@ -4798,13 +4810,15 @@
       "id": "gearford-innkeep-mags-topic-auto-2",
       "npcId": "innkeep-mags",
       "label": "💬 \"Miners drink like the mine's about to close.\"",
-      "treeId": "gearford-innkeep-mags-topic-auto-2"
+      "treeId": "gearford-innkeep-mags-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "gearford-innkeep-mags-topic-auto-3",
       "npcId": "innkeep-mags",
       "label": "💬 \"Rats in my store again.\"",
-      "treeId": "gearford-innkeep-mags-topic-auto-3"
+      "treeId": "gearford-innkeep-mags-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "gearford-miner-jole-topic-auto-1",
@@ -4816,13 +4830,15 @@
       "id": "gearford-miner-jole-topic-auto-2",
       "npcId": "miner-jole",
       "label": "💬 \"Lost my good lamp in the west drift.\"",
-      "treeId": "gearford-miner-jole-topic-auto-2"
+      "treeId": "gearford-miner-jole-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "gearford-miner-jole-topic-auto-3",
       "npcId": "miner-jole",
       "label": "💬 \"The ore's rich this season.\"",
-      "treeId": "gearford-miner-jole-topic-auto-3"
+      "treeId": "gearford-miner-jole-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "gearford-quartermaster-rell-topic-auto-1",
@@ -4834,13 +4850,15 @@
       "id": "gearford-quartermaster-rell-topic-auto-2",
       "npcId": "quartermaster-rell",
       "label": "💬 \"Half the stores went walkabout in the last…\"",
-      "treeId": "gearford-quartermaster-rell-topic-auto-2"
+      "treeId": "gearford-quartermaster-rell-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "gearford-quartermaster-rell-topic-auto-3",
       "npcId": "quartermaster-rell",
       "label": "💬 \"Order is the only ore that never runs dry.\"",
-      "treeId": "gearford-quartermaster-rell-topic-auto-3"
+      "treeId": "gearford-quartermaster-rell-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "gearford-pumpwright-edda-topic-auto-1",
@@ -4852,13 +4870,15 @@
       "id": "gearford-pumpwright-edda-topic-auto-2",
       "npcId": "pumpwright-edda",
       "label": "💬 \"A valve's seized and a flywheel's cracked.\"",
-      "treeId": "gearford-pumpwright-edda-topic-auto-2"
+      "treeId": "gearford-pumpwright-edda-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "gearford-pumpwright-edda-topic-auto-3",
       "npcId": "pumpwright-edda",
       "label": "💬 \"Keep her turning and Gearford breathes.\"",
-      "treeId": "gearford-pumpwright-edda-topic-auto-3"
+      "treeId": "gearford-pumpwright-edda-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "gearford-engineer-torvald-topic-auto-1",
@@ -4870,13 +4890,15 @@
       "id": "gearford-engineer-torvald-topic-auto-2",
       "npcId": "engineer-torvald",
       "label": "💬 \"Half of Gearford's collapsed twice over.\"",
-      "treeId": "gearford-engineer-torvald-topic-auto-2"
+      "treeId": "gearford-engineer-torvald-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "gearford-engineer-torvald-topic-auto-3",
       "npcId": "engineer-torvald",
       "label": "💬 \"You don't build a keep in a day.\"",
-      "treeId": "gearford-engineer-torvald-topic-auto-3"
+      "treeId": "gearford-engineer-torvald-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "gearford-sergeant-coldiron-topic-auto-1",
@@ -4888,13 +4910,15 @@
       "id": "gearford-sergeant-coldiron-topic-auto-2",
       "npcId": "sergeant-coldiron",
       "label": "💬 \"A war's won by whoever counts their troops…\"",
-      "treeId": "gearford-sergeant-coldiron-topic-auto-2"
+      "treeId": "gearford-sergeant-coldiron-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "gearford-sergeant-coldiron-topic-auto-3",
       "npcId": "sergeant-coldiron",
       "label": "💬 \"Gear's cheap.\"",
-      "treeId": "gearford-sergeant-coldiron-topic-auto-3"
+      "treeId": "gearford-sergeant-coldiron-topic-auto-3",
+      "requireFriendshipLevel": 2
     }
   ]
 }

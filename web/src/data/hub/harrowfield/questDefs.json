@@ -3767,13 +3767,15 @@
       "id": "harrowfield-elder-maeve-topic-auto-2",
       "npcId": "elder-maeve",
       "label": "💬 \"The scarecrows have been...\"",
-      "treeId": "harrowfield-elder-maeve-topic-auto-2"
+      "treeId": "harrowfield-elder-maeve-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "harrowfield-elder-maeve-topic-auto-3",
       "npcId": "elder-maeve",
       "label": "💬 \"Stay for the harvest supper if you can.\"",
-      "treeId": "harrowfield-elder-maeve-topic-auto-3"
+      "treeId": "harrowfield-elder-maeve-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "harrowfield-farmhand-pip-topic-auto-1",
@@ -3785,13 +3787,15 @@
       "id": "harrowfield-farmhand-pip-topic-auto-2",
       "npcId": "farmhand-pip",
       "label": "💬 \"Three seed-grain sacks have gone missing.\"",
-      "treeId": "harrowfield-farmhand-pip-topic-auto-2"
+      "treeId": "harrowfield-farmhand-pip-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "harrowfield-farmhand-pip-topic-auto-3",
       "npcId": "farmhand-pip",
       "label": "💬 \"The scarecrow moved again last night.\"",
-      "treeId": "harrowfield-farmhand-pip-topic-auto-3"
+      "treeId": "harrowfield-farmhand-pip-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "harrowfield-miller-rook-topic-auto-1",
@@ -3803,13 +3807,15 @@
       "id": "harrowfield-miller-rook-topic-auto-2",
       "npcId": "miller-rook",
       "label": "💬 \"The road south to the capital used to be safe.\"",
-      "treeId": "harrowfield-miller-rook-topic-auto-2"
+      "treeId": "harrowfield-miller-rook-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "harrowfield-miller-rook-topic-auto-3",
       "npcId": "miller-rook",
       "label": "💬 \"Bring me grain and the stones will sing.\"",
-      "treeId": "harrowfield-miller-rook-topic-auto-3"
+      "treeId": "harrowfield-miller-rook-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "harrowfield-shepherd-nan-topic-auto-1",
@@ -3821,13 +3827,15 @@
       "id": "harrowfield-shepherd-nan-topic-auto-2",
       "npcId": "shepherd-nan",
       "label": "💬 \"Floss keeps the flock, but she can't mend a…\"",
-      "treeId": "harrowfield-shepherd-nan-topic-auto-2"
+      "treeId": "harrowfield-shepherd-nan-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "harrowfield-shepherd-nan-topic-auto-3",
       "npcId": "shepherd-nan",
       "label": "💬 \"Wool to the market, mutton never if I can help…\"",
-      "treeId": "harrowfield-shepherd-nan-topic-auto-3"
+      "treeId": "harrowfield-shepherd-nan-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "harrowfield-baker-tovi-topic-auto-1",
@@ -3839,13 +3847,15 @@
       "id": "harrowfield-baker-tovi-topic-auto-2",
       "npcId": "baker-tovi",
       "label": "💬 \"Rook's flour, Maeve's blessing, my oven.\"",
-      "treeId": "harrowfield-baker-tovi-topic-auto-2"
+      "treeId": "harrowfield-baker-tovi-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "harrowfield-baker-tovi-topic-auto-3",
       "npcId": "baker-tovi",
       "label": "💬 \"Bring me what I need and I'll see the supper…\"",
-      "treeId": "harrowfield-baker-tovi-topic-auto-3"
+      "treeId": "harrowfield-baker-tovi-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "harrowfield-miller-wife-lark-topic-auto-1",
@@ -3857,13 +3867,15 @@
       "id": "harrowfield-miller-wife-lark-topic-auto-2",
       "npcId": "miller-wife-lark",
       "label": "💬 \"Wash day and the linens have gone clean over…\"",
-      "treeId": "harrowfield-miller-wife-lark-topic-auto-2"
+      "treeId": "harrowfield-miller-wife-lark-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "harrowfield-miller-wife-lark-topic-auto-3",
       "npcId": "miller-wife-lark",
       "label": "💬 \"Mind the lane — the cart ruts'll have your…\"",
-      "treeId": "harrowfield-miller-wife-lark-topic-auto-3"
+      "treeId": "harrowfield-miller-wife-lark-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "harrowfield-pedlar-quill-topic-auto-1",
@@ -3875,13 +3887,15 @@
       "id": "harrowfield-pedlar-quill-topic-auto-2",
       "npcId": "pedlar-quill",
       "label": "💬 \"Ravenwatch pays well for good country produce.\"",
-      "treeId": "harrowfield-pedlar-quill-topic-auto-2"
+      "treeId": "harrowfield-pedlar-quill-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "harrowfield-pedlar-quill-topic-auto-3",
       "npcId": "pedlar-quill",
       "label": "💬 \"Buy in the field, sell at the gate.\"",
-      "treeId": "harrowfield-pedlar-quill-topic-auto-3"
+      "treeId": "harrowfield-pedlar-quill-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "harrowfield-warden-bell-topic-auto-1",
@@ -3893,13 +3907,15 @@
       "id": "harrowfield-warden-bell-topic-auto-2",
       "npcId": "warden-bell",
       "label": "💬 \"We bless the first sheaf and the last loaf.\"",
-      "treeId": "harrowfield-warden-bell-topic-auto-2"
+      "treeId": "harrowfield-warden-bell-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "harrowfield-warden-bell-topic-auto-3",
       "npcId": "warden-bell",
       "label": "💬 \"Quiet hands and full barns.\"",
-      "treeId": "harrowfield-warden-bell-topic-auto-3"
+      "treeId": "harrowfield-warden-bell-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "harrowfield-child-bram-topic-auto-1",
@@ -3911,13 +3927,15 @@
       "id": "harrowfield-child-bram-topic-auto-2",
       "npcId": "child-bram",
       "label": "💬 \"I lost my things running from the moving…\"",
-      "treeId": "harrowfield-child-bram-topic-auto-2"
+      "treeId": "harrowfield-child-bram-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "harrowfield-child-bram-topic-auto-3",
       "npcId": "child-bram",
       "label": "💬 \"When I grow up I'm going to drive the cart all…\"",
-      "treeId": "harrowfield-child-bram-topic-auto-3"
+      "treeId": "harrowfield-child-bram-topic-auto-3",
+      "requireFriendshipLevel": 2
     }
   ]
 }

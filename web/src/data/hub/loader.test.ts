@@ -206,6 +206,17 @@ describe('conversation topics parsing', () => {
     expect(topic.label).toBe('🕯️ Ask about the missing pendant')
     expect(topic.treeId).toBe('elder-topic-pendant')
   })
+
+  it('preserves an optional requireFriendshipLevel, and omits it when absent', () => {
+    const bundle = createHubQuestData(minimalQuestConfig({
+      conversationTopics: [
+        { id: 'topic-a', npcId: 'elder', label: 'A', treeId: 'topic-a' },
+        { id: 'topic-b', npcId: 'elder', label: 'B', treeId: 'topic-b', requireFriendshipLevel: 2 },
+      ],
+    }))
+    expect(bundle.HUB_CONVERSATION_TOPICS['topic-a'].requireFriendshipLevel).toBeUndefined()
+    expect(bundle.HUB_CONVERSATION_TOPICS['topic-b'].requireFriendshipLevel).toBe(2)
+  })
 })
 
 describe('ravenwatch config', () => {

@@ -55,6 +55,7 @@ import { HubInteractable, HubLocationBundle, HubQuestBundle, HubTreasure, HubNpc
 import { getUnreadCount } from '../../game/news'
 import { interactableStoreKey, isInteractableGranted, markInteractableGranted, getInteractableMoves, setInteractableMove } from '../../game/hub/interactables'
 import { canDigToday, recordDig } from '../../game/hub/digs'
+import { shuffled } from '../../game/hub/shuffle'
 import { canForageToday, recordForage } from '../../game/hub/forages'
 import { getReputationTier } from '../../data/hub/buildingUpgrades'
 import { resolveWeather } from '../../game/hub/weather'
@@ -952,9 +953,13 @@ function buildTalkGiveOptions(
       // Per-NPC authored topics (questDefs.json `conversationTopics`, §7g) —
       // each points at an ordinary DialogueTree, both must resolve or the
       // topic is silently dropped (a stale/typo'd id shouldn't break the menu).
+      // A topic's own requireFriendshipLevel (if set) gates it behind that
+      // friendship level, so deeper topics unlock as the player gets closer
+      // to the NPC instead of every topic being available from the first talk.
       const topics = (npcDef?.conversationTopics ?? [])
         .map(id => allQuests.HUB_CONVERSATION_TOPICS[id])
-        .filter((t): t is ConversationTopicDef => !!t && !!allQuests.HUB_DIALOGUES[t.treeId])
+        .filter((t): t is ConversationTopicDef => !!t && !!allQuests.HUB_DIALOGUES[t.treeId] &&
+          (!t.requireFriendshipLevel || getFriendshipLevel(npcId) >= t.requireFriendshipLevel))
 
       if (topics.length === 0) {
         // No authored topics for this NPC — exact legacy behavior.
@@ -1128,7 +1133,10 @@ function hasOfferableQuest(giverId: string): boolean {
     const node = tree.nodes[nodeId]
     if (!node) { setDialogueEvent(null); return }
     markNodeSeen(tree.id, nodeId)
-    const visible = (node.choices ?? []).filter(c =>
+    // Shuffled so a good/neutral/bad outcome isn't always in the same list
+    // position (see `shuffled` above) — order among exit-style choices (e.g.
+    // an authored "leave" choice) is separated back out below regardless.
+    const visible = shuffled((node.choices ?? []).filter(c =>
       (!c.requireFlag  || hasDialogueFlag(c.requireFlag)) &&
       (!c.hideIfFlag   || !hasDialogueFlag(c.hideIfFlag)) &&
       (!c.requireCampaignComplete || isCampaignComplete(c.requireCampaignComplete)) &&
@@ -1139,7 +1147,7 @@ function hasOfferableQuest(giverId: string): boolean {
       (!c.requireTimeOfDay || c.requireTimeOfDay === getTimeOfDay(gameHour)) &&
       (!c.requireActivity  || (!!npcDef && 'schedule' in npcDef &&
           getNpcActivity(npcDef as HubNpc, gameHour) === c.requireActivity))
-    )
+    ))
     const speaker = node.speakerName ?? speakerName
 
     let finalChoices: DialogueChoice[]

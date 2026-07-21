@@ -22649,13 +22649,15 @@
       "id": "elder-topic-before-fracture",
       "npcId": "elder",
       "label": "📜 Ask what the courtyard was like before",
-      "treeId": "elder-topic-before-fracture"
+      "treeId": "elder-topic-before-fracture",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "elder-topic-roads",
       "npcId": "elder",
       "label": "🗺️ Ask about the roads beyond the walls",
-      "treeId": "elder-topic-roads"
+      "treeId": "elder-topic-roads",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "merchant-topic-routes",
@@ -22667,13 +22669,15 @@
       "id": "merchant-topic-caravans",
       "npcId": "merchant",
       "label": "🌅 Ask about the old caravan days",
-      "treeId": "merchant-topic-caravans"
+      "treeId": "merchant-topic-caravans",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "merchant-topic-trust",
       "npcId": "merchant",
       "label": "🔒 Ask who in town he doesn't trust",
-      "treeId": "merchant-topic-trust"
+      "treeId": "merchant-topic-trust",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "fisherman-topic-water",
@@ -22685,13 +22689,15 @@
       "id": "fisherman-topic-glowfish",
       "npcId": "fisherman",
       "label": "✨ Ask about the glowing fish he threw back",
-      "treeId": "fisherman-topic-glowfish"
+      "treeId": "fisherman-topic-glowfish",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "fisherman-topic-patience",
       "npcId": "fisherman",
       "label": "🎣 Ask him to teach you patience",
-      "treeId": "fisherman-topic-patience"
+      "treeId": "fisherman-topic-patience",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "dealer-topic-advice",
@@ -22703,13 +22709,15 @@
       "id": "dealer-topic-bigwin",
       "npcId": "dealer",
       "label": "💰 Ask about his biggest win or loss",
-      "treeId": "dealer-topic-bigwin"
+      "treeId": "dealer-topic-bigwin",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "dealer-topic-skeptic",
       "npcId": "dealer",
       "label": "🃏 Challenge his claim that 'the wheel never lies'",
-      "treeId": "dealer-topic-skeptic"
+      "treeId": "dealer-topic-skeptic",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "innkeeper-rosie-topic-business",
@@ -22721,13 +22729,15 @@
       "id": "innkeeper-rosie-topic-selfcare",
       "npcId": "innkeeper-rosie",
       "label": "☕ Ask if she ever rests herself",
-      "treeId": "innkeeper-rosie-topic-selfcare"
+      "treeId": "innkeeper-rosie-topic-selfcare",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "innkeeper-rosie-topic-history",
       "npcId": "innkeeper-rosie",
       "label": "📖 Ask how she ended up running the inn",
-      "treeId": "innkeeper-rosie-topic-history"
+      "treeId": "innkeeper-rosie-topic-history",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-scholar-topic-auto-1",
@@ -22739,13 +22749,15 @@
       "id": "ravenwatch-scholar-topic-auto-2",
       "npcId": "scholar",
       "label": "💬 \"The archives hold centuries of knowledge.\"",
-      "treeId": "ravenwatch-scholar-topic-auto-2"
+      "treeId": "ravenwatch-scholar-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-scholar-topic-auto-3",
       "npcId": "scholar",
       "label": "💬 \"Do not underestimate the power of knowing your…\"",
-      "treeId": "ravenwatch-scholar-topic-auto-3"
+      "treeId": "ravenwatch-scholar-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-campaign-gate-topic-auto-1",
@@ -22757,13 +22769,15 @@
       "id": "ravenwatch-campaign-gate-topic-auto-2",
       "npcId": "campaign-gate",
       "label": "💬 \"Every great victory began with a single step…\"",
-      "treeId": "ravenwatch-campaign-gate-topic-auto-2"
+      "treeId": "ravenwatch-campaign-gate-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-campaign-gate-topic-auto-3",
       "npcId": "campaign-gate",
       "label": "💬 \"I have delivered the call to arms.\"",
-      "treeId": "ravenwatch-campaign-gate-topic-auto-3"
+      "treeId": "ravenwatch-campaign-gate-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-endless-herald-topic-auto-1",
@@ -22775,13 +22789,15 @@
       "id": "ravenwatch-endless-herald-topic-auto-2",
       "npcId": "endless-herald",
       "label": "💬 \"Wave after wave.\"",
-      "treeId": "ravenwatch-endless-herald-topic-auto-2"
+      "treeId": "ravenwatch-endless-herald-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-endless-herald-topic-auto-3",
       "npcId": "endless-herald",
       "label": "💬 \"Glory awaits those who survive the endless…\"",
-      "treeId": "ravenwatch-endless-herald-topic-auto-3"
+      "treeId": "ravenwatch-endless-herald-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-challenge-herald-topic-auto-1",
@@ -22793,13 +22809,15 @@
       "id": "ravenwatch-challenge-herald-topic-auto-2",
       "npcId": "challenge-herald",
       "label": "💬 \"The daily trial resets at dawn.\"",
-      "treeId": "ravenwatch-challenge-herald-topic-auto-2"
+      "treeId": "ravenwatch-challenge-herald-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-challenge-herald-topic-auto-3",
       "npcId": "challenge-herald",
       "label": "💬 \"One challenge, one day.\"",
-      "treeId": "ravenwatch-challenge-herald-topic-auto-3"
+      "treeId": "ravenwatch-challenge-herald-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-weekly-herald-topic-auto-1",
@@ -22811,13 +22829,15 @@
       "id": "ravenwatch-weekly-herald-topic-auto-2",
       "npcId": "weekly-herald",
       "label": "💬 \"Three fragments forge a relic shard.\"",
-      "treeId": "ravenwatch-weekly-herald-topic-auto-2"
+      "treeId": "ravenwatch-weekly-herald-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-weekly-herald-topic-auto-3",
       "npcId": "weekly-herald",
       "label": "💬 \"A new trial begins each Monday at dawn.\"",
-      "treeId": "ravenwatch-weekly-herald-topic-auto-3"
+      "treeId": "ravenwatch-weekly-herald-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-quickbattle-gate-topic-auto-1",
@@ -22829,13 +22849,15 @@
       "id": "ravenwatch-quickbattle-gate-topic-auto-2",
       "npcId": "quickbattle-gate",
       "label": "💬 \"The quick battle pits are open.\"",
-      "treeId": "ravenwatch-quickbattle-gate-topic-auto-2"
+      "treeId": "ravenwatch-quickbattle-gate-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-quickbattle-gate-topic-auto-3",
       "npcId": "quickbattle-gate",
       "label": "💬 \"I've seen a thousand commanders step into the…\"",
-      "treeId": "ravenwatch-quickbattle-gate-topic-auto-3"
+      "treeId": "ravenwatch-quickbattle-gate-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-deck-gate-topic-auto-1",
@@ -22847,7 +22869,8 @@
       "id": "ravenwatch-deck-gate-topic-auto-2",
       "npcId": "deck-gate",
       "label": "💬 \"A strong army wins wars!\"",
-      "treeId": "ravenwatch-deck-gate-topic-auto-2"
+      "treeId": "ravenwatch-deck-gate-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-collection-gate-topic-auto-1",
@@ -22865,13 +22888,15 @@
       "id": "ravenwatch-draft-master-ravenwatch-topic-auto-2",
       "npcId": "draft-master-ravenwatch",
       "label": "💬 \"Pick your cards, Commander — eight choices…\"",
-      "treeId": "ravenwatch-draft-master-ravenwatch-topic-auto-2"
+      "treeId": "ravenwatch-draft-master-ravenwatch-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-draft-master-ravenwatch-topic-auto-3",
       "npcId": "draft-master-ravenwatch",
       "label": "💬 \"Every draft is a new deck.\"",
-      "treeId": "ravenwatch-draft-master-ravenwatch-topic-auto-3"
+      "treeId": "ravenwatch-draft-master-ravenwatch-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-minigames-npc-topic-auto-1",
@@ -22895,13 +22920,15 @@
       "id": "ravenwatch-gildwyn-topic-auto-2",
       "npcId": "gildwyn",
       "label": "💬 \"I just got a new shipment in.\"",
-      "treeId": "ravenwatch-gildwyn-topic-auto-2"
+      "treeId": "ravenwatch-gildwyn-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-gildwyn-topic-auto-3",
       "npcId": "gildwyn",
       "label": "💬 \"Every card tells a story, wanderer.\"",
-      "treeId": "ravenwatch-gildwyn-topic-auto-3"
+      "treeId": "ravenwatch-gildwyn-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-vorn-topic-auto-1",
@@ -22913,13 +22940,15 @@
       "id": "ravenwatch-vorn-topic-auto-2",
       "npcId": "vorn",
       "label": "💬 \"The shadows are patient with rare cards — they…\"",
-      "treeId": "ravenwatch-vorn-topic-auto-2"
+      "treeId": "ravenwatch-vorn-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-vorn-topic-auto-3",
       "npcId": "vorn",
       "label": "💬 \"Gildwyn keeps the day trade.\"",
-      "treeId": "ravenwatch-vorn-topic-auto-3"
+      "treeId": "ravenwatch-vorn-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-mira-topic-auto-1",
@@ -22931,13 +22960,15 @@
       "id": "ravenwatch-mira-topic-auto-2",
       "npcId": "mira",
       "label": "💬 \"The art of augmentation is older than the…\"",
-      "treeId": "ravenwatch-mira-topic-auto-2"
+      "treeId": "ravenwatch-mira-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-mira-topic-auto-3",
       "npcId": "mira",
       "label": "💬 \"I sense great potential in you, wanderer.\"",
-      "treeId": "ravenwatch-mira-topic-auto-3"
+      "treeId": "ravenwatch-mira-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-nox-topic-auto-1",
@@ -22949,13 +22980,15 @@
       "id": "ravenwatch-nox-topic-auto-2",
       "npcId": "nox",
       "label": "💬 \"A night owl's selection — curated, not cluttered.\"",
-      "treeId": "ravenwatch-nox-topic-auto-2"
+      "treeId": "ravenwatch-nox-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-nox-topic-auto-3",
       "npcId": "nox",
       "label": "💬 \"Mira keeps the daylight trade.\"",
-      "treeId": "ravenwatch-nox-topic-auto-3"
+      "treeId": "ravenwatch-nox-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-bramble-topic-auto-1",
@@ -22967,13 +23000,15 @@
       "id": "ravenwatch-bramble-topic-auto-2",
       "npcId": "bramble",
       "label": "💬 \"Stock up before you head out — the roads aren't…\"",
-      "treeId": "ravenwatch-bramble-topic-auto-2"
+      "treeId": "ravenwatch-bramble-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-bramble-topic-auto-3",
       "npcId": "bramble",
       "label": "💬 \"I've been supplying adventurers for thirty years.\"",
-      "treeId": "ravenwatch-bramble-topic-auto-3"
+      "treeId": "ravenwatch-bramble-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-grix-topic-auto-1",
@@ -22985,13 +23020,15 @@
       "id": "ravenwatch-grix-topic-auto-2",
       "npcId": "grix",
       "label": "💬 \"Goblin prices — same as everyone else, honest!\"",
-      "treeId": "ravenwatch-grix-topic-auto-2"
+      "treeId": "ravenwatch-grix-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-grix-topic-auto-3",
       "npcId": "grix",
       "label": "💬 \"Bramble sleeps, Grix sells.\"",
-      "treeId": "ravenwatch-grix-topic-auto-3"
+      "treeId": "ravenwatch-grix-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-trader-topic-auto-1",
@@ -23003,13 +23040,15 @@
       "id": "ravenwatch-trader-topic-auto-2",
       "npcId": "trader",
       "label": "💬 \"I found this stuff all over the Fracture zones.\"",
-      "treeId": "ravenwatch-trader-topic-auto-2"
+      "treeId": "ravenwatch-trader-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-trader-topic-auto-3",
       "npcId": "trader",
       "label": "💬 \"Make me an offer — I'm always looking to deal.\"",
-      "treeId": "ravenwatch-trader-topic-auto-3"
+      "treeId": "ravenwatch-trader-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-chronicler-topic-auto-1",
@@ -23021,13 +23060,15 @@
       "id": "ravenwatch-chronicler-topic-auto-2",
       "npcId": "chronicler",
       "label": "💬 \"The story of what shattered our world unfolds…\"",
-      "treeId": "ravenwatch-chronicler-topic-auto-2"
+      "treeId": "ravenwatch-chronicler-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-chronicler-topic-auto-3",
       "npcId": "chronicler",
       "label": "💬 \"A new chapter surfaces when the time is right.\"",
-      "treeId": "ravenwatch-chronicler-topic-auto-3"
+      "treeId": "ravenwatch-chronicler-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-naia-interior-topic-auto-1",
@@ -23039,13 +23080,15 @@
       "id": "ravenwatch-naia-interior-topic-auto-2",
       "npcId": "naia-interior",
       "label": "💬 \"Knowledge is power, Commander.\"",
-      "treeId": "ravenwatch-naia-interior-topic-auto-2"
+      "treeId": "ravenwatch-naia-interior-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-naia-interior-topic-auto-3",
       "npcId": "naia-interior",
       "label": "💬 \"The Fracture left many mysteries.\"",
-      "treeId": "ravenwatch-naia-interior-topic-auto-3"
+      "treeId": "ravenwatch-naia-interior-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-achievements-keeper-topic-auto-1",
@@ -23069,13 +23112,15 @@
       "id": "ravenwatch-home-shelf-topic-auto-2",
       "npcId": "home-shelf",
       "label": "💬 \"The shelf holds everything you've gathered on…\"",
-      "treeId": "ravenwatch-home-shelf-topic-auto-2"
+      "treeId": "ravenwatch-home-shelf-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-home-shelf-topic-auto-3",
       "npcId": "home-shelf",
       "label": "💬 \"Rest is just as important as battle.\"",
-      "treeId": "ravenwatch-home-shelf-topic-auto-3"
+      "treeId": "ravenwatch-home-shelf-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-fishing-hole-topic-auto-1",
@@ -23087,7 +23132,8 @@
       "id": "ravenwatch-fishing-hole-topic-auto-2",
       "npcId": "fishing-hole",
       "label": "💬 \"The fish are shy around here.\"",
-      "treeId": "ravenwatch-fishing-hole-topic-auto-2"
+      "treeId": "ravenwatch-fishing-hole-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-fishing-hole-2-topic-auto-1",
@@ -23105,7 +23151,8 @@
       "id": "ravenwatch-marble-master-topic-auto-2",
       "npcId": "marble-master",
       "label": "💬 \"Every marble tells a story.\"",
-      "treeId": "ravenwatch-marble-master-topic-auto-2"
+      "treeId": "ravenwatch-marble-master-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-the-flipper-topic-auto-1",
@@ -23117,7 +23164,8 @@
       "id": "ravenwatch-the-flipper-topic-auto-2",
       "npcId": "the-flipper",
       "label": "💬 \"Memory is a weapon.\"",
-      "treeId": "ravenwatch-the-flipper-topic-auto-2"
+      "treeId": "ravenwatch-the-flipper-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-crystal-keeper-topic-auto-1",
@@ -23129,7 +23177,8 @@
       "id": "ravenwatch-crystal-keeper-topic-auto-2",
       "npcId": "crystal-keeper",
       "label": "💬 \"Speed and focus.\"",
-      "treeId": "ravenwatch-crystal-keeper-topic-auto-2"
+      "treeId": "ravenwatch-crystal-keeper-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-spinner-sal-topic-auto-1",
@@ -23141,7 +23190,8 @@
       "id": "ravenwatch-spinner-sal-topic-auto-2",
       "npcId": "spinner-sal",
       "label": "💬 \"The wheel knows no favourites.\"",
-      "treeId": "ravenwatch-spinner-sal-topic-auto-2"
+      "treeId": "ravenwatch-spinner-sal-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-race-marshal-topic-auto-1",
@@ -23153,7 +23203,8 @@
       "id": "ravenwatch-race-marshal-topic-auto-2",
       "npcId": "race-marshal",
       "label": "💬 \"Place your bets and pick your marble.\"",
-      "treeId": "ravenwatch-race-marshal-topic-auto-2"
+      "treeId": "ravenwatch-race-marshal-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-card-sharp-topic-auto-1",
@@ -23165,7 +23216,8 @@
       "id": "ravenwatch-card-sharp-topic-auto-2",
       "npcId": "card-sharp",
       "label": "💬 \"Read the deck — or trust your gut.\"",
-      "treeId": "ravenwatch-card-sharp-topic-auto-2"
+      "treeId": "ravenwatch-card-sharp-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-reels-remy-topic-auto-1",
@@ -23177,7 +23229,8 @@
       "id": "ravenwatch-reels-remy-topic-auto-2",
       "npcId": "reels-remy",
       "label": "💬 \"Three in a row and the jackpot is yours.\"",
-      "treeId": "ravenwatch-reels-remy-topic-auto-2"
+      "treeId": "ravenwatch-reels-remy-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-poker-pete-topic-auto-1",
@@ -23189,7 +23242,8 @@
       "id": "ravenwatch-poker-pete-topic-auto-2",
       "npcId": "poker-pete",
       "label": "💬 \"Poker face optional.\"",
-      "treeId": "ravenwatch-poker-pete-topic-auto-2"
+      "treeId": "ravenwatch-poker-pete-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-prize-keeper-topic-auto-1",
@@ -23201,7 +23255,8 @@
       "id": "ravenwatch-prize-keeper-topic-auto-2",
       "npcId": "prize-keeper",
       "label": "💬 \"Trade in your winning tickets for something…\"",
-      "treeId": "ravenwatch-prize-keeper-topic-auto-2"
+      "treeId": "ravenwatch-prize-keeper-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-siege-master-topic-auto-1",
@@ -23213,7 +23268,8 @@
       "id": "ravenwatch-siege-master-topic-auto-2",
       "npcId": "siege-master",
       "label": "💬 \"Every tower placed is a life saved.\"",
-      "treeId": "ravenwatch-siege-master-topic-auto-2"
+      "treeId": "ravenwatch-siege-master-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-town-planner-topic-auto-1",
@@ -23225,7 +23281,8 @@
       "id": "ravenwatch-town-planner-topic-auto-2",
       "npcId": "town-planner",
       "label": "💬 \"Lay the streets, raise the buildings — this…\"",
-      "treeId": "ravenwatch-town-planner-topic-auto-2"
+      "treeId": "ravenwatch-town-planner-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-home-steward-topic-auto-1",
@@ -23237,13 +23294,15 @@
       "id": "ravenwatch-home-steward-topic-auto-2",
       "npcId": "home-steward",
       "label": "💬 \"I have kept everything in order during your…\"",
-      "treeId": "ravenwatch-home-steward-topic-auto-2"
+      "treeId": "ravenwatch-home-steward-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-home-steward-topic-auto-3",
       "npcId": "home-steward",
       "label": "💬 \"Rest here.\"",
-      "treeId": "ravenwatch-home-steward-topic-auto-3"
+      "treeId": "ravenwatch-home-steward-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-apprentice-lyss-topic-auto-1",
@@ -23255,13 +23314,15 @@
       "id": "ravenwatch-apprentice-lyss-topic-auto-2",
       "npcId": "apprentice-lyss",
       "label": "💬 \"The northern library holds records predating…\"",
-      "treeId": "ravenwatch-apprentice-lyss-topic-auto-2"
+      "treeId": "ravenwatch-apprentice-lyss-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-apprentice-lyss-topic-auto-3",
       "npcId": "apprentice-lyss",
       "label": "💬 \"Please keep your voice down — scholars are…\"",
-      "treeId": "ravenwatch-apprentice-lyss-topic-auto-3"
+      "treeId": "ravenwatch-apprentice-lyss-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-cartographer-bram-topic-auto-1",
@@ -23273,13 +23334,15 @@
       "id": "ravenwatch-cartographer-bram-topic-auto-2",
       "npcId": "cartographer-bram",
       "label": "💬 \"I am charting safe passage routes through the…\"",
-      "treeId": "ravenwatch-cartographer-bram-topic-auto-2"
+      "treeId": "ravenwatch-cartographer-bram-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-cartographer-bram-topic-auto-3",
       "npcId": "cartographer-bram",
       "label": "💬 \"A good map can save your life, Commander.\"",
-      "treeId": "ravenwatch-cartographer-bram-topic-auto-3"
+      "treeId": "ravenwatch-cartographer-bram-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-professor-aldric-topic-auto-1",
@@ -23291,13 +23354,15 @@
       "id": "ravenwatch-professor-aldric-topic-auto-2",
       "npcId": "professor-aldric",
       "label": "💬 \"The study of Fracture shards is a discipline…\"",
-      "treeId": "ravenwatch-professor-aldric-topic-auto-2"
+      "treeId": "ravenwatch-professor-aldric-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-professor-aldric-topic-auto-3",
       "npcId": "professor-aldric",
       "label": "💬 \"Ask your questions, Commander.\"",
-      "treeId": "ravenwatch-professor-aldric-topic-auto-3"
+      "treeId": "ravenwatch-professor-aldric-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-guild-master-ferryn-topic-auto-1",
@@ -23309,13 +23374,15 @@
       "id": "ravenwatch-guild-master-ferryn-topic-auto-2",
       "npcId": "guild-master-ferryn",
       "label": "💬 \"Trade is the lifeblood of any civilisation.\"",
-      "treeId": "ravenwatch-guild-master-ferryn-topic-auto-2"
+      "treeId": "ravenwatch-guild-master-ferryn-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-guild-master-ferryn-topic-auto-3",
       "npcId": "guild-master-ferryn",
       "label": "💬 \"You want something?\"",
-      "treeId": "ravenwatch-guild-master-ferryn-topic-auto-3"
+      "treeId": "ravenwatch-guild-master-ferryn-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-market-warden-syla-topic-auto-1",
@@ -23327,13 +23394,15 @@
       "id": "ravenwatch-market-warden-syla-topic-auto-2",
       "npcId": "market-warden-syla",
       "label": "💬 \"The market never closes, Commander.\"",
-      "treeId": "ravenwatch-market-warden-syla-topic-auto-2"
+      "treeId": "ravenwatch-market-warden-syla-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-market-warden-syla-topic-auto-3",
       "npcId": "market-warden-syla",
       "label": "💬 \"I keep this hall running through chaos and war…\"",
-      "treeId": "ravenwatch-market-warden-syla-topic-auto-3"
+      "treeId": "ravenwatch-market-warden-syla-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-trophy-keeper-orin-topic-auto-1",
@@ -23345,13 +23414,15 @@
       "id": "ravenwatch-trophy-keeper-orin-topic-auto-2",
       "npcId": "trophy-keeper-orin",
       "label": "💬 \"Champions come and go, but their deeds are…\"",
-      "treeId": "ravenwatch-trophy-keeper-orin-topic-auto-2"
+      "treeId": "ravenwatch-trophy-keeper-orin-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-trophy-keeper-orin-topic-auto-3",
       "npcId": "trophy-keeper-orin",
       "label": "💬 \"Think you're good enough to earn a trophy?\"",
-      "treeId": "ravenwatch-trophy-keeper-orin-topic-auto-3"
+      "treeId": "ravenwatch-trophy-keeper-orin-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-games-host-zev-topic-auto-1",
@@ -23363,13 +23434,15 @@
       "id": "ravenwatch-games-host-zev-topic-auto-2",
       "npcId": "games-host-zev",
       "label": "💬 \"Skill, luck, or cunning — what'll it be,…\"",
-      "treeId": "ravenwatch-games-host-zev-topic-auto-2"
+      "treeId": "ravenwatch-games-host-zev-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-games-host-zev-topic-auto-3",
       "npcId": "games-host-zev",
       "label": "💬 \"Every game is a battle.\"",
-      "treeId": "ravenwatch-games-host-zev-topic-auto-3"
+      "treeId": "ravenwatch-games-host-zev-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-guard-captain-thorin-topic-auto-1",
@@ -23381,13 +23454,15 @@
       "id": "ravenwatch-guard-captain-thorin-topic-auto-2",
       "npcId": "guard-captain-thorin",
       "label": "💬 \"My guards are the finest in the hub.\"",
-      "treeId": "ravenwatch-guard-captain-thorin-topic-auto-2"
+      "treeId": "ravenwatch-guard-captain-thorin-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-guard-captain-thorin-topic-auto-3",
       "npcId": "guard-captain-thorin",
       "label": "💬 \"Need security?\"",
-      "treeId": "ravenwatch-guard-captain-thorin-topic-auto-3"
+      "treeId": "ravenwatch-guard-captain-thorin-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-drill-sergeant-varn-topic-auto-1",
@@ -23399,13 +23474,15 @@
       "id": "ravenwatch-drill-sergeant-varn-topic-auto-2",
       "npcId": "drill-sergeant-varn",
       "label": "💬 \"This hall forges soldiers from raw recruits.\"",
-      "treeId": "ravenwatch-drill-sergeant-varn-topic-auto-2"
+      "treeId": "ravenwatch-drill-sergeant-varn-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-drill-sergeant-varn-topic-auto-3",
       "npcId": "drill-sergeant-varn",
       "label": "💬 \"Training is the difference between victory and…\"",
-      "treeId": "ravenwatch-drill-sergeant-varn-topic-auto-3"
+      "treeId": "ravenwatch-drill-sergeant-varn-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ravenwatch-marble-master-int-topic-auto-1",
@@ -23417,7 +23494,8 @@
       "id": "ravenwatch-marble-master-int-topic-auto-2",
       "npcId": "marble-master-int",
       "label": "💬 \"Every marble tells a story.\"",
-      "treeId": "ravenwatch-marble-master-int-topic-auto-2"
+      "treeId": "ravenwatch-marble-master-int-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-the-flipper-int-topic-auto-1",
@@ -23429,7 +23507,8 @@
       "id": "ravenwatch-the-flipper-int-topic-auto-2",
       "npcId": "the-flipper-int",
       "label": "💬 \"Memory is a weapon.\"",
-      "treeId": "ravenwatch-the-flipper-int-topic-auto-2"
+      "treeId": "ravenwatch-the-flipper-int-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-crystal-keeper-int-topic-auto-1",
@@ -23441,7 +23520,8 @@
       "id": "ravenwatch-crystal-keeper-int-topic-auto-2",
       "npcId": "crystal-keeper-int",
       "label": "💬 \"Speed and focus.\"",
-      "treeId": "ravenwatch-crystal-keeper-int-topic-auto-2"
+      "treeId": "ravenwatch-crystal-keeper-int-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-prize-keeper-int-topic-auto-1",
@@ -23453,7 +23533,8 @@
       "id": "ravenwatch-prize-keeper-int-topic-auto-2",
       "npcId": "prize-keeper-int",
       "label": "💬 \"Trade in your winning tickets for something…\"",
-      "treeId": "ravenwatch-prize-keeper-int-topic-auto-2"
+      "treeId": "ravenwatch-prize-keeper-int-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-spinner-sal-int-topic-auto-1",
@@ -23465,7 +23546,8 @@
       "id": "ravenwatch-spinner-sal-int-topic-auto-2",
       "npcId": "spinner-sal-int",
       "label": "💬 \"The wheel knows no favourites.\"",
-      "treeId": "ravenwatch-spinner-sal-int-topic-auto-2"
+      "treeId": "ravenwatch-spinner-sal-int-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-race-marshal-int-topic-auto-1",
@@ -23477,7 +23559,8 @@
       "id": "ravenwatch-race-marshal-int-topic-auto-2",
       "npcId": "race-marshal-int",
       "label": "💬 \"Place your bets and pick your marble.\"",
-      "treeId": "ravenwatch-race-marshal-int-topic-auto-2"
+      "treeId": "ravenwatch-race-marshal-int-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-card-sharp-int-topic-auto-1",
@@ -23489,7 +23572,8 @@
       "id": "ravenwatch-card-sharp-int-topic-auto-2",
       "npcId": "card-sharp-int",
       "label": "💬 \"Read the deck — or trust your gut.\"",
-      "treeId": "ravenwatch-card-sharp-int-topic-auto-2"
+      "treeId": "ravenwatch-card-sharp-int-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-reels-remy-int-topic-auto-1",
@@ -23501,7 +23585,8 @@
       "id": "ravenwatch-reels-remy-int-topic-auto-2",
       "npcId": "reels-remy-int",
       "label": "💬 \"Three in a row and the jackpot is yours.\"",
-      "treeId": "ravenwatch-reels-remy-int-topic-auto-2"
+      "treeId": "ravenwatch-reels-remy-int-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-poker-pete-int-topic-auto-1",
@@ -23513,7 +23598,8 @@
       "id": "ravenwatch-poker-pete-int-topic-auto-2",
       "npcId": "poker-pete-int",
       "label": "💬 \"Poker face optional.\"",
-      "treeId": "ravenwatch-poker-pete-int-topic-auto-2"
+      "treeId": "ravenwatch-poker-pete-int-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ravenwatch-npc_1781629843466-topic-auto-1",

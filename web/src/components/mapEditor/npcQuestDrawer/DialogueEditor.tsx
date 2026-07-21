@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import type { MapId, QuestDefsJson } from '../../../data/hub/hubWorldFactory'
 import type { RawMapConfig } from '../mapEditorTypes'
 import { EntityRefPicker } from '../EntityRefPicker'
-import { npcRefOptions, type RefOption } from '../entityRefs'
+import { npcRefOptions, dialogueTreeRefOptions, type RefOption } from '../entityRefs'
 
 interface Props {
   mapId: MapId
@@ -133,12 +133,57 @@ function DialogueTreeRow({ dlg, onChange, onDelete, npcOptions }: { dlg: Record<
   )
 }
 
+// conversationTopics: [{ id, npcId, label, treeId, requireFriendshipLevel? }] —
+// the "Make Conversation" menu entries; each points at a tree above by treeId.
+function ConversationTopicRow({ topic, onChange, onDelete, npcOptions, treeOptions }: {
+  topic: Record<string, unknown>
+  onChange: (t: Record<string, unknown>) => void
+  onDelete: () => void
+  npcOptions: RefOption[]
+  treeOptions: RefOption[]
+}) {
+  return (
+    <div style={{ background: '#16161e', border: '1px solid #2a2a3a', borderRadius: 3, padding: 6, marginBottom: 6 }}>
+      <div style={{ display: 'flex', gap: 4, marginBottom: 4 }}>
+        <input style={INPUT} placeholder="id" value={String(topic.id ?? '')} onChange={e => onChange({ ...topic, id: e.target.value })} />
+        <div style={{ flex: 1 }}>
+          <EntityRefPicker value={String(topic.npcId ?? '')} options={npcOptions} placeholder="npcId…" onChange={v => onChange({ ...topic, npcId: v })} />
+        </div>
+        <button style={BTN_X} onClick={onDelete}>✕</button>
+      </div>
+      <input style={{ ...INPUT, marginBottom: 4 }} placeholder="label, e.g. 🕯️ Ask about the missing pendant"
+        value={String(topic.label ?? '')} onChange={e => onChange({ ...topic, label: e.target.value })} />
+      <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+        <div style={{ flex: 1 }}>
+          <EntityRefPicker value={String(topic.treeId ?? '')} options={treeOptions} placeholder="treeId (dialogues array)…" onChange={v => onChange({ ...topic, treeId: v })} />
+        </div>
+        <input
+          style={{ ...INPUT, width: 90, flex: '0 0 90px' }}
+          type="number" min={0}
+          placeholder="min friendship"
+          title="Only offered once the NPC's friendship level is at least this — leave blank to always offer it"
+          value={topic.requireFriendshipLevel == null ? '' : String(topic.requireFriendshipLevel)}
+          onChange={e => {
+            const v = e.target.value
+            const next = { ...topic }
+            if (v === '') delete next.requireFriendshipLevel
+            else next.requireFriendshipLevel = Number(v)
+            onChange(next)
+          }}
+        />
+      </div>
+    </div>
+  )
+}
+
 export function DialogueEditor({ mapId, configData, questDefsData, onQuestDefsChange }: Props) {
   const q = questDefsData as unknown as Record<string, unknown>
   const friendship = (q.friendshipDialogue as Record<string, Record<string, string>>) ?? {}
   const relationship = (q.relationshipDialogue as Record<string, Record<string, Record<string, string>>>) ?? {}
   const dialogues = (q.dialogues as Array<Record<string, unknown>>) ?? []
+  const conversationTopics = (q.conversationTopics as Array<Record<string, unknown>>) ?? []
   const npcOptions = npcRefOptions(mapId, configData.npcs ?? [], false)
+  const treeOptions = dialogueTreeRefOptions(mapId, dialogues as Array<{ id: string }>)
   const patch = (key: string, value: unknown) => onQuestDefsChange(prev => ({ ...(prev as object), [key]: value }) as QuestDefsJson)
 
   return (
@@ -160,6 +205,19 @@ export function DialogueEditor({ mapId, configData, questDefsData, onQuestDefsCh
           />
         ))}
         <button style={BTN_ADD} onClick={() => patch('dialogues', [...dialogues, { id: '', npcId: '', start: 'greet', nodes: { greet: { text: '' } } }])}>+ Add dialogue tree</button>
+      </Section>
+      <Section title={`Conversation Topics (${conversationTopics.length})`} color="#ffcc66">
+        {conversationTopics.map((t, i) => (
+          <ConversationTopicRow
+            key={i}
+            topic={t}
+            npcOptions={npcOptions}
+            treeOptions={treeOptions}
+            onChange={d => patch('conversationTopics', conversationTopics.map((x, j) => j === i ? d : x))}
+            onDelete={() => patch('conversationTopics', conversationTopics.filter((_, j) => j !== i))}
+          />
+        ))}
+        <button style={BTN_ADD} onClick={() => patch('conversationTopics', [...conversationTopics, { id: '', npcId: '', label: '', treeId: '' }])}>+ Add conversation topic</button>
       </Section>
     </div>
   )

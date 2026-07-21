@@ -5,8 +5,8 @@ import { NPC_ACTIVITIES } from '../../../game/hub/hubNpcSchedule'
 import { SpriteSearchPicker } from '../SpritePicker'
 import { AnimalEditor } from './AnimalEditor'
 import type { MapId } from '../../../data/hub/hubWorldFactory'
-import { EntityRefPicker } from '../EntityRefPicker'
-import { buildingRefOptions, interiorRefOptions, questRefOptions, dialogueTreeRefOptions, type RefOption } from '../entityRefs'
+import { EntityRefPicker, EntityRefMultiPicker } from '../EntityRefPicker'
+import { buildingRefOptions, interiorRefOptions, questRefOptions, dialogueTreeRefOptions, conversationTopicRefOptions, type RefOption } from '../entityRefs'
 import { SCREEN_IDS } from '../EntityInspector'
 
 // Screens reachable from an NPC's dialogue: the standard SCREEN_IDS list, plus
@@ -38,6 +38,7 @@ interface NpcRefOpts {
   questGive: RefOption[]
   questReceive: RefOption[]
   dialogueTrees: RefOption[]
+  conversationTopics: RefOption[]
 }
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
@@ -263,6 +264,10 @@ function NpcFullEditor({ npc, opts, onUpdate, onPickLocation }: {
         <EntityRefPicker value={npc.dialogueTree ?? ''} options={opts.dialogueTrees} placeholder="Search dialogue trees…"
           onChange={v => onUpdate({ dialogueTree: v || undefined })} />
       </Field>
+      <Field label="Conversation Topics (Make Conversation menu, in display order)">
+        <EntityRefMultiPicker values={npc.conversationTopics ?? []} options={opts.conversationTopics} reorderable
+          placeholder="Search conversation topics…" onChange={v => onUpdate({ conversationTopics: v.length ? v : undefined })} />
+      </Field>
       <Field label="Screen (optional)">
         <input
           style={INPUT} list={`npc-screen-options-${npc.id}`}
@@ -347,6 +352,7 @@ export function NpcEditor({
     questGive: questRefOptions(mapId, localQuests, false),     // this NPC gives quests from its own town
     questReceive: questRefOptions(mapId, localQuests, true),   // may receive cross-town deliveries
     dialogueTrees: dialogueTreeRefOptions(mapId, (questDefsData.dialogues as Array<{ id: string }> | undefined) ?? []),
+    conversationTopics: conversationTopicRefOptions(mapId, (questDefsData.conversationTopics as Array<{ id: string; label?: string }> | undefined) ?? []),
   }
 
   // Scroll to a newly added row after the render that includes it

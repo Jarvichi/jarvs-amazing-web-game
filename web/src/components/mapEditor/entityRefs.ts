@@ -62,11 +62,13 @@ type NpcLite = { id: string; name?: string }
 type QuestLite = { id: string; title?: string }
 type PickupLite = { id: string }
 type BuildingLite = { id?: string }
+type TopicLite = { id: string; label?: string }
 
 function npcsOf(cfg: RawMapConfig | undefined): NpcLite[] { return (cfg?.npcs ?? []) as NpcLite[] }
 function questsOf(q: QuestDefsJson | undefined): QuestLite[] { return ((q?.quests as QuestLite[] | undefined) ?? []) }
 function pickupsOf(q: QuestDefsJson | undefined): PickupLite[] { return (q?.pickupItems ?? []) as PickupLite[] }
 function dialoguesOf(q: QuestDefsJson | undefined): QuestLite[] { return ((q?.dialogues as QuestLite[] | undefined) ?? []) }
+function conversationTopicsOf(q: QuestDefsJson | undefined): TopicLite[] { return ((q?.conversationTopics as TopicLite[] | undefined) ?? []) }
 
 export function npcRefOptions(currentMap: MapId, currentNpcs: NpcLite[], crossTown = false): RefOption[] {
   const out: RefOption[] = []
@@ -112,6 +114,17 @@ export function dialogueTreeRefOptions(currentMap: MapId, currentDialogues: Ques
   const out: RefOption[] = []
   eachTown<QuestLite[], QuestLite[]>(currentMap, currentDialogues, m => dialoguesOf(QUEST_DEFS_BY_MAP[m]), crossTown, (ds, group) => {
     for (const d of ds) if (d.id) out.push({ value: d.id, label: d.id, group })
+  })
+  return out
+}
+
+// "Make Conversation" topics (questDefs.json `conversationTopics`) — used both
+// as the picker options for HubNpc.conversationTopics (an ordered id list) and
+// to resolve a topic's own label when showing that list.
+export function conversationTopicRefOptions(currentMap: MapId, currentTopics: TopicLite[], crossTown = false): RefOption[] {
+  const out: RefOption[] = []
+  eachTown<TopicLite[], TopicLite[]>(currentMap, currentTopics, m => conversationTopicsOf(QUEST_DEFS_BY_MAP[m]), crossTown, (ts, group) => {
+    for (const t of ts) if (t.id) out.push({ value: t.id, label: t.label ?? t.id, group })
   })
   return out
 }

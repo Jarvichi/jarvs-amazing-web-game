@@ -5620,13 +5620,15 @@
       "id": "royalpalace-royal-steward-topic-auto-2",
       "npcId": "royal-steward",
       "label": "💬 \"Their Majesties are in session.\"",
-      "treeId": "royalpalace-royal-steward-topic-auto-2"
+      "treeId": "royalpalace-royal-steward-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "royalpalace-royal-steward-topic-auto-3",
       "npcId": "royal-steward",
       "label": "💬 \"If you've a strong back and a willing heart,…\"",
-      "treeId": "royalpalace-royal-steward-topic-auto-3"
+      "treeId": "royalpalace-royal-steward-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "royalpalace-royal-herald-topic-auto-1",
@@ -5638,13 +5640,15 @@
       "id": "royalpalace-royal-herald-topic-auto-2",
       "npcId": "royal-herald",
       "label": "💬 \"Hear ye, hear ye — the proclamations have gone…\"",
-      "treeId": "royalpalace-royal-herald-topic-auto-2"
+      "treeId": "royalpalace-royal-herald-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "royalpalace-royal-herald-topic-auto-3",
       "npcId": "royal-herald",
       "label": "💬 \"Protocol is the art of standing in the right…\"",
-      "treeId": "royalpalace-royal-herald-topic-auto-3"
+      "treeId": "royalpalace-royal-herald-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "royalpalace-palace-guard-topic-auto-1",
@@ -5656,13 +5660,15 @@
       "id": "royalpalace-palace-guard-topic-auto-2",
       "npcId": "palace-guard",
       "label": "💬 \"Nobody enters the throne room without an…\"",
-      "treeId": "royalpalace-palace-guard-topic-auto-2"
+      "treeId": "royalpalace-palace-guard-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "royalpalace-palace-guard-topic-auto-3",
       "npcId": "palace-guard",
       "label": "💬 \"Quietest post in the kingdom, this.\"",
-      "treeId": "royalpalace-palace-guard-topic-auto-3"
+      "treeId": "royalpalace-palace-guard-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "royalpalace-king-topic-auto-1",
@@ -5674,13 +5680,15 @@
       "id": "royalpalace-king-topic-auto-2",
       "npcId": "king",
       "label": "💬 \"A crown is heavier than it looks, and most of…\"",
-      "treeId": "royalpalace-king-topic-auto-2"
+      "treeId": "royalpalace-king-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "royalpalace-king-topic-auto-3",
       "npcId": "king",
       "label": "💬 \"Serve the realm well and the realm remembers.\"",
-      "treeId": "royalpalace-king-topic-auto-3"
+      "treeId": "royalpalace-king-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "royalpalace-queen-topic-auto-1",
@@ -5692,13 +5700,15 @@
       "id": "royalpalace-queen-topic-auto-2",
       "npcId": "queen",
       "label": "💬 \"The King rules the realm; I rule the garden.\"",
-      "treeId": "royalpalace-queen-topic-auto-2"
+      "treeId": "royalpalace-queen-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "royalpalace-queen-topic-auto-3",
       "npcId": "queen",
       "label": "💬 \"A kingdom is judged by its kindnesses, not its…\"",
-      "treeId": "royalpalace-queen-topic-auto-3"
+      "treeId": "royalpalace-queen-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "royalpalace-princess-topic-auto-1",
@@ -5710,13 +5720,15 @@
       "id": "royalpalace-princess-topic-auto-2",
       "npcId": "princess",
       "label": "💬 \"Everyone says a princess should be content.\"",
-      "treeId": "royalpalace-princess-topic-auto-2"
+      "treeId": "royalpalace-princess-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "royalpalace-princess-topic-auto-3",
       "npcId": "princess",
       "label": "💬 \"The goblin and the ogre by the fountain only…\"",
-      "treeId": "royalpalace-princess-topic-auto-3"
+      "treeId": "royalpalace-princess-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "royalpalace-lady-penrose-topic-auto-1",
@@ -5728,13 +5740,15 @@
       "id": "royalpalace-lady-penrose-topic-auto-2",
       "npcId": "lady-penrose",
       "label": "💬 \"Court is a garden of its own, dear.\"",
-      "treeId": "royalpalace-lady-penrose-topic-auto-2"
+      "treeId": "royalpalace-lady-penrose-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "royalpalace-lady-penrose-topic-auto-3",
       "npcId": "lady-penrose",
       "label": "💬 \"I have a small matter that wants a discreet hand.\"",
-      "treeId": "royalpalace-lady-penrose-topic-auto-3"
+      "treeId": "royalpalace-lady-penrose-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "royalpalace-treasurer-topic-auto-1",
@@ -5746,13 +5760,15 @@
       "id": "royalpalace-treasurer-topic-auto-2",
       "npcId": "treasurer",
       "label": "💬 \"The audit is overdue and the inner vault stays…\"",
-      "treeId": "royalpalace-treasurer-topic-auto-2"
+      "treeId": "royalpalace-treasurer-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "royalpalace-treasurer-topic-auto-3",
       "npcId": "treasurer",
       "label": "💬 \"Bring me the scattered tallies and I'll open…\"",
-      "treeId": "royalpalace-treasurer-topic-auto-3"
+      "treeId": "royalpalace-treasurer-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "royalpalace-chaplain-topic-auto-1",
@@ -5764,13 +5780,15 @@
       "id": "royalpalace-chaplain-topic-auto-2",
       "npcId": "chaplain",
       "label": "💬 \"The crypt below holds kings long past.\"",
-      "treeId": "royalpalace-chaplain-topic-auto-2"
+      "treeId": "royalpalace-chaplain-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "royalpalace-chaplain-topic-auto-3",
       "npcId": "chaplain",
       "label": "💬 \"Our candles have a way of wandering off.\"",
-      "treeId": "royalpalace-chaplain-topic-auto-3"
+      "treeId": "royalpalace-chaplain-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "royalpalace-royal-cook-topic-auto-1",
@@ -5782,13 +5800,15 @@
       "id": "royalpalace-royal-cook-topic-auto-2",
       "npcId": "royal-cook",
       "label": "💬 \"A royal feast does not cook itself, more's the…\"",
-      "treeId": "royalpalace-royal-cook-topic-auto-2"
+      "treeId": "royalpalace-royal-cook-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "royalpalace-royal-cook-topic-auto-3",
       "npcId": "royal-cook",
       "label": "💬 \"Fetch me what I need and the court eats like…\"",
-      "treeId": "royalpalace-royal-cook-topic-auto-3"
+      "treeId": "royalpalace-royal-cook-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "royalpalace-royal-gardener-topic-auto-1",
@@ -5800,13 +5820,15 @@
       "id": "royalpalace-royal-gardener-topic-auto-2",
       "npcId": "royal-gardener",
       "label": "💬 \"The Queen wants roses, the King wants order,…\"",
-      "treeId": "royalpalace-royal-gardener-topic-auto-2"
+      "treeId": "royalpalace-royal-gardener-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "royalpalace-royal-gardener-topic-auto-3",
       "npcId": "royal-gardener",
       "label": "💬 \"If you've a good eye, there's a rare bloom or…\"",
-      "treeId": "royalpalace-royal-gardener-topic-auto-3"
+      "treeId": "royalpalace-royal-gardener-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "royalpalace-stable-master-topic-auto-1",
@@ -5818,13 +5840,15 @@
       "id": "royalpalace-stable-master-topic-auto-2",
       "npcId": "stable-master",
       "label": "💬 \"One of the ponies slipped its tack and bolted…\"",
-      "treeId": "royalpalace-stable-master-topic-auto-2"
+      "treeId": "royalpalace-stable-master-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "royalpalace-stable-master-topic-auto-3",
       "npcId": "stable-master",
       "label": "💬 \"Help me round up the lost harness and there's…\"",
-      "treeId": "royalpalace-stable-master-topic-auto-3"
+      "treeId": "royalpalace-stable-master-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "royalpalace-npc_1781196539810-topic-auto-1",
@@ -5860,13 +5884,15 @@
       "id": "royalpalace-master-of-coin-aldric-topic-auto-2",
       "npcId": "master-of-coin-aldric",
       "label": "💬 \"Every coin in this room has a ledger entry.\"",
-      "treeId": "royalpalace-master-of-coin-aldric-topic-auto-2"
+      "treeId": "royalpalace-master-of-coin-aldric-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "royalpalace-master-of-coin-aldric-topic-auto-3",
       "npcId": "master-of-coin-aldric",
       "label": "💬 \"The vault proper is for the king's treasures.\"",
-      "treeId": "royalpalace-master-of-coin-aldric-topic-auto-3"
+      "treeId": "royalpalace-master-of-coin-aldric-topic-auto-3",
+      "requireFriendshipLevel": 2
     }
   ]
 }
