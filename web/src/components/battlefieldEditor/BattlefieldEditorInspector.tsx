@@ -1,0 +1,154 @@
+import React from 'react'
+import type { SelectedEntity, RoadDef, TerrainObstacle, TerrainType, EditTarget } from './battlefieldEditorTypes'
+import { WORLD_PATH_TILE } from '../../data/tiles/worldTileIndex'
+
+const TERRAIN_TYPES: TerrainType[] = ['rock', 'tree', 'water', 'ruin']
+const ROAD_TILE_OPTIONS = Object.entries(WORLD_PATH_TILE)
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div style={{ marginBottom: 8 }}>
+      <label style={{ display: 'block', fontSize: 11, opacity: 0.7, marginBottom: 2 }}>{label}</label>
+      {children}
+    </div>
+  )
+}
+
+function numInput(value: number, onChange: (v: number) => void) {
+  return (
+    <input
+      type="number"
+      value={value}
+      onChange={e => { const v = parseFloat(e.target.value); if (!Number.isNaN(v)) onChange(v) }}
+      style={{ width: 70 }}
+    />
+  )
+}
+
+interface RoadInspectorProps {
+  roadIndex: number
+  road: RoadDef
+  onUpdateRoad: (roadIndex: number, patch: Partial<Pick<RoadDef, 'width' | 'tileFile'>>) => void
+  onMoveRoadPoint: (roadIndex: number, pointIndex: number, x: number, y: number) => void
+  onDeleteRoad: (roadIndex: number) => void
+  onDeleteRoadPoint: (roadIndex: number, pointIndex: number) => void
+}
+
+function RoadInspector({ roadIndex, road, onUpdateRoad, onMoveRoadPoint, onDeleteRoad, onDeleteRoadPoint }: RoadInspectorProps) {
+  return (
+    <div>
+      <h4 style={{ margin: '0 0 8px' }}>Road #{roadIndex + 1}</h4>
+      <Field label="Width (tiles)">
+        {numInput(road.width ?? 2, v => onUpdateRoad(roadIndex, { width: Math.max(1, Math.round(v)) }))}
+      </Field>
+      <Field label="Tileset">
+        <select
+          value={road.tileFile ?? ''}
+          onChange={e => onUpdateRoad(roadIndex, { tileFile: e.target.value || undefined })}
+          style={{ width: '100%' }}
+        >
+          <option value="">(environment default)</option>
+          {ROAD_TILE_OPTIONS.map(([key, file]) => <option key={key} value={file}>{key}</option>)}
+        </select>
+      </Field>
+      <Field label={`Waypoints (${road.points.length})`}>
+        <div style={{ maxHeight: 180, overflowY: 'auto' }}>
+          {road.points.map((p, i) => (
+            <div key={i} style={{ display: 'flex', gap: 4, marginBottom: 4, alignItems: 'center' }}>
+              <span style={{ fontSize: 10, opacity: 0.6, width: 14 }}>{i + 1}</span>
+              {numInput(Math.round(p.x), v => onMoveRoadPoint(roadIndex, i, v, p.y))}
+              {numInput(Math.round(p.y), v => onMoveRoadPoint(roadIndex, i, p.x, v))}
+              <button onClick={() => onDeleteRoadPoint(roadIndex, i)} disabled={road.points.length <= 2} title="Delete waypoint">×</button>
+            </div>
+          ))}
+        </div>
+      </Field>
+      <button onClick={() => onDeleteRoad(roadIndex)}>Delete Road</button>
+    </div>
+  )
+}
+
+interface ObstacleInspectorProps {
+  index: number
+  obstacle: TerrainObstacle
+  onUpdateObstacle: (index: number, patch: Partial<Pick<TerrainObstacle, 'type' | 'radius'>>) => void
+  onMoveObstacle: (index: number, x: number, y: number) => void
+  onDeleteObstacle: (index: number) => void
+}
+
+function ObstacleInspector({ index, obstacle, onUpdateObstacle, onMoveObstacle, onDeleteObstacle }: ObstacleInspectorProps) {
+  return (
+    <div>
+      <h4 style={{ margin: '0 0 8px' }}>Obstacle #{index + 1}</h4>
+      <Field label="Type">
+        <select
+          value={obstacle.type}
+          onChange={e => onUpdateObstacle(index, { type: e.target.value as TerrainType })}
+          style={{ width: '100%' }}
+        >
+          {TERRAIN_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+        </select>
+      </Field>
+      <Field label="Radius">
+        {numInput(obstacle.radius, v => onUpdateObstacle(index, { radius: Math.max(1, v) }))}
+      </Field>
+      <Field label="Position (x, y)">
+        <div style={{ display: 'flex', gap: 4 }}>
+          {numInput(Math.round(obstacle.x), v => onMoveObstacle(index, v, obstacle.y))}
+          {numInput(Math.round(obstacle.y), v => onMoveObstacle(index, obstacle.x, v))}
+        </div>
+      </Field>
+      <button onClick={() => onDeleteObstacle(index)}>Delete Obstacle</button>
+    </div>
+  )
+}
+
+export interface InspectorProps {
+  selectedEntities: SelectedEntity[]
+  roads: RoadDef[]
+  terrain: TerrainObstacle[]
+  nodeId: EditTarget
+  hasNodeRoadsOverride: boolean
+  hasNodeTerrainOverride: boolean
+  onUpdateRoad: RoadInspectorProps['onUpdateRoad']
+  onMoveRoadPoint: RoadInspectorProps['onMoveRoadPoint']
+  onDeleteRoad: RoadInspectorProps['onDeleteRoad']
+  onDeleteRoadPoint: RoadInspectorProps['onDeleteRoadPoint']
+  onUpdateObstacle: ObstacleInspectorProps['onUpdateObstacle']
+  onMoveObstacle: ObstacleInspectorProps['onMoveObstacle']
+  onDeleteObstacle: ObstacleInspectorProps['onDeleteObstacle']
+  onRevertRoads: () => void
+  onRevertTerrain: () => void
+}
+
+export function BattlefieldEditorInspector(props: InspectorProps) {
+  const { selectedEntities, roads, terrain, nodeId, hasNodeRoadsOverride, hasNodeTerrainOverride, onRevertRoads, onRevertTerrain } = props
+  const sel = selectedEntities[0]
+
+  let body: React.ReactNode = <p style={{ opacity: 0.6, fontSize: 12 }}>Select a road or obstacle to edit it.</p>
+  if (sel?.type === 'road' && roads[sel.index]) {
+    body = <RoadInspector roadIndex={sel.index} road={roads[sel.index]} onUpdateRoad={props.onUpdateRoad} onMoveRoadPoint={props.onMoveRoadPoint} onDeleteRoad={props.onDeleteRoad} onDeleteRoadPoint={props.onDeleteRoadPoint} />
+  } else if (sel?.type === 'roadPoint' && roads[sel.roadIndex]) {
+    body = <RoadInspector roadIndex={sel.roadIndex} road={roads[sel.roadIndex]} onUpdateRoad={props.onUpdateRoad} onMoveRoadPoint={props.onMoveRoadPoint} onDeleteRoad={props.onDeleteRoad} onDeleteRoadPoint={props.onDeleteRoadPoint} />
+  } else if (sel?.type === 'obstacle' && terrain[sel.index]) {
+    body = <ObstacleInspector index={sel.index} obstacle={terrain[sel.index]} onUpdateObstacle={props.onUpdateObstacle} onMoveObstacle={props.onMoveObstacle} onDeleteObstacle={props.onDeleteObstacle} />
+  }
+
+  return (
+    <div style={{ width: 220, padding: 12, overflowY: 'auto', borderLeft: '1px solid #333', fontSize: 12 }}>
+      {nodeId !== 'act-default' && (
+        <div style={{ marginBottom: 12, paddingBottom: 12, borderBottom: '1px solid #333' }}>
+          <div style={{ marginBottom: 4 }}>
+            Roads: {hasNodeRoadsOverride ? 'node override' : 'inherited from act'}
+            {hasNodeRoadsOverride && <button style={{ marginLeft: 6 }} onClick={onRevertRoads}>Clear</button>}
+          </div>
+          <div>
+            Terrain: {hasNodeTerrainOverride ? 'node override' : 'inherited / procedural'}
+            {hasNodeTerrainOverride && <button style={{ marginLeft: 6 }} onClick={onRevertTerrain}>Clear</button>}
+          </div>
+        </div>
+      )}
+      {body}
+    </div>
+  )
+}

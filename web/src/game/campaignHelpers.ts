@@ -155,6 +155,7 @@ export function resolvedNodeOpts(
     terrainSeed: node.id,
     environment: node.environment ?? act?.environment,
     roads: node.roads ?? act?.roads,
+    terrain: node.terrain ?? act?.terrain,
     opponentIntervalMs: adjustedInterval,
     opponentBaseHp: adjustedHp,
     opponentStartCards: handBonus,

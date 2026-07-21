@@ -43,7 +43,7 @@ export interface RoadDef {
 // Two Y edge corridors are guaranteed clear so units always have
 // walkable paths from base to base.
 
-const TERRAIN_CLEAR_Y    = [-70, 70] as const  // edge corridors units route around
+export const TERRAIN_CLEAR_Y = [-70, 70] as const  // edge corridors units route around
 const TERRAIN_CLEAR_HALF = 12                  // half-width of each corridor (px)
 
 /** Tiny seeded PRNG (mulberry32) — deterministic given the same seed. */

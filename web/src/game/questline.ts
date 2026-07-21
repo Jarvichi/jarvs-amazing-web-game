@@ -1,5 +1,5 @@
 import { CardRarity, Archetype } from './types'
-import type { RoadDef } from './engine/terrain'
+import type { RoadDef, TerrainObstacle } from './engine/terrain'
 import { loadPlayerStats } from './playerStats'
 import { logError } from '../logger'
 import { getCardCatalog } from './cards'
@@ -165,6 +165,8 @@ export interface QuestNode {
   environment?: string
   /** Battlefield road paths for this node, overriding the act's `roads`. Rendered only — does not affect unit movement. */
   roads?: RoadDef[]
+  /** Battlefield terrain obstacles for this node, overriding the act's `terrain` and replacing the procedurally-generated default. Affects unit avoidance, same as procedural terrain. */
+  terrain?: TerrainObstacle[]
   /** Override opponent play interval (ms). Replaces handicap-derived default. */
   opponentIntervalMs?: number
   /** Override opponent base HP. Replaces engine default (95 for bosses, 82 for others). */
@@ -306,6 +308,15 @@ export interface WorldMap {
    * screen); a QuestNode's own `roads` overrides this per-node. Visual only.
    */
   roads?: RoadDef[]
+
+  /**
+   * Default battlefield terrain obstacles for battles in this act, in the same
+   * game-unit coord space as `roads`. When present, replaces the procedurally
+   * generated default (see `generateTerrain` in `game/engine/terrain.ts`) for
+   * battles in this act; a QuestNode's own `terrain` overrides this per-node.
+   * Affects unit avoidance, same as procedural terrain.
+   */
+  terrain?: TerrainObstacle[]
 
 }
 
