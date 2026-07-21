@@ -1,12 +1,14 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react'
+import React, { useRef, useEffect, useCallback } from 'react'
 import * as PIXI from 'pixi.js'
 import { usePixiApp } from '../../hooks/usePixiApp'
+import { useLetterboxSize } from '../../hooks/useLetterboxSize'
 import {
   buildTerrainGfx, buildBgTileGfx, buildBorderGfx, buildDecorGfx,
   buildRoadGfx, buildTerrainDecorGfx, gameToPixel, pixelToGame,
 } from '../../utils/terrainLayer'
 import { TILE_SIZE, EnvTileDef } from '../../data/tiles/tileIndex'
 import { TERRAIN_CLEAR_Y } from '../../game/engine/terrain'
+import { BATTLEFIELD_ASPECT_RATIO } from '../../game/types'
 import type { RoadDef, TerrainObstacle, TerrainType, ToolMode, SelectedEntity } from './battlefieldEditorTypes'
 
 export interface Props {
@@ -218,32 +220,15 @@ function drawEditOverlay(
  * overlay for roads/obstacles.
  */
 export function BattlefieldEditorCanvas(props: Props) {
-  const wrapRef = useRef<HTMLDivElement>(null)
-  const [dims, setDims] = useState<{ w: number; h: number } | null>(null)
-
-  useEffect(() => {
-    const el = wrapRef.current
-    if (!el) return
-    let raf = 0
-    const measure = () => {
-      const { width, height } = el.getBoundingClientRect()
-      if (width > 0 && height > 0) {
-        const w = Math.ceil(width)
-        const h = Math.ceil(height)
-        setDims(prev => (prev && prev.w === w && prev.h === h) ? prev : { w, h })
-      }
-    }
-    const ro = new ResizeObserver(() => {
-      cancelAnimationFrame(raf)
-      raf = requestAnimationFrame(measure)
-    })
-    ro.observe(el)
-    measure()
-    return () => { cancelAnimationFrame(raf); ro.disconnect() }
-  }, [])
+  const stageRef = useRef<HTMLDivElement>(null)
+  const rawSize = useLetterboxSize(stageRef, BATTLEFIELD_ASPECT_RATIO)
+  const dims = rawSize ? { w: Math.floor(rawSize.width), h: Math.floor(rawSize.height) } : null
 
   return (
-    <div ref={wrapRef} style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
+    <div
+      ref={stageRef}
+      style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}
+    >
       {dims && <EditorPixi key={`${dims.w}x${dims.h}`} {...props} w={dims.w} h={dims.h} />}
     </div>
   )
