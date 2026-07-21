@@ -3695,13 +3695,15 @@
       "id": "gravemoor-ghost-mayor-aldous-topic-auto-2",
       "npcId": "ghost-mayor-aldous",
       "label": "💬 \"I was mayor when I died and nobody's run…\"",
-      "treeId": "gravemoor-ghost-mayor-aldous-topic-auto-2"
+      "treeId": "gravemoor-ghost-mayor-aldous-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "gravemoor-ghost-mayor-aldous-topic-auto-3",
       "npcId": "ghost-mayor-aldous",
       "label": "💬 \"We're dead, not rude.\"",
-      "treeId": "gravemoor-ghost-mayor-aldous-topic-auto-3"
+      "treeId": "gravemoor-ghost-mayor-aldous-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "gravemoor-restless-merchant-mora-topic-auto-1",
@@ -3713,13 +3715,15 @@
       "id": "gravemoor-restless-merchant-mora-topic-auto-2",
       "npcId": "restless-merchant-mora",
       "label": "💬 \"Money means little to the dead, but haggling?\"",
-      "treeId": "gravemoor-restless-merchant-mora-topic-auto-2"
+      "treeId": "gravemoor-restless-merchant-mora-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "gravemoor-restless-merchant-mora-topic-auto-3",
       "npcId": "restless-merchant-mora",
       "label": "💬 \"The blight took the town, but it couldn't take…\"",
-      "treeId": "gravemoor-restless-merchant-mora-topic-auto-3"
+      "treeId": "gravemoor-restless-merchant-mora-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "gravemoor-grave-keeper-finch-topic-auto-1",
@@ -3731,13 +3735,15 @@
       "id": "gravemoor-grave-keeper-finch-topic-auto-2",
       "npcId": "grave-keeper-finch",
       "label": "💬 \"Some of my neighbours' remains have been...\"",
-      "treeId": "gravemoor-grave-keeper-finch-topic-auto-2"
+      "treeId": "gravemoor-grave-keeper-finch-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "gravemoor-grave-keeper-finch-topic-auto-3",
       "npcId": "grave-keeper-finch",
       "label": "💬 \"The dead sleep better when everything's where…\"",
-      "treeId": "gravemoor-grave-keeper-finch-topic-auto-3"
+      "treeId": "gravemoor-grave-keeper-finch-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "gravemoor-gravedigger-hollis-topic-auto-1",
@@ -3749,13 +3755,15 @@
       "id": "gravemoor-gravedigger-hollis-topic-auto-2",
       "npcId": "gravedigger-hollis",
       "label": "💬 \"The dead are good company.\"",
-      "treeId": "gravemoor-gravedigger-hollis-topic-auto-2"
+      "treeId": "gravemoor-gravedigger-hollis-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "gravemoor-gravedigger-hollis-topic-auto-3",
       "npcId": "gravedigger-hollis",
       "label": "💬 \"Mind the soft ground by the new plots.\"",
-      "treeId": "gravemoor-gravedigger-hollis-topic-auto-3"
+      "treeId": "gravemoor-gravedigger-hollis-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "gravemoor-weeping-widow-topic-auto-1",
@@ -3767,13 +3775,15 @@
       "id": "gravemoor-weeping-widow-topic-auto-2",
       "npcId": "weeping-widow",
       "label": "💬 \"I drift these woods every night.\"",
-      "treeId": "gravemoor-weeping-widow-topic-auto-2"
+      "treeId": "gravemoor-weeping-widow-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "gravemoor-weeping-widow-topic-auto-3",
       "npcId": "weeping-widow",
       "label": "💬 \"Kindness to the dead is never wasted.\"",
-      "treeId": "gravemoor-weeping-widow-topic-auto-3"
+      "treeId": "gravemoor-weeping-widow-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "gravemoor-restless-soldier-topic-auto-1",
@@ -3785,13 +3795,15 @@
       "id": "gravemoor-restless-soldier-topic-auto-2",
       "npcId": "restless-soldier",
       "label": "💬 \"Lost my orders in the rout.\"",
-      "treeId": "gravemoor-restless-soldier-topic-auto-2"
+      "treeId": "gravemoor-restless-soldier-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "gravemoor-restless-soldier-topic-auto-3",
       "npcId": "restless-soldier",
       "label": "💬 \"Find my commission papers and maybe — maybe — I…\"",
-      "treeId": "gravemoor-restless-soldier-topic-auto-3"
+      "treeId": "gravemoor-restless-soldier-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "gravemoor-spectral-pedlar-topic-auto-1",
@@ -3803,13 +3815,15 @@
       "id": "gravemoor-spectral-pedlar-topic-auto-2",
       "npcId": "spectral-pedlar",
       "label": "💬 \"I sold trinkets in life and I sell them still.\"",
-      "treeId": "gravemoor-spectral-pedlar-topic-auto-2"
+      "treeId": "gravemoor-spectral-pedlar-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "gravemoor-spectral-pedlar-topic-auto-3",
       "npcId": "spectral-pedlar",
       "label": "💬 \"My stock's gone walkabout among the graves.\"",
-      "treeId": "gravemoor-spectral-pedlar-topic-auto-3"
+      "treeId": "gravemoor-spectral-pedlar-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "gravemoor-little-pip-topic-auto-1",
@@ -3821,13 +3835,15 @@
       "id": "gravemoor-little-pip-topic-auto-2",
       "npcId": "little-pip",
       "label": "💬 \"I'm not scared.\"",
-      "treeId": "gravemoor-little-pip-topic-auto-2"
+      "treeId": "gravemoor-little-pip-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "gravemoor-little-pip-topic-auto-3",
       "npcId": "little-pip",
       "label": "💬 \"She had a sad face and a long grey dress.\"",
-      "treeId": "gravemoor-little-pip-topic-auto-3"
+      "treeId": "gravemoor-little-pip-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "gravemoor-brother-mortis-topic-auto-1",
@@ -3839,13 +3855,15 @@
       "id": "gravemoor-brother-mortis-topic-auto-2",
       "npcId": "brother-mortis",
       "label": "💬 \"The bell tolls at midnight.\"",
-      "treeId": "gravemoor-brother-mortis-topic-auto-2"
+      "treeId": "gravemoor-brother-mortis-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "gravemoor-brother-mortis-topic-auto-3",
       "npcId": "brother-mortis",
       "label": "💬 \"If you would unravel the mystery of the…\"",
-      "treeId": "gravemoor-brother-mortis-topic-auto-3"
+      "treeId": "gravemoor-brother-mortis-topic-auto-3",
+      "requireFriendshipLevel": 2
     }
   ]
 }

@@ -5176,7 +5176,8 @@
       "id": "dreadspirecitadel-vask-ward-topic-auto-2",
       "npcId": "vask-ward",
       "label": "💬 \"You keep coming back here.\"",
-      "treeId": "dreadspirecitadel-vask-ward-topic-auto-2"
+      "treeId": "dreadspirecitadel-vask-ward-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "dreadspirecitadel-the-castellan-topic-auto-1",
@@ -5188,13 +5189,15 @@
       "id": "dreadspirecitadel-the-castellan-topic-auto-2",
       "npcId": "the-castellan",
       "label": "💬 \"I maintain the citadel.\"",
-      "treeId": "dreadspirecitadel-the-castellan-topic-auto-2"
+      "treeId": "dreadspirecitadel-the-castellan-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "dreadspirecitadel-the-castellan-topic-auto-3",
       "npcId": "the-castellan",
       "label": "💬 \"The dark crystals that anchor these walls have…\"",
-      "treeId": "dreadspirecitadel-the-castellan-topic-auto-3"
+      "treeId": "dreadspirecitadel-the-castellan-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "dreadspirecitadel-bound-knight-topic-auto-1",
@@ -5206,13 +5209,15 @@
       "id": "dreadspirecitadel-bound-knight-topic-auto-2",
       "npcId": "bound-knight",
       "label": "💬 \"Death is a poor excuse for missing a shift here.\"",
-      "treeId": "dreadspirecitadel-bound-knight-topic-auto-2"
+      "treeId": "dreadspirecitadel-bound-knight-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "dreadspirecitadel-bound-knight-topic-auto-3",
       "npcId": "bound-knight",
       "label": "💬 \"If you mean the citadel harm, I must stop you.\"",
-      "treeId": "dreadspirecitadel-bound-knight-topic-auto-3"
+      "treeId": "dreadspirecitadel-bound-knight-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "dreadspirecitadel-warlock-vesska-topic-auto-1",
@@ -5224,13 +5229,15 @@
       "id": "dreadspirecitadel-warlock-vesska-topic-auto-2",
       "npcId": "warlock-vesska",
       "label": "💬 \"Four centuries of research and I have proven,…\"",
-      "treeId": "dreadspirecitadel-warlock-vesska-topic-auto-2"
+      "treeId": "dreadspirecitadel-warlock-vesska-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "dreadspirecitadel-warlock-vesska-topic-auto-3",
       "npcId": "warlock-vesska",
       "label": "💬 \"If Ordrin asks, I did NOT borrow his shadow-oil.\"",
-      "treeId": "dreadspirecitadel-warlock-vesska-topic-auto-3"
+      "treeId": "dreadspirecitadel-warlock-vesska-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "dreadspirecitadel-cultist-ordrin-topic-auto-1",
@@ -5242,13 +5249,15 @@
       "id": "dreadspirecitadel-cultist-ordrin-topic-auto-2",
       "npcId": "cultist-ordrin",
       "label": "💬 \"One bone dust, one measure of shadow-oil, one…\"",
-      "treeId": "dreadspirecitadel-cultist-ordrin-topic-auto-2"
+      "treeId": "dreadspirecitadel-cultist-ordrin-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "dreadspirecitadel-cultist-ordrin-topic-auto-3",
       "npcId": "cultist-ordrin",
       "label": "💬 \"Vesska took my shadow-oil.\"",
-      "treeId": "dreadspirecitadel-cultist-ordrin-topic-auto-3"
+      "treeId": "dreadspirecitadel-cultist-ordrin-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "dreadspirecitadel-bone-keeper-mald-topic-auto-1",
@@ -5260,13 +5269,15 @@
       "id": "dreadspirecitadel-bone-keeper-mald-topic-auto-2",
       "npcId": "bone-keeper-mald",
       "label": "💬 \"We had a thief.\"",
-      "treeId": "dreadspirecitadel-bone-keeper-mald-topic-auto-2"
+      "treeId": "dreadspirecitadel-bone-keeper-mald-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "dreadspirecitadel-bone-keeper-mald-topic-auto-3",
       "npcId": "bone-keeper-mald",
       "label": "💬 \"You want the deep ossuary?\"",
-      "treeId": "dreadspirecitadel-bone-keeper-mald-topic-auto-3"
+      "treeId": "dreadspirecitadel-bone-keeper-mald-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "dreadspirecitadel-shrine-tender-topic-auto-1",
@@ -5278,13 +5289,15 @@
       "id": "dreadspirecitadel-shrine-tender-topic-auto-2",
       "npcId": "shrine-tender",
       "label": "💬 \"Light no honest candles here.\"",
-      "treeId": "dreadspirecitadel-shrine-tender-topic-auto-2"
+      "treeId": "dreadspirecitadel-shrine-tender-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "dreadspirecitadel-shrine-tender-topic-auto-3",
       "npcId": "shrine-tender",
       "label": "💬 \"Pray if you like.\"",
-      "treeId": "dreadspirecitadel-shrine-tender-topic-auto-3"
+      "treeId": "dreadspirecitadel-shrine-tender-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "dreadspirecitadel-alchemist-sythe-topic-auto-1",
@@ -5296,13 +5309,15 @@
       "id": "dreadspirecitadel-alchemist-sythe-topic-auto-2",
       "npcId": "alchemist-sythe",
       "label": "💬 \"I need moon-herbs — proper ones, from…\"",
-      "treeId": "dreadspirecitadel-alchemist-sythe-topic-auto-2"
+      "treeId": "dreadspirecitadel-alchemist-sythe-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "dreadspirecitadel-alchemist-sythe-topic-auto-3",
       "npcId": "alchemist-sythe",
       "label": "💬 \"Touch nothing green.\"",
-      "treeId": "dreadspirecitadel-alchemist-sythe-topic-auto-3"
+      "treeId": "dreadspirecitadel-alchemist-sythe-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "dreadspirecitadel-raven-keeper-corvane-topic-auto-1",
@@ -5314,13 +5329,15 @@
       "id": "dreadspirecitadel-raven-keeper-corvane-topic-auto-2",
       "npcId": "raven-keeper-corvane",
       "label": "💬 \"Six ravens I keep, and six I count each dusk.\"",
-      "treeId": "dreadspirecitadel-raven-keeper-corvane-topic-auto-2"
+      "treeId": "dreadspirecitadel-raven-keeper-corvane-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "dreadspirecitadel-raven-keeper-corvane-topic-auto-3",
       "npcId": "raven-keeper-corvane",
       "label": "💬 \"They fly the whole citadel, my birds.\"",
-      "treeId": "dreadspirecitadel-raven-keeper-corvane-topic-auto-3"
+      "treeId": "dreadspirecitadel-raven-keeper-corvane-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "dreadspirecitadel-dungeon-warden-gholl-topic-auto-1",
@@ -5332,13 +5349,15 @@
       "id": "dreadspirecitadel-dungeon-warden-gholl-topic-auto-2",
       "npcId": "dungeon-warden-gholl",
       "label": "💬 \"The lower vault stays sealed.\"",
-      "treeId": "dreadspirecitadel-dungeon-warden-gholl-topic-auto-2"
+      "treeId": "dreadspirecitadel-dungeon-warden-gholl-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "dreadspirecitadel-dungeon-warden-gholl-topic-auto-3",
       "npcId": "dungeon-warden-gholl",
       "label": "💬 \"If you've business in the deep cells, bring me…\"",
-      "treeId": "dreadspirecitadel-dungeon-warden-gholl-topic-auto-3"
+      "treeId": "dreadspirecitadel-dungeon-warden-gholl-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "dreadspirecitadel-the-defector-topic-auto-1",
@@ -5350,13 +5369,15 @@
       "id": "dreadspirecitadel-the-defector-topic-auto-2",
       "npcId": "the-defector",
       "label": "💬 \"I served the master once.\"",
-      "treeId": "dreadspirecitadel-the-defector-topic-auto-2"
+      "treeId": "dreadspirecitadel-the-defector-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "dreadspirecitadel-the-defector-topic-auto-3",
       "npcId": "the-defector",
       "label": "💬 \"Get me out and I'll tell you what sleeps under…\"",
-      "treeId": "dreadspirecitadel-the-defector-topic-auto-3"
+      "treeId": "dreadspirecitadel-the-defector-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "dreadspirecitadel-ghost-servant-isolde-topic-auto-1",
@@ -5368,13 +5389,15 @@
       "id": "dreadspirecitadel-ghost-servant-isolde-topic-auto-2",
       "npcId": "ghost-servant-isolde",
       "label": "💬 \"I dropped the master's old keys somewhere on my…\"",
-      "treeId": "dreadspirecitadel-ghost-servant-isolde-topic-auto-2"
+      "treeId": "dreadspirecitadel-ghost-servant-isolde-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "dreadspirecitadel-ghost-servant-isolde-topic-auto-3",
       "npcId": "ghost-servant-isolde",
       "label": "💬 \"Mind the crypt door.\"",
-      "treeId": "dreadspirecitadel-ghost-servant-isolde-topic-auto-3"
+      "treeId": "dreadspirecitadel-ghost-servant-isolde-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "dreadspirecitadel-grimoire-peddler-ashka-topic-auto-1",
@@ -5386,13 +5409,15 @@
       "id": "dreadspirecitadel-grimoire-peddler-ashka-topic-auto-2",
       "npcId": "grimoire-peddler-ashka",
       "label": "💬 \"The towers hoard their secrets.\"",
-      "treeId": "dreadspirecitadel-grimoire-peddler-ashka-topic-auto-2"
+      "treeId": "dreadspirecitadel-grimoire-peddler-ashka-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "dreadspirecitadel-grimoire-peddler-ashka-topic-auto-3",
       "npcId": "grimoire-peddler-ashka",
       "label": "💬 \"One spell, properly cast, is worth a hundred…\"",
-      "treeId": "dreadspirecitadel-grimoire-peddler-ashka-topic-auto-3"
+      "treeId": "dreadspirecitadel-grimoire-peddler-ashka-topic-auto-3",
+      "requireFriendshipLevel": 2
     }
   ]
 }

@@ -276,6 +276,10 @@ export interface ConversationTopicDef {
   npcId?: string     // documentation only — which NPC this belongs to
   label: string      // topic-picker button text, e.g. "🕯️ Ask about the missing pendant"
   treeId: string     // id into this town's `dialogues` array (DialogueTree.id)
+  /** Only offered once getFriendshipLevel(npcId) >= this. Lets deeper topics
+   *  unlock as the player gets to know the NPC better; omit for a topic
+   *  available from the very first conversation. */
+  requireFriendshipLevel?: number
 }
 
 export interface RawQuestConfig {

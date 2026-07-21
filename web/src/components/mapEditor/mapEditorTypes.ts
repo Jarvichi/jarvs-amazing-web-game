@@ -100,6 +100,7 @@ export interface RawNpc {
   questReceive?: string | string[]
   isGhost?: boolean
   dialogueTree?: string   // id of a branching dialogue tree (questDefs.json `dialogues`)
+  conversationTopics?: string[]   // ordered ids of "Make Conversation" topics (questDefs.json `conversationTopics`)
   screen?: string   // opens a screen/modal (e.g. 'adopt-pet') via a dialogue choice, in addition to dialogue
   minLevel?: number   // building upgrade level at which this NPC first appears (0/undefined = always)
   hideAtLevel?: number // building upgrade level at which this NPC disappears (undefined = never)

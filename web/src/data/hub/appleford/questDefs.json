@@ -3381,13 +3381,15 @@
       "id": "appleford-orchard-keeper-bess-topic-auto-2",
       "npcId": "orchard-keeper-bess",
       "label": "💬 \"Raiders hit the east rows last week.\"",
-      "treeId": "appleford-orchard-keeper-bess-topic-auto-2"
+      "treeId": "appleford-orchard-keeper-bess-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "appleford-orchard-keeper-bess-topic-auto-3",
       "npcId": "orchard-keeper-bess",
       "label": "💬 \"An orchard is patience you can eat.\"",
-      "treeId": "appleford-orchard-keeper-bess-topic-auto-3"
+      "treeId": "appleford-orchard-keeper-bess-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "appleford-cider-brewer-tom-topic-auto-1",
@@ -3399,13 +3401,15 @@
       "id": "appleford-cider-brewer-tom-topic-auto-2",
       "npcId": "cider-brewer-tom",
       "label": "💬 \"The toll road's made deliveries a nightmare.\"",
-      "treeId": "appleford-cider-brewer-tom-topic-auto-2"
+      "treeId": "appleford-cider-brewer-tom-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "appleford-cider-brewer-tom-topic-auto-3",
       "npcId": "cider-brewer-tom",
       "label": "💬 \"First mug's full price.\"",
-      "treeId": "appleford-cider-brewer-tom-topic-auto-3"
+      "treeId": "appleford-cider-brewer-tom-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "appleford-beekeeper-mabe-topic-auto-1",
@@ -3417,13 +3421,15 @@
       "id": "appleford-beekeeper-mabe-topic-auto-2",
       "npcId": "beekeeper-mabe",
       "label": "💬 \"Honey, wax, mead — one little bee gives you all…\"",
-      "treeId": "appleford-beekeeper-mabe-topic-auto-2"
+      "treeId": "appleford-beekeeper-mabe-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "appleford-beekeeper-mabe-topic-auto-3",
       "npcId": "beekeeper-mabe",
       "label": "💬 \"Bess grows the blossom, I keep the bees.\"",
-      "treeId": "appleford-beekeeper-mabe-topic-auto-3"
+      "treeId": "appleford-beekeeper-mabe-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "appleford-cooper-wend-topic-auto-1",
@@ -3435,13 +3441,15 @@
       "id": "appleford-cooper-wend-topic-auto-2",
       "npcId": "cooper-wend",
       "label": "💬 \"A good cask is watertight, sweet-grained, and…\"",
-      "treeId": "appleford-cooper-wend-topic-auto-2"
+      "treeId": "appleford-cooper-wend-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "appleford-cooper-wend-topic-auto-3",
       "npcId": "cooper-wend",
       "label": "💬 \"Staves, hoops, and patience — that's a barrel.\"",
-      "treeId": "appleford-cooper-wend-topic-auto-3"
+      "treeId": "appleford-cooper-wend-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "appleford-market-trader-posy-topic-auto-1",
@@ -3453,13 +3461,15 @@
       "id": "appleford-market-trader-posy-topic-auto-2",
       "npcId": "market-trader-posy",
       "label": "💬 \"Ravenwatch pays double for our cider.\"",
-      "treeId": "appleford-market-trader-posy-topic-auto-2"
+      "treeId": "appleford-market-trader-posy-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "appleford-market-trader-posy-topic-auto-3",
       "npcId": "market-trader-posy",
       "label": "💬 \"Buy low, sell ripe.\"",
-      "treeId": "appleford-market-trader-posy-topic-auto-3"
+      "treeId": "appleford-market-trader-posy-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "appleford-chaplain-hale-topic-auto-1",
@@ -3471,13 +3481,15 @@
       "id": "appleford-chaplain-hale-topic-auto-2",
       "npcId": "chaplain-hale",
       "label": "💬 \"We bless the first pressing every year.\"",
-      "treeId": "appleford-chaplain-hale-topic-auto-2"
+      "treeId": "appleford-chaplain-hale-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "appleford-chaplain-hale-topic-auto-3",
       "npcId": "chaplain-hale",
       "label": "💬 \"Quiet hands, full baskets, grateful hearts.\"",
-      "treeId": "appleford-chaplain-hale-topic-auto-3"
+      "treeId": "appleford-chaplain-hale-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "appleford-scrumping-wren-topic-auto-1",
@@ -3489,13 +3501,15 @@
       "id": "appleford-scrumping-wren-topic-auto-2",
       "npcId": "scrumping-wren",
       "label": "💬 \"I dropped my things running from Keeper Bess.\"",
-      "treeId": "appleford-scrumping-wren-topic-auto-2"
+      "treeId": "appleford-scrumping-wren-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "appleford-scrumping-wren-topic-auto-3",
       "npcId": "scrumping-wren",
       "label": "💬 \"When I grow up I'm going to own the whole…\"",
-      "treeId": "appleford-scrumping-wren-topic-auto-3"
+      "treeId": "appleford-scrumping-wren-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "appleford-orchard-hand-hob-topic-auto-1",
@@ -3507,13 +3521,15 @@
       "id": "appleford-orchard-hand-hob-topic-auto-2",
       "npcId": "orchard-hand-hob",
       "label": "💬 \"Best apples are always the ones just out of…\"",
-      "treeId": "appleford-orchard-hand-hob-topic-auto-2"
+      "treeId": "appleford-orchard-hand-hob-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "appleford-orchard-hand-hob-topic-auto-3",
       "npcId": "orchard-hand-hob",
       "label": "💬 \"Fill a crate, haul it to Posy, start again.\"",
-      "treeId": "appleford-orchard-hand-hob-topic-auto-3"
+      "treeId": "appleford-orchard-hand-hob-topic-auto-3",
+      "requireFriendshipLevel": 2
     }
   ]
 }

@@ -6448,13 +6448,15 @@
       "id": "ironholdkeep-castle-cartographer-topic-auto-2",
       "npcId": "castle-cartographer",
       "label": "💬 \"I've surveyed this border three times.\"",
-      "treeId": "ironholdkeep-castle-cartographer-topic-auto-2"
+      "treeId": "ironholdkeep-castle-cartographer-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ironholdkeep-castle-cartographer-topic-auto-3",
       "npcId": "castle-cartographer",
       "label": "💬 \"A cartographer draws what is there.\"",
-      "treeId": "ironholdkeep-castle-cartographer-topic-auto-3"
+      "treeId": "ironholdkeep-castle-cartographer-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ironholdkeep-castle-commander-topic-auto-1",
@@ -6466,13 +6468,15 @@
       "id": "ironholdkeep-castle-commander-topic-auto-2",
       "npcId": "castle-commander",
       "label": "💬 \"The patrol routes have been compromised.\"",
-      "treeId": "ironholdkeep-castle-commander-topic-auto-2"
+      "treeId": "ironholdkeep-castle-commander-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ironholdkeep-castle-commander-topic-auto-3",
       "npcId": "castle-commander",
       "label": "💬 \"You fight well, traveller.\"",
-      "treeId": "ironholdkeep-castle-commander-topic-auto-3"
+      "treeId": "ironholdkeep-castle-commander-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ironholdkeep-castle-guard-master-topic-auto-1",
@@ -6484,13 +6488,15 @@
       "id": "ironholdkeep-castle-guard-master-topic-auto-2",
       "npcId": "castle-guard-master",
       "label": "💬 \"Every soldier here answers to me before they…\"",
-      "treeId": "ironholdkeep-castle-guard-master-topic-auto-2"
+      "treeId": "ironholdkeep-castle-guard-master-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ironholdkeep-castle-guard-master-topic-auto-3",
       "npcId": "castle-guard-master",
       "label": "💬 \"Stand a watch with us sometime, traveller.\"",
-      "treeId": "ironholdkeep-castle-guard-master-topic-auto-3"
+      "treeId": "ironholdkeep-castle-guard-master-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ironholdkeep-castle-blacksmith-topic-auto-1",
@@ -6502,13 +6508,15 @@
       "id": "ironholdkeep-castle-blacksmith-topic-auto-2",
       "npcId": "castle-blacksmith",
       "label": "💬 \"The weapon crates haven't been accounted for…\"",
-      "treeId": "ironholdkeep-castle-blacksmith-topic-auto-2"
+      "treeId": "ironholdkeep-castle-blacksmith-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ironholdkeep-castle-blacksmith-topic-auto-3",
       "npcId": "castle-blacksmith",
       "label": "💬 \"Iron doesn't lie — only men do.\"",
-      "treeId": "ironholdkeep-castle-blacksmith-topic-auto-3"
+      "treeId": "ironholdkeep-castle-blacksmith-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ironholdkeep-castle-quartermaster-topic-auto-1",
@@ -6520,13 +6528,15 @@
       "id": "ironholdkeep-castle-quartermaster-topic-auto-2",
       "npcId": "castle-quartermaster",
       "label": "💬 \"Grain, iron, arrows, salt — a castle eats as…\"",
-      "treeId": "ironholdkeep-castle-quartermaster-topic-auto-2"
+      "treeId": "ironholdkeep-castle-quartermaster-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ironholdkeep-castle-quartermaster-topic-auto-3",
       "npcId": "castle-quartermaster",
       "label": "💬 \"If you're after supplies, mind you sign for them.\"",
-      "treeId": "ironholdkeep-castle-quartermaster-topic-auto-3"
+      "treeId": "ironholdkeep-castle-quartermaster-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ironholdkeep-castle-cook-topic-auto-1",
@@ -6538,13 +6548,15 @@
       "id": "ironholdkeep-castle-cook-topic-auto-2",
       "npcId": "castle-cook",
       "label": "💬 \"Get out of my kitchen unless you're bringing me…\"",
-      "treeId": "ironholdkeep-castle-cook-topic-auto-2"
+      "treeId": "ironholdkeep-castle-cook-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ironholdkeep-castle-cook-topic-auto-3",
       "npcId": "castle-cook",
       "label": "💬 \"There's stew on the hearth if the guards have…\"",
-      "treeId": "ironholdkeep-castle-cook-topic-auto-3"
+      "treeId": "ironholdkeep-castle-cook-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ironholdkeep-castle-chaplain-topic-auto-1",
@@ -6556,13 +6568,15 @@
       "id": "ironholdkeep-castle-chaplain-topic-auto-2",
       "npcId": "castle-chaplain",
       "label": "💬 \"The crypt below holds the lords of Ironhold,…\"",
-      "treeId": "ironholdkeep-castle-chaplain-topic-auto-2"
+      "treeId": "ironholdkeep-castle-chaplain-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ironholdkeep-castle-chaplain-topic-auto-3",
       "npcId": "castle-chaplain",
       "label": "💬 \"Light a candle for the fallen.\"",
-      "treeId": "ironholdkeep-castle-chaplain-topic-auto-3"
+      "treeId": "ironholdkeep-castle-chaplain-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ironholdkeep-castle-archivist-topic-auto-1",
@@ -6574,13 +6588,15 @@
       "id": "ironholdkeep-castle-archivist-topic-auto-2",
       "npcId": "castle-archivist",
       "label": "💬 \"A siege chronicle was separated from the…\"",
-      "treeId": "ironholdkeep-castle-archivist-topic-auto-2"
+      "treeId": "ironholdkeep-castle-archivist-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ironholdkeep-castle-archivist-topic-auto-3",
       "npcId": "castle-archivist",
       "label": "💬 \"History is the only weapon that never dulls.\"",
-      "treeId": "ironholdkeep-castle-archivist-topic-auto-3"
+      "treeId": "ironholdkeep-castle-archivist-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ironholdkeep-castle-stablehand-topic-auto-1",
@@ -6592,13 +6608,15 @@
       "id": "ironholdkeep-castle-stablehand-topic-auto-2",
       "npcId": "castle-stablehand",
       "label": "💬 \"Mind where you step — a war horse spooks at…\"",
-      "treeId": "ironholdkeep-castle-stablehand-topic-auto-2"
+      "treeId": "ironholdkeep-castle-stablehand-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ironholdkeep-castle-stablehand-topic-auto-3",
       "npcId": "castle-stablehand",
       "label": "💬 \"If you ride out, I'll have a mount saddled…\"",
-      "treeId": "ironholdkeep-castle-stablehand-topic-auto-3"
+      "treeId": "ironholdkeep-castle-stablehand-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ironholdkeep-castle-knight-topic-auto-1",
@@ -6610,13 +6628,15 @@
       "id": "ironholdkeep-castle-knight-topic-auto-2",
       "npcId": "castle-knight",
       "label": "💬 \"A knight without a cause is just a man in…\"",
-      "treeId": "ironholdkeep-castle-knight-topic-auto-2"
+      "treeId": "ironholdkeep-castle-knight-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ironholdkeep-castle-knight-topic-auto-3",
       "npcId": "castle-knight",
       "label": "💬 \"The Guard-Master sets the rotation.\"",
-      "treeId": "ironholdkeep-castle-knight-topic-auto-3"
+      "treeId": "ironholdkeep-castle-knight-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ironholdkeep-castle-squire-topic-auto-1",
@@ -6628,13 +6648,15 @@
       "id": "ironholdkeep-castle-squire-topic-auto-2",
       "npcId": "castle-squire",
       "label": "💬 \"Sir Garrick says I've a good arm.\"",
-      "treeId": "ironholdkeep-castle-squire-topic-auto-2"
+      "treeId": "ironholdkeep-castle-squire-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ironholdkeep-castle-squire-topic-auto-3",
       "npcId": "castle-squire",
       "label": "💬 \"I dropped a training sword somewhere out here.\"",
-      "treeId": "ironholdkeep-castle-squire-topic-auto-3"
+      "treeId": "ironholdkeep-castle-squire-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ironholdkeep-castle-gatekeeper-topic-auto-1",
@@ -6646,13 +6668,15 @@
       "id": "ironholdkeep-castle-gatekeeper-topic-auto-2",
       "npcId": "castle-gatekeeper",
       "label": "💬 \"State your business at the gate or state it…\"",
-      "treeId": "ironholdkeep-castle-gatekeeper-topic-auto-2"
+      "treeId": "ironholdkeep-castle-gatekeeper-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ironholdkeep-castle-gatekeeper-topic-auto-3",
       "npcId": "castle-gatekeeper",
       "label": "💬 \"Safe roads, traveller.\"",
-      "treeId": "ironholdkeep-castle-gatekeeper-topic-auto-3"
+      "treeId": "ironholdkeep-castle-gatekeeper-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ironholdkeep-castle-prisoner-topic-auto-1",
@@ -6664,13 +6688,15 @@
       "id": "ironholdkeep-castle-prisoner-topic-auto-2",
       "npcId": "castle-prisoner",
       "label": "💬 \"I know things about this keep that would turn…\"",
-      "treeId": "ironholdkeep-castle-prisoner-topic-auto-2"
+      "treeId": "ironholdkeep-castle-prisoner-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ironholdkeep-castle-prisoner-topic-auto-3",
       "npcId": "castle-prisoner",
       "label": "💬 \"Help me prove my innocence and the secret of…\"",
-      "treeId": "ironholdkeep-castle-prisoner-topic-auto-3"
+      "treeId": "ironholdkeep-castle-prisoner-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ironholdkeep-castle-guard-1-topic-auto-1",
@@ -6682,13 +6708,15 @@
       "id": "ironholdkeep-castle-guard-1-topic-auto-2",
       "npcId": "castle-guard-1",
       "label": "💬 \"Three of us dropped our patrol papers during…\"",
-      "treeId": "ironholdkeep-castle-guard-1-topic-auto-2"
+      "treeId": "ironholdkeep-castle-guard-1-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ironholdkeep-castle-guard-1-topic-auto-3",
       "npcId": "castle-guard-1",
       "label": "💬 \"The south gate is yours to use, traveller.\"",
-      "treeId": "ironholdkeep-castle-guard-1-topic-auto-3"
+      "treeId": "ironholdkeep-castle-guard-1-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "ironholdkeep-castle-guard-2-topic-auto-1",
@@ -6700,13 +6728,15 @@
       "id": "ironholdkeep-castle-guard-2-topic-auto-2",
       "npcId": "castle-guard-2",
       "label": "💬 \"I lost my patrol report somewhere out in the…\"",
-      "treeId": "ironholdkeep-castle-guard-2-topic-auto-2"
+      "treeId": "ironholdkeep-castle-guard-2-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "ironholdkeep-castle-guard-2-topic-auto-3",
       "npcId": "castle-guard-2",
       "label": "💬 \"Ironhold has never fallen.\"",
-      "treeId": "ironholdkeep-castle-guard-2-topic-auto-3"
+      "treeId": "ironholdkeep-castle-guard-2-topic-auto-3",
+      "requireFriendshipLevel": 2
     }
   ]
 }

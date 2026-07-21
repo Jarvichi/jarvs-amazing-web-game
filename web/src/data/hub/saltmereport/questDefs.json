@@ -4934,13 +4934,15 @@
       "id": "saltmereport-harbourmaster-vane-topic-auto-2",
       "npcId": "harbourmaster-vane",
       "label": "💬 \"Cargo's been going missing off the quay.\"",
-      "treeId": "saltmereport-harbourmaster-vane-topic-auto-2"
+      "treeId": "saltmereport-harbourmaster-vane-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "saltmereport-harbourmaster-vane-topic-auto-3",
       "npcId": "harbourmaster-vane",
       "label": "💬 \"Pirates to the north, smugglers to the south,…\"",
-      "treeId": "saltmereport-harbourmaster-vane-topic-auto-3"
+      "treeId": "saltmereport-harbourmaster-vane-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "saltmereport-fishwife-pearl-topic-auto-1",
@@ -4952,13 +4954,15 @@
       "id": "saltmereport-fishwife-pearl-topic-auto-2",
       "npcId": "fishwife-pearl",
       "label": "💬 \"The reef's been restless.\"",
-      "treeId": "saltmereport-fishwife-pearl-topic-auto-2"
+      "treeId": "saltmereport-fishwife-pearl-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "saltmereport-fishwife-pearl-topic-auto-3",
       "npcId": "fishwife-pearl",
       "label": "💬 \"You buy, or you're blocking the stall.\"",
-      "treeId": "saltmereport-fishwife-pearl-topic-auto-3"
+      "treeId": "saltmereport-fishwife-pearl-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "saltmereport-dockhand-tam-topic-auto-1",
@@ -4970,13 +4974,15 @@
       "id": "saltmereport-dockhand-tam-topic-auto-2",
       "npcId": "dockhand-tam",
       "label": "💬 \"Found a barrel of navy rum washed up under the…\"",
-      "treeId": "saltmereport-dockhand-tam-topic-auto-2"
+      "treeId": "saltmereport-dockhand-tam-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "saltmereport-dockhand-tam-topic-auto-3",
       "npcId": "dockhand-tam",
       "label": "💬 \"Vane counts the cargo twice.\"",
-      "treeId": "saltmereport-dockhand-tam-topic-auto-3"
+      "treeId": "saltmereport-dockhand-tam-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "saltmereport-old-salt-topic-auto-1",
@@ -4988,13 +4994,15 @@
       "id": "saltmereport-old-salt-topic-auto-2",
       "npcId": "old-salt",
       "label": "💬 \"There's a cove east of here no chart will show…\"",
-      "treeId": "saltmereport-old-salt-topic-auto-2"
+      "treeId": "saltmereport-old-salt-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "saltmereport-old-salt-topic-auto-3",
       "npcId": "old-salt",
       "label": "💬 \"The tide takes and the tide gives back.\"",
-      "treeId": "saltmereport-old-salt-topic-auto-3"
+      "treeId": "saltmereport-old-salt-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "saltmereport-shipwright-topic-auto-1",
@@ -5006,13 +5014,15 @@
       "id": "saltmereport-shipwright-topic-auto-2",
       "npcId": "shipwright",
       "label": "💬 \"Good timber, good pitch, good rope — that's the…\"",
-      "treeId": "saltmereport-shipwright-topic-auto-2"
+      "treeId": "saltmereport-shipwright-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "saltmereport-shipwright-topic-auto-3",
       "npcId": "shipwright",
       "label": "💬 \"She'll float.\"",
-      "treeId": "saltmereport-shipwright-topic-auto-3"
+      "treeId": "saltmereport-shipwright-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "saltmereport-customs-officer-topic-auto-1",
@@ -5024,13 +5034,15 @@
       "id": "saltmereport-customs-officer-topic-auto-2",
       "npcId": "customs-officer",
       "label": "💬 \"The numbers on Vane's manifest and the numbers…\"",
-      "treeId": "saltmereport-customs-officer-topic-auto-2"
+      "treeId": "saltmereport-customs-officer-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "saltmereport-customs-officer-topic-auto-3",
       "npcId": "customs-officer",
       "label": "💬 \"I've seen smugglers, thieves, and men who…\"",
-      "treeId": "saltmereport-customs-officer-topic-auto-3"
+      "treeId": "saltmereport-customs-officer-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "saltmereport-lighthouse-keeper-topic-auto-1",
@@ -5042,13 +5054,15 @@
       "id": "saltmereport-lighthouse-keeper-topic-auto-2",
       "npcId": "lighthouse-keeper",
       "label": "💬 \"Oil runs low faster than it should.\"",
-      "treeId": "saltmereport-lighthouse-keeper-topic-auto-2"
+      "treeId": "saltmereport-lighthouse-keeper-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "saltmereport-lighthouse-keeper-topic-auto-3",
       "npcId": "lighthouse-keeper",
       "label": "💬 \"I watch so the rest of you can sleep.\"",
-      "treeId": "saltmereport-lighthouse-keeper-topic-auto-3"
+      "treeId": "saltmereport-lighthouse-keeper-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "saltmereport-net-maker-topic-auto-1",
@@ -5060,13 +5074,15 @@
       "id": "saltmereport-net-maker-topic-auto-2",
       "npcId": "net-maker",
       "label": "💬 \"Every knot's got a name, if you know where to…\"",
-      "treeId": "saltmereport-net-maker-topic-auto-2"
+      "treeId": "saltmereport-net-maker-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "saltmereport-net-maker-topic-auto-3",
       "npcId": "net-maker",
       "label": "💬 \"Good nets outlast the boats they're tied to.\"",
-      "treeId": "saltmereport-net-maker-topic-auto-3"
+      "treeId": "saltmereport-net-maker-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "saltmereport-chandler-topic-auto-1",
@@ -5078,13 +5094,15 @@
       "id": "saltmereport-chandler-topic-auto-2",
       "npcId": "chandler",
       "label": "💬 \"Stores are running thin and the next supply run…\"",
-      "treeId": "saltmereport-chandler-topic-auto-2"
+      "treeId": "saltmereport-chandler-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "saltmereport-chandler-topic-auto-3",
       "npcId": "chandler",
       "label": "💬 \"Buy local.\"",
-      "treeId": "saltmereport-chandler-topic-auto-3"
+      "treeId": "saltmereport-chandler-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "saltmereport-smokehouse-master-topic-auto-1",
@@ -5096,13 +5114,15 @@
       "id": "saltmereport-smokehouse-master-topic-auto-2",
       "npcId": "smokehouse-master",
       "label": "💬 \"That dock cat's been eyeing my racks again.\"",
-      "treeId": "saltmereport-smokehouse-master-topic-auto-2"
+      "treeId": "saltmereport-smokehouse-master-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "saltmereport-smokehouse-master-topic-auto-3",
       "npcId": "smokehouse-master",
       "label": "💬 \"Nothing wrong with a few scraps for a hungry…\"",
-      "treeId": "saltmereport-smokehouse-master-topic-auto-3"
+      "treeId": "saltmereport-smokehouse-master-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "saltmereport-tavern-sailor-topic-auto-1",
@@ -5114,13 +5134,15 @@
       "id": "saltmereport-tavern-sailor-topic-auto-2",
       "npcId": "tavern-sailor",
       "label": "💬 \"The Brined Anchor pours the only rum on this…\"",
-      "treeId": "saltmereport-tavern-sailor-topic-auto-2"
+      "treeId": "saltmereport-tavern-sailor-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "saltmereport-tavern-sailor-topic-auto-3",
       "npcId": "tavern-sailor",
       "label": "💬 \"Sleep below deck, drink above it.\"",
-      "treeId": "saltmereport-tavern-sailor-topic-auto-3"
+      "treeId": "saltmereport-tavern-sailor-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "saltmereport-smuggler-topic-auto-1",
@@ -5132,13 +5154,15 @@
       "id": "saltmereport-smuggler-topic-auto-2",
       "npcId": "smuggler",
       "label": "💬 \"Rum's a victimless trade until the watch starts…\"",
-      "treeId": "saltmereport-smuggler-topic-auto-2"
+      "treeId": "saltmereport-smuggler-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "saltmereport-smuggler-topic-auto-3",
       "npcId": "smuggler",
       "label": "💬 \"Whatever Vane thinks he knows, he can't prove.\"",
-      "treeId": "saltmereport-smuggler-topic-auto-3"
+      "treeId": "saltmereport-smuggler-topic-auto-3",
+      "requireFriendshipLevel": 2
     }
   ]
 }

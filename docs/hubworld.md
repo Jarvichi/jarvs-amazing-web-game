@@ -973,6 +973,7 @@ Then on the NPC (in `config.json`): `"conversationTopics": ["elder-topic-pendant
 | `npcId` | string? | Documentation only — which NPC this belongs to. |
 | `label` | string | Topic-picker button text (icon + short prompt). |
 | `treeId` | string | Id of the `DialogueTree` (in this town's `dialogues` array) this topic walks. Conventionally the same string as `id`, but kept as a separate field in case a future topic wants to reuse a tree. |
+| `requireFriendshipLevel` | number? | Only offered once `getFriendshipLevel(npcId) >= this`. Omit for a topic available from the very first conversation. See "Friendship-gated topics" below. |
 
 The tree itself uses the exact `DialogueTree`/`DialogueNode`/`DialogueChoiceDef`/
 `DialogueEffect` schema documented in §7b — nothing new there.
@@ -997,12 +998,15 @@ too:
 
 - The "🗣️ Make conversation" choice resolves `npcDef.conversationTopics` to
   `ConversationTopicDef`s via `allQuests.HUB_CONVERSATION_TOPICS`, keeping
-  only entries whose `treeId` also resolves in `allQuests.HUB_DIALOGUES` — a
-  stale/typo'd id just drops that topic instead of breaking the menu (the
-  coverage test below is the real authoring guard).
-- If zero topics resolve, behavior is **byte-for-byte** the old flat line:
-  `addFriendshipXp(npcId, 2)` + `grantRelationshipWithRivalry(npcId, 'ally', 1, ...)`
-  + "Always good to catch up."
+  only entries whose `treeId` also resolves in `allQuests.HUB_DIALOGUES` **and**
+  whose `requireFriendshipLevel` (if set) is met — a stale/typo'd id or a
+  not-yet-unlocked deeper topic both just drop out of the list instead of
+  breaking the menu (the coverage test below is the real authoring guard for
+  the former).
+- If zero topics resolve (no authored topics, or all of them still gated),
+  behavior is **byte-for-byte** the old flat line: `grantFriendship(npcId, 2)`
+  + `grantRelationshipWithRivalry(npcId, 'ally', 1, ...)` + "Always good to
+  catch up."
 - Otherwise, a topic-picker `dialogueEvent` is shown ("What would you like to
   talk about?") with one button per topic plus "Never mind". This mirrors the
   "🎁 Give a gift" nested-picker pattern (§7d): opening the menu does **not**
@@ -1013,6 +1017,55 @@ too:
   — `topLevel = false` because this is a nested follow-up screen, so
   Talk/Give is **not** re-appended mid-conversation (same rule as any other
   follow-up dialogueEvent, §7d).
+
+### Friendship-gated topics (deeper conversations unlock over time)
+
+A topic's `requireFriendshipLevel` gates it out of the picker until the
+player's friendship with that NPC reaches that level — so a first-time chat
+only offers a shallow topic, and more open up as the friendship grows,
+instead of dumping every topic in the menu from the very first conversation.
+
+Every existing NPC (pilot and auto-generated alike) already follows a
+graduated convention worth reusing for new content: **the first topic in an
+NPC's `conversationTopics` list has no gate** (always offered), **the second
+requires level 1**, **the third requires level 2**, and so on — i.e. the
+topic's index in that NPC's list becomes its `requireFriendshipLevel`. This
+needs no new engine support (`requireFriendshipLevel` is just another
+optional field checked alongside the id/treeId resolution above) and applies
+uniformly whether the topics are hand-authored or auto-generated.
+
+### Randomized choice order (no "always pick the top option")
+
+`runDialogueNode`'s visible choices (both a topic's tone/follow-up choices and
+any other `dialogueTree` node's choices) are shuffled (`shuffled()`,
+`web/src/game/hub/shuffle.ts` — a plain Fisher-Yates copy, unit-tested there)
+before being rendered, so the good/neutral/bad outcome isn't reliably in the
+same list position — a player has to read the choices instead of learning
+"top button is always the safe/best one". This applies to every `DialogueTree`
+node's choices, not just conversation topics. Exit-style choices (an authored
+`end`-effect "leave" choice, or the generic trailing Farewell/Talk-Give block
+appended at the top level) are unaffected — they're already handled
+separately from `visible` and keep their conventional trailing position.
+
+### Map editor support
+
+Both the topic list on an NPC and the topic definitions themselves are
+editable in the visual map editor (Storybook `MapEditor` story; requires the
+dev server for file saves — see §13):
+- **`NpcEditor.tsx`** — a "Conversation Topics" field (right below "Dialogue
+  Tree") on the NPC form manages `HubNpc.conversationTopics` as a reorderable,
+  searchable list of topic ids (`EntityRefMultiPicker` with `reorderable`,
+  `web/src/components/mapEditor/EntityRefPicker.tsx`) — add/remove/reorder via
+  ↑/↓ buttons, since order determines both display order and (per the
+  graduated convention above) the implicit friendship-level gate.
+- **`DialogueEditor.tsx`** — a "Conversation Topics" section (alongside
+  Friendship/Relationship Dialogue and Dialogue Trees) manages the
+  `conversationTopics` array itself: `id`, `npcId`, `label`, a `treeId` picker
+  sourced from the same tree list as `dialogueTree`, and an optional
+  `requireFriendshipLevel` number field. The tree's own nodes/choices/effects
+  are still edited as raw JSON via the existing Dialogue Trees section (§7b) —
+  authoring a topic's underlying branching content isn't yet a structured
+  form, just like any other `dialogueTree`.
 
 ### Persistence
 
@@ -1026,9 +1079,11 @@ the existing friendship/relationship stores exactly as-is.
    good ending (`friendship` +, best one paired with `relationship: ally`),
    one neutral ending (no `friendship` effect), and one bad ending
    (`friendship` −).
-2. Add a matching entry to `conversationTopics` (`id`, `label`, `treeId`).
+2. Add a matching entry to `conversationTopics` (`id`, `label`, `treeId`,
+   optional `requireFriendshipLevel`).
 3. Attach the ordered topic ids to the NPC via `conversationTopics: string[]`
-   in `config.json`.
+   in `config.json` — following the graduated convention above, only the
+   first id should be ungated.
 4. Run `npm run test` (loader parsing + `npcDialogueCoverage.test.ts`'s
    `conversation topic coverage` / `conversation topic trees terminate`
    guards) and `npm run build`.

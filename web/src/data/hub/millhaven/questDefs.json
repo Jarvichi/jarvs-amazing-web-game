@@ -5520,13 +5520,15 @@
       "id": "millhaven-mill-owner-topic-auto-2",
       "npcId": "mill-owner",
       "label": "💬 \"Three grain sacks went missing from the store.\"",
-      "treeId": "millhaven-mill-owner-topic-auto-2"
+      "treeId": "millhaven-mill-owner-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "millhaven-mill-owner-topic-auto-3",
       "npcId": "mill-owner",
       "label": "💬 \"If you find those sacks, I'll remember the…\"",
-      "treeId": "millhaven-mill-owner-topic-auto-3"
+      "treeId": "millhaven-mill-owner-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "millhaven-fishmonger-marta-topic-auto-1",
@@ -5538,13 +5540,15 @@
       "id": "millhaven-fishmonger-marta-topic-auto-2",
       "npcId": "fishmonger-marta",
       "label": "💬 \"I've got fish baskets missing somewhere around…\"",
-      "treeId": "millhaven-fishmonger-marta-topic-auto-2"
+      "treeId": "millhaven-fishmonger-marta-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "millhaven-fishmonger-marta-topic-auto-3",
       "npcId": "fishmonger-marta",
       "label": "💬 \"Fresh catch, get your fresh catch!\"",
-      "treeId": "millhaven-fishmonger-marta-topic-auto-3"
+      "treeId": "millhaven-fishmonger-marta-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "millhaven-innkeeper-millhaven-topic-auto-1",
@@ -5556,7 +5560,8 @@
       "id": "millhaven-innkeeper-millhaven-topic-auto-2",
       "npcId": "innkeeper-millhaven",
       "label": "💬 \"You look like someone who travels.\"",
-      "treeId": "millhaven-innkeeper-millhaven-topic-auto-2"
+      "treeId": "millhaven-innkeeper-millhaven-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "millhaven-town-elder-millhaven-topic-auto-1",
@@ -5568,13 +5573,15 @@
       "id": "millhaven-town-elder-millhaven-topic-auto-2",
       "npcId": "town-elder-millhaven",
       "label": "💬 \"The castle to the south needs resupply.\"",
-      "treeId": "millhaven-town-elder-millhaven-topic-auto-2"
+      "treeId": "millhaven-town-elder-millhaven-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "millhaven-town-elder-millhaven-topic-auto-3",
       "npcId": "town-elder-millhaven",
       "label": "💬 \"If you're heading to Ironhold Keep, perhaps you…\"",
-      "treeId": "millhaven-town-elder-millhaven-topic-auto-3"
+      "treeId": "millhaven-town-elder-millhaven-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "millhaven-sailor-finn-topic-auto-1",
@@ -5586,13 +5593,15 @@
       "id": "millhaven-sailor-finn-topic-auto-2",
       "npcId": "sailor-finn",
       "label": "💬 \"I've seen three ships go dark past the reef.\"",
-      "treeId": "millhaven-sailor-finn-topic-auto-2"
+      "treeId": "millhaven-sailor-finn-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "millhaven-sailor-finn-topic-auto-3",
       "npcId": "sailor-finn",
       "label": "💬 \"Marta thinks I'm superstitious.\"",
-      "treeId": "millhaven-sailor-finn-topic-auto-3"
+      "treeId": "millhaven-sailor-finn-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "millhaven-market-trader-topic-auto-1",
@@ -5604,13 +5613,15 @@
       "id": "millhaven-market-trader-topic-auto-2",
       "npcId": "market-trader",
       "label": "💬 \"Trade's been slow.\"",
-      "treeId": "millhaven-market-trader-topic-auto-2"
+      "treeId": "millhaven-market-trader-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "millhaven-market-trader-topic-auto-3",
       "npcId": "market-trader",
       "label": "💬 \"Nice to see a fresh face in Millhaven.\"",
-      "treeId": "millhaven-market-trader-topic-auto-3"
+      "treeId": "millhaven-market-trader-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "millhaven-baker-pernel-topic-auto-1",
@@ -5622,7 +5633,8 @@
       "id": "millhaven-baker-pernel-topic-auto-2",
       "npcId": "baker-pernel",
       "label": "💬 \"If you're passing the docks, folk down there…\"",
-      "treeId": "millhaven-baker-pernel-topic-auto-2"
+      "treeId": "millhaven-baker-pernel-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "millhaven-smith-garrick-topic-auto-1",
@@ -5634,13 +5646,15 @@
       "id": "millhaven-smith-garrick-topic-auto-2",
       "npcId": "smith-garrick",
       "label": "💬 \"Net hooks, anchor chain, blades — if it's iron,…\"",
-      "treeId": "millhaven-smith-garrick-topic-auto-2"
+      "treeId": "millhaven-smith-garrick-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "millhaven-smith-garrick-topic-auto-3",
       "npcId": "smith-garrick",
       "label": "💬 \"Scrap's been going missing from my yard.\"",
-      "treeId": "millhaven-smith-garrick-topic-auto-3"
+      "treeId": "millhaven-smith-garrick-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "millhaven-dockhand-bram-topic-auto-1",
@@ -5652,13 +5666,15 @@
       "id": "millhaven-dockhand-bram-topic-auto-2",
       "npcId": "dockhand-bram",
       "label": "💬 \"Storm last week dragged half our nets out past…\"",
-      "treeId": "millhaven-dockhand-bram-topic-auto-2"
+      "treeId": "millhaven-dockhand-bram-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "millhaven-dockhand-bram-topic-auto-3",
       "npcId": "dockhand-bram",
       "label": "💬 \"The boathouse keeps the town's boats — and most…\"",
-      "treeId": "millhaven-dockhand-bram-topic-auto-3"
+      "treeId": "millhaven-dockhand-bram-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "millhaven-widow-tamsin-topic-auto-1",
@@ -5670,13 +5686,15 @@
       "id": "millhaven-widow-tamsin-topic-auto-2",
       "npcId": "widow-tamsin",
       "label": "💬 \"I lost my late husband's locket somewhere out…\"",
-      "treeId": "millhaven-widow-tamsin-topic-auto-2"
+      "treeId": "millhaven-widow-tamsin-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "millhaven-widow-tamsin-topic-auto-3",
       "npcId": "widow-tamsin",
       "label": "💬 \"You have a kind face.\"",
-      "treeId": "millhaven-widow-tamsin-topic-auto-3"
+      "treeId": "millhaven-widow-tamsin-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "millhaven-harbour-angler-topic-auto-1",
@@ -5688,13 +5706,15 @@
       "id": "millhaven-harbour-angler-topic-auto-2",
       "npcId": "harbour-angler",
       "label": "💬 \"Cast a line with me — the harbour's always…\"",
-      "treeId": "millhaven-harbour-angler-topic-auto-2"
+      "treeId": "millhaven-harbour-angler-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "millhaven-harbour-angler-topic-auto-3",
       "npcId": "harbour-angler",
       "label": "💬 \"Patience and a steady hand, that's all it takes.\"",
-      "treeId": "millhaven-harbour-angler-topic-auto-3"
+      "treeId": "millhaven-harbour-angler-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "millhaven-quartermaster-millhaven-topic-auto-1",
@@ -5706,13 +5726,15 @@
       "id": "millhaven-quartermaster-millhaven-topic-auto-2",
       "npcId": "quartermaster-millhaven",
       "label": "💬 \"A traveller far from home still needs to…\"",
-      "treeId": "millhaven-quartermaster-millhaven-topic-auto-2"
+      "treeId": "millhaven-quartermaster-millhaven-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "millhaven-quartermaster-millhaven-topic-auto-3",
       "npcId": "quartermaster-millhaven",
       "label": "💬 \"Coin for goods, that's the honest trade of…\"",
-      "treeId": "millhaven-quartermaster-millhaven-topic-auto-3"
+      "treeId": "millhaven-quartermaster-millhaven-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "millhaven-card-trader-millhaven-topic-auto-1",
@@ -5724,13 +5746,15 @@
       "id": "millhaven-card-trader-millhaven-topic-auto-2",
       "npcId": "card-trader-millhaven",
       "label": "💬 \"No need to trek back to Ravenwatch — I deal…\"",
-      "treeId": "millhaven-card-trader-millhaven-topic-auto-2"
+      "treeId": "millhaven-card-trader-millhaven-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "millhaven-card-trader-millhaven-topic-auto-3",
       "npcId": "card-trader-millhaven",
       "label": "💬 \"Browse the wares, friend.\"",
-      "treeId": "millhaven-card-trader-millhaven-topic-auto-3"
+      "treeId": "millhaven-card-trader-millhaven-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "millhaven-regatta-master-topic-auto-1",
@@ -5742,13 +5766,15 @@
       "id": "millhaven-regatta-master-topic-auto-2",
       "npcId": "regatta-master",
       "label": "💬 \"Rigging's done and the buoys are set — care to…\"",
-      "treeId": "millhaven-regatta-master-topic-auto-2"
+      "treeId": "millhaven-regatta-master-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "millhaven-regatta-master-topic-auto-3",
       "npcId": "regatta-master",
       "label": "💬 \"Mark my words: the Millhaven Regatta will be…\"",
-      "treeId": "millhaven-regatta-master-topic-auto-3"
+      "treeId": "millhaven-regatta-master-topic-auto-3",
+      "requireFriendshipLevel": 2
     }
   ]
 }

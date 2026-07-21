@@ -1972,13 +1972,15 @@
       "id": "thornwoodcamp-warden-rell-topic-auto-2",
       "npcId": "warden-rell",
       "label": "💬 \"I keep the fire and the fire keeps the wolves…\"",
-      "treeId": "thornwoodcamp-warden-rell-topic-auto-2"
+      "treeId": "thornwoodcamp-warden-rell-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "thornwoodcamp-warden-rell-topic-auto-3",
       "npcId": "warden-rell",
       "label": "💬 \"Firewood's running low again.\"",
-      "treeId": "thornwoodcamp-warden-rell-topic-auto-3"
+      "treeId": "thornwoodcamp-warden-rell-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "thornwoodcamp-forager-mott-topic-auto-1",
@@ -1990,13 +1992,15 @@
       "id": "thornwoodcamp-forager-mott-topic-auto-2",
       "npcId": "forager-mott",
       "label": "💬 \"There's queer little stones in the scree where…\"",
-      "treeId": "thornwoodcamp-forager-mott-topic-auto-2"
+      "treeId": "thornwoodcamp-forager-mott-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "thornwoodcamp-forager-mott-topic-auto-3",
       "npcId": "forager-mott",
       "label": "💬 \"Warden Rell's up by the fire, if you can get…\"",
-      "treeId": "thornwoodcamp-forager-mott-topic-auto-3"
+      "treeId": "thornwoodcamp-forager-mott-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "thornwoodcamp-ranger-sable-topic-auto-1",
@@ -2008,13 +2012,15 @@
       "id": "thornwoodcamp-ranger-sable-topic-auto-2",
       "npcId": "ranger-sable",
       "label": "💬 \"The pack's been bold since the bad winter.\"",
-      "treeId": "thornwoodcamp-ranger-sable-topic-auto-2"
+      "treeId": "thornwoodcamp-ranger-sable-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "thornwoodcamp-ranger-sable-topic-auto-3",
       "npcId": "ranger-sable",
       "label": "💬 \"Forage what you can.\"",
-      "treeId": "thornwoodcamp-ranger-sable-topic-auto-3"
+      "treeId": "thornwoodcamp-ranger-sable-topic-auto-3",
+      "requireFriendshipLevel": 2
     },
     {
       "id": "thornwoodcamp-trader-pell-topic-auto-1",
@@ -2026,13 +2032,15 @@
       "id": "thornwoodcamp-trader-pell-topic-auto-2",
       "npcId": "trader-pell",
       "label": "💬 \"A camp like this is worth more than a city to a…\"",
-      "treeId": "thornwoodcamp-trader-pell-topic-auto-2"
+      "treeId": "thornwoodcamp-trader-pell-topic-auto-2",
+      "requireFriendshipLevel": 1
     },
     {
       "id": "thornwoodcamp-trader-pell-topic-auto-3",
       "npcId": "trader-pell",
       "label": "💬 \"If you're headed Ravenwatch way, I've a parcel…\"",
-      "treeId": "thornwoodcamp-trader-pell-topic-auto-3"
+      "treeId": "thornwoodcamp-trader-pell-topic-auto-3",
+      "requireFriendshipLevel": 2
     }
   ]
 }
