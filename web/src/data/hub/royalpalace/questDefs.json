@@ -956,6 +956,4650 @@
           ]
         }
       }
+    },
+    {
+      "id": "royalpalace-royal-steward-topic-auto-1",
+      "npcId": "royal-steward",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Oh dear, oh dear. There is always something misplaced, misfiled, or misbehaving at this palace.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-royal-steward-topic-auto-2",
+      "npcId": "royal-steward",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Their Majesties are in session. The gardens, however, receive all visitors.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-royal-steward-topic-auto-3",
+      "npcId": "royal-steward",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "If you've a strong back and a willing heart, the crown has no end of small disasters for you.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-royal-herald-topic-auto-1",
+      "npcId": "royal-herald",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Presenting: you. To no one in particular. It's been a slow morning.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-royal-herald-topic-auto-2",
+      "npcId": "royal-herald",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Hear ye, hear ye — the proclamations have gone missing again. A herald with no words is merely a man shouting.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-royal-herald-topic-auto-3",
+      "npcId": "royal-herald",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Protocol is the art of standing in the right place while important things happen elsewhere.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-palace-guard-topic-auto-1",
+      "npcId": "palace-guard",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Move along. Or stand there. You're not technically breaking any rules.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-palace-guard-topic-auto-2",
+      "npcId": "palace-guard",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Nobody enters the throne room without an appointment. Or a mop. The mop people go everywhere.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-palace-guard-topic-auto-3",
+      "npcId": "palace-guard",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Quietest post in the kingdom, this. I've counted the fence railings twice.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-king-topic-auto-1",
+      "npcId": "king",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Ah, a new face. The court is forever full of old ones, all of them wanting something.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-king-topic-auto-2",
+      "npcId": "king",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "A crown is heavier than it looks, and most of the weight is other people's problems.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-king-topic-auto-3",
+      "npcId": "king",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Serve the realm well and the realm remembers. Mostly. When it isn't distracted.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-queen-topic-auto-1",
+      "npcId": "queen",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Mind the roses on your way through the garden — they are the one thing here that answers to no one.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-queen-topic-auto-2",
+      "npcId": "queen",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The King rules the realm; I rule the garden. We are each terrified of the other's domain.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-queen-topic-auto-3",
+      "npcId": "queen",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "A kingdom is judged by its kindnesses, not its conquests. Remember that, if you remember nothing else.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-princess-topic-auto-1",
+      "npcId": "princess",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Have you news of Kipper? My dear, dear cat, sent to the seaside and wailing ever since. I cannot bear it.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-princess-topic-auto-2",
+      "npcId": "princess",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Everyone says a princess should be content. I should be content the moment my cat is.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-princess-topic-auto-3",
+      "npcId": "princess",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The goblin and the ogre by the fountain only wish to meet me. Steward Marigold won't allow it. Isn't that sad?",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-lady-penrose-topic-auto-1",
+      "npcId": "lady-penrose",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "A guest of the crown, like yourself. Or perhaps not quite like yourself. I keep my purposes close.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-lady-penrose-topic-auto-2",
+      "npcId": "lady-penrose",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Court is a garden of its own, dear. Every smile is a seed, and not all of them bloom kindly.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-lady-penrose-topic-auto-3",
+      "npcId": "lady-penrose",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "I have a small matter that wants a discreet hand. Are yours discreet?",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-treasurer-topic-auto-1",
+      "npcId": "treasurer",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Every coin accounted for, that is the rule. The trouble is, the coins do not always agree.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-treasurer-topic-auto-2",
+      "npcId": "treasurer",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The audit is overdue and the inner vault stays sealed until the ledgers balance.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-treasurer-topic-auto-3",
+      "npcId": "treasurer",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Bring me the scattered tallies and I'll open the deep vault myself.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-chaplain-topic-auto-1",
+      "npcId": "chaplain",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Peace, traveller. The chapel is open to all, even the road-weary and the regicidal — though we prefer the former.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-chaplain-topic-auto-2",
+      "npcId": "chaplain",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The crypt below holds kings long past. They keep their counsel well.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-chaplain-topic-auto-3",
+      "npcId": "chaplain",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Our candles have a way of wandering off. A chapel without light is only a cold stone room.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-royal-cook-topic-auto-1",
+      "npcId": "royal-cook",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Out of my kitchen — unless you've come to help, in which case, in, in, in!",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-royal-cook-topic-auto-2",
+      "npcId": "royal-cook",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "A royal feast does not cook itself, more's the pity. I've asked the cauldron. It just bubbles at me.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-royal-cook-topic-auto-3",
+      "npcId": "royal-cook",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Fetch me what I need and the court eats like kings. Which, conveniently, they are.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-royal-gardener-topic-auto-1",
+      "npcId": "royal-gardener",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Mind the beds, mind the beds! A boot in the begonias and I'll have words with you.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-royal-gardener-topic-auto-2",
+      "npcId": "royal-gardener",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The Queen wants roses, the King wants order, and the rabbits want my lettuces. Everyone wants something.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-royal-gardener-topic-auto-3",
+      "npcId": "royal-gardener",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "If you've a good eye, there's a rare bloom or two I've lost track of out here.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-stable-master-topic-auto-1",
+      "npcId": "stable-master",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Easy, easy. The horses spook at strangers, and frankly, so do I.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-stable-master-topic-auto-2",
+      "npcId": "stable-master",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "One of the ponies slipped its tack and bolted half the gear across the grounds. Royal beasts, royal nuisance.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-stable-master-topic-auto-3",
+      "npcId": "stable-master",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Help me round up the lost harness and there's coin in it for you.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-npc_1781196539810-topic-auto-1",
+      "npcId": "npc_1781196539810",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Hello! We only want to MEET the princess. Is that so much to ask?",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-npc_1781197058836-topic-auto-1",
+      "npcId": "npc_1781197058836",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "I'm here to see the princess, only she can help me!",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-npc_1782666288310-topic-auto-1",
+      "npcId": "npc_1782666288310",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Hello!",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-npc_1782666390856-topic-auto-1",
+      "npcId": "npc_1782666390856",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Hello!",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-master-of-coin-aldric-topic-auto-1",
+      "npcId": "master-of-coin-aldric",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The crown's finest — kept safe in the annex until a worthy buyer comes along.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-master-of-coin-aldric-topic-auto-2",
+      "npcId": "master-of-coin-aldric",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Every coin in this room has a ledger entry. Every sale, too.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "royalpalace-master-of-coin-aldric-topic-auto-3",
+      "npcId": "master-of-coin-aldric",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The vault proper is for the king's treasures. This room is for yours.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
     }
   ],
   "relationshipDialogue": {
@@ -964,5 +5608,265 @@
         "1": "Oh dear — you've been keeping company with Lady Penrose, haven't you? Mind yourself around her. Some of us have quite enough intrigue keeping this palace running without adding hers to the pile."
       }
     }
-  }
+  },
+  "conversationTopics": [
+    {
+      "id": "royalpalace-royal-steward-topic-auto-1",
+      "npcId": "royal-steward",
+      "label": "💬 \"Oh dear, oh dear.\"",
+      "treeId": "royalpalace-royal-steward-topic-auto-1"
+    },
+    {
+      "id": "royalpalace-royal-steward-topic-auto-2",
+      "npcId": "royal-steward",
+      "label": "💬 \"Their Majesties are in session.\"",
+      "treeId": "royalpalace-royal-steward-topic-auto-2"
+    },
+    {
+      "id": "royalpalace-royal-steward-topic-auto-3",
+      "npcId": "royal-steward",
+      "label": "💬 \"If you've a strong back and a willing heart,…\"",
+      "treeId": "royalpalace-royal-steward-topic-auto-3"
+    },
+    {
+      "id": "royalpalace-royal-herald-topic-auto-1",
+      "npcId": "royal-herald",
+      "label": "💬 \"Presenting: you.\"",
+      "treeId": "royalpalace-royal-herald-topic-auto-1"
+    },
+    {
+      "id": "royalpalace-royal-herald-topic-auto-2",
+      "npcId": "royal-herald",
+      "label": "💬 \"Hear ye, hear ye — the proclamations have gone…\"",
+      "treeId": "royalpalace-royal-herald-topic-auto-2"
+    },
+    {
+      "id": "royalpalace-royal-herald-topic-auto-3",
+      "npcId": "royal-herald",
+      "label": "💬 \"Protocol is the art of standing in the right…\"",
+      "treeId": "royalpalace-royal-herald-topic-auto-3"
+    },
+    {
+      "id": "royalpalace-palace-guard-topic-auto-1",
+      "npcId": "palace-guard",
+      "label": "💬 \"Move along.\"",
+      "treeId": "royalpalace-palace-guard-topic-auto-1"
+    },
+    {
+      "id": "royalpalace-palace-guard-topic-auto-2",
+      "npcId": "palace-guard",
+      "label": "💬 \"Nobody enters the throne room without an…\"",
+      "treeId": "royalpalace-palace-guard-topic-auto-2"
+    },
+    {
+      "id": "royalpalace-palace-guard-topic-auto-3",
+      "npcId": "palace-guard",
+      "label": "💬 \"Quietest post in the kingdom, this.\"",
+      "treeId": "royalpalace-palace-guard-topic-auto-3"
+    },
+    {
+      "id": "royalpalace-king-topic-auto-1",
+      "npcId": "king",
+      "label": "💬 \"Ah, a new face.\"",
+      "treeId": "royalpalace-king-topic-auto-1"
+    },
+    {
+      "id": "royalpalace-king-topic-auto-2",
+      "npcId": "king",
+      "label": "💬 \"A crown is heavier than it looks, and most of…\"",
+      "treeId": "royalpalace-king-topic-auto-2"
+    },
+    {
+      "id": "royalpalace-king-topic-auto-3",
+      "npcId": "king",
+      "label": "💬 \"Serve the realm well and the realm remembers.\"",
+      "treeId": "royalpalace-king-topic-auto-3"
+    },
+    {
+      "id": "royalpalace-queen-topic-auto-1",
+      "npcId": "queen",
+      "label": "💬 \"Mind the roses on your way through the garden —…\"",
+      "treeId": "royalpalace-queen-topic-auto-1"
+    },
+    {
+      "id": "royalpalace-queen-topic-auto-2",
+      "npcId": "queen",
+      "label": "💬 \"The King rules the realm; I rule the garden.\"",
+      "treeId": "royalpalace-queen-topic-auto-2"
+    },
+    {
+      "id": "royalpalace-queen-topic-auto-3",
+      "npcId": "queen",
+      "label": "💬 \"A kingdom is judged by its kindnesses, not its…\"",
+      "treeId": "royalpalace-queen-topic-auto-3"
+    },
+    {
+      "id": "royalpalace-princess-topic-auto-1",
+      "npcId": "princess",
+      "label": "💬 \"Have you news of Kipper?\"",
+      "treeId": "royalpalace-princess-topic-auto-1"
+    },
+    {
+      "id": "royalpalace-princess-topic-auto-2",
+      "npcId": "princess",
+      "label": "💬 \"Everyone says a princess should be content.\"",
+      "treeId": "royalpalace-princess-topic-auto-2"
+    },
+    {
+      "id": "royalpalace-princess-topic-auto-3",
+      "npcId": "princess",
+      "label": "💬 \"The goblin and the ogre by the fountain only…\"",
+      "treeId": "royalpalace-princess-topic-auto-3"
+    },
+    {
+      "id": "royalpalace-lady-penrose-topic-auto-1",
+      "npcId": "lady-penrose",
+      "label": "💬 \"A guest of the crown, like yourself.\"",
+      "treeId": "royalpalace-lady-penrose-topic-auto-1"
+    },
+    {
+      "id": "royalpalace-lady-penrose-topic-auto-2",
+      "npcId": "lady-penrose",
+      "label": "💬 \"Court is a garden of its own, dear.\"",
+      "treeId": "royalpalace-lady-penrose-topic-auto-2"
+    },
+    {
+      "id": "royalpalace-lady-penrose-topic-auto-3",
+      "npcId": "lady-penrose",
+      "label": "💬 \"I have a small matter that wants a discreet hand.\"",
+      "treeId": "royalpalace-lady-penrose-topic-auto-3"
+    },
+    {
+      "id": "royalpalace-treasurer-topic-auto-1",
+      "npcId": "treasurer",
+      "label": "💬 \"Every coin accounted for, that is the rule.\"",
+      "treeId": "royalpalace-treasurer-topic-auto-1"
+    },
+    {
+      "id": "royalpalace-treasurer-topic-auto-2",
+      "npcId": "treasurer",
+      "label": "💬 \"The audit is overdue and the inner vault stays…\"",
+      "treeId": "royalpalace-treasurer-topic-auto-2"
+    },
+    {
+      "id": "royalpalace-treasurer-topic-auto-3",
+      "npcId": "treasurer",
+      "label": "💬 \"Bring me the scattered tallies and I'll open…\"",
+      "treeId": "royalpalace-treasurer-topic-auto-3"
+    },
+    {
+      "id": "royalpalace-chaplain-topic-auto-1",
+      "npcId": "chaplain",
+      "label": "💬 \"Peace, traveller.\"",
+      "treeId": "royalpalace-chaplain-topic-auto-1"
+    },
+    {
+      "id": "royalpalace-chaplain-topic-auto-2",
+      "npcId": "chaplain",
+      "label": "💬 \"The crypt below holds kings long past.\"",
+      "treeId": "royalpalace-chaplain-topic-auto-2"
+    },
+    {
+      "id": "royalpalace-chaplain-topic-auto-3",
+      "npcId": "chaplain",
+      "label": "💬 \"Our candles have a way of wandering off.\"",
+      "treeId": "royalpalace-chaplain-topic-auto-3"
+    },
+    {
+      "id": "royalpalace-royal-cook-topic-auto-1",
+      "npcId": "royal-cook",
+      "label": "💬 \"Out of my kitchen — unless you've come to help,…\"",
+      "treeId": "royalpalace-royal-cook-topic-auto-1"
+    },
+    {
+      "id": "royalpalace-royal-cook-topic-auto-2",
+      "npcId": "royal-cook",
+      "label": "💬 \"A royal feast does not cook itself, more's the…\"",
+      "treeId": "royalpalace-royal-cook-topic-auto-2"
+    },
+    {
+      "id": "royalpalace-royal-cook-topic-auto-3",
+      "npcId": "royal-cook",
+      "label": "💬 \"Fetch me what I need and the court eats like…\"",
+      "treeId": "royalpalace-royal-cook-topic-auto-3"
+    },
+    {
+      "id": "royalpalace-royal-gardener-topic-auto-1",
+      "npcId": "royal-gardener",
+      "label": "💬 \"Mind the beds, mind the beds!\"",
+      "treeId": "royalpalace-royal-gardener-topic-auto-1"
+    },
+    {
+      "id": "royalpalace-royal-gardener-topic-auto-2",
+      "npcId": "royal-gardener",
+      "label": "💬 \"The Queen wants roses, the King wants order,…\"",
+      "treeId": "royalpalace-royal-gardener-topic-auto-2"
+    },
+    {
+      "id": "royalpalace-royal-gardener-topic-auto-3",
+      "npcId": "royal-gardener",
+      "label": "💬 \"If you've a good eye, there's a rare bloom or…\"",
+      "treeId": "royalpalace-royal-gardener-topic-auto-3"
+    },
+    {
+      "id": "royalpalace-stable-master-topic-auto-1",
+      "npcId": "stable-master",
+      "label": "💬 \"Easy, easy.\"",
+      "treeId": "royalpalace-stable-master-topic-auto-1"
+    },
+    {
+      "id": "royalpalace-stable-master-topic-auto-2",
+      "npcId": "stable-master",
+      "label": "💬 \"One of the ponies slipped its tack and bolted…\"",
+      "treeId": "royalpalace-stable-master-topic-auto-2"
+    },
+    {
+      "id": "royalpalace-stable-master-topic-auto-3",
+      "npcId": "stable-master",
+      "label": "💬 \"Help me round up the lost harness and there's…\"",
+      "treeId": "royalpalace-stable-master-topic-auto-3"
+    },
+    {
+      "id": "royalpalace-npc_1781196539810-topic-auto-1",
+      "npcId": "npc_1781196539810",
+      "label": "💬 \"Hello!\"",
+      "treeId": "royalpalace-npc_1781196539810-topic-auto-1"
+    },
+    {
+      "id": "royalpalace-npc_1781197058836-topic-auto-1",
+      "npcId": "npc_1781197058836",
+      "label": "💬 \"I'm here to see the princess, only she can help…\"",
+      "treeId": "royalpalace-npc_1781197058836-topic-auto-1"
+    },
+    {
+      "id": "royalpalace-npc_1782666288310-topic-auto-1",
+      "npcId": "npc_1782666288310",
+      "label": "💬 \"Hello!\"",
+      "treeId": "royalpalace-npc_1782666288310-topic-auto-1"
+    },
+    {
+      "id": "royalpalace-npc_1782666390856-topic-auto-1",
+      "npcId": "npc_1782666390856",
+      "label": "💬 \"Hello!\"",
+      "treeId": "royalpalace-npc_1782666390856-topic-auto-1"
+    },
+    {
+      "id": "royalpalace-master-of-coin-aldric-topic-auto-1",
+      "npcId": "master-of-coin-aldric",
+      "label": "💬 \"The crown's finest — kept safe in the annex…\"",
+      "treeId": "royalpalace-master-of-coin-aldric-topic-auto-1"
+    },
+    {
+      "id": "royalpalace-master-of-coin-aldric-topic-auto-2",
+      "npcId": "master-of-coin-aldric",
+      "label": "💬 \"Every coin in this room has a ledger entry.\"",
+      "treeId": "royalpalace-master-of-coin-aldric-topic-auto-2"
+    },
+    {
+      "id": "royalpalace-master-of-coin-aldric-topic-auto-3",
+      "npcId": "master-of-coin-aldric",
+      "label": "💬 \"The vault proper is for the king's treasures.\"",
+      "treeId": "royalpalace-master-of-coin-aldric-topic-auto-3"
+    }
+  ]
 }

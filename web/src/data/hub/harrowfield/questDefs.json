@@ -33,6 +33,2922 @@
           ]
         }
       }
+    },
+    {
+      "id": "harrowfield-elder-maeve-topic-auto-1",
+      "npcId": "elder-maeve",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Harrowfield feeds half the kingdom and gets thanked by none of it. Sit a while; you're thanked here.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-elder-maeve-topic-auto-2",
+      "npcId": "elder-maeve",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The scarecrows have been... moving. Pip says I imagine it. Pip didn't grow up here.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-elder-maeve-topic-auto-3",
+      "npcId": "elder-maeve",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Stay for the harvest supper if you can. We owe travellers more kindness than we used to show.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-farmhand-pip-topic-auto-1",
+      "npcId": "farmhand-pip",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Sowing, hoeing, mowing. The fields don't care what day it is.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-farmhand-pip-topic-auto-2",
+      "npcId": "farmhand-pip",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Three seed-grain sacks have gone missing. Maeve will have my ears if they're not found.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-farmhand-pip-topic-auto-3",
+      "npcId": "farmhand-pip",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The scarecrow moved again last night. I'm not paid enough to ask it why.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-miller-rook-topic-auto-1",
+      "npcId": "miller-rook",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Flour, meal, and gossip — ground fresh daily.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-miller-rook-topic-auto-2",
+      "npcId": "miller-rook",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The road south to the capital used to be safe. Now even the king's road has tolls of the unofficial kind.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-miller-rook-topic-auto-3",
+      "npcId": "miller-rook",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Bring me grain and the stones will sing. Bread prices in Crownhaven would make you weep.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-shepherd-nan-topic-auto-1",
+      "npcId": "shepherd-nan",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "A good fence and a good dog — that's the whole of shepherding, and the dog does most of it.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-shepherd-nan-topic-auto-2",
+      "npcId": "shepherd-nan",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Floss keeps the flock, but she can't mend a fence. The ewes are through the gap again.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-shepherd-nan-topic-auto-3",
+      "npcId": "shepherd-nan",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Wool to the market, mutton never if I can help it. I get attached, see.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-baker-tovi-topic-auto-1",
+      "npcId": "baker-tovi",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Flour in, loaves out, and the whole village smells of breakfast by dawn.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-baker-tovi-topic-auto-2",
+      "npcId": "baker-tovi",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Rook's flour, Maeve's blessing, my oven. Harrowfield runs on bread, traveller.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-baker-tovi-topic-auto-3",
+      "npcId": "baker-tovi",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Bring me what I need and I'll see the supper tables never go bare.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-miller-wife-lark-topic-auto-1",
+      "npcId": "miller-wife-lark",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Rook grinds the grain; I keep the cottage from grinding us down.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-miller-wife-lark-topic-auto-2",
+      "npcId": "miller-wife-lark",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Wash day and the linens have gone clean over the hedge in this wind. Honestly.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-miller-wife-lark-topic-auto-3",
+      "npcId": "miller-wife-lark",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Mind the lane — the cart ruts'll have your ankle if the mud doesn't.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-pedlar-quill-topic-auto-1",
+      "npcId": "pedlar-quill",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Grain, wool, eggs, cheese — if Harrowfield grows it, I find it a buyer.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-pedlar-quill-topic-auto-2",
+      "npcId": "pedlar-quill",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Ravenwatch pays well for good country produce. Getting a cart there unrobbed is the trick.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-pedlar-quill-topic-auto-3",
+      "npcId": "pedlar-quill",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Buy in the field, sell at the gate. That's the whole of trade, friend.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-warden-bell-topic-auto-1",
+      "npcId": "warden-bell",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The chapel's small, but it fills to the rafters every harvest-tide.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-warden-bell-topic-auto-2",
+      "npcId": "warden-bell",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "We bless the first sheaf and the last loaf. The fields seem to listen.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-warden-bell-topic-auto-3",
+      "npcId": "warden-bell",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Quiet hands and full barns. That's all the sermon Harrowfield needs.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-child-bram-topic-auto-1",
+      "npcId": "child-bram",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "I'm not lost! The FIELD'S lost. I know exactly where I am. Mostly.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-child-bram-topic-auto-2",
+      "npcId": "child-bram",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "I lost my things running from the moving scarecrow. It WAS moving. I saw it!",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "harrowfield-child-bram-topic-auto-3",
+      "npcId": "child-bram",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "When I grow up I'm going to drive the cart all the way to Ravenwatch. And back. Probably.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
     }
   ],
   "quests": [
@@ -839,5 +3755,169 @@
         "1": "Spending a lot of time up at the chapel these days, aren't you? Quiet hands don't fill a cart, friend. Just something to think about."
       }
     }
-  }
+  },
+  "conversationTopics": [
+    {
+      "id": "harrowfield-elder-maeve-topic-auto-1",
+      "npcId": "elder-maeve",
+      "label": "💬 \"Harrowfield feeds half the kingdom and gets…\"",
+      "treeId": "harrowfield-elder-maeve-topic-auto-1"
+    },
+    {
+      "id": "harrowfield-elder-maeve-topic-auto-2",
+      "npcId": "elder-maeve",
+      "label": "💬 \"The scarecrows have been...\"",
+      "treeId": "harrowfield-elder-maeve-topic-auto-2"
+    },
+    {
+      "id": "harrowfield-elder-maeve-topic-auto-3",
+      "npcId": "elder-maeve",
+      "label": "💬 \"Stay for the harvest supper if you can.\"",
+      "treeId": "harrowfield-elder-maeve-topic-auto-3"
+    },
+    {
+      "id": "harrowfield-farmhand-pip-topic-auto-1",
+      "npcId": "farmhand-pip",
+      "label": "💬 \"Sowing, hoeing, mowing.\"",
+      "treeId": "harrowfield-farmhand-pip-topic-auto-1"
+    },
+    {
+      "id": "harrowfield-farmhand-pip-topic-auto-2",
+      "npcId": "farmhand-pip",
+      "label": "💬 \"Three seed-grain sacks have gone missing.\"",
+      "treeId": "harrowfield-farmhand-pip-topic-auto-2"
+    },
+    {
+      "id": "harrowfield-farmhand-pip-topic-auto-3",
+      "npcId": "farmhand-pip",
+      "label": "💬 \"The scarecrow moved again last night.\"",
+      "treeId": "harrowfield-farmhand-pip-topic-auto-3"
+    },
+    {
+      "id": "harrowfield-miller-rook-topic-auto-1",
+      "npcId": "miller-rook",
+      "label": "💬 \"Flour, meal, and gossip — ground fresh daily.\"",
+      "treeId": "harrowfield-miller-rook-topic-auto-1"
+    },
+    {
+      "id": "harrowfield-miller-rook-topic-auto-2",
+      "npcId": "miller-rook",
+      "label": "💬 \"The road south to the capital used to be safe.\"",
+      "treeId": "harrowfield-miller-rook-topic-auto-2"
+    },
+    {
+      "id": "harrowfield-miller-rook-topic-auto-3",
+      "npcId": "miller-rook",
+      "label": "💬 \"Bring me grain and the stones will sing.\"",
+      "treeId": "harrowfield-miller-rook-topic-auto-3"
+    },
+    {
+      "id": "harrowfield-shepherd-nan-topic-auto-1",
+      "npcId": "shepherd-nan",
+      "label": "💬 \"A good fence and a good dog — that's the whole…\"",
+      "treeId": "harrowfield-shepherd-nan-topic-auto-1"
+    },
+    {
+      "id": "harrowfield-shepherd-nan-topic-auto-2",
+      "npcId": "shepherd-nan",
+      "label": "💬 \"Floss keeps the flock, but she can't mend a…\"",
+      "treeId": "harrowfield-shepherd-nan-topic-auto-2"
+    },
+    {
+      "id": "harrowfield-shepherd-nan-topic-auto-3",
+      "npcId": "shepherd-nan",
+      "label": "💬 \"Wool to the market, mutton never if I can help…\"",
+      "treeId": "harrowfield-shepherd-nan-topic-auto-3"
+    },
+    {
+      "id": "harrowfield-baker-tovi-topic-auto-1",
+      "npcId": "baker-tovi",
+      "label": "💬 \"Flour in, loaves out, and the whole village…\"",
+      "treeId": "harrowfield-baker-tovi-topic-auto-1"
+    },
+    {
+      "id": "harrowfield-baker-tovi-topic-auto-2",
+      "npcId": "baker-tovi",
+      "label": "💬 \"Rook's flour, Maeve's blessing, my oven.\"",
+      "treeId": "harrowfield-baker-tovi-topic-auto-2"
+    },
+    {
+      "id": "harrowfield-baker-tovi-topic-auto-3",
+      "npcId": "baker-tovi",
+      "label": "💬 \"Bring me what I need and I'll see the supper…\"",
+      "treeId": "harrowfield-baker-tovi-topic-auto-3"
+    },
+    {
+      "id": "harrowfield-miller-wife-lark-topic-auto-1",
+      "npcId": "miller-wife-lark",
+      "label": "💬 \"Rook grinds the grain; I keep the cottage from…\"",
+      "treeId": "harrowfield-miller-wife-lark-topic-auto-1"
+    },
+    {
+      "id": "harrowfield-miller-wife-lark-topic-auto-2",
+      "npcId": "miller-wife-lark",
+      "label": "💬 \"Wash day and the linens have gone clean over…\"",
+      "treeId": "harrowfield-miller-wife-lark-topic-auto-2"
+    },
+    {
+      "id": "harrowfield-miller-wife-lark-topic-auto-3",
+      "npcId": "miller-wife-lark",
+      "label": "💬 \"Mind the lane — the cart ruts'll have your…\"",
+      "treeId": "harrowfield-miller-wife-lark-topic-auto-3"
+    },
+    {
+      "id": "harrowfield-pedlar-quill-topic-auto-1",
+      "npcId": "pedlar-quill",
+      "label": "💬 \"Grain, wool, eggs, cheese — if Harrowfield…\"",
+      "treeId": "harrowfield-pedlar-quill-topic-auto-1"
+    },
+    {
+      "id": "harrowfield-pedlar-quill-topic-auto-2",
+      "npcId": "pedlar-quill",
+      "label": "💬 \"Ravenwatch pays well for good country produce.\"",
+      "treeId": "harrowfield-pedlar-quill-topic-auto-2"
+    },
+    {
+      "id": "harrowfield-pedlar-quill-topic-auto-3",
+      "npcId": "pedlar-quill",
+      "label": "💬 \"Buy in the field, sell at the gate.\"",
+      "treeId": "harrowfield-pedlar-quill-topic-auto-3"
+    },
+    {
+      "id": "harrowfield-warden-bell-topic-auto-1",
+      "npcId": "warden-bell",
+      "label": "💬 \"The chapel's small, but it fills to the rafters…\"",
+      "treeId": "harrowfield-warden-bell-topic-auto-1"
+    },
+    {
+      "id": "harrowfield-warden-bell-topic-auto-2",
+      "npcId": "warden-bell",
+      "label": "💬 \"We bless the first sheaf and the last loaf.\"",
+      "treeId": "harrowfield-warden-bell-topic-auto-2"
+    },
+    {
+      "id": "harrowfield-warden-bell-topic-auto-3",
+      "npcId": "warden-bell",
+      "label": "💬 \"Quiet hands and full barns.\"",
+      "treeId": "harrowfield-warden-bell-topic-auto-3"
+    },
+    {
+      "id": "harrowfield-child-bram-topic-auto-1",
+      "npcId": "child-bram",
+      "label": "💬 \"I'm not lost!\"",
+      "treeId": "harrowfield-child-bram-topic-auto-1"
+    },
+    {
+      "id": "harrowfield-child-bram-topic-auto-2",
+      "npcId": "child-bram",
+      "label": "💬 \"I lost my things running from the moving…\"",
+      "treeId": "harrowfield-child-bram-topic-auto-2"
+    },
+    {
+      "id": "harrowfield-child-bram-topic-auto-3",
+      "npcId": "child-bram",
+      "label": "💬 \"When I grow up I'm going to drive the cart all…\"",
+      "treeId": "harrowfield-child-bram-topic-auto-3"
+    }
+  ]
 }

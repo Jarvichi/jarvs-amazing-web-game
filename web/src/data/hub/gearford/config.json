@@ -1691,6 +1691,7 @@
         "Somebody's been lifting tools from the yard. A foundry without tools is just a very warm room.",
         "Hear that hammering? That's the sound of nothing being wrong. I like that sound."
       ],
+      "conversationTopics": ["gearford-forgemaster-brunn-topic-auto-1", "gearford-forgemaster-brunn-topic-auto-2", "gearford-forgemaster-brunn-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Hear that hammering? That's the sound of nothing being wrong."
@@ -1751,6 +1752,7 @@
         "Every machine wants to work. You just have to convince it the work is yours.",
         "The forge eats coal like a dragon eats... well, everything. We're always short."
       ],
+      "conversationTopics": ["gearford-engineer-vela-topic-auto-1", "gearford-engineer-vela-topic-auto-2", "gearford-engineer-vela-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Every machine wants to work. Convincing it takes patience."
@@ -1812,6 +1814,7 @@
         "Between the bandits on the toll road and the mine collapse, half my crew won't travel.",
         "You look sturdy. Ever considered honest work? No? Smart."
       ],
+      "conversationTopics": ["gearford-foreman-dask-topic-auto-1", "gearford-foreman-dask-topic-auto-2", "gearford-foreman-dask-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Shift's on. Keep up or get out of the way."
@@ -1871,6 +1874,7 @@
         "I dropped a whole tray of parts in the yard yesterday. They went EVERYWHERE.",
         "One day I'll forge a blade so fine they'll sing songs. For now: more carrying."
       ],
+      "conversationTopics": ["gearford-apprentice-tila-topic-auto-1", "gearford-apprentice-tila-topic-auto-2", "gearford-apprentice-tila-topic-auto-3"],
       "dialogueByActivity": {
         "idle-chat": [
           "Brunn says I'll be a real gearwright someday. Someday's taking a while."
@@ -1930,6 +1934,7 @@
         "Ravenwatch sent word: their gaol lock's jammed and the guard captain wants a new key forged.",
         "Bring me good iron and I'll cut you a key that'd open the gates of dawn."
       ],
+      "conversationTopics": ["gearford-gearwright-orin-topic-auto-1", "gearford-gearwright-orin-topic-auto-2", "gearford-gearwright-orin-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Miss one tooth and the whole thing seizes. Patience, always patience."
@@ -1986,6 +1991,7 @@
         "The old depot south of town's still half-full. Nobody hauls it — too lazy, too scared.",
         "A full barrow and an empty road. That's all a hauler wants out of life."
       ],
+      "conversationTopics": ["gearford-coal-hauler-bram-topic-auto-1", "gearford-coal-hauler-bram-topic-auto-2", "gearford-coal-hauler-bram-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Coal in, slag out. Mind the barrow, it doesn't slow for anyone."
@@ -2050,6 +2056,7 @@
         "Miners drink like the mine's about to close. Some weeks it nearly is.",
         "Rats in my store again. Eating better than my guests, the little tyrants."
       ],
+      "conversationTopics": ["gearford-innkeep-mags-topic-auto-1", "gearford-innkeep-mags-topic-auto-2", "gearford-innkeep-mags-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Welcome to the Pickaxe Rest. Ale's warm, stew's warmer."
@@ -2120,6 +2127,7 @@
         "Lost my good lamp in the west drift. Pitch black down there without it.",
         "The ore's rich this season. Pity the road out is so poor."
       ],
+      "conversationTopics": ["gearford-miner-jole-topic-auto-1", "gearford-miner-jole-topic-auto-2", "gearford-miner-jole-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Down the shaft again. Mind the timbers on your way past."
@@ -2187,6 +2195,7 @@
         "Half the stores went walkabout in the last delivery. Slipshod loading, I call it.",
         "Order is the only ore that never runs dry. Remember that."
       ],
+      "conversationTopics": ["gearford-quartermaster-rell-topic-auto-1", "gearford-quartermaster-rell-topic-auto-2", "gearford-quartermaster-rell-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Every crate gets logged. Lose one and you'll hear about it."
@@ -2238,6 +2247,7 @@
         "A valve's seized and a flywheel's cracked. Vela knows the parts I need.",
         "Keep her turning and Gearford breathes. Let her stop and we drown in the dark."
       ],
+      "conversationTopics": ["gearford-pumpwright-edda-topic-auto-1", "gearford-pumpwright-edda-topic-auto-2", "gearford-pumpwright-edda-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Keep her turning. The pump doesn't get a day off."
@@ -2294,6 +2304,7 @@
         "Half of Gearford's collapsed twice over. I keep the plans for what worked.",
         "You don't build a keep in a day. You build it in a thousand right decisions."
       ],
+      "conversationTopics": ["gearford-engineer-torvald-topic-auto-1", "gearford-engineer-torvald-topic-auto-2", "gearford-engineer-torvald-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Good bones first, everything else after. That's the whole trade."
@@ -2350,6 +2361,7 @@
         "A war's won by whoever counts their troops correctly. I count carefully.",
         "Gear's cheap. The people who wear it into a fight are what costs you."
       ],
+      "conversationTopics": ["gearford-sergeant-coldiron-topic-auto-1", "gearford-sergeant-coldiron-topic-auto-2", "gearford-sergeant-coldiron-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Counting troops again. It's the only arithmetic that matters out here."

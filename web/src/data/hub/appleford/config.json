@@ -1220,6 +1220,7 @@
         "Raiders hit the east rows last week. Took apples, baskets, and my best ladder.",
         "An orchard is patience you can eat. Remember that."
       ],
+      "conversationTopics": ["appleford-orchard-keeper-bess-topic-auto-1", "appleford-orchard-keeper-bess-topic-auto-2", "appleford-orchard-keeper-bess-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Mind the east rows. Every tree here has a name and I know them all."
@@ -1280,6 +1281,7 @@
         "The toll road's made deliveries a nightmare. Bandits drink my profits, literally.",
         "First mug's full price. So's the second. I'm a brewer, not a charity."
       ],
+      "conversationTopics": ["appleford-cider-brewer-tom-topic-auto-1", "appleford-cider-brewer-tom-topic-auto-2", "appleford-cider-brewer-tom-topic-auto-3"],
       "questGive": "appleford-cider-pressing",
       "questReceive": [
         "appleford-cider-pressing",
@@ -1303,6 +1305,7 @@
         "Honey, wax, mead — one little bee gives you all three and asks only for flowers.",
         "Bess grows the blossom, I keep the bees. Between us we keep Appleford sweet."
       ],
+      "conversationTopics": ["appleford-beekeeper-mabe-topic-auto-1", "appleford-beekeeper-mabe-topic-auto-2", "appleford-beekeeper-mabe-topic-auto-3"],
       "questGive": "appleford-honey-harvest",
       "questReceive": [
         "appleford-honey-harvest",
@@ -1326,6 +1329,7 @@
         "A good cask is watertight, sweet-grained, and never argues. Unlike apprentices.",
         "Staves, hoops, and patience — that's a barrel. Rush any of the three and you've a puddle."
       ],
+      "conversationTopics": ["appleford-cooper-wend-topic-auto-1", "appleford-cooper-wend-topic-auto-2", "appleford-cooper-wend-topic-auto-3"],
       "questGive": "appleford-coopers-order",
       "questReceive": "appleford-coopers-order",
       "dislikes": [
@@ -1350,6 +1354,7 @@
         "Ravenwatch pays double for our cider. Getting it there in one piece is the trick.",
         "Buy low, sell ripe. That's the whole of it, traveller."
       ],
+      "conversationTopics": ["appleford-market-trader-posy-topic-auto-1", "appleford-market-trader-posy-topic-auto-2", "appleford-market-trader-posy-topic-auto-3"],
       "questGive": "appleford-cider-to-ravenwatch",
       "questReceive": [
         "appleford-orchard-pickers-2"
@@ -1372,6 +1377,7 @@
         "We bless the first pressing every year. The bees get a thimble of mead for their trouble.",
         "Quiet hands, full baskets, grateful hearts. That's all the sermon Appleford needs."
       ],
+      "conversationTopics": ["appleford-chaplain-hale-topic-auto-1", "appleford-chaplain-hale-topic-auto-2", "appleford-chaplain-hale-topic-auto-3"],
       "questGive": "appleford-harvest-blessing",
       "questReceive": "appleford-harvest-blessing",
       "favoriteGiftItemId": "poetry-book",
@@ -1392,6 +1398,7 @@
         "I dropped my things running from Keeper Bess. Don't tell her. Please?",
         "When I grow up I'm going to own the whole orchard. And eat ALL the apples."
       ],
+      "conversationTopics": ["appleford-scrumping-wren-topic-auto-1", "appleford-scrumping-wren-topic-auto-2", "appleford-scrumping-wren-topic-auto-3"],
       "questGive": "appleford-scrumping",
       "questReceive": "appleford-scrumping",
       "favoriteGiftItemId": "tin-whistle",
@@ -1411,6 +1418,7 @@
         "Best apples are always the ones just out of reach. Orchard's little joke.",
         "Fill a crate, haul it to Posy, start again. It's honest work, if you like apples. I'm sick of apples."
       ],
+      "conversationTopics": ["appleford-orchard-hand-hob-topic-auto-1", "appleford-orchard-hand-hob-topic-auto-2", "appleford-orchard-hand-hob-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Up the ladder again. My arms have opinions, but the apples don't care."

@@ -445,6 +445,8 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
   const moveInteractableRef = useRef<((id: string, tx: number, ty: number) => void) | null>(null)
   // Receives the canvas's live "Sold" badge callback
   const markInteractableSoldRef = useRef<((id: string) => void) | null>(null)
+  // Receives the canvas's callback to float a ❤️/💔 above an NPC's head
+  const showFriendshipReactionRef = useRef<((npcId: string, kind: 'up' | 'down') => void) | null>(null)
   // Per-interactable tap counts so dialogue arrays cycle
   const interactableTapCounts = useRef(new Map<string, number>())
 
@@ -875,6 +877,17 @@ function formatTradeReward(eff: Extract<DialogueEffect, { type: 'tradeHubItem' }
   return parts.join('  ·  ')
 }
 
+// Grants friendship XP and — since it's a nonzero delta — floats a ❤️/💔
+// above that NPC's head via showFriendshipReactionRef, if they're currently a
+// visible exterior sprite (a no-op otherwise, e.g. an off-screen NPC named by
+// a quest/dialogue-tree reward). Every friendship grant in this file should
+// go through this instead of calling addFriendshipXp directly.
+function grantFriendship(npcId: string, xp: number): void {
+  addFriendshipXp(npcId, xp)
+  if (xp > 0) showFriendshipReactionRef.current?.(npcId, 'up')
+  else if (xp < 0) showFriendshipReactionRef.current?.(npcId, 'down')
+}
+
 function grantQuestReward(quest: HubQuestDef, townNpcs: HubNpc[]): void {
   const { reward } = quest
   if (reward.crystals) {
@@ -889,7 +902,7 @@ function grantQuestReward(quest: HubQuestDef, townNpcs: HubNpc[]): void {
   }
   if (reward.friendship) {
     for (const [npcId, xp] of Object.entries(reward.friendship)) {
-      addFriendshipXp(npcId, xp)
+      grantFriendship(npcId, xp)
     }
   }
   if (reward.relationship) {
@@ -946,7 +959,7 @@ function buildTalkGiveOptions(
       if (topics.length === 0) {
         // No authored topics for this NPC — exact legacy behavior.
         recordTalk(npcId)
-        addFriendshipXp(npcId, 2)
+        grantFriendship(npcId, 2)
         grantRelationshipWithRivalry(npcId, 'ally', 1, locationData.HUB_NPCS)
         refreshState()
         setDialogueEvent({ speakerName, text: 'Always good to catch up.' })
@@ -1172,7 +1185,7 @@ function hasOfferableQuest(giverId: string): boolean {
           setDialogueFlag(eff.flag)
           break
         case 'friendship':
-          addFriendshipXp(eff.npcId ?? npcId, eff.xp)
+          grantFriendship(eff.npcId ?? npcId, eff.xp)
           refreshState()
           break
         case 'relationship':
@@ -1222,7 +1235,7 @@ function hasOfferableQuest(giverId: string): boolean {
             addCollectible(id, { name, icon, desc, isKeepsake: true })
           }
           if (eff.giveFriendship) {
-            addFriendshipXp(eff.giveFriendship.npcId ?? npcId, eff.giveFriendship.xp)
+            grantFriendship(eff.giveFriendship.npcId ?? npcId, eff.giveFriendship.xp)
           }
           if (eff.giveRelationship) {
             grantRelationshipWithRivalry(eff.giveRelationship.npcId ?? npcId, eff.giveRelationship.track, eff.giveRelationship.points, locationData.HUB_NPCS)
@@ -1475,7 +1488,7 @@ function hasOfferableQuest(giverId: string): boolean {
 
     if (isDisliked) {
       const itemName = getHubItemCatalogEntry(itemId)?.name ?? 'gift'
-      addFriendshipXp(npcId, -8)
+      grantFriendship(npcId, -8)
       refreshState()
       setDialogueEvent({
         speakerName,
@@ -1488,7 +1501,7 @@ function hasOfferableQuest(giverId: string): boolean {
       isFavorite && npcDef?.favoriteGiftTrack && (RELATIONSHIP_TRACKS as string[]).includes(npcDef.favoriteGiftTrack)
         ? (npcDef.favoriteGiftTrack as RelationshipTrack)
         : 'ally'
-    addFriendshipXp(npcId, isFavorite ? 10 : 3)
+    grantFriendship(npcId, isFavorite ? 10 : 3)
     grantRelationshipWithRivalry(npcId, track, isFavorite ? 8 : 2, locationData.HUB_NPCS)
     refreshState()
     setDialogueEvent({
@@ -2151,6 +2164,7 @@ function hasOfferableQuest(giverId: string): boolean {
             interactableMovesRef={interactableMovesRef}
             moveInteractableRef={moveInteractableRef}
             markInteractableSoldRef={markInteractableSoldRef}
+            showFriendshipReactionRef={showFriendshipReactionRef}
             buildingUpgradeLevelsRef={buildingUpgradeLevelsRef}
             locationData={locationData}
             questData={locationQuests}

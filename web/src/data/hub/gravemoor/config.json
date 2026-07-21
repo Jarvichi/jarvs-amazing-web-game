@@ -1134,6 +1134,7 @@
         "I was mayor when I died and nobody's run against me since. Democracy at its finest.",
         "We're dead, not rude. Wipe your feet and you're welcome anywhere in town."
       ],
+      "conversationTopics": ["gravemoor-ghost-mayor-aldous-topic-auto-1", "gravemoor-ghost-mayor-aldous-topic-auto-2", "gravemoor-ghost-mayor-aldous-topic-auto-3"],
       "dialogueByActivity": {
         "idle-chat": [
           "Welcome to Gravemoor! Population: technically zero. Spiritually: thriving."
@@ -1184,6 +1185,7 @@
         "Money means little to the dead, but haggling? Haggling is eternal.",
         "The blight took the town, but it couldn't take the market spirit. Literally, in my case."
       ],
+      "conversationTopics": ["gravemoor-restless-merchant-mora-topic-auto-1", "gravemoor-restless-merchant-mora-topic-auto-2", "gravemoor-restless-merchant-mora-topic-auto-3"],
       "building": "undertaker",
       "dislikes": [
         "brother-mortis"
@@ -1206,6 +1208,7 @@
         "Some of my neighbours' remains have been... borrowed. Scattered. It's terribly undignified.",
         "The dead sleep better when everything's where it should be. So would I."
       ],
+      "conversationTopics": ["gravemoor-grave-keeper-finch-topic-auto-1", "gravemoor-grave-keeper-finch-topic-auto-2", "gravemoor-grave-keeper-finch-topic-auto-3"],
       "building": "crypt-keep",
       "questGive": "gravemoor-restless-remains",
       "questReceive": [
@@ -1231,6 +1234,7 @@
         "The dead are good company. Quiet. Never complain about the digging.",
         "Mind the soft ground by the new plots. You'd not be the first to fall in."
       ],
+      "conversationTopics": ["gravemoor-gravedigger-hollis-topic-auto-1", "gravemoor-gravedigger-hollis-topic-auto-2", "gravemoor-gravedigger-hollis-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Mind the soft ground. Somebody's got to keep these holes tidy."
@@ -1287,6 +1291,7 @@
         "I drift these woods every night. Old habits outlast the body, it seems.",
         "Kindness to the dead is never wasted. We remember. It is all we do."
       ],
+      "conversationTopics": ["gravemoor-weeping-widow-topic-auto-1", "gravemoor-weeping-widow-topic-auto-2", "gravemoor-weeping-widow-topic-auto-3"],
       "questGive": "gravemoor-reunited-in-death",
       "questReceive": [
         "gravemoor-reunited-in-death",
@@ -1311,6 +1316,7 @@
         "Lost my orders in the rout. A soldier without orders is just a ghost loitering. Ha.",
         "Find my commission papers and maybe — maybe — I can finally stand down."
       ],
+      "conversationTopics": ["gravemoor-restless-soldier-topic-auto-1", "gravemoor-restless-soldier-topic-auto-2", "gravemoor-restless-soldier-topic-auto-3"],
       "questGive": "gravemoor-soldiers-orders",
       "questReceive": "gravemoor-soldiers-orders",
       "favoriteGiftItemId": "sturdy-boots",
@@ -1332,6 +1338,7 @@
         "I sold trinkets in life and I sell them still. Death is no excuse to close up shop.",
         "My stock's gone walkabout among the graves. Recover it and we'll both profit."
       ],
+      "conversationTopics": ["gravemoor-spectral-pedlar-topic-auto-1", "gravemoor-spectral-pedlar-topic-auto-2", "gravemoor-spectral-pedlar-topic-auto-3"],
       "questGive": "gravemoor-pedlars-stock",
       "questReceive": "gravemoor-pedlars-stock",
       "favoriteGiftItemId": "river-glass",
@@ -1353,6 +1360,7 @@
         "I'm not scared. I'm NOT. ...Will you help me look? Please?",
         "She had a sad face and a long grey dress. She used to sing to me."
       ],
+      "conversationTopics": ["gravemoor-little-pip-topic-auto-1", "gravemoor-little-pip-topic-auto-2", "gravemoor-little-pip-topic-auto-3"],
       "questGive": "gravemoor-wheres-mother",
       "questReceive": "gravemoor-wheres-mother",
       "favoriteGiftItemId": "tin-whistle",
@@ -1373,6 +1381,7 @@
         "The bell tolls at midnight. I never ring it. No one does. That... troubles me.",
         "If you would unravel the mystery of the tolling, I would rest the easier for it."
       ],
+      "conversationTopics": ["gravemoor-brother-mortis-topic-auto-1", "gravemoor-brother-mortis-topic-auto-2", "gravemoor-brother-mortis-topic-auto-3"],
       "building": "mausoleum-chapel",
       "questGive": "gravemoor-hollow-tolling-1",
       "questReceive": [

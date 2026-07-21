@@ -1874,6 +1874,7 @@
         "I've surveyed this border three times. My instruments keep finding a road. There is no road on any chart I own.",
         "A cartographer draws what is there. Nobody trained me for what has been... removed."
       ],
+      "conversationTopics": ["ironholdkeep-castle-cartographer-topic-auto-1", "ironholdkeep-castle-cartographer-topic-auto-2", "ironholdkeep-castle-cartographer-topic-auto-3"],
       "postCampaignDialogue": [
         "Worldmender! My new surveys — since the mending, they show a KINGDOM in the blank quarter. Roads. Towns. It was always there. We just... stopped being able to remember it.",
         "The border scouts have gone quiet, and there are lights in the eastern mist. Lanterns. Somebody is keeping them lit, and it isn't us.",
@@ -1892,6 +1893,7 @@
         "The patrol routes have been compromised. We need those reports.",
         "You fight well, traveller. Ravenwatch is lucky to have you."
       ],
+      "conversationTopics": ["ironholdkeep-castle-commander-topic-auto-1", "ironholdkeep-castle-commander-topic-auto-2", "ironholdkeep-castle-commander-topic-auto-3"],
       "postCampaignDialogue": [
         "Worldmender. The Keep stands because you sealed the Fracture — I don't forget debts of that size.",
         "Peace, at last. Except my eastern patrols have stopped reporting, and I don't like the mist this season. Speak to Elsben — the cartographer. He's seen something on his surveys.",
@@ -1992,6 +1994,7 @@
         "Every soldier here answers to me before they answer to the Commander.",
         "Stand a watch with us sometime, traveller. You'd learn something."
       ],
+      "conversationTopics": ["ironholdkeep-castle-guard-master-topic-auto-1", "ironholdkeep-castle-guard-master-topic-auto-2", "ironholdkeep-castle-guard-master-topic-auto-3"],
       "postCampaignDialogue": [
         "The Fracture's sealed and my drill schedule hasn't changed one minute. Discipline doesn't take holidays, Worldmender.",
         "New standing order: nobody walks the east road alone. Not since the scouts went quiet.",
@@ -2085,6 +2088,7 @@
         "The weapon crates haven't been accounted for since the last resupply.",
         "Iron doesn't lie — only men do."
       ],
+      "conversationTopics": ["ironholdkeep-castle-blacksmith-topic-auto-1", "ironholdkeep-castle-blacksmith-topic-auto-2", "ironholdkeep-castle-blacksmith-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Every blade matters. Mind the sparks and let me work."
@@ -2165,6 +2169,7 @@
         "Grain, iron, arrows, salt — a castle eats as surely as it fights.",
         "If you're after supplies, mind you sign for them."
       ],
+      "conversationTopics": ["ironholdkeep-castle-quartermaster-topic-auto-1", "ironholdkeep-castle-quartermaster-topic-auto-2", "ironholdkeep-castle-quartermaster-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Sign the ledger or leave it be — those are your options."
@@ -2249,6 +2254,7 @@
         "Get out of my kitchen unless you're bringing me something to cook with.",
         "There's stew on the hearth if the guards have left any."
       ],
+      "conversationTopics": ["ironholdkeep-castle-cook-topic-auto-1", "ironholdkeep-castle-cook-topic-auto-2", "ironholdkeep-castle-cook-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Out of my kitchen, unless you're carrying something useful."
@@ -2321,6 +2327,7 @@
         "The crypt below holds the lords of Ironhold, back to the first stone laid.",
         "Light a candle for the fallen. There are always more of them than we'd like."
       ],
+      "conversationTopics": ["ironholdkeep-castle-chaplain-topic-auto-1", "ironholdkeep-castle-chaplain-topic-auto-2", "ironholdkeep-castle-chaplain-topic-auto-3"],
       "dialogueByActivity": {
         "idle-chat": [
           "Peace finds even iron men, in time."
@@ -2401,6 +2408,7 @@
         "A siege chronicle was separated from the archives. It belongs here.",
         "History is the only weapon that never dulls."
       ],
+      "conversationTopics": ["ironholdkeep-castle-archivist-topic-auto-1", "ironholdkeep-castle-archivist-topic-auto-2", "ironholdkeep-castle-archivist-topic-auto-3"],
       "postCampaignDialogue": [
         "I've been re-shelving the pre-Fracture archives since the mending. There are gaps, Worldmender. Not missing books — missing SUBJECTS. Whole shelves that end mid-argument.",
         "The oldest ledgers reference a 'loyal eastern province' — and then simply stop mentioning it. No war, no decree. It's as if the east was... unwritten.",
@@ -2475,6 +2483,7 @@
         "Mind where you step — a war horse spooks at less than you'd think.",
         "If you ride out, I'll have a mount saddled before you reach the gate."
       ],
+      "conversationTopics": ["ironholdkeep-castle-stablehand-topic-auto-1", "ironholdkeep-castle-stablehand-topic-auto-2", "ironholdkeep-castle-stablehand-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Mind where you step — the destriers spook at less than you'd think."
@@ -2558,6 +2567,7 @@
         "A knight without a cause is just a man in expensive metal.",
         "The Guard-Master sets the rotation. Take it up with him."
       ],
+      "conversationTopics": ["ironholdkeep-castle-knight-topic-auto-1", "ironholdkeep-castle-knight-topic-auto-2", "ironholdkeep-castle-knight-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "This wall has held two winters. It'll hold today too."
@@ -2646,6 +2656,7 @@
         "Sir Garrick says I've a good arm. He says it rarely, mind.",
         "I dropped a training sword somewhere out here. Don't tell the Guard-Master."
       ],
+      "conversationTopics": ["ironholdkeep-castle-squire-topic-auto-1", "ironholdkeep-castle-squire-topic-auto-2", "ironholdkeep-castle-squire-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Polishing armour again. One day it'll be my own."
@@ -2735,6 +2746,7 @@
         "State your business at the gate or state it elsewhere.",
         "Safe roads, traveller. The world beyond these walls is less forgiving."
       ],
+      "conversationTopics": ["ironholdkeep-castle-gatekeeper-topic-auto-1", "ironholdkeep-castle-gatekeeper-topic-auto-2", "ironholdkeep-castle-gatekeeper-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "State your business at the gate, traveller. Then move along."
@@ -2790,6 +2802,7 @@
         "I know things about this keep that would turn the Commander's beard white.",
         "Help me prove my innocence and the secret of the lower vault is yours."
       ],
+      "conversationTopics": ["ironholdkeep-castle-prisoner-topic-auto-1", "ironholdkeep-castle-prisoner-topic-auto-2", "ironholdkeep-castle-prisoner-topic-auto-3"],
       "building": "dungeon-cells",
       "questGive": "castle-prisoners-plea",
       "questReceive": "castle-prisoners-plea",
@@ -2810,6 +2823,7 @@
         "Three of us dropped our patrol papers during the last drill. Embarrassing.",
         "The south gate is yours to use, traveller."
       ],
+      "conversationTopics": ["ironholdkeep-castle-guard-1-topic-auto-1", "ironholdkeep-castle-guard-1-topic-auto-2", "ironholdkeep-castle-guard-1-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "South gate's clear. Move along, traveller."
@@ -2886,6 +2900,7 @@
         "I lost my patrol report somewhere out in the courtyard. The Commander will have my head.",
         "Ironhold has never fallen. Long may that last."
       ],
+      "conversationTopics": ["ironholdkeep-castle-guard-2-topic-auto-1", "ironholdkeep-castle-guard-2-topic-auto-2", "ironholdkeep-castle-guard-2-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Eastern wall's quiet. Keeping it that way."

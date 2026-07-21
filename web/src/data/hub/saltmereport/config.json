@@ -1569,6 +1569,7 @@
         "Cargo's been going missing off the quay. The manifest doesn't lie — people do.",
         "Pirates to the north, smugglers to the south, and paperwork in every direction."
       ],
+      "conversationTopics": ["saltmereport-harbourmaster-vane-topic-auto-1", "saltmereport-harbourmaster-vane-topic-auto-2", "saltmereport-harbourmaster-vane-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Every crate on this dock answers to me. Mind you sign for what you take."
@@ -1628,6 +1629,7 @@
         "The reef's been restless. Old Salt says it's the kraken. Old Salt says a lot of things.",
         "You buy, or you're blocking the stall."
       ],
+      "conversationTopics": ["saltmereport-fishwife-pearl-topic-auto-1", "saltmereport-fishwife-pearl-topic-auto-2", "saltmereport-fishwife-pearl-topic-auto-3"],
       "building": "fish-market",
       "favoriteGiftItemId": "fish-trophy",
       "favoriteGiftTrack": "ally",
@@ -1646,6 +1648,7 @@
         "Found a barrel of navy rum washed up under the south pier. Above my pay grade, that.",
         "Vane counts the cargo twice. I count my fingers after every shift."
       ],
+      "conversationTopics": ["saltmereport-dockhand-tam-topic-auto-1", "saltmereport-dockhand-tam-topic-auto-2", "saltmereport-dockhand-tam-topic-auto-3"],
       "questGive": "saltmere-rum-run",
       "favoriteGiftItemId": "tin-whistle",
       "favoriteGiftTrack": "ally",
@@ -1664,6 +1667,7 @@
         "There's a cove east of here no chart will show you. The pirates make sure of that.",
         "The tide takes and the tide gives back. Rarely the same things, mind."
       ],
+      "conversationTopics": ["saltmereport-old-salt-topic-auto-1", "saltmereport-old-salt-topic-auto-2", "saltmereport-old-salt-topic-auto-3"],
       "questGive": "saltmere-lost-at-sea",
       "favoriteGiftItemId": "honey-cake",
       "favoriteGiftTrack": "ally",
@@ -1682,6 +1686,7 @@
         "Good timber, good pitch, good rope — that's the whole trade. Everything else is just waiting.",
         "She'll float. Whether she floats *well* is a different conversation."
       ],
+      "conversationTopics": ["saltmereport-shipwright-topic-auto-1", "saltmereport-shipwright-topic-auto-2", "saltmereport-shipwright-topic-auto-3"],
       "building": "shipwright",
       "questGive": "saltmere-keel-repair",
       "favoriteGiftItemId": "spice-pouch",
@@ -1701,6 +1706,7 @@
         "The numbers on Vane's manifest and the numbers in my ledger don't match. That bothers me more than it should.",
         "I've seen smugglers, thieves, and men who simply can't count. I'm still deciding which this is."
       ],
+      "conversationTopics": ["saltmereport-customs-officer-topic-auto-1", "saltmereport-customs-officer-topic-auto-2", "saltmereport-customs-officer-topic-auto-3"],
       "building": "customs-house",
       "questGive": "saltmere-customs-discrepancy",
       "favoriteGiftItemId": "hearty-pie",
@@ -1721,6 +1727,7 @@
         "Oil runs low faster than it should. Someone's skimming, or the wick's thirstier than it used to be.",
         "I watch so the rest of you can sleep. Mind you remember that, next time the bell rings."
       ],
+      "conversationTopics": ["saltmereport-lighthouse-keeper-topic-auto-1", "saltmereport-lighthouse-keeper-topic-auto-2", "saltmereport-lighthouse-keeper-topic-auto-3"],
       "dialogueByActivity": {
         "idle-chat": [
           "The lamp's burning steady tonight. That's one less thing to worry about."
@@ -1777,6 +1784,7 @@
         "Every knot's got a name, if you know where to look. Most folk just see string.",
         "Good nets outlast the boats they're tied to. Mine, anyway."
       ],
+      "conversationTopics": ["saltmereport-net-maker-topic-auto-1", "saltmereport-net-maker-topic-auto-2", "saltmereport-net-maker-topic-auto-3"],
       "building": "net-maker",
       "questGive": "saltmere-net-gains",
       "favoriteGiftItemId": "river-glass",
@@ -1796,6 +1804,7 @@
         "Stores are running thin and the next supply run isn't for a fortnight. Inconvenient timing, that.",
         "Buy local. The alternative is rowing to Ravenwatch, and nobody wants that."
       ],
+      "conversationTopics": ["saltmereport-chandler-topic-auto-1", "saltmereport-chandler-topic-auto-2", "saltmereport-chandler-topic-auto-3"],
       "building": "chandlers",
       "questGive": "saltmere-ships-stores",
       "favoriteGiftItemId": "silk-ribbon",
@@ -1815,6 +1824,7 @@
         "That dock cat's been eyeing my racks again. Cheeky thing.",
         "Nothing wrong with a few scraps for a hungry mouth, so long as it's not from MY rack."
       ],
+      "conversationTopics": ["saltmereport-smokehouse-master-topic-auto-1", "saltmereport-smokehouse-master-topic-auto-2", "saltmereport-smokehouse-master-topic-auto-3"],
       "building": "smokehouse",
       "questGive": "saltmere-smokehouse-scraps",
       "favoriteGiftItemId": "honey",
@@ -1835,6 +1845,7 @@
         "The Brined Anchor pours the only rum on this coast worth drinking. Present company excepted, obviously.",
         "Sleep below deck, drink above it. That's balance, that is."
       ],
+      "conversationTopics": ["saltmereport-tavern-sailor-topic-auto-1", "saltmereport-tavern-sailor-topic-auto-2", "saltmereport-tavern-sailor-topic-auto-3"],
       "dialogueByActivity": {
         "idle-chat": [
           "Pull up a stool. I've a story about the Horn that gets taller every telling."
@@ -1891,6 +1902,7 @@
         "Rum's a victimless trade until the watch starts counting barrels.",
         "Whatever Vane thinks he knows, he can't prove. Keep it that way and we'll get along fine."
       ],
+      "conversationTopics": ["saltmereport-smuggler-topic-auto-1", "saltmereport-smuggler-topic-auto-2", "saltmereport-smuggler-topic-auto-3"],
       "favoriteGiftItemId": "gilded-compass",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
