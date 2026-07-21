@@ -1,38 +1,11 @@
 import { getCardCatalog } from './cards'
 import { loadCollection } from './collection'
 import { getEverAcquiredRelics } from './itemStore'
-import { loadActCount } from './questline'
+import { loadActCount, loadAct, ACT_IDS } from './questline'
 import { getCharacterDef, getCharacterState, getCharacterIds } from './characters'
 import { getChronicleStatus } from './chronicle'
 import relicsData from '../data/relics.json'
 import memoryFragmentsData from '../data/memoryFragments.json'
-
-import act1Data from '../data/acts/act1.json'
-import act2Data from '../data/acts/act2.json'
-import act3Data from '../data/acts/act3.json'
-import act4Data from '../data/acts/act4.json'
-import act5Data from '../data/acts/act5.json'
-import act6Data from '../data/acts/act6.json'
-import act7Data from '../data/acts/act7.json'
-import act8Data from '../data/acts/act8.json'
-import act9Data from '../data/acts/act9.json'
-import act10Data from '../data/acts/act10.json'
-import act11Data from '../data/acts/act11.json'
-import act12Data from '../data/acts/act12.json'
-import act13Data from '../data/acts/act13.json'
-import actFinaleData from '../data/acts/actfinale.json'
-import c2act1Data from '../data/acts/c2act1.json'
-import c2act2Data from '../data/acts/c2act2.json'
-import c2act3Data from '../data/acts/c2act3.json'
-import c2act4Data from '../data/acts/c2act4.json'
-import c2act5Data from '../data/acts/c2act5.json'
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ALL_ACTS: any[] = [
-  act1Data, act2Data, act3Data, act4Data, act5Data,
-  act6Data, act7Data, act8Data, act9Data, act10Data,
-  act11Data, act12Data, act13Data, actFinaleData, c2act1Data, c2act2Data, c2act3Data, c2act4Data, c2act5Data,
-]
 
 const FRAGMENT_KEY        = 'jarv_memory_fragments'
 const HUB_WORLD_UNLOCK_KEY = 'jarv_hub_world_unlocked'
@@ -233,8 +206,11 @@ export function getCodexChronicle(): CodexChronicleEntry[] {
   }))
 }
 
-export function getCodexWorld(): CodexWorldEntry[] {
-  return ALL_ACTS.map(act => {
+/** Cross-act lore aggregate for the Codex screen. Loads every act's data on
+ *  demand (Codex is a screen the player navigates to, not part of boot). */
+export async function getCodexWorld(): Promise<CodexWorldEntry[]> {
+  const acts = await Promise.all(ACT_IDS.map(id => loadAct(id)))
+  return acts.map(act => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const bossNode = Object.values(act.nodes as Record<string, any>).find((n: any) => n.type === 'boss') as any
     const actCompleted = loadActCount(act.id) > 0

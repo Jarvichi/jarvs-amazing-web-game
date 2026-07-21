@@ -24,9 +24,10 @@ import {
 import { getCardCatalog } from './game/cards'
 import { applyStatUpgrade } from './game/playerStats'
 import {
-  loadRun, saveRun, clearRun, newRun, LIVES_START, LIVES_MAX,
+  loadRun, loadRunRaw, saveRun, clearRun, newRun, LIVES_START, LIVES_MAX,
   getAvailableNodeIds, skipSiblings, isActComplete,
-  generateRewardChoices, generateEndlessRewardChoices, generateMerchantCards, MERCHANT_PRICES, ACTS, getNextAct, getCampaignForAct,
+  generateRewardChoices, generateEndlessRewardChoices, generateMerchantCards, MERCHANT_PRICES,
+  loadAct, getCachedAct, getCampaignForAct,
   loadFatigued, saveFatigued, clearFatigued, getTopPlayedCards,
   hasSeenIntro, markIntroSeen,
   loadRunCount, incrementRunCount, getAct1Intro,
@@ -339,8 +340,18 @@ export default function App() {
   // ── Startup: auto-resume a pending campaign battle on page refresh ──────────
   // If the player refreshed mid-battle, pendingNodeId is still set. We build the
   // game state immediately so they land straight back in the battle.
+  //
+  // Act data is now lazy-loaded (see questline.ts loadAct), so it is never
+  // available synchronously this early at boot — getCachedAct always misses
+  // here, so the two branches below that need it (pendingNodeId battle-resume,
+  // and the isActComplete check) fall through exactly like they would if the
+  // act had failed to load, showing a provisional screen. The resume effect
+  // further down finishes the job once the act has actually loaded, correcting
+  // the screen/gameState if a resume was warranted. Every other branch here
+  // (0-lives, pendingActComplete/pendingRelicSelect, hubworld-default,
+  // endless-restore, plain intro/title) needs no act data and is unaffected.
   const [_startup] = useState(() => {
-    const savedRun = loadRun()
+    const savedRun = loadRunRaw()
     // Guard: a run drained to 0 lives is unplayable. Normally hitting 0 lives clears
     // the run via the campaign-failed flow, so a *persisted* 0-life run is a corrupted
     // /zombie state (e.g. from the pre-#1702 bug where losing a non-campaign battle
@@ -354,7 +365,7 @@ export default function App() {
       return { screen: 'campaignfailed' as Screen, gameState: null as GameState | null, run: null as RunState | null, isCampaign: false }
     }
     if (savedRun?.pendingNodeId) {
-      const act  = ACTS[savedRun.actId]
+      const act  = getCachedAct(savedRun.actId)
       const node = act?.nodes[savedRun.pendingNodeId]
       if (node && (node.type === 'battle' || node.type === 'boss' || node.type === 'elite')) {
         // If a mid-battle save exists, restore it exactly — no fresh start for cheaters
@@ -389,7 +400,7 @@ export default function App() {
       return { screen: 'actcomplete' as Screen, gameState: null as GameState | null, run: savedRun, isCampaign: false }
     }
     // If the act is complete but pendingActComplete was cleared, also restore to actcomplete.
-    const savedAct = savedRun ? ACTS[savedRun.actId] : null
+    const savedAct = savedRun ? getCachedAct(savedRun.actId) : null
     if (savedRun && savedAct && isActComplete(savedAct, savedRun)) {
       return { screen: 'actcomplete' as Screen, gameState: null as GameState | null, run: savedRun, isCampaign: false }
     }
@@ -474,6 +485,100 @@ export default function App() {
   const isDraftModeRef      = useRef(false)                  // true while playing a Card Draft battle
    const quickBattleModeRef = useRef<QuickBattleMode>('easy')                //  Quick Battle Mode
   const worldBattleNodeIdRef = useRef<string | null>(null)
+
+  // ── Current run's act data (lazy-loaded) ────────────────────────────────────
+  // Loaded async whenever run.actId changes; actDataFailed distinguishes "still
+  // loading" from "genuinely invalid actId" for the data-guard effect below.
+  const [actData, setActData]             = useState<Act | null>(() => run ? getCachedAct(run.actId) ?? null : null)
+  const [actDataFailed, setActDataFailed] = useState(false)
+  const [hasNextAct, setHasNextAct]       = useState(false)
+
+  useEffect(() => {
+    if (!run) { setActData(null); setActDataFailed(false); return }
+    const cached = getCachedAct(run.actId)
+    if (cached) { setActData(cached); setActDataFailed(false); return }
+    setActData(null)
+    setActDataFailed(false)
+    let cancelled = false
+    loadAct(run.actId)
+      .then(act => { if (!cancelled) { setActData(act); setActDataFailed(false) } })
+      .catch(() => { if (!cancelled) { setActData(null); setActDataFailed(true) } })
+    return () => { cancelled = true }
+  }, [run?.actId])
+
+  // Whether a next act exists after the current one — used by the ActComplete screen.
+  useEffect(() => {
+    const nextActId = actData?.nextActId
+    if (!nextActId) { setHasNextAct(false); return }
+    let cancelled = false
+    loadAct(nextActId)
+      .then(() => { if (!cancelled) setHasNextAct(true) })
+      .catch(() => { if (!cancelled) setHasNextAct(false) })
+    return () => { cancelled = true }
+  }, [actData?.nextActId])
+
+  // ── Startup resume, part 2 ───────────────────────────────────────────────────
+  // Finishes what the synchronous _startup initializer above couldn't: the
+  // pendingNodeId battle-resume and the isActComplete check both need act data,
+  // which is never available synchronously at boot. Runs once on mount; every
+  // other startup branch (0-lives, pendingActComplete/pendingRelicSelect,
+  // hubworld-default, endless-restore, plain intro/title) needed no act data
+  // and was already decided correctly by the synchronous initializer.
+  useEffect(() => {
+    const savedRun = _startup.run
+    if (!savedRun) return
+    let cancelled = false
+    ;(async () => {
+      if (savedRun.pendingNodeId) {
+        const act  = await loadAct(savedRun.actId).catch(() => undefined)
+        const node = act?.nodes[savedRun.pendingNodeId]
+        if (node && (node.type === 'battle' || node.type === 'boss' || node.type === 'elite')) {
+          if (cancelled) return
+          const startupArch = loadPlayerArchetype()
+          const savedBattle = loadBattleState()
+          isCampaignRef.current = true
+          if (savedBattle) {
+            incrementAchievementProgress('misc:refresh_cheat')
+            if (startupArch) savedBattle.archetypePassive = startupArch
+            dispatch({ type: 'START', gameState: savedBattle })
+            setRun(savedRun)
+            setScreen('playing')
+            return
+          }
+          const collection  = loadCollection()
+          const fatigued    = loadFatigued()
+          const deckEntries = loadDeck().filter(e => !fatigued.includes(e.cardName))
+          const playerCards = buildDeckCards(deckEntries, collection)
+          const earnedEntries = (savedRun.earnedCards ?? []).map(n => ({ cardName: n, count: 1 }))
+          if (earnedEntries.length > 0) playerCards.push(...buildDeckCards(earnedEntries, collection))
+          const mods = act ? getModifiersByCount(act, savedRun.activeModifierCount) : []
+          const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods) })
+          state.playerBase = { hp: savedRun.playerHp, maxHp: savedRun.maxHp }
+          if (savedRun.activeRelic) getRelicDef(savedRun.activeRelic)?.applyToGame(state)
+          if (startupArch) state.archetypePassive = startupArch
+          dispatch({ type: 'START', gameState: state })
+          setRun(savedRun)
+          setScreen('playing')
+          return
+        }
+        // Act missing or node not a battle node — fall through, exactly like the
+        // synchronous initializer's fallthrough when act data was unavailable.
+      }
+      if (savedRun.pendingActComplete || savedRun.pendingRelicSelect) return // already resolved synchronously
+      const act = getCachedAct(savedRun.actId) ?? (await loadAct(savedRun.actId).catch(() => undefined))
+      if (cancelled) return
+      if (act && isActComplete(act, savedRun)) {
+        setRun(savedRun)
+        setScreen('actcomplete')
+      }
+      // hubworld-default / endless-restore / plain intro-title fallback need no
+      // act data and were already decided correctly by the sync initializer.
+    })()
+    return () => { cancelled = true }
+    // Intentionally runs once on mount only — _startup is captured from the
+    // initial render and never changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Cutscenes & boss dialogue
   const [cutscenePanels, setCutscenePanels]   = useState<CutscenePanel[]>([])
@@ -743,7 +848,7 @@ export default function App() {
     } else if (screen === 'bossEpilogue' && epiloguePanels.length === 0) {
       rollbar.error('bossEpilogue screen reached with no panels', { runActId: run?.actId })
       setScreen(run?.pendingActComplete ? 'actcomplete' : fallback)
-    } else if (screen === 'actcomplete' && (!run || !ACTS[run.actId])) {
+    } else if (screen === 'actcomplete' && (!run || actDataFailed)) {
       rollbar.error('actcomplete screen reached without valid run/actData', { runActId: run?.actId })
       clearRun()
       setRun(null)
@@ -763,13 +868,13 @@ export default function App() {
     } else if (screen === 'itemfound' && !foundItem) {
       rollbar.error('itemfound screen reached without foundItem', { runActId: run?.actId })
       setScreen(fallback)
-    } else if (screen === 'nodemap' && (!run || !ACTS[run.actId])) {
+    } else if (screen === 'nodemap' && (!run || actDataFailed)) {
       rollbar.error('nodemap screen reached without valid run/actData', { runActId: run?.actId })
       clearRun()
       setRun(null)
       setScreen('title')
     }
-  }, [screen, cutscenePanels, epiloguePanels, run, bossDialogueNode, activeEvent, merchantItems, mysteryReward, foundItem])
+  }, [screen, cutscenePanels, epiloguePanels, run, bossDialogueNode, activeEvent, merchantItems, mysteryReward, foundItem, actDataFailed])
 
   // Show boss fight splash when phase 2 triggers.
   useEffect(() => {
@@ -909,7 +1014,7 @@ export default function App() {
     if (screen === 'title') swRegRef.current?.update().catch(() => {})
   }, [screen])
 
-  useMusic(screen, gameState, run)
+  useMusic(screen, gameState, run, actData)
 
   // ── Free play ────────────────────────────────────────────
 
@@ -1149,8 +1254,8 @@ export default function App() {
   // ── Campaign ─────────────────────────────────────────────
 
   const launchCampaign = useCallback((startActId: string) => {
-    const doLaunch = () => {
-    const existing = loadRun()
+    const doLaunch = async () => {
+    const existing = await loadRun()
 
     const goToNodemap = () => {
       const fat = loadFatigued()
@@ -1165,7 +1270,7 @@ export default function App() {
       const activeRun = existing
       saveRun(activeRun)  // Persist any stash drain so a page refresh doesn't lose bought consumables
       setRun(activeRun)
-      const act = ACTS[activeRun.actId]
+      const act = await loadAct(activeRun.actId)
 
       if (activeRun.pendingNodeId) {
         const node = act.nodes[activeRun.pendingNodeId]
@@ -1226,23 +1331,23 @@ export default function App() {
 
     // ── Fresh run ─────────────────────────────────────────────────────────────
     const actId = startActId
-    const act = ACTS[actId]
+    const act = await loadAct(actId)
     const completionCount = loadActCount(actId)
 
-    const proceedWithModifiers = (chosenModifierCount: number) => {
+    const proceedWithModifiers = async (chosenModifierCount: number) => {
       let activeRun = newRun(actId, chosenModifierCount)
       const earned = loadEarnedRelics()
       saveRun(activeRun)
       setRun(activeRun)
 
-      const proceedAfterRelicSelect = (chosenRelic: string | null) => {
+      const proceedAfterRelicSelect = async (chosenRelic: string | null) => {
         rollbar.info('proceedAfterRelicSelect: relic chosen', { actId, chosenRelic, earnedCount: earned.length })
         const runWithRelic = { ...activeRun, activeRelic: chosenRelic }
         saveRun(runWithRelic)
         setRun(runWithRelic)
         const runCount = incrementRunCount()
         const introToShow = actId === 'act1'
-          ? getAct1Intro(runCount)
+          ? await getAct1Intro(runCount)
           : (act.intro ?? [])
         markIntroSeen(actId)
         rollbar.info('proceedAfterRelicSelect: showing intro or nodemap', {
@@ -1257,7 +1362,7 @@ export default function App() {
               actId,
               runRefActId: runRef.current?.actId,
               hasRun: !!runRef.current,
-              hasActData: !!(runRef.current && ACTS[runRef.current.actId]),
+              hasActData: !!(runRef.current && getCachedAct(runRef.current.actId)),
             })
             setCutscenePanels([])
             goToNodemap()
@@ -1309,8 +1414,8 @@ export default function App() {
   // Campaign 2 is launched from Cartographer Elsben in Ironhold Keep. If a
   // campaign-1 run is in progress it must be explicitly abandoned first —
   // both campaigns share the single active-run slot.
-  const handleCampaign2 = useCallback(() => {
-    const existing = loadRun()
+  const handleCampaign2 = useCallback(async () => {
+    const existing = await loadRun()
     if (existing && getCampaignForAct(existing.actId).id !== 'c2') {
       setCampaign2AbandonConfirm(true)
       return
@@ -1318,10 +1423,10 @@ export default function App() {
     launchCampaign('c2act1')
   }, [launchCampaign])
 
-  const handleWorldBattle = useCallback((worldNode: WorldNodeDef) => {
+  const handleWorldBattle = useCallback(async (worldNode: WorldNodeDef) => {
     if (!worldNode.battleConfig) return
     const { actId, nodeId } = worldNode.battleConfig
-    const act = ACTS[actId]
+    const act = await loadAct(actId).catch(() => undefined)
     if (!act) return
     const node = act.nodes[nodeId]
     if (!node) return
@@ -1372,8 +1477,8 @@ export default function App() {
 
   const handleSelectNode = useCallback((node: QuestNode) => {
     const currentRun = run
-    if (!currentRun) return
-    const act = ACTS[currentRun.actId]
+    if (!currentRun || !actData) return
+    const act = actData
 
     // Mark siblings as skipped (branch choice)
     const afterSkip = skipSiblings(act.nodes, node.id, currentRun)
@@ -1483,7 +1588,7 @@ export default function App() {
     state.stanceRules = STANCE_RULES_BY_NODE_TYPE[node.type]
     startBattle(state)
     rollRareEvent()
-  }, [run])
+  }, [run, actData])
 
   const handleBossDialogueDone = useCallback(() => {
     const node = bossDialogueNode
@@ -1505,7 +1610,7 @@ export default function App() {
     const earnedEntries = (run.earnedCards ?? []).map(n => ({ cardName: n, count: 1 }))
     if (earnedEntries.length > 0) playerCards.push(...buildDeckCards(earnedEntries, collection))
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
-    const act = ACTS[run.actId]
+    const act = actData ?? undefined
     const mods761 = act ? getModifiersByCount(act, run.activeModifierCount) : []
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods761) })
     state.playerBase = { hp: run.playerHp, maxHp: run.maxHp }
@@ -1513,7 +1618,7 @@ export default function App() {
     state.stanceRules = STANCE_RULES_BY_NODE_TYPE[node.type]
     startBattle(state)
     rollRareEvent()
-  }, [bossDialogueNode, run])
+  }, [bossDialogueNode, run, actData])
 
   const handleEventChoice = useCallback((choice: EventChoice) => {
     const currentRun = run
@@ -1674,7 +1779,7 @@ export default function App() {
   const handleCharacterDone = useCallback((choice?: CharacterChoice) => {
     const currentRun = run
     if (!currentRun || !activeCharacterEncounter) { setScreen('nodemap'); return }
-    const act = ACTS[currentRun.actId]
+    const act = actData
     if (!act) { setScreen('nodemap'); return }
 
     recordCharacterEncounter(activeCharacterEncounter.characterId, choice?.label)
@@ -1714,7 +1819,7 @@ export default function App() {
     } else {
       setScreen('nodemap')
     }
-  }, [run, activeCharacterEncounter])
+  }, [run, activeCharacterEncounter, actData])
 
   const handleMemoryCollect = useCallback(() => {
     const currentRun = run
@@ -1762,8 +1867,8 @@ export default function App() {
 
   const handleCampaignWin = useCallback(() => {
     const currentRun = run
-    if (!currentRun || !gameState) return
-    const act = ACTS[currentRun.actId]
+    if (!currentRun || !gameState || !actData) return
+    const act = actData
     const nodeId = currentRun.pendingNodeId!
     const node = act.nodes[nodeId]
 
@@ -1860,7 +1965,7 @@ export default function App() {
     setRewardChoices(choices)
     setRewardCrystals(crystalReward)
     setScreen('reward')
-  }, [run, gameState])
+  }, [run, gameState, actData])
 
   const handleRewardPick = useCallback((cardName: string) => {
     addCardsToCollection([{ cardName, count: 1 }])
@@ -1954,13 +2059,13 @@ export default function App() {
     dispatch({ type: 'SET_SPEED', multiplier: next })
   }, [battle.speedMultiplier])
 
-  const handleActComplete = useCallback(() => {
+  const handleActComplete = useCallback(async () => {
     const currentRun = run
     if (!currentRun) {
       rollbar.error('handleActComplete called with null run', { screen })
       return
     }
-    const act = ACTS[currentRun.actId]
+    const act = actData
     rollbar.info('Act complete: beginning transition', {
       actId: currentRun.actId,
       equippedRelic: currentRun.activeRelic,
@@ -1975,7 +2080,7 @@ export default function App() {
     // Guard: never break the relic just earned this act
     const equippedRelic = currentRun.activeRelic
 
-    const proceedFromSpin = (willBreak: boolean) => {
+    const proceedFromSpin = async (willBreak: boolean) => {
       rollbar.info('proceedFromSpin called', { actId: currentRun.actId, willBreak, equippedRelic, rewardRelic: act?.rewardRelic })
       if (willBreak && equippedRelic && equippedRelic !== act?.rewardRelic) {
         removeEarnedRelic(equippedRelic)
@@ -1992,7 +2097,8 @@ export default function App() {
         })
       }
 
-      const nextAct = getNextAct(currentRun.actId)
+      const nextActId = act?.nextActId
+      const nextAct = nextActId ? await loadAct(nextActId).catch(() => null) : null
 
       if (nextAct) {
         // ── Progress to next act ──────────────────────────────
@@ -2041,7 +2147,7 @@ export default function App() {
                 toActId: nextAct.id,
                 runRefActId: runRef.current?.actId,
                 hasRun: !!runRef.current,
-                hasActData: !!(runRef.current && ACTS[runRef.current.actId]),
+                hasActData: !!(runRef.current && getCachedAct(runRef.current.actId)),
               })
               setCutscenePanels([])
               setScreen('nodemap')
@@ -2126,7 +2232,7 @@ export default function App() {
     }
 
     proceedFromSpin(false)
-  }, [run])
+  }, [run, actData])
 
 
   const handleCardRestConfirm = useCallback((resting: string[]) => {
@@ -2175,7 +2281,8 @@ export default function App() {
   const handleCampaignRetry = useCallback(() => {
     const currentRun = run
     if (!currentRun) { setScreen('title'); return }
-    const act = ACTS[currentRun.actId]
+    if (!actData) { setScreen('nodemap'); return }
+    const act = actData
     const nodeId = currentRun.pendingNodeId
     if (!nodeId) { setScreen('nodemap'); return }
     const node = act.nodes[nodeId]
@@ -2234,7 +2341,7 @@ export default function App() {
     state.stanceRules = STANCE_RULES_BY_NODE_TYPE[node.type]
     startBattle(state)
     rollRareEvent()
-  }, [run])
+  }, [run, actData])
 
   const handleAbandonRun = useCallback(() => {
     clearRun()
@@ -2889,7 +2996,6 @@ export default function App() {
 
   // ── Render ───────────────────────────────────────────────
 
-  const actData = run ? ACTS[run.actId] ?? null : null
   const actTheme = run?.actId
 
   return (
@@ -3151,7 +3257,7 @@ export default function App() {
         <PostBattleReward
           choices={rewardChoices}
           crystals={rewardCrystals}
-          nodeType={run ? ACTS[run.actId].nodes[run.completedNodeIds[run.completedNodeIds.length - 1]]?.type ?? 'battle' : 'battle'}
+          nodeType={run && actData ? actData.nodes[run.completedNodeIds[run.completedNodeIds.length - 1]]?.type ?? 'battle' : 'battle'}
           onPick={handleRewardPick}
           onSkip={handleRewardSkip}
           battleSummary={summaryStats ?? undefined}
@@ -3165,7 +3271,7 @@ export default function App() {
           relicName={actData.rewardRelic}
           relicDesc={actData.rewardRelicDesc}
           onContinue={handleActComplete}
-          hasNextAct={!!getNextAct(actData.id)}
+          hasNextAct={hasNextAct}
         />
       )}
 
@@ -3326,7 +3432,10 @@ export default function App() {
 
       {screen === 'replayBriefing' && replayBriefingRef.current && (() => {
         const { actId, completionCount, lastRunFailed, proceed } = replayBriefingRef.current!
-        const act = ACTS[actId]
+        // launchCampaign() already awaited loadAct(actId) before setting this ref,
+        // so the act is guaranteed to be in cache by the time this renders.
+        const act = getCachedAct(actId)
+        if (!act) return null
         return (
           <ReplayBriefingScreen
             act={act}
@@ -3707,7 +3816,7 @@ export default function App() {
         if (gameState.phase.type === 'celebration') {
           return (
             <>
-              <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={false} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onCycleSpeed={handleCycleSpeed} onCounterSpell={() => dispatch({ type: 'COUNTER_SPELL' })} />
+              <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={false} activeModifiers={run && actData ? getModifiersByCount(actData, run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onCycleSpeed={handleCycleSpeed} onCounterSpell={() => dispatch({ type: 'COUNTER_SPELL' })} />
               <VictoryPanel
                 playerScore={gameState.playerScore}
                 opponentScore={gameState.opponentScore}
@@ -3724,7 +3833,7 @@ export default function App() {
           const fp = gameState.phase as { type: 'fingerSmash'; wave: number; smashedNames: string[]; rewardDue: boolean }
           return (
             <>
-              <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onCycleSpeed={handleCycleSpeed} onCounterSpell={() => dispatch({ type: 'COUNTER_SPELL' })} />
+              <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run && actData ? getModifiersByCount(actData, run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onCycleSpeed={handleCycleSpeed} onCounterSpell={() => dispatch({ type: 'COUNTER_SPELL' })} />
               <FingerSmash
                 smashedNames={fingerSmashNames}
                 onDone={() => {
@@ -3786,7 +3895,7 @@ export default function App() {
           />
         ) : (
           <>
-            <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onCycleSpeed={handleCycleSpeed} onCounterSpell={() => dispatch({ type: 'COUNTER_SPELL' })} />
+            <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run && actData ? getModifiersByCount(actData, run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onCycleSpeed={handleCycleSpeed} onCounterSpell={() => dispatch({ type: 'COUNTER_SPELL' })} />
             {showBossShockwave && <BossShockwave onDone={() => dispatch({ type: 'HIDE_BOSS_SHOCKWAVE' })} />}
             {activeRareEvent === 'fakeCrash'   && <FakeCrashEvent   onDone={handleRareEventDone} />}
             {activeRareEvent === 'blackjack'   && <BlackjackEvent   onDone={handleRareEventDone} />}

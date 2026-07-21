@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { GameState } from '../game/types'
-import { RunState, ACTS } from '../game/questline'
+import { RunState, Act } from '../game/questline'
 import {
   startBattleMusic, stopBattleMusic,
   startTitleMusic, stopTitleMusic,
@@ -13,7 +13,7 @@ import {
 
 type Screen = string
 
-export function useMusic(screen: Screen, gameState: GameState | null, run: RunState | null): void {
+export function useMusic(screen: Screen, gameState: GameState | null, run: RunState | null, act: Act | null): void {
   // Music router: exactly one track plays at a time; switching screen stops all others.
   // Acts can specify per-context music IDs in their JSON (mapMusicId, battleMusicId, bossMusicId).
   useEffect(() => {
@@ -24,8 +24,6 @@ export function useMusic(screen: Screen, gameState: GameState | null, run: RunSt
     stopMapMusic()
     stopHubMusic()
     if (screen !== 'hubworld' && screen !== 'location') setNightAmbiance(false)  // crickets are hub-only
-
-    const act = run ? ACTS[run.actId] : undefined
 
     if (screen === 'title' || screen === 'settings' || screen === 'deckbuilder' || screen === 'collection') {
       startTitleMusic()

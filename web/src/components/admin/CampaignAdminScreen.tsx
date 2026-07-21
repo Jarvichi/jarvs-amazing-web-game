@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Section } from '../ui/Section'
-import { ACTS, Act, QuestNode, NodeType, RunState } from '../../game/questline'
+import { loadAct, ACT_IDS, Act, QuestNode, NodeType, RunState } from '../../game/questline'
 import { getCardCatalog } from '../../game/cards'
 import battlefieldData from '../../data/battlefield.json'
 import { TerrainEditorPanel, TerrainItemDef, RiverDef } from './TerrainEditorPanel'
@@ -11,10 +11,6 @@ interface Props {
   onBack: () => void
 }
 
-const ACT_IDS = [
-  'act1','act2','act3','act4','act5','act6','act7',
-  'act8','act9','act10','act11','act12','act13','actfinale','c2act1','c2act2','c2act3','c2act4','c2act5',
-]
 const NODE_TYPES: NodeType[] = ['battle', 'elite', 'boss', 'rest', 'event', 'merchant']
 
 const PREV_COL = 90  // px per row slot (rows run left-to-right)
@@ -278,11 +274,36 @@ function NodeIdPicker({
 }
 
 // ─── Main component ───────────────────────────────────────────────────────────
+//
+// Act JSON is lazy-loaded (see questline.ts loadAct); this admin screen is
+// rarely opened, so it preloads every act's data on mount rather than needing
+// full async plumbing throughout the editor below.
 
 export function CampaignAdminScreen({ onBack }: Props) {
+  const [loadedActs, setLoadedActs] = useState<Record<string, Act> | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    Promise.all(ACT_IDS.map(id => loadAct(id).then(act => [id, act] as const)))
+      .then(entries => { if (!cancelled) setLoadedActs(Object.fromEntries(entries)) })
+    return () => { cancelled = true }
+  }, [])
+
+  if (!loadedActs) {
+    return (
+      <OverlayScreen title="CAMPAIGN EDITOR" onBack={onBack} className="settings-screen u-col u-grow">
+        <div className="settings-sublabel">Loading acts…</div>
+      </OverlayScreen>
+    )
+  }
+
+  return <CampaignAdminScreenLoaded onBack={onBack} acts={loadedActs} />
+}
+
+function CampaignAdminScreenLoaded({ onBack, acts }: Props & { acts: Record<string, Act> }) {
   const [tab, setTab] = useState<'nodes' | 'terrain'>('nodes')
   const [actId, setActId] = useState('act1')
-  const [act, setAct] = useState<Act>(() => JSON.parse(JSON.stringify(ACTS['act1'])))
+  const [act, setAct] = useState<Act>(() => JSON.parse(JSON.stringify(acts['act1'])))
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null)
   const [nodeIdInput, setNodeIdInput] = useState('')
   const [deckSearch, setDeckSearch] = useState('')
@@ -341,7 +362,7 @@ export function CampaignAdminScreen({ onBack }: Props) {
 
   function handleActChange(newId: string) {
     setActId(newId)
-    setAct(JSON.parse(JSON.stringify(ACTS[newId])))
+    setAct(JSON.parse(JSON.stringify(acts[newId])))
     setSelectedNodeId(null)
     setDeckSearch('')
   }
@@ -521,7 +542,7 @@ export function CampaignAdminScreen({ onBack }: Props) {
             onChange={e => handleActChange(e.target.value)}
           >
             {ACT_IDS.map(id => (
-              <option key={id} value={id}>{id} — {ACTS[id]?.title ?? id}</option>
+              <option key={id} value={id}>{id} — {acts[id]?.title ?? id}</option>
             ))}
           </select>
         </div>

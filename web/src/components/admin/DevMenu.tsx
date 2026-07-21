@@ -5,7 +5,7 @@ import { loadDevConfig, patchDevConfig, clearDevConfig } from '../../game/devSto
 import { getCardCatalog } from '../../game/cards'
 import { addCardsToCollection, loadCollection, CollectionEntry } from '../../game/collection'
 import { MAX_HANDICAP } from '../../game/engine'
-import { ACTS } from '../../game/questline'
+import { Act, ACT_IDS, loadAct } from '../../game/questline'
 import { logError } from '../../logger'
 import { getAllGifts, loadClaimedGiftIds, resetClaimedGifts, GiftDef } from '../../game/gifts'
 import { isChronicleDevUnlocked, setChronicleDevUnlocked } from '../../game/chronicle'
@@ -37,6 +37,16 @@ export function DevMenu({ onCrystalsChanged, onHandicapChanged, onSceneryPreview
   const [handicapVal, setHandicapVal] = useState(0)
   const [msg,         setMsg]         = useState<string | null>(null)
   const [chronicleUnlocked, setChronicleUnlocked] = useState(isChronicleDevUnlocked)
+  // Act data is lazy-loaded; this dev menu's "skip to act" dropdown needs every
+  // act's title, so it preloads all of them (rarely opened, admin-only screen).
+  const [acts, setActs] = useState<Record<string, Act> | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    Promise.all(ACT_IDS.map(id => loadAct(id).then(act => [id, act] as const)))
+      .then(entries => { if (!cancelled) setActs(Object.fromEntries(entries)) })
+    return () => { cancelled = true }
+  }, [])
 
   function flash(text: string) {
     setMsg(text)
@@ -88,10 +98,10 @@ export function DevMenu({ onCrystalsChanged, onHandicapChanged, onSceneryPreview
     }
   }
 
-  function handleSkipToAct(actId: string) {
+  async function handleSkipToAct(actId: string) {
     if (!actId) return
     try {
-      const act       = ACTS[actId]
+      const act       = await loadAct(actId)
       const firstNode = Object.keys(act.nodes)[0]
       const run = {
         actId,
@@ -201,8 +211,8 @@ export function DevMenu({ onCrystalsChanged, onHandicapChanged, onSceneryPreview
           defaultValue=""
           onChange={e => handleSkipToAct(e.target.value)}
         >
-          <option value="">— choose —</option>
-          {Object.entries(ACTS).filter(([id]) => id !== 'world').map(([id, act]) => (
+          <option value="">{acts ? '— choose —' : 'Loading…'}</option>
+          {acts && Object.entries(acts).map(([id, act]) => (
             <option key={id} value={id}>{act.title ?? id}</option>
           ))}
         </select>
