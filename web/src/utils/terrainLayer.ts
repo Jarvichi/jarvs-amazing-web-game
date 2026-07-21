@@ -12,6 +12,21 @@ import type { TerrainObstacle, RoadDef } from '../game/engine/terrain'
 // so clusters show real size variety instead of always rounding to a single uniform "plus" shape.
 export const TILE_RADIUS_SCALE = 220
 
+/**
+ * Battlefield lane coordinate mapping: game units (x: 0–500 forward base→base,
+ * y: -80..80 lateral) → canvas pixels, and back. buildRoadGfx/buildTerrainDecorGfx
+ * derive their tile coordinates from gameToPixel below; the battlefield editor uses
+ * pixelToGame to turn a pointer click into a game-unit waypoint/obstacle position —
+ * sharing this single definition keeps the two forever in lockstep.
+ */
+export function gameToPixel(x: number, y: number, w: number, h: number): { px: number; py: number } {
+  return { px: (0.5 + (y / 80) * 0.36) * w, py: (1 - x / 500) * h }
+}
+
+export function pixelToGame(px: number, py: number, w: number, h: number): { x: number; y: number } {
+  return { x: 500 * (1 - py / h), y: 80 * ((px / w - 0.5) / 0.36) }
+}
+
 export interface TerrainLayerOptions {
   environment?: string
   envDef?: EnvTileDef
@@ -237,8 +252,7 @@ export async function buildDecorGfx(
  * renderPathTiles() autotiler as hub streets and battlefield water patches.
  * Visual only — does not affect unit movement/avoidance.
  *
- * Game coords → tile coords use the same projection as buildTerrainDecorGfx's
- * toTile(): tcx = (0.5 + (y/80)*0.36) * w/TILE_SIZE, tcy = (1 - x/500) * h/TILE_SIZE.
+ * Game coords → tile coords via gameToPixel() (see above), divided by TILE_SIZE.
  */
 export async function buildRoadGfx(
   container: PIXI.Container,
@@ -250,10 +264,10 @@ export async function buildRoadGfx(
   if (roads.length === 0) return
   const def = opts.envDef ?? ENV_TILES[opts.environment ?? '']
 
-  const toTile = (x: number, y: number) => ({
-    tcx: Math.round(((0.5 + (y / 80) * 0.36) * w) / TILE_SIZE),
-    tcy: Math.round(((1 - x / 500) * h) / TILE_SIZE),
-  })
+  const toTile = (x: number, y: number) => {
+    const { px, py } = gameToPixel(x, y, w, h)
+    return { tcx: Math.round(px / TILE_SIZE), tcy: Math.round(py / TILE_SIZE) }
+  }
 
   for (const road of roads) {
     if (container.destroyed) return
@@ -345,9 +359,7 @@ async function renderSceneryPatch(
  * are organic rather than single scaled tiles. Ruins fall back to a single
  * WORLD_DECOR tile (gravestone, house, etc.).
  *
- * Game coords → canvas px:
- *   cx = (0.5 + (obs.y / 80) * 0.36) * w
- *   cy = (1 - obs.x / 500) * h
+ * Game coords → canvas px via gameToPixel() (see above).
  */
 export async function buildTerrainDecorGfx(
   container: PIXI.Container,
@@ -362,10 +374,10 @@ export async function buildTerrainDecorGfx(
   const envPatchMap = TERRAIN_PATCH_MAP[env] ?? {}
   const envDecorMap = TERRAIN_DECOR_MAP[env] ?? {}
 
-  const toTile = (obs: TerrainObstacle) => ({
-    tcx: Math.round(((0.5 + (obs.y / 80) * 0.36) * w) / TILE_SIZE),
-    tcy: Math.round(((1 - obs.x / 500) * h) / TILE_SIZE),
-  })
+  const toTile = (obs: TerrainObstacle) => {
+    const { px, py } = gameToPixel(obs.x, obs.y, w, h)
+    return { tcx: Math.round(px / TILE_SIZE), tcy: Math.round(py / TILE_SIZE) }
+  }
 
   // terrain.ts only guarantees a minimum *game-unit* separation between obstacle
   // centers, but the canvas projection below doesn't scale 1:1 with tile distance —
