@@ -4961,6 +4961,7 @@
         "Every record in this archive is a fragment of something larger. I'm still piecing the rest together.",
         "You've seen things out there I can only read about. Tell me — does it match what's written here?"
       ],
+      "conversationTopics": ["capitalcity-mira-archive-topic-auto-1", "capitalcity-mira-archive-topic-auto-2"],
       "favoriteGiftItemId": "poetry-book",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -4980,6 +4981,7 @@
         "Half my guests are here for the coronation. The other half are avoiding it.",
         "If Captain Hale sends you with anything, I'll see it gets where it's going."
       ],
+      "conversationTopics": ["capitalcity-innkeeper-crownhaven-topic-auto-1", "capitalcity-innkeeper-crownhaven-topic-auto-2", "capitalcity-innkeeper-crownhaven-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Welcome to The Gilded Goose. Rooms are honest, prices less so."
@@ -5052,6 +5054,7 @@
         "The old postern gate key went missing on patrol. If it falls into the wrong hands, the palace will have my head.",
         "Keep your nose clean in my city, traveller."
       ],
+      "conversationTopics": ["capitalcity-watch-captain-hale-topic-auto-1", "capitalcity-watch-captain-hale-topic-auto-2", "capitalcity-watch-captain-hale-topic-auto-3"],
       "postCampaignDialogue": [
         "The Worldmender, in my ward. Crime's down since the mending — hard to pick pockets when everyone's celebrating.",
         "Between us: the crown's been asking the watch about the eastern roads. Merchants report lantern-light past the border. Above my pay grade, that.",
@@ -5131,6 +5134,7 @@
         "The couriers dropped them somewhere between here and the gates, I'm certain of it.",
         "History is just paperwork that survived, you know."
       ],
+      "conversationTopics": ["capitalcity-royal-archivist-topic-auto-1", "capitalcity-royal-archivist-topic-auto-2", "capitalcity-royal-archivist-topic-auto-3"],
       "postCampaignDialogue": [
         "Since the mending, the archive doesn't add up. There's a treaty in the vaults with a blank space where the second signatory should be. The seal is real. The kingdom it belongs to isn't anywhere.",
         "You mended the world, and I'm grateful — but somebody should tell the paperwork. I keep finding references to an eastern census that doesn't exist.",
@@ -5208,6 +5212,7 @@
         "You want gossip, try the inn. You want a fair price, you talk to me.",
         "Mind the fountain — the pigeons have opinions."
       ],
+      "conversationTopics": ["capitalcity-market-matron-topic-auto-1", "capitalcity-market-matron-topic-auto-2", "capitalcity-market-matron-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Fresh stalls, fair prices — same as it's been for forty years."
@@ -5280,6 +5285,7 @@
         "Crownhaven looks to Ravenwatch for the old records. We must keep the two cities in step.",
         "Serve the crown well and the crown remembers."
       ],
+      "conversationTopics": ["capitalcity-chancellor-topic-auto-1", "capitalcity-chancellor-topic-auto-2", "capitalcity-chancellor-topic-auto-3"],
       "postCampaignDialogue": [
         "Worldmender. The crown's gratitude is on record — I filed it personally.",
         "The eastern reports are a nuisance. Lights, roads, banners in the mist. I've commissioned a survey and I expect it to say 'weather'.",
@@ -5357,6 +5363,7 @@
         "The cathedral's relics were scattered in the troubles. We would see them home.",
         "The bell has been silent too long. A city should hear its own heart."
       ],
+      "conversationTopics": ["capitalcity-high-priest-topic-auto-1", "capitalcity-high-priest-topic-auto-2", "capitalcity-high-priest-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "The cathedral doors are open, child, as they always are."
@@ -5430,6 +5437,7 @@
         "Lose a mint die and you may as well hand a forger the keys to the treasury.",
         "Gold is heavy for a reason — it keeps honest folk grounded."
       ],
+      "conversationTopics": ["capitalcity-mint-master-topic-auto-1", "capitalcity-mint-master-topic-auto-2", "capitalcity-mint-master-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Strike's clean or it's scrap — the crown doesn't take seconds."
@@ -5499,6 +5507,7 @@
         "A noble's debt is a delicate thing. Discretion is half my trade.",
         "Vault's sealed tight — only the watch and I hold a key."
       ],
+      "conversationTopics": ["capitalcity-banker-topic-auto-1", "capitalcity-banker-topic-auto-2", "capitalcity-banker-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Ledgers balance or they don't — there's no third option in banking."
@@ -5575,6 +5584,7 @@
         "A good seam is invisible. Like a good tailor.",
         "Bring me bolts of silk and I'll dress you fit for the throne room."
       ],
+      "conversationTopics": ["capitalcity-tailor-pell-topic-auto-1", "capitalcity-tailor-pell-topic-auto-2", "capitalcity-tailor-pell-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Pins in the cushion, not in the customer — mind the fitting."
@@ -5644,6 +5654,7 @@
         "Raw gems are dull little pebbles until I coax the fire out of them.",
         "Careful where you tread; I've dropped stones worth more than your boots."
       ],
+      "conversationTopics": ["capitalcity-jeweller-isolde-topic-auto-1", "capitalcity-jeweller-isolde-topic-auto-2", "capitalcity-jeweller-isolde-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Steady hands, good light — the rest is patience."
@@ -5713,6 +5724,7 @@
         "Half of healing is herbs; the other half is convincing the patient they're healed.",
         "The academy sends me their wildest experiments. I send back the survivors."
       ],
+      "conversationTopics": ["capitalcity-apothecary-mads-topic-auto-1", "capitalcity-apothecary-mads-topic-auto-2", "capitalcity-apothecary-mads-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Careful with the green bottles — I said MIND them, not taste them."
@@ -5786,6 +5798,7 @@
         "Coronation feast's coming. I'll be up to my elbows in flour for a week.",
         "Grain's dear this season. Bring me sacks and I'll bake you a king's loaf."
       ],
+      "conversationTopics": ["capitalcity-baker-otto-topic-auto-1", "capitalcity-baker-otto-topic-auto-2", "capitalcity-baker-otto-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Ovens are hot and the bells haven't even rung yet."
@@ -5858,6 +5871,7 @@
         "A blade's only as honest as the hand that swings it.",
         "Bring me steel and I'll give the watch the edge it needs."
       ],
+      "conversationTopics": ["capitalcity-blacksmith-dunn-topic-auto-1", "capitalcity-blacksmith-dunn-topic-auto-2", "capitalcity-blacksmith-dunn-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Mind the sparks — the forge doesn't care whose boots are in the way."
@@ -5931,6 +5945,7 @@
         "My family's locket was lost in the gardens. It is all I have of my mother.",
         "Debts and lockets — a noblewoman's life is keeping track of what she's misplaced."
       ],
+      "conversationTopics": ["capitalcity-noble-lady-cora-topic-auto-1", "capitalcity-noble-lady-cora-topic-auto-2", "capitalcity-noble-lady-cora-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "The manor accounts don't balance themselves, more's the pity."
@@ -6001,6 +6016,7 @@
         "My lecture notes have scattered to the four winds. Or four districts, more likely.",
         "Knowledge, like coin, is only useful in circulation."
       ],
+      "conversationTopics": ["capitalcity-academy-master-topic-auto-1", "capitalcity-academy-master-topic-auto-2", "capitalcity-academy-master-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Quiet in the lecture hall, please — or don't, and learn nothing."
@@ -6070,6 +6086,7 @@
         "Snapped three lute strings practising for the coronation. Three!",
         "Every great city deserves a great song. I'm still writing Crownhaven's."
       ],
+      "conversationTopics": ["capitalcity-busker-lyle-topic-auto-1", "capitalcity-busker-lyle-topic-auto-2", "capitalcity-busker-lyle-topic-auto-3"],
       "dialogueByActivity": {
         "idle-chat": [
           "Request anything — well, anything I know four chords for."
@@ -6133,6 +6150,7 @@
         "Lost half my scrolls to the wind. A herald with no words is just a loud nuisance.",
         "Stand for the crown, traveller. The capital is watching."
       ],
+      "conversationTopics": ["capitalcity-herald-jana-topic-auto-1", "capitalcity-herald-jana-topic-auto-2", "capitalcity-herald-jana-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Hear ye, hear ye! Mind the Chancellor's latest decree."
@@ -6198,6 +6216,7 @@
         "See anything suspicious, you tell me first, the captain second.",
         "Quiet night. Round here, that's the best kind."
       ],
+      "conversationTopics": ["capitalcity-guard-bryn-topic-auto-1", "capitalcity-guard-bryn-topic-auto-2", "capitalcity-guard-bryn-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Eyes on the wall. Captain's watching the watchman tonight."
@@ -6262,6 +6281,7 @@
         "Every deck tells a story. Build yours here.",
         "The court plays for crowns; you can play for crystals."
       ],
+      "conversationTopics": ["capitalcity-card-vendor-crownhaven-topic-auto-1", "capitalcity-card-vendor-crownhaven-topic-auto-2", "capitalcity-card-vendor-crownhaven-topic-auto-3"],
       "favoriteGiftItemId": "silk-ribbon",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -6280,6 +6300,7 @@
         "Stock up before you head back out past the walls.",
         "A well-supplied traveller is a living traveller."
       ],
+      "conversationTopics": ["capitalcity-supplies-vendor-crownhaven-topic-auto-1", "capitalcity-supplies-vendor-crownhaven-topic-auto-2", "capitalcity-supplies-vendor-crownhaven-topic-auto-3"],
       "favoriteGiftItemId": "spice-pouch",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -6299,6 +6320,7 @@
         "The jewellers cut stones; I cut destinies. Or near enough.",
         "Bring me crystals and I'll bring out your cards' true potential."
       ],
+      "conversationTopics": ["capitalcity-augment-vendor-crownhaven-topic-auto-1", "capitalcity-augment-vendor-crownhaven-topic-auto-2", "capitalcity-augment-vendor-crownhaven-topic-auto-3"],
       "favoriteGiftItemId": "gilded-compass",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -6317,6 +6339,7 @@
         "A clever deck wins more wars than a sharp sword.",
         "Theory here, practice in the field. Mind your curve."
       ],
+      "conversationTopics": ["capitalcity-academy-tactician-topic-auto-1", "capitalcity-academy-tactician-topic-auto-2", "capitalcity-academy-tactician-topic-auto-3"],
       "favoriteGiftItemId": "poetry-book",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -6335,6 +6358,7 @@
         "Every hero's feats are inscribed here, in gold and stone.",
         "Add your name to the hall, traveller. The realm remembers."
       ],
+      "conversationTopics": ["capitalcity-reliquary-keeper-topic-auto-1", "capitalcity-reliquary-keeper-topic-auto-2", "capitalcity-reliquary-keeper-topic-auto-3"],
       "favoriteGiftItemId": "honey-cake",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -6353,6 +6377,7 @@
         "Fortune favours the bold — and occasionally the lucky.",
         "Crowns won, crowns lost. Pull up a chair."
       ],
+      "conversationTopics": ["capitalcity-crownhaven-dealer-topic-auto-1", "capitalcity-crownhaven-dealer-topic-auto-2", "capitalcity-crownhaven-dealer-topic-auto-3"],
       "favoriteGiftItemId": "gilded-compass",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -6371,6 +6396,7 @@
         "Every coin starts as a tumble of raw crystal. Catch what you can.",
         "Sharp eyes, sharp reflexes, full purse."
       ],
+      "conversationTopics": ["capitalcity-mint-coinwright-topic-auto-1", "capitalcity-mint-coinwright-topic-auto-2", "capitalcity-mint-coinwright-topic-auto-3"],
       "favoriteGiftItemId": "silk-ribbon",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -6389,6 +6415,7 @@
         "A quick battle to prove your mettle — no excuses.",
         "Win in the arena and the whole capital hears your name."
       ],
+      "conversationTopics": ["capitalcity-guard-arena-master-topic-auto-1", "capitalcity-guard-arena-master-topic-auto-2", "capitalcity-guard-arena-master-topic-auto-3"],
       "favoriteGiftItemId": "sturdy-boots",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -6407,6 +6434,7 @@
         "Pick your cards, traveller — eight choices shape a whole army.",
         "Every draft is a new deck. Every deck is a new war."
       ],
+      "conversationTopics": ["capitalcity-draft-master-crownhaven-topic-auto-1", "capitalcity-draft-master-crownhaven-topic-auto-2", "capitalcity-draft-master-crownhaven-topic-auto-3"],
       "favoriteGiftItemId": "sturdy-boots",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -6425,6 +6453,7 @@
         "Quiet water, quick catch. Best spot in the capital.",
         "Catch enough and even the palace kitchens will come calling."
       ],
+      "conversationTopics": ["capitalcity-riverside-angler-topic-auto-1", "capitalcity-riverside-angler-topic-auto-2", "capitalcity-riverside-angler-topic-auto-3"],
       "favoriteGiftItemId": "fish-trophy",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -6443,6 +6472,7 @@
         "Step onto the stage and time your cues — the crowd is a fickle judge.",
         "Rehearsals, ropes, a thousand candles... and now, an audience!"
       ],
+      "conversationTopics": ["capitalcity-theatre-impresario-topic-auto-1", "capitalcity-theatre-impresario-topic-auto-2", "capitalcity-theatre-impresario-topic-auto-3"],
       "favoriteGiftItemId": "fancy-hat",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [

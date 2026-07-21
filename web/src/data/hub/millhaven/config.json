@@ -1588,6 +1588,7 @@
         "Three grain sacks went missing from the store. Someone's been helping themselves.",
         "If you find those sacks, I'll remember the favour."
       ],
+      "conversationTopics": ["millhaven-mill-owner-topic-auto-1", "millhaven-mill-owner-topic-auto-2", "millhaven-mill-owner-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Mind the grindstone, it doesn't stop for anyone.",
@@ -1643,6 +1644,7 @@
         "I've got fish baskets missing somewhere around the docks.",
         "Fresh catch, get your fresh catch! Don't let the gulls beat you to it."
       ],
+      "conversationTopics": ["millhaven-fishmonger-marta-topic-auto-1", "millhaven-fishmonger-marta-topic-auto-2", "millhaven-fishmonger-marta-topic-auto-3"],
       "dialogueByActivity": {
         "sleep": [
           "...mmph... not the nets... five more minutes...",
@@ -1708,6 +1710,7 @@
         "A merchant from Ravenwatch left a letter here. Meant for someone called Elder Elara.",
         "You look like someone who travels. That letter's been sitting here long enough."
       ],
+      "conversationTopics": ["millhaven-innkeeper-millhaven-topic-auto-1", "millhaven-innkeeper-millhaven-topic-auto-2"],
       "dialogueByActivity": {
         "sleep": [
           "...mmh... last call... zzz..."
@@ -1766,6 +1769,7 @@
         "The castle to the south needs resupply. We've been meaning to send a courier.",
         "If you're heading to Ironhold Keep, perhaps you could take our supply manifest to Commander Varek?"
       ],
+      "conversationTopics": ["millhaven-town-elder-millhaven-topic-auto-1", "millhaven-town-elder-millhaven-topic-auto-2", "millhaven-town-elder-millhaven-topic-auto-3"],
       "dialogueByActivity": {
         "idle-chat": [
           "The council chamber's quiet this time of day. Suits me fine.",
@@ -1835,6 +1839,7 @@
         "I've seen three ships go dark past the reef. No word from them.",
         "Marta thinks I'm superstitious. Maybe I am."
       ],
+      "conversationTopics": ["millhaven-sailor-finn-topic-auto-1", "millhaven-sailor-finn-topic-auto-2", "millhaven-sailor-finn-topic-auto-3"],
       "postCampaignDialogue": [
         "The sea's been calm since you mended the world. TOO calm, some nights. Like it's listening.",
         "Coasters coming down from the north say there's a new shoreline east past the marches. Whole harbours nobody's ever charted. Marta thinks they'd been drinking. All of them? Every crew?",
@@ -1877,6 +1882,7 @@
         "Trade's been slow. Travellers don't stop here like they used to.",
         "Nice to see a fresh face in Millhaven."
       ],
+      "conversationTopics": ["millhaven-market-trader-topic-auto-1", "millhaven-market-trader-topic-auto-2", "millhaven-market-trader-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Rope, ribbon, nails — name it and I'll have it under the counter somewhere."
@@ -1940,6 +1946,7 @@
         "Half the town runs on my bread and the other half on Marta's fish.",
         "If you're passing the docks, folk down there are always after a delivery."
       ],
+      "conversationTopics": ["millhaven-baker-pernel-topic-auto-1", "millhaven-baker-pernel-topic-auto-2"],
       "dialogueByActivity": {
         "work": [
           "Fresh loaves out of the oven — mind, they're still warm."
@@ -2009,6 +2016,7 @@
         "Net hooks, anchor chain, blades — if it's iron, I've hammered it.",
         "Scrap's been going missing from my yard. A smith can't work without iron."
       ],
+      "conversationTopics": ["millhaven-smith-garrick-topic-auto-1", "millhaven-smith-garrick-topic-auto-2", "millhaven-smith-garrick-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Hold still or don't stand so close — the anvil doesn't wait for anyone."
@@ -2077,6 +2085,7 @@
         "Storm last week dragged half our nets out past the moorings.",
         "The boathouse keeps the town's boats — and most of its gossip."
       ],
+      "conversationTopics": ["millhaven-dockhand-bram-topic-auto-1", "millhaven-dockhand-bram-topic-auto-2", "millhaven-dockhand-bram-topic-auto-3"],
       "dialogueByActivity": {
         "idle-chat": [
           "Lantern's lit, boats are in. Good a time as any to swap stories."
@@ -2145,6 +2154,7 @@
         "I lost my late husband's locket somewhere out in the town. It's all I have of him.",
         "You have a kind face. Perhaps you'd keep an eye out for it?"
       ],
+      "conversationTopics": ["millhaven-widow-tamsin-topic-auto-1", "millhaven-widow-tamsin-topic-auto-2", "millhaven-widow-tamsin-topic-auto-3"],
       "dialogueByActivity": {
         "idle-chat": [
           "I sit by the window most evenings. It's quiet, but it's mine."
@@ -2203,6 +2213,7 @@
         "Cast a line with me — the harbour's always biting.",
         "Patience and a steady hand, that's all it takes."
       ],
+      "conversationTopics": ["millhaven-harbour-angler-topic-auto-1", "millhaven-harbour-angler-topic-auto-2", "millhaven-harbour-angler-topic-auto-3"],
       "screen": "hub-fishing",
       "favoriteGiftItemId": "fish-trophy",
       "favoriteGiftTrack": "ally",
@@ -2221,6 +2232,7 @@
         "A traveller far from home still needs to resupply. Take a look.",
         "Coin for goods, that's the honest trade of Millhaven."
       ],
+      "conversationTopics": ["millhaven-quartermaster-millhaven-topic-auto-1", "millhaven-quartermaster-millhaven-topic-auto-2", "millhaven-quartermaster-millhaven-topic-auto-3"],
       "screen": "shop-supplies",
       "favoriteGiftItemId": "spice-pouch",
       "favoriteGiftTrack": "ally",
@@ -2239,6 +2251,7 @@
         "No need to trek back to Ravenwatch — I deal right here.",
         "Browse the wares, friend. Every deck needs an edge."
       ],
+      "conversationTopics": ["millhaven-card-trader-millhaven-topic-auto-1", "millhaven-card-trader-millhaven-topic-auto-2", "millhaven-card-trader-millhaven-topic-auto-3"],
       "screen": "shop-cards",
       "building": "card-shop-millhaven",
       "favoriteGiftItemId": "silk-ribbon",
@@ -2258,6 +2271,7 @@
         "Rigging's done and the buoys are set — care to race a skiff?",
         "Mark my words: the Millhaven Regatta will be the finest sport on the coast."
       ],
+      "conversationTopics": ["millhaven-regatta-master-topic-auto-1", "millhaven-regatta-master-topic-auto-2", "millhaven-regatta-master-topic-auto-3"],
       "screen": "regatta",
       "favoriteGiftItemId": "gilded-compass",
       "favoriteGiftTrack": "ally",

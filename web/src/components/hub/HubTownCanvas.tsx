@@ -140,6 +140,10 @@ interface Props {
   moveInteractableRef?:       React.MutableRefObject<((id: string, tx: number, ty: number) => void) | null>
   /** Receives a callback to add a live "Sold" badge to a shop interactable */
   markInteractableSoldRef?:   React.MutableRefObject<((id: string) => void) | null>
+  /** Receives a callback to float a ❤️/💔 above a named exterior NPC's head
+   *  when their friendship changes. No-ops if that NPC isn't currently a
+   *  visible exterior sprite (indoors, gated, or not on screen). */
+  showFriendshipReactionRef?: React.MutableRefObject<((npcId: string, kind: 'up' | 'down') => void) | null>
   /** buildingId → purchased upgrade level; reveals unlocked decor live */
   buildingUpgradeLevelsRef?:  React.MutableRefObject<Record<string, number>>
   locationData:         HubLocationBundle
@@ -157,6 +161,7 @@ export function HubTownCanvas({
   completedQuestIdsRef, collectedTreasureIds, onTreasureStep,
   gameHour, isNight, npcProximityDialogue,
   onInteractableTap, interactableIndicatorsRef, interactableMovesRef, moveInteractableRef, markInteractableSoldRef,
+  showFriendshipReactionRef,
   buildingUpgradeLevelsRef,
   locationData,
   questData,
@@ -1308,6 +1313,30 @@ export function HubTownCanvas({
       }).catch(e => rollbar.error('[HubTownCanvas] NPC sprite failed', { sprite: npcSpriteSlug, error: String(e) }))
     }
 
+    // ── Friendship reactions (❤️/💔 floated above a named exterior NPC) ────────
+    // One-shot: rises + fades over REACTION_MS, tracking the NPC's live sprite
+    // position each tick (mirrors the name-tag's `children[0]` read) so it
+    // stays put above them even mid-walk-step.
+    const REACTION_MS = 1100
+    interface ReactionSlot { text: PIXI.Text; npcId: string; elapsed: number }
+    const activeReactions: ReactionSlot[] = []
+
+    const doShowFriendshipReaction = (npcId: string, kind: 'up' | 'down'): void => {
+      try {
+        const npcContainer = namedNpcContainers.get(npcId)
+        const sprite = npcContainer?.children[0] as PIXI.Sprite | undefined
+        if (!npcContainer || npcContainer.visible === false || !sprite) return
+        const text = new PIXI.Text({ text: kind === 'up' ? '❤️' : '💔', style: { fontSize: 20 } })
+        text.anchor.set(0.5, 1)
+        text.position.set(sprite.x, sprite.y - SPRITE_SIZE - 4)
+        bubbleLayer.addChild(text)
+        activeReactions.push({ text, npcId, elapsed: 0 })
+      } catch (e) {
+        rollbar.error('[HubTownCanvas] showFriendshipReaction failed', { npcId, kind, error: String(e) })
+      }
+    }
+    if (showFriendshipReactionRef) showFriendshipReactionRef.current = doShowFriendshipReaction
+
     // ── NPC name tags (show within 5 tiles of avatar) ─────────────────────────
     // Name tags play a 4s-show / 500ms-fade intro each time the player enters
     // range; speech bubbles for that NPC are suppressed until the intro ends,
@@ -1835,9 +1864,11 @@ export function HubTownCanvas({
       npcLayer.visible      = false
       bubbleLayer.visible   = false
 
-      // Clean up any exterior bubbles/scared-bubbles before entering
+      // Clean up any exterior bubbles/scared-bubbles/reactions before entering
       for (const slot of activeBubbles) bubbleLayer.removeChild(slot.container)
       activeBubbles.length = 0
+      for (const r of activeReactions) bubbleLayer.removeChild(r.text)
+      activeReactions.length = 0
       for (const npc of unitNpcs) {
         if (npc.scaredBubble) {
           bubbleLayer.removeChild(npc.scaredBubble)
@@ -2523,6 +2554,8 @@ export function HubTownCanvas({
     function startWalk(target: [number, number], nodeScreen?: string) {
       for (const s of activeBubbles) bubbleLayer.removeChild(s.container)
       activeBubbles.length = 0
+      for (const r of activeReactions) bubbleLayer.removeChild(r.text)
+      activeReactions.length = 0
       nextSpawnTimer = 0
       lastMovedMs = performance.now()
       const effectivePathSet = exteriorWalkable()
@@ -3241,6 +3274,28 @@ export function HubTownCanvas({
             }
           }
         }
+      }
+
+      // Friendship reactions — rise + fade, tracking the NPC's live sprite
+      // position each tick; dropped at once if the NPC walks indoors mid-flight.
+      for (let i = activeReactions.length - 1; i >= 0; i--) {
+        const r = activeReactions[i]
+        const npcContainer = namedNpcContainers.get(r.npcId)
+        const sprite = npcContainer?.children[0] as PIXI.Sprite | undefined
+        if (!npcContainer || npcContainer.visible === false || !sprite) {
+          bubbleLayer.removeChild(r.text)
+          activeReactions.splice(i, 1)
+          continue
+        }
+        r.elapsed += ticker.deltaMS
+        const t = r.elapsed / REACTION_MS
+        if (t >= 1) {
+          bubbleLayer.removeChild(r.text)
+          activeReactions.splice(i, 1)
+          continue
+        }
+        r.text.position.set(sprite.x, sprite.y - SPRITE_SIZE - 4 - t * 20)
+        r.text.alpha = t < 0.6 ? 1 : 1 - (t - 0.6) / 0.4
       }
       } catch (e) {
         const now = Date.now()

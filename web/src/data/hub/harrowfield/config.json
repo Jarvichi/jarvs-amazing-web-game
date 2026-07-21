@@ -1542,6 +1542,7 @@
         "The scarecrows have been... moving. Pip says I imagine it. Pip didn't grow up here.",
         "Stay for the harvest supper if you can. We owe travellers more kindness than we used to show."
       ],
+      "conversationTopics": ["harrowfield-elder-maeve-topic-auto-1", "harrowfield-elder-maeve-topic-auto-2", "harrowfield-elder-maeve-topic-auto-3"],
       "questGive": "harrowfield-harvest-supper",
       "questReceive": [
         "harrowfield-harvest-supper",
@@ -1570,6 +1571,7 @@
         "Three seed-grain sacks have gone missing. Maeve will have my ears if they're not found.",
         "The scarecrow moved again last night. I'm not paid enough to ask it why."
       ],
+      "conversationTopics": ["harrowfield-farmhand-pip-topic-auto-1", "harrowfield-farmhand-pip-topic-auto-2", "harrowfield-farmhand-pip-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Sowing, hoeing, mowing. The fields don't care what day it is."
@@ -1630,6 +1632,7 @@
         "The road south to the capital used to be safe. Now even the king's road has tolls of the unofficial kind.",
         "Bring me grain and the stones will sing. Bread prices in Crownhaven would make you weep."
       ],
+      "conversationTopics": ["harrowfield-miller-rook-topic-auto-1", "harrowfield-miller-rook-topic-auto-2", "harrowfield-miller-rook-topic-auto-3"],
       "questGive": "harrowfield-millers-flour",
       "questReceive": [
         "harrowfield-millers-flour",
@@ -1653,6 +1656,7 @@
         "Floss keeps the flock, but she can't mend a fence. The ewes are through the gap again.",
         "Wool to the market, mutton never if I can help it. I get attached, see."
       ],
+      "conversationTopics": ["harrowfield-shepherd-nan-topic-auto-1", "harrowfield-shepherd-nan-topic-auto-2", "harrowfield-shepherd-nan-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Floss has the flock in hand. Mostly. The ewes have other ideas some days."
@@ -1713,6 +1717,7 @@
         "Rook's flour, Maeve's blessing, my oven. Harrowfield runs on bread, traveller.",
         "Bring me what I need and I'll see the supper tables never go bare."
       ],
+      "conversationTopics": ["harrowfield-baker-tovi-topic-auto-1", "harrowfield-baker-tovi-topic-auto-2", "harrowfield-baker-tovi-topic-auto-3"],
       "questGive": "harrowfield-bakers-bread",
       "questReceive": [
         "harrowfield-bakers-bread",
@@ -1737,6 +1742,7 @@
         "Wash day and the linens have gone clean over the hedge in this wind. Honestly.",
         "Mind the lane — the cart ruts'll have your ankle if the mud doesn't."
       ],
+      "conversationTopics": ["harrowfield-miller-wife-lark-topic-auto-1", "harrowfield-miller-wife-lark-topic-auto-2", "harrowfield-miller-wife-lark-topic-auto-3"],
       "questGive": "harrowfield-washday",
       "questReceive": "harrowfield-washday",
       "favoriteGiftItemId": "pressed-flower",
@@ -1757,6 +1763,7 @@
         "Ravenwatch pays well for good country produce. Getting a cart there unrobbed is the trick.",
         "Buy in the field, sell at the gate. That's the whole of trade, friend."
       ],
+      "conversationTopics": ["harrowfield-pedlar-quill-topic-auto-1", "harrowfield-pedlar-quill-topic-auto-2", "harrowfield-pedlar-quill-topic-auto-3"],
       "questGive": "harrowfield-produce-to-ravenwatch",
       "questReceive": [
         "harrowfield-produce-to-ravenwatch",
@@ -1783,6 +1790,7 @@
         "We bless the first sheaf and the last loaf. The fields seem to listen.",
         "Quiet hands and full barns. That's all the sermon Harrowfield needs."
       ],
+      "conversationTopics": ["harrowfield-warden-bell-topic-auto-1", "harrowfield-warden-bell-topic-auto-2", "harrowfield-warden-bell-topic-auto-3"],
       "questGive": "harrowfield-harvest-blessing",
       "questReceive": "harrowfield-harvest-blessing",
       "favoriteGiftItemId": "poetry-book",
@@ -1802,6 +1810,7 @@
         "I lost my things running from the moving scarecrow. It WAS moving. I saw it!",
         "When I grow up I'm going to drive the cart all the way to Ravenwatch. And back. Probably."
       ],
+      "conversationTopics": ["harrowfield-child-bram-topic-auto-1", "harrowfield-child-bram-topic-auto-2", "harrowfield-child-bram-topic-auto-3"],
       "questGive": "harrowfield-scarecrow-watch",
       "questReceive": [
         "harrowfield-scarecrow-watch"

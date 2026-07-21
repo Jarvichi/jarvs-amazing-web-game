@@ -67,6 +67,2598 @@
           ]
         }
       }
+    },
+    {
+      "id": "appleford-orchard-keeper-bess-topic-auto-1",
+      "npcId": "orchard-keeper-bess",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Every tree in this orchard has a name. Don't ask me to introduce all of them.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-orchard-keeper-bess-topic-auto-2",
+      "npcId": "orchard-keeper-bess",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Raiders hit the east rows last week. Took apples, baskets, and my best ladder.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-orchard-keeper-bess-topic-auto-3",
+      "npcId": "orchard-keeper-bess",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "An orchard is patience you can eat. Remember that.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-cider-brewer-tom-topic-auto-1",
+      "npcId": "cider-brewer-tom",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Appleford cider — pressed here, drunk everywhere, remembered fondly nowhere near here.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-cider-brewer-tom-topic-auto-2",
+      "npcId": "cider-brewer-tom",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The toll road's made deliveries a nightmare. Bandits drink my profits, literally.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-cider-brewer-tom-topic-auto-3",
+      "npcId": "cider-brewer-tom",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "First mug's full price. So's the second. I'm a brewer, not a charity.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-beekeeper-mabe-topic-auto-1",
+      "npcId": "beekeeper-mabe",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Mind the hives. The bees know a thief from a friend, and they vote with their stings.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-beekeeper-mabe-topic-auto-2",
+      "npcId": "beekeeper-mabe",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Honey, wax, mead — one little bee gives you all three and asks only for flowers.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-beekeeper-mabe-topic-auto-3",
+      "npcId": "beekeeper-mabe",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Bess grows the blossom, I keep the bees. Between us we keep Appleford sweet.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-cooper-wend-topic-auto-1",
+      "npcId": "cooper-wend",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "No barrel, no cider. No cider, no Appleford. I'd say I'm the most important person here, but Tom would sulk.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-cooper-wend-topic-auto-2",
+      "npcId": "cooper-wend",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "A good cask is watertight, sweet-grained, and never argues. Unlike apprentices.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-cooper-wend-topic-auto-3",
+      "npcId": "cooper-wend",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Staves, hoops, and patience — that's a barrel. Rush any of the three and you've a puddle.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-market-trader-posy-topic-auto-1",
+      "npcId": "market-trader-posy",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Apples, cider, honey, jam — if it grows in Appleford, it sells through me.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-market-trader-posy-topic-auto-2",
+      "npcId": "market-trader-posy",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Ravenwatch pays double for our cider. Getting it there in one piece is the trick.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-market-trader-posy-topic-auto-3",
+      "npcId": "market-trader-posy",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Buy low, sell ripe. That's the whole of it, traveller.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-chaplain-hale-topic-auto-1",
+      "npcId": "chaplain-hale",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The chapel's small, but the harvest's bounty fills it every autumn.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-chaplain-hale-topic-auto-2",
+      "npcId": "chaplain-hale",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "We bless the first pressing every year. The bees get a thimble of mead for their trouble.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-chaplain-hale-topic-auto-3",
+      "npcId": "chaplain-hale",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Quiet hands, full baskets, grateful hearts. That's all the sermon Appleford needs.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-scrumping-wren-topic-auto-1",
+      "npcId": "scrumping-wren",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "I wasn't scrumping! I was... rescuing the apples. From the tree. Before they fell.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-scrumping-wren-topic-auto-2",
+      "npcId": "scrumping-wren",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "I dropped my things running from Keeper Bess. Don't tell her. Please?",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-scrumping-wren-topic-auto-3",
+      "npcId": "scrumping-wren",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "When I grow up I'm going to own the whole orchard. And eat ALL the apples.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-orchard-hand-hob-topic-auto-1",
+      "npcId": "orchard-hand-hob",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Up the ladder, down the ladder, basket after basket. My arms have opinions about it.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-orchard-hand-hob-topic-auto-2",
+      "npcId": "orchard-hand-hob",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Best apples are always the ones just out of reach. Orchard's little joke.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "appleford-orchard-hand-hob-topic-auto-3",
+      "npcId": "orchard-hand-hob",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Fill a crate, haul it to Posy, start again. It's honest work, if you like apples. I'm sick of apples.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
     }
   ],
   "quests": [
@@ -777,5 +3369,151 @@
         "1": "You've been spending an awful lot of time with Tom lately. Careful — cider talk is cheap, but good barrels take real work."
       }
     }
-  }
+  },
+  "conversationTopics": [
+    {
+      "id": "appleford-orchard-keeper-bess-topic-auto-1",
+      "npcId": "orchard-keeper-bess",
+      "label": "💬 \"Every tree in this orchard has a name.\"",
+      "treeId": "appleford-orchard-keeper-bess-topic-auto-1"
+    },
+    {
+      "id": "appleford-orchard-keeper-bess-topic-auto-2",
+      "npcId": "orchard-keeper-bess",
+      "label": "💬 \"Raiders hit the east rows last week.\"",
+      "treeId": "appleford-orchard-keeper-bess-topic-auto-2"
+    },
+    {
+      "id": "appleford-orchard-keeper-bess-topic-auto-3",
+      "npcId": "orchard-keeper-bess",
+      "label": "💬 \"An orchard is patience you can eat.\"",
+      "treeId": "appleford-orchard-keeper-bess-topic-auto-3"
+    },
+    {
+      "id": "appleford-cider-brewer-tom-topic-auto-1",
+      "npcId": "cider-brewer-tom",
+      "label": "💬 \"Appleford cider — pressed here, drunk…\"",
+      "treeId": "appleford-cider-brewer-tom-topic-auto-1"
+    },
+    {
+      "id": "appleford-cider-brewer-tom-topic-auto-2",
+      "npcId": "cider-brewer-tom",
+      "label": "💬 \"The toll road's made deliveries a nightmare.\"",
+      "treeId": "appleford-cider-brewer-tom-topic-auto-2"
+    },
+    {
+      "id": "appleford-cider-brewer-tom-topic-auto-3",
+      "npcId": "cider-brewer-tom",
+      "label": "💬 \"First mug's full price.\"",
+      "treeId": "appleford-cider-brewer-tom-topic-auto-3"
+    },
+    {
+      "id": "appleford-beekeeper-mabe-topic-auto-1",
+      "npcId": "beekeeper-mabe",
+      "label": "💬 \"Mind the hives.\"",
+      "treeId": "appleford-beekeeper-mabe-topic-auto-1"
+    },
+    {
+      "id": "appleford-beekeeper-mabe-topic-auto-2",
+      "npcId": "beekeeper-mabe",
+      "label": "💬 \"Honey, wax, mead — one little bee gives you all…\"",
+      "treeId": "appleford-beekeeper-mabe-topic-auto-2"
+    },
+    {
+      "id": "appleford-beekeeper-mabe-topic-auto-3",
+      "npcId": "beekeeper-mabe",
+      "label": "💬 \"Bess grows the blossom, I keep the bees.\"",
+      "treeId": "appleford-beekeeper-mabe-topic-auto-3"
+    },
+    {
+      "id": "appleford-cooper-wend-topic-auto-1",
+      "npcId": "cooper-wend",
+      "label": "💬 \"No barrel, no cider.\"",
+      "treeId": "appleford-cooper-wend-topic-auto-1"
+    },
+    {
+      "id": "appleford-cooper-wend-topic-auto-2",
+      "npcId": "cooper-wend",
+      "label": "💬 \"A good cask is watertight, sweet-grained, and…\"",
+      "treeId": "appleford-cooper-wend-topic-auto-2"
+    },
+    {
+      "id": "appleford-cooper-wend-topic-auto-3",
+      "npcId": "cooper-wend",
+      "label": "💬 \"Staves, hoops, and patience — that's a barrel.\"",
+      "treeId": "appleford-cooper-wend-topic-auto-3"
+    },
+    {
+      "id": "appleford-market-trader-posy-topic-auto-1",
+      "npcId": "market-trader-posy",
+      "label": "💬 \"Apples, cider, honey, jam — if it grows in…\"",
+      "treeId": "appleford-market-trader-posy-topic-auto-1"
+    },
+    {
+      "id": "appleford-market-trader-posy-topic-auto-2",
+      "npcId": "market-trader-posy",
+      "label": "💬 \"Ravenwatch pays double for our cider.\"",
+      "treeId": "appleford-market-trader-posy-topic-auto-2"
+    },
+    {
+      "id": "appleford-market-trader-posy-topic-auto-3",
+      "npcId": "market-trader-posy",
+      "label": "💬 \"Buy low, sell ripe.\"",
+      "treeId": "appleford-market-trader-posy-topic-auto-3"
+    },
+    {
+      "id": "appleford-chaplain-hale-topic-auto-1",
+      "npcId": "chaplain-hale",
+      "label": "💬 \"The chapel's small, but the harvest's bounty…\"",
+      "treeId": "appleford-chaplain-hale-topic-auto-1"
+    },
+    {
+      "id": "appleford-chaplain-hale-topic-auto-2",
+      "npcId": "chaplain-hale",
+      "label": "💬 \"We bless the first pressing every year.\"",
+      "treeId": "appleford-chaplain-hale-topic-auto-2"
+    },
+    {
+      "id": "appleford-chaplain-hale-topic-auto-3",
+      "npcId": "chaplain-hale",
+      "label": "💬 \"Quiet hands, full baskets, grateful hearts.\"",
+      "treeId": "appleford-chaplain-hale-topic-auto-3"
+    },
+    {
+      "id": "appleford-scrumping-wren-topic-auto-1",
+      "npcId": "scrumping-wren",
+      "label": "💬 \"I wasn't scrumping!\"",
+      "treeId": "appleford-scrumping-wren-topic-auto-1"
+    },
+    {
+      "id": "appleford-scrumping-wren-topic-auto-2",
+      "npcId": "scrumping-wren",
+      "label": "💬 \"I dropped my things running from Keeper Bess.\"",
+      "treeId": "appleford-scrumping-wren-topic-auto-2"
+    },
+    {
+      "id": "appleford-scrumping-wren-topic-auto-3",
+      "npcId": "scrumping-wren",
+      "label": "💬 \"When I grow up I'm going to own the whole…\"",
+      "treeId": "appleford-scrumping-wren-topic-auto-3"
+    },
+    {
+      "id": "appleford-orchard-hand-hob-topic-auto-1",
+      "npcId": "orchard-hand-hob",
+      "label": "💬 \"Up the ladder, down the ladder, basket after…\"",
+      "treeId": "appleford-orchard-hand-hob-topic-auto-1"
+    },
+    {
+      "id": "appleford-orchard-hand-hob-topic-auto-2",
+      "npcId": "orchard-hand-hob",
+      "label": "💬 \"Best apples are always the ones just out of…\"",
+      "treeId": "appleford-orchard-hand-hob-topic-auto-2"
+    },
+    {
+      "id": "appleford-orchard-hand-hob-topic-auto-3",
+      "npcId": "orchard-hand-hob",
+      "label": "💬 \"Fill a crate, haul it to Posy, start again.\"",
+      "treeId": "appleford-orchard-hand-hob-topic-auto-3"
+    }
+  ]
 }

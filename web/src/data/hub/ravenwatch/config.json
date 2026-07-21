@@ -8776,6 +8776,7 @@
         "The archives hold centuries of knowledge. Most of it was lost in the Fracture. What remains is precious.",
         "Do not underestimate the power of knowing your enemy, Commander."
       ],
+      "conversationTopics": ["ravenwatch-scholar-topic-auto-1", "ravenwatch-scholar-topic-auto-2", "ravenwatch-scholar-topic-auto-3"],
       "postCampaignDialogue": [
         "You sealed the Fracture, Commander. The scholarly consensus is astonishment. My consensus is: I told them you would.",
         "A puzzle for you: when the world mended, everything the Fracture scattered came back. Everything. Now ask yourself — what did the Fracture take that we never missed?",
@@ -8953,6 +8954,7 @@
         "Every great victory began with a single step forward. Ready when you are.",
         "I have delivered the call to arms. The rest is in your hands, Commander."
       ],
+      "conversationTopics": ["ravenwatch-campaign-gate-topic-auto-1", "ravenwatch-campaign-gate-topic-auto-2", "ravenwatch-campaign-gate-topic-auto-3"],
       "favoriteGiftItemId": "music-box",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -8971,6 +8973,7 @@
         "Wave after wave. Only the strongest endure.",
         "Glory awaits those who survive the endless onslaught."
       ],
+      "conversationTopics": ["ravenwatch-endless-herald-topic-auto-1", "ravenwatch-endless-herald-topic-auto-2", "ravenwatch-endless-herald-topic-auto-3"],
       "favoriteGiftItemId": "sturdy-boots",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -8989,6 +8992,7 @@
         "The daily trial resets at dawn. Will you answer the call?",
         "One challenge, one day. Prove your worth, Commander."
       ],
+      "conversationTopics": ["ravenwatch-challenge-herald-topic-auto-1", "ravenwatch-challenge-herald-topic-auto-2", "ravenwatch-challenge-herald-topic-auto-3"],
       "favoriteGiftItemId": "music-box",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9007,6 +9011,7 @@
         "Three fragments forge a relic shard. The Chronicle rewards the persistent.",
         "A new trial begins each Monday at dawn. Every commander faces the same fate."
       ],
+      "conversationTopics": ["ravenwatch-weekly-herald-topic-auto-1", "ravenwatch-weekly-herald-topic-auto-2", "ravenwatch-weekly-herald-topic-auto-3"],
       "favoriteGiftItemId": "music-box",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9027,6 +9032,7 @@
         "The quick battle pits are open. Glory is one match away.",
         "I've seen a thousand commanders step into the pit. How will you fare?"
       ],
+      "conversationTopics": ["ravenwatch-quickbattle-gate-topic-auto-1", "ravenwatch-quickbattle-gate-topic-auto-2", "ravenwatch-quickbattle-gate-topic-auto-3"],
       "favoriteGiftItemId": "sturdy-boots",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9046,6 +9052,7 @@
         "Let's plan our strategy for the next battle.",
         "A strong army wins wars!"
       ],
+      "conversationTopics": ["ravenwatch-deck-gate-topic-auto-1", "ravenwatch-deck-gate-topic-auto-2"],
       "favoriteGiftItemId": "sturdy-boots",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9064,6 +9071,7 @@
       "dialogue": [
         "Shall we review the troops available to us?"
       ],
+      "conversationTopics": ["ravenwatch-collection-gate-topic-auto-1"],
       "favoriteGiftItemId": "sturdy-boots",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9082,6 +9090,7 @@
         "Pick your cards, Commander — eight choices shape a whole army.",
         "Every draft is a new deck. Every deck is a new war."
       ],
+      "conversationTopics": ["ravenwatch-draft-master-ravenwatch-topic-auto-1", "ravenwatch-draft-master-ravenwatch-topic-auto-2", "ravenwatch-draft-master-ravenwatch-topic-auto-3"],
       "favoriteGiftItemId": "sturdy-boots",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9098,6 +9107,7 @@
       "dialogue": [
         "Welcome to the games quarter! Try your luck."
       ],
+      "conversationTopics": ["ravenwatch-minigames-npc-topic-auto-1"],
       "favoriteGiftItemId": "silk-ribbon",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9114,6 +9124,7 @@
       "dialogue": [
         "Your forces await your orders, Commander."
       ],
+      "conversationTopics": ["ravenwatch-commander-post-topic-auto-1"],
       "favoriteGiftItemId": "honey-cake",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9133,6 +9144,7 @@
         "I just got a new shipment in. Take a look!",
         "Every card tells a story, wanderer."
       ],
+      "conversationTopics": ["ravenwatch-gildwyn-topic-auto-1", "ravenwatch-gildwyn-topic-auto-2", "ravenwatch-gildwyn-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Welcome to my emporium! Finest cards in the realm, freshly stocked."
@@ -9192,6 +9204,7 @@
         "The shadows are patient with rare cards — they wait for the right buyer.",
         "Gildwyn keeps the day trade. I keep the legends."
       ],
+      "conversationTopics": ["ravenwatch-vorn-topic-auto-1", "ravenwatch-vorn-topic-auto-2", "ravenwatch-vorn-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "The extraordinary finds its way to those who wait in shadow."
@@ -9249,6 +9262,7 @@
         "The art of augmentation is older than the Fracture itself.",
         "I sense great potential in you, wanderer. Let's refine it."
       ],
+      "conversationTopics": ["ravenwatch-mira-topic-auto-1", "ravenwatch-mira-topic-auto-2", "ravenwatch-mira-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Let me show you what a proper enchantment can do."
@@ -9308,6 +9322,7 @@
         "A night owl's selection — curated, not cluttered.",
         "Mira keeps the daylight trade. I keep the connoisseurs."
       ],
+      "conversationTopics": ["ravenwatch-nox-topic-auto-1", "ravenwatch-nox-topic-auto-2", "ravenwatch-nox-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Curated, not cluttered. The night trade prefers it that way."
@@ -9365,6 +9380,7 @@
         "Stock up before you head out — the roads aren't safe.",
         "I've been supplying adventurers for thirty years. I know what keeps folks alive."
       ],
+      "conversationTopics": ["ravenwatch-bramble-topic-auto-1", "ravenwatch-bramble-topic-auto-2", "ravenwatch-bramble-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Reliable gear, fair prices. Same as it's been for thirty years."
@@ -9424,6 +9440,7 @@
         "Goblin prices — same as everyone else, honest!",
         "Bramble sleeps, Grix sells. Fair trade for fair hours."
       ],
+      "conversationTopics": ["ravenwatch-grix-topic-auto-1", "ravenwatch-grix-topic-auto-2", "ravenwatch-grix-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Psst! Grix open now. Best deals happen when Bramble's asleep."
@@ -9482,6 +9499,7 @@
         "I found this stuff all over the Fracture zones. Don't ask how.",
         "Make me an offer — I'm always looking to deal."
       ],
+      "conversationTopics": ["ravenwatch-trader-topic-auto-1", "ravenwatch-trader-topic-auto-2", "ravenwatch-trader-topic-auto-3"],
       "favoriteGiftItemId": "river-glass",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9500,6 +9518,7 @@
         "The story of what shattered our world unfolds piece by piece. Come, read with me.",
         "A new chapter surfaces when the time is right. The Chronicle does not rush its telling."
       ],
+      "conversationTopics": ["ravenwatch-chronicler-topic-auto-1", "ravenwatch-chronicler-topic-auto-2", "ravenwatch-chronicler-topic-auto-3"],
       "favoriteGiftItemId": "poetry-book",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9519,6 +9538,7 @@
         "Knowledge is power, Commander. Read carefully.",
         "The Fracture left many mysteries. Perhaps you can solve them."
       ],
+      "conversationTopics": ["ravenwatch-naia-interior-topic-auto-1", "ravenwatch-naia-interior-topic-auto-2", "ravenwatch-naia-interior-topic-auto-3"],
       "questGive": "scholars-anthology",
       "questReceive": [
         "elder-old-codex",
@@ -9548,6 +9568,7 @@
       "dialogue": [
         "Your deeds are recorded here, Commander. Come see your legacy."
       ],
+      "conversationTopics": ["ravenwatch-achievements-keeper-topic-auto-1"],
       "favoriteGiftItemId": "honey-cake",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9565,6 +9586,7 @@
       "dialogue": [
         "Your deeds are recorded here, Commander. Come see your legacy."
       ],
+      "conversationTopics": ["ravenwatch-achievements-keeper-int-topic-auto-1"],
       "favoriteGiftItemId": "honey-cake",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9583,6 +9605,7 @@
         "The shelf holds everything you've gathered on your journey.",
         "Rest is just as important as battle. Your quarters await."
       ],
+      "conversationTopics": ["ravenwatch-home-shelf-topic-auto-1", "ravenwatch-home-shelf-topic-auto-2", "ravenwatch-home-shelf-topic-auto-3"],
       "favoriteGiftItemId": "honey-cake",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9600,6 +9623,7 @@
         "Nothings biting today. Maybe try again later?",
         "The fish are shy around here. Patience is key."
       ],
+      "conversationTopics": ["ravenwatch-fishing-hole-topic-auto-1", "ravenwatch-fishing-hole-topic-auto-2"],
       "favoriteGiftItemId": "fish-trophy",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9616,6 +9640,7 @@
       "dialogue": [
         "The pond is calm today. Care to fish?"
       ],
+      "conversationTopics": ["ravenwatch-fishing-hole-2-topic-auto-1"],
       "favoriteGiftItemId": "fish-trophy",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9633,6 +9658,7 @@
         "Steady hands and a keen eye — care to roll?",
         "Every marble tells a story. Shall we write yours?"
       ],
+      "conversationTopics": ["ravenwatch-marble-master-topic-auto-1", "ravenwatch-marble-master-topic-auto-2"],
       "favoriteGiftItemId": "gilded-compass",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9650,6 +9676,7 @@
         "Flip a tile, reveal your fate.",
         "Memory is a weapon. How sharp is yours?"
       ],
+      "conversationTopics": ["ravenwatch-the-flipper-topic-auto-1", "ravenwatch-the-flipper-topic-auto-2"],
       "favoriteGiftItemId": "silk-ribbon",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9667,6 +9694,7 @@
         "Crystals falling fast — catch them before they shatter!",
         "Speed and focus. That is all you need."
       ],
+      "conversationTopics": ["ravenwatch-crystal-keeper-topic-auto-1", "ravenwatch-crystal-keeper-topic-auto-2"],
       "favoriteGiftItemId": "poetry-book",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9684,6 +9712,7 @@
         "Give it a spin — luck favours the bold.",
         "The wheel knows no favourites. Try your luck!"
       ],
+      "conversationTopics": ["ravenwatch-spinner-sal-topic-auto-1", "ravenwatch-spinner-sal-topic-auto-2"],
       "favoriteGiftItemId": "gilded-compass",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9701,6 +9730,7 @@
         "On your marks — the race is about to begin!",
         "Place your bets and pick your marble. May the fastest win."
       ],
+      "conversationTopics": ["ravenwatch-race-marshal-topic-auto-1", "ravenwatch-race-marshal-topic-auto-2"],
       "favoriteGiftItemId": "sturdy-boots",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9718,6 +9748,7 @@
         "Higher or lower? Simple question, nerves of steel.",
         "Read the deck — or trust your gut."
       ],
+      "conversationTopics": ["ravenwatch-card-sharp-topic-auto-1", "ravenwatch-card-sharp-topic-auto-2"],
       "favoriteGiftItemId": "silk-ribbon",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9735,6 +9766,7 @@
         "Pull the lever and watch the reels spin!",
         "Three in a row and the jackpot is yours."
       ],
+      "conversationTopics": ["ravenwatch-reels-remy-topic-auto-1", "ravenwatch-reels-remy-topic-auto-2"],
       "favoriteGiftItemId": "gilded-compass",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9752,6 +9784,7 @@
         "Best hand wins. Know when to hold, know when to fold.",
         "Poker face optional. Skill is not."
       ],
+      "conversationTopics": ["ravenwatch-poker-pete-topic-auto-1", "ravenwatch-poker-pete-topic-auto-2"],
       "favoriteGiftItemId": "gilded-compass",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9769,6 +9802,7 @@
         "Got tickets? I've got prizes. Let's make a deal.",
         "Trade in your winning tickets for something special."
       ],
+      "conversationTopics": ["ravenwatch-prize-keeper-topic-auto-1", "ravenwatch-prize-keeper-topic-auto-2"],
       "favoriteGiftItemId": "silk-ribbon",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9786,6 +9820,7 @@
         "The enemy approaches. Build your defences and hold the line!",
         "Every tower placed is a life saved. Choose wisely."
       ],
+      "conversationTopics": ["ravenwatch-siege-master-topic-auto-1", "ravenwatch-siege-master-topic-auto-2"],
       "favoriteGiftItemId": "sturdy-boots",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9803,6 +9838,7 @@
         "A great city starts with a single road. Shall we begin?",
         "Lay the streets, raise the buildings — this town is yours to shape."
       ],
+      "conversationTopics": ["ravenwatch-town-planner-topic-auto-1", "ravenwatch-town-planner-topic-auto-2"],
       "favoriteGiftItemId": "honey-cake",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9822,6 +9858,7 @@
         "I have kept everything in order during your absence.",
         "Rest here. Tomorrow's battles can wait."
       ],
+      "conversationTopics": ["ravenwatch-home-steward-topic-auto-1", "ravenwatch-home-steward-topic-auto-2", "ravenwatch-home-steward-topic-auto-3"],
       "favoriteGiftItemId": "honey-cake",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9841,6 +9878,7 @@
         "The northern library holds records predating the Fracture. Fascinating.",
         "Please keep your voice down — scholars are studying."
       ],
+      "conversationTopics": ["ravenwatch-apprentice-lyss-topic-auto-1", "ravenwatch-apprentice-lyss-topic-auto-2", "ravenwatch-apprentice-lyss-topic-auto-3"],
       "favoriteGiftItemId": "poetry-book",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9861,6 +9899,7 @@
         "I am charting safe passage routes through the ruins. Come back when it's done.",
         "A good map can save your life, Commander."
       ],
+      "conversationTopics": ["ravenwatch-cartographer-bram-topic-auto-1", "ravenwatch-cartographer-bram-topic-auto-2", "ravenwatch-cartographer-bram-topic-auto-3"],
       "favoriteGiftItemId": "poetry-book",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9880,6 +9919,7 @@
         "The study of Fracture shards is a discipline that demands precision.",
         "Ask your questions, Commander. I have taught armies wiser than you."
       ],
+      "conversationTopics": ["ravenwatch-professor-aldric-topic-auto-1", "ravenwatch-professor-aldric-topic-auto-2", "ravenwatch-professor-aldric-topic-auto-3"],
       "favoriteGiftItemId": "poetry-book",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9965,6 +10005,7 @@
         "Trade is the lifeblood of any civilisation. Even one in pieces.",
         "You want something? Name your price, Commander."
       ],
+      "conversationTopics": ["ravenwatch-guild-master-ferryn-topic-auto-1", "ravenwatch-guild-master-ferryn-topic-auto-2", "ravenwatch-guild-master-ferryn-topic-auto-3"],
       "favoriteGiftItemId": "silk-ribbon",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -9984,6 +10025,7 @@
         "The market never closes, Commander. Always something new.",
         "I keep this hall running through chaos and war alike. That's my job."
       ],
+      "conversationTopics": ["ravenwatch-market-warden-syla-topic-auto-1", "ravenwatch-market-warden-syla-topic-auto-2", "ravenwatch-market-warden-syla-topic-auto-3"],
       "favoriteGiftItemId": "silk-ribbon",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -10002,6 +10044,7 @@
         "Champions come and go, but their deeds are recorded forever.",
         "Think you're good enough to earn a trophy? Prove it."
       ],
+      "conversationTopics": ["ravenwatch-trophy-keeper-orin-topic-auto-1", "ravenwatch-trophy-keeper-orin-topic-auto-2", "ravenwatch-trophy-keeper-orin-topic-auto-3"],
       "questGive": "orin-missing-trophy",
       "questReceive": [
         "orin-champions-shield",
@@ -10026,6 +10069,7 @@
         "Skill, luck, or cunning — what'll it be, Commander?",
         "Every game is a battle. You look like you enjoy battles."
       ],
+      "conversationTopics": ["ravenwatch-games-host-zev-topic-auto-1", "ravenwatch-games-host-zev-topic-auto-2", "ravenwatch-games-host-zev-topic-auto-3"],
       "favoriteGiftItemId": "gilded-compass",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -10044,6 +10088,7 @@
         "My guards are the finest in the hub. Fracture or no Fracture.",
         "Need security? My men are at your service."
       ],
+      "conversationTopics": ["ravenwatch-guard-captain-thorin-topic-auto-1", "ravenwatch-guard-captain-thorin-topic-auto-2", "ravenwatch-guard-captain-thorin-topic-auto-3"],
       "questGive": "thorin-security-report",
       "questReceive": [
         "innkeepers-package",
@@ -10077,6 +10122,7 @@
         "This hall forges soldiers from raw recruits. No exceptions.",
         "Training is the difference between victory and defeat. Remember that."
       ],
+      "conversationTopics": ["ravenwatch-drill-sergeant-varn-topic-auto-1", "ravenwatch-drill-sergeant-varn-topic-auto-2", "ravenwatch-drill-sergeant-varn-topic-auto-3"],
       "questGive": "varn-training-weights",
       "questReceive": "bramble-fortified-supplies",
       "favoriteGiftItemId": "sturdy-boots",
@@ -10097,6 +10143,7 @@
         "Steady hands and a keen eye — care to roll?",
         "Every marble tells a story. Shall we write yours?"
       ],
+      "conversationTopics": ["ravenwatch-marble-master-int-topic-auto-1", "ravenwatch-marble-master-int-topic-auto-2"],
       "favoriteGiftItemId": "gilded-compass",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -10115,6 +10162,7 @@
         "Flip a tile, reveal your fate.",
         "Memory is a weapon. How sharp is yours?"
       ],
+      "conversationTopics": ["ravenwatch-the-flipper-int-topic-auto-1", "ravenwatch-the-flipper-int-topic-auto-2"],
       "favoriteGiftItemId": "silk-ribbon",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -10133,6 +10181,7 @@
         "Crystals falling fast — catch them before they shatter!",
         "Speed and focus. That is all you need."
       ],
+      "conversationTopics": ["ravenwatch-crystal-keeper-int-topic-auto-1", "ravenwatch-crystal-keeper-int-topic-auto-2"],
       "favoriteGiftItemId": "poetry-book",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -10151,6 +10200,7 @@
         "Got tickets? I've got prizes. Let's make a deal.",
         "Trade in your winning tickets for something special."
       ],
+      "conversationTopics": ["ravenwatch-prize-keeper-int-topic-auto-1", "ravenwatch-prize-keeper-int-topic-auto-2"],
       "favoriteGiftItemId": "silk-ribbon",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -10169,6 +10219,7 @@
         "Give it a spin — luck favours the bold.",
         "The wheel knows no favourites. Try your luck!"
       ],
+      "conversationTopics": ["ravenwatch-spinner-sal-int-topic-auto-1", "ravenwatch-spinner-sal-int-topic-auto-2"],
       "favoriteGiftItemId": "gilded-compass",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -10187,6 +10238,7 @@
         "On your marks — the race is about to begin!",
         "Place your bets and pick your marble. May the fastest win."
       ],
+      "conversationTopics": ["ravenwatch-race-marshal-int-topic-auto-1", "ravenwatch-race-marshal-int-topic-auto-2"],
       "favoriteGiftItemId": "sturdy-boots",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -10205,6 +10257,7 @@
         "Higher or lower? Simple question, nerves of steel.",
         "Read the deck — or trust your gut."
       ],
+      "conversationTopics": ["ravenwatch-card-sharp-int-topic-auto-1", "ravenwatch-card-sharp-int-topic-auto-2"],
       "favoriteGiftItemId": "silk-ribbon",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -10223,6 +10276,7 @@
         "Pull the lever and watch the reels spin!",
         "Three in a row and the jackpot is yours."
       ],
+      "conversationTopics": ["ravenwatch-reels-remy-int-topic-auto-1", "ravenwatch-reels-remy-int-topic-auto-2"],
       "favoriteGiftItemId": "gilded-compass",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -10241,6 +10295,7 @@
         "Best hand wins. Know when to hold, know when to fold.",
         "Poker face optional. Skill is not."
       ],
+      "conversationTopics": ["ravenwatch-poker-pete-int-topic-auto-1", "ravenwatch-poker-pete-int-topic-auto-2"],
       "favoriteGiftItemId": "gilded-compass",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -10256,6 +10311,7 @@
       "dialogue": [
         "Hello!"
       ],
+      "conversationTopics": ["ravenwatch-npc_1781629843466-topic-auto-1"],
       "dialogueTree": "james-junk-trade",
       "favoriteGiftItemId": "sturdy-boots",
       "favoriteGiftTrack": "ally",
@@ -10272,6 +10328,7 @@
       "dialogue": [
         "Hello!"
       ],
+      "conversationTopics": ["ravenwatch-npc_1781726431819-topic-auto-1"],
       "dialogueByActivity": {
         "sleep": [
           "...zzz... the sermon can wait... zzz..."
@@ -10313,6 +10370,7 @@
       "dialogue": [
         "Hello!"
       ],
+      "conversationTopics": ["ravenwatch-npc_1781727321393-topic-auto-1"],
       "levelBuildingId": "townhall",
       "minLevel": 2,
       "dislikes": [
@@ -10333,6 +10391,7 @@
       "dialogue": [
         "I have these pets to adopt — dogs and cats, all looking for a home."
       ],
+      "conversationTopics": ["ravenwatch-npc_1783847887990-topic-auto-1"],
       "screen": "adopt-pet"
     }
   ],

@@ -448,6 +448,7 @@
         "I keep the fire and the fire keeps the wolves honest. Simple arrangement.",
         "Firewood's running low again. The forest gives, but only if you go and fetch."
       ],
+      "conversationTopics": ["thornwoodcamp-warden-rell-topic-auto-1", "thornwoodcamp-warden-rell-topic-auto-2", "thornwoodcamp-warden-rell-topic-auto-3"],
       "questGive": "thornwood-embers-low",
       "questReceive": [
         "thornwood-embers-low",
@@ -472,6 +473,7 @@
         "There's queer little stones in the scree where it fell. Bring me a few and I'll shift the blockage; my hands know which ones hold the wall.",
         "Warden Rell's up by the fire, if you can get past. Tell him Mott's alive, would you?"
       ],
+      "conversationTopics": ["thornwoodcamp-forager-mott-topic-auto-1", "thornwoodcamp-forager-mott-topic-auto-2", "thornwoodcamp-forager-mott-topic-auto-3"],
       "questGive": "thornwood-lost-treeline",
       "questReceive": [
         "shiny-stones",
@@ -495,6 +497,7 @@
         "The pack's been bold since the bad winter. Wards along the treeline keep them honest — when someone bothers to set them.",
         "Forage what you can. The forest feeds the fire and the fire feeds us."
       ],
+      "conversationTopics": ["thornwoodcamp-ranger-sable-topic-auto-1", "thornwoodcamp-ranger-sable-topic-auto-2", "thornwoodcamp-ranger-sable-topic-auto-3"],
       "questGive": "thornwood-forage-mushrooms",
       "questReceive": [
         "thornwood-forage-mushrooms",
@@ -518,6 +521,7 @@
         "A camp like this is worth more than a city to a traveller caught after dark. I never forget a warm fire.",
         "If you're headed Ravenwatch way, I've a parcel needs honest hands. Pays well, asks little."
       ],
+      "conversationTopics": ["thornwoodcamp-trader-pell-topic-auto-1", "thornwoodcamp-trader-pell-topic-auto-2", "thornwoodcamp-trader-pell-topic-auto-3"],
       "questGive": "thornwood-travellers-aid",
       "questReceive": [
         "thornwood-travellers-aid",

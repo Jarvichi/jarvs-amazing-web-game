@@ -255,6 +255,3894 @@
           ]
         }
       }
+    },
+    {
+      "id": "saltmereport-harbourmaster-vane-topic-auto-1",
+      "npcId": "harbourmaster-vane",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Every crate, every barrel, every gull on this dock answers to me.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-harbourmaster-vane-topic-auto-2",
+      "npcId": "harbourmaster-vane",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Cargo's been going missing off the quay. The manifest doesn't lie — people do.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-harbourmaster-vane-topic-auto-3",
+      "npcId": "harbourmaster-vane",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Pirates to the north, smugglers to the south, and paperwork in every direction.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-fishwife-pearl-topic-auto-1",
+      "npcId": "fishwife-pearl",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Fresh off the morning tide! Mostly fresh. Define fresh.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-fishwife-pearl-topic-auto-2",
+      "npcId": "fishwife-pearl",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The reef's been restless. Old Salt says it's the kraken. Old Salt says a lot of things.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-fishwife-pearl-topic-auto-3",
+      "npcId": "fishwife-pearl",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "You buy, or you're blocking the stall.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-dockhand-tam-topic-auto-1",
+      "npcId": "dockhand-tam",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Lift with the knees. That's the whole job, really.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-dockhand-tam-topic-auto-2",
+      "npcId": "dockhand-tam",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Found a barrel of navy rum washed up under the south pier. Above my pay grade, that.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-dockhand-tam-topic-auto-3",
+      "npcId": "dockhand-tam",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Vane counts the cargo twice. I count my fingers after every shift.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-old-salt-topic-auto-1",
+      "npcId": "old-salt",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Forty years before the mast, and the sea still won't tell me her secrets.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-old-salt-topic-auto-2",
+      "npcId": "old-salt",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "There's a cove east of here no chart will show you. The pirates make sure of that.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-old-salt-topic-auto-3",
+      "npcId": "old-salt",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The tide takes and the tide gives back. Rarely the same things, mind.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-shipwright-topic-auto-1",
+      "npcId": "shipwright",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Keel's cracked on half these hulls and nobody wants to pay to fix it right.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-shipwright-topic-auto-2",
+      "npcId": "shipwright",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Good timber, good pitch, good rope — that's the whole trade. Everything else is just waiting.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-shipwright-topic-auto-3",
+      "npcId": "shipwright",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "She'll float. Whether she floats *well* is a different conversation.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-customs-officer-topic-auto-1",
+      "npcId": "customs-officer",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Every crate that crosses this quay gets a stamp. No stamp, no cargo.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-customs-officer-topic-auto-2",
+      "npcId": "customs-officer",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The numbers on Vane's manifest and the numbers in my ledger don't match. That bothers me more than it should.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-customs-officer-topic-auto-3",
+      "npcId": "customs-officer",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "I've seen smugglers, thieves, and men who simply can't count. I'm still deciding which this is.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-lighthouse-keeper-topic-auto-1",
+      "npcId": "lighthouse-keeper",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Forty fathoms of fog tonight. The lamp's the only thing standing between that and a wrecked hull.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-lighthouse-keeper-topic-auto-2",
+      "npcId": "lighthouse-keeper",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Oil runs low faster than it should. Someone's skimming, or the wick's thirstier than it used to be.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-lighthouse-keeper-topic-auto-3",
+      "npcId": "lighthouse-keeper",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "I watch so the rest of you can sleep. Mind you remember that, next time the bell rings.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-net-maker-topic-auto-1",
+      "npcId": "net-maker",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "A torn net's a hungry net. Bring me the scraps and I'll mend it proper.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-net-maker-topic-auto-2",
+      "npcId": "net-maker",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Every knot's got a name, if you know where to look. Most folk just see string.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-net-maker-topic-auto-3",
+      "npcId": "net-maker",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Good nets outlast the boats they're tied to. Mine, anyway.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-chandler-topic-auto-1",
+      "npcId": "chandler",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Rope, pitch, lanterns, nails — if it keeps a ship afloat or upright, I stock it.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-chandler-topic-auto-2",
+      "npcId": "chandler",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Stores are running thin and the next supply run isn't for a fortnight. Inconvenient timing, that.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-chandler-topic-auto-3",
+      "npcId": "chandler",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Buy local. The alternative is rowing to Ravenwatch, and nobody wants that.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-smokehouse-master-topic-auto-1",
+      "npcId": "smokehouse-master",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Low smoke, long hours, good fish. That's the whole secret and I've just given it away.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-smokehouse-master-topic-auto-2",
+      "npcId": "smokehouse-master",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "That dock cat's been eyeing my racks again. Cheeky thing.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-smokehouse-master-topic-auto-3",
+      "npcId": "smokehouse-master",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Nothing wrong with a few scraps for a hungry mouth, so long as it's not from MY rack.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-tavern-sailor-topic-auto-1",
+      "npcId": "tavern-sailor",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Three tours round the Horn and the worst storm I ever saw was in a teacup, if you ask my old captain.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-tavern-sailor-topic-auto-2",
+      "npcId": "tavern-sailor",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The Brined Anchor pours the only rum on this coast worth drinking. Present company excepted, obviously.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-tavern-sailor-topic-auto-3",
+      "npcId": "tavern-sailor",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Sleep below deck, drink above it. That's balance, that is.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-smuggler-topic-auto-1",
+      "npcId": "smuggler",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "...Didn't see me. You didn't see anything, in fact.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-smuggler-topic-auto-2",
+      "npcId": "smuggler",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Rum's a victimless trade until the watch starts counting barrels.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "saltmereport-smuggler-topic-auto-3",
+      "npcId": "smuggler",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Whatever Vane thinks he knows, he can't prove. Keep it that way and we'll get along fine.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
     }
   ],
   "quests": [
@@ -1033,6 +4921,224 @@
         ],
         "npcs": []
       }
+    }
+  ],
+  "conversationTopics": [
+    {
+      "id": "saltmereport-harbourmaster-vane-topic-auto-1",
+      "npcId": "harbourmaster-vane",
+      "label": "💬 \"Every crate, every barrel, every gull on this…\"",
+      "treeId": "saltmereport-harbourmaster-vane-topic-auto-1"
+    },
+    {
+      "id": "saltmereport-harbourmaster-vane-topic-auto-2",
+      "npcId": "harbourmaster-vane",
+      "label": "💬 \"Cargo's been going missing off the quay.\"",
+      "treeId": "saltmereport-harbourmaster-vane-topic-auto-2"
+    },
+    {
+      "id": "saltmereport-harbourmaster-vane-topic-auto-3",
+      "npcId": "harbourmaster-vane",
+      "label": "💬 \"Pirates to the north, smugglers to the south,…\"",
+      "treeId": "saltmereport-harbourmaster-vane-topic-auto-3"
+    },
+    {
+      "id": "saltmereport-fishwife-pearl-topic-auto-1",
+      "npcId": "fishwife-pearl",
+      "label": "💬 \"Fresh off the morning tide!\"",
+      "treeId": "saltmereport-fishwife-pearl-topic-auto-1"
+    },
+    {
+      "id": "saltmereport-fishwife-pearl-topic-auto-2",
+      "npcId": "fishwife-pearl",
+      "label": "💬 \"The reef's been restless.\"",
+      "treeId": "saltmereport-fishwife-pearl-topic-auto-2"
+    },
+    {
+      "id": "saltmereport-fishwife-pearl-topic-auto-3",
+      "npcId": "fishwife-pearl",
+      "label": "💬 \"You buy, or you're blocking the stall.\"",
+      "treeId": "saltmereport-fishwife-pearl-topic-auto-3"
+    },
+    {
+      "id": "saltmereport-dockhand-tam-topic-auto-1",
+      "npcId": "dockhand-tam",
+      "label": "💬 \"Lift with the knees.\"",
+      "treeId": "saltmereport-dockhand-tam-topic-auto-1"
+    },
+    {
+      "id": "saltmereport-dockhand-tam-topic-auto-2",
+      "npcId": "dockhand-tam",
+      "label": "💬 \"Found a barrel of navy rum washed up under the…\"",
+      "treeId": "saltmereport-dockhand-tam-topic-auto-2"
+    },
+    {
+      "id": "saltmereport-dockhand-tam-topic-auto-3",
+      "npcId": "dockhand-tam",
+      "label": "💬 \"Vane counts the cargo twice.\"",
+      "treeId": "saltmereport-dockhand-tam-topic-auto-3"
+    },
+    {
+      "id": "saltmereport-old-salt-topic-auto-1",
+      "npcId": "old-salt",
+      "label": "💬 \"Forty years before the mast, and the sea still…\"",
+      "treeId": "saltmereport-old-salt-topic-auto-1"
+    },
+    {
+      "id": "saltmereport-old-salt-topic-auto-2",
+      "npcId": "old-salt",
+      "label": "💬 \"There's a cove east of here no chart will show…\"",
+      "treeId": "saltmereport-old-salt-topic-auto-2"
+    },
+    {
+      "id": "saltmereport-old-salt-topic-auto-3",
+      "npcId": "old-salt",
+      "label": "💬 \"The tide takes and the tide gives back.\"",
+      "treeId": "saltmereport-old-salt-topic-auto-3"
+    },
+    {
+      "id": "saltmereport-shipwright-topic-auto-1",
+      "npcId": "shipwright",
+      "label": "💬 \"Keel's cracked on half these hulls and nobody…\"",
+      "treeId": "saltmereport-shipwright-topic-auto-1"
+    },
+    {
+      "id": "saltmereport-shipwright-topic-auto-2",
+      "npcId": "shipwright",
+      "label": "💬 \"Good timber, good pitch, good rope — that's the…\"",
+      "treeId": "saltmereport-shipwright-topic-auto-2"
+    },
+    {
+      "id": "saltmereport-shipwright-topic-auto-3",
+      "npcId": "shipwright",
+      "label": "💬 \"She'll float.\"",
+      "treeId": "saltmereport-shipwright-topic-auto-3"
+    },
+    {
+      "id": "saltmereport-customs-officer-topic-auto-1",
+      "npcId": "customs-officer",
+      "label": "💬 \"Every crate that crosses this quay gets a stamp.\"",
+      "treeId": "saltmereport-customs-officer-topic-auto-1"
+    },
+    {
+      "id": "saltmereport-customs-officer-topic-auto-2",
+      "npcId": "customs-officer",
+      "label": "💬 \"The numbers on Vane's manifest and the numbers…\"",
+      "treeId": "saltmereport-customs-officer-topic-auto-2"
+    },
+    {
+      "id": "saltmereport-customs-officer-topic-auto-3",
+      "npcId": "customs-officer",
+      "label": "💬 \"I've seen smugglers, thieves, and men who…\"",
+      "treeId": "saltmereport-customs-officer-topic-auto-3"
+    },
+    {
+      "id": "saltmereport-lighthouse-keeper-topic-auto-1",
+      "npcId": "lighthouse-keeper",
+      "label": "💬 \"Forty fathoms of fog tonight.\"",
+      "treeId": "saltmereport-lighthouse-keeper-topic-auto-1"
+    },
+    {
+      "id": "saltmereport-lighthouse-keeper-topic-auto-2",
+      "npcId": "lighthouse-keeper",
+      "label": "💬 \"Oil runs low faster than it should.\"",
+      "treeId": "saltmereport-lighthouse-keeper-topic-auto-2"
+    },
+    {
+      "id": "saltmereport-lighthouse-keeper-topic-auto-3",
+      "npcId": "lighthouse-keeper",
+      "label": "💬 \"I watch so the rest of you can sleep.\"",
+      "treeId": "saltmereport-lighthouse-keeper-topic-auto-3"
+    },
+    {
+      "id": "saltmereport-net-maker-topic-auto-1",
+      "npcId": "net-maker",
+      "label": "💬 \"A torn net's a hungry net.\"",
+      "treeId": "saltmereport-net-maker-topic-auto-1"
+    },
+    {
+      "id": "saltmereport-net-maker-topic-auto-2",
+      "npcId": "net-maker",
+      "label": "💬 \"Every knot's got a name, if you know where to…\"",
+      "treeId": "saltmereport-net-maker-topic-auto-2"
+    },
+    {
+      "id": "saltmereport-net-maker-topic-auto-3",
+      "npcId": "net-maker",
+      "label": "💬 \"Good nets outlast the boats they're tied to.\"",
+      "treeId": "saltmereport-net-maker-topic-auto-3"
+    },
+    {
+      "id": "saltmereport-chandler-topic-auto-1",
+      "npcId": "chandler",
+      "label": "💬 \"Rope, pitch, lanterns, nails — if it keeps a…\"",
+      "treeId": "saltmereport-chandler-topic-auto-1"
+    },
+    {
+      "id": "saltmereport-chandler-topic-auto-2",
+      "npcId": "chandler",
+      "label": "💬 \"Stores are running thin and the next supply run…\"",
+      "treeId": "saltmereport-chandler-topic-auto-2"
+    },
+    {
+      "id": "saltmereport-chandler-topic-auto-3",
+      "npcId": "chandler",
+      "label": "💬 \"Buy local.\"",
+      "treeId": "saltmereport-chandler-topic-auto-3"
+    },
+    {
+      "id": "saltmereport-smokehouse-master-topic-auto-1",
+      "npcId": "smokehouse-master",
+      "label": "💬 \"Low smoke, long hours, good fish.\"",
+      "treeId": "saltmereport-smokehouse-master-topic-auto-1"
+    },
+    {
+      "id": "saltmereport-smokehouse-master-topic-auto-2",
+      "npcId": "smokehouse-master",
+      "label": "💬 \"That dock cat's been eyeing my racks again.\"",
+      "treeId": "saltmereport-smokehouse-master-topic-auto-2"
+    },
+    {
+      "id": "saltmereport-smokehouse-master-topic-auto-3",
+      "npcId": "smokehouse-master",
+      "label": "💬 \"Nothing wrong with a few scraps for a hungry…\"",
+      "treeId": "saltmereport-smokehouse-master-topic-auto-3"
+    },
+    {
+      "id": "saltmereport-tavern-sailor-topic-auto-1",
+      "npcId": "tavern-sailor",
+      "label": "💬 \"Three tours round the Horn and the worst storm…\"",
+      "treeId": "saltmereport-tavern-sailor-topic-auto-1"
+    },
+    {
+      "id": "saltmereport-tavern-sailor-topic-auto-2",
+      "npcId": "tavern-sailor",
+      "label": "💬 \"The Brined Anchor pours the only rum on this…\"",
+      "treeId": "saltmereport-tavern-sailor-topic-auto-2"
+    },
+    {
+      "id": "saltmereport-tavern-sailor-topic-auto-3",
+      "npcId": "tavern-sailor",
+      "label": "💬 \"Sleep below deck, drink above it.\"",
+      "treeId": "saltmereport-tavern-sailor-topic-auto-3"
+    },
+    {
+      "id": "saltmereport-smuggler-topic-auto-1",
+      "npcId": "smuggler",
+      "label": "💬 \"...Didn't see me.\"",
+      "treeId": "saltmereport-smuggler-topic-auto-1"
+    },
+    {
+      "id": "saltmereport-smuggler-topic-auto-2",
+      "npcId": "smuggler",
+      "label": "💬 \"Rum's a victimless trade until the watch starts…\"",
+      "treeId": "saltmereport-smuggler-topic-auto-2"
+    },
+    {
+      "id": "saltmereport-smuggler-topic-auto-3",
+      "npcId": "smuggler",
+      "label": "💬 \"Whatever Vane thinks he knows, he can't prove.\"",
+      "treeId": "saltmereport-smuggler-topic-auto-3"
     }
   ]
 }

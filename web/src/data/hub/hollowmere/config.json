@@ -1154,6 +1154,7 @@
         "The wood listens here. So do I, mostly.",
         "You've walked through a seam or two yourself, I think. It shows, if you know where to look."
       ],
+      "conversationTopics": ["hollowmere-pilgrim-darkwood-topic-auto-1", "hollowmere-pilgrim-darkwood-topic-auto-2"],
       "favoriteGiftItemId": "wild-berries",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -1171,6 +1172,7 @@
         "You smell like a hero. Lucky for you, I'm off duty.",
         "We're monsters, not animals. The animals live in the nice town down south."
       ],
+      "conversationTopics": ["hollowmere-ogrim-the-bouncer-topic-auto-1", "hollowmere-ogrim-the-bouncer-topic-auto-2", "hollowmere-ogrim-the-bouncer-topic-auto-3"],
       "building": "fang-den",
       "favoriteGiftItemId": "sturdy-boots",
       "favoriteGiftTrack": "ally",
@@ -1189,6 +1191,7 @@
         "The undead up at Gravemoor are lovely neighbours. Quiet. Very quiet.",
         "Everything here fell off a cart. A very specific, very unlucky cart."
       ],
+      "conversationTopics": ["hollowmere-fang-the-fence-topic-auto-1", "hollowmere-fang-the-fence-topic-auto-2", "hollowmere-fang-the-fence-topic-auto-3"],
       "dislikes": [
         "goblin-curio-keep"
       ],
@@ -1210,6 +1213,7 @@
         "Hollowmere takes in what other towns turn away. Werewolves, ogres, tax dodgers.",
         "Don't touch the bottles. Some of them are potions. Some of them are relatives."
       ],
+      "conversationTopics": ["hollowmere-hedge-witch-morwen-topic-auto-1", "hollowmere-hedge-witch-morwen-topic-auto-2", "hollowmere-hedge-witch-morwen-topic-auto-3"],
       "building": "witch-hut",
       "questGive": "hollowmere-witch-brew",
       "questReceive": [
@@ -1236,6 +1240,7 @@
         "A swamp is just an apothecary that hasn't been organised yet. Mind where you step.",
         "Morwen brews the showy stuff. I do the work that actually keeps Hollowmere on its feet. Or tentacles."
       ],
+      "conversationTopics": ["hollowmere-apothecary-herbalist-topic-auto-1", "hollowmere-apothecary-herbalist-topic-auto-2", "hollowmere-apothecary-herbalist-topic-auto-3"],
       "building": "apothecary",
       "questGive": "apothecary-ingredients-1",
       "questReceive": [
@@ -1259,6 +1264,7 @@
         "One monster's rubbish is another monster's treasure. Mostly it's just rubbish, but you never know.",
         "You break the merchandise, you marry the merchandise. Those are the rules. I don't make them. I do."
       ],
+      "conversationTopics": ["hollowmere-goblin-curio-keep-topic-auto-1", "hollowmere-goblin-curio-keep-topic-auto-2", "hollowmere-goblin-curio-keep-topic-auto-3"],
       "building": "bonepile-curio",
       "questGive": "curio-oddities",
       "questReceive": "curio-oddities",
@@ -1280,6 +1286,7 @@
         "A troll without a good wallow is just a grumpy troll. And nobody wants that.",
         "First soak's on the house. After that it's two crystals, or one decent rumour."
       ],
+      "conversationTopics": ["hollowmere-bog-troll-attendant-topic-auto-1", "hollowmere-bog-troll-attendant-topic-auto-2", "hollowmere-bog-troll-attendant-topic-auto-3"],
       "building": "bathhouse",
       "questGive": "mud-wallow",
       "questReceive": "mud-wallow",
@@ -1300,6 +1307,7 @@
         "Folk think monsters can't be kind. Folk never met Mott, or Mott's pens.",
         "You want to learn beast-taming? Start small. Start with the ones that bite least."
       ],
+      "conversationTopics": ["hollowmere-tame-ogre-keeper-topic-auto-1", "hollowmere-tame-ogre-keeper-topic-auto-2", "hollowmere-tame-ogre-keeper-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Easy now, easy. These beasts just want to be asked nicely."
@@ -1355,6 +1363,7 @@
         "Lost your way? Lost your boots? The marsh has both, somewhere down in the muck.",
         "I've sat in this bog longer than your town's had a name. I remember when it had three."
       ],
+      "conversationTopics": ["hollowmere-swamp-hag-topic-auto-1", "hollowmere-swamp-hag-topic-auto-2", "hollowmere-swamp-hag-topic-auto-3"],
       "questGive": "mire-lost-items-1",
       "questReceive": [
         "mire-lost-items-1",

@@ -529,6 +529,7 @@
         "I served this citadel once. I don't talk about that, usually.",
         "You keep coming back here. Most people don't, once they've seen the Outer Ward."
       ],
+      "conversationTopics": ["dreadspirecitadel-vask-ward-topic-auto-1", "dreadspirecitadel-vask-ward-topic-auto-2"],
       "favoriteGiftItemId": "bog-salve",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
@@ -547,6 +548,7 @@
         "I maintain the citadel. The dust maintains itself — it's quite industrious.",
         "The dark crystals that anchor these walls have been... wandering off lately. It is most irregular."
       ],
+      "conversationTopics": ["dreadspirecitadel-the-castellan-topic-auto-1", "dreadspirecitadel-the-castellan-topic-auto-2", "dreadspirecitadel-the-castellan-topic-auto-3"],
       "questGive": "dreadspire-dark-harvest",
       "questReceive": [
         "dreadspire-dark-harvest",
@@ -570,6 +572,7 @@
         "Death is a poor excuse for missing a shift here. The garrison re-forms by morning, every morning.",
         "If you mean the citadel harm, I must stop you. If you mean it well, I must watch you suspiciously. Those are the rules."
       ],
+      "conversationTopics": ["dreadspirecitadel-bound-knight-topic-auto-1", "dreadspirecitadel-bound-knight-topic-auto-2", "dreadspirecitadel-bound-knight-topic-auto-3"],
       "questGive": "dreadspire-lost-watch",
       "questReceive": "dreadspire-lost-watch",
       "favoriteGiftItemId": "sturdy-boots",
@@ -590,6 +593,7 @@
         "Four centuries of research and I have proven, conclusively, that the dead make poor conversationalists.",
         "If Ordrin asks, I did NOT borrow his shadow-oil. I liberated it. There is a difference."
       ],
+      "conversationTopics": ["dreadspirecitadel-warlock-vesska-topic-auto-1", "dreadspirecitadel-warlock-vesska-topic-auto-2", "dreadspirecitadel-warlock-vesska-topic-auto-3"],
       "dialogueByActivity": {
         "work": [
           "Mind the sigils while I work. The floor ones bite, remember."
@@ -661,6 +665,7 @@
         "One bone dust, one measure of shadow-oil, one candle of rendered dread. Is that so much to ask?",
         "Vesska took my shadow-oil. I can tell. The circle sulks differently when the oil is wrong."
       ],
+      "conversationTopics": ["dreadspirecitadel-cultist-ordrin-topic-auto-1", "dreadspirecitadel-cultist-ordrin-topic-auto-2", "dreadspirecitadel-cultist-ordrin-topic-auto-3"],
       "questGive": "dreadspire-ritual-ingredients",
       "questReceive": "dreadspire-ritual-ingredients",
       "dislikes": [
@@ -684,6 +689,7 @@
         "We had a thief. Took three femurs and a favourite skull. The skull I shall miss; it was a good listener.",
         "You want the deep ossuary? Mind the draught. And the things that enjoy the draught."
       ],
+      "conversationTopics": ["dreadspirecitadel-bone-keeper-mald-topic-auto-1", "dreadspirecitadel-bone-keeper-mald-topic-auto-2", "dreadspirecitadel-bone-keeper-mald-topic-auto-3"],
       "questGive": "dreadspire-bone-tally",
       "questReceive": "dreadspire-bone-tally",
       "favoriteGiftItemId": "bones",
@@ -705,6 +711,7 @@
         "Light no honest candles here. The black ones, please — the dark prefers its own.",
         "Pray if you like. The shadow grants nothing, but it never lies to you either. Rare, these days."
       ],
+      "conversationTopics": ["dreadspirecitadel-shrine-tender-topic-auto-1", "dreadspirecitadel-shrine-tender-topic-auto-2", "dreadspirecitadel-shrine-tender-topic-auto-3"],
       "questGive": "dreadspire-black-candles",
       "questReceive": "dreadspire-black-candles",
       "favoriteGiftItemId": "bones",
@@ -726,6 +733,7 @@
         "I need moon-herbs — proper ones, from Hollowmere's marsh. The local weeds are all dead, and dead weeds make dull poison.",
         "Touch nothing green. Touch nothing that ISN'T green either, come to think of it."
       ],
+      "conversationTopics": ["dreadspirecitadel-alchemist-sythe-topic-auto-1", "dreadspirecitadel-alchemist-sythe-topic-auto-2", "dreadspirecitadel-alchemist-sythe-topic-auto-3"],
       "questGive": "dreadspire-moon-herbs",
       "questReceive": "dreadspire-moon-herbs",
       "favoriteGiftItemId": "grave-moss",
@@ -746,6 +754,7 @@
         "Six ravens I keep, and six I count each dusk. Last night I counted five. The sixth is sulking, or stolen.",
         "They fly the whole citadel, my birds. Drop me a token from each corner and I'll know my domain is whole."
       ],
+      "conversationTopics": ["dreadspirecitadel-raven-keeper-corvane-topic-auto-1", "dreadspirecitadel-raven-keeper-corvane-topic-auto-2", "dreadspirecitadel-raven-keeper-corvane-topic-auto-3"],
       "questGive": "dreadspire-raven-tokens",
       "questReceive": "dreadspire-raven-tokens",
       "favoriteGiftItemId": "feather",
@@ -766,6 +775,7 @@
         "The lower vault stays sealed. Warlock's orders — Vesska's, not the master's. There is a difference, and it troubles me.",
         "If you've business in the deep cells, bring me leave from one who outranks dust. I'll know it when I see it."
       ],
+      "conversationTopics": ["dreadspirecitadel-dungeon-warden-gholl-topic-auto-1", "dreadspirecitadel-dungeon-warden-gholl-topic-auto-2", "dreadspirecitadel-dungeon-warden-gholl-topic-auto-3"],
       "questReceive": "dreadspire-intrigue-2",
       "favoriteGiftItemId": "hearty-pie",
       "favoriteGiftTrack": "ally",
@@ -785,6 +795,7 @@
         "I served the master once. Then I read what the ritual actually does, and I asked to leave. You can guess how that went.",
         "Get me out and I'll tell you what sleeps under this citadel. It is the only currency I have left."
       ],
+      "conversationTopics": ["dreadspirecitadel-the-defector-topic-auto-1", "dreadspirecitadel-the-defector-topic-auto-2", "dreadspirecitadel-the-defector-topic-auto-3"],
       "questGive": "dreadspire-intrigue-3",
       "favoriteGiftItemId": "poetry-book",
       "favoriteGiftTrack": "ally",
@@ -805,6 +816,7 @@
         "I dropped the master's old keys somewhere on my rounds. Four centuries of rounds. They could be anywhere.",
         "Mind the crypt door. It sticks. Everything down here sticks, including time."
       ],
+      "conversationTopics": ["dreadspirecitadel-ghost-servant-isolde-topic-auto-1", "dreadspirecitadel-ghost-servant-isolde-topic-auto-2", "dreadspirecitadel-ghost-servant-isolde-topic-auto-3"],
       "dialogueByActivity": {
         "sweep": [
           "Dust to sweep, dust to dust. Four centuries in and the work still isn't done."
@@ -858,6 +870,7 @@
         "The towers hoard their secrets. I sell mine — cheaper, and with fewer curses attached. Usually.",
         "One spell, properly cast, is worth a hundred swords poorly swung."
       ],
+      "conversationTopics": ["dreadspirecitadel-grimoire-peddler-ashka-topic-auto-1", "dreadspirecitadel-grimoire-peddler-ashka-topic-auto-2", "dreadspirecitadel-grimoire-peddler-ashka-topic-auto-3"],
       "favoriteGiftItemId": "moon-draught",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [

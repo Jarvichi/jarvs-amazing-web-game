@@ -788,5 +788,4113 @@
         "npcs": []
       }
     }
+  ],
+  "dialogues": [
+    {
+      "id": "gearford-forgemaster-brunn-topic-auto-1",
+      "npcId": "forgemaster-brunn",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Gearford runs on three things: coal, iron, and complaints.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-forgemaster-brunn-topic-auto-2",
+      "npcId": "forgemaster-brunn",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Somebody's been lifting tools from the yard. A foundry without tools is just a very warm room.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-forgemaster-brunn-topic-auto-3",
+      "npcId": "forgemaster-brunn",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Hear that hammering? That's the sound of nothing being wrong. I like that sound.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-engineer-vela-topic-auto-1",
+      "npcId": "engineer-vela",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The constructs that went rogue out in the smoke fields? Not mine. Mostly not mine.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-engineer-vela-topic-auto-2",
+      "npcId": "engineer-vela",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Every machine wants to work. You just have to convince it the work is yours.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-engineer-vela-topic-auto-3",
+      "npcId": "engineer-vela",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The forge eats coal like a dragon eats... well, everything. We're always short.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-foreman-dask-topic-auto-1",
+      "npcId": "foreman-dask",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Shift starts at dawn, ends when Brunn stops shouting.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-foreman-dask-topic-auto-2",
+      "npcId": "foreman-dask",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Between the bandits on the toll road and the mine collapse, half my crew won't travel.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-foreman-dask-topic-auto-3",
+      "npcId": "foreman-dask",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "You look sturdy. Ever considered honest work? No? Smart.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-apprentice-tila-topic-auto-1",
+      "npcId": "apprentice-tila",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "I'm Brunn's apprentice. Mostly that means I carry things and get shouted at.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-apprentice-tila-topic-auto-2",
+      "npcId": "apprentice-tila",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "I dropped a whole tray of parts in the yard yesterday. They went EVERYWHERE.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-apprentice-tila-topic-auto-3",
+      "npcId": "apprentice-tila",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "One day I'll forge a blade so fine they'll sing songs. For now: more carrying.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-gearwright-orin-topic-auto-1",
+      "npcId": "gearwright-orin",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Clockwork is just patience with teeth. Miss one tooth and the whole thing seizes.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-gearwright-orin-topic-auto-2",
+      "npcId": "gearwright-orin",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Ravenwatch sent word: their gaol lock's jammed and the guard captain wants a new key forged.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-gearwright-orin-topic-auto-3",
+      "npcId": "gearwright-orin",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Bring me good iron and I'll cut you a key that'd open the gates of dawn.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-coal-hauler-bram-topic-auto-1",
+      "npcId": "coal-hauler-bram",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Coal in, slag out, all day long. My back's a clockwork of aches by sundown.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-coal-hauler-bram-topic-auto-2",
+      "npcId": "coal-hauler-bram",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The old depot south of town's still half-full. Nobody hauls it — too lazy, too scared.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-coal-hauler-bram-topic-auto-3",
+      "npcId": "coal-hauler-bram",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "A full barrow and an empty road. That's all a hauler wants out of life.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-innkeep-mags-topic-auto-1",
+      "npcId": "innkeep-mags",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Welcome to the Pickaxe Rest. Ale's warm, stew's warmer, and the gossip's free.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-innkeep-mags-topic-auto-2",
+      "npcId": "innkeep-mags",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Miners drink like the mine's about to close. Some weeks it nearly is.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-innkeep-mags-topic-auto-3",
+      "npcId": "innkeep-mags",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Rats in my store again. Eating better than my guests, the little tyrants.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-miner-jole-topic-auto-1",
+      "npcId": "miner-jole",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Down the shaft by dawn, up by dusk, if the timbers hold.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-miner-jole-topic-auto-2",
+      "npcId": "miner-jole",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Lost my good lamp in the west drift. Pitch black down there without it.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-miner-jole-topic-auto-3",
+      "npcId": "miner-jole",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The ore's rich this season. Pity the road out is so poor.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-quartermaster-rell-topic-auto-1",
+      "npcId": "quartermaster-rell",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Every crate in this town passes my ledger. Lose one and you'll hear about it.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-quartermaster-rell-topic-auto-2",
+      "npcId": "quartermaster-rell",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Half the stores went walkabout in the last delivery. Slipshod loading, I call it.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-quartermaster-rell-topic-auto-3",
+      "npcId": "quartermaster-rell",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Order is the only ore that never runs dry. Remember that.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-pumpwright-edda-topic-auto-1",
+      "npcId": "pumpwright-edda",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "The great pump keeps the deep workings dry. When it stops, the water wins.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-pumpwright-edda-topic-auto-2",
+      "npcId": "pumpwright-edda",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "A valve's seized and a flywheel's cracked. Vela knows the parts I need.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-pumpwright-edda-topic-auto-3",
+      "npcId": "pumpwright-edda",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Keep her turning and Gearford breathes. Let her stop and we drown in the dark.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-engineer-torvald-topic-auto-1",
+      "npcId": "engineer-torvald",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Foundations, walls, towers — nothing stands without good bones under it.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-engineer-torvald-topic-auto-2",
+      "npcId": "engineer-torvald",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Half of Gearford's collapsed twice over. I keep the plans for what worked.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-engineer-torvald-topic-auto-3",
+      "npcId": "engineer-torvald",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "You don't build a keep in a day. You build it in a thousand right decisions.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-sergeant-coldiron-topic-auto-1",
+      "npcId": "sergeant-coldiron",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Levies, veterans, the odd conscript who'd rather be anywhere else — I've fielded them all.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-sergeant-coldiron-topic-auto-2",
+      "npcId": "sergeant-coldiron",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "A war's won by whoever counts their troops correctly. I count carefully.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gearford-sergeant-coldiron-topic-auto-3",
+      "npcId": "sergeant-coldiron",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Gear's cheap. The people who wear it into a fight are what costs you.",
+          "choices": [
+            {
+              "label": "That sounds like it weighs on you.",
+              "next": "warm"
+            },
+            {
+              "label": "Anything practical come of it?",
+              "next": "practical"
+            },
+            {
+              "label": "Can't say that interests me much.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It does, more than I let on. Kind of you to notice, truly.",
+          "choices": [
+            {
+              "label": "I'm glad you felt you could share that.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thanks for telling me.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Not especially — just how things are, these days.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Right. Didn't realize I was boring you.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -8
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": -3
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "conversationTopics": [
+    {
+      "id": "gearford-forgemaster-brunn-topic-auto-1",
+      "npcId": "forgemaster-brunn",
+      "label": "💬 \"Gearford runs on three things: coal, iron, and…\"",
+      "treeId": "gearford-forgemaster-brunn-topic-auto-1"
+    },
+    {
+      "id": "gearford-forgemaster-brunn-topic-auto-2",
+      "npcId": "forgemaster-brunn",
+      "label": "💬 \"Somebody's been lifting tools from the yard.\"",
+      "treeId": "gearford-forgemaster-brunn-topic-auto-2"
+    },
+    {
+      "id": "gearford-forgemaster-brunn-topic-auto-3",
+      "npcId": "forgemaster-brunn",
+      "label": "💬 \"Hear that hammering?\"",
+      "treeId": "gearford-forgemaster-brunn-topic-auto-3"
+    },
+    {
+      "id": "gearford-engineer-vela-topic-auto-1",
+      "npcId": "engineer-vela",
+      "label": "💬 \"The constructs that went rogue out in the smoke…\"",
+      "treeId": "gearford-engineer-vela-topic-auto-1"
+    },
+    {
+      "id": "gearford-engineer-vela-topic-auto-2",
+      "npcId": "engineer-vela",
+      "label": "💬 \"Every machine wants to work.\"",
+      "treeId": "gearford-engineer-vela-topic-auto-2"
+    },
+    {
+      "id": "gearford-engineer-vela-topic-auto-3",
+      "npcId": "engineer-vela",
+      "label": "💬 \"The forge eats coal like a dragon eats...\"",
+      "treeId": "gearford-engineer-vela-topic-auto-3"
+    },
+    {
+      "id": "gearford-foreman-dask-topic-auto-1",
+      "npcId": "foreman-dask",
+      "label": "💬 \"Shift starts at dawn, ends when Brunn stops…\"",
+      "treeId": "gearford-foreman-dask-topic-auto-1"
+    },
+    {
+      "id": "gearford-foreman-dask-topic-auto-2",
+      "npcId": "foreman-dask",
+      "label": "💬 \"Between the bandits on the toll road and the…\"",
+      "treeId": "gearford-foreman-dask-topic-auto-2"
+    },
+    {
+      "id": "gearford-foreman-dask-topic-auto-3",
+      "npcId": "foreman-dask",
+      "label": "💬 \"You look sturdy.\"",
+      "treeId": "gearford-foreman-dask-topic-auto-3"
+    },
+    {
+      "id": "gearford-apprentice-tila-topic-auto-1",
+      "npcId": "apprentice-tila",
+      "label": "💬 \"I'm Brunn's apprentice.\"",
+      "treeId": "gearford-apprentice-tila-topic-auto-1"
+    },
+    {
+      "id": "gearford-apprentice-tila-topic-auto-2",
+      "npcId": "apprentice-tila",
+      "label": "💬 \"I dropped a whole tray of parts in the yard…\"",
+      "treeId": "gearford-apprentice-tila-topic-auto-2"
+    },
+    {
+      "id": "gearford-apprentice-tila-topic-auto-3",
+      "npcId": "apprentice-tila",
+      "label": "💬 \"One day I'll forge a blade so fine they'll sing…\"",
+      "treeId": "gearford-apprentice-tila-topic-auto-3"
+    },
+    {
+      "id": "gearford-gearwright-orin-topic-auto-1",
+      "npcId": "gearwright-orin",
+      "label": "💬 \"Clockwork is just patience with teeth.\"",
+      "treeId": "gearford-gearwright-orin-topic-auto-1"
+    },
+    {
+      "id": "gearford-gearwright-orin-topic-auto-2",
+      "npcId": "gearwright-orin",
+      "label": "💬 \"Ravenwatch sent word: their gaol lock's jammed…\"",
+      "treeId": "gearford-gearwright-orin-topic-auto-2"
+    },
+    {
+      "id": "gearford-gearwright-orin-topic-auto-3",
+      "npcId": "gearwright-orin",
+      "label": "💬 \"Bring me good iron and I'll cut you a key…\"",
+      "treeId": "gearford-gearwright-orin-topic-auto-3"
+    },
+    {
+      "id": "gearford-coal-hauler-bram-topic-auto-1",
+      "npcId": "coal-hauler-bram",
+      "label": "💬 \"Coal in, slag out, all day long.\"",
+      "treeId": "gearford-coal-hauler-bram-topic-auto-1"
+    },
+    {
+      "id": "gearford-coal-hauler-bram-topic-auto-2",
+      "npcId": "coal-hauler-bram",
+      "label": "💬 \"The old depot south of town's still half-full.\"",
+      "treeId": "gearford-coal-hauler-bram-topic-auto-2"
+    },
+    {
+      "id": "gearford-coal-hauler-bram-topic-auto-3",
+      "npcId": "coal-hauler-bram",
+      "label": "💬 \"A full barrow and an empty road.\"",
+      "treeId": "gearford-coal-hauler-bram-topic-auto-3"
+    },
+    {
+      "id": "gearford-innkeep-mags-topic-auto-1",
+      "npcId": "innkeep-mags",
+      "label": "💬 \"Welcome to the Pickaxe Rest.\"",
+      "treeId": "gearford-innkeep-mags-topic-auto-1"
+    },
+    {
+      "id": "gearford-innkeep-mags-topic-auto-2",
+      "npcId": "innkeep-mags",
+      "label": "💬 \"Miners drink like the mine's about to close.\"",
+      "treeId": "gearford-innkeep-mags-topic-auto-2"
+    },
+    {
+      "id": "gearford-innkeep-mags-topic-auto-3",
+      "npcId": "innkeep-mags",
+      "label": "💬 \"Rats in my store again.\"",
+      "treeId": "gearford-innkeep-mags-topic-auto-3"
+    },
+    {
+      "id": "gearford-miner-jole-topic-auto-1",
+      "npcId": "miner-jole",
+      "label": "💬 \"Down the shaft by dawn, up by dusk, if the…\"",
+      "treeId": "gearford-miner-jole-topic-auto-1"
+    },
+    {
+      "id": "gearford-miner-jole-topic-auto-2",
+      "npcId": "miner-jole",
+      "label": "💬 \"Lost my good lamp in the west drift.\"",
+      "treeId": "gearford-miner-jole-topic-auto-2"
+    },
+    {
+      "id": "gearford-miner-jole-topic-auto-3",
+      "npcId": "miner-jole",
+      "label": "💬 \"The ore's rich this season.\"",
+      "treeId": "gearford-miner-jole-topic-auto-3"
+    },
+    {
+      "id": "gearford-quartermaster-rell-topic-auto-1",
+      "npcId": "quartermaster-rell",
+      "label": "💬 \"Every crate in this town passes my ledger.\"",
+      "treeId": "gearford-quartermaster-rell-topic-auto-1"
+    },
+    {
+      "id": "gearford-quartermaster-rell-topic-auto-2",
+      "npcId": "quartermaster-rell",
+      "label": "💬 \"Half the stores went walkabout in the last…\"",
+      "treeId": "gearford-quartermaster-rell-topic-auto-2"
+    },
+    {
+      "id": "gearford-quartermaster-rell-topic-auto-3",
+      "npcId": "quartermaster-rell",
+      "label": "💬 \"Order is the only ore that never runs dry.\"",
+      "treeId": "gearford-quartermaster-rell-topic-auto-3"
+    },
+    {
+      "id": "gearford-pumpwright-edda-topic-auto-1",
+      "npcId": "pumpwright-edda",
+      "label": "💬 \"The great pump keeps the deep workings dry.\"",
+      "treeId": "gearford-pumpwright-edda-topic-auto-1"
+    },
+    {
+      "id": "gearford-pumpwright-edda-topic-auto-2",
+      "npcId": "pumpwright-edda",
+      "label": "💬 \"A valve's seized and a flywheel's cracked.\"",
+      "treeId": "gearford-pumpwright-edda-topic-auto-2"
+    },
+    {
+      "id": "gearford-pumpwright-edda-topic-auto-3",
+      "npcId": "pumpwright-edda",
+      "label": "💬 \"Keep her turning and Gearford breathes.\"",
+      "treeId": "gearford-pumpwright-edda-topic-auto-3"
+    },
+    {
+      "id": "gearford-engineer-torvald-topic-auto-1",
+      "npcId": "engineer-torvald",
+      "label": "💬 \"Foundations, walls, towers — nothing stands…\"",
+      "treeId": "gearford-engineer-torvald-topic-auto-1"
+    },
+    {
+      "id": "gearford-engineer-torvald-topic-auto-2",
+      "npcId": "engineer-torvald",
+      "label": "💬 \"Half of Gearford's collapsed twice over.\"",
+      "treeId": "gearford-engineer-torvald-topic-auto-2"
+    },
+    {
+      "id": "gearford-engineer-torvald-topic-auto-3",
+      "npcId": "engineer-torvald",
+      "label": "💬 \"You don't build a keep in a day.\"",
+      "treeId": "gearford-engineer-torvald-topic-auto-3"
+    },
+    {
+      "id": "gearford-sergeant-coldiron-topic-auto-1",
+      "npcId": "sergeant-coldiron",
+      "label": "💬 \"Levies, veterans, the odd conscript who'd…\"",
+      "treeId": "gearford-sergeant-coldiron-topic-auto-1"
+    },
+    {
+      "id": "gearford-sergeant-coldiron-topic-auto-2",
+      "npcId": "sergeant-coldiron",
+      "label": "💬 \"A war's won by whoever counts their troops…\"",
+      "treeId": "gearford-sergeant-coldiron-topic-auto-2"
+    },
+    {
+      "id": "gearford-sergeant-coldiron-topic-auto-3",
+      "npcId": "sergeant-coldiron",
+      "label": "💬 \"Gear's cheap.\"",
+      "treeId": "gearford-sergeant-coldiron-topic-auto-3"
+    }
   ]
 }
