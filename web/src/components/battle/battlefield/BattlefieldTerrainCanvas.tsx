@@ -1,20 +1,22 @@
 import React, { useRef, useEffect, useState } from 'react'
 import * as PIXI from 'pixi.js'
 import { usePixiApp } from '../../../hooks/usePixiApp'
-import { buildTerrainGfx, buildBgTileGfx, buildDecorGfx, buildBorderGfx, buildTerrainDecorGfx } from '../../../utils/terrainLayer'
+import { buildTerrainGfx, buildBgTileGfx, buildDecorGfx, buildBorderGfx, buildTerrainDecorGfx, buildRoadGfx } from '../../../utils/terrainLayer'
 import { WORLD_ENV_TILES } from '../../../data/tiles/worldTileIndex'
 import { ENV_TILES } from '../../../data/tiles/tileIndex'
-import type { TerrainObstacle } from '../../../game/engine/terrain'
+import type { TerrainObstacle, RoadDef } from '../../../game/engine/terrain'
 
 export interface Props {
   environment?: string
   /** Stable ID used as terrain scatter seed — use node/act ID for deterministic decoration */
   id?: string
   terrain?: TerrainObstacle[]
+  /** Act/node-authored road paths. Rendered only — does not affect unit movement. */
+  roads?: RoadDef[]
 }
 
 // Inner component — only mounts once dimensions are known so usePixiApp gets the right size.
-function TerrainPixi({ environment, id, terrain, w, h }: Props & { w: number; h: number }) {
+function TerrainPixi({ environment, id, terrain, roads, w, h }: Props & { w: number; h: number }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const envDef = WORLD_ENV_TILES[environment ?? ''] ?? ENV_TILES[environment ?? '']
 
@@ -23,14 +25,16 @@ function TerrainPixi({ environment, id, terrain, w, h }: Props & { w: number; h:
     const river          = new PIXI.Container() // not added to stage — rivers suppressed on battlefield
     const world          = new PIXI.Container()
     const bg             = new PIXI.Container()
+    const road           = new PIXI.Container()
     const decor          = new PIXI.Container()
     const border         = new PIXI.Container()
     const decorObstacles = new PIXI.Container()
-    app.stage.addChild(base, bg, border, decor, decorObstacles, world)
+    app.stage.addChild(base, bg, road, border, decor, decorObstacles, world)
     buildTerrainGfx(base, river, world,
       { environment, envDef, id, rivers: [], terrainItems: [] },
       w, h)
     buildBgTileGfx(bg, { environment, envDef }, w, h)
+    buildRoadGfx(road, roads ?? [], { environment, envDef }, w, h)
     buildBorderGfx(border, { environment, envDef }, w, h)
     buildDecorGfx(decor, { environment, envDef, id }, w, h)
     buildTerrainDecorGfx(decorObstacles, terrain ?? [], { environment, envDef }, w, h)
@@ -44,7 +48,7 @@ function TerrainPixi({ environment, id, terrain, w, h }: Props & { w: number; h:
  * Measures its container after mount, then renders a PixiJS tile scene.
  * Replaces the SVG layer approach of BattlefieldBackground.
  */
-export function BattlefieldTerrainCanvas({ environment, id, terrain }: Props) {
+export function BattlefieldTerrainCanvas({ environment, id, terrain, roads }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const [dims, setDims] = useState<{ w: number; h: number } | null>(null)
 
@@ -81,7 +85,7 @@ export function BattlefieldTerrainCanvas({ environment, id, terrain }: Props) {
       {/* Re-key on size/environment/id so the Pixi scene remounts and rebuilds — usePixiApp's
           onReady closure only runs once per mount, so changing terrain/environment/id alone
           (with the same dimensions) would otherwise silently keep rendering the stale scene. */}
-      {dims && <TerrainPixi key={`${dims.w}x${dims.h}-${environment}-${id}`} environment={environment} id={id} terrain={terrain} w={dims.w} h={dims.h} />}
+      {dims && <TerrainPixi key={`${dims.w}x${dims.h}-${environment}-${id}`} environment={environment} id={id} terrain={terrain} roads={roads} w={dims.w} h={dims.h} />}
     </div>
   )
 }

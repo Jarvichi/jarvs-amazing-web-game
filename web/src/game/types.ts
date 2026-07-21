@@ -370,10 +370,11 @@ export interface BattleEventState {
 // Types and constants owned by engine/terrain.ts; re-exported here for
 // consumers that import from the top-level types module.
 
-import type { TerrainObstacle as _TerrainObstacle } from './engine/terrain'
-export type { TerrainType, TerrainObstacle } from './engine/terrain'
+import type { TerrainObstacle as _TerrainObstacle, RoadDef as _RoadDef } from './engine/terrain'
+export type { TerrainType, TerrainObstacle, RoadDef } from './engine/terrain'
 export { TERRAIN_AVOID_SHAPE } from './engine/terrain'
 type TerrainObstacle = _TerrainObstacle
+type RoadDef = _RoadDef
 
 // ─── Game ────────────────────────────────────────────────
 
@@ -434,6 +435,7 @@ export interface GameState {
   /** Live state for the active boss's trait system. Undefined when not in a boss fight. */
   bossTraitState?: BossTraitState
   terrain: TerrainObstacle[]
+  roads?: RoadDef[]          // act/node-authored road paths for the battlefield (visual only)
   environment?: string       // battlefield background theme ('forest' | 'ruins' | 'camp' | 'citadel' | 'ashen')
   unitReviveHp?: 'half' | 'full' | number      // pending one-time unit revive at this HP value (set by Soulstone/Salvage Hook relics)
   relicManaBonus?: number             // passive +N to maxMana cap (set by Prism Lens relic)

@@ -24,6 +24,19 @@ export interface TerrainObstacle {
   radius: number // base avoidance radius in game units, 12–22
 }
 
+/**
+ * Act/node-authored road path for the battlefield, rendered visually only —
+ * does not affect unit movement/avoidance (see game/engine/units.ts).
+ */
+export interface RoadDef {
+  /** Waypoints in game-unit coords — same space as TerrainObstacle: x 0–500 (forward, base→base), y -80..80 (lateral). */
+  points: Array<{ x: number; y: number }>
+  /** Tile-count width of the road band. Default 2. */
+  width?: number
+  /** Optional tileset override (defaults to envDef.pathFile). */
+  tileFile?: string
+}
+
 // ─── Terrain Generation ───────────────────────────────────
 //
 // Scatter rocks, trees, water, and ruins across the mid-field.
