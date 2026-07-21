@@ -15,7 +15,7 @@ import { unitDist } from './engine/targeting'
 import { opponentAI } from './engine/opponentAI'
 import { triggerBattleEvent, BATTLE_EVENT_BASE_MS } from './engine/battleEvents'
 import { generateTerrain } from './engine/terrain'
-import type { RoadDef } from './engine/terrain'
+import type { RoadDef, TerrainObstacle } from './engine/terrain'
 import { processEndlessModeAdditions, triggerNextEndlessWave, spawnEndlessCommander } from './engine/endlessMode'
 import { handleSuddentDeath } from './engine/suddenDeath'
 
@@ -122,6 +122,8 @@ export interface NewGameOptions {
   environment?: string
   /** Act/node-authored road paths for the battlefield. Rendered only — does not affect unit movement. */
   roads?: RoadDef[]
+  /** Act/node-authored terrain obstacles for the battlefield. When present, replaces the procedurally-generated default. */
+  terrain?: TerrainObstacle[]
   /** Override opponent play interval (ms). Defined per-node in act JSON. */
   opponentIntervalMs?: number
   /** Override opponent base HP. Defined per-node in act JSON. */
@@ -174,6 +176,7 @@ export function newGame(
     terrainSeed,
     environment,
     roads,
+    terrain: authoredTerrain,
     opponentIntervalMs: intervalOverride,
     opponentBaseHp: hpOverride,
     bossSpawnKillPct,
@@ -324,7 +327,7 @@ export function newGame(
       traitFired: false,
       baseInvulnerableUntilMs: 0,
     } : undefined,
-    terrain: generateTerrain(terrainSeed, environment),
+    terrain: authoredTerrain ?? generateTerrain(terrainSeed, environment),
     roads,
     environment,
     battleStats: { cardsPlayed: {}, playerKills: 0, playerUnitsLost: 0 },
