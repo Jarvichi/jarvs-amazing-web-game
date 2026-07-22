@@ -22,6 +22,7 @@ export interface Props {
   inProgressRoadIndex: number | null
   showGuides: boolean
   environment: string
+  roadFollowing: boolean
   canUndo: boolean
   canRedo: boolean
   isDirty: boolean
@@ -31,6 +32,7 @@ export interface Props {
   onSetActiveObstacleType: (type: TerrainType) => void
   onFinishRoad: () => void
   onToggleGuides: () => void
+  onToggleRoadFollowing: () => void
   onUndo: () => void
   onRedo: () => void
   onSaved: () => void
@@ -39,9 +41,9 @@ export interface Props {
 export function BattlefieldEditorToolbar(props: Props) {
   const {
     actId, actData, nodeId, tool, activeObstacleType, inProgressRoadIndex, showGuides,
-    environment, canUndo, canRedo, isDirty,
+    environment, roadFollowing, canUndo, canRedo, isDirty,
     onSetActId, onSetNodeId, onSetTool, onSetActiveObstacleType, onFinishRoad,
-    onToggleGuides, onUndo, onRedo, onSaved,
+    onToggleGuides, onToggleRoadFollowing, onUndo, onRedo, onSaved,
   } = props
 
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'ok' | 'error'>('idle')
@@ -111,6 +113,10 @@ export function BattlefieldEditorToolbar(props: Props) {
 
       <label style={{ fontSize: 11 }}>
         <input type="checkbox" checked={showGuides} onChange={onToggleGuides} /> Guides
+      </label>
+
+      <label style={{ fontSize: 11 }} title="When on, mobile units path onto and follow the nearest road toward the enemy base — scoped to the currently selected node/act default.">
+        <input type="checkbox" checked={roadFollowing} onChange={onToggleRoadFollowing} /> Road following
       </label>
 
       <button onClick={onUndo} disabled={!canUndo}>Undo</button>

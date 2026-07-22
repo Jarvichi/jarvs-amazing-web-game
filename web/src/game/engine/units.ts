@@ -2,6 +2,7 @@ import { GameState, LANE_WIDTH, TERRAIN_AVOID_SHAPE, Unit, UnitTag } from '../ty
 import { BASE_STOP_MARGIN, COMMANDER_LEASH_PX, DAMAGE_FLASH_MS, PLAYER_SPAWN_X } from './constants'
 import { LANE_MAX_Y, LANE_MIN_Y } from './helpers'
 import { unitDist, findNearestEnemy, findNearestEnemyByPriority, findEnemyBehind } from './targeting'
+import { computeRoadWaypoints } from './roads'
 
 // Cache parsed numeric suffix of unit IDs — avoids regex+parseInt on every movement tick.
 const _idNumCache = new Map<string, number>()
@@ -21,6 +22,7 @@ const WALL_CLIMB_ZONE      = 30    // px radius around a wall that counts as "wa
 const BLOOD_CLUSTER_RADIUS = 70    // px — pools within this distance count as "same area"
 const BLOOD_CLUSTER_MIN    = 2     // minimum pools in a cluster to trigger avoidance
 const MAX_BASE_GUARDS      = 2     // max units per side allowed to stay in guard-base mode
+const ROAD_WAYPOINT_ARRIVE_PX = 15 // distance within which a road waypoint counts as "reached"
 
 export function moveUnits(s: GameState, deltaMs: number): void {
   const deltaSec = deltaMs / 1000
@@ -84,6 +86,19 @@ export function moveUnits(s: GameState, deltaMs: number): void {
     let tx: number = unit.owner === 'player' ? LANE_WIDTH : 0
     let ty: number = 0
     let hasTarget = false
+
+    // Road-following: lazily compute this unit's path onto the nearest authored road the
+    // first time it's processed (mirrors the guardY "lazy, set on first tick" pattern —
+    // spawnUnit() has no GameState access, so this can't be done at spawn time). Only
+    // used as the *default* target below; every higher-priority block further down still
+    // overrides tx/ty exactly as before, so this never touches hasTarget.
+    if (s.roadFollowing && !unit.flying && unit.roadWaypoints === undefined) {
+      unit.roadWaypoints = computeRoadWaypoints(unit.x, unit.y, tx, s.roads) ?? []
+    }
+    if (unit.roadWaypoints && unit.roadWaypoints.length > 0) {
+      tx = unit.roadWaypoints[0].x
+      ty = unit.roadWaypoints[0].y
+    }
 
     if (nearestAhead) {
       if (unitDist(unit, nearestAhead) <= unit.attackRange) continue
@@ -361,6 +376,16 @@ export function moveUnits(s: GameState, deltaMs: number): void {
     const step = Math.min(speed, d)
     unit.x = Math.min(LANE_WIDTH - BASE_STOP_MARGIN, Math.max(BASE_STOP_MARGIN, unit.x + (dx / d) * step))
     unit.y = Math.min(LANE_MAX_Y, Math.max(LANE_MIN_Y, unit.y + (dy / d) * step + avoidY * deltaSec))
+
+    // Advance past the current road waypoint once reached — gated on !hasTarget so a unit
+    // pulled off-path by a higher-priority target this tick isn't credited with "arriving"
+    // just because unrelated movement happened to land it near the waypoint.
+    if (!hasTarget && unit.roadWaypoints && unit.roadWaypoints.length > 0) {
+      const wp = unit.roadWaypoints[0]
+      if (Math.hypot(unit.x - wp.x, unit.y - wp.y) <= ROAD_WAYPOINT_ARRIVE_PX) {
+        unit.roadWaypoints.shift()
+      }
+    }
 
     // Commanders cannot stray beyond their leash radius
     if (unit.isCommander && unit.commanderHomeX !== undefined) {

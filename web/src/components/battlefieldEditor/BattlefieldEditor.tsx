@@ -27,6 +27,7 @@ export function BattlefieldEditor({ initialActId = 'act1' }: Props) {
   const envDef = WORLD_ENV_TILES[environment] ?? ENV_TILES[environment]
   const roads = editor.resolveRoadsForTarget(state.actData, state.nodeId)
   const terrain = editor.resolveTerrainForTarget(state.actData, state.nodeId)
+  const roadFollowing = editor.resolveRoadFollowingForTarget(state.actData, state.nodeId)
   const hasNodeRoadsOverride = state.nodeId !== 'act-default' && node?.roads !== undefined
   const hasNodeTerrainOverride = state.nodeId !== 'act-default' && node?.terrain !== undefined
 
@@ -41,6 +42,7 @@ export function BattlefieldEditor({ initialActId = 'act1' }: Props) {
         inProgressRoadIndex={state.inProgressRoadIndex}
         showGuides={showGuides}
         environment={environment}
+        roadFollowing={roadFollowing}
         canUndo={state.undoStack.length > 0}
         canRedo={state.redoStack.length > 0}
         isDirty={state.isDirty}
@@ -50,6 +52,7 @@ export function BattlefieldEditor({ initialActId = 'act1' }: Props) {
         onSetActiveObstacleType={editor.setActiveObstacleType}
         onFinishRoad={editor.finishRoad}
         onToggleGuides={() => setShowGuides(g => !g)}
+        onToggleRoadFollowing={() => editor.setRoadFollowing(!roadFollowing)}
         onUndo={editor.undo}
         onRedo={editor.redo}
         onSaved={editor.markSaved}

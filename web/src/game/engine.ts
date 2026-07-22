@@ -120,8 +120,10 @@ export interface NewGameOptions {
   terrainSeed?: string
   /** Act environment ('forest' | 'citadel' | 'ashen') — themes terrain and log. */
   environment?: string
-  /** Act/node-authored road paths for the battlefield. Rendered only — does not affect unit movement. */
+  /** Act/node-authored road paths for the battlefield. Rendered visually; also affects unit movement when `roadFollowing` is true. */
   roads?: RoadDef[]
+  /** When true, mobile units path onto the nearest `roads` entry and follow it toward the enemy base instead of walking a straight line. */
+  roadFollowing?: boolean
   /** Act/node-authored terrain obstacles for the battlefield. When present, replaces the procedurally-generated default. */
   terrain?: TerrainObstacle[]
   /** Override opponent play interval (ms). Defined per-node in act JSON. */
@@ -176,6 +178,7 @@ export function newGame(
     terrainSeed,
     environment,
     roads,
+    roadFollowing,
     terrain: authoredTerrain,
     opponentIntervalMs: intervalOverride,
     opponentBaseHp: hpOverride,
@@ -329,6 +332,7 @@ export function newGame(
     } : undefined,
     terrain: authoredTerrain ?? generateTerrain(terrainSeed, environment),
     roads,
+    roadFollowing,
     environment,
     battleStats: { cardsPlayed: {}, playerKills: 0, playerUnitsLost: 0 },
     animEvents: [],
