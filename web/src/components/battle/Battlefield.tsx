@@ -1,13 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react'
-import * as PIXI from 'pixi.js'
-import { BattlefieldTerrainCanvas } from './battlefield/BattlefieldTerrainCanvas'
-import { GameState, Unit, LANE_WIDTH, BATTLEFIELD_ASPECT_RATIO, Card, TerrainObstacle, BuffTag, TERRAIN_AVOID_SHAPE } from '../../game/types'
+import { BattlefieldCanvas } from './BattlefieldCanvas'
+import { GameState, Unit, BATTLEFIELD_ASPECT_RATIO, Card } from '../../game/types'
 import { CardTile } from '../cards/CardTile'
 import { useCardDetail } from '../cards/useCardDetail'
-import { SpriteImg, AnimatedSpriteImg } from '../ui/SpriteImg'
 import { spriteSlug } from '../../game/sprites'
 import { BattleEventOverlay } from './BattleEventOverlay'
-import { isNoDamageMode, isDebugMode } from '../../game/debug'
+import { isNoDamageMode } from '../../game/debug'
 import { MAX_UPGRADE_LEVEL, getEffectiveCardCost } from '../../game/engine/cards'
 import { CAST_WINDUP_MS, COUNTER_DAMAGE_FLOOR_PCT } from '../../game/engine/constants'
 import { SUDDEN_DEATH_FORCE_MS } from '../../game/engine/suddenDeath'
@@ -19,7 +17,6 @@ import { loadPlayerName, loadPlayerAvatar } from '../../game/questline'
 import { loadBattlePopups } from '../screens/SettingsScreen'
 import { TutorialOverlay } from '../modals/TutorialOverlay'
 import { hasSeen, markSeen } from '../../game/tutorial'
-import { usePixiApp } from '../../hooks/usePixiApp'
 import { useLetterboxSize } from '../../hooks/useLetterboxSize'
 
 const modalAutoDismissTime = 2000
@@ -56,496 +53,6 @@ interface Props {
   onCycleSpeed?: () => void
   onCounterSpell?: () => void
 }
-
-const SPAWN_GROW_MS = 1500
-
-// ─── Moat graphic ────────────────────────────────────────────────────────────
-// Full-width terrain channel rendered in place of the sprite for moat units.
-// Each variant has distinct colours and detail elements.
-
-const MoatSvg = React.memo(function MoatSvg({ owner, name }: { owner: 'player' | 'opponent'; name: string }) {
-  const W = 360, H = 16
-  const edgeCol = 'rgba(0,0,0,0.55)'
-  const rippleXs = [20, 65, 110, 155, 200, 245, 290, 335]
-
-  // ── Lava Moat ─────────────────────────────────────────────────────────────
-  if (name === 'Lava Moat') {
-    return (
-      <div style={{ display:'block', width:'100%', height: H }}>
-        <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display:'block' }} xmlns="http://www.w3.org/2000/svg">
-          <rect x="0" y="0" width={W} height={H} fill="#6a1000"/>
-          <rect x="0" y="2" width={W} height="12" fill="#c83000" opacity="0.7"/>
-          {rippleXs.map((x, i) => <ellipse key={i} cx={x} cy="8" rx="20" ry="3" fill="none" stroke="rgba(255,180,0,0.45)" strokeWidth="1"/>)}
-          {[40, 120, 200, 280].map((x, i) => <ellipse key={i} cx={x} cy="8" rx="8" ry="4" fill="#ff6a00" opacity="0.5"/>)}
-          <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
-          <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
-        </svg>
-      </div>
-    )
-  }
-
-  // ── Acid Moat ─────────────────────────────────────────────────────────────
-  if (name === 'Acid Moat') {
-    return (
-      <div style={{ display:'block', width:'100%', height: H }}>
-        <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display:'block' }} xmlns="http://www.w3.org/2000/svg">
-          <rect x="0" y="0" width={W} height={H} fill="#1a3a00"/>
-          <rect x="0" y="2" width={W} height="12" fill="#4aaa00" opacity="0.6"/>
-          {rippleXs.map((x, i) => <ellipse key={i} cx={x} cy="8" rx="20" ry="3" fill="none" stroke="rgba(150,255,50,0.4)" strokeWidth="0.9"/>)}
-          {[55, 135, 215, 300].map((x, i) => <circle key={i} cx={x} cy="6" r="3" fill="rgba(180,255,0,0.5)"/>)}
-          <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
-          <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
-        </svg>
-      </div>
-    )
-  }
-
-  // ── Spike Pit ─────────────────────────────────────────────────────────────
-  if (name === 'Spike Pit') {
-    const spikePts = (cx: number) => `${cx},2 ${cx-4},14 ${cx},10 ${cx+4},14`
-    return (
-      <div style={{ display:'block', width:'100%', height: H }}>
-        <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display:'block' }} xmlns="http://www.w3.org/2000/svg">
-          <rect x="0" y="0" width={W} height={H} fill="#2a1a0a"/>
-          <rect x="0" y="10" width={W} height="6" fill="#3a2a18" opacity="0.9"/>
-          {[30, 75, 120, 165, 210, 255, 300, 345].map((x, i) => (
-            <polygon key={i} points={spikePts(x)} fill="#8a8a8a" stroke="#4a4a4a" strokeWidth="0.5"/>
-          ))}
-          <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
-          <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
-        </svg>
-      </div>
-    )
-  }
-
-  // ── Tar Pit ───────────────────────────────────────────────────────────────
-  if (name === 'Tar Pit') {
-    return (
-      <div style={{ display:'block', width:'100%', height: H }}>
-        <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display:'block' }} xmlns="http://www.w3.org/2000/svg">
-          <rect x="0" y="0" width={W} height={H} fill="#0a0808"/>
-          <rect x="0" y="2" width={W} height="12" fill="#1a1212" opacity="0.85"/>
-          {rippleXs.map((x, i) => <ellipse key={i} cx={x} cy="8" rx="18" ry="2.5" fill="none" stroke="rgba(80,60,40,0.5)" strokeWidth="0.8"/>)}
-          {[90, 180, 270].map((x, i) => <circle key={i} cx={x} cy="7" r="4" fill="rgba(30,20,10,0.8)" stroke="rgba(60,40,20,0.4)" strokeWidth="0.5"/>)}
-          <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
-          <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
-        </svg>
-      </div>
-    )
-  }
-
-  // ── Frost Moat ────────────────────────────────────────────────────────────
-  if (name === 'Frost Moat') {
-    return (
-      <div style={{ display:'block', width:'100%', height: H }}>
-        <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display:'block' }} xmlns="http://www.w3.org/2000/svg">
-          <rect x="0" y="0" width={W} height={H} fill="#0a2040"/>
-          <rect x="0" y="2" width={W} height="12" fill="#3080b0" opacity="0.55"/>
-          <rect x="0" y="0" width={W} height="5" fill="#c8e8ff" opacity="0.3"/>
-          {rippleXs.map((x, i) => <ellipse key={i} cx={x} cy="8" rx="20" ry="3" fill="none" stroke="rgba(200,240,255,0.45)" strokeWidth="0.9"/>)}
-          {[50, 150, 250, 350].map((x, i) => <polygon key={i} points={`${x},4 ${x-3},9 ${x},7 ${x+3},9`} fill="rgba(200,240,255,0.55)"/>)}
-          <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
-          <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
-        </svg>
-      </div>
-    )
-  }
-
-  // ── Poison Bog ────────────────────────────────────────────────────────────
-  if (name === 'Poison Bog') {
-    return (
-      <div style={{ display:'block', width:'100%', height: H }}>
-        <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display:'block' }} xmlns="http://www.w3.org/2000/svg">
-          <rect x="0" y="0" width={W} height={H} fill="#0e200e"/>
-          <rect x="0" y="2" width={W} height="12" fill="#2a5020" opacity="0.7"/>
-          {rippleXs.map((x, i) => <ellipse key={i} cx={x} cy="8" rx="18" ry="2.5" fill="none" stroke="rgba(100,200,50,0.3)" strokeWidth="0.8"/>)}
-          {[45, 130, 210, 295].map((x, i) => <ellipse key={i} cx={x} cy="7" rx="6" ry="3" fill="rgba(60,150,20,0.45)"/>)}
-          {[80, 185, 275].map((x, i) => <circle key={i} cx={x} cy="9" r="2" fill="rgba(160,255,80,0.35)"/>)}
-          <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
-          <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
-        </svg>
-      </div>
-    )
-  }
-
-  // ── Lightning Rift ────────────────────────────────────────────────────────
-  if (name === 'Lightning Rift') {
-    return (
-      <div style={{ display:'block', width:'100%', height: H }}>
-        <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display:'block' }} xmlns="http://www.w3.org/2000/svg">
-          <rect x="0" y="0" width={W} height={H} fill="#0a0a30"/>
-          <rect x="0" y="2" width={W} height="12" fill="#1a1a60" opacity="0.7"/>
-          {[40, 120, 200, 280].map((x, i) => (
-            <polyline key={i} points={`${x},2 ${x-5},7 ${x+3},7 ${x-3},14`} fill="none" stroke="rgba(180,200,255,0.7)" strokeWidth="1.2"/>
-          ))}
-          {rippleXs.map((x, i) => <ellipse key={i} cx={x} cy="8" rx="18" ry="2.5" fill="none" stroke="rgba(100,120,255,0.35)" strokeWidth="0.8"/>)}
-          <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
-          <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
-        </svg>
-      </div>
-    )
-  }
-
-  // ── Quicksand ─────────────────────────────────────────────────────────────
-  if (name === 'Quicksand') {
-    return (
-      <div style={{ display:'block', width:'100%', height: H }}>
-        <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display:'block' }} xmlns="http://www.w3.org/2000/svg">
-          <rect x="0" y="0" width={W} height={H} fill="#a08040"/>
-          <rect x="0" y="2" width={W} height="12" fill="#c8a850" opacity="0.6"/>
-          {rippleXs.map((x, i) => <ellipse key={i} cx={x} cy="8" rx="20" ry="3" fill="none" stroke="rgba(200,160,80,0.4)" strokeWidth="0.9"/>)}
-          {[60, 160, 260].map((x, i) => <ellipse key={i} cx={x} cy="9" rx="9" ry="4" fill="rgba(140,100,30,0.45)"/>)}
-          <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
-          <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
-        </svg>
-      </div>
-    )
-  }
-
-  // ── Blood Pool ────────────────────────────────────────────────────────────
-  if (name === 'Blood Pool') {
-    return (
-      <div style={{ display:'block', width:'100%', height: H }}>
-        <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display:'block' }} xmlns="http://www.w3.org/2000/svg">
-          <rect x="0" y="0" width={W} height={H} fill="#3a0010"/>
-          <rect x="0" y="2" width={W} height="12" fill="#800020" opacity="0.75"/>
-          {rippleXs.map((x, i) => <ellipse key={i} cx={x} cy="8" rx="20" ry="3" fill="none" stroke="rgba(200,0,40,0.35)" strokeWidth="0.8"/>)}
-          {[70, 170, 270].map((x, i) => <ellipse key={i} cx={x} cy="8" rx="7" ry="3.5" fill="rgba(180,0,30,0.45)"/>)}
-          <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
-          <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
-        </svg>
-      </div>
-    )
-  }
-
-  // ── Shadow Mire ───────────────────────────────────────────────────────────
-  if (name === 'Shadow Mire') {
-    return (
-      <div style={{ display:'block', width:'100%', height: H }}>
-        <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display:'block' }} xmlns="http://www.w3.org/2000/svg">
-          <rect x="0" y="0" width={W} height={H} fill="#0a0018"/>
-          <rect x="0" y="2" width={W} height="12" fill="#280050" opacity="0.7"/>
-          {rippleXs.map((x, i) => <ellipse key={i} cx={x} cy="8" rx="20" ry="3" fill="none" stroke="rgba(160,80,255,0.35)" strokeWidth="0.9"/>)}
-          {[50, 150, 250, 320].map((x, i) => <circle key={i} cx={x} cy="7" r="3" fill="rgba(120,0,200,0.4)"/>)}
-          <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
-          <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
-        </svg>
-      </div>
-    )
-  }
-
-  // ── Default water moat ────────────────────────────────────────────────────
-  const deep = owner === 'player' ? '#1a4a68' : '#1a3050'
-  const mid  = owner === 'player' ? '#2a6888' : '#243858'
-  return (
-    <div style={{ display: 'block', width: '100%', height: H }}>
-      <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none"
-        style={{ display: 'block' }} xmlns="http://www.w3.org/2000/svg">
-        <rect x="0" y="0" width={W} height={H} fill={deep} opacity="0.9"/>
-        <rect x="0" y="2" width={W} height="12" fill={mid} opacity="0.6"/>
-        {rippleXs.map((x, i) => (
-          <ellipse key={i} cx={x} cy="8" rx="22" ry="3" fill="none" stroke="rgba(120,210,255,0.35)" strokeWidth="0.9"/>
-        ))}
-        <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
-        <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
-      </svg>
-    </div>
-  )
-})
-
-// ─── Wall graphic ─────────────────────────────────────────────────────────────
-// Rendered in-place of the sprite for wall units.  Full-width SVG showing
-// staggered stone blocks, battlements, and progressive damage cracks.
-
-const WallSvg = React.memo(function WallSvg({ hp, maxHp, owner, wallNames = [] }: { hp: number; maxHp: number; owner: 'player' | 'opponent'; wallNames?: string[] }) {
-  const dmgPct = 1 - hp / maxHp
-  // Player = cool grey-blue stone; opponent = warm tan stone
-  const [stone, hiStone, merlon] = owner === 'player'
-    ? ['#606878', '#70788a', '#707888'] as const
-    : ['#7a5838', '#8a6848', '#906a40'] as const
-  const op = 1 - dmgPct * 0.4   // fade slightly with damage
-
-  const hasThorn = wallNames.includes('Thornwall')
-  const hasBone  = wallNames.includes('Bone Wall')
-
-  return (
-    <div className="wall-svg" style={{ display: 'block', width: '100%', height: 30 }}>
-    <svg
-      width="100%" height="30"
-      viewBox="0 0 360 30"
-      preserveAspectRatio="none"
-      style={{ display: 'block' }}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {/* Bottom stone row — 12 blocks */}
-      {Array.from({ length: 12 }, (_, i) => (
-        <rect key={`b${i}`} x={i*30+1} y="17" width="28" height="12" fill={stone}   stroke="#18100a" strokeWidth="0.8" opacity={op}/>
-      ))}
-      {/* Upper row (staggered) */}
-      {Array.from({ length: 13 }, (_, i) => (
-        <rect key={`u${i}`} x={i*30-14} y="8" width="28" height="10" fill={hiStone} stroke="#18100a" strokeWidth="0.8" opacity={op}/>
-      ))}
-      {/* Battlements (merlons) */}
-      {Array.from({ length: 7 }, (_, i) => (
-        <rect key={`m${i}`} x={i*52+2} y="1" width="22" height="9" fill={merlon} stroke="#18100a" strokeWidth="0.8" opacity={op}/>
-      ))}
-      {/* Base shadow strip */}
-      <rect x="0" y="28" width="360" height="2" fill="#0a0500" opacity="0.4"/>
-
-      {/* ── Bone Wall overlay: skulls in mortar joints, bone segments in face ── */}
-      {hasBone && (
-        <g opacity={op * 0.88}>
-          {[45, 135, 225, 315].map((x, i) => (
-            <g key={`sk${i}`} transform={`translate(${x}, 20)`}>
-              <ellipse cx="0" cy="-3" rx="4" ry="3.5" fill="#d4c49a" stroke="#8a7a50" strokeWidth="0.5"/>
-              <circle cx="-1.5" cy="-3.5" r="1" fill="#3a2a10"/>
-              <circle cx="1.5"  cy="-3.5" r="1" fill="#3a2a10"/>
-              <rect x="-3" y="0.5" width="6" height="1.8" rx="0.8" fill="#c8b480" stroke="#8a7a50" strokeWidth="0.4"/>
-            </g>
-          ))}
-          {[75, 165, 255].map((x, i) => (
-            <g key={`bn${i}`}>
-              <line x1={x-7} y1={13} x2={x+7} y2={13} stroke="#d0c090" strokeWidth="2.5" strokeLinecap="round"/>
-              <circle cx={x-7} cy={13} r="2.2" fill="#c8b480" stroke="#9a8a60" strokeWidth="0.5"/>
-              <circle cx={x+7} cy={13} r="2.2" fill="#c8b480" stroke="#9a8a60" strokeWidth="0.5"/>
-            </g>
-          ))}
-        </g>
-      )}
-
-      {/* ── Thornwall overlay: vine along top, thorn spikes, small leaves ── */}
-      {hasThorn && (
-        <g opacity={op * 0.92}>
-          <path d="M0,13 Q45,7 90,12 Q135,17 180,10 Q225,5 270,11 Q315,16 360,10"
-            fill="none" stroke="#3a6a1a" strokeWidth="2.5" strokeLinecap="round"/>
-          {[18,52,88,122,158,192,228,262,298,332].map((x, i) => (
-            <path key={`th${i}`}
-              d={`M${x},11 L${x-3},5 M${x},11 L${x+3},4`}
-              stroke="#1e4008" strokeWidth="1.2" strokeLinecap="round"/>
-          ))}
-          {[35,105,180,255,325].map((x, i) => (
-            <ellipse key={`lf${i}`} cx={x} cy={9} rx="5" ry="2.8"
-              fill="#4a8a22" stroke="#2a5a10" strokeWidth="0.6"
-              transform={`rotate(${i % 2 === 0 ? -25 : 20}, ${x}, 9)`}/>
-          ))}
-        </g>
-      )}
-
-      {/* Progressive damage cracks */}
-      {dmgPct > 0.25 && <line x1="86"  y1="8"  x2="83"  y2="29" stroke="#050200" strokeWidth="1.5" opacity="0.7"/>}
-      {dmgPct > 0.45 && <line x1="200" y1="1"  x2="197" y2="29" stroke="#050200" strokeWidth="2"   opacity="0.8"/>}
-      {dmgPct > 0.65 && (
-        <>
-          <line x1="145" y1="8"  x2="148" y2="29" stroke="#050200" strokeWidth="1.2" opacity="0.7"/>
-          <line x1="290" y1="1"  x2="286" y2="29" stroke="#050200" strokeWidth="1.5" opacity="0.8"/>
-        </>
-      )}
-      {/* Crumbled battlements at heavy damage */}
-      {dmgPct > 0.5 && <rect x="106" y="1" width="22" height="9" fill="#050200" opacity="0.55"/>}
-      {dmgPct > 0.75 && <rect x="264" y="1" width="22" height="9" fill="#050200" opacity="0.7"/>}
-    </svg>
-    </div>
-  )
-}, (prev, next) =>
-  prev.hp === next.hp &&
-  prev.maxHp === next.maxHp &&
-  prev.owner === next.owner &&
-  (prev.wallNames ?? []).join() === (next.wallNames ?? []).join()
-)
-
-/** Stable per-unit percentage offset derived from ID so overlapping units don't pile up. */
-function unitJitter(id: string): { dxPct: number; dyPct: number } {
-  let h = 0
-  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) & 0xffff
-  return {
-    dxPct: ((h & 0xff) / 255 - 0.5) * 10,        // ±5% of lane width
-    dyPct: (((h >> 8) & 0xff) / 255 - 0.5) * 10,  // ±5% of lane height
-  }
-}
-
-/** Returns a CSS class suffix for persistent damage/blood augment based on HP ratio. */
-function spriteDamageClass(hp: number, maxHp: number): string {
-  if (maxHp <= 0 || hp >= maxHp) return ''
-  const ratio = hp / maxHp
-  if (ratio < 0.25) return ' lane-unit-sprite--damaged-heavy'
-  if (ratio < 0.5)  return ' lane-unit-sprite--damaged-med'
-  return ' lane-unit-sprite--damaged'
-}
-
-const LaneUnit = React.memo(function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName, celebrating = false, spriteOverride }: { unit: Unit; stackIndex?: number; wallStack?: Unit[]; onInspect?: (u: Unit) => void; showName?: boolean; celebrating?: boolean; spriteOverride?: string }) {
-  const hpPct = Math.max(0, (unit.hp / unit.maxHp) * 100)
-  const isStructure = unit.moveSpeed === 0
-
-  // Vertical lane: top% based on x position (high x = near enemy = near top)
-  const topPct = (1 - unit.x / LANE_WIDTH) * 100
-
-  // Unit just attacked if timer is in the upper half of its cooldown
-  const isAttacking = unit.attack > 0 && unit.attackCooldownMs > 0 &&
-    unit.attackTimer > unit.attackCooldownMs * 0.6
-
-  // Spawn grow-in animation: scale from 0 → 1 as spawnGrowTimer counts down
-  const growScale = unit.spawnGrowTimer != null && unit.spawnGrowTimer > 0
-    ? Math.max(0.05, 1 - unit.spawnGrowTimer / SPAWN_GROW_MS)
-    : 1
-
-  let style: React.CSSProperties
-  if (unit.isWall) {
-    // Walls span the full lane width, positioned by their x value
-    style = { top: `${topPct}%`, left: 0, right: 0, transform: 'translateY(-50%)' }
-  } else if (unit.isMoat) {
-    // Moat spans full width like a wall — a horizontal water barrier
-    style = { top: `${topPct}%`, left: 0, right: 0, transform: 'translateY(-50%)' }
-  } else if (isStructure) {
-    // Structures anchor to their base edge; horizontal position from unit.y (same scale as mobile units)
-    const hPct = 50 + (unit.y / 80) * 36
-    // Spread into multiple rows: every 6 buildings push one row deeper into the field
-    const BUILDINGS_PER_ROW = 6
-    const row = Math.floor(stackIndex / BUILDINGS_PER_ROW)
-    const rowDepthPx = row * 44
-    style = unit.owner === 'player'
-      ? { bottom: `${5 + rowDepthPx}px`, left: `${hPct}%`, transform: 'translateX(-50%)' }
-      : { top: `${5 + rowDepthPx}px`, left: `${hPct}%`, transform: 'translateX(-50%)' }
-  } else {
-    // Mobile units: lateral position derived from unit.y (-80..80 → 14..86%)
-    const hPct = 50 + (unit.y / 80) * 36
-    // Apply a stable per-unit percentage jitter so units never perfectly overlap,
-    // scaled to the lane dimensions rather than fixed pixels
-    const { dxPct, dyPct } = unit.spawnGrowTimer != null && unit.spawnGrowTimer > 0
-      ? { dxPct: 0, dyPct: 0 }
-      : unitJitter(unit.id)
-    style = {
-      top: `${topPct + dyPct}%`,
-      left: `${hPct + dxPct}%`,
-      transform: `translateX(-50%) translateY(-50%) scale(${growScale})`,
-    }
-  }
-
-  const isDying = unit.dyingTimer != null
-  const isDamageFlash = unit.damageFlashTimer != null && unit.damageFlashTimer > 0
-  const isKillFlash = unit.killFlashTimer != null && unit.killFlashTimer > 0
-  const isCelebrating = celebrating && !isDying && !isStructure && !unit.isWall
-  const isBurning  = !isDying && unit.burnTimer   != null && unit.burnTimer   > 0
-  const isFrozen   = !isDying && unit.freezeTimer  != null && unit.freezeTimer  > 0
-  const isPoisoned = !isDying && unit.poisonTimer  != null && unit.poisonTimer  > 0
-  const isShocked  = !isDying && unit.stunTimer    != null && unit.stunTimer    > 0 && !isBurning && !isFrozen && !isPoisoned
-
-  return (
-    <div
-      className={[
-        'lane-unit u-absolute u-col u-items-c u-gap-1',
-        `lane-unit--${unit.owner}`,
-        isStructure ? 'lane-unit--structure' : '',
-        unit.isWall ? 'lane-unit--wall' : '',
-        unit.isMoat ? 'lane-unit--moat' : '',
-        unit.flying ? 'lane-unit--flying' : '',
-        isAttacking ? 'lane-unit--attacking' : '',
-        isStructure && unit.upgradeLevel && unit.upgradeLevel >= 2 ? `lane-unit--upgraded-${Math.min(unit.upgradeLevel, MAX_UPGRADE_LEVEL)}` : '',
-        unit.isHero ? 'lane-unit--hero' : '',
-        isDying ? 'lane-unit--dying' : '',
-        isDamageFlash ? 'lane-unit--damage-flash' : '',
-        isKillFlash ? 'lane-unit--kill-flash' : '',
-        unit.climbing ? 'lane-unit--climbing' : '',
-        unit.size ? `lane-unit--size-${unit.size}` : '',
-        isCelebrating ? 'lane-unit--celebrating' : '',
-        unit.invisTimer != null && unit.invisTimer > 0 ? 'lane-unit--invisible' : '',
-        unit.cardVariant ? `lane-unit--variant-${unit.cardVariant}` : '',
-        isBurning  ? 'lane-unit--burning'  : '',
-        isFrozen   ? 'lane-unit--frozen'   : '',
-        isPoisoned ? 'lane-unit--poisoned' : '',
-        isShocked  ? 'lane-unit--shocked'  : '',
-      ].filter(Boolean).join(' ')}
-      style={isCelebrating ? { ...style, animationDelay: `${(unit.id.charCodeAt(0) % 7) * 0.1}s` } : style}
-      title={`${unit.name} — ${unit.hp}/${unit.maxHp} HP, ${unit.attack} ATK`}
-      onClick={onInspect ? (e) => { e.stopPropagation(); onInspect(unit) } : undefined}
-    >
-      {/* Ground shadow cast by flying units */}
-      {unit.flying && (
-        <div style={{
-          position: 'absolute',
-          bottom: '-14px',
-          left: '50%',
-          width: '30px',
-          height: '10px',
-          background: 'radial-gradient(ellipse, rgba(0,0,0,0.55) 0%, transparent 70%)',
-          transform: 'translateX(-50%)',
-          filter: 'blur(3px)',
-          pointerEvents: 'none',
-          zIndex: 0,
-        }} />
-      )}
-      {/* Buffs above the sprite so they aren't clipped by lane overflow:hidden at the base edge */}
-      {(unit.buffs && unit.buffs.length > 0 || unit.affinityActive) && (
-        <div className="lane-unit-buffs u-row u-just-c">
-          {unit.buffs?.map(tag => (
-            <span key={tag} className={`lane-unit-buff lane-unit-buff--${tag}`}>
-              {tag === 'atk' ? '⚔' : tag === 'spd' ? '▶' : tag === 'hp' ? '♥' : '◎'}
-            </span>
-          ))}
-          {unit.affinityActive && (
-            <span className="lane-unit-buff lane-unit-buff--affinity" title={unit.affinity?.label}>✦</span>
-          )}
-        </div>
-      )}
-      {unit.isMoat
-        ? <MoatSvg owner={unit.owner} name={unit.name} />
-        : unit.isWall
-          ? <WallSvg hp={unit.hp} maxHp={unit.maxHp} owner={unit.owner} wallNames={(wallStack ?? [unit]).map(w => w.name)} />
-          : isStructure
-            ? <SpriteImg name={unit.spriteName ?? unit.name} className={`lane-unit-sprite${spriteDamageClass(unit.hp, unit.maxHp)}`} />
-            : unit.isCommander
-            ? <AnimatedSpriteImg name={spriteOverride ?? unit.spriteName ?? unit.name} frameCount={3} fps={6} className={`lane-unit-sprite${spriteDamageClass(unit.hp, unit.maxHp)}`} />
-            : <AnimatedSpriteImg name={unit.spriteName ?? unit.name} frameCount={3} fps={6} className={`lane-unit-sprite${unit.isHero ? ' lane-unit-sprite--hero' : ''}${spriteDamageClass(unit.hp, unit.maxHp)}`} />
-      }
-      {!unit.isWall && !unit.isMoat && showName && (
-        <div className="lane-unit-name">
-          {unit.name}
-        </div>
-      )}
-      {!isDying && !unit.isMoat && (
-        <div className="lane-unit-hp-row u-flex u-items-c u-gap-1">
-          <div className="lane-unit-hp-bar">
-            <div className="lane-unit-hp-fill" style={{ width: `${hpPct}%` }} />
-          </div>
-          {unit.upgradeLevel != null && unit.upgradeLevel >= 1 && (
-            <span className={`lane-unit-level lane-unit-level--${Math.min(unit.upgradeLevel, MAX_UPGRADE_LEVEL)}`}>
-              {'★'.repeat(unit.upgradeLevel)}
-            </span>
-          )}
-        </div>
-      )}
-      {isBurning  && <div className="status-overlay status-overlay--burning"  aria-hidden />}
-      {isFrozen   && <div className="status-overlay status-overlay--frozen"   aria-hidden />}
-      {isPoisoned && <div className="status-overlay status-overlay--poisoned" aria-hidden />}
-      {isShocked  && <div className="status-overlay status-overlay--shocked"  aria-hidden />}
-    </div>
-  )
-}, (prev, next) => {
-  const pu = prev.unit, nu = next.unit
-  return (
-    pu.hp === nu.hp &&
-    pu.x === nu.x && pu.y === nu.y &&
-    pu.dyingTimer === nu.dyingTimer &&
-    pu.damageFlashTimer === nu.damageFlashTimer &&
-    pu.killFlashTimer === nu.killFlashTimer &&
-    pu.spawnGrowTimer === nu.spawnGrowTimer &&
-    pu.burnTimer === nu.burnTimer &&
-    pu.freezeTimer === nu.freezeTimer &&
-    pu.poisonTimer === nu.poisonTimer &&
-    pu.stunTimer === nu.stunTimer &&
-    pu.invisTimer === nu.invisTimer &&
-    pu.attackTimer === nu.attackTimer &&
-    pu.affinityActive === nu.affinityActive &&
-    pu.climbing === nu.climbing &&
-    pu.upgradeLevel === nu.upgradeLevel &&
-    (pu.buffs?.length ?? 0) === (nu.buffs?.length ?? 0) &&
-    prev.stackIndex === next.stackIndex &&
-    prev.showName === next.showName &&
-    prev.celebrating === next.celebrating &&
-    prev.spriteOverride === next.spriteOverride &&
-    (prev.onInspect !== undefined) === (next.onInspect !== undefined)
-  )
-})
-
 
 function ManaBar({ mana, maxMana, manaAccum }: { mana: number; maxMana: number; manaAccum: number }) {
   const pips = Array.from({ length: maxMana }, (_, i) => {
@@ -617,8 +124,6 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
     () => !isCampaign && !hasSeen(BATTLE_TUTORIAL_ID)
   )
   const [pendingAoeCard, setPendingAoeCard] = useState<Card | null>(null)
-  const [aoeHoverPos, setAoeHoverPos] = useState<{ top: number; left: number } | null>(null)
-  const laneRef = useRef<HTMLDivElement>(null)
   const stageRef = useRef<HTMLDivElement>(null)
   const frameSize = useLetterboxSize(stageRef, BATTLEFIELD_ASPECT_RATIO)
   const playerName   = loadPlayerName()
@@ -638,7 +143,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
   // Cancel AoE targeting on Escape
   useEffect(() => {
     if (!pendingAoeCard) return
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setPendingAoeCard(null); setAoeHoverPos(null) } }
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setPendingAoeCard(null) }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [pendingAoeCard])
@@ -706,28 +211,6 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
   const timeStr = (isCampaign && !state.suddenDeath) ? countdownStr : elapsedStr
   const sdSec = Math.ceil(state.suddenDeathTimer / 1000)
   const event = state.activeBattleEvent
-
-
-  // TODO: migrate react to pixi
-  // const containerRef      = useRef<HTMLDivElement>(null)
-
-  // const MAP_WIDTH = screen.width
-  // const MAP_HEIGHT = screen.height
-
-  // usePixiApp(containerRef, MAP_WIDTH, MAP_HEIGHT, (app) => {
-
-  //   // ── Layer hierarchy ────────────────────────────────────────────────────────
-  //   const groundLayer   = new PIXI.Container()
-
-  //   app.stage.addChild(groundLayer)
-
-  //   // ── Terrain ────────────────────────────────────────────────────────────────
-  //   const baseContainer  = new PIXI.Container()
-  //   const riverContainer = new PIXI.Container()
-  //   groundLayer.addChild(baseContainer, riverContainer)
-    
-
-  // })
 
   // The battlefield always renders at a fixed aspect ratio (BATTLEFIELD_ASPECT_RATIO),
   // letterboxed within the stage rather than stretched — see useLetterboxSize. Falls
@@ -846,197 +329,24 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
         return (
       <div
         className={`lane${pendingAoeCard ? ' lane--aoe-targeting' : ''}`}
-        ref={laneRef}
-        onClick={pendingAoeCard ? (e) => {
-          const rect = laneRef.current!.getBoundingClientRect()
-          const cx = (1 - (e.clientY - rect.top) / rect.height) * LANE_WIDTH
-          const cy = ((e.clientX - rect.left) / rect.width - 0.5) * 80 / 0.36
-          onPlayAoeCard!(pendingAoeCard.id, cx, cy)
-          setPendingAoeCard(null)
-          setAoeHoverPos(null)
-        } : undefined}
-        onMouseMove={pendingAoeCard ? (e) => {
-          const rect = laneRef.current!.getBoundingClientRect()
-          setAoeHoverPos({
-            top: (e.clientY - rect.top) / rect.height * 100,
-            left: (e.clientX - rect.left) / rect.width * 100,
-          })
-        } : undefined}
-        onMouseLeave={pendingAoeCard ? () => setAoeHoverPos(null) : undefined}
-        onContextMenu={pendingAoeCard ? (e) => { e.preventDefault(); setPendingAoeCard(null); setAoeHoverPos(null) } : undefined}
       >
-        <div className="lane-ground" />
-        <BattlefieldTerrainCanvas environment={state.environment} id={state.environment} terrain={state.terrain} roads={state.roads} />
-        {isDebugMode() && (state.terrain ?? []).map(obs => {
-          // Avoidance ellipse matching TERRAIN_AVOID_SHAPE used by the engine.
-          // x-axis (forward/vertical on screen): 500 units → 100% field height → 0.2% per unit
-          // y-axis (lateral/horizontal on screen): 160 units → 72% field width → 0.45% per unit
-          const shape    = TERRAIN_AVOID_SHAPE[obs.type]
-          const ax       = obs.radius * shape.fx + 4  // forward half-extent (game units)
-          const ay       = obs.radius * shape.fy + 4  // lateral half-extent (game units)
-          const topPct   = (1 - obs.x / LANE_WIDTH) * 100
-          const leftPct  = 50 + (obs.y / 80) * 36
-          const wPct     = ay * 2 * (36 / 80)    // diameter in % of field width
-          const hPct     = ax * 2 * (100 / 500)  // diameter in % of field height
-          return (
-            <div
-              key={`dbg-${obs.id}`}
-              style={{
-                position: 'absolute',
-                top: `${topPct}%`,
-                left: `${leftPct}%`,
-                width: `${wPct}%`,
-                height: `${hPct}%`,
-                transform: 'translate(-50%, -50%)',
-                borderRadius: '50%',
-                background: 'rgba(255, 0, 0, 0.25)',
-                border: '1px solid rgba(255, 80, 80, 0.7)',
-                pointerEvents: 'none',
-                zIndex: 50,
-                boxSizing: 'border-box',
-              }}
-              title={`Avoidance ellipse: ax=${ax.toFixed(1)} ay=${ay.toFixed(1)} (${obs.type} r=${obs.radius})`}
-            />
-          )
-        })}
-        {/* Persistent blood pools left by fallen units */}
-        {(state.bloodPools ?? []).map(pool => {
-          const topPct  = (1 - pool.x / LANE_WIDTH) * 100
-          const leftPct = 50 + (pool.y / 80) * 36
-          const fading  = pool.fadingAt !== undefined
-          return (
-            <div
-              key={pool.id}
-              className={fading ? 'blood-pool blood-pool--fading' : 'blood-pool'}
-              style={{ top: `${topPct}%`, left: `${leftPct}%` }}
-            />
-          )
-        })}
-        {/* Ground hazards — poison gas clouds */}
-        {(state.hazards ?? []).map(h => {
-          const topPct  = (1 - h.x / LANE_WIDTH) * 100
-          const leftPct = 50 + (h.y / 80) * 36
-          return (
-            <div
-              key={h.id}
-              className="battlefield-hazard"
-              style={{ top: `${topPct}%`, left: `${leftPct}%` }}
-            />
-          )
-        })}
-        {(() => {
-          // Group walls by owner+x so stacked wall types can share a composite graphic
-          const wallGroups = new Map<string, Unit[]>()
-          for (const u of state.field) {
-            if (!u.isWall) continue
-            const key = `${u.owner}:${Math.round(u.x)}`
-            if (!wallGroups.has(key)) wallGroups.set(key, [])
-            wallGroups.get(key)!.push(u)
-          }
-          const renderedWallIds = new Set<string>()
-
-          const playerWon = (state.phase.type === 'gameOver' || state.phase.type === 'celebration') && state.phase.winner === 'player'
-          return state.field.map((u, i) => {
-            const commanderSprite = u.isCommander
-              ? (u.owner === 'player' ? playerAvatar : opponentCommanderSlug)
-              : undefined
-            if (u.isWall) {
-              const key = `${u.owner}:${Math.round(u.x)}`
-              const group = wallGroups.get(key)!
-              if (group[0].id !== u.id) return null  // only render the first in each group
-              renderedWallIds.add(u.id)
-              return <LaneUnit key={u.id} unit={u} wallStack={group} onInspect={paused ? u => { setInspectedUnit(u) } : undefined} showName={paused} celebrating={playerWon && u.owner === 'player'} spriteOverride={commanderSprite} />
-            }
-            const stackIndex = u.moveSpeed === 0
-              ? state.field.slice(0, i).filter(o => o.moveSpeed === 0 && !o.isWall && !o.isMoat && o.owner === u.owner).length
-              : 0
-            return <LaneUnit key={u.id} unit={u} stackIndex={stackIndex} onInspect={paused ? u => { setInspectedUnit(u) } : undefined} showName={paused} celebrating={playerWon && u.owner === 'player'} spriteOverride={commanderSprite} />
-          })
-        })()}
-        {/* Animation events: projectiles, hit sparks, AOE rings, gas clouds */}
-        {(state.animEvents ?? []).map(ev => {
-          // Convert game coords to CSS %
-          // x (forward 0-500) → top% = (1 - x/500)*100
-          // y (lateral -80..80) → left% = 50 + (y/80)*36
-          const fromJitter = ev.fromUnitId ? unitJitter(ev.fromUnitId) : { dxPct: 0, dyPct: 0 }
-          const fromTop  = (1 - ev.fromX / LANE_WIDTH) * 100 + fromJitter.dyPct
-          const fromLeft = 50 + (ev.fromY / 80) * 36 + fromJitter.dxPct
-          const toTop    = (1 - ev.toX / LANE_WIDTH) * 100
-          const toLeft   = 50 + (ev.toY / 80) * 36
-          const pType = ev.projectileType ?? 'magic'
-
-          if (ev.kind === 'gascloud') {
-            return (
-              <div
-                key={ev.id}
-                className="battlefield-gascloud"
-                style={{ position: 'absolute', top: `${toTop}%`, left: `${toLeft}%`, pointerEvents: 'none', zIndex: 12 }}
-              />
-            )
-          }
-          if (ev.kind === 'aoe') {
-            return (
-              <div
-                key={ev.id}
-                className="anim-aoe-ring"
-                style={{ position: 'absolute', top: `${toTop}%`, left: `${toLeft}%`, transform: 'translate(-50%,-50%)', pointerEvents: 'none', zIndex: 60 }}
-              />
-            )
-          }
-          if (ev.kind === 'projectile') {
-            const dx = toLeft - fromLeft
-            const dy = toTop  - fromTop
-            const len = Math.hypot(dx, dy)
-            const angleDeg = Math.atan2(dy, dx) * 180 / Math.PI
-            return (
-              <div
-                key={ev.id}
-                className={`anim-projectile anim-projectile--${pType}`}
-                style={{
-                  position: 'absolute',
-                  top: `${fromTop}%`,
-                  left: `${fromLeft}%`,
-                  width: `${len}%`,
-                  transform: `translate(-0%, -50%) rotate(${angleDeg}deg)`,
-                  transformOrigin: '0 50%',
-                  pointerEvents: 'none',
-                  zIndex: 60,
-                }}
-              />
-            )
-          }
-          // Hit spark
-          return (
-            <div
-              key={ev.id}
-              className={`anim-hit anim-hit--${pType}`}
-              style={{
-                position: 'absolute',
-                top: `${fromTop}%`,
-                left: `${fromLeft}%`,
-                transform: 'translate(-50%, -50%)',
-                pointerEvents: 'none',
-                zIndex: 60,
-              }}
-            />
-          )
-        })}
+        <BattlefieldCanvas
+          state={state}
+          paused={paused}
+          onInspect={u => setInspectedUnit(u)}
+          playerAvatar={playerAvatar}
+          opponentCommanderSlug={opponentCommanderSlug}
+          pendingAoeCard={pendingAoeCard}
+          onPlayAoeCard={onPlayAoeCard}
+          onAoeCancel={() => setPendingAoeCard(null)}
+        />
 
         {/* AoE targeting overlay */}
         {pendingAoeCard && (
-          <>
-            <div className="aoe-targeting-banner">
-              <span>⚡ {pendingAoeCard.name} — tap to place</span>
-              <button className="aoe-targeting-cancel" onClick={e => { e.stopPropagation(); setPendingAoeCard(null); setAoeHoverPos(null) }}>✕</button>
-            </div>
-            {aoeHoverPos && (
-              <div
-                className="aoe-targeting-reticle"
-                style={{ top: `${aoeHoverPos.top}%`, left: `${aoeHoverPos.left}%` }}
-                aria-hidden
-              />
-            )}
-          </>
+          <div className="aoe-targeting-banner">
+            <span>⚡ {pendingAoeCard.name} — tap to place</span>
+            <button className="aoe-targeting-cancel" onClick={e => { e.stopPropagation(); setPendingAoeCard(null) }}>✕</button>
+          </div>
         )}
 
         {/* Opponent spell-cast telegraph + Counter QTE */}
@@ -1044,9 +354,6 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
           const cast = state.pendingSpellCast!
           const remainingMs = Math.max(0, cast.resolvesAtMs - state.gameTime)
           const pct = Math.max(0, Math.min(1, remainingMs / CAST_WINDUP_MS))
-          const opCmd = state.field.find(u => u.isCommander && u.owner === 'opponent')
-          const glowTop  = opCmd ? (1 - opCmd.x / LANE_WIDTH) * 100 : 4
-          const glowLeft = opCmd ? 50 + (opCmd.y / 80) * 36 : 50
           const elapsed = state.gameTime - cast.startedAtMs
           // The damage cap a press would lock in right now — grows linearly the longer the
           // player waits, so "waiting for a better moment" is never actually better.
@@ -1054,7 +361,6 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
           const dangerZone = liveCapPct >= 0.7
           return (
             <>
-              <div className="spell-cast-glow" style={{ position: 'absolute', top: `${glowTop}%`, left: `${glowLeft}%`, transform: 'translate(-50%,-50%)', pointerEvents: 'none', zIndex: 55 }} aria-hidden />
               <div className="spell-cast-banner">
                 <span className="spell-cast-banner-name">⚡ {cast.cardName} incoming!</span>
                 <span className="spell-cast-banner-timer">{(remainingMs / 1000).toFixed(1)}s</span>
