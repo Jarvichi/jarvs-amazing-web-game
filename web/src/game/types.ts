@@ -213,6 +213,10 @@ export interface Unit extends UnitTemplate {
   commanderHomeX?: number
   /** Persistent random y position assigned to a guardBase unit (lazy, set on first guard tick). */
   guardY?: number
+  /** Ordered remaining road waypoints for road-following movement (lazy, computed on first
+   *  movement tick when the battle has `roadFollowing` enabled). Empty once the unit has
+   *  passed the last waypoint or no road was found; undefined until first computed. */
+  roadWaypoints?: Array<{ x: number; y: number }>
   /** ID of the enemy unit this unit is currently locked onto as an attack target. */
   targetId?: string
   /** ID of the last enemy unit that dealt damage to this unit (used for target-switch on hit). */
@@ -441,7 +445,8 @@ export interface GameState {
   /** Live state for the active boss's trait system. Undefined when not in a boss fight. */
   bossTraitState?: BossTraitState
   terrain: TerrainObstacle[]
-  roads?: RoadDef[]          // act/node-authored road paths for the battlefield (visual only)
+  roads?: RoadDef[]          // act/node-authored road paths for the battlefield
+  roadFollowing?: boolean    // when true, mobile units path onto and follow `roads` toward the enemy base (see engine/units.ts)
   environment?: string       // battlefield background theme ('forest' | 'ruins' | 'camp' | 'citadel' | 'ashen')
   unitReviveHp?: 'half' | 'full' | number      // pending one-time unit revive at this HP value (set by Soulstone/Salvage Hook relics)
   relicManaBonus?: number             // passive +N to maxMana cap (set by Prism Lens relic)

@@ -117,6 +117,18 @@ function withRoads(act: Act, nodeId: EditTarget, roads: RoadDef[]): Act {
   return { ...act, nodes: { ...act.nodes, [nodeId]: { ...node, roads } } }
 }
 
+function resolveRoadFollowingForTarget(act: Act, nodeId: EditTarget): boolean {
+  if (nodeId === 'act-default') return act.roadFollowing ?? false
+  return act.nodes[nodeId]?.roadFollowing ?? act.roadFollowing ?? false
+}
+
+function withRoadFollowing(act: Act, nodeId: EditTarget, roadFollowing: boolean): Act {
+  if (nodeId === 'act-default') return { ...act, roadFollowing }
+  const node = act.nodes[nodeId]
+  if (!node) return act
+  return { ...act, nodes: { ...act.nodes, [nodeId]: { ...node, roadFollowing } } }
+}
+
 function withTerrain(act: Act, nodeId: EditTarget, terrain: TerrainObstacle[]): Act {
   if (nodeId === 'act-default') return { ...act, terrain }
   const node = act.nodes[nodeId]
@@ -347,6 +359,21 @@ export function useBattlefieldEditorState(initialActId: string = 'act1') {
     })
   }, [])
 
+  // ── Road following ────────────────────────────────────────────────────
+
+  const setRoadFollowing = useCallback((roadFollowing: boolean) => {
+    setState(s => {
+      const prevAct = s.actData
+      return {
+        ...s,
+        actData:   withRoadFollowing(prevAct, s.nodeId, roadFollowing),
+        undoStack: [...s.undoStack, prevAct].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty:   true,
+      }
+    })
+  }, [])
+
   // ── Inheritance ───────────────────────────────────────────────────────
 
   const revertToActDefault = useCallback((field: 'roads' | 'terrain') => {
@@ -403,6 +430,8 @@ export function useBattlefieldEditorState(initialActId: string = 'act1') {
     state,
     resolveRoadsForTarget,
     resolveTerrainForTarget,
+    resolveRoadFollowingForTarget,
+    setRoadFollowing,
     setActId,
     setNodeId,
     setTool,

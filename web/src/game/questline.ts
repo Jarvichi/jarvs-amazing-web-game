@@ -163,8 +163,10 @@ export interface QuestNode {
   enemyDeck?: string[]
   /** Visual background theme for this node's battlefield ('forest' | 'ruins' | 'camp' | 'citadel' | 'ashen'). */
   environment?: string
-  /** Battlefield road paths for this node, overriding the act's `roads`. Rendered only — does not affect unit movement. */
+  /** Battlefield road paths for this node, overriding the act's `roads`. Rendered visually; also affects unit movement when `roadFollowing` is true. */
   roads?: RoadDef[]
+  /** When true, mobile units path onto the nearest `roads` entry and follow it toward the enemy base instead of walking a straight line. Overrides the act's `roadFollowing`. No effect if `roads` is empty/absent. */
+  roadFollowing?: boolean
   /** Battlefield terrain obstacles for this node, overriding the act's `terrain` and replacing the procedurally-generated default. Affects unit avoidance, same as procedural terrain. */
   terrain?: TerrainObstacle[]
   /** Override opponent play interval (ms). Replaces handicap-derived default. */
@@ -305,9 +307,18 @@ export interface WorldMap {
    * Default battlefield road paths for battles in this act, in game-unit coords
    * (x 0–500 forward base→base, y -80..80 lateral) — the same space as
    * TerrainObstacle. Rendered on the combat lane only (not the node-map
-   * screen); a QuestNode's own `roads` overrides this per-node. Visual only.
+   * screen); a QuestNode's own `roads` overrides this per-node. Also affects
+   * unit movement when `roadFollowing` is true.
    */
   roads?: RoadDef[]
+
+  /**
+   * When true, mobile units path onto the nearest `roads` entry and follow it
+   * toward the enemy base instead of walking a straight line. A QuestNode's
+   * own `roadFollowing` overrides this per-node. No effect if `roads` is
+   * empty/absent.
+   */
+  roadFollowing?: boolean
 
   /**
    * Default battlefield terrain obstacles for battles in this act, in the same

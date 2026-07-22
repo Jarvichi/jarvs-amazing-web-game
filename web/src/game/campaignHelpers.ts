@@ -155,6 +155,7 @@ export function resolvedNodeOpts(
     terrainSeed: node.id,
     environment: node.environment ?? act?.environment,
     roads: node.roads ?? act?.roads,
+    roadFollowing: node.roadFollowing ?? act?.roadFollowing ?? false,
     terrain: node.terrain ?? act?.terrain,
     opponentIntervalMs: adjustedInterval,
     opponentBaseHp: adjustedHp,
