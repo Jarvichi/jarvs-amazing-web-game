@@ -109,7 +109,7 @@ export const PerformanceProfile: Story = {
     const el = await within(canvasElement).findByTestId('perf-done', {}, { timeout: 15000 })
     const avg = parseFloat(el.dataset.avg ?? '0')
     const max = parseFloat(el.dataset.max ?? '0')
-    expect(avg, `avg render ${avg.toFixed(1)} ms — expected < 50 ms. Check React.memo wrappers on LaneUnit/ForestBorder.`).toBeLessThan(50)
-    expect(max, `max render ${max.toFixed(1)} ms — expected < 150 ms. Check React.memo wrappers on LaneUnit/ForestBorder.`).toBeLessThan(150)
+    expect(avg, `avg render ${avg.toFixed(1)} ms — expected < 50 ms. Check BattlefieldCanvas's syncUnits diffing / ticker cost.`).toBeLessThan(50)
+    expect(max, `max render ${max.toFixed(1)} ms — expected < 150 ms. Check BattlefieldCanvas's syncUnits diffing / ticker cost.`).toBeLessThan(150)
   },
 }
