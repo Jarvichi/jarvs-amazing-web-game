@@ -115,6 +115,36 @@ npm run build    # TypeScript check + Vite build
 npm run preview  # Preview production build locally
 ```
 
+## Editing via GitHub Codespaces
+
+Storybook (`npm run storybook`, `web/.storybook/`) renders the game's real components,
+and several stories (map editor, bundle editor, battlefield editor) save changes by
+writing JSON files directly under `web/src/data/...` through custom dev-server
+middleware in `web/.storybook/main.ts`. That only works against a live Node process —
+not a static Storybook build — so a GitHub Codespace (a hosted dev container) is how to
+get this editing experience from any device without a local dev machine.
+
+1. Open a Codespace on this repo/branch: GitHub UI → **Code → Codespaces → Create
+   codespace**. `.devcontainer/devcontainer.json` runs `npm install` automatically.
+2. Inside the Codespace, run:
+   ```bash
+   cd web && npm run storybook -- --host 0.0.0.0
+   ```
+   The `--host 0.0.0.0` flag is required for Codespaces' port forwarding to reach the
+   dev server — pass it ad hoc like this rather than adding it to the `storybook`
+   script, so local dev on your own machine keeps binding to `localhost` only.
+3. Open the forwarded port 6006 (Codespaces will prompt "Open in Browser").
+4. Use the map/bundle/battlefield editor stories as normal — saves write real files
+   inside the Codespace's filesystem, exactly like local dev.
+5. Commit and push from the Codespace (VS Code Web's git UI or the terminal) to persist
+   edits to the repo — the Codespace itself is ephemeral, so uncommitted changes are
+   lost if it's deleted or reclaimed after its idle timeout.
+
+**Security:** keep the forwarded port's visibility set to **Private** (Codespaces'
+default). The editor save endpoints have no authentication of their own — they rely
+entirely on Codespaces' private-port GitHub auth to keep them from being reachable by
+anyone else. Never switch the port to "Public" while editing.
+
 ## Game Design
 - **Mana system:** Player starts with 3 mana/turn; Farms increase max mana permanently
 - **Card types:** Unit (deploy fighters), Structure (build Walls/Farms/Barracks), Upgrade (buff/heal all units), Area Of Effect (causes damage to an area of the battlefield damaging all units)
