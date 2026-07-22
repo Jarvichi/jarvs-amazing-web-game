@@ -24,6 +24,12 @@ export interface UnitEntry {
   targetY?: number
   /** Spawn grow-in scale (0.05→1), recomputed directly from Unit.spawnGrowTimer each sync. */
   growScale?: number
+  /** Uniform scale that fits the loaded texture's native pixel size into the
+   *  unit's target on-screen box (mirrors the DOM's `max-width`/`max-height`
+   *  CSS on `.lane-unit-sprite` — texture art is drawn much larger than its
+   *  rendered size). Recomputed whenever a new texture loads; combined
+   *  (multiplied) with growScale/animation scale each tick. */
+  baseScale?: number
   /** AnimatedSprite manual frame-cycling accumulator (ms). */
   frameAccumMs?: number
   // Wall-clock timestamps (ms, performance.now()) recording when a flash/dying

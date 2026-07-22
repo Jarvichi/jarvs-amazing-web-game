@@ -12,6 +12,14 @@ const ANIM_FPS = 6
 const ANIM_FRAME_MS = 1000 / ANIM_FPS
 const BUFF_GLYPH: Record<string, string> = { atk: '⚔', spd: '▶', hp: '♥', range: '◎' }
 
+// Target on-screen sprite box per Unit.size — matches the DOM's retired
+// `.lane-unit-sprite` / `--size-small` / `--size-large` max-width/max-height rules.
+const SPRITE_BOX: Record<'small' | 'medium' | 'large', { w: number; h: number }> = {
+  small: { w: 20, h: 18 },
+  medium: { w: 32, h: 28 },
+  large: { w: 48, h: 42 },
+}
+
 /** Stable per-unit pixel offset derived from ID so overlapping units don't pile up
  *  — direct port of Battlefield.tsx's unitJitter(), scaled to pixels instead of %. */
 export function unitJitterPx(id: string, w: number, h: number): { dx: number; dy: number } {
@@ -71,7 +79,12 @@ function ensureNameText(entry: UnitEntry): PIXI.Text {
   return entry.nameText
 }
 
-async function ensureSprite(entry: UnitEntry, spriteName: string, animated: boolean): Promise<void> {
+function fitScale(tex: PIXI.Texture, box: { w: number; h: number }): number {
+  if (!tex.width || !tex.height) return 1
+  return Math.min(box.w / tex.width, box.h / tex.height)
+}
+
+async function ensureSprite(entry: UnitEntry, spriteName: string, animated: boolean, box: { w: number; h: number }): Promise<void> {
   if (entry.loadedSpriteName === spriteName + (animated ? '#a' : '#s')) return
   const token = ++entry.loadToken
   entry.loadedSpriteName = spriteName + (animated ? '#a' : '#s')
@@ -86,6 +99,7 @@ async function ensureSprite(entry: UnitEntry, spriteName: string, animated: bool
       entry.container.addChildAt(sprite, 0)
       old?.destroy()
       entry.sprite = sprite
+      entry.baseScale = fitScale(frames[0], box)
     } else {
       const tex = await loadSpriteTexture(spriteName)
       if (entry.loadToken !== token) return
@@ -95,6 +109,7 @@ async function ensureSprite(entry: UnitEntry, spriteName: string, animated: bool
       entry.container.addChildAt(sprite, 0)
       old?.destroy()
       entry.sprite = sprite
+      entry.baseScale = fitScale(tex, box)
     }
   } catch { /* texture failed to load — leave prior sprite (or none) in place */ }
 }
@@ -195,7 +210,7 @@ function syncMobileOrStructure(scene: Scene, unit: Unit, opts: SyncOneOpts) {
 
   // ── Sprite ──
   const spriteName = opts.spriteOverride ?? unit.spriteName ?? unit.name
-  void ensureSprite(entry, spriteName, !isStructure)
+  void ensureSprite(entry, spriteName, !isStructure, SPRITE_BOX[unit.size ?? 'medium'])
 
   // ── HP bar + level badge ──
   const hpBar = ensureHpBar(entry)
@@ -342,7 +357,7 @@ export function tickUnits(scene: Scene, nowMs: number, deltaMS: number): void {
       entry.renderY += (entry.targetY - entry.renderY) * lerpFactor
     }
 
-    let ox = 0, oy = 0, rotation = 0, scale = entry.growScale ?? 1, alpha = 1
+    let ox = 0, oy = 0, rotation = 0, scale = (entry.growScale ?? 1) * (entry.baseScale ?? 1), alpha = 1
 
     if (entry.isDying && entry.dyingStartedAt != null) {
       const t = Math.min(1, (nowMs - entry.dyingStartedAt) / DEATH_LINGER_MS)
