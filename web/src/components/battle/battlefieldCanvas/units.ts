@@ -84,7 +84,7 @@ function fitScale(tex: PIXI.Texture, box: { w: number; h: number }): number {
   return Math.min(box.w / tex.width, box.h / tex.height)
 }
 
-async function ensureSprite(entry: UnitEntry, spriteName: string, animated: boolean, box: { w: number; h: number }): Promise<void> {
+async function ensureSprite(entry: UnitEntry, spriteName: string, animated: boolean, box: { w: number; h: number }, anchorY: number): Promise<void> {
   if (entry.loadedSpriteName === spriteName + (animated ? '#a' : '#s')) return
   const token = ++entry.loadToken
   entry.loadedSpriteName = spriteName + (animated ? '#a' : '#s')
@@ -95,7 +95,7 @@ async function ensureSprite(entry: UnitEntry, spriteName: string, animated: bool
       const old = entry.sprite
       const sprite = new PIXI.AnimatedSprite(frames)
       sprite.animationSpeed = 0 // driven manually per-frame below (matches the 6fps DOM cadence)
-      sprite.anchor.set(0.5, 1)
+      sprite.anchor.set(0.5, anchorY)
       entry.container.addChildAt(sprite, 0)
       old?.destroy()
       entry.sprite = sprite
@@ -105,7 +105,7 @@ async function ensureSprite(entry: UnitEntry, spriteName: string, animated: bool
       if (entry.loadToken !== token) return
       const old = entry.sprite
       const sprite = new PIXI.Sprite(tex)
-      sprite.anchor.set(0.5, 1)
+      sprite.anchor.set(0.5, anchorY)
       entry.container.addChildAt(sprite, 0)
       old?.destroy()
       entry.sprite = sprite
@@ -209,8 +209,14 @@ function syncMobileOrStructure(scene: Scene, unit: Unit, opts: SyncOneOpts) {
   entry.growScale = growScale
 
   // ── Sprite ──
+  // Opponent structures are pinned by their top edge near y=0 (mirrors the DOM's
+  // `top: 5px` — vs. player structures' `bottom: 5px`), so unlike every other
+  // unit they must anchor at the sprite's TOP and extend downward, or they'd
+  // render almost entirely above the visible canvas (issue: enemy base off-screen).
+  const topAnchored = isStructure && unit.owner === 'opponent'
+  const box = SPRITE_BOX[unit.size ?? 'medium']
   const spriteName = opts.spriteOverride ?? unit.spriteName ?? unit.name
-  void ensureSprite(entry, spriteName, !isStructure, SPRITE_BOX[unit.size ?? 'medium'])
+  void ensureSprite(entry, spriteName, !isStructure, box, topAnchored ? 0 : 1)
 
   // ── HP bar + level badge ──
   const hpBar = ensureHpBar(entry)
@@ -218,7 +224,7 @@ function syncMobileOrStructure(scene: Scene, unit: Unit, opts: SyncOneOpts) {
   if (hpBar.visible) {
     hpBar.clear()
     const barW = 30
-    hpBar.position.set(-barW / 2, 4)
+    hpBar.position.set(-barW / 2, topAnchored ? box.h + 4 : 4)
     drawHpBar(hpBar, 0, 0, barW, unit.hp / unit.maxHp)
   }
 
@@ -227,12 +233,12 @@ function syncMobileOrStructure(scene: Scene, unit: Unit, opts: SyncOneOpts) {
   const glyphs = (unit.buffs ?? []).map(t => BUFF_GLYPH[t] ?? '◎').join(' ')
   const full = glyphs + (unit.affinityActive ? (glyphs ? ' ✦' : '✦') : '')
   buffTxt.text = full
-  buffTxt.position.set(0, -30)
+  buffTxt.position.set(0, topAnchored ? -8 : -30)
 
   // ── Name (only while paused, matching current showName={paused}) ──
   const nameTxt = ensureNameText(entry)
   nameTxt.visible = opts.paused
-  if (nameTxt.visible) { nameTxt.text = unit.name; nameTxt.position.set(0, 4) }
+  if (nameTxt.visible) { nameTxt.text = unit.name; nameTxt.position.set(0, topAnchored ? box.h + 4 : 4) }
 
   syncUnitVisualState(entry, unit, opts)
   applyClick(entry, unit, opts.paused, opts.onInspect)
