@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react'
 import * as PIXI from 'pixi.js'
 import { BattlefieldTerrainCanvas } from './battlefield/BattlefieldTerrainCanvas'
-import { GameState, Unit, LANE_WIDTH, Card, TerrainObstacle, BuffTag, TERRAIN_AVOID_SHAPE } from '../../game/types'
+import { GameState, Unit, LANE_WIDTH, BATTLEFIELD_ASPECT_RATIO, Card, TerrainObstacle, BuffTag, TERRAIN_AVOID_SHAPE } from '../../game/types'
 import { CardTile } from '../cards/CardTile'
 import { useCardDetail } from '../cards/useCardDetail'
 import { SpriteImg, AnimatedSpriteImg } from '../ui/SpriteImg'
@@ -20,6 +20,7 @@ import { loadBattlePopups } from '../screens/SettingsScreen'
 import { TutorialOverlay } from '../modals/TutorialOverlay'
 import { hasSeen, markSeen } from '../../game/tutorial'
 import { usePixiApp } from '../../hooks/usePixiApp'
+import { useLetterboxSize } from '../../hooks/useLetterboxSize'
 
 const modalAutoDismissTime = 2000
 const BATTLE_TUTORIAL_ID = 'gameplay'
@@ -618,6 +619,8 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
   const [pendingAoeCard, setPendingAoeCard] = useState<Card | null>(null)
   const [aoeHoverPos, setAoeHoverPos] = useState<{ top: number; left: number } | null>(null)
   const laneRef = useRef<HTMLDivElement>(null)
+  const stageRef = useRef<HTMLDivElement>(null)
+  const frameSize = useLetterboxSize(stageRef, BATTLEFIELD_ASPECT_RATIO)
   const playerName   = loadPlayerName()
   const playerAvatar = loadPlayerAvatar()
 
@@ -726,11 +729,23 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
 
   // })
 
+  // The battlefield always renders at a fixed aspect ratio (BATTLEFIELD_ASPECT_RATIO),
+  // letterboxed within the stage rather than stretched — see useLetterboxSize. Falls
+  // back to filling the stage until the first ResizeObserver measurement lands.
+  const frameStyle: React.CSSProperties = frameSize
+    ? { width: frameSize.width, height: frameSize.height }
+    : { width: '100%', height: '100%' }
+  const isCompactFrame = !!frameSize && frameSize.width <= 480
+  const isTinyFrame = !!frameSize && frameSize.width <= 380
+  const frameClassName = `battlefield-frame${isCompactFrame ? ' battlefield-frame--compact' : ''}${isTinyFrame ? ' battlefield-frame--tiny' : ''}`
+
   return (
     <div
+      ref={stageRef}
       className={`battlefield u-grow${actTheme ? ` battlefield--${actTheme}` : ''}${paused ? ' battlefield--paused' : ''}`}
       onClick={paused && !inspectedUnit ? () => doPause(false) : undefined}
     >
+    <div className={frameClassName} style={frameStyle}>
 
       {/* Dramatic battle event overlay (center-screen flash) */}
       <BattleEventOverlay event={event} />
@@ -1330,6 +1345,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
           onDone={() => { markSeen(BATTLE_TUTORIAL_ID); setShowBattleTutorial(false) }}
         />
       )}
+    </div>
     </div>
   )
 }
