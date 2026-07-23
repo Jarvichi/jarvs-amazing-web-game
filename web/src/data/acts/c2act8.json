@@ -1,0 +1,551 @@
+{
+  "id": "c2act8",
+  "title": "ACT VIII",
+  "subtitle": "The Hollow Court",
+  "rewardRelic": "Hollow Mask",
+  "rewardRelicDesc": "Whenever you play a card, your units gain +1 attack, stacking for the rest of the battle — every mask is a chance to become someone sharper.",
+  "environment": "citadel",
+  "rewardTags": [
+    "forgotten",
+    "court"
+  ],
+  "replayModifiers": [
+    {
+      "type": "enemyHpPercent",
+      "value": 15,
+      "label": "+15% enemy HP"
+    },
+    {
+      "type": "enemyIntervalReduction",
+      "value": 500,
+      "label": "Enemies act faster"
+    },
+    {
+      "type": "enemyHandBonus",
+      "value": 1,
+      "label": "Enemies start +1 card"
+    },
+    {
+      "type": "crystalBonus",
+      "value": 10,
+      "label": "+10 crystals per battle"
+    },
+    {
+      "type": "enemyHpPercent",
+      "value": 25,
+      "label": "+25% enemy HP"
+    }
+  ],
+  "startNodeIds": [
+    "court-threshold"
+  ],
+  "variantPools": {
+    "jarvMoods": [
+      "Now, past the Mirror Marsh's last still reeds, still carrying a pane of glass that shows the truth back whether you want it or not.",
+      "Now, the Worldmender, standing in a hall of silver masks that all face the same direction when you enter.",
+      "Now, wondering what it costs a nobility to forget its own face and call the forgetting a ceremony instead.",
+      "Now, past the Reflection's fall, learning that the marsh only ever showed you the water's memory. The Court decided what to do with its own."
+    ],
+    "courtDesc": [
+      "The Hollow Court rises past the Mirror Marsh's last reeds, a palace of silver masks and velvet ceremony where every noble answers to a title and none to a name.",
+      "This is not a court that forgot out of neglect. It is a court that forgot on purpose, three centuries ago, and built an entire ceremony out of not remembering who used to stand where.",
+      "The masks are not a punishment. They are the kindest thing the Court could think to do for itself, once it understood that no one was coming to remind it who it had been."
+    ],
+    "chamberlainDesc": [
+      "The Chamberlain has kept the Court's ceremony longer than any noble still wearing a mask, and he has never once needed reminding which gesture erases a name.",
+      "He does not rule the Hollow Court the way the Reflection ruled a memory. He stewards it, gesture by gesture, deciding what still deserves to be recognized.",
+      "Three centuries of ceremony taught him one thing the Pale Court never had to teach: a face you cannot remember is easier to lose twice. He has not yet decided if the Worldmender counts as a face worth keeping."
+    ],
+    "priorRunOpenings": [
+      "The court threshold was already ceremonied when you reached it, same as always — the hall remembers being entered even when it doesn't remember by whom.",
+      "You knew the sconce-bearers' step this time. The masked company knew you knowing it.",
+      "The name-ledger at the threshold already had your crossing recorded. You are becoming a familiar entry in someone's ceremony.",
+      "The Chamberlain's retinue was already standing in the antechamber when you arrived. He does not believe in being surprised twice, either."
+    ]
+  },
+  "midRunTemplates": [
+    "The {ordinalLower} ceremony through the Hollow Court. The masks turn to face you a little sooner every time.",
+    "Campaign {n}. The Court has a whole antechamber reserved for you now, all of it already lit.",
+    "{n} ceremonies counted, by the ledger at the threshold. You have stopped correcting the number.",
+    "Run {n}. The corridors are the same length every time, and every time the masks seem to expect you.",
+    "The {ordinalLower} crossing. You know the company markers by name now. The Court had titles for them first."
+  ],
+  "introRules": [
+    {
+      "condition": {
+        "op": "gte",
+        "value": 10
+      },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:priorRunOpenings:1}"
+        },
+        {
+          "title": "THE HOLLOW COURT",
+          "text": "{pool:courtDesc:1}\n\n{pool:chamberlainDesc:1}"
+        }
+      ]
+    },
+    {
+      "condition": {
+        "op": "range",
+        "min": 2,
+        "max": 9
+      },
+      "panels": [
+        {
+          "title": "THE HOLLOW COURT",
+          "text": "The court threshold is freshly ceremonied — again.\n\n{pool:priorRunOpenings:0}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:courtDesc:2}"
+        },
+        {
+          "title": "THE CHAMBERLAIN",
+          "text": "{pool:chamberlainDesc:0}"
+        }
+      ]
+    }
+  ],
+  "intro": [
+    {
+      "title": "BACKWARDS GLASS",
+      "text": "The Reflection's stillness gave way behind you, and the pane of glass it left keeps showing you the truth whether you ask for it or not. Past the last still reeds, the road climbs toward a palace of silver masks and velvet ceremony.",
+      "image": "cutscenes/c2act8-intro-1.svg"
+    },
+    {
+      "title": "THE HOLLOW COURT",
+      "text": "This is not a court that forgot by accident. It is a court that forgot on purpose, three centuries ago, and built an entire ceremony out of not remembering who used to stand where. The masks are not a punishment — they are the kindest thing the Court could think to do for itself.",
+      "image": "cutscenes/c2act8-intro-2.svg"
+    },
+    {
+      "title": "THE CHAMBERLAIN",
+      "text": "The Court's steward has kept the ceremony longer than any noble still wearing a mask, and he has never once needed reminding which gesture erases a name. He does not rule the Hollow Court. He decides, gesture by gesture, what still deserves to be recognized.",
+      "image": "cutscenes/c2act8-intro-3.svg"
+    }
+  ],
+  "outro": [
+    {
+      "title": "THE CHAMBERLAIN'S ACCOUNTING",
+      "text": "He does not fall like a soldier or a herald. He simply lowers the gesture mid-ceremony, and the hall holds its breath the way it hasn't in three centuries. \"I have erased more names than I have kept,\" he says, \"and not one gesture in the ceremony ever told me which was the kinder choice. Tell the Court that, if it still remembers how to listen to anything that isn't its own ritual.\" He hands you his mask. It is still warm from his face.",
+      "image": "cutscenes/c2act8-outro-1.svg"
+    },
+    {
+      "title": "HOLLOW MASK",
+      "text": "It is a small thing to have cost a Court its own face — a single mask that sharpens whoever wears it, one gesture at a time. Holding it, you understand the Chamberlain better than his own ceremony ever explained him: forgetting your face is not the same as losing yourself. Not even, it turns out, when the whole Court forgets together.",
+      "image": "cutscenes/c2act8-outro-2.svg"
+    },
+    {
+      "title": "THE WINTER THAT WAITED AHEAD",
+      "text": "Past the Court's last antechamber, the corridors give way to a season the void kept in storage — a winter Amarath never got to have, waiting three centuries for someone to release it. Somewhere beyond the last silver mask, the cold is already deciding who it was owed to.",
+      "image": "cutscenes/c2act8-outro-3.svg"
+    }
+  ],
+  "nodes": {
+    "court-threshold": {
+      "id": "court-threshold",
+      "type": "battle",
+      "label": "The Court Threshold",
+      "description": "Where the Mirror Marsh's last reeds give way to the Hollow Court's first ceremonial gate.",
+      "row": 0,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "the-hollow-corridor",
+        "the-silver-antechamber"
+      ],
+      "handicap": 28,
+      "opponentIntervalMs": 3000,
+      "opponentBaseHp": 264,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Masked Page",
+        "Silver Herald",
+        "Court Attendant",
+        "Velvet Sconce"
+      ]
+    },
+    "the-hollow-corridor": {
+      "id": "the-hollow-corridor",
+      "type": "battle",
+      "label": "The Hollow Corridor",
+      "description": "A corridor lined with masks that all turn to face whoever walks it.",
+      "row": 1,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-name-ledger",
+        "the-court-hearth"
+      ],
+      "handicap": 30,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 272,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Masked Page",
+        "Court Attendant",
+        "Velvet Barricade",
+        "Masked Guard",
+        "Courtly Step"
+      ]
+    },
+    "the-silver-antechamber": {
+      "id": "the-silver-antechamber",
+      "type": "battle",
+      "label": "The Silver Antechamber",
+      "description": "An antechamber garrisoned like it still expects a ceremony nobody scheduled.",
+      "row": 1,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-sealed-archive-gate",
+        "the-chamberlains-cart"
+      ],
+      "handicap": 30,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 272,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Silver Herald",
+        "Velvet Sconce",
+        "Hollow Watchtower",
+        "Masked Guard",
+        "Court Draught"
+      ]
+    },
+    "the-name-ledger": {
+      "id": "the-name-ledger",
+      "type": "event",
+      "label": "The Name Ledger",
+      "description": "A Court clerk tallying every name still allowed to be spoken aloud.",
+      "row": 2,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-masked-company",
+        "mem-c2act8-1"
+      ],
+      "eventConfig": {
+        "title": "The Name Ledger",
+        "description": "A clerk keeps the tally at a lectern draped in Court velvet, marking every name against a ceremony three centuries deep. She does not ask why you're crossing. She only asks whether you intend to be recorded.",
+        "pools": [
+          [
+            {
+              "label": "Pay the ledger's toll (lose 6 HP, gain a rare card)",
+              "consequence": "Every name recorded costs a little of your own. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the clerk's ceremony-oil (gain 60 crystals)",
+              "consequence": "Oil set aside for a ceremony that never quite runs short. You gain 60 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 60
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest at the ledger post's brazier (heal 10 HP)",
+              "consequence": "The brazier holds the chill back better than it has any right to. You heal 10 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 10
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the ledger uncounted",
+              "consequence": "You leave the clerk to her tally.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-court-hearth": {
+      "id": "the-court-hearth",
+      "type": "rest",
+      "label": "The Court Hearth",
+      "description": "A ceremonial hearth, kept lit for attendants coming off a cold vigil.",
+      "row": 2,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-masked-company"
+      ],
+      "restHeal": 9
+    },
+    "the-sealed-archive-gate": {
+      "id": "the-sealed-archive-gate",
+      "type": "event",
+      "label": "The Sealed Archive Gate",
+      "description": "A gate posting ceremony orders that read like they were never meant for a hall this ordinary.",
+      "row": 2,
+      "col": 2,
+      "rowCols": 4,
+      "childIds": [
+        "the-hollow-line"
+      ],
+      "eventConfig": {
+        "title": "The Sealed Archive Gate",
+        "description": "The writ nailed to the gate names every noble in the hall and the ceremony each is due to perform. It is signed by the Chamberlain, countersigned by nobody the Court still remembers, and dated the same day the vanguard crossed the Marches.",
+        "pools": [
+          [
+            {
+              "label": "Read the sealed archive writ (lose 6 HP, gain a rare card)",
+              "consequence": "Every name named costs you something to read past. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the archive's oil cache (gain 70 crystals)",
+              "consequence": "A cache nobody in this hall was ever going to collect. You gain 70 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 70
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest behind the archive's seals (heal 8 HP)",
+              "consequence": "Quieter than a ceremonial hall has any right to be. You heal 8 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 8
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the writ unread",
+              "consequence": "Some orders are better left uncounted. You move on.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-chamberlains-cart": {
+      "id": "the-chamberlains-cart",
+      "type": "merchant",
+      "label": "The Chamberlain's Cart",
+      "description": "A trading cart parked in a hall that hasn't seen open trade in centuries.",
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-hollow-line"
+      ]
+    },
+    "the-masked-company": {
+      "id": "the-masked-company",
+      "type": "elite",
+      "label": "The Masked Company",
+      "description": "A file of Court soldiers holding formation behind silver masks that never once slip.",
+      "row": 3,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-deep-corridors"
+      ],
+      "handicap": 34,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 288,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Masked Guard",
+        "Court Vanguard",
+        "Sealed Archive",
+        "Gesture Toll",
+        "Mask Foundry",
+        "Choir of Masks"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "mem-c2act8-1": {
+      "id": "mem-c2act8-1",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A founding charter of the Court's first masked ceremony.",
+      "row": 3,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-deep-corridors"
+      ],
+      "fragmentId": "c2act8-frag-1",
+      "environment": "citadel"
+    },
+    "the-hollow-line": {
+      "id": "the-hollow-line",
+      "type": "elite",
+      "label": "The Hollow Line",
+      "description": "A line of courtiers who never got new orders when the ceremony forgot their names.",
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-last-ceremony"
+      ],
+      "handicap": 34,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 288,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Hollow Chanter",
+        "Court Automaton",
+        "Mask Sentry",
+        "Court Writ",
+        "Choir of Masks",
+        "Silver Archer"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "the-deep-corridors": {
+      "id": "the-deep-corridors",
+      "type": "battle",
+      "label": "The Deep Corridors",
+      "description": "Corridors deep enough that even the candlelight stops following.",
+      "row": 4,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-final-antechamber"
+      ],
+      "handicap": 36,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 298,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Masked Guard",
+        "Velvet Barricade",
+        "Hollow Watchtower",
+        "Court Courier",
+        "Gesture Toll",
+        "Silver Archer"
+      ]
+    },
+    "the-last-ceremony": {
+      "id": "the-last-ceremony",
+      "type": "battle",
+      "label": "The Last Ceremony",
+      "description": "The final ceremonial hall before the Chamberlain's own chamber.",
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-final-antechamber",
+        "mem-c2act8-2"
+      ],
+      "handicap": 36,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 298,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Court Courier",
+        "Choir of Masks",
+        "Masked Knight",
+        "Court Writ",
+        "Mask Sentry",
+        "Hollow Chanter"
+      ]
+    },
+    "the-final-antechamber": {
+      "id": "the-final-antechamber",
+      "type": "rest",
+      "label": "The Final Antechamber",
+      "description": "The last antechamber before the Chamberlain's own hall. Someone has already lit its sconces.",
+      "row": 5,
+      "col": 0,
+      "rowCols": 2,
+      "childIds": [
+        "chamberlain-node"
+      ],
+      "restHeal": 11
+    },
+    "mem-c2act8-2": {
+      "id": "mem-c2act8-2",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A courtier's log from the night the last unmasked face was recorded.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "chamberlain-node"
+      ],
+      "fragmentId": "c2act8-frag-2",
+      "environment": "citadel"
+    },
+    "chamberlain-node": {
+      "id": "chamberlain-node",
+      "type": "boss",
+      "label": "The Chamberlain",
+      "description": "Every ceremony in the Hollow Court ends here, before a steward who decides what still deserves a name.",
+      "row": 6,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
+      "handicap": 38,
+      "opponentIntervalMs": 5000,
+      "opponentBaseHp": 320,
+      "environment": "citadel",
+      "enemyDeck": [
+        "The Chamberlain",
+        "Court Vanguard",
+        "Masked Knight",
+        "The Unmasked",
+        "Choir of Masks",
+        "Mask Sentry",
+        "Court Writ"
+      ],
+      "bossAI": "chamberlain",
+      "bossDialogue": [
+        "You crossed the Mirror Marsh, Worldmender. The Reflection gave you a world remembered. I give you a Court that forgot its own face and dressed the wound in silver instead.",
+        "Three centuries in the void, and not one noble in this hall recalls what they looked like before the Fracture erased Amarath. I gave them masks so the not-knowing would have a shape. You are the first thing in three centuries that has made any of them want to take one off.",
+        "The Court does not ask me to defend this ceremony. It only asks that I decide, gesture by gesture, what still deserves a name. Let's begin."
+      ],
+      "bossCard": "The Chamberlain"
+    }
+  }
+}
