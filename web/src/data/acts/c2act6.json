@@ -1,0 +1,551 @@
+{
+  "id": "c2act6",
+  "title": "ACT VI",
+  "subtitle": "The Sunken Border",
+  "rewardRelic": "Envoy's Pearl",
+  "rewardRelicDesc": "Your units heal 3 HP every 8 seconds — the tide keeps giving back a little of what it takes.",
+  "environment": "coast",
+  "rewardTags": [
+    "forgotten",
+    "sunken"
+  ],
+  "replayModifiers": [
+    {
+      "type": "enemyHpPercent",
+      "value": 15,
+      "label": "+15% enemy HP"
+    },
+    {
+      "type": "enemyIntervalReduction",
+      "value": 500,
+      "label": "Enemies act faster"
+    },
+    {
+      "type": "enemyHandBonus",
+      "value": 1,
+      "label": "Enemies start +1 card"
+    },
+    {
+      "type": "crystalBonus",
+      "value": 10,
+      "label": "+10 crystals per battle"
+    },
+    {
+      "type": "enemyHpPercent",
+      "value": 25,
+      "label": "+25% enemy HP"
+    }
+  ],
+  "startNodeIds": [
+    "waterline-threshold"
+  ],
+  "variantPools": {
+    "jarvMoods": [
+      "Now, past the Candle City's last lit gate, still carrying a wick that catches before a flame can go out for good.",
+      "Now, the Worldmender, watching a coastline rebuild itself overnight into something no map has ever shown.",
+      "Now, wondering what a kingdom's grief looks like when it's had three centuries to practice holding a shoreline that isn't supposed to be there.",
+      "Now, past the General's fall, learning that doctrine was only ever the city's problem. The border has its own."
+    ],
+    "coastDesc": [
+      "The Sunken Border runs downhill from the Candle City's last gate to a coastline that came back misaligned — drowned towers standing in a tide that shouldn't reach them, streets holding their shape underwater like a memory that refuses to dissolve.",
+      "This is not a ruin the sea claimed. It is a shoreline that the void gave back changed, twenty miles further in than any chart remembers, and the water has not yet decided whether to keep the difference.",
+      "The causeway garrisons here are not defending a border. They are defending the idea that the border used to be somewhere else, and they will hold that idea until the tide corrects them or doesn't."
+    ],
+    "envoyDesc": [
+      "The Drowned Envoy was sent by the Pale Court to meet whatever crossed the Marches first — and the tide crossed with it, the way it always follows where the Envoy walks.",
+      "It does not command companies the way the General did. It commands a coastline, and the coastline has never once disobeyed.",
+      "Three centuries in the void taught it one thing the Court never had to teach: what the water takes, it gives back changed. It has not yet decided what the Worldmender counts as."
+    ],
+    "priorRunOpenings": [
+      "The waterline threshold was already redrawn when you reached it, same as always — the border remembers being crossed even when it doesn't remember by whom.",
+      "You knew the tide-bells' ring this time. The causeway garrison knew you knowing it.",
+      "The tally-ledger at the gate already had your crossing counted. You are becoming a familiar entry in someone's tide-chart.",
+      "The Envoy's retinue was already standing at the waterline when you arrived. It does not believe in being surprised twice, either."
+    ]
+  },
+  "midRunTemplates": [
+    "The {ordinalLower} crossing of the Sunken Border. The tide redraws itself a little sooner every time.",
+    "Campaign {n}. The causeway garrisons have a whole stretch of shore reserved for you now, all of it already flooded.",
+    "{n} crossings counted, by the ledger at the gate. You have stopped correcting the number.",
+    "Run {n}. The waterline moves the same distance every time, and every time it seems to expect you.",
+    "The {ordinalLower} tide. You know the garrison markers by name now. The border had names for them first."
+  ],
+  "introRules": [
+    {
+      "condition": {
+        "op": "gte",
+        "value": 10
+      },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:priorRunOpenings:1}"
+        },
+        {
+          "title": "THE SUNKEN BORDER",
+          "text": "{pool:coastDesc:1}\n\n{pool:envoyDesc:1}"
+        }
+      ]
+    },
+    {
+      "condition": {
+        "op": "range",
+        "min": 2,
+        "max": 9
+      },
+      "panels": [
+        {
+          "title": "THE SUNKEN BORDER",
+          "text": "The waterline threshold is freshly redrawn — again.\n\n{pool:priorRunOpenings:0}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:coastDesc:2}"
+        },
+        {
+          "title": "THE DROWNED ENVOY",
+          "text": "{pool:envoyDesc:0}"
+        }
+      ]
+    }
+  ],
+  "intro": [
+    {
+      "title": "THE LAMPLIGHTER'S WICK",
+      "text": "The General's companies stood down at your back, and the wick she left burning has not once gone out since. Past the Candle City's last lit gate, the road drops toward a coastline that came back wrong — towers standing in a tide that shouldn't reach them.",
+      "image": "cutscenes/c2act6-intro-1.svg"
+    },
+    {
+      "title": "THE SUNKEN BORDER",
+      "text": "This is not a ruin the sea claimed. It is a border the void gave back changed — twenty miles further in than any chart remembers, drowned streets holding their shape underwater like a memory refusing to dissolve. The garrisons here are not defending a coastline. They are defending where the coastline used to be.",
+      "image": "cutscenes/c2act6-intro-2.svg"
+    },
+    {
+      "title": "THE DROWNED ENVOY",
+      "text": "The Court's herald crossed the Marches first, and the tide crossed with it, the way it always follows where the Envoy walks. It does not command companies. It commands a coastline, and the coastline has never once disobeyed — not even for the Worldmender.",
+      "image": "cutscenes/c2act6-intro-3.svg"
+    }
+  ],
+  "outro": [
+    {
+      "title": "THE ENVOY'S ACCOUNTING",
+      "text": "It does not fall like a soldier or a doctrine. It simply stops walking, and the tide it carried stops rising with it. \"Three centuries,\" it says, \"and the water never once asked what it was owed for giving a kingdom back changed. Tell the Court that, if it still remembers how to listen to anything that isn't its own rite.\" It presses a single pearl into your hand. It is still wet.",
+      "image": "cutscenes/c2act6-outro-1.svg"
+    },
+    {
+      "title": "ENVOY'S PEARL",
+      "text": "It is a small thing to have carried a coastline's worth of grief — a single pearl that keeps giving back a little of what the tide takes. Holding it, you understand the Envoy better than its own retinue ever explained it: nothing crosses the border and comes back exactly as it left. Not even, it turns out, you.",
+      "image": "cutscenes/c2act6-outro-2.svg"
+    },
+    {
+      "title": "THE MIRROR MARSH AHEAD",
+      "text": "Past the last drowned tower, the road gives way to still water — marsh water, flat as glass, holding a reflection that doesn't quite match the sky above it. Somewhere out past the reeds, something in the water is already looking back at you with a face the Fracture should have erased.",
+      "image": "cutscenes/c2act6-outro-3.svg"
+    }
+  ],
+  "nodes": {
+    "waterline-threshold": {
+      "id": "waterline-threshold",
+      "type": "battle",
+      "label": "The Waterline Threshold",
+      "description": "Where the Candle City's last gate empties onto a shoreline the tide finished rebuilding overnight.",
+      "row": 0,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "the-drowned-causeway",
+        "the-tideworn-ramparts"
+      ],
+      "handicap": 24,
+      "opponentIntervalMs": 3000,
+      "opponentBaseHp": 252,
+      "environment": "coast",
+      "enemyDeck": [
+        "Tideborn Wader",
+        "Drowned Watchman",
+        "Brine Scout",
+        "Tidebell"
+      ]
+    },
+    "the-drowned-causeway": {
+      "id": "the-drowned-causeway",
+      "type": "battle",
+      "label": "The Drowned Causeway",
+      "description": "A mile of road standing exactly where the tide left it, going under at both ends.",
+      "row": 1,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-tide-ledger",
+        "the-salt-hearth"
+      ],
+      "handicap": 26,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 260,
+      "environment": "coast",
+      "enemyDeck": [
+        "Tideborn Wader",
+        "Brine Scout",
+        "Sunken Barricade",
+        "Barnacle Guard",
+        "Undertow Charm"
+      ]
+    },
+    "the-tideworn-ramparts": {
+      "id": "the-tideworn-ramparts",
+      "type": "battle",
+      "label": "The Tideworn Ramparts",
+      "description": "A rampart line built for a border that used to be twenty miles further out.",
+      "row": 1,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-sealed-watergate",
+        "the-envoys-barge"
+      ],
+      "handicap": 26,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 260,
+      "environment": "coast",
+      "enemyDeck": [
+        "Drowned Watchman",
+        "Tidebell",
+        "Envoy's Watchtower",
+        "Barnacle Guard",
+        "Brine Draught"
+      ]
+    },
+    "the-tide-ledger": {
+      "id": "the-tide-ledger",
+      "type": "event",
+      "label": "The Tide Ledger",
+      "description": "A Court clerk tallying every crossing against a waterline that keeps moving.",
+      "row": 2,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-sunken-company",
+        "mem-c2act6-1"
+      ],
+      "eventConfig": {
+        "title": "The Tide Ledger",
+        "description": "A clerk keeps the tally at a lectern half in the water, marking every crossing against a border that moves under her own pen. She does not ask why you're crossing. She only asks whether you intend to be tallied.",
+        "pools": [
+          [
+            {
+              "label": "Pay the ledger's toll (lose 6 HP, gain a rare card)",
+              "consequence": "Every crossing tallied costs a little of your own tide. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the clerk's tally-oil (gain 60 crystals)",
+              "consequence": "Oil set aside for a tally that never quite runs short. You gain 60 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 60
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest at the ledger post's brazier (heal 10 HP)",
+              "consequence": "The brazier holds the damp back better than it has any right to. You heal 10 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 10
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the ledger uncounted",
+              "consequence": "You leave the clerk to her tally.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-salt-hearth": {
+      "id": "the-salt-hearth",
+      "type": "rest",
+      "label": "The Salt Hearth",
+      "description": "A garrison hearth, kept lit for causeway guards coming off a cold tide.",
+      "row": 2,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-sunken-company"
+      ],
+      "restHeal": 9
+    },
+    "the-sealed-watergate": {
+      "id": "the-sealed-watergate",
+      "type": "event",
+      "label": "The Sealed Watergate",
+      "description": "A watergate posting curfew orders for a flood that isn't rising anymore — just remembering how to.",
+      "row": 2,
+      "col": 2,
+      "rowCols": 4,
+      "childIds": [
+        "the-waterlogged-line"
+      ],
+      "eventConfig": {
+        "title": "The Sealed Watergate",
+        "description": "The writ nailed to the gate names every stretch of shore and the hour each is due to flood. It is signed by the Court, countersigned by nobody the border has ever met, and dated the same day the vanguard crossed the Marches.",
+        "pools": [
+          [
+            {
+              "label": "Read the sealed watergate writ (lose 6 HP, gain a rare card)",
+              "consequence": "Every stretch named costs you something to read past. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the watergate's oil cache (gain 70 crystals)",
+              "consequence": "A cache nobody on this shore was ever going to collect. You gain 70 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 70
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest behind the watergate's seals (heal 8 HP)",
+              "consequence": "Quieter than a flooding shore has any right to be. You heal 8 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 8
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the writ unread",
+              "consequence": "Some orders are better left uncounted. You move on.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-envoys-barge": {
+      "id": "the-envoys-barge",
+      "type": "merchant",
+      "label": "The Envoy's Barge",
+      "description": "A trading barge moored at a border that hasn't seen open trade in centuries.",
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-waterlogged-line"
+      ]
+    },
+    "the-sunken-company": {
+      "id": "the-sunken-company",
+      "type": "elite",
+      "label": "The Sunken Company",
+      "description": "A file of Court soldiers holding formation in water up to their knees, same as they have for three centuries.",
+      "row": 3,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-deep-shoals"
+      ],
+      "handicap": 30,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 276,
+      "environment": "coast",
+      "enemyDeck": [
+        "Barnacle Guard",
+        "Envoy's Vanguard",
+        "Sealed Tidegate",
+        "Undertow Toll",
+        "Pearl Foundry",
+        "Choir of the Drowned"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "mem-c2act6-1": {
+      "id": "mem-c2act6-1",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A founding charter of the border's first causeway garrisons.",
+      "row": 3,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-deep-shoals"
+      ],
+      "fragmentId": "c2act6-frag-1",
+      "environment": "coast"
+    },
+    "the-waterlogged-line": {
+      "id": "the-waterlogged-line",
+      "type": "elite",
+      "label": "The Waterlogged Line",
+      "description": "A line of soldiers who never got new orders when the tide reclaimed their post.",
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-last-landing"
+      ],
+      "handicap": 30,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 276,
+      "environment": "coast",
+      "enemyDeck": [
+        "Hollow Tidecaller",
+        "Drowned Automaton",
+        "Pearl Sentry",
+        "Envoy's Writ",
+        "Choir of the Drowned",
+        "Driftwood Archer"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "the-deep-shoals": {
+      "id": "the-deep-shoals",
+      "type": "battle",
+      "label": "The Deep Shoals",
+      "description": "Shoals deep enough that even the mist stops following.",
+      "row": 4,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-final-tideline"
+      ],
+      "handicap": 32,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 286,
+      "environment": "coast",
+      "enemyDeck": [
+        "Barnacle Guard",
+        "Sunken Barricade",
+        "Envoy's Watchtower",
+        "Tide Courier",
+        "Undertow Toll",
+        "Driftwood Archer"
+      ]
+    },
+    "the-last-landing": {
+      "id": "the-last-landing",
+      "type": "battle",
+      "label": "The Last Landing",
+      "description": "The final stretch of shore before the Envoy's own ground.",
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-final-tideline",
+        "mem-c2act6-2"
+      ],
+      "handicap": 32,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 286,
+      "environment": "coast",
+      "enemyDeck": [
+        "Tide Courier",
+        "Choir of the Drowned",
+        "Drowned Knight",
+        "Envoy's Writ",
+        "Pearl Sentry",
+        "Hollow Tidecaller"
+      ]
+    },
+    "the-final-tideline": {
+      "id": "the-final-tideline",
+      "type": "rest",
+      "label": "The Final Tideline",
+      "description": "The last waterline before the Envoy's own ward. Someone has already redrawn it.",
+      "row": 5,
+      "col": 0,
+      "rowCols": 2,
+      "childIds": [
+        "drowned-envoy-node"
+      ],
+      "restHeal": 11
+    },
+    "mem-c2act6-2": {
+      "id": "mem-c2act6-2",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A causeway guard's log from the night the border moved.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "drowned-envoy-node"
+      ],
+      "fragmentId": "c2act6-frag-2",
+      "environment": "coast"
+    },
+    "drowned-envoy-node": {
+      "id": "drowned-envoy-node",
+      "type": "boss",
+      "label": "The Drowned Envoy",
+      "description": "Eleven miles of reclaimed coastline end here, before a herald who commands the tide itself.",
+      "row": 6,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
+      "handicap": 34,
+      "opponentIntervalMs": 5000,
+      "opponentBaseHp": 308,
+      "environment": "coast",
+      "enemyDeck": [
+        "The Drowned Envoy",
+        "Envoy's Vanguard",
+        "Drowned Knight",
+        "The Undertow",
+        "Choir of the Drowned",
+        "Pearl Sentry",
+        "Envoy's Writ"
+      ],
+      "bossAI": "drownedenvoy",
+      "bossDialogue": [
+        "You crossed the Candle City, Worldmender. The General kept her doctrine lit. I keep a tide that doesn't ask permission to rise.",
+        "Three centuries of vigil taught Amarath one lesson: what the void takes, it gives back changed. I was sent to meet you before you learned that the hard way.",
+        "The Court does not ask me to hold this coastline. It only asks that whatever crosses it — you included — arrives changed by the crossing. Let's begin."
+      ],
+      "bossCard": "The Drowned Envoy"
+    }
+  }
+}

@@ -2070,5 +2070,102 @@
         ]
       }
     ]
+  },
+  {
+    "id": "drownedenvoy",
+    "intervalMs": 4900,
+    "idleMessage": "The tide waits for no doctrine…",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE DROWNED ENVOY steps from the waterline, retinue in tow, tide rising with every stride.",
+      "\"The General kept her doctrine lit. I keep a tide that doesn't ask permission to rise. Let's see which one of us the Court still needs, Worldmender.\""
+    ],
+    "trait": {
+      "name": "Returning Tide",
+      "implemented": true,
+      "trigger": "hp_pct",
+      "triggerHpPct": 50,
+      "type": "fly",
+      "description": "At 50% HP the Envoy dives beneath the waterline, untargetable for 3 seconds, then rides a returning tide onto the player's densest cluster — 7 damage to every unit caught in the wave, pushed back 3 tiles.",
+      "mechanics": {
+        "invulnerableDurationMs": 3000,
+        "waveDamage": 7,
+        "wavePushTiles": 3,
+        "repositionTarget": "player_densest_cluster"
+      },
+      "announceText": "THE DROWNED ENVOY dives beneath the waterline — the tide is turning!",
+      "surfaceText": "The tide RETURNS, and it does not return alone."
+    },
+    "phases": [
+      {
+        "condition": {
+          "gameTimeLt": 30000
+        },
+        "priorities": [
+          {
+            "cardType": "structure",
+            "isWall": true
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "mana"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_asc"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      },
+      {
+        "condition": {
+          "gameTimeGte": 30000,
+          "gameTimeLt": 75000
+        },
+        "priorities": [
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costGte": 4,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ],
+        "announceOnce": "\"The General held a city with doctrine. I hold a coastline with a tide that has never once needed telling twice. You are neither owed nor doctrine, Worldmender. You are toll business.\""
+      },
+      {
+        "condition": null,
+        "manaOverride": 9,
+        "maxPlaysOverride": 4,
+        "announceOnce": "\"THE WATER TAKES WHAT IT'S OWED AND GIVES BACK WHAT IT PLEASES. SO WILL I.\"",
+        "priorities": [
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      }
+    ]
   }
 ]

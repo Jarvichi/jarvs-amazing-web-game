@@ -340,5 +340,18 @@
         "hp": "half"
       }
     ]
+  },
+  {
+    "name": "Envoy's Pearl",
+    "icon": "🦪",
+    "desc": "Your units heal 3 HP every 8 seconds — the tide keeps giving back a little of what it takes.",
+    "lore": "Pressed into your hand still wet, from a herald who never once explained why the water gives anything back at all. Holding it, you stop asking. It just keeps mending, tide after tide.",
+    "effects": [
+      {
+        "type": "tickHeal",
+        "amount": 3,
+        "intervalMs": 8000
+      }
+    ]
   }
 ]
