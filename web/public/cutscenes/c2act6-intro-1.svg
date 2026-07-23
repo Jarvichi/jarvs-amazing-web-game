@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a6i1-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#171b28"/>
+    <stop offset="100%" stop-color="#2e3a4a"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2a6i1-sky)"/>
+  <!-- Candle City gate behind, giving way to a drowned shoreline -->
+  <rect y="150" width="180" height="90" fill="#2b3149"/>
+  <rect x="180" y="150" width="220" height="90" fill="#1c2b33"/>
+  <rect x="150" y="70" width="30" height="80" fill="#12141f"/>
+  <!-- Distant candle glow behind -->
+  <g fill="#FFB347" opacity="0.5">
+    <circle cx="140" cy="90" r="1.3"/>
+    <circle cx="160" cy="100" r="1.3"/>
+  </g>
+  <!-- Jarv silhouette walking toward the waterline -->
+  <g fill="#11141f">
+    <circle cx="200" cy="130" r="10"/>
+    <rect x="189" y="140" width="22" height="34" rx="4"/>
+  </g>
+  <!-- Drowned towers standing in tide -->
+  <g fill="#2e3a4a">
+    <rect x="230" y="120" width="12" height="70" opacity="0.9"/>
+    <rect x="255" y="100" width="14" height="90" opacity="0.9"/>
+    <rect x="285" y="130" width="12" height="60" opacity="0.9"/>
+    <rect x="315" y="110" width="14" height="80" opacity="0.9"/>
+    <rect x="345" y="135" width="12" height="55" opacity="0.9"/>
+  </g>
+  <ellipse cx="290" cy="192" rx="140" ry="20" fill="#6FD3D9" opacity="0.25"/>
+  <ellipse cx="200" cy="196" rx="220" ry="16" fill="#B8E3E6" opacity="0.15"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THE CITY ENDS. THE TIDE BEGINS.</text>
+</svg>
