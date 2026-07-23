@@ -15009,8 +15009,8 @@
       "weaknesses": ["fast"],
       "size": "medium"
     },
-    "frost-archer": {
-      "name": "Frost Archer",
+    "icebound-archer": {
+      "name": "Icebound Archer",
       "attack": 7,
       "maxHp": 20,
       "isWall": false,
@@ -25904,11 +25904,11 @@
       "lore": "Nobody taught her the calling-tongue. She says the cold taught itself to her, one waited season at a time."
     },
     {
-      "name": "Frost Archer",
+      "name": "Icebound Archer",
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "unit",
-      "unitRef": "frost-archer",
+      "unitRef": "icebound-archer",
       "description": "An archer who strings bows carved from ice that waited three centuries to be anything else.",
       "deckCount": 0,
       "tags": ["forgotten", "waitedwinter"],

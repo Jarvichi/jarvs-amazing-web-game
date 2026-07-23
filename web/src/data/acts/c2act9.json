@@ -437,7 +437,7 @@
         "Snowbound Sentry",
         "Winter Writ",
         "Choir of Frost",
-        "Frost Archer"
+        "Icebound Archer"
       ],
       "bossAI": "pale-elite"
     },
@@ -462,7 +462,7 @@
         "Rime Watchtower",
         "Winter Courier",
         "Blizzard Toll",
-        "Frost Archer"
+        "Icebound Archer"
       ]
     },
     "the-last-thaw": {
