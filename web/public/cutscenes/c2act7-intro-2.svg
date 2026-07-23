@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a1414"/>
+  <linearGradient id="c2a7i2-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#131f1e"/>
+    <stop offset="100%" stop-color="#1f3230"/>
+  </linearGradient>
+  <rect width="400" height="120" fill="url(#c2a7i2-sky)"/>
+  <!-- Still marsh water, mirroring the sky wrong -->
+  <rect y="120" width="400" height="120" fill="#152825"/>
+  <g fill="#2c4a44" opacity="0.8">
+    <rect x="40" y="120" width="3" height="30"/>
+    <rect x="90" y="120" width="3" height="24"/>
+    <rect x="150" y="120" width="3" height="34"/>
+    <rect x="260" y="120" width="3" height="26"/>
+    <rect x="320" y="120" width="3" height="32"/>
+  </g>
+  <!-- A reflection that doesn't quite match -->
+  <ellipse cx="200" cy="80" rx="40" ry="18" fill="#D9F0E8" opacity="0.12"/>
+  <ellipse cx="200" cy="160" rx="40" ry="18" fill="#D9F0E8" opacity="0.28"/>
+  <ellipse cx="200" cy="200" rx="200" ry="16" fill="#7FCDA0" opacity="0.2"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">WATER THAT REMEMBERS A DIFFERENT SKY.</text>
+</svg>

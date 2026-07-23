@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a7o3-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#171b28"/>
+    <stop offset="100%" stop-color="#2e3a4a"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2a7o3-sky)"/>
+  <rect y="150" width="400" height="90" fill="#1c2b33"/>
+  <!-- Distant masked court silhouettes -->
+  <g fill="#12141f" opacity="0.85">
+    <circle cx="160" cy="150" r="8"/>
+    <rect x="153" y="158" width="14" height="30" rx="3"/>
+    <circle cx="200" cy="145" r="9"/>
+    <rect x="192" y="154" width="16" height="34" rx="3"/>
+    <circle cx="240" cy="150" r="8"/>
+    <rect x="233" y="158" width="14" height="30" rx="3"/>
+  </g>
+  <g fill="#8A97A0" opacity="0.6">
+    <rect x="154" y="156" width="12" height="3"/>
+    <rect x="193" y="151" width="14" height="3"/>
+    <rect x="234" y="156" width="12" height="3"/>
+  </g>
+  <ellipse cx="200" cy="192" rx="180" ry="16" fill="#5E6A8C" opacity="0.2"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THE HOLLOW COURT IS ALREADY WATCHING.</text>
+</svg>

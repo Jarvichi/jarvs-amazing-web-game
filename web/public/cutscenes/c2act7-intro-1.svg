@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a1218"/>
+  <linearGradient id="c2a7i1-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#132028"/>
+    <stop offset="100%" stop-color="#1c3038"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2a7i1-sky)"/>
+  <!-- Drowned tower behind, giving way to still marsh water -->
+  <rect y="150" width="180" height="90" fill="#0f2229"/>
+  <rect x="180" y="150" width="220" height="90" fill="#132a26"/>
+  <rect x="150" y="90" width="20" height="60" fill="#1c2b33"/>
+  <!-- Jarv silhouette walking toward the marsh -->
+  <g fill="#11141f">
+    <circle cx="200" cy="140" r="10"/>
+    <rect x="189" y="150" width="22" height="34" rx="4"/>
+  </g>
+  <!-- Still marsh reeds -->
+  <g fill="#2c4a44" opacity="0.8">
+    <rect x="230" y="150" width="3" height="26"/>
+    <rect x="250" y="150" width="3" height="34"/>
+    <rect x="280" y="150" width="3" height="22"/>
+    <rect x="320" y="150" width="3" height="30"/>
+    <rect x="350" y="150" width="3" height="24"/>
+  </g>
+  <ellipse cx="290" cy="190" rx="120" ry="18" fill="#7FCDA0" opacity="0.2"/>
+  <ellipse cx="200" cy="195" rx="220" ry="14" fill="#D9F0E8" opacity="0.12"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THE COAST ENDS. THE STILLNESS BEGINS.</text>
+</svg>
