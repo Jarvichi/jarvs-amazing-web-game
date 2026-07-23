@@ -14292,7 +14292,7 @@
       "tags": ["forgotten"]
     },
     "envoys-watchtower": {
-      "name": "Envoy's Watchtower",
+      "name": "Envoy Watchtower",
       "attack": 6,
       "maxHp": 40,
       "isWall": false,
@@ -14314,7 +14314,7 @@
       "tags": ["forgotten"]
     },
     "envoys-vanguard": {
-      "name": "Envoy's Vanguard",
+      "name": "Envoy Vanguard",
       "attack": 13,
       "maxHp": 50,
       "isWall": false,
@@ -24351,7 +24351,7 @@
       "lore": "It has walked the same stretch of drowned road since before anyone alive remembers the road being dry."
     },
     {
-      "name": "Envoy's Watchtower",
+      "name": "Envoy Watchtower",
       "rarity": "uncommon",
       "cardType": "structure",
       "cost": 3,
@@ -24406,7 +24406,7 @@
       "lore": "The toll the causeway charges anything that tries to cross without paying the tide first."
     },
     {
-      "name": "Envoy's Vanguard",
+      "name": "Envoy Vanguard",
       "rarity": "rare",
       "cost": 5,
       "cardType": "unit",

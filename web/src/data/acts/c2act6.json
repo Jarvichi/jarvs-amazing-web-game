@@ -214,7 +214,7 @@
       "enemyDeck": [
         "Drowned Watchman",
         "Tidebell",
-        "Envoy's Watchtower",
+        "Envoy Watchtower",
         "Barnacle Guard",
         "Brine Draught"
       ]
@@ -394,7 +394,7 @@
       "environment": "coast",
       "enemyDeck": [
         "Barnacle Guard",
-        "Envoy's Vanguard",
+        "Envoy Vanguard",
         "Sealed Tidegate",
         "Undertow Toll",
         "Pearl Foundry",
@@ -459,7 +459,7 @@
       "enemyDeck": [
         "Barnacle Guard",
         "Sunken Barricade",
-        "Envoy's Watchtower",
+        "Envoy Watchtower",
         "Tide Courier",
         "Undertow Toll",
         "Driftwood Archer"
@@ -532,7 +532,7 @@
       "environment": "coast",
       "enemyDeck": [
         "The Drowned Envoy",
-        "Envoy's Vanguard",
+        "Envoy Vanguard",
         "Drowned Knight",
         "The Undertow",
         "Choir of the Drowned",
