@@ -378,5 +378,17 @@
         "amount": 1
       }
     ]
+  },
+  {
+    "name": "Waited Snowflake",
+    "icon": "❄️",
+    "desc": "Your base gains +12 max HP — a season that waited three centuries to matter finally gives your base something to hold.",
+    "lore": "Pressed into your palm still unmelted, from a steward who kept a whole winter waiting rather than let it fall on the wrong crossing. It has not thawed once since. It does not intend to start with you.",
+    "effects": [
+      {
+        "type": "baseHp",
+        "amount": 12
+      }
+    ]
   }
 ]
