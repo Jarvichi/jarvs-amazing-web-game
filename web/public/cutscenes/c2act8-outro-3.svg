@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0e16"/>
+  <linearGradient id="c2a8o3-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#131a24"/>
+    <stop offset="100%" stop-color="#1e2c3a"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2a8o3-sky)"/>
+  <rect y="150" width="400" height="90" fill="#16222c"/>
+  <!-- Frost creeping in from the corridor's edge -->
+  <g fill="#8ab8cc" opacity="0.4">
+    <path d="M0,150 L40,150 L20,175 Z"/>
+    <path d="M60,150 L110,150 L85,180 Z"/>
+    <path d="M300,150 L350,150 L325,178 Z"/>
+    <path d="M360,150 L400,150 L380,172 Z"/>
+  </g>
+  <ellipse cx="200" cy="195" rx="200" ry="16" fill="#8ab8cc" opacity="0.15"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">A WINTER THE VOID KEPT IN STORAGE.</text>
+</svg>

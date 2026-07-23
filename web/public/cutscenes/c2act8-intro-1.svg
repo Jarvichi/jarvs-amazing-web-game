@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a8i1-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#171b28"/>
+    <stop offset="100%" stop-color="#2e2438"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2a8i1-sky)"/>
+  <!-- Marsh reeds behind, giving way to court steps -->
+  <rect y="150" width="180" height="90" fill="#152825"/>
+  <rect x="180" y="150" width="220" height="90" fill="#241b2e"/>
+  <rect x="150" y="90" width="20" height="60" fill="#1c2b33"/>
+  <!-- Jarv silhouette walking toward the court -->
+  <g fill="#11141f">
+    <circle cx="200" cy="140" r="10"/>
+    <rect x="189" y="150" width="22" height="34" rx="4"/>
+  </g>
+  <!-- Court columns with silver mask motifs -->
+  <g fill="#3a2e46">
+    <rect x="230" y="110" width="10" height="80"/>
+    <rect x="260" y="100" width="10" height="90"/>
+    <rect x="290" y="110" width="10" height="80"/>
+    <rect x="320" y="100" width="10" height="90"/>
+    <rect x="350" y="110" width="10" height="80"/>
+  </g>
+  <g fill="#D4D4DC" opacity="0.7">
+    <circle cx="235" cy="105" r="4"/>
+    <circle cx="265" cy="95" r="4"/>
+    <circle cx="295" cy="105" r="4"/>
+    <circle cx="325" cy="95" r="4"/>
+    <circle cx="355" cy="105" r="4"/>
+  </g>
+  <ellipse cx="200" cy="195" rx="220" ry="14" fill="#7A4A6B" opacity="0.15"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THE MARSH ENDS. THE CEREMONY BEGINS.</text>
+</svg>
