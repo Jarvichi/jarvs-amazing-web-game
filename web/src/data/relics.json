@@ -353,5 +353,18 @@
         "intervalMs": 8000
       }
     ]
+  },
+  {
+    "name": "Backwards Glass",
+    "icon": "🪞",
+    "desc": "Your units gain +2 attack whenever your base is below half HP — the glass shows you exactly how bad it could get, and you fight harder rather than let it happen.",
+    "lore": "Left behind by a herald that never lied, only showed. Holding it up, you see your base at half its HP before it happens. You have never once ignored the warning since.",
+    "effects": [
+      {
+        "type": "unitAtk",
+        "amount": 2,
+        "condition": "baseBelowHalf"
+      }
+    ]
   }
 ]
