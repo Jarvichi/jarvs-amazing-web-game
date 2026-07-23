@@ -366,5 +366,17 @@
         "condition": "baseBelowHalf"
       }
     ]
+  },
+  {
+    "name": "Hollow Mask",
+    "icon": "🎭",
+    "desc": "Whenever you play a card, your units gain +1 attack, stacking for the rest of the battle — every mask is a chance to become someone sharper.",
+    "lore": "Handed to you still warm from the Chamberlain's own face. It has never once explained who it belonged to before him. Wearing it, you understand: the ceremony was never about forgetting. It was about choosing who to become instead.",
+    "effects": [
+      {
+        "type": "onPlayAtk",
+        "amount": 1
+      }
+    ]
   }
 ]

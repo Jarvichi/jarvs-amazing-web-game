@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a8o1-hall" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#1c1624"/>
+    <stop offset="100%" stop-color="#2e2438"/>
+  </linearGradient>
+  <rect width="400" height="206" fill="url(#c2a8o1-hall)"/>
+  <!-- The Chamberlain lowering his gesture, mask half-removed -->
+  <g fill="#12141f" opacity="0.75">
+    <circle cx="200" cy="120" r="13"/>
+    <path d="M187,124 Q200,115 213,124 L213,133 Q200,127 187,133 Z" fill="#8A97A0" opacity="0.6"/>
+    <rect x="184" y="133" width="32" height="50" rx="4"/>
+  </g>
+  <circle cx="200" cy="120" r="9" fill="#D4D4DC" opacity="0.5"/>
+  <ellipse cx="200" cy="185" rx="150" ry="14" fill="#7A4A6B" opacity="0.2"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THE CEREMONY HOLDS ITS BREATH.</text>
+</svg>

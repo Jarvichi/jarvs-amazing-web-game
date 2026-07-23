@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a8i2-hall" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#1c1624"/>
+    <stop offset="100%" stop-color="#2e2438"/>
+  </linearGradient>
+  <rect width="400" height="206" fill="url(#c2a8i2-hall)"/>
+  <!-- A row of masked courtiers, all facing the viewer -->
+  <g fill="#12141f">
+    <circle cx="100" cy="120" r="10"/>
+    <rect x="90" y="130" width="20" height="40" rx="4"/>
+    <circle cx="170" cy="115" r="11"/>
+    <rect x="159" y="126" width="22" height="44" rx="4"/>
+    <circle cx="240" cy="118" r="10"/>
+    <rect x="230" y="128" width="20" height="42" rx="4"/>
+    <circle cx="310" cy="115" r="11"/>
+    <rect x="299" y="126" width="22" height="44" rx="4"/>
+  </g>
+  <g fill="#D4D4DC" opacity="0.85">
+    <circle cx="100" cy="120" r="7"/>
+    <circle cx="170" cy="115" r="8"/>
+    <circle cx="240" cy="118" r="7"/>
+    <circle cx="310" cy="115" r="8"/>
+  </g>
+  <ellipse cx="200" cy="185" rx="180" ry="16" fill="#7A4A6B" opacity="0.2"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">EVERY MASK FACES THE SAME DIRECTION.</text>
+</svg>

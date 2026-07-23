@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a8o2-bg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#171b28"/>
+    <stop offset="100%" stop-color="#2e2438"/>
+  </linearGradient>
+  <rect width="400" height="206" fill="url(#c2a8o2-bg)"/>
+  <!-- Close on Jarv's open hand holding a silver mask -->
+  <path d="M150,150 Q200,190 250,150 L250,175 Q200,205 150,175 Z" fill="#C9CBDA"/>
+  <ellipse cx="200" cy="140" rx="18" ry="14" fill="#D4D4DC"/>
+  <circle cx="194" cy="137" r="2.2" fill="#12141f"/>
+  <circle cx="206" cy="137" r="2.2" fill="#12141f"/>
+  <path d="M195,146 Q200,149 205,146" stroke="#12141f" stroke-width="1" fill="none"/>
+  <ellipse cx="200" cy="185" rx="90" ry="10" fill="#7A4A6B" opacity="0.2"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">HOLLOW MASK — STILL WARM.</text>
+</svg>
