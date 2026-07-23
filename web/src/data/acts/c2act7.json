@@ -1,0 +1,551 @@
+{
+  "id": "c2act7",
+  "title": "ACT VII",
+  "subtitle": "The Mirror Marsh",
+  "rewardRelic": "Backwards Glass",
+  "rewardRelicDesc": "Your units gain +2 attack whenever your base is below half HP — the glass shows you exactly how bad it could get, and you fight harder rather than let it happen.",
+  "environment": "marsh",
+  "rewardTags": [
+    "forgotten",
+    "marsh"
+  ],
+  "replayModifiers": [
+    {
+      "type": "enemyHpPercent",
+      "value": 15,
+      "label": "+15% enemy HP"
+    },
+    {
+      "type": "enemyIntervalReduction",
+      "value": 500,
+      "label": "Enemies act faster"
+    },
+    {
+      "type": "enemyHandBonus",
+      "value": 1,
+      "label": "Enemies start +1 card"
+    },
+    {
+      "type": "crystalBonus",
+      "value": 10,
+      "label": "+10 crystals per battle"
+    },
+    {
+      "type": "enemyHpPercent",
+      "value": 25,
+      "label": "+25% enemy HP"
+    }
+  ],
+  "startNodeIds": [
+    "mirror-threshold"
+  ],
+  "variantPools": {
+    "jarvMoods": [
+      "Now, past the Sunken Border's last drowned tower, still carrying a pearl that keeps giving back what the tide takes.",
+      "Now, the Worldmender, watching still water hold a sky that doesn't match the one overhead.",
+      "Now, wondering what it means that a marsh can remember the world better than the people who used to live in it.",
+      "Now, past the Envoy's fall, learning that the border was only ever the water's edge. The marsh keeps what's underneath."
+    ],
+    "marshDesc": [
+      "The Mirror Marsh runs inland from the Sunken Border's last drowned tower, its water flat as glass and holding a reflection that doesn't quite match the sky above it.",
+      "This is not a marsh that grew wild. It is a marsh that the void kept perfectly still for three centuries, so that when the world came back, the water remembered it exactly as it was.",
+      "The garrisons here are not guarding a shoreline. They are guarding a memory, and the memory does not need their protection nearly as much as they need its company."
+    ],
+    "reflectionDesc": [
+      "The Reflection was sent by the Pale Court to meet whatever crossed the water first — and it did not need a body until it decided the Worldmender was worth answering.",
+      "It does not command companies the way the Envoy commanded a tide. It commands a memory, and the memory has never once lied to it.",
+      "Three centuries in the void taught it one thing the Court never had to teach: the world you remember and the world you're given are not always the same offer. It has not yet decided which one it's showing you."
+    ],
+    "priorRunOpenings": [
+      "The mirror threshold was already still when you reached it, same as always — the marsh remembers being crossed even when it doesn't remember by whom.",
+      "You knew the still-bells' ring this time. The reed garrison knew you knowing it.",
+      "The still-ledger at the threshold already had your crossing counted. You are becoming a familiar entry in someone's reflected chart.",
+      "The Reflection was already standing at the water's edge when you arrived. It does not believe in being surprised twice, either."
+    ]
+  },
+  "midRunTemplates": [
+    "The {ordinalLower} crossing of the Mirror Marsh. The reflection settles a little sooner every time.",
+    "Campaign {n}. The reed garrisons have a whole stretch of shore reserved for you now, all of it already still.",
+    "{n} crossings counted, by the ledger at the threshold. You have stopped correcting the number.",
+    "Run {n}. The water holds the same reflection every time, and every time it seems to expect you.",
+    "The {ordinalLower} stillness. You know the garrison markers by name now. The marsh had names for them first."
+  ],
+  "introRules": [
+    {
+      "condition": {
+        "op": "gte",
+        "value": 10
+      },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:priorRunOpenings:1}"
+        },
+        {
+          "title": "THE MIRROR MARSH",
+          "text": "{pool:marshDesc:1}\n\n{pool:reflectionDesc:1}"
+        }
+      ]
+    },
+    {
+      "condition": {
+        "op": "range",
+        "min": 2,
+        "max": 9
+      },
+      "panels": [
+        {
+          "title": "THE MIRROR MARSH",
+          "text": "The mirror threshold is freshly stilled — again.\n\n{pool:priorRunOpenings:0}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:marshDesc:2}"
+        },
+        {
+          "title": "THE REFLECTION",
+          "text": "{pool:reflectionDesc:0}"
+        }
+      ]
+    }
+  ],
+  "intro": [
+    {
+      "title": "ENVOY'S PEARL",
+      "text": "The Envoy's retinue stood down at your back, and the pearl it pressed into your hand has not once stopped mending since. Past the last drowned tower, the road gives way to still water — marsh water, flat as glass, holding a reflection that doesn't quite match the sky above it.",
+      "image": "cutscenes/c2act7-intro-1.svg"
+    },
+    {
+      "title": "THE MIRROR MARSH",
+      "text": "This is not a marsh that grew wild. It is a marsh the void kept perfectly still for three centuries, so that when the world came back, the water remembered it exactly as it was — before the Fracture, before the Dominion ever broke. The garrisons here are not guarding a shoreline. They are guarding a memory.",
+      "image": "cutscenes/c2act7-intro-2.svg"
+    },
+    {
+      "title": "THE REFLECTION",
+      "text": "The Court's herald did not need a body until it decided the Worldmender was worth answering. It commands a memory, not a company, and the memory has never once lied to it. Somewhere out past the reeds, something in the water is already looking back with a face the Fracture should have erased.",
+      "image": "cutscenes/c2act7-intro-3.svg"
+    }
+  ],
+  "outro": [
+    {
+      "title": "THE REFLECTION'S ACCOUNTING",
+      "text": "It does not fall like a soldier or a tide. It simply stops holding its shape, and the water it wore gives way to water again. \"Three centuries,\" it says, \"and the marsh never once forgot what the Dominion looked like before you mended it. I only showed it back. Tell the Court that, if it still remembers how to listen to anything that isn't its own vigil.\" It leaves behind a single pane of glass. It is still cold.",
+      "image": "cutscenes/c2act7-outro-1.svg"
+    },
+    {
+      "title": "BACKWARDS GLASS",
+      "text": "It is a small thing to have carried a marsh's worth of memory — a single pane that shows you exactly how bad things could get, so you fight harder rather than let them. Holding it, you understand the Reflection better than its own stillness ever explained it: showing the truth back is not the same as lying. Not even, it turns out, when it hurts.",
+      "image": "cutscenes/c2act7-outro-2.svg"
+    },
+    {
+      "title": "THE HOLLOW COURT AHEAD",
+      "text": "Past the last still reeds, the road climbs toward a court of masked nobility — Amarath's own, forgotten so thoroughly they forgot their own faces first. Somewhere beyond the marsh's edge, the Pale Court is already deciding what the Worldmender is worth to a kingdom that remembers everything and shows nothing.",
+      "image": "cutscenes/c2act7-outro-3.svg"
+    }
+  ],
+  "nodes": {
+    "mirror-threshold": {
+      "id": "mirror-threshold",
+      "type": "battle",
+      "label": "The Mirror Threshold",
+      "description": "Where the Sunken Border's last drowned tower gives way to water still enough to hold a reflection.",
+      "row": 0,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "the-reed-causeway",
+        "the-glasswater-ramparts"
+      ],
+      "handicap": 26,
+      "opponentIntervalMs": 3000,
+      "opponentBaseHp": 258,
+      "environment": "marsh",
+      "enemyDeck": [
+        "Reed Strider",
+        "Glasswater Scout",
+        "Marsh Skulker",
+        "Still Bell"
+      ]
+    },
+    "the-reed-causeway": {
+      "id": "the-reed-causeway",
+      "type": "battle",
+      "label": "The Reed Causeway",
+      "description": "A causeway grown over with reeds tall enough to remember the world before the Fracture.",
+      "row": 1,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-still-ledger",
+        "the-reed-hearth"
+      ],
+      "handicap": 28,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 266,
+      "environment": "marsh",
+      "enemyDeck": [
+        "Reed Strider",
+        "Marsh Skulker",
+        "Reed Barricade",
+        "Marsh Guard",
+        "Mirror Step"
+      ]
+    },
+    "the-glasswater-ramparts": {
+      "id": "the-glasswater-ramparts",
+      "type": "battle",
+      "label": "The Glasswater Ramparts",
+      "description": "A rampart line built along water so still the garrison forgot which side of it was real.",
+      "row": 1,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-sealed-millsluice",
+        "the-reflections-barge"
+      ],
+      "handicap": 28,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 266,
+      "environment": "marsh",
+      "enemyDeck": [
+        "Glasswater Scout",
+        "Still Bell",
+        "Marsh Watchtower",
+        "Marsh Guard",
+        "Marsh Draught"
+      ]
+    },
+    "the-still-ledger": {
+      "id": "the-still-ledger",
+      "type": "event",
+      "label": "The Still Ledger",
+      "description": "A Court clerk tallying every crossing against a reflection that never blinks first.",
+      "row": 2,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-still-company",
+        "mem-c2act7-1"
+      ],
+      "eventConfig": {
+        "title": "The Still Ledger",
+        "description": "A clerk keeps the tally at a lectern set on stilts above the water, marking every crossing against a reflection that logs its own count. She does not ask why you're crossing. She only asks whether you intend to be tallied twice.",
+        "pools": [
+          [
+            {
+              "label": "Pay the ledger's toll (lose 6 HP, gain a rare card)",
+              "consequence": "Every crossing tallied costs a little of your own reflection. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the clerk's still-oil (gain 60 crystals)",
+              "consequence": "Oil set aside for a tally that never quite runs short. You gain 60 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 60
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest at the ledger post's brazier (heal 10 HP)",
+              "consequence": "The brazier holds the damp back better than it has any right to. You heal 10 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 10
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the ledger uncounted",
+              "consequence": "You leave the clerk to her tally.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-reed-hearth": {
+      "id": "the-reed-hearth",
+      "type": "rest",
+      "label": "The Reed Hearth",
+      "description": "A garrison hearth, kept lit for reed-guards coming off a cold stillness.",
+      "row": 2,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-still-company"
+      ],
+      "restHeal": 9
+    },
+    "the-sealed-millsluice": {
+      "id": "the-sealed-millsluice",
+      "type": "event",
+      "label": "The Sealed Millsluice",
+      "description": "A millsluice posting curfew orders for a flood that isn't rising anymore — just remembering how to.",
+      "row": 2,
+      "col": 2,
+      "rowCols": 4,
+      "childIds": [
+        "the-drowned-line"
+      ],
+      "eventConfig": {
+        "title": "The Sealed Millsluice",
+        "description": "The writ nailed to the sluice-gate names every stretch of water and the hour each is due to still. It is signed by the Court, countersigned by nobody the marsh has ever met, and dated the same day the vanguard crossed the Marches.",
+        "pools": [
+          [
+            {
+              "label": "Read the sealed sluice writ (lose 6 HP, gain a rare card)",
+              "consequence": "Every stretch named costs you something to read past. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the sluice's oil cache (gain 70 crystals)",
+              "consequence": "A cache nobody on this shore was ever going to collect. You gain 70 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 70
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest behind the sluice's seals (heal 8 HP)",
+              "consequence": "Quieter than a stilled marsh has any right to be. You heal 8 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 8
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the writ unread",
+              "consequence": "Some orders are better left uncounted. You move on.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-reflections-barge": {
+      "id": "the-reflections-barge",
+      "type": "merchant",
+      "label": "The Reflection's Barge",
+      "description": "A trading barge moored at water that hasn't seen open trade in centuries.",
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-drowned-line"
+      ]
+    },
+    "the-still-company": {
+      "id": "the-still-company",
+      "type": "elite",
+      "label": "The Still Company",
+      "description": "A file of Court soldiers holding formation in water so calm it never gives their positions away.",
+      "row": 3,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-deep-shallows"
+      ],
+      "handicap": 32,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 282,
+      "environment": "marsh",
+      "enemyDeck": [
+        "Marsh Guard",
+        "Marsh Vanguard",
+        "Sealed Millpond",
+        "Echo Toll",
+        "Glass Foundry",
+        "Choir of Echoes"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "mem-c2act7-1": {
+      "id": "mem-c2act7-1",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A founding charter of the marsh's first reed garrisons.",
+      "row": 3,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-deep-shallows"
+      ],
+      "fragmentId": "c2act7-frag-1",
+      "environment": "marsh"
+    },
+    "the-drowned-line": {
+      "id": "the-drowned-line",
+      "type": "elite",
+      "label": "The Drowned Line",
+      "description": "A line of soldiers who never got new orders when the marsh reclaimed their post.",
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-last-crossing"
+      ],
+      "handicap": 32,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 282,
+      "environment": "marsh",
+      "enemyDeck": [
+        "Echo Caller",
+        "Reflection Automaton",
+        "Glass Sentry",
+        "Mirror Writ",
+        "Choir of Echoes",
+        "Reedline Archer"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "the-deep-shallows": {
+      "id": "the-deep-shallows",
+      "type": "battle",
+      "label": "The Deep Shallows",
+      "description": "Shallows deep enough that even the reflection stops following.",
+      "row": 4,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-final-stillwater"
+      ],
+      "handicap": 34,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 292,
+      "environment": "marsh",
+      "enemyDeck": [
+        "Marsh Guard",
+        "Reed Barricade",
+        "Marsh Watchtower",
+        "Marsh Runner",
+        "Echo Toll",
+        "Reedline Archer"
+      ]
+    },
+    "the-last-crossing": {
+      "id": "the-last-crossing",
+      "type": "battle",
+      "label": "The Last Crossing",
+      "description": "The final stretch of water before the Reflection's own ground.",
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-final-stillwater",
+        "mem-c2act7-2"
+      ],
+      "handicap": 34,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 292,
+      "environment": "marsh",
+      "enemyDeck": [
+        "Marsh Runner",
+        "Choir of Echoes",
+        "Marsh Knight",
+        "Mirror Writ",
+        "Glass Sentry",
+        "Echo Caller"
+      ]
+    },
+    "the-final-stillwater": {
+      "id": "the-final-stillwater",
+      "type": "rest",
+      "label": "The Final Stillwater",
+      "description": "The last stretch of calm water before the Reflection's own ward. Someone has already stilled it.",
+      "row": 5,
+      "col": 0,
+      "rowCols": 2,
+      "childIds": [
+        "reflection-node"
+      ],
+      "restHeal": 11
+    },
+    "mem-c2act7-2": {
+      "id": "mem-c2act7-2",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A reed-guard's log from the night the marsh stopped reflecting the sky.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "reflection-node"
+      ],
+      "fragmentId": "c2act7-frag-2",
+      "environment": "marsh"
+    },
+    "reflection-node": {
+      "id": "reflection-node",
+      "type": "boss",
+      "label": "The Reflection",
+      "description": "Nine miles of still water end here, before a herald who shows the world exactly as it was.",
+      "row": 6,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
+      "handicap": 36,
+      "opponentIntervalMs": 5000,
+      "opponentBaseHp": 314,
+      "environment": "marsh",
+      "enemyDeck": [
+        "The Reflection",
+        "Marsh Vanguard",
+        "Marsh Knight",
+        "The Echo",
+        "Choir of Echoes",
+        "Glass Sentry",
+        "Mirror Writ"
+      ],
+      "bossAI": "thereflection",
+      "bossDialogue": [
+        "You crossed the Sunken Border, Worldmender. The Envoy gave you a tide that remembers changing. I give you a world that remembers not being broken at all.",
+        "Three centuries in the void, and the marsh never once forgot what the Dominion looked like before you mended it. I only show it back. You are the one who has to decide whether that is a mercy or a wound.",
+        "The Court does not ask me to defend this water. It only asks that whatever looks into it — you included — has to answer for what it sees. Let's begin."
+      ],
+      "bossCard": "The Reflection"
+    }
+  }
+}

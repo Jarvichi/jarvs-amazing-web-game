@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a7o2-bg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#171b28"/>
+    <stop offset="100%" stop-color="#233542"/>
+  </linearGradient>
+  <rect width="400" height="206" fill="url(#c2a7o2-bg)"/>
+  <!-- Close on Jarv's open hand holding the glass pane -->
+  <path d="M150,150 Q200,190 250,150 L250,175 Q200,205 150,175 Z" fill="#C9CBDA"/>
+  <rect x="182" y="128" width="36" height="30" rx="2" fill="#D9F0E8" opacity="0.5"/>
+  <rect x="182" y="128" width="36" height="30" rx="2" fill="#7FCDA0" opacity="0.25"/>
+  <circle cx="195" cy="138" r="4" fill="#ffffff" opacity="0.5"/>
+  <ellipse cx="200" cy="185" rx="90" ry="10" fill="#7FCDA0" opacity="0.2"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">BACKWARDS GLASS — STILL COLD.</text>
+</svg>

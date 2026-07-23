@@ -2167,5 +2167,106 @@
         ]
       }
     ]
+  },
+  {
+    "id": "thereflection",
+    "intervalMs": 4900,
+    "idleMessage": "The water does not blink first…",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE REFLECTION rises from the still water, wearing the Dominion's face the way it looked before the Fracture.",
+      "\"The Envoy gave you a tide. I give you a world that remembers not being broken. Let's see which one of us the Court still needs, Worldmender.\""
+    ],
+    "trait": {
+      "name": "Shattered Surface",
+      "implemented": true,
+      "trigger": "hp_pct",
+      "triggerHpPct": 50,
+      "type": "split",
+      "description": "When the Reflection reaches 50% HP the still water shatters and it steps out of the surface as three identical copies, each with a third of its HP at the time of splitting, scattered across the battlefield. All three must be destroyed to win.",
+      "mechanics": {
+        "splitCount": 3,
+        "hpDivisor": 3,
+        "positions": [
+          "left_flank",
+          "centre",
+          "right_flank"
+        ],
+        "allMustDie": true
+      },
+      "announceText": "THE REFLECTION shatters — the water gives back three of itself!",
+      "landText": "Each copy remembers the same world. Each one has to be told twice."
+    },
+    "phases": [
+      {
+        "condition": {
+          "gameTimeLt": 30000
+        },
+        "priorities": [
+          {
+            "cardType": "structure",
+            "isWall": true
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "mana"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_asc"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      },
+      {
+        "condition": {
+          "gameTimeGte": 30000,
+          "gameTimeLt": 75000
+        },
+        "priorities": [
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costGte": 4,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ],
+        "announceOnce": "\"The Envoy held a coastline with a tide. I hold a memory with a stillness that has never once needed telling twice. You are neither owed nor doctrine, Worldmender. You are a reflection's business.\""
+      },
+      {
+        "condition": null,
+        "manaOverride": 9,
+        "maxPlaysOverride": 4,
+        "announceOnce": "\"THE WATER REMEMBERS WHAT YOU MENDED AND WHAT YOU BROKE FIRST. SO DO I.\"",
+        "priorities": [
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      }
+    ]
   }
 ]

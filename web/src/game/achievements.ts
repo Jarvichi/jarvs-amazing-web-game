@@ -1034,6 +1034,41 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     tier: 2,
   },
 
+  // Campaign 2, Act 7 — The Mirror Marsh
+  {
+    id: 'campaign:c2act7:1',
+    name: 'First Reflection',
+    description: 'Complete Campaign 2 Act 7 — The Mirror Marsh',
+    category: 'campaign',
+    progressKey: 'campaign:c2act7',
+    target: 1,
+    reward: { type: 'crystals', crystals: 800 },
+    tier: 1,
+  },
+  {
+    id: 'campaign:c2act7:10',
+    name: 'Tallied by the Still Ledger',
+    description: 'Complete Campaign 2 Act 7 ten times',
+    category: 'campaign',
+    progressKey: 'campaign:c2act7',
+    target: 10,
+    reward: { type: 'crystals', crystals: 3800 },
+    tier: 2,
+  },
+  {
+    id: 'campaign:c2act7:100',
+    name: 'The Marsh Remembers Your Face',
+    description: 'Complete Campaign 2 Act 7 one hundred times',
+    category: 'campaign',
+    progressKey: 'campaign:c2act7',
+    target: 100,
+    reward: {
+      type: 'item',
+      item: { id: 'reflections_backwards_pane', name: "Reflection's Backwards Pane", icon: '🪞', desc: 'A pane from a hundred crossings. It has never once shown you a world that wasn\'t true.' },
+    },
+    tier: 2,
+  },
+
   // ── Boss avatar unlocks (one per act, triggered on first act completion) ─
 
   { id: 'campaign:act1:boss',  name: 'Face of the Thornlord',       description: 'Defeat Act 1 to unlock the Thornlord avatar',       category: 'campaign', progressKey: 'campaign:act1',  target: 1, reward: { type: 'avatar', avatarSlug: 'boss-thornlord' },       tier: 1 },
@@ -1056,6 +1091,7 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
   { id: 'campaign:c2act4:boss',    name: 'Face of the Name-Eater',     description: 'Defeat Campaign 2 Act 4 to unlock the Name-Eater avatar', category: 'campaign', progressKey: 'campaign:c2act4', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-nameeater' },       tier: 1 },
   { id: 'campaign:c2act5:boss',    name: 'Face of the Lamplighter General', description: 'Defeat Campaign 2 Act 5 to unlock the Lamplighter General avatar', category: 'campaign', progressKey: 'campaign:c2act5', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-lamplighter' }, tier: 1 },
   { id: 'campaign:c2act6:boss',    name: 'Face of the Drowned Envoy',  description: 'Defeat Campaign 2 Act 6 to unlock the Drowned Envoy avatar', category: 'campaign', progressKey: 'campaign:c2act6', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-drownedenvoy' }, tier: 1 },
+  { id: 'campaign:c2act7:boss',    name: 'Face of the Reflection',     description: 'Defeat Campaign 2 Act 7 to unlock the Reflection avatar',    category: 'campaign', progressKey: 'campaign:c2act7', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-thereflection' }, tier: 1 },
 
   // ── Boss Cards — earned by repeat boss completions (10/20/30/40 runs) ────
   // Act 1 — Thornlord
