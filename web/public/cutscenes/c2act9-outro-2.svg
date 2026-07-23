@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a9o2-bg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#171b28"/>
+    <stop offset="100%" stop-color="#233542"/>
+  </linearGradient>
+  <rect width="400" height="206" fill="url(#c2a9o2-bg)"/>
+  <!-- Close on Jarv's open hand holding the unmelting snowflake -->
+  <path d="M150,150 Q200,190 250,150 L250,175 Q200,205 150,175 Z" fill="#C9CBDA"/>
+  <path d="M200,120 L200,160 M182,130 L218,150 M218,130 L182,150" stroke="#C9E8F0" stroke-width="2"/>
+  <circle cx="200" cy="140" r="16" fill="#8FD3E8" opacity="0.25"/>
+  <ellipse cx="200" cy="185" rx="90" ry="10" fill="#8FD3E8" opacity="0.2"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">WAITED SNOWFLAKE — STILL UNMELTED.</text>
+</svg>

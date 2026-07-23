@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a1218"/>
+  <linearGradient id="c2a9i3-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#101a24"/>
+    <stop offset="100%" stop-color="#1a2c3a"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2a9i3-sky)"/>
+  <rect y="150" width="400" height="90" fill="#0e1c26"/>
+  <!-- The Frost Regent's silhouette, rimed crown -->
+  <g fill="#12141f">
+    <circle cx="200" cy="120" r="12"/>
+    <path d="M188,118 L192,110 L196,118 L200,108 L204,118 L208,110 L212,118 Z" fill="#8A97A0"/>
+    <rect x="185" y="130" width="30" height="46" rx="4"/>
+  </g>
+  <g fill="#8FD3E8" opacity="0.4">
+    <circle cx="180" cy="160" r="3"/>
+    <circle cx="220" cy="155" r="3"/>
+    <circle cx="200" cy="175" r="3"/>
+  </g>
+  <ellipse cx="200" cy="180" rx="180" ry="16" fill="#8FD3E8" opacity="0.2"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THE STEWARD OF THE STORED COLD WAITS.</text>
+</svg>

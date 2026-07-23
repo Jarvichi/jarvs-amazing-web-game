@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a9i1-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#171b28"/>
+    <stop offset="100%" stop-color="#233542"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2a9i1-sky)"/>
+  <!-- Court hall behind, giving way to frost -->
+  <rect y="150" width="180" height="90" fill="#241b2e"/>
+  <rect x="180" y="150" width="220" height="90" fill="#182430"/>
+  <rect x="150" y="90" width="20" height="60" fill="#1c2b33"/>
+  <!-- Jarv silhouette walking toward the frost -->
+  <g fill="#11141f">
+    <circle cx="200" cy="140" r="10"/>
+    <rect x="189" y="150" width="22" height="34" rx="4"/>
+  </g>
+  <!-- Frost creeping across the corridor -->
+  <g fill="#8FD3E8" opacity="0.35">
+    <path d="M230,150 L270,150 L250,185 Z"/>
+    <path d="M290,150 L340,150 L315,190 Z"/>
+    <path d="M350,150 L400,150 L380,185 Z"/>
+  </g>
+  <ellipse cx="290" cy="200" rx="120" ry="16" fill="#8FD3E8" opacity="0.2"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THE COURT ENDS. THE WAITED WINTER BEGINS.</text>
+</svg>

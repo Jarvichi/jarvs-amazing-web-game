@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a1218"/>
+  <linearGradient id="c2a9o1-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#101a24"/>
+    <stop offset="100%" stop-color="#1a2c3a"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2a9o1-sky)"/>
+  <rect y="150" width="400" height="90" fill="#0e1c26"/>
+  <!-- The Regent's cold going still -->
+  <g fill="#12141f" opacity="0.7">
+    <circle cx="200" cy="130" r="12"/>
+    <path d="M188,128 L192,120 L196,128 L200,118 L204,128 L208,120 L212,128 Z" fill="#8A97A0" opacity="0.6"/>
+    <rect x="185" y="140" width="30" height="38" rx="4"/>
+  </g>
+  <circle cx="220" cy="168" r="3" fill="#C9E8F0"/>
+  <ellipse cx="200" cy="185" rx="150" ry="14" fill="#8FD3E8" opacity="0.15"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THE COLD STOPS DEEPENING.</text>
+</svg>
