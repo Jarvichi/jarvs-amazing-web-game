@@ -1244,6 +1244,41 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     tier: 2,
   },
 
+  // Campaign 2, Act 13 — The City of Vigils
+  {
+    id: 'campaign:c2act13:1',
+    name: 'First Ward',
+    description: 'Complete Campaign 2 Act 13 — The City of Vigils',
+    category: 'campaign',
+    progressKey: 'campaign:c2act13',
+    target: 1,
+    reward: { type: 'crystals', crystals: 800 },
+    tier: 1,
+  },
+  {
+    id: 'campaign:c2act13:10',
+    name: 'Recorded in the Ward Registry',
+    description: 'Complete Campaign 2 Act 13 ten times',
+    category: 'campaign',
+    progressKey: 'campaign:c2act13',
+    target: 10,
+    reward: { type: 'crystals', crystals: 3800 },
+    tier: 2,
+  },
+  {
+    id: 'campaign:c2act13:100',
+    name: 'The City Remembers Your Name',
+    description: 'Complete Campaign 2 Act 13 one hundred times',
+    category: 'campaign',
+    progressKey: 'campaign:c2act13',
+    target: 100,
+    reward: {
+      type: 'item',
+      item: { id: 'queens_unfailing_wick', name: "Queen's Unfailing Wick", icon: '🕯️', desc: 'A wick from a hundred vigils. It has never once agreed to gutter.' },
+    },
+    tier: 2,
+  },
+
   // ── Boss avatar unlocks (one per act, triggered on first act completion) ─
 
   { id: 'campaign:act1:boss',  name: 'Face of the Thornlord',       description: 'Defeat Act 1 to unlock the Thornlord avatar',       category: 'campaign', progressKey: 'campaign:act1',  target: 1, reward: { type: 'avatar', avatarSlug: 'boss-thornlord' },       tier: 1 },
@@ -1272,6 +1307,7 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
   { id: 'campaign:c2act10:boss',   name: 'Face of the Orchard Keeper', description: 'Defeat Campaign 2 Act 10 to unlock the Orchard Keeper avatar', category: 'campaign', progressKey: 'campaign:c2act10', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-orchardkeeper' }, tier: 1 },
   { id: 'campaign:c2act11:boss',   name: 'Face of the Procession Master', description: 'Defeat Campaign 2 Act 11 to unlock the Procession Master avatar', category: 'campaign', progressKey: 'campaign:c2act11', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-processionmaster' }, tier: 1 },
   { id: 'campaign:c2act12:boss',   name: 'Face of the Pale Marshal', description: 'Defeat Campaign 2 Act 12 to unlock the Pale Marshal avatar', category: 'campaign', progressKey: 'campaign:c2act12', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-palemarshal' }, tier: 1 },
+  { id: 'campaign:c2act13:boss',   name: 'Face of the Vigil Queen', description: 'Defeat Campaign 2 Act 13 to unlock the Vigil Queen avatar', category: 'campaign', progressKey: 'campaign:c2act13', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-vigilqueen' }, tier: 1 },
 
   // ── Boss Cards — earned by repeat boss completions (10/20/30/40 runs) ────
   // Act 1 — Thornlord

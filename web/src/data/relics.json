@@ -430,5 +430,22 @@
         "amount": 3
       }
     ]
+  },
+  {
+    "name": "Queen's Candle",
+    "icon": "🕯️",
+    "desc": "All friendly units gain +4 max HP and heal 2 HP every 6 seconds in battle — a candle that has never once been allowed to gutter out.",
+    "lore": "The last flame of a capital that decided, three centuries ago, that going dark was the one thing it would never do again. It does not just burn. It mends what stands near it, the same way the city mended itself after the Fracture.",
+    "effects": [
+      {
+        "type": "unitHp",
+        "amount": 4
+      },
+      {
+        "type": "tickHeal",
+        "amount": 2,
+        "intervalMs": 6000
+      }
+    ]
   }
 ]

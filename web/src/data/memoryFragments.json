@@ -348,5 +348,19 @@
     "nodeId": "mem-c2act12-2",
     "title": "Fragment: The Baton's Provenance",
     "body": "A COURT ARCHIVIST'S NOTE, ATTACHED TO THE MARSHAL'S COMMISSION\n\n'The baton is older than the Marshal who carries it, older than the reach he holds, older by most accounts than the Fracture itself. Every commander of the Crown Reaches has carried the same one, passed hand to hand down three centuries of marshals who each, in turn, were told they were the last.\n\nWhat the baton has never done, in three centuries of provenance, is fall. Every marshal before this one held the reach and handed the baton on. This note exists because, for the first time, the archivist charged with tracking it could not say with confidence there would be a next hand to receive it.\n\nI record this not because I believe the reach will fall, but because the ledger requires an answer for every object it tracks, and for the first time in three centuries, I do not have one.'"
+  },
+  {
+    "id": "c2act13-frag-1",
+    "actId": "c2act13",
+    "nodeId": "mem-c2act13-1",
+    "title": "Fragment: The First Ward Charter",
+    "body": "FOUNDING CHARTER OF THE CITY WARDS — YEAR ONE OF THE RETURN\n\n'When the Court decided the capital would never go dark again, it did not ask the wards to build walls. It asked them to keep candles — one to a window, every window in the city, lit and re-lit until the lighting became a duty nobody living remembered choosing.\n\nWe lit the first ward ourselves, and the charter says we did not stop to ask how many windows the city would need before it stopped counting as vigilance and started counting as habit. We lit it anyway, because a capital held together by candlelight does not get to decide when the candlelight is finished.\n\nThree centuries on, I am told no ward in this city has ever gone fully dark, not for a night, not for an hour. I believe it. A kingdom that spent three centuries being nowhere does not let its own capital's light go out, no matter how many windows the keeping costs.'"
+  },
+  {
+    "id": "c2act13-frag-2",
+    "actId": "c2act13",
+    "nodeId": "mem-c2act13-2",
+    "title": "Fragment: The Ward That Nearly Dimmed",
+    "body": "A WARD-GUARD'S LOG, RECOVERED FROM A GATEHOUSE WATCH-POST\n\n'Third watch, and the seventh ward's candle guttered for the first time in three centuries — not out, not fully, just low enough that the ward-captain relit it with her own hand before anyone else noticed. She told me not to write this down. I am writing it down anyway. If a single candle can nearly go out after three hundred years of not going out, then the Court's promise that this capital would never go dark is not the guarantee it claims to be, and somebody above my rank ought to know that before the Worldmender's people find it out for themselves.\n\nThe ward-captain relit the candle a second time before the log closed. It held until the next watch. I do not know if a city that nearly dims is still the last capital, or just a grief that has finally started to tire of being remembered.'"
   }
 ]

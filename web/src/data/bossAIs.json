@@ -2762,5 +2762,103 @@
         ]
       }
     ]
+  },
+  {
+    "id": "vigilqueen",
+    "intervalMs": 4700,
+    "idleMessage": "Every window in the city still holds a candle she has never once let gutter…",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE VIGIL QUEEN rises above her own city, a capital's worth of grief made weather.",
+      "\"You crossed the Crown Reaches, Worldmender. The Marshal gave you a baton that outlasted his own line. I give you a capital that has never once let a window go dark, and I intend to keep it that way.\""
+    ],
+    "trait": {
+      "name": "The Queen's Descent",
+      "implemented": true,
+      "trigger": "periodic",
+      "triggerIntervalMs": 42000,
+      "type": "fly",
+      "description": "Every 42 seconds the Vigil Queen rises above the field and comes down in a heavy landing over the player's densest cluster, dealing 11 AOE damage in a 2-tile radius and silencing survivors for 1.8 seconds.",
+      "mechanics": {
+        "invulnerableDurationMs": 2500,
+        "landingDamage": 11,
+        "landingRadiusTiles": 2,
+        "stunDurationMs": 1800,
+        "landingTarget": "player_densest_cluster"
+      },
+      "announceText": "THE VIGIL QUEEN takes flight — the sky over your line goes dark with her ascent!",
+      "landText": "THE QUEEN DESCENDS — grief made weather, come down all at once."
+    },
+    "phases": [
+      {
+        "condition": {
+          "gameTimeLt": 30000
+        },
+        "priorities": [
+          {
+            "cardType": "structure",
+            "isWall": true
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "mana"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_asc"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      },
+      {
+        "condition": {
+          "gameTimeGte": 30000,
+          "gameTimeLt": 75000
+        },
+        "priorities": [
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costGte": 4,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ],
+        "announceOnce": "\"Three centuries of keeping this city lit, and not one ward under my crown has ever asked why we're the last capital standing. The Marshal decided which reach still deserved holding. I decide whether the Court gets a capital left at all.\""
+      },
+      {
+        "condition": null,
+        "manaOverride": 9,
+        "maxPlaysOverride": 4,
+        "announceOnce": "\"THE COURT DOES NOT ASK ME TO WIN THIS CITY. IT ONLY ASKS THAT I KEEP IT LIT.\"",
+        "priorities": [
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      }
+    ]
   }
 ]
