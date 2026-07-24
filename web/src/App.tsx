@@ -1896,10 +1896,17 @@ export default function App() {
     }
     campaignPlayCountsRef.current = {}
 
-    // Update run HP and counts from battle result
+    // Update run HP and counts from battle result.
+    // gameState.playerBase is scaled to include any equipped relic's HP bonus (applied
+    // fresh each battle — see relics.ts), which run.maxHp deliberately excludes. Carrying
+    // gameState.playerBase.hp straight into run.playerHp would permanently bank that relic
+    // bonus into the persisted HP pool without run.maxHp ever growing to match, drifting
+    // the two out of sync over repeated battles. Instead, carry forward the damage taken
+    // relative to the relic-inflated pool, applied against the relic-free run.maxHp.
+    const dmgTaken = gameState.playerBase.maxHp - gameState.playerBase.hp
     const updatedRun: RunState = {
       ...currentRun,
-      playerHp: gameState.playerBase.hp,
+      playerHp: Math.max(0, currentRun.maxHp - dmgTaken),
       completedNodeIds: [...currentRun.completedNodeIds, nodeId],
       pendingNodeId: null,
       cardPlayCounts: mergedCounts,
