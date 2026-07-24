@@ -4,7 +4,7 @@
   "title": "ACT XI",
   "subtitle": "The Vigil Roads",
   "rewardRelic": "Procession Bell",
-  "rewardRelicDesc": "Your maximum mana is increased by 1, and you begin every battle with 2 mana already banked — the bell rings before the march even begins.",
+  "rewardRelicDesc": "Your maximum mana is increased by 1, and you begin every battle with 2 mana already banked \u2014 the bell rings before the march even begins.",
   "environment": "road",
   "rewardTags": [
     "forgotten",
@@ -58,7 +58,7 @@
       "Three centuries of marching taught him one thing the Pale Court never had to teach: a rite kept long enough stops needing a reason. He has not yet decided what the Worldmender is here to interrupt."
     ],
     "priorRunOpenings": [
-      "The vigil threshold was already marching when you reached it, same as always — the road remembers being crossed even when it doesn't remember by whom.",
+      "The vigil threshold was already marching when you reached it, same as always \u2014 the road remembers being crossed even when it doesn't remember by whom.",
       "You knew the sconce-bearers' step this time. The vigil company knew you knowing it.",
       "The mile ledger at the threshold already had your crossing recorded. You are becoming a familiar entry in someone's procession.",
       "The Master's retinue was already marching the road when you arrived. He does not believe in being surprised twice, either."
@@ -101,7 +101,7 @@
       "panels": [
         {
           "title": "THE VIGIL ROADS",
-          "text": "The vigil threshold is freshly marching — again.\n\n{pool:priorRunOpenings:0}"
+          "text": "The vigil threshold is freshly marching \u2014 again.\n\n{pool:priorRunOpenings:0}"
         },
         {
           "title": "THE WORLDMENDER",
@@ -122,7 +122,7 @@
     },
     {
       "title": "THE VIGIL ROADS",
-      "text": "This is not a road that grew from travel. It is a road Amarath built on purpose, three centuries ago, so the vigil-rite would always have somewhere to march. The garrisons here are not guarding a highway — they are guarding a procession that has never once needed their protection as much as it needs their company.",
+      "text": "This is not a road that grew from travel. It is a road Amarath built on purpose, three centuries ago, so the vigil-rite would always have somewhere to march. The garrisons here are not guarding a highway \u2014 they are guarding a procession that has never once needed their protection as much as it needs their company.",
       "image": "cutscenes/c2act11-intro-2.svg"
     },
     {
@@ -139,12 +139,12 @@
     },
     {
       "title": "PROCESSION BELL",
-      "text": "It is a small thing to have marched a road for three centuries — a single bell that rings before the march even begins, giving you a little more to spend before the first mile. Holding it, you understand the Master better than his own procession ever explained him: a vigil kept long enough doesn't need a reason anymore. It only needs someone still willing to walk it.",
+      "text": "It is a small thing to have marched a road for three centuries \u2014 a single bell that rings before the march even begins, giving you a little more to spend before the first mile. Holding it, you understand the Master better than his own procession ever explained him: a vigil kept long enough doesn't need a reason anymore. It only needs someone still willing to walk it.",
       "image": "cutscenes/c2act11-outro-2.svg"
     },
     {
       "title": "THE CROWN REACHES AHEAD",
-      "text": "Past the road's last mile-marker, the ground rises toward the fortified approach to the capital — the Pale Court's last field army, dug in and waiting. Somewhere beyond the reaches, the Court is already deciding whether the Worldmender is worth meeting with everything it has left.",
+      "text": "Past the road's last mile-marker, the ground rises toward the fortified approach to the capital \u2014 the Pale Court's last field army, dug in and waiting. Somewhere beyond the reaches, the Court is already deciding whether the Worldmender is worth meeting with everything it has left.",
       "image": "cutscenes/c2act11-outro-3.svg"
     }
   ],
@@ -200,7 +200,7 @@
       "id": "the-vigil-ramparts",
       "type": "battle",
       "label": "The Vigil Ramparts",
-      "description": "A rampart line garrisoned like the road still needs guarding — because to the Court, it does.",
+      "description": "A rampart line garrisoned like the road still needs guarding \u2014 because to the Court, it does.",
       "row": 1,
       "col": 3,
       "rowCols": 4,
@@ -296,7 +296,8 @@
       "col": 1,
       "rowCols": 4,
       "childIds": [
-        "the-vigil-company"
+        "the-vigil-company",
+        "the-processional-line"
       ],
       "restHeal": 9
     },
@@ -375,7 +376,8 @@
       "col": 3,
       "rowCols": 4,
       "childIds": [
-        "the-processional-line"
+        "the-processional-line",
+        "the-vigil-company"
       ]
     },
     "the-vigil-company": {
@@ -426,7 +428,8 @@
       "col": 3,
       "rowCols": 4,
       "childIds": [
-        "the-last-procession"
+        "the-last-procession",
+        "the-outer-mile"
       ],
       "handicap": 40,
       "opponentIntervalMs": 2700,
@@ -449,7 +452,7 @@
       "description": "A stretch of road deep enough that even the mist stops following.",
       "row": 4,
       "col": 0,
-      "rowCols": 4,
+      "rowCols": 3,
       "childIds": [
         "the-final-mile"
       ],
@@ -472,8 +475,8 @@
       "label": "The Last Procession",
       "description": "The final marching stretch before the Master's own waystation.",
       "row": 4,
-      "col": 3,
-      "rowCols": 4,
+      "col": 1,
+      "rowCols": 3,
       "childIds": [
         "the-final-mile",
         "mem-c2act11-2"
@@ -498,7 +501,7 @@
       "description": "The last marching mile before the Master's own ward. Someone has already lit its sconces.",
       "row": 5,
       "col": 0,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
         "processionmaster-node"
       ],
@@ -511,7 +514,7 @@
       "description": "A road-walker's log from the night the procession lost count of its own miles.",
       "row": 5,
       "col": 1,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
         "processionmaster-node"
       ],
@@ -547,6 +550,43 @@
         "The Court does not ask me to keep this procession marching. It only asks that the vigil never once goes silent. Let's begin."
       ],
       "bossCard": "The Procession Master"
+    },
+    "the-outer-mile": {
+      "id": "the-outer-mile",
+      "type": "battle",
+      "label": "The Outer Mile",
+      "description": "A stretch of road further out than any waystation admits patrolling.",
+      "row": 4,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "mem-c2act11-2",
+        "the-way-marker"
+      ],
+      "handicap": 42,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 322,
+      "environment": "road",
+      "enemyDeck": [
+        "Vigil Guard",
+        "Road Barricade",
+        "Procession Courier",
+        "Vigil Archer",
+        "Road Watchtower"
+      ]
+    },
+    "the-way-marker": {
+      "id": "the-way-marker",
+      "type": "rest",
+      "label": "The Way-Marker Rest",
+      "description": "A lesser mile-marker rest stop, kept for road-walkers who take the outer mile.",
+      "row": 5,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "processionmaster-node"
+      ],
+      "restHeal": 11
     }
   }
 }
