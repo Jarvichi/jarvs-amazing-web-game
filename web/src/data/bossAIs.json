@@ -2464,5 +2464,107 @@
         ]
       }
     ]
+  },
+  {
+    "id": "orchardkeeper",
+    "intervalMs": 4900,
+    "idleMessage": "The rows do not stop growing for anyone…",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE ORCHARD KEEPER rises from among the bonewood rows, shears in hand, every grave in the grove watching with her.",
+      "\"The Regent kept a season. I keep a kingdom's dead, and I have tended every one of them longer than she tended her cold. Let's see if you're worth planting, Worldmender.\""
+    ],
+    "trait": {
+      "name": "The Orchard Rises",
+      "implemented": true,
+      "trigger": "hp_pct",
+      "triggerHpPct": 40,
+      "type": "split",
+      "description": "When the Orchard Keeper reaches 40% HP she plants herself among the rows, and four saplings erupt at the four corners of the battlefield, each with a quarter of her HP at the time of planting. All four saplings must be felled to win.",
+      "mechanics": {
+        "splitCount": 4,
+        "hpDivisor": 4,
+        "positions": [
+          "top_left",
+          "top_right",
+          "bottom_left",
+          "bottom_right"
+        ],
+        "allMustDie": true
+      },
+      "announceText": "THE ORCHARD KEEPER plants herself — four saplings rise from the corners!",
+      "landText": "Each sapling remembers the same grove. Each one has to be felled in turn."
+    },
+    "phases": [
+      {
+        "condition": {
+          "gameTimeLt": 30000
+        },
+        "priorities": [
+          {
+            "cardType": "structure",
+            "isWall": true
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "mana"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_asc"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      },
+      {
+        "condition": {
+          "gameTimeGte": 30000,
+          "gameTimeLt": 75000
+        },
+        "priorities": [
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costGte": 4,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ],
+        "announceOnce": "\"The Regent held a season with a cold. I hold a grove with a grief that has never once needed telling twice. You are neither owed nor doctrine, Worldmender. You are a row still waiting to be tended.\""
+      },
+      {
+        "condition": null,
+        "manaOverride": 9,
+        "maxPlaysOverride": 4,
+        "announceOnce": "\"EVERY GRAVE IN THIS ORCHARD DECIDES WHAT TENDING MEANS. SO DO I.\"",
+        "priorities": [
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      }
+    ]
   }
 ]

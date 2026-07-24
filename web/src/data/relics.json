@@ -390,5 +390,17 @@
         "amount": 12
       }
     ]
+  },
+  {
+    "name": "Orchard Blossom",
+    "icon": "🌸",
+    "desc": "All friendly units gain +5 max HP — a blossom grown from a grief the orchard never finished tending.",
+    "lore": "Pressed into your palm from a gardener who tended a kingdom's graves without ever once forgetting a name. It has not wilted since. It does not intend to start with you.",
+    "effects": [
+      {
+        "type": "unitHp",
+        "amount": 5
+      }
+    ]
   }
 ]
