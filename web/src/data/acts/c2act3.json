@@ -4,7 +4,7 @@
   "title": "ACT III",
   "subtitle": "The Unremembered Fields",
   "rewardRelic": "Sheaf of Names",
-  "rewardRelicDesc": "Your maximum mana is increased by 1, and you begin every battle with 2 mana already banked — names given back, spent again.",
+  "rewardRelicDesc": "Your maximum mana is increased by 1, and you begin every battle with 2 mana already banked \u2014 names given back, spent again.",
   "environment": "farmland",
   "rewardTags": [
     "forgotten",
@@ -48,17 +48,17 @@
       "Now, past two gates of Amarath, discovering the third is a field, and the field is watching him walk it."
     ],
     "fieldsDesc": [
-      "The Unremembered Fields run further than the mist should allow — rows of pale grain under a sky that never quite lightens, tended by hands that never stopped working.",
+      "The Unremembered Fields run further than the mist should allow \u2014 rows of pale grain under a sky that never quite lightens, tended by hands that never stopped working.",
       "This is the grain that fed Amarath through three centuries of the dark. It does not grow like wheat should. It grows like it remembers being planted.",
       "The harvesters here do not look up as you pass. They are not ignoring you. They are simply mid-verse in a harvest that started before the Fracture and has not once paused since."
     ],
     "queenDesc": [
       "The Gleaner Queen walks the furrows herself, gathering what the world dropped one stalk at a time. She has never once left a row half-gleaned.",
-      "She does not glean out of cruelty. She gleans because leaving a memory ungathered, out here, is the same as losing it twice — and Amarath has already lost enough twice.",
+      "She does not glean out of cruelty. She gleans because leaving a memory ungathered, out here, is the same as losing it twice \u2014 and Amarath has already lost enough twice.",
       "Eleven granaries answer to her. Every one of them is full. Every one of them, she says, still has room for one more name."
     ],
     "priorRunOpenings": [
-      "The first furrow was still turned when you reached it, same as always — the fields remember being crossed even when they don't remember by whom.",
+      "The first furrow was still turned when you reached it, same as always \u2014 the fields remember being crossed even when they don't remember by whom.",
       "You knew the row markers this time. The grain knew you knowing them.",
       "The granary door was open to the same shelf. You are becoming a familiar harvest.",
       "The Queen's scale was already balanced when you arrived. She does not believe in being surprised twice, either."
@@ -101,7 +101,7 @@
       "panels": [
         {
           "title": "THE UNREMEMBERED FIELDS",
-          "text": "The furrow at the boundary is freshly turned — again.\n\n{pool:priorRunOpenings:0}"
+          "text": "The furrow at the boundary is freshly turned \u2014 again.\n\n{pool:priorRunOpenings:0}"
         },
         {
           "title": "THE WORLDMENDER",
@@ -127,24 +127,24 @@
     },
     {
       "title": "THE HARVEST WATCHES",
-      "text": "The harvesters do not look up as you pass. They are not the enemy — the Court is. But somewhere in these fields, a Queen gleans what the world drops, and she has not yet decided whether what you carry counts as lost. You go on regardless.",
+      "text": "The harvesters do not look up as you pass. They are not the enemy \u2014 the Court is. But somewhere in these fields, a Queen gleans what the world drops, and she has not yet decided whether what you carry counts as lost. You go on regardless.",
       "image": "cutscenes/c2act3-intro-3.svg"
     }
   ],
   "outro": [
     {
       "title": "THE QUEEN'S GLEANING",
-      "text": "The Gleaner Queen falls the way a season ends — not suddenly, but all at once, three scattered effigies going still in the same held breath. 'I gleaned so carefully,' she says. 'I never once dropped a name on purpose. Tell me you can say the same, Worldmender.'\n\nYou cannot. You take her sheaf anyway.",
+      "text": "The Gleaner Queen falls the way a season ends \u2014 not suddenly, but all at once, three scattered effigies going still in the same held breath. 'I gleaned so carefully,' she says. 'I never once dropped a name on purpose. Tell me you can say the same, Worldmender.'\n\nYou cannot. You take her sheaf anyway.",
       "image": "cutscenes/c2act3-outro-1.svg"
     },
     {
       "title": "SHEAF OF NAMES",
-      "text": "She leaves you a sheaf bound from the first stalks she ever gleaned — grain that still holds the shape of every memory it returned. It is warm in your hand, the way a held name is warm. It has not once, in three hundred years, forgotten what it's for.",
+      "text": "She leaves you a sheaf bound from the first stalks she ever gleaned \u2014 grain that still holds the shape of every memory it returned. It is warm in your hand, the way a held name is warm. It has not once, in three hundred years, forgotten what it's for.",
       "image": "cutscenes/c2act3-outro-2.svg"
     },
     {
       "title": "THE ARCHIVE AHEAD",
-      "text": "Past the last granary, the fields give way to shelving that runs further than any hall should — the Archive of Names, where Amarath keeps every erased name it ever recovered, guarded, and fed. Somewhere in it, something has been waiting a very long time to be found.",
+      "text": "Past the last granary, the fields give way to shelving that runs further than any hall should \u2014 the Archive of Names, where Amarath keeps every erased name it ever recovered, guarded, and fed. Somewhere in it, something has been waiting a very long time to be found.",
       "image": "cutscenes/c2act3-outro-3.svg"
     }
   ],
@@ -156,9 +156,11 @@
       "description": "Where the causeway's last stone gives way to the first turned earth of the fields.",
       "row": 0,
       "col": 1,
-      "rowCols": 3,
+      "rowCols": 4,
       "childIds": [
         "the-long-swath",
+        "mid-furrow-watch",
+        "high-furrow-line",
         "the-gleaners-row"
       ],
       "handicap": 18,
@@ -181,8 +183,7 @@
       "col": 0,
       "rowCols": 4,
       "childIds": [
-        "the-scarecrow-vigil",
-        "the-granary-hearth"
+        "the-scarecrow-vigil"
       ],
       "handicap": 20,
       "opponentIntervalMs": 3100,
@@ -200,12 +201,11 @@
       "id": "the-gleaners-row",
       "type": "battle",
       "label": "The Gleaners' Row",
-      "description": "A row garrisoned like it still needs guarding — because to Amarath, it does.",
+      "description": "A row garrisoned like it still needs guarding \u2014 because to Amarath, it does.",
       "row": 1,
       "col": 3,
       "rowCols": 4,
       "childIds": [
-        "the-harvest-ledger",
         "the-gleaners-cart"
       ],
       "handicap": 20,
@@ -385,7 +385,7 @@
       "description": "A file of straw-bound effigies holding the furrow in strict, patient order.",
       "row": 3,
       "col": 0,
-      "rowCols": 4,
+      "rowCols": 3,
       "childIds": [
         "the-forty-acre-stand"
       ],
@@ -410,9 +410,10 @@
       "description": "A field record of Amarath's very first memory-wheat sowing.",
       "row": 3,
       "col": 1,
-      "rowCols": 4,
+      "rowCols": 3,
       "childIds": [
-        "the-forty-acre-stand"
+        "the-forty-acre-stand",
+        "the-last-threshing"
       ],
       "fragmentId": "c2act3-frag-1",
       "environment": "farmland"
@@ -423,10 +424,12 @@
       "label": "The Unharvested Row",
       "description": "A row of harvesters, still holding places for a gleaning that never comes.",
       "row": 3,
-      "col": 3,
-      "rowCols": 4,
+      "col": 2,
+      "rowCols": 3,
       "childIds": [
-        "the-last-threshing"
+        "the-last-threshing",
+        "the-fallow-stretch",
+        "reap-line-flank"
       ],
       "handicap": 24,
       "opponentIntervalMs": 2900,
@@ -472,7 +475,7 @@
       "label": "The Last Threshing",
       "description": "The fields' final threshing floor, where even the mist gives up trying to lighten it.",
       "row": 4,
-      "col": 3,
+      "col": 1,
       "rowCols": 4,
       "childIds": [
         "the-last-scarecrow",
@@ -543,10 +546,102 @@
       "bossAI": "gleanerqueen",
       "bossDialogue": [
         "You crossed the causeway. The Warden's toll is paid, and still you walk further into what's ours.",
-        "We remember the old world seed for seed, Worldmender. Whatever the Dominion forgot, the fields kept growing anyway — even the memories that were never Amarath's to grow.",
+        "We remember the old world seed for seed, Worldmender. Whatever the Dominion forgot, the fields kept growing anyway \u2014 even the memories that were never Amarath's to grow.",
         "Every sheaf in this field remembers a name the world dropped. The Court sent me to glean what's yours next. I intend to be thorough."
       ],
       "bossCard": "The Gleaner Queen"
+    },
+    "mid-furrow-watch": {
+      "id": "mid-furrow-watch",
+      "type": "battle",
+      "label": "The Mid-Furrow Watch",
+      "description": "A watch line cut straight through the standing grain, garrisoned like a wall.",
+      "row": 1,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-granary-hearth"
+      ],
+      "handicap": 20,
+      "opponentIntervalMs": 3100,
+      "opponentBaseHp": 238,
+      "environment": "farmland",
+      "enemyDeck": [
+        "Granary Archer",
+        "Wheatrow Runner",
+        "Grain Palisade",
+        "Field Gleaner",
+        "Harvest Haste"
+      ]
+    },
+    "high-furrow-line": {
+      "id": "high-furrow-line",
+      "type": "battle",
+      "label": "The High Furrow Line",
+      "description": "A raised furrow-bank overlooking the fields, held like high ground always is.",
+      "row": 1,
+      "col": 2,
+      "rowCols": 4,
+      "childIds": [
+        "the-harvest-ledger"
+      ],
+      "handicap": 20,
+      "opponentIntervalMs": 3100,
+      "opponentBaseHp": 238,
+      "environment": "farmland",
+      "enemyDeck": [
+        "Sickle-Line Reaper",
+        "Granary Archer",
+        "Sheaf Cairn",
+        "Field Gleaner",
+        "Sheaf-Bread"
+      ]
+    },
+    "the-fallow-stretch": {
+      "id": "the-fallow-stretch",
+      "type": "battle",
+      "label": "The Fallow Stretch",
+      "description": "A stretch left deliberately unplanted, and just as deliberately defended.",
+      "row": 4,
+      "col": 2,
+      "rowCols": 4,
+      "childIds": [
+        "mem-c2act3-2"
+      ],
+      "handicap": 26,
+      "opponentIntervalMs": 2800,
+      "opponentBaseHp": 262,
+      "environment": "farmland",
+      "enemyDeck": [
+        "Sickle-Line Reaper",
+        "Grain Palisade",
+        "Unremembered Harvester",
+        "Ledger of Gleanings",
+        "Watchtower Scarecrow"
+      ]
+    },
+    "reap-line-flank": {
+      "id": "reap-line-flank",
+      "type": "battle",
+      "label": "The Reap-Line Flank",
+      "description": "A flanking reap-line, cutting a path the main harvest never touches.",
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "mem-c2act3-2"
+      ],
+      "handicap": 26,
+      "opponentIntervalMs": 2800,
+      "opponentBaseHp": 262,
+      "environment": "farmland",
+      "enemyDeck": [
+        "Threshing Rider",
+        "Wheatrow Runner",
+        "Effigy Granary",
+        "Harvest Haste",
+        "Mistwheat Veil"
+      ]
     }
   }
 }
