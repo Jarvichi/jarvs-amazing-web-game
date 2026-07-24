@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a1218"/>
+  <linearGradient id="c2a12i3-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0e1420"/>
+    <stop offset="100%" stop-color="#1a2436"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2a12i3-sky)"/>
+  <rect y="150" width="400" height="90" fill="#2a2a30"/>
+  <g fill="#E8E4D8">
+    <path d="M225,113 Q240,96 255,113 L253,120 Q240,111 227,120 Z" fill="#8B2635"/>
+    <circle cx="13" cy="0" r="0" fill="none"/>
+    <circle cx="240" cy="122" r="10"/>
+    <rect x="224" y="132" width="32" height="42" rx="4"/>
+    <rect x="238" y="140" width="4" height="6" fill="#D4AF37"/>
+    <line x1="256" y1="150" x2="270" y2="140" stroke="#D4AF37" stroke-width="2.5"/>
+  </g>
+  <ellipse cx="200" cy="200" rx="150" ry="17" fill="#D4AF37" opacity="0.15"/>
+  <g fill="#11141f">
+    <circle cx="200" cy="140" r="10"/>
+    <rect x="189" y="150" width="22" height="34" rx="4"/>
+  </g>
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THE PALE MARSHAL HAS HELD THIS REACH LONGER THAN ANY REASON TO.</text>
+</svg>

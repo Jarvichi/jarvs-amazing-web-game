@@ -418,5 +418,17 @@
         "amount": 2
       }
     ]
+  },
+  {
+    "name": "Marshal's Baton",
+    "icon": "🎖️",
+    "desc": "All friendly units gain +3 attack — a baton that has commanded the Court's last army for three centuries.",
+    "lore": "Pressed into your hand still warm from the Marshal's grip. Holding it, every line you field hits a little harder, as if the baton has not yet noticed it no longer has an army to command.",
+    "effects": [
+      {
+        "type": "unitAtk",
+        "amount": 3
+      }
+    ]
   }
 ]

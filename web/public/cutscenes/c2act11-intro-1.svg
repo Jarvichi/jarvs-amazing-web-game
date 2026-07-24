@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a1218"/>
+  <linearGradient id="c2a11i1-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#141d16"/>
+    <stop offset="100%" stop-color="#243a26"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2a11i1-sky)"/>
+  <rect y="150" width="180" height="90" fill="#1b2a1e"/>
+  <rect x="180" y="150" width="220" height="90" fill="#2a2620"/>
+  <g stroke="#e8e4d8" stroke-width="2" fill="none" opacity="0.5">
+    <path d="M100,150 L100,110 M100,124 L84,105 M100,124 L116,105"/>
+  </g>
+  <path d="M180,240 L230,150 L260,240 Z" fill="#3a342a" opacity="0.6"/>
+  <ellipse cx="290" cy="195" rx="120" ry="16" fill="#E8C468" opacity="0.15"/>
+  <g fill="#11141f">
+    <circle cx="200" cy="140" r="10"/>
+    <rect x="189" y="150" width="22" height="34" rx="4"/>
+  </g>
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THE ORCHARD ENDS. THE VIGIL ROADS BEGIN.</text>
+</svg>

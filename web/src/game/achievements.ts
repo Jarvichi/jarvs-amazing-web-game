@@ -1174,6 +1174,76 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     tier: 2,
   },
 
+  // Campaign 2, Act 11 — The Vigil Roads
+  {
+    id: 'campaign:c2act11:1',
+    name: 'First Mile',
+    description: 'Complete Campaign 2 Act 11 — The Vigil Roads',
+    category: 'campaign',
+    progressKey: 'campaign:c2act11',
+    target: 1,
+    reward: { type: 'crystals', crystals: 800 },
+    tier: 1,
+  },
+  {
+    id: 'campaign:c2act11:10',
+    name: 'Counted in the March',
+    description: 'Complete Campaign 2 Act 11 ten times',
+    category: 'campaign',
+    progressKey: 'campaign:c2act11',
+    target: 10,
+    reward: { type: 'crystals', crystals: 3800 },
+    tier: 2,
+  },
+  {
+    id: 'campaign:c2act11:100',
+    name: 'The Procession Remembers Your Step',
+    description: 'Complete Campaign 2 Act 11 one hundred times',
+    category: 'campaign',
+    progressKey: 'campaign:c2act11',
+    target: 100,
+    reward: {
+      type: 'item',
+      item: { id: 'masters_unbroken_bell', name: "Master's Unbroken Bell", icon: '🔔', desc: 'A bell from a hundred marches. It has never once missed a mile.' },
+    },
+    tier: 2,
+  },
+
+  // Campaign 2, Act 12 — The Crown Reaches
+  {
+    id: 'campaign:c2act12:1',
+    name: 'First Reach',
+    description: 'Complete Campaign 2 Act 12 — The Crown Reaches',
+    category: 'campaign',
+    progressKey: 'campaign:c2act12',
+    target: 1,
+    reward: { type: 'crystals', crystals: 800 },
+    tier: 1,
+  },
+  {
+    id: 'campaign:c2act12:10',
+    name: 'Held in the Muster Roll',
+    description: 'Complete Campaign 2 Act 12 ten times',
+    category: 'campaign',
+    progressKey: 'campaign:c2act12',
+    target: 10,
+    reward: { type: 'crystals', crystals: 3800 },
+    tier: 2,
+  },
+  {
+    id: 'campaign:c2act12:100',
+    name: 'The Reach Remembers Your Name',
+    description: 'Complete Campaign 2 Act 12 one hundred times',
+    category: 'campaign',
+    progressKey: 'campaign:c2act12',
+    target: 100,
+    reward: {
+      type: 'item',
+      item: { id: 'marshals_unbending_baton', name: "Marshal's Unbending Baton", icon: '🎖️', desc: 'A baton from a hundred holds. It has never once agreed to fall.' },
+    },
+    tier: 2,
+  },
+
   // ── Boss avatar unlocks (one per act, triggered on first act completion) ─
 
   { id: 'campaign:act1:boss',  name: 'Face of the Thornlord',       description: 'Defeat Act 1 to unlock the Thornlord avatar',       category: 'campaign', progressKey: 'campaign:act1',  target: 1, reward: { type: 'avatar', avatarSlug: 'boss-thornlord' },       tier: 1 },
@@ -1200,6 +1270,8 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
   { id: 'campaign:c2act8:boss',    name: 'Face of the Chamberlain',    description: 'Defeat Campaign 2 Act 8 to unlock the Chamberlain avatar',    category: 'campaign', progressKey: 'campaign:c2act8', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-chamberlain' }, tier: 1 },
   { id: 'campaign:c2act9:boss',    name: 'Face of the Frost Regent',   description: 'Defeat Campaign 2 Act 9 to unlock the Frost Regent avatar',   category: 'campaign', progressKey: 'campaign:c2act9', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-frostregent' }, tier: 1 },
   { id: 'campaign:c2act10:boss',   name: 'Face of the Orchard Keeper', description: 'Defeat Campaign 2 Act 10 to unlock the Orchard Keeper avatar', category: 'campaign', progressKey: 'campaign:c2act10', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-orchardkeeper' }, tier: 1 },
+  { id: 'campaign:c2act11:boss',   name: 'Face of the Procession Master', description: 'Defeat Campaign 2 Act 11 to unlock the Procession Master avatar', category: 'campaign', progressKey: 'campaign:c2act11', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-processionmaster' }, tier: 1 },
+  { id: 'campaign:c2act12:boss',   name: 'Face of the Pale Marshal', description: 'Defeat Campaign 2 Act 12 to unlock the Pale Marshal avatar', category: 'campaign', progressKey: 'campaign:c2act12', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-palemarshal' }, tier: 1 },
 
   // ── Boss Cards — earned by repeat boss completions (10/20/30/40 runs) ────
   // Act 1 — Thornlord
