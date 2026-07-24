@@ -16059,6 +16059,99 @@
       "moveSpeed": 26, "attackRange": 5, "attackCooldownMs": 1450, "flying": true,
       "tags": ["flying", "large", "magic"], "strengths": ["melee", "small"], "weaknesses": ["ranged"],
       "size": "large"
+    },
+    "throne-runner": {
+      "name": "Throne Runner", "attack": 5, "maxHp": 16, "isWall": false, "bypassWall": false,
+      "moveSpeed": 62, "attackRange": 5, "attackCooldownMs": 1050, "flying": false,
+      "tags": ["fast", "small"], "strengths": ["fast", "melee"], "weaknesses": ["armored", "ranged"], "size": "small"
+    },
+    "rite-sentry": {
+      "name": "Rite Sentry", "attack": 7, "maxHp": 21, "isWall": false, "bypassWall": false,
+      "moveSpeed": 46, "attackRange": 5, "attackCooldownMs": 1200, "flying": false,
+      "tags": ["melee"], "strengths": ["fast"], "weaknesses": ["ranged"], "size": "small"
+    },
+    "diadem-bearer": {
+      "name": "Diadem Bearer", "attack": 6, "maxHp": 24, "isWall": false, "bypassWall": false,
+      "moveSpeed": 24, "attackRange": 120, "attackCooldownMs": 1650, "flying": false,
+      "tags": ["ranged"], "strengths": ["flying"], "weaknesses": ["melee", "fast"], "size": "small"
+    },
+    "throne-sconce": {
+      "name": "Throne Sconce", "attack": 6, "maxHp": 27, "isWall": false, "bypassWall": false,
+      "moveSpeed": 0, "attackRange": 130, "attackCooldownMs": 1750, "tags": ["ranged"]
+    },
+    "rite-guard": {
+      "name": "Rite Guard", "attack": 9, "maxHp": 32, "isWall": false, "bypassWall": false,
+      "moveSpeed": 36, "attackRange": 5, "attackCooldownMs": 1350, "flying": false,
+      "tags": ["melee", "armored"], "strengths": ["fast"], "weaknesses": ["magic"], "size": "medium"
+    },
+    "diadem-chanter": {
+      "name": "Diadem Chanter", "attack": 8, "maxHp": 36, "isWall": false, "bypassWall": false,
+      "moveSpeed": 30, "attackRange": 5, "attackCooldownMs": 1350, "flying": false,
+      "tags": ["melee"], "strengths": ["ranged"], "weaknesses": ["fast"], "size": "medium"
+    },
+    "throne-archer": {
+      "name": "Throne Archer", "attack": 8, "maxHp": 22, "isWall": false, "bypassWall": false,
+      "moveSpeed": 40, "attackRange": 140, "attackCooldownMs": 1550, "flying": false,
+      "tags": ["ranged"], "strengths": ["flying"], "weaknesses": ["melee", "fast"], "size": "small"
+    },
+    "regalia-courier": {
+      "name": "Regalia Courier", "attack": 11, "maxHp": 34, "isWall": false, "bypassWall": false,
+      "moveSpeed": 46, "attackRange": 5, "attackCooldownMs": 1250, "flying": false,
+      "tags": ["fast", "melee"], "strengths": ["armored"], "weaknesses": ["ranged"], "size": "medium"
+    },
+    "throne-barricade": {
+      "name": "Throne Barricade", "attack": 0, "maxHp": 70, "isWall": true, "bypassWall": false,
+      "moveSpeed": 0, "attackRange": 0, "attackCooldownMs": 0, "tags": ["forgotten"]
+    },
+    "diadem-foundry": {
+      "name": "Diadem Foundry", "attack": 0, "maxHp": 24, "isWall": false, "bypassWall": false,
+      "moveSpeed": 0, "attackRange": 0, "attackCooldownMs": 0,
+      "structureEffect": {"type": "mana", "amount": 1}, "tags": ["forgotten"]
+    },
+    "rite-automaton": {
+      "name": "Rite Automaton", "attack": 0, "maxHp": 35, "isWall": false, "bypassWall": false,
+      "moveSpeed": 0, "attackRange": 0, "attackCooldownMs": 99999,
+      "structureEffect": {"type": "spawn", "unitTemplateRef": "throne-runner", "intervalMs": 11500}, "tags": ["forgotten"]
+    },
+    "throne-watchtower": {
+      "name": "Throne Watchtower", "attack": 7, "maxHp": 42, "isWall": false, "bypassWall": false,
+      "moveSpeed": 0, "attackRange": 180, "attackCooldownMs": 2000, "tags": ["ranged"]
+    },
+    "sealed-reliquary": {
+      "name": "Sealed Reliquary", "attack": 0, "maxHp": 98, "isWall": true, "bypassWall": false,
+      "moveSpeed": 0, "attackRange": 0, "attackCooldownMs": 0, "tags": ["forgotten"]
+    },
+    "rite-vanguard": {
+      "name": "Rite Vanguard", "attack": 14, "maxHp": 53, "isWall": false, "bypassWall": false,
+      "moveSpeed": 34, "attackRange": 5, "attackCooldownMs": 1400, "flying": false,
+      "tags": ["melee", "armored"], "strengths": ["fast"], "weaknesses": ["magic"], "size": "large"
+    },
+    "choir-of-the-remembered": {
+      "name": "Choir of the Remembered", "attack": 10, "maxHp": 36, "isWall": false, "bypassWall": false,
+      "moveSpeed": 28, "attackRange": 160, "attackCooldownMs": 2000, "flying": false,
+      "tags": ["ranged", "magic"], "strengths": ["armored"], "weaknesses": ["fast", "melee"], "size": "medium"
+    },
+    "throne-sentry": {
+      "name": "Throne Sentry", "attack": 0, "maxHp": 53, "isWall": false, "bypassWall": false,
+      "moveSpeed": 0, "attackRange": 0, "attackCooldownMs": 99999,
+      "structureEffect": {"type": "spawn", "unitTemplateRef": "throne-runner", "intervalMs": 9500}, "tags": ["forgotten"]
+    },
+    "diadembound-knight": {
+      "name": "Diadembound Knight", "attack": 18, "maxHp": 74, "isWall": false, "bypassWall": false,
+      "moveSpeed": 30, "attackRange": 5, "attackCooldownMs": 1550, "flying": false,
+      "tags": ["melee", "armored", "large"], "strengths": ["melee", "small"], "weaknesses": ["magic", "flying"],
+      "size": "large", "unitTrait": {"guardBase": true, "baseGuardRange": 95, "engageRange": 195}
+    },
+    "the-last-rite": {
+      "name": "The Last Rite", "attack": 13, "maxHp": 50, "isWall": false, "bypassWall": true,
+      "moveSpeed": 55, "attackRange": 65, "attackCooldownMs": 1650, "flying": true,
+      "tags": ["flying", "magic"], "strengths": ["melee", "armored"], "weaknesses": ["ranged"], "size": "large"
+    },
+    "the-vigil-king": {
+      "name": "The Vigil King", "attack": 22, "maxHp": 108, "isWall": false, "bypassWall": false,
+      "moveSpeed": 24, "attackRange": 5, "attackCooldownMs": 1500, "flying": true,
+      "tags": ["flying", "large", "magic"], "strengths": ["melee", "small"], "weaknesses": ["ranged"],
+      "size": "large"
     }
   },
   "cards": [
@@ -28065,6 +28158,281 @@
       "deckCount": 0,
       "tags": ["forgotten", "vigilcity"],
       "lore": "The Court gave her a capital to keep. She has never once needed reminding which city still needs holding."
+    },
+    {
+      "name": "Throne Runner",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "throne-runner",
+      "description": "A courier who carries word up the last stair to the vigil chamber faster than the rite can renew itself.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "She has run the same stair three centuries running and never once arrived a name behind."
+    },
+    {
+      "name": "Rite Sentry",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "rite-sentry",
+      "description": "A watcher posted where the vigil-rite is loudest, listening for the one voice that might finally stop reciting it.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "He has never once missed a word of the rite, and he does not intend to start on the day it finally ends."
+    },
+    {
+      "name": "Diadem Bearer",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "diadem-bearer",
+      "description": "A bearer who carries a spare diadem for a King who has never once needed a second one.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "She has carried the same spare crown for three centuries and never once been asked to hand it over."
+    },
+    {
+      "name": "Throne Sconce",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "throne-sconce",
+      "description": "A sconce mounted at the chamber's threshold, its flame the last one the rite still answers to.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "It has burned since the Return and has never once needed relighting."
+    },
+    {
+      "name": "Remembrance Balm",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "upgrade",
+      "upgradeEffect": {"type": "buffHeal", "amount": 7},
+      "description": "Heals all friendly units by 7.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "Rendered from the same wax that has kept the chamber's memory lit for three centuries."
+    },
+    {
+      "name": "Rite Step",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "upgrade",
+      "upgradeEffect": {"type": "buffSpeed", "amount": 11},
+      "description": "All friendly units move faster, crossing the chamber at the rite's own pace.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "A charm cut from the King's own step, worn smooth by three centuries of the same vigil."
+    },
+    {
+      "name": "Rite Guard",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "rite-guard",
+      "description": "A guard who has held the last stair for three centuries, never once needing to be relieved.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "The King never asked him to hold this stair forever. He decided that himself."
+    },
+    {
+      "name": "Diadem Chanter",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "diadem-chanter",
+      "description": "A chanter who keeps the vigil-rite audible from the chamber's every corner.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "She has sung the same rite in the same chamber for three centuries and never once lost the tune."
+    },
+    {
+      "name": "Throne Archer",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "throne-archer",
+      "description": "An archer trained to shoot by the chamber's single flame, trusting the rite to hold the light steady.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "She has never once needed a second flame to find her mark."
+    },
+    {
+      "name": "Regalia Courier",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "regalia-courier",
+      "description": "A courier who carries the King's regalia faster than the rite can be recited behind her.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "She has outrun every messenger the Court ever fielded against her, and never once dropped the crown she carried."
+    },
+    {
+      "name": "Throne Barricade",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unitRef": "throne-barricade",
+      "description": "A barricade raised at the chamber's border, built to hold long after the rite itself falls silent.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "It has held this chamber for three centuries and never once needed to be told why."
+    },
+    {
+      "name": "Diadem Foundry",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unitRef": "diadem-foundry",
+      "description": "A foundry that casts diadems for a King who has never once needed to replace the one he wears.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "It has never once run short, not in three centuries of asking."
+    },
+    {
+      "name": "Rite Automaton",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unitRef": "rite-automaton",
+      "description": "A clockwork sentinel that recites its own fragment of the rite so the King never has to repeat it twice.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "It has recited the same fragment for three centuries and never once needed reminding of the words."
+    },
+    {
+      "name": "Throne Watchtower",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unitRef": "throne-watchtower",
+      "description": "A watchtower whose beacon is visible from every stair leading to the chamber, a candle the size of a spire.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "It has burned in sight of every stair for three centuries and never once been allowed to gutter."
+    },
+    {
+      "name": "Sealed Reliquary",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unitRef": "sealed-reliquary",
+      "description": "A reliquary sealed against everything but the vigil-rite itself, holding what the King still remembers.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "The Court sealed it three centuries ago and has never once needed to unseal it since."
+    },
+    {
+      "name": "Regalia Draught",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {"type": "buffMaxHp", "amount": 9},
+      "description": "All friendly units gain +9 max HP.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "Brewed from a recipe the regalia-keepers have never once needed to change."
+    },
+    {
+      "name": "Rite Lens",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {"type": "buffRange", "amount": 16},
+      "description": "All friendly ranged units gain +16 range.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "A lens ground to catch the chamber's single flame across the width of the last stair, and lose none of it."
+    },
+    {
+      "name": "Diadem Toll",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "upgrade",
+      "upgradeEffect": {"type": "aoe", "damage": 7, "range": 105},
+      "description": "Deals 7 damage to all enemies within range.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "The toll the diadem charges anything that tries to cross the chamber uninvited."
+    },
+    {
+      "name": "Rite Vanguard",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "rite-vanguard",
+      "description": "An armored vanguard who leads the chamber's answer to the Worldmender's final crossing.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "She has led the same stair for three centuries and never once needed to be told to fall back."
+    },
+    {
+      "name": "Choir of the Remembered",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "choir-of-the-remembered",
+      "description": "A choir that sings the vigil-rite in the King's own voice, one verse for every name he still holds.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "It has sung the same rite in the same chamber for three centuries and never once gone silent."
+    },
+    {
+      "name": "Throne Sentry",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "throne-sentry",
+      "description": "A sentry post that lights a fresh runner from the chamber's own flame every watch.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "It has kept the same watch for three centuries and never once let the flame gutter between runners."
+    },
+    {
+      "name": "Regalia Writ",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "upgrade",
+      "upgradeEffect": {"type": "buffMaxHp", "amount": 13},
+      "description": "All friendly units gain +13 max HP.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "A writ signed by the King and sealed by every ward-captain the Court still remembers, promising no name stands alone."
+    },
+    {
+      "name": "Diadembound Knight",
+      "rarity": "epic",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "diadembound-knight",
+      "description": "A knight sworn to the diadem itself, and to the last stair that diadem has watched over for three centuries.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "He was sworn to a crown once, and only a crown. Something in three centuries of watching taught him to want more."
+    },
+    {
+      "name": "The Last Rite",
+      "rarity": "epic",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "the-last-rite",
+      "description": "The chamber's oldest recitation given wings, flying its rounds over a rite that answers only to the King who started it.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "It was a rite once, and only a rite. Something in three centuries of reciting taught it to fly."
+    },
+    {
+      "name": "The Vigil King",
+      "rarity": "legendary",
+      "cost": 8,
+      "cardType": "unit",
+      "unitRef": "the-vigil-king",
+      "description": "The monarch whose vigil-rite has kept Amarath alive in the void for three centuries — a kingdom held together by will alone.",
+      "deckCount": 0,
+      "tags": ["forgotten", "throne"],
+      "lore": "He does not hate the Dominion. He simply cannot allow it to keep the centuries Amarath lost. He has not yet decided if the Worldmender changes that math."
     }
   ],
   "heroCards": [
