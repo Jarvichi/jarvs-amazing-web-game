@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState, useCallback } from 'react'
 import * as PIXI from 'pixi.js'
 import { usePixiApp } from '../../hooks/usePixiApp'
 import {
-  buildTerrainGfx, buildBgTileGfx, buildRoadGfx, buildBorderGfx, buildDecorGfx,
+  buildTerrainGfx, buildBgTileGfx, buildRoadGfx, buildBorderGfx, buildDecorGfx, buildManualDecorGfx,
   buildTerrainDecorGfx, gameToPixel, pixelToGame,
 } from '../../utils/terrainLayer'
 import { WORLD_ENV_TILES } from '../../data/tiles/worldTileIndex'
@@ -115,7 +115,8 @@ function CanvasInner(props: LiveProps) {
     buildBgTileGfx(scene.bg, { environment: state.environment, envDef }, w, h)
     buildRoadGfx(scene.road, state.roads ?? [], { environment: state.environment, envDef }, w, h)
     buildBorderGfx(scene.border, { environment: state.environment, envDef }, w, h)
-    buildDecorGfx(scene.decor, { environment: state.environment, envDef, id: state.environment }, w, h)
+    if (state.decor?.length) buildManualDecorGfx(scene.decor, state.decor, w, h)
+    else buildDecorGfx(scene.decor, { environment: state.environment, envDef, id: state.environment }, w, h)
     buildTerrainDecorGfx(scene.decorObstacles, state.terrain ?? [], { environment: state.environment, envDef }, w, h)
   }, [w, h, envDef]))
 

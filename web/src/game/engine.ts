@@ -14,8 +14,8 @@ import { MAX_UPGRADE_LEVEL, resolveSpellCast } from './engine/cards'
 import { unitDist } from './engine/targeting'
 import { opponentAI } from './engine/opponentAI'
 import { triggerBattleEvent, BATTLE_EVENT_BASE_MS } from './engine/battleEvents'
-import { generateTerrain } from './engine/terrain'
-import type { RoadDef, TerrainObstacle } from './engine/terrain'
+import { generateTerrain, expandTerrainPathsToObstacles } from './engine/terrain'
+import type { RoadDef, TerrainObstacle, BattlefieldDecorItem, TerrainPathDef } from './engine/terrain'
 import { processEndlessModeAdditions, triggerNextEndlessWave, spawnEndlessCommander } from './engine/endlessMode'
 import { handleSuddentDeath } from './engine/suddenDeath'
 
@@ -126,6 +126,10 @@ export interface NewGameOptions {
   roadFollowing?: boolean
   /** Act/node-authored terrain obstacles for the battlefield. When present, replaces the procedurally-generated default. */
   terrain?: TerrainObstacle[]
+  /** Act/node-authored manual decor placements for the battlefield. When present and non-empty, replaces the procedural decor scatter. */
+  decor?: BattlefieldDecorItem[]
+  /** Act/node-authored path-drawn blocking terrain. Expands into extra TerrainObstacle circles alongside `terrain`. */
+  terrainPaths?: TerrainPathDef[]
   /** Override opponent play interval (ms). Defined per-node in act JSON. */
   opponentIntervalMs?: number
   /** Override opponent base HP. Defined per-node in act JSON. */
@@ -180,6 +184,8 @@ export function newGame(
     roads,
     roadFollowing,
     terrain: authoredTerrain,
+    decor,
+    terrainPaths,
     opponentIntervalMs: intervalOverride,
     opponentBaseHp: hpOverride,
     bossSpawnKillPct,
@@ -330,10 +336,14 @@ export function newGame(
       traitFired: false,
       baseInvulnerableUntilMs: 0,
     } : undefined,
-    terrain: authoredTerrain ?? generateTerrain(terrainSeed, environment),
+    terrain: [
+      ...(authoredTerrain ?? generateTerrain(terrainSeed, environment)),
+      ...expandTerrainPathsToObstacles(terrainPaths ?? []),
+    ],
     roads,
     roadFollowing,
     environment,
+    decor,
     battleStats: { cardsPlayed: {}, playerKills: 0, playerUnitsLost: 0 },
     animEvents: [],
     bloodPools: [],

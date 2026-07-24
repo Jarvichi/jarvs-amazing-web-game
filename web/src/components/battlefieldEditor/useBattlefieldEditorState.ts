@@ -1,7 +1,8 @@
 import { useState, useCallback } from 'react'
-import type { Act, RoadDef, TerrainObstacle, TerrainType, ToolMode, EditTarget, SelectedEntity, BattlefieldEditorState } from './battlefieldEditorTypes'
+import type { Act, RoadDef, TerrainObstacle, TerrainType, ToolMode, EditTarget, SelectedEntity, BattlefieldEditorState, BattlefieldDecorItem, TerrainPathDef } from './battlefieldEditorTypes'
 import { generateTerrain } from '../../game/engine/terrain'
 import { isSelfSave } from '../../utils/hotReloadGuard'
+import { WORLD_DECOR } from '../../data/tiles/worldTileIndex'
 
 import act1 from '../../data/acts/act1.json'
 import act2 from '../../data/acts/act2.json'
@@ -143,6 +144,41 @@ function nextObstacleId(existing: TerrainObstacle[]): string {
   return `t${n}`
 }
 
+/** Like roads, a node without its own `terrainPaths` inherits the act-level
+ *  default (or an empty array) — no procedural fallback. */
+function resolveTerrainPathsForTarget(act: Act, nodeId: EditTarget): TerrainPathDef[] {
+  if (nodeId === 'act-default') return act.terrainPaths ?? []
+  return act.nodes[nodeId]?.terrainPaths ?? act.terrainPaths ?? []
+}
+
+function withTerrainPaths(act: Act, nodeId: EditTarget, terrainPaths: TerrainPathDef[]): Act {
+  if (nodeId === 'act-default') return { ...act, terrainPaths }
+  const node = act.nodes[nodeId]
+  if (!node) return act
+  return { ...act, nodes: { ...act.nodes, [nodeId]: { ...node, terrainPaths } } }
+}
+
+/** Decor has no procedural fallback — like roads, a node without its own
+ *  `decor` inherits the act-level default (or an empty array). */
+function resolveDecorForTarget(act: Act, nodeId: EditTarget): BattlefieldDecorItem[] {
+  if (nodeId === 'act-default') return act.decor ?? []
+  return act.nodes[nodeId]?.decor ?? act.decor ?? []
+}
+
+function withDecor(act: Act, nodeId: EditTarget, decor: BattlefieldDecorItem[]): Act {
+  if (nodeId === 'act-default') return { ...act, decor }
+  const node = act.nodes[nodeId]
+  if (!node) return act
+  return { ...act, nodes: { ...act.nodes, [nodeId]: { ...node, decor } } }
+}
+
+function nextDecorId(existing: BattlefieldDecorItem[]): string {
+  const ids = new Set(existing.map(o => o.id))
+  let n = existing.length + 1
+  while (ids.has(`d${n}`)) n++
+  return `d${n}`
+}
+
 export function useBattlefieldEditorState(initialActId: string = 'act1') {
   const [state, setState] = useState<BattlefieldEditorState>(() => ({
     actId:               initialActId,
@@ -150,7 +186,10 @@ export function useBattlefieldEditorState(initialActId: string = 'act1') {
     nodeId:              'act-default',
     tool:                'select',
     activeObstacleType:  'rock',
+    activeDecorTileId:   WORLD_DECOR.singleTree,
+    activePathType:      'tree',
     inProgressRoadIndex: null,
+    inProgressPathIndex: null,
     selectedEntities:    [],
     undoStack:           [],
     redoStack:           [],
@@ -165,6 +204,7 @@ export function useBattlefieldEditorState(initialActId: string = 'act1') {
       nodeId:              'act-default',
       tool:                'select',
       inProgressRoadIndex: null,
+      inProgressPathIndex: null,
       selectedEntities:    [],
       undoStack:           [],
       redoStack:           [],
@@ -173,15 +213,28 @@ export function useBattlefieldEditorState(initialActId: string = 'act1') {
   }, [])
 
   const setNodeId = useCallback((nodeId: EditTarget) => {
-    setState(s => ({ ...s, nodeId, inProgressRoadIndex: null, selectedEntities: [] }))
+    setState(s => ({ ...s, nodeId, inProgressRoadIndex: null, inProgressPathIndex: null, selectedEntities: [] }))
   }, [])
 
   const setTool = useCallback((tool: ToolMode) => {
-    setState(s => ({ ...s, tool, inProgressRoadIndex: tool === 'road' ? s.inProgressRoadIndex : null }))
+    setState(s => ({
+      ...s,
+      tool,
+      inProgressRoadIndex: tool === 'road' ? s.inProgressRoadIndex : null,
+      inProgressPathIndex: tool === 'path' ? s.inProgressPathIndex : null,
+    }))
   }, [])
 
   const setActiveObstacleType = useCallback((activeObstacleType: TerrainType) => {
     setState(s => ({ ...s, activeObstacleType }))
+  }, [])
+
+  const setActivePathType = useCallback((activePathType: TerrainType) => {
+    setState(s => ({ ...s, activePathType }))
+  }, [])
+
+  const setActiveDecorTileId = useCallback((activeDecorTileId: number) => {
+    setState(s => ({ ...s, activeDecorTileId }))
   }, [])
 
   const selectEntities = useCallback((entities: SelectedEntity[]) => {
@@ -359,6 +412,177 @@ export function useBattlefieldEditorState(initialActId: string = 'act1') {
     })
   }, [])
 
+  // ── Decor ─────────────────────────────────────────────────────────────
+
+  const addDecor = useCallback((x: number, y: number, tileId: number) => {
+    setState(s => {
+      const prevAct = s.actData
+      const current = resolveDecorForTarget(prevAct, s.nodeId)
+      const item: BattlefieldDecorItem = { id: nextDecorId(current), tileId, x, y }
+      const newDecor = [...current, item]
+      return {
+        ...s,
+        actData:          withDecor(prevAct, s.nodeId, newDecor),
+        selectedEntities: [{ type: 'decor' as const, index: newDecor.length - 1 }],
+        undoStack:        [...s.undoStack, prevAct].slice(-MAX_UNDO),
+        redoStack:        [],
+        isDirty:          true,
+      }
+    })
+  }, [])
+
+  const moveDecor = useCallback((index: number, x: number, y: number) => {
+    setState(s => {
+      const prevAct = s.actData
+      const current = resolveDecorForTarget(prevAct, s.nodeId)
+      if (!current[index]) return s
+      const newDecor = current.map((d, i) => i === index ? { ...d, x, y } : d)
+      return {
+        ...s,
+        actData:   withDecor(prevAct, s.nodeId, newDecor),
+        undoStack: [...s.undoStack, prevAct].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty:   true,
+      }
+    })
+  }, [])
+
+  const updateDecorTile = useCallback((index: number, tileId: number) => {
+    setState(s => {
+      const prevAct = s.actData
+      const current = resolveDecorForTarget(prevAct, s.nodeId)
+      if (!current[index]) return s
+      const newDecor = current.map((d, i) => i === index ? { ...d, tileId } : d)
+      return {
+        ...s,
+        actData:   withDecor(prevAct, s.nodeId, newDecor),
+        undoStack: [...s.undoStack, prevAct].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty:   true,
+      }
+    })
+  }, [])
+
+  const deleteDecor = useCallback((index: number) => {
+    setState(s => {
+      const prevAct = s.actData
+      const current = resolveDecorForTarget(prevAct, s.nodeId)
+      if (!current[index]) return s
+      const newDecor = current.filter((_, i) => i !== index)
+      return {
+        ...s,
+        actData:          withDecor(prevAct, s.nodeId, newDecor),
+        selectedEntities: [],
+        undoStack:        [...s.undoStack, prevAct].slice(-MAX_UNDO),
+        redoStack:        [],
+        isDirty:          true,
+      }
+    })
+  }, [])
+
+  // ── Terrain paths ─────────────────────────────────────────────────────
+
+  /** 'path' tool click: extends the in-progress path, or starts a new one. */
+  const clickPathTool = useCallback((x: number, y: number) => {
+    setState(s => {
+      const prevAct = s.actData
+      const current = resolveTerrainPathsForTarget(prevAct, s.nodeId)
+      const inProgress = s.inProgressPathIndex !== null && current[s.inProgressPathIndex]
+      const pathIndex = inProgress ? s.inProgressPathIndex! : current.length
+      const newPaths = inProgress
+        ? current.map((p, i) => i === pathIndex ? { ...p, points: [...p.points, { x, y }] } : p)
+        : [...current, { type: s.activePathType, points: [{ x, y }] }]
+      const newAct = withTerrainPaths(prevAct, s.nodeId, newPaths)
+      return {
+        ...s,
+        actData:             newAct,
+        inProgressPathIndex: pathIndex,
+        selectedEntities:    [{ type: 'terrainPath' as const, index: pathIndex }],
+        undoStack:           [...s.undoStack, prevAct].slice(-MAX_UNDO),
+        redoStack:           [],
+        isDirty:             true,
+      }
+    })
+  }, [])
+
+  const finishPath = useCallback(() => {
+    setState(s => s.inProgressPathIndex === null ? s : { ...s, inProgressPathIndex: null })
+  }, [])
+
+  const movePathPoint = useCallback((pathIndex: number, pointIndex: number, x: number, y: number) => {
+    setState(s => {
+      const prevAct = s.actData
+      const current = resolveTerrainPathsForTarget(prevAct, s.nodeId)
+      if (!current[pathIndex]?.points[pointIndex]) return s
+      const newPaths = current.map((p, i) => i !== pathIndex ? p : {
+        ...p, points: p.points.map((pt, j) => j === pointIndex ? { x, y } : pt),
+      })
+      return {
+        ...s,
+        actData:   withTerrainPaths(prevAct, s.nodeId, newPaths),
+        undoStack: [...s.undoStack, prevAct].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty:   true,
+      }
+    })
+  }, [])
+
+  const updatePath = useCallback((pathIndex: number, patch: Partial<Pick<TerrainPathDef, 'type' | 'radius'>>) => {
+    setState(s => {
+      const prevAct = s.actData
+      const current = resolveTerrainPathsForTarget(prevAct, s.nodeId)
+      if (!current[pathIndex]) return s
+      const newPaths = current.map((p, i) => i === pathIndex ? { ...p, ...patch } : p)
+      return {
+        ...s,
+        actData:   withTerrainPaths(prevAct, s.nodeId, newPaths),
+        undoStack: [...s.undoStack, prevAct].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty:   true,
+      }
+    })
+  }, [])
+
+  const deletePathPoint = useCallback((pathIndex: number, pointIndex: number) => {
+    setState(s => {
+      const prevAct = s.actData
+      const current = resolveTerrainPathsForTarget(prevAct, s.nodeId)
+      const path = current[pathIndex]
+      if (!path?.points[pointIndex]) return s
+      const points = path.points.filter((_, j) => j !== pointIndex)
+      const newPaths = points.length >= 1
+        ? current.map((p, i) => i === pathIndex ? { ...p, points } : p)
+        : current.filter((_, i) => i !== pathIndex)
+      return {
+        ...s,
+        actData:             withTerrainPaths(prevAct, s.nodeId, newPaths),
+        selectedEntities:    [],
+        inProgressPathIndex: s.inProgressPathIndex === pathIndex ? null : s.inProgressPathIndex,
+        undoStack:           [...s.undoStack, prevAct].slice(-MAX_UNDO),
+        redoStack:           [],
+        isDirty:             true,
+      }
+    })
+  }, [])
+
+  const deletePath = useCallback((pathIndex: number) => {
+    setState(s => {
+      const prevAct = s.actData
+      const current = resolveTerrainPathsForTarget(prevAct, s.nodeId)
+      if (!current[pathIndex]) return s
+      const newPaths = current.filter((_, i) => i !== pathIndex)
+      return {
+        ...s,
+        actData:             withTerrainPaths(prevAct, s.nodeId, newPaths),
+        selectedEntities:    [],
+        inProgressPathIndex: s.inProgressPathIndex === pathIndex ? null : s.inProgressPathIndex,
+        undoStack:           [...s.undoStack, prevAct].slice(-MAX_UNDO),
+        redoStack:           [],
+        isDirty:             true,
+      }
+    })
+  }, [])
+
   // ── Road following ────────────────────────────────────────────────────
 
   const setRoadFollowing = useCallback((roadFollowing: boolean) => {
@@ -376,7 +600,7 @@ export function useBattlefieldEditorState(initialActId: string = 'act1') {
 
   // ── Inheritance ───────────────────────────────────────────────────────
 
-  const revertToActDefault = useCallback((field: 'roads' | 'terrain') => {
+  const revertToActDefault = useCallback((field: 'roads' | 'terrain' | 'decor' | 'terrainPaths') => {
     setState(s => {
       if (s.nodeId === 'act-default') return s
       const prevAct = s.actData
@@ -430,12 +654,16 @@ export function useBattlefieldEditorState(initialActId: string = 'act1') {
     state,
     resolveRoadsForTarget,
     resolveTerrainForTarget,
+    resolveDecorForTarget,
+    resolveTerrainPathsForTarget,
     resolveRoadFollowingForTarget,
     setRoadFollowing,
     setActId,
     setNodeId,
     setTool,
     setActiveObstacleType,
+    setActiveDecorTileId,
+    setActivePathType,
     selectEntities,
     clickRoadTool,
     finishRoad,
@@ -447,6 +675,16 @@ export function useBattlefieldEditorState(initialActId: string = 'act1') {
     moveObstacle,
     updateObstacle,
     deleteObstacle,
+    addDecor,
+    moveDecor,
+    updateDecorTile,
+    deleteDecor,
+    clickPathTool,
+    finishPath,
+    movePathPoint,
+    updatePath,
+    deletePathPoint,
+    deletePath,
     revertToActDefault,
     undo,
     redo,

@@ -37,6 +37,72 @@ export interface RoadDef {
   tileFile?: string
 }
 
+/**
+ * Act/node-authored blocking terrain drawn as a path rather than placed one
+ * circle at a time — a line of trees, a river, a mountain ridge. Expands (via
+ * expandTerrainPathsToObstacles below) into a chain of overlapping
+ * TerrainObstacle circles along the waypoints, so it gets full unit avoidance
+ * and the exact same per-type rendering (ring autotile for rock/tree/water,
+ * icon for ruin — see buildTerrainDecorGfx in utils/terrainLayer.ts) as
+ * individually hand-placed obstacles, for free.
+ */
+export interface TerrainPathDef {
+  type: TerrainType
+  /** Waypoints in game-unit coords — same space as TerrainObstacle: x 0–500 (forward, base→base), y -80..80 (lateral). */
+  points: Array<{ x: number; y: number }>
+  /** Avoidance radius of each chained obstacle (game units). Also controls chain spacing — consecutive circles are spaced at `radius` apart so the chain has continuous coverage. Default 20. */
+  radius?: number
+}
+
+/**
+ * Expands TerrainPathDef waypoint chains into TerrainObstacle circles spaced
+ * `radius` apart along each path's polyline, so a drawn path is just sugar
+ * for "a lot of hand-placed obstacles in a row" — reuses 100% of the existing
+ * avoidance (TERRAIN_AVOID_SHAPE) and rendering (buildTerrainDecorGfx) code,
+ * no new terrain-shape logic needed anywhere else in the engine/renderer.
+ * IDs are plain digit strings (pathIndex*1000 + n) so they stay compatible
+ * with buildTerrainDecorGfx's `parseInt(obs.id.replace('t', ''))` tile-variant
+ * picker (a no-op replace on a string with no 't' in it).
+ */
+export function expandTerrainPathsToObstacles(paths: TerrainPathDef[]): TerrainObstacle[] {
+  const obstacles: TerrainObstacle[] = []
+  paths.forEach((path, pathIndex) => {
+    if (path.points.length === 0) return
+    const radius = path.radius ?? 20
+    let n = 0
+    const place = (x: number, y: number) => {
+      obstacles.push({ id: String(pathIndex * 1000 + n++), type: path.type, x, y, radius })
+    }
+    place(path.points[0].x, path.points[0].y)
+    for (let i = 1; i < path.points.length; i++) {
+      const a = path.points[i - 1]
+      const b = path.points[i]
+      const dist = Math.hypot(b.x - a.x, b.y - a.y)
+      const steps = Math.max(1, Math.round(dist / radius))
+      for (let s = 1; s <= steps; s++) {
+        place(a.x + (b.x - a.x) * (s / steps), a.y + (b.y - a.y) * (s / steps))
+      }
+    }
+  })
+  return obstacles
+}
+
+/**
+ * Act/node-authored decor placement — a single WORLD_DECOR sprite (see
+ * data/tiles/worldTileIndex.ts) placed at a fixed point. Purely visual: does
+ * NOT affect unit avoidance (unlike TerrainObstacle) and is not an autotiled
+ * patch (unlike scenery/border tiles). When an act/node defines a non-empty
+ * `decor` array, it replaces buildDecorGfx's procedural scatter for that
+ * act/node (see terrainLayer.ts).
+ */
+export interface BattlefieldDecorItem {
+  id: string
+  /** Index into WORLD_DECOR (data/tiles/worldTileIndex.ts). */
+  tileId: number
+  x: number // forward axis, same coords/range as TerrainObstacle (0–500)
+  y: number // lateral axis, same coords/range as TerrainObstacle (-80..80)
+}
+
 // ─── Terrain Generation ───────────────────────────────────
 //
 // Scatter rocks, trees, water, and ruins across the mid-field.

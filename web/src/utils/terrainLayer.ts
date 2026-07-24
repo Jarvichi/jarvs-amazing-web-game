@@ -5,7 +5,7 @@ import { loadTileTexture } from './pixiHelpers'
 import { drawTerrainItem } from './terrainGfx'
 import { seededRand, hashStr, getTerrainItems, type TerrainItem } from './mapUtils'
 import { renderPathTiles } from './tileLookup'
-import type { TerrainObstacle, RoadDef } from '../game/engine/terrain'
+import type { TerrainObstacle, RoadDef, BattlefieldDecorItem } from '../game/engine/terrain'
 
 // Divisor controlling how obstacle radius (game units) maps to tile-ring radius (tiles).
 // Tuned against the realistic range of obstacle radius (20-32) and lane CSS height (~318-842px)
@@ -248,9 +248,48 @@ export async function buildDecorGfx(
 }
 
 /**
+ * Renders act/node-authored decor placements (see BattlefieldDecorItem) — a
+ * fixed list of WORLD_DECOR sprites, as opposed to buildDecorGfx's random
+ * scatter. Callers should use this INSTEAD of buildDecorGfx when a non-empty
+ * manual decor array is present for the act/node (manual placement replaces
+ * the procedural scatter, it doesn't layer on top of it).
+ *
+ * Game coords → tile coords via gameToPixel() (see above), snapped to the tile
+ * grid the same way buildTerrainDecorGfx does, so manually-placed items line
+ * up with the rest of the battlefield's tile-aligned art.
+ */
+export async function buildManualDecorGfx(
+  container: PIXI.Container,
+  decorItems: BattlefieldDecorItem[],
+  mapWidth: number,
+  mapHeight: number,
+): Promise<void> {
+  if (decorItems.length === 0) return
+  const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
+  const tileUrl = `${base}${WORLD_DECOR_FILE.slice(1)}`
+  for (const item of decorItems) {
+    if (container.destroyed) return
+    const { px, py } = gameToPixel(item.x, item.y, mapWidth, mapHeight)
+    const tcx = Math.round(px / TILE_SIZE)
+    const tcy = Math.round(py / TILE_SIZE)
+    const tex = await loadTileTexture(tileUrl, item.tileId, 8)
+    if (container.destroyed) return
+    const s = new PIXI.Sprite(tex)
+    s.position.set(tcx * TILE_SIZE, tcy * TILE_SIZE)
+    container.addChild(s)
+  }
+}
+
+/**
  * Renders act/node-authored road paths on the battlefield lane, using the same
  * renderPathTiles() autotiler as hub streets and battlefield water patches.
  * Visual only — does not affect unit movement/avoidance.
+ *
+ * Roads sharing the same effective tileset (tileFile + canal-width class) are
+ * unioned into a single tile set before autotiling, so overlapping/touching
+ * roads render as one seamless shape (the autotiler picks interior tiles at
+ * the seam) instead of each road drawing its own independently-edged patch —
+ * two separate roads sharing an edge would otherwise double-draw that edge.
  *
  * Game coords → tile coords via gameToPixel() (see above), divided by TILE_SIZE.
  */
@@ -269,8 +308,12 @@ export async function buildRoadGfx(
     return { tcx: Math.round(px / TILE_SIZE), tcy: Math.round(py / TILE_SIZE) }
   }
 
+  // Group by effective tileFile + canal-width class so mismatched-style roads
+  // still render with their own art, while same-style roads merge into one
+  // autotiled shape (grouping key uses '' for the default/undefined tileFile).
+  const groups = new Map<string, { tileFile: string | undefined; isCanal: boolean; tiles: Set<string> }>()
+
   for (const road of roads) {
-    if (container.destroyed) return
     if (road.points.length < 2) continue
 
     // Rasterize the centerline tile-by-tile between consecutive waypoints.
@@ -296,20 +339,29 @@ export async function buildRoadGfx(
     // approximate (not exact-integer) tile width.
     const width = road.width ?? 2
     const tileRadius = Math.max(0, Math.floor(width / 2))
-    const roadSet = new Set<string>()
-    for (const key of centerline) {
-      const [c, r] = key.split(',').map(Number)
+    const isCanal = width > 1
+    const key = `${road.tileFile ?? ''}|${isCanal}`
+    let group = groups.get(key)
+    if (!group) {
+      group = { tileFile: road.tileFile, isCanal, tiles: new Set() }
+      groups.set(key, group)
+    }
+    for (const centerKey of centerline) {
+      const [c, r] = centerKey.split(',').map(Number)
       for (let dr = -tileRadius; dr <= tileRadius; dr++) {
         for (let dc = -tileRadius; dc <= tileRadius; dc++) {
           if (dr * dr + dc * dc > tileRadius * tileRadius) continue
-          roadSet.add(`${c + dc},${r + dr}`)
+          group.tiles.add(`${c + dc},${r + dr}`)
         }
       }
     }
+  }
 
+  for (const group of groups.values()) {
+    if (container.destroyed) return
     const roadContainer = new PIXI.Container()
     container.addChild(roadContainer)
-    await renderPathTiles(roadContainer, roadSet, opts.environment, road.tileFile, width > 1, def)
+    await renderPathTiles(roadContainer, group.tiles, opts.environment, group.tileFile, group.isCanal, def)
     if (container.destroyed) return
   }
 }
