@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a1218"/>
+  <linearGradient id="c2a10i1-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#101a24"/>
+    <stop offset="100%" stop-color="#1a2c3a"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2a10i1-sky)"/>
+  <!-- Frost corridor behind, giving way to bone orchard rows -->
+  <rect y="150" width="180" height="90" fill="#0e1c26"/>
+  <rect x="180" y="150" width="220" height="90" fill="#1b2a1e"/>
+  <rect x="150" y="90" width="20" height="60" fill="#1c2b33"/>
+  <!-- Jarv silhouette walking toward the orchard -->
+  <g fill="#11141f">
+    <circle cx="200" cy="140" r="10"/>
+    <rect x="189" y="150" width="22" height="34" rx="4"/>
+  </g>
+  <!-- Bone-white orchard rows -->
+  <g stroke="#e8e4d8" stroke-width="2" fill="none" opacity="0.7">
+    <path d="M240,150 L240,105 M240,120 L222,98 M240,120 L258,98"/>
+    <path d="M290,150 L290,95 M290,113 L268,90 M290,113 L312,92"/>
+    <path d="M340,150 L340,108 M340,122 L322,100 M340,122 L358,100"/>
+  </g>
+  <ellipse cx="290" cy="195" rx="120" ry="16" fill="#4C7A5E" opacity="0.2"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THE FROST ENDS. THE ORCHARD BEGINS.</text>
+</svg>

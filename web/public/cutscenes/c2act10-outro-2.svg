@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0c14"/>
+  <linearGradient id="c2a10o2-bg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#171b28"/>
+    <stop offset="100%" stop-color="#233542"/>
+  </linearGradient>
+  <rect width="400" height="206" fill="url(#c2a10o2-bg)"/>
+  <!-- Close on Jarv's open hand holding the blossom -->
+  <path d="M150,150 Q200,190 250,150 L250,175 Q200,205 150,175 Z" fill="#C9CBDA"/>
+  <circle cx="200" cy="145" r="14" fill="#E8B4C8" opacity="0.85"/>
+  <circle cx="200" cy="145" r="6" fill="#F2E9D8"/>
+  <ellipse cx="200" cy="185" rx="90" ry="10" fill="#4C7A5E" opacity="0.2"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">ORCHARD BLOSSOM — STILL UNWILTED.</text>
+</svg>

@@ -1,0 +1,552 @@
+{
+  "id": "c2act10",
+  "nextActId": "c2act11",
+  "title": "ACT X",
+  "subtitle": "The Bone Orchards",
+  "rewardRelic": "Orchard Blossom",
+  "rewardRelicDesc": "All friendly units gain +5 max HP — a blossom grown from a grief the orchard never finished tending.",
+  "environment": "orchard",
+  "rewardTags": [
+    "forgotten",
+    "orchard"
+  ],
+  "replayModifiers": [
+    {
+      "type": "enemyHpPercent",
+      "value": 15,
+      "label": "+15% enemy HP"
+    },
+    {
+      "type": "enemyIntervalReduction",
+      "value": 500,
+      "label": "Enemies act faster"
+    },
+    {
+      "type": "enemyHandBonus",
+      "value": 1,
+      "label": "Enemies start +1 card"
+    },
+    {
+      "type": "crystalBonus",
+      "value": 10,
+      "label": "+10 crystals per battle"
+    },
+    {
+      "type": "enemyHpPercent",
+      "value": 25,
+      "label": "+25% enemy HP"
+    }
+  ],
+  "startNodeIds": [
+    "orchard-threshold"
+  ],
+  "variantPools": {
+    "jarvMoods": [
+      "Now, past the Winter That Waited's last frostline, still carrying a snowflake that refuses to melt.",
+      "Now, the Worldmender, walking rows of bone-white trees that grew from graves nobody visits anymore.",
+      "Now, wondering what it costs a kingdom to love its own dead enough to grow an orchard for them.",
+      "Now, past the Regent's fall, learning that the Court's stored season was only ever the least of what Amarath buried."
+    ],
+    "orchardDesc": [
+      "The Bone Orchards rise past the last frostline, groves grown from the kingdom's own dead, tended and beloved in equal measure.",
+      "This is not an orchard that grew by accident. It is an orchard Amarath planted on purpose, three centuries ago, so that every grave the void claimed would have something to grow into.",
+      "The garrisons here are not guarding a grove. They are guarding a grief the whole kingdom agreed to keep tending, long after anyone remembers whose grief it started as."
+    ],
+    "orchardkeeperDesc": [
+      "The Orchard Keeper has tended this grove longer than any noble still standing watch, and she has never once let a grave go undefended.",
+      "She does not rule the orchard the way the Regent ruled a season. She tends it, row by row, making sure no name planted here is ever forgotten twice.",
+      "Three centuries of tending taught her one thing the Pale Court never had to teach: a grief kept long enough stops being sorrow and starts being love. She has not yet decided what the Worldmender is here to prune."
+    ],
+    "priorRunOpenings": [
+      "The orchard threshold was already tended when you reached it, same as always — the grove remembers being crossed even when it doesn't remember by whom.",
+      "You knew the root-sconces' light this time. The bonewood company knew you knowing it.",
+      "The grove ledger at the threshold already had your crossing recorded. You are becoming a familiar entry in someone's tending.",
+      "The Keeper's retinue was already standing among the rows when you arrived. She does not believe in being surprised twice, either."
+    ]
+  },
+  "midRunTemplates": [
+    "The {ordinalLower} crossing of the Bone Orchards. The blossoms open a little sooner every time.",
+    "Campaign {n}. The bonewood garrisons have a whole row reserved for you now, all of it already tended.",
+    "{n} crossings counted, by the ledger at the threshold. You have stopped correcting the number.",
+    "Run {n}. The rows hold the same shape every time, and every time the roots seem to expect you.",
+    "The {ordinalLower} tending. You know the garrison markers by name now. The orchard had names for them first."
+  ],
+  "introRules": [
+    {
+      "condition": {
+        "op": "gte",
+        "value": 10
+      },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:priorRunOpenings:1}"
+        },
+        {
+          "title": "THE BONE ORCHARDS",
+          "text": "{pool:orchardDesc:1}\n\n{pool:orchardkeeperDesc:1}"
+        }
+      ]
+    },
+    {
+      "condition": {
+        "op": "range",
+        "min": 2,
+        "max": 9
+      },
+      "panels": [
+        {
+          "title": "THE BONE ORCHARDS",
+          "text": "The orchard threshold is freshly tended — again.\n\n{pool:priorRunOpenings:0}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:orchardDesc:2}"
+        },
+        {
+          "title": "THE ORCHARD KEEPER",
+          "text": "{pool:orchardkeeperDesc:0}"
+        }
+      ]
+    }
+  ],
+  "intro": [
+    {
+      "title": "WAITED SNOWFLAKE",
+      "text": "The Regent's cold stood down at your back, and the snowflake she pressed into your palm has not once melted since. Past the last frostline, the road descends into groves grown from the kingdom's own dead, tended and beloved in equal measure.",
+      "image": "cutscenes/c2act10-intro-1.svg"
+    },
+    {
+      "title": "THE BONE ORCHARDS",
+      "text": "This is not an orchard that grew by accident. It is an orchard Amarath planted on purpose, three centuries ago, so that every grave the void claimed would have something to grow into. The garrisons here are not guarding a grove — they are guarding a grief the whole kingdom agreed to keep tending.",
+      "image": "cutscenes/c2act10-intro-2.svg"
+    },
+    {
+      "title": "THE ORCHARD KEEPER",
+      "text": "The Court's own gardener has tended this grove longer than any noble still standing watch, and she has never once let a grave go undefended. She does not rule the orchard. She tends it, row by row, making sure no name planted here is ever forgotten twice.",
+      "image": "cutscenes/c2act10-intro-3.svg"
+    }
+  ],
+  "outro": [
+    {
+      "title": "THE KEEPER'S ACCOUNTING",
+      "text": "She does not fall like a soldier or a season. She simply sets down her shears, and the row she was tending stops needing her hands for the first time in three centuries. \"I have tended more graves than I have grieved properly,\" she says, \"and not one blossom in this orchard ever told me if the tending was enough. Tell the Court that, if it still remembers how to listen to anything that isn't its own grief.\" She presses a single blossom into your palm. It has not wilted.",
+      "image": "cutscenes/c2act10-outro-1.svg"
+    },
+    {
+      "title": "ORCHARD BLOSSOM",
+      "text": "It is a small thing to have cost a kingdom a grove's worth of grief — a single blossom that gives every friendly line a little more to hold. Holding it, you understand the Keeper better than her own tending ever explained her: a grief kept long enough doesn't stop being sorrow. It starts being love.",
+      "image": "cutscenes/c2act10-outro-2.svg"
+    },
+    {
+      "title": "THE VIGIL ROADS AHEAD",
+      "text": "Past the last tended row, the ground rises into processional highways walked for centuries to keep a vigil-rite alive. Somewhere along the vigil roads, the Pale Court's own procession is already marching to meet whatever the Worldmender brings next.",
+      "image": "cutscenes/c2act10-outro-3.svg"
+    }
+  ],
+  "nodes": {
+    "orchard-threshold": {
+      "id": "orchard-threshold",
+      "type": "battle",
+      "label": "The Orchard Threshold",
+      "description": "Where the last frostline gives way to groves grown from the kingdom's own dead.",
+      "row": 0,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "the-root-causeway",
+        "the-bonewood-ramparts"
+      ],
+      "handicap": 32,
+      "opponentIntervalMs": 3000,
+      "opponentBaseHp": 280,
+      "environment": "orchard",
+      "enemyDeck": [
+        "Sapling Runner",
+        "Bonewood Scout",
+        "Grove Tender",
+        "Root Sconce"
+      ]
+    },
+    "the-root-causeway": {
+      "id": "the-root-causeway",
+      "type": "battle",
+      "label": "The Root Causeway",
+      "description": "A causeway grown through with roots thick enough to remember every grave it crosses.",
+      "row": 1,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-grove-ledger",
+        "the-tender-hearth"
+      ],
+      "handicap": 34,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 288,
+      "environment": "orchard",
+      "enemyDeck": [
+        "Sapling Runner",
+        "Grove Tender",
+        "Root Barricade",
+        "Bonewood Guard",
+        "Grove Step"
+      ]
+    },
+    "the-bonewood-ramparts": {
+      "id": "the-bonewood-ramparts",
+      "type": "battle",
+      "label": "The Bonewood Ramparts",
+      "description": "A rampart line garrisoned like the grove still needs guarding — because to the Court, it does.",
+      "row": 1,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-sealed-grovehouse-gate",
+        "the-keeper-cart"
+      ],
+      "handicap": 34,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 288,
+      "environment": "orchard",
+      "enemyDeck": [
+        "Bonewood Scout",
+        "Root Sconce",
+        "Bonewood Watchtower",
+        "Bonewood Guard",
+        "Orchard Draught"
+      ]
+    },
+    "the-grove-ledger": {
+      "id": "the-grove-ledger",
+      "type": "event",
+      "label": "The Grove Ledger",
+      "description": "A Court clerk tallying every grave planted against a name still owed remembrance.",
+      "row": 2,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-bonewood-company",
+        "mem-c2act10-1"
+      ],
+      "eventConfig": {
+        "title": "The Grove Ledger",
+        "description": "A clerk keeps the tally at a lectern grown through with roots, marking every grave against a grief three centuries deep. She does not ask why you're crossing. She only asks whether you intend to be tallied.",
+        "pools": [
+          [
+            {
+              "label": "Pay the ledger's toll (lose 6 HP, gain a rare card)",
+              "consequence": "Every grave tallied costs a little of your own grief. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the clerk's grove-oil (gain 60 crystals)",
+              "consequence": "Oil set aside for a tending that never quite runs short. You gain 60 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 60
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest at the ledger post's brazier (heal 10 HP)",
+              "consequence": "The brazier holds the grief back better than it has any right to. You heal 10 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 10
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the ledger uncounted",
+              "consequence": "You leave the clerk to her tally.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-tender-hearth": {
+      "id": "the-tender-hearth",
+      "type": "rest",
+      "label": "The Tender Hearth",
+      "description": "A garrison hearth, kept lit for grove-tenders coming off a cold row.",
+      "row": 2,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-bonewood-company"
+      ],
+      "restHeal": 9
+    },
+    "the-sealed-grovehouse-gate": {
+      "id": "the-sealed-grovehouse-gate",
+      "type": "event",
+      "label": "The Sealed Grovehouse Gate",
+      "description": "A gate posting tending orders that read like they were never meant for a grove this ordinary.",
+      "row": 2,
+      "col": 2,
+      "rowCols": 4,
+      "childIds": [
+        "the-rooted-line"
+      ],
+      "eventConfig": {
+        "title": "The Sealed Grovehouse Gate",
+        "description": "The writ nailed to the gate names every row in the grove and the season each is due to bloom. It is signed by the Court, countersigned by nobody the orchard has ever met, and dated the same day the vanguard crossed the Marches.",
+        "pools": [
+          [
+            {
+              "label": "Read the sealed grovehouse writ (lose 6 HP, gain a rare card)",
+              "consequence": "Every row named costs you something to read past. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the grovehouse's oil cache (gain 70 crystals)",
+              "consequence": "A cache nobody in this orchard was ever going to collect. You gain 70 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 70
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest behind the grovehouse's seals (heal 8 HP)",
+              "consequence": "Quieter than a tended row has any right to be. You heal 8 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 8
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the writ unread",
+              "consequence": "Some orders are better left uncounted. You move on.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-keeper-cart": {
+      "id": "the-keeper-cart",
+      "type": "merchant",
+      "label": "The Keeper's Cart",
+      "description": "A trading cart parked in a grove that hasn't seen open trade in centuries.",
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-rooted-line"
+      ]
+    },
+    "the-bonewood-company": {
+      "id": "the-bonewood-company",
+      "type": "elite",
+      "label": "The Bonewood Company",
+      "description": "A file of Court soldiers holding formation among rows grown thick enough to hide them.",
+      "row": 3,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-deep-grove"
+      ],
+      "handicap": 38,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 304,
+      "environment": "orchard",
+      "enemyDeck": [
+        "Bonewood Guard",
+        "Orchard Vanguard",
+        "Sealed Grovehouse",
+        "Blossom Toll",
+        "Blossom Foundry",
+        "Choir of Roots"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "mem-c2act10-1": {
+      "id": "mem-c2act10-1",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A founding charter of the orchard's first bonewood garrisons.",
+      "row": 3,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-deep-grove"
+      ],
+      "fragmentId": "c2act10-frag-1",
+      "environment": "orchard"
+    },
+    "the-rooted-line": {
+      "id": "the-rooted-line",
+      "type": "elite",
+      "label": "The Rooted Line",
+      "description": "A line of soldiers who never got new orders when the orchard finally rooted around them.",
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-last-tending"
+      ],
+      "handicap": 38,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 304,
+      "environment": "orchard",
+      "enemyDeck": [
+        "Root Chanter",
+        "Grove Automaton",
+        "Blossom Sentry",
+        "Grove Writ",
+        "Choir of Roots",
+        "Grove Archer"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "the-deep-grove": {
+      "id": "the-deep-grove",
+      "type": "battle",
+      "label": "The Deep Grove",
+      "description": "Rows deep enough that even the mist stops following.",
+      "row": 4,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-final-groveline"
+      ],
+      "handicap": 40,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 314,
+      "environment": "orchard",
+      "enemyDeck": [
+        "Bonewood Guard",
+        "Root Barricade",
+        "Bonewood Watchtower",
+        "Orchard Courier",
+        "Blossom Toll",
+        "Grove Archer"
+      ]
+    },
+    "the-last-tending": {
+      "id": "the-last-tending",
+      "type": "battle",
+      "label": "The Last Tending",
+      "description": "The final row before the Keeper's own grove-house.",
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-final-groveline",
+        "mem-c2act10-2"
+      ],
+      "handicap": 40,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 314,
+      "environment": "orchard",
+      "enemyDeck": [
+        "Orchard Courier",
+        "Choir of Roots",
+        "Bonewood Knight",
+        "Grove Writ",
+        "Blossom Sentry",
+        "Root Chanter"
+      ]
+    },
+    "the-final-groveline": {
+      "id": "the-final-groveline",
+      "type": "rest",
+      "label": "The Final Groveline",
+      "description": "The last tended row before the Keeper's own ward. Someone has already trimmed it.",
+      "row": 5,
+      "col": 0,
+      "rowCols": 2,
+      "childIds": [
+        "orchardkeeper-node"
+      ],
+      "restHeal": 11
+    },
+    "mem-c2act10-2": {
+      "id": "mem-c2act10-2",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A grove-tender's log from the night the orchard finally rooted.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "orchardkeeper-node"
+      ],
+      "fragmentId": "c2act10-frag-2",
+      "environment": "orchard"
+    },
+    "orchardkeeper-node": {
+      "id": "orchardkeeper-node",
+      "type": "boss",
+      "label": "The Orchard Keeper",
+      "description": "Three centuries of tending end here, before a gardener who decides which grief still deserves company.",
+      "row": 6,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
+      "handicap": 42,
+      "opponentIntervalMs": 5000,
+      "opponentBaseHp": 336,
+      "environment": "orchard",
+      "enemyDeck": [
+        "The Orchard Keeper",
+        "Orchard Vanguard",
+        "Bonewood Knight",
+        "The Grafted Bloom",
+        "Choir of Roots",
+        "Blossom Sentry",
+        "Grove Writ"
+      ],
+      "bossAI": "orchardkeeper",
+      "bossDialogue": [
+        "You crossed the Winter That Waited, Worldmender. The Regent gave you a season kept from the kingdom. I keep the kingdom's own dead, and I have tended every one of them longer than she tended her cold.",
+        "Three centuries in the void, and not one grave in this orchard went untended. The Regent decided what season deserved release. I decide which grief still deserves company.",
+        "The Court does not ask me to grow this orchard. It only asks that I keep every name in it from being forgotten twice. Let's begin."
+      ],
+      "bossCard": "The Orchard Keeper"
+    }
+  }
+}
