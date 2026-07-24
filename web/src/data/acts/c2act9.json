@@ -1,0 +1,551 @@
+{
+  "id": "c2act9",
+  "title": "ACT IX",
+  "subtitle": "The Winter That Waited",
+  "rewardRelic": "Waited Snowflake",
+  "rewardRelicDesc": "Your base gains +12 max HP — a season that waited three centuries to matter finally gives your base something to hold.",
+  "environment": "frost",
+  "rewardTags": [
+    "forgotten",
+    "waitedwinter"
+  ],
+  "replayModifiers": [
+    {
+      "type": "enemyHpPercent",
+      "value": 15,
+      "label": "+15% enemy HP"
+    },
+    {
+      "type": "enemyIntervalReduction",
+      "value": 500,
+      "label": "Enemies act faster"
+    },
+    {
+      "type": "enemyHandBonus",
+      "value": 1,
+      "label": "Enemies start +1 card"
+    },
+    {
+      "type": "crystalBonus",
+      "value": 10,
+      "label": "+10 crystals per battle"
+    },
+    {
+      "type": "enemyHpPercent",
+      "value": 25,
+      "label": "+25% enemy HP"
+    }
+  ],
+  "startNodeIds": [
+    "frost-threshold"
+  ],
+  "variantPools": {
+    "jarvMoods": [
+      "Now, past the Hollow Court's last antechamber, still wearing a mask that sharpens whoever wears it.",
+      "Now, the Worldmender, watching frost creep across a corridor that shouldn't have any weather at all.",
+      "Now, wondering what a kingdom does with a season it kept in storage for three centuries and never had the heart to use.",
+      "Now, past the Chamberlain's fall, learning that the Court's ceremony was only ever the least of what Amarath had waiting."
+    ],
+    "winterDesc": [
+      "The Winter That Waited rises past the Hollow Court's last antechamber, a season the void kept in storage so perfectly it never once thawed.",
+      "This is not a winter that came naturally. It is a winter Amarath stored on purpose, three centuries ago, waiting for a reason worth releasing it.",
+      "The garrisons here are not holding back a season. They are holding a promise the Court made to itself long before anyone thought the promise would need keeping."
+    ],
+    "frostregentDesc": [
+      "The Frost Regent has kept the waited winter colder than any noble still standing watch, and she has never once needed reminding what the cold was stored for.",
+      "She does not rule this frost the way the Chamberlain ruled a ceremony. She stewards it, degree by degree, waiting for the one crossing that finally justifies it.",
+      "Three centuries of storage taught her one thing the Pale Court never had to teach: a season kept waiting long enough stops being patient. She has not yet decided if the Worldmender is the reason it stops."
+    ],
+    "priorRunOpenings": [
+      "The frost threshold was already rimed when you reached it, same as always — the winter remembers being crossed even when it doesn't remember by whom.",
+      "You knew the sconce-bearers' step this time. The frostbound company knew you knowing it.",
+      "The frost ledger at the threshold already had your crossing recorded. You are becoming a familiar entry in someone's stored season.",
+      "The Regent's retinue was already standing in the frost when you arrived. She does not believe in being surprised twice, either."
+    ]
+  },
+  "midRunTemplates": [
+    "The {ordinalLower} crossing of the waited winter. The frost settles a little sooner every time.",
+    "Campaign {n}. The frost garrisons have a whole stretch of cold reserved for you now, all of it already rimed.",
+    "{n} crossings counted, by the ledger at the threshold. You have stopped correcting the number.",
+    "Run {n}. The frost holds the same shape every time, and every time it seems to expect you.",
+    "The {ordinalLower} thaw. You know the garrison markers by name now. The winter had names for them first."
+  ],
+  "introRules": [
+    {
+      "condition": {
+        "op": "gte",
+        "value": 10
+      },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:priorRunOpenings:1}"
+        },
+        {
+          "title": "THE WINTER THAT WAITED",
+          "text": "{pool:winterDesc:1}\n\n{pool:frostregentDesc:1}"
+        }
+      ]
+    },
+    {
+      "condition": {
+        "op": "range",
+        "min": 2,
+        "max": 9
+      },
+      "panels": [
+        {
+          "title": "THE WINTER THAT WAITED",
+          "text": "The frost threshold is freshly rimed — again.\n\n{pool:priorRunOpenings:0}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:winterDesc:2}"
+        },
+        {
+          "title": "THE FROST REGENT",
+          "text": "{pool:frostregentDesc:0}"
+        }
+      ]
+    }
+  ],
+  "intro": [
+    {
+      "title": "HOLLOW MASK",
+      "text": "The Chamberlain's ceremony stood down at your back, and the mask he handed you has sharpened every stride since. Past the Hollow Court's last antechamber, the corridors give way to a season the void kept in storage — a winter Amarath never got to have.",
+      "image": "cutscenes/c2act9-intro-1.svg"
+    },
+    {
+      "title": "THE WINTER THAT WAITED",
+      "text": "This is not a winter that came naturally. It is a winter Amarath stored on purpose, three centuries ago, waiting for a reason worth releasing it. The garrisons here are not holding back a season — they are holding a promise the Court made to itself long before anyone thought it would need keeping.",
+      "image": "cutscenes/c2act9-intro-2.svg"
+    },
+    {
+      "title": "THE FROST REGENT",
+      "text": "The Court's steward of the stored cold has kept the waited winter colder than any noble still standing watch, and she has never once needed reminding what it was stored for. She does not rule this frost. She stewards it, degree by degree, waiting for the one crossing that finally justifies it.",
+      "image": "cutscenes/c2act9-intro-3.svg"
+    }
+  ],
+  "outro": [
+    {
+      "title": "THE REGENT'S ACCOUNTING",
+      "text": "She does not fall like a soldier or a steward. She simply lets the cold she carried go still, and the frost around her stops deepening for the first time in three centuries. \"I kept this winter waiting longer than I kept anything else,\" she says, \"and not one degree of it ever told me if the waiting was worth it. Tell the Court that, if it still remembers how to listen to anything that isn't its own storage.\" She presses a single snowflake into your palm. It has not melted.",
+      "image": "cutscenes/c2act9-outro-1.svg"
+    },
+    {
+      "title": "WAITED SNOWFLAKE",
+      "text": "It is a small thing to have cost a kingdom a season — a single snowflake that gives your base something to hold, after three centuries of holding nothing at all. Holding it, you understand the Regent better than her own frost ever explained her: a thing kept waiting long enough doesn't stop mattering. It just stops being patient.",
+      "image": "cutscenes/c2act9-outro-2.svg"
+    },
+    {
+      "title": "THE BONE ORCHARDS AHEAD",
+      "text": "Past the last frost-bitten garrison, the road descends into groves grown from the kingdom's own dead, tended and beloved in equal measure. Somewhere among the bone-white branches, something Amarath buried with more grief than the winter ever earned is already waiting to be tended one more time.",
+      "image": "cutscenes/c2act9-outro-3.svg"
+    }
+  ],
+  "nodes": {
+    "frost-threshold": {
+      "id": "frost-threshold",
+      "type": "battle",
+      "label": "The Frost Threshold",
+      "description": "Where the Hollow Court's last antechamber gives way to a season kept three centuries in storage.",
+      "row": 0,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "the-frost-causeway",
+        "the-rime-ramparts"
+      ],
+      "handicap": 30,
+      "opponentIntervalMs": 3000,
+      "opponentBaseHp": 272,
+      "environment": "frost",
+      "enemyDeck": [
+        "Frost Runner",
+        "Rime Herald",
+        "Waiting Scout",
+        "Frost Sconce"
+      ]
+    },
+    "the-frost-causeway": {
+      "id": "the-frost-causeway",
+      "type": "battle",
+      "label": "The Frost Causeway",
+      "description": "A causeway rimed over so thoroughly the stones remember being warm.",
+      "row": 1,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-frost-ledger",
+        "the-winter-hearth"
+      ],
+      "handicap": 32,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 280,
+      "environment": "frost",
+      "enemyDeck": [
+        "Frost Runner",
+        "Waiting Scout",
+        "Frost Barricade",
+        "Frost Guard",
+        "Waited Step"
+      ]
+    },
+    "the-rime-ramparts": {
+      "id": "the-rime-ramparts",
+      "type": "battle",
+      "label": "The Rime Ramparts",
+      "description": "A rampart line garrisoned like the winter still needs guarding — because to the Court, it does.",
+      "row": 1,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-sealed-icehouse-gate",
+        "the-regents-cart"
+      ],
+      "handicap": 32,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 280,
+      "environment": "frost",
+      "enemyDeck": [
+        "Rime Herald",
+        "Frost Sconce",
+        "Rime Watchtower",
+        "Frost Guard",
+        "Winter Draught"
+      ]
+    },
+    "the-frost-ledger": {
+      "id": "the-frost-ledger",
+      "type": "event",
+      "label": "The Frost Ledger",
+      "description": "A Court clerk tallying every crossing against a season kept in storage.",
+      "row": 2,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-frostbound-company",
+        "mem-c2act9-1"
+      ],
+      "eventConfig": {
+        "title": "The Frost Ledger",
+        "description": "A clerk keeps the tally at a lectern half-buried in rime, marking every crossing against a winter three centuries deep. She does not ask why you're crossing. She only asks whether you intend to be tallied.",
+        "pools": [
+          [
+            {
+              "label": "Pay the ledger's toll (lose 6 HP, gain a rare card)",
+              "consequence": "Every crossing tallied costs a little of your own warmth. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the clerk's stored oil (gain 60 crystals)",
+              "consequence": "Oil set aside for a winter that never quite runs short. You gain 60 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 60
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest at the ledger post's brazier (heal 10 HP)",
+              "consequence": "The brazier holds the cold back better than it has any right to. You heal 10 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 10
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the ledger uncounted",
+              "consequence": "You leave the clerk to her tally.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-winter-hearth": {
+      "id": "the-winter-hearth",
+      "type": "rest",
+      "label": "The Winter Hearth",
+      "description": "A garrison hearth, kept lit for frost-guards coming off a cold vigil.",
+      "row": 2,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-frostbound-company"
+      ],
+      "restHeal": 9
+    },
+    "the-sealed-icehouse-gate": {
+      "id": "the-sealed-icehouse-gate",
+      "type": "event",
+      "label": "The Sealed Icehouse Gate",
+      "description": "A gate posting orders for a winter that isn't rising anymore — just remembering how to.",
+      "row": 2,
+      "col": 2,
+      "rowCols": 4,
+      "childIds": [
+        "the-frozen-line"
+      ],
+      "eventConfig": {
+        "title": "The Sealed Icehouse Gate",
+        "description": "The writ nailed to the gate names every stretch of frost and the degree each is due to hold. It is signed by the Court, countersigned by nobody the winter has ever met, and dated the same day the vanguard crossed the Marches.",
+        "pools": [
+          [
+            {
+              "label": "Read the sealed icehouse writ (lose 6 HP, gain a rare card)",
+              "consequence": "Every degree named costs you something to read past. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the icehouse's oil cache (gain 70 crystals)",
+              "consequence": "A cache nobody in this frost was ever going to collect. You gain 70 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 70
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest behind the icehouse's seals (heal 8 HP)",
+              "consequence": "Quieter than a stored winter has any right to be. You heal 8 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 8
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the writ unread",
+              "consequence": "Some orders are better left uncounted. You move on.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-regents-cart": {
+      "id": "the-regents-cart",
+      "type": "merchant",
+      "label": "The Regent's Cart",
+      "description": "A trading cart parked in a frost that hasn't seen open trade in centuries.",
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-frozen-line"
+      ]
+    },
+    "the-frostbound-company": {
+      "id": "the-frostbound-company",
+      "type": "elite",
+      "label": "The Frostbound Company",
+      "description": "A file of Court soldiers holding formation in frost deep enough to still their breath.",
+      "row": 3,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-deep-frost"
+      ],
+      "handicap": 36,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 296,
+      "environment": "frost",
+      "enemyDeck": [
+        "Frost Guard",
+        "Winter Vanguard",
+        "Sealed Icehouse",
+        "Blizzard Toll",
+        "Snowmelt Foundry",
+        "Choir of Frost"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "mem-c2act9-1": {
+      "id": "mem-c2act9-1",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A founding charter of the frost's first storage-garrisons.",
+      "row": 3,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-deep-frost"
+      ],
+      "fragmentId": "c2act9-frag-1",
+      "environment": "frost"
+    },
+    "the-frozen-line": {
+      "id": "the-frozen-line",
+      "type": "elite",
+      "label": "The Frozen Line",
+      "description": "A line of soldiers who never got new orders when the winter finally came out of storage.",
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-last-thaw"
+      ],
+      "handicap": 36,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 296,
+      "environment": "frost",
+      "enemyDeck": [
+        "Rime Chanter",
+        "Frost Automaton",
+        "Snowbound Sentry",
+        "Winter Writ",
+        "Choir of Frost",
+        "Icebound Archer"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "the-deep-frost": {
+      "id": "the-deep-frost",
+      "type": "battle",
+      "label": "The Deep Frost",
+      "description": "Frost deep enough that even the mist stops following.",
+      "row": 4,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-final-frostline"
+      ],
+      "handicap": 38,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 306,
+      "environment": "frost",
+      "enemyDeck": [
+        "Frost Guard",
+        "Frost Barricade",
+        "Rime Watchtower",
+        "Winter Courier",
+        "Blizzard Toll",
+        "Icebound Archer"
+      ]
+    },
+    "the-last-thaw": {
+      "id": "the-last-thaw",
+      "type": "battle",
+      "label": "The Last Thaw",
+      "description": "The final stretch of frost before the Regent's own ward.",
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-final-frostline",
+        "mem-c2act9-2"
+      ],
+      "handicap": 38,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 306,
+      "environment": "frost",
+      "enemyDeck": [
+        "Winter Courier",
+        "Choir of Frost",
+        "Frostbound Knight",
+        "Winter Writ",
+        "Snowbound Sentry",
+        "Rime Chanter"
+      ]
+    },
+    "the-final-frostline": {
+      "id": "the-final-frostline",
+      "type": "rest",
+      "label": "The Final Frostline",
+      "description": "The last frostline before the Regent's own ward. Someone has already rimed it.",
+      "row": 5,
+      "col": 0,
+      "rowCols": 2,
+      "childIds": [
+        "frostregent-node"
+      ],
+      "restHeal": 11
+    },
+    "mem-c2act9-2": {
+      "id": "mem-c2act9-2",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A frost-guard's log from the night the storage finally cracked.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "frostregent-node"
+      ],
+      "fragmentId": "c2act9-frag-2",
+      "environment": "frost"
+    },
+    "frostregent-node": {
+      "id": "frostregent-node",
+      "type": "boss",
+      "label": "The Frost Regent",
+      "description": "Three centuries of storage end here, before a steward who decides what the waited winter was always for.",
+      "row": 6,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
+      "handicap": 40,
+      "opponentIntervalMs": 5000,
+      "opponentBaseHp": 328,
+      "environment": "frost",
+      "enemyDeck": [
+        "The Frost Regent",
+        "Winter Vanguard",
+        "Frostbound Knight",
+        "The Waited Cold",
+        "Choir of Frost",
+        "Snowbound Sentry",
+        "Winter Writ"
+      ],
+      "bossAI": "frostregent",
+      "bossDialogue": [
+        "You crossed the Hollow Court, Worldmender. The Chamberlain gave you a ceremony. I give you a season the Court kept in storage for exactly this crossing.",
+        "Three centuries in the void, and this winter never once thawed waiting for someone worth releasing it on. The Chamberlain decides what deserves a name. I decide what deserves a season.",
+        "The Court does not ask me to keep this cold. It only asks that I choose, at last, who it was always meant for. Let's begin."
+      ],
+      "bossCard": "The Frost Regent"
+    }
+  }
+}

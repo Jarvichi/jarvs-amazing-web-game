@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a1410"/>
+  <linearGradient id="c2a9o3-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#141f16"/>
+    <stop offset="100%" stop-color="#243626"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2a9o3-sky)"/>
+  <!-- Bone-white orchard branches -->
+  <rect y="150" width="400" height="90" fill="#1b2a1e"/>
+  <g stroke="#e8e4d8" stroke-width="2" fill="none" opacity="0.6">
+    <path d="M80,150 L80,110 M80,120 L60,100 M80,120 L100,95"/>
+    <path d="M200,150 L200,100 M200,115 L175,90 M200,115 L225,90"/>
+    <path d="M320,150 L320,110 M320,120 L300,95 M320,120 L340,100"/>
+  </g>
+  <ellipse cx="200" cy="190" rx="200" ry="16" fill="#4C7A5E" opacity="0.2"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">BONE ORCHARDS, TENDED AND BELOVED.</text>
+</svg>

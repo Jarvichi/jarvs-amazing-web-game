@@ -2366,5 +2366,103 @@
         ]
       }
     ]
+  },
+  {
+    "id": "frostregent",
+    "intervalMs": 4900,
+    "idleMessage": "The stored cold does not thaw for anyone…",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE FROST REGENT rises from the rimed threshold, three centuries of stored winter finally given somewhere to go.",
+      "\"The Chamberlain gave you a ceremony. I give you a season the Court kept in storage for exactly this crossing. Let's see if you were worth the wait, Worldmender.\""
+    ],
+    "trait": {
+      "name": "Waited Blizzard",
+      "implemented": true,
+      "trigger": "periodic",
+      "triggerIntervalMs": 40000,
+      "type": "column_aoe",
+      "description": "Every 40 seconds the Frost Regent releases a fraction of the waited winter down a random column, dealing 7 damage to all player units caught in that column and slowing them for 4 seconds.",
+      "mechanics": {
+        "pulseDamage": 7,
+        "pulseColumn": "random",
+        "slowDurationMs": 4000,
+        "slowFactor": 0.5,
+        "chargeUpMs": 1500
+      },
+      "announceText": "THE FROST REGENT releases the waited winter — a column is about to freeze!",
+      "fireText": "THE BLIZZARD ARRIVES — a column of the field is buried in stored cold!"
+    },
+    "phases": [
+      {
+        "condition": {
+          "gameTimeLt": 30000
+        },
+        "priorities": [
+          {
+            "cardType": "structure",
+            "isWall": true
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "mana"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_asc"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      },
+      {
+        "condition": {
+          "gameTimeGte": 30000,
+          "gameTimeLt": 75000
+        },
+        "priorities": [
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costGte": 4,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ],
+        "announceOnce": "\"The Chamberlain held a Court with a gesture. I hold a season with a cold that has never once needed telling twice. You are neither owed nor doctrine, Worldmender. You are the reason this winter finally moves.\""
+      },
+      {
+        "condition": null,
+        "manaOverride": 9,
+        "maxPlaysOverride": 4,
+        "announceOnce": "\"THREE CENTURIES OF STORAGE DECIDE WHAT A SEASON IS FOR. SO DO I.\"",
+        "priorities": [
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      }
+    ]
   }
 ]

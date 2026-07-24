@@ -292,5 +292,19 @@
     "nodeId": "mem-c2act8-2",
     "title": "Fragment: The Last Unmasked Face",
     "body": "A COURTIER'S LOG, RECOVERED FROM A SEALED ANTECHAMBER\n\n'Third ceremony of the season, and Lady Ashgrave took off her mask in front of the whole hall — not dropped it, not lost it, took it off on purpose, and stood there with a face none of us could place against any noble we remembered serving. The Chamberlain did not stop her. He only watched, the way the whole ceremony has learned to watch anything that breaks its own rule.\n\nI have never seen a room hold so still. Nobody clapped. Nobody looked away either. She stood unmasked until the candles guttered, and then she put the mask back on herself, and nobody in that hall has spoken of it since, though I notice half of them have stopped meeting each other's eyes at the door the way they used to.\n\nI am not certain what she proved. I am only certain that for one ceremony, this Court remembered it used to have faces worth keeping, and I do not think it has forgiven her for reminding it.'"
+  },
+  {
+    "id": "c2act9-frag-1",
+    "actId": "c2act9",
+    "nodeId": "mem-c2act9-1",
+    "title": "Fragment: The First Storage Order",
+    "body": "FOUNDING CHARTER OF THE FROST GARRISONS — YEAR ONE OF THE RETURN\n\n'When the Court understood what the void had cost Amarath, it did not simply grieve the loss. It took inventory. Among the things catalogued and found intact was a season — an entire winter, whole and unspent, that the kingdom never got to have before the Fracture erased it.\n\nThe Chamberlain's charter was blunt about what came next: store it. Do not spend a season the kingdom is owed on an ordinary year. Keep it cold, keep it waiting, and release it only when Amarath needs a winter more than it needs an ordinary one.\n\nThree centuries on, I am told the storage has never once been breached early. I believe it. A kingdom that spent three centuries being nowhere does not waste the one season it has left over, no matter how badly the ordinary winters have wanted it back.'"
+  },
+  {
+    "id": "c2act9-frag-2",
+    "actId": "c2act9",
+    "nodeId": "mem-c2act9-2",
+    "title": "Fragment: The Night the Storage Cracked",
+    "body": "A FROST-GUARD'S LOG, RECOVERED FROM AN ICEHOUSE WATCH-POST\n\n'Third watch, and the storage seal has cracked for the first time in three centuries — not shattered, cracked, a hairline fracture no wider than a blade of frost, and already the corridor beyond it is ten degrees colder than the charter says it should be. I sealed it myself before dawn, same as the order says, and by midmorning the crack had spread another inch regardless.\n\nThe garrison captain told me not to write this down. I am writing it down anyway. If the storage cannot hold a season that was never meant to be spent yet, then the Court's charts are not holding what they claim to hold, and somebody above my rank ought to know that before the Worldmender's people find it out for themselves.\n\nI sealed the crack a third time before the log closed. It held until the tide turned colder. I do not know if a season that wants out is still being kept, or just a grief that has finally run out of patience.'"
   }
 ]

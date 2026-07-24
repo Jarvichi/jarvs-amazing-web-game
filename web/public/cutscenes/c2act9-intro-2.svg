@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a1218"/>
+  <linearGradient id="c2a9i2-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#101a24"/>
+    <stop offset="100%" stop-color="#1a2c3a"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2a9i2-sky)"/>
+  <!-- Frozen corridor, ice-bound garrisons -->
+  <rect y="150" width="400" height="90" fill="#0e1c26"/>
+  <g fill="#1c2f3c">
+    <rect x="40" y="120" width="14" height="90"/>
+    <rect x="90" y="100" width="16" height="110"/>
+    <rect x="290" y="105" width="16" height="105"/>
+    <rect x="340" y="120" width="14" height="90"/>
+  </g>
+  <g fill="#C9E8F0" opacity="0.5">
+    <circle cx="47" cy="118" r="2"/>
+    <circle cx="98" cy="98" r="2"/>
+    <circle cx="298" cy="103" r="2"/>
+    <circle cx="347" cy="118" r="2"/>
+  </g>
+  <ellipse cx="200" cy="195" rx="220" ry="16" fill="#8FD3E8" opacity="0.18"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">A SEASON KEPT WAITING THREE CENTURIES.</text>
+</svg>
