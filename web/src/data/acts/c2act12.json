@@ -4,7 +4,7 @@
   "title": "ACT XII",
   "subtitle": "The Crown Reaches",
   "rewardRelic": "Marshal's Baton",
-  "rewardRelicDesc": "All friendly units gain +3 attack — a baton that has commanded the Court's last army for three centuries, and still knows how to make a line hit harder.",
+  "rewardRelicDesc": "All friendly units gain +3 attack \u2014 a baton that has commanded the Court's last army for three centuries, and still knows how to make a line hit harder.",
   "environment": "camp",
   "rewardTags": [
     "forgotten",
@@ -58,7 +58,7 @@
       "Three centuries of holding taught him one thing the Pale Court never had to teach: a last army does not get to lose twice. He has not yet decided if the Worldmender is the reason it finally does."
     ],
     "priorRunOpenings": [
-      "The reach threshold was already fortified when you reached it, same as always — the line remembers being crossed even when it doesn't remember by whom.",
+      "The reach threshold was already fortified when you reached it, same as always \u2014 the line remembers being crossed even when it doesn't remember by whom.",
       "You knew the sconce-bearers' step this time. The crown company knew you knowing it.",
       "The reach ledger at the threshold already had your crossing recorded. You are becoming a familiar entry in someone's last stand.",
       "The Marshal's retinue was already holding the line when you arrived. He does not believe in being surprised twice, either."
@@ -101,7 +101,7 @@
       "panels": [
         {
           "title": "THE CROWN REACHES",
-          "text": "The reach threshold is freshly fortified — again.\n\n{pool:priorRunOpenings:0}"
+          "text": "The reach threshold is freshly fortified \u2014 again.\n\n{pool:priorRunOpenings:0}"
         },
         {
           "title": "THE WORLDMENDER",
@@ -122,7 +122,7 @@
     },
     {
       "title": "THE CROWN REACHES",
-      "text": "This is not a line built to advance. It is a line Amarath built to hold, three centuries ago, so that whatever came marching up the vigil roads would find the capital defended to the last soldier. The garrisons here are not guarding a border anymore — they are guarding the only thing the Court has left to lose.",
+      "text": "This is not a line built to advance. It is a line Amarath built to hold, three centuries ago, so that whatever came marching up the vigil roads would find the capital defended to the last soldier. The garrisons here are not guarding a border anymore \u2014 they are guarding the only thing the Court has left to lose.",
       "image": "cutscenes/c2act12-intro-2.svg"
     },
     {
@@ -139,12 +139,12 @@
     },
     {
       "title": "MARSHAL'S BATON",
-      "text": "It is a small thing to have commanded a kingdom's last army — a single baton that makes every line hit a little harder. Holding it, you understand the Marshal better than his own command ever explained him: holding a line to the last soldier is not the same as losing. Not even, it turns out, when the line finally gives way.",
+      "text": "It is a small thing to have commanded a kingdom's last army \u2014 a single baton that makes every line hit a little harder. Holding it, you understand the Marshal better than his own command ever explained him: holding a line to the last soldier is not the same as losing. Not even, it turns out, when the line finally gives way.",
       "image": "cutscenes/c2act12-outro-2.svg"
     },
     {
       "title": "THE CITY OF VIGILS AHEAD",
-      "text": "Past the reach's last fortified line, the road opens onto Amarath's capital itself — the City of Vigils, where every window still holds a candle after three centuries. Somewhere within its walls, the Vigil Queen is already deciding what the Worldmender's arrival means for a kingdom that has nothing left to hold but its own capital.",
+      "text": "Past the reach's last fortified line, the road opens onto Amarath's capital itself \u2014 the City of Vigils, where every window still holds a candle after three centuries. Somewhere within its walls, the Vigil Queen is already deciding what the Worldmender's arrival means for a kingdom that has nothing left to hold but its own capital.",
       "image": "cutscenes/c2act12-outro-3.svg"
     }
   ],
@@ -159,6 +159,7 @@
       "rowCols": 3,
       "childIds": [
         "the-crown-causeway",
+        "the-fortress-flank",
         "the-banner-ramparts"
       ],
       "handicap": 36,
@@ -179,10 +180,9 @@
       "description": "A causeway fortified so thoroughly the stones remember every siege it's survived.",
       "row": 1,
       "col": 0,
-      "rowCols": 4,
+      "rowCols": 3,
       "childIds": [
-        "the-reach-ledger",
-        "the-field-hearth"
+        "the-reach-ledger"
       ],
       "handicap": 38,
       "opponentIntervalMs": 2900,
@@ -200,10 +200,10 @@
       "id": "the-banner-ramparts",
       "type": "battle",
       "label": "The Banner Ramparts",
-      "description": "A rampart line garrisoned like the reach still needs guarding — because to the Court, it does.",
+      "description": "A rampart line garrisoned like the reach still needs guarding \u2014 because to the Court, it does.",
       "row": 1,
-      "col": 3,
-      "rowCols": 4,
+      "col": 2,
+      "rowCols": 3,
       "childIds": [
         "the-sealed-bulwark-gate",
         "the-marshal-cart"
@@ -547,6 +547,29 @@
         "The Court does not ask me to win this reach. It only asks that I hold it long enough for the capital to decide what you're worth. Let's begin."
       ],
       "bossCard": "The Pale Marshal"
+    },
+    "the-fortress-flank": {
+      "id": "the-fortress-flank",
+      "type": "battle",
+      "label": "The Fortress Flank",
+      "description": "A flanking stretch of the reach, fortified the same as the main causeway.",
+      "row": 1,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "the-field-hearth"
+      ],
+      "handicap": 38,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 304,
+      "environment": "camp",
+      "enemyDeck": [
+        "Reach Runner",
+        "Crown Sentry",
+        "Banner Herald",
+        "Reach Sconce",
+        "Reach Step"
+      ]
     }
   }
 }
