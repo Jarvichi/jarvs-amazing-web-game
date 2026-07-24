@@ -15966,6 +15966,99 @@
       "strengths": ["melee", "small"],
       "weaknesses": ["ranged", "flying"],
       "size": "large"
+    },
+    "candle-runner": {
+      "name": "Candle Runner", "attack": 4, "maxHp": 14, "isWall": false, "bypassWall": false,
+      "moveSpeed": 60, "attackRange": 5, "attackCooldownMs": 1050, "flying": false,
+      "tags": ["fast", "small"], "strengths": ["fast", "melee"], "weaknesses": ["armored", "ranged"], "size": "small"
+    },
+    "window-sentry": {
+      "name": "Window Sentry", "attack": 6, "maxHp": 19, "isWall": false, "bypassWall": false,
+      "moveSpeed": 46, "attackRange": 5, "attackCooldownMs": 1200, "flying": false,
+      "tags": ["melee"], "strengths": ["fast"], "weaknesses": ["ranged"], "size": "small"
+    },
+    "ward-herald": {
+      "name": "Ward Herald", "attack": 5, "maxHp": 22, "isWall": false, "bypassWall": false,
+      "moveSpeed": 24, "attackRange": 120, "attackCooldownMs": 1650, "flying": false,
+      "tags": ["ranged"], "strengths": ["flying"], "weaknesses": ["melee", "fast"], "size": "small"
+    },
+    "candle-sconce": {
+      "name": "Candle Sconce", "attack": 5, "maxHp": 25, "isWall": false, "bypassWall": false,
+      "moveSpeed": 0, "attackRange": 130, "attackCooldownMs": 1750, "tags": ["ranged"]
+    },
+    "ward-guard": {
+      "name": "Ward Guard", "attack": 8, "maxHp": 30, "isWall": false, "bypassWall": false,
+      "moveSpeed": 36, "attackRange": 5, "attackCooldownMs": 1350, "flying": false,
+      "tags": ["melee", "armored"], "strengths": ["fast"], "weaknesses": ["magic"], "size": "medium"
+    },
+    "window-chanter": {
+      "name": "Window Chanter", "attack": 7, "maxHp": 34, "isWall": false, "bypassWall": false,
+      "moveSpeed": 30, "attackRange": 5, "attackCooldownMs": 1350, "flying": false,
+      "tags": ["melee"], "strengths": ["ranged"], "weaknesses": ["fast"], "size": "medium"
+    },
+    "candle-archer": {
+      "name": "Candle Archer", "attack": 7, "maxHp": 20, "isWall": false, "bypassWall": false,
+      "moveSpeed": 40, "attackRange": 140, "attackCooldownMs": 1550, "flying": false,
+      "tags": ["ranged"], "strengths": ["flying"], "weaknesses": ["melee", "fast"], "size": "small"
+    },
+    "ward-courier": {
+      "name": "Ward Courier", "attack": 10, "maxHp": 32, "isWall": false, "bypassWall": false,
+      "moveSpeed": 46, "attackRange": 5, "attackCooldownMs": 1250, "flying": false,
+      "tags": ["fast", "melee"], "strengths": ["armored"], "weaknesses": ["ranged"], "size": "medium"
+    },
+    "ward-barricade": {
+      "name": "Ward Barricade", "attack": 0, "maxHp": 66, "isWall": true, "bypassWall": false,
+      "moveSpeed": 0, "attackRange": 0, "attackCooldownMs": 0, "tags": ["forgotten"]
+    },
+    "candle-foundry": {
+      "name": "Candle Foundry", "attack": 0, "maxHp": 22, "isWall": false, "bypassWall": false,
+      "moveSpeed": 0, "attackRange": 0, "attackCooldownMs": 0,
+      "structureEffect": {"type": "mana", "amount": 1}, "tags": ["forgotten"]
+    },
+    "ward-automaton": {
+      "name": "Ward Automaton", "attack": 0, "maxHp": 33, "isWall": false, "bypassWall": false,
+      "moveSpeed": 0, "attackRange": 0, "attackCooldownMs": 99999,
+      "structureEffect": {"type": "spawn", "unitTemplateRef": "candle-runner", "intervalMs": 11500}, "tags": ["forgotten"]
+    },
+    "candle-watchtower": {
+      "name": "Candle Watchtower", "attack": 6, "maxHp": 40, "isWall": false, "bypassWall": false,
+      "moveSpeed": 0, "attackRange": 180, "attackCooldownMs": 2000, "tags": ["ranged"]
+    },
+    "sealed-chantry": {
+      "name": "Sealed Chantry", "attack": 0, "maxHp": 94, "isWall": true, "bypassWall": false,
+      "moveSpeed": 0, "attackRange": 0, "attackCooldownMs": 0, "tags": ["forgotten"]
+    },
+    "ward-vanguard": {
+      "name": "Ward Vanguard", "attack": 13, "maxHp": 50, "isWall": false, "bypassWall": false,
+      "moveSpeed": 34, "attackRange": 5, "attackCooldownMs": 1400, "flying": false,
+      "tags": ["melee", "armored"], "strengths": ["fast"], "weaknesses": ["magic"], "size": "large"
+    },
+    "choir-of-the-candles": {
+      "name": "Choir of the Candles", "attack": 9, "maxHp": 34, "isWall": false, "bypassWall": false,
+      "moveSpeed": 28, "attackRange": 160, "attackCooldownMs": 2000, "flying": false,
+      "tags": ["ranged", "magic"], "strengths": ["armored"], "weaknesses": ["fast", "melee"], "size": "medium"
+    },
+    "candle-sentry": {
+      "name": "Candle Sentry", "attack": 0, "maxHp": 50, "isWall": false, "bypassWall": false,
+      "moveSpeed": 0, "attackRange": 0, "attackCooldownMs": 99999,
+      "structureEffect": {"type": "spawn", "unitTemplateRef": "candle-runner", "intervalMs": 9500}, "tags": ["forgotten"]
+    },
+    "candlebound-knight": {
+      "name": "Candlebound Knight", "attack": 17, "maxHp": 70, "isWall": false, "bypassWall": false,
+      "moveSpeed": 30, "attackRange": 5, "attackCooldownMs": 1550, "flying": false,
+      "tags": ["melee", "armored", "large"], "strengths": ["melee", "small"], "weaknesses": ["magic", "flying"],
+      "size": "large", "unitTrait": {"guardBase": true, "baseGuardRange": 95, "engageRange": 195}
+    },
+    "the-last-vigil": {
+      "name": "The Last Vigil", "attack": 12, "maxHp": 47, "isWall": false, "bypassWall": true,
+      "moveSpeed": 55, "attackRange": 65, "attackCooldownMs": 1650, "flying": true,
+      "tags": ["flying", "magic"], "strengths": ["melee", "armored"], "weaknesses": ["ranged"], "size": "large"
+    },
+    "the-vigil-queen": {
+      "name": "The Vigil Queen", "attack": 20, "maxHp": 98, "isWall": false, "bypassWall": false,
+      "moveSpeed": 26, "attackRange": 5, "attackCooldownMs": 1450, "flying": true,
+      "tags": ["flying", "large", "magic"], "strengths": ["melee", "small"], "weaknesses": ["ranged"],
+      "size": "large"
     }
   },
   "cards": [
@@ -27697,6 +27790,281 @@
       "deckCount": 0,
       "tags": ["forgotten", "reaches"],
       "lore": "The Court gave him the last army it had. He has never once needed reminding which reach still needs holding."
+    },
+    {
+      "name": "Candle Runner",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "candle-runner",
+      "description": "A quick-footed courier who crosses the City of Vigils by the candlelit back-ways the Court never mapped.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "She has run the same back-way three centuries running and never once let her candle gutter out."
+    },
+    {
+      "name": "Window Sentry",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "window-sentry",
+      "description": "A watcher posted at a window that has held the same candle since before the Fracture.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "He has never once let the candle behind him go dark, and he does not intend to start tonight."
+    },
+    {
+      "name": "Ward Herald",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "ward-herald",
+      "description": "A crier who carries the Queen's word from ward to ward, one lit window at a time.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "Every ward has a herald and every herald has the same word: hold, and keep holding."
+    },
+    {
+      "name": "Candle Sconce",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "candle-sconce",
+      "description": "A sconce mounted at a ward gate, its flame doubling as a watch-light for the city's vigil.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "It has burned since the Return and has never once needed relighting."
+    },
+    {
+      "name": "Wick Balm",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "upgrade",
+      "upgradeEffect": {"type": "buffHeal", "amount": 7},
+      "description": "Heals all friendly units by 7.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "Rendered from candle-wax kept warm by a city that has never once let its own light go out."
+    },
+    {
+      "name": "Candle Step",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "upgrade",
+      "upgradeEffect": {"type": "buffSpeed", "amount": 11},
+      "description": "All friendly units move faster, crossing the city at the vigil's own pace.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "A charm cut from a window-sconce, carried at a pace that outlasts the candle it was cut from."
+    },
+    {
+      "name": "Ward Guard",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "ward-guard",
+      "description": "A guard who has held the same ward gate for three centuries, never once needing to be relieved.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "The Queen never asked him to hold this gate forever. He decided that himself."
+    },
+    {
+      "name": "Window Chanter",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "window-chanter",
+      "description": "A chanter who keeps the vigil-rite audible from every lit window in the ward.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "She has sung the same rite from the same window for three centuries and never once lost the tune."
+    },
+    {
+      "name": "Candle Archer",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "candle-archer",
+      "description": "An archer who shoots by candlelight, trained to hit what the dark would otherwise hide.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "She has never once needed a second candle to find her mark."
+    },
+    {
+      "name": "Ward Courier",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "ward-courier",
+      "description": "A courier who carries the Queen's orders faster than the candles can be relit behind her.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "She has outrun every messenger the Court ever fielded against her, and never once been caught carrying the wrong word."
+    },
+    {
+      "name": "Ward Barricade",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unitRef": "ward-barricade",
+      "description": "A barricade raised at a ward's border, built to hold long after the candles behind it gutter.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "It has held its ward for three centuries and never once needed to be told why."
+    },
+    {
+      "name": "Candle Foundry",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unitRef": "candle-foundry",
+      "description": "A foundry that casts candles by the thousand, one flame for every window the city still keeps lit.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "It has never once run short, not in three centuries of asking."
+    },
+    {
+      "name": "Ward Automaton",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unitRef": "ward-automaton",
+      "description": "A clockwork sentinel that walks a ward's rounds so the living watch never has to sleep.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "It has walked the same rounds for three centuries and never once needed reminding of the route."
+    },
+    {
+      "name": "Candle Watchtower",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unitRef": "candle-watchtower",
+      "description": "A watchtower whose beacon is visible from every ward in the city, a candle the size of a building.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "It has burned in sight of every ward for three centuries and never once been allowed to gutter."
+    },
+    {
+      "name": "Sealed Chantry",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unitRef": "sealed-chantry",
+      "description": "A chantry sealed against everything but the vigil-rite itself, its candles burning behind locked doors.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "The Court sealed it three centuries ago and has never once needed to unseal it since."
+    },
+    {
+      "name": "Ward Draught",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {"type": "buffMaxHp", "amount": 9},
+      "description": "All friendly units gain +9 max HP.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "Brewed in every ward-house in the city, from a recipe that has never once needed changing."
+    },
+    {
+      "name": "Candle Lens",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {"type": "buffRange", "amount": 16},
+      "description": "All friendly ranged units gain +16 range.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "A lens ground to catch every candle's light across the width of the city, and lose none of it."
+    },
+    {
+      "name": "Window Toll",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "upgrade",
+      "upgradeEffect": {"type": "aoe", "damage": 7, "range": 105},
+      "description": "Deals 7 damage to all enemies within range.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "The toll a lit window charges anything that tries to cross the ward beneath it uninvited."
+    },
+    {
+      "name": "Ward Vanguard",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "ward-vanguard",
+      "description": "An armored vanguard who leads every ward's answer to the Worldmender's crossing.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "She has led the same ward's line for three centuries and never once needed to be told to fall back."
+    },
+    {
+      "name": "Choir of the Candles",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "choir-of-the-candles",
+      "description": "A choir that sings the vigil-rite by every lit window in the city at once, one voice to a candle.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "It has sung the same rite from the same thousand windows for three centuries and never once gone silent."
+    },
+    {
+      "name": "Candle Sentry",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "candle-sentry",
+      "description": "A sentry post that lights a fresh runner from its own candle every watch, never letting the ward go uncovered.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "It has kept the same watch for three centuries and never once let the flame gutter between runners."
+    },
+    {
+      "name": "Ward Writ",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "upgrade",
+      "upgradeEffect": {"type": "buffMaxHp", "amount": 13},
+      "description": "All friendly units gain +13 max HP.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "A writ signed by the Queen and sealed by every ward-captain in the city, promising no candle stands alone."
+    },
+    {
+      "name": "Candlebound Knight",
+      "rarity": "epic",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "candlebound-knight",
+      "description": "A knight sworn to a single candle, and to the ward that candle has watched over for three centuries.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "He was sworn to a candle once, and only a candle. Something in three centuries of watching taught him to want more."
+    },
+    {
+      "name": "The Last Vigil",
+      "rarity": "epic",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "the-last-vigil",
+      "description": "The city's oldest watch given wings, flying its rounds over a capital that answers only to the Queen it was raised for.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "It was a candle once, and only a candle. Something in the long watch taught it to fly."
+    },
+    {
+      "name": "The Vigil Queen",
+      "rarity": "legendary",
+      "cost": 7,
+      "cardType": "unit",
+      "unitRef": "the-vigil-queen",
+      "description": "The Court's own sovereign of the vigil-rite — every window in her capital lit, and every one of them hers to command.",
+      "deckCount": 0,
+      "tags": ["forgotten", "vigilcity"],
+      "lore": "The Court gave her a capital to keep. She has never once needed reminding which city still needs holding."
     }
   ],
   "heroCards": [
@@ -28463,6 +28831,31 @@
       "heroEffect": { "type": "buffAttack", "amount": 5 },
       "description": "HERO: Deploys the Reach Breaker — a line-breaker who found the one gap in the Court's last fortified reach. All units gain +5 attack.",
       "lore": "She broke a line the Marshal swore couldn't be broken, and the reach has never once closed the gap she made. She breaks lines for Jarv now the same way."
+    },
+    {
+      "id": "hero-vigil-knight",
+      "name": "Vigil Knight",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "unit",
+      "isHero": true,
+      "unit": {
+        "name": "Vigil Knight",
+        "attack": 11,
+        "maxHp": 55,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 32,
+        "attackRange": 5,
+        "attackCooldownMs": 1300,
+        "flying": false,
+        "tags": ["melee", "armored"],
+        "size": "medium",
+        "unitTrait": { "guardBase": true, "baseGuardRange": 90, "engageRange": 185 }
+      },
+      "heroEffect": { "type": "buffMaxHp", "amount": 15 },
+      "description": "HERO: Deploys the Vigil Knight — a knight who has kept watch over the City of Vigils for three centuries and never once let a candle go dark. All units gain +15 max HP.",
+      "lore": "He has stood the same watch since before the Fracture, and outlasted every reason the Court gave him for standing it. He stands watch for Jarv now the same way."
     }
   ]
 }
