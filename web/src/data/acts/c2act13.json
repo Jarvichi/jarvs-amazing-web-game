@@ -3,7 +3,7 @@
   "title": "ACT XIII",
   "subtitle": "The City of Vigils",
   "rewardRelic": "Queen's Candle",
-  "rewardRelicDesc": "All friendly units gain +4 max HP and heal 2 HP every 6 seconds in battle — a candle that has never once been allowed to gutter out.",
+  "rewardRelicDesc": "All friendly units gain +4 max HP and heal 2 HP every 6 seconds in battle \u2014 a candle that has never once been allowed to gutter out.",
   "environment": "citadel",
   "rewardTags": [
     "forgotten",
@@ -53,11 +53,11 @@
     ],
     "vigilqueenDesc": [
       "The Vigil Queen has kept this city lit longer than any sovereign still counting windows, and she has never once let a single one go dark.",
-      "She does not hold the city the way the Marshal held a reach. She keeps it — candle by candle, ward by ward, making sure the Court still has a capital worth deciding anything about.",
+      "She does not hold the city the way the Marshal held a reach. She keeps it \u2014 candle by candle, ward by ward, making sure the Court still has a capital worth deciding anything about.",
       "Three centuries of keeping taught her one thing the Pale Court never had to teach: a last capital does not get to go dark twice. She has not yet decided if the Worldmender is the reason it finally does."
     ],
     "priorRunOpenings": [
-      "The city gate was already lit when you reached it, same as always — the wards remember being crossed even when they don't remember by whom.",
+      "The city gate was already lit when you reached it, same as always \u2014 the wards remember being crossed even when they don't remember by whom.",
       "You knew the ward-guards' rounds this time. The palace guard knew you knowing them.",
       "The ward registry at the gate already had your crossing recorded. You are becoming a familiar entry in someone's last capital.",
       "The Queen's retinue was already keeping the wards when you arrived. She does not believe in being surprised twice, either."
@@ -100,7 +100,7 @@
       "panels": [
         {
           "title": "THE CITY OF VIGILS",
-          "text": "The city gate is freshly lit — again.\n\n{pool:priorRunOpenings:0}"
+          "text": "The city gate is freshly lit \u2014 again.\n\n{pool:priorRunOpenings:0}"
         },
         {
           "title": "THE WORLDMENDER",
@@ -116,12 +116,12 @@
   "intro": [
     {
       "title": "MARSHAL'S BATON",
-      "text": "The Marshal's line stood down at your back, and the baton he pressed into your hand still makes every stand hit a little harder. Past the reach's last fortified line, the road opens onto Amarath's capital itself — the City of Vigils, where every window still holds a candle after three centuries.",
+      "text": "The Marshal's line stood down at your back, and the baton he pressed into your hand still makes every stand hit a little harder. Past the reach's last fortified line, the road opens onto Amarath's capital itself \u2014 the City of Vigils, where every window still holds a candle after three centuries.",
       "image": "cutscenes/c2act13-intro-1.svg"
     },
     {
       "title": "THE CITY OF VIGILS",
-      "text": "This is not a city that forgot to go dark. It is a city that decided, three centuries ago, that going dark was the one thing it would never do again. The wards here are not guarding a border or a reach anymore — they are guarding the only capital the Court has left to lose.",
+      "text": "This is not a city that forgot to go dark. It is a city that decided, three centuries ago, that going dark was the one thing it would never do again. The wards here are not guarding a border or a reach anymore \u2014 they are guarding the only capital the Court has left to lose.",
       "image": "cutscenes/c2act13-intro-2.svg"
     },
     {
@@ -138,12 +138,12 @@
     },
     {
       "title": "QUEEN'S CANDLE",
-      "text": "It is a small thing to have kept a kingdom's last capital lit — a single candle that never quite goes out, and never quite lets what stands near it go out either. Holding it, you understand the Queen better than her own city ever explained her: keeping a light lit to the last window is not the same as being safe. Not even, it turns out, when the light finally goes to someone else's hand.",
+      "text": "It is a small thing to have kept a kingdom's last capital lit \u2014 a single candle that never quite goes out, and never quite lets what stands near it go out either. Holding it, you understand the Queen better than her own city ever explained her: keeping a light lit to the last window is not the same as being safe. Not even, it turns out, when the light finally goes to someone else's hand.",
       "image": "cutscenes/c2act13-outro-2.svg"
     },
     {
       "title": "THE THRONE AHEAD",
-      "text": "Past the city's dimming wards, a single stair climbs toward the vigil chamber at the heart of the capital — the last room in Amarath that has never once been opened to anyone outside the Court. Somewhere within it, the Vigil King is still holding the rite that has held this kingdom together since the Fracture, and he has not yet decided what the Worldmender's arrival means for a vigil he has never once been asked to end.",
+      "text": "Past the city's dimming wards, a single stair climbs toward the vigil chamber at the heart of the capital \u2014 the last room in Amarath that has never once been opened to anyone outside the Court. Somewhere within it, the Vigil King is still holding the rite that has held this kingdom together since the Fracture, and he has not yet decided what the Worldmender's arrival means for a vigil he has never once been asked to end.",
       "image": "cutscenes/c2act13-outro-3.svg"
     }
   ],
@@ -158,6 +158,7 @@
       "rowCols": 3,
       "childIds": [
         "the-candlelit-colonnade",
+        "the-lantern-flank",
         "the-ward-approach"
       ],
       "handicap": 40,
@@ -178,7 +179,7 @@
       "description": "A colonnade lined with sconces that have never once been allowed to gutter.",
       "row": 1,
       "col": 0,
-      "rowCols": 4,
+      "rowCols": 3,
       "childIds": [
         "the-ward-registry",
         "the-chantry-hearth"
@@ -199,10 +200,10 @@
       "id": "the-ward-approach",
       "type": "battle",
       "label": "The Ward Approach",
-      "description": "An approach garrisoned like the city still needs guarding — because to the Court, it does.",
+      "description": "An approach garrisoned like the city still needs guarding \u2014 because to the Court, it does.",
       "row": 1,
-      "col": 3,
-      "rowCols": 4,
+      "col": 2,
+      "rowCols": 3,
       "childIds": [
         "the-sealed-vigil-archive",
         "the-candle-market"
@@ -308,7 +309,7 @@
       "col": 2,
       "rowCols": 4,
       "childIds": [
-        "the-ward-line"
+        "the-palace-guard"
       ],
       "eventConfig": {
         "title": "The Sealed Vigil Archive",
@@ -374,7 +375,7 @@
       "col": 3,
       "rowCols": 4,
       "childIds": [
-        "the-ward-line"
+        "the-palace-guard"
       ]
     },
     "the-palace-guard": {
@@ -384,9 +385,9 @@
       "description": "A file of Court soldiers holding formation in the last ward the capital has left.",
       "row": 3,
       "col": 0,
-      "rowCols": 4,
+      "rowCols": 2,
       "childIds": [
-        "the-deep-wards"
+        "the-ward-line"
       ],
       "handicap": 46,
       "opponentIntervalMs": 2700,
@@ -409,9 +410,9 @@
       "description": "A founding charter of the city's first ward wards.",
       "row": 3,
       "col": 1,
-      "rowCols": 4,
+      "rowCols": 2,
       "childIds": [
-        "the-deep-wards"
+        "the-ward-line"
       ],
       "fragmentId": "c2act13-frag-1",
       "environment": "citadel"
@@ -421,11 +422,13 @@
       "type": "elite",
       "label": "The Ward Line",
       "description": "A line of guards who never got new orders when the city became the Court's last one.",
-      "row": 3,
-      "col": 3,
-      "rowCols": 4,
+      "row": 4,
+      "col": 0,
+      "rowCols": 1,
       "childIds": [
-        "the-last-lit-ward"
+        "the-deep-wards",
+        "the-last-lit-ward",
+        "the-far-ward"
       ],
       "handicap": 46,
       "opponentIntervalMs": 2700,
@@ -446,9 +449,9 @@
       "type": "battle",
       "label": "The Deep Wards",
       "description": "A stretch of ward lit deep enough that even the mist stops following.",
-      "row": 4,
+      "row": 5,
       "col": 0,
-      "rowCols": 4,
+      "rowCols": 3,
       "childIds": [
         "the-final-sconce"
       ],
@@ -470,9 +473,9 @@
       "type": "battle",
       "label": "The Last Lit Ward",
       "description": "The final lit line before the Queen's own vigil chamber.",
-      "row": 4,
-      "col": 3,
-      "rowCols": 4,
+      "row": 5,
+      "col": 1,
+      "rowCols": 3,
       "childIds": [
         "the-final-sconce",
         "mem-c2act13-2"
@@ -495,7 +498,7 @@
       "type": "rest",
       "label": "The Final Sconce",
       "description": "The last lit line before the Queen's own vigil chamber. Someone has already lit its candles.",
-      "row": 5,
+      "row": 6,
       "col": 0,
       "rowCols": 2,
       "childIds": [
@@ -508,7 +511,7 @@
       "type": "memory",
       "label": "Memory Fragment",
       "description": "A ward-guard's log from the night the last capital learned it was the last.",
-      "row": 5,
+      "row": 6,
       "col": 1,
       "rowCols": 2,
       "childIds": [
@@ -522,7 +525,7 @@
       "type": "boss",
       "label": "The Vigil Queen",
       "description": "Three centuries of keeping end here, before a sovereign who decides whether the Court has a capital left at all.",
-      "row": 6,
+      "row": 7,
       "col": 0,
       "rowCols": 1,
       "childIds": [],
@@ -546,6 +549,52 @@
         "The Court does not ask me to win this city. It only asks that I keep it lit long enough for the vigil chamber to decide what you're worth. Let's begin."
       ],
       "bossCard": "The Vigil Queen"
+    },
+    "the-lantern-flank": {
+      "id": "the-lantern-flank",
+      "type": "battle",
+      "label": "The Lantern Flank",
+      "description": "A flanking approach lit by lanterns instead of sconces, guarded the same as any ward.",
+      "row": 1,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "the-chantry-hearth"
+      ],
+      "handicap": 42,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 318,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Candle Runner",
+        "Ward Herald",
+        "Window Sentry",
+        "Candle Sconce",
+        "Candle Step"
+      ]
+    },
+    "the-far-ward": {
+      "id": "the-far-ward",
+      "type": "battle",
+      "label": "The Far Ward",
+      "description": "A ward further from the palace than the registry admits patrolling.",
+      "row": 5,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "mem-c2act13-2"
+      ],
+      "handicap": 48,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 346,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Ward Guard",
+        "Ward Barricade",
+        "Ward Courier",
+        "Candle Archer",
+        "Candle Watchtower"
+      ]
     }
   }
 }
