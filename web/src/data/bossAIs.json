@@ -2664,5 +2664,103 @@
         ]
       }
     ]
+  },
+  {
+    "id": "palemarshal",
+    "intervalMs": 4800,
+    "idleMessage": "The last army the Court has left does not break formation for anyone…",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE PALE MARSHAL steps to the front of a line that has held the same reach for three centuries.",
+      "\"You crossed the Vigil Roads, Worldmender. The Master gave you a rite that outlasted its reason. I give you the last army the Court has left, and I intend to make it matter.\""
+    ],
+    "trait": {
+      "name": "Marshal's Drop",
+      "implemented": true,
+      "trigger": "periodic",
+      "triggerIntervalMs": 38000,
+      "type": "jump_aoe",
+      "description": "Every 38 seconds the Pale Marshal drops from the rear of the line directly onto the player's densest cluster, dealing 9 AOE damage in a 2-tile radius and stunning survivors for 1.5 seconds.",
+      "mechanics": {
+        "invulnerableDurationMs": 2000,
+        "landingDamage": 9,
+        "landingRadiusTiles": 2,
+        "stunDurationMs": 1500,
+        "landingTarget": "player_densest_cluster"
+      },
+      "announceText": "THE PALE MARSHAL calls the drop — the commander comes down on your line!",
+      "landText": "THE MARSHAL LANDS — the last army does not miss its mark."
+    },
+    "phases": [
+      {
+        "condition": {
+          "gameTimeLt": 30000
+        },
+        "priorities": [
+          {
+            "cardType": "structure",
+            "isWall": true
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "mana"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_asc"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      },
+      {
+        "condition": {
+          "gameTimeGte": 30000,
+          "gameTimeLt": 75000
+        },
+        "priorities": [
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costGte": 4,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ],
+        "announceOnce": "\"Three centuries of holding this reach, and not one soldier under my command has ever asked why we're the last. The Master decided which vigil still deserved the road. I decide whether the Court gets a capital left to defend.\""
+      },
+      {
+        "condition": null,
+        "manaOverride": 9,
+        "maxPlaysOverride": 4,
+        "announceOnce": "\"THE COURT DOES NOT ASK ME TO WIN THIS REACH. IT ONLY ASKS THAT I HOLD IT.\"",
+        "priorities": [
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      }
+    ]
   }
 ]

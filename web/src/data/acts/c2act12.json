@@ -1,0 +1,551 @@
+{
+  "id": "c2act12",
+  "title": "ACT XII",
+  "subtitle": "The Crown Reaches",
+  "rewardRelic": "Marshal's Baton",
+  "rewardRelicDesc": "All friendly units gain +3 attack — a baton that has commanded the Court's last army for three centuries, and still knows how to make a line hit harder.",
+  "environment": "camp",
+  "rewardTags": [
+    "forgotten",
+    "reaches"
+  ],
+  "replayModifiers": [
+    {
+      "type": "enemyHpPercent",
+      "value": 15,
+      "label": "+15% enemy HP"
+    },
+    {
+      "type": "enemyIntervalReduction",
+      "value": 500,
+      "label": "Enemies act faster"
+    },
+    {
+      "type": "enemyHandBonus",
+      "value": 1,
+      "label": "Enemies start +1 card"
+    },
+    {
+      "type": "crystalBonus",
+      "value": 10,
+      "label": "+10 crystals per battle"
+    },
+    {
+      "type": "enemyHpPercent",
+      "value": 25,
+      "label": "+25% enemy HP"
+    }
+  ],
+  "startNodeIds": [
+    "reach-threshold"
+  ],
+  "variantPools": {
+    "jarvMoods": [
+      "Now, past the Vigil Roads' last marching mile, still carrying a bell that rings before the crossing even begins.",
+      "Now, the Worldmender, watching a fortified reach dig in like the capital itself is finally within reach.",
+      "Now, wondering what a kingdom does with the last army it has left, when every other line has already fallen.",
+      "Now, past the Master's fall, learning that the road was only ever the least of what stands between here and the capital."
+    ],
+    "reachDesc": [
+      "The Crown Reaches rise past the vigil road's last mile, a fortified approach where the Pale Court has dug in its last field army.",
+      "This is not a line built to advance. It is a line Amarath built to hold, three centuries ago, so that whatever came marching up the vigil roads would find the capital defended to the last soldier.",
+      "The garrisons here are not guarding a border anymore. They are guarding the only thing the Court has left to lose."
+    ],
+    "palemarshalDesc": [
+      "The Pale Marshal has held this reach longer than any commander still counting banners, and he has never once let the line break.",
+      "He does not command the reach the way the Procession Master marched a road. He holds it, stand by stand, making sure the Court has a capital left to decide anything about.",
+      "Three centuries of holding taught him one thing the Pale Court never had to teach: a last army does not get to lose twice. He has not yet decided if the Worldmender is the reason it finally does."
+    ],
+    "priorRunOpenings": [
+      "The reach threshold was already fortified when you reached it, same as always — the line remembers being crossed even when it doesn't remember by whom.",
+      "You knew the sconce-bearers' step this time. The crown company knew you knowing it.",
+      "The reach ledger at the threshold already had your crossing recorded. You are becoming a familiar entry in someone's last stand.",
+      "The Marshal's retinue was already holding the line when you arrived. He does not believe in being surprised twice, either."
+    ]
+  },
+  "midRunTemplates": [
+    "The {ordinalLower} crossing of the Crown Reaches. The banners rise a little sooner every time.",
+    "Campaign {n}. The crown garrisons have a whole stretch of reach reserved for you now, all of it already fortified.",
+    "{n} crossings counted, by the ledger at the threshold. You have stopped correcting the number.",
+    "Run {n}. The reach holds the same line every time, and every time it seems to expect you.",
+    "The {ordinalLower} stand. You know the garrison markers by name now. The reach had names for them first."
+  ],
+  "introRules": [
+    {
+      "condition": {
+        "op": "gte",
+        "value": 10
+      },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:priorRunOpenings:1}"
+        },
+        {
+          "title": "THE CROWN REACHES",
+          "text": "{pool:reachDesc:1}\n\n{pool:palemarshalDesc:1}"
+        }
+      ]
+    },
+    {
+      "condition": {
+        "op": "range",
+        "min": 2,
+        "max": 9
+      },
+      "panels": [
+        {
+          "title": "THE CROWN REACHES",
+          "text": "The reach threshold is freshly fortified — again.\n\n{pool:priorRunOpenings:0}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:reachDesc:2}"
+        },
+        {
+          "title": "THE PALE MARSHAL",
+          "text": "{pool:palemarshalDesc:0}"
+        }
+      ]
+    }
+  ],
+  "intro": [
+    {
+      "title": "PROCESSION BELL",
+      "text": "The Master's rite stood down at your back, and the bell he pressed into your palm still rings before every crossing. Past the vigil road's last mile, the ground rises into a fortified reach where the Pale Court has dug in its last field army.",
+      "image": "cutscenes/c2act12-intro-1.svg"
+    },
+    {
+      "title": "THE CROWN REACHES",
+      "text": "This is not a line built to advance. It is a line Amarath built to hold, three centuries ago, so that whatever came marching up the vigil roads would find the capital defended to the last soldier. The garrisons here are not guarding a border anymore — they are guarding the only thing the Court has left to lose.",
+      "image": "cutscenes/c2act12-intro-2.svg"
+    },
+    {
+      "title": "THE PALE MARSHAL",
+      "text": "The Court's commander of the last field army has held this reach longer than any officer still counting banners, and he has never once let the line break. He does not command the reach. He holds it, stand by stand, making sure the Court has a capital left to decide anything about.",
+      "image": "cutscenes/c2act12-intro-3.svg"
+    }
+  ],
+  "outro": [
+    {
+      "title": "THE MARSHAL'S ACCOUNTING",
+      "text": "He does not fall like a soldier who expected to win. He simply lowers his baton, and the line behind him goes still for the first time in three centuries. \"I held the last army the Court had,\" he says, \"and not one stand of it ever told me if holding was the same as winning. Tell the Court that, if it still remembers how to listen to anything that isn't its own last order.\" He presses his baton into your hand. It is still warm from his grip.",
+      "image": "cutscenes/c2act12-outro-1.svg"
+    },
+    {
+      "title": "MARSHAL'S BATON",
+      "text": "It is a small thing to have commanded a kingdom's last army — a single baton that makes every line hit a little harder. Holding it, you understand the Marshal better than his own command ever explained him: holding a line to the last soldier is not the same as losing. Not even, it turns out, when the line finally gives way.",
+      "image": "cutscenes/c2act12-outro-2.svg"
+    },
+    {
+      "title": "THE CITY OF VIGILS AHEAD",
+      "text": "Past the reach's last fortified line, the road opens onto Amarath's capital itself — the City of Vigils, where every window still holds a candle after three centuries. Somewhere within its walls, the Vigil Queen is already deciding what the Worldmender's arrival means for a kingdom that has nothing left to hold but its own capital.",
+      "image": "cutscenes/c2act12-outro-3.svg"
+    }
+  ],
+  "nodes": {
+    "reach-threshold": {
+      "id": "reach-threshold",
+      "type": "battle",
+      "label": "The Reach Threshold",
+      "description": "Where the vigil road's last mile gives way to the Court's last fortified line.",
+      "row": 0,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "the-crown-causeway",
+        "the-banner-ramparts"
+      ],
+      "handicap": 36,
+      "opponentIntervalMs": 3000,
+      "opponentBaseHp": 296,
+      "environment": "camp",
+      "enemyDeck": [
+        "Reach Runner",
+        "Banner Herald",
+        "Crown Sentry",
+        "Reach Sconce"
+      ]
+    },
+    "the-crown-causeway": {
+      "id": "the-crown-causeway",
+      "type": "battle",
+      "label": "The Crown Causeway",
+      "description": "A causeway fortified so thoroughly the stones remember every siege it's survived.",
+      "row": 1,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-reach-ledger",
+        "the-field-hearth"
+      ],
+      "handicap": 38,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 304,
+      "environment": "camp",
+      "enemyDeck": [
+        "Reach Runner",
+        "Crown Sentry",
+        "Reach Barricade",
+        "Crown Guard",
+        "Reach Step"
+      ]
+    },
+    "the-banner-ramparts": {
+      "id": "the-banner-ramparts",
+      "type": "battle",
+      "label": "The Banner Ramparts",
+      "description": "A rampart line garrisoned like the reach still needs guarding — because to the Court, it does.",
+      "row": 1,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-sealed-bulwark-gate",
+        "the-marshal-cart"
+      ],
+      "handicap": 38,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 304,
+      "environment": "camp",
+      "enemyDeck": [
+        "Banner Herald",
+        "Reach Sconce",
+        "Reach Watchtower",
+        "Crown Guard",
+        "Crown Draught"
+      ]
+    },
+    "the-reach-ledger": {
+      "id": "the-reach-ledger",
+      "type": "event",
+      "label": "The Reach Ledger",
+      "description": "A Court clerk tallying every stand held against a capital still owed its defense.",
+      "row": 2,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-crown-company",
+        "mem-c2act12-1"
+      ],
+      "eventConfig": {
+        "title": "The Reach Ledger",
+        "description": "A clerk keeps the tally at a lectern set behind the fortified line, marking every stand against a defense three centuries deep. She does not ask why you're crossing. She only asks whether you intend to be tallied.",
+        "pools": [
+          [
+            {
+              "label": "Pay the ledger's toll (lose 6 HP, gain a rare card)",
+              "consequence": "Every stand tallied costs a little of your own line. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the clerk's field-oil (gain 60 crystals)",
+              "consequence": "Oil set aside for a stand that never quite runs short. You gain 60 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 60
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest at the ledger post's brazier (heal 10 HP)",
+              "consequence": "The brazier holds the line's chill back better than it has any right to. You heal 10 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 10
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the ledger uncounted",
+              "consequence": "You leave the clerk to her tally.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-field-hearth": {
+      "id": "the-field-hearth",
+      "type": "rest",
+      "label": "The Field Hearth",
+      "description": "A garrison hearth, kept lit for reach-guards coming off a cold stand.",
+      "row": 2,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-crown-company"
+      ],
+      "restHeal": 9
+    },
+    "the-sealed-bulwark-gate": {
+      "id": "the-sealed-bulwark-gate",
+      "type": "event",
+      "label": "The Sealed Bulwark Gate",
+      "description": "A gate posting standing orders that read like they were never meant for a line this ordinary.",
+      "row": 2,
+      "col": 2,
+      "rowCols": 4,
+      "childIds": [
+        "the-banner-line"
+      ],
+      "eventConfig": {
+        "title": "The Sealed Bulwark Gate",
+        "description": "The writ nailed to the gate names every stretch of the reach and the hour each is due to hold. It is signed by the Marshal, countersigned by nobody the reach has ever met, and dated the same day the vanguard crossed the Marches.",
+        "pools": [
+          [
+            {
+              "label": "Read the sealed bulwark writ (lose 6 HP, gain a rare card)",
+              "consequence": "Every stretch named costs you something to read past. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the bulwark's oil cache (gain 70 crystals)",
+              "consequence": "A cache nobody on this line was ever going to collect. You gain 70 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 70
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest behind the bulwark's seals (heal 8 HP)",
+              "consequence": "Quieter than a fortified line has any right to be. You heal 8 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 8
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the writ unread",
+              "consequence": "Some orders are better left uncounted. You move on.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-marshal-cart": {
+      "id": "the-marshal-cart",
+      "type": "merchant",
+      "label": "The Marshal's Cart",
+      "description": "A trading cart parked on a reach that hasn't seen open trade in centuries.",
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-banner-line"
+      ]
+    },
+    "the-crown-company": {
+      "id": "the-crown-company",
+      "type": "elite",
+      "label": "The Crown Company",
+      "description": "A file of Court soldiers holding formation in the last line the capital has left.",
+      "row": 3,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-deep-reach"
+      ],
+      "handicap": 42,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 320,
+      "environment": "camp",
+      "enemyDeck": [
+        "Crown Guard",
+        "Crown Vanguard",
+        "Sealed Bulwark",
+        "Banner Toll",
+        "Banner Foundry",
+        "Choir of the Reaches"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "mem-c2act12-1": {
+      "id": "mem-c2act12-1",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A founding charter of the reach's first crown garrisons.",
+      "row": 3,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-deep-reach"
+      ],
+      "fragmentId": "c2act12-frag-1",
+      "environment": "camp"
+    },
+    "the-banner-line": {
+      "id": "the-banner-line",
+      "type": "elite",
+      "label": "The Banner Line",
+      "description": "A line of soldiers who never got new orders when the reach became the Court's last one.",
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-last-stand"
+      ],
+      "handicap": 42,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 320,
+      "environment": "camp",
+      "enemyDeck": [
+        "Banner Chanter",
+        "Crown Automaton",
+        "Reach Sentry",
+        "Marshal Writ",
+        "Choir of the Reaches",
+        "Reach Archer"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "the-deep-reach": {
+      "id": "the-deep-reach",
+      "type": "battle",
+      "label": "The Deep Reach",
+      "description": "A stretch of reach fortified deep enough that even the mist stops following.",
+      "row": 4,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-final-bulwark"
+      ],
+      "handicap": 44,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 330,
+      "environment": "camp",
+      "enemyDeck": [
+        "Crown Guard",
+        "Reach Barricade",
+        "Reach Watchtower",
+        "Marshal Courier",
+        "Banner Toll",
+        "Reach Archer"
+      ]
+    },
+    "the-last-stand": {
+      "id": "the-last-stand",
+      "type": "battle",
+      "label": "The Last Stand",
+      "description": "The final fortified line before the Marshal's own command post.",
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-final-bulwark",
+        "mem-c2act12-2"
+      ],
+      "handicap": 44,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 330,
+      "environment": "camp",
+      "enemyDeck": [
+        "Marshal Courier",
+        "Choir of the Reaches",
+        "Crownbound Knight",
+        "Marshal Writ",
+        "Reach Sentry",
+        "Banner Chanter"
+      ]
+    },
+    "the-final-bulwark": {
+      "id": "the-final-bulwark",
+      "type": "rest",
+      "label": "The Final Bulwark",
+      "description": "The last fortified line before the Marshal's own command post. Someone has already lit its sconces.",
+      "row": 5,
+      "col": 0,
+      "rowCols": 2,
+      "childIds": [
+        "palemarshal-node"
+      ],
+      "restHeal": 11
+    },
+    "mem-c2act12-2": {
+      "id": "mem-c2act12-2",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A crown-guard's log from the night the last army learned it was the last.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "palemarshal-node"
+      ],
+      "fragmentId": "c2act12-frag-2",
+      "environment": "camp"
+    },
+    "palemarshal-node": {
+      "id": "palemarshal-node",
+      "type": "boss",
+      "label": "The Pale Marshal",
+      "description": "Three centuries of holding end here, before a commander who decides whether the Court has a capital left to defend.",
+      "row": 6,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
+      "handicap": 46,
+      "opponentIntervalMs": 5000,
+      "opponentBaseHp": 352,
+      "environment": "camp",
+      "enemyDeck": [
+        "The Pale Marshal",
+        "Crown Vanguard",
+        "Crownbound Knight",
+        "The Last Banner",
+        "Choir of the Reaches",
+        "Reach Sentry",
+        "Marshal Writ"
+      ],
+      "bossAI": "palemarshal",
+      "bossDialogue": [
+        "You crossed the Vigil Roads, Worldmender. The Master gave you a rite that outlasted its reason. I give you the last army the Court has left, and I intend to make it matter.",
+        "Three centuries of holding this reach, and not one soldier under my command has ever asked why we're the last. The Master decided which vigil still deserved the road. I decide whether the Court gets a capital left to defend.",
+        "The Court does not ask me to win this reach. It only asks that I hold it long enough for the capital to decide what you're worth. Let's begin."
+      ],
+      "bossCard": "The Pale Marshal"
+    }
+  }
+}
