@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a1218"/>
+  <linearGradient id="c2fi1-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0a0810"/>
+    <stop offset="100%" stop-color="#1a1428"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2fi1-sky)"/>
+  <rect y="150" width="400" height="90" fill="#241d30"/>
+  <path d="M170,240 L185,150 L215,150 L230,240 Z" fill="#332c44"/>
+  <rect x="196" y="90" width="8" height="60" fill="#1c1712"/>
+  <g fill="#FFC94A" opacity="0.6">
+    <rect x="80" y="200" width="4" height="4"/>
+    <rect x="120" y="210" width="4" height="4"/>
+    <rect x="300" y="205" width="4" height="4"/>
+  </g>
+  <ellipse cx="200" cy="200" rx="150" ry="16" fill="#F5D061" opacity="0.15"/>
+  <g fill="#11141f">
+    <circle cx="200" cy="140" r="10"/>
+    <rect x="189" y="150" width="22" height="34" rx="4"/>
+  </g>
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THE CITY OF VIGILS ENDS. THE LAST STAIR BEGINS.</text>
+</svg>
