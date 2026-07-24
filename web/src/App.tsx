@@ -3604,7 +3604,10 @@ export default function App() {
       )}
 
       {screen === 'campaignvictory' && (
-        <CampaignVictoryScreen onBeginAnew={() => setScreen('statupgrade')} />
+        <CampaignVictoryScreen
+          onBeginAnew={() => setScreen('statupgrade')}
+          campaignId={run ? getCampaignForAct(run.actId).id : 'c1'}
+        />
       )}
 
       {screen === 'tobecontinued' && (

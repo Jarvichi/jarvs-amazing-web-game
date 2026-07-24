@@ -4,7 +4,7 @@
   "title": "ACT X",
   "subtitle": "The Bone Orchards",
   "rewardRelic": "Orchard Blossom",
-  "rewardRelicDesc": "All friendly units gain +5 max HP — a blossom grown from a grief the orchard never finished tending.",
+  "rewardRelicDesc": "All friendly units gain +5 max HP \u2014 a blossom grown from a grief the orchard never finished tending.",
   "environment": "orchard",
   "rewardTags": [
     "forgotten",
@@ -58,7 +58,7 @@
       "Three centuries of tending taught her one thing the Pale Court never had to teach: a grief kept long enough stops being sorrow and starts being love. She has not yet decided what the Worldmender is here to prune."
     ],
     "priorRunOpenings": [
-      "The orchard threshold was already tended when you reached it, same as always — the grove remembers being crossed even when it doesn't remember by whom.",
+      "The orchard threshold was already tended when you reached it, same as always \u2014 the grove remembers being crossed even when it doesn't remember by whom.",
       "You knew the root-sconces' light this time. The bonewood company knew you knowing it.",
       "The grove ledger at the threshold already had your crossing recorded. You are becoming a familiar entry in someone's tending.",
       "The Keeper's retinue was already standing among the rows when you arrived. She does not believe in being surprised twice, either."
@@ -101,7 +101,7 @@
       "panels": [
         {
           "title": "THE BONE ORCHARDS",
-          "text": "The orchard threshold is freshly tended — again.\n\n{pool:priorRunOpenings:0}"
+          "text": "The orchard threshold is freshly tended \u2014 again.\n\n{pool:priorRunOpenings:0}"
         },
         {
           "title": "THE WORLDMENDER",
@@ -122,7 +122,7 @@
     },
     {
       "title": "THE BONE ORCHARDS",
-      "text": "This is not an orchard that grew by accident. It is an orchard Amarath planted on purpose, three centuries ago, so that every grave the void claimed would have something to grow into. The garrisons here are not guarding a grove — they are guarding a grief the whole kingdom agreed to keep tending.",
+      "text": "This is not an orchard that grew by accident. It is an orchard Amarath planted on purpose, three centuries ago, so that every grave the void claimed would have something to grow into. The garrisons here are not guarding a grove \u2014 they are guarding a grief the whole kingdom agreed to keep tending.",
       "image": "cutscenes/c2act10-intro-2.svg"
     },
     {
@@ -139,7 +139,7 @@
     },
     {
       "title": "ORCHARD BLOSSOM",
-      "text": "It is a small thing to have cost a kingdom a grove's worth of grief — a single blossom that gives every friendly line a little more to hold. Holding it, you understand the Keeper better than her own tending ever explained her: a grief kept long enough doesn't stop being sorrow. It starts being love.",
+      "text": "It is a small thing to have cost a kingdom a grove's worth of grief \u2014 a single blossom that gives every friendly line a little more to hold. Holding it, you understand the Keeper better than her own tending ever explained her: a grief kept long enough doesn't stop being sorrow. It starts being love.",
       "image": "cutscenes/c2act10-outro-2.svg"
     },
     {
@@ -200,7 +200,7 @@
       "id": "the-bonewood-ramparts",
       "type": "battle",
       "label": "The Bonewood Ramparts",
-      "description": "A rampart line garrisoned like the grove still needs guarding — because to the Court, it does.",
+      "description": "A rampart line garrisoned like the grove still needs guarding \u2014 because to the Court, it does.",
       "row": 1,
       "col": 3,
       "rowCols": 4,
@@ -451,7 +451,7 @@
       "col": 0,
       "rowCols": 4,
       "childIds": [
-        "the-final-groveline"
+        "the-inner-grove-gate"
       ],
       "handicap": 40,
       "opponentIntervalMs": 2600,
@@ -475,8 +475,7 @@
       "col": 3,
       "rowCols": 4,
       "childIds": [
-        "the-final-groveline",
-        "mem-c2act10-2"
+        "the-inner-grove-gate"
       ],
       "handicap": 40,
       "opponentIntervalMs": 2600,
@@ -496,9 +495,9 @@
       "type": "rest",
       "label": "The Final Groveline",
       "description": "The last tended row before the Keeper's own ward. Someone has already trimmed it.",
-      "row": 5,
+      "row": 10,
       "col": 0,
-      "rowCols": 2,
+      "rowCols": 1,
       "childIds": [
         "orchardkeeper-node"
       ],
@@ -508,12 +507,12 @@
       "id": "mem-c2act10-2",
       "type": "memory",
       "label": "Memory Fragment",
-      "description": "A grove-tender's log from the night the orchard finally rooted.",
-      "row": 5,
+      "description": "A grove-tender's log from the night the heartwood first sealed its own gate.",
+      "row": 9,
       "col": 1,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
-        "orchardkeeper-node"
+        "the-final-groveline"
       ],
       "fragmentId": "c2act10-frag-2",
       "environment": "orchard"
@@ -523,7 +522,7 @@
       "type": "boss",
       "label": "The Orchard Keeper",
       "description": "Three centuries of tending end here, before a gardener who decides which grief still deserves company.",
-      "row": 6,
+      "row": 11,
       "col": 0,
       "rowCols": 1,
       "childIds": [],
@@ -547,6 +546,352 @@
         "The Court does not ask me to grow this orchard. It only asks that I keep every name in it from being forgotten twice. Let's begin."
       ],
       "bossCard": "The Orchard Keeper"
+    },
+    "the-inner-grove-gate": {
+      "id": "the-inner-grove-gate",
+      "type": "battle",
+      "label": "The Inner Grove Gate",
+      "description": "A second grove-gate, deeper in the orchard than any grief was ever meant to reach.",
+      "row": 5,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [
+        "the-heartwood-corridor",
+        "the-gilded-canopy",
+        "the-hollow-roots"
+      ],
+      "handicap": 41,
+      "opponentIntervalMs": 2500,
+      "opponentBaseHp": 320,
+      "environment": "orchard",
+      "enemyDeck": [
+        "Bonewood Guard",
+        "Sapling Runner",
+        "Root Sconce",
+        "Grove Tender"
+      ]
+    },
+    "the-heartwood-corridor": {
+      "id": "the-heartwood-corridor",
+      "type": "battle",
+      "label": "The Heartwood Corridor",
+      "description": "A corridor grown through the orchard's own heartwood, older than the rows around it.",
+      "row": 6,
+      "col": 0,
+      "rowCols": 3,
+      "childIds": [
+        "the-deep-ledger"
+      ],
+      "handicap": 41,
+      "opponentIntervalMs": 2500,
+      "opponentBaseHp": 320,
+      "environment": "orchard",
+      "enemyDeck": [
+        "Bonewood Guard",
+        "Root Barricade",
+        "Grove Archer",
+        "Orchard Draught"
+      ]
+    },
+    "the-gilded-canopy": {
+      "id": "the-gilded-canopy",
+      "type": "battle",
+      "label": "The Gilded Canopy",
+      "description": "A canopy gilded over for a Keeper who has not received a real guest in three centuries.",
+      "row": 6,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "the-canopy-hearth",
+        "the-sealed-heartwood-gate"
+      ],
+      "handicap": 41,
+      "opponentIntervalMs": 2500,
+      "opponentBaseHp": 320,
+      "environment": "orchard",
+      "enemyDeck": [
+        "Bonewood Scout",
+        "Bonewood Watchtower",
+        "Grove Archer",
+        "Blossom Toll"
+      ]
+    },
+    "the-hollow-roots": {
+      "id": "the-hollow-roots",
+      "type": "battle",
+      "label": "The Hollow Roots",
+      "description": "A root-hollow kept shrouded since the tending that named it stopped being spoken of.",
+      "row": 6,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "the-root-cellar-cart"
+      ],
+      "handicap": 41,
+      "opponentIntervalMs": 2500,
+      "opponentBaseHp": 320,
+      "environment": "orchard",
+      "enemyDeck": [
+        "Sapling Runner",
+        "Orchard Courier",
+        "Blossom Foundry",
+        "Root Lens"
+      ]
+    },
+    "the-deep-ledger": {
+      "id": "the-deep-ledger",
+      "type": "event",
+      "label": "The Deep Ledger",
+      "description": "A ledger kept apart from the outer grove, recording graves the first ledger was never shown.",
+      "row": 7,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-heartwood-company"
+      ],
+      "eventConfig": {
+        "title": "The Deep Ledger",
+        "description": "This ledger sits behind a gate the outer clerks do not have keys to, recording graves the Court decided the first ledger should never see. Every entry is a name that was planted twice, once in error.",
+        "pools": [
+          [
+            {
+              "label": "Read the deep ledger (lose 6 HP, gain a rare card)",
+              "consequence": "A record within a record costs more to read. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the clerk's deep cache (gain 70 crystals)",
+              "consequence": "A cache the first ledger never accounted for. You gain 70 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 70
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest behind the deep gate (heal 9 HP)",
+              "consequence": "Quieter than a grove that keeps two ledgers has any right to be. You heal 9 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 9
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the deep ledger unread",
+              "consequence": "Some graves are better left double-uncounted. You move on.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-canopy-hearth": {
+      "id": "the-canopy-hearth",
+      "type": "rest",
+      "label": "The Canopy Hearth",
+      "description": "A second hearth, kept for tenders who serve a grove nobody outside ever hears of.",
+      "row": 7,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-heartwood-company"
+      ],
+      "restHeal": 10
+    },
+    "the-sealed-heartwood-gate": {
+      "id": "the-sealed-heartwood-gate",
+      "type": "event",
+      "label": "The Sealed Heartwood Gate",
+      "description": "A second sealed gate, posting orders for a tending the outer grove was never told existed.",
+      "row": 7,
+      "col": 2,
+      "rowCols": 4,
+      "childIds": [
+        "the-root-bound-line"
+      ],
+      "eventConfig": {
+        "title": "The Sealed Heartwood Gate",
+        "description": "The writ on this gate is signed by the Keeper twice \u2014 once in the hand the outer grove knows, once in a hand nobody has seen in three hundred years. Both signatures agree on every row.",
+        "pools": [
+          [
+            {
+              "label": "Read the heartwood writ (lose 6 HP, gain a rare card)",
+              "consequence": "Two signatures cost more to read past than one. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the heartwood gate's cache (gain 70 crystals)",
+              "consequence": "A cache nobody past the outer gate was ever going to collect. You gain 70 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 70
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest behind the heartwood seals (heal 8 HP)",
+              "consequence": "Quieter than a twice-sealed gate has any right to be. You heal 8 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 8
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the heartwood writ unread",
+              "consequence": "Some orders are better left twice-uncounted. You move on.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-root-cellar-cart": {
+      "id": "the-root-cellar-cart",
+      "type": "merchant",
+      "label": "The Root Cellar Cart",
+      "description": "A second trading cart, further in than the Keeper admits any cart has reason to be.",
+      "row": 7,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-root-bound-line"
+      ]
+    },
+    "the-heartwood-company": {
+      "id": "the-heartwood-company",
+      "type": "elite",
+      "label": "The Heartwood Company",
+      "description": "A second file of Court soldiers, rooted in ground finer than anything the outer grove grows.",
+      "row": 8,
+      "col": 0,
+      "rowCols": 2,
+      "childIds": [
+        "the-last-heartwood"
+      ],
+      "handicap": 41,
+      "opponentIntervalMs": 2400,
+      "opponentBaseHp": 328,
+      "environment": "orchard",
+      "enemyDeck": [
+        "Orchard Vanguard",
+        "Bonewood Guard",
+        "Blossom Foundry",
+        "Choir of Roots",
+        "Blossom Toll",
+        "Sealed Grovehouse"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "the-root-bound-line": {
+      "id": "the-root-bound-line",
+      "type": "elite",
+      "label": "The Root-Bound Line",
+      "description": "A line of tenders bound to the roots rather than the rows, for a rank the outer orchard never named.",
+      "row": 8,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "the-last-heartwood",
+        "mem-c2act10-2",
+        "the-final-canopy"
+      ],
+      "handicap": 41,
+      "opponentIntervalMs": 2400,
+      "opponentBaseHp": 328,
+      "environment": "orchard",
+      "enemyDeck": [
+        "Root Chanter",
+        "Grove Automaton",
+        "Blossom Sentry",
+        "Grove Writ",
+        "Choir of Roots",
+        "Grove Archer"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "the-last-heartwood": {
+      "id": "the-last-heartwood",
+      "type": "battle",
+      "label": "The Last Heartwood",
+      "description": "The final heartwood stand before the Keeper receives anyone at all.",
+      "row": 9,
+      "col": 0,
+      "rowCols": 3,
+      "childIds": [
+        "the-final-groveline"
+      ],
+      "handicap": 41,
+      "opponentIntervalMs": 2400,
+      "opponentBaseHp": 328,
+      "environment": "orchard",
+      "enemyDeck": [
+        "Bonewood Guard",
+        "Root Barricade",
+        "Bonewood Watchtower",
+        "Orchard Courier",
+        "Blossom Toll"
+      ]
+    },
+    "the-final-canopy": {
+      "id": "the-final-canopy",
+      "type": "battle",
+      "label": "The Final Canopy",
+      "description": "The last canopy stand before the Keeper receives anyone at all.",
+      "row": 9,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "the-final-groveline"
+      ],
+      "handicap": 41,
+      "opponentIntervalMs": 2400,
+      "opponentBaseHp": 328,
+      "environment": "orchard",
+      "enemyDeck": [
+        "Orchard Courier",
+        "Choir of Roots",
+        "Blossom Sentry",
+        "Grove Writ",
+        "Grove Archer"
+      ]
     }
   }
 }

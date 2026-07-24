@@ -1,0 +1,576 @@
+{
+  "id": "c2finale",
+  "title": "FINALE",
+  "subtitle": "The Throne of the Unremembered",
+  "rewardRelic": "Crown of the Remembered",
+  "rewardRelicDesc": "The mark of the one who remembered a kingdom back. Your base gains +30 max HP, all units gain +6 ATK and +8 max HP, and your maximum mana is increased by 2.",
+  "environment": "vault",
+  "rewardTags": [
+    "forgotten",
+    "throne"
+  ],
+  "replayModifiers": [
+    {
+      "type": "enemyHpPercent",
+      "value": 15,
+      "label": "+15% enemy HP"
+    },
+    {
+      "type": "enemyIntervalReduction",
+      "value": 500,
+      "label": "Enemies act faster"
+    },
+    {
+      "type": "enemyHandBonus",
+      "value": 1,
+      "label": "Enemies start +1 card"
+    },
+    {
+      "type": "crystalBonus",
+      "value": 10,
+      "label": "+10 crystals per battle"
+    },
+    {
+      "type": "enemyHpPercent",
+      "value": 25,
+      "label": "+25% enemy HP"
+    }
+  ],
+  "startNodeIds": [
+    "throne-approach"
+  ],
+  "variantPools": {
+    "jarvMoods": [
+      "Now, past the City of Vigils' last dimming ward, climbing a stair that has waited three centuries for someone to climb it.",
+      "Now, the Worldmender, one door away from the only room in Amarath the Court never let outsiders see.",
+      "Now, wondering whether ending a vigil-rite and erasing a kingdom are the same act, or whether there's a third thing nobody has tried yet.",
+      "Now, past the Queen's fall, understanding that the throne was never the Court's — it was always the King's alone to hold."
+    ],
+    "throneDesc": [
+      "The Throne of the Unremembered sits at the top of a single stair, in a chamber that has held one occupant for three centuries.",
+      "This is not a room built to impress a visitor. It is a room built to hold a rite steady, whatever the cost to the man reciting it.",
+      "Every candle in this chamber burns for the same reason every candle in the city below it burns: because the King decided, once, that going dark was unacceptable, and never revisited the decision."
+    ],
+    "vigilkingDesc": [
+      "The Vigil King has held this rite longer than any of his court, and he has never once asked to be relieved of it.",
+      "He does not command the Court the way the Queen commanded her city. He holds the entire kingdom in his own mind, memory by memory, so that none of it is ever fully lost.",
+      "Three centuries of holding taught him one thing his own court never had to teach: a kingdom remembered by one man is still a kingdom. He has not yet decided if the Worldmender's arrival means it can finally be remembered by more than one."
+    ],
+    "priorRunOpenings": [
+      "The last stair was already climbed when you reached it, same as always — the chamber remembers being climbed even when it doesn't remember by whom.",
+      "You knew the rite's cadence this time. The chamber knew you knowing it.",
+      "The vigil archive at the landing already had your crossing recorded. You are becoming a familiar name in a kingdom that forgets nothing.",
+      "The King's retinue was already holding the chamber when you arrived. He does not believe in being surprised twice, either."
+    ]
+  },
+  "midRunTemplates": [
+    "The {ordinalLower} climb to the Throne of the Unremembered. The candles light a little sooner every time.",
+    "Campaign {n}. The chamber has a whole page in its own ledger reserved for you now.",
+    "{n} climbs counted, by the vigil archive. You have stopped correcting the number.",
+    "Run {n}. The stair is the same length every time, and every time it feels like it already expects you.",
+    "The {ordinalLower} vigil. You know the chamber's every candle by now. The King had names for them first."
+  ],
+  "introRules": [
+    {
+      "condition": {
+        "op": "gte",
+        "value": 10
+      },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:priorRunOpenings:1}"
+        },
+        {
+          "title": "THE THRONE OF THE UNREMEMBERED",
+          "text": "{pool:throneDesc:1}\n\n{pool:vigilkingDesc:1}"
+        }
+      ]
+    },
+    {
+      "condition": {
+        "op": "range",
+        "min": 2,
+        "max": 9
+      },
+      "panels": [
+        {
+          "title": "THE THRONE OF THE UNREMEMBERED",
+          "text": "The last stair is freshly lit — again.\n\n{pool:priorRunOpenings:0}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:throneDesc:2}"
+        },
+        {
+          "title": "THE VIGIL KING",
+          "text": "{pool:vigilkingDesc:0}"
+        }
+      ]
+    }
+  ],
+  "intro": [
+    {
+      "title": "QUEEN'S CANDLE",
+      "text": "The Vigil Queen's light stood down at your back, and her candle still burns in your hand, never quite guttering. Past the city's dimming wards, a single stair climbs toward the vigil chamber at the heart of the capital — the last room in Amarath that has never once been opened to anyone outside the Court.",
+      "image": "cutscenes/c2finale-intro-1.svg"
+    },
+    {
+      "title": "THE THRONE OF THE UNREMEMBERED",
+      "text": "This is not a room built to impress a visitor. It is a room built to hold a rite steady, whatever the cost to the man reciting it. Every candle in this chamber burns for the same reason every candle in the city below it burns: because the King decided, once, that going dark was unacceptable, and never revisited the decision.",
+      "image": "cutscenes/c2finale-intro-2.svg"
+    },
+    {
+      "title": "THE VIGIL KING",
+      "text": "The monarch whose vigil-rite has held Amarath together in the void for three centuries has never once asked to be relieved of it. He does not command the Court the way the Queen commanded her city. He holds the entire kingdom in his own mind, memory by memory, so that none of it is ever fully lost. He has not yet decided what the Worldmender's arrival means for a vigil he has never once been asked to end.",
+      "image": "cutscenes/c2finale-intro-3.svg"
+    }
+  ],
+  "outro": [
+    {
+      "title": "THE RITE ENDS",
+      "text": "The Vigil King does not fall so much as finally set something down. The chamber's thousand candles gutter all at once, and for the first time in three centuries, the silence in the room is not part of the rite. \"I held this kingdom in my own mind because no one else's would hold it,\" he says. \"Tell me you have a better place to put it, Worldmender. Tell me remembering doesn't have to mean one man, alone, forever.\"",
+      "image": "cutscenes/c2finale-outro-1.svg"
+    },
+    {
+      "title": "CROWN OF THE REMEMBERED",
+      "text": "He presses his crown into your hands — not a weapon, not a relic of war, but the plain, worn circlet of someone who spent three centuries being the only witness to his own kingdom. Wearing it, you understand: the rite was never about holding Amarath apart from the world. It was about making sure that when the world was ready to remember, there would still be something left to remember.",
+      "image": "cutscenes/c2finale-outro-2.svg"
+    },
+    {
+      "title": "THE KINGDOM REMEMBERED",
+      "text": "Word travels faster than any road: Amarath is written back onto every map in the Dominion, its border towns, its candle-lit capital, its King who no longer has to hold the whole of it alone. The Fracture took a kingdom and gave it back changed. Somewhere, in ledgers nobody has opened yet, other maps still show other blank quarters — other things the Fracture erased, still waiting to be found. But that is a crossing for another day. Today, Amarath is remembered.",
+      "image": "cutscenes/c2finale-outro-3.svg"
+    }
+  ],
+  "nodes": {
+    "throne-approach": {
+      "id": "throne-approach",
+      "type": "battle",
+      "label": "The Throne Approach",
+      "description": "Where the city's last dimming ward gives way to the single stair leading to the vigil chamber.",
+      "row": 0,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [
+        "the-last-stair"
+      ],
+      "handicap": 52,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 378,
+      "environment": "vault",
+      "enemyDeck": [
+        "Throne Runner",
+        "Rite Sentry",
+        "Diadem Bearer",
+        "Throne Sconce"
+      ]
+    },
+    "the-last-stair": {
+      "id": "the-last-stair",
+      "type": "battle",
+      "label": "The Last Stair",
+      "description": "A stair worn smooth by three centuries of the same rite climbing it, alone.",
+      "row": 1,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [
+        "the-vigil-archive",
+        "the-hall-of-recitation",
+        "the-sealed-chamber-gate"
+      ],
+      "handicap": 54,
+      "opponentIntervalMs": 2800,
+      "opponentBaseHp": 386,
+      "environment": "vault",
+      "enemyDeck": [
+        "Throne Runner",
+        "Rite Sentry",
+        "Throne Barricade",
+        "Rite Guard",
+        "Rite Step"
+      ]
+    },
+    "the-vigil-archive": {
+      "id": "the-vigil-archive",
+      "type": "event",
+      "label": "The Vigil Archive",
+      "description": "A landing archive tallying every climb made toward a chamber that has never once turned a visitor away alive.",
+      "row": 2,
+      "col": 0,
+      "rowCols": 3,
+      "childIds": [
+        "the-reliquary-hearth"
+      ],
+      "eventConfig": {
+        "title": "The Vigil Archive",
+        "description": "The archive at the landing keeps no clerk — only a ledger that fills itself, marking every climb against a vigil three centuries deep. It does not ask why you're climbing. It only asks whether you intend to be recorded.",
+        "pools": [
+          [
+            {
+              "label": "Read the vigil archive (lose 6 HP, gain a rare card)",
+              "consequence": "Every climb recorded costs a little of your own breath. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the archive's wax stipend (gain 60 crystals)",
+              "consequence": "Wax set aside for a vigil that never quite runs short. You gain 60 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 60
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest at the landing's brazier (heal 10 HP)",
+              "consequence": "The brazier holds the stair's chill back better than it has any right to. You heal 10 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 10
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the archive uncounted",
+              "consequence": "You leave the ledger to fill itself.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-hall-of-recitation": {
+      "id": "the-hall-of-recitation",
+      "type": "battle",
+      "label": "The Hall of Recitation",
+      "description": "A hall where the vigil-rite is spoken aloud in shifts, so the King never has to say it alone.",
+      "row": 2,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "the-reliquary-hearth",
+        "the-regalia-cart"
+      ],
+      "handicap": 54,
+      "opponentIntervalMs": 2800,
+      "opponentBaseHp": 386,
+      "environment": "vault",
+      "enemyDeck": [
+        "Diadem Chanter",
+        "Rite Guard",
+        "Choir of the Remembered",
+        "Rite Lens",
+        "Throne Archer"
+      ]
+    },
+    "the-sealed-chamber-gate": {
+      "id": "the-sealed-chamber-gate",
+      "type": "event",
+      "label": "The Sealed Chamber Gate",
+      "description": "A gate posting vigil orders that read like they were never meant for a stair this ordinary.",
+      "row": 2,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "the-regalia-cart"
+      ],
+      "eventConfig": {
+        "title": "The Sealed Chamber Gate",
+        "description": "The writ nailed to the gate names every hour of the rite and the verse it is due to hold. It is signed by the King himself, countersigned by nobody the chamber has ever met, and dated the same day the Court first sealed this stair.",
+        "pools": [
+          [
+            {
+              "label": "Read the sealed chamber writ (lose 6 HP, gain a rare card)",
+              "consequence": "Every verse named costs you something to read past. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the gate's reliquary cache (gain 70 crystals)",
+              "consequence": "A cache nobody on this stair was ever going to collect. You gain 70 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 70
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest behind the chamber's seals (heal 8 HP)",
+              "consequence": "Quieter than a sealed stair has any right to be. You heal 8 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 8
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the writ unread",
+              "consequence": "Some orders are better left uncounted. You move on.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-reliquary-hearth": {
+      "id": "the-reliquary-hearth",
+      "type": "rest",
+      "label": "The Reliquary Hearth",
+      "description": "A hearth kept for rite-keepers coming off a long recitation.",
+      "row": 3,
+      "col": 0,
+      "rowCols": 2,
+      "childIds": [
+        "the-rite-company",
+        "mem-c2finale-1"
+      ],
+      "restHeal": 11
+    },
+    "the-regalia-cart": {
+      "id": "the-regalia-cart",
+      "type": "merchant",
+      "label": "The Regalia Cart",
+      "description": "A trading cart parked on a stair that hasn't seen open trade in centuries.",
+      "row": 3,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "the-diadem-line"
+      ]
+    },
+    "the-rite-company": {
+      "id": "the-rite-company",
+      "type": "elite",
+      "label": "The Rite Company",
+      "description": "A file of Court soldiers holding the last stair in the same formation for three centuries.",
+      "row": 4,
+      "col": 0,
+      "rowCols": 3,
+      "childIds": [
+        "the-final-stair"
+      ],
+      "handicap": 58,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 404,
+      "environment": "vault",
+      "enemyDeck": [
+        "Rite Guard",
+        "Rite Vanguard",
+        "Sealed Reliquary",
+        "Diadem Toll",
+        "Diadem Foundry",
+        "Choir of the Remembered"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "mem-c2finale-1": {
+      "id": "mem-c2finale-1",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A founding charter of the vigil-rite itself, the first day the King decided to hold it alone.",
+      "row": 4,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "the-final-stair",
+        "the-last-vigil-hall"
+      ],
+      "fragmentId": "c2finale-frag-1",
+      "environment": "vault"
+    },
+    "the-diadem-line": {
+      "id": "the-diadem-line",
+      "type": "elite",
+      "label": "The Diadem Line",
+      "description": "A line of courtiers who never got new orders when the rite outlasted every reason for it.",
+      "row": 4,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "the-last-vigil-hall",
+        "the-outer-stair"
+      ],
+      "handicap": 58,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 404,
+      "environment": "vault",
+      "enemyDeck": [
+        "Diadem Chanter",
+        "Rite Automaton",
+        "Throne Sentry",
+        "Regalia Writ",
+        "Choir of the Remembered",
+        "Throne Archer"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "the-final-stair": {
+      "id": "the-final-stair",
+      "type": "battle",
+      "label": "The Final Stair",
+      "description": "The last stretch of stair before the chamber's own threshold.",
+      "row": 5,
+      "col": 0,
+      "rowCols": 3,
+      "childIds": [
+        "the-threshold-of-remembrance"
+      ],
+      "handicap": 60,
+      "opponentIntervalMs": 2500,
+      "opponentBaseHp": 414,
+      "environment": "vault",
+      "enemyDeck": [
+        "Rite Guard",
+        "Throne Barricade",
+        "Throne Watchtower",
+        "Regalia Courier",
+        "Diadem Toll",
+        "Throne Archer"
+      ]
+    },
+    "the-last-vigil-hall": {
+      "id": "the-last-vigil-hall",
+      "type": "battle",
+      "label": "The Last Vigil Hall",
+      "description": "The final hall before the King's own chamber, where even the candles burn steadier.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "the-threshold-of-remembrance",
+        "mem-c2finale-2"
+      ],
+      "handicap": 60,
+      "opponentIntervalMs": 2500,
+      "opponentBaseHp": 414,
+      "environment": "vault",
+      "enemyDeck": [
+        "Regalia Courier",
+        "Choir of the Remembered",
+        "Diadembound Knight",
+        "Regalia Writ",
+        "Throne Sentry",
+        "Diadem Chanter"
+      ]
+    },
+    "the-outer-stair": {
+      "id": "the-outer-stair",
+      "type": "battle",
+      "label": "The Outer Stair",
+      "description": "A lesser stair winding around the chamber, guarded the same as the main climb.",
+      "row": 5,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "mem-c2finale-2"
+      ],
+      "handicap": 60,
+      "opponentIntervalMs": 2500,
+      "opponentBaseHp": 414,
+      "environment": "vault",
+      "enemyDeck": [
+        "Rite Vanguard",
+        "Throne Watchtower",
+        "Regalia Writ",
+        "Throne Archer",
+        "Rite Guard"
+      ]
+    },
+    "the-threshold-of-remembrance": {
+      "id": "the-threshold-of-remembrance",
+      "type": "rest",
+      "label": "The Threshold of Remembrance",
+      "description": "The last threshold before the chamber proper. Someone has already lit its candles.",
+      "row": 6,
+      "col": 0,
+      "rowCols": 2,
+      "childIds": [
+        "vigilking-node"
+      ],
+      "restHeal": 12
+    },
+    "mem-c2finale-2": {
+      "id": "mem-c2finale-2",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A rite-keeper's log from the night the King first spoke of an ending.",
+      "row": 6,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "vigilking-node"
+      ],
+      "fragmentId": "c2finale-frag-2",
+      "environment": "vault"
+    },
+    "vigilking-node": {
+      "id": "vigilking-node",
+      "type": "boss",
+      "label": "The Vigil King",
+      "description": "Three centuries of holding a kingdom alone end here, before the monarch who never once asked to be relieved of it.",
+      "row": 7,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
+      "handicap": 62,
+      "opponentIntervalMs": 5000,
+      "opponentBaseHp": 436,
+      "environment": "vault",
+      "enemyDeck": [
+        "The Vigil King",
+        "Rite Vanguard",
+        "Diadembound Knight",
+        "The Last Rite",
+        "Choir of the Remembered",
+        "Throne Sentry",
+        "Regalia Writ"
+      ],
+      "bossAI": "vigilking",
+      "bossDialogue": [
+        "You crossed the City of Vigils, Worldmender. The Queen kept it lit. I have kept this entire kingdom, in my own mind, for three centuries — every name, every candle, every mile of every road you have already walked.",
+        "The Court never asked me to hold Amarath alone. I decided that a kingdom remembered by one man was still a kingdom, and I have never once revisited that decision. You are the first thing in three hundred years to make me revisit anything.",
+        "The rite does not end because I decide to end it. It ends because someone else finally has somewhere to put what I've been holding. Let's find out if that someone is you."
+      ],
+      "bossCard": "The Vigil King"
+    }
+  }
+}

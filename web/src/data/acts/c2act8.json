@@ -4,7 +4,7 @@
   "title": "ACT VIII",
   "subtitle": "The Hollow Court",
   "rewardRelic": "Hollow Mask",
-  "rewardRelicDesc": "Whenever you play a card, your units gain +1 attack, stacking for the rest of the battle — every mask is a chance to become someone sharper.",
+  "rewardRelicDesc": "Whenever you play a card, your units gain +1 attack, stacking for the rest of the battle \u2014 every mask is a chance to become someone sharper.",
   "environment": "citadel",
   "rewardTags": [
     "forgotten",
@@ -58,7 +58,7 @@
       "Three centuries of ceremony taught him one thing the Pale Court never had to teach: a face you cannot remember is easier to lose twice. He has not yet decided if the Worldmender counts as a face worth keeping."
     ],
     "priorRunOpenings": [
-      "The court threshold was already ceremonied when you reached it, same as always — the hall remembers being entered even when it doesn't remember by whom.",
+      "The court threshold was already ceremonied when you reached it, same as always \u2014 the hall remembers being entered even when it doesn't remember by whom.",
       "You knew the sconce-bearers' step this time. The masked company knew you knowing it.",
       "The name-ledger at the threshold already had your crossing recorded. You are becoming a familiar entry in someone's ceremony.",
       "The Chamberlain's retinue was already standing in the antechamber when you arrived. He does not believe in being surprised twice, either."
@@ -101,7 +101,7 @@
       "panels": [
         {
           "title": "THE HOLLOW COURT",
-          "text": "The court threshold is freshly ceremonied — again.\n\n{pool:priorRunOpenings:0}"
+          "text": "The court threshold is freshly ceremonied \u2014 again.\n\n{pool:priorRunOpenings:0}"
         },
         {
           "title": "THE WORLDMENDER",
@@ -122,7 +122,7 @@
     },
     {
       "title": "THE HOLLOW COURT",
-      "text": "This is not a court that forgot by accident. It is a court that forgot on purpose, three centuries ago, and built an entire ceremony out of not remembering who used to stand where. The masks are not a punishment — they are the kindest thing the Court could think to do for itself.",
+      "text": "This is not a court that forgot by accident. It is a court that forgot on purpose, three centuries ago, and built an entire ceremony out of not remembering who used to stand where. The masks are not a punishment \u2014 they are the kindest thing the Court could think to do for itself.",
       "image": "cutscenes/c2act8-intro-2.svg"
     },
     {
@@ -139,12 +139,12 @@
     },
     {
       "title": "HOLLOW MASK",
-      "text": "It is a small thing to have cost a Court its own face — a single mask that sharpens whoever wears it, one gesture at a time. Holding it, you understand the Chamberlain better than his own ceremony ever explained him: forgetting your face is not the same as losing yourself. Not even, it turns out, when the whole Court forgets together.",
+      "text": "It is a small thing to have cost a Court its own face \u2014 a single mask that sharpens whoever wears it, one gesture at a time. Holding it, you understand the Chamberlain better than his own ceremony ever explained him: forgetting your face is not the same as losing yourself. Not even, it turns out, when the whole Court forgets together.",
       "image": "cutscenes/c2act8-outro-2.svg"
     },
     {
       "title": "THE WINTER THAT WAITED AHEAD",
-      "text": "Past the Court's last antechamber, the corridors give way to a season the void kept in storage — a winter Amarath never got to have, waiting three centuries for someone to release it. Somewhere beyond the last silver mask, the cold is already deciding who it was owed to.",
+      "text": "Past the Court's last antechamber, the corridors give way to a season the void kept in storage \u2014 a winter Amarath never got to have, waiting three centuries for someone to release it. Somewhere beyond the last silver mask, the cold is already deciding who it was owed to.",
       "image": "cutscenes/c2act8-outro-3.svg"
     }
   ],
@@ -451,7 +451,7 @@
       "col": 0,
       "rowCols": 4,
       "childIds": [
-        "the-final-antechamber"
+        "the-inner-gate"
       ],
       "handicap": 36,
       "opponentIntervalMs": 2600,
@@ -475,8 +475,7 @@
       "col": 3,
       "rowCols": 4,
       "childIds": [
-        "the-final-antechamber",
-        "mem-c2act8-2"
+        "the-inner-gate"
       ],
       "handicap": 36,
       "opponentIntervalMs": 2600,
@@ -496,9 +495,9 @@
       "type": "rest",
       "label": "The Final Antechamber",
       "description": "The last antechamber before the Chamberlain's own hall. Someone has already lit its sconces.",
-      "row": 5,
+      "row": 10,
       "col": 0,
-      "rowCols": 2,
+      "rowCols": 1,
       "childIds": [
         "chamberlain-node"
       ],
@@ -508,12 +507,12 @@
       "id": "mem-c2act8-2",
       "type": "memory",
       "label": "Memory Fragment",
-      "description": "A courtier's log from the night the last unmasked face was recorded.",
-      "row": 5,
+      "description": "A courtier's log from the night the inner ceremony first sealed its own gate.",
+      "row": 9,
       "col": 1,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
-        "chamberlain-node"
+        "the-final-antechamber"
       ],
       "fragmentId": "c2act8-frag-2",
       "environment": "citadel"
@@ -523,7 +522,7 @@
       "type": "boss",
       "label": "The Chamberlain",
       "description": "Every ceremony in the Hollow Court ends here, before a steward who decides what still deserves a name.",
-      "row": 6,
+      "row": 11,
       "col": 0,
       "rowCols": 1,
       "childIds": [],
@@ -547,6 +546,352 @@
         "The Court does not ask me to defend this ceremony. It only asks that I decide, gesture by gesture, what still deserves a name. Let's begin."
       ],
       "bossCard": "The Chamberlain"
+    },
+    "the-inner-gate": {
+      "id": "the-inner-gate",
+      "type": "battle",
+      "label": "The Inner Gate",
+      "description": "A second ceremonial gate, deeper in the Court than any outsider was ever meant to reach.",
+      "row": 5,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [
+        "the-veiled-corridor",
+        "the-gilded-antechamber",
+        "the-shrouded-flank"
+      ],
+      "handicap": 37,
+      "opponentIntervalMs": 2500,
+      "opponentBaseHp": 305,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Masked Guard",
+        "Silver Herald",
+        "Velvet Sconce",
+        "Court Attendant"
+      ]
+    },
+    "the-veiled-corridor": {
+      "id": "the-veiled-corridor",
+      "type": "battle",
+      "label": "The Veiled Corridor",
+      "description": "A corridor hung with veils instead of masks, for a ceremony the outer court never learned.",
+      "row": 6,
+      "col": 0,
+      "rowCols": 3,
+      "childIds": [
+        "the-second-ledger"
+      ],
+      "handicap": 37,
+      "opponentIntervalMs": 2500,
+      "opponentBaseHp": 305,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Masked Guard",
+        "Court Attendant",
+        "Velvet Barricade",
+        "Courtly Step"
+      ]
+    },
+    "the-gilded-antechamber": {
+      "id": "the-gilded-antechamber",
+      "type": "battle",
+      "label": "The Gilded Antechamber",
+      "description": "An antechamber gilded for a Chamberlain who has not received a real guest in three centuries.",
+      "row": 6,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "the-sealed-inner-gate",
+        "the-inner-cart"
+      ],
+      "handicap": 37,
+      "opponentIntervalMs": 2500,
+      "opponentBaseHp": 305,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Silver Herald",
+        "Silver Archer",
+        "Hollow Watchtower",
+        "Court Draught"
+      ]
+    },
+    "the-shrouded-flank": {
+      "id": "the-shrouded-flank",
+      "type": "battle",
+      "label": "The Shrouded Flank",
+      "description": "A flanking hall kept shrouded since the ceremony that named it stopped being spoken of.",
+      "row": 6,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "the-vigil-hearth"
+      ],
+      "handicap": 37,
+      "opponentIntervalMs": 2500,
+      "opponentBaseHp": 305,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Masked Page",
+        "Court Courier",
+        "Mask Foundry",
+        "Gesture Toll"
+      ]
+    },
+    "the-second-ledger": {
+      "id": "the-second-ledger",
+      "type": "event",
+      "label": "The Second Ledger",
+      "description": "A ledger kept apart from the outer court, recording names the first ledger was never shown.",
+      "row": 7,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-silver-company"
+      ],
+      "eventConfig": {
+        "title": "The Second Ledger",
+        "description": "This ledger sits behind a door the outer clerks do not have keys to, recording names the Court decided the first ledger should never see. Every entry is a name that was recorded twice, once in error.",
+        "pools": [
+          [
+            {
+              "label": "Read the second ledger (lose 6 HP, gain a rare card)",
+              "consequence": "A record within a record costs more to read. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the clerk's second cache (gain 70 crystals)",
+              "consequence": "A cache the first ledger never accounted for. You gain 70 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 70
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest behind the second door (heal 9 HP)",
+              "consequence": "Quieter than a hall that keeps two ledgers has any right to be. You heal 9 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 9
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the second ledger unread",
+              "consequence": "Some records are better left double-uncounted. You move on.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-vigil-hearth": {
+      "id": "the-vigil-hearth",
+      "type": "rest",
+      "label": "The Vigil Hearth",
+      "description": "A second hearth, kept for attendants who serve a ceremony nobody outside ever hears of.",
+      "row": 7,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-silver-company"
+      ],
+      "restHeal": 10
+    },
+    "the-sealed-inner-gate": {
+      "id": "the-sealed-inner-gate",
+      "type": "event",
+      "label": "The Sealed Inner Gate",
+      "description": "A second sealed gate, posting orders for a ceremony the outer court was never told existed.",
+      "row": 7,
+      "col": 2,
+      "rowCols": 4,
+      "childIds": [
+        "the-veiled-line"
+      ],
+      "eventConfig": {
+        "title": "The Sealed Inner Gate",
+        "description": "The writ on this gate is signed by the Chamberlain twice \u2014 once in the hand the outer court knows, once in a hand nobody has seen in three hundred years. Both signatures agree on every word.",
+        "pools": [
+          [
+            {
+              "label": "Read the inner writ (lose 6 HP, gain a rare card)",
+              "consequence": "Two signatures cost more to read past than one. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the inner gate's cache (gain 70 crystals)",
+              "consequence": "A cache nobody past the outer gate was ever going to collect. You gain 70 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 70
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest behind the inner seals (heal 8 HP)",
+              "consequence": "Quieter than a twice-sealed gate has any right to be. You heal 8 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 8
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the inner writ unread",
+              "consequence": "Some orders are better left twice-uncounted. You move on.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-inner-cart": {
+      "id": "the-inner-cart",
+      "type": "merchant",
+      "label": "The Inner Court's Cart",
+      "description": "A second trading cart, further in than the Chamberlain admits any cart has reason to be.",
+      "row": 7,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-veiled-line"
+      ]
+    },
+    "the-silver-company": {
+      "id": "the-silver-company",
+      "type": "elite",
+      "label": "The Silver Company",
+      "description": "A second file of Court soldiers, masked in silver finer than anything the outer court wears.",
+      "row": 8,
+      "col": 0,
+      "rowCols": 2,
+      "childIds": [
+        "the-gilt-corridors"
+      ],
+      "handicap": 37,
+      "opponentIntervalMs": 2400,
+      "opponentBaseHp": 312,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Court Vanguard",
+        "Masked Guard",
+        "Mask Foundry",
+        "Choir of Masks",
+        "Gesture Toll",
+        "Sealed Archive"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "the-veiled-line": {
+      "id": "the-veiled-line",
+      "type": "elite",
+      "label": "The Veiled Line",
+      "description": "A line of courtiers veiled rather than masked, for a rank the outer ceremony never named.",
+      "row": 8,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "the-gilt-corridors",
+        "mem-c2act8-2",
+        "the-last-veil"
+      ],
+      "handicap": 37,
+      "opponentIntervalMs": 2400,
+      "opponentBaseHp": 312,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Hollow Chanter",
+        "Court Automaton",
+        "Mask Sentry",
+        "Court Writ",
+        "Choir of Masks",
+        "Silver Archer"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "the-gilt-corridors": {
+      "id": "the-gilt-corridors",
+      "type": "battle",
+      "label": "The Gilt Corridors",
+      "description": "Corridors gilded over the same silver the outer court never sees polished.",
+      "row": 9,
+      "col": 0,
+      "rowCols": 3,
+      "childIds": [
+        "the-final-antechamber"
+      ],
+      "handicap": 37,
+      "opponentIntervalMs": 2400,
+      "opponentBaseHp": 312,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Masked Guard",
+        "Velvet Barricade",
+        "Hollow Watchtower",
+        "Court Courier",
+        "Gesture Toll"
+      ]
+    },
+    "the-last-veil": {
+      "id": "the-last-veil",
+      "type": "battle",
+      "label": "The Last Veil",
+      "description": "The final veiled hall before the Chamberlain receives anyone at all.",
+      "row": 9,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "the-final-antechamber"
+      ],
+      "handicap": 37,
+      "opponentIntervalMs": 2400,
+      "opponentBaseHp": 312,
+      "environment": "citadel",
+      "enemyDeck": [
+        "Court Courier",
+        "Choir of Masks",
+        "Mask Sentry",
+        "Court Writ",
+        "Silver Archer"
+      ]
     }
   }
 }

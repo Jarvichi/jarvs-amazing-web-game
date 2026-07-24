@@ -4,7 +4,7 @@
   "title": "ACT IX",
   "subtitle": "The Winter That Waited",
   "rewardRelic": "Waited Snowflake",
-  "rewardRelicDesc": "Your base gains +12 max HP — a season that waited three centuries to matter finally gives your base something to hold.",
+  "rewardRelicDesc": "Your base gains +12 max HP \u2014 a season that waited three centuries to matter finally gives your base something to hold.",
   "environment": "frost",
   "rewardTags": [
     "forgotten",
@@ -58,7 +58,7 @@
       "Three centuries of storage taught her one thing the Pale Court never had to teach: a season kept waiting long enough stops being patient. She has not yet decided if the Worldmender is the reason it stops."
     ],
     "priorRunOpenings": [
-      "The frost threshold was already rimed when you reached it, same as always — the winter remembers being crossed even when it doesn't remember by whom.",
+      "The frost threshold was already rimed when you reached it, same as always \u2014 the winter remembers being crossed even when it doesn't remember by whom.",
       "You knew the sconce-bearers' step this time. The frostbound company knew you knowing it.",
       "The frost ledger at the threshold already had your crossing recorded. You are becoming a familiar entry in someone's stored season.",
       "The Regent's retinue was already standing in the frost when you arrived. She does not believe in being surprised twice, either."
@@ -101,7 +101,7 @@
       "panels": [
         {
           "title": "THE WINTER THAT WAITED",
-          "text": "The frost threshold is freshly rimed — again.\n\n{pool:priorRunOpenings:0}"
+          "text": "The frost threshold is freshly rimed \u2014 again.\n\n{pool:priorRunOpenings:0}"
         },
         {
           "title": "THE WORLDMENDER",
@@ -117,12 +117,12 @@
   "intro": [
     {
       "title": "HOLLOW MASK",
-      "text": "The Chamberlain's ceremony stood down at your back, and the mask he handed you has sharpened every stride since. Past the Hollow Court's last antechamber, the corridors give way to a season the void kept in storage — a winter Amarath never got to have.",
+      "text": "The Chamberlain's ceremony stood down at your back, and the mask he handed you has sharpened every stride since. Past the Hollow Court's last antechamber, the corridors give way to a season the void kept in storage \u2014 a winter Amarath never got to have.",
       "image": "cutscenes/c2act9-intro-1.svg"
     },
     {
       "title": "THE WINTER THAT WAITED",
-      "text": "This is not a winter that came naturally. It is a winter Amarath stored on purpose, three centuries ago, waiting for a reason worth releasing it. The garrisons here are not holding back a season — they are holding a promise the Court made to itself long before anyone thought it would need keeping.",
+      "text": "This is not a winter that came naturally. It is a winter Amarath stored on purpose, three centuries ago, waiting for a reason worth releasing it. The garrisons here are not holding back a season \u2014 they are holding a promise the Court made to itself long before anyone thought it would need keeping.",
       "image": "cutscenes/c2act9-intro-2.svg"
     },
     {
@@ -139,7 +139,7 @@
     },
     {
       "title": "WAITED SNOWFLAKE",
-      "text": "It is a small thing to have cost a kingdom a season — a single snowflake that gives your base something to hold, after three centuries of holding nothing at all. Holding it, you understand the Regent better than her own frost ever explained her: a thing kept waiting long enough doesn't stop mattering. It just stops being patient.",
+      "text": "It is a small thing to have cost a kingdom a season \u2014 a single snowflake that gives your base something to hold, after three centuries of holding nothing at all. Holding it, you understand the Regent better than her own frost ever explained her: a thing kept waiting long enough doesn't stop mattering. It just stops being patient.",
       "image": "cutscenes/c2act9-outro-2.svg"
     },
     {
@@ -159,6 +159,7 @@
       "rowCols": 3,
       "childIds": [
         "the-frost-causeway",
+        "the-frostbitten-flank",
         "the-rime-ramparts"
       ],
       "handicap": 30,
@@ -179,7 +180,7 @@
       "description": "A causeway rimed over so thoroughly the stones remember being warm.",
       "row": 1,
       "col": 0,
-      "rowCols": 4,
+      "rowCols": 3,
       "childIds": [
         "the-frost-ledger",
         "the-winter-hearth"
@@ -200,10 +201,10 @@
       "id": "the-rime-ramparts",
       "type": "battle",
       "label": "The Rime Ramparts",
-      "description": "A rampart line garrisoned like the winter still needs guarding — because to the Court, it does.",
+      "description": "A rampart line garrisoned like the winter still needs guarding \u2014 because to the Court, it does.",
       "row": 1,
-      "col": 3,
-      "rowCols": 4,
+      "col": 2,
+      "rowCols": 3,
       "childIds": [
         "the-sealed-icehouse-gate",
         "the-regents-cart"
@@ -296,7 +297,8 @@
       "col": 1,
       "rowCols": 4,
       "childIds": [
-        "the-frostbound-company"
+        "the-frostbound-company",
+        "the-frozen-line"
       ],
       "restHeal": 9
     },
@@ -304,7 +306,7 @@
       "id": "the-sealed-icehouse-gate",
       "type": "event",
       "label": "The Sealed Icehouse Gate",
-      "description": "A gate posting orders for a winter that isn't rising anymore — just remembering how to.",
+      "description": "A gate posting orders for a winter that isn't rising anymore \u2014 just remembering how to.",
       "row": 2,
       "col": 2,
       "rowCols": 4,
@@ -375,7 +377,8 @@
       "col": 3,
       "rowCols": 4,
       "childIds": [
-        "the-frozen-line"
+        "the-frozen-line",
+        "the-glacier-flank"
       ]
     },
     "the-frostbound-company": {
@@ -387,7 +390,8 @@
       "col": 0,
       "rowCols": 4,
       "childIds": [
-        "the-deep-frost"
+        "the-deep-frost",
+        "the-last-glacier"
       ],
       "handicap": 36,
       "opponentIntervalMs": 2700,
@@ -412,7 +416,8 @@
       "col": 1,
       "rowCols": 4,
       "childIds": [
-        "the-deep-frost"
+        "the-deep-frost",
+        "the-last-thaw"
       ],
       "fragmentId": "c2act9-frag-1",
       "environment": "frost"
@@ -423,10 +428,12 @@
       "label": "The Frozen Line",
       "description": "A line of soldiers who never got new orders when the winter finally came out of storage.",
       "row": 3,
-      "col": 3,
+      "col": 2,
       "rowCols": 4,
       "childIds": [
-        "the-last-thaw"
+        "the-last-thaw",
+        "the-rime-remnant",
+        "the-cold-vanguard-line"
       ],
       "handicap": 36,
       "opponentIntervalMs": 2700,
@@ -449,7 +456,7 @@
       "description": "Frost deep enough that even the mist stops following.",
       "row": 4,
       "col": 0,
-      "rowCols": 4,
+      "rowCols": 6,
       "childIds": [
         "the-final-frostline"
       ],
@@ -472,8 +479,8 @@
       "label": "The Last Thaw",
       "description": "The final stretch of frost before the Regent's own ward.",
       "row": 4,
-      "col": 3,
-      "rowCols": 4,
+      "col": 1,
+      "rowCols": 6,
       "childIds": [
         "the-final-frostline",
         "mem-c2act9-2"
@@ -547,6 +554,147 @@
         "The Court does not ask me to keep this cold. It only asks that I choose, at last, who it was always meant for. Let's begin."
       ],
       "bossCard": "The Frost Regent"
+    },
+    "the-frostbitten-flank": {
+      "id": "the-frostbitten-flank",
+      "type": "battle",
+      "label": "The Frostbitten Flank",
+      "description": "A flanking causeway rimed over just as thoroughly as the main crossing.",
+      "row": 1,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "the-winter-hearth",
+        "the-sealed-icehouse-gate"
+      ],
+      "handicap": 32,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 280,
+      "environment": "frost",
+      "enemyDeck": [
+        "Frost Runner",
+        "Waiting Scout",
+        "Frost Guard",
+        "Waited Step",
+        "Frost Sconce"
+      ]
+    },
+    "the-glacier-flank": {
+      "id": "the-glacier-flank",
+      "type": "battle",
+      "label": "The Glacier Flank",
+      "description": "A flanking glacier the Court garrisons the same as any other stretch of frost.",
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-last-thaw",
+        "the-far-frostline"
+      ],
+      "handicap": 36,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 296,
+      "environment": "frost",
+      "enemyDeck": [
+        "Frost Guard",
+        "Sealed Icehouse",
+        "Blizzard Toll",
+        "Snowmelt Foundry",
+        "Choir of Frost"
+      ]
+    },
+    "the-far-frostline": {
+      "id": "the-far-frostline",
+      "type": "battle",
+      "label": "The Far Frostline",
+      "description": "A stretch of frost further out than any Court garrison admits patrolling.",
+      "row": 4,
+      "col": 2,
+      "rowCols": 6,
+      "childIds": [
+        "mem-c2act9-2"
+      ],
+      "handicap": 38,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 306,
+      "environment": "frost",
+      "enemyDeck": [
+        "Frost Guard",
+        "Frost Barricade",
+        "Winter Courier",
+        "Icebound Archer",
+        "Rime Watchtower"
+      ]
+    },
+    "the-last-glacier": {
+      "id": "the-last-glacier",
+      "type": "battle",
+      "label": "The Last Glacier",
+      "description": "The final glacier before the frostline gives way to the Regent's own ward.",
+      "row": 4,
+      "col": 3,
+      "rowCols": 6,
+      "childIds": [
+        "mem-c2act9-2"
+      ],
+      "handicap": 38,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 306,
+      "environment": "frost",
+      "enemyDeck": [
+        "Winter Courier",
+        "Blizzard Toll",
+        "Choir of Frost",
+        "Snowbound Sentry",
+        "Icebound Archer"
+      ]
+    },
+    "the-rime-remnant": {
+      "id": "the-rime-remnant",
+      "type": "battle",
+      "label": "The Rime Remnant",
+      "description": "What's left of a garrison that never got the order to come in from the cold.",
+      "row": 4,
+      "col": 4,
+      "rowCols": 6,
+      "childIds": [
+        "the-final-frostline"
+      ],
+      "handicap": 38,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 306,
+      "environment": "frost",
+      "enemyDeck": [
+        "Rime Chanter",
+        "Frost Automaton",
+        "Snowbound Sentry",
+        "Winter Writ",
+        "Frost Barricade"
+      ]
+    },
+    "the-cold-vanguard-line": {
+      "id": "the-cold-vanguard-line",
+      "type": "battle",
+      "label": "The Cold Vanguard Line",
+      "description": "A vanguard line held to the letter, three centuries after the order that raised it.",
+      "row": 4,
+      "col": 5,
+      "rowCols": 6,
+      "childIds": [
+        "the-final-frostline",
+        "mem-c2act9-2"
+      ],
+      "handicap": 38,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 306,
+      "environment": "frost",
+      "enemyDeck": [
+        "Winter Vanguard",
+        "Rime Chanter",
+        "Choir of Frost",
+        "Winter Writ",
+        "Frost Automaton"
+      ]
     }
   }
 }

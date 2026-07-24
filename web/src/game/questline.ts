@@ -961,6 +961,8 @@ const ACT_LOADERS: Record<string, () => Promise<{ default: unknown }>> = {
   c2act10:   () => import('../data/acts/c2act10.json'),
   c2act11:   () => import('../data/acts/c2act11.json'),
   c2act12:   () => import('../data/acts/c2act12.json'),
+  c2act13:   () => import('../data/acts/c2act13.json'),
+  c2finale:  () => import('../data/acts/c2finale.json'),
   /** Standalone battles launched from the world map — never part of campaign progression. */
   world:     () => import('../data/acts/worldbattles.json'),
 }

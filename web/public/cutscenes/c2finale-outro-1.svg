@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a1218"/>
+  <linearGradient id="c2fo1-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0a0810"/>
+    <stop offset="100%" stop-color="#1a1428"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2fo1-sky)"/>
+  <rect y="150" width="400" height="90" fill="#241d30"/>
+  <g fill="#E8E4D8" opacity="0.85">
+    <circle cx="200" cy="122" r="9"/>
+    <rect x="186" y="130" width="28" height="24" fill="#5B3A8E"/>
+  </g>
+  <g fill="#5B3A8E" opacity="0.5">
+    <rect x="120" y="130" width="3" height="3"/>
+    <rect x="150" y="115" width="3" height="3"/>
+    <rect x="250" y="115" width="3" height="3"/>
+    <rect x="280" y="130" width="3" height="3"/>
+  </g>
+  <ellipse cx="200" cy="205" rx="140" ry="17" fill="#5B3A8E" opacity="0.2"/>
+  <g fill="#11141f">
+    <circle cx="200" cy="140" r="10"/>
+    <rect x="189" y="150" width="22" height="34" rx="4"/>
+  </g>
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">"I HELD THIS KINGDOM IN MY OWN MIND BECAUSE NO ONE ELSE'S WOULD HOLD IT."</text>
+</svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a1218"/>
+  <linearGradient id="c2fi2-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0a0810"/>
+    <stop offset="100%" stop-color="#1a1428"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2fi2-sky)"/>
+  <rect y="150" width="400" height="90" fill="#241d30"/>
+  <path d="M100,150 Q200,80 300,150 Z" fill="#332c44"/>
+  <g fill="#FFE9A8" opacity="0.9">
+    <rect x="120" y="130" width="3" height="3"/>
+    <rect x="150" y="115" width="3" height="3"/>
+    <rect x="180" y="105" width="3" height="3"/>
+    <rect x="210" y="105" width="3" height="3"/>
+    <rect x="240" y="115" width="3" height="3"/>
+    <rect x="270" y="130" width="3" height="3"/>
+    <rect x="200" y="95" width="3" height="3"/>
+  </g>
+  <ellipse cx="200" cy="200" rx="150" ry="17" fill="#F5D061" opacity="0.18"/>
+  <g fill="#11141f">
+    <circle cx="200" cy="140" r="10"/>
+    <rect x="189" y="150" width="22" height="34" rx="4"/>
+  </g>
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">A ROOM BUILT TO HOLD A RITE STEADY, WHATEVER THE COST.</text>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a1218"/>
+  <linearGradient id="c2fi3-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0a0810"/>
+    <stop offset="100%" stop-color="#1a1428"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2fi3-sky)"/>
+  <rect y="150" width="400" height="90" fill="#241d30"/>
+  <path d="M175,150 L175,95 L225,95 L225,150 Z" fill="#332c44"/>
+  <path d="M185,95 Q200,70 215,95 Z" fill="#3a3350"/>
+  <rect x="196" y="40" width="8" height="55" fill="#1c1712"/>
+  <g fill="#E8E4D8">
+    <circle cx="200" cy="118" r="9"/>
+    <path d="M191,111 Q200,98 209,111 Z" fill="#F5D061"/>
+    <rect x="186" y="126" width="28" height="24" fill="#5B3A8E"/>
+  </g>
+  <ellipse cx="200" cy="200" rx="150" ry="17" fill="#F5D061" opacity="0.18"/>
+  <g fill="#11141f">
+    <circle cx="200" cy="140" r="10"/>
+    <rect x="189" y="150" width="22" height="34" rx="4"/>
+  </g>
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THE VIGIL KING HAS HELD THIS RITE LONGER THAN ANY OF HIS COURT.</text>
+</svg>
