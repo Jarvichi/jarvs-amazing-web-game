@@ -1,5 +1,5 @@
 import { logError } from '../../logger';
-import { Card, UnitTemplate, Unit, LANE_WIDTH } from '../types';
+import { Card, UnitTemplate, Unit, GameState, LANE_WIDTH } from '../types';
 import { rollSecretRarity, makeShinyVariant, makeHolofoilVariant, makeGlassVariant } from '../secretRarities';
 import { getCardCatalog, COMMANDER_UNIT, WARLORD_UNIT } from '../cards';
 import { PLAYER_SPAWN_X, OPPONENT_SPAWN_X, COMMANDER_HOME_X } from './constants';
@@ -105,4 +105,21 @@ export function spawnCommander(owner: 'player' | 'opponent', hp: number): Unit {
   unit.x              = homeX
   unit.y              = 0
   return unit
+}
+
+/**
+ * The player's on-field commander unit is the base avatar, and the engine syncs
+ * commander.hp → playerBase.hp every tick (see updateGame). newGame() spawns that
+ * commander at a fixed HP, so after campaign battle setup adjusts state.playerBase
+ * (from run HP + permanent maxHp upgrades + relic baseHp bonus), the commander must
+ * be brought in line — otherwise the tick sync pulls the HP bar and game-over check
+ * back down to the commander's stale value. Running this after applyToGame also
+ * discards any army-unit relic bonus (unitHp) that leaked onto the base commander.
+ */
+export function syncPlayerCommanderToBase(state: GameState): void {
+  const cmd = state.field.find(u => u.isCommander && u.owner === 'player')
+  if (cmd) {
+    cmd.maxHp = state.playerBase.maxHp
+    cmd.hp    = state.playerBase.hp
+  }
 }

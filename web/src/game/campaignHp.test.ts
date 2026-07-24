@@ -33,8 +33,9 @@ vi.stubGlobal('localStorage', {
   clear:      () => { storage.clear() },
 })
 
-import { newGame } from './engine'
+import { newGame, tick } from './engine'
 import type { GameState, Archetype } from './types'
+import { syncPlayerCommanderToBase } from './engine/helpers'
 import { newRun, type RunState } from './questline'
 import { loadPlayerStats, savePlayerStats, applyStatUpgrade, type PlayerStats } from './playerStats'
 import { getRelicDef } from './relics'
@@ -51,6 +52,9 @@ function enterBattle(run: RunState): GameState {
   const state = newGame()
   state.playerBase = { hp: run.playerHp, maxHp: run.maxHp }
   if (run.activeRelic) getRelicDef(run.activeRelic)?.applyToGame(state)
+  // The player commander unit is the base avatar; the engine syncs its hp into
+  // playerBase.hp every tick, so App.tsx reconciles it after relic setup.
+  syncPlayerCommanderToBase(state)
   if (run.archetype) state.archetypePassive = run.archetype
   return state
 }
@@ -101,6 +105,61 @@ describe('80 max HP + Worldmender’s Crest at battle start', () => {
     // The player's actual current HP going in (relative to their real 80 max) is
     // the full 80 — never something lower, regardless of the relic.
     expect(state.playerBase.hp - (state.playerBase.maxHp - run.maxHp)).toBe(80)
+  })
+})
+
+// ─── The HP bar after the game loop runs (regression for the 58/80 bug) ────
+//
+// The player "base" on the battlefield is a commander unit in state.field, and
+// every engine tick syncs commander.hp → playerBase.hp. newGame() spawns that
+// commander at a fixed HP, so unless battle setup reconciles it with the run's
+// max HP (+ relic baseHp), the first tick drags the current-HP bar down to the
+// commander's stale value. These tests run a tick so that sync actually fires —
+// the earlier assertions read playerBase before any tick and so missed the bug.
+
+describe('current-HP bar stays correct after the first engine tick', () => {
+  it('50 base HP + Worldmender’s Crest enters battle at 80/80, not 58/80', () => {
+    savePlayerStats({ ...DEFAULT_STATS, maxHp: 50 })
+    let run = newRun('act1')
+    run = { ...run, activeRelic: "Worldmender's Crest" }
+
+    let state = enterBattle(run)
+    // Advance one game loop so the commander → playerBase.hp sync runs.
+    state = tick(state, 16)
+
+    // Base = 50 + 30 (relic baseHp); the +8 unit HP must NOT leak onto the base.
+    expect(state.playerBase.maxHp).toBe(80)
+    expect(state.playerBase.hp).toBe(80)
+  })
+
+  it('a permanent maxHp upgrade to 80 (no relic) enters battle at 80/80, not 50/80', () => {
+    savePlayerStats({ ...DEFAULT_STATS })
+    applyStatUpgrade('maxHp')
+    applyStatUpgrade('maxHp')
+    applyStatUpgrade('maxHp')
+    const run = newRun('act1')
+    expect(run.maxHp).toBe(80)
+
+    let state = enterBattle(run)
+    state = tick(state, 16)
+
+    // The upgraded max HP must reach the commander so it grants real survivability.
+    expect(state.playerBase.maxHp).toBe(80)
+    expect(state.playerBase.hp).toBe(80)
+  })
+
+  it('a partially-damaged run + Crest correctly shows the damaged total, not full', () => {
+    // run at 28/50 (22 damage taken previously) re-entering with the Crest should
+    // read 58/80 — that value is only wrong when the player is actually at full HP.
+    savePlayerStats({ ...DEFAULT_STATS, maxHp: 50 })
+    let run = newRun('act1')
+    run = { ...run, activeRelic: "Worldmender's Crest", playerHp: 28 }
+
+    let state = enterBattle(run)
+    state = tick(state, 16)
+
+    expect(state.playerBase.maxHp).toBe(80)
+    expect(state.playerBase.hp).toBe(58)
   })
 })
 
