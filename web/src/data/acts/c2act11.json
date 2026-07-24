@@ -1,0 +1,551 @@
+{
+  "id": "c2act11",
+  "title": "ACT XI",
+  "subtitle": "The Vigil Roads",
+  "rewardRelic": "Procession Bell",
+  "rewardRelicDesc": "Your maximum mana is increased by 1, and you begin every battle with 2 mana already banked — the bell rings before the march even begins.",
+  "environment": "road",
+  "rewardTags": [
+    "forgotten",
+    "vigilroads"
+  ],
+  "replayModifiers": [
+    {
+      "type": "enemyHpPercent",
+      "value": 15,
+      "label": "+15% enemy HP"
+    },
+    {
+      "type": "enemyIntervalReduction",
+      "value": 500,
+      "label": "Enemies act faster"
+    },
+    {
+      "type": "enemyHandBonus",
+      "value": 1,
+      "label": "Enemies start +1 card"
+    },
+    {
+      "type": "crystalBonus",
+      "value": 10,
+      "label": "+10 crystals per battle"
+    },
+    {
+      "type": "enemyHpPercent",
+      "value": 25,
+      "label": "+25% enemy HP"
+    }
+  ],
+  "startNodeIds": [
+    "vigil-threshold"
+  ],
+  "variantPools": {
+    "jarvMoods": [
+      "Now, past the Bone Orchards' last tended row, still carrying a blossom that refuses to wilt.",
+      "Now, the Worldmender, walking a processional highway built for exactly one purpose and kept for three centuries past it.",
+      "Now, wondering what a kingdom marches for when the reason it started marching is older than anyone still walking.",
+      "Now, past the Keeper's fall, learning that the Court's grief was only ever the least of what Amarath still keeps moving."
+    ],
+    "roadDesc": [
+      "The Vigil Roads rise past the orchard's last row, processional highways walked for centuries to keep a rite alive nobody quite remembers starting.",
+      "This is not a road that grew from travel. It is a road Amarath built on purpose, three centuries ago, so the vigil-rite would always have somewhere to march.",
+      "The garrisons here are not guarding a highway. They are guarding a procession, and the procession has never once needed their protection nearly as much as it needs their company."
+    ],
+    "processionmasterDesc": [
+      "The Procession Master has kept this rite marching longer than any officer still counting mile-markers, and he has never once let the vigil go silent.",
+      "He does not rule the road the way the Keeper ruled a grove. He marches it, mile by mile, making sure the vigil-rite never once forgets its own pace.",
+      "Three centuries of marching taught him one thing the Pale Court never had to teach: a rite kept long enough stops needing a reason. He has not yet decided what the Worldmender is here to interrupt."
+    ],
+    "priorRunOpenings": [
+      "The vigil threshold was already marching when you reached it, same as always — the road remembers being crossed even when it doesn't remember by whom.",
+      "You knew the sconce-bearers' step this time. The vigil company knew you knowing it.",
+      "The mile ledger at the threshold already had your crossing recorded. You are becoming a familiar entry in someone's procession.",
+      "The Master's retinue was already marching the road when you arrived. He does not believe in being surprised twice, either."
+    ]
+  },
+  "midRunTemplates": [
+    "The {ordinalLower} crossing of the Vigil Roads. The procession falls into step a little sooner every time.",
+    "Campaign {n}. The vigil garrisons have a whole mile reserved for you now, all of it already marching.",
+    "{n} crossings counted, by the ledger at the threshold. You have stopped correcting the number.",
+    "Run {n}. The road holds the same pace every time, and every time the procession seems to expect you.",
+    "The {ordinalLower} march. You know the garrison markers by name now. The road had names for them first."
+  ],
+  "introRules": [
+    {
+      "condition": {
+        "op": "gte",
+        "value": 10
+      },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:priorRunOpenings:1}"
+        },
+        {
+          "title": "THE VIGIL ROADS",
+          "text": "{pool:roadDesc:1}\n\n{pool:processionmasterDesc:1}"
+        }
+      ]
+    },
+    {
+      "condition": {
+        "op": "range",
+        "min": 2,
+        "max": 9
+      },
+      "panels": [
+        {
+          "title": "THE VIGIL ROADS",
+          "text": "The vigil threshold is freshly marching — again.\n\n{pool:priorRunOpenings:0}"
+        },
+        {
+          "title": "THE WORLDMENDER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:roadDesc:2}"
+        },
+        {
+          "title": "THE PROCESSION MASTER",
+          "text": "{pool:processionmasterDesc:0}"
+        }
+      ]
+    }
+  ],
+  "intro": [
+    {
+      "title": "ORCHARD BLOSSOM",
+      "text": "The Keeper's grief stood down at your back, and the blossom she pressed into your palm has not once wilted since. Past the orchard's last tended row, the ground rises into processional highways walked for centuries to keep a vigil-rite alive.",
+      "image": "cutscenes/c2act11-intro-1.svg"
+    },
+    {
+      "title": "THE VIGIL ROADS",
+      "text": "This is not a road that grew from travel. It is a road Amarath built on purpose, three centuries ago, so the vigil-rite would always have somewhere to march. The garrisons here are not guarding a highway — they are guarding a procession that has never once needed their protection as much as it needs their company.",
+      "image": "cutscenes/c2act11-intro-2.svg"
+    },
+    {
+      "title": "THE PROCESSION MASTER",
+      "text": "The Court's marshal of the vigil roads has kept this rite marching longer than any officer still counting mile-markers, and he has never once let the vigil go silent. He does not rule the road. He marches it, mile by mile, making sure the vigil-rite never once forgets its own pace.",
+      "image": "cutscenes/c2act11-intro-3.svg"
+    }
+  ],
+  "outro": [
+    {
+      "title": "THE MASTER'S ACCOUNTING",
+      "text": "He does not fall like a soldier or a gardener. He simply stops marching, and the road behind him goes quiet for the first time in three centuries. \"I have kept this vigil longer than I remember why it started,\" he says, \"and not one mile of the road ever told me if the marching still mattered. Tell the Court that, if it still remembers how to listen to anything that isn't its own rite.\" He presses a small bell into your palm. It is still ringing.",
+      "image": "cutscenes/c2act11-outro-1.svg"
+    },
+    {
+      "title": "PROCESSION BELL",
+      "text": "It is a small thing to have marched a road for three centuries — a single bell that rings before the march even begins, giving you a little more to spend before the first mile. Holding it, you understand the Master better than his own procession ever explained him: a vigil kept long enough doesn't need a reason anymore. It only needs someone still willing to walk it.",
+      "image": "cutscenes/c2act11-outro-2.svg"
+    },
+    {
+      "title": "THE CROWN REACHES AHEAD",
+      "text": "Past the road's last mile-marker, the ground rises toward the fortified approach to the capital — the Pale Court's last field army, dug in and waiting. Somewhere beyond the reaches, the Court is already deciding whether the Worldmender is worth meeting with everything it has left.",
+      "image": "cutscenes/c2act11-outro-3.svg"
+    }
+  ],
+  "nodes": {
+    "vigil-threshold": {
+      "id": "vigil-threshold",
+      "type": "battle",
+      "label": "The Vigil Threshold",
+      "description": "Where the orchard's last row gives way to a processional highway three centuries in the marching.",
+      "row": 0,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "the-processional-causeway",
+        "the-vigil-ramparts"
+      ],
+      "handicap": 34,
+      "opponentIntervalMs": 3000,
+      "opponentBaseHp": 288,
+      "environment": "road",
+      "enemyDeck": [
+        "Procession Runner",
+        "Road Herald",
+        "Vigil Walker",
+        "Vigil Sconce"
+      ]
+    },
+    "the-processional-causeway": {
+      "id": "the-processional-causeway",
+      "type": "battle",
+      "label": "The Processional Causeway",
+      "description": "A causeway worn smooth by three centuries of the same procession walking it.",
+      "row": 1,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-mile-ledger",
+        "the-vigil-hearth"
+      ],
+      "handicap": 36,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 296,
+      "environment": "road",
+      "enemyDeck": [
+        "Procession Runner",
+        "Vigil Walker",
+        "Road Barricade",
+        "Vigil Guard",
+        "Road Step"
+      ]
+    },
+    "the-vigil-ramparts": {
+      "id": "the-vigil-ramparts",
+      "type": "battle",
+      "label": "The Vigil Ramparts",
+      "description": "A rampart line garrisoned like the road still needs guarding — because to the Court, it does.",
+      "row": 1,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-sealed-waystation-gate",
+        "the-master-cart"
+      ],
+      "handicap": 36,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 296,
+      "environment": "road",
+      "enemyDeck": [
+        "Road Herald",
+        "Vigil Sconce",
+        "Road Watchtower",
+        "Vigil Guard",
+        "Vigil Draught"
+      ]
+    },
+    "the-mile-ledger": {
+      "id": "the-mile-ledger",
+      "type": "event",
+      "label": "The Mile Ledger",
+      "description": "A Court clerk tallying every mile marched against a rite still owed its count.",
+      "row": 2,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-vigil-company",
+        "mem-c2act11-1"
+      ],
+      "eventConfig": {
+        "title": "The Mile Ledger",
+        "description": "A clerk keeps the tally at a lectern set beside the road, marking every mile against a procession three centuries deep. She does not ask why you're crossing. She only asks whether you intend to be tallied.",
+        "pools": [
+          [
+            {
+              "label": "Pay the ledger's toll (lose 6 HP, gain a rare card)",
+              "consequence": "Every mile tallied costs a little of your own pace. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the clerk's vigil-oil (gain 60 crystals)",
+              "consequence": "Oil set aside for a march that never quite runs short. You gain 60 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 60
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest at the ledger post's brazier (heal 10 HP)",
+              "consequence": "The brazier holds the road's chill back better than it has any right to. You heal 10 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 10
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the ledger uncounted",
+              "consequence": "You leave the clerk to her tally.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-vigil-hearth": {
+      "id": "the-vigil-hearth",
+      "type": "rest",
+      "label": "The Vigil Hearth",
+      "description": "A garrison hearth, kept lit for road-walkers coming off a cold mile.",
+      "row": 2,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-vigil-company"
+      ],
+      "restHeal": 9
+    },
+    "the-sealed-waystation-gate": {
+      "id": "the-sealed-waystation-gate",
+      "type": "event",
+      "label": "The Sealed Waystation Gate",
+      "description": "A gate posting processional orders that read like they were never meant for a road this ordinary.",
+      "row": 2,
+      "col": 2,
+      "rowCols": 4,
+      "childIds": [
+        "the-processional-line"
+      ],
+      "eventConfig": {
+        "title": "The Sealed Waystation Gate",
+        "description": "The writ nailed to the gate names every mile-marker on the road and the hour each is due to march. It is signed by the Court, countersigned by nobody the road has ever met, and dated the same day the vanguard crossed the Marches.",
+        "pools": [
+          [
+            {
+              "label": "Read the sealed waystation writ (lose 6 HP, gain a rare card)",
+              "consequence": "Every mile named costs you something to read past. You receive a rare card.",
+              "effect": {
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "damageHp",
+                    "amount": 6
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take the waystation's oil cache (gain 70 crystals)",
+              "consequence": "A cache nobody on this road was ever going to collect. You gain 70 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 70
+              }
+            }
+          ],
+          [
+            {
+              "label": "Rest behind the waystation's seals (heal 8 HP)",
+              "consequence": "Quieter than a marching road has any right to be. You heal 8 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 8
+              }
+            }
+          ],
+          [
+            {
+              "label": "Leave the writ unread",
+              "consequence": "Some orders are better left uncounted. You move on.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "the-master-cart": {
+      "id": "the-master-cart",
+      "type": "merchant",
+      "label": "The Master's Cart",
+      "description": "A trading cart parked on a road that hasn't seen open trade in centuries.",
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-processional-line"
+      ]
+    },
+    "the-vigil-company": {
+      "id": "the-vigil-company",
+      "type": "elite",
+      "label": "The Vigil Company",
+      "description": "A file of Court soldiers holding formation in the same processional stance for three centuries.",
+      "row": 3,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-deep-road"
+      ],
+      "handicap": 40,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 312,
+      "environment": "road",
+      "enemyDeck": [
+        "Vigil Guard",
+        "Vigil Vanguard",
+        "Sealed Waystation",
+        "Procession Toll",
+        "Vigil Foundry",
+        "Choir of the Vigil"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "mem-c2act11-1": {
+      "id": "mem-c2act11-1",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A founding charter of the road's first vigil garrisons.",
+      "row": 3,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-deep-road"
+      ],
+      "fragmentId": "c2act11-frag-1",
+      "environment": "road"
+    },
+    "the-processional-line": {
+      "id": "the-processional-line",
+      "type": "elite",
+      "label": "The Processional Line",
+      "description": "A line of soldiers who never got new orders when the rite outlasted the reason for it.",
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-last-procession"
+      ],
+      "handicap": 40,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 312,
+      "environment": "road",
+      "enemyDeck": [
+        "Road Chanter",
+        "Procession Automaton",
+        "Road Sentry",
+        "Procession Writ",
+        "Choir of the Vigil",
+        "Vigil Archer"
+      ],
+      "bossAI": "pale-elite"
+    },
+    "the-deep-road": {
+      "id": "the-deep-road",
+      "type": "battle",
+      "label": "The Deep Road",
+      "description": "A stretch of road deep enough that even the mist stops following.",
+      "row": 4,
+      "col": 0,
+      "rowCols": 4,
+      "childIds": [
+        "the-final-mile"
+      ],
+      "handicap": 42,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 322,
+      "environment": "road",
+      "enemyDeck": [
+        "Vigil Guard",
+        "Road Barricade",
+        "Road Watchtower",
+        "Procession Courier",
+        "Procession Toll",
+        "Vigil Archer"
+      ]
+    },
+    "the-last-procession": {
+      "id": "the-last-procession",
+      "type": "battle",
+      "label": "The Last Procession",
+      "description": "The final marching stretch before the Master's own waystation.",
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-final-mile",
+        "mem-c2act11-2"
+      ],
+      "handicap": 42,
+      "opponentIntervalMs": 2600,
+      "opponentBaseHp": 322,
+      "environment": "road",
+      "enemyDeck": [
+        "Procession Courier",
+        "Choir of the Vigil",
+        "Roadbound Knight",
+        "Procession Writ",
+        "Road Sentry",
+        "Road Chanter"
+      ]
+    },
+    "the-final-mile": {
+      "id": "the-final-mile",
+      "type": "rest",
+      "label": "The Final Mile",
+      "description": "The last marching mile before the Master's own ward. Someone has already lit its sconces.",
+      "row": 5,
+      "col": 0,
+      "rowCols": 2,
+      "childIds": [
+        "processionmaster-node"
+      ],
+      "restHeal": 11
+    },
+    "mem-c2act11-2": {
+      "id": "mem-c2act11-2",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A road-walker's log from the night the procession lost count of its own miles.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "processionmaster-node"
+      ],
+      "fragmentId": "c2act11-frag-2",
+      "environment": "road"
+    },
+    "processionmaster-node": {
+      "id": "processionmaster-node",
+      "type": "boss",
+      "label": "The Procession Master",
+      "description": "Three centuries of marching end here, before a marshal who decides which rite still deserves the road.",
+      "row": 6,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
+      "handicap": 44,
+      "opponentIntervalMs": 5000,
+      "opponentBaseHp": 344,
+      "environment": "road",
+      "enemyDeck": [
+        "The Procession Master",
+        "Vigil Vanguard",
+        "Roadbound Knight",
+        "The Endless Procession",
+        "Choir of the Vigil",
+        "Road Sentry",
+        "Procession Writ"
+      ],
+      "bossAI": "processionmaster",
+      "bossDialogue": [
+        "You crossed the Bone Orchards, Worldmender. The Keeper gave you a grief to tend. I give you a rite that has outlasted every reason it was ever started for.",
+        "Three centuries of marching, and not one mile of this road has ever asked why the procession keeps walking it. The Keeper decided which grief still deserved company. I decide which rite still deserves the road.",
+        "The Court does not ask me to keep this procession marching. It only asks that the vigil never once goes silent. Let's begin."
+      ],
+      "bossCard": "The Procession Master"
+    }
+  }
+}

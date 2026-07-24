@@ -402,5 +402,21 @@
         "amount": 5
       }
     ]
+  },
+  {
+    "name": "Procession Bell",
+    "icon": "🔔",
+    "desc": "Your maximum mana is increased by 1, and you begin every battle with 2 mana already banked — the bell rings before the march even begins.",
+    "lore": "Rung by a marshal who kept a rite marching for three centuries without once needing to be told why. Holding it, you start every crossing already a step into the procession.",
+    "effects": [
+      {
+        "type": "maxMana",
+        "amount": 1
+      },
+      {
+        "type": "startMana",
+        "amount": 2
+      }
+    ]
   }
 ]
