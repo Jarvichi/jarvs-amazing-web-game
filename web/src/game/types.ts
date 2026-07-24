@@ -374,11 +374,12 @@ export interface BattleEventState {
 // Types and constants owned by engine/terrain.ts; re-exported here for
 // consumers that import from the top-level types module.
 
-import type { TerrainObstacle as _TerrainObstacle, RoadDef as _RoadDef } from './engine/terrain'
-export type { TerrainType, TerrainObstacle, RoadDef } from './engine/terrain'
+import type { TerrainObstacle as _TerrainObstacle, RoadDef as _RoadDef, BattlefieldDecorItem as _BattlefieldDecorItem } from './engine/terrain'
+export type { TerrainType, TerrainObstacle, RoadDef, BattlefieldDecorItem } from './engine/terrain'
 export { TERRAIN_AVOID_SHAPE } from './engine/terrain'
 type TerrainObstacle = _TerrainObstacle
 type RoadDef = _RoadDef
+type BattlefieldDecorItem = _BattlefieldDecorItem
 
 // ─── Game ────────────────────────────────────────────────
 
@@ -448,6 +449,7 @@ export interface GameState {
   roads?: RoadDef[]          // act/node-authored road paths for the battlefield
   roadFollowing?: boolean    // when true, mobile units path onto and follow `roads` toward the enemy base (see engine/units.ts)
   environment?: string       // battlefield background theme ('forest' | 'ruins' | 'camp' | 'citadel' | 'ashen')
+  decor?: BattlefieldDecorItem[]  // act/node-authored manual decor placements; replaces the procedural decor scatter when non-empty
   unitReviveHp?: 'half' | 'full' | number      // pending one-time unit revive at this HP value (set by Soulstone/Salvage Hook relics)
   relicManaBonus?: number             // passive +N to maxMana cap (set by Prism Lens relic)
   playerAtkMult?: number              // ATK multiplier applied to all player units, incl. later deploys (Glass Cannon Protocol exotic)

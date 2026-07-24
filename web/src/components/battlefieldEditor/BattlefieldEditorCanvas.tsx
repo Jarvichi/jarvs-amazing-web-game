@@ -3,13 +3,13 @@ import * as PIXI from 'pixi.js'
 import { usePixiApp } from '../../hooks/usePixiApp'
 import { useLetterboxSize } from '../../hooks/useLetterboxSize'
 import {
-  buildTerrainGfx, buildBgTileGfx, buildBorderGfx, buildDecorGfx,
+  buildTerrainGfx, buildBgTileGfx, buildBorderGfx, buildDecorGfx, buildManualDecorGfx,
   buildRoadGfx, buildTerrainDecorGfx, gameToPixel, pixelToGame,
 } from '../../utils/terrainLayer'
 import { TILE_SIZE, EnvTileDef } from '../../data/tiles/tileIndex'
-import { TERRAIN_CLEAR_Y } from '../../game/engine/terrain'
+import { TERRAIN_CLEAR_Y, expandTerrainPathsToObstacles } from '../../game/engine/terrain'
 import { BATTLEFIELD_ASPECT_RATIO } from '../../game/types'
-import type { RoadDef, TerrainObstacle, TerrainType, ToolMode, SelectedEntity } from './battlefieldEditorTypes'
+import type { RoadDef, TerrainObstacle, TerrainType, ToolMode, SelectedEntity, BattlefieldDecorItem, TerrainPathDef } from './battlefieldEditorTypes'
 
 export interface Props {
   environment: string
@@ -18,29 +18,45 @@ export interface Props {
   id: string
   roads: RoadDef[]
   terrain: TerrainObstacle[]
+  decor: BattlefieldDecorItem[]
+  terrainPaths: TerrainPathDef[]
   tool: ToolMode
   activeObstacleType: TerrainType
+  activeDecorTileId: number
+  activePathType: TerrainType
   inProgressRoadIndex: number | null
+  inProgressPathIndex: number | null
   selectedEntities: SelectedEntity[]
   showGuides: boolean
   onSelectEntities: (entities: SelectedEntity[]) => void
   onRoadClick: (x: number, y: number) => void
   onObstacleClick: (x: number, y: number) => void
+  onDecorClick: (x: number, y: number) => void
+  onPathClick: (x: number, y: number) => void
   onMoveRoadPoint: (roadIndex: number, pointIndex: number, x: number, y: number) => void
   onMoveObstacle: (index: number, x: number, y: number) => void
+  onMoveDecor: (index: number, x: number, y: number) => void
+  onMovePathPoint: (pathIndex: number, pointIndex: number, x: number, y: number) => void
   onDeleteRoad: (roadIndex: number) => void
   onDeleteRoadPoint: (roadIndex: number, pointIndex: number) => void
   onDeleteObstacle: (index: number) => void
+  onDeleteDecor: (index: number) => void
+  onDeletePath: (pathIndex: number) => void
+  onDeletePathPoint: (pathIndex: number, pointIndex: number) => void
 }
 
 const HANDLE_RADIUS = 8
 const SELECTED_COLOR = 0xffcc33
 const HANDLE_COLOR = 0x33ccff
 const OBSTACLE_COLOR = 0xff5566
+const DECOR_COLOR = 0x66ffcc
+const PATH_COLOR = 0xcc99ff
 
 type Drag =
   | { kind: 'roadPoint'; roadIndex: number; pointIndex: number }
   | { kind: 'obstacle'; index: number }
+  | { kind: 'decor'; index: number }
+  | { kind: 'pathPoint'; pathIndex: number; pointIndex: number }
 
 // Inner component — only mounts once dimensions are known so usePixiApp gets the right size.
 function EditorPixi(props: Props & { w: number; h: number }) {
@@ -56,11 +72,13 @@ function EditorPixi(props: Props & { w: number; h: number }) {
     stage.hitArea = new PIXI.Rectangle(0, 0, w, h)
 
     stage.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
-      const { tool, onRoadClick, onObstacleClick, onSelectEntities } = propsRef.current
+      const { tool, onRoadClick, onObstacleClick, onDecorClick, onPathClick, onSelectEntities } = propsRef.current
       const pos = e.getLocalPosition(stage)
       const { x, y } = pixelToGame(pos.x, pos.y, w, h)
       if (tool === 'road') { onRoadClick(x, y); return }
       if (tool === 'obstacle') { onObstacleClick(x, y); return }
+      if (tool === 'decor') { onDecorClick(x, y); return }
+      if (tool === 'path') { onPathClick(x, y); return }
       if (tool === 'select') { onSelectEntities([]) }
     })
 
@@ -70,7 +88,9 @@ function EditorPixi(props: Props & { w: number; h: number }) {
       const pos = e.getLocalPosition(stage)
       const { x, y } = pixelToGame(pos.x, pos.y, w, h)
       if (drag.kind === 'roadPoint') propsRef.current.onMoveRoadPoint(drag.roadIndex, drag.pointIndex, x, y)
-      else propsRef.current.onMoveObstacle(drag.index, x, y)
+      else if (drag.kind === 'obstacle') propsRef.current.onMoveObstacle(drag.index, x, y)
+      else if (drag.kind === 'decor') propsRef.current.onMoveDecor(drag.index, x, y)
+      else propsRef.current.onMovePathPoint(drag.pathIndex, drag.pointIndex, x, y)
     })
 
     const endDrag = () => { dragRef.current = null }
@@ -99,20 +119,24 @@ function EditorPixi(props: Props & { w: number; h: number }) {
     const bg             = new PIXI.Container()
     const road           = new PIXI.Container()
     const border         = new PIXI.Container()
-    const decor          = new PIXI.Container()
+    const decorLayer     = new PIXI.Container()
     const decorObstacles = new PIXI.Container()
     const world          = new PIXI.Container()
     const guides         = new PIXI.Graphics()
     const editOverlay    = new PIXI.Container()
-    stage.addChild(base, bg, road, border, decor, decorObstacles, world, guides, editOverlay)
+    stage.addChild(base, bg, road, border, decorLayer, decorObstacles, world, guides, editOverlay)
 
-    const { environment, envDef, id, roads, terrain } = props
+    const { environment, envDef, id, roads, terrain, decor, terrainPaths } = props
     buildTerrainGfx(base, new PIXI.Container(), world, { environment, envDef, id, rivers: [], terrainItems: [] }, w, h)
     buildBgTileGfx(bg, { environment, envDef }, w, h)
     buildRoadGfx(road, roads, { environment, envDef }, w, h)
     buildBorderGfx(border, { environment, envDef }, w, h)
-    buildDecorGfx(decor, { environment, envDef, id }, w, h)
-    buildTerrainDecorGfx(decorObstacles, terrain, { environment, envDef }, w, h)
+    if (decor.length > 0) buildManualDecorGfx(decorLayer, decor, w, h)
+    else buildDecorGfx(decorLayer, { environment, envDef, id }, w, h)
+    // WYSIWYG: terrainPaths expand into the exact same TerrainObstacle circles
+    // the engine adds at battle start, so drawn paths render (and dedup edges
+    // against hand-placed obstacles) identically here and in the live game.
+    buildTerrainDecorGfx(decorObstacles, [...terrain, ...expandTerrainPathsToObstacles(terrainPaths)], { environment, envDef }, w, h)
 
     if (props.showGuides) drawGuides(guides, w, h)
     drawEditOverlay(editOverlay, props, w, h, dragRef)
@@ -146,6 +170,15 @@ function isPointSelected(sel: SelectedEntity[], roadIndex: number, pointIndex: n
 function isObstacleSelected(sel: SelectedEntity[], index: number): boolean {
   return sel.some(s => s.type === 'obstacle' && s.index === index)
 }
+function isDecorSelected(sel: SelectedEntity[], index: number): boolean {
+  return sel.some(s => s.type === 'decor' && s.index === index)
+}
+function isPathSelected(sel: SelectedEntity[], pathIndex: number): boolean {
+  return sel.some(s => (s.type === 'terrainPath' && s.index === pathIndex) || (s.type === 'terrainPathPoint' && s.pathIndex === pathIndex))
+}
+function isPathPointSelected(sel: SelectedEntity[], pathIndex: number, pointIndex: number): boolean {
+  return sel.some(s => s.type === 'terrainPathPoint' && s.pathIndex === pathIndex && s.pointIndex === pointIndex)
+}
 
 function drawEditOverlay(
   container: PIXI.Container,
@@ -154,7 +187,10 @@ function drawEditOverlay(
   h: number,
   dragRef: React.MutableRefObject<Drag | null>,
 ) {
-  const { roads, terrain, selectedEntities, tool, onSelectEntities, onDeleteRoad, onDeleteRoadPoint, onDeleteObstacle } = props
+  const {
+    roads, terrain, decor, terrainPaths, selectedEntities, tool, onSelectEntities,
+    onDeleteRoad, onDeleteRoadPoint, onDeleteObstacle, onDeleteDecor, onDeletePath, onDeletePathPoint,
+  } = props
 
   // Road strokes + waypoint handles
   roads.forEach((road, roadIndex) => {
@@ -210,6 +246,62 @@ function drawEditOverlay(
       dragRef.current = { kind: 'obstacle', index }
     })
     container.addChild(handle)
+  })
+
+  // Decor drag handles
+  decor.forEach((item, index) => {
+    const { px, py } = gameToPixel(item.x, item.y, w, h)
+    const selected = isDecorSelected(selectedEntities, index)
+    const handle = new PIXI.Graphics()
+    handle.circle(0, 0, HANDLE_RADIUS).stroke({ color: selected ? SELECTED_COLOR : DECOR_COLOR, width: 3, alpha: 0.95 })
+    handle.position.set(px, py)
+    handle.eventMode = 'static'
+    handle.cursor = 'pointer'
+    handle.hitArea = new PIXI.Circle(0, 0, HANDLE_RADIUS * 2)
+    handle.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+      e.stopPropagation()
+      if (tool === 'delete') { onDeleteDecor(index); return }
+      onSelectEntities([{ type: 'decor', index }])
+      dragRef.current = { kind: 'decor', index }
+    })
+    container.addChild(handle)
+  })
+
+  // Terrain-path strokes + waypoint handles (mirrors road strokes/handles above)
+  terrainPaths.forEach((path, pathIndex) => {
+    const pts = path.points.map(p => gameToPixel(p.x, p.y, w, h))
+    if (pts.length >= 2) {
+      const line = new PIXI.Graphics()
+      line.moveTo(pts[0].px, pts[0].py)
+      for (let i = 1; i < pts.length; i++) line.lineTo(pts[i].px, pts[i].py)
+      line.stroke({ color: isPathSelected(selectedEntities, pathIndex) ? SELECTED_COLOR : PATH_COLOR, width: 3, alpha: 0.85 })
+      line.eventMode = 'static'
+      line.cursor = 'pointer'
+      line.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+        e.stopPropagation()
+        if (tool === 'delete') { onDeletePath(pathIndex); return }
+        onSelectEntities([{ type: 'terrainPath', index: pathIndex }])
+      })
+      container.addChild(line)
+    }
+
+    path.points.forEach((_, pointIndex) => {
+      const { px, py } = pts[pointIndex]
+      const handle = new PIXI.Graphics()
+      const selected = isPathPointSelected(selectedEntities, pathIndex, pointIndex)
+      handle.circle(0, 0, HANDLE_RADIUS).fill({ color: selected ? SELECTED_COLOR : PATH_COLOR, alpha: 0.95 })
+      handle.position.set(px, py)
+      handle.eventMode = 'static'
+      handle.cursor = 'pointer'
+      handle.hitArea = new PIXI.Circle(0, 0, HANDLE_RADIUS * 2)
+      handle.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+        e.stopPropagation()
+        if (tool === 'delete') { onDeletePathPoint(pathIndex, pointIndex); return }
+        onSelectEntities([{ type: 'terrainPathPoint', pathIndex, pointIndex }])
+        dragRef.current = { kind: 'pathPoint', pathIndex, pointIndex }
+      })
+      container.addChild(handle)
+    })
   })
 }
 
