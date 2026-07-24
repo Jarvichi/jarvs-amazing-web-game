@@ -1139,6 +1139,41 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     tier: 2,
   },
 
+  // Campaign 2, Act 10 — The Bone Orchards
+  {
+    id: 'campaign:c2act10:1',
+    name: 'First Tending',
+    description: 'Complete Campaign 2 Act 10 — The Bone Orchards',
+    category: 'campaign',
+    progressKey: 'campaign:c2act10',
+    target: 1,
+    reward: { type: 'crystals', crystals: 800 },
+    tier: 1,
+  },
+  {
+    id: 'campaign:c2act10:10',
+    name: 'Recorded in the Grove Ledger',
+    description: 'Complete Campaign 2 Act 10 ten times',
+    category: 'campaign',
+    progressKey: 'campaign:c2act10',
+    target: 10,
+    reward: { type: 'crystals', crystals: 3800 },
+    tier: 2,
+  },
+  {
+    id: 'campaign:c2act10:100',
+    name: 'The Orchard Remembers Your Name',
+    description: 'Complete Campaign 2 Act 10 one hundred times',
+    category: 'campaign',
+    progressKey: 'campaign:c2act10',
+    target: 100,
+    reward: {
+      type: 'item',
+      item: { id: 'keepers_unwilting_blossom', name: "Keeper's Unwilting Blossom", icon: '🌸', desc: 'A blossom from a hundred tendings. It has never once agreed to wilt.' },
+    },
+    tier: 2,
+  },
+
   // ── Boss avatar unlocks (one per act, triggered on first act completion) ─
 
   { id: 'campaign:act1:boss',  name: 'Face of the Thornlord',       description: 'Defeat Act 1 to unlock the Thornlord avatar',       category: 'campaign', progressKey: 'campaign:act1',  target: 1, reward: { type: 'avatar', avatarSlug: 'boss-thornlord' },       tier: 1 },
@@ -1164,6 +1199,7 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
   { id: 'campaign:c2act7:boss',    name: 'Face of the Reflection',     description: 'Defeat Campaign 2 Act 7 to unlock the Reflection avatar',    category: 'campaign', progressKey: 'campaign:c2act7', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-thereflection' }, tier: 1 },
   { id: 'campaign:c2act8:boss',    name: 'Face of the Chamberlain',    description: 'Defeat Campaign 2 Act 8 to unlock the Chamberlain avatar',    category: 'campaign', progressKey: 'campaign:c2act8', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-chamberlain' }, tier: 1 },
   { id: 'campaign:c2act9:boss',    name: 'Face of the Frost Regent',   description: 'Defeat Campaign 2 Act 9 to unlock the Frost Regent avatar',   category: 'campaign', progressKey: 'campaign:c2act9', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-frostregent' }, tier: 1 },
+  { id: 'campaign:c2act10:boss',   name: 'Face of the Orchard Keeper', description: 'Defeat Campaign 2 Act 10 to unlock the Orchard Keeper avatar', category: 'campaign', progressKey: 'campaign:c2act10', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-orchardkeeper' }, tier: 1 },
 
   // ── Boss Cards — earned by repeat boss completions (10/20/30/40 runs) ────
   // Act 1 — Thornlord
