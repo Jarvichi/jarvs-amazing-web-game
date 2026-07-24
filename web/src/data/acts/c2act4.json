@@ -4,7 +4,7 @@
   "title": "ACT IV",
   "subtitle": "The Archive of Names",
   "rewardRelic": "Index of the Lost",
-  "rewardRelicDesc": "All friendly units gain +2 attack and +4 max HP — you carry the shape of what the Archive lost, and it carries you back.",
+  "rewardRelicDesc": "All friendly units gain +2 attack and +4 max HP \u2014 you carry the shape of what the Archive lost, and it carries you back.",
   "environment": "vault",
   "rewardTags": [
     "forgotten",
@@ -48,9 +48,9 @@
       "Now, past the Gleaner Queen's fall, learning that the fields were only the outer wall of something far larger."
     ],
     "archiveDesc": [
-      "The Archive of Names runs further than the mist should allow — aisle after aisle of sealed registers, lit by reading-lamps that have not gone dark in three centuries.",
+      "The Archive of Names runs further than the mist should allow \u2014 aisle after aisle of sealed registers, lit by reading-lamps that have not gone dark in three centuries.",
       "This is where Amarath shelved every name the Fracture erased. It does not read like a library. It reads like a held breath, three hundred years long.",
-      "The archivists here do not look up as you pass. They are not the enemy — the Court is. But something moves between the shelves that even they don't fully trust."
+      "The archivists here do not look up as you pass. They are not the enemy \u2014 the Court is. But something moves between the shelves that even they don't fully trust."
     ],
     "eaterDesc": [
       "The Name-Eater has kept the deep stacks since before the current archivists were born. Prisoner and librarian both, the Court says, and has never once clarified which came first.",
@@ -58,7 +58,7 @@
       "Eleven wings of shelving answer to it, and it has never once let a name go unread before it was gleaned. It has not decided yet whether yours counts as one it's owed."
     ],
     "priorRunOpenings": [
-      "The threshold shelf was still warm when you reached it, same as always — the Archive remembers being entered even when it doesn't remember by whom.",
+      "The threshold shelf was still warm when you reached it, same as always \u2014 the Archive remembers being entered even when it doesn't remember by whom.",
       "You knew the aisle markers this time. The dark between the shelves knew you knowing them.",
       "The reading-lamp at the door was already lit to your usual page. You are becoming a familiar entry.",
       "The Name-Eater's stacks were already disturbed when you arrived. It does not believe in being surprised twice, either."
@@ -101,7 +101,7 @@
       "panels": [
         {
           "title": "THE ARCHIVE OF NAMES",
-          "text": "The threshold shelf is freshly dusted — again.\n\n{pool:priorRunOpenings:0}"
+          "text": "The threshold shelf is freshly dusted \u2014 again.\n\n{pool:priorRunOpenings:0}"
         },
         {
           "title": "THE WORLDMENDER",
@@ -117,7 +117,7 @@
   "intro": [
     {
       "title": "THE QUEEN'S SHEAF",
-      "text": "The Gleaner Queen fell in three scattered pieces and left you her sheaf anyway — grain that still remembers every name it ever returned. Past the last granary, the fields simply stop, and the ground becomes a threshold of dressed stone shelving.",
+      "text": "The Gleaner Queen fell in three scattered pieces and left you her sheaf anyway \u2014 grain that still remembers every name it ever returned. Past the last granary, the fields simply stop, and the ground becomes a threshold of dressed stone shelving.",
       "image": "cutscenes/c2act4-intro-1.svg"
     },
     {
@@ -127,7 +127,7 @@
     },
     {
       "title": "THE THING BETWEEN THE SHELVES",
-      "text": "The archivists are not the enemy — the Court is. But somewhere in the deep stacks, something the Court calls both prisoner and librarian keeps its own accounting of who's owed what. You go in anyway, sheaf in hand, to find what the Fracture erased of a kingdom that was never Amarath's to forget.",
+      "text": "The archivists are not the enemy \u2014 the Court is. But somewhere in the deep stacks, something the Court calls both prisoner and librarian keeps its own accounting of who's owed what. You go in anyway, sheaf in hand, to find what the Fracture erased of a kingdom that was never Amarath's to forget.",
       "image": "cutscenes/c2act4-intro-3.svg"
     }
   ],
@@ -139,12 +139,12 @@
     },
     {
       "title": "INDEX OF THE LOST",
-      "text": "It leaves you an index bound from every name it ever catalogued and never once misplaced — a record of what was lost, cross-referenced against what came back. Holding it, you know exactly what you're still carrying, and exactly what it cost.",
+      "text": "It leaves you an index bound from every name it ever catalogued and never once misplaced \u2014 a record of what was lost, cross-referenced against what came back. Holding it, you know exactly what you're still carrying, and exactly what it cost.",
       "image": "cutscenes/c2act4-outro-2.svg"
     },
     {
       "title": "THE CANDLE CITY AHEAD",
-      "text": "Past the last reading-room, the shelving gives way to a skyline of ten thousand vigil flames — the Candle City, Amarath's second seat, lit against a dark it has never once trusted to stay gone. Somewhere in it, a Lamplighter General is already counting the wicks that still need tending.",
+      "text": "Past the last reading-room, the shelving gives way to a skyline of ten thousand vigil flames \u2014 the Candle City, Amarath's second seat, lit against a dark it has never once trusted to stay gone. Somewhere in it, a Lamplighter General is already counting the wicks that still need tending.",
       "image": "cutscenes/c2act4-outro-3.svg"
     }
   ],
@@ -156,10 +156,12 @@
       "description": "Where the last turned furrow gives way to the first dressed shelf of the Archive.",
       "row": 0,
       "col": 1,
-      "rowCols": 3,
+      "rowCols": 4,
       "childIds": [
         "the-first-aisle",
-        "the-outer-shelves"
+        "the-annex-wing",
+        "the-outer-shelves",
+        "the-side-gallery"
       ],
       "handicap": 20,
       "opponentIntervalMs": 3100,
@@ -181,8 +183,7 @@
       "col": 0,
       "rowCols": 4,
       "childIds": [
-        "the-lantern-vigil",
-        "the-reading-hearth"
+        "the-lantern-vigil"
       ],
       "handicap": 22,
       "opponentIntervalMs": 3000,
@@ -200,9 +201,9 @@
       "id": "the-outer-shelves",
       "type": "battle",
       "label": "The Outer Shelves",
-      "description": "A wing garrisoned like it still needs guarding — because to Amarath, it does.",
+      "description": "A wing garrisoned like it still needs guarding \u2014 because to Amarath, it does.",
       "row": 1,
-      "col": 3,
+      "col": 2,
       "rowCols": 4,
       "childIds": [
         "the-sealed-ledger",
@@ -309,7 +310,7 @@
       "col": 2,
       "rowCols": 4,
       "childIds": [
-        "the-unshelved-row"
+        "the-warden-line"
       ],
       "eventConfig": {
         "title": "The Sealed Ledger",
@@ -375,7 +376,7 @@
       "col": 3,
       "rowCols": 4,
       "childIds": [
-        "the-unshelved-row"
+        "the-warden-line"
       ]
     },
     "the-warden-line": {
@@ -385,9 +386,9 @@
       "description": "A file of archive wardens holding the deep stacks in strict, patient order.",
       "row": 3,
       "col": 0,
-      "rowCols": 4,
+      "rowCols": 2,
       "childIds": [
-        "the-deep-stacks"
+        "the-unshelved-row"
       ],
       "handicap": 26,
       "opponentIntervalMs": 2800,
@@ -410,9 +411,9 @@
       "description": "A founding record of the Archive's very first shelving.",
       "row": 3,
       "col": 1,
-      "rowCols": 4,
+      "rowCols": 2,
       "childIds": [
-        "the-deep-stacks"
+        "the-unshelved-row"
       ],
       "fragmentId": "c2act4-frag-1",
       "environment": "vault"
@@ -422,11 +423,15 @@
       "type": "elite",
       "label": "The Unshelved Row",
       "description": "A row of archivists, still holding places for a cataloguing that never comes.",
-      "row": 3,
-      "col": 3,
-      "rowCols": 4,
+      "row": 4,
+      "col": 0,
+      "rowCols": 1,
       "childIds": [
-        "the-last-registry"
+        "the-deep-stacks",
+        "the-archivists-vault",
+        "the-last-registry",
+        "the-silent-wing",
+        "the-marginal-stacks"
       ],
       "handicap": 26,
       "opponentIntervalMs": 2800,
@@ -447,9 +452,9 @@
       "type": "battle",
       "label": "The Deep Stacks",
       "description": "Shelving garrisoned like a border, deep enough that the mist forgets to follow.",
-      "row": 4,
+      "row": 5,
       "col": 0,
-      "rowCols": 4,
+      "rowCols": 5,
       "childIds": [
         "the-final-lamp"
       ],
@@ -471,9 +476,9 @@
       "type": "battle",
       "label": "The Last Registry",
       "description": "The Archive's final registry room, where even the reading-lamps burn lower.",
-      "row": 4,
-      "col": 3,
-      "rowCols": 4,
+      "row": 5,
+      "col": 2,
+      "rowCols": 5,
       "childIds": [
         "the-final-lamp",
         "mem-c2act4-2"
@@ -496,7 +501,7 @@
       "type": "rest",
       "label": "The Final Lamp",
       "description": "The last reading-lamp before the deep stacks proper. Someone has already trimmed its wick.",
-      "row": 5,
+      "row": 6,
       "col": 0,
       "rowCols": 2,
       "childIds": [
@@ -509,7 +514,7 @@
       "type": "memory",
       "label": "Memory Fragment",
       "description": "A librarian's note on the day the Name-Eater first appeared.",
-      "row": 5,
+      "row": 6,
       "col": 1,
       "rowCols": 2,
       "childIds": [
@@ -523,7 +528,7 @@
       "type": "boss",
       "label": "The Name-Eater",
       "description": "Eleven wings of shelving end here, with a warden the Court calls both prisoner and librarian.",
-      "row": 6,
+      "row": 7,
       "col": 0,
       "rowCols": 1,
       "childIds": [],
@@ -547,6 +552,121 @@
         "Every register in this hall remembers a name the world erased. The Court sent me to see that yours joins them. I have not been hungry in three hundred years for nothing."
       ],
       "bossCard": "The Name-Eater"
+    },
+    "the-annex-wing": {
+      "id": "the-annex-wing",
+      "type": "battle",
+      "label": "The Annex Wing",
+      "description": "A side wing appended to the Archive long after the original plan ran out of shelves.",
+      "row": 1,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "the-reading-hearth"
+      ],
+      "handicap": 22,
+      "opponentIntervalMs": 3000,
+      "opponentBaseHp": 246,
+      "environment": "vault",
+      "enemyDeck": [
+        "Stack Runner",
+        "Index Warden",
+        "Reading Lamp",
+        "Register Bearer",
+        "Quickening Ink"
+      ]
+    },
+    "the-side-gallery": {
+      "id": "the-side-gallery",
+      "type": "battle",
+      "label": "The Side Gallery",
+      "description": "A gallery of unshelved portraits, each frame facing the wall.",
+      "row": 1,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "the-catalogue-cart"
+      ],
+      "handicap": 22,
+      "opponentIntervalMs": 3000,
+      "opponentBaseHp": 246,
+      "environment": "vault",
+      "enemyDeck": [
+        "Lamp Acolyte",
+        "Lectern Archer",
+        "Sealed Stack",
+        "Parchment Poultice",
+        "Reading Lamp"
+      ]
+    },
+    "the-archivists-vault": {
+      "id": "the-archivists-vault",
+      "type": "battle",
+      "label": "The Archivist's Vault",
+      "description": "A sealed vault of registers no living archivist was ever cleared to open.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 5,
+      "childIds": [
+        "the-final-lamp"
+      ],
+      "handicap": 28,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 270,
+      "environment": "vault",
+      "enemyDeck": [
+        "Register Bearer",
+        "Shelf Barricade",
+        "Sealed Courier",
+        "Marginal Notes",
+        "Sealed Stack"
+      ]
+    },
+    "the-silent-wing": {
+      "id": "the-silent-wing",
+      "type": "battle",
+      "label": "The Silent Wing",
+      "description": "A wing of the Archive where even the Silence Bell has stopped needing to ring.",
+      "row": 5,
+      "col": 3,
+      "rowCols": 5,
+      "childIds": [
+        "mem-c2act4-2"
+      ],
+      "handicap": 28,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 270,
+      "environment": "vault",
+      "enemyDeck": [
+        "Stackbound Knight",
+        "Sealed Courier",
+        "Watch-Lectern",
+        "Silence Bell",
+        "Hollow Cataloguer"
+      ]
+    },
+    "the-marginal-stacks": {
+      "id": "the-marginal-stacks",
+      "type": "battle",
+      "label": "The Marginal Stacks",
+      "description": "Shelving reserved for records too minor for the main registry, and guarded anyway.",
+      "row": 5,
+      "col": 4,
+      "rowCols": 5,
+      "childIds": [
+        "mem-c2act4-2"
+      ],
+      "handicap": 28,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 270,
+      "environment": "vault",
+      "enemyDeck": [
+        "Lectern Archer",
+        "Marginal Notes",
+        "Cataloguer Automaton",
+        "Lamp-Oil Reserve",
+        "Index Warden"
+      ]
     }
   }
 }
