@@ -1,5 +1,5 @@
 import { CardRarity, Archetype } from './types'
-import type { RoadDef, TerrainObstacle } from './engine/terrain'
+import type { RoadDef, TerrainObstacle, BattlefieldDecorItem, TerrainPathDef } from './engine/terrain'
 import { loadPlayerStats } from './playerStats'
 import { logError } from '../logger'
 import { getCardCatalog } from './cards'
@@ -169,6 +169,10 @@ export interface QuestNode {
   roadFollowing?: boolean
   /** Battlefield terrain obstacles for this node, overriding the act's `terrain` and replacing the procedurally-generated default. Affects unit avoidance, same as procedural terrain. */
   terrain?: TerrainObstacle[]
+  /** Manually-authored decor sprite placements for this node's battlefield, overriding the act's `decor`. When non-empty, replaces the procedural decor scatter. */
+  decor?: BattlefieldDecorItem[]
+  /** Path-drawn blocking terrain (rivers, tree lines, mountain ridges) for this node, overriding the act's `terrainPaths`. Expands into extra TerrainObstacle circles at battle start — see expandTerrainPathsToObstacles. */
+  terrainPaths?: TerrainPathDef[]
   /** Override opponent play interval (ms). Replaces handicap-derived default. */
   opponentIntervalMs?: number
   /** Override opponent base HP. Replaces engine default (95 for bosses, 82 for others). */
@@ -328,6 +332,22 @@ export interface WorldMap {
    * Affects unit avoidance, same as procedural terrain.
    */
   terrain?: TerrainObstacle[]
+
+  /**
+   * Default manually-authored decor sprite placements for battles in this act
+   * (see BattlefieldDecorItem). When present and non-empty, replaces the
+   * procedural decor scatter (buildDecorGfx) for battles in this act; a
+   * QuestNode's own `decor` overrides this per-node.
+   */
+  decor?: BattlefieldDecorItem[]
+
+  /**
+   * Default path-drawn blocking terrain for battles in this act (see
+   * TerrainPathDef). Expands into extra TerrainObstacle circles alongside
+   * `terrain` at battle start; a QuestNode's own `terrainPaths` overrides this
+   * per-node.
+   */
+  terrainPaths?: TerrainPathDef[]
 
 }
 

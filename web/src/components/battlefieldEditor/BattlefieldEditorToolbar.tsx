@@ -8,10 +8,13 @@ const TOOLS: { tool: ToolMode; label: string }[] = [
   { tool: 'select', label: 'Select' },
   { tool: 'road', label: 'Road' },
   { tool: 'obstacle', label: 'Obstacle' },
+  { tool: 'decor', label: 'Decor' },
+  { tool: 'path', label: 'Path' },
   { tool: 'delete', label: 'Delete' },
 ]
 
 const OBSTACLE_TYPES: TerrainType[] = ['rock', 'tree', 'water', 'ruin']
+const PATH_TYPES: TerrainType[] = ['rock', 'tree', 'water', 'ruin']
 
 export interface Props {
   actId: string
@@ -19,7 +22,9 @@ export interface Props {
   nodeId: EditTarget
   tool: ToolMode
   activeObstacleType: TerrainType
+  activePathType: TerrainType
   inProgressRoadIndex: number | null
+  inProgressPathIndex: number | null
   showGuides: boolean
   environment: string
   roadFollowing: boolean
@@ -30,7 +35,9 @@ export interface Props {
   onSetNodeId: (nodeId: EditTarget) => void
   onSetTool: (tool: ToolMode) => void
   onSetActiveObstacleType: (type: TerrainType) => void
+  onSetActivePathType: (type: TerrainType) => void
   onFinishRoad: () => void
+  onFinishPath: () => void
   onToggleGuides: () => void
   onToggleRoadFollowing: () => void
   onUndo: () => void
@@ -40,9 +47,9 @@ export interface Props {
 
 export function BattlefieldEditorToolbar(props: Props) {
   const {
-    actId, actData, nodeId, tool, activeObstacleType, inProgressRoadIndex, showGuides,
+    actId, actData, nodeId, tool, activeObstacleType, activePathType, inProgressRoadIndex, inProgressPathIndex, showGuides,
     environment, roadFollowing, canUndo, canRedo, isDirty,
-    onSetActId, onSetNodeId, onSetTool, onSetActiveObstacleType, onFinishRoad,
+    onSetActId, onSetNodeId, onSetTool, onSetActiveObstacleType, onSetActivePathType, onFinishRoad, onFinishPath,
     onToggleGuides, onToggleRoadFollowing, onUndo, onRedo, onSaved,
   } = props
 
@@ -107,8 +114,21 @@ export function BattlefieldEditorToolbar(props: Props) {
         </label>
       )}
 
+      {tool === 'path' && (
+        <label>
+          Type:{' '}
+          <select value={activePathType} onChange={e => onSetActivePathType(e.target.value as TerrainType)}>
+            {PATH_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+          </select>
+        </label>
+      )}
+
       {tool === 'road' && inProgressRoadIndex !== null && (
         <button onClick={onFinishRoad}>Finish road</button>
+      )}
+
+      {tool === 'path' && inProgressPathIndex !== null && (
+        <button onClick={onFinishPath}>Finish path</button>
       )}
 
       <label style={{ fontSize: 11 }}>

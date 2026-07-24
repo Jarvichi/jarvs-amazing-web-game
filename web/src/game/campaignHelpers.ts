@@ -157,6 +157,8 @@ export function resolvedNodeOpts(
     roads: node.roads ?? act?.roads,
     roadFollowing: node.roadFollowing ?? act?.roadFollowing ?? false,
     terrain: node.terrain ?? act?.terrain,
+    decor: node.decor ?? act?.decor,
+    terrainPaths: node.terrainPaths ?? act?.terrainPaths,
     opponentIntervalMs: adjustedInterval,
     opponentBaseHp: adjustedHp,
     opponentStartCards: handBonus,
