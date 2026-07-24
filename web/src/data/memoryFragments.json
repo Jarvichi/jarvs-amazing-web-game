@@ -362,5 +362,19 @@
     "nodeId": "mem-c2act13-2",
     "title": "Fragment: The Ward That Nearly Dimmed",
     "body": "A WARD-GUARD'S LOG, RECOVERED FROM A GATEHOUSE WATCH-POST\n\n'Third watch, and the seventh ward's candle guttered for the first time in three centuries — not out, not fully, just low enough that the ward-captain relit it with her own hand before anyone else noticed. She told me not to write this down. I am writing it down anyway. If a single candle can nearly go out after three hundred years of not going out, then the Court's promise that this capital would never go dark is not the guarantee it claims to be, and somebody above my rank ought to know that before the Worldmender's people find it out for themselves.\n\nThe ward-captain relit the candle a second time before the log closed. It held until the next watch. I do not know if a city that nearly dims is still the last capital, or just a grief that has finally started to tire of being remembered.'"
+  },
+  {
+    "id": "c2finale-frag-1",
+    "actId": "c2finale",
+    "nodeId": "mem-c2finale-1",
+    "title": "Fragment: The First Vigil",
+    "body": "FOUNDING CHARTER OF THE VIGIL-RITE — YEAR ONE OF THE RETURN\n\n'The King did not ask the Court to help him hold Amarath together. He told them, once, plainly, that he intended to hold it himself — every name, every road, every candle, in his own mind, for as long as it took the Dominion to remember what it had erased. Nobody on the Court believed one man could carry a kingdom's whole memory alone. He did not ask them to believe it. He simply began.\n\nThree hundred years on, I am told the King has never once set the rite down, not for a night, not for an hour. I believe it. A man who spent three centuries being nowhere does not get to decide the remembering is finished just because the carrying is heavy.\n\nI do not know what happens to a rite like this when it finally ends. I do not think the King knows either. I think that is precisely why he has never once tried.'"
+  },
+  {
+    "id": "c2finale-frag-2",
+    "actId": "c2finale",
+    "nodeId": "mem-c2finale-2",
+    "title": "Fragment: The Night the King Spoke of an Ending",
+    "body": "A RITE-KEEPER'S LOG, RECOVERED FROM THE VIGIL CHAMBER\n\n'Third watch, and for the first time in three centuries the King spoke the word \"ending\" aloud in the chamber, not as a threat and not as a fear, just as a question he had apparently been turning over since word came of the Worldmender's crossing. He did not finish the thought. He told me not to write this down. I am writing it down anyway.\n\nIf the King is asking whether the rite can end, then he is asking whether Amarath can be remembered by more than one mind at last — and I do not think a kingdom that has spent three centuries as one man's private grief knows how to answer that question honestly.\n\nHe did not speak of ending again before the log closed. I do not know if a King who finally asks the question is still the same King who spent three hundred years refusing to ask it, or something new standing in the same chamber.'"
   }
 ]

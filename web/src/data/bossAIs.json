@@ -2860,5 +2860,103 @@
         ]
       }
     ]
+  },
+  {
+    "id": "vigilking",
+    "intervalMs": 4600,
+    "idleMessage": "The rite does not end because someone wishes it would…",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE VIGIL KING rises from a throne that has held one occupant for three centuries.",
+      "\"You crossed the City of Vigils, Worldmender. The Queen kept it lit. I have kept this entire kingdom, in my own mind, for three centuries — every name, every candle, every mile of every road you have already walked.\""
+    ],
+    "trait": {
+      "name": "The Vigil Reignites",
+      "implemented": true,
+      "trigger": "hp_pct_multi",
+      "triggerHpPcts": [66, 33],
+      "type": "fly",
+      "description": "At 66% and again at 33% HP, the Vigil King vanishes into the rite itself for 4 seconds, then reignites every candle in the chamber at once, dealing 10 damage and silencing every friendly unit on the field for 2.2 seconds.",
+      "mechanics": {
+        "invulnerableDurationMs": 4000,
+        "landingDamage": 10,
+        "landingRadiusTiles": 14,
+        "stunDurationMs": 2200,
+        "repositionTarget": "battlefield_centre"
+      },
+      "announceText": "THE VIGIL KING VANISHES INTO THE RITE — the chamber's candles all go dark at once!",
+      "landText": "THE VIGIL REIGNITES — every candle in the chamber catches at the same instant."
+    },
+    "phases": [
+      {
+        "condition": {
+          "gameTimeLt": 30000
+        },
+        "priorities": [
+          {
+            "cardType": "structure",
+            "isWall": true
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "mana"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_asc"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      },
+      {
+        "condition": {
+          "gameTimeGte": 30000,
+          "gameTimeLt": 75000
+        },
+        "priorities": [
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costGte": 4,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ],
+        "announceOnce": "\"The Court never asked me to hold Amarath alone. I decided that a kingdom remembered by one man was still a kingdom, and I have never once revisited that decision.\""
+      },
+      {
+        "condition": null,
+        "manaOverride": 10,
+        "maxPlaysOverride": 5,
+        "announceOnce": "\"THE RITE DOES NOT END BECAUSE I DECIDE TO END IT. IT ENDS WHEN SOMEONE ELSE HAS SOMEWHERE TO PUT WHAT I'VE BEEN HOLDING.\"",
+        "priorities": [
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      }
+    ]
   }
 ]

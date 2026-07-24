@@ -447,5 +447,29 @@
         "intervalMs": 6000
       }
     ]
+  },
+  {
+    "name": "Crown of the Remembered",
+    "icon": "👑",
+    "desc": "The mark of the one who remembered a kingdom back. Your base gains +30 max HP, all units gain +6 ATK and +8 max HP, and your maximum mana is increased by 2.",
+    "lore": "The plain, worn circlet of a King who spent three centuries as the only witness to his own kingdom. The rite was never about holding Amarath apart from the world — it was about making sure there would still be something left to remember when the world was ready.",
+    "effects": [
+      {
+        "type": "baseHp",
+        "amount": 30
+      },
+      {
+        "type": "unitAtk",
+        "amount": 6
+      },
+      {
+        "type": "unitHp",
+        "amount": 8
+      },
+      {
+        "type": "maxMana",
+        "amount": 2
+      }
+    ]
   }
 ]

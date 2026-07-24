@@ -1279,6 +1279,41 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     tier: 2,
   },
 
+  // Campaign 2, Finale — The Throne of the Unremembered
+  {
+    id: 'campaign:c2finale:1',
+    name: 'The Rite Ends',
+    description: 'Complete Campaign 2 Finale — The Throne of the Unremembered',
+    category: 'campaign',
+    progressKey: 'campaign:c2finale',
+    target: 1,
+    reward: { type: 'crystals', crystals: 1000 },
+    tier: 1,
+  },
+  {
+    id: 'campaign:c2finale:10',
+    name: 'Recorded in the Vigil Archive',
+    description: 'Complete Campaign 2 Finale ten times',
+    category: 'campaign',
+    progressKey: 'campaign:c2finale',
+    target: 10,
+    reward: { type: 'crystals', crystals: 4200 },
+    tier: 2,
+  },
+  {
+    id: 'campaign:c2finale:100',
+    name: 'The Kingdom Remembers Your Name',
+    description: 'Complete Campaign 2 Finale one hundred times',
+    category: 'campaign',
+    progressKey: 'campaign:c2finale',
+    target: 100,
+    reward: {
+      type: 'item',
+      item: { id: 'kings_unbroken_vigil', name: "King's Unbroken Vigil", icon: '👑', desc: 'A vigil kept a hundred times over. It has never once needed carrying alone.' },
+    },
+    tier: 2,
+  },
+
   // ── Boss avatar unlocks (one per act, triggered on first act completion) ─
 
   { id: 'campaign:act1:boss',  name: 'Face of the Thornlord',       description: 'Defeat Act 1 to unlock the Thornlord avatar',       category: 'campaign', progressKey: 'campaign:act1',  target: 1, reward: { type: 'avatar', avatarSlug: 'boss-thornlord' },       tier: 1 },
@@ -1308,6 +1343,7 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
   { id: 'campaign:c2act11:boss',   name: 'Face of the Procession Master', description: 'Defeat Campaign 2 Act 11 to unlock the Procession Master avatar', category: 'campaign', progressKey: 'campaign:c2act11', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-processionmaster' }, tier: 1 },
   { id: 'campaign:c2act12:boss',   name: 'Face of the Pale Marshal', description: 'Defeat Campaign 2 Act 12 to unlock the Pale Marshal avatar', category: 'campaign', progressKey: 'campaign:c2act12', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-palemarshal' }, tier: 1 },
   { id: 'campaign:c2act13:boss',   name: 'Face of the Vigil Queen', description: 'Defeat Campaign 2 Act 13 to unlock the Vigil Queen avatar', category: 'campaign', progressKey: 'campaign:c2act13', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-vigilqueen' }, tier: 1 },
+  { id: 'campaign:c2finale:boss',  name: 'Face of the Vigil King', description: 'Defeat Campaign 2 Finale to unlock the Vigil King avatar', category: 'campaign', progressKey: 'campaign:c2finale', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-vigilking' }, tier: 1 },
 
   // ── Boss Cards — earned by repeat boss completions (10/20/30/40 runs) ────
   // Act 1 — Thornlord
