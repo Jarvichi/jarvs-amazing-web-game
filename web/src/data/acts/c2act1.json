@@ -159,6 +159,7 @@
       "rowCols": 3,
       "childIds": [
         "mist-picket",
+        "border-clash",
         "toll-bridge"
       ],
       "handicap": 14,
@@ -179,10 +180,9 @@
       "description": "Sentries hold the western fenceline of the Marches.",
       "row": 1,
       "col": 0,
-      "rowCols": 4,
+      "rowCols": 3,
       "childIds": [
-        "waymeet-shrine",
-        "wardens-camp"
+        "waymeet-shrine"
       ],
       "handicap": 16,
       "opponentIntervalMs": 3300,
@@ -196,14 +196,37 @@
         "March Ration"
       ]
     },
+    "border-clash": {
+      "id": "border-clash",
+      "type": "battle",
+      "label": "The Border Clash",
+      "description": "A running fight along a fenceline no Dominion map ever drew.",
+      "row": 1,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "wardens-camp"
+      ],
+      "handicap": 16,
+      "opponentIntervalMs": 3300,
+      "opponentBaseHp": 222,
+      "environment": "frost",
+      "enemyDeck": [
+        "Mist Skirmisher",
+        "Marchland Pikeman",
+        "Wardstone",
+        "Candle Bearer",
+        "March Ration"
+      ]
+    },
     "toll-bridge": {
       "id": "toll-bridge",
       "type": "battle",
       "label": "Old Toll Bridge",
       "description": "A bridge that was never on the survey — with a garrison that was never on the rolls.",
       "row": 1,
-      "col": 3,
-      "rowCols": 4,
+      "col": 2,
+      "rowCols": 3,
       "childIds": [
         "blank-map",
         "drovers-market"
@@ -229,8 +252,7 @@
       "col": 0,
       "rowCols": 4,
       "childIds": [
-        "vanguard-line",
-        "mem-c2act1-1"
+        "vanguard-line"
       ],
       "eventConfig": {
         "title": "The Waymeet Shrine",
@@ -296,7 +318,8 @@
       "col": 1,
       "rowCols": 4,
       "childIds": [
-        "vanguard-line"
+        "vanguard-line",
+        "mem-c2act1-1"
       ],
       "restHeal": 8
     },
@@ -403,7 +426,8 @@
       "col": 1,
       "rowCols": 4,
       "childIds": [
-        "palisade-push"
+        "palisade-push",
+        "fog-riders"
       ],
       "fragmentId": "c2act1-frag-1",
       "environment": "frost"
@@ -417,7 +441,8 @@
       "col": 3,
       "rowCols": 4,
       "childIds": [
-        "fog-riders"
+        "fog-riders",
+        "watch-line"
       ],
       "handicap": 20,
       "opponentIntervalMs": 3100,
@@ -440,7 +465,7 @@
       "description": "The vanguard's field works block the road west.",
       "row": 4,
       "col": 0,
-      "rowCols": 4,
+      "rowCols": 3,
       "childIds": [
         "last-lamp"
       ],
@@ -457,16 +482,40 @@
         "Mist Archer"
       ]
     },
+    "watch-line": {
+      "id": "watch-line",
+      "type": "battle",
+      "label": "The Watch Line",
+      "description": "A last defensive line, dug in before the Herald's own ground.",
+      "row": 4,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "last-lamp",
+        "mem-c2act1-2"
+      ],
+      "handicap": 22,
+      "opponentIntervalMs": 3000,
+      "opponentBaseHp": 246,
+      "environment": "frost",
+      "enemyDeck": [
+        "Pale Rider",
+        "Marchland Pikeman",
+        "Watch Beacon",
+        "Unremembered Soldier",
+        "Fog Veil",
+        "Wardstone"
+      ]
+    },
     "fog-riders": {
       "id": "fog-riders",
       "type": "battle",
       "label": "Riders in the Fog",
       "description": "Cavalry with no hoofbeats, closing fast.",
       "row": 4,
-      "col": 3,
-      "rowCols": 4,
+      "col": 2,
+      "rowCols": 3,
       "childIds": [
-        "last-lamp",
         "mem-c2act1-2"
       ],
       "handicap": 22,
