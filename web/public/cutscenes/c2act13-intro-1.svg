@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a1218"/>
+  <linearGradient id="c2a13i1-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0e1420"/>
+    <stop offset="100%" stop-color="#1a2436"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2a13i1-sky)"/>
+  <rect y="150" width="180" height="90" fill="#2a2a30"/>
+  <rect x="180" y="150" width="220" height="90" fill="#2a2436"/>
+  <rect x="230" y="90" width="28" height="60" fill="#332c44"/>
+  <rect x="280" y="70" width="32" height="80" fill="#3a3350"/>
+  <g fill="#FFC94A" opacity="0.8">
+    <rect x="240" y="110" width="3" height="3"/>
+    <rect x="290" y="90" width="3" height="3"/>
+  </g>
+  <ellipse cx="200" cy="200" rx="150" ry="16" fill="#FFC94A" opacity="0.15"/>
+  <g fill="#11141f">
+    <circle cx="200" cy="140" r="10"/>
+    <rect x="189" y="150" width="22" height="34" rx="4"/>
+  </g>
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THE CROWN REACHES END. THE CITY OF VIGILS BEGINS.</text>
+</svg>
