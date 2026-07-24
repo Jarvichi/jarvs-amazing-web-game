@@ -34,6 +34,29 @@ export async function loadAnimFrames(name: string, frameCount: number): Promise<
   )
 }
 
+// Slugs already found to have no `{slug}-N.svg` frames, so repeat callers go
+// straight to the static sprite instead of re-issuing 404s every sync.
+const _noAnimFrames = new Set<string>()
+
+/**
+ * Load a unit's walk frames, falling back to its single static `{slug}.svg`
+ * when the per-frame files don't exist (e.g. Warlord / Commander, which only
+ * ship a static sprite). This mirrors AnimatedSpriteImg's onError fallback in
+ * SpriteImg.tsx — without it a frame-less unit renders as nothing at all.
+ * Rejects only when the static sprite is missing too.
+ */
+export async function loadAnimFramesOrStatic(name: string, frameCount: number): Promise<PIXI.Texture[]> {
+  const slug = spriteSlug(name)
+  if (!_noAnimFrames.has(slug)) {
+    try {
+      return await loadAnimFrames(name, frameCount)
+    } catch {
+      _noAnimFrames.add(slug)
+    }
+  }
+  return [await loadSpriteTexture(name)]
+}
+
 /**
  * Animate a group of sprites that all share one tile-sheet texture source and
  * show the same combo tile at a different animation frame (e.g. a water path

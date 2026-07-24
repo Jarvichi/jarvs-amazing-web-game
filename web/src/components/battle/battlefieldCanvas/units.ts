@@ -3,7 +3,7 @@ import type { GameState, Unit } from '../../../game/types'
 import { MAX_UPGRADE_LEVEL } from '../../../game/engine/cards'
 import { DAMAGE_FLASH_MS, SPAWN_GROW_MS } from '../../../game/engine/constants'
 import { DEATH_LINGER_MS, KILL_FLASH_MS } from '../../../game/engine/combat'
-import { loadSpriteTexture, loadAnimFrames, drawHpBar, makeClickable } from '../../../utils/pixiHelpers'
+import { loadSpriteTexture, loadAnimFramesOrStatic, drawHpBar, makeClickable } from '../../../utils/pixiHelpers'
 import { gameToPixel } from '../../../utils/terrainLayer'
 import { drawMoat, drawWall, MOAT_H, WALL_H } from './moatWall'
 import type { Scene, UnitEntry } from './scene'
@@ -85,12 +85,15 @@ function fitScale(tex: PIXI.Texture, box: { w: number; h: number }): number {
 }
 
 async function ensureSprite(entry: UnitEntry, spriteName: string, animated: boolean, box: { w: number; h: number }, anchorY: number): Promise<void> {
-  if (entry.loadedSpriteName === spriteName + (animated ? '#a' : '#s')) return
+  const key = spriteName + (animated ? '#a' : '#s')
+  if (entry.loadedSpriteName === key) return
   const token = ++entry.loadToken
-  entry.loadedSpriteName = spriteName + (animated ? '#a' : '#s')
+  entry.loadedSpriteName = key
   try {
     if (animated) {
-      const frames = await loadAnimFrames(spriteName, 3)
+      // Frame-less units (Warlord — the opponent commander — and Commander) come
+      // back as a single static frame rather than throwing, so they still render.
+      const frames = await loadAnimFramesOrStatic(spriteName, 3)
       if (entry.loadToken !== token) return
       const old = entry.sprite
       const sprite = new PIXI.AnimatedSprite(frames)
