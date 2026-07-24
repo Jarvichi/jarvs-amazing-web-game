@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef, useMemo, useReducer, lazy, Suspense } from 'react'
 import { ScreenLoadingFallback } from './components/ScreenLoadingFallback'
-import { resolvedNodeOpts, loadHandicap, HANDICAP_KEY, buildQuickBattleOpts, loadCurrentDeckInfo } from './game/campaignHelpers'
+import { resolvedNodeOpts, loadHandicap, HANDICAP_KEY, buildQuickBattleOpts, loadCurrentDeckInfo, carryHpAfterBattle, applyRestHeal, applyEventHeal } from './game/campaignHelpers'
 import { usePlaytime } from './hooks/usePlaytime'
 import { recordScreen } from './utils/crashSentinel'
 import { getGlStats } from './utils/pixiTelemetry'
@@ -1655,7 +1655,7 @@ export default function App() {
 
     for (const effect of effects) {
       if (effect.type === 'healHp') {
-        updatedRun = { ...updatedRun, playerHp: Math.min(updatedRun.maxHp, updatedRun.playerHp + effect.amount) }
+        updatedRun = { ...updatedRun, playerHp: applyEventHeal(updatedRun.playerHp, updatedRun.maxHp, effect.amount) }
       } else if (effect.type === 'damageHp') {
         if (!isNoDamageMode()) {
           updatedRun = { ...updatedRun, playerHp: Math.max(1, updatedRun.playerHp - effect.amount) }
@@ -1896,17 +1896,12 @@ export default function App() {
     }
     campaignPlayCountsRef.current = {}
 
-    // Update run HP and counts from battle result.
-    // gameState.playerBase is scaled to include any equipped relic's HP bonus (applied
-    // fresh each battle — see relics.ts), which run.maxHp deliberately excludes. Carrying
-    // gameState.playerBase.hp straight into run.playerHp would permanently bank that relic
-    // bonus into the persisted HP pool without run.maxHp ever growing to match, drifting
-    // the two out of sync over repeated battles. Instead, carry forward the damage taken
-    // relative to the relic-inflated pool, applied against the relic-free run.maxHp.
-    const dmgTaken = gameState.playerBase.maxHp - gameState.playerBase.hp
+    // Update run HP and counts from battle result (see carryHpAfterBattle for why this
+    // isn't a straight copy of gameState.playerBase.hp — that value can include a
+    // relic's transient HP bonus, which run.maxHp deliberately excludes).
     const updatedRun: RunState = {
       ...currentRun,
-      playerHp: Math.max(0, currentRun.maxHp - dmgTaken),
+      playerHp: carryHpAfterBattle(currentRun.maxHp, gameState.playerBase),
       completedNodeIds: [...currentRun.completedNodeIds, nodeId],
       pendingNodeId: null,
       cardPlayCounts: mergedCounts,
@@ -2014,14 +2009,9 @@ export default function App() {
     let resultMessage = ''
 
     if (choice === 'heal') {
-      if (updatedRun.playerHp >= updatedRun.maxHp) {
-        updatedRun.playerHp = updatedRun.playerHp + healAmount
-        resultMessage = `Already at full health — gained +${healAmount} bonus HP above your maximum!`
-      } else {
-        const gained = Math.min(healAmount, updatedRun.maxHp - updatedRun.playerHp)
-        updatedRun.playerHp = Math.min(updatedRun.playerHp + healAmount, updatedRun.maxHp)
-        resultMessage = `Healed ${gained} HP. (${currentRun.playerHp} → ${updatedRun.playerHp})`
-      }
+      const healed = applyRestHeal(updatedRun.playerHp, updatedRun.maxHp, healAmount)
+      updatedRun.playerHp = healed.hp
+      resultMessage = healed.message
       playRestHeal()
     } else if (choice === 'rest') {
       const fatigued = loadFatigued()

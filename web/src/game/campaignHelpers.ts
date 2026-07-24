@@ -163,3 +163,50 @@ export function resolvedNodeOpts(
     bossSpawnKillPct,
   }
 }
+
+// ─── Campaign HP carry-forward ─────────────────────────────────────────────
+
+/**
+ * Computes the run's persisted current HP after a campaign battle win.
+ *
+ * `playerBase` (from the just-finished GameState) may be scaled up by an
+ * equipped relic's flat HP bonus — relics.ts applies that bonus fresh to
+ * both `hp` and `maxHp` at the start of every battle, and it is deliberately
+ * excluded from `run.maxHp` (the relic is meant to be a transient per-battle
+ * cushion, not a permanent stat). Carrying `playerBase.hp` straight into
+ * `run.playerHp` would silently bank that bonus into the persisted pool
+ * without `run.maxHp` ever growing to match, drifting the two apart over
+ * repeated battles. Instead, measure damage taken against the (possibly
+ * relic-inflated) battle pool and re-apply it to the relic-free run.maxHp,
+ * so run.playerHp and run.maxHp always stay on the same scale.
+ */
+export function carryHpAfterBattle(runMaxHp: number, playerBase: { hp: number; maxHp: number }): number {
+  const dmgTaken = playerBase.maxHp - playerBase.hp
+  return Math.max(0, runMaxHp - dmgTaken)
+}
+
+/**
+ * Applies a node-map event's `healHp` effect. Unlike the rest-node heal
+ * choice, event healing always clamps to maxHp — events never grant an
+ * overheal above the player's maximum.
+ */
+export function applyEventHeal(playerHp: number, maxHp: number, amount: number): number {
+  return Math.min(maxHp, playerHp + amount)
+}
+
+/**
+ * Applies a rest-node "heal" choice. Normally clamps to maxHp, but if the
+ * player is already at full health, grants the heal as bonus HP above their
+ * maximum instead of wasting it — this is an intentional overheal, not a bug.
+ */
+export function applyRestHeal(playerHp: number, maxHp: number, healAmount: number): { hp: number; message: string } {
+  if (playerHp >= maxHp) {
+    return {
+      hp: playerHp + healAmount,
+      message: `Already at full health — gained +${healAmount} bonus HP above your maximum!`,
+    }
+  }
+  const gained = Math.min(healAmount, maxHp - playerHp)
+  const hp = Math.min(playerHp + healAmount, maxHp)
+  return { hp, message: `Healed ${gained} HP. (${playerHp} → ${hp})` }
+}
