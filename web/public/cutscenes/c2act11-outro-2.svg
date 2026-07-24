@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a1218"/>
+  <linearGradient id="c2a11o2-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#100e14"/>
+    <stop offset="100%" stop-color="#241d14"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2a11o2-sky)"/>
+  <rect y="150" width="400" height="90" fill="#1c1712"/>
+  <path d="M175,120 Q200,90 225,120 L230,165 L170,165 Z" fill="#E8C468"/>
+  <ellipse cx="200" cy="165" rx="34" ry="8" fill="#C9A227"/>
+  <circle cx="200" cy="175" r="5" fill="#8A97A0"/>
+  <ellipse cx="200" cy="205" rx="90" ry="14" fill="#E8C468" opacity="0.2"/>
+
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">PROCESSION BELL — IT RINGS BEFORE THE MARCH EVEN BEGINS.</text>
+</svg>

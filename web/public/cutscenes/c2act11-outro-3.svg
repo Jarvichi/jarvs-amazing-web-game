@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a1218"/>
+  <linearGradient id="c2a11o3-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0e1420"/>
+    <stop offset="100%" stop-color="#1a2436"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2a11o3-sky)"/>
+  <rect y="150" width="400" height="90" fill="#2a2a30"/>
+  <rect x="60" y="90" width="26" height="60" fill="#3a3a44"/>
+  <rect x="110" y="70" width="30" height="80" fill="#40404c"/>
+  <rect x="260" y="80" width="28" height="70" fill="#3a3a44"/>
+  <rect x="310" y="65" width="32" height="85" fill="#40404c"/>
+  <g fill="#8B2635" opacity="0.8">
+    <rect x="122" y="72" width="6" height="18"/>
+    <rect x="322" y="67" width="6" height="18"/>
+  </g>
+  <ellipse cx="200" cy="200" rx="150" ry="18" fill="#D4AF37" opacity="0.15"/>
+  <g fill="#11141f">
+    <circle cx="200" cy="140" r="10"/>
+    <rect x="189" y="150" width="22" height="34" rx="4"/>
+  </g>
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THE CROWN REACHES — THE COURT'S LAST FIELD ARMY WAITS AHEAD.</text>
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a1218"/>
+  <linearGradient id="c2a11i3-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#141017"/>
+    <stop offset="100%" stop-color="#2a2015"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2a11i3-sky)"/>
+  <rect y="150" width="400" height="90" fill="#241d14"/>
+  <g fill="#0c0e16" opacity="0.9">
+    <circle cx="120" cy="146" r="8"/><rect x="112" y="154" width="16" height="26" rx="3"/>
+    <circle cx="150" cy="146" r="8"/><rect x="142" y="154" width="16" height="26" rx="3"/>
+    <circle cx="180" cy="146" r="8"/><rect x="172" y="154" width="16" height="26" rx="3"/>
+  </g>
+  <g fill="#3F5170">
+    <circle cx="240" cy="132" r="12"/>
+    <path d="M225,127 Q240,110 255,127 Z" fill="#8A97A0"/>
+    <rect x="224" y="144" width="32" height="42" rx="4"/>
+    <rect x="238" y="150" width="4" height="30" fill="#E8C468"/>
+  </g>
+  <ellipse cx="200" cy="205" rx="150" ry="18" fill="#E8C468" opacity="0.12"/>
+  <g fill="#11141f">
+    <circle cx="200" cy="140" r="10"/>
+    <rect x="189" y="150" width="22" height="34" rx="4"/>
+  </g>
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THE PROCESSION MASTER HAS KEPT THIS RITE MARCHING LONGER THAN ITS REASON.</text>
+</svg>

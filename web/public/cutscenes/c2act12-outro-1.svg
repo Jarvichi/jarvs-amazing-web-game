@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a1218"/>
+  <linearGradient id="c2a12o1-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0e1420"/>
+    <stop offset="100%" stop-color="#1a2436"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2a12o1-sky)"/>
+  <rect y="150" width="400" height="90" fill="#2a2a30"/>
+  <g fill="#E8E4D8">
+    <circle cx="200" cy="128" r="10"/>
+    <rect x="184" y="138" width="32" height="42" rx="4"/>
+    <line x1="216" y1="155" x2="232" y2="170" stroke="#D4AF37" stroke-width="2.5"/>
+  </g>
+  <ellipse cx="200" cy="205" rx="140" ry="17" fill="#D4AF37" opacity="0.18"/>
+  <g fill="#11141f">
+    <circle cx="200" cy="140" r="10"/>
+    <rect x="189" y="150" width="22" height="34" rx="4"/>
+  </g>
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">"NOT ONE STAND OF IT EVER TOLD ME IF HOLDING WAS THE SAME AS WINNING."</text>
+</svg>

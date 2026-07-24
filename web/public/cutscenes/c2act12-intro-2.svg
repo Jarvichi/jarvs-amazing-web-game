@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a1218"/>
+  <linearGradient id="c2a12i2-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0e1420"/>
+    <stop offset="100%" stop-color="#1a2436"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2a12i2-sky)"/>
+  <rect y="150" width="400" height="90" fill="#2a2a30"/>
+  <rect x="40" y="100" width="320" height="50" fill="#40404c"/>
+  <rect x="40" y="100" width="320" height="8" fill="#3a3a44"/>
+  <g fill="#8B2635">
+    <rect x="90" y="72" width="8" height="30"/>
+    <path d="M98,72 L98,88 L118,80 Z"/>
+    <rect x="230" y="70" width="8" height="32"/>
+    <path d="M238,70 L238,86 L258,78 Z"/>
+    <rect x="300" y="74" width="8" height="28"/>
+    <path d="M308,74 L308,90 L328,82 Z"/>
+  </g>
+  <ellipse cx="200" cy="205" rx="150" ry="17" fill="#D4AF37" opacity="0.15"/>
+  <g fill="#11141f">
+    <circle cx="200" cy="140" r="10"/>
+    <rect x="189" y="150" width="22" height="34" rx="4"/>
+  </g>
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">A LINE AMARATH BUILT TO HOLD, THREE CENTURIES RUNNING.</text>
+</svg>

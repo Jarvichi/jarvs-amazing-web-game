@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a1218"/>
+  <linearGradient id="c2a11i2-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#141017"/>
+    <stop offset="100%" stop-color="#2a2015"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2a11i2-sky)"/>
+  <rect y="150" width="400" height="90" fill="#241d14"/>
+  <path d="M140,240 L180,150 L220,150 L260,240 Z" fill="#332a1c"/>
+  <g fill="#E8C468" opacity="0.85">
+    <rect x="150" y="130" width="3" height="20"/>
+    <circle cx="151.5" cy="126" r="3"/>
+    <rect x="247" y="130" width="3" height="20"/>
+    <circle cx="248.5" cy="126" r="3"/>
+    <rect x="120" y="140" width="2.5" height="16"/>
+    <circle cx="121" cy="137" r="2.4"/>
+    <rect x="277" y="140" width="2.5" height="16"/>
+    <circle cx="278" cy="137" r="2.4"/>
+  </g>
+  <ellipse cx="200" cy="200" rx="140" ry="18" fill="#E8C468" opacity="0.12"/>
+  <g fill="#11141f">
+    <circle cx="200" cy="140" r="10"/>
+    <rect x="189" y="150" width="22" height="34" rx="4"/>
+  </g>
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">A ROAD AMARATH BUILT ON PURPOSE, MILE BY MARCHED MILE.</text>
+</svg>
