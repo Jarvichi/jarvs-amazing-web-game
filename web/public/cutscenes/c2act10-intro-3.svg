@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a1410"/>
+  <linearGradient id="c2a10i3-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#141f16"/>
+    <stop offset="100%" stop-color="#243626"/>
+  </linearGradient>
+  <rect width="400" height="150" fill="url(#c2a10i3-sky)"/>
+  <rect y="150" width="400" height="90" fill="#1b2a1e"/>
+  <!-- The Orchard Keeper's silhouette, tending a row -->
+  <g fill="#12141f">
+    <circle cx="200" cy="120" r="12"/>
+    <path d="M188,124 Q200,116 212,124 L212,132 Q200,127 188,132 Z" fill="#8A97A0"/>
+    <rect x="185" y="132" width="30" height="46" rx="4"/>
+  </g>
+  <path d="M216,150 L232,158" stroke="#6B4F3A" stroke-width="2"/>
+  <circle cx="232" cy="158" r="2" fill="#E8B4C8"/>
+  <ellipse cx="200" cy="185" rx="180" ry="16" fill="#4C7A5E" opacity="0.2"/>
+  <!-- Caption -->
+  <rect y="206" width="400" height="34" fill="#080a12"/>
+  <text x="200" y="228" text-anchor="middle" font-family="monospace" font-size="12" fill="#C9CBDA">THE KEEPER TENDS EVERY ROW HERSELF.</text>
+</svg>
