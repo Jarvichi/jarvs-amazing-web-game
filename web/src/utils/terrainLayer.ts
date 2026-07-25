@@ -1,7 +1,8 @@
 import * as PIXI from 'pixi.js'
 import { ENV_TILES, BASE_GROUND, TILESET_IMAGE, TILESET_COLUMNS, TILE_SIZE, EnvTileDef, SCENERY } from '../data/tiles/tileIndex'
-import { WORLD_DECOR_FILE, WORLD_DECOR, TERRAIN_DECOR_MAP, TERRAIN_PATCH_MAP } from '../data/tiles/worldTileIndex'
+import { WORLD_DECOR_FILE, WORLD_DECOR, TERRAIN_DECOR_MAP } from '../data/tiles/worldTileIndex'
 import { loadTileTexture } from './pixiHelpers'
+import { planTerrainPatches } from './terrainPatchPlan'
 import { drawTerrainItem } from './terrainGfx'
 import { seededRand, hashStr, getTerrainItems, type TerrainItem } from './mapUtils'
 import { renderPathTiles } from './tileLookup'
@@ -411,6 +412,12 @@ async function renderSceneryPatch(
  * are organic rather than single scaled tiles. Ruins fall back to a single
  * WORLD_DECOR tile (gravestone, house, etc.).
  *
+ * Obstacles sharing a tileset are unioned into one tile set by
+ * planTerrainPatches() and autotiled together, so touching patches render as
+ * one continuous shape — a chain of overlapping water circles becomes a single
+ * lake with one shoreline, rather than each circle edging against its
+ * neighbours. This mirrors what buildRoadGfx does for overlapping roads.
+ *
  * Game coords → canvas px via gameToPixel() (see above).
  */
 export async function buildTerrainDecorGfx(
@@ -423,83 +430,40 @@ export async function buildTerrainDecorGfx(
   if (terrain.length === 0) return
   const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
   const env = opts.environment ?? ''
-  const envPatchMap = TERRAIN_PATCH_MAP[env] ?? {}
   const envDecorMap = TERRAIN_DECOR_MAP[env] ?? {}
 
   const toTile = (obs: TerrainObstacle) => {
     const { px, py } = gameToPixel(obs.x, obs.y, w, h)
     return { tcx: Math.round(px / TILE_SIZE), tcy: Math.round(py / TILE_SIZE) }
   }
+  const tileRadiusOf = (obs: TerrainObstacle) =>
+    Math.max(1, Math.round(obs.radius * h / (TILE_RADIUS_SCALE * TILE_SIZE)))
 
-  // terrain.ts only guarantees a minimum *game-unit* separation between obstacle
-  // centers, but the canvas projection below doesn't scale 1:1 with tile distance —
-  // so two obstacles' tile-rings can still end up overlapping (more often than not,
-  // across types too — confirmed by brute-force search across seeds). Reserve every
-  // obstacle's center cell up front so a neighboring ring can never swallow its decor
-  // icon, then have each ring claim cells first-come so overlapping rings carve cleanly
-  // around each other (and around centers) instead of later obstacles' tiles
-  // overwriting earlier ones into a single illegible blob.
-  const claimedCells = new Set<string>()
-  for (const obs of terrain) {
-    const { tcx, tcy } = toTile(obs)
-    claimedCells.add(`${tcx},${tcy}`)
+  const { groups, decor } = planTerrainPatches(terrain, toTile, tileRadiusOf, env)
+
+  // ── TYPE3 adjacency-tiled patches (tree / rock / water), one draw per tileset ──
+  for (const group of groups) {
+    if (container.destroyed) return
+    const patchContainer = new PIXI.Container()
+    container.addChild(patchContainer)
+    if (group.isPathTiles) {
+      await renderPathTiles(patchContainer, group.tiles, undefined, group.patchFile)
+    } else {
+      await renderSceneryPatch(patchContainer, group.tiles, group.patchFile)
+    }
   }
 
-  for (const obs of terrain) {
+  // ── WORLD_DECOR icons (tree/rock centres, ruins) — drawn last so they sit on top ──
+  const decorUrl = `${base}${WORLD_DECOR_FILE.slice(1)}`
+  for (const { type, idNum, tcx, tcy } of decor) {
     if (container.destroyed) return
-    const { tcx, tcy } = toTile(obs)
-    const idNum = parseInt(obs.id.replace('t', ''), 10)
-
-    // ── TYPE3 adjacency-tiled patch (tree / rock / water) ───────────────────
-    // SCENERY/PATH tiles fill the ring; center cell is reserved for WORLD_DECOR.
-    const patchFile = envPatchMap[obs.type] ?? TERRAIN_PATCH_MAP._default?.[obs.type]
-    if (patchFile) {
-      const tileRadius = Math.max(1, Math.round(obs.radius * h / (TILE_RADIUS_SCALE * TILE_SIZE)))
-      const ringSet = new Set<string>()
-      for (let dr = -tileRadius; dr <= tileRadius; dr++) {
-        for (let dc = -tileRadius; dc <= tileRadius; dc++) {
-          if (dr * dr + dc * dc > tileRadius * tileRadius) continue
-          const key = `${tcx + dc},${tcy + dr}`
-          if (claimedCells.has(key)) continue
-          ringSet.add(key)
-        }
-      }
-      for (const key of ringSet) claimedCells.add(key)
-
-      const patchContainer = new PIXI.Container()
-      container.addChild(patchContainer)
-      if (obs.type === 'water') {
-        await renderPathTiles(patchContainer, ringSet, undefined, patchFile)
-      } else {
-        await renderSceneryPatch(patchContainer, ringSet, patchFile)
-      }
-      if (container.destroyed) return
-
-      // Place WORLD_DECOR tile in the center cell (separate from SCENERY/PATH ring)
-      const tileIds = (envDecorMap[obs.type] ?? TERRAIN_DECOR_MAP._default?.[obs.type]) as number[] | undefined
-      if (tileIds?.length) {
-        const tileId = tileIds[idNum % tileIds.length]
-        const decorUrl = `${base}${WORLD_DECOR_FILE.slice(1)}`
-        const tex = await loadTileTexture(decorUrl, tileId, 8)
-        if (container.destroyed) return
-        const s = new PIXI.Sprite(tex)
-        s.position.set(tcx * TILE_SIZE, tcy * TILE_SIZE)
-        container.addChild(s)
-      }
-      continue
-    }
-
-    // ── Ruin: single WORLD_DECOR tile (gravestone, house, …) ────────────────
-    if (obs.type === 'ruin') {
-      const tileIds = (envDecorMap['ruin'] ?? TERRAIN_DECOR_MAP._default?.['ruin']) as number[] | undefined ?? []
-      if (tileIds.length === 0) continue
-      const tileId = tileIds[idNum % tileIds.length]
-      const decorUrl = `${base}${WORLD_DECOR_FILE.slice(1)}`
-      const tex = await loadTileTexture(decorUrl, tileId, 8)
-      if (container.destroyed) return
-      const s = new PIXI.Sprite(tex)
-      s.position.set(tcx * TILE_SIZE, tcy * TILE_SIZE)
-      container.addChild(s)
-    }
+    const tileIds = (envDecorMap[type] ?? TERRAIN_DECOR_MAP._default?.[type]) as number[] | undefined
+    if (!tileIds?.length) continue
+    const tileId = tileIds[idNum % tileIds.length]
+    const tex = await loadTileTexture(decorUrl, tileId, 8)
+    if (container.destroyed) return
+    const s = new PIXI.Sprite(tex)
+    s.position.set(tcx * TILE_SIZE, tcy * TILE_SIZE)
+    container.addChild(s)
   }
 }
