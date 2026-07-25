@@ -93,17 +93,37 @@ export function animateTileSprites(
 }
 
 /**
+ * HP bar fill ramps, as [healthy, hurt, critical].
+ *
+ * Friendly units read green and hostile units read red, restoring the owner tint
+ * the DOM battlefield had (`.lane-unit--player/--opponent .lane-unit-hp-fill`)
+ * before the Pixi migration flattened every bar onto one fraction ramp — which
+ * left full-health enemies looking identical to your own units. Shades darken as
+ * HP drops so injury still reads without either side straying into the other's
+ * hue. `neutral` is the pre-existing owner-agnostic ramp, kept for callers that
+ * have no side to show.
+ */
+const HP_BAR_RAMP: Record<'player' | 'opponent' | 'neutral', readonly [number, number, number]> = {
+  player:   [0x33ff33, 0x28cc28, 0x1f9e1f],
+  opponent: [0xff4444, 0xd12f2f, 0xa32020],
+  neutral:  [0x44cc44, 0xddbb00, 0xcc2222],
+}
+
+/**
  * Draw a health bar into a Graphics object at (x, y) with the given pixel width.
  * Call g.clear() before drawing all bars if you want to redraw each frame.
+ * Pass `owner` to tint the fill by side; omit it for the neutral ramp.
  */
 export function drawHpBar(
   g: PIXI.Graphics,
   x: number, y: number,
   barWidth: number,
   hpFrac: number,
+  owner?: 'player' | 'opponent',
 ): void {
-  const f   = Math.max(0, Math.min(1, hpFrac))
-  const col = f > 0.5 ? 0x44cc44 : f > 0.25 ? 0xddbb00 : 0xcc2222
+  const f = Math.max(0, Math.min(1, hpFrac))
+  const [healthy, hurt, critical] = HP_BAR_RAMP[owner ?? 'neutral']
+  const col = f > 0.5 ? healthy : f > 0.25 ? hurt : critical
   g.rect(x, y, barWidth, 3).fill(0x111111)
   if (f > 0) g.rect(x, y, Math.round(barWidth * f), 3).fill(col)
 }

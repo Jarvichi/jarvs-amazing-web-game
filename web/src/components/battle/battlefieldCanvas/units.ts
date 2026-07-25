@@ -228,7 +228,7 @@ function syncMobileOrStructure(scene: Scene, unit: Unit, opts: SyncOneOpts) {
     hpBar.clear()
     const barW = 30
     hpBar.position.set(-barW / 2, topAnchored ? box.h + 4 : 4)
-    drawHpBar(hpBar, 0, 0, barW, unit.hp / unit.maxHp)
+    drawHpBar(hpBar, 0, 0, barW, unit.hp / unit.maxHp, unit.owner)
   }
 
   // ── Buffs ──
