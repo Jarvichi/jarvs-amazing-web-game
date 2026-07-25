@@ -5,7 +5,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 const loadMock = vi.fn()
 vi.mock('pixi.js', () => ({ Assets: { load: (url: string) => loadMock(url) } }))
 
-const { loadAnimFramesOrStatic } = await import('./pixiHelpers')
+const { loadAnimFramesOrStatic, drawHpBar } = await import('./pixiHelpers')
 
 /** Resolves `{slug}.svg` only; every `{slug}-N.svg` frame 404s. */
 function staticOnly(...slugs: string[]) {
@@ -46,5 +46,53 @@ describe('loadAnimFramesOrStatic', () => {
   it('rejects when neither the frames nor the static sprite exist', async () => {
     loadMock.mockImplementation(() => Promise.reject(new Error('404')))
     await expect(loadAnimFramesOrStatic('No Such Unit', 3)).rejects.toThrow()
+  })
+})
+
+/** Minimal stand-in for PIXI.Graphics — drawHpBar only chains rect().fill(). */
+function fakeGraphics() {
+  const fills: number[] = []
+  const g = {
+    fills,
+    rect: () => g,
+    fill: (col: number) => { fills.push(col); return g },
+  }
+  return g
+}
+
+/** Fill color of the bar itself (the first fill is the dark backing rect). */
+function fillColor(hpFrac: number, owner?: 'player' | 'opponent'): number | undefined {
+  const g = fakeGraphics()
+  drawHpBar(g as never, 0, 0, 30, hpFrac, owner)
+  return g.fills[1]
+}
+
+describe('drawHpBar', () => {
+  // Enemy bars used to share the player's green at full health, making the two
+  // sides indistinguishable on the battlefield.
+  it('keeps player and opponent bars in different hues at every damage level', () => {
+    for (const frac of [1, 0.4, 0.1]) {
+      expect(fillColor(frac, 'player')).not.toBe(fillColor(frac, 'opponent'))
+    }
+  })
+
+  it('darkens within the owner hue as HP drops', () => {
+    for (const owner of ['player', 'opponent'] as const) {
+      const [healthy, hurt, critical] = [1, 0.4, 0.1].map(f => fillColor(f, owner)!)
+      expect(healthy).toBeGreaterThan(hurt)
+      expect(hurt).toBeGreaterThan(critical)
+    }
+  })
+
+  it('falls back to the neutral ramp when no owner is given', () => {
+    expect(fillColor(1)).toBe(0x44cc44)
+    expect(fillColor(0.4)).toBe(0xddbb00)
+    expect(fillColor(0.1)).toBe(0xcc2222)
+  })
+
+  it('draws only the backing rect at zero HP', () => {
+    const g = fakeGraphics()
+    drawHpBar(g as never, 0, 0, 30, 0, 'opponent')
+    expect(g.fills).toEqual([0x111111])
   })
 })
