@@ -61,6 +61,13 @@ export const ShowDetails: Story = {
   },
 };
 
+export const GlassRaritySecretBadgeCheck: Story = {
+  args: {
+    card: { ...exampleCard, rarity: 'glass', glassBreakChance: 0.15 },
+    showDetails: true,
+  },
+};
+
 export const AllProps: Story = {
   args: {
     card: { ...exampleCard, isHero: true, upgradeEffect: { type: 'buffAttack', amount: 2 } },

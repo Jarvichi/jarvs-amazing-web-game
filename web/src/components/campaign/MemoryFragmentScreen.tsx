@@ -10,7 +10,7 @@ interface Props {
 
 export function MemoryFragmentScreen({ fragment, alreadyFound, shardBonus, onCollect }: Props) {
   return (
-    <div className="memory-screen">
+    <div className="overlay-screen memory-screen">
       <div className="memory-type-tag">[MEMORY FRAGMENT]</div>
       <div className="memory-title">{fragment.title}</div>
 

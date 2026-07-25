@@ -28,23 +28,25 @@ export function BossDialogueScreen({ bossName, lines, onDone }: Props) {
   const allShown = shownCount >= lines.length
 
   return (
-    <div className="boss-dialogue-screen" onClick={advance}>
-      <div className="boss-dialogue-speaker">[{bossName.toUpperCase()}]</div>
-      <div className="boss-dialogue-lines u-col u-gap-8">
-        {lines.slice(0, shownCount).map((line, i) => (
-          <div
-            key={i}
-            className={`boss-dialogue-line${i === shownCount - 1 ? ' boss-dialogue-line--new' : ''}`}
-          >
-            {line}
-          </div>
-        ))}
-      </div>
-      <div className="boss-dialogue-footer">
-        {allShown
-          ? <span className="boss-dialogue-fight">PRESS ENTER TO FIGHT</span>
-          : <span className="boss-dialogue-continue">CLICK TO CONTINUE ›</span>
-        }
+    <div className="boss-dialogue-backdrop" onClick={advance}>
+      <div className="boss-dialogue-screen">
+        <div className="boss-dialogue-speaker">[{bossName.toUpperCase()}]</div>
+        <div className="boss-dialogue-lines u-col u-gap-8">
+          {lines.slice(0, shownCount).map((line, i) => (
+            <div
+              key={i}
+              className={`boss-dialogue-line${i === shownCount - 1 ? ' boss-dialogue-line--new' : ''}`}
+            >
+              {line}
+            </div>
+          ))}
+        </div>
+        <div className="boss-dialogue-footer">
+          {allShown
+            ? <span className="boss-dialogue-fight">PRESS ENTER TO FIGHT</span>
+            : <span className="boss-dialogue-continue">CLICK TO CONTINUE ›</span>
+          }
+        </div>
       </div>
     </div>
   )

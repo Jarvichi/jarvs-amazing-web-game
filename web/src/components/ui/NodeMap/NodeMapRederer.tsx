@@ -250,21 +250,28 @@ async function buildPathTileGfx(
     }
   }
 
-  // Row-to-row connector paths
-  for (let ri = 0; ri < rows.length - 1; ri++) {
-    const prevRow = rows[ri], nextRow = rows[ri + 1]
-    const prevRowCols = prevRow[0]?.rowCols ?? prevRow.length
-    const nextRowCols = nextRow[0]?.rowCols ?? nextRow.length
-    const parentCenterX = AVATAR_PADDING + ri * (COL_WIDTH + CONN_W) + COL_WIDTH / 2
-    const childCenterX  = AVATAR_PADDING + (ri + 1) * (COL_WIDTH + CONN_W) + COL_WIDTH / 2
-    const xMid = AVATAR_PADDING + (ri + 1) * COL_WIDTH + ri * CONN_W + CONN_W / 2
+  // Row-to-row connector paths. Built from a global id -> row-index lookup
+  // (not just adjacent rows) so a child living 2+ columns ahead of its
+  // parent still gets a path laid all the way to it.
+  const nodeRowIndex = new Map<string, { ri: number; rowCols: number; node: QuestNode }>()
+  for (let ri = 0; ri < rows.length; ri++) {
+    const rowCols = rows[ri][0]?.rowCols ?? rows[ri].length
+    for (const node of rows[ri]) nodeRowIndex.set(node.id, { ri, rowCols, node })
+  }
 
-    for (const parent of prevRow) {
+  for (const row of rows) {
+    for (const parent of row) {
+      const parentEntry = nodeRowIndex.get(parent.id)!
       for (const childId of parent.childIds) {
-        const child = nextRow.find(n => n.id === childId)
-        if (!child) continue
-        const pr = (maxRowCols - prevRowCols) / 2 + parent.col
-        const cr = (maxRowCols - nextRowCols) / 2 + child.col
+        const childEntry = nodeRowIndex.get(childId)
+        if (!childEntry || childEntry.ri <= parentEntry.ri) continue
+
+        const parentCenterX = AVATAR_PADDING + parentEntry.ri * (COL_WIDTH + CONN_W) + COL_WIDTH / 2
+        const childCenterX  = AVATAR_PADDING + childEntry.ri  * (COL_WIDTH + CONN_W) + COL_WIDTH / 2
+        const xMid = (parentCenterX + COL_WIDTH / 2 + childCenterX - COL_WIDTH / 2) / 2
+
+        const pr = (maxRowCols - parentEntry.rowCols) / 2 + parent.col
+        const cr = (maxRowCols - childEntry.rowCols) / 2 + childEntry.node.col
         const y1 = (pr + 0.5) / maxRowCols * mapHeight
         const y2 = (cr + 0.5) / maxRowCols * mapHeight
 
@@ -341,80 +348,80 @@ function drawConnectorsGfx(
   const priority: Record<LineVariant, number> = { frontier: 3, trail: 2, future: 1, dead: 0 }
   const created: PIXI.Graphics[] = []
 
-  for (let ri = 0; ri < rows.length - 1; ri++) {
-    const prevRow = rows[ri], nextRow = rows[ri + 1]
-    const prevRowCols = prevRow[0]?.rowCols ?? prevRow.length
-    const nextRowCols = nextRow[0]?.rowCols ?? nextRow.length
-    const vrow = (node: QuestNode, rc: number) => (maxRowCols - rc) / 2 + node.col
-    const nextById = new Map(nextRow.map(n => [n.id, n]))
-    const best = new Map<string, { variant: LineVariant; pr: number; cr: number }>()
+  // Global id -> row-index lookup (not just adjacent rows) so a child living
+  // 2+ columns ahead of its parent still gets a connector drawn to it.
+  const nodeIndex = new Map<string, { ri: number; rowCols: number; node: QuestNode }>()
+  for (let ri = 0; ri < rows.length; ri++) {
+    const rowCols = rows[ri][0]?.rowCols ?? rows[ri].length
+    for (const node of rows[ri]) nodeIndex.set(node.id, { ri, rowCols, node })
+  }
+  const vrow = (node: QuestNode, rc: number) => (maxRowCols - rc) / 2 + node.col
 
-    for (const parent of prevRow) {
-      if (hiddenNodeIds.has(parent.id)) continue
-      for (const childId of parent.childIds) {
-        if (hiddenNodeIds.has(childId)) continue
-        const child = nextById.get(childId)
-        if (!child) continue
-        const pr = vrow(parent, prevRowCols), cr = vrow(child, nextRowCols)
-        const key = `${pr}:${cr}`
-        const v = lineVariant(parent.id, childId, statusOf, reachableIds)
-        const ex = best.get(key)
-        if (!ex || priority[v] > priority[ex.variant]) best.set(key, { variant: v, pr, cr })
+  const best = new Map<string, { variant: LineVariant; parentRi: number; childRi: number; pr: number; cr: number }>()
+  for (const { node: parent, ri: parentRi, rowCols: parentRowCols } of nodeIndex.values()) {
+    if (hiddenNodeIds.has(parent.id)) continue
+    for (const childId of parent.childIds) {
+      if (hiddenNodeIds.has(childId)) continue
+      const childEntry = nodeIndex.get(childId)
+      if (!childEntry || childEntry.ri <= parentRi) continue
+      const pr = vrow(parent, parentRowCols), cr = vrow(childEntry.node, childEntry.rowCols)
+      const key = `${parentRi}:${pr}:${childEntry.ri}:${cr}`
+      const v = lineVariant(parent.id, childId, statusOf, reachableIds)
+      const ex = best.get(key)
+      if (!ex || priority[v] > priority[ex.variant]) best.set(key, { variant: v, parentRi, childRi: childEntry.ri, pr, cr })
+    }
+  }
+
+  for (const { variant, parentRi, childRi, pr, cr } of best.values()) {
+    const parentCenterX = AVATAR_PADDING + parentRi * (COL_WIDTH + CONN_W) + COL_WIDTH / 2
+    const childCenterX  = AVATAR_PADDING + childRi  * (COL_WIDTH + CONN_W) + COL_WIDTH / 2
+    const xStart = parentCenterX + COL_WIDTH / 2
+    const xEnd   = childCenterX  - COL_WIDTH / 2
+    const xMid   = (xStart + xEnd) / 2
+    const y1 = (pr + 0.5) / maxRowCols * mapHeight
+    const y2 = (cr + 0.5) / maxRowCols * mapHeight
+    const gfx = new PIXI.Graphics()
+    gfx.zIndex = (y1 + y2) / 2
+
+    if (variant === 'dead') {
+      gfx.moveTo(parentCenterX, y1).lineTo(xStart, y1)
+        .bezierCurveTo(xMid, y1, xMid, y2, xEnd, y2)
+        .lineTo(childCenterX, y2)
+        .stroke({ color: 0xffffff, width: 1, alpha: 0.04 })
+    } else if (variant === 'future') {
+      const pts = [
+        { x: parentCenterX,                y: y1 },
+        { x: (parentCenterX + xStart) / 2, y: y1 },
+        ...sampleBezier(xStart, y1, xMid, y1, xMid, y2, xEnd, y2),
+        { x: (xEnd + childCenterX) / 2,    y: y2 },
+        { x: childCenterX,                 y: y2 },
+      ]
+      gfx.poly(bezierBand(pts, 5)).fill({ color: 0x000000, alpha: 0.15 })
+      gfx.poly(bezierBand(pts, 3)).fill({ color: trail.color, alpha: trail.alpha * 0.25 })
+    } else {
+      const pts = [
+        { x: parentCenterX,                y: y1 },
+        { x: (parentCenterX + xStart) / 2, y: y1 },
+        ...sampleBezier(xStart, y1, xMid, y1, xMid, y2, xEnd, y2),
+        { x: (xEnd + childCenterX) / 2,    y: y2 },
+        { x: childCenterX,                 y: y2 },
+      ]
+      const isFront = variant === 'frontier'
+      const halfOuter = isFront ? 9 : 7
+      const halfInner = isFront ? 6 : 4
+      const c = isFront ? frontier : trail
+
+      gfx.poly(bezierBand(pts, halfOuter)).fill({ color: 0x000000, alpha: 0.35 })
+      gfx.poly(bezierBand(pts, halfInner)).fill({ color: c.color, alpha: Math.min(c.alpha, 0.50) })
+
+      if (isFront) {
+        gfx.moveTo(xStart, y1).bezierCurveTo(xMid, y1, xMid, y2, xEnd, y2)
+          .stroke({ color: c.color, width: 22, alpha: 0.18, cap: 'round' })
       }
     }
 
-    const xStart = AVATAR_PADDING + (ri + 1) * COL_WIDTH + ri * CONN_W
-    const xMid   = xStart + CONN_W / 2
-    const xEnd   = xStart + CONN_W
-    const parentCenterX = AVATAR_PADDING + ri * (COL_WIDTH + CONN_W) + COL_WIDTH / 2
-    const childCenterX  = AVATAR_PADDING + (ri + 1) * (COL_WIDTH + CONN_W) + COL_WIDTH / 2
-
-    for (const { variant, pr, cr } of best.values()) {
-      const y1 = (pr + 0.5) / maxRowCols * mapHeight
-      const y2 = (cr + 0.5) / maxRowCols * mapHeight
-      const gfx = new PIXI.Graphics()
-      gfx.zIndex = (y1 + y2) / 2
-
-      if (variant === 'dead') {
-        gfx.moveTo(parentCenterX, y1).lineTo(xStart, y1)
-          .bezierCurveTo(xMid, y1, xMid, y2, xEnd, y2)
-          .lineTo(childCenterX, y2)
-          .stroke({ color: 0xffffff, width: 1, alpha: 0.04 })
-      } else if (variant === 'future') {
-        const pts = [
-          { x: parentCenterX,                y: y1 },
-          { x: (parentCenterX + xStart) / 2, y: y1 },
-          ...sampleBezier(xStart, y1, xMid, y1, xMid, y2, xEnd, y2),
-          { x: (xEnd + childCenterX) / 2,    y: y2 },
-          { x: childCenterX,                 y: y2 },
-        ]
-        gfx.poly(bezierBand(pts, 5)).fill({ color: 0x000000, alpha: 0.15 })
-        gfx.poly(bezierBand(pts, 3)).fill({ color: trail.color, alpha: trail.alpha * 0.25 })
-      } else {
-        const pts = [
-          { x: parentCenterX,                y: y1 },
-          { x: (parentCenterX + xStart) / 2, y: y1 },
-          ...sampleBezier(xStart, y1, xMid, y1, xMid, y2, xEnd, y2),
-          { x: (xEnd + childCenterX) / 2,    y: y2 },
-          { x: childCenterX,                 y: y2 },
-        ]
-        const isFront = variant === 'frontier'
-        const halfOuter = isFront ? 9 : 7
-        const halfInner = isFront ? 6 : 4
-        const c = isFront ? frontier : trail
-
-        gfx.poly(bezierBand(pts, halfOuter)).fill({ color: 0x000000, alpha: 0.35 })
-        gfx.poly(bezierBand(pts, halfInner)).fill({ color: c.color, alpha: Math.min(c.alpha, 0.50) })
-
-        if (isFront) {
-          gfx.moveTo(xStart, y1).bezierCurveTo(xMid, y1, xMid, y2, xEnd, y2)
-            .stroke({ color: c.color, width: 22, alpha: 0.18, cap: 'round' })
-        }
-      }
-
-      worldLayer.addChild(gfx)
-      created.push(gfx)
-    }
+    worldLayer.addChild(gfx)
+    created.push(gfx)
   }
 
   return created
