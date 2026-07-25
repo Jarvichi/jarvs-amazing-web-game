@@ -29,3 +29,23 @@ export const Coast:    Story = { args: { environment: 'coast',    id: 'coast-tes
 export const Frost:    Story = { args: { environment: 'frost',    id: 'frost-test'    } }
 export const Reef:     Story = { args: { environment: 'reef',     id: 'reef-test'     } }
 export const Sky:      Story = { args: { environment: 'sky',      id: 'sky-test'      } }
+
+// A chain of deliberately overlapping obstacles — the case authored rivers and
+// tree lines produce (see expandTerrainPathsToObstacles). Each type must render
+// as ONE continuous shape with a single outer edge and no interior holes; if the
+// water shows internal shorelines or grass gaps, the tileset grouping in
+// utils/terrainPatchPlan.ts has regressed.
+export const MergedWater: Story = {
+  args: {
+    environment: 'farmland',
+    id: 'merged-water',
+    terrain: [
+      { id: 't1', type: 'water', x: 140, y: -30, radius: 26 },
+      { id: 't2', type: 'water', x: 190, y: -10, radius: 26 },
+      { id: 't3', type: 'water', x: 240, y:  10, radius: 26 },
+      { id: 't4', type: 'water', x: 290, y:  10, radius: 26 },
+      { id: 't5', type: 'tree',  x: 340, y: -40, radius: 24 },
+      { id: 't6', type: 'tree',  x: 370, y: -20, radius: 24 },
+    ],
+  },
+}
