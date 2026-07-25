@@ -44,12 +44,13 @@ export function CardRestSelect({ candidates, playCounts, alreadyResting = [], on
       {alreadyResting.length > 0 && (
         <div className="card-rest-already">
           <div className="card-rest-already-label">ALREADY RESTING</div>
-          <div className="card-rest-already-list u-flex u-wrap u-gap-4">
+          <div className="card-rest-already-list u-flex u-wrap u-gap-4 u-just-c">
             {alreadyResting.map(name => (
-              <>
-                <SpriteImg name={name} className="card-sprite" />
-                <span key={name} className="card-rest-already-item">[ZZZ] {name}</span>
-              </>
+              <div key={name} className="card-rest-already-item">
+                <SpriteImg name={name} className="card-sprite card-rest-already-sprite" />
+                <span className="card-rest-already-name">{name}</span>
+                <span className="card-rest-already-tag">ZZZ</span>
+              </div>
             ))}
           </div>
           <div className="card-rest-already-note">

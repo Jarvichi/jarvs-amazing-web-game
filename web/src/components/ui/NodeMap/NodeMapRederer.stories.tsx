@@ -31,6 +31,25 @@ export const CampaignMode: Story = {
   },
 }
 
+// Temporary verification story: node-1 connects directly to node-4 (2
+// columns ahead, skipping node-2/node-3's row) to confirm connectors and
+// path tiles render across multi-column gaps, not just adjacent columns.
+export const MultiColumnJumpCheck: Story = {
+  args: {
+    id: exampleAct.id,
+    worldMap: {
+      ...exampleAct,
+      nodes: {
+        ...exampleAct.nodes,
+        'node-1': { ...exampleAct.nodes['node-1'], childIds: ['node-2', 'node-3', 'node-4'] },
+      },
+    },
+    run: exampleRunState,
+    setPeekNode: fn(),
+    showPaths: true,
+  },
+}
+
 export const CampaignFreshRun: Story = {
   args: {
     id: exampleAct.id,
