@@ -122,7 +122,7 @@ export interface UnitTemplate {
 
 export type BuffTag = 'atk' | 'spd' | 'hp' | 'range'
 
-export type UnitTag = 'flying' | 'ranged' | 'melee' | 'fast' | 'slow' | 'large' | 'magic' | 'undead' | 'beast' | 'armored' | 'siege' | 'fire' | 'swim' | 'ember' | 'frost' | 'glacier' | 'lightning' | 'poison' | 'aoe' | 'gascloud' | 'boss'
+export type UnitTag = 'flying' | 'ranged' | 'melee' | 'fast' | 'slow' | 'large' | 'magic' | 'undead' | 'beast' | 'armored' | 'siege' | 'fire' | 'swim' | 'burrowing' | 'ember' | 'frost' | 'glacier' | 'lightning' | 'poison' | 'aoe' | 'gascloud' | 'boss'
 
 /** Visual style of a projectile — drives rendering in both the battle and TD renderers. */
 export type ProjectileType = 'arrow' | 'fireball' | 'icebolt' | 'poisonblob' | 'magic' | 'lightning' | 'aoe'
@@ -374,9 +374,10 @@ export interface BattleEventState {
 // Types and constants owned by engine/terrain.ts; re-exported here for
 // consumers that import from the top-level types module.
 
-import type { TerrainObstacle as _TerrainObstacle, RoadDef as _RoadDef, BattlefieldDecorItem as _BattlefieldDecorItem } from './engine/terrain'
+import type { TerrainType as _TerrainType, TerrainObstacle as _TerrainObstacle, RoadDef as _RoadDef, BattlefieldDecorItem as _BattlefieldDecorItem } from './engine/terrain'
 export type { TerrainType, TerrainObstacle, RoadDef, BattlefieldDecorItem } from './engine/terrain'
 export { TERRAIN_AVOID_SHAPE } from './engine/terrain'
+type TerrainType = _TerrainType
 type TerrainObstacle = _TerrainObstacle
 type RoadDef = _RoadDef
 type BattlefieldDecorItem = _BattlefieldDecorItem
@@ -450,6 +451,19 @@ export interface GameState {
   roadFollowing?: boolean    // when true, mobile units path onto and follow `roads` toward the enemy base (see engine/units.ts)
   environment?: string       // battlefield background theme ('forest' | 'ruins' | 'camp' | 'citadel' | 'ashen')
   decor?: BattlefieldDecorItem[]  // act/node-authored manual decor placements; replaces the procedural decor scatter when non-empty
+  /** When true, unit movement enforces hard tile-based blocking from `terrain`/`roads`
+   *  (see game/engine/terrainGrid.ts) instead of the legacy soft lateral avoidance.
+   *  Set only by the battlefield editor's "validate on save" step — defaults to
+   *  false/undefined for all existing acts/nodes, so this is zero behavior change
+   *  until an act/node explicitly opts in. */
+  terrainValidated?: boolean
+  /** Lazily-built, battle-lifetime cache of terrainGrid.ts's obstacle/road tile
+   *  maps — built once (not per-tick) since `terrain`/`roads` don't change
+   *  mid-battle. Only populated when `terrainValidated` is true. */
+  terrainGridCache?: {
+    obstacleTiles: Map<string, { type: TerrainType; zIndex: number }>
+    roadTiles: Map<string, number>
+  }
   unitReviveHp?: 'half' | 'full' | number      // pending one-time unit revive at this HP value (set by Soulstone/Salvage Hook relics)
   relicManaBonus?: number             // passive +N to maxMana cap (set by Prism Lens relic)
   playerAtkMult?: number              // ATK multiplier applied to all player units, incl. later deploys (Glass Cannon Protocol exotic)

@@ -6,21 +6,85 @@
   "rewardRelicDesc": "",
   "environment": "farmland",
   "rewardTags": [],
-  "startNodeIds": ["b-east-road"],
+  "startNodeIds": [
+    "b-east-road"
+  ],
   "nodes": {
     "b-east-road": {
       "id": "b-east-road",
       "type": "battle",
       "label": "Toll Road Ambush",
       "description": "Bandits have set up an illegal toll on the east road. They take coin, goods and sometimes boots.",
-      "row": 0, "col": 0, "rowCols": 1, "childIds": [],
+      "row": 0,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
       "handicap": 5,
       "opponentBaseHp": 150,
       "opponentIntervalMs": 6500,
       "environment": "farmland",
       "enemyDeck": [
-        "Bandit", "Goblin", "Rogue", "Bandit", "Archer",
-        "Bandit Camp", "Goblin", "Rogue", "Crossbow", "Goblin Warrens"
+        "Bandit",
+        "Goblin",
+        "Rogue",
+        "Bandit",
+        "Archer",
+        "Bandit Camp",
+        "Goblin",
+        "Rogue",
+        "Crossbow",
+        "Goblin Warrens"
+      ],
+      "terrain": [
+        {
+          "id": "t1",
+          "type": "ruin",
+          "x": 104.3827186524868,
+          "y": 4.003954294603318,
+          "radius": 28.32317037694156
+        },
+        {
+          "id": "t2",
+          "type": "water",
+          "x": 293.8171878937752,
+          "y": -11.784480168269237,
+          "radius": 27.856575269252062
+        },
+        {
+          "id": "t3",
+          "type": "tree",
+          "x": 235.2498733252287,
+          "y": 17.09488498745486,
+          "radius": 28.583564469590783
+        },
+        {
+          "id": "t4",
+          "type": "rock",
+          "x": 344.08601330172627,
+          "y": 1.9425019425019445,
+          "radius": 21.995984625071287
+        },
+        {
+          "id": "t5",
+          "type": "ruin",
+          "x": 406.91653713583946,
+          "y": 9.5908637274988,
+          "radius": 29.60657794494182
+        },
+        {
+          "id": "t6",
+          "type": "water",
+          "x": 301.4848917722702,
+          "y": 32.25993071682751,
+          "radius": 21.506210643798113
+        },
+        {
+          "id": "t7",
+          "type": "rock",
+          "x": 173.96261617541313,
+          "y": -8.903282030951232,
+          "radius": 26.72567148413509
+        }
       ]
     },
     "b-south-road": {
@@ -28,14 +92,83 @@
       "type": "battle",
       "label": "Old King's Road",
       "description": "Deserters from the royal army hold the old highway south. They still fight in formation.",
-      "row": 1, "col": 0, "rowCols": 1, "childIds": [],
+      "row": 1,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
       "handicap": 5,
       "opponentBaseHp": 155,
       "opponentIntervalMs": 6500,
       "environment": "farmland",
       "enemyDeck": [
-        "Knight", "Archer", "Shield Guard", "Bandit", "Crossbow",
-        "Guard Post", "Archer", "Knight", "Shield Wall Soldier", "Bandit"
+        "Knight",
+        "Archer",
+        "Shield Guard",
+        "Bandit",
+        "Crossbow",
+        "Guard Post",
+        "Archer",
+        "Knight",
+        "Shield Wall Soldier",
+        "Bandit"
+      ],
+      "terrain": [
+        {
+          "id": "t1",
+          "type": "rock",
+          "x": 105.64516129032259,
+          "y": -35.35353535353536,
+          "radius": 25.92526814714074
+        },
+        {
+          "id": "t2",
+          "type": "ruin",
+          "x": 178.53252574801445,
+          "y": 21.74800584325567,
+          "radius": 27.733827030286193
+        },
+        {
+          "id": "t3",
+          "type": "tree",
+          "x": 284.4085939468876,
+          "y": 50.63456644267192,
+          "radius": 21.941658657975495
+        },
+        {
+          "id": "t4",
+          "type": "ruin",
+          "x": 324.24786657094955,
+          "y": -35.96032827626914,
+          "radius": 20.697158104740083
+        },
+        {
+          "id": "t5",
+          "type": "rock",
+          "x": 381.1268585175276,
+          "y": 23.215216223616153,
+          "radius": 28.73682936001569
+        },
+        {
+          "id": "t6",
+          "type": "rock",
+          "x": 284.4085939468876,
+          "y": -73.42657342657343,
+          "radius": 24.44444159977138
+        }
+      ],
+      "roads": [
+        {
+          "points": [
+            {
+              "x": 492.20429697344383,
+              "y": -109.42759361948815
+            },
+            {
+              "x": 6.182762884324622,
+              "y": 109.16860916860918
+            }
+          ]
+        }
       ]
     },
     "b-west-road": {
@@ -43,14 +176,79 @@
       "type": "battle",
       "label": "Quarry Road",
       "description": "Goblins have moved into the old quarry and they are not paying rent.",
-      "row": 2, "col": 0, "rowCols": 1, "childIds": [],
+      "row": 2,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
       "handicap": 6,
       "opponentBaseHp": 160,
       "opponentIntervalMs": 6000,
       "environment": "farmland",
       "enemyDeck": [
-        "Goblin", "Goblin Warrens", "Bandit", "Goblin", "Troll",
-        "Rogue", "Goblin", "Bandit Camp", "Goblin", "Archer"
+        "Goblin",
+        "Goblin Warrens",
+        "Bandit",
+        "Goblin",
+        "Troll",
+        "Rogue",
+        "Goblin",
+        "Bandit Camp",
+        "Goblin",
+        "Archer"
+      ],
+      "roads": [
+        {
+          "points": [
+            {
+              "x": 451.2934504176584,
+              "y": -109.61923574608821
+            },
+            {
+              "x": 408.8709677419355,
+              "y": -76.01656020845475
+            },
+            {
+              "x": 355.1075227798954,
+              "y": -82.49155087533993
+            },
+            {
+              "x": 333.3333169260333,
+              "y": -52.18852057230963
+            },
+            {
+              "x": 283.06451612903226,
+              "y": -67.98756798756799
+            },
+            {
+              "x": 217.47311007591986,
+              "y": -74.2035742035742
+            },
+            {
+              "x": 175,
+              "y": -62.28953067331973
+            },
+            {
+              "x": 144.89244030367942,
+              "y": -37.425505809294876
+            },
+            {
+              "x": 126.34405320690523,
+              "y": 0.9065167146221754
+            },
+            {
+              "x": 123.11824675529232,
+              "y": 55.81458743079838
+            },
+            {
+              "x": 86.29032258064517,
+              "y": 70.57760219381314
+            },
+            {
+              "x": 54.569859658518126,
+              "y": 95.44162705783799
+            }
+          ]
+        }
       ]
     },
     "b-mine-trouble": {
@@ -58,14 +256,26 @@
       "type": "battle",
       "label": "Collapsed Mine",
       "description": "Something mechanical woke up in the collapsed shafts. The miners did not stay to ask questions.",
-      "row": 3, "col": 0, "rowCols": 1, "childIds": [],
+      "row": 3,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
       "handicap": 10,
       "opponentBaseHp": 185,
       "opponentIntervalMs": 5200,
       "environment": "vault",
       "enemyDeck": [
-        "Gear Scout", "Golem", "Clockwork Archer", "Siege Engineer", "Gear Wall",
-        "Steam Walker", "Golem Forge", "Gear Scout", "Ballista Crew", "Iron Forge", "Golem"
+        "Gear Scout",
+        "Golem",
+        "Clockwork Archer",
+        "Siege Engineer",
+        "Gear Wall",
+        "Steam Walker",
+        "Golem Forge",
+        "Gear Scout",
+        "Ballista Crew",
+        "Iron Forge",
+        "Golem"
       ]
     },
     "b-salt-marsh": {
@@ -73,14 +283,26 @@
       "type": "battle",
       "label": "Salt Marsh Crossing",
       "description": "The marsh between Ravenwatch and the coast is full of things that bite, sting and drag you under.",
-      "row": 4, "col": 0, "rowCols": 1, "childIds": [],
+      "row": 4,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
       "handicap": 10,
       "opponentBaseHp": 185,
       "opponentIntervalMs": 5000,
       "environment": "coast",
       "enemyDeck": [
-        "Wave Brawler", "Tide Runner", "Reef Shark", "Tide Sprite", "Crab Shielder",
-        "Tide Caller", "Tide Barracks", "Wave Brawler", "Jellyfish Drifter", "Tide Runner", "Sea Witch"
+        "Wave Brawler",
+        "Tide Runner",
+        "Reef Shark",
+        "Tide Sprite",
+        "Crab Shielder",
+        "Tide Caller",
+        "Tide Barracks",
+        "Wave Brawler",
+        "Jellyfish Drifter",
+        "Tide Runner",
+        "Sea Witch"
       ]
     },
     "b-orchard-raid": {
@@ -88,14 +310,26 @@
       "type": "battle",
       "label": "Orchard Raid",
       "description": "Raiders are stripping Appleford's orchards bare — and worse things prowl between the rows at night.",
-      "row": 5, "col": 0, "rowCols": 1, "childIds": [],
+      "row": 5,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
       "handicap": 11,
       "opponentBaseHp": 190,
       "opponentIntervalMs": 5000,
       "environment": "forest",
       "enemyDeck": [
-        "Bandit", "Rogue", "Harpy", "Bandit Hideout", "Rogue Den",
-        "Werewolf", "Bandit", "Archer", "Harpy Roost", "Rogue", "Mercenary Captain"
+        "Bandit",
+        "Rogue",
+        "Harpy",
+        "Bandit Hideout",
+        "Rogue Den",
+        "Werewolf",
+        "Bandit",
+        "Archer",
+        "Harpy Roost",
+        "Rogue",
+        "Mercenary Captain"
       ]
     },
     "b-river-ford": {
@@ -103,14 +337,25 @@
       "type": "battle",
       "label": "Southford Crossing",
       "description": "A mercenary company holds the only ford on the south river. Their rates are unreasonable.",
-      "row": 6, "col": 0, "rowCols": 1, "childIds": [],
+      "row": 6,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
       "handicap": 11,
       "opponentBaseHp": 190,
       "opponentIntervalMs": 5000,
       "environment": "farmland",
       "enemyDeck": [
-        "Mercenary Captain", "Bandit", "Knight", "Crossbow", "Shield Guard",
-        "Bandit Camp", "Rogue", "Cavalry Scout", "Archer's Keep", "Knight"
+        "Mercenary Captain",
+        "Bandit",
+        "Knight",
+        "Crossbow",
+        "Shield Guard",
+        "Bandit Camp",
+        "Rogue",
+        "Cavalry Scout",
+        "Archer's Keep",
+        "Knight"
       ]
     },
     "b-scarecrow-fields": {
@@ -118,14 +363,25 @@
       "type": "battle",
       "label": "Scarecrow Fields",
       "description": "The scarecrows of Harrowfield keep the crows away. Lately they keep the farmers away too.",
-      "row": 7, "col": 0, "rowCols": 1, "childIds": [],
+      "row": 7,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
       "handicap": 12,
       "opponentBaseHp": 195,
       "opponentIntervalMs": 4800,
       "environment": "farmland",
       "enemyDeck": [
-        "Thornbeast", "Werewolf", "Harpy", "Wolfpack Den", "Goblin",
-        "Thornbeast", "Spike Pit", "Bandit", "Harpy Roost", "Werewolf"
+        "Thornbeast",
+        "Werewolf",
+        "Harpy",
+        "Wolfpack Den",
+        "Goblin",
+        "Thornbeast",
+        "Spike Pit",
+        "Bandit",
+        "Harpy Roost",
+        "Werewolf"
       ]
     },
     "b-bandit-toll": {
@@ -133,14 +389,26 @@
       "type": "battle",
       "label": "Bandit Toll",
       "description": "The Gearford bandits learned bookkeeping. Now they call their robbery a 'transit fee'.",
-      "row": 8, "col": 0, "rowCols": 1, "childIds": [],
+      "row": 8,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
       "handicap": 14,
       "opponentBaseHp": 205,
       "opponentIntervalMs": 4600,
       "environment": "farmland",
       "enemyDeck": [
-        "Bandit", "Bandit", "Rogue", "Bandit Camp", "Mercenary Captain",
-        "Bandit Hideout", "Rogue's Guild", "Cavalry Scout", "Bandit", "Rogue", "Crossbow"
+        "Bandit",
+        "Bandit",
+        "Rogue",
+        "Bandit Camp",
+        "Mercenary Captain",
+        "Bandit Hideout",
+        "Rogue's Guild",
+        "Cavalry Scout",
+        "Bandit",
+        "Rogue",
+        "Crossbow"
       ]
     },
     "b-smoke-fields": {
@@ -148,14 +416,26 @@
       "type": "battle",
       "label": "Smokefield Patrol",
       "description": "Rogue constructs from the Gearford foundries patrol the smoke fields, attacking anything that moves.",
-      "row": 9, "col": 0, "rowCols": 1, "childIds": [],
+      "row": 9,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
       "handicap": 14,
       "opponentBaseHp": 205,
       "opponentIntervalMs": 4600,
       "environment": "vault",
       "enemyDeck": [
-        "Steam Walker", "Clockwork Archer", "Gear Scout", "Iron Barracks", "Catapult",
-        "Golem", "Siege Engineer", "Steam Works", "Gear Wall", "Clockwork Titan", "Ballista"
+        "Steam Walker",
+        "Clockwork Archer",
+        "Gear Scout",
+        "Iron Barracks",
+        "Catapult",
+        "Golem",
+        "Siege Engineer",
+        "Steam Works",
+        "Gear Wall",
+        "Clockwork Titan",
+        "Ballista"
       ]
     },
     "b-smugglers-landing": {
@@ -163,14 +443,26 @@
       "type": "battle",
       "label": "Smuggler's Landing",
       "description": "Half the contraband on the coast moves through this hidden cove. The smugglers protect their margins fiercely.",
-      "row": 10, "col": 0, "rowCols": 1, "childIds": [],
+      "row": 10,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
       "handicap": 15,
       "opponentBaseHp": 210,
       "opponentIntervalMs": 4500,
       "environment": "coast",
       "enemyDeck": [
-        "Rogue", "Bandit", "Tide Runner", "Rogue's Guild", "Wave Brawler",
-        "Bandit Hideout", "Sea Witch", "Reef Shark", "Mercenary Captain", "Tide Stalker", "Rogue Den"
+        "Rogue",
+        "Bandit",
+        "Tide Runner",
+        "Rogue's Guild",
+        "Wave Brawler",
+        "Bandit Hideout",
+        "Sea Witch",
+        "Reef Shark",
+        "Mercenary Captain",
+        "Tide Stalker",
+        "Rogue Den"
       ]
     },
     "b-royal-checkpoint": {
@@ -178,14 +470,27 @@
       "type": "battle",
       "label": "Royal Checkpoint",
       "description": "The crown's border guard does not recognise your travel papers. Mostly because you don't have any.",
-      "row": 11, "col": 0, "rowCols": 1, "childIds": [],
+      "row": 11,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
       "handicap": 16,
       "opponentBaseHp": 215,
       "opponentIntervalMs": 4400,
       "environment": "citadel",
       "enemyDeck": [
-        "Knight", "Paladin", "Shield Wall Soldier", "Crossbow Tower", "Knight Barracks",
-        "Cavalry Scout", "Archer", "Paladin's Chapel", "Shield Guard", "Ballista", "Knight", "Mercenary Captain"
+        "Knight",
+        "Paladin",
+        "Shield Wall Soldier",
+        "Crossbow Tower",
+        "Knight Barracks",
+        "Cavalry Scout",
+        "Archer",
+        "Paladin's Chapel",
+        "Shield Guard",
+        "Ballista",
+        "Knight",
+        "Mercenary Captain"
       ]
     },
     "b-pirate-cove": {
@@ -193,14 +498,27 @@
       "type": "battle",
       "label": "Pirate Cove",
       "description": "The pirates of the eastern reef answer to no crown, no port authority, and certainly not to you.",
-      "row": 12, "col": 0, "rowCols": 1, "childIds": [],
+      "row": 12,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
       "handicap": 17,
       "opponentBaseHp": 215,
       "opponentIntervalMs": 4300,
       "environment": "reef",
       "enemyDeck": [
-        "Wave Brawler", "Tide Stalker", "Sea Witch", "Reef Shark", "Kraken Beacon",
-        "Tide Caller", "Tide Barracks", "Rogue", "Tide Dragon", "Wave Pit", "Tide Runner", "Anglerfish Lurker"
+        "Wave Brawler",
+        "Tide Stalker",
+        "Sea Witch",
+        "Reef Shark",
+        "Kraken Beacon",
+        "Tide Caller",
+        "Tide Barracks",
+        "Rogue",
+        "Tide Dragon",
+        "Wave Pit",
+        "Tide Runner",
+        "Anglerfish Lurker"
       ]
     },
     "b-foundry-gate": {
@@ -208,14 +526,27 @@
       "type": "battle",
       "label": "Foundry Gate",
       "description": "The great foundry west of Gearford sealed its gates years ago. Its guardians never stopped working.",
-      "row": 13, "col": 0, "rowCols": 1, "childIds": [],
+      "row": 13,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
       "handicap": 18,
       "opponentBaseHp": 220,
       "opponentIntervalMs": 4200,
       "environment": "vault",
       "enemyDeck": [
-        "Golem", "Iron Colossus", "Clockwork Titan", "Gear Wall", "Golem Foundry",
-        "Steam Walker", "Ballista Tower", "Siege Engineer", "Clockwork Archer", "Iron Forge", "Arcane Turret", "Golem"
+        "Golem",
+        "Iron Colossus",
+        "Clockwork Titan",
+        "Gear Wall",
+        "Golem Foundry",
+        "Steam Walker",
+        "Ballista Tower",
+        "Siege Engineer",
+        "Clockwork Archer",
+        "Iron Forge",
+        "Arcane Turret",
+        "Golem"
       ]
     },
     "b-tournament": {
@@ -223,14 +554,26 @@
       "type": "battle",
       "label": "Tournament Grounds",
       "description": "The kingdom's finest knights compete here for glory. You are the novelty act — prove them wrong.",
-      "row": 14, "col": 0, "rowCols": 1, "childIds": [],
+      "row": 14,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
       "handicap": 19,
       "opponentBaseHp": 225,
       "opponentIntervalMs": 4100,
       "environment": "citadel",
       "enemyDeck": [
-        "Knight", "Paladin", "Rune Knight", "Cavalry Scout", "Knight Barracks",
-        "Shield Wall Soldier", "Paladin", "Archer's Keep", "Crossbow Tower", "Mercenary Captain", "Rune Knight"
+        "Knight",
+        "Paladin",
+        "Rune Knight",
+        "Cavalry Scout",
+        "Knight Barracks",
+        "Shield Wall Soldier",
+        "Paladin",
+        "Archer's Keep",
+        "Crossbow Tower",
+        "Mercenary Captain",
+        "Rune Knight"
       ]
     },
     "b-blight-fields": {
@@ -238,14 +581,27 @@
       "type": "battle",
       "label": "Blighted Fields",
       "description": "North of Millhaven the crops stopped growing and the farmers stopped staying buried.",
-      "row": 15, "col": 0, "rowCols": 1, "childIds": [],
+      "row": 15,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
       "handicap": 20,
       "opponentBaseHp": 225,
       "opponentIntervalMs": 4400,
       "environment": "ashen",
       "enemyDeck": [
-        "Skeleton", "Bone Archer", "Wight Knight", "Bone Wall", "Skeleton",
-        "Necromancer", "Crypt", "Bone Archer", "Wraith", "Wight Barracks", "Skeleton", "Bat"
+        "Skeleton",
+        "Bone Archer",
+        "Wight Knight",
+        "Bone Wall",
+        "Skeleton",
+        "Necromancer",
+        "Crypt",
+        "Bone Archer",
+        "Wraith",
+        "Wight Barracks",
+        "Skeleton",
+        "Bat"
       ]
     },
     "b-crypt-road": {
@@ -253,14 +609,27 @@
       "type": "battle",
       "label": "Crypt Road",
       "description": "The old road to Hollowmere runs past a hundred crypts. None of the doors are closed any more.",
-      "row": 16, "col": 0, "rowCols": 1, "childIds": [],
+      "row": 16,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
       "handicap": 20,
       "opponentBaseHp": 225,
       "opponentIntervalMs": 4400,
       "environment": "ashen",
       "enemyDeck": [
-        "Bat", "Cave Bat", "Skeleton", "Crypt", "Bone Tower",
-        "Wight Knight", "Necromancer", "Bone Archer", "Wraith Shrine", "Revenant", "Bat Cave", "Skeleton"
+        "Bat",
+        "Cave Bat",
+        "Skeleton",
+        "Crypt",
+        "Bone Tower",
+        "Wight Knight",
+        "Necromancer",
+        "Bone Archer",
+        "Wraith Shrine",
+        "Revenant",
+        "Bat Cave",
+        "Skeleton"
       ]
     },
     "b-grave-mists": {
@@ -268,14 +637,26 @@
       "type": "battle",
       "label": "Grave Mists",
       "description": "The mists west of Dreadspire are made of the things that did not get to say goodbye.",
-      "row": 17, "col": 0, "rowCols": 1, "childIds": [],
+      "row": 17,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
       "handicap": 24,
       "opponentBaseHp": 240,
       "opponentIntervalMs": 4000,
       "environment": "ashen",
       "enemyDeck": [
-        "Wraith", "Ice Wraith", "Revenant", "Wraith Hollow", "Necromancer",
-        "Wight Knight", "Bone Colossus", "Wraith Shrine", "Lich Apprentice", "Skeleton", "Revenant Gate"
+        "Wraith",
+        "Ice Wraith",
+        "Revenant",
+        "Wraith Hollow",
+        "Necromancer",
+        "Wight Knight",
+        "Bone Colossus",
+        "Wraith Shrine",
+        "Lich Apprentice",
+        "Skeleton",
+        "Revenant Gate"
       ]
     },
     "b-howling-dark": {
@@ -283,14 +664,27 @@
       "type": "battle",
       "label": "The Howling Dark",
       "description": "The forest east of Dreadspire howls all night. Whatever howls back is bigger.",
-      "row": 18, "col": 0, "rowCols": 1, "childIds": [],
+      "row": 18,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
       "handicap": 24,
       "opponentBaseHp": 240,
       "opponentIntervalMs": 4000,
       "environment": "ruins",
       "enemyDeck": [
-        "Werewolf", "Troll", "Ogre", "Wolfpack Den", "Harpy",
-        "Wyvern", "Troll Den", "Werewolf", "Ogre Den", "Giant", "Harpy Roost", "Wyvern Roost"
+        "Werewolf",
+        "Troll",
+        "Ogre",
+        "Wolfpack Den",
+        "Harpy",
+        "Wyvern",
+        "Troll Den",
+        "Werewolf",
+        "Ogre Den",
+        "Giant",
+        "Harpy Roost",
+        "Wyvern Roost"
       ]
     },
     "b-dread-gate": {
@@ -298,14 +692,28 @@
       "type": "battle",
       "label": "Dreadspire Gate",
       "description": "The gate of Dreadspire Citadel is guarded by the castle's finest. Death did not end their watch.",
-      "row": 19, "col": 0, "rowCols": 1, "childIds": [],
+      "row": 19,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [],
       "handicap": 28,
       "opponentBaseHp": 260,
       "opponentIntervalMs": 3600,
       "environment": "ruins",
       "enemyDeck": [
-        "Wight Knight", "Bone Colossus", "Lich Apprentice", "Necromancer", "Vampire",
-        "Lich Spire", "Bone Tower", "Revenant", "Wight Barracks", "Ash Revenant", "Necropolis", "Wraith", "Graveblight Tower"
+        "Wight Knight",
+        "Bone Colossus",
+        "Lich Apprentice",
+        "Necromancer",
+        "Vampire",
+        "Lich Spire",
+        "Bone Tower",
+        "Revenant",
+        "Wight Barracks",
+        "Ash Revenant",
+        "Necropolis",
+        "Wraith",
+        "Graveblight Tower"
       ]
     }
   }

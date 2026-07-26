@@ -4,6 +4,7 @@ import { TileBrowser, TilesetDef } from './TileBrowser'
 import { PATH, GRASS_PATH, SCENERY, EXTENDED_TILESETS } from '../../data/tiles/tileIndex'
 import type { ExtendedTilesetConfig } from '../../data/tiles/tileIndex'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
+import { WORLD_DECOR } from '../../data/tiles/worldTileIndex'
 
 const meta = {
   component: TileBrowser,
@@ -164,11 +165,17 @@ export const NM_Mountains1:    Story = { name: 'NodeMap / mountains1',    args: 
 export const NM_Rocks1:        Story = { name: 'NodeMap / rocks1',        args: { tileset: nmScene('rocks1.png'),        labels: SCENERY_LABELS } }
 
 // Decor sheet: bridges, trees, castles, mountains, volcanoes.
-// tilecount is an estimate — adjust once image dimensions are confirmed.
+// 256×544px = 8 cols × 17 rows (confirmed from the PNG's IHDR dimensions).
+// Only ids 0–62 are named in WORLD_DECOR so far — the rest show up numerically
+// until someone adds names for them.
+const DECOR_LABELS: Record<number, string> = {}
+for (const [name, id] of Object.entries(WORLD_DECOR)) DECOR_LABELS[id] = name
+
 export const NM_Decor: Story = {
   name: 'NodeMap / decor',
   args: {
-    tileset: { name: 'decor', image: `${NM}decor.png`, tilecount: 64, columns: 8 },
+    tileset: { name: 'decor', image: `${NM}decor.png`, tilecount: 136, columns: 8 },
+    labels: DECOR_LABELS,
   },
 }
 

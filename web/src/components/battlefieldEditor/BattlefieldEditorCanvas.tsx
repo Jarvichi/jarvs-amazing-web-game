@@ -9,6 +9,7 @@ import {
 import { TILE_SIZE, EnvTileDef } from '../../data/tiles/tileIndex'
 import { TERRAIN_CLEAR_Y, expandTerrainPathsToObstacles } from '../../game/engine/terrain'
 import { BATTLEFIELD_ASPECT_RATIO } from '../../game/types'
+import { getBattlefieldBundleById } from '../../data/bundles/battlefieldBundleLoader'
 import type { RoadDef, TerrainObstacle, TerrainType, ToolMode, SelectedEntity, BattlefieldDecorItem, TerrainPathDef } from './battlefieldEditorTypes'
 
 export interface Props {
@@ -23,6 +24,7 @@ export interface Props {
   tool: ToolMode
   activeObstacleType: TerrainType
   activeDecorTileId: number
+  activeBundleId: string | null
   activePathType: TerrainType
   inProgressRoadIndex: number | null
   inProgressPathIndex: number | null
@@ -32,6 +34,7 @@ export interface Props {
   onRoadClick: (x: number, y: number) => void
   onObstacleClick: (x: number, y: number) => void
   onDecorClick: (x: number, y: number) => void
+  onDecorBundleClick: (x: number, y: number, bundleId: string) => void
   onPathClick: (x: number, y: number) => void
   onMoveRoadPoint: (roadIndex: number, pointIndex: number, x: number, y: number) => void
   onMoveObstacle: (index: number, x: number, y: number) => void
@@ -72,12 +75,16 @@ function EditorPixi(props: Props & { w: number; h: number }) {
     stage.hitArea = new PIXI.Rectangle(0, 0, w, h)
 
     stage.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
-      const { tool, onRoadClick, onObstacleClick, onDecorClick, onPathClick, onSelectEntities } = propsRef.current
+      const { tool, activeBundleId, onRoadClick, onObstacleClick, onDecorClick, onDecorBundleClick, onPathClick, onSelectEntities } = propsRef.current
       const pos = e.getLocalPosition(stage)
       const { x, y } = pixelToGame(pos.x, pos.y, w, h)
       if (tool === 'road') { onRoadClick(x, y); return }
       if (tool === 'obstacle') { onObstacleClick(x, y); return }
-      if (tool === 'decor') { onDecorClick(x, y); return }
+      if (tool === 'decor') {
+        if (activeBundleId) { onDecorBundleClick(x, y, activeBundleId); return }
+        onDecorClick(x, y)
+        return
+      }
       if (tool === 'path') { onPathClick(x, y); return }
       if (tool === 'select') { onSelectEntities([]) }
     })
@@ -117,14 +124,19 @@ function EditorPixi(props: Props & { w: number; h: number }) {
 
     const base           = new PIXI.Container()
     const bg             = new PIXI.Container()
-    const road           = new PIXI.Container()
     const border         = new PIXI.Container()
     const decorLayer     = new PIXI.Container()
     const decorObstacles = new PIXI.Container()
+    const road           = new PIXI.Container()
     const world          = new PIXI.Container()
     const guides         = new PIXI.Graphics()
     const editOverlay    = new PIXI.Container()
-    stage.addChild(base, bg, road, border, decorLayer, decorObstacles, world, guides, editOverlay)
+    // Roads draw AFTER (on top of) terrain obstacles — matches the new default
+    // z-order convention (road zIndex 1 > obstacle zIndex 0), so an ordinary
+    // road crossing water/rock reads visually as a bridge with no authoring
+    // effort. See RoadDef.zIndex / game/engine/terrainGrid.ts for the gameplay
+    // side of this (the actual passability rule uses zIndex, not draw order).
+    stage.addChild(base, bg, border, decorLayer, decorObstacles, road, world, guides, editOverlay)
 
     const { environment, envDef, id, roads, terrain, decor, terrainPaths } = props
     buildTerrainGfx(base, new PIXI.Container(), world, { environment, envDef, id, rivers: [], terrainItems: [] }, w, h)
@@ -248,23 +260,34 @@ function drawEditOverlay(
     container.addChild(handle)
   })
 
-  // Decor drag handles
+  // Decor drag handles — one full-tile hit box per rendered sprite (a bundle
+  // gets one per constituent tile), all bound to the same source index so you
+  // click the tile itself (matching mapEditor) and dragging/deleting any tile
+  // of a placed bundle acts on the whole group.
   decor.forEach((item, index) => {
-    const { px, py } = gameToPixel(item.x, item.y, w, h)
     const selected = isDecorSelected(selectedEntities, index)
-    const handle = new PIXI.Graphics()
-    handle.circle(0, 0, HANDLE_RADIUS).stroke({ color: selected ? SELECTED_COLOR : DECOR_COLOR, width: 3, alpha: 0.95 })
-    handle.position.set(px, py)
-    handle.eventMode = 'static'
-    handle.cursor = 'pointer'
-    handle.hitArea = new PIXI.Circle(0, 0, HANDLE_RADIUS * 2)
-    handle.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
-      e.stopPropagation()
-      if (tool === 'delete') { onDeleteDecor(index); return }
-      onSelectEntities([{ type: 'decor', index }])
-      dragRef.current = { kind: 'decor', index }
-    })
-    container.addChild(handle)
+    const bundle = item.bundleId ? getBattlefieldBundleById(item.bundleId) : undefined
+    const origin = gameToPixel(item.x, item.y, w, h)
+    const tcx0 = Math.round(origin.px / TILE_SIZE)
+    const tcy0 = Math.round(origin.py / TILE_SIZE)
+    const tileOffsets = bundle ? bundle.tiles.map(t => ({ dtx: t.dtx, dty: t.dty })) : [{ dtx: 0, dty: 0 }]
+    for (const { dtx, dty } of tileOffsets) {
+      const handle = new PIXI.Graphics()
+      handle.rect(0, 0, TILE_SIZE, TILE_SIZE).fill({ color: 0x000000, alpha: 0.001 })
+      handle.rect(1, 1, TILE_SIZE - 2, TILE_SIZE - 2)
+        .stroke({ color: selected ? SELECTED_COLOR : DECOR_COLOR, width: selected ? 2 : 1, alpha: selected ? 0.95 : 0.55 })
+      handle.position.set((tcx0 + dtx) * TILE_SIZE, (tcy0 + dty) * TILE_SIZE)
+      handle.eventMode = 'static'
+      handle.cursor = 'pointer'
+      handle.hitArea = new PIXI.Rectangle(0, 0, TILE_SIZE, TILE_SIZE)
+      handle.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+        e.stopPropagation()
+        if (tool === 'delete') { onDeleteDecor(index); return }
+        onSelectEntities([{ type: 'decor', index }])
+        dragRef.current = { kind: 'decor', index }
+      })
+      container.addChild(handle)
+    }
   })
 
   // Terrain-path strokes + waypoint handles (mirrors road strokes/handles above)

@@ -6,6 +6,7 @@ import { BattlefieldEditorToolbar } from './BattlefieldEditorToolbar'
 import { BattlefieldDecorPalette } from './BattlefieldDecorPalette'
 import { WORLD_ENV_TILES } from '../../data/tiles/worldTileIndex'
 import { ENV_TILES } from '../../data/tiles/tileIndex'
+import { expandTerrainPathsToObstacles } from '../../game/engine/terrain'
 
 export interface Props {
   initialActId?: string
@@ -35,6 +36,9 @@ export function BattlefieldEditor({ initialActId = 'act1' }: Props) {
   const hasNodeTerrainOverride = state.nodeId !== 'act-default' && node?.terrain !== undefined
   const hasNodeDecorOverride = state.nodeId !== 'act-default' && node?.decor !== undefined
   const hasNodeTerrainPathsOverride = state.nodeId !== 'act-default' && node?.terrainPaths !== undefined
+  // Matches exactly what the live engine builds at battle start (engine.ts) —
+  // used by the toolbar's validate-on-save reachability check.
+  const terrainForValidation = [...terrain, ...expandTerrainPathsToObstacles(terrainPaths)]
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: '#111', color: '#eee' }}>
@@ -50,6 +54,8 @@ export function BattlefieldEditor({ initialActId = 'act1' }: Props) {
         showGuides={showGuides}
         environment={environment}
         roadFollowing={roadFollowing}
+        terrain={terrainForValidation}
+        roads={roads}
         canUndo={state.undoStack.length > 0}
         canRedo={state.redoStack.length > 0}
         isDirty={state.isDirty}
@@ -65,16 +71,17 @@ export function BattlefieldEditor({ initialActId = 'act1' }: Props) {
         onUndo={editor.undo}
         onRedo={editor.redo}
         onSaved={editor.markSaved}
+        withTerrainValidated={editor.withTerrainValidated}
       />
       <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
-        {state.tool === 'decor' && (
-          <div style={{ width: 192, flexShrink: 0, borderRight: '1px solid #333', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-            <BattlefieldDecorPalette
-              activeTileId={state.activeDecorTileId}
-              onSelectTile={editor.setActiveDecorTileId}
-            />
-          </div>
-        )}
+        <div style={{ width: 192, flexShrink: 0, borderRight: '1px solid #333', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+          <BattlefieldDecorPalette
+            activeTileId={state.activeDecorTileId}
+            activeBundleId={state.activeBundleId}
+            onSelectTile={tileId => { editor.setActiveDecorTileId(tileId); editor.setTool('decor') }}
+            onSelectBundle={bundleId => { editor.setActiveBundleId(bundleId); editor.setTool('decor') }}
+          />
+        </div>
         <div style={{ flex: 1, position: 'relative' }}>
           <BattlefieldEditorCanvas
             environment={environment}
@@ -87,6 +94,7 @@ export function BattlefieldEditor({ initialActId = 'act1' }: Props) {
             tool={state.tool}
             activeObstacleType={state.activeObstacleType}
             activeDecorTileId={state.activeDecorTileId}
+            activeBundleId={state.activeBundleId}
             activePathType={state.activePathType}
             inProgressRoadIndex={state.inProgressRoadIndex}
             inProgressPathIndex={state.inProgressPathIndex}
@@ -96,6 +104,7 @@ export function BattlefieldEditor({ initialActId = 'act1' }: Props) {
             onRoadClick={editor.clickRoadTool}
             onObstacleClick={(x, y) => editor.addObstacle(x, y, state.activeObstacleType)}
             onDecorClick={(x, y) => editor.addDecor(x, y, state.activeDecorTileId)}
+            onDecorBundleClick={editor.addDecorBundle}
             onPathClick={editor.clickPathTool}
             onMoveRoadPoint={editor.moveRoadPoint}
             onMoveObstacle={editor.moveObstacle}
@@ -127,7 +136,7 @@ export function BattlefieldEditor({ initialActId = 'act1' }: Props) {
           onUpdateObstacle={editor.updateObstacle}
           onMoveObstacle={editor.moveObstacle}
           onDeleteObstacle={editor.deleteObstacle}
-          onUpdateDecorTile={editor.updateDecorTile}
+          onUpdateDecor={editor.updateDecor}
           onMoveDecor={editor.moveDecor}
           onDeleteDecor={editor.deleteDecor}
           onUpdatePath={editor.updatePath}

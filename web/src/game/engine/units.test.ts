@@ -7,13 +7,16 @@ import { describe, it, expect } from 'vitest'
 import { newGame } from '../engine'
 import { moveUnits } from './units'
 import { spawnUnit } from './helpers'
-import { RoadDef } from './terrain'
+import { RoadDef, TerrainObstacle } from './terrain'
 import { LANE_WIDTH } from '../types'
 
 const MOBILE_TEMPLATE = {
   name: 'Test Runner', maxHp: 30, attack: 5, moveSpeed: 40,
   attackRange: 20, attackCooldownMs: 1000, isWall: false, bypassWall: false,
 }
+
+const BURROWING_TEMPLATE = { ...MOBILE_TEMPLATE, tags: ['burrowing' as const] }
+const SWIM_TEMPLATE = { ...MOBILE_TEMPLATE, tags: ['swim' as const] }
 
 describe('moveUnits — road following', () => {
   it('does nothing when roadFollowing is off (regression parity with straight-line movement)', () => {
@@ -126,5 +129,121 @@ describe('moveUnits — road following', () => {
 
     // Defend stance pulls back toward PLAYER_SPAWN_X + 40, not toward the road's y=70.
     expect(unit.x).toBeLessThan(200)
+  })
+})
+
+describe('moveUnits — hard terrain blocking (terrainValidated)', () => {
+  // A radius this large fully seals every lateral column for a wide forward
+  // band once tile-rasterized (see game/engine/terrainGrid.ts) — deliberately
+  // oversized so the test isn't sensitive to exact tile-grid geometry, only
+  // to whether the movement type in question is blocked at all.
+  const WALL: TerrainObstacle = { id: 'wall', type: 'rock', x: 250, y: 0, radius: 250 }
+  const WATER_WALL: TerrainObstacle = { id: 'wall', type: 'water', x: 250, y: 0, radius: 250 }
+
+  it('does nothing when terrainValidated is off (regression parity — legacy soft avoidance)', () => {
+    const s = newGame()
+    s.terrainValidated = false
+    s.terrain = [WALL]
+    const unit = spawnUnit(MOBILE_TEMPLATE, 'player')
+    unit.y = 0
+    s.field = [unit]
+
+    for (let i = 0; i < 50; i++) moveUnits(s, 100)
+
+    // Soft avoidance never hard-stops a unit — it keeps advancing in x.
+    expect(unit.x).toBeGreaterThan(30)
+  })
+
+  it('a ground unit is hard-blocked by a rock wall', () => {
+    const s = newGame()
+    s.terrainValidated = true
+    s.terrain = [WALL]
+    const unit = spawnUnit(MOBILE_TEMPLATE, 'player')
+    unit.y = 0
+    s.field = [unit]
+
+    for (let i = 0; i < 200; i++) moveUnits(s, 100)
+
+    expect(unit.x).toBeLessThan(100)
+  })
+
+  it('a burrowing unit ignores a rock wall entirely', () => {
+    const s = newGame()
+    s.terrainValidated = true
+    s.terrain = [WALL]
+    const unit = spawnUnit(BURROWING_TEMPLATE, 'player')
+    unit.y = 0
+    s.field = [unit]
+
+    for (let i = 0; i < 200; i++) moveUnits(s, 100)
+
+    expect(unit.x).toBeGreaterThan(400)
+  })
+
+  it('a burrowing unit is still blocked by a water wall', () => {
+    const s = newGame()
+    s.terrainValidated = true
+    s.terrain = [WATER_WALL]
+    const unit = spawnUnit(BURROWING_TEMPLATE, 'player')
+    unit.y = 0
+    s.field = [unit]
+
+    for (let i = 0; i < 200; i++) moveUnits(s, 100)
+
+    expect(unit.x).toBeLessThan(100)
+  })
+
+  it('a ground unit is hard-blocked by a water wall', () => {
+    const s = newGame()
+    s.terrainValidated = true
+    s.terrain = [WATER_WALL]
+    const unit = spawnUnit(MOBILE_TEMPLATE, 'player')
+    unit.y = 0
+    s.field = [unit]
+
+    for (let i = 0; i < 200; i++) moveUnits(s, 100)
+
+    expect(unit.x).toBeLessThan(100)
+  })
+
+  it('a swim-tagged unit crosses a water wall that blocks plain ground units', () => {
+    const s = newGame()
+    s.terrainValidated = true
+    s.terrain = [WATER_WALL]
+    const unit = spawnUnit(SWIM_TEMPLATE, 'player')
+    unit.y = 0
+    s.field = [unit]
+
+    for (let i = 0; i < 200; i++) moveUnits(s, 100)
+
+    expect(unit.x).toBeGreaterThan(400)
+  })
+
+  it('a flying unit is unaffected by terrainValidated (still bypasses everything)', () => {
+    const s = newGame()
+    s.terrainValidated = true
+    s.terrain = [WATER_WALL]
+    const unit = spawnUnit({ ...MOBILE_TEMPLATE, flying: true }, 'player')
+    unit.y = 0
+    s.field = [unit]
+
+    for (let i = 0; i < 200; i++) moveUnits(s, 100)
+
+    expect(unit.x).toBeGreaterThan(400)
+  })
+
+  it('a road with default zIndex bridges a water wall for a plain ground unit', () => {
+    const s = newGame()
+    s.terrainValidated = true
+    s.terrain = [WATER_WALL]
+    const roads: RoadDef[] = [{ points: [{ x: 5, y: 0 }, { x: 495, y: 0 }] }] // default zIndex 1 > obstacle default 0
+    s.roads = roads
+    const unit = spawnUnit(MOBILE_TEMPLATE, 'player')
+    unit.y = 0
+    s.field = [unit]
+
+    for (let i = 0; i < 200; i++) moveUnits(s, 100)
+
+    expect(unit.x).toBeGreaterThan(400)
   })
 })

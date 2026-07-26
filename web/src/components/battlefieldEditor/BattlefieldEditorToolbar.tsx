@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import type { Act, ToolMode, TerrainType, EditTarget } from './battlefieldEditorTypes'
+import type { Act, ToolMode, TerrainType, EditTarget, RoadDef, TerrainObstacle } from './battlefieldEditorTypes'
 import { BATTLEFIELD_ACT_IDS } from './useBattlefieldEditorState'
 import { saveBattlefieldAct } from './battlefieldEditorApi'
 import { markSelfSave } from '../../utils/hotReloadGuard'
+import { checkAllProfilesReachable } from '../../game/engine/terrainGrid'
 
 const TOOLS: { tool: ToolMode; label: string }[] = [
   { tool: 'select', label: 'Select' },
@@ -28,6 +29,10 @@ export interface Props {
   showGuides: boolean
   environment: string
   roadFollowing: boolean
+  /** Resolved-for-target terrain (including expanded terrainPaths), matching exactly what the live engine would build — used for the validate-on-save reachability check. */
+  terrain: TerrainObstacle[]
+  /** Resolved-for-target roads — used for the validate-on-save reachability check. */
+  roads: RoadDef[]
   canUndo: boolean
   canRedo: boolean
   isDirty: boolean
@@ -43,14 +48,18 @@ export interface Props {
   onUndo: () => void
   onRedo: () => void
   onSaved: () => void
+  /** Returns actData with terrainValidated set at the current edit target (act-default or node) — see useBattlefieldEditorState.ts's withTerrainValidated. */
+  withTerrainValidated: (act: Act, nodeId: EditTarget, value: boolean) => Act
 }
+
+const MOVEMENT_LABELS = { ground: 'ground units', flying: 'flying units', burrowing: 'burrowing units' } as const
 
 export function BattlefieldEditorToolbar(props: Props) {
   const {
     actId, actData, nodeId, tool, activeObstacleType, activePathType, inProgressRoadIndex, inProgressPathIndex, showGuides,
-    environment, roadFollowing, canUndo, canRedo, isDirty,
+    environment, roadFollowing, terrain, roads, canUndo, canRedo, isDirty,
     onSetActId, onSetNodeId, onSetTool, onSetActiveObstacleType, onSetActivePathType, onFinishRoad, onFinishPath,
-    onToggleGuides, onToggleRoadFollowing, onUndo, onRedo, onSaved,
+    onToggleGuides, onToggleRoadFollowing, onUndo, onRedo, onSaved, withTerrainValidated,
   } = props
 
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'ok' | 'error'>('idle')
@@ -59,9 +68,20 @@ export function BattlefieldEditorToolbar(props: Props) {
   const handleSave = async () => {
     setSaveState('saving')
     setSaveError('')
+
+    const report = checkAllProfilesReachable(terrain, roads)
+    const failed = (Object.keys(MOVEMENT_LABELS) as Array<keyof typeof MOVEMENT_LABELS>)
+      .filter(profile => !report[profile].reachable)
+    if (failed.length > 0) {
+      setSaveState('error')
+      setSaveError(`Sealed off for ${failed.map(f => MOVEMENT_LABELS[f]).join(', ')} — adjust terrain/roads before saving.`)
+      setTimeout(() => setSaveState('idle'), 6000)
+      return
+    }
+
     markSelfSave()
     try {
-      await saveBattlefieldAct(actId, actData)
+      await saveBattlefieldAct(actId, withTerrainValidated(actData, nodeId, true))
       setSaveState('ok')
       onSaved()
       setTimeout(() => setSaveState('idle'), 2000)

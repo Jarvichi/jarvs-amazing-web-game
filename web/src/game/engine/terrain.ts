@@ -22,11 +22,21 @@ export interface TerrainObstacle {
   x: number      // forward axis (same coords as units); kept 80–420
   y: number      // lateral axis; –75 to 75
   radius: number // base avoidance radius in game units, 12–22
+  /**
+   * Draw/passability priority for tiles this obstacle covers (see
+   * game/engine/terrainGrid.ts). Higher wins ties against other obstacles
+   * AND against roads occupying the same tile. Defaults to 0 — see
+   * RoadDef.zIndex for why roads default higher (the "bridge" case).
+   */
+  zIndex?: number
 }
 
 /**
- * Act/node-authored road path for the battlefield, rendered visually only —
- * does not affect unit movement/avoidance (see game/engine/units.ts).
+ * Act/node-authored road path for the battlefield. Rendered visually, affects
+ * unit movement when `roadFollowing` is true (see game/engine/units.ts), and
+ * — once a node opts into hard terrain blocking via `terrainValidated` — can
+ * "bridge" an overlapping obstacle if this road's zIndex is higher (see
+ * game/engine/terrainGrid.ts).
  */
 export interface RoadDef {
   /** Waypoints in game-unit coords — same space as TerrainObstacle: x 0–500 (forward, base→base), y -80..80 (lateral). */
@@ -35,6 +45,16 @@ export interface RoadDef {
   width?: number
   /** Optional tileset override (defaults to envDef.pathFile). */
   tileFile?: string
+  /**
+   * Draw/passability priority for tiles this road covers. Defaults to 1 —
+   * one higher than the obstacle default of 0 — so that, with no authoring
+   * effort, a road drawn across an obstacle (most commonly water) "wins" the
+   * overlapping tiles: it draws on top, and it makes those tiles passable
+   * for movement types the obstacle would otherwise block (the bridge
+   * mechanic — see game/engine/terrainGrid.ts). Lower this below a specific
+   * obstacle's zIndex to make the road NOT bridge that one obstacle.
+   */
+  zIndex?: number
 }
 
 /**
@@ -52,6 +72,8 @@ export interface TerrainPathDef {
   points: Array<{ x: number; y: number }>
   /** Avoidance radius of each chained obstacle (game units). Also controls chain spacing — consecutive circles are spaced at `radius` apart so the chain has continuous coverage. Default 20. */
   radius?: number
+  /** Propagated onto every obstacle this path expands to — see TerrainObstacle.zIndex. */
+  zIndex?: number
 }
 
 /**
@@ -71,7 +93,7 @@ export function expandTerrainPathsToObstacles(paths: TerrainPathDef[]): TerrainO
     const radius = path.radius ?? 20
     let n = 0
     const place = (x: number, y: number) => {
-      obstacles.push({ id: String(pathIndex * 1000 + n++), type: path.type, x, y, radius })
+      obstacles.push({ id: String(pathIndex * 1000 + n++), type: path.type, x, y, radius, zIndex: path.zIndex })
     }
     place(path.points[0].x, path.points[0].y)
     for (let i = 1; i < path.points.length; i++) {
@@ -97,10 +119,17 @@ export function expandTerrainPathsToObstacles(paths: TerrainPathDef[]): TerrainO
  */
 export interface BattlefieldDecorItem {
   id: string
-  /** Index into WORLD_DECOR (data/tiles/worldTileIndex.ts). */
+  /** Index into WORLD_DECOR (data/tiles/worldTileIndex.ts). Unused when bundleId is set. */
   tileId: number
+  /** When set, this item is the origin of a multi-tile decor bundle (see
+   *  data/bundles/battlefieldBundleLoader.ts) — tileId is ignored and every
+   *  bundle tile renders tile-adjacent to (x,y). The whole group is one
+   *  entry: selecting/dragging/deleting any of its tiles acts on all of them. */
+  bundleId?: string
   x: number // forward axis, same coords/range as TerrainObstacle (0–500)
   y: number // lateral axis, same coords/range as TerrainObstacle (-80..80)
+  /** Draw priority relative to other decor items (higher draws later/on top). Purely visual — decor never affects passability. Default 0. */
+  zIndex?: number
 }
 
 // ─── Terrain Generation ───────────────────────────────────
