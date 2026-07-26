@@ -463,6 +463,7 @@
           "radius": 3
         }
       ],
+      "terrainValidated": true,
       "roads": []
     },
     "camp": {
@@ -526,7 +527,8 @@
             }
           ]
         }
-      ]
+      ],
+      "terrainValidated": true
     },
     "shrine": {
       "id": "shrine",
