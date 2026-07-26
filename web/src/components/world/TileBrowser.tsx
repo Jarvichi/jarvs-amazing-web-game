@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import { resolveTileRef } from '../../data/tiles/tileIndex'
+import { WORLD_DECOR, WORLD_DECOR_FILE } from '../../data/tiles/worldTileIndex'
 
+// Most tilesets resolve "official" (already-named) ids through BASE_CHIP_TILES'
+// global ID registry, but the decor sheet is named via its own flat WORLD_DECOR
+// map instead — without this, pasting an exported name into worldTileIndex.ts
+// would never be recognized here, and the tile would stay stuck in localStorage
+// as an "unofficial" custom label forever (export count never drops).
 function getOfficialIdsForTileset(tilesetImage: string): Set<number> {
   const ids = new Set<number>()
   for (const globalId of Object.values(BASE_CHIP_TILES)) {
@@ -9,6 +15,9 @@ function getOfficialIdsForTileset(tilesetImage: string): Set<number> {
       const ref = resolveTileRef(globalId)
       if (ref.file === tilesetImage) ids.add(ref.id)
     } catch { /* skip unresolvable IDs */ }
+  }
+  if (tilesetImage === WORLD_DECOR_FILE) {
+    for (const id of Object.values(WORLD_DECOR)) ids.add(id)
   }
   return ids
 }

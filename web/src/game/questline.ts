@@ -173,6 +173,11 @@ export interface QuestNode {
   decor?: BattlefieldDecorItem[]
   /** Path-drawn blocking terrain (rivers, tree lines, mountain ridges) for this node, overriding the act's `terrainPaths`. Expands into extra TerrainObstacle circles at battle start — see expandTerrainPathsToObstacles. */
   terrainPaths?: TerrainPathDef[]
+  /** When true, this node's battle enforces hard tile-based terrain/road blocking
+   *  (see game/engine/terrainGrid.ts) instead of legacy soft avoidance. Overrides
+   *  the act's `terrainValidated`. Set exclusively by the battlefield editor's
+   *  "validate on save" step — not intended for hand-authoring. */
+  terrainValidated?: boolean
   /** Override opponent play interval (ms). Replaces handicap-derived default. */
   opponentIntervalMs?: number
   /** Override opponent base HP. Replaces engine default (95 for bosses, 82 for others). */
@@ -348,6 +353,11 @@ export interface WorldMap {
    * per-node.
    */
   terrainPaths?: TerrainPathDef[]
+
+  /** Default terrain-validation flag for battles in this act (see
+   *  QuestNode.terrainValidated); a node's own `terrainValidated` overrides
+   *  this per-node. */
+  terrainValidated?: boolean
 
 }
 

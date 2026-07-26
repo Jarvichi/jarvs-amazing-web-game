@@ -1,0 +1,423 @@
+[
+  {
+    "bundleId": "squareCastle",
+    "label": "Square Castle",
+    "tiles": [
+      {
+        "tileKey": "squareCastleTopLeft",
+        "dtx": 0,
+        "dty": 0
+      },
+      {
+        "tileKey": "squareCastleTopRight",
+        "dtx": 1,
+        "dty": 0
+      },
+      {
+        "tileKey": "squareCastleBottomLeft",
+        "dtx": 0,
+        "dty": 1
+      },
+      {
+        "tileKey": "squareCastleBottomRight",
+        "dtx": 1,
+        "dty": 1
+      }
+    ]
+  },
+  {
+    "bundleId": "fantasyCastle",
+    "label": "Fantasy Castle",
+    "tiles": [
+      {
+        "tileKey": "fantasyCastleTopLeft",
+        "dtx": 0,
+        "dty": 0
+      },
+      {
+        "tileKey": "fantasyCastleTopRight",
+        "dtx": 1,
+        "dty": 0
+      },
+      {
+        "tileKey": "fantasyCastleBottomLeft",
+        "dtx": 0,
+        "dty": 1
+      },
+      {
+        "tileKey": "fantasyCastleBottomRight",
+        "dtx": 1,
+        "dty": 1
+      }
+    ]
+  },
+  {
+    "bundleId": "walledTown",
+    "label": "Walled Town",
+    "tiles": [
+      {
+        "tileKey": "walledTownLeft",
+        "dtx": 0,
+        "dty": 0
+      },
+      {
+        "tileKey": "walledTownRight",
+        "dtx": 1,
+        "dty": 0
+      }
+    ]
+  },
+  {
+    "bundleId": "village",
+    "label": "Village",
+    "tiles": [
+      {
+        "tileKey": "villageLeft",
+        "dtx": 0,
+        "dty": 0
+      },
+      {
+        "tileKey": "villageRight",
+        "dtx": 1,
+        "dty": 0
+      }
+    ]
+  },
+  {
+    "bundleId": "woodenBridgeH",
+    "label": "Wooden Bridge (horiz.)",
+    "tiles": [
+      {
+        "tileKey": "woodenBridgeHTop",
+        "dtx": 0,
+        "dty": 0
+      },
+      {
+        "tileKey": "woodenBridgeHBottom",
+        "dtx": 0,
+        "dty": 1
+      }
+    ]
+  },
+  {
+    "bundleId": "woodenBridgeV",
+    "label": "Wooden Bridge (vert.)",
+    "tiles": [
+      {
+        "tileKey": "woodenBridgeVTop",
+        "dtx": 0,
+        "dty": 0
+      },
+      {
+        "tileKey": "woodenBridgeVBottom",
+        "dtx": 0,
+        "dty": 1
+      }
+    ]
+  },
+  {
+    "bundleId": "stoneBridgeH",
+    "label": "Stone Bridge (horiz.)",
+    "tiles": [
+      {
+        "tileKey": "stoneBridgeHTop",
+        "dtx": 0,
+        "dty": 0
+      },
+      {
+        "tileKey": "stoneBridgeHBottom",
+        "dtx": 0,
+        "dty": 1
+      }
+    ]
+  },
+  {
+    "bundleId": "stoneBridgeV",
+    "label": "Stone Bridge (vert.)",
+    "tiles": [
+      {
+        "tileKey": "stoneBridgeVTop",
+        "dtx": 0,
+        "dty": 0
+      },
+      {
+        "tileKey": "stoneBridgeVBottom",
+        "dtx": 0,
+        "dty": 1
+      }
+    ]
+  },
+  {
+    "bundleId": "mountainPeak",
+    "label": "Mountain Peak",
+    "tiles": [
+      {
+        "tileKey": "mountainTopLeft",
+        "dtx": 0,
+        "dty": 0
+      },
+      {
+        "tileKey": "mountainTopRight",
+        "dtx": 1,
+        "dty": 0
+      },
+      {
+        "tileKey": "mountainBottomLeft",
+        "dtx": 0,
+        "dty": 1
+      },
+      {
+        "tileKey": "mountainBottomRight",
+        "dtx": 1,
+        "dty": 1
+      }
+    ]
+  },
+  {
+    "bundleId": "mountainRangeGrow",
+    "label": "Mountain Range (rising)",
+    "tiles": [
+      {
+        "tileKey": "mountainCluster1To2Left",
+        "dtx": 0,
+        "dty": 0
+      },
+      {
+        "tileKey": "mountainCluster1To2Right",
+        "dtx": 1,
+        "dty": 0
+      }
+    ]
+  },
+  {
+    "bundleId": "mountainRangeShrink",
+    "label": "Mountain Range (falling)",
+    "tiles": [
+      {
+        "tileKey": "mountainCluster2To1Left",
+        "dtx": 0,
+        "dty": 0
+      },
+      {
+        "tileKey": "mountainCluster2To1Right",
+        "dtx": 1,
+        "dty": 0
+      }
+    ]
+  },
+  {
+    "bundleId": "volcanoCrater",
+    "label": "Volcano Crater",
+    "tiles": [
+      {
+        "tileKey": "volcanoCraterTopLeft",
+        "dtx": 0,
+        "dty": 0
+      },
+      {
+        "tileKey": "volcanoCraterTopRight",
+        "dtx": 1,
+        "dty": 0
+      },
+      {
+        "tileKey": "volcanoCraterBottomLeft",
+        "dtx": 0,
+        "dty": 1
+      },
+      {
+        "tileKey": "volcanoCraterBottomRight",
+        "dtx": 1,
+        "dty": 1
+      }
+    ]
+  },
+  {
+    "bundleId": "volcanoLavaPool",
+    "label": "Volcano Lava Pool",
+    "tiles": [
+      {
+        "tileKey": "volcanoLavaPoolTopLeft",
+        "dtx": 0,
+        "dty": 0
+      },
+      {
+        "tileKey": "volcanoLavaPoolTopRight",
+        "dtx": 1,
+        "dty": 0
+      },
+      {
+        "tileKey": "volcanoLavaPoolBottomLeft",
+        "dtx": 0,
+        "dty": 1
+      },
+      {
+        "tileKey": "volcanoLavaPoolBottomRight",
+        "dtx": 1,
+        "dty": 1
+      }
+    ]
+  },
+  {
+    "bundleId": "new-bundle-1",
+    "label": "Large Square Castle",
+    "tiles": [
+      {
+        "tileKey": "largeSquareCastleTL",
+        "dtx": 0,
+        "dty": 0
+      },
+      {
+        "tileKey": "largeSquareCastleTM",
+        "dtx": 1,
+        "dty": 0
+      },
+      {
+        "tileKey": "largeSquareCastleTR",
+        "dtx": 2,
+        "dty": 0
+      },
+      {
+        "tileKey": "largeSquareCastleML",
+        "dtx": 0,
+        "dty": 1
+      },
+      {
+        "tileKey": "largeSquareCastleMM",
+        "dtx": 1,
+        "dty": 1
+      },
+      {
+        "tileKey": "largeSquareCastleMR",
+        "dtx": 2,
+        "dty": 1
+      },
+      {
+        "tileKey": "largeSquareCastleBL",
+        "dtx": 0,
+        "dty": 2
+      },
+      {
+        "tileKey": "largeSquareCastleBM",
+        "dtx": 1,
+        "dty": 2
+      },
+      {
+        "tileKey": "largeSquareCastleBR",
+        "dtx": 2,
+        "dty": 2
+      }
+    ]
+  },
+  {
+    "bundleId": "new-bundle-2",
+    "label": "Volcano With Cave Entrance",
+    "tiles": [
+      {
+        "tileKey": "volcanoLavaPoolTopLeft",
+        "dtx": 0,
+        "dty": 0
+      },
+      {
+        "tileKey": "volcanoCaveBottomLeft",
+        "dtx": 0,
+        "dty": 1
+      },
+      {
+        "tileKey": "volcanoLavaPoolTopRight",
+        "dtx": 1,
+        "dty": 0
+      },
+      {
+        "tileKey": "volcanoCaveBottomRight",
+        "dtx": 1,
+        "dty": 1
+      }
+    ]
+  },
+  {
+    "bundleId": "new-bundle-3",
+    "label": "Mountain Range",
+    "tiles": [
+      {
+        "tileKey": "mountainTopLeft",
+        "dtx": 0,
+        "dty": 0
+      },
+      {
+        "tileKey": "mountainTopRight",
+        "dtx": 1,
+        "dty": 0
+      },
+      {
+        "tileKey": "mountainCluster1To2Left",
+        "dtx": 0,
+        "dty": 1
+      },
+      {
+        "tileKey": "mountainCluster1To2Right",
+        "dtx": 1,
+        "dty": 1
+      },
+      {
+        "tileKey": "mountainTopRight",
+        "dtx": -1,
+        "dty": 0
+      },
+      {
+        "tileKey": "mountainCluster1To2Left",
+        "dtx": -2,
+        "dty": 1
+      },
+      {
+        "tileKey": "mountainCluster1To2Right",
+        "dtx": -1,
+        "dty": 1
+      },
+      {
+        "tileKey": "mountainTopLeft",
+        "dtx": -2,
+        "dty": 0
+      },
+      {
+        "tileKey": "mountainTopLeft",
+        "dtx": -3,
+        "dty": 1
+      },
+      {
+        "tileKey": "mountainTopRight",
+        "dtx": 2,
+        "dty": 1
+      },
+      {
+        "tileKey": "mountainBottomRight",
+        "dtx": 2,
+        "dty": 2
+      },
+      {
+        "tileKey": "mountainBottomLeft",
+        "dtx": -3,
+        "dty": 2
+      },
+      {
+        "tileKey": "mountainBottomRight",
+        "dtx": 0,
+        "dty": 2
+      },
+      {
+        "tileKey": "mountainBottomLeft",
+        "dtx": 1,
+        "dty": 2
+      },
+      {
+        "tileKey": "mountainBottomRight",
+        "dtx": -2,
+        "dty": 2
+      },
+      {
+        "tileKey": "mountainBottomLeft",
+        "dtx": -1,
+        "dty": 2
+      }
+    ]
+  }
+]

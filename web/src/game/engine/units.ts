@@ -3,6 +3,7 @@ import { BASE_STOP_MARGIN, COMMANDER_LEASH_PX, DAMAGE_FLASH_MS, PLAYER_SPAWN_X }
 import { LANE_MAX_Y, LANE_MIN_Y } from './helpers'
 import { unitDist, findNearestEnemy, findNearestEnemyByPriority, findEnemyBehind } from './targeting'
 import { computeRoadWaypoints } from './roads'
+import { gameToTile, buildObstacleTileMap, buildRoadTileMap, isTilePassable, type MovementProfile } from './terrainGrid'
 
 // Cache parsed numeric suffix of unit IDs — avoids regex+parseInt on every movement tick.
 const _idNumCache = new Map<string, number>()
@@ -334,29 +335,35 @@ export function moveUnits(s: GameState, deltaMs: number): void {
     const speed = (inWallZone ? unit.moveSpeed * CLIMB_SPEED_FACTOR : unit.moveSpeed)
       * deltaSec * fogMult * affMoveMult * clampedMoatFactor * freezeFactor
 
-    // Terrain avoidance: lateral repulsion from nearby obstacles
+    // Terrain avoidance: lateral repulsion from nearby obstacles. Skipped when
+    // `terrainValidated` is on — that node uses hard tile blocking below
+    // instead (see game/engine/terrainGrid.ts). Untouched otherwise, so every
+    // existing act/node (terrainValidated absent/false) behaves exactly as
+    // before.
     let avoidY = 0
     if (!unit.flying) {
-      for (const obs of s.terrain) {
-        const toObsX = obs.x - unit.x
-        const toObsY = obs.y - unit.y
-        const shape  = TERRAIN_AVOID_SHAPE[obs.type]
-        const ax     = obs.radius * shape.fx + 4
-        const ay     = obs.radius * shape.fy + 4
-        const normDist = Math.sqrt((toObsX / ax) ** 2 + (toObsY / ay) ** 2)
-        if (normDist < 1 && normDist > 0) {
-          const strength = 1 - normDist
-          let lateralDir: number
-          if (Math.abs(toObsY) < 5) {
-              lateralDir = (idNum(unit.id) % 2 === 0) ? -1 : 1
-          } else {
-            lateralDir = -Math.sign(toObsY)
+      if (!s.terrainValidated) {
+        for (const obs of s.terrain) {
+          const toObsX = obs.x - unit.x
+          const toObsY = obs.y - unit.y
+          const shape  = TERRAIN_AVOID_SHAPE[obs.type]
+          const ax     = obs.radius * shape.fx + 4
+          const ay     = obs.radius * shape.fy + 4
+          const normDist = Math.sqrt((toObsX / ax) ** 2 + (toObsY / ay) ** 2)
+          if (normDist < 1 && normDist > 0) {
+            const strength = 1 - normDist
+            let lateralDir: number
+            if (Math.abs(toObsY) < 5) {
+                lateralDir = (idNum(unit.id) % 2 === 0) ? -1 : 1
+            } else {
+              lateralDir = -Math.sign(toObsY)
+            }
+            avoidY += lateralDir * strength * unit.moveSpeed * 1.8
           }
-          avoidY += lateralDir * strength * unit.moveSpeed * 1.8
         }
       }
 
-      // Blood pool cluster avoidance
+      // Blood pool cluster avoidance — unrelated to terrain blocking, always runs.
       for (const pool of densePools) {
         const toPoolX = pool.x - unit.x
         const toPoolY = pool.y - unit.y
@@ -374,8 +381,35 @@ export function moveUnits(s: GameState, deltaMs: number): void {
     }
 
     const step = Math.min(speed, d)
-    unit.x = Math.min(LANE_WIDTH - BASE_STOP_MARGIN, Math.max(BASE_STOP_MARGIN, unit.x + (dx / d) * step))
-    unit.y = Math.min(LANE_MAX_Y, Math.max(LANE_MIN_Y, unit.y + (dy / d) * step + avoidY * deltaSec))
+    const candX = Math.min(LANE_WIDTH - BASE_STOP_MARGIN, Math.max(BASE_STOP_MARGIN, unit.x + (dx / d) * step))
+    const candY = Math.min(LANE_MAX_Y, Math.max(LANE_MIN_Y, unit.y + (dy / d) * step + avoidY * deltaSec))
+
+    if (!s.terrainValidated || unit.flying) {
+      unit.x = candX
+      unit.y = candY
+    } else {
+      // Hard tile-based blocking: try the full move, then x-only, then
+      // y-only, then hold in place — produces natural wall-hugging/sliding
+      // with no new boundary math. The grid is built once per battle and
+      // cached, since s.terrain/s.roads don't change mid-battle.
+      s.terrainGridCache ??= { obstacleTiles: buildObstacleTileMap(s.terrain), roadTiles: buildRoadTileMap(s.roads ?? []) }
+      const { obstacleTiles, roadTiles } = s.terrainGridCache
+      const profile: MovementProfile = unit.tags?.includes('burrowing') ? 'burrowing' : 'ground'
+      const swims = unit.tags?.includes('swim') ?? false
+      const canEnter = (x: number, y: number) => {
+        const { tcx, tcy } = gameToTile(x, y)
+        return isTilePassable(obstacleTiles, roadTiles, tcx, tcy, profile, swims)
+      }
+      if (canEnter(candX, candY)) {
+        unit.x = candX
+        unit.y = candY
+      } else if (canEnter(candX, unit.y)) {
+        unit.x = candX
+      } else if (canEnter(unit.x, candY)) {
+        unit.y = candY
+      }
+      // else: fully boxed in for this tick — hold position, re-try next tick.
+    }
 
     // Advance past the current road waypoint once reached — gated on !hasTarget so a unit
     // pulled off-path by a higher-priority target this tick isn't credited with "arriving"

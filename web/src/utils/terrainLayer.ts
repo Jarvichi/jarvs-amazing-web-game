@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js'
 import { ENV_TILES, BASE_GROUND, TILESET_IMAGE, TILESET_COLUMNS, TILE_SIZE, EnvTileDef, SCENERY } from '../data/tiles/tileIndex'
 import { WORLD_DECOR_FILE, WORLD_DECOR, TERRAIN_DECOR_MAP } from '../data/tiles/worldTileIndex'
+import { getBattlefieldBundleById } from '../data/bundles/battlefieldBundleLoader'
 import { loadTileTexture } from './pixiHelpers'
 import { planTerrainPatches } from './terrainPatchPlan'
 import { drawTerrainItem } from './terrainGfx'
@@ -268,15 +269,30 @@ export async function buildManualDecorGfx(
   if (decorItems.length === 0) return
   const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
   const tileUrl = `${base}${WORLD_DECOR_FILE.slice(1)}`
-  for (const item of decorItems) {
+  // Draw lowest zIndex first so higher-zIndex decor ends up on top.
+  const sortedDecorItems = [...decorItems].sort((a, b) => (a.zIndex ?? 0) - (b.zIndex ?? 0))
+  for (const item of sortedDecorItems) {
     if (container.destroyed) return
     const { px, py } = gameToPixel(item.x, item.y, mapWidth, mapHeight)
-    const tcx = Math.round(px / TILE_SIZE)
-    const tcy = Math.round(py / TILE_SIZE)
+    const tcx0 = Math.round(px / TILE_SIZE)
+    const tcy0 = Math.round(py / TILE_SIZE)
+    if (item.bundleId) {
+      const bundle = getBattlefieldBundleById(item.bundleId)
+      if (!bundle) continue
+      for (const t of bundle.tiles) {
+        if (container.destroyed) return
+        const tex = await loadTileTexture(tileUrl, t.tileId, 8)
+        if (container.destroyed) return
+        const s = new PIXI.Sprite(tex)
+        s.position.set((tcx0 + t.dtx) * TILE_SIZE, (tcy0 + t.dty) * TILE_SIZE)
+        container.addChild(s)
+      }
+      continue
+    }
     const tex = await loadTileTexture(tileUrl, item.tileId, 8)
     if (container.destroyed) return
     const s = new PIXI.Sprite(tex)
-    s.position.set(tcx * TILE_SIZE, tcy * TILE_SIZE)
+    s.position.set(tcx0 * TILE_SIZE, tcy0 * TILE_SIZE)
     container.addChild(s)
   }
 }

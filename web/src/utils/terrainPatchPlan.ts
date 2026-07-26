@@ -29,9 +29,11 @@ export interface TerrainPatchPlan {
   decor: TerrainPatchDecor[]
 }
 
-/** Water fills its centre tile; every other type reserves it for a decor sprite. */
+/** Ruins have no patch tileset — they're the icon alone. Every patch-bearing
+ *  type (water, rock, tree) fills its own centre tile like the rest of the
+ *  patch, so merged clusters read as one solid mass with no icon-in-a-hole. */
 function hasCentreDecor(type: TerrainType): boolean {
-  return type !== 'water'
+  return type === 'ruin'
 }
 
 /**
@@ -58,9 +60,10 @@ export function planTerrainPatches(
   const envPatchMap = TERRAIN_PATCH_MAP[env] ?? {}
   const patchFileOf = (type: TerrainType) => envPatchMap[type] ?? TERRAIN_PATCH_MAP._default?.[type]
 
-  // Centre cells of decor-bearing obstacles are reserved up front so no ring —
-  // not even a neighbouring one from the same group — can swallow the cell the
-  // icon sits on. Water has no centre icon, so its centre stays fillable.
+  // Centre cells of decor-bearing obstacles (ruins) are reserved up front so no
+  // ring — not even a neighbouring one from the same group — can swallow the
+  // cell the icon sits on. Water/rock/tree have no centre icon, so their
+  // centres stay fillable, same as the rest of their patch.
   const reservedCentres = new Set<string>()
   for (const obs of terrain) {
     if (!hasCentreDecor(obs.type)) continue

@@ -577,6 +577,71 @@
         "Burning Rush",
         "Burning Rush",
         "Volcanic Hide"
+      ],
+      "terrain": [],
+      "decor": [
+        {
+          "id": "d7",
+          "tileId": 0,
+          "bundleId": "volcanoLavaPool",
+          "x": 411.021497172694,
+          "y": 46.231546231546226
+        },
+        {
+          "id": "d8",
+          "tileId": 0,
+          "bundleId": "volcanoLavaPool",
+          "x": 406.1827874952747,
+          "y": -71.87257187257188
+        },
+        {
+          "id": "d6",
+          "tileId": 0,
+          "bundleId": "volcanoCrater",
+          "x": 157.25806451612905,
+          "y": -48.56254856254857
+        },
+        {
+          "id": "d10",
+          "tileId": 0,
+          "bundleId": "volcanoLavaPool",
+          "x": 140.59138144216232,
+          "y": -62.030546222440755
+        },
+        {
+          "id": "d11",
+          "tileId": 0,
+          "bundleId": "volcanoCrater",
+          "x": 127.9569564327117,
+          "y": -70.31857031857032
+        },
+        {
+          "id": "d9",
+          "tileId": 0,
+          "bundleId": "volcanoCrater",
+          "x": 151.8817040228075,
+          "y": 21.367521367521366
+        },
+        {
+          "id": "d12",
+          "tileId": 0,
+          "bundleId": "volcanoLavaPool",
+          "x": 134.40856933593747,
+          "y": 39.49757111378206
+        },
+        {
+          "id": "d13",
+          "tileId": 0,
+          "bundleId": "volcanoCrater",
+          "x": 127.15050481980845,
+          "y": 52.965568773674235
+        },
+        {
+          "id": "d14",
+          "tileId": 13,
+          "x": 316.9354838709677,
+          "y": -35.09450347829255
+        }
       ]
     },
     "cinder-vent": {

@@ -130,6 +130,8 @@ export interface NewGameOptions {
   decor?: BattlefieldDecorItem[]
   /** Act/node-authored path-drawn blocking terrain. Expands into extra TerrainObstacle circles alongside `terrain`. */
   terrainPaths?: TerrainPathDef[]
+  /** When true, unit movement enforces hard tile-based blocking from `terrain`/`roads` (see game/engine/terrainGrid.ts) instead of legacy soft avoidance. Set by the battlefield editor's "validate on save" step. */
+  terrainValidated?: boolean
   /** Override opponent play interval (ms). Defined per-node in act JSON. */
   opponentIntervalMs?: number
   /** Override opponent base HP. Defined per-node in act JSON. */
@@ -186,6 +188,7 @@ export function newGame(
     terrain: authoredTerrain,
     decor,
     terrainPaths,
+    terrainValidated,
     opponentIntervalMs: intervalOverride,
     opponentBaseHp: hpOverride,
     bossSpawnKillPct,
@@ -344,6 +347,7 @@ export function newGame(
     roadFollowing,
     environment,
     decor,
+    terrainValidated,
     battleStats: { cardsPlayed: {}, playerKills: 0, playerUnitsLost: 0 },
     animEvents: [],
     bloodPools: [],

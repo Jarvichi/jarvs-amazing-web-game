@@ -23,6 +23,15 @@ import c2act2 from '../../data/acts/c2act2.json'
 import c2act3 from '../../data/acts/c2act3.json'
 import c2act4 from '../../data/acts/c2act4.json'
 import c2act5 from '../../data/acts/c2act5.json'
+import c2act6 from '../../data/acts/c2act6.json'
+import c2act7 from '../../data/acts/c2act7.json'
+import c2act8 from '../../data/acts/c2act8.json'
+import c2act9 from '../../data/acts/c2act9.json'
+import c2act10 from '../../data/acts/c2act10.json'
+import c2act11 from '../../data/acts/c2act11.json'
+import c2act12 from '../../data/acts/c2act12.json'
+import c2act13 from '../../data/acts/c2act13.json'
+import c2finale from '../../data/acts/c2finale.json'
 import worldbattles from '../../data/acts/worldbattles.json'
 
 // Exported so the toolbar's act picker and the Storybook stories can enumerate
@@ -47,7 +56,20 @@ export const RAW_ACTS: Record<string, Act> = {
   c2act3: c2act3 as unknown as Act,
   c2act4: c2act4 as unknown as Act,
   c2act5: c2act5 as unknown as Act,
-  world: worldbattles as unknown as Act,
+  c2act6: c2act6 as unknown as Act,
+  c2act7: c2act7 as unknown as Act,
+  c2act8: c2act8 as unknown as Act,
+  c2act9: c2act9 as unknown as Act,
+  c2act10: c2act10 as unknown as Act,
+  c2act11: c2act11 as unknown as Act,
+  c2act12: c2act12 as unknown as Act,
+  c2act13: c2act13 as unknown as Act,
+  c2finale: c2finale as unknown as Act,
+  // Keyed by the actual filename (not "world") — saveBattlefieldAct writes to
+  // `data/acts/${actId}.json`, so the RAW_ACTS key IS the save target; a
+  // mismatched key here previously caused saves to land in a stray new
+  // world.json instead of updating this file.
+  worldbattles: worldbattles as unknown as Act,
 }
 
 export const BATTLEFIELD_ACT_IDS: string[] = Object.keys(RAW_ACTS)
@@ -78,6 +100,15 @@ if (import.meta.hot) {
     '../../data/acts/c2act3.json',
     '../../data/acts/c2act4.json',
     '../../data/acts/c2act5.json',
+    '../../data/acts/c2act6.json',
+    '../../data/acts/c2act7.json',
+    '../../data/acts/c2act8.json',
+    '../../data/acts/c2act9.json',
+    '../../data/acts/c2act10.json',
+    '../../data/acts/c2act11.json',
+    '../../data/acts/c2act12.json',
+    '../../data/acts/c2act13.json',
+    '../../data/acts/c2finale.json',
     '../../data/acts/worldbattles.json',
   ], () => {
     if (!isSelfSave()) {
@@ -128,6 +159,18 @@ function withRoadFollowing(act: Act, nodeId: EditTarget, roadFollowing: boolean)
   const node = act.nodes[nodeId]
   if (!node) return act
   return { ...act, nodes: { ...act.nodes, [nodeId]: { ...node, roadFollowing } } }
+}
+
+function resolveTerrainValidatedForTarget(act: Act, nodeId: EditTarget): boolean {
+  if (nodeId === 'act-default') return act.terrainValidated ?? false
+  return act.nodes[nodeId]?.terrainValidated ?? act.terrainValidated ?? false
+}
+
+function withTerrainValidated(act: Act, nodeId: EditTarget, terrainValidated: boolean): Act {
+  if (nodeId === 'act-default') return { ...act, terrainValidated }
+  const node = act.nodes[nodeId]
+  if (!node) return act
+  return { ...act, nodes: { ...act.nodes, [nodeId]: { ...node, terrainValidated } } }
 }
 
 function withTerrain(act: Act, nodeId: EditTarget, terrain: TerrainObstacle[]): Act {
@@ -187,6 +230,7 @@ export function useBattlefieldEditorState(initialActId: string = 'act1') {
     tool:                'select',
     activeObstacleType:  'rock',
     activeDecorTileId:   WORLD_DECOR.singleTree,
+    activeBundleId:      null,
     activePathType:      'tree',
     inProgressRoadIndex: null,
     inProgressPathIndex: null,
@@ -203,6 +247,7 @@ export function useBattlefieldEditorState(initialActId: string = 'act1') {
       actData:             structuredClone(RAW_ACTS[actId]),
       nodeId:              'act-default',
       tool:                'select',
+      activeBundleId:      null,
       inProgressRoadIndex: null,
       inProgressPathIndex: null,
       selectedEntities:    [],
@@ -234,7 +279,11 @@ export function useBattlefieldEditorState(initialActId: string = 'act1') {
   }, [])
 
   const setActiveDecorTileId = useCallback((activeDecorTileId: number) => {
-    setState(s => ({ ...s, activeDecorTileId }))
+    setState(s => ({ ...s, activeDecorTileId, activeBundleId: null }))
+  }, [])
+
+  const setActiveBundleId = useCallback((activeBundleId: string | null) => {
+    setState(s => ({ ...s, activeBundleId }))
   }, [])
 
   const selectEntities = useCallback((entities: SelectedEntity[]) => {
@@ -288,7 +337,7 @@ export function useBattlefieldEditorState(initialActId: string = 'act1') {
     })
   }, [])
 
-  const updateRoad = useCallback((roadIndex: number, patch: Partial<Pick<RoadDef, 'width' | 'tileFile'>>) => {
+  const updateRoad = useCallback((roadIndex: number, patch: Partial<Pick<RoadDef, 'width' | 'tileFile' | 'zIndex'>>) => {
     setState(s => {
       const prevAct = s.actData
       const current = resolveRoadsForTarget(prevAct, s.nodeId)
@@ -379,7 +428,7 @@ export function useBattlefieldEditorState(initialActId: string = 'act1') {
     })
   }, [])
 
-  const updateObstacle = useCallback((index: number, patch: Partial<Pick<TerrainObstacle, 'type' | 'radius'>>) => {
+  const updateObstacle = useCallback((index: number, patch: Partial<Pick<TerrainObstacle, 'type' | 'radius' | 'zIndex'>>) => {
     setState(s => {
       const prevAct = s.actData
       const current = resolveTerrainForTarget(prevAct, s.nodeId)
@@ -431,6 +480,27 @@ export function useBattlefieldEditorState(initialActId: string = 'act1') {
     })
   }, [])
 
+  /** Places a bundle as ONE decor entry (origin + bundleId) — mirrors
+   *  mapEditor's bundleID items. Rendering expands it into its constituent
+   *  tiles (see buildManualDecorGfx), but selecting/dragging/deleting always
+   *  acts on this single entry, so the whole group moves together. */
+  const addDecorBundle = useCallback((x: number, y: number, bundleId: string) => {
+    setState(s => {
+      const prevAct = s.actData
+      const current = resolveDecorForTarget(prevAct, s.nodeId)
+      const item: BattlefieldDecorItem = { id: nextDecorId(current), tileId: 0, bundleId, x, y }
+      const newDecor = [...current, item]
+      return {
+        ...s,
+        actData:          withDecor(prevAct, s.nodeId, newDecor),
+        selectedEntities: [{ type: 'decor' as const, index: newDecor.length - 1 }],
+        undoStack:        [...s.undoStack, prevAct].slice(-MAX_UNDO),
+        redoStack:        [],
+        isDirty:          true,
+      }
+    })
+  }, [])
+
   const moveDecor = useCallback((index: number, x: number, y: number) => {
     setState(s => {
       const prevAct = s.actData
@@ -447,12 +517,12 @@ export function useBattlefieldEditorState(initialActId: string = 'act1') {
     })
   }, [])
 
-  const updateDecorTile = useCallback((index: number, tileId: number) => {
+  const updateDecor = useCallback((index: number, patch: Partial<Pick<BattlefieldDecorItem, 'tileId' | 'zIndex'>>) => {
     setState(s => {
       const prevAct = s.actData
       const current = resolveDecorForTarget(prevAct, s.nodeId)
       if (!current[index]) return s
-      const newDecor = current.map((d, i) => i === index ? { ...d, tileId } : d)
+      const newDecor = current.map((d, i) => i === index ? { ...d, ...patch } : d)
       return {
         ...s,
         actData:   withDecor(prevAct, s.nodeId, newDecor),
@@ -657,12 +727,15 @@ export function useBattlefieldEditorState(initialActId: string = 'act1') {
     resolveDecorForTarget,
     resolveTerrainPathsForTarget,
     resolveRoadFollowingForTarget,
+    resolveTerrainValidatedForTarget,
+    withTerrainValidated,
     setRoadFollowing,
     setActId,
     setNodeId,
     setTool,
     setActiveObstacleType,
     setActiveDecorTileId,
+    setActiveBundleId,
     setActivePathType,
     selectEntities,
     clickRoadTool,
@@ -676,8 +749,9 @@ export function useBattlefieldEditorState(initialActId: string = 'act1') {
     updateObstacle,
     deleteObstacle,
     addDecor,
+    addDecorBundle,
     moveDecor,
-    updateDecorTile,
+    updateDecor,
     deleteDecor,
     clickPathTool,
     finishPath,

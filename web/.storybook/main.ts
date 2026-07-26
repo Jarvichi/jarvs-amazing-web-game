@@ -97,6 +97,15 @@ const config: StorybookConfig = {
             return
           }
 
+          if (req.url === '/api/battlefield-bundle-editor/save') {
+            try {
+              const { data } = JSON.parse(await readBody(req))
+              writeFileSync(resolve(SRC, 'data/bundles/battlefieldBundles.json'), JSON.stringify(data, null, 2))
+              jsonOk(res, { ok: true })
+            } catch (e) { jsonErr(res, 500, `battlefield bundle save failed: ${String(e)}`) }
+            return
+          }
+
           next()
         })
       },

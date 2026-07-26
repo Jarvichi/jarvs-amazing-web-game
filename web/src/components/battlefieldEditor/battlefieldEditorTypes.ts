@@ -21,6 +21,8 @@ export interface BattlefieldEditorState {
   tool: ToolMode
   activeObstacleType: TerrainType
   activeDecorTileId: number
+  /** Non-null while the decor tool is set to place a multi-tile bundle instead of a single tile. */
+  activeBundleId: string | null
   activePathType: TerrainType
   /** Index into the current target's roads array while a road is being drawn point-by-point. */
   inProgressRoadIndex: number | null
