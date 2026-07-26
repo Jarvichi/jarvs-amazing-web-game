@@ -8,6 +8,7 @@ import {
 import { WORLD_ENV_TILES } from '../../data/tiles/worldTileIndex'
 import { ENV_TILES } from '../../data/tiles/tileIndex'
 import { TERRAIN_AVOID_SHAPE } from '../../game/engine/terrain'
+import { GRID_REF_WIDTH } from '../../game/engine/terrainGrid'
 import { isDebugMode } from '../../game/debug'
 import { LANE_WIDTH, GameState, Unit, Card } from '../../game/types'
 import { buildScene } from './battlefieldCanvas/scene'
@@ -33,6 +34,11 @@ interface LiveProps extends Props {
 // Inner component — only mounts once dimensions are known so usePixiApp gets the right size.
 function CanvasInner(props: LiveProps) {
   const { w, h } = props
+  // Reuses the fixed reference resolution the deterministic collision grid is
+  // built against (see game/engine/terrainGrid.ts) so rendered tile density
+  // stays viewport-invariant instead of just revealing more fixed-size tiles
+  // on a bigger screen.
+  const tileScale = w / GRID_REF_WIDTH
   const containerRef = useRef<HTMLDivElement>(null)
   const propsRef = useRef(props)
   propsRef.current = props
@@ -111,14 +117,14 @@ function CanvasInner(props: LiveProps) {
     // ── Terrain — identical to the retired BattlefieldTerrainCanvas ──
     const { state, } = propsRef.current
     buildTerrainGfx(scene.base, new PIXI.Container(), scene.world,
-      { environment: state.environment, envDef, id: state.environment, rivers: [], terrainItems: [] }, w, h)
-    buildBgTileGfx(scene.bg, { environment: state.environment, envDef }, w, h)
-    buildRoadGfx(scene.road, state.roads ?? [], { environment: state.environment, envDef }, w, h)
-    buildBorderGfx(scene.border, { environment: state.environment, envDef }, w, h)
-    if (state.decor?.length) buildManualDecorGfx(scene.decor, state.decor, w, h)
-    else buildDecorGfx(scene.decor, { environment: state.environment, envDef, id: state.environment }, w, h)
-    buildTerrainDecorGfx(scene.decorObstacles, state.terrain ?? [], { environment: state.environment, envDef }, w, h)
-  }, [w, h, envDef]))
+      { environment: state.environment, envDef, id: state.environment, rivers: [], terrainItems: [] }, w, h, tileScale)
+    buildBgTileGfx(scene.bg, { environment: state.environment, envDef }, w, h, tileScale)
+    buildRoadGfx(scene.road, state.roads ?? [], { environment: state.environment, envDef }, w, h, tileScale)
+    buildBorderGfx(scene.border, { environment: state.environment, envDef }, w, h, tileScale)
+    if (state.decor?.length) buildManualDecorGfx(scene.decor, state.decor, w, h, tileScale)
+    else buildDecorGfx(scene.decor, { environment: state.environment, envDef, id: state.environment }, w, h, tileScale)
+    buildTerrainDecorGfx(scene.decorObstacles, state.terrain ?? [], { environment: state.environment, envDef }, w, h, tileScale)
+  }, [w, h, envDef, tileScale]))
 
   // Structural sync (unit/wall/moat pool diff + textures/HP bars/buffs) — once
   // per React render (game tick). Position/animation itself is ticker-driven
