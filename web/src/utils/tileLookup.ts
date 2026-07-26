@@ -88,8 +88,9 @@ export async function renderPathTiles(
   tileFileOverride?: string,
   useCanal?: boolean,
   envDef?: EnvTileDef,
+  tileScale: number = 1,
 ): Promise<void> {
-  const T = TILE_SIZE
+  const T = TILE_SIZE * tileScale
   const def = envDef ?? ENV_TILES[environment ?? '']
   const pathFile = tileFileOverride ?? def?.pathFile ?? PATH_TILE.grass1Dirt1
   const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
@@ -134,6 +135,8 @@ export async function renderPathTiles(
       for (const { tx, ty } of tiles) {
         const s = new PIXI.Sprite(tex)
         s.position.set(tx * T, ty * T)
+        s.width = T
+        s.height = T
         container.addChild(s)
         sprites.push(s)
       }

@@ -45,6 +45,7 @@ export function buildTerrainGfx(
   opts: TerrainLayerOptions,
   mapWidth: number,
   mapHeight: number,
+  tileScale: number = 1,
 ): void {
   const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
   const { environment, envDef: envDefOverride, terrainSeed, terrainItems: explicitItems, rivers: explicitRivers, id = '' } = opts
@@ -59,13 +60,16 @@ export function buildTerrainGfx(
     const tileUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
     loadTileTexture(tileUrl, groundTileId, TILESET_COLUMNS.baseChip).then(groundTex => {
       if (baseContainer.destroyed) return
-      const tileCols = Math.ceil(mapWidth / 32)
-      const tileRows = Math.ceil(mapHeight / 32)
+      const T = TILE_SIZE * tileScale
+      const tileCols = Math.ceil(mapWidth / T)
+      const tileRows = Math.ceil(mapHeight / T)
       const bg = new PIXI.Container()
       for (let r = 0; r < tileRows; r++) {
         for (let c = 0; c < tileCols; c++) {
           const s = new PIXI.Sprite(groundTex)
-          s.position.set(c * 32, r * 32)
+          s.position.set(c * T, r * T)
+          s.width = T
+          s.height = T
           bg.addChild(s)
         }
       }
@@ -126,6 +130,7 @@ export async function buildBgTileGfx(
   opts: { environment?: string; envDef?: EnvTileDef },
   mapWidth: number,
   mapHeight: number,
+  tileScale: number = 1,
 ): Promise<void> {
   const def = opts.envDef ?? ENV_TILES[opts.environment ?? '']
   if (def?.bgTileId === undefined) return
@@ -133,12 +138,15 @@ export async function buildBgTileGfx(
   const tileUrl = `${base}${def.pathFile.slice(1)}`
   const tex = await loadTileTexture(tileUrl, def.bgTileId, 8)
   if (container.destroyed) return
-  const cols = Math.ceil(mapWidth / TILE_SIZE)
-  const rows = Math.ceil(mapHeight / TILE_SIZE)
+  const T = TILE_SIZE * tileScale
+  const cols = Math.ceil(mapWidth / T)
+  const rows = Math.ceil(mapHeight / T)
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       const s = new PIXI.Sprite(tex)
-      s.position.set(c * TILE_SIZE, r * TILE_SIZE)
+      s.position.set(c * T, r * T)
+      s.width = T
+      s.height = T
       container.addChild(s)
     }
   }
@@ -175,6 +183,7 @@ export function buildBorderGfx(
   opts: { envDef?: EnvTileDef; environment?: string },
   w: number,
   h: number,
+  tileScale: number = 1,
 ): void {
   const def = opts.envDef ?? ENV_TILES[opts.environment ?? '']
   const borderFile = def?.borderFile
@@ -183,10 +192,11 @@ export function buildBorderGfx(
   const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
   const url  = base + borderFile.replace(/^\//, '')
 
+  const T = TILE_SIZE * tileScale
   const BORDER_COLS = 1
   const BORDER_ROWS = 1
-  const totalCols   = Math.ceil(w / TILE_SIZE)
-  const totalRows   = Math.ceil(h / TILE_SIZE)
+  const totalCols   = Math.ceil(w / T)
+  const totalRows   = Math.ceil(h / T)
 
   function isBorder(c: number, r: number): boolean {
     if (c < 0 || r < 0 || c >= totalCols || r >= totalRows) return true
@@ -213,9 +223,9 @@ export function buildBorderGfx(
           frame:  new PIXI.Rectangle(frameCol * tileW, frameRow * tileH, tileW, tileH),
         })
         const sprite = new PIXI.Sprite(frameTex)
-        sprite.position.set(c * TILE_SIZE, r * TILE_SIZE)
-        sprite.width  = TILE_SIZE
-        sprite.height = TILE_SIZE
+        sprite.position.set(c * T, r * T)
+        sprite.width  = T
+        sprite.height = T
         container.addChild(sprite)
       }
     }
@@ -227,6 +237,7 @@ export async function buildDecorGfx(
   opts: { environment?: string; envDef?: EnvTileDef; id?: string },
   mapWidth: number,
   mapHeight: number,
+  tileScale: number = 1,
 ): Promise<void> {
   const def = opts.envDef ?? ENV_TILES[opts.environment ?? '']
   if (!def?.decorFile || !def.decorTileIds?.length) return
@@ -234,8 +245,9 @@ export async function buildDecorGfx(
   const tileUrl = `${base}${def.decorFile.slice(1)}`
   const tileIds = def.decorTileIds
   const rand = seededRand(hashStr((opts.id ?? '') + 'decor'))
-  const cols = Math.ceil(mapWidth / TILE_SIZE)
-  const rows = Math.ceil(mapHeight / TILE_SIZE)
+  const T = TILE_SIZE * tileScale
+  const cols = Math.ceil(mapWidth / T)
+  const rows = Math.ceil(mapHeight / T)
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       if (rand() > 0.15) continue
@@ -243,7 +255,9 @@ export async function buildDecorGfx(
       const tex = await loadTileTexture(tileUrl, tileId, 8)
       if (container.destroyed) return
       const s = new PIXI.Sprite(tex)
-      s.position.set(c * TILE_SIZE, r * TILE_SIZE)
+      s.position.set(c * T, r * T)
+      s.width = T
+      s.height = T
       container.addChild(s)
     }
   }
@@ -265,17 +279,19 @@ export async function buildManualDecorGfx(
   decorItems: BattlefieldDecorItem[],
   mapWidth: number,
   mapHeight: number,
+  tileScale: number = 1,
 ): Promise<void> {
   if (decorItems.length === 0) return
   const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
   const tileUrl = `${base}${WORLD_DECOR_FILE.slice(1)}`
+  const T = TILE_SIZE * tileScale
   // Draw lowest zIndex first so higher-zIndex decor ends up on top.
   const sortedDecorItems = [...decorItems].sort((a, b) => (a.zIndex ?? 0) - (b.zIndex ?? 0))
   for (const item of sortedDecorItems) {
     if (container.destroyed) return
     const { px, py } = gameToPixel(item.x, item.y, mapWidth, mapHeight)
-    const tcx0 = Math.round(px / TILE_SIZE)
-    const tcy0 = Math.round(py / TILE_SIZE)
+    const tcx0 = Math.round(px / T)
+    const tcy0 = Math.round(py / T)
     if (item.bundleId) {
       const bundle = getBattlefieldBundleById(item.bundleId)
       if (!bundle) continue
@@ -284,7 +300,9 @@ export async function buildManualDecorGfx(
         const tex = await loadTileTexture(tileUrl, t.tileId, 8)
         if (container.destroyed) return
         const s = new PIXI.Sprite(tex)
-        s.position.set((tcx0 + t.dtx) * TILE_SIZE, (tcy0 + t.dty) * TILE_SIZE)
+        s.position.set((tcx0 + t.dtx) * T, (tcy0 + t.dty) * T)
+        s.width = T
+        s.height = T
         container.addChild(s)
       }
       continue
@@ -292,7 +310,9 @@ export async function buildManualDecorGfx(
     const tex = await loadTileTexture(tileUrl, item.tileId, 8)
     if (container.destroyed) return
     const s = new PIXI.Sprite(tex)
-    s.position.set(tcx0 * TILE_SIZE, tcy0 * TILE_SIZE)
+    s.position.set(tcx0 * T, tcy0 * T)
+    s.width = T
+    s.height = T
     container.addChild(s)
   }
 }
@@ -316,13 +336,15 @@ export async function buildRoadGfx(
   opts: { environment?: string; envDef?: EnvTileDef },
   w: number,
   h: number,
+  tileScale: number = 1,
 ): Promise<void> {
   if (roads.length === 0) return
   const def = opts.envDef ?? ENV_TILES[opts.environment ?? '']
+  const T = TILE_SIZE * tileScale
 
   const toTile = (x: number, y: number) => {
     const { px, py } = gameToPixel(x, y, w, h)
-    return { tcx: Math.round(px / TILE_SIZE), tcy: Math.round(py / TILE_SIZE) }
+    return { tcx: Math.round(px / T), tcy: Math.round(py / T) }
   }
 
   // Group by effective tileFile + canal-width class so mismatched-style roads
@@ -378,7 +400,7 @@ export async function buildRoadGfx(
     if (container.destroyed) return
     const roadContainer = new PIXI.Container()
     container.addChild(roadContainer)
-    await renderPathTiles(roadContainer, group.tiles, opts.environment, group.tileFile, group.isCanal, def)
+    await renderPathTiles(roadContainer, group.tiles, opts.environment, group.tileFile, group.isCanal, def, tileScale)
     if (container.destroyed) return
   }
 }
@@ -390,11 +412,13 @@ async function renderSceneryPatch(
   container: PIXI.Container,
   pathSet: Set<string>,
   tileFile: string,
+  tileScale: number = 1,
 ): Promise<void> {
   const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
   const url = base + tileFile.replace(/^\//, '')
   const tex = await PIXI.Assets.load(url) as PIXI.Texture
   if (container.destroyed) return
+  const T = TILE_SIZE * tileScale
   const tileW = tex.width / 8
   const tileH = tileW
   for (const key of pathSet) {
@@ -415,9 +439,9 @@ async function renderSceneryPatch(
       frame:  new PIXI.Rectangle(frameCol * tileW, frameRow * tileH, tileW, tileH),
     })
     const sprite = new PIXI.Sprite(frameTex)
-    sprite.position.set(c * TILE_SIZE, r * TILE_SIZE)
-    sprite.width  = TILE_SIZE
-    sprite.height = TILE_SIZE
+    sprite.position.set(c * T, r * T)
+    sprite.width  = T
+    sprite.height = T
     container.addChild(sprite)
   }
 }
@@ -442,18 +466,20 @@ export async function buildTerrainDecorGfx(
   opts: { environment?: string; envDef?: EnvTileDef },
   w: number,
   h: number,
+  tileScale: number = 1,
 ): Promise<void> {
   if (terrain.length === 0) return
   const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
   const env = opts.environment ?? ''
   const envDecorMap = TERRAIN_DECOR_MAP[env] ?? {}
+  const T = TILE_SIZE * tileScale
 
   const toTile = (obs: TerrainObstacle) => {
     const { px, py } = gameToPixel(obs.x, obs.y, w, h)
-    return { tcx: Math.round(px / TILE_SIZE), tcy: Math.round(py / TILE_SIZE) }
+    return { tcx: Math.round(px / T), tcy: Math.round(py / T) }
   }
   const tileRadiusOf = (obs: TerrainObstacle) =>
-    Math.max(1, Math.round(obs.radius * h / (TILE_RADIUS_SCALE * TILE_SIZE)))
+    Math.max(1, Math.round(obs.radius * h / (TILE_RADIUS_SCALE * T)))
 
   const { groups, decor } = planTerrainPatches(terrain, toTile, tileRadiusOf, env)
 
@@ -463,9 +489,9 @@ export async function buildTerrainDecorGfx(
     const patchContainer = new PIXI.Container()
     container.addChild(patchContainer)
     if (group.isPathTiles) {
-      await renderPathTiles(patchContainer, group.tiles, undefined, group.patchFile)
+      await renderPathTiles(patchContainer, group.tiles, undefined, group.patchFile, undefined, undefined, tileScale)
     } else {
-      await renderSceneryPatch(patchContainer, group.tiles, group.patchFile)
+      await renderSceneryPatch(patchContainer, group.tiles, group.patchFile, tileScale)
     }
   }
 
@@ -479,7 +505,9 @@ export async function buildTerrainDecorGfx(
     const tex = await loadTileTexture(decorUrl, tileId, 8)
     if (container.destroyed) return
     const s = new PIXI.Sprite(tex)
-    s.position.set(tcx * TILE_SIZE, tcy * TILE_SIZE)
+    s.position.set(tcx * T, tcy * T)
+    s.width = T
+    s.height = T
     container.addChild(s)
   }
 }

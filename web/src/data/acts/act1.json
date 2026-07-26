@@ -2014,7 +2014,8 @@
           ],
           "radius": 5
         }
-      ]
+      ],
+      "terrainValidated": true
     },
     "node-the-lonely-field": {
       "id": "node-the-lonely-field",
