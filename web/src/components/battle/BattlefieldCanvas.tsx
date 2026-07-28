@@ -8,7 +8,7 @@ import {
 import { WORLD_ENV_TILES } from '../../data/tiles/worldTileIndex'
 import { ENV_TILES } from '../../data/tiles/tileIndex'
 import { TERRAIN_AVOID_SHAPE } from '../../game/engine/terrain'
-import { GRID_REF_WIDTH } from '../../game/engine/terrainGrid'
+import { GRID_REF_HEIGHT } from '../../game/engine/terrainGrid'
 import { isDebugMode } from '../../game/debug'
 import { LANE_WIDTH, GameState, Unit, Card } from '../../game/types'
 import { buildScene } from './battlefieldCanvas/scene'
@@ -34,11 +34,15 @@ interface LiveProps extends Props {
 // Inner component — only mounts once dimensions are known so usePixiApp gets the right size.
 function CanvasInner(props: LiveProps) {
   const { w, h } = props
-  // Reuses the fixed reference resolution the deterministic collision grid is
-  // built against (see game/engine/terrainGrid.ts) so rendered tile density
-  // stays viewport-invariant instead of just revealing more fixed-size tiles
-  // on a bigger screen.
-  const tileScale = w / GRID_REF_WIDTH
+  // Tile size is derived from the lane's HEIGHT against the reference grid's
+  // height (see game/engine/terrainGrid.ts), so the lane always spans the same
+  // fixed number of tile ROWS and each tile simply scales to fit — a 250px-tall
+  // lane gets ~10px tiles, a 500px-tall one ~20px. Height (not width) is the
+  // anchor because the battlefield editor previews the full 9:19.5 frame while
+  // the live lane is that frame minus the reserved HUD bands: matching on rows
+  // keeps forward-axis (game x) layout identical between the two, so authored
+  // scenes aren't vertically squashed or pushed off the bottom edge in game.
+  const tileScale = h / GRID_REF_HEIGHT
   const containerRef = useRef<HTMLDivElement>(null)
   const propsRef = useRef(props)
   propsRef.current = props
