@@ -8,6 +8,7 @@ import {
 } from '../../utils/terrainLayer'
 import { TILE_SIZE, EnvTileDef } from '../../data/tiles/tileIndex'
 import { TERRAIN_CLEAR_Y, expandTerrainPathsToObstacles } from '../../game/engine/terrain'
+import { GRID_REF_HEIGHT } from '../../game/engine/terrainGrid'
 import { BATTLEFIELD_ASPECT_RATIO } from '../../game/types'
 import { getBattlefieldBundleById } from '../../data/bundles/battlefieldBundleLoader'
 import type { RoadDef, TerrainObstacle, TerrainType, ToolMode, SelectedEntity, BattlefieldDecorItem, TerrainPathDef } from './battlefieldEditorTypes'
@@ -139,29 +140,35 @@ function EditorPixi(props: Props & { w: number; h: number }) {
     stage.addChild(base, bg, border, decorLayer, decorObstacles, road, world, guides, editOverlay)
 
     const { environment, envDef, id, roads, terrain, decor, terrainPaths } = props
-    buildTerrainGfx(base, new PIXI.Container(), world, { environment, envDef, id, rivers: [], terrainItems: [] }, w, h)
-    buildBgTileGfx(bg, { environment, envDef }, w, h)
-    buildRoadGfx(road, roads, { environment, envDef }, w, h)
-    buildBorderGfx(border, { environment, envDef }, w, h)
-    if (decor.length > 0) buildManualDecorGfx(decorLayer, decor, w, h)
-    else buildDecorGfx(decorLayer, { environment, envDef, id }, w, h)
+    // WYSIWYG: same height-anchored tile scale BattlefieldCanvas.tsx uses, so the
+    // editor lays out the same fixed number of tile rows the live game will,
+    // regardless of how large the editor window happens to be (see
+    // GRID_REF_HEIGHT in game/engine/terrainGrid.ts).
+    const tileScale = h / GRID_REF_HEIGHT
+    buildTerrainGfx(base, new PIXI.Container(), world, { environment, envDef, id, rivers: [], terrainItems: [] }, w, h, tileScale)
+    buildBgTileGfx(bg, { environment, envDef }, w, h, tileScale)
+    buildRoadGfx(road, roads, { environment, envDef }, w, h, tileScale)
+    buildBorderGfx(border, { environment, envDef }, w, h, tileScale)
+    if (decor.length > 0) buildManualDecorGfx(decorLayer, decor, w, h, tileScale)
+    else buildDecorGfx(decorLayer, { environment, envDef, id }, w, h, tileScale)
     // WYSIWYG: terrainPaths expand into the exact same TerrainObstacle circles
     // the engine adds at battle start, so drawn paths render (and dedup edges
     // against hand-placed obstacles) identically here and in the live game.
-    buildTerrainDecorGfx(decorObstacles, [...terrain, ...expandTerrainPathsToObstacles(terrainPaths)], { environment, envDef }, w, h)
+    buildTerrainDecorGfx(decorObstacles, [...terrain, ...expandTerrainPathsToObstacles(terrainPaths)], { environment, envDef }, w, h, tileScale)
 
-    if (props.showGuides) drawGuides(guides, w, h)
-    drawEditOverlay(editOverlay, props, w, h, dragRef)
+    if (props.showGuides) drawGuides(guides, w, h, tileScale)
+    drawEditOverlay(editOverlay, props, w, h, dragRef, tileScale)
   })
 
   return <div ref={containerRef} style={{ width: w, height: h }} />
 }
 
-function drawGuides(g: PIXI.Graphics, w: number, h: number) {
-  const cols = Math.ceil(w / TILE_SIZE)
-  const rows = Math.ceil(h / TILE_SIZE)
-  for (let c = 0; c <= cols; c++) g.moveTo(c * TILE_SIZE, 0).lineTo(c * TILE_SIZE, h)
-  for (let r = 0; r <= rows; r++) g.moveTo(0, r * TILE_SIZE).lineTo(w, r * TILE_SIZE)
+function drawGuides(g: PIXI.Graphics, w: number, h: number, tileScale: number = 1) {
+  const T = TILE_SIZE * tileScale
+  const cols = Math.ceil(w / T)
+  const rows = Math.ceil(h / T)
+  for (let c = 0; c <= cols; c++) g.moveTo(c * T, 0).lineTo(c * T, h)
+  for (let r = 0; r <= rows; r++) g.moveTo(0, r * T).lineTo(w, r * T)
   g.stroke({ color: 0xffffff, width: 1, alpha: 0.06 })
 
   // TERRAIN_CLEAR_Y corridors are lateral (y-axis) positions procedural terrain
@@ -198,7 +205,9 @@ function drawEditOverlay(
   w: number,
   h: number,
   dragRef: React.MutableRefObject<Drag | null>,
+  tileScale: number = 1,
 ) {
+  const T = TILE_SIZE * tileScale
   const {
     roads, terrain, decor, terrainPaths, selectedEntities, tool, onSelectEntities,
     onDeleteRoad, onDeleteRoadPoint, onDeleteObstacle, onDeleteDecor, onDeletePath, onDeletePathPoint,
@@ -268,18 +277,18 @@ function drawEditOverlay(
     const selected = isDecorSelected(selectedEntities, index)
     const bundle = item.bundleId ? getBattlefieldBundleById(item.bundleId) : undefined
     const origin = gameToPixel(item.x, item.y, w, h)
-    const tcx0 = Math.round(origin.px / TILE_SIZE)
-    const tcy0 = Math.round(origin.py / TILE_SIZE)
+    const tcx0 = Math.round(origin.px / T)
+    const tcy0 = Math.round(origin.py / T)
     const tileOffsets = bundle ? bundle.tiles.map(t => ({ dtx: t.dtx, dty: t.dty })) : [{ dtx: 0, dty: 0 }]
     for (const { dtx, dty } of tileOffsets) {
       const handle = new PIXI.Graphics()
-      handle.rect(0, 0, TILE_SIZE, TILE_SIZE).fill({ color: 0x000000, alpha: 0.001 })
-      handle.rect(1, 1, TILE_SIZE - 2, TILE_SIZE - 2)
+      handle.rect(0, 0, T, T).fill({ color: 0x000000, alpha: 0.001 })
+      handle.rect(1, 1, T - 2, T - 2)
         .stroke({ color: selected ? SELECTED_COLOR : DECOR_COLOR, width: selected ? 2 : 1, alpha: selected ? 0.95 : 0.55 })
-      handle.position.set((tcx0 + dtx) * TILE_SIZE, (tcy0 + dty) * TILE_SIZE)
+      handle.position.set((tcx0 + dtx) * T, (tcy0 + dty) * T)
       handle.eventMode = 'static'
       handle.cursor = 'pointer'
-      handle.hitArea = new PIXI.Rectangle(0, 0, TILE_SIZE, TILE_SIZE)
+      handle.hitArea = new PIXI.Rectangle(0, 0, T, T)
       handle.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
         e.stopPropagation()
         if (tool === 'delete') { onDeleteDecor(index); return }
