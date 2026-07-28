@@ -2337,6 +2337,7 @@
     },
     {
       "id": "appleford-secret-old-boundary-stone",
+      "hideOnceGranted": true,
       "tx": 7,
       "ty": 12,
       "reactions": [
@@ -2381,6 +2382,7 @@
     },
     {
       "id": "appleford-secret-market-ledger",
+      "hideOnceGranted": true,
       "tx": 37,
       "ty": 22,
       "reactions": [
@@ -2403,6 +2405,7 @@
     },
     {
       "id": "appleford-secret-pond-frog-charm",
+      "hideOnceGranted": true,
       "tx": 2,
       "ty": 24,
       "reactions": [

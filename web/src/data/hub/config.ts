@@ -327,6 +327,12 @@ export interface RawInteractable {
   }
 
   reactions: RawInteractableReaction[]
+
+  /** Once this interactable's one-time giveItem reaction has been granted
+   *  (persisted via game/hub/interactables.ts), stop rendering it entirely —
+   *  same as how collected HubTreasure entries disappear. For one-shot
+   *  pickups/secrets rather than repeatable scenery/shops/quest givers. */
+  hideOnceGranted?: boolean
 }
 
 export interface RawAnimal {

@@ -635,6 +635,7 @@
     },
     {
       "id": "thornwood-secret-river-glass",
+      "hideOnceGranted": true,
       "tx": 6,
       "ty": 31,
       "reactions": [
@@ -654,6 +655,7 @@
     },
     {
       "id": "thornwood-secret-embercharm",
+      "hideOnceGranted": true,
       "tx": 10,
       "ty": 17,
       "reactions": [
@@ -676,6 +678,7 @@
     },
     {
       "id": "thornwood-secret-southpath-tooth",
+      "hideOnceGranted": true,
       "tx": 13,
       "ty": 38,
       "reactions": [

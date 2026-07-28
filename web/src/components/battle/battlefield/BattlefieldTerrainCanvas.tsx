@@ -27,16 +27,19 @@ function TerrainPixi({ environment, id, terrain, roads, decor: decorItems, w, h 
     const river          = new PIXI.Container() // not added to stage — rivers suppressed on battlefield
     const world          = new PIXI.Container()
     const bg             = new PIXI.Container()
-    const decor          = new PIXI.Container()
     const border         = new PIXI.Container()
     const decorObstacles = new PIXI.Container()
+    const decor          = new PIXI.Container()
     const road           = new PIXI.Container()
     // Roads draw AFTER (on top of) terrain obstacles — matches the new default
     // z-order convention (road zIndex 1 > obstacle zIndex 0), so an ordinary
     // road crossing water/rock reads visually as a bridge with no authoring
     // effort. See RoadDef.zIndex / game/engine/terrainGrid.ts for the gameplay
     // side of this (the actual passability rule uses zIndex, not draw order).
-    app.stage.addChild(base, bg, border, decor, decorObstacles, road, world)
+    // Manual/procedural decor draws last of the three — above both terrain
+    // obstacles and roads — so decor placed near/on water, rock, or a road
+    // always reads as sitting on top of it, not hidden underneath.
+    app.stage.addChild(base, bg, border, decorObstacles, road, decor, world)
     buildTerrainGfx(base, river, world,
       { environment, envDef, id, rivers: [], terrainItems: [] },
       w, h)

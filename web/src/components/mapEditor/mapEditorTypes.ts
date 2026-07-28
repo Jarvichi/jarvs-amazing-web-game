@@ -45,6 +45,10 @@ export interface RawBuildingDoor {
    *  entrance) instead of rendering door art (always one tile north of the
    *  entry tile). Doors render by default. */
   hideSprite?: boolean
+  /** Hide the floating player-visible name label above the sign (the sign
+   *  tile itself, if shown, is unaffected — see hideSign). Labels render by
+   *  default whenever the door's linked interior has a name. */
+  hideLabel?: boolean
 }
 
 export interface RawBuildingWindow {
@@ -215,6 +219,11 @@ export interface RawInteractable {
   hitRect?: { w: number; h: number }
   indicator?: { condition: string; dx?: number; dy?: number }
   reactions: RawInteractableReaction[]
+  /** Once this interactable's one-time giveItem reaction has been granted
+   *  (persisted via game/hub/interactables.ts), stop rendering it entirely —
+   *  same as how collected HubTreasure entries disappear. For one-shot
+   *  pickups/secrets rather than repeatable scenery/shops/quest givers. */
+  hideOnceGranted?: boolean
 }
 
 export interface RawChickenZone {

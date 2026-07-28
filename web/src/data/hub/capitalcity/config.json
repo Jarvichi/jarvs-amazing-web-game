@@ -4849,6 +4849,7 @@
     },
     {
       "id": "capitalcity-secret-temple-inscription",
+      "hideOnceGranted": true,
       "tx": 26,
       "ty": 22,
       "reactions": [
@@ -4871,6 +4872,7 @@
     },
     {
       "id": "capitalcity-secret-market-coin",
+      "hideOnceGranted": true,
       "tx": 43,
       "ty": 13,
       "reactions": [
@@ -4893,6 +4895,7 @@
     },
     {
       "id": "capitalcity-secret-riverside-hook",
+      "hideOnceGranted": true,
       "tx": 21,
       "ty": 79,
       "reactions": [

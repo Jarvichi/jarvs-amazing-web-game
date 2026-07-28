@@ -347,15 +347,23 @@ export async function buildRoadGfx(
     return { tcx: Math.round(px / T), tcy: Math.round(py / T) }
   }
 
-  // Group by effective tileFile + canal-width class so mismatched-style roads
-  // still render with their own art, while same-style roads merge into one
-  // autotiled shape (grouping key uses '' for the default/undefined tileFile).
-  const groups = new Map<string, { tileFile: string | undefined; isCanal: boolean; tiles: Set<string> }>()
+  // Group by effective tileFile only — every road sharing a tileFile is treated
+  // as one continuous material and merges into a single autotiled shape
+  // regardless of width, so a width=1 path crossing a width=6 canal reads as
+  // one connected crossing rather than two independently-drawn, non-merging
+  // patches (grouping key uses '' for the default/undefined tileFile).
+  const groups = new Map<string, { tileFile: string | undefined; tiles: Set<string> }>()
 
   for (const road of roads) {
     if (road.points.length < 2) continue
 
     // Rasterize the centerline tile-by-tile between consecutive waypoints.
+    // Stepping both axes at once for a ~45° segment would otherwise produce
+    // tiles that only touch at a corner — the autotiler only recognizes
+    // cardinal (N/E/S/W) adjacency, so a diagonal-only chain never reads as
+    // connected. A width≥2 road hides this (dilation overlaps the gap), but a
+    // width=1 road (no dilation margin) renders as disconnected single tiles.
+    // Inserting a cardinal "elbow" tile at each diagonal step bridges it.
     const centerline = new Set<string>()
     let prev = toTile(road.points[0].x, road.points[0].y)
     centerline.add(`${prev.tcx},${prev.tcy}`)
@@ -364,32 +372,41 @@ export async function buildRoadGfx(
       const dx = cur.tcx - prev.tcx
       const dy = cur.tcy - prev.tcy
       const steps = Math.max(Math.abs(dx), Math.abs(dy))
+      let stepPrevTx = prev.tcx
+      let stepPrevTy = prev.tcy
       for (let s = 1; s <= steps; s++) {
         const tx = Math.round(prev.tcx + (dx * s) / steps)
         const ty = Math.round(prev.tcy + (dy * s) / steps)
+        if (tx !== stepPrevTx && ty !== stepPrevTy) {
+          centerline.add(`${tx},${stepPrevTy}`)
+        }
         centerline.add(`${tx},${ty}`)
+        stepPrevTx = tx
+        stepPrevTy = ty
       }
       prev = cur
     }
 
-    // Widen the centerline into a band via circular dilation — the same
-    // technique buildTerrainDecorGfx uses for its obstacle ringSet. Note the
-    // resulting band diameter is 2*floor(width/2)+1, so this is an
-    // approximate (not exact-integer) tile width.
+    // Widen the centerline into a band that's exactly `width` tiles across in
+    // both directions — a square (not circular) window per centerline point,
+    // biased one extra tile toward the positive side when width is even (no
+    // exact centre tile exists then). Diagonal/corner stretches of the path
+    // end up a little fatter at the joints (square corners overlapping), the
+    // same trade-off the old circular version had, but the straight-run width
+    // — and importantly, two roads' widths matching exactly — is now exact.
     const width = road.width ?? 2
-    const tileRadius = Math.max(0, Math.floor(width / 2))
-    const isCanal = width > 1
-    const key = `${road.tileFile ?? ''}|${isCanal}`
+    const tileRadiusLo = Math.max(0, Math.floor((width - 1) / 2))
+    const tileRadiusHi = Math.max(0, width - 1 - tileRadiusLo)
+    const key = road.tileFile ?? ''
     let group = groups.get(key)
     if (!group) {
-      group = { tileFile: road.tileFile, isCanal, tiles: new Set() }
+      group = { tileFile: road.tileFile, tiles: new Set() }
       groups.set(key, group)
     }
     for (const centerKey of centerline) {
       const [c, r] = centerKey.split(',').map(Number)
-      for (let dr = -tileRadius; dr <= tileRadius; dr++) {
-        for (let dc = -tileRadius; dc <= tileRadius; dc++) {
-          if (dr * dr + dc * dc > tileRadius * tileRadius) continue
+      for (let dr = -tileRadiusLo; dr <= tileRadiusHi; dr++) {
+        for (let dc = -tileRadiusLo; dc <= tileRadiusHi; dc++) {
           group.tiles.add(`${c + dc},${r + dr}`)
         }
       }
@@ -400,7 +417,9 @@ export async function buildRoadGfx(
     if (container.destroyed) return
     const roadContainer = new PIXI.Container()
     container.addChild(roadContainer)
-    await renderPathTiles(roadContainer, group.tiles, opts.environment, group.tileFile, group.isCanal, def, tileScale)
+    // isCanal no longer varies per road/group — all roads render as one shared
+    // material now, so autotile continuity works regardless of authored width.
+    await renderPathTiles(roadContainer, group.tiles, opts.environment, group.tileFile, false, def, tileScale)
     if (container.destroyed) return
   }
 }

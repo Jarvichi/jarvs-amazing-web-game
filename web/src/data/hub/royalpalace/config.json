@@ -4627,6 +4627,7 @@
     },
     {
       "id": "royalpalace-secret-garden-locket",
+      "hideOnceGranted": true,
       "tx": 15,
       "ty": 18,
       "reactions": [
@@ -4649,6 +4650,7 @@
     },
     {
       "id": "royalpalace-secret-eastgarden-seal",
+      "hideOnceGranted": true,
       "tx": 35,
       "ty": 24,
       "reactions": [
@@ -4671,6 +4673,7 @@
     },
     {
       "id": "royalpalace-secret-servants-ledger",
+      "hideOnceGranted": true,
       "tx": 9,
       "ty": 31,
       "reactions": [

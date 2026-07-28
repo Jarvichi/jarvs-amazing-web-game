@@ -498,20 +498,22 @@ export function HubTownCanvas({
             }
 
             // Small name label floats just above the sign tile
-            const label = new PIXI.Text({
-              text: name,
-              style: { fontSize: 12, fill: '#f0e8c8', fontFamily: 'monospace', fontWeight: 'bold' },
-            })
-            label.anchor.set(0.5, 1)
-            label.position.set(door.tx * T + T / 2, signTy - 1)
+            if (!door.hideLabel) {
+              const label = new PIXI.Text({
+                text: name,
+                style: { fontSize: 12, fill: '#f0e8c8', fontFamily: 'monospace', fontWeight: 'bold' },
+              })
+              label.anchor.set(0.5, 1)
+              label.position.set(door.tx * T + T / 2, signTy - 1)
 
-            const pad = 4
-            const lbg = new PIXI.Graphics()
-            lbg.roundRect(-label.width / 2 - pad, -label.height - pad, label.width + pad * 2, label.height + pad * 2, 2)
-              .fill({ color: 0x1a1a2a, alpha: 0.8 })
-            lbg.position.copyFrom(label.position)
+              const pad = 4
+              const lbg = new PIXI.Graphics()
+              lbg.roundRect(-label.width / 2 - pad, -label.height - pad, label.width + pad * 2, label.height + pad * 2, 2)
+                .fill({ color: 0x1a1a2a, alpha: 0.8 })
+              lbg.position.copyFrom(label.position)
 
-            nodeLayer.addChild(lbg, label)
+              nodeLayer.addChild(lbg, label)
+            }
           }
         }).catch(() => {})
       }
@@ -647,6 +649,11 @@ export function HubTownCanvas({
       registry: Map<string, InteractableEntry>,
       stillCurrent: () => boolean,
     ): void {
+      // One-shot pickups/secrets authored with hideOnceGranted disappear entirely
+      // once their giveItem reaction has been granted — same idea as collected
+      // HubTreasure entries, so re-tapping isn't a dead end that looks unfinished.
+      if (def.hideOnceGranted && isInteractableGranted(interactableStoreKey(locationKey, def.id))) return
+
       const pos = interactableMovesRef?.current.get(def.id) ?? { tx: def.tx, ty: def.ty }
       const decor = (def.decor ?? []).filter(d => d.tileId !== 666)
 

@@ -3891,6 +3891,7 @@
     },
     {
       "id": "gearford-secret-pressed-flower",
+      "hideOnceGranted": true,
       "tx": 19,
       "ty": 13,
       "reactions": [
@@ -3910,6 +3911,7 @@
     },
     {
       "id": "gearford-secret-forge-mark",
+      "hideOnceGranted": true,
       "tx": 21,
       "ty": 11,
       "reactions": [
@@ -3932,6 +3934,7 @@
     },
     {
       "id": "gearford-secret-miners-logbook",
+      "hideOnceGranted": true,
       "tx": 9,
       "ty": 20,
       "reactions": [
