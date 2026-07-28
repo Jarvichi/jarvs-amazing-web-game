@@ -380,7 +380,8 @@
         "Bandit",
         "Eagle Eye",
         "Iron Skin"
-      ]
+      ],
+      "terrainValidated": true
     },
     "soldiers-camp": {
       "id": "soldiers-camp",

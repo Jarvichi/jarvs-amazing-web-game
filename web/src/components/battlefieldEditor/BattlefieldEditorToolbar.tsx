@@ -106,8 +106,12 @@ export function BattlefieldEditorToolbar(props: Props) {
       <label>
         Node:{' '}
         <select value={nodeId} onChange={e => onSetNodeId(e.target.value)}>
-          <option value="act-default">(act default)</option>
-          {nodeIds.map(id => <option key={id} value={id}>{actData.nodes[id].label || id}</option>)}
+          <option value="act-default">(act default){actData.terrainValidated ? ' (Validated)' : ''}</option>
+          {nodeIds.map(id => (
+            <option key={id} value={id}>
+              {actData.nodes[id].label || id}{actData.nodes[id].terrainValidated ? ' (Validated)' : ''}
+            </option>
+          ))}
         </select>
       </label>
 
