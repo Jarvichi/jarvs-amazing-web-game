@@ -1,4 +1,5 @@
 import type { TerrainObstacle, RoadDef, TerrainType } from './terrain'
+import { generateTerrain } from './terrain'
 import { LANE_WIDTH } from '../types'
 import { LANE_MIN_Y, LANE_MAX_Y } from './helpers'
 
@@ -155,6 +156,116 @@ export function isTilePassable(
   return roadZ !== undefined && roadZ > obs.zIndex // a higher-zIndex road bridges it
 }
 
+// ─── Flow-field pathfinding ─────────────────────────────────
+//
+// Hard tile blocking (see moveUnits in ./units.ts) only does local collision
+// response: try the full move, then x-only, then y-only. That slides along a
+// wall fine, but a unit walking straight at an obstacle has no lateral
+// component to slide on — every candidate lands in the same blocked tile, so it
+// stalls there forever. Soft avoidance used to supply that lateral nudge, but
+// it's deliberately switched off wherever hard blocking is on.
+//
+// So blocked units need an actual route, not a nudge. Terrain and roads are
+// fixed for the whole battle, which makes a flow field the right tool: one BFS
+// from the goal edge labels every reachable tile with its distance, and any
+// unit can then follow the downhill gradient around arbitrarily-shaped
+// obstacles. It's built once per (profile, swims, goal) and cached on the
+// GameState, so steering costs a map lookup per blocked unit per tick.
+
+/** Tile key -> BFS step distance to the goal edge. Absent = unreachable. */
+export type FlowField = Map<string, number>
+
+/** Tile-grid bounds of the playable lane, shared by reachability and flow fields. */
+function laneTileBounds() {
+  const minTile = gameToTile(0, LANE_MIN_Y)
+  const maxTile = gameToTile(LANE_WIDTH, LANE_MAX_Y)
+  return {
+    tcxLo: Math.min(minTile.tcx, maxTile.tcx),
+    tcxHi: Math.max(minTile.tcx, maxTile.tcx),
+    tcyLo: Math.min(minTile.tcy, maxTile.tcy),
+    tcyHi: Math.max(minTile.tcy, maxTile.tcy),
+  }
+}
+
+/**
+ * Labels every tile a unit of this movement profile can reach with its
+ * 8-connected step distance to `goalX`'s tile row (0 = the opponent base edge,
+ * LANE_WIDTH = the player base edge). Diagonals count for the same reason
+ * checkReachability uses them: units move continuously, not tile-locked.
+ */
+export function buildFlowField(
+  obstacleTiles: Map<string, ObstacleTile>,
+  roadTiles: Map<string, number>,
+  profile: MovementProfile,
+  swims: boolean,
+  goalX: number,
+): FlowField {
+  const field: FlowField = new Map()
+  const { tcxLo, tcxHi, tcyLo, tcyHi } = laneTileBounds()
+  const passable = (tcx: number, tcy: number) =>
+    tcx >= tcxLo && tcx <= tcxHi && tcy >= tcyLo && tcy <= tcyHi &&
+    isTilePassable(obstacleTiles, roadTiles, tcx, tcy, profile, swims)
+
+  const goalTcy = gameToTile(goalX, 0).tcy
+  const queue: TileKey[] = []
+  for (let tcx = tcxLo; tcx <= tcxHi; tcx++) {
+    if (!passable(tcx, goalTcy)) continue
+    field.set(tileKeyStr(tcx, goalTcy), 0)
+    queue.push({ tcx, tcy: goalTcy })
+  }
+
+  const deltas = [-1, 0, 1]
+  let qi = 0
+  while (qi < queue.length) {
+    const { tcx, tcy } = queue[qi++]
+    const dist = field.get(tileKeyStr(tcx, tcy))!
+    for (const dtx of deltas) {
+      for (const dty of deltas) {
+        if (dtx === 0 && dty === 0) continue
+        const ntx = tcx + dtx
+        const nty = tcy + dty
+        if (!passable(ntx, nty)) continue
+        const key = tileKeyStr(ntx, nty)
+        if (field.has(key)) continue
+        field.set(key, dist + 1)
+        queue.push({ tcx: ntx, tcy: nty })
+      }
+    }
+  }
+  return field
+}
+
+/**
+ * The neighbouring tile that gets closest to the goal — i.e. one step downhill
+ * on the flow field. Returns null when the unit's tile isn't on the field (it's
+ * already sealed off) or nothing adjacent is strictly closer.
+ */
+export function flowFieldStep(field: FlowField, tcx: number, tcy: number): TileKey | null {
+  const here = field.get(tileKeyStr(tcx, tcy))
+  // Standing somewhere unreachable (e.g. spawned inside terrain): fall back to
+  // the best neighbour available rather than refusing to move at all.
+  let bestDist = here ?? Infinity
+  let best: TileKey | null = null
+  const deltas = [-1, 0, 1]
+  for (const dtx of deltas) {
+    for (const dty of deltas) {
+      if (dtx === 0 && dty === 0) continue
+      const dist = field.get(tileKeyStr(tcx + dtx, tcy + dty))
+      if (dist === undefined || dist >= bestDist) continue
+      bestDist = dist
+      best = { tcx: tcx + dtx, tcy: tcy + dty }
+    }
+  }
+  return best
+}
+
+/** Centre of a tile, in game units — the point a unit steers toward. */
+export function tileToGame(tcx: number, tcy: number): { x: number; y: number } {
+  const px = tcx * TILE_SIZE
+  const py = tcy * TILE_SIZE
+  return { x: 500 * (1 - py / GRID_REF_HEIGHT), y: 80 * ((px / GRID_REF_WIDTH - 0.5) / 0.36) }
+}
+
 // ─── Reachability ───────────────────────────────────────────────────────────
 
 export interface ReachabilityResult {
@@ -249,4 +360,45 @@ export function checkAllProfilesReachable(terrain: TerrainObstacle[], roads: Roa
     flying: checkReachability(terrain, roads, 'flying', false),
     burrowing: checkReachability(terrain, roads, 'burrowing', false),
   }
+}
+
+/**
+ * Procedural counterpart to the battlefield editor's "validate on save" step.
+ *
+ * Authored terrain opts into hard tile-based blocking via a `terrainValidated`
+ * flag the editor only sets once checkAllProfilesReachable() confirms the lane
+ * isn't sealed. A procedural scatter has no authored layout for anyone to have
+ * vetted, so it could never carry that flag and stayed on legacy soft avoidance
+ * — which is why units walked straight through rocks/trees/water in Quick Play
+ * and every other battle without hand-placed terrain.
+ *
+ * This enforces the same guarantee at generation time. generateTerrain's tuning
+ * (see TERRAIN_CLEAR_HALF / TERRAIN_MAX_RADIUS there) already leaves most
+ * scatters traversable; for the rest, drop the widest obstacle — the one
+ * rasterizing to the most tile columns, so the likeliest culprit — and
+ * re-check. This always terminates: an empty field is trivially passable. The
+ * result is therefore safe to hard-block unconditionally.
+ *
+ * Lives here rather than alongside generateTerrain so that ./terrain stays a
+ * leaf module — importing this one from there would close a runtime import
+ * cycle via game/types.
+ */
+export function generatePassableTerrain(
+  seed?: string,
+  environment?: string,
+  roads: RoadDef[] = [],
+): TerrainObstacle[] {
+  const obstacles = generateTerrain(seed, environment)
+  const passable = () => {
+    const report = checkAllProfilesReachable(obstacles, roads)
+    return report.ground.reachable && report.burrowing.reachable
+  }
+  while (obstacles.length > 0 && !passable()) {
+    let widest = 0
+    for (let i = 1; i < obstacles.length; i++) {
+      if (obstacles[i].radius > obstacles[widest].radius) widest = i
+    }
+    obstacles.splice(widest, 1)
+  }
+  return obstacles
 }

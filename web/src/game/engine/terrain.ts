@@ -21,7 +21,7 @@ export interface TerrainObstacle {
   type: TerrainType
   x: number      // forward axis (same coords as units); kept 80–420
   y: number      // lateral axis; –75 to 75
-  radius: number // base avoidance radius in game units, 12–22
+  radius: number // base avoidance radius in game units (procedural scatter: 18–28)
   /**
    * Draw/passability priority for tiles this obstacle covers (see
    * game/engine/terrainGrid.ts). Higher wins ties against other obstacles
@@ -137,9 +137,27 @@ export interface BattlefieldDecorItem {
 // Scatter rocks, trees, water, and ruins across the mid-field.
 // Two Y edge corridors are guaranteed clear so units always have
 // walkable paths from base to base.
+//
+// Both constants below are tuned against the COLLISION tile grid (see
+// game/engine/terrainGrid.ts), not just the avoidance ellipses. That grid
+// resolves the lane's whole lateral span (game y -80..80) into only 9 tile
+// columns, and an obstacle rasterizes to a disc of tile-radius
+// round(radius * GRID_REF_HEIGHT / (220 * TILE_SIZE)) ≈ round(radius * 0.12):
+//
+//   • MAX_RADIUS is held under ~29 so that tile-radius tops out at 3 (7 columns)
+//     rather than 4 (9 columns) — above that a SINGLE obstacle spans the entire
+//     lane and seals it for ground units.
+//   • TERRAIN_CLEAR_HALF is wide enough to keep obstacle discs off the lane's
+//     outermost tile columns, so the two edge corridors survive rasterization
+//     and stay walkable end to end.
+//
+// Together these keep ~81% of scatters traversable as generated;
+// generatePassableTerrain below guarantees the rest.
 
 export const TERRAIN_CLEAR_Y = [-70, 70] as const  // edge corridors units route around
-const TERRAIN_CLEAR_HALF = 12                  // half-width of each corridor (px)
+const TERRAIN_CLEAR_HALF = 28                  // half-width of each corridor (px)
+const TERRAIN_MIN_RADIUS = 18
+const TERRAIN_MAX_RADIUS = 28
 
 /** Tiny seeded PRNG (mulberry32) — deterministic given the same seed. */
 function makeRng(seed: number): () => number {
@@ -181,7 +199,7 @@ export function generateTerrain(seed?: string, environment?: string): TerrainObs
   while (obstacles.length < count && tries++ < 150) {
     const x      = 90  + rng() * 320        // 90–410, away from spawn zones
     const y      = (rng() * 150) - 75       // –75 to 75
-    const radius = 20  + rng() * 12         // 20–32 px
+    const radius = TERRAIN_MIN_RADIUS + rng() * (TERRAIN_MAX_RADIUS - TERRAIN_MIN_RADIUS)
     const type   = TYPES[Math.floor(rng() * TYPES.length)]
 
     if (TERRAIN_CLEAR_Y.some(cy => Math.abs(y - cy) < TERRAIN_CLEAR_HALF + radius)) continue
@@ -192,3 +210,10 @@ export function generateTerrain(seed?: string, environment?: string): TerrainObs
 
   return obstacles
 }
+
+// generatePassableTerrain (the procedural counterpart to the battlefield
+// editor's "validate on save" step) lives in ./terrainGrid, not here: it needs
+// checkAllProfilesReachable, and importing that module from this one would
+// close a runtime import cycle (game/types re-exports this module's types, and
+// terrainGrid imports game/types for LANE_WIDTH). Keeping this module a leaf
+// avoids it.
