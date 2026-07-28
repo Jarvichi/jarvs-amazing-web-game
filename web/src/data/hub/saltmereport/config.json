@@ -2687,6 +2687,7 @@
     },
     {
       "id": "saltmere-secret-tin-whistle",
+      "hideOnceGranted": true,
       "tx": 30,
       "ty": 18,
       "reactions": [
@@ -2706,6 +2707,7 @@
     },
     {
       "id": "saltmereport-secret-dock-manifest",
+      "hideOnceGranted": true,
       "tx": 29,
       "ty": 22,
       "reactions": [
@@ -2728,6 +2730,7 @@
     },
     {
       "id": "saltmereport-secret-lighthouse-glass",
+      "hideOnceGranted": true,
       "tx": 44,
       "ty": 26,
       "reactions": [

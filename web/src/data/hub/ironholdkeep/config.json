@@ -4869,6 +4869,7 @@
     },
     {
       "id": "ironholdkeep-secret-ward-token",
+      "hideOnceGranted": true,
       "tx": 6,
       "ty": 9,
       "reactions": [
@@ -4891,6 +4892,7 @@
     },
     {
       "id": "ironholdkeep-secret-bailey-chalk",
+      "hideOnceGranted": true,
       "tx": 18,
       "ty": 44,
       "reactions": [
@@ -4913,6 +4915,7 @@
     },
     {
       "id": "ironholdkeep-secret-drillyard-key",
+      "hideOnceGranted": true,
       "tx": 26,
       "ty": 44,
       "reactions": [

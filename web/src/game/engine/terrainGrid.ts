@@ -51,6 +51,22 @@ function tilesInDisc(center: TileKey, tileRadius: number): TileKey[] {
   return out
 }
 
+/** Exact `width`-tile-wide square window around a centerline point — mirrors
+ *  utils/terrainLayer.ts's buildRoadGfx road-width model (width=N is always
+ *  exactly N tiles across, not an approximate circular radius), so a road's
+ *  gameplay bridge footprint matches what's actually drawn on screen. */
+function tilesInSquare(center: TileKey, width: number): TileKey[] {
+  const lo = Math.max(0, Math.floor((width - 1) / 2))
+  const hi = Math.max(0, width - 1 - lo)
+  const out: TileKey[] = []
+  for (let dr = -lo; dr <= hi; dr++) {
+    for (let dc = -lo; dc <= hi; dc++) {
+      out.push({ tcx: center.tcx + dc, tcy: center.tcy + dr })
+    }
+  }
+  return out
+}
+
 // ─── Obstacle / road tile coverage ─────────────────────────────────────────
 //
 // Dedicated, simpler cousin of utils/terrainPatchPlan.ts's tile math: no
@@ -91,10 +107,13 @@ export function buildRoadTileMap(roads: RoadDef[]): Map<string, number> {
   for (const road of roads) {
     if (road.points.length < 2) continue
     const z = road.zIndex ?? 1
-    const tileRadius = Math.max(0, Math.floor((road.width ?? 2) / 2))
+    const width = road.width ?? 2
 
     // Rasterize the centerline tile-by-tile between consecutive waypoints,
-    // same stepping approach as utils/terrainLayer.ts's buildRoadGfx.
+    // same stepping approach as utils/terrainLayer.ts's buildRoadGfx —
+    // including the cardinal "elbow" insertion at diagonal steps, kept in
+    // sync so a road's tile coverage never has a gap here that isn't also
+    // absent there.
     const centerline: TileKey[] = []
     let prev = gameToTile(road.points[0].x, road.points[0].y)
     centerline.push(prev)
@@ -103,17 +122,23 @@ export function buildRoadTileMap(roads: RoadDef[]): Map<string, number> {
       const dx = cur.tcx - prev.tcx
       const dy = cur.tcy - prev.tcy
       const steps = Math.max(Math.abs(dx), Math.abs(dy))
+      let stepPrevTx = prev.tcx
+      let stepPrevTy = prev.tcy
       for (let s = 1; s <= steps; s++) {
-        centerline.push({
-          tcx: Math.round(prev.tcx + (dx * s) / steps),
-          tcy: Math.round(prev.tcy + (dy * s) / steps),
-        })
+        const tcx = Math.round(prev.tcx + (dx * s) / steps)
+        const tcy = Math.round(prev.tcy + (dy * s) / steps)
+        if (tcx !== stepPrevTx && tcy !== stepPrevTy) {
+          centerline.push({ tcx, tcy: stepPrevTy })
+        }
+        centerline.push({ tcx, tcy })
+        stepPrevTx = tcx
+        stepPrevTy = tcy
       }
       prev = cur
     }
 
     for (const center of centerline) {
-      for (const { tcx, tcy } of tilesInDisc(center, tileRadius)) {
+      for (const { tcx, tcy } of tilesInSquare(center, width)) {
         const key = tileKeyStr(tcx, tcy)
         const existing = map.get(key)
         if (existing === undefined || z > existing) map.set(key, z)

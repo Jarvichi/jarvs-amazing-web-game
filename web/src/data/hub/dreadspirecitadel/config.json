@@ -2187,6 +2187,7 @@
     },
     {
       "id": "dreadspire-secret-tower-note",
+      "hideOnceGranted": true,
       "tx": 30,
       "ty": 15,
       "reactions": [
@@ -2209,6 +2210,7 @@
     },
     {
       "id": "dreadspire-secret-shrine-carving",
+      "hideOnceGranted": true,
       "tx": 11,
       "ty": 16,
       "reactions": [
@@ -2231,6 +2233,7 @@
     },
     {
       "id": "dreadspire-secret-gate-ledger",
+      "hideOnceGranted": true,
       "tx": 20,
       "ty": 30,
       "reactions": [

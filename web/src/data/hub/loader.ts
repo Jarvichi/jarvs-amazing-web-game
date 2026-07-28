@@ -88,6 +88,8 @@ export interface HubDoor {
   /** Keep this door a fully invisible walk-in trigger. Doors render by default
    *  (one tile north of the entry tile). */
   hideSprite?: boolean
+  /** Hide the floating player-visible name label above the sign. */
+  hideLabel?: boolean
 }
 
 export interface DecorGlow {
@@ -334,6 +336,9 @@ export interface HubInteractable {
   hitRect: { w: number; h: number }   // resolved: explicit → decor bounds → 1×1
   indicator?: { condition: string; dx: number; dy: number }
   reactions: HubInteractableReaction[]
+  /** Stop rendering this interactable entirely once its one-time giveItem
+   *  reaction has been granted (see game/hub/interactables.ts). */
+  hideOnceGranted?: boolean
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
@@ -477,7 +482,7 @@ type RawBuilding = {
   bundleID?: string;
   upgradeKind?: string;
   requiresOwnership?: boolean;
-  doors?:   Array<{ tx: number; ty: number; buildingId?: string, hideSign?: boolean, hideSprite?: boolean }>
+  doors?:   Array<{ tx: number; ty: number; buildingId?: string, hideSign?: boolean, hideSprite?: boolean, hideLabel?: boolean }>
   windows?: Array<{ tx: number; ty: number; tileId: string }>
   decor?:   Array<{ tx: number; ty: number; tileId?: string; bundleID?: string; zlayer?: string }>
   levelDecor?: Array<{ tx?: number; ty?: number; tileId?: string; zlayer?: string; minLevel?: number; hideAtLevel?: number }>
@@ -540,7 +545,7 @@ for (const b of rawConfig.buildings as RawBuilding[]) {
     // The authored position is used as-is, anywhere relative to the building —
     // the door sprite always renders one tile north of it (see
     // buildingRender.ts) unless hideSprite keeps it a fully invisible trigger.
-    _nestedDoors.push({ buildingId: d.buildingId ?? b.id ?? '', tx: ox + d.tx, ty: oy + d.ty, hideSign: d.hideSign, hideSprite: d.hideSprite })
+    _nestedDoors.push({ buildingId: d.buildingId ?? b.id ?? '', tx: ox + d.tx, ty: oy + d.ty, hideSign: d.hideSign, hideSprite: d.hideSprite, hideLabel: d.hideLabel })
   }
   for (const w of b.windows ?? [])
     _nestedWindows.push({ tx: ox + w.tx, ty: oy + w.ty, tileId: resolveTileId(w.tileId) })
@@ -694,6 +699,7 @@ const HUB_INTERACTABLES: HubInteractable[] = (
     hitRect,
     indicator: i.indicator ? { condition: i.indicator.condition, dx: i.indicator.dx ?? 0, dy: i.indicator.dy ?? 0 } : undefined,
     reactions: i.reactions as unknown as HubInteractableReaction[],
+    hideOnceGranted: i.hideOnceGranted,
   }
 })
 

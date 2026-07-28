@@ -3947,7 +3947,7 @@
       "id": "pendant-3",
       "tx": 64,
       "ty": 47,
-      "tileId": "pendant",
+      "tileId": "goldNecklace",
       "questId": "lost-pendant"
     },
     {
@@ -4257,8 +4257,8 @@
     },
     {
       "id": "guard-clue-3",
-      "tx": 58,
-      "ty": 44,
+      "tx": 59,
+      "ty": 45,
       "tileId": "note",
       "questId": "thorin-missing-guard"
     },
@@ -5604,21 +5604,42 @@
       "tx": 33,
       "ty": 31,
       "tileId": "candlestickLitTop",
-      "questId": "midsummer-lanterns"
+      "questId": "midsummer-lanterns",
+      "extraTiles": [
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileId": "candlestickLitBottom"
+        }
+      ]
     },
     {
       "id": "midsummer-lantern-2",
       "tx": 41,
       "ty": 31,
       "tileId": "candlestickLitTop",
-      "questId": "midsummer-lanterns"
+      "questId": "midsummer-lanterns",
+      "extraTiles": [
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileId": "candlestickLitBottom"
+        }
+      ]
     },
     {
       "id": "midsummer-lantern-3",
       "tx": 37,
       "ty": 33,
       "tileId": "candlestickLitTop",
-      "questId": "midsummer-lanterns"
+      "questId": "midsummer-lanterns",
+      "extraTiles": [
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileId": "candlestickLitBottom"
+        }
+      ]
     }
   ],
   "friendshipDialogue": {
@@ -6149,13 +6170,7 @@
         "npcs": []
       },
       "cleared": {
-        "decor": [
-          {
-            "tx": 9,
-            "ty": 31,
-            "tileId": "chest"
-          }
-        ],
+        "decor": [],
         "npcs": []
       }
     }

@@ -991,6 +991,7 @@ function BuildingInspector({
   building, buildingIndex, activeLevel, onSetActiveLevel, onUpdateBuilding, onUpdateBuildingLevelVisual,
   onOpenInterior, onOpenBuildingEditor, interiorIds, existingInteriorIds, onAddInterior, onResizeBuilding,
   onMakePlayerHouse, hasMatchingInterior, isPlayerHouse,
+  buildingOpts, interiors, onUpdateInteriorProps,
 }: {
   building: RawBuilding
   buildingIndex: number
@@ -1000,6 +1001,9 @@ function BuildingInspector({
   onUpdateBuildingLevelVisual: (buildingIndex: number, minLevel: number, patch: Partial<{ rect: [number, number, number, number]; wall: WallMaterial; roof: RoofMaterial }>) => void
   onOpenInterior: (id: string) => void
   onOpenBuildingEditor: (buildingIndex: number) => void
+  buildingOpts: RefOption[]
+  interiors: Record<string, RawInterior>
+  onUpdateInteriorProps: (interiorId: string, patch: Partial<RawInterior>) => void
   interiorIds: string[]
   existingInteriorIds: string[]
   onAddInterior: (id: string, interior: RawInterior) => void
@@ -1010,6 +1014,12 @@ function BuildingInspector({
 }) {
   const [tx1, ty1, tx2, ty2] = building.rect ?? [0, 0, 0, 0]
   const [showForm, setShowForm] = useState(false)
+  // Which door row is expanded to show its detail panel — local to this
+  // component (NOT the global selection system: selecting a bare
+  // 'buildingDoor' entity only has a render case inside the separate
+  // full-screen building-editor mode, so reusing it here from exterior view
+  // would blank the whole inspector instead of expanding inline).
+  const [expandedDoorIndex, setExpandedDoorIndex] = useState<number | null>(null)
   const baseId = building.id ?? 'room'
 
   function nextAutoId() {
@@ -1125,27 +1135,97 @@ function BuildingInspector({
             const doorOy = Math.max(...doorRects.map(r => r[3]))
             const doorAbsTx = doorOx + d.tx
             const doorAbsTy = doorOy + d.ty
+            const isSelected = expandedDoorIndex === i
+            const interior = d.buildingId ? interiors[d.buildingId] : undefined
             return (
-              <div key={i} style={{ display: 'flex', gap: 4, alignItems: 'center', background: '#16161e', border: '1px solid #2a2a3a', borderRadius: 3, padding: 4 }}>
-                <label style={{ fontSize: 9, color: '#888' }}>X</label>
-                <input type="number" style={numStyle} value={doorAbsTx} onChange={e => {
-                  const doors = (building.doors ?? []).map((x, j) => j === i ? { ...x, tx: Number(e.target.value) - doorOx } : x)
-                  onUpdateBuilding(buildingIndex, { doors })
-                }} />
-                <label style={{ fontSize: 9, color: '#888' }}>Y</label>
-                <input type="number" style={numStyle} value={doorAbsTy} onChange={e => {
-                  const doors = (building.doors ?? []).map((x, j) => j === i ? { ...x, ty: Number(e.target.value) - doorOy } : x)
-                  onUpdateBuilding(buildingIndex, { doors })
-                }} />
-                <button
-                  style={{ marginLeft: 'auto', padding: '1px 5px', background: '#4a1a1a', border: '1px solid #922', color: '#f88', borderRadius: 3, fontSize: 10, cursor: 'pointer' }}
-                  onClick={() => onUpdateBuilding(buildingIndex, { doors: (building.doors ?? []).filter((_, j) => j !== i) })}
-                >✕</button>
+              <div key={i} style={{ background: isSelected ? '#2a2410' : '#16161e', border: isSelected ? '1px solid #f0c040' : '1px solid #2a2a3a', borderRadius: 3, padding: 4 }}>
+                <div
+                  style={{ display: 'flex', gap: 4, alignItems: 'center', cursor: 'pointer' }}
+                  onClick={() => setExpandedDoorIndex(isSelected ? null : i)}
+                  title="Click to edit this door's interior link, sign name, and visibility"
+                >
+                  <span style={{ fontSize: 9, color: '#f0c040', width: 10, flexShrink: 0 }}>{isSelected ? '▾' : '▸'}</span>
+                  <label style={{ fontSize: 9, color: '#888' }}>X</label>
+                  <input type="number" style={numStyle} value={doorAbsTx} onClick={e => e.stopPropagation()} onChange={e => {
+                    const doors = (building.doors ?? []).map((x, j) => j === i ? { ...x, tx: Number(e.target.value) - doorOx } : x)
+                    onUpdateBuilding(buildingIndex, { doors })
+                  }} />
+                  <label style={{ fontSize: 9, color: '#888' }}>Y</label>
+                  <input type="number" style={numStyle} value={doorAbsTy} onClick={e => e.stopPropagation()} onChange={e => {
+                    const doors = (building.doors ?? []).map((x, j) => j === i ? { ...x, ty: Number(e.target.value) - doorOy } : x)
+                    onUpdateBuilding(buildingIndex, { doors })
+                  }} />
+                  <span style={{ marginLeft: 4, fontSize: 10, color: '#8af', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {interior?.name ?? (d.buildingId ? d.buildingId : '(no interior)')}
+                  </span>
+                  <button
+                    style={{ padding: '1px 5px', background: '#4a1a1a', border: '1px solid #922', color: '#f88', borderRadius: 3, fontSize: 10, cursor: 'pointer' }}
+                    onClick={e => {
+                      e.stopPropagation()
+                      onUpdateBuilding(buildingIndex, { doors: (building.doors ?? []).filter((_, j) => j !== i) })
+                    }}
+                  >✕</button>
+                </div>
+                {!isSelected && (
+                  <div style={{ fontSize: 9, color: '#556', marginTop: 2, marginLeft: 14 }}>
+                    click to edit interior link, sign name &amp; visibility
+                  </div>
+                )}
+                {isSelected && (
+                  <div style={{ marginTop: 6, paddingTop: 6, borderTop: '1px solid #333' }}>
+                    <Field label="Links to interior (optional)">
+                      <EntityRefPicker
+                        value={d.buildingId ?? ''}
+                        options={buildingOpts}
+                        placeholder="Search buildings…"
+                        onChange={v => onUpdateBuilding(buildingIndex, { doors: (building.doors ?? []).map((x, j) => j === i ? { ...x, buildingId: v || undefined } : x) })}
+                      />
+                    </Field>
+                    {d.buildingId && (
+                      <Field label="Name shown to players (sign label)">
+                        <input
+                          style={inputStyle}
+                          value={interior?.name ?? ''}
+                          placeholder="e.g. Blacksmith"
+                          onChange={e => onUpdateInteriorProps(d.buildingId!, { name: e.target.value })}
+                        />
+                      </Field>
+                    )}
+                    <Field label="Appearance">
+                      <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontSize: 11 }}>
+                        <input
+                          type="checkbox"
+                          checked={!d.hideSprite}
+                          onChange={e => onUpdateBuilding(buildingIndex, { doors: (building.doors ?? []).map((x, j) => j === i ? { ...x, hideSprite: e.target.checked ? undefined : true } : x) })}
+                        />
+                        Show door sprite
+                      </label>
+                      {!d.hideSprite && (
+                        <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontSize: 11, marginTop: 4 }}>
+                          <input
+                            type="checkbox"
+                            checked={!d.hideSign}
+                            onChange={e => onUpdateBuilding(buildingIndex, { doors: (building.doors ?? []).map((x, j) => j === i ? { ...x, hideSign: e.target.checked ? undefined : true } : x) })}
+                          />
+                          Show door sign
+                        </label>
+                      )}
+                      <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontSize: 11, marginTop: 4 }}>
+                        <input
+                          type="checkbox"
+                          checked={!d.hideLabel}
+                          onChange={e => onUpdateBuilding(buildingIndex, { doors: (building.doors ?? []).map((x, j) => j === i ? { ...x, hideLabel: e.target.checked ? undefined : true } : x) })}
+                        />
+                        Show name label
+                      </label>
+                    </Field>
+                  </div>
+                )}
               </div>
             )
           })}
           <div style={{ color: '#666', fontSize: 9 }}>
-            Place tool + no tile selected, click a wall tile to add a door — the sprite (if shown) renders one tile north of it; hidden doors are marked with 🚪 here.
+            Place tool + no tile selected, click a wall tile to add a door — the sprite (if shown) renders one tile north of it. Click a door row above to edit its interior link, sign name, and visibility.
           </div>
         </div>
       </Field>
@@ -2845,6 +2925,16 @@ export function EntityInspector({
               onChange={v => onUpdateBuilding(activeBuildingIndex, { doors: (b.doors ?? []).map((x, i) => i === sel.index ? { ...x, buildingId: v || undefined } : x) })}
             />
           </Field>
+          {d.buildingId && (
+            <Field label="Name shown to players (sign label)">
+              <input
+                style={{ width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box' }}
+                value={configData.interiors?.[d.buildingId]?.name ?? ''}
+                placeholder="e.g. Blacksmith"
+                onChange={e => onUpdateInteriorProps(d.buildingId!, { name: e.target.value })}
+              />
+            </Field>
+          )}
           <Field label="Appearance">
             <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontSize: 11 }}>
               <input
@@ -2864,6 +2954,14 @@ export function EntityInspector({
                 Show door sign
               </label>
             )}
+            <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontSize: 11, marginTop: 4 }}>
+              <input
+                type="checkbox"
+                checked={!d.hideLabel}
+                onChange={e => onUpdateBuilding(activeBuildingIndex, { doors: (b.doors ?? []).map((x, i) => i === sel.index ? { ...x, hideLabel: e.target.checked ? undefined : true } : x) })}
+              />
+              Show name label
+            </label>
           </Field>
           <button
             onClick={() => onDelete(sel)}
@@ -3266,6 +3364,9 @@ export function EntityInspector({
             onMakePlayerHouse={onMakePlayerHouse}
             hasMatchingInterior={!!matchedInterior}
             isPlayerHouse={isPlayerHouse}
+            buildingOpts={buildingOpts}
+            interiors={configData.interiors ?? {}}
+            onUpdateInteriorProps={onUpdateInteriorProps}
           />
           {buildingId && !existingLock && (
             <div style={{ borderTop: '1px solid #333', marginTop: 10, paddingTop: 10 }}>

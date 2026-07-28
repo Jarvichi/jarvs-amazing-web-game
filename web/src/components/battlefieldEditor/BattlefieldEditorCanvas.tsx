@@ -8,7 +8,6 @@ import {
 } from '../../utils/terrainLayer'
 import { TILE_SIZE, EnvTileDef } from '../../data/tiles/tileIndex'
 import { TERRAIN_CLEAR_Y, expandTerrainPathsToObstacles } from '../../game/engine/terrain'
-import { GRID_REF_HEIGHT } from '../../game/engine/terrainGrid'
 import { BATTLEFIELD_ASPECT_RATIO } from '../../game/types'
 import { getBattlefieldBundleById } from '../../data/bundles/battlefieldBundleLoader'
 import type { RoadDef, TerrainObstacle, TerrainType, ToolMode, SelectedEntity, BattlefieldDecorItem, TerrainPathDef } from './battlefieldEditorTypes'
@@ -126,8 +125,8 @@ function EditorPixi(props: Props & { w: number; h: number }) {
     const base           = new PIXI.Container()
     const bg             = new PIXI.Container()
     const border         = new PIXI.Container()
-    const decorLayer     = new PIXI.Container()
     const decorObstacles = new PIXI.Container()
+    const decorLayer     = new PIXI.Container()
     const road           = new PIXI.Container()
     const world          = new PIXI.Container()
     const guides         = new PIXI.Graphics()
@@ -137,27 +136,31 @@ function EditorPixi(props: Props & { w: number; h: number }) {
     // road crossing water/rock reads visually as a bridge with no authoring
     // effort. See RoadDef.zIndex / game/engine/terrainGrid.ts for the gameplay
     // side of this (the actual passability rule uses zIndex, not draw order).
-    stage.addChild(base, bg, border, decorLayer, decorObstacles, road, world, guides, editOverlay)
+    // Manual/procedural decor (decorLayer) draws last of the three — above
+    // both terrain obstacles and roads — so decor placed near/on water, rock,
+    // or a road always reads as sitting on top of it, not hidden underneath.
+    stage.addChild(base, bg, border, decorObstacles, road, decorLayer, world, guides, editOverlay)
 
     const { environment, envDef, id, roads, terrain, decor, terrainPaths } = props
-    // WYSIWYG: same height-anchored tile scale BattlefieldCanvas.tsx uses, so the
-    // editor lays out the same fixed number of tile rows the live game will,
-    // regardless of how large the editor window happens to be (see
-    // GRID_REF_HEIGHT in game/engine/terrainGrid.ts).
-    const tileScale = h / GRID_REF_HEIGHT
-    buildTerrainGfx(base, new PIXI.Container(), world, { environment, envDef, id, rivers: [], terrainItems: [] }, w, h, tileScale)
-    buildBgTileGfx(bg, { environment, envDef }, w, h, tileScale)
-    buildRoadGfx(road, roads, { environment, envDef }, w, h, tileScale)
-    buildBorderGfx(border, { environment, envDef }, w, h, tileScale)
-    if (decor.length > 0) buildManualDecorGfx(decorLayer, decor, w, h, tileScale)
-    else buildDecorGfx(decorLayer, { environment, envDef, id }, w, h, tileScale)
+    // WYSIWYG: tiles render at native size (tileScale defaults to 1 in every
+    // build*Gfx helper), exactly like BattlefieldTerrainCanvas.tsx — the live
+    // battlefield never passes a tileScale either. Scaling tiles to a fixed
+    // reference resolution here would make the editor's tile density diverge
+    // from what players actually see (GRID_REF_HEIGHT in game/engine/terrainGrid.ts
+    // is a logical grid for pathing/reachability math only, not a rendering size).
+    buildTerrainGfx(base, new PIXI.Container(), world, { environment, envDef, id, rivers: [], terrainItems: [] }, w, h)
+    buildBgTileGfx(bg, { environment, envDef }, w, h)
+    buildRoadGfx(road, roads, { environment, envDef }, w, h)
+    buildBorderGfx(border, { environment, envDef }, w, h)
+    if (decor.length > 0) buildManualDecorGfx(decorLayer, decor, w, h)
+    else buildDecorGfx(decorLayer, { environment, envDef, id }, w, h)
     // WYSIWYG: terrainPaths expand into the exact same TerrainObstacle circles
     // the engine adds at battle start, so drawn paths render (and dedup edges
     // against hand-placed obstacles) identically here and in the live game.
-    buildTerrainDecorGfx(decorObstacles, [...terrain, ...expandTerrainPathsToObstacles(terrainPaths)], { environment, envDef }, w, h, tileScale)
+    buildTerrainDecorGfx(decorObstacles, [...terrain, ...expandTerrainPathsToObstacles(terrainPaths)], { environment, envDef }, w, h)
 
-    if (props.showGuides) drawGuides(guides, w, h, tileScale)
-    drawEditOverlay(editOverlay, props, w, h, dragRef, tileScale)
+    if (props.showGuides) drawGuides(guides, w, h)
+    drawEditOverlay(editOverlay, props, w, h, dragRef)
   })
 
   return <div ref={containerRef} style={{ width: w, height: h }} />

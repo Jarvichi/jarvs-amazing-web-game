@@ -3647,6 +3647,7 @@
     },
     {
       "id": "millhaven-secret-harbour-charm",
+      "hideOnceGranted": true,
       "tx": 23,
       "ty": 10,
       "reactions": [
@@ -3669,6 +3670,7 @@
     },
     {
       "id": "millhaven-secret-pier-buoy",
+      "hideOnceGranted": true,
       "tx": 46,
       "ty": 12,
       "reactions": [
@@ -3698,6 +3700,7 @@
     },
     {
       "id": "millhaven-secret-smithy-tool",
+      "hideOnceGranted": true,
       "tx": 9,
       "ty": 32,
       "reactions": [

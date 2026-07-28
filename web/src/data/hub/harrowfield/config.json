@@ -2677,6 +2677,7 @@
     },
     {
       "id": "harrowfield-secret-green-hymnal",
+      "hideOnceGranted": true,
       "tx": 17,
       "ty": 7,
       "reactions": [
@@ -2699,6 +2700,7 @@
     },
     {
       "id": "harrowfield-secret-strawman-button",
+      "hideOnceGranted": true,
       "tx": 10,
       "ty": 15,
       "reactions": [
@@ -2721,6 +2723,7 @@
     },
     {
       "id": "harrowfield-secret-millpond-gear",
+      "hideOnceGranted": true,
       "tx": 28,
       "ty": 15,
       "reactions": [

@@ -2187,6 +2187,7 @@
     },
     {
       "id": "hollowmere-secret-hollow-charm",
+      "hideOnceGranted": true,
       "tx": 15,
       "ty": 14,
       "reactions": [
@@ -2209,6 +2210,7 @@
     },
     {
       "id": "hollowmere-secret-mire-boot",
+      "hideOnceGranted": true,
       "tx": 10,
       "ty": 23,
       "reactions": [
@@ -2231,6 +2233,7 @@
     },
     {
       "id": "hollowmere-secret-darkwood-tooth",
+      "hideOnceGranted": true,
       "tx": 41,
       "ty": 14,
       "reactions": [
