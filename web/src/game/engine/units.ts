@@ -443,7 +443,18 @@ export function moveUnits(s: GameState, deltaMs: number): void {
         unit.detourFlowDist = hereDist ?? Infinity
       }
 
-      if (directOpen && unit.detourFlowDist === undefined) {
+      if (!canEnter(unit.x, unit.y) && field.size > 0) {
+        // Standing inside terrain — obstacles reach over the spawn rows, so
+        // units really do start embedded in rock. Every enterable check fails
+        // from in there (including the neighbours the flow field would route
+        // through), so blocking has to yield: the unit walks out under normal
+        // steering and collision resumes the moment it reaches legal ground.
+        // Requires a non-empty field, i.e. somewhere legal actually exists to
+        // walk out to — a lane sealed end to end keeps the unit blocked rather
+        // than letting it phase through the wall.
+        unit.x = candX
+        unit.y = candY
+      } else if (directOpen && unit.detourFlowDist === undefined) {
         unit.x = candX
         unit.y = candY
       } else if (wants) {
@@ -464,8 +475,8 @@ export function moveUnits(s: GameState, deltaMs: number): void {
             const detourStep = Math.min(speed, toDist)
             const nx = Math.min(LANE_WIDTH - BASE_STOP_MARGIN, Math.max(BASE_STOP_MARGIN, unit.x + (toX / toDist) * detourStep))
             const ny = Math.min(LANE_MAX_Y, Math.max(LANE_MIN_Y, unit.y + (toY / toDist) * detourStep))
-            // Only commit if the step is actually enterable — the flow field
-            // works in whole tiles, so a partial step can still clip a corner.
+            // Only commit to an enterable step — the flow field works in whole
+            // tiles, so a partial step can still clip a corner.
             if (canEnter(nx, ny)) { unit.x = nx; unit.y = ny }
             else if (canEnter(unit.x, ny)) { unit.y = ny }
             else if (canEnter(nx, unit.y)) { unit.x = nx }

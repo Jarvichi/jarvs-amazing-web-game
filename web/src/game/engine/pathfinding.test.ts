@@ -40,20 +40,14 @@ function marchAcross(opts: Record<string, unknown>): number[] {
   return s.field.map(u => u.x)
 }
 
-/** Nodes whose terrain actually blocks — the ones pathfinding has to solve. */
-const blockingNodes = Object.values(act.nodes)
-  .filter(n => ['battle', 'elite', 'boss'].includes(n.type))
-  .filter(n => (n.terrainValidated ?? act.terrainValidated) === true)
-  // roadFollowing routes units by waypoint rather than toward the base, which
-  // is a separate movement mode with its own (pre-existing) stalling issue.
-  .filter(n => (n.roadFollowing ?? act.roadFollowing) !== true)
+const battleNodes = Object.values(act.nodes).filter(n => ['battle', 'elite', 'boss'].includes(n.type))
 
 describe('unit pathfinding around blocking terrain', () => {
-  it('has act 1 nodes with hard blocking to exercise', () => {
-    expect(blockingNodes.length).toBeGreaterThan(0)
+  it('has act 1 battle nodes to exercise', () => {
+    expect(battleNodes.length).toBeGreaterThan(0)
   })
 
-  it.each(blockingNodes.map(n => ({ id: n.id, label: n.label, node: n })))(
+  it.each(battleNodes.map(n => ({ id: n.id, label: n.label, node: n })))(
     'units cross $id ($label) instead of wedging against terrain',
     { timeout: 30_000 },
     ({ node }) => {
@@ -63,17 +57,41 @@ describe('unit pathfinding around blocking terrain', () => {
   )
 
   it('units cross procedurally-generated Quick Play terrain', { timeout: 60_000 }, () => {
-    let crossed = 0
-    let total = 0
     for (let i = 0; i < 25; i++) {
       for (const x of marchAcross({ terrainSeed: `pathfind-${i}` })) {
-        total++
-        if (x > LANE_WIDTH * 0.8) crossed++
+        expect(x).toBeGreaterThan(LANE_WIDTH * 0.8)
       }
     }
-    // Allow a small margin for pathological scatters rather than pinning 100%,
-    // but this must stay far above the pre-pathfinding behaviour, where units
-    // stalled at the first obstacle in nearly every seed.
-    expect(crossed / total).toBeGreaterThan(0.97)
   })
+
+  it('units that spawn inside terrain walk out instead of freezing', () => {
+    // Obstacles reach down over the spawn rows, so this really happens — and a
+    // unit in a blocked tile fails every enterable check unless it is allowed
+    // to escape.
+    const finals = marchAcross({
+      terrain: [{ id: 'spawnblock', type: 'rock', x: 40, y: 0, radius: 28 }],
+      terrainValidated: true,
+    })
+    for (const x of finals) expect(x).toBeGreaterThan(LANE_WIDTH * 0.8)
+  })
+})
+
+describe('road following', () => {
+  const roadNodes = battleNodes.filter(n => (n.roadFollowing ?? act.roadFollowing) === true)
+
+  it('has act 1 road-following nodes to exercise', () => {
+    expect(roadNodes.length).toBeGreaterThan(0)
+  })
+
+  it.each(roadNodes.map(n => ({ id: n.id, label: n.label, node: n })))(
+    'units follow the road across $id ($label) rather than parking on a waypoint',
+    { timeout: 30_000 },
+    ({ node }) => {
+      // Authored roads run off the lane, so waypoints outside it must be
+      // clamped — a unit can never satisfy the arrival distance check for a
+      // point it is physically clamped away from, and would chase it forever.
+      const finals = marchAcross(resolvedNodeOpts(node, act, 1, []) as never)
+      for (const x of finals) expect(x).toBeGreaterThan(LANE_WIDTH * 0.8)
+    },
+  )
 })

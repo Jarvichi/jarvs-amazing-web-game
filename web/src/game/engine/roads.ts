@@ -1,10 +1,27 @@
 import { RoadDef } from './terrain'
+import { LANE_MIN_Y, LANE_MAX_Y } from './helpers'
 
 export interface RoadPoint { x: number; y: number }
 
 // A point closer than this to its neighbour is treated as a duplicate and dropped —
 // avoids a zero-length first step when the spawn projects exactly onto a waypoint.
 const DEDUPE_EPS = 0.01
+
+/**
+ * Pulls a waypoint inside the lane a unit can actually occupy.
+ *
+ * Authored roads routinely run off the lane so their art bleeds past the edge
+ * rather than stopping short of it — act 1's shrine has one from (24,-110) to
+ * (23,104), well outside the ±80 a unit is clamped to. A unit chasing a
+ * waypoint it can never physically reach never retires it (arrival is a
+ * distance test), so it parks on the lane edge and stays there for the whole
+ * battle. Clamping keeps the road's shape while guaranteeing every waypoint is
+ * reachable, so the queue always drains.
+ */
+function clampToLane(p: RoadPoint): RoadPoint {
+  const y = Math.min(LANE_MAX_Y, Math.max(LANE_MIN_Y, p.y))
+  return y === p.y ? p : { x: p.x, y }
+}
 
 /**
  * Nearest point on segment [a,b] to point p, clamped to the segment (never
@@ -74,5 +91,5 @@ export function computeRoadWaypoints(
   if (waypoints.length > 1 && Math.hypot(spawnX - waypoints[0].x, spawnY - waypoints[0].y) <= DEDUPE_EPS) {
     waypoints.shift()
   }
-  return waypoints
+  return waypoints.map(clampToLane)
 }
