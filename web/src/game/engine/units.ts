@@ -3,7 +3,10 @@ import { BASE_STOP_MARGIN, COMMANDER_LEASH_PX, DAMAGE_FLASH_MS, PLAYER_SPAWN_X }
 import { LANE_MAX_Y, LANE_MIN_Y } from './helpers'
 import { unitDist, findNearestEnemy, findNearestEnemyByPriority, findEnemyBehind } from './targeting'
 import { computeRoadWaypoints } from './roads'
-import { gameToTile, buildObstacleTileMap, buildRoadTileMap, isTilePassable, type MovementProfile } from './terrainGrid'
+import {
+  gameToTile, buildObstacleTileMap, buildRoadTileMap, isTilePassable,
+  buildFlowField, flowFieldStep, tileToGame, type MovementProfile,
+} from './terrainGrid'
 
 // Cache parsed numeric suffix of unit IDs — avoids regex+parseInt on every movement tick.
 const _idNumCache = new Map<string, number>()
@@ -388,11 +391,16 @@ export function moveUnits(s: GameState, deltaMs: number): void {
       unit.x = candX
       unit.y = candY
     } else {
-      // Hard tile-based blocking: try the full move, then x-only, then
-      // y-only, then hold in place — produces natural wall-hugging/sliding
-      // with no new boundary math. The grid is built once per battle and
-      // cached, since s.terrain/s.roads don't change mid-battle.
-      s.terrainGridCache ??= { obstacleTiles: buildObstacleTileMap(s.terrain), roadTiles: buildRoadTileMap(s.roads ?? []) }
+      // Hard tile-based blocking. The direct move is taken whenever the target
+      // tile is free; otherwise the unit routes around the terrain by following
+      // a flow field (see buildFlowField in ./terrainGrid.ts). Grid and fields
+      // are built once per battle and cached, since s.terrain/s.roads don't
+      // change mid-battle.
+      s.terrainGridCache ??= {
+        obstacleTiles: buildObstacleTileMap(s.terrain),
+        roadTiles: buildRoadTileMap(s.roads ?? []),
+        flowFields: new Map(),
+      }
       const { obstacleTiles, roadTiles } = s.terrainGridCache
       const profile: MovementProfile = unit.tags?.includes('burrowing') ? 'burrowing' : 'ground'
       const swims = unit.tags?.includes('swim') ?? false
@@ -400,15 +408,77 @@ export function moveUnits(s: GameState, deltaMs: number): void {
         const { tcx, tcy } = gameToTile(x, y)
         return isTilePassable(obstacleTiles, roadTiles, tcx, tcy, profile, swims)
       }
-      if (canEnter(candX, candY)) {
-        unit.x = candX
-        unit.y = candY
-      } else if (canEnter(candX, unit.y)) {
-        unit.x = candX
-      } else if (canEnter(unit.x, candY)) {
-        unit.y = candY
+      const movesX = Math.abs(candX - unit.x) > 1e-6
+      const movesY = Math.abs(candY - unit.y) > 1e-6
+      const wants = movesX || movesY
+      const directOpen = wants && canEnter(candX, candY)
+
+      // Flow field toward this unit's goal edge, built lazily per profile/goal.
+      const goalX = unit.owner === 'player' ? LANE_WIDTH : 0
+      const fieldKey = `${profile}|${swims}|${goalX}`
+      let field = s.terrainGridCache.flowFields.get(fieldKey)
+      if (!field) {
+        field = buildFlowField(obstacleTiles, roadTiles, profile, swims, goalX)
+        s.terrainGridCache.flowFields.set(fieldKey, field)
       }
-      // else: fully boxed in for this tick — hold position, re-try next tick.
+      const here = gameToTile(unit.x, unit.y)
+      const hereDist = field.get(`${here.tcx},${here.tcy}`)
+      const dest = gameToTile(candX, candY)
+      const destDist = field.get(`${dest.tcx},${dest.tcy}`)
+
+      // A direct move is "productive" only if it actually gets the unit closer
+      // to the goal along the real route. Merely being unblocked isn't enough:
+      // a dead-end corridor is wide open, and walking up it feels like progress
+      // while strictly increasing the remaining path length.
+      const directProductive = directOpen && hereDist !== undefined
+        && destDist !== undefined && destDist < hereDist
+
+      // Enter detour mode when blocked; leave it only once going direct would
+      // genuinely make progress. Exiting as soon as the path merely looks open
+      // makes units ping-pong at the mouth of a dead end forever — they step
+      // out, the corridor looks clear, they walk back in, and repeat.
+      if (unit.detourFlowDist !== undefined && directProductive) {
+        unit.detourFlowDist = undefined
+      } else if (!directOpen && wants && unit.detourFlowDist === undefined) {
+        unit.detourFlowDist = hereDist ?? Infinity
+      }
+
+      if (directOpen && unit.detourFlowDist === undefined) {
+        unit.x = candX
+        unit.y = candY
+      } else if (wants) {
+        // Routing around terrain: step toward the neighbouring tile that is
+        // closest to the goal. Axis-only sliding used to live here instead, but
+        // it silently defeats itself — a unit heading for the enemy base drifts
+        // a hair in y each tick, so the y-only branch always "succeeded" with a
+        // sub-pixel move. Forward progress was zero, yet the unit never looked
+        // stuck to the code; it just ground against the obstacle for the rest
+        // of the battle.
+        const next = flowFieldStep(field, here.tcx, here.tcy)
+        if (next) {
+          const target = tileToGame(next.tcx, next.tcy)
+          const toX = target.x - unit.x
+          const toY = target.y - unit.y
+          const toDist = Math.hypot(toX, toY)
+          if (toDist > 0) {
+            const detourStep = Math.min(speed, toDist)
+            const nx = Math.min(LANE_WIDTH - BASE_STOP_MARGIN, Math.max(BASE_STOP_MARGIN, unit.x + (toX / toDist) * detourStep))
+            const ny = Math.min(LANE_MAX_Y, Math.max(LANE_MIN_Y, unit.y + (toY / toDist) * detourStep))
+            // Only commit if the step is actually enterable — the flow field
+            // works in whole tiles, so a partial step can still clip a corner.
+            if (canEnter(nx, ny)) { unit.x = nx; unit.y = ny }
+            else if (canEnter(unit.x, ny)) { unit.y = ny }
+            else if (canEnter(nx, unit.y)) { unit.x = nx }
+          }
+        } else if (directOpen) {
+          // No downhill neighbour (already at the goal row, or sealed in):
+          // take the direct move if it's available rather than freezing.
+          unit.detourFlowDist = undefined
+          unit.x = candX
+          unit.y = candY
+        }
+        // else: genuinely sealed in — hold position, re-try next tick.
+      }
     }
 
     // Advance past the current road waypoint once reached — gated on !hasTarget so a unit

@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { generateTerrain, generatePassableTerrain } from './terrain'
+import { generateTerrain } from './terrain'
+import { generatePassableTerrain } from './terrainGrid'
 import type { TerrainObstacle } from './terrain'
 import { checkAllProfilesReachable, buildObstacleTileMap, gameToTile } from './terrainGrid'
 

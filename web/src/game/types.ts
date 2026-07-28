@@ -217,6 +217,16 @@ export interface Unit extends UnitTemplate {
    *  movement tick when the battle has `roadFollowing` enabled). Empty once the unit has
    *  passed the last waypoint or no road was found; undefined until first computed. */
   roadWaypoints?: Array<{ x: number; y: number }>
+  /** Flow-field distance-to-goal recorded when this unit started routing around
+   *  terrain (hard-blocking battles only — see moveUnits). While set, the unit
+   *  keeps following the flow field even on ticks when the direct path looks
+   *  open again, and only resumes normal movement once it has actually gotten
+   *  closer to the goal than it was when it got stuck. Without that commitment
+   *  a unit oscillates forever at a concave obstacle: the route around requires
+   *  briefly moving AWAY from the goal, which instantly makes the direct path
+   *  look viable again, so it turns back into the wall. Undefined = not
+   *  detouring. */
+  detourFlowDist?: number
   /** ID of the enemy unit this unit is currently locked onto as an attack target. */
   targetId?: string
   /** ID of the last enemy unit that dealt damage to this unit (used for target-switch on hit). */
@@ -463,6 +473,10 @@ export interface GameState {
   terrainGridCache?: {
     obstacleTiles: Map<string, { type: TerrainType; zIndex: number }>
     roadTiles: Map<string, number>
+    /** Flow fields used to route blocked units around terrain, keyed by
+     *  `profile|swims|goalX`. Built on first use, not upfront — most battles
+     *  only ever need the two ground fields. See buildFlowField. */
+    flowFields: Map<string, Map<string, number>>
   }
   unitReviveHp?: 'half' | 'full' | number      // pending one-time unit revive at this HP value (set by Soulstone/Salvage Hook relics)
   relicManaBonus?: number             // passive +N to maxMana cap (set by Prism Lens relic)

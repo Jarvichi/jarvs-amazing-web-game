@@ -1,5 +1,3 @@
-import { checkAllProfilesReachable } from './terrainGrid'
-
 // ─── Terrain Types ────────────────────────────────────────
 
 export type TerrainType = 'rock' | 'tree' | 'water' | 'ruin'
@@ -213,39 +211,9 @@ export function generateTerrain(seed?: string, environment?: string): TerrainObs
   return obstacles
 }
 
-/**
- * Procedural counterpart to the battlefield editor's "validate on save" step.
- *
- * Authored terrain opts into hard tile-based blocking via a `terrainValidated`
- * flag the editor only sets once checkAllProfilesReachable() confirms the lane
- * isn't sealed. A procedural scatter has no authored layout for anyone to have
- * vetted, so it could never carry that flag and stayed on legacy soft avoidance
- * — which is why units walked straight through rocks/trees/water in Quick Play
- * and every other battle without hand-placed terrain.
- *
- * This enforces the same guarantee at generation time. generateTerrain's tuning
- * (see TERRAIN_CLEAR_HALF / TERRAIN_MAX_RADIUS) already leaves most scatters
- * traversable; for the rest, drop the widest obstacle — the one rasterizing to
- * the most tile columns, so the likeliest culprit — and re-check. This always
- * terminates: an empty field is trivially passable. The result is therefore
- * safe to hard-block unconditionally.
- */
-export function generatePassableTerrain(
-  seed?: string,
-  environment?: string,
-  roads: RoadDef[] = [],
-): TerrainObstacle[] {
-  const obstacles = generateTerrain(seed, environment)
-  const passable = () => {
-    const report = checkAllProfilesReachable(obstacles, roads)
-    return report.ground.reachable && report.burrowing.reachable
-  }
-  while (obstacles.length > 0 && !passable()) {
-    let widest = 0
-    for (let i = 1; i < obstacles.length; i++) {
-      if (obstacles[i].radius > obstacles[widest].radius) widest = i
-    }
-    obstacles.splice(widest, 1)
-  }
-  return obstacles
-}
+// generatePassableTerrain (the procedural counterpart to the battlefield
+// editor's "validate on save" step) lives in ./terrainGrid, not here: it needs
+// checkAllProfilesReachable, and importing that module from this one would
+// close a runtime import cycle (game/types re-exports this module's types, and
+// terrainGrid imports game/types for LANE_WIDTH). Keeping this module a leaf
+// avoids it.
