@@ -5810,10 +5810,150 @@
       "name": "The West Gatehouse",
       "width": 12,
       "height": 9,
-      "decor": [],
+      "decor": [
+        {
+          "tx": 2,
+          "ty": 6,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
+          "ty": 5,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
+          "ty": 3,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 3,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 3,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": 3,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 3,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 5,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 5,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 6,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 6,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 3,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 7,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 6,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 6,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 6,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 3,
+          "tileId": "crate",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 6,
+          "tileId": "crate",
+          "zlayer": "solid"
+        }
+      ],
       "floorTileId": "woodFloor",
       "hours": "always",
-      "wallTileId": "interiorWallWhite"
+      "wallTileId": "interiorWallWhite",
+      "exits": []
     },
     "gatehouse-east": {
       "name": "The East Gatehouse",
@@ -5822,7 +5962,8 @@
       "decor": [],
       "floorTileId": "woodFloor",
       "hours": "always",
-      "wallTileId": "interiorWallWhite"
+      "wallTileId": "interiorWallWhite",
+      "exits": []
     },
     "card-shop": {
       "name": "Gildwyn's Card Emporium",
@@ -10771,6 +10912,29 @@
       "reward": {
         "crystals": 50
       }
+    },
+    {
+      "id": "treasure-1785257642279",
+      "tx": 1,
+      "ty": 27,
+      "tileId": "chest",
+      "collectedTileId": "openChest",
+      "title": "The Farmers Life Savings",
+      "reward": {
+        "crystals": 1000
+      }
+    },
+    {
+      "id": "treasure-1785257806152",
+      "tx": 3,
+      "ty": 4,
+      "tileId": "chest",
+      "collectedTileId": "openChest",
+      "title": "New treasure",
+      "reward": {
+        "crystals": 10
+      },
+      "buildingId": "gatehouse-west"
     }
   ],
   "interactables": [
