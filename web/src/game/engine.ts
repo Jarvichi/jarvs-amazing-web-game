@@ -14,7 +14,7 @@ import { MAX_UPGRADE_LEVEL, resolveSpellCast } from './engine/cards'
 import { unitDist } from './engine/targeting'
 import { opponentAI } from './engine/opponentAI'
 import { triggerBattleEvent, BATTLE_EVENT_BASE_MS } from './engine/battleEvents'
-import { generateTerrain, expandTerrainPathsToObstacles } from './engine/terrain'
+import { generateTerrain, generatePassableTerrain, expandTerrainPathsToObstacles } from './engine/terrain'
 import type { RoadDef, TerrainObstacle, BattlefieldDecorItem, TerrainPathDef } from './engine/terrain'
 import { processEndlessModeAdditions, triggerNextEndlessWave, spawnEndlessCommander } from './engine/endlessMode'
 import { handleSuddentDeath } from './engine/suddenDeath'
@@ -303,6 +303,18 @@ export function newGame(
     initialField.push(endlessMode ? spawnEndlessCommander(1, baseOpponentHp) : spawnCommander('opponent', baseOpponentHp))
   }
 
+  // A scatter nobody hand-placed (no authored `terrain`, no `terrainPaths`) has
+  // no layout for the battlefield editor to have validated, so it could never
+  // set `terrainValidated` and stayed on soft avoidance — units walked through
+  // obstacles in Quick Play and every other procedurally-terrained battle.
+  // generatePassableTerrain guarantees the lane stays traversable, so this case
+  // can hard-block unconditionally. Nodes WITH authored terrain are untouched
+  // and keep honouring their own flag.
+  const isProceduralScatter = !authoredTerrain && !terrainPaths?.length
+  const scatter = authoredTerrain ?? (isProceduralScatter
+    ? generatePassableTerrain(terrainSeed, environment, roads ?? [])
+    : generateTerrain(terrainSeed, environment))
+
   return {
     playerBase: { hp: 50, maxHp: 50 },
     opponentBase: { hp: opponentBaseHp, maxHp: opponentBaseHp },
@@ -340,14 +352,14 @@ export function newGame(
       baseInvulnerableUntilMs: 0,
     } : undefined,
     terrain: [
-      ...(authoredTerrain ?? generateTerrain(terrainSeed, environment)),
+      ...scatter,
       ...expandTerrainPathsToObstacles(terrainPaths ?? []),
     ],
     roads,
     roadFollowing,
     environment,
     decor,
-    terrainValidated,
+    terrainValidated: isProceduralScatter ? true : terrainValidated,
     battleStats: { cardsPlayed: {}, playerKills: 0, playerUnitsLost: 0 },
     animEvents: [],
     bloodPools: [],
