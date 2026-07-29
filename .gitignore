@@ -30,6 +30,8 @@ dist/
 *~
 
 .env
+.env.local
+.env.*.local
 
 .claude/
 *storybook.log

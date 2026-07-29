@@ -127,17 +127,23 @@ export function getShiftKey(at?: Date): string {
 
 const DAY_SHIFT_NPCS: ShopNPC[]   = shopNpcsJson.dayShift   as ShopNPC[]
 const NIGHT_SHIFT_NPCS: ShopNPC[] = shopNpcsJson.nightShift as ShopNPC[]
+const ALL_SHOP_NPCS: ShopNPC[]    = [...DAY_SHIFT_NPCS, ...NIGHT_SHIFT_NPCS]
 
-export function getDailyShopNPC(at?: Date): ShopNPC {
-  const shiftKey = getShiftKey(at)
-  const night    = isNightShift(at)
-  const pool     = night ? NIGHT_SHIFT_NPCS : DAY_SHIFT_NPCS
-  const shiftSeed = night ? 0xbaadf00d : 0xdeadbeef
-  const rng      = makeSeededRng(dateHash(shiftKey) ^ shiftSeed)
-  const idx      = Math.floor(rng() * pool.length)
-  const npc      = { ...pool[idx] }
+/** Names with no fixed real-town home in the hub — plausible as a rare
+ *  "someone else is minding the shop today" visitor in any town's shop.
+ *  Deliberately excludes Vorn/Nox/Grix, who are Ravenwatch's own named
+ *  shopkeepers and are matched by name instead (see resolveShopNpcForHubNpc). */
+const RARE_TRAVELING_NAMES = {
+  day:   ['Aldric', 'Lysandra'],
+  night: ['Cass', 'The Stranger'],
+} as const
 
-  // Resolve Pip's dynamic greeting/perk at call time
+/** Chance (per building, per 12h shift) that a hub shop is minded by a rare
+ *  traveling seller instead of its regular shopkeeper. */
+const RARE_TRAVELING_CHANCE = 0.12
+
+// Resolve Pip's dynamic greeting/perk at call time
+function applyDynamicNpcFields(npc: ShopNPC, night: boolean): ShopNPC {
   if (npc.name === 'Pip' && npc.role === 'apprentice') {
     const weekend = isWeekend()
     npc.perk = weekend ? '10% weekend discount · buys select items' : '10% discount on weekends'
@@ -147,8 +153,62 @@ export function getDailyShopNPC(at?: Date): ShopNPC {
         : "Um, hi! I'm looking after the shop today. I think."
     }
   }
-
   return npc
+}
+
+export function getDailyShopNPC(at?: Date): ShopNPC {
+  const shiftKey = getShiftKey(at)
+  const night    = isNightShift(at)
+  const pool     = night ? NIGHT_SHIFT_NPCS : DAY_SHIFT_NPCS
+  const shiftSeed = night ? 0xbaadf00d : 0xdeadbeef
+  const rng      = makeSeededRng(dateHash(shiftKey) ^ shiftSeed)
+  const idx      = Math.floor(rng() * pool.length)
+  const npc      = { ...pool[idx] }
+  return applyDynamicNpcFields(npc, night)
+}
+
+/**
+ * Resolves the ShopNPC identity a hub-town shop screen should display for
+ * the specific NPC the player tapped in the town, instead of the fully
+ * random `getDailyShopNPC()` pick.
+ *
+ * - If the hub NPC's name matches a roster entry (currently only
+ *   Ravenwatch's Vorn/Nox/Grix), that entry is used directly.
+ * - Otherwise, a small deterministic-per-building-per-shift chance
+ *   substitutes one of the roster's rare traveling sellers (offering the
+ *   same legendary-card/discount treats as the title-screen shop).
+ * - Otherwise, a generic fallback identity is synthesized from the hub
+ *   NPC's own name and authored dialogue lines.
+ */
+export function resolveShopNpcForHubNpc(buildingId: string, name: string, dialogue?: string[], at?: Date): ShopNPC {
+  const night = isNightShift(at)
+
+  const matches = ALL_SHOP_NPCS.filter(n => n.name === name)
+  if (matches.length > 0) {
+    const shiftPool = night ? NIGHT_SHIFT_NPCS : DAY_SHIFT_NPCS
+    const preferred = matches.find(n => shiftPool.includes(n)) ?? matches[0]
+    return applyDynamicNpcFields({ ...preferred }, night)
+  }
+
+  const shiftKey = getShiftKey(at)
+  const rng      = makeSeededRng(dateHash(`${buildingId}|${shiftKey}`) ^ 0x5a1e5eed)
+  if (rng() < RARE_TRAVELING_CHANCE) {
+    const names = night ? RARE_TRAVELING_NAMES.night : RARE_TRAVELING_NAMES.day
+    const pickedName = names[Math.floor(rng() * names.length)]
+    const visitor = ALL_SHOP_NPCS.find(n => n.name === pickedName)
+    if (visitor) return applyDynamicNpcFields({ ...visitor }, night)
+  }
+
+  const lines = dialogue && dialogue.length > 0 ? dialogue : ["Welcome — take a look at what I've got."]
+  return {
+    name,
+    title: 'Shopkeeper',
+    role: 'owner',
+    greeting: lines[0],
+    perk: 'Standard prices',
+    shiftEndLine: "I'll be here a while yet — {time}, give or take. No rush.",
+    dialogues: lines,
+  }
 }
 
 /**
@@ -194,12 +254,15 @@ export interface ShopCardFilter {
   slotCount?: number
 }
 
-/** Returns the current stock's card deals (refreshes every 3 hours). */
-export function getDailyShopCards(at?: Date, filter?: ShopCardFilter): ShopCardDeal[] {
+/** Returns the current stock's card deals (refreshes every 3 hours).
+ *  Pass `npcOverride` to base the legendary-slot decision on a specific
+ *  resolved NPC (e.g. from `resolveShopNpcForHubNpc`) instead of the
+ *  independent random daily pick. */
+export function getDailyShopCards(at?: Date, filter?: ShopCardFilter, npcOverride?: ShopNPC): ShopCardDeal[] {
   const slotKey = getShopSlotKey(at)
   const rng     = makeSeededRng(dateHash(slotKey) ^ 0xcafebabe)
   const catalog = getCardCatalog().filter(c => !filter?.cardType || c.cardType === filter.cardType)
-  const npc     = getDailyShopNPC(at)
+  const npc     = npcOverride ?? getDailyShopNPC(at)
 
   const rarityFilter = filter?.rarities ?? (filter?.rarity ? [filter.rarity] : undefined)
   if (rarityFilter) {

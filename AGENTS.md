@@ -24,6 +24,8 @@ DO NOT USE AGENTS - Unless I explicitly state for you to do so.
 ## Verifying Changes
 `npm run build` (typecheck) and `npm run test` are the default way to verify a change — run them and trust them. Only fall back to launching the dev server and driving it in a browser when you are investigating or confirming a **visual** bug (layout, rendering, sprite/animation, canvas interaction) — not for logic/data changes, even ones that touch UI-adjacent code. Browser verification of this hub-world/PixiJS canvas is expensive (no DOM selectors for in-canvas elements, camera/pathfinding makes reaching a specific NPC slow) — don't reach for it by default.
 
+If browser verification is genuinely warranted: the app needs Firebase env vars to render past a blank white screen (`firebase.ts` calls `initializeApp` with `import.meta.env.VITE_FIREBASE_*`, which are unset by default and throw `auth/invalid-api-key` on load). `web/.env.test` has working fake-but-valid-format keys — copy it to `web/.env.local` (gitignored) before `npm run dev`. Don't commit `.env.local` or leave ad hoc driver scripts in the repo.
+
 ## Git Workflow — Avoiding Conflicts
 Before starting any new work, always rebase onto the latest `main`:
 ```bash

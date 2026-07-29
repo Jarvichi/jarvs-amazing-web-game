@@ -211,7 +211,7 @@ function getActiveDialogue(quest: HubQuestDef): string {
 
 export interface Props {
   onBack:             () => void
-  onNavigate?:        (screen: string, buildingId?: string) => void
+  onNavigate?:        (screen: string, buildingId?: string, npc?: { name: string; dialogue?: string[] }) => void
   onCampaign?:        () => void
   /** Launch campaign 2 (The Forgotten Kingdom) — from Elsben in Ironhold Keep. */
   onCampaign2?:       () => void
@@ -636,7 +636,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
     el.scrollTop  = py - el.clientHeight / 2
   }, [locationData])
 
-  const handleNodeInteract = useCallback((screen: string, buildingId?: string) => {
+  const handleNodeInteract = useCallback((screen: string, buildingId?: string, npc?: { name: string; dialogue?: string[] }) => {
     if (screen.startsWith('interior:')) {
       const buildingId = screen.slice(9)
       interiorEnterRef.current?.(buildingId)
@@ -672,7 +672,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
         return
       }
     }
-    onNavigate?.(screen, buildingId)
+    onNavigate?.(screen, buildingId, npc)
   }, [onNavigate, onCampaign, onCampaign2, onWorldMap, onNavigateTown, onNarratorLog, commander])
 
   const handleReturn = useCallback(() => {
@@ -1339,7 +1339,7 @@ function hasOfferableQuest(giverId: string): boolean {
       const screen = npcDef.screen
       const enterChoice: DialogueChoice = {
         label: screenEnterLabel(screen),
-        onClick: () => handleNodeInteract(screen, npcDef.building),
+        onClick: () => handleNodeInteract(screen, npcDef.building, speakerName ? { name: speakerName, dialogue: npcDef.dialogue } : undefined),
       }
 
       // Build at most one quest choice, in priority order: deliver → turn in →
