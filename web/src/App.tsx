@@ -424,7 +424,7 @@ export default function App() {
   const [screen, setScreen]             = useState<Screen>(_startup.screen)
   const [returnScreen, setReturnScreen]  = useState<Screen>('title')
   const [shopBuildingId, setShopBuildingId] = useState<string | undefined>(undefined)
-  const [shopTappedNpc, setShopTappedNpc] = useState<{ name: string; dialogue?: string[] } | undefined>(undefined)
+  const [shopTappedNpc, setShopTappedNpc] = useState<{ name: string; dialogue?: string[]; sprite?: string } | undefined>(undefined)
   // Restore the town the player was last in (persisted in worldState). The saved
   // value is a world-map node id; for town nodes that id equals the hub data's
   // locationRegistry key. Hub data is lazy-loaded (see hubData below), so this
