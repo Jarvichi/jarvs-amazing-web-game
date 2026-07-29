@@ -3,6 +3,7 @@ import { CRYSTAL_PACK_COST, addCardsToCollection } from '../../game/collection'
 import { incrementAchievementProgress } from '../../game/achievements'
 import {
   getDailyShopNPC,
+  resolveShopNpcForHubNpc,
   getDailyShopCards,
   getDailyShopSellSlots,
   getDailyShopAugment,
@@ -14,6 +15,7 @@ import {
   isWeekend,
   ShopCardDeal,
   ShopAugmentDeal,
+  ShopNPC,
   recordNPCVisit,
   isShopItemSold,
   markCardBought,
@@ -97,11 +99,15 @@ interface Props {
   /** Which trader's stock this screen represents, for the "already bought today" gate.
    *  Defaults to Ravenwatch's own card-shop/augment-shop ids, preserving legacy behavior. */
   buildingId?: string
+  /** The specific hub NPC the player tapped to get here, if any. When present,
+   *  the banner reflects this NPC (by name/dialogue) instead of the random
+   *  daily/shift pick. Absent for the plain title-screen 'shop' entry. */
+  tappedNpc?: { name: string; dialogue?: string[] }
 }
 
 const PACK_QUANTITIES = [1, 3, 5, 10]
 
-export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBack, category, buildingId }: Props) {
+export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBack, category, buildingId, tappedNpc }: Props) {
   const show = (c: ShopCategory) => !category || category === c
   const cardBuildingId    = buildingId ?? 'card-shop'
   const augmentBuildingId = buildingId ?? 'augment-shop'
@@ -111,8 +117,12 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
   const canBuyPack = crystals >= CRYSTAL_PACK_COST * packQty
   const [pendingPackBuy, setPendingPackBuy] = useState(false)
 
-  const [npc, setNpc] = useState(() => getDailyShopNPC())
-  const [dailyCards, setDailyCards] = useState(() => getDailyShopCards())
+  const resolveNpc = (): ShopNPC => tappedNpc
+    ? resolveShopNpcForHubNpc(buildingId ?? tappedNpc.name, tappedNpc.name, tappedNpc.dialogue)
+    : getDailyShopNPC()
+
+  const [npc, setNpc] = useState(resolveNpc)
+  const [dailyCards, setDailyCards] = useState(() => getDailyShopCards(undefined, undefined, resolveNpc()))
   const [dailyAugment, setDailyAugment] = useState<ShopAugmentDeal>(() => getDailyShopAugment())
   const [sellSlots, setSellSlots] = useState(() => getDailyShopSellSlots())
   const [weekend, setWeekend] = useState(() => isWeekend())
@@ -144,8 +154,9 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
       setCountdown(secs)
       setShiftCountdown(getSecondsUntilShiftEnd())
       if (secs === 0) {
-        setNpc(getDailyShopNPC())
-        setDailyCards(getDailyShopCards())
+        const freshNpc = resolveNpc()
+        setNpc(freshNpc)
+        setDailyCards(getDailyShopCards(undefined, undefined, freshNpc))
         setDailyAugment(getDailyShopAugment())
         setSellSlots(getDailyShopSellSlots())
         setWeekend(isWeekend())

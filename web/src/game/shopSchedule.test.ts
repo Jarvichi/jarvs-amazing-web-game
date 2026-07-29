@@ -4,6 +4,7 @@ import {
   markCardBought,
   markAugmentBought,
   getDailyShopCards,
+  resolveShopNpcForHubNpc,
   DailyShopState,
 } from './shopSchedule'
 
@@ -96,6 +97,53 @@ describe('getDailyShopCards filters', () => {
     for (const d of deals) expect(['epic', 'legendary']).toContain(d.rarity)
     const names = deals.map(d => d.cardName)
     expect(new Set(names).size).toBe(names.length)
+  })
+})
+
+describe('resolveShopNpcForHubNpc', () => {
+  const at = new Date('2026-06-30T12:00:00Z') // day shift, 2026-06-30-day
+
+  it('returns the matching roster entry by name, ignoring the rare-visitor roll', () => {
+    const npc = resolveShopNpcForHubNpc('card-shop', 'Vorn', ['some dialogue'], at)
+    expect(npc.name).toBe('Vorn')
+    expect(npc.role).toBe('legendary_dealer')
+    expect(npc.title).toBe('Shadow Merchant')
+  })
+
+  it('falls back to a generic identity built from the hub NPC when there is no roster match and the rare roll misses', () => {
+    // Seeded miss for this building/shift (verified against the resolver's own RNG algorithm).
+    const npc = resolveShopNpcForHubNpc('supplies-vendor-crownhaven', 'Dealer Sloane', ['line1', 'line2'], at)
+    expect(npc.name).toBe('Dealer Sloane')
+    expect(npc.role).toBe('owner')
+    expect(npc.title).toBe('Shopkeeper')
+    expect(npc.greeting).toBe('line1')
+    expect(npc.dialogues).toEqual(['line1', 'line2'])
+  })
+
+  it('substitutes a rare traveling seller when the per-building-per-shift roll hits', () => {
+    // Seeded hit for this building/shift (verified against the resolver's own RNG algorithm) — resolves to Lysandra.
+    const npc = resolveShopNpcForHubNpc('augment-shop', 'Dealer Sloane', ['line1'], at)
+    expect(npc.name).toBe('Lysandra')
+    expect(npc.role).toBe('legendary_dealer')
+    expect(['Aldric', 'Lysandra']).toContain(npc.name)
+  })
+
+  it('is deterministic for the same building and shift, and can differ across buildings', () => {
+    const first  = resolveShopNpcForHubNpc('augment-shop', 'Dealer Sloane', ['line1'], at)
+    const second = resolveShopNpcForHubNpc('augment-shop', 'Dealer Sloane', ['line1'], at)
+    expect(second).toEqual(first)
+
+    const other = resolveShopNpcForHubNpc('card-shop-bldg', 'Dealer Sloane', ['line1'], at)
+    expect(other.name).not.toBe(first.name)
+  })
+})
+
+describe('getDailyShopCards with npcOverride', () => {
+  it('uses the overridden NPC role for the legendary-slot decision instead of the random daily pick', () => {
+    const at = new Date('2026-06-30T12:00:00Z')
+    const legendaryDealer = resolveShopNpcForHubNpc('card-shop', 'Vorn', [], at)
+    const deals = getDailyShopCards(at, undefined, legendaryDealer)
+    expect(deals[2].rarity).toBe('legendary')
   })
 })
 

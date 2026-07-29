@@ -424,6 +424,7 @@ export default function App() {
   const [screen, setScreen]             = useState<Screen>(_startup.screen)
   const [returnScreen, setReturnScreen]  = useState<Screen>('title')
   const [shopBuildingId, setShopBuildingId] = useState<string | undefined>(undefined)
+  const [shopTappedNpc, setShopTappedNpc] = useState<{ name: string; dialogue?: string[] } | undefined>(undefined)
   // Restore the town the player was last in (persisted in worldState). The saved
   // value is a world-map node id; for town nodes that id equals the hub data's
   // locationRegistry key. Hub data is lazy-loaded (see hubData below), so this
@@ -3121,9 +3122,10 @@ export default function App() {
       {(screen === 'hubworld' || screen === 'location') && hubData && (
         <HubWorld
           onBack={() => setScreen('settings')}
-          onNavigate={(s, buildingId) => {
+          onNavigate={(s, buildingId, npc) => {
             setReturnScreen('hubworld')
             setShopBuildingId(buildingId)
+            setShopTappedNpc(npc)
             const HUB_MINIGAME_IDS: SubScreen[] = ['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'regatta', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence', 'citybuilder', 'prizes']
             if (HUB_MINIGAME_IDS.includes(s as SubScreen)) {
               setHubMiniGameEntry(s as SubScreen)
@@ -3533,6 +3535,7 @@ export default function App() {
         <ShopScreen
           category="cards"
           buildingId={shopBuildingId}
+          tappedNpc={shopTappedNpc}
           crystals={crystals}
           onBuyCrystalPack={handleBuyCrystalPack}
           onCrystalsChange={(n: number) => { saveCrystals(n); setCrystals(n) }}
@@ -3544,6 +3547,7 @@ export default function App() {
         <ShopScreen
           category="augments"
           buildingId={shopBuildingId}
+          tappedNpc={shopTappedNpc}
           crystals={crystals}
           onBuyCrystalPack={handleBuyCrystalPack}
           onCrystalsChange={(n: number) => { saveCrystals(n); setCrystals(n) }}
@@ -3555,6 +3559,7 @@ export default function App() {
         <ShopScreen
           category="supplies"
           buildingId={shopBuildingId}
+          tappedNpc={shopTappedNpc}
           crystals={crystals}
           onBuyCrystalPack={handleBuyCrystalPack}
           onCrystalsChange={(n: number) => { saveCrystals(n); setCrystals(n) }}
