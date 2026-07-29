@@ -102,7 +102,7 @@ interface Props {
   /** The specific hub NPC the player tapped to get here, if any. When present,
    *  the banner reflects this NPC (by name/dialogue) instead of the random
    *  daily/shift pick. Absent for the plain title-screen 'shop' entry. */
-  tappedNpc?: { name: string; dialogue?: string[] }
+  tappedNpc?: { name: string; dialogue?: string[]; sprite?: string }
 }
 
 const PACK_QUANTITIES = [1, 3, 5, 10]
@@ -254,13 +254,22 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
     wanderer:   '🌍',
   }
 
+  // Only show the tapped NPC's own sprite when the banner is still displaying
+  // that same NPC — a rare traveling seller substitution shows a different
+  // name/role, so their (mismatched) sprite would be misleading.
+  const npcSprite = tappedNpc?.sprite && npc.name === tappedNpc.name ? tappedNpc.sprite : undefined
+
   return (
     <OverlayScreen title={category ? CATEGORY_TITLE[category] : 'SHOP'} onBack={onBack} right={<span className="crystal-count">💎 {crystals.toLocaleString()}</span>}>
       <div className="shop-wrapper">
 
       {/* NPC banner */}
       <div className="shop-npc-banner">
-        <div className="shop-npc-icon">{roleLabel[npc.role] ?? '🏪'}</div>
+        <div className="shop-npc-icon">
+          {npcSprite
+            ? <SpriteImg name={npcSprite} className="shop-npc-sprite" />
+            : (roleLabel[npc.role] ?? '🏪')}
+        </div>
         <div className="shop-npc-info">
           <div className="shop-npc-name">
             {npc.name} <span className="shop-npc-title">— {npc.title}</span>

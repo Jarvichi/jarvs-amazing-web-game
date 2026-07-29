@@ -72,7 +72,7 @@ interface QuestEvent {
 }
 
 interface NpcTapDef {
-  name?: string; dialogue?: string[]; screen?: string; building?: string
+  name?: string; dialogue?: string[]; screen?: string; building?: string; sprite?: string
   questGive?: string; questReceive?: string | string[]
   innRumours?: Array<{ id: string; text: string }>
   dialogueTree?: string
@@ -211,7 +211,7 @@ function getActiveDialogue(quest: HubQuestDef): string {
 
 export interface Props {
   onBack:             () => void
-  onNavigate?:        (screen: string, buildingId?: string, npc?: { name: string; dialogue?: string[] }) => void
+  onNavigate?:        (screen: string, buildingId?: string, npc?: { name: string; dialogue?: string[]; sprite?: string }) => void
   onCampaign?:        () => void
   /** Launch campaign 2 (The Forgotten Kingdom) — from Elsben in Ironhold Keep. */
   onCampaign2?:       () => void
@@ -636,7 +636,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
     el.scrollTop  = py - el.clientHeight / 2
   }, [locationData])
 
-  const handleNodeInteract = useCallback((screen: string, buildingId?: string, npc?: { name: string; dialogue?: string[] }) => {
+  const handleNodeInteract = useCallback((screen: string, buildingId?: string, npc?: { name: string; dialogue?: string[]; sprite?: string }) => {
     if (screen.startsWith('interior:')) {
       const buildingId = screen.slice(9)
       interiorEnterRef.current?.(buildingId)
@@ -1339,7 +1339,7 @@ function hasOfferableQuest(giverId: string): boolean {
       const screen = npcDef.screen
       const enterChoice: DialogueChoice = {
         label: screenEnterLabel(screen),
-        onClick: () => handleNodeInteract(screen, npcDef.building, speakerName ? { name: speakerName, dialogue: npcDef.dialogue } : undefined),
+        onClick: () => handleNodeInteract(screen, npcDef.building, speakerName ? { name: speakerName, dialogue: npcDef.dialogue, sprite: npcDef.sprite } : undefined),
       }
 
       // Build at most one quest choice, in priority order: deliver → turn in →

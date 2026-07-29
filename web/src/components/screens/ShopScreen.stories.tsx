@@ -20,3 +20,14 @@ export const Default: Story = {
     onCrystalsChange: fn(),
   },
 };
+
+/** Tapped a specific hub NPC with a known sprite — the banner shows their
+ *  sprite instead of the generic role emoji. */
+export const TappedNpcWithSprite: Story = {
+  args: {
+    ...Default.args,
+    category: 'cards',
+    buildingId: 'card-shop',
+    tappedNpc: { name: 'Vorn', dialogue: ["I only come out at night."], sprite: 'hub-npc-vorn' },
+  },
+};
