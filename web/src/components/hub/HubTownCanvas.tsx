@@ -297,6 +297,10 @@ export function HubTownCanvas({
     // alongside decorGlows in the same two decor-building loops below, then spawned
     // once texture loading settles (see spawnFlame).
     interface FlameSource { parent: PIXI.Container; x: number; y: number; type: FlameType; color: FlameColor; sortY?: number }
+    // Vertical anchor point within a tile a flame sits on, as a fraction of tile
+    // height (0 = top, 1 = bottom) — tuned to sit over a tile's fire-pit/hearth
+    // art rather than at the very bottom edge of the tile cell.
+    const FLAME_ANCHOR_Y = 0.72
     const FLAME_PARAMS: Record<FlameType, { scale: number; glowRadius: number; speed: number }> = {
       flicker: { scale: 0.45, glowRadius: 1,   speed: 0.10 },
       low:     { scale: 0.65, glowRadius: 1.5, speed: 0.12 },
@@ -589,7 +593,7 @@ export function HubTownCanvas({
         if (d.glow) decorGlows.push({ x: d.tx * T + T / 2, y: d.ty * T + T / 2, radius: (d.glowRadius ?? 2) * T, pulse: !!d.pulse })
         if (d.flame) {
           const flameParent = d.zlayer === 'below' ? belowAvatarLayer : d.zlayer === 'above' ? aboveAvatarLayer : exteriorDecorLayer
-          const fx = d.tx * T + T / 2, fy = d.ty * T + T * 0.85
+          const fx = d.tx * T + T / 2, fy = d.ty * T + T * FLAME_ANCHOR_Y
           collectFlame(flames, decorGlows, !!d.glow, flameParent, fx, fy, fx, fy, d.flameType, d.flameColor, d.ty)
         }
       }
@@ -754,8 +758,8 @@ export function HubTownCanvas({
           if (d.glow) decorGlows.push({ x: (pos.tx + d.dx) * T + T / 2, y: (pos.ty + d.dy) * T + T / 2, radius: (d.glowRadius ?? 2) * T, pulse: !!d.pulse })
           if (d.flame) {
             collectFlame(flames, decorGlows, !!d.glow, parent,
-              d.dx * T + T / 2, d.dy * T + T * 0.85,
-              (pos.tx + d.dx) * T + T / 2, (pos.ty + d.dy) * T + T * 0.85,
+              d.dx * T + T / 2, d.dy * T + T * FLAME_ANCHOR_Y,
+              (pos.tx + d.dx) * T + T / 2, (pos.ty + d.dy) * T + T * FLAME_ANCHOR_Y,
               d.flameType, d.flameColor, pos.ty + d.dy)
           }
           if (d.spriteId) {
