@@ -3,7 +3,8 @@ import { WALL_TILES, ROOF_TILES } from '../tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../tiles/buildingMaterials'
 import { expandBundleDecor, expandBundleWindows, expandBundleDoors } from '../bundles/bundleLoader'
 import { ConversationTopicDef, DialogueTree, FriendshipDialogue, HubQuestDef, RawQuestConfig, RelationshipDialogue } from './questDefs'
-import { RawAnimal, RawConfig, RawInteractable } from './config'
+import { FlameColor, FlameType, RawAnimal, RawConfig, RawInteractable } from './config'
+export type { FlameColor, FlameType } from './config'
 import rollbar from '../../rollbar'
 
 const WALL_MATERIAL_NAMES = new Set<string>(Object.keys(WALL_TILES))
@@ -96,6 +97,9 @@ export interface DecorGlow {
   glow?:       boolean   // emit a night light glow (reuses the night overlay)
   glowRadius?: number    // glow radius in tiles
   pulse?:      boolean   // animate the glow radius
+  flame?:      boolean   // render an animated flame layer above this tile (also emits glow by default)
+  flameType?:  FlameType   // default 'medium'
+  flameColor?: FlameColor  // default 'normal'
 }
 
 export interface InteriorDecor extends DecorGlow {
@@ -293,6 +297,9 @@ export interface HubInteractableDecor {
   glow?: boolean        // emit a night light glow
   glowRadius?: number   // glow radius in tiles
   pulse?: boolean       // animate the glow radius
+  flame?: boolean        // render an animated flame layer above this tile (also emits glow by default)
+  flameType?: FlameType   // default 'medium'
+  flameColor?: FlameColor // default 'normal'
 }
 
 export type HubInteractableReaction =
@@ -324,8 +331,17 @@ export type HubInteractableReaction =
   | { type: 'dig'; requiresItemId?: string; nightOnly?: boolean; weatherOnly?: string; lootTable?: 'earth' | 'hollow' | 'rain' | 'fog' }
   /** Once-per-day forage spot — overlays an ordinary tree/bush/flower decor
    *  tile. No tool/night/weather gating (unlike `dig`); rolls wild-berries,
-   *  crystals, or a rare four-leaf-clover collectible. */
-  | { type: 'forage' }
+   *  crystals, or a rare four-leaf-clover collectible by default. `lootTable`
+   *  'wood' instead always yields a log — for log-pile style gather spots. */
+  | { type: 'forage'; lootTable?: 'wood' }
+  /** Consumes `requiresItemId` to move a flame decor entry owned by this same
+   *  interactable from fromFlameType (default 'flicker') to toFlameType — e.g.
+   *  feeding a log to a dying campfire to build it into a roaring blaze.
+   *  Already at/past toFlameType shows alreadyDoneText instead. Optionally
+   *  grants a hub-item and/or sets a dialogue flag (checkPrerequisite's
+   *  `flag:` syntax) on success, e.g. to gate a follow-up quest. */
+  | { type: 'stokeFlame'; requiresItemId: string; fromFlameType?: FlameType; toFlameType: FlameType
+      grantHubItem?: { itemId: string; count?: number }; setFlag?: string; alreadyDoneText?: string }
 
 export interface HubInteractable {
   id: string
@@ -557,12 +573,12 @@ for (const b of rawConfig.buildings as RawBuilding[]) {
   }
 }
 
-type RawDecorEntry = { tx?: number; ty?: number; tileId?: string; bundleID?: string; comment?: string; zlayer?: string; glow?: boolean; glowRadius?: number; pulse?: boolean }
+type RawDecorEntry = { tx?: number; ty?: number; tileId?: string; bundleID?: string; comment?: string; zlayer?: string; glow?: boolean; glowRadius?: number; pulse?: boolean; flame?: boolean; flameType?: FlameType; flameColor?: FlameColor }
 const EXTERIOR_DECOR = [
   ...(rawConfig.exteriorDecor as RawDecorEntry[]).flatMap(d => {
     if (d.tx == null || d.ty == null) return []
     if (d.bundleID) return expandBundleDecor(d.bundleID, d.tx, d.ty)
-    if (d.tileId) return [{ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer, glow: d.glow, glowRadius: d.glowRadius, pulse: d.pulse }]
+    if (d.tileId) return [{ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer, glow: d.glow, glowRadius: d.glowRadius, pulse: d.pulse, flame: d.flame, flameType: d.flameType, flameColor: d.flameColor }]
     return []
   }),
   ..._nestedDecor,
@@ -578,7 +594,7 @@ const HUB_FESTIVAL_DECOR: Array<{ festivalId: string; decor: typeof EXTERIOR_DEC
   decor: (g.decor ?? []).flatMap(d => {
     if (d.tx == null || d.ty == null) return []
     if (d.bundleID) return expandBundleDecor(d.bundleID, d.tx, d.ty)
-    if (d.tileId) return [{ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer, glow: d.glow, glowRadius: d.glowRadius, pulse: d.pulse }]
+    if (d.tileId) return [{ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer, glow: d.glow, glowRadius: d.glowRadius, pulse: d.pulse, flame: d.flame, flameType: d.flameType, flameColor: d.flameColor }]
     return []
   }),
 }))
@@ -685,6 +701,9 @@ const HUB_INTERACTABLES: HubInteractable[] = (
     glow:        d.glow,
     glowRadius:  d.glowRadius,
     pulse:       d.pulse,
+    flame:       d.flame,
+    flameType:   d.flameType as FlameType | undefined,
+    flameColor:  d.flameColor as FlameColor | undefined,
   }))
   // Hit area: explicit rect → owned-decor bounds → single tile
   const hitRect = i.hitRect ?? (decor && decor.length > 0

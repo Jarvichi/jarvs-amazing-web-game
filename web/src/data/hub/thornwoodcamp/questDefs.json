@@ -1425,6 +1425,62 @@
       }
     },
     {
+      "id": "thornwood-feed-the-flame",
+      "title": "Feed the Flame",
+      "type": "fetch",
+      "giverNpcId": "warden-rell",
+      "receiverNpcId": "warden-rell",
+      "prerequisite": "quest:thornwood-embers-low",
+      "offerDialogue": "The wood's stacked but the fire's still just a flicker — needs a proper log fed to it, not just kindling. There's log piles right here by the fire. Feed one to the flames and see what catches.",
+      "activeDialogue": "Feed a log to the campfire, right here at the heart of camp, and build it back to a proper blaze.",
+      "completeDialogue": "Feel that heat? That's a fire now, not an apology for one. You've done the camp a real service.",
+      "steps": [
+        {
+          "key": "report",
+          "type": "report",
+          "targetNpcId": "warden-rell",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 20,
+        "friendship": {
+          "warden-rell": 10
+        }
+      }
+    },
+    {
+      "id": "thornwood-charcoal-for-the-forge",
+      "title": "Charcoal for the Forge",
+      "type": "fetch",
+      "giverNpcId": "bram-ashwick",
+      "receiverNpcId": "bram-ashwick",
+      "prerequisite": "quest:thornwood-feed-the-flame|flag:thornwood-flame-stoked",
+      "offerDialogue": "That fire's finally burning hot enough to leave good char behind. Rake some out and bring it here — I've an anvil going cold for want of it.",
+      "activeDialogue": "Bring Bram the charcoal raked from the roaring campfire.",
+      "completeDialogue": "Good, clean char — burns hot and even. My anvil thanks you, and so do I.",
+      "steps": [
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "bram-ashwick",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 35,
+        "friendship": {
+          "bram-ashwick": 10
+        },
+        "collectible": {
+          "id": "thornwood-forge-token",
+          "name": "Forge Token",
+          "icon": "🔨",
+          "desc": "A small iron token Bram presses into your hand. 'First charcoal off that fire in years,' he says. 'Worth marking.'"
+        }
+      }
+    },
+    {
       "id": "shiny-stones",
       "title": "Shiny Stones",
       "type": "fetch",

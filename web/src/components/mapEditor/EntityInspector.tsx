@@ -14,7 +14,7 @@ import type { AnimalType } from '../../game/hub/animals'
 import { BUILDING_MUSIC_IDS, AMBIANCE_IDS } from '../../game/sound'
 import { getUpgradeTrack, UPGRADE_CATALOG } from '../../data/hub/buildingUpgrades'
 import type { BundleTileRaw } from '../../data/bundles/bundleEditorApi'
-import type { NpcActivity } from '../../data/hub/loader'
+import type { NpcActivity, FlameType, FlameColor } from '../../data/hub/loader'
 import { FLOOR_TILES } from '../../data/tiles/floorTiles'
 import { TileSwatch } from '../shared/TileSwatch'
 
@@ -61,6 +61,7 @@ type InteriorExit = NonNullable<RawInterior['exits']>[number]
 type Treasure = NonNullable<RawMapConfig['treasures']>[number]
 
 export type GlowPatch = Partial<{ glow: boolean; glowRadius: number; pulse: boolean }>
+export type FlamePatch = Partial<{ flame: boolean; flameType: FlameType; flameColor: FlameColor }>
 
 interface Props {
   selectedEntities: SelectedEntity[]
@@ -79,6 +80,7 @@ interface Props {
   onMoveEntity:          (entity: SelectedEntity, tx: number, ty: number) => void
   onZlayerChange:        (entity: SelectedEntity, z: Zlayer) => void
   onUpdateGlow?:         (entity: SelectedEntity, patch: GlowPatch) => void
+  onUpdateFlame?:        (entity: SelectedEntity, patch: FlamePatch) => void
   onUpdatePickupGlow?:   (index: number, patch: GlowPatch) => void
   onUpdatePickupExtraTiles?: (index: number, tiles: Array<{ dx: number; dy: number; tileId: string }>) => void
   onDialogueChange:      (index: number, dialogue: string[]) => void
@@ -313,14 +315,64 @@ function GlowControls({ glow, glowRadius, pulse, onChange }: {
   )
 }
 
+const FLAME_TYPE_OPTIONS: Array<{ value: FlameType; label: string }> = [
+  { value: 'flicker', label: 'Flicker (dying embers)' },
+  { value: 'low',     label: 'Low' },
+  { value: 'medium',  label: 'Medium' },
+  { value: 'strong',  label: 'Strong (roaring fire)' },
+]
+const FLAME_COLOR_OPTIONS: Array<{ value: FlameColor; label: string }> = [
+  { value: 'normal',       label: 'Normal' },
+  { value: 'supernatural', label: 'Supernatural' },
+  { value: 'blue',         label: 'Blue' },
+  { value: 'green',        label: 'Green' },
+  { value: 'purple',       label: 'Purple' },
+]
+
+// Animated-flame controls shared by decor and interactable-decor inspectors.
+// Sits alongside GlowControls — flame renders its own animated overlay and
+// (unless glow is separately configured) emits its own night-light glow.
+function FlameControls({ flame, flameType, flameColor, onChange }: {
+  flame?: boolean; flameType?: string; flameColor?: string; onChange: (patch: FlamePatch) => void
+}) {
+  const selectStyle: React.CSSProperties = {
+    padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11,
+  }
+  return (
+    <>
+      <Field label="Flame">
+        <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontSize: 11 }}>
+          <input type="checkbox" checked={!!flame} onChange={e => onChange({ flame: e.target.checked })} />
+          show flame
+        </label>
+      </Field>
+      {flame && (
+        <>
+          <Field label="Flame type">
+            <select style={selectStyle} value={flameType ?? 'medium'} onChange={e => onChange({ flameType: e.target.value as FlameType })}>
+              {FLAME_TYPE_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+            </select>
+          </Field>
+          <Field label="Flame color">
+            <select style={selectStyle} value={flameColor ?? 'normal'} onChange={e => onChange({ flameColor: e.target.value as FlameColor })}>
+              {FLAME_COLOR_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+            </select>
+          </Field>
+        </>
+      )}
+    </>
+  )
+}
+
 function DecorInspector({
-  item, entity, onMove, onZlayer, onGlow, onDelete, onMinLevel, onHideAtLevel, maxLevel, onTileChange, onReorder, listLength, onConvertToInteractable,
+  item, entity, onMove, onZlayer, onGlow, onFlame, onDelete, onMinLevel, onHideAtLevel, maxLevel, onTileChange, onReorder, listLength, onConvertToInteractable,
 }: {
   item: RawDecorItem
   entity: SelectedEntity
   onMove: (tx: number, ty: number) => void
   onZlayer: (z: Zlayer) => void
   onGlow?: (patch: GlowPatch) => void
+  onFlame?: (patch: FlamePatch) => void
   onDelete: () => void
   onMinLevel?: (minLevel: number | undefined) => void
   onHideAtLevel?: (hideAtLevel: number | undefined) => void
@@ -413,6 +465,7 @@ function DecorInspector({
         </div>
       </Field>
       {onGlow && <GlowControls glow={item.glow} glowRadius={item.glowRadius} pulse={item.pulse} onChange={onGlow} />}
+      {onFlame && <FlameControls flame={item.flame} flameType={item.flameType} flameColor={item.flameColor} onChange={onFlame} />}
       {onReorder && (
         <Field label="Draw Order">
           {listLength != null && (
@@ -2169,6 +2222,10 @@ function InteractableInspector({ it, onUpdate, onMove, onDelete, onPick, buildin
                 glow={d.glow} glowRadius={d.glowRadius} pulse={d.pulse}
                 onChange={patch => onUpdate({ decor: decor.map((x, j) => j === i ? { ...x, ...patch } : x) })}
               />
+              <FlameControls
+                flame={d.flame} flameType={d.flameType} flameColor={d.flameColor}
+                onChange={patch => onUpdate({ decor: decor.map((x, j) => j === i ? { ...x, ...patch } : x) })}
+              />
             </div>
           ))}
           <button style={{ padding: '2px 8px', background: '#1e2e1e', border: '1px solid #3a5a3a', color: '#6d6', borderRadius: 3, fontSize: 10, cursor: 'pointer', alignSelf: 'flex-start' }}
@@ -2702,7 +2759,7 @@ function SpawnTileInspector({
 export function EntityInspector({
   selectedEntities, mapId, configData, activeInteriorId, activeBuildingIndex, activeLevel, viewMode,
   onSetActiveLevel, onUpdateBuilding, onMakePlayerHouse, onResizeBuilding, onUpdateBuildingLevelVisual, onUpdateDecorMinLevel, onUpdateDecorHideAtLevel,
-  onDelete, onMoveEntity, onZlayerChange, onUpdateGlow, onUpdatePickupGlow, onUpdatePickupExtraTiles, onDialogueChange,
+  onDelete, onMoveEntity, onZlayerChange, onUpdateGlow, onUpdateFlame, onUpdatePickupGlow, onUpdatePickupExtraTiles, onDialogueChange,
   onOpenInterior, onCloseInterior, onOpenBuildingEditor, onCloseBuildingEditor, onUpdateStreetEntry,
   onResizeInterior, onAddInterior, onAddInteriorExit, onUpdateInteriorProps, onUpdateInteriorExit,
   onRemoveInteriorExit,
@@ -2764,6 +2821,9 @@ export function EntityInspector({
           ...(d.glow !== undefined ? { glow: d.glow } : {}),
           ...(d.glowRadius !== undefined ? { glowRadius: d.glowRadius } : {}),
           ...(d.pulse !== undefined ? { pulse: d.pulse } : {}),
+          ...(d.flame !== undefined ? { flame: d.flame } : {}),
+          ...(d.flameType !== undefined ? { flameType: d.flameType } : {}),
+          ...(d.flameColor !== undefined ? { flameColor: d.flameColor } : {}),
         }))
         saveAsBundleHandler = (bundleId: string) => onSaveAsBundle(bundleId, tiles)
       }
@@ -2834,6 +2894,7 @@ export function EntityInspector({
           onMove={(tx, ty) => onMoveEntity(sel, tx, ty)}
           onZlayer={z => onZlayerChange(sel, z)}
           onGlow={onUpdateGlow ? patch => onUpdateGlow(sel, patch) : undefined}
+          onFlame={onUpdateFlame ? patch => onUpdateFlame(sel, patch) : undefined}
           onMinLevel={v => onUpdateDecorMinLevel(sel, v)}
           onHideAtLevel={v => onUpdateDecorHideAtLevel(sel, v)}
           onTileChange={onUpdateDecorTileId ? (tid: string) => onUpdateDecorTileId(sel, tid) : undefined}
@@ -2851,6 +2912,7 @@ export function EntityInspector({
           onMove={(tx, ty) => onMoveEntity(sel, tx, ty)}
           onZlayer={z => onZlayerChange(sel, z)}
           onGlow={onUpdateGlow ? patch => onUpdateGlow(sel, patch) : undefined}
+          onFlame={onUpdateFlame ? patch => onUpdateFlame(sel, patch) : undefined}
           onMinLevel={v => onUpdateDecorMinLevel(sel, v)}
           onHideAtLevel={v => onUpdateDecorHideAtLevel(sel, v)}
           onTileChange={onUpdateDecorTileId ? (tid: string) => onUpdateDecorTileId(sel, tid) : undefined}
@@ -3115,6 +3177,7 @@ export function EntityInspector({
             onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
             onZlayer={z => onZlayerChange(selectedEntity, z)}
             onGlow={onUpdateGlow ? patch => onUpdateGlow(selectedEntity, patch) : undefined}
+            onFlame={onUpdateFlame ? patch => onUpdateFlame(selectedEntity, patch) : undefined}
             onDelete={() => onDelete(selectedEntity)}
             onTileChange={onUpdateDecorTileId ? tileId => onUpdateDecorTileId(selectedEntity, tileId) : undefined}
             onReorder={onReorderDecor ? dir => onReorderDecor(selectedEntity, dir) : undefined}
@@ -3143,6 +3206,7 @@ export function EntityInspector({
             onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
             onZlayer={z => onZlayerChange(selectedEntity, z)}
             onGlow={onUpdateGlow ? patch => onUpdateGlow(selectedEntity, patch) : undefined}
+            onFlame={onUpdateFlame ? patch => onUpdateFlame(selectedEntity, patch) : undefined}
             onDelete={() => onDelete(selectedEntity)}
           />
         </div>

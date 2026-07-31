@@ -23,6 +23,9 @@ export interface RawDecorItem {
   glow?: boolean        // emit a night light glow
   glowRadius?: number   // glow radius in tiles
   pulse?: boolean       // animate the glow radius
+  flame?: boolean       // render an animated flame layer above this tile (also emits glow by default)
+  flameType?: string    // FlameType — plain string so JSON imports don't widen-fail
+  flameColor?: string   // FlameColor — plain string so JSON imports don't widen-fail
   minLevel?: number     // building upgrade level at which this decor first appears (0/undefined = base)
   hideAtLevel?: number  // building upgrade level at which this decor disappears (undefined = never)
 }
@@ -176,10 +179,13 @@ export interface RawInteractableDecor {
   glow?: boolean        // emit a night light glow
   glowRadius?: number   // glow radius in tiles
   pulse?: boolean       // animate the glow radius
+  flame?: boolean       // render an animated flame layer above this tile (also emits glow by default)
+  flameType?: string    // FlameType — plain string so JSON imports don't widen-fail
+  flameColor?: string   // FlameColor — plain string so JSON imports don't widen-fail
 }
 
 export interface RawInteractableReaction {
-  type: string   // 'dialogue' | 'screen' | 'giveItem' | 'quest' | 'move' | 'buy' | 'buyPack' | 'buyHubItem' | 'dig' | 'forage'
+  type: string   // 'dialogue' | 'screen' | 'giveItem' | 'quest' | 'move' | 'buy' | 'buyPack' | 'buyHubItem' | 'dig' | 'forage' | 'stokeFlame'
   // dialogue
   speakerName?: string
   text?: string | string[]
@@ -207,7 +213,13 @@ export interface RawInteractableReaction {
   requiresItemId?: string
   nightOnly?: boolean
   weatherOnly?: string
-  lootTable?: 'earth' | 'hollow' | 'rain' | 'fog'
+  lootTable?: 'earth' | 'hollow' | 'rain' | 'fog' | 'wood'
+  // stokeFlame
+  fromFlameType?: string
+  toFlameType?: string
+  grantHubItem?: { itemId: string; count?: number }
+  setFlag?: string
+  alreadyDoneText?: string
 }
 
 export interface RawInteractable {

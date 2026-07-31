@@ -51,7 +51,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
     addPondTile, addBridgeTile, updatePondEntry, updateBridgeEntry, addNpcSpawnTile, addChickenZone, addArea, addBuilding,
     convertStreetToPond, convertPondToStreet,
     batchUpdateZlayer, batchUpdateStreetPathType,
-    updateDecorZlayer, updateDecorTileId, reorderDecor, updateGlow, updateDecorMinLevel, updateDecorHideAtLevel, updateBuildingLevelVisual, updateBuilding, makeBuildingPlayerHouse, resizeBuilding, addNpc, updateNpcDialogue, updateNpc,
+    updateDecorZlayer, updateDecorTileId, reorderDecor, updateGlow, updateFlame, updateDecorMinLevel, updateDecorHideAtLevel, updateBuildingLevelVisual, updateBuilding, makeBuildingPlayerHouse, resizeBuilding, addNpc, updateNpcDialogue, updateNpc,
     addAnimal, updateAnimal,
     updateTreasure, updateConfig,
     updateArea, updateMapProps, resizeMap,
@@ -420,6 +420,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
               onMoveEntity={(entity, tx, ty) => handleMoveEntities([{ entity, tx, ty }])}
               onZlayerChange={updateDecorZlayer}
               onUpdateGlow={updateGlow}
+              onUpdateFlame={updateFlame}
               onUpdatePickupGlow={(index, patch) => setQuestDefsData(prev => {
                 if (!prev) return prev
                 const items = [...(prev.pickupItems ?? [])]

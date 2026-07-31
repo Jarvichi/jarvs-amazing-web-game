@@ -18,6 +18,7 @@ import hollowmereConfig from '../../data/hub/hollowmere/config.json'
 import dreadspirecitadelConfig from '../../data/hub/dreadspirecitadel/config.json'
 import { MapId } from '../../data/hub/hubWorldFactory'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
+import type { FlameType, FlameColor } from '../../data/hub/loader'
 import { isSelfSave } from '../../utils/hotReloadGuard'
 
 // Exported so cross-town reference pickers (entityRefs.ts) can read every town's
@@ -791,6 +792,59 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
 
   // Merge glow fields (glow/glowRadius/pulse) into the selected decor item.
   const updateGlow = useCallback((entity: SelectedEntity, patch: Partial<{ glow: boolean; glowRadius: number; pulse: boolean }>) => {
+    setState(s => {
+      const prevConfig = s.configData
+      let newConfig = prevConfig
+
+      if (entity.type === 'exteriorDecor') {
+        const decor = [...(prevConfig.exteriorDecor ?? [])]
+        if (!decor[entity.index]) return s
+        decor[entity.index] = { ...decor[entity.index], ...patch }
+        newConfig = { ...prevConfig, exteriorDecor: decor }
+      } else if (entity.type === 'festivalDecor') {
+        newConfig = patchFestivalDecor(prevConfig, entity.festivalId, entity.index, patch)
+      } else if (entity.type === 'buildingLevelDecor' && prevConfig.buildings?.[entity.buildingIndex]?.levelDecor) {
+        const buildings = [...prevConfig.buildings]
+        const b = buildings[entity.buildingIndex]
+        const levelDecor = [...(b.levelDecor ?? [])]
+        if (!levelDecor[entity.index]) return s
+        levelDecor[entity.index] = { ...levelDecor[entity.index], ...patch }
+        buildings[entity.buildingIndex] = { ...b, levelDecor }
+        newConfig = { ...prevConfig, buildings }
+      } else if (entity.type === 'buildingDecor' && prevConfig.buildings?.[entity.buildingIndex]?.decor) {
+        const buildings = [...prevConfig.buildings]
+        const b = buildings[entity.buildingIndex]
+        const decor = [...(b.decor ?? [])]
+        if (!decor[entity.index]) return s
+        decor[entity.index] = { ...decor[entity.index], ...patch }
+        buildings[entity.buildingIndex] = { ...b, decor }
+        newConfig = { ...prevConfig, buildings }
+      } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
+        const interior = prevConfig.interiors[entity.interiorId]
+        const decor = [...interior.decor]
+        if (!decor[entity.index]) return s
+        decor[entity.index] = { ...decor[entity.index], ...patch }
+        newConfig = {
+          ...prevConfig,
+          interiors: { ...prevConfig.interiors, [entity.interiorId]: { ...interior, decor } },
+        }
+      }
+
+      if (newConfig === prevConfig) return s
+      return {
+        ...s,
+        configData: newConfig,
+        undoStack:  [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack:  [],
+        isDirty:    true,
+      }
+    })
+  }, [])
+
+  // Merge flame fields (flame/flameType/flameColor) into the selected decor item.
+  // Direct copy of updateGlow's per-entity-type dispatch — flame lives on the
+  // same 5 decor arrays glow does.
+  const updateFlame = useCallback((entity: SelectedEntity, patch: Partial<{ flame: boolean; flameType: FlameType; flameColor: FlameColor }>) => {
     setState(s => {
       const prevConfig = s.configData
       let newConfig = prevConfig
@@ -1674,6 +1728,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     updateDecorTileId,
     reorderDecor,
     updateGlow,
+    updateFlame,
     updateDecorMinLevel,
     updateDecorHideAtLevel,
     updateBuildingLevelVisual,
