@@ -23,6 +23,9 @@ export interface BundleTileRaw {
   glow?: boolean
   glowRadius?: number
   pulse?: boolean
+  flame?: boolean
+  flameType?: string    // FlameType — plain string so JSON round-trips don't widen-fail
+  flameColor?: string   // FlameColor — plain string so JSON round-trips don't widen-fail
 }
 
 /** Append or replace a single bundle in bundles.json (reads current file server-side). */

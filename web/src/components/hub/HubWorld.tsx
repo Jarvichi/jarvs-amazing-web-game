@@ -55,6 +55,7 @@ import { HubInteractable, HubLocationBundle, HubQuestBundle, HubTreasure, HubNpc
 import { getUnreadCount } from '../../game/news'
 import { interactableStoreKey, isInteractableGranted, markInteractableGranted, getInteractableMoves, setInteractableMove } from '../../game/hub/interactables'
 import { canDigToday, recordDig } from '../../game/hub/digs'
+import { getFlameType, setFlameType } from '../../game/hub/flames'
 import { shuffled } from '../../game/hub/shuffle'
 import { canForageToday, recordForage } from '../../game/hub/forages'
 import { getReputationTier } from '../../data/hub/buildingUpgrades'
@@ -2081,6 +2082,25 @@ function hasOfferableQuest(giverId: string): boolean {
           setDialogueEvent({ speakerName: '', text: "You've already foraged here today. Let it grow back." })
           return
         }
+        if (r.lootTable === 'wood') {
+          const confirm: DialogueChoice = {
+            label: 'Gather the logs',
+            primary: true,
+            onClick: () => {
+              recordForage(storeKey)
+              addHubItem('log', 1)
+              emitSound('pickup')
+              refreshState()
+              setDialogueEvent({ speakerName: '', text: 'You pull a dry log free from the pile. 🪵', onClose: next })
+            },
+          }
+          setDialogueEvent({
+            speakerName: '',
+            text: 'A pile of cut logs, left to dry.',
+            choices: [confirm, { label: 'Leave it', isExit: true, onClick: () => setDialogueEvent(null) }],
+          })
+          return
+        }
         const confirm: DialogueChoice = {
           label: 'Forage here',
           primary: true,
@@ -2110,6 +2130,46 @@ function hasOfferableQuest(giverId: string): boolean {
         setDialogueEvent({
           speakerName: '',
           text: 'A patch of wild growth, ripe for foraging.',
+          choices: [confirm, { label: 'Leave it', isExit: true, onClick: () => setDialogueEvent(null) }],
+        })
+        return
+      }
+      case 'stokeFlame': {
+        // Consumes requiresItemId to move a flame decor entry owned by this same
+        // interactable from fromFlameType to toFlameType (docs/hubworld.md §7) —
+        // e.g. feeding a log to a dying campfire to build it into a roaring blaze.
+        const fromType = r.fromFlameType ?? 'flicker'
+        const current = getFlameType(storeKey, fromType)
+        if (current !== fromType) {
+          setDialogueEvent({ speakerName: '', text: r.alreadyDoneText ?? "It's already burning as strong as it'll go.", onClose: next })
+          return
+        }
+        const itemName = getHubItemCatalogEntry(r.requiresItemId)?.name ?? r.requiresItemId
+        if (!hasHubItem(r.requiresItemId)) {
+          setDialogueEvent({ speakerName: '', text: `The fire needs feeding, but you don't have a ${itemName.toLowerCase()} to spare.` })
+          return
+        }
+        const confirm: DialogueChoice = {
+          label: `Feed the fire a ${itemName.toLowerCase()}`,
+          primary: true,
+          onClick: () => {
+            removeHubItem(r.requiresItemId, 1)
+            setFlameType(storeKey, r.toFlameType)
+            let text = 'The flames catch and swell, roaring higher than before. 🔥'
+            if (r.grantHubItem) {
+              addHubItem(r.grantHubItem.itemId, r.grantHubItem.count ?? 1)
+              const grantedName = getHubItemCatalogEntry(r.grantHubItem.itemId)?.name ?? r.grantHubItem.itemId
+              text += ` The fire leaves behind ${r.grantHubItem.count ?? 1} ${grantedName.toLowerCase()}.`
+            }
+            if (r.setFlag) setDialogueFlag(r.setFlag)
+            emitSound('pickup')
+            refreshState()
+            setDialogueEvent({ speakerName: '', text, onClose: next })
+          },
+        }
+        setDialogueEvent({
+          speakerName: '',
+          text: 'The fire is low, barely holding on.',
           choices: [confirm, { label: 'Leave it', isExit: true, onClick: () => setDialogueEvent(null) }],
         })
         return

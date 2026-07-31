@@ -304,5 +304,19 @@
     "icon": "🥿",
     "desc": "One slipper, thoroughly ruined. Its owner is not looking for it back.",
     "category": "material"
+  },
+  {
+    "id": "log",
+    "name": "Log",
+    "icon": "🪵",
+    "desc": "A dry, cut log. Good for feeding a fire back to life.",
+    "category": "material"
+  },
+  {
+    "id": "charcoal",
+    "name": "Charcoal",
+    "icon": "⚫",
+    "desc": "Blackened, brittle charcoal, raked from a well-fed fire. Prized by smiths and artists alike.",
+    "category": "material"
   }
 ]

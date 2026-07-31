@@ -130,14 +130,7 @@
   "buildings": [],
   "exteriorDecor": [
     {
-      "comment": "the campfire at the heart of the camp"
-    },
-    {
-      "tx": 10,
-      "ty": 10,
-      "tileId": "campfireUnlit",
-      "glow": true,
-      "pulse": true
+      "comment": "the campfire at the heart of the camp is now a real interactable — see interactables[].thornwood-campfire"
     },
     {
       "comment": "supplies ring around the fire"
@@ -532,6 +525,27 @@
       "dislikedGiftItemIds": [
         "chicken-feed"
       ]
+    },
+    {
+      "id": "bram-ashwick",
+      "name": "Bram Ashwick",
+      "sprite": "hub-npc-supplies",
+      "tx": 13,
+      "ty": 11,
+      "dialogue": [
+        "Camp's charcoal-burner, for my sins. Can't smith a thing without good black char.",
+        "A roaring fire burns clean through to charcoal, given time. A flicker just sputters out to ash.",
+        "Bring me charcoal off that fire and I'll see you're paid fair for it."
+      ],
+      "questGive": "thornwood-charcoal-for-the-forge",
+      "questReceive": [
+        "thornwood-charcoal-for-the-forge"
+      ],
+      "favoriteGiftItemId": "log",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
+      ]
     }
   ],
   "animals": [
@@ -553,6 +567,63 @@
   ],
   "interiors": {},
   "interactables": [
+    {
+      "id": "thornwood-campfire",
+      "tx": 10,
+      "ty": 10,
+      "hitRect": { "w": 1, "h": 1 },
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "campfireUnlit",
+          "flame": true,
+          "flameType": "flicker",
+          "flameColor": "normal"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "stokeFlame",
+          "requiresItemId": "log",
+          "fromFlameType": "flicker",
+          "toFlameType": "strong",
+          "grantHubItem": { "itemId": "charcoal", "count": 1 },
+          "setFlag": "thornwood-flame-stoked",
+          "alreadyDoneText": "The fire's already roaring — no need to feed it more."
+        }
+      ]
+    },
+    {
+      "id": "thornwood-logpile-1",
+      "tx": 8,
+      "ty": 9,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "A pile of cut logs, stacked and drying by the fire."
+        },
+        {
+          "type": "forage",
+          "lootTable": "wood"
+        }
+      ]
+    },
+    {
+      "id": "thornwood-logpile-2",
+      "tx": 8,
+      "ty": 10,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Another stack of firewood, waiting to be fed to the flames."
+        },
+        {
+          "type": "forage",
+          "lootTable": "wood"
+        }
+      ]
+    },
     {
       "id": "thornwood-hollow",
       "tx": 17,

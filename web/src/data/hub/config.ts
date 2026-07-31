@@ -35,6 +35,11 @@ export interface RawWindow {
   tileId: string
 }
 
+/** Strength tier of an animated flame effect, flicker (dying embers) to strong (roaring fire). */
+export type FlameType = 'flicker' | 'low' | 'medium' | 'strong'
+/** Tint applied to the flame sprite. */
+export type FlameColor = 'normal' | 'supernatural' | 'blue' | 'green' | 'purple'
+
 export interface RawDecor {
   tx?: number
   ty?: number
@@ -45,6 +50,9 @@ export interface RawDecor {
   glow?: boolean        // emit a night light glow (reuses the night overlay)
   glowRadius?: number   // glow radius in tiles
   pulse?: boolean       // animate the glow radius
+  flame?: boolean       // render an animated flame layer above this tile (also emits glow by default)
+  flameType?: string    // FlameType — plain string so JSON imports don't widen-fail
+  flameColor?: string   // FlameColor — plain string so JSON imports don't widen-fail
   minLevel?: number     // building upgrade level at which this item first appears (0/undefined = base)
   hideAtLevel?: number  // building upgrade level at which this item disappears (undefined = never)
 }
@@ -265,11 +273,15 @@ export interface RawInteractableDecor {
   glow?: boolean        // emit a night light glow
   glowRadius?: number   // glow radius in tiles
   pulse?: boolean       // animate the glow radius
+  flame?: boolean       // render an animated flame layer above this tile (also emits glow by default)
+  flameType?: string    // FlameType — plain string so JSON imports don't widen-fail
+  flameColor?: string   // FlameColor — plain string so JSON imports don't widen-fail
 }
 
 export interface RawInteractableReaction {
-  // 'dialogue' | 'screen' | 'giveItem' | 'quest' | 'move' | 'buy' | 'buyPack' — plain
-  // string so JSON imports don't widen-fail; loader.ts casts to the parsed union
+  // 'dialogue' | 'screen' | 'giveItem' | 'quest' | 'move' | 'buy' | 'buyPack' | 'dig' |
+  // 'forage' | 'stokeFlame' — plain string so JSON imports don't widen-fail; loader.ts
+  // casts to the parsed union
   type: string
 
   // dialogue
@@ -307,6 +319,22 @@ export interface RawInteractableReaction {
 
   // buy — slotIndex into the building's live getTodaysShopItems() stock
   slotIndex?: number
+
+  // dig
+  requiresItemId?: string
+  nightOnly?: boolean
+  weatherOnly?: string
+  lootTable?: string
+
+  // stokeFlame — consume requiresItemId to move a flame decor entry on this
+  // interactable from fromFlameType (default 'flicker') to toFlameType,
+  // optionally granting a hub-item and/or setting a dialogue flag. Plain
+  // strings (FlameType) so JSON imports don't widen-fail; loader.ts casts.
+  fromFlameType?: string
+  toFlameType?: string
+  grantHubItem?: { itemId: string; count?: number }
+  setFlag?: string
+  alreadyDoneText?: string
 }
 
 export interface RawInteractable {

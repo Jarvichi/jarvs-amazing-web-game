@@ -20,7 +20,7 @@ import { getAugmentCard, AUGMENT_SPRITE } from '../../game/augments'
 import { createChunkCuller } from '../../utils/chunkCull'
 import { CommanderState } from '../../game/commander'
 import rollbar from '../../rollbar'
-import { HubInteractable, HubInterior, HubInteriorExit, HubLocationBundle, HubNpc, HubQuestBundle, HubStreetGroup, NpcScheduleEntry, isVisibleAtLevel } from '../../data/hub/loader'
+import { FlameColor, FlameType, HubInteractable, HubInterior, HubInteriorExit, HubLocationBundle, HubNpc, HubQuestBundle, HubStreetGroup, NpcScheduleEntry, isVisibleAtLevel } from '../../data/hub/loader'
 import { createAnimalSystem, AnimalSystem, GlowSource, PLAYER_OWNER_ID } from './hubAnimals'
 import { getActivePet } from '../../game/hub/pet'
 import { isInteractableGranted, interactableStoreKey } from '../../game/hub/interactables'
@@ -293,6 +293,54 @@ export function HubTownCanvas({
     const decorGlows:  GlowSource[] = []                                       // static world positions
     const pickupGlows: { id: string; radius: number; pulse: boolean }[] = []   // looked up live (skip collected)
 
+    // Animated flame overlays flagged on decor (§ flame effect). Collected inline
+    // alongside decorGlows in the same two decor-building loops below, then spawned
+    // once texture loading settles (see spawnFlame).
+    interface FlameSource { parent: PIXI.Container; x: number; y: number; type: FlameType; color: FlameColor; sortY?: number }
+    const FLAME_PARAMS: Record<FlameType, { scale: number; glowRadius: number; speed: number }> = {
+      flicker: { scale: 0.45, glowRadius: 1,   speed: 0.10 },
+      low:     { scale: 0.65, glowRadius: 1.5, speed: 0.12 },
+      medium:  { scale: 0.9,  glowRadius: 2.5, speed: 0.14 },
+      strong:  { scale: 1.3,  glowRadius: 4,   speed: 0.20 },
+    }
+    const FLAME_TINTS: Record<FlameColor, number> = {
+      normal:       0xff9a3c,
+      supernatural: 0xbfffea,
+      blue:         0x4fc3ff,
+      green:        0x66ff66,
+      purple:       0xc060ff,
+    }
+    // Pushes both the animated flame sprite request — positioned in parentX/parentY,
+    // local to `parent` — and (unless the entry already sets its own glow) a matching
+    // night-glow entry derived from flameType, positioned in world-space worldX/worldY
+    // (glows are always plotted in world coordinates, regardless of which container the
+    // flame sprite itself lives in), so "flame: true" lights the surrounding dark by default.
+    function collectFlame(target: FlameSource[], glows: GlowSource[], hasExplicitGlow: boolean,
+      parent: PIXI.Container, parentX: number, parentY: number, worldX: number, worldY: number,
+      type: FlameType | undefined, color: FlameColor | undefined, sortY?: number): void {
+      const t = type ?? 'medium'
+      target.push({ parent, x: parentX, y: parentY, type: t, color: color ?? 'normal', sortY })
+      if (!hasExplicitGlow) glows.push({ x: worldX, y: worldY - T / 2, radius: FLAME_PARAMS[t].glowRadius * T, pulse: true })
+    }
+    function spawnFlames(sources: FlameSource[]): void {
+      if (sources.length === 0) return
+      loadAnimFrames('flame', 3).then(frames => {
+        if (app.renderer == null) return
+        for (const src of sources) {
+          const params = FLAME_PARAMS[src.type]
+          const anim = new PIXI.AnimatedSprite(frames)
+          anim.animationSpeed = params.speed
+          anim.play()
+          anim.anchor.set(0.5, 1)
+          anim.width = anim.height = T * params.scale
+          anim.tint = FLAME_TINTS[src.color]
+          anim.position.set(src.x, src.y)
+          if (src.sortY != null) anim.zIndex = src.sortY * T + T + 1.5
+          src.parent.addChild(anim)
+        }
+      }).catch(() => {})
+    }
+
     const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
 
     // ── Terrain ────────────────────────────────────────────────────────────────
@@ -531,6 +579,7 @@ export function HubTownCanvas({
       const extNormal      = new Map<number, [number, number][]>()
       const extBelowAvatar = new Map<number, [number, number][]>()
       const extAboveAvatar = new Map<number, [number, number][]>()
+      const flames: FlameSource[] = []
       for (const d of effectiveDecor) {
         if (d.tileId === 666) continue
         const map  = d.zlayer === 'below' ? extBelowAvatar : d.zlayer === 'above' ? extAboveAvatar : extNormal
@@ -538,7 +587,13 @@ export function HubTownCanvas({
         list.push([d.tx, d.ty])
         map.set(d.tileId, list)
         if (d.glow) decorGlows.push({ x: d.tx * T + T / 2, y: d.ty * T + T / 2, radius: (d.glowRadius ?? 2) * T, pulse: !!d.pulse })
+        if (d.flame) {
+          const flameParent = d.zlayer === 'below' ? belowAvatarLayer : d.zlayer === 'above' ? aboveAvatarLayer : exteriorDecorLayer
+          const fx = d.tx * T + T / 2, fy = d.ty * T + T * 0.85
+          collectFlame(flames, decorGlows, !!d.glow, flameParent, fx, fy, fx, fy, d.flameType, d.flameColor, d.ty)
+        }
       }
+      spawnFlames(flames)
       for (const [tileId, positions] of extNormal) {
         loadTileRef(tileId).then(tex => {
           if (app.renderer == null) return
@@ -693,9 +748,16 @@ export function HubTownCanvas({
           above.zIndex = MAP_H * 2 + pos.ty * T  // above all y-sorted sprites
           aboveTarget.addChild(above)
         }
+        const flames: FlameSource[] = []
         for (const d of decor) {
           const parent = d.zlayer === 'above' ? above! : root
           if (d.glow) decorGlows.push({ x: (pos.tx + d.dx) * T + T / 2, y: (pos.ty + d.dy) * T + T / 2, radius: (d.glowRadius ?? 2) * T, pulse: !!d.pulse })
+          if (d.flame) {
+            collectFlame(flames, decorGlows, !!d.glow, parent,
+              d.dx * T + T / 2, d.dy * T + T * 0.85,
+              (pos.tx + d.dx) * T + T / 2, (pos.ty + d.dy) * T + T * 0.85,
+              d.flameType, d.flameColor, pos.ty + d.dy)
+          }
           if (d.spriteId) {
             loadTextureUrl(`${base}sprites/${d.spriteId}.svg`).then(tex => {
               if (app.renderer == null || !stillCurrent()) return
@@ -766,6 +828,7 @@ export function HubTownCanvas({
             parent.addChild(s)
           }).catch(() => {})
         }
+        spawnFlames(flames)
       } else {
         // Pure hit area over independently-rendered decor
         root.hitArea = new PIXI.Rectangle(0, 0, def.hitRect.w * T, def.hitRect.h * T)

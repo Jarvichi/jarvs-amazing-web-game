@@ -1,6 +1,7 @@
 import rawBundles from './bundles.json'
 import { BASE_CHIP_TILES } from '../tiles/baseChipIndex'
 import { HubDoor } from '../hub/loader'
+import type { FlameColor, FlameType } from '../hub/config'
 import { isSelfSave } from '../../utils/hotReloadGuard'
 
 // Same full-reload issue as the map editor (see hotReloadGuard.ts): saving
@@ -24,6 +25,9 @@ export interface BundleTileEntry {
   glow?:       boolean         // night light glow (decor entries)
   glowRadius?: number          // glow radius in tiles
   pulse?:      boolean         // animate the glow radius
+  flame?:      boolean         // animated flame layer (decor entries)
+  flameType?:  FlameType
+  flameColor?: FlameColor
   buildingId?: string          // for type="door" entries
   hideSign?: boolean          // for type="door" entries
 }
@@ -54,6 +58,9 @@ for (const raw of rawBundles as Array<Record<string, unknown>>) {
     glow:       t['glow'] as boolean | undefined,
     glowRadius: t['glowRadius'] as number | undefined,
     pulse:      t['pulse'] as boolean | undefined,
+    flame:      t['flame'] as boolean | undefined,
+    flameType:  t['flameType'] as FlameType | undefined,
+    flameColor: t['flameColor'] as FlameColor | undefined,
     buildingId: t['buildingId'] as string | undefined,
     hideSign:   t['hideSign'] as boolean | undefined,
   }))
@@ -73,12 +80,12 @@ export function expandBundleDecor(
   bundleID: string,
   originTx: number,
   originTy: number,
-): { tx: number; ty: number; tileId: number; zlayer?: string; glow?: boolean; glowRadius?: number; pulse?: boolean }[] {
+): { tx: number; ty: number; tileId: number; zlayer?: string; glow?: boolean; glowRadius?: number; pulse?: boolean; flame?: boolean; flameType?: FlameType; flameColor?: FlameColor }[] {
   const bundle = BUNDLE_REGISTRY.get(bundleID)
   if (!bundle) { console.warn(`[bundles] Unknown bundleID: "${bundleID}"`); return [] }
   return bundle.tiles
     .filter(t => t.type === 'decor')
-    .map(t => ({ tx: originTx + t.x, ty: originTy - t.y, tileId: t.tileId, zlayer: t.zlayer, glow: t.glow, glowRadius: t.glowRadius, pulse: t.pulse }))
+    .map(t => ({ tx: originTx + t.x, ty: originTy - t.y, tileId: t.tileId, zlayer: t.zlayer, glow: t.glow, glowRadius: t.glowRadius, pulse: t.pulse, flame: t.flame, flameType: t.flameType, flameColor: t.flameColor }))
 }
 
 /** Expand window tiles from a bundle at the given bottom-left origin. */
