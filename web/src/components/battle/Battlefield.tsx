@@ -18,6 +18,8 @@ import { loadBattlePopups } from '../screens/SettingsScreen'
 import { TutorialOverlay } from '../modals/TutorialOverlay'
 import { hasSeen, markSeen } from '../../game/tutorial'
 import { useLetterboxSize } from '../../hooks/useLetterboxSize'
+import { loadDevConfig, patchDevConfig } from '../../game/devStore'
+import { isDevMode } from '../../game/debug'
 
 const modalAutoDismissTime = 2000
 const BATTLE_TUTORIAL_ID = 'gameplay'
@@ -118,6 +120,10 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
   const [importantMsgQueue, setImportantMsgQueue] = useState<string[]>([])
   const lastLogLenRef = useRef(0)
   const [inspectedUnit, setInspectedUnit] = useState<Unit | null>(null)
+  // Seeded from the persisted dev config, but also flippable from the pause
+  // menu so the overlay can be compared against a live battle without leaving
+  // it. BattlefieldCanvas reads this every frame, so it takes effect at once.
+  const [debugOverlay, setDebugOverlay] = useState(() => loadDevConfig().battlefieldDebugOverlay)
   const [showDeckViewer, setShowDeckViewer] = useState(false)
   const [confirmGiveUp, setConfirmGiveUp] = useState(false)
   const [showBattleTutorial, setShowBattleTutorial] = useState(
@@ -339,6 +345,8 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
           pendingAoeCard={pendingAoeCard}
           onPlayAoeCard={onPlayAoeCard}
           onAoeCancel={() => setPendingAoeCard(null)}
+          debugOverlay={debugOverlay}
+          selectedUnitId={inspectedUnit?.id ?? null}
         />
 
         {/* AoE targeting overlay */}
@@ -630,6 +638,18 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
                   <Button size="md" onClick={() => setShowDeckViewer(true)}>📋 My Deck</Button>
                   {onGiveUp && (
                     <Button size="md" variant="danger" onClick={() => setConfirmGiveUp(true)}>✕ Give Up</Button>
+                  )}
+                  {isDevMode() && (
+                    <Button
+                      size="md"
+                      onClick={() => {
+                        const next = !debugOverlay
+                        setDebugOverlay(next)
+                        patchDevConfig({ battlefieldDebugOverlay: next })
+                      }}
+                    >
+                      {debugOverlay ? '🟩 Tiles ON' : '⬛ Tiles OFF'}
+                    </Button>
                   )}
                 </div>
               </>

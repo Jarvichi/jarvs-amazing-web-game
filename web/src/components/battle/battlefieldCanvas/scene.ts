@@ -74,6 +74,9 @@ export interface Scene {
   decorObstacles: PIXI.Container
   world: PIXI.Container
   // Battle content layers (bottom → top).
+  /** Dev-only passability shading + tile grid. Sits under units so sprites stay
+   *  readable on top of it; drawn once per battle, not per frame. */
+  tileDebugLayer: PIXI.Graphics
   debugLayer: PIXI.Graphics
   bloodLayer: PIXI.Container
   hazardLayer: PIXI.Container
@@ -82,6 +85,8 @@ export interface Scene {
   unitLayer: PIXI.Container
   effectLayer: PIXI.Container
   overlayLayer: PIXI.Container   // AoE reticle + spell-cast glow
+  /** Dev-only projected-route polyline. Above units, or unit sprites would hide it. */
+  routeLayer: PIXI.Graphics
   // Pools.
   unitPool: Map<string, UnitEntry>
   wallGroupPool: Map<string, UnitEntry>   // keyed by `${owner}:${roundedX}` — one composite strip per group
@@ -101,6 +106,8 @@ export function buildScene(app: PIXI.Application): Scene {
   const decor = new PIXI.Container()
   const decorObstacles = new PIXI.Container()
   const world = new PIXI.Container()
+  const tileDebugLayer = new PIXI.Graphics()
+  const routeLayer = new PIXI.Graphics()
   const debugLayer = new PIXI.Graphics()
   const bloodLayer = new PIXI.Container()
   const hazardLayer = new PIXI.Container()
@@ -116,20 +123,21 @@ export function buildScene(app: PIXI.Application): Scene {
   spellGlow.visible = false
   overlayLayer.addChild(spellGlow, aoeReticle)
 
-  // z-order: terrain (base→world) → debug → blood → hazards → moats → walls →
-  // units → effects → overlays (reticle/glow), matching AGENTS.md's documented
-  // background→grid→buildings→units→effects→HUD convention.
+  // z-order: terrain (base→world) → tile debug → debug → blood → hazards →
+  // moats → walls → units → effects → overlays (reticle/glow) → route, matching
+  // AGENTS.md's documented background→grid→buildings→units→effects→HUD
+  // convention. routeLayer is last so the projected line draws over sprites.
   app.stage.addChild(
     base, bg, road, border, decor, decorObstacles, world,
-    debugLayer, bloodLayer, hazardLayer, moatLayer, wallLayer, unitLayer,
-    effectLayer, overlayLayer,
+    tileDebugLayer, debugLayer, bloodLayer, hazardLayer, moatLayer, wallLayer, unitLayer,
+    effectLayer, overlayLayer, routeLayer,
   )
 
   return {
     app,
     base, bg, road, border, decor, decorObstacles, world,
-    debugLayer, bloodLayer, hazardLayer, moatLayer, wallLayer, unitLayer,
-    effectLayer, overlayLayer,
+    tileDebugLayer, debugLayer, bloodLayer, hazardLayer, moatLayer, wallLayer, unitLayer,
+    effectLayer, overlayLayer, routeLayer,
     unitPool: new Map(),
     wallGroupPool: new Map(),
     bloodPool: new Map(),

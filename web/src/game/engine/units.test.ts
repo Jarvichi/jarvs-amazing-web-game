@@ -26,13 +26,14 @@ describe('moveUnits — road following', () => {
     s.roads = [{ points: [{ x: 0, y: 40 }, { x: LANE_WIDTH, y: 40 }] }]
     const unit = spawnUnit(MOBILE_TEMPLATE, 'player')
     unit.y = 0 // pin — spawnUnit() otherwise picks a random lane from LANE_POSITIONS
+    unit.advanceY = 0 // pin — advancing units otherwise head for a random lateral lane
     s.field = [unit]
 
     moveUnits(s, 100)
 
     expect(unit.roadWaypoints).toBeUndefined()
-    // Straight toward the opponent base (LANE_WIDTH, 0) — y should not have moved toward
-    // the road's y=40.
+    // Straight toward the opponent base at the unit's own lane — y should not have
+    // moved toward the road's y=40.
     expect(unit.y).toBeCloseTo(0)
   })
 
@@ -81,13 +82,14 @@ describe('moveUnits — road following', () => {
     s.roads = roads
     const unit = spawnUnit(MOBILE_TEMPLATE, 'player')
     unit.y = 0
+    unit.advanceY = 0 // pin — advancing units otherwise head for a random lateral lane
     s.field = [unit]
 
     for (let i = 0; i < 100; i++) moveUnits(s, 100)
 
     expect(unit.roadWaypoints).toEqual([])
     // With the road exhausted, the unit should be progressing straight toward the
-    // opponent base (increasing x, y pinned back to 0).
+    // opponent base (increasing x, y pinned back to its lane).
     expect(unit.x).toBeGreaterThan(45)
     expect(unit.y).toBeCloseTo(0)
   })
@@ -245,5 +247,44 @@ describe('moveUnits — hard terrain blocking (terrainValidated)', () => {
     for (let i = 0; i < 200; i++) moveUnits(s, 100)
 
     expect(unit.x).toBeGreaterThan(400)
+  })
+})
+
+describe('moveUnits — defend stance', () => {
+  /** A defend-stance battle with one player defender and one enemy position. */
+  function defendBattle(enemyX: number) {
+    const s = newGame()
+    s.terrain = []
+    s.playerStance = 'defend'
+    const defender = spawnUnit(MOBILE_TEMPLATE, 'player')
+    defender.x = 70
+    defender.y = 0
+    defender.advanceY = 0
+    const enemy = spawnUnit(MOBILE_TEMPLATE, 'opponent')
+    enemy.x = enemyX
+    enemy.y = 60
+    s.field = [defender, enemy]
+    return { s, defender, enemy }
+  }
+
+  it('breaks formation to intercept an enemy that has breached the line', () => {
+    // An enemy this deep is on top of the player's spawners and commander.
+    const { s, defender, enemy } = defendBattle(60)
+    const startDist = Math.hypot(defender.x - enemy.x, defender.y - enemy.y)
+
+    for (let i = 0; i < 30; i++) moveUnits(s, 100)
+
+    const endDist = Math.hypot(defender.x - enemy.x, defender.y - enemy.y)
+    expect(endDist).toBeLessThan(startDist)
+  })
+
+  it('holds its assigned slot when no enemy has breached the line', () => {
+    // Far up the lane — not a threat, so the defender should stay on the line
+    // rather than charging out to meet it.
+    const { s, defender } = defendBattle(LANE_WIDTH - 40)
+
+    for (let i = 0; i < 30; i++) moveUnits(s, 100)
+
+    expect(defender.x).toBeLessThan(120)
   })
 })

@@ -246,6 +246,27 @@ export function DevMenu({ onCrystalsChanged, onHandicapChanged, onSceneryPreview
         </button>
       </div>
 
+      {/* Battlefield passability overlay */}
+      <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
+        <div>
+          <div className="settings-label">Battlefield passability overlay</div>
+          <div className="settings-sublabel">
+            Shades every collision tile green (walkable) or red (blocked) and draws the tile grid.
+            Pause and tap a unit to project the route it will take.
+          </div>
+        </div>
+        <button
+          className={`action-btn${config.battlefieldDebugOverlay ? ' action-btn--gold' : ''}`}
+          onClick={() => {
+            const next = patchDevConfig({ battlefieldDebugOverlay: !config.battlefieldDebugOverlay })
+            setConfig(next)
+            flash(next.battlefieldDebugOverlay ? 'Passability overlay on.' : 'Passability overlay off.')
+          }}
+        >
+          {config.battlefieldDebugOverlay ? 'ON' : 'OFF'}
+        </button>
+      </div>
+
       {/* Clear dev config */}
       <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
         <div>

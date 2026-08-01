@@ -200,8 +200,9 @@ export function isTilePassable(
 /** Tile key -> BFS step distance to the goal edge. Absent = unreachable. */
 export type FlowField = Map<string, number>
 
-/** Tile-grid bounds of the playable lane, shared by reachability and flow fields. */
-function laneTileBounds() {
+/** Tile-grid bounds of the playable lane, shared by reachability, flow fields
+ *  and the battlefield passability overlay. */
+export function laneTileBounds() {
   const minTile = gameToTile(0, LANE_MIN_Y)
   const maxTile = gameToTile(LANE_WIDTH, LANE_MAX_Y)
   return {
@@ -261,24 +262,41 @@ export function buildFlowField(
 }
 
 /**
- * The neighbouring tile that gets closest to the goal — i.e. one step downhill
- * on the flow field. Returns null when the unit's tile isn't on the field (it's
- * already sealed off) or nothing adjacent is strictly closer.
+ * One step downhill on the flow field — a neighbouring tile strictly closer to
+ * the goal. Returns null when nothing adjacent improves (already at the goal, or
+ * sealed in).
+ *
+ * `preferTcx` breaks the choice toward a lateral column the caller favours.
+ * Without it every unit reads the same field and therefore takes the same route,
+ * so an entire army funnels around terrain on one side while the other flank
+ * goes unused. Candidates are still restricted to tiles that strictly reduce the
+ * remaining distance, so honouring a preference can't cause a unit to loop or
+ * stall — it only chooses between routes that all make real progress.
  */
-export function flowFieldStep(field: FlowField, tcx: number, tcy: number): TileKey | null {
+export function flowFieldStep(
+  field: FlowField, tcx: number, tcy: number, preferTcx?: number,
+): TileKey | null {
   const here = field.get(tileKeyStr(tcx, tcy))
-  // Standing somewhere unreachable (e.g. spawned inside terrain): fall back to
-  // the best neighbour available rather than refusing to move at all.
-  let bestDist = here ?? Infinity
+  // Standing somewhere unreachable (e.g. spawned inside terrain): accept any
+  // neighbour on the field rather than refusing to move at all.
+  const limit = here ?? Infinity
   let best: TileKey | null = null
+  let bestPref = Infinity
+  let bestDist = Infinity
   const deltas = [-1, 0, 1]
   for (const dtx of deltas) {
     for (const dty of deltas) {
       if (dtx === 0 && dty === 0) continue
-      const dist = field.get(tileKeyStr(tcx + dtx, tcy + dty))
-      if (dist === undefined || dist >= bestDist) continue
-      bestDist = dist
-      best = { tcx: tcx + dtx, tcy: tcy + dty }
+      const ntx = tcx + dtx
+      const nty = tcy + dty
+      const dist = field.get(tileKeyStr(ntx, nty))
+      if (dist === undefined || dist >= limit) continue
+      const pref = preferTcx === undefined ? 0 : Math.abs(ntx - preferTcx)
+      if (pref < bestPref || (pref === bestPref && dist < bestDist)) {
+        best = { tcx: ntx, tcy: nty }
+        bestPref = pref
+        bestDist = dist
+      }
     }
   }
   return best

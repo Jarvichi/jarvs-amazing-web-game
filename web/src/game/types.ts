@@ -217,6 +217,13 @@ export interface Unit extends UnitTemplate {
    *  movement tick when the battle has `roadFollowing` enabled). Empty once the unit has
    *  passed the last waypoint or no road was found; undefined until first computed. */
   roadWaypoints?: Array<{ x: number; y: number }>
+  /** Lateral lane this unit prefers while advancing, picked at random on its
+   *  first movement tick (lazy — spawnUnit has no GameState access). Used as the
+   *  default target's `y` instead of dead centre, so an army fans out across the
+   *  battlefield rather than collapsing onto the centre line and then all
+   *  detouring round terrain on the same side. Overridden by anything with a
+   *  real target: road waypoints, enemy chasing, defend slots. */
+  advanceY?: number
   /** Flow-field distance-to-goal recorded when this unit started routing around
    *  terrain (hard-blocking battles only — see moveUnits). While set, the unit
    *  keeps following the flow field even on ticks when the direct path looks
