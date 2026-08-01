@@ -2,7 +2,9 @@ import { describe, it, expect } from 'vitest'
 import {
   gameToTile, gameToContainingTile, tileToGame, buildObstacleTileMap, buildRoadTileMap,
   isTilePassable, checkReachability, checkAllProfilesReachable, laneTileBounds,
+  GRID_REF_WIDTH, GRID_REF_HEIGHT,
 } from './terrainGrid'
+import { LANE_ASPECT_RATIO } from '../types'
 import type { TerrainObstacle, RoadDef } from './terrain'
 
 describe('buildObstacleTileMap', () => {
@@ -125,16 +127,65 @@ describe('obstacle tile footprint matches what is drawn', () => {
   })
 })
 
+describe('a collision tile is the same pixels as a drawn tile', () => {
+  // The reason the lane is letterboxed to a fixed shape (LANE_ASPECT_RATIO, see
+  // components/battle/Battlefield.tsx). Terrain art draws SQUARE tiles sized off
+  // the lane's height — TILE_SIZE * h/GRID_REF_HEIGHT, the tileScale in
+  // BattlefieldCanvas.tsx — while a collision tile spans TILE_SIZE * w/GRID_REF_WIDTH.
+  // Those are only equal when the lane's own w/h is GRID_REF_WIDTH/GRID_REF_HEIGHT.
+  // While the lane's shape was free to drift (fixed-px HUD bands over a fixed-ratio
+  // frame), collision tiles were up to 1.55x wider than the rock actually drawn.
+  const TILE = 32
+
+  it('the reference grid is the shape the lane is letterboxed to', () => {
+    expect(GRID_REF_WIDTH / GRID_REF_HEIGHT).toBeCloseTo(LANE_ASPECT_RATIO, 10)
+  })
+
+  it('collision tile width equals drawn tile size at every lane size', () => {
+    for (const h of [318, 446, 567, 654, 766, 886]) {
+      const w = h * LANE_ASPECT_RATIO
+      const drawnTileSize = TILE * (h / GRID_REF_HEIGHT) // tileScale in BattlefieldCanvas.tsx
+      expect(TILE * (w / GRID_REF_WIDTH)).toBeCloseTo(drawnTileSize, 10)
+      expect(TILE * (h / GRID_REF_HEIGHT)).toBeCloseTo(drawnTileSize, 10)
+    }
+  })
+
+  it('a point resolves to the same tile index through either grid', () => {
+    // Rendering converts game -> live canvas px with the lane's real w/h
+    // (utils/terrainLayer.ts's gameToPixel) and snaps by the drawn tile size;
+    // collision converts against the reference grid and snaps by TILE_SIZE.
+    // Same index, or an obstacle's art and its blocking disc are a tile apart.
+    const h = 567
+    const w = h * LANE_ASPECT_RATIO
+    const drawnTileSize = TILE * (h / GRID_REF_HEIGHT)
+    for (let i = 0; i < 2000; i++) {
+      const x = Math.random() * 500
+      const y = Math.random() * 160 - 80
+      const livePx = (0.5 + (y / 80) * 0.36) * w
+      const livePy = (1 - x / 500) * h
+      expect(gameToTile(x, y)).toEqual({
+        tcx: Math.round(livePx / drawnTileSize),
+        tcy: Math.round(livePy / drawnTileSize),
+      })
+      expect(gameToContainingTile(x, y)).toEqual({
+        tcx: Math.floor(livePx / drawnTileSize),
+        tcy: Math.floor(livePy / drawnTileSize),
+      })
+    }
+  })
+})
+
 describe('tile containment matches the band a tile is drawn over', () => {
   // A tile sprite is drawn top-left at c*TILE_SIZE, so tile c covers
   // [c*T, (c+1)*T). Resolving a position by rounding instead put every
   // containment test half a tile off the art — units stopped short of a rock on
   // one side and walked into it on the other.
   const TILE = 32
-  const GRID_REF_W = 390
+  const GRID_REF_H = 845
+  const GRID_REF_W = Math.round(GRID_REF_H * (544 / 845)) // LANE_ASPECT_RATIO
   const gameToPx = (x: number, y: number) => ({
     px: (0.5 + (y / 80) * 0.36) * GRID_REF_W,
-    py: (1 - x / 500) * Math.round(GRID_REF_W / (9 / 19.5)),
+    py: (1 - x / 500) * GRID_REF_H,
   })
 
   it('a point always lies inside the pixel band of its containing tile', () => {

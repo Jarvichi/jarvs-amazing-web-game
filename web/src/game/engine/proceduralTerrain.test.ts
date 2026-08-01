@@ -65,11 +65,11 @@ describe('generatePassableTerrain', () => {
 
 describe('generateTerrain tuning for the collision tile grid', () => {
   it('never emits an obstacle wide enough to span the lane on its own', () => {
-    // The lane's whole lateral span is only 10 collision tile columns, and an
+    // The lane's whole lateral span is 14 collision tile columns, and an
     // obstacle rasterizes to a disc of tile-radius round(radius * 0.12). Once
     // that radius grows enough to cover every column, a single obstacle seals
     // the lane no matter where it lands. The widest the generator currently
-    // emits spans 7 of the 10.
+    // emits spans 7 of the 14.
     const laneWidth = LANE_COLUMNS.hi - LANE_COLUMNS.lo + 1
     for (const env of ENVIRONMENTS) {
       for (const seed of SEEDS) {
@@ -81,11 +81,12 @@ describe('generateTerrain tuning for the collision tile grid', () => {
   })
 
   it('leaves scatters traversable before any pruning is needed', { timeout: 30_000 }, () => {
-    // Currently 100% of seeds: once collision covers the band a tile is drawn
-    // over rather than one shifted half a tile off it, the lane is a full 10
-    // columns wide and the widest obstacle spans 7. Threshold left slightly
-    // under that so a small generator retune isn't an automatic failure, but
-    // well above the 0.7 this sat at while the grid was misaligned.
+    // Currently 100% of seeds: once collision tiles are the same pixels as the
+    // tiles actually drawn — same band vertically, same width horizontally —
+    // the lane is a full 14 columns wide and the widest obstacle spans 7.
+    // Threshold left slightly under that so a small generator retune isn't an
+    // automatic failure, but well above the 0.7 this sat at while the grid was
+    // misaligned.
     const passing = SEEDS.filter(seed => isPassable(generateTerrain(seed, undefined))).length
     expect(passing / SEEDS.length).toBeGreaterThan(0.95)
   })

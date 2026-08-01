@@ -7,6 +7,7 @@ import { planTerrainPatches } from './terrainPatchPlan'
 import { drawTerrainItem } from './terrainGfx'
 import { seededRand, hashStr, getTerrainItems, type TerrainItem } from './mapUtils'
 import { renderPathTiles } from './tileLookup'
+import { gameToTile, GRID_REF_HEIGHT } from '../game/engine/terrainGrid'
 import type { TerrainObstacle, RoadDef, BattlefieldDecorItem } from '../game/engine/terrain'
 
 // Divisor controlling how obstacle radius (game units) maps to tile-ring radius (tiles).
@@ -27,6 +28,40 @@ export function gameToPixel(x: number, y: number, w: number, h: number): { px: n
 
 export function pixelToGame(px: number, py: number, w: number, h: number): { x: number; y: number } {
   return { x: 500 * (1 - py / h), y: 80 * ((px / w - 0.5) / 0.36) }
+}
+
+/**
+ * The tile index a game position anchors to, for art that snaps to the tile grid.
+ *
+ * Callers drawing the battlefield lane pass a tileScale (h / GRID_REF_HEIGHT),
+ * and for them the index comes straight from the engine's reference grid rather
+ * than being re-derived from measured canvas pixels. A lane canvas is an
+ * integer-pixel approximation of that grid — its width rounds to a whole pixel —
+ * so rounding px/T on it flips the index for anything sitting exactly on a
+ * half-tile boundary. The lane's centre line (game y = 0, the most common
+ * authored y there is) sits precisely there: the engine computes 8.5 and rounds
+ * up, a 366px-wide lane computes 8.493 and rounds down, and the obstacle's art
+ * lands a whole tile away from the disc that actually blocks units. Asking the
+ * engine removes the second computation rather than trying to match it.
+ *
+ * Canvases that are not the lane (no tileScale — the hub, the node map, the
+ * scenery preview) have no engine grid to agree with, and keep resolving
+ * against their own pixels, which is the only thing that means anything there.
+ */
+export function anchorTile(
+  x: number, y: number, w: number, h: number, T: number, tileScale: number,
+): { tcx: number; tcy: number } {
+  if (tileScale !== 1) return gameToTile(x, y)
+  const { px, py } = gameToPixel(x, y, w, h)
+  return { tcx: Math.round(px / T), tcy: Math.round(py / T) }
+}
+
+/** Tile radius an obstacle's patch is drawn at — the same disc
+ *  game/engine/terrainGrid.ts blocks. Lane callers resolve it against the
+ *  reference grid for the reason anchorTile does. */
+export function patchTileRadius(radius: number, h: number, T: number, tileScale: number): number {
+  const scale = tileScale === 1 ? h / T : GRID_REF_HEIGHT / TILE_SIZE
+  return Math.max(1, Math.round(radius * scale / TILE_RADIUS_SCALE))
 }
 
 export interface TerrainLayerOptions {
@@ -289,9 +324,7 @@ export async function buildManualDecorGfx(
   const sortedDecorItems = [...decorItems].sort((a, b) => (a.zIndex ?? 0) - (b.zIndex ?? 0))
   for (const item of sortedDecorItems) {
     if (container.destroyed) return
-    const { px, py } = gameToPixel(item.x, item.y, mapWidth, mapHeight)
-    const tcx0 = Math.round(px / T)
-    const tcy0 = Math.round(py / T)
+    const { tcx: tcx0, tcy: tcy0 } = anchorTile(item.x, item.y, mapWidth, mapHeight, T, tileScale)
     if (item.bundleId) {
       const bundle = getBattlefieldBundleById(item.bundleId)
       if (!bundle) continue
@@ -342,10 +375,7 @@ export async function buildRoadGfx(
   const def = opts.envDef ?? ENV_TILES[opts.environment ?? '']
   const T = TILE_SIZE * tileScale
 
-  const toTile = (x: number, y: number) => {
-    const { px, py } = gameToPixel(x, y, w, h)
-    return { tcx: Math.round(px / T), tcy: Math.round(py / T) }
-  }
+  const toTile = (x: number, y: number) => anchorTile(x, y, w, h, T, tileScale)
 
   // Group by effective tileFile only — every road sharing a tileFile is treated
   // as one continuous material and merges into a single autotiled shape
@@ -493,12 +523,8 @@ export async function buildTerrainDecorGfx(
   const envDecorMap = TERRAIN_DECOR_MAP[env] ?? {}
   const T = TILE_SIZE * tileScale
 
-  const toTile = (obs: TerrainObstacle) => {
-    const { px, py } = gameToPixel(obs.x, obs.y, w, h)
-    return { tcx: Math.round(px / T), tcy: Math.round(py / T) }
-  }
-  const tileRadiusOf = (obs: TerrainObstacle) =>
-    Math.max(1, Math.round(obs.radius * h / (TILE_RADIUS_SCALE * T)))
+  const toTile = (obs: TerrainObstacle) => anchorTile(obs.x, obs.y, w, h, T, tileScale)
+  const tileRadiusOf = (obs: TerrainObstacle) => patchTileRadius(obs.radius, h, T, tileScale)
 
   const { groups, decor } = planTerrainPatches(terrain, toTile, tileRadiusOf, env)
 
