@@ -85,7 +85,8 @@
           "y": -8.903282030951232,
           "radius": 26.72567148413509
         }
-      ]
+      ],
+      "terrainValidated": true
     },
     "b-south-road": {
       "id": "b-south-road",
@@ -156,6 +157,7 @@
           "radius": 24.44444159977138
         }
       ],
+      "terrainValidated": true,
       "roads": [
         {
           "points": [
