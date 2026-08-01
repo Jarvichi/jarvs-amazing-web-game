@@ -141,6 +141,11 @@ export function getDailyOpponentDeck(): Card[] {
   return buildChallengeCards(0xda110000)
 }
 
+/** Deterministic terrain seed for today — same battlefield layout for every player. */
+export function getDailyTerrainSeed(): string {
+  return `daily-${getDailyDate()}`
+}
+
 export function getDailyChallengeState(): DailyChallengeState {
   try {
     const raw = localStorage.getItem(DC_KEY)

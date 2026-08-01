@@ -189,6 +189,11 @@ export function getWeeklyOpponentDeck(): Card[] {
   return buildConstrainedDeck(pool, 0x4ee71000, { allowUnits: true })
 }
 
+/** Deterministic terrain seed for this week — same battlefield layout for every player. */
+export function getWeeklyTerrainSeed(): string {
+  return `weekly-${getISOWeekKey()}`
+}
+
 // ── Local state ───────────────────────────────────────────────────────────────
 
 export function getWeeklyChallengeState(): WeeklyChallengeState {

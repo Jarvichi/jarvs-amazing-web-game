@@ -107,8 +107,8 @@ const FeedbackAdminScreen = lazy(() => import('./components/admin/FeedbackAdminS
 const TownAccessAdminScreen = lazy(() => import('./components/admin/TownAccessAdminScreen').then(m => ({ default: m.TownAccessAdminScreen })))
 import { DeckSelectorModal } from './components/cards/DeckSelectorModal'
 import { loadDeckSlot } from './game/collection'
-import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
-import { getWeeklyChallenge, getWeeklyPlayerDeck, getWeeklyOpponentDeck, getWeeklyChallengeState, saveWeeklyChallengeResult, grantWeeklyReward, publishWeeklyResult, WeeklyRewardResult } from './game/weeklyChallenge'
+import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, getDailyTerrainSeed, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
+import { getWeeklyChallenge, getWeeklyPlayerDeck, getWeeklyOpponentDeck, getWeeklyChallengeState, getWeeklyTerrainSeed, saveWeeklyChallengeResult, grantWeeklyReward, publishWeeklyResult, WeeklyRewardResult } from './game/weeklyChallenge'
 const WeeklyChallengeScreen = lazy(() => import('./components/screens/WeeklyChallengeScreen').then(m => ({ default: m.WeeklyChallengeScreen })))
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic, rollExoticDrop } from './game/relics'
 import { recordQuestKills, recordQuestWin, recordQuestCardPlayed, recordQuestBossDefeat, QuestChainDef } from './game/quests'
@@ -1135,6 +1135,7 @@ export default function App() {
       opponentHandicap: 0,
       quickStart: true,
       isDailyChallenge: true,
+      terrainSeed: getDailyTerrainSeed(),
     }))
     rollRareEvent()
   }, [])
@@ -1159,6 +1160,7 @@ export default function App() {
       opponentHandicap: 0,
       quickStart: true,
       isDailyChallenge: true,
+      terrainSeed: getDailyTerrainSeed(),
     }))
     rollRareEvent()
   }, [])
@@ -1187,6 +1189,7 @@ export default function App() {
       opponentHandicap: 0,
       quickStart: true,
       isDailyChallenge: true,  // same mana-floor rule: the player can't edit this deck
+      terrainSeed: getWeeklyTerrainSeed(),
     }))
     rollRareEvent()
   }, [])
