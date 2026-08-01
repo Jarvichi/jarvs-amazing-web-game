@@ -4,7 +4,7 @@ import { LANE_MAX_Y, LANE_MIN_Y } from './helpers'
 import { unitDist, findNearestEnemy, findNearestEnemyByPriority, findEnemyBehind } from './targeting'
 import { computeRoadWaypoints } from './roads'
 import {
-  gameToTile, buildObstacleTileMap, buildRoadTileMap, isTilePassable,
+  gameToContainingTile, buildObstacleTileMap, buildRoadTileMap, isTilePassable,
   buildFlowField, flowFieldStep, tileToGame, type MovementProfile,
 } from './terrainGrid'
 
@@ -443,7 +443,7 @@ export function moveUnits(s: GameState, deltaMs: number): void {
       const profile: MovementProfile = unit.tags?.includes('burrowing') ? 'burrowing' : 'ground'
       const swims = unit.tags?.includes('swim') ?? false
       const canEnter = (x: number, y: number) => {
-        const { tcx, tcy } = gameToTile(x, y)
+        const { tcx, tcy } = gameToContainingTile(x, y)
         return isTilePassable(obstacleTiles, roadTiles, tcx, tcy, profile, swims)
       }
       const movesX = Math.abs(candX - unit.x) > 1e-6
@@ -459,9 +459,9 @@ export function moveUnits(s: GameState, deltaMs: number): void {
         field = buildFlowField(obstacleTiles, roadTiles, profile, swims, goalX)
         s.terrainGridCache.flowFields.set(fieldKey, field)
       }
-      const here = gameToTile(unit.x, unit.y)
+      const here = gameToContainingTile(unit.x, unit.y)
       const hereDist = field.get(`${here.tcx},${here.tcy}`)
-      const dest = gameToTile(candX, candY)
+      const dest = gameToContainingTile(candX, candY)
       const destDist = field.get(`${dest.tcx},${dest.tcy}`)
 
       // A direct move is "productive" only if it actually gets the unit closer
@@ -505,7 +505,7 @@ export function moveUnits(s: GameState, deltaMs: number): void {
         // of the battle.
         // Steer the detour toward this unit's own lane so an army splits around
         // an obstacle instead of every unit tracing the identical shortest route.
-        const preferTcx = gameToTile(unit.x, unit.advanceY ?? unit.y).tcx
+        const preferTcx = gameToContainingTile(unit.x, unit.advanceY ?? unit.y).tcx
         const next = flowFieldStep(field, here.tcx, here.tcy, preferTcx)
         if (next) {
           const target = tileToGame(next.tcx, next.tcy)

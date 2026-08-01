@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
-  gameToTile, buildObstacleTileMap, buildRoadTileMap, isTilePassable,
-  checkReachability, checkAllProfilesReachable,
+  gameToTile, gameToContainingTile, tileToGame, buildObstacleTileMap, buildRoadTileMap,
+  isTilePassable, checkReachability, checkAllProfilesReachable, laneTileBounds,
 } from './terrainGrid'
 import type { TerrainObstacle, RoadDef } from './terrain'
 
@@ -121,6 +121,65 @@ describe('obstacle tile footprint matches what is drawn', () => {
       const large = buildObstacleTileMap([{ id: 't1', type, x: 250, y: 0, radius: 28 }]).size
       expect(small).toBeGreaterThan(1)
       expect(large).toBeGreaterThan(small)
+    }
+  })
+})
+
+describe('tile containment matches the band a tile is drawn over', () => {
+  // A tile sprite is drawn top-left at c*TILE_SIZE, so tile c covers
+  // [c*T, (c+1)*T). Resolving a position by rounding instead put every
+  // containment test half a tile off the art — units stopped short of a rock on
+  // one side and walked into it on the other.
+  const TILE = 32
+  const GRID_REF_W = 390
+  const gameToPx = (x: number, y: number) => ({
+    px: (0.5 + (y / 80) * 0.36) * GRID_REF_W,
+    py: (1 - x / 500) * Math.round(GRID_REF_W / (9 / 19.5)),
+  })
+
+  it('a point always lies inside the pixel band of its containing tile', () => {
+    for (let i = 0; i < 2000; i++) {
+      const x = Math.random() * 500
+      const y = Math.random() * 160 - 80
+      const { tcx, tcy } = gameToContainingTile(x, y)
+      const { px, py } = gameToPx(x, y)
+      expect(px).toBeGreaterThanOrEqual(tcx * TILE)
+      expect(px).toBeLessThan((tcx + 1) * TILE)
+      expect(py).toBeGreaterThanOrEqual(tcy * TILE)
+      expect(py).toBeLessThan((tcy + 1) * TILE)
+    }
+  })
+
+  it('tileToGame returns a centre its own tile contains', () => {
+    // The flow field steers units at tileToGame's result and then re-checks the
+    // step with containment, so a corner would sit where four tiles meet.
+    const { tcxLo, tcxHi, tcyLo, tcyHi } = laneTileBounds()
+    for (let tcx = tcxLo; tcx <= tcxHi; tcx++) {
+      for (let tcy = tcyLo; tcy <= tcyHi; tcy++) {
+        const { x, y } = tileToGame(tcx, tcy)
+        expect(gameToContainingTile(x, y)).toEqual({ tcx, tcy })
+      }
+    }
+  })
+
+  it('keeps anchoring on rounding, so art and collision pick the same tile', () => {
+    // utils/terrainLayer.ts chooses an obstacle's patch tile with Math.round;
+    // gameToTile must keep matching it, or an obstacle's art and its blocking
+    // disc land a whole tile apart.
+    for (let i = 0; i < 2000; i++) {
+      const x = 90 + Math.random() * 320
+      const y = Math.random() * 160 - 80
+      const { px, py } = gameToPx(x, y)
+      expect(gameToTile(x, y)).toEqual({ tcx: Math.round(px / TILE), tcy: Math.round(py / TILE) })
+    }
+  })
+
+  it('the lane covers every column a unit can stand in, including the edges', () => {
+    const { tcxLo, tcxHi } = laneTileBounds()
+    for (const y of [-80, -40, 0, 40, 80]) {
+      const { tcx } = gameToContainingTile(250, y)
+      expect(tcx).toBeGreaterThanOrEqual(tcxLo)
+      expect(tcx).toBeLessThanOrEqual(tcxHi)
     }
   })
 })

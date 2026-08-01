@@ -46,12 +46,13 @@ const TILE_REF_SIZE = 32   // mirrors terrainGrid.ts's private TILE_SIZE
  * Shades every collision tile and draws the tile grid.
  *
  * Tiles are drawn where the COLLISION grid puts them, not where the terrain art
- * is: `gameToTile` rounds, so tile `tcx` owns reference pixels
- * `[tcx*32 - 16, tcx*32 + 16)` and is centred on `tcx*32`. Reference pixels
- * scale linearly to screen pixels because both coordinate systems share the
- * same form (see gameToPixel in terrainGrid.ts vs utils/terrainLayer.ts), so a
- * plain ratio converts them. Any visible mismatch against the drawn terrain is
- * therefore a real discrepancy, which is the entire point of this overlay.
+ * is: tile `tcx` owns reference pixels `[tcx*32, (tcx+1)*32)`, the same band a
+ * tile sprite is drawn over (see gameToContainingTile in terrainGrid.ts).
+ * Reference pixels scale linearly to screen pixels because both coordinate
+ * systems share the same form (see gameToPixel in terrainGrid.ts vs
+ * utils/terrainLayer.ts), so a plain ratio converts them. Any visible mismatch
+ * against the drawn terrain is therefore a real discrepancy, which is the
+ * entire point of this overlay.
  */
 function drawPassabilityTiles(
   g: PIXI.Graphics, state: GameState, w: number, h: number, profile: MovementProfile, swims: boolean,
@@ -62,13 +63,12 @@ function drawPassabilityTiles(
   const { tcxLo, tcxHi, tcyLo, tcyHi } = laneTileBounds()
   const sx = w / GRID_REF_WIDTH
   const sy = h / GRID_REF_HEIGHT
-  const half = TILE_REF_SIZE / 2
 
   for (let tcy = tcyLo; tcy <= tcyHi; tcy++) {
     for (let tcx = tcxLo; tcx <= tcxHi; tcx++) {
       const passable = isTilePassable(obstacleTiles, roadTiles, tcx, tcy, profile, swims)
-      const x = (tcx * TILE_REF_SIZE - half) * sx
-      const y = (tcy * TILE_REF_SIZE - half) * sy
+      const x = tcx * TILE_REF_SIZE * sx
+      const y = tcy * TILE_REF_SIZE * sy
       g.rect(x, y, TILE_REF_SIZE * sx, TILE_REF_SIZE * sy)
         .fill({ color: passable ? 0x33ff66 : 0xff3333, alpha: passable ? 0.15 : 0.30 })
         .stroke({ color: 0xffffff, width: 1, alpha: 0.15 })

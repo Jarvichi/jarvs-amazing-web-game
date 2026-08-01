@@ -30,10 +30,33 @@ function gameToPixel(x: number, y: number): { px: number; py: number } {
 
 export interface TileKey { tcx: number; tcy: number }
 
-/** Converts a game-unit position into the reference tile grid's cell coords. */
+/**
+ * The tile an obstacle is ANCHORED on.
+ *
+ * Rounds, which is what utils/terrainLayer.ts's `toTile` helpers do when they
+ * choose the tile to draw an obstacle's patch around. Keeping the two identical
+ * is what makes an obstacle's art and its blocking disc cover the same tile
+ * indices — change one and they diverge by a whole tile.
+ *
+ * For "which tile is this point inside" use gameToContainingTile instead.
+ */
 export function gameToTile(x: number, y: number): TileKey {
   const { px, py } = gameToPixel(x, y)
   return { tcx: Math.round(px / TILE_SIZE), tcy: Math.round(py / TILE_SIZE) }
+}
+
+/**
+ * The tile a point lies INSIDE.
+ *
+ * A tile's sprite is drawn top-left at `c * TILE_SIZE`, so tile `c` covers the
+ * band `[c*T, (c+1)*T)` — this floors where gameToTile rounds. Resolving a
+ * unit's position with the rounding version instead put every containment test
+ * half a tile off the art, so units stopped short of a rock on one side and
+ * walked into it on the other.
+ */
+export function gameToContainingTile(x: number, y: number): TileKey {
+  const { px, py } = gameToPixel(x, y)
+  return { tcx: Math.floor(px / TILE_SIZE), tcy: Math.floor(py / TILE_SIZE) }
 }
 
 function tileKeyStr(tcx: number, tcy: number): string {
@@ -215,8 +238,12 @@ export type FlowField = Map<string, number>
 /** Tile-grid bounds of the playable lane, shared by reachability, flow fields
  *  and the battlefield passability overlay. */
 export function laneTileBounds() {
-  const minTile = gameToTile(0, LANE_MIN_Y)
-  const maxTile = gameToTile(LANE_WIDTH, LANE_MAX_Y)
+  // Containment, not anchoring: these bounds must cover every tile a unit can
+  // stand in. With rounding they stopped at column 2 while a unit at y=-80
+  // resolves to column 1, which would put edge-lane units outside every BFS
+  // range — treated as sealed in, and stuck.
+  const minTile = gameToContainingTile(0, LANE_MIN_Y)
+  const maxTile = gameToContainingTile(LANE_WIDTH, LANE_MAX_Y)
   return {
     tcxLo: Math.min(minTile.tcx, maxTile.tcx),
     tcxHi: Math.max(minTile.tcx, maxTile.tcx),
@@ -244,7 +271,7 @@ export function buildFlowField(
     tcx >= tcxLo && tcx <= tcxHi && tcy >= tcyLo && tcy <= tcyHi &&
     isTilePassable(obstacleTiles, roadTiles, tcx, tcy, profile, swims)
 
-  const goalTcy = gameToTile(goalX, 0).tcy
+  const goalTcy = gameToContainingTile(goalX, 0).tcy
   const queue: TileKey[] = []
   for (let tcx = tcxLo; tcx <= tcxHi; tcx++) {
     if (!passable(tcx, goalTcy)) continue
@@ -314,10 +341,13 @@ export function flowFieldStep(
   return best
 }
 
-/** Centre of a tile, in game units — the point a unit steers toward. */
+/** Centre of a tile, in game units — the point a unit steers toward. Tile `c`
+ *  spans [c*T, (c+1)*T), so its centre is half a tile in from the origin; a
+ *  steering target left on the corner sits where four tiles meet, which is a
+ *  stall risk once the caller re-checks the step against containment. */
 export function tileToGame(tcx: number, tcy: number): { x: number; y: number } {
-  const px = tcx * TILE_SIZE
-  const py = tcy * TILE_SIZE
+  const px = (tcx + 0.5) * TILE_SIZE
+  const py = (tcy + 0.5) * TILE_SIZE
   return { x: 500 * (1 - py / GRID_REF_HEIGHT), y: 80 * ((px / GRID_REF_WIDTH - 0.5) / 0.36) }
 }
 
@@ -351,12 +381,7 @@ export function checkReachability(
   // (tcy) correspond to forward position, and tile COLUMNS (tcx) correspond
   // to lateral position — x=0 (player base) is the LARGEST tcy, x=LANE_WIDTH
   // (opponent base) the smallest, since py = (1 - x/500) * height.
-  const minTile = gameToTile(0, LANE_MIN_Y)
-  const maxTile = gameToTile(LANE_WIDTH, LANE_MAX_Y)
-  const tcxLo = Math.min(minTile.tcx, maxTile.tcx)
-  const tcxHi = Math.max(minTile.tcx, maxTile.tcx)
-  const tcyLo = Math.min(minTile.tcy, maxTile.tcy)
-  const tcyHi = Math.max(minTile.tcy, maxTile.tcy)
+  const { tcxLo, tcxHi, tcyLo, tcyHi } = laneTileBounds()
 
   const passable = (tcx: number, tcy: number) =>
     tcx >= tcxLo && tcx <= tcxHi && tcy >= tcyLo && tcy <= tcyHi &&
@@ -364,8 +389,8 @@ export function checkReachability(
 
   // BFS from every passable tile in the x=0 (player base) row, across the
   // full lateral range, to any tile in the x=LANE_WIDTH (opponent base) row.
-  const startTcy = gameToTile(0, 0).tcy
-  const goalTcy = gameToTile(LANE_WIDTH, 0).tcy
+  const startTcy = gameToContainingTile(0, 0).tcy
+  const goalTcy = gameToContainingTile(LANE_WIDTH, 0).tcy
 
   const visited = new Set<string>()
   const queue: TileKey[] = []
