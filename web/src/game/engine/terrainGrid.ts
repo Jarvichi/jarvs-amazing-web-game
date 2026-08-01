@@ -79,10 +79,22 @@ function tilesInSquare(center: TileKey, width: number): TileKey[] {
 
 export interface ObstacleTile { type: TerrainType; zIndex: number }
 
-/** Same tile-radius formula utils/terrainLayer.ts's buildTerrainDecorGfx uses
- *  (obstacle radius in game units -> tile-ring radius), evaluated against the
- *  fixed reference resolution instead of the actual on-screen canvas. */
-function obstacleTileRadius(radius: number): number {
+/**
+ * How many tile rings out from its centre an obstacle blocks.
+ *
+ * Mirrors the tile-radius formula utils/terrainLayer.ts's buildTerrainDecorGfx
+ * uses, evaluated against the fixed reference resolution rather than the actual
+ * canvas — but only for the types that actually draw that disc.
+ *
+ * Ruins do not. They have no patch tileset in any environment, so
+ * utils/terrainPatchPlan.ts draws them as a single WORLD_DECOR icon on their
+ * centre tile and skips the patch loop entirely. Applying the patch formula to
+ * them blocked up to 29 tiles behind a one-tile icon — a mushroom or gravestone
+ * that reads as scenery while walling off a third of the lane. Ruins block the
+ * tile their icon sits on, which is the whole of what they draw.
+ */
+function obstacleTileRadius(type: TerrainType, radius: number): number {
+  if (type === 'ruin') return 0
   const TILE_RADIUS_SCALE = 220 // mirrors utils/terrainLayer.ts's constant of the same name
   return Math.max(1, Math.round(radius * GRID_REF_HEIGHT / (TILE_RADIUS_SCALE * TILE_SIZE)))
 }
@@ -91,7 +103,7 @@ export function buildObstacleTileMap(terrain: TerrainObstacle[]): Map<string, Ob
   const map = new Map<string, ObstacleTile>()
   for (const obs of terrain) {
     const center = gameToTile(obs.x, obs.y)
-    const tileRadius = obstacleTileRadius(obs.radius)
+    const tileRadius = obstacleTileRadius(obs.type, obs.radius)
     const z = obs.zIndex ?? 0
     for (const { tcx, tcy } of tilesInDisc(center, tileRadius)) {
       const key = tileKeyStr(tcx, tcy)

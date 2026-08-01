@@ -393,7 +393,7 @@ export interface BattleEventState {
 
 import type { TerrainType as _TerrainType, TerrainObstacle as _TerrainObstacle, RoadDef as _RoadDef, BattlefieldDecorItem as _BattlefieldDecorItem } from './engine/terrain'
 export type { TerrainType, TerrainObstacle, RoadDef, BattlefieldDecorItem } from './engine/terrain'
-export { TERRAIN_AVOID_SHAPE } from './engine/terrain'
+export { TERRAIN_AVOID_SHAPE, RUIN_FOOTPRINT_RADIUS } from './engine/terrain'
 type TerrainType = _TerrainType
 type TerrainObstacle = _TerrainObstacle
 type RoadDef = _RoadDef

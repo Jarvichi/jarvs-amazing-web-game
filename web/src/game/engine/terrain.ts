@@ -16,6 +16,23 @@ export const TERRAIN_AVOID_SHAPE: Record<TerrainType, { fx: number; fy: number }
   ruin:  { fx: 1.0, fy: 0.9 },  // ruins/farmhouse/watchtower: roughly square
 }
 
+/**
+ * A ruin is a one-tile obstacle, whatever radius its data carries.
+ *
+ * Unlike rock/tree/water it has no patch tileset in any environment, so
+ * utils/terrainPatchPlan.ts draws it as a single WORLD_DECOR icon on one tile
+ * and nothing more. Sizing it by radius therefore blocks — or deflects around —
+ * ground that shows no obstacle at all. Hard blocking handles this by type (see
+ * obstacleTileRadius in ./terrainGrid); this is the same rule for the legacy
+ * soft-avoidance path, so a ruin behaves identically whether or not a node has
+ * been terrain-validated.
+ *
+ * ~5 makes the avoidance ellipse about one tile across: a tile spans ~17.8
+ * game-y laterally and ~18.5 game-x forward, and the ellipse half-extents are
+ * `radius * shape + 4`.
+ */
+export const RUIN_FOOTPRINT_RADIUS = 5
+
 export interface TerrainObstacle {
   id: string
   type: TerrainType
