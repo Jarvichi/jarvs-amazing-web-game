@@ -14,6 +14,10 @@ export interface DevConfig {
   crystalBonus:      number | null
   handicapOverride:  number | null
   grantAllCards:     boolean
+  /** Shade every battlefield collision tile green (walkable) or red (blocked),
+   *  draw the tile grid, and project a tapped unit's route while paused.
+   *  See BattlefieldCanvas.tsx. */
+  battlefieldDebugOverlay: boolean
 }
 
 const DEFAULT_CONFIG: DevConfig = {
@@ -21,6 +25,7 @@ const DEFAULT_CONFIG: DevConfig = {
   crystalBonus:     null,
   handicapOverride: null,
   grantAllCards:    false,
+  battlefieldDebugOverlay: false,
 }
 
 export function loadDevConfig(): DevConfig {

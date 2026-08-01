@@ -175,8 +175,9 @@ export function isTilePassable(
 /** Tile key -> BFS step distance to the goal edge. Absent = unreachable. */
 export type FlowField = Map<string, number>
 
-/** Tile-grid bounds of the playable lane, shared by reachability and flow fields. */
-function laneTileBounds() {
+/** Tile-grid bounds of the playable lane, shared by reachability, flow fields
+ *  and the battlefield passability overlay. */
+export function laneTileBounds() {
   const minTile = gameToTile(0, LANE_MIN_Y)
   const maxTile = gameToTile(LANE_WIDTH, LANE_MAX_Y)
   return {

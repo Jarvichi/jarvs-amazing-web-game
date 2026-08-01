@@ -18,6 +18,7 @@ import { loadBattlePopups } from '../screens/SettingsScreen'
 import { TutorialOverlay } from '../modals/TutorialOverlay'
 import { hasSeen, markSeen } from '../../game/tutorial'
 import { useLetterboxSize } from '../../hooks/useLetterboxSize'
+import { loadDevConfig } from '../../game/devStore'
 
 const modalAutoDismissTime = 2000
 const BATTLE_TUTORIAL_ID = 'gameplay'
@@ -118,6 +119,9 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
   const [importantMsgQueue, setImportantMsgQueue] = useState<string[]>([])
   const lastLogLenRef = useRef(0)
   const [inspectedUnit, setInspectedUnit] = useState<Unit | null>(null)
+  // Read once per mount — the dev toggle is set in Settings, so it can't change
+  // mid-battle, and re-reading localStorage every render would be wasteful.
+  const [debugOverlay] = useState(() => loadDevConfig().battlefieldDebugOverlay)
   const [showDeckViewer, setShowDeckViewer] = useState(false)
   const [confirmGiveUp, setConfirmGiveUp] = useState(false)
   const [showBattleTutorial, setShowBattleTutorial] = useState(
@@ -339,6 +343,8 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
           pendingAoeCard={pendingAoeCard}
           onPlayAoeCard={onPlayAoeCard}
           onAoeCancel={() => setPendingAoeCard(null)}
+          debugOverlay={debugOverlay}
+          selectedUnitId={inspectedUnit?.id ?? null}
         />
 
         {/* AoE targeting overlay */}

@@ -8,7 +8,11 @@ import {
 import { WORLD_ENV_TILES } from '../../data/tiles/worldTileIndex'
 import { ENV_TILES } from '../../data/tiles/tileIndex'
 import { TERRAIN_AVOID_SHAPE } from '../../game/engine/terrain'
-import { GRID_REF_HEIGHT } from '../../game/engine/terrainGrid'
+import {
+  GRID_REF_HEIGHT, GRID_REF_WIDTH, laneTileBounds, buildObstacleTileMap, buildRoadTileMap,
+  isTilePassable, type MovementProfile,
+} from '../../game/engine/terrainGrid'
+import { projectUnitRoute } from '../../game/engine/projectRoute'
 import { isDebugMode } from '../../game/debug'
 import { LANE_WIDTH, GameState, Unit, Card } from '../../game/types'
 import { buildScene } from './battlefieldCanvas/scene'
@@ -24,11 +28,67 @@ export interface Props {
   pendingAoeCard: Card | null
   onPlayAoeCard?: (cardId: string, cx: number, cy: number) => void
   onAoeCancel: () => void
+  /** Dev-only: shade collision tiles green/red, draw the tile grid, and project
+   *  the selected unit's route while paused. See DevMenu's toggle. */
+  debugOverlay?: boolean
+  /** Unit currently tapped in the inspect panel — the one whose route is drawn. */
+  selectedUnitId?: string | null
 }
 
 interface LiveProps extends Props {
   w: number
   h: number
+}
+
+const TILE_REF_SIZE = 32   // mirrors terrainGrid.ts's private TILE_SIZE
+
+/**
+ * Shades every collision tile and draws the tile grid.
+ *
+ * Tiles are drawn where the COLLISION grid puts them, not where the terrain art
+ * is: `gameToTile` rounds, so tile `tcx` owns reference pixels
+ * `[tcx*32 - 16, tcx*32 + 16)` and is centred on `tcx*32`. Reference pixels
+ * scale linearly to screen pixels because both coordinate systems share the
+ * same form (see gameToPixel in terrainGrid.ts vs utils/terrainLayer.ts), so a
+ * plain ratio converts them. Any visible mismatch against the drawn terrain is
+ * therefore a real discrepancy, which is the entire point of this overlay.
+ */
+function drawPassabilityTiles(
+  g: PIXI.Graphics, state: GameState, w: number, h: number, profile: MovementProfile, swims: boolean,
+): void {
+  g.clear()
+  const obstacleTiles = state.terrainGridCache?.obstacleTiles ?? buildObstacleTileMap(state.terrain ?? [])
+  const roadTiles = state.terrainGridCache?.roadTiles ?? buildRoadTileMap(state.roads ?? [])
+  const { tcxLo, tcxHi, tcyLo, tcyHi } = laneTileBounds()
+  const sx = w / GRID_REF_WIDTH
+  const sy = h / GRID_REF_HEIGHT
+  const half = TILE_REF_SIZE / 2
+
+  for (let tcy = tcyLo; tcy <= tcyHi; tcy++) {
+    for (let tcx = tcxLo; tcx <= tcxHi; tcx++) {
+      const passable = isTilePassable(obstacleTiles, roadTiles, tcx, tcy, profile, swims)
+      const x = (tcx * TILE_REF_SIZE - half) * sx
+      const y = (tcy * TILE_REF_SIZE - half) * sy
+      g.rect(x, y, TILE_REF_SIZE * sx, TILE_REF_SIZE * sy)
+        .fill({ color: passable ? 0x33ff66 : 0xff3333, alpha: passable ? 0.15 : 0.30 })
+        .stroke({ color: 0xffffff, width: 1, alpha: 0.15 })
+    }
+  }
+}
+
+/** Strokes a projected route (game coords) as a white polyline with an end dot. */
+function drawRoute(g: PIXI.Graphics, route: Array<{ x: number; y: number }>, w: number, h: number): void {
+  g.clear()
+  if (route.length < 2) return
+  const first = gameToPixel(route[0].x, route[0].y, w, h)
+  g.moveTo(first.px, first.py)
+  for (let i = 1; i < route.length; i++) {
+    const { px, py } = gameToPixel(route[i].x, route[i].y, w, h)
+    g.lineTo(px, py)
+  }
+  g.stroke({ color: 0xffffff, width: 2, alpha: 0.9 })
+  const end = gameToPixel(route[route.length - 1].x, route[route.length - 1].y, w, h)
+  g.circle(end.px, end.py, 4).fill({ color: 0xffffff, alpha: 0.9 })
 }
 
 // Inner component — only mounts once dimensions are known so usePixiApp gets the right size.
@@ -48,6 +108,9 @@ function CanvasInner(props: LiveProps) {
   propsRef.current = props
   const sceneRef = useRef<ReturnType<typeof buildScene> | null>(null)
   const hoverPxRef = useRef<{ x: number; y: number } | null>(null)
+  // Cache keys so the dev overlay redraws on change rather than every frame.
+  const tileOverlayKeyRef = useRef<string | null>(null)
+  const routeKeyRef = useRef<string | null>(null)
 
   const envDef = WORLD_ENV_TILES[props.state.environment ?? ''] ?? ENV_TILES[props.state.environment ?? '']
 
@@ -115,6 +178,33 @@ function CanvasInner(props: LiveProps) {
         }
       } else {
         s.debugLayer.clear()
+      }
+
+      // ── Dev passability overlay ───────────────────────────────────────────
+      // Terrain never changes mid-battle, so the tile shading is redrawn only
+      // when the toggle flips or the terrain identity changes — not per frame
+      // like the ellipses above, which would be hundreds of rects every tick.
+      const overlayOn = !!cur.debugOverlay
+      const selected = overlayOn && cur.paused && cur.selectedUnitId
+        ? cur.state.field.find(u => u.id === cur.selectedUnitId && u.hp > 0)
+        : undefined
+      const profile: MovementProfile = selected?.flying ? 'flying'
+        : selected?.tags?.includes('burrowing') ? 'burrowing' : 'ground'
+      const swims = selected?.tags?.includes('swim') ?? false
+      const tileKey = overlayOn ? `${profile}|${swims}|${cur.state.terrain?.length ?? 0}` : null
+      if (tileKey !== tileOverlayKeyRef.current) {
+        tileOverlayKeyRef.current = tileKey
+        if (tileKey) drawPassabilityTiles(s.tileDebugLayer, cur.state, w, h, profile, swims)
+        else s.tileDebugLayer.clear()
+      }
+
+      // Route projection runs the real engine forward, so recompute it only when
+      // the selection changes — never every frame.
+      const routeKey = selected ? `${selected.id}|${Math.round(selected.x)}|${Math.round(selected.y)}` : null
+      if (routeKey !== routeKeyRef.current) {
+        routeKeyRef.current = routeKey
+        if (selected) drawRoute(s.routeLayer, projectUnitRoute(cur.state, selected.id), w, h)
+        else s.routeLayer.clear()
       }
     })
 
