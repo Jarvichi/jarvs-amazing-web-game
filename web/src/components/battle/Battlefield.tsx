@@ -18,7 +18,8 @@ import { loadBattlePopups } from '../screens/SettingsScreen'
 import { TutorialOverlay } from '../modals/TutorialOverlay'
 import { hasSeen, markSeen } from '../../game/tutorial'
 import { useLetterboxSize } from '../../hooks/useLetterboxSize'
-import { loadDevConfig } from '../../game/devStore'
+import { loadDevConfig, patchDevConfig } from '../../game/devStore'
+import { isDevMode } from '../../game/debug'
 
 const modalAutoDismissTime = 2000
 const BATTLE_TUTORIAL_ID = 'gameplay'
@@ -119,9 +120,10 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
   const [importantMsgQueue, setImportantMsgQueue] = useState<string[]>([])
   const lastLogLenRef = useRef(0)
   const [inspectedUnit, setInspectedUnit] = useState<Unit | null>(null)
-  // Read once per mount — the dev toggle is set in Settings, so it can't change
-  // mid-battle, and re-reading localStorage every render would be wasteful.
-  const [debugOverlay] = useState(() => loadDevConfig().battlefieldDebugOverlay)
+  // Seeded from the persisted dev config, but also flippable from the pause
+  // menu so the overlay can be compared against a live battle without leaving
+  // it. BattlefieldCanvas reads this every frame, so it takes effect at once.
+  const [debugOverlay, setDebugOverlay] = useState(() => loadDevConfig().battlefieldDebugOverlay)
   const [showDeckViewer, setShowDeckViewer] = useState(false)
   const [confirmGiveUp, setConfirmGiveUp] = useState(false)
   const [showBattleTutorial, setShowBattleTutorial] = useState(
@@ -636,6 +638,18 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
                   <Button size="md" onClick={() => setShowDeckViewer(true)}>📋 My Deck</Button>
                   {onGiveUp && (
                     <Button size="md" variant="danger" onClick={() => setConfirmGiveUp(true)}>✕ Give Up</Button>
+                  )}
+                  {isDevMode() && (
+                    <Button
+                      size="md"
+                      onClick={() => {
+                        const next = !debugOverlay
+                        setDebugOverlay(next)
+                        patchDevConfig({ battlefieldDebugOverlay: next })
+                      }}
+                    >
+                      {debugOverlay ? '🟩 Tiles ON' : '⬛ Tiles OFF'}
+                    </Button>
                   )}
                 </div>
               </>
