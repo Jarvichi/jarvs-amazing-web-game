@@ -288,3 +288,41 @@ describe('moveUnits — defend stance', () => {
     expect(defender.x).toBeLessThan(120)
   })
 })
+
+describe('moveUnits — ruins are a one-tile obstacle on the soft-avoidance path too', () => {
+  // Hard blocking sizes ruins by type (obstacleTileRadius in terrainGrid), but
+  // nodes that were never terrain-validated still use lateral avoidance, which
+  // read the authored radius. A ruin drawn as one icon must not shove units
+  // around from 30 game units away just because its data says radius 30.
+  const farOffRuin = (radius: number) => {
+    const s = newGame()
+    s.terrainValidated = false
+    s.terrain = [{ id: 'r1', type: 'ruin', x: 120, y: 40, radius }]
+    const unit = spawnUnit(MOBILE_TEMPLATE, 'player')
+    unit.x = 100
+    unit.y = 0
+    unit.advanceY = 0
+    s.field = [unit]
+    for (let i = 0; i < 10; i++) moveUnits(s, 100)
+    return Math.abs(unit.y)
+  }
+
+  it('does not deflect a unit a whole tile away, whatever radius the data carries', () => {
+    // y=0 vs a ruin at y=40 is more than two tiles clear of a one-tile footprint.
+    expect(farOffRuin(30)).toBeLessThan(1)
+    expect(farOffRuin(18)).toBeLessThan(1)
+  })
+
+  it('a rock of the same radius still deflects, so avoidance itself is intact', () => {
+    const s = newGame()
+    s.terrainValidated = false
+    s.terrain = [{ id: 'r1', type: 'rock', x: 120, y: 40, radius: 30 }]
+    const unit = spawnUnit(MOBILE_TEMPLATE, 'player')
+    unit.x = 100
+    unit.y = 20
+    unit.advanceY = 20
+    s.field = [unit]
+    for (let i = 0; i < 10; i++) moveUnits(s, 100)
+    expect(unit.y).toBeLessThan(20)
+  })
+})

@@ -1,4 +1,4 @@
-import { GameState, LANE_WIDTH, TERRAIN_AVOID_SHAPE, Unit, UnitTag } from '../types'
+import { GameState, LANE_WIDTH, TERRAIN_AVOID_SHAPE, RUIN_FOOTPRINT_RADIUS, Unit, UnitTag } from '../types'
 import { BASE_STOP_MARGIN, COMMANDER_LEASH_PX, DAMAGE_FLASH_MS, PLAYER_SPAWN_X } from './constants'
 import { LANE_MAX_Y, LANE_MIN_Y } from './helpers'
 import { unitDist, findNearestEnemy, findNearestEnemyByPriority, findEnemyBehind } from './targeting'
@@ -385,8 +385,11 @@ export function moveUnits(s: GameState, deltaMs: number): void {
           const toObsX = obs.x - unit.x
           const toObsY = obs.y - unit.y
           const shape  = TERRAIN_AVOID_SHAPE[obs.type]
-          const ax     = obs.radius * shape.fx + 4
-          const ay     = obs.radius * shape.fy + 4
+          // Ruins draw a single icon, so they deflect over one tile rather than
+          // their authored radius — see RUIN_FOOTPRINT_RADIUS.
+          const radius = obs.type === 'ruin' ? RUIN_FOOTPRINT_RADIUS : obs.radius
+          const ax     = radius * shape.fx + 4
+          const ay     = radius * shape.fy + 4
           const normDist = Math.sqrt((toObsX / ax) ** 2 + (toObsY / ay) ** 2)
           if (normDist < 1 && normDist > 0) {
             const strength = 1 - normDist
