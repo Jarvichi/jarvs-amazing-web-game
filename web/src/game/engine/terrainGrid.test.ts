@@ -99,3 +99,28 @@ describe('checkReachability / checkAllProfilesReachable', () => {
     expect(checkReachability(terrain, roads, 'ground', false).reachable).toBe(false)
   })
 })
+
+describe('obstacle tile footprint matches what is drawn', () => {
+  // utils/terrainPatchPlan.ts gives ruins no patch tileset in any environment —
+  // they render as a single WORLD_DECOR icon on their centre tile. Blocking the
+  // patch-sized disc anyway walled off up to 29 tiles behind a one-tile icon.
+  it('a ruin blocks only the tile its icon occupies, at any radius', () => {
+    for (const radius of [18, 22, 26, 28, 32]) {
+      const map = buildObstacleTileMap([{ id: 't1', type: 'ruin', x: 250, y: 0, radius }])
+      expect(map.size).toBe(1)
+      const centre = gameToTile(250, 0)
+      expect(map.get(`${centre.tcx},${centre.tcy}`)?.type).toBe('ruin')
+    }
+  })
+
+  it('patch-drawing types still block the full disc they autotile', () => {
+    // rock/tree/water fill the same disc they block, so their footprint must
+    // keep scaling with radius rather than collapsing to a single tile.
+    for (const type of ['rock', 'tree', 'water'] as const) {
+      const small = buildObstacleTileMap([{ id: 't1', type, x: 250, y: 0, radius: 18 }]).size
+      const large = buildObstacleTileMap([{ id: 't1', type, x: 250, y: 0, radius: 28 }]).size
+      expect(small).toBeGreaterThan(1)
+      expect(large).toBeGreaterThan(small)
+    }
+  })
+})
