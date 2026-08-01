@@ -26,13 +26,14 @@ describe('moveUnits — road following', () => {
     s.roads = [{ points: [{ x: 0, y: 40 }, { x: LANE_WIDTH, y: 40 }] }]
     const unit = spawnUnit(MOBILE_TEMPLATE, 'player')
     unit.y = 0 // pin — spawnUnit() otherwise picks a random lane from LANE_POSITIONS
+    unit.advanceY = 0 // pin — advancing units otherwise head for a random lateral lane
     s.field = [unit]
 
     moveUnits(s, 100)
 
     expect(unit.roadWaypoints).toBeUndefined()
-    // Straight toward the opponent base (LANE_WIDTH, 0) — y should not have moved toward
-    // the road's y=40.
+    // Straight toward the opponent base at the unit's own lane — y should not have
+    // moved toward the road's y=40.
     expect(unit.y).toBeCloseTo(0)
   })
 
@@ -81,13 +82,14 @@ describe('moveUnits — road following', () => {
     s.roads = roads
     const unit = spawnUnit(MOBILE_TEMPLATE, 'player')
     unit.y = 0
+    unit.advanceY = 0 // pin — advancing units otherwise head for a random lateral lane
     s.field = [unit]
 
     for (let i = 0; i < 100; i++) moveUnits(s, 100)
 
     expect(unit.roadWaypoints).toEqual([])
     // With the road exhausted, the unit should be progressing straight toward the
-    // opponent base (increasing x, y pinned back to 0).
+    // opponent base (increasing x, y pinned back to its lane).
     expect(unit.x).toBeGreaterThan(45)
     expect(unit.y).toBeCloseTo(0)
   })

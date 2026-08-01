@@ -87,8 +87,15 @@ export function moveUnits(s: GameState, deltaMs: number): void {
 
     const nearestAhead = findNearestEnemyByPriority(s.field, unit) ?? findNearestEnemy(s.field, unit)
 
+    // Advancing units head for their own lateral lane rather than dead centre.
+    // Sending everyone to y=0 collapsed the army onto the centre line within
+    // seconds, which wasted the flanks and — because the flow field is shared
+    // and deterministic — meant every blocked unit then detoured round terrain
+    // on the identical side. A per-unit lane fans them out, so they meet
+    // obstacles at different points and naturally split around them.
+    if (unit.advanceY === undefined) unit.advanceY = (Math.random() * 2 - 1) * LANE_MAX_Y
     let tx: number = unit.owner === 'player' ? LANE_WIDTH : 0
-    let ty: number = 0
+    let ty: number = unit.advanceY
     let hasTarget = false
 
     // Road-following: lazily compute this unit's path onto the nearest authored road the
@@ -465,7 +472,10 @@ export function moveUnits(s: GameState, deltaMs: number): void {
         // sub-pixel move. Forward progress was zero, yet the unit never looked
         // stuck to the code; it just ground against the obstacle for the rest
         // of the battle.
-        const next = flowFieldStep(field, here.tcx, here.tcy)
+        // Steer the detour toward this unit's own lane so an army splits around
+        // an obstacle instead of every unit tracing the identical shortest route.
+        const preferTcx = gameToTile(unit.x, unit.advanceY ?? unit.y).tcx
+        const next = flowFieldStep(field, here.tcx, here.tcy, preferTcx)
         if (next) {
           const target = tileToGame(next.tcx, next.tcy)
           const toX = target.x - unit.x
