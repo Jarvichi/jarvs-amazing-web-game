@@ -75,6 +75,19 @@ export function moveUnits(s: GameState, deltaMs: number): void {
   // Y positions defenders spread across so they don't all converge on a single point.
   const DEFEND_Y_SLOTS = [-64, -40, -20, 0, 20, 40, 64]
 
+  // The line defenders form up on, and how far in front of it an enemy still
+  // counts as an intruder worth breaking formation for.
+  const DEFEND_LINE_X = PLAYER_SPAWN_X + 40
+  const DEFEND_INTERCEPT_PX = 120
+
+  // Enemies that have reached the defensive line or slipped behind it — where
+  // the player's spawners, walls and commander all sit. Without this, defenders
+  // sat on their assigned slot while an enemy chewed through a structure a few
+  // pixels away, since nothing in the defend branch ever looked for a target.
+  const defendThreats = stance === 'defend'
+    ? s.field.filter(u => u.owner === 'opponent' && u.hp > 0 && u.x <= DEFEND_LINE_X + DEFEND_INTERCEPT_PX)
+    : []
+
   for (const unit of s.field) {
     if (unit.moveSpeed === 0) continue
     if (unit.spawnGrowTimer != null && unit.spawnGrowTimer > 0) continue
@@ -130,11 +143,26 @@ export function moveUnits(s: GameState, deltaMs: number): void {
       }
     }
 
-    // Defend: pull back toward spawn, spread across Y slots; overflow units charge forward.
+    // Defend: intercept anything that has breached the line, otherwise hold
+    // formation spread across Y slots. Overflow units charge forward instead.
     if (unit.owner === 'player' && stance === 'defend' && !defendOverflowAttackers.has(unit.id)) {
-      tx = PLAYER_SPAWN_X + 40
-      ty = DEFEND_Y_SLOTS[idNum(unit.id) % DEFEND_Y_SLOTS.length]
-      hasTarget = false
+      let threat: Unit | undefined
+      let threatDist = Infinity
+      for (const other of defendThreats) {
+        const d = unitDist(unit, other)
+        if (d < threatDist) { threatDist = d; threat = other }
+      }
+      if (threat) {
+        // Already engaging it — combat handles the attack, don't crowd closer.
+        if (threatDist <= unit.attackRange) continue
+        tx = threat.x
+        ty = threat.isWall ? unit.y : threat.y
+        hasTarget = true
+      } else {
+        tx = DEFEND_LINE_X
+        ty = DEFEND_Y_SLOTS[idNum(unit.id) % DEFEND_Y_SLOTS.length]
+        hasTarget = false
+      }
     }
 
     // Trait-based movement overrides are suppressed in attack/defend/hold stances

@@ -249,3 +249,42 @@ describe('moveUnits — hard terrain blocking (terrainValidated)', () => {
     expect(unit.x).toBeGreaterThan(400)
   })
 })
+
+describe('moveUnits — defend stance', () => {
+  /** A defend-stance battle with one player defender and one enemy position. */
+  function defendBattle(enemyX: number) {
+    const s = newGame()
+    s.terrain = []
+    s.playerStance = 'defend'
+    const defender = spawnUnit(MOBILE_TEMPLATE, 'player')
+    defender.x = 70
+    defender.y = 0
+    defender.advanceY = 0
+    const enemy = spawnUnit(MOBILE_TEMPLATE, 'opponent')
+    enemy.x = enemyX
+    enemy.y = 60
+    s.field = [defender, enemy]
+    return { s, defender, enemy }
+  }
+
+  it('breaks formation to intercept an enemy that has breached the line', () => {
+    // An enemy this deep is on top of the player's spawners and commander.
+    const { s, defender, enemy } = defendBattle(60)
+    const startDist = Math.hypot(defender.x - enemy.x, defender.y - enemy.y)
+
+    for (let i = 0; i < 30; i++) moveUnits(s, 100)
+
+    const endDist = Math.hypot(defender.x - enemy.x, defender.y - enemy.y)
+    expect(endDist).toBeLessThan(startDist)
+  })
+
+  it('holds its assigned slot when no enemy has breached the line', () => {
+    // Far up the lane — not a threat, so the defender should stay on the line
+    // rather than charging out to meet it.
+    const { s, defender } = defendBattle(LANE_WIDTH - 40)
+
+    for (let i = 0; i < 30; i++) moveUnits(s, 100)
+
+    expect(defender.x).toBeLessThan(120)
+  })
+})
