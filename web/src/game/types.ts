@@ -421,6 +421,20 @@ export const LANE_WIDTH = 500
  *  to fill wider/shorter containers. See web/src/hooks/useLetterboxSize.ts. */
 export const BATTLEFIELD_ASPECT_RATIO = 9 / 19.5
 
+/** Fixed width/height ratio the LANE — the play area between the frame's reserved
+ *  HUD bands — is letterboxed to, the same way the frame itself is. The bands are
+ *  fixed pixel heights, so without this the lane's shape would drift with the
+ *  frame's (0.62 tall-desktop .. 0.72 small-phone), and terrain art (square tiles
+ *  sized from lane HEIGHT) would lay a different number of tile columns across the
+ *  lane on every device than the collision grid assumes. Locking the shape is what
+ *  lets a collision tile and a drawn tile be the exact same pixels — see
+ *  GRID_REF_WIDTH in game/engine/terrainGrid.ts, which derives from this.
+ *
+ *  544/845 = exactly 17 tile columns, chosen by measuring the letterbox loss over
+ *  frame heights 700-1400: ~10% of width at the smallest, ~8% of height at the
+ *  tallest, and near zero through the phone range. */
+export const LANE_ASPECT_RATIO = 544 / 845
+
 /** In endless mode, player structures may not be placed beyond this forward x-coordinate (3 rows from base). */
 export const ENDLESS_STRUCTURE_MAX_X = 60
 

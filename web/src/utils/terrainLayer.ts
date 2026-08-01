@@ -7,27 +7,13 @@ import { planTerrainPatches } from './terrainPatchPlan'
 import { drawTerrainItem } from './terrainGfx'
 import { seededRand, hashStr, getTerrainItems, type TerrainItem } from './mapUtils'
 import { renderPathTiles } from './tileLookup'
+import { anchorTile, patchTileRadius, gameToPixel, TILE_RADIUS_SCALE } from './laneGrid'
 import type { TerrainObstacle, RoadDef, BattlefieldDecorItem } from '../game/engine/terrain'
 
-// Divisor controlling how obstacle radius (game units) maps to tile-ring radius (tiles).
-// Tuned against the realistic range of obstacle radius (20-32) and lane CSS height (~318-842px)
-// so clusters show real size variety instead of always rounding to a single uniform "plus" shape.
-export const TILE_RADIUS_SCALE = 220
-
-/**
- * Battlefield lane coordinate mapping: game units (x: 0–500 forward base→base,
- * y: -80..80 lateral) → canvas pixels, and back. buildRoadGfx/buildTerrainDecorGfx
- * derive their tile coordinates from gameToPixel below; the battlefield editor uses
- * pixelToGame to turn a pointer click into a game-unit waypoint/obstacle position —
- * sharing this single definition keeps the two forever in lockstep.
- */
-export function gameToPixel(x: number, y: number, w: number, h: number): { px: number; py: number } {
-  return { px: (0.5 + (y / 80) * 0.36) * w, py: (1 - x / 500) * h }
-}
-
-export function pixelToGame(px: number, py: number, w: number, h: number): { x: number; y: number } {
-  return { x: 500 * (1 - py / h), y: 80 * ((px / w - 0.5) / 0.36) }
-}
+// Lane coordinate/tile math lives in ./laneGrid (pixi-free so tests can import
+// it); re-exported here because most callers reach for it alongside the
+// build*Gfx helpers.
+export { gameToPixel, pixelToGame, TILE_RADIUS_SCALE } from './laneGrid'
 
 export interface TerrainLayerOptions {
   environment?: string
@@ -289,9 +275,7 @@ export async function buildManualDecorGfx(
   const sortedDecorItems = [...decorItems].sort((a, b) => (a.zIndex ?? 0) - (b.zIndex ?? 0))
   for (const item of sortedDecorItems) {
     if (container.destroyed) return
-    const { px, py } = gameToPixel(item.x, item.y, mapWidth, mapHeight)
-    const tcx0 = Math.round(px / T)
-    const tcy0 = Math.round(py / T)
+    const { tcx: tcx0, tcy: tcy0 } = anchorTile(item.x, item.y, mapWidth, mapHeight, T, tileScale)
     if (item.bundleId) {
       const bundle = getBattlefieldBundleById(item.bundleId)
       if (!bundle) continue
@@ -342,10 +326,7 @@ export async function buildRoadGfx(
   const def = opts.envDef ?? ENV_TILES[opts.environment ?? '']
   const T = TILE_SIZE * tileScale
 
-  const toTile = (x: number, y: number) => {
-    const { px, py } = gameToPixel(x, y, w, h)
-    return { tcx: Math.round(px / T), tcy: Math.round(py / T) }
-  }
+  const toTile = (x: number, y: number) => anchorTile(x, y, w, h, T, tileScale)
 
   // Group by effective tileFile only — every road sharing a tileFile is treated
   // as one continuous material and merges into a single autotiled shape
@@ -493,12 +474,8 @@ export async function buildTerrainDecorGfx(
   const envDecorMap = TERRAIN_DECOR_MAP[env] ?? {}
   const T = TILE_SIZE * tileScale
 
-  const toTile = (obs: TerrainObstacle) => {
-    const { px, py } = gameToPixel(obs.x, obs.y, w, h)
-    return { tcx: Math.round(px / T), tcy: Math.round(py / T) }
-  }
-  const tileRadiusOf = (obs: TerrainObstacle) =>
-    Math.max(1, Math.round(obs.radius * h / (TILE_RADIUS_SCALE * T)))
+  const toTile = (obs: TerrainObstacle) => anchorTile(obs.x, obs.y, w, h, T, tileScale)
+  const tileRadiusOf = (obs: TerrainObstacle) => patchTileRadius(obs.radius, h, T, tileScale)
 
   const { groups, decor } = planTerrainPatches(terrain, toTile, tileRadiusOf, env)
 

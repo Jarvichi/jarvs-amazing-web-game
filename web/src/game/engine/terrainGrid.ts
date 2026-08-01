@@ -1,28 +1,37 @@
 import type { TerrainObstacle, RoadDef, TerrainType } from './terrain'
 import { generateTerrain } from './terrain'
-import { LANE_WIDTH } from '../types'
+import { LANE_WIDTH, LANE_ASPECT_RATIO } from '../types'
 import { LANE_MIN_Y, LANE_MAX_Y } from './helpers'
 
 // ─── Reference tile grid ──────────────────────────────────────────────────
 //
 // Gameplay-critical blocking must be deterministic across every client
 // regardless of screen size, so this grid is computed against a FIXED
-// reference resolution rather than the actual on-screen canvas (which
+// reference size for the LANE rather than the actual on-screen canvas (which
 // utils/terrainLayer.ts's rendering-side gameToPixel/pixelToGame use, sized
-// to whatever the player's viewport happens to be). Any (w,h) pair on
-// BATTLEFIELD_ASPECT_RATIO produces an identical grid in game-unit space —
-// this only picks a concrete tile density, not a different result.
+// to whatever the player's viewport happens to be).
 //
-// The two coordinate-conversion formulas below are intentionally duplicated
-// from utils/terrainLayer.ts's gameToPixel/pixelToGame (not imported) — that
-// file pulls in pixi.js, which game/engine code must stay free of. Keep
-// these in sync with that file if the lane's coordinate mapping ever changes.
+// The reference is the lane box, not the whole battlefield frame, and its
+// shape is LANE_ASPECT_RATIO — the ratio components/battle/Battlefield.tsx
+// letterboxes the lane to. That is what makes a collision tile and a drawn
+// tile the same pixels: terrain art draws square tiles of
+// `TILE_SIZE * h/GRID_REF_HEIGHT` (see tileScale in BattlefieldCanvas.tsx),
+// a collision tile spans `TILE_SIZE * w/GRID_REF_WIDTH`, and the two are
+// equal exactly when `w/h == GRID_REF_WIDTH/GRID_REF_HEIGHT`. Before the lane
+// had a locked shape those disagreed by up to 1.55x horizontally, so an
+// obstacle blocked a visibly wider band than the rock that was drawn.
+//
+// The coordinate-conversion formula below is intentionally duplicated from
+// utils/terrainLayer.ts's gameToPixel (not imported) — that file pulls in
+// pixi.js, which game/engine code must stay free of. Keep it in sync with
+// that file if the lane's coordinate mapping ever changes.
 
-const BATTLEFIELD_ASPECT_RATIO = 9 / 19.5 // mirrors game/types.ts's constant of the same name
 const TILE_SIZE = 32 // mirrors data/tiles/tileIndex.ts's TILE_SIZE
 
-export const GRID_REF_WIDTH = 390
-export const GRID_REF_HEIGHT = Math.round(GRID_REF_WIDTH / BATTLEFIELD_ASPECT_RATIO)
+/** Reference lane height in px. Also the divisor BattlefieldCanvas.tsx's
+ *  tileScale uses, so the lane always spans this many tile ROWS. */
+export const GRID_REF_HEIGHT = 845
+export const GRID_REF_WIDTH = Math.round(GRID_REF_HEIGHT * LANE_ASPECT_RATIO) // 544 = 17 columns
 
 function gameToPixel(x: number, y: number): { px: number; py: number } {
   return { px: (0.5 + (y / 80) * 0.36) * GRID_REF_WIDTH, py: (1 - x / 500) * GRID_REF_HEIGHT }

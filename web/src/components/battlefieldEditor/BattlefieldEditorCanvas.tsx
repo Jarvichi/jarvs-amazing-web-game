@@ -8,7 +8,8 @@ import {
 } from '../../utils/terrainLayer'
 import { TILE_SIZE, EnvTileDef } from '../../data/tiles/tileIndex'
 import { TERRAIN_CLEAR_Y, expandTerrainPathsToObstacles } from '../../game/engine/terrain'
-import { BATTLEFIELD_ASPECT_RATIO } from '../../game/types'
+import { LANE_ASPECT_RATIO } from '../../game/types'
+import { GRID_REF_HEIGHT } from '../../game/engine/terrainGrid'
 import { getBattlefieldBundleById } from '../../data/bundles/battlefieldBundleLoader'
 import type { RoadDef, TerrainObstacle, TerrainType, ToolMode, SelectedEntity, BattlefieldDecorItem, TerrainPathDef } from './battlefieldEditorTypes'
 
@@ -142,24 +143,27 @@ function EditorPixi(props: Props & { w: number; h: number }) {
     stage.addChild(base, bg, border, decorObstacles, road, decorLayer, world, guides, editOverlay)
 
     const { environment, envDef, id, roads, terrain, decor, terrainPaths } = props
-    // WYSIWYG: tiles render at native size (tileScale defaults to 1 in every
-    // build*Gfx helper), exactly like BattlefieldTerrainCanvas.tsx — the live
-    // battlefield never passes a tileScale either. Scaling tiles to a fixed
-    // reference resolution here would make the editor's tile density diverge
-    // from what players actually see (GRID_REF_HEIGHT in game/engine/terrainGrid.ts
-    // is a logical grid for pathing/reachability math only, not a rendering size).
-    buildTerrainGfx(base, new PIXI.Container(), world, { environment, envDef, id, rivers: [], terrainItems: [] }, w, h)
-    buildBgTileGfx(bg, { environment, envDef }, w, h)
-    buildRoadGfx(road, roads, { environment, envDef }, w, h)
-    buildBorderGfx(border, { environment, envDef }, w, h)
-    if (decor.length > 0) buildManualDecorGfx(decorLayer, decor, w, h)
-    else buildDecorGfx(decorLayer, { environment, envDef, id }, w, h)
+    // WYSIWYG: the canvas is letterboxed to LANE_ASPECT_RATIO — the same shape
+    // the live lane is locked to — and tiles are scaled off its height against
+    // the same reference the live battlefield uses (see tileScale in
+    // components/battle/BattlefieldCanvas.tsx). That gives the editor exactly
+    // the tile grid players get: GRID_REF_HEIGHT/32 rows by GRID_REF_WIDTH/32
+    // columns, at any canvas size. Drawing at a native 32px instead would put a
+    // different number of tiles across the same authored area than the game
+    // shows, which is what made authored scenes render differently in battle.
+    const tileScale = h / GRID_REF_HEIGHT
+    buildTerrainGfx(base, new PIXI.Container(), world, { environment, envDef, id, rivers: [], terrainItems: [] }, w, h, tileScale)
+    buildBgTileGfx(bg, { environment, envDef }, w, h, tileScale)
+    buildRoadGfx(road, roads, { environment, envDef }, w, h, tileScale)
+    buildBorderGfx(border, { environment, envDef }, w, h, tileScale)
+    if (decor.length > 0) buildManualDecorGfx(decorLayer, decor, w, h, tileScale)
+    else buildDecorGfx(decorLayer, { environment, envDef, id }, w, h, tileScale)
     // WYSIWYG: terrainPaths expand into the exact same TerrainObstacle circles
     // the engine adds at battle start, so drawn paths render (and dedup edges
     // against hand-placed obstacles) identically here and in the live game.
-    buildTerrainDecorGfx(decorObstacles, [...terrain, ...expandTerrainPathsToObstacles(terrainPaths)], { environment, envDef }, w, h)
+    buildTerrainDecorGfx(decorObstacles, [...terrain, ...expandTerrainPathsToObstacles(terrainPaths)], { environment, envDef }, w, h, tileScale)
 
-    if (props.showGuides) drawGuides(guides, w, h)
+    if (props.showGuides) drawGuides(guides, w, h, tileScale)
     drawEditOverlay(editOverlay, props, w, h, dragRef)
   })
 
@@ -348,7 +352,7 @@ function drawEditOverlay(
  */
 export function BattlefieldEditorCanvas(props: Props) {
   const stageRef = useRef<HTMLDivElement>(null)
-  const rawSize = useLetterboxSize(stageRef, BATTLEFIELD_ASPECT_RATIO)
+  const rawSize = useLetterboxSize(stageRef, LANE_ASPECT_RATIO)
   const dims = rawSize ? { w: Math.floor(rawSize.width), h: Math.floor(rawSize.height) } : null
 
   return (

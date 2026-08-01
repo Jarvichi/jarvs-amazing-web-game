@@ -12687,8 +12687,8 @@
     },
     "prism-wyrm": {
       "name": "Prism Wyrm",
-      "attack": 55,
-      "maxHp": 220,
+      "attack": 26,
+      "maxHp": 130,
       "isWall": false,
       "bypassWall": true,
       "flying": true,

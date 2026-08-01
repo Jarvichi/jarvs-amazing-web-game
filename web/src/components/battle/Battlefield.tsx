@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { BattlefieldCanvas } from './BattlefieldCanvas'
-import { GameState, Unit, BATTLEFIELD_ASPECT_RATIO, Card } from '../../game/types'
+import { GameState, Unit, BATTLEFIELD_ASPECT_RATIO, LANE_ASPECT_RATIO, Card } from '../../game/types'
 import { CardTile } from '../cards/CardTile'
 import { useCardDetail } from '../cards/useCardDetail'
 import { spriteSlug } from '../../game/sprites'
@@ -138,6 +138,13 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
   const [pendingAoeCard, setPendingAoeCard] = useState<Card | null>(null)
   const stageRef = useRef<HTMLDivElement>(null)
   const frameSize = useLetterboxSize(stageRef, BATTLEFIELD_ASPECT_RATIO)
+  // The lane is letterboxed inside the slot the HUD bands leave, just as the
+  // frame is letterboxed inside the stage. Those bands are fixed pixel heights,
+  // so the slot's shape drifts with the frame's; locking the lane's shape is
+  // what keeps the terrain art's tile grid identical to the engine's collision
+  // grid on every screen (see LANE_ASPECT_RATIO in game/types.ts).
+  const laneSlotRef = useRef<HTMLDivElement>(null)
+  const laneSize = useLetterboxSize(laneSlotRef, LANE_ASPECT_RATIO)
   const playerName   = loadPlayerName()
   const playerAvatar = loadPlayerAvatar()
 
@@ -229,6 +236,12 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
   // back to filling the stage until the first ResizeObserver measurement lands.
   const frameStyle: React.CSSProperties = frameSize
     ? { width: frameSize.width, height: frameSize.height }
+    : { width: '100%', height: '100%' }
+  // Rounded to whole pixels: BattlefieldCanvas measures its own box with
+  // Math.ceil, so a fractional size would land the canvas a pixel off the ratio
+  // and reintroduce a small collision/art drift across the lane's 17 columns.
+  const laneStyle: React.CSSProperties = laneSize
+    ? { width: Math.round(laneSize.width), height: Math.round(laneSize.height) }
     : { width: '100%', height: '100%' }
   const isCompactFrame = !!frameSize && frameSize.width <= 480
   const isTinyFrame = !!frameSize && frameSize.width <= 380
@@ -336,11 +349,16 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
       </div>
       </div>
 
-      {/* The Lane — vertical, fills remaining space */}
+      {/* The Lane — letterboxed to LANE_ASPECT_RATIO inside the slot the HUD
+          bands leave, so its shape (and therefore its tile grid) is the same on
+          every device. The slot is the absolutely-positioned box; the lane is
+          the play area centred within it. */}
       {(() => {
         return (
+      <div className="lane-slot" ref={laneSlotRef}>
       <div
         className={`lane${pendingAoeCard ? ' lane--aoe-targeting' : ''}`}
+        style={laneStyle}
       >
         <BattlefieldCanvas
           state={state}
@@ -396,6 +414,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
             </>
           )
         })()}
+      </div>
       </div>
         )
       })()}

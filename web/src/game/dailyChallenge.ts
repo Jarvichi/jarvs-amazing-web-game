@@ -7,7 +7,7 @@
 import { logError } from '../logger'
 import { getCardCatalog } from './cards'
 import { hashStr, makeSeededRng, seededShuffle } from './seededRandom'
-import { Card } from './types'
+import { Card, SECRET_RARITIES } from './types'
 import {
   doc, setDoc, getDocs, collection, query, orderBy, limit, where, Timestamp,
 } from 'firebase/firestore'
@@ -70,7 +70,15 @@ function isDeckPlayable(cards: Card[]): boolean {
  *  the deck passes playability checks. Attempt 0 is identical to the original
  *  algorithm, so valid days remain unchanged. */
 function buildChallengeCards(xorSeed: number): Card[] {
-  const catalog       = getCardCatalog()
+  // Secret rarities are excluded, matching Quick Play's opponent pool (App.tsx)
+  // and generated opponent decks (maxRarityForHandicap in engine.ts caps at
+  // legendary). Both decks here are dealt by the game, not chosen by anyone, so
+  // a mythic landing in either is an ambush: mythic units sit 3-4x above the
+  // strongest card of the same cost, and unlike an enemy mythic SPELL — which
+  // the Counter QTE caps at a survivable fraction of commander HP — a unit's
+  // attack has no such safety valve. Mythics belong to the player who finished
+  // the quest chain for them (data/quests.json).
+  const catalog       = getCardCatalog().filter(c => !SECRET_RARITIES.has(c.rarity))
   const BASE_MAX_MANA = 5
   let firstResult: Card[] | null = null
 

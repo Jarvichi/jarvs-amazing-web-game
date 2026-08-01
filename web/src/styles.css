@@ -235,11 +235,11 @@ body {
 /* Narrower-frame tuning — keyed off the letterboxed frame's own computed width
    (set as classes from Battlefield.tsx), not the device viewport: a wide desktop
    window letterboxed down to a phone-width frame needs the same phone tuning a
-   real phone gets, which a viewport @media query alone could never detect. */
+   real phone gets, which a viewport @media query alone could never detect.
+   The lane has no min-height override here: it is letterboxed to a fixed ratio
+   (see .lane below), and a minimum on one axis would silently break that ratio. */
 .battlefield-frame--compact { --bf-top-buffer: 74px; --bf-bottom-buffer: 200px; }
-.battlefield-frame--compact .lane { min-height: 120px; }
 .battlefield-frame--tiny { --bf-top-buffer: 68px; --bf-bottom-buffer: 182px; }
-.battlefield-frame--tiny .lane { min-height: 90px; }
 
 /* Floating bar clusters: absolutely positioned in the reserved bands above/below
    the lane. Their content can grow/wrap without ever resizing or reflowing the lane. */
@@ -476,15 +476,33 @@ body {
 
 /* ─── The Lane (vertical — fills remaining space) ────── */
 
-.lane {
-  /* Absolute fill between the reserved buffer bands — size is viewport-driven only.
-     Still establishes the positioning context + rect source for %-placed units. */
+/* The slot the lane lives in: absolute fill between the reserved buffer bands.
+   Its shape drifts with the frame's (the bands are fixed pixel heights), so the
+   lane itself is letterboxed inside it to a fixed LANE_ASPECT_RATIO and centred —
+   see Battlefield.tsx. Dead space either side (small frames) or above/below
+   (tall frames) shows the frame background. */
+.lane-slot {
   position: absolute;
   top: var(--bf-top-buffer);
   bottom: var(--bf-bottom-buffer);
   left: 0;
   right: 0;
-  border: 2px solid var(--game-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lane {
+  /* Size comes from Battlefield.tsx's letterbox measurement. Establishes the
+     positioning context + rect source for everything placed inside it.
+     The border is an OUTLINE deliberately: box-sizing is border-box globally, so
+     a real border would eat 4px out of that measured size and put the play area
+     ~1% off the locked ratio — visible as collision/art drift across 17 tile
+     columns. An outline takes no layout space and renders identically here. */
+  position: relative;
+  flex-shrink: 0;
+  outline: 2px solid var(--game-border);
+  outline-offset: -2px;
   border-radius: 3px;
   background:
     repeating-linear-gradient(
@@ -6458,7 +6476,7 @@ body {
       #080f08 75%,
       #050f05 100%
     );
-  border-color: #1a3a1a;
+  outline-color: #1a3a1a;
 }
 
 .battlefield--act1 .top-bar { border-color: #1a3a1a; }
@@ -6475,7 +6493,7 @@ body {
       transparent 4px
     ),
     linear-gradient(180deg, #0a0a0c 0%, #0d0d10 40%, #0a0a0c 100%);
-  border-color: #2a2a38;
+  outline-color: #2a2a38;
 }
 .battlefield--act2 .top-bar { border-color: #2a2a38; }
 .battlefield--act2 .base-bar--opponent { border-color: #884422; }
@@ -6491,7 +6509,7 @@ body {
       transparent 4px
     ),
     linear-gradient(180deg, #0a0604 0%, #0e0a06 40%, #0a0604 100%);
-  border-color: #2a1a0a;
+  outline-color: #2a1a0a;
 }
 .battlefield--act3 .top-bar { border-color: #2a1a0a; }
 .battlefield--act3 .base-bar--opponent { border-color: #6a2288; }
@@ -6507,7 +6525,7 @@ body {
       transparent 4px
     ),
     linear-gradient(180deg, #040812 0%, #060c18 40%, #040812 100%);
-  border-color: #0a1a3a;
+  outline-color: #0a1a3a;
 }
 .battlefield--act4 .top-bar { border-color: #0a1a3a; }
 .battlefield--act4 .base-bar--opponent { border-color: #2244aa; }
