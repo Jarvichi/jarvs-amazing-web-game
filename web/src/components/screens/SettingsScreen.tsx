@@ -12,6 +12,7 @@ import { uploadSave, applySave, getLastSyncTime, type CloudSave } from '../../ga
 import { isDevMode } from '../../game/debug'
 import { DevMenu } from '../admin/DevMenu'
 import { GIFT_OWNER_UID } from '../../game/gifts'
+import { isAdminUser } from '../../game/admin'
 import { loadPlaytime, formatPlaytime } from '../../game/playtime'
 import { isHubWorldUnlocked, unlockHubWorld, loadHubDefault, saveHubDefault } from '../../game/codex'
 
@@ -742,7 +743,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
           </Section>
         )}
 
-        {isDevMode() && onDevCrystalsChanged && onDevHandicapChanged && onSceneryPreview && (
+        {(isDevMode() || isAdminUser(user)) && onDevCrystalsChanged && onDevHandicapChanged && onSceneryPreview && (
           <DevMenu
             onCrystalsChanged={onDevCrystalsChanged}
             onHandicapChanged={onDevHandicapChanged}
