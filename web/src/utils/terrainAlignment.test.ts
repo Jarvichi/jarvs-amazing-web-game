@@ -1,5 +1,8 @@
 import { describe, it, expect } from 'vitest'
-import { anchorTile, patchTileRadius } from './terrainLayer'
+// From ./laneGrid, not ./terrainLayer: the latter imports pixi, which touches
+// `navigator` at import time and so cannot load under Node 20 (which CI runs).
+// These are the exact helpers buildTerrainDecorGfx uses to choose its tiles.
+import { anchorTile, patchTileRadius } from './laneGrid'
 import { planTerrainPatches } from './terrainPatchPlan'
 import { buildObstacleTileMap, gameToTile, GRID_REF_HEIGHT, GRID_REF_WIDTH } from '../game/engine/terrainGrid'
 import { generateTerrain } from '../game/engine/terrain'
