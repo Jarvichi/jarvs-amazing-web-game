@@ -15,7 +15,7 @@ import { NodeMapHpBar } from '../../campaign/NodeMapHpBar'
 import { ToolbarSpacer } from '../../ui/Toolbar/ToolbarSpacer'
 import { ToolbarLabel } from '../../ui/Toolbar/ToolbarLabel'
 import { usePixiApp } from '../../../hooks/usePixiApp'
-import { loadSpriteTexture, loadAnimFrames, loadTextureUrl, loadTileTexture, makeClickable, tweenTo } from '../../../utils/pixiHelpers'
+import { loadSpriteTexture, loadAnimFrames, loadTextureUrl, loadTileTexture, makeClickable, tweenAlongPath } from '../../../utils/pixiHelpers'
 import { ENV_TILES, TILE_SIZE, type EnvTileDef } from '../../../data/tiles/tileIndex'
 import { WORLD_ENV_TILES, WORLD_DECOR_FILE } from '../../../data/tiles/worldTileIndex'
 import { GIFT_OWNER_UID } from '../../../game/gifts'
@@ -23,7 +23,9 @@ import { hashStr, envColors, parseRgba, sampleBezier, bezierBand } from '../../.
 import { renderPathTiles } from '../../../utils/tileLookup'
 import { buildTerrainGfx, buildBgTileGfx, buildDecorGfx, buildBorderGfx } from '../../../utils/terrainLayer'
 import { NODE_ICON, NODE_LABEL, mapLabelStyle } from '../../ui/NodeMap/constants'
-import { COL_WIDTH, ROW_HEIGHT, AVATAR_PADDING, CONN_W, nodeCenter, startPos } from '../../ui/NodeMap/nodeLayout'
+import { COL_WIDTH, ROW_HEIGHT, AVATAR_PADDING, CONN_W, nodeCenter, startPos,
+  elbowCorners, edgeCorners, cornerPolyline, fillCornerPath, worldWalkRoute,
+  type PixelPoint } from '../../ui/NodeMap/nodeLayout'
 import { getCurrentWorldLocation } from '../../../game/world/worldState'
 import { NodePeekModal } from '../../ui/NodeMap/NodePeekModal'
 
@@ -44,6 +46,11 @@ interface Props {
 
 const AVATAR_SIZE    = 36
 const WALK_DURATION  = 700
+// Pace calibrated so a straight hop between adjacent grid columns still takes
+// WALK_DURATION; longer routes take proportionally longer rather than sprinting.
+const WALK_SPEED     = (COL_WIDTH + CONN_W) / WALK_DURATION
+const WALK_MIN_MS    = 400
+const WALK_MAX_MS    = 2400
 const NODE_RADIUS    = 22
 
 // ── Game logic helpers ────────────────────────────────────────────────────────
@@ -69,42 +76,11 @@ export function getWorldNodeStatus(node: QuestNode, clearedNodeIds: Set<string>,
   return cleared ? 'available' : 'locked'
 }
 
-interface PixelPoint { x: number; y: number }
-interface TileCorner { tx: number; ty: number }
-
-// The single-bend elbow between two points: horizontal at a's row, vertical
-// at the midpoint column, horizontal at b's row — as 4 corner tile coords.
-function elbowCorners(a: PixelPoint, b: PixelPoint, T: number): TileCorner[] {
-  const aTx = Math.floor(a.x / T), aTy = Math.floor(a.y / T)
-  const bTx = Math.floor(b.x / T), bTy = Math.floor(b.y / T)
-  const midTx = Math.floor((a.x + b.x) / 2 / T)
-  return [{ tx: aTx, ty: aTy }, { tx: midTx, ty: aTy }, { tx: midTx, ty: bTy }, { tx: bTx, ty: bTy }]
-}
-
-// Full corner-tile list for an edge, optionally steered through hand-authored
-// waypoints (see QuestNode.connectionWaypoints). With no waypoints this is
-// exactly elbowCorners(node, target, T) — a single bend, unchanged from before.
-function edgeCorners(node: PixelPoint, target: PixelPoint, waypoints: PixelPoint[] | undefined, T: number): TileCorner[] {
-  const pts = [node, ...(waypoints ?? []), target]
-  const corners: TileCorner[] = []
-  for (let i = 0; i < pts.length - 1; i++) {
-    const seg = elbowCorners(pts[i], pts[i + 1], T)
-    corners.push(...(i === 0 ? seg : seg.slice(1))) // dedupe the shared join corner
-  }
-  return corners
-}
-
-// Fills every tile along a corner-to-corner path, where each consecutive
-// pair shares either a row (ty) or a column (tx) — guaranteed by elbowCorners.
-function fillCornerPath(pathSet: Set<string>, key: (tx: number, ty: number) => string, corners: TileCorner[]): void {
-  for (let i = 0; i < corners.length - 1; i++) {
-    const a = corners[i], b = corners[i + 1]
-    if (a.ty === b.ty) {
-      for (let tx = Math.min(a.tx, b.tx); tx <= Math.max(a.tx, b.tx); tx++) pathSet.add(key(tx, a.ty))
-    } else {
-      for (let ty = Math.min(a.ty, b.ty); ty <= Math.max(a.ty, b.ty); ty++) pathSet.add(key(a.tx, ty))
-    }
-  }
+function routeDuration(route: PixelPoint[]): number {
+  let len = 0
+  for (let i = 1; i < route.length; i++)
+    len += Math.hypot(route[i].x - route[i - 1].x, route[i].y - route[i - 1].y)
+  return Math.min(Math.max(len / WALK_SPEED, WALK_MIN_MS), WALK_MAX_MS)
 }
 
 async function buildWorldPathTiles(
@@ -663,6 +639,10 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
   const avatarRef    = useRef<PIXI.AnimatedSprite | null>(null)
   const isWalkingRef = useRef(false)
   const peekNodeRef  = useRef<QuestNode | null>(null)
+  // Where the avatar actually stands on the world map. Tracked separately from
+  // getCurrentWorldLocation(), which only advances once travel is confirmed —
+  // peeking a town and backing out still leaves the avatar standing there.
+  const avatarNodeIdRef = useRef<string>(getCurrentWorldLocation())
   const deadRef      = useRef(false)
 
   // Always-current state for use inside async PixiJS callbacks
@@ -818,22 +798,13 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
             // road tiles along (including any hand-authored connectionWaypoints),
             // so the reveal swath fully covers the actual bent road art instead
             // of a straight line — and can never drift out of sync with it,
-            // since both come from the same edgeCorners() call. Interior bends
-            // snap to their tile center (matching the drawn tile); the two
-            // endpoints stay at the real node/target pixel position so halos
-            // still center correctly.
-            const corners = edgeCorners(
-              { x: nodeX, y: nodeY }, { x: targetX, y: targetY },
-              node.connectionWaypoints?.[connId], TILE_SIZE,
+            // since both come from the same edgeCorners() call.
+            const from = { x: nodeX, y: nodeY }, to = { x: targetX, y: targetY }
+            const pts = cornerPolyline(
+              edgeCorners(from, to, node.connectionWaypoints?.[connId], TILE_SIZE), from, to,
             )
             const path = new Path2D()
-            corners.forEach((c, i) => {
-              const last = corners.length - 1
-              const px = i === 0 ? nodeX : i === last ? targetX : c.tx * TILE_SIZE + TILE_SIZE / 2
-              const py = i === 0 ? nodeY : i === last ? targetY : c.ty * TILE_SIZE + TILE_SIZE / 2
-              if (i === 0) path.moveTo(px, py)
-              else path.lineTo(px, py)
-            })
+            pts.forEach((p, i) => (i === 0 ? path.moveTo(p.x, p.y) : path.lineTo(p.x, p.y)))
             fogCtx.strokeStyle = 'rgba(0,0,0,1)'
             fogCtx.globalAlpha = 0.45
             fogCtx.lineWidth = 130
@@ -1055,32 +1026,40 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
     mapEl.scrollTop  = node.y - mapEl.clientHeight / 2
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  function handleWalk(node: QuestNode, pos: { x: number; y: number }) {
+  // Walks the avatar along `route` at a steady pace instead of teleporting it in
+  // a straight line, then opens the node's peek modal.
+  function walkRoute(node: QuestNode, route: PixelPoint[]) {
     const app    = appRef.current
     const avatar = avatarRef.current
-    if (!app || !avatar || isWalkingRef.current) return
+    if (!app || !avatar || isWalkingRef.current || route.length < 2) return
     isWalkingRef.current = true
     avatar.play()
     emitSound('mapFootstep')
-    tweenTo(avatar, pos.x, pos.y, WALK_DURATION, app).then(() => {
+    tweenAlongPath(avatar, route, routeDuration(route), app).then(() => {
       avatar.stop()
       isWalkingRef.current = false
       setPeekNode(node)
     })
   }
 
-  function handleWalkFreeform(node: QuestNode) {
-    const app    = appRef.current
+  function handleWalk(node: QuestNode, pos: { x: number; y: number }) {
     const avatar = avatarRef.current
-    if (!app || !avatar || isWalkingRef.current || node.x === undefined) return
-    isWalkingRef.current = true
-    avatar.play()
-    emitSound('mapFootstep')
-    tweenTo(avatar, node.x, node.y!, WALK_DURATION, app).then(() => {
-      avatar.stop()
-      isWalkingRef.current = false
-      setPeekNode(node)
-    })
+    if (!avatar) return
+    // The road tiles between two grid nodes are laid along elbowCorners() of the
+    // same two points, so walking that elbow puts the avatar on the drawn road.
+    const from = { x: avatar.x, y: avatar.y }
+    walkRoute(node, cornerPolyline(elbowCorners(from, pos, TILE_SIZE), from, pos))
+  }
+
+  function handleWalkFreeform(node: QuestNode) {
+    const avatar = avatarRef.current
+    if (!avatar || node.x === undefined || node.y === undefined) return
+    // Travel is not restricted to adjacent towns, so the route is stitched from
+    // the roads through every town in between — otherwise a hop to a distant
+    // town would still cut straight across the map.
+    const from = { x: avatar.x, y: avatar.y }
+    walkRoute(node, worldWalkRoute(worldMap.nodes, avatarNodeIdRef.current, node.id, from))
+    avatarNodeIdRef.current = node.id
   }
 
   return (

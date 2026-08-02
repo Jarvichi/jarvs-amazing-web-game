@@ -195,3 +195,47 @@ export function tweenTo(
     app.ticker.add(tick)
   })
 }
+
+/**
+ * Tween a Container along a polyline, easing the journey as a whole rather than
+ * each leg — chaining tweenTo() calls instead would decelerate into every bend
+ * and accelerate out of it. Distance is distributed by segment length, so the
+ * object holds a steady pace around corners. Resolves when the walk completes.
+ */
+export function tweenAlongPath(
+  obj: PIXI.Container,
+  points: Array<{ x: number; y: number }>,
+  durationMs: number,
+  app: PIXI.Application,
+): Promise<void> {
+  if (points.length < 2) return Promise.resolve()
+
+  const segLen: number[] = []
+  let total = 0
+  for (let i = 1; i < points.length; i++) {
+    const d = Math.hypot(points[i].x - points[i - 1].x, points[i].y - points[i - 1].y)
+    segLen.push(d)
+    total += d
+  }
+  if (total === 0) return Promise.resolve()
+
+  return new Promise(resolve => {
+    let elapsed = 0
+    const tick = (ticker: PIXI.Ticker) => {
+      elapsed += ticker.deltaMS
+      const t = Math.min(elapsed / durationMs, 1)
+      const e = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
+
+      let d = e * total
+      let i = 0
+      while (i < segLen.length - 1 && d > segLen[i]) { d -= segLen[i]; i++ }
+      const a = points[i], b = points[i + 1]
+      const f = segLen[i] === 0 ? 0 : d / segLen[i]
+      obj.x = a.x + (b.x - a.x) * f
+      obj.y = a.y + (b.y - a.y) * f
+
+      if (t >= 1) { app.ticker.remove(tick); resolve() }
+    }
+    app.ticker.add(tick)
+  })
+}
