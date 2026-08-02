@@ -22,7 +22,8 @@ import { GIFT_OWNER_UID } from '../../../game/gifts'
 import { hashStr, envColors, parseRgba, sampleBezier, bezierBand } from '../../../utils/mapUtils'
 import { renderPathTiles } from '../../../utils/tileLookup'
 import { buildTerrainGfx, buildBgTileGfx, buildDecorGfx, buildBorderGfx } from '../../../utils/terrainLayer'
-import { NODE_ICON, NODE_LABEL } from '../../ui/NodeMap/constants'
+import { NODE_ICON, NODE_LABEL, mapLabelStyle } from '../../ui/NodeMap/constants'
+import { COL_WIDTH, ROW_HEIGHT, AVATAR_PADDING, CONN_W, nodeCenter, startPos } from '../../ui/NodeMap/nodeLayout'
 import { getCurrentWorldLocation } from '../../../game/world/worldState'
 import { NodePeekModal } from '../../ui/NodeMap/NodePeekModal'
 
@@ -41,10 +42,6 @@ interface Props {
 
 
 
-const COL_WIDTH      = 128
-const ROW_HEIGHT     = 96
-const AVATAR_PADDING = 80
-const CONN_W         = 32
 const AVATAR_SIZE    = 36
 const WALK_DURATION  = 700
 const NODE_RADIUS    = 22
@@ -197,13 +194,8 @@ function lastCompletedNode(nodes: Record<string, QuestNode>, run: RunState): Que
 function nodePosition(
   rowIndex: number, node: QuestNode, rowCols: number, maxRowCols: number,
 ): { x: number; y: number } {
-  return {
-    x: AVATAR_PADDING + rowIndex * (COL_WIDTH + CONN_W) + COL_WIDTH / 2,
-    y: ((maxRowCols - rowCols) / 2 + node.col + 0.5) * ROW_HEIGHT,
-  }
+  return nodeCenter(rowIndex, node.col, rowCols, maxRowCols)
 }
-
-function startPos(mapHeight: number) { return { x: AVATAR_PADDING / 2, y: mapHeight / 2 } }
 
 // ── Path tile renderer ────────────────────────────────────────────────────────
 // Lays PATH tiles from [A]Grass_pipo along each connector route.
@@ -227,9 +219,10 @@ async function buildPathTileGfx(
   if (rows.length > 0) {
     const firstRow = rows[0]
     const firstRowCols = firstRow[0]?.rowCols ?? firstRow.length
-    const startX = AVATAR_PADDING / 2
-    const startY = mapHeight / 2
-    const firstColCenterX = AVATAR_PADDING + COL_WIDTH / 2
+    const sp = startPos(mapHeight)
+    const startX = sp.x
+    const startY = sp.y
+    const firstColCenterX = nodeCenter(0, 0, firstRowCols, maxRowCols).x
     const midX = (startX + firstColCenterX) / 2
 
     const sTx = Math.floor(startX / T), sTy = Math.floor(startY / T)
@@ -237,8 +230,7 @@ async function buildPathTileGfx(
     const fTx = Math.floor(firstColCenterX / T)
 
     for (const node of firstRow) {
-      const vr = (maxRowCols - firstRowCols) / 2 + node.col
-      const ny = (vr + 0.5) / maxRowCols * mapHeight
+      const ny = nodeCenter(0, node.col, firstRowCols, maxRowCols).y
       const nTy = Math.floor(ny / T)
 
       for (let tx = Math.min(sTx, midTx); tx <= Math.max(sTx, midTx); tx++)
@@ -266,14 +258,13 @@ async function buildPathTileGfx(
         const childEntry = nodeRowIndex.get(childId)
         if (!childEntry || childEntry.ri <= parentEntry.ri) continue
 
-        const parentCenterX = AVATAR_PADDING + parentEntry.ri * (COL_WIDTH + CONN_W) + COL_WIDTH / 2
-        const childCenterX  = AVATAR_PADDING + childEntry.ri  * (COL_WIDTH + CONN_W) + COL_WIDTH / 2
+        const p = nodeCenter(parentEntry.ri, parent.col, parentEntry.rowCols, maxRowCols)
+        const c = nodeCenter(childEntry.ri, childEntry.node.col, childEntry.rowCols, maxRowCols)
+        const parentCenterX = p.x, childCenterX = c.x
         const xMid = (parentCenterX + COL_WIDTH / 2 + childCenterX - COL_WIDTH / 2) / 2
 
-        const pr = (maxRowCols - parentEntry.rowCols) / 2 + parent.col
-        const cr = (maxRowCols - childEntry.rowCols) / 2 + childEntry.node.col
-        const y1 = (pr + 0.5) / maxRowCols * mapHeight
-        const y2 = (cr + 0.5) / maxRowCols * mapHeight
+        const y1 = p.y
+        const y2 = c.y
 
         const pTx = Math.floor(parentCenterX / T), pTy = Math.floor(y1 / T)
         const midTx = Math.floor(xMid / T)
@@ -336,7 +327,6 @@ function drawConnectorsGfx(
   worldLayer: PIXI.Container,
   rows: QuestNode[][],
   maxRowCols: number,
-  mapHeight: number,
   statusOf: (id: string) => NodeStatus,
   reachableIds: Set<string>,
   hiddenNodeIds: Set<string>,
@@ -355,31 +345,33 @@ function drawConnectorsGfx(
     const rowCols = rows[ri][0]?.rowCols ?? rows[ri].length
     for (const node of rows[ri]) nodeIndex.set(node.id, { ri, rowCols, node })
   }
-  const vrow = (node: QuestNode, rc: number) => (maxRowCols - rc) / 2 + node.col
-
-  const best = new Map<string, { variant: LineVariant; parentRi: number; childRi: number; pr: number; cr: number }>()
+  const best = new Map<string, { variant: LineVariant; parentRi: number; childRi: number; pCol: number; cCol: number; pRowCols: number; cRowCols: number }>()
   for (const { node: parent, ri: parentRi, rowCols: parentRowCols } of nodeIndex.values()) {
     if (hiddenNodeIds.has(parent.id)) continue
     for (const childId of parent.childIds) {
       if (hiddenNodeIds.has(childId)) continue
       const childEntry = nodeIndex.get(childId)
       if (!childEntry || childEntry.ri <= parentRi) continue
-      const pr = vrow(parent, parentRowCols), cr = vrow(childEntry.node, childEntry.rowCols)
-      const key = `${parentRi}:${pr}:${childEntry.ri}:${cr}`
+      const key = `${parentRi}:${parent.col}:${parentRowCols}:${childEntry.ri}:${childEntry.node.col}:${childEntry.rowCols}`
       const v = lineVariant(parent.id, childId, statusOf, reachableIds)
       const ex = best.get(key)
-      if (!ex || priority[v] > priority[ex.variant]) best.set(key, { variant: v, parentRi, childRi: childEntry.ri, pr, cr })
+      if (!ex || priority[v] > priority[ex.variant]) best.set(key, {
+        variant: v, parentRi, childRi: childEntry.ri,
+        pCol: parent.col, cCol: childEntry.node.col,
+        pRowCols: parentRowCols, cRowCols: childEntry.rowCols,
+      })
     }
   }
 
-  for (const { variant, parentRi, childRi, pr, cr } of best.values()) {
-    const parentCenterX = AVATAR_PADDING + parentRi * (COL_WIDTH + CONN_W) + COL_WIDTH / 2
-    const childCenterX  = AVATAR_PADDING + childRi  * (COL_WIDTH + CONN_W) + COL_WIDTH / 2
+  for (const { variant, parentRi, childRi, pCol, cCol, pRowCols, cRowCols } of best.values()) {
+    const p = nodeCenter(parentRi, pCol, pRowCols, maxRowCols)
+    const c = nodeCenter(childRi, cCol, cRowCols, maxRowCols)
+    const parentCenterX = p.x, childCenterX = c.x
     const xStart = parentCenterX + COL_WIDTH / 2
     const xEnd   = childCenterX  - COL_WIDTH / 2
     const xMid   = (xStart + xEnd) / 2
-    const y1 = (pr + 0.5) / maxRowCols * mapHeight
-    const y2 = (cr + 0.5) / maxRowCols * mapHeight
+    const y1 = p.y
+    const y2 = c.y
     const gfx = new PIXI.Graphics()
     gfx.zIndex = (y1 + y2) / 2
 
@@ -436,14 +428,6 @@ function markerAlpha(status: NodeStatus, inReachable: boolean): number {
   return 0.8
 }
 
-function nodeRoadFill(status: NodeStatus, environment: string | undefined): { color: number; alpha: number } {
-  const { trail, frontier } = envColors(environment)
-  const t = parseRgba(trail), f = parseRgba(frontier)
-  if (status === 'completed' || status === 'pending') return { color: t.color, alpha: Math.min(t.alpha, 0.85) }
-  if (status === 'available')                         return { color: f.color, alpha: Math.min(f.alpha, 0.85) }
-  return { color: 0x2a2a2a, alpha: 0.5 }
-}
-
 async function loadNodeIcon(node: QuestNode): Promise<PIXI.Texture | null> {
   const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
   try {
@@ -457,7 +441,9 @@ async function loadNodeIcon(node: QuestNode): Promise<PIXI.Texture | null> {
   return null
 }
 
-const WANDER_RANGE = 10
+// Kept under half the 32px road width — with no marker pad beneath them,
+// wandering enemy sprites would otherwise stray visibly off the road.
+const WANDER_RANGE = 6
 
 async function buildNodeMarker(
   node: QuestNode, status: NodeStatus, inReachable: boolean,
@@ -465,16 +451,27 @@ async function buildNodeMarker(
 ): Promise<PIXI.Container> {
   const container = new PIXI.Container()
 
-  // bg: two-layer ellipse matching road cross-section (dark outer + coloured inner)
+  // bg: no marker pad — a filled ellipse here was wider than the 32px road it sat
+  // on and read as a hole punched through bright terrain (the sky acts' cloud
+  // floor especially). All that is left is a soft contact shadow to ground the
+  // icon on the road, plus a frontier-coloured ring on nodes you can actually
+  // travel to — the one piece of status the pad's fill used to carry.
   const bg = new PIXI.Graphics()
   const ry = NODE_RADIUS / 2
-  const fill = nodeRoadFill(status, environment)
-  bg.ellipse(0, 0, NODE_RADIUS + 2, ry + 2).fill({ color: 0x000000, alpha: 0.55 })
-  bg.ellipse(0, 0, NODE_RADIUS, ry).fill({ color: fill.color, alpha: fill.alpha })
+  bg.ellipse(0, ry - 2, 14, 5).fill({ color: 0x000000, alpha: 0.28 })
+  bg.ellipse(0, ry - 2, 9, 3).fill({ color: 0x000000, alpha: 0.22 })
+  if (status === 'available' || status === 'pending') {
+    const f = parseRgba(envColors(environment).frontier)
+    bg.ellipse(0, 0, NODE_RADIUS - 4, ry + 2)
+      .stroke({ color: 0x000000, width: 3, alpha: 0.35 })
+    bg.ellipse(0, 0, NODE_RADIUS - 4, ry + 2)
+      .stroke({ color: f.color, width: 1.5, alpha: Math.min(f.alpha, 0.85) })
+  }
   container.addChild(bg)
 
   // iconLayer: icons + labels, dimmed by status independently of the bg
   const iconLayer = new PIXI.Container()
+  iconLayer.label = 'icons'
   container.addChild(iconLayer)
 
   // Battle/elite nodes show the first enemy unit as icon.
@@ -518,7 +515,9 @@ async function buildNodeMarker(
           ws.x = Math.sin(t * sx + phase) * WANDER_RANGE
           ws.y = Math.cos(t * sy + phase * 1.414) * WANDER_RANGE
         }
-        app.ticker.add(tick)
+        // The sprite load above is awaited, so the app can already have been
+        // destroyed by the time we get here — its ticker is null then.
+        app.ticker?.add(tick)
       }
     } else {
       // Building enemy — static sprite, no wander
@@ -571,30 +570,30 @@ async function buildNodeMarker(
       iconLayer.addChild(sprite)
     } else {
       const t = new PIXI.Text({ text: NODE_ICON[node.type] ?? '?',
-        style: { fontSize: 14, fill: '#ffffff', fontFamily: 'monospace' } })
+        style: mapLabelStyle(16), resolution: 2 })
       t.anchor.set(0.5)
       iconLayer.addChild(t)
     }
   }
 
   const badge = new PIXI.Text({ text: NODE_LABEL[node.type] ?? node.type.toUpperCase(),
-    style: { fontSize: 8, fill: '#999999', fontFamily: 'monospace', fontWeight: 'bold' } })
+    style: { ...mapLabelStyle(9), fontWeight: 'bold' }, resolution: 2 })
   badge.anchor.set(0.5, 1)
   badge.y = -ry - 3
   iconLayer.addChild(badge)
 
   const nameLabel = new PIXI.Text({ text: node.label ?? '',
-    style: { fontSize: 9, fill: '#dddddd', fontFamily: 'monospace' } })
+    style: mapLabelStyle(10), resolution: 2 })
   nameLabel.anchor.set(0.5, 0)
   nameLabel.y = ry + 4
   iconLayer.addChild(nameLabel)
 
   if (status === 'completed' && !isBattleType) {
-    const st = new PIXI.Text({ text: '✓', style: { fontSize: 11, fill: '#44cc44' } })
+    const st = new PIXI.Text({ text: '✓', style: mapLabelStyle(11, '#66ff66'), resolution: 2 })
     st.anchor.set(1, 1); st.position.set(NODE_RADIUS - 1, ry - 1)
     iconLayer.addChild(st)
   } else if (status === 'skipped') {
-    const st = new PIXI.Text({ text: '╳', style: { fontSize: 11, fill: '#884444' } })
+    const st = new PIXI.Text({ text: '╳', style: mapLabelStyle(11, '#ff8888'), resolution: 2 })
     st.anchor.set(1, 1); st.position.set(NODE_RADIUS - 1, ry - 1)
     iconLayer.addChild(st)
   }
@@ -622,8 +621,9 @@ async function buildNodeMarker(
 function updateMarkerStyle(
   marker: PIXI.Container, status: NodeStatus, inReachable: boolean,
 ): void {
-  // iconLayer is child index 1; bg (index 0) stays fully opaque
-  ;(marker.getChildAt(1) as PIXI.Container).alpha = markerAlpha(status, inReachable)
+  // bg (the contact shadow) stays fully opaque; only the icons + labels dim
+  const iconLayer = marker.getChildByLabel('icons')
+  if (iconLayer) iconLayer.alpha = markerAlpha(status, inReachable)
 }
 
 
@@ -760,8 +760,7 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
         }
 
         const label = new PIXI.Text({ text: node.label,
-          style: { fontSize: 11, fill: '#ffffff', fontFamily: 'monospace',
-            dropShadow: { alpha: 1, blur: 3, distance: 1, color: '#000000' } } })
+          style: mapLabelStyle(11), resolution: 2 })
         label.anchor.set(0.5, 0)
         label.position.set(0, 26)
         container.addChild(label)
@@ -946,7 +945,7 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
 
     // Connectors
     const { availableIds: aids, reachableIds: rids, hiddenNodeIds: hids } = stateRef.current
-    connGfxListRef.current = drawConnectorsGfx(worldLayer, rows, maxRowCols, mapHeight,
+    connGfxListRef.current = drawConnectorsGfx(worldLayer, rows, maxRowCols,
       id => getNodeStatus(id, aids, run), rids, hids, worldMap.environment)
 
     // Node markers
@@ -1020,7 +1019,7 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
     const wl = worldRef.current
     if (!wl) return
     for (const g of connGfxListRef.current) { wl.removeChild(g); g.destroy() }
-    connGfxListRef.current = drawConnectorsGfx(wl, rows, maxRowCols, mapHeight,
+    connGfxListRef.current = drawConnectorsGfx(wl, rows, maxRowCols,
       id => getNodeStatus(id, availableIds, run), reachableIds, hiddenNodeIds, worldMap.environment)
     for (const g of connGfxListRef.current) g.visible = showPaths
     for (const [nodeId, marker] of markersRef.current) {

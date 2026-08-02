@@ -3,6 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { NodeMapRederer } from './NodeMapRederer'
 import { exampleAct, exampleRunState } from '../../../game/types.sample'
 import { WORLD_MAP } from '../../../data/world/worldMapDef'
+import type { Act } from '../../../game/questline'
+import act6 from '../../../data/acts/act6.json'
 
 const meta = {
   component: NodeMapRederer,
@@ -59,6 +61,20 @@ export const CampaignFreshRun: Story = {
       completedNodeIds: [],
       pendingNodeId: null,
     },
+    setPeekNode: fn(),
+    showPaths: true,
+  },
+}
+
+// Act 6's sky environment is the brightest terrain in the game — a near-white
+// cloud floor — so it is the worst case for node label contrast. Its rows 0, 1
+// and 6 also have a rowCols parity that differs from maxRowCols, the layout that
+// used to render node markers half a tile off their own road.
+export const SkyBrightTerrain: Story = {
+  args: {
+    id: 'act6',
+    worldMap: act6 as unknown as Act,
+    run: { ...exampleRunState, actId: 'act6', completedNodeIds: [], pendingNodeId: null },
     setPeekNode: fn(),
     showPaths: true,
   },
