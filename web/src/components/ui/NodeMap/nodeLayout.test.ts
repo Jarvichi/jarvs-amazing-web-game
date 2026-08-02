@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { nodeCenter, snapToTile } from './NodeMapRederer'
+import { nodeCenter, snapToTile } from './nodeLayout'
 import { TILE_SIZE } from '../../../data/tiles/tileIndex'
 
 // Node markers, road tiles and connector beziers are all placed off nodeCenter.

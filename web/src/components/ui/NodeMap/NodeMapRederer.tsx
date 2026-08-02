@@ -23,6 +23,7 @@ import { hashStr, envColors, parseRgba, sampleBezier, bezierBand } from '../../.
 import { renderPathTiles } from '../../../utils/tileLookup'
 import { buildTerrainGfx, buildBgTileGfx, buildDecorGfx, buildBorderGfx } from '../../../utils/terrainLayer'
 import { NODE_ICON, NODE_LABEL, mapLabelStyle } from '../../ui/NodeMap/constants'
+import { COL_WIDTH, ROW_HEIGHT, AVATAR_PADDING, CONN_W, nodeCenter, startPos } from '../../ui/NodeMap/nodeLayout'
 import { getCurrentWorldLocation } from '../../../game/world/worldState'
 import { NodePeekModal } from '../../ui/NodeMap/NodePeekModal'
 
@@ -41,10 +42,6 @@ interface Props {
 
 
 
-const COL_WIDTH      = 128
-const ROW_HEIGHT     = 96
-const AVATAR_PADDING = 80
-const CONN_W         = 32
 const AVATAR_SIZE    = 36
 const WALK_DURATION  = 700
 const NODE_RADIUS    = 22
@@ -194,37 +191,10 @@ function lastCompletedNode(nodes: Record<string, QuestNode>, run: RunState): Que
   return nodes[run.completedNodeIds[run.completedNodeIds.length - 1]] ?? null
 }
 
-// Everything the map draws on the ground — roads, node markers, the avatar — is
-// snapped to the centre of a 32px tile. Without this a row whose rowCols parity
-// differs from maxRowCols gets a half-row offset, landing the node centre on a
-// tile *boundary* while the road tiles under it are laid at floor(y / TILE_SIZE)
-// — a visible 16px gap between the node and its own path. Flooring (rather than
-// rounding) picks the same tile the road already occupies, so the roads stay put
-// and the nodes move onto them.
-export function snapToTile(v: number): number {
-  return Math.floor(v / TILE_SIZE) * TILE_SIZE + TILE_SIZE / 2
-}
-
-// The single source of truth for where a grid-mode node sits. Node markers, road
-// tiles and connector beziers all read from this, so they cannot drift apart.
-export function nodeCenter(
-  rowIndex: number, col: number, rowCols: number, maxRowCols: number,
-): { x: number; y: number } {
-  const vrow = (maxRowCols - rowCols) / 2 + col
-  return {
-    x: snapToTile(AVATAR_PADDING + rowIndex * (COL_WIDTH + CONN_W) + COL_WIDTH / 2),
-    y: snapToTile((vrow + 0.5) * ROW_HEIGHT),
-  }
-}
-
 function nodePosition(
   rowIndex: number, node: QuestNode, rowCols: number, maxRowCols: number,
 ): { x: number; y: number } {
   return nodeCenter(rowIndex, node.col, rowCols, maxRowCols)
-}
-
-function startPos(mapHeight: number) {
-  return { x: AVATAR_PADDING / 2, y: snapToTile(mapHeight / 2) }
 }
 
 // ── Path tile renderer ────────────────────────────────────────────────────────
@@ -545,7 +515,9 @@ async function buildNodeMarker(
           ws.x = Math.sin(t * sx + phase) * WANDER_RANGE
           ws.y = Math.cos(t * sy + phase * 1.414) * WANDER_RANGE
         }
-        app.ticker.add(tick)
+        // The sprite load above is awaited, so the app can already have been
+        // destroyed by the time we get here — its ticker is null then.
+        app.ticker?.add(tick)
       }
     } else {
       // Building enemy — static sprite, no wander
