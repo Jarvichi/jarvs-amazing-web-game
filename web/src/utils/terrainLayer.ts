@@ -3,8 +3,9 @@ import { ENV_TILES, BASE_GROUND, TILESET_IMAGE, TILESET_COLUMNS, TILE_SIZE, EnvT
 import { WORLD_DECOR_FILE, WORLD_DECOR, TERRAIN_DECOR_MAP } from '../data/tiles/worldTileIndex'
 import { getBattlefieldBundleById } from '../data/bundles/battlefieldBundleLoader'
 import { loadTileTexture } from './pixiHelpers'
-import { planTerrainPatches } from './terrainPatchPlan'
+import { planTerrainPatches, planSkyHoles } from './terrainPatchPlan'
 import { drawTerrainItem } from './terrainGfx'
+import { drawCloudField, drawCloudHoles } from './skyLayer'
 import { seededRand, hashStr, getTerrainItems, type TerrainItem } from './mapUtils'
 import { renderPathTiles } from './tileLookup'
 import { anchorTile, patchTileRadius, gameToPixel, TILE_RADIUS_SCALE } from './laneGrid'
@@ -37,7 +38,11 @@ export function buildTerrainGfx(
   const { environment, envDef: envDefOverride, terrainSeed, terrainItems: explicitItems, rivers: explicitRivers, id = '' } = opts
 
   const def = envDefOverride ?? ENV_TILES[environment ?? '']
-  if (def?.solidColor !== undefined) {
+  if (def?.surface === 'cloud') {
+    // No tileset covers a cloud floor — utils/skyLayer.ts draws it. Obstacles on
+    // this surface become holes through it; see buildTerrainDecorGfx below.
+    drawCloudField(baseContainer, { id }, mapWidth, mapHeight, tileScale)
+  } else if (def?.solidColor !== undefined) {
     const g = new PIXI.Graphics()
     g.rect(0, 0, mapWidth, mapHeight).fill({ color: def.solidColor })
     baseContainer.addChild(g)
@@ -476,6 +481,15 @@ export async function buildTerrainDecorGfx(
 
   const toTile = (obs: TerrainObstacle) => anchorTile(obs.x, obs.y, w, h, T, tileScale)
   const tileRadiusOf = (obs: TerrainObstacle) => patchTileRadius(obs.radius, h, T, tileScale)
+
+  // On a cloud surface an obstacle is an absence of floor, not a patch of one:
+  // every type unions into a single set of holes torn through the clouds, with
+  // no tilesets and no centre icons involved. See utils/skyLayer.ts.
+  const def = opts.envDef ?? ENV_TILES[env]
+  if (def?.surface === 'cloud') {
+    drawCloudHoles(container, planSkyHoles(terrain, toTile, tileRadiusOf), { id: env }, w, h, tileScale)
+    return
+  }
 
   const { groups, decor } = planTerrainPatches(terrain, toTile, tileRadiusOf, env)
 

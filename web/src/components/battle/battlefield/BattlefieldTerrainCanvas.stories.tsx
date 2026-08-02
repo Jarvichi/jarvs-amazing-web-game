@@ -30,6 +30,26 @@ export const Frost:    Story = { args: { environment: 'frost',    id: 'frost-tes
 export const Reef:     Story = { args: { environment: 'reef',     id: 'reef-test'     } }
 export const Sky:      Story = { args: { environment: 'sky',      id: 'sky-test'      } }
 
+// The sky environment has no tileset: its floor and its obstacles are drawn
+// procedurally by utils/skyLayer.ts. Obstacles are holes torn through the cloud
+// floor, so every type renders the same way (no grass-edged patches up here),
+// the overlapping pair merges into one opening with a single lip, and the faint
+// landscape below lines up across separate holes because it is one masked
+// drawing. The ruin is a one-tile hole — matching the one tile it blocks.
+export const SkyHoles: Story = {
+  args: {
+    environment: 'sky',
+    id: 'sky-holes',
+    terrain: [
+      { id: 't1', type: 'rock',  x: 150, y: -40, radius: 26 },
+      { id: 't2', type: 'water', x: 230, y:  30, radius: 28 },
+      { id: 't3', type: 'water', x: 265, y:  45, radius: 26 },
+      { id: 't4', type: 'tree',  x: 330, y: -35, radius: 24 },
+      { id: 't5', type: 'ruin',  x: 400, y:  20, radius: 22 },
+    ],
+  },
+}
+
 // A chain of deliberately overlapping obstacles — the case authored rivers and
 // tree lines produce (see expandTerrainPathsToObstacles). Each type must render
 // as ONE continuous shape with a single outer edge and no interior holes; if the
