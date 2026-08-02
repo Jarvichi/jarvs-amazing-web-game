@@ -9,6 +9,7 @@ import { moveUnits } from './units'
 import { spawnUnit } from './helpers'
 import { RoadDef, TerrainObstacle } from './terrain'
 import { LANE_WIDTH } from '../types'
+import { DEFEND_ZONE_MAX_X } from './constants'
 
 const MOBILE_TEMPLATE = {
   name: 'Test Runner', maxHp: 30, attack: 5, moveSpeed: 40,
@@ -285,7 +286,112 @@ describe('moveUnits — defend stance', () => {
 
     for (let i = 0; i < 30; i++) moveUnits(s, 100)
 
-    expect(defender.x).toBeLessThan(120)
+    expect(defender.x).toBeLessThanOrEqual(DEFEND_ZONE_MAX_X)
+  })
+
+  it('never leaves the zone to chase an enemy sitting just outside it', () => {
+    // The reported bug: an enemy parked beyond the zone used to drag defenders
+    // out to ~x=190 (38% of the lane) while the base went undefended.
+    const { s, defender } = defendBattle(150)
+
+    for (let i = 0; i < 200; i++) moveUnits(s, 100)
+
+    expect(defender.x).toBeLessThanOrEqual(DEFEND_ZONE_MAX_X)
+  })
+
+  it('returns to its slot once the enemy it engaged is out of the zone', () => {
+    // A defender pushed forward, with an enemy ahead close enough to be within
+    // attackRange. The "already in range, don't move" early-continue used to fire
+    // before the defend branch, pinning the unit up-field for the rest of the battle.
+    const { s, defender, enemy } = defendBattle(200)
+    defender.x = 190
+    enemy.y = 0
+
+    for (let i = 0; i < 200; i++) moveUnits(s, 100)
+
+    expect(defender.x).toBeLessThanOrEqual(DEFEND_ZONE_MAX_X)
+  })
+
+  it('walks home rather than snapping back when DEFEND is tapped up-field', () => {
+    // Units caught beyond the zone when the stance changes must not teleport.
+    const { s, defender } = defendBattle(LANE_WIDTH - 40)
+    defender.x = 300
+
+    moveUnits(s, 100)
+    const afterOneTick = defender.x
+    expect(afterOneTick).toBeLessThan(300)
+    expect(afterOneTick).toBeGreaterThan(DEFEND_ZONE_MAX_X)
+
+    for (let i = 0; i < 200; i++) moveUnits(s, 100)
+    expect(defender.x).toBeLessThanOrEqual(DEFEND_ZONE_MAX_X)
+  })
+
+  it('routes home around terrain instead of marching toward the enemy base', () => {
+    // A terrain-blocked unit is steered by the flow field, and the field's goal used
+    // to be the enemy base regardless of stance — so a defender whose direct path
+    // home was blocked pathed *forward*, ending around x=310 instead of on its slot.
+    // The geometry here is deliberate: the obstacle must block the way home while
+    // leaving the defender itself on free ground, since a unit embedded in terrain
+    // takes the walk-out path and never consults the field at all.
+    const s = newGame()
+    s.playerStance = 'defend'
+    s.terrainValidated = true
+    s.terrain = [{ id: 'block', type: 'rock', x: 130, y: 0, radius: 40 }]
+    const defender = spawnUnit(MOBILE_TEMPLATE, 'player')
+    defender.id = 'u7' // pin — the Y slot is chosen from the id, and geometry matters here
+    defender.x = 200
+    defender.y = 0
+    defender.advanceY = 0
+    s.field = [defender]
+
+    for (let i = 0; i < 300; i++) moveUnits(s, 100)
+
+    expect(defender.x).toBeLessThanOrEqual(DEFEND_ZONE_MAX_X)
+  })
+
+  it('spreads defenders across multiple breachers instead of collapsing onto one', () => {
+    const s = newGame()
+    s.terrain = []
+    s.playerStance = 'defend'
+    // Both defenders sit beside breacher A, so "nearest threat" alone sends both to
+    // A and leaves B free to chew through the base — the claim set is what splits them.
+    const defenders = [-58, -62].map(y => {
+      const u = spawnUnit(MOBILE_TEMPLATE, 'player')
+      u.x = 75; u.y = y; u.advanceY = y
+      return u
+    })
+    const breacherA = spawnUnit(MOBILE_TEMPLATE, 'opponent')
+    breacherA.x = 40; breacherA.y = -60; breacherA.moveSpeed = 0 // pinned: measures defender choice only
+    const breacherB = spawnUnit(MOBILE_TEMPLATE, 'opponent')
+    breacherB.x = 40; breacherB.y = 20; breacherB.moveSpeed = 0
+    s.field = [...defenders, breacherA, breacherB]
+
+    for (let i = 0; i < 40; i++) moveUnits(s, 100)
+
+    // Each breacher should have drawn exactly one defender.
+    for (const b of [breacherA, breacherB]) {
+      const engaged = defenders.filter(d => Math.hypot(d.x - b.x, d.y - b.y) <= d.attackRange)
+      expect(engaged.length).toBe(1)
+    }
+  })
+
+  it('still sends the overflow attackers forward when the army is large', () => {
+    const s = newGame()
+    s.terrain = []
+    s.playerStance = 'defend'
+    const defenders = Array.from({ length: 20 }, (_, i) => {
+      const u = spawnUnit(MOBILE_TEMPLATE, 'player')
+      u.x = 70 + i; u.y = 0; u.advanceY = 0
+      return u
+    })
+    s.field = defenders
+
+    for (let i = 0; i < 100; i++) moveUnits(s, 100)
+
+    // 5 furthest-forward break off and charge; the rest hold the zone.
+    const past = defenders.filter(u => u.x > DEFEND_ZONE_MAX_X)
+    expect(past.length).toBe(5)
+    expect(defenders.filter(u => u.x <= DEFEND_ZONE_MAX_X).length).toBe(15)
   })
 })
 

@@ -18,6 +18,16 @@ export const BASE_STOP_MARGIN    = 0                // units may reach the base 
 export const COMMANDER_HOME_X    = 15               // player commander's home position
 export const COMMANDER_LEASH_PX  = 40              // max px a commander can stray from home
 
+// ─── Defend Stance Zone ───────────────────────────────────
+// The DEFEND stance holds a band of the lane in front of the player's base rather
+// than chasing enemies up the field. In moveUnits it bounds both what counts as a
+// threat worth breaking formation for and how far forward a defender may end a
+// tick, so units hold the zone and engage whatever enters it.
+/** Fraction of the lane, measured from the player's base, that DEFEND stance holds. */
+export const DEFEND_ZONE_FRAC   = 0.15
+/** Forward limit of the defend zone — defending units never advance past this. */
+export const DEFEND_ZONE_MAX_X  = LANE_WIDTH * DEFEND_ZONE_FRAC  // 75
+
 // ─── Opponent Spell-Cast Telegraph + Counter QTE ──────────
 export const CAST_WINDUP_MS          = 5000  // windup before an opponent AOE spell resolves
 // A successful counter never fully negates damage — it caps it at a percentage of the
