@@ -1,5 +1,7 @@
 import { GameState, LANE_WIDTH, TERRAIN_AVOID_SHAPE, RUIN_FOOTPRINT_RADIUS, Unit, UnitTag } from '../types'
-import { BASE_STOP_MARGIN, COMMANDER_LEASH_PX, DAMAGE_FLASH_MS, PLAYER_SPAWN_X } from './constants'
+import {
+  BASE_STOP_MARGIN, COMMANDER_LEASH_PX, DAMAGE_FLASH_MS, DEFEND_ZONE_MAX_X, PLAYER_SPAWN_X,
+} from './constants'
 import { LANE_MAX_Y, LANE_MIN_Y } from './helpers'
 import { unitDist, findNearestEnemy, findNearestEnemyByPriority, findEnemyBehind } from './targeting'
 import { computeRoadWaypoints } from './roads'
@@ -75,18 +77,23 @@ export function moveUnits(s: GameState, deltaMs: number): void {
   // Y positions defenders spread across so they don't all converge on a single point.
   const DEFEND_Y_SLOTS = [-64, -40, -20, 0, 20, 40, 64]
 
-  // The line defenders form up on, and how far in front of it an enemy still
-  // counts as an intruder worth breaking formation for.
+  // The line defenders form up on. Sits just inside DEFEND_ZONE_MAX_X so units
+  // holding formation have room to shuffle without touching the boundary.
   const DEFEND_LINE_X = PLAYER_SPAWN_X + 40
-  const DEFEND_INTERCEPT_PX = 120
 
-  // Enemies that have reached the defensive line or slipped behind it — where
-  // the player's spawners, walls and commander all sit. Without this, defenders
-  // sat on their assigned slot while an enemy chewed through a structure a few
-  // pixels away, since nothing in the defend branch ever looked for a target.
+  // Enemies that have entered the defensive zone — where the player's spawners,
+  // walls and commander all sit. Defenders break formation only for these, and
+  // never leave the zone to reach one. Anything outside is still shot at by
+  // whoever's attackRange covers it; processAttacks is stance-agnostic.
+  // Moats are walked through rather than targeted (see targeting.ts).
   const defendThreats = stance === 'defend'
-    ? s.field.filter(u => u.owner === 'opponent' && u.hp > 0 && u.x <= DEFEND_LINE_X + DEFEND_INTERCEPT_PX)
+    ? s.field.filter(u => u.owner === 'opponent' && u.hp > 0 && !u.isMoat && u.x <= DEFEND_ZONE_MAX_X)
     : []
+
+  // Threats already claimed by a defender this tick. Without this every defender
+  // independently picks the globally nearest intruder, so a single breacher pulls
+  // the whole line off its slots and leaves the other lanes open.
+  const claimedThreats = new Set<string>()
 
   for (const unit of s.field) {
     if (unit.moveSpeed === 0) continue
@@ -97,6 +104,11 @@ export function moveUnits(s: GameState, deltaMs: number): void {
     if (unit.owner === 'player' && stance === 'hold') continue
 
     const anyEnemies = unit.owner === 'player' ? livingOpponentUnits : livingPlayerUnits
+
+    // Defenders steer entirely from the defend branch below. Overflow units are
+    // excluded — they charge like any attacker.
+    const isDefending = unit.owner === 'player' && stance === 'defend'
+      && !defendOverflowAttackers.has(unit.id)
 
     const nearestAhead = findNearestEnemyByPriority(s.field, unit) ?? findNearestEnemy(s.field, unit)
 
@@ -124,9 +136,41 @@ export function moveUnits(s: GameState, deltaMs: number): void {
       ty = unit.roadWaypoints[0].y
     }
 
-    if (nearestAhead) {
+    // Defend runs before the chase block rather than after it. The
+    // "already in range, don't move" early-continue below fires for any enemy
+    // ahead regardless of stance, so while it ran first a defender facing a
+    // steady stream of enemies never reached this branch and never walked back
+    // to its slot — it stayed parked wherever the last intercept left it.
+    if (isDefending) {
+      // Intercept whatever has entered the zone, otherwise hold formation spread
+      // across Y slots. Nearest *unclaimed* threat wins so the line spreads over
+      // several breachers; nearest overall is the fallback once all are claimed.
+      let threat: Unit | undefined
+      let threatDist = Infinity
+      let nearest: Unit | undefined
+      let nearestDist = Infinity
+      for (const other of defendThreats) {
+        const d = unitDist(unit, other)
+        if (d < nearestDist) { nearestDist = d; nearest = other }
+        if (claimedThreats.has(other.id)) continue
+        if (d < threatDist) { threatDist = d; threat = other }
+      }
+      if (!threat) { threat = nearest; threatDist = nearestDist }
+      if (threat) {
+        claimedThreats.add(threat.id)
+        // Already engaging it — combat handles the attack, don't crowd closer.
+        if (threatDist <= unit.attackRange) continue
+        tx = threat.x
+        ty = threat.isWall ? unit.y : threat.y
+        hasTarget = true
+      } else {
+        tx = DEFEND_LINE_X
+        ty = DEFEND_Y_SLOTS[idNum(unit.id) % DEFEND_Y_SLOTS.length]
+        hasTarget = false
+      }
+    } else if (nearestAhead) {
       if (unitDist(unit, nearestAhead) <= unit.attackRange) continue
-      // Attack/defend: don't chase enemies — keep charging toward destination
+      // Attack: don't chase enemies — keep charging toward destination
       if (unit.owner !== 'player' || stance === 'auto') {
         tx = nearestAhead.x
         ty = nearestAhead.isWall ? unit.y : nearestAhead.y
@@ -140,28 +184,6 @@ export function moveUnits(s: GameState, deltaMs: number): void {
         tx = behind.x
         ty = behind.isWall ? unit.y : behind.y
         hasTarget = true
-      }
-    }
-
-    // Defend: intercept anything that has breached the line, otherwise hold
-    // formation spread across Y slots. Overflow units charge forward instead.
-    if (unit.owner === 'player' && stance === 'defend' && !defendOverflowAttackers.has(unit.id)) {
-      let threat: Unit | undefined
-      let threatDist = Infinity
-      for (const other of defendThreats) {
-        const d = unitDist(unit, other)
-        if (d < threatDist) { threatDist = d; threat = other }
-      }
-      if (threat) {
-        // Already engaging it — combat handles the attack, don't crowd closer.
-        if (threatDist <= unit.attackRange) continue
-        tx = threat.x
-        ty = threat.isWall ? unit.y : threat.y
-        hasTarget = true
-      } else {
-        tx = DEFEND_LINE_X
-        ty = DEFEND_Y_SLOTS[idNum(unit.id) % DEFEND_Y_SLOTS.length]
-        hasTarget = false
       }
     }
 
@@ -328,6 +350,11 @@ export function moveUnits(s: GameState, deltaMs: number): void {
       }
     }
 
+    // Position at the start of this tick — the defend clamp below needs it so a
+    // unit already past the zone when the stance was tapped can walk home
+    // instead of being teleported back to the boundary.
+    const xBefore = unit.x
+
     const dx = tx - unit.x
     const dy = ty - unit.y
     const d  = Math.sqrt(dx * dx + dy * dy)
@@ -452,7 +479,10 @@ export function moveUnits(s: GameState, deltaMs: number): void {
       const directOpen = wants && canEnter(candX, candY)
 
       // Flow field toward this unit's goal edge, built lazily per profile/goal.
-      const goalX = unit.owner === 'player' ? LANE_WIDTH : 0
+      // Defenders route toward their own base: the field is what steers a
+      // terrain-blocked unit, and pointing it at the enemy base marched
+      // defenders across the map the moment an obstacle got in the way.
+      const goalX = isDefending ? 0 : (unit.owner === 'player' ? LANE_WIDTH : 0)
       const fieldKey = `${profile}|${swims}|${goalX}`
       let field = s.terrainGridCache.flowFields.get(fieldKey)
       if (!field) {
@@ -533,10 +563,22 @@ export function moveUnits(s: GameState, deltaMs: number): void {
       }
     }
 
+    // Backstop on the zone. Redundant by design: steering can't exceed the
+    // boundary (every defend target is at most DEFEND_ZONE_MAX_X and a step never
+    // overshoots its target), and the detour field points home. It's here because
+    // the branches above write unit.x directly on several paths — the terrain
+    // detour and the walk-out-of-an-obstacle escape hatch — so a future change to
+    // any of them can't quietly put defenders back on the field. Clamping to
+    // xBefore rather than the boundary means a unit caught up-field when DEFEND
+    // is tapped walks home under normal steering instead of teleporting back.
+    if (isDefending) unit.x = Math.min(unit.x, Math.max(DEFEND_ZONE_MAX_X, xBefore))
+
     // Advance past the current road waypoint once reached — gated on !hasTarget so a unit
     // pulled off-path by a higher-priority target this tick isn't credited with "arriving"
-    // just because unrelated movement happened to land it near the waypoint.
-    if (!hasTarget && unit.roadWaypoints && unit.roadWaypoints.length > 0) {
+    // just because unrelated movement happened to land it near the waypoint. Defenders are
+    // excluded outright: holding a slot leaves hasTarget false, so drifting near a waypoint
+    // would silently consume it.
+    if (!hasTarget && !isDefending && unit.roadWaypoints && unit.roadWaypoints.length > 0) {
       const wp = unit.roadWaypoints[0]
       if (Math.hypot(unit.x - wp.x, unit.y - wp.y) <= ROAD_WAYPOINT_ARRIVE_PX) {
         unit.roadWaypoints.shift()
