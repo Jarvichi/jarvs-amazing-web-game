@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { planTerrainPatches } from './terrainPatchPlan'
+import { planTerrainPatches, planSkyHoles } from './terrainPatchPlan'
 import type { TerrainObstacle, TerrainType } from '../game/engine/terrain'
 
 /** Obstacle whose game coords double as tile coords via the toTile stub below. */
@@ -80,5 +80,34 @@ describe('planTerrainPatches', () => {
 
     expect(groups).toHaveLength(0)
     expect(decor).toEqual([{ type: 'ruin', idNum: 7, tcx: 4, tcy: 4 }])
+  })
+})
+
+describe('planSkyHoles', () => {
+  it('carves a hole for every obstacle type, tileset or not', () => {
+    // planTerrainPatches splits these four across two tilesets plus an
+    // icon-only ruin. Up in the clouds they are all just missing floor.
+    const holes = planSkyHoles(
+      [obs('t1', 'water', 10, 10), obs('t2', 'tree', 30, 10), obs('t3', 'rock', 50, 10), obs('t4', 'ruin', 70, 10)],
+      toTile, radius2,
+    )
+
+    expect(holes.map(hole => [hole.tcx, hole.tcy])).toEqual([[10, 10], [30, 10], [50, 10], [70, 10]])
+  })
+
+  it('keeps each obstacle on the disc it blocks, so art and movement agree', () => {
+    const holes = planSkyHoles([obs('t1', 'water', 10, 10), obs('t2', 'tree', 13, 10)], toTile, radius2)
+
+    expect(holes).toEqual([
+      { tcx: 10, tcy: 10, tileRadius: 2 },
+      { tcx: 13, tcy: 10, tileRadius: 2 },
+    ])
+  })
+
+  it('holds a ruin to its centre tile, the only tile it blocks', () => {
+    // radius2 would spread it over 13 tiles; game/engine/terrainGrid.ts blocks
+    // exactly one, and the art has to agree or units walk over open sky.
+    expect(planSkyHoles([obs('t7', 'ruin', 4, 4)], toTile, radius2))
+      .toEqual([{ tcx: 4, tcy: 4, tileRadius: 0 }])
   })
 })

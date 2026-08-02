@@ -188,7 +188,7 @@ export const WORLD_ENV_TILES: Record<string, EnvTileDef> = {
   citadel:  { ground: BASE_GROUND.darkGrass,   pathFile: WORLD_PATH_TILE.gravel1,      borderFile: WORLD_SCENERY_TILE.rocks1 },
   coast:    { ground: BASE_GROUND.sand,        pathFile: WORLD_PATH_TILE.grass1Water1, borderFile: WORLD_SCENERY_TILE.hills1,     pathWidth: 3 },
   reef:     { ground: BASE_GROUND.sand,        pathFile: WORLD_PATH_TILE.grass1Water1, borderFile: WORLD_SCENERY_TILE.hills1,     pathWidth: 3 },
-  sky:      { ground: BASE_GROUND.lightGrass,  solidColor: 0x000000, pathFile: PATH_TILE.dirt1 },
+  sky:      { ground: BASE_GROUND.lightGrass,  surface: 'cloud',     pathFile: PATH_TILE.dirt1 },
   fungal:   { ground: BASE_GROUND.darkGrass,   pathFile: WORLD_PATH_TILE.grass1Grass2, borderFile: WORLD_SCENERY_TILE.forest1 },
   vault:    { ground: BASE_GROUND.darkGrass,   pathFile: WORLD_PATH_TILE.gravel1,      borderFile: WORLD_SCENERY_TILE.rocks1 },
   camp:     { ground: BASE_GROUND.mediumGrass, pathFile: WORLD_PATH_TILE.grass1Dirt1,  borderFile: WORLD_SCENERY_TILE.forest1 },

@@ -1,6 +1,51 @@
 import { TERRAIN_PATCH_MAP } from '../data/tiles/worldTileIndex'
 import type { TerrainObstacle, TerrainType } from '../game/engine/terrain'
 
+/** One opening torn through a 'cloud' surface — the disc an obstacle blocks. */
+export interface SkyHole {
+  /** Centre tile, from the caller's projection. */
+  tcx: number
+  tcy: number
+  /** Blocked radius in tiles. 0 means the centre tile alone. */
+  tileRadius: number
+}
+
+/**
+ * Turns battlefield terrain obstacles into the openings a 'cloud' surface
+ * environment (see EnvTileDef.surface) tears through its cloud floor —
+ * utils/skyLayer.ts's drawCloudHoles draws the result.
+ *
+ * Unlike planTerrainPatches there is no per-type tileset to split on: up in the
+ * clouds every obstacle is the same absence of floor, so all four types come
+ * back in one list and overlapping obstacles merge into a single opening when
+ * drawn. Ruins are included — they have no patch tileset anywhere, so
+ * planTerrainPatches renders them as a lone icon, but a hole is not an icon.
+ *
+ * Discs, not tiles: the cloud floor has no grid to align to, so skyLayer draws
+ * each hole as a round shape rather than a run of squares. The centre and radius
+ * still come from the caller's tile projection, which is what keeps the art on
+ * the same disc game/engine/terrainGrid.ts blocks.
+ *
+ * Ruins get tileRadius 0, mirroring the explicit ruin case in that module's
+ * obstacleTileRadius: their centre tile is the only one they block, and a hole
+ * drawn wider than that is a gap units walk straight across.
+ *
+ * Pixi-free, like planTerrainPatches, so the geometry stays unit-testable in Node.
+ *
+ * @param toTile        obstacle → its centre tile coords (canvas projection)
+ * @param tileRadiusOf  obstacle → disc radius in tiles
+ */
+export function planSkyHoles(
+  terrain: TerrainObstacle[],
+  toTile: (obs: TerrainObstacle) => { tcx: number; tcy: number },
+  tileRadiusOf: (obs: TerrainObstacle) => number,
+): SkyHole[] {
+  return terrain.map(obs => ({
+    ...toTile(obs),
+    tileRadius: obs.type === 'ruin' ? 0 : tileRadiusOf(obs),
+  }))
+}
+
 /**
  * A set of tiles that autotile together as one shape. Obstacles sharing a
  * tileset are unioned into a single group so touching patches render as one
