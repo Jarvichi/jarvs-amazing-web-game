@@ -10397,18 +10397,6 @@ html.light-mode .action-btn {
   height: 100%;
 }
 
-/* Road wear overlay — sits behind the grid; SVG overflow is visible in the gap */
-.city-road-layer {
-  position: absolute;
-  inset: 4px;   /* matches .city-grid border-width */
-  display: grid;
-  gap: 6px;     /* matches .city-grid gap */
-  pointer-events: none;
-}
-.city-road-cell {
-  position: relative;
-}
-
 .city-cell {
   background: #2d5a27;
   border: 2px solid rgba(0, 40, 0, .15);
@@ -10497,15 +10485,13 @@ html.light-mode .action-btn {
   cursor: pointer;
 }
 
-.city-walker-sprite {
-  width: 20px;
-  height: 20px;
-  image-rendering: pixelated;
-}
-
-.city-walker--unhappy .city-walker-sprite {
-  opacity: 0.45;
-  filter: grayscale(1);
+/* Walkers themselves are drawn on the Pixi canvas; these anchors carry only
+   the bubbles, which stay in the DOM for their text and nested sprite icons.
+   Taps are hit-tested against walker positions in CityGrid, so the anchors
+   must not intercept pointer events of their own. */
+.city-walker--bubble-only {
+  pointer-events: none;
+  cursor: default;
 }
 
 .city-walker-need {
@@ -10517,13 +10503,6 @@ html.light-mode .action-btn {
   color: #d04020;
   font-weight: bold;
   line-height: 1;
-}
-
-.city-carrier-overlay { position: absolute; inset: 0; pointer-events: none; }
-
-.city-carrier-goblin {
-  pointer-events: none;
-  z-index: 8;
 }
 
 .city-carrier-load {

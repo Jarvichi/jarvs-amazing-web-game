@@ -7,6 +7,8 @@ export interface ZoomPanControls {
   stepZoom:     (dir: 1 | -1) => void
   zoomTo:       (targetScale: number) => void
   getCellFromPoint: (clientX: number, clientY: number, cols: number, rows: number) => number
+  /** Client coords → untransformed wrapper-local pixels (the space walkers live in). */
+  getLocalPoint: (clientX: number, clientY: number) => { x: number; y: number } | null
 }
 
 /**
@@ -78,18 +80,24 @@ export function useZoomPan(
     zoomTo(next)
   }, [zoomTo])
 
-  const getCellFromPoint = useCallback((clientX: number, clientY: number, cols: number, rows: number): number => {
+  const getLocalPoint = useCallback((clientX: number, clientY: number) => {
     const el = containerRef.current
-    if (!el) return -1
+    if (!el) return null
     const rect = el.getBoundingClientRect()
     const { s, x, y } = tRef.current
-    const lx = (clientX - rect.left - x) / s
-    const ly = (clientY - rect.top  - y) / s
-    const col = Math.floor((lx / rect.width)  * cols)
-    const row = Math.floor((ly / rect.height) * rows)
+    return { x: (clientX - rect.left - x) / s, y: (clientY - rect.top - y) / s }
+  }, [containerRef])
+
+  const getCellFromPoint = useCallback((clientX: number, clientY: number, cols: number, rows: number): number => {
+    const el = containerRef.current
+    const p  = getLocalPoint(clientX, clientY)
+    if (!el || !p) return -1
+    const rect = el.getBoundingClientRect()
+    const col = Math.floor((p.x / rect.width)  * cols)
+    const row = Math.floor((p.y / rect.height) * rows)
     if (col < 0 || col >= cols || row < 0 || row >= rows) return -1
     return row * cols + col
-  }, [containerRef])
+  }, [containerRef, getLocalPoint])
 
   // Wheel zoom
   useEffect(() => {
@@ -224,5 +232,5 @@ export function useZoomPan(
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [containerRef])
 
-  return { wrapperRef, displayScale, stepZoom, zoomTo, getCellFromPoint }
+  return { wrapperRef, displayScale, stepZoom, zoomTo, getCellFromPoint, getLocalPoint }
 }

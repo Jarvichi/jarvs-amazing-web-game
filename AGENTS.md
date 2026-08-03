@@ -376,7 +376,8 @@ usePixiApp(canvasRef, W, H, (app) => {
 | TowerDefence grid | `towerdefence/GameGrid.tsx` | ✅ PixiJS |
 | NodeMap terrain + connectors | `campaign/NodeMap.tsx` | Pending |
 | Battlefield lane canvas | `battle/BattlefieldCanvas.tsx` | ✅ PixiJS |
-| CityBuilder road + walkers | `citybuilder/CityGrid.tsx` | Pending |
+| CityBuilder road wear | `citybuilder/CityTerrainCanvas.tsx` | ✅ PixiJS |
+| CityBuilder walkers | `citybuilder/CityWalkerCanvas.tsx` | ✅ PixiJS |
 
 ---
 

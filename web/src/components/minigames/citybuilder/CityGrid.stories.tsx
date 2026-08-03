@@ -117,6 +117,46 @@ const verticalWearCity: any = {
   },
 }
 
+// ── Walkers ───────────────────────────────────────────────────────────────────
+// Walkers are drawn on a canvas layered over the DOM grid, so this story is the
+// check that the canvas sits above the cells and that bubbles land on top of it.
+
+const walker = (cellIndex: number, unitIndex: number, unitName: string, x: number, y: number, extra: any = {}): any => ({
+  cellIndex, unitIndex, unitName, x, y,
+  vx: 0, vy: 0, turnTimer: 0, taskTimer: 0, bubbleTimer: 0,
+  hidden: false, hiddenTimer: 0, trait: 'sociable', waypoints: [],
+  task: { type: 'idle', label: '' },
+  ...extra,
+})
+
+const walkerCity: any = {
+  ...emptyCity,
+  grid: makeGrid([0, 1, 7, 8, 13]),
+  happiness: { 0: 100, 1: 100, 7: 30, 8: 100, 13: 100 },
+}
+
+export const WithWalkers: Story = {
+  args: {} as any,
+  render: () => (
+    <WithRef
+      city={walkerCity}
+      walkers={[
+        walker(0, 0, 'Goblin',   60,  60),
+        walker(1, 0, 'Skeleton', 180, 60, { bubbleTimer: 5, task: { type: 'gathering', label: 'Gathering wood' } }),
+        walker(7, 0, 'Knight',   300, 140),
+        walker(8, 0, 'Goblin',   420, 140, { task: { type: 'chatting', label: '👋' } }),
+      ]}
+      builderWalkers={[{ queueIndex: 0, cardName: 'Wall', x: 120, y: 220, label: 'Building Wall' } as any]}
+      visualCarriers={[
+        { id: 'c1', carrying: { wood: 2 }, x: 300, y: 240, scale: 1, phase: 'returning' } as any,
+      ]}
+      bulldozerMode={false}
+      paintBrush={false} onCellTap={fn()} onPaint={fn()}
+      onWalkerClick={fn()}
+    />
+  ),
+}
+
 export const HorizontalRoadWear: Story = {
   args: {} as any,
   render: () => (

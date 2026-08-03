@@ -5,66 +5,16 @@ import {
   getRowDistrict, DISTRICT_INFO,
   RESOURCE_ICONS, ResourceType,
 } from '../../../game/cityBuilder'
-import { SpriteImg, AnimatedSpriteImg } from '../../ui/SpriteImg'
+import { SpriteImg } from '../../ui/SpriteImg'
 import { BuilderWalker, VisualCarrier } from '../CityBuilder'
 import { Walker } from './walkerTypes'
 import { CityZoomControls } from './CityZoomControls'
 import { useZoomPan } from './useZoomPan'
 import { CityTerrainCanvas } from './CityTerrainCanvas'
+import { CityWalkerCanvas, CitySprite } from './CityWalkerCanvas'
 
-// ── Road path SVG ─────────────────────────────────────────────────────────────
-// Strips are centred on the cell boundary (bottom / right) so they straddle
-// the CSS grid gap, appearing IN the gap rather than deep inside the gap.
-// ROAD_EXT extends each strip beyond the cell boundary to bridge the gap.
-//   Horizontal (h wear) → full-width strip centred on the bottom boundary (y=100)
-//   Vertical   (v wear) → full-height strip centred on the right  boundary (x=100)
-// overflow="visible" on the SVG lets the ±ROAD_EXT portions render in the gap.
-
-const ROAD_W   = 20  // strip width as % of cell
-const ROAD_EXT = 12  // extra SVG units beyond boundary to cover the CSS grid gap
-
-function pathFill(wear: number, highlight = false): string {
-  const t = Math.min(1, wear / 100)
-  const r = Math.round(140 + (170 - 140) * t)
-  const g = Math.round(100 + (155 - 100) * t)
-  const b = Math.round(40  + (110 - 40)  * t)
-  const a = highlight
-    ? (0.55 + t * 0.35).toFixed(2)
-    : (0.25 + t * 0.45).toFixed(2)
-  return `rgba(${r},${g},${b},${a})`
-}
-
-interface RoadPathProps {
-  left: number; right: number; top: number; bottom: number
-}
-
-function RoadPath({ left, right, top, bottom }: RoadPathProps) {
-  const hasH = left > 0 || right > 0
-  const hasV = top > 0 || bottom > 0
-  if (!hasH && !hasV) return null
-
-  const wearH = Math.max(left, right)
-  const wearV = Math.max(top, bottom)
-  const wearX = Math.max(wearH, wearV)
-
-  const HALF = (ROAD_W / 2)/2
-  const hy = 100 - HALF
-  const vx = 100 - HALF
-
-  return (
-    <svg
-      viewBox="0 0 100 100"
-      preserveAspectRatio="none"
-      aria-hidden
-      overflow="visible"
-      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', overflow: 'visible' }}
-    >
-      {hasH && <rect x={-ROAD_EXT} y={hy} width={100 + ROAD_EXT * 2} height={ROAD_W} fill={pathFill(wearH)} />}
-      {hasV && <rect x={vx} y={-ROAD_EXT} width={ROAD_W} height={100 + ROAD_EXT * 2} fill={pathFill(wearV)} />}
-      {hasH && hasV && <rect x={vx} y={hy} width={ROAD_W} height={ROAD_W} fill={pathFill(wearX, true)} />}
-    </svg>
-  )
-}
+/** Half-extent of a walker's tap target, matching the old 20×20 `.city-walker` box. */
+const WALKER_HIT_RADIUS = 12
 
 // ── Props ─────────────────────────────────────────────────────────────────────
 
@@ -93,7 +43,7 @@ export function CityGrid({
   const cityCells = cityCols * cityRows
 
   // ── Zoom / pan (shared hook) ─────────────────────────────────────────────────
-  const { wrapperRef, displayScale, stepZoom, zoomTo, getCellFromPoint: getCellFromPointRaw } =
+  const { wrapperRef, displayScale, stepZoom, zoomTo, getCellFromPoint: getCellFromPointRaw, getLocalPoint } =
     useZoomPan(worldRef, paintBrush, onPaint)
 
   const getCellFromPoint = useCallback(
@@ -139,12 +89,60 @@ export function CityGrid({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city.grid, city.happiness, city.rows, city.cols])
 
+  // ── Canvas sprites ───────────────────────────────────────────────────────────
+  // Residents, builders and carriers flattened into the one list the canvas
+  // draws. Bubbles stay in the DOM below — they carry text and nested sprites.
+  const canvasSprites = useMemo<CitySprite[]>(() => {
+    const out: CitySprite[] = []
+    for (const w of walkers) {
+      if (w.hidden) continue
+      const rage = 100 - (city.happiness[w.cellIndex] ?? 100)
+      out.push({
+        key:  `w-${w.cellIndex}-${w.unitIndex}`,
+        name: w.unitName,
+        x: w.x, y: w.y, fps: 6,
+        faded: rage >= 60,
+      })
+    }
+    for (const [idx, b] of builderWalkers.entries()) {
+      out.push({ key: `b-${idx}`, name: 'Builder', x: b.x, y: b.y, fps: 8 })
+    }
+    for (const vc of visualCarriers) {
+      out.push({ key: `c-${vc.id}`, name: 'Goblin', x: vc.x, y: vc.y, fps: 8, scale: vc.scale })
+    }
+    return out
+  }, [walkers, builderWalkers, visualCarriers, city.happiness])
+
+  // The canvas is pointer-events:none so it never swallows taps meant for the
+  // grid cells underneath. Walker taps are resolved here instead. It has to be
+  // the click capture phase: capture runs before the cell button's own onClick,
+  // so stopping propagation on a hit keeps the cell from also opening.
+  const walkerHitRef = useRef(walkers)
+  walkerHitRef.current = walkers
+  const onWalkerHitTest = useCallback((e: React.MouseEvent) => {
+    if (paintBrush) return
+    const p = getLocalPoint(e.clientX, e.clientY)
+    if (!p) return
+    // Last drawn wins, matching what the player sees on top.
+    for (let i = walkerHitRef.current.length - 1; i >= 0; i--) {
+      const w = walkerHitRef.current[i]
+      if (w.hidden) continue
+      if (Math.abs(p.x - w.x) <= WALKER_HIT_RADIUS && Math.abs(p.y - w.y) <= WALKER_HIT_RADIUS) {
+        e.stopPropagation()
+        e.preventDefault()
+        onWalkerClickRef.current(w.cellIndex, w.unitIndex)
+        return
+      }
+    }
+  }, [paintBrush, getLocalPoint])
+
   return (
     <>
       {toolbar}
       <div
         className={`city-world${paintBrush ? ' city-world--paint' : ''}`}
         ref={worldRef}
+        onClickCapture={onWalkerHitTest}
       >
       {/* Zoom controls — outside the zoom wrapper so they don't scale */}
       <CityZoomControls
@@ -155,37 +153,13 @@ export function CityGrid({
       />
 
       <div className="city-zoom-wrapper" ref={wrapperRef}>
-        {/* ── Terrain background ──────────────────────────────────────────────
-            World-scale tile canvas, rendered behind everything. */}
-        <CityTerrainCanvas environment={environment} id={environment} />
-
-        {/* ── Road wear overlay ───────────────────────────────────────────────
-            Rendered BEHIND the main grid. */}
-        {useMemo(() => (
-          <div
-            className="city-road-layer"
-            style={{
-              gridTemplateColumns: `repeat(${cityCols}, 1fr)`,
-              gridTemplateRows:    `repeat(${cityRows}, 1fr)`,
-            }}
-          >
-            {Array.from({ length: cityCells }, (_, i) => {
-              const row = Math.floor(i / cityCols)
-              const col = i % cityCols
-              const h = city.roadWear?.h ?? []
-              const v = city.roadWear?.v ?? []
-              const wearLeft   = col === 0            ? 0 : (h[i - 1]       ?? 0)
-              const wearRight  = col === cityCols - 1 ? 0 : (h[i]            ?? 0)
-              const wearTop    = row === 0            ? 0 : (v[i - cityCols] ?? 0)
-              const wearBottom = row === cityRows - 1 ? 0 : (v[i]            ?? 0)
-              return (
-                <div key={i} className="city-road-cell">
-                  <RoadPath left={wearLeft} right={wearRight} top={wearTop} bottom={wearBottom} />
-                </div>
-              )
-            })}
-          </div>
-        ), [city.roadWear, cityCols, cityRows, cityCells])}
+        {/* ── Terrain background + road wear ──────────────────────────────────
+            World-scale tile canvas, rendered behind everything. Roads share
+            this app rather than opening a WebGL context of their own. */}
+        <CityTerrainCanvas
+          environment={environment} id={environment}
+          roadWear={city.roadWear} cols={cityCols} rows={cityRows}
+        />
 
         {useMemo(() => (
         <div
@@ -280,29 +254,30 @@ export function CityGrid({
         // eslint-disable-next-line react-hooks/exhaustive-deps
         ), [city, cityCols, cityRows, cityCells, bulldozerMode, paintBrush, startPaint])}
 
-        {/* Walking units overlay */}
+        {/* Every moving sprite — residents, builders, carriers — on one canvas */}
+        <CityWalkerCanvas sprites={canvasSprites} />
+
+        {/* Text stays in the DOM — bubbles, the "!" need marker and the carried
+            resource icon. Positioned from the same coords the canvas draws from. */}
         <div className="city-unit-overlay">
           {walkers.map(w => {
             if (w.hidden) return null
-            const happiness      = city.happiness[w.cellIndex] ?? 100
-            const rage           = 100 - happiness
             const wKey           = `${w.cellIndex}-${w.unitIndex}`
             const wantsFriend    = wantsFriendSet.has(wKey)
             const showTaskBubble = visibleBubbleSet.has(wKey)
+            const chatting       = w.task.type === 'chatting'
+            const needs          = (100 - (city.happiness[w.cellIndex] ?? 100)) >= 40
+            if (!chatting && !showTaskBubble && !wantsFriend && !needs) return null
             return (
               <div
-                key={`${w.cellIndex}-${w.unitIndex}`}
-                role="button"
-                tabIndex={0}
-                className={`city-walker${rage >= 60 ? ' city-walker--unhappy' : ''}`}
+                key={wKey}
+                className="city-walker city-walker--bubble-only"
                 style={{ left: Math.round(w.x), top: Math.round(w.y) }}
-                onClick={e => { e.stopPropagation(); onWalkerClickRef.current(w.cellIndex, w.unitIndex) }}
-                onKeyDown={e => { if (e.key === 'Enter') { e.stopPropagation(); onWalkerClickRef.current(w.cellIndex, w.unitIndex) } }}
               >
-                {w.task.type === 'chatting' && (
+                {chatting && (
                   <div className="city-chat-bubble">{w.task.label}</div>
                 )}
-                {showTaskBubble && w.task.type !== 'chatting' && (
+                {showTaskBubble && !chatting && (
                   <div className="city-task-bubble">{w.task.label}</div>
                 )}
                 {!showTaskBubble && wantsFriend && (
@@ -310,8 +285,22 @@ export function CityGrid({
                     <SpriteImg name={w.affinityWith ?? w.unitName} className="city-speech-icon" />
                   </div>
                 )}
-                <AnimatedSpriteImg name={w.unitName} frameCount={3} fps={6} className="city-walker-sprite" />
-                {rage >= 40 && <span className="city-walker-need">!</span>}
+                {needs && <span className="city-walker-need">!</span>}
+              </div>
+            )
+          })}
+
+          {/* Carriers show what they are hauling on the return leg */}
+          {visualCarriers.map(vc => {
+            if (vc.phase !== 'returning') return null
+            const res = Object.keys(vc.carrying)[0] as ResourceType
+            return (
+              <div
+                key={`carrier-${vc.id}`}
+                className="city-walker city-walker--bubble-only"
+                style={{ left: Math.round(vc.x), top: Math.round(vc.y) }}
+              >
+                <div className="city-carrier-load">{RESOURCE_ICONS[res]}</div>
               </div>
             )
           })}
@@ -320,27 +309,13 @@ export function CityGrid({
           {builderWalkers.map((b, idx) => (
             <div
               key={`builder-${idx}`}
-              className="city-walker city-builder-walker"
+              className="city-walker city-walker--bubble-only city-builder-walker"
               style={{ left: Math.round(b.x), top: Math.round(b.y) }}
               title={b.label}
             >
               <div className="city-builder-bubble">{b.label}</div>
-              <AnimatedSpriteImg name="Builder" frameCount={3} fps={8} className="city-walker-sprite" />
             </div>
           ))}
-        </div>
-
-        {/* Carrier overlay */}
-        <div className="city-unit-overlay city-carrier-overlay">
-          {visualCarriers.map(vc => {
-            const res = Object.keys(vc.carrying)[0] as ResourceType
-            return (
-              <div key={vc.id} className="city-walker city-carrier-goblin" style={{ left: Math.round(vc.x), top: Math.round(vc.y), transform: `translate(-50%,-50%) scale(${vc.scale})` }}>
-                {vc.phase === 'returning' && <div className="city-carrier-load">{RESOURCE_ICONS[res]}</div>}
-                <AnimatedSpriteImg name="Goblin" frameCount={3} fps={8} className="city-walker-sprite" />
-              </div>
-            )
-          })}
         </div>
       </div>{/* end zoom wrapper */}
     </div>
