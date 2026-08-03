@@ -23,9 +23,6 @@ export interface CitySprite {
   scale?: number
   /** Unhappy residents: dimmed and desaturated. */
   faded?: boolean
-  /** Small glyph above the sprite — the "!" need marker, or a carried resource. */
-  badge?: string
-  badgeColor?: string
 }
 
 export interface Props {
@@ -48,20 +45,9 @@ desaturate.desaturate()
 interface PooledSprite {
   view:   PIXI.Container
   sprite: PIXI.AnimatedSprite
-  badge:  PIXI.Text | null
   targetX: number
   targetY: number
   faded:  boolean
-}
-
-function makeBadge(text: string, color: string, size: number): PIXI.Text {
-  const t = new PIXI.Text({
-    text,
-    style: new PIXI.TextStyle({ fontSize: 10, fontWeight: 'bold', fill: color }),
-  })
-  t.anchor.set(0.5, 1)
-  t.y = -size / 2
-  return t
 }
 
 function WalkerPixi({ sprites, w, h }: Props & { w: number; h: number }) {
@@ -132,7 +118,7 @@ function WalkerPixi({ sprites, w, h }: Props & { w: number; h: number }) {
         view.x = s.x
         view.y = s.y
         layer.addChild(view)
-        p = { view, sprite, badge: null, targetX: s.x, targetY: s.y, faded: false }
+        p = { view, sprite, targetX: s.x, targetY: s.y, faded: false }
         pool.set(s.key, p)
 
         loadAnimFramesOrStatic(s.name, 3).then(frames => {
@@ -163,17 +149,6 @@ function WalkerPixi({ sprites, w, h }: Props & { w: number; h: number }) {
         p.faded = faded
       }
 
-      const badgeText = s.badge ?? ''
-      if (badgeText && !p.badge) {
-        p.badge = makeBadge(badgeText, s.badgeColor ?? '#d04020', size)
-        p.view.addChild(p.badge)
-      } else if (!badgeText && p.badge) {
-        p.view.removeChild(p.badge)
-        p.badge.destroy()
-        p.badge = null
-      } else if (badgeText && p.badge) {
-        if (p.badge.text !== badgeText) p.badge.text = badgeText
-      }
     }
   }, [sprites, ready])
 
@@ -190,6 +165,11 @@ function WalkerPixi({ sprites, w, h }: Props & { w: number; h: number }) {
  * The canvas is `pointer-events: none` so it never swallows taps meant for the
  * grid cells underneath — walker hit-testing is done by the parent against the
  * same positions it passes in here.
+ *
+ * Sprites only: text badges and bubbles stay in the DOM. Beyond being easier to
+ * style, `PIXI.Text` releases a pooled canvas texture when it unloads, which
+ * throws if the renderer has already gone — and `usePixiApp`'s teardown
+ * destroys the stage's children on the way out.
  */
 export function CityWalkerCanvas({ sprites }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null)

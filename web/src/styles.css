@@ -10494,6 +10494,27 @@ html.light-mode .action-btn {
   cursor: default;
 }
 
+.city-walker-need {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  color: #d04020;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.city-carrier-load {
+  position:   absolute;
+  top:        -10px;
+  left:       50%;
+  transform:  translateX(-50%);
+  font-size:  10px;
+  line-height: 1;
+  filter:     drop-shadow(0 1px 2px rgba(0,0,0,0.8));
+}
+
 
 /* Builder walkers (construction) */
 .city-builder-walker {

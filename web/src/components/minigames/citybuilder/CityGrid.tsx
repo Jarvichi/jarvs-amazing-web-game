@@ -102,22 +102,13 @@ export function CityGrid({
         name: w.unitName,
         x: w.x, y: w.y, fps: 6,
         faded: rage >= 60,
-        badge: rage >= 40 ? '!' : undefined,
       })
     }
     for (const [idx, b] of builderWalkers.entries()) {
       out.push({ key: `b-${idx}`, name: 'Builder', x: b.x, y: b.y, fps: 8 })
     }
     for (const vc of visualCarriers) {
-      const res = Object.keys(vc.carrying)[0] as ResourceType
-      out.push({
-        key:  `c-${vc.id}`,
-        name: 'Goblin',
-        x: vc.x, y: vc.y, fps: 8,
-        scale: vc.scale,
-        badge: vc.phase === 'returning' ? RESOURCE_ICONS[res] : undefined,
-        badgeColor: '#ffffff',
-      })
+      out.push({ key: `c-${vc.id}`, name: 'Goblin', x: vc.x, y: vc.y, fps: 8, scale: vc.scale })
     }
     return out
   }, [walkers, builderWalkers, visualCarriers, city.happiness])
@@ -266,8 +257,8 @@ export function CityGrid({
         {/* Every moving sprite — residents, builders, carriers — on one canvas */}
         <CityWalkerCanvas sprites={canvasSprites} />
 
-        {/* Bubbles stay in the DOM: they carry text and nested sprite icons.
-            Positioned from the same walker coords the canvas draws from. */}
+        {/* Text stays in the DOM — bubbles, the "!" need marker and the carried
+            resource icon. Positioned from the same coords the canvas draws from. */}
         <div className="city-unit-overlay">
           {walkers.map(w => {
             if (w.hidden) return null
@@ -275,7 +266,8 @@ export function CityGrid({
             const wantsFriend    = wantsFriendSet.has(wKey)
             const showTaskBubble = visibleBubbleSet.has(wKey)
             const chatting       = w.task.type === 'chatting'
-            if (!chatting && !showTaskBubble && !wantsFriend) return null
+            const needs          = (100 - (city.happiness[w.cellIndex] ?? 100)) >= 40
+            if (!chatting && !showTaskBubble && !wantsFriend && !needs) return null
             return (
               <div
                 key={wKey}
@@ -293,6 +285,22 @@ export function CityGrid({
                     <SpriteImg name={w.affinityWith ?? w.unitName} className="city-speech-icon" />
                   </div>
                 )}
+                {needs && <span className="city-walker-need">!</span>}
+              </div>
+            )
+          })}
+
+          {/* Carriers show what they are hauling on the return leg */}
+          {visualCarriers.map(vc => {
+            if (vc.phase !== 'returning') return null
+            const res = Object.keys(vc.carrying)[0] as ResourceType
+            return (
+              <div
+                key={`carrier-${vc.id}`}
+                className="city-walker city-walker--bubble-only"
+                style={{ left: Math.round(vc.x), top: Math.round(vc.y) }}
+              >
+                <div className="city-carrier-load">{RESOURCE_ICONS[res]}</div>
               </div>
             )
           })}

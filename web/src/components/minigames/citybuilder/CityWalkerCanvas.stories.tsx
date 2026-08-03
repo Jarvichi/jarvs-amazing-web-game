@@ -32,13 +32,13 @@ export const Residents: Story = {
   },
 }
 
-/** Rising discontent: the "!" marker appears first, then the dimmed grey state. */
+/** Unhappy residents render dimmed and desaturated. */
 export const UnhappyResidents: Story = {
   args: {
     sprites: [
       { ...resident('w-0', 'Goblin', 80, 100) },
-      { ...resident('w-1', 'Goblin', 200, 100), badge: '!' },
-      { ...resident('w-2', 'Goblin', 320, 100), badge: '!', faded: true },
+      { ...resident('w-1', 'Goblin', 200, 100) },
+      { ...resident('w-2', 'Goblin', 320, 100), faded: true },
     ],
   },
 }
@@ -52,13 +52,13 @@ export const Builders: Story = {
   },
 }
 
-/** Carriers scale with distance and show their load on the return leg. */
+/** Carriers scale with distance; the load icon they carry is a DOM overlay. */
 export const Carriers: Story = {
   args: {
     sprites: [
       { key: 'c-0', name: 'Goblin', x: 100, y: 160, fps: 8, scale: 0.7 },
-      { key: 'c-1', name: 'Goblin', x: 220, y: 160, fps: 8, scale: 1,   badge: '🌾', badgeColor: '#ffffff' },
-      { key: 'c-2', name: 'Goblin', x: 340, y: 160, fps: 8, scale: 1.3, badge: '🪵', badgeColor: '#ffffff' },
+      { key: 'c-1', name: 'Goblin', x: 220, y: 160, fps: 8, scale: 1 },
+      { key: 'c-2', name: 'Goblin', x: 340, y: 160, fps: 8, scale: 1.3 },
     ],
   },
 }
@@ -68,11 +68,11 @@ export const MixedCrowd: Story = {
   args: {
     sprites: [
       resident('w-0', 'Goblin',   60,  60),
-      { ...resident('w-1', 'Skeleton', 160, 90), badge: '!' },
-      { ...resident('w-2', 'Knight',   260, 60), faded: true, badge: '!' },
+      { ...resident('w-1', 'Skeleton', 160, 90) },
+      { ...resident('w-2', 'Knight',   260, 60), faded: true },
       resident('w-3', 'Dragon',   360, 90),
       { key: 'b-0', name: 'Builder', x: 140, y: 220, fps: 8 },
-      { key: 'c-0', name: 'Goblin',  x: 300, y: 230, fps: 8, scale: 1.2, badge: '⛏', badgeColor: '#ffffff' },
+      { key: 'c-0', name: 'Goblin',  x: 300, y: 230, fps: 8, scale: 1.2 },
     ],
   },
 }
