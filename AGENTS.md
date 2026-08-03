@@ -205,6 +205,14 @@ Rules:
 
 **Apply this pattern to all future components, and refactor existing large screens when touching them for other reasons.**
 
+## Card Synergies
+
+Synergy groups and card-to-card combo links are documented in
+**[`docs/synergies.md`](docs/synergies.md)**. Read it before:
+- Adding or resizing a synergy group (`web/src/data/synergies.json`)
+- Adding tags to cards in `web/src/data/cards.json`
+- Changing where synergy badges or the deck-builder highlighting appear
+
 ## Constants vs JSON Config
 Complex constants that are likely to be extended (multiplicity) should be JSON config files, or added to an existing JSON file if colocating makes sense.
 
