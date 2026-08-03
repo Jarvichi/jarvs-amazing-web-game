@@ -91,7 +91,20 @@ theme — nothing useful to say about them, so they say nothing.
 | `components/cards/SynergyBadges.tsx` | Up to 2 group icons plus a `⚡N` deck-pairing count. Icon-only — labels are in the tooltip. |
 | `components/cards/CardTile.tsx` | Renders the badges in the corner of the card art. `deckMatches` prop is deck-builder only. |
 | `components/cards/CardDetailModal.tsx` | Collapsible SYNERGY row: every pairing and every group, in plain English. |
-| `components/cards/DeckBuilder.tsx` | Live scoring against the deck — gold border, `⚡N` count, and a "Synergy" sort. |
+| `components/cards/DeckBuilder.tsx` | Live scoring against the deck — see below. |
+
+In the deck builder the two tiers get two different visuals, because at 92%
+group coverage a single "shares a group" glow would light up most of the
+browser:
+
+| Signal | Visual |
+|---|---|
+| Shares a group with the deck | `collection-cell--synergy` — dim gold border |
+| Directly pairs with a deck card | `collection-cell--combo` — bright border and glow, plus `⚡N` on the tile |
+| Either | Counts toward the "⚡ Synergy" sort, which floats the best fits to the top |
+
+`⚡N` is a count of direct pairings only, never of shared groups — it has to
+mean one thing to the player.
 
 Scoring a whole browser is done through `buildDeckProfile` once per deck change,
 then `getDeckSynergy` per card. Don't call `getDeckSynergy` with a freshly built

@@ -131,6 +131,13 @@ function buildIndex(): SynergyIndex {
     }
   }
 
+  // Most specific (smallest) group first, sorted once here rather than on every
+  // card tile render.
+  const sizeOf = (g: SynergyGroup) => membersByGroup.get(g.id)!.length
+  for (const groups of groupsByCard.values()) {
+    groups.sort((a, b) => sizeOf(a) - sizeOf(b))
+  }
+
   return { groupsByCard, combosByCard, membersByGroup }
 }
 
@@ -155,12 +162,10 @@ function affinityEffectText(effectType: string, effectAmount: number): string {
 
 /** Synergy groups this card belongs to, most specific (smallest group) first. */
 export function getSynergyGroups(card: Card): SynergyGroup[] {
-  const { groupsByCard, membersByGroup } = index()
-  const groups = groupsByCard.get(card.name) ?? []
-  return [...groups].sort(
-    (a, b) => (membersByGroup.get(a.id)?.length ?? 0) - (membersByGroup.get(b.id)?.length ?? 0)
-  )
+  return index().groupsByCard.get(card.name) ?? EMPTY_GROUPS
 }
+
+const EMPTY_GROUPS: SynergyGroup[] = []
 
 /** Named cards this card has a direct mechanical pairing with. */
 export function getComboLinks(card: Card): ComboLink[] {

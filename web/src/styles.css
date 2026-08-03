@@ -5444,10 +5444,15 @@ body {
   opacity: 0.5;
 }
 
-/* Pairs with something already in the deck. */
+/* Shares a synergy group with the deck — common, so kept subtle. */
 .collection-cell--synergy .card-tile {
+  border-color: rgba(255, 204, 0, 0.5);
+}
+
+/* Directly pairs with a deck card (affinity or spawner) — the strong signal. */
+.collection-cell--combo .card-tile {
   border-color: var(--color-gold-alt);
-  box-shadow: 0 0 8px rgba(255, 204, 0, 0.35);
+  box-shadow: 0 0 10px rgba(255, 204, 0, 0.45);
 }
 
 .cell-resting-label {
