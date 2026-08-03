@@ -1,13 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import rollbar from './rollbar'
-import { setErrorLogger } from './logger'
+import { setErrorLogger, setWarnLogger } from './logger'
 import { initCrashSentinel } from './utils/crashSentinel'
 import { initResumeJournal } from './utils/resumeJournal'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import App from './App'
 
 setErrorLogger((msg, ctx) => rollbar.error(msg, ctx as object))
+setWarnLogger((msg, ctx) => rollbar.warn(msg, ctx as object))
 
 // Report if the previous session died without a clean exit (e.g. iOS Safari
 // killing the page under memory pressure) — before React renders, so crash
