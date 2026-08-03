@@ -12,7 +12,7 @@
 
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { db } from '../firebase'
-import { logError } from '../logger'
+import { logError, logWarn } from '../logger'
 
 const TOWN_ACCESS_DOC = doc(db, 'globalState', 'townAccess')
 const LOCAL_KEY = 'jarv_town_access_cache'
@@ -48,24 +48,61 @@ function saveLocalCache(ids: string[]): void {
   try { localStorage.setItem(LOCAL_KEY, JSON.stringify(ids)) } catch { /* ignore */ }
 }
 
+/** Backoff before each retry attempt. Length = number of retries after the first try. */
+const RETRY_DELAYS_MS = [400, 1200]
+
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
 /**
  * Fetch the admin-enabled town id list. Falls back to the last-known local
  * cache on error, and to an empty list (locked) if nothing has ever loaded —
  * towns stay locked until the admin turns them on.
+ *
+ * Retries a couple of times before giving up: a single transient Firestore
+ * blip on a device with no cache would otherwise fog 11 of the 13 towns for
+ * the rest of the session (App re-fetches on `online`, not on a timer).
  */
 export async function fetchEnabledTownIds(): Promise<string[]> {
-  try {
-    const snap = await getDoc(TOWN_ACCESS_DOC)
-    if (snap.exists()) {
-      const ids = (snap.data().enabled as string[] | undefined) ?? []
-      saveLocalCache(ids)
-      return ids
-    }
-    return loadLocalCache()
-  } catch (e) {
-    logError('fetchEnabledTownIds failed, using local cache', { error: String(e) })
+  // Offline is an expected state, not a failure — don't attempt or report it.
+  if (typeof navigator !== 'undefined' && navigator.onLine === false) {
     return loadLocalCache()
   }
+
+  let lastError: unknown
+  for (let attempt = 1; attempt <= RETRY_DELAYS_MS.length + 1; attempt++) {
+    try {
+      const snap = await getDoc(TOWN_ACCESS_DOC)
+      if (snap.exists()) {
+        const ids = (snap.data().enabled as string[] | undefined) ?? []
+        saveLocalCache(ids)
+        return ids
+      }
+      return loadLocalCache()
+    } catch (e) {
+      lastError = e
+      const delay = RETRY_DELAYS_MS[attempt - 1]
+      if (delay !== undefined) await sleep(delay)
+    }
+  }
+
+  // Every attempt failed. Severity follows the impact on the player: with a
+  // cache they carry on with last-known-good access, without one they are
+  // locked out of every toggleable town.
+  const cached = loadLocalCache()
+  const ctx = {
+    error: String(lastError),
+    code: (lastError as { code?: string } | undefined)?.code,
+    attempts: RETRY_DELAYS_MS.length + 1,
+    hadCache: cached.length > 0,
+    // Sampled after the retries: connectivity may have dropped part-way through.
+    online: typeof navigator !== 'undefined' ? navigator.onLine : undefined,
+  }
+  if (cached.length > 0) {
+    logWarn('fetchEnabledTownIds failed, using cached town access', ctx)
+  } else {
+    logError('fetchEnabledTownIds failed with no cache — towns locked', ctx)
+  }
+  return cached
 }
 
 /** Admin-only: persist the enabled-town list. Firestore rules reject non-admin writes. */

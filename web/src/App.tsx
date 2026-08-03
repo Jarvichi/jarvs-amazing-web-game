@@ -693,7 +693,12 @@ export default function App() {
   // Admin-controlled hub-world town access — locked until fetched/enabled.
   const [enabledTownIds, setEnabledTownIds] = useState<Set<string>>(new Set())
   useEffect(() => {
-    fetchEnabledTownIds().then(ids => setEnabledTownIds(new Set(ids)))
+    // Re-fetch when connectivity returns: a player whose first attempt failed
+    // would otherwise stay locked out of every toggleable town until reload.
+    const load = () => { fetchEnabledTownIds().then(ids => setEnabledTownIds(new Set(ids))) }
+    load()
+    window.addEventListener('online', load)
+    return () => window.removeEventListener('online', load)
   }, [])
   // "Preview as player" lets the admin see the fogged map as a regular
   // player would, by suppressing their own town-access bypass.
