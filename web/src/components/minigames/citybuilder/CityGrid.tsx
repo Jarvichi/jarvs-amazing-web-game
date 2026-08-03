@@ -5,12 +5,16 @@ import {
   getRowDistrict, DISTRICT_INFO,
   RESOURCE_ICONS, ResourceType,
 } from '../../../game/cityBuilder'
-import { SpriteImg, AnimatedSpriteImg } from '../../ui/SpriteImg'
+import { SpriteImg } from '../../ui/SpriteImg'
 import { BuilderWalker, VisualCarrier } from '../CityBuilder'
 import { Walker } from './walkerTypes'
 import { CityZoomControls } from './CityZoomControls'
 import { useZoomPan } from './useZoomPan'
 import { CityTerrainCanvas } from './CityTerrainCanvas'
+import { CityWalkerCanvas, CitySprite } from './CityWalkerCanvas'
+
+/** Half-extent of a walker's tap target, matching the old 20×20 `.city-walker` box. */
+const WALKER_HIT_RADIUS = 12
 
 // ── Props ─────────────────────────────────────────────────────────────────────
 
@@ -39,7 +43,7 @@ export function CityGrid({
   const cityCells = cityCols * cityRows
 
   // ── Zoom / pan (shared hook) ─────────────────────────────────────────────────
-  const { wrapperRef, displayScale, stepZoom, zoomTo, getCellFromPoint: getCellFromPointRaw } =
+  const { wrapperRef, displayScale, stepZoom, zoomTo, getCellFromPoint: getCellFromPointRaw, getLocalPoint } =
     useZoomPan(worldRef, paintBrush, onPaint)
 
   const getCellFromPoint = useCallback(
@@ -85,12 +89,69 @@ export function CityGrid({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city.grid, city.happiness, city.rows, city.cols])
 
+  // ── Canvas sprites ───────────────────────────────────────────────────────────
+  // Residents, builders and carriers flattened into the one list the canvas
+  // draws. Bubbles stay in the DOM below — they carry text and nested sprites.
+  const canvasSprites = useMemo<CitySprite[]>(() => {
+    const out: CitySprite[] = []
+    for (const w of walkers) {
+      if (w.hidden) continue
+      const rage = 100 - (city.happiness[w.cellIndex] ?? 100)
+      out.push({
+        key:  `w-${w.cellIndex}-${w.unitIndex}`,
+        name: w.unitName,
+        x: w.x, y: w.y, fps: 6,
+        faded: rage >= 60,
+        badge: rage >= 40 ? '!' : undefined,
+      })
+    }
+    for (const [idx, b] of builderWalkers.entries()) {
+      out.push({ key: `b-${idx}`, name: 'Builder', x: b.x, y: b.y, fps: 8 })
+    }
+    for (const vc of visualCarriers) {
+      const res = Object.keys(vc.carrying)[0] as ResourceType
+      out.push({
+        key:  `c-${vc.id}`,
+        name: 'Goblin',
+        x: vc.x, y: vc.y, fps: 8,
+        scale: vc.scale,
+        badge: vc.phase === 'returning' ? RESOURCE_ICONS[res] : undefined,
+        badgeColor: '#ffffff',
+      })
+    }
+    return out
+  }, [walkers, builderWalkers, visualCarriers, city.happiness])
+
+  // The canvas is pointer-events:none so it never swallows taps meant for the
+  // grid cells underneath. Walker taps are resolved here instead. It has to be
+  // the click capture phase: capture runs before the cell button's own onClick,
+  // so stopping propagation on a hit keeps the cell from also opening.
+  const walkerHitRef = useRef(walkers)
+  walkerHitRef.current = walkers
+  const onWalkerHitTest = useCallback((e: React.MouseEvent) => {
+    if (paintBrush) return
+    const p = getLocalPoint(e.clientX, e.clientY)
+    if (!p) return
+    // Last drawn wins, matching what the player sees on top.
+    for (let i = walkerHitRef.current.length - 1; i >= 0; i--) {
+      const w = walkerHitRef.current[i]
+      if (w.hidden) continue
+      if (Math.abs(p.x - w.x) <= WALKER_HIT_RADIUS && Math.abs(p.y - w.y) <= WALKER_HIT_RADIUS) {
+        e.stopPropagation()
+        e.preventDefault()
+        onWalkerClickRef.current(w.cellIndex, w.unitIndex)
+        return
+      }
+    }
+  }, [paintBrush, getLocalPoint])
+
   return (
     <>
       {toolbar}
       <div
         className={`city-world${paintBrush ? ' city-world--paint' : ''}`}
         ref={worldRef}
+        onClickCapture={onWalkerHitTest}
       >
       {/* Zoom controls — outside the zoom wrapper so they don't scale */}
       <CityZoomControls
@@ -202,29 +263,29 @@ export function CityGrid({
         // eslint-disable-next-line react-hooks/exhaustive-deps
         ), [city, cityCols, cityRows, cityCells, bulldozerMode, paintBrush, startPaint])}
 
-        {/* Walking units overlay */}
+        {/* Every moving sprite — residents, builders, carriers — on one canvas */}
+        <CityWalkerCanvas sprites={canvasSprites} />
+
+        {/* Bubbles stay in the DOM: they carry text and nested sprite icons.
+            Positioned from the same walker coords the canvas draws from. */}
         <div className="city-unit-overlay">
           {walkers.map(w => {
             if (w.hidden) return null
-            const happiness      = city.happiness[w.cellIndex] ?? 100
-            const rage           = 100 - happiness
             const wKey           = `${w.cellIndex}-${w.unitIndex}`
             const wantsFriend    = wantsFriendSet.has(wKey)
             const showTaskBubble = visibleBubbleSet.has(wKey)
+            const chatting       = w.task.type === 'chatting'
+            if (!chatting && !showTaskBubble && !wantsFriend) return null
             return (
               <div
-                key={`${w.cellIndex}-${w.unitIndex}`}
-                role="button"
-                tabIndex={0}
-                className={`city-walker${rage >= 60 ? ' city-walker--unhappy' : ''}`}
+                key={wKey}
+                className="city-walker city-walker--bubble-only"
                 style={{ left: Math.round(w.x), top: Math.round(w.y) }}
-                onClick={e => { e.stopPropagation(); onWalkerClickRef.current(w.cellIndex, w.unitIndex) }}
-                onKeyDown={e => { if (e.key === 'Enter') { e.stopPropagation(); onWalkerClickRef.current(w.cellIndex, w.unitIndex) } }}
               >
-                {w.task.type === 'chatting' && (
+                {chatting && (
                   <div className="city-chat-bubble">{w.task.label}</div>
                 )}
-                {showTaskBubble && w.task.type !== 'chatting' && (
+                {showTaskBubble && !chatting && (
                   <div className="city-task-bubble">{w.task.label}</div>
                 )}
                 {!showTaskBubble && wantsFriend && (
@@ -232,8 +293,6 @@ export function CityGrid({
                     <SpriteImg name={w.affinityWith ?? w.unitName} className="city-speech-icon" />
                   </div>
                 )}
-                <AnimatedSpriteImg name={w.unitName} frameCount={3} fps={6} className="city-walker-sprite" />
-                {rage >= 40 && <span className="city-walker-need">!</span>}
               </div>
             )
           })}
@@ -242,27 +301,13 @@ export function CityGrid({
           {builderWalkers.map((b, idx) => (
             <div
               key={`builder-${idx}`}
-              className="city-walker city-builder-walker"
+              className="city-walker city-walker--bubble-only city-builder-walker"
               style={{ left: Math.round(b.x), top: Math.round(b.y) }}
               title={b.label}
             >
               <div className="city-builder-bubble">{b.label}</div>
-              <AnimatedSpriteImg name="Builder" frameCount={3} fps={8} className="city-walker-sprite" />
             </div>
           ))}
-        </div>
-
-        {/* Carrier overlay */}
-        <div className="city-unit-overlay city-carrier-overlay">
-          {visualCarriers.map(vc => {
-            const res = Object.keys(vc.carrying)[0] as ResourceType
-            return (
-              <div key={vc.id} className="city-walker city-carrier-goblin" style={{ left: Math.round(vc.x), top: Math.round(vc.y), transform: `translate(-50%,-50%) scale(${vc.scale})` }}>
-                {vc.phase === 'returning' && <div className="city-carrier-load">{RESOURCE_ICONS[res]}</div>}
-                <AnimatedSpriteImg name="Goblin" frameCount={3} fps={8} className="city-walker-sprite" />
-              </div>
-            )
-          })}
         </div>
       </div>{/* end zoom wrapper */}
     </div>

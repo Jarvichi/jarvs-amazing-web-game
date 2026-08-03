@@ -10485,43 +10485,13 @@ html.light-mode .action-btn {
   cursor: pointer;
 }
 
-.city-walker-sprite {
-  width: 20px;
-  height: 20px;
-  image-rendering: pixelated;
-}
-
-.city-walker--unhappy .city-walker-sprite {
-  opacity: 0.45;
-  filter: grayscale(1);
-}
-
-.city-walker-need {
-  position: absolute;
-  top: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 9px;
-  color: #d04020;
-  font-weight: bold;
-  line-height: 1;
-}
-
-.city-carrier-overlay { position: absolute; inset: 0; pointer-events: none; }
-
-.city-carrier-goblin {
+/* Walkers themselves are drawn on the Pixi canvas; these anchors carry only
+   the bubbles, which stay in the DOM for their text and nested sprite icons.
+   Taps are hit-tested against walker positions in CityGrid, so the anchors
+   must not intercept pointer events of their own. */
+.city-walker--bubble-only {
   pointer-events: none;
-  z-index: 8;
-}
-
-.city-carrier-load {
-  position:   absolute;
-  top:        -10px;
-  left:       50%;
-  transform:  translateX(-50%);
-  font-size:  10px;
-  line-height: 1;
-  filter:     drop-shadow(0 1px 2px rgba(0,0,0,0.8));
+  cursor: default;
 }
 
 
