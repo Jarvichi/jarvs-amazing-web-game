@@ -20,9 +20,9 @@ const ROAD_EXT = 12
  */
 const HALF = (ROAD_W / 2) / 2
 
-/** Matches `.city-road-layer { inset: 4px }` — itself matching `.city-grid`'s border. */
+/** Matches `.city-grid`'s 4px border, which the roads must line up inside. */
 export const ROAD_LAYER_INSET = 4
-/** Matches the `gap: 6px` shared by `.city-road-layer` and `.city-grid`. */
+/** Matches `.city-grid { gap: 6px }` — the gap the strips are drawn into. */
 export const ROAD_LAYER_GAP = 6
 
 export interface Rect { x: number; y: number; w: number; h: number }

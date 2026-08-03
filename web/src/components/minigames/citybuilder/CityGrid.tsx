@@ -12,60 +12,6 @@ import { CityZoomControls } from './CityZoomControls'
 import { useZoomPan } from './useZoomPan'
 import { CityTerrainCanvas } from './CityTerrainCanvas'
 
-// ── Road path SVG ─────────────────────────────────────────────────────────────
-// Strips are centred on the cell boundary (bottom / right) so they straddle
-// the CSS grid gap, appearing IN the gap rather than deep inside the gap.
-// ROAD_EXT extends each strip beyond the cell boundary to bridge the gap.
-//   Horizontal (h wear) → full-width strip centred on the bottom boundary (y=100)
-//   Vertical   (v wear) → full-height strip centred on the right  boundary (x=100)
-// overflow="visible" on the SVG lets the ±ROAD_EXT portions render in the gap.
-
-const ROAD_W   = 20  // strip width as % of cell
-const ROAD_EXT = 12  // extra SVG units beyond boundary to cover the CSS grid gap
-
-function pathFill(wear: number, highlight = false): string {
-  const t = Math.min(1, wear / 100)
-  const r = Math.round(140 + (170 - 140) * t)
-  const g = Math.round(100 + (155 - 100) * t)
-  const b = Math.round(40  + (110 - 40)  * t)
-  const a = highlight
-    ? (0.55 + t * 0.35).toFixed(2)
-    : (0.25 + t * 0.45).toFixed(2)
-  return `rgba(${r},${g},${b},${a})`
-}
-
-interface RoadPathProps {
-  left: number; right: number; top: number; bottom: number
-}
-
-function RoadPath({ left, right, top, bottom }: RoadPathProps) {
-  const hasH = left > 0 || right > 0
-  const hasV = top > 0 || bottom > 0
-  if (!hasH && !hasV) return null
-
-  const wearH = Math.max(left, right)
-  const wearV = Math.max(top, bottom)
-  const wearX = Math.max(wearH, wearV)
-
-  const HALF = (ROAD_W / 2)/2
-  const hy = 100 - HALF
-  const vx = 100 - HALF
-
-  return (
-    <svg
-      viewBox="0 0 100 100"
-      preserveAspectRatio="none"
-      aria-hidden
-      overflow="visible"
-      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', overflow: 'visible' }}
-    >
-      {hasH && <rect x={-ROAD_EXT} y={hy} width={100 + ROAD_EXT * 2} height={ROAD_W} fill={pathFill(wearH)} />}
-      {hasV && <rect x={vx} y={-ROAD_EXT} width={ROAD_W} height={100 + ROAD_EXT * 2} fill={pathFill(wearV)} />}
-      {hasH && hasV && <rect x={vx} y={hy} width={ROAD_W} height={ROAD_W} fill={pathFill(wearX, true)} />}
-    </svg>
-  )
-}
-
 // ── Props ─────────────────────────────────────────────────────────────────────
 
 export interface Props {
@@ -155,37 +101,13 @@ export function CityGrid({
       />
 
       <div className="city-zoom-wrapper" ref={wrapperRef}>
-        {/* ── Terrain background ──────────────────────────────────────────────
-            World-scale tile canvas, rendered behind everything. */}
-        <CityTerrainCanvas environment={environment} id={environment} />
-
-        {/* ── Road wear overlay ───────────────────────────────────────────────
-            Rendered BEHIND the main grid. */}
-        {useMemo(() => (
-          <div
-            className="city-road-layer"
-            style={{
-              gridTemplateColumns: `repeat(${cityCols}, 1fr)`,
-              gridTemplateRows:    `repeat(${cityRows}, 1fr)`,
-            }}
-          >
-            {Array.from({ length: cityCells }, (_, i) => {
-              const row = Math.floor(i / cityCols)
-              const col = i % cityCols
-              const h = city.roadWear?.h ?? []
-              const v = city.roadWear?.v ?? []
-              const wearLeft   = col === 0            ? 0 : (h[i - 1]       ?? 0)
-              const wearRight  = col === cityCols - 1 ? 0 : (h[i]            ?? 0)
-              const wearTop    = row === 0            ? 0 : (v[i - cityCols] ?? 0)
-              const wearBottom = row === cityRows - 1 ? 0 : (v[i]            ?? 0)
-              return (
-                <div key={i} className="city-road-cell">
-                  <RoadPath left={wearLeft} right={wearRight} top={wearTop} bottom={wearBottom} />
-                </div>
-              )
-            })}
-          </div>
-        ), [city.roadWear, cityCols, cityRows, cityCells])}
+        {/* ── Terrain background + road wear ──────────────────────────────────
+            World-scale tile canvas, rendered behind everything. Roads share
+            this app rather than opening a WebGL context of their own. */}
+        <CityTerrainCanvas
+          environment={environment} id={environment}
+          roadWear={city.roadWear} cols={cityCols} rows={cityRows}
+        />
 
         {useMemo(() => (
         <div

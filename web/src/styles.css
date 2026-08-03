@@ -10397,18 +10397,6 @@ html.light-mode .action-btn {
   height: 100%;
 }
 
-/* Road wear overlay — sits behind the grid; SVG overflow is visible in the gap */
-.city-road-layer {
-  position: absolute;
-  inset: 4px;   /* matches .city-grid border-width */
-  display: grid;
-  gap: 6px;     /* matches .city-grid gap */
-  pointer-events: none;
-}
-.city-road-cell {
-  position: relative;
-}
-
 .city-cell {
   background: #2d5a27;
   border: 2px solid rgba(0, 40, 0, .15);
