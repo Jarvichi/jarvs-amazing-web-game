@@ -26,7 +26,7 @@ export const Residents: Story = {
     sprites: [
       resident('w-0', 'Goblin',   80,  70),
       resident('w-1', 'Skeleton', 200, 70),
-      resident('w-2', 'Orc',      320, 70),
+      resident('w-2', 'Knight',   320, 70),
       resident('w-3', 'Dragon',   440, 70),
     ],
   },
@@ -69,7 +69,7 @@ export const MixedCrowd: Story = {
     sprites: [
       resident('w-0', 'Goblin',   60,  60),
       { ...resident('w-1', 'Skeleton', 160, 90), badge: '!' },
-      { ...resident('w-2', 'Orc',      260, 60), faded: true, badge: '!' },
+      { ...resident('w-2', 'Knight',   260, 60), faded: true, badge: '!' },
       resident('w-3', 'Dragon',   360, 90),
       { key: 'b-0', name: 'Builder', x: 140, y: 220, fps: 8 },
       { key: 'c-0', name: 'Goblin',  x: 300, y: 230, fps: 8, scale: 1.2, badge: '⛏', badgeColor: '#ffffff' },
@@ -83,7 +83,7 @@ export const MissingSprite: Story = {
     sprites: [
       resident('w-0', 'Goblin', 160, 160),
       resident('w-1', 'Not A Real Unit Name', 240, 160),
-      resident('w-2', 'Orc', 320, 160),
+      resident('w-2', 'Knight', 320, 160),
     ],
   },
 }
