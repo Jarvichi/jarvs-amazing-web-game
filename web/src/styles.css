@@ -5444,6 +5444,12 @@ body {
   opacity: 0.5;
 }
 
+/* Pairs with something already in the deck. */
+.collection-cell--synergy .card-tile {
+  border-color: var(--color-gold-alt);
+  box-shadow: 0 0 8px rgba(255, 204, 0, 0.35);
+}
+
 .cell-resting-label {
   color: var(--color-orange-alt);
   font-size: var(--font-xxs);

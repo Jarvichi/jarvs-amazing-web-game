@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react'
 import { Card, CardType, CardRarity, UnitTag } from '../../game/types'
 import { getCardCatalog, getCardThemeTags } from '../../game/cards'
+import { buildDeckProfile, getDeckSynergy } from '../../game/synergies'
 import {
   loadCollection,
   loadDeck,
@@ -59,7 +60,7 @@ interface Props {
 type AutoStrategy = 'aggro' | 'control' | 'balanced' | 'ranged'
 type RarityFilter = 'all' | CardRarity
 type TypeFilter   = 'all' | CardType
-type SortKey  = 'default' | 'az' | 'za' | 'mana-asc' | 'mana-desc' | 'rarity'
+type SortKey  = 'default' | 'az' | 'za' | 'mana-asc' | 'mana-desc' | 'rarity' | 'synergy'
 type GroupKey = 'none' | 'type' | 'rarity' | 'mana' | 'act'
 
 const ALL_TAGS: UnitTag[] = [
@@ -309,6 +310,17 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
     return true
   }), [catalog, collection, typeFilter, rarityFilter, tagFilter, affinityFilter, q, affinityGroupNames])
 
+  // Synergy against the current deck, recomputed on every add/remove. The deck
+  // profile is built once and reused across all ~960 browser cards.
+  const synergyScores = useMemo(() => {
+    const profile = buildDeckProfile(deck.map(e => e.cardName))
+    const scores  = new Map<string, number>()
+    for (const card of catalog) scores.set(card.name, getDeckSynergy(card, profile).score)
+    return scores
+  }, [catalog, deck])
+
+  const synergyOf = (card: Card) => synergyScores.get(card.name) ?? 0
+
   const sorted = useMemo(() => [...filtered].sort((a, b) => {
     if (groupKey !== 'none') {
       const cmp = groupSortValue(a).localeCompare(groupSortValue(b))
@@ -320,9 +332,11 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
       case 'mana-asc':  return a.cost - b.cost
       case 'mana-desc': return b.cost - a.cost
       case 'rarity':    return RARITY_ORDER[a.rarity] - RARITY_ORDER[b.rarity]
+      case 'synergy':   return (synergyOf(b) - synergyOf(a)) || a.name.localeCompare(b.name)
       default:          return groupKey === 'none' ? defaultSortKey(a) - defaultSortKey(b) : 0
     }
-  }), [filtered, sortKey, groupKey])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [filtered, sortKey, groupKey, synergyScores])
 
   const activeFilterCount =
     (typeFilter    !== 'all' ? 1 : 0) +
@@ -562,6 +576,7 @@ setCollectionCollapsed(false)
                           <CardTile
                             card={card}
                             onClick={() => removeCard(entry.cardName)}
+                            deckMatches={synergyOf(card)}
                             showDetails={true}
                           />
                           <div className="cell-footer">
@@ -736,6 +751,7 @@ setCollectionCollapsed(true)
                             ['mana-asc',  'Mana ↑'],
                             ['mana-desc', 'Mana ↓'],
                             ['rarity',    'Rarity'],
+                            ['synergy',   '⚡ Synergy'],
                           ] as [SortKey, string][]).map(([val, label]) => (
                             <button
                               key={val}
@@ -816,6 +832,7 @@ setCollectionCollapsed(true)
                       const xp      = getMasteryXp(collection, card.name)
                       const { level: lvl } = masteryProgress(xp)
                       const label   = groupLabel(card)
+                      const synergy = synergyOf(card)
                       const showHeader = label !== null && label !== lastGroup
                       if (showHeader) lastGroup = label
                       return (
@@ -823,10 +840,11 @@ setCollectionCollapsed(true)
                           {showHeader && (
                             <div className="collection-group-header">{label}</div>
                           )}
-                          <div className={`collection-cell u-col${resting ? ' collection-cell--resting' : ''}`}>
+                          <div className={`collection-cell u-col${resting ? ' collection-cell--resting' : ''}${synergy > 0 ? ' collection-cell--synergy' : ''}`}>
                             <CardTile
                               card={card}
                               canAfford={canAdd}
+                              deckMatches={synergy}
                               onClick={canAdd ? () => addCard(card.name) : undefined}
                             />
                             <div className="cell-footer">
