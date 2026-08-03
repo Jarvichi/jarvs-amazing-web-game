@@ -175,6 +175,11 @@ export function getCardThemeTags(name: string): string[] {
   return THEME_TAGS_BY_NAME.get(name) ?? []
 }
 
+/** A card's tags: theme tags from cards.json plus the unit's combat tags. */
+export function getAllCardTags(card: Card): string[] {
+  return [...getCardThemeTags(card.name), ...(card.unit?.tags ?? [])]
+}
+
 // Exported shared templates (for backward compatibility)
 export const GOBLIN_UNIT  = TEMPLATES['goblin']  as UnitTemplate
 export const ARCHER_UNIT  = TEMPLATES['archer']  as UnitTemplate

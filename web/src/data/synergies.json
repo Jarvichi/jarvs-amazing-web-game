@@ -13,7 +13,7 @@
       "label": "Frostbind",
       "icon": "❄",
       "desc": "Frost attacks chill what they hit. Stack enough of them and the enemy front line never reaches your base.",
-      "tags": ["frost", "glacier"],
+      "tags": ["frost", "glacier", "waitedwinter"],
       "cards": []
     },
     {
@@ -100,8 +100,80 @@
       "id": "dunerunners",
       "label": "Dunerunners",
       "icon": "🏜",
-      "desc": "Sand and marches cards are cheap, fast and expendable — a swarm that wins by arriving before the answer does.",
-      "tags": ["sand", "marches"],
+      "desc": "Sand cards are cheap, fast and expendable — a swarm that wins by arriving before the answer does.",
+      "tags": ["sand"],
+      "cards": []
+    },
+    {
+      "id": "verdant",
+      "label": "Verdant",
+      "icon": "🌲",
+      "desc": "The forest shard: cheap bodies, cheap walls and the groves that keep replacing both. The deck every player starts with.",
+      "tags": ["forest"],
+      "cards": []
+    },
+    {
+      "id": "canopy",
+      "label": "Canopy",
+      "icon": "🌿",
+      "desc": "Canopy cards fight above the treeline — climbers and vine-runners that go over the wall your opponent built.",
+      "tags": ["canopy"],
+      "cards": []
+    },
+    {
+      "id": "ancients",
+      "label": "Ancients",
+      "icon": "🗿",
+      "desc": "Old, expensive and slow. One ancient wins a board on its own — as long as something cheaper buys it the time to land.",
+      "tags": ["ancient", "mercenary"],
+      "cards": []
+    },
+    {
+      "id": "palemarch",
+      "label": "Pale March",
+      "icon": "🌫",
+      "desc": "Amarath's border war — the vanguard from the misted marches and the toll-road behind it.",
+      "tags": ["marches", "causeway"],
+      "cards": []
+    },
+    {
+      "id": "harvest",
+      "label": "Harvest",
+      "icon": "🌾",
+      "desc": "The Unremembered Fields and the Bone Orchards: cards grown to be cut down and grown again.",
+      "tags": ["fields", "orchard"],
+      "cards": []
+    },
+    {
+      "id": "candlelight",
+      "label": "Candlelight",
+      "icon": "🕯",
+      "desc": "The vigil rite — the Candle City and the roads walked to keep it lit. Slow, relentless, hard to put out.",
+      "tags": ["candlecity", "vigilroads"],
+      "cards": []
+    },
+    {
+      "id": "mirrormarsh",
+      "label": "Mirror Marsh",
+      "icon": "🪞",
+      "desc": "Still-water cards that copy, split and come back. What you kill is rarely all of it.",
+      "tags": ["marsh"],
+      "cards": []
+    },
+    {
+      "id": "hollowcourt",
+      "label": "Hollow Court",
+      "icon": "🎭",
+      "desc": "Amarath's masked nobility and the throne behind them — expensive, precise, and built to punish an over-committed board.",
+      "tags": ["court", "throne"],
+      "cards": []
+    },
+    {
+      "id": "vigilcrown",
+      "label": "Vigil Crown",
+      "icon": "👑",
+      "desc": "The Crown Reaches and the capital — the Court's last field army. The most disciplined cards in the game.",
+      "tags": ["vigilcity", "reaches"],
       "cards": []
     }
   ]

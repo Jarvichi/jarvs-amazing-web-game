@@ -13,7 +13,7 @@
 //   }
 
 import { logError } from '../logger'
-import { getCardCatalog, getCardThemeTags } from './cards'
+import { getCardCatalog, getAllCardTags } from './cards'
 import { hashStr, makeSeededRng, seededShuffle } from './seededRandom'
 import {
   getChronicleFragments, addChronicleFragments, removeChronicleFragments,
@@ -82,10 +82,8 @@ export function getWeeklyChallenge(now: Date = new Date()): WeeklyChallengeDef {
 
 // ── Deck building ─────────────────────────────────────────────────────────────
 
-/** A card's tags: theme tags from cards.json plus the unit's combat tags. */
-export function getAllCardTags(card: Card): string[] {
-  return [...getCardThemeTags(card.name), ...(card.unit?.tags ?? [])]
-}
+/** Re-exported for existing callers — the helper itself now lives in cards.ts. */
+export { getAllCardTags }
 
 function hasAnyTag(card: Card, tags: string[]): boolean {
   return getAllCardTags(card).some(t => tags.includes(t))
