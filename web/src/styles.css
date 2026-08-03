@@ -1042,6 +1042,32 @@ body {
   opacity: 0.5;
 }
 
+/* Synergy markers — corner of the art, so the dense bottom row is untouched. */
+.card-synergy-badge {
+  position: absolute;
+  top: -2px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.card-synergy-icon {
+  font-size: 0.55rem;
+  opacity: 0.8;
+}
+
+.card-synergy-count {
+  font-size: 0.5rem;
+  font-weight: bold;
+  letter-spacing: -0.02em;
+  color: var(--color-gold-alt);
+  text-shadow: 0 0 5px rgba(255, 204, 0, 0.7);
+}
+
 .card-sprite {
   max-width: 64px;
   max-height: 40px;
@@ -3471,6 +3497,7 @@ body {
 .cdm-sw-label--strong   { color: #55cc55; }
 .cdm-sw-label--weak     { color: #ff6655; }
 .cdm-sw-label--affinity { color: var(--color-gold-alt); }
+.cdm-sw-label--synergy  { color: #6cf; }
 .cdm-sw-tags {
   color: var(--game-text-color-dim);
   text-transform: capitalize;
@@ -3491,6 +3518,8 @@ body {
   line-height: 1.5;
 }
 .cdm-sw-detail strong { color: var(--game-text-color); }
+/* One pairing or group per line — the synergy row lists several at once. */
+.cdm-synergy-item + .cdm-synergy-item { margin-top: 5px; }
 .cdm-sw-detail em { font-style: normal; color: #aad4ff; }
 
 .cdm-mastery-block {

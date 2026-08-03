@@ -4,6 +4,8 @@ import { rarityStars } from '../../game/cards'
 import { AUGMENT_SPRITE } from '../../game/augments'
 import { SpriteImg } from '../ui/SpriteImg'
 import { useCardDetail } from './useCardDetail'
+import { getSynergyGroups } from '../../game/synergies'
+import { SynergyBadges } from './SynergyBadges'
 
 const UPGRADE_SPRITE: Record<string, string> = {
   buffAttack: 'upgrade-attack',
@@ -130,12 +132,14 @@ interface Props {
   upgradeable?: boolean // collection: show UPGRADE badge
   displayCost?: number  // override displayed cost (e.g. after archetype discounts)
   showDetails?: boolean  // collection: show details button
+  deckMatches?: number   // deck builder: how many deck cards this one pairs with
 }
 
-export function CardTile({ card, canAfford = true, disabled = false, onClick, lockedSecs = 0, upgradeable = false , showDetails = false, displayCost }: Props) {
+export function CardTile({ card, canAfford = true, disabled = false, onClick, lockedSecs = 0, upgradeable = false , showDetails = false, displayCost, deckMatches = 0 }: Props) {
   const heroLocked = card.isHero && lockedSecs > 0
   const clickable = canAfford && !disabled && !heroLocked
   const { openDetail, cardDetailNode } = useCardDetail()
+  const synergyGroups = getSynergyGroups(card)
 
   let stats: string
 
@@ -194,6 +198,7 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
       {upgradeable && <div className="card-upgrade-badge">UPGRADE</div>}
       <div className={`card-title${isSecret ? ' card-title--badge' : ''}`}>{card.name}</div>
       <div className="card-art u-flex u-items-c u-just-c">
+        <SynergyBadges groups={synergyGroups} deckMatches={deckMatches} />
         {card.unit
           ? <SpriteImg name={card.unit.name} className="card-sprite" />
           : card.upgradeEffect
