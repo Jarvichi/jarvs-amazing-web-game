@@ -16209,6 +16209,7 @@
     },
     {
       "name": "Wizard",
+      "tags": ["core", "arcane"],
       "rarity": "rare",
       "cost": 3,
       "cardType": "unit",
@@ -16232,6 +16233,7 @@
     },
     {
       "name": "Stone Wall",
+      "tags": ["core"],
       "rarity": "common",
       "cost": 1,
       "cardType": "structure",
@@ -16242,6 +16244,7 @@
     },
     {
       "name": "Lumber Camp",
+      "tags": ["core"],
       "rarity": "common",
       "cost": 2,
       "cardType": "structure",
@@ -16252,6 +16255,7 @@
     },
     {
       "name": "Windmill",
+      "tags": ["core"],
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "structure",
@@ -16262,6 +16266,7 @@
     },
     {
       "name": "Farm",
+      "tags": ["core"],
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "structure",
@@ -16272,6 +16277,7 @@
     },
     {
       "name": "Mana Spring",
+      "tags": ["core"],
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "structure",
@@ -16282,6 +16288,7 @@
     },
     {
       "name": "Healer's Hut",
+      "tags": ["core"],
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "structure",
@@ -16292,6 +16299,7 @@
     },
     {
       "name": "Stone Mason",
+      "tags": ["core"],
       "rarity": "rare",
       "cost": 4,
       "cardType": "structure",
@@ -16302,6 +16310,7 @@
     },
     {
       "name": "Blacksmith",
+      "tags": ["core", "iron"],
       "rarity": "rare",
       "cost": 4,
       "cardType": "structure",
@@ -16474,6 +16483,7 @@
     },
     {
       "name": "Golem",
+      "tags": ["core", "ancient"],
       "rarity": "legendary",
       "cost": 5,
       "cardType": "unit",
@@ -16497,6 +16507,7 @@
     },
     {
       "name": "Ogre",
+      "tags": ["core", "beast"],
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "unit",
@@ -16624,6 +16635,7 @@
     },
     {
       "name": "Ogre Den",
+      "tags": ["core", "beast"],
       "rarity": "rare",
       "cost": 4,
       "cardType": "structure",
@@ -16912,6 +16924,7 @@
     },
     {
       "name": "Fire Mage",
+      "tags": ["core", "ember", "arcane"],
       "rarity": "rare",
       "cost": 3,
       "cardType": "unit",
@@ -16935,6 +16948,7 @@
     },
     {
       "name": "Mammoth",
+      "tags": ["core", "beast", "frost"],
       "rarity": "rare",
       "cost": 4,
       "cardType": "unit",
@@ -16971,6 +16985,7 @@
     },
     {
       "name": "Giant",
+      "tags": ["core", "ancient"],
       "rarity": "legendary",
       "cost": 5,
       "cardType": "unit",
@@ -16981,6 +16996,7 @@
     },
     {
       "name": "Wyvern",
+      "tags": ["core", "beast", "sky"],
       "rarity": "legendary",
       "cost": 4,
       "cardType": "unit",
@@ -16991,6 +17007,7 @@
     },
     {
       "name": "Behemoth",
+      "tags": ["core", "beast", "ancient"],
       "rarity": "legendary",
       "cost": 6,
       "cardType": "unit",
@@ -17157,6 +17174,7 @@
     },
     {
       "name": "Mage Tower",
+      "tags": ["core", "arcane"],
       "rarity": "rare",
       "cost": 4,
       "cardType": "structure",
@@ -17180,6 +17198,7 @@
     },
     {
       "name": "Mammoth Pen",
+      "tags": ["core", "beast", "frost"],
       "rarity": "legendary",
       "cost": 5,
       "cardType": "structure",
@@ -17216,6 +17235,7 @@
     },
     {
       "name": "Giant's Hall",
+      "tags": ["core", "ancient"],
       "rarity": "legendary",
       "cost": 5,
       "cardType": "structure",
@@ -17226,6 +17246,7 @@
     },
     {
       "name": "Wyvern Roost",
+      "tags": ["core", "beast", "sky"],
       "rarity": "legendary",
       "cost": 5,
       "cardType": "structure",
@@ -17236,6 +17257,7 @@
     },
     {
       "name": "Ancient Altar",
+      "tags": ["core", "ancient", "arcane"],
       "rarity": "legendary",
       "cost": 7,
       "cardType": "structure",
@@ -24437,6 +24459,7 @@
     },
     {
       "name": "Void Titan",
+      "tags": ["core", "ancient"],
       "rarity": "mythic",
       "cost": 5,
       "cardType": "unit",
@@ -24447,6 +24470,7 @@
     },
     {
       "name": "Prism Wyrm",
+      "tags": ["core", "arcane", "sky"],
       "rarity": "mythic",
       "cost": 5,
       "cardType": "unit",
@@ -24457,6 +24481,7 @@
     },
     {
       "name": "World's End",
+      "tags": ["core", "ancient"],
       "rarity": "mythic",
       "cost": 5,
       "cardType": "upgrade",
@@ -24470,6 +24495,7 @@
     },
     {
       "name": "Eternal Forge",
+      "tags": ["core", "iron", "ember"],
       "rarity": "mythic",
       "cost": 5,
       "cardType": "structure",
@@ -24480,6 +24506,7 @@
     },
     {
       "name": "Dreadnought",
+      "tags": ["core", "iron", "siege"],
       "rarity": "mythic",
       "cost": 5,
       "cardType": "unit",

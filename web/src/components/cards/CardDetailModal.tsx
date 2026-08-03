@@ -15,6 +15,7 @@ import {
   mergeAugmentEffects,
 } from '../../game/collection'
 import { ALL_AUGMENT_SLOTS, AugmentSetDef, augmentSlotLabel, getAugmentCard, getAugmentSetDef, scaledAugmentEffect } from '../../game/augments'
+import { getComboLinks, getSynergyGroups } from '../../game/synergies'
 import { CardTile } from './CardTile'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { MasteryBar } from '../ui/MasteryBar'
@@ -112,6 +113,9 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
 
   const [expandedRow, setExpandedRow] = useState<string | null>(null)
   const toggleRow = (key: string) => setExpandedRow(prev => prev === key ? null : key)
+
+  const synergyGroups = getSynergyGroups(card)
+  const comboLinks    = getComboLinks(card)
 
   // Stats — card name for "played", unit name for "died"
   const statsPlayed  = getCardStats(card.name)
@@ -353,6 +357,38 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
                 )}
               </div>
             ) : null}
+
+            {/* Synergy — groups this card shares, and the cards it directly pairs with */}
+            {(synergyGroups.length > 0 || comboLinks.length > 0) && (
+              <div className="cdm-sw-block u-col u-gap-1">
+                <button className="cdm-sw-row u-flex u-gap-3 cdm-sw-row--btn" onClick={() => toggleRow('synergy')}>
+                  <span className="cdm-sw-label cdm-sw-label--synergy">⚡ Synergy</span>
+                  <span className="cdm-sw-tags">
+                    {[
+                      ...synergyGroups.map(g => g.label),
+                      ...(comboLinks.length > 0
+                        ? [`${comboLinks.length} card pairing${comboLinks.length === 1 ? '' : 's'}`]
+                        : []),
+                    ].join(', ')}
+                  </span>
+                  <span className="cdm-sw-chevron">{expandedRow === 'synergy' ? '▲' : '▼'}</span>
+                </button>
+                {expandedRow === 'synergy' && (
+                  <div className="cdm-sw-detail">
+                    {comboLinks.map(link => (
+                      <div key={`${link.kind}-${link.partner}`} className="cdm-synergy-item">
+                        <strong>{link.partner}</strong> — {link.detail}
+                      </div>
+                    ))}
+                    {synergyGroups.map(g => (
+                      <div key={g.id} className="cdm-synergy-item">
+                        <strong>{g.icon} {g.label}</strong> — {g.desc}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Mastery (not shown for augments) */}
             {card.cardType !== 'augment' && <div className="cdm-mastery-block">

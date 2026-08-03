@@ -1,0 +1,180 @@
+{
+  "groups": [
+    {
+      "id": "core",
+      "label": "Dominion Core",
+      "icon": "⚜",
+      "desc": "The founding Dominion cards — cheap walls, economy structures and the old giants. They ask for nothing and fit into any deck.",
+      "tags": ["core"],
+      "cards": []
+    },
+    {
+      "id": "frostbind",
+      "label": "Frostbind",
+      "icon": "❄",
+      "desc": "Frost attacks chill what they hit. Stack enough of them and the enemy front line never reaches your base.",
+      "tags": ["frost", "glacier", "waitedwinter"],
+      "cards": []
+    },
+    {
+      "id": "emberkin",
+      "label": "Emberkin",
+      "icon": "🔥",
+      "desc": "Ember attacks burn over time. Burn damage stacks from every source, so a wide ember board out-damages a tall one.",
+      "tags": ["ember", "fire"],
+      "cards": []
+    },
+    {
+      "id": "blight",
+      "label": "Blight",
+      "icon": "🍄",
+      "desc": "Spore and fungal cards trade raw power for volume. Their dens keep spawning long after the first wave is dead.",
+      "tags": ["spore", "fungal"],
+      "cards": []
+    },
+    {
+      "id": "deathless",
+      "label": "Deathless",
+      "icon": "💀",
+      "desc": "Undead and ashen cards are built to be replaced. Cheap bodies plus a shrine that keeps making more of them.",
+      "tags": ["undead", "ashen"],
+      "cards": []
+    },
+    {
+      "id": "beastpack",
+      "label": "Beastpack",
+      "icon": "🐾",
+      "desc": "Beasts hit hard and move fast but die alone. Pair them with their pens so the pack is never down to one.",
+      "tags": ["beast"],
+      "cards": []
+    },
+    {
+      "id": "skyborne",
+      "label": "Skyborne",
+      "icon": "🌩",
+      "desc": "Sky and storm cards ignore walls entirely. Bring them when the enemy plan is to out-fortify you.",
+      "tags": ["sky", "storm"],
+      "cards": []
+    },
+    {
+      "id": "tidewalkers",
+      "label": "Tidewalkers",
+      "icon": "🌊",
+      "desc": "Reef and sunken cards swim past terrain that stops everything else, then arrive together.",
+      "tags": ["reef", "sunken", "tidal"],
+      "cards": []
+    },
+    {
+      "id": "arcanum",
+      "label": "Arcanum",
+      "icon": "✨",
+      "desc": "Arcane cards are fragile and ranged. They want a wall in front and an upgrade behind — both of which the group brings.",
+      "tags": ["arcane", "archive", "spire"],
+      "cards": []
+    },
+    {
+      "id": "ironhost",
+      "label": "Iron Host",
+      "icon": "🛡",
+      "desc": "Citadel discipline: armoured bodies, wall lines and the barracks that refill them. Slow to start, hard to break.",
+      "tags": ["iron", "citadel"],
+      "cards": []
+    },
+    {
+      "id": "clockwork",
+      "label": "Clockwork",
+      "icon": "⚙",
+      "desc": "Clockwork cards run on tempo — the mana and speed effects in this group are what make the expensive frames land on time.",
+      "tags": ["clockwork"],
+      "cards": []
+    },
+    {
+      "id": "siegeworks",
+      "label": "Siegeworks",
+      "icon": "🏚",
+      "desc": "Siege and salvage cards out-range towers and chew through structures. Weak to anything that closes the distance.",
+      "tags": ["siege", "vault", "wreck"],
+      "cards": []
+    },
+    {
+      "id": "dunerunners",
+      "label": "Dunerunners",
+      "icon": "🏜",
+      "desc": "Sand cards are cheap, fast and expendable — a swarm that wins by arriving before the answer does.",
+      "tags": ["sand"],
+      "cards": []
+    },
+    {
+      "id": "verdant",
+      "label": "Verdant",
+      "icon": "🌲",
+      "desc": "The forest shard: cheap bodies, cheap walls and the groves that keep replacing both. The deck every player starts with.",
+      "tags": ["forest"],
+      "cards": []
+    },
+    {
+      "id": "canopy",
+      "label": "Canopy",
+      "icon": "🌿",
+      "desc": "Canopy cards fight above the treeline — climbers and vine-runners that go over the wall your opponent built.",
+      "tags": ["canopy"],
+      "cards": []
+    },
+    {
+      "id": "ancients",
+      "label": "Ancients",
+      "icon": "🗿",
+      "desc": "Old, expensive and slow. One ancient wins a board on its own — as long as something cheaper buys it the time to land.",
+      "tags": ["ancient", "mercenary"],
+      "cards": []
+    },
+    {
+      "id": "palemarch",
+      "label": "Pale March",
+      "icon": "🌫",
+      "desc": "Amarath's border war — the vanguard from the misted marches and the toll-road behind it.",
+      "tags": ["marches", "causeway"],
+      "cards": []
+    },
+    {
+      "id": "harvest",
+      "label": "Harvest",
+      "icon": "🌾",
+      "desc": "The Unremembered Fields and the Bone Orchards: cards grown to be cut down and grown again.",
+      "tags": ["fields", "orchard"],
+      "cards": []
+    },
+    {
+      "id": "candlelight",
+      "label": "Candlelight",
+      "icon": "🕯",
+      "desc": "The vigil rite — the Candle City and the roads walked to keep it lit. Slow, relentless, hard to put out.",
+      "tags": ["candlecity", "vigilroads"],
+      "cards": []
+    },
+    {
+      "id": "mirrormarsh",
+      "label": "Mirror Marsh",
+      "icon": "🪞",
+      "desc": "Still-water cards that copy, split and come back. What you kill is rarely all of it.",
+      "tags": ["marsh"],
+      "cards": []
+    },
+    {
+      "id": "hollowcourt",
+      "label": "Hollow Court",
+      "icon": "🎭",
+      "desc": "Amarath's masked nobility and the throne behind them — expensive, precise, and built to punish an over-committed board.",
+      "tags": ["court", "throne"],
+      "cards": []
+    },
+    {
+      "id": "vigilcrown",
+      "label": "Vigil Crown",
+      "icon": "👑",
+      "desc": "The Crown Reaches and the capital — the Court's last field army. The most disciplined cards in the game.",
+      "tags": ["vigilcity", "reaches"],
+      "cards": []
+    }
+  ]
+}
