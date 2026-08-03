@@ -91,6 +91,12 @@ web/
 
 ## Session Setup (Run First)
 
+**Node version is pinned in `.nvmrc` (22).** Both workflows read that same file via
+`node-version-file`, and `.devcontainer` matches it — so check `node -v` before trusting a
+green local run. A mismatched Node can pass tests locally that fail in CI: Node 21+ defines a
+global `navigator` that older versions do not, so anything importing PixiJS outside a browser
+environment succeeds locally and dies in CI with `ReferenceError: navigator is not defined`.
+
 `node_modules` is **not committed** to the repo. In every new session (cloud/CI/mobile), run this before any build or dev command:
 
 ```bash
