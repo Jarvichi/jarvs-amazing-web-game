@@ -55,15 +55,37 @@ the **Firebase Admin** or **Editor** role on project `jawg-a3271`.
 
 ## Firestore Security Rules
 
-Current rules are in `web/src/game/cloudSave.ts` (commented at the top).
-Deploy them via the Firebase Console or CLI:
+The rules live in **`firestore.rules`** at the repo root — the single source of
+truth. `firebase.json` points the CLI at it. They cover player saves
+(`saves/{uid}`, readable/writable only by that authenticated user; anonymous
+users have no access) plus the daily/weekly leaderboards and other collections.
+
+### Automatic deploy
+
+The `deploy-firebase` job in `.github/workflows/deploy.yml` pushes the rules on
+every merge to `main`. It needs one repo secret:
+
+| Secret | What it is |
+|---|---|
+| `FIREBASE_SERVICE_ACCOUNT` | The **full JSON key** of a service account with the *Firebase Rules Admin* role (`roles/firebaserules.admin`; `roles/firebase.admin` also works) |
+
+Create it in the Google Cloud console under IAM → Service Accounts → Keys →
+Add key → JSON, then paste the whole file into the secret.
+
+If the secret is unset the job **warns and skips** rather than failing, so a
+green workflow does not by itself prove the rules deployed — check the job log.
+
+> **Why a JSON key and not Workload Identity Federation?** WIF is the better
+> practice, but `firebase-tools` currently discards ADC/WIF credentials and dies
+> with a misleading "Failed to authenticate, have you run firebase login?"
+> ([firebase-tools#10726](https://github.com/firebase/firebase-tools/issues/10726)).
+> A JSON key is long-lived — rotate it periodically.
+
+### Manual deploy
 
 ```bash
-firebase deploy --only firestore:rules
+firebase deploy --only firestore:rules --project jawg-a3271
 ```
-
-The rules grant each authenticated user read/write access only to their own
-document at `saves/{uid}`. Anonymous users have no access.
 
 ---
 

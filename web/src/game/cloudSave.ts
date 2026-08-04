@@ -1,15 +1,9 @@
 import { doc, setDoc, getDoc, Timestamp } from 'firebase/firestore'
 import { db } from '../firebase'
 
-// Required Firestore Security Rules:
-//   rules_version = '2';
-//   service cloud.firestore {
-//     match /databases/{database}/documents {
-//       match /saves/{userId} {
-//         allow read, write: if request.auth != null && request.auth.uid == userId;
-//       }
-//     }
-//   }
+// Firestore security rules live in `firestore.rules` at the repo root — the
+// single source of truth, deployed by the deploy-firebase CI job. This file
+// previously carried a partial copy that had drifted out of date.
 
 // Keys that are device-specific and should not be synced to the cloud.
 const SKIP_KEYS = new Set(['jarv_battle_state', 'jarv_player_id'])
