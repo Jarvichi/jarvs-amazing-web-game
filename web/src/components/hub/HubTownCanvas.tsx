@@ -40,6 +40,8 @@ const T                 = 32
 const SPRITE_SIZE       = T * 1.5
 const WALK_PX_PER_S     = 160
 const NPC_WALK_PX_PER_S = 80
+const NPC_BLOCK_WAIT_POLL_MS = 150   // how often to re-check a blocked tile
+const NPC_BLOCK_WAIT_MAX_MS  = 900   // give up waiting and try to reroute after this long
 
 const NIGHT_LIGHT_INNER  = 4 * T   // fully lit within this radius of avatar
 const NIGHT_LIGHT_OUTER  = 7 * T   // fully dark beyond this radius
@@ -1720,6 +1722,7 @@ export function HubTownCanvas({
     // ── Exterior walk state ────────────────────────────────────────────────────
     let currentTile: [number, number] = [AVATAR_START.tx, AVATAR_START.ty]
     let walkQueue:   [number, number][] = []
+    let walkTarget:  [number, number] | null = null
     let isWalking    = false
     let pendingScreen: string | null = null
 
@@ -2546,14 +2549,41 @@ export function HubTownCanvas({
         }
         isWalking = true
         const [tx, ty] = walkQueue.shift()!
+        const queueRef = walkQueue
 
-        // An NPC may have wandered onto this tile since the path was planned —
-        // halt in place rather than tweening onto it.
+        // An NPC may have wandered onto this tile since the path was planned.
+        // Don't just give up on the journey — wait briefly for it to clear,
+        // then try to route around it, and only as a last resort step through.
         if (npcOccupiedTiles().has(`${tx},${ty}`)) {
-          isWalking     = false
-          walkQueue     = []
-          pendingScreen = null
-          return
+          let waited = 0
+          while (
+            npcOccupiedTiles().has(`${tx},${ty}`) &&
+            walkQueue === queueRef &&
+            waited < NPC_BLOCK_WAIT_MAX_MS
+          ) {
+            await new Promise<void>(resolve => setTimeout(resolve, NPC_BLOCK_WAIT_POLL_MS))
+            waited += NPC_BLOCK_WAIT_POLL_MS
+          }
+
+          if (walkQueue !== queueRef) {
+            // A new tap replaced the queue while we were waiting — let it take over.
+            processWalkQueue()
+            return
+          }
+
+          if (npcOccupiedTiles().has(`${tx},${ty}`)) {
+            if (walkTarget) {
+              const rerouteSet = exteriorWalkable()
+              for (const k of npcOccupiedTiles()) rerouteSet.delete(k)
+              const reroute = findPath(currentTile, walkTarget, rerouteSet)
+              if (reroute.length > 1) {
+                walkQueue = reroute.slice(1)
+                processWalkQueue()
+                return
+              }
+            }
+            // No route around either — scooch through rather than getting stuck.
+          }
         }
 
         const av = avatar
@@ -2649,6 +2679,7 @@ export function HubTownCanvas({
       for (const k of npcOccupiedTiles()) effectivePathSet.delete(k)
       const path = findPath(currentTile, target, effectivePathSet)
       walkQueue = path.slice(1)
+      walkTarget = target
       pendingScreen = nodeScreen ?? null
       if (!isWalking) processWalkQueue()
     }
