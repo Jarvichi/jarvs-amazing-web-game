@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import type { GameState, AnimEvent, ProjectileType } from '../../../game/types'
 import { BLOOD_POOL_FADE_MS } from '../../../game/engine/constants'
-import { gameToPixel } from '../../../utils/terrainLayer'
+import { gameToPixel, gameRadiusToPixels } from '../../../utils/terrainLayer'
 import { unitJitterPx } from './units'
 import type { Scene, EffectEntry } from './scene'
 
@@ -76,8 +76,12 @@ export function syncHazards(scene: Scene, state: GameState, w: number, h: number
     if (!entry) {
       entry = new PIXI.Container()
       const g = new PIXI.Graphics()
-      g.circle(0, 0, 32).fill({ color: 0x28c828, alpha: 0.55 })
-      g.circle(0, 0, 20).fill({ color: 0x50ff50, alpha: 0.3 })
+      // Drawn at the hazard's real radius so the green area is exactly the area that
+      // gasses units — see engine.ts's hazard damage check and the avoidance steering
+      // in engine/units.ts, both of which work off this same radius.
+      const { rx, ry } = gameRadiusToPixels(hz.radius, w, h)
+      g.ellipse(0, 0, rx, ry).fill({ color: 0x28c828, alpha: 0.55 })
+      g.ellipse(0, 0, rx * 0.62, ry * 0.62).fill({ color: 0x50ff50, alpha: 0.3 })
       entry.addChild(g)
       scene.hazardLayer.addChild(entry)
       scene.hazardPool.set(hz.id, entry)
@@ -94,12 +98,16 @@ export function syncHazards(scene: Scene, state: GameState, w: number, h: number
   }
 }
 
-function makeEffectVisual(kind: EffectEntry['kind'], ev: AnimEvent): PIXI.Container {
+function makeEffectVisual(kind: EffectEntry['kind'], ev: AnimEvent, w: number, h: number): PIXI.Container {
   const c = new PIXI.Container()
   const pType = ev.projectileType ?? 'magic'
   if (kind === 'gascloud') {
     const g = new PIXI.Graphics()
-    g.circle(0, 0, 28).fill({ color: 0x28c828, alpha: 0.6 })
+    // Sits on top of the Hazard's own circle (combat.ts pushes both for one cloud), so it
+    // has to use the same radius — a fixed-size blob inside a correctly-sized one reads as
+    // the cloud being smaller than it is.
+    const { rx, ry } = gameRadiusToPixels(ev.aoeRadius ?? 0, w, h)
+    g.ellipse(0, 0, rx, ry).fill({ color: 0x28c828, alpha: 0.6 })
     c.addChild(g)
   } else if (kind === 'aoe') {
     const g = new PIXI.Graphics()
@@ -126,7 +134,7 @@ export function syncAnimEvents(scene: Scene, state: GameState, w: number, h: num
     live.add(ev.id)
     let entry = scene.effectPool.get(ev.id)
     if (!entry) {
-      const container = makeEffectVisual(ev.kind, ev)
+      const container = makeEffectVisual(ev.kind, ev, w, h)
       scene.effectLayer.addChild(container)
       entry = { container, kind: ev.kind, createdAtMs: nowMs }
       scene.effectPool.set(ev.id, entry)

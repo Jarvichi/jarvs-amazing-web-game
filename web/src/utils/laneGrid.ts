@@ -29,6 +29,21 @@ export function pixelToGame(px: number, py: number, w: number, h: number): { x: 
 }
 
 /**
+ * Pixel semi-axes of a circle of `radius` game units, for art that has to cover the same
+ * ground a game-space distance check does (gas clouds). The lane's two axes are scaled
+ * independently — x spans 500 units down the canvas height, y spans ±80 across 72% of its
+ * width — so a game-space circle is an ellipse on screen. Derived from gameToPixel rather
+ * than restating its factors, so the two cannot drift apart.
+ */
+export function gameRadiusToPixels(radius: number, w: number, h: number): { rx: number; ry: number } {
+  const origin = gameToPixel(0, 0, w, h)
+  return {
+    rx: Math.abs(gameToPixel(0, radius, w, h).px - origin.px),
+    ry: Math.abs(gameToPixel(radius, 0, w, h).py - origin.py),
+  }
+}
+
+/**
  * The tile index a game position anchors to, for art that snaps to the tile grid.
  *
  * Callers drawing the battlefield lane pass a tileScale (h / GRID_REF_HEIGHT),
