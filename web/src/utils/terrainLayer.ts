@@ -14,7 +14,7 @@ import type { TerrainObstacle, RoadDef, BattlefieldDecorItem } from '../game/eng
 // Lane coordinate/tile math lives in ./laneGrid (pixi-free so tests can import
 // it); re-exported here because most callers reach for it alongside the
 // build*Gfx helpers.
-export { gameToPixel, pixelToGame, TILE_RADIUS_SCALE } from './laneGrid'
+export { gameToPixel, pixelToGame, gameRadiusToPixels, TILE_RADIUS_SCALE } from './laneGrid'
 
 export interface TerrainLayerOptions {
   environment?: string

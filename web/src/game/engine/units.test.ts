@@ -8,8 +8,9 @@ import { newGame } from '../engine'
 import { moveUnits } from './units'
 import { spawnUnit } from './helpers'
 import { RoadDef, TerrainObstacle } from './terrain'
-import { LANE_WIDTH } from '../types'
-import { DEFEND_ZONE_MAX_X } from './constants'
+import { Hazard, LANE_WIDTH } from '../types'
+import { COMMANDER_HOME_X, COMMANDER_LEASH_PX, DEFEND_ZONE_MAX_X } from './constants'
+import { GAS_CLOUD_RADIUS, getCardCatalog } from '../cards'
 
 const MOBILE_TEMPLATE = {
   name: 'Test Runner', maxHp: 30, attack: 5, moveSpeed: 40,
@@ -430,5 +431,172 @@ describe('moveUnits — ruins are a one-tile obstacle on the soft-avoidance path
     s.field = [unit]
     for (let i = 0; i < 10; i++) moveUnits(s, 100)
     expect(unit.y).toBeLessThan(20)
+  })
+})
+
+describe('moveUnits — gas cloud avoidance', () => {
+  const RANGED_TEMPLATE = { ...MOBILE_TEMPLATE, attackRange: 100 }
+
+  /** A cloud matching what a `gascloud`-tagged unit drops (see deriveAttackEffect). */
+  function cloud(overrides: Partial<Hazard> = {}): Hazard {
+    return {
+      id: 'gas1', x: 250, y: 0, radius: GAS_CLOUD_RADIUS, dps: 3,
+      owner: 'opponent', expiresAt: 8000, ...overrides,
+    }
+  }
+
+  function inCloud(unit: { x: number; y: number }, hz: Hazard): boolean {
+    return Math.hypot(unit.x - hz.x, unit.y - hz.y) <= hz.radius
+  }
+
+  it('a unit fighting inside a cloud drifts out without losing its target', () => {
+    // The reported bug: a unit already in attack range early-continues before any steering
+    // runs, so it stood in the gas swinging until it died.
+    const s = newGame()
+    s.terrain = []
+    const hz = cloud()
+    s.hazards = [hz]
+
+    const unit = spawnUnit(RANGED_TEMPLATE, 'player')
+    unit.x = 250; unit.y = 10; unit.advanceY = 10
+    const foe = spawnUnit(MOBILE_TEMPLATE, 'opponent')
+    foe.x = 260; foe.y = 10
+    s.field = [unit, foe]
+
+    expect(inCloud(unit, hz)).toBe(true)
+    for (let i = 0; i < 40; i++) {
+      moveUnits(s, 100)
+      // Drift out, keep fighting — the target never leaves attack range.
+      expect(Math.hypot(unit.x - foe.x, unit.y - foe.y)).toBeLessThanOrEqual(unit.attackRange + 1e-6)
+    }
+    expect(inCloud(unit, hz)).toBe(false)
+  })
+
+  it('a cloud dropped exactly on a unit still resolves to a direction', () => {
+    const s = newGame()
+    s.terrain = []
+    const hz = cloud({ x: 250, y: 0 })
+    s.hazards = [hz]
+
+    const unit = spawnUnit(RANGED_TEMPLATE, 'player')
+    unit.x = 250; unit.y = 0; unit.advanceY = 0
+    const foe = spawnUnit(MOBILE_TEMPLATE, 'opponent')
+    foe.x = 250; foe.y = 0
+    s.field = [unit, foe]
+
+    for (let i = 0; i < 40; i++) moveUnits(s, 100)
+
+    expect(inCloud(unit, hz)).toBe(false)
+  })
+
+  it('a unit advancing up the lane steers around a cloud instead of through it', () => {
+    const s = newGame()
+    s.terrain = []
+    const hz = cloud({ x: 250, y: 0 })
+    s.hazards = [hz]
+
+    const unit = spawnUnit(MOBILE_TEMPLATE, 'player')
+    unit.x = 150; unit.y = 0; unit.advanceY = 0
+    s.field = [unit]
+
+    let everInside = false
+    for (let i = 0; i < 120; i++) {
+      moveUnits(s, 100)
+      if (inCloud(unit, hz)) everInside = true
+    }
+
+    expect(everInside).toBe(false)
+    expect(unit.x).toBeGreaterThan(250) // still made it up the lane
+  })
+
+  it('ignores a cloud its own side dropped', () => {
+    const s = newGame()
+    s.terrain = []
+    s.hazards = [cloud({ owner: 'player' })]
+
+    const unit = spawnUnit(MOBILE_TEMPLATE, 'player')
+    unit.x = 250; unit.y = 0; unit.advanceY = 0
+    s.field = [unit]
+
+    moveUnits(s, 100)
+
+    expect(unit.y).toBeCloseTo(0)
+  })
+
+  it('ignores a cloud that has already expired', () => {
+    const s = newGame()
+    s.terrain = []
+    s.gameTime = 9000
+    s.hazards = [cloud({ expiresAt: 8000 })]
+
+    const unit = spawnUnit(MOBILE_TEMPLATE, 'player')
+    unit.x = 250; unit.y = 0; unit.advanceY = 0
+    s.field = [unit]
+
+    moveUnits(s, 100)
+
+    expect(unit.y).toBeCloseTo(0)
+  })
+
+  it('a flying unit dodges too — gas damages flyers', () => {
+    const s = newGame()
+    s.terrain = []
+    const hz = cloud({ x: 250, y: 0 })
+    s.hazards = [hz]
+
+    const unit = spawnUnit({ ...MOBILE_TEMPLATE, flying: true }, 'player')
+    unit.x = 250; unit.y = 0; unit.advanceY = 0
+    s.field = [unit]
+
+    for (let i = 0; i < 40; i++) moveUnits(s, 100)
+
+    expect(inCloud(unit, hz)).toBe(false)
+  })
+
+  it('a commander drifts away from a cloud but stays on its leash', () => {
+    const s = newGame()
+    s.terrain = []
+    s.hazards = [cloud({ x: COMMANDER_HOME_X, y: 0 })]
+
+    const cmd = spawnUnit(MOBILE_TEMPLATE, 'player')
+    cmd.isCommander = true
+    cmd.commanderHomeX = COMMANDER_HOME_X
+    cmd.x = COMMANDER_HOME_X; cmd.y = 0; cmd.advanceY = 0
+    s.field = [cmd]
+
+    for (let i = 0; i < 60; i++) moveUnits(s, 100)
+
+    expect(Math.abs(cmd.y)).toBeGreaterThan(0)
+    expect(Math.abs(cmd.x - COMMANDER_HOME_X)).toBeLessThanOrEqual(COMMANDER_LEASH_PX + 1e-6)
+  })
+
+  it('every gascloud unit drops a cloud at the radius the avoidance and the art both use', () => {
+    // effects.ts draws the cloud straight off hazard.radius and engine.ts damages off the
+    // same value, so this is what keeps what you see, what hurts, and what units dodge
+    // from drifting apart.
+    const gasUnits = getCardCatalog().filter(c => c.unit?.tags?.includes('gascloud'))
+    expect(gasUnits.length).toBeGreaterThan(0)
+    for (const c of gasUnits) {
+      expect(c.unit!.attackEffect?.type).toBe('gascloud')
+      expect(c.unit!.attackEffect?.aoeRadius).toBe(GAS_CLOUD_RADIUS)
+    }
+  })
+
+  it('never pushes a unit into blocked terrain on a terrainValidated node', () => {
+    const s = newGame()
+    s.terrainValidated = true
+    s.terrain = [{ id: 'wall', type: 'rock', x: 250, y: 0, radius: 250 }]
+    s.hazards = [cloud({ x: 100, y: 0 })]
+
+    const unit = spawnUnit(RANGED_TEMPLATE, 'player')
+    unit.x = 100; unit.y = 0; unit.advanceY = 0
+    const foe = spawnUnit(MOBILE_TEMPLATE, 'opponent')
+    foe.x = 110; foe.y = 0
+    s.field = [unit, foe]
+
+    for (let i = 0; i < 60; i++) moveUnits(s, 100)
+
+    // The rock seals the lane from x≈0 to x≈500; the drift must not tunnel into it.
+    expect(unit.x).toBeLessThan(250)
   })
 })

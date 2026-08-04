@@ -30,6 +30,67 @@ const BLOOD_CLUSTER_MIN    = 2     // minimum pools in a cluster to trigger avoi
 const MAX_BASE_GUARDS      = 2     // max units per side allowed to stay in guard-base mode
 const ROAD_WAYPOINT_ARRIVE_PX = 15 // distance within which a road waypoint counts as "reached"
 
+// ─── Ground-hazard (gas cloud) avoidance ──────────────────
+// Units used to stand inside an enemy gas cloud trading blows, or walk straight through
+// one, until the damage-per-second killed them — nothing in movement read s.hazards.
+// The push below is 2-D, unlike the lateral-only terrain/blood repulsion: a cloud centred
+// in the lane is wide enough that sidestepping alone can't clear it within ±LANE_MAX_Y.
+/** Deflection band outside the damaging radius, so units skirt a cloud rather than clip it. */
+const HAZARD_AVOID_MARGIN = 12
+/** Fraction of moveSpeed used when shuffling clear of a cloud while engaged — a shuffle, so
+ *  under 1 to keep it from overshooting the fight it's trying to stay in. */
+const HAZARD_DRIFT_SPEED_FACTOR = 0.9
+/** Deflection strength for a unit that's still steering, as a multiple of moveSpeed. Must
+ *  exceed 1 or advancing units grind forward into a cloud faster than it pushes them out —
+ *  the same reason the terrain and blood-pool deflections sit at 1.8. */
+const HAZARD_DEFLECT_FACTOR = 1.8
+/** Below this distance from a cloud's centre the away-vector is degenerate; pick a side. */
+const HAZARD_CENTRE_EPSILON = 5
+
+/**
+ * Direction to move to get clear of every enemy-owned hazard near this unit, plus how hard to
+ * commit to it: full strength anywhere inside the damaging radius (standing in gas is never
+ * something to leave half-heartedly), tapering to nothing across the margin band outside it so
+ * units passing by are deflected smoothly instead of snapping at the boundary. Strength 0 means
+ * the unit is clear and the vector is meaningless.
+ *
+ * Not gated on `flying` — engine.ts gasses flying units too, so they need to dodge as well.
+ */
+function hazardEscapeVector(
+  unit: Unit,
+  hazards: GameState['hazards'],
+): { hx: number; hy: number; strength: number } {
+  let hx = 0, hy = 0, strongest = 0
+  for (const hz of hazards) {
+    if (hz.owner === unit.owner) continue
+    const toUnitX = unit.x - hz.x
+    const toUnitY = unit.y - hz.y
+    const dist    = Math.hypot(toUnitX, toUnitY)
+    if (dist >= hz.radius + HAZARD_AVOID_MARGIN) continue
+    const strength = dist <= hz.radius ? 1 : 1 - (dist - hz.radius) / HAZARD_AVOID_MARGIN
+    strongest = Math.max(strongest, strength)
+    // Break ties deterministically by id parity — the same trick the terrain and blood-pool
+    // blocks use head-on, and it also splits a crowd around the cloud rather than sending
+    // every unit the same way.
+    const lateralDir = idNum(unit.id) % 2 === 0 ? -1 : 1
+    if (dist < HAZARD_CENTRE_EPSILON) {
+      // Clouds are dropped directly onto the unit they're aimed at, so "standing on the
+      // centre" is the common case here, not an edge case.
+      hy += lateralDir * strength
+    } else {
+      hx += (toUnitX / dist) * strength
+      hy += (toUnitY / dist) * strength
+      // Approaching along the cloud's own lane: the away-vector is purely backwards, so
+      // following it just stalls the unit nose-first against the gas. Add a sideways term
+      // so it rounds the cloud instead.
+      if (Math.abs(toUnitY) < HAZARD_CENTRE_EPSILON) hy += lateralDir * strength
+    }
+  }
+  const len = Math.hypot(hx, hy)
+  if (len === 0) return { hx: 0, hy: 0, strength: 0 }
+  return { hx: hx / len, hy: hy / len, strength: strongest }
+}
+
 export function moveUnits(s: GameState, deltaMs: number): void {
   const deltaSec = deltaMs / 1000
   const stance = s.playerStance ?? 'auto'
@@ -47,6 +108,70 @@ export function moveUnits(s: GameState, deltaMs: number): void {
     )
     return nearby.length >= BLOOD_CLUSTER_MIN - 1
   })
+
+  // Hazards still burning this tick. tidyBattlefield purges expired ones at the *end* of the
+  // tick, well after movement, so the expiry has to be re-checked here.
+  const liveHazards = (s.hazards ?? []).filter(h => h.expiresAt > s.gameTime)
+
+  // Tile grid + road map, built once per battle (s.terrain/s.roads don't change mid-battle)
+  // and shared by the hard-blocking steering below and the hazard drift.
+  const ensureTerrainGrid = () => (s.terrainGridCache ??= {
+    obstacleTiles: buildObstacleTileMap(s.terrain),
+    roadTiles: buildRoadTileMap(s.roads ?? []),
+    flowFields: new Map(),
+  })
+
+  /** Whether `unit` may stand at (x, y). Always true where hard tile blocking is off. */
+  const canUnitEnter = (unit: Unit, x: number, y: number): boolean => {
+    if (!s.terrainValidated || unit.flying) return true
+    const { obstacleTiles, roadTiles } = ensureTerrainGrid()
+    const profile: MovementProfile = unit.tags?.includes('burrowing') ? 'burrowing' : 'ground'
+    const swims = unit.tags?.includes('swim') ?? false
+    const { tcx, tcy } = gameToContainingTile(x, y)
+    return isTilePassable(obstacleTiles, roadTiles, tcx, tcy, profile, swims)
+  }
+
+  /**
+   * Shuffle a unit clear of any gas cloud it's standing in, for the paths that skip steering
+   * entirely — a unit already in attack range, or one sitting on its movement target. Those
+   * early-`continue`s are why a unit would stand in a cloud swinging until it died.
+   *
+   * `engaged` is the unit it's currently in range of, if any: the drift is capped so that unit
+   * stays inside attackRange, making this "drift out, keep fighting" rather than a retreat.
+   * These paths bypass the end-of-loop clamps, so the leash and defend backstop are reapplied
+   * here.
+   */
+  const driftFromHazards = (unit: Unit, engaged: Unit | undefined, defending: boolean): void => {
+    if (liveHazards.length === 0) return
+    const { hx, hy, strength } = hazardEscapeVector(unit, liveHazards)
+    if (strength === 0) return
+
+    let step = unit.moveSpeed * HAZARD_DRIFT_SPEED_FACTOR * strength * deltaSec
+    if (engaged) {
+      // Furthest the unit can travel along (hx, hy) with its target still in range: solve
+      // |P + t·D − T| = attackRange for t. Guarded on the target already being in range, so
+      // the discriminant can't go negative.
+      const cx = unit.x - engaged.x
+      const cy = unit.y - engaged.y
+      const proj = cx * hx + cy * hy
+      const disc = proj * proj - (cx * cx + cy * cy) + unit.attackRange * unit.attackRange
+      if (disc <= 0) return
+      step = Math.min(step, Math.max(0, -proj + Math.sqrt(disc)))
+    }
+    if (step <= 0) return
+
+    const xStart = unit.x
+    const nx = Math.min(LANE_WIDTH - BASE_STOP_MARGIN, Math.max(BASE_STOP_MARGIN, unit.x + hx * step))
+    const ny = Math.min(LANE_MAX_Y, Math.max(LANE_MIN_Y, unit.y + hy * step))
+    if (canUnitEnter(unit, nx, ny))          { unit.x = nx; unit.y = ny }
+    else if (canUnitEnter(unit, unit.x, ny))   unit.y = ny
+    else if (canUnitEnter(unit, nx, unit.y))   unit.x = nx
+
+    if (defending) unit.x = Math.min(unit.x, Math.max(DEFEND_ZONE_MAX_X, xStart))
+    if (unit.isCommander && unit.commanderHomeX !== undefined) {
+      unit.x = Math.min(unit.commanderHomeX + COMMANDER_LEASH_PX, Math.max(unit.commanderHomeX - COMMANDER_LEASH_PX, unit.x))
+    }
+  }
 
   const livingOpponentUnits = s.field.some(u => u.owner === 'opponent' && u.hp > 0)
   const livingPlayerUnits   = s.field.some(u => u.owner === 'player'   && u.hp > 0)
@@ -159,7 +284,7 @@ export function moveUnits(s: GameState, deltaMs: number): void {
       if (threat) {
         claimedThreats.add(threat.id)
         // Already engaging it — combat handles the attack, don't crowd closer.
-        if (threatDist <= unit.attackRange) continue
+        if (threatDist <= unit.attackRange) { driftFromHazards(unit, threat, true); continue }
         tx = threat.x
         ty = threat.isWall ? unit.y : threat.y
         hasTarget = true
@@ -169,7 +294,7 @@ export function moveUnits(s: GameState, deltaMs: number): void {
         hasTarget = false
       }
     } else if (nearestAhead) {
-      if (unitDist(unit, nearestAhead) <= unit.attackRange) continue
+      if (unitDist(unit, nearestAhead) <= unit.attackRange) { driftFromHazards(unit, nearestAhead, false); continue }
       // Attack: don't chase enemies — keep charging toward destination
       if (unit.owner !== 'player' || stance === 'auto') {
         tx = nearestAhead.x
@@ -180,7 +305,7 @@ export function moveUnits(s: GameState, deltaMs: number): void {
       // Only turn back for enemies behind in auto mode
       const behind = findEnemyBehind(s.field, unit)
       if (behind) {
-        if (unitDist(unit, behind) <= unit.attackRange) continue
+        if (unitDist(unit, behind) <= unit.attackRange) { driftFromHazards(unit, behind, false); continue }
         tx = behind.x
         ty = behind.isWall ? unit.y : behind.y
         hasTarget = true
@@ -323,7 +448,7 @@ export function moveUnits(s: GameState, deltaMs: number): void {
       ) {
         const attacker = s.field.find(u => u.id === ownCommander.lastAttackerId && u.hp > 0)
         if (attacker) {
-          if (unitDist(unit, attacker) <= unit.attackRange) continue
+          if (unitDist(unit, attacker) <= unit.attackRange) { driftFromHazards(unit, attacker, false); continue }
           tx = attacker.x
           ty = attacker.y
           hasTarget = true
@@ -358,7 +483,9 @@ export function moveUnits(s: GameState, deltaMs: number): void {
     const dx = tx - unit.x
     const dy = ty - unit.y
     const d  = Math.sqrt(dx * dx + dy * dy)
-    if (d === 0) continue
+    // Already standing on its target (holding a slot, waiting on an affinity partner, …).
+    // Nothing to steer, but a cloud landing here still has to be walked out of.
+    if (d === 0) { driftFromHazards(unit, undefined, isDefending); continue }
 
     const inWallZone = unit.climber && s.field.some(w =>
       w.isWall && w.owner !== unit.owner && w.hp > 0 && Math.abs(unit.x - w.x) <= WALL_CLIMB_ZONE
@@ -400,13 +527,28 @@ export function moveUnits(s: GameState, deltaMs: number): void {
     const speed = (inWallZone ? unit.moveSpeed * CLIMB_SPEED_FACTOR : unit.moveSpeed)
       * deltaSec * fogMult * affMoveMult * clampedMoatFactor * freezeFactor
 
-    // Terrain avoidance: lateral repulsion from nearby obstacles. Skipped when
-    // `terrainValidated` is on — that node uses hard tile blocking below
-    // instead (see game/engine/terrainGrid.ts). Untouched otherwise, so every
-    // existing act/node (terrainValidated absent/false) behaves exactly as
-    // before.
+    // Steering repulsion, folded into the step below.
+    let avoidX = 0
     let avoidY = 0
+
+    // Gas clouds. Unlike terrain and blood pools this pushes on both axes and applies to
+    // flying units too: a cloud is wide enough that sidestepping alone can't clear it inside
+    // LANE_MIN_Y..LANE_MAX_Y, and gas damages flyers.
+    if (liveHazards.length > 0) {
+      const { hx, hy, strength } = hazardEscapeVector(unit, liveHazards)
+      if (strength > 0) {
+        const push = unit.moveSpeed * HAZARD_DEFLECT_FACTOR * strength
+        avoidX += hx * push
+        avoidY += hy * push
+      }
+    }
+
     if (!unit.flying) {
+      // Terrain avoidance: lateral repulsion from nearby obstacles. Skipped when
+      // `terrainValidated` is on — that node uses hard tile blocking below
+      // instead (see game/engine/terrainGrid.ts). Untouched otherwise, so every
+      // existing act/node (terrainValidated absent/false) behaves exactly as
+      // before.
       if (!s.terrainValidated) {
         for (const obs of s.terrain) {
           const toObsX = obs.x - unit.x
@@ -449,7 +591,7 @@ export function moveUnits(s: GameState, deltaMs: number): void {
     }
 
     const step = Math.min(speed, d)
-    const candX = Math.min(LANE_WIDTH - BASE_STOP_MARGIN, Math.max(BASE_STOP_MARGIN, unit.x + (dx / d) * step))
+    const candX = Math.min(LANE_WIDTH - BASE_STOP_MARGIN, Math.max(BASE_STOP_MARGIN, unit.x + (dx / d) * step + avoidX * deltaSec))
     const candY = Math.min(LANE_MAX_Y, Math.max(LANE_MIN_Y, unit.y + (dy / d) * step + avoidY * deltaSec))
 
     if (!s.terrainValidated || unit.flying) {
@@ -461,12 +603,8 @@ export function moveUnits(s: GameState, deltaMs: number): void {
       // a flow field (see buildFlowField in ./terrainGrid.ts). Grid and fields
       // are built once per battle and cached, since s.terrain/s.roads don't
       // change mid-battle.
-      s.terrainGridCache ??= {
-        obstacleTiles: buildObstacleTileMap(s.terrain),
-        roadTiles: buildRoadTileMap(s.roads ?? []),
-        flowFields: new Map(),
-      }
-      const { obstacleTiles, roadTiles } = s.terrainGridCache
+      const grid = ensureTerrainGrid()
+      const { obstacleTiles, roadTiles } = grid
       const profile: MovementProfile = unit.tags?.includes('burrowing') ? 'burrowing' : 'ground'
       const swims = unit.tags?.includes('swim') ?? false
       const canEnter = (x: number, y: number) => {
@@ -484,10 +622,10 @@ export function moveUnits(s: GameState, deltaMs: number): void {
       // defenders across the map the moment an obstacle got in the way.
       const goalX = isDefending ? 0 : (unit.owner === 'player' ? LANE_WIDTH : 0)
       const fieldKey = `${profile}|${swims}|${goalX}`
-      let field = s.terrainGridCache.flowFields.get(fieldKey)
+      let field = grid.flowFields.get(fieldKey)
       if (!field) {
         field = buildFlowField(obstacleTiles, roadTiles, profile, swims, goalX)
-        s.terrainGridCache.flowFields.set(fieldKey, field)
+        grid.flowFields.set(fieldKey, field)
       }
       const here = gameToContainingTile(unit.x, unit.y)
       const hereDist = field.get(`${here.tcx},${here.tcy}`)
