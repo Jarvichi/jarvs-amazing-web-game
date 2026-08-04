@@ -2210,6 +2210,7 @@ export function HubTownCanvas({
       // Interior NPCs — rendered inside the room, tappable
       const interiorNpcList: HubNpc[] = (INTERIOR_NPCS[buildingId] ?? []).filter(n => isVisibleAtLevel(n, currentLevel))
       for (const npc of interiorNpcList) {
+        interiorWalkable.delete(`${npc.tx},${npc.ty}`)
         // Activity pose swap, mirroring the exterior ticker logic — resolved once
         // here since this block only reruns when the player re-enters the room.
         const interiorSpriteSlug = resolveNpcSprite(npc.sprite)
@@ -2247,6 +2248,7 @@ export function HubTownCanvas({
       })
       for (const npc of scheduledVisitors) {
         const loc = getNpcLocation(npc, gameHourRef.current) as { type: 'interior'; buildingId: string; tx: number; ty: number }
+        interiorWalkable.delete(`${loc.tx},${loc.ty}`)
         // Activity pose swap, mirroring the exterior ticker logic — resolved once
         // here since this block only reruns when the player re-enters the room.
         const visitorSpriteSlug = resolveNpcSprite(npc.sprite)
@@ -2544,6 +2546,16 @@ export function HubTownCanvas({
         }
         isWalking = true
         const [tx, ty] = walkQueue.shift()!
+
+        // An NPC may have wandered onto this tile since the path was planned —
+        // halt in place rather than tweening onto it.
+        if (npcOccupiedTiles().has(`${tx},${ty}`)) {
+          isWalking     = false
+          walkQueue     = []
+          pendingScreen = null
+          return
+        }
+
         const av = avatar
         if (!av) { currentTile = [tx, ty]; processWalkQueue(); return }
 
@@ -2633,6 +2645,8 @@ export function HubTownCanvas({
       nextSpawnTimer = 0
       lastMovedMs = performance.now()
       const effectivePathSet = exteriorWalkable()
+      // Route around NPCs so the player can't path through/onto them.
+      for (const k of npcOccupiedTiles()) effectivePathSet.delete(k)
       const path = findPath(currentTile, target, effectivePathSet)
       walkQueue = path.slice(1)
       pendingScreen = nodeScreen ?? null
@@ -2695,8 +2709,13 @@ export function HubTownCanvas({
           return
         }
 
-        const node   = EXTERIOR_NPCS.find(n => n.tx === tapTx && n.ty === tapTy && n.screen)
-        const target = nearestWalkable(x, y, exteriorWalkable(), T)
+        const node = EXTERIOR_NPCS.find(n => n.tx === tapTx && n.ty === tapTy && n.screen)
+        // Ambient crowd NPCs have no hit area of their own, so a tap landing
+        // directly on one falls through here — snap to the nearest free tile
+        // instead of walking the player onto it.
+        const tapWalkable = exteriorWalkable()
+        for (const k of npcOccupiedTiles()) tapWalkable.delete(k)
+        const target = nearestWalkable(x, y, tapWalkable, T)
         startWalk(target, node?.screen)
       }
     })
