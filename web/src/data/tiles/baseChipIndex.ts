@@ -1118,7 +1118,7 @@ export const BASE_CHIP_TILES = {
     woodWallDoorBottomAnim1: 26012,
     woodWallDoorBottomAnim2: 26013,
     woodWallDoorBottomAnim3: 26014,
-
+    hammer: 20164,
     // whiteStone -> door1 band0 col3
     whiteStoneDoorAboveAnim1: 26003,
     whiteStoneDoorAboveAnim2: 26004,
