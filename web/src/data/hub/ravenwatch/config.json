@@ -7999,7 +7999,7 @@
           "entryTx": 9,
           "entryTy": 4,
           "requiredQuest": "aldous-hidden-passage",
-          "label": "Back to quarters"
+          "label": "Back to the residence"
         },
         {
           "tx": 10,
@@ -9872,9 +9872,9 @@
       "ty": 9,
       "screen": "home-shelf",
       "dialogue": [
-        "Your quarters are just inside, Commander. I keep your things in order.",
+        "The residence is just inside, Commander. I help Steward Aldous keep it in order.",
         "The shelf holds everything you've gathered on your journey.",
-        "Rest is just as important as battle. Your quarters await."
+        "Rest is just as important as battle. Come sit a while before you head back out."
       ],
       "conversationTopics": [
         "ravenwatch-home-shelf-topic-auto-1",
@@ -10167,7 +10167,7 @@
       "ty": 5,
       "questGive": "aldous-keepsake",
       "dialogue": [
-        "Welcome home, Commander. Your quarters are ready.",
+        "Welcome, Commander. Come in out of the cold — you're always welcome here.",
         "I have kept everything in order during your absence.",
         "Rest here. Tomorrow's battles can wait."
       ],

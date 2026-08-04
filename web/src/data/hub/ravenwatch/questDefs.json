@@ -14018,7 +14018,7 @@
       "start": "start",
       "nodes": {
         "start": {
-          "text": "Your quarters are just inside, Commander. I keep your things in order.",
+          "text": "The residence is just inside, Commander. I help Steward Aldous keep it in order.",
           "choices": [
             {
               "label": "That sounds like it weighs on you.",
@@ -14234,7 +14234,7 @@
       "start": "start",
       "nodes": {
         "start": {
-          "text": "Rest is just as important as battle. Your quarters await.",
+          "text": "Rest is just as important as battle. Come sit a while before you head back out.",
           "choices": [
             {
               "label": "That sounds like it weighs on you.",
@@ -17042,7 +17042,7 @@
       "start": "start",
       "nodes": {
         "start": {
-          "text": "Welcome home, Commander. Your quarters are ready.",
+          "text": "Welcome, Commander. Come in out of the cold — you're always welcome here.",
           "choices": [
             {
               "label": "That sounds like it weighs on you.",
@@ -23120,7 +23120,7 @@
     {
       "id": "ravenwatch-home-shelf-topic-auto-1",
       "npcId": "home-shelf",
-      "label": "💬 \"Your quarters are just inside, Commander.\"",
+      "label": "💬 \"The residence is just inside, Commander.\"",
       "treeId": "ravenwatch-home-shelf-topic-auto-1"
     },
     {
@@ -23302,7 +23302,7 @@
     {
       "id": "ravenwatch-home-steward-topic-auto-1",
       "npcId": "home-steward",
-      "label": "💬 \"Welcome home, Commander.\"",
+      "label": "💬 \"Welcome, Commander.\"",
       "treeId": "ravenwatch-home-steward-topic-auto-1"
     },
     {
