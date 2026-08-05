@@ -8,6 +8,14 @@
 }
 
 :root {
+  /* The gutter .game-container holds around the whole app. Kept as variables,
+     not literals, because three breakpoints override it and anything wanting to
+     bleed past it (see .overlay-screen--bleed) has to cancel the exact current
+     value. A previous change edited two of the three rules and left the third
+     inconsistent — one source of truth prevents a repeat. */
+  --container-pad-x: 10px;
+  --container-pad-y: 6px;
+
   --game-text-color: #33ff33;
   --game-text-color-dim:   color-mix(in srgb, var(--game-text-color) 85%, transparent);
   --game-text-color-muted: color-mix(in srgb, var(--game-text-color) 70%, transparent);
@@ -188,7 +196,7 @@ body {
 .game-container {
   max-width: 740px;
   margin: 0 auto;
-  padding: 6px 10px;
+  padding: var(--container-pad-y) var(--container-pad-x);
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -1291,7 +1299,7 @@ body {
 
 @media (max-width: 480px) {
   body { font-size: var(--font-md); }
-  .game-container { padding: 4px 6px; }
+  :root { --container-pad-x: 6px; --container-pad-y: 4px; }
   .game-title { font-size: var(--font-base); letter-spacing: 1px; }
 
   .hand-cards { gap: 4px; padding-bottom: 4px; }
@@ -1310,7 +1318,7 @@ body {
 
 /* Very small phones (≤380px — iPhone SE, older Android) */
 @media (max-width: 380px) {
-  .game-container { padding: 2px 4px; }
+  :root { --container-pad-x: 4px; --container-pad-y: 2px; }
   .game-title { font-size: var(--font-md); padding: 2px 0 3px; }
 
   .hand-cards { gap: 3px; }
@@ -4084,7 +4092,29 @@ body {
 .nm-map {
   overflow-x: auto;
   overflow-y: auto;
-  padding: 16px 8px 8px;
+  /* No side or bottom padding: this map is the screen. The 16px above it keeps
+     it off the toolbar. A phone's corner radius (~44-55px on iPhone) is far
+     deeper than any gutter we could afford, so the curve crops map content at
+     the corners whatever we do — an 8px band bought nothing there and only
+     showed as a black outline down the straight edges. */
+  padding: 16px 0 0;
+}
+
+/* Lets the map inside reach the physical screen edge by cancelling
+   .game-container's gutter. Opt-in per screen via OverlayScreen's className.
+   overflow:visible is what actually allows the escape — .overlay-screen's
+   default overflow-x:hidden would clip the negative margins away silently.
+   Safe on these screens specifically because both are full-height flex layouts
+   whose map does its own scrolling, so the outer box never needed to scroll;
+   .game-container's overflow:hidden still backstops the app as a whole. */
+.overlay-screen--bleed {
+  overflow: visible;
+}
+
+.overlay-screen--bleed .nm-map {
+  margin-left:   calc(-1 * var(--container-pad-x));
+  margin-right:  calc(-1 * var(--container-pad-x));
+  margin-bottom: calc(-1 * var(--container-pad-y));
 }
 
 /* Act-environment themed backgrounds */

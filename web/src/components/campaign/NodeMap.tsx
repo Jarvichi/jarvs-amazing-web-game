@@ -39,7 +39,16 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
   const statusOf = (id: string) => getNodeStatus(id, availableIds, run)
 
   return (
-    <OverlayScreen onBack={onBack} title={act.title} subtitle={act.subtitle}>
+    <OverlayScreen
+      onBack={onBack}
+      title={act.title}
+      subtitle={act.subtitle}
+      // Matches the hub: the act map reaches the screen edge rather than
+      // sitting inside .game-container's gutter. The toolbars above and below
+      // it stay inset — they are bordered boxes, so bleeding them would put a
+      // visible border under the phone's corner curve.
+      className="overlay-screen overlay-screen--bleed u-col u-grow"
+    >
       <div className="nodemap u-col u-grow">
 
         <Toolbar>

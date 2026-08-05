@@ -2183,7 +2183,14 @@ function hasOfferableQuest(giverId: string): boolean {
   }
 
   return (
-    <OverlayScreen title={`🏠 ${locationData.HUB_TOWN_NAME}`} right={activeFestival && `${activeFestival.icon} ${activeFestival.name}`}>
+    <OverlayScreen
+      title={`🏠 ${locationData.HUB_TOWN_NAME}`}
+      right={activeFestival && `${activeFestival.icon} ${activeFestival.name}`}
+      // --bleed lets the town canvas reach the screen edge instead of sitting
+      // inside .game-container's gutter, which read as a black outline that the
+      // phone's corner radius cropped unevenly.
+      className="overlay-screen overlay-screen--bleed u-col u-grow"
+    >
       {HubWorldToolbar(wrongSave, crystals, collectionCount, catalogTotal, isGameNight,  setTabbedModalOpen, onWorldMap, onLoginToggle, onSignOut, onPlayerTap, user, playerName, onFeedback, onBack)}
 
       <div
