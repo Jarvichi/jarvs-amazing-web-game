@@ -24,6 +24,7 @@ import { FlameColor, FlameType, HubInteractable, HubInterior, HubInteriorExit, H
 import { createAnimalSystem, AnimalSystem, GlowSource, PLAYER_OWNER_ID } from './hubAnimals'
 import { getActivePet } from '../../game/hub/pet'
 import { isInteractableGranted, interactableStoreKey } from '../../game/hub/interactables'
+import { getFlameType } from '../../game/hub/flames'
 import type { AnimalType } from '../../game/hub/animals'
 import { createWeatherSystem } from './hubWeather'
 import { resolveWeather } from '../../game/hub/weather'
@@ -142,6 +143,9 @@ interface Props {
   moveInteractableRef?:       React.MutableRefObject<((id: string, tx: number, ty: number) => void) | null>
   /** Receives a callback to add a live "Sold" badge to a shop interactable */
   markInteractableSoldRef?:   React.MutableRefObject<((id: string) => void) | null>
+  /** Receives a callback to refresh an interactable's flame sprite(s) live
+   *  (size/speed) after a stokeFlame reaction changes its persisted FlameType */
+  refreshInteractableFlameRef?: React.MutableRefObject<((id: string) => void) | null>
   /** Receives a callback to float a ❤️/💔 above a named exterior NPC's head
    *  when their friendship changes. No-ops if that NPC isn't currently a
    *  visible exterior sprite (indoors, gated, or not on screen). */
@@ -163,6 +167,7 @@ export function HubTownCanvas({
   completedQuestIdsRef, collectedTreasureIds, onTreasureStep,
   gameHour, isNight, npcProximityDialogue,
   onInteractableTap, interactableIndicatorsRef, interactableMovesRef, moveInteractableRef, markInteractableSoldRef,
+  refreshInteractableFlameRef,
   showFriendshipReactionRef,
   buildingUpgradeLevelsRef,
   locationData,
@@ -298,7 +303,28 @@ export function HubTownCanvas({
     // Animated flame overlays flagged on decor (§ flame effect). Collected inline
     // alongside decorGlows in the same two decor-building loops below, then spawned
     // once texture loading settles (see spawnFlame).
-    interface FlameSource { parent: PIXI.Container; x: number; y: number; type: FlameType; color: FlameColor; sortY?: number }
+    interface FlameSource {
+      parent: PIXI.Container; x: number; y: number; type: FlameType; color: FlameColor; sortY?: number
+      /** Set only for interactable-owned flame decor — lets a later stokeFlame
+       *  live-update find and refresh this sprite without a full rebuild. */
+      interactableId?: string
+      /** The decor's authored default FlameType, re-used as getFlameType's
+       *  fallback when refreshing this sprite live. */
+      fallbackType?: FlameType
+      /** The implicit night-glow entry derived from this flame (undefined when
+       *  the decor set its own explicit glow) — mutated in place on refresh so
+       *  the light grows/shrinks in step with the flame instead of staying
+       *  frozen at whatever size it had when first built. */
+      glow?: GlowSource
+    }
+    // interactableId -> its live flame sprites (+ the fallback type and derived
+    // glow entry each needs to re-resolve/resize against). Populated by
+    // spawnFlames, read by refreshInteractableFlame (registered into
+    // refreshInteractableFlameRef further down, mirroring
+    // markInteractableSoldRef/moveInteractableRef) so a stokeFlame reaction can
+    // update the sprite immediately instead of waiting for the player to leave
+    // and re-enter (buildInteractable only reruns on re-entry).
+    const interactableFlameSprites = new Map<string, { sprite: PIXI.AnimatedSprite; fallbackType: FlameType; glow?: GlowSource }[]>()
     // Vertical anchor point within a tile a flame sits on, as a fraction of tile
     // height (0 = top, 1 = bottom) — tuned to sit over a tile's fire-pit/hearth
     // art rather than at the very bottom edge of the tile cell.
@@ -323,10 +349,15 @@ export function HubTownCanvas({
     // flame sprite itself lives in), so "flame: true" lights the surrounding dark by default.
     function collectFlame(target: FlameSource[], glows: GlowSource[], hasExplicitGlow: boolean,
       parent: PIXI.Container, parentX: number, parentY: number, worldX: number, worldY: number,
-      type: FlameType | undefined, color: FlameColor | undefined, sortY?: number): void {
+      type: FlameType | undefined, color: FlameColor | undefined, sortY?: number,
+      interactableId?: string, fallbackType?: FlameType): void {
       const t = type ?? 'medium'
-      target.push({ parent, x: parentX, y: parentY, type: t, color: color ?? 'normal', sortY })
-      if (!hasExplicitGlow) glows.push({ x: worldX, y: worldY - T / 2, radius: FLAME_PARAMS[t].glowRadius * T, pulse: true })
+      let glow: GlowSource | undefined
+      if (!hasExplicitGlow) {
+        glow = { x: worldX, y: worldY - T / 2, radius: FLAME_PARAMS[t].glowRadius * T, pulse: true }
+        glows.push(glow)
+      }
+      target.push({ parent, x: parentX, y: parentY, type: t, color: color ?? 'normal', sortY, interactableId, fallbackType, glow })
     }
     function spawnFlames(sources: FlameSource[]): void {
       if (sources.length === 0) return
@@ -339,6 +370,11 @@ export function HubTownCanvas({
           anim.play()
           anim.anchor.set(0.5, 1)
           anim.width = anim.height = T * params.scale
+          if (src.interactableId) {
+            const list = interactableFlameSprites.get(src.interactableId) ?? []
+            list.push({ sprite: anim, fallbackType: src.fallbackType ?? src.type, glow: src.glow })
+            interactableFlameSprites.set(src.interactableId, list)
+          }
           anim.tint = FLAME_TINTS[src.color]
           anim.position.set(src.x, src.y)
           if (src.sortY != null) anim.zIndex = src.sortY * T + T + 1.5
@@ -759,10 +795,14 @@ export function HubTownCanvas({
           const parent = d.zlayer === 'above' ? above! : root
           if (d.glow) decorGlows.push({ x: (pos.tx + d.dx) * T + T / 2, y: (pos.ty + d.dy) * T + T / 2, radius: (d.glowRadius ?? 2) * T, pulse: !!d.pulse })
           if (d.flame) {
+            // Resolve today's actual flame type (a stokeFlame reaction may have
+            // upgraded it) rather than always showing the decor's authored default.
+            const fallbackType = d.flameType ?? 'medium'
+            const effectiveType = getFlameType(interactableStoreKey(locationKey, def.id), fallbackType)
             collectFlame(flames, decorGlows, !!d.glow, parent,
               d.dx * T + T / 2, d.dy * T + T * FLAME_ANCHOR_Y,
               (pos.tx + d.dx) * T + T / 2, (pos.ty + d.dy) * T + T * FLAME_ANCHOR_Y,
-              d.flameType, d.flameColor, pos.ty + d.dy)
+              effectiveType, d.flameColor, pos.ty + d.dy, def.id, fallbackType)
           }
           if (d.spriteId) {
             loadTextureUrl(`${base}sprites/${d.spriteId}.svg`).then(tex => {
@@ -917,6 +957,26 @@ export function HubTownCanvas({
       }
     }
     if (markInteractableSoldRef) markInteractableSoldRef.current = doMarkInteractableSold
+
+    // Live flame refresh — updates already-spawned flame sprite(s) after a
+    // stokeFlame reaction changes an interactable's persisted FlameType, so the
+    // campfire visibly builds up immediately instead of only on next re-entry.
+    const doRefreshInteractableFlame = (id: string): void => {
+      try {
+        const sprites = interactableFlameSprites.get(id)
+        if (!sprites) return
+        for (const { sprite, fallbackType, glow } of sprites) {
+          const type = getFlameType(interactableStoreKey(locationKey, id), fallbackType)
+          const params = FLAME_PARAMS[type]
+          sprite.animationSpeed = params.speed
+          sprite.width = sprite.height = T * params.scale
+          if (glow) glow.radius = params.glowRadius * T
+        }
+      } catch (e) {
+        rollbar.error('[HubTownCanvas] refreshInteractableFlame failed', { id, error: String(e) })
+      }
+    }
+    if (refreshInteractableFlameRef) refreshInteractableFlameRef.current = doRefreshInteractableFlame
 
     // ── Blocked paths (quest-gated obstructions) ──────────────────────────────
     interface BlockedNpcEntry {

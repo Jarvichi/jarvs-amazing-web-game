@@ -447,6 +447,8 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
   const moveInteractableRef = useRef<((id: string, tx: number, ty: number) => void) | null>(null)
   // Receives the canvas's live "Sold" badge callback
   const markInteractableSoldRef = useRef<((id: string) => void) | null>(null)
+  // Receives the canvas's callback to refresh an interactable's flame sprite live
+  const refreshInteractableFlameRef = useRef<((id: string) => void) | null>(null)
   // Receives the canvas's callback to float a ❤️/💔 above an NPC's head
   const showFriendshipReactionRef = useRef<((npcId: string, kind: 'up' | 'down') => void) | null>(null)
   // Per-interactable tap counts so dialogue arrays cycle
@@ -2155,6 +2157,7 @@ function hasOfferableQuest(giverId: string): boolean {
           onClick: () => {
             removeHubItem(r.requiresItemId, 1)
             setFlameType(storeKey, r.toFlameType)
+            refreshInteractableFlameRef.current?.(def.id)
             let text = 'The flames catch and swell, roaring higher than before. 🔥'
             if (r.grantHubItem) {
               addHubItem(r.grantHubItem.itemId, r.grantHubItem.count ?? 1)
@@ -2239,6 +2242,7 @@ function hasOfferableQuest(giverId: string): boolean {
             interactableMovesRef={interactableMovesRef}
             moveInteractableRef={moveInteractableRef}
             markInteractableSoldRef={markInteractableSoldRef}
+            refreshInteractableFlameRef={refreshInteractableFlameRef}
             showFriendshipReactionRef={showFriendshipReactionRef}
             buildingUpgradeLevelsRef={buildingUpgradeLevelsRef}
             locationData={locationData}
