@@ -52,6 +52,36 @@ export function setMusicVolume(val: number): void {
   }
 }
 
+/**
+ * Nudge a suspended context back to life.
+ *
+ * Mobile browsers suspend the AudioContext whenever the page is backgrounded,
+ * and nothing brings it back on its own — so without this the first time a
+ * player switches apps or locks their phone, sound is gone for the rest of the
+ * session (music worst of all, since a running track has no later event to
+ * re-trigger it). Safe to call unconditionally: resuming a running context is
+ * a no-op, and resume() rejects only when there is no user gesture behind it,
+ * which we treat as "try again on the next one".
+ */
+function resumeCtx(): void {
+  if (!ctx || ctx.state !== 'suspended') return
+  ctx.resume().catch(() => {
+    // Expected when the browser wants a fresh user gesture first — the next
+    // tap routes through getCtx() and retries. Not player-visible on its own.
+  })
+}
+
+/**
+ * Resume on return to foreground so music restarts without waiting for the
+ * player to trigger another sound. Registered once at module load; harmless in
+ * Node/test environments, which have no `document`.
+ */
+if (typeof document !== 'undefined') {
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') resumeCtx()
+  })
+}
+
 function getCtx(): AudioContext | null {
   if (!isSoundEnabled()) return null
   try {
@@ -61,6 +91,10 @@ function getCtx(): AudioContext | null {
       masterGain.gain.value = SOUND_BASE_GAIN * getSoundVolume()
       masterGain.connect(ctx.destination)
     }
+    // Most calls arrive from a tap, which is exactly the gesture the browser
+    // wants before it will un-suspend. This is the path that recovers audio if
+    // the visibilitychange resume above was rejected for lacking one.
+    resumeCtx()
     return ctx
   } catch {
     return null
