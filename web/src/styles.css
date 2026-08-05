@@ -8,6 +8,17 @@
 }
 
 :root {
+  /* Device safe areas — the notch/status bar and the home indicator.
+     Only ever non-zero when the page is served with viewport-fit=cover on a
+     device that has cutouts, which for us means an iOS home-screen install
+     (the manifest is display:standalone and the status bar is black-translucent,
+     so the web view really does extend under both). In every normal browser
+     env() falls back to 0px and these are inert. */
+  --safe-top:    env(safe-area-inset-top, 0px);
+  --safe-right:  env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left:   env(safe-area-inset-left, 0px);
+
   --game-text-color: #33ff33;
   --game-text-color-dim:   color-mix(in srgb, var(--game-text-color) 85%, transparent);
   --game-text-color-muted: color-mix(in srgb, var(--game-text-color) 70%, transparent);
@@ -188,7 +199,14 @@ body {
 .game-container {
   max-width: 740px;
   margin: 0 auto;
-  padding: 6px 10px;
+  /* Base 6px/10px inset, plus whatever the device reserves for its cutouts.
+     box-sizing is border-box globally, so this eats into the 100vh height
+     rather than overflowing it. */
+  padding:
+    calc(6px  + var(--safe-top))
+    calc(10px + var(--safe-right))
+    calc(6px  + var(--safe-bottom))
+    calc(10px + var(--safe-left));
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -1291,7 +1309,13 @@ body {
 
 @media (max-width: 480px) {
   body { font-size: var(--font-md); }
-  .game-container { padding: 4px 6px; }
+  .game-container {
+    padding:
+      calc(4px + var(--safe-top))
+      calc(6px + var(--safe-right))
+      calc(4px + var(--safe-bottom))
+      calc(6px + var(--safe-left));
+  }
   .game-title { font-size: var(--font-base); letter-spacing: 1px; }
 
   .hand-cards { gap: 4px; padding-bottom: 4px; }
@@ -3713,8 +3737,8 @@ body {
 
 .wn-notification {
   position: fixed;
-  top: 0;
-  right: 0;
+  top: var(--safe-top);
+  right: var(--safe-right);
   width: min(340px, 95vw);
   background: #1c1c1e;
   border: 1px solid var(--game-border);
@@ -7408,9 +7432,9 @@ body {
 
 .integrity-warning {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: var(--safe-top);
+  left: var(--safe-left);
+  right: var(--safe-right);
   z-index: 9999;
   display: flex;
   align-items: center;
@@ -9562,7 +9586,7 @@ html.light-mode .action-btn {
 /* ── Secret #1 — Konami Code toast ──────────────────────────────────────── */
 .konami-toast {
   position: fixed;
-  top: 1rem;
+  top: calc(1rem + var(--safe-top));
   left: 50%;
   transform: translateX(-50%);
   background: #1a2a1a;
@@ -11255,7 +11279,7 @@ html.light-mode .action-btn {
 
 .city-toast {
   position: fixed;
-  top: 16px;
+  top: calc(16px + var(--safe-top));
   left: 50%;
   transform: translateX(-50%);
   background: #0a1a0a;
@@ -12033,7 +12057,7 @@ html.light-mode .action-btn {
 
 .minigame-toast {
   position: fixed;
-  top: 16px;
+  top: calc(16px + var(--safe-top));
   left: 50%;
   transform: translateX(-50%);
   background: #1a1a3a;
