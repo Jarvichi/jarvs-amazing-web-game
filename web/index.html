@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- viewport-fit=cover lets the page paint into the notch/home-indicator
+       areas; styles.css then pads content back out via env(safe-area-inset-*).
+       Required because the status bar style below is black-translucent, so an
+       iOS home-screen install already renders under the status bar. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Jarv's Amazing Web Game</title>
 
   <!-- Favicon -->
