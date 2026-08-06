@@ -330,6 +330,7 @@ export function HubTownCanvas({
     // art rather than at the very bottom edge of the tile cell.
     const FLAME_ANCHOR_Y = 0.72
     const FLAME_PARAMS: Record<FlameType, { scale: number; glowRadius: number; speed: number }> = {
+      unlit:   { scale: 0,    glowRadius: 0,   speed: 0    },
       flicker: { scale: 0.45, glowRadius: 1,   speed: 0.10 },
       low:     { scale: 0.65, glowRadius: 1.5, speed: 0.12 },
       medium:  { scale: 0.9,  glowRadius: 2.5, speed: 0.14 },
@@ -370,6 +371,10 @@ export function HubTownCanvas({
           anim.play()
           anim.anchor.set(0.5, 1)
           anim.width = anim.height = T * params.scale
+          // 'unlit' (e.g. a brazier waiting to be lit) still gets a sprite so a
+          // later stokeFlame live-refresh has something to reveal — it's just
+          // hidden until then, rather than never created at all.
+          anim.visible = src.type !== 'unlit'
           if (src.interactableId) {
             const list = interactableFlameSprites.get(src.interactableId) ?? []
             list.push({ sprite: anim, fallbackType: src.fallbackType ?? src.type, glow: src.glow })
@@ -968,6 +973,7 @@ export function HubTownCanvas({
         for (const { sprite, fallbackType, glow } of sprites) {
           const type = getFlameType(interactableStoreKey(locationKey, id), fallbackType)
           const params = FLAME_PARAMS[type]
+          sprite.visible = type !== 'unlit'
           sprite.animationSpeed = params.speed
           sprite.width = sprite.height = T * params.scale
           if (glow) glow.radius = params.glowRadius * T

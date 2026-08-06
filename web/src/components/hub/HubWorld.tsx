@@ -56,6 +56,7 @@ import { getUnreadCount } from '../../game/news'
 import { interactableStoreKey, isInteractableGranted, markInteractableGranted, getInteractableMoves, setInteractableMove } from '../../game/hub/interactables'
 import { canDigToday, recordDig } from '../../game/hub/digs'
 import { getFlameType, setFlameType } from '../../game/hub/flames'
+import { recordGroupMember } from '../../game/hub/groupChallenges'
 import { shuffled } from '../../game/hub/shuffle'
 import { canForageToday, recordForage } from '../../game/hub/forages'
 import { getReputationTier } from '../../data/hub/buildingUpgrades'
@@ -2139,32 +2140,40 @@ function hasOfferableQuest(giverId: string): boolean {
       case 'stokeFlame': {
         // Consumes requiresItemId to move a flame decor entry owned by this same
         // interactable from fromFlameType to toFlameType (docs/hubworld.md §7) —
-        // e.g. feeding a log to a dying campfire to build it into a roaring blaze.
+        // e.g. feeding a log to a dying campfire to build it into a roaring
+        // blaze, or lighting a cold brazier (fromFlameType 'unlit') outright.
         const fromType = r.fromFlameType ?? 'flicker'
+        const isLighting = fromType === 'unlit'
         const current = getFlameType(storeKey, fromType)
         if (current !== fromType) {
-          setDialogueEvent({ speakerName: '', text: r.alreadyDoneText ?? "It's already burning as strong as it'll go.", onClose: next })
+          setDialogueEvent({ speakerName: '', text: r.alreadyDoneText ?? (isLighting ? "It's already lit." : "It's already burning as strong as it'll go."), onClose: next })
           return
         }
         const itemName = getHubItemCatalogEntry(r.requiresItemId)?.name ?? r.requiresItemId
         if (!hasHubItem(r.requiresItemId)) {
-          setDialogueEvent({ speakerName: '', text: `The fire needs feeding, but you don't have a ${itemName.toLowerCase()} to spare.` })
+          setDialogueEvent({ speakerName: '', text: `${isLighting ? 'This needs lighting, but' : 'The fire needs feeding, but'} you don't have a ${itemName.toLowerCase()} to spare.` })
           return
         }
         const confirm: DialogueChoice = {
-          label: `Feed the fire a ${itemName.toLowerCase()}`,
+          label: `${isLighting ? 'Light it with a' : 'Feed the fire a'} ${itemName.toLowerCase()}`,
           primary: true,
           onClick: () => {
             removeHubItem(r.requiresItemId, 1)
             setFlameType(storeKey, r.toFlameType)
             refreshInteractableFlameRef.current?.(def.id)
-            let text = 'The flames catch and swell, roaring higher than before. 🔥'
+            let text = isLighting ? 'The log catches — flame leaps up and settles into a steady burn. 🔥' : 'The flames catch and swell, roaring higher than before. 🔥'
             if (r.grantHubItem) {
               addHubItem(r.grantHubItem.itemId, r.grantHubItem.count ?? 1)
               const grantedName = getHubItemCatalogEntry(r.grantHubItem.itemId)?.name ?? r.grantHubItem.itemId
               text += ` The fire leaves behind ${r.grantHubItem.count ?? 1} ${grantedName.toLowerCase()}.`
             }
             if (r.setFlag) setDialogueFlag(r.setFlag)
+            if (r.groupId) {
+              const members = recordGroupMember(r.groupId, def.id)
+              if (r.groupTotal && members.length >= r.groupTotal && r.groupCompleteQuestStep) {
+                incrementQuestProgress(r.groupCompleteQuestStep.questId, r.groupCompleteQuestStep.stepKey, 1)
+              }
+            }
             emitSound('pickup')
             refreshState()
             setDialogueEvent({ speakerName: '', text, onClose: next })
@@ -2172,7 +2181,7 @@ function hasOfferableQuest(giverId: string): boolean {
         }
         setDialogueEvent({
           speakerName: '',
-          text: 'The fire is low, barely holding on.',
+          text: isLighting ? 'Cold and unlit — just waiting for a spark.' : 'The fire is low, barely holding on.',
           choices: [confirm, { label: 'Leave it', isExit: true, onClick: () => setDialogueEvent(null) }],
         })
         return

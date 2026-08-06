@@ -336,12 +336,21 @@ export type HubInteractableReaction =
   | { type: 'forage'; lootTable?: 'wood' }
   /** Consumes `requiresItemId` to move a flame decor entry owned by this same
    *  interactable from fromFlameType (default 'flicker') to toFlameType — e.g.
-   *  feeding a log to a dying campfire to build it into a roaring blaze.
+   *  feeding a log to a dying campfire to build it into a roaring blaze, or a
+   *  log to an unlit brazier (fromFlameType 'unlit') to light it.
    *  Already at/past toFlameType shows alreadyDoneText instead. Optionally
    *  grants a hub-item and/or sets a dialogue flag (checkPrerequisite's
-   *  `flag:` syntax) on success, e.g. to gate a follow-up quest. */
+   *  `flag:` syntax) on success, e.g. to gate a follow-up quest.
+   *  groupId/groupTotal/groupCompleteQuestStep together support "light every
+   *  member of this group today" challenges: each successful stoke records
+   *  this interactable under groupId (web/src/game/hub/groupChallenges.ts,
+   *  same once-per-real-day shape as the flame state itself — the whole group
+   *  count lapses back to zero if not finished before the day ends); once
+   *  groupTotal distinct members have been recorded today, the given quest
+   *  step is incremented by 1, e.g. to make a quest turn-in-ready. */
   | { type: 'stokeFlame'; requiresItemId: string; fromFlameType?: FlameType; toFlameType: FlameType
-      grantHubItem?: { itemId: string; count?: number }; setFlag?: string; alreadyDoneText?: string }
+      grantHubItem?: { itemId: string; count?: number }; setFlag?: string; alreadyDoneText?: string
+      groupId?: string; groupTotal?: number; groupCompleteQuestStep?: { questId: string; stepKey: string } }
 
 export interface HubInteractable {
   id: string

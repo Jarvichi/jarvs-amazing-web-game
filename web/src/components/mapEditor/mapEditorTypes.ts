@@ -220,6 +220,9 @@ export interface RawInteractableReaction {
   grantHubItem?: { itemId: string; count?: number }
   setFlag?: string
   alreadyDoneText?: string
+  groupId?: string
+  groupTotal?: number
+  groupCompleteQuestStep?: { questId: string; stepKey: string }
 }
 
 export interface RawInteractable {
