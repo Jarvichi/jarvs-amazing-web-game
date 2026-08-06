@@ -208,6 +208,31 @@
       }
     },
     {
+      "id": "castle-light-the-watch-fires",
+      "title": "Light the Watch-Fires",
+      "type": "fetch",
+      "giverNpcId": "castle-guard-master",
+      "receiverNpcId": "castle-guard-master",
+      "prerequisite": "quest:castle-night-watch",
+      "offerDialogue": "Eight watch-fires line the bailey and the gate. Light every one before the sun sets — a log apiece, from the quartermaster's stack — or they'll gutter out and you'll be starting from cold ash again.",
+      "activeDialogue": "Eight fires, one day. Mind you don't run short on logs partway through.",
+      "completeDialogue": "Every fire lit, and all in a single day. That's watch-discipline, traveller. The bailey's warmer for it.",
+      "steps": [
+        {
+          "key": "light-all",
+          "type": "report",
+          "targetNpcId": "castle-guard-master",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 40,
+        "relationship": {
+          "castle-guard-master": { "track": "ally", "points": 10 }
+        }
+      }
+    },
+    {
       "id": "castle-supply-tally",
       "title": "The Supply Tally",
       "type": "fetch",

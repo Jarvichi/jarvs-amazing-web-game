@@ -932,27 +932,7 @@
       "comment": "dark pillars flanking the gate gap"
     },
     {
-      "comment": "braziers flanking the keep entrance"
-    },
-    {
-      "tx": 11,
-      "ty": 12,
-      "tileId": "brazierTop"
-    },
-    {
-      "tx": 11,
-      "ty": 13,
-      "tileId": "brazierBottom"
-    },
-    {
-      "tx": 15,
-      "ty": 12,
-      "tileId": "brazierTop"
-    },
-    {
-      "tx": 15,
-      "ty": 13,
-      "tileId": "brazierBottom"
+      "comment": "braziers flanking the keep entrance — see interactables[] (ironhold-brazier-keep-west/east) for the campfire-style flame"
     },
     {
       "comment": "central fountain in inner ward"
@@ -1615,72 +1595,7 @@
       "zlayer": "above"
     },
     {
-      "comment": "Outer Bailey — braziers flanking the central road, glowing at night"
-    },
-    {
-      "tx": 15,
-      "ty": 42,
-      "tileId": "brazierTop",
-      "glow": true,
-      "glowRadius": 3
-    },
-    {
-      "tx": 15,
-      "ty": 43,
-      "tileId": "brazierBottom"
-    },
-    {
-      "tx": 20,
-      "ty": 42,
-      "tileId": "brazierTop",
-      "glow": true,
-      "glowRadius": 3
-    },
-    {
-      "tx": 20,
-      "ty": 43,
-      "tileId": "brazierBottom"
-    },
-    {
-      "tx": 15,
-      "ty": 50,
-      "tileId": "brazierTop",
-      "glow": true,
-      "glowRadius": 3
-    },
-    {
-      "tx": 15,
-      "ty": 51,
-      "tileId": "brazierBottom"
-    },
-    {
-      "tx": 20,
-      "ty": 50,
-      "tileId": "brazierTop",
-      "glow": true,
-      "glowRadius": 3
-    },
-    {
-      "tx": 20,
-      "ty": 51,
-      "tileId": "brazierBottom"
-    },
-    {
-      "comment": "Outer Bailey — outer gate braziers"
-    },
-    {
-      "tx": 15,
-      "ty": 52,
-      "tileId": "brazierTop",
-      "glow": true,
-      "glowRadius": 2
-    },
-    {
-      "tx": 20,
-      "ty": 52,
-      "tileId": "brazierTop",
-      "glow": true,
-      "glowRadius": 2
+      "comment": "Outer Bailey — braziers flanking the central road and the outer gate are now interactables (ironhold-brazier-bailey-*/gate-*) — see interactables[] for the campfire-style flame"
     },
     {
       "comment": "drill yard — training gear and a campfire"
@@ -4728,6 +4643,156 @@
   },
   "interactables": [
     {
+      "id": "ironhold-brazier-keep-west",
+      "tx": 11,
+      "ty": 13,
+      "decor": [
+        { "dx": 0, "dy": -1, "tileId": "brazierTop", "flame": true, "flameType": "unlit", "flameColor": "normal" },
+        { "dx": 0, "dy": 0, "tileId": "brazierBottom" }
+      ],
+      "reactions": [{
+        "type": "stokeFlame",
+        "requiresItemId": "log",
+        "fromFlameType": "unlit",
+        "toFlameType": "medium",
+        "groupId": "ironhold-braziers",
+        "groupTotal": 8,
+        "groupCompleteQuestStep": { "questId": "castle-light-the-watch-fires", "stepKey": "light-all" },
+        "alreadyDoneText": "This one's already burning — save your logs for the others."
+      }]
+    },
+    {
+      "id": "ironhold-brazier-keep-east",
+      "tx": 15,
+      "ty": 13,
+      "decor": [
+        { "dx": 0, "dy": -1, "tileId": "brazierTop", "flame": true, "flameType": "unlit", "flameColor": "normal" },
+        { "dx": 0, "dy": 0, "tileId": "brazierBottom" }
+      ],
+      "reactions": [{
+        "type": "stokeFlame",
+        "requiresItemId": "log",
+        "fromFlameType": "unlit",
+        "toFlameType": "medium",
+        "groupId": "ironhold-braziers",
+        "groupTotal": 8,
+        "groupCompleteQuestStep": { "questId": "castle-light-the-watch-fires", "stepKey": "light-all" },
+        "alreadyDoneText": "This one's already burning — save your logs for the others."
+      }]
+    },
+    {
+      "id": "ironhold-brazier-bailey-nw",
+      "tx": 15,
+      "ty": 43,
+      "decor": [
+        { "dx": 0, "dy": -1, "tileId": "brazierTop", "flame": true, "flameType": "unlit", "flameColor": "normal" },
+        { "dx": 0, "dy": 0, "tileId": "brazierBottom" }
+      ],
+      "reactions": [{
+        "type": "stokeFlame",
+        "requiresItemId": "log",
+        "fromFlameType": "unlit",
+        "toFlameType": "medium",
+        "groupId": "ironhold-braziers",
+        "groupTotal": 8,
+        "groupCompleteQuestStep": { "questId": "castle-light-the-watch-fires", "stepKey": "light-all" },
+        "alreadyDoneText": "This one's already burning — save your logs for the others."
+      }]
+    },
+    {
+      "id": "ironhold-brazier-bailey-ne",
+      "tx": 20,
+      "ty": 43,
+      "decor": [
+        { "dx": 0, "dy": -1, "tileId": "brazierTop", "flame": true, "flameType": "unlit", "flameColor": "normal" },
+        { "dx": 0, "dy": 0, "tileId": "brazierBottom" }
+      ],
+      "reactions": [{
+        "type": "stokeFlame",
+        "requiresItemId": "log",
+        "fromFlameType": "unlit",
+        "toFlameType": "medium",
+        "groupId": "ironhold-braziers",
+        "groupTotal": 8,
+        "groupCompleteQuestStep": { "questId": "castle-light-the-watch-fires", "stepKey": "light-all" },
+        "alreadyDoneText": "This one's already burning — save your logs for the others."
+      }]
+    },
+    {
+      "id": "ironhold-brazier-bailey-sw",
+      "tx": 15,
+      "ty": 51,
+      "decor": [
+        { "dx": 0, "dy": -1, "tileId": "brazierTop", "flame": true, "flameType": "unlit", "flameColor": "normal" },
+        { "dx": 0, "dy": 0, "tileId": "brazierBottom" }
+      ],
+      "reactions": [{
+        "type": "stokeFlame",
+        "requiresItemId": "log",
+        "fromFlameType": "unlit",
+        "toFlameType": "medium",
+        "groupId": "ironhold-braziers",
+        "groupTotal": 8,
+        "groupCompleteQuestStep": { "questId": "castle-light-the-watch-fires", "stepKey": "light-all" },
+        "alreadyDoneText": "This one's already burning — save your logs for the others."
+      }]
+    },
+    {
+      "id": "ironhold-brazier-bailey-se",
+      "tx": 20,
+      "ty": 51,
+      "decor": [
+        { "dx": 0, "dy": -1, "tileId": "brazierTop", "flame": true, "flameType": "unlit", "flameColor": "normal" },
+        { "dx": 0, "dy": 0, "tileId": "brazierBottom" }
+      ],
+      "reactions": [{
+        "type": "stokeFlame",
+        "requiresItemId": "log",
+        "fromFlameType": "unlit",
+        "toFlameType": "medium",
+        "groupId": "ironhold-braziers",
+        "groupTotal": 8,
+        "groupCompleteQuestStep": { "questId": "castle-light-the-watch-fires", "stepKey": "light-all" },
+        "alreadyDoneText": "This one's already burning — save your logs for the others."
+      }]
+    },
+    {
+      "id": "ironhold-brazier-gate-west",
+      "tx": 15,
+      "ty": 52,
+      "decor": [
+        { "dx": 0, "dy": 0, "tileId": "brazierTop", "flame": true, "flameType": "unlit", "flameColor": "normal" }
+      ],
+      "reactions": [{
+        "type": "stokeFlame",
+        "requiresItemId": "log",
+        "fromFlameType": "unlit",
+        "toFlameType": "medium",
+        "groupId": "ironhold-braziers",
+        "groupTotal": 8,
+        "groupCompleteQuestStep": { "questId": "castle-light-the-watch-fires", "stepKey": "light-all" },
+        "alreadyDoneText": "This one's already burning — save your logs for the others."
+      }]
+    },
+    {
+      "id": "ironhold-brazier-gate-east",
+      "tx": 20,
+      "ty": 52,
+      "decor": [
+        { "dx": 0, "dy": 0, "tileId": "brazierTop", "flame": true, "flameType": "unlit", "flameColor": "normal" }
+      ],
+      "reactions": [{
+        "type": "stokeFlame",
+        "requiresItemId": "log",
+        "fromFlameType": "unlit",
+        "toFlameType": "medium",
+        "groupId": "ironhold-braziers",
+        "groupTotal": 8,
+        "groupCompleteQuestStep": { "questId": "castle-light-the-watch-fires", "stepKey": "light-all" },
+        "alreadyDoneText": "This one's already burning — save your logs for the others."
+      }]
+    },
+    {
       "id": "ironholdkeep-forage-bush-1",
       "tx": 20,
       "ty": 45,
@@ -4807,6 +4872,27 @@
           "itemId": "chicken-feed",
           "price": 5,
           "speakerName": "Feed Stall"
+        }
+      ]
+    },
+    {
+      "id": "castle-log-stack",
+      "tx": 3,
+      "ty": 3,
+      "building": "quartermasters-store",
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "logPile"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "log",
+          "price": 4,
+          "speakerName": "Supply Stack"
         }
       ]
     },

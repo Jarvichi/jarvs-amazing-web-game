@@ -316,6 +316,7 @@ function GlowControls({ glow, glowRadius, pulse, onChange }: {
 }
 
 const FLAME_TYPE_OPTIONS: Array<{ value: FlameType; label: string }> = [
+  { value: 'unlit',   label: 'Unlit (no flame yet)' },
   { value: 'flicker', label: 'Flicker (dying embers)' },
   { value: 'low',     label: 'Low' },
   { value: 'medium',  label: 'Medium' },

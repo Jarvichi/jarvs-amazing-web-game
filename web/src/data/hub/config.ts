@@ -35,8 +35,10 @@ export interface RawWindow {
   tileId: string
 }
 
-/** Strength tier of an animated flame effect, flicker (dying embers) to strong (roaring fire). */
-export type FlameType = 'flicker' | 'low' | 'medium' | 'strong'
+/** Strength tier of an animated flame effect: 'unlit' renders no flame/glow at
+ *  all (e.g. an unlit brazier waiting to be lit), then flicker (dying embers)
+ *  up to strong (roaring fire). */
+export type FlameType = 'unlit' | 'flicker' | 'low' | 'medium' | 'strong'
 /** Tint applied to the flame sprite. */
 export type FlameColor = 'normal' | 'supernatural' | 'blue' | 'green' | 'purple'
 
@@ -335,6 +337,10 @@ export interface RawInteractableReaction {
   grantHubItem?: { itemId: string; count?: number }
   setFlag?: string
   alreadyDoneText?: string
+  // stokeFlame — "light every member of this group today" tracking
+  groupId?: string
+  groupTotal?: number
+  groupCompleteQuestStep?: { questId: string; stepKey: string }
 }
 
 export interface RawInteractable {
