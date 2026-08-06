@@ -1076,6 +1076,7 @@ export default function App() {
     isWeeklyChallengeRef.current = false
     isDraftModeRef.current = true
     quickBattleModeRef.current = 'draft'
+    setQuickPlayRewardClaimed(false)
     battleFlawlessRef.current = true
     battleUsedStructure.current = false
     battleUsedMobileUnit.current = false
