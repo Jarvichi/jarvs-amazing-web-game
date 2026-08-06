@@ -26,6 +26,8 @@ DO NOT USE AGENTS - Unless I explicitly state for you to do so.
 
 If browser verification is genuinely warranted: the app needs Firebase env vars to render past a blank white screen (`firebase.ts` calls `initializeApp` with `import.meta.env.VITE_FIREBASE_*`, which are unset by default and throw `auth/invalid-api-key` on load). `web/.env.test` has working fake-but-valid-format keys — copy it to `web/.env.local` (gitignored) before `npm run dev`. Don't commit `.env.local` or leave ad hoc driver scripts in the repo.
 
+`npm run test` (vitest) prints an `Unhandled Error` at the end about `browserType.launch: Executable doesn't exist at .../chrome-headless-shell` during browser-cleanup — this is Storybook's `@vitest/browser-playwright` addon looking for a Playwright browser variant that isn't preinstalled in this environment. It's noise, not a real failure: check the `Test Files`/`Tests` summary line (`N passed`) rather than treating this error as a regression to chase.
+
 ## Git Workflow — Avoiding Conflicts
 Before starting any new work, always rebase onto the latest `main`:
 ```bash
