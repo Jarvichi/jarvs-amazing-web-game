@@ -840,6 +840,22 @@ export function getAvailableNodeIds(nodes: Record<string, QuestNode>, run: RunSt
 }
 
 /**
+ * Memory nodes in `nodes` that an active Memory Charm guarantees this run:
+ * this act's uncollected fragment nodes, or none if no charm is carried.
+ * Takes `discoveredFragIds` as a parameter (rather than importing codex.ts)
+ * to avoid a circular import — codex.ts already imports from questline.ts.
+ */
+export function getProtectedFragmentNodeIds(nodes: Record<string, QuestNode>, run: RunState, discoveredFragIds: Set<string>): Set<string> {
+  const memoryCharmActive = (run.consumables.find(c => c.id === 'memory_charm')?.count ?? 0) > 0
+  if (!memoryCharmActive) return new Set()
+  return new Set(
+    Object.values(nodes)
+      .filter(n => n.type === 'memory' && n.fragmentId && !discoveredFragIds.has(n.fragmentId))
+      .map(n => n.id)
+  )
+}
+
+/**
  * True if `startId` (or anything reachable from it via childIds) is in
  * `protectedIds`. Used to keep a branch leading to a guaranteed memory
  * fragment from being pruned by skipSiblings, even indirectly.
