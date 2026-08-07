@@ -51,6 +51,7 @@ import { MerchantScreen, MerchantItem, cardMerchantItem } from './components/cam
 const MysteryScreen = lazy(() => import('./components/campaign/MysteryScreen').then(m => ({ default: m.MysteryScreen })))
 const MemoryFragmentScreen = lazy(() => import('./components/campaign/MemoryFragmentScreen').then(m => ({ default: m.MemoryFragmentScreen })))
 import { MemoryFragment, isFragmentDiscovered, markFragmentDiscovered, isHubWorldUnlocked, unlockHubWorld, areAllCampaignFragmentsDiscovered, loadHubDefault, saveHubDefault } from './game/codex'
+import { getConsumables, addConsumable } from './game/itemStore'
 const CharacterEncounterScreen = lazy(() => import('./components/campaign/CharacterEncounterScreen').then(m => ({ default: m.CharacterEncounterScreen })))
 const NarratorJournalScreen = lazy(() => import('./components/hub/NarratorJournalScreen').then(m => ({ default: m.NarratorJournalScreen })))
 import { CharacterChoice, recordCharacterEncounter, getCharacterEncounterChance, resolveCharacterEncounterId } from './game/characters'
@@ -636,6 +637,7 @@ export default function App() {
     actId: string
     completionCount: number
     lastRunFailed: boolean
+    actHasUncollectedFragment: boolean
     proceed: (chosenCount: number) => void
   } | null>(null)
   const [foundItem, setFoundItem] = useState<Omit<import('./game/dailyLogin').UselessItem, 'acquiredDate'> | null>(null)
@@ -1414,13 +1416,17 @@ export default function App() {
       proceedAfterRelicSelect(null)
     }
 
-    // Show replay briefing if the player has completed this act before and it has modifiers
+    // Show replay briefing if the player has completed this act before and it either
+    // has modifiers, or still has an uncollected memory fragment (Memory Charm offer).
     const lastRunFailed = loadLastRunFailed()
-    if (completionCount > 0 && getModifierMax(act) > 0) {
+    const actHasUncollectedFragment = Object.values(act.nodes)
+      .some(n => n.type === 'memory' && n.fragmentId && !isFragmentDiscovered(n.fragmentId))
+    if (completionCount > 0 && (getModifierMax(act) > 0 || actHasUncollectedFragment)) {
       replayBriefingRef.current = {
         actId,
         completionCount,
         lastRunFailed,
+        actHasUncollectedFragment,
         proceed: proceedWithModifiers,
       }
       setScreen('replayBriefing')
@@ -1512,8 +1518,17 @@ export default function App() {
     if (!currentRun || !actData) return
     const act = actData
 
-    // Mark siblings as skipped (branch choice)
-    const afterSkip = skipSiblings(act.nodes, node.id, currentRun)
+    // Mark siblings as skipped (branch choice) — unless an active Memory Charm
+    // is guarding this act's uncollected fragment node(s) from being pruned.
+    const memoryCharmActive = (currentRun.consumables.find(c => c.id === 'memory_charm')?.count ?? 0) > 0
+    const protectedNodeIds = memoryCharmActive
+      ? new Set(
+          Object.values(act.nodes)
+            .filter(n => n.type === 'memory' && n.fragmentId && !isFragmentDiscovered(n.fragmentId))
+            .map(n => n.id)
+        )
+      : new Set<string>()
+    const afterSkip = skipSiblings(act.nodes, node.id, currentRun, protectedNodeIds)
     const activeMods = act ? getModifiersByCount(act, currentRun.activeModifierCount) : []
     const bonusCrystals = activeMods.filter(m => m.type === 'crystalBonus').reduce((s, m) => s + m.value, 0)
     const updatedRun: RunState = { ...afterSkip, pendingNodeId: node.id, crystalBonus: bonusCrystals }
@@ -1864,6 +1879,14 @@ export default function App() {
     if (!alreadyFound) {
       shardBonus = markFragmentDiscovered(fragment.id)
       if (areAllCampaignFragmentsDiscovered()) unlockHubWorld()
+      // A fresh fragment collected while carrying a Memory Charm spends it —
+      // it's only "used up" the moment it actually pays off.
+      const charmIdx = updatedConsumables.findIndex(c => c.id === 'memory_charm' && c.count > 0)
+      if (charmIdx !== -1) {
+        updatedConsumables = updatedConsumables
+          .map((c, i) => i === charmIdx ? { ...c, count: c.count - 1 } : c)
+          .filter(c => c.count > 0)
+      }
       if (shardBonus) {
         const existing = updatedConsumables.find(c => c.id === 'health_potion')
         updatedConsumables = existing
@@ -3439,16 +3462,27 @@ export default function App() {
       )}
 
       {screen === 'replayBriefing' && replayBriefingRef.current && (() => {
-        const { actId, completionCount, lastRunFailed, proceed } = replayBriefingRef.current!
+        const { actId, completionCount, lastRunFailed, actHasUncollectedFragment, proceed } = replayBriefingRef.current!
         // launchCampaign() already awaited loadAct(actId) before setting this ref,
         // so the act is guaranteed to be in cache by the time this renders.
         const act = getCachedAct(actId)
         if (!act) return null
+        const ownsCharm = getConsumables().find(c => c.id === 'memory_charm')?.count ?? 0
         return (
           <ReplayBriefingScreen
             act={act}
             completionCount={completionCount}
             lastRunFailed={lastRunFailed}
+            actHasUncollectedFragment={actHasUncollectedFragment}
+            crystals={crystals}
+            ownsCharm={ownsCharm > 0}
+            onBuyCharm={() => {
+              if (crystals < 1000) return
+              const next = crystals - 1000
+              saveCrystals(next)
+              setCrystals(next)
+              addConsumable('memory_charm', 1)
+            }}
             onBegin={chosenCount => { replayBriefingRef.current = null; clearLastRunFailed(); proceed(chosenCount) }}
             onBack={() => { replayBriefingRef.current = null; setScreen('title') }}
           />

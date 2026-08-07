@@ -13,6 +13,10 @@ interface Props {
   act: Act
   completionCount: number  // how many times the player has beaten this act (= min modifier count)
   lastRunFailed?: boolean  // if true, show mercy tiers (all options, min = 0)
+  actHasUncollectedFragment?: boolean  // this act still has a memory fragment the player hasn't found
+  crystals?: number
+  ownsCharm?: boolean      // player already holds a Memory Charm in their stash
+  onBuyCharm?: () => void
   onBegin: (chosenCount: number) => void
   onBack: () => void
 }
@@ -91,7 +95,7 @@ function buildMercyTiers(act: Act): TierOption[] {
   return tiers
 }
 
-export function ReplayBriefingScreen({ act, completionCount, lastRunFailed, onBegin, onBack }: Props) {
+export function ReplayBriefingScreen({ act, completionCount, lastRunFailed, actHasUncollectedFragment, crystals, ownsCharm, onBuyCharm, onBegin, onBack }: Props) {
   const mercy = lastRunFailed === true
   const tiers = mercy ? buildMercyTiers(act) : buildTiers(act, completionCount)
   const [selected, setSelected] = useState(mercy ? 0 : completionCount)
@@ -165,6 +169,29 @@ export function ReplayBriefingScreen({ act, completionCount, lastRunFailed, onBe
           )
         })}
       </div>
+
+      {actHasUncollectedFragment && (
+        <div className="rb-charm u-col u-gap-3 u-text-c">
+          {ownsCharm ? (
+            <div className="rb-subtitle">
+              🔮 <strong>Memory Charm</strong> equipped — a missing fragment will stay reachable on the map this run.
+            </div>
+          ) : (
+            <>
+              <div className="rb-subtitle">
+                A memory fragment from this chapter is still missing.
+              </div>
+              <button
+                className="action-btn rb-charm-buy-btn"
+                disabled={(crystals ?? 0) < 1000}
+                onClick={onBuyCharm}
+              >
+                🔮 BUY MEMORY CHARM — 1000◆
+              </button>
+            </>
+          )}
+        </div>
+      )}
 
       <div className="rb-actions u-col u-gap-5 u-items-c">
         <button className="action-btn action-btn--large rb-begin-btn" onClick={() => onBegin(selected)}>
