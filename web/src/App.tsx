@@ -27,7 +27,7 @@ import { getCardCatalog } from './game/cards'
 import { applyStatUpgrade } from './game/playerStats'
 import {
   loadRun, loadRunRaw, saveRun, clearRun, newRun, LIVES_START, LIVES_MAX,
-  getAvailableNodeIds, skipSiblings, isActComplete,
+  getAvailableNodeIds, skipSiblings, isActComplete, getProtectedFragmentNodeIds,
   generateRewardChoices, generateEndlessRewardChoices, generateMerchantCards, MERCHANT_PRICES,
   loadAct, getCachedAct, getCampaignForAct,
   loadFatigued, saveFatigued, clearFatigued, getTopPlayedCards,
@@ -50,7 +50,7 @@ const EventScreen = lazy(() => import('./components/campaign/EventScreen').then(
 import { MerchantScreen, MerchantItem, cardMerchantItem } from './components/campaign/MerchantScreen'
 const MysteryScreen = lazy(() => import('./components/campaign/MysteryScreen').then(m => ({ default: m.MysteryScreen })))
 const MemoryFragmentScreen = lazy(() => import('./components/campaign/MemoryFragmentScreen').then(m => ({ default: m.MemoryFragmentScreen })))
-import { MemoryFragment, isFragmentDiscovered, markFragmentDiscovered, isHubWorldUnlocked, unlockHubWorld, areAllCampaignFragmentsDiscovered, loadHubDefault, saveHubDefault } from './game/codex'
+import { MemoryFragment, isFragmentDiscovered, markFragmentDiscovered, isHubWorldUnlocked, unlockHubWorld, areAllCampaignFragmentsDiscovered, loadHubDefault, saveHubDefault, getDiscoveredFragmentIds } from './game/codex'
 import { getConsumables, addConsumable } from './game/itemStore'
 const CharacterEncounterScreen = lazy(() => import('./components/campaign/CharacterEncounterScreen').then(m => ({ default: m.CharacterEncounterScreen })))
 const NarratorJournalScreen = lazy(() => import('./components/hub/NarratorJournalScreen').then(m => ({ default: m.NarratorJournalScreen })))
@@ -1520,14 +1520,7 @@ export default function App() {
 
     // Mark siblings as skipped (branch choice) — unless an active Memory Charm
     // is guarding this act's uncollected fragment node(s) from being pruned.
-    const memoryCharmActive = (currentRun.consumables.find(c => c.id === 'memory_charm')?.count ?? 0) > 0
-    const protectedNodeIds = memoryCharmActive
-      ? new Set(
-          Object.values(act.nodes)
-            .filter(n => n.type === 'memory' && n.fragmentId && !isFragmentDiscovered(n.fragmentId))
-            .map(n => n.id)
-        )
-      : new Set<string>()
+    const protectedNodeIds = getProtectedFragmentNodeIds(act.nodes, currentRun, getDiscoveredFragmentIds())
     const afterSkip = skipSiblings(act.nodes, node.id, currentRun, protectedNodeIds)
     const activeMods = act ? getModifiersByCount(act, currentRun.activeModifierCount) : []
     const bonusCrystals = activeMods.filter(m => m.type === 'crystalBonus').reduce((s, m) => s + m.value, 0)

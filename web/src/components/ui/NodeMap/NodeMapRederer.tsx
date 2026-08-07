@@ -3,7 +3,7 @@ import * as PIXI from 'pixi.js'
 import { User } from 'firebase/auth'
 import { emitSound } from '../../../game/sound'
 import { getDiscoveredFragmentIds } from '../../../game/codex'
-import { Act, QuestNode, RunState, ReplayModifier, getAvailableNodeIds, loadNodeHistory, getModifiersByCount, ALL_CONSUMABLES, loadPlayerAvatar, ARCHETYPE_DEFS, WorldMap } from '../../../game/questline'
+import { Act, QuestNode, RunState, ReplayModifier, getAvailableNodeIds, getProtectedFragmentNodeIds, loadNodeHistory, getModifiersByCount, ALL_CONSUMABLES, loadPlayerAvatar, ARCHETYPE_DEFS, WorldMap } from '../../../game/questline'
 import { spriteSlug } from '../../../game/sprites'
 import { StatRow } from '../../ui/StatRow'
 import { getCardUnit } from '../../../game/cards'
@@ -141,10 +141,11 @@ function buildRows(nodes: Record<string, QuestNode>): QuestNode[][] {
     .map(r => byRow[r].sort((a, b) => a.col - b.col))
 }
 
-function computeHiddenNodeIds(nodes: Record<string, QuestNode>, run: RunState, discoveredFragIds: Set<string>): Set<string> {
+function computeHiddenNodeIds(nodes: Record<string, QuestNode>, run: RunState, discoveredFragIds: Set<string>, protectedNodeIds: Set<string>): Set<string> {
   const ids = new Set<string>()
   for (const node of Object.values(nodes)) {
     if (node.type !== 'memory' || !node.fragmentId) continue
+    if (protectedNodeIds.has(node.id)) continue // Memory Charm guarantees visibility
     const alreadyFound   = discoveredFragIds.has(node.fragmentId)
     const visitedThisRun = run.completedNodeIds.includes(node.id)
     if (alreadyFound && !visitedThisRun) {
@@ -618,9 +619,13 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
   )
   const reachableIds      = useMemo(() => run ? computeReachableIds(worldMap.nodes, run) : new Set<string>(), [worldMap.nodes, run])
   const discoveredFragIds = useMemo(() => getDiscoveredFragmentIds(), [])
-  const hiddenNodeIds     = useMemo(
-    () => run ? computeHiddenNodeIds(worldMap.nodes, run, discoveredFragIds) : new Set<string>(),
+  const protectedNodeIds  = useMemo(
+    () => run ? getProtectedFragmentNodeIds(worldMap.nodes, run, discoveredFragIds) : new Set<string>(),
     [worldMap.nodes, run, discoveredFragIds],
+  )
+  const hiddenNodeIds     = useMemo(
+    () => run ? computeHiddenNodeIds(worldMap.nodes, run, discoveredFragIds, protectedNodeIds) : new Set<string>(),
+    [worldMap.nodes, run, discoveredFragIds, protectedNodeIds],
   )
 
   const mapHeight = mapHeightProp ?? (isFreeform ? 520 : maxRowCols * ROW_HEIGHT)
