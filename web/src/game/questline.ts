@@ -16,6 +16,8 @@ export interface ConsumableDef {
   lore: string
   healAmount?: number
   livesAmount?: number
+  /** Not used/consumed manually — see App.tsx handleSelectNode/handleMemoryCollect. */
+  guaranteesFragment?: boolean
   price: number
 }
 
@@ -838,10 +840,32 @@ export function getAvailableNodeIds(nodes: Record<string, QuestNode>, run: RunSt
 }
 
 /**
- * When the player picks one node from a set of sibling options, the others
- * in the same parent→children group get marked as skipped.
+ * True if `startId` (or anything reachable from it via childIds) is in
+ * `protectedIds`. Used to keep a branch leading to a guaranteed memory
+ * fragment from being pruned by skipSiblings, even indirectly.
  */
-export function skipSiblings(nodes: Record<string, QuestNode>, chosenId: string, run: RunState): RunState {
+function leadsToProtectedNode(nodes: Record<string, QuestNode>, startId: string, protectedIds: Set<string>): boolean {
+  const seen = new Set<string>()
+  const stack = [startId]
+  while (stack.length > 0) {
+    const id = stack.pop()!
+    if (seen.has(id)) continue
+    seen.add(id)
+    if (protectedIds.has(id)) return true
+    const node = nodes[id]
+    if (node) stack.push(...node.childIds)
+  }
+  return false
+}
+
+/**
+ * When the player picks one node from a set of sibling options, the others
+ * in the same parent→children group get marked as skipped — unless a
+ * sibling leads to a `protectedNodeIds` node (e.g. an uncollected memory
+ * fragment guarded by an active Memory Charm), in which case it's left
+ * available so the player can still detour into it later this run.
+ */
+export function skipSiblings(nodes: Record<string, QuestNode>, chosenId: string, run: RunState, protectedNodeIds: Set<string> = new Set()): RunState {
   const parentMap = buildParentMap(nodes)
   const parents = parentMap[chosenId] ?? []
   // Never skip a node that is also a child of the chosen node — it's still reachable.
@@ -851,6 +875,7 @@ export function skipSiblings(nodes: Record<string, QuestNode>, chosenId: string,
     const parent = nodes[pid]
     for (const cid of parent.childIds) {
       if (cid !== chosenId && !run.completedNodeIds.includes(cid) && !run.skippedNodeIds.includes(cid) && !chosenChildren.has(cid)) {
+        if (protectedNodeIds.size > 0 && leadsToProtectedNode(nodes, cid, protectedNodeIds)) continue
         siblings.push(cid)
       }
     }

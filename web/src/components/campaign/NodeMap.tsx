@@ -56,8 +56,11 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
             const def = ARCHETYPE_DEFS.find(d => d.id === run.archetype)
             return def ? <ToolbarLabel>{def.icon} {def.name}</ToolbarLabel> : null
           })()}
+          {(run.consumables?.find(c => c.id === 'memory_charm')?.count ?? 0) > 0 && (
+            <ToolbarLabel>🔮 Memory Charm active</ToolbarLabel>
+          )}
           <ToolbarLabel>Items</ToolbarLabel>
-          {ALL_CONSUMABLES.map(def => {
+          {ALL_CONSUMABLES.filter(def => !def.guaranteesFragment).map(def => {
             const rc    = run.consumables?.find(c => c.id === def.id)
             const count = rc?.count ?? 0
             return (

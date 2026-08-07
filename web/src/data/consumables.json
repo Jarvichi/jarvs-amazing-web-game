@@ -16,5 +16,14 @@
     "lore": "The Dominion believes in second chances. Third chances cost extra.",
     "livesAmount": 1,
     "price": 30
+  },
+  {
+    "id": "memory_charm",
+    "name": "Memory Charm",
+    "icon": "🔮",
+    "desc": "Keeps a missing memory fragment reachable on the map this run. Not consumed unless you actually collect one.",
+    "lore": "A sliver of the Dominion's own recall, bound in glass. It hums toward what you've forgotten.",
+    "price": 1000,
+    "guaranteesFragment": true
   }
 ]
