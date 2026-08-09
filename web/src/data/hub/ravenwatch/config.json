@@ -8865,8 +8865,8 @@
           "tx": 2,
           "ty": 1,
           "toInteriorId": "church-building-tower-upper-floor",
-          "entryTx": 5,
-          "entryTy": 6,
+          "entryTx": 2,
+          "entryTy": 1,
           "direction": "up"
         }
       ],
@@ -8897,7 +8897,7 @@
           "ty": 1,
           "toInteriorId": "church-building-tower-base",
           "direction": "down",
-          "entryTx": 5,
+          "entryTx": 2,
           "entryTy": 1
         }
       ],
