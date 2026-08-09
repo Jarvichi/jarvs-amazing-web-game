@@ -11975,6 +11975,28 @@
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
         "lost-locket"
+      ],
+      "schedule": [
+        {
+          "startHour": 8,
+          "endHour": 17,
+          "location": {
+            "type": "exterior",
+            "tx": 52,
+            "ty": 22
+          },
+          "activity": "idle-chat"
+        },
+        {
+          "startHour": 17,
+          "endHour": 8,
+          "location": {
+            "type": "exterior",
+            "tx": 55,
+            "ty": 22
+          },
+          "activity": "idle-chat"
+        }
       ]
     },
     {
