@@ -4145,8 +4145,8 @@
     },
     {
       "id": "prize-token-1",
-      "tx": 45,
-      "ty": 25,
+      "tx": 46,
+      "ty": 26,
       "tileId": "pendant",
       "questId": "zev-game-prize-restock"
     },

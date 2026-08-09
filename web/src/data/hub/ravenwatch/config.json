@@ -7149,12 +7149,6 @@
       "floorTileId": "darkWoodFloor",
       "decor": [
         {
-          "tx": 1,
-          "ty": 1,
-          "tileId": "ladderIntoFloor",
-          "zlayer": "below"
-        },
-        {
           "tx": 2,
           "ty": 3,
           "tileId": "counterTop"
@@ -7212,24 +7206,36 @@
           "tileId": "barrel"
         },
         {
-          "tx": 1,
-          "ty": 0,
-          "tileId": "fullLadderTop",
+          "tx": 10,
+          "ty": 3,
+          "tileId": "roundTableWithCloth",
           "zlayer": "solid"
         },
         {
           "tx": 6,
-          "ty": 2,
-          "tileId": "roundTableWithCloth",
+          "ty": 1,
+          "tileId": "ladderBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 0,
+          "tileId": "ladderBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": -1,
+          "tileId": "fullLadderTop",
           "zlayer": "solid"
         }
       ],
       "exits": [
         {
-          "tx": 1,
+          "tx": 6,
           "ty": 1,
           "toInteriorId": "inn-building-upstairs",
-          "entryTx": 1,
+          "entryTx": 6,
           "entryTy": 7,
           "direction": "up",
           "label": "Go upstairs"
@@ -8219,12 +8225,6 @@
           "ty": 1,
           "tileId": "gift",
           "zlayer": "solid"
-        },
-        {
-          "tx": 11,
-          "ty": 1,
-          "tileId": "strongChest",
-          "zlayer": "solid"
         }
       ],
       "hours": {
@@ -8271,34 +8271,46 @@
           "bundleID": "simple-bed"
         },
         {
-          "tx": 5,
-          "ty": 5,
+          "tx": 3,
+          "ty": 1,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
           "tileId": "roundTable"
         },
         {
           "tx": 6,
-          "ty": 5,
-          "tileId": "roundTable"
-        },
-        {
-          "tx": 1,
           "ty": 7,
           "tileId": "ladderIntoFloor",
           "zlayer": "below"
         },
         {
-          "tx": 1,
+          "tx": 6,
           "ty": 6,
           "tileId": "halfLadderTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "bundleID": "candelabra",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "bundleID": "candelabra",
           "zlayer": "solid"
         }
       ],
       "exits": [
         {
-          "tx": 1,
+          "tx": 6,
           "ty": 7,
           "toInteriorId": "inn-building",
-          "entryTx": 1,
+          "entryTx": 6,
           "entryTy": 1,
           "direction": "down",
           "label": "Go downstairs"
@@ -9770,6 +9782,12 @@
       "floorTileId": "cobblestoneFloor",
       "decor": [
         {
+          "tx": 8,
+          "ty": 3,
+          "tileId": "roundTable",
+          "zlayer": "solid"
+        },
+        {
           "tx": 1,
           "ty": 3,
           "tileId": "lightPotWithLid",
@@ -9866,6 +9884,84 @@
           "tx": 5,
           "ty": -1,
           "tileId": "stoneFireplaceMidTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 3,
+          "tileId": "roundTable",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 5,
+          "tileId": "roundTable",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 6,
+          "tileId": "leafBasket",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 6,
+          "tileId": "appleBasket",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 6,
+          "tileId": "emptyBasket",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 6,
+          "tileId": "mushroomBasket",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "fullBucket",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "pileOfSacks",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "sack",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 3,
+          "tileId": "bunchOfHerbs",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 5,
+          "tileId": "roastMeat",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 3,
+          "tileId": "lanternBotLit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 2,
+          "tileId": "lanternTopLit",
           "zlayer": "solid"
         }
       ],
@@ -12059,6 +12155,18 @@
         "crystals": 10
       },
       "buildingId": "inn-building"
+    },
+    {
+      "id": "treasure-1786265820968",
+      "tx": 8,
+      "ty": 1,
+      "tileId": "strongChest",
+      "collectedTileId": "openStrongChest",
+      "title": "New treasure",
+      "reward": {
+        "crystals": 10
+      },
+      "buildingId": "town-hall"
     }
   ],
   "interactables": [
@@ -12636,8 +12744,8 @@
     },
     {
       "id": "interactable-1786264776152",
-      "tx": 6,
-      "ty": 2,
+      "tx": 10,
+      "ty": 3,
       "reactions": [
         {
           "type": "dialogue",
@@ -12650,7 +12758,9 @@
         {
           "dx": 0,
           "dy": 0,
-          "tileId": "skull"
+          "tileId": "skull",
+          "glow": true,
+          "pulse": true
         }
       ]
     }

@@ -61,9 +61,18 @@ export function saveHubDefault(val: 'hub' | 'title'): void {
   try { localStorage.setItem(HUB_DEFAULT_KEY, val) } catch { /* ignore */ }
 }
 
+// Hub world unlocks off the original 13-act campaign alone (act ids "act1".."act13")
+// — bonus/expansion campaigns layered on top (act ids prefixed "c2", "c3", ...)
+// don't gate the hub. Matched positively against the original campaign's fixed,
+// historical id shape rather than by excluding known expansion prefixes, so a
+// future "c3act1" etc. is automatically bonus content without a code change here.
+const ORIGINAL_CAMPAIGN_ACT_ID = /^act\d+$/
+
 export function areAllCampaignFragmentsDiscovered(): boolean {
   const discovered = getDiscoveredFragmentIds()
-  return (memoryFragmentsData as MemoryFragment[]).every(f => discovered.has(f.id))
+  return (memoryFragmentsData as MemoryFragment[])
+    .filter(f => ORIGINAL_CAMPAIGN_ACT_ID.test(f.actId))
+    .every(f => discovered.has(f.id))
 }
 
 /** Returns true if this discovery completed all fragments for the act (bonus trigger). */
