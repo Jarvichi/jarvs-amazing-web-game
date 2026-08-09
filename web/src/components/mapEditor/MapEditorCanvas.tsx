@@ -375,8 +375,14 @@ export function MapEditorCanvas(props: Props) {
     worldContainer.x = padX
     worldContainer.y = padY
     stage.addChild(worldContainer)
+    // questLayer (treasures/pickups/interactables/blocked-paths/etc. overlays)
+    // must sit above decorALayer — 'above'-zlayer decor (chandeliers, wall
+    // torches, tall furniture) is common right where an interactable/treasure
+    // is placed, and if decorALayer wins the stacking order its sprites
+    // silently swallow clicks meant for the overlay beneath, making that
+    // entity impossible to select.
     worldContainer.addChild(groundLayer, streetLayer, buildingLayer,
-                            decorBLayer, decorLayer, npcLayer, questLayer, decorALayer,
+                            decorBLayer, decorLayer, npcLayer, decorALayer, questLayer,
                             selLayer, gridLayer)
 
     if (isInterior && interior) {
@@ -1692,6 +1698,14 @@ function hitTest(
     for (let i = exits.length - 1; i >= 0; i--) {
       if ((exits[i].direction === 'up' || exits[i].direction === 'down') && exits[i].tx === tx && exits[i].ty === ty)
         return { type: 'interiorExit', index: i, interiorId: activeInteriorId }
+    }
+    if (showInteractables) {
+      const interactables = cfg.interactables ?? []
+      for (let i = interactables.length - 1; i >= 0; i--) {
+        const it = interactables[i]
+        if (it.building === activeInteriorId && tx >= it.tx && tx < it.tx + (it.hitRect?.w ?? 1) && ty >= it.ty && ty < it.ty + (it.hitRect?.h ?? 1))
+          return { type: 'interactable', index: i }
+      }
     }
     return null
   }
