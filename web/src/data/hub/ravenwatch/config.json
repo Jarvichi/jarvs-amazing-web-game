@@ -9018,9 +9018,112 @@
     "townhall-office": {
       "name": "townhall-office",
       "width": 10,
-      "height": 9,
+      "height": 7,
       "floorTileId": "woodFloor",
-      "decor": [],
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "deskTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "deskTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 3,
+          "tileId": "fireplaceTopLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "fireplaceTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 3,
+          "tileId": "fireplaceTopRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "fireplaceTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 3,
+          "bundleID": "candelabra",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "bundleID": "bookshelf",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "bundleID": "bookshelf",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "bundleID": "bookshelf",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "bundleID": "bookshelf",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "bundleID": "suit-of-armour",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "bundleID": "suit-of-armour",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "tileId": "stoolDark",
+          "zlayer": "below"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "quilAndInk",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "note",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "rolledMap",
+          "zlayer": "solid"
+        }
+      ],
       "wallMaterial": "brick",
       "exits": [
         {
@@ -12306,8 +12409,8 @@
     },
     {
       "id": "ravenwatch-church-key",
-      "tx": 5,
-      "ty": 5,
+      "tx": 1,
+      "ty": 1,
       "reactions": [
         {
           "type": "giveItem",
