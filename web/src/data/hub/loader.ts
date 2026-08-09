@@ -368,7 +368,7 @@ export interface HubInteractable {
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
-type TileEntry = { rect: number[]; pathType?: string } | { tile: number[]; pathType?: string }
+type TileEntry = { rect: number[]; pathType?: string; nonWalkable?: boolean } | { tile: number[]; pathType?: string; nonWalkable?: boolean }
 
 export interface HubStreetGroup {
   pathType?: string
@@ -403,6 +403,7 @@ export interface HubLocationBundle {
   HUB_STREET_GROUPS: HubStreetGroup[]
 
   HUB_STREET_TILES: [number, number][]
+  HUB_STREET_NONWALKABLE_TILES: [number, number][]
 
   HUB_BUILDINGS: HubBuilding[]
   HUB_BUILDING_TILES: [number, number][]
@@ -410,6 +411,7 @@ export interface HubLocationBundle {
   HUB_FESTIVAL_DECOR: Array<{ festivalId: string; decor: any[] }>
   HUB_WINDOWS: any[]
   HUB_POND_TILES: [number, number][]
+  HUB_POND_GROUPS: HubStreetGroup[]
   HUB_BRIDGE_TILES: [number, number][]
   HUB_DOORS: HubDoor[]
   HUB_INTERIORS: Record<string, HubInterior>
@@ -501,6 +503,13 @@ const HUB_AREAS: HubArea[] = rawConfig.areas.map(a => ({
 
 const HUB_STREET_GROUPS: HubStreetGroup[] = groupStreets(rawConfig.streets as TileEntry[])
 const HUB_STREET_TILES:  [number, number][] = HUB_STREET_GROUPS.flatMap(g => g.tiles)
+// Street tiles authored "nonWalkable" still render as normal path art
+// (they're part of HUB_STREET_GROUPS/HUB_STREET_TILES above) but are
+// reported separately so the hub can subtract them from the walkable set —
+// decorative-only path, e.g. a painted crosswalk that shouldn't be routable.
+const HUB_STREET_NONWALKABLE_TILES: [number, number][] = expandTiles(
+  (rawConfig.streets as TileEntry[]).filter(e => e.nonWalkable)
+)
 type RawBuilding = {
   rect?: number[]; rects?: number[][];
   id?: string; wall?: string; roof?: string;
@@ -616,10 +625,11 @@ const HUB_WINDOWS = [
   ..._nestedWindows,
 ]
 
-type RawPondEntry = { rect?: number[]; tile?: number[] }
-const HUB_POND_TILES: [number, number][] = expandTiles(
+type RawPondEntry = { rect?: number[]; tile?: number[]; pathType?: string }
+const HUB_POND_GROUPS: HubStreetGroup[] = groupStreets(
   ((rawConfig as unknown as { pondTiles?: RawPondEntry[] }).pondTiles ?? []) as TileEntry[]
 )
+const HUB_POND_TILES: [number, number][] = HUB_POND_GROUPS.flatMap(g => g.tiles)
 
 const HUB_BRIDGE_TILES: [number, number][] = expandTiles(
   ((rawConfig as unknown as { bridgeTiles?: RawPondEntry[] }).bridgeTiles ?? []) as TileEntry[]
@@ -811,13 +821,15 @@ type RawExitTile = { tx: number; ty: number; screen: string }
     HUB_AREAS,
     HUB_STREET_GROUPS,
     HUB_STREET_TILES: HUB_STREET_TILES,
-    
+    HUB_STREET_NONWALKABLE_TILES,
+
     HUB_BUILDINGS,
     HUB_BUILDING_TILES,
     EXTERIOR_DECOR,
     HUB_FESTIVAL_DECOR,
     HUB_WINDOWS,
     HUB_POND_TILES,
+    HUB_POND_GROUPS,
     HUB_BRIDGE_TILES,
     HUB_DOORS,
     HUB_INTERIORS,

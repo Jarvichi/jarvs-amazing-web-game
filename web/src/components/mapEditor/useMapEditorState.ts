@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 import type { RawMapConfig, RawNpc, RawAnimal, RawInterior, RawBuilding, RawDecorItem, RawLockedDoor, SelectedEntity, ToolMode, Zlayer, MapEditorState } from './mapEditorTypes'
-import { toggleInSelection, nextAreaId, nextBuildingId, convertStreetToPond as cSTP, convertPondToStreet as cPTS, applyDeleteEntities, applyBatchUpdateZlayer, applyBatchUpdateStreetPathType } from './multiSelectHelpers'
+import { toggleInSelection, nextAreaId, nextBuildingId, convertStreetToPond as cSTP, convertPondToStreet as cPTS, applyDeleteEntities, applyBatchUpdateZlayer, applyBatchUpdateStreetPathType, applyBatchUpdateStreetNonWalkable, applyBatchUpdatePondPathType } from './multiSelectHelpers'
 
 type InteriorExit = NonNullable<RawInterior['exits']>[number]
 import { getDoorwayEntryTile } from '../../game/hub/doorwayEntry'
@@ -512,7 +512,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     })
   }, [])
 
-  const updatePondEntry = useCallback((index: number, data: { rect?: number[]; tile?: number[] }) => {
+  const updatePondEntry = useCallback((index: number, data: { rect?: number[]; tile?: number[]; pathType?: string }) => {
     setState(s => {
       const prevConfig = s.configData
       const pondTiles = [...(prevConfig.pondTiles ?? [])]
@@ -659,6 +659,36 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     setState(s => {
       const prevConfig = s.configData
       const newConfig = applyBatchUpdateStreetPathType(prevConfig, entities, pathType)
+      if (newConfig === prevConfig) return s
+      return {
+        ...s,
+        configData: newConfig,
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const batchUpdateStreetNonWalkable = useCallback((entities: SelectedEntity[], nonWalkable: boolean | undefined) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const newConfig = applyBatchUpdateStreetNonWalkable(prevConfig, entities, nonWalkable)
+      if (newConfig === prevConfig) return s
+      return {
+        ...s,
+        configData: newConfig,
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const batchUpdatePondPathType = useCallback((entities: SelectedEntity[], pathType: string | undefined) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const newConfig = applyBatchUpdatePondPathType(prevConfig, entities, pathType)
       if (newConfig === prevConfig) return s
       return {
         ...s,
@@ -1596,7 +1626,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     })
   }, [])
 
-  const updateStreetEntry = useCallback((index: number, data: { rect?: number[]; tile?: number[]; pathType?: string }) => {
+  const updateStreetEntry = useCallback((index: number, data: { rect?: number[]; tile?: number[]; pathType?: string; nonWalkable?: boolean }) => {
     setState(s => {
       const prevConfig = s.configData
       const streets = [...(prevConfig.streets ?? [])]
@@ -1744,6 +1774,8 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     convertPondToStreet,
     batchUpdateZlayer,
     batchUpdateStreetPathType,
+    batchUpdateStreetNonWalkable,
+    batchUpdatePondPathType,
     updateDecorZlayer,
     updateDecorTileId,
     reorderDecor,

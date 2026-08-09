@@ -491,6 +491,16 @@ export function MapEditorCanvas(props: Props) {
         sGfx.rect(tx * T, ty * T, T, T).fill(STREET_COLOR)
     streetLayer.addChild(sGfx)
 
+    // Non-walkable street tiles — red hazard outline so they're distinguishable
+    // from normal (routable) path in the editor view; still fills as street art in-game.
+    const nonWalkGfx = new PIXI.Graphics()
+    for (const s of configData.streets ?? []) {
+      if (!s.nonWalkable) continue
+      for (const [tx, ty] of expandEntries([s]))
+        nonWalkGfx.rect(tx * T + 2, ty * T + 2, T - 4, T - 4).stroke({ color: 0xff3333, width: 2 })
+    }
+    streetLayer.addChild(nonWalkGfx)
+
     // Ponds — per-entry interactive graphics (clickable / selectable / draggable)
     ;(configData.pondTiles ?? []).forEach((pond, pIdx) => {
       const isSel = isEntitySelected({ type: 'pondTile', index: pIdx })

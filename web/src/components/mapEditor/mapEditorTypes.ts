@@ -261,10 +261,10 @@ export interface RawMapConfig {
   avatarStart: { tx: number; ty: number }
   exitTiles?: Array<{ tx: number; ty: number; screen: string }>
   areas?: Array<{ id: string; name: string; tx: number; ty: number; tw: number; th: number }>
-  streets?: Array<{ rect?: number[]; tile?: number[]; pathType?: string }>
+  streets?: Array<{ rect?: number[]; tile?: number[]; pathType?: string; nonWalkable?: boolean }>
   buildings?: RawBuilding[]
   exteriorDecor?: RawDecorItem[]
-  pondTiles?: Array<{ rect?: number[]; tile?: number[] }>
+  pondTiles?: Array<{ rect?: number[]; tile?: number[]; pathType?: string }>
   bridgeTiles?: Array<{ rect?: number[]; tile?: number[] }>
   interiors?: Record<string, RawInterior>
   npcs?: RawNpc[]

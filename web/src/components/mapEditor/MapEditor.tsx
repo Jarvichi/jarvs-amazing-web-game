@@ -50,7 +50,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
     placeDecor, moveEntities, deleteEntities,
     addPondTile, addBridgeTile, updatePondEntry, updateBridgeEntry, addNpcSpawnTile, addChickenZone, addArea, addBuilding,
     convertStreetToPond, convertPondToStreet,
-    batchUpdateZlayer, batchUpdateStreetPathType,
+    batchUpdateZlayer, batchUpdateStreetPathType, batchUpdateStreetNonWalkable, batchUpdatePondPathType,
     updateDecorZlayer, updateDecorTileId, reorderDecor, updateGlow, updateFlame, updateDecorMinLevel, updateDecorHideAtLevel, updateBuildingLevelVisual, updateBuilding, makeBuildingPlayerHouse, resizeBuilding, addNpc, updateNpcDialogue, updateNpc,
     addAnimal, updateAnimal,
     updateTreasure, updateConfig,
@@ -492,6 +492,8 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
               onDeleteEntities={handleDeleteEntities}
               onBatchUpdateZlayer={batchUpdateZlayer}
               onBatchUpdateStreetPathType={batchUpdateStreetPathType}
+              onBatchUpdateStreetNonWalkable={batchUpdateStreetNonWalkable}
+              onBatchUpdatePondPathType={batchUpdatePondPathType}
               onUpdateDecorTileId={updateDecorTileId}
               onReorderDecor={reorderDecor}
               onConvertDecorToInteractable={handleConvertDecorToInteractable}

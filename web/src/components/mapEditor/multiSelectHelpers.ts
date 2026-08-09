@@ -40,7 +40,10 @@ export function convertStreetToPond(
   const streets = config.streets ?? []
   const entry = streets[index]
   if (!entry) return null
-  const { pathType: _dropped, ...rest } = entry as { pathType?: string; rect?: number[]; tile?: number[] }
+  // Ponds have no walkability toggle of their own (they're non-walkable by
+  // default, bridges punch a hole back in) — drop both street-only fields.
+  const { pathType: _droppedPathType, nonWalkable: _droppedWalk, ...rest } =
+    entry as { pathType?: string; nonWalkable?: boolean; rect?: number[]; tile?: number[] }
   const pondTiles = [...(config.pondTiles ?? []), rest]
   return {
     config: { ...config, streets: streets.filter((_, i) => i !== index), pondTiles },
@@ -54,7 +57,8 @@ export function convertPondToStreet(
   const pondTiles = config.pondTiles ?? []
   const entry = pondTiles[index]
   if (!entry) return null
-  const streets = [...(config.streets ?? []), entry]
+  const { pathType: _dropped, ...rest } = entry
+  const streets = [...(config.streets ?? []), rest]
   return {
     config: { ...config, pondTiles: pondTiles.filter((_, i) => i !== index), streets },
     streetIndex: streets.length - 1,
@@ -268,4 +272,32 @@ export function applyBatchUpdateStreetPathType(
     return next
   })
   return { ...config, streets }
+}
+
+export function applyBatchUpdateStreetNonWalkable(
+  config: RawMapConfig, entities: SelectedEntity[], nonWalkable: boolean | undefined,
+): RawMapConfig {
+  const idxs = indexSet(entities, 'street')
+  if (!idxs.size) return config
+  const streets = (config.streets ?? []).map((s, i) => {
+    if (!idxs.has(i)) return s
+    const next = { ...s, nonWalkable }
+    if (!nonWalkable) delete next.nonWalkable
+    return next
+  })
+  return { ...config, streets }
+}
+
+export function applyBatchUpdatePondPathType(
+  config: RawMapConfig, entities: SelectedEntity[], pathType: string | undefined,
+): RawMapConfig {
+  const idxs = indexSet(entities, 'pondTile')
+  if (!idxs.size) return config
+  const pondTiles = (config.pondTiles ?? []).map((p, i) => {
+    if (!idxs.has(i)) return p
+    const next = { ...p, pathType }
+    if (!pathType) delete next.pathType
+    return next
+  })
+  return { ...config, pondTiles }
 }

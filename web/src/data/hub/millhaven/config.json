@@ -2,7 +2,7 @@
   "mapW": 1520,
   "mapH": 1156,
   "townName": "Millhaven",
-  "environment": "forest",
+  "environment": "farmland",
   "avatarStart": {
     "tx": 17,
     "ty": 34
@@ -280,6 +280,76 @@
         44,
         34
       ]
+    },
+    {
+      "rect": [
+        35,
+        26,
+        37,
+        28
+      ],
+      "pathType": "grass1Dirt3",
+      "nonWalkable": true
+    },
+    {
+      "rect": [
+        34,
+        23,
+        36,
+        26
+      ],
+      "pathType": "grass1Dirt3",
+      "nonWalkable": true
+    },
+    {
+      "rect": [
+        33,
+        19,
+        35,
+        23
+      ],
+      "pathType": "grass1Dirt3",
+      "nonWalkable": true
+    },
+    {
+      "rect": [
+        34,
+        18,
+        36,
+        20
+      ],
+      "pathType": "grass1Dirt3",
+      "nonWalkable": true
+    },
+    {
+      "rect": [
+        35,
+        17,
+        36,
+        18
+      ],
+      "pathType": "grass1Dirt3",
+      "nonWalkable": true
+    },
+    {
+      "rect": [
+        36,
+        17,
+        42,
+        18
+      ],
+      "pathType": "grass1Dirt3",
+      "nonWalkable": true
+    },
+    {
+      "rect": [
+        38,
+        29,
+        42,
+        31
+      ],
+      "pathType": "grass1Dirt3",
+      "nonWalkable": true
     }
   ],
   "buildings": [
@@ -2690,6 +2760,24 @@
           "ty": 3,
           "tileId": "mugOfCoffee",
           "zlayer": "above"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        },
+        {
+          "tx": 1,
+          "ty": 0,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        },
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "fullLadderTop",
+          "zlayer": "below"
         }
       ],
       "exits": [
@@ -2762,7 +2850,7 @@
           "ty": 7,
           "toInteriorId": "inn-millhaven",
           "entryTx": 1,
-          "entryTy": 2,
+          "entryTy": 1,
           "direction": "down",
           "label": "Go downstairs"
         }
@@ -3822,11 +3910,12 @@
   "pondTiles": [
     {
       "rect": [
-        40,
+        38,
         25,
-        47,
+        45,
         30
-      ]
+      ],
+      "pathType": "water7"
     },
     {
       "rect": [
@@ -3834,7 +3923,8 @@
         18,
         47,
         28
-      ]
+      ],
+      "pathType": "water7"
     },
     {
       "comment": "east sea, split to leave room for the boathouse footprint (cols 33-36, rows 12-17)",
@@ -3843,7 +3933,8 @@
         0,
         47,
         11
-      ]
+      ],
+      "pathType": "water7"
     },
     {
       "rect": [
@@ -3851,7 +3942,8 @@
         12,
         53,
         17
-      ]
+      ],
+      "pathType": "water7"
     },
     {
       "rect": [
@@ -3859,7 +3951,8 @@
         3,
         34,
         11
-      ]
+      ],
+      "pathType": "water7"
     },
     {
       "rect": [
@@ -3867,7 +3960,8 @@
         2,
         35,
         11
-      ]
+      ],
+      "pathType": "water7"
     },
     {
       "rect": [
@@ -3875,7 +3969,8 @@
         20,
         34,
         22
-      ]
+      ],
+      "pathType": "water7"
     },
     {
       "rect": [
@@ -3883,7 +3978,8 @@
         19,
         35,
         25
-      ]
+      ],
+      "pathType": "water7"
     },
     {
       "rect": [
@@ -3891,7 +3987,8 @@
         2,
         34,
         2
-      ]
+      ],
+      "pathType": "water7"
     },
     {
       "rect": [
@@ -3899,7 +3996,8 @@
         1,
         29,
         1
-      ]
+      ],
+      "pathType": "water7"
     },
     {
       "rect": [
@@ -3907,7 +4005,8 @@
         0,
         24,
         0
-      ]
+      ],
+      "pathType": "water7"
     },
     {
       "rect": [
@@ -3915,7 +4014,8 @@
         1,
         20,
         1
-      ]
+      ],
+      "pathType": "water7"
     },
     {
       "rect": [
@@ -3923,7 +4023,8 @@
         0,
         9,
         0
-      ]
+      ],
+      "pathType": "water7"
     }
   ],
   "chickenZones": [

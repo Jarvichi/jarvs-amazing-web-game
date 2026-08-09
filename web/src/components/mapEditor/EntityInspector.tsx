@@ -45,6 +45,7 @@ export const SCREEN_IDS = [
 ]
 
 const PATH_TILE_KEYS = Object.keys(PATH_TILE)
+const WATER_TILE_KEYS = PATH_TILE_KEYS.filter(k => k.startsWith('water'))
 
 const WALL_MATERIALS: WallMaterial[] = [
   'brick', 'woodWall', 'tudorFrame', 'renderedBrick', 'whiteStone', 'darkStone',
@@ -89,7 +90,7 @@ interface Props {
   onCloseInterior:       () => void
   onOpenBuildingEditor:  (buildingIndex: number) => void
   onCloseBuildingEditor: () => void
-  onUpdateStreetEntry:   (index: number, data: { rect?: number[]; tile?: number[]; pathType?: string }) => void
+  onUpdateStreetEntry:   (index: number, data: { rect?: number[]; tile?: number[]; pathType?: string; nonWalkable?: boolean }) => void
   onResizeInterior:      (interiorId: string, dir: 'top' | 'bottom' | 'left' | 'right', grow?: boolean) => void
   onAddInterior:         (id: string, interior: RawInterior) => void
   onAddInteriorExit:     (interiorId: string, exit: InteriorExit) => void
@@ -122,13 +123,15 @@ interface Props {
   onDeleteEntities?:            (entities: SelectedEntity[]) => void
   onBatchUpdateZlayer?:         (entities: SelectedEntity[], z: Zlayer) => void
   onBatchUpdateStreetPathType?: (entities: SelectedEntity[], pathType: string | undefined) => void
+  onBatchUpdateStreetNonWalkable?: (entities: SelectedEntity[], nonWalkable: boolean | undefined) => void
+  onBatchUpdatePondPathType?: (entities: SelectedEntity[], pathType: string | undefined) => void
   onSaveAsBundle?:              (bundleId: string, tiles: BundleTileRaw[]) => Promise<void>
   onUpdateDecorTileId?:         (entity: SelectedEntity, tileId: string) => void
   onReorderDecor?:              (entity: SelectedEntity, direction: ReorderDirection) => void
   onConvertDecorToInteractable?: (entity: SelectedEntity) => void
   onConvertStreetToPond?:       (index: number) => void
   onConvertPondToStreet?:       (index: number) => void
-  onUpdatePondEntry?:           (index: number, data: { rect?: number[]; tile?: number[] }) => void
+  onUpdatePondEntry?:           (index: number, data: { rect?: number[]; tile?: number[]; pathType?: string }) => void
   onDeletePondTile?:            (index: number) => void
   onUpdateBridgeEntry?:         (index: number, data: { rect?: number[]; tile?: number[] }) => void
   onDeleteBridgeTile?:          (index: number) => void
@@ -965,8 +968,8 @@ function ExtraTilesEditor({ tiles, onChange }: {
 function StreetInspector({
   entry, onUpdate, onDelete, onConvertToPond,
 }: {
-  entry: { rect?: number[]; tile?: number[]; pathType?: string }
-  onUpdate: (data: { rect?: number[]; tile?: number[]; pathType?: string }) => void
+  entry: { rect?: number[]; tile?: number[]; pathType?: string; nonWalkable?: boolean }
+  onUpdate: (data: { rect?: number[]; tile?: number[]; pathType?: string; nonWalkable?: boolean }) => void
   onDelete: () => void
   onConvertToPond?: () => void
 }) {
@@ -986,6 +989,12 @@ function StreetInspector({
           <option value="">— default —</option>
           {PATH_TILE_KEYS.map(k => <option key={k} value={k}>{k}</option>)}
         </select>
+      </Field>
+      <Field label="Walkability">
+        <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontSize: 11, color: '#888' }}>
+          <input type="checkbox" checked={!!entry.nonWalkable} onChange={e => onUpdate({ nonWalkable: e.target.checked || undefined })} />
+          Non-walkable (renders normally, but blocks avatar/NPC routing)
+        </label>
       </Field>
       {r ? (
         <>
@@ -1495,6 +1504,7 @@ function InteriorInspector({
   onAddInteriorExit, onUpdateInteriorProps, onUpdateInteriorExit, onRemoveInteriorExit,
   onMoveEntity, onZlayerChange, onDelete, onReorderInteriorDecor, onUpdateDecorTileId,
   onAddTreasure, onAddInteractable, onUpdateGlow, onUpdateFlame,
+  onAddInterior, ownerBuildingId,
 }: {
   interiorId: string
   interior: RawInterior | undefined
@@ -1524,6 +1534,8 @@ function InteriorInspector({
   onAddInteractable?: () => void
   onUpdateGlow?: (entity: SelectedEntity, patch: GlowPatch) => void
   onUpdateFlame?: (entity: SelectedEntity, patch: FlamePatch) => void
+  onAddInterior?: (id: string, interior: RawInterior) => void
+  ownerBuildingId?: string
 }) {
   const [showExitForm, setShowExitForm] = useState(false)
   const [exitTx, setExitTx]           = useState(0)
@@ -1557,6 +1569,63 @@ function InteriorInspector({
     }
     onAddInteriorExit(interiorId, exit)
     setShowExitForm(false)
+  }
+
+  // ── Add a new room belonging to the same building, with an optional
+  // doorway auto-linking it back to the room currently open (reusing
+  // addInteriorExit's existing reciprocal-doorway logic so the new room
+  // isn't orphaned) ──────────────────────────────────────────────────────
+  const [showRoomForm, setShowRoomForm] = useState(false)
+  const roomBaseId = ownerBuildingId ?? interiorId
+  function nextRoomId() {
+    let n = 1
+    while (allInteriorIds.includes(`${roomBaseId}-${n}`)) n++
+    return `${roomBaseId}-${n}`
+  }
+  const [roomId, setRoomId]     = useState('')
+  const [roomName, setRoomName] = useState('')
+  const [roomW, setRoomW]       = useState(10)
+  const [roomH, setRoomH]       = useState(8)
+  const [roomFloor, setRoomFloor] = useState('woodFloor')
+  const [roomDir, setRoomDir]   = useState<'' | 'up' | 'down' | 'left' | 'right' | 'front' | 'back'>('')
+
+  function openRoomForm() {
+    setRoomId(nextRoomId())
+    setRoomName('')
+    setRoomW(10)
+    setRoomH(8)
+    setRoomFloor('woodFloor')
+    setRoomDir('')
+    setShowRoomForm(true)
+  }
+
+  const roomIdConflict = allInteriorIds.includes(roomId.trim())
+
+  function saveRoom() {
+    if (!onAddInterior) return
+    const id = roomId.trim()
+    if (!id || roomIdConflict) return
+    const newInterior: RawInterior = {
+      name: roomName.trim() || id,
+      width: roomW,
+      height: roomH,
+      floorTileId: roomFloor.trim() || 'woodFloor',
+      decor: [],
+    }
+    onAddInterior(id, newInterior)
+    if (roomDir && interior) {
+      const isWallDoor = roomDir === 'left' || roomDir === 'right' || roomDir === 'front' || roomDir === 'back'
+      const centreTx = Math.floor(interior.width / 2)
+      const centreTy = Math.floor(interior.height / 2)
+      onAddInteriorExit(interiorId, {
+        tx: isWallDoor ? 0 : centreTx,
+        ty: isWallDoor ? 0 : centreTy,
+        toInteriorId: id,
+        direction: roomDir,
+      })
+    }
+    setShowRoomForm(false)
+    onOpenInterior(id)
   }
 
   const resize = (dir: 'top' | 'bottom' | 'left' | 'right', grow = true) => onResizeInterior(interiorId, dir, grow)
@@ -1602,6 +1671,63 @@ function InteriorInspector({
                   )}
                 </div>
                 <div style={{ color: '#666', fontSize: 10, marginTop: 2 }}>Drops at room centre, homed to this interior.</div>
+              </Field>
+            )}
+            {onAddInterior && (
+              <Field label="Add Room">
+                {!showRoomForm ? (
+                  <button style={{ ...btnSm, width: '100%', background: '#1e2e1e', borderColor: '#3a5a3a', color: '#6d6' }} onClick={openRoomForm}>+ Add room to this building</button>
+                ) : (
+                  <div style={{ background: '#16161e', border: '1px solid #3a3a5a', borderRadius: 4, padding: 8, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                    <div>
+                      <div style={{ color: roomIdConflict ? '#f88' : '#888', fontSize: 10, marginBottom: 2 }}>ID{roomIdConflict ? ' — already exists' : ''}</div>
+                      <input style={{ ...inputFull, borderColor: roomIdConflict ? '#922' : '#444' }} value={roomId} onChange={e => setRoomId(e.target.value)} />
+                    </div>
+                    <div>
+                      <div style={{ color: '#888', fontSize: 10, marginBottom: 2 }}>Name</div>
+                      <input style={inputFull} value={roomName} placeholder={roomId || 'Room name'} onChange={e => setRoomName(e.target.value)} />
+                    </div>
+                    <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                      <label style={{ color: '#888', fontSize: 10 }}>W</label>
+                      <input type="number" style={numSm} value={roomW} min={2} onChange={e => setRoomW(Number(e.target.value))} />
+                      <label style={{ color: '#888', fontSize: 10 }}>H</label>
+                      <input type="number" style={numSm} value={roomH} min={2} onChange={e => setRoomH(Number(e.target.value))} />
+                    </div>
+                    <div>
+                      <div style={{ color: '#888', fontSize: 10, marginBottom: 2 }}>Floor tile ID</div>
+                      <select style={inputFull} value={roomFloor} onChange={e => setRoomFloor(e.target.value)}>
+                        {FLOOR_TILES.map(f => <option key={f} value={f}>{f}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <div style={{ color: '#888', fontSize: 10, marginBottom: 2 }}>Doorway back to {interior?.name ?? interiorId}</div>
+                      <select style={inputFull} value={roomDir} onChange={e => setRoomDir(e.target.value as typeof roomDir)}>
+                        <option value="">— none (add later) —</option>
+                        <option value="front">front ▼ (bottom wall door)</option>
+                        <option value="back">back ▲ (top wall door)</option>
+                        <option value="left">left ◄ (side wall door)</option>
+                        <option value="right">right ► (side wall door)</option>
+                        <option value="up">up ▲ (stairs / ladder)</option>
+                        <option value="down">down ▼ (stairs / ladder)</option>
+                      </select>
+                    </div>
+                    <div style={{ display: 'flex', gap: 6 }}>
+                      <button
+                        onClick={saveRoom}
+                        disabled={!roomId.trim() || roomIdConflict}
+                        style={{ flex: 1, padding: '4px 0', background: roomIdConflict ? '#333' : '#1a3a5a', border: '1px solid #3a7aaa', color: roomIdConflict ? '#555' : '#7af', borderRadius: 3, fontSize: 11, cursor: roomIdConflict ? 'default' : 'pointer' }}
+                      >
+                        Create & Edit
+                      </button>
+                      <button
+                        onClick={() => setShowRoomForm(false)}
+                        style={{ padding: '4px 10px', background: '#2a2a2a', border: '1px solid #444', color: '#aaa', borderRadius: 3, fontSize: 11, cursor: 'pointer' }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                )}
               </Field>
             )}
             {/* Size + resize buttons */}
@@ -2547,18 +2673,21 @@ function PondEditor({ configData, onUpdateConfig, numSm, addBtn, xBtn, anchor }:
 }
 
 function MultiSelectPanel({
-  entities, onDelete, onBatchZlayer, onBatchPathType, onSaveAsBundle,
+  entities, onDelete, onBatchZlayer, onBatchPathType, onBatchStreetNonWalkable, onBatchPondPathType, onSaveAsBundle,
 }: {
   entities: SelectedEntity[]
   onDelete?: (e: SelectedEntity[]) => void
   onBatchZlayer?: (e: SelectedEntity[], z: Zlayer) => void
   onBatchPathType?: (e: SelectedEntity[], pt: string | undefined) => void
+  onBatchStreetNonWalkable?: (e: SelectedEntity[], nonWalkable: boolean | undefined) => void
+  onBatchPondPathType?: (e: SelectedEntity[], pt: string | undefined) => void
   onSaveAsBundle?: (bundleId: string) => Promise<void>
 }) {
   const type = entities[0].type
   const decorTypes = ['exteriorDecor', 'interiorDecor', 'buildingLevelDecor', 'festivalDecor']
   const isDecor = decorTypes.includes(type)
   const isStreet = type === 'street'
+  const isPond = type === 'pondTile'
   const [pathType, setPathType] = useState('')
   const [bundleId, setBundleId] = useState('')
   const [bundleSaveState, setBundleSaveState] = useState<'idle' | 'saving' | 'ok' | 'error'>('idle')
@@ -2612,6 +2741,32 @@ function MultiSelectPanel({
           </select>
         </Field>
       )}
+      {isStreet && onBatchStreetNonWalkable && (
+        <Field label="Walkability (all)">
+          <div style={{ display: 'flex', gap: 4 }}>
+            <button
+              onClick={() => onBatchStreetNonWalkable(entities, true)}
+              style={{ flex: 1, padding: '3px 8px', fontSize: 11, cursor: 'pointer', background: '#333', color: '#f88', border: 'none', borderRadius: 3 }}
+            >Non-walkable</button>
+            <button
+              onClick={() => onBatchStreetNonWalkable(entities, undefined)}
+              style={{ flex: 1, padding: '3px 8px', fontSize: 11, cursor: 'pointer', background: '#333', color: '#8f8', border: 'none', borderRadius: 3 }}
+            >Walkable</button>
+          </div>
+        </Field>
+      )}
+      {isPond && onBatchPondPathType && (
+        <Field label="Water (all)">
+          <select
+            value={pathType}
+            onChange={e => { setPathType(e.target.value); onBatchPondPathType(entities, e.target.value || undefined) }}
+            style={{ width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }}
+          >
+            <option value="">— default (water1) —</option>
+            {WATER_TILE_KEYS.map(k => <option key={k} value={k}>{k}</option>)}
+          </select>
+        </Field>
+      )}
       {onSaveAsBundle && (
         <Field label="Save as Bundle">
           <input
@@ -2652,8 +2807,8 @@ function MultiSelectPanel({
 function PondInspector({
   entry, onUpdate, onDelete, onConvertToStreet,
 }: {
-  entry: { rect?: number[]; tile?: number[] }
-  onUpdate: (data: { rect?: number[]; tile?: number[] }) => void
+  entry: { rect?: number[]; tile?: number[]; pathType?: string }
+  onUpdate: (data: { rect?: number[]; tile?: number[]; pathType?: string }) => void
   onDelete: () => void
   onConvertToStreet: () => void
 }) {
@@ -2661,6 +2816,19 @@ function PondInspector({
   const t = entry.tile
   return (
     <div>
+      <Field label="Water">
+        <select
+          value={entry.pathType ?? ''}
+          onChange={e => onUpdate({ pathType: e.target.value || undefined })}
+          style={{
+            width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444',
+            color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box',
+          }}
+        >
+          <option value="">— default (water1) —</option>
+          {WATER_TILE_KEYS.map(k => <option key={k} value={k}>{k}</option>)}
+        </select>
+      </Field>
       {r ? (
         <>
           <Field label="Top-left">
@@ -2808,7 +2976,7 @@ export function EntityInspector({
   onUpdateArea, onResizeMap, onUpdateMapProps, onPickLocation,
   onUpdateTreasure, onUpdateInteractable, onUpdateConfig,
   onAddTreasure, onAddInteractable, onAddBlockedPath,
-  onDeleteEntities, onBatchUpdateZlayer, onBatchUpdateStreetPathType, onSaveAsBundle, onUpdateDecorTileId, onReorderDecor,
+  onDeleteEntities, onBatchUpdateZlayer, onBatchUpdateStreetPathType, onBatchUpdateStreetNonWalkable, onBatchUpdatePondPathType, onSaveAsBundle, onUpdateDecorTileId, onReorderDecor,
   onConvertDecorToInteractable,
   onConvertStreetToPond, onConvertPondToStreet,
   onUpdatePondEntry, onDeletePondTile,
@@ -2874,6 +3042,8 @@ export function EntityInspector({
             onDelete={onDeleteEntities}
             onBatchZlayer={onBatchUpdateZlayer}
             onBatchPathType={onBatchUpdateStreetPathType}
+            onBatchStreetNonWalkable={onBatchUpdateStreetNonWalkable}
+            onBatchPondPathType={onBatchUpdatePondPathType}
             onSaveAsBundle={saveAsBundleHandler}
           />
         </div>
@@ -3163,6 +3333,8 @@ export function EntityInspector({
         onAddInteractable={onAddInteractable}
         onUpdateGlow={onUpdateGlow}
         onUpdateFlame={onUpdateFlame}
+        onAddInterior={onAddInterior}
+        ownerBuildingId={ownerBuilding?.id}
       />
     )
   }

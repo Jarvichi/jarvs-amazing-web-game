@@ -179,8 +179,8 @@ export function HubTownCanvas({
     MAP_W, MAP_H, AVATAR_START,
     HUB_AREAS, HUB_BUILDINGS,
     HUB_STREET_GROUPS,
-    HUB_STREET_TILES,
-    EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES, HUB_BRIDGE_TILES,
+    HUB_STREET_TILES, HUB_STREET_NONWALKABLE_TILES,
+    EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES, HUB_POND_GROUPS, HUB_BRIDGE_TILES,
     HUB_FESTIVAL_DECOR,
     HUB_DOORS, HUB_INTERIORS, EXTERIOR_NPCS, INTERIOR_NPCS,
     NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES,
@@ -413,14 +413,24 @@ export function HubTownCanvas({
     ])
 
     // ── Pond (Greyfish Pond) — water path tiles ───────────────────────────────
-    {
-      const pondSet = new Set(HUB_POND_TILES.map(([tx, ty]) => `${tx},${ty}`))
-      renderPathTiles(pondLayer, pondSet, undefined, PATH_TILE.water1, true)
+    // Each group renders with its own water variant (pathType, e.g. "water3"),
+    // same per-group override pattern as street groups below; ungrouped/default
+    // tiles fall back to water1.
+    for (const group of HUB_POND_GROUPS) {
+      const groupSet = new Set(group.tiles.map(([tx, ty]) => `${tx},${ty}`))
+      const tileOverride = group.pathType ? PATH_TILE[group.pathType as keyof typeof PATH_TILE] : PATH_TILE.water1
+      renderPathTiles(pondLayer, groupSet, undefined, tileOverride, true)
         .catch(e => rollbar.error('[HubTownCanvas] pond tiles failed', { error: String(e) }))
     }
 
     // ── Streets ────────────────────────────────────────────────────────────────
     const pathSet = new Set(HUB_STREET_TILES.map(([tx, ty]) => `${tx},${ty}`))
+
+    // Street tiles authored "nonWalkable" still render (they're part of
+    // HUB_STREET_TILES/HUB_STREET_GROUPS above) but shouldn't be routable —
+    // e.g. a painted crosswalk or decorative path. Same tag-and-subtract
+    // pattern as solid decor below.
+    for (const [tx, ty] of HUB_STREET_NONWALKABLE_TILES) pathSet.delete(`${tx},${ty}`)
 
     // Solid exterior decor blocks routing. Exterior uses an explicit
     // zlayer:'solid' tag (untagged decor like flowers is intentionally
