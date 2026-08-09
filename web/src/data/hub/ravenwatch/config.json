@@ -6954,13 +6954,13 @@
           "tileId": "openCrate"
         },
         {
-          "tx": 5,
-          "ty": 5,
+          "tx": 3,
+          "ty": 4,
           "tileId": "counterTop"
         },
         {
-          "tx": 6,
-          "ty": 5,
+          "tx": 7,
+          "ty": 4,
           "tileId": "counterTop"
         },
         {
@@ -6990,6 +6990,12 @@
           "ty": -1,
           "tileId": "ladderBottom",
           "zlayer": "below"
+        },
+        {
+          "tx": 3,
+          "ty": 4,
+          "bundleID": "candelabra",
+          "zlayer": "solid"
         }
       ],
       "hours": {
@@ -9378,6 +9384,78 @@
           "ty": -1,
           "tileId": "ladderBottom",
           "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "tileId": "stackOfCratesBL",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "stackOfCratesBR",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 3,
+          "tileId": "stackOfCratesML",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
+          "ty": 3,
+          "tileId": "stackOfCratesMR",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "stackOfCratesTL",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "stackOfCratesTR",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 7,
+          "tileId": "stackOfSacksBL",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 7,
+          "tileId": "stackOfSacksBR",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 6,
+          "tileId": "stackOfSacksMR",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 6,
+          "tileId": "stackOfSacksML",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "stackOfSacksTL",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 5,
+          "tileId": "stackOfSacksTR",
+          "zlayer": "solid"
         }
       ],
       "exits": [
@@ -9408,6 +9486,12 @@
           "ty": 0,
           "tileId": "halfLadderTop",
           "zlayer": "below"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "bundleID": "simple-bed",
+          "zlayer": "solid"
         }
       ],
       "wallTileId": "interiorWallWhite",

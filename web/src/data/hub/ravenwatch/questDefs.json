@@ -4073,8 +4073,8 @@
     },
     {
       "id": "guild-ledger",
-      "tx": 3,
-      "ty": 3,
+      "tx": 7,
+      "ty": 4,
       "tileId": "blackclosedBook",
       "questId": "ferryn-ledger",
       "building": "trader-den"
