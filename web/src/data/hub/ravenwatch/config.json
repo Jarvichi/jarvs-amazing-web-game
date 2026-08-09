@@ -8671,7 +8671,7 @@
           "zlayer": "solid"
         },
         {
-          "tx": 1,
+          "tx": 11,
           "ty": 3,
           "bundleID": "simple-bed",
           "zlayer": "solid"
@@ -9471,9 +9471,9 @@
           "activity": "sleep",
           "location": {
             "type": "interior",
-            "buildingId": "card-shop-bldg",
+            "buildingId": "card-shop-bldg-1",
             "tx": 1,
-            "ty": 1
+            "ty": 2
           }
         }
       ],

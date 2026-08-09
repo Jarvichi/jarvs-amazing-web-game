@@ -378,7 +378,68 @@
         "Ash Stalker",
         "Fire Salamander",
         "Volcanic Hide"
-      ]
+      ],
+      "terrain": [
+        {
+          "id": "t2",
+          "type": "rock",
+          "x": 208.60214233398438,
+          "y": 71.7534803806391,
+          "radius": 21.79005849128589
+        },
+        {
+          "id": "t4",
+          "type": "water",
+          "x": 311.55912337764613,
+          "y": -4.1771094402673405,
+          "radius": 20.460094310808927
+        },
+        {
+          "id": "t5",
+          "type": "rock",
+          "x": 212.36557499054942,
+          "y": -83.82066276803118,
+          "radius": 27.104555565863848
+        }
+      ],
+      "decor": [
+        {
+          "id": "d1",
+          "tileId": 0,
+          "bundleId": "new-bundle-2",
+          "x": 352.68815563571064,
+          "y": -74.72384098810394
+        },
+        {
+          "id": "d2",
+          "tileId": 0,
+          "bundleId": "volcanoLavaPool",
+          "x": 372.3118197533392,
+          "y": 39.26482873851294
+        },
+        {
+          "id": "d3",
+          "tileId": 0,
+          "bundleId": "volcanoCrater",
+          "x": 157.25806451612905,
+          "y": -32.210143686038016
+        },
+        {
+          "id": "d4",
+          "tileId": 0,
+          "bundleId": "volcanoCrater",
+          "x": 408.8709677419355,
+          "y": -36.480089111668065
+        },
+        {
+          "id": "d5",
+          "tileId": 0,
+          "bundleId": "volcanoCrater",
+          "x": 140.59138144216232,
+          "y": 14.944791993003347
+        }
+      ],
+      "terrainValidated": true
     },
     "ash-shrine": {
       "id": "ash-shrine",
