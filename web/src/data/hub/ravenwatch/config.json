@@ -5996,7 +5996,104 @@
       "name": "The East Gatehouse",
       "width": 12,
       "height": 9,
-      "decor": [],
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 2.5,
+          "bundleID": "simple-bed",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 2.5,
+          "bundleID": "simple-bed",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 2.5,
+          "bundleID": "simple-bed",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 2.5,
+          "bundleID": "simple-bed",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 2.5,
+          "bundleID": "simple-bed",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "bundleID": "suit-of-armour",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 5,
+          "bundleID": "suit-of-armour",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "bundleID": "suit-of-armour",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 5,
+          "bundleID": "suit-of-armour",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 5,
+          "bundleID": "suit-of-armour",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "bundleID": "bookshelf",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 3,
+          "tileId": "chest",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 3,
+          "tileId": "chest",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "chest",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 3,
+          "tileId": "chest",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 3,
+          "tileId": "chest",
+          "zlayer": "solid"
+        }
+      ],
       "floorTileId": "woodFloor",
       "hours": "always",
       "wallTileId": "interiorWallWhite",
