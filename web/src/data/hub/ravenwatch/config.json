@@ -8121,6 +8121,60 @@
           "ty": 5,
           "tileId": "smallTableBottomMiddle",
           "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 4,
+          "tileId": "greenopenBook",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "closedBook",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 4,
+          "tileId": "blueclosedBook",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 4,
+          "tileId": "blackclosedBook",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "mugOfCoffee",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "skull",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": -1,
+          "tileId": "wallClock2",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "gift",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 1,
+          "tileId": "strongChest",
+          "zlayer": "solid"
         }
       ],
       "hours": {
@@ -9700,9 +9754,10 @@
           "endHour": 20,
           "activity": "idle-chat",
           "location": {
-            "type": "exterior",
-            "tx": 19,
-            "ty": 12
+            "type": "interior",
+            "buildingId": "town-hall",
+            "tx": 7,
+            "ty": 3
           }
         },
         {
