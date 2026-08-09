@@ -15,6 +15,7 @@ import { RawQuestPickupItem } from '../../data/hub/hubWorldFactory'
 import { resolveNpcSprite } from './spriteList'
 import { isSameEntityRef } from './multiSelectHelpers'
 import { getScheduledLocation } from './npcSchedulePreview'
+import { isStairsEntryStale } from '../../game/hub/doorwayEntry'
 
 const T           = 32
 const INTERIOR_PAD = 10  // tiles of surrounding space around active room in interior view
@@ -1058,9 +1059,15 @@ export function MapEditorCanvas(props: Props) {
     ;(interior.exits ?? []).forEach((exit, exitIdx) => {
       if (exit.direction !== 'up' && exit.direction !== 'down') return
       const isSel = isEntitySelected({ type: 'interiorExit', interiorId: iid, index: exitIdx })
-      const color = exit.direction === 'up' ? 0x44ff44 : 0x44aaff
+      const stale = isStairsEntryStale(cfg.interiors, iid, exit)
+      const color = stale ? 0xff3333 : exit.direction === 'up' ? 0x44ff44 : 0x44aaff
       const marker = new PIXI.Graphics()
-      marker.rect(exit.tx * T + 1, exit.ty * T + 1, T - 2, T - 2).stroke({ width: 2, color })
+      marker.rect(exit.tx * T + 1, exit.ty * T + 1, T - 2, T - 2).stroke({ width: stale ? 3 : 2, color })
+      if (stale) {
+        // Small warning dot: this door's landing tile no longer matches
+        // where the reciprocal stairs actually sit (see isStairsEntryStale).
+        marker.circle(exit.tx * T + T - 5, exit.ty * T + 5, 4).fill(0xff3333)
+      }
       marker.eventMode = 'static'
       marker.cursor = 'pointer'
       marker.hitArea = new PIXI.Rectangle(exit.tx * T, exit.ty * T, T, T)

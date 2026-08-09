@@ -17,6 +17,7 @@ import type { BundleTileRaw } from '../../data/bundles/bundleEditorApi'
 import type { NpcActivity, FlameType, FlameColor } from '../../data/hub/loader'
 import { FLOOR_TILES } from '../../data/tiles/floorTiles'
 import { TileSwatch } from '../shared/TileSwatch'
+import { findReciprocalStairsExit, isStairsEntryStale } from '../../game/hub/doorwayEntry'
 
 type ReorderDirection = 'forward' | 'back' | 'toFront' | 'toBack'
 
@@ -1674,6 +1675,8 @@ function InteriorInspector({
                 {(interior.exits ?? []).map((exit, i) => {
                   const dirArrow = exit.direction === 'up' ? '↑' : exit.direction === 'down' ? '↓' : exit.direction === 'left' ? '←' : exit.direction === 'right' ? '→' : exit.direction === 'front' ? '▼' : exit.direction === 'back' ? '▲' : null
                   const isStairs = exit.direction === 'up' || exit.direction === 'down'
+                  const stale = isStairs && isStairsEntryStale(allInteriors, interiorId, exit)
+                  const reciprocal = stale ? findReciprocalStairsExit(allInteriors, interiorId, exit) : undefined
                   return (
                     <div key={i} style={{ background: '#16202e', border: '1px solid #2a3a5a', borderRadius: 3, padding: '3px 6px', fontSize: 10 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -1709,6 +1712,11 @@ function InteriorInspector({
                       </div>
                       {(exit.minLevel ?? 0) > activeLevel && (
                         <div style={{ color: '#c97', fontSize: 9, paddingLeft: 2, marginTop: 2 }}>locked at current level</div>
+                      )}
+                      {stale && reciprocal && (
+                        <div style={{ color: '#f77', fontSize: 9, paddingLeft: 2, marginTop: 2 }}>
+                          ⚠ lands at ({exit.entryTx ?? '?'},{exit.entryTy ?? '?'}) but the door back is at ({reciprocal.tx},{reciprocal.ty}) — drag either marker to fix
+                        </div>
                       )}
                     </div>
                   )

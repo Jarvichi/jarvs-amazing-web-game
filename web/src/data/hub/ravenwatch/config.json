@@ -7174,6 +7174,12 @@
           "tx": 10,
           "ty": 6,
           "tileId": "barrel"
+        },
+        {
+          "tx": 1,
+          "ty": 0,
+          "tileId": "fullLadderTop",
+          "zlayer": "solid"
         }
       ],
       "exits": [
@@ -7182,7 +7188,7 @@
           "ty": 1,
           "toInteriorId": "inn-building-upstairs",
           "entryTx": 1,
-          "entryTy": 6,
+          "entryTy": 7,
           "direction": "up",
           "label": "Go upstairs"
         }
@@ -8189,7 +8195,7 @@
           "ty": 7,
           "toInteriorId": "inn-building",
           "entryTx": 1,
-          "entryTy": 2,
+          "entryTy": 1,
           "direction": "down",
           "label": "Go downstairs"
         }
@@ -8930,6 +8936,96 @@
           "ty": 3,
           "bundleID": "simple-bed",
           "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "rugTopLeft",
+          "zlayer": "below"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "rugTopMid",
+          "zlayer": "below"
+        },
+        {
+          "tx": 6,
+          "ty": 3,
+          "tileId": "rugTopMid",
+          "zlayer": "below"
+        },
+        {
+          "tx": 7,
+          "ty": 3,
+          "tileId": "rugTopMid",
+          "zlayer": "below"
+        },
+        {
+          "tx": 8,
+          "ty": 3,
+          "tileId": "rugTopRight",
+          "zlayer": "below"
+        },
+        {
+          "tx": 4,
+          "ty": 5,
+          "tileId": "rugBottomLeft",
+          "zlayer": "below"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "rugBottomRight",
+          "zlayer": "below"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "rugMidLeft",
+          "zlayer": "below"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "rugMidRight",
+          "zlayer": "below"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "rugBottomMid",
+          "zlayer": "below"
+        },
+        {
+          "tx": 6,
+          "ty": 5,
+          "tileId": "rugBottomMid",
+          "zlayer": "below"
+        },
+        {
+          "tx": 7,
+          "ty": 5,
+          "tileId": "rugBottomMid",
+          "zlayer": "below"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "rugMidMid",
+          "zlayer": "below"
+        },
+        {
+          "tx": 6,
+          "ty": 4,
+          "tileId": "rugMidMid",
+          "zlayer": "below"
+        },
+        {
+          "tx": 7,
+          "ty": 4,
+          "tileId": "rugMidMid",
+          "zlayer": "below"
         }
       ],
       "exits": [
