@@ -5341,7 +5341,7 @@
       "zlayer": "solid"
     },
     {
-      "tx": 70,
+      "tx": 69,
       "ty": 46,
       "bundleID": "dark-tree-cluster-V",
       "zlayer": "solid"
@@ -5353,13 +5353,13 @@
       "zlayer": "solid"
     },
     {
-      "tx": 70,
+      "tx": 69,
       "ty": 44,
       "bundleID": "mixed-tree-cluster-V",
       "zlayer": "solid"
     },
     {
-      "tx": 70,
+      "tx": 69,
       "ty": 30,
       "bundleID": "mixed-tree-cluster-V",
       "zlayer": "solid"
@@ -10287,7 +10287,7 @@
       "id": "dealer",
       "name": "Vince the Dealer",
       "sprite": "hub-npc-dealer",
-      "tx": 60,
+      "tx": 62,
       "ty": 37,
       "screen": "casino",
       "dialogue": [
@@ -11575,8 +11575,8 @@
       "name": "Games Host Zev",
       "sprite": "hub-npc-dealer",
       "building": "arcade-building-w-3",
-      "tx": 6,
-      "ty": 4,
+      "tx": 11,
+      "ty": 3,
       "questGive": "zev-game-prize-restock",
       "dialogue": [
         "Step right up! The games never stop here.",
@@ -11661,7 +11661,7 @@
       "id": "marble-master-int",
       "name": "Aggie the Roller",
       "sprite": "hub-npc-dealer",
-      "building": "arcade-building-e",
+      "building": "arcade-building-w-4",
       "tx": 8,
       "ty": 3,
       "screen": "marble",
@@ -11683,7 +11683,7 @@
       "id": "the-flipper-int",
       "name": "Tilt Tomas",
       "sprite": "hub-npc-merchant",
-      "building": "arcade-building-e",
+      "building": "arcade-building-w-3",
       "tx": 4,
       "ty": 3,
       "screen": "tileflip",
@@ -11705,9 +11705,9 @@
       "id": "crystal-keeper-int",
       "name": "Geode Greta",
       "sprite": "hub-npc-scholar",
-      "building": "arcade-building-e",
-      "tx": 6,
-      "ty": 5,
+      "building": "arcade-building-w-1",
+      "tx": 2,
+      "ty": 6,
       "screen": "crystalcatch",
       "dialogue": [
         "Crystals falling fast — catch them before they shatter!",
@@ -11727,9 +11727,9 @@
       "id": "prize-keeper-int",
       "name": "Token Tess",
       "sprite": "hub-npc-merchant",
-      "building": "arcade-building-e",
-      "tx": 2,
-      "ty": 4,
+      "building": "arcade-building-w-2",
+      "tx": 11,
+      "ty": 8,
       "screen": "prizes",
       "dialogue": [
         "Got tickets? I've got prizes. Let's make a deal.",
