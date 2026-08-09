@@ -1269,14 +1269,16 @@ export function CityBuilder({ onBack }: Props) {
     return () => clearInterval(id)
   }, [])
 
-  // ── Memoized catalog and collection (static/session-stable) ─────────────────
-  // These are NOT derived from React state — catalog never changes, collection
-  // doesn't change during a city builder session. Moved here (before any early
-  // return) so useMemo can be called unconditionally.
+  // ── Memoized catalog / live collection state ─────────────────────────────────
+  // catalog is static and never changes. collection DOES change during a
+  // session (mastery XP is granted on level-up), so it must be real state —
+  // handleLevelUp calls setCollection() right after saveCollection() so the
+  // upgrade modal (mLvl/upgradeCost/canAfford) reflects the new tier on the
+  // very next render. Both are declared here (before any early return) so
+  // useMemo/useState can be called unconditionally.
 
   const catalog = useMemo(() => getCardCatalog(), [])
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const [collection] = useState(() => loadCollection())
+  const [collection, setCollection] = useState(() => loadCollection())
 
   // ── Derived data (memoized on city + currentTime) ─────────────────────────────
   // Previously computed inline on every render (every 100ms from animation loop),
@@ -1485,6 +1487,7 @@ export function CityBuilder({ onBack }: Props) {
       updatedCol.push({ cardName, count: 0, masteryXp: xpToGrant })
     }
     saveCollection(updatedCol)
+    setCollection(updatedCol)
     showToast(`${cardName} levelled up! Mastery ★${currentLvl + 1}`)
   }
 

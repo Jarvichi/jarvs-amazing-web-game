@@ -11699,7 +11699,29 @@ html.light-mode .action-btn {
   flex-direction: column;
   align-items: center;
   gap: 8px;
-}.city-req-sprite  { width: 36px; height: 36px; image-rendering: pixelated; }
+  max-height: 80vh;
+  overflow-y: auto;
+}
+/* BuildingInspectModal has a tab row above scrollable content: keep the
+   header + tabs pinned, only the body below them scrolls. */
+.city-req-modal--tabbed {
+  overflow: hidden;
+}
+.city-req-modal--tabbed > .city-req-header,
+.city-req-modal--tabbed > .city-bld-tabs {
+  flex-shrink: 0;
+}
+.city-bld-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+.city-req-sprite  { width: 36px; height: 36px; image-rendering: pixelated; }
 .city-req-name    { font-size: 14px; color: #90e090; letter-spacing: 1px; }
 .city-req-mood              { font-size: 11px; letter-spacing: 1px; padding: 2px 6px; border-radius: 2px; }
 .city-req-mood--content     { color: #60d060; border: 1px solid #3a6a3a; }

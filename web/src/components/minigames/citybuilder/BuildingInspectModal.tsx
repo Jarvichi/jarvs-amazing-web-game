@@ -58,7 +58,7 @@ export function BuildingInspectModal({
 
   return (
     <div className="city-req-overlay" onClick={onClose}>
-      <div className="city-req-modal" onClick={e => e.stopPropagation()}>
+      <div className="city-req-modal city-req-modal--tabbed" onClick={e => e.stopPropagation()}>
         <div className="city-req-header u-flex u-items-c u-gap-4">
           <SpriteImg name={cell.cardName} className="city-req-sprite" />
           <div className="city-req-name">
@@ -77,6 +77,7 @@ export function BuildingInspectModal({
           >Upgrade</button>
         </div>
 
+        <div className="city-bld-body">
         {buildingTab === 'residents' && (
           cell.spawnedUnitName ? (
             <>
@@ -232,6 +233,7 @@ export function BuildingInspectModal({
         )}
 
         <button className="action-btn" onClick={onClose}>CLOSE</button>
+        </div>
       </div>
     </div>
   )
