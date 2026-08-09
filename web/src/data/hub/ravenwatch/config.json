@@ -6813,8 +6813,8 @@
           "tx": 4,
           "ty": 1,
           "toInteriorId": "home-building-bedroom",
-          "entryTx": 4,
-          "entryTy": 6,
+          "entryTx": 8,
+          "entryTy": 2,
           "direction": "up"
         }
       ],
@@ -7156,17 +7156,17 @@
         },
         {
           "tx": 2,
-          "ty": 2,
+          "ty": 3,
           "tileId": "counterTop"
         },
         {
           "tx": 3,
-          "ty": 2,
+          "ty": 3,
           "tileId": "counterTop"
         },
         {
           "tx": 4,
-          "ty": 2,
+          "ty": 3,
           "tileId": "counterTop"
         },
         {
@@ -7215,6 +7215,12 @@
           "tx": 1,
           "ty": 0,
           "tileId": "fullLadderTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": 3,
+          "tileId": "roundTableWithCloth",
           "zlayer": "solid"
         }
       ],
@@ -9233,12 +9239,24 @@
           "ty": 2,
           "bundleID": "bookshelf",
           "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 2,
+          "tileId": "ladderIntoFloor",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "halfLadderTop",
+          "zlayer": "solid"
         }
       ],
       "exits": [
         {
-          "tx": 4,
-          "ty": 4,
+          "tx": 8,
+          "ty": 2,
           "toInteriorId": "home",
           "direction": "down",
           "entryTx": 4,
@@ -11317,7 +11335,7 @@
       "sprite": "hub-npc-merchant",
       "building": "inn-building",
       "tx": 3,
-      "ty": 4,
+      "ty": 2,
       "dialogue": [
         "Welcome to the Wanderer's Rest! A warm meal and a dry bed awaits.",
         "You look like you've seen better days, Commander. Rest up.",
@@ -12026,6 +12044,18 @@
         "crystals": 10
       },
       "buildingId": "inn-building"
+    },
+    {
+      "id": "treasure-1786265024990",
+      "tx": 7,
+      "ty": 2,
+      "tileId": "chest",
+      "collectedTileId": "openChest",
+      "title": "New treasure",
+      "reward": {
+        "crystals": 10
+      },
+      "buildingId": "inn-building"
     }
   ],
   "interactables": [
@@ -12598,6 +12628,26 @@
         {
           "type": "dialogue",
           "text": "What's in the box?"
+        }
+      ]
+    },
+    {
+      "id": "interactable-1786264776152",
+      "tx": 6,
+      "ty": 2,
+      "reactions": [
+        {
+          "type": "dialogue",
+          "speakerName": "The Head Of Jarret",
+          "text": "Leave me alone, you living fool."
+        }
+      ],
+      "building": "inn-building",
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "skull"
         }
       ]
     }

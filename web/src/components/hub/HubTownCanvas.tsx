@@ -2189,11 +2189,17 @@ export function HubTownCanvas({
 
       function renderDecorItems(items: typeof interior.decor, target: PIXI.Container) {
         const byTileId = new Map<number, [number, number][]>()
+        const flames: FlameSource[] = []
         for (const d of items) {
           if (d.tileId === 666) continue
           const list = byTileId.get(d.tileId) ?? []
           list.push([d.tx, d.ty])
           byTileId.set(d.tileId, list)
+          if (d.glow) decorGlows.push({ x: d.tx * T + T / 2, y: d.ty * T + T / 2, radius: (d.glowRadius ?? 2) * T, pulse: !!d.pulse })
+          if (d.flame) {
+            const fx = d.tx * T + T / 2, fy = d.ty * T + T * FLAME_ANCHOR_Y
+            collectFlame(flames, decorGlows, !!d.glow, target, fx, fy, fx, fy, d.flameType, d.flameColor, d.ty)
+          }
         }
         for (const [tileId, positions] of byTileId) {
           loadTileRef(tileId).then(tex => {
@@ -2206,6 +2212,7 @@ export function HubTownCanvas({
             }
           }).catch(() => {})
         }
+        spawnFlames(flames)
       }
 
       renderDecorItems(visibleDecor.filter(d => d.zlayer !== 'above'), decorBelowContainer)

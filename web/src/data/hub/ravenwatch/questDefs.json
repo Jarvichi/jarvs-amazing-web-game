@@ -4381,7 +4381,7 @@
     {
       "id": "guest-item-1",
       "tx": 2,
-      "ty": 2,
+      "ty": 3,
       "tileId": "pendant",
       "questId": "rosie-strange-guest",
       "building": "inn-building"
@@ -4647,7 +4647,7 @@
     {
       "id": "spy-report",
       "tx": 4,
-      "ty": 2,
+      "ty": 3,
       "tileId": "closedBook",
       "questId": "rosie-spy-in-the-inn",
       "building": "inn-building"

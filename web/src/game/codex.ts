@@ -36,7 +36,17 @@ export function isFragmentDiscovered(id: string): boolean {
 }
 
 export function isHubWorldUnlocked(): boolean {
-  try { return localStorage.getItem(HUB_WORLD_UNLOCK_KEY) === 'true' } catch { return false }
+  try {
+    if (localStorage.getItem(HUB_WORLD_UNLOCK_KEY) === 'true') return true
+  } catch { return false }
+  // Self-heal: a player who already has every fragment should never be
+  // locked out of the hub just because the unlock flag itself never got
+  // set (e.g. saves from before this flag existed, or a missed write).
+  if (areAllCampaignFragmentsDiscovered()) {
+    unlockHubWorld()
+    return true
+  }
+  return false
 }
 
 export function unlockHubWorld(): void {

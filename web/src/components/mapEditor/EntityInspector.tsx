@@ -1494,7 +1494,7 @@ function InteriorInspector({
   onCloseInterior, onOpenInterior, onResizeInterior,
   onAddInteriorExit, onUpdateInteriorProps, onUpdateInteriorExit, onRemoveInteriorExit,
   onMoveEntity, onZlayerChange, onDelete, onReorderInteriorDecor, onUpdateDecorTileId,
-  onAddTreasure, onAddInteractable,
+  onAddTreasure, onAddInteractable, onUpdateGlow, onUpdateFlame,
 }: {
   interiorId: string
   interior: RawInterior | undefined
@@ -1522,6 +1522,8 @@ function InteriorInspector({
   onUpdateDecorTileId?: (entity: SelectedEntity, tileId: string) => void
   onAddTreasure?: () => void
   onAddInteractable?: () => void
+  onUpdateGlow?: (entity: SelectedEntity, patch: GlowPatch) => void
+  onUpdateFlame?: (entity: SelectedEntity, patch: FlamePatch) => void
 }) {
   const [showExitForm, setShowExitForm] = useState(false)
   const [exitTx, setExitTx]           = useState(0)
@@ -1819,6 +1821,8 @@ function InteriorInspector({
               onHideAtLevel={hl => onUpdateDecorHideAtLevel(selectedEntity, hl)}
               onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
               onZlayer={z => onZlayerChange(selectedEntity, z)}
+              onGlow={onUpdateGlow ? patch => onUpdateGlow(selectedEntity, patch) : undefined}
+              onFlame={onUpdateFlame ? patch => onUpdateFlame(selectedEntity, patch) : undefined}
               onDelete={() => onDelete(selectedEntity)}
               onTileChange={onUpdateDecorTileId ? tileId => onUpdateDecorTileId(selectedEntity, tileId) : undefined}
               onReorder={onReorderInteriorDecor ? dir => onReorderInteriorDecor(selectedEntity, dir) : undefined}
@@ -3157,6 +3161,8 @@ export function EntityInspector({
         onUpdateDecorTileId={onUpdateDecorTileId}
         onAddTreasure={onAddTreasure}
         onAddInteractable={onAddInteractable}
+        onUpdateGlow={onUpdateGlow}
+        onUpdateFlame={onUpdateFlame}
       />
     )
   }
