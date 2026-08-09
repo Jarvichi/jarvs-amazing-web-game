@@ -1961,7 +1961,8 @@
           "ty": -1,
           "tileId": "windowBottom"
         }
-      ]
+      ],
+      "comment": "The Trophy Hall"
     },
     {
       "rect": [
@@ -6272,57 +6273,57 @@
       "decor": [
         {
           "tx": 2,
-          "ty": 2,
+          "ty": 1,
           "tileId": "barrel"
         },
         {
           "tx": 3,
-          "ty": 2,
+          "ty": 1,
           "tileId": "barrel"
         },
         {
           "tx": 4,
-          "ty": 2,
+          "ty": 1,
           "tileId": "barrel"
         },
         {
           "tx": 8,
-          "ty": 2,
+          "ty": 1,
           "tileId": "chest"
         },
         {
           "tx": 9,
-          "ty": 2,
+          "ty": 1,
           "tileId": "chest"
         },
         {
           "tx": 10,
-          "ty": 2,
+          "ty": 1,
           "tileId": "crate"
         },
         {
-          "tx": 5,
-          "ty": 5,
+          "tx": 10,
+          "ty": 7,
           "tileId": "roundTable"
         },
         {
-          "tx": 2,
-          "ty": 6,
+          "tx": 1,
+          "ty": 0,
           "tileId": "bookshelfTop"
         },
         {
-          "tx": 2,
-          "ty": 7,
+          "tx": 1,
+          "ty": 1,
           "tileId": "bookshelfBottom"
         },
         {
-          "tx": 9,
-          "ty": 6,
+          "tx": 7,
+          "ty": 0,
           "tileId": "bookshelfTop"
         },
         {
-          "tx": 9,
-          "ty": 7,
+          "tx": 7,
+          "ty": 1,
           "tileId": "bookshelfBottom"
         },
         {
@@ -6335,6 +6336,42 @@
           "tx": 5,
           "ty": 1,
           "tileId": "ladderIntoFloor",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 4,
+          "tileId": "counterTopHorizontalLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "counterTopHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "counterTopHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 4,
+          "tileId": "counterTopHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 4,
+          "tileId": "counterTopHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "counterTopHorizontalRight",
           "zlayer": "solid"
         }
       ],
@@ -6832,8 +6869,8 @@
           "tx": 6,
           "ty": 1,
           "toInteriorId": "trader-den-upstairs",
-          "entryTx": 0,
-          "entryTy": 5,
+          "entryTx": 3,
+          "entryTy": 1,
           "direction": "up"
         }
       ]
@@ -7391,73 +7428,231 @@
       "floorTileId": "redCarpetFloor",
       "decor": [
         {
-          "tx": 4,
-          "ty": 4,
-          "tileId": "roundTableWithCloth"
-        },
-        {
-          "tx": 9,
-          "ty": 4,
-          "tileId": "roundTableWithCloth"
-        },
-        {
-          "tx": 4,
+          "tx": 3,
           "ty": 5,
+          "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 10,
+          "ty": 5,
+          "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 3,
+          "ty": 6,
           "tileId": "stool",
           "zlayer": "below"
         },
         {
-          "tx": 5,
-          "ty": 4,
-          "tileId": "stool",
-          "zlayer": "below"
-        },
-        {
-          "tx": 9,
+          "tx": 4,
           "ty": 5,
           "tileId": "stool",
           "zlayer": "below"
         },
         {
           "tx": 10,
-          "ty": 4,
+          "ty": 6,
           "tileId": "stool",
           "zlayer": "below"
-        },
-        {
-          "tx": 6,
-          "ty": 7,
-          "tileId": "roundTable"
-        },
-        {
-          "tx": 8,
-          "ty": 7,
-          "tileId": "roundTable"
-        },
-        {
-          "tx": 3,
-          "ty": 7,
-          "tileId": "barrel"
         },
         {
           "tx": 11,
+          "ty": 5,
+          "tileId": "stool",
+          "zlayer": "below"
+        },
+        {
+          "tx": 5,
           "ty": 7,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 9,
+          "ty": 7,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 1,
+          "ty": 9,
           "tileId": "barrel"
         },
         {
-          "tx": 6,
+          "tx": 13,
+          "ty": 9,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 5,
           "ty": 8,
           "tileId": "stool",
           "zlayer": "below"
         },
         {
-          "tx": 8,
+          "tx": 9,
           "ty": 8,
           "tileId": "stool",
           "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": 3,
+          "tileId": "counterTopMahoganyHorizontalLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "counterTopMahoganyHorizontalRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 3,
+          "tileId": "counterTopMahoganyHorizontalLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": 3,
+          "tileId": "counterTopMahoganyHorizontalRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 3,
+          "tileId": "counterTopMahoganyHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "counterTopMahoganyHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": 3,
+          "tileId": "counterTopMahoganyHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 3,
+          "tileId": "counterTopMahoganyHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "paintingLandscapeTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": 0,
+          "tileId": "paintingLandscapeBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 7,
+          "tileId": "lanternBotLit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 6,
+          "tileId": "lanternTopLit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "pileOfCoins",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": 3,
+          "tileId": "cheeseWheel",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 3,
+          "tileId": "roastMeat",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": 3,
+          "tileId": "bread",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 3,
+          "tileId": "apples",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 5,
+          "tileId": "plateSteak",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": 5,
+          "tileId": "platePastaAndSauce",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 7,
+          "tileId": "plateDougnuts",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 2.5,
+          "tileId": "trayOfDrinks",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": -0.5,
+          "tileId": "playingCard",
+          "zlayer": "solid"
         }
       ],
-      "wallTileId": "interiorWallWhite"
+      "wallTileId": "interiorWallWhite",
+      "exits": [
+        {
+          "tx": 0,
+          "ty": 5,
+          "toInteriorId": "arcade-building-w-1",
+          "direction": "left",
+          "entryTx": 13,
+          "entryTy": 5
+        },
+        {
+          "tx": 14,
+          "ty": 5,
+          "toInteriorId": "arcade-building-w-2",
+          "direction": "right",
+          "entryTx": 1,
+          "entryTy": 5
+        },
+        {
+          "tx": 7,
+          "ty": 0,
+          "toInteriorId": "arcade-building-w-3",
+          "direction": "back",
+          "entryTx": 7,
+          "entryTy": 9
+        }
+      ]
     },
     "barracks-north": {
       "name": "North Guard Barracks",
@@ -7657,28 +7852,28 @@
     },
     "town-hall": {
       "name": "The Town Hall",
-      "width": 16,
+      "width": 17,
       "height": 10,
       "floorTileId": "blueOrnateFloor",
       "decor": [
         {
           "tx": 1,
-          "ty": 1,
+          "ty": 0,
           "tileId": "bookshelfTop"
         },
         {
           "tx": 2,
-          "ty": 1,
+          "ty": 0,
           "tileId": "bookshelfTop"
         },
         {
           "tx": 1,
-          "ty": 2,
+          "ty": 1,
           "tileId": "bookshelfBottom"
         },
         {
           "tx": 2,
-          "ty": 2,
+          "ty": 1,
           "tileId": "bookshelfBottom"
         },
         {
@@ -7687,48 +7882,48 @@
           "tileId": "deskTop"
         },
         {
-          "tx": 8,
+          "tx": 9,
           "ty": 1,
           "tileId": "deskTop"
         },
         {
-          "tx": 13,
-          "ty": 1,
+          "tx": 14,
+          "ty": 0,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 15,
+          "ty": 0,
           "tileId": "bookshelfTop"
         },
         {
           "tx": 14,
           "ty": 1,
-          "tileId": "bookshelfTop"
-        },
-        {
-          "tx": 13,
-          "ty": 2,
           "tileId": "bookshelfBottom"
         },
         {
-          "tx": 14,
-          "ty": 2,
+          "tx": 15,
+          "ty": 1,
           "tileId": "bookshelfBottom"
         },
         {
           "tx": 3,
-          "ty": 2,
+          "ty": 1,
           "tileId": "ornateStonePillarTop"
         },
         {
           "tx": 3,
-          "ty": 3,
+          "ty": 2,
           "tileId": "ornateStonePillarBottom"
         },
         {
-          "tx": 12,
-          "ty": 2,
+          "tx": 13,
+          "ty": 1,
           "tileId": "ornateStonePillarTop"
         },
         {
-          "tx": 12,
-          "ty": 3,
+          "tx": 13,
+          "ty": 2,
           "tileId": "ornateStonePillarBottom"
         },
         {
@@ -7767,7 +7962,7 @@
           "tileId": "smallTableTopMiddle"
         },
         {
-          "tx": 11,
+          "tx": 12,
           "ty": 4,
           "tileId": "smallTableTopRight"
         },
@@ -7807,7 +8002,7 @@
           "tileId": "smallTableBottomMiddle"
         },
         {
-          "tx": 11,
+          "tx": 12,
           "ty": 5,
           "tileId": "smallTableBottomRight"
         },
@@ -7822,12 +8017,12 @@
           "tileId": "ornateStonePillarBottom"
         },
         {
-          "tx": 12,
+          "tx": 13,
           "ty": 6,
           "tileId": "ornateStonePillarTop"
         },
         {
-          "tx": 12,
+          "tx": 13,
           "ty": 7,
           "tileId": "ornateStonePillarBottom"
         },
@@ -7847,19 +8042,79 @@
           "tileId": "benchRight"
         },
         {
-          "tx": 9,
+          "tx": 10,
           "ty": 7,
           "tileId": "benchLeft"
         },
         {
-          "tx": 10,
+          "tx": 11,
           "ty": 7,
           "tileId": "benchMiddle"
         },
         {
-          "tx": 11,
+          "tx": 12,
           "ty": 7,
           "tileId": "benchRight"
+        },
+        {
+          "tx": 5,
+          "ty": 2,
+          "tileId": "woodenThroneTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "woodenThroneBot",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 3,
+          "tileId": "woodenThroneBot",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 3,
+          "tileId": "woodenThroneBot",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 3,
+          "tileId": "woodenThroneBot",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 2,
+          "tileId": "woodenThroneTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 2,
+          "tileId": "woodenThroneTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 2,
+          "tileId": "woodenThroneTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 4,
+          "tileId": "smallTableTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 5,
+          "tileId": "smallTableBottomMiddle",
+          "zlayer": "solid"
         }
       ],
       "hours": {
@@ -8719,8 +8974,8 @@
           "ty": 1,
           "toInteriorId": "supply-shop",
           "direction": "up",
-          "entryTx": 3,
-          "entryTy": 7
+          "entryTx": 5,
+          "entryTy": 1
         }
       ]
     },
@@ -8750,7 +9005,7 @@
           "ty": 1,
           "toInteriorId": "trader-den",
           "direction": "down",
-          "entryTx": 0,
+          "entryTx": 6,
           "entryTy": 1
         }
       ]
@@ -8804,6 +9059,497 @@
       "floorTileId": "woodFloor",
       "decor": [],
       "playerDecor": true
+    },
+    "arcade-building-w-1": {
+      "name": "The Marble Race",
+      "width": 15,
+      "height": 11,
+      "floorTileId": "yellowCarpetFloor",
+      "decor": [
+        {
+          "tx": 5,
+          "ty": 7,
+          "tileId": "smallTableBottomLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 7,
+          "tileId": "smallTableBottomRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 4,
+          "tileId": "smallTableTopRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "smallTableTopLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "smallTableMiddleLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 6,
+          "tileId": "smallTableMiddleLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 5,
+          "tileId": "smallTableMiddleRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 6,
+          "tileId": "smallTableMiddleRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 7,
+          "tileId": "smallTableBottomMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 7,
+          "tileId": "smallTableBottomMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 7,
+          "tileId": "smallTableBottomMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 4,
+          "tileId": "smallTableTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 4,
+          "tileId": "smallTableTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "smallTableTopMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 5,
+          "tileId": "smallTableMiddleMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 6,
+          "tileId": "smallTableMiddleMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 6,
+          "tileId": "smallTableMiddleMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 5,
+          "tileId": "smallTableMiddleMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 6,
+          "tileId": "smallTableMiddleMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "smallTableMiddleMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "pileOfSilverCoins",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 9,
+          "ty": 4,
+          "tileId": "pileOfCopperCoins",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 5,
+          "tileId": "pileOfGoldCoins",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 6,
+          "tileId": "pileOfGoldCoins",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 4,
+          "tileId": "cupOfTea",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "roundTableWithCloth",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
+          "ty": 7,
+          "tileId": "roundTableWithCloth",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": 7,
+          "tileId": "roundTableWithCloth",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": 4,
+          "tileId": "roundTableWithCloth",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": 3,
+          "tileId": "stoolDark",
+          "zlayer": "below"
+        },
+        {
+          "tx": 13,
+          "ty": 4,
+          "tileId": "stoolDark",
+          "zlayer": "below"
+        },
+        {
+          "tx": 13,
+          "ty": 7,
+          "tileId": "stoolDark",
+          "zlayer": "below"
+        },
+        {
+          "tx": 12,
+          "ty": 8,
+          "tileId": "stoolDark",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": 8,
+          "tileId": "stoolDark",
+          "zlayer": "below"
+        },
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "stoolDark",
+          "zlayer": "below"
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "tileId": "stoolDark",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": 3,
+          "tileId": "stoolDark",
+          "zlayer": "below"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "stoolDark",
+          "zlayer": "below"
+        },
+        {
+          "tx": 4,
+          "ty": 7,
+          "tileId": "stoolDark",
+          "zlayer": "below"
+        },
+        {
+          "tx": 10,
+          "ty": 7,
+          "tileId": "stoolDark",
+          "zlayer": "below"
+        },
+        {
+          "tx": 10,
+          "ty": 4,
+          "tileId": "stoolDark",
+          "zlayer": "below"
+        },
+        {
+          "tx": 8,
+          "ty": 3,
+          "tileId": "stoolDark",
+          "zlayer": "below"
+        },
+        {
+          "tx": 6,
+          "ty": 8,
+          "tileId": "stoolDark",
+          "zlayer": "below"
+        },
+        {
+          "tx": 8,
+          "ty": 8,
+          "tileId": "stoolDark",
+          "zlayer": "below"
+        }
+      ],
+      "exits": [
+        {
+          "tx": 14,
+          "ty": 5,
+          "toInteriorId": "arcade-building-w",
+          "entryTx": 1,
+          "entryTy": 5,
+          "direction": "right"
+        },
+        {
+          "tx": 7,
+          "ty": 0,
+          "toInteriorId": "arcade-building-w-4",
+          "entryTx": 7,
+          "entryTy": 9,
+          "direction": "back"
+        }
+      ],
+      "wallTileId": "interiorWallWhite"
+    },
+    "arcade-building-w-2": {
+      "name": "arcade-building-w-2",
+      "width": 15,
+      "height": 11,
+      "floorTileId": "yellowCarpetFloor",
+      "decor": [],
+      "exits": [
+        {
+          "tx": 0,
+          "ty": 5,
+          "toInteriorId": "arcade-building-w",
+          "entryTx": 13,
+          "entryTy": 5,
+          "direction": "left"
+        },
+        {
+          "tx": 7,
+          "ty": 0,
+          "toInteriorId": "arcade-building-w-5",
+          "entryTx": 7,
+          "entryTy": 9,
+          "direction": "back"
+        }
+      ],
+      "wallTileId": "interiorWallStriped"
+    },
+    "arcade-building-w-3": {
+      "name": "arcade-building-w-3",
+      "width": 15,
+      "height": 11,
+      "floorTileId": "yellowCarpetFloor",
+      "decor": [],
+      "exits": [
+        {
+          "tx": 7,
+          "ty": 10,
+          "toInteriorId": "arcade-building-w",
+          "entryTx": 7,
+          "entryTy": 1,
+          "direction": "front"
+        },
+        {
+          "tx": 0,
+          "ty": 5,
+          "toInteriorId": "arcade-building-w-4",
+          "direction": "left",
+          "entryTx": 13,
+          "entryTy": 5
+        },
+        {
+          "tx": 14,
+          "ty": 5,
+          "toInteriorId": "arcade-building-w-5",
+          "direction": "right",
+          "entryTx": 1,
+          "entryTy": 5
+        }
+      ],
+      "wallTileId": "interiorWallStriped"
+    },
+    "arcade-building-w-4": {
+      "name": "arcade-building-w-4",
+      "width": 15,
+      "height": 11,
+      "floorTileId": "redCarpetFloor",
+      "decor": [
+        {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "stepsUpFromLeft",
+          "zlayer": "below"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "counterTopDarkWoodBottomRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
+          "ty": 4,
+          "tileId": "counterTopDarkWoodHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 4,
+          "tileId": "counterTopDarkWoodHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "counterTopDarkWoodHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "counterTopDarkWoodVerticalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 2,
+          "tileId": "counterTopDarkWoodVerticalTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "tileId": "counterTopDarkWoodHorizontalLeft",
+          "zlayer": "solid"
+        }
+      ],
+      "wallTileId": "interiorWallStriped",
+      "exits": [
+        {
+          "tx": 14,
+          "ty": 5,
+          "toInteriorId": "arcade-building-w-3",
+          "entryTx": 1,
+          "entryTy": 5,
+          "direction": "right"
+        },
+        {
+          "tx": 7,
+          "ty": 10,
+          "toInteriorId": "arcade-building-w-1",
+          "direction": "front",
+          "entryTx": 7,
+          "entryTy": 1
+        },
+        {
+          "tx": 2,
+          "ty": 2,
+          "toInteriorId": "arcade-building-w-vault",
+          "direction": "down",
+          "entryTx": 2,
+          "entryTy": 1
+        }
+      ]
+    },
+    "arcade-building-w-5": {
+      "name": "arcade-building-w-5",
+      "width": 15,
+      "height": 11,
+      "floorTileId": "redCarpetFloor",
+      "decor": [],
+      "exits": [
+        {
+          "tx": 0,
+          "ty": 5,
+          "toInteriorId": "arcade-building-w-3",
+          "entryTx": 13,
+          "entryTy": 5,
+          "direction": "left"
+        },
+        {
+          "tx": 7,
+          "ty": 10,
+          "toInteriorId": "arcade-building-w-2",
+          "direction": "front",
+          "entryTx": 7,
+          "entryTy": 1
+        }
+      ],
+      "wallTileId": "interiorWallWhite"
+    },
+    "arcade-building-w-vault": {
+      "name": "Arcade - Vault",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "stoneFloor",
+      "decor": [
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "woodStepsUpRightBot",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": 0,
+          "tileId": "woodStepsUpRightTop",
+          "zlayer": "below"
+        }
+      ],
+      "wallTileId": "darkStone",
+      "exits": [
+        {
+          "tx": 2,
+          "ty": 1,
+          "toInteriorId": "arcade-building-w-4",
+          "entryTx": 2,
+          "entryTy": 2,
+          "direction": "up"
+        }
+      ]
     }
   },
   "npcs": [
@@ -8931,8 +9677,8 @@
           "activity": "work",
           "location": {
             "type": "exterior",
-            "tx": 22,
-            "ty": 24
+            "tx": 7,
+            "ty": 22
           }
         },
         {
@@ -9007,8 +9753,8 @@
           "activity": "work",
           "location": {
             "type": "exterior",
-            "tx": 58,
-            "ty": 9
+            "tx": 55,
+            "ty": 8
           }
         },
         {
@@ -9587,7 +10333,7 @@
           "location": {
             "type": "interior",
             "buildingId": "augment-shop",
-            "tx": 3,
+            "tx": 4,
             "ty": 1
           }
         },
@@ -9619,8 +10365,8 @@
       "name": "Bramble",
       "sprite": "hub-npc-supplies",
       "building": "supply-shop",
-      "tx": 5,
-      "ty": 5,
+      "tx": 9,
+      "ty": 3,
       "screen": "shop-supplies",
       "dialogue": [
         "Got everything you need right here. Reliable gear, fair prices.",
@@ -9651,8 +10397,8 @@
           "location": {
             "type": "interior",
             "buildingId": "supply-shop",
-            "tx": 5,
-            "ty": 5
+            "tx": 4,
+            "ty": 3
           }
         },
         {
@@ -9683,8 +10429,8 @@
       "name": "Grix",
       "sprite": "hub-npc-grix",
       "building": "supply-shop",
-      "tx": 5,
-      "ty": 5,
+      "tx": 2,
+      "ty": 3,
       "screen": "shop-supplies",
       "dialogue": [
         "Psst. Grix open late. Very secret. Very good deals. Mostly.",
@@ -9713,8 +10459,8 @@
           "location": {
             "type": "interior",
             "buildingId": "supply-shop",
-            "tx": 5,
-            "ty": 5
+            "tx": 6,
+            "ty": 3
           }
         },
         {
@@ -10401,7 +11147,7 @@
       "id": "games-host-zev",
       "name": "Games Host Zev",
       "sprite": "hub-npc-dealer",
-      "building": "arcade-building-w",
+      "building": "arcade-building-w-3",
       "tx": 6,
       "ty": 4,
       "questGive": "zev-game-prize-restock",
@@ -10576,7 +11322,7 @@
       "id": "spinner-sal-int",
       "name": "Wheelwright Wyn",
       "sprite": "hub-npc-dealer",
-      "building": "arcade-building-w",
+      "building": "arcade-building-w-2",
       "tx": 2,
       "ty": 2,
       "screen": "spinner",
@@ -10598,9 +11344,9 @@
       "id": "race-marshal-int",
       "name": "Lap Judge Lorn",
       "sprite": "hub-npc-arena",
-      "building": "arcade-building-w",
-      "tx": 10,
-      "ty": 2,
+      "building": "arcade-building-w-1",
+      "tx": 6,
+      "ty": 3,
       "screen": "marblerace",
       "dialogue": [
         "On your marks — the race is about to begin!",
@@ -10620,7 +11366,7 @@
       "id": "card-sharp-int",
       "name": "Dealer Dax",
       "sprite": "hub-npc-merchant",
-      "building": "arcade-building-w",
+      "building": "arcade-building-w-5",
       "tx": 5,
       "ty": 5,
       "screen": "higherOrLower",
@@ -10642,7 +11388,7 @@
       "id": "reels-remy-int",
       "name": "Jackpot Juno",
       "sprite": "hub-npc-dealer",
-      "building": "arcade-building-w",
+      "building": "arcade-building-w-4",
       "tx": 2,
       "ty": 8,
       "screen": "fruitMachine",
@@ -10665,8 +11411,8 @@
       "name": "Bluff Bessa",
       "sprite": "hub-npc-dealer",
       "building": "arcade-building-w",
-      "tx": 9,
-      "ty": 8,
+      "tx": 3,
+      "ty": 2,
       "screen": "videoPoker",
       "dialogue": [
         "Best hand wins. Know when to hold, know when to fold.",
@@ -10781,6 +11527,17 @@
         "ravenwatch-npc_1783847887990-topic-auto-1"
       ],
       "screen": "adopt-pet"
+    },
+    {
+      "id": "npc_1786260907308",
+      "name": "Vault Guard",
+      "sprite": "hub-npc-guard",
+      "tx": 5,
+      "ty": 1,
+      "dialogue": [
+        "Hello!"
+      ],
+      "building": "arcade-building-w-4"
     }
   ],
   "ambientNpcSprites": [
@@ -11342,8 +12099,8 @@
     },
     {
       "id": "supply-shop-item-0",
-      "tx": 1,
-      "ty": 5,
+      "tx": 3,
+      "ty": 4,
       "building": "supply-shop",
       "decor": [
         {
@@ -11361,8 +12118,8 @@
     },
     {
       "id": "supply-shop-item-1",
-      "tx": 10,
-      "ty": 5,
+      "tx": 8,
+      "ty": 4,
       "building": "supply-shop",
       "decor": [
         {
@@ -11381,7 +12138,7 @@
     {
       "id": "supply-shop-item-2",
       "tx": 5,
-      "ty": 7,
+      "ty": 4,
       "building": "supply-shop",
       "decor": [
         {

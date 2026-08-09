@@ -317,6 +317,7 @@ export type SelectedEntity =
   | { type: 'treasure'; index: number }
   | { type: 'pickupItem'; index: number }
   | { type: 'interiorDecor'; interiorId: string; index: number }
+  | { type: 'interiorExit'; interiorId: string; index: number }
   | { type: 'blockedPath'; index: number }
   | { type: 'lockedDoor'; index: number }
   | { type: 'animal'; index: number }

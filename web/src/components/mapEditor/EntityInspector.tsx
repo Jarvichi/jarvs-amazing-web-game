@@ -1577,6 +1577,14 @@ function InteriorInspector({
       <div style={bodyStyle}>
         {interior && (
           <>
+            <Field label="Display Name">
+              <input
+                type="text"
+                value={interior.name}
+                onChange={e => onUpdateInteriorProps(interiorId, { name: e.target.value })}
+                style={inputFull}
+              />
+            </Field>
             {/* Size + resize buttons */}
             <Field label="Size">
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}>

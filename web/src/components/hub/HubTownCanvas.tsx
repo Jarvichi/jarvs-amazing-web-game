@@ -32,6 +32,7 @@ import { getActiveFestival } from '../../game/hub/hubCalendar'
 import { loadHomeLayout } from '../../game/hub/homeLayout'
 import { getFurnitureTileOffsets } from '../../game/hub/furnitureTiles'
 import { getResolvedRoomStyle } from '../../game/hub/roomStyle'
+import { getDoorwayEntryTile } from '../../game/hub/doorwayEntry'
 import {
   getPurchasedSlotIds, getRoomSlotDef, buildMainRoomExit, parseSlotBuildingId, synthesizeSlotInterior,
 } from '../../game/hub/houseRooms'
@@ -1902,7 +1903,7 @@ export function HubTownCanvas({
     let getAnimalsInBuildingFn: (buildingId: string) => { type: string; tint: number }[] = () => []
 
     // ── Interior enter ─────────────────────────────────────────────────────────
-    const doEnterInterior = (buildingId: string, entryTx?: number, entryTy?: number) => {
+    const doEnterInterior = (buildingId: string, entryTx?: number, entryTy?: number, direction?: HubInteriorExit['direction'], sourceTx?: number) => {
       try {
       // Locked door check — block entry if key not in inventory
       const lock = HUB_LOCKED_DOORS.find(l => l.buildingId === buildingId)
@@ -2035,7 +2036,11 @@ export function HubTownCanvas({
       const exitTx: number = Math.floor(interior.width / 2)
       // isSubRoom: no exterior door exists for this interior (upstairs rooms, passages, etc.)
       const isSubRoom = !HUB_DOORS.some(d => d.buildingId === buildingId)
-      const defaultEntryTile: [number, number] = [entryTx ?? exitTx, entryTy ?? (interior.height - 2)]
+      const directionalEntryTile = getDoorwayEntryTile(direction, sourceTx ?? exitTx, interior.width, interior.height)
+      const defaultEntryTile: [number, number] = [
+        entryTx ?? directionalEntryTile?.[0] ?? exitTx,
+        entryTy ?? directionalEntryTile?.[1] ?? (interior.height - 2),
+      ]
       interiorCurrentTile = defaultEntryTile
       currentInteriorId   = buildingId
       currentInteriorObj  = interior
@@ -2539,7 +2544,7 @@ export function HubTownCanvas({
             processInteriorWalkQueue()
             return
           }
-          doEnterInterior(roomExit.toInteriorId, roomExit.entryTx, roomExit.entryTy)
+          doEnterInterior(roomExit.toInteriorId, roomExit.entryTx, roomExit.entryTy, roomExit.direction, roomExit.tx)
           return
         }
         processInteriorWalkQueue()

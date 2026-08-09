@@ -1,15 +1,18 @@
 // Enumerate all SVG sprites from /public/sprites/ at build time (Vite import.meta.glob).
 // Used to populate sprite pickers in the map editor.
 
-const ALL_SPRITE_URLS = import.meta.glob('/sprites/*.svg', { query: '?url', import: 'default', eager: true }) as Record<string, string>
+// Only the file paths (glob keys) are needed — not their contents — so no
+// eager/query/import options, which avoids Vite's public-dir URL-resolution
+// warning for a value we'd discard anyway.
+const ALL_SPRITE_PATHS = import.meta.glob('/public/sprites/*.svg')
 
 function slugFromPath(path: string): string {
-  return path.replace(/^\/sprites\//, '').replace(/\.svg$/, '')
+  return path.replace(/^\/public\/sprites\//, '').replace(/\.svg$/, '')
 }
 
 // All sprites that are NOT animation frames (-1/-2/-3) and NOT animal sprites.
 // Used for NPC sprite selection.
-export const NPC_SPRITE_SLUGS: string[] = Object.keys(ALL_SPRITE_URLS)
+export const NPC_SPRITE_SLUGS: string[] = Object.keys(ALL_SPRITE_PATHS)
   .filter(p => !/-[123]\.svg$/.test(p) && !/\/animal-/.test(p))
   .map(slugFromPath)
   .sort()

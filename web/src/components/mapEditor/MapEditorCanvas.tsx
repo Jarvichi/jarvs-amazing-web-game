@@ -1049,14 +1049,26 @@ export function MapEditorCanvas(props: Props) {
     groundLayer.addChild(wallGfx)
     renderWallMaterial(version, interior.wallTileId, width, groundLayer, gapSet)
 
-    // Green outlines on up/down exit tiles so they're easy to spot and click
-    const exitOverlay = new PIXI.Graphics()
-    for (const exit of interior.exits ?? []) {
-      if (exit.direction === 'up' || exit.direction === 'down') {
-        exitOverlay.rect(exit.tx * T + 1, exit.ty * T + 1, T - 2, T - 2).stroke({ width: 2, color: 0x44ff44 })
-      }
-    }
-    groundLayer.addChild(exitOverlay)
+    // Outlined markers on up/down exit tiles — clickable & draggable like any
+    // other interior entity, so their tx/ty (and via syncReciprocalEntryTile,
+    // the paired door's entryTx/entryTy) can be repositioned precisely.
+    // Added to npcLayer (rendered above decor) since stairs decor is often
+    // placed on the exact same tile as the door — the marker needs click
+    // priority over it to stay reachable for dragging.
+    ;(interior.exits ?? []).forEach((exit, exitIdx) => {
+      if (exit.direction !== 'up' && exit.direction !== 'down') return
+      const isSel = isEntitySelected({ type: 'interiorExit', interiorId: iid, index: exitIdx })
+      const color = exit.direction === 'up' ? 0x44ff44 : 0x44aaff
+      const marker = new PIXI.Graphics()
+      marker.rect(exit.tx * T + 1, exit.ty * T + 1, T - 2, T - 2).stroke({ width: 2, color })
+      marker.eventMode = 'static'
+      marker.cursor = 'pointer'
+      marker.hitArea = new PIXI.Rectangle(exit.tx * T, exit.ty * T, T, T)
+      marker.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
+        handleEntityPointerDown(e, { type: 'interiorExit', interiorId: iid, index: exitIdx }, exit.tx, exit.ty))
+      npcLayer.addChild(marker)
+      if (isSel) selLayer.rect(exit.tx * T, exit.ty * T, T, T).stroke({ color: 0xf0c040, width: 2 })
+    })
 
     renderDecorItems(version, flattenDecor(interior.decor),
                      decorBLayer, decorLayer, decorALayer, 'interiorDecor', iid, selLayer)
@@ -1669,6 +1681,11 @@ function hitTest(
       if (decor[i].tx === tx && decor[i].ty === ty)
         return { type: 'interiorDecor', index: i, interiorId: activeInteriorId }
     }
+    const exits = cfg.interiors?.[activeInteriorId]?.exits ?? []
+    for (let i = exits.length - 1; i >= 0; i--) {
+      if ((exits[i].direction === 'up' || exits[i].direction === 'down') && exits[i].tx === tx && exits[i].ty === ty)
+        return { type: 'interiorExit', index: i, interiorId: activeInteriorId }
+    }
     return null
   }
   if (showInteractables) {
@@ -1788,6 +1805,7 @@ function getEntityTx(cfg: RawMapConfig, entity: SelectedEntity, questPickupItems
   }
   if (entity.type === 'animal') return cfg.animals?.[entity.index]?.tx ?? 0
   if (entity.type === 'interiorDecor') return cfg.interiors?.[entity.interiorId]?.decor[entity.index]?.tx ?? 0
+  if (entity.type === 'interiorExit') return cfg.interiors?.[entity.interiorId]?.exits?.[entity.index]?.tx ?? 0
   if (entity.type === 'buildingLevelDecor') return cfg.buildings?.[entity.buildingIndex]?.levelDecor?.[entity.index]?.tx ?? 0
   if (entity.type === 'buildingDecor') {
     const b = cfg.buildings?.[entity.buildingIndex]
@@ -1847,6 +1865,7 @@ function getEntityTy(cfg: RawMapConfig, entity: SelectedEntity, questPickupItems
   }
   if (entity.type === 'animal') return cfg.animals?.[entity.index]?.ty ?? 0
   if (entity.type === 'interiorDecor') return cfg.interiors?.[entity.interiorId]?.decor[entity.index]?.ty ?? 0
+  if (entity.type === 'interiorExit') return cfg.interiors?.[entity.interiorId]?.exits?.[entity.index]?.ty ?? 0
   if (entity.type === 'buildingLevelDecor') return cfg.buildings?.[entity.buildingIndex]?.levelDecor?.[entity.index]?.ty ?? 0
   if (entity.type === 'buildingDecor') {
     const b = cfg.buildings?.[entity.buildingIndex]

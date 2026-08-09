@@ -162,6 +162,23 @@ export function applyDeleteEntities(config: RawMapConfig, entities: SelectedEnti
     c = { ...c, interiors }
   }
 
+  // interiorExit — group by interiorId
+  const exitRoomMap = new Map<string, Set<number>>()
+  for (const e of entities) {
+    if (e.type !== 'interiorExit') continue
+    if (!exitRoomMap.has(e.interiorId)) exitRoomMap.set(e.interiorId, new Set())
+    exitRoomMap.get(e.interiorId)!.add(e.index)
+  }
+  if (exitRoomMap.size) {
+    let interiors = { ...c.interiors }
+    for (const [roomId, idxs] of exitRoomMap) {
+      const room = interiors[roomId]
+      if (!room) continue
+      interiors = { ...interiors, [roomId]: { ...room, exits: (room.exits ?? []).filter((_, i) => !idxs.has(i)) } }
+    }
+    c = { ...c, interiors }
+  }
+
   // festivalDecor — group by festivalId
   const festMap = new Map<string, Set<number>>()
   for (const e of entities) {

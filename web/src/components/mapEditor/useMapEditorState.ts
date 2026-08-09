@@ -3,6 +3,7 @@ import type { RawMapConfig, RawNpc, RawAnimal, RawInterior, RawBuilding, RawDeco
 import { toggleInSelection, nextAreaId, nextBuildingId, convertStreetToPond as cSTP, convertPondToStreet as cPTS, applyDeleteEntities, applyBatchUpdateZlayer, applyBatchUpdateStreetPathType } from './multiSelectHelpers'
 
 type InteriorExit = NonNullable<RawInterior['exits']>[number]
+import { getDoorwayEntryTile } from '../../game/hub/doorwayEntry'
 import hubConfig from '../../data/hub/ravenwatch/config.json'
 import town2Config from '../../data/hub/millhaven/config.json'
 import castleConfig from '../../data/hub/ironholdkeep/config.json'
@@ -78,6 +79,23 @@ function patchFestivalDecor(
     decor[index] = { ...decor[index], ...patch }
     return { ...g, decor }
   }) }
+}
+
+/** When an up/down exit's own tile moves, keep the reciprocal door's landing
+ *  position (entryTx/entryTy) pointed at the new spot, so it can't go stale. */
+function syncReciprocalEntryTile(
+  interiors: NonNullable<RawMapConfig['interiors']>, interiorId: string, index: number,
+): NonNullable<RawMapConfig['interiors']> {
+  const interior = interiors?.[interiorId]
+  const exit = interior?.exits?.[index]
+  if (!interior || !exit || (exit.direction !== 'up' && exit.direction !== 'down')) return interiors
+  const opposite = exit.direction === 'up' ? 'down' : 'up'
+  const dest = interiors?.[exit.toInteriorId]
+  const revIdx = dest?.exits?.findIndex(e => e.toInteriorId === interiorId && e.direction === opposite) ?? -1
+  if (!dest || revIdx === -1) return interiors
+  const destExits = [...dest.exits!]
+  destExits[revIdx] = { ...destExits[revIdx], entryTx: exit.tx, entryTy: exit.ty }
+  return { ...interiors, [exit.toInteriorId]: { ...dest, exits: destExits } }
 }
 
 /** Apply a single entity move to a config, returning a new config (or the same if no-op). */
@@ -241,6 +259,13 @@ function applyMove(prevConfig: RawMapConfig, entity: SelectedEntity, tx: number,
     if (!decor[entity.index]) return prevConfig
     decor[entity.index] = { ...decor[entity.index], tx, ty }
     newConfig = { ...prevConfig, interiors: { ...prevConfig.interiors, [entity.interiorId]: { ...interior, decor } } }
+  } else if (entity.type === 'interiorExit' && prevConfig.interiors?.[entity.interiorId]) {
+    const interior = prevConfig.interiors[entity.interiorId]
+    const exits = [...(interior.exits ?? [])]
+    if (!exits[entity.index]) return prevConfig
+    exits[entity.index] = { ...exits[entity.index], tx, ty }
+    const interiors = { ...prevConfig.interiors, [entity.interiorId]: { ...interior, exits } }
+    newConfig = { ...prevConfig, interiors: syncReciprocalEntryTile(interiors, entity.interiorId, entity.index) }
   }
   return newConfig
 }
@@ -1424,10 +1449,10 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
           entryTxInA = a.width - 2; entryTyInA = finalExit.ty
         } else if (finalExit.direction === 'up') {
           revTx = finalExit.tx; revTy = b.height - 1
-          entryTxInA = finalExit.tx; entryTyInA = 1
+          entryTxInA = finalExit.tx; entryTyInA = finalExit.ty
         } else if (finalExit.direction === 'down') {
           revTx = finalExit.tx; revTy = 0
-          entryTxInA = finalExit.tx; entryTyInA = a.height - 2
+          entryTxInA = finalExit.tx; entryTyInA = finalExit.ty
         } else if (finalExit.direction === 'front') {
           revTx = Math.floor(b.width / 2); revTy = 0
           entryTxInA = finalExit.tx; entryTyInA = a.height - 2
@@ -1436,17 +1461,8 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
           entryTxInA = finalExit.tx; entryTyInA = 1
         }
 
-        const entryInB: [number, number] = exit.direction === 'left'
-          ? [b.width - 2, Math.floor(b.height / 2)]
-          : exit.direction === 'right'
-          ? [1, Math.floor(b.height / 2)]
-          : exit.direction === 'up'
-          ? [finalExit.tx, b.height - 2]
-          : exit.direction === 'front'
-          ? [finalExit.tx, 1]
-          : exit.direction === 'back'
-          ? [finalExit.tx, b.height - 2]
-          : [finalExit.tx, 1]
+        const entryInB: [number, number] = getDoorwayEntryTile(exit.direction, finalExit.tx, b.width, b.height)
+          ?? [finalExit.tx, 1]
 
         const reverseExit: InteriorExit = {
           tx: revTx, ty: revTy,
@@ -1497,9 +1513,13 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
       if (!interior || !interior.exits?.[index]) return s
       const exits = [...interior.exits]
       exits[index] = { ...exits[index], ...patch }
+      let interiors = { ...prevConfig.interiors, [interiorId]: { ...interior, exits } }
+      if (patch.tx !== undefined || patch.ty !== undefined) {
+        interiors = syncReciprocalEntryTile(interiors, interiorId, index)
+      }
       return {
         ...s,
-        configData: { ...prevConfig, interiors: { ...prevConfig.interiors, [interiorId]: { ...interior, exits } } },
+        configData: { ...prevConfig, interiors },
         undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
         redoStack: [],
         isDirty: true,

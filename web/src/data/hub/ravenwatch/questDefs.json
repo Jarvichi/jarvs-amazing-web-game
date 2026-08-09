@@ -4057,8 +4057,8 @@
     },
     {
       "id": "overdue-book-2",
-      "tx": 3,
-      "ty": 5,
+      "tx": 10,
+      "ty": 7,
       "tileId": "blackclosedBook",
       "questId": "lysss-overdue-books",
       "building": "supply-shop"
@@ -4278,8 +4278,8 @@
     },
     {
       "id": "stolen-crate-3",
-      "tx": 4,
-      "ty": 3,
+      "tx": 3,
+      "ty": 7,
       "tileId": "crate",
       "questId": "bramble-stolen-goods",
       "building": "supply-shop"
@@ -4495,8 +4495,8 @@
     },
     {
       "id": "rigging-device-1",
-      "tx": 4,
-      "ty": 4,
+      "tx": 13,
+      "ty": 9,
       "tileId": "chest",
       "questId": "zev-rigged-games",
       "building": "arcade-building-w"
@@ -4638,8 +4638,8 @@
     },
     {
       "id": "smuggler-cache-2",
-      "tx": 4,
-      "ty": 5,
+      "tx": 2,
+      "ty": 7,
       "tileId": "crate",
       "questId": "bramble-smugglers-cache",
       "building": "supply-shop"
@@ -4792,8 +4792,8 @@
     },
     {
       "id": "shadow-token",
-      "tx": 4,
-      "ty": 6,
+      "tx": 6,
+      "ty": 7,
       "tileId": "pendant",
       "questId": "zev-shadow-gambler",
       "building": "arcade-building-w"
@@ -5022,7 +5022,7 @@
     {
       "id": "echo-card-set-2",
       "tx": 4,
-      "ty": 5,
+      "ty": 4,
       "tileId": "blueclosedBook",
       "questId": "gildwyn-echo-deck-master",
       "building": "arcade-building-w"
@@ -5066,8 +5066,8 @@
     },
     {
       "id": "shelter-package-3",
-      "tx": 55,
-      "ty": 8,
+      "tx": 56,
+      "ty": 10,
       "tileId": "crate",
       "questId": "rosie-shelter-for-families"
     },
@@ -5138,8 +5138,8 @@
     },
     {
       "id": "surveillance-device-3",
-      "tx": 4,
-      "ty": 3,
+      "tx": 13,
+      "ty": 2,
       "tileId": "chest",
       "questId": "zev-games-hall-clear",
       "building": "arcade-building-w"
@@ -5162,8 +5162,8 @@
     },
     {
       "id": "intel-note-2",
-      "tx": 5,
-      "ty": 5,
+      "tx": 8,
+      "ty": 7,
       "tileId": "note",
       "questId": "dealer-fracture-intel",
       "building": "arcade-building-w"
@@ -5220,8 +5220,8 @@
     },
     {
       "id": "supply-pkg-thorin",
-      "tx": 4,
-      "ty": 3,
+      "tx": 1,
+      "ty": 7,
       "tileId": "crate",
       "questId": "bramble-fortified-supplies",
       "building": "supply-shop"
@@ -5229,7 +5229,7 @@
     {
       "id": "supply-pkg-varn",
       "tx": 6,
-      "ty": 3,
+      "ty": 1,
       "tileId": "crate",
       "questId": "bramble-fortified-supplies",
       "building": "supply-shop"
@@ -5416,8 +5416,8 @@
     },
     {
       "id": "resource-bundle-3",
-      "tx": 65,
-      "ty": 8,
+      "tx": 64,
+      "ty": 7,
       "tileId": "crate",
       "questId": "ferryn-resource-cache"
     },
@@ -5509,8 +5509,8 @@
     },
     {
       "id": "zev-supply-cache",
-      "tx": 3,
-      "ty": 3,
+      "tx": 1,
+      "ty": 2,
       "tileId": "crate",
       "questId": "zev-games-hall-stands",
       "building": "arcade-building-w"

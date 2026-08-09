@@ -257,7 +257,7 @@ function NpcFullEditor({ npc, opts, onUpdate, onPickLocation }: {
         </label>
       </Field>
       <Field label="Building (interior, optional)">
-        <EntityRefPicker value={npc.building ?? ''} options={opts.buildings} placeholder="Search buildings…"
+        <EntityRefPicker value={npc.building ?? ''} options={opts.interiors} placeholder="Search interiors…"
           onChange={v => onUpdate({ building: v || undefined })} />
       </Field>
       <Field label="Dialogue Tree (optional)">
