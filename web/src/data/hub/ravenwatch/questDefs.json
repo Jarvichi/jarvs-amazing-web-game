@@ -4389,7 +4389,7 @@
     {
       "id": "guest-item-2",
       "tx": 8,
-      "ty": 2,
+      "ty": 1,
       "tileId": "chest",
       "questId": "rosie-strange-guest",
       "building": "inn-building"

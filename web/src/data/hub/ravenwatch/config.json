@@ -7171,12 +7171,12 @@
         },
         {
           "tx": 9,
-          "ty": 2,
+          "ty": 1,
           "tileId": "barrel"
         },
         {
           "tx": 10,
-          "ty": 2,
+          "ty": 1,
           "tileId": "barrel"
         },
         {
@@ -7218,8 +7218,8 @@
           "zlayer": "solid"
         },
         {
-          "tx": 10,
-          "ty": 3,
+          "tx": 6,
+          "ty": 2,
           "tileId": "roundTableWithCloth",
           "zlayer": "solid"
         }
@@ -9770,8 +9770,8 @@
       "floorTileId": "cobblestoneFloor",
       "decor": [
         {
-          "tx": 0,
-          "ty": 1,
+          "tx": 1,
+          "ty": 3,
           "tileId": "lightPotWithLid",
           "zlayer": "solid"
         },
@@ -9839,7 +9839,10 @@
           "tx": 5,
           "ty": 1,
           "tileId": "stoneFireplaceBottomMid",
-          "zlayer": "solid"
+          "zlayer": "solid",
+          "flame": true,
+          "glow": true,
+          "pulse": true
         },
         {
           "tx": 4,
@@ -12048,7 +12051,7 @@
     {
       "id": "treasure-1786265024990",
       "tx": 7,
-      "ty": 2,
+      "ty": 1,
       "tileId": "chest",
       "collectedTileId": "openChest",
       "title": "New treasure",
