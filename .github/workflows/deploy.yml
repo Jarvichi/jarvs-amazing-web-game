@@ -68,36 +68,3 @@ jobs:
         env:
           ROLLBAR_ACCESS_TOKEN: ${{ secrets.ROLLBAR_ACCESS_TOKEN }}
           ROLLBAR_USERNAME: ${{ github.actor }}
-
-  deploy-firebase:
-    needs: build
-    runs-on: ubuntu-latest
-    # Authenticates with a service-account JSON key rather than the deprecated
-    # --token flag. Workload Identity Federation would be preferable, but
-    # firebase-tools currently discards ADC/WIF credentials and fails with a
-    # misleading "have you run firebase login?" — firebase-tools#10726.
-    # The secret is lifted into env because `secrets` is not available to
-    # job-level `if:` conditions.
-    env:
-      FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Write service account key
-        if: env.FIREBASE_SERVICE_ACCOUNT != ''
-        run: echo "$FIREBASE_SERVICE_ACCOUNT" > "$RUNNER_TEMP/firebase-sa.json"
-
-      # Pinned rather than @latest: an unpinned CLI silently changes between runs.
-      - name: Deploy Firestore rules
-        if: env.FIREBASE_SERVICE_ACCOUNT != ''
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/firebase-sa.json
-        run: >
-          npx --yes firebase-tools@15.25.1 deploy --only firestore:rules
-          --project ${{ secrets.VITE_FIREBASE_PROJECT_ID }} --non-interactive
-
-      # Warns rather than fails: a red X meaning "a secret is unset" trains
-      # everyone to ignore red X's, which is how this went unnoticed for days.
-      - name: Warn when the secret is missing
-        if: env.FIREBASE_SERVICE_ACCOUNT == ''
-        run: echo "::warning::FIREBASE_SERVICE_ACCOUNT is not set — Firestore rules were not deployed"
