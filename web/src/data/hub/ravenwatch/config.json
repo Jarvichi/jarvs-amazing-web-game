@@ -5708,6 +5708,42 @@
       "ty": 47,
       "tileId": "barrel",
       "zlayer": "solid"
+    },
+    {
+      "tx": 33,
+      "ty": 67,
+      "bundleID": "brazier",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 41,
+      "ty": 67,
+      "bundleID": "brazier",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 32,
+      "ty": 20,
+      "bundleID": "brazier",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 42,
+      "ty": 20,
+      "bundleID": "brazier",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 34,
+      "ty": 10,
+      "bundleID": "brazier",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 40,
+      "ty": 10,
+      "bundleID": "brazier",
+      "zlayer": "solid"
     }
   ],
   "pondTiles": [
@@ -7166,8 +7202,8 @@
           "zlayer": "below"
         },
         {
-          "tx": 2,
-          "ty": 6,
+          "tx": 1,
+          "ty": 7,
           "tileId": "pileOfSacks"
         },
         {
@@ -7191,6 +7227,14 @@
           "entryTy": 7,
           "direction": "up",
           "label": "Go upstairs"
+        },
+        {
+          "tx": 0,
+          "ty": 4,
+          "toInteriorId": "inn-kitchen",
+          "direction": "left",
+          "entryTx": 8,
+          "entryTy": 4
         }
       ],
       "hours": "always",
@@ -9700,6 +9744,121 @@
           "direction": "up"
         }
       ]
+    },
+    "inn-kitchen": {
+      "name": "Kitchen",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "cobblestoneFloor",
+      "decor": [
+        {
+          "tx": 0,
+          "ty": 1,
+          "tileId": "lightPotWithLid",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "lightPotWithLid",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "darkPotWithLid",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "barrel",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "barrel",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "stoneFireplaceBottomRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 1,
+          "tileId": "barrel",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "darkPotWithoutLid",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "tileId": "cauldren",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "cauldren",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "stoneFireplaceBottomLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "stoneFireplaceBottomMid",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 0,
+          "tileId": "stoneFireplaceMidLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 0,
+          "tileId": "stoneFireplaceMidMid",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 0,
+          "tileId": "stoneFireplaceMidRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": -1,
+          "tileId": "stoneFireplaceMidTop",
+          "zlayer": "solid"
+        }
+      ],
+      "wallTileId": "darkStone",
+      "exits": [
+        {
+          "tx": 9,
+          "ty": 4,
+          "toInteriorId": "inn-building",
+          "entryTx": 1,
+          "entryTy": 4,
+          "direction": "right"
+        }
+      ]
     }
   },
   "npcs": [
@@ -11158,7 +11317,7 @@
       "sprite": "hub-npc-merchant",
       "building": "inn-building",
       "tx": 3,
-      "ty": 3,
+      "ty": 4,
       "dialogue": [
         "Welcome to the Wanderer's Rest! A warm meal and a dry bed awaits.",
         "You look like you've seen better days, Commander. Rest up.",
@@ -11843,6 +12002,30 @@
         "crystals": 10
       },
       "buildingId": "gatehouse-west"
+    },
+    {
+      "id": "treasure-1786263969804",
+      "tx": 37,
+      "ty": 35,
+      "tileId": "chest",
+      "collectedTileId": "openChest",
+      "title": "New treasure",
+      "reward": {
+        "crystals": 10
+      },
+      "buildingId": "townhall"
+    },
+    {
+      "id": "treasure-1786264063346",
+      "tx": 27,
+      "ty": 26,
+      "tileId": "chest",
+      "collectedTileId": "openChest",
+      "title": "New treasure",
+      "reward": {
+        "crystals": 10
+      },
+      "buildingId": "inn-building"
     }
   ],
   "interactables": [

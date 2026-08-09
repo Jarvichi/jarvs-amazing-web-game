@@ -172,9 +172,9 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
     switch (pick.kind) {
       case 'npc':    updateNpc(pick.index, { tx, ty, building }); break
       case 'animal': updateAnimal(pick.index, { tx, ty, building }); break
-      case 'treasure': updateTreasure(pick.index, { tx, ty }); break
+      case 'treasure': updateTreasure(pick.index, { tx, ty, buildingId: building }); break
       case 'interactable':
-        updateConfig({ interactables: (cfg.interactables ?? []).map((it, i) => i === pick.index ? { ...it, tx, ty } : it) })
+        updateConfig({ interactables: (cfg.interactables ?? []).map((it, i) => i === pick.index ? { ...it, tx, ty, building } : it) })
         break
       case 'exitTile':
         updateConfig({ exitTiles: (cfg.exitTiles ?? []).map((e, i) => i === pick.index ? { ...e, tx, ty } : e) })
@@ -197,27 +197,43 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
     setPick(null)
   }, [pick, state.configData, state.viewMode, state.activeInteriorId, updateNpc, updateAnimal, updateTreasure, updateConfig])
 
-  // Create handlers — drop a new object at map centre, reveal its overlay, and select it.
+  // Create handlers — drop a new object at map centre (or, if an interior is
+  // currently open, at that interior's centre and pre-homed to it), reveal
+  // its overlay, and select it.
   const centreTile = useCallback(() => ({
     tx: Math.floor(state.configData.mapW / 32 / 2),
     ty: Math.floor(state.configData.mapH / 32 / 2),
   }), [state.configData.mapW, state.configData.mapH])
 
+  const activeInterior = state.viewMode === 'interior' && state.activeInteriorId
+    ? state.configData.interiors?.[state.activeInteriorId]
+    : undefined
+
   const handleAddTreasure = useCallback(() => {
-    const { tx, ty } = centreTile()
+    const { tx, ty } = activeInterior
+      ? { tx: Math.floor(activeInterior.width / 2), ty: Math.floor(activeInterior.height / 2) }
+      : centreTile()
     const list = state.configData.treasures ?? []
-    updateConfig({ treasures: [...list, { id: `treasure-${Date.now()}`, tx, ty, tileId: 'chest', collectedTileId: 'openChest', title: 'New treasure', reward: { crystals: 10 } }] })
+    updateConfig({ treasures: [...list, {
+      id: `treasure-${Date.now()}`, tx, ty, tileId: 'chest', collectedTileId: 'openChest', title: 'New treasure', reward: { crystals: 10 },
+      ...(state.activeInteriorId && activeInterior ? { buildingId: state.activeInteriorId } : {}),
+    }] })
     setShowQuestItems(true)
     selectEntities([{ type: 'treasure', index: list.length }])
-  }, [centreTile, state.configData.treasures, updateConfig, selectEntities])
+  }, [activeInterior, centreTile, state.configData.treasures, state.activeInteriorId, updateConfig, selectEntities])
 
   const handleAddInteractable = useCallback(() => {
-    const { tx, ty } = centreTile()
+    const { tx, ty } = activeInterior
+      ? { tx: Math.floor(activeInterior.width / 2), ty: Math.floor(activeInterior.height / 2) }
+      : centreTile()
     const list = state.configData.interactables ?? []
-    updateConfig({ interactables: [...list, { id: `interactable-${Date.now()}`, tx, ty, reactions: [{ type: 'screen', screen: '' }] }] })
+    updateConfig({ interactables: [...list, {
+      id: `interactable-${Date.now()}`, tx, ty, reactions: [{ type: 'screen', screen: '' }],
+      ...(state.activeInteriorId && activeInterior ? { building: state.activeInteriorId } : {}),
+    }] })
     setShowInteractables(true)
     selectEntities([{ type: 'interactable', index: list.length }])
-  }, [centreTile, state.configData.interactables, updateConfig, selectEntities])
+  }, [activeInterior, centreTile, state.configData.interactables, state.activeInteriorId, updateConfig, selectEntities])
 
   const handleConvertDecorToInteractable = useCallback((entity: SelectedEntity) => {
     if (entity.type !== 'exteriorDecor') return

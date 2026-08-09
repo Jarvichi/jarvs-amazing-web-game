@@ -1494,6 +1494,7 @@ function InteriorInspector({
   onCloseInterior, onOpenInterior, onResizeInterior,
   onAddInteriorExit, onUpdateInteriorProps, onUpdateInteriorExit, onRemoveInteriorExit,
   onMoveEntity, onZlayerChange, onDelete, onReorderInteriorDecor, onUpdateDecorTileId,
+  onAddTreasure, onAddInteractable,
 }: {
   interiorId: string
   interior: RawInterior | undefined
@@ -1519,6 +1520,8 @@ function InteriorInspector({
   onDelete: (entity: SelectedEntity) => void
   onReorderInteriorDecor?: (entity: SelectedEntity, direction: ReorderDirection) => void
   onUpdateDecorTileId?: (entity: SelectedEntity, tileId: string) => void
+  onAddTreasure?: () => void
+  onAddInteractable?: () => void
 }) {
   const [showExitForm, setShowExitForm] = useState(false)
   const [exitTx, setExitTx]           = useState(0)
@@ -1586,6 +1589,19 @@ function InteriorInspector({
                 style={inputFull}
               />
             </Field>
+            {(onAddTreasure || onAddInteractable) && (
+              <Field label="Create object">
+                <div style={{ display: 'flex', gap: 4 }}>
+                  {onAddTreasure && (
+                    <button style={{ ...btnSm, flex: 1, background: '#1e2e1e', borderColor: '#3a5a3a', color: '#6d6' }} onClick={onAddTreasure}>+ Treasure</button>
+                  )}
+                  {onAddInteractable && (
+                    <button style={{ ...btnSm, flex: 1, background: '#1e2e1e', borderColor: '#3a5a3a', color: '#6d6' }} onClick={onAddInteractable}>+ Interactable</button>
+                  )}
+                </div>
+                <div style={{ color: '#666', fontSize: 10, marginTop: 2 }}>Drops at room centre, homed to this interior.</div>
+              </Field>
+            )}
             {/* Size + resize buttons */}
             <Field label="Size">
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}>
@@ -3139,6 +3155,8 @@ export function EntityInspector({
         onDelete={onDelete}
         onReorderInteriorDecor={onReorderDecor}
         onUpdateDecorTileId={onUpdateDecorTileId}
+        onAddTreasure={onAddTreasure}
+        onAddInteractable={onAddInteractable}
       />
     )
   }
