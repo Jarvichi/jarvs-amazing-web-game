@@ -9,7 +9,9 @@ import type { WeeklyRewardResult } from '../game/weeklyChallenge'
 import type { RewardDef } from '../game/dailyLogin'
 import type { GiftDef } from '../game/gifts'
 import type { SyncPrompt } from '../hooks/useCloudSync'
-import type { Screen } from './screens'
+import type { HubWorldData } from '../data/hub/hubWorldFactory'
+import type { WorldNodeDef } from '../data/world/worldMapDef'
+import type { Screen, SubScreen } from './screens'
 
 /** Relic spin overlay payload — the spin screen owns its own continue action. */
 export interface RelicSpinData {
@@ -106,6 +108,26 @@ export interface AppContextValue {
   updateDismissed:     boolean
   setUpdateDismissed:  Dispatch<SetStateAction<boolean>>
   updateServiceWorker: (reloadPage?: boolean) => Promise<void>
+
+  // ── Hub world ─────────────────────────────────────────────────────────────
+  hubData:               HubWorldData | null
+  currentLocationKey:    string
+  worldMapKey:           number
+  restrictedTownNodeIds: Set<string>
+  miniGamesEntry:        'menu' | 'citybuilder'
+  setMiniGamesEntry:     Dispatch<SetStateAction<'menu' | 'citybuilder'>>
+  hubMiniGameEntry:      SubScreen
+  setHubMiniGameEntry:   Dispatch<SetStateAction<SubScreen>>
+  setShopBuildingId:     Dispatch<SetStateAction<string | undefined>>
+  setShopTappedNpc:      Dispatch<SetStateAction<{ name: string; dialogue?: string[]; sprite?: string } | undefined>>
+  setShowTitleLoginModal: Dispatch<SetStateAction<boolean>>
+  setFeedbackOpen:       Dispatch<SetStateAction<boolean>>
+  setActiveNarratorLog:  Dispatch<SetStateAction<string | null>>
+  goToWorldLocation:     (id: string) => void
+  handleWorldBattle:     (worldNode: WorldNodeDef) => void
+  handleCampaign:        () => void
+  handleCampaign2:       () => void
+  handleEndless:         () => void
 
   // ── Collection / shop ─────────────────────────────────────────────────────
   setCommander:    Dispatch<SetStateAction<CommanderState | null>>

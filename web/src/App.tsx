@@ -1,12 +1,11 @@
 import { useState, useCallback, useEffect, useRef, useMemo, useReducer, Suspense } from 'react'
 import { CardRestSelect, CampScreen, EventScreen, MysteryScreen, MemoryFragmentScreen, CharacterEncounterScreen,
   NarratorJournalScreen, CharacterScreen, CutsceneScreen, BossDialogueScreen, Battlefield, GameOver,
-  QuickBattleScreen, CardDraftScreen, HubWorld, HubWorldMap,
-  CasinoScreen, TheatreScreen, PostBattleReward, ActComplete, RelicSelectScreen, ReplayBriefingScreen,
+  QuickBattleScreen, CardDraftScreen, PostBattleReward, ActComplete, RelicSelectScreen, ReplayBriefingScreen,
   StarterPackSelect, FakeCrashEvent, BlackjackEvent, WrongNumberEvent, NarratorEvent, LiarsDiceEvent, GamblerEvent,
   DevBuildEvent, GlitchedCardEvent, ConfusedTouristEvent, WeeklyChallengeScreen, BossEpilogueScreen, CommanderScreen, TrainingScreen, FingerSmash, BossShockwave, BattleSummary,
   VictoryPanel, CampaignVictoryScreen, ToBeContinuedScreen, CampaignFailedScreen,
-  StatUpgradeScreen, DailyChallengeScreen, MiniGamesMenu, Fishing
+  StatUpgradeScreen, DailyChallengeScreen
 } from './app/lazyScreens'
 import { ScreenLoadingFallback } from './components/ScreenLoadingFallback'
 import { resolvedNodeOpts, loadHandicap, HANDICAP_KEY, buildQuickBattleOpts, loadCurrentDeckInfo, carryHpAfterBattle, applyRestHeal, applyEventHeal } from './game/campaignHelpers'
@@ -23,6 +22,7 @@ import { AppProvider, type AppContextValue } from './app/AppContext'
 import { AppOverlays } from './app/AppOverlays'
 import { AdminRoutes } from './app/routes/AdminRoutes'
 import { CollectionRoutes } from './app/routes/CollectionRoutes'
+import { HubRoutes } from './app/routes/HubRoutes'
 import { BattleProvider, type BattleContextValue } from './app/BattleContext'
 import { GameState, Card, Archetype, SECRET_RARITIES } from './game/types'
 import { newGame, MAX_HANDICAP } from './game/engine'
@@ -94,12 +94,11 @@ import { saveBattleState, loadBattleState, clearBattleState } from './game/battl
 import { loadCommander, CommanderState } from './game/commander'
 
 import { WORLD_MAP_NODES, type WorldNodeDef } from './data/world/worldMapDef'
-import { setCurrentWorldLocation, getCurrentWorldLocation, markNodeCleared, isNodeCleared } from './game/world/worldState'
+import { setCurrentWorldLocation, getCurrentWorldLocation, markNodeCleared } from './game/world/worldState'
 import {
   incrementAchievementProgress, setAchievementProgress, AchievementDef,
 } from './game/achievements'
 import type { SubScreen } from './components/screens/MiniGamesMenu'
-import { OverlayScreen } from './components/ui/OverlayScreen'
 import './styles.css'
 import { publishSecretRareWin, type SecretRarityType } from './game/secretRareNews'
 import rollbar, { updateRollbarPerson } from './rollbar'
@@ -2599,6 +2598,11 @@ export default function App() {
     chronicleCompletes, setChronicleCompletes,
     weeklyReward, setWeeklyReward,
     dailyReward, setDailyReward,
+    hubData, currentLocationKey, worldMapKey, restrictedTownNodeIds,
+    miniGamesEntry, setMiniGamesEntry, hubMiniGameEntry, setHubMiniGameEntry,
+    setShopBuildingId, setShopTappedNpc, setShowTitleLoginModal, setFeedbackOpen,
+    setActiveNarratorLog, goToWorldLocation, handleWorldBattle,
+    handleCampaign, handleCampaign2, handleEndless,
     setCommander, packs, shopBuildingId, shopTappedNpc,
     handleCrystalsChanged, handleBuyCrystalPack, handlePackDone,
     setNewsUnreadCount, previewAsPlayer, setPreviewAsPlayer,
@@ -2615,6 +2619,9 @@ export default function App() {
     setPendingGifts, setDailyReward, setNewsUnreadCount, previewAsPlayer,
     packs, shopBuildingId, shopTappedNpc, handleCrystalsChanged,
     handleBuyCrystalPack, handlePackDone,
+    hubData, currentLocationKey, worldMapKey, restrictedTownNodeIds,
+    miniGamesEntry, hubMiniGameEntry, goToWorldLocation, handleWorldBattle,
+    handleCampaign, handleCampaign2, handleEndless, setCommander,
   ])
 
   const battleContextValue = useMemo<BattleContextValue>(
@@ -2703,82 +2710,7 @@ export default function App() {
       )}
 
 
-      {(screen === 'hubworld' || screen === 'location') && hubData && (
-        <HubWorld
-          onBack={() => setScreen('settings')}
-          onNavigate={(s, buildingId, npc) => {
-            setReturnScreen('hubworld')
-            setShopBuildingId(buildingId)
-            setShopTappedNpc(npc)
-            const HUB_MINIGAME_IDS: SubScreen[] = ['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'regatta', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence', 'citybuilder', 'prizes']
-            if (HUB_MINIGAME_IDS.includes(s as SubScreen)) {
-              setHubMiniGameEntry(s as SubScreen)
-              setScreen('hub-minigame')
-            } else {
-              setScreen(s as Screen)
-            }
-          }}
-          onCampaign={() => { setReturnScreen('hubworld'); handleCampaign() }}
-          onCampaign2={() => { setReturnScreen('hubworld'); handleCampaign2() }}
-          onEndless={() => { setReturnScreen('hubworld'); handleEndless() }}
-          onWorldMap={() => setScreen('worldmap')}
-          onNavigateTown={goToWorldLocation}
-          onNarratorLog={(characterId) => { setReturnScreen('hubworld'); setActiveNarratorLog(characterId); setScreen('narratorJournal') }}
-          onPlayerTap={() => { setReturnScreen('hubworld'); setScreen('player') }}
-          crystals={crystals}
-          user={user}
-          commander={commander ?? undefined}
-
-          locationData={hubData.locationRegistry[currentLocationKey].locationData}
-          locationQuests={hubData.locationRegistry[currentLocationKey].locationQuests}
-          questDefs={hubData.locationRegistry[currentLocationKey].questDefs}
-          allQuestDefs={hubData.allQuestDefs}
-          locationRegistry={hubData.locationRegistry}
-          allQuests={hubData.allQuests}
-          friendshipDialogue={hubData.friendshipDialogue}
-          relationshipDialogue={hubData.relationshipDialogue}
-
-          isSignedIn={user != null && !user.isAnonymous}
-          onSignIn={() => setShowTitleLoginModal(true)}
-          onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
-          onFeedback={() => setFeedbackOpen(true)}
-          onCrystalsChange={(n) => setCrystals(n)}
-          onBuyCrystalPack={(qty) => handleBuyCrystalPack(qty, 'hubworld')}
-        />
-      )}
-
-      {screen === 'casino' && (
-        <CasinoScreen
-          crystals={crystals}
-          onCrystalsChange={(n) => { saveCrystals(n); setCrystals(n) }}
-          onBack={() => setScreen('hubworld')}
-        />
-      )}
-
-      {screen === 'worldmap' && hubData && (
-        <HubWorldMap
-          key={worldMapKey}
-          onSelectNode={(node) => {
-            if (node.id === 'ravenwatch' || (node.locationKey && hubData.locationRegistry[node.locationKey])) {
-              goToWorldLocation(node.id === 'ravenwatch' ? node.id : node.locationKey!)
-            } else if (node.type === 'battle') {
-              if (!isNodeCleared(node.id)) {
-                handleWorldBattle(node)
-              }
-            }
-          }}
-          onBack={() => setScreen('hubworld')}
-          user={user}
-          onSignIn={() => setShowTitleLoginModal(true)}
-          onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
-          onPlayerTap={() => { setReturnScreen('hubworld'); setScreen('player') }}
-          onFeedback={() => setFeedbackOpen(true)}
-          restrictedNodeIds={restrictedTownNodeIds}
-          previewingAsPlayer={isAdmin && previewAsPlayer}
-          allQuestDefs={hubData.allQuestDefs}
-        />
-      )}
-
+      <HubRoutes />
       <AdminRoutes />
       <CollectionRoutes />
 
@@ -3071,44 +3003,6 @@ export default function App() {
           onBack={() => setScreen('title')}
           onStart={handleStartTraining}
         />
-      )}
-
-      {screen === 'minigames' && (
-        <MiniGamesMenu
-          crystals={crystals}
-          onCrystalsChange={(n) => { saveCrystals(n); setCrystals(n) }}
-          user={user}
-          characterName={loadPlayerName()}
-          onBack={() => { setMiniGamesEntry('menu'); setScreen(returnScreen) }}
-          initialSubScreen={miniGamesEntry}
-        />
-      )}
-
-      {screen === 'hub-minigame' && (
-        <MiniGamesMenu
-          crystals={crystals}
-          onCrystalsChange={(n) => { saveCrystals(n); setCrystals(n) }}
-          user={user}
-          characterName={loadPlayerName()}
-          onBack={() => setScreen('hubworld')}
-          onGameDone={() => setScreen('hubworld')}
-          initialSubScreen={hubMiniGameEntry}
-        />
-      )}
-
-      {/* Hub-world fishing: item-gated (rod + bait, checked in HubWorld's
-          handleNodeInteract) and rewards the caught fish as a hub-item
-          instead of arcade tickets — see docs/hubworld.md. */}
-      {screen === 'hub-fishing' && (
-        <OverlayScreen title="🎣 FISHING" onBack={() => setScreen('hubworld')}>
-          <Fishing rewardMode="catch" onDone={() => setScreen('hubworld')} />
-        </OverlayScreen>
-      )}
-
-      {screen === 'theatre' && (
-        <OverlayScreen title="🎭 CROWN THEATRE" onBack={() => setScreen('hubworld')}>
-          <TheatreScreen onBack={() => setScreen('hubworld')} />
-        </OverlayScreen>
       )}
 
       {screen === 'playing' && gameState && (() => {
