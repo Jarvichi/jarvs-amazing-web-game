@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef, useMemo, useReducer, Suspense } from 'react'
 import { ScreenLoadingFallback } from './components/ScreenLoadingFallback'
-import { resolvedNodeOpts, loadHandicap, HANDICAP_KEY, buildQuickBattleOpts, loadCurrentDeckInfo, carryHpAfterBattle, applyRestHeal, applyEventHeal } from './game/campaignHelpers'
+import { resolvedNodeOpts, loadHandicap, carryHpAfterBattle, applyRestHeal, applyEventHeal } from './game/campaignHelpers'
 import { usePlaytime } from './hooks/usePlaytime'
 import { recordScreen } from './utils/crashSentinel'
 import { useStartupData } from './hooks/useStartupData'
@@ -19,12 +19,12 @@ import { EntryRoutes } from './app/routes/EntryRoutes'
 import { BattleRoutes } from './app/routes/BattleRoutes'
 import { useShopFlow } from './app/useShopFlow'
 import { useBattleControls } from './app/useBattleControls'
+import { useQuickBattleFlow } from './app/useQuickBattleFlow'
 import { CampaignRoutes } from './app/routes/CampaignRoutes'
 import { BattleProvider, type BattleContextValue } from './app/BattleContext'
-import { GameState, Card, SECRET_RARITIES } from './game/types'
-import { newGame, MAX_HANDICAP } from './game/engine'
+import { GameState } from './game/types'
+import { newGame } from './game/engine'
 import { syncPlayerCommanderToBase } from './game/engine/helpers'
-import { makeNodeDeck } from './game/cards'
 import { battleReducer, INITIAL_BATTLE_STATE, TICK_MS } from './game/battleReducer'
 import {
   loadDeck, saveDeck, buildDeckCards, generatePack,
@@ -32,7 +32,7 @@ import {
   addCardsToCollection,
   getOwnedCount, DECK_MAX, DeckEntry,
   deckTotalCards, STARTER_DECK,
-  loadWinStreak, loadBestStreak, incrementWinStreak, resetWinStreak, incrementTotalWins,
+  incrementWinStreak, incrementTotalWins,
 } from './game/collection'
 import { getCardCatalog } from './game/cards'
 import {
@@ -64,8 +64,8 @@ import { addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } fr
 import { GIFT_OWNER_UID } from './game/gifts'
 import { isTownAccessible } from './game/townAccess'
 import { loadDeckSlot } from './game/collection'
-import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, getDailyTerrainSeed, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
-import { getWeeklyPlayerDeck, getWeeklyOpponentDeck, getWeeklyChallengeState, getWeeklyTerrainSeed, saveWeeklyChallengeResult, grantWeeklyReward, publishWeeklyResult, WeeklyRewardResult } from './game/weeklyChallenge'
+import { getDailyChallengeState, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
+import { getWeeklyChallengeState, saveWeeklyChallengeResult, grantWeeklyReward, publishWeeklyResult, WeeklyRewardResult } from './game/weeklyChallenge'
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic, rollExoticDrop } from './game/relics'
 import { recordQuestWin, recordQuestBossDefeat, QuestChainDef } from './game/quests'
 import { recordChronicleWin, ChronicleChapterDef } from './game/chronicle'
@@ -684,242 +684,20 @@ export default function App() {
 
   // ── Free play ────────────────────────────────────────────
 
-  const launchQuickBattle = useCallback((mode: QuickBattleMode) => {
-    isCampaignRef.current = false
-    isDailyChallengeRef.current = false
-    isWeeklyChallengeRef.current = false
-    quickBattleModeRef.current = mode
-    battleFlawlessRef.current = true
-    battleUsedStructure.current = false
-    battleUsedMobileUnit.current = false
-    prevOpponentUnitsRef.current = new Map()
-    prevPlayerUnitsRef.current = new Map()
-    const { opts, playerCards } = buildQuickBattleOpts(mode, handicap)
-    battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
-    startBattle(newGame(opts))
-    rollRareEvent()
-  }, [handicap])
-
-  const handlePlay = useCallback((mode: QuickBattleMode) => {
-    if (loadDeckSlot('b').length > 0) {
-      setPendingBattleIsCampaign(false)
-      setPendingBattleFn(() => () => launchQuickBattle(mode))
-    } else {
-      launchQuickBattle(mode)
-    }
-  }, [launchQuickBattle])
-
-  const handleDraftComplete = useCallback((pickedCardNames: string[]) => {
-    isCampaignRef.current = false
-    isDailyChallengeRef.current = false
-    isWeeklyChallengeRef.current = false
-    isDraftModeRef.current = true
-    quickBattleModeRef.current = 'draft'
-    setQuickPlayRewardClaimed(false)
-    battleFlawlessRef.current = true
-    battleUsedStructure.current = false
-    battleUsedMobileUnit.current = false
-    prevOpponentUnitsRef.current = new Map()
-    prevPlayerUnitsRef.current = new Map()
-    const draftedCards = makeNodeDeck(pickedCardNames.flatMap(name => [name, name, name]))
-    const opponentCardPool = getCardCatalog().filter(c => !SECRET_RARITIES.has(c.rarity))
-    battleAllLegendaryRef.current = draftedCards.length > 0 && draftedCards.every(c => c.rarity === 'legendary')
-    startBattle(newGame({ playerCards: draftedCards, opponentHandicap: handicap, opponentCardPool }))
-    rollRareEvent()
-  }, [handicap])
-
-  const launchEndless = useCallback(() => {
-    clearBattleState()
-    isCampaignRef.current = false
-    isDailyChallengeRef.current = false
-    isWeeklyChallengeRef.current = false
-    battleFlawlessRef.current = true
-    battleUsedStructure.current = false
-    battleUsedMobileUnit.current = false
-    prevOpponentUnitsRef.current = new Map()
-    prevPlayerUnitsRef.current = new Map()
-    const { playerCards, deckBonus } = loadCurrentDeckInfo()
-    battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
-    startBattle(newGame({ playerCards, opponentHandicap: Math.min(MAX_HANDICAP, handicap + deckBonus), endlessMode: true }))
-    rollRareEvent()
-  }, [handicap])
-
-  const handleEndless = useCallback(() => {
-    if (loadDeckSlot('b').length > 0) {
-      setPendingBattleIsCampaign(false)
-      setPendingBattleFn(() => launchEndless)
-    } else {
-      launchEndless()
-    }
-  }, [launchEndless])
-
-  const handleDailyChallenge = useCallback(() => {
-    setScreen('dailychallenge')
-  }, [])
-
-  const handleEndlessLeaderboard = useCallback(() => {
-    setScreen('endlessleaderboard')
-  }, [])
-
-  const handleStartDailyChallenge = useCallback(() => {
-    isCampaignRef.current       = false
-    isDailyChallengeRef.current = true
-    isWeeklyChallengeRef.current = false
-    battleFlawlessRef.current   = true
-    battleUsedStructure.current = false
-    battleUsedMobileUnit.current = false
-
-    prevOpponentUnitsRef.current = new Map()
-    prevPlayerUnitsRef.current   = new Map()
-    const playerCards   = getDailyPlayerDeck()
-    const opponentCards = getDailyOpponentDeck()
-    battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
-    // Debatable as to whether the reducer state here should be called "START_DAILY_CHALLENGE" instead of "START"
-    startBattle(newGame({
-      prebuiltPlayerDeck:   playerCards,
-      prebuiltOpponentDeck: opponentCards,
-      opponentHandicap: 0,
-      quickStart: true,
-      isDailyChallenge: true,
-      terrainSeed: getDailyTerrainSeed(),
-    }))
-    rollRareEvent()
-  }, [])
-
-  const handleDailyChallengeRetry = useCallback(() => {
-    isCampaignRef.current        = false
-    isDailyChallengeRef.current  = true
-    isWeeklyChallengeRef.current = false
-    battleFlawlessRef.current    = true
-    battleUsedStructure.current  = false
-    battleUsedMobileUnit.current = false
-
-    prevOpponentUnitsRef.current = new Map()
-    prevPlayerUnitsRef.current   = new Map()
-    const playerCards   = getDailyPlayerDeck()
-    const opponentCards = getDailyOpponentDeck()
-    battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
-    // Debatable as to whether the reducer state here should be called "START_DAILY_CHALLENGE" instead of "START"
-    startBattle(newGame({
-      prebuiltPlayerDeck:   playerCards,
-      prebuiltOpponentDeck: opponentCards,
-      opponentHandicap: 0,
-      quickStart: true,
-      isDailyChallenge: true,
-      terrainSeed: getDailyTerrainSeed(),
-    }))
-    rollRareEvent()
-  }, [])
-
-  const handleWeeklyChallenge = useCallback(() => {
-    setScreen('weeklychallenge')
-  }, [])
-
-  // Start and retry are identical: the weekly decks are fixed for the week.
-  const handleStartWeeklyChallenge = useCallback(() => {
-    isCampaignRef.current        = false
-    isDailyChallengeRef.current  = false
-    isWeeklyChallengeRef.current = true
-    battleFlawlessRef.current    = true
-    battleUsedStructure.current  = false
-    battleUsedMobileUnit.current = false
-
-    prevOpponentUnitsRef.current = new Map()
-    prevPlayerUnitsRef.current   = new Map()
-    const playerCards   = getWeeklyPlayerDeck()
-    const opponentCards = getWeeklyOpponentDeck()
-    battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
-    startBattle(newGame({
-      prebuiltPlayerDeck:   playerCards,
-      prebuiltOpponentDeck: opponentCards,
-      opponentHandicap: 0,
-      quickStart: true,
-      isDailyChallenge: true,  // same mana-floor rule: the player can't edit this deck
-      terrainSeed: getWeeklyTerrainSeed(),
-    }))
-    rollRareEvent()
-  }, [])
-
-  function handleStreakReset() {
-    const current = loadWinStreak()
-    if (current > 0) setStreakBrokenData({ streak: current, bestStreak: loadBestStreak() })
-    resetWinStreak()
-  }
-
-  const handlePlayAgain = useCallback(() => {
-    if (!gameState || gameState.phase.type !== 'gameOver') return
-    // World battle: mark node cleared and return to world map
-    if (worldBattleNodeIdRef.current !== null) {
-      const nodeId = worldBattleNodeIdRef.current
-      worldBattleNodeIdRef.current = null
-      if (gameState.phase.winner === 'player') markNodeCleared(nodeId)
-      clearBattleState()
-      dispatch({ type: 'END' })
-      setWorldMapKey(k => k + 1)
-      setScreen('worldmap')
-      return
-    }
-    // Training mode: send back to training setup screen
-    if (isTrainingModeRef.current) {
-      isTrainingModeRef.current = false
-      dispatch({ type: 'END' })
-      setScreen('training')
-      return
-    }
-    // Card Draft: send back to the draft screen for a fresh draft (no persisted deck to replay)
-    if (isDraftModeRef.current) {
-      isDraftModeRef.current = false
-      dispatch({ type: 'END' })
-      setScreen('carddraft')
-      return
-    }
-    isCampaignRef.current       = false
-    isDailyChallengeRef.current = false
-    isWeeklyChallengeRef.current = false
-    setQuickPlayRewardClaimed(false)
-    battleFlawlessRef.current = true
-    battleUsedStructure.current = false
-    battleUsedMobileUnit.current = false
-
-    prevOpponentUnitsRef.current = new Map()
-    prevPlayerUnitsRef.current = new Map()
-    const winner = gameState.phase.winner
-    const nextHandicap = winner === 'player'
-      ? Math.max(0, handicap - 1)
-      : winner === 'opponent'
-        ? Math.min(MAX_HANDICAP, handicap + 1)
-        : handicap
-    try { localStorage.setItem(HANDICAP_KEY, String(nextHandicap)) } catch { /* ignore */ }
-    setHandicap(nextHandicap)
-    if (gameState.endlessMode) {
-      const { playerCards, deckBonus } = loadCurrentDeckInfo()
-      battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
-      startBattle(newGame({ playerCards, opponentHandicap: Math.min(MAX_HANDICAP, nextHandicap + deckBonus), endlessMode: true }))
-    } else {
-      const { opts, playerCards } = buildQuickBattleOpts(quickBattleModeRef.current, nextHandicap)
-      battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
-      startBattle(newGame(opts))
-    }
-    rollRareEvent()
-  }, [gameState, handicap])
-
-  // ── Training Mode ────────────────────────────────────────
-
-  const handleStartTraining = useCallback((enemyUnitName: string, playerCards: Card[]) => {
-    isCampaignRef.current       = false
-    isDailyChallengeRef.current = false
-    isWeeklyChallengeRef.current = false
-    isTrainingModeRef.current   = true
-    battleFlawlessRef.current   = false
-    battleUsedStructure.current = false
-    battleUsedMobileUnit.current = false
-
-    prevOpponentUnitsRef.current = new Map()
-    prevPlayerUnitsRef.current   = new Map()
-    // Build a 30-card opponent deck of just the chosen unit
-    const opponentDeck = makeNodeDeck(Array.from({ length: 30 }, () => enemyUnitName))
-    startBattle(newGame({ playerCards, prebuiltOpponentDeck: opponentDeck, opponentHandicap: 0, quickStart: true }))
-  }, [])
+  const {
+    handlePlay, handleDraftComplete, handleEndless,
+    handleDailyChallenge, handleWeeklyChallenge, handleEndlessLeaderboard,
+    handleStartDailyChallenge, handleDailyChallengeRetry, handleStartWeeklyChallenge,
+    handleStreakReset, handlePlayAgain, handleStartTraining,
+  } = useQuickBattleFlow({
+    gameState, handicap, setHandicap, setScreen, dispatch, startBattle, rollRareEvent,
+    setWorldMapKey, setStreakBrokenData, setPendingBattleFn, setPendingBattleIsCampaign,
+    setQuickPlayRewardClaimed,
+    isCampaignRef, isDailyChallengeRef, isWeeklyChallengeRef, isTrainingModeRef,
+    isDraftModeRef, quickBattleModeRef, worldBattleNodeIdRef,
+    battleFlawlessRef, battleAllLegendaryRef, battleUsedStructure, battleUsedMobileUnit,
+    prevPlayerUnitsRef, prevOpponentUnitsRef,
+  })
 
   // ── Campaign ─────────────────────────────────────────────
 
