@@ -107,6 +107,15 @@ export interface AppContextValue {
   setUpdateDismissed:  Dispatch<SetStateAction<boolean>>
   updateServiceWorker: (reloadPage?: boolean) => Promise<void>
 
+  // ── Collection / shop ─────────────────────────────────────────────────────
+  setCommander:    Dispatch<SetStateAction<CommanderState | null>>
+  packs:           string[][]
+  shopBuildingId:  string | undefined
+  shopTappedNpc:   { name: string; dialogue?: string[]; sprite?: string } | undefined
+  handleCrystalsChanged: (n: number) => void
+  handleBuyCrystalPack:  (qty?: number, returnScreen?: Screen) => void
+  handlePackDone:        () => void
+
   // ── Admin / news ──────────────────────────────────────────────────────────
   setNewsUnreadCount: Dispatch<SetStateAction<number>>
   previewAsPlayer:    boolean

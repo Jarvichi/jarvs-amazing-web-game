@@ -1,14 +1,12 @@
 import { useState, useCallback, useEffect, useRef, useMemo, useReducer, Suspense } from 'react'
 import { CardRestSelect, CampScreen, EventScreen, MysteryScreen, MemoryFragmentScreen, CharacterEncounterScreen,
   NarratorJournalScreen, CharacterScreen, CutsceneScreen, BossDialogueScreen, Battlefield, GameOver,
-  QuickBattleScreen, CardDraftScreen, CollectionScreen, DeckBuilder, PackOpening, HubWorld, HubWorldMap,
+  QuickBattleScreen, CardDraftScreen, HubWorld, HubWorldMap,
   CasinoScreen, TheatreScreen, PostBattleReward, ActComplete, RelicSelectScreen, ReplayBriefingScreen,
   StarterPackSelect, FakeCrashEvent, BlackjackEvent, WrongNumberEvent, NarratorEvent, LiarsDiceEvent, GamblerEvent,
-  DevBuildEvent, GlitchedCardEvent, ConfusedTouristEvent, InventoryScreen, WeeklyChallengeScreen, ChronicleScreen, BossEpilogueScreen, CommanderScreen, TrainingScreen, AchievementsScreen,
-  HallOfAchievements, HomeShelf, HeroCardsScreen, FingerSmash, BossShockwave, ShopScreen, BattleSummary,
+  DevBuildEvent, GlitchedCardEvent, ConfusedTouristEvent, WeeklyChallengeScreen, BossEpilogueScreen, CommanderScreen, TrainingScreen, FingerSmash, BossShockwave, BattleSummary,
   VictoryPanel, CampaignVictoryScreen, ToBeContinuedScreen, CampaignFailedScreen,
-  StatUpgradeScreen, PlayerStatsScreen, CodexScreen, DailyChallengeScreen, EndlessLeaderboardScreen,
-  MiniGamesMenu, Fishing, AugmentCollectionScreen, PlayerScreen, CollectionTabScreen
+  StatUpgradeScreen, DailyChallengeScreen, MiniGamesMenu, Fishing
 } from './app/lazyScreens'
 import { ScreenLoadingFallback } from './components/ScreenLoadingFallback'
 import { resolvedNodeOpts, loadHandicap, HANDICAP_KEY, buildQuickBattleOpts, loadCurrentDeckInfo, carryHpAfterBattle, applyRestHeal, applyEventHeal } from './game/campaignHelpers'
@@ -24,6 +22,7 @@ import { useBattleTelemetry } from './hooks/useBattleTelemetry'
 import { AppProvider, type AppContextValue } from './app/AppContext'
 import { AppOverlays } from './app/AppOverlays'
 import { AdminRoutes } from './app/routes/AdminRoutes'
+import { CollectionRoutes } from './app/routes/CollectionRoutes'
 import { BattleProvider, type BattleContextValue } from './app/BattleContext'
 import { GameState, Card, Archetype, SECRET_RARITIES } from './game/types'
 import { newGame, MAX_HANDICAP } from './game/engine'
@@ -92,7 +91,7 @@ import { useAchievements } from './hooks/useAchievements'
 import { isNoDamageMode } from './game/debug'
 import { isAdminUser } from './game/admin'
 import { saveBattleState, loadBattleState, clearBattleState } from './game/battleState'
-import { loadCommander, promoteCommander, CommanderState } from './game/commander'
+import { loadCommander, CommanderState } from './game/commander'
 
 import { WORLD_MAP_NODES, type WorldNodeDef } from './data/world/worldMapDef'
 import { setCurrentWorldLocation, getCurrentWorldLocation, markNodeCleared, isNodeCleared } from './game/world/worldState'
@@ -2600,6 +2599,8 @@ export default function App() {
     chronicleCompletes, setChronicleCompletes,
     weeklyReward, setWeeklyReward,
     dailyReward, setDailyReward,
+    setCommander, packs, shopBuildingId, shopTappedNpc,
+    handleCrystalsChanged, handleBuyCrystalPack, handlePackDone,
     setNewsUnreadCount, previewAsPlayer, setPreviewAsPlayer,
     handleSelectNode, launchCampaign,
   }), [
@@ -2612,6 +2613,8 @@ export default function App() {
     pendingBattleFn, pendingBattleIsCampaign, exoticDrop, questCompletes,
     chronicleCompletes, weeklyReward, dailyReward, handleSelectNode, launchCampaign,
     setPendingGifts, setDailyReward, setNewsUnreadCount, previewAsPlayer,
+    packs, shopBuildingId, shopTappedNpc, handleCrystalsChanged,
+    handleBuyCrystalPack, handlePackDone,
   ])
 
   const battleContextValue = useMemo<BattleContextValue>(
@@ -2777,6 +2780,7 @@ export default function App() {
       )}
 
       <AdminRoutes />
+      <CollectionRoutes />
 
       {screen === 'nodemap' && run && actData && (
         <NodeMap
@@ -2983,142 +2987,6 @@ export default function App() {
         />
       )}
 
-      {screen === 'player' && (
-        <PlayerScreen
-          crystals={crystals}
-          onCrystalsChanged={handleCrystalsChanged}
-          onBack={() => setScreen(returnScreen)}
-          onSignOut={user && !user.isAnonymous ? () => { import('firebase/auth').then(({ signOut }) => signOut(auth)) } : undefined}
-        />
-      )}
-
-      {screen === 'collection-tabs' && (
-        <CollectionTabScreen
-          crystals={crystals}
-          onCrystalsChanged={handleCrystalsChanged}
-          onBack={() => setScreen(returnScreen)}
-          commanderName={commander?.cardName ?? null}
-          onPromoteCommander={(cardName) => {
-            const ok = promoteCommander(cardName)
-            if (ok) {
-              setCommander(loadCommander())
-              setScreen('commander')
-            }
-          }}
-        />
-      )}
-
-      {screen === 'collection' && (
-        <CollectionScreen
-          crystals={crystals}
-          onCrystalsChanged={handleCrystalsChanged}
-          onBack={() => setScreen('title')}
-          commanderName={commander?.cardName ?? null}
-          onViewAugments={() => setScreen('augments')}
-          onPromoteCommander={(cardName) => {
-            const ok = promoteCommander(cardName)
-            if (ok) {
-              setCommander(loadCommander())
-              setScreen('commander')
-            }
-          }}
-        />
-      )}
-
-      {screen === 'augments' && (
-        <AugmentCollectionScreen onBack={() => setScreen('collection')} />
-      )}
-
-      {screen === 'shop' && (
-        <ShopScreen
-          crystals={crystals}
-          onBuyCrystalPack={handleBuyCrystalPack}
-          onCrystalsChange={(n: number) => { saveCrystals(n); setCrystals(n) }}
-          onBack={() => setScreen('title')}
-        />
-      )}
-
-      {screen === 'shop-cards' && (
-        <ShopScreen
-          category="cards"
-          buildingId={shopBuildingId}
-          tappedNpc={shopTappedNpc}
-          crystals={crystals}
-          onBuyCrystalPack={handleBuyCrystalPack}
-          onCrystalsChange={(n: number) => { saveCrystals(n); setCrystals(n) }}
-          onBack={() => setScreen('hubworld')}
-        />
-      )}
-
-      {screen === 'shop-augments' && (
-        <ShopScreen
-          category="augments"
-          buildingId={shopBuildingId}
-          tappedNpc={shopTappedNpc}
-          crystals={crystals}
-          onBuyCrystalPack={handleBuyCrystalPack}
-          onCrystalsChange={(n: number) => { saveCrystals(n); setCrystals(n) }}
-          onBack={() => setScreen('hubworld')}
-        />
-      )}
-
-      {screen === 'shop-supplies' && (
-        <ShopScreen
-          category="supplies"
-          buildingId={shopBuildingId}
-          tappedNpc={shopTappedNpc}
-          crystals={crystals}
-          onBuyCrystalPack={handleBuyCrystalPack}
-          onCrystalsChange={(n: number) => { saveCrystals(n); setCrystals(n) }}
-          onBack={() => setScreen('hubworld')}
-        />
-      )}
-
-      {screen === 'deckbuilder' && (
-        <DeckBuilder onBack={() => setScreen(returnScreen)} fatiguedCards={run ? fatiguedCards : []}/>
-      )}
-
-      {screen === 'pack' && (
-        <PackOpening packs={packs} onDone={handlePackDone} />
-      )}
-
-      {screen === 'inventory' && (
-        <InventoryScreen
-          onBack={() => setScreen('title')}
-          onCrystalsChanged={handleCrystalsChanged}
-        />
-      )}
-
-      {screen === 'achievements' && (
-        <AchievementsScreen
-          onBack={() => setScreen('title')}
-          onCrystalsChanged={handleCrystalsChanged}
-        />
-      )}
-
-      {screen === 'hall-of-achievements' && (
-        <HallOfAchievements
-          onBack={() => setScreen('hubworld')}
-          onCrystalsChanged={handleCrystalsChanged}
-        />
-      )}
-
-      {(screen === 'home-shelf' || screen === 'home-shelf-decorate') && (
-        <HomeShelf
-          onBack={() => setScreen('hubworld')}
-          houseKey={shopBuildingId}
-          initialTab={screen === 'home-shelf-decorate' ? 'decorate' : 'shelf'}
-        />
-      )}
-
-      {screen === 'heroCards' && (
-        <HeroCardsScreen onBack={() => setScreen('title')} />
-      )}
-
-      {screen === 'codex' && (
-        <CodexScreen onDone={() => setScreen(returnScreen)} />
-      )}
-
       {screen === 'campaignvictory' && (
         <CampaignVictoryScreen
           onBeginAnew={() => setScreen('statupgrade')}
@@ -3145,10 +3013,6 @@ export default function App() {
         }} />
       )}
 
-      {screen === 'playerstats' && (
-        <PlayerStatsScreen onBack={() => setScreen('title')} />
-      )}
-
       {screen === 'campaignfailed' && (
         <CampaignFailedScreen onReturnToMenu={() => { stopBattleMusic(); stopGameOverMusic(); setScreen('title') }} />
       )}
@@ -3167,14 +3031,6 @@ export default function App() {
 
       {screen === 'weeklychallenge' && (
         <WeeklyChallengeScreen onStart={handleStartWeeklyChallenge} onBack={() => setScreen(returnScreen)} />
-      )}
-
-      {screen === 'chronicle' && (
-        <ChronicleScreen onBack={() => setScreen(returnScreen)} />
-      )}
-
-      {screen === 'endlessleaderboard' && (
-        <EndlessLeaderboardScreen onBack={() => setScreen('title')} />
       )}
 
       {screen === 'commander' && commander && (
