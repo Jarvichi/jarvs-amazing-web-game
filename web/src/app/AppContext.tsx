@@ -1,6 +1,15 @@
 import { createContext, useContext, type Dispatch, type MutableRefObject, type ReactNode, type SetStateAction } from 'react'
 import type { User } from 'firebase/auth'
-import type { Act, QuestNode, RunState } from '../game/questline'
+import type {
+  Act, QuestNode, RunState, CutscenePanel, EventData, EventChoice,
+} from '../game/questline'
+import type { DeckEntry } from '../game/collection'
+import type { BattleState } from '../game/battleReducer'
+import type { MemoryFragment } from '../game/codex'
+import type { CharacterChoice } from '../game/characters'
+import type { UselessItem } from '../game/dailyLogin'
+import type { MerchantItem } from '../components/campaign/MerchantScreen'
+import type { CampChoice } from '../components/campaign/CampScreen'
 import type { Card } from '../game/types'
 import type { QuickBattleMode } from '../components/screens/QuickBattleScreen'
 import type { CommanderState } from '../game/commander'
@@ -159,6 +168,59 @@ export interface AppContextValue {
   setNewsUnreadCount: Dispatch<SetStateAction<number>>
   previewAsPlayer:    boolean
   setPreviewAsPlayer: Dispatch<SetStateAction<boolean>>
+
+  // ── Campaign run screens ──────────────────────────────────────────────────
+  setFatiguedCards:    Dispatch<SetStateAction<string[]>>
+  handleUseConsumable: (id: string) => void
+  handleMainMenu:      () => void
+  rewardChoices:       string[]
+  rewardCrystals:      number
+  summaryStats:        BattleState['summaryStats']
+  handleRewardPick:    (cardName: string) => void
+  handleRewardSkip:    () => void
+  handleActComplete:   () => void
+  hasNextAct:          boolean
+  cutscenePanels:      CutscenePanel[]
+  cutsceneDoneRef:     MutableRefObject<() => void>
+  epiloguePanels:      CutscenePanel[]
+  setEpiloguePanels:   Dispatch<SetStateAction<CutscenePanel[]>>
+  epilogueDoneRef:     MutableRefObject<(() => void) | null>
+  bossDialogueNode:    QuestNode | null
+  handleBossDialogueDone: () => void
+  activeEvent:         EventData | null
+  handleEventChoice:   (choice: EventChoice) => void
+  merchantItems:       MerchantItem[]
+  handleMerchantBuy:   (item: MerchantItem) => void
+  handleMerchantDone:  () => void
+  mysteryReward:       RewardDef | null
+  handleMysteryCollect: () => void
+  activeMemoryFragment: { fragment: MemoryFragment; alreadyFound: boolean; shardBonus: boolean } | null
+  setActiveMemoryFragment: Dispatch<SetStateAction<{ fragment: MemoryFragment; alreadyFound: boolean; shardBonus: boolean } | null>>
+  handleMemoryCollect: () => void
+  activeCharacterEncounter: { nodeId: string; characterId: string } | null
+  handleCharacterDone: (choice?: CharacterChoice) => void
+  activeNarratorLog:   string | null
+  campNode:            QuestNode | null
+  campResult:          string | null
+  handleCampChoice:    (choice: CampChoice) => void
+  handleCampContinue:  () => void
+  foundItem:           Omit<UselessItem, 'acquiredDate'> | null
+  setFoundItem:        Dispatch<SetStateAction<Omit<UselessItem, 'acquiredDate'> | null>>
+  replayBriefingRef:   MutableRefObject<{
+    actId: string
+    completionCount: number
+    lastRunFailed: boolean
+    actHasUncollectedFragment: boolean
+    proceed: (chosenCount: number) => void
+  } | null>
+  brokenRelicRef:      MutableRefObject<{ name: string; icon: string } | null>
+  relicSelectDoneRef:  MutableRefObject<(relicName: string | null) => void>
+  cardRestCandidates:  string[]
+  cardRestPlayCounts:  Record<string, number>
+  handleCardRestConfirm: (resting: string[]) => void
+  handleStarterPackPick: (cards: DeckEntry[]) => void
+  bonusPackCards:      string[]
+  setBonusPackCards:   Dispatch<SetStateAction<string[]>>
 
   // ── Campaign flow handlers reached from overlays ──────────────────────────
   handleSelectNode: (node: QuestNode) => void

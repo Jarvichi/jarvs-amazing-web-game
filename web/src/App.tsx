@@ -1,9 +1,4 @@
 import { useState, useCallback, useEffect, useRef, useMemo, useReducer, Suspense } from 'react'
-import { CardRestSelect, CampScreen, EventScreen, MysteryScreen, MemoryFragmentScreen, CharacterEncounterScreen,
-  NarratorJournalScreen, CharacterScreen, CutsceneScreen, BossDialogueScreen, PostBattleReward, ActComplete, RelicSelectScreen, ReplayBriefingScreen,
-  StarterPackSelect, BossEpilogueScreen, CampaignVictoryScreen, ToBeContinuedScreen, CampaignFailedScreen,
-  StatUpgradeScreen
-} from './app/lazyScreens'
 import { ScreenLoadingFallback } from './components/ScreenLoadingFallback'
 import { resolvedNodeOpts, loadHandicap, HANDICAP_KEY, buildQuickBattleOpts, loadCurrentDeckInfo, carryHpAfterBattle, applyRestHeal, applyEventHeal } from './game/campaignHelpers'
 import { usePlaytime } from './hooks/usePlaytime'
@@ -22,8 +17,9 @@ import { CollectionRoutes } from './app/routes/CollectionRoutes'
 import { HubRoutes } from './app/routes/HubRoutes'
 import { EntryRoutes } from './app/routes/EntryRoutes'
 import { BattleRoutes } from './app/routes/BattleRoutes'
+import { CampaignRoutes } from './app/routes/CampaignRoutes'
 import { BattleProvider, type BattleContextValue } from './app/BattleContext'
-import { GameState, Card, Archetype, SECRET_RARITIES } from './game/types'
+import { GameState, Card, SECRET_RARITIES } from './game/types'
 import { newGame, MAX_HANDICAP } from './game/engine'
 import { playCard, playAoeCard } from './game/engine/cards'
 import { syncPlayerCommanderToBase } from './game/engine/helpers'
@@ -39,7 +35,6 @@ import {
   generateSeededPack,
 } from './game/collection'
 import { getCardCatalog } from './game/cards'
-import { applyStatUpgrade } from './game/playerStats'
 import {
   loadRun, loadRunRaw, saveRun, clearRun, newRun, LIVES_START, LIVES_MAX,
   getAvailableNodeIds, skipSiblings, isActComplete, getProtectedFragmentNodeIds,
@@ -55,18 +50,15 @@ import {
   recordNodeComplete, loadPlayerName, applyPlayerName,
   useConsumable,
   getModifiersByCount, getModifierMax,
-  setLastRunFailed, loadLastRunFailed, clearLastRunFailed,
-  ARCHETYPE_STARTER_PACK, loadPlayerArchetype,
+  setLastRunFailed, loadLastRunFailed,
+  loadPlayerArchetype,
 } from './game/questline'
 import type { CampChoice } from './components/campaign/CampScreen'
-import { MerchantScreen, MerchantItem } from './components/campaign/MerchantScreen'
+import type { MerchantItem } from './components/campaign/MerchantScreen'
 import { MemoryFragment, isFragmentDiscovered, markFragmentDiscovered, isHubWorldUnlocked, unlockHubWorld, areAllCampaignFragmentsDiscovered, loadHubDefault, getDiscoveredFragmentIds } from './game/codex'
-import { getConsumables, addConsumable } from './game/itemStore'
 import { CharacterChoice, recordCharacterEncounter, getCharacterEncounterChance, resolveCharacterEncounterId } from './game/characters'
 import memoryFragmentsData from './data/memoryFragments.json'
-import { ItemFoundScreen }    from './components/modals/ItemFoundScreen'
 import type { QuickBattleMode } from './components/screens/QuickBattleScreen'
-import { NodeMap }            from './components/campaign/NodeMap'
 import { applyTextSettings, loadSkipIntro, load8bitEnabled, apply8bitMode, applyLightMode, loadLightMode } from './components/screens/SettingsScreen'
 import { addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
 import { GIFT_OWNER_UID } from './game/gifts'
@@ -78,7 +70,7 @@ import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBr
 import { recordQuestWin, recordQuestCardPlayed, recordQuestBossDefeat, QuestChainDef } from './game/quests'
 import { recordChronicleWin, ChronicleChapterDef } from './game/chronicle'
 import bossEpiloguesData from './data/bossEpilogues.json'
-import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, playBattleStart, playVictory, playDefeat, stopBattleMusic, stopGameOverMusic } from './game/sound'
+import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, playBattleStart, playVictory, playDefeat, stopBattleMusic } from './game/sound'
 import { useMusic } from './hooks/useMusic'
 import { getIntegrityViolations, clearIntegrityViolations } from './game/integrity'
 import { useRareEvents } from './hooks/useRareEvents'
@@ -2604,6 +2596,21 @@ export default function App() {
     setCommander, packs, shopBuildingId, shopTappedNpc,
     handleCrystalsChanged, handleBuyCrystalPack, handlePackDone,
     setNewsUnreadCount, previewAsPlayer, setPreviewAsPlayer,
+    setFatiguedCards, handleUseConsumable, handleMainMenu,
+    rewardChoices, rewardCrystals, summaryStats, handleRewardPick, handleRewardSkip,
+    handleActComplete, hasNextAct,
+    cutscenePanels, cutsceneDoneRef, epiloguePanels, setEpiloguePanels, epilogueDoneRef,
+    bossDialogueNode, handleBossDialogueDone,
+    activeEvent, handleEventChoice,
+    merchantItems, handleMerchantBuy, handleMerchantDone,
+    mysteryReward, handleMysteryCollect,
+    activeMemoryFragment, setActiveMemoryFragment, handleMemoryCollect,
+    activeCharacterEncounter, handleCharacterDone, activeNarratorLog,
+    campNode, campResult, handleCampChoice, handleCampContinue,
+    foundItem, setFoundItem,
+    replayBriefingRef, brokenRelicRef, relicSelectDoneRef,
+    cardRestCandidates, cardRestPlayCounts, handleCardRestConfirm,
+    handleStarterPackPick, bonusPackCards, setBonusPackCards,
     handleSelectNode, launchCampaign,
   }), [
     screen, returnScreen, user, authLoading, isAdmin, crystals, handicap, commander,
@@ -2624,6 +2631,15 @@ export default function App() {
     handleWeeklyChallenge, handleEndlessLeaderboard, handlePlay, handleDraftComplete,
     handleStartDailyChallenge, handleStartWeeklyChallenge, handleStartTraining,
     handleResetGame, checkForUpdates,
+    handleUseConsumable, handleMainMenu, rewardChoices, rewardCrystals, summaryStats,
+    handleRewardPick, handleRewardSkip, handleActComplete, hasNextAct,
+    cutscenePanels, epiloguePanels, bossDialogueNode, handleBossDialogueDone,
+    activeEvent, handleEventChoice, merchantItems, handleMerchantBuy, handleMerchantDone,
+    mysteryReward, handleMysteryCollect, activeMemoryFragment, handleMemoryCollect,
+    activeCharacterEncounter, handleCharacterDone, activeNarratorLog,
+    campNode, campResult, handleCampChoice, handleCampContinue, foundItem,
+    cardRestCandidates, cardRestPlayCounts, handleCardRestConfirm,
+    handleStarterPackPick, bonusPackCards,
   ])
 
   const battleContextValue = useMemo<BattleContextValue>(() => ({
@@ -2654,237 +2670,11 @@ export default function App() {
       <Suspense fallback={<ScreenLoadingFallback />}>
 
       <EntryRoutes />
+      <CampaignRoutes />
       <BattleRoutes />
       <HubRoutes />
-      <AdminRoutes />
       <CollectionRoutes />
-
-      {screen === 'nodemap' && run && actData && (
-        <NodeMap
-          act={actData}
-          run={run}
-          onSelectNode={handleSelectNode}
-          onUseConsumable={handleUseConsumable}
-          onBack={handleMainMenu}
-          user={user}
-        />
-      )}
-
-      {screen === 'reward' && (
-        <PostBattleReward
-          choices={rewardChoices}
-          crystals={rewardCrystals}
-          nodeType={run && actData ? actData.nodes[run.completedNodeIds[run.completedNodeIds.length - 1]]?.type ?? 'battle' : 'battle'}
-          onPick={handleRewardPick}
-          onSkip={handleRewardSkip}
-          battleSummary={summaryStats ?? undefined}
-        />
-      )}
-
-      {screen === 'actcomplete' && actData && (
-        <ActComplete
-          actTitle={actData.title}
-          actSubtitle={actData.subtitle}
-          relicName={actData.rewardRelic}
-          relicDesc={actData.rewardRelicDesc}
-          onContinue={handleActComplete}
-          hasNextAct={hasNextAct}
-        />
-      )}
-
-      {screen === 'cutscene' && cutscenePanels.length > 0 && (
-        <CutsceneScreen panels={cutscenePanels} onDone={() => {
-          rollbar.info('CutsceneScreen.onDone fired', { panelCount: cutscenePanels.length, runActId: run?.actId })
-          cutsceneDoneRef.current()
-        }} />
-      )}
-
-      {screen === 'bossEpilogue' && epiloguePanels.length > 0 && (
-        <BossEpilogueScreen panels={epiloguePanels} onDone={() => {
-          setEpiloguePanels([])
-          const done = epilogueDoneRef.current
-          epilogueDoneRef.current = null
-          if (done) done()
-          else setScreen('actcomplete')
-        }} />
-      )}
-
-      {screen === 'bossdialogue' && bossDialogueNode?.bossDialogue && (
-        <BossDialogueScreen
-          bossName={bossDialogueNode.label}
-          lines={bossDialogueNode.bossDialogue.map(l => l.replace(/\bJarv\b/g, loadPlayerName()))}
-          onDone={handleBossDialogueDone}
-        />
-      )}
-
-      {screen === 'event' && activeEvent && run && (
-        <EventScreen
-          event={activeEvent}
-          onChoice={handleEventChoice}
-          playerHp={run.playerHp}
-          maxHp={run.maxHp}
-        />
-      )}
-
-      {screen === 'merchant' && merchantItems.length > 0 && (
-        <MerchantScreen
-          items={merchantItems}
-          crystals={crystals}
-          onBuy={handleMerchantBuy}
-          onDone={handleMerchantDone}
-        />
-      )}
-
-      {screen === 'mystery' && mysteryReward && (
-        <MysteryScreen
-          reward={mysteryReward}
-          onCollect={handleMysteryCollect}
-        />
-      )}
-
-      {(screen === 'memory' || activeMemoryFragment?.shardBonus) && activeMemoryFragment && (
-        <MemoryFragmentScreen
-          fragment={activeMemoryFragment.fragment}
-          alreadyFound={activeMemoryFragment.alreadyFound}
-          shardBonus={activeMemoryFragment.shardBonus}
-          onCollect={activeMemoryFragment.shardBonus
-            ? () => { setActiveMemoryFragment(null); setScreen('nodemap') }
-            : handleMemoryCollect}
-        />
-      )}
-
-      {screen === 'characterEncounter' && activeCharacterEncounter && (
-        <CharacterEncounterScreen
-          characterId={activeCharacterEncounter.characterId}
-          onDone={handleCharacterDone}
-        />
-      )}
-
-      {screen === 'narratorJournal' && activeNarratorLog && (
-        <NarratorJournalScreen
-          characterId={activeNarratorLog}
-          onBack={() => setScreen(returnScreen)}
-        />
-      )}
-
-      {screen === 'camp' && campNode && run && (
-        <CampScreen
-          playerHp={run.playerHp}
-          maxHp={run.maxHp}
-          livesRemaining={run.livesRemaining}
-          maxLives={run.maxLives}
-          fatiguedCards={fatiguedCards}
-          healAmount={campNode.restHeal ?? 5}
-          onChoose={handleCampChoice}
-          result={campResult}
-          onContinue={handleCampContinue}
-        />
-      )}
-
-      {screen === 'itemfound' && foundItem && (
-        <ItemFoundScreen
-          item={{ ...foundItem, acquiredDate: '' }}
-          onCollect={() => {
-            addToInventory(foundItem)
-            setFoundItem(null)
-            setScreen('nodemap')
-          }}
-        />
-      )}
-
-      {screen === 'character' && (
-        <CharacterScreen onDone={() => setScreen('title')} />
-      )}
-
-      {screen === 'replayBriefing' && replayBriefingRef.current && (() => {
-        const { actId, completionCount, lastRunFailed, actHasUncollectedFragment, proceed } = replayBriefingRef.current!
-        // launchCampaign() already awaited loadAct(actId) before setting this ref,
-        // so the act is guaranteed to be in cache by the time this renders.
-        const act = getCachedAct(actId)
-        if (!act) return null
-        const ownsCharm = getConsumables().find(c => c.id === 'memory_charm')?.count ?? 0
-        return (
-          <ReplayBriefingScreen
-            act={act}
-            completionCount={completionCount}
-            lastRunFailed={lastRunFailed}
-            actHasUncollectedFragment={actHasUncollectedFragment}
-            crystals={crystals}
-            ownsCharm={ownsCharm > 0}
-            onBuyCharm={() => {
-              if (crystals < 1000) return
-              const next = crystals - 1000
-              saveCrystals(next)
-              setCrystals(next)
-              addConsumable('memory_charm', 1)
-            }}
-            onBegin={chosenCount => { replayBriefingRef.current = null; clearLastRunFailed(); proceed(chosenCount) }}
-            onBack={() => { replayBriefingRef.current = null; setScreen('title') }}
-          />
-        )
-      })()}
-
-      {screen === 'relicselect' && (
-        <RelicSelectScreen
-          earnedRelics={loadEarnedRelics()}
-          currentRelic={run?.activeRelic ?? null}
-          brokenRelic={brokenRelicRef.current}
-          onSelect={relic => {
-            rollbar.info('RelicSelectScreen: relic confirmed', { relic, runActId: run?.actId })
-            brokenRelicRef.current = null
-            relicSelectDoneRef.current(relic)
-          }}
-        />
-      )}
-
-      {screen === 'cardrest' && (
-        <CardRestSelect
-          candidates={cardRestCandidates}
-          playCounts={cardRestPlayCounts}
-          alreadyResting={fatiguedCards}
-          onConfirm={handleCardRestConfirm}
-        />
-      )}
-
-      {screen === 'starterpack' && (
-        <StarterPackSelect
-          onPick={handleStarterPackPick}
-          fatiguedCards={fatiguedCards}
-          bonusCards={bonusPackCards}
-          recommendedPackId={run?.archetype ? ARCHETYPE_STARTER_PACK[run.archetype as Archetype] : undefined}
-        />
-      )}
-
-      {screen === 'campaignvictory' && (
-        <CampaignVictoryScreen
-          onBeginAnew={() => setScreen('statupgrade')}
-          campaignId={run ? getCampaignForAct(run.actId).id : 'c1'}
-        />
-      )}
-
-      {screen === 'tobecontinued' && (
-        <ToBeContinuedScreen
-          campaignName={run ? getCampaignForAct(run.actId).name : 'The Forgotten Kingdom'}
-          onContinue={() => {
-            clearRun(); setRun(null); clearFatigued(); setFatiguedCards([])
-            setScreen(returnScreen)
-          }}
-        />
-      )}
-
-      {screen === 'statupgrade' && (
-        <StatUpgradeScreen onSelect={(stat) => {
-          applyStatUpgrade(stat)
-          const bonus = crystals + 500; saveCrystals(bonus); setCrystals(bonus)
-          clearRun(); setRun(null); clearFatigued(); setFatiguedCards([]); setBonusPackCards([])
-          setScreen('starterpack')
-        }} />
-      )}
-
-      {screen === 'campaignfailed' && (
-        <CampaignFailedScreen onReturnToMenu={() => { stopBattleMusic(); stopGameOverMusic(); setScreen('title') }} />
-      )}
-
+      <AdminRoutes />
       <AppOverlays />
       </Suspense>
     </div>
