@@ -1,10 +1,7 @@
 import { useState, useCallback, useEffect, useRef, useMemo, useReducer, Suspense } from 'react'
 import { CardRestSelect, CampScreen, EventScreen, MysteryScreen, MemoryFragmentScreen, CharacterEncounterScreen,
-  NarratorJournalScreen, CharacterScreen, CutsceneScreen, BossDialogueScreen, Battlefield, GameOver,
-  PostBattleReward, ActComplete, RelicSelectScreen, ReplayBriefingScreen,
-  StarterPackSelect, FakeCrashEvent, BlackjackEvent, WrongNumberEvent, NarratorEvent, LiarsDiceEvent, GamblerEvent,
-  DevBuildEvent, GlitchedCardEvent, ConfusedTouristEvent, BossEpilogueScreen, FingerSmash, BossShockwave, BattleSummary,
-  VictoryPanel, CampaignVictoryScreen, ToBeContinuedScreen, CampaignFailedScreen,
+  NarratorJournalScreen, CharacterScreen, CutsceneScreen, BossDialogueScreen, PostBattleReward, ActComplete, RelicSelectScreen, ReplayBriefingScreen,
+  StarterPackSelect, BossEpilogueScreen, CampaignVictoryScreen, ToBeContinuedScreen, CampaignFailedScreen,
   StatUpgradeScreen
 } from './app/lazyScreens'
 import { ScreenLoadingFallback } from './components/ScreenLoadingFallback'
@@ -24,6 +21,7 @@ import { AdminRoutes } from './app/routes/AdminRoutes'
 import { CollectionRoutes } from './app/routes/CollectionRoutes'
 import { HubRoutes } from './app/routes/HubRoutes'
 import { EntryRoutes } from './app/routes/EntryRoutes'
+import { BattleRoutes } from './app/routes/BattleRoutes'
 import { BattleProvider, type BattleContextValue } from './app/BattleContext'
 import { GameState, Card, Archetype, SECRET_RARITIES } from './game/types'
 import { newGame, MAX_HANDICAP } from './game/engine'
@@ -86,7 +84,6 @@ import { getIntegrityViolations, clearIntegrityViolations } from './game/integri
 import { useRareEvents } from './hooks/useRareEvents'
 import { useAchievements } from './hooks/useAchievements'
 import { isNoDamageMode } from './game/debug'
-import { isAdminUser } from './game/admin'
 import { saveBattleState, loadBattleState, clearBattleState } from './game/battleState'
 import { loadCommander, CommanderState } from './game/commander'
 
@@ -231,7 +228,7 @@ export default function App() {
     ...INITIAL_BATTLE_STATE,
     gameState: _startup.gameState,
   })
-  const { gameState, showBossShockwave, dcGameOverState, summaryStats, showFingerSmash, fingerSmashNames, waveRewardChoices, speedMultiplier } = battle
+  const { gameState, summaryStats, speedMultiplier } = battle
 
   // Initialise battle state and transition to the playing screen in one call so
   // the two state updates are always kept together (React 18 batches them into a
@@ -2629,10 +2626,24 @@ export default function App() {
     handleResetGame, checkForUpdates,
   ])
 
-  const battleContextValue = useMemo<BattleContextValue>(
-    () => ({ battle, gameState, dispatch }),
-    [battle, gameState],
-  )
+  const battleContextValue = useMemo<BattleContextValue>(() => ({
+    battle, gameState, dispatch,
+    showBossSplash, actTheme, isCampaign, quickPlayRewardClaimed,
+    activeRareEvent, handleRareEventDone,
+    isCampaignRef, worldBattleNodeIdRef, isDailyChallengeRef, isWeeklyChallengeRef,
+    gameStateRef, summaryDoneRef,
+    handlePlayCard, handlePlayAoeCard, handleGiveUp, setIsUserPaused,
+    handleSetStance, handleCycleSpeed, handleWaveRewardPick, handleWaveRewardSkip,
+    handleOpenPack, handleCampaignWin, handleCampaignRetry, handleDailyChallengeRetry,
+    handlePlayAgain, handleWorldBattleRetry, handleMainMenu, handleAbandonRun,
+  }), [
+    battle, gameState, showBossSplash, actTheme, isCampaign, quickPlayRewardClaimed,
+    activeRareEvent, handleRareEventDone,
+    handlePlayCard, handlePlayAoeCard, handleGiveUp, handleSetStance, handleCycleSpeed,
+    handleWaveRewardPick, handleWaveRewardSkip, handleOpenPack, handleCampaignWin,
+    handleCampaignRetry, handleDailyChallengeRetry, handlePlayAgain,
+    handleWorldBattleRetry, handleMainMenu, handleAbandonRun,
+  ])
 
   return (
     <AppProvider value={appContextValue}>
@@ -2643,6 +2654,7 @@ export default function App() {
       <Suspense fallback={<ScreenLoadingFallback />}>
 
       <EntryRoutes />
+      <BattleRoutes />
       <HubRoutes />
       <AdminRoutes />
       <CollectionRoutes />
@@ -2655,15 +2667,6 @@ export default function App() {
           onUseConsumable={handleUseConsumable}
           onBack={handleMainMenu}
           user={user}
-        />
-      )}
-
-      {screen === 'battlesummary' && summaryStats && (
-        <BattleSummary
-          stats={summaryStats.stats}
-          gameTime={summaryStats.gameTime}
-          playerScore={summaryStats.playerScore}
-          onContinue={() => summaryDoneRef.current()}
         />
       )}
 
@@ -2881,110 +2884,6 @@ export default function App() {
       {screen === 'campaignfailed' && (
         <CampaignFailedScreen onReturnToMenu={() => { stopBattleMusic(); stopGameOverMusic(); setScreen('title') }} />
       )}
-
-      {screen === 'playing' && gameState && (() => {
-        const pendingId = run?.pendingNodeId
-        const failCount = pendingId ? (run?.nodeFailCounts?.[pendingId] ?? 0) : 0
-        const quickPlayHint = isCampaignRef.current
-          && gameState.phase.type === 'gameOver'
-          && gameState.phase.winner !== 'player'
-          && failCount >= 2
-        if (gameState.phase.type === 'celebration') {
-          return (
-            <>
-              <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={false} activeModifiers={run && actData ? getModifiersByCount(actData, run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onCycleSpeed={handleCycleSpeed} onCounterSpell={() => dispatch({ type: 'COUNTER_SPELL' })} isAdmin={isAdminUser(user)} />
-              <VictoryPanel
-                playerScore={gameState.playerScore}
-                opponentScore={gameState.opponentScore}
-                playerBaseHp={gameState.playerBase.hp}
-                playerBaseMaxHp={gameState.playerBase.maxHp}
-                unitsDefeated={gameState.battleStats.playerKills}
-                gameTime={gameState.gameTime}
-                onContinue={() => dispatch({ type: 'SET_GAME_STATE', gameState: { ...gameState, phase: { type: 'gameOver', winner: 'player' } } })}
-              />
-            </>
-          )
-        }
-        if (gameState.phase.type === 'fingerSmash') {
-          const fp = gameState.phase as { type: 'fingerSmash'; wave: number; smashedNames: string[]; rewardDue: boolean }
-          return (
-            <>
-              <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run && actData ? getModifiersByCount(actData, run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onCycleSpeed={handleCycleSpeed} onCounterSpell={() => dispatch({ type: 'COUNTER_SPELL' })} isAdmin={isAdminUser(user)} />
-              <FingerSmash
-                smashedNames={fingerSmashNames}
-                onDone={() => {
-                  dispatch({ type: 'DISMISS_FINGER_SMASH' })
-                  const gs = gameStateRef.current
-                  if (gs && gs.phase.type === 'fingerSmash') {
-                    const fphase = gs.phase as { type: 'fingerSmash'; wave: number; smashedNames: string[]; rewardDue: boolean }
-                    dispatch({ type: 'SET_GAME_STATE', gameState: {
-                      ...gs,
-                      phase: fphase.rewardDue
-                        ? { type: 'waveReward', wave: fphase.wave, smashedNames: fphase.smashedNames }
-                        : { type: 'playing' },
-                    } })
-                  }
-                }}
-              />
-            </>
-          )
-        }
-        if (gameState.phase.type === 'waveReward') {
-          const wave = (gameState.phase as { type: 'waveReward'; wave: number; smashedNames: string[] }).wave
-          return (
-            <PostBattleReward
-              choices={waveRewardChoices}
-              nodeType="battle"
-              crystals={0}
-              onPick={handleWaveRewardPick}
-              onSkip={handleWaveRewardSkip}
-              headerOverride={{
-                title: `WAVE ${wave} CLEARED`,
-                sub: 'Pick a card to add to your deck.',
-              }}
-            />
-          )
-        }
-        return gameState.phase.type === 'gameOver' ? (
-          <GameOver
-            state={gameState}
-            winner={gameState.phase.winner}
-            handicap={handicap}
-            onOpenPack={!isCampaignRef.current && worldBattleNodeIdRef.current === null && gameState.phase.winner === 'player' ? handleOpenPack : undefined}
-            rewardClaimed={quickPlayRewardClaimed}
-            onPlayAgain={worldBattleNodeIdRef.current !== null
-              ? handleWorldBattleRetry
-              : isCampaignRef.current
-                ? (gameState.phase.winner === 'player' ? handleCampaignWin : handleCampaignRetry)
-                : isDailyChallengeRef.current
-                  ? handleDailyChallengeRetry
-                  : isWeeklyChallengeRef.current
-                    ? handleStartWeeklyChallenge
-                    : handlePlayAgain
-            }
-            onMainMenu={handleMainMenu}
-            campaignAbandon={isCampaignRef.current ? handleAbandonRun : undefined}
-            quickPlayHint={quickPlayHint}
-            showStreak={!isCampaignRef.current && worldBattleNodeIdRef.current === null && !isDailyChallengeRef.current && !isWeeklyChallengeRef.current}
-            dailyChallengeState={isDailyChallengeRef.current ? dcGameOverState : undefined}
-            worldBattle={worldBattleNodeIdRef.current !== null}
-          />
-        ) : (
-          <>
-            <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run && actData ? getModifiersByCount(actData, run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onCycleSpeed={handleCycleSpeed} onCounterSpell={() => dispatch({ type: 'COUNTER_SPELL' })} isAdmin={isAdminUser(user)} />
-            {showBossShockwave && <BossShockwave onDone={() => dispatch({ type: 'HIDE_BOSS_SHOCKWAVE' })} />}
-            {activeRareEvent === 'fakeCrash'   && <FakeCrashEvent   onDone={handleRareEventDone} />}
-            {activeRareEvent === 'blackjack'   && <BlackjackEvent   onDone={handleRareEventDone} />}
-            {activeRareEvent === 'wrongNumber' && <WrongNumberEvent onDone={handleRareEventDone} />}
-            {activeRareEvent === 'narrator'    && <NarratorEvent    onDone={handleRareEventDone} />}
-            {activeRareEvent === 'liarsDice'   && <LiarsDiceEvent   onDone={handleRareEventDone} />}
-            {activeRareEvent === 'gambler'     && <GamblerEvent     onDone={handleRareEventDone} />}
-            {activeRareEvent === 'devBuild'       && <DevBuildEvent       onDone={handleRareEventDone} />}
-            {activeRareEvent === 'glitchedCard'   && <GlitchedCardEvent   onDone={handleRareEventDone} />}
-            {activeRareEvent === 'confusedTourist' && <ConfusedTouristEvent onDone={handleRareEventDone} />}
-          </>
-        )
-      })()}
 
       <AppOverlays />
       </Suspense>
