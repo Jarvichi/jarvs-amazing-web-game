@@ -1,6 +1,8 @@
 import { createContext, useContext, type Dispatch, type MutableRefObject, type ReactNode, type SetStateAction } from 'react'
 import type { User } from 'firebase/auth'
 import type { Act, QuestNode, RunState } from '../game/questline'
+import type { Card } from '../game/types'
+import type { QuickBattleMode } from '../components/screens/QuickBattleScreen'
 import type { CommanderState } from '../game/commander'
 import type { AchievementDef } from '../game/achievements'
 import type { QuestChainDef } from '../game/quests'
@@ -108,6 +110,21 @@ export interface AppContextValue {
   updateDismissed:     boolean
   setUpdateDismissed:  Dispatch<SetStateAction<boolean>>
   updateServiceWorker: (reloadPage?: boolean) => Promise<void>
+
+  // ── Entry screens (intro / title / settings) ──────────────────────────────
+  newsUnreadCount:        number
+  feedbackOpen:           boolean
+  showTitleLoginModal:    boolean
+  handleDailyChallenge:      () => void
+  handleWeeklyChallenge:     () => void
+  handleEndlessLeaderboard:  () => void
+  handlePlay:                (mode: QuickBattleMode) => void
+  handleDraftComplete:       (pickedCardNames: string[]) => void
+  handleStartDailyChallenge: () => void
+  handleStartWeeklyChallenge: () => void
+  handleStartTraining:       (enemyUnitName: string, playerCards: Card[]) => void
+  handleResetGame:           () => void
+  checkForUpdates:           () => Promise<void>
 
   // ── Hub world ─────────────────────────────────────────────────────────────
   hubData:               HubWorldData | null

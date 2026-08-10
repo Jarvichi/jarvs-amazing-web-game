@@ -1,11 +1,11 @@
 import { useState, useCallback, useEffect, useRef, useMemo, useReducer, Suspense } from 'react'
 import { CardRestSelect, CampScreen, EventScreen, MysteryScreen, MemoryFragmentScreen, CharacterEncounterScreen,
   NarratorJournalScreen, CharacterScreen, CutsceneScreen, BossDialogueScreen, Battlefield, GameOver,
-  QuickBattleScreen, CardDraftScreen, PostBattleReward, ActComplete, RelicSelectScreen, ReplayBriefingScreen,
+  PostBattleReward, ActComplete, RelicSelectScreen, ReplayBriefingScreen,
   StarterPackSelect, FakeCrashEvent, BlackjackEvent, WrongNumberEvent, NarratorEvent, LiarsDiceEvent, GamblerEvent,
-  DevBuildEvent, GlitchedCardEvent, ConfusedTouristEvent, WeeklyChallengeScreen, BossEpilogueScreen, CommanderScreen, TrainingScreen, FingerSmash, BossShockwave, BattleSummary,
+  DevBuildEvent, GlitchedCardEvent, ConfusedTouristEvent, BossEpilogueScreen, FingerSmash, BossShockwave, BattleSummary,
   VictoryPanel, CampaignVictoryScreen, ToBeContinuedScreen, CampaignFailedScreen,
-  StatUpgradeScreen, DailyChallengeScreen
+  StatUpgradeScreen
 } from './app/lazyScreens'
 import { ScreenLoadingFallback } from './components/ScreenLoadingFallback'
 import { resolvedNodeOpts, loadHandicap, HANDICAP_KEY, buildQuickBattleOpts, loadCurrentDeckInfo, carryHpAfterBattle, applyRestHeal, applyEventHeal } from './game/campaignHelpers'
@@ -23,6 +23,7 @@ import { AppOverlays } from './app/AppOverlays'
 import { AdminRoutes } from './app/routes/AdminRoutes'
 import { CollectionRoutes } from './app/routes/CollectionRoutes'
 import { HubRoutes } from './app/routes/HubRoutes'
+import { EntryRoutes } from './app/routes/EntryRoutes'
 import { BattleProvider, type BattleContextValue } from './app/BattleContext'
 import { GameState, Card, Archetype, SECRET_RARITIES } from './game/types'
 import { newGame, MAX_HANDICAP } from './game/engine'
@@ -32,7 +33,7 @@ import { makeNodeDeck } from './game/cards'
 import { battleReducer, INITIAL_BATTLE_STATE, TICK_MS } from './game/battleReducer'
 import {
   loadDeck, saveDeck, buildDeckCards, generatePack,
-  loadCollection, saveCollection, loadCrystals, saveCrystals,
+  loadCollection, loadCrystals, saveCrystals,
   recordCardPlayed, addCardsToCollection,
   getOwnedCount, DECK_MAX, CRYSTAL_PACK_COST, DeckEntry,
   deckTotalCards, STARTER_DECK,
@@ -61,21 +62,17 @@ import {
 } from './game/questline'
 import type { CampChoice } from './components/campaign/CampScreen'
 import { MerchantScreen, MerchantItem } from './components/campaign/MerchantScreen'
-import { MemoryFragment, isFragmentDiscovered, markFragmentDiscovered, isHubWorldUnlocked, unlockHubWorld, areAllCampaignFragmentsDiscovered, loadHubDefault, saveHubDefault, getDiscoveredFragmentIds } from './game/codex'
+import { MemoryFragment, isFragmentDiscovered, markFragmentDiscovered, isHubWorldUnlocked, unlockHubWorld, areAllCampaignFragmentsDiscovered, loadHubDefault, getDiscoveredFragmentIds } from './game/codex'
 import { getConsumables, addConsumable } from './game/itemStore'
 import { CharacterChoice, recordCharacterEncounter, getCharacterEncounterChance, resolveCharacterEncounterId } from './game/characters'
 import memoryFragmentsData from './data/memoryFragments.json'
 import { ItemFoundScreen }    from './components/modals/ItemFoundScreen'
-import { TitleScreen }        from './components/title/TitleScreen'
 import type { QuickBattleMode } from './components/screens/QuickBattleScreen'
 import { NodeMap }            from './components/campaign/NodeMap'
-import { SettingsScreen, applyTextSettings, loadSkipIntro, load8bitEnabled, apply8bitMode, applyLightMode, loadLightMode } from './components/screens/SettingsScreen'
-import { IntroScreen } from './components/title/IntroScreen'
-import { LoginModal }        from './components/modals/LoginModal'
+import { applyTextSettings, loadSkipIntro, load8bitEnabled, apply8bitMode, applyLightMode, loadLightMode } from './components/screens/SettingsScreen'
 import { addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
 import { GIFT_OWNER_UID } from './game/gifts'
 import { isTownAccessible } from './game/townAccess'
-import { FeedbackModal } from './components/modals/FeedbackModal'
 import { loadDeckSlot } from './game/collection'
 import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, getDailyTerrainSeed, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
 import { getWeeklyPlayerDeck, getWeeklyOpponentDeck, getWeeklyChallengeState, getWeeklyTerrainSeed, saveWeeklyChallengeResult, grantWeeklyReward, publishWeeklyResult, WeeklyRewardResult } from './game/weeklyChallenge'
@@ -2598,6 +2595,10 @@ export default function App() {
     chronicleCompletes, setChronicleCompletes,
     weeklyReward, setWeeklyReward,
     dailyReward, setDailyReward,
+    newsUnreadCount, feedbackOpen, showTitleLoginModal,
+    handleDailyChallenge, handleWeeklyChallenge, handleEndlessLeaderboard,
+    handlePlay, handleDraftComplete, handleStartDailyChallenge,
+    handleStartWeeklyChallenge, handleStartTraining, handleResetGame, checkForUpdates,
     hubData, currentLocationKey, worldMapKey, restrictedTownNodeIds,
     miniGamesEntry, setMiniGamesEntry, hubMiniGameEntry, setHubMiniGameEntry,
     setShopBuildingId, setShopTappedNpc, setShowTitleLoginModal, setFeedbackOpen,
@@ -2622,6 +2623,10 @@ export default function App() {
     hubData, currentLocationKey, worldMapKey, restrictedTownNodeIds,
     miniGamesEntry, hubMiniGameEntry, goToWorldLocation, handleWorldBattle,
     handleCampaign, handleCampaign2, handleEndless, setCommander,
+    newsUnreadCount, feedbackOpen, showTitleLoginModal, handleDailyChallenge,
+    handleWeeklyChallenge, handleEndlessLeaderboard, handlePlay, handleDraftComplete,
+    handleStartDailyChallenge, handleStartWeeklyChallenge, handleStartTraining,
+    handleResetGame, checkForUpdates,
   ])
 
   const battleContextValue = useMemo<BattleContextValue>(
@@ -2636,80 +2641,8 @@ export default function App() {
       <div className="game-title">JARV'S AMAZING WEB GAME</div>
 
       <Suspense fallback={<ScreenLoadingFallback />}>
-      {screen === 'intro' && (
-        <IntroScreen onDone={() => setScreen(isHubWorldUnlocked() && loadHubDefault() !== 'title' ? 'hubworld' : 'title')} />
-      )}
 
-      {screen === 'title' && (
-        <>
-          <TitleScreen
-            crystals={crystals}
-            onPlay={() => setScreen('quickbattle')}
-            onEndless={handleEndless}
-            onCampaign={handleCampaign}
-            onCollection={() => setScreen('collection-tabs')}
-            onShop={() => setScreen('shop')}
-            onDeckBuilder={() => setScreen('deckbuilder')}
-            onSettings={() => setScreen('settings')}
-            onPlayer={() => setScreen('player')}
-            on8bitUnlocked={() => { /* achievement granted in TitleScreen after unlock */ }}
-            onDailyChallenge={handleDailyChallenge}
-            onWeeklyChallenge={handleWeeklyChallenge}
-            onEndlessLeaderboard={handleEndlessLeaderboard}
-            onCommander={commander ? () => setScreen('commander') : undefined}
-            commanderName={commander?.cardName ?? null}
-            onTraining={() => setScreen('training')}
-            onNews={() => setScreen('news')}
-            hasUnreadNews={newsUnreadCount > 0}
-            onMiniGames={() => setScreen('minigames')}
-            onCityBuilder={() => { setMiniGamesEntry('citybuilder'); setScreen('minigames') }}
-            onCodex={() => setScreen('codex')}
-            onChronicle={() => setScreen('chronicle')}
-            user={user}
-            onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
-            onSignIn={() => setShowTitleLoginModal(true)}
-            onFeedback={() => setFeedbackOpen(true)}
-            hubUnlocked={isHubWorldUnlocked() && loadHubDefault() === 'title'}
-            onHub={() => { saveHubDefault('hub'); setScreen('hubworld') }}
-          />
-          {feedbackOpen && (
-            <FeedbackModal user={user} onClose={() => setFeedbackOpen(false)} />
-          )}
-          {showTitleLoginModal && (
-            <LoginModal
-              user={user}
-              authLoading={authLoading}
-              onClose={() => setShowTitleLoginModal(false)}
-              onLoginSuccess={() => { setShowTitleLoginModal(false) }}
-            />
-          )}
-        </>
-      )}
-
-      {screen === 'settings' && (
-        <SettingsScreen
-          onBack={() => setScreen('title')}
-          onResetGame={handleResetGame}
-          user={user}
-          authLoading={authLoading}
-          onDevCrystalsChanged={n => setCrystals(n)}
-          onDevHandicapChanged={n => {
-            setHandicap(n)
-            try { localStorage.setItem(HANDICAP_KEY, String(n)) } catch { /* ignore */ }
-          }}
-          onGiftAdmin={() => setScreen('giftAdmin')}
-          onNewsAdmin={() => setScreen('newsAdmin')}
-          onCampaignAdmin={() => setScreen('campaignAdmin')}
-          onFeedbackAdmin={() => setScreen('feedbackAdmin')}
-          onTownAccessAdmin={() => setScreen('townAccessAdmin')}
-          onHubWorld={() => setScreen('hubworld')}
-          onTitleScreen={() => setScreen('title')}
-          onSceneryPreview={() => setScreen('sceneryPreview')}
-          onCheckForUpdates={checkForUpdates}
-        />
-      )}
-
-
+      <EntryRoutes />
       <HubRoutes />
       <AdminRoutes />
       <CollectionRoutes />
@@ -2947,62 +2880,6 @@ export default function App() {
 
       {screen === 'campaignfailed' && (
         <CampaignFailedScreen onReturnToMenu={() => { stopBattleMusic(); stopGameOverMusic(); setScreen('title') }} />
-      )}
-
-      {screen === 'quickbattle' && (
-        <QuickBattleScreen onStartBattle={handlePlay} onBack={() => setScreen(returnScreen)} />
-      )}
-
-      {screen === 'carddraft' && (
-        <CardDraftScreen onComplete={handleDraftComplete} onBack={() => setScreen(returnScreen)} />
-      )}
-
-      {screen === 'dailychallenge' && (
-        <DailyChallengeScreen onStart={handleStartDailyChallenge} onBack={() => setScreen(returnScreen)} />
-      )}
-
-      {screen === 'weeklychallenge' && (
-        <WeeklyChallengeScreen onStart={handleStartWeeklyChallenge} onBack={() => setScreen(returnScreen)} />
-      )}
-
-      {screen === 'commander' && commander && (
-        <CommanderScreen
-          commander={commander}
-          onBack={() => { setCommander(loadCommander()); setScreen(returnScreen) }}
-          onRewardXp={(cardName, amount) => {
-            const col = loadCollection()
-            const updated = col.map(e =>
-              e.cardName === cardName ? { ...e, masteryXp: (e.masteryXp ?? 0) + amount } : e
-            )
-            saveCollection(updated)
-          }}
-          onRewardCrystals={(amount) => {
-            const next = crystals + amount
-            saveCrystals(next)
-            setCrystals(next)
-          }}
-          onRewardCard={() => {
-            const catalog = getCardCatalog()
-            const picks = catalog.filter(c => c.unit && c.unit.moveSpeed > 0)
-            const card = picks[Math.floor(Math.random() * picks.length)]
-            if (card) addCardsToCollection([{ cardName: card.name, count: 1 }])
-          }}
-          onRewardPack={() => {
-            const newPack = generatePack()
-            addCardsToCollection(newPack.map(name => ({ cardName: name, count: 1 })))
-          }}
-          onCommanderChanged={(state) => {
-            setCommander(state)
-            if (!state) setScreen('title')
-          }}
-        />
-      )}
-
-      {screen === 'training' && (
-        <TrainingScreen
-          onBack={() => setScreen('title')}
-          onStart={handleStartTraining}
-        />
       )}
 
       {screen === 'playing' && gameState && (() => {
