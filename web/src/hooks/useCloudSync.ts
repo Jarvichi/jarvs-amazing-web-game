@@ -3,7 +3,7 @@ import type { User } from 'firebase/auth'
 import { uploadSave, getRemoteSaveIfNewer } from '../game/cloudSave'
 import { logWarn } from '../logger'
 
-interface SyncPrompt {
+export interface SyncPrompt {
   remoteDate: Date
   data: Record<string, string>
 }

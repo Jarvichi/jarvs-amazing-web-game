@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef, useMemo, useReducer, Suspense } from 'react'
+import { useState, useCallback, useEffect, useRef, useMemo, useReducer, Suspense } from 'react'
 import { CardRestSelect, CampScreen, EventScreen, MysteryScreen, MemoryFragmentScreen, CharacterEncounterScreen,
   NarratorJournalScreen, CharacterScreen, CutsceneScreen, BossDialogueScreen, Battlefield, GameOver,
   QuickBattleScreen, CardDraftScreen, CollectionScreen, DeckBuilder, PackOpening, HubWorld, HubWorldMap,
@@ -8,7 +8,7 @@ import { CardRestSelect, CampScreen, EventScreen, MysteryScreen, MemoryFragmentS
   NewsAdminScreen, CampaignAdminScreen, SceneryAdminScreen, FeedbackAdminScreen, TownAccessAdminScreen,
   WeeklyChallengeScreen, ChronicleScreen, BossEpilogueScreen, CommanderScreen, TrainingScreen, AchievementsScreen,
   HallOfAchievements, HomeShelf, HeroCardsScreen, FingerSmash, BossShockwave, ShopScreen, BattleSummary,
-  VictoryPanel, RelicSpinScreen, CampaignVictoryScreen, ToBeContinuedScreen, CampaignFailedScreen,
+  VictoryPanel, CampaignVictoryScreen, ToBeContinuedScreen, CampaignFailedScreen,
   StatUpgradeScreen, PlayerStatsScreen, CodexScreen, DailyChallengeScreen, EndlessLeaderboardScreen,
   MiniGamesMenu, Fishing, AugmentCollectionScreen, PlayerScreen, CollectionTabScreen
 } from './app/lazyScreens'
@@ -16,7 +16,6 @@ import { ScreenLoadingFallback } from './components/ScreenLoadingFallback'
 import { resolvedNodeOpts, loadHandicap, HANDICAP_KEY, buildQuickBattleOpts, loadCurrentDeckInfo, carryHpAfterBattle, applyRestHeal, applyEventHeal } from './game/campaignHelpers'
 import { usePlaytime } from './hooks/usePlaytime'
 import { recordScreen } from './utils/crashSentinel'
-import { journal } from './utils/resumeJournal'
 import { useStartupData } from './hooks/useStartupData'
 import { useCloudSync } from './hooks/useCloudSync'
 import { useServiceWorkerUpdate } from './hooks/useServiceWorkerUpdate'
@@ -25,6 +24,7 @@ import { useScreenGuards } from './hooks/useScreenGuards'
 import { useTownAccess } from './hooks/useTownAccess'
 import { useBattleTelemetry } from './hooks/useBattleTelemetry'
 import { AppProvider, type AppContextValue } from './app/AppContext'
+import { AppOverlays } from './app/AppOverlays'
 import { BattleProvider, type BattleContextValue } from './app/BattleContext'
 import { GameState, Card, Archetype, SECRET_RARITIES } from './game/types'
 import { newGame, MAX_HANDICAP } from './game/engine'
@@ -56,7 +56,7 @@ import {
   CutscenePanel, QuestNode, RunState, Act, ReplayModifier,
   getActiveModifiers, loadActCount, incrementActCount,
   recordNodeComplete, loadPlayerName, applyPlayerName,
-  addToConsumableStash, useConsumable,
+  useConsumable,
   getModifiersByCount, getModifierMax,
   setLastRunFailed, loadLastRunFailed, clearLastRunFailed,
   ARCHETYPE_STARTER_PACK, loadPlayerArchetype,
@@ -73,21 +73,17 @@ import type { QuickBattleMode } from './components/screens/QuickBattleScreen'
 import { NodeMap }            from './components/campaign/NodeMap'
 import { SettingsScreen, applyTextSettings, loadSkipIntro, load8bitEnabled, apply8bitMode, applyLightMode, loadLightMode } from './components/screens/SettingsScreen'
 import { IntroScreen } from './components/title/IntroScreen'
-import { CardTile }           from './components/cards/CardTile'
-import { DailyLoginModal }   from './components/screens/DailyLoginModal'
-import { GiftClaimModal }    from './components/admin/GiftClaimModal'
 import { LoginModal }        from './components/modals/LoginModal'
-import { markDailyRewardClaimed, addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
-import { applyGiftRewards, GiftDef, GIFT_OWNER_UID } from './game/gifts'
+import { addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
+import { GIFT_OWNER_UID } from './game/gifts'
 import { isTownAccessible, savePreviewAsPlayer } from './game/townAccess'
 import { FeedbackModal } from './components/modals/FeedbackModal'
-import { DeckSelectorModal } from './components/cards/DeckSelectorModal'
 import { loadDeckSlot } from './game/collection'
 import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, getDailyTerrainSeed, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
-import { getWeeklyChallenge, getWeeklyPlayerDeck, getWeeklyOpponentDeck, getWeeklyChallengeState, getWeeklyTerrainSeed, saveWeeklyChallengeResult, grantWeeklyReward, publishWeeklyResult, WeeklyRewardResult } from './game/weeklyChallenge'
+import { getWeeklyPlayerDeck, getWeeklyOpponentDeck, getWeeklyChallengeState, getWeeklyTerrainSeed, saveWeeklyChallengeResult, grantWeeklyReward, publishWeeklyResult, WeeklyRewardResult } from './game/weeklyChallenge'
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic, rollExoticDrop } from './game/relics'
 import { recordQuestWin, recordQuestCardPlayed, recordQuestBossDefeat, QuestChainDef } from './game/quests'
-import { recordChronicleWin, describeReward, ChronicleChapterDef } from './game/chronicle'
+import { recordChronicleWin, ChronicleChapterDef } from './game/chronicle'
 import bossEpiloguesData from './data/bossEpilogues.json'
 import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, playBattleStart, playVictory, playDefeat, stopBattleMusic, stopGameOverMusic } from './game/sound'
 import { useMusic } from './hooks/useMusic'
@@ -104,8 +100,6 @@ import { setCurrentWorldLocation, getCurrentWorldLocation, markNodeCleared, isNo
 import {
   incrementAchievementProgress, setAchievementProgress, AchievementDef,
 } from './game/achievements'
-import { ConfirmModal }          from './components/modals/ConfirmModal'
-import { StreakBrokenModal }     from './components/modals/StreakBrokenModal'
 import type { SubScreen } from './components/screens/MiniGamesMenu'
 import { OverlayScreen } from './components/ui/OverlayScreen'
 import './styles.css'
@@ -113,12 +107,11 @@ import { publishSecretRareWin, type SecretRarityType } from './game/secretRareNe
 import rollbar, { updateRollbarPerson } from './rollbar'
 import { useAuth } from './hooks/useAuth'
 import { auth } from './firebase'
-import { uploadSave, applySave } from './game/cloudSave'
+import { uploadSave } from './game/cloudSave'
 import { getHubWorldData, type HubWorldData } from './data/hub/hubWorldFactory'
 import type { Screen } from './app/screens'
-import { VISIBILITY_BREADCRUMB_THRESHOLD_MS, STANCE_RULES_BY_NODE_TYPE } from './app/screens'
+import { STANCE_RULES_BY_NODE_TYPE } from './app/screens'
 import { BROKEN_RELIC_ITEMS, buildMerchantItems } from './app/merchantItems'
-import { formatTimeAgo } from './utils/formatTimeAgo'
 
 // Apply saved display settings on load
 applyTextSettings()
@@ -2588,8 +2581,38 @@ export default function App() {
   const appContextValue = useMemo<AppContextValue>(() => ({
     screen, setScreen, returnScreen, setReturnScreen,
     user, authLoading, isAdmin, crystals, setCrystals, handicap, setHandicap, commander,
-    run, setRun, actData,
-  }), [screen, returnScreen, user, authLoading, isAdmin, crystals, handicap, commander, run, actData])
+    run, setRun, actData, fatiguedCards,
+    pendingEventCard, setPendingEventCard,
+    deckWarningNode, setDeckWarningNode, skipDeckWarningRef,
+    campaignRestingAlert, setCampaignRestingAlert,
+    campaign2AbandonConfirm, setCampaign2AbandonConfirm,
+    relicSpinData,
+    integrityWarning, setIntegrityWarning,
+    achievementToasts, setAchievementToasts,
+    needRefresh, updateDismissed, setUpdateDismissed, updateServiceWorker,
+    syncPrompt, clearSyncPrompt, flushPlaytimeToStorage,
+    pendingGifts, setPendingGifts,
+    showWinCelebration, setShowWinCelebration, celebrationMilestone,
+    streakBrokenData, setStreakBrokenData,
+    timeCapsuleVisible, setTimeCapsuleVisible,
+    pendingBattleFn, setPendingBattleFn, pendingBattleIsCampaign,
+    exoticDrop, setExoticDrop,
+    questCompletes, setQuestCompletes,
+    chronicleCompletes, setChronicleCompletes,
+    weeklyReward, setWeeklyReward,
+    dailyReward, setDailyReward,
+    handleSelectNode, launchCampaign,
+  }), [
+    screen, returnScreen, user, authLoading, isAdmin, crystals, handicap, commander,
+    run, actData, fatiguedCards, pendingEventCard, deckWarningNode,
+    campaignRestingAlert, campaign2AbandonConfirm, relicSpinData, integrityWarning,
+    achievementToasts, needRefresh, updateDismissed, updateServiceWorker,
+    syncPrompt, clearSyncPrompt, flushPlaytimeToStorage, pendingGifts,
+    showWinCelebration, celebrationMilestone, streakBrokenData, timeCapsuleVisible,
+    pendingBattleFn, pendingBattleIsCampaign, exoticDrop, questCompletes,
+    chronicleCompletes, weeklyReward, dailyReward, handleSelectNode, launchCampaign,
+    setPendingGifts, setDailyReward,
+  ])
 
   const battleContextValue = useMemo<BattleContextValue>(
     () => ({ battle, gameState, dispatch }),
@@ -2603,20 +2626,6 @@ export default function App() {
       <div className="game-title">JARV'S AMAZING WEB GAME</div>
 
       <Suspense fallback={<ScreenLoadingFallback />}>
-      {/* Event card reveal overlay */}
-      {pendingEventCard && (() => {
-        const catalog = getCardCatalog()
-        const card = catalog.find(c => c.name === pendingEventCard)
-        if (!card) { setPendingEventCard(null); return null }
-        return (
-          <div className="event-card-reveal-backdrop u-col u-items-c u-just-c u-gap-8" onClick={() => { setPendingEventCard(null); setScreen('nodemap') }}>
-            <div className="event-card-reveal-label">YOU GAINED A CARD</div>
-            <CardTile card={card} canAfford={true} />
-            <div className="event-card-reveal-sub">Click anywhere to continue</div>
-          </div>
-        )
-      })()}
-
       {screen === 'intro' && (
         <IntroScreen onDone={() => setScreen(isHubWorldUnlocked() && loadHubDefault() !== 'title' ? 'hubworld' : 'title')} />
       )}
@@ -2931,57 +2940,6 @@ export default function App() {
           onChoose={handleCampChoice}
           result={campResult}
           onContinue={handleCampContinue}
-        />
-      )}
-
-      {deckWarningNode && (() => {
-        const allEntries   = loadDeck()
-        const fat          = loadFatigued()
-        const restingCount = allEntries.filter(e => fat.includes(e.cardName)).length
-        const totalCards   = deckTotalCards(allEntries)
-        const isUnderMax   = totalCards < DECK_MAX
-        const parts: string[] = []
-        if (restingCount > 0)
-          parts.push(`${restingCount} resting card${restingCount !== 1 ? 's' : ''} won't be available in battle`)
-        if (isUnderMax)
-          parts.push(`Your deck has only ${totalCards} of ${DECK_MAX} cards. Consider adding more cards in the Deck Builder for more consistency.`)
-        return (
-          <ConfirmModal
-            title="Weak Deck"
-            body={parts.join(' · ')}
-            confirmLabel="Enter Battle"
-            onConfirm={() => {
-              const node = deckWarningNode
-              setDeckWarningNode(null)
-              skipDeckWarningRef.current = true
-              handleSelectNode(node)
-            }}
-            onCancel={() => setDeckWarningNode(null)}
-          />
-        )
-      })()}
-
-      {campaignRestingAlert && (
-        <ConfirmModal
-          title="Deck Notice"
-          body="Your deck may contain resting cards. They will not be available during campaign battles."
-          confirmLabel="OK"
-          onConfirm={() => setCampaignRestingAlert(false)}
-          onCancel={() => setCampaignRestingAlert(false)}
-        />
-      )}
-
-      {campaign2AbandonConfirm && (
-        <ConfirmModal
-          title="Abandon Current Run?"
-          body="You have a campaign run in progress. Setting out for the Forgotten Kingdom will abandon it — unused consumables return to your stash, but map progress is lost."
-          confirmLabel="Abandon & Set Out"
-          onConfirm={() => {
-            setCampaign2AbandonConfirm(false)
-            clearRun(); setRun(null)
-            launchCampaign('c2act1')
-          }}
-          onCancel={() => setCampaign2AbandonConfirm(false)}
         />
       )}
 
@@ -3331,68 +3289,6 @@ export default function App() {
         </OverlayScreen>
       )}
 
-      {relicSpinData && (
-        <RelicSpinScreen
-          relicName={relicSpinData.relicName}
-          relicIcon={relicSpinData.relicIcon}
-          breaks={relicSpinData.breaks}
-          brokenName={relicSpinData.brokenName}
-          brokenIcon={relicSpinData.brokenIcon}
-          brokenDesc={relicSpinData.brokenDesc}
-          onContinue={relicSpinData.onContinue}
-        />
-      )}
-
-      {/* Integrity warning */}
-      {integrityWarning && (
-        <div className="integrity-warning" role="alert">
-          <span>⚠ Inventory data was modified externally. Play nice!</span>
-          <button className="integrity-warning-dismiss" onClick={() => setIntegrityWarning(false)}>✕</button>
-        </div>
-      )}
-
-      {/* Achievement unlock toast */}
-      {achievementToasts.length > 0 && (
-        <div className="ach-toast-stack">
-          {achievementToasts.slice(0, 3).map((def, i) => (
-            <div key={`${def.id}-${i}`} className="ach-toast" onClick={() => setAchievementToasts(prev => prev.filter((_, j) => j !== i))}>
-              🏆 <strong>{def.name}</strong>
-              <span className="ach-toast-sub">Achievement unlocked!</span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Service-worker update prompt — replaces the old force-reload-on-resume.
-          The player reloads on their terms; dismiss hides it for the session.
-          Only surfaced on the title screen or a hub town (screen 'hubworld' /
-          'location', both rendered by HubWorld) — safe, non-disruptive spots to
-          reload from, never mid-battle or in a menu. */}
-      {needRefresh && !updateDismissed
-        && (screen === 'title' || screen === 'hubworld' || screen === 'location') && (
-        <div className="sw-update-toast">
-          <span className="sw-update-toast-text">A new version is available.</span>
-          <div className="sw-update-toast-actions">
-            <button
-              className="action-btn action-btn--sm"
-              onClick={() => {
-                journal('sw-update-accepted')
-                updateServiceWorker(true)
-              }}
-            >
-              UPDATE
-            </button>
-            <button
-              className="sw-update-toast-dismiss"
-              aria-label="Dismiss update"
-              onClick={() => setUpdateDismissed(true)}
-            >
-              ×
-            </button>
-          </div>
-        </div>
-      )}
-
       {screen === 'playing' && gameState && (() => {
         const pendingId = run?.pendingNodeId
         const failCount = pendingId ? (run?.nodeFailCounts?.[pendingId] ?? 0) : 0
@@ -3497,254 +3393,7 @@ export default function App() {
         )
       })()}
 
-      {/* Cloud sync prompt — shown when a newer remote save is detected on title screen */}
-      {syncPrompt && (
-        <div className="sync-prompt-backdrop">
-          <div className="sync-prompt-modal">
-            <div className="sync-prompt-header">☁ CLOUD SAVE FOUND</div>
-            <div className="sync-prompt-sub">
-              A newer save was detected on the server<br />
-              ({formatTimeAgo(syncPrompt.remoteDate)})
-            </div>
-            <div className="sync-prompt-question">Which save would you like to keep?</div>
-            <div className="sync-prompt-buttons u-col u-gap-4">
-              <button className="action-btn" onClick={() => {
-                applySave(syncPrompt.data)
-                clearSyncPrompt()
-                window.location.reload()
-              }}>
-                ☁ LOAD REMOTE
-              </button>
-              <button className="action-btn action-btn--dim" onClick={() => {
-                clearSyncPrompt()
-                const uid = user?.uid
-                if (uid && !user?.isAnonymous) { flushPlaytimeToStorage(); uploadSave(uid).catch(() => {}) }
-              }}>
-                💾 KEEP LOCAL
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Developer gift modal — shown when unclaimed gifts exist in gifts.json */}
-      {pendingGifts.length > 0 && !dailyReward && (
-        <GiftClaimModal
-          gifts={pendingGifts}
-          onClaim={() => {
-            let crystalsDelta = 0
-            for (const gift of pendingGifts) {
-              crystalsDelta += applyGiftRewards(gift)
-            }
-            if (crystalsDelta > 0) setCrystals(c => c + crystalsDelta)
-            setPendingGifts([])
-          }}
-        />
-      )}
-
-      {/* Secret 10 — Wins Milestone Celebration */}
-      {showWinCelebration && (() => {
-        const isGrand = celebrationMilestone % 1000 === 0
-        const isMajor = !isGrand && celebrationMilestone % 500 === 0
-        const tier = isGrand ? 'grand' : isMajor ? 'major' : 'standard'
-        const confettiCount = isGrand ? 60 : isMajor ? 45 : 30
-        const crystalBonus = isGrand ? 100 : isMajor ? 50 : 0
-        const legendaryCount = isGrand ? 2 : 1
-        const modalClass = `win-celebration-modal${isGrand ? ' win-celebration-modal--grand' : isMajor ? ' win-celebration-modal--major' : ''}`
-        return (
-          <div className="win-celebration-backdrop">
-            <div className={modalClass}>
-              <div className="win-celebration-confetti" aria-hidden="true">
-                {Array.from({ length: confettiCount }, (_, i) => (
-                  <span key={i} className="confetti-char" style={{ '--i': i } as React.CSSProperties}>
-                    {['★', '✦', '◆', '▲', '●', '✿'][i % 6]}
-                  </span>
-                ))}
-              </div>
-              <div className="win-celebration-header">
-                🎉 {celebrationMilestone.toLocaleString()} VICTORIES! 🎉
-              </div>
-              <div className="win-celebration-body">
-                {isGrand ? (
-                  <>
-                    <p>{celebrationMilestone.toLocaleString()} battles won. A true legend.</p>
-                    <p>The world bows. History remembers.</p>
-                    <p>You have earned {legendaryCount} legendary cards and {crystalBonus} 💎.</p>
-                  </>
-                ) : isMajor ? (
-                  <>
-                    <p>{celebrationMilestone.toLocaleString()} battles won. An epic achievement.</p>
-                    <p>The enemy despairs. The chronicles take note.</p>
-                    <p>You have earned a legendary card and {crystalBonus} 💎.</p>
-                  </>
-                ) : (
-                  <>
-                    <p>{celebrationMilestone.toLocaleString()} battles won.</p>
-                    <p>The enemy trembles. The game developers are impressed.</p>
-                    <p>You have earned a legendary card.</p>
-                  </>
-                )}
-              </div>
-              <button className="action-btn" onClick={() => {
-                const pool = getCardCatalog().filter(c => c.rarity === 'legendary')
-                if (pool.length > 0) {
-                  const picks = Array.from({ length: legendaryCount }, () =>
-                    ({ cardName: pool[Math.floor(Math.random() * pool.length)].name, count: 1 })
-                  )
-                  addCardsToCollection(picks)
-                }
-                if (crystalBonus > 0) {
-                  const next = loadCrystals() + crystalBonus
-                  saveCrystals(next)
-                  setCrystals(next)
-                }
-                setShowWinCelebration(false)
-              }}>
-                {tier === 'grand' ? 'CLAIM GRAND REWARD' : tier === 'major' ? 'CLAIM EPIC REWARD' : 'CLAIM REWARD'}
-              </button>
-            </div>
-          </div>
-        )
-      })()}
-
-      {streakBrokenData && (
-        <StreakBrokenModal
-          streak={streakBrokenData.streak}
-          bestStreak={streakBrokenData.bestStreak}
-          onClose={() => setStreakBrokenData(null)}
-        />
-      )}
-
-      {/* Secret 5 — Time Capsule: 100th battle milestone overlay */}
-      {timeCapsuleVisible && (
-        <div className="time-capsule-backdrop">
-          <div className="time-capsule-modal">
-            <div className="time-capsule-header">📦 TIME CAPSULE OPENED</div>
-            <div className="time-capsule-body">
-              <p>You've started your <strong>100th battle</strong>.</p>
-              <p>Somewhere, a developer is crying tears of joy.</p>
-              <p>You have been awarded a commemorative pack.</p>
-            </div>
-            <button className="action-btn" onClick={() => {
-              const pack = generatePack()
-              addCardsToCollection(pack.map(n => ({ cardName: n, count: 1 })))
-              incrementAchievementProgress('misc:battle_100')
-              setTimeCapsuleVisible(false)
-            }}>
-              CLAIM REWARD
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Deck selector — shown before quick battle / endless when Deck B has content */}
-      {pendingBattleFn && (
-        <DeckSelectorModal
-          fatiguedCards={pendingBattleIsCampaign ? fatiguedCards : []}
-          onConfirm={() => {
-            const fn = pendingBattleFn
-            setPendingBattleFn(null)
-            fn()
-          }}
-          onCancel={() => setPendingBattleFn(null)}
-        />
-      )}
-
-      {/* Exotic relic drop — gold reveal overlay, shown over whatever screen follows the battle */}
-      {exoticDrop && (() => {
-        const def = getRelicDef(exoticDrop)
-        return (
-          <div className="exotic-drop-overlay" onClick={() => setExoticDrop(null)}>
-            <div className="exotic-drop-modal" onClick={e => e.stopPropagation()}>
-              <div className="exotic-drop-title">✦ EXOTIC RELIC ACQUIRED ✦</div>
-              <div className="exotic-drop-icon">{def?.icon ?? '✨'}</div>
-              <div className="exotic-drop-name">{exoticDrop}</div>
-              <div className="exotic-drop-desc">{def?.desc}</div>
-              <button className="action-btn" onClick={() => setExoticDrop(null)}>TAKE IT</button>
-            </div>
-          </div>
-        )
-      })()}
-
-      {/* Exotic quest chain completed — guaranteed card reveal */}
-      {questCompletes.length > 0 && (
-        <div className="exotic-drop-overlay" onClick={() => setQuestCompletes(prev => prev.slice(1))}>
-          <div className="exotic-drop-modal" onClick={e => e.stopPropagation()}>
-            <div className="exotic-drop-title">✦ QUEST COMPLETE ✦</div>
-            <div className="exotic-drop-icon">{questCompletes[0].icon}</div>
-            <div className="exotic-drop-name">{questCompletes[0].name}</div>
-            <div className="exotic-drop-desc">
-              <strong>{questCompletes[0].targetCard}</strong> has been added to your collection. Earned, not lucky.
-            </div>
-            <button className="action-btn" onClick={() => setQuestCompletes(prev => prev.slice(1))}>CLAIM</button>
-          </div>
-        </div>
-      )}
-
-      {/* Fracture Chronicle chapter completed — reward reveal */}
-      {questCompletes.length === 0 && chronicleCompletes.length > 0 && (
-        <div className="exotic-drop-overlay" onClick={() => setChronicleCompletes(prev => prev.slice(1))}>
-          <div className="exotic-drop-modal" onClick={e => e.stopPropagation()}>
-            <div className="exotic-drop-title">📜 CHAPTER COMPLETE 📜</div>
-            <div className="exotic-drop-name">{chronicleCompletes[0].title}</div>
-            <div className="exotic-drop-desc">
-              The Chronicle remembers. You earned <strong>{describeReward(chronicleCompletes[0].reward)}</strong> and
-              unlocked this chapter's Codex entry.
-            </div>
-            <button className="action-btn" onClick={() => setChronicleCompletes(prev => prev.slice(1))}>CLAIM</button>
-          </div>
-        </div>
-      )}
-
-      {/* Weekly challenge first win — Chronicle Fragment reward */}
-      {weeklyReward && (
-        <div className="exotic-drop-overlay" onClick={() => setWeeklyReward(null)}>
-          <div className="exotic-drop-modal" onClick={e => e.stopPropagation()}>
-            <div className="exotic-drop-title">📜 WEEKLY CHALLENGE COMPLETE 📜</div>
-            <div className="exotic-drop-icon">{weeklyReward.combined ? '💠' : '📜'}</div>
-            <div className="exotic-drop-name">{getWeeklyChallenge().loreTitle}</div>
-            <div className="exotic-drop-desc">
-              {weeklyReward.combined
-                ? <>Your Chronicle Fragments fused into an <strong>Exotic Relic Shard</strong>! Shards: {weeklyReward.shards}.</>
-                : <>You earned a <strong>Chronicle Fragment</strong> ({weeklyReward.fragments}/3). Three fragments fuse into an Exotic Relic Shard.</>}
-            </div>
-            <button className="action-btn" onClick={() => setWeeklyReward(null)}>CLAIM</button>
-          </div>
-        </div>
-      )}
-
-      {/* Daily login reward modal — shown as overlay on first visit each day */}
-      {dailyReward && (
-        <DailyLoginModal
-          reward={dailyReward}
-          onClose={() => {
-            // Mark claimed and grant the reward only when user taps CLAIM
-            markDailyRewardClaimed()
-            const catalog = getCardCatalog()
-            if (dailyReward.type === 'crystals' && dailyReward.amount) {
-              const next = loadCrystals() + dailyReward.amount
-              saveCrystals(next)
-              setCrystals(next)
-            } else if (dailyReward.type === 'card' && dailyReward.cardName) {
-              addCardsToCollection([{ cardName: dailyReward.cardName, count: 1 }])
-            } else if (dailyReward.type === 'pack') {
-              const n = dailyReward.count ?? 5
-              const names = Array.from({ length: n }, () => catalog[Math.floor(Math.random() * catalog.length)].name)
-              addCardsToCollection(names.map(name => ({ cardName: name, count: 1 })))
-            } else if (dailyReward.type === 'item') {
-              addToInventory(dailyReward)
-            } else if (dailyReward.type === 'consumable' && dailyReward.consumableId) {
-              addToConsumableStash(dailyReward.consumableId)
-            } else {
-              // Fallback: grant 10 crystals for unrecognised reward types
-              const next = loadCrystals() + 10
-              saveCrystals(next)
-              setCrystals(next)
-            }
-            setDailyReward(null)
-          }}
-        />
-      )}
+      <AppOverlays />
       </Suspense>
     </div>
     </BattleProvider>
