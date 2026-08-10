@@ -107,6 +107,11 @@ export interface AppContextValue {
   setUpdateDismissed:  Dispatch<SetStateAction<boolean>>
   updateServiceWorker: (reloadPage?: boolean) => Promise<void>
 
+  // ── Admin / news ──────────────────────────────────────────────────────────
+  setNewsUnreadCount: Dispatch<SetStateAction<number>>
+  previewAsPlayer:    boolean
+  setPreviewAsPlayer: Dispatch<SetStateAction<boolean>>
+
   // ── Campaign flow handlers reached from overlays ──────────────────────────
   handleSelectNode: (node: QuestNode) => void
   launchCampaign:   (startActId: string) => void

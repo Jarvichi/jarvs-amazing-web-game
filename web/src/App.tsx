@@ -4,9 +4,7 @@ import { CardRestSelect, CampScreen, EventScreen, MysteryScreen, MemoryFragmentS
   QuickBattleScreen, CardDraftScreen, CollectionScreen, DeckBuilder, PackOpening, HubWorld, HubWorldMap,
   CasinoScreen, TheatreScreen, PostBattleReward, ActComplete, RelicSelectScreen, ReplayBriefingScreen,
   StarterPackSelect, FakeCrashEvent, BlackjackEvent, WrongNumberEvent, NarratorEvent, LiarsDiceEvent, GamblerEvent,
-  DevBuildEvent, GlitchedCardEvent, ConfusedTouristEvent, GiftAdminScreen, InventoryScreen, NewsScreen,
-  NewsAdminScreen, CampaignAdminScreen, SceneryAdminScreen, FeedbackAdminScreen, TownAccessAdminScreen,
-  WeeklyChallengeScreen, ChronicleScreen, BossEpilogueScreen, CommanderScreen, TrainingScreen, AchievementsScreen,
+  DevBuildEvent, GlitchedCardEvent, ConfusedTouristEvent, InventoryScreen, WeeklyChallengeScreen, ChronicleScreen, BossEpilogueScreen, CommanderScreen, TrainingScreen, AchievementsScreen,
   HallOfAchievements, HomeShelf, HeroCardsScreen, FingerSmash, BossShockwave, ShopScreen, BattleSummary,
   VictoryPanel, CampaignVictoryScreen, ToBeContinuedScreen, CampaignFailedScreen,
   StatUpgradeScreen, PlayerStatsScreen, CodexScreen, DailyChallengeScreen, EndlessLeaderboardScreen,
@@ -25,6 +23,7 @@ import { useTownAccess } from './hooks/useTownAccess'
 import { useBattleTelemetry } from './hooks/useBattleTelemetry'
 import { AppProvider, type AppContextValue } from './app/AppContext'
 import { AppOverlays } from './app/AppOverlays'
+import { AdminRoutes } from './app/routes/AdminRoutes'
 import { BattleProvider, type BattleContextValue } from './app/BattleContext'
 import { GameState, Card, Archetype, SECRET_RARITIES } from './game/types'
 import { newGame, MAX_HANDICAP } from './game/engine'
@@ -76,7 +75,7 @@ import { IntroScreen } from './components/title/IntroScreen'
 import { LoginModal }        from './components/modals/LoginModal'
 import { addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
 import { GIFT_OWNER_UID } from './game/gifts'
-import { isTownAccessible, savePreviewAsPlayer } from './game/townAccess'
+import { isTownAccessible } from './game/townAccess'
 import { FeedbackModal } from './components/modals/FeedbackModal'
 import { loadDeckSlot } from './game/collection'
 import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, getDailyTerrainSeed, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
@@ -2601,6 +2600,7 @@ export default function App() {
     chronicleCompletes, setChronicleCompletes,
     weeklyReward, setWeeklyReward,
     dailyReward, setDailyReward,
+    setNewsUnreadCount, previewAsPlayer, setPreviewAsPlayer,
     handleSelectNode, launchCampaign,
   }), [
     screen, returnScreen, user, authLoading, isAdmin, crystals, handicap, commander,
@@ -2611,7 +2611,7 @@ export default function App() {
     showWinCelebration, celebrationMilestone, streakBrokenData, timeCapsuleVisible,
     pendingBattleFn, pendingBattleIsCampaign, exoticDrop, questCompletes,
     chronicleCompletes, weeklyReward, dailyReward, handleSelectNode, launchCampaign,
-    setPendingGifts, setDailyReward,
+    setPendingGifts, setDailyReward, setNewsUnreadCount, previewAsPlayer,
   ])
 
   const battleContextValue = useMemo<BattleContextValue>(
@@ -2776,41 +2776,7 @@ export default function App() {
         />
       )}
 
-      {screen === 'giftAdmin' && (
-        <GiftAdminScreen onBack={() => setScreen('settings')} />
-      )}
-
-      {screen === 'news' && (
-        <NewsScreen onBack={() => { setNewsUnreadCount(0); setScreen(returnScreen) }} />
-      )}
-
-      {screen === 'newsAdmin' && (
-        <NewsAdminScreen onBack={() => setScreen('settings')} />
-      )}
-
-      {screen === 'campaignAdmin' && (
-        <CampaignAdminScreen onBack={() => setScreen('settings')} />
-      )}
-
-      {screen === 'feedbackAdmin' && (
-        <FeedbackAdminScreen onBack={() => setScreen('settings')} />
-      )}
-
-      {screen === 'townAccessAdmin' && (
-        <TownAccessAdminScreen
-          onBack={() => setScreen('settings')}
-          previewAsPlayer={previewAsPlayer}
-          onTogglePreviewAsPlayer={() => {
-            const next = !previewAsPlayer
-            savePreviewAsPlayer(next)
-            setPreviewAsPlayer(next)
-          }}
-        />
-      )}
-
-      {screen === 'sceneryPreview' && (
-        <SceneryAdminScreen onBack={() => setScreen('settings')} />
-      )}
+      <AdminRoutes />
 
       {screen === 'nodemap' && run && actData && (
         <NodeMap
