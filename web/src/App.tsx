@@ -1,4 +1,17 @@
-import React, { useState, useCallback, useEffect, useRef, useMemo, useReducer, lazy, Suspense } from 'react'
+import React, { useState, useCallback, useEffect, useRef, useMemo, useReducer, Suspense } from 'react'
+import { CardRestSelect, CampScreen, EventScreen, MysteryScreen, MemoryFragmentScreen, CharacterEncounterScreen,
+  NarratorJournalScreen, CharacterScreen, CutsceneScreen, BossDialogueScreen, Battlefield, GameOver,
+  QuickBattleScreen, CardDraftScreen, CollectionScreen, DeckBuilder, PackOpening, HubWorld, HubWorldMap,
+  CasinoScreen, TheatreScreen, PostBattleReward, ActComplete, RelicSelectScreen, ReplayBriefingScreen,
+  StarterPackSelect, FakeCrashEvent, BlackjackEvent, WrongNumberEvent, NarratorEvent, LiarsDiceEvent, GamblerEvent,
+  DevBuildEvent, GlitchedCardEvent, ConfusedTouristEvent, GiftAdminScreen, InventoryScreen, NewsScreen,
+  NewsAdminScreen, CampaignAdminScreen, SceneryAdminScreen, FeedbackAdminScreen, TownAccessAdminScreen,
+  WeeklyChallengeScreen, ChronicleScreen, BossEpilogueScreen, CommanderScreen, TrainingScreen, AchievementsScreen,
+  HallOfAchievements, HomeShelf, HeroCardsScreen, FingerSmash, BossShockwave, ShopScreen, BattleSummary,
+  VictoryPanel, RelicSpinScreen, CampaignVictoryScreen, ToBeContinuedScreen, CampaignFailedScreen,
+  StatUpgradeScreen, PlayerStatsScreen, CodexScreen, DailyChallengeScreen, EndlessLeaderboardScreen,
+  MiniGamesMenu, Fishing, AugmentCollectionScreen, PlayerScreen, CollectionTabScreen
+} from './app/lazyScreens'
 import { ScreenLoadingFallback } from './components/ScreenLoadingFallback'
 import { resolvedNodeOpts, loadHandicap, HANDICAP_KEY, buildQuickBattleOpts, loadCurrentDeckInfo, carryHpAfterBattle, applyRestHeal, applyEventHeal } from './game/campaignHelpers'
 import { usePlaytime } from './hooks/usePlaytime'
@@ -8,7 +21,7 @@ import { journal, flushResumeJournal } from './utils/resumeJournal'
 import { useStartupData } from './hooks/useStartupData'
 import { useCloudSync } from './hooks/useCloudSync'
 import { useRegisterSW } from 'virtual:pwa-register/react'
-import { GameState, Card, StanceRules, Archetype, SECRET_RARITIES } from './game/types'
+import { GameState, Card, Archetype, SECRET_RARITIES } from './game/types'
 import { newGame, MAX_HANDICAP } from './game/engine'
 import { playCard, playAoeCard } from './game/engine/cards'
 import { syncPlayerCommanderToBase } from './game/engine/helpers'
@@ -28,7 +41,7 @@ import { applyStatUpgrade } from './game/playerStats'
 import {
   loadRun, loadRunRaw, saveRun, clearRun, newRun, LIVES_START, LIVES_MAX,
   getAvailableNodeIds, skipSiblings, isActComplete, getProtectedFragmentNodeIds,
-  generateRewardChoices, generateEndlessRewardChoices, generateMerchantCards, MERCHANT_PRICES,
+  generateRewardChoices, generateEndlessRewardChoices, MERCHANT_PRICES,
   loadAct, getCachedAct, getCampaignForAct,
   loadFatigued, saveFatigued, clearFatigued, getTopPlayedCards,
   hasSeenIntro, markIntroSeen,
@@ -38,84 +51,38 @@ import {
   CutscenePanel, QuestNode, RunState, Act, ReplayModifier,
   getActiveModifiers, loadActCount, incrementActCount,
   recordNodeComplete, loadPlayerName, applyPlayerName,
-  ALL_CONSUMABLES, addToConsumableStash, useConsumable,
+  addToConsumableStash, useConsumable,
   getModifiersByCount, getModifierMax,
   setLastRunFailed, loadLastRunFailed, clearLastRunFailed,
   ARCHETYPE_STARTER_PACK, loadPlayerArchetype,
 } from './game/questline'
-const CardRestSelect = lazy(() => import('./components/cards/CardRestSelect').then(m => ({ default: m.CardRestSelect })))
 import type { CampChoice } from './components/campaign/CampScreen'
-const CampScreen = lazy(() => import('./components/campaign/CampScreen').then(m => ({ default: m.CampScreen })))
-const EventScreen = lazy(() => import('./components/campaign/EventScreen').then(m => ({ default: m.EventScreen })))
-import { MerchantScreen, MerchantItem, cardMerchantItem } from './components/campaign/MerchantScreen'
-const MysteryScreen = lazy(() => import('./components/campaign/MysteryScreen').then(m => ({ default: m.MysteryScreen })))
-const MemoryFragmentScreen = lazy(() => import('./components/campaign/MemoryFragmentScreen').then(m => ({ default: m.MemoryFragmentScreen })))
+import { MerchantScreen, MerchantItem } from './components/campaign/MerchantScreen'
 import { MemoryFragment, isFragmentDiscovered, markFragmentDiscovered, isHubWorldUnlocked, unlockHubWorld, areAllCampaignFragmentsDiscovered, loadHubDefault, saveHubDefault, getDiscoveredFragmentIds } from './game/codex'
 import { getConsumables, addConsumable } from './game/itemStore'
-const CharacterEncounterScreen = lazy(() => import('./components/campaign/CharacterEncounterScreen').then(m => ({ default: m.CharacterEncounterScreen })))
-const NarratorJournalScreen = lazy(() => import('./components/hub/NarratorJournalScreen').then(m => ({ default: m.NarratorJournalScreen })))
 import { CharacterChoice, recordCharacterEncounter, getCharacterEncounterChance, resolveCharacterEncounterId } from './game/characters'
 import memoryFragmentsData from './data/memoryFragments.json'
 import { ItemFoundScreen }    from './components/modals/ItemFoundScreen'
-const CharacterScreen = lazy(() => import('./components/screens/CharacterScreen').then(m => ({ default: m.CharacterScreen })))
-const CutsceneScreen = lazy(() => import('./components/campaign/CutsceneScreen').then(m => ({ default: m.CutsceneScreen })))
-const BossDialogueScreen = lazy(() => import('./components/battle/BossDialogueScreen').then(m => ({ default: m.BossDialogueScreen })))
-const Battlefield = lazy(() => import('./components/battle/Battlefield').then(m => ({ default: m.Battlefield })))
-const GameOver = lazy(() => import('./components/battle/GameOver').then(m => ({ default: m.GameOver })))
 import { TitleScreen }        from './components/title/TitleScreen'
 import type { QuickBattleMode } from './components/screens/QuickBattleScreen'
-const QuickBattleScreen = lazy(() => import('./components/screens/QuickBattleScreen').then(m => ({ default: m.QuickBattleScreen })))
-const CardDraftScreen = lazy(() => import('./components/screens/CardDraftScreen').then(m => ({ default: m.CardDraftScreen })))
-const CollectionScreen = lazy(() => import('./components/screens/CollectionScreen').then(m => ({ default: m.CollectionScreen })))
-const DeckBuilder = lazy(() => import('./components/cards/DeckBuilder').then(m => ({ default: m.DeckBuilder })))
-const PackOpening = lazy(() => import('./components/cards/PackOpening').then(m => ({ default: m.PackOpening })))
 import { NodeMap }            from './components/campaign/NodeMap'
-const HubWorld = lazy(() => import('./components/hub/HubWorld').then(m => ({ default: m.HubWorld })))
-const HubWorldMap = lazy(() => import('./components/hub/HubWorldMap').then(m => ({ default: m.HubWorldMap })))
-const CasinoScreen = lazy(() => import('./components/hub/CasinoScreen').then(m => ({ default: m.CasinoScreen })))
-const TheatreScreen = lazy(() => import('./components/hub/TheatreScreen').then(m => ({ default: m.TheatreScreen })))
-const PostBattleReward = lazy(() => import('./components/battle/PostBattleReward').then(m => ({ default: m.PostBattleReward })))
-const ActComplete = lazy(() => import('./components/battle/ActComplete').then(m => ({ default: m.ActComplete })))
-const RelicSelectScreen = lazy(() => import('./components/campaign/RelicSelectScreen').then(m => ({ default: m.RelicSelectScreen })))
-const ReplayBriefingScreen = lazy(() => import('./components/campaign/ReplayBriefingScreen').then(m => ({ default: m.ReplayBriefingScreen })))
-const StarterPackSelect = lazy(() => import('./components/cards/StarterPackSelect').then(m => ({ default: m.StarterPackSelect })))
 import { SettingsScreen, applyTextSettings, loadSkipIntro, load8bitEnabled, apply8bitMode, applyLightMode, loadLightMode } from './components/screens/SettingsScreen'
 import { IntroScreen } from './components/title/IntroScreen'
-const FakeCrashEvent = lazy(() => import('./components/rare-events/FakeCrashEvent').then(m => ({ default: m.FakeCrashEvent })))
-const BlackjackEvent = lazy(() => import('./components/rare-events/BlackjackEvent').then(m => ({ default: m.BlackjackEvent })))
-const WrongNumberEvent = lazy(() => import('./components/rare-events/WrongNumberEvent').then(m => ({ default: m.WrongNumberEvent })))
-const NarratorEvent = lazy(() => import('./components/rare-events/NarratorEvent').then(m => ({ default: m.NarratorEvent })))
-const LiarsDiceEvent = lazy(() => import('./components/rare-events/LiarsDiceEvent').then(m => ({ default: m.LiarsDiceEvent })))
-const GamblerEvent = lazy(() => import('./components/rare-events/GamblerEvent').then(m => ({ default: m.GamblerEvent })))
-const DevBuildEvent = lazy(() => import('./components/rare-events/DevBuildEvent').then(m => ({ default: m.DevBuildEvent })))
-const GlitchedCardEvent = lazy(() => import('./components/rare-events/GlitchedCardEvent').then(m => ({ default: m.GlitchedCardEvent })))
-const ConfusedTouristEvent = lazy(() => import('./components/rare-events/ConfusedTouristEvent').then(m => ({ default: m.ConfusedTouristEvent })))
 import { CardTile }           from './components/cards/CardTile'
 import { DailyLoginModal }   from './components/screens/DailyLoginModal'
 import { GiftClaimModal }    from './components/admin/GiftClaimModal'
-const GiftAdminScreen = lazy(() => import('./components/admin/GiftAdminScreen').then(m => ({ default: m.GiftAdminScreen })))
 import { LoginModal }        from './components/modals/LoginModal'
-const InventoryScreen = lazy(() => import('./components/screens/InventoryScreen').then(m => ({ default: m.InventoryScreen })))
 import { markDailyRewardClaimed, addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
 import { applyGiftRewards, GiftDef, GIFT_OWNER_UID } from './game/gifts'
 import { fetchEnabledTownIds, isTownAccessible, loadPreviewAsPlayer, savePreviewAsPlayer } from './game/townAccess'
-const NewsScreen = lazy(() => import('./components/screens/NewsScreen').then(m => ({ default: m.NewsScreen })))
-const NewsAdminScreen = lazy(() => import('./components/admin/NewsAdminScreen').then(m => ({ default: m.NewsAdminScreen })))
-const CampaignAdminScreen = lazy(() => import('./components/admin/CampaignAdminScreen').then(m => ({ default: m.CampaignAdminScreen })))
-const SceneryAdminScreen = lazy(() => import('./components/admin/SceneryAdminScreen').then(m => ({ default: m.SceneryAdminScreen })))
 import { FeedbackModal } from './components/modals/FeedbackModal'
-const FeedbackAdminScreen = lazy(() => import('./components/admin/FeedbackAdminScreen').then(m => ({ default: m.FeedbackAdminScreen })))
-const TownAccessAdminScreen = lazy(() => import('./components/admin/TownAccessAdminScreen').then(m => ({ default: m.TownAccessAdminScreen })))
 import { DeckSelectorModal } from './components/cards/DeckSelectorModal'
 import { loadDeckSlot } from './game/collection'
 import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, getDailyTerrainSeed, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
 import { getWeeklyChallenge, getWeeklyPlayerDeck, getWeeklyOpponentDeck, getWeeklyChallengeState, getWeeklyTerrainSeed, saveWeeklyChallengeResult, grantWeeklyReward, publishWeeklyResult, WeeklyRewardResult } from './game/weeklyChallenge'
-const WeeklyChallengeScreen = lazy(() => import('./components/screens/WeeklyChallengeScreen').then(m => ({ default: m.WeeklyChallengeScreen })))
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic, rollExoticDrop } from './game/relics'
 import { recordQuestKills, recordQuestWin, recordQuestCardPlayed, recordQuestBossDefeat, QuestChainDef } from './game/quests'
 import { recordChronicleWin, describeReward, ChronicleChapterDef } from './game/chronicle'
-const ChronicleScreen = lazy(() => import('./components/screens/ChronicleScreen').then(m => ({ default: m.ChronicleScreen })))
-const BossEpilogueScreen = lazy(() => import('./components/campaign/BossEpilogueScreen').then(m => ({ default: m.BossEpilogueScreen })))
 import bossEpiloguesData from './data/bossEpilogues.json'
 import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, playBattleStart, playVictory, playDefeat, stopBattleMusic, stopGameOverMusic } from './game/sound'
 import { useMusic } from './hooks/useMusic'
@@ -129,175 +96,33 @@ import { loadCommander, promoteCommander, CommanderState } from './game/commande
 
 import { WORLD_MAP, WORLD_MAP_NODES, type WorldNodeDef } from './data/world/worldMapDef'
 import { setCurrentWorldLocation, getCurrentWorldLocation, markNodeCleared, isNodeCleared } from './game/world/worldState'
-const CommanderScreen = lazy(() => import('./components/screens/CommanderScreen').then(m => ({ default: m.CommanderScreen })))
-const TrainingScreen = lazy(() => import('./components/screens/TrainingScreen').then(m => ({ default: m.TrainingScreen })))
 import {
   incrementAchievementProgress, setAchievementProgress, AchievementDef,
 } from './game/achievements'
 import { incrementAugmentSouls } from './game/collection'
-const AchievementsScreen = lazy(() => import('./components/screens/AchievementsScreen').then(m => ({ default: m.AchievementsScreen })))
-const HallOfAchievements = lazy(() => import('./components/hub/HallOfAchievements').then(m => ({ default: m.HallOfAchievements })))
-const HomeShelf = lazy(() => import('./components/hub/HomeShelf').then(m => ({ default: m.HomeShelf })))
-const HeroCardsScreen = lazy(() => import('./components/screens/HeroCardsScreen').then(m => ({ default: m.HeroCardsScreen })))
-const FingerSmash = lazy(() => import('./components/battle/FingerSmash'))
-const BossShockwave = lazy(() => import('./components/battle/BossShockwave'))
-const ShopScreen = lazy(() => import('./components/screens/ShopScreen').then(m => ({ default: m.ShopScreen })))
-const BattleSummary = lazy(() => import('./components/battle/BattleSummary').then(m => ({ default: m.BattleSummary })))
-const VictoryPanel = lazy(() => import('./components/battle/VictoryPanel').then(m => ({ default: m.VictoryPanel })))
-const RelicSpinScreen = lazy(() => import('./components/campaign/RelicSpinScreen').then(m => ({ default: m.RelicSpinScreen })))
-const CampaignVictoryScreen = lazy(() => import('./components/battle/CampaignVictoryScreen').then(m => ({ default: m.CampaignVictoryScreen })))
-const ToBeContinuedScreen = lazy(() => import('./components/battle/ToBeContinuedScreen').then(m => ({ default: m.ToBeContinuedScreen })))
-const CampaignFailedScreen = lazy(() => import('./components/battle/CampaignFailedScreen').then(m => ({ default: m.CampaignFailedScreen })))
-const StatUpgradeScreen = lazy(() => import('./components/campaign/StatUpgradeScreen').then(m => ({ default: m.StatUpgradeScreen })))
-const PlayerStatsScreen = lazy(() => import('./components/screens/PlayerStatsScreen').then(m => ({ default: m.PlayerStatsScreen })))
-const CodexScreen = lazy(() => import('./components/screens/CodexScreen').then(m => ({ default: m.CodexScreen })))
-const DailyChallengeScreen = lazy(() => import('./components/screens/DailyChallengeScreen').then(m => ({ default: m.DailyChallengeScreen })))
 import { ConfirmModal }          from './components/modals/ConfirmModal'
 import { StreakBrokenModal }     from './components/modals/StreakBrokenModal'
-const EndlessLeaderboardScreen = lazy(() => import('./components/screens/EndlessLeaderboardScreen').then(m => ({ default: m.EndlessLeaderboardScreen })))
 import type { SubScreen } from './components/screens/MiniGamesMenu'
-const MiniGamesMenu = lazy(() => import('./components/screens/MiniGamesMenu').then(m => ({ default: m.MiniGamesMenu })))
-const Fishing = lazy(() => import('./components/minigames/Fishing').then(m => ({ default: m.Fishing })))
 import { OverlayScreen } from './components/ui/OverlayScreen'
-const AugmentCollectionScreen = lazy(() => import('./components/screens/AugmentCollectionScreen').then(m => ({ default: m.AugmentCollectionScreen })))
-const PlayerScreen = lazy(() => import('./components/screens/PlayerScreen').then(m => ({ default: m.PlayerScreen })))
-const CollectionTabScreen = lazy(() => import('./components/screens/CollectionTabScreen').then(m => ({ default: m.CollectionTabScreen })))
 import './styles.css'
 import { publishSecretRareWin, type SecretRarityType } from './game/secretRareNews'
-import brokenRelicsData from './data/broken-relics.json'
 import rollbar, { updateRollbarPerson } from './rollbar'
 import { useAuth } from './hooks/useAuth'
 import { auth } from './firebase'
 import { uploadSave, applySave } from './game/cloudSave'
 import { getHubWorldData, type HubWorldData } from './data/hub/hubWorldFactory'
+import type { Screen } from './app/screens'
+import { VISIBILITY_BREADCRUMB_THRESHOLD_MS, STANCE_RULES_BY_NODE_TYPE } from './app/screens'
+import { BROKEN_RELIC_ITEMS, buildMerchantItems } from './app/merchantItems'
+import { formatTimeAgo } from './utils/formatTimeAgo'
 
 // Apply saved display settings on load
 applyTextSettings()
 apply8bitMode(load8bitEnabled())
 applyLightMode(loadLightMode())
 
-const BROKEN_RELIC_ITEMS: Record<string, { name: string; icon: string; desc: string }> =
-  Object.fromEntries((brokenRelicsData as { relicName: string; name: string; icon: string; desc: string }[])
-    .map(r => [r.relicName, { name: r.name, icon: r.icon, desc: r.desc }]))
-
-/** Build merchant item list: 3 cards + ~1-in-5 chance of 1 unowned inventory 'Curiosity' at 10–20 crystals. */
-function buildMerchantItems(): MerchantItem[] {
-  const catalog   = getCardCatalog()
-  const cardNames = generateMerchantCards()
-  const items: MerchantItem[] = cardNames.map(name => {
-    const card = catalog.find(c => c.name === name)!
-    return cardMerchantItem(card)
-  })
-  if (Math.random() < 0.2) {
-    const owned = new Set(loadInventory().map(i => i.id))
-    const available = ALL_ITEMS.filter(i => !owned.has(i.id))
-    if (available.length > 0) {
-      const inv   = available[Math.floor(Math.random() * available.length)]
-      const price = 10 + Math.floor(Math.random() * 11)   // 10–20 crystals
-      items.push({ kind: 'item', inventoryItem: { id: inv.id, name: inv.name, icon: inv.icon, desc: inv.desc, lore: inv.lore ?? '', acquiredDate: '' }, price })
-    }
-  }
-  // Always add consumables to the merchant
-  for (const c of ALL_CONSUMABLES) {
-    items.push({ kind: 'consumable', def: c, price: c.price })
-  }
-  return items
-}
-
-type Screen =
-  | 'intro'
-  | 'title'
-  | 'settings'
-  | 'playing'
-  | 'collection'
-  | 'deckbuilder'
-  | 'pack'
-  | 'nodemap'
-  | 'cutscene'
-  | 'bossEpilogue'
-  | 'bossdialogue'
-  | 'event'
-  | 'merchant'
-  | 'mystery'
-  | 'reward'
-  | 'actcomplete'
-  | 'cardrest'
-  | 'starterpack'
-  | 'relicselect'
-  | 'inventory'
-  | 'achievements'
-  | 'hall-of-achievements'
-  | 'campaignfailed'
-  | 'heroCards'
-  | 'battlesummary'
-  | 'shop'
-  | 'shop-cards'
-  | 'shop-augments'
-  | 'shop-supplies'
-  | 'campaignvictory'
-  | 'tobecontinued'
-  | 'itemfound'
-  | 'character'
-  | 'replayBriefing'
-  | 'dailychallenge'
-  | 'weeklychallenge'
-  | 'chronicle'
-  | 'endlessleaderboard'
-  | 'commander'
-  | 'giftAdmin'
-  | 'training'
-  | 'news'
-  | 'newsAdmin'
-  | 'campaignAdmin'
-  | 'feedbackAdmin'
-  | 'townAccessAdmin'
-  | 'minigames'
-  | 'playerstats'
-  | 'quickbattle'
-  | 'carddraft'
-  | 'statupgrade'
-  | 'camp'
-  | 'codex'
-  | 'memory'
-  | 'characterEncounter'
-  | 'narratorJournal'
-  | 'augments'
-  | 'player'
-  | 'collection-tabs'
-  | 'home-shelf'
-  | 'home-shelf-decorate'
-  | 'hubworld'
-  | 'hub-minigame'
-  | 'hub-fishing'
-  | 'casino'
-  | 'theatre'
-  | 'worldmap'
-  | 'location'
-  | 'sceneryPreview'
-
-
-// Below this, a tab switch/app-switcher glance isn't worth a Rollbar breadcrumb —
-// only log genuine "away for a while" returns.
-const VISIBILITY_BREADCRUMB_THRESHOLD_MS = 15_000
-
-const STANCE_RULES_BY_NODE_TYPE: Partial<Record<string, StanceRules>> = {
-  // Normal battles: no restrictions (current behaviour)
-  battle: undefined,
-  // Elite: 15 s duration, 20 s cooldown — timing tactics matter
-  elite: { allowed: ['auto', 'attack', 'hold', 'defend'], durationMs: 15_000, cooldownMs: 20_000 },
-  // Boss: defend and auto only — must react to the boss, can't mass-charge
-  boss: { allowed: ['auto', 'defend'] },
-}
-
-function formatTimeAgo(date: Date): string {
-  const diffMin = Math.round((Date.now() - date.getTime()) / 60_000)
-  if (diffMin < 1) return 'just now'
-  if (diffMin < 60) return `${diffMin}m ago`
-  const diffH = Math.round(diffMin / 60)
-  if (diffH < 24) return `${diffH}h ago`
-  return `${Math.round(diffH / 24)}d ago`
-}
-
+// Screen union, stance rules and the visibility threshold live in ./app/screens;
+// merchant item construction in ./app/merchantItems (#316).
 export default function App() {
   // ── PWA update (prompt mode) ──────────────────────────────────────────────────
   const swRegRef = useRef<ServiceWorkerRegistration | null>(null)

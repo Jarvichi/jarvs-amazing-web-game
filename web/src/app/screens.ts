@@ -1,0 +1,88 @@
+import type { StanceRules } from '../game/types'
+
+export type { SubScreen } from '../components/screens/MiniGamesMenu'
+
+/** Every screen the app can route to. `App` owns the current value; route groups read it. */
+export type Screen =
+  | 'intro'
+  | 'title'
+  | 'settings'
+  | 'playing'
+  | 'collection'
+  | 'deckbuilder'
+  | 'pack'
+  | 'nodemap'
+  | 'cutscene'
+  | 'bossEpilogue'
+  | 'bossdialogue'
+  | 'event'
+  | 'merchant'
+  | 'mystery'
+  | 'reward'
+  | 'actcomplete'
+  | 'cardrest'
+  | 'starterpack'
+  | 'relicselect'
+  | 'inventory'
+  | 'achievements'
+  | 'hall-of-achievements'
+  | 'campaignfailed'
+  | 'heroCards'
+  | 'battlesummary'
+  | 'shop'
+  | 'shop-cards'
+  | 'shop-augments'
+  | 'shop-supplies'
+  | 'campaignvictory'
+  | 'tobecontinued'
+  | 'itemfound'
+  | 'character'
+  | 'replayBriefing'
+  | 'dailychallenge'
+  | 'weeklychallenge'
+  | 'chronicle'
+  | 'endlessleaderboard'
+  | 'commander'
+  | 'giftAdmin'
+  | 'training'
+  | 'news'
+  | 'newsAdmin'
+  | 'campaignAdmin'
+  | 'feedbackAdmin'
+  | 'townAccessAdmin'
+  | 'minigames'
+  | 'playerstats'
+  | 'quickbattle'
+  | 'carddraft'
+  | 'statupgrade'
+  | 'camp'
+  | 'codex'
+  | 'memory'
+  | 'characterEncounter'
+  | 'narratorJournal'
+  | 'augments'
+  | 'player'
+  | 'collection-tabs'
+  | 'home-shelf'
+  | 'home-shelf-decorate'
+  | 'hubworld'
+  | 'hub-minigame'
+  | 'hub-fishing'
+  | 'casino'
+  | 'theatre'
+  | 'worldmap'
+  | 'location'
+  | 'sceneryPreview'
+
+// Below this, a tab switch/app-switcher glance isn't worth a Rollbar breadcrumb —
+// only log genuine "away for a while" returns.
+export const VISIBILITY_BREADCRUMB_THRESHOLD_MS = 15_000
+
+export const STANCE_RULES_BY_NODE_TYPE: Partial<Record<string, StanceRules>> = {
+  // Normal battles: no restrictions (current behaviour)
+  battle: undefined,
+  // Elite: 15 s duration, 20 s cooldown — timing tactics matter
+  elite: { allowed: ['auto', 'attack', 'hold', 'defend'], durationMs: 15_000, cooldownMs: 20_000 },
+  // Boss: defend and auto only — must react to the boss, can't mass-charge
+  boss: { allowed: ['auto', 'defend'] },
+}
