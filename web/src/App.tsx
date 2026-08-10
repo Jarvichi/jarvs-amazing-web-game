@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef, useReducer, Suspense } from 'react'
+import React, { useState, useCallback, useEffect, useRef, useMemo, useReducer, Suspense } from 'react'
 import { CardRestSelect, CampScreen, EventScreen, MysteryScreen, MemoryFragmentScreen, CharacterEncounterScreen,
   NarratorJournalScreen, CharacterScreen, CutsceneScreen, BossDialogueScreen, Battlefield, GameOver,
   QuickBattleScreen, CardDraftScreen, CollectionScreen, DeckBuilder, PackOpening, HubWorld, HubWorldMap,
@@ -24,6 +24,8 @@ import { useTabVisibility } from './hooks/useTabVisibility'
 import { useScreenGuards } from './hooks/useScreenGuards'
 import { useTownAccess } from './hooks/useTownAccess'
 import { useBattleTelemetry } from './hooks/useBattleTelemetry'
+import { AppProvider, type AppContextValue } from './app/AppContext'
+import { BattleProvider, type BattleContextValue } from './app/BattleContext'
 import { GameState, Card, Archetype, SECRET_RARITIES } from './game/types'
 import { newGame, MAX_HANDICAP } from './game/engine'
 import { playCard, playAoeCard } from './game/engine/cards'
@@ -2581,7 +2583,22 @@ export default function App() {
 
   const actTheme = run?.actId
 
+  // Context values for the extracted route groups (#316). Battle state is kept
+  // separate so a per-tick gameState change doesn't re-render every screen.
+  const appContextValue = useMemo<AppContextValue>(() => ({
+    screen, setScreen, returnScreen, setReturnScreen,
+    user, authLoading, isAdmin, crystals, setCrystals, handicap, setHandicap, commander,
+    run, setRun, actData,
+  }), [screen, returnScreen, user, authLoading, isAdmin, crystals, handicap, commander, run, actData])
+
+  const battleContextValue = useMemo<BattleContextValue>(
+    () => ({ battle, gameState, dispatch }),
+    [battle, gameState],
+  )
+
   return (
+    <AppProvider value={appContextValue}>
+    <BattleProvider value={battleContextValue}>
     <div className="game-container">
       <div className="game-title">JARV'S AMAZING WEB GAME</div>
 
@@ -3730,5 +3747,7 @@ export default function App() {
       )}
       </Suspense>
     </div>
+    </BattleProvider>
+    </AppProvider>
   )
 }
