@@ -17,22 +17,22 @@ import { CollectionRoutes } from './app/routes/CollectionRoutes'
 import { HubRoutes } from './app/routes/HubRoutes'
 import { EntryRoutes } from './app/routes/EntryRoutes'
 import { BattleRoutes } from './app/routes/BattleRoutes'
+import { useShopFlow } from './app/useShopFlow'
+import { useBattleControls } from './app/useBattleControls'
 import { CampaignRoutes } from './app/routes/CampaignRoutes'
 import { BattleProvider, type BattleContextValue } from './app/BattleContext'
 import { GameState, Card, SECRET_RARITIES } from './game/types'
 import { newGame, MAX_HANDICAP } from './game/engine'
-import { playCard, playAoeCard } from './game/engine/cards'
 import { syncPlayerCommanderToBase } from './game/engine/helpers'
 import { makeNodeDeck } from './game/cards'
 import { battleReducer, INITIAL_BATTLE_STATE, TICK_MS } from './game/battleReducer'
 import {
   loadDeck, saveDeck, buildDeckCards, generatePack,
   loadCollection, loadCrystals, saveCrystals,
-  recordCardPlayed, addCardsToCollection,
-  getOwnedCount, DECK_MAX, CRYSTAL_PACK_COST, DeckEntry,
+  addCardsToCollection,
+  getOwnedCount, DECK_MAX, DeckEntry,
   deckTotalCards, STARTER_DECK,
   loadWinStreak, loadBestStreak, incrementWinStreak, resetWinStreak, incrementTotalWins,
-  generateSeededPack,
 } from './game/collection'
 import { getCardCatalog } from './game/cards'
 import {
@@ -67,16 +67,16 @@ import { loadDeckSlot } from './game/collection'
 import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, getDailyTerrainSeed, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
 import { getWeeklyPlayerDeck, getWeeklyOpponentDeck, getWeeklyChallengeState, getWeeklyTerrainSeed, saveWeeklyChallengeResult, grantWeeklyReward, publishWeeklyResult, WeeklyRewardResult } from './game/weeklyChallenge'
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic, rollExoticDrop } from './game/relics'
-import { recordQuestWin, recordQuestCardPlayed, recordQuestBossDefeat, QuestChainDef } from './game/quests'
+import { recordQuestWin, recordQuestBossDefeat, QuestChainDef } from './game/quests'
 import { recordChronicleWin, ChronicleChapterDef } from './game/chronicle'
 import bossEpiloguesData from './data/bossEpilogues.json'
-import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, playBattleStart, playVictory, playDefeat, stopBattleMusic } from './game/sound'
+import { playButtonClick, playBattleEvent, playCardFlip, playRestHeal, playBattleStart, playVictory, playDefeat, stopBattleMusic } from './game/sound'
 import { useMusic } from './hooks/useMusic'
 import { getIntegrityViolations, clearIntegrityViolations } from './game/integrity'
 import { useRareEvents } from './hooks/useRareEvents'
 import { useAchievements } from './hooks/useAchievements'
 import { isNoDamageMode } from './game/debug'
-import { saveBattleState, loadBattleState, clearBattleState } from './game/battleState'
+import { loadBattleState, clearBattleState } from './game/battleState'
 import { loadCommander, CommanderState } from './game/commander'
 
 import { WORLD_MAP_NODES, type WorldNodeDef } from './data/world/worldMapDef'
@@ -253,7 +253,6 @@ export default function App() {
     [],
   )
 
-  const [packs, setPacks]         = useState<string[][]>([])
   const [handicap, setHandicap]   = useState<number>(loadHandicap)
   const [crystals, setCrystals]   = useState<number>(loadCrystals)
   const [quickPlayRewardClaimed, setQuickPlayRewardClaimed] = useState(false)
@@ -1722,28 +1721,6 @@ export default function App() {
     setScreen('nodemap')
   }, [])
 
-  const handleWaveRewardPick = useCallback((cardName: string) => {
-    // Add to collection permanently and inject into the current run deck
-    addCardsToCollection([{ cardName, count: 1 }])
-    const catalog = getCardCatalog()
-    const card = catalog.find(c => c.name === cardName)
-    dispatch({ type: 'WAVE_REWARD_PICK', card })
-  }, [])
-
-  const handleWaveRewardSkip = useCallback(() => {
-    dispatch({ type: 'WAVE_REWARD_SKIP' })
-  }, [])
-
-  const handleSetStance = useCallback((s: NonNullable<GameState['playerStance']>) => {
-    dispatch({ type: 'SET_STANCE', stance: s })
-  }, [])
-
-  const handleCycleSpeed = useCallback(() => {
-    const order = [1, 2, 4, 8] as const
-    const next = order[(order.indexOf(battle.speedMultiplier) + 1) % order.length]
-    dispatch({ type: 'SET_SPEED', multiplier: next })
-  }, [battle.speedMultiplier])
-
   const handleActComplete = useCallback(async () => {
     const currentRun = run
     if (!currentRun) {
@@ -2141,55 +2118,6 @@ export default function App() {
     setAchievementToasts, setQuestCompletes, setTimeCapsuleVisible,
   })
 
-  // Track card play types for per-battle misc achievements
-  const handlePlayCard = useCallback((cardId: string) => {
-    const s = gameStateRef.current
-    if (!s) return
-    const card = s.playerHand.find(c => c.id === cardId)
-    if (!card) return
-    if (card.isHero && s.gameTime < 30000) return
-    playCardPlay()
-    recordCardPlayed(card.name)
-    // Track for misc achievements
-    const newToastsFromCards = incrementAchievementProgress('misc:cards_played')
-    if (newToastsFromCards.length > 0) {
-      setAchievementToasts(prev => [...prev, ...newToastsFromCards])
-    }
-    if (card.cardType === 'structure') battleUsedStructure.current = true
-    if (card.cardType === 'unit') battleUsedMobileUnit.current = true
-    // Exotic quest chains: play-card-type steps
-    if (!isTrainingModeRef.current) {
-      const questDone = recordQuestCardPlayed(card.cardType)
-      if (questDone.length > 0) setQuestCompletes(prev => [...prev, ...questDone])
-    }
-    if (isCampaignRef.current) {
-      campaignPlayCountsRef.current[card.name] =
-        (campaignPlayCountsRef.current[card.name] ?? 0) + 1
-    }
-    const next = playCard(s, cardId)
-    next.battleStats = {
-      ...next.battleStats,
-      cardsPlayed: {
-        ...next.battleStats.cardsPlayed,
-        [card.name]: (next.battleStats.cardsPlayed[card.name] ?? 0) + 1,
-      },
-    }
-    saveBattleState(next)
-    dispatch({ type: 'SET_GAME_STATE', gameState: next })
-  }, [])
-
-  const handlePlayAoeCard = useCallback((cardId: string, cx: number, cy: number) => {
-    const s = gameStateRef.current
-    if (!s) return
-    const card = s.playerHand.find(c => c.id === cardId)
-    if (!card) return
-    playCardPlay()
-    recordCardPlayed(card.name)
-    const next = playAoeCard(s, cardId, cx, cy)
-    saveBattleState(next)
-    dispatch({ type: 'SET_GAME_STATE', gameState: next })
-  }, [])
-
   // Track misc achievements at battle end
   useEffect(() => {
     if (!gameState || gameState.phase.type !== 'gameOver') return
@@ -2317,88 +2245,19 @@ export default function App() {
 
   // ── Pack ─────────────────────────────────────────────────
 
-  const packBackScreenRef = useRef<Screen>('title')
 
-  const handleOpenPack = useCallback(() => {
-    packBackScreenRef.current = 'playing'
-    setQuickPlayRewardClaimed(true)
-    let pack: string[]
+  const {
+    handlePlayCard, handlePlayAoeCard, handleSetStance, handleCycleSpeed,
+    handleWaveRewardPick, handleWaveRewardSkip,
+  } = useBattleControls({
+    gameStateRef, dispatch, speedMultiplier,
+    isTrainingModeRef, isCampaignRef, campaignPlayCountsRef,
+    battleUsedStructure, battleUsedMobileUnit,
+    setAchievementToasts, setQuestCompletes,
+  })
 
-    switch(quickBattleModeRef.current) {
-      case 'easy':
-        pack = [...new Set(generatePack())].slice(0, 2)
-        break
-      case 'normal':
-      case 'mirror':
-      case 'draft':
-        pack = generatePack()
-        break
-      case 'unlimited':
-        pack = generateSeededPack(3, 'rare')
-        break
-      case 'hero-only':
-        pack = generateSeededPack(5, 'legendary')
-        break
-      case 'chaos':
-        pack = generateSeededPack(2, 'legendary')
-        break
-      case 'only-units': {
-        const pool = getCardCatalog().filter(c => c.cardType.includes('unit'))
-        pack = Array.from({ length: 3 }, () => pool[Math.floor(Math.random() * pool.length)].name)
-        break
-      }
-      case 'only-spells': {
-        const pool = getCardCatalog().filter(c => c.cardType.includes('upgrade'))
-        pack = Array.from({ length: 3 }, () => pool[Math.floor(Math.random() * pool.length)].name)
-        break
-      }
-      case 'only-buildings': {
-        const pool = getCardCatalog().filter(c => c.cardType.includes('structure'))
-        pack = Array.from({ length: 3 }, () => pool[Math.floor(Math.random() * pool.length)].name)
-        break
-      }
-      case 'common-only': {
-        const pool = getCardCatalog().filter(c => c.rarity === 'common')
-        pack = Array.from({ length: 5 }, () => pool[Math.floor(Math.random() * pool.length)].name)
-        break
-      }
-      case 'uncommon-only':
-        pack = generateSeededPack(5, 'uncommon')
-        break
-      case 'rare-only':
-        pack = generateSeededPack(5, 'rare')
-        break
-      case 'legendary-only':
-        pack = generateSeededPack(5, 'legendary')
-        break
-      default:
-        pack = generatePack()
-        break
-    }
-
-    setPacks([pack])
-    setScreen('pack')
-  }, [])
-
-  const handleBuyCrystalPack = useCallback((qty: number = 1, returnScreen: Screen = 'shop') => {
-    const current = loadCrystals()
-    const totalCost = CRYSTAL_PACK_COST * qty
-    if (current < totalCost) return
-    const next = current - totalCost
-    saveCrystals(next)
-    setCrystals(next)
-    packBackScreenRef.current = returnScreen
-    setPacks(Array.from({ length: qty }, () => generatePack()))
-    setScreen('pack')
-  }, [])
-
-  const handleCrystalsChanged = useCallback((n: number) => {
-    setCrystals(n)
-  }, [])
-
-  const handlePackDone = useCallback(() => {
-    setScreen(packBackScreenRef.current)
-  }, [])
+  const { packs, handleOpenPack, handleBuyCrystalPack, handleCrystalsChanged, handlePackDone } =
+    useShopFlow({ setScreen, setCrystals, quickBattleModeRef, setQuickPlayRewardClaimed })
 
   const handleMainMenu = useCallback(() => {
     if (worldBattleNodeIdRef.current !== null) {
