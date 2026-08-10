@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef, useMemo, useReducer, Suspense } from 'react'
+import React, { useState, useCallback, useEffect, useRef, useReducer, Suspense } from 'react'
 import { CardRestSelect, CampScreen, EventScreen, MysteryScreen, MemoryFragmentScreen, CharacterEncounterScreen,
   NarratorJournalScreen, CharacterScreen, CutsceneScreen, BossDialogueScreen, Battlefield, GameOver,
   QuickBattleScreen, CardDraftScreen, CollectionScreen, DeckBuilder, PackOpening, HubWorld, HubWorldMap,
@@ -16,11 +16,14 @@ import { ScreenLoadingFallback } from './components/ScreenLoadingFallback'
 import { resolvedNodeOpts, loadHandicap, HANDICAP_KEY, buildQuickBattleOpts, loadCurrentDeckInfo, carryHpAfterBattle, applyRestHeal, applyEventHeal } from './game/campaignHelpers'
 import { usePlaytime } from './hooks/usePlaytime'
 import { recordScreen } from './utils/crashSentinel'
-import { getGlStats } from './utils/pixiTelemetry'
-import { journal, flushResumeJournal } from './utils/resumeJournal'
+import { journal } from './utils/resumeJournal'
 import { useStartupData } from './hooks/useStartupData'
 import { useCloudSync } from './hooks/useCloudSync'
-import { useRegisterSW } from 'virtual:pwa-register/react'
+import { useServiceWorkerUpdate } from './hooks/useServiceWorkerUpdate'
+import { useTabVisibility } from './hooks/useTabVisibility'
+import { useScreenGuards } from './hooks/useScreenGuards'
+import { useTownAccess } from './hooks/useTownAccess'
+import { useBattleTelemetry } from './hooks/useBattleTelemetry'
 import { GameState, Card, Archetype, SECRET_RARITIES } from './game/types'
 import { newGame, MAX_HANDICAP } from './game/engine'
 import { playCard, playAoeCard } from './game/engine/cards'
@@ -30,7 +33,7 @@ import { battleReducer, INITIAL_BATTLE_STATE, TICK_MS } from './game/battleReduc
 import {
   loadDeck, saveDeck, buildDeckCards, generatePack,
   loadCollection, saveCollection, loadCrystals, saveCrystals,
-  recordCardPlayed, recordUnitDied, addCardsToCollection,
+  recordCardPlayed, addCardsToCollection,
   getOwnedCount, DECK_MAX, CRYSTAL_PACK_COST, DeckEntry,
   deckTotalCards, STARTER_DECK,
   loadWinStreak, loadBestStreak, incrementWinStreak, resetWinStreak, incrementTotalWins,
@@ -46,7 +49,7 @@ import {
   loadFatigued, saveFatigued, clearFatigued, getTopPlayedCards,
   hasSeenIntro, markIntroSeen,
   loadRunCount, incrementRunCount, getAct1Intro,
-  loadBattleCount, incrementBattleCount,
+  loadBattleCount,
   generateEventFromConfig, EventChoice, EventData,
   CutscenePanel, QuestNode, RunState, Act, ReplayModifier,
   getActiveModifiers, loadActCount, incrementActCount,
@@ -74,14 +77,14 @@ import { GiftClaimModal }    from './components/admin/GiftClaimModal'
 import { LoginModal }        from './components/modals/LoginModal'
 import { markDailyRewardClaimed, addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
 import { applyGiftRewards, GiftDef, GIFT_OWNER_UID } from './game/gifts'
-import { fetchEnabledTownIds, isTownAccessible, loadPreviewAsPlayer, savePreviewAsPlayer } from './game/townAccess'
+import { isTownAccessible, savePreviewAsPlayer } from './game/townAccess'
 import { FeedbackModal } from './components/modals/FeedbackModal'
 import { DeckSelectorModal } from './components/cards/DeckSelectorModal'
 import { loadDeckSlot } from './game/collection'
 import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, getDailyTerrainSeed, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
 import { getWeeklyChallenge, getWeeklyPlayerDeck, getWeeklyOpponentDeck, getWeeklyChallengeState, getWeeklyTerrainSeed, saveWeeklyChallengeResult, grantWeeklyReward, publishWeeklyResult, WeeklyRewardResult } from './game/weeklyChallenge'
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic, rollExoticDrop } from './game/relics'
-import { recordQuestKills, recordQuestWin, recordQuestCardPlayed, recordQuestBossDefeat, QuestChainDef } from './game/quests'
+import { recordQuestWin, recordQuestCardPlayed, recordQuestBossDefeat, QuestChainDef } from './game/quests'
 import { recordChronicleWin, describeReward, ChronicleChapterDef } from './game/chronicle'
 import bossEpiloguesData from './data/bossEpilogues.json'
 import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, playBattleStart, playVictory, playDefeat, stopBattleMusic, stopGameOverMusic } from './game/sound'
@@ -94,12 +97,11 @@ import { isAdminUser } from './game/admin'
 import { saveBattleState, loadBattleState, clearBattleState } from './game/battleState'
 import { loadCommander, promoteCommander, CommanderState } from './game/commander'
 
-import { WORLD_MAP, WORLD_MAP_NODES, type WorldNodeDef } from './data/world/worldMapDef'
+import { WORLD_MAP_NODES, type WorldNodeDef } from './data/world/worldMapDef'
 import { setCurrentWorldLocation, getCurrentWorldLocation, markNodeCleared, isNodeCleared } from './game/world/worldState'
 import {
   incrementAchievementProgress, setAchievementProgress, AchievementDef,
 } from './game/achievements'
-import { incrementAugmentSouls } from './game/collection'
 import { ConfirmModal }          from './components/modals/ConfirmModal'
 import { StreakBrokenModal }     from './components/modals/StreakBrokenModal'
 import type { SubScreen } from './components/screens/MiniGamesMenu'
@@ -124,50 +126,6 @@ applyLightMode(loadLightMode())
 // Screen union, stance rules and the visibility threshold live in ./app/screens;
 // merchant item construction in ./app/merchantItems (#316).
 export default function App() {
-  // ── PWA update (prompt mode) ──────────────────────────────────────────────────
-  const swRegRef = useRef<ServiceWorkerRegistration | null>(null)
-  // Lets the player dismiss the update prompt for the rest of the session.
-  const [updateDismissed, setUpdateDismissed] = useState(false)
-  const { needRefresh: [needRefresh], updateServiceWorker } = useRegisterSW({
-    onRegisteredSW(_url, r) {
-      swRegRef.current = r ?? null
-      // In standalone (home screen) mode the browser doesn't trigger SW update
-      // checks on each launch the way a normal tab does, so we kick one off
-      // immediately and then repeat every hour.
-      if (r) {
-        r.update().catch(() => {})
-        setInterval(() => r.update().catch(() => {}), 60 * 60 * 1000)
-      }
-    },
-    onNeedRefresh() {
-      // Prompt mode: don't auto-apply. Surface the toast (driven by needRefresh)
-      // and let the player reload at a safe moment. Auto-reloading here is what
-      // black-screened memory-pressured devices on resume.
-      journal('sw-update-available')
-      rollbar?.info('[sw] update available — awaiting player confirmation')
-    },
-  })
-  // Reload once the new SW takes control. In prompt mode the new SW only
-  // activates after the player taps UPDATE (updateServiceWorker posts
-  // SKIP_WAITING) — or when another tab accepts the update — so this no longer
-  // fires spontaneously on resume. Attached at mount so we never miss the
-  // controllerchange event.
-  useEffect(() => {
-    if (!navigator.serviceWorker) return
-    let reloading = false
-    const handler = () => {
-      if (reloading) return
-      reloading = true
-      // Journaled (not just logged live) because a live Rollbar event may not
-      // have time to send before the reload — the journal entry survives it and
-      // is flushed at boot. A reload with no preceding sw-update-accepted this
-      // session means another tab accepted the update.
-      journal('sw-controllerchange-reload', { visibility: document.visibilityState })
-      window.location.reload()
-    }
-    navigator.serviceWorker.addEventListener('controllerchange', handler)
-    return () => navigator.serviceWorker.removeEventListener('controllerchange', handler)
-  }, [])
 
   // ── Startup: auto-resume a pending campaign battle on page refresh ──────────
   // If the player refreshed mid-battle, pendingNodeId is still set. We build the
@@ -249,6 +207,9 @@ export default function App() {
   })
 
   const [screen, setScreen]             = useState<Screen>(_startup.screen)
+  // ── PWA update (prompt mode) ──────────────────────────────────────────────────
+  const { needRefresh, updateDismissed, setUpdateDismissed, updateServiceWorker, checkForUpdates } =
+    useServiceWorkerUpdate(screen)
   const [returnScreen, setReturnScreen]  = useState<Screen>('title')
   const [shopBuildingId, setShopBuildingId] = useState<string | undefined>(undefined)
   const [shopTappedNpc, setShopTappedNpc] = useState<{ name: string; dialogue?: string[]; sprite?: string } | undefined>(undefined)
@@ -493,15 +454,12 @@ export default function App() {
   const gameStateRef = useRef<GameState | null>(null)  // always-current snapshot for callbacks
   const screenRef = useRef<Screen>(screen)  // always-current snapshot for the visibility handler below
   const currentLocationKeyRef = useRef<string>(currentLocationKey)
-  const hiddenAtRef = useRef<number | null>(null)  // timestamp the tab was last hidden, for the visibility breadcrumb
 
   // Unit death tracking
   const prevPlayerUnitsRef   = useRef<Map<string, string>>(new Map())
   const prevOpponentUnitsRef = useRef<Map<string, string>>(new Map())
   // Commander HP tracking (null = not yet sampled this battle)
-  const prevCommanderHpRef   = useRef<number | null>(null)
   // Opponent spell-cast key tracking, so the speed-drop below fires once per cast
-  const prevPendingCastKeyRef = useRef<string | null>(null)
 
   // Achievement toast notifications
   const { achievementToasts, setAchievementToasts } = useAchievements()
@@ -517,59 +475,9 @@ export default function App() {
   const { user, authLoading } = useAuth()
   const isAdmin = user?.uid === GIFT_OWNER_UID
 
-  // Admin-controlled hub-world town access — locked until fetched/enabled.
-  const [enabledTownIds, setEnabledTownIds] = useState<Set<string>>(new Set())
-  useEffect(() => {
-    // Re-fetch when connectivity returns: a player whose first attempt failed
-    // would otherwise stay locked out of every toggleable town until reload.
-    const load = () => { fetchEnabledTownIds().then(ids => setEnabledTownIds(new Set(ids))) }
-    load()
-    window.addEventListener('online', load)
-    return () => window.removeEventListener('online', load)
-  }, [])
-  // "Preview as player" lets the admin see the fogged map as a regular
-  // player would, by suppressing their own town-access bypass.
-  const [previewAsPlayer, setPreviewAsPlayer] = useState<boolean>(loadPreviewAsPlayer)
-  const bypassTownAccess = isAdmin && !previewAsPlayer
-  // Fogged nodes: locations (towns/castles/camps/ports) the admin hasn't
-  // enabled, plus any battle/waypoint node that isn't a requiredClears
-  // prerequisite (directly, or transitively through an OR-alternative) for
-  // reaching a currently-open town. Deliberately based on requiredClears —
-  // the real gameplay gate — rather than `connections` (a road-drawing
-  // convenience graph that mostly but doesn't always match it: e.g. Forest
-  // Path/Bridge Battle gate Ironhold Keep, Thornwood Camp, and River
-  // Crossing independently, not chained through Ironhold Keep, even though
-  // `connections` draws them as one line). Using `connections` instead
-  // could fog a battle a player still needs to satisfy a further-along,
-  // already-enabled town's requiredClears — softlocking it.
-  const restrictedTownNodeIds = useMemo(() => {
-    const ids = new Set<string>()
-    if (bypassTownAccess) return ids // admin bypass: nothing is fogged
-
-    const nodesById = WORLD_MAP.nodes
-    const openTownIds = WORLD_MAP_NODES
-      .filter(n => n.locationKey && isTownAccessible(n.locationKey, enabledTownIds, false))
-      .map(n => n.id)
-
-    const neededIds = new Set<string>()
-    const markNeeded = (id: string): void => {
-      if (neededIds.has(id)) return
-      neededIds.add(id)
-      for (const group of nodesById[id]?.requiredClears ?? []) {
-        for (const altId of group.split('|')) markNeeded(altId)
-      }
-    }
-    openTownIds.forEach(markNeeded)
-
-    for (const node of WORLD_MAP_NODES) {
-      if (node.locationKey) {
-        if (!isTownAccessible(node.locationKey, enabledTownIds, false)) ids.add(node.id)
-      } else if (!neededIds.has(node.id)) {
-        ids.add(node.id)
-      }
-    }
-    return ids
-  }, [enabledTownIds, bypassTownAccess])
+  // Admin-controlled hub-world town access, and the derived fogged-node set.
+  const { enabledTownIds, previewAsPlayer, setPreviewAsPlayer, bypassTownAccess, restrictedTownNodeIds } =
+    useTownAccess(isAdmin)
 
   // Per-battle misc achievement flags
   const battleFlawlessRef    = useRef(true)
@@ -618,38 +526,7 @@ export default function App() {
   }, [screen, currentLocationKey])
 
   // ── Page visibility: pause game loop when tab is hidden ──
-  const [isTabHidden, setIsTabHidden] = useState(() => document.hidden)
-  useEffect(() => {
-    function handleVisibility() {
-      const hidden = document.hidden
-      setIsTabHidden(hidden)
-      if (hidden) {
-        hiddenAtRef.current = Date.now()
-        journal('hidden', { screen: screenRef.current }, { coalesce: true })
-        return
-      }
-      // Breadcrumb for any "blank screen after being away" report — logged on
-      // every meaningful return from background, not just when something goes
-      // wrong, so a later crash/error report can be correlated against how
-      // long the tab sat backgrounded and what screen it resumed on.
-      const hiddenMs = hiddenAtRef.current != null ? Date.now() - hiddenAtRef.current : null
-      hiddenAtRef.current = null
-      if (hiddenMs != null && hiddenMs >= VISIBILITY_BREADCRUMB_THRESHOLD_MS) {
-        rollbar?.info('[visibility] tab resumed after background', {
-          hiddenMs,
-          screen: screenRef.current,
-          location: currentLocationKeyRef.current,
-          ...getGlStats(),
-        })
-        journal('visible', { hiddenMs, screen: screenRef.current })
-        // Deliver anything journaled while backgrounded (context losses,
-        // deferred rebuilds) now that the network is reliable again.
-        flushResumeJournal('resume')
-      }
-    }
-    document.addEventListener('visibilitychange', handleVisibility)
-    return () => document.removeEventListener('visibilitychange', handleVisibility)
-  }, [])
+  const isTabHidden = useTabVisibility({ screenRef, currentLocationKeyRef })
 
   // ── Playtime tracking ─────────────────────────────────────────────────────
   const { flushPlaytimeToStorage } = usePlaytime({ screen, isTabHidden, setAchievementToasts })
@@ -687,48 +564,11 @@ export default function App() {
 
   const { syncPrompt, clearSyncPrompt } = useCloudSync({ user, screen, flushPlaytimeToStorage })
 
-  // Single guard for all data-dependent screens. Fires after render as a backstop
-  // against programming errors — if required data is missing, log to Rollbar and
-  // redirect before the user sees a broken screen. Add new screens here.
-  useEffect(() => {
-    const fallback = run ? 'nodemap' : 'title'
-    if (screen === 'cutscene' && cutscenePanels.length === 0) {
-      rollbar.error('cutscene screen reached with no panels', {
-        runActId: run?.actId,
-        pendingNodeId: run?.pendingNodeId,
-        pendingActComplete: run?.pendingActComplete,
-      })
-      setScreen(fallback)
-    } else if (screen === 'bossEpilogue' && epiloguePanels.length === 0) {
-      rollbar.error('bossEpilogue screen reached with no panels', { runActId: run?.actId })
-      setScreen(run?.pendingActComplete ? 'actcomplete' : fallback)
-    } else if (screen === 'actcomplete' && (!run || actDataFailed)) {
-      rollbar.error('actcomplete screen reached without valid run/actData', { runActId: run?.actId })
-      clearRun()
-      setRun(null)
-      setScreen('title')
-    } else if (screen === 'bossdialogue' && !bossDialogueNode?.bossDialogue) {
-      rollbar.error('bossdialogue screen reached without bossDialogueNode/dialogue', { runActId: run?.actId })
-      setScreen(fallback)
-    } else if (screen === 'event' && (!activeEvent || !run)) {
-      rollbar.error('event screen reached without activeEvent or run', { runActId: run?.actId, hasEvent: !!activeEvent })
-      setScreen(fallback)
-    } else if (screen === 'merchant' && merchantItems.length === 0) {
-      rollbar.error('merchant screen reached with empty merchantItems', { runActId: run?.actId })
-      setScreen(fallback)
-    } else if (screen === 'mystery' && !mysteryReward) {
-      rollbar.error('mystery screen reached without mysteryReward', { runActId: run?.actId })
-      setScreen(fallback)
-    } else if (screen === 'itemfound' && !foundItem) {
-      rollbar.error('itemfound screen reached without foundItem', { runActId: run?.actId })
-      setScreen(fallback)
-    } else if (screen === 'nodemap' && (!run || actDataFailed)) {
-      rollbar.error('nodemap screen reached without valid run/actData', { runActId: run?.actId })
-      clearRun()
-      setRun(null)
-      setScreen('title')
-    }
-  }, [screen, cutscenePanels, epiloguePanels, run, bossDialogueNode, activeEvent, merchantItems, mysteryReward, foundItem, actDataFailed])
+  useScreenGuards({
+    screen, setScreen, run, setRun, actDataFailed,
+    cutscenePanels, epiloguePanels, bossDialogueNode, activeEvent,
+    merchantItems, mysteryReward, foundItem,
+  })
 
   // Show boss fight splash when phase 2 triggers.
   useEffect(() => {
@@ -862,11 +702,6 @@ export default function App() {
     if (gameState?.phase.type !== 'gameOver') return
     if ((gameState.phase as { type: 'gameOver'; winner: string }).winner !== 'player') playDefeat()
   }, [gameState?.phase.type])
-
-  // Trigger SW update check whenever the title screen is shown
-  useEffect(() => {
-    if (screen === 'title') swRegRef.current?.update().catch(() => {})
-  }, [screen])
 
   useMusic(screen, gameState, run, actData)
 
@@ -2320,138 +2155,13 @@ export default function App() {
     }
   }, [handleAbandonRun, setAchievementToasts])
 
-  // Detect player unit deaths each tick
-  useEffect(() => {
-    if (!gameState || screen !== 'playing') return
-    const currentMap = new Map<string, string>()
-    for (const u of gameState.field) {
-      if (u.owner === 'player') currentMap.set(u.id, u.name)
-    }
-    const fallen: string[] = []
-    for (const [id, name] of prevPlayerUnitsRef.current) {
-      if (!currentMap.has(id)) { recordUnitDied(name); fallen.push(name) }
-    }
-    prevPlayerUnitsRef.current = currentMap
-
-    // Secret 3 — Obituary for legendary unit deaths (1-in-10 chance)
-    if (fallen.length > 0) {
-      const catalog = getCardCatalog()
-      const EULOGIES = [
-        (n: string) => `[OBITUARY] ${n} fought bravely. They will be remembered. (They won't.)`,
-        (n: string) => `[OBITUARY] ${n} has fallen. A moment of silence. ...Okay, moment's over.`,
-        (n: string) => `[OBITUARY] In memoriam: ${n}. Gone too soon. Probably your fault.`,
-        (n: string) => `[OBITUARY] ${n} died as they lived — violently, and on the battlefield.`,
-        (n: string) => `[OBITUARY] ${n} gave everything. You gave them a 3-mana slot. Tragic.`,
-      ]
-      const legendaryFallen = fallen.filter(name => catalog.some(c => c.name === name && c.rarity === 'legendary'))
-      if (legendaryFallen.length > 0 && Math.random() < 0.1) {
-        const unitName = legendaryFallen[Math.floor(Math.random() * legendaryFallen.length)]
-        const eulogy = EULOGIES[Math.floor(Math.random() * EULOGIES.length)](unitName)
-        const s = gameStateRef.current
-        if (s) {
-          dispatch({ type: 'SET_GAME_STATE', gameState: { ...s, log: [...s.log, '!!' + eulogy] } })
-        }
-      }
-    }
-  }, [gameState?.field])
-
-  // Detect enemy unit/structure kills each tick → achievement progress
-  useEffect(() => {
-    if (!gameState || screen !== 'playing') return
-    const currentMap = new Map<string, string>()
-    for (const u of gameState.field) {
-      if (u.owner === 'opponent') currentMap.set(u.id, u.name)
-    }
-    const newKills: string[] = []
-    for (const [id, name] of prevOpponentUnitsRef.current) {
-      if (!currentMap.has(id)) newKills.push(name)
-    }
-    prevOpponentUnitsRef.current = currentMap
-
-    if (newKills.length > 0) {
-      // Track per-unit kills
-      const newToasts: AchievementDef[] = []
-      for (const name of newKills) {
-        const unlocked = incrementAchievementProgress(`kill:${name}`)
-        newToasts.push(...unlocked)
-      }
-      // Track total kills
-      const totalUnlocked = incrementAchievementProgress('misc:total_kills', newKills.length)
-      newToasts.push(...totalUnlocked)
-      // Award augment souls (1 per kill)
-      incrementAugmentSouls(newKills.length)
-      // Exotic quest chains: tagged-kill steps
-      const questDone = recordQuestKills(newKills)
-      if (questDone.length > 0) setQuestCompletes(prev => [...prev, ...questDone])
-      if (newToasts.length > 0) {
-        setAchievementToasts(prev => [...prev, ...newToasts])
-      }
-    }
-  }, [gameState?.field, screen])
-
-  // Track flawless battle flag
-  useEffect(() => {
-    if (!gameState || screen !== 'playing') return
-    if (gameState.playerBase.hp < gameState.playerBase.maxHp) {
-      battleFlawlessRef.current = false
-    }
-  }, [gameState?.playerBase?.hp, screen])
-
-  // Reset commander HP ref between battles so a new battle never false-triggers
-  useEffect(() => {
-    prevCommanderHpRef.current = null
-  }, [screen])
-
-  // Drop to 1x speed when the player's commander takes damage
-  useEffect(() => {
-    if (!gameState || screen !== 'playing') return
-    let commander: (typeof gameState.field)[number] | undefined
-    for (const u of gameState.field) {
-      if (u.isCommander && u.owner === 'player') { commander = u; break }
-    }
-    const currentHp = commander?.hp ?? null
-    if (prevCommanderHpRef.current !== null && currentHp !== null && currentHp < prevCommanderHpRef.current) {
-      if (battle.speedMultiplier > 1) dispatch({ type: 'SET_SPEED', multiplier: 1 })
-    }
-    prevCommanderHpRef.current = currentHp
-  }, [gameState?.field])
-
-  // Drop to 1x speed when the opponent starts casting a spell, so every player
-  // gets the same real-time 5s window to react regardless of fast-forward setting
-  useEffect(() => {
-    if (!gameState || screen !== 'playing') return
-    const cast = gameState.pendingSpellCast
-    const castKey = cast ? `${cast.cardName}:${cast.startedAtMs}` : null
-    if (castKey && castKey !== prevPendingCastKeyRef.current && battle.speedMultiplier > 1) {
-      dispatch({ type: 'SET_SPEED', multiplier: 1 })
-    }
-    prevPendingCastKeyRef.current = castKey
-  }, [gameState?.pendingSpellCast?.cardName, gameState?.pendingSpellCast?.startedAtMs])
-
-  // Secret 4 — Tired Game: after midnight, units occasionally yawn
-  useEffect(() => {
-    if (!gameState || screen !== 'playing') return
-    const hour = new Date().getHours()
-    if (hour < 0 || hour >= 6) return  // Only between midnight and 6am (hour 0–5)
-    if (Math.random() > 0.004) return  // ~0.4% per tick — sporadic
-    const playerUnits = gameState.field.filter(u => u.owner === 'player')
-    if (playerUnits.length === 0) return
-    const unit = playerUnits[Math.floor(Math.random() * playerUnits.length)]
-    const s = gameStateRef.current
-    if (!s) return
-    dispatch({ type: 'SET_GAME_STATE', gameState: { ...s, log: [...s.log.slice(-9), `${unit.name} yawns loudly. It's very late.` ] } })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameState?.gameTime])
-
-  // Secret 5 — Time Capsule: show on 100th battle started (only once per lifecycle)
-  const timeCapsuleCheckedRef = useRef(false)
-  useEffect(() => {
-    if (screen !== 'playing') return
-    if (timeCapsuleCheckedRef.current) return
-    timeCapsuleCheckedRef.current = true
-    const count = incrementBattleCount()
-    if (count > 0 && count % 100 === 0) setTimeCapsuleVisible(true)
-  }, [screen])
+  // Per-tick battle observation: deaths, kill achievements, flawless flag,
+  // auto-slowdown rules, and the two late-night/battle-count secrets.
+  useBattleTelemetry({
+    gameState, screen, speedMultiplier, dispatch, gameStateRef,
+    prevPlayerUnitsRef, prevOpponentUnitsRef, battleFlawlessRef,
+    setAchievementToasts, setQuestCompletes, setTimeCapsuleVisible,
+  })
 
   // Track card play types for per-battle misc achievements
   const handlePlayCard = useCallback((cardId: string) => {
@@ -2959,13 +2669,7 @@ export default function App() {
           onHubWorld={() => setScreen('hubworld')}
           onTitleScreen={() => setScreen('title')}
           onSceneryPreview={() => setScreen('sceneryPreview')}
-          onCheckForUpdates={async () => {
-            if (needRefresh) {
-              updateServiceWorker(true)
-            } else {
-              await swRegRef.current?.update().catch(() => {})
-            }
-          }}
+          onCheckForUpdates={checkForUpdates}
         />
       )}
 
