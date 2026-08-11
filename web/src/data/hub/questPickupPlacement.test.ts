@@ -201,3 +201,28 @@ describe('interactable-given quests', () => {
     }
   }
 })
+
+// A door or interior exit can be gated behind requiredQuest (a graveyard
+// entrance that only opens once a quest is solved, a sealed vault). Get the
+// id wrong and there is no error anywhere: the gate just never opens — it
+// shows a generic "sealed" message forever, indistinguishable from working
+// as intended. Swept across every town.
+describe('requiredQuest gates name real quests', () => {
+  for (const [townKey, { locationData, locationQuests }] of Object.entries(locationRegistry)) {
+    const questIds = new Set(locationQuests.HUB_QUEST_DEFS.map(q => q.id))
+    for (const door of locationData.HUB_DOORS) {
+      if (!door.requiredQuest) continue
+      it(`${townKey}/door → "${door.buildingId}": requiredQuest "${door.requiredQuest}" exists`, () => {
+        expect(questIds.has(door.requiredQuest!), `no quest "${door.requiredQuest}" in ${townKey}`).toBe(true)
+      })
+    }
+    for (const [interiorId, interior] of Object.entries(locationData.HUB_INTERIORS)) {
+      for (const exit of interior.exits ?? []) {
+        if (!exit.requiredQuest) continue
+        it(`${townKey}/${interiorId} exit → "${exit.toInteriorId}": requiredQuest "${exit.requiredQuest}" exists`, () => {
+          expect(questIds.has(exit.requiredQuest!), `no quest "${exit.requiredQuest}" in ${townKey}`).toBe(true)
+        })
+      }
+    }
+  }
+})

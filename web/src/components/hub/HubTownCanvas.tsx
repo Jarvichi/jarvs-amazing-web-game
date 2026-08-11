@@ -2839,6 +2839,10 @@ export function HubTownCanvas({
           isWalking     = false
           walkQueue     = []
           pendingScreen = null
+          if (door.requiredQuest && !completedQuestIdsRef?.current.has(door.requiredQuest)) {
+            onDoorLockedRef.current?.(door.buildingId, `quest:${door.requiredQuest}`)
+            return
+          }
           onNodeInteractRef.current(`interior:${door.buildingId}`)
           return
         }

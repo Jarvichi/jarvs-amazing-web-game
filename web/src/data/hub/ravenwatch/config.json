@@ -2723,6 +2723,17 @@
       "comment": "Lakeside Cottage"
     }
   ],
+  "doors": [
+    {
+      "tx": 28,
+      "ty": 54,
+      "buildingId": "ravenwatch-hollow-entrance",
+      "hideSign": true,
+      "hideSprite": true,
+      "hideLabel": true,
+      "requiredQuest": "the-false-grave"
+    }
+  ],
   "exteriorDecor": [
     {
       "tx": 21,
@@ -10258,6 +10269,61 @@
           "entryTy": 4,
           "direction": "right"
         }
+      ]
+    },
+    "ravenwatch-hollow-entrance": {
+      "name": "The Buried Hollow",
+      "width": 11,
+      "height": 8,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 5, "ty": 1, "tileId": "largeRock" },
+        { "tx": 2, "ty": 1, "tileId": "smallRock" },
+        { "tx": 8, "ty": 1, "tileId": "smallRock" },
+        { "tx": 2, "ty": 6, "tileId": "floorLantern", "glow": true, "glowRadius": 2 },
+        { "tx": 8, "ty": 6, "tileId": "floorLantern", "glow": true, "glowRadius": 2 },
+        { "tx": 5, "ty": 5, "tileId": "skull" }
+      ],
+      "exits": [
+        { "tx": 0, "ty": 4, "toInteriorId": "ravenwatch-hollow-tunnel-west", "entryTx": 9, "entryTy": 4, "direction": "left", "label": "A narrow tunnel" },
+        { "tx": 10, "ty": 4, "toInteriorId": "ravenwatch-hollow-tunnel-east", "entryTx": 1, "entryTy": 4, "direction": "right", "label": "A narrow tunnel" }
+      ]
+    },
+    "ravenwatch-hollow-tunnel-west": {
+      "name": "The West Passage",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "largeRock" },
+        { "tx": 8, "ty": 1, "tileId": "smallRock" },
+        { "tx": 1, "ty": 6, "tileId": "smallRock" },
+        { "tx": 8, "ty": 6, "tileId": "largeRock" },
+        { "tx": 4, "ty": 3, "tileId": "floorLantern", "glow": true, "glowRadius": 2 },
+        { "tx": 6, "ty": 5, "tileId": "skull" }
+      ],
+      "exits": [
+        { "tx": 9, "ty": 4, "toInteriorId": "ravenwatch-hollow-entrance", "entryTx": 1, "entryTy": 4, "direction": "right", "label": "Back to the hollow" }
+      ]
+    },
+    "ravenwatch-hollow-tunnel-east": {
+      "name": "The East Passage",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 2, "ty": 1, "tileId": "largeRock" },
+        { "tx": 8, "ty": 1, "tileId": "smallRock" },
+        { "tx": 2, "ty": 6, "tileId": "smallRock" },
+        { "tx": 7, "ty": 6, "tileId": "largeRock" },
+        { "tx": 5, "ty": 3, "tileId": "floorLantern", "glow": true, "glowRadius": 2 },
+        { "tx": 3, "ty": 5, "tileId": "skull" }
+      ],
+      "exits": [
+        { "tx": 0, "ty": 4, "toInteriorId": "ravenwatch-hollow-entrance", "entryTx": 9, "entryTy": 4, "direction": "left", "label": "Back to the hollow" }
       ]
     }
   },
