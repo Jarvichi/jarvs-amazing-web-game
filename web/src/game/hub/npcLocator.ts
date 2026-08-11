@@ -1,5 +1,7 @@
 import type { HubArea, HubLocationBundle, HubNpc, HubPickupItem } from '../../data/hub/loader'
 import { getNpcLocation } from './hubNpcSchedule'
+import type { MapId } from '../../data/hub/mapIds'
+import { townLabel } from '../../data/hub/mapIds'
 
 const T = 32
 
@@ -11,6 +13,11 @@ export interface NpcPlace {
   ty: number
   /** Set when the NPC is currently inside a building interior. */
   interiorId?: string
+  /** Set when the NPC currently resolves to a 'travel' entry — not physically
+   *  present anywhere on this town's map right now. tx/ty are the NPC's
+   *  static home position (a placeholder, not a real pin) — callers should
+   *  treat awayTown as the signal to skip placing a pin. */
+  awayTown?: MapId
 }
 
 /** Name of the area whose rect contains the centre of tile (tx, ty), or null. */
@@ -89,6 +96,9 @@ export function resolveNpcPlace(npc: HubNpc, gameHour: number, loc: HubLocationB
   if (sched?.type === 'interior') return interior(sched.buildingId, sched.tx, sched.ty)
   if (sched?.type === 'exterior') {
     return { name: areaNameForTile(sched.tx, sched.ty, loc.HUB_AREAS) ?? loc.HUB_TOWN_NAME, tx: sched.tx, ty: sched.ty }
+  }
+  if (sched?.type === 'travel') {
+    return { name: `Away — visiting ${townLabel(sched.town)}`, tx: npc.tx, ty: npc.ty, awayTown: sched.town }
   }
 
   // No schedule entry for this hour — use the NPC's base placement.

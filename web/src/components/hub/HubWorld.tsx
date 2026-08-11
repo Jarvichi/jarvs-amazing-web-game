@@ -529,6 +529,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
     // the map origin — resolve indoors NPCs explicitly and skip when unplaceable.
     const npcPinTile = (npc: HubNpc): { tx: number; ty: number } | null => {
       const place = resolveNpcPlace(npc, gameHour, locationData)
+      if (place.awayTown) return null  // traveling — no in-town tile to pin
       return place.interiorId
         ? buildingWorldTile(place.interiorId, locationData)
         : { tx: place.tx, ty: place.ty }
