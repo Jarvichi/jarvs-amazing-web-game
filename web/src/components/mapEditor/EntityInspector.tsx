@@ -539,7 +539,7 @@ function DecorInspector({
 }
 
 function NpcInspector({
-  npc, entity, buildingIds, interiorIds, onMove, onDelete, onDialogueChange, onUpdate, onPickLocation,
+  npc, entity, buildingIds, interiorIds, onMove, onDelete, onDialogueChange, onUpdate, onPickLocation, mapId,
 }: {
   npc: RawNpc
   entity: SelectedEntity & { type: 'npc' }
@@ -552,6 +552,7 @@ function NpcInspector({
   onDialogueChange: (d: string[]) => void
   onUpdate: (partial: Partial<RawNpc>) => void
   onPickLocation?: () => void
+  mapId: MapId
 }) {
   return (
     <div>
@@ -596,7 +597,7 @@ function NpcInspector({
         />
         <div style={{ color: '#666', fontSize: 10, marginTop: 2 }}>Opens a screen/modal (e.g. 'adopt-pet') via a dialogue choice, in addition to dialogue.</div>
       </Field>
-      <NpcScheduleEditor npc={npc} interiorIds={interiorIds} onUpdate={onUpdate} />
+      <NpcScheduleEditor npc={npc} interiorIds={interiorIds} onUpdate={onUpdate} mapId={mapId} />
       <Field label="Min Building Level">
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
           <input
@@ -660,11 +661,12 @@ const NPC_ACTIVITIES: NpcActivity[] = ['work', 'eat', 'idle-chat', 'sleep', 'swe
 type NpcScheduleEntry = NonNullable<RawNpc['schedule']>[number]
 
 function NpcScheduleEditor({
-  npc, interiorIds, onUpdate,
+  npc, interiorIds, onUpdate, mapId,
 }: {
   npc: RawNpc
   interiorIds: string[]
   onUpdate: (partial: Partial<RawNpc>) => void
+  mapId: MapId
 }) {
   const inp: React.CSSProperties = {
     background: '#111', border: '1px solid #444', color: '#eee',
@@ -681,7 +683,11 @@ function NpcScheduleEditor({
   return (
     <Field label="Schedule">
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-        {entries.map((entry, i) => (
+        {entries.map((entry, i) => {
+          const loc = entry.location
+          const prevTx = 'tx' in loc ? loc.tx : 0
+          const prevTy = 'ty' in loc ? loc.ty : 0
+          return (
           <div key={i} style={{ border: '1px solid #333', borderRadius: 4, padding: 6, background: '#181818' }}>
             <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginBottom: 4 }}>
               <label style={{ fontSize: 10, color: '#888' }}>Start</label>
@@ -699,41 +705,60 @@ function NpcScheduleEditor({
             </div>
             <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
               <select
-                value={entry.location.type}
+                value={loc.type}
                 style={{ ...inp, width: 76 }}
                 onChange={e => {
-                  const type = e.target.value as 'exterior' | 'interior'
-                  updateEntry(i, {
-                    location: type === 'exterior'
-                      ? { type: 'exterior', tx: entry.location.tx, ty: entry.location.ty }
-                      : { type: 'interior', buildingId: interiorIds[0] ?? '', tx: entry.location.tx, ty: entry.location.ty },
-                  })
+                  const type = e.target.value as 'exterior' | 'interior' | 'travel'
+                  if (type === 'exterior') {
+                    updateEntry(i, { location: { type: 'exterior', tx: prevTx, ty: prevTy } })
+                  } else if (type === 'interior') {
+                    updateEntry(i, { location: { type: 'interior', buildingId: interiorIds[0] ?? '', tx: prevTx, ty: prevTy } })
+                  } else {
+                    const destination = (Object.keys(TOWN_LABELS) as MapId[]).find(id => id !== mapId) ?? mapId
+                    updateEntry(i, { location: { type: 'travel', town: destination } })
+                  }
                 }}
               >
                 <option value="exterior">exterior</option>
                 <option value="interior">interior</option>
+                <option value="travel">traveling</option>
               </select>
-              {entry.location.type === 'interior' && (
+              {loc.type === 'interior' && (
                 <select
-                  value={entry.location.buildingId}
+                  value={loc.buildingId}
                   style={{ ...inp, flex: 1 }}
-                  onChange={e => updateEntry(i, { location: { ...entry.location, type: 'interior', buildingId: e.target.value } as NpcScheduleEntry['location'] })}
+                  onChange={e => updateEntry(i, { location: { type: 'interior', buildingId: e.target.value, tx: loc.tx, ty: loc.ty } })}
                 >
-                  {!interiorIds.includes(entry.location.buildingId) && entry.location.buildingId && (
-                    <option value={entry.location.buildingId}>{entry.location.buildingId} (unknown room)</option>
+                  {!interiorIds.includes(loc.buildingId) && loc.buildingId && (
+                    <option value={loc.buildingId}>{loc.buildingId} (unknown room)</option>
                   )}
                   {interiorIds.map(id => <option key={id} value={id}>{id}</option>)}
                 </select>
               )}
-              <label style={{ fontSize: 10, color: '#888' }}>X</label>
-              <input type="number" value={entry.location.tx} style={{ ...inp, width: 44 }}
-                onChange={e => updateEntry(i, { location: { ...entry.location, tx: Number(e.target.value) } as NpcScheduleEntry['location'] })} />
-              <label style={{ fontSize: 10, color: '#888' }}>Y</label>
-              <input type="number" value={entry.location.ty} style={{ ...inp, width: 44 }}
-                onChange={e => updateEntry(i, { location: { ...entry.location, ty: Number(e.target.value) } as NpcScheduleEntry['location'] })} />
+              {loc.type === 'travel' ? (
+                <select
+                  value={loc.town}
+                  style={{ ...inp, flex: 1 }}
+                  onChange={e => updateEntry(i, { location: { type: 'travel', town: e.target.value as MapId } })}
+                >
+                  {(Object.entries(TOWN_LABELS) as [MapId, string][])
+                    .filter(([id]) => id !== mapId)
+                    .map(([id, label]) => <option key={id} value={id}>{label}</option>)}
+                </select>
+              ) : (
+                <>
+                  <label style={{ fontSize: 10, color: '#888' }}>X</label>
+                  <input type="number" value={loc.tx} style={{ ...inp, width: 44 }}
+                    onChange={e => updateEntry(i, { location: { ...loc, tx: Number(e.target.value) } })} />
+                  <label style={{ fontSize: 10, color: '#888' }}>Y</label>
+                  <input type="number" value={loc.ty} style={{ ...inp, width: 44 }}
+                    onChange={e => updateEntry(i, { location: { ...loc, ty: Number(e.target.value) } })} />
+                </>
+              )}
             </div>
           </div>
-        ))}
+          )
+        })}
         <button
           style={addBtn}
           onClick={() => setEntries([...entries, {
@@ -3445,6 +3470,7 @@ export function EntityInspector({
             onDialogueChange={d => onDialogueChange(selectedEntity.index, d)}
             onUpdate={partial => onUpdateNpc(selectedEntity.index, partial)}
             onPickLocation={onPickLocation ? () => onPickLocation('npc', selectedEntity.index) : undefined}
+            mapId={mapId}
           />
         </div>
       </div>
