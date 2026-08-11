@@ -42,7 +42,7 @@ import { PLAYER_PET_ANIMAL_ID } from './hubAnimals'
 import type { UpgradeRow } from './HubTownUpgrades'
 import { nextUpgrade, purchaseUpgrade, getTownReputation, getUpgradeLevel, setUpgradeKindResolver, tributeAmount, tributeAvailable, collectTribute } from '../../game/hub/reputation'
 import { RelationshipView } from './RelationshipView'
-import { resolveNpcPlace } from '../../game/hub/npcLocator'
+import { buildingWorldTile, pickupWorldTile, resolveNpcPlace } from '../../game/hub/npcLocator'
 import { TreasureModal } from './TreasureModal'
 import { getCollectedTreasureIds, markTreasureCollected } from '../../game/hub/treasures'
 import { useHubClock } from '../../hooks/useHubClock'
@@ -521,12 +521,26 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
   // the NPC who finishes the quest (see issue #1663).
   const minimapObjectives = useMemo<MinimapObjective[]>(() => {
     const out: MinimapObjective[] = []
+    const pushTile = (tile: { tx: number; ty: number } | null, kind: MinimapObjective['kind']) => {
+      if (tile) out.push({ x: tile.tx * T + T / 2, y: tile.ty * T + T / 2, kind })
+    }
+    // Tile to pin an NPC at. resolveNpcPlace falls back to interior-*local* coords
+    // when the building can't be placed on the map, which would drop the pin near
+    // the map origin — resolve indoors NPCs explicitly and skip when unplaceable.
+    const npcPinTile = (npc: HubNpc): { tx: number; ty: number } | null => {
+      const place = resolveNpcPlace(npc, gameHour, locationData)
+      return place.interiorId
+        ? buildingWorldTile(place.interiorId, locationData)
+        : { tx: place.tx, ty: place.ty }
+    }
     const pushNpc = (npcId: string | undefined) => {
+      if (!npcId) return
       const npc = locationData.HUB_NPCS.find(n => n.id === npcId)
-      if (npc) {
-        const place = resolveNpcPlace(npc, gameHour, locationData)
-        out.push({ x: place.tx * T + T / 2, y: place.ty * T + T / 2, kind: 'npc' })
-      }
+      if (npc) { pushTile(npcPinTile(npc), 'npc'); return }
+      // Some quests deliver to an animal (e.g. Ravenwatch's stray cat), which lives
+      // in HUB_ANIMALS rather than HUB_NPCS — without this the step gets no pin.
+      const animal = locationData.HUB_ANIMALS.find(a => a.id === npcId)
+      if (animal) pushTile({ tx: animal.tx, ty: animal.ty }, 'npc')
     }
     for (const quest of questDefs) {
       if (getQuestState(quest.id).status !== 'active') continue
@@ -541,7 +555,8 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
         for (const pid of incomplete.pickupIds ?? []) {
           if (pickedUpIds.has(pid)) continue
           const item = locationQuests.HUB_PICKUP_ITEMS.find(p => p.id === pid)
-          if (item) out.push({ x: item.tx * T + T / 2, y: item.ty * T + T / 2, kind: 'pickup' })
+          // Items inside a building carry interior-local coords — pin the building.
+          if (item) pushTile(pickupWorldTile(item, locationData), 'pickup')
         }
       } else {
         pushNpc(incomplete.targetNpcId)
@@ -550,10 +565,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
     // Town Directory "show on map" pin — the chosen NPC's current location.
     if (pinnedNpcId) {
       const npc = locationData.HUB_NPCS.find(n => n.id === pinnedNpcId)
-      if (npc) {
-        const place = resolveNpcPlace(npc, gameHour, locationData)
-        out.push({ x: place.tx * T + T / 2, y: place.ty * T + T / 2, kind: 'directory' })
-      }
+      if (npc) pushTile(npcPinTile(npc), 'directory')
     }
     return out
   // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -94,9 +94,30 @@ export function usePixiApp(
     const resolution = computeCappedResolution(initW, initH, window.devicePixelRatio || 1)
     const contextInfo = { width: initW, height: initH, resolution }
 
+    // Pixi's ResizePlugin only re-measures resizeTo on the window's own `resize`
+    // event, so a container that changes size on its own (a toolbar wrapping to a
+    // second line, a flex sibling growing) leaves app.screen stale while the DOM
+    // reports the new size. Anything mixing the two — the hub minimap reads
+    // clientWidth/clientHeight while the canvas culls against app.screen — then
+    // disagrees about where the viewport is. Observe the element directly.
+    let resizeObserver: ResizeObserver | null = null
+    const observeResizeEl = (app: PIXI.Application) => {
+      if (!resizeEl || typeof ResizeObserver === 'undefined') return
+      resizeObserver = new ResizeObserver(() => {
+        // queueResize coalesces to the next frame, matching the plugin's own path.
+        if (appRef.current === app && app.renderer) app.queueResize()
+      })
+      resizeObserver.observe(resizeEl)
+    }
+    const disconnectResizeObserver = () => {
+      resizeObserver?.disconnect()
+      resizeObserver = null
+    }
+
     // Tears down a fully-initialised app and its canvas. Used both on unmount
     // and to discard a context-lost app immediately before rebuilding it.
     const teardown = (app: PIXI.Application) => {
+      disconnectResizeObserver()
       // If the WebGL context was already lost (e.g. the browser evicted it
       // under context pressure from other live apps), the renderer is gone and
       // app.canvas throws. Nothing remains to tear down — just note it.
@@ -239,6 +260,7 @@ export function usePixiApp(
         }
         canvas.addEventListener('webglcontextlost', contextLostHandler)
         container.appendChild(canvas)
+        observeResizeEl(app)
         onReady(app)
       }).catch(e => {
         console.error('[usePixiApp] app.init failed', e)
@@ -290,6 +312,7 @@ export function usePixiApp(
       destroyed = true
       controller.dispose()
       removeFallback()
+      disconnectResizeObserver()  // also covers an init that never reached teardown
       if (initialized && appRef.current) {
         teardown(appRef.current)
       }

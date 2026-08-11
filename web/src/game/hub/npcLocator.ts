@@ -1,4 +1,4 @@
-import type { HubArea, HubLocationBundle, HubNpc } from '../../data/hub/loader'
+import type { HubArea, HubLocationBundle, HubNpc, HubPickupItem } from '../../data/hub/loader'
 import { getNpcLocation } from './hubNpcSchedule'
 
 const T = 32
@@ -48,6 +48,22 @@ export function buildingWorldTile(buildingId: string, loc: HubLocationBundle): {
     current = parent[0]
   }
   return null
+}
+
+/**
+ * World-map tile to point at for a quest pickup. A pickup with `building` set is
+ * inside that interior and its tx/ty are *interior-local* (typically 0-15), so they
+ * must never be used as world coordinates — that plants the marker near the map's
+ * top-left corner. Such pickups resolve to the building's exterior position instead,
+ * the same way NPCs indoors do. Returns null when the building cannot be placed on
+ * the map, so callers can drop the pin rather than show a wrong one.
+ */
+export function pickupWorldTile(
+  item: Pick<HubPickupItem, 'tx' | 'ty' | 'building'>,
+  loc: HubLocationBundle,
+): { tx: number; ty: number } | null {
+  if (!item.building) return { tx: item.tx, ty: item.ty }
+  return buildingWorldTile(item.building, loc)
 }
 
 /**

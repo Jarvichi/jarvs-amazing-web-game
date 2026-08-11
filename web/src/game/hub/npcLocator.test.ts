@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { resolveNpcPlace, buildingWorldTile, areaNameForTile } from './npcLocator'
+import { resolveNpcPlace, buildingWorldTile, areaNameForTile, pickupWorldTile } from './npcLocator'
 import type { HubLocationBundle, HubNpc } from '../../data/hub/loader'
 
 // Minimal bundle with only the fields the locator reads.
@@ -34,6 +34,23 @@ describe('buildingWorldTile', () => {
   })
   it('walks up to the parent building for a virtual sub-room with no footprint of its own', () => {
     expect(buildingWorldTile('inn-upstairs', loc)).toEqual({ tx: 10, ty: 12 })
+  })
+})
+
+describe('pickupWorldTile', () => {
+  it('passes an exterior pickup through unchanged', () => {
+    expect(pickupWorldTile({ tx: 42, ty: 51 }, loc)).toEqual({ tx: 42, ty: 51 })
+  })
+  it('resolves a pickup inside a building to that building\'s door, not its local tile', () => {
+    // (4,3) is a tile in the inn's 6x6 interior grid — as a world tile it would
+    // land near the map origin, which is the bug this guards.
+    expect(pickupWorldTile({ tx: 4, ty: 3, building: 'inn' }, loc)).toEqual({ tx: 10, ty: 12 })
+  })
+  it('resolves a pickup in a virtual sub-room via its parent building', () => {
+    expect(pickupWorldTile({ tx: 1, ty: 1, building: 'inn-upstairs' }, loc)).toEqual({ tx: 10, ty: 12 })
+  })
+  it('returns null for a building that is not placed on the map', () => {
+    expect(pickupWorldTile({ tx: 4, ty: 3, building: 'nope' }, loc)).toBeNull()
   })
 })
 
