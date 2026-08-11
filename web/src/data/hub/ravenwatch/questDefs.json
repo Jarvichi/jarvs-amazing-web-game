@@ -1366,7 +1366,7 @@
       "type": "lost-items",
       "giverNpcId": "dealer",
       "receiverNpcId": "dealer",
-      "prerequisite": "quest:dealer-lucky-charm",
+      "prerequisite": "quest:the-password-part-4",
       "offerDialogue": "Three decks of cards were swapped out on my tables last night — I only noticed because the backs feel different. Marked cards, the kind cheats use to read from a distance. I pulled them from circulation but someone took them back. Get them before anyone runs a game with them.",
       "activeDialogue": "Marked decks — slightly thicker than normal, with tiny notches on the corners. They were taken from where I left them behind the counter.",
       "completeDialogue": "These are the ones. Look at the notch pattern — it is consistent across all three decks, a code. This was not one cheat doing it for themselves. This was organised. Someone was running a scam operation out of my tables.",
