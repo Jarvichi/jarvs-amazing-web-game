@@ -110,6 +110,9 @@ export interface HubDoor {
   hideSprite?: boolean
   /** Hide the floating player-visible name label above the sign. */
   hideLabel?: boolean
+  /** Entry is blocked until this quest id has status 'completed'. Mirrors
+   *  HubInteriorExit.requiredQuest for the exterior-door case. */
+  requiredQuest?: string
 }
 
 export interface DecorGlow {
