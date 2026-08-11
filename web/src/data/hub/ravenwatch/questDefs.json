@@ -4006,6 +4006,41 @@
           "cartographer-bram": 10
         }
       }
+    },
+    {
+      "id": "the-nameless-bones",
+      "title": "The Nameless Bones",
+      "type": "fetch",
+      "giverNpcId": "whistlebone",
+      "receiverNpcId": "whistlebone",
+      "offerDialogue": "One thing I'd want back, if a living soul ever wandered down here. A signet ring — west of here, past the rocks. Bring it and I'd have a name again, at least to myself.",
+      "activeDialogue": "The ring's somewhere in the west passage. I'd look myself, but I seem to be all out of legs that still answer.",
+      "completeDialogue": "That's the one. Been so long I'd half forgotten the crest myself. Take this for the trouble — I've no use for crystals down here, and even less for that.",
+      "steps": [
+        {
+          "key": "ring",
+          "type": "collect",
+          "pickupIds": ["whistlebone-signet-ring"],
+          "required": 1,
+          "itemName": "Signet Ring",
+          "itemIcon": "💍"
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "whistlebone",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 60,
+        "collectible": {
+          "id": "whistlebone-ring",
+          "name": "Nameless Signet Ring",
+          "icon": "💍",
+          "desc": "Returned to the one it belonged to, who wanted nothing more than to be remembered by it."
+        }
+      }
     }
   ],
   "pickupItems": [
@@ -5853,6 +5888,14 @@
       "tileId": "pendant",
       "questId": "trader-provenance",
       "chain": "trader-marked-curio"
+    },
+    {
+      "id": "whistlebone-signet-ring",
+      "tx": 3,
+      "ty": 5,
+      "tileId": "goldRing",
+      "questId": "the-nameless-bones",
+      "building": "ravenwatch-hollow-tunnel-west"
     }
   ],
   "friendshipDialogue": {

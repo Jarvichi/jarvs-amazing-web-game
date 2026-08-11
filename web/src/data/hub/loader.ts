@@ -166,6 +166,10 @@ export interface HubInterior {
   ambianceId?: string
   /** Render the player's placed furniture (homeLayout.ts) here at runtime — see furnitureTiles.ts. */
   playerDecor?: boolean
+  /** Render this room unlit except near the avatar's own torch and any
+   *  glow-flagged decor — a dedicated interior-scoped punch-hole overlay,
+   *  independent of the exterior day/night cycle (see HubTownCanvas.tsx). */
+  dark?: boolean
 }
 
 /** Visible activity an NPC performs while at a scheduled location. */
@@ -711,6 +715,7 @@ const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
         musicId:    rawAny.musicId as string | undefined,
         ambianceId: rawAny.ambianceId as string | undefined,
         playerDecor: rawAny.playerDecor as boolean | undefined,
+        dark:        rawAny.dark as boolean | undefined,
       } satisfies HubInterior,
     ]
   })

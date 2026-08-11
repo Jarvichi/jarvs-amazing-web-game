@@ -10277,6 +10277,7 @@
       "height": 8,
       "floorTileId": "darkStoneFloor",
       "wallTileId": "darkStone",
+      "dark": true,
       "decor": [
         { "tx": 5, "ty": 1, "tileId": "largeRock" },
         { "tx": 2, "ty": 1, "tileId": "smallRock" },
@@ -10296,6 +10297,7 @@
       "height": 8,
       "floorTileId": "darkStoneFloor",
       "wallTileId": "darkStone",
+      "dark": true,
       "decor": [
         { "tx": 1, "ty": 1, "tileId": "largeRock" },
         { "tx": 8, "ty": 1, "tileId": "smallRock" },
@@ -10314,6 +10316,7 @@
       "height": 8,
       "floorTileId": "darkStoneFloor",
       "wallTileId": "darkStone",
+      "dark": true,
       "decor": [
         { "tx": 2, "ty": 1, "tileId": "largeRock" },
         { "tx": 8, "ty": 1, "tileId": "smallRock" },
@@ -12348,6 +12351,21 @@
         "Hello!"
       ],
       "building": "arcade-building-w-4"
+    },
+    {
+      "id": "whistlebone",
+      "name": "Whistlebone",
+      "sprite": "skeleton",
+      "tx": 5,
+      "ty": 5,
+      "building": "ravenwatch-hollow-tunnel-east",
+      "dialogue": [
+        "Down here so long the worms gave up on me. Rude of them, honestly.",
+        "Someone dug that hole up top. Wasn't me — I came in through the honest way. However long ago that was.",
+        "Mind the dark past the lantern-light. I've had a very long time to notice what else lives down here, and it isn't friendly."
+      ],
+      "questGive": "the-nameless-bones",
+      "questReceive": "the-nameless-bones"
     }
   ],
   "ambientNpcSprites": [
@@ -12550,6 +12568,21 @@
         "crystals": 10
       },
       "buildingId": "town-hall"
+    },
+    {
+      "id": "hollow-tunnel-chest",
+      "tx": 6,
+      "ty": 2,
+      "tileId": "chest",
+      "collectedTileId": "openChest",
+      "title": "A chest left behind in the dark",
+      "reward": {
+        "crystals": 40,
+        "consumables": [
+          { "id": "health_potion", "quantity": 2 }
+        ]
+      },
+      "buildingId": "ravenwatch-hollow-tunnel-west"
     }
   ],
   "interactables": [
