@@ -358,7 +358,7 @@
       "receiverNpcId": "trader",
       "prerequisite": "quest:the-password-part-4",
       "offerDialogue": "Got a crate of supplies that needs to reach the trader den — can't leave the counter unattended. Take it over, would you?",
-      "activeDialogue": "The Junk Trader is in the den to the south-west. Don't let him talk you into a swap.",
+      "activeDialogue": "The Junk Trader is in the den just along to the east. Don't let him talk you into a swap.",
       "completeDialogue": "About time! These are exactly what I needed. Tell Bramble we're square.",
       "steps": [
         {
@@ -443,8 +443,8 @@
       "giverNpcId": "home-steward",
       "receiverNpcId": "home-steward",
       "prerequisite": "quest:the-password-part-4",
-      "offerDialogue": "I apologise for the bother, Commander, but I seem to have dropped a small locket while crossing the courtyard this morning. It belonged to the Commander's family.",
-      "activeDialogue": "I believe I dropped it somewhere near the well in the courtyard. It is a small silver locket.",
+      "offerDialogue": "I apologise for the bother, Commander, but I seem to have dropped a small locket while walking down past the old well this morning. It belonged to the Commander's family.",
+      "activeDialogue": "I believe I dropped it somewhere near the old stone well, on the lane just west of the courtyard. It is a small silver locket.",
       "completeDialogue": "Ah, there it is. My sincerest thanks — this is irreplaceable. I shall keep it safer from now on.",
       "steps": [
         {
@@ -560,7 +560,7 @@
       "receiverNpcId": "guild-master-ferryn",
       "prerequisite": "quest:the-password-part-4",
       "offerDialogue": "Someone borrowed the guild's primary ledger — without asking, naturally — and I believe it ended up in the trader den. I need that book back. Every transaction for the last year is in it.",
-      "activeDialogue": "Check the trader den to the south-west. The ledger is bound in dark leather with a guild stamp on the cover.",
+      "activeDialogue": "Check the trader den to the north-west. The ledger is bound in dark leather with a guild stamp on the cover.",
       "completeDialogue": "Intact. Every page. I will be having words with the trader. Here — your fee, as promised.",
       "steps": [
         {
@@ -782,7 +782,7 @@
       "receiverNpcId": "guild-master-ferryn",
       "prerequisite": "quest:merchants-herb",
       "offerDialogue": "Ferryn has been pestering me for the quarterly trade ledger. Fine — but I am not walking it over myself. It is on the counter. Take it to the guild hall.",
-      "activeDialogue": "Guild Master Ferryn is in the traders' building to the south-west. Try not to read it.",
+      "activeDialogue": "Guild Master Ferryn is in the traders' building to the south-east. Try not to read it.",
       "completeDialogue": "At last! Vex takes his time. Thank you for the legwork — much appreciated.",
       "steps": [
         {
@@ -3938,8 +3938,8 @@
     },
     {
       "id": "pendant-2",
-      "tx": 20,
-      "ty": 53,
+      "tx": 22,
+      "ty": 47,
       "tileId": "goldNecklace",
       "questId": "lost-pendant"
     },
@@ -3952,8 +3952,8 @@
     },
     {
       "id": "moonleaf-herb",
-      "tx": 3,
-      "ty": 55,
+      "tx": 55,
+      "ty": 21,
       "tileId": "bunchOfHerbs",
       "questId": "merchants-herb"
     },
@@ -3990,22 +3990,22 @@
     },
     {
       "id": "bait-jar-1",
-      "tx": 3,
-      "ty": 36,
+      "tx": 44,
+      "ty": 50,
       "tileId": "smallSack",
       "questId": "greyfishs-bait"
     },
     {
       "id": "bait-jar-2",
-      "tx": 6,
-      "ty": 40,
+      "tx": 50,
+      "ty": 50,
       "tileId": "smallSack",
       "questId": "greyfishs-bait"
     },
     {
       "id": "bait-jar-3",
-      "tx": 5,
-      "ty": 44,
+      "tx": 41,
+      "ty": 53,
       "tileId": "smallSack",
       "questId": "greyfishs-bait"
     },
@@ -4175,8 +4175,8 @@
     },
     {
       "id": "marsh-thyme",
-      "tx": 11,
-      "ty": 51,
+      "tx": 52,
+      "ty": 52,
       "tileId": "bunchOfHerbs",
       "questId": "rosie-recipe"
     },
@@ -4204,8 +4204,8 @@
     },
     {
       "id": "memory-shard-3",
-      "tx": 4,
-      "ty": 45,
+      "tx": 44,
+      "ty": 49,
       "tileId": "white_crystal3",
       "questId": "elder-fracture-memory"
     },
@@ -4503,19 +4503,19 @@
     },
     {
       "id": "rigging-device-2",
-      "tx": 5,
+      "tx": 7,
       "ty": 4,
       "tileId": "chest",
       "questId": "zev-rigged-games",
-      "building": "arcade-building-e"
+      "building": "arcade-building-w"
     },
     {
       "id": "rigging-device-3",
-      "tx": 4,
+      "tx": 9,
       "ty": 6,
       "tileId": "chest",
       "questId": "zev-rigged-games",
-      "building": "arcade-building-e"
+      "building": "arcade-building-w"
     },
     {
       "id": "fake-trophy",
@@ -4776,19 +4776,19 @@
     },
     {
       "id": "shadow-coin",
-      "tx": 4,
+      "tx": 2,
       "ty": 5,
       "tileId": "pileOfCoins",
       "questId": "zev-shadow-gambler",
-      "building": "arcade-building-e"
+      "building": "arcade-building-w"
     },
     {
       "id": "shadow-note",
-      "tx": 6,
+      "tx": 12,
       "ty": 4,
       "tileId": "note",
       "questId": "zev-shadow-gambler",
-      "building": "arcade-building-e"
+      "building": "arcade-building-w"
     },
     {
       "id": "shadow-token",
@@ -4800,27 +4800,27 @@
     },
     {
       "id": "tainted-trophy-1",
-      "tx": 4,
-      "ty": 4,
+      "tx": 8,
+      "ty": 2,
       "tileId": "goldChest",
       "questId": "orin-contaminated-trophies",
-      "building": "barracks-north"
+      "building": "arcade-building-e"
     },
     {
       "id": "tainted-trophy-2",
-      "tx": 6,
-      "ty": 4,
+      "tx": 10,
+      "ty": 3,
       "tileId": "goldChest",
       "questId": "orin-contaminated-trophies",
-      "building": "barracks-north"
+      "building": "arcade-building-e"
     },
     {
       "id": "tainted-trophy-3",
-      "tx": 5,
-      "ty": 6,
+      "tx": 2,
+      "ty": 4,
       "tileId": "goldChest",
       "questId": "orin-contaminated-trophies",
-      "building": "barracks-south"
+      "building": "arcade-building-e"
     },
     {
       "id": "echo-suspect-list",
@@ -4980,16 +4980,16 @@
     },
     {
       "id": "guild-doc-3",
-      "tx": 3,
-      "ty": 6,
+      "tx": 9,
+      "ty": 3,
       "tileId": "blackclosedBook",
       "questId": "ferryn-guild-lockdown",
-      "building": "trader-den"
+      "building": "traders-building"
     },
     {
       "id": "purification-crystal-1",
-      "tx": 5,
-      "ty": 40,
+      "tx": 42,
+      "ty": 51,
       "tileId": "blue_crystal3",
       "questId": "mira-purging-augments"
     },
@@ -5059,8 +5059,8 @@
     },
     {
       "id": "shelter-package-2",
-      "tx": 2,
-      "ty": 41,
+      "tx": 41,
+      "ty": 52,
       "tileId": "crate",
       "questId": "rosie-shelter-for-families"
     },
@@ -5080,8 +5080,8 @@
     },
     {
       "id": "fracture-residue-2",
-      "tx": 4,
-      "ty": 36,
+      "tx": 51,
+      "ty": 51,
       "tileId": "potions",
       "questId": "alric-fracture-study"
     },
@@ -5094,8 +5094,8 @@
     },
     {
       "id": "pond-hearthstone-disc",
-      "tx": 6,
-      "ty": 39,
+      "tx": 45,
+      "ty": 49,
       "tileId": "roundShieldFloor",
       "questId": "fisherman-fracture-depths"
     },
@@ -5122,19 +5122,19 @@
     },
     {
       "id": "surveillance-device-1",
-      "tx": 3,
+      "tx": 1,
       "ty": 3,
       "tileId": "chest",
       "questId": "zev-games-hall-clear",
-      "building": "arcade-building-e"
+      "building": "arcade-building-w"
     },
     {
       "id": "surveillance-device-2",
-      "tx": 6,
+      "tx": 13,
       "ty": 3,
       "tileId": "chest",
       "questId": "zev-games-hall-clear",
-      "building": "arcade-building-e"
+      "building": "arcade-building-w"
     },
     {
       "id": "surveillance-device-3",
@@ -5170,8 +5170,8 @@
     },
     {
       "id": "intel-note-3",
-      "tx": 61,
-      "ty": 23,
+      "tx": 51,
+      "ty": 27,
       "tileId": "note",
       "questId": "dealer-fracture-intel"
     },
@@ -5402,8 +5402,8 @@
     },
     {
       "id": "resource-bundle-1",
-      "tx": 5,
-      "ty": 42,
+      "tx": 52,
+      "ty": 54,
       "tileId": "crate",
       "questId": "ferryn-resource-cache"
     },
@@ -5517,11 +5517,11 @@
     },
     {
       "id": "zev-equipment-manifest",
-      "tx": 5,
-      "ty": 3,
+      "tx": 11,
+      "ty": 2,
       "tileId": "closedBook",
       "questId": "zev-games-hall-stands",
-      "building": "arcade-building-e"
+      "building": "arcade-building-w"
     },
     {
       "id": "champions-pledge",
@@ -5569,8 +5569,8 @@
     },
     {
       "id": "convergence-shard-2",
-      "tx": 2,
-      "ty": 37,
+      "tx": 52,
+      "ty": 51,
       "tileId": "yellow_crystal1",
       "questId": "elder-the-convergence"
     },

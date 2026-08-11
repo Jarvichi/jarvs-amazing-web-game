@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import type { HubLocationBundle } from '../../data/hub/loader'
+import { edgeArrowPlacement, isOnScreen, minimapTransform, type ViewportRect } from './hubMinimapMath'
 
 const T = 32
 
@@ -41,19 +42,15 @@ export function HubMinimap({ locationData, objectives, playerRef, viewportRef }:
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [visible, setVisible] = useState(loadVisible)
-  // Off-screen edge arrow, in screen-fraction coords (0..1) + angle, or null when on-screen.
-  const [arrow, setArrow] = useState<{ fx: number; fy: number; angle: number } | null>(null)
+  // Off-screen edge arrow, positioned in px within this component's containing
+  // block (.nm-map) + angle, or null when the objective is on-screen. Pixels, not
+  // percentages: .nm-map carries 16px of top padding that the scroll viewport does
+  // not, so a percentage of the containing block lands ~16px above the true spot.
+  const [arrow, setArrow] = useState<{ left: number; top: number; angle: number } | null>(null)
 
   // World → minimap scale (letterboxed to preserve aspect ratio).
-  const innerW = MM_W - PAD * 2
-  const innerH = MM_H - PAD * 2
-  const scale  = Math.min(innerW / MAP_W, innerH / MAP_H)
-  const drawW  = MAP_W * scale
-  const drawH  = MAP_H * scale
-  const offX   = PAD + (innerW - drawW) / 2
-  const offY   = PAD + (innerH - drawH) / 2
-  const toMmX  = (wx: number) => offX + wx * scale
-  const toMmY  = (wy: number) => offY + wy * scale
+  const { scale, drawW, drawH, offX, offY, toMmX, toMmY } =
+    minimapTransform(MAP_W, MAP_H, MM_W, MM_H, PAD)
 
   // Redraw loop — runs only while the minimap is visible. Repaints when the
   // player tile, objectives, or viewport window change (keeps work minimal).
@@ -84,11 +81,14 @@ export function HubMinimap({ locationData, objectives, playerRef, viewportRef }:
       const vy = vp?.scrollTop  ?? 0
       const vw = vp?.clientWidth  ?? MAP_W
       const vh = vp?.clientHeight ?? MAP_H
+      // Where the game view sits inside this component's containing block.
+      const ox = vp?.offsetLeft ?? 0
+      const oy = vp?.offsetTop  ?? 0
 
-      const sig = `${Math.round(p.x)},${Math.round(p.y)}|${objSig}|${Math.round(vx)},${Math.round(vy)},${vw},${vh}`
+      const sig = `${Math.round(p.x)},${Math.round(p.y)}|${objSig}|${Math.round(vx)},${Math.round(vy)},${vw},${vh},${ox},${oy}`
       if (sig !== lastSig) {
         lastSig = sig
-        draw(ctx, p, { vx, vy, vw, vh })
+        draw(ctx, p, { vx, vy, vw, vh, ox, oy })
       }
       raf = requestAnimationFrame(frame)
     }
@@ -96,7 +96,7 @@ export function HubMinimap({ locationData, objectives, playerRef, viewportRef }:
     const draw = (
       c: CanvasRenderingContext2D,
       player: { x: number; y: number },
-      view: { vx: number; vy: number; vw: number; vh: number },
+      view: ViewportRect & { ox: number; oy: number },
     ) => {
       c.clearRect(0, 0, MM_W, MM_H)
 
@@ -162,25 +162,11 @@ export function HubMinimap({ locationData, objectives, playerRef, viewportRef }:
         const d = (o.x - player.x) ** 2 + (o.y - player.y) ** 2
         if (d < nearestD) { nearestD = d; nearest = o }
       }
-      if (nearest) {
-        const onScreen =
-          nearest.x >= view.vx && nearest.x <= view.vx + view.vw &&
-          nearest.y >= view.vy && nearest.y <= view.vy + view.vh
-        if (!onScreen) {
-          // Direction from the viewport centre to the objective.
-          const cx = view.vx + view.vw / 2
-          const cy = view.vy + view.vh / 2
-          const angle = Math.atan2(nearest.y - cy, nearest.x - cx)
-          // Project onto the edge of a centred unit box → screen fraction.
-          const dx = Math.cos(angle)
-          const dy = Math.sin(angle)
-          const m = Math.max(Math.abs(dx), Math.abs(dy)) || 1
-          const fx = 0.5 + (dx / m) * 0.45
-          const fy = 0.5 + (dy / m) * 0.45
-          setArrow({ fx, fy, angle })
-        } else {
-          setArrow(null)
-        }
+      if (nearest && !isOnScreen(nearest, view)) {
+        const { fx, fy, angle } = edgeArrowPlacement(nearest, view)
+        // Offset by the scroll viewport's own position so the arrow is placed
+        // against the game view, not against .nm-map's larger padding box.
+        setArrow({ left: view.ox + fx * view.vw, top: view.oy + fy * view.vh, angle })
       } else {
         setArrow(null)
       }
@@ -202,8 +188,8 @@ export function HubMinimap({ locationData, objectives, playerRef, viewportRef }:
         <div
           style={{
             position:      'absolute',
-            left:          `${arrow.fx * 100}%`,
-            top:           `${arrow.fy * 100}%`,
+            left:          arrow.left,
+            top:           arrow.top,
             transform:     `translate(-50%, -50%) rotate(${arrow.angle}rad)`,
             pointerEvents: 'none',
             zIndex:        8,
