@@ -1662,6 +1662,24 @@ export function HubTownCanvas({
     const TARGET_NPC_COUNT = 12
     let respawnTimer = 2000
 
+    // Ambient NPCs who've walked into a building's open door don't just
+    // vanish — they linger inside for a while, visible if the player follows
+    // them in, before letting themselves back out. Keyed by buildingId,
+    // in-memory only (ambient NPCs were never persisted across reloads to
+    // begin with). Reuses the sprite's already-loaded texture directly
+    // rather than re-resolving a slug, since UnitNpcState never stored one.
+    interface BuildingVisitor { texture: PIXI.Texture; isGhost: boolean; leaveAt: number }
+    const buildingVisitors = new Map<string, BuildingVisitor[]>()
+    const VISITOR_STAY_MS_MIN = 20_000
+    const VISITOR_STAY_MS_MAX = 55_000
+    // Live sprites for the current building's visitors — populated in
+    // doEnterInterior, cleared in doExitInterior. Separate from
+    // buildingVisitors itself (which tracks every building's occupants
+    // regardless of whether the player is looking), so the leave-timer
+    // ticker can find and remove a specific sprite if the player happens to
+    // be standing in that exact room when it expires.
+    let interiorVisitorSprites: { record: BuildingVisitor; sprite: PIXI.Sprite }[] = []
+
     // Removes an ambient NPC's sprite and any active reaction bubbles, and
     // drops it from unitNpcs — shared by despawn-into-a-building and
     // despawn-via-exit-tile (#2111).
@@ -1710,6 +1728,22 @@ export function HubTownCanvas({
             npc.isWalking = false
             wanderNpc(npc)
             return
+          }
+          // Record them as a visitor inside this building before despawning
+          // the exterior sprite, so they can be seen if the player follows
+          // them in, and so they eventually let themselves back out (#2111
+          // — "when an npc enters a building we should be able to follow
+          // them in, and see the npc in the building", extended to ambient
+          // wandering NPCs, not just named ones).
+          const enteredBuildingId = doorBuildingByTile.get(`${tx},${ty}`)
+          if (enteredBuildingId) {
+            const visitors = buildingVisitors.get(enteredBuildingId) ?? []
+            visitors.push({
+              texture: npc.sprite.texture,
+              isGhost: npc.isGhost,
+              leaveAt: Date.now() + VISITOR_STAY_MS_MIN + Math.random() * (VISITOR_STAY_MS_MAX - VISITOR_STAY_MS_MIN),
+            })
+            buildingVisitors.set(enteredBuildingId, visitors)
           }
           despawnAmbientNpc(npc)
           return
@@ -2042,6 +2076,7 @@ export function HubTownCanvas({
         interiorLayer.visible = false
         interiorLayer.removeChildren()
         interiorAnimals.length = 0
+        interiorVisitorSprites = []
         currentInteriorId  = null
         currentInteriorObj = null
         highlightGfx.clear()
@@ -2535,6 +2570,29 @@ export function HubTownCanvas({
             loadAnimFrames(baseSlug, 3).then(f => { ia.frames = f }).catch(() => {})
             if (da.type === 'cat') loadTextureUrl(`${base}sprites/animal-cat-sleep.svg`).then(t => { ia.sleepTex = t }).catch(() => {})
           }).catch(() => {})
+        })
+      }
+
+      // Ambient wandering NPCs currently "inside" this building (#2111) —
+      // visible for the rest of their stay if the player follows them in.
+      // Reuses the texture each already had outside — no new texture load,
+      // no identity, just a body standing somewhere in the room. Positioning
+      // is static for now (no in-room wandering), same tradeoff the denned
+      // animals above don't fully avoid either (neither reserves its tile
+      // against the other, so an occasional overlap is possible but rare
+      // given how few of either are usually present in one small room).
+      {
+        const visitors = buildingVisitors.get(buildingId) ?? []
+        const freeTiles = Array.from(interiorWalkable).map(k => k.split(',').map(Number) as [number, number])
+        interiorVisitorSprites = visitors.map((record, i) => {
+          const spot = freeTiles[(i * 5 + 2) % Math.max(1, freeTiles.length)] ?? [1, 1]
+          const s = new PIXI.Sprite(record.texture)
+          s.width = SPRITE_SIZE; s.height = SPRITE_SIZE
+          s.anchor.set(0.5, 1)
+          s.position.set(spot[0] * T + T / 2, spot[1] * T + T)
+          if (record.isGhost) { s.alpha = 0.4; s.tint = 0xaaccff }
+          interiorLayer.addChild(s)
+          return { record, sprite: s }
         })
       }
 
@@ -3579,6 +3637,35 @@ export function HubTownCanvas({
             bubbleLayer.removeChild(npc.doorReactionBubble)
             npc.doorReactionBubble = null
           }
+        }
+      }
+
+      // Building visitors' stay timer (#2111) — runs regardless of
+      // interiorActive, since a visitor's stay can expire while the player
+      // is nowhere near that building. On expiry: if the player happens to
+      // be inside that exact room right now, remove the live sprite; either
+      // way, let them back out into the world at that building's door, if
+      // it's still open (if the building closed in the meantime, they just
+      // silently stay — indistinguishable from having wandered off inside,
+      // out of sight).
+      {
+        const _nowMs = Date.now()
+        for (const [visitBuildingId, visitors] of buildingVisitors) {
+          for (let i = visitors.length - 1; i >= 0; i--) {
+            const record = visitors[i]
+            if (record.leaveAt > _nowMs) continue
+            visitors.splice(i, 1)
+            if (interiorActive && currentInteriorId === visitBuildingId) {
+              const idx = interiorVisitorSprites.findIndex(v => v.record === record)
+              if (idx !== -1) {
+                interiorLayer.removeChild(interiorVisitorSprites[idx].sprite)
+                interiorVisitorSprites.splice(idx, 1)
+              }
+            }
+            const door = HUB_DOORS.find(d => d.buildingId === visitBuildingId)
+            if (door && isDoorOpen(door.tx, door.ty)) spawnAmbientNpc([door.tx, door.ty])
+          }
+          if (visitors.length === 0) buildingVisitors.delete(visitBuildingId)
         }
       }
 
