@@ -21,7 +21,7 @@ import { getAugmentCard, AUGMENT_SPRITE } from '../../game/augments'
 import { createChunkCuller } from '../../utils/chunkCull'
 import { CommanderState } from '../../game/commander'
 import rollbar from '../../rollbar'
-import { FlameColor, FlameType, HubInteractable, HubInterior, HubInteriorExit, HubLocationBundle, HubNpc, HubQuestBundle, HubStreetGroup, NpcScheduleEntry, isVisibleAtLevel } from '../../data/hub/loader'
+import { FlameColor, FlameType, HubInteractable, HubInterior, HubInteriorExit, HubLocationBundle, HubNpc, HubQuestBundle, HubStreetGroup, NpcScheduleEntry, isVisibleAtLevel, resolveUpgradeLevelKey } from '../../data/hub/loader'
 import { createAnimalSystem, AnimalSystem, GlowSource, PLAYER_OWNER_ID } from './hubAnimals'
 import { getActivePet } from '../../game/hub/pet'
 import { isInteractableGranted, interactableStoreKey } from '../../game/hub/interactables'
@@ -183,7 +183,7 @@ export function HubTownCanvas({
     HUB_STREET_TILES, HUB_STREET_NONWALKABLE_TILES,
     EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES, HUB_POND_GROUPS, HUB_BRIDGE_TILES,
     HUB_FESTIVAL_DECOR,
-    HUB_DOORS, HUB_INTERIORS, HUB_NPCS, EXTERIOR_NPCS,
+    HUB_DOORS, HUB_INTERIOR_OWNERS, HUB_INTERIORS, HUB_NPCS, EXTERIOR_NPCS,
     NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES,
    HUB_LOCKED_DOORS, HUB_TREASURES, HUB_INTERACTABLES, HUB_ANIMALS, HUB_CHICKEN_ZONES,
     EXIT_TILES: exitTilesData,
@@ -2068,10 +2068,12 @@ export function HubTownCanvas({
 
       // ── Upgrade-level gating ───────────────────────────────────────────────
       // Interior decor, rooms (exits) and NPCs can be tagged with a minLevel so
-      // they only appear once the building has been upgraded that far. Sub-rooms
-      // (no exterior door) inherit the level of the parent building whose id
-      // prefixes this interior's id.
-      const levelKey = HUB_BUILDINGS.find(b => b.id && buildingId.startsWith(b.id) && b.upgradeKind)?.id ?? buildingId
+      // they only appear once the building has been upgraded that far.
+      // resolveUpgradeLevelKey first tries an exact door-target → owner lookup
+      // (HUB_INTERIOR_OWNERS — a door's target interior id is not always the
+      // owning building's own id), then falls back to the id-prefix guess for
+      // sub-rooms reached only via internal exits (no door of their own).
+      const levelKey = resolveUpgradeLevelKey(buildingId, HUB_BUILDINGS, HUB_INTERIOR_OWNERS)
       const currentLevel = buildingUpgradeLevelsRef?.current[levelKey] ?? 0
       const visibleDecor = interior.decor.filter(d => isVisibleAtLevel(d, currentLevel))
       const staticExits  = (interior.exits ?? []).filter(e => (e.minLevel ?? 0) <= currentLevel)

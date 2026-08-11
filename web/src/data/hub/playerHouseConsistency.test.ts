@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { getHubWorldData } from './hubWorldFactory'
+import { resolveUpgradeLevelKey } from './loader'
 
 const { locationRegistry: LOCATION_REGISTRY } = await getHubWorldData()
 
@@ -40,6 +41,27 @@ describe('player-house tag consistency (all towns)', () => {
           expect(locationData.HUB_INTERIORS[exit.toInteriorId], `${townKey}/${interiorId}'s exit to "${exit.toInteriorId}" has no matching interior`).toBeTruthy()
         })
       }
+    }
+
+    // Regression sentinel for the Ravenwatch "home-building" door → "home"
+    // interior bug: an interior's minLevel-gated decor/exits are only ever
+    // reachable if resolveUpgradeLevelKey resolves it to a real
+    // upgradeKind-tracked building — otherwise the level permanently
+    // defaults to 0 regardless of actual purchase progress, no matter how
+    // upgraded the building really is.
+    for (const [interiorId, interior] of Object.entries(locationData.HUB_INTERIORS)) {
+      const hasGatedContent =
+        interior.decor.some(d => (d.minLevel ?? 0) > 0) ||
+        (interior.exits ?? []).some(e => (e.minLevel ?? 0) > 0)
+      if (!hasGatedContent) continue
+      it(`${townKey}/${interiorId}: minLevel-gated content resolves to a real upgrade-tracked building`, () => {
+        const levelKey = resolveUpgradeLevelKey(interiorId, locationData.HUB_BUILDINGS, locationData.HUB_INTERIOR_OWNERS)
+        const owner = locationData.HUB_BUILDINGS.find(b => b.id === levelKey && b.upgradeKind)
+        expect(
+          owner,
+          `${townKey}/${interiorId} has minLevel-gated decor/exits but its resolved upgrade-level key "${levelKey}" matches no upgradeKind-tracked building — this content can never appear (upgrade level permanently defaults to 0)`,
+        ).toBeTruthy()
+      })
     }
   }
 })
