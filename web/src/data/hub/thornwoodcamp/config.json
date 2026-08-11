@@ -524,6 +524,18 @@
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
         "chicken-feed"
+      ],
+      "schedule": [
+        {
+          "startHour": 9,
+          "endHour": 17,
+          "location": { "type": "travel", "town": "ironholdkeep" }
+        },
+        {
+          "startHour": 17,
+          "endHour": 9,
+          "location": { "type": "exterior", "tx": 5, "ty": 30 }
+        }
       ]
     },
     {
