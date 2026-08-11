@@ -10295,7 +10295,8 @@
         "alric-heartstone-analysis",
         "orin-champions-stand",
         "aldous-the-hearthstone",
-        "thorin-the-last-watch"
+        "thorin-the-last-watch",
+        "the-false-grave"
       ],
       "schedule": [
         {
@@ -12184,6 +12185,7 @@
       "id": "npc_1781726431819",
       "name": "Minister Fallow",
       "sprite": "necromancer",
+      "questReceive": "the-false-grave",
       "tx": 6,
       "ty": 1,
       "dialogue": [
@@ -12756,17 +12758,10 @@
       ]
     },
     {
-      "id": "interactable-1782663378757",
+      "id": "ravenwatch-false-grave",
       "tx": 28,
       "ty": 53,
       "reactions": [
-        {
-          "type": "move",
-          "to": {
-            "tx": -1,
-            "ty": -1
-          }
-        },
         {
           "type": "dialogue",
           "text": "The gravestone falls into a hole below."
@@ -12774,6 +12769,13 @@
         {
           "type": "quest",
           "questId": "the-false-grave"
+        },
+        {
+          "type": "move",
+          "to": {
+            "tx": -1,
+            "ty": -1
+          }
         }
       ],
       "decor": [
