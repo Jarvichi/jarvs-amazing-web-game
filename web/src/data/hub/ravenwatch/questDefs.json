@@ -6386,6 +6386,25 @@
         "decor": [],
         "npcs": []
       }
+    },
+    {
+      "id": "ravenwatch-false-grave-hole",
+      "blockedTiles": [],
+      "questId": "the-false-grave",
+      "blocked": {
+        "decor": [],
+        "npcs": []
+      },
+      "cleared": {
+        "decor": [
+          {
+            "tx": 28,
+            "ty": 53,
+            "tileId": "hole"
+          }
+        ],
+        "npcs": []
+      }
     }
   ],
   "dialogues": [
