@@ -149,6 +149,8 @@ export interface RawInterior {
   ambianceId?: string
   /** Render the player's placed furniture (homeLayout.ts) here at runtime — see furnitureTiles.ts. */
   playerDecor?: boolean
+  /** Render this room unlit except near the avatar's torch and glow-flagged decor. */
+  dark?: boolean
 }
 
 

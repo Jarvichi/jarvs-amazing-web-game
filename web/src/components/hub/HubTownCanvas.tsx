@@ -49,6 +49,12 @@ const NPC_BLOCK_WAIT_MAX_MS  = 900   // give up waiting and try to reroute after
 const NIGHT_LIGHT_INNER  = 4 * T   // fully lit within this radius of avatar
 const NIGHT_LIGHT_OUTER  = 7 * T   // fully dark beyond this radius
 const NIGHT_NPC_LIGHT_R  = 2 * T   // small glow radius around each NPC
+// A dark interior (HubInterior.dark) is typically only a handful of tiles
+// across — reusing the exterior torch radii above would light most of a room
+// this small from any position, defeating the point. Scaled down so the
+// avatar's own light stays a modest personal bubble instead.
+const INTERIOR_DARK_INNER = 1.5 * T
+const INTERIOR_DARK_OUTER = 3   * T
 
 // ── Interactable affordance aura ────────────────────────────────────────────
 // A faint pulsing halo drawn behind tap-reactive objects that own visible decor
@@ -286,6 +292,19 @@ export function HubTownCanvas({
     nightSprite.height    = MAP_H
     nightSprite.visible   = false
     nightSprite.eventMode = 'none'  // overlay must not block pointer events on game objects
+    // Interior darkness overlay (HubInterior.dark) — same punch-hole technique as
+    // the exterior night pass above, but scoped to whichever room is currently
+    // active: its own small canvas sized to that room's own pixel dimensions
+    // (rooms are tiny compared to the exterior map, so a fresh canvas per entry
+    // is cheap), rebuilt in doEnterInterior and torn down in doExitInterior.
+    // Deliberately independent of the exterior nightSprite/decorGlows — that
+    // pipeline runs only while !interiorActive and its light sources are in
+    // exterior map-pixel coordinates, not room-local ones.
+    let interiorDarkCanvas:  HTMLCanvasElement | null = null
+    let interiorDarkCtx:     CanvasRenderingContext2D | null = null
+    let interiorDarkTexture: PIXI.Texture | null = null
+    let interiorDarkSprite:  PIXI.Sprite | null = null
+    let interiorGlowSources: GlowSource[] = []
     // Keep legacy aliases so existing code below compiles unchanged
     const npcLayer    = spriteLayer
     const avatarLayer = spriteLayer
@@ -2044,6 +2063,8 @@ export function HubTownCanvas({
         interiorAnimals.length = 0
         currentInteriorId  = null
         currentInteriorObj = null
+        if (interiorDarkSprite) { interiorDarkTexture?.destroy(true); interiorDarkSprite = null; interiorDarkCanvas = null; interiorDarkCtx = null; interiorDarkTexture = null }
+        interiorGlowSources = []
         highlightGfx.clear()
         stopInteriorAudio()  // resume town theme + drop ambiance
         onExitInteriorRef.current?.()
@@ -2059,6 +2080,12 @@ export function HubTownCanvas({
     // ── Interior enter ─────────────────────────────────────────────────────────
     const doEnterInterior = (buildingId: string, entryTx?: number, entryTy?: number, direction?: HubInteriorExit['direction'], sourceTx?: number) => {
       try {
+      // Fresh per-room light-source list for the interior darkness overlay
+      // (HubInterior.dark) — repopulated below as decor is collected, read
+      // once the room finishes building. Reset here so re-entering a
+      // different room never carries over a prior room's glow sources.
+      interiorGlowSources = []
+
       // Locked door check — block entry if key not in inventory
       const lock = HUB_LOCKED_DOORS.find(l => l.buildingId === buildingId)
       if (lock && !doorKeysRef.current?.has(lock.lockedBy)) {
@@ -2356,7 +2383,11 @@ export function HubTownCanvas({
           const list = byTileId.get(d.tileId) ?? []
           list.push([d.tx, d.ty])
           byTileId.set(d.tileId, list)
-          if (d.glow) decorGlows.push({ x: d.tx * T + T / 2, y: d.ty * T + T / 2, radius: (d.glowRadius ?? 2) * T, pulse: !!d.pulse })
+          if (d.glow) {
+            const glowSource = { x: d.tx * T + T / 2, y: d.ty * T + T / 2, radius: (d.glowRadius ?? 2) * T, pulse: !!d.pulse }
+            decorGlows.push(glowSource)
+            interiorGlowSources.push(glowSource)
+          }
           if (d.flame) {
             const fx = d.tx * T + T / 2, fy = d.ty * T + T * FLAME_ANCHOR_Y
             collectFlame(flames, decorGlows, !!d.glow, target, fx, fy, fx, fy, d.flameType, d.flameColor, d.ty)
@@ -2629,6 +2660,26 @@ export function HubTownCanvas({
       // above decor — added after avatar so it renders on top
       interiorLayer.addChild(decorAboveContainer)
       renderDecorItems(visibleDecor.filter(d => d.zlayer === 'above'), decorAboveContainer)
+
+      // Interior darkness overlay (HubInterior.dark) — added last so it renders
+      // on top of everything else in the room; punched with holes each frame
+      // (see the ticker below) around the avatar and any glow decor collected
+      // above. Torn down in doExitInterior; also cleared here defensively in
+      // case entry into a new room happens without an intervening exit.
+      if (interiorDarkSprite) { interiorLayer.removeChild(interiorDarkSprite); interiorDarkTexture?.destroy(true); interiorDarkSprite = null }
+      if (interior.dark) {
+        const iw = interior.width * T, ih = interior.height * T
+        interiorDarkCanvas = document.createElement('canvas')
+        interiorDarkCanvas.width  = Math.ceil(iw / NIGHT_CANVAS_SCALE)
+        interiorDarkCanvas.height = Math.ceil(ih / NIGHT_CANVAS_SCALE)
+        interiorDarkCtx = interiorDarkCanvas.getContext('2d')!
+        interiorDarkTexture = PIXI.Texture.from(interiorDarkCanvas)
+        interiorDarkSprite = new PIXI.Sprite(interiorDarkTexture)
+        interiorDarkSprite.width     = iw
+        interiorDarkSprite.height    = ih
+        interiorDarkSprite.eventMode = 'none'
+        interiorLayer.addChild(interiorDarkSprite)
+      }
 
       // Scroll viewport to center on interior
       onAvatarMoveRef.current(intOffX + defaultEntryTile[0] * T + T / 2, intOffY + defaultEntryTile[1] * T + T / 2)
@@ -3498,6 +3549,45 @@ export function HubTownCanvas({
         } // end _nightDirty
       } else {
         nightSprite.visible = false
+      }
+
+      // Interior darkness overlay (HubInterior.dark) — redrawn every frame
+      // while active; rooms are small so, unlike the exterior pass above,
+      // this skips the dirty-check optimization for simplicity.
+      if (interiorActive && currentInteriorObj?.dark && interiorDarkSprite && interiorDarkCtx && interiorDarkCanvas && interiorDarkTexture && avatar) {
+        const cw = interiorDarkCanvas.width
+        const ch = interiorDarkCanvas.height
+        const cs = 1 / NIGHT_CANVAS_SCALE
+        interiorDarkCtx.clearRect(0, 0, cw, ch)
+        interiorDarkCtx.fillStyle = 'rgba(0,0,0,0.92)'
+        interiorDarkCtx.fillRect(0, 0, cw, ch)
+        interiorDarkCtx.globalCompositeOperation = 'destination-out'
+        // Avatar torch
+        const ax = avatar.x * cs, ay = avatar.y * cs
+        const innerR = INTERIOR_DARK_INNER * cs, outerR = INTERIOR_DARK_OUTER * cs
+        const torchGrad = interiorDarkCtx.createRadialGradient(ax, ay, innerR, ax, ay, outerR)
+        torchGrad.addColorStop(0, 'rgba(0,0,0,1)')
+        torchGrad.addColorStop(1, 'rgba(0,0,0,0)')
+        interiorDarkCtx.fillStyle = torchGrad
+        interiorDarkCtx.beginPath()
+        interiorDarkCtx.arc(ax, ay, outerR, 0, Math.PI * 2)
+        interiorDarkCtx.fill()
+        // Glow decor (lanterns, etc.) collected for this room on entry
+        const _glowMs = performance.now()
+        const _pulse  = (seed: number) => 0.8 + 0.2 * Math.sin(_glowMs / 500 + seed)
+        for (const g of interiorGlowSources) {
+          const gx = g.x * cs, gy = g.y * cs
+          const gr = (g.pulse ? g.radius * _pulse(g.x + g.y) : g.radius) * cs
+          const glowGrad = interiorDarkCtx.createRadialGradient(gx, gy, 0, gx, gy, gr)
+          glowGrad.addColorStop(0, 'rgba(0,0,0,1)')
+          glowGrad.addColorStop(1, 'rgba(0,0,0,0)')
+          interiorDarkCtx.fillStyle = glowGrad
+          interiorDarkCtx.beginPath()
+          interiorDarkCtx.arc(gx, gy, gr, 0, Math.PI * 2)
+          interiorDarkCtx.fill()
+        }
+        interiorDarkCtx.globalCompositeOperation = 'source-over'
+        interiorDarkTexture.source.update()
       }
 
       // Quest pickup visibility — only show while the associated quest is active
