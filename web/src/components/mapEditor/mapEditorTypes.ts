@@ -119,6 +119,7 @@ export interface RawNpc {
     location:
       | { type: 'exterior'; tx: number; ty: number }
       | { type: 'interior'; buildingId: string; tx: number; ty: number }
+      | { type: 'travel'; town: MapId }
   }>
   homeBed?: { buildingId: string; tx: number; ty: number }
   innRumours?: Array<{ id: string; text: string }>
