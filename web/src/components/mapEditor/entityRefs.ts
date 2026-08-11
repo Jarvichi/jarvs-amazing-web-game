@@ -11,6 +11,7 @@ import { QUEST_DEFS_BY_MAP } from '../../data/hub/hubTownRawQuestConfigs'
 import type { RawMapConfig } from './mapEditorTypes'
 import { RAW_CONFIGS } from './useMapEditorState'
 import hubItems from '../../data/hubItems.json'
+import { TOWN_LABELS, townLabel } from '../../data/hub/mapIds'
 
 export interface RefOption {
   value: string
@@ -18,25 +19,7 @@ export interface RefOption {
   group?: string
 }
 
-export const TOWN_LABELS: Record<MapId, string> = {
-  ravenwatch: 'Ravenwatch',
-  millhaven: 'Millhaven',
-  ironholdkeep: 'Ironhold Keep',
-  thornwoodcamp: 'Thornwood Camp',
-  capitalcity: 'Capital City',
-  royalpalace: 'Royal Palace',
-  saltmereport: 'Saltmere Port',
-  gearford: 'Gearford',
-  harrowfield: 'Harrowfield',
-  appleford: 'Appleford',
-  gravemoor: 'Gravemoor',
-  hollowmere: 'Hollowmere',
-  dreadspirecitadel: 'Dreadspire Citadel',
-}
-
-export function townLabel(map: MapId): string {
-  return TOWN_LABELS[map] ?? map
-}
+export { TOWN_LABELS, townLabel }
 
 const ALL_MAPS = Object.keys(TOWN_LABELS) as MapId[]
 
