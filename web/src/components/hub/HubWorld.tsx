@@ -603,14 +603,6 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
     after?.()
   }, [dialogueEvent, dialogueLine])
 
-  // Auto-dismiss dialogue after 15 s
-  useEffect(() => {
-    const hasContent = !!(dialogueEvent?.text ?? dialogueLine)
-    if (!hasContent) return
-    const id = setTimeout(dismissDialogueOnWalkAway, 15_000)
-    return () => clearTimeout(id)
-  }, [dialogueEvent, dialogueLine, dismissDialogueOnWalkAway])
-
   // Auto-dismiss dialogue after the avatar takes 5 steps. Counter resets
   // whenever the dialogue changes.
   const dialogueStepsRef = useRef(0)
