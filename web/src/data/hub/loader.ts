@@ -51,6 +51,25 @@ export function isVisibleAtLevel(
   return true
 }
 
+/**
+ * Resolves which building's upgrade level gates a given interior's minLevel
+ * content. Prefers an exact door-target → owner lookup (HUB_INTERIOR_OWNERS
+ * — a door's target interior id is not always the owning building's own id,
+ * e.g. Ravenwatch's "home-building" door → interior "home"). Falls back to
+ * the id-prefix guess for genuine sub-rooms (reached only via an internal
+ * exit, no door of their own, authored with the parent building's own id as
+ * their id prefix — e.g. "townhall-office" under "townhall").
+ */
+export function resolveUpgradeLevelKey(
+  interiorId: string,
+  buildings: Pick<HubBuilding, 'id' | 'upgradeKind'>[],
+  interiorOwners: Record<string, string>,
+): string {
+  return interiorOwners[interiorId]
+    ?? buildings.find(b => b.id && interiorId.startsWith(b.id) && b.upgradeKind)?.id
+    ?? interiorId
+}
+
 // ── Types ──────────────────────────────────────────────────────────────────────
 
 export interface HubArea {
@@ -414,6 +433,9 @@ export interface HubLocationBundle {
   HUB_POND_GROUPS: HubStreetGroup[]
   HUB_BRIDGE_TILES: [number, number][]
   HUB_DOORS: HubDoor[]
+  /** interiorId → id of the upgradeKind building whose level gates that
+   *  interior's minLevel-tagged decor/exits (see resolveUpgradeLevelKey). */
+  HUB_INTERIOR_OWNERS: Record<string, string>
   HUB_INTERIORS: Record<string, HubInterior>
   HUB_NPCS: HubNpc[]
   EXTERIOR_NPCS: HubNpc[]
@@ -565,6 +587,22 @@ const HUB_BUILDING_TILES: [number, number][] = HUB_BUILDINGS.flatMap(b => {
 const _nestedDoors:   HubDoor[]                                              = []
 const _nestedWindows: { tx: number; ty: number; tileId: number }[]           = []
 const _nestedDecor:   { tx: number; ty: number; tileId: number; zlayer?: string }[] = []
+// interiorId → id of the upgradeKind building whose upgrade level gates that
+// interior's minLevel-tagged decor/exits. A door's target interior id is not
+// always the owning building's own id (e.g. Ravenwatch's "home-building"
+// door leads to interior "home") — this preserves that association from
+// config.json before it's discarded, so resolveUpgradeLevelKey can resolve
+// the correct building instead of guessing via id-prefix.
+const _interiorOwners: Record<string, string> = {}
+function recordInteriorOwner(interiorId: string, buildingId: string | undefined, upgradeKind: string | undefined) {
+  if (!buildingId || !upgradeKind) return
+  if (_interiorOwners[interiorId] && _interiorOwners[interiorId] !== buildingId) {
+    const message = `[hub loader] ${HUB_TOWN_NAME}: interior "${interiorId}" claimed as a door target by both "${_interiorOwners[interiorId]}" and "${buildingId}" — upgrade-level gating will use whichever loaded last`
+    console.error(message)
+    rollbar.error(message)
+  }
+  _interiorOwners[interiorId] = buildingId
+}
 for (const b of rawConfig.buildings as RawBuilding[]) {
   const rectList = b.rects ?? (b.rect ? [b.rect] : [])
   if (rectList.length === 0) continue
@@ -572,14 +610,18 @@ for (const b of rawConfig.buildings as RawBuilding[]) {
   if (b.bundleID) {
     _nestedWindows.push(...expandBundleWindows(b.bundleID, ox, oy))
     _nestedDecor.push(...expandBundleDecor(b.bundleID, ox, oy))
-    _nestedDoors.push(...expandBundleDoors(b.bundleID, b.id ?? '', ox, oy))
+    const bundleDoors = expandBundleDoors(b.bundleID, b.id ?? '', ox, oy)
+    _nestedDoors.push(...bundleDoors)
+    for (const d of bundleDoors) recordInteriorOwner(d.buildingId, b.id, b.upgradeKind)
     continue
   }
   for (const d of b.doors ?? []) {
     // The authored position is used as-is, anywhere relative to the building —
     // the door sprite always renders one tile north of it (see
     // buildingRender.ts) unless hideSprite keeps it a fully invisible trigger.
-    _nestedDoors.push({ buildingId: d.buildingId ?? b.id ?? '', tx: ox + d.tx, ty: oy + d.ty, hideSign: d.hideSign, hideSprite: d.hideSprite, hideLabel: d.hideLabel })
+    const targetId = d.buildingId ?? b.id ?? ''
+    _nestedDoors.push({ buildingId: targetId, tx: ox + d.tx, ty: oy + d.ty, hideSign: d.hideSign, hideSprite: d.hideSprite, hideLabel: d.hideLabel })
+    recordInteriorOwner(targetId, b.id, b.upgradeKind)
   }
   for (const w of b.windows ?? [])
     _nestedWindows.push({ tx: ox + w.tx, ty: oy + w.ty, tileId: resolveTileId(w.tileId) })
@@ -636,6 +678,7 @@ const HUB_BRIDGE_TILES: [number, number][] = expandTiles(
 )
 
 const HUB_DOORS: HubDoor[] = [...((rawConfig as unknown as { doors?: HubDoor[] }).doors ?? []), ..._nestedDoors]
+const HUB_INTERIOR_OWNERS: Record<string, string> = _interiorOwners
 
 const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
   Object.entries(rawConfig.interiors).map(([id, raw]) => {
@@ -832,6 +875,7 @@ type RawExitTile = { tx: number; ty: number; screen: string }
     HUB_POND_GROUPS,
     HUB_BRIDGE_TILES,
     HUB_DOORS,
+    HUB_INTERIOR_OWNERS,
     HUB_INTERIORS,
     HUB_NPCS,
     EXTERIOR_NPCS,
