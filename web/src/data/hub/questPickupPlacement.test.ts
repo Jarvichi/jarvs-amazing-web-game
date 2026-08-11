@@ -3,6 +3,7 @@ import { createHubLocationData, createHubQuestData } from './loader'
 import type { RawConfig } from './config'
 import type { RawQuestConfig } from './questDefs'
 import { buildingWorldTile, pickupWorldTile } from '../../game/hub/npcLocator'
+import { getHubWorldData } from './hubWorldFactory'
 import ravenwatchConfig from './ravenwatch/config.json'
 import ravenwatchQuests from './ravenwatch/questDefs.json'
 
@@ -100,21 +101,23 @@ describe('Ravenwatch quest targets', () => {
 // Reference integrity for hand-authored quests. A typo in any of these ids does
 // not crash anything — the quest just quietly never offers, never advances, or
 // never reveals its item — so it is exactly the kind of mistake that survives
-// into a build. `the-false-grave` is unfinished content (blank giver/receiver,
-// blank completion dialogue) and is excluded rather than fixed here.
+// into a build.
 describe('Ravenwatch quest references', () => {
   const npcIds = new Set(loc.HUB_NPCS.map(n => n.id))
   const questIds = new Set(quests.HUB_QUEST_DEFS.map(q => q.id))
   const pickupIds = new Set(pickups.map(p => p.id))
-  const authored = quests.HUB_QUEST_DEFS.filter(q => q.id !== 'the-false-grave')
+  const interactableIds = new Set(loc.HUB_INTERACTABLES.map(i => i.id))
+  const authored = quests.HUB_QUEST_DEFS
 
-  it('names a real NPC or animal as giver and receiver', () => {
-    // Animals give and receive quests too (Rover, Pip, the stray cat), so both
-    // rosters count — same resolution the delivery-target check uses.
-    const givers = new Set([...npcIds, ...loc.HUB_ANIMALS.map(a => a.id)])
+  it('names a real NPC, animal or interactable as giver and receiver', () => {
+    // Animals give and receive quests too (Rover, Pip, the stray cat), and a
+    // world object can be the giver (the collapsed gravestone offers The False
+    // Grave) — so all three rosters count.
+    const receivers = new Set([...npcIds, ...loc.HUB_ANIMALS.map(a => a.id)])
+    const givers = new Set([...receivers, ...interactableIds])
     const bad = authored.flatMap(q => [
       ...(givers.has(q.giverNpcId) ? [] : [`${q.id}: giver "${q.giverNpcId}"`]),
-      ...(givers.has(q.receiverNpcId) ? [] : [`${q.id}: receiver "${q.receiverNpcId}"`]),
+      ...(receivers.has(q.receiverNpcId) ? [] : [`${q.id}: receiver "${q.receiverNpcId}"`]),
     ])
     expect(bad).toEqual([])
   })
@@ -170,4 +173,31 @@ describe('Ravenwatch quest references', () => {
     })
     expect(bad).toEqual([])
   })
+})
+
+// An interactable can offer a quest (a scarecrow, a collapsed gravestone). Its
+// `quest` reaction calls tryOfferQuest(def.id, ...), which matches on
+// `giverNpcId === def.id` — so the quest's giver must be the *interactable's own
+// id*, not an NPC and not blank. Get it wrong and there is no error anywhere: the
+// reaction chain calls next(), the world object does whatever else it was going
+// to do, and the quest is simply unofferable forever. Swept across every town.
+const { locationRegistry } = await getHubWorldData()
+
+describe('interactable-given quests', () => {
+  for (const [townKey, { locationData, locationQuests }] of Object.entries(locationRegistry)) {
+    const byId = new Map(locationQuests.HUB_QUEST_DEFS.map(q => [q.id, q]))
+    for (const interactable of locationData.HUB_INTERACTABLES) {
+      for (const reaction of interactable.reactions) {
+        if (reaction.type !== 'quest') continue
+        it(`${townKey}/${interactable.id}: quest "${reaction.questId}" names it as the giver`, () => {
+          const quest = byId.get(reaction.questId)
+          expect(quest, `no quest "${reaction.questId}" in ${townKey}`).toBeTruthy()
+          expect(
+            quest!.giverNpcId,
+            `${reaction.questId}.giverNpcId must be "${interactable.id}" for the offer to resolve`,
+          ).toBe(interactable.id)
+        })
+      }
+    }
+  }
 })
