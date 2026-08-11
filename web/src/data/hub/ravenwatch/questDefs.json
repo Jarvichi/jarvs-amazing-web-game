@@ -1366,7 +1366,7 @@
       "type": "lost-items",
       "giverNpcId": "dealer",
       "receiverNpcId": "dealer",
-      "prerequisite": "quest:dealer-lucky-charm",
+      "prerequisite": "quest:the-password-part-4",
       "offerDialogue": "Three decks of cards were swapped out on my tables last night — I only noticed because the backs feel different. Marked cards, the kind cheats use to read from a distance. I pulled them from circulation but someone took them back. Get them before anyone runs a game with them.",
       "activeDialogue": "Marked decks — slightly thicker than normal, with tiny notches on the corners. They were taken from where I left them behind the counter.",
       "completeDialogue": "These are the ones. Look at the notch pattern — it is consistent across all three decks, a code. This was not one cheat doing it for themselves. This was organised. Someone was running a scam operation out of my tables.",
@@ -3848,6 +3848,152 @@
           "count": 1
         }
       }
+    },
+    {
+      "id": "maeve-unwritten-chapter",
+      "title": "The Unwritten Chapter",
+      "type": "chain",
+      "giverNpcId": "chronicler",
+      "receiverNpcId": "chronicler",
+      "prerequisite": "quest:thorin-the-last-watch",
+      "offerDialogue": "The Chronicle has a hole in it, Commander — the whole Hearthstone affair, and not one line set down. I will not write it from rumour. Bring me the statements written on the day, the word of two who stood in the middle of it, and proper archive ink to set it down with.",
+      "activeDialogue": {
+        "accounts": "Three statements, written while it was still happening. One was left at the barracks gate, one along the market lane, and one down at the fisherman's dock. All three, please — two is an argument, three is a record.",
+        "garrison": "Now the garrison's account. Captain Thorin is in the north barracks. Ask him what he saw, in his own words, and do not let him summarise.",
+        "hearth": "And the town's account. Innkeeper Rosie kept the Wanderer's Rest open through the worst of it — she will have seen more than any guard.",
+        "inkwell": "One thing more. Archive ink, from the sealed inkwell Naia keeps in the Scholar's Hall. Chronicle ink outlasts the paper; ordinary ink is gone in a generation.",
+        "chapter": "That is everything. Bring it to me and I shall write the chapter tonight."
+      },
+      "completeDialogue": "Statements, testimony, and ink that will outlast us both. This is how a thing is remembered properly, Commander — not as a story that grows in the telling, but as a record. The chapter is as much yours as mine.",
+      "steps": [
+        {
+          "key": "accounts",
+          "type": "collect",
+          "pickupIds": [
+            "maeve-account-barracks",
+            "maeve-account-market",
+            "maeve-account-dock"
+          ],
+          "required": 3,
+          "itemName": "Witness Account",
+          "itemIcon": "📝"
+        },
+        {
+          "key": "garrison",
+          "type": "report",
+          "targetNpcId": "guard-captain-thorin",
+          "required": 1
+        },
+        {
+          "key": "hearth",
+          "type": "report",
+          "targetNpcId": "innkeeper-rosie",
+          "required": 1
+        },
+        {
+          "key": "inkwell",
+          "type": "collect",
+          "pickupIds": [
+            "maeve-chronicle-inkwell"
+          ],
+          "required": 1,
+          "chain": "maeve-account-dock",
+          "itemName": "Archive Inkwell",
+          "itemIcon": "🖋️"
+        },
+        {
+          "key": "chapter",
+          "type": "deliver",
+          "targetNpcId": "chronicler",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 120,
+        "collectible": {
+          "id": "unwritten-chapter",
+          "name": "The Unwritten Chapter",
+          "icon": "📖",
+          "desc": "The Fracture Chronicle's account of the Hearthstone, set down from primary sources."
+        },
+        "friendship": {
+          "chronicler": 20,
+          "guard-captain-thorin": 10,
+          "innkeeper-rosie": 10
+        }
+      }
+    },
+    {
+      "id": "trader-provenance",
+      "title": "The Provenance",
+      "type": "chain",
+      "giverNpcId": "trader",
+      "receiverNpcId": "trader",
+      "offerDialogue": "Right. Got something in the pile I can't put a price on, and I hate that more than losing money. Little marked thing, came out of a Fracture haul. The mark on the base isn't any maker I know — and I know all of them. Take it round the clever folk and find out what I'm sitting on.",
+      "activeDialogue": {
+        "curio": "It's in here somewhere, in amongst the rest of it. Small, dark, a mark stamped on the base. Have a rummage — you'll know it when you see it.",
+        "ink": "Gildwyn first. If that mark was stamped or printed, he'll know the hand that cut it. Card emporium, up in the market quarter.",
+        "chart": "Now Bram. Cartography room, north-east corner of the scholars' quarter. If that mark belongs to a place rather than a person, he'll put a finger on it.",
+        "fragments": "Bram says there were three pieces to a set like that. Two still out there — one past the church among the graves, one up in the courtyard. Fetch them both.",
+        "return": "That's the set. Bring it back to the den and we'll settle up proper."
+      },
+      "completeDialogue": "Well now. Three pieces, one mark, and a maker nobody's laid eyes on since before the Fracture. That isn't junk, friend, that's a find — and you did every step of the legwork, so here's your cut. Pleasure doing business.",
+      "steps": [
+        {
+          "key": "curio",
+          "type": "collect",
+          "pickupIds": [
+            "trader-marked-curio"
+          ],
+          "required": 1,
+          "itemName": "Marked Curio",
+          "itemIcon": "🔎"
+        },
+        {
+          "key": "ink",
+          "type": "report",
+          "targetNpcId": "gildwyn",
+          "required": 1
+        },
+        {
+          "key": "chart",
+          "type": "report",
+          "targetNpcId": "cartographer-bram",
+          "required": 1
+        },
+        {
+          "key": "fragments",
+          "type": "collect",
+          "pickupIds": [
+            "trader-curio-fragment-1",
+            "trader-curio-fragment-2"
+          ],
+          "required": 2,
+          "chain": "trader-marked-curio",
+          "itemName": "Curio Fragment",
+          "itemIcon": "🧩"
+        },
+        {
+          "key": "return",
+          "type": "deliver",
+          "targetNpcId": "trader",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 90,
+        "collectible": {
+          "id": "fracture-curio",
+          "name": "The Marked Curio",
+          "icon": "🔎",
+          "desc": "Three pieces of a pre-Fracture set, reunited. The maker's mark remains unidentified."
+        },
+        "friendship": {
+          "trader": 20,
+          "gildwyn": 10,
+          "cartographer-bram": 10
+        }
+      }
     }
   ],
   "pickupItems": [
@@ -5640,6 +5786,61 @@
           "tileId": "candlestickLitBottom"
         }
       ]
+    },
+    {
+      "id": "maeve-account-barracks",
+      "tx": 60,
+      "ty": 28,
+      "tileId": "note",
+      "questId": "maeve-unwritten-chapter"
+    },
+    {
+      "id": "maeve-account-market",
+      "tx": 12,
+      "ty": 23,
+      "tileId": "note",
+      "questId": "maeve-unwritten-chapter"
+    },
+    {
+      "id": "maeve-account-dock",
+      "tx": 46,
+      "ty": 47,
+      "tileId": "note",
+      "questId": "maeve-unwritten-chapter"
+    },
+    {
+      "id": "maeve-chronicle-inkwell",
+      "tx": 7,
+      "ty": 3,
+      "tileId": "potions",
+      "questId": "maeve-unwritten-chapter",
+      "building": "scholars-hall",
+      "chain": "maeve-account-dock",
+      "glow": true
+    },
+    {
+      "id": "trader-marked-curio",
+      "tx": 6,
+      "ty": 2,
+      "tileId": "pendant",
+      "questId": "trader-provenance",
+      "building": "trader-den"
+    },
+    {
+      "id": "trader-curio-fragment-1",
+      "tx": 21,
+      "ty": 48,
+      "tileId": "pendant",
+      "questId": "trader-provenance",
+      "chain": "trader-marked-curio"
+    },
+    {
+      "id": "trader-curio-fragment-2",
+      "tx": 35,
+      "ty": 22,
+      "tileId": "pendant",
+      "questId": "trader-provenance",
+      "chain": "trader-marked-curio"
     }
   ],
   "friendshipDialogue": {
