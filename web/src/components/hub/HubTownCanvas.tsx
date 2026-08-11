@@ -1336,6 +1336,10 @@ export function HubTownCanvas({
       walkQueue: [number, number][]
       isWalking: boolean
       isInside: boolean
+      // Away in another town per a 'travel' schedule entry (#2111 phase 4) —
+      // hidden here the same way isInside hides them, but with no door to
+      // eventually emerge from since there was no in-town walk to begin with.
+      isTraveling: boolean
       currentBuildingId: string | null
       animFrame: number
       animTimer: number
@@ -1387,6 +1391,7 @@ export function HubTownCanvas({
         walkQueue: [],
         isWalking: false,
         isInside: initLoc?.type === 'interior',
+        isTraveling: initLoc?.type === 'travel',
         currentBuildingId: initLoc?.type === 'interior' ? initLoc.buildingId : null,
         animFrame: 0,
         animTimer: 0,
@@ -1410,7 +1415,7 @@ export function HubTownCanvas({
       })
       npcLayer.addChild(npcContainer)
       namedNpcContainers.set(npc.id, npcContainer)
-      if (walkState.isInside) npcContainer.visible = false
+      if (walkState.isInside || walkState.isTraveling) npcContainer.visible = false
       // Gate exterior NPCs that only appear once an associated building is upgraded.
       if (npc.levelBuildingId) {
         const min = npc.minLevel ?? 1
@@ -1799,13 +1804,24 @@ export function HubTownCanvas({
             container.visible = true
             ws.isInside = false
             ws.currentBuildingId = null
+          } else if (ws.isTraveling) {
+            // Returning from a trip — there's no in-town door to emerge from
+            // (unlike a building), so reappear directly at the scheduled tile
+            // instead of pathing from a stale pre-trip position.
+            sprite.x = destTx * T + T / 2
+            sprite.y = destTy * T + T
+            ws.currentTx = destTx
+            ws.currentTy = destTy
+            container.zIndex = sprite.y
+            container.visible = true
+            ws.isTraveling = false
           }
 
           effectiveSet.add(`${destTx},${destTy}`)
           const path = findPath([ws.currentTx, ws.currentTy], [destTx, destTy], effectiveSet)
           ws.walkQueue = path.length > 1 ? path.slice(1) : []
           await processNamedNpcWalkQueue(ws, container)
-        } else {
+        } else if (newLoc.type === 'interior') {
           // Going inside a building — walk to door then hide
           const door = HUB_DOORS.find(d => d.buildingId === newLoc.buildingId)
           if (door) {
@@ -1817,6 +1833,15 @@ export function HubTownCanvas({
           container.visible = false
           ws.isInside = true
           ws.currentBuildingId = newLoc.buildingId
+        } else {
+          // Leaving on a trip (newLoc.type === 'travel') — no in-town
+          // destination tile to walk toward (mirrors why townTravelers.ts's
+          // ambient departures don't route to a target town either), so hide
+          // immediately rather than pathing anywhere.
+          container.visible = false
+          ws.isTraveling = true
+          ws.isInside = false
+          ws.currentBuildingId = null
         }
       } finally {
         ws.isWalking = false
