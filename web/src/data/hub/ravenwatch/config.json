@@ -8331,8 +8331,8 @@
         }
       ],
       "hours": {
-        "open": 8,
-        "close": 18
+        "open": 6,
+        "close": 20
       },
       "wallTileId": "interiorWallWhite",
       "exits": [
