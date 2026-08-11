@@ -6,6 +6,7 @@ import { ConversationTopicDef, DialogueTree, FriendshipDialogue, HubQuestDef, Ra
 import { FlameColor, FlameType, RawAnimal, RawConfig, RawInteractable } from './config'
 export type { FlameColor, FlameType } from './config'
 import rollbar from '../../rollbar'
+import type { MapId } from './mapIds'
 
 const WALL_MATERIAL_NAMES = new Set<string>(Object.keys(WALL_TILES))
 const ROOF_MATERIAL_NAMES = new Set<string>(Object.keys(ROOF_TILES))
@@ -178,6 +179,10 @@ export interface NpcScheduleEntry {
   location:
     | { type: 'exterior'; tx: number; ty: number }
     | { type: 'interior'; buildingId: string; tx: number; ty: number }
+    /** Not physically present in this town right now — away visiting `town`.
+     *  Requires a matching HubNpc record (same id) authored in that town's
+     *  own config.json, resolving them present there for the same hours. */
+    | { type: 'travel'; town: MapId }
 }
 
 export interface HubNpc {

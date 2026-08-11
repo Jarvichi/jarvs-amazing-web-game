@@ -1832,7 +1832,7 @@ function getEntityTx(cfg: RawMapConfig, entity: SelectedEntity, questPickupItems
   if (entity.type === 'npc') {
     const npc = cfg.npcs?.[entity.index]
     const scheduled = npc && previewHour != null ? getScheduledLocation(npc, previewHour) : null
-    return scheduled?.tx ?? npc?.tx ?? 0
+    return (scheduled && 'tx' in scheduled ? scheduled.tx : undefined) ?? npc?.tx ?? 0
   }
   if (entity.type === 'animal') return cfg.animals?.[entity.index]?.tx ?? 0
   if (entity.type === 'interiorDecor') return cfg.interiors?.[entity.interiorId]?.decor[entity.index]?.tx ?? 0
@@ -1892,7 +1892,7 @@ function getEntityTy(cfg: RawMapConfig, entity: SelectedEntity, questPickupItems
   if (entity.type === 'npc') {
     const npc = cfg.npcs?.[entity.index]
     const scheduled = npc && previewHour != null ? getScheduledLocation(npc, previewHour) : null
-    return scheduled?.ty ?? npc?.ty ?? 0
+    return (scheduled && 'ty' in scheduled ? scheduled.ty : undefined) ?? npc?.ty ?? 0
   }
   if (entity.type === 'animal') return cfg.animals?.[entity.index]?.ty ?? 0
   if (entity.type === 'interiorDecor') return cfg.interiors?.[entity.interiorId]?.decor[entity.index]?.ty ?? 0

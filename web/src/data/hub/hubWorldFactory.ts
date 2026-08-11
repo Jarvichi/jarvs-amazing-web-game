@@ -1,6 +1,7 @@
 import { createHubLocationData, createHubQuestData, HubLocationBundle, HubQuestBundle } from "./loader";
 import type { RawConfig } from './config'
 import { HubQuestDef, RawQuestConfig } from "./questDefs";
+import type { MapId } from './mapIds'
 
 export interface RawQuestPickupItem {
   id: string
@@ -18,20 +19,7 @@ export interface RawQuestPickupItem {
   glowRadius?: number
   pulse?: boolean
 }
-export type MapId =
-  | 'ravenwatch'
-  | 'ironholdkeep'
-  | 'millhaven'
-  | 'thornwoodcamp'
-  | 'capitalcity'
-  | 'royalpalace'
-  | 'saltmereport'
-  | 'gearford'
-  | 'harrowfield'
-  | 'appleford'
-  | 'gravemoor'
-  | 'hollowmere'
-  | 'dreadspirecitadel'
+export type { MapId } from './mapIds'
 export type QuestDefsJson = { pickupItems?: RawQuestPickupItem[]; [key: string]: unknown }
 
 export interface LocationEntry {
@@ -90,7 +78,7 @@ const QUEST_LOADERS: Record<MapId, () => Promise<{ default: RawQuestConfig }>> =
 }
 
 /** locationKey (App.tsx/world-map convention) for each MapId. */
-const LOCATION_KEY_BY_MAP_ID: Record<MapId, string> = {
+export const LOCATION_KEY_BY_MAP_ID: Record<MapId, string> = {
   ravenwatch:        'ravenwatch',
   ironholdkeep:      'ironhold-keep',
   millhaven:         'millhaven',

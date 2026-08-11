@@ -2880,6 +2880,29 @@
       "dislikedGiftItemIds": [
         "pressed-flower"
       ]
+    },
+    {
+      "id": "trader-pell",
+      "name": "Trader Pell",
+      "sprite": "hub-npc-trader",
+      "tx": 9,
+      "ty": 24,
+      "dialogue": [
+        "Made it to Ironhold in one piece — road's clear past the bend.",
+        "Back to Thornwood Camp by nightfall, if you need anything before I go."
+      ],
+      "schedule": [
+        {
+          "startHour": 9,
+          "endHour": 17,
+          "location": { "type": "exterior", "tx": 9, "ty": 24 }
+        },
+        {
+          "startHour": 17,
+          "endHour": 9,
+          "location": { "type": "travel", "town": "thornwoodcamp" }
+        }
+      ]
     }
   ],
   "interiors": {

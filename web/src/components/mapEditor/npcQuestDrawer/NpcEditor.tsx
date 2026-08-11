@@ -6,7 +6,7 @@ import { SpriteSearchPicker } from '../SpritePicker'
 import { AnimalEditor } from './AnimalEditor'
 import type { MapId } from '../../../data/hub/hubWorldFactory'
 import { EntityRefPicker, EntityRefMultiPicker } from '../EntityRefPicker'
-import { buildingRefOptions, interiorRefOptions, questRefOptions, dialogueTreeRefOptions, conversationTopicRefOptions, type RefOption } from '../entityRefs'
+import { buildingRefOptions, interiorRefOptions, questRefOptions, dialogueTreeRefOptions, conversationTopicRefOptions, TOWN_LABELS, type RefOption } from '../entityRefs'
 import { SCREEN_IDS } from '../EntityInspector'
 
 // Screens reachable from an NPC's dialogue: the standard SCREEN_IDS list, plus
@@ -76,13 +76,16 @@ const BTN_PICK: React.CSSProperties = {
 
 type ScheduleRow = NonNullable<RawNpc['schedule']>[number]
 
-function ScheduleEditor({ schedule, onChange, interiors }: {
+function ScheduleEditor({ schedule, onChange, interiors, currentMapId }: {
   schedule: ScheduleRow[]
   onChange: (s: ScheduleRow[]) => void
   /** Interior room ids (not building ids) — a schedule's interior location is
    *  matched against configData.interiors keys at runtime, and multi-room
    *  buildings have extra rooms whose id differs from the building's own id. */
   interiors: RefOption[]
+  /** The town being edited — excluded from the 'travel' destination picker
+   *  (an NPC can't travel to the town they're already in). */
+  currentMapId: MapId
 }) {
   function update(i: number, partial: Partial<ScheduleRow>) {
     onChange(schedule.map((r, idx) => idx === i ? { ...r, ...partial } as ScheduleRow : r))
@@ -93,7 +96,13 @@ function ScheduleEditor({ schedule, onChange, interiors }: {
 
   return (
     <div>
-      {schedule.map((row, i) => (
+      {schedule.map((row, i) => {
+        const loc = row.location
+        // A row's previous tx/ty (when switching away from exterior/interior)
+        // is carried over as a convenience default; 'travel' has none to draw from.
+        const prevTx = 'tx' in loc ? loc.tx : 0
+        const prevTy = 'ty' in loc ? loc.ty : 0
+        return (
         <div key={i} style={{ background: '#1a1a3e', border: '1px solid #2a2a5a', borderRadius: 3, padding: 6, marginBottom: 4 }}>
           <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginBottom: 4 }}>
             <label style={{ color: '#888', fontSize: 10 }}>From</label>
@@ -108,32 +117,52 @@ function ScheduleEditor({ schedule, onChange, interiors }: {
           </div>
           <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
             <select
-              value={row.location.type}
+              value={loc.type}
               onChange={e => {
-                const type = e.target.value as 'exterior' | 'interior'
-                setLocation(i, type === 'exterior'
-                  ? { type: 'exterior', tx: row.location.tx, ty: row.location.ty }
-                  : { type: 'interior', buildingId: '', tx: row.location.tx, ty: row.location.ty })
+                const type = e.target.value as 'exterior' | 'interior' | 'travel'
+                if (type === 'exterior') {
+                  setLocation(i, { type: 'exterior', tx: prevTx, ty: prevTy })
+                } else if (type === 'interior') {
+                  setLocation(i, { type: 'interior', buildingId: '', tx: prevTx, ty: prevTy })
+                } else {
+                  const destination = (Object.keys(TOWN_LABELS) as MapId[]).find(id => id !== currentMapId) ?? currentMapId
+                  setLocation(i, { type: 'travel', town: destination })
+                }
               }}
               style={{ padding: '2px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 10 }}
             >
               <option value="exterior">Exterior</option>
               <option value="interior">Interior</option>
+              <option value="travel">Traveling</option>
             </select>
-            {row.location.type === 'interior' && (
+            {loc.type === 'interior' && (
               <div style={{ width: 110 }}>
-                <EntityRefPicker value={row.location.buildingId} options={interiors} placeholder="room…"
-                  onChange={v => setLocation(i, { ...row.location, type: 'interior', buildingId: v })} />
+                <EntityRefPicker value={loc.buildingId} options={interiors} placeholder="room…"
+                  onChange={v => setLocation(i, { type: 'interior', buildingId: v, tx: loc.tx, ty: loc.ty })} />
               </div>
             )}
-            <label style={{ color: '#888', fontSize: 10 }}>X</label>
-            <input type="number" value={row.location.tx}
-              onChange={e => setLocation(i, { ...row.location, tx: Number(e.target.value) })}
-              style={{ ...NUM, width: 44 }} />
-            <label style={{ color: '#888', fontSize: 10 }}>Y</label>
-            <input type="number" value={row.location.ty}
-              onChange={e => setLocation(i, { ...row.location, ty: Number(e.target.value) })}
-              style={{ ...NUM, width: 44 }} />
+            {loc.type === 'travel' ? (
+              <select
+                value={loc.town}
+                onChange={e => setLocation(i, { type: 'travel', town: e.target.value as MapId })}
+                style={{ padding: '2px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 10 }}
+              >
+                {(Object.entries(TOWN_LABELS) as [MapId, string][])
+                  .filter(([id]) => id !== currentMapId)
+                  .map(([id, label]) => <option key={id} value={id}>{label}</option>)}
+              </select>
+            ) : (
+              <>
+                <label style={{ color: '#888', fontSize: 10 }}>X</label>
+                <input type="number" value={loc.tx}
+                  onChange={e => setLocation(i, { ...loc, tx: Number(e.target.value) })}
+                  style={{ ...NUM, width: 44 }} />
+                <label style={{ color: '#888', fontSize: 10 }}>Y</label>
+                <input type="number" value={loc.ty}
+                  onChange={e => setLocation(i, { ...loc, ty: Number(e.target.value) })}
+                  style={{ ...NUM, width: 44 }} />
+              </>
+            )}
             <label style={{ color: '#888', fontSize: 10 }}>Activity</label>
             <select
               value={row.activity ?? ''}
@@ -145,7 +174,8 @@ function ScheduleEditor({ schedule, onChange, interiors }: {
             </select>
           </div>
         </div>
-      ))}
+        )
+      })}
       <button style={BTN_ADD} onClick={() => onChange([...schedule, { startHour: 8, endHour: 17, location: { type: 'exterior', tx: 0, ty: 0 } }])}>
         + Add time slot
       </button>
@@ -212,11 +242,12 @@ function InnRumoursEditor({ rumours, onChange }: {
 
 // ── NpcFullEditor ─────────────────────────────────────────────────────────────
 
-function NpcFullEditor({ npc, opts, onUpdate, onPickLocation }: {
+function NpcFullEditor({ npc, opts, onUpdate, onPickLocation, mapId }: {
   npc: RawNpc
   opts: NpcRefOpts
   onUpdate: (partial: Partial<RawNpc>) => void
   onPickLocation?: () => void
+  mapId: MapId
 }) {
   const questReceiveArr: string[] = Array.isArray(npc.questReceive)
     ? npc.questReceive
@@ -307,6 +338,7 @@ function NpcFullEditor({ npc, opts, onUpdate, onPickLocation }: {
         <ScheduleEditor
           schedule={npc.schedule ?? []}
           interiors={opts.interiors}
+          currentMapId={mapId}
           onChange={s => onUpdate({ schedule: s.length > 0 ? s : undefined })}
         />
       </Field>
@@ -433,6 +465,7 @@ export function NpcEditor({
               opts={refOpts}
               onUpdate={partial => onUpdateNpc(i, partial)}
               onPickLocation={() => onPickLocation('npc', i)}
+              mapId={mapId}
             />
           )}
         </div>

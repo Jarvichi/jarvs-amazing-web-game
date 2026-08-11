@@ -78,7 +78,8 @@ export function TownDirectoryContent({ onClose, locationData, pinnedNpcId, onTog
                     <button
                       className={`town-directory__pin-btn${pinned ? ' town-directory__pin-btn--on' : ''}`}
                       onClick={() => onTogglePin(npc.id)}
-                      title={pinned ? 'Hide on minimap' : 'Show on minimap'}
+                      disabled={!!place.awayTown}
+                      title={place.awayTown ? "Traveling — can't be pinned right now" : pinned ? 'Hide on minimap' : 'Show on minimap'}
                     >
                       {pinned ? '📌 Pinned' : '📍 Show on map'}
                     </button>

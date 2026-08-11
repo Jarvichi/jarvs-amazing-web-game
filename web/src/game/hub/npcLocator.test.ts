@@ -88,4 +88,12 @@ describe('resolveNpcPlace', () => {
     const npc: HubNpc = { ...base, tx: 50, ty: 50 }
     expect(resolveNpcPlace(npc, 12, loc)).toEqual({ name: 'Testville', tx: 50, ty: 50 })
   })
+
+  it('resolves a traveling NPC to "away", not their static position or a pinnable tile', () => {
+    const npc: HubNpc = { ...base, schedule: [{ startHour: 9, endHour: 17, location: { type: 'travel', town: 'millhaven' } }] }
+    const place = resolveNpcPlace(npc, 12, loc)
+    expect(place.awayTown).toBe('millhaven')
+    expect(place.interiorId).toBeUndefined()
+    expect(place.name).toContain('Millhaven')
+  })
 })

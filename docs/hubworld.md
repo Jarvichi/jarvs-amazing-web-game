@@ -12,7 +12,10 @@
 |---|---|---|
 | `web/src/data/hub/config.json` | Map geometry, buildings, doors, NPCs (incl. each NPC's own `innRumours`), exterior decor, interiors, windows, interactables | parsed by `loader.ts` |
 | `web/src/data/hub/questDefs.json` | Quests, pickup items, blocked paths, friendship dialogue, dialogue trees, relationship dialogue, conversation topics (§7g) | parsed by `loader.ts` and `questDefs.ts` |
-| `web/src/data/hub/loader.ts` | Parses both JSON files; exports all map/NPC/item/path data | `MAP_W`, `MAP_H`, `AVATAR_START`, `HUB_AREAS`, `HUB_STREET_TILES`, `HUB_BUILDINGS`, `HUB_DOORS`, `HUB_INTERIORS`, `EXTERIOR_DECOR`, `HUB_NPCS`, `EXTERIOR_NPCS`, `INTERIOR_NPCS`, `HUB_PICKUP_ITEMS`, `HUB_BLOCKED_PATHS`, `HUB_LOCKED_DOORS`, … |
+| `web/src/data/hub/loader.ts` | Parses both JSON files; exports all map/NPC/item/path data | `MAP_W`, `MAP_H`, `AVATAR_START`, `HUB_AREAS`, `HUB_STREET_TILES`, `HUB_BUILDINGS`, `HUB_DOORS`, `HUB_INTERIOR_OWNERS`, `HUB_INTERIORS`, `EXTERIOR_DECOR`, `HUB_NPCS`, `EXTERIOR_NPCS`, `INTERIOR_NPCS`, `HUB_PICKUP_ITEMS`, `HUB_BLOCKED_PATHS`, `HUB_LOCKED_DOORS`, … |
+| `web/src/data/hub/mapIds.ts` | Canonical town-id space and display names (dependency-free, so `loader.ts` can reference `MapId` without cycling through `hubWorldFactory.ts`) | `MapId`, `TOWN_LABELS`, `townLabel` |
+| `web/src/game/hub/hubNpcSchedule.ts` | Pure schedule-resolution logic — where/what an NPC is doing right now, building-hours gating (§9) | `getNpcLocation`, `getNpcActivity`, `getNpcDialoguePool`, `isNpcAsleep`, `isNpcInBuilding`, `resolveNpcInteriorPresence`, `isBuildingOpen`, `NPC_ACTIVITIES` |
+| `web/src/game/hub/npcLocator.ts` | Resolves an NPC's current world-map tile/name for minimap pins and the Town Directory — including "away, visiting X" for a traveling NPC (§9) | `resolveNpcPlace`, `buildingWorldTile`, `pickupWorldTile`, `areaNameForTile` |
 | `web/src/data/hub/questDefs.ts` | Parses `questDefs.json`; exports quest definitions and dialogue | `HUB_QUEST_DEFS`, `FRIENDSHIP_DIALOGUE` |
 | `web/src/game/hub/quests.ts` | Quest progress/status persistence (localStorage) | `getQuestState`, `setQuestStatus`, `incrementQuestProgress`, `getQuestProgress`, `resetQuest` |
 | `web/src/game/hub/pickups.ts` | Pickup state persistence (localStorage) | `getPickedUpIds`, `markPickedUp`, `isPickedUp`, `unmarkPickedUp` |
@@ -1484,9 +1487,10 @@ schedules and activities are also editable in the in-app map editor
 |---|---|---|---|
 | `startHour` / `endHour` | `number` (0–23) | ✓ | Half-open `[start, end)` game-hour window. **Wraps midnight** when `start > end` (e.g. `20 → 0`). The first matching entry wins; cover all 24 hours to avoid gaps. |
 | `activity` | `NpcActivity` | | Visible activity at this stop (see list below). Omit for "just stand there". |
-| `location.type` | `"exterior"` \| `"interior"` | ✓ | Where the NPC is during this window. |
-| `location.tx` / `ty` | `number` | ✓ | Exterior: absolute hub coords. Interior: coords within that building's room grid. |
+| `location.type` | `"exterior"` \| `"interior"` \| `"travel"` | ✓ | Where the NPC is during this window. `"travel"` means away in another town entirely — see "Traveling between towns" below. |
+| `location.tx` / `ty` | `number` | exterior/interior only | Exterior: absolute hub coords. Interior: coords within that building's room grid. `"travel"` entries have neither — nothing to render here. |
 | `location.buildingId` | `string` | interior only | Building `id` the NPC waits inside. The exterior sprite hides; if the player enters that building the NPC renders inside (its activity pose shows there too). |
+| `location.town` | `MapId` | travel only | The town the NPC is currently visiting — see "Traveling between towns" below. |
 | `homeBed` | `{ buildingId, tx, ty }` | | Reserved sleeping spot reference (used by night logic). |
 | `dialogueByActivity` | `Partial<Record<NpcActivity, string[]>>` | | Optional activity-specific dialogue pools, e.g. `{ "sleep": ["Zzz..."] }`. When the NPC's current scheduled activity has a non-empty entry here, `getNpcDialoguePool()` cycles those lines instead of the flat `dialogue` array (tap dialogue and ambient speech bubbles both use it). NPCs without a matching entry keep using `dialogue`, so this is fully backward compatible. |
 | `sleepDialogue` | `string` | | Line shown (as plain narration, no Talk/Give/quest options) when the NPC is tapped while `sleep`ing per its schedule (§7d). Defaults to a generic "💤 {name} is fast asleep." when omitted. |
@@ -1530,6 +1534,39 @@ workflow in `AGENTS.md` (32×32 SVG, create/commit/push one at a time).
 4. Run `npm run test` (loader + schedule tests) and `npm run build`.
 5. Verify in-game: at the relevant hours the NPC is at its post in its activity
    pose; the pose reverts to the base sprite while it walks at an hour boundary.
+
+### Traveling between towns (#2111 phase 4)
+
+A `"travel"` schedule entry means the NPC is genuinely away — not just hidden
+in a building, but visiting a *different, specific* town — during that window.
+There is no cross-town NPC registry at runtime: each town's `config.json` npcs
+array is the only source of truth for who's rendered/interactable there. So
+for a traveling NPC to actually appear somewhere else, **their full `HubNpc`
+record (same `id`, `name`, `sprite`, non-empty `dialogue`) must be separately
+authored in the destination town's own `config.json`**, with a matching
+`"travel"` entry pointing back home for the hours they're away. The shared
+`id` is the only link between the two records — NPC ids are globally unique
+across all 13 towns by convention, and friendship/relationship/journal state
+is already keyed by id alone with no town scoping, so this is safe.
+
+Both records need a schedule that covers all 24 hours between them: the home
+record's `"travel"` window should match exactly the hours the visiting
+record's own `"exterior"`/`"interior"` entries cover, and vice versa. Nothing
+enforces this automatically at load time — `web/src/data/hub/npcTravelIntegrity.test.ts`
+sweeps every town and asserts every `"travel"` entry names a real town whose
+own copy of the NPC actually resolves present (not itself traveling) during
+the claimed hours. Run it (part of `npm run test`) after authoring or editing
+any travel schedule.
+
+Worked example: Trader Pell splits his day between Thornwood Camp (home,
+`thornwoodcamp/config.json`) and Ironhold Keep (`ironholdkeep/config.json`,
+a second, separately-authored record with the same `id: "trader-pell"` and
+its own short visiting-specific dialogue lines).
+
+Quest turn-in is unaffected either way — it already resolves purely by
+scanning `allQuestDefs` for a step addressed to the tapped NPC's id,
+regardless of which town's config the tap happened in or which town the NPC
+nominally calls home (see §14 below).
 
 ---
 
