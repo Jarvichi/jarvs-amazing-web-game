@@ -3775,14 +3775,14 @@
       "id": "the-false-grave",
       "title": "The False Grave",
       "type": "chain",
-      "giverNpcId": "",
-      "receiverNpcId": "",
+      "giverNpcId": "ravenwatch-false-grave",
+      "receiverNpcId": "npc_1781726431819",
       "offerDialogue": "You look into the void exposed by the collapsed grave stone and see a cavern with multiple visible tunnels heading in opposite directions. Fetch the Elder, they might be able to help.",
       "activeDialogue": {
         "step-1": "The Elder should be told about the cavern under the grave.",
-        "step-2": ""
+        "step-2": "The Elder went quiet at the word tunnels, and named only one man — Minister Fallow, who keeps the church above the graveyard. Take it to him. The church door is locked; the key sits in the town hall office, if you have not already lifted it."
       },
-      "completeDialogue": "",
+      "completeDialogue": "Tunnels. Under my graves. I have kept this ground four hundred years, traveller, and I have never once been under it.\n\nThat is not a burial cavern. Someone dug up into the graveyard from below and set a stone over the hole to hide the work — a false grave, with no one in it. Whoever came up through it walked out into my town.\n\nSay nothing yet. I will sit with the stone tonight and see who comes back for it. Take this for your trouble — it was in the hole, and it is older than the church.",
       "steps": [
         {
           "key": "step-1",
@@ -3793,11 +3793,23 @@
         {
           "key": "step-2",
           "type": "deliver",
-          "required": 2,
+          "required": 1,
           "targetNpcId": "npc_1781726431819"
         }
       ],
-      "reward": {}
+      "reward": {
+        "crystals": 60,
+        "collectible": {
+          "id": "false-grave-marker",
+          "name": "Nameless Grave Marker",
+          "icon": "⚰️",
+          "desc": "The stone that capped the false grave. No name was ever cut into it — Minister Fallow says that was the point."
+        },
+        "friendship": {
+          "npc_1781726431819": 20,
+          "elder": 10
+        }
+      }
     },
     {
       "id": "elders-blessing",
