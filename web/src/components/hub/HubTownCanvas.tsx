@@ -1351,10 +1351,31 @@ export function HubTownCanvas({
     const interiorQuestIndicators     = new Map<string, PIXI.Text>()
     const interiorIndicatorBaseY      = new Map<string, number>()
 
+    // Building-hours-aware resolution of a schedule's location (#2111): if it
+    // targets a closed interior, resolve to standing just outside that
+    // building's door instead — an NPC should never be placed or walked into a
+    // building the player themselves would be bounced from as closed. Used both
+    // for a named NPC's initial on-load placement and every later schedule
+    // change, so neither path can spawn or route one into a closed building.
+    // `function` (not a const arrow) so it's hoisted — the initial-placement
+    // loop below calls it before this line runs.
+    function effectiveScheduleLocation(
+      loc: NpcScheduleEntry['location'] | null,
+    ): NpcScheduleEntry['location'] | null {
+      if (loc?.type !== 'interior') return loc
+      const interior = HUB_INTERIORS[loc.buildingId]
+      if (!interior || isBuildingOpen(interior, gameHourRef.current)) return loc
+      const door = HUB_DOORS.find(d => d.buildingId === loc.buildingId)
+      return door ? { type: 'exterior', tx: door.tx, ty: door.ty } : null
+    }
+
     const npcBubbleTargets: { npc: HubNpc; cx: number; cy: number }[] = []
     for (const npc of EXTERIOR_NPCS) {
-      // Start NPC at their scheduled position so they appear in the right place on load
-      const initLoc = npc.schedule ? getNpcLocation(npc, gameHourRef.current) : null
+      // Start NPC at their scheduled position so they appear in the right place on
+      // load — routed through effectiveScheduleLocation so a schedule that would
+      // otherwise start them inside a currently-closed building instead starts
+      // them just outside its door.
+      const initLoc = npc.schedule ? effectiveScheduleLocation(getNpcLocation(npc, gameHourRef.current)) : null
       const startTx = initLoc?.type === 'exterior' ? initLoc.tx : npc.tx
       const startTy = initLoc?.type === 'exterior' ? initLoc.ty : npc.ty
       const cx = startTx * T + T / 2
@@ -1537,6 +1558,11 @@ export function HubTownCanvas({
       scaredBubble:       PIXI.Container | null
       scaredBubbleTimer:  number
       scaredBubbleCooldown: number
+      // Brief reaction shown when a wander target's building closes mid-walk
+      // (#2111) — kept separate from scaredBubble so the two can never clobber
+      // each other if both conditions land on the same NPC at once.
+      doorReactionBubble: PIXI.Container | null
+      doorReactionTimer:  number
     }
 
     const unitNpcs: UnitNpcState[] = []
@@ -1582,6 +1608,8 @@ export function HubTownCanvas({
           scaredBubble:         null,
           scaredBubbleTimer:    0,
           scaredBubbleCooldown: 0,
+          doorReactionBubble:   null,
+          doorReactionTimer:    0,
         }
         unitNpcs.push(state)
 
@@ -1595,6 +1623,19 @@ export function HubTownCanvas({
     const doorTileSet = new Set(HUB_DOORS.map(d => `${d.tx},${d.ty}`))
     // Spawn tiles that aren't doors — used for respawning so NPCs don't immediately despawn
     const nonDoorSpawnTiles = NPC_SPAWN_TILES.filter(([tx, ty]) => !doorTileSet.has(`${tx},${ty}`))
+    // Door tile → the building it belongs to, for the open/closed check below.
+    const doorBuildingByTile = new Map(HUB_DOORS.map(d => [`${d.tx},${d.ty}`, d.buildingId]))
+    // Whether the door at (tx, ty) currently leads somewhere an ambient NPC can
+    // enter (#2111). Tiles that aren't doors, or whose building has no interior
+    // data, are treated as open — this only ever *restricts* routing for
+    // buildings we can actually check.
+    function isDoorOpen(tx: number, ty: number): boolean {
+      const buildingId = doorBuildingByTile.get(`${tx},${ty}`)
+      if (!buildingId) return true
+      const interior = HUB_INTERIORS[buildingId]
+      if (!interior) return true
+      return isBuildingOpen(interior, gameHourRef.current)
+    }
     const TARGET_NPC_COUNT = 12
     let respawnTimer = 2000
 
@@ -1611,12 +1652,32 @@ export function HubTownCanvas({
         else if (targetX > npc.sprite.x + 1) npc.sprite.scale.x = Math.abs(npc.sprite.scale.x)
         await tweenLinear(npc.sprite, targetX, targetY, duration)
         npc.currentTile = [tx, ty]
-        // Despawn NPCs that reach a building door — they "go inside"
+        // Despawn NPCs that reach a building door — they "go inside" — but only
+        // if it's actually open. wanderNpc never *chooses* a closed door as a
+        // target (below), so arriving at a closed one here means the building
+        // shut while this NPC was already walking to it (#2111 point 2): react
+        // instead of vanishing into it, then pick a new destination.
         if (doorTileSet.has(`${tx},${ty}`)) {
+          if (!isDoorOpen(tx, ty)) {
+            reactToClosedDoor(npc)
+            npc.walkQueue = []
+            // wanderNpc only kicks off processNpcWalkQueue when !isWalking — this
+            // function never clears the flag on its own success path (only the
+            // empty-queue and catch branches do), so it must be reset here or
+            // wanderNpc's chosen path would sit in walkQueue forever unprocessed.
+            npc.isWalking = false
+            wanderNpc(npc)
+            return
+          }
           if (npc.scaredBubble) {
             bubbleLayer.removeChild(npc.scaredBubble)
             npc.scaredBubble = null
             npc.scaredBubbleTimer = 0
+          }
+          if (npc.doorReactionBubble) {
+            bubbleLayer.removeChild(npc.doorReactionBubble)
+            npc.doorReactionBubble = null
+            npc.doorReactionTimer = 0
           }
           npc.sprite.parent?.removeChild(npc.sprite)
           const idx = unitNpcs.indexOf(npc)
@@ -1727,14 +1788,31 @@ export function HubTownCanvas({
       }
     }
 
+    // Brief "no entry" reaction shown when a wander target's building closes
+    // while the NPC is already walking to it (#2111). Self-contained rather than
+    // reusing the ghost-encounter scaredBubble machinery, which has its own
+    // proximity-driven cooldown semantics this shouldn't interact with.
+    function reactToClosedDoor(npc: UnitNpcState): void {
+      if (npc.doorReactionBubble) return  // already reacting
+      const bubble = createSpeechBubble('🚫', npc.sprite.x, npc.sprite.y - SPRITE_SIZE)
+      bubble.zIndex = npc.sprite.zIndex + 1
+      bubbleLayer.addChild(bubble)
+      npc.doorReactionBubble = bubble
+      npc.doorReactionTimer  = 1200
+    }
+
     function wanderNpc(npc: UnitNpcState) {
       const effectivePathSet = exteriorWalkable()
       // Route around other NPCs.
       const occupied = npcOccupiedTiles(npc)
       for (const k of occupied) effectivePathSet.delete(k)
       const ghosts = npc.isGhost ? [] : unitNpcs.filter(n => n.isGhost)
+      // Never pick a closed building's door as a destination (#2111 point 1) —
+      // combined with the isDoorOpen re-check in processNpcWalkQueue, this means
+      // a wander only ever ends in "went inside" when that building was open both
+      // when chosen and on arrival.
       const allOptions = NPC_SPAWN_TILES.filter(
-        ([tx, ty]) => tx !== npc.currentTile[0] || ty !== npc.currentTile[1],
+        ([tx, ty]) => (tx !== npc.currentTile[0] || ty !== npc.currentTile[1]) && isDoorOpen(tx, ty),
       ) as [number, number][]
       if (allOptions.length === 0) return
       // Non-ghost NPCs avoid tiles within 5 tiles of any ghost
@@ -1790,6 +1868,8 @@ export function HubTownCanvas({
           scaredBubble:         null,
           scaredBubbleTimer:    0,
           scaredBubbleCooldown: 0,
+          doorReactionBubble:   null,
+          doorReactionTimer:    0,
         }
         unitNpcs.push(state)
         loadAnimFrames(slug, 3).then(frames => { state.animFrames = frames }).catch(() => {})
@@ -2028,6 +2108,11 @@ export function HubTownCanvas({
           bubbleLayer.removeChild(npc.scaredBubble)
           npc.scaredBubble = null
           npc.scaredBubbleTimer = 0
+        }
+        if (npc.doorReactionBubble) {
+          bubbleLayer.removeChild(npc.doorReactionBubble)
+          npc.doorReactionBubble = null
+          npc.doorReactionTimer = 0
         }
       }
 
@@ -3244,8 +3329,13 @@ export function HubTownCanvas({
           if (!npc?.schedule) continue
           const ws = namedNpcWalkStates.get(npcId)
           if (!ws) continue
-          namedNpcActivity.set(npcId, getNpcActivity(npc, gameHourRef.current))
-          const newLoc = getNpcLocation(npc, gameHourRef.current)
+          const scheduledLoc = getNpcLocation(npc, gameHourRef.current)
+          const newLoc = effectiveScheduleLocation(scheduledLoc)
+          // effectiveScheduleLocation only returns a new object when it redirects
+          // away from a closed building — reference equality is enough to tell
+          // whether that happened. Redirected NPCs are waiting outside a locked
+          // door, not performing their scheduled activity, so drop the pose.
+          namedNpcActivity.set(npcId, newLoc === scheduledLoc ? getNpcActivity(npc, gameHourRef.current) : null)
           walkNamedNpc(npc, ws, container, newLoc)
         }
       }
@@ -3428,6 +3518,17 @@ export function HubTownCanvas({
               npc.scaredBubbleTimer    = 0
               npc.scaredBubbleCooldown = 10_000  // don't re-spawn while ghost is still nearby
             }
+          }
+        }
+
+        // Closed-door reaction (#2111) — independent of the ghost-scared bubble
+        // above, decays on its own short timer regardless of ghost proximity.
+        if (npc.doorReactionBubble) {
+          npc.doorReactionTimer -= ticker.deltaMS
+          npc.doorReactionBubble.position.set(npc.sprite.x, npc.sprite.y - SPRITE_SIZE)
+          if (npc.doorReactionTimer <= 0) {
+            bubbleLayer.removeChild(npc.doorReactionBubble)
+            npc.doorReactionBubble = null
           }
         }
       }
