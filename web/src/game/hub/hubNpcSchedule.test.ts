@@ -176,4 +176,19 @@ describe('resolveNpcInteriorPresence', () => {
     const nobody: HubNpc = { id: 'ghost', name: 'Nobody', sprite: 'x', tx: 0, ty: 0, dialogue: [] }
     expect(resolveNpcInteriorPresence(nobody, 'card-shop', 12)).toBeNull()
   })
+
+  it('is absent from a building while a travel entry is active (#2111 phase 4)', () => {
+    // No code change was needed for this — a 'travel' entry is truthy but
+    // matches neither branch of the type check below, so it already resolves
+    // to absent by construction. This test documents that so a future
+    // refactor can't silently regress it.
+    const traveler: HubNpc = {
+      ...shopkeeper,
+      schedule: [
+        { startHour: 9, endHour: 17, location: { type: 'travel', town: 'millhaven' } },
+        { startHour: 17, endHour: 9, location: { type: 'interior', buildingId: 'card-shop', tx: 6, ty: 3 } },
+      ],
+    }
+    expect(resolveNpcInteriorPresence(traveler, 'card-shop', 12)).toBeNull()
+  })
 })
