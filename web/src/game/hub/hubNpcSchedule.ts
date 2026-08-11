@@ -48,6 +48,31 @@ export function isNpcInBuilding(npc: HubNpc, buildingId: string, gameHour: numbe
   return loc?.type === 'interior' && loc.buildingId === buildingId
 }
 
+/**
+ * Where an NPC should render inside `buildingId` right now, or null if they
+ * aren't there at all (#2111). An NPC with no `schedule` keeps the original,
+ * always-present behaviour — shown at their static `tx`/`ty` whenever the
+ * player is in their static `building`. An NPC *with* a schedule is shown only
+ * while it currently places them in this exact building, at that schedule
+ * entry's own `tx`/`ty` — which is often not their static spot (a shopkeeper's
+ * `work` post vs. their static position, or a sleep entry pointing at a
+ * different sub-room entirely). Deliberately has no fallback for an hour a
+ * schedule doesn't cover: a gap means "not here," which is also how a gap in
+ * 24-hour coverage gets caught (see npcScheduleIntegrity.test.ts) rather than
+ * silently papered over by defaulting back to their static position.
+ */
+export function resolveNpcInteriorPresence(
+  npc: HubNpc,
+  buildingId: string,
+  gameHour: number,
+): { tx: number; ty: number } | null {
+  if (!npc.schedule?.length) {
+    return npc.building === buildingId ? { tx: npc.tx, ty: npc.ty } : null
+  }
+  const loc = getNpcLocation(npc, gameHour)
+  return loc?.type === 'interior' && loc.buildingId === buildingId ? { tx: loc.tx, ty: loc.ty } : null
+}
+
 export function isBuildingOpen(interior: HubInterior, gameHour: number): boolean {
   if (!interior.hours || interior.hours === 'always') return true
   const { open, close } = interior.hours as { open: number; close: number }
