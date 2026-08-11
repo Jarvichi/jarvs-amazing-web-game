@@ -10,6 +10,7 @@ import { loadDailyShopState, isShopItemSold } from '../../game/shopSchedule'
 import { PATH_TILE } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
 import { isBuildingOpen, getNpcLocation, getNpcActivity, getNpcDialoguePool, resolveNpcInteriorPresence } from '../../game/hub/hubNpcSchedule'
+import { recordDeparture, claimArrival } from '../../game/hub/townTravelers'
 import { getGameHour, getGameMinute } from '../../game/hub/hubClock'
 import { emitSound, startInteriorAudio, stopInteriorAudio, setNightAmbiance } from '../../game/sound'
 import { WALL_TILES } from '../../data/tiles/buildingMaterials'
@@ -1621,6 +1622,23 @@ export function HubTownCanvas({
 
     // Door tiles — NPCs that arrive here despawn (simulate entering a building)
     const doorTileSet = new Set(HUB_DOORS.map(d => `${d.tx},${d.ty}`))
+    // Exit tiles — NPCs that arrive here despawn too, "leaving town" (#2111
+    // point 3). Not folded into the loader's shared NPC_SPAWN_TILES (which only
+    // has authored spawn tiles + doors) since that constant has other
+    // consumers below that shouldn't change meaning; unioned in locally instead
+    // wherever an ambient NPC picks a wander target.
+    const exitTileCoords: [number, number][] = exitTilesData.map(e => [e.tx, e.ty])
+    const exitTileSet = new Set(exitTileCoords.map(([tx, ty]) => `${tx},${ty}`))
+    // A traveler who departed some other town via an exit tile can arrive
+    // here (#2111). Claimed once per mount, deliberately outside the
+    // respawn-to-TARGET_NPC_COUNT cycle below — that cycle would otherwise
+    // silently backfill the same headcount regardless, making the arrival
+    // invisible — so this reads as one extra, distinct "someone just
+    // arrived" NPC walking in from an exit tile.
+    if (exitTileCoords.length > 0 && claimArrival()) {
+      const arrivalTile = exitTileCoords[Math.floor(Math.random() * exitTileCoords.length)]
+      spawnAmbientNpc(arrivalTile)
+    }
     // Spawn tiles that aren't doors — used for respawning so NPCs don't immediately despawn
     const nonDoorSpawnTiles = NPC_SPAWN_TILES.filter(([tx, ty]) => !doorTileSet.has(`${tx},${ty}`))
     // Door tile → the building it belongs to, for the open/closed check below.
@@ -1638,6 +1656,25 @@ export function HubTownCanvas({
     }
     const TARGET_NPC_COUNT = 12
     let respawnTimer = 2000
+
+    // Removes an ambient NPC's sprite and any active reaction bubbles, and
+    // drops it from unitNpcs — shared by despawn-into-a-building and
+    // despawn-via-exit-tile (#2111).
+    function despawnAmbientNpc(npc: UnitNpcState): void {
+      if (npc.scaredBubble) {
+        bubbleLayer.removeChild(npc.scaredBubble)
+        npc.scaredBubble = null
+        npc.scaredBubbleTimer = 0
+      }
+      if (npc.doorReactionBubble) {
+        bubbleLayer.removeChild(npc.doorReactionBubble)
+        npc.doorReactionBubble = null
+        npc.doorReactionTimer = 0
+      }
+      npc.sprite.parent?.removeChild(npc.sprite)
+      const idx = unitNpcs.indexOf(npc)
+      if (idx !== -1) unitNpcs.splice(idx, 1)
+    }
 
     async function processNpcWalkQueue(npc: UnitNpcState) {
       try {
@@ -1669,19 +1706,17 @@ export function HubTownCanvas({
             wanderNpc(npc)
             return
           }
-          if (npc.scaredBubble) {
-            bubbleLayer.removeChild(npc.scaredBubble)
-            npc.scaredBubble = null
-            npc.scaredBubbleTimer = 0
-          }
-          if (npc.doorReactionBubble) {
-            bubbleLayer.removeChild(npc.doorReactionBubble)
-            npc.doorReactionBubble = null
-            npc.doorReactionTimer = 0
-          }
-          npc.sprite.parent?.removeChild(npc.sprite)
-          const idx = unitNpcs.indexOf(npc)
-          if (idx !== -1) unitNpcs.splice(idx, 1)
+          despawnAmbientNpc(npc)
+          return
+        }
+        // Despawn NPCs that reach a town exit tile — they've "left town"
+        // (#2111 point 3). No building to be open/closed for, so this is
+        // unconditional. Credits a shared cross-town counter (townTravelers.ts)
+        // that another town can later draw an arrival from — there's no
+        // per-exit destination data to route a specific departure to.
+        if (exitTileSet.has(`${tx},${ty}`)) {
+          despawnAmbientNpc(npc)
+          recordDeparture()
           return
         }
         processNpcWalkQueue(npc)
@@ -1810,10 +1845,12 @@ export function HubTownCanvas({
       // Never pick a closed building's door as a destination (#2111 point 1) —
       // combined with the isDoorOpen re-check in processNpcWalkQueue, this means
       // a wander only ever ends in "went inside" when that building was open both
-      // when chosen and on arrival.
-      const allOptions = NPC_SPAWN_TILES.filter(
+      // when chosen and on arrival. Exit tiles are folded in here (not part of
+      // the loader's own NPC_SPAWN_TILES) so a wander can occasionally end in
+      // "left town" too (#2111 point 3).
+      const allOptions = ([...NPC_SPAWN_TILES, ...exitTileCoords] as [number, number][]).filter(
         ([tx, ty]) => (tx !== npc.currentTile[0] || ty !== npc.currentTile[1]) && isDoorOpen(tx, ty),
-      ) as [number, number][]
+      )
       if (allOptions.length === 0) return
       // Non-ghost NPCs avoid tiles within 5 tiles of any ghost
       const options = ghosts.length === 0 ? allOptions : (
@@ -1835,9 +1872,11 @@ export function HubTownCanvas({
       if (!npc.isWalking) processNpcWalkQueue(npc)
     }
 
-    function spawnAmbientNpc() {
-      if (nonDoorSpawnTiles.length === 0) return
-      const [tx, ty] = nonDoorSpawnTiles[Math.floor(Math.random() * nonDoorSpawnTiles.length)]
+    // `origin` lets a caller place the spawn at a specific tile (an exit, for
+    // a claimed arrival — #2111) instead of a random non-door spawn tile.
+    function spawnAmbientNpc(origin?: [number, number]) {
+      if (!origin && nonDoorSpawnTiles.length === 0) return
+      const [tx, ty] = origin ?? nonDoorSpawnTiles[Math.floor(Math.random() * nonDoorSpawnTiles.length)]
       const cx = tx * T + T / 2
       const cy = ty * T + T
       const slug = effectiveCards[Math.floor(Math.random() * effectiveCards.length)]
