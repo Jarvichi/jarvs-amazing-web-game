@@ -9,7 +9,7 @@ import { getTodaysShopItems } from '../../game/hub/shopStock'
 import { loadDailyShopState, isShopItemSold } from '../../game/shopSchedule'
 import { PATH_TILE } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
-import { isBuildingOpen, getNpcLocation, getNpcActivity, getNpcDialoguePool } from '../../game/hub/hubNpcSchedule'
+import { isBuildingOpen, getNpcLocation, getNpcActivity, getNpcDialoguePool, resolveNpcInteriorPresence } from '../../game/hub/hubNpcSchedule'
 import { getGameHour, getGameMinute } from '../../game/hub/hubClock'
 import { emitSound, startInteriorAudio, stopInteriorAudio, setNightAmbiance } from '../../game/sound'
 import { WALL_TILES } from '../../data/tiles/buildingMaterials'
@@ -182,7 +182,7 @@ export function HubTownCanvas({
     HUB_STREET_TILES, HUB_STREET_NONWALKABLE_TILES,
     EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES, HUB_POND_GROUPS, HUB_BRIDGE_TILES,
     HUB_FESTIVAL_DECOR,
-    HUB_DOORS, HUB_INTERIORS, EXTERIOR_NPCS, INTERIOR_NPCS,
+    HUB_DOORS, HUB_INTERIORS, HUB_NPCS, EXTERIOR_NPCS,
     NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES,
    HUB_LOCKED_DOORS, HUB_TREASURES, HUB_INTERACTABLES, HUB_ANIMALS, HUB_CHICKEN_ZONES,
     EXIT_TILES: exitTilesData,
@@ -2383,67 +2383,43 @@ export function HubTownCanvas({
         )
       }
 
-      // Interior NPCs — rendered inside the room, tappable
-      const interiorNpcList: HubNpc[] = (INTERIOR_NPCS[buildingId] ?? []).filter(n => isVisibleAtLevel(n, currentLevel))
-      for (const npc of interiorNpcList) {
-        interiorWalkable.delete(`${npc.tx},${npc.ty}`)
+      // NPCs actually present inside this room right now (#2111) — a resident
+      // with no schedule is always shown at their static spot (unchanged
+      // behaviour); a resident *with* a schedule, or any other NPC in town
+      // whose schedule currently brings them here, is shown only while that's
+      // actually true, at that schedule entry's own tx/ty — which is often not
+      // a resident's static position (a shopkeeper's work post vs. where
+      // they're standing off-shift, or a sleep entry pointing at a different
+      // sub-room like the inn's upstairs). Two previously-separate blocks
+      // (residents-by-static-building, schedule-driven visitors) collapse into
+      // one since both are now the exact same query: who resolves here right now.
+      const presentNpcs: { npc: HubNpc; tx: number; ty: number }[] = HUB_NPCS
+        .filter(n => isVisibleAtLevel(n, currentLevel))
+        .flatMap(n => {
+          const pos = resolveNpcInteriorPresence(n, buildingId, gameHourRef.current)
+          return pos ? [{ npc: n, tx: pos.tx, ty: pos.ty }] : []
+        })
+      for (const { npc, tx, ty } of presentNpcs) {
+        interiorWalkable.delete(`${tx},${ty}`)
         // Activity pose swap, mirroring the exterior ticker logic — resolved once
         // here since this block only reruns when the player re-enters the room.
-        const interiorSpriteSlug = resolveNpcSprite(npc.sprite)
-        const interiorBaseTexUrl = `${base}sprites/${interiorSpriteSlug}.svg`
-        const interiorActivity = npc.schedule ? getNpcActivity(npc, gameHourRef.current) : null
-        const interiorTexLoader = interiorActivity
-          ? loadTextureUrl(`${base}sprites/${interiorSpriteSlug}-${interiorActivity}.svg`).catch(() => loadTextureUrl(interiorBaseTexUrl))
-          : loadTextureUrl(interiorBaseTexUrl)
-        interiorTexLoader.then(tex => {
+        const npcSpriteSlug = resolveNpcSprite(npc.sprite)
+        const npcBaseTexUrl = `${base}sprites/${npcSpriteSlug}.svg`
+        const npcActivity = getNpcActivity(npc, gameHourRef.current)
+        const npcTexLoader = npcActivity
+          ? loadTextureUrl(`${base}sprites/${npcSpriteSlug}-${npcActivity}.svg`).catch(() => loadTextureUrl(npcBaseTexUrl))
+          : loadTextureUrl(npcBaseTexUrl)
+        npcTexLoader.then(tex => {
           if (!interiorActive || currentInteriorId !== buildingId) return
           const s = new PIXI.Sprite(tex)
           s.width = SPRITE_SIZE; s.height = SPRITE_SIZE
           s.anchor.set(0.5, 1)
-          s.position.set(npc.tx * T + T / 2, npc.ty * T + T)
+          s.position.set(tx * T + T / 2, ty * T + T)
           s.eventMode = 'static'
           s.cursor    = 'pointer'
           s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
             e.stopPropagation()
             if (npc.dialogue.length > 0 || npc.screen || npc.questGive || npc.questReceive || npc.dialogueTree) {
-              const idx = npcDialogueIndex.get(npc.id) ?? 0
-              const pool = getNpcDialoguePool(npc, gameHourRef.current)
-              onNpcTapRef.current?.(pool[idx % pool.length] ?? '', npc.id)
-              npcDialogueIndex.set(npc.id, idx + 1)
-            }
-          })
-          interiorLayer.addChild(s)
-        }).catch(() => {})
-      }
-
-      // Scheduled exterior NPCs — render inside this building when their schedule says so
-      const scheduledVisitors = EXTERIOR_NPCS.filter(npc => {
-        if (!npc.schedule) return false
-        const loc = getNpcLocation(npc, gameHourRef.current)
-        return loc?.type === 'interior' && loc.buildingId === buildingId
-      })
-      for (const npc of scheduledVisitors) {
-        const loc = getNpcLocation(npc, gameHourRef.current) as { type: 'interior'; buildingId: string; tx: number; ty: number }
-        interiorWalkable.delete(`${loc.tx},${loc.ty}`)
-        // Activity pose swap, mirroring the exterior ticker logic — resolved once
-        // here since this block only reruns when the player re-enters the room.
-        const visitorSpriteSlug = resolveNpcSprite(npc.sprite)
-        const visitorBaseTexUrl = `${base}sprites/${visitorSpriteSlug}.svg`
-        const visitorActivity = getNpcActivity(npc, gameHourRef.current)
-        const visitorTexLoader = visitorActivity
-          ? loadTextureUrl(`${base}sprites/${visitorSpriteSlug}-${visitorActivity}.svg`).catch(() => loadTextureUrl(visitorBaseTexUrl))
-          : loadTextureUrl(visitorBaseTexUrl)
-        visitorTexLoader.then(tex => {
-          if (!interiorActive || currentInteriorId !== buildingId) return
-          const s = new PIXI.Sprite(tex)
-          s.width = SPRITE_SIZE; s.height = SPRITE_SIZE
-          s.anchor.set(0.5, 1)
-          s.position.set(loc.tx * T + T / 2, loc.ty * T + T)
-          s.eventMode = 'static'
-          s.cursor    = 'pointer'
-          s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
-            e.stopPropagation()
-            if (npc.dialogue.length > 0 || npc.questGive || npc.questReceive || npc.dialogueTree) {
               const idx = npcDialogueIndex.get(npc.id) ?? 0
               const pool = getNpcDialoguePool(npc, gameHourRef.current)
               onNpcTapRef.current?.(pool[idx % pool.length] ?? '', npc.id)
@@ -2496,15 +2472,18 @@ export function HubTownCanvas({
         })
       }
 
-      // Quest indicators for interior NPCs
+      // Quest indicators for interior NPCs — positioned at each NPC's resolved
+      // tx/ty (presentNpcs above), not their static npc.tx/npc.ty: a resident
+      // with a schedule can render somewhere other than their static spot, and
+      // this has to track the sprite it's floating over.
       interiorQuestIndicators.clear()
       interiorIndicatorBaseY.clear()
-      for (const npc of interiorNpcList) {
+      for (const { npc, tx, ty } of presentNpcs) {
         if (!npc.questGive && !npc.questReceive) continue
-        const indBaseY = npc.ty * T + T - SPRITE_SIZE - 8
+        const indBaseY = ty * T + T - SPRITE_SIZE - 8
         const ind = new PIXI.Text({ text: '!', style: { fontSize: 16, fill: '#ffdd44', fontWeight: 'bold', fontFamily: 'monospace', stroke: { color: '#1a1a1a', width: 3 } } })
         ind.anchor.set(0.5, 1)
-        ind.position.set(npc.tx * T + T / 2, indBaseY)
+        ind.position.set(tx * T + T / 2, indBaseY)
         ind.visible = false
         interiorLayer.addChild(ind)
         interiorQuestIndicators.set(npc.id, ind)

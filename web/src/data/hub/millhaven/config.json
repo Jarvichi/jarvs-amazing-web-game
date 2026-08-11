@@ -1938,8 +1938,13 @@
         "fish": [
           "Line's been quiet all morning. That's never a good sign out here.",
           "Watch the reef line. It's been swallowing more than fish lately."
+        ],
+        "sleep": [
+          "...mmh... the reef... something's out there... zzz...",
+          "Zzz... don't go dark... don't go dark... zzz..."
         ]
       },
+      "sleepDialogue": "...mmh... the reef... something's out there... zzz...",
       "questGive": "millhaven-lost-at-sea",
       "questReceive": "millhaven-missing-catch",
       "schedule": [
@@ -1951,6 +1956,17 @@
             "type": "exterior",
             "tx": 32,
             "ty": 6
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 6,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "inn-millhaven-upstairs",
+            "tx": 5,
+            "ty": 2
           }
         }
       ],

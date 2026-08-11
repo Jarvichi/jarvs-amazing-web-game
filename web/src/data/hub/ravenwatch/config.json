@@ -12218,6 +12218,16 @@
             "ty": 2
           },
           "activity": "sleep"
+        },
+        {
+          "startHour": 6,
+          "endHour": 0,
+          "location": {
+            "type": "interior",
+            "buildingId": "church",
+            "tx": 6,
+            "ty": 1
+          }
         }
       ],
       "favoriteGiftItemId": "bones",

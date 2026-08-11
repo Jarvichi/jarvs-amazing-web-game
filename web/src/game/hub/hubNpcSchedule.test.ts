@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { getNpcActivity, getNpcDialoguePool, isNpcAsleep, NPC_ACTIVITIES } from './hubNpcSchedule'
+import { getNpcActivity, getNpcDialoguePool, isNpcAsleep, NPC_ACTIVITIES, resolveNpcInteriorPresence } from './hubNpcSchedule'
 import type { HubNpc } from '../../data/hub/loader'
 
 const npc: HubNpc = {
@@ -106,5 +106,74 @@ describe('isNpcAsleep', () => {
     expect(isNpcAsleep(wrapsMidnight, 3)).toBe(true)
     expect(isNpcAsleep(wrapsMidnight, 6)).toBe(false)
     expect(isNpcAsleep(wrapsMidnight, 21)).toBe(false)
+  })
+})
+
+describe('resolveNpcInteriorPresence', () => {
+  // A shopkeeper on a day shift, sleeping upstairs at night — modelled on
+  // Ravenwatch's Gildwyn/Vorn pair (#2111): their static `building` is the
+  // shop, but their schedule's own tx/ty differs from their static position,
+  // and their sleep entry points at a different building entirely.
+  const shopkeeper: HubNpc = {
+    id: 'gildwyn', name: 'Gildwyn', sprite: 'hub-npc-merchant', tx: 4, ty: 5, dialogue: [],
+    building: 'card-shop',
+    schedule: [
+      { startHour: 6, endHour: 20, activity: 'work', location: { type: 'interior', buildingId: 'card-shop', tx: 6, ty: 3 } },
+      { startHour: 20, endHour: 6, activity: 'sleep', location: { type: 'interior', buildingId: 'inn-upstairs', tx: 2, ty: 1 } },
+    ],
+  }
+
+  it('resolves a scheduled resident to their shift position, not their static tx/ty', () => {
+    expect(resolveNpcInteriorPresence(shopkeeper, 'card-shop', 12)).toEqual({ tx: 6, ty: 3 })
+  })
+
+  it('resolves a scheduled resident into a different building than their static one', () => {
+    // "Follow them to bed" (#2111 point 4): a resident isn't confined to their
+    // static `building` once they have a schedule.
+    expect(resolveNpcInteriorPresence(shopkeeper, 'inn-upstairs', 23)).toEqual({ tx: 2, ty: 1 })
+  })
+
+  it('is absent from their static building while scheduled elsewhere', () => {
+    // The bug this whole thing fixes: two shift NPCs must not both resolve
+    // present in the same building at once.
+    expect(resolveNpcInteriorPresence(shopkeeper, 'card-shop', 23)).toBeNull()
+  })
+
+  it('is absent from an unrelated building entirely', () => {
+    expect(resolveNpcInteriorPresence(shopkeeper, 'trader-den', 12)).toBeNull()
+  })
+
+  it('is absent during an hour their schedule does not cover (a gap)', () => {
+    const gappy: HubNpc = {
+      ...shopkeeper,
+      schedule: [{ startHour: 6, endHour: 20, location: { type: 'interior', buildingId: 'card-shop', tx: 6, ty: 3 } }],
+    }
+    // No entry covers 20–06 — deliberately no fallback to the static position.
+    expect(resolveNpcInteriorPresence(gappy, 'card-shop', 23)).toBeNull()
+  })
+
+  it('falls back to the static tx/ty for a resident with no schedule at all', () => {
+    const noSchedule: HubNpc = { ...shopkeeper, schedule: undefined }
+    expect(resolveNpcInteriorPresence(noSchedule, 'card-shop', 3)).toEqual({ tx: 4, ty: 5 })
+  })
+
+  it('a schedule-less resident is absent from any building but their static one', () => {
+    const noSchedule: HubNpc = { ...shopkeeper, schedule: undefined }
+    expect(resolveNpcInteriorPresence(noSchedule, 'inn-upstairs', 3)).toBeNull()
+  })
+
+  it('resolves a schedule-driven visitor with no static building at all', () => {
+    // Ravenwatch's Elder: no `building` field, only ever placed by schedule.
+    const visitor: HubNpc = {
+      id: 'elder', name: 'The Elder', sprite: 'hub-npc-elder', tx: 19, ty: 10, dialogue: [],
+      schedule: [{ startHour: 6, endHour: 20, location: { type: 'interior', buildingId: 'town-hall', tx: 7, ty: 3 } }],
+    }
+    expect(resolveNpcInteriorPresence(visitor, 'town-hall', 12)).toEqual({ tx: 7, ty: 3 })
+    expect(resolveNpcInteriorPresence(visitor, 'town-hall', 23)).toBeNull()
+  })
+
+  it('is absent everywhere for a schedule-less NPC with no static building', () => {
+    const nobody: HubNpc = { id: 'ghost', name: 'Nobody', sprite: 'x', tx: 0, ty: 0, dialogue: [] }
+    expect(resolveNpcInteriorPresence(nobody, 'card-shop', 12)).toBeNull()
   })
 })

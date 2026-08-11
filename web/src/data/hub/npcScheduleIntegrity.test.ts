@@ -36,3 +36,27 @@ describe('NPC schedules respect building hours', () => {
     }
   }
 })
+
+// Guard for #2111: resolveNpcInteriorPresence (hubNpcSchedule.ts) deliberately
+// has no fallback for an hour a scheduled NPC's own schedule doesn't cover — a
+// gap just means "not present anywhere," which for a building resident means
+// vanishing from every room for that stretch. Ravenwatch's Minister Fallow
+// shipped exactly this: a single 00:00–06:00 sleep entry with the remaining 18
+// hours uncovered. Swept across every town, every NPC with a schedule.
+describe('NPC schedules cover all 24 hours', () => {
+  for (const [townKey, { locationData }] of Object.entries(locationRegistry)) {
+    for (const npc of locationData.HUB_NPCS) {
+      if (!npc.schedule?.length) continue
+
+      it(`${townKey}/${npc.id}: schedule has no gap`, () => {
+        const uncoveredHours = Array.from({ length: 24 }, (_, h) => h)
+          .filter(h => !npc.schedule!.some(e => hourInRange(h, e.startHour, e.endHour)))
+        expect(
+          uncoveredHours,
+          `${npc.id}'s schedule has no entry covering hour(s) ${uncoveredHours.join(', ')} — ` +
+          `they won't be placed anywhere during ${uncoveredHours.length === 1 ? 'that hour' : 'those hours'}`,
+        ).toEqual([])
+      })
+    }
+  }
+})
