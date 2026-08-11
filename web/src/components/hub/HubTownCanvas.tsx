@@ -2962,6 +2962,23 @@ export function HubTownCanvas({
           return
         }
 
+        // A door with no building footprint of its own (e.g. a hole in the
+        // ground) isn't covered by the buildingSet check above. Its door
+        // sprite conventionally renders one tile north of its trigger tile —
+        // and any associated ground decor (a visible "hole") sits there too
+        // — so a tap landing on either that tile or the trigger tile itself
+        // should route precisely onto the trigger, the same as tapping a
+        // normal building's door. Without this, nearestWalkable's fallback
+        // below can land one tile off if the decor tile itself is solid
+        // (e.g. via a BlockedPath), silently failing to enter.
+        const tappedDoor = HUB_DOORS.find(
+          d => (d.tx === tapTx && d.ty === tapTy) || (d.tx === tapTx && d.ty - 1 === tapTy),
+        )
+        if (tappedDoor) {
+          startWalk([tappedDoor.tx, tappedDoor.ty])
+          return
+        }
+
         const node = EXTERIOR_NPCS.find(n => n.tx === tapTx && n.ty === tapTy && n.screen)
         // Ambient crowd NPCs have no hit area of their own, so a tap landing
         // directly on one falls through here — snap to the nearest free tile
