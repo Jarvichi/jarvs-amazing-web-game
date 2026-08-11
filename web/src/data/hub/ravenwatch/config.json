@@ -9235,8 +9235,7 @@
           "toInteriorId": "town-hall",
           "entryTx": 1,
           "entryTy": 5,
-          "direction": "right",
-          "minLevel": 1
+          "direction": "right"
         }
       ],
       "wallTileId": "interiorWallStriped"
