@@ -96,3 +96,78 @@ describe('Ravenwatch quest targets', () => {
     expect(stranded).toEqual([])
   })
 })
+
+// Reference integrity for hand-authored quests. A typo in any of these ids does
+// not crash anything — the quest just quietly never offers, never advances, or
+// never reveals its item — so it is exactly the kind of mistake that survives
+// into a build. `the-false-grave` is unfinished content (blank giver/receiver,
+// blank completion dialogue) and is excluded rather than fixed here.
+describe('Ravenwatch quest references', () => {
+  const npcIds = new Set(loc.HUB_NPCS.map(n => n.id))
+  const questIds = new Set(quests.HUB_QUEST_DEFS.map(q => q.id))
+  const pickupIds = new Set(pickups.map(p => p.id))
+  const authored = quests.HUB_QUEST_DEFS.filter(q => q.id !== 'the-false-grave')
+
+  it('names a real NPC or animal as giver and receiver', () => {
+    // Animals give and receive quests too (Rover, Pip, the stray cat), so both
+    // rosters count — same resolution the delivery-target check uses.
+    const givers = new Set([...npcIds, ...loc.HUB_ANIMALS.map(a => a.id)])
+    const bad = authored.flatMap(q => [
+      ...(givers.has(q.giverNpcId) ? [] : [`${q.id}: giver "${q.giverNpcId}"`]),
+      ...(givers.has(q.receiverNpcId) ? [] : [`${q.id}: receiver "${q.receiverNpcId}"`]),
+    ])
+    expect(bad).toEqual([])
+  })
+
+  it('lists only pickup ids that exist', () => {
+    const bad = authored.flatMap(q =>
+      (q.steps ?? []).flatMap(s => (s.pickupIds ?? [])
+        .filter(id => !pickupIds.has(id))
+        .map(id => `${q.id}/${s.key}: "${id}"`)))
+    expect(bad).toEqual([])
+  })
+
+  it('gates on quests that exist', () => {
+    // checkPrerequisite treats an unknown token as satisfied, so a typo'd
+    // quest id silently ungates the quest instead of failing loudly.
+    const bad = authored.flatMap(q => (q.prerequisite ?? '').split('|')
+      .map(t => t.trim())
+      .filter(t => t.startsWith('quest:') && !questIds.has(t.slice(6)))
+      .map(t => `${q.id}: "${t}"`))
+    expect(bad).toEqual([])
+  })
+
+  it('chains steps and pickups to pickup ids that exist', () => {
+    // A chain pointing at a missing id leaves the chained item permanently
+    // hidden, making the quest impossible to finish.
+    const badSteps = authored.flatMap(q => (q.steps ?? [])
+      .filter(s => s.chain && !pickupIds.has(s.chain))
+      .map(s => `${q.id}/${s.key} step chain: "${s.chain}"`))
+    const badPickups = pickups
+      .filter(p => p.chain && !pickupIds.has(p.chain))
+      .map(p => `${p.id} pickup chain: "${p.chain}"`)
+    expect([...badSteps, ...badPickups]).toEqual([])
+  })
+
+  it('gives every step of a multi-step quest its own progress key', () => {
+    // Progress is stored per step key, so a duplicate key makes two steps share
+    // a counter and complete together.
+    const bad = authored
+      .filter(q => new Set((q.steps ?? []).map(s => s.key)).size !== (q.steps ?? []).length)
+      .map(q => q.id)
+    expect(bad).toEqual([])
+  })
+
+  it('covers every step key when activeDialogue is keyed per step', () => {
+    // getActiveDialogue falls back to the first entry for an unlisted key, so a
+    // missing key shows the wrong hint rather than erroring.
+    const bad = authored.flatMap(q => {
+      if (typeof q.activeDialogue !== 'object' || q.activeDialogue === null) return []
+      const keyed = q.activeDialogue as Record<string, string | undefined>
+      return (q.steps ?? [])
+        .filter(s => !keyed[s.key])
+        .map(s => `${q.id}: no activeDialogue for step "${s.key}"`)
+    })
+    expect(bad).toEqual([])
+  })
+})
