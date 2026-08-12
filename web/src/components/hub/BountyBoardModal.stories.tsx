@@ -41,7 +41,7 @@ export const Default: Story = {
 
 // A fixed date whose daily pool deterministically includes both a single-step
 // 'report' bounty and the multi-step 'fresh-fish-for-the-kitchen' bounty.
-const FISH_DAY = new Date('2026-01-08T12:00:00Z')
+const FISH_DAY = new Date('2026-01-02T12:00:00Z')
 
 export const WithAcceptedBounty: Story = {
   args: {
