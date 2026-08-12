@@ -34,6 +34,7 @@ import { loadHomeLayout } from '../../game/hub/homeLayout'
 import { getFurnitureTileOffsets } from '../../game/hub/furnitureTiles'
 import { getResolvedRoomStyle } from '../../game/hub/roomStyle'
 import { getDoorwayEntryTile } from '../../game/hub/doorwayEntry'
+import { computeInteriorShape, hasUnbrokenTopWall } from '../../game/hub/interiorShape'
 import {
   getPurchasedSlotIds, getRoomSlotDef, buildMainRoomExit, parseSlotBuildingId, synthesizeSlotInterior,
 } from '../../game/hub/houseRooms'
@@ -304,6 +305,11 @@ export function HubTownCanvas({
     let interiorDarkCtx:     CanvasRenderingContext2D | null = null
     let interiorDarkTexture: PIXI.Texture | null = null
     let interiorDarkSprite:  PIXI.Sprite | null = null
+    // T when the overlay was grown to also cover the visual-only crown wall
+    // row rendered above the room (ty=-1, themed rooms with an unbroken top
+    // wall run only); 0 otherwise. Read by the punch-hole ticker below to
+    // keep its avatar/glow coordinates aligned with the sprite's origin.
+    let interiorDarkTopOffset = 0
     let interiorGlowSources: GlowSource[] = []
     // Keep legacy aliases so existing code below compiles unchanged
     const npcLayer    = spriteLayer
@@ -2278,11 +2284,13 @@ export function HubTownCanvas({
       for (const entry of exteriorInteractables.values()) { if (entry.indicator) entry.indicator.visible = false }
       for (const s of npcNameTags) { s.tag.visible = false; s.phase = 'hidden'; s.wasInRange = false; s.bubbleReady = false }
 
+      // Room shape (bounding box minus any carved-out notches) — see
+      // interiorShape.ts. Reproduces a plain rectangle exactly when
+      // interior.carve is absent.
+      const { floorSet: baseFloorSet, wallSet: baseWallSet } = computeInteriorShape(interior.width, interior.height, interior.carve)
+
       // Build walkable set
-      interiorWalkable = new Set<string>()
-      for (let tx = 1; tx < interior.width - 1; tx++)
-        for (let ty = 1; ty < interior.height - 1; ty++)
-          interiorWalkable.add(`${tx},${ty}`)
+      interiorWalkable = new Set<string>(baseFloorSet)
       if (!isSubRoom) interiorWalkable.add(`${exitTx},${interior.height - 1}`)
       for (const d of visibleDecor) {
         if (!d.zlayer || d.zlayer === 'solid') interiorWalkable.delete(`${d.tx},${d.ty}`)
@@ -2301,10 +2309,7 @@ export function HubTownCanvas({
       }
 
       // Floor tile set (all inner tiles + exit door tiles)
-      const floorSet = new Set<string>()
-      for (let tx = 1; tx < interior.width - 1; tx++)
-        for (let ty = 1; ty < interior.height - 1; ty++)
-          floorSet.add(`${tx},${ty}`)
+      const floorSet = new Set<string>(baseFloorSet)
       if (!isSubRoom) floorSet.add(`${exitTx},${interior.height - 1}`)  // exit door opening
       for (const exit of availableExits) {
         if (exit.direction === 'left' || exit.direction === 'right' ||
@@ -2312,15 +2317,7 @@ export function HubTownCanvas({
       }
 
       // Wall tile set (border, minus exit door openings)
-      const wallSet = new Set<string>()
-      for (let tx = 0; tx < interior.width; tx++) {
-        wallSet.add(`${tx},0`)
-        wallSet.add(`${tx},${interior.height - 1}`)
-      }
-      for (let ty = 1; ty < interior.height - 1; ty++) {
-        wallSet.add(`0,${ty}`)
-        wallSet.add(`${interior.width - 1},${ty}`)
-      }
+      const wallSet = new Set<string>(baseWallSet)
       if (!isSubRoom) wallSet.delete(`${exitTx},${interior.height - 1}`)  // open bottom door gap
       for (const exit of availableExits) {
         if (exit.direction === 'left' || exit.direction === 'right' ||
@@ -2336,27 +2333,14 @@ export function HubTownCanvas({
       const floorTileId  = interior.floorTileId ?? 288
       loadTileRef(floorTileId).then(floorTex => {
         if (!interiorActive || currentInteriorId !== buildingId) return
-        for (let tx = 1; tx < interior.width - 1; tx++) {
-          for (let ty = 1; ty < interior.height - 1; ty++) {
-            const s = new PIXI.Sprite(floorTex)
-            s.position.set(tx * T, ty * T)
-            floorContainer.addChild(s)
-          }
-        }
-        // Exit door tile also gets floor (only for ground-level rooms with a bottom door)
-        if (!isSubRoom) {
-          const exitFloor = new PIXI.Sprite(floorTex)
-          exitFloor.position.set(exitTx * T, (interior.height - 1) * T)
-          floorContainer.addChild(exitFloor)
-        }
-        // Wall-gap exits need explicit floor tiles (they're outside the inner loop)
-        for (const exit of availableExits) {
-          if (exit.direction === 'left' || exit.direction === 'right' ||
-              exit.direction === 'front' || exit.direction === 'back') {
-            const s = new PIXI.Sprite(floorTex)
-            s.position.set(exit.tx * T, exit.ty * T)
-            floorContainer.addChild(s)
-          }
+        // floorSet already includes the exit door opening and any wall-gap
+        // exit tiles (added above), so a single pass covers all of it —
+        // and naturally skips any carved-out cells.
+        for (const key of floorSet) {
+          const [tx, ty] = key.split(',').map(Number)
+          const s = new PIXI.Sprite(floorTex)
+          s.position.set(tx * T, ty * T)
+          floorContainer.addChild(s)
         }
       }).catch(() => {
         renderPathTiles(floorContainer, floorSet, undefined, PATH_TILE.dirt1).catch(() => {})
@@ -2378,10 +2362,16 @@ export function HubTownCanvas({
       }
       renderPathTiles(wallContainer, sideWallSet, undefined, PATH_TILE.wall2).catch(() => {})
 
-      if (interior.wallMaterial) {
+      // A carve can break the top wall row into a discontinuous run — only
+      // theme it (and render the visual-only crown row above) when it's
+      // still unbroken end-to-end; a broken run falls back to the generic
+      // tile for the whole row rather than theming part of it.
+      const wallMaterial  = interior.wallMaterial
+      const themedTopRow  = !!wallMaterial && hasUnbrokenTopWall(interior.width, wallSet)
+      if (wallMaterial && themedTopRow) {
         // Bottom row keeps default tile; top row uses middleBottom; a visual-only row above (ty=-1) uses middleTop
         renderPathTiles(wallContainer, new Set([...horizontalWallSet].filter(k => parseInt(k.split(',')[1]) !== 0)), undefined, PATH_TILE.wall2).catch(() => {})
-        const wTiles = WALL_TILES[interior.wallMaterial]
+        const wTiles = WALL_TILES[wallMaterial]
         // ty=0 row → middleBottom; ty=-1 (above room, visual only) → middleTop
         const byTileId = new Map<number, [number, number][]>()
         for (const key of horizontalWallSet) {
@@ -2725,8 +2715,15 @@ export function HubTownCanvas({
       // above. Torn down in doExitInterior; also cleared here defensively in
       // case entry into a new room happens without an intervening exit.
       if (interiorDarkSprite) { interiorLayer.removeChild(interiorDarkSprite); interiorDarkTexture?.destroy(true); interiorDarkSprite = null }
+      interiorDarkTopOffset = 0
       if (interior.dark) {
-        const iw = interior.width * T, ih = interior.height * T
+        // themedTopRow rooms render a purely decorative wall row one tile
+        // above the room (ty=-1, see the wall-render block above) — grow
+        // the overlay by one tile of height at the top only so that row
+        // gets darkened too; every other edge stays exactly at the room's
+        // bounding box.
+        interiorDarkTopOffset = themedTopRow ? T : 0
+        const iw = interior.width * T, ih = interior.height * T + interiorDarkTopOffset
         interiorDarkCanvas = document.createElement('canvas')
         interiorDarkCanvas.width  = Math.ceil(iw / NIGHT_CANVAS_SCALE)
         interiorDarkCanvas.height = Math.ceil(ih / NIGHT_CANVAS_SCALE)
@@ -2735,6 +2732,7 @@ export function HubTownCanvas({
         interiorDarkSprite = new PIXI.Sprite(interiorDarkTexture)
         interiorDarkSprite.width     = iw
         interiorDarkSprite.height    = ih
+        interiorDarkSprite.position.set(0, -interiorDarkTopOffset)
         interiorDarkSprite.eventMode = 'none'
         interiorLayer.addChild(interiorDarkSprite)
       }
@@ -3637,8 +3635,9 @@ export function HubTownCanvas({
         interiorDarkCtx.fillStyle = 'rgba(0,0,0,0.92)'
         interiorDarkCtx.fillRect(0, 0, cw, ch)
         interiorDarkCtx.globalCompositeOperation = 'destination-out'
-        // Avatar torch
-        const ax = avatar.x * cs, ay = avatar.y * cs
+        // Avatar torch — +interiorDarkTopOffset keeps this aligned with the
+        // sprite's origin, which may sit one tile above local y=0 (see setup above)
+        const ax = avatar.x * cs, ay = (avatar.y + interiorDarkTopOffset) * cs
         const innerR = INTERIOR_DARK_INNER * cs, outerR = INTERIOR_DARK_OUTER * cs
         const torchGrad = interiorDarkCtx.createRadialGradient(ax, ay, innerR, ax, ay, outerR)
         torchGrad.addColorStop(0, 'rgba(0,0,0,1)')
@@ -3651,7 +3650,7 @@ export function HubTownCanvas({
         const _glowMs = performance.now()
         const _pulse  = (seed: number) => 0.8 + 0.2 * Math.sin(_glowMs / 500 + seed)
         for (const g of interiorGlowSources) {
-          const gx = g.x * cs, gy = g.y * cs
+          const gx = g.x * cs, gy = (g.y + interiorDarkTopOffset) * cs
           const gr = (g.pulse ? g.radius * _pulse(g.x + g.y) : g.radius) * cs
           const glowGrad = interiorDarkCtx.createRadialGradient(gx, gy, 0, gx, gy, gr)
           glowGrad.addColorStop(0, 'rgba(0,0,0,1)')

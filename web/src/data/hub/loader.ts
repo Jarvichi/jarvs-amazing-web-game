@@ -170,6 +170,10 @@ export interface HubInterior {
    *  glow-flagged decor — a dedicated interior-scoped punch-hole overlay,
    *  independent of the exterior day/night cycle (see HubTownCanvas.tsx). */
   dark?: boolean
+  /** Sub-rectangles subtracted from the width×height box — see
+   *  computeInteriorShape (game/hub/interiorShape.ts), which HubTownCanvas.tsx
+   *  uses to trace the resulting floor/wall sets. */
+  carve?: Array<{ tx: number; ty: number; w: number; h: number }>
 }
 
 /** Visible activity an NPC performs while at a scheduled location. */
@@ -716,6 +720,7 @@ const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
         ambianceId: rawAny.ambianceId as string | undefined,
         playerDecor: rawAny.playerDecor as boolean | undefined,
         dark:        rawAny.dark as boolean | undefined,
+        carve:       rawAny.carve as Array<{ tx: number; ty: number; w: number; h: number }> | undefined,
       } satisfies HubInterior,
     ]
   })
