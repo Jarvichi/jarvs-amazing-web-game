@@ -1837,6 +1837,11 @@ function InteriorInspector({
               </div>
             </Field>
             <Field label="Decor items"><span style={{ color: '#aaa' }}>{interior.decor.length} items</span></Field>
+            <Field label="Carved rects">
+              <span style={{ color: '#aaa' }}>
+                {interior.carve?.length ?? 0} {(interior.carve?.length ?? 0) === 1 ? 'rect' : 'rects'} — use the Carve tool to draw or the Delete tool to remove one
+              </span>
+            </Field>
 
             {/* Exits */}
             <Field label={`Exits (${interior.exits?.length ?? 0})`}>

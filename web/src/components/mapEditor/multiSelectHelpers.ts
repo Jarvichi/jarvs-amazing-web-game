@@ -8,6 +8,7 @@ export function isSameEntityRef(a: SelectedEntity, b: SelectedEntity): boolean {
   if (a.type !== b.type) return false
   if ('index' in a && 'index' in b && (a as {index:number}).index !== (b as {index:number}).index) return false
   if (a.type === 'interiorDecor' && b.type === 'interiorDecor' && a.interiorId !== b.interiorId) return false
+  if (a.type === 'interiorCarve' && b.type === 'interiorCarve' && a.interiorId !== b.interiorId) return false
   if (a.type === 'buildingLevelDecor' && b.type === 'buildingLevelDecor' && a.buildingIndex !== b.buildingIndex) return false
   if (a.type === 'festivalDecor' && b.type === 'festivalDecor' && a.festivalId !== b.festivalId) return false
   return true
@@ -179,6 +180,23 @@ export function applyDeleteEntities(config: RawMapConfig, entities: SelectedEnti
       const room = interiors[roomId]
       if (!room) continue
       interiors = { ...interiors, [roomId]: { ...room, exits: (room.exits ?? []).filter((_, i) => !idxs.has(i)) } }
+    }
+    c = { ...c, interiors }
+  }
+
+  // interiorCarve — group by interiorId
+  const carveRoomMap = new Map<string, Set<number>>()
+  for (const e of entities) {
+    if (e.type !== 'interiorCarve') continue
+    if (!carveRoomMap.has(e.interiorId)) carveRoomMap.set(e.interiorId, new Set())
+    carveRoomMap.get(e.interiorId)!.add(e.index)
+  }
+  if (carveRoomMap.size) {
+    let interiors = { ...c.interiors }
+    for (const [roomId, idxs] of carveRoomMap) {
+      const room = interiors[roomId]
+      if (!room) continue
+      interiors = { ...interiors, [roomId]: { ...room, carve: (room.carve ?? []).filter((_, i) => !idxs.has(i)) } }
     }
     c = { ...c, interiors }
   }

@@ -33,7 +33,7 @@ import { getActiveFestival } from '../../game/hub/hubCalendar'
 import { loadHomeLayout } from '../../game/hub/homeLayout'
 import { getFurnitureTileOffsets } from '../../game/hub/furnitureTiles'
 import { getResolvedRoomStyle } from '../../game/hub/roomStyle'
-import { getDoorwayEntryTile } from '../../game/hub/doorwayEntry'
+import { getDoorwayEntryTile, findExteriorDoorForInterior } from '../../game/hub/doorwayEntry'
 import { computeInteriorShape, hasUnbrokenTopWall } from '../../game/hub/interiorShape'
 import {
   getPurchasedSlotIds, getRoomSlotDef, buildMainRoomExit, parseSlotBuildingId, synthesizeSlotInterior,
@@ -56,6 +56,22 @@ const NIGHT_NPC_LIGHT_R  = 2 * T   // small glow radius around each NPC
 // avatar's own light stays a modest personal bubble instead.
 const INTERIOR_DARK_INNER = 1.5 * T
 const INTERIOR_DARK_OUTER = 3   * T
+
+// Generic flavor lines for tapping an anonymous wandering NPC — these have
+// no authored identity (just one of a town's ambientNpcSprites), so unlike
+// named NPCs there's no dialogue array to draw from. A short, cosmetic-only
+// speech bubble (no dialogue modal, no game-state change) mirrors how
+// procedural ambient animals respond to a tap (see hubAnimals.ts's FLAVOUR).
+const AMBIENT_NPC_FLAVOUR = [
+  'Lovely day for it.',
+  'Mind where you step.',
+  "Can't stop to chat, sorry!",
+  'Have you seen the notice board?',
+  "Busy, busy — you know how it is.",
+  'Watch yourself out there.',
+  'Off to run an errand.',
+  "I'll catch you later!",
+]
 
 // ── Interactable affordance aura ────────────────────────────────────────────
 // A faint pulsing halo drawn behind tap-reactive objects that own visible decor
@@ -1594,6 +1610,12 @@ export function HubTownCanvas({
       // each other if both conditions land on the same NPC at once.
       doorReactionBubble: PIXI.Container | null
       doorReactionTimer:  number
+      // Generic flavor line shown when the player taps this (anonymous,
+      // unauthored) wandering NPC — kept separate from the above so a tap
+      // never clobbers a scared/door reaction, or vice versa.
+      tapBubble:      PIXI.Container | null
+      tapBubbleTimer: number
+      tapLineIdx:     number
     }
 
     const unitNpcs: UnitNpcState[] = []
@@ -1641,7 +1663,13 @@ export function HubTownCanvas({
           scaredBubbleCooldown: 0,
           doorReactionBubble:   null,
           doorReactionTimer:    0,
+          tapBubble:            null,
+          tapBubbleTimer:       0,
+          tapLineIdx:           Math.floor(Math.random() * AMBIENT_NPC_FLAVOUR.length),
         }
+        s.eventMode = 'static'
+        s.cursor    = 'pointer'
+        s.on('pointerdown', (e) => { e.stopPropagation(); showAmbientNpcTapBubble(state) })
         unitNpcs.push(state)
 
         loadAnimFrames(slug, 3)
@@ -1703,7 +1731,16 @@ export function HubTownCanvas({
     // regardless of whether the player is looking), so the leave-timer
     // ticker can find and remove a specific sprite if the player happens to
     // be standing in that exact room when it expires.
-    let interiorVisitorSprites: { record: BuildingVisitor; sprite: PIXI.Sprite }[] = []
+    interface InteriorVisitorSprite {
+      record: BuildingVisitor
+      sprite: PIXI.Sprite
+      // Tap-flavor bubble, same cosmetic-only treatment as exterior ambient
+      // NPCs — added to interiorLayer (not bubbleLayer, which is hidden
+      // while indoors) so it renders in the room.
+      bubble:      PIXI.Container | null
+      bubbleTimer: number
+    }
+    let interiorVisitorSprites: InteriorVisitorSprite[] = []
 
     // Removes an ambient NPC's sprite and any active reaction bubbles, and
     // drops it from unitNpcs — shared by despawn-into-a-building and
@@ -1718,6 +1755,11 @@ export function HubTownCanvas({
         bubbleLayer.removeChild(npc.doorReactionBubble)
         npc.doorReactionBubble = null
         npc.doorReactionTimer = 0
+      }
+      if (npc.tapBubble) {
+        bubbleLayer.removeChild(npc.tapBubble)
+        npc.tapBubble = null
+        npc.tapBubbleTimer = 0
       }
       npc.sprite.parent?.removeChild(npc.sprite)
       const idx = unitNpcs.indexOf(npc)
@@ -1993,7 +2035,13 @@ export function HubTownCanvas({
           scaredBubbleCooldown: 0,
           doorReactionBubble:   null,
           doorReactionTimer:    0,
+          tapBubble:            null,
+          tapBubbleTimer:       0,
+          tapLineIdx:           Math.floor(Math.random() * AMBIENT_NPC_FLAVOUR.length),
         }
+        s.eventMode = 'static'
+        s.cursor    = 'pointer'
+        s.on('pointerdown', (e) => { e.stopPropagation(); showAmbientNpcTapBubble(state) })
         unitNpcs.push(state)
         loadAnimFrames(slug, 3).then(frames => { state.animFrames = frames }).catch(() => {})
       }).catch(() => {})
@@ -2085,10 +2133,11 @@ export function HubTownCanvas({
           interiorLayer.removeChild(avatar)
           avatarLayer.addChild(avatar)
           avatarInInterior = false
-          // A purchased room slot (or any hand-authored sub-room) has no
-          // exterior door of its own — its id is `<mainBuildingId>-<slotId>`,
-          // so fall back to the door of the building whose id prefixes it.
-          const door = HUB_DOORS.find(d => d.buildingId === currentInteriorId)
+          // Prefer tracing the exits graph back to a real door (handles a
+          // cave/dungeon complex of several linked, individually-doorless
+          // rooms); fall back to the id-prefix guess for a purchased room
+          // slot, which isn't in HUB_INTERIORS so has no exits to trace.
+          const door = (currentInteriorId ? findExteriorDoorForInterior(currentInteriorId, HUB_DOORS, HUB_INTERIORS) : undefined)
             ?? HUB_DOORS.find(d => !!currentInteriorId && currentInteriorId.startsWith(`${d.buildingId}-`))
           if (door) {
             avatar.x = door.tx * T + T / 2
@@ -2248,6 +2297,11 @@ export function HubTownCanvas({
           npc.doorReactionBubble = null
           npc.doorReactionTimer = 0
         }
+        if (npc.tapBubble) {
+          bubbleLayer.removeChild(npc.tapBubble)
+          npc.tapBubble = null
+          npc.tapBubbleTimer = 0
+        }
       }
 
       // Prepare interior layer
@@ -2346,37 +2400,42 @@ export function HubTownCanvas({
         renderPathTiles(floorContainer, floorSet, undefined, PATH_TILE.dirt1).catch(() => {})
       })
 
-      // Walls: side columns use default path tiles; top/bottom rows use wallMaterial if set
-      const sideWallSet       = new Set<string>()
-      const horizontalWallSet = new Set<string>()
+      // Walls: a single autotile pass over the WHOLE perimeter. renderPathTiles'
+      // neighbor lookup only sees membership within the one set it's given —
+      // splitting the perimeter across two separate calls (as this used to)
+      // makes each half blind to the other's cells, so a tile right at the
+      // seam picks the wrong variant (e.g. a corner that can't see the
+      // horizontal run it actually connects to renders as a plain vertical
+      // stub instead of a proper corner cap). Only visible at a room's 4
+      // outer corners for a plain rectangle, but at every inner corner of a
+      // carved notch too — unifying into one set/call fixes both.
+      // Every wall cell also gets a purely-visual "+1 row" duplicate above
+      // it, except the columns of a straight top/bottom run (which instead
+      // get their own crown-row treatment below, or nothing extra at all).
+      const isStraightRunCell = (wx: number, wy: number) =>
+        wx > 0 && wx < interior.width - 1 && (wy === 0 || wy === interior.height - 1)
+      const wallRenderSet = new Set<string>(wallSet)
       for (const key of wallSet) {
         const [wx, wy] = key.split(',').map(Number)
-        if (wx > 0 && wx < interior.width - 1 && (wy === 0 || wy === interior.height - 1)) horizontalWallSet.add(key)
-        else {sideWallSet.add(`${wx},${wy-1}`); sideWallSet.add(`${wx},${wy}`)}
+        if (!isStraightRunCell(wx, wy)) wallRenderSet.add(`${wx},${wy - 1}`)
       }
-      // The tile below a left/right exit contributes the exit position to sideWallSet; remove it explicitly
       for (const exit of availableExits) {
-        if (exit.direction === 'left' || exit.direction === 'right') sideWallSet.delete(`${exit.tx},${exit.ty}`)
-        // back exits are at ty=0; the sideWallSet formula adds (wx, -1) and (wx, 0) for ty=0 wall tiles,
-        // but since we deleted (tx, 0) from wallSet before building sideWallSet, nothing to clean up here.
+        if (exit.direction === 'left' || exit.direction === 'right') wallRenderSet.delete(`${exit.tx},${exit.ty}`)
       }
-      renderPathTiles(wallContainer, sideWallSet, undefined, PATH_TILE.wall2).catch(() => {})
+      renderPathTiles(wallContainer, wallRenderSet, undefined, PATH_TILE.wall2).catch(() => {})
 
       // A carve can break the top wall row into a discontinuous run — only
       // theme it (and render the visual-only crown row above) when it's
-      // still unbroken end-to-end; a broken run falls back to the generic
-      // tile for the whole row rather than theming part of it.
+      // still unbroken end-to-end; a broken run keeps the generic tile laid
+      // down above for the whole row rather than theming part of it.
       const wallMaterial  = interior.wallMaterial
       const themedTopRow  = !!wallMaterial && hasUnbrokenTopWall(interior.width, wallSet)
       if (wallMaterial && themedTopRow) {
-        // Bottom row keeps default tile; top row uses middleBottom; a visual-only row above (ty=-1) uses middleTop
-        renderPathTiles(wallContainer, new Set([...horizontalWallSet].filter(k => parseInt(k.split(',')[1]) !== 0)), undefined, PATH_TILE.wall2).catch(() => {})
+        // ty=0 row → middleBottom, drawn over the generic tile already
+        // there; ty=-1 (above room, visual only) → middleTop
         const wTiles = WALL_TILES[wallMaterial]
-        // ty=0 row → middleBottom; ty=-1 (above room, visual only) → middleTop
         const byTileId = new Map<number, [number, number][]>()
-        for (const key of horizontalWallSet) {
-          const [wx, wy] = key.split(',').map(Number)
-          if (wy !== 0) continue
+        for (let wx = 1; wx < interior.width - 1; wx++) {
           const list = byTileId.get(wTiles.middleBottom) ?? []; list.push([wx, 0]); byTileId.set(wTiles.middleBottom, list)
           const topList = byTileId.get(wTiles.middleTop) ?? []; topList.push([wx, -1]); byTileId.set(wTiles.middleTop, topList)
         }
@@ -2391,8 +2450,6 @@ export function HubTownCanvas({
             }
           }).catch(() => {})
         }
-      } else {
-        renderPathTiles(wallContainer, horizontalWallSet, undefined, PATH_TILE.wall2).catch(() => {})
       }
 
       // Decor — split into below (solid/below) and above containers
@@ -2613,7 +2670,18 @@ export function HubTownCanvas({
           s.position.set(spot[0] * T + T / 2, spot[1] * T + T)
           if (record.isGhost) { s.alpha = 0.4; s.tint = 0xaaccff }
           interiorLayer.addChild(s)
-          return { record, sprite: s }
+          const entry: InteriorVisitorSprite = { record, sprite: s, bubble: null, bubbleTimer: 0 }
+          s.eventMode = 'static'
+          s.cursor    = 'pointer'
+          s.on('pointerdown', (e) => {
+            e.stopPropagation()
+            if (entry.bubble) { interiorLayer.removeChild(entry.bubble); entry.bubble = null }
+            const line = AMBIENT_NPC_FLAVOUR[Math.floor(Math.random() * AMBIENT_NPC_FLAVOUR.length)]
+            entry.bubble = createSpeechBubble(line, s.x, s.y)
+            interiorLayer.addChild(entry.bubble)
+            entry.bubbleTimer = 1800
+          })
+          return entry
         })
       }
 
@@ -2840,6 +2908,18 @@ export function HubTownCanvas({
       c.addChild(bg, lbl)
       c.position.set(cx, cy - SPRITE_SIZE - 4)
       return c
+    }
+
+    // Tapping an anonymous wandering NPC shows one cosmetic flavor line —
+    // no dialogue modal, no state — cycling through AMBIENT_NPC_FLAVOUR so
+    // repeat taps on the same NPC don't always show the same line.
+    function showAmbientNpcTapBubble(npc: UnitNpcState): void {
+      if (npc.tapBubble) { bubbleLayer.removeChild(npc.tapBubble); npc.tapBubble = null }
+      const line = AMBIENT_NPC_FLAVOUR[npc.tapLineIdx % AMBIENT_NPC_FLAVOUR.length]
+      npc.tapLineIdx += 1
+      npc.tapBubble = createSpeechBubble(line, npc.sprite.x, npc.sprite.y)
+      bubbleLayer.addChild(npc.tapBubble)
+      npc.tapBubbleTimer = 1800
     }
 
     function createNameTag(name: string, cx: number, cy: number): PIXI.Container {
@@ -3664,6 +3744,18 @@ export function HubTownCanvas({
         interiorDarkTexture.source.update()
       }
 
+      // Interior visitors' tap-flavor bubbles — decay on their own short timer.
+      if (interiorActive) {
+        for (const v of interiorVisitorSprites) {
+          if (!v.bubble) continue
+          v.bubbleTimer -= ticker.deltaMS
+          if (v.bubbleTimer <= 0) {
+            interiorLayer.removeChild(v.bubble)
+            v.bubble = null
+          }
+        }
+      }
+
       // Quest pickup visibility — only show while the associated quest is active
       for (const [pickupId, sprite] of pickupSprites) {
         if (pickedUpRef.current.has(pickupId)) continue
@@ -3744,6 +3836,16 @@ export function HubTownCanvas({
             npc.doorReactionBubble = null
           }
         }
+
+        // Tap-flavor bubble — decays on its own short timer.
+        if (npc.tapBubble) {
+          npc.tapBubbleTimer -= ticker.deltaMS
+          npc.tapBubble.position.set(npc.sprite.x, npc.sprite.y - SPRITE_SIZE)
+          if (npc.tapBubbleTimer <= 0) {
+            bubbleLayer.removeChild(npc.tapBubble)
+            npc.tapBubble = null
+          }
+        }
       }
 
       // Building visitors' stay timer (#2111) — runs regardless of
@@ -3764,7 +3866,9 @@ export function HubTownCanvas({
             if (interiorActive && currentInteriorId === visitBuildingId) {
               const idx = interiorVisitorSprites.findIndex(v => v.record === record)
               if (idx !== -1) {
-                interiorLayer.removeChild(interiorVisitorSprites[idx].sprite)
+                const leaving = interiorVisitorSprites[idx]
+                interiorLayer.removeChild(leaving.sprite)
+                if (leaving.bubble) interiorLayer.removeChild(leaving.bubble)
                 interiorVisitorSprites.splice(idx, 1)
               }
             }

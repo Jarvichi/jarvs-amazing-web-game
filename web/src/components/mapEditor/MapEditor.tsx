@@ -55,7 +55,7 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
     addAnimal, updateAnimal,
     updateTreasure, updateConfig,
     updateArea, updateMapProps, resizeMap,
-    resizeInterior, addInterior, addInteriorExit, updateInteriorProps, updateInteriorExit, removeInteriorExit,
+    resizeInterior, addInterior, addInteriorCarveRect, addInteriorExit, updateInteriorProps, updateInteriorExit, removeInteriorExit,
     addStreet, updateStreetEntry,
     addLockedDoor, updateLockedDoor, deleteLockedDoor,
     undo, redo, markSaved,
@@ -411,6 +411,9 @@ export function MapEditor({ initialMapId = 'ravenwatch', initialFestival = undef
             onAddChickenZone={addChickenZone}
             onAddArea={addArea}
             onAddBuilding={addBuilding}
+            onAddCarveRect={(tx1, ty1, tx2, ty2) => {
+              if (state.activeInteriorId) addInteriorCarveRect(state.activeInteriorId, tx1, ty1, tx2, ty2)
+            }}
             questPickupItems={questDefsData?.pickupItems ?? []}
           />
 

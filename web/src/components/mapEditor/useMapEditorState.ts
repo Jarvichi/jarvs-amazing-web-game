@@ -266,6 +266,15 @@ function applyMove(prevConfig: RawMapConfig, entity: SelectedEntity, tx: number,
     exits[entity.index] = { ...exits[entity.index], tx, ty }
     const interiors = { ...prevConfig.interiors, [entity.interiorId]: { ...interior, exits } }
     newConfig = { ...prevConfig, interiors: syncReciprocalEntryTile(interiors, entity.interiorId, entity.index) }
+  } else if (entity.type === 'interiorCarve' && prevConfig.interiors?.[entity.interiorId]) {
+    const interior = prevConfig.interiors[entity.interiorId]
+    const carve = [...(interior.carve ?? [])]
+    const r = carve[entity.index]
+    if (!r) return prevConfig
+    const dx = tx - r.tx, dy = ty - r.ty
+    if (dx === 0 && dy === 0) return prevConfig
+    carve[entity.index] = { ...r, tx: r.tx + dx, ty: r.ty + dy }
+    newConfig = { ...prevConfig, interiors: { ...prevConfig.interiors, [entity.interiorId]: { ...interior, carve } } }
   }
   return newConfig
 }
@@ -1435,6 +1444,28 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     })
   }, [])
 
+  // Carves a sub-rectangle out of the room's bounding box — see
+  // game/hub/interiorShape.ts, which HubTownCanvas.tsx and this editor's own
+  // renderInterior both use to trace the resulting floor/wall perimeter.
+  const addInteriorCarveRect = useCallback((interiorId: string, tx1: number, ty1: number, tx2: number, ty2: number) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const interior = prevConfig.interiors?.[interiorId]
+      if (!interior) return s
+      const rect = { tx: tx1, ty: ty1, w: tx2 - tx1 + 1, h: ty2 - ty1 + 1 }
+      const carve = [...(interior.carve ?? []), rect]
+      const newIndex = carve.length - 1
+      return {
+        ...s,
+        configData: { ...prevConfig, interiors: { ...prevConfig.interiors, [interiorId]: { ...interior, carve } } },
+        selectedEntities: [{ type: 'interiorCarve' as const, interiorId, index: newIndex }],
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
   const addInteriorExit = useCallback((interiorId: string, exit: InteriorExit) => {
     setState(s => {
       const prevConfig = s.configData
@@ -1799,6 +1830,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch', initialFes
     resizeMap,
     resizeInterior,
     addInterior,
+    addInteriorCarveRect,
     addInteriorExit,
     updateInteriorProps,
     updateInteriorExit,

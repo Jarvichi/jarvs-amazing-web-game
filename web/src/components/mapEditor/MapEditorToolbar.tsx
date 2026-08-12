@@ -72,6 +72,7 @@ const TOOLS: { mode: ToolMode; label: string; title: string }[] = [
   { mode: 'area',        label: '□', title: 'Draw Area' },
   { mode: 'building',    label: '🏛', title: 'Draw Building' },
   { mode: 'buildingWindow', label: '⊞', title: 'Place Window (building view, with a tile selected)' },
+  { mode: 'carve',       label: '⧉', title: 'Carve a notch out of the active interior (interior view only)' },
 ]
 
 export function MapEditorToolbar({

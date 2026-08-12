@@ -16,6 +16,7 @@ import { resolveNpcSprite } from './spriteList'
 import { isSameEntityRef } from './multiSelectHelpers'
 import { getScheduledLocation } from './npcSchedulePreview'
 import { isStairsEntryStale } from '../../game/hub/doorwayEntry'
+import { computeInteriorShape } from '../../game/hub/interiorShape'
 
 const T           = 32
 const INTERIOR_PAD = 10  // tiles of surrounding space around active room in interior view
@@ -109,6 +110,7 @@ interface Props {
   onAddChickenZone:   (tx1: number, ty1: number, tx2: number, ty2: number) => void
   onAddArea:           (tx1: number, ty1: number, tx2: number, ty2: number) => void
   onAddBuilding:       (tx1: number, ty1: number, tx2: number, ty2: number) => void
+  onAddCarveRect:      (tx1: number, ty1: number, tx2: number, ty2: number) => void
   onPlaceBuildingDoor: (buildingIndex: number, absTx: number, absTy: number) => void
   onPlaceBuildingWindow: (buildingIndex: number, absTx: number, absTy: number, tileId: string) => void
   showQuestItems:     boolean
@@ -158,7 +160,7 @@ export function MapEditorCanvas(props: Props) {
 
   // Clear rect draw when tool switches away from a rect-draw tool
   useEffect(() => {
-    const rectTools: ToolMode[] = ['street', 'pond', 'bridge', 'chickenZone', 'area', 'building']
+    const rectTools: ToolMode[] = ['street', 'pond', 'bridge', 'chickenZone', 'area', 'building', 'carve']
     if (!rectTools.includes(tool)) {
       rectDrawRef.current = null
       setRectPreview(null)
@@ -274,6 +276,9 @@ export function MapEditorCanvas(props: Props) {
       } else if (vm !== 'building' && (t === 'street' || t === 'pond' || t === 'bridge' || t === 'chickenZone' || t === 'area' || t === 'building')) {
         rectDrawRef.current = { startTx: tx, startTy: ty, lastTx: tx, lastTy: ty }
         setRectPreviewRef.current({ sx: tx, sy: ty, ex: tx, ey: ty })
+      } else if (t === 'carve' && vm === 'interior' && iid) {
+        rectDrawRef.current = { startTx: tx, startTy: ty, lastTx: tx, lastTy: ty }
+        setRectPreviewRef.current({ sx: tx, sy: ty, ex: tx, ey: ty })
       } else if (t === 'spawn') {
         propsRef.current.onAddNpcSpawnTile(tx, ty)
       }
@@ -326,6 +331,7 @@ export function MapEditorCanvas(props: Props) {
         else if (t === 'chickenZone') propsRef.current.onAddChickenZone(tx1, ty1, tx2, ty2)
         else if (t === 'area')        propsRef.current.onAddArea(tx1, ty1, tx2, ty2)
         else if (t === 'building')    propsRef.current.onAddBuilding(tx1, ty1, tx2, ty2)
+        else if (t === 'carve')       propsRef.current.onAddCarveRect(tx1, ty1, tx2, ty2)
         rectDrawRef.current = null
         setRectPreviewRef.current(null)
       }
@@ -419,11 +425,12 @@ export function MapEditorCanvas(props: Props) {
     drawSelection(selLayer)
 
     // Rect draw preview — drawn above all other layers
-    if (!isInterior && rectPreview) {
+    if ((!isInterior || tool === 'carve') && rectPreview) {
       const { sx, sy, ex, ey } = rectPreview
       const pvGfx = new PIXI.Graphics()
+      const previewColor = tool === 'carve' ? 0xdd3333 : STREET_COLOR
       pvGfx.rect(sx * T, sy * T, (ex - sx + 1) * T, (ey - sy + 1) * T)
-        .fill({ color: STREET_COLOR, alpha: 0.4 })
+        .fill({ color: previewColor, alpha: 0.4 })
         .stroke({ color: 0xf0c040, width: 2 })
       worldContainer.addChild(pvGfx)
     }
@@ -761,15 +768,13 @@ export function MapEditorCanvas(props: Props) {
     return gapSet
   }
 
-  function drawWallsWithGaps(gfx: PIXI.Graphics, width: number, height: number, color: number, gapSet: Set<string>) {
-    for (let tx = 0; tx < width; tx++) {
-      if (!gapSet.has(`${tx},0`))          gfx.rect(tx * T, 0,              T, T).fill(color)
-      if (!gapSet.has(`${tx},1`))          gfx.rect(tx * T, T,              T, T).fill(color)
-      if (!gapSet.has(`${tx},${height-1}`)) gfx.rect(tx * T, (height-1) * T, T, T).fill(color)
-    }
-    for (let ty = 2; ty < height - 1; ty++) {
-      if (!gapSet.has(`0,${ty}`))           gfx.rect(0,              ty * T, T, T).fill(color)
-      if (!gapSet.has(`${width-1},${ty}`))  gfx.rect((width-1) * T, ty * T, T, T).fill(color)
+  // Draws every cell in `wallSet` (from computeInteriorShape — the room's
+  // actual, possibly-carved wall perimeter) that isn't a doorway gap.
+  function drawWallsWithGaps(gfx: PIXI.Graphics, wallSet: Set<string>, color: number, gapSet: Set<string>) {
+    for (const key of wallSet) {
+      if (gapSet.has(key)) continue
+      const [tx, ty] = key.split(',').map(Number)
+      gfx.rect(tx * T, ty * T, T, T).fill(color)
     }
   }
 
@@ -779,6 +784,7 @@ export function MapEditorCanvas(props: Props) {
     width: number,
     container: PIXI.Container,
     gapSet: Set<string>,
+    wallSet: Set<string>,
   ) {
     if (!wallTileId) return
     const wTiles = WALL_TILES[wallTileId as WallMaterial]
@@ -786,6 +792,9 @@ export function MapEditorCanvas(props: Props) {
     const byTile = new Map<number, [number, number][]>()
     for (let tx = 0; tx < width; tx++) {
       if (gapSet.has(`${tx},0`)) continue
+      // A carve that breaks the top row here just skips themed art for that
+      // column, same fallback-to-generic idea HubTownCanvas.tsx uses at runtime.
+      if (!wallSet.has(`${tx},0`)) continue
       const faceId = tx === 0 ? wTiles.leftBottom : tx === width - 1 ? wTiles.rightBottom : wTiles.middleBottom
       const crownId = tx === 0 ? wTiles.leftTop   : tx === width - 1 ? wTiles.rightTop   : wTiles.middleTop
       ;(byTile.get(faceId)  ?? (byTile.set(faceId,  []), byTile.get(faceId)!)).push([tx,  0])
@@ -808,24 +817,25 @@ export function MapEditorCanvas(props: Props) {
     const bg = new PIXI.Graphics()
     bg.rect(0, 0, width * T, height * T).fill(0x5a4a3a)
     container.addChild(bg)
+    const { floorSet, wallSet } = computeInteriorShape(width, height, room.carve)
     if (room.floorTileId) {
       const fid = tileNumericId(room.floorTileId)
       loadTileRef(fid).then(tex => {
         if (renderVersionRef.current !== version) return
-        for (let tx = 0; tx < width; tx++)
-          for (let ty = 0; ty < height; ty++) {
-            const sp = new PIXI.Sprite(tex)
-            sp.x = tx * T; sp.y = ty * T
-            container.addChild(sp)
-          }
+        for (const key of floorSet) {
+          const [tx, ty] = key.split(',').map(Number)
+          const sp = new PIXI.Sprite(tex)
+          sp.x = tx * T; sp.y = ty * T
+          container.addChild(sp)
+        }
       }).catch(() => {})
     }
     const gapSet = buildGapSet(width, height, room.exits)
     const wallColor = room.wallTileId ? (WALL_COLORS[room.wallTileId] ?? 0x3a3a4a) : 0x3a3a4a
     const wallGfx = new PIXI.Graphics()
-    drawWallsWithGaps(wallGfx, width, height, wallColor, gapSet)
+    drawWallsWithGaps(wallGfx, wallSet, wallColor, gapSet)
     container.addChild(wallGfx)
-    renderWallMaterial(version, room.wallTileId, width, container, gapSet)
+    renderWallMaterial(version, room.wallTileId, width, container, gapSet, wallSet)
   }
 
   // ── Building editor rendering ──────────────────────────────────────────────────
@@ -1041,20 +1051,28 @@ export function MapEditorCanvas(props: Props) {
 
     // Compute gapSet before async floor load so the closure can use it
     const gapSet = buildGapSet(width, height, interior.exits)
+    // Room shape (bounding box minus any carve rects) — same computation
+    // HubTownCanvas.tsx uses at runtime, so a carve drawn here previews
+    // exactly what the room will actually look like in-game.
+    const { floorSet, wallSet } = computeInteriorShape(width, height, interior.carve)
 
-    // Floor tiles — skip wall-edge positions unless they're a doorway gap
+    // Floor tiles — one sprite per floorSet cell, plus any doorway gap tiles
     if (interior.floorTileId) {
       const fid = tileNumericId(interior.floorTileId)
       loadTileRef(fid).then(tex => {
         if (renderVersionRef.current !== version) return
-        for (let tx = 0; tx < width; tx++) {
-          for (let ty = 0; ty < height; ty++) {
-            const isEdge = ty <= 1 || ty >= height - 1 || tx === 0 || tx === width - 1
-            if (isEdge && !gapSet.has(`${tx},${ty}`)) continue
-            const sp = new PIXI.Sprite(tex)
-            sp.x = tx * T; sp.y = ty * T
-            groundLayer.addChild(sp)
-          }
+        for (const key of floorSet) {
+          const [tx, ty] = key.split(',').map(Number)
+          const sp = new PIXI.Sprite(tex)
+          sp.x = tx * T; sp.y = ty * T
+          groundLayer.addChild(sp)
+        }
+        for (const key of gapSet) {
+          if (floorSet.has(key)) continue
+          const [tx, ty] = key.split(',').map(Number)
+          const sp = new PIXI.Sprite(tex)
+          sp.x = tx * T; sp.y = ty * T
+          groundLayer.addChild(sp)
         }
       }).catch(() => {})
     }
@@ -1062,9 +1080,23 @@ export function MapEditorCanvas(props: Props) {
     // Walls with gaps at directional exits
     const wallColor = interior.wallTileId ? (WALL_COLORS[interior.wallTileId] ?? 0x3a3a4a) : 0x3a3a4a
     const wallGfx = new PIXI.Graphics()
-    drawWallsWithGaps(wallGfx, width, height, wallColor, gapSet)
+    drawWallsWithGaps(wallGfx, wallSet, wallColor, gapSet)
     groundLayer.addChild(wallGfx)
-    renderWallMaterial(version, interior.wallTileId, width, groundLayer, gapSet)
+    renderWallMaterial(version, interior.wallTileId, width, groundLayer, gapSet, wallSet)
+
+    // Carve rects overlay — selectable/deletable like any other authored
+    // rectangle entity (area, chickenZone, …).
+    ;(interior.carve ?? []).forEach((rect, carveIdx) => {
+      const isSel = isEntitySelected({ type: 'interiorCarve', interiorId: iid, index: carveIdx })
+      const gfx = new PIXI.Graphics()
+      gfx.rect(rect.tx * T, rect.ty * T, rect.w * T, rect.h * T)
+        .fill({ color: 0xdd3333, alpha: isSel ? 0.28 : 0.16 })
+        .stroke({ color: isSel ? 0xf0c040 : 0xdd3333, width: isSel ? 2 : 1 })
+      gfx.eventMode = 'static'; gfx.cursor = 'pointer'
+      gfx.on('pointerdown', (e: PIXI.FederatedPointerEvent) =>
+        handleEntityPointerDown(e, { type: 'interiorCarve', interiorId: iid, index: carveIdx }, rect.tx, rect.ty))
+      groundLayer.addChild(gfx)
+    })
 
     // Outlined markers on up/down exit tiles — clickable & draggable like any
     // other interior entity, so their tx/ty (and via syncReciprocalEntryTile,
@@ -1709,6 +1741,12 @@ function hitTest(
       if ((exits[i].direction === 'up' || exits[i].direction === 'down') && exits[i].tx === tx && exits[i].ty === ty)
         return { type: 'interiorExit', index: i, interiorId: activeInteriorId }
     }
+    const carve = cfg.interiors?.[activeInteriorId]?.carve ?? []
+    for (let i = carve.length - 1; i >= 0; i--) {
+      const r = carve[i]
+      if (tx >= r.tx && tx < r.tx + r.w && ty >= r.ty && ty < r.ty + r.h)
+        return { type: 'interiorCarve', index: i, interiorId: activeInteriorId }
+    }
     if (showInteractables) {
       const interactables = cfg.interactables ?? []
       for (let i = interactables.length - 1; i >= 0; i--) {
@@ -1837,6 +1875,7 @@ function getEntityTx(cfg: RawMapConfig, entity: SelectedEntity, questPickupItems
   if (entity.type === 'animal') return cfg.animals?.[entity.index]?.tx ?? 0
   if (entity.type === 'interiorDecor') return cfg.interiors?.[entity.interiorId]?.decor[entity.index]?.tx ?? 0
   if (entity.type === 'interiorExit') return cfg.interiors?.[entity.interiorId]?.exits?.[entity.index]?.tx ?? 0
+  if (entity.type === 'interiorCarve') return cfg.interiors?.[entity.interiorId]?.carve?.[entity.index]?.tx ?? 0
   if (entity.type === 'buildingLevelDecor') return cfg.buildings?.[entity.buildingIndex]?.levelDecor?.[entity.index]?.tx ?? 0
   if (entity.type === 'buildingDecor') {
     const b = cfg.buildings?.[entity.buildingIndex]
@@ -1897,6 +1936,7 @@ function getEntityTy(cfg: RawMapConfig, entity: SelectedEntity, questPickupItems
   if (entity.type === 'animal') return cfg.animals?.[entity.index]?.ty ?? 0
   if (entity.type === 'interiorDecor') return cfg.interiors?.[entity.interiorId]?.decor[entity.index]?.ty ?? 0
   if (entity.type === 'interiorExit') return cfg.interiors?.[entity.interiorId]?.exits?.[entity.index]?.ty ?? 0
+  if (entity.type === 'interiorCarve') return cfg.interiors?.[entity.interiorId]?.carve?.[entity.index]?.ty ?? 0
   if (entity.type === 'buildingLevelDecor') return cfg.buildings?.[entity.buildingIndex]?.levelDecor?.[entity.index]?.ty ?? 0
   if (entity.type === 'buildingDecor') {
     const b = cfg.buildings?.[entity.buildingIndex]
