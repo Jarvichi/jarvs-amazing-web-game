@@ -2429,7 +2429,7 @@ export function HubTownCanvas({
       // still unbroken end-to-end; a broken run keeps the generic tile laid
       // down above for the whole row rather than theming part of it.
       const wallMaterial  = interior.wallMaterial
-      const themedTopRow  = !!wallMaterial && hasUnbrokenTopWall(interior.width, wallSet)
+      const themedTopRow  = !!wallMaterial && hasUnbrokenTopWall(interior.width, baseFloorSet)
       if (wallMaterial && themedTopRow) {
         // ty=0 row → middleBottom, drawn over the generic tile already
         // there; ty=-1 (above room, visual only) → middleTop
