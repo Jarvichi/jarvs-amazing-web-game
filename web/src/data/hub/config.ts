@@ -151,6 +151,12 @@ export interface RawInterior {
   playerDecor?: boolean
   /** Render this room unlit except near the avatar's torch and glow-flagged decor. */
   dark?: boolean
+  /** Sub-rectangles (local tile coords) subtracted from the room's
+   *  width×height bounding box, carving an L-shape/notch out of an
+   *  otherwise-rectangular room. A carved edge that breaks a themed
+   *  wallTileId's top wall run falls back to the generic wall tile for
+   *  that whole run — no map-editor UI yet, hand-author and verify in-game. */
+  carve?: Array<{ tx: number; ty: number; w: number; h: number }>
 }
 
 

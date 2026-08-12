@@ -10317,9 +10317,10 @@
       "floorTileId": "darkStoneFloor",
       "wallTileId": "darkStone",
       "dark": true,
+      "carve": [{ "tx": 6, "ty": 0, "w": 4, "h": 3 }],
       "decor": [
         { "tx": 2, "ty": 1, "tileId": "largeRock" },
-        { "tx": 8, "ty": 1, "tileId": "smallRock" },
+        { "tx": 8, "ty": 3, "tileId": "smallRock" },
         { "tx": 2, "ty": 6, "tileId": "smallRock" },
         { "tx": 7, "ty": 6, "tileId": "largeRock" },
         { "tx": 5, "ty": 3, "tileId": "floorLantern", "glow": true, "glowRadius": 2 },

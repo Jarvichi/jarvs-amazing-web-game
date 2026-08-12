@@ -3,6 +3,7 @@ import { createHubLocationData, createHubQuestData } from './loader'
 import type { RawConfig } from './config'
 import type { RawQuestConfig } from './questDefs'
 import { buildingWorldTile, pickupWorldTile } from '../../game/hub/npcLocator'
+import { computeInteriorShape } from '../../game/hub/interiorShape'
 import { getHubWorldData } from './hubWorldFactory'
 import ravenwatchConfig from './ravenwatch/config.json'
 import ravenwatchQuests from './ravenwatch/questDefs.json'
@@ -60,15 +61,18 @@ describe('Ravenwatch quest pickups', () => {
     expect(bad.map(p => `${p.id} @ ${p.building}`)).toEqual([])
   })
 
-  it('keeps indoor items off the interior wall ring so they stay reachable', () => {
-    // Interiors are walkable on 1..width-2 / 1..height-2 (HubTownCanvas builds the
-    // walkable set that way); the outer ring is wall.
-    const inWall = interior.filter(p => {
+  it('keeps indoor items on actual floor so they stay reachable', () => {
+    // computeInteriorShape's floorSet is the walkable interior — the wall
+    // ring for a plain rectangle, but also excludes any tile carved out by
+    // room.carve (HubInterior.carve), which the old width/height-ring-only
+    // arithmetic here wouldn't have caught.
+    const offFloor = interior.filter(p => {
       const room = loc.HUB_INTERIORS[p.building!]
       if (!room) return false
-      return p.tx < 1 || p.ty < 1 || p.tx > room.width - 2 || p.ty > room.height - 2
+      const { floorSet } = computeInteriorShape(room.width, room.height, room.carve)
+      return !floorSet.has(`${p.tx},${p.ty}`)
     })
-    expect(inWall.map(p => `${p.id} @ ${p.building} (${p.tx},${p.ty})`)).toEqual([])
+    expect(offFloor.map(p => `${p.id} @ ${p.building} (${p.tx},${p.ty})`)).toEqual([])
   })
 })
 
