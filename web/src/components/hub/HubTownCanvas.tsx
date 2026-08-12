@@ -33,7 +33,7 @@ import { getActiveFestival } from '../../game/hub/hubCalendar'
 import { loadHomeLayout } from '../../game/hub/homeLayout'
 import { getFurnitureTileOffsets } from '../../game/hub/furnitureTiles'
 import { getResolvedRoomStyle } from '../../game/hub/roomStyle'
-import { getDoorwayEntryTile } from '../../game/hub/doorwayEntry'
+import { getDoorwayEntryTile, findExteriorDoorForInterior } from '../../game/hub/doorwayEntry'
 import { computeInteriorShape, hasUnbrokenTopWall } from '../../game/hub/interiorShape'
 import {
   getPurchasedSlotIds, getRoomSlotDef, buildMainRoomExit, parseSlotBuildingId, synthesizeSlotInterior,
@@ -2133,10 +2133,11 @@ export function HubTownCanvas({
           interiorLayer.removeChild(avatar)
           avatarLayer.addChild(avatar)
           avatarInInterior = false
-          // A purchased room slot (or any hand-authored sub-room) has no
-          // exterior door of its own — its id is `<mainBuildingId>-<slotId>`,
-          // so fall back to the door of the building whose id prefixes it.
-          const door = HUB_DOORS.find(d => d.buildingId === currentInteriorId)
+          // Prefer tracing the exits graph back to a real door (handles a
+          // cave/dungeon complex of several linked, individually-doorless
+          // rooms); fall back to the id-prefix guess for a purchased room
+          // slot, which isn't in HUB_INTERIORS so has no exits to trace.
+          const door = (currentInteriorId ? findExteriorDoorForInterior(currentInteriorId, HUB_DOORS, HUB_INTERIORS) : undefined)
             ?? HUB_DOORS.find(d => !!currentInteriorId && currentInteriorId.startsWith(`${d.buildingId}-`))
           if (door) {
             avatar.x = door.tx * T + T / 2
@@ -2399,37 +2400,42 @@ export function HubTownCanvas({
         renderPathTiles(floorContainer, floorSet, undefined, PATH_TILE.dirt1).catch(() => {})
       })
 
-      // Walls: side columns use default path tiles; top/bottom rows use wallMaterial if set
-      const sideWallSet       = new Set<string>()
-      const horizontalWallSet = new Set<string>()
+      // Walls: a single autotile pass over the WHOLE perimeter. renderPathTiles'
+      // neighbor lookup only sees membership within the one set it's given —
+      // splitting the perimeter across two separate calls (as this used to)
+      // makes each half blind to the other's cells, so a tile right at the
+      // seam picks the wrong variant (e.g. a corner that can't see the
+      // horizontal run it actually connects to renders as a plain vertical
+      // stub instead of a proper corner cap). Only visible at a room's 4
+      // outer corners for a plain rectangle, but at every inner corner of a
+      // carved notch too — unifying into one set/call fixes both.
+      // Every wall cell also gets a purely-visual "+1 row" duplicate above
+      // it, except the columns of a straight top/bottom run (which instead
+      // get their own crown-row treatment below, or nothing extra at all).
+      const isStraightRunCell = (wx: number, wy: number) =>
+        wx > 0 && wx < interior.width - 1 && (wy === 0 || wy === interior.height - 1)
+      const wallRenderSet = new Set<string>(wallSet)
       for (const key of wallSet) {
         const [wx, wy] = key.split(',').map(Number)
-        if (wx > 0 && wx < interior.width - 1 && (wy === 0 || wy === interior.height - 1)) horizontalWallSet.add(key)
-        else {sideWallSet.add(`${wx},${wy-1}`); sideWallSet.add(`${wx},${wy}`)}
+        if (!isStraightRunCell(wx, wy)) wallRenderSet.add(`${wx},${wy - 1}`)
       }
-      // The tile below a left/right exit contributes the exit position to sideWallSet; remove it explicitly
       for (const exit of availableExits) {
-        if (exit.direction === 'left' || exit.direction === 'right') sideWallSet.delete(`${exit.tx},${exit.ty}`)
-        // back exits are at ty=0; the sideWallSet formula adds (wx, -1) and (wx, 0) for ty=0 wall tiles,
-        // but since we deleted (tx, 0) from wallSet before building sideWallSet, nothing to clean up here.
+        if (exit.direction === 'left' || exit.direction === 'right') wallRenderSet.delete(`${exit.tx},${exit.ty}`)
       }
-      renderPathTiles(wallContainer, sideWallSet, undefined, PATH_TILE.wall2).catch(() => {})
+      renderPathTiles(wallContainer, wallRenderSet, undefined, PATH_TILE.wall2).catch(() => {})
 
       // A carve can break the top wall row into a discontinuous run — only
       // theme it (and render the visual-only crown row above) when it's
-      // still unbroken end-to-end; a broken run falls back to the generic
-      // tile for the whole row rather than theming part of it.
+      // still unbroken end-to-end; a broken run keeps the generic tile laid
+      // down above for the whole row rather than theming part of it.
       const wallMaterial  = interior.wallMaterial
       const themedTopRow  = !!wallMaterial && hasUnbrokenTopWall(interior.width, wallSet)
       if (wallMaterial && themedTopRow) {
-        // Bottom row keeps default tile; top row uses middleBottom; a visual-only row above (ty=-1) uses middleTop
-        renderPathTiles(wallContainer, new Set([...horizontalWallSet].filter(k => parseInt(k.split(',')[1]) !== 0)), undefined, PATH_TILE.wall2).catch(() => {})
+        // ty=0 row → middleBottom, drawn over the generic tile already
+        // there; ty=-1 (above room, visual only) → middleTop
         const wTiles = WALL_TILES[wallMaterial]
-        // ty=0 row → middleBottom; ty=-1 (above room, visual only) → middleTop
         const byTileId = new Map<number, [number, number][]>()
-        for (const key of horizontalWallSet) {
-          const [wx, wy] = key.split(',').map(Number)
-          if (wy !== 0) continue
+        for (let wx = 1; wx < interior.width - 1; wx++) {
           const list = byTileId.get(wTiles.middleBottom) ?? []; list.push([wx, 0]); byTileId.set(wTiles.middleBottom, list)
           const topList = byTileId.get(wTiles.middleTop) ?? []; topList.push([wx, -1]); byTileId.set(wTiles.middleTop, topList)
         }
@@ -2444,8 +2450,6 @@ export function HubTownCanvas({
             }
           }).catch(() => {})
         }
-      } else {
-        renderPathTiles(wallContainer, horizontalWallSet, undefined, PATH_TILE.wall2).catch(() => {})
       }
 
       // Decor — split into below (solid/below) and above containers

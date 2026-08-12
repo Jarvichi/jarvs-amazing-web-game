@@ -57,3 +57,34 @@ export function isStairsEntryStale(
   if (!rev) return false
   return exit.entryTx !== rev.tx || exit.entryTy !== rev.ty
 }
+
+export interface DoorLike {
+  buildingId: string
+}
+
+/** Traces a multi-room complex's exits graph (breadth-first, so the nearest
+ *  door wins) to find the room that actually owns an exterior door. Many
+ *  complexes — a cave with several linked passages, a building's upstairs
+ *  office — have exactly one room with a door of its own; the rest are only
+ *  reachable via each other's `exits`, not via any door directly on them.
+ *  Used to land the player back at the right spot on exiting to the
+ *  exterior from any room in the complex, not just the one with the door. */
+export function findExteriorDoorForInterior<D extends DoorLike>(
+  startId: string,
+  doors: D[],
+  interiors: Record<string, { exits?: ExitLike[] }> | undefined,
+): D | undefined {
+  const visited = new Set<string>()
+  const queue = [startId]
+  while (queue.length > 0) {
+    const id = queue.shift()!
+    if (visited.has(id)) continue
+    visited.add(id)
+    const door = doors.find(d => d.buildingId === id)
+    if (door) return door
+    for (const exit of interiors?.[id]?.exits ?? []) {
+      if (!visited.has(exit.toInteriorId)) queue.push(exit.toInteriorId)
+    }
+  }
+  return undefined
+}
