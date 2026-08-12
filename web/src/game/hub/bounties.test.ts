@@ -16,11 +16,13 @@ import {
   isBountyCollectPickup,
   reconcileBountyPickups,
   getActiveBountyStepHint,
+  __setBountyNowOverride,
 } from './bounties'
 import { saveCrystals, loadCrystals } from '../collection'
 import { markPickedUp, isPickedUp } from './pickups'
 import { addRelationshipPoints, getRelationship } from './relationships'
 import { getFriendshipLevel } from './friendship'
+import { recordNpcMet } from './journal'
 
 // In-memory localStorage mock (tests run in node environment)
 const store = new Map<string, string>()
@@ -322,5 +324,99 @@ describe('getActiveBountyStepHint', () => {
     acceptBounty(reportBounty.id)
     completeAllSteps(reportBounty.id)
     expect(getActiveBountyStepHint(reportBounty, id => id)).toBeNull()
+  })
+})
+
+describe('procedural bounties', () => {
+  // Scans a wide date spread so the seeded RNG's pool draw is exercised many
+  // times — matches the pattern the relationship-gated-bounty test already uses.
+  function anyOffered(prefix: string): boolean {
+    for (let day = 1; day <= 90; day++) {
+      if (getDailyBounties(new Date(2027, 0, day)).some(b => b.id.startsWith(prefix))) return true
+    }
+    return false
+  }
+
+  it('never offers a visit/deliver bounty when no NPC has been met', () => {
+    expect(anyOffered('visit:')).toBe(false)
+    expect(anyOffered('deliver:')).toBe(false)
+  })
+
+  it('offers a visit bounty for a met, errand-eligible NPC', () => {
+    recordNpcMet('whistlebone')
+    expect(anyOffered('visit:whistlebone')).toBe(true)
+  })
+
+  it('never offers a visit bounty for an NPC already covered by a hand-authored bounty', () => {
+    recordNpcMet('elder') // targeted by the hand-authored 'clear-the-ratcatchers-debt'
+    expect(anyOffered('visit:elder')).toBe(false)
+  })
+
+  it('offers a deliver bounty between two met NPCs, but not before both are met', () => {
+    recordNpcMet('whistlebone')
+    expect(anyOffered('deliver:whistlebone:')).toBe(false)
+    recordNpcMet('gildwyn')
+    expect(anyOffered('deliver:whistlebone:gildwyn') || anyOffered('deliver:gildwyn:whistlebone')).toBe(true)
+  })
+
+  // findBountyDef regenerates a procedural bounty purely from its id (not
+  // from "is it in today's rotation"), so the full accept/advance/turn-in
+  // flow works by constructing the id directly — no date-scanning needed.
+  it('runs a visit bounty end-to-end via a directly-constructed id', () => {
+    saveCrystals(0)
+    const id = 'visit:whistlebone'
+    acceptBounty(id)
+    expect(getActiveBountyStep(id)?.targetNpcId).toBe('whistlebone')
+    advanceBountyStep(id)
+    expect(getActiveBountyStep(id)).toBeNull()
+    expect(turnInBounty(id)).toBe(20)
+    expect(loadCrystals()).toBe(20)
+    expect(isBountyCompleted(id)).toBe(true)
+  })
+
+  it('runs a deliver bounty end-to-end via a directly-constructed id', () => {
+    saveCrystals(0)
+    const id = 'deliver:whistlebone:gildwyn'
+    acceptBounty(id)
+    expect(getActiveBountyStep(id)?.targetNpcId).toBe('whistlebone')
+    advanceBountyStep(id) // picked up from whistlebone
+    expect(getActiveBountyStep(id)?.targetNpcId).toBe('gildwyn')
+    advanceBountyStep(id) // delivered to gildwyn
+    expect(getActiveBountyStep(id)).toBeNull()
+    expect(turnInBounty(id)).toBe(35)
+    expect(loadCrystals()).toBe(35)
+  })
+
+  // getPendingBountyReport only looks at *today's* rotation (see its own
+  // doc comment), so this needs an actually-offered bounty, not a
+  // directly-constructed id — find a day the RNG offers this exact pair.
+  it('getPendingBountyReport resolves an offered deliver bounty to each step\'s NPC in order', () => {
+    recordNpcMet('whistlebone')
+    recordNpcMet('gildwyn')
+    let offerDay: Date | null = null
+    let deliverId: string | null = null
+    for (let day = 1; day <= 90 && !offerDay; day++) {
+      const d = new Date(2027, 1, day)
+      const found = getDailyBounties(d).find(b => b.id.startsWith('deliver:whistlebone:gildwyn') || b.id.startsWith('deliver:gildwyn:whistlebone'))
+      if (found) { offerDay = d; deliverId = found.id }
+    }
+    expect(offerDay).not.toBeNull()
+    __setBountyNowOverride(offerDay!)
+    const [fromId, toId] = deliverId!.slice('deliver:'.length).split(':')
+    acceptBounty(deliverId!)
+    expect(getPendingBountyReport(fromId)?.id).toBe(deliverId)
+    expect(getPendingBountyReport(toId)).toBeNull()
+    advanceBountyStep(deliverId!)
+    expect(getPendingBountyReport(fromId)).toBeNull()
+    expect(getPendingBountyReport(toId)?.id).toBe(deliverId)
+    __setBountyNowOverride(undefined)
+  })
+
+  it('findBountyDef rejects a garbage procedural-looking id instead of fabricating a bounty', () => {
+    const id = 'visit:not-a-real-npc'
+    acceptBounty(id)
+    // No def resolves for this id, so nothing ever becomes active or turns in.
+    expect(getActiveBountyStep(id)).toBeNull()
+    expect(turnInBounty(id)).toBe(0)
   })
 })

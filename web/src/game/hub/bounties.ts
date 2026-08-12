@@ -12,6 +12,8 @@ import type { HubQuestStep, RelationshipGrant } from '../../data/hub/questDefs'
 import { addFriendshipXp, getFriendshipLevel } from './friendship'
 import { getRelationship, grantRelationshipWithRivalry, type RivalNpc } from './relationships'
 import { hashStr, makeSeededRng } from '../seededRandom'
+import { hasMetNpc } from './journal'
+import ravenwatchConfig from '../../data/hub/ravenwatch/config.json'
 
 const KEY = 'jarv_hub_bounties'
 
@@ -111,6 +113,107 @@ const BOUNTY_TEMPLATES: BountyDef[] = [
 
 const BOUNTIES_PER_DAY = 3
 
+// ── Procedural bounties ─────────────────────────────────────────────────────
+//
+// "Check on <npc>" and "deliver a parcel from <npc> to <npc>" errands,
+// generated from Ravenwatch's own NPC roster and gated on hasMetNpc() so a
+// generated bounty is never impossible — met status only ever grows, never
+// shrinks, so an offered/accepted procedural bounty stays completable.
+//
+// These aren't stored anywhere: a procedural id (see PROCEDURAL_ID_RE below)
+// fully describes its bounty, so findBountyDef can regenerate the identical
+// BountyDef from the id alone at any time (accept/progress/turn-in all
+// re-resolve bounties by id, same as the hand-authored ones).
+
+// screen ids that open a core app/progression menu rather than represent a
+// town character the player would run an errand for (contrast with e.g.
+// shop-* or minigame screens, whose NPCs are still fair errand targets).
+const NON_ERRAND_SCREENS = new Set([
+  'campaign', 'endless', 'dailychallenge', 'weeklychallenge', 'quickbattle',
+  'deckbuilder', 'collection-tabs', 'carddraft', 'minigames', 'commander',
+  'hall-of-achievements', 'home-shelf', 'chronicle', 'codex', 'adopt-pet',
+])
+
+// Ids already the target of a hand-authored bounty above — excluded from
+// procedural "visit" candidates to avoid near-duplicate flavor text (still
+// fair game as one side of a procedural "deliver" pair).
+const HAND_AUTHORED_TARGETS = new Set(
+  BOUNTY_TEMPLATES.flatMap(b => b.steps.map(s => s.targetNpcId).filter((id): id is string => !!id)),
+)
+
+interface RavenwatchNpcLite { id: string; name: string; screen?: string }
+const RAVENWATCH_NPCS: RavenwatchNpcLite[] = (ravenwatchConfig.npcs as RavenwatchNpcLite[])
+
+function isErrandEligible(npc: RavenwatchNpcLite): boolean {
+  if (npc.id.endsWith('-int')) return false        // duplicate interior-only copy of an exterior NPC
+  if (npc.id.startsWith('npc_')) return false        // auto-generated id, no authored identity
+  if (npc.screen && NON_ERRAND_SCREENS.has(npc.screen)) return false
+  return true
+}
+
+function npcDisplayName(npcId: string): string {
+  return RAVENWATCH_NPCS.find(n => n.id === npcId)?.name ?? npcId
+}
+
+function buildVisitBounty(npcId: string): BountyDef {
+  const name = npcDisplayName(npcId)
+  return {
+    id: `visit:${npcId}`,
+    title: `Check on ${name}`,
+    desc: `${name} hasn't been seen in a while — stop by and say hello.`,
+    icon: '👋',
+    reward: { crystals: 20 },
+    steps: [{ key: 'report', type: 'report', targetNpcId: npcId, required: 1 }],
+  }
+}
+
+function buildDeliverBounty(fromId: string, toId: string): BountyDef {
+  const fromName = npcDisplayName(fromId)
+  const toName = npcDisplayName(toId)
+  return {
+    id: `deliver:${fromId}:${toId}`,
+    title: 'A Favor Between Friends',
+    desc: `${fromName} has a sealed parcel for ${toName} — pick it up and deliver it.`,
+    icon: '📦',
+    reward: { crystals: 35 },
+    steps: [
+      { key: 'pickup',  type: 'report', targetNpcId: fromId, required: 1 },
+      { key: 'deliver', type: 'report', targetNpcId: toId,   required: 1 },
+    ],
+  }
+}
+
+/** Every procedural bounty a met-NPC set can currently produce. */
+function proceduralBounties(): BountyDef[] {
+  const metEligible = RAVENWATCH_NPCS.filter(n => isErrandEligible(n) && hasMetNpc(n.id))
+  const bounties: BountyDef[] = []
+  for (const npc of metEligible) {
+    if (!HAND_AUTHORED_TARGETS.has(npc.id)) bounties.push(buildVisitBounty(npc.id))
+  }
+  for (const from of metEligible) {
+    for (const to of metEligible) {
+      if (from.id !== to.id) bounties.push(buildDeliverBounty(from.id, to.id))
+    }
+  }
+  return bounties
+}
+
+/** Recognizes a procedural bounty id and regenerates its def — validates
+ *  both npc ids are real Ravenwatch NPCs so a garbage/stale id resolves to
+ *  undefined rather than a broken bounty. */
+function findProceduralBountyDef(id: string): BountyDef | undefined {
+  const isRealNpc = (npcId: string) => RAVENWATCH_NPCS.some(n => n.id === npcId)
+  if (id.startsWith('visit:')) {
+    const npcId = id.slice('visit:'.length)
+    return isRealNpc(npcId) ? buildVisitBounty(npcId) : undefined
+  }
+  if (id.startsWith('deliver:')) {
+    const [fromId, toId] = id.slice('deliver:'.length).split(':')
+    return fromId && toId && isRealNpc(fromId) && isRealNpc(toId) ? buildDeliverBounty(fromId, toId) : undefined
+  }
+  return undefined
+}
+
 // ── Internal helpers ──────────────────────────────────────────────────────────
 
 // Story/test-only override for "now", since callers like BountyBoardModal
@@ -156,7 +259,8 @@ function checkBountyPrerequisite(prereq: string): boolean {
 export function getDailyBounties(at?: Date): BountyDef[] {
   const slotKey = getBountySlotKey(at)
   const rng     = makeSeededRng(hashStr(slotKey) ^ 0xfeedbeef)
-  const pool    = BOUNTY_TEMPLATES.filter(b => !b.prerequisite || checkBountyPrerequisite(b.prerequisite))
+  const pool    = [...BOUNTY_TEMPLATES, ...proceduralBounties()]
+    .filter(b => !b.prerequisite || checkBountyPrerequisite(b.prerequisite))
   const result: BountyDef[] = []
   const used    = new Set<number>()
 
@@ -202,7 +306,7 @@ function saveBountyState(state: BountyState): void {
 }
 
 function findBountyDef(id: string): BountyDef | undefined {
-  return BOUNTY_TEMPLATES.find(b => b.id === id)
+  return BOUNTY_TEMPLATES.find(b => b.id === id) ?? findProceduralBountyDef(id)
 }
 
 export function isBountyAccepted(id: string): boolean {
