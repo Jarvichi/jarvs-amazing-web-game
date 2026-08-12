@@ -39,7 +39,7 @@ beforeEach(() => {
 const DAY = new Date('2026-06-30T12:00:00Z')
 // A date whose daily pool deterministically includes both a 'report'-only
 // bounty and the multi-step 'fresh-fish-for-the-kitchen' 'collect' bounty.
-const FISH_DAY = new Date('2026-01-08T12:00:00Z')
+const FISH_DAY = new Date('2026-01-02T12:00:00Z')
 
 /** Drives every step of a bounty to completion via advanceBountyStep. */
 function completeAllSteps(id: string): void {

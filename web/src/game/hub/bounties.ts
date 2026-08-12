@@ -11,6 +11,7 @@ import { isPickedUp, unmarkPickedUp } from './pickups'
 import type { HubQuestStep, RelationshipGrant } from '../../data/hub/questDefs'
 import { addFriendshipXp, getFriendshipLevel } from './friendship'
 import { getRelationship, grantRelationshipWithRivalry, type RivalNpc } from './relationships'
+import { hashStr, makeSeededRng } from '../seededRandom'
 
 const KEY = 'jarv_hub_bounties'
 
@@ -112,22 +113,6 @@ const BOUNTIES_PER_DAY = 3
 
 // ── Internal helpers ──────────────────────────────────────────────────────────
 
-/** Simple LCG seeded RNG — deterministic for a given seed. */
-function makeSeededRng(seed: number): () => number {
-  let s = seed >>> 0
-  return () => {
-    s = (Math.imul(s, 1664525) + 1013904223) >>> 0
-    return s / 0x100000000
-  }
-}
-
-/** Numeric hash of a string. */
-function dateHash(str: string): number {
-  let h = 0
-  for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0
-  return h
-}
-
 // Story/test-only override for "now", since callers like BountyBoardModal
 // always call getDailyBounties() with no date and have no override prop.
 let nowOverride: Date | undefined
@@ -170,7 +155,7 @@ function checkBountyPrerequisite(prereq: string): boolean {
 /** Returns today's 3 active bounties, deterministically chosen for the day. */
 export function getDailyBounties(at?: Date): BountyDef[] {
   const slotKey = getBountySlotKey(at)
-  const rng     = makeSeededRng(dateHash(slotKey) ^ 0xfeedbeef)
+  const rng     = makeSeededRng(hashStr(slotKey) ^ 0xfeedbeef)
   const pool    = BOUNTY_TEMPLATES.filter(b => !b.prerequisite || checkBountyPrerequisite(b.prerequisite))
   const result: BountyDef[] = []
   const used    = new Set<number>()

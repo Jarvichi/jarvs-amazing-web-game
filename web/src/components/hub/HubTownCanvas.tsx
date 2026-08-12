@@ -57,6 +57,22 @@ const NIGHT_NPC_LIGHT_R  = 2 * T   // small glow radius around each NPC
 const INTERIOR_DARK_INNER = 1.5 * T
 const INTERIOR_DARK_OUTER = 3   * T
 
+// Generic flavor lines for tapping an anonymous wandering NPC — these have
+// no authored identity (just one of a town's ambientNpcSprites), so unlike
+// named NPCs there's no dialogue array to draw from. A short, cosmetic-only
+// speech bubble (no dialogue modal, no game-state change) mirrors how
+// procedural ambient animals respond to a tap (see hubAnimals.ts's FLAVOUR).
+const AMBIENT_NPC_FLAVOUR = [
+  'Lovely day for it.',
+  'Mind where you step.',
+  "Can't stop to chat, sorry!",
+  'Have you seen the notice board?',
+  "Busy, busy — you know how it is.",
+  'Watch yourself out there.',
+  'Off to run an errand.',
+  "I'll catch you later!",
+]
+
 // ── Interactable affordance aura ────────────────────────────────────────────
 // A faint pulsing halo drawn behind tap-reactive objects that own visible decor
 // (stalls, notice boards, chests, forage spots, etc.), so players can spot what's
@@ -1594,6 +1610,12 @@ export function HubTownCanvas({
       // each other if both conditions land on the same NPC at once.
       doorReactionBubble: PIXI.Container | null
       doorReactionTimer:  number
+      // Generic flavor line shown when the player taps this (anonymous,
+      // unauthored) wandering NPC — kept separate from the above so a tap
+      // never clobbers a scared/door reaction, or vice versa.
+      tapBubble:      PIXI.Container | null
+      tapBubbleTimer: number
+      tapLineIdx:     number
     }
 
     const unitNpcs: UnitNpcState[] = []
@@ -1641,7 +1663,13 @@ export function HubTownCanvas({
           scaredBubbleCooldown: 0,
           doorReactionBubble:   null,
           doorReactionTimer:    0,
+          tapBubble:            null,
+          tapBubbleTimer:       0,
+          tapLineIdx:           Math.floor(Math.random() * AMBIENT_NPC_FLAVOUR.length),
         }
+        s.eventMode = 'static'
+        s.cursor    = 'pointer'
+        s.on('pointerdown', (e) => { e.stopPropagation(); showAmbientNpcTapBubble(state) })
         unitNpcs.push(state)
 
         loadAnimFrames(slug, 3)
@@ -1703,7 +1731,16 @@ export function HubTownCanvas({
     // regardless of whether the player is looking), so the leave-timer
     // ticker can find and remove a specific sprite if the player happens to
     // be standing in that exact room when it expires.
-    let interiorVisitorSprites: { record: BuildingVisitor; sprite: PIXI.Sprite }[] = []
+    interface InteriorVisitorSprite {
+      record: BuildingVisitor
+      sprite: PIXI.Sprite
+      // Tap-flavor bubble, same cosmetic-only treatment as exterior ambient
+      // NPCs — added to interiorLayer (not bubbleLayer, which is hidden
+      // while indoors) so it renders in the room.
+      bubble:      PIXI.Container | null
+      bubbleTimer: number
+    }
+    let interiorVisitorSprites: InteriorVisitorSprite[] = []
 
     // Removes an ambient NPC's sprite and any active reaction bubbles, and
     // drops it from unitNpcs — shared by despawn-into-a-building and
@@ -1718,6 +1755,11 @@ export function HubTownCanvas({
         bubbleLayer.removeChild(npc.doorReactionBubble)
         npc.doorReactionBubble = null
         npc.doorReactionTimer = 0
+      }
+      if (npc.tapBubble) {
+        bubbleLayer.removeChild(npc.tapBubble)
+        npc.tapBubble = null
+        npc.tapBubbleTimer = 0
       }
       npc.sprite.parent?.removeChild(npc.sprite)
       const idx = unitNpcs.indexOf(npc)
@@ -1993,7 +2035,13 @@ export function HubTownCanvas({
           scaredBubbleCooldown: 0,
           doorReactionBubble:   null,
           doorReactionTimer:    0,
+          tapBubble:            null,
+          tapBubbleTimer:       0,
+          tapLineIdx:           Math.floor(Math.random() * AMBIENT_NPC_FLAVOUR.length),
         }
+        s.eventMode = 'static'
+        s.cursor    = 'pointer'
+        s.on('pointerdown', (e) => { e.stopPropagation(); showAmbientNpcTapBubble(state) })
         unitNpcs.push(state)
         loadAnimFrames(slug, 3).then(frames => { state.animFrames = frames }).catch(() => {})
       }).catch(() => {})
@@ -2247,6 +2295,11 @@ export function HubTownCanvas({
           bubbleLayer.removeChild(npc.doorReactionBubble)
           npc.doorReactionBubble = null
           npc.doorReactionTimer = 0
+        }
+        if (npc.tapBubble) {
+          bubbleLayer.removeChild(npc.tapBubble)
+          npc.tapBubble = null
+          npc.tapBubbleTimer = 0
         }
       }
 
@@ -2613,7 +2666,18 @@ export function HubTownCanvas({
           s.position.set(spot[0] * T + T / 2, spot[1] * T + T)
           if (record.isGhost) { s.alpha = 0.4; s.tint = 0xaaccff }
           interiorLayer.addChild(s)
-          return { record, sprite: s }
+          const entry: InteriorVisitorSprite = { record, sprite: s, bubble: null, bubbleTimer: 0 }
+          s.eventMode = 'static'
+          s.cursor    = 'pointer'
+          s.on('pointerdown', (e) => {
+            e.stopPropagation()
+            if (entry.bubble) { interiorLayer.removeChild(entry.bubble); entry.bubble = null }
+            const line = AMBIENT_NPC_FLAVOUR[Math.floor(Math.random() * AMBIENT_NPC_FLAVOUR.length)]
+            entry.bubble = createSpeechBubble(line, s.x, s.y)
+            interiorLayer.addChild(entry.bubble)
+            entry.bubbleTimer = 1800
+          })
+          return entry
         })
       }
 
@@ -2840,6 +2904,18 @@ export function HubTownCanvas({
       c.addChild(bg, lbl)
       c.position.set(cx, cy - SPRITE_SIZE - 4)
       return c
+    }
+
+    // Tapping an anonymous wandering NPC shows one cosmetic flavor line —
+    // no dialogue modal, no state — cycling through AMBIENT_NPC_FLAVOUR so
+    // repeat taps on the same NPC don't always show the same line.
+    function showAmbientNpcTapBubble(npc: UnitNpcState): void {
+      if (npc.tapBubble) { bubbleLayer.removeChild(npc.tapBubble); npc.tapBubble = null }
+      const line = AMBIENT_NPC_FLAVOUR[npc.tapLineIdx % AMBIENT_NPC_FLAVOUR.length]
+      npc.tapLineIdx += 1
+      npc.tapBubble = createSpeechBubble(line, npc.sprite.x, npc.sprite.y)
+      bubbleLayer.addChild(npc.tapBubble)
+      npc.tapBubbleTimer = 1800
     }
 
     function createNameTag(name: string, cx: number, cy: number): PIXI.Container {
@@ -3664,6 +3740,18 @@ export function HubTownCanvas({
         interiorDarkTexture.source.update()
       }
 
+      // Interior visitors' tap-flavor bubbles — decay on their own short timer.
+      if (interiorActive) {
+        for (const v of interiorVisitorSprites) {
+          if (!v.bubble) continue
+          v.bubbleTimer -= ticker.deltaMS
+          if (v.bubbleTimer <= 0) {
+            interiorLayer.removeChild(v.bubble)
+            v.bubble = null
+          }
+        }
+      }
+
       // Quest pickup visibility — only show while the associated quest is active
       for (const [pickupId, sprite] of pickupSprites) {
         if (pickedUpRef.current.has(pickupId)) continue
@@ -3744,6 +3832,16 @@ export function HubTownCanvas({
             npc.doorReactionBubble = null
           }
         }
+
+        // Tap-flavor bubble — decays on its own short timer.
+        if (npc.tapBubble) {
+          npc.tapBubbleTimer -= ticker.deltaMS
+          npc.tapBubble.position.set(npc.sprite.x, npc.sprite.y - SPRITE_SIZE)
+          if (npc.tapBubbleTimer <= 0) {
+            bubbleLayer.removeChild(npc.tapBubble)
+            npc.tapBubble = null
+          }
+        }
       }
 
       // Building visitors' stay timer (#2111) — runs regardless of
@@ -3764,7 +3862,9 @@ export function HubTownCanvas({
             if (interiorActive && currentInteriorId === visitBuildingId) {
               const idx = interiorVisitorSprites.findIndex(v => v.record === record)
               if (idx !== -1) {
-                interiorLayer.removeChild(interiorVisitorSprites[idx].sprite)
+                const leaving = interiorVisitorSprites[idx]
+                interiorLayer.removeChild(leaving.sprite)
+                if (leaving.bubble) interiorLayer.removeChild(leaving.bubble)
                 interiorVisitorSprites.splice(idx, 1)
               }
             }
