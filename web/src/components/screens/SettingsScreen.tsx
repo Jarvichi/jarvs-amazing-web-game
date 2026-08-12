@@ -766,6 +766,14 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
           </div>
           <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
             <div>
+              <div className="settings-label">Build ID</div>
+              <div className="settings-sublabel">
+                {import.meta.env.VITE_GIT_SHA ? import.meta.env.VITE_GIT_SHA.slice(0, 7) : 'local build'}
+              </div>
+            </div>
+          </div>
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
+            <div>
               <div className="settings-label">Tileset art</div>
               <div className="settings-sublabel">
                 <a href="https://pipoya.itch.io/" target="_blank" rel="noreferrer">Pipoya</a>
