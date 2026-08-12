@@ -42,7 +42,7 @@ describe('computeInteriorShape — plain rectangle regression', () => {
         const { floorSet, wallSet } = computeInteriorShape(room.width, room.height)
         expect(setEqual(floorSet, oldFloorSet(room.width, room.height))).toBe(true)
         expect(setEqual(wallSet, oldWallSet(room.width, room.height))).toBe(true)
-        expect(hasUnbrokenTopWall(room.width, wallSet)).toBe(true)
+        expect(hasUnbrokenTopWall(room.width, floorSet)).toBe(true)
       })
     }
   }
@@ -70,41 +70,38 @@ describe('computeInteriorShape — carved shapes', () => {
       }
   })
 
-  it('a carve reaching the box outer floor ring can leave a few cells void (documented behavior)', () => {
+  it('a carve reaching the box outer floor ring leaves no voids — the tip fills in as wall', () => {
     // Notch bites into the left-edge floor column (tx=1, adjacent to the
-    // tx=0 wall column) — the corner and part of that wall column lose
-    // every floor neighbor.
+    // tx=0 wall column) — the corner and part of that wall column used to
+    // lose every floor neighbor and render as a bare void; now every
+    // bounding-box cell that isn't floor is wall, so the whole notch reads
+    // as solid rock, including its tip.
     const { floorSet, wallSet } = computeInteriorShape(10, 8, [{ tx: 1, ty: 1, w: 2, h: 3 }])
-    const voids: string[] = []
-    for (let tx = 0; tx < 10; tx++)
-      for (let ty = 0; ty < 8; ty++) {
-        const key = `${tx},${ty}`
-        if (!floorSet.has(key) && !wallSet.has(key)) voids.push(key)
-      }
-    expect(voids.sort()).toEqual(['0,0', '0,1', '0,2', '1,0', '1,1', '1,2'].sort())
+    for (const key of ['0,0', '0,1', '0,2', '1,0', '1,1', '1,2']) {
+      expect(floorSet.has(key)).toBe(false)
+      expect(wallSet.has(key)).toBe(true)
+    }
   })
 
-  it('an edge-touching corner notch (the shipped worked-example shape) traces a real L-boundary, breaks the top wall row, and voids only the tip', () => {
+  it('an edge-touching corner notch (the shipped worked-example shape) traces a real L-boundary and breaks the top wall row, with zero voids', () => {
     // Same shape authored on ravenwatch-hollow-tunnel-east: a corner bite
-    // that actually reaches the room's right/top boundary, so the room's
-    // outer silhouette is genuinely smaller there (most of the bitten area
-    // renders as solid wall — reading as rock filling the notch — with a
-    // small void right at the tip where no cell has a floor neighbor left).
+    // that actually reaches the room's right/top boundary. The whole
+    // bitten area — including its tip, which used to have no remaining
+    // floor neighbor and render as a bare void — now reads as solid
+    // wall/rock filling the notch.
     const { floorSet, wallSet } = computeInteriorShape(10, 8, [{ tx: 6, ty: 0, w: 4, h: 3 }])
 
     expect(floorSet.has('6,1')).toBe(false)
-    expect(wallSet.has('6,0')).toBe(true)
-    expect(wallSet.has('6,1')).toBe(true)   // notch mostly reads as solid wall/rock
-    expect(wallSet.has('6,2')).toBe(true)
-    expect(hasUnbrokenTopWall(10, wallSet)).toBe(false)
+    for (const key of ['6,0', '6,1', '6,2', '7,0', '7,1', '8,0', '8,1', '9,0', '9,1']) {
+      expect(wallSet.has(key)).toBe(true)
+    }
+    expect(hasUnbrokenTopWall(10, floorSet)).toBe(false)
 
-    const voids: string[] = []
     for (let tx = 0; tx < 10; tx++)
       for (let ty = 0; ty < 8; ty++) {
         const key = `${tx},${ty}`
-        if (!floorSet.has(key) && !wallSet.has(key)) voids.push(key)
+        expect(floorSet.has(key) || wallSet.has(key), `(${tx},${ty}) is void`).toBe(true)
       }
-    expect(voids.sort()).toEqual(['7,0', '7,1', '8,0', '8,1', '9,0', '9,1'].sort())
 
     // Floor continues normally below the notch and on the untouched side.
     expect(floorSet.has('8,3')).toBe(true)
