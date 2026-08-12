@@ -22,6 +22,11 @@ describe('isSameEntityRef', () => {
     const b: SelectedEntity = { type: 'interiorDecor', index: 0, interiorId: 'room-b' }
     expect(isSameEntityRef(a, b)).toBe(false)
   })
+  it('returns false for interiorCarve with different interiorId', () => {
+    const a: SelectedEntity = { type: 'interiorCarve', index: 0, interiorId: 'room-a' }
+    const b: SelectedEntity = { type: 'interiorCarve', index: 0, interiorId: 'room-b' }
+    expect(isSameEntityRef(a, b)).toBe(false)
+  })
 })
 
 describe('toggleInSelection', () => {
@@ -85,5 +90,17 @@ describe('applyDeleteEntities', () => {
     const c = applyDeleteEntities(baseConfig, [street0])
     expect(c.pondTiles).toHaveLength(1)
     expect(c.exteriorDecor).toHaveLength(2)
+  })
+  it('deletes an interiorCarve rect from the right room only', () => {
+    const withCarve = {
+      ...baseConfig,
+      interiors: {
+        'room-a': { name: 'A', width: 10, height: 8, floorTileId: 'x', decor: [], carve: [{ tx: 1, ty: 1, w: 2, h: 2 }, { tx: 5, ty: 1, w: 2, h: 2 }] },
+        'room-b': { name: 'B', width: 10, height: 8, floorTileId: 'x', decor: [], carve: [{ tx: 1, ty: 1, w: 2, h: 2 }] },
+      },
+    } as unknown as RawMapConfig
+    const c = applyDeleteEntities(withCarve, [{ type: 'interiorCarve', interiorId: 'room-a', index: 0 }])
+    expect(c.interiors!['room-a'].carve).toEqual([{ tx: 5, ty: 1, w: 2, h: 2 }])
+    expect(c.interiors!['room-b'].carve).toEqual([{ tx: 1, ty: 1, w: 2, h: 2 }])
   })
 })

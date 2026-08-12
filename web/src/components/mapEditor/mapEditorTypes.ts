@@ -3,7 +3,7 @@ import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMateri
 import type { NpcActivity } from '../../data/hub/loader'
 
 
-export type ToolMode = 'select' | 'place' | 'delete' | 'street' | 'pond' | 'bridge' | 'spawn' | 'chickenZone' | 'area' | 'building' | 'buildingWindow'
+export type ToolMode = 'select' | 'place' | 'delete' | 'street' | 'pond' | 'bridge' | 'spawn' | 'chickenZone' | 'area' | 'building' | 'buildingWindow' | 'carve'
 export type Zlayer = 'solid' | 'below' | 'above'
 export type ViewMode = 'exterior' | 'interior' | 'building'
 
@@ -132,6 +132,9 @@ export interface RawInterior {
   floorTileId: string
   wallTileId?: string
   wallMaterial?: string
+  /** Sub-rectangles (local tile coords) subtracted from the width×height box,
+   *  carving an L-shape/notch out of the room — see game/hub/interiorShape.ts. */
+  carve?: Array<{ tx: number; ty: number; w: number; h: number }>
   decor: RawDecorItem[]
   playerDecor?: boolean  // render the player's placed furniture here at runtime (homeLayout.ts) — ships unfurnished
   hours?: { open: number; close: number } | 'always'
@@ -319,6 +322,7 @@ export type SelectedEntity =
   | { type: 'pickupItem'; index: number }
   | { type: 'interiorDecor'; interiorId: string; index: number }
   | { type: 'interiorExit'; interiorId: string; index: number }
+  | { type: 'interiorCarve'; interiorId: string; index: number }
   | { type: 'blockedPath'; index: number }
   | { type: 'lockedDoor'; index: number }
   | { type: 'animal'; index: number }
