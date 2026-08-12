@@ -34,7 +34,7 @@ import { loadHomeLayout } from '../../game/hub/homeLayout'
 import { getFurnitureTileOffsets } from '../../game/hub/furnitureTiles'
 import { getResolvedRoomStyle } from '../../game/hub/roomStyle'
 import { getDoorwayEntryTile, findExteriorDoorForInterior } from '../../game/hub/doorwayEntry'
-import { computeInteriorShape, hasUnbrokenTopWall } from '../../game/hub/interiorShape'
+import { computeInteriorShape, topFacingWallRows } from '../../game/hub/interiorShape'
 import {
   getPurchasedSlotIds, getRoomSlotDef, buildMainRoomExit, parseSlotBuildingId, synthesizeSlotInterior,
 } from '../../game/hub/houseRooms'
@@ -2424,20 +2424,22 @@ export function HubTownCanvas({
       }
       renderPathTiles(wallContainer, wallRenderSet, undefined, PATH_TILE.wall2).catch(() => {})
 
-      // A carve can break the top wall row into a discontinuous run — only
-      // theme it (and render the visual-only crown row above) when it's
-      // still unbroken end-to-end; a broken run keeps the generic tile laid
-      // down above for the whole row rather than theming part of it.
-      const wallMaterial  = interior.wallMaterial
-      const themedTopRow  = !!wallMaterial && hasUnbrokenTopWall(interior.width, baseFloorSet)
-      if (wallMaterial && themedTopRow) {
-        // ty=0 row → middleBottom, drawn over the generic tile already
-        // there; ty=-1 (above room, visual only) → middleTop
+      // The themed back wall follows the room's carved silhouette per column
+      // rather than requiring one unbroken run: each column's facing wall is
+      // the tile directly above its topmost floor cell, so a carve steps the
+      // facade down around the notch instead of dropping it for the whole
+      // row (which left the entire back wall on the near-black generic tile).
+      const wallMaterial = interior.wallMaterial
+      if (wallMaterial) {
+        // facing row → middleBottom, drawn over the generic tile already
+        // there; one row above it → middleTop. For an uncarved column that's
+        // ty=0 and ty=-1 (the latter above the room, visual only) exactly as
+        // before; a carved column lands both a row or more further down.
         const wTiles = WALL_TILES[wallMaterial]
         const byTileId = new Map<number, [number, number][]>()
-        for (let wx = 1; wx < interior.width - 1; wx++) {
-          const list = byTileId.get(wTiles.middleBottom) ?? []; list.push([wx, 0]); byTileId.set(wTiles.middleBottom, list)
-          const topList = byTileId.get(wTiles.middleTop) ?? []; topList.push([wx, -1]); byTileId.set(wTiles.middleTop, topList)
+        for (const [wx, wy] of topFacingWallRows(interior.width, interior.height, baseFloorSet)) {
+          const list = byTileId.get(wTiles.middleBottom) ?? []; list.push([wx, wy]); byTileId.set(wTiles.middleBottom, list)
+          const topList = byTileId.get(wTiles.middleTop) ?? []; topList.push([wx, wy - 1]); byTileId.set(wTiles.middleTop, topList)
         }
         for (const [tileId, positions] of byTileId) {
           loadTileRef(tileId).then(tex => {
@@ -2785,12 +2787,14 @@ export function HubTownCanvas({
       if (interiorDarkSprite) { interiorLayer.removeChild(interiorDarkSprite); interiorDarkTexture?.destroy(true); interiorDarkSprite = null }
       interiorDarkTopOffset = 0
       if (interior.dark) {
-        // themedTopRow rooms render a purely decorative wall row one tile
+        // wallMaterial rooms render a purely decorative wall row one tile
         // above the room (ty=-1, see the wall-render block above) — grow
         // the overlay by one tile of height at the top only so that row
         // gets darkened too; every other edge stays exactly at the room's
-        // bounding box.
-        interiorDarkTopOffset = themedTopRow ? T : 0
+        // bounding box. Any column whose facing wall sits at ty=0 puts art
+        // up there, so this keys off the material alone rather than trying
+        // to predict which columns a carve stepped down.
+        interiorDarkTopOffset = wallMaterial ? T : 0
         const iw = interior.width * T, ih = interior.height * T + interiorDarkTopOffset
         interiorDarkCanvas = document.createElement('canvas')
         interiorDarkCanvas.width  = Math.ceil(iw / NIGHT_CANVAS_SCALE)
