@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { computeInteriorShape, hasUnbrokenTopWall } from './interiorShape'
+import { computeInteriorShape, topFacingWallRows } from './interiorShape'
 import { getHubWorldData } from '../../data/hub/hubWorldFactory'
 
 // Reference oracle: the plain-rectangle floor/wall formula HubTownCanvas.tsx
@@ -42,7 +42,12 @@ describe('computeInteriorShape — plain rectangle regression', () => {
         const { floorSet, wallSet } = computeInteriorShape(room.width, room.height)
         expect(setEqual(floorSet, oldFloorSet(room.width, room.height))).toBe(true)
         expect(setEqual(wallSet, oldWallSet(room.width, room.height))).toBe(true)
-        expect(hasUnbrokenTopWall(room.width, floorSet)).toBe(true)
+        // Every column faces from row 0 — equivalent to the old "top row is
+        // unbroken" check, so themed back-wall output is unchanged for all
+        // already-authored (uncarved) rooms.
+        const facing = topFacingWallRows(room.width, room.height, floorSet)
+        expect(facing.size).toBe(Math.max(0, room.width - 2))
+        expect([...facing.values()].every(ty => ty === 0)).toBe(true)
       })
     }
   }
@@ -95,7 +100,11 @@ describe('computeInteriorShape — carved shapes', () => {
     for (const key of ['6,0', '6,1', '6,2', '7,0', '7,1', '8,0', '8,1', '9,0', '9,1']) {
       expect(wallSet.has(key)).toBe(true)
     }
-    expect(hasUnbrokenTopWall(10, floorSet)).toBe(false)
+    // The themed back wall steps down around the notch instead of being
+    // dropped: columns left of the carve still face from row 0, the carved
+    // columns face from row 2 (their topmost remaining floor is ty=3).
+    expect([...topFacingWallRows(10, 8, floorSet).entries()].sort((a, b) => a[0] - b[0]))
+      .toEqual([[1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 2], [7, 2], [8, 2]])
 
     for (let tx = 0; tx < 10; tx++)
       for (let ty = 0; ty < 8; ty++) {
@@ -106,6 +115,14 @@ describe('computeInteriorShape — carved shapes', () => {
     // Floor continues normally below the notch and on the untouched side.
     expect(floorSet.has('8,3')).toBe(true)
     expect(floorSet.has('1,1')).toBe(true)
+  })
+
+  it('a landlocked carve steps only the columns it covers', () => {
+    const { floorSet } = computeInteriorShape(10, 8, [{ tx: 4, ty: 1, w: 2, h: 2 }])
+    const facing = topFacingWallRows(10, 8, floorSet)
+    expect(facing.get(4)).toBe(2)
+    expect(facing.get(5)).toBe(2)
+    for (const tx of [1, 2, 3, 6, 7, 8]) expect(facing.get(tx)).toBe(0)
   })
 
   it('carve is a no-op outside the floor domain (border ring, out of bounds)', () => {

@@ -58,17 +58,18 @@ export function computeInteriorShape(width: number, height: number, carve?: Carv
   return { floorSet, wallSet }
 }
 
-/** True when every tile of the room's top interior floor row (ty=1, columns
- *  1..width-2) is present in `floorSet` — i.e. the row right under the top
- *  wall is unbroken. A carve that reaches that row breaks this, and callers
- *  should fall back to generic wall art (and skip the visual-only crown row
- *  above the room) for the whole top row rather than theming part of it.
- *  Checks the floor row rather than the wall row itself: `wallSet`'s row 0
- *  is always fully populated (every bounding-box cell is wall or floor), so
- *  it can no longer signal whether a carve broke the row underneath it. */
-export function hasUnbrokenTopWall(width: number, floorSet: Set<string>): boolean {
+/** For each interior column, the row of the wall tile that faces the room
+ *  from the north — the tile directly above that column's topmost floor
+ *  cell. Every column answers 0 for a plain rectangle; a carve biting into
+ *  the top of a column steps its facing wall further down, so a themed back
+ *  wall can follow the notch instead of being dropped for the whole row.
+ *  Columns with no floor at all (carved away end to end) are omitted. */
+export function topFacingWallRows(width: number, height: number, floorSet: Set<string>): Map<number, number> {
+  const rows = new Map<number, number>()
   for (let tx = 1; tx < width - 1; tx++) {
-    if (!floorSet.has(`${tx},1`)) return false
+    for (let ty = 1; ty < height - 1; ty++) {
+      if (floorSet.has(`${tx},${ty}`)) { rows.set(tx, ty - 1); break }
+    }
   }
-  return true
+  return rows
 }
