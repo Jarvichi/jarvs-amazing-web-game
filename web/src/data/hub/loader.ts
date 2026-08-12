@@ -174,6 +174,10 @@ export interface HubInterior {
    *  computeInteriorShape (game/hub/interiorShape.ts), which HubTownCanvas.tsx
    *  uses to trace the resulting floor/wall sets. */
   carve?: Array<{ tx: number; ty: number; w: number; h: number }>
+  /** Local tile coordinates rendered as open water instead of floor, and
+   *  excluded from the walkable set — see HubTownCanvas.tsx's pond render
+   *  pass, which reuses the exterior world's autotile pond art. */
+  pond?: Array<{ tx: number; ty: number }>
 }
 
 /** Visible activity an NPC performs while at a scheduled location. */
@@ -721,6 +725,7 @@ const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
         playerDecor: rawAny.playerDecor as boolean | undefined,
         dark:        rawAny.dark as boolean | undefined,
         carve:       rawAny.carve as Array<{ tx: number; ty: number; w: number; h: number }> | undefined,
+        pond:        rawAny.pond as Array<{ tx: number; ty: number }> | undefined,
       } satisfies HubInterior,
     ]
   })

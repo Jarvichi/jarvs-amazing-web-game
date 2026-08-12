@@ -23,7 +23,7 @@ interface FishTier {
   chance: number
 }
 
-const FISH_TIERS: FishTier[] = [
+export const FISH_TIERS: FishTier[] = [
   {
     tier: 'Tiddler', icon: '🐟',
     names: ['Minnow', 'Dace', 'Gudgeon', 'Bleak', 'Stickleback'],
@@ -52,6 +52,43 @@ const FISH_TIERS: FishTier[] = [
   {
     tier: 'Legendary', icon: '✨',
     names: ['Ancient Sturgeon', 'Dragon Carp', 'Leviathan Eel', 'World Record Bass', 'Fracture Fish'],
+    minG: 25000, maxG: 50000, minCm: 150, maxCm: 200, minT: 150, maxT: 250, chance: 1,
+  },
+]
+
+// Cave-lake variant — same weights/ranges as FISH_TIERS (reuse the already-
+// tuned balance), reskinned as pale, blind, deep-water species for the
+// underground lake fishing spot. Distinct tier labels double as the key
+// into CAVE_TIER_HUB_ITEM below, so they must not collide with FISH_TIERS'.
+export const CAVE_FISH_TIERS: FishTier[] = [
+  {
+    tier: 'Blindling', icon: '🐟',
+    names: ['Blind Loach', 'Pale Minnow', 'Cave Gudgeon', 'Sunken Bleak', 'Milk-eye'],
+    minG: 100,   maxG: 500,   minCm: 8,   maxCm: 25,  minT: 2,   maxT: 6,   chance: 40,
+  },
+  {
+    tier: 'Cave-dweller', icon: '🐠',
+    names: ['Stone Roach', 'Grotto Perch', 'Cavefin', 'Hollow Bream', 'Root-eel'],
+    minG: 500,   maxG: 2000,  minCm: 25,  maxCm: 45,  minT: 8,   maxT: 18,  chance: 30,
+  },
+  {
+    tier: 'Deep Lurker', icon: '🐡',
+    names: ['Stone Eel', 'Barbless Carp', 'Echo Catfish', 'Drip-fed Zander', 'Lantern Barbel'],
+    minG: 2000,  maxG: 5000,  minCm: 45,  maxCm: 70,  minT: 22,  maxT: 40,  chance: 15,
+  },
+  {
+    tier: 'Ancient', icon: '🦈',
+    names: ['Sunless Pike', 'Deepwater Sturgeon', 'Cistern Bass', 'Old Blind Catfish', 'Wellspring Eel'],
+    minG: 5000,  maxG: 12000, minCm: 70,  maxCm: 110, minT: 42,  maxT: 75,  chance: 9,
+  },
+  {
+    tier: 'Abyssal', icon: '🏆',
+    names: ['Abyssal Carp', 'Monster of the Hollow', 'Cavern Titan', 'Sightless Leviathan', 'Great Root-eel'],
+    minG: 12000, maxG: 25000, minCm: 110, maxCm: 150, minT: 80,  maxT: 130, chance: 5,
+  },
+  {
+    tier: 'Sunless', icon: '✨',
+    names: ['The Sunless One'],
     minG: 25000, maxG: 50000, minCm: 150, maxCm: 200, minT: 150, maxT: 250, chance: 1,
   },
 ]
@@ -92,11 +129,11 @@ function rand(min: number, max: number) {
   return Math.floor(min + Math.random() * (max - min))
 }
 
-function rollFish(): FishCatch {
+function rollFish(tiers: FishTier[]): FishCatch {
   const roll = Math.random() * 100
   let cum = 0
-  let tier = FISH_TIERS[0]
-  for (const t of FISH_TIERS) {
+  let tier = tiers[0]
+  for (const t of tiers) {
     cum += t.chance
     if (roll < cum) { tier = t; break }
   }
@@ -116,9 +153,13 @@ function formatWeight(g: number): string {
 }
 
 // Hub-mode catches become hub-items, keyed by fish tier (see hubItems.json).
-const TIER_HUB_ITEM: Record<string, string> = {
+export const TIER_HUB_ITEM: Record<string, string> = {
   Tiddler: 'fish-tiddler', Small: 'fish-small', Medium: 'fish-medium',
   Large: 'fish-large', Trophy: 'fish-trophy', Legendary: 'fish-legendary',
+}
+export const CAVE_TIER_HUB_ITEM: Record<string, string> = {
+  Blindling: 'cave-fish-blindling', 'Cave-dweller': 'cave-fish-dweller', 'Deep Lurker': 'cave-fish-lurker',
+  Ancient: 'cave-fish-ancient', Abyssal: 'cave-fish-abyssal', Sunless: 'cave-fish-sunless',
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -129,10 +170,17 @@ interface Props {
    *  'catch': hub-world mode — the caught fish is added to the hub-item
    *  inventory instead, and no tickets are ever awarded. */
   rewardMode?: 'tickets' | 'catch'
+  /** 'river' (default): the standard Tiddler→Legendary tiers used at every
+   *  ordinary fishing spot. 'cave': the pale, blind cave-lake species —
+   *  same weights/ranges, exclusive hub-items — used only at the
+   *  underground lake's fishing spot. */
+  variant?: 'river' | 'cave'
 }
 
-export function Fishing({ onDone, rewardMode = 'tickets' }: Props) {
+export function Fishing({ onDone, rewardMode = 'tickets', variant = 'river' }: Props) {
   const usesBait = rewardMode === 'catch'
+  const tiers = variant === 'cave' ? CAVE_FISH_TIERS : FISH_TIERS
+  const tierHubItem = variant === 'cave' ? CAVE_TIER_HUB_ITEM : TIER_HUB_ITEM
 
   const [phase, setPhase]   = useState<Phase>('idle')
   const [result, setResult] = useState<Catch | null>(null)
@@ -190,7 +238,7 @@ export function Fishing({ onDone, rewardMode = 'tickets' }: Props) {
   }
 
   function buildCatch(): Catch {
-    if (Math.random() >= 0.05) return rollFish()
+    if (Math.random() >= 0.05) return rollFish(tiers)
     // 5% special
     if (Math.random() < 0.5) {
       const item = ITEMS_DATA[rand(0, ITEMS_DATA.length)]
@@ -212,7 +260,7 @@ export function Fishing({ onDone, rewardMode = 'tickets' }: Props) {
     } else if (c.kind === 'card') {
       addCardsToCollection([{ cardName: c.name, count: 1 }])
     } else if (rewardMode === 'catch') {
-      const hubItemId = TIER_HUB_ITEM[c.tier]
+      const hubItemId = tierHubItem[c.tier]
       if (hubItemId) {
         try { addHubItem(hubItemId, 1) }
         catch (e) { logError('Fishing: addHubItem failed', { error: String(e) }) }

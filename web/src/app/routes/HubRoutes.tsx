@@ -136,6 +136,15 @@ export function HubRoutes() {
         </OverlayScreen>
       )}
 
+      {/* The underground lake's fishing spot — same rod/bait gate as
+          hub-fishing (checked in HubWorld's handleNodeInteract), but a
+          cave-exclusive catch table (Fishing.tsx's variant prop). */}
+      {screen === 'hub-fishing-cave' && (
+        <OverlayScreen title="🎣 FISHING" onBack={() => setScreen('hubworld')}>
+          <Fishing rewardMode="catch" variant="cave" onDone={() => setScreen('hubworld')} />
+        </OverlayScreen>
+      )}
+
       {screen === 'theatre' && (
         <OverlayScreen title="🎭 CROWN THEATRE" onBack={() => setScreen('hubworld')}>
           <TheatreScreen onBack={() => setScreen('hubworld')} />

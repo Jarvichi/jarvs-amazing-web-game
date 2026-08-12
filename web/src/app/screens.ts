@@ -68,6 +68,7 @@ export type Screen =
   | 'hubworld'
   | 'hub-minigame'
   | 'hub-fishing'
+  | 'hub-fishing-cave'
   | 'casino'
   | 'theatre'
   | 'worldmap'

@@ -157,6 +157,11 @@ export interface RawInterior {
    *  wallTileId's top wall run falls back to the generic wall tile for
    *  that whole run — no map-editor UI yet, hand-author and verify in-game. */
   carve?: Array<{ tx: number; ty: number; w: number; h: number }>
+  /** Local tile coordinates rendered as open water (the same autotile pond
+   *  art the exterior world uses) instead of floor, and excluded from the
+   *  walkable set — a lake the player can stand at the edge of and fish,
+   *  but not walk into. */
+  pond?: Array<{ tx: number; ty: number }>
 }
 
 
