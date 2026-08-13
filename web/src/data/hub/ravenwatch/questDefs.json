@@ -4041,6 +4041,65 @@
           "desc": "Returned to the one it belonged to, who wanted nothing more than to be remembered by it."
         }
       }
+    },
+    {
+      "id": "grimbles-wild-experiment",
+      "title": "A Recipe Gone Wrong",
+      "type": "fetch",
+      "giverNpcId": "mad-chef",
+      "receiverNpcId": "mad-chef",
+      "offerDialogue": "BOOM! ...that wasn't supposed to happen. My spice pouch, a mushroom, and a whole garlic bulb are somewhere in this kitchen now. Would you mind fetching them before Rosie sees the mess?",
+      "activeDialogue": "Still looking? Check under the tables — things tend to roll.",
+      "completeDialogue": "Marvellous! Not a bad haul for an explosion, eh? Here, take this for your trouble — and thank you for not telling Rosie.",
+      "steps": [
+        {
+          "key": "scattered",
+          "type": "collect",
+          "pickupIds": ["grimble-spice-pouch", "grimble-mushroom", "grimble-garlic"],
+          "required": 3,
+          "itemName": "Scattered Ingredient",
+          "itemIcon": "🌶️"
+        }
+      ],
+      "reward": {
+        "crystals": 50,
+        "friendship": {
+          "mad-chef": 15
+        }
+      }
+    },
+    {
+      "id": "grimbles-final-feast",
+      "title": "The Unstoppable Feast",
+      "type": "fetch",
+      "giverNpcId": "mad-chef",
+      "receiverNpcId": "mad-chef",
+      "prerequisite": "quest:grimbles-wild-experiment",
+      "offerDialogue": "Since the mess didn't scare you off — I'm attempting my masterpiece. I need a proper cut of meat, a good cheese, and something with a KICK from the peppers out front. Fetch those and history will remember us both.",
+      "activeDialogue": "Meat, cheese, peppers. Simple, really — unless the peppers remember me from last time.",
+      "completeDialogue": "IT'S ALIVE! I mean — done! Ha! Take this, friend. Ravenwatch will be talking about this feast for weeks. Possibly the fire department too.",
+      "steps": [
+        {
+          "key": "feast",
+          "type": "collect",
+          "pickupIds": ["grimble-meat", "grimble-cheese", "grimble-peppers"],
+          "required": 3,
+          "itemName": "Feast Ingredient",
+          "itemIcon": "🍽️"
+        }
+      ],
+      "reward": {
+        "crystals": 40,
+        "collectible": {
+          "id": "grimbles-masterpiece-recipe",
+          "name": "Grimble's Masterpiece Recipe",
+          "icon": "📜",
+          "desc": "A scorch-marked recipe card for a dish that may or may not be edible. Definitely legendary."
+        },
+        "friendship": {
+          "mad-chef": 20
+        }
+      }
     }
   ],
   "pickupItems": [
@@ -5896,6 +5955,54 @@
       "tileId": "goldRing",
       "questId": "the-nameless-bones",
       "building": "ravenwatch-hollow-tunnel-west"
+    },
+    {
+      "id": "grimble-spice-pouch",
+      "tx": 4,
+      "ty": 2,
+      "tileId": "bunchOfHerbs",
+      "questId": "grimbles-wild-experiment",
+      "building": "inn-kitchen"
+    },
+    {
+      "id": "grimble-mushroom",
+      "tx": 6,
+      "ty": 4,
+      "tileId": "purpleMushroom",
+      "questId": "grimbles-wild-experiment",
+      "building": "inn-kitchen"
+    },
+    {
+      "id": "grimble-garlic",
+      "tx": 2,
+      "ty": 5,
+      "tileId": "garlic",
+      "questId": "grimbles-wild-experiment",
+      "building": "inn-kitchen"
+    },
+    {
+      "id": "grimble-meat",
+      "tx": 7,
+      "ty": 4,
+      "tileId": "roastMeat",
+      "questId": "grimbles-final-feast",
+      "building": "inn-kitchen"
+    },
+    {
+      "id": "grimble-cheese",
+      "tx": 7,
+      "ty": 2,
+      "tileId": "cheeseWheel",
+      "questId": "grimbles-final-feast",
+      "building": "inn-kitchen"
+    },
+    {
+      "id": "grimble-peppers",
+      "tx": 3,
+      "ty": 2,
+      "tileId": "basketOrPeppers",
+      "questId": "grimbles-final-feast",
+      "building": "inn-building"
     }
   ],
   "friendshipDialogue": {
@@ -22926,6 +23033,234 @@
           ]
         }
       }
+    },
+    {
+      "id": "mad-chef-topic-recipes",
+      "npcId": "mad-chef",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Recipes? Ha! I don't write them down — by the time a dish works, I've already forgotten how I got there.",
+          "choices": [
+            {
+              "label": "That sounds like it could be frustrating.",
+              "next": "warm"
+            },
+            {
+              "label": "Any advice for an aspiring cook?",
+              "next": "practical"
+            },
+            {
+              "label": "Sounds like a mess, honestly.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...It is, a bit. But every burnt pot taught me something. I wouldn't trade the chaos for a tidy cookbook.",
+          "choices": [
+            {
+              "label": "That's a good way to look at it.",
+              "effects": [
+                { "type": "friendship", "xp": 8 },
+                { "type": "relationship", "track": "ally", "points": 2 },
+                { "type": "end" }
+              ]
+            },
+            {
+              "label": "Thanks for sharing that.",
+              "effects": [
+                { "type": "friendship", "xp": 4 },
+                { "type": "end" }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Taste everything. Twice. And keep a bucket of water nearby — always.",
+          "choices": [
+            {
+              "label": "Noted. Thanks, Grimble.",
+              "effects": [ { "type": "end" } ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [ { "type": "end" } ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...A mess is just a dish that hasn't found itself yet. Rude, but fair, I suppose.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                { "type": "friendship", "xp": -8 },
+                { "type": "end" }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                { "type": "friendship", "xp": -3 },
+                { "type": "end" }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "mad-chef-topic-past",
+      "npcId": "mad-chef",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Rosie found me passed out in her pantry after a stew I made grew legs and walked off. She fed me instead of throwing me out. Been here ever since.",
+          "choices": [
+            {
+              "label": "That's a lucky break. She sounds kind.",
+              "next": "warm"
+            },
+            {
+              "label": "Did the stew ever turn up?",
+              "next": "practical"
+            },
+            {
+              "label": "Grew legs? Sure it did.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "She is. More than she lets on. I owe her more than a kitchen's worth of favours.",
+          "choices": [
+            {
+              "label": "You clearly care about her a great deal.",
+              "effects": [
+                { "type": "friendship", "xp": 8 },
+                { "type": "relationship", "track": "ally", "points": 2 },
+                { "type": "end" }
+              ]
+            },
+            {
+              "label": "That's good to hear.",
+              "effects": [
+                { "type": "friendship", "xp": 4 },
+                { "type": "end" }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "Never did. I choose to believe it's out there, living its best life.",
+          "choices": [
+            {
+              "label": "Fair enough.",
+              "effects": [ { "type": "end" } ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [ { "type": "end" } ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...I have witnesses. Well, I had witnesses. They've since moved towns.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong to doubt it, though.",
+              "effects": [
+                { "type": "friendship", "xp": -8 },
+                { "type": "end" }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                { "type": "friendship", "xp": -3 },
+                { "type": "end" }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "mad-chef-topic-danger",
+      "npcId": "mad-chef",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Safe? Define safe. Nobody's died. Yet. That's practically a guarantee where I'm from.",
+          "choices": [
+            {
+              "label": "I appreciate your honesty, at least.",
+              "next": "warm"
+            },
+            {
+              "label": "Maybe tone it down a little, for Rosie's sake?",
+              "next": "practical"
+            },
+            {
+              "label": "That is deeply unreassuring.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "warm": {
+          "text": "...Ha! Most people just back away slowly. Good to have someone who can take a joke — mostly a joke.",
+          "choices": [
+            {
+              "label": "I trust you know what you're doing. Mostly.",
+              "effects": [
+                { "type": "friendship", "xp": 8 },
+                { "type": "relationship", "track": "ally", "points": 2 },
+                { "type": "end" }
+              ]
+            },
+            {
+              "label": "Just try not to burn the inn down.",
+              "effects": [
+                { "type": "friendship", "xp": 4 },
+                { "type": "end" }
+              ]
+            }
+          ]
+        },
+        "practical": {
+          "text": "For Rosie? Fine. I'll keep the explosions to a polite volume.",
+          "choices": [
+            {
+              "label": "Appreciated.",
+              "effects": [ { "type": "end" } ]
+            },
+            {
+              "label": "Good to know.",
+              "effects": [ { "type": "end" } ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "...Fair. I'd be worried too, if I were you. I'm not, but I'd understand it.",
+          "choices": [
+            {
+              "label": "Can't say I'm wrong, though.",
+              "effects": [
+                { "type": "friendship", "xp": -8 },
+                { "type": "end" }
+              ]
+            },
+            {
+              "label": "Sorry — that came out wrong.",
+              "effects": [
+                { "type": "friendship", "xp": -3 },
+                { "type": "end" }
+              ]
+            }
+          ]
+        }
+      }
     }
   ],
   "conversationTopics": [
@@ -23914,6 +24249,26 @@
       "npcId": "npc_1783847887990",
       "label": "💬 \"I have these pets to adopt — dogs and cats, all…\"",
       "treeId": "ravenwatch-npc_1783847887990-topic-auto-1"
+    },
+    {
+      "id": "mad-chef-topic-recipes",
+      "npcId": "mad-chef",
+      "label": "🍲 Ask about his recipes",
+      "treeId": "mad-chef-topic-recipes"
+    },
+    {
+      "id": "mad-chef-topic-past",
+      "npcId": "mad-chef",
+      "label": "🔥 Ask how he ended up in Rosie's kitchen",
+      "treeId": "mad-chef-topic-past",
+      "requireFriendshipLevel": 1
+    },
+    {
+      "id": "mad-chef-topic-danger",
+      "npcId": "mad-chef",
+      "label": "💥 Ask if the explosions are actually safe",
+      "treeId": "mad-chef-topic-danger",
+      "requireFriendshipLevel": 2
     }
   ]
 }
