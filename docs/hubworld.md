@@ -14,6 +14,7 @@
 | `web/src/data/hub/questDefs.json` | Quests, pickup items, blocked paths, friendship dialogue, dialogue trees, relationship dialogue, conversation topics (§7g) | parsed by `loader.ts` and `questDefs.ts` |
 | `web/src/data/hub/loader.ts` | Parses both JSON files; exports all map/NPC/item/path data | `MAP_W`, `MAP_H`, `AVATAR_START`, `HUB_AREAS`, `HUB_STREET_TILES`, `HUB_BUILDINGS`, `HUB_DOORS`, `HUB_INTERIOR_OWNERS`, `HUB_INTERIORS`, `EXTERIOR_DECOR`, `HUB_NPCS`, `EXTERIOR_NPCS`, `INTERIOR_NPCS`, `HUB_PICKUP_ITEMS`, `HUB_BLOCKED_PATHS`, `HUB_LOCKED_DOORS`, … |
 | `web/src/data/hub/mapIds.ts` | Canonical town-id space and display names (dependency-free, so `loader.ts` can reference `MapId` without cycling through `hubWorldFactory.ts`) | `MapId`, `TOWN_LABELS`, `townLabel` |
+| `web/src/game/hub/interiorShape.ts` | Pure floor/wall-set computation from an interior's `width`/`height`/`carve` — see §20 | `computeInteriorShape`, `topFacingWallRows` |
 | `web/src/game/hub/hubNpcSchedule.ts` | Pure schedule-resolution logic — where/what an NPC is doing right now, building-hours gating (§9) | `getNpcLocation`, `getNpcActivity`, `getNpcDialoguePool`, `isNpcAsleep`, `isNpcInBuilding`, `resolveNpcInteriorPresence`, `isBuildingOpen`, `NPC_ACTIVITIES` |
 | `web/src/game/hub/npcLocator.ts` | Resolves an NPC's current world-map tile/name for minimap pins and the Town Directory — including "away, visiting X" for a traveling NPC (§9) | `resolveNpcPlace`, `buildingWorldTile`, `pickupWorldTile`, `areaNameForTile` |
 | `web/src/data/hub/questDefs.ts` | Parses `questDefs.json`; exports quest definitions and dialogue | `HUB_QUEST_DEFS`, `FRIENDSHIP_DIALOGUE` |
@@ -2596,3 +2597,131 @@ components unmodified. `getPlaceableDef()` is the one place that resolves
 either a real furniture id or a shelf-decor id, used everywhere `HomeShelf.tsx`
 previously called `getFurnitureDef` directly for a placed/armed piece's
 display info.
+
+---
+
+## §20 — Interior Rooms: Shape, Theming & Water
+
+### Schema (`RawInterior` / `HubInterior`)
+
+| Field | Purpose |
+|---|---|
+| `width`, `height` | Bounding box, in tiles. The walkable interior is `1..width-2 × 1..height-2` — a 1-tile wall ring on every side, before any `carve`. |
+| `floorTileId` | Floor tile (numeric id or catalog key, resolved by `resolveTileId`). |
+| `wallTileId` → `wallMaterial` | Optional themed wall facade (`buildingMaterials.ts`'s `WallTileSet`, e.g. `darkStone`). Unset falls back to the generic `PATH_TILE.wall2` autotile everywhere. |
+| `dark` | Punch-hole darkness overlay (lit only near the avatar's torch and `glow`-flagged decor), independent of the exterior day/night cycle. |
+| `carve` | `Array<{tx,ty,w,h}>` — sub-rectangles subtracted from the bounding box, carving a non-rectangular room. See "The shape philosophy" below. |
+| `pond` | `Array<{tx,ty}>` — tiles rendered as open water (the same autotile pond art the exterior world uses) instead of floor, and excluded from the walkable set. |
+| `exits` | `{tx,ty,toInteriorId,entryTx,entryTy,direction,label}`. `direction` is `left`/`right`/`front`/`back` for a wall-boundary door (west/east/south/north wall respectively — added to `floorSet`, removed from `wallSet`) or `up`/`down` for mid-floor stairs (no wall opening; see `doorwayEntry.ts`'s `DoorwayDirection`). |
+
+Shape math lives in `web/src/game/hub/interiorShape.ts`:
+`computeInteriorShape(width, height, carve?)` returns `{ floorSet, wallSet }`
+— `wallSet` is simply every bounding-box cell that isn't floor, so a carved
+notch always reads as solid wall/rock all the way to its tip (no possible
+voids). `topFacingWallRows(width, height, floorSet)` maps each interior
+column to the row of the wall tile that faces it from the north, so themed
+wall art follows a carved silhouette **per column** rather than being
+dropped for an entire row when any part of it is carved.
+
+### The shape philosophy: fewer, bigger, carved rooms
+
+**Default to one larger carved room. Only create a separate interior for an
+actual doorway, or a change in `floorTileId`/`wallTileId`/`dark` theme** — not
+for a bend, a narrowing, or an opening that's carved rock rather than a real
+door. A "narrow crack in the rock" or "the passage bends onward" reads as
+flavor text, not evidence a new room is warranted.
+
+This is cheap because of how the pieces above already work: `carve` produces
+zero voids for any shape (rectangles subtracted from a box, decomposed by
+inspection or a script — never hand-reasoned tile-by-tile); the generic
+`wall2` autotile handles any silhouette automatically via 8-neighbor
+lookup, no per-shape art needed; and themed wall material follows the carved
+edge per column (not per whole row), so theming is never a reason to keep a
+room small and rectangular either. A long, winding, multi-bend cave reads
+far more natural as one carved room than as a chain of small boxes stitched
+together with doors — see the worked example below, which replaced three
+separate rooms with one.
+
+### Authoring workflow
+
+Before writing any `carve`/`pond` JSON, simulate the exact algorithm in a
+throwaway script and print the result as ASCII — cheaper than debugging a
+bad shape (or a void) after the fact:
+
+```python
+def compute(width, height, carve):
+    carved = set()
+    for tx, ty, w, h in carve:
+        x0, x1 = max(1, tx), min(width-2, tx+w-1)
+        y0, y1 = max(1, ty), min(height-2, ty+h-1)
+        for x in range(x0, x1+1):
+            for y in range(y0, y1+1):
+                carved.add((x, y))
+    floor = {(x, y) for x in range(1, width-1) for y in range(1, height-1) if (x, y) not in carved}
+    wall = {(x, y) for x in range(width) for y in range(height) if (x, y) not in floor}
+    return floor, wall
+```
+Print the grid (`.` floor, `#` wall) and eyeball it before touching the repo.
+For a large, mostly-empty `carve` shape, it's often easier to define the
+*floor* you want as a union of a few rectangles, then derive `carve` as the
+complement (row-run-length-encode the gaps, merge vertically-identical runs)
+rather than reasoning about the subtraction directly.
+
+For a `pond` covering most of a big room (the common case: water should feel
+like it surrounds a small patch of land, not sit in a modest blob), generate
+the tile list programmatically as *floor minus a short list of land
+rectangles* — never hand-type dozens of coordinates; that's how transcription
+errors happen.
+
+### Worked example — `ravenwatch-sunless-depths`
+
+Three separate rooms — `ravenwatch-hollow-tunnel-east` ("The East Passage"),
+a 6×10 corridor, and an 8×8 corridor — collapsed into one 32×14 carved room:
+an entrance chamber (with a corner notch, echoing the original East
+Passage), an S-bend corridor, and a lake basin, verified zero voids, 249
+floor tiles:
+
+```
+################################
+##################.............#
+##################.............#
+#......###########.............#
+#......###########.............#
+#..............###.............#
+#..............###.............#
+#..............###.............#
+#.........##...###.............#
+#.........##...................#
+############...................#
+############...................#
+##################.............#
+################################
+```
+
+`ravenwatch-hollow-entrance` — the room this one exits into — stays
+separate: it has a real door to the surface, the actual-doorway exception
+to the rule above.
+
+### Map editor
+
+`carve` and `pond` have no dedicated editor UI yet (not listed in §13's
+editor-coverage table) — hand-author in `config.json` and verify with the
+simulation technique above.
+
+### Authoring checklist: new interior room
+
+1. **Decide if this needs a new room at all** — per the philosophy above:
+   only split for a real doorway or a floor/wall/light theme change.
+2. **Simulate the shape** before authoring JSON; confirm zero voids.
+3. **Place exits, decor, and NPCs only on `floorSet` tiles** — and, if the
+   room has a `pond`, off the pond tiles too. Check every exit's
+   `entryTx`/`entryTy` lands on the *destination* room's floor.
+4. **Check for orphaned references** before deleting or renaming an
+   interior id — grep `src/` for both the id itself and `"building":
+   "<id>"` (NPCs/interactables placed inside it), not just the narrower
+   interactables-only check; a pre-existing quest-giving NPC is easy to
+   miss otherwise.
+5. **Run the existing tests** — `interiorShape.test.ts`'s per-room
+   regression sweep and `questPickupPlacement.test.ts`'s pond/floor and
+   indoor-item/floor checks already validate any interior generically, no
+   test-code changes needed for ordinary content additions.
