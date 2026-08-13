@@ -4075,7 +4075,7 @@
       "giverNpcId": "mad-chef",
       "receiverNpcId": "mad-chef",
       "prerequisite": "quest:grimbles-wild-experiment",
-      "offerDialogue": "Since the mess didn't scare you off — I'm attempting my masterpiece. I need a proper cut of meat, a good cheese, and something with a KICK from the peppers out front. Fetch those and history will remember us both.",
+      "offerDialogue": "Since the mess didn't scare you off — I'm attempting my masterpiece. I need a proper cut of meat, a good cheese, and something with a KICK from the peppers Rosie keeps out in the inn's front room. Fetch those and history will remember us both.",
       "activeDialogue": "Meat, cheese, peppers. Simple, really — unless the peppers remember me from last time.",
       "completeDialogue": "IT'S ALIVE! I mean — done! Ha! Take this, friend. Ravenwatch will be talking about this feast for weeks. Possibly the fire department too.",
       "steps": [
@@ -5998,7 +5998,7 @@
     },
     {
       "id": "grimble-peppers",
-      "tx": 3,
+      "tx": 8,
       "ty": 2,
       "tileId": "basketOrPeppers",
       "questId": "grimbles-final-feast",
