@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { computeInteriorShape, topFacingWallRows } from './interiorShape'
+import { computeInteriorShape, topFacingWallRows, computeWallRenderSet } from './interiorShape'
 import { getHubWorldData } from '../../data/hub/hubWorldFactory'
 
 // Reference oracle: the plain-rectangle floor/wall formula HubTownCanvas.tsx
@@ -48,6 +48,12 @@ describe('computeInteriorShape — plain rectangle regression', () => {
         const facing = topFacingWallRows(room.width, room.height, floorSet)
         expect(facing.size).toBe(Math.max(0, room.width - 2))
         expect([...facing.values()].every(ty => ty === 0)).toBe(true)
+        // The "+1 row" wall-render duplicate never paints over real floor —
+        // trivially true for every uncarved rectangle (a side wall's north
+        // neighbor is always another wall cell or the true border), but
+        // asserted generically here as a regression guard.
+        const rendered = computeWallRenderSet(room.width, room.height, floorSet, wallSet)
+        for (const key of rendered) expect(floorSet.has(key)).toBe(false)
       })
     }
   }
@@ -123,6 +129,24 @@ describe('computeInteriorShape — carved shapes', () => {
     expect(facing.get(4)).toBe(2)
     expect(facing.get(5)).toBe(2)
     for (const tx of [1, 2, 3, 6, 7, 8]) expect(facing.get(tx)).toBe(0)
+  })
+
+  it('computeWallRenderSet never paints the "+1 row" duplicate over a thick carved wall band\'s north-facing floor', () => {
+    // 10×10 room, rows 5-6 carved out across most of the width — a wall
+    // band 2 tiles thick (not the room's true top/bottom border), with
+    // real floor immediately north of it at row 4. Reproduces the shape
+    // of the bug reported on ravenwatch-sunless-depths: standing on real,
+    // walkable floor that reads as solid wall because a wall sprite got
+    // drawn on top of it.
+    const { floorSet, wallSet } = computeInteriorShape(10, 10, [{ tx: 1, ty: 5, w: 7, h: 2 }])
+    expect(floorSet.has('3,4')).toBe(true)  // real floor just north of the band
+    expect(wallSet.has('3,5')).toBe(true)   // top row of the 2-thick carved band
+
+    const rendered = computeWallRenderSet(10, 10, floorSet, wallSet)
+    for (const key of rendered) expect(floorSet.has(key)).toBe(false)
+    // The naive "always duplicate one row up" version this replaced would
+    // have added '3,4' (and the rest of row 4 under the carve) here.
+    expect(rendered.has('3,4')).toBe(false)
   })
 
   it('carve is a no-op outside the floor domain (border ring, out of bounds)', () => {
