@@ -10288,7 +10288,7 @@
       ],
       "exits": [
         { "tx": 0, "ty": 4, "toInteriorId": "ravenwatch-hollow-tunnel-west", "entryTx": 9, "entryTy": 4, "direction": "left", "label": "A narrow tunnel" },
-        { "tx": 10, "ty": 4, "toInteriorId": "ravenwatch-hollow-tunnel-east", "entryTx": 1, "entryTy": 4, "direction": "right", "label": "A narrow tunnel" }
+        { "tx": 10, "ty": 4, "toInteriorId": "ravenwatch-sunless-depths", "entryTx": 1, "entryTy": 6, "direction": "right", "label": "A narrow tunnel" }
       ]
     },
     "ravenwatch-hollow-tunnel-west": {
@@ -10310,98 +10310,72 @@
         { "tx": 9, "ty": 4, "toInteriorId": "ravenwatch-hollow-entrance", "entryTx": 1, "entryTy": 4, "direction": "right", "label": "Back to the hollow" }
       ]
     },
-    "ravenwatch-hollow-tunnel-east": {
-      "name": "The East Passage",
-      "width": 10,
-      "height": 8,
-      "floorTileId": "darkStoneFloor",
-      "wallTileId": "darkStone",
-      "dark": true,
-      "carve": [{ "tx": 6, "ty": 0, "w": 4, "h": 3 }],
-      "decor": [
-        { "tx": 2, "ty": 1, "tileId": "largeRock" },
-        { "tx": 8, "ty": 3, "tileId": "smallRock" },
-        { "tx": 2, "ty": 6, "tileId": "smallRock" },
-        { "tx": 7, "ty": 6, "tileId": "largeRock" },
-        { "tx": 5, "ty": 3, "tileId": "floorLantern", "glow": true, "glowRadius": 2 },
-        { "tx": 3, "ty": 5, "tileId": "skull" }
-      ],
-      "exits": [
-        { "tx": 0, "ty": 4, "toInteriorId": "ravenwatch-hollow-entrance", "entryTx": 9, "entryTy": 4, "direction": "left", "label": "Back to the hollow" },
-        { "tx": 9, "ty": 4, "toInteriorId": "ravenwatch-winding-passage", "entryTx": 1, "entryTy": 3, "direction": "right", "label": "A narrow crack in the rock" }
-      ]
-    },
-    "ravenwatch-winding-passage": {
-      "name": "The Winding Passage",
-      "width": 16,
-      "height": 12,
+    "ravenwatch-sunless-depths": {
+      "name": "The Sunless Depths",
+      "width": 32,
+      "height": 14,
       "floorTileId": "darkStoneFloor",
       "wallTileId": "darkStone",
       "dark": true,
       "carve": [
-        { "tx": 1, "ty": 1, "w": 14, "h": 1 },
-        { "tx": 11, "ty": 2, "w": 4, "h": 3 },
-        { "tx": 1, "ty": 5, "w": 7, "h": 3 },
-        { "tx": 11, "ty": 5, "w": 4, "h": 3 },
-        { "tx": 1, "ty": 8, "w": 7, "h": 3 },
-        { "tx": 1, "ty": 11, "w": 14, "h": 1 }
+        { "tx": 1, "ty": 1, "w": 17, "h": 2 },
+        { "tx": 7, "ty": 3, "w": 11, "h": 2 },
+        { "tx": 15, "ty": 5, "w": 3, "h": 4 },
+        { "tx": 10, "ty": 8, "w": 2, "h": 2 },
+        { "tx": 1, "ty": 10, "w": 11, "h": 2 },
+        { "tx": 1, "ty": 12, "w": 17, "h": 1 }
       ],
-      "decor": [
-        { "tx": 3, "ty": 2, "tileId": "largeRock" },
-        { "tx": 7, "ty": 2, "tileId": "floorLantern", "glow": true, "glowRadius": 2 },
-        { "tx": 5, "ty": 4, "tileId": "smallRock" },
-        { "tx": 9, "ty": 6, "tileId": "floorLantern", "glow": true, "glowRadius": 2 },
-        { "tx": 10, "ty": 8, "tileId": "skull" },
-        { "tx": 12, "ty": 9, "tileId": "largeRock" }
-      ],
-      "exits": [
-        { "tx": 0, "ty": 3, "toInteriorId": "ravenwatch-hollow-tunnel-east", "entryTx": 8, "entryTy": 4, "direction": "left", "label": "Back the way you came" },
-        { "tx": 15, "ty": 9, "toInteriorId": "ravenwatch-underground-lake", "entryTx": 1, "entryTy": 6, "direction": "right", "label": "The air turns cold and damp" }
-      ]
-    },
-    "ravenwatch-underground-lake": {
-      "name": "The Sunless Lake",
-      "width": 14,
-      "height": 12,
-      "floorTileId": "darkStoneFloor",
-      "wallTileId": "darkStone",
-      "dark": true,
       "pond": [
-        { "tx": 1, "ty": 1 }, { "tx": 1, "ty": 2 }, { "tx": 1, "ty": 3 }, { "tx": 1, "ty": 4 },
-        { "tx": 1, "ty": 9 }, { "tx": 1, "ty": 10 }, { "tx": 2, "ty": 1 }, { "tx": 2, "ty": 2 },
-        { "tx": 2, "ty": 3 }, { "tx": 2, "ty": 4 }, { "tx": 2, "ty": 9 }, { "tx": 2, "ty": 10 },
-        { "tx": 3, "ty": 1 }, { "tx": 3, "ty": 2 }, { "tx": 3, "ty": 3 }, { "tx": 3, "ty": 4 },
-        { "tx": 3, "ty": 5 }, { "tx": 3, "ty": 8 }, { "tx": 3, "ty": 9 }, { "tx": 3, "ty": 10 },
-        { "tx": 4, "ty": 1 }, { "tx": 4, "ty": 2 }, { "tx": 4, "ty": 3 }, { "tx": 4, "ty": 4 },
-        { "tx": 4, "ty": 5 }, { "tx": 4, "ty": 6 }, { "tx": 4, "ty": 7 }, { "tx": 4, "ty": 8 },
-        { "tx": 4, "ty": 9 }, { "tx": 4, "ty": 10 }, { "tx": 5, "ty": 1 }, { "tx": 5, "ty": 2 },
-        { "tx": 5, "ty": 3 }, { "tx": 5, "ty": 4 }, { "tx": 5, "ty": 5 }, { "tx": 5, "ty": 6 },
-        { "tx": 5, "ty": 7 }, { "tx": 5, "ty": 8 }, { "tx": 5, "ty": 9 }, { "tx": 5, "ty": 10 },
-        { "tx": 6, "ty": 1 }, { "tx": 6, "ty": 2 }, { "tx": 6, "ty": 3 }, { "tx": 6, "ty": 4 },
-        { "tx": 6, "ty": 5 }, { "tx": 6, "ty": 6 }, { "tx": 6, "ty": 7 }, { "tx": 6, "ty": 8 },
-        { "tx": 6, "ty": 9 }, { "tx": 6, "ty": 10 }, { "tx": 7, "ty": 1 }, { "tx": 7, "ty": 2 },
-        { "tx": 7, "ty": 3 }, { "tx": 7, "ty": 4 }, { "tx": 7, "ty": 5 }, { "tx": 7, "ty": 6 },
-        { "tx": 7, "ty": 7 }, { "tx": 7, "ty": 8 }, { "tx": 7, "ty": 9 }, { "tx": 7, "ty": 10 },
-        { "tx": 8, "ty": 1 }, { "tx": 8, "ty": 2 }, { "tx": 8, "ty": 3 }, { "tx": 8, "ty": 4 },
-        { "tx": 8, "ty": 5 }, { "tx": 8, "ty": 6 }, { "tx": 8, "ty": 7 }, { "tx": 8, "ty": 8 },
-        { "tx": 8, "ty": 9 }, { "tx": 8, "ty": 10 }, { "tx": 9, "ty": 1 }, { "tx": 9, "ty": 2 },
-        { "tx": 9, "ty": 3 }, { "tx": 9, "ty": 4 }, { "tx": 9, "ty": 5 }, { "tx": 9, "ty": 6 },
-        { "tx": 9, "ty": 7 }, { "tx": 9, "ty": 8 }, { "tx": 9, "ty": 9 }, { "tx": 9, "ty": 10 },
-        { "tx": 10, "ty": 1 }, { "tx": 10, "ty": 2 }, { "tx": 10, "ty": 3 }, { "tx": 10, "ty": 4 },
-        { "tx": 10, "ty": 5 }, { "tx": 10, "ty": 6 }, { "tx": 10, "ty": 7 }, { "tx": 10, "ty": 8 },
-        { "tx": 10, "ty": 9 }, { "tx": 10, "ty": 10 }, { "tx": 11, "ty": 1 }, { "tx": 11, "ty": 2 },
-        { "tx": 11, "ty": 3 }, { "tx": 11, "ty": 4 }, { "tx": 11, "ty": 5 }, { "tx": 11, "ty": 6 },
-        { "tx": 11, "ty": 7 }, { "tx": 11, "ty": 8 }, { "tx": 11, "ty": 9 }, { "tx": 11, "ty": 10 },
-        { "tx": 12, "ty": 1 }, { "tx": 12, "ty": 2 }, { "tx": 12, "ty": 3 }, { "tx": 12, "ty": 4 },
-        { "tx": 12, "ty": 5 }, { "tx": 12, "ty": 6 }, { "tx": 12, "ty": 7 }, { "tx": 12, "ty": 8 },
-        { "tx": 12, "ty": 9 }, { "tx": 12, "ty": 10 }
+        { "tx": 18, "ty": 1 }, { "tx": 18, "ty": 2 }, { "tx": 18, "ty": 3 }, { "tx": 18, "ty": 4 },
+        { "tx": 18, "ty": 5 }, { "tx": 18, "ty": 6 }, { "tx": 18, "ty": 7 }, { "tx": 18, "ty": 12 },
+        { "tx": 19, "ty": 1 }, { "tx": 19, "ty": 2 }, { "tx": 19, "ty": 3 }, { "tx": 19, "ty": 4 },
+        { "tx": 19, "ty": 5 }, { "tx": 19, "ty": 6 }, { "tx": 19, "ty": 7 }, { "tx": 19, "ty": 12 },
+        { "tx": 20, "ty": 1 }, { "tx": 20, "ty": 2 }, { "tx": 20, "ty": 3 }, { "tx": 20, "ty": 4 },
+        { "tx": 20, "ty": 5 }, { "tx": 20, "ty": 6 }, { "tx": 20, "ty": 7 }, { "tx": 20, "ty": 8 },
+        { "tx": 20, "ty": 11 }, { "tx": 20, "ty": 12 }, { "tx": 21, "ty": 1 }, { "tx": 21, "ty": 2 },
+        { "tx": 21, "ty": 3 }, { "tx": 21, "ty": 4 }, { "tx": 21, "ty": 5 }, { "tx": 21, "ty": 6 },
+        { "tx": 21, "ty": 7 }, { "tx": 21, "ty": 8 }, { "tx": 21, "ty": 9 }, { "tx": 21, "ty": 10 },
+        { "tx": 21, "ty": 11 }, { "tx": 21, "ty": 12 }, { "tx": 22, "ty": 1 }, { "tx": 22, "ty": 2 },
+        { "tx": 22, "ty": 3 }, { "tx": 22, "ty": 4 }, { "tx": 22, "ty": 5 }, { "tx": 22, "ty": 6 },
+        { "tx": 22, "ty": 7 }, { "tx": 22, "ty": 8 }, { "tx": 22, "ty": 9 }, { "tx": 22, "ty": 10 },
+        { "tx": 22, "ty": 11 }, { "tx": 22, "ty": 12 }, { "tx": 23, "ty": 1 }, { "tx": 23, "ty": 2 },
+        { "tx": 23, "ty": 3 }, { "tx": 23, "ty": 4 }, { "tx": 23, "ty": 5 }, { "tx": 23, "ty": 6 },
+        { "tx": 23, "ty": 7 }, { "tx": 23, "ty": 8 }, { "tx": 23, "ty": 9 }, { "tx": 23, "ty": 10 },
+        { "tx": 23, "ty": 11 }, { "tx": 23, "ty": 12 }, { "tx": 24, "ty": 1 }, { "tx": 24, "ty": 2 },
+        { "tx": 24, "ty": 3 }, { "tx": 24, "ty": 4 }, { "tx": 24, "ty": 5 }, { "tx": 24, "ty": 6 },
+        { "tx": 24, "ty": 7 }, { "tx": 24, "ty": 8 }, { "tx": 24, "ty": 9 }, { "tx": 24, "ty": 10 },
+        { "tx": 24, "ty": 11 }, { "tx": 24, "ty": 12 }, { "tx": 25, "ty": 1 }, { "tx": 25, "ty": 2 },
+        { "tx": 25, "ty": 3 }, { "tx": 25, "ty": 4 }, { "tx": 25, "ty": 5 }, { "tx": 25, "ty": 6 },
+        { "tx": 25, "ty": 7 }, { "tx": 25, "ty": 8 }, { "tx": 25, "ty": 9 }, { "tx": 25, "ty": 10 },
+        { "tx": 25, "ty": 11 }, { "tx": 25, "ty": 12 }, { "tx": 26, "ty": 1 }, { "tx": 26, "ty": 2 },
+        { "tx": 26, "ty": 3 }, { "tx": 26, "ty": 4 }, { "tx": 26, "ty": 5 }, { "tx": 26, "ty": 6 },
+        { "tx": 26, "ty": 7 }, { "tx": 26, "ty": 8 }, { "tx": 26, "ty": 9 }, { "tx": 26, "ty": 10 },
+        { "tx": 26, "ty": 11 }, { "tx": 26, "ty": 12 }, { "tx": 27, "ty": 1 }, { "tx": 27, "ty": 2 },
+        { "tx": 27, "ty": 3 }, { "tx": 27, "ty": 4 }, { "tx": 27, "ty": 5 }, { "tx": 27, "ty": 6 },
+        { "tx": 27, "ty": 7 }, { "tx": 27, "ty": 8 }, { "tx": 27, "ty": 9 }, { "tx": 27, "ty": 10 },
+        { "tx": 27, "ty": 11 }, { "tx": 27, "ty": 12 }, { "tx": 28, "ty": 1 }, { "tx": 28, "ty": 2 },
+        { "tx": 28, "ty": 3 }, { "tx": 28, "ty": 4 }, { "tx": 28, "ty": 5 }, { "tx": 28, "ty": 6 },
+        { "tx": 28, "ty": 7 }, { "tx": 28, "ty": 8 }, { "tx": 28, "ty": 9 }, { "tx": 28, "ty": 10 },
+        { "tx": 28, "ty": 11 }, { "tx": 28, "ty": 12 }, { "tx": 29, "ty": 1 }, { "tx": 29, "ty": 2 },
+        { "tx": 29, "ty": 3 }, { "tx": 29, "ty": 4 }, { "tx": 29, "ty": 5 }, { "tx": 29, "ty": 6 },
+        { "tx": 29, "ty": 7 }, { "tx": 29, "ty": 8 }, { "tx": 29, "ty": 9 }, { "tx": 29, "ty": 10 },
+        { "tx": 29, "ty": 11 }, { "tx": 29, "ty": 12 }, { "tx": 30, "ty": 1 }, { "tx": 30, "ty": 2 },
+        { "tx": 30, "ty": 3 }, { "tx": 30, "ty": 4 }, { "tx": 30, "ty": 5 }, { "tx": 30, "ty": 6 },
+        { "tx": 30, "ty": 7 }, { "tx": 30, "ty": 8 }, { "tx": 30, "ty": 9 }, { "tx": 30, "ty": 10 },
+        { "tx": 30, "ty": 11 }, { "tx": 30, "ty": 12 }
       ],
       "decor": [
-        { "tx": 3, "ty": 7, "tileId": "floorLantern", "glow": true, "glowRadius": 3 },
-        { "tx": 1, "ty": 8, "tileId": "smallRock" }
+        { "tx": 3, "ty": 5, "tileId": "largeRock" },
+        { "tx": 2, "ty": 8, "tileId": "smallRock" },
+        { "tx": 5, "ty": 7, "tileId": "floorLantern", "glow": true, "glowRadius": 2 },
+        { "tx": 11, "ty": 6, "tileId": "smallRock" },
+        { "tx": 13, "ty": 9, "tileId": "floorLantern", "glow": true, "glowRadius": 2 },
+        { "tx": 16, "ty": 10, "tileId": "skull" },
+        { "tx": 20, "ty": 10, "tileId": "floorLantern", "glow": true, "glowRadius": 3 },
+        { "tx": 18, "ty": 11, "tileId": "smallRock" }
       ],
       "exits": [
-        { "tx": 0, "ty": 6, "toInteriorId": "ravenwatch-winding-passage", "entryTx": 14, "entryTy": 9, "direction": "left", "label": "Back through the passage" }
+        { "tx": 0, "ty": 6, "toInteriorId": "ravenwatch-hollow-entrance", "entryTx": 9, "entryTy": 4, "direction": "left", "label": "Back to the hollow" }
       ]
     }
   },
@@ -11532,9 +11506,9 @@
       "id": "ravenwatch-cave-angler",
       "name": "Old Marrow",
       "sprite": "hub-npc-fisherman",
-      "tx": 2,
-      "ty": 7,
-      "building": "ravenwatch-underground-lake",
+      "tx": 19,
+      "ty": 9,
+      "building": "ravenwatch-sunless-depths",
       "screen": "hub-fishing-cave",
       "dialogue": [
         "Been fishing this lake longer than I can rightly recall. Never seen the bottom of it.",
@@ -12452,7 +12426,7 @@
       "sprite": "skeleton",
       "tx": 5,
       "ty": 5,
-      "building": "ravenwatch-hollow-tunnel-east",
+      "building": "ravenwatch-sunless-depths",
       "dialogue": [
         "Down here so long the worms gave up on me. Rude of them, honestly.",
         "Someone dug that hole up top. Wasn't me — I came in through the honest way. However long ago that was.",
