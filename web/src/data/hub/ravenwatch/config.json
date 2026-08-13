@@ -12434,6 +12434,83 @@
       ],
       "questGive": "the-nameless-bones",
       "questReceive": "the-nameless-bones"
+    },
+    {
+      "id": "mad-chef",
+      "name": "Mad Chef Grimble",
+      "sprite": "hub-npc-cook",
+      "building": "inn-kitchen",
+      "tx": 4,
+      "ty": 4,
+      "dialogue": [
+        "MORE FIRE! No wait — LESS fire! Oh, hello. Didn't see you there over the smoke.",
+        "Rosie lets me experiment back here so long as I don't burn the place down. Mostly.",
+        "Every great dish starts with a small explosion. That's just science, friend."
+      ],
+      "conversationTopics": [
+        "mad-chef-topic-recipes",
+        "mad-chef-topic-past",
+        "mad-chef-topic-danger"
+      ],
+      "dialogueByActivity": {
+        "work": [
+          "Careful — the floor's still a bit sticky from yesterday's soup incident."
+        ],
+        "sleep": [
+          "...must... add... more... paprika... zzz..."
+        ]
+      },
+      "sleepDialogue": "Grimble is slumped over the counter, snoring, a wooden spoon still in hand.",
+      "questGive": "grimbles-wild-experiment",
+      "questReceive": [
+        "grimbles-wild-experiment",
+        "grimbles-final-feast"
+      ],
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 6,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "inn-kitchen",
+            "tx": 2,
+            "ty": 6
+          }
+        },
+        {
+          "startHour": 6,
+          "endHour": 22,
+          "activity": "work",
+          "location": {
+            "type": "interior",
+            "buildingId": "inn-kitchen",
+            "tx": 4,
+            "ty": 4
+          }
+        },
+        {
+          "startHour": 22,
+          "endHour": 24,
+          "activity": "sleep",
+          "location": {
+            "type": "interior",
+            "buildingId": "inn-kitchen",
+            "tx": 2,
+            "ty": 6
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "inn-kitchen",
+        "tx": 2,
+        "ty": 6
+      },
+      "favoriteGiftItemId": "spice-pouch",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "pressed-flower"
+      ]
     }
   ],
   "ambientNpcSprites": [
