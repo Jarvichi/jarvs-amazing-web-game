@@ -5998,7 +5998,7 @@
     },
     {
       "id": "grimble-peppers",
-      "tx": 3,
+      "tx": 8,
       "ty": 2,
       "tileId": "basketOrPeppers",
       "questId": "grimbles-final-feast",
