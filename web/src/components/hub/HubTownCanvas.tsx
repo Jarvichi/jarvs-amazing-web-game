@@ -34,7 +34,7 @@ import { loadHomeLayout } from '../../game/hub/homeLayout'
 import { getFurnitureTileOffsets } from '../../game/hub/furnitureTiles'
 import { getResolvedRoomStyle } from '../../game/hub/roomStyle'
 import { getDoorwayEntryTile, findExteriorDoorForInterior } from '../../game/hub/doorwayEntry'
-import { computeInteriorShape, topFacingWallRows } from '../../game/hub/interiorShape'
+import { computeInteriorShape, topFacingWallRows, computeWallRenderSet } from '../../game/hub/interiorShape'
 import {
   getPurchasedSlotIds, getRoomSlotDef, buildMainRoomExit, parseSlotBuildingId, synthesizeSlotInterior,
 } from '../../game/hub/houseRooms'
@@ -2343,6 +2343,18 @@ export function HubTownCanvas({
       // interior.carve is absent.
       const { floorSet: baseFloorSet, wallSet: baseWallSet } = computeInteriorShape(interior.width, interior.height, interior.carve)
 
+      // defaultEntryTile falls back to getDoorwayEntryTile's purely
+      // directional formula when an exit omits explicit entryTx/entryTy —
+      // it has no awareness of interior.carve, so it can land off a carved
+      // room's actual floor. Snap to the nearest real floor tile; mutating
+      // in place also fixes interiorCurrentTile, which already points at
+      // this same array.
+      if (!baseFloorSet.has(`${defaultEntryTile[0]},${defaultEntryTile[1]}`)) {
+        const [nx, ny] = nearestWalkable(defaultEntryTile[0] * T, defaultEntryTile[1] * T, baseFloorSet, T)
+        defaultEntryTile[0] = nx
+        defaultEntryTile[1] = ny
+      }
+
       // Build walkable set
       interiorWalkable = new Set<string>(baseFloorSet)
       if (!isSubRoom) interiorWalkable.add(`${exitTx},${interior.height - 1}`)
@@ -2422,16 +2434,7 @@ export function HubTownCanvas({
       // stub instead of a proper corner cap). Only visible at a room's 4
       // outer corners for a plain rectangle, but at every inner corner of a
       // carved notch too — unifying into one set/call fixes both.
-      // Every wall cell also gets a purely-visual "+1 row" duplicate above
-      // it, except the columns of a straight top/bottom run (which instead
-      // get their own crown-row treatment below, or nothing extra at all).
-      const isStraightRunCell = (wx: number, wy: number) =>
-        wx > 0 && wx < interior.width - 1 && (wy === 0 || wy === interior.height - 1)
-      const wallRenderSet = new Set<string>(wallSet)
-      for (const key of wallSet) {
-        const [wx, wy] = key.split(',').map(Number)
-        if (!isStraightRunCell(wx, wy)) wallRenderSet.add(`${wx},${wy - 1}`)
-      }
+      const wallRenderSet = computeWallRenderSet(interior.width, interior.height, baseFloorSet, wallSet)
       for (const exit of availableExits) {
         if (exit.direction === 'left' || exit.direction === 'right') wallRenderSet.delete(`${exit.tx},${exit.ty}`)
       }

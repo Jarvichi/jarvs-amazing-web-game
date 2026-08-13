@@ -73,3 +73,25 @@ export function topFacingWallRows(width: number, height: number, floorSet: Set<s
   }
   return rows
 }
+
+/** `wallSet` plus a purely-visual "+1 row" duplicate above cells that
+ *  aren't part of a straight top/bottom run — gives side walls and corners
+ *  visual height when rendered with the generic wall2 autotile (top/bottom
+ *  straight runs get their own crown-row treatment elsewhere, or nothing
+ *  extra). Skipped whenever that row is real floor: a carved wall band can
+ *  be more than 1 tile thick, and a wall cell's north neighbor is then
+ *  genuine floor rather than "another wall cell or outside the room" (the
+ *  only two cases this convention predates `carve`) — drawing a wall
+ *  sprite there would paint over floor the avatar can legitimately stand
+ *  on, reading as walking into solid wall despite being collision-correct
+ *  underneath. */
+export function computeWallRenderSet(width: number, height: number, floorSet: Set<string>, wallSet: Set<string>): Set<string> {
+  const isStraightRunCell = (wx: number, wy: number) =>
+    wx > 0 && wx < width - 1 && (wy === 0 || wy === height - 1)
+  const result = new Set<string>(wallSet)
+  for (const key of wallSet) {
+    const [wx, wy] = key.split(',').map(Number)
+    if (!isStraightRunCell(wx, wy) && !floorSet.has(`${wx},${wy - 1}`)) result.add(`${wx},${wy - 1}`)
+  }
+  return result
+}
