@@ -95,3 +95,26 @@ export function computeWallRenderSet(width: number, height: number, floorSet: Se
   }
   return result
 }
+
+/** `topFacingWallRows` filtered to exclude any column where a `back`-
+ *  direction door lives — the paint positions for a room's themed wall
+ *  facade (crown row above, face row at the wall). `topFacingWallRows` is
+ *  purely geometric with no concept of doors, so on its own it paints a
+ *  facade tile at a back door's column too; a back door already punches a
+ *  real gap in the generic wall2 autotile pass (`computeWallRenderSet`),
+ *  so painting the facade there as well seals that gap back up with a
+ *  solid-looking wall tile. */
+export function facadePaintPositions(
+  width: number,
+  height: number,
+  floorSet: Set<string>,
+  backExitTiles: Iterable<readonly [number, number]>,
+): Map<number, number> {
+  const excluded = new Set([...backExitTiles].map(([tx, ty]) => `${tx},${ty}`))
+  const rows = topFacingWallRows(width, height, floorSet)
+  const result = new Map<number, number>()
+  for (const [wx, wy] of rows) {
+    if (!excluded.has(`${wx},${wy}`)) result.set(wx, wy)
+  }
+  return result
+}

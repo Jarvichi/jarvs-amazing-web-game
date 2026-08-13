@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { computeInteriorShape, topFacingWallRows, computeWallRenderSet } from './interiorShape'
+import { computeInteriorShape, topFacingWallRows, computeWallRenderSet, facadePaintPositions } from './interiorShape'
 import { getHubWorldData } from '../../data/hub/hubWorldFactory'
 
 // Reference oracle: the plain-rectangle floor/wall formula HubTownCanvas.tsx
@@ -54,6 +54,15 @@ describe('computeInteriorShape — plain rectangle regression', () => {
         // asserted generically here as a regression guard.
         const rendered = computeWallRenderSet(room.width, room.height, floorSet, wallSet)
         for (const key of rendered) expect(floorSet.has(key)).toBe(false)
+        // The themed facade never paints over a back-wall door's tile —
+        // regression guard for a real, previously-shipped bug that sealed
+        // the door shut on every themed room with a back exit (35 of the
+        // 238 interiors, discovered via a live bug report on one of them).
+        const backExitTiles: [number, number][] = (room.exits ?? [])
+          .filter(e => e.direction === 'back')
+          .map(e => [e.tx, e.ty])
+        const facade = facadePaintPositions(room.width, room.height, floorSet, backExitTiles)
+        for (const [bx, by] of backExitTiles) expect(facade.get(bx)).not.toBe(by)
       })
     }
   }
@@ -154,5 +163,33 @@ describe('computeInteriorShape — carved shapes', () => {
     const without = computeInteriorShape(10, 8)
     expect(setEqual(withCarve.floorSet, without.floorSet)).toBe(true)
     expect(setEqual(withCarve.wallSet, without.wallSet)).toBe(true)
+  })
+})
+
+describe('facadePaintPositions', () => {
+  it("excludes a back-wall door's column, unlike topFacingWallRows alone (Gildwyn's Card Emporium's real shape)", () => {
+    // 13×9 plain rectangle, back door at (6,0) — the exact shape and door
+    // position shipped on ravenwatch/card-shop. Reported live: the themed
+    // facade painted a solid wall tile over the door, sealing it shut even
+    // though the generic wall2 pass correctly left a gap there.
+    const { floorSet } = computeInteriorShape(13, 9)
+    const unfiltered = topFacingWallRows(13, 9, floorSet)
+    expect(unfiltered.get(6)).toBe(0) // the bug: the door's own column gets a facade tile
+
+    const filtered = facadePaintPositions(13, 9, floorSet, [[6, 0]])
+    expect(filtered.has(6)).toBe(false)
+    // Every other column is untouched.
+    for (let tx = 1; tx <= 11; tx++) {
+      if (tx === 6) continue
+      expect(filtered.get(tx)).toBe(unfiltered.get(tx))
+    }
+    expect(filtered.size).toBe(unfiltered.size - 1)
+  })
+
+  it('is a no-op when there is no back-wall door', () => {
+    const { floorSet } = computeInteriorShape(10, 8)
+    const unfiltered = topFacingWallRows(10, 8, floorSet)
+    const filtered = facadePaintPositions(10, 8, floorSet, [])
+    expect(filtered).toEqual(unfiltered)
   })
 })

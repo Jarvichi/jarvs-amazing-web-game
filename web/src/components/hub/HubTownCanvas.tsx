@@ -34,7 +34,7 @@ import { loadHomeLayout } from '../../game/hub/homeLayout'
 import { getFurnitureTileOffsets } from '../../game/hub/furnitureTiles'
 import { getResolvedRoomStyle } from '../../game/hub/roomStyle'
 import { getDoorwayEntryTile, findExteriorDoorForInterior } from '../../game/hub/doorwayEntry'
-import { computeInteriorShape, topFacingWallRows, computeWallRenderSet } from '../../game/hub/interiorShape'
+import { computeInteriorShape, computeWallRenderSet, facadePaintPositions } from '../../game/hub/interiorShape'
 import {
   getPurchasedSlotIds, getRoomSlotDef, buildMainRoomExit, parseSlotBuildingId, synthesizeSlotInterior,
 } from '../../game/hub/houseRooms'
@@ -2453,7 +2453,13 @@ export function HubTownCanvas({
         // before; a carved column lands both a row or more further down.
         const wTiles = WALL_TILES[wallMaterial]
         const byTileId = new Map<number, [number, number][]>()
-        for (const [wx, wy] of topFacingWallRows(interior.width, interior.height, baseFloorSet)) {
+        // Exclude back-wall door columns — a back door already punches a
+        // real gap in the generic wall2 pass above; painting the facade
+        // there too would seal it back up with a solid-looking wall tile.
+        const backExitTiles: [number, number][] = availableExits
+          .filter(e => e.direction === 'back')
+          .map(e => [e.tx, e.ty])
+        for (const [wx, wy] of facadePaintPositions(interior.width, interior.height, baseFloorSet, backExitTiles)) {
           const list = byTileId.get(wTiles.middleBottom) ?? []; list.push([wx, wy]); byTileId.set(wTiles.middleBottom, list)
           const topList = byTileId.get(wTiles.middleTop) ?? []; topList.push([wx, wy - 1]); byTileId.set(wTiles.middleTop, topList)
         }
