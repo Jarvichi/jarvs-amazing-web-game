@@ -76,6 +76,19 @@ describe('Ravenwatch quest pickups', () => {
   })
 })
 
+describe('Ravenwatch interior lakes', () => {
+  it('keeps every pond tile on actual floor, never a wall or carved-out cell', () => {
+    const bad = Object.entries(loc.HUB_INTERIORS).flatMap(([id, room]) => {
+      if (!room.pond?.length) return []
+      const { floorSet } = computeInteriorShape(room.width, room.height, room.carve)
+      return room.pond
+        .filter(p => !floorSet.has(`${p.tx},${p.ty}`))
+        .map(p => `${id} (${p.tx},${p.ty})`)
+    })
+    expect(bad).toEqual([])
+  })
+})
+
 describe('Ravenwatch quest targets', () => {
   it('delivers only to NPCs or animals that exist in the town', () => {
     // Delivery steps pointing at an animal (the stray cat) resolve through

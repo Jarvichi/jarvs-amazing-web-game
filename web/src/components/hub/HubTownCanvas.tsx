@@ -2361,6 +2361,9 @@ export function HubTownCanvas({
         interiorWalkable.add(`${exit.tx},${exit.ty}`)
         exitByTile.set(`${exit.tx},${exit.ty}`, exit)
       }
+      // A lake blocks walking like any other solid obstacle — fished from
+      // the shore, not waded into.
+      for (const p of interior.pond ?? []) interiorWalkable.delete(`${p.tx},${p.ty}`)
 
       // Floor tile set (all inner tiles + exit door tiles)
       const floorSet = new Set<string>(baseFloorSet)
@@ -2382,6 +2385,16 @@ export function HubTownCanvas({
       const floorContainer = new PIXI.Container()
       const wallContainer  = new PIXI.Container()
       interiorLayer.addChild(floorContainer, wallContainer)
+
+      // Lake surface — same autotile pond art (and useCanal=true blob shape,
+      // not a thin canal) the exterior world renders ponds with, drawn over
+      // the floor tiles underneath it.
+      if (interior.pond?.length) {
+        const pondSet = new Set(interior.pond.map(p => `${p.tx},${p.ty}`))
+        const pondContainer = new PIXI.Container()
+        interiorLayer.addChild(pondContainer)
+        renderPathTiles(pondContainer, pondSet, undefined, PATH_TILE.water7, true).catch(() => {})
+      }
 
       // Floor: proper interior tile from base chip sheet (wood, stone, parquet, etc.)
       const floorTileId  = interior.floorTileId ?? 288

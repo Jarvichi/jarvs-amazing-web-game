@@ -78,6 +78,48 @@
     "category": "material"
   },
   {
+    "id": "cave-fish-blindling",
+    "name": "Blindling",
+    "icon": "🐟",
+    "desc": "A pale, eyeless little thing. It's never seen the sun, and never will.",
+    "category": "material"
+  },
+  {
+    "id": "cave-fish-dweller",
+    "name": "Cave-dweller",
+    "icon": "🐠",
+    "desc": "It flinches from the torchlight. Something down here always does.",
+    "category": "material"
+  },
+  {
+    "id": "cave-fish-lurker",
+    "name": "Deep Lurker",
+    "icon": "🐡",
+    "desc": "Pulled up from black water. Best not to think about how deep.",
+    "category": "material"
+  },
+  {
+    "id": "cave-fish-ancient",
+    "name": "Ancient",
+    "icon": "🦈",
+    "desc": "Older than the passage above it, by the look of those scars.",
+    "category": "material"
+  },
+  {
+    "id": "cave-fish-abyssal",
+    "name": "Abyssal",
+    "icon": "🏆",
+    "desc": "A monster of the hollow. It shouldn't fit through the passage it came from.",
+    "category": "material"
+  },
+  {
+    "id": "cave-fish-sunless",
+    "name": "The Sunless One",
+    "icon": "✨",
+    "desc": "No one who fishes the underground lake truly expects to land this.",
+    "category": "material"
+  },
+  {
     "id": "fancy-hat",
     "name": "Fancy Hat",
     "icon": "🎩",

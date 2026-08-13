@@ -10327,7 +10327,66 @@
         { "tx": 3, "ty": 5, "tileId": "skull" }
       ],
       "exits": [
-        { "tx": 0, "ty": 4, "toInteriorId": "ravenwatch-hollow-entrance", "entryTx": 9, "entryTy": 4, "direction": "left", "label": "Back to the hollow" }
+        { "tx": 0, "ty": 4, "toInteriorId": "ravenwatch-hollow-entrance", "entryTx": 9, "entryTy": 4, "direction": "left", "label": "Back to the hollow" },
+        { "tx": 9, "ty": 4, "toInteriorId": "ravenwatch-deep-passage-1", "entryTx": 1, "entryTy": 5, "direction": "right", "label": "A narrow crack in the rock" }
+      ]
+    },
+    "ravenwatch-deep-passage-1": {
+      "name": "The Deep Passage",
+      "width": 6,
+      "height": 10,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "dark": true,
+      "decor": [
+        { "tx": 2, "ty": 2, "tileId": "floorLantern", "glow": true, "glowRadius": 2 },
+        { "tx": 3, "ty": 4, "tileId": "smallRock" },
+        { "tx": 2, "ty": 6, "tileId": "largeRock" }
+      ],
+      "exits": [
+        { "tx": 0, "ty": 5, "toInteriorId": "ravenwatch-hollow-tunnel-east", "entryTx": 8, "entryTy": 4, "direction": "left", "label": "Back the way you came" },
+        { "tx": 3, "ty": 9, "toInteriorId": "ravenwatch-deep-passage-2", "entryTx": 3, "entryTy": 1, "direction": "front", "label": "The passage bends onward" }
+      ]
+    },
+    "ravenwatch-deep-passage-2": {
+      "name": "The Sunken Passage",
+      "width": 8,
+      "height": 8,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "dark": true,
+      "decor": [
+        { "tx": 2, "ty": 3, "tileId": "largeRock" },
+        { "tx": 5, "ty": 2, "tileId": "floorLantern", "glow": true, "glowRadius": 2 },
+        { "tx": 2, "ty": 5, "tileId": "skull" }
+      ],
+      "exits": [
+        { "tx": 3, "ty": 0, "toInteriorId": "ravenwatch-deep-passage-1", "entryTx": 3, "entryTy": 8, "direction": "back", "label": "Back the way you came" },
+        { "tx": 7, "ty": 4, "toInteriorId": "ravenwatch-underground-lake", "entryTx": 1, "entryTy": 5, "direction": "right", "label": "The air turns cold and damp" }
+      ]
+    },
+    "ravenwatch-underground-lake": {
+      "name": "The Sunless Lake",
+      "width": 12,
+      "height": 10,
+      "floorTileId": "darkStoneFloor",
+      "wallTileId": "darkStone",
+      "dark": true,
+      "pond": [
+        { "tx": 6, "ty": 3 }, { "tx": 7, "ty": 3 }, { "tx": 8, "ty": 3 },
+        { "tx": 5, "ty": 4 }, { "tx": 6, "ty": 4 }, { "tx": 7, "ty": 4 }, { "tx": 8, "ty": 4 }, { "tx": 9, "ty": 4 },
+        { "tx": 5, "ty": 5 }, { "tx": 6, "ty": 5 }, { "tx": 7, "ty": 5 }, { "tx": 8, "ty": 5 }, { "tx": 9, "ty": 5 },
+        { "tx": 6, "ty": 6 }, { "tx": 7, "ty": 6 }, { "tx": 8, "ty": 6 }
+      ],
+      "decor": [
+        { "tx": 3, "ty": 2, "tileId": "largeRock" },
+        { "tx": 9, "ty": 2, "tileId": "smallRock" },
+        { "tx": 2, "ty": 7, "tileId": "floorLantern", "glow": true, "glowRadius": 3 },
+        { "tx": 9, "ty": 7, "tileId": "floorLantern", "glow": true, "glowRadius": 3 },
+        { "tx": 5, "ty": 7, "tileId": "skull" }
+      ],
+      "exits": [
+        { "tx": 0, "ty": 5, "toInteriorId": "ravenwatch-deep-passage-2", "entryTx": 6, "entryTy": 4, "direction": "left", "label": "Back through the passage" }
       ]
     }
   },
@@ -11449,6 +11508,25 @@
         "ravenwatch-fishing-hole-2-topic-auto-1"
       ],
       "favoriteGiftItemId": "fish-trophy",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "silk-ribbon"
+      ]
+    },
+    {
+      "id": "ravenwatch-cave-angler",
+      "name": "Old Marrow",
+      "sprite": "hub-npc-fisherman",
+      "tx": 4,
+      "ty": 5,
+      "building": "ravenwatch-underground-lake",
+      "screen": "hub-fishing-cave",
+      "dialogue": [
+        "Been fishing this lake longer than I can rightly recall. Never seen the bottom of it.",
+        "Whatever's down there doesn't mind the dark. Neither do I, anymore.",
+        "Careful what you reel in. Some of it's never seen the sun, and it shows."
+      ],
+      "favoriteGiftItemId": "cave-fish-sunless",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
         "silk-ribbon"

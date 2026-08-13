@@ -153,6 +153,7 @@ const SCREEN_ENTER_LABEL: Record<string, string> = {
   'home-shelf':      'Look at the shelf?',
   fishing:           'Cast a line?',
   'hub-fishing':     'Cast a line?',
+  'hub-fishing-cave': 'Cast a line into the dark water?',
   marble:            'Play marbles?',
   marblerace:        'Watch a marble race?',
   regatta:           'Race a skiff in the regatta?',
@@ -669,9 +670,11 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
     }
     // Hub fishing is gated on owning a rod and holding at least 1 bait.
     // Both are global hub-items, so a rod bought in Millhaven works at any
-    // town's fishing spot. Bait is consumed per cast inside Fishing.tsx,
-    // not on entry.
-    if (screen === 'hub-fishing') {
+    // town's fishing spot — including the underground lake's cave variant
+    // (hub-fishing-cave), which uses the same rod/bait but a different catch
+    // table (Fishing.tsx's variant prop). Bait is consumed per cast inside
+    // Fishing.tsx, not on entry.
+    if (screen === 'hub-fishing' || screen === 'hub-fishing-cave') {
       if (!hasHubItem('fishing-rod')) {
         setDialogueEvent({ speakerName: '', text: "You can't fish without a rod. Millhaven's harbour stall sells them." })
         return
