@@ -57,6 +57,14 @@ function pick<T>(arr: readonly T[], rng: () => number): T {
   return arr[Math.floor(rng() * arr.length) % arr.length]
 }
 
+function gcd(a: number, b: number): number {
+  return b === 0 ? a : gcd(b, a % b)
+}
+
+function lcm(a: number, b: number): number {
+  return (a / gcd(a, b)) * b
+}
+
 function makeTownsfolkLook(rng: () => number): AmbientNpcLook {
   return {
     kind:       'townsfolk',
@@ -86,9 +94,11 @@ export function createAmbientRoster(opts: AmbientRosterOptions): AmbientRoster {
   const rng = makeSeededRng(seed ^ 0x7a11d0)
   const share = opts.townsfolkShare ?? DEFAULT_TOWNSFOLK_SHARE
 
-  // Full name space, shuffled once. 104 first names x 40 surnames is far more
-  // than a town of a dozen needs, so the walk never realistically runs dry —
-  // but wrap anyway rather than risk an infinite loop if it somehow does.
+  // Both halves are shuffled and then advanced in step, so consecutive
+  // wanderers differ in first name *and* surname — walking the surnames only
+  // once the first names ran out would give a town of a dozen people who all
+  // share a surname. Stepping both wraps at lcm(104, 40) = 520 distinct pairs,
+  // far more than the dozen or so alive at any moment.
   const firstNames = seededShuffle(RESIDENT_FIRST_NAMES, rng)
   const surnames   = seededShuffle(WANDERER_SURNAMES, rng)
   const unitSlugs  = opts.unitSlugs.length > 0 ? opts.unitSlugs : []
@@ -99,17 +109,17 @@ export function createAmbientRoster(opts: AmbientRosterOptions): AmbientRoster {
   let minted = 0
 
   function nextName(): string {
-    const total = firstNames.length * surnames.length
+    const total = lcm(firstNames.length, surnames.length)
     for (let i = 0; i < total; i++) {
       const at = (nameCursor + i) % total
-      const name = `${firstNames[at % firstNames.length]} ${surnames[Math.floor(at / firstNames.length) % surnames.length]}`
+      const name = `${firstNames[at % firstNames.length]} ${surnames[at % surnames.length]}`
       if (!inUse.has(name)) {
         nameCursor = at + 1
         return name
       }
     }
-    // Every combination is live at once — impossible for a town of a dozen, but
-    // returning something is better than looping forever.
+    // Every pair in the cycle is live at once — impossible for a town of a
+    // dozen, but returning something is better than looping forever.
     return `${firstNames[0]} ${surnames[0]} ${inUse.size}`
   }
 
