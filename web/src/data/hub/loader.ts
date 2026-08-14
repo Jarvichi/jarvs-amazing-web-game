@@ -241,6 +241,16 @@ export interface HubNpc {
   dislikedGiftItemIds?: string[]
   /** Ids of other same-town NPCs this NPC dislikes — befriending one raises this NPC's own 'rival' track. */
   dislikes?: string[]
+  /** Alternate tile position + dialogue used once `requireQuest` is completed —
+   *  e.g. a guard stepping off a chokepoint tile once the gating quest chain
+   *  resolves. Checked in resolveNpcInteriorPresence (position) and
+   *  getNpcDialoguePool (dialogue), both hubNpcSchedule.ts. */
+  questVariant?: {
+    requireQuest: string
+    tx?: number
+    ty?: number
+    dialogue?: string[]
+  }
 }
 
 export type HubAnimalType =
