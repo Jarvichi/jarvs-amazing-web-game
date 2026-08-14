@@ -12416,9 +12416,19 @@
       "tx": 5,
       "ty": 1,
       "dialogue": [
-        "Hello!"
+        "Vault's closed to visitors. Zev's orders — nobody past this point without a vouch.",
+        "Three vouches, Commander. That's the price of trust in this hall these days."
       ],
-      "building": "arcade-building-w-4"
+      "building": "arcade-building-w-4",
+      "questVariant": {
+        "requireQuest": "vault-guard-stand-down",
+        "tx": 4,
+        "ty": 3,
+        "dialogue": [
+          "Go on through, Commander. Zev, Aggie, and Juno all vouched for you — good enough for me.",
+          "Vault's all yours now. Try not to spend it all on the fruit machine."
+        ]
+      }
     },
     {
       "id": "whistlebone",
