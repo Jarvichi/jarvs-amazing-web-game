@@ -2725,3 +2725,106 @@ simulation technique above.
    regression sweep and `questPickupPlacement.test.ts`'s pond/floor and
    indoor-item/floor checks already validate any interior generically, no
    test-code changes needed for ordinary content additions.
+
+---
+
+## §21 — Wandering NPCs (ambient townsfolk)
+
+The anonymous crowd that walks a town's streets. Distinct from the named
+`HubNpc`s of §2/§9: wanderers have no entry in `config.json`, no schedule, no
+quests and no dialogue modal. They are minted at spawn, live for one town
+visit, and are never persisted.
+
+**Where the code is**
+
+| Concern | File |
+| --- | --- |
+| Identity: names + looks, per-visit roster | `web/src/game/hub/ambientNpcIdentity.ts` |
+| Flavour lines and the per-NPC line cursor | `web/src/game/hub/ambientDialogue.ts` |
+| Composite sprite catalog and palettes | `web/src/data/townsfolk.ts` |
+| Spawning, walking, compositing, tap bubbles | `web/src/components/hub/HubTownCanvas.tsx` |
+| Sprite pool passed in from React | `web/src/components/hub/HubWorld.tsx` (`unitCards`) |
+| Contact sheet for judging the art | `web/src/components/hub/TownsfolkGallery.stories.tsx` |
+
+### Identity
+
+`createAmbientRoster({ seed, unitSlugs })` mints one `AmbientNpcIdentity` per
+wanderer. Names pair a first name from `game/names.ts`'s `RESIDENT_FIRST_NAMES`
+(shared with the city builder's residents) with a `WANDERER_SURNAMES` surname;
+both halves advance in step, and a name held by a live wanderer is skipped, so a
+town never shows two Miras. `release(id)` hands the name back on despawn.
+
+Everything is seeded off the town's `locationKey`, so the same town produces the
+same crowd — useful when you need to reproduce something you saw.
+
+A look is one of two kinds:
+
+- **`townsfolk`** — a composite of tinted layers (below). Roughly 60% of the
+  crowd, and the whole crowd in a town with no sprite pool at all.
+- **`unit`** — a single card sprite, drawn from `buildUnitSlugPool(preferred,
+  catalog, seed)`: the town's own `ambientNpcSprites` first, then the rest of
+  the unit-card catalog seeded-shuffled behind them. Card units are deliberately
+  *not* given cosmetic overlays — the several hundred hand-authored unit sprites
+  bob inconsistently across their walk frames, so a static overlay would visibly
+  float. Their variety comes from the size of the pool.
+
+### Composite townsfolk sprites
+
+Same technique as the pet coat patterns and accessories (§8): art authored in
+neutral white, composited as PIXI siblings, each tinted independently. Layers,
+back to front — shadow, outfit (the base sprite, which owns the hit area and the
+walk cycle), accent, skin, face, hair, hat.
+
+Art lives at `web/public/sprites/townsfolk-*.svg`. **Two authoring rules make
+the layer sharing work — break either and the layers come apart:**
+
+1. Every body places the head at identical coordinates, so skin, face, hair and
+   hat are shared across all three bodies rather than redrawn per body.
+2. Walk frames animate arms, legs and hems only — the head and shoulders never
+   move. (The older hand-drawn `hub-npc-*.svg` frames bob the whole body by 1px;
+   these deliberately don't.) That's why only `-outfit` and `-accent` ship
+   `-1/-2/-3` frames and the head layers are a single frameless SVG each.
+
+`townsfolk.test.ts` asserts both rules against the art on disk, along with
+"every catalog slug exists" and "tinted layers are pure `#ffffff`".
+
+Adding a colourway needs no new art at all — extend `SKIN_TONES`,
+`HAIR_COLOURS`, `OUTFIT_COLOURS`, `ACCENT_COLOURS` or `HAT_COLOURS`. Adding a
+body needs `townsfolk-<body>-outfit` and `-accent`, each with three frames.
+
+### Dialogue
+
+Tapping a wanderer pops a cosmetic speech bubble reading `<Name>: <line>` — no
+modal, no state change, the same treatment ambient animals get. Lines come from
+`ambientLinePool(ctx)`: ~120 generic lines plus pools layered on by context.
+
+| Context | Pool |
+| --- | --- |
+| Daylight / after dark | `DAY_LINES` / `NIGHT_LINES` |
+| Rain, snow, fog (skipped indoors) | `RAIN_LINES` / `SNOW_LINES` / `FOG_LINES` |
+| Ghost wanderer | `GHOST_LINES` — *replaces* the pool entirely |
+| Just walked in from the road | `ARRIVAL_LINES` |
+| Headed through a building's door | `DOORWAY_LINES` |
+| Tapped inside a building | `INDOOR_LINES` |
+
+Each wanderer holds an `AmbientLineCursor`: a seeded shuffle of the merged pool,
+walked one line per tap, reshuffled on wrap and never repeating across the seam.
+`contextKey(ctx)` changing (night falls, they step indoors) rebuilds the queue.
+
+### Lifecycle
+
+Population is held at `TARGET_NPC_COUNT` (12) by a staggered respawn. A wanderer
+who reaches an open door becomes a `BuildingVisitor` — carrying their identity
+and line cursor, so the person who comes back out of the bakery is the person
+who went in, composited from the same look if you follow them inside. A wanderer
+who reaches an exit tile leaves town and credits the shared cross-town counter
+in `townTravelers.ts`; a town visit can claim one back as an arrival.
+
+### Authoring checklist: giving a town its own crowd
+
+1. Set `ambientNpcSprites` in the town's `config.json` (Town panel in the map
+   editor, §13) to the card/NPC sprites that should be over-represented there —
+   fishermen for a port, soldiers for a keep. It's a preference, not a whitelist:
+   the rest of the catalog still appears behind them.
+2. Leave it empty for a town that should be all composite townsfolk.
+3. Nothing else is per-town. Names, palettes and dialogue are global.

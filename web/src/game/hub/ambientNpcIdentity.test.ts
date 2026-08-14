@@ -24,6 +24,13 @@ describe('createAmbientRoster names', () => {
     expect(new Set(npcs.map(n => n.id)).size).toBe(60)
   })
 
+  it('varies the surname too, not just the first name', () => {
+    // A town of a dozen people who all share a surname reads as a bug even
+    // though every full name is technically unique.
+    const surnames = mintMany(12).npcs.map(n => n.name.split(' ')[1])
+    expect(new Set(surnames).size).toBeGreaterThan(6)
+  })
+
   it('draws both halves of the name from the shared pools', () => {
     for (const npc of mintMany(30).npcs) {
       const [first, surname] = npc.name.split(' ')
