@@ -11,6 +11,14 @@ import { PATH_TILE } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
 import { isBuildingOpen, getNpcLocation, getNpcActivity, getNpcDialoguePool, resolveNpcInteriorPresence } from '../../game/hub/hubNpcSchedule'
 import { recordDeparture, claimArrival } from '../../game/hub/townTravelers'
+import { createAmbientRoster, buildUnitSlugPool } from '../../game/hub/ambientNpcIdentity'
+import type { AmbientNpcIdentity, AmbientNpcLook } from '../../game/hub/ambientNpcIdentity'
+import { townsfolkLayers } from '../../data/townsfolk'
+import type { TownsfolkLayer } from '../../data/townsfolk'
+import {
+  SCARED_PHRASES, makeAmbientLineCursor, nextAmbientLine,
+} from '../../game/hub/ambientDialogue'
+import type { AmbientLineContext, AmbientLineCursor, AmbientSituation } from '../../game/hub/ambientDialogue'
 import { getGameHour, getGameMinute } from '../../game/hub/hubClock'
 import { emitSound, startInteriorAudio, stopInteriorAudio, setNightAmbiance } from '../../game/sound'
 import { WALL_TILES } from '../../data/tiles/buildingMaterials'
@@ -57,21 +65,17 @@ const NIGHT_NPC_LIGHT_R  = 2 * T   // small glow radius around each NPC
 const INTERIOR_DARK_INNER = 1.5 * T
 const INTERIOR_DARK_OUTER = 3   * T
 
-// Generic flavor lines for tapping an anonymous wandering NPC — these have
-// no authored identity (just one of a town's ambientNpcSprites), so unlike
-// named NPCs there's no dialogue array to draw from. A short, cosmetic-only
-// speech bubble (no dialogue modal, no game-state change) mirrors how
-// procedural ambient animals respond to a tap (see hubAnimals.ts's FLAVOUR).
-const AMBIENT_NPC_FLAVOUR = [
-  'Lovely day for it.',
-  'Mind where you step.',
-  "Can't stop to chat, sorry!",
-  'Have you seen the notice board?',
-  "Busy, busy — you know how it is.",
-  'Watch yourself out there.',
-  'Off to run an errand.',
-  "I'll catch you later!",
-]
+// Wandering ("ambient") NPCs have no authored identity in a town's config —
+// they're minted at spawn by game/hub/ambientNpcIdentity.ts, which gives each a
+// name no other live wanderer holds and a look that's either a tinted composite
+// townsfolk (data/townsfolk.ts) or one of the game's unit-card sprites. Tapping
+// one shows a name-prefixed flavour line from game/hub/ambientDialogue.ts: a
+// cosmetic-only speech bubble, no dialogue modal and no game-state change, the
+// same treatment procedural ambient animals get (hubAnimals.ts's FLAVOUR).
+
+// How ghostly wanderers render: every layer of a ghost's look drops to this
+// tint, so a ghost reads as a ghost rather than as a townsperson in a nice coat.
+const GHOST_TINT = 0xaaccff
 
 // ── Interactable affordance aura ────────────────────────────────────────────
 // A faint pulsing halo drawn behind tap-reactive objects that own visible decor
@@ -1585,15 +1589,30 @@ export function HubTownCanvas({
       return !!s && s.wasInRange && !s.bubbleReady
     }
 
-    // ── Card-unit NPCs ─────────────────────────────────────────────────────────
-    const SCARED_PHRASES = [
-      'Did you see that?!', 'Is someone there…?', 'Something is wrong…',
-      'A ghost!! A ghost!!', "Did it just get cold?", 'Please no please no',
-      "What was THAT?!", "I can't feel my legs…", 'Run!! RUN!!',
-    ]
+    // ── Wandering ("ambient") NPCs ─────────────────────────────────────────────
+
+    // One cosmetic sibling sprite of a wanderer's base sprite — a coat, a head,
+    // a hat — tinted independently and glued to the base every frame. Card-unit
+    // wanderers have none of these; composite townsfolk have five or six. Same
+    // shape as hubAnimals.ts's TexturedLayer, for the same reason.
+    interface NpcLookLayer {
+      sprite:    PIXI.Sprite
+      /** Draw order relative to the base sprite. */
+      z:         number
+      /** Walk frames, when this layer animates with the body. */
+      frames:    PIXI.Texture[]
+      staticTex: PIXI.Texture
+    }
 
     interface UnitNpcState {
+      identity:           AmbientNpcIdentity
+      /** This wanderer's personal walk through the flavour-line pool. */
+      lines:              AmbientLineCursor
       sprite:             PIXI.Sprite
+      /** Cosmetic layers stacked on `sprite`, ordered back to front. */
+      layers:             NpcLookLayer[]
+      /** True until they finish the walk in from the road (#2111 arrivals). */
+      justArrived:        boolean
       currentTile:        [number, number]
       walkQueue:          [number, number][]
       isWalking:          boolean
@@ -1615,68 +1634,123 @@ export function HubTownCanvas({
       // never clobbers a scared/door reaction, or vice versa.
       tapBubble:      PIXI.Container | null
       tapBubbleTimer: number
-      tapLineIdx:     number
     }
 
     const unitNpcs: UnitNpcState[] = []
-    const cards = unitCardsRef.current ?? []
 
-    const effectiveCards = cards.length > 0
-      ? cards
-      : AMBIENT_NPC_SPRITES.length > 0 ? AMBIENT_NPC_SPRITES : ['hub-avatar']
-    const spawnCount = Math.min(NPC_SPAWN_TILES.length, Math.max(effectiveCards.length * 3, 4))
-    const slots = NPC_SPAWN_TILES.slice(0, spawnCount)
+    // The sprite pool wanderers can be dressed in. `unitCards` is now the whole
+    // unit-card catalog rather than just the player's deck, so the town isn't a
+    // dozen copies of whatever you happen to be playing; the town's own
+    // ambientNpcSprites still come first so Millhaven keeps its fishermen.
+    // Entries may be display names ('Arc.Tower') or bare slugs — loadSpriteTexture
+    // runs both through spriteSlug, so the two are interchangeable here.
+    const ambientRoster = createAmbientRoster({
+      seed: locationKey,
+      unitSlugs: buildUnitSlugPool(AMBIENT_NPC_SPRITES, unitCardsRef.current ?? [], locationKey),
+    })
 
-    slots.forEach(([tx, ty], i) => {
-      const slug = effectiveCards[i % effectiveCards.length]
-      const cx = tx * T + T / 2
-      const cy = ty * T + T
+    /** The layer stack for a look: townsfolk composite them, card units don't. */
+    function lookLayerSpec(look: AmbientNpcLook): { base: TownsfolkLayer; overlays: TownsfolkLayer[] } {
+      if (look.kind === 'townsfolk') return townsfolkLayers(look)
+      return { base: { slug: look.slug, tint: 0xffffff, animated: true, z: 0 }, overlays: [] }
+    }
 
-      const texPromise = cards.length > 0
-        ? loadSpriteTexture(slug).catch(() => loadTextureUrl(`${base}sprites/hub-avatar.svg`))
-        : loadTextureUrl(`${base}sprites/${slug}.svg`).catch(() => loadTextureUrl(`${base}sprites/hub-avatar.svg`))
+    /**
+     * Builds a wanderer's body at (cx, cy): the base sprite, which owns the hit
+     * area and the walk cycle, plus its tinted cosmetic siblings. Every texture
+     * is awaited up front so no layer is ever sized against an empty texture;
+     * walk frames stream in afterwards. Overlays whose art fails to load are
+     * dropped rather than falling back — a missing hat is better than a hat
+     * shaped like the placeholder avatar. Returns null if the app went away
+     * while loading.
+     */
+    async function buildLookSprites(
+      look: AmbientNpcLook, cx: number, cy: number, parent: PIXI.Container, isGhost: boolean,
+    ): Promise<{ sprite: PIXI.Sprite; layers: NpcLookLayer[] } | null> {
+      const spec = lookLayerSpec(look)
+      const [baseTex, overlayTexs] = await Promise.all([
+        loadSpriteTexture(spec.base.slug).catch(() => loadTextureUrl(`${base}sprites/hub-avatar.svg`)),
+        Promise.all(spec.overlays.map(o => loadSpriteTexture(o.slug).catch(() => null))),
+      ])
+      if (app.renderer == null) return null
 
-      texPromise.then(tex => {
-        if (app.renderer == null) return
-        const isGhost = Math.random() < (isNightRef.current ? 0.10 : 0.01)
+      const make = (tex: PIXI.Texture, tint: number): PIXI.Sprite => {
         const s = new PIXI.Sprite(tex)
         s.width = SPRITE_SIZE; s.height = SPRITE_SIZE
         s.anchor.set(0.5, 1)
         s.position.set(cx, cy)
-        s.zIndex = cy
+        s.tint  = isGhost ? GHOST_TINT : tint
         s.alpha = isGhost ? 0.4 : 1.0
-        if (isGhost) s.tint = 0xaaccff
-        npcLayer.addChild(s)
+        return s
+      }
 
-        const state: UnitNpcState = {
-          sprite:               s,
-          currentTile:          [tx, ty],
-          walkQueue:            [],
-          isWalking:            false,
-          wanderTimer:          500 + Math.random() * 500,
-          animFrames:           [],
-          animTimer:            0,
-          animFrame:            0,
-          isGhost:              isGhost,
-          scaredBubble:         null,
-          scaredBubbleTimer:    0,
-          scaredBubbleCooldown: 0,
-          doorReactionBubble:   null,
-          doorReactionTimer:    0,
-          tapBubble:            null,
-          tapBubbleTimer:       0,
-          tapLineIdx:           Math.floor(Math.random() * AMBIENT_NPC_FLAVOUR.length),
-        }
-        s.eventMode = 'static'
-        s.cursor    = 'pointer'
-        s.on('pointerdown', (e) => { e.stopPropagation(); showAmbientNpcTapBubble(state) })
-        unitNpcs.push(state)
+      const sprite = make(baseTex, spec.base.tint)
+      sprite.zIndex = cy
+      const layers: NpcLookLayer[] = spec.overlays
+        .map((o, i) => ({ o, tex: overlayTexs[i] }))
+        .filter((e): e is { o: TownsfolkLayer; tex: PIXI.Texture } => e.tex != null)
+        .map(({ o, tex }) => {
+          const s = make(tex, o.tint)
+          s.zIndex = cy + o.z
+          s.eventMode = 'none'  // cosmetic only — taps must reach the body beneath
+          const layer: NpcLookLayer = { sprite: s, z: o.z, frames: [], staticTex: tex }
+          // Walk frames for the layers that move with the body (a composite
+          // townsfolk's outfit and accent). Head-attached layers never move, so
+          // they stay on their single static texture — see data/townsfolk.ts.
+          if (o.animated) loadAnimFrames(o.slug, 3).then(f => { layer.frames = f }).catch(() => {})
+          return layer
+        })
 
-        loadAnimFrames(slug, 3)
-          .then(frames => { state.animFrames = frames })
-          .catch(() => {})
-      })
-    })
+      // Parent back to front. spriteLayer sorts by zIndex, but interiorLayer
+      // doesn't sort at all — there, insertion order alone is the draw order.
+      for (const l of layers) if (l.z < 0) parent.addChild(l.sprite)
+      parent.addChild(sprite)
+      for (const l of layers) if (l.z >= 0) parent.addChild(l.sprite)
+
+      return { sprite, layers }
+    }
+
+    /** The world state that colours what a wanderer has to say right now.
+     *  Weather is re-resolved rather than cached — it's the same call the
+     *  weather overlay makes (§12), and a tap is far too rare to be worth
+     *  keeping a copy in sync with. */
+    function ambientLineContext(isGhost: boolean, situation: AmbientSituation): AmbientLineContext {
+      return {
+        isNight: isNightRef.current,
+        weather: resolveWeather(HUB_WEATHER, HUB_ENV),
+        isGhost,
+        situation,
+      }
+    }
+
+    /** What a wanderer is up to, for the purposes of what they'll say. They
+     *  despawn the instant they step onto a door tile, so "at the door" has to
+     *  be read from where they're headed rather than where they are. */
+    function situationFor(npc: UnitNpcState): AmbientSituation {
+      if (npc.justArrived) return 'arriving'
+      const dest = npc.walkQueue[npc.walkQueue.length - 1]
+      if (dest && doorTileSet.has(`${dest[0]},${dest[1]}`)) return 'doorway'
+      return 'street'
+    }
+
+    /** Keeps a wanderer's cosmetic layers glued to its body. */
+    function syncNpcLookLayers(npc: UnitNpcState): void {
+      for (const l of npc.layers) {
+        l.sprite.position.copyFrom(npc.sprite.position)
+        l.sprite.scale.copyFrom(npc.sprite.scale)
+        l.sprite.alpha = npc.sprite.alpha
+      }
+    }
+
+    /** Advances the body and every animated layer to the same walk frame, so a
+     *  composite townsfolk's coat and belt stride with the legs underneath. */
+    function setNpcAnimFrame(npc: UnitNpcState, frame: number): void {
+      npc.sprite.texture = npc.animFrames[frame] ?? npc.sprite.texture
+      for (const l of npc.layers) {
+        if (l.frames.length === 0) continue
+        l.sprite.texture = l.frames[frame] ?? l.staticTex
+      }
+    }
 
     // Door tiles — NPCs that arrive here despawn (simulate entering a building)
     const doorTileSet = new Set(HUB_DOORS.map(d => `${d.tx},${d.ty}`))
@@ -1695,7 +1769,7 @@ export function HubTownCanvas({
     // arrived" NPC walking in from an exit tile.
     if (exitTileCoords.length > 0 && claimArrival()) {
       const arrivalTile = exitTileCoords[Math.floor(Math.random() * exitTileCoords.length)]
-      spawnAmbientNpc(arrivalTile)
+      spawnAmbientNpc({ origin: arrivalTile, arriving: true })
     }
     // Spawn tiles that aren't doors — used for respawning so NPCs don't immediately despawn
     const nonDoorSpawnTiles = NPC_SPAWN_TILES.filter(([tx, ty]) => !doorTileSet.has(`${tx},${ty}`))
@@ -1715,13 +1789,25 @@ export function HubTownCanvas({
     const TARGET_NPC_COUNT = 12
     let respawnTimer = 2000
 
+    // Seed the town's population. The old count scaled with the size of the
+    // sprite pool, which now means the whole card catalog — TARGET_NPC_COUNT is
+    // the headcount the respawn cycle maintains anyway, so start there.
+    for (const origin of NPC_SPAWN_TILES.slice(0, Math.min(NPC_SPAWN_TILES.length, TARGET_NPC_COUNT))) {
+      spawnAmbientNpc({ origin, initial: true })
+    }
+
     // Ambient NPCs who've walked into a building's open door don't just
     // vanish — they linger inside for a while, visible if the player follows
     // them in, before letting themselves back out. Keyed by buildingId,
     // in-memory only (ambient NPCs were never persisted across reloads to
-    // begin with). Reuses the sprite's already-loaded texture directly
-    // rather than re-resolving a slug, since UnitNpcState never stored one.
-    interface BuildingVisitor { texture: PIXI.Texture; isGhost: boolean; leaveAt: number }
+    // begin with). Their identity travels with them, so the person who comes
+    // back out of the bakery is the person who went in.
+    interface BuildingVisitor {
+      identity: AmbientNpcIdentity
+      lines:    AmbientLineCursor
+      isGhost:  boolean
+      leaveAt:  number
+    }
     const buildingVisitors = new Map<string, BuildingVisitor[]>()
     const VISITOR_STAY_MS_MIN = 20_000
     const VISITOR_STAY_MS_MAX = 55_000
@@ -1734,6 +1820,8 @@ export function HubTownCanvas({
     interface InteriorVisitorSprite {
       record: BuildingVisitor
       sprite: PIXI.Sprite
+      /** The visitor's cosmetic look layers, so they can be torn down together. */
+      layers: NpcLookLayer[]
       // Tap-flavor bubble, same cosmetic-only treatment as exterior ambient
       // NPCs — added to interiorLayer (not bubbleLayer, which is hidden
       // while indoors) so it renders in the room.
@@ -1742,10 +1830,11 @@ export function HubTownCanvas({
     }
     let interiorVisitorSprites: InteriorVisitorSprite[] = []
 
-    // Removes an ambient NPC's sprite and any active reaction bubbles, and
+    // Removes an ambient NPC's sprites and any active reaction bubbles, and
     // drops it from unitNpcs — shared by despawn-into-a-building and
-    // despawn-via-exit-tile (#2111).
-    function despawnAmbientNpc(npc: UnitNpcState): void {
+    // despawn-via-exit-tile (#2111). `keepIdentity` holds their name in reserve
+    // for the walk back out of a building; everything else frees it.
+    function despawnAmbientNpc(npc: UnitNpcState, keepIdentity = false): void {
       if (npc.scaredBubble) {
         bubbleLayer.removeChild(npc.scaredBubble)
         npc.scaredBubble = null
@@ -1762,13 +1851,25 @@ export function HubTownCanvas({
         npc.tapBubbleTimer = 0
       }
       npc.sprite.parent?.removeChild(npc.sprite)
+      for (const l of npc.layers) l.sprite.parent?.removeChild(l.sprite)
+      npc.layers.length = 0
+      // Hand the name back so somebody else in town can have it later. A
+      // wanderer who's stepped into a building keeps theirs — the roster is
+      // released when they finally leave for good, not while they're indoors.
+      if (!keepIdentity) ambientRoster.release(npc.identity.id)
       const idx = unitNpcs.indexOf(npc)
       if (idx !== -1) unitNpcs.splice(idx, 1)
     }
 
     async function processNpcWalkQueue(npc: UnitNpcState) {
       try {
-        if (npc.walkQueue.length === 0) { npc.isWalking = false; return }
+        if (npc.walkQueue.length === 0) {
+          npc.isWalking = false
+          // They've finished the walk in from the road; from here they're just
+          // another townsperson going about their day.
+          npc.justArrived = false
+          return
+        }
         npc.isWalking = true
         const [tx, ty] = npc.walkQueue.shift()!
         const targetX  = tx * T + T / 2
@@ -1806,11 +1907,14 @@ export function HubTownCanvas({
           if (enteredBuildingId) {
             const visitors = buildingVisitors.get(enteredBuildingId) ?? []
             visitors.push({
-              texture: npc.sprite.texture,
-              isGhost: npc.isGhost,
+              identity: npc.identity,
+              lines:    npc.lines,
+              isGhost:  npc.isGhost,
               leaveAt: Date.now() + VISITOR_STAY_MS_MIN + Math.random() * (VISITOR_STAY_MS_MAX - VISITOR_STAY_MS_MIN),
             })
             buildingVisitors.set(enteredBuildingId, visitors)
+            despawnAmbientNpc(npc, true)
+            return
           }
           despawnAmbientNpc(npc)
           return
@@ -1998,34 +2102,45 @@ export function HubTownCanvas({
       if (!npc.isWalking) processNpcWalkQueue(npc)
     }
 
-    // `origin` lets a caller place the spawn at a specific tile (an exit, for
-    // a claimed arrival — #2111) instead of a random non-door spawn tile.
-    function spawnAmbientNpc(origin?: [number, number]) {
+    /**
+     * The one way a wanderer comes into the world — used for the town's initial
+     * population, for the respawn cycle that keeps it topped up, for a traveller
+     * arriving from another town, and for somebody stepping back out of a shop.
+     *
+     * `origin` places the spawn at a specific tile instead of a random non-door
+     * spawn tile. `identity` reuses an existing person (walking back out of a
+     * building) rather than minting a new one. `arriving` marks a traveller
+     * fresh off the road, which colours what they say until they stop walking.
+     * `initial` only affects how soon they first wander, so the town isn't
+     * completely still for the first couple of seconds after it loads.
+     */
+    function spawnAmbientNpc(opts: {
+      origin?:   [number, number]
+      identity?: AmbientNpcIdentity
+      /** Carries a returning wanderer's place in their line pool back out. */
+      lines?:    AmbientLineCursor
+      arriving?: boolean
+      initial?:  boolean
+      isGhost?:  boolean
+    } = {}): void {
+      const { origin, arriving = false, initial = false } = opts
       if (!origin && nonDoorSpawnTiles.length === 0) return
       const [tx, ty] = origin ?? nonDoorSpawnTiles[Math.floor(Math.random() * nonDoorSpawnTiles.length)]
-      const cx = tx * T + T / 2
-      const cy = ty * T + T
-      const slug = effectiveCards[Math.floor(Math.random() * effectiveCards.length)]
-      const texPromise = cards.length > 0
-        ? loadSpriteTexture(slug).catch(() => loadTextureUrl(`${base}sprites/hub-avatar.svg`))
-        : loadTextureUrl(`${base}sprites/${slug}.svg`).catch(() => loadTextureUrl(`${base}sprites/hub-avatar.svg`))
-      texPromise.then(tex => {
-        if (app.renderer == null) return
-        const isGhost = Math.random() < (isNightRef.current ? 0.10 : 0.01)
-        const s = new PIXI.Sprite(tex)
-        s.width = SPRITE_SIZE; s.height = SPRITE_SIZE
-        s.anchor.set(0.5, 1)
-        s.position.set(cx, cy)
-        s.zIndex = cy
-        s.alpha = isGhost ? 0.4 : 1.0
-        if (isGhost) s.tint = 0xaaccff
-        npcLayer.addChild(s)
+      const identity = opts.identity ?? ambientRoster.mint()
+      const isGhost  = opts.isGhost ?? (Math.random() < (isNightRef.current ? 0.10 : 0.01))
+
+      buildLookSprites(identity.look, tx * T + T / 2, ty * T + T, npcLayer, isGhost).then(built => {
+        if (!built) return
         const state: UnitNpcState = {
-          sprite:               s,
+          identity,
+          lines:                opts.lines ?? makeAmbientLineCursor(identity.id, ambientLineContext(isGhost, arriving ? 'arriving' : 'street')),
+          sprite:               built.sprite,
+          layers:               built.layers,
+          justArrived:          arriving,
           currentTile:          [tx, ty],
           walkQueue:            [],
           isWalking:            false,
-          wanderTimer:          1000 + Math.random() * 2000,
+          wanderTimer:          initial ? 500 + Math.random() * 500 : 1000 + Math.random() * 2000,
           animFrames:           [],
           animTimer:            0,
           animFrame:            0,
@@ -2037,14 +2152,15 @@ export function HubTownCanvas({
           doorReactionTimer:    0,
           tapBubble:            null,
           tapBubbleTimer:       0,
-          tapLineIdx:           Math.floor(Math.random() * AMBIENT_NPC_FLAVOUR.length),
         }
-        s.eventMode = 'static'
-        s.cursor    = 'pointer'
-        s.on('pointerdown', (e) => { e.stopPropagation(); showAmbientNpcTapBubble(state) })
+        built.sprite.eventMode = 'static'
+        built.sprite.cursor    = 'pointer'
+        built.sprite.on('pointerdown', (e) => { e.stopPropagation(); showAmbientNpcTapBubble(state) })
         unitNpcs.push(state)
-        loadAnimFrames(slug, 3).then(frames => { state.animFrames = frames }).catch(() => {})
-      }).catch(() => {})
+        loadAnimFrames(lookLayerSpec(identity.look).base.slug, 3)
+          .then(frames => { state.animFrames = frames })
+          .catch(() => {})
+      }).catch(e => rollbar.error('[HubTownCanvas] spawnAmbientNpc failed', { error: String(e) }))
     }
 
     // ── Exterior walk state ────────────────────────────────────────────────────
@@ -2676,36 +2792,46 @@ export function HubTownCanvas({
       }
 
       // Ambient wandering NPCs currently "inside" this building (#2111) —
-      // visible for the rest of their stay if the player follows them in.
-      // Reuses the texture each already had outside — no new texture load,
-      // no identity, just a body standing somewhere in the room. Positioning
-      // is static for now (no in-room wandering), same tradeoff the denned
-      // animals above don't fully avoid either (neither reserves its tile
-      // against the other, so an occasional overlap is possible but rare
-      // given how few of either are usually present in one small room).
+      // visible for the rest of their stay if the player follows them in, and
+      // recognisably the same person who walked in: same name, same composite
+      // look, same place in their line pool. Positioning is static for now (no
+      // in-room wandering), same tradeoff the denned animals above don't fully
+      // avoid either (neither reserves its tile against the other, so an
+      // occasional overlap is possible but rare given how few of either are
+      // usually present in one small room).
       {
         const visitors = buildingVisitors.get(buildingId) ?? []
         const freeTiles = Array.from(interiorWalkable).map(k => k.split(',').map(Number) as [number, number])
-        interiorVisitorSprites = visitors.map((record, i) => {
+        const enteredInteriorId = buildingId
+        interiorVisitorSprites = []
+        visitors.forEach((record, i) => {
           const spot = freeTiles[(i * 5 + 2) % Math.max(1, freeTiles.length)] ?? [1, 1]
-          const s = new PIXI.Sprite(record.texture)
-          s.width = SPRITE_SIZE; s.height = SPRITE_SIZE
-          s.anchor.set(0.5, 1)
-          s.position.set(spot[0] * T + T / 2, spot[1] * T + T)
-          if (record.isGhost) { s.alpha = 0.4; s.tint = 0xaaccff }
-          interiorLayer.addChild(s)
-          const entry: InteriorVisitorSprite = { record, sprite: s, bubble: null, bubbleTimer: 0 }
-          s.eventMode = 'static'
-          s.cursor    = 'pointer'
-          s.on('pointerdown', (e) => {
-            e.stopPropagation()
-            if (entry.bubble) { interiorLayer.removeChild(entry.bubble); entry.bubble = null }
-            const line = AMBIENT_NPC_FLAVOUR[Math.floor(Math.random() * AMBIENT_NPC_FLAVOUR.length)]
-            entry.bubble = createSpeechBubble(line, s.x, s.y)
-            interiorLayer.addChild(entry.bubble)
-            entry.bubbleTimer = 1800
-          })
-          return entry
+          buildLookSprites(
+            record.identity.look, spot[0] * T + T / 2, spot[1] * T + T, interiorLayer, record.isGhost,
+          ).then(built => {
+            // The player may have walked back out while this was loading.
+            if (!built || !interiorActive || currentInteriorId !== enteredInteriorId) {
+              built?.sprite.parent?.removeChild(built.sprite)
+              for (const l of built?.layers ?? []) l.sprite.parent?.removeChild(l.sprite)
+              return
+            }
+            const s = built.sprite
+            const entry: InteriorVisitorSprite = {
+              record, sprite: s, layers: built.layers, bubble: null, bubbleTimer: 0,
+            }
+            s.eventMode = 'static'
+            s.cursor    = 'pointer'
+            s.on('pointerdown', (e) => {
+              e.stopPropagation()
+              if (entry.bubble) { interiorLayer.removeChild(entry.bubble); entry.bubble = null }
+              const ctx  = ambientLineContext(record.isGhost, 'indoors')
+              const line = nextAmbientLine(record.lines, record.identity.id, ctx)
+              entry.bubble = createSpeechBubble(`${record.identity.name}: ${line}`, s.x, s.y)
+              interiorLayer.addChild(entry.bubble)
+              entry.bubbleTimer = 2600
+            })
+            interiorVisitorSprites.push(entry)
+          }).catch(() => {})
         })
       }
 
@@ -2936,16 +3062,17 @@ export function HubTownCanvas({
       return c
     }
 
-    // Tapping an anonymous wandering NPC shows one cosmetic flavor line —
-    // no dialogue modal, no state — cycling through AMBIENT_NPC_FLAVOUR so
-    // repeat taps on the same NPC don't always show the same line.
+    // Tapping a wandering NPC shows one cosmetic flavour line prefixed with
+    // their name — no dialogue modal, no state. Each wanderer walks its own
+    // shuffle of the pool (ambientDialogue.ts), so repeat taps on the same
+    // person keep turning up lines they haven't said yet.
     function showAmbientNpcTapBubble(npc: UnitNpcState): void {
       if (npc.tapBubble) { bubbleLayer.removeChild(npc.tapBubble); npc.tapBubble = null }
-      const line = AMBIENT_NPC_FLAVOUR[npc.tapLineIdx % AMBIENT_NPC_FLAVOUR.length]
-      npc.tapLineIdx += 1
-      npc.tapBubble = createSpeechBubble(line, npc.sprite.x, npc.sprite.y)
+      const ctx  = ambientLineContext(npc.isGhost, situationFor(npc))
+      const line = nextAmbientLine(npc.lines, npc.identity.id, ctx)
+      npc.tapBubble = createSpeechBubble(`${npc.identity.name}: ${line}`, npc.sprite.x, npc.sprite.y)
       bubbleLayer.addChild(npc.tapBubble)
-      npc.tapBubbleTimer = 1800
+      npc.tapBubbleTimer = 2600
     }
 
     function createNameTag(name: string, cx: number, cy: number): PIXI.Container {
@@ -3419,7 +3546,11 @@ export function HubTownCanvas({
       }
       for (const npc of unitNpcs) {
         const nz = npc.sprite.y
-        if (nz !== npc.sprite.zIndex) { npc.sprite.zIndex = nz; zDirty = true }
+        if (nz !== npc.sprite.zIndex) {
+          npc.sprite.zIndex = nz
+          for (const l of npc.layers) l.sprite.zIndex = nz + l.z
+          zDirty = true
+        }
       }
       if (zDirty) { spriteLayer.sortChildren(); worldLayer.sortChildren() }
 
@@ -3797,10 +3928,10 @@ export function HubTownCanvas({
           if (npc.animTimer <= 0) {
             npc.animTimer = 200
             npc.animFrame = (npc.animFrame + 1) % npc.animFrames.length
-            npc.sprite.texture = npc.animFrames[npc.animFrame]
+            setNpcAnimFrame(npc, npc.animFrame)
           }
         } else if (!npc.isWalking && npc.animFrames.length > 0 && npc.animFrame !== 0) {
-          npc.sprite.texture = npc.animFrames[0]
+          setNpcAnimFrame(npc, 0)
           npc.animFrame = 0
           npc.animTimer = 0
         }
@@ -3808,6 +3939,9 @@ export function HubTownCanvas({
         if (npc.isGhost) {
           npc.sprite.alpha = 0.25 + 0.2 * Math.sin(performance.now() / 600 + npc.currentTile[0])
         }
+        // Cosmetic layers ride along with the body every frame — position,
+        // facing and the ghost pulse above all have to reach them.
+        syncNpcLookLayers(npc)
 
         if (!npc.isWalking) {
           npc.wanderTimer -= ticker.deltaMS
@@ -3894,12 +4028,24 @@ export function HubTownCanvas({
               if (idx !== -1) {
                 const leaving = interiorVisitorSprites[idx]
                 interiorLayer.removeChild(leaving.sprite)
+                for (const l of leaving.layers) interiorLayer.removeChild(l.sprite)
                 if (leaving.bubble) interiorLayer.removeChild(leaving.bubble)
                 interiorVisitorSprites.splice(idx, 1)
               }
             }
             const door = HUB_DOORS.find(d => d.buildingId === visitBuildingId)
-            if (door && isDoorOpen(door.tx, door.ty)) spawnAmbientNpc([door.tx, door.ty])
+            if (door && isDoorOpen(door.tx, door.ty)) {
+              // The same person walks back out — name, look and all.
+              spawnAmbientNpc({
+                origin: [door.tx, door.ty], identity: record.identity,
+                lines: record.lines, isGhost: record.isGhost,
+              })
+            } else {
+              // The building shut while they were inside, so they're staying
+              // put out of sight. Free the name rather than reserving it for a
+              // wanderer who will never reappear.
+              ambientRoster.release(record.identity.id)
+            }
           }
           if (visitors.length === 0) buildingVisitors.delete(visitBuildingId)
         }

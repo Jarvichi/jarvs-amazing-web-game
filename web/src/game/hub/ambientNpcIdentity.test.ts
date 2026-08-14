@@ -132,9 +132,9 @@ describe('buildUnitSlugPool', () => {
   })
 
   it('shuffles the catalog deterministically per seed', () => {
-    const args = [[] as string[], ['a', 'b', 'c', 'd', 'e', 'f']] as const
-    expect(buildUnitSlugPool(...args, 'x')).toEqual(buildUnitSlugPool(...args, 'x'))
-    expect(buildUnitSlugPool(...args, 'x')).not.toEqual(buildUnitSlugPool(...args, 'y'))
+    const catalog = ['a', 'b', 'c', 'd', 'e', 'f']
+    expect(buildUnitSlugPool([], catalog, 'x')).toEqual(buildUnitSlugPool([], catalog, 'x'))
+    expect(buildUnitSlugPool([], catalog, 'x')).not.toEqual(buildUnitSlugPool([], catalog, 'y'))
   })
 
   it('copes with no preferred sprites and no catalog', () => {
