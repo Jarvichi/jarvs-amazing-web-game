@@ -9870,11 +9870,126 @@
       "wallTileId": "interiorWallWhite"
     },
     "arcade-building-w-2": {
-      "name": "arcade-building-w-2",
+      "name": "The Prize Wheel",
       "width": 15,
       "height": 11,
       "floorTileId": "yellowCarpetFloor",
-      "decor": [],
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "rugTopLeft",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "rugTopMid",
+          "zlayer": "below"
+        },
+        {
+          "tx": 3,
+          "ty": 1,
+          "tileId": "rugTopRight",
+          "zlayer": "below"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "rugMidLeft",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "rugMidMid",
+          "zlayer": "below"
+        },
+        {
+          "tx": 3,
+          "ty": 2,
+          "tileId": "rugMidRight",
+          "zlayer": "below"
+        },
+        {
+          "tx": 1,
+          "ty": 3,
+          "tileId": "rugBottomLeft",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": 3,
+          "tileId": "rugBottomMid",
+          "zlayer": "below"
+        },
+        {
+          "tx": 3,
+          "ty": 3,
+          "tileId": "rugBottomRight",
+          "zlayer": "below"
+        },
+        {
+          "tx": 10,
+          "ty": 9,
+          "tileId": "counterTopHorizontalLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 9,
+          "tileId": "counterTopHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 9,
+          "tileId": "pileOfSacks",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": 9,
+          "tileId": "counterTopHorizontalRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": 9,
+          "tileId": "chest",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 5,
+          "tileId": "roundTable",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 5,
+          "tileId": "stool",
+          "zlayer": "below"
+        },
+        {
+          "tx": 7,
+          "ty": 5,
+          "tileId": "stool",
+          "zlayer": "below"
+        },
+        {
+          "tx": 13,
+          "ty": -1,
+          "tileId": "paintingLandscapeTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 13,
+          "ty": 0,
+          "tileId": "paintingLandscapeBottom",
+          "zlayer": "solid"
+        }
+      ],
       "exits": [
         {
           "tx": 0,
@@ -9896,11 +10011,116 @@
       "wallTileId": "interiorWallStriped"
     },
     "arcade-building-w-3": {
-      "name": "arcade-building-w-3",
+      "name": "The Concourse",
       "width": 15,
       "height": 11,
       "floorTileId": "yellowCarpetFloor",
-      "decor": [],
+      "carve": [
+        {
+          "tx": 6,
+          "ty": 1,
+          "w": 3,
+          "h": 2
+        }
+      ],
+      "decor": [
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "bannerTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 0,
+          "tileId": "bannerBot",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "bannerTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": 0,
+          "tileId": "bannerBot",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": 4,
+          "tileId": "counterTopMahoganyHorizontalLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 4,
+          "tileId": "counterTopMahoganyHorizontalMiddle",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 4,
+          "tileId": "pileOfCoins",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": 4,
+          "tileId": "counterTopMahoganyHorizontalRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "roundTableWithCloth",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 4,
+          "tileId": "playingCard",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 4,
+          "tileId": "stool",
+          "zlayer": "below"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "stool",
+          "zlayer": "below"
+        },
+        {
+          "tx": 7,
+          "ty": 6,
+          "tileId": "roundTable",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 6,
+          "tileId": "dice",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 6,
+          "tileId": "stool",
+          "zlayer": "below"
+        },
+        {
+          "tx": 8,
+          "ty": 6,
+          "tileId": "stool",
+          "zlayer": "below"
+        }
+      ],
       "exits": [
         {
           "tx": 7,
@@ -9930,7 +10150,7 @@
       "wallTileId": "interiorWallStriped"
     },
     "arcade-building-w-4": {
-      "name": "arcade-building-w-4",
+      "name": "The Back Room",
       "width": 15,
       "height": 11,
       "floorTileId": "redCarpetFloor",
@@ -9940,6 +10160,54 @@
           "ty": 2,
           "tileId": "stepsUpFromLeft",
           "zlayer": "below"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "roundTableWithCloth",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "pileOfSilverCoins",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 4,
+          "tileId": "stool",
+          "zlayer": "below"
+        },
+        {
+          "tx": 9,
+          "ty": 4,
+          "tileId": "stool",
+          "zlayer": "below"
+        },
+        {
+          "tx": 2,
+          "ty": 6,
+          "tileId": "candlestickLitTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 2,
+          "ty": 7,
+          "tileId": "candlestickLitBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": 2,
+          "tileId": "lanternTopLit",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 12,
+          "ty": 3,
+          "tileId": "lanternBotLit",
+          "zlayer": "solid"
         },
         {
           "tx": 5,
@@ -10008,16 +10276,87 @@
           "toInteriorId": "arcade-building-w-vault",
           "direction": "down",
           "entryTx": 2,
-          "entryTy": 1
+          "entryTy": 1,
+          "requiredQuest": "vault-guard-stand-down",
+          "label": "Vault stairs (guarded)"
         }
       ]
     },
     "arcade-building-w-5": {
-      "name": "arcade-building-w-5",
+      "name": "The Card Room",
       "width": 15,
       "height": 11,
       "floorTileId": "redCarpetFloor",
-      "decor": [],
+      "carve": [
+        {
+          "tx": 11,
+          "ty": 1,
+          "w": 3,
+          "h": 2
+        }
+      ],
+      "decor": [
+        {
+          "tx": 5,
+          "ty": 6,
+          "tileId": "roundTableWithCloth",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 6,
+          "tileId": "playingCard",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 6,
+          "tileId": "stool",
+          "zlayer": "below"
+        },
+        {
+          "tx": 6,
+          "ty": 6,
+          "tileId": "stool",
+          "zlayer": "below"
+        },
+        {
+          "tx": 5,
+          "ty": 7,
+          "tileId": "stool",
+          "zlayer": "below"
+        },
+        {
+          "tx": 9,
+          "ty": 4,
+          "tileId": "roundTable",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 8,
+          "ty": 4,
+          "tileId": "stool",
+          "zlayer": "below"
+        },
+        {
+          "tx": 10,
+          "ty": 4,
+          "tileId": "stool",
+          "zlayer": "below"
+        },
+        {
+          "tx": 3,
+          "ty": -1,
+          "tileId": "paintingLandscapeTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 3,
+          "ty": 0,
+          "tileId": "paintingLandscapeBottom",
+          "zlayer": "solid"
+        }
+      ],
       "exits": [
         {
           "tx": 0,
@@ -10039,7 +10378,7 @@
       "wallTileId": "interiorWallWhite"
     },
     "arcade-building-w-vault": {
-      "name": "Arcade - Vault",
+      "name": "The Counting Room",
       "width": 10,
       "height": 8,
       "floorTileId": "stoneFloor",
@@ -10055,6 +10394,54 @@
           "ty": 0,
           "tileId": "woodStepsUpRightTop",
           "zlayer": "below"
+        },
+        {
+          "tx": 3,
+          "ty": 4,
+          "tileId": "strongChest",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 4,
+          "tileId": "pileOfGoldCoins",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "pileOfSilverCoins",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 3,
+          "tileId": "pileOfCopperCoins",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "candlestickLitTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "tileId": "candlestickLitBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "candlestickLitTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 2,
+          "tileId": "candlestickLitBottom",
+          "zlayer": "solid"
         }
       ],
       "wallTileId": "darkStone",
@@ -12416,9 +12803,19 @@
       "tx": 5,
       "ty": 1,
       "dialogue": [
-        "Hello!"
+        "Vault's closed to visitors. Zev's orders — nobody past this point without a vouch.",
+        "Three vouches, Commander. That's the price of trust in this hall these days."
       ],
-      "building": "arcade-building-w-4"
+      "building": "arcade-building-w-4",
+      "questVariant": {
+        "requireQuest": "vault-guard-stand-down",
+        "tx": 4,
+        "ty": 3,
+        "dialogue": [
+          "Go on through, Commander. Zev, Aggie, and Juno all vouched for you — good enough for me.",
+          "Vault's all yours now. Try not to spend it all on the fruit machine."
+        ]
+      }
     },
     {
       "id": "whistlebone",
@@ -12578,6 +12975,18 @@
       "title": "A moss-covered chest hidden in the forest",
       "reward": {
         "crystals": 30
+      }
+    },
+    {
+      "id": "arcade-vault-hoard",
+      "buildingId": "arcade-building-w-vault",
+      "tx": 6,
+      "ty": 4,
+      "tileId": "goldChest",
+      "collectedTileId": "openGoldChest",
+      "title": "The Games Hall's hidden hoard",
+      "reward": {
+        "crystals": 50
       }
     },
     {

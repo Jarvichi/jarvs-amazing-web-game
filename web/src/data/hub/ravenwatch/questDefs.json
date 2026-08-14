@@ -3373,6 +3373,131 @@
       }
     },
     {
+      "id": "vault-guard-the-guards-doubt",
+      "title": "The Guard's Doubt",
+      "type": "fetch",
+      "giverNpcId": "games-host-zev",
+      "receiverNpcId": "marble-master-int",
+      "prerequisite": "quest:zev-games-hall-stands",
+      "offerDialogue": "Ever since word of the rigged games got out, I've kept a guard posted on the vault stairs — can't have just anyone wandering down there. He won't stand aside for a stranger, though. Three of my own dealers need to vouch for you first. Start with Aggie the Roller, in the back room.",
+      "activeDialogue": "Find Aggie the Roller in the back room and let her get a look at you.",
+      "completeDialogue": "Zev sent you, did he? Fine — I'm short a few marbles that rolled loose during last night's tournament. Fetch them and I'll vouch for you.",
+      "steps": [
+        {
+          "key": "report-aggie",
+          "type": "report",
+          "targetNpcId": "marble-master-int",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "unlock": "vault-guard-aggies-marbles"
+      }
+    },
+    {
+      "id": "vault-guard-aggies-marbles",
+      "title": "Aggie's Marbles",
+      "type": "lost-items",
+      "giverNpcId": "marble-master-int",
+      "receiverNpcId": "marble-master-int",
+      "prerequisite": "quest:vault-guard-the-guards-doubt",
+      "offerDialogue": "Three good marbles rolled off during the tournament and I haven't had a spare minute to chase them down. Find them for me and I'll put in a word with the guard.",
+      "activeDialogue": "Check under the tables — one in the marble race room, the rest scattered back here. They roll further than you'd think.",
+      "completeDialogue": "All three, not a scratch on them. I'll tell the guard you're worth trusting. Juno really runs this floor, though — you'll want her vouch too.",
+      "steps": [
+        {
+          "key": "marbles",
+          "type": "collect",
+          "pickupIds": [
+            "loose-marble-1",
+            "loose-marble-2",
+            "loose-marble-3"
+          ],
+          "required": 3,
+          "itemName": "Lucky Marble",
+          "itemIcon": "🔵"
+        }
+      ],
+      "reward": {
+        "crystals": 40,
+        "friendship": {
+          "marble-master-int": 15
+        },
+        "unlock": "vault-guard-junos-jam"
+      }
+    },
+    {
+      "id": "vault-guard-junos-jam",
+      "title": "Juno's Jam",
+      "type": "chain",
+      "giverNpcId": "reels-remy-int",
+      "receiverNpcId": "games-host-zev",
+      "prerequisite": "quest:vault-guard-aggies-marbles",
+      "offerDialogue": "Aggie vouches for you? Fine by me. My fruit machine's been spitting jammed tokens all week — somebody's skimming the reels. Clear the jam, bring me the tokens, and you'll have my vouch too.",
+      "activeDialogue": {
+        "tokens": "The jammed tokens should be caught somewhere around the machines here in the back room.",
+        "report-zev": "Take the cleared tokens to Zev — he'll want to see the evidence himself."
+      },
+      "completeDialogue": "Clean tokens, no tampering — that's two vouches now. Go tell the guard himself. He'll listen once he knows the whole floor trusts you.",
+      "steps": [
+        {
+          "key": "tokens",
+          "type": "collect",
+          "pickupIds": [
+            "jammed-reel-token-1",
+            "jammed-reel-token-2"
+          ],
+          "required": 2,
+          "itemName": "Reel Token",
+          "itemIcon": "🪙"
+        },
+        {
+          "key": "report-zev",
+          "type": "report",
+          "targetNpcId": "games-host-zev",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 45,
+        "friendship": {
+          "reels-remy-int": 15
+        },
+        "unlock": "vault-guard-stand-down"
+      }
+    },
+    {
+      "id": "vault-guard-stand-down",
+      "title": "Stand Down",
+      "type": "fetch",
+      "giverNpcId": "games-host-zev",
+      "receiverNpcId": "npc_1786260907308",
+      "prerequisite": "quest:vault-guard-junos-jam",
+      "offerDialogue": "Aggie and Juno both vouch for you — good enough for me. Go tell the guard himself he can stand down. He's stubborn, but he'll listen once he knows the whole floor trusts you.",
+      "activeDialogue": "Go tell the Vault Guard he can stand down.",
+      "completeDialogue": "...Zev's word, Aggie's word, and Juno's, all for you? Fine. Fine! I've been standing on this same tile for months anyway. Go on, Commander — the vault's yours. Try not to take all of it at once.",
+      "steps": [
+        {
+          "key": "report-guard",
+          "type": "report",
+          "targetNpcId": "npc_1786260907308",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": {
+          "games-host-zev": 20
+        },
+        "relationship": {
+          "npc_1786260907308": {
+            "track": "ally",
+            "points": 15
+          }
+        }
+      }
+    },
+    {
       "id": "orin-champions-stand",
       "title": "Champions' Stand",
       "type": "chain",
@@ -6003,6 +6128,46 @@
       "tileId": "basketOrPeppers",
       "questId": "grimbles-final-feast",
       "building": "inn-building"
+    },
+    {
+      "id": "loose-marble-1",
+      "tx": 3,
+      "ty": 8,
+      "tileId": "coin",
+      "questId": "vault-guard-aggies-marbles",
+      "building": "arcade-building-w-1"
+    },
+    {
+      "id": "loose-marble-2",
+      "tx": 11,
+      "ty": 7,
+      "tileId": "coin",
+      "questId": "vault-guard-aggies-marbles",
+      "building": "arcade-building-w-4"
+    },
+    {
+      "id": "loose-marble-3",
+      "tx": 13,
+      "ty": 8,
+      "tileId": "coin",
+      "questId": "vault-guard-aggies-marbles",
+      "building": "arcade-building-w-1"
+    },
+    {
+      "id": "jammed-reel-token-1",
+      "tx": 3,
+      "ty": 8,
+      "tileId": "coin",
+      "questId": "vault-guard-junos-jam",
+      "building": "arcade-building-w-4"
+    },
+    {
+      "id": "jammed-reel-token-2",
+      "tx": 1,
+      "ty": 8,
+      "tileId": "coin",
+      "questId": "vault-guard-junos-jam",
+      "building": "arcade-building-w-4"
     }
   ],
   "friendshipDialogue": {

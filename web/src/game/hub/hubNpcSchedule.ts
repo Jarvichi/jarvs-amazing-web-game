@@ -1,6 +1,12 @@
 import { hourInRange } from './hubClock'
 import { isCampaignComplete } from '../questline'
+import { getQuestState } from './quests'
 import type { HubNpc, HubInterior, NpcScheduleEntry, NpcActivity } from '../../data/hub/loader'
+
+/** True once the NPC's `questVariant.requireQuest` has been completed. */
+function isQuestVariantActive(npc: HubNpc): boolean {
+  return !!npc.questVariant && getQuestState(npc.questVariant.requireQuest).status === 'completed'
+}
 
 /**
  * Canonical list of NPC activities (single source of truth for editor dropdowns
@@ -31,6 +37,7 @@ export function getNpcActivity(npc: HubNpc, gameHour: number): NpcActivity | nul
  *  post-campaign lines once campaign 1 is complete, otherwise the flat
  *  `dialogue` array. */
 export function getNpcDialoguePool(npc: HubNpc, gameHour: number): string[] {
+  if (isQuestVariantActive(npc) && npc.questVariant!.dialogue?.length) return npc.questVariant!.dialogue
   const activity = getNpcActivity(npc, gameHour)
   const pool = activity ? npc.dialogueByActivity?.[activity] : undefined
   if (pool?.length) return pool
@@ -66,11 +73,17 @@ export function resolveNpcInteriorPresence(
   buildingId: string,
   gameHour: number,
 ): { tx: number; ty: number } | null {
-  if (!npc.schedule?.length) {
-    return npc.building === buildingId ? { tx: npc.tx, ty: npc.ty } : null
+  const base = !npc.schedule?.length
+    ? (npc.building === buildingId ? { tx: npc.tx, ty: npc.ty } : null)
+    : (() => {
+        const loc = getNpcLocation(npc, gameHour)
+        return loc?.type === 'interior' && loc.buildingId === buildingId ? { tx: loc.tx, ty: loc.ty } : null
+      })()
+  if (!base) return null
+  if (isQuestVariantActive(npc) && npc.questVariant!.tx != null && npc.questVariant!.ty != null) {
+    return { tx: npc.questVariant!.tx, ty: npc.questVariant!.ty }
   }
-  const loc = getNpcLocation(npc, gameHour)
-  return loc?.type === 'interior' && loc.buildingId === buildingId ? { tx: loc.tx, ty: loc.ty } : null
+  return base
 }
 
 export function isBuildingOpen(interior: HubInterior, gameHour: number): boolean {

@@ -1,6 +1,21 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { getNpcActivity, getNpcDialoguePool, isNpcAsleep, NPC_ACTIVITIES, resolveNpcInteriorPresence } from './hubNpcSchedule'
+import { setQuestStatus } from './quests'
 import type { HubNpc } from '../../data/hub/loader'
+
+// In-memory localStorage mock (tests run in node environment)
+const store = new Map<string, string>()
+beforeEach(() => {
+  store.clear()
+  globalThis.localStorage = {
+    getItem:    (k: string) => store.get(k) ?? null,
+    setItem:    (k: string, v: string) => { store.set(k, v) },
+    removeItem: (k: string) => { store.delete(k) },
+    clear:      () => { store.clear() },
+    key:        (i: number) => [...store.keys()][i] ?? null,
+    get length() { return store.size },
+  } as Storage
+})
 
 const npc: HubNpc = {
   id: 'baker', name: 'Baker', sprite: 'hub-npc-merchant', tx: 5, ty: 5, dialogue: [],
@@ -190,5 +205,61 @@ describe('resolveNpcInteriorPresence', () => {
       ],
     }
     expect(resolveNpcInteriorPresence(traveler, 'card-shop', 12)).toBeNull()
+  })
+
+  describe('questVariant', () => {
+    const guard: HubNpc = {
+      id: 'guard', name: 'Vault Guard', sprite: 'hub-npc-guard', tx: 5, ty: 1, dialogue: ['Halt.'],
+      building: 'vault-room',
+      questVariant: { requireQuest: 'stand-down', tx: 4, ty: 3, dialogue: ['Go on through.'] },
+    }
+
+    it('stays at the base tile while the gating quest is incomplete', () => {
+      expect(resolveNpcInteriorPresence(guard, 'vault-room', 12)).toEqual({ tx: 5, ty: 1 })
+    })
+
+    it('moves to the variant tile once the gating quest is completed', () => {
+      setQuestStatus('stand-down', 'completed')
+      expect(resolveNpcInteriorPresence(guard, 'vault-room', 12)).toEqual({ tx: 4, ty: 3 })
+    })
+
+    it('stays at the base tile when the gating quest is merely active', () => {
+      setQuestStatus('stand-down', 'active')
+      expect(resolveNpcInteriorPresence(guard, 'vault-room', 12)).toEqual({ tx: 5, ty: 1 })
+    })
+
+    it('leaves position unchanged when the variant sets no tx/ty', () => {
+      const dialogueOnly: HubNpc = { ...guard, questVariant: { requireQuest: 'stand-down', dialogue: ['Go on through.'] } }
+      setQuestStatus('stand-down', 'completed')
+      expect(resolveNpcInteriorPresence(dialogueOnly, 'vault-room', 12)).toEqual({ tx: 5, ty: 1 })
+    })
+
+    it('is still absent from an unrelated building even with an active variant', () => {
+      setQuestStatus('stand-down', 'completed')
+      expect(resolveNpcInteriorPresence(guard, 'other-room', 12)).toBeNull()
+    })
+  })
+})
+
+describe('getNpcDialoguePool — questVariant', () => {
+  const guard: HubNpc = {
+    id: 'guard', name: 'Vault Guard', sprite: 'hub-npc-guard', tx: 5, ty: 1,
+    dialogue: ['Halt.'],
+    questVariant: { requireQuest: 'stand-down', dialogue: ['Go on through.'] },
+  }
+
+  it('returns the flat dialogue while the gating quest is incomplete', () => {
+    expect(getNpcDialoguePool(guard, 12)).toBe(guard.dialogue)
+  })
+
+  it('returns the variant dialogue once the gating quest is completed', () => {
+    setQuestStatus('stand-down', 'completed')
+    expect(getNpcDialoguePool(guard, 12)).toEqual(['Go on through.'])
+  })
+
+  it('falls back to flat dialogue when the variant has no dialogue of its own', () => {
+    const positionOnly: HubNpc = { ...guard, questVariant: { requireQuest: 'stand-down', tx: 4, ty: 3 } }
+    setQuestStatus('stand-down', 'completed')
+    expect(getNpcDialoguePool(positionOnly, 12)).toBe(positionOnly.dialogue)
   })
 })
