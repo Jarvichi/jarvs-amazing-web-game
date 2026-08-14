@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- head + neck; tinted with the skin tone. Fixed across every body and walk frame -->
+  <rect x="14.4" y="12.6" width="3.2" height="2.2" rx="1" fill="#ffffff"/>
+  <circle cx="16" cy="9" r="5" fill="#ffffff"/>
+</svg>

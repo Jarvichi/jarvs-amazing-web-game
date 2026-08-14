@@ -2,6 +2,7 @@ import {
   CityCell, CityState, CITY_ROWS, CITY_COLS,
   cityDefense, getNeighbourIndices, spawnerUnitCount, getCityFoodScore,
 } from '../../../game/cityBuilder'
+import { RESIDENT_FIRST_NAMES } from '../../../game/names'
 
 export type TaskType = 'idle' | 'resting' | 'eating' | 'patrolling' | 'gathering' | 'visiting' | 'playing' | 'chatting' | 'farming'
 
@@ -57,20 +58,6 @@ export interface ResidentThought {
   thought:  string
   happy:    boolean
 }
-
-const RESIDENT_FIRST_NAMES = [
-  'Bob', 'Grak', 'Mira', 'Thorin', 'Zyx', 'Elda', 'Fang', 'Nix', 'Wren', 'Dusk',
-  'Pip', 'Crux', 'Vale', 'Sorn', 'Brix', 'Holt', 'Vera', 'Kurn', 'Dex', 'Ori',
-  'Sable', 'Flint', 'Rook', 'Ivy', 'Bryn', 'Quill', 'Ash', 'Moss', 'Thorn', 'Lark',
-  'Grit', 'Nyx', 'Rune', 'Cora', 'Drake', 'Frey', 'Vex', 'Sage', 'Onyx', 'Luna',
-  'Zara', 'Kade', 'Ember', 'Riven', 'Sylas', 'Jade', 'Dorian', 'Nyssa', 'Orin', 'Soren',
-  'Tess', 'Galen', 'Vira', 'Kira', 'Bram', 'Lena', 'Zane', 'Mara', 'Rhea', 'Dax',
-  'Cyrus', 'Elara', 'Fen', 'Nora', 'Vaughn', 'Sia', 'Kieran', 'Lyra', 'Eira', 'Zev',
-  'Mina', 'Thane', 'Vela', 'Kass', 'Dara', 'Orion', 'Faye', 'Gideon', 'Lira', 'Kara',
-  'Elys', 'Kael', 'Varyn', 'Selene', 'Torik', 'Xara', 'Brakka', 'Zephyr', 'Isolde', 'Malric',
-  'Tavra', 'Voren', 'Calyx', 'Seraph', 'Nymer', 'Talon', 'Velric', 'Auren', 'Morwen', 'Zyra',
-  'Graham', 'Rob', 'Jarv', 'Jason',
-]
 
 export function residentName(unitName: string, cellIndex: number, unitIndex: number): string {
   const seed = cellIndex * 17 + unitIndex * 31

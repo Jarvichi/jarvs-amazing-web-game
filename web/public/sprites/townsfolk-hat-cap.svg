@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- flat cap with a short peak -->
+  <rect x="11" y="3.2" width="10" height="3.4" rx="1.7" fill="#ffffff"/>
+  <ellipse cx="19.6" cy="6.4" rx="3.4" ry="1" fill="#ffffff"/>
+</svg>

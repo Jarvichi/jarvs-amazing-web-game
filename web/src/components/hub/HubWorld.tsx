@@ -18,7 +18,7 @@ import { canHearRumourToday, recordRumourHeard } from '../../game/hub/rumourCool
 import { setDialogueFlag, hasDialogueFlag, markNodeSeen } from '../../game/hub/dialogueFlags'
 import { getQuestState, setQuestStatus, incrementQuestProgress, getQuestProgress, resetQuest } from '../../game/hub/quests'
 import { getHeardConvoIds, markConvoHeard, resetHeardConvoIds } from '../../game/hub/innConvos'
-import { loadDeck, loadCollection, loadCrystals, saveCrystals, addCardsToCollection, addAugmentInstance, CRYSTAL_PACK_COST } from '../../game/collection'
+import { loadCollection, loadCrystals, saveCrystals, addCardsToCollection, addAugmentInstance, CRYSTAL_PACK_COST } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
 import { CommanderState } from '../../game/commander'
 import { loadSkipIntro } from '../screens/SettingsScreen'
@@ -473,14 +473,16 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
   const petActionRef     = useRef<{ sendPetFetching: (onReturn: () => void) => boolean; givePetAffection: () => void; setPetAccessory: (assetId: string | null) => void } | null>(null)
   const playerName = loadPlayerName()
 
-  const unitCards = useMemo(() => {
-    const deck    = loadDeck()
-    const catalog = getCardCatalog()
-    const names   = new Set(deck.map(e => e.cardName))
-    return catalog
-      .filter(c => c.cardType === 'unit' && names.has(c.name))
-      .map(c => c.name)
-  }, [])
+  // The sprite pool the town's wandering NPCs can be dressed in. This used to
+  // be the player's deck — a dozen names — so every town was the same handful
+  // of bodies over and over, and looked it. The whole unit catalog is several
+  // hundred sprites, and the canvas weights each town's own ambientNpcSprites
+  // to the front of it, so towns keep their character without the crowd
+  // repeating (see game/hub/ambientNpcIdentity.ts's buildUnitSlugPool).
+  const unitCards = useMemo(
+    () => getCardCatalog().filter(c => c.cardType === 'unit').map(c => c.name),
+    [],
+  )
 
   // Secret #9 — Wrong Save File: rare title-screen glitch showing fake stats
   const [wrongSave, setWrongSave] = useState<{ cards: number; crystals: number; deck: number } | null>(null)
