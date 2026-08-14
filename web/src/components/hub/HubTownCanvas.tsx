@@ -581,12 +581,11 @@ export function HubTownCanvas({
                 s.position.set(door.tx * T, ty * T)
                 s.width = T; s.height = T
                 s.visible = initiallyVisible
-                // nodeLayer paints after avatarLayer/spriteLayer, so the door
-                // leaf naturally draws in front of anyone walking into it —
-                // and its draw order relative to the static arch tile
-                // (buildingLayer) is fixed by container order, not by which
-                // texture promise resolves first.
-                nodeLayer.addChild(s)
+                // A door is part of the building's wall, so it belongs in
+                // buildingLayer alongside the static arch tile underneath it
+                // — always behind the avatar/NPCs/decor, never in front,
+                // same as every other wall tile.
+                buildingLayer.addChild(s)
                 doorAnimSprites.push({ doorKey, role, material: wall, sprite: s })
                 if (track) buildingVariantSprites.push({ ...track, sprite: s })
               }).catch(() => {})
