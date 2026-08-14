@@ -101,245 +101,222 @@ function getCtx(): AudioContext | null {
   }
 }
 
-function node(freq: number, type: OscillatorType, startT: number, dur: number, gainAmt = 0.3): void {
-  const c = getCtx()
-  if (!c || !masterGain) return
-  const osc = c.createOscillator()
-  const g   = c.createGain()
-  osc.type = type
-  osc.frequency.setValueAtTime(freq, startT)
-  g.gain.setValueAtTime(gainAmt, startT)
-  g.gain.exponentialRampToValueAtTime(0.001, startT + dur)
-  osc.connect(g)
-  g.connect(masterGain)
-  osc.start(startT)
-  osc.stop(startT + dur + 0.05)
+// ─── ZzFX Sound Synthesizer ──────────────────────────────────────────────────
+// Generates one-shot SFX sample buffers. Tune sounds at:
+// https://killedbyapixel.github.io/ZzFX/
+// Based on ZzFX by Frank Force — MIT License.
+//
+// Params: volume, randomness, frequency(Hz), attack(s), sustain(s), release(s),
+//         shape(0=sine 1=tri 2=saw 3=tan 4=bits), shapeCurve,
+//         slide(Hz/s), deltaSlide(Hz/s²), pitchJump(Hz), pitchJumpTime(s),
+//         repeatTime(s), noise(0–1)
+
+function zzfxG(
+  volume = 1, randomness = .05, frequency = 220,
+  attack = 0, sustain = 0, release = .1,
+  shape = 0, shapeCurve = 1,
+  slide = 0, deltaSlide = 0,
+  pitchJump = 0, pitchJumpTime = 0,
+  repeatTime = 0, noise = 0,
+): Float32Array {
+  const SR  = 44100
+  const TAU = Math.PI * 2
+  const vol = volume * .7 * (1 - randomness + 2 * randomness * Math.random())
+
+  let freq    = frequency
+  const dFreq  = slide      / SR
+  const ddFreq = deltaSlide / SR / SR
+
+  const atk   = attack  * SR | 0
+  const sus   = sustain * SR | 0
+  const rel   = release * SR | 0
+  const rep   = repeatTime * SR | 0
+  const total = atk + sus + rel
+  const buf   = new Float32Array(total)
+
+  let phase  = 0, dFreqV = 0
+  let jumped = !pitchJumpTime
+  const jumpAt = pitchJumpTime * SR | 0
+
+  for (let i = 0; i < total; i++) {
+    if (!jumped && i >= jumpAt) { freq += pitchJump; jumped = true }
+    dFreqV += ddFreq
+    freq   += dFreq + dFreqV
+    phase  += Math.max(0, freq) * TAU / SR
+
+    const p = ((phase % TAU) + TAU) % TAU
+    let s: number
+    switch (shape | 0) {
+      case 1:  s = 1 - 2 * p / TAU; break
+      case 2:  s = p / Math.PI - 1; break
+      case 3:  s = Math.max(-1, Math.min(1, Math.tan(p / 2) / 2)); break
+      case 4:  s = Math.sign(Math.random() - .5); break
+      default: s = Math.sin(p)
+    }
+    if (shapeCurve !== 1) s = Math.sign(s) * Math.abs(s) ** shapeCurve
+    if (noise) s = s * (1 - noise) + (Math.random() * 2 - 1) * noise
+
+    const ti  = rep ? i % rep : i
+    const env = ti < atk       ? ti / atk
+              : ti < atk + sus ? 1
+              : Math.max(0, 1 - (ti - atk - sus) / (rel || 1))
+
+    buf[i] = Math.max(-1, Math.min(1, s * env * vol))
+  }
+  return buf
 }
 
-function now(): number {
+function zzfxPlay(p: number[]): void {
   const c = getCtx()
-  return c ? c.currentTime : 0
+  if (!c || !masterGain) return
+  const [v=1,r=.05,f=220,a=0,s=0,rel=.1,sh=0,sc=1,sl=0,ds=0,pj=0,pjt=0,rt=0,n=0] = p
+  const data = zzfxG(v, r, f, a, s, rel, sh, sc, sl, ds, pj, pjt, rt, n)
+  const buf  = c.createBuffer(1, data.length, 44100)
+  buf.getChannelData(0).set(data)
+  const src  = c.createBufferSource()
+  src.buffer = buf
+  src.connect(masterGain)
+  src.start()
 }
 
 // ─── Individual sounds ────────────────────────────────────────────────────────
 
 export function playCardPlay() {
-  const t = now()
-  node(440, 'sine', t,       0.08, 0.25)
-  node(660, 'sine', t + 0.06, 0.10, 0.20)
+  zzfxPlay([.8, .03, 600, 0, .02, .07, 2, 1, 400, 0, 200, .03, 0, .05])
 }
 
 export function playUnitDeath() {
-  const t = now()
-  // Short descending cry: pitch drops as the unit falls
-  node(320, 'sine',     t,        0.06, 0.22)
-  node(240, 'sine',     t + 0.04, 0.08, 0.20)
-  node(160, 'sawtooth', t + 0.09, 0.12, 0.18)
-  node(100, 'square',   t + 0.16, 0.14, 0.12)
+  zzfxPlay([.7, .06, 300, 0, .06, .28, 2, 1, -300, 0, 0, 0, 0, .22])
 }
 
 export function playBuildingDestroyed() {
-  const c = getCtx()
-  if (!c || !masterGain) return
-  const t = c.currentTime
-  // Deep crumbling crash: low rumble + mid crunch + high debris scatter
-  node(80,   'sawtooth', t,        0.20, 0.45)
-  node(55,   'sine',     t,        0.30, 0.40)
-  node(140,  'sawtooth', t + 0.05, 0.15, 0.35)
-  node(220,  'square',   t + 0.08, 0.10, 0.28)
-  // Noise burst (simulate with fast-sweeping high tone)
-  node(2200, 'square',   t,        0.04, 0.30)
-  node(1800, 'square',   t + 0.02, 0.05, 0.25)
-  node(3000, 'sawtooth', t + 0.01, 0.03, 0.20)
+  zzfxPlay([1, .03, 80, 0, .1, .45, 2, .4, -60, 0, 0, 0, 0, .75])
 }
 
 export function playVictory() {
-  const t = now()
-  const melody = [523, 659, 784, 1047]
-  melody.forEach((f, i) => node(f, 'sine', t + i * 0.12, 0.18, 0.3))
+  ;[523, 659, 784, 1047].forEach((f, i) =>
+    setTimeout(() => zzfxPlay([.7, .01, f, 0, .05, .15, 0, 1, 100, 0, 0, 0, 0, 0]), i * 120))
 }
 
 export function playDefeat() {
-  const t = now()
-  const melody = [400, 350, 280, 220]
-  melody.forEach((f, i) => node(f, 'sawtooth', t + i * 0.15, 0.22, 0.25))
+  ;[400, 330, 280, 220].forEach((f, i) =>
+    setTimeout(() => zzfxPlay([.7, .02, f, 0, .07, .2, 0, 1, -60, 0, 0, 0, 0, 0]), i * 150))
 }
 
 export function playButtonClick() {
-  const t = now()
-  node(880, 'sine', t, 0.06, 0.15)
+  zzfxPlay([.5, .02, 1400, 0, 0, .04, 0, 1, 0, 0, 0, 0, 0, 0])
 }
 
 export function playBattleEvent() {
-  const t = now()
-  node(220, 'sawtooth', t,       0.12, 0.4)
-  node(440, 'square',   t + 0.08, 0.10, 0.3)
-  node(660, 'sine',     t + 0.18, 0.14, 0.35)
+  zzfxPlay([.8, .05, 200, 0, .06, .22, 2, 1, -250, 0, 0, 0, 0, .25])
 }
 
 export function playCardFlip() {
-  const t = now()
-  node(600, 'sine', t,       0.04, 0.2)
-  node(900, 'sine', t + 0.04, 0.06, 0.15)
+  zzfxPlay([.5, .03, 700, 0, .01, .06, 2, 1, 600, 0, 0, 0, 0, .1])
 }
 
 export function playRestHeal() {
-  const t = now()
-  const notes = [523, 659, 784]
-  notes.forEach((f, i) => node(f, 'sine', t + i * 0.1, 0.2, 0.22))
+  ;[523, 659, 784].forEach((f, i) =>
+    setTimeout(() => zzfxPlay([.55, .01, f, 0, .04, .15, 0, 1, 80, 0, 0, 0, 0, 0]), i * 100))
 }
 
 export function playManaGain() {
-  const t = now()
-  node(700, 'sine', t,       0.05, 0.18)
-  node(1050, 'sine', t + 0.05, 0.07, 0.15)
+  zzfxPlay([.6, .01, 700, 0, .03, .14, 0, 1.5, 400, 0, 350, .05, 0, 0])
 }
 
-// Throttle so rapid multi-unit attacks don't flood the audio channel
 let _lastAttackSoundMs = 0
 export function playUnitAttack() {
   const now2 = Date.now()
   if (now2 - _lastAttackSoundMs < 80) return
   _lastAttackSoundMs = now2
-  const t = now()
-  node(180, 'sawtooth', t,        0.04, 0.22)
-  node(280, 'square',   t + 0.02, 0.03, 0.15)
+  zzfxPlay([.65, .1, 220, 0, .02, .09, 2, 1, -350, 0, 0, 0, 0, .38])
 }
 
 export function playBaseHit() {
-  const t = now()
-  node(100, 'sawtooth', t,        0.10, 0.38)
-  node(60,  'sine',     t,        0.15, 0.32)
-  node(220, 'square',   t + 0.04, 0.06, 0.20)
+  zzfxPlay([1, .03, 70, 0, .07, .38, 2, .4, -80, 0, 0, 0, 0, .65])
 }
 
 export function playBattleStart() {
-  const t = now()
-  // Rising 3-note war horn fanfare
-  node(220, 'sawtooth', t,        0.14, 0.35)
-  node(330, 'sawtooth', t + 0.15, 0.14, 0.38)
-  node(440, 'sawtooth', t + 0.30, 0.22, 0.42)
-  node(440, 'sine',     t + 0.30, 0.22, 0.28)
+  ;[220, 330, 440].forEach((f, i) =>
+    setTimeout(() => zzfxPlay([.85, .02, f, .02, .08, .22, 2, 1.5, 0, 0, 0, 0, 0, .06]), i * 160))
 }
 
 export function playUpgrade() {
-  const t = now()
-  const notes = [523, 659, 784, 1047]
-  notes.forEach((f, i) => node(f, 'sine', t + i * 0.07, 0.12, 0.22))
+  ;[523, 659, 784, 1047].forEach((f, i) =>
+    setTimeout(() => zzfxPlay([.65, .01, f, 0, .04, .12, 0, 1, 120, 0, 0, 0, 0, 0]), i * 70))
 }
 
 export function playMinigameCorrect() {
-  const t = now()
-  node(880,  'sine', t,        0.07, 0.28)
-  node(1320, 'sine', t + 0.07, 0.10, 0.24)
+  zzfxPlay([.7, .01, 880, 0, .03, .18, 0, 1, 500, 0, 440, .07, 0, 0])
 }
 
 export function playMinigameWrong() {
-  const t = now()
-  node(280, 'sawtooth', t,        0.09, 0.30)
-  node(180, 'square',   t + 0.08, 0.12, 0.22)
+  zzfxPlay([.7, .05, 240, 0, .05, .2, 2, 1, -400, 0, 0, 0, 0, .3])
 }
 
 export function playShopPurchase() {
-  const t = now()
-  // "Ka-ching": high coin tink + mid register + low resonance
-  node(1200, 'sine',     t,        0.05, 0.32)
-  node(1800, 'sine',     t + 0.02, 0.06, 0.28)
-  node(900,  'triangle', t + 0.05, 0.10, 0.24)
-  node(600,  'sine',     t + 0.10, 0.12, 0.20)
+  zzfxPlay([.75, .02, 1200, 0, .02, .2, 0, 1, 0, 0, 600, .04, 0, 0])
 }
 
 export function playFruitMachineSpin() {
-  const t = now()
-  // Short mechanical click-whirr
-  node(180, 'sawtooth', t,        0.03, 0.18)
-  node(260, 'square',   t + 0.02, 0.03, 0.14)
-  node(140, 'sawtooth', t + 0.05, 0.04, 0.12)
+  zzfxPlay([.45, .12, 180, 0, .01, .05, 4, 1, -100, 0, 0, 0, 0, 0])
 }
 
 export function playFruitMachineWin() {
-  const t = now()
-  // Punchy ascending win fanfare
-  const melody = [523, 659, 784, 1047, 1318]
-  melody.forEach((f, i) => node(f, 'sine', t + i * 0.09, 0.14, 0.32))
+  ;[523, 659, 784, 1047, 1318].forEach((f, i) =>
+    setTimeout(() => zzfxPlay([.75, .01, f, 0, .04, .13, 0, 1, 150, 0, 0, 0, 0, 0]), i * 90))
 }
 
 export function playFruitMachineLose() {
-  const t = now()
-  const melody = [440, 370, 294, 220]
-  melody.forEach((f, i) => node(f, 'sawtooth', t + i * 0.12, 0.16, 0.26))
+  zzfxPlay([.65, .04, 440, 0, .08, .28, 0, 1, -500, 0, 0, 0, 0, .05])
 }
 
 export function playMapFootstep() {
-  const t = now()
-  // Soft thud — low sine click
-  node(120, 'sine',     t,        0.05, 0.22)
-  node(80,  'sawtooth', t + 0.02, 0.04, 0.14)
+  zzfxPlay([.5, .05, 120, 0, .02, .1, 0, 1, -20, 0, 0, 0, 0, .05])
+  setTimeout(() => zzfxPlay([.4, .05, 80, 0, .01, .08, 2, 1, 0, 0, 0, 0, 0, 0]), 20)
 }
 
-// Hub footstep — softer/quieter than the map version and throttled so the
-// per-tile walk in the hub world does not flood the channel.
 let _lastHubStepMs = 0
 export function playHubFootstep() {
   const now2 = Date.now()
   if (now2 - _lastHubStepMs < 180) return
   _lastHubStepMs = now2
-  const t = now()
-  node(150, 'sine', t,        0.04, 0.12)
-  node(90,  'sine', t + 0.02, 0.03, 0.08)
+  zzfxPlay([.35, .05, 150, 0, .015, .07, 0, 1, -10, 0, 0, 0, 0, .02])
+  setTimeout(() => zzfxPlay([.25, .05, 90, 0, .01, .05, 0, 1, 0, 0, 0, 0, 0, 0]), 20)
 }
 
 export function playPickup() {
-  const t = now()
-  // Light two-note pleasant chime when collecting an item
-  node(880,  'sine', t,        0.06, 0.20)
-  node(1320, 'sine', t + 0.06, 0.10, 0.18)
+  zzfxPlay([.65, .01, 880, 0, .03, .18, 0, 1.5, 500, 0, 440, .06, 0, 0])
 }
 
 export function playTreasure() {
-  const t = now()
-  // Rewarding ascending sparkle (richer than pickup) for treasure chests
-  const melody = [659, 880, 1175, 1568]
-  melody.forEach((f, i) => node(f, 'sine', t + i * 0.08, 0.16, 0.24))
-  node(330, 'triangle', t, 0.30, 0.16)  // warm low body
+  zzfxPlay([.75, .01, 660, 0, .05, .28, 0, 1.5, 600, 0, 600, .08, 0, 0])
 }
 
 export function playDayNightChime() {
-  const t = now()
-  // Gentle two-note transition sting marking dawn/dusk
-  node(523, 'triangle', t,        0.45, 0.16)
-  node(784, 'sine',     t + 0.12, 0.40, 0.13)
+  zzfxPlay([.55, .01, 523, 0, .07, .55, 0, 2.5, 0, 0, 261, .12, 0, 0])
 }
 
 // ─── Animal vocalisations (hub critters) ──────────────────────────────────────
+
 export function playDogBark() {
-  const t = now()
-  // Two short gruff bursts
-  node(190, 'square',   t,        0.07, 0.26)
-  node(140, 'sawtooth', t + 0.01, 0.08, 0.20)
-  node(200, 'square',   t + 0.16, 0.06, 0.22)
-  node(150, 'sawtooth', t + 0.17, 0.07, 0.16)
+  // Two gruff barks: noisy sawtooth with pitch drop, envelope repeats for second bark
+  zzfxPlay([1, .14, 160, 0, .06, .11, 2, .55, -350, 0, 0, 0, .22, .58])
 }
 
 export function playCatMeow() {
-  const t = now()
-  // Rising-then-falling glide ≈ "me-ow"
-  node(640, 'sine',     t,        0.13, 0.16)
-  node(540, 'sine',     t + 0.11, 0.17, 0.14)
+  // Pitch rises ("me") then drops via pitchJump ("ow")
+  zzfxPlay([.85, .03, 480, .04, .1, .22, 0, 1.5, 900, 0, -240, .17, 0, .07])
 }
 
 export function playBirdChirp() {
-  const t = now()
-  // Two quick high tweets
-  node(2400, 'sine', t,        0.04, 0.10)
-  node(3100, 'sine', t + 0.05, 0.05, 0.09)
+  // Two quick high tweets via envelope repeat
+  zzfxPlay([.65, .05, 2600, 0, .01, .04, 0, 1, 2500, 0, 0, 0, .1, 0])
 }
 
 export function playHenCluck() {
-  const t = now()
-  // Low clipped clucks
-  node(440, 'square', t,        0.05, 0.13)
-  node(300, 'square', t + 0.08, 0.06, 0.12)
+  // Two short clucks via envelope repeat
+  zzfxPlay([.75, .12, 360, 0, .025, .07, 3, 1, -150, 0, 0, 0, .12, .38])
 }
 
 
