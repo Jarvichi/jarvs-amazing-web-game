@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- eyes — untinted so they stay dark against any skin tone -->
+  <rect x="13.4" y="8" width="1.8" height="2" rx="0.9" fill="#2a1a0a"/>
+  <rect x="16.8" y="8" width="1.8" height="2" rx="0.9" fill="#2a1a0a"/>
+</svg>
