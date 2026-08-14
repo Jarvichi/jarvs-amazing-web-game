@@ -3256,14 +3256,16 @@ export function HubTownCanvas({
             onDoorLockedRef.current?.(door.buildingId, `quest:${door.requiredQuest}`)
             return
           }
-          // Swing the door open and give the player a beat to see it before
-          // cutting to the interior view.
+          // Swing the door open and hold it there for a beat before cutting
+          // to the interior view. 2 steps (opening + open) gets the door
+          // fully open; the 3rd step's worth of extra time lets the player
+          // actually see it standing open before the screen changes.
           doorAnimation.openDoor(`${door.tx},${door.ty}`, performance.now())
           const enteredBuildingId = door.buildingId
           setTimeout(() => {
             if (app.renderer == null) return
             onNodeInteractRef.current(`interior:${enteredBuildingId}`)
-          }, DOOR_STEP_MS * 2)
+          }, DOOR_STEP_MS * 3)
           return
         }
 
