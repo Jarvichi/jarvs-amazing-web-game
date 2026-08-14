@@ -24,6 +24,9 @@ import { emitSound, startInteriorAudio, stopInteriorAudio, setNightAmbiance } fr
 import { WALL_TILES } from '../../data/tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 import { placeBuildingTiles, resolveBuildingVisual } from '../../data/tiles/buildingRender'
+import { getDoorRoleTiles, DOOR_STYLE_BY_MATERIAL } from '../../data/tiles/doorTiles'
+import type { DoorRole } from '../../data/tiles/doorTiles'
+import { DoorAnimationController, DOOR_STEP_MS } from '../../game/hub/doorAnimation'
 import { loadPlayerAvatar, ALL_CONSUMABLES } from '../../game/questline'
 import { getAugmentCard, AUGMENT_SPRITE } from '../../game/augments'
 import { createChunkCuller } from '../../utils/chunkCull'
@@ -530,6 +533,13 @@ export function HubTownCanvas({
     // would be adopted while empty and then culled. Multi-variant buildings instead
     // toggle each sprite's `visible` per frame (see the variant toggle in the ticker).
     const buildingVariantSprites: { buildingId: string; minLevel: number; nextLevel: number; sprite: PIXI.Sprite }[] = []
+    // Trigger-driven door open/close animation (see game/hub/doorAnimation.ts).
+    // Only single-leaf doors are animated — double-leaf materials (e.g.
+    // ironholdKeep's portcullis) keep their existing static art, since the
+    // animated double-leaf tiles are two tiles wide and the live door's
+    // walk-in trigger is a single tile.
+    const doorAnimation = new DoorAnimationController()
+    const doorAnimSprites: { doorKey: string; role: DoorRole; material: WallMaterial; sprite: PIXI.Sprite }[] = []
     {
       const fallbackPromises: Promise<void>[] = []
 
@@ -541,7 +551,8 @@ export function HubTownCanvas({
         track: { buildingId: string; minLevel: number; nextLevel: number } | null,
         initiallyVisible: boolean,
       ) => {
-        const placements = placeBuildingTiles(rect, wall, roof, doors)
+        const doubleLeaf = DOOR_STYLE_BY_MATERIAL[wall].doubleLeaf
+        const placements = placeBuildingTiles(rect, wall, roof, doors, { skipDoorLeaf: !doubleLeaf })
         for (const [tileId, positions] of placements) {
           loadTileRef(tileId).then(tex => {
             if (app.renderer == null) return
@@ -554,6 +565,33 @@ export function HubTownCanvas({
               if (track) buildingVariantSprites.push({ ...track, sprite: s })
             }
           }).catch(() => {})
+        }
+
+        if (!doubleLeaf) {
+          const [rx1, , rx2] = rect
+          for (const door of doors) {
+            if (door.hideSprite || door.tx < rx1 || door.tx > rx2) continue
+            const doorKey = `${door.tx},${door.ty}`
+            for (const role of ['Top', 'Bottom'] as const) {
+              const ty = role === 'Top' ? door.ty - 2 : door.ty - 1
+              const [tileId] = getDoorRoleTiles(wall, role, 0)
+              loadTileRef(tileId).then(tex => {
+                if (app.renderer == null) return
+                const s = new PIXI.Sprite(tex)
+                s.position.set(door.tx * T, ty * T)
+                s.width = T; s.height = T
+                s.visible = initiallyVisible
+                // nodeLayer paints after avatarLayer/spriteLayer, so the door
+                // leaf naturally draws in front of anyone walking into it —
+                // and its draw order relative to the static arch tile
+                // (buildingLayer) is fixed by container order, not by which
+                // texture promise resolves first.
+                nodeLayer.addChild(s)
+                doorAnimSprites.push({ doorKey, role, material: wall, sprite: s })
+                if (track) buildingVariantSprites.push({ ...track, sprite: s })
+              }).catch(() => {})
+            }
+          }
         }
       }
 
@@ -1897,6 +1935,7 @@ export function HubTownCanvas({
             wanderNpc(npc)
             return
           }
+          doorAnimation.openDoor(`${tx},${ty}`, performance.now())
           // Record them as a visitor inside this building before despawning
           // the exterior sprite, so they can be seen if the player follows
           // them in, and so they eventually let themselves back out (#2111
@@ -2259,6 +2298,9 @@ export function HubTownCanvas({
             avatar.x = door.tx * T + T / 2
             avatar.y = door.ty * T + T
             currentTile = [door.tx, door.ty]
+            // Door swings open as the player steps back out; the animation
+            // controller auto-closes it a moment later.
+            doorAnimation.openDoor(`${door.tx},${door.ty}`, performance.now())
           }
           onAvatarMoveRef.current(avatar.x, avatar.y)
         }
@@ -3208,7 +3250,14 @@ export function HubTownCanvas({
             onDoorLockedRef.current?.(door.buildingId, `quest:${door.requiredQuest}`)
             return
           }
-          onNodeInteractRef.current(`interior:${door.buildingId}`)
+          // Swing the door open and give the player a beat to see it before
+          // cutting to the interior view.
+          doorAnimation.openDoor(`${door.tx},${door.ty}`, performance.now())
+          const enteredBuildingId = door.buildingId
+          setTimeout(() => {
+            if (app.renderer == null) return
+            onNodeInteractRef.current(`interior:${enteredBuildingId}`)
+          }, DOOR_STEP_MS * 2)
           return
         }
 
@@ -3662,6 +3711,20 @@ export function HubTownCanvas({
           }
         }
 
+        // Animated door leaves — advance the trigger-driven open/close state
+        // machine and swap textures for any door whose frame changed.
+        if (doorAnimSprites.length > 0) {
+          const changedDoors = doorAnimation.advance(performance.now())
+          for (const doorKey of changedDoors) {
+            const frame = doorAnimation.frameFor(doorKey)
+            for (const d of doorAnimSprites) {
+              if (d.doorKey !== doorKey) continue
+              const [tileId] = getDoorRoleTiles(d.material, d.role, frame)
+              loadTileRef(tileId).then(tex => { d.sprite.texture = tex }).catch(() => {})
+            }
+          }
+        }
+
         // Level-gated exterior NPCs — hide until their building reaches the level
         // (and again once hideAtLevel passes). When visible the normal schedule /
         // walk logic governs the container, so only force-hide here.
@@ -4035,6 +4098,7 @@ export function HubTownCanvas({
             }
             const door = HUB_DOORS.find(d => d.buildingId === visitBuildingId)
             if (door && isDoorOpen(door.tx, door.ty)) {
+              doorAnimation.openDoor(`${door.tx},${door.ty}`, performance.now())
               // The same person walks back out — name, look and all.
               spawnAmbientNpc({
                 origin: [door.tx, door.ty], identity: record.identity,

@@ -29,6 +29,7 @@ export function placeBuildingTiles(
   wall: WallMaterial,
   roof: RoofMaterial,
   doors: BuildingDoorTile[] = [],
+  opts: { skipDoorLeaf?: boolean } = {},
 ): Map<number, [number, number][]> {
   const placements = new Map<number, [number, number][]>()
   const place = (tileId: number, tx: number, ty: number) => {
@@ -71,10 +72,17 @@ export function placeBuildingTiles(
   // door can sit anywhere relative to the building (e.g. above a flight of
   // steps) and still render — matching tx to this rect only picks which
   // wall's door art to use.
+  //
+  // `skipDoorLeaf` omits the doorTop/doorBottom leaf tiles — the live hub
+  // canvas draws those itself as animated sprites (see doorAnimation.ts) and
+  // only wants the static arch decoration from this pass. Callers that don't
+  // animate doors (e.g. the map editor preview) leave it unset and get the
+  // full static door as before.
   const wallTiles = WALL_TILES[wall]
   for (const door of doors) {
     if (door.hideSprite || door.tx < x1 || door.tx > x2) continue
     place(wallTiles.doorArchTop, door.tx, door.ty - 2)
+    if (opts.skipDoorLeaf) continue
     place(wallTiles.doorTop,     door.tx, door.ty - 2)
     place(wallTiles.doorBottom,  door.tx, door.ty - 1)
   }
