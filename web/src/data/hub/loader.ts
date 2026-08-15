@@ -114,15 +114,6 @@ export interface HubDoor {
   /** Entry is blocked until this quest id has status 'completed'. Mirrors
    *  HubInteriorExit.requiredQuest for the exterior-door case. */
   requiredQuest?: string
-  /** The structural building (`Building.id`) this door's sprite/wall art was
-   *  authored against — NOT necessarily the same as `buildingId` (the door's
-   *  *target* interior, which can point elsewhere). Used to pick which
-   *  building's wall material renders this door's art, since matching by tx
-   *  alone is ambiguous in dense towns where many buildings' rects share a
-   *  column range (e.g. a gatehouse spanning most of the map's width).
-   *  Undefined for the rare door authored directly in config.json's top-level
-   *  `doors` array, outside any building. */
-  ownerBuildingId?: string
 }
 
 export interface DecorGlow {
@@ -650,7 +641,6 @@ for (const b of rawConfig.buildings as RawBuilding[]) {
     _nestedWindows.push(...expandBundleWindows(b.bundleID, ox, oy))
     _nestedDecor.push(...expandBundleDecor(b.bundleID, ox, oy))
     const bundleDoors = expandBundleDoors(b.bundleID, b.id ?? '', ox, oy)
-      .map(d => ({ ...d, ownerBuildingId: b.id }))
     _nestedDoors.push(...bundleDoors)
     for (const d of bundleDoors) recordInteriorOwner(d.buildingId, b.id, b.upgradeKind)
     continue
@@ -660,11 +650,7 @@ for (const b of rawConfig.buildings as RawBuilding[]) {
     // the door sprite always renders one tile north of it (see
     // buildingRender.ts) unless hideSprite keeps it a fully invisible trigger.
     const targetId = d.buildingId ?? b.id ?? ''
-    _nestedDoors.push({
-      buildingId: targetId, tx: ox + d.tx, ty: oy + d.ty,
-      hideSign: d.hideSign, hideSprite: d.hideSprite, hideLabel: d.hideLabel,
-      ownerBuildingId: b.id,
-    })
+    _nestedDoors.push({ buildingId: targetId, tx: ox + d.tx, ty: oy + d.ty, hideSign: d.hideSign, hideSprite: d.hideSprite, hideLabel: d.hideLabel })
     recordInteriorOwner(targetId, b.id, b.upgradeKind)
   }
   for (const w of b.windows ?? [])
