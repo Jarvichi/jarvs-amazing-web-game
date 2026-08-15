@@ -55,6 +55,9 @@ const NPC_WALK_PX_PER_S = 80
 const NPC_BLOCK_WAIT_POLL_MS = 150   // how often to re-check a blocked tile
 const NPC_BLOCK_WAIT_MAX_MS  = 900   // give up waiting and try to reroute after this long
 
+// Chance a spawning (non-ghost) wanderer offers a card-battle challenge (#2149).
+const CHALLENGER_CHANCE = 0.2
+
 const NIGHT_LIGHT_INNER  = 4 * T   // fully lit within this radius of avatar
 const NIGHT_LIGHT_OUTER  = 7 * T   // fully dark beyond this radius
 const NIGHT_NPC_LIGHT_R  = 2 * T   // small glow radius around each NPC
@@ -145,6 +148,9 @@ interface Props {
   /** Lets React intercept a tap on an ambient (id-less) animal, e.g. to offer
    *  feeding it. Return true if handled (suppresses the flavour bubble). */
   onAmbientAnimalTap?: (type: AnimalType) => boolean
+  /** Fires when the player taps a wandering NPC currently flagged as a battle
+   *  challenger (the '?' marker). Passes the NPC's ephemeral id and display name. */
+  onAmbientNpcChallenge?: (npcId: string, npcName: string) => void
   interiorEnterRef?: React.MutableRefObject<((buildingId: string) => void) | null>
   interiorExitRef?:  React.MutableRefObject<(() => void) | null>
   petActionRef?:     React.MutableRefObject<{ sendPetFetching: (onReturn: () => void) => boolean; givePetAffection: () => void; setPetAccessory: (assetId: string | null) => void } | null>
@@ -191,6 +197,7 @@ interface Props {
 export function HubTownCanvas({
   onAreaEnter, onNodeInteract, onAvatarMove, onAvatarStep,
   returnRef, unitCards, commander, onNpcTap, onAnimalTap, onAnimalSeen, onAmbientAnimalTap,
+  onAmbientNpcChallenge,
   interiorEnterRef, interiorExitRef, petActionRef, onEnterInterior, onExitInterior, onTileTap,
   pickedUpIds, onItemPickup, doorKeys, onDoorLocked, questNpcState, activeQuestIdsRef,
   completedQuestIdsRef, collectedTreasureIds, onTreasureStep,
@@ -237,6 +244,8 @@ export function HubTownCanvas({
   onAnimalSeenRef.current = onAnimalSeen
   const onAmbientAnimalTapRef   = useRef(onAmbientAnimalTap)
   onAmbientAnimalTapRef.current = onAmbientAnimalTap
+  const onAmbientNpcChallengeRef   = useRef(onAmbientNpcChallenge)
+  onAmbientNpcChallengeRef.current = onAmbientNpcChallenge
   const unitCardsRef      = useRef(unitCards)
   unitCardsRef.current    = unitCards
   const onEnterInteriorRef  = useRef(onEnterInterior)
@@ -1634,6 +1643,10 @@ export function HubTownCanvas({
       // never clobbers a scared/door reaction, or vice versa.
       tapBubble:      PIXI.Container | null
       tapBubbleTimer: number
+      // Wandering battle challenger (#2149) — rolled fresh at each spawn/respawn.
+      // A challenger's tap opens a duel offer instead of the flavor bubble.
+      isChallenger:       boolean
+      challengeIndicator: PIXI.Text | null
     }
 
     const unitNpcs: UnitNpcState[] = []
@@ -1849,6 +1862,10 @@ export function HubTownCanvas({
         bubbleLayer.removeChild(npc.tapBubble)
         npc.tapBubble = null
         npc.tapBubbleTimer = 0
+      }
+      if (npc.challengeIndicator) {
+        bubbleLayer.removeChild(npc.challengeIndicator)
+        npc.challengeIndicator = null
       }
       npc.sprite.parent?.removeChild(npc.sprite)
       for (const l of npc.layers) l.sprite.parent?.removeChild(l.sprite)
@@ -2128,9 +2145,17 @@ export function HubTownCanvas({
       const [tx, ty] = origin ?? nonDoorSpawnTiles[Math.floor(Math.random() * nonDoorSpawnTiles.length)]
       const identity = opts.identity ?? ambientRoster.mint()
       const isGhost  = opts.isGhost ?? (Math.random() < (isNightRef.current ? 0.10 : 0.01))
+      const isChallenger = !isGhost && Math.random() < CHALLENGER_CHANCE
 
       buildLookSprites(identity.look, tx * T + T / 2, ty * T + T, npcLayer, isGhost).then(built => {
         if (!built) return
+        let challengeIndicator: PIXI.Text | null = null
+        if (isChallenger) {
+          challengeIndicator = new PIXI.Text({ text: '?', style: { fontSize: 16, fill: '#ffdd44', fontWeight: 'bold', fontFamily: 'monospace', stroke: { color: '#1a1a1a', width: 3 } } })
+          challengeIndicator.anchor.set(0.5, 1)
+          challengeIndicator.position.set(built.sprite.x, built.sprite.y - SPRITE_SIZE - 4)
+          bubbleLayer.addChild(challengeIndicator)
+        }
         const state: UnitNpcState = {
           identity,
           lines:                opts.lines ?? makeAmbientLineCursor(identity.id, ambientLineContext(isGhost, arriving ? 'arriving' : 'street')),
@@ -2152,10 +2177,16 @@ export function HubTownCanvas({
           doorReactionTimer:    0,
           tapBubble:            null,
           tapBubbleTimer:       0,
+          isChallenger,
+          challengeIndicator,
         }
         built.sprite.eventMode = 'static'
         built.sprite.cursor    = 'pointer'
-        built.sprite.on('pointerdown', (e) => { e.stopPropagation(); showAmbientNpcTapBubble(state) })
+        built.sprite.on('pointerdown', (e) => {
+          e.stopPropagation()
+          if (state.isChallenger) onAmbientNpcChallengeRef.current?.(state.identity.id, state.identity.name)
+          else showAmbientNpcTapBubble(state)
+        })
         unitNpcs.push(state)
         loadAnimFrames(lookLayerSpec(identity.look).base.slug, 3)
           .then(frames => { state.animFrames = frames })
@@ -3942,6 +3973,15 @@ export function HubTownCanvas({
         // Cosmetic layers ride along with the body every frame — position,
         // facing and the ghost pulse above all have to reach them.
         syncNpcLookLayers(npc)
+
+        // Challenge marker: follows the body and bobs, same as the named-NPC
+        // quest indicator.
+        if (npc.challengeIndicator) {
+          npc.challengeIndicator.position.set(
+            npc.sprite.x,
+            npc.sprite.y - SPRITE_SIZE - 4 + Math.sin(performance.now() / 400) * 3,
+          )
+        }
 
         if (!npc.isWalking) {
           npc.wanderTimer -= ticker.deltaMS
