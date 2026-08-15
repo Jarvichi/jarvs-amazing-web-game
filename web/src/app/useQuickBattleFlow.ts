@@ -40,6 +40,8 @@ interface UseQuickBattleFlowArgs {
   isDraftModeRef:       MutableRefObject<boolean>
   quickBattleModeRef:   MutableRefObject<QuickBattleMode>
   worldBattleNodeIdRef: MutableRefObject<string | null>
+  /** True while playing a single-battle duel offered by a wandering hub-town NPC (#2149). */
+  isWandererBattleRef:   MutableRefObject<boolean>
   battleFlawlessRef:     MutableRefObject<boolean>
   battleAllLegendaryRef: MutableRefObject<boolean>
   battleUsedStructure:   MutableRefObject<boolean>
@@ -61,6 +63,7 @@ interface UseQuickBattleFlowResult {
   handleStreakReset:   () => void
   handlePlayAgain:     () => void
   handleStartTraining: (enemyUnitName: string, playerCards: Card[]) => void
+  handleStartWandererBattle: () => void
 }
 
 /**
@@ -72,7 +75,7 @@ export function useQuickBattleFlow({
   setWorldMapKey, setStreakBrokenData, setPendingBattleFn, setPendingBattleIsCampaign,
   setQuickPlayRewardClaimed,
   isCampaignRef, isDailyChallengeRef, isWeeklyChallengeRef, isTrainingModeRef,
-  isDraftModeRef, quickBattleModeRef, worldBattleNodeIdRef,
+  isDraftModeRef, quickBattleModeRef, worldBattleNodeIdRef, isWandererBattleRef,
   battleFlawlessRef, battleAllLegendaryRef, battleUsedStructure, battleUsedMobileUnit,
   prevPlayerUnitsRef, prevOpponentUnitsRef,
 }: UseQuickBattleFlowArgs): UseQuickBattleFlowResult {
@@ -86,6 +89,7 @@ export function useQuickBattleFlow({
     battleUsedMobileUnit.current = false
     prevOpponentUnitsRef.current = new Map()
     prevPlayerUnitsRef.current = new Map()
+    setQuickPlayRewardClaimed(false)
     const { opts, playerCards } = buildQuickBattleOpts(mode, handicap)
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
     startBattle(newGame(opts))
@@ -99,6 +103,20 @@ export function useQuickBattleFlow({
       setPendingBattleFn(() => () => launchQuickBattle(mode))
     } else {
       launchQuickBattle(mode)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [launchQuickBattle])
+
+  // A single-battle duel offered by a wandering hub-town NPC (#2149) — same
+  // deck-slot warning gate as handlePlay, but flags isWandererBattleRef so
+  // GameOver can suppress the "Play Again" loop.
+  const handleStartWandererBattle = useCallback(() => {
+    if (loadDeckSlot('b').length > 0) {
+      setPendingBattleIsCampaign(false)
+      setPendingBattleFn(() => () => { isWandererBattleRef.current = true; launchQuickBattle('normal') })
+    } else {
+      isWandererBattleRef.current = true
+      launchQuickBattle('normal')
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [launchQuickBattle])
@@ -329,6 +347,6 @@ export function useQuickBattleFlow({
     handlePlay, handleDraftComplete, handleEndless,
     handleDailyChallenge, handleWeeklyChallenge, handleEndlessLeaderboard,
     handleStartDailyChallenge, handleDailyChallengeRetry, handleStartWeeklyChallenge,
-    handleStreakReset, handlePlayAgain, handleStartTraining,
+    handleStreakReset, handlePlayAgain, handleStartTraining, handleStartWandererBattle,
   }
 }

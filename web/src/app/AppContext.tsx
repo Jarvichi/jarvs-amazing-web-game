@@ -132,6 +132,8 @@ export interface AppContextValue {
   handleStartDailyChallenge: () => void
   handleStartWeeklyChallenge: () => void
   handleStartTraining:       (enemyUnitName: string, playerCards: Card[]) => void
+  /** Launch a single-battle duel offered by a wandering hub-town NPC (#2149). */
+  handleStartWandererBattle: () => void
   handleResetGame:           () => void
   checkForUpdates:           () => Promise<void>
 

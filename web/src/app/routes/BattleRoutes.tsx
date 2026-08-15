@@ -19,7 +19,7 @@ export function BattleRoutes() {
   const {
     battle, gameState, dispatch, showBossSplash, actTheme, isCampaign,
     quickPlayRewardClaimed, activeRareEvent, handleRareEventDone,
-    isCampaignRef, worldBattleNodeIdRef, isDailyChallengeRef, isWeeklyChallengeRef,
+    isCampaignRef, worldBattleNodeIdRef, isDailyChallengeRef, isWeeklyChallengeRef, isWandererBattleRef,
     gameStateRef, summaryDoneRef,
     handlePlayCard, handlePlayAoeCard, handleGiveUp, setIsUserPaused,
     handleSetStance, handleCycleSpeed, handleWaveRewardPick, handleWaveRewardSkip,
@@ -128,6 +128,7 @@ export function BattleRoutes() {
             showStreak={!isCampaignRef.current && worldBattleNodeIdRef.current === null && !isDailyChallengeRef.current && !isWeeklyChallengeRef.current}
             dailyChallengeState={isDailyChallengeRef.current ? dcGameOverState : undefined}
             worldBattle={worldBattleNodeIdRef.current !== null}
+            singleBattle={isWandererBattleRef.current}
           />
         ) : (
           <>

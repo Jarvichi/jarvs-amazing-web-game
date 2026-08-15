@@ -23,7 +23,7 @@ export function HubRoutes() {
     setShopBuildingId, setShopTappedNpc, setShowTitleLoginModal, setFeedbackOpen,
     setActiveNarratorLog,
     handleCampaign, handleCampaign2, handleEndless, handleBuyCrystalPack,
-    goToWorldLocation, handleWorldBattle, handlePlay,
+    goToWorldLocation, handleWorldBattle, handleStartWandererBattle,
   } = useApp()
 
   return (
@@ -46,7 +46,7 @@ export function HubRoutes() {
           onCampaign={() => { setReturnScreen('hubworld'); handleCampaign() }}
           onCampaign2={() => { setReturnScreen('hubworld'); handleCampaign2() }}
           onEndless={() => { setReturnScreen('hubworld'); handleEndless() }}
-          onWandererBattle={() => { setReturnScreen('hubworld'); handlePlay('normal') }}
+          onWandererBattle={() => { setReturnScreen('hubworld'); handleStartWandererBattle() }}
           onWorldMap={() => setScreen('worldmap')}
           onNavigateTown={goToWorldLocation}
           onNarratorLog={(characterId) => { setReturnScreen('hubworld'); setActiveNarratorLog(characterId); setScreen('narratorJournal') }}

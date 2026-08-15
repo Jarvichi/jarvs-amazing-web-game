@@ -38,6 +38,19 @@ export const VictoryRewardClaimed: Story = {
   },
 };
 
+export const SingleBattleVictoryClaimed: Story = {
+  args: {
+    state: exampleGameState,
+    winner: 'player',
+    handicap: 1,
+    onOpenPack: fn(),
+    rewardClaimed: true,
+    onPlayAgain: fn(),
+    onMainMenu: fn(),
+    singleBattle: true,
+  },
+};
+
 export const Defeat: Story = {
   args: {
     state: {
