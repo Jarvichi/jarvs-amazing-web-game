@@ -154,6 +154,8 @@ const SCREEN_ENTER_LABEL: Record<string, string> = {
   fishing:           'Cast a line?',
   'hub-fishing':     'Cast a line?',
   'hub-fishing-cave': 'Cast a line into the dark water?',
+  'hub-fishing-lake': 'Cast a line into the lake?',
+  'hub-fishing-ocean': 'Cast a line into the sea?',
   marble:            'Play marbles?',
   marblerace:        'Watch a marble race?',
   regatta:           'Race a skiff in the regatta?',
@@ -674,11 +676,11 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
     }
     // Hub fishing is gated on owning a rod and holding at least 1 bait.
     // Both are global hub-items, so a rod bought in Millhaven works at any
-    // town's fishing spot — including the underground lake's cave variant
-    // (hub-fishing-cave), which uses the same rod/bait but a different catch
-    // table (Fishing.tsx's variant prop). Bait is consumed per cast inside
-    // Fishing.tsx, not on entry.
-    if (screen === 'hub-fishing' || screen === 'hub-fishing-cave') {
+    // town's fishing spot — including every pond-locale variant
+    // (hub-fishing-cave/-lake/-ocean), which all share the same rod/bait but
+    // each have their own catch table (Fishing.tsx's variant prop). Bait is
+    // consumed per cast inside Fishing.tsx, not on entry.
+    if (screen.startsWith('hub-fishing')) {
       if (!hasHubItem('fishing-rod')) {
         setDialogueEvent({ speakerName: '', text: "You can't fish without a rod. Millhaven's harbour stall sells them." })
         return
@@ -690,6 +692,20 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
     }
     onNavigate?.(screen, buildingId, npc)
   }, [onNavigate, onCampaign, onCampaign2, onWorldMap, onNavigateTown, onNarratorLog, commander])
+
+  // Tapping a pond tile within range of a town's fishing spot (#2148) prompts
+  // to cast a line, mirroring the confirm dialogue a fishing NPC's own tap
+  // shows — rod/bait gating is still handled by handleNodeInteract.
+  const handlePondFishTap = useCallback((screen: string) => {
+    setDialogueEvent({
+      speakerName: '',
+      text: screenEnterLabel(screen),
+      choices: [
+        { label: 'Cast a line', primary: true, onClick: () => handleNodeInteract(screen) },
+        { label: 'Not now', isExit: true, onClick: () => setDialogueEvent(null) },
+      ],
+    })
+  }, [handleNodeInteract])
 
   const handleReturn = useCallback(() => {
     returnRef.current?.()
@@ -1162,7 +1178,8 @@ function hasOfferableQuest(giverId: string): boolean {
       (!c.requireWeather || c.requireWeather === currentWeather) &&
       (!c.requireTimeOfDay || c.requireTimeOfDay === getTimeOfDay(gameHour)) &&
       (!c.requireActivity  || (!!npcDef && 'schedule' in npcDef &&
-          getNpcActivity(npcDef as HubNpc, gameHour) === c.requireActivity))
+          getNpcActivity(npcDef as HubNpc, gameHour) === c.requireActivity)) &&
+      (!c.requireHubItem || hasHubItem(c.requireHubItem))
     ))
     const speaker = node.speakerName ?? speakerName
 
@@ -2263,6 +2280,7 @@ function hasOfferableQuest(giverId: string): boolean {
             onEnterInterior={(buildingId) => { setInteriorActive(true); setActiveBuildingId(buildingId) }}
             onExitInterior={() => { setInteriorActive(false); setActiveBuildingId(null) }}
             onTileTap={onTileTap}
+            onPondFishTap={handlePondFishTap}
             pickedUpIds={pickedUpIds}
             onItemPickup={handleItemPickup}
             doorKeys={doorKeys}

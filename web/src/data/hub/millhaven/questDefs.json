@@ -1093,6 +1093,84 @@
               ]
             },
             {
+              "label": "Shoal — 3 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "ocean-fish-shoal",
+                  "giveCrystals": 3,
+                  "missingText": "No shoal fish in that pack of yours. The harbour dock's the place for those.",
+                  "successText": "Barely a mouthful, but the cats love them. 3 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Reef Fish — 6 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "ocean-fish-reef",
+                  "giveCrystals": 6,
+                  "missingText": "You've no reef fish on you.",
+                  "successText": "Good pan-sized fish, that. 6 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Deep Shelf Fish — 12 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "ocean-fish-deepshelf",
+                  "giveCrystals": 12,
+                  "missingText": "You've no deep shelf fish on you.",
+                  "successText": "Now that's a proper catch. 12 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Open Water Fish — 25 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "ocean-fish-openwater",
+                  "giveCrystals": 25,
+                  "missingText": "You've no open water fish on you.",
+                  "successText": "Heavens, look at the size of it! 25 crystals, and worth every one."
+                }
+              ]
+            },
+            {
+              "label": "Deep Sea Fish — 45 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "ocean-fish-deepsea",
+                  "giveCrystals": 45,
+                  "missingText": "A deep sea catch? I'll believe it when I see it.",
+                  "successText": "I'll have this in the window within the hour. 45 crystals!"
+                }
+              ]
+            },
+            {
+              "label": "Abyss Tide Fish — 90 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "ocean-fish-abysstide",
+                  "giveCrystals": 90,
+                  "missingText": "An Abyss Tide catch? Sailor Finn tells taller tales sober.",
+                  "successText": "By the tides... I've only heard songs about these. 90 crystals — don't tell my husband."
+                }
+              ]
+            },
+            {
               "label": "That's all for now.",
               "effects": [
                 {
@@ -1101,6 +1179,73 @@
               ]
             }
           ]
+        }
+      }
+    },
+    {
+      "id": "finn-appraise",
+      "npcId": "sailor-finn",
+      "start": "greet",
+      "nodes": {
+        "greet": {
+          "text": "Let's have a look at your catch, then. What've you got?",
+          "choices": [
+            {
+              "label": "A Shoal fish.",
+              "requireHubItem": "ocean-fish-shoal",
+              "next": "tier-shoal"
+            },
+            {
+              "label": "A Reef fish.",
+              "requireHubItem": "ocean-fish-reef",
+              "next": "tier-reef"
+            },
+            {
+              "label": "A Deep Shelf fish.",
+              "requireHubItem": "ocean-fish-deepshelf",
+              "next": "tier-deepshelf"
+            },
+            {
+              "label": "An Open Water fish.",
+              "requireHubItem": "ocean-fish-openwater",
+              "next": "tier-openwater"
+            },
+            {
+              "label": "A Deep Sea fish.",
+              "requireHubItem": "ocean-fish-deepsea",
+              "next": "tier-deepsea"
+            },
+            {
+              "label": "An Abyss Tide fish.",
+              "requireHubItem": "ocean-fish-abysstide",
+              "next": "tier-abysstide"
+            },
+            {
+              "label": "Nothing yet.",
+              "next": "nothing-yet"
+            }
+          ]
+        },
+        "tier-shoal": {
+          "text": "\"Shoal fish — bait-sized, but every angler starts somewhere. Fishwife Marta pays a few coppers for these, maybe 3 crystals.\""
+        },
+        "tier-reef": {
+          "text": "\"A reef fish, good and firm. Marta'll give you a fair 6 crystals for that one.\""
+        },
+        "tier-deepshelf": {
+          "text": "\"Pulled up from the shelf, by the weight of it. That's a solid 12-crystal catch.\""
+        },
+        "tier-openwater": {
+          "text": "\"Now that's real open-ocean iron. Marta would pay 25 crystals and count herself lucky.\""
+        },
+        "tier-deepsea": {
+          "text": "\"A deep-sea beauty. I've only landed a handful like it myself — worth a good 45 crystals.\""
+        },
+        "tier-abysstide": {
+          "text": "\"...By the depths. An Abyss Tide catch. Thirty years at sea and I've never landed one myself. Marta would pay a small fortune for that — 90 crystals, easy.\""
+        },
+        "nothing-yet": {
+          "text": "\"Come back once you've hauled something in off the harbour dock — I'll tell you true what it's worth.\""
         }
       }
     },

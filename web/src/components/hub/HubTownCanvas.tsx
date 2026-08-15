@@ -55,6 +55,11 @@ const NPC_WALK_PX_PER_S = 80
 const NPC_BLOCK_WAIT_POLL_MS = 150   // how often to re-check a blocked tile
 const NPC_BLOCK_WAIT_MAX_MS  = 900   // give up waiting and try to reroute after this long
 
+// Tapping a pond tile routes the avatar to the nearest walkable tile; the
+// "cast line?" prompt only fires if that spot ends up within this many tiles
+// (Chebyshev distance) of the tapped water (#2148).
+const POND_FISH_TAP_RADIUS = 3
+
 // Chance a spawning (non-ghost) wanderer offers a card-battle challenge (#2149).
 const CHALLENGER_CHANCE = 0.2
 
@@ -160,6 +165,10 @@ interface Props {
   onEnterInterior?:  (buildingId: string) => void
   onExitInterior?:   () => void
   onTileTap?:        (tx: number, ty: number) => void
+  /** Fires when a tap on a pond tile routes the avatar within fishing range
+   *  of a town's fishing spot — passes the screen id to offer (e.g.
+   *  'hub-fishing'). Not fired for ponds with no nearby fishing NPC. */
+  onPondFishTap?:    (screen: string) => void
   pickedUpIds?:      Set<string>
   onItemPickup?:     (id: string, questId?: string) => void
   doorKeys?:         Set<string>
@@ -201,7 +210,7 @@ export function HubTownCanvas({
   onAreaEnter, onNodeInteract, onAvatarMove, onAvatarStep,
   returnRef, unitCards, commander, onNpcTap, onAnimalTap, onAnimalSeen, onAmbientAnimalTap,
   onAmbientNpcChallenge,
-  interiorEnterRef, interiorExitRef, petActionRef, onEnterInterior, onExitInterior, onTileTap,
+  interiorEnterRef, interiorExitRef, petActionRef, onEnterInterior, onExitInterior, onTileTap, onPondFishTap,
   pickedUpIds, onItemPickup, doorKeys, onDoorLocked, questNpcState, activeQuestIdsRef,
   completedQuestIdsRef, collectedTreasureIds, onTreasureStep,
   gameHour, isNight, npcProximityDialogue,
@@ -257,6 +266,8 @@ export function HubTownCanvas({
   onExitInteriorRef.current = onExitInterior
   const onTileTapRef        = useRef(onTileTap)
   onTileTapRef.current      = onTileTap
+  const onPondFishTapRef    = useRef(onPondFishTap)
+  onPondFishTapRef.current  = onPondFishTap
   const onItemPickupRef     = useRef(onItemPickup)
   onItemPickupRef.current   = onItemPickup
   const onDoorLockedRef     = useRef(onDoorLocked)
@@ -532,6 +543,25 @@ export function HubTownCanvas({
         for (let tx = x1; tx <= x2; tx++)
           for (let ty = y1; ty <= y2; ty++)
             buildingSet.add(`${tx},${ty}`)
+
+    // Pond tiles tap-routable for fishing (#2148) — bridge tiles are walkable
+    // spans over water, not water itself, so they're excluded.
+    const pondBridgeSet = new Set(HUB_BRIDGE_TILES.map(([tx, ty]) => `${tx},${ty}`))
+    const pondTapSet = new Set(
+      HUB_POND_TILES.filter(([tx, ty]) => !pondBridgeSet.has(`${tx},${ty}`)).map(([tx, ty]) => `${tx},${ty}`)
+    )
+    // The nearest exterior NPC offering a fishing screen to a tapped pond
+    // tile, or null if this town has no exterior fishing spot at all.
+    function nearestFishingScreen(tx: number, ty: number): string | null {
+      let best: string | null = null
+      let bestD = Infinity
+      for (const n of EXTERIOR_NPCS) {
+        if (!n.screen?.startsWith('hub-fishing')) continue
+        const d = Math.hypot(n.tx - tx, n.ty - ty)
+        if (d < bestD) { bestD = d; best = n.screen }
+      }
+      return best
+    }
 
     // ── Buildings ──────────────────────────────────────────────────────────────
     // Each building is drawn as one or more *visual variants* (a base variant plus
@@ -2205,6 +2235,7 @@ export function HubTownCanvas({
     let walkTarget:  [number, number] | null = null
     let isWalking    = false
     let pendingScreen: string | null = null
+    let pendingPondFish: { tile: [number, number]; screen: string } | null = null
 
     // ── Interior state ─────────────────────────────────────────────────────────
     let interiorActive      = false
@@ -3134,6 +3165,12 @@ export function HubTownCanvas({
       try {
         if (walkQueue.length === 0) {
           isWalking = false
+          if (pendingPondFish) {
+            const { tile, screen } = pendingPondFish
+            pendingPondFish = null
+            const dist = Math.max(Math.abs(currentTile[0] - tile[0]), Math.abs(currentTile[1] - tile[1]))
+            if (dist <= POND_FISH_TAP_RADIUS) onPondFishTapRef.current?.(screen)
+          }
           if (pendingScreen) {
             const s = pendingScreen
             pendingScreen = null
@@ -3265,7 +3302,7 @@ export function HubTownCanvas({
       }
     }
 
-    function startWalk(target: [number, number], nodeScreen?: string) {
+    function startWalk(target: [number, number], nodeScreen?: string, pondFish?: { tile: [number, number]; screen: string }) {
       for (const s of activeBubbles) bubbleLayer.removeChild(s.container)
       activeBubbles.length = 0
       for (const r of activeReactions) bubbleLayer.removeChild(r.text)
@@ -3279,6 +3316,7 @@ export function HubTownCanvas({
       walkQueue = path.slice(1)
       walkTarget = target
       pendingScreen = nodeScreen ?? null
+      pendingPondFish = pondFish ?? null
       if (!isWalking) processWalkQueue()
     }
 
@@ -3353,6 +3391,21 @@ export function HubTownCanvas({
         if (tappedDoor) {
           startWalk([tappedDoor.tx, tappedDoor.ty])
           return
+        }
+
+        // Pond tile tap (#2148) — route to the closest walkable tile and, if
+        // this town has a fishing spot, offer to cast a line once arrived.
+        if (pondTapSet.has(`${tapTx},${tapTy}`)) {
+          const screen = nearestFishingScreen(tapTx, tapTy)
+          if (screen) {
+            const pondWalkable = exteriorWalkable()
+            for (const k of npcOccupiedTiles()) pondWalkable.delete(k)
+            const pondPxX = tapTx * T + T / 2
+            const pondPxY = tapTy * T + T / 2
+            const target  = nearestWalkable(pondPxX, pondPxY, pondWalkable, T)
+            startWalk(target, undefined, { tile: [tapTx, tapTy], screen })
+            return
+          }
         }
 
         const node = EXTERIOR_NPCS.find(n => n.tx === tapTx && n.ty === tapTy && n.screen)

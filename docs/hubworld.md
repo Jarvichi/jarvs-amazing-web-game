@@ -465,6 +465,7 @@ Then on the NPC (in `config.json`): `"dialogueTree": "scholar-chat"` (keep a
 | `requireWeather` | string? | Choice only shown while the town's resolved weather (§12) matches (`"clear"`/`"rain"`/`"snow"`/`"fog"`). Weather is date/season-driven — for QA, force `"weather": {"type": "snow"}` in the town config, or use Millhaven (rains year-round). |
 | `requireTimeOfDay` | `"day"` \| `"night"` \| `"dawn"`? | Choice only shown while `hubClock.getTimeOfDay(gameHour)` matches: night 20:00–05:59, dawn 06:00–07:59, day otherwise (§9). |
 | `requireActivity` | `NpcActivity`? | Choice only shown while the speaking NPC's own schedule (§9) currently has this activity (`getNpcActivity`). No effect on NPCs without a `schedule`. |
+| `requireHubItem` | string? | Choice only shown while the player holds at least 1 of this hub-item id (`hasHubItem`). Read-only — doesn't consume it, unlike `tradeHubItem`. Used by Sailor Finn's fish appraisal (§16). |
 
 #### `DialogueEffect` types
 | `type` | Fields | Behaviour |
@@ -2154,21 +2155,91 @@ the default flavour bubble:
 
 Placed (named) animals keep their normal §8 quest/dialogue routing.
 
-### Hub fishing (item-gated)
+### Hub fishing (item-gated) & pond locales (#2148)
 
-Hub fishing NPCs use `"screen": "hub-fishing"` (Millhaven harbour, Capital
-City riverside, Ravenwatch pond). `handleNodeInteract` (HubWorld.tsx) blocks
-entry without a `fishing-rod` or without holding at least one `fish-bait`;
-both are global, so one rod works in every town. Entry does **not** consume
+Hub fishing NPCs use a `"screen"` starting with `"hub-fishing"` —
+`hub-fishing` (Capital City riverside — the default/generic "river" catch
+table), `hub-fishing-ocean` (Millhaven harbour), `hub-fishing-lake`
+(Ravenwatch's open-air pond, x2 NPCs), `hub-fishing-cave` (Ravenwatch's
+Sunless Depths, an underground/subterranean lake). `handleNodeInteract`
+(HubWorld.tsx) gates entry on `screen.startsWith('hub-fishing')`, blocking it
+without a `fishing-rod` or without holding at least one `fish-bait`; both are
+global, so one rod works in every town/locale. Entry does **not** consume
 bait — each cast inside the minigame does. The screen renders
-`<Fishing rewardMode="catch">` (App.tsx), which shows the live bait count in
-its header and deducts one `fish-bait` (via `removeHubItem`) on every cast
-("CAST!" / "TRY AGAIN" / "FISH AGAIN"); once bait hits 0, casting is disabled
-and only "GIVE UP"/"DONE" remain to exit. The caught fish is added to the
-inventory as a tier-keyed hub-item (`fish-tiddler` … `fish-legendary`) and
-**no tickets are awarded**. The arcade fishing tile (MiniGamesMenu,
-`"screen": "fishing"` nowhere in hub configs anymore) is unchanged, has no
-bait cost, and still pays tickets.
+`<Fishing rewardMode="catch" variant="…">` (HubRoutes.tsx — `variant` matches
+the locale: `river` default/omitted, `ocean`, `lake`, `cave`), which shows the
+live bait count in its header and deducts one `fish-bait` (via
+`removeHubItem`) on every cast ("CAST!" / "TRY AGAIN" / "FISH AGAIN"); once
+bait hits 0, casting is disabled and only "GIVE UP"/"DONE" remain to exit.
+Each variant has its own six-tier catch table (`Fishing.tsx` —
+`FISH_TIERS`/`OCEAN_FISH_TIERS`/`LAKE_FISH_TIERS`/`CAVE_FISH_TIERS`) and its
+own exclusive tier-keyed hub-items (e.g. `fish-tiddler` … `fish-legendary`
+for river, `ocean-fish-shoal` … `ocean-fish-abysstide` for ocean — see
+`hubItems.json`), so different towns genuinely fish up different sets of
+fish. **No tickets are awarded** in hub mode. The arcade fishing tile
+(MiniGamesMenu, `"screen": "fishing"` nowhere in hub configs anymore) is
+unchanged, has no bait cost, still uses the plain `river` table, and still
+pays tickets.
+
+Tapping a pond tile directly (rather than the fishing NPC) also opens this
+flow — see "Tap-to-fish" below.
+
+**Sailor Finn's fish appraisal (Millhaven):** a screen-less NPC
+(`sailor-finn`) with a `dialogueTree` (`finn-appraise`,
+`millhaven/questDefs.json`) offering one choice per ocean-tier hub-item, each
+gated with `requireHubItem` (§7b) so only tiers the player is actually
+holding appear. Picking one shows a flavored appraisal line (roughly the
+same crystal value Fishwife Marta's `marta-fish-trade` tree pays for that
+tier) — **read-only**, the fish is not consumed, unlike Marta's `tradeHubItem`
+sale. Marta's tree also has matching `ocean-fish-*` sell choices alongside
+the original generic `fish-*` ones (kept for fish caught elsewhere and
+brought to Millhaven).
+
+### Authoring checklist: new pond-locale fishing spot
+
+1. Pick a `variant` (`river` default, or add a new one to `Fishing.tsx`'s
+   `VARIANT_TIERS`/`VARIANT_TIER_HUB_ITEM` maps with its own six `FishTier`
+   entries and a `<Locale>_TIER_HUB_ITEM` map of tier label → hub-item id).
+2. Register each new tier hub-item in `hubItems.json` (`category:
+   'material'`).
+3. Add a `screen: 'hub-fishing-<locale>'` case to `HubRoutes.tsx` rendering
+   `<Fishing rewardMode="catch" variant="<locale>">`, and a
+   `screenEnterLabel` entry in `HubWorld.tsx`. The rod/bait gate
+   (`screen.startsWith('hub-fishing')`) and `NPC_SCREEN_KEYWORDS`
+   (`NpcEditor.tsx`) need the new screen id too.
+4. Place a fishing NPC with that `screen` in the town's `config.json` (or
+   reuse an existing one — the closest such NPC to a tapped pond tile decides
+   which locale a §"Tap-to-fish" prompt offers, so towns can only have as
+   many distinct locales as they have fishing NPCs).
+5. Optionally give the new tier's top item a buyer (`tradeHubItem`, §16) so
+   it isn't a dead end.
+6. Run `npm run test` and `npm run build`; verify in-game: the NPC's own tap
+   and a pond-tile tap both open the right variant, casting awards the new
+   locale's items, and (if wired) the buyer accepts them.
+
+### Tap-to-fish (pond tile taps, #2148/#2152)
+
+Tapping a pond tile directly (rather than the fisherman NPC) also opens the
+"cast a line?" flow, in `HubTownCanvas.tsx`'s exterior tap handler:
+
+1. If the tapped tile is in the town's pond-tile set (minus bridge tiles —
+   walkable spans over water aren't fishable), `nearestFishingScreen(tx, ty)`
+   finds the closest exterior NPC whose `screen` starts with `hub-fishing`
+   and returns its screen id (or `null` if the town has no fishing NPC at
+   all, in which case the tap falls through to an ordinary walk-there tap).
+2. The avatar is routed via the normal BFS pathfinder (`nearestWalkable`) to
+   the closest walkable tile to the pond tile, carrying a `pendingPondFish`
+   target (mirrors `pendingScreen`, and is likewise reset by any subsequent
+   tap so a new tap cancels a stale one).
+3. On arrival, if the avatar ends up within `POND_FISH_TAP_RADIUS` (3,
+   Chebyshev distance) of the tapped pond tile, `onPondFishTap(screen)` fires
+   into `HubWorld.tsx`'s `handlePondFishTap`, which shows a "Cast a line?"
+   confirm dialogue (reusing `screenEnterLabel`/`handleNodeInteract` — so
+   rod/bait gating is identical to tapping the NPC).
+
+Scoped to towns/ponds with an existing fishing NPC — expanding fishing to
+every pond tile in every town (most towns have decorative ponds with no
+fishing NPC at all) is tracked separately.
 
 ### Authoring checklist: new shop good + trade chain
 

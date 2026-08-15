@@ -11855,7 +11855,7 @@
       "sprite": "hub-npc-fisherman",
       "tx": 45,
       "ty": 49,
-      "screen": "hub-fishing",
+      "screen": "hub-fishing-lake",
       "dialogue": [
         "Nothings biting today. Maybe try again later?",
         "The fish are shy around here. Patience is key."
@@ -11864,7 +11864,7 @@
         "ravenwatch-fishing-hole-topic-auto-1",
         "ravenwatch-fishing-hole-topic-auto-2"
       ],
-      "favoriteGiftItemId": "fish-trophy",
+      "favoriteGiftItemId": "lake-fish-prizewater",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
         "silk-ribbon"
@@ -11876,14 +11876,14 @@
       "sprite": "hub-npc-fisherman",
       "tx": 44,
       "ty": 51,
-      "screen": "hub-fishing",
+      "screen": "hub-fishing-lake",
       "dialogue": [
         "The pond is calm today. Care to fish?"
       ],
       "conversationTopics": [
         "ravenwatch-fishing-hole-2-topic-auto-1"
       ],
-      "favoriteGiftItemId": "fish-trophy",
+      "favoriteGiftItemId": "lake-fish-prizewater",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
         "silk-ribbon"

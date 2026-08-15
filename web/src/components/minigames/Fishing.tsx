@@ -93,6 +93,78 @@ export const CAVE_FISH_TIERS: FishTier[] = [
   },
 ]
 
+// Lake variant — open, still-water species for a town's ordinary pond/lake
+// spot (as opposed to a flowing river). Same weights/ranges/chances as
+// FISH_TIERS; distinct tier labels double as the key into LAKE_TIER_HUB_ITEM.
+export const LAKE_FISH_TIERS: FishTier[] = [
+  {
+    tier: 'Shallows', icon: '🐟',
+    names: ['Lake Minnow', 'Reed Bleak', 'Shoreling', 'Pond Skimmer', 'Duckweed Dace'],
+    minG: 100,   maxG: 500,   minCm: 8,   maxCm: 25,  minT: 2,   maxT: 6,   chance: 40,
+  },
+  {
+    tier: 'Weedbed', icon: '🐠',
+    names: ['Lake Roach', 'Lily Perch', 'Weedy Rudd', 'Still-water Bream', 'Reed Chub'],
+    minG: 500,   maxG: 2000,  minCm: 25,  maxCm: 45,  minT: 8,   maxT: 18,  chance: 30,
+  },
+  {
+    tier: 'Deep Water', icon: '🐡',
+    names: ['Lake Carp', 'Tench', 'Still Barbel', 'Lake Zander', 'Pond Catfish'],
+    minG: 2000,  maxG: 5000,  minCm: 45,  maxCm: 70,  minT: 22,  maxT: 40,  chance: 15,
+  },
+  {
+    tier: 'Old Water', icon: '🦈',
+    names: ['Lake Pike', 'Landlocked Salmon', 'Basin Trout', 'Old Catfish', 'Lake Sturgeon'],
+    minG: 5000,  maxG: 12000, minCm: 70,  maxCm: 110, minT: 42,  maxT: 75,  chance: 9,
+  },
+  {
+    tier: 'Prize Water', icon: '🏆',
+    names: ['Giant Lake Carp', 'Monster of the Mere', 'Lake Titan', 'Champion Trout', 'Great Basin Pike'],
+    minG: 12000, maxG: 25000, minCm: 110, maxCm: 150, minT: 80,  maxT: 130, chance: 5,
+  },
+  {
+    tier: 'Still Legend', icon: '✨',
+    names: ['The Lake Watcher', 'Ancient Basin Carp', 'Mere Serpent'],
+    minG: 25000, maxG: 50000, minCm: 150, maxCm: 200, minT: 150, maxT: 250, chance: 1,
+  },
+]
+
+// Ocean variant — saltwater species for a harbour/coastal fishing spot.
+// Same weights/ranges/chances as FISH_TIERS; distinct tier labels double as
+// the key into OCEAN_TIER_HUB_ITEM.
+export const OCEAN_FISH_TIERS: FishTier[] = [
+  {
+    tier: 'Shoal', icon: '🐟',
+    names: ['Silverside', 'Sand Smelt', 'Anchovy', 'Sprat', 'Tide Minnow'],
+    minG: 100,   maxG: 500,   minCm: 8,   maxCm: 25,  minT: 2,   maxT: 6,   chance: 40,
+  },
+  {
+    tier: 'Reef', icon: '🐠',
+    names: ['Mackerel', 'Sea Bream', 'Herring', 'Grey Mullet', 'Wrasse'],
+    minG: 500,   maxG: 2000,  minCm: 25,  maxCm: 45,  minT: 8,   maxT: 18,  chance: 30,
+  },
+  {
+    tier: 'Deep Shelf', icon: '🐡',
+    names: ['Cod', 'Sea Bass', 'Pollock', 'Haddock', 'Conger Eel'],
+    minG: 2000,  maxG: 5000,  minCm: 45,  maxCm: 70,  minT: 22,  maxT: 40,  chance: 15,
+  },
+  {
+    tier: 'Open Water', icon: '🦈',
+    names: ['Bluefin', 'Halibut', 'Barracuda', 'Bull Shark', 'Marlin'],
+    minG: 5000,  maxG: 12000, minCm: 70,  maxCm: 110, minT: 42,  maxT: 75,  chance: 9,
+  },
+  {
+    tier: 'Deep Sea', icon: '🏆',
+    names: ['Giant Tuna', 'Broadbill Swordfish', 'Deep-sea Grouper', 'Ocean Titan', 'Great Marlin'],
+    minG: 12000, maxG: 25000, minCm: 110, maxCm: 150, minT: 80,  maxT: 130, chance: 5,
+  },
+  {
+    tier: 'Abyss Tide', icon: '✨',
+    names: ['The Tideborn Leviathan', 'Kraken Spawn', 'Deepwater Wyrmfish'],
+    minG: 25000, maxG: 50000, minCm: 150, maxCm: 200, minT: 150, maxT: 250, chance: 1,
+  },
+]
+
 // ── Catch types ───────────────────────────────────────────────────────────────
 
 interface FishCatch {
@@ -161,6 +233,14 @@ export const CAVE_TIER_HUB_ITEM: Record<string, string> = {
   Blindling: 'cave-fish-blindling', 'Cave-dweller': 'cave-fish-dweller', 'Deep Lurker': 'cave-fish-lurker',
   Ancient: 'cave-fish-ancient', Abyssal: 'cave-fish-abyssal', Sunless: 'cave-fish-sunless',
 }
+export const LAKE_TIER_HUB_ITEM: Record<string, string> = {
+  Shallows: 'lake-fish-shallows', Weedbed: 'lake-fish-weedbed', 'Deep Water': 'lake-fish-deepwater',
+  'Old Water': 'lake-fish-oldwater', 'Prize Water': 'lake-fish-prizewater', 'Still Legend': 'lake-fish-stilllegend',
+}
+export const OCEAN_TIER_HUB_ITEM: Record<string, string> = {
+  Shoal: 'ocean-fish-shoal', Reef: 'ocean-fish-reef', 'Deep Shelf': 'ocean-fish-deepshelf',
+  'Open Water': 'ocean-fish-openwater', 'Deep Sea': 'ocean-fish-deepsea', 'Abyss Tide': 'ocean-fish-abysstide',
+}
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
@@ -171,16 +251,25 @@ interface Props {
    *  inventory instead, and no tickets are ever awarded. */
   rewardMode?: 'tickets' | 'catch'
   /** 'river' (default): the standard Tiddler→Legendary tiers used at every
-   *  ordinary fishing spot. 'cave': the pale, blind cave-lake species —
-   *  same weights/ranges, exclusive hub-items — used only at the
-   *  underground lake's fishing spot. */
-  variant?: 'river' | 'cave'
+   *  ordinary fishing spot. 'cave': the pale, blind cave-lake species, used
+   *  only at the underground lake's fishing spot. 'lake': still-water
+   *  species for a town's open pond/lake. 'ocean': saltwater species for a
+   *  harbour/coastal spot. Each variant has its own exclusive hub-items
+   *  (#2148/#2153 — pond locales). */
+  variant?: 'river' | 'cave' | 'lake' | 'ocean'
+}
+
+const VARIANT_TIERS: Record<NonNullable<Props['variant']>, FishTier[]> = {
+  river: FISH_TIERS, cave: CAVE_FISH_TIERS, lake: LAKE_FISH_TIERS, ocean: OCEAN_FISH_TIERS,
+}
+const VARIANT_TIER_HUB_ITEM: Record<NonNullable<Props['variant']>, Record<string, string>> = {
+  river: TIER_HUB_ITEM, cave: CAVE_TIER_HUB_ITEM, lake: LAKE_TIER_HUB_ITEM, ocean: OCEAN_TIER_HUB_ITEM,
 }
 
 export function Fishing({ onDone, rewardMode = 'tickets', variant = 'river' }: Props) {
   const usesBait = rewardMode === 'catch'
-  const tiers = variant === 'cave' ? CAVE_FISH_TIERS : FISH_TIERS
-  const tierHubItem = variant === 'cave' ? CAVE_TIER_HUB_ITEM : TIER_HUB_ITEM
+  const tiers = VARIANT_TIERS[variant]
+  const tierHubItem = VARIANT_TIER_HUB_ITEM[variant]
 
   const [phase, setPhase]   = useState<Phase>('idle')
   const [result, setResult] = useState<Catch | null>(null)

@@ -12,7 +12,7 @@ import { SCREEN_IDS } from '../EntityInspector'
 // Screens reachable from an NPC's dialogue: the standard SCREEN_IDS list, plus
 // special dispatcher keywords handled directly in HubWorld.tsx's
 // handleNodeInteract (not full-blown screens, e.g. modals / one-off flows).
-const NPC_SCREEN_KEYWORDS = ['adopt-pet', 'town-upgrades', 'bounty-board', 'worldmap', 'campaign', 'endless', 'hub-fishing', 'hub-fishing-cave', 'commander']
+const NPC_SCREEN_KEYWORDS = ['adopt-pet', 'town-upgrades', 'bounty-board', 'worldmap', 'campaign', 'endless', 'hub-fishing', 'hub-fishing-cave', 'hub-fishing-lake', 'hub-fishing-ocean', 'commander']
 const NPC_SCREEN_OPTIONS = Array.from(new Set([...SCREEN_IDS, ...NPC_SCREEN_KEYWORDS])).sort()
 
 export type { PickKind } from '../mapEditorTypes'
