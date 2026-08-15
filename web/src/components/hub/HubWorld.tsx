@@ -219,6 +219,8 @@ export interface Props {
   /** Launch campaign 2 (The Forgotten Kingdom) — from Elsben in Ironhold Keep. */
   onCampaign2?:       () => void
   onEndless?:         () => void
+  /** Launch a card battle against a wandering NPC challenger (#2149). */
+  onWandererBattle?:  () => void
   onWorldMap?:        () => void
   /** An exit tile's `screen` is `town:<mapId>` — travel directly to another
    *  town's hub without going through the world map screen. */
@@ -249,7 +251,7 @@ export interface Props {
   onBuyCrystalPack?:  (qty: number) => void
 }
 
-export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndless, onWorldMap, onNavigateTown, onPlayerTap, onNarratorLog,
+export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndless, onWandererBattle, onWorldMap, onNavigateTown, onPlayerTap, onNarratorLog,
   locationData, locationQuests, questDefs, allQuestDefs, locationRegistry, allQuests, friendshipDialogue, relationshipDialogue,
   crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onCrystalsChange, onTileTap, onBuyCrystalPack }: Props) {
   const [splashVisible, setSplashVisible] = useState(() => !_hubSplashShown && !loadSkipIntro())
@@ -1720,6 +1722,22 @@ function hasOfferableQuest(giverId: string): boolean {
     return false
   }, [refreshState])
 
+  // ── Wandering-NPC battle challenge (#2149) ──────────────────────────────
+  // A wanderer flagged with the '?' marker offers a card duel on tap: win for
+  // a prize (the usual quick-battle pack-opening reward), lose and they keep
+  // the bragging rights. No modal state to track — the offer is re-shown on
+  // every tap until accepted or the NPC wanders off.
+  const handleAmbientNpcChallenge = useCallback((_npcId: string, npcName: string) => {
+    setDialogueEvent({
+      speakerName: npcName,
+      text: `${npcName} squints at your deck. "Reckon I could take you in a card duel. Win and there's a prize in it for you — lose, and I get bragging rights."`,
+      choices: [
+        { label: 'Accept the duel', primary: true, onClick: () => { setDialogueEvent(null); onWandererBattle?.() } },
+        { label: 'Not now', isExit: true, onClick: () => setDialogueEvent(null) },
+      ],
+    })
+  }, [onWandererBattle])
+
   const handleAreaEnter = useCallback((areaName: string | null) => {
     setCurrentArea(areaName)
     const area = areaName != null ? locationData.HUB_AREAS.find(a => a.name === areaName) : undefined
@@ -2238,6 +2256,7 @@ function hasOfferableQuest(giverId: string): boolean {
             onAnimalTap={handleAnimalTap}
             onAnimalSeen={recordAnimalSeen}
             onAmbientAnimalTap={handleAmbientAnimalTap}
+            onAmbientNpcChallenge={handleAmbientNpcChallenge}
             interiorEnterRef={interiorEnterRef}
             interiorExitRef={interiorExitRef}
             petActionRef={petActionRef}
