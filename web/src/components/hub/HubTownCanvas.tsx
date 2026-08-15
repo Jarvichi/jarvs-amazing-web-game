@@ -581,11 +581,12 @@ export function HubTownCanvas({
                 s.position.set(door.tx * T, ty * T)
                 s.width = T; s.height = T
                 s.visible = initiallyVisible
-                // A door is part of the building's wall, so it belongs in
-                // buildingLayer alongside the static arch tile underneath it
-                // — always behind the avatar/NPCs/decor, never in front,
-                // same as every other wall tile.
-                buildingLayer.addChild(s)
+                // nodeLayer paints after avatarLayer/spriteLayer, so the door
+                // leaf naturally draws in front of anyone walking into it —
+                // and its draw order relative to the static arch tile
+                // (buildingLayer) is fixed by container order, not by which
+                // texture promise resolves first.
+                nodeLayer.addChild(s)
                 doorAnimSprites.push({ doorKey, role, material: wall, sprite: s })
                 if (track) buildingVariantSprites.push({ ...track, sprite: s })
               }).catch(() => {})
@@ -3256,16 +3257,14 @@ export function HubTownCanvas({
             onDoorLockedRef.current?.(door.buildingId, `quest:${door.requiredQuest}`)
             return
           }
-          // Swing the door open and hold it there for a beat before cutting
-          // to the interior view. 2 steps (opening + open) gets the door
-          // fully open; the 3rd step's worth of extra time lets the player
-          // actually see it standing open before the screen changes.
+          // Swing the door open and give the player a beat to see it before
+          // cutting to the interior view.
           doorAnimation.openDoor(`${door.tx},${door.ty}`, performance.now())
           const enteredBuildingId = door.buildingId
           setTimeout(() => {
             if (app.renderer == null) return
             onNodeInteractRef.current(`interior:${enteredBuildingId}`)
-          }, DOOR_STEP_MS * 3)
+          }, DOOR_STEP_MS * 2)
           return
         }
 
