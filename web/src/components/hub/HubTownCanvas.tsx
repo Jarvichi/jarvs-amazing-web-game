@@ -606,17 +606,10 @@ export function HubTownCanvas({
           continue
         }
 
-        // Only this building's own doors — door.buildingId (the door's *target*
-        // interior) doesn't always equal the owning structure's id, so match on
-        // ownerBuildingId (the structure the door was authored under) instead.
-        // Matching by tx-in-rect alone is ambiguous: in a dense town many
-        // buildings' rects share a column range (e.g. a gatehouse spanning most
-        // of the map's width), so every building sharing that range would
-        // otherwise race to draw its own wall material's door art onto the
-        // same tile.
-        const doors = HUB_DOORS
-          .filter(d => d.ownerBuildingId === building.id)
-          .map(d => ({ tx: d.tx, ty: d.ty, hideSprite: d.hideSprite }))
+        // Pass every door; placeBuildingTiles matches them to a footprint by
+        // position (south edge), mirroring the original renderer — door buildingId
+        // does not always equal the building's id, so we must not filter by id.
+        const doors = HUB_DOORS.map(d => ({ tx: d.tx, ty: d.ty, hideSprite: d.hideSprite }))
 
         // Distinct visual thresholds: base (0) plus each levelVisuals minLevel.
         const thresholds = [0, ...((building.levelVisuals ?? []).map(v => v.minLevel))]
