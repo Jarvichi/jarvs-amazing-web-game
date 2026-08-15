@@ -691,6 +691,20 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
     onNavigate?.(screen, buildingId, npc)
   }, [onNavigate, onCampaign, onCampaign2, onWorldMap, onNavigateTown, onNarratorLog, commander])
 
+  // Tapping a pond tile within range of a town's fishing spot (#2148) prompts
+  // to cast a line, mirroring the confirm dialogue a fishing NPC's own tap
+  // shows — rod/bait gating is still handled by handleNodeInteract.
+  const handlePondFishTap = useCallback((screen: string) => {
+    setDialogueEvent({
+      speakerName: '',
+      text: screenEnterLabel(screen),
+      choices: [
+        { label: 'Cast a line', primary: true, onClick: () => handleNodeInteract(screen) },
+        { label: 'Not now', isExit: true, onClick: () => setDialogueEvent(null) },
+      ],
+    })
+  }, [handleNodeInteract])
+
   const handleReturn = useCallback(() => {
     returnRef.current?.()
   }, [])
@@ -2263,6 +2277,7 @@ function hasOfferableQuest(giverId: string): boolean {
             onEnterInterior={(buildingId) => { setInteriorActive(true); setActiveBuildingId(buildingId) }}
             onExitInterior={() => { setInteriorActive(false); setActiveBuildingId(null) }}
             onTileTap={onTileTap}
+            onPondFishTap={handlePondFishTap}
             pickedUpIds={pickedUpIds}
             onItemPickup={handleItemPickup}
             doorKeys={doorKeys}
