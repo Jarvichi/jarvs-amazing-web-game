@@ -58,6 +58,9 @@ const NPC_BLOCK_WAIT_MAX_MS  = 900   // give up waiting and try to reroute after
 // Chance a spawning (non-ghost) wanderer offers a card-battle challenge (#2149).
 const CHALLENGER_CHANCE = 0.2
 
+// How long a wanderer pauses their wandering after being tapped.
+const NPC_TAP_STUN_MS = 5000
+
 const NIGHT_LIGHT_INNER  = 4 * T   // fully lit within this radius of avatar
 const NIGHT_LIGHT_OUTER  = 7 * T   // fully dark beyond this radius
 const NIGHT_NPC_LIGHT_R  = 2 * T   // small glow radius around each NPC
@@ -2184,6 +2187,8 @@ export function HubTownCanvas({
         built.sprite.cursor    = 'pointer'
         built.sprite.on('pointerdown', (e) => {
           e.stopPropagation()
+          state.walkQueue   = []
+          state.wanderTimer = NPC_TAP_STUN_MS
           if (state.isChallenger) onAmbientNpcChallengeRef.current?.(state.identity.id, state.identity.name)
           else showAmbientNpcTapBubble(state)
         })
