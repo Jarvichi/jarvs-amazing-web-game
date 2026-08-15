@@ -137,12 +137,25 @@ export function HubRoutes() {
         </OverlayScreen>
       )}
 
-      {/* The underground lake's fishing spot — same rod/bait gate as
-          hub-fishing (checked in HubWorld's handleNodeInteract), but a
-          cave-exclusive catch table (Fishing.tsx's variant prop). */}
+      {/* Pond-locale fishing spots (#2148/#2153) — same rod/bait gate as
+          hub-fishing (checked in HubWorld's handleNodeInteract via a
+          startsWith('hub-fishing') check), but each a locale-exclusive
+          catch table (Fishing.tsx's variant prop). 'cave' = the underground
+          lake, 'lake' = a town's open still-water pond, 'ocean' = a
+          harbour/coastal spot. */}
       {screen === 'hub-fishing-cave' && (
         <OverlayScreen title="🎣 FISHING" onBack={() => setScreen('hubworld')}>
           <Fishing rewardMode="catch" variant="cave" onDone={() => setScreen('hubworld')} />
+        </OverlayScreen>
+      )}
+      {screen === 'hub-fishing-lake' && (
+        <OverlayScreen title="🎣 FISHING" onBack={() => setScreen('hubworld')}>
+          <Fishing rewardMode="catch" variant="lake" onDone={() => setScreen('hubworld')} />
+        </OverlayScreen>
+      )}
+      {screen === 'hub-fishing-ocean' && (
+        <OverlayScreen title="🎣 FISHING" onBack={() => setScreen('hubworld')}>
+          <Fishing rewardMode="catch" variant="ocean" onDone={() => setScreen('hubworld')} />
         </OverlayScreen>
       )}
 

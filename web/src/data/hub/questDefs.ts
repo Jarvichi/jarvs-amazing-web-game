@@ -249,6 +249,7 @@ export interface DialogueChoiceDef {
   hideIfQuest?: string     // hide this choice once that quest is completed
   requireTimeOfDay?: 'day' | 'night' | 'dawn' // only show this choice during that time bucket (hubClock getTimeOfDay)
   requireActivity?: NpcActivity               // only show this choice while the speaking NPC's schedule has this activity
+  requireHubItem?: string  // only show this choice while the player holds at least 1 of this hub-item id (read-only check — doesn't consume it, unlike tradeHubItem)
 }
 
 export interface DialogueNode {

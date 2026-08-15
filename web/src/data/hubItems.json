@@ -120,6 +120,90 @@
     "category": "material"
   },
   {
+    "id": "lake-fish-shallows",
+    "name": "Shallows",
+    "icon": "🐟",
+    "desc": "A tiny still-water fish, quick and darting through the reeds.",
+    "category": "material"
+  },
+  {
+    "id": "lake-fish-weedbed",
+    "name": "Weedbed",
+    "icon": "🐠",
+    "desc": "Pulled up from the lily pads. Good eating, or good trading.",
+    "category": "material"
+  },
+  {
+    "id": "lake-fish-deepwater",
+    "name": "Deep Water",
+    "icon": "🐡",
+    "desc": "A sturdy fish from the lake's colder, deeper reaches.",
+    "category": "material"
+  },
+  {
+    "id": "lake-fish-oldwater",
+    "name": "Old Water",
+    "icon": "🦈",
+    "desc": "Heavy enough to make your arms ache. It's seen a few seasons.",
+    "category": "material"
+  },
+  {
+    "id": "lake-fish-prizewater",
+    "name": "Prize Water",
+    "icon": "🏆",
+    "desc": "A magnificent lake specimen. Anglers would trade stories for this one.",
+    "category": "material"
+  },
+  {
+    "id": "lake-fish-stilllegend",
+    "name": "Still Legend",
+    "icon": "✨",
+    "desc": "A fish out of lakeside legend. Nobody believes you caught it.",
+    "category": "material"
+  },
+  {
+    "id": "ocean-fish-shoal",
+    "name": "Shoal",
+    "icon": "🐟",
+    "desc": "A tiny saltwater fish, silvery and quick. Barely a mouthful.",
+    "category": "material"
+  },
+  {
+    "id": "ocean-fish-reef",
+    "name": "Reef",
+    "icon": "🐠",
+    "desc": "A modest coastal catch. The harbour fishmongers pay fairly for these.",
+    "category": "material"
+  },
+  {
+    "id": "ocean-fish-deepshelf",
+    "name": "Deep Shelf",
+    "icon": "🐡",
+    "desc": "Hauled up from the continental shelf. A respectable catch.",
+    "category": "material"
+  },
+  {
+    "id": "ocean-fish-openwater",
+    "name": "Open Water",
+    "icon": "🦈",
+    "desc": "A serious open-ocean catch. It fought the whole way in.",
+    "category": "material"
+  },
+  {
+    "id": "ocean-fish-deepsea",
+    "name": "Deep Sea",
+    "icon": "🏆",
+    "desc": "A magnificent deep-sea specimen. Sailors' eyes light up at the sight.",
+    "category": "material"
+  },
+  {
+    "id": "ocean-fish-abysstide",
+    "name": "Abyss Tide",
+    "icon": "✨",
+    "desc": "A fish out of sailors' legend. Even Sailor Finn will struggle to believe this one.",
+    "category": "material"
+  },
+  {
     "id": "fancy-hat",
     "name": "Fancy Hat",
     "icon": "🎩",

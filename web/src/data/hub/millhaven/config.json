@@ -2342,7 +2342,23 @@
         "millhaven-harbour-angler-topic-auto-2",
         "millhaven-harbour-angler-topic-auto-3"
       ],
-      "screen": "hub-fishing",
+      "screen": "hub-fishing-ocean",
+      "favoriteGiftItemId": "fish-trophy",
+      "favoriteGiftTrack": "ally",
+      "dislikedGiftItemIds": [
+        "silk-ribbon"
+      ]
+    },
+    {
+      "id": "sailor-finn",
+      "name": "Sailor Finn",
+      "sprite": "hub-npc-fisherman",
+      "tx": 44,
+      "ty": 16,
+      "dialogueTree": "finn-appraise",
+      "dialogue": [
+        "Got something worth a look? I've appraised catches from here to the Ashen Wastes."
+      ],
       "favoriteGiftItemId": "fish-trophy",
       "favoriteGiftTrack": "ally",
       "dislikedGiftItemIds": [
