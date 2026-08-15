@@ -32,6 +32,9 @@ interface Props {
   dailyChallengeState?: DailyChallengeState
   /** World-map battle: show a single "Return to Map" action instead of the play-again flow. */
   worldBattle?: boolean
+  /** A one-shot duel (e.g. a wandering hub-town NPC challenge, #2149): hide the
+   *  "Play Again" replay loop and label the remaining action to head back to town. */
+  singleBattle?: boolean
 }
 
 const VICTORY_ART = `   \\o/
@@ -55,7 +58,7 @@ const DRAW_ART = `  =====
   =====
   DRAW!`
 
-export function GameOver({ state, winner, handicap, onOpenPack, rewardClaimed, onPlayAgain, onMainMenu, campaignAbandon, quickPlayHint, showStreak, dailyChallengeState, worldBattle }: Props) {
+export function GameOver({ state, winner, handicap, onOpenPack, rewardClaimed, onPlayAgain, onMainMenu, campaignAbandon, quickPlayHint, showStreak, dailyChallengeState, worldBattle, singleBattle }: Props) {
   const won  = winner === 'player'
   const draw = winner === 'draw'
   const isEndlessDefeat = !!state.endlessMode && !won && !draw
@@ -205,8 +208,8 @@ export function GameOver({ state, winner, handicap, onOpenPack, rewardClaimed, o
         ) : won && onOpenPack ? (
           rewardClaimed ? (
             <>
-              <button className="action-btn" onClick={onPlayAgain}>[ Play Again ]</button>
-              <button className="action-btn" onClick={onMainMenu}>[ I'm Done ]</button>
+              {!singleBattle && <button className="action-btn" onClick={onPlayAgain}>[ Play Again ]</button>}
+              <button className="action-btn" onClick={onMainMenu}>{singleBattle ? '[ Back to Town ]' : "[ I'm Done ]"}</button>
             </>
           ) : (
             <button className="action-btn action-btn--large action-btn--gold" onClick={onOpenPack}>
@@ -215,16 +218,18 @@ export function GameOver({ state, winner, handicap, onOpenPack, rewardClaimed, o
           )
         ) : (
           <>
-            <button className="action-btn" onClick={onPlayAgain}>
-              {campaignAbandon ? (won ? '[ Claim Reward ]' : '[ Retry Node ]') : '[ Play Again ]'}
-            </button>
+            {!singleBattle && (
+              <button className="action-btn" onClick={onPlayAgain}>
+                {campaignAbandon ? (won ? '[ Claim Reward ]' : '[ Retry Node ]') : '[ Play Again ]'}
+              </button>
+            )}
             {campaignAbandon && (
               <button className="action-btn action-btn--danger gameover-abandon-btn u-text-sm" onClick={() => setConfirmAbandon(true)}>
                 [ Abandon Run ]
               </button>
             )}
             <button className="action-btn" onClick={onMainMenu}>
-              [ Main Menu ]
+              {singleBattle ? '[ Back to Town ]' : '[ Main Menu ]'}
             </button>
           </>
         )}

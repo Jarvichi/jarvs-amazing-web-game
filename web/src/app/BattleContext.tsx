@@ -31,6 +31,8 @@ export interface BattleContextValue {
   worldBattleNodeIdRef:  MutableRefObject<string | null>
   isDailyChallengeRef:   MutableRefObject<boolean>
   isWeeklyChallengeRef:  MutableRefObject<boolean>
+  /** True while playing a single-battle duel offered by a wandering hub-town NPC (#2149). */
+  isWandererBattleRef:   MutableRefObject<boolean>
   gameStateRef:          MutableRefObject<GameState | null>
   summaryDoneRef:        MutableRefObject<() => void>
 

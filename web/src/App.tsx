@@ -275,6 +275,7 @@ export default function App() {
   const isDraftModeRef      = useRef(false)                  // true while playing a Card Draft battle
    const quickBattleModeRef = useRef<QuickBattleMode>('easy')                //  Quick Battle Mode
   const worldBattleNodeIdRef = useRef<string | null>(null)
+  const isWandererBattleRef  = useRef(false)                 // true while playing a wandering-NPC duel (#2149)
 
   // ── Current run's act data (lazy-loaded) ────────────────────────────────────
   // Loaded async whenever run.actId changes; actDataFailed distinguishes "still
@@ -693,13 +694,13 @@ export default function App() {
     handlePlay, handleDraftComplete, handleEndless,
     handleDailyChallenge, handleWeeklyChallenge, handleEndlessLeaderboard,
     handleStartDailyChallenge, handleDailyChallengeRetry, handleStartWeeklyChallenge,
-    handleStreakReset, handlePlayAgain, handleStartTraining,
+    handleStreakReset, handlePlayAgain, handleStartTraining, handleStartWandererBattle,
   } = useQuickBattleFlow({
     gameState, handicap, setHandicap, setScreen, dispatch, startBattle, rollRareEvent,
     setWorldMapKey, setStreakBrokenData, setPendingBattleFn, setPendingBattleIsCampaign,
     setQuickPlayRewardClaimed,
     isCampaignRef, isDailyChallengeRef, isWeeklyChallengeRef, isTrainingModeRef,
-    isDraftModeRef, quickBattleModeRef, worldBattleNodeIdRef,
+    isDraftModeRef, quickBattleModeRef, worldBattleNodeIdRef, isWandererBattleRef,
     battleFlawlessRef, battleAllLegendaryRef, battleUsedStructure, battleUsedMobileUnit,
     prevPlayerUnitsRef, prevOpponentUnitsRef,
   })
@@ -725,6 +726,7 @@ export default function App() {
     isDailyChallengeRef.current = false
     isWeeklyChallengeRef.current = false
     isDraftModeRef.current = false
+    isWandererBattleRef.current = false
     const currentRun = run
 
     const isLoss = gameState?.phase.type === 'gameOver' && gameState.phase.winner !== 'player'
@@ -1164,7 +1166,7 @@ export default function App() {
     newsUnreadCount, feedbackOpen, showTitleLoginModal,
     handleDailyChallenge, handleWeeklyChallenge, handleEndlessLeaderboard,
     handlePlay, handleDraftComplete, handleStartDailyChallenge,
-    handleStartWeeklyChallenge, handleStartTraining, handleResetGame, checkForUpdates,
+    handleStartWeeklyChallenge, handleStartTraining, handleStartWandererBattle, handleResetGame, checkForUpdates,
     hubData, currentLocationKey, worldMapKey, restrictedTownNodeIds,
     miniGamesEntry, setMiniGamesEntry, hubMiniGameEntry, setHubMiniGameEntry,
     setShopBuildingId, setShopTappedNpc, setShowTitleLoginModal, setFeedbackOpen,
@@ -1206,7 +1208,7 @@ export default function App() {
     handleCampaign, handleCampaign2, handleEndless, setCommander,
     newsUnreadCount, feedbackOpen, showTitleLoginModal, handleDailyChallenge,
     handleWeeklyChallenge, handleEndlessLeaderboard, handlePlay, handleDraftComplete,
-    handleStartDailyChallenge, handleStartWeeklyChallenge, handleStartTraining,
+    handleStartDailyChallenge, handleStartWeeklyChallenge, handleStartTraining, handleStartWandererBattle,
     handleResetGame, checkForUpdates,
     handleUseConsumable, handleMainMenu, rewardChoices, rewardCrystals, summaryStats,
     handleRewardPick, handleRewardSkip, handleActComplete, hasNextAct,
@@ -1223,7 +1225,7 @@ export default function App() {
     battle, gameState, dispatch,
     showBossSplash, actTheme, isCampaign, quickPlayRewardClaimed,
     activeRareEvent, handleRareEventDone,
-    isCampaignRef, worldBattleNodeIdRef, isDailyChallengeRef, isWeeklyChallengeRef,
+    isCampaignRef, worldBattleNodeIdRef, isDailyChallengeRef, isWeeklyChallengeRef, isWandererBattleRef,
     gameStateRef, summaryDoneRef,
     handlePlayCard, handlePlayAoeCard, handleGiveUp, setIsUserPaused,
     handleSetStance, handleCycleSpeed, handleWaveRewardPick, handleWaveRewardSkip,
