@@ -63,9 +63,13 @@ export function HubDialogue({ line, onClose, speakerName, choices }: Props) {
         <div
           style={
             // Single action stays inline/right-aligned; multiple branch options
-            // stack vertically full-width so 3–4 choices read clearly.
+            // stack vertically full-width so 3–4 choices read clearly. A long
+            // list (a sell menu with a dozen tiers) scrolls internally instead
+            // of growing past the top of the screen — the game container clips
+            // overflow, so an uncapped list would otherwise strand its top rows
+            // off-screen with no way to reach them.
             choices && choices.length > 1
-              ? { display: 'flex', flexDirection: 'column', gap: 6, marginTop: 6 }
+              ? { display: 'flex', flexDirection: 'column', gap: 6, marginTop: 6, maxHeight: '38vh', overflowY: 'auto' }
               : { display: 'flex', gap: 8, justifyContent: 'flex-end', marginTop: 6 }
           }
         >
