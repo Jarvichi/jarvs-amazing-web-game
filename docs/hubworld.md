@@ -2185,7 +2185,9 @@ Tapping a pond tile directly (rather than the fishing NPC) also opens this
 flow — see "Tap-to-fish" below.
 
 **Sailor Finn's fish appraisal (Millhaven):** a screen-less NPC
-(`sailor-finn`) with a `dialogueTree` (`finn-appraise`,
+(`sailor-finn-appraiser`, a separate dockside placement from the quest-giving
+`sailor-finn` — same character, distinct id so tap lookups don't collide)
+with a `dialogueTree` (`finn-appraise`,
 `millhaven/questDefs.json`) offering one choice per ocean-tier hub-item, each
 gated with `requireHubItem` (§7b) so only tiers the player is actually
 holding appear. Picking one shows a flavored appraisal line (roughly the
