@@ -7,6 +7,7 @@ import { addCollectible, addHubItem, getHubItemCount, removeHubItem } from '../.
 import { addCardsToCollection } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
 import { recordFishCaught } from '../../game/hub/journal'
+import { addCaughtFish } from '../../game/hub/caughtFish'
 import ITEMS_DATA from '../../data/items.json'
 import { logError } from '../../logger'
 
@@ -221,8 +222,16 @@ function rollFish(tiers: FishTier[]): FishCatch {
   }
 }
 
-function formatWeight(g: number): string {
+export function formatWeight(g: number): string {
   return g < 1000 ? `${g}g` : `${(g / 1000).toFixed(1)}kg`
+}
+
+/** 1-5 stars from where a catch's weight falls within its own tier's size
+ *  range — a top-of-range Tiddler and a top-of-range Legendary both earn 5
+ *  stars, so every tier stays worth fishing for a great specimen. */
+export function computeFishStars(weightGrams: number, tier: FishTier): number {
+  const pct = (weightGrams - tier.minG) / (tier.maxG - tier.minG)
+  return Math.min(5, Math.max(1, Math.ceil(pct * 5)))
 }
 
 // Hub-mode catches become hub-items, keyed by fish tier (see hubItems.json).
@@ -260,10 +269,12 @@ interface Props {
   variant?: 'river' | 'cave' | 'lake' | 'ocean'
 }
 
-const VARIANT_TIERS: Record<NonNullable<Props['variant']>, FishTier[]> = {
+export type FishVariant = NonNullable<Props['variant']>
+
+export const VARIANT_TIERS: Record<FishVariant, FishTier[]> = {
   river: FISH_TIERS, cave: CAVE_FISH_TIERS, lake: LAKE_FISH_TIERS, ocean: OCEAN_FISH_TIERS,
 }
-const VARIANT_TIER_HUB_ITEM: Record<NonNullable<Props['variant']>, Record<string, string>> = {
+export const VARIANT_TIER_HUB_ITEM: Record<FishVariant, Record<string, string>> = {
   river: TIER_HUB_ITEM, cave: CAVE_TIER_HUB_ITEM, lake: LAKE_TIER_HUB_ITEM, ocean: OCEAN_TIER_HUB_ITEM,
 }
 
@@ -356,6 +367,14 @@ export function Fishing({ onDone, rewardMode = 'tickets', variant = 'river' }: P
         if (hubItemId) {
           try { addHubItem(hubItemId, 1) }
           catch (e) { logError('Fishing: addHubItem failed', { error: String(e) }) }
+        }
+        const tierDef = tiers.find(t => t.tier === c.tier)
+        if (tierDef) {
+          addCaughtFish({
+            locale: variant, tier: c.tier, tierIcon: c.tierIcon, name: c.name,
+            weightGrams: c.weightGrams, lengthCm: c.lengthCm,
+            stars: computeFishStars(c.weightGrams, tierDef),
+          })
         }
       }
     }
