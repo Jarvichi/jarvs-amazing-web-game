@@ -1211,10 +1211,7 @@ function hasOfferableQuest(giverId: string): boolean {
     const node = tree.nodes[nodeId]
     if (!node) { setDialogueEvent(null); return }
     markNodeSeen(tree.id, nodeId)
-    // Shuffled so a good/neutral/bad outcome isn't always in the same list
-    // position (see `shuffled` above) — order among exit-style choices (e.g.
-    // an authored "leave" choice) is separated back out below regardless.
-    const visible = shuffled((node.choices ?? []).filter(c =>
+    const filtered = (node.choices ?? []).filter(c =>
       (!c.requireFlag  || hasDialogueFlag(c.requireFlag)) &&
       (!c.hideIfFlag   || !hasDialogueFlag(c.hideIfFlag)) &&
       (!c.requireCampaignComplete || isCampaignComplete(c.requireCampaignComplete)) &&
@@ -1226,7 +1223,16 @@ function hasOfferableQuest(giverId: string): boolean {
       (!c.requireActivity  || (!!npcDef && 'schedule' in npcDef &&
           getNpcActivity(npcDef as HubNpc, gameHour) === c.requireActivity)) &&
       (!c.requireHubItem || hasHubItem(c.requireHubItem))
-    ))
+    )
+    // Shuffled so a good/neutral/bad outcome isn't always in the same list
+    // position (see `shuffled` above) — order among exit-style choices (e.g.
+    // an authored "leave" choice) is separated back out below regardless.
+    // Shop-style nodes (any tradeHubItem choice — always a flat sell/barter
+    // list, never mixed with narrative branches, per every town's questDefs)
+    // keep their authored order instead: a sell menu that reorders itself on
+    // every visit is hard to scan, especially selling several items in a row.
+    const isShopNode = filtered.some(c => c.effects?.some(e => e.type === 'tradeHubItem'))
+    const visible = isShopNode ? filtered : shuffled(filtered)
     const speaker = node.speakerName ?? speakerName
 
     let finalChoices: DialogueChoice[]

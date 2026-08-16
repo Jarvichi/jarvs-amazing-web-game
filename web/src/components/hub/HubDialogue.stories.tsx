@@ -103,3 +103,28 @@ function buyStory(speakerName: string, itemName: string, price: number): Story {
 
 export const GildwynShopGreeting: Story = buyStory('Gildwyn', 'Frost Wyrm', 600)
 export const VornShopGreeting: Story = buyStory('Vorn', 'Ashen Sovereign', 1200)
+
+// A tradeHubItem-style sell menu (Fishwife Marta's fish tiers): long enough
+// to exceed the game container's height, so the choice list scrolls inside
+// its own max-height instead of clipping off-screen. Also mixes in disabled
+// (greyed-out) entries, as the choices the player doesn't currently hold.
+const FISH_TIER_LABELS = [
+  'Tiddler — 3 💎', 'Small Fish — 6 💎', 'Medium Fish — 12 💎', 'Large Fish — 25 💎',
+  'Trophy Fish — 45 💎', 'Legendary Fish — 90 💎', 'Shoal — 3 💎', 'Reef Fish — 6 💎',
+  'Deep Shelf Fish — 12 💎', 'Open Water Fish — 25 💎', 'Deep Sea Fish — 45 💎', 'Abyss Tide Fish — 90 💎',
+]
+
+export const LongSellMenu: Story = {
+  args: { line: "Let's see the catch, then. What are you selling?", speakerName: 'Fishwife Marta', onClose: fn() },
+  render: () => (
+    <HubDialogue
+      line="Let's see the catch, then. What are you selling?"
+      speakerName="Fishwife Marta"
+      onClose={fn()}
+      choices={[
+        ...FISH_TIER_LABELS.map((label, i) => ({ label, disabled: i % 3 === 0, onClick: fn() })),
+        { label: "That's all for now.", isExit: true, onClick: fn() },
+      ]}
+    />
+  ),
+}

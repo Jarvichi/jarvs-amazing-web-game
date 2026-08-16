@@ -2101,6 +2101,21 @@ player only finding out after tapping. A sell menu with a dozen tiers (like
 Marta's) now visually distinguishes what's actually in the pack from what
 isn't.
 
+Two more auto-behaviors specific to shop-style nodes (`runDialogueNode`
+detects one via `isShopNode` — the node contains at least one `tradeHubItem`
+choice, which per every town's questDefs.json never happens alongside
+narrative/branching choices, only alongside an optional `end` exit choice):
+- **Stable order.** Ordinary dialogue nodes shuffle their choices (so a
+  good/neutral/bad outcome isn't always in the same slot) — shop nodes skip
+  that and keep their authored JSON order, since a sell menu that reorders
+  itself on every visit is hard to scan, especially selling several items
+  back-to-back through the same repeat-`next` loop.
+- **Scrolling choice list.** `HubDialogue.tsx`'s choice column caps at
+  `38vh` with `overflow-y: auto` once there's more than one choice — without
+  it, a long list (Marta's 12 tiers + exit) can grow taller than the game
+  container, which clips overflow (`overflow: hidden`), stranding the top
+  rows off-screen with no way to reach them on a short viewport.
+
 The live trade network (buyer NPC → wants → gives): Weeping Widow (Gravemoor)
 ← poetry book, 50💎 · Widow Tamsin (Millhaven) ← lost locket, 60💎 ·
 Harbourmaster Vane (Saltmere) ← fancy hat, 75💎 · Baker Otto (capital) ← 3
