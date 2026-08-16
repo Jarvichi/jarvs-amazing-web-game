@@ -31,7 +31,7 @@ import { ToolbarDropdown } from '../ui/Toolbar/ToolbarDropdown'
 import { User } from 'firebase/auth'
 import { loadPlayerName, addToConsumableStash, isCampaignComplete } from '../../game/questline'
 import { LoginButton } from '../ui/LoginButton'
-import { addCollectible, addConsumable, getCollectibles, addHubItem, removeHubItem, getHubItemCount, hasHubItem, getHubItemCatalogEntry, getHubItems, spendTickets } from '../../game/itemStore'
+import { addCollectible, addConsumable, getCollectibles, addHubItem, removeHubItem, getHubItemCount, hasHubItem, getHubItemCatalogEntry, getHubItems, spendTickets, getTickets } from '../../game/itemStore'
 import { questItemId } from '../../game/hub/questItems'
 import { HubTabbedModal, type HubTabId } from './HubTabbedModal'
 import { PetShelterModal } from './PetShelterModal'
@@ -919,17 +919,20 @@ function formatQuestReward(reward: HubQuestDef['reward']): string {
 }
 
 // Short reward summary for a tradeHubItem effect, used by the Trade Journal
-// (tradeJournal.ts) to describe what a discovered buyer gives in return.
-function formatTradeReward(eff: Extract<DialogueEffect, { type: 'tradeHubItem' }>): string {
+// (tradeJournal.ts) to describe what a discovered buyer gives in return, and
+// by the bulk-sell quantity picker below (`times` > 1) to preview a repeated
+// trade's total payout.
+function formatTradeReward(eff: Extract<DialogueEffect, { type: 'tradeHubItem' }>, times = 1): string {
   const parts: string[] = []
-  if (eff.giveCrystals) parts.push(`+${eff.giveCrystals} 💎`)
+  if (eff.giveCrystals) parts.push(`+${eff.giveCrystals * times} 💎`)
   if (eff.giveHubItem) {
     const catalog = getHubItemCatalogEntry(eff.giveHubItem.itemId)
-    parts.push(`${catalog?.icon ?? '📦'} ${catalog?.name ?? eff.giveHubItem.itemId}`)
+    const count = (eff.giveHubItem.count ?? 1) * times
+    parts.push(`${count > 1 ? `${count}× ` : ''}${catalog?.icon ?? '📦'} ${catalog?.name ?? eff.giveHubItem.itemId}`)
   }
-  if (eff.giveCollectible) parts.push(`${eff.giveCollectible.icon} ${eff.giveCollectible.name}`)
-  if (eff.giveFriendship) parts.push(`+${eff.giveFriendship.xp} friendship`)
-  if (eff.giveRelationship) parts.push(`+${eff.giveRelationship.points} ${eff.giveRelationship.track}`)
+  if (eff.giveCollectible) parts.push(`${times > 1 ? `${times}× ` : ''}${eff.giveCollectible.icon} ${eff.giveCollectible.name}`)
+  if (eff.giveFriendship) parts.push(`+${eff.giveFriendship.xp * times} friendship`)
+  if (eff.giveRelationship) parts.push(`+${eff.giveRelationship.points * times} ${eff.giveRelationship.track}`)
   return parts.join('  ·  ')
 }
 
@@ -1306,37 +1309,82 @@ function hasOfferableQuest(giverId: string): boolean {
           if (primaryWant) {
             recordBuyerSeen({ itemId: primaryWant, town, speaker: speakerName, rewardSummary: formatTradeReward(eff) })
           }
-          // Multi-item recipes (wantItems) are all-or-nothing: verify every
-          // count before removing anything.
           const wanted = tradeWantList(eff)
-          if (wanted.length === 0 || wanted.some(w => getHubItemCount(w.itemId) < w.count)) {
+          if (wanted.length === 0) {
             setDialogueEvent({ speakerName, text: eff.missingText })
             return
           }
-          for (const w of wanted) removeHubItem(w.itemId, w.count)
-          if (eff.giveCrystals) {
-            saveCrystals(loadCrystals() + eff.giveCrystals)
-            onCrystalsChange?.(loadCrystals())
+
+          // Runs the trade `times` times at once: consumes tradeWantList(eff)
+          // scaled by `times`, grants every give* reward scaled the same way.
+          const executeTrade = (times: number) => {
+            for (const w of wanted) removeHubItem(w.itemId, w.count * times)
+            if (eff.giveCrystals) {
+              saveCrystals(loadCrystals() + eff.giveCrystals * times)
+              onCrystalsChange?.(loadCrystals())
+            }
+            if (eff.giveHubItem) {
+              addHubItem(eff.giveHubItem.itemId, (eff.giveHubItem.count ?? 1) * times)
+            }
+            if (eff.giveCollectible) {
+              const { id, name, icon, desc } = eff.giveCollectible
+              for (let i = 0; i < times; i++) addCollectible(id, { name, icon, desc, isKeepsake: true })
+            }
+            if (eff.giveFriendship) {
+              grantFriendship(eff.giveFriendship.npcId ?? npcId, eff.giveFriendship.xp * times)
+            }
+            if (eff.giveRelationship) {
+              grantRelationshipWithRivalry(eff.giveRelationship.npcId ?? npcId, eff.giveRelationship.track, eff.giveRelationship.points * times, locationData.HUB_NPCS)
+            }
+            emitSound('shopPurchase')
+            refreshState()
+            setDialogueEvent({
+              speakerName,
+              text: times > 1 ? `${eff.successText} (×${times})` : eff.successText,
+              ...(choice.next ? { onClose: () => runDialogueNode(tree, choice.next!, npcId, speakerName, npcDef) } : {}),
+            })
           }
-          if (eff.giveHubItem) {
-            addHubItem(eff.giveHubItem.itemId, eff.giveHubItem.count ?? 1)
+
+          // Multi-item recipes (several different ingredients, e.g. eggs +
+          // smoked herring) stay single-shot — scaling every ingredient
+          // together doesn't read as cleanly as a quantity picker. Plain
+          // single-item barters (the common case — Marta's fish tiers, most
+          // hub buyers) offer to repeat the trade when the player holds
+          // enough for more than one, instead of making them tap N times.
+          if (eff.wantItems || wanted.length !== 1) {
+            if (wanted.some(w => getHubItemCount(w.itemId) < w.count)) {
+              setDialogueEvent({ speakerName, text: eff.missingText })
+              return
+            }
+            executeTrade(1)
+            return
           }
-          if (eff.giveCollectible) {
-            const { id, name, icon, desc } = eff.giveCollectible
-            addCollectible(id, { name, icon, desc, isKeepsake: true })
+          const [want] = wanted
+          const maxTimes = Math.floor(getHubItemCount(want.itemId) / want.count)
+          if (maxTimes === 0) {
+            setDialogueEvent({ speakerName, text: eff.missingText })
+            return
           }
-          if (eff.giveFriendship) {
-            grantFriendship(eff.giveFriendship.npcId ?? npcId, eff.giveFriendship.xp)
+          if (maxTimes === 1) {
+            executeTrade(1)
+            return
           }
-          if (eff.giveRelationship) {
-            grantRelationshipWithRivalry(eff.giveRelationship.npcId ?? npcId, eff.giveRelationship.track, eff.giveRelationship.points, locationData.HUB_NPCS)
-          }
-          emitSound('shopPurchase')
-          refreshState()
+          const qtyOptions = [...new Set([1, 5, 10, maxTimes].filter(q => q <= maxTimes))]
           setDialogueEvent({
             speakerName,
-            text: eff.successText,
-            ...(choice.next ? { onClose: () => runDialogueNode(tree, choice.next!, npcId, speakerName, npcDef) } : {}),
+            text: 'How many would you like to sell?',
+            choices: [
+              ...qtyOptions.map((q, i) => ({
+                label:   `${q}× — ${formatTradeReward(eff, q)}`,
+                primary: i === 0,
+                onClick: () => executeTrade(q),
+              })),
+              {
+                label:   'Never mind',
+                isExit:  true,
+                onClick: () => choice.next ? runDialogueNode(tree, choice.next, npcId, speakerName, npcDef) : setDialogueEvent(null),
+              },
+            ],
           })
           return
         }
@@ -2012,35 +2060,64 @@ function hasOfferableQuest(giverId: string): boolean {
 
         const currency = r.currency ?? 'crystals'
         const currencyIcon = currency === 'tickets' ? '🎫' : '💎'
-        const confirm: DialogueChoice = {
-          label: `Buy for ${r.price} ${currencyIcon}`,
-          primary: true,
-          onClick: () => {
-            if (currency === 'tickets') {
-              if (!spendTickets(r.price)) {
-                setDialogueEvent({ speakerName, text: "That's more tickets than you're carrying." })
-                return
-              }
-            } else {
-              const balance = loadCrystals()
-              if (balance < r.price) {
-                setDialogueEvent({ speakerName, text: "That's more than you're carrying — come back when you've got the crystals." })
-                return
-              }
-              saveCrystals(balance - r.price)
-              onCrystalsChange?.(balance - r.price)
+
+        const buyQty = (qty: number) => {
+          const total = r.price * qty
+          if (currency === 'tickets') {
+            if (!spendTickets(total)) {
+              setDialogueEvent({ speakerName, text: "That's more tickets than you're carrying." })
+              return
             }
-            addHubItem(r.itemId, 1)
-            emitSound('shopPurchase')
-            refreshState()
-            setDialogueEvent({ speakerName, text: `Sold! Enjoy the ${catalog.name}.`, onClose: next })
-          },
+          } else {
+            const balance = loadCrystals()
+            if (balance < total) {
+              setDialogueEvent({ speakerName, text: "That's more than you're carrying — come back when you've got the crystals." })
+              return
+            }
+            saveCrystals(balance - total)
+            onCrystalsChange?.(balance - total)
+          }
+          addHubItem(r.itemId, qty)
+          emitSound('shopPurchase')
+          refreshState()
+          setDialogueEvent({
+            speakerName,
+            text: qty > 1 ? `Sold! Enjoy the ${qty}× ${catalog.name}.` : `Sold! Enjoy the ${catalog.name}.`,
+            onClose: next,
+          })
         }
-        const cancel: DialogueChoice = { label: 'Maybe not', isExit: true, onClick: () => setDialogueEvent(null) }
+
+        // Unique items (tools — one is ever needed, already gated above) keep
+        // the plain single confirm/cancel. Stackable items (bait, feed, ...)
+        // get a quantity picker so restocking doesn't need N separate visits.
+        if (catalog.unique) {
+          const confirm: DialogueChoice = { label: `Buy for ${r.price} ${currencyIcon}`, primary: true, onClick: () => buyQty(1) }
+          const cancel: DialogueChoice = { label: 'Maybe not', isExit: true, onClick: () => setDialogueEvent(null) }
+          setDialogueEvent({
+            speakerName,
+            text: `${catalog.icon} ${catalog.desc} Care to buy a ${catalog.name} for ${r.price} ${currencyIcon}?`,
+            choices: [confirm, cancel],
+          })
+          return
+        }
+
+        const balance = currency === 'tickets' ? getTickets() : loadCrystals()
+        const maxQty = Math.floor(balance / r.price)
+        const qtyOptions = [...new Set([1, 5, 10].filter(q => q <= maxQty || q === 1))]
         setDialogueEvent({
           speakerName,
-          text: `${catalog.icon} ${catalog.desc} Care to buy a ${catalog.name} for ${r.price} ${currencyIcon}?`,
-          choices: [confirm, cancel],
+          text: `${catalog.icon} ${catalog.desc} How many ${catalog.name} would you like?`,
+          choices: [
+            ...qtyOptions.map((q, i) => ({
+              label:   `${q}× — ${r.price * q} ${currencyIcon}`,
+              primary: i === 0,
+              onClick: () => buyQty(q),
+            })),
+            ...(maxQty > 0 && !qtyOptions.includes(maxQty)
+              ? [{ label: `MAX ×${maxQty} — ${r.price * maxQty} ${currencyIcon}`, onClick: () => buyQty(maxQty) }]
+              : []),
+            { label: 'Maybe not', isExit: true, onClick: () => setDialogueEvent(null) },
+          ],
         })
         return
       }
