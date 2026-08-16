@@ -1184,7 +1184,7 @@
     },
     {
       "id": "finn-appraise",
-      "npcId": "sailor-finn",
+      "npcId": "sailor-finn-appraiser",
       "start": "greet",
       "nodes": {
         "greet": {

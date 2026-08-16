@@ -55,3 +55,23 @@ describe('NPC travel entries target a real town with a matching present record',
     }
   }
 })
+
+// Guard: within a single town, HUB_NPCS.find(n => n.id === npcId) (used by
+// every tap/quest/dialogue lookup in HubWorld.tsx) always resolves to the
+// FIRST matching record. Two NPCs sharing an id in the same config.json
+// silently shadow one another — the second one's dialogueTree/quest wiring
+// becomes unreachable even though its sprite still renders and shows its own
+// flavour dialogue. (Cross-town id reuse is fine and expected — that's how
+// 'travel' schedule entries above work.)
+describe('NPC ids are unique within a single town', () => {
+  for (const [townKey, { locationData }] of Object.entries(locationRegistry)) {
+    it(`${townKey}: no duplicate npc ids`, () => {
+      const seen = new Map<string, number>()
+      for (const npc of locationData.HUB_NPCS) {
+        seen.set(npc.id, (seen.get(npc.id) ?? 0) + 1)
+      }
+      const dupes = [...seen.entries()].filter(([, count]) => count > 1).map(([id]) => id)
+      expect(dupes, `duplicate npc id(s) in ${townKey}'s config.json: ${dupes.join(', ')}`).toEqual([])
+    })
+  }
+})
