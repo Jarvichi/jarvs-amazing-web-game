@@ -465,7 +465,7 @@ Then on the NPC (in `config.json`): `"dialogueTree": "scholar-chat"` (keep a
 | `requireWeather` | string? | Choice only shown while the town's resolved weather (§12) matches (`"clear"`/`"rain"`/`"snow"`/`"fog"`). Weather is date/season-driven — for QA, force `"weather": {"type": "snow"}` in the town config, or use Millhaven (rains year-round). |
 | `requireTimeOfDay` | `"day"` \| `"night"` \| `"dawn"`? | Choice only shown while `hubClock.getTimeOfDay(gameHour)` matches: night 20:00–05:59, dawn 06:00–07:59, day otherwise (§9). |
 | `requireActivity` | `NpcActivity`? | Choice only shown while the speaking NPC's own schedule (§9) currently has this activity (`getNpcActivity`). No effect on NPCs without a `schedule`. |
-| `requireHubItem` | string? | Choice only shown while the player holds at least 1 of this hub-item id (`hasHubItem`). Read-only — doesn't consume it, unlike `tradeHubItem`. Used by Sailor Finn's fish appraisal (§16). |
+| `requireHubItem` | string? | Choice only shown while the player holds at least 1 of this hub-item id (`hasHubItem`). Read-only — doesn't consume it, unlike `tradeHubItem`. Used by Dockmaster Corwin's fish appraisal (§16). |
 
 #### `DialogueEffect` types
 | `type` | Fields | Behaviour |
@@ -2184,10 +2184,10 @@ pays tickets.
 Tapping a pond tile directly (rather than the fishing NPC) also opens this
 flow — see "Tap-to-fish" below.
 
-**Sailor Finn's fish appraisal (Millhaven):** a screen-less NPC
-(`sailor-finn-appraiser`, a separate dockside placement from the quest-giving
-`sailor-finn` — same character, distinct id so tap lookups don't collide)
-with a `dialogueTree` (`finn-appraise`,
+**Dockmaster Corwin's fish appraisal (Millhaven):** a screen-less NPC
+(`sailor-finn-appraiser`, id kept from when he was an unnamed Sailor Finn
+placement — a distinct character/id from the quest-giving `sailor-finn`, so
+tap lookups don't collide) with a `dialogueTree` (`finn-appraise`,
 `millhaven/questDefs.json`) offering one choice per ocean-tier hub-item, each
 gated with `requireHubItem` (§7b) so only tiers the player is actually
 holding appear. Picking one shows a flavored appraisal line (roughly the
