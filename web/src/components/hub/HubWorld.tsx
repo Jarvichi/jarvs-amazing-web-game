@@ -1342,9 +1342,12 @@ function hasOfferableQuest(giverId: string): boolean {
     // cascade below assumes an awake NPC. Sleep windows are short in real
     // time (a full game day is 30 real minutes), so nothing is soft-locked.
     // A 1st tap just narrates the sleep; tapping the *same* still-sleeping
-    // NPC again wakes them early (grumpily, at a small friendship cost) and
-    // lets the rest of this tap's cascade — and every tap after, for the
-    // remainder of this sleep window — treat them as awake.
+    // NPC again wakes them early (grumpily, at a small friendship cost).
+    // Dismissing that grumpy line re-runs this same tap — now that
+    // `wokenNpcIds` covers them, it falls straight through to the normal
+    // cascade below, so waking them also opens up real interaction rather
+    // than requiring a 3rd tap. Every tap after, for the remainder of this
+    // sleep window, treats them as awake too.
     if (namedNpc?.schedule && isNpcAsleep(namedNpc, getGameHour()) && !wokenNpcIds.has(npcId)) {
       if (pendingWakeNpcId === npcId) {
         setPendingWakeNpcId(null)
@@ -1353,6 +1356,7 @@ function hasOfferableQuest(giverId: string): boolean {
         setDialogueEvent({
           speakerName,
           text: namedNpc.wakeDialogue ?? `😠 You shake ${speakerName} awake. They are NOT pleased about it.`,
+          onClose: () => handleNpcTap(line, npcId),
         })
         return
       }
