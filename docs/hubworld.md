@@ -2092,6 +2092,15 @@ a one-line barter (Thornwood Camp's `ranger-sable-trade` — sturdy boots for
 90💎). Trades are repeatable by design; use a `flag` effect + `hideIfFlag` on
 the choice if a specific trade should be once-only.
 
+A choice whose sole effect is `tradeHubItem` automatically greys itself out
+(`DialogueChoice.disabled`, `HubDialogue.tsx`) when the player doesn't hold
+enough of the wanted item(s) — computed by `tradeChoiceUnavailable` in
+`HubWorld.tsx`'s `runDialogueNode`, no authoring needed. It stays tappable
+(dimmed, not hidden) so `missingText` still explains why, rather than the
+player only finding out after tapping. A sell menu with a dozen tiers (like
+Marta's) now visually distinguishes what's actually in the pack from what
+isn't.
+
 The live trade network (buyer NPC → wants → gives): Weeping Widow (Gravemoor)
 ← poetry book, 50💎 · Widow Tamsin (Millhaven) ← lost locket, 60💎 ·
 Harbourmaster Vane (Saltmere) ← fancy hat, 75💎 · Baker Otto (capital) ← 3

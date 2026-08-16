@@ -933,6 +933,29 @@ function formatTradeReward(eff: Extract<DialogueEffect, { type: 'tradeHubItem' }
   return parts.join('  ·  ')
 }
 
+// Normalizes a tradeHubItem effect's want-list — either the single wantItemId
+// or the multi-item wantItems recipe — into one shape. Shared by applyChoice
+// (which needs the same list to check/consume) and the choice-disabled check
+// below (which needs it read-only, before the choice is even tapped).
+function tradeWantList(eff: Extract<DialogueEffect, { type: 'tradeHubItem' }>): Array<{ itemId: string; count: number }> {
+  return eff.wantItems
+    ? eff.wantItems.map(w => ({ itemId: w.itemId, count: w.count ?? 1 }))
+    : eff.wantItemId
+      ? [{ itemId: eff.wantItemId, count: eff.wantCount ?? 1 }]
+      : []
+}
+
+// A choice greys itself out (DialogueChoice.disabled) when its sole effect is
+// a tradeHubItem barter the player can't currently afford — e.g. Fishwife
+// Marta's per-tier sell list, so an empty-handed tier reads as unavailable
+// instead of only failing after the tap.
+function tradeChoiceUnavailable(c: DialogueChoiceDef): boolean {
+  const eff = c.effects?.[0]
+  if (!eff || eff.type !== 'tradeHubItem') return false
+  const wanted = tradeWantList(eff)
+  return wanted.length === 0 || wanted.some(w => getHubItemCount(w.itemId) < w.count)
+}
+
 // Grants friendship XP and — since it's a nonzero delta — floats a ❤️/💔
 // above that NPC's head via showFriendshipReactionRef, if they're currently a
 // visible exterior sprite (a no-op otherwise, e.g. an off-screen NPC named by
@@ -1217,10 +1240,11 @@ function hasOfferableQuest(giverId: string): boolean {
       const nonExitDefs = visible.filter(c => !isExitDef(c))
       const exitDefs    = visible.filter(isExitDef)
       const toChoice = (c: DialogueChoiceDef, primary: boolean, isExit?: boolean) => ({
-        label:   c.label,
+        label:    c.label,
         primary,
         isExit,
-        onClick: () => applyChoice(tree, c, npcId, speakerName, npcDef),
+        disabled: tradeChoiceUnavailable(c),
+        onClick:  () => applyChoice(tree, c, npcId, speakerName, npcDef),
       })
       const nonExitChoices = nonExitDefs.map((c, i) => toChoice(c, i === 0))
       finalChoices = exitDefs.length > 0
@@ -1228,9 +1252,10 @@ function hasOfferableQuest(giverId: string): boolean {
         : [...nonExitChoices, ...buildTalkGiveChoices(npcId, npcDef, speaker)]
     } else {
       finalChoices = visible.map((c, i) => ({
-        label:   c.label,
-        primary: i === 0,
-        onClick: () => applyChoice(tree, c, npcId, speakerName, npcDef),
+        label:    c.label,
+        primary:  i === 0,
+        disabled: tradeChoiceUnavailable(c),
+        onClick:  () => applyChoice(tree, c, npcId, speakerName, npcDef),
       }))
     }
 
@@ -1277,11 +1302,7 @@ function hasOfferableQuest(giverId: string): boolean {
           }
           // Multi-item recipes (wantItems) are all-or-nothing: verify every
           // count before removing anything.
-          const wanted: Array<{ itemId: string; count: number }> = eff.wantItems
-            ? eff.wantItems.map(w => ({ itemId: w.itemId, count: w.count ?? 1 }))
-            : eff.wantItemId
-              ? [{ itemId: eff.wantItemId, count: eff.wantCount ?? 1 }]
-              : []
+          const wanted = tradeWantList(eff)
           if (wanted.length === 0 || wanted.some(w => getHubItemCount(w.itemId) < w.count)) {
             setDialogueEvent({ speakerName, text: eff.missingText })
             return
