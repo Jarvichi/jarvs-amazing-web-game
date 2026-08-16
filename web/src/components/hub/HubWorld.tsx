@@ -276,6 +276,14 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
   const [pinnedNpcId,         setPinnedNpcId]         = useState<string | null>(null)
   const [openTreasure,        setOpenTreasure]        = useState<HubTreasure | null>(null)
   const [collectedTreasureIds] = useState<Set<string>>(() => getCollectedTreasureIds())
+  // Sleeping-NPC wake-up: first tap while asleep just narrates it (existing
+  // behaviour); a 2nd tap on the *same* NPC while `pendingWakeNpcId` still
+  // matches wakes them up grumpy. `wokenNpcIds` remembers who's been woken so
+  // later taps in the same sleep window skip straight to normal interaction
+  // instead of re-narrating sleep or re-waking them. Both are pruned below
+  // once each NPC's schedule moves them past `sleep` for real.
+  const [pendingWakeNpcId, setPendingWakeNpcId] = useState<string | null>(null)
+  const [wokenNpcIds,      setWokenNpcIds]      = useState<Set<string>>(new Set())
   // Refresh friendship/quest state after interactions (lightweight — just reads localStorage)
   const [_tick, setTick] = useState(0)
   const refreshState = useCallback(() => setTick(t => t + 1), [])
@@ -344,6 +352,20 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
   }, [town, onCrystalsChange, refreshState])
 
   const { gameHour, isNight: isGameNight } = useHubClock()
+
+  // Once an NPC's schedule moves them past `sleep` for real, forget any
+  // wake-up state from that sleep window so the next one starts fresh.
+  useEffect(() => {
+    const stillAsleep = (npcId: string) => {
+      const npc = locationData.HUB_NPCS.find(n => n.id === npcId)
+      return !!npc && isNpcAsleep(npc, gameHour)
+    }
+    if (pendingWakeNpcId && !stillAsleep(pendingWakeNpcId)) setPendingWakeNpcId(null)
+    setWokenNpcIds(prev => {
+      const next = new Set([...prev].filter(stillAsleep))
+      return next.size === prev.size ? prev : next
+    })
+  }, [gameHour, locationData, pendingWakeNpcId])
 
   function getNpcDisplayName(npcId: string): string {
     return locationData.HUB_NPCS.find(n => n.id === npcId)?.name
@@ -1319,7 +1341,22 @@ function hasOfferableQuest(giverId: string): boolean {
     // Sleeping NPCs don't chat, trade, or take quest hand-ins — the whole
     // cascade below assumes an awake NPC. Sleep windows are short in real
     // time (a full game day is 30 real minutes), so nothing is soft-locked.
-    if (namedNpc?.schedule && isNpcAsleep(namedNpc, getGameHour())) {
+    // A 1st tap just narrates the sleep; tapping the *same* still-sleeping
+    // NPC again wakes them early (grumpily, at a small friendship cost) and
+    // lets the rest of this tap's cascade — and every tap after, for the
+    // remainder of this sleep window — treat them as awake.
+    if (namedNpc?.schedule && isNpcAsleep(namedNpc, getGameHour()) && !wokenNpcIds.has(npcId)) {
+      if (pendingWakeNpcId === npcId) {
+        setPendingWakeNpcId(null)
+        setWokenNpcIds(prev => new Set(prev).add(npcId))
+        grantFriendship(npcId, -1)
+        setDialogueEvent({
+          speakerName,
+          text: namedNpc.wakeDialogue ?? `😠 You shake ${speakerName} awake. They are NOT pleased about it.`,
+        })
+        return
+      }
+      setPendingWakeNpcId(npcId)
       setDialogueEvent({
         speakerName,
         text: namedNpc.sleepDialogue ?? `💤 ${speakerName} is fast asleep.`,
@@ -1505,7 +1542,7 @@ function hasOfferableQuest(giverId: string): boolean {
 
     // ── Default dialogue (animals / unnamed) ─────────────────────────────────
     setDialogueEvent({ speakerName, text: line })
-  }, [refreshState, handleNodeInteract])
+  }, [refreshState, handleNodeInteract, pendingWakeNpcId, wokenNpcIds])
 
   // Gifting a held material to an NPC — the generic counterpart to the
   // curated `tradeHubItem` dialogue-tree effect (docs/hubworld.md §16), but
