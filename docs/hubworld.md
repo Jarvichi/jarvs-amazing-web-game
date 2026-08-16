@@ -2071,7 +2071,12 @@ with these fields, resolved from their pickups' `tileId`s.
 
 Always-available (no daily rotation). The confirm dialogue shows the catalog
 `desc`; the speaker resolves to the on-duty building NPC unless `speakerName`
-overrides it. Unique items re-offer as "already owned". Existing sellers:
+overrides it. Unique items re-offer as "already owned" and stay a plain
+single confirm/cancel (never a quantity picker — there's only ever one to
+buy). Stackable items (bait, feed, ...) instead get a `1× / 5× / 10× / MAX`
+quantity picker (`HubWorld.tsx`'s `buyHubItem` case), `MAX` capped by
+`⌊balance / price⌋` — so restocking bait doesn't need a separate visit per
+unit. Existing sellers:
 chicken feed (Millhaven bakery, Ravenwatch Market Hall, pen-side feed sacks in
 Appleford / Harrowfield / Ironhold Keep / Royal Palace), rod + bait (Millhaven
 harbour stalls), Fancy Hat + Sturdy Boots (capital tailor), honey cake /
@@ -2100,6 +2105,17 @@ enough of the wanted item(s) — computed by `tradeChoiceUnavailable` in
 player only finding out after tapping. A sell menu with a dozen tiers (like
 Marta's) now visually distinguishes what's actually in the pack from what
 isn't.
+
+A single-item barter (`wantItemId`, not the multi-ingredient `wantItems`
+recipe form) also offers to repeat itself when the player holds more than
+one: tapping the choice shows a `1× / 5× / 10× / <all held>` picker (each
+option's label built from `formatTradeReward(eff, times)`, which now takes
+an optional multiplier) instead of selling exactly one per tap — so clearing
+out a full catch of fish doesn't take one tap per fish. Holding exactly one
+still sells directly, same as before (no picker for the trivial case).
+Multi-ingredient recipes are unaffected — always single-shot, since scaling
+several different ingredient counts together doesn't read as cleanly as a
+quantity picker for a single item.
 
 Two more auto-behaviors specific to shop-style nodes (`runDialogueNode`
 detects one via `isShopNode` — the node contains at least one `tradeHubItem`
