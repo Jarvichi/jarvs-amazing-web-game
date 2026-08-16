@@ -9,10 +9,11 @@ interface JournalData {
   animalTypes: string[]
   animalVariants: Record<string, string[]>
   areas: string[]
+  fish: string[]
 }
 
 function emptyData(): JournalData {
-  return { npcs: [], animalTypes: [], animalVariants: {}, areas: [] }
+  return { npcs: [], animalTypes: [], animalVariants: {}, areas: [], fish: [] }
 }
 
 function load(): JournalData {
@@ -25,6 +26,7 @@ function load(): JournalData {
       animalTypes: parsed.animalTypes ?? [],
       animalVariants: parsed.animalVariants ?? {},
       areas: parsed.areas ?? [],
+      fish: parsed.fish ?? [],
     }
   } catch {
     return emptyData()
@@ -112,4 +114,28 @@ export function hasSeenArea(town: string, areaId: string): boolean {
 
 export function getSeenAreaKeys(): Set<string> {
   return new Set(load().areas)
+}
+
+// ── Fish caught ──────────────────────────────────────────────────────────────
+// Keyed by "<locale>:<species name>" — locale ('river'/'cave'/'lake'/'ocean')
+// disambiguates species names that recur across locales' tier tables (e.g.
+// "Sea Bass" appears in both the river and ocean tiers as distinct catches).
+
+/** Record that a named fish species has been caught at the given fishing
+ *  locale. Returns true if newly recorded. */
+export function recordFishCaught(locale: string, name: string): boolean {
+  const data = load()
+  const key = `${locale}:${name}`
+  if (data.fish.includes(key)) return false
+  data.fish.push(key)
+  save(data)
+  return true
+}
+
+export function hasCaughtFish(locale: string, name: string): boolean {
+  return load().fish.includes(`${locale}:${name}`)
+}
+
+export function getCaughtFishKeys(): Set<string> {
+  return new Set(load().fish)
 }

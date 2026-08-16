@@ -3,6 +3,7 @@ import {
   recordNpcMet, hasMetNpc, getMetNpcIds,
   recordAnimalSeen, hasSeenAnimal, getSeenAnimalVariants, getSeenAnimalTypes,
   recordAreaSeen, hasSeenArea, getSeenAreaKeys,
+  recordFishCaught, hasCaughtFish, getCaughtFishKeys,
 } from './journal'
 
 function installLocalStorageStub(): void {
@@ -58,6 +59,16 @@ describe('journal', () => {
     // Same area id in a different town is a distinct key.
     expect(hasSeenArea('millhaven', 'market')).toBe(false)
     expect(getSeenAreaKeys()).toEqual(new Set(['ravenwatch:market']))
+  })
+
+  it('records caught fish species scoped per-locale, deduplicating', () => {
+    expect(hasCaughtFish('river', 'Minnow')).toBe(false)
+    expect(recordFishCaught('river', 'Minnow')).toBe(true)
+    expect(recordFishCaught('river', 'Minnow')).toBe(false)
+    expect(hasCaughtFish('river', 'Minnow')).toBe(true)
+    // Same species name in a different locale is a distinct key.
+    expect(hasCaughtFish('ocean', 'Minnow')).toBe(false)
+    expect(getCaughtFishKeys()).toEqual(new Set(['river:Minnow']))
   })
 
   it('returns empty + false when localStorage throws', () => {
