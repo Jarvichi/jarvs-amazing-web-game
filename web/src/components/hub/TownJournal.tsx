@@ -164,20 +164,28 @@ export function TownJournalContent({ onClose, locationData }: Props) {
               })}
             </div>
             <div className="town-directory__list town-journal__list">
-              {ALL_FISH_SPECIES.filter(s => s.locale === fishLocale).map(species => {
-                const known = hasCaughtFish(species.locale, species.name)
+              {(FISH_LOCALES.find(l => l.id === fishLocale)?.tiers ?? []).map(tier => {
+                const tierSeen = tier.names.filter(name => hasCaughtFish(fishLocale, name)).length
                 return (
-                  <div key={`${species.locale}:${species.name}`} className="town-directory__row">
-                    <div className="town-directory__info">
-                      <span className="town-directory__name">
-                        {known ? species.name : '???'}
-                      </span>
-                      <span className="town-directory__place">
-                        {known
-                          ? `${species.tierIcon} ${species.tierName} tier`
-                          : 'Not yet caught.'}
-                      </span>
+                  <div key={tier.tier} className="town-journal__tier-group">
+                    <div className="town-journal__tier-header">
+                      {tier.icon} {tier.tier} ({tierSeen}/{tier.names.length})
                     </div>
+                    {tier.names.map(name => {
+                      const known = hasCaughtFish(fishLocale, name)
+                      return (
+                        <div key={name} className="town-directory__row">
+                          <div className="town-directory__info">
+                            <span className="town-directory__name">
+                              {known ? name : '???'}
+                            </span>
+                            <span className="town-directory__place">
+                              {known ? 'Caught' : 'Not yet caught.'}
+                            </span>
+                          </div>
+                        </div>
+                      )
+                    })}
                   </div>
                 )
               })}
