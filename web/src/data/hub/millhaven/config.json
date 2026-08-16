@@ -2355,7 +2355,7 @@
       "sprite": "hub-npc-fisherman",
       "tx": 44,
       "ty": 16,
-      "dialogueTree": "finn-appraise",
+      "screen": "hub-fish-appraisal",
       "dialogue": [
         "Got something worth a look? I've appraised catches from here to the Ashen Wastes."
       ],

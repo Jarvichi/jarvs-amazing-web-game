@@ -1,5 +1,5 @@
 import { useApp } from '../AppContext'
-import { HubWorld, HubWorldMap, CasinoScreen, TheatreScreen, MiniGamesMenu, Fishing } from '../lazyScreens'
+import { HubWorld, HubWorldMap, CasinoScreen, TheatreScreen, MiniGamesMenu, Fishing, FishAppraisalScreen } from '../lazyScreens'
 import { OverlayScreen } from '../../components/ui/OverlayScreen'
 import { saveCrystals } from '../../game/collection'
 import { loadPlayerName } from '../../game/questline'
@@ -75,6 +75,14 @@ export function HubRoutes() {
 
       {screen === 'casino' && (
         <CasinoScreen
+          crystals={crystals}
+          onCrystalsChange={(n) => { saveCrystals(n); setCrystals(n) }}
+          onBack={() => setScreen('hubworld')}
+        />
+      )}
+
+      {screen === 'hub-fish-appraisal' && (
+        <FishAppraisalScreen
           crystals={crystals}
           onCrystalsChange={(n) => { saveCrystals(n); setCrystals(n) }}
           onBack={() => setScreen('hubworld')}

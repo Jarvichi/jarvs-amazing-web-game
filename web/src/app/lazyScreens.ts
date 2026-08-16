@@ -25,6 +25,7 @@ export const PackOpening = lazy(() => import('../components/cards/PackOpening').
 export const HubWorld = lazy(() => import('../components/hub/HubWorld').then(m => ({ default: m.HubWorld })))
 export const HubWorldMap = lazy(() => import('../components/hub/HubWorldMap').then(m => ({ default: m.HubWorldMap })))
 export const CasinoScreen = lazy(() => import('../components/hub/CasinoScreen').then(m => ({ default: m.CasinoScreen })))
+export const FishAppraisalScreen = lazy(() => import('../components/hub/FishAppraisalScreen').then(m => ({ default: m.FishAppraisalScreen })))
 export const TheatreScreen = lazy(() => import('../components/hub/TheatreScreen').then(m => ({ default: m.TheatreScreen })))
 export const PostBattleReward = lazy(() => import('../components/battle/PostBattleReward').then(m => ({ default: m.PostBattleReward })))
 export const ActComplete = lazy(() => import('../components/battle/ActComplete').then(m => ({ default: m.ActComplete })))

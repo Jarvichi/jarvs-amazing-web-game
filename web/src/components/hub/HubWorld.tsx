@@ -156,6 +156,7 @@ const SCREEN_ENTER_LABEL: Record<string, string> = {
   'hub-fishing-cave': 'Cast a line into the dark water?',
   'hub-fishing-lake': 'Cast a line into the lake?',
   'hub-fishing-ocean': 'Cast a line into the sea?',
+  'hub-fish-appraisal': "Show him what you've caught?",
   marble:            'Play marbles?',
   marblerace:        'Watch a marble race?',
   regatta:           'Race a skiff in the regatta?',

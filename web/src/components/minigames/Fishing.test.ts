@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { FISH_TIERS, CAVE_FISH_TIERS, TIER_HUB_ITEM, CAVE_TIER_HUB_ITEM } from './Fishing'
+import { FISH_TIERS, CAVE_FISH_TIERS, TIER_HUB_ITEM, CAVE_TIER_HUB_ITEM, computeFishStars } from './Fishing'
 import HUB_ITEMS from '../../data/hubItems.json'
 
 const hubItemIds = new Set(HUB_ITEMS.map(i => i.id))
@@ -24,6 +24,29 @@ describe.each([
 
   it('never gives a tier an empty species name list', () => {
     expect(tiers.every(t => t.names.length > 0)).toBe(true)
+  })
+})
+
+describe('computeFishStars', () => {
+  const tier = FISH_TIERS[0] // Tiddler: minG 100, maxG 500
+
+  it('gives the bottom of the range 1 star', () => {
+    expect(computeFishStars(tier.minG, tier)).toBe(1)
+  })
+
+  it('gives the top of the range 5 stars', () => {
+    expect(computeFishStars(tier.maxG, tier)).toBe(5)
+    expect(computeFishStars(tier.maxG - 1, tier)).toBe(5)
+  })
+
+  it('gives a mid-range weight a middle star count', () => {
+    const mid = tier.minG + (tier.maxG - tier.minG) / 2
+    expect(computeFishStars(mid, tier)).toBe(3)
+  })
+
+  it('never returns fewer than 1 or more than 5 stars, even out of range', () => {
+    expect(computeFishStars(tier.minG - 1000, tier)).toBe(1)
+    expect(computeFishStars(tier.maxG + 1000, tier)).toBe(5)
   })
 })
 

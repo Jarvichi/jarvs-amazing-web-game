@@ -465,7 +465,7 @@ Then on the NPC (in `config.json`): `"dialogueTree": "scholar-chat"` (keep a
 | `requireWeather` | string? | Choice only shown while the town's resolved weather (§12) matches (`"clear"`/`"rain"`/`"snow"`/`"fog"`). Weather is date/season-driven — for QA, force `"weather": {"type": "snow"}` in the town config, or use Millhaven (rains year-round). |
 | `requireTimeOfDay` | `"day"` \| `"night"` \| `"dawn"`? | Choice only shown while `hubClock.getTimeOfDay(gameHour)` matches: night 20:00–05:59, dawn 06:00–07:59, day otherwise (§9). |
 | `requireActivity` | `NpcActivity`? | Choice only shown while the speaking NPC's own schedule (§9) currently has this activity (`getNpcActivity`). No effect on NPCs without a `schedule`. |
-| `requireHubItem` | string? | Choice only shown while the player holds at least 1 of this hub-item id (`hasHubItem`). Read-only — doesn't consume it, unlike `tradeHubItem`. Used by Dockmaster Corwin's fish appraisal (§16). |
+| `requireHubItem` | string? | Choice only shown while the player holds at least 1 of this hub-item id (`hasHubItem`). Read-only — doesn't consume it, unlike `tradeHubItem`. |
 
 #### `DialogueEffect` types
 | `type` | Fields | Behaviour |
@@ -2184,18 +2184,33 @@ pays tickets.
 Tapping a pond tile directly (rather than the fishing NPC) also opens this
 flow — see "Tap-to-fish" below.
 
-**Dockmaster Corwin's fish appraisal (Millhaven):** a screen-less NPC
+**Dockmaster Corwin's fish appraisal (Millhaven):** a `screen` NPC
 (`sailor-finn-appraiser`, id kept from when he was an unnamed Sailor Finn
 placement — a distinct character/id from the quest-giving `sailor-finn`, so
-tap lookups don't collide) with a `dialogueTree` (`finn-appraise`,
-`millhaven/questDefs.json`) offering one choice per ocean-tier hub-item, each
-gated with `requireHubItem` (§7b) so only tiers the player is actually
-holding appear. Picking one shows a flavored appraisal line (roughly the
-same crystal value Fishwife Marta's `marta-fish-trade` tree pays for that
-tier) — **read-only**, the fish is not consumed, unlike Marta's `tradeHubItem`
-sale. Marta's tree also has matching `ocean-fish-*` sell choices alongside
-the original generic `fish-*` ones (kept for fish caught elsewhere and
-brought to Millhaven).
+tap lookups don't collide) whose tap opens `hub-fish-appraisal`
+(`FishAppraisalScreen.tsx`) — a grid of every individually-landed fish the
+player is holding, tapping one to see its size and a 1-5 star rating.
+
+Landing a fish in hub `'catch'` mode (§ above) now does two things instead
+of one: the existing tier-count `addHubItem` bump (unchanged, still what
+Fishwife Marta's `marta-fish-trade` tree sells against), *and* an
+`addCaughtFish` record (`game/hub/caughtFish.ts`) capturing that specific
+catch's locale/tier/name/weight/length — persisted separately from the
+hub-item stack (own localStorage key, `jarv_caught_fish`) since a fish's
+individual stats have nowhere to live in the generic `{ id, count }`
+hub-item model. Its star rating (`computeFishStars`, `Fishing.tsx`) is
+where its `weightGrams` falls within its own tier's `[minG, maxG]` range —
+a top-of-range Tiddler and a top-of-range Legendary both earn 5 stars, so
+no tier is a wasted catch. Corwin only offers to buy **5-star** specimens,
+at `2×` the tier's flat sale price (the same 3/6/12/25/45/90 ladder Marta
+and the appraiser's old flavor text used) — a premium for exceptional
+catches, not a general sell counter (that's still Marta's job). Selling
+removes the `CaughtFish` record and decrements the matching tier hub-item
+count together, so the two stay in sync for that sale; a generic Marta sale
+of the same tier does not remove a specific `CaughtFish` record, which can
+leave one harmless "phantom" record with no matching hub-item unit — invisible
+to the player since Corwin's grid never shows a hub-item count, only
+individual specimens.
 
 ### Authoring checklist: new pond-locale fishing spot
 

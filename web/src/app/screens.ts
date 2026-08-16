@@ -71,6 +71,7 @@ export type Screen =
   | 'hub-fishing-cave'
   | 'hub-fishing-lake'
   | 'hub-fishing-ocean'
+  | 'hub-fish-appraisal'
   | 'casino'
   | 'theatre'
   | 'worldmap'
