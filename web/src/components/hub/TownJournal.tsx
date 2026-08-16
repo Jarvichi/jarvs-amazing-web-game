@@ -8,7 +8,9 @@ import {
   hasMetNpc, getMetNpcIds,
   hasSeenAnimal, getSeenAnimalVariants, getSeenAnimalTypes,
   hasSeenArea,
+  hasCaughtFish,
 } from '../../game/hub/journal'
+import { FISH_TIERS, CAVE_FISH_TIERS, LAKE_FISH_TIERS, OCEAN_FISH_TIERS, type FishTier } from '../minigames/Fishing'
 
 const TRACK_ICON: Record<string, string> = { ally: '🤝', rival: '⚔️', romance: '💗' }
 
@@ -29,7 +31,33 @@ function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
-type Tab = 'animals' | 'people' | 'places'
+interface FishLocale {
+  id: string
+  label: string
+  tiers: FishTier[]
+}
+
+const FISH_LOCALES: FishLocale[] = [
+  { id: 'river', label: 'River', tiers: FISH_TIERS },
+  { id: 'lake',  label: 'Lake',  tiers: LAKE_FISH_TIERS },
+  { id: 'ocean', label: 'Ocean', tiers: OCEAN_FISH_TIERS },
+  { id: 'cave',  label: 'Cave Lake', tiers: CAVE_FISH_TIERS },
+]
+
+interface FishSpecies {
+  locale: string
+  tierName: string
+  tierIcon: string
+  name: string
+}
+
+const ALL_FISH_SPECIES: FishSpecies[] = FISH_LOCALES.flatMap(({ id, tiers }) =>
+  tiers.flatMap(tier => tier.names.map(name => ({
+    locale: id, tierName: tier.tier, tierIcon: tier.icon, name,
+  }))),
+)
+
+type Tab = 'animals' | 'fish' | 'people' | 'places'
 
 interface Props {
   onClose: () => void
@@ -38,10 +66,14 @@ interface Props {
 
 export function TownJournalContent({ onClose, locationData }: Props) {
   const [tab, setTab] = useState<Tab>('animals')
+  const [fishLocale, setFishLocale] = useState<string>(FISH_LOCALES[0].id)
 
   const seenAnimalTypes = getSeenAnimalTypes()
   const animalsTotal = ANIMAL_TYPES.length
   const animalsSeen = seenAnimalTypes.size
+
+  const fishTotal = ALL_FISH_SPECIES.length
+  const fishSeen = ALL_FISH_SPECIES.filter(s => hasCaughtFish(s.locale, s.name)).length
 
   const seen = new Set<string>()
   const namedNpcs = locationData.HUB_NPCS.filter(n => {
@@ -59,12 +91,13 @@ export function TownJournalContent({ onClose, locationData }: Props) {
 
   const TABS: { id: Tab; label: string; discovered: number; total: number }[] = [
     { id: 'animals', label: 'Animals', discovered: animalsSeen, total: animalsTotal },
+    { id: 'fish',    label: 'Fish',    discovered: fishSeen,    total: fishTotal },
     { id: 'people',  label: 'People',  discovered: peopleMet,   total: peopleTotal },
     { id: 'places',  label: 'Places',  discovered: placesSeen,  total: placesTotal },
   ]
 
-  const overallDiscovered = animalsSeen + peopleMet + placesSeen
-  const overallTotal = animalsTotal + peopleTotal + placesTotal
+  const overallDiscovered = animalsSeen + fishSeen + peopleMet + placesSeen
+  const overallTotal = animalsTotal + fishTotal + peopleTotal + placesTotal
   const overallPct = overallTotal > 0 ? Math.round((overallDiscovered / overallTotal) * 100) : 0
 
   return (
@@ -111,6 +144,53 @@ export function TownJournalContent({ onClose, locationData }: Props) {
               )
             })}
           </div>
+        )}
+
+        {tab === 'fish' && (
+          <>
+            <div className="hoa-tabs">
+              {FISH_LOCALES.map(loc => {
+                const localeSpecies = ALL_FISH_SPECIES.filter(s => s.locale === loc.id)
+                const localeSeen = localeSpecies.filter(s => hasCaughtFish(s.locale, s.name)).length
+                return (
+                  <button
+                    key={loc.id}
+                    className={`hoa-tab${loc.id === fishLocale ? ' hoa-tab--active' : ''}`}
+                    onClick={() => setFishLocale(loc.id)}
+                  >
+                    {loc.label} ({localeSeen}/{localeSpecies.length})
+                  </button>
+                )
+              })}
+            </div>
+            <div className="town-directory__list town-journal__list">
+              {(FISH_LOCALES.find(l => l.id === fishLocale)?.tiers ?? []).map(tier => {
+                const tierSeen = tier.names.filter(name => hasCaughtFish(fishLocale, name)).length
+                return (
+                  <div key={tier.tier} className="town-journal__tier-group">
+                    <div className="town-journal__tier-header">
+                      {tier.icon} {tier.tier} ({tierSeen}/{tier.names.length})
+                    </div>
+                    {tier.names.map(name => {
+                      const known = hasCaughtFish(fishLocale, name)
+                      return (
+                        <div key={name} className="town-directory__row">
+                          <div className="town-directory__info">
+                            <span className="town-directory__name">
+                              {known ? name : '???'}
+                            </span>
+                            <span className="town-directory__place">
+                              {known ? 'Caught' : 'Not yet caught.'}
+                            </span>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )
+              })}
+            </div>
+          </>
         )}
 
         {tab === 'people' && (

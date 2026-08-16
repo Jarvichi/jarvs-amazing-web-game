@@ -6,6 +6,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { addCollectible, addHubItem, getHubItemCount, removeHubItem } from '../../game/itemStore'
 import { addCardsToCollection } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
+import { recordFishCaught } from '../../game/hub/journal'
 import ITEMS_DATA from '../../data/items.json'
 import { logError } from '../../logger'
 
@@ -13,7 +14,7 @@ const BITE_WINDOW_MS = 1500
 
 // ── Fish data ─────────────────────────────────────────────────────────────────
 
-interface FishTier {
+export interface FishTier {
   tier: string
   icon: string
   names: string[]
@@ -348,11 +349,14 @@ export function Fishing({ onDone, rewardMode = 'tickets', variant = 'river' }: P
       catch (e) { logError('Fishing: addCollectible failed', { error: String(e) }) }
     } else if (c.kind === 'card') {
       addCardsToCollection([{ cardName: c.name, count: 1 }])
-    } else if (rewardMode === 'catch') {
-      const hubItemId = tierHubItem[c.tier]
-      if (hubItemId) {
-        try { addHubItem(hubItemId, 1) }
-        catch (e) { logError('Fishing: addHubItem failed', { error: String(e) }) }
+    } else {
+      recordFishCaught(variant, c.name)
+      if (rewardMode === 'catch') {
+        const hubItemId = tierHubItem[c.tier]
+        if (hubItemId) {
+          try { addHubItem(hubItemId, 1) }
+          catch (e) { logError('Fishing: addHubItem failed', { error: String(e) }) }
+        }
       }
     }
   }
