@@ -223,6 +223,9 @@ export interface HubNpc {
   /** Line shown when tapped while the schedule has this NPC sleeping.
    *  Defaults to a generic "fast asleep" narration. */
   sleepDialogue?: string
+  /** Line shown when a 2nd tap wakes this NPC up early — see `isNpcAsleep`.
+   *  Defaults to a generic grumpy-about-being-woken narration. */
+  wakeDialogue?: string
   /** Lines cycled INSTEAD of `dialogue` once campaign 1 is complete
    *  (isCampaignComplete('c1')) — how the world acknowledges the sealed
    *  Fracture. Activity pools (dialogueByActivity) still take precedence. */
