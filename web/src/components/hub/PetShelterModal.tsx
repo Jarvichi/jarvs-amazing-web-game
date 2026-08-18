@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { Panel } from '../ui/Panel'
 import { ConfirmModal } from '../modals/ConfirmModal'
 import { getActivePet, adoptPet } from '../../game/hub/pet'
 import { ANIMAL_SPECS, type AnimalType } from '../../game/hub/animals'
@@ -46,7 +47,7 @@ export function PetShelterContent({ onClose, onAdopted }: Props) {
   }
 
   return (
-    <div className="pet-modal">
+    <Panel elevation="floating" className="pet-modal">
       <div className="pet-modal__header">
         <span>🏚️ Ravenwatch Shelter</span>
         <button className="pet-modal__close" onClick={onClose}>✕</button>
@@ -69,7 +70,7 @@ export function PetShelterContent({ onClose, onAdopted }: Props) {
           ))}
         </div>
       </div>
-    </div>
+    </Panel>
   )
 }
 

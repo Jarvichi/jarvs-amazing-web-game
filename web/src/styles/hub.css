@@ -752,14 +752,11 @@
 
 /* ── Quests Modal ──────────────────────────────────────────────────────────── */
 .quests-modal {
-  background: rgba(8, 14, 8, 0.97);
-  border: 1px solid #446644;
   color: #c8e8c8;
   padding: 20px;
   width: min(420px, 92vw);
   max-height: 80vh;
   overflow-y: auto;
-  border-radius: 4px;
   font-family: var(--font-mono);
 }
 .quests-modal__header {
@@ -793,12 +790,9 @@
 /* ─── Hub Tabbed Modal (Menu) ────────────────────────── */
 
 .hub-tabbed-modal {
-  background: rgba(8, 14, 8, 0.97);
-  border: 1px solid #446644;
   color: #c8e8c8;
   width: min(460px, 92vw);
   max-height: 80vh;
-  border-radius: 4px;
   font-family: var(--font-mono);
   display: flex;
   flex-direction: column;
@@ -879,14 +873,11 @@
 
 /* ── Bounty Board ─────────────────────────────────────────────────────────── */
 .bounty-board-modal {
-  background: rgba(8, 14, 8, 0.97);
-  border: 1px solid #446644;
   color: #c8e8c8;
   padding: 20px;
   width: min(420px, 92vw);
   max-height: 80vh;
   overflow-y: auto;
-  border-radius: 4px;
   font-family: var(--font-mono);
 }
 .bounty-board-modal__header {
@@ -940,14 +931,11 @@
 
 /* ── Pet adoption / management ──────────────────────────────────────────────── */
 .pet-modal {
-  background: rgba(8, 14, 8, 0.97);
-  border: 1px solid #446644;
   color: #c8e8c8;
   padding: 20px;
   width: min(360px, 92vw);
   max-height: 80vh;
   overflow-y: auto;
-  border-radius: 4px;
   font-family: var(--font-mono);
 }
 .pet-modal__header {
@@ -1050,14 +1038,11 @@
 
 /* ── Town Directory ("Where is…?") ─────────────────────────────────────────── */
 .town-directory {
-  background: rgba(8, 14, 8, 0.97);
-  border: 1px solid #446644;
   color: #c8e8c8;
   padding: 20px;
   width: min(420px, 92vw);
   max-height: 80vh;
   overflow-y: auto;
-  border-radius: 4px;
   font-family: var(--font-mono);
 }
 .town-directory__header {
@@ -1188,32 +1173,234 @@
 
 /* ── Treasure Modal ────────────────────────────────────────────────────────── */
 .treasure-modal {
-  background: rgba(8, 14, 8, 0.97);
-  border: 1px solid #886622;
-  padding: 28px 32px;
-  text-align: center;
   font-family: var(--font-mono);
   min-width: 260px;
   max-width: 340px;
 }
-.treasure-modal__icon    { font-size: 32px; margin-bottom: 12px; }
-.treasure-modal__title   { font-size: 13px; color: #ccaa66; margin-bottom: 10px; line-height: 1.4; }
+.treasure-modal__icon    { font-size: 32px; margin-bottom: 4px; }
+.treasure-modal__title   { font-size: 13px; color: var(--game-text-color-dim); line-height: 1.4; }
 .treasure-modal__contains {
   font-size: 15px;
-  color: #eedd88;
+  color: var(--accent-gold);
   font-weight: bold;
-  margin-bottom: 20px;
   letter-spacing: 0.04em;
 }
 .treasure-modal__collect {
-  background: rgba(68, 80, 20, 0.6);
-  border: 1px solid #886622;
-  color: #ccaa44;
-  font-size: 11px;
-  padding: 6px 20px;
+  margin-top: 4px;
+}
+
+/* ── Hub status cluster (#2180) ──────────────────────────
+   Consolidates the day/night+weather readout and the current-area label
+   into one corner overlay so the canvas carries a single coherent status
+   cluster instead of separate floating badges. */
+
+.hub-status-cluster {
+  position: absolute;
+  bottom: 16px;
+  right: 20px;
+  pointer-events: none;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.hub-status-cluster__time {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--font-xs);
+  letter-spacing: 0.08em;
+  color: rgba(200, 220, 200, 0.75);
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: var(--radius-sm);
+  padding: 2px 6px;
+}
+
+.hub-status-cluster__area {
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  color: #d4ead4;
+  text-shadow: 0 0 8px rgba(100, 200, 100, 0.6);
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity var(--dur-slow) ease;
+}
+
+.hub-status-cluster__area--visible {
+  opacity: 1;
+}
+
+/* ── Hub minimap (#2180) ─────────────────────────────────
+   Proper framing for the corner minimap: a raised, gold-edged frame
+   instead of a flat 1px border, and a legible off-screen edge arrow. */
+
+.hub-minimap-wrap {
+  position: absolute;
+  top: 16px;
+  right: 12px;
+  z-index: 9; /* below the dialogue overlay (z-index 10) so it doesn't cover it */
+  pointer-events: none;
+}
+
+.hub-minimap-canvas {
+  display: block;
+  border: 1px solid color-mix(in srgb, var(--accent-gold) 45%, var(--color-green-bright) 35%);
+  border-radius: var(--radius-sm);
+  background: rgba(8, 14, 8, 0.7);
+  box-shadow: var(--elevation-raised);
+}
+
+.hub-minimap-toggle {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  pointer-events: auto;
+  background: rgba(8, 14, 8, 0.85);
+  border: 1px solid var(--color-green-bright);
+  color: #88cc88;
+  font-size: var(--font-sm);
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  font-family: var(--font-mono);
+}
+
+.hub-minimap-arrow {
+  position: absolute;
+  pointer-events: none;
+  z-index: 8;
+  font-size: 22px;
+  color: var(--accent-gold);
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+  line-height: 1;
+}
+
+/* ── NPC Dialogue box (#2180) ────────────────────────────
+   A character speaking, not system text: name plate + monogram badge,
+   typewriter reveal, and choices that only appear once the line has
+   finished typing (tap/click anywhere to skip ahead). */
+
+.hub-dialogue-wrap {
+  position: absolute;
+  bottom: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 40px);
+  max-width: 440px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur-normal) ease, transform var(--dur-normal) ease;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.hub-dialogue-wrap--visible {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.hub-dialogue-box {
+  background: var(--surface-2);
+  border: 1px solid color-mix(in srgb, var(--color-green-bright) 55%, transparent);
+  border-radius: var(--radius-md);
+  box-shadow: var(--elevation-overlay);
+  padding: 10px 14px;
+}
+
+.hub-dialogue-box--narration {
+  border-color: var(--border-edge);
+}
+
+.hub-dialogue-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.hub-dialogue-badge {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-xs);
+  font-weight: bold;
+  font-family: var(--font-display);
+  color: var(--accent-gold);
+  background: color-mix(in srgb, var(--accent-gold) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent-gold) 55%, transparent);
+}
+
+.hub-dialogue-name {
+  font-size: var(--font-xxs);
+  color: var(--accent-gold);
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  font-weight: bold;
+}
+
+.hub-dialogue-line {
+  font-size: var(--font-sm);
+  color: #c8e8c8;
+  letter-spacing: 0.03em;
+  line-height: 1.55;
+  min-height: 1.55em;
+}
+
+.hub-dialogue-box--narration .hub-dialogue-line {
+  color: var(--game-text-color-dim);
+  font-style: italic;
+}
+
+.hub-dialogue-caret {
+  color: var(--color-green-bright);
+  animation: hub-dialogue-caret-blink 0.8s step-end infinite;
+}
+
+@keyframes hub-dialogue-caret-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+.hub-dialogue-choices {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 10px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.hub-dialogue-choices--stacked {
+  flex-direction: column;
+  max-height: 38vh;
+  overflow-y: auto;
+}
+
+.hub-dialogue-choice {
+  text-align: center;
+}
+
+.hub-dialogue-choices--stacked .hub-dialogue-choice {
+  text-align: left;
+  width: 100%;
+}
+
+.hub-dialogue-choice--disabled {
+  opacity: 0.5;
+}
+
+.hub-dialogue-choice--ok {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hub-dialogue-continue-hint {
+  animation: blink 1.4s step-end infinite;
 }
 .treasure-modal__collect:hover { background: rgba(100, 120, 30, 0.6); }

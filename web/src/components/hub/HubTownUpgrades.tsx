@@ -1,5 +1,6 @@
 import React from 'react'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { Panel } from '../ui/Panel'
 import {
   REPUTATION_TIERS,
   REPUTATION_TIER_NAMES,
@@ -49,7 +50,7 @@ export function HubTownUpgradesContent({
   const rep = reputationToNextTier(reputation)
 
   return (
-      <div className="town-directory town-upgrades">
+      <Panel elevation="floating" className="town-directory town-upgrades">
         <div className="town-directory__header">
           <span>🏗️ {townName} — Standing &amp; Upgrades</span>
           <span className="town-directory__meta">
@@ -131,7 +132,7 @@ export function HubTownUpgradesContent({
             })}
           </div>
         )}
-      </div>
+      </Panel>
   )
 }
 

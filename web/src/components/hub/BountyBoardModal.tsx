@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { Panel } from '../ui/Panel'
 import { getDailyBounties, isBountyAccepted, isBountyCompleted, acceptBounty, turnInBounty, getActiveBountyStepHint, type BountyReward } from '../../game/hub/bounties'
 import type { RivalNpc } from '../../game/hub/relationships'
 
@@ -39,7 +40,7 @@ export function BountyBoardModal({ onClose, resolveNpcName = (id) => id, townNpc
 
   return (
     <ModalBackdrop onClose={onClose}>
-      <div className="bounty-board-modal">
+      <Panel elevation="floating" className="bounty-board-modal">
         <div className="bounty-board-modal__header">
           <span>📋 Bounty Board</span>
           <span className="bounty-board-modal__meta">
@@ -111,7 +112,7 @@ export function BountyBoardModal({ onClose, resolveNpcName = (id) => id, townNpc
             ))}
           </>
         )}
-      </div>
+      </Panel>
     </ModalBackdrop>
   )
 }

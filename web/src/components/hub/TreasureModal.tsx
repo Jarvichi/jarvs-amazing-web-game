@@ -1,5 +1,6 @@
 import React from 'react'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { RunEndCard } from '../ui/RunEndCard'
 import { HubTreasure } from '../../data/hub/loader'
 
 
@@ -21,14 +22,14 @@ export function TreasureModal({ treasure, onClose }: Props) {
 
   return (
     <ModalBackdrop onClose={onClose}>
-      <div className="treasure-modal">
+      <RunEndCard tone="gold" className="treasure-modal u-items-c u-text-c">
         <div className="treasure-modal__icon">🎁</div>
         <div className="treasure-modal__title">{title}</div>
         <div className="treasure-modal__contains">
           {parts.length > 0 ? parts.join('  ·  ') : 'Empty…'}
         </div>
-        <button className="treasure-modal__collect" onClick={onClose}>Collect</button>
-      </div>
+        <button className="action-btn action-btn--gold treasure-modal__collect" onClick={onClose}>Collect</button>
+      </RunEndCard>
     </ModalBackdrop>
   )
 }
