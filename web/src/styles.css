@@ -1,5 +1,34 @@
 /* ─── Base ───────────────────────────────────────────── */
 
+/* ─── Self-hosted fonts (#2168) ──────────────────────────
+   woff2, OFL-licensed, self-hosted under /fonts/ so the PWA works
+   offline (no Google Fonts CDN request at runtime). Licence files
+   are committed alongside in web/public/fonts/. */
+
+@font-face {
+  font-family: 'Cinzel';
+  font-style: normal;
+  font-weight: 400 900; /* variable font: single file covers the whole weight axis */
+  font-display: swap;
+  src: url('/fonts/cinzel-variable.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Spectral';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/spectral-regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/jetbrains-mono-regular.woff2') format('woff2');
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -43,6 +72,17 @@
   --color-gray-9:  #aaa;
   --color-gray-10: #ccc;
 
+  /* Font families (#2168) — display carries the art direction (titles,
+     logo, screen headers, card names), body is for readable running
+     text (descriptions, dialogue, quest text, tooltips), mono is a
+     true monospace so numeric UI (HP, mana, costs, timers, the combat
+     log) gets tabular figures for free. Each falls through to the
+     previous generic-family stack so nothing regresses if a font
+     fails to load. */
+  --font-display: 'Cinzel', 'Courier New', 'Menlo', 'Monaco', monospace;
+  --font-body:    'Spectral', 'Courier New', 'Menlo', 'Monaco', monospace;
+  --font-mono:    'JetBrains Mono', 'Courier New', 'Menlo', 'Monaco', monospace;
+
   /* Font-size scale */
   --font-xxs:  0.643rem;
   --font-xs:   0.714rem;
@@ -51,6 +91,7 @@
   --font-base: 0.929rem;
   --font-lg:   1rem;
   --font-xl:   1.143rem;
+  --font-display-xl: 3.714rem; /* the title logo's scale step, above --font-xl */
 
   /* Spacing scale */
   --gap-1: 2px;
@@ -228,7 +269,7 @@ html.light-mode {
 body {
   background: var(--game-bg);
   color: var(--game-text-color);
-  font-family: 'Courier New', 'Menlo', 'Monaco', monospace;
+  font-family: var(--font-body);
   font-size: var(--game-font-size);
   height: 100vh;
   overflow: hidden;
@@ -1393,7 +1434,7 @@ body {
 }
 
 .intro-presents {
-  font-family: 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: 1.286rem;
   letter-spacing: 6px;
   color: var(--game-text-color-dim);
@@ -1407,7 +1448,7 @@ body {
 }
 
 .intro-jarv-credit {
-  font-family: 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: 1.071rem;
   letter-spacing: 4px;
   color: var(--game-text-color-muted);
@@ -1417,7 +1458,7 @@ body {
 .intro-skip-hint {
   position: absolute;
   bottom: 24px;
-  font-family: 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: var(--font-sm);
   color: var(--game-text-color-muted);
   letter-spacing: 2px;
@@ -1546,7 +1587,8 @@ body {
 }
 
 .title-logo {
-  font-size: 3.714rem;
+  font-family: var(--font-display);
+  font-size: var(--font-display-xl);
   color: var(--color-gold-alt);
   letter-spacing: 14px;
   font-weight: bold;
@@ -2664,7 +2706,7 @@ body {
 }
 
 .share-code-box {
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: var(--font-sm);
   background: var(--game-bg-raised);
   border: 1px solid var(--game-border);
@@ -3163,7 +3205,7 @@ body {
 .card-hero-lock-secs {
   font-size: var(--font-sm);
   color: var(--color-gold-light);
-  font-family: monospace;
+  font-family: var(--font-mono);
   margin-top: 2px;
 }
 
@@ -3276,6 +3318,7 @@ body {
   max-width: 320px;
   width: 100%;
   text-align: center;
+  font-family: var(--font-body);
 }
 
 .confirm-modal-title {
@@ -3301,6 +3344,7 @@ body {
   border: 1px solid var(--game-border, #333);
   padding: 20px 18px 16px;
   width: min(680px, 96vw);
+  font-family: var(--font-body);
 }
 
 .deck-selector-title {
@@ -3668,7 +3712,7 @@ body {
 .rc-code {
   font-size: var(--font-sm);
   color: rgba(255,255,255,0.7);
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 
 /* ─── Blackjack ─────────────────────────────────────────── */
@@ -3739,7 +3783,7 @@ body {
   border-radius: 3px;
   min-width: 34px;
   text-align: center;
-  font-family: monospace;
+  font-family: var(--font-mono);
   border: 1px solid #ccc;
 }
 .bj-card--red    { color: #cc0000; }
@@ -4203,7 +4247,7 @@ body {
   cursor: default;
   min-width: 96px;
   transition: all 0.15s;
-  font-family: inherit;
+  font-family: var(--font-body);
 }
 
 .nm-node-type-badge {
@@ -7374,7 +7418,7 @@ body {
 .ach-bar {
   font-size: var(--font-xs);
   color: #4a8;
-  font-family: inherit;
+  font-family: var(--font-body);
   word-break: break-all;
 }
 
@@ -7491,7 +7535,7 @@ body {
   border-bottom: 2px solid #ff3333;
   color: #ff6666;
   font-size: var(--font-base);
-  font-family: inherit;
+  font-family: var(--font-body);
 }
 
 .integrity-warning-dismiss {
@@ -7592,7 +7636,7 @@ body {
   background: none;
   border: 1px solid transparent;
   color: #7a9a7a;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.06em;
   padding: 4px 10px;
@@ -7666,7 +7710,7 @@ body {
 .hoa-tile-name {
   font-size: 9px;
   color: #7a9a7a;
-  font-family: monospace;
+  font-family: var(--font-mono);
   text-align: center;
   line-height: 1.3;
   overflow: hidden;
@@ -7717,7 +7761,7 @@ body {
 .hoa-modal-name {
   font-size: 15px;
   color: #c8e8c8;
-  font-family: monospace;
+  font-family: var(--font-mono);
   letter-spacing: 0.06em;
   font-weight: bold;
 }
@@ -7732,20 +7776,20 @@ body {
 .hoa-modal-reward {
   font-size: 11px;
   color: #7a9a7a;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 
 .hoa-modal-unlocked {
   font-size: 12px;
   color: #88cc88;
   letter-spacing: 0.12em;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 
 .hoa-modal-claimed {
   font-size: 11px;
   color: #557755;
-  font-family: monospace;
+  font-family: var(--font-mono);
   letter-spacing: 0.08em;
 }
 
@@ -7765,7 +7809,7 @@ body {
 .shelf-section-label {
   font-size: 10px;
   color: #557755;
-  font-family: monospace;
+  font-family: var(--font-mono);
   text-transform: uppercase;
   letter-spacing: 0.15em;
   margin: 4px 0 8px;
@@ -7774,7 +7818,7 @@ body {
 .shelf-empty-msg {
   font-size: 13px;
   color: #5a7a5a;
-  font-family: monospace;
+  font-family: var(--font-mono);
   text-align: center;
   padding: 24px 0 8px;
   letter-spacing: 0.04em;
@@ -7837,7 +7881,7 @@ body {
 .shelf-slot-name {
   font-size: 9px;
   color: #9ab89a;
-  font-family: monospace;
+  font-family: var(--font-mono);
   text-align: center;
   line-height: 1.2;
   overflow: hidden;
@@ -7885,7 +7929,7 @@ body {
 .shelf-modal-name {
   font-size: 15px;
   color: #c8e8c8;
-  font-family: monospace;
+  font-family: var(--font-mono);
   letter-spacing: 0.06em;
   font-weight: bold;
 }
@@ -7896,7 +7940,7 @@ body {
   border: 1px solid #446644;
   padding: 1px 8px;
   letter-spacing: 0.1em;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 .shelf-modal-tag--broken { color: #cc8844; border-color: #664422; }
 
@@ -7916,7 +7960,7 @@ body {
 .shelf-modal-date {
   font-size: 10px;
   color: #4a6a4a;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 
 /* ── Home decoration grid (§18/§19 hubworld.md) ── */
@@ -7924,7 +7968,7 @@ body {
 .home-decorate-hint {
   font-size: 11px;
   color: #9ab89a;
-  font-family: monospace;
+  font-family: var(--font-mono);
   text-align: center;
   padding: 4px 8px;
 }
@@ -7932,7 +7976,7 @@ body {
 .home-decorate-msg {
   font-size: 11px;
   color: #ff8866;
-  font-family: monospace;
+  font-family: var(--font-mono);
   text-align: center;
   padding: 4px 8px;
 }
@@ -7991,7 +8035,7 @@ body {
 .home-grid-piece-name {
   font-size: 7px;
   color: #9ab89a;
-  font-family: monospace;
+  font-family: var(--font-mono);
   text-align: center;
   line-height: 1.1;
 }
@@ -8033,7 +8077,7 @@ body {
 .furniture-picker-item-name {
   font-size: 8px;
   color: #9ab89a;
-  font-family: monospace;
+  font-family: var(--font-mono);
   text-align: center;
   line-height: 1.1;
   overflow: hidden;
@@ -8045,7 +8089,7 @@ body {
 .furniture-picker-item-price {
   font-size: 9px;
   color: #88ccff;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 
 .piece-action-bar {
@@ -8059,7 +8103,7 @@ body {
 .piece-action-bar-name {
   font-size: 11px;
   color: #c8e8c8;
-  font-family: monospace;
+  font-family: var(--font-mono);
   letter-spacing: 0.04em;
   margin-right: 4px;
 }
@@ -8566,6 +8610,7 @@ html.eightbit-mode .lane-layer {
   min-height: 0;
   overflow-y: auto;
   color: var(--game-text-color);
+  font-family: var(--font-body);
 }
 .dc-date {
   font-size: var(--font-md);
@@ -8700,6 +8745,7 @@ html.eightbit-mode .lane-layer {
   padding: 10px 12px;
   color: var(--game-text-color);
   cursor: pointer;
+  font-family: var(--font-body);
 }
 .chr-chapter:hover:not(:disabled) { border-color: #ffd54f; }
 .chr-chapter--locked { opacity: 0.55; cursor: default; }
@@ -8778,6 +8824,7 @@ html.eightbit-mode .lane-layer {
   max-width: 440px;
   margin: 0 auto;
   color: var(--game-text-color);
+  font-family: var(--font-body);
 }
 
 .qb-title { font-size: 1.429rem; font-weight: bold; letter-spacing: 2px; }
@@ -8807,6 +8854,7 @@ html.eightbit-mode .lane-layer {
   max-width: 440px;
   margin: 0 auto;
   color: var(--game-text-color);
+  font-family: var(--font-body);
 }
 .el-subtitle {
   font-size: var(--font-md);
@@ -9031,6 +9079,7 @@ html.light-mode .action-btn {
   z-index: 500;
 }
 .victory-text {
+  font-family: var(--font-display);
   font-size: clamp(2.5rem, 10vw, 5rem);
   font-weight: bold;
   letter-spacing: 0.12em;
@@ -9668,7 +9717,7 @@ html.light-mode .action-btn {
 .dev-build-log {
   width: 100%;
   max-width: 480px;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 0.78rem;
   line-height: 1.6;
 }
@@ -9997,7 +10046,7 @@ html.light-mode .action-btn {
   overflow-y: auto;
   background: #0a0a14;
   color: #c8c8d8;
-  font-family: monospace;
+  font-family: var(--font-mono);
   box-sizing: border-box;
 }
 
@@ -10619,7 +10668,7 @@ html.light-mode .action-btn {
   padding: 6px 8px;
   border: 1px solid #1a3a1a;
   background: #040a04;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
 }
 .city-thoughts-title {
@@ -10676,7 +10725,7 @@ html.light-mode .action-btn {
   background: #0a1f0a;
   border: 2px solid #60c860;
   padding: 10px 18px;
-  font-family: monospace;
+  font-family: var(--font-mono);
   pointer-events: none;
   transition: opacity 0.8s;
   opacity: 1;
@@ -10721,7 +10770,7 @@ html.light-mode .action-btn {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
 }
 .city-chronicle-entry {
@@ -10755,7 +10804,7 @@ html.light-mode .action-btn {
 .city-stats-window-label {
   font-size: 10px;
   color: #406040;
-  font-family: monospace;
+  font-family: var(--font-mono);
   white-space: nowrap;
 }
 .city-stats-range-btns {
@@ -10765,7 +10814,7 @@ html.light-mode .action-btn {
 }
 .city-stats-range-btn {
   font-size: 9px;
-  font-family: monospace;
+  font-family: var(--font-mono);
   padding: 2px 6px;
   border: 1px solid #2a4a2a;
   border-radius: 3px;
@@ -10804,19 +10853,19 @@ html.light-mode .action-btn {
   font-size: 9px;
   color: #50704e;
   letter-spacing: 1px;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 .city-stat-card-value {
   font-size: 15px;
   font-weight: bold;
   color: var(--game-text-color);
-  font-family: monospace;
+  font-family: var(--font-mono);
   line-height: 1.3;
   white-space: nowrap;
 }
 .city-stat-card-delta {
   font-size: 10px;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 .city-stat-card-delta--pos  { color: #50d060; }
 .city-stat-card-delta--neg  { color: #e04040; }
@@ -10833,7 +10882,7 @@ html.light-mode .action-btn {
   border-bottom: 1px solid #152415;
   padding-bottom: 4px;
   margin-bottom: 6px;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 
 /* Chart wrappers */
@@ -10853,7 +10902,7 @@ html.light-mode .action-btn {
   justify-content: space-between;
   font-size: 9px;
   color: #355535;
-  font-family: monospace;
+  font-family: var(--font-mono);
   margin-top: 3px;
 }
 .city-stats-chart-range {
@@ -10865,7 +10914,7 @@ html.light-mode .action-btn {
   gap: 5px;
   font-size: 9px;
   color: #804040;
-  font-family: monospace;
+  font-family: var(--font-mono);
   margin-top: 4px;
 }
 
@@ -10884,7 +10933,7 @@ html.light-mode .action-btn {
   font-size: 9px;
   color: #508050;
   letter-spacing: 1px;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 .city-stats-res-footer {
   display: flex;
@@ -10895,11 +10944,11 @@ html.light-mode .action-btn {
 .city-stats-res-cur {
   font-size: 11px;
   color: var(--game-text-color);
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 .city-stats-res-delta {
   font-size: 9px;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 
 /* Population & Defense duo */
@@ -10922,7 +10971,7 @@ html.light-mode .action-btn {
 .city-sparkline-nodata {
   font-size: 9px;
   color: #304830;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-style: italic;
 }
 .city-sparkline-attack-row {
@@ -10952,7 +11001,7 @@ html.light-mode .action-btn {
   top: 2px;
   right: 3px;
   font-size: 8px;
-  font-family: monospace;
+  font-family: var(--font-mono);
   color: rgba(255,255,255,0.38);
   pointer-events: none;
   line-height: 1;
@@ -10997,7 +11046,7 @@ html.light-mode .action-btn {
   gap: 10px;
   padding: 32px 16px;
   color: #406040;
-  font-family: monospace;
+  font-family: var(--font-mono);
   text-align: center;
 }
 .city-stats-empty--inline {
@@ -11061,7 +11110,7 @@ html.light-mode .action-btn {
 .city-zones-hint {
   font-size: 11px;
   color: #508050;
-  font-family: monospace;
+  font-family: var(--font-mono);
   padding: 4px 2px;
   line-height: 1.5;
 }
@@ -11087,7 +11136,7 @@ html.light-mode .action-btn {
   align-items: center;
   gap: 8px;
   font-size: 11px;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 .city-zones-legend-icon { font-size: 13px; width: 18px; text-align: center; }
 .city-zones-legend-label { color: var(--game-text-color); min-width: 90px; }
@@ -11115,7 +11164,7 @@ html.light-mode .action-btn {
 .city-zones-row-label {
   font-size: 10px;
   color: #406040;
-  font-family: monospace;
+  font-family: var(--font-mono);
   min-width: 40px;
 }
 .city-zones-row-zone {
@@ -11128,12 +11177,12 @@ html.light-mode .action-btn {
 .city-zones-row-name {
   font-size: 12px;
   color: var(--game-text-color);
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 .city-zones-row-hint {
   font-size: 9px;
   color: #304830;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 
 /* ── Disaster events ──────────────────────────────────────────────────────── */
@@ -11230,7 +11279,7 @@ html.light-mode .action-btn {
   color: #a09070;
   line-height: 1.5;
   margin: 0;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 .city-disaster-desc strong { color: #d0a060; }
 .city-disaster-affected {
@@ -11239,7 +11288,7 @@ html.light-mode .action-btn {
   gap: 4px;
   align-items: center;
   font-size: 10px;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 .city-disaster-affected-label { color: #804030; }
 .city-disaster-affected-cell {
@@ -11263,7 +11312,7 @@ html.light-mode .action-btn {
 .city-disaster-cost {
   font-size: 12px;
   color: #80a080;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 .city-disaster-cost strong { color: var(--game-text-color); }
 .city-disaster-cost--unaffordable { color: #804040; }
@@ -11274,7 +11323,7 @@ html.light-mode .action-btn {
   margin: 4px 0;
   padding: 3px 7px;
   border-radius: 3px;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 .city-disaster-context--good {
   color: #50c878;
@@ -11289,7 +11338,7 @@ html.light-mode .action-btn {
 .city-disaster-note {
   font-size: 10px;
   color: #405040;
-  font-family: monospace;
+  font-family: var(--font-mono);
   line-height: 1.4;
   font-style: italic;
 }
@@ -12037,7 +12086,7 @@ html.light-mode .action-btn {
   border: 1px solid #1a3a1a;
   border-radius: 3px;
   color: #90d090;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   padding: 5px 8px;
   margin-bottom: 8px;
@@ -12056,7 +12105,7 @@ html.light-mode .action-btn {
   border: 1px solid #1a3a1a;
   border-radius: 3px;
   color: #609060;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 1px;
   padding: 5px;
@@ -12151,7 +12200,7 @@ html.light-mode .action-btn {
   overflow-y: auto;
   background: #0a0a14;
   color: #c8c8d8;
-  font-family: monospace;
+  font-family: var(--font-mono);
   box-sizing: border-box;
 }
 
@@ -12704,7 +12753,7 @@ html.light-mode .action-btn {
   fill: #282866;
   font-size: 0.536rem;
   letter-spacing: 1.2px;
-  font-family: monospace;
+  font-family: var(--font-mono);
   text-transform: uppercase;
 }
 
@@ -12721,7 +12770,7 @@ html.light-mode .action-btn {
   fill: #383878;
   font-size: 0.571rem;
   letter-spacing: 1.5px;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 
 /* ── Marble circles ── */
@@ -13636,7 +13685,7 @@ html.light-mode .action-btn {
   padding: 16px 12px;
   min-height: 100vh;
   background: #0a0a0a;
-  font-family: monospace;
+  font-family: var(--font-mono);
   color: #ccc;
 }
 
@@ -13914,7 +13963,7 @@ html.light-mode .action-btn {
   height: 100%;
   background: #0a0a0a;
   color: #e0e0e0;
-  font-family: 'Courier New', monospace;
+  font-family: var(--font-mono);
   overflow: hidden;
   position: relative;
 }
@@ -13960,7 +14009,7 @@ html.light-mode .action-btn {
 
 .td-speed-btns { display: flex; gap: 2px; margin-left: auto; }
 .td-speed-btn {
-  font-family: 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   font-weight: bold;
   padding: 3px 7px;
@@ -14132,7 +14181,7 @@ html.light-mode .action-btn {
   margin-top: 4px;
 }
 .td-tower-action-btn {
-  font-family: 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: 9px;
   padding: 2px 6px;
   border-radius: 3px;
@@ -14221,7 +14270,7 @@ html.light-mode .action-btn {
   border: 1px solid #444;
   border-radius: 6px;
   cursor: pointer;
-  font-family: 'Courier New', monospace;
+  font-family: var(--font-mono);
   transition: border-color 0.15s, background 0.15s;
 }
 .td-milestone-choice-card:hover { border-color: var(--color-gold); background: #1a1600; }
@@ -14272,7 +14321,7 @@ html.light-mode .action-btn {
 }
 .td-selected-panel-row-actions { display: flex; gap: 6px; flex-shrink: 0; }
 .td-selected-action-btn {
-  font-family: 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: 12px;
   font-weight: bold;
   padding: 6px 14px;
@@ -14315,7 +14364,7 @@ html.light-mode .action-btn {
   padding: 5px 8px;
   cursor: pointer;
   color: #e0e0e0;
-  font-family: 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   transition: background 0.1s, border-color 0.1s;
 }
@@ -14346,7 +14395,7 @@ html.light-mode .action-btn {
   padding: 5px 8px;
   cursor: pointer;
   color: #e0e0e0;
-  font-family: 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   transition: background 0.1s, border-color 0.1s;
 }
@@ -14370,7 +14419,7 @@ html.light-mode .action-btn {
   border-radius: 4px;
   color: #aaa;
   font-size: 9px;
-  font-family: 'Courier New', monospace;
+  font-family: var(--font-mono);
   cursor: pointer;
   padding: 3px 4px;
   transition: border-color 0.15s, background 0.15s;
@@ -14512,6 +14561,7 @@ html.light-mode .action-btn {
   padding: 2px 8px;
   cursor: pointer;
   white-space: nowrap;
+  font-family: var(--font-mono);
 }
 .farm-worker-hire-btn:disabled { opacity: 0.4; cursor: default; }
 .farm-worker-hire-btn--ready {
@@ -14598,6 +14648,7 @@ html.light-mode .action-btn {
   padding: 2px 7px;
   letter-spacing: 0.05em;
   white-space: nowrap;
+  font-family: var(--font-mono);
 }
 
 /* ── City info modal (farm lock + expand) ──────────────────────────────────── */
@@ -14612,6 +14663,7 @@ html.light-mode .action-btn {
   flex-direction: column;
   gap: 12px;
   color: #a0c090;
+  font-family: var(--font-mono);
 }
 .city-info-modal-title {
   font-size: 14px;
@@ -15061,7 +15113,7 @@ html.light-mode .action-btn {
   padding: 8px 12px;
   font-size: 12px;
   color: #c8e8c8;
-  font-family: monospace;
+  font-family: var(--font-mono);
   line-height: 1.4;
 }
 
@@ -15080,7 +15132,7 @@ html.light-mode .action-btn {
 .casino-currency {
   font-size: 14px;
   color: #88ddff;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 
 .casino-spin-btn {
@@ -15091,7 +15143,7 @@ html.light-mode .action-btn {
 .casino-spinning-label {
   font-size: 14px;
   color: #aaa;
-  font-family: monospace;
+  font-family: var(--font-mono);
   animation: casino-pulse 1s ease-in-out infinite;
 }
 
@@ -15103,7 +15155,7 @@ html.light-mode .action-btn {
 .casino-jackpot {
   font-size: 22px;
   color: #ffd700;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-weight: bold;
   text-shadow: 0 0 12px #ffd700;
   animation: casino-jackpot-flash 0.5s ease-in-out 4;
@@ -15119,14 +15171,14 @@ html.light-mode .action-btn {
 .casino-result-headline {
   font-size: 18px;
   color: #e8e8e8;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 
 /* ── Theatre / Curtain Call screen ─────────────────────────────────────── */
 .theatre-act-counter {
   font-size: 13px;
   color: #c8a8e8;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 
 .theatre-stage {
@@ -15166,7 +15218,7 @@ html.light-mode .action-btn {
 
 .theatre-flash {
   font-size: 16px;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-weight: bold;
   animation: theatre-flash-pop 0.5s ease-out;
 }
@@ -15256,7 +15308,7 @@ html.light-mode .action-btn {
 .hub-hud__stats {
   display: flex;
   gap: 10px;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--color-gold-alt);
   background: rgba(14, 10, 8, 0.72);
@@ -15311,7 +15363,7 @@ html.light-mode .action-btn {
 .hub-splash__hint {
   font-size: 0.78rem;
   color: #5a4a2e;
-  font-family: monospace;
+  font-family: var(--font-mono);
   letter-spacing: 0.08em;
   margin: 0;
   animation: hub-splash-pulse 2.4s ease-in-out infinite;
@@ -15332,7 +15384,7 @@ html.light-mode .action-btn {
   max-height: 80vh;
   overflow-y: auto;
   border-radius: 4px;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 .quests-modal__header {
   display: flex;
@@ -15371,7 +15423,7 @@ html.light-mode .action-btn {
   width: min(460px, 92vw);
   max-height: 80vh;
   border-radius: 4px;
-  font-family: monospace;
+  font-family: var(--font-mono);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -15443,7 +15495,7 @@ html.light-mode .action-btn {
   font-size: 10px;
   padding: 3px 10px;
   cursor: pointer;
-  font-family: monospace;
+  font-family: var(--font-mono);
   letter-spacing: 0.08em;
 }
 .quests-modal__confirm-btns button:first-child { border-color: #cc5544; color: #cc5544; }
@@ -15459,7 +15511,7 @@ html.light-mode .action-btn {
   max-height: 80vh;
   overflow-y: auto;
   border-radius: 4px;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 .bounty-board-modal__header {
   display: flex;
@@ -15520,7 +15572,7 @@ html.light-mode .action-btn {
   max-height: 80vh;
   overflow-y: auto;
   border-radius: 4px;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 .pet-modal__header {
   display: flex;
@@ -15565,7 +15617,7 @@ html.light-mode .action-btn {
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid #2a4a2a;
   color: #c8e8c8;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 12px;
   padding: 8px 10px;
   margin-bottom: 10px;
@@ -15608,7 +15660,7 @@ html.light-mode .action-btn {
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid #2a4a2a;
   color: #c8e8c8;
-  font-family: monospace;
+  font-family: var(--font-mono);
   padding: 8px 10px;
   border-radius: 2px;
   cursor: pointer;
@@ -15630,7 +15682,7 @@ html.light-mode .action-btn {
   max-height: 80vh;
   overflow-y: auto;
   border-radius: 4px;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 .town-directory__header {
   display: flex;
@@ -15663,7 +15715,7 @@ html.light-mode .action-btn {
   background: none;
   border: 1px solid #2a4a2a;
   color: #557755;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.08em;
   padding: 4px 10px;
@@ -15697,7 +15749,7 @@ html.light-mode .action-btn {
   background: none;
   border: 1px solid #446644;
   color: #88cc88;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.06em;
   padding: 4px 8px;
@@ -15764,7 +15816,7 @@ html.light-mode .action-btn {
   border: 1px solid #886622;
   padding: 28px 32px;
   text-align: center;
-  font-family: monospace;
+  font-family: var(--font-mono);
   min-width: 260px;
   max-width: 340px;
 }
@@ -15784,7 +15836,7 @@ html.light-mode .action-btn {
   font-size: 11px;
   padding: 6px 20px;
   cursor: pointer;
-  font-family: monospace;
+  font-family: var(--font-mono);
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
