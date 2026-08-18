@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { HubTownCanvas } from './HubTownCanvas'
-import { AreaNameBadge } from './AreaNameBadge'
+import { HubStatusCluster } from './HubStatusCluster'
 import { HubMinimap } from './HubMinimap'
 import type { MinimapObjective } from './HubMinimap'
 import { HubReturnButton } from './HubReturnButton'
@@ -2455,7 +2455,12 @@ function hasOfferableQuest(giverId: string): boolean {
             viewportRef={scrollRef}
           />
         </div>
-        <AreaNameBadge name={currentArea} />
+        <HubStatusCluster
+          areaName={currentArea}
+          isNight={isGameNight}
+          timeLabel={formatGameTime()}
+          weather={resolveWeather(locationData.WEATHER, locationData.ENVIRONMENT)}
+        />
 
         {!interiorActive && (
           <HubMinimap

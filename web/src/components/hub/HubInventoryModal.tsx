@@ -1,5 +1,6 @@
 import React from 'react'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { Panel } from '../ui/Panel'
 import type { HubQuestDef } from '../../data/hub/questDefs'
 import { getQuestState, getQuestProgress } from '../../game/hub/quests'
 import { getHubItems, getHubItemCount, ItemEntry } from '../../game/itemStore'
@@ -61,7 +62,7 @@ export function HubInventoryContent({ onClose, questDefs }: Props) {
   )
 
   return (
-      <div className="quests-modal">
+      <Panel elevation="floating" className="quests-modal">
         <div className="quests-modal__header">
           <span>🎒 Inventory</span>
           <span className="quests-modal__meta">
@@ -110,7 +111,7 @@ export function HubInventoryContent({ onClose, questDefs }: Props) {
             })}
           </div>
         )}
-      </div>
+      </Panel>
   )
 }
 

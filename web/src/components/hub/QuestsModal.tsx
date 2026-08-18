@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { Panel } from '../ui/Panel'
 import type { HubQuestDef } from '../../data/hub/questDefs'
 import { getQuestState, getQuestProgress } from '../../game/hub/quests'
 import { getDailyBounties, isBountyAccepted, isBountyCompleted, getActiveBountyStepHint } from '../../game/hub/bounties'
@@ -49,7 +50,7 @@ export function QuestsContent({ onClose, onAbandon, questDefs, resolveNpcName = 
   const acceptedBounties = getDailyBounties().filter(b => isBountyAccepted(b.id) && !isBountyCompleted(b.id))
 
   return (
-      <div className="quests-modal">
+      <Panel elevation="floating" className="quests-modal">
         <div className="quests-modal__header">
           <span>📜 Quests</span>
           <span className="quests-modal__meta">
@@ -139,7 +140,7 @@ export function QuestsContent({ onClose, onAbandon, questDefs, resolveNpcName = 
             })}
           </>
         )}
-      </div>
+      </Panel>
   )
 }
 

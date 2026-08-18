@@ -1,5 +1,6 @@
 import React from 'react'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { Panel } from '../ui/Panel'
 import { getKnownSellers, getKnownBuyers, SellerEntry, BuyerEntry } from '../../game/hub/tradeJournal'
 import { getHubItemCatalogEntry } from '../../game/itemStore'
 
@@ -44,7 +45,7 @@ export function TradeJournalContent({ onClose }: Props) {
   }
 
   return (
-      <div className="quests-modal">
+      <Panel elevation="floating" className="quests-modal">
         <div className="quests-modal__header">
           <span>💱 Trade Journal</span>
           <span className="quests-modal__meta">
@@ -65,7 +66,7 @@ export function TradeJournalContent({ onClose }: Props) {
         ) : (
           buyers.map(buyerRow)
         )}
-      </div>
+      </Panel>
   )
 }
 

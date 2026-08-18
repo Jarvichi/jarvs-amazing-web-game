@@ -1,5 +1,5 @@
 import React from 'react'
-import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { Modal } from '../ui/Modal'
 import {
   MAX_RELATIONSHIP_LEVEL,
   relationshipProgress,
@@ -24,38 +24,31 @@ export function RelationshipView({ npcName, entry, onClose }: Props) {
   const { points, nextThreshold } = relationshipProgress(entry)
 
   return (
-    <ModalBackdrop onClose={onClose}>
-      <div className="town-directory">
-        <div className="town-directory__header">
-          <span>{meta ? meta.icon : '🙂'} {npcName}</span>
-          <button className="town-directory__close" onClick={onClose}>✕</button>
+    <Modal title={`${meta ? meta.icon : '🙂'} ${npcName}`} onClose={onClose}>
+      <div className="town-directory__list">
+        <div className="town-directory__row">
+          <div className="town-directory__info">
+            <span className="town-directory__name">
+              {meta ? `${meta.label} · Level ${entry.level}` : 'Acquaintance'}
+            </span>
+            <span className="town-directory__place">
+              {meta
+                ? (nextThreshold !== null
+                    ? `${points} / ${nextThreshold} pts to next level`
+                    : `Maxed out (level ${MAX_RELATIONSHIP_LEVEL})`)
+                : 'You haven’t formed a bond yet — talk to them to begin.'}
+            </span>
+          </div>
         </div>
 
-        <div className="town-directory__list">
+        {meta && (
           <div className="town-directory__row">
             <div className="town-directory__info">
-              <span className="town-directory__name">
-                {meta ? `${meta.label} · Level ${entry.level}` : 'Acquaintance'}
-              </span>
-              <span className="town-directory__place">
-                {meta
-                  ? (nextThreshold !== null
-                      ? `${points} / ${nextThreshold} pts to next level`
-                      : `Maxed out (level ${MAX_RELATIONSHIP_LEVEL})`)
-                  : 'You haven’t formed a bond yet — talk to them to begin.'}
-              </span>
+              <span className="town-directory__place">💡 {meta.hint}</span>
             </div>
           </div>
-
-          {meta && (
-            <div className="town-directory__row">
-              <div className="town-directory__info">
-                <span className="town-directory__place">💡 {meta.hint}</span>
-              </div>
-            </div>
-          )}
-        </div>
+        )}
       </div>
-    </ModalBackdrop>
+    </Modal>
   )
 }

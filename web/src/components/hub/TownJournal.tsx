@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { Panel } from '../ui/Panel'
 import type { HubLocationBundle } from '../../data/hub/loader'
 import { ANIMAL_TYPES, TINT_PALETTES, type AnimalType } from '../../game/hub/animals'
 import { getFriendshipLevel } from '../../game/hub/friendship'
@@ -101,7 +102,7 @@ export function TownJournalContent({ onClose, locationData }: Props) {
   const overallPct = overallTotal > 0 ? Math.round((overallDiscovered / overallTotal) * 100) : 0
 
   return (
-      <div className="town-directory town-journal">
+      <Panel elevation="floating" className="town-directory town-journal">
         <div className="town-directory__header">
           <span>📖 Town Journal</span>
           <span className="town-directory__meta">
@@ -242,7 +243,7 @@ export function TownJournalContent({ onClose, locationData }: Props) {
             )}
           </div>
         )}
-      </div>
+      </Panel>
   )
 }
 

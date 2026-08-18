@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { Panel } from '../ui/Panel'
 import type { HubLocationBundle } from '../../data/hub/loader'
 import { useHubClock } from '../../hooks/useHubClock'
 import { resolveNpcPlace } from '../../game/hub/npcLocator'
@@ -33,7 +34,7 @@ export function TownDirectoryContent({ onClose, locationData, pinnedNpcId, onTog
     .sort((a, b) => a.name.localeCompare(b.name))
 
   return (
-      <div className="town-directory">
+      <Panel elevation="floating" className="town-directory">
         <div className="town-directory__header">
           <span>🧭 Where is…?</span>
           <span className="town-directory__meta">
@@ -89,7 +90,7 @@ export function TownDirectoryContent({ onClose, locationData, pinnedNpcId, onTog
             })}
           </div>
         )}
-      </div>
+      </Panel>
   )
 }
 

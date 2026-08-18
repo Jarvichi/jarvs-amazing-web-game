@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { Panel } from '../ui/Panel'
 import { ConfirmModal } from '../modals/ConfirmModal'
 import {
   getActivePet, renamePet, dismissPet,
@@ -89,7 +90,7 @@ export function PetContent({ onClose, petActionRef }: Props) {
   }
 
   return (
-      <div className="pet-modal">
+      <Panel elevation="floating" className="pet-modal">
         <div className="pet-modal__header">
           <span>🐾 My Pet</span>
           <button className="pet-modal__close" onClick={onClose}>✕</button>
@@ -140,7 +141,7 @@ export function PetContent({ onClose, petActionRef }: Props) {
             {tab === 'accessories' && <AccessoriesTab petActionRef={petActionRef} refresh={refresh} />}
           </>
         )}
-      </div>
+      </Panel>
   )
 }
 

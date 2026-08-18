@@ -130,16 +130,22 @@ export function HubMinimap({ locationData, objectives, playerRef, viewportRef }:
       // a halo ring so they stand out from quest pins.
       for (const o of objectives) {
         const directory = o.kind === 'directory'
+        const color = directory ? '#55ddee' : o.kind === 'pickup' ? '#ffcc00' : '#66cc66'
         if (directory) {
           c.beginPath()
-          c.arc(toMmX(o.x), toMmY(o.y), 6, 0, Math.PI * 2)
+          c.arc(toMmX(o.x), toMmY(o.y), 7, 0, Math.PI * 2)
           c.strokeStyle = 'rgba(85,221,238,0.6)'
           c.lineWidth   = 1.5
           c.stroke()
         }
+        // Soft halo behind every pin so it reads at a glance against busy map fill.
         c.beginPath()
-        c.arc(toMmX(o.x), toMmY(o.y), directory ? 3.6 : 3, 0, Math.PI * 2)
-        c.fillStyle = directory ? '#55ddee' : o.kind === 'pickup' ? '#e0b050' : '#66cc66'
+        c.arc(toMmX(o.x), toMmY(o.y), (directory ? 4.2 : 3.5) + 2, 0, Math.PI * 2)
+        c.fillStyle = `${color}33`
+        c.fill()
+        c.beginPath()
+        c.arc(toMmX(o.x), toMmY(o.y), directory ? 4.2 : 3.5, 0, Math.PI * 2)
+        c.fillStyle = color
         c.fill()
         c.lineWidth   = 1
         c.strokeStyle = 'rgba(8,14,8,0.9)'
@@ -148,11 +154,15 @@ export function HubMinimap({ locationData, objectives, playerRef, viewportRef }:
 
       // Player marker.
       c.beginPath()
-      c.arc(toMmX(player.x), toMmY(player.y), 3.2, 0, Math.PI * 2)
+      c.arc(toMmX(player.x), toMmY(player.y), 5.5, 0, Math.PI * 2)
+      c.fillStyle = 'rgba(255,255,255,0.25)'
+      c.fill()
+      c.beginPath()
+      c.arc(toMmX(player.x), toMmY(player.y), 3.4, 0, Math.PI * 2)
       c.fillStyle = '#ffffff'
       c.fill()
-      c.lineWidth   = 1.2
-      c.strokeStyle = '#88cc88'
+      c.lineWidth   = 1.4
+      c.strokeStyle = '#ffcc00'
       c.stroke()
 
       // ── Off-screen edge arrow: nearest objective outside the viewport ──────
@@ -186,17 +196,11 @@ export function HubMinimap({ locationData, objectives, playerRef, viewportRef }:
       {/* Off-screen objective edge arrow */}
       {visible && arrow && (
         <div
+          className="hub-minimap-arrow"
           style={{
-            position:      'absolute',
-            left:          arrow.left,
-            top:           arrow.top,
-            transform:     `translate(-50%, -50%) rotate(${arrow.angle}rad)`,
-            pointerEvents: 'none',
-            zIndex:        8,
-            fontSize:      22,
-            color:         '#e0b050',
-            textShadow:    '0 0 6px rgba(0,0,0,0.8)',
-            lineHeight:    1,
+            left:      arrow.left,
+            top:       arrow.top,
+            transform: `translate(-50%, -50%) rotate(${arrow.angle}rad)`,
           }}
           aria-hidden
         >
@@ -205,43 +209,18 @@ export function HubMinimap({ locationData, objectives, playerRef, viewportRef }:
       )}
 
       {/* Corner minimap */}
-      <div
-        style={{
-          position:      'absolute',
-          top:           16,
-          right:         12,
-          zIndex:        9,        // below the dialogue overlay (z-index 10) so it doesn't cover it
-          pointerEvents: 'none',
-        }}
-      >
+      <div className="hub-minimap-wrap">
         {visible && (
           <canvas
             ref={canvasRef}
-            style={{
-              display:    'block',
-              width:      MM_W,
-              height:     MM_H,
-              border:     '1px solid #446644',
-              background: 'rgba(8,14,8,0.6)',
-            }}
+            className="hub-minimap-canvas"
+            style={{ width: MM_W, height: MM_H }}
           />
         )}
         <button
+          className="hub-minimap-toggle"
           onClick={toggle}
           title={visible ? 'Hide minimap' : 'Show minimap'}
-          style={{
-            position:      'absolute',
-            top:           4,
-            right:         4,
-            pointerEvents: 'auto',
-            background:    'rgba(8,14,8,0.85)',
-            border:        '1px solid #446644',
-            color:         '#88cc88',
-            fontSize:      12,
-            lineHeight:    1,
-            padding:       '2px 4px',
-            cursor:        'pointer',
-          }}
         >
           🗺
         </button>

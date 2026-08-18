@@ -1,5 +1,6 @@
 import React from 'react'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { Panel } from '../ui/Panel'
 import type { HubQuestDef } from '../../data/hub/questDefs'
 import type { HubLocationBundle } from '../../data/hub/loader'
 import { QuestsContent } from './QuestsModal'
@@ -71,7 +72,7 @@ export function HubTabbedModal(props: Props) {
 
   return (
     <ModalBackdrop onClose={onClose}>
-      <div className="hub-tabbed-modal">
+      <Panel elevation="floating" className="hub-tabbed-modal">
         <div className="hoa-tabs">
           {tabs.map(t => (
             <button
@@ -109,7 +110,7 @@ export function HubTabbedModal(props: Props) {
             <PetContent onClose={onClose} petActionRef={petActionRef} />
           )}
         </div>
-      </div>
+      </Panel>
     </ModalBackdrop>
   )
 }
