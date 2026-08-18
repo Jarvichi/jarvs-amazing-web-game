@@ -1055,18 +1055,34 @@
   padding: 16px;
   height: 100%;
   overflow-y: auto;
-  background: #0a0a14;
+  background: var(--game-bg);
   color: #c8c8d8;
   font-family: var(--font-mono);
   box-sizing: border-box;
 }
 
+.minigame-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-6);
+  width: 100%;
+  max-width: 480px;
+  margin-bottom: 4px;
+}
+
+.minigame-header-stat {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+  letter-spacing: 1px;
+  margin-left: auto;
+}
+
 .minigame-title {
   font-size: 1.429rem;
   font-weight: bold;
-  color: var(--color-gold);
+  color: var(--accent-gold);
   letter-spacing: 2px;
-  margin-bottom: 4px;
 }
 
 .minigame-subtitle {
@@ -1077,14 +1093,12 @@
 
 .minigame-result-panel {
   margin-top: 16px;
-  border: 1px solid #5050a0;
-  background: #0e0e22;
   padding: 16px 24px;
 }
 
 .minigame-result-headline {
   font-size: var(--font-xl);
-  color: var(--color-gold);
+  color: var(--accent-gold);
   font-weight: bold;
 }
 

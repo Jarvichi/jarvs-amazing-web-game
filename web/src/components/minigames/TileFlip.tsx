@@ -4,6 +4,8 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { playMinigameCorrect, playMinigameWrong } from '../../game/sound'
+import { MinigameShell } from './MinigameShell'
+import { MinigameResultPanel } from './MinigameResultPanel'
 
 interface Props {
   onDone: (ticketsEarned: number, perfect: boolean) => void
@@ -106,15 +108,11 @@ export function TileFlip({ onDone }: Props) {
   const matchedCount = matched.filter(Boolean).length / 2
 
   return (
-    <div className="minigame-screen">
-      <div className="minigame-title">🃏 TILE FLIP</div>
-
-      <div className="tileflip-stats">
-        <span>Pairs: {matchedCount}/{ICONS.length}</span>
-        <span>Mistakes: {mistakes}</span>
-        <span>Time: {(elapsedMs / 1000).toFixed(1)}s</span>
-      </div>
-
+    <MinigameShell
+      title="TILE FLIP"
+      icon="🃏"
+      stat={`Pairs: ${matchedCount}/${ICONS.length} · Mistakes: ${mistakes} · Time: ${(elapsedMs / 1000).toFixed(1)}s`}
+    >
       <div className="tile-grid">
         {tiles.map((icon, idx) => (
           <button
@@ -130,21 +128,19 @@ export function TileFlip({ onDone }: Props) {
       </div>
 
       {phase === 'result' && (
-        <div className="minigame-result-panel u-col u-items-c u-gap-5">
-          <div className="minigame-result-headline">
-            {mistakes === 0 ? '✨ PERFECT!' : 'Nice work!'}
-          </div>
+        <MinigameResultPanel
+          headline={mistakes === 0 ? '✨ PERFECT!' : 'Nice work!'}
+          ctaLabel="COLLECT & EXIT"
+          onCta={() => onDone(finalTickets, mistakes === 0)}
+        >
           <div className="minigame-result-breakdown">
             <div>Base ({ICONS.length} pairs): +{ICONS.length * TICKETS_PER_MATCH} 🎫</div>
             {mistakes === 0 && <div>Perfect bonus: +{PERFECT_BONUS} 🎫</div>}
             {elapsedMs < FAST_THRESHOLD_MS && <div>Speed bonus: +{FAST_BONUS} 🎫</div>}
             <div className="minigame-result-total">Total: {finalTickets} 🎫</div>
           </div>
-          <button className="action-btn action-btn--gold" onClick={() => onDone(finalTickets, mistakes === 0)}>
-            COLLECT &amp; EXIT
-          </button>
-        </div>
+        </MinigameResultPanel>
       )}
-    </div>
+    </MinigameShell>
   )
 }
