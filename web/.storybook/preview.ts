@@ -2,10 +2,16 @@ import React from 'react'
 import type { Preview } from '@storybook/react-vite'
 import '../src/styles/index.css'
 import { ToastProvider } from '../src/components/ui/Toast'
+import { IconSprite } from '../src/components/ui/icons/IconSprite'
 
 const preview: Preview = {
   decorators: [
-    Story => React.createElement(ToastProvider, null, React.createElement(Story)),
+    Story => React.createElement(
+      ToastProvider,
+      null,
+      React.createElement(IconSprite),
+      React.createElement(Story),
+    ),
   ],
   parameters: {
     controls: {
