@@ -1,7 +1,12 @@
+import React from 'react'
 import type { Preview } from '@storybook/react-vite'
 import '../src/styles/index.css'
+import { ToastProvider } from '../src/components/ui/Toast'
 
 const preview: Preview = {
+  decorators: [
+    Story => React.createElement(ToastProvider, null, React.createElement(Story)),
+  ],
   parameters: {
     controls: {
       matchers: {
