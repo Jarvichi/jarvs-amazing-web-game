@@ -1,0 +1,424 @@
+/* title.css — Title screen redesign (#2175). Hero CTA, tiered play-mode rows,
+   a quiet "manage" nav grid, and a proper identity/progress footer. Retires
+   the old terminal treatment (animated scan line, hollow letter-spaced logo,
+   16 identically-weighted buttons) per the #2165 epic's art direction.
+   .title-deck-info--glitch (Secret #9 - Wrong Save File) stays in
+   rare-events.css, where its save-glitch keyframe already lives. */
+
+.title-screen {
+  gap: 14px;
+  animation: fadeIn 0.3s ease-out;
+  overflow: hidden;
+  padding-bottom: 16px;
+}
+
+/* ─── Header ──────────────────────────────────────────── */
+
+.title-header {
+  z-index: 1;
+}
+
+.title-logo {
+  font-family: var(--font-display);
+  font-size: var(--font-display-xl);
+  color: var(--accent-gold);
+  letter-spacing: 3px;
+  font-weight: bold;
+  text-shadow: 0 0 24px color-mix(in srgb, var(--accent-gold) 45%, transparent);
+}
+
+.title-subtitle {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-muted);
+  letter-spacing: 5px;
+}
+
+/* Shared with HubWorld's own logo header */
+.title-logo-ornament {
+  font-size: var(--font-xs);
+  letter-spacing: 8px;
+  color: color-mix(in srgb, var(--accent-gold) 35%, transparent);
+  margin-top: 2px;
+}
+
+/* Secret #1/#8 — logo click flash (8-bit unlock progress) */
+.title-logo--flash {
+  color: #ffffff !important;
+  text-shadow: 0 0 24px rgba(255, 255, 255, 0.9) !important;
+}
+
+/* ─── City attack alert ───────────────────────────────── */
+
+@keyframes title-alert-pulse {
+  0%, 100% { box-shadow: 0 0 0 rgba(0, 0, 0, 0); }
+  50%      { box-shadow: 0 0 16px color-mix(in srgb, var(--accent-ember) 45%, transparent); }
+}
+
+.title-city-alert {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid var(--accent-ember);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--accent-ember) 12%, transparent);
+  color: var(--accent-ember);
+  font-family: var(--font-body);
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+  animation: title-alert-pulse 1.6s ease-in-out infinite;
+  z-index: 1;
+}
+
+/* ─── Hero action (Campaign / Continue Run) ──────────────── */
+
+.title-hero-btn {
+  all: unset;
+  width: 100%;
+  max-width: 400px;
+  cursor: pointer;
+  z-index: 1;
+  box-sizing: border-box;
+}
+.title-hero-btn:disabled {
+  cursor: not-allowed;
+}
+
+.title-hero-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-display);
+  font-size: 1.286rem;
+  letter-spacing: 2px;
+  color: var(--accent-gold);
+  text-align: center;
+  transition: box-shadow 0.15s, transform 0.1s;
+}
+.title-hero-btn:hover .title-hero-panel {
+  box-shadow: var(--elevation-overlay);
+}
+.title-hero-btn:active .title-hero-panel {
+  transform: scale(0.99);
+}
+.title-hero-btn:disabled .title-hero-panel {
+  color: var(--game-text-color-muted);
+  opacity: 0.7;
+}
+
+.title-campaign-locked-hint {
+  font-size: var(--font-sm);
+  color: #ffaa33;
+  opacity: 0.85;
+  text-align: center;
+  padding: 2px 8px;
+  margin-top: -6px;
+  position: relative;
+  z-index: 1;
+  max-width: 400px;
+}
+
+/* ─── Tiered play-mode rows ───────────────────────────────
+   Shared button look; each row's modifier steps down font-size/weight so
+   the tiers read as a hierarchy rather than a flat button wall. */
+
+.title-tier-btn {
+  font-family: var(--font-body);
+  background: var(--surface-1);
+  border: 1px solid var(--border-edge);
+  border-radius: var(--radius-md);
+  color: var(--game-text-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.title-tier-btn:hover {
+  border-color: var(--game-text-color);
+  background: var(--surface-2);
+}
+
+.title-secondary-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 8px;
+  width: 100%;
+  max-width: 400px;
+  z-index: 1;
+}
+.title-tier-btn--secondary {
+  padding: 10px 12px;
+  font-size: var(--font-base);
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.title-periodic-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  width: 100%;
+  max-width: 400px;
+  z-index: 1;
+}
+.title-tier-btn--periodic {
+  flex-direction: column;
+  padding: 7px 6px;
+  font-size: var(--font-xs);
+  color: var(--game-text-color-dim);
+  gap: 2px;
+}
+.title-periodic-label {
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+.title-periodic-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-xxs);
+  color: var(--game-text-color-muted);
+}
+.title-periodic-streak {
+  color: var(--accent-gold);
+}
+
+.title-utility-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  width: 100%;
+  max-width: 400px;
+  z-index: 1;
+}
+.title-tier-btn--utility {
+  padding: 6px 10px;
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+}
+
+/* ─── Manage nav ──────────────────────────────────────── */
+
+.title-nav-section {
+  position: relative;
+  border: 1px solid color-mix(in srgb, var(--game-text-color) 20%, transparent);
+  border-radius: var(--radius-md);
+  padding: 16px 12px 12px;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+.title-nav-label {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--game-bg);
+  padding: 0 10px;
+  font-size: var(--font-xs);
+  letter-spacing: 3px;
+  color: var(--game-text-color-muted);
+  white-space: nowrap;
+}
+
+.title-nav-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.title-nav-item {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-body);
+  background: none;
+  border: 1px solid var(--border-edge);
+  border-radius: var(--radius-sm);
+  padding: 7px 10px;
+  font-size: var(--font-sm);
+  letter-spacing: 1px;
+  color: var(--game-text-color-dim);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.title-nav-item:hover {
+  color: var(--game-text-color);
+  border-color: var(--game-text-color);
+}
+
+/* A quiet notification dot instead of the old red "!" circle */
+.title-nav-badge {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-ember);
+  box-shadow: 0 0 4px var(--accent-ember);
+  pointer-events: none;
+}
+
+/* ─── Footer: identity + progress + auth ─────────────────── */
+
+.title-footer {
+  z-index: 1;
+}
+
+.title-identity {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: var(--font-base);
+}
+.title-identity-name {
+  color: var(--game-text-color);
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+.title-identity-streak {
+  color: var(--accent-gold);
+  font-size: var(--font-sm);
+}
+
+.title-deck-info {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+  letter-spacing: 1px;
+}
+
+.title-auth-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+}
+
+.title-auth-label {
+  opacity: 0.7;
+}
+
+.title-auth-btn {
+  background: none;
+  border: 1px solid var(--game-text-color-dim);
+  color: var(--game-text-color-dim);
+  font-family: inherit;
+  font-size: var(--font-xs);
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+.title-auth-btn:hover {
+  opacity: 1;
+}
+
+/* ─── Title Screen Idle Animation ────────────────────────
+   Unchanged from the pre-redesign behaviour (#2175 builds on this rather
+   than replacing it) — just relocated out of base.css alongside the rest
+   of the title screen's styles. */
+
+@keyframes title-idle-bubble-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.title-idle-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+}
+.title-idle-overlay--active {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.title-idle-unit {
+  bottom: 80px;
+  left: 50%;
+  pointer-events: none;
+}
+.title-idle-overlay--active .title-idle-unit {
+  pointer-events: auto;
+}
+
+.title-idle-sprite {
+  width: 80px !important;
+  height: 80px !important;
+  max-width: 80px !important;
+  max-height: 80px !important;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 0 6px rgba(51, 255, 51, 0.5));
+}
+
+.title-idle-name {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-muted);
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.title-idle-bubble {
+  position: relative;
+  background: rgba(10, 20, 10, 0.92);
+  border: 1px solid rgba(51, 255, 51, 0.5);
+  border-radius: 4px;
+  padding: 8px 12px;
+  max-width: 240px;
+  width: max-content;
+  margin-bottom: 6px;
+  animation: title-idle-bubble-in 0.3s ease-out both;
+}
+
+.title-idle-bubble-text {
+  font-size: var(--font-sm);
+  color: var(--game-text-color);
+  line-height: 1.5;
+  margin: 0;
+  text-align: center;
+}
+
+.title-idle-bubble-tail {
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 7px solid rgba(51, 255, 51, 0.5);
+}
+.title-idle-bubble-tail::after {
+  content: '';
+  position: absolute;
+  bottom: 1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid rgba(10, 20, 10, 0.92);
+}
