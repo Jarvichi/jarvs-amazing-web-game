@@ -6,19 +6,22 @@ import { getCardCatalog } from '../../game/cards'
 import { hasUnclaimedAchievements } from '../../game/achievements'
 import { getDailyShopSellSlots } from '../../game/shopSchedule'
 import { loadInventory } from '../../game/dailyLogin'
-import { TitleButton } from '../ui/TitleButton'
 import { ConfirmModal } from '../modals/ConfirmModal'
-import { SpriteImg } from '../ui/SpriteImg'
 import { TitleIdleAnimation } from './TitleIdleAnimation'
+import { HeroAction } from './titlescreen/HeroAction'
+import { SecondaryPlayRow } from './titlescreen/SecondaryPlayRow'
+import { PeriodicRow } from './titlescreen/PeriodicRow'
+import { UtilityRow } from './titlescreen/UtilityRow'
+import { CityAlertBanner } from './titlescreen/CityAlertBanner'
+import { ManageNav } from './titlescreen/ManageNav'
+import { TitleIdentityFooter } from './titlescreen/TitleIdentityFooter'
 import { load8bitUnlocked, unlock8bitMode, save8bitEnabled, apply8bitMode } from '../screens/SettingsScreen'
 import { incrementAchievementProgress } from '../../game/achievements'
-import { getDailyChallengeState } from '../../game/dailyChallenge'
-import { getWeeklyChallengeState } from '../../game/weeklyChallenge'
+import { getDailyChallengeState, getDailyWinStreak } from '../../game/dailyChallenge'
+import { getWeeklyChallengeState, getNextWeeklyReset } from '../../game/weeklyChallenge'
 import { getUnreadChapterCount } from '../../game/chronicle'
 import { generatePack, addCardsToCollection } from '../../game/collection'
 import { WinStreak } from './WinStreak'
-import { LoginButton } from '../ui/LoginButton'
-import { Button } from '../ui/Button'
 import { Icon } from '../ui/icons/Icon'
 import { useToast } from '../ui/Toast'
 
@@ -30,6 +33,23 @@ const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRi
 const KONAMI_KEY = 'jarv_konami_used'
 function hasUsedKonami(): boolean { try { return !!localStorage.getItem(KONAMI_KEY) } catch { return false } }
 function markKonamiUsed(): void   { try { localStorage.setItem(KONAMI_KEY, '1') } catch { /* ignore */ } }
+
+/** "resets in Xh"/"resets in Xd Yh" style label for a periodic mode's reset time. */
+function formatResetLabel(resetAt: Date): string {
+  const ms = resetAt.getTime() - Date.now()
+  if (ms <= 0) return 'resets soon'
+  const hours = Math.ceil(ms / (60 * 60 * 1000))
+  if (hours < 1) return 'resets soon'
+  if (hours < 24) return `resets in ${hours}h`
+  const days = Math.floor(hours / 24)
+  const remHours = hours % 24
+  return remHours > 0 ? `resets in ${days}d ${remHours}h` : `resets in ${days}d`
+}
+
+function nextUtcMidnight(): Date {
+  const now = new Date()
+  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1))
+}
 
 export interface Props {
   crystals: number
@@ -79,6 +99,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
   const winStreak           = loadWinStreak()
   const bestStreak          = loadBestStreak()
   const dailyChallenge      = getDailyChallengeState()
+  const dailyStreak         = getDailyWinStreak()
   const chronicleAlert      = getUnreadChapterCount() > 0
   const playerName = loadPlayerName()
 
@@ -145,17 +166,19 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
   }
 
   const dailyLabel = dailyChallenge.won === true
-    ? '📅  DAILY ✓'
+    ? 'DAILY ✓'
     : dailyChallenge.attempts > 0
-      ? `📅  DAILY (${dailyChallenge.attempts})`
-      : '📅  DAILY CHALLENGE'
+      ? `DAILY (${dailyChallenge.attempts})`
+      : 'DAILY CHALLENGE'
 
   const weeklyChallenge = getWeeklyChallengeState()
   const weeklyLabel = weeklyChallenge.won === true
-    ? '🗓  WEEKLY ✓'
+    ? 'WEEKLY ✓'
     : weeklyChallenge.attempts > 0
-      ? `🗓  WEEKLY (${weeklyChallenge.attempts})`
-      : '🗓  WEEKLY CHALLENGE'
+      ? `WEEKLY (${weeklyChallenge.attempts})`
+      : 'WEEKLY CHALLENGE'
+  const dailyResetLabel = formatResetLabel(nextUtcMidnight())
+  const weeklyResetLabel = formatResetLabel(getNextWeeklyReset())
 
   // Secret #9 — Wrong Save File: rare title-screen glitch showing fake stats
   const [wrongSave, setWrongSave] = useState<{ cards: number; crystals: number; deck: number } | null>(null)
@@ -174,11 +197,21 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const heroLabel = !campaignUnlocked
+    ? 'CAMPAIGN'
+    : savedRun ? 'CONTINUE RUN' : 'CAMPAIGN'
+  const heroHint = !campaignUnlocked
+    ? `Collect ${CAMPAIGN_UNLOCK_CARDS - totalOwned} more cards to unlock Campaign — play Quick Battle to earn cards!`
+    : !valid ? `Deck needs ${10 - count} more cards` : undefined
+  const handleHeroClick = !campaignUnlocked ? () => {} : valid ? onCampaign : () => setShowDeckWarning(true)
+
+  const quickBattleLabel = valid
+    ? <><Icon name="sword" size={16} /> QUICK BATTLE</>
+    : `⚠ DECK (${count}/10)`
+  const quickBattleHint = valid ? undefined : `Deck needs ${10 - count} more cards`
+
   return (
     <div className="title-screen u-relative u-col u-items-c u-just-c u-grow">
-      {/* Animated background scan line */}
-      <div className="title-bg-scan" aria-hidden="true" />
-
       <WinStreak winStreak={winStreak} bestStreak={bestStreak} />
 
       <TitleIdleAnimation />
@@ -191,71 +224,11 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
           style={{ cursor: load8bitUnlocked() ? 'default' : 'pointer' }}
         >JARV'S</div>
         <div className="title-subtitle">AMAZING WEB GAME</div>
-        <div className="title-logo-ornament">· · · · ·</div>
       </div>
 
-      {/* Primary actions: play modes */}
-      <div className="title-primary-actions">
-        <TitleButton
-          variant="large"
-          extraClass="title-campaign-btn"
-          onClick={!campaignUnlocked ? () => {} : valid ? onCampaign : () => setShowDeckWarning(true)}
-          disabled={!campaignUnlocked}
-          title={
-            !campaignUnlocked ? `Collect ${CAMPAIGN_UNLOCK_CARDS - totalOwned} more cards to unlock Campaign — play Quick Battle to earn cards!` :
-            !valid ? `Deck needs ${10 - count} more cards` :
-            undefined
-          }
-        >
-          <Icon name="sword" size={16} /> {savedRun ? 'CONTINUE RUN' : 'CAMPAIGN'}
-        </TitleButton>
+      {cityAttackAlert && <CityAlertBanner onClick={onCityBuilder} />}
 
-        <TitleButton
-          onClick={valid ? onPlay : () => setShowDeckWarning(true)}
-          extraClass="title-primary-btn"
-          title={valid ? undefined : `Deck needs ${10 - count} more cards`}
-        >
-          {valid ? '▶  QUICK BATTLE' : `⚠ DECK (${count}/10)`}
-        </TitleButton>
-
-        <TitleButton
-          onClick={valid ? onEndless : () => setShowDeckWarning(true)}
-          extraClass="title-primary-btn"
-          title={valid ? undefined : `Deck needs ${10 - count} more cards`}
-        >
-          <Icon name="infinity" size={16} /> ENDLESS MODE
-        </TitleButton>
-
-        <TitleButton onClick={onDailyChallenge} extraClass="title-daily-btn">
-          {dailyLabel}
-        </TitleButton>
-
-        <TitleButton onClick={onWeeklyChallenge} extraClass="title-daily-btn">
-          {weeklyLabel}
-        </TitleButton>
-
-        <TitleButton onClick={onEndlessLeaderboard} extraClass="title-endless-lb-btn">
-          <Icon name="trophy" size={16} /> LEADERBOARDS
-        </TitleButton>
-
-        <TitleButton onClick={onTraining} extraClass="title-training-btn">
-          <Icon name="sword" size={16} /> TRAINING MODE
-        </TitleButton>
-
-        <TitleButton onClick={onMiniGames} extraClass={`title-minigames-btn`}>
-          <Icon name="minigames" size={16} /> MINI GAMES
-        </TitleButton>
-        {cityAttackAlert && (
-          <TitleButton variant="large" onClick={onCityBuilder} extraClass="title-campaign-btn title-minigames-btn title-btn--alert title-alert-badge">
-            <Icon name="sword" size={16} /> CITY ALERT
-          </TitleButton>
-        )}
-        {hubUnlocked && onHub && (
-          <TitleButton variant="large" onClick={onHub} extraClass="title-campaign-btn">
-            <Icon name="hub" size={16} /> HUB WORLD
-          </TitleButton>
-        )}
-      </div>
+      <HeroAction label={heroLabel} hint={heroHint} locked={!campaignUnlocked} onClick={handleHeroClick} />
 
       {!campaignUnlocked && (
         <div className="title-campaign-locked-hint">
@@ -263,44 +236,58 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
         </div>
       )}
 
-      {/* Secondary navigation: management buttons */}
-      <div className="title-nav-section">
-        <div className="title-nav-label">[ MANAGE ]</div>
-        <div className="title-nav-grid">
-          <TitleButton onClick={onPlayer} badge={achievementAlert}><Icon name="player" size={16} /> PLAYER</TitleButton>
-          <TitleButton onClick={onDeckBuilder}><Icon name="deck" size={16} /> DECK</TitleButton>
-          <TitleButton onClick={onCollection} badge={collectionAlert}><Icon name="collection" size={16} /> COLLECTION</TitleButton>
-          <TitleButton onClick={onShop} badge={shopAlert}><Icon name="shop" size={16} /> SHOP</TitleButton>
-          <TitleButton onClick={onCodex}><Icon name="codex" size={16} /> CODEX</TitleButton>
-          <TitleButton onClick={onChronicle} badge={chronicleAlert}><Icon name="chronicle" size={16} /> CHRONICLE</TitleButton>
-          <TitleButton onClick={onNews} badge={hasUnreadNews}><Icon name="news" size={16} /> WHAT'S NEW</TitleButton>
-          <TitleButton onClick={onSettings} extraClass="title-settings-btn"><Icon name="settings" size={16} /> SETTINGS</TitleButton>
-          {commanderName && onCommander && (
-            <TitleButton onClick={onCommander} extraClass="title-commander-btn">
-              <SpriteImg name={commanderName} className="commander-btn-sprite" />
-              {commanderName.toUpperCase()}
-            </TitleButton>
-          )}
-        </div>
-      </div>
+      <SecondaryPlayRow
+        quickBattleLabel={quickBattleLabel}
+        quickBattleHint={quickBattleHint}
+        onQuickBattle={valid ? onPlay : () => setShowDeckWarning(true)}
+        onEndless={valid ? onEndless : () => setShowDeckWarning(true)}
+        hubUnlocked={hubUnlocked}
+        onHub={onHub}
+      />
 
-      {/* Footer: stats + auth */}
-      <div className="title-footer u-col u-items-c u-gap-2 u-relative">
-        <div className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>
-          {wrongSave
-            ? <>{wrongSave.cards}/{catalogTotal} cards &nbsp;·&nbsp; <Icon name="crystal" size={12} /> {wrongSave.crystals.toLocaleString()} &nbsp;·&nbsp; Deck: {wrongSave.deck}</>
-            : <>{distinctUnlocked}/{catalogTotal} cards &nbsp;·&nbsp; <Icon name="crystal" size={12} /> {crystals.toLocaleString()} &nbsp;·&nbsp; Deck: {count}</>
-          }
-        </div>
-        <div className="title-auth-bar u-flex u-items-c u-gap-5">
-          <LoginButton onSignIn={onSignIn} onSignOut={onSignOut} user={user} playerName={playerName} />
-          <Button
-            className="title-auth-btn"
-            onClick={onFeedback}
-            title="Send feedback or report a bug"
-          >🗣️ Feedback</Button>
-        </div>
-      </div>
+      <PeriodicRow
+        dailyLabel={dailyLabel}
+        dailyStreak={dailyStreak}
+        dailyResetLabel={dailyResetLabel}
+        onDaily={onDailyChallenge}
+        weeklyLabel={weeklyLabel}
+        weeklyResetLabel={weeklyResetLabel}
+        onWeekly={onWeeklyChallenge}
+        onLeaderboards={onEndlessLeaderboard}
+      />
+
+      <UtilityRow onTraining={onTraining} onMiniGames={onMiniGames} />
+
+      <ManageNav
+        onPlayer={onPlayer}
+        achievementAlert={achievementAlert}
+        onDeckBuilder={onDeckBuilder}
+        onCollection={onCollection}
+        collectionAlert={collectionAlert}
+        onShop={onShop}
+        shopAlert={shopAlert}
+        onCodex={onCodex}
+        onChronicle={onChronicle}
+        chronicleAlert={chronicleAlert}
+        onNews={onNews}
+        hasUnreadNews={hasUnreadNews}
+        onSettings={onSettings}
+        commanderName={commanderName}
+        onCommander={onCommander}
+      />
+
+      <TitleIdentityFooter
+        playerName={playerName}
+        bestStreak={bestStreak}
+        cardsLabel={wrongSave ? `${wrongSave.cards}/${catalogTotal}` : `${distinctUnlocked}/${catalogTotal}`}
+        crystalsLabel={wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}
+        deckLabel={wrongSave ? String(wrongSave.deck) : String(count)}
+        glitch={!!wrongSave}
+        user={user}
+        onSignIn={onSignIn}
+        onSignOut={onSignOut}
+        onFeedback={onFeedback}
+      />
 
       {showDeckWarning && (
         <ConfirmModal
