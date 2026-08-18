@@ -609,6 +609,23 @@ export function getOwnedCount(collection: CollectionEntry[], cardName: string): 
   return collection.find(e => e.cardName === cardName)?.count ?? 0
 }
 
+export interface CollectionCompletion {
+  distinctOwned: number
+  catalogTotal: number
+  pct: number
+}
+
+/** Distinct-cards-owned vs. the full catalogue — was only ever computed
+ *  ad hoc (e.g. TitleScreen's footer stat); pulled out here so the
+ *  Collection screen can surface the same number as real progress (#2178). */
+export function getCollectionCompletion(collection: CollectionEntry[]): CollectionCompletion {
+  const catalog = getCardCatalog()
+  const distinctOwned = collection.filter(e => e.count > 0 && catalog.some(c => c.name === e.cardName)).length
+  const catalogTotal = catalog.length
+  const pct = catalogTotal > 0 ? Math.round((distinctOwned / catalogTotal) * 100) : 0
+  return { distinctOwned, catalogTotal, pct }
+}
+
 // ─── Deck CRUD ────────────────────────────────────────────
 
 export type DeckSlot = 'a' | 'b'

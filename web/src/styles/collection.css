@@ -225,8 +225,19 @@
   font-weight: bold;
 }
 
-.overlay-count--valid   { color: var(--game-text-color); }
-.overlay-count--invalid { color: var(--color-orange); }
+.overlay-count--valid { color: var(--game-text-color); }
+
+/* A colour change alone is easy to miss — deck invalidity blocks play, so
+   give it a pill treatment that reads as a warning state, not just dimmer
+   text (#2178). */
+.overlay-count--invalid {
+  color: var(--accent-ember);
+  font-weight: bold;
+  border: 1px solid var(--accent-ember);
+  border-radius: var(--radius-sm);
+  padding: 2px 8px;
+  background: color-mix(in srgb, var(--accent-ember) 12%, transparent);
+}
 
 @media (max-width: 400px) {
   .shop-card-deal {
@@ -275,6 +286,24 @@
   white-space: nowrap;
   flex-shrink: 0;
   padding-left: 8px;
+}
+
+/* Collection completion — previously buried (only the title screen's
+   footer computed this number at all); surfaced here without needing a
+   submenu (#2178). */
+.collection-progress {
+  padding: 4px 0 8px;
+  flex-shrink: 0;
+}
+.collection-progress-bar {
+  flex: 1;
+  height: 6px;
+}
+.collection-progress-label {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-dim);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .filter-label {
@@ -570,6 +599,19 @@
   border-radius: 2px;
   padding: 0 2px;
   line-height: 1.4;
+}
+
+/* Copy-limit reached — previously silent (the tile just stopped being
+   clickable); now an explicit "you're at the cap" signal (#2178). */
+.cell-copy-limit-badge {
+  font-size: 0.571rem;
+  color: var(--accent-ember);
+  background: color-mix(in srgb, var(--accent-ember) 15%, transparent);
+  border: 1px solid var(--accent-ember);
+  border-radius: 2px;
+  padding: 0 2px;
+  line-height: 1.4;
+  margin-left: 2px;
 }
 
 /* ─── Deck Builder (split panel layout) ─────────────── */

@@ -30,11 +30,15 @@ import {
 } from '../../game/collection'
 import { CardTile } from './CardTile'
 import { MasteryBar } from '../ui/MasteryBar'
+import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { useCardDetail } from './useCardDetail'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { ProgressBar } from '../ui/ProgressBar'
 import { TutorialOverlay } from '../modals/TutorialOverlay'
 import { hasSeen, markSeen } from '../../game/tutorial'
+import { FilterPopup } from '../ui/filters/FilterPopup'
+import { FilterOption } from '../ui/filters/FilterOption'
+import { FilterPill } from '../ui/filters/FilterPill'
 
 const DECK_TUTORIAL_ID = 'deckbuilder'
 const DECK_TUTORIAL_STEPS = [
@@ -196,46 +200,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
   const [affinityFilter, setAffinityFilter] = useState<string | null>(null)
   const [sortKey, setSortKey]             = useState<SortKey>('default')
   const [groupKey, setGroupKey]           = useState<GroupKey>('none')
-  const [filterMenuOpen, setFilterMenuOpen] = useState(false)
-  const [sortMenuOpen, setSortMenuOpen]     = useState(false)
-  const [groupMenuOpen, setGroupMenuOpen]   = useState(false)
-  const filterMenuRef = useRef<HTMLDivElement>(null)
-  const sortMenuRef   = useRef<HTMLDivElement>(null)
-  const groupMenuRef  = useRef<HTMLDivElement>(null)
-
-  // Close dropdowns on outside click
-  useEffect(() => {
-    if (!filterMenuOpen) return
-    function handleClick(e: MouseEvent) {
-      if (filterMenuRef.current && !filterMenuRef.current.contains(e.target as Node)) {
-        setFilterMenuOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClick)
-    return () => document.removeEventListener('mousedown', handleClick)
-  }, [filterMenuOpen])
-
-  useEffect(() => {
-    if (!sortMenuOpen) return
-    function handleClick(e: MouseEvent) {
-      if (sortMenuRef.current && !sortMenuRef.current.contains(e.target as Node)) {
-        setSortMenuOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClick)
-    return () => document.removeEventListener('mousedown', handleClick)
-  }, [sortMenuOpen])
-
-  useEffect(() => {
-    if (!groupMenuOpen) return
-    function handleClick(e: MouseEvent) {
-      if (groupMenuRef.current && !groupMenuRef.current.contains(e.target as Node)) {
-        setGroupMenuOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClick)
-    return () => document.removeEventListener('mousedown', handleClick)
-  }, [groupMenuOpen])
+  const [openMenu, setOpenMenu] = useState<'filters' | 'sort' | 'group' | null>(null)
 
   // Affinity label → card name set (both sides of each pair)
   const allAffinityLabels = useMemo(() =>
@@ -658,166 +623,137 @@ setCollectionCollapsed(true)
               {/* Filter / Sort / Group bar */}
               <div className="filter-bar">
                 {/* FILTERS */}
-                <div className="filter-popup-wrap" ref={filterMenuRef}>
-                  <button
-                    className={`filter-btn${activeFilterCount > 0 ? ' filter-btn--active' : ''}`}
-                    onClick={() => { setFilterMenuOpen(o => !o); setSortMenuOpen(false); setGroupMenuOpen(false) }}
-                  >
-                    ▼ FILTERS{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
-                  </button>
-                  {filterMenuOpen && (
-                    <div className="filter-popup">
-                      <div className="filter-popup-section u-col">
-                        <span className="filter-group-label">TYPE</span>
-                        <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-                          {(['all', 'unit', 'structure', 'upgrade'] as const).map(val => (
-                            <button
-                              key={val}
-                              className={`filter-btn filter-btn--sm${typeFilter === val ? ' filter-btn--active' : ''}`}
-                              onClick={() => setTypeFilter(val)}
-                            >
-                              {val === 'all' ? 'All' : val.charAt(0).toUpperCase() + val.slice(1) + 's'}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="filter-popup-section u-col">
-                        <span className="filter-group-label">RARITY</span>
-                        <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-                          {(['all', 'common', 'uncommon', 'rare', 'legendary'] as const).map(val => (
-                            <button
-                              key={val}
-                              className={`filter-btn filter-btn--sm${rarityFilter === val ? ' filter-btn--active' : ''}`}
-                              onClick={() => setRarityFilter(val)}
-                            >
-                              {val.charAt(0).toUpperCase() + val.slice(1)}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="filter-popup-section u-col">
-                        <span className="filter-group-label">TAGS <span className="filter-group-hint">(any match)</span></span>
-                        <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-                          {ALL_TAGS.map(tag => (
-                            <button
-                              key={tag}
-                              className={`filter-btn filter-btn--sm${tagFilter.includes(tag) ? ' filter-btn--active' : ''}`}
-                              onClick={() => toggleTag(tag)}
-                            >
-                              {tag}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                      {allAffinityLabels.length > 0 && (
-                        <div className="filter-popup-section u-col">
-                          <span className="filter-group-label">AFFINITY</span>
-                          <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-                            {allAffinityLabels.map(label => (
-                              <button
-                                key={label}
-                                className={`filter-btn filter-btn--sm${affinityFilter === label ? ' filter-btn--active' : ''}`}
-                                onClick={() => setAffinityFilter(prev => prev === label ? null : label)}
-                              >
-                                {label}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      {activeFilterCount > 0 && (
-                        <div className="filter-popup-footer">
-                          <button className="filter-btn filter-btn--sm filter-btn--reset" onClick={resetFilters}>
-                            ✕ Clear all filters
-                          </button>
-                        </div>
-                      )}
+                <FilterPopup
+                  label="▼ FILTERS"
+                  activeSuffix={activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
+                  isActive={activeFilterCount > 0}
+                  open={openMenu === 'filters'}
+                  onToggle={() => setOpenMenu(m => m === 'filters' ? null : 'filters')}
+                  onClose={() => setOpenMenu(m => m === 'filters' ? null : m)}
+                  footer={activeFilterCount > 0 && (
+                    <div className="filter-popup-footer">
+                      <button className="filter-btn filter-btn--sm filter-btn--reset" onClick={resetFilters}>
+                        ✕ Clear all filters
+                      </button>
                     </div>
                   )}
-                </div>
+                >
+                  <div className="filter-popup-section u-col">
+                    <span className="filter-group-label">TYPE</span>
+                    <div className="filter-popup-btns u-flex u-wrap u-gap-2">
+                      {(['all', 'unit', 'structure', 'upgrade'] as const).map(val => (
+                        <FilterOption key={val} active={typeFilter === val} onClick={() => setTypeFilter(val)}>
+                          {val === 'all' ? 'All' : val.charAt(0).toUpperCase() + val.slice(1) + 's'}
+                        </FilterOption>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="filter-popup-section u-col">
+                    <span className="filter-group-label">RARITY</span>
+                    <div className="filter-popup-btns u-flex u-wrap u-gap-2">
+                      {(['all', 'common', 'uncommon', 'rare', 'legendary'] as const).map(val => (
+                        <FilterOption key={val} active={rarityFilter === val} onClick={() => setRarityFilter(val)}>
+                          {val.charAt(0).toUpperCase() + val.slice(1)}
+                        </FilterOption>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="filter-popup-section u-col">
+                    <span className="filter-group-label">TAGS <span className="filter-group-hint">(any match)</span></span>
+                    <div className="filter-popup-btns u-flex u-wrap u-gap-2">
+                      {ALL_TAGS.map(tag => (
+                        <FilterOption key={tag} active={tagFilter.includes(tag)} onClick={() => toggleTag(tag)}>
+                          {tag}
+                        </FilterOption>
+                      ))}
+                    </div>
+                  </div>
+                  {allAffinityLabels.length > 0 && (
+                    <div className="filter-popup-section u-col">
+                      <span className="filter-group-label">AFFINITY</span>
+                      <div className="filter-popup-btns u-flex u-wrap u-gap-2">
+                        {allAffinityLabels.map(label => (
+                          <FilterOption
+                            key={label}
+                            active={affinityFilter === label}
+                            onClick={() => setAffinityFilter(prev => prev === label ? null : label)}
+                          >
+                            {label}
+                          </FilterOption>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </FilterPopup>
 
                 {/* SORT */}
-                <div className="filter-popup-wrap" ref={sortMenuRef}>
-                  <button
-                    className={`filter-btn${sortKey !== 'default' ? ' filter-btn--active' : ''}`}
-                    onClick={() => { setSortMenuOpen(o => !o); setFilterMenuOpen(false); setGroupMenuOpen(false) }}
-                  >
-                    ↕ SORT{sortKey !== 'default' ? ` (${sortKey})` : ''}
-                  </button>
-                  {sortMenuOpen && (
-                    <div className="filter-popup">
-                      <div className="filter-popup-section u-col">
-                        <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-                          {([
-                            ['default',   'Default'],
-                            ['az',        'A → Z'],
-                            ['za',        'Z → A'],
-                            ['mana-asc',  'Mana ↑'],
-                            ['mana-desc', 'Mana ↓'],
-                            ['rarity',    'Rarity'],
-                            ['synergy',   '⚡ Synergy'],
-                          ] as [SortKey, string][]).map(([val, label]) => (
-                            <button
-                              key={val}
-                              className={`filter-btn filter-btn--sm${sortKey === val ? ' filter-btn--active' : ''}`}
-                              onClick={() => setSortKey(val)}
-                            >
-                              {label}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
+                <FilterPopup
+                  label="↕ SORT"
+                  activeSuffix={sortKey !== 'default' ? ` (${sortKey})` : ''}
+                  isActive={sortKey !== 'default'}
+                  open={openMenu === 'sort'}
+                  onToggle={() => setOpenMenu(m => m === 'sort' ? null : 'sort')}
+                  onClose={() => setOpenMenu(m => m === 'sort' ? null : m)}
+                >
+                  <div className="filter-popup-section u-col">
+                    <div className="filter-popup-btns u-flex u-wrap u-gap-2">
+                      {([
+                        ['default',   'Default'],
+                        ['az',        'A → Z'],
+                        ['za',        'Z → A'],
+                        ['mana-asc',  'Mana ↑'],
+                        ['mana-desc', 'Mana ↓'],
+                        ['rarity',    'Rarity'],
+                        ['synergy',   '⚡ Synergy'],
+                      ] as [SortKey, string][]).map(([val, label]) => (
+                        <FilterOption key={val} active={sortKey === val} onClick={() => setSortKey(val)}>
+                          {label}
+                        </FilterOption>
+                      ))}
                     </div>
-                  )}
-                </div>
+                  </div>
+                </FilterPopup>
 
                 {/* GROUP */}
-                <div className="filter-popup-wrap" ref={groupMenuRef}>
-                  <button
-                    className={`filter-btn${groupKey !== 'none' ? ' filter-btn--active' : ''}`}
-                    onClick={() => { setGroupMenuOpen(o => !o); setFilterMenuOpen(false); setSortMenuOpen(false) }}
-                  >
-                    ⊞ GROUP{groupKey !== 'none' ? ` (${groupKey})` : ''}
-                  </button>
-                  {groupMenuOpen && (
-                    <div className="filter-popup">
-                      <div className="filter-popup-section u-col">
-                        <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-                          {([
-                            ['none',    'None'],
-                            ['type',    'Type'],
-                            ['rarity',  'Rarity'],
-                            ['mana',    'Mana'],
-                            ['act',     'Act'],
-                          ] as [GroupKey, string][]).map(([val, label]) => (
-                            <button
-                              key={val}
-                              className={`filter-btn filter-btn--sm${groupKey === val ? ' filter-btn--active' : ''}`}
-                              onClick={() => setGroupKey(val)}
-                            >
-                              {label}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
+                <FilterPopup
+                  label="⊞ GROUP"
+                  activeSuffix={groupKey !== 'none' ? ` (${groupKey})` : ''}
+                  isActive={groupKey !== 'none'}
+                  open={openMenu === 'group'}
+                  onToggle={() => setOpenMenu(m => m === 'group' ? null : 'group')}
+                  onClose={() => setOpenMenu(m => m === 'group' ? null : m)}
+                >
+                  <div className="filter-popup-section u-col">
+                    <div className="filter-popup-btns u-flex u-wrap u-gap-2">
+                      {([
+                        ['none',    'None'],
+                        ['type',    'Type'],
+                        ['rarity',  'Rarity'],
+                        ['mana',    'Mana'],
+                        ['act',     'Act'],
+                      ] as [GroupKey, string][]).map(([val, label]) => (
+                        <FilterOption key={val} active={groupKey === val} onClick={() => setGroupKey(val)}>
+                          {label}
+                        </FilterOption>
+                      ))}
                     </div>
-                  )}
-                </div>
+                  </div>
+                </FilterPopup>
 
                 {/* Active filter pills */}
                 {activeFilterCount > 0 && (
                   <div className="filter-active-pills u-flex u-gap-2 u-grow u-items-c">
                     {typeFilter !== 'all' && (
-                      <span className="filter-pill">{typeFilter}s <button onClick={() => setTypeFilter('all')}>✕</button></span>
+                      <FilterPill onRemove={() => setTypeFilter('all')}>{typeFilter}s</FilterPill>
                     )}
                     {rarityFilter !== 'all' && (
-                      <span className="filter-pill">{rarityFilter} <button onClick={() => setRarityFilter('all')}>✕</button></span>
+                      <FilterPill onRemove={() => setRarityFilter('all')}>{rarityFilter}</FilterPill>
                     )}
                     {tagFilter.map(t => (
-                      <span key={t} className="filter-pill">{t} <button onClick={() => toggleTag(t)}>✕</button></span>
+                      <FilterPill key={t} onRemove={() => toggleTag(t)}>{t}</FilterPill>
                     ))}
                     {affinityFilter && (
-                      <span className="filter-pill">affinity:{affinityFilter} <button onClick={() => setAffinityFilter(null)}>✕</button></span>
+                      <FilterPill onRemove={() => setAffinityFilter(null)}>affinity:{affinityFilter}</FilterPill>
                     )}
                   </div>
                 )}
@@ -832,7 +768,8 @@ setCollectionCollapsed(true)
                       const owned   = getOwnedCount(collection, card.name)
                       const inDeck  = inDeckCount(card.name)
                       const resting = fatiguedCards.includes(card.name)
-                      const canAdd  = inDeck < Math.min(owned, COPIES_MAX) && total < playerDeckMax
+                      const atCopyLimit = owned > 0 && inDeck >= Math.min(owned, COPIES_MAX)
+                      const canAdd  = !atCopyLimit && total < playerDeckMax
                       const xp      = getMasteryXp(collection, card.name)
                       const { level: lvl } = masteryProgress(xp)
                       const label   = groupLabel(card)
@@ -855,16 +792,19 @@ setCollectionCollapsed(true)
                               <span className="cell-count">
                                 {resting
                                   ? <><span className="cell-resting-label">💤</span> {inDeck}/{owned}</>
-                                  : <>{inDeck}/{owned}{lvl > 0 && <span className="cell-mastery-badge">★{lvl}</span>}</>
+                                  : <>
+                                      {inDeck}/{owned}{lvl > 0 && <span className="cell-mastery-badge">★{lvl}</span>}
+                                      {atCopyLimit && <span className="cell-copy-limit-badge">MAX</span>}
+                                    </>
                                 }
                               </span>
+                              {xp > 0 && <MasteryBar xp={xp} />}
                               <button
                                 className="extra-btn cdm-info-btn"
                                 onClick={e => { e.stopPropagation(); openDetail(card) }}
                                 title="Card details"
                               >ⓘ</button>
                             </div>
-                            {xp > 0 && <MasteryBar xp={xp} />}
                           </div>
                         </React.Fragment>
                       )
@@ -880,8 +820,8 @@ setCollectionCollapsed(true)
 
       {/* ── Auto-build modal ── */}
       {showAutoBuild && (
-        <div className="autobuild-backdrop" onClick={() => setShowAutoBuild(false)}>
-          <div className="autobuild-panel" onClick={e => e.stopPropagation()}>
+        <ModalBackdrop onClose={() => setShowAutoBuild(false)} title="Auto Build">
+          <div className="autobuild-panel">
             <div>
               <div className="autobuild-title">⚡ AUTO BUILD</div>
               <div className="autobuild-sub">
@@ -905,13 +845,13 @@ setCollectionCollapsed(true)
               CANCEL
             </button>
           </div>
-        </div>
+        </ModalBackdrop>
       )}
 
       {/* ── Saved Decks modal ── */}
       {showSavedDecks && (
-        <div className="autobuild-backdrop" onClick={() => setShowSavedDecks(false)}>
-          <div className="autobuild-panel saveddecks-panel" onClick={e => e.stopPropagation()}>
+        <ModalBackdrop onClose={() => setShowSavedDecks(false)} title="Saved Decks">
+          <div className="autobuild-panel saveddecks-panel">
             <div className="autobuild-title">💾 SAVED DECKS</div>
             {savedDecks.length === 0 ? (
               <div className="saveddecks-empty">No saved decks yet.</div>
@@ -950,13 +890,13 @@ setCollectionCollapsed(true)
               CLOSE
             </button>
           </div>
-        </div>
+        </ModalBackdrop>
       )}
 
       {/* ── Share modal ── */}
       {showShare && (
-        <div className="autobuild-backdrop" onClick={() => setShowShare(false)}>
-          <div className="autobuild-panel share-panel" onClick={e => e.stopPropagation()}>
+        <ModalBackdrop onClose={() => setShowShare(false)} title="Share Deck">
+          <div className="autobuild-panel share-panel">
             <div className="autobuild-title">🔗 SHARE DECK</div>
             <div className="share-section u-col u-gap-3">
               <div className="share-label">EXPORT — copy this code and share it:</div>
@@ -999,7 +939,7 @@ setCollectionCollapsed(true)
               CLOSE
             </button>
           </div>
-        </div>
+        </ModalBackdrop>
       )}
 
       {cardDetailNode}

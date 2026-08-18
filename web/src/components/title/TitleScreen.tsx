@@ -1,8 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react'
 import { type User } from 'firebase/auth'
-import { loadDeck, loadCollection, deckTotalCards, isDeckValid, COPIES_MAX, loadWinStreak, loadBestStreak } from '../../game/collection'
+import { loadDeck, loadCollection, deckTotalCards, isDeckValid, COPIES_MAX, loadWinStreak, loadBestStreak, getCollectionCompletion } from '../../game/collection'
 import { loadPlayerName, loadRunRaw } from '../../game/questline'
-import { getCardCatalog } from '../../game/cards'
 import { hasUnclaimedAchievements } from '../../game/achievements'
 import { getDailyShopSellSlots } from '../../game/shopSchedule'
 import { loadInventory } from '../../game/dailyLogin'
@@ -90,9 +89,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
   const collection       = loadCollection()
   const totalOwned       = collection.reduce((s, e) => s + e.count, 0)
   const campaignUnlocked = savedRun !== null || totalOwned >= CAMPAIGN_UNLOCK_CARDS
-  const catalog             = getCardCatalog()
-  const distinctUnlocked    = collection.filter(e => e.count > 0 && catalog.some(c => c.name === e.cardName)).length
-  const catalogTotal        = catalog.length
+  const { distinctOwned: distinctUnlocked, catalogTotal } = getCollectionCompletion(collection)
   const achievementAlert    = hasUnclaimedAchievements()
   const collectionAlert     = collection.some(e => e.count > COPIES_MAX)
   const shopAlert           = (() => { const inv = loadInventory(); return getDailyShopSellSlots().some(s => inv.some(i => i.id === s.id)) })()
