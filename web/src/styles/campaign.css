@@ -192,161 +192,16 @@
   flex-shrink: 0;
 }
 
-/* ── Columns (each act-row renders as a vertical column in L→R layout) ── */
-
-.nm-col {
-  display: grid;
-  align-items: center;
-  justify-items: center;
-  flex-shrink: 0;
-}
-
-/* ── Node buttons ── */
-
-.nm-node {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  padding: 8px 12px 10px;
-  border: 1px solid transparent;
-  border-top-width: 2px;
-  border-radius: 6px;
-  background: transparent;
-  cursor: default;
-  min-width: 96px;
-  transition: all 0.15s;
-  font-family: var(--font-body);
-}
-
-.nm-node-type-badge {
-  font-size: 0.571rem;
-  letter-spacing: 1.5px;
-  font-weight: bold;
-  opacity: 0.7;
-  margin-bottom: 1px;
-}
+/* ── Node type badge colors ──────────────────────────────
+   The node map itself renders on a PixiJS canvas (NodeMapRederer.tsx);
+   these modifier classes are the one surviving DOM consumer, applied by
+   NodePeekModal directly (base font-size/opacity live on .nm-peek-type). */
 .nm-node-type-badge--battle   { color: var(--game-text-color-dim); }
 .nm-node-type-badge--elite    { color: #c8a020; }
 .nm-node-type-badge--boss     { color: #c03030; }
 .nm-node-type-badge--rest     { color: #4090b0; }
 .nm-node-type-badge--event    { color: #8050b0; }
 .nm-node-type-badge--merchant { color: #a06020; }
-
-.nm-node-icon   { font-size: 1.571rem; line-height: 1; }
-.nm-node-sprite { width: 38px; height: 38px; object-fit: contain; image-rendering: pixelated; }
-.nm-node-name  { font-size: var(--font-sm); color: var(--game-text-color-dim); letter-spacing: 0.5px; text-align: center; line-height: 1.3; }
-.nm-node-status { font-size: var(--font-xxs); letter-spacing: 1px; min-height: 12px; }
-
-/* Available nodes */
-.nm-node--available {
-  cursor: pointer;
-}
-.nm-node--available .nm-node-name { color: var(--game-text-color-dim); }
-.nm-node--available .nm-node-status { color: var(--game-text-color); }
-.nm-node--available .nm-node-type-badge { opacity: 1; }
-.nm-node--available:hover {
-  transform: translateY(-2px);
-}
-.nm-node--available .nm-node-sprite,
-.nm-node--available .nm-node-icon {
-  filter: drop-shadow(0 0 6px rgba(51, 255, 51, 0.55));
-  animation: nm-sprite-pulse 2s ease-in-out infinite;
-}
-
-@keyframes nm-sprite-pulse {
-  0%, 100% { filter: drop-shadow(0 0 4px rgba(51, 255, 51, 0.4)); }
-  50%       { filter: drop-shadow(0 0 10px rgba(51, 255, 51, 0.75)); }
-}
-
-/* Dim modifier — applied to completed, skipped, and unreachable-locked nodes */
-.nm-node--dim {
-  opacity: 0.28;
-  filter: grayscale(55%);
-}
-
-/* Completed nodes */
-.nm-node--completed .nm-node-status { color: #33ff33; font-size: 1rem; }
-
-/* Skipped nodes */
-.nm-node--skipped .nm-node-status { color: var(--color-red); }
-
-/* Pending (in battle) */
-.nm-node--pending .nm-node-status { color: #ffc832; }
-.nm-node--pending .nm-node-sprite,
-.nm-node--pending .nm-node-icon {
-  animation: nm-pending 1s ease-in-out infinite;
-}
-@keyframes nm-pending {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.6; }
-}
-
-/* Type-specific sprite glows for available nodes */
-.nm-node--boss.nm-node--available .nm-node-sprite,
-.nm-node--boss.nm-node--available .nm-node-icon {
-  filter: drop-shadow(0 0 6px rgba(255, 68, 68, 0.6));
-  animation: nm-boss-sprite-pulse 1.5s ease-in-out infinite;
-}
-.nm-node--boss.nm-node--available .nm-node-type-badge { color: #ff5555; opacity: 1; }
-@keyframes nm-boss-sprite-pulse {
-  0%, 100% { filter: drop-shadow(0 0 4px rgba(255, 68, 68, 0.5)); }
-  50%       { filter: drop-shadow(0 0 12px rgba(255, 68, 68, 0.9)); }
-}
-
-.nm-node--elite.nm-node--available .nm-node-sprite,
-.nm-node--elite.nm-node--available .nm-node-icon {
-  filter: drop-shadow(0 0 6px rgba(255, 200, 50, 0.6));
-  animation: nm-elite-sprite-pulse 2s ease-in-out infinite;
-}
-.nm-node--elite.nm-node--available .nm-node-type-badge { color: #ffc832; opacity: 1; }
-@keyframes nm-elite-sprite-pulse {
-  0%, 100% { filter: drop-shadow(0 0 4px rgba(255, 200, 50, 0.4)); }
-  50%       { filter: drop-shadow(0 0 10px rgba(255, 200, 50, 0.8)); }
-}
-
-.nm-node--rest.nm-node--available .nm-node-sprite,
-.nm-node--rest.nm-node--available .nm-node-icon {
-  filter: drop-shadow(0 0 6px rgba(100, 200, 255, 0.6));
-}
-.nm-node--rest.nm-node--available .nm-node-type-badge { color: #64c8ff; opacity: 1; }
-.nm-node--rest.nm-node--available .nm-node-status { color: #64c8ff; }
-
-.nm-node--event.nm-node--available .nm-node-sprite,
-.nm-node--event.nm-node--available .nm-node-icon {
-  filter: drop-shadow(0 0 6px rgba(160, 100, 255, 0.6));
-}
-.nm-node--event.nm-node--available .nm-node-type-badge { color: #b078ff; opacity: 1; }
-
-.nm-node--merchant.nm-node--available .nm-node-sprite,
-.nm-node--merchant.nm-node--available .nm-node-icon {
-  filter: drop-shadow(0 0 6px rgba(255, 170, 50, 0.6));
-}
-.nm-node--merchant.nm-node--available .nm-node-type-badge { color: #ffaa32; opacity: 1; }
-
-/* ── Player avatar ── */
-
-.nm-avatar {
-  position: absolute;
-  z-index: 2;
-  pointer-events: none;
-}
-
-@keyframes nm-avatar-idle {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-2px); }
-}
-
-.nm-avatar:not(.nm-avatar--walking) img {
-  animation: nm-avatar-idle 2s ease-in-out infinite;
-}
-
-.nm-back-btn {
-  margin-top: auto;
-  margin-bottom: 8px;
-  flex-shrink: 0;
-  align-self: flex-start;
-}
 
 /* ── Node Peek Modal ── */
 
@@ -689,9 +544,9 @@
 
 /* ── Build Identity panel (campaign node map) ── */
 .build-identity {
-  border: 1px solid var(--game-border);
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-edge);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
   margin: 4px 0;
 }
 
@@ -712,6 +567,7 @@
   font-size: var(--font-xs);
   font-weight: bold;
   letter-spacing: 1px;
+  color: var(--accent-gold);
 }
 
 .build-identity-chevron {
@@ -721,7 +577,7 @@
 
 .build-identity-body {
   padding: 2px 10px 8px;
-  border-top: 1px solid var(--game-border);
+  border-top: 1px solid var(--border-edge-dark);
 }
 
 .build-identity-row {
