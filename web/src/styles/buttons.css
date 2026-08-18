@@ -161,31 +161,3 @@
   color: #33ff33;
   font-weight: bold;
 }
-
-/* ─── Section ─────────────────────────────────────────── */
-
-.section {
-  width: 100%;
-  flex-shrink: 0;
-}
-
-.section-title {
-  font-size: var(--font-xs);
-  letter-spacing: 2px;
-  color: var(--game-text-color-muted);
-  padding: 4px;
-}
-
-.section--bordered {
-  border: 1px solid var(--border-edge-dark);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-}
-
-.section--bordered .section-title {
-  color: var(--color-gold-alt);
-  padding: 8px 14px 6px;
-  background: color-mix(in srgb, var(--accent-gold) 4%, transparent);
-  border-bottom: 1px solid var(--border-edge-dark);
-}
-
