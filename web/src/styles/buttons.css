@@ -1,21 +1,26 @@
 /* buttons.css — split from styles.css (#2169). .action-btn and variants, plus the shared ProgressBar/StatRow/Section primitives. */
 
-/* ─── Buttons ────────────────────────────────────────── */
+/* ─── Buttons (#2171) ─────────────────────────────────── */
 
 .action-btn {
-  background: none;
+  position: relative;
+  background: var(--game-bg-raised);
   border: 2px solid var(--game-text-color);
   color: var(--game-text-color);
   font-family: inherit;
   font-size: 1rem;
   padding: 8px 20px;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: transform 0.1s ease-out, box-shadow 0.15s, background 0.15s, border-color 0.15s;
   border-radius: 3px;
   line-height: 1.4;
   min-height: 36px;
   box-sizing: border-box;
   text-wrap-style: none;
+  /* Struck-metal bevel, same pair used by Panel (#2170) */
+  box-shadow:
+    inset 0 1px 0 var(--panel-edge-light),
+    inset 0 -1px 0 var(--panel-edge-dark);
 }
 
 /* ─── Button size modifiers ──────────────────────────── */
@@ -32,6 +37,19 @@
   min-height: 22px;
 }
 
+/* iOS/Android guidance is a 44px minimum touch target. Mouse pointers keep
+   the compact sizes above; coarse (touch) pointers get bumped up here so a
+   thumb can reliably hit every size without changing the visual density on
+   desktop. */
+@media (pointer: coarse) {
+  .action-btn,
+  .action-btn--sm,
+  .action-btn--xs,
+  .action-btn--large {
+    min-height: 44px;
+  }
+}
+
 .action-btn--dim {
   border-color: color-mix(in srgb, var(--game-text-color) 40%, transparent);
   color: var(--game-text-color-dim);
@@ -39,8 +57,27 @@
 
 .action-btn:hover {
   background: color-mix(in srgb, var(--game-text-color) 15%, transparent);
-  box-shadow: 0 0 12px color-mix(in srgb, var(--game-text-color) 40%, transparent);
+  box-shadow:
+    0 0 12px color-mix(in srgb, var(--game-text-color) 40%, transparent),
+    inset 0 1px 0 var(--panel-edge-light),
+    inset 0 -1px 0 var(--panel-edge-dark);
   text-shadow: 0 0 6px color-mix(in srgb, var(--game-text-color) 60%, transparent);
+}
+
+/* The button visibly depresses on press — translate down plus the bevel
+   direction swapping (light now reads from the bottom) — so touch devices,
+   where :hover never fires, still get feedback. */
+.action-btn:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset 0 1px 3px var(--panel-edge-dark),
+    inset 0 -1px 0 var(--panel-edge-light);
+  transition-duration: 0.05s;
+}
+
+.action-btn:focus-visible {
+  outline: 2px solid var(--accent-gold);
+  outline-offset: 2px;
 }
 
 @keyframes nodeTargetPulse {
@@ -55,7 +92,7 @@
   animation: nodeTargetPulse 1s ease-in-out infinite;
 }
 
-/* ─── Gold button variant (pack open) ───────────────── */
+/* ─── Gold button variant (pack open, rewards) ───────── */
 
 .action-btn--gold {
   border-color: var(--color-gold-alt);
@@ -63,7 +100,10 @@
 }
 .action-btn--gold:hover {
   background: color-mix(in srgb, var(--accent-gold) 15%, transparent);
-  box-shadow: 0 0 14px color-mix(in srgb, var(--accent-gold) 50%, transparent);
+  box-shadow:
+    0 0 14px color-mix(in srgb, var(--accent-gold) 50%, transparent),
+    inset 0 1px 0 var(--panel-edge-light),
+    inset 0 -1px 0 var(--panel-edge-dark);
   text-shadow: 0 0 6px color-mix(in srgb, var(--accent-gold) 70%, transparent);
 }
 
@@ -74,33 +114,75 @@
 .action-btn--danger:hover {
   background: color-mix(in srgb, var(--accent-ember) 10%, transparent);
   border-color: var(--accent-ember);
-  box-shadow: 0 0 10px color-mix(in srgb, var(--accent-ember) 20%, transparent);
+  box-shadow:
+    0 0 10px color-mix(in srgb, var(--accent-ember) 20%, transparent),
+    inset 0 1px 0 var(--panel-edge-light),
+    inset 0 -1px 0 var(--panel-edge-dark);
 }
 
+/* Low-emphasis: no fill, no border, just text — for tertiary actions that
+   shouldn't compete with a screen's primary/secondary buttons. */
+.action-btn--ghost {
+  background: none;
+  border-color: transparent;
+  box-shadow: none;
+  color: var(--game-text-color-dim);
+}
+.action-btn--ghost:hover {
+  background: color-mix(in srgb, var(--game-text-color) 8%, transparent);
+  box-shadow: none;
+  text-shadow: none;
+  color: var(--game-text-color);
+}
+.action-btn--ghost:active {
+  box-shadow: none;
+}
+
+/* Real :disabled, driven by the HTML attribute — not just the manual
+   --disabled class below, which several call sites still apply directly
+   without also setting the disabled attribute. */
+.action-btn:disabled,
 .action-btn--disabled {
   border-color: color-mix(in srgb, var(--text-inverse) 20%, transparent);
   color: color-mix(in srgb, var(--text-inverse) 30%, transparent);
   cursor: not-allowed;
+  background: var(--game-bg-raised);
+  transform: none;
 }
 
-.action-btn--disabled:hover {
-  background: none;
-  box-shadow: none;
+.action-btn:disabled:hover,
+.action-btn:disabled:active,
+.action-btn--disabled:hover,
+.action-btn--disabled:active {
+  background: var(--game-bg-raised);
+  box-shadow:
+    inset 0 1px 0 var(--panel-edge-light),
+    inset 0 -1px 0 var(--panel-edge-dark);
+  text-shadow: none;
+  transform: none;
   border-color: color-mix(in srgb, var(--text-inverse) 20%, transparent);
   color: color-mix(in srgb, var(--text-inverse) 30%, transparent);
 }
 
 .action-btn--noborder {
   border: none;
+  background: none;
+  box-shadow: none;
   color: var(--color-gold-alt);
 }
 .action-btn--noborder:hover {
   background: none;
   box-shadow: none;
 }
+.action-btn--noborder:active {
+  transform: none;
+  box-shadow: none;
+}
 
 .action-btn--noborder-disabled {
   border: none;
+  background: none;
+  box-shadow: none;
   color: color-mix(in srgb, var(--text-inverse) 30%, transparent);
   cursor: not-allowed;
 }
