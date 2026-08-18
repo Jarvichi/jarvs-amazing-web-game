@@ -1,36 +1,9 @@
 /* collection.css — split from styles.css (#2169). Collection grid, deck builder, shop, filters, saved decks, pack opening chrome, achievements. */
 
 /* ─── Overlay screens (Collection, DeckBuilder) ──────── */
-
-.overlay-screen {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-height: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
-  animation: fadeIn 0.2s ease-out;
-}
-
-.overlay-header {
-  width: 100%;
-  padding: 6px 0 8px;
-  border-bottom: 2px solid var(--game-border);
-  flex-shrink: 0;
-}
-
-.overlay-title {
-  flex: 1;
-  font-size: 1.071rem;
-  color: var(--color-gold-alt);
-  letter-spacing: 2px;
-  font-weight: bold;
-}
-
-.overlay-count {
-  font-size: var(--font-sm);
-  color: var(--game-text-color-dim);
-}
+/* .overlay-screen, .overlay-header, .overlay-title and .overlay-count moved
+   to panels.css (#2170) — they're shared chrome via PageHeader/OverlayScreen,
+   used by ~40 screens, not Collection-specific. */
 
 /* ── Shop ─────────────────────────────────────────────────── */
 

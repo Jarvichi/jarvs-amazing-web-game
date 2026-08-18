@@ -124,8 +124,25 @@
   --border-edge:      var(--color-gray-5);
   --border-edge-dark: #1e1e1e;
 
-  /* Elevation — a neutral depth shadow, not a colour glow */
+  /* Surfaces — ink/slate ramp, 0 (page) through 4 (popover). 0-2 alias the
+     existing --game-bg* tiers exactly (zero drift); 3-4 are new, for
+     components (Panel, #2170) that need a raised/floating level beyond
+     what those three already cover. */
+  --surface-0: var(--game-bg);
+  --surface-1: var(--game-bg-raised);
+  --surface-2: var(--game-bg-card);
+  --surface-3: #1c1c26;
+  --surface-4: #262633;
+
+  /* Elevation — neutral depth shadows, not colour glows */
+  --elevation-flat:     inset 0 1px 3px rgba(0, 0, 0, 0.5);
+  --elevation-raised:   0 2px 6px rgba(0, 0, 0, 0.45);
   --elevation-overlay: 0 4px 16px rgba(0, 0, 0, 0.6);
+
+  /* Panel metal-edge bevel (#2170) — a light top/left + dark bottom/right
+     inset pair reads as a struck-metal edge without a border-image asset. */
+  --panel-edge-light: rgba(255, 255, 255, 0.1);
+  --panel-edge-dark:  rgba(0, 0, 0, 0.55);
 
   /* Overlay scrim (modal backdrop) */
   --overlay-scrim: rgba(0, 0, 0, 0.75);
