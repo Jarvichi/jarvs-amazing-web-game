@@ -20,6 +20,7 @@ import { WinStreak } from './WinStreak'
 import { LoginButton } from '../ui/LoginButton'
 import { Button } from '../ui/Button'
 import { Icon } from '../ui/icons/Icon'
+import { useToast } from '../ui/Toast'
 
 const CAMPAIGN_UNLOCK_CARDS = 30
 const EIGHTBIT_CLICKS = 8
@@ -100,7 +101,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
 
   // Secret #1 — Konami Code
   const konamiProgress = useRef(0)
-  const [konamiToast, setKonamiToast] = useState<string | null>(null)
+  const { showToast } = useToast()
   const handleKonami = useCallback((e: KeyboardEvent) => {
     if (e.key === KONAMI[konamiProgress.current]) {
       konamiProgress.current++
@@ -111,17 +112,15 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
           const pack = generatePack()
           addCardsToCollection(pack.map(name => ({ cardName: name, count: 1 })))
           incrementAchievementProgress('misc:konami_code')
-          setKonamiToast('↑↑↓↓←→←→  •  CHEAT ACCEPTED  •  Pack granted!')
-          setTimeout(() => setKonamiToast(null), 4000)
+          showToast('↑↑↓↓←→←→  •  CHEAT ACCEPTED  •  Pack granted!', { variant: 'reward', duration: 4000 })
         } else {
-          setKonamiToast('You already claimed this secret. Nice try.')
-          setTimeout(() => setKonamiToast(null), 3000)
+          showToast('You already claimed this secret. Nice try.', { variant: 'info', duration: 3000 })
         }
       }
     } else {
       konamiProgress.current = 0
     }
-  }, [])
+  }, [showToast])
   useEffect(() => {
     window.addEventListener('keydown', handleKonami)
     return () => window.removeEventListener('keydown', handleKonami)
@@ -179,11 +178,6 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
     <div className="title-screen u-relative u-col u-items-c u-just-c u-grow">
       {/* Animated background scan line */}
       <div className="title-bg-scan" aria-hidden="true" />
-
-      {/* Secret #1 — Konami code toast */}
-      {konamiToast && (
-        <div className="konami-toast" role="alert">{konamiToast}</div>
-      )}
 
       <WinStreak winStreak={winStreak} bestStreak={bestStreak} />
 

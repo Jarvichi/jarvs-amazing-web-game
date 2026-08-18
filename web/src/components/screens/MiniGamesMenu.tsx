@@ -33,6 +33,7 @@ import { HarbourRegatta } from '../minigames/HarbourRegatta'
 import { PageHeader } from '../ui/PageHeader'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Button } from '../ui/Button'
+import { useToast } from '../ui/Toast'
 
 export type SubScreen = 'menu' | MiniGameId | 'prizes' | 'leaderboard' | 'citybuilder' | 'fishing' | 'towerDefence'
 
@@ -75,19 +76,13 @@ function pickRandomCards(count: number, rarity?: 'uncommon' | 'rare' | 'legendar
 }
 
 export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName, onBack, onGameDone, initialSubScreen }: Props) {
+  const { showToast } = useToast()
   const [subScreen, setSubScreen] = useState<SubScreen>(initialSubScreen ?? 'menu')
   const [tickets, setTickets] = useState(() => loadTickets())
-  const [toast, setToast] = useState<string | null>(null)
   const [lbEntries, setLbEntries] = useState<MiniGameLeaderboardEntry[]>([])
   const [lbGame, setLbGame] = useState<MiniGameId>('marble')
   const [lbMode, setLbMode] = useState<'today' | 'allTime'>('allTime')
   const [lbLoading, setLbLoading] = useState(false)
-  const [prizeToast, setPrizeToast] = useState<string | null>(null)
-
-  function showToast(msg: string, duration = 3000) {
-    setToast(msg)
-    setTimeout(() => setToast(null), duration)
-  }
 
   function refreshTickets() {
     setTickets(loadTickets())
@@ -99,7 +94,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
     const cost = MINI_GAME_COSTS[id]
     const currentCrystals = loadCrystals()
     if (currentCrystals < cost) {
-      showToast(`Not enough crystals! Need ${cost} 💎`)
+      showToast(`Not enough crystals! Need ${cost} 💎`, { variant: 'warning' })
       return
     }
     const newCrystals = currentCrystals - cost
@@ -119,7 +114,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
     if (claimDailyChallengeIfEligible(gameId, ticketsEarned)) {
       refreshTickets()
       incrementAchievementProgress('miniGame:dailyChallengesCompleted')
-      showToast(`🎯 Daily Challenge complete! +${DAILY_CHALLENGE_BONUS_TICKETS} bonus tickets!`)
+      showToast(`🎯 Daily Challenge complete! +${DAILY_CHALLENGE_BONUS_TICKETS} bonus tickets!`, { variant: 'reward' })
     }
 
     // Track achievements
@@ -175,8 +170,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
   function redeemPrize(prize: TicketPrize) {
     if (!spendTickets(prize.cost)) {
-      setPrizeToast(`Not enough tickets! Need ${prize.cost} 🎫`)
-      setTimeout(() => setPrizeToast(null), 3000)
+      showToast(`Not enough tickets! Need ${prize.cost} 🎫`, { variant: 'warning' })
       return
     }
 
@@ -189,17 +183,17 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
       const next = current + reward.amount
       saveCrystals(next)
       onCrystalsChange(next)
-      setPrizeToast(`+${reward.amount} 💎 Crystals added!`)
+      showToast(`+${reward.amount} 💎 Crystals added!`, { variant: 'reward', duration: 4000 })
     } else if (reward.type === 'card') {
       const names = pickRandomCards(1, reward.rarity)
       if (names.length > 0) {
         addCardsToCollection([{ cardName: names[0], count: 1 }])
-        setPrizeToast(`🃏 ${names[0]} added to your collection!`)
+        showToast(`🃏 ${names[0]} added to your collection!`, { variant: 'reward', duration: 4000 })
       }
     } else if (reward.type === 'cards') {
       const names = pickRandomCards(reward.count, reward.rarity)
       addCardsToCollection(names.map(n => ({ cardName: n, count: 1 })))
-      setPrizeToast(`🃏 ${reward.count} cards added to your collection!`)
+      showToast(`🃏 ${reward.count} cards added to your collection!`, { variant: 'reward', duration: 4000 })
     } else if (reward.type === 'bundle') {
       const current = loadCrystals()
       const next = current + 500
@@ -207,10 +201,8 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
       onCrystalsChange(next)
       const names = pickRandomCards(5)
       addCardsToCollection(names.map(n => ({ cardName: n, count: 1 })))
-      setPrizeToast('Bundle redeemed! +500 💎 + 5 cards!')
+      showToast('Bundle redeemed! +500 💎 + 5 cards!', { variant: 'reward', duration: 4000 })
     }
-
-    setTimeout(() => setPrizeToast(null), 4000)
   }
 
   // ── Leaderboard loading ───────────────────────────────────────────────────────
@@ -290,8 +282,6 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
     } >
 
       <div className="minigame-hub">
-        {/* Toast */}
-        {toast && <div className="minigame-toast" role="alert">{toast}</div>}
 
 
         <div className="minigame-hub-currency">💎 {currentCrystals.toLocaleString()} crystals</div>
@@ -365,8 +355,6 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
               <span className="overlay-title">🎁 PRIZE SHOP</span>
               <div className="ticket-balance">🎫 {tickets}</div>
             </div>
-
-            {prizeToast && <div className="minigame-toast minigame-toast--prize" role="alert">{prizeToast}</div>}
 
             <div className="prize-list u-col u-gap-3">
               {TICKET_PRIZES.map(prize => {

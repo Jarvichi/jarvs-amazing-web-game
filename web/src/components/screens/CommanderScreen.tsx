@@ -15,6 +15,7 @@ import { getMasteryXp, masteryProgress, loadCollection } from '../../game/collec
 import { AnimatedSpriteImg } from '../ui/SpriteImg'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Button } from '../ui/Button'
+import { useToast } from '../ui/Toast'
 
 interface Props {
   commander: CommanderState
@@ -24,11 +25,6 @@ interface Props {
   onRewardCard: () => void
   onRewardPack: () => void
   onCommanderChanged: (state: CommanderState | null) => void
-}
-
-interface Toast {
-  id: number
-  text: string
 }
 
 interface Sparkle {
@@ -92,7 +88,6 @@ function CommanderXpBar({ xp }: { xp: number }) {
   )
 }
 
-let toastSeq = 0
 let sparkleSeq = 0
 
 export function CommanderScreen({
@@ -104,8 +99,8 @@ export function CommanderScreen({
   onRewardPack,
   onCommanderChanged,
 }: Props) {
+  const { showToast } = useToast()
   const [state, setState] = useState<CommanderState>(commander)
-  const [toasts, setToasts] = useState<Toast[]>([])
   const [cooldowns, setCooldowns] = useState<Record<PetAction, number>>(() => ({
     feed: cooldownRemaining(commander, 'feed'),
     play: cooldownRemaining(commander, 'play'),
@@ -216,12 +211,6 @@ export function CommanderScreen({
 
   // ── Toast ─────────────────────────────────────────────────────────────────
 
-  function addToast(text: string) {
-    const id = ++toastSeq
-    setToasts(prev => [...prev, { id, text }])
-    setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 3000)
-  }
-
   // ── Action buttons ────────────────────────────────────────────────────────
 
   const handleAction = useCallback((action: PetAction) => {
@@ -233,7 +222,7 @@ export function CommanderScreen({
     saveCommander(next)
 
     const flavors = ACTION_FLAVOR[action]
-    addToast(flavors[Math.floor(Math.random() * flavors.length)])
+    showToast(flavors[Math.floor(Math.random() * flavors.length)], { variant: 'info' })
 
     if (reward.type === 'xp') {
       onRewardXp(state.cardName, reward.amount)
@@ -249,18 +238,18 @@ export function CommanderScreen({
         }
         return newXp
       })
-      addToast(`+${reward.amount} mastery XP for ${state.cardName}!`)
+      showToast(`+${reward.amount} mastery XP for ${state.cardName}!`, { variant: 'reward' })
     } else if (reward.type === 'crystals') {
       onRewardCrystals(reward.amount)
-      addToast(`+${reward.amount} 💎 found!`)
+      showToast(`+${reward.amount} 💎 found!`, { variant: 'reward' })
     } else if (reward.type === 'card') {
       onRewardCard()
-      addToast('They found a card on patrol!')
+      showToast('They found a card on patrol!', { variant: 'reward' })
     } else if (reward.type === 'pack') {
       onRewardPack()
-      addToast('They returned with a card pack!')
+      showToast('They returned with a card pack!', { variant: 'reward' })
     }
-  }, [state, onRewardXp, onRewardCrystals, onRewardCard, onRewardPack])
+  }, [state, showToast, onRewardXp, onRewardCrystals, onRewardCard, onRewardPack])
 
   function handleDismiss() {
     clearCommander()
@@ -314,13 +303,6 @@ export function CommanderScreen({
         <div className="commander-name">{state.cardName}</div>
         <div className="commander-subtitle">Army Commander</div>
         <CommanderXpBar xp={masteryXp} />
-      </div>
-
-      {/* Toast messages */}
-      <div className="commander-toasts u-col u-gap-2 u-text-c" aria-live="polite">
-        {toasts.map(t => (
-          <div key={t.id} className="commander-toast">{t.text}</div>
-        ))}
       </div>
 
       {/* Actions */}

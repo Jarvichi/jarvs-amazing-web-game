@@ -26,6 +26,7 @@ import { OverlayScreen } from '../ui/OverlayScreen'
 import { MasteryBar } from '../ui/MasteryBar'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { Button } from '../ui/Button'
+import { useToast } from '../ui/Toast'
 
 interface Props {
   crystals: number
@@ -72,6 +73,7 @@ const LazyCell = memo(function LazyCell({ children, className }: { children: Rea
 })
 
 export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commanderName, onPromoteCommander, onViewAugments, embedded }: Props) {
+  const { showToast } = useToast()
   const catalog = getCardCatalog()
   const questTargetCards = getQuestTargetCards()
   const allAffinityLabels = Array.from(
@@ -98,13 +100,11 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
   const [filterMenuOpen, setFilterMenuOpen] = useState(false)
   const [sortMenuOpen,   setSortMenuOpen]   = useState(false)
   const [groupMenuOpen,  setGroupMenuOpen]  = useState(false)
-  const [flash, setFlash]       = useState<string | null>(null)
   const [upgradeModal, setUpgradeModal] = useState<Array<{cardName: string, xpGained: number}> | null>(null)
   const [disenchantModal, setDisenchantModal] = useState<Array<{cardName: string, crystals: number}> | null>(null)
   const [detailCard, setDetailCard] = useState<import('../../game/types').Card | null>(null)
   const [augmentCard, setAugmentCard] = useState<import('../../game/types').Card | null>(null)
   const [levelUpCard, setLevelUpCard] = useState<string | null>(null)
-  const [secretToast, setSecretToast] = useState<string | null>(null)
   const legendaryViewCount = useRef(0)
   const filterMenuRef = useRef<HTMLDivElement>(null)
   const sortMenuRef   = useRef<HTMLDivElement>(null)
@@ -244,8 +244,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
   }
 
   function notify(msg: string) {
-    setFlash(msg)
-    setTimeout(() => setFlash(null), 2000)
+    showToast(msg, { variant: 'reward', duration: 2000 })
   }
 
   function handleDisenchantAll() {
@@ -340,8 +339,6 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
         >
           ★ Upgrade all ({totalUpgradeable})
         </Button>
-        {flash && <span className="collection-flash">{flash}</span>}
-        {secretToast && <div className="collection-secret-toast">{secretToast}</div>}
       </div>
 
       {/* Filter / Sort / Group bar */}
@@ -572,8 +569,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
                         legendaryViewCount.current += 1
                         if (legendaryViewCount.current === 10) {
                           incrementAchievementProgress('misc:legend_stare')
-                          setSecretToast('✦ The legendaries have noticed your gaze.')
-                          setTimeout(() => setSecretToast(null), 3500)
+                          showToast('✦ The legendaries have noticed your gaze.', { variant: 'reward', duration: 3500 })
                         }
                       }
                     }}

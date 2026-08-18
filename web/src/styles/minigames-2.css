@@ -263,21 +263,6 @@
 
 .city-hint { font-size: 10px; color: #4a7a4a; }
 
-.city-toast {
-  position: fixed;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #0a1a0a;
-  border: 1px solid #207020;
-  color: #90e090;
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-size: 12px;
-  z-index: 9999;
-  pointer-events: none;
-}
-
 .city-gold { color: var(--color-gold-dim); font-weight: bold; }
 
 /* ── Card Picker ──────────────────────────────────────────────────────────── */
@@ -1059,29 +1044,6 @@
   font-weight: bold;
   letter-spacing: 1px;
   animation: title-alert-pulse 1.2s ease-in-out infinite alternate;
-}
-
-/* ── Toast ───────────────────────────────────────────────────────────────── */
-
-.minigame-toast {
-  position: fixed;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #1a1a3a;
-  border: 1px solid #5050a0;
-  color: #d0d0ff;
-  padding: 8px 20px;
-  font-size: var(--font-base);
-  z-index: 9999;
-  pointer-events: none;
-  max-width: 90vw;
-  text-align: center;
-}
-
-.minigame-toast--prize {
-  border-color: #a08040;
-  color: #ffd060;
 }
 
 /* ── Individual mini-game screen wrapper ─────────────────────────────────── */
