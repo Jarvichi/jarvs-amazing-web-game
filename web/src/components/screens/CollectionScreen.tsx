@@ -13,6 +13,7 @@ import {
   disenchantAllExtras,
   masterAllExtras,
   syncDeckToCollection,
+  getCollectionCompletion,
   CollectionEntry,
   DISENCHANT_VALUE,
   COPIES_MAX,
@@ -26,7 +27,11 @@ import { OverlayScreen } from '../ui/OverlayScreen'
 import { MasteryBar } from '../ui/MasteryBar'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { Button } from '../ui/Button'
+import { ProgressBar } from '../ui/ProgressBar'
 import { useToast } from '../ui/Toast'
+import { FilterPopup } from '../ui/filters/FilterPopup'
+import { FilterOption } from '../ui/filters/FilterOption'
+import { FilterPill } from '../ui/filters/FilterPill'
 
 interface Props {
   crystals: number
@@ -97,55 +102,18 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
   const [affinityFilter, setAffinityFilter] = useState<AffinityFilter | null>(null)
   const [sortKey,  setSortKey]  = useState<SortKey>('default')
   const [groupKey, setGroupKey] = useState<GroupKey>('none')
-  const [filterMenuOpen, setFilterMenuOpen] = useState(false)
-  const [sortMenuOpen,   setSortMenuOpen]   = useState(false)
-  const [groupMenuOpen,  setGroupMenuOpen]  = useState(false)
+  const [openMenu, setOpenMenu] = useState<'filters' | 'sort' | 'group' | null>(null)
   const [upgradeModal, setUpgradeModal] = useState<Array<{cardName: string, xpGained: number}> | null>(null)
   const [disenchantModal, setDisenchantModal] = useState<Array<{cardName: string, crystals: number}> | null>(null)
   const [detailCard, setDetailCard] = useState<import('../../game/types').Card | null>(null)
   const [augmentCard, setAugmentCard] = useState<import('../../game/types').Card | null>(null)
   const [levelUpCard, setLevelUpCard] = useState<string | null>(null)
   const legendaryViewCount = useRef(0)
-  const filterMenuRef = useRef<HTMLDivElement>(null)
-  const sortMenuRef   = useRef<HTMLDivElement>(null)
-  const groupMenuRef  = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (!filterMenuOpen) return
-    function handleClick(e: MouseEvent) {
-      if (filterMenuRef.current && !filterMenuRef.current.contains(e.target as Node)) {
-        setFilterMenuOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClick)
-    return () => document.removeEventListener('mousedown', handleClick)
-  }, [filterMenuOpen])
-
-  useEffect(() => {
-    if (!sortMenuOpen) return
-    function handleClick(e: MouseEvent) {
-      if (sortMenuRef.current && !sortMenuRef.current.contains(e.target as Node)) {
-        setSortMenuOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClick)
-    return () => document.removeEventListener('mousedown', handleClick)
-  }, [sortMenuOpen])
-
-  useEffect(() => {
-    if (!groupMenuOpen) return
-    function handleClick(e: MouseEvent) {
-      if (groupMenuRef.current && !groupMenuRef.current.contains(e.target as Node)) {
-        setGroupMenuOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClick)
-    return () => document.removeEventListener('mousedown', handleClick)
-  }, [groupMenuOpen])
 
   const totalOwned  = collection.reduce((s, e) => s + e.count, 0)
   const totalExtras = collection.reduce((s, e) => s + Math.max(0, e.count - COPIES_MAX), 0)
   const totalUpgradeable = collection.reduce((s, e) => s + (Math.max(0, e.count - COPIES_MAX) > 0 ? 1 : 0), 0)
+  const { distinctOwned, pct: completionPct } = getCollectionCompletion(collection)
 
   const filtered = catalog.filter(c => {
     // Secret rarities are hidden until the player has obtained at least one copy —
@@ -344,196 +312,169 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
       {/* Filter / Sort / Group bar */}
       <div className="filter-bar">
         {/* FILTERS */}
-        <div className="filter-popup-wrap" ref={filterMenuRef}>
-          <button
-            className={`filter-btn${activeFilterCount > 0 ? ' filter-btn--active' : ''}`}
-            onClick={() => { setFilterMenuOpen(o => !o); setSortMenuOpen(false); setGroupMenuOpen(false) }}
-          >
-            ▼ FILTERS{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
-          </button>
-
-          {filterMenuOpen && (
-            <div className="filter-popup">
-              {/* TYPE */}
-              <div className="filter-popup-section u-col">
-                <span className="filter-group-label">TYPE</span>
-                <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-                  {(['all', 'unit', 'structure', 'upgrade'] as const).map(val => (
-                    <button
-                      key={val}
-                      className={`filter-btn filter-btn--sm${typeFilter === val ? ' filter-btn--active' : ''}`}
-                      onClick={() => setTypeFilter(val)}
-                    >
-                      {val === 'all' ? 'All' : val.charAt(0).toUpperCase() + val.slice(1) + 's'}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* RARITY */}
-              <div className="filter-popup-section u-col">
-                <span className="filter-group-label">RARITY</span>
-                <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-                  {(['all', 'common', 'uncommon', 'rare', 'legendary'] as const).map(val => (
-                    <button
-                      key={val}
-                      className={`filter-btn filter-btn--sm${rarityFilter === val ? ' filter-btn--active' : ''}`}
-                      onClick={() => setRarityFilter(val)}
-                    >
-                      {val.charAt(0).toUpperCase() + val.slice(1)}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* TAGS */}
-              <div className="filter-popup-section u-col">
-                <span className="filter-group-label">TAGS <span className="filter-group-hint">(any match)</span></span>
-                <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-                  {ALL_TAGS.map(tag => (
-                    <button
-                      key={tag}
-                      className={`filter-btn filter-btn--sm${tagFilter.includes(tag) ? ' filter-btn--active' : ''}`}
-                      onClick={() => toggleTag(tag)}
-                    >
-                      {tag}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* AFFINITY */}
-              <div className="filter-popup-section u-col">
-                <span className="filter-group-label">AFFINITY</span>
-                <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-                  {allAffinityLabels.map(label => (
-                    <button
-                      key={label}
-                      className={`filter-btn filter-btn--sm${affinityFilter === label ? ' filter-btn--active' : ''}`}
-                      onClick={() => setAffinityFilter(prev => prev === label ? null : label)}
-                    >
-                      {label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* SPECIAL */}
-              <div className="filter-popup-section u-col">
-                <span className="filter-group-label">SPECIAL</span>
-                <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-                  <button
-                    className={`filter-btn filter-btn--sm${specialFilter === 'upgradeable' ? ' filter-btn--active filter-btn--gold' : ''}`}
-                    onClick={() => setSpecialFilter(prev => prev === 'upgradeable' ? null : 'upgradeable')}
-                  >
-                    ★ Upgradeable
-                  </button>
-                </div>
-              </div>
-
-              {/* Reset */}
-              {activeFilterCount > 0 && (
-                <div className="filter-popup-footer">
-                  <button className="filter-btn filter-btn--sm filter-btn--reset" onClick={resetFilters}>
-                    ✕ Clear all filters
-                  </button>
-                </div>
-              )}
+        <FilterPopup
+          label="▼ FILTERS"
+          activeSuffix={activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
+          isActive={activeFilterCount > 0}
+          open={openMenu === 'filters'}
+          onToggle={() => setOpenMenu(m => m === 'filters' ? null : 'filters')}
+          onClose={() => setOpenMenu(m => m === 'filters' ? null : m)}
+          footer={activeFilterCount > 0 && (
+            <div className="filter-popup-footer">
+              <button className="filter-btn filter-btn--sm filter-btn--reset" onClick={resetFilters}>
+                ✕ Clear all filters
+              </button>
             </div>
           )}
-        </div>
+        >
+          {/* TYPE */}
+          <div className="filter-popup-section u-col">
+            <span className="filter-group-label">TYPE</span>
+            <div className="filter-popup-btns u-flex u-wrap u-gap-2">
+              {(['all', 'unit', 'structure', 'upgrade'] as const).map(val => (
+                <FilterOption key={val} active={typeFilter === val} onClick={() => setTypeFilter(val)}>
+                  {val === 'all' ? 'All' : val.charAt(0).toUpperCase() + val.slice(1) + 's'}
+                </FilterOption>
+              ))}
+            </div>
+          </div>
+
+          {/* RARITY */}
+          <div className="filter-popup-section u-col">
+            <span className="filter-group-label">RARITY</span>
+            <div className="filter-popup-btns u-flex u-wrap u-gap-2">
+              {(['all', 'common', 'uncommon', 'rare', 'legendary'] as const).map(val => (
+                <FilterOption key={val} active={rarityFilter === val} onClick={() => setRarityFilter(val)}>
+                  {val.charAt(0).toUpperCase() + val.slice(1)}
+                </FilterOption>
+              ))}
+            </div>
+          </div>
+
+          {/* TAGS */}
+          <div className="filter-popup-section u-col">
+            <span className="filter-group-label">TAGS <span className="filter-group-hint">(any match)</span></span>
+            <div className="filter-popup-btns u-flex u-wrap u-gap-2">
+              {ALL_TAGS.map(tag => (
+                <FilterOption key={tag} active={tagFilter.includes(tag)} onClick={() => toggleTag(tag)}>
+                  {tag}
+                </FilterOption>
+              ))}
+            </div>
+          </div>
+
+          {/* AFFINITY */}
+          <div className="filter-popup-section u-col">
+            <span className="filter-group-label">AFFINITY</span>
+            <div className="filter-popup-btns u-flex u-wrap u-gap-2">
+              {allAffinityLabels.map(label => (
+                <FilterOption
+                  key={label}
+                  active={affinityFilter === label}
+                  onClick={() => setAffinityFilter(prev => prev === label ? null : label)}
+                >
+                  {label}
+                </FilterOption>
+              ))}
+            </div>
+          </div>
+
+          {/* SPECIAL */}
+          <div className="filter-popup-section u-col">
+            <span className="filter-group-label">SPECIAL</span>
+            <div className="filter-popup-btns u-flex u-wrap u-gap-2">
+              <FilterOption
+                active={specialFilter === 'upgradeable'}
+                gold={specialFilter === 'upgradeable'}
+                onClick={() => setSpecialFilter(prev => prev === 'upgradeable' ? null : 'upgradeable')}
+              >
+                ★ Upgradeable
+              </FilterOption>
+            </div>
+          </div>
+        </FilterPopup>
 
         {/* SORT */}
-        <div className="filter-popup-wrap" ref={sortMenuRef}>
-          <button
-            className={`filter-btn${sortKey !== 'default' ? ' filter-btn--active' : ''}`}
-            onClick={() => { setSortMenuOpen(o => !o); setFilterMenuOpen(false); setGroupMenuOpen(false) }}
-          >
-            ↕ SORT{sortKey !== 'default' ? ` (${sortKey})` : ''}
-          </button>
-
-          {sortMenuOpen && (
-            <div className="filter-popup">
-              <div className="filter-popup-section u-col">
-                <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-                  {([
-                    ['default',   'Default'],
-                    ['az',        'A → Z'],
-                    ['za',        'Z → A'],
-                    ['mana-asc',  'Mana ↑'],
-                    ['mana-desc', 'Mana ↓'],
-                    ['rarity',    'Rarity'],
-                  ] as [SortKey, string][]).map(([val, label]) => (
-                    <button
-                      key={val}
-                      className={`filter-btn filter-btn--sm${sortKey === val ? ' filter-btn--active' : ''}`}
-                      onClick={() => setSortKey(val)}
-                    >
-                      {label}
-                    </button>
-                  ))}
-                </div>
-              </div>
+        <FilterPopup
+          label="↕ SORT"
+          activeSuffix={sortKey !== 'default' ? ` (${sortKey})` : ''}
+          isActive={sortKey !== 'default'}
+          open={openMenu === 'sort'}
+          onToggle={() => setOpenMenu(m => m === 'sort' ? null : 'sort')}
+          onClose={() => setOpenMenu(m => m === 'sort' ? null : m)}
+        >
+          <div className="filter-popup-section u-col">
+            <div className="filter-popup-btns u-flex u-wrap u-gap-2">
+              {([
+                ['default',   'Default'],
+                ['az',        'A → Z'],
+                ['za',        'Z → A'],
+                ['mana-asc',  'Mana ↑'],
+                ['mana-desc', 'Mana ↓'],
+                ['rarity',    'Rarity'],
+              ] as [SortKey, string][]).map(([val, label]) => (
+                <FilterOption key={val} active={sortKey === val} onClick={() => setSortKey(val)}>
+                  {label}
+                </FilterOption>
+              ))}
             </div>
-          )}
-        </div>
+          </div>
+        </FilterPopup>
 
         {/* GROUP */}
-        <div className="filter-popup-wrap" ref={groupMenuRef}>
-          <button
-            className={`filter-btn${groupKey !== 'none' ? ' filter-btn--active' : ''}`}
-            onClick={() => { setGroupMenuOpen(o => !o); setFilterMenuOpen(false); setSortMenuOpen(false) }}
-          >
-            ⊞ GROUP{groupKey !== 'none' ? ` (${groupKey})` : ''}
-          </button>
-
-          {groupMenuOpen && (
-            <div className="filter-popup">
-              <div className="filter-popup-section u-col">
-                <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-                  {([
-                    ['none',    'None'],
-                    ['type',    'Type'],
-                    ['rarity',  'Rarity'],
-                    ['mana',    'Mana'],
-                    ['act',     'Act'],
-                  ] as [GroupKey, string][]).map(([val, label]) => (
-                    <button
-                      key={val}
-                      className={`filter-btn filter-btn--sm${groupKey === val ? ' filter-btn--active' : ''}`}
-                      onClick={() => setGroupKey(val)}
-                    >
-                      {label}
-                    </button>
-                  ))}
-                </div>
-              </div>
+        <FilterPopup
+          label="⊞ GROUP"
+          activeSuffix={groupKey !== 'none' ? ` (${groupKey})` : ''}
+          isActive={groupKey !== 'none'}
+          open={openMenu === 'group'}
+          onToggle={() => setOpenMenu(m => m === 'group' ? null : 'group')}
+          onClose={() => setOpenMenu(m => m === 'group' ? null : m)}
+        >
+          <div className="filter-popup-section u-col">
+            <div className="filter-popup-btns u-flex u-wrap u-gap-2">
+              {([
+                ['none',    'None'],
+                ['type',    'Type'],
+                ['rarity',  'Rarity'],
+                ['mana',    'Mana'],
+                ['act',     'Act'],
+              ] as [GroupKey, string][]).map(([val, label]) => (
+                <FilterOption key={val} active={groupKey === val} onClick={() => setGroupKey(val)}>
+                  {label}
+                </FilterOption>
+              ))}
             </div>
-          )}
-        </div>
+          </div>
+        </FilterPopup>
 
         {/* Active filter pills */}
         {activeFilterCount > 0 && (
           <div className="filter-active-pills u-flex u-gap-2 u-grow u-items-c">
             {typeFilter !== 'all' && (
-              <span className="filter-pill">{typeFilter}s <button onClick={() => setTypeFilter('all')}>✕</button></span>
+              <FilterPill onRemove={() => setTypeFilter('all')}>{typeFilter}s</FilterPill>
             )}
             {rarityFilter !== 'all' && (
-              <span className="filter-pill">{rarityFilter} <button onClick={() => setRarityFilter('all')}>✕</button></span>
+              <FilterPill onRemove={() => setRarityFilter('all')}>{rarityFilter}</FilterPill>
             )}
             {tagFilter.map(t => (
-              <span key={t} className="filter-pill">{t} <button onClick={() => toggleTag(t)}>✕</button></span>
+              <FilterPill key={t} onRemove={() => toggleTag(t)}>{t}</FilterPill>
             ))}
             {affinityFilter && (
-              <span className="filter-pill">affinity:{affinityFilter} <button onClick={() => setAffinityFilter(null)}>✕</button></span>
+              <FilterPill onRemove={() => setAffinityFilter(null)}>affinity:{affinityFilter}</FilterPill>
             )}
             {specialFilter && (
-              <span className="filter-pill">★upgradeable <button onClick={() => setSpecialFilter(null)}>✕</button></span>
+              <FilterPill onRemove={() => setSpecialFilter(null)}>★upgradeable</FilterPill>
             )}
           </div>
         )}
 
         <span className="filter-owned">{filtered.length} cards</span>
+      </div>
+
+      {/* Collection progress */}
+      <div className="collection-progress u-flex u-items-c u-gap-3">
+        <ProgressBar pct={completionPct} className="collection-progress-bar" />
+        <span className="collection-progress-label">{distinctOwned}/{catalog.length} discovered ({completionPct}%)</span>
       </div>
 
       {/* Grid */}
@@ -581,9 +522,8 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
                       : <span className="cell-count">
                           ×{owned}{lvl > 0 && <span className="cell-mastery-badge">★{lvl}</span>}
                         </span>}
+                    {xp > 0 && <MasteryBar xp={xp} />}
                   </div>
-
-                  {xp > 0 && <MasteryBar xp={xp} />}
                 </LazyCell>
               </React.Fragment>
             )
