@@ -15,7 +15,7 @@ export const ICON_NAMES = [
   'player', 'deck', 'collection', 'shop', 'codex', 'chronicle', 'news',
   'settings', 'trophy', 'minigames', 'sword', 'infinity', 'hub', 'crystal',
   'lock', 'coin', 'heart', 'mana', 'back-arrow', 'close', 'info', 'filter',
-  'search',
+  'search', 'calendar',
 ] as const
 
 export type IconName = typeof ICON_NAMES[number]
@@ -144,6 +144,13 @@ export function IconSprite() {
         <symbol id="icon-search" viewBox="0 0 24 24">
           <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" strokeWidth="2.4" />
           <rect x="17.5" y="15.5" width="2.6" height="7" rx="1.3" transform="rotate(-45 18.8 19)" />
+        </symbol>
+
+        <symbol id="icon-calendar" viewBox="0 0 24 24">
+          <rect x="3" y="5" width="18" height="16" rx="2" fill="none" stroke="currentColor" strokeWidth="2.2" />
+          <path d="M3 9.5h18" fill="none" stroke="currentColor" strokeWidth="2.2" />
+          <rect x="6.8" y="2" width="2.4" height="5" rx="1.2" />
+          <rect x="14.8" y="2" width="2.4" height="5" rx="1.2" />
         </symbol>
       </defs>
     </svg>
