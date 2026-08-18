@@ -650,11 +650,6 @@
   font-size: clamp(2.5rem, 10vw, 5rem);
   font-weight: bold;
   letter-spacing: 0.12em;
-  color: #7ddd7d;
-  text-shadow:
-    0 0 12px #7ddd7d,
-    0 0 30px #4a9a4a,
-    2px 2px 0 #0d1a0d;
   animation: victory-pulse 0.6s ease-in-out infinite alternate;
 }
 @keyframes victory-pulse {
