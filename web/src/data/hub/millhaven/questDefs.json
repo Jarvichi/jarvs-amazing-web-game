@@ -1171,6 +1171,162 @@
               ]
             },
             {
+              "label": "Shallows — 3 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "lake-fish-shallows",
+                  "giveCrystals": 3,
+                  "missingText": "You've no shallows fish on you.",
+                  "successText": "Barely a mouthful, but the cats love them. 3 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Weedbed Fish — 6 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "lake-fish-weedbed",
+                  "giveCrystals": 6,
+                  "missingText": "You've no weedbed fish on you.",
+                  "successText": "Good pan-sized fish, that. 6 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Deep Water Fish — 12 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "lake-fish-deepwater",
+                  "giveCrystals": 12,
+                  "missingText": "You've no deep water fish on you.",
+                  "successText": "Now that's a proper catch. 12 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Old Water Fish — 25 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "lake-fish-oldwater",
+                  "giveCrystals": 25,
+                  "missingText": "You've no old water fish on you.",
+                  "successText": "Heavens, look at the size of it! 25 crystals, and worth every one."
+                }
+              ]
+            },
+            {
+              "label": "Prize Water Fish — 45 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "lake-fish-prizewater",
+                  "giveCrystals": 45,
+                  "missingText": "A prize water catch? I'll believe it when I see it.",
+                  "successText": "I'll have this in the window within the hour. 45 crystals!"
+                }
+              ]
+            },
+            {
+              "label": "Still Legend Fish — 90 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "lake-fish-stilllegend",
+                  "giveCrystals": 90,
+                  "missingText": "A Still Legend catch? Sailor Finn tells taller tales sober.",
+                  "successText": "By the tides... I've only heard songs about these. 90 crystals — don't tell my husband."
+                }
+              ]
+            },
+            {
+              "label": "Blindling — 3 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "cave-fish-blindling",
+                  "giveCrystals": 3,
+                  "missingText": "You've no blindling fish on you.",
+                  "successText": "Barely a mouthful, but the cats love them. 3 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Cave-dweller Fish — 6 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "cave-fish-dweller",
+                  "giveCrystals": 6,
+                  "missingText": "You've no cave-dweller fish on you.",
+                  "successText": "Good pan-sized fish, that. 6 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Deep Lurker Fish — 12 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "cave-fish-lurker",
+                  "giveCrystals": 12,
+                  "missingText": "You've no deep lurker fish on you.",
+                  "successText": "Now that's a proper catch. 12 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Ancient Fish — 25 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "cave-fish-ancient",
+                  "giveCrystals": 25,
+                  "missingText": "You've no ancient fish on you.",
+                  "successText": "Heavens, look at the size of it! 25 crystals, and worth every one."
+                }
+              ]
+            },
+            {
+              "label": "Abyssal Fish — 45 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "cave-fish-abyssal",
+                  "giveCrystals": 45,
+                  "missingText": "An abyssal catch? I'll believe it when I see it.",
+                  "successText": "I'll have this in the window within the hour. 45 crystals!"
+                }
+              ]
+            },
+            {
+              "label": "Sunless Fish — 90 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "cave-fish-sunless",
+                  "giveCrystals": 90,
+                  "missingText": "A Sunless catch? Sailor Finn tells taller tales sober.",
+                  "successText": "By the tides... I've only heard songs about these. 90 crystals — don't tell my husband."
+                }
+              ]
+            },
+            {
               "label": "That's all for now.",
               "effects": [
                 {

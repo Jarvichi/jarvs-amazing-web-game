@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { FISH_TIERS, CAVE_FISH_TIERS, TIER_HUB_ITEM, CAVE_TIER_HUB_ITEM, computeFishStars } from './Fishing'
+import { FISH_TIERS, CAVE_FISH_TIERS, LAKE_FISH_TIERS, OCEAN_FISH_TIERS, TIER_HUB_ITEM, CAVE_TIER_HUB_ITEM, LAKE_TIER_HUB_ITEM, OCEAN_TIER_HUB_ITEM, computeFishStars } from './Fishing'
 import HUB_ITEMS from '../../data/hubItems.json'
 
 const hubItemIds = new Set(HUB_ITEMS.map(i => i.id))
@@ -7,6 +7,8 @@ const hubItemIds = new Set(HUB_ITEMS.map(i => i.id))
 describe.each([
   ['river', FISH_TIERS, TIER_HUB_ITEM],
   ['cave', CAVE_FISH_TIERS, CAVE_TIER_HUB_ITEM],
+  ['lake', LAKE_FISH_TIERS, LAKE_TIER_HUB_ITEM],
+  ['ocean', OCEAN_FISH_TIERS, OCEAN_TIER_HUB_ITEM],
 ] as const)('%s fish tiers', (_variant, tiers, tierHubItem) => {
   it('chances sum to exactly 100', () => {
     expect(tiers.reduce((sum, t) => sum + t.chance, 0)).toBe(100)

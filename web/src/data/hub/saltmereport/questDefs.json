@@ -245,6 +245,240 @@
               ]
             },
             {
+              "label": "Shoal — 3 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "ocean-fish-shoal",
+                  "giveCrystals": 3,
+                  "missingText": "Not a shoal fish on you.",
+                  "successText": "Bait-box size, but coin's coin. 3 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Reef Fish — 6 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "ocean-fish-reef",
+                  "giveCrystals": 6,
+                  "missingText": "No reef fish in that pack.",
+                  "successText": "Decent pan fish. 6 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Deep Shelf Fish — 12 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "ocean-fish-deepshelf",
+                  "giveCrystals": 12,
+                  "missingText": "You've no deep shelf fish on you.",
+                  "successText": "Good weight to it. 12 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Open Water Fish — 25 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "ocean-fish-openwater",
+                  "giveCrystals": 25,
+                  "missingText": "You've no open water fish on you.",
+                  "successText": "Now that's a fish! 25 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Deep Sea Fish — 45 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "ocean-fish-deepsea",
+                  "giveCrystals": 45,
+                  "missingText": "A deep sea catch? Show me first.",
+                  "successText": "The whole dock will hear about this one. 45 crystals!"
+                }
+              ]
+            },
+            {
+              "label": "Abyss Tide Fish — 90 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "ocean-fish-abysstide",
+                  "giveCrystals": 90,
+                  "missingText": "An Abyss Tide catch? I'll believe fins when I see them.",
+                  "successText": "By the deep… I'll retire on the story alone. 90 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Shallows — 3 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "lake-fish-shallows",
+                  "giveCrystals": 3,
+                  "missingText": "Not a shallows fish on you.",
+                  "successText": "Bait-box size, but coin's coin. 3 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Weedbed Fish — 6 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "lake-fish-weedbed",
+                  "giveCrystals": 6,
+                  "missingText": "No weedbed fish in that pack.",
+                  "successText": "Decent pan fish. 6 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Deep Water Fish — 12 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "lake-fish-deepwater",
+                  "giveCrystals": 12,
+                  "missingText": "You've no deep water fish on you.",
+                  "successText": "Good weight to it. 12 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Old Water Fish — 25 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "lake-fish-oldwater",
+                  "giveCrystals": 25,
+                  "missingText": "You've no old water fish on you.",
+                  "successText": "Now that's a fish! 25 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Prize Water Fish — 45 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "lake-fish-prizewater",
+                  "giveCrystals": 45,
+                  "missingText": "A prize water catch? Show me first.",
+                  "successText": "The whole dock will hear about this one. 45 crystals!"
+                }
+              ]
+            },
+            {
+              "label": "Still Legend Fish — 90 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "lake-fish-stilllegend",
+                  "giveCrystals": 90,
+                  "missingText": "A Still Legend catch? I'll believe fins when I see them.",
+                  "successText": "By the deep… I'll retire on the story alone. 90 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Blindling — 3 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "cave-fish-blindling",
+                  "giveCrystals": 3,
+                  "missingText": "Not a blindling fish on you.",
+                  "successText": "Bait-box size, but coin's coin. 3 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Cave-dweller Fish — 6 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "cave-fish-dweller",
+                  "giveCrystals": 6,
+                  "missingText": "No cave-dweller fish in that pack.",
+                  "successText": "Decent pan fish. 6 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Deep Lurker Fish — 12 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "cave-fish-lurker",
+                  "giveCrystals": 12,
+                  "missingText": "You've no deep lurker fish on you.",
+                  "successText": "Good weight to it. 12 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Ancient Fish — 25 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "cave-fish-ancient",
+                  "giveCrystals": 25,
+                  "missingText": "You've no ancient fish on you.",
+                  "successText": "Now that's a fish! 25 crystals."
+                }
+              ]
+            },
+            {
+              "label": "Abyssal Fish — 45 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "cave-fish-abyssal",
+                  "giveCrystals": 45,
+                  "missingText": "An abyssal catch? Show me first.",
+                  "successText": "The whole dock will hear about this one. 45 crystals!"
+                }
+              ]
+            },
+            {
+              "label": "Sunless Fish — 90 💎",
+              "next": "sell",
+              "effects": [
+                {
+                  "type": "tradeHubItem",
+                  "wantItemId": "cave-fish-sunless",
+                  "giveCrystals": 90,
+                  "missingText": "A Sunless catch? I'll believe fins when I see them.",
+                  "successText": "By the deep… I'll retire on the story alone. 90 crystals."
+                }
+              ]
+            },
+            {
               "label": "That's the lot.",
               "effects": [
                 {
