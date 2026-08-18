@@ -1,5 +1,6 @@
 import React from 'react'
 import { GiftDef, rewardSummary } from '../../game/gifts'
+import { ModalBackdrop } from '../ui/ModalBackdrop'
 
 interface Props {
   gifts: GiftDef[]
@@ -8,8 +9,8 @@ interface Props {
 
 export function GiftClaimModal({ gifts, onClaim }: Props) {
   return (
-    <div className="daily-modal-backdrop" onClick={onClaim}>
-      <div className="daily-modal" onClick={e => e.stopPropagation()}>
+    <ModalBackdrop onClose={onClaim} title="Gift Received">
+      <div className="daily-modal">
         <div className="daily-modal-header">✦ GIFT RECEIVED ✦</div>
         <div className="daily-modal-sub">The developer has sent you a gift!</div>
 
@@ -37,6 +38,6 @@ export function GiftClaimModal({ gifts, onClaim }: Props) {
           CLAIM ALL ✓
         </button>
       </div>
-    </div>
+    </ModalBackdrop>
   )
 }

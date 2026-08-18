@@ -4,6 +4,7 @@ import { CardTile } from '../cards/CardTile'
 import { getCardCatalog } from '../../game/cards'
 import { loadPlayerName } from '../../game/questline'
 import { Button } from '../ui/Button'
+import { ModalBackdrop } from '../ui/ModalBackdrop'
 import rollbar from '../../rollbar'
 
 interface Props {
@@ -50,8 +51,8 @@ export function DailyLoginModal({ reward, onClose }: Props) {
   }, [])
 
   return (
-    <div className="daily-modal-backdrop" onClick={onClose}>
-      <div className="daily-modal" onClick={e => e.stopPropagation()}>
+    <ModalBackdrop onClose={onClose} title="Daily Reward">
+      <div className="daily-modal">
         <div className="daily-modal-header">
           ✦ DAILY REWARD ✦
         </div>
@@ -116,6 +117,6 @@ export function DailyLoginModal({ reward, onClose }: Props) {
           CLAIM ✓
         </Button>
       </div>
-    </div>
+    </ModalBackdrop>
   )
 }

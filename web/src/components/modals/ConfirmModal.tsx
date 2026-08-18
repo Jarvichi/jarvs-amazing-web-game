@@ -1,5 +1,5 @@
 import React from 'react'
-import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { Modal } from '../ui/Modal'
 
 interface Props {
   title: string
@@ -11,15 +11,18 @@ interface Props {
 
 export function ConfirmModal({ title, body, confirmLabel, onConfirm, onCancel }: Props) {
   return (
-    <ModalBackdrop onClose={onCancel}>
-      <div className="confirm-modal">
-        <div className="confirm-modal-title">{title}</div>
-        <div className="confirm-modal-body">{body}</div>
-        <div className="confirm-modal-actions u-flex u-gap-5 u-just-c">
+    <Modal
+      title={title}
+      onClose={onCancel}
+      tone="danger"
+      footer={
+        <>
           <button className="action-btn" onClick={onCancel}>Cancel</button>
           <button className="action-btn action-btn--danger" onClick={onConfirm}>{confirmLabel}</button>
-        </div>
-      </div>
-    </ModalBackdrop>
+        </>
+      }
+    >
+      {body}
+    </Modal>
   )
 }

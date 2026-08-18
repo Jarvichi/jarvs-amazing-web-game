@@ -9,6 +9,7 @@ import { auth } from '../../firebase'
 import { uploadSave, downloadSave } from '../../game/cloudSave'
 import { type CloudSave } from '../../game/cloudSave'
 import rollbar from '../../rollbar'
+import { ModalBackdrop } from '../ui/ModalBackdrop'
 
 interface Props {
   user: User | null
@@ -130,8 +131,8 @@ export function LoginModal({ user, authLoading, onClose, onLoginSuccess }: Props
   const isError = errorMsg && !errorMsg.includes('sent')
 
   return (
-    <div className="login-modal-backdrop" onClick={onClose}>
-      <div className="login-modal" onClick={e => e.stopPropagation()}>
+    <ModalBackdrop onClose={onClose} title="Sign In">
+      <div className="login-modal">
         <div className="login-modal-header">SIGN IN</div>
         <div className="login-modal-sub">Back up and sync your save across devices.</div>
 
@@ -176,6 +177,6 @@ export function LoginModal({ user, authLoading, onClose, onLoginSuccess }: Props
           </button>
         </div>
       </div>
-    </div>
+    </ModalBackdrop>
   )
 }
