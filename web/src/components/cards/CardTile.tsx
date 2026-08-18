@@ -133,9 +133,11 @@ interface Props {
   displayCost?: number  // override displayed cost (e.g. after archetype discounts)
   showDetails?: boolean  // collection: show details button
   deckMatches?: number   // deck builder: how many deck cards this one pairs with
+  selected?: boolean     // deck builder / picker screens: this tile is the active selection
+  isNew?: boolean        // collection: unseen since last acquired
 }
 
-export function CardTile({ card, canAfford = true, disabled = false, onClick, lockedSecs = 0, upgradeable = false , showDetails = false, displayCost, deckMatches = 0 }: Props) {
+export function CardTile({ card, canAfford = true, disabled = false, onClick, lockedSecs = 0, upgradeable = false , showDetails = false, displayCost, deckMatches = 0, selected = false, isNew = false }: Props) {
   const heroLocked = card.isHero && lockedSecs > 0
   const clickable = canAfford && !disabled && !heroLocked
   const { openDetail, cardDetailNode } = useCardDetail()
@@ -171,6 +173,7 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
         'card-tile',
         `card-tile--${card.rarity}`,
         clickable ? '' : 'card-tile--disabled',
+        selected ? 'card-tile--selected' : '',
       ].filter(Boolean).join(' ')}
       onClick={clickable ? onClick : undefined}
       title={heroLocked ? `Hero cards unlock after 30 seconds (${lockedSecs}s remaining)` : card.description}
@@ -179,6 +182,9 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
         <div className={`card-secret-badge card-secret-badge--${card.rarity}`}>
           {secretLabel[card.rarity]}
         </div>
+      )}
+      {isNew && !isSecret && (
+        <div className="card-new-badge">NEW</div>
       )}
       {card.rarity === 'glass' && card.glassBreakChance && (
         <div className="card-glass-warning" title={`${Math.round(card.glassBreakChance * 100)}% chance to shatter on play`}>💎</div>
@@ -196,7 +202,7 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
 
       <div className={`card-cost${!canAfford ? ' card-cost--unaffordable' : ''}`}>{displayCost ?? card.cost}</div>
       {upgradeable && <div className="card-upgrade-badge">UPGRADE</div>}
-      <div className={`card-title${isSecret ? ' card-title--badge' : ''}`}>{card.name}</div>
+      <div className={`card-title${isSecret || isNew ? ' card-title--badge' : ''}`}>{card.name}</div>
       <div className="card-art u-flex u-items-c u-just-c">
         <SynergyBadges groups={synergyGroups} deckMatches={deckMatches} />
         {card.unit
