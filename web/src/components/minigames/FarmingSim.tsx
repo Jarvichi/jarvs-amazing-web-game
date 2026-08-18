@@ -30,6 +30,7 @@ import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { getCardCatalog } from '../../game/cards'
 import { loadCollection, getOwnedCount, saveCollection, getMasteryXp, masteryLevel, masteryXpForLevel } from '../../game/collection'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { useToast } from '../ui/Toast'
 import { Walker, WalkerTask, TaskType, PersonalityTrait } from './citybuilder/walkerTypes'
 import { VisualCarrier, computeRoadWaypoints } from './CityBuilder'
 import { FarmGrid } from './citybuilder/farming/FarmGrid'
@@ -146,7 +147,7 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
   const [walkers, setWalkers]       = useState<Walker[]>([])
   const [pickerIndex, setPickerIndex] = useState<number>(0)
   const [bulldozer, setBulldozer]   = useState(false)
-  const [toast, setToast]           = useState<string | null>(null)
+  const { showToast } = useToast()
   const [raidReport, setRaidReport] = useState<FarmRaidEvent | null>(null)
   const [currentTime, setCurrentTime] = useState(Date.now())
   const [showExpandModal, setShowExpandModal] = useState(false)
@@ -170,11 +171,6 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
 
   const farmRows2 = farm.rows ?? FARM_ROWS
   const farmCols2 = farm.cols ?? FARM_COLS
-
-  function showToast(msg: string) {
-    setToast(msg)
-    setTimeout(() => setToast(null), 3000)
-  }
 
   function saveFarm(next: FarmState) {
     setFarm(next)
@@ -589,8 +585,6 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
       right={<div className="city-level-badge" title={`Farm level ${farmLevel} — ${farmRows2}×${farmCols2} grid`}>LVL {farmLevel}</div>}
     >
       <div className="farm-screen u-col u-gap-2">
-        {toast && <div className="city-toast" role="alert">{toast}</div>}
-
         {raidReport && (
           <FarmRaidModal
             raid={raidReport}

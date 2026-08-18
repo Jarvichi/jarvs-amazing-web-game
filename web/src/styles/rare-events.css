@@ -170,28 +170,6 @@
 .inventory-secret-title { font-size: var(--font-base); color: #c060ff; font-weight: bold; letter-spacing: 2px; }
 .inventory-secret-msg   { font-size: var(--font-md); color: #e0b0ff; font-style: italic; max-width: 280px; }
 
-/* ── Secret #1 — Konami Code toast ──────────────────────────────────────── */
-.konami-toast {
-  position: fixed;
-  top: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #1a2a1a;
-  border: 1px solid #4a9a4a;
-  color: #7ddd7d;
-  padding: 0.6rem 1.25rem;
-  font-size: 0.85rem;
-  letter-spacing: 0.06em;
-  border-radius: 4px;
-  z-index: 9999;
-  pointer-events: none;
-  animation: konami-toast-in 0.3s ease;
-}
-@keyframes konami-toast-in {
-  from { opacity: 0; transform: translateX(-50%) translateY(-0.5rem); }
-  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
-}
-
 /* ── Secret #2 — DevBuild rare event ──────────────────────────────────── */
 .dev-build-overlay {
   inset: 0;

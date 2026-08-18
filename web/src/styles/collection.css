@@ -906,34 +906,9 @@
   background: rgba(255, 215, 0, 0.12);
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
 }
-.collection-pack-btn--disabled,
-
-.collection-flash {
-  font-size: var(--font-md);
-  color: var(--game-text-color);
-  animation: fadeFlash 2s ease-out forwards;
-  white-space: nowrap;
-}
-
-.collection-secret-toast {
-  position: fixed;
-  bottom: 60px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #0a0a1a;
-  border: 1px solid #aa88ff;
-  color: #cc99ff;
-  font-size: var(--font-base);
-  padding: 8px 18px;
-  border-radius: 4px;
-  pointer-events: none;
-  z-index: 500;
-  animation: fadeFlash 3.5s ease-out forwards;
-  white-space: nowrap;
-}
-@keyframes fadeFlash {
-  0%, 60% { opacity: 1; }
-  100%     { opacity: 0; }
+.collection-pack-btn--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 /* ─── Collection Cell extras ─────────────────────────── */

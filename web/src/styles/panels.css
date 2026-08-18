@@ -145,3 +145,63 @@
     inset 0 1px 0 var(--panel-edge-light),
     inset 0 -1px 0 var(--panel-edge-dark);
 }
+
+/* ─── Toast (#2173) ──────────────────────────────────────
+   Shared notification stack, replacing six hand-rolled implementations
+   (title screen, collection, commander, minigames menu, city builder,
+   farming sim). Mounted once by ui/Toast.tsx's <ToastProvider>. */
+
+.toast-stack {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-toast);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-3);
+  pointer-events: none;
+  max-width: 90vw;
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-3);
+  background: var(--surface-2);
+  border: 1px solid var(--border-edge);
+  border-radius: var(--radius-md);
+  box-shadow:
+    var(--elevation-overlay),
+    inset 0 1px 0 var(--panel-edge-light),
+    inset 0 -1px 0 var(--panel-edge-dark);
+  color: var(--game-text-color);
+  padding: var(--gap-4) var(--gap-6);
+  font-size: var(--font-sm);
+  cursor: pointer;
+  white-space: nowrap;
+  animation: toast-in var(--dur-normal) ease-out;
+}
+
+.toast--exiting {
+  animation: toast-out var(--dur-fast) ease-in forwards;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toast-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-8px); }
+}
+
+.toast-icon { flex-shrink: 0; }
+
+.toast--success { border-color: var(--color-green-bright); color: var(--color-green-bright); }
+.toast--reward  { border-color: var(--accent-gold); color: var(--accent-gold); }
+.toast--warning { border-color: var(--color-orange); color: var(--color-orange); }
+.toast--error   { border-color: var(--accent-ember); color: #ff8888; }

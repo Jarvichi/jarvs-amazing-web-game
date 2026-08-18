@@ -61,6 +61,7 @@ import { StatsScreen } from './citybuilder/StatsScreen'
 import { ZoneEditor } from './citybuilder/ZoneEditor'
 import { DisasterModal } from './citybuilder/DisasterModal'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { useToast } from '../ui/Toast'
 import { Toolbar } from '../ui/Toolbar/Toolbar'
 import { ToolbarDropdown } from '../ui/Toolbar/ToolbarDropdown'
 import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
@@ -651,7 +652,7 @@ export function CityBuilder({ onBack }: Props) {
   const [showDisaster, setShowDisaster] = useState(false)
   const [pickerIndex, setPickerIndex] = useState<number>(0)
   const [levelCard, setLevelCard] = useState<string | null>(null)
-  const [toast, setToast] = useState<string | null>(null)
+  const { showToast } = useToast()
   const [walkers, setWalkers] = useState<Walker[]>([])
   const [builderWalkers, setBuilderWalkers] = useState<BuilderWalker[]>([])
   const [visualCarriers, setVisualCarriers] = useState<VisualCarrier[]>([])
@@ -686,11 +687,6 @@ export function CityBuilder({ onBack }: Props) {
   const walkersRef = useRef(walkers)
   const builderWalkersRef = useRef(builderWalkers)
   const screenRef = useRef(screen)
-
-  function showToast(msg: string) {
-    setToast(msg)
-    setTimeout(() => setToast(null), 3000)
-  }
 
   function save(next: CityState) {
     const { state: checked, newlyCompleted } = checkMilestones(next)
@@ -1604,8 +1600,7 @@ export function CityBuilder({ onBack }: Props) {
       if (gold > 0) {
         setCity(prev => ({ ...prev, gold: prev.gold + gold }))
         saveCityState({ ...city, gold: city.gold + gold })
-        setToast(`Your defenders earned ${gold.toLocaleString()} 🪙 gold!`)
-        setTimeout(() => setToast(null), 4000)
+        showToast(`Your defenders earned ${gold.toLocaleString()} 🪙 gold!`, { variant: 'reward', duration: 4000 })
       }
       setScreen('city')
     }
@@ -1786,8 +1781,6 @@ export function CityBuilder({ onBack }: Props) {
     >
 
       <div className="city-screen u-relative u-col u-gap-2">
-        {toast && <div className="city-toast" role="alert">{toast}</div>}
-
         {pendingMilestone && (
           <MilestoneBanner
             milestone={pendingMilestone}
