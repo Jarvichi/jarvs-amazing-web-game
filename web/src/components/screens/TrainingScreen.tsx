@@ -4,6 +4,7 @@ import { loadCollection, loadDeck, buildDeckCards, deckTotalCards, STARTER_DECK 
 import { Card } from '../../game/types'
 import { SpriteImg } from '../ui/SpriteImg'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { Button } from '../ui/Button'
 interface Props {
   onBack: () => void
   onStart: (enemyUnitName: string, playerCards: Card[]) => void
@@ -67,12 +68,12 @@ export function TrainingScreen({ onBack, onStart }: Props) {
           <p className="training-hint">
             Your current saved deck will be used. Edit it in the Deck Builder before training.
           </p>
-          <button
-            className="action-btn action-btn--large"
+          <Button
+            size="lg"
             onClick={handleStartWithSavedDeck}
           >
             ▶ Start Training
-          </button>
+          </Button>
         </div>
 
         <div className="training-rules">

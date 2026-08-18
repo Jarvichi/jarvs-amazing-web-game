@@ -14,6 +14,7 @@ import {
 import { getMasteryXp, masteryProgress, loadCollection } from '../../game/collection'
 import { AnimatedSpriteImg } from '../ui/SpriteImg'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { Button } from '../ui/Button'
 
 interface Props {
   commander: CommanderState
@@ -327,9 +328,8 @@ export function CommanderScreen({
         {(['feed', 'play', 'pet'] as PetAction[]).map(action => {
           const ready = cooldowns[action] === 0
           return (
-            <button
+            <Button
               key={action}
-              className={`action-btn${ready ? '' : ' action-btn--disabled'}`}
               onClick={() => handleAction(action)}
               disabled={!ready}
               title={ready ? undefined : `Ready in ${formatCooldown(cooldowns[action])}`}
@@ -338,7 +338,7 @@ export function CommanderScreen({
               {!ready && (
                 <span className="commander-cd"> {formatCooldown(cooldowns[action])}</span>
               )}
-            </button>
+            </Button>
           )
         })}
       </div>
@@ -351,14 +351,14 @@ export function CommanderScreen({
       {/* Dismiss section */}
       <div className="commander-dismiss-wrap u-flex u-just-c">
         {!confirmDismiss ? (
-          <button className="action-btn action-btn--danger" onClick={() => setConfirmDismiss(true)}>
+          <Button variant="danger" onClick={() => setConfirmDismiss(true)}>
             Dismiss Commander
-          </button>
+          </Button>
         ) : (
           <div className="commander-confirm u-flex u-items-c u-gap-4 u-wrap u-just-c">
             <span>Dismiss {state.cardName}? ({promosLeft} promotion{promosLeft !== 1 ? 's' : ''} left today)</span>
-            <button className="action-btn action-btn--danger" onClick={handleDismiss}>Confirm</button>
-            <button className="action-btn" onClick={() => setConfirmDismiss(false)}>Cancel</button>
+            <Button variant="danger" onClick={handleDismiss}>Confirm</Button>
+            <Button onClick={() => setConfirmDismiss(false)}>Cancel</Button>
           </div>
         )}
       </div>

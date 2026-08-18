@@ -2,6 +2,7 @@
 
 import { QuestNode, ReplayModifier } from "../../../game/questline";
 import { StatRow } from "../StatRow";
+import { Button } from "../Button";
 import { NODE_ICON, NODE_LABEL } from "./constants";
 
 // ── Reward / difficulty helpers ───────────────────────────────────────────────
@@ -95,11 +96,11 @@ export function NodePeekModal({
             )}
             <div className="nm-peek-actions u-flex u-gap-4">
               {isAvailable && (
-                <button className="action-btn nm-peek-enter-btn u-grow" onClick={onEnter}>
+                <Button className="nm-peek-enter-btn u-grow" onClick={onEnter}>
                   {node.type === 'battle' && !isCleared ? 'ENTER BATTLE ⚔' : 'TRAVEL ➤'}
-                </button>
+                </Button>
               )}
-              <button className="action-btn nm-peek-back-btn" onClick={onClose}>BACK</button>
+              <Button className="nm-peek-back-btn" onClick={onClose}>BACK</Button>
             </div>
           </>
         ) : (
@@ -129,15 +130,15 @@ export function NodePeekModal({
             )}
             <div className="nm-peek-actions u-flex u-gap-4">
               {(isBattle || node.type === 'event' || node.type === 'merchant') ? (
-                <button className="action-btn nm-peek-enter-btn u-grow" onClick={onEnter}>
+                <Button className="nm-peek-enter-btn u-grow" onClick={onEnter}>
                   {node.type === 'merchant' ? 'ENTER SHOP' : node.type === 'event' ? 'APPROACH' : 'ENTER BATTLE'}
-                </button>
+                </Button>
               ) : (
-                <button className="action-btn nm-peek-enter-btn u-grow" onClick={onEnter}>
+                <Button className="nm-peek-enter-btn u-grow" onClick={onEnter}>
                   {node.type === 'rest' ? 'REST HERE' : 'PROCEED'}
-                </button>
+                </Button>
               )}
-              <button className="action-btn nm-peek-back-btn" onClick={onClose}>BACK</button>
+              <Button className="nm-peek-back-btn" onClick={onClose}>BACK</Button>
             </div>
           </>
         )}

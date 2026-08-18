@@ -32,6 +32,7 @@ import { TowerDefence, TowerPool } from '../minigames/TowerDefence'
 import { HarbourRegatta } from '../minigames/HarbourRegatta'
 import { PageHeader } from '../ui/PageHeader'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { Button } from '../ui/Button'
 
 export type SubScreen = 'menu' | MiniGameId | 'prizes' | 'leaderboard' | 'citybuilder' | 'fishing' | 'towerDefence'
 
@@ -304,9 +305,9 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
                 <div className="city-builder-hub-name">CITY BUILDER</div>
                 <div className="city-builder-hub-desc">Place units &amp; buildings to earn gold. Level up your cards permanently.</div>
               </div>
-              <button className="action-btn action-btn--gold" onClick={() => setSubScreen('citybuilder')}>
+              <Button variant="gold" onClick={() => setSubScreen('citybuilder')}>
                 ENTER
-              </button>
+              </Button>
             </div>
 
             {/* Game grid */}
@@ -330,14 +331,14 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
                         ? '✅ Today\'s challenge complete!'
                         : `🎯 Beat ${getDailyChallengeTarget(id)} for +${DAILY_CHALLENGE_BONUS_TICKETS} 🎫`}
                     </div>
-                    <button
-                      className={`action-btn${locked ? '' : ' action-btn--gold'}`}
+                    <Button
+                      variant={locked ? 'default' : 'gold'}
                       onClick={() => startGame(id)}
                       disabled={locked}
                       title={locked ? `Need ${cost} crystals to play` : undefined}
                     >
                       {locked ? `NEED ${cost} 💎` : 'PLAY'}
-                    </button>
+                    </Button>
                   </div>
                 )
               })}
@@ -347,12 +348,12 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
 
             <div className="minigame-hub-actions u-flex u-gap-6 u-wrap u-just-c">
-              <button className="action-btn" onClick={() => setSubScreen('prizes')}>
+              <Button onClick={() => setSubScreen('prizes')}>
                 🎁 PRIZE SHOP ({tickets} 🎫)
-              </button>
-              <button className="action-btn" onClick={() => setSubScreen('leaderboard')}>
+              </Button>
+              <Button onClick={() => setSubScreen('leaderboard')}>
                 🏆 LEADERBOARDS
-              </button>
+              </Button>
             </div>
           </>
         )}
@@ -360,7 +361,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
         {subScreen === 'prizes' && (
           <div className="prize-screen u-col">
             <div className="overlay-header u-flex u-items-c u-gap-6">
-              <button className="action-btn" onClick={() => initialSubScreen === 'prizes' ? onBack() : setSubScreen('menu')}>← BACK</button>
+              <Button onClick={() => initialSubScreen === 'prizes' ? onBack() : setSubScreen('menu')}>← BACK</Button>
               <span className="overlay-title">🎁 PRIZE SHOP</span>
               <div className="ticket-balance">🎫 {tickets}</div>
             </div>
@@ -378,13 +379,13 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
                     </div>
                     <div className="prize-row-right u-col u-items-end u-gap-2">
                       <div className="prize-row-cost">🎫 {prize.cost.toLocaleString()}</div>
-                      <button
-                        className={`action-btn${canAfford ? ' action-btn--gold' : ''}`}
+                      <Button
+                        variant={canAfford ? 'gold' : 'default'}
                         onClick={() => redeemPrize(prize)}
                         disabled={!canAfford}
                       >
                         REDEEM
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 )
@@ -396,7 +397,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
         {subScreen === 'leaderboard' && (
           <div className="lb-screen u-col">
             <div className="overlay-header u-flex u-items-c u-gap-6">
-              <button className="action-btn" onClick={() => initialSubScreen === 'leaderboard' ? onBack() : setSubScreen('menu')}>← BACK</button>
+              <Button onClick={() => initialSubScreen === 'leaderboard' ? onBack() : setSubScreen('menu')}>← BACK</Button>
               <span className="overlay-title">🏆 LEADERBOARDS</span>
             </div>
 

@@ -4,6 +4,7 @@ import {
   fetchWeeklyLeaderboard, WeeklyLeaderboardEntry,
 } from '../../game/weeklyChallenge'
 import { getChronicleFragments, getExoticShards } from '../../game/itemStore'
+import { Button } from '../ui/Button'
 
 interface Props {
   onStart: () => void
@@ -38,7 +39,7 @@ export function WeeklyChallengeScreen({ onStart, onBack }: Props) {
   return (
     <div className="dc-screen">
       <div className="overlay-header u-flex u-items-c u-gap-6">
-        <button className="action-btn" onClick={onBack}>← BACK</button>
+        <Button onClick={onBack}>← BACK</Button>
         <span className="overlay-title">WEEKLY CHALLENGE</span>
       </div>
       <div className="u-text-c">
@@ -107,9 +108,9 @@ export function WeeklyChallengeScreen({ onStart, onBack }: Props) {
       </div>
 
       <div className="dc-actions u-col u-gap-4">
-        <button className="action-btn action-btn--large" onClick={onStart}>
+        <Button size="lg" onClick={onStart}>
           {state.attempts === 0 ? '▶ START CHALLENGE' : '▶ TRY AGAIN'}
-        </button>
+        </Button>
       </div>
     </div>
   )

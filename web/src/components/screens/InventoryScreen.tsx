@@ -6,6 +6,7 @@ import { loadConsumableStash, loadRunConsumables, ALL_CONSUMABLES, ConsumableDef
 import { loadItemStore } from '../../game/itemStore'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Section } from '../ui/Section'
+import { Button } from '../ui/Button'
 
 interface Props {
   onBack: () => void
@@ -101,9 +102,9 @@ export function InventoryScreen({ onBack, onCrystalsChanged, embedded }: Props) 
             <div className="inventory-secret-icon">🌌</div>
             <div className="inventory-secret-title">DEEP THOUGHT SPEAKS</div>
             <div className="inventory-secret-msg">"{secretMsg}"</div>
-            <button className="action-btn action-btn--gold" onClick={claimSecret}>
+            <Button variant="gold" onClick={claimSecret}>
               CLAIM REWARD
-            </button>
+            </Button>
           </div>
         )}
 
@@ -195,7 +196,7 @@ export function InventoryScreen({ onBack, onCrystalsChanged, embedded }: Props) 
                 Acquired: {detail.item.acquiredDate}
               </div>
             )}
-            <button className="action-btn" onClick={() => setDetail(null)}>CLOSE</button>
+            <Button onClick={() => setDetail(null)}>CLOSE</Button>
           </div>
         </div>
       )}

@@ -4,6 +4,7 @@ import {
   loadAchievementSave, claimAchievementReward, claimAllAchievementRewards,
 } from '../../game/achievements'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { Button } from '../ui/Button'
 import { addCardsToCollection, loadCrystals, saveCrystals } from '../../game/collection'
 import { addToInventory, ALL_ITEMS } from '../../game/dailyLogin'
 import { addUnlockedAvatar } from '../../game/questline'
@@ -162,9 +163,9 @@ export function AchievementsScreen({ onBack, onCrystalsChanged, embedded }: Prop
       <div className="ach-claim-all-bar u-flex u-items-c u-just-sb">
         <div className="ach-category-label">{CATEGORY_LABELS[activeCategory]}</div>
         {totalClaimable > 0 && (
-          <button className="action-btn ach-claim-all-btn" onClick={handleClaimAll}>
+          <Button className="ach-claim-all-btn" onClick={handleClaimAll}>
             CLAIM ALL ({totalClaimable})
-          </button>
+          </Button>
         )}
       </div>
 
@@ -195,12 +196,12 @@ export function AchievementsScreen({ onBack, onCrystalsChanged, embedded }: Prop
                 {isClaimed ? (
                   <span className="ach-status-claimed">CLAIMED</span>
                 ) : unlocked ? (
-                  <button
-                    className={`action-btn ach-claim-btn${justDone ? ' ach-claim-btn--done' : ''}`}
+                  <Button
+                    className={`ach-claim-btn${justDone ? ' ach-claim-btn--done' : ''}`}
                     onClick={() => handleClaim(def)}
                   >
                     {justDone ? '✓ DONE' : 'CLAIM'}
-                  </button>
+                  </Button>
                 ) : (
                   <span className="ach-status-locked">🔒</span>
                 )}

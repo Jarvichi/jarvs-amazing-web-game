@@ -61,7 +61,7 @@ export function QuickBattleScreen({ onStartBattle, onBack }: Props) {
         </div>
       </div>
 
-      <button className="action-btn action-btn--danger" onClick={onBack}>← BACK</button>
+      <Button variant="danger" onClick={onBack}>← BACK</Button>
     </div>
   )
 }
