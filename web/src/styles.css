@@ -190,10 +190,10 @@ html.light-mode {
 .u-no-select { user-select: none; }
 
 /* Borders */
-.u-rounded-sm { border-radius: 2px; }
-.u-rounded    { border-radius: 4px; }
-.u-rounded-lg { border-radius: 6px; }
-.u-rounded-xl { border-radius: 8px; }
+.u-rounded-sm { border-radius: var(--radius-sm); }
+.u-rounded    { border-radius: var(--radius-md); }
+.u-rounded-lg { border-radius: var(--radius-lg); }
+.u-rounded-xl { border-radius: 8px; } /* one step past the 3-step scale; intentionally left as a literal */
 .u-circle     { border-radius: 50%; }
 .u-border     { border: 1px solid var(--game-border); }
 
@@ -901,7 +901,7 @@ body {
   background: linear-gradient(160deg, rgba(40,0,60,0.55) 0%, rgba(10,0,20,0.55) 100%);
   animation: mythic-pulse 2s ease-in-out infinite;
 }
-.card-tile--mythic .card-rarity { color: #e040fb; text-shadow: 0 0 10px rgba(224,64,251,1); }
+.card-tile--mythic .card-rarity { color: var(--accent-arcane); text-shadow: 0 0 10px rgba(224,64,251,1); }
 .card-tile--mythic .card-title  { color: #e8b0ff; }
 .card-tile--mythic .card-cost   { color: #e040fb; text-shadow: 0 0 10px rgba(224,64,251,0.9); }
 
@@ -1375,7 +1375,7 @@ body {
   position: fixed;
   inset: 0;
   background: #000;
-  z-index: 9999;
+  z-index: var(--z-debug);
 }
 
 .intro-content {
@@ -3241,16 +3241,16 @@ body {
 }
 
 .section--bordered {
-  border: 1px solid #1e1e1e;
-  border-radius: 4px;
+  border: 1px solid var(--border-edge-dark);
+  border-radius: var(--radius-md);
   overflow: hidden;
 }
 
 .section--bordered .section-title {
   color: var(--color-gold-alt);
   padding: 8px 14px 6px;
-  background: rgba(255, 204, 0, 0.04);
-  border-bottom: 1px solid #1e1e1e;
+  background: color-mix(in srgb, var(--accent-gold) 4%, transparent);
+  border-bottom: 1px solid var(--border-edge-dark);
 }
 
 /* ─── Shared Modal Backdrop ──────────────────────────── */
@@ -3258,12 +3258,12 @@ body {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75);
+  background: var(--overlay-scrim);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 16px;
-  z-index: 200;
+  z-index: var(--z-modal);
   animation: fadeIn 0.15s ease-out;
 }
 
@@ -6625,7 +6625,7 @@ body {
   outline-color: #2a1a0a;
 }
 .battlefield--act3 .top-bar { border-color: #2a1a0a; }
-.battlefield--act3 .base-bar--opponent { border-color: #6a2288; }
+.battlefield--act3 .base-bar--opponent { border-color: var(--accent-blood); }
 
 /* Act 4 — Crystal Spire (arcane blue glow) */
 .battlefield--act4 .lane {
@@ -7512,7 +7512,7 @@ body {
   position: fixed;
   bottom: 80px;
   right: 12px;
-  z-index: 9000;
+  z-index: var(--z-toast);
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -7550,7 +7550,7 @@ body {
   position: fixed;
   bottom: 80px;
   left: 12px;
-  z-index: 9000;
+  z-index: var(--z-toast);
   max-width: 280px;
   display: flex;
   flex-direction: column;
