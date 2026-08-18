@@ -3,6 +3,7 @@
 // the leaderboard. 5% chance to snag an item or card instead of a fish.
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { MinigameShell } from './MinigameShell'
 import { addCollectible, addHubItem, getHubItemCount, removeHubItem } from '../../game/itemStore'
 import { addCardsToCollection } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
@@ -398,12 +399,12 @@ export function Fishing({ onDone, rewardMode = 'tickets', variant = 'river' }: P
   const biteBarPct = Math.round((biteMs / BITE_WINDOW_MS) * 100)
 
   return (
-    <div className="fishing-screen">
-      <div className="fishing-header">
-        <div className="fishing-title">🎣 FISHING</div>
-        {usesBait && <div className="fishing-bait-counter">🪱 {baitCount}</div>}
-      </div>
-
+    <MinigameShell
+      title="FISHING"
+      icon="🎣"
+      className="fishing-screen"
+      stat={usesBait ? `🪱 ${baitCount}` : undefined}
+    >
       {/* Scene */}
       <div className="fishing-scene">
         {phase === 'idle' && (
@@ -545,6 +546,6 @@ export function Fishing({ onDone, rewardMode = 'tickets', variant = 'river' }: P
           </div>
         )}
       </div>
-    </div>
+    </MinigameShell>
   )
 }

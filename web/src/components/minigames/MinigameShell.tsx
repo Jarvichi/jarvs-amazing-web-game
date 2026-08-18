@@ -5,6 +5,10 @@ interface Props {
   icon?: string
   /** Right-aligned score/state readout (tickets, lives, credits, timer…). */
   stat?: React.ReactNode
+  /** Extra class appended alongside "minigame-screen", for a game that needs
+   *  a little of its own layout on top of the shared frame (e.g. a gap
+   *  between scene/status/controls sections). */
+  className?: string
   children: React.ReactNode
 }
 
@@ -14,9 +18,9 @@ interface Props {
  * already used ad-hoc by nearly every arcade game so headers read the same
  * everywhere instead of each game hand-rolling its own title row.
  */
-export function MinigameShell({ title, icon, stat, children }: Props) {
+export function MinigameShell({ title, icon, stat, className, children }: Props) {
   return (
-    <div className="minigame-screen">
+    <div className={['minigame-screen', className].filter(Boolean).join(' ')}>
       <div className="minigame-header">
         <div className="minigame-title">{icon ? `${icon} ` : ''}{title}</div>
         {stat && <div className="minigame-header-stat">{stat}</div>}
