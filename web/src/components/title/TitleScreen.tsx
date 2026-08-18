@@ -19,6 +19,7 @@ import { generatePack, addCardsToCollection } from '../../game/collection'
 import { WinStreak } from './WinStreak'
 import { LoginButton } from '../ui/LoginButton'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 
 const CAMPAIGN_UNLOCK_CARDS = 30
 const EIGHTBIT_CLICKS = 8
@@ -212,7 +213,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
             undefined
           }
         >
-          {savedRun ? '⚔  CONTINUE RUN' : '⚔  CAMPAIGN'}
+          <Icon name="sword" size={16} /> {savedRun ? 'CONTINUE RUN' : 'CAMPAIGN'}
         </TitleButton>
 
         <TitleButton
@@ -228,7 +229,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
           extraClass="title-primary-btn"
           title={valid ? undefined : `Deck needs ${10 - count} more cards`}
         >
-          ∞  ENDLESS MODE
+          <Icon name="infinity" size={16} /> ENDLESS MODE
         </TitleButton>
 
         <TitleButton onClick={onDailyChallenge} extraClass="title-daily-btn">
@@ -240,31 +241,31 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
         </TitleButton>
 
         <TitleButton onClick={onEndlessLeaderboard} extraClass="title-endless-lb-btn">
-          🏆  LEADERBOARDS
+          <Icon name="trophy" size={16} /> LEADERBOARDS
         </TitleButton>
 
         <TitleButton onClick={onTraining} extraClass="title-training-btn">
-          ⚔  TRAINING MODE
+          <Icon name="sword" size={16} /> TRAINING MODE
         </TitleButton>
 
         <TitleButton onClick={onMiniGames} extraClass={`title-minigames-btn`}>
-          🎮  MINI GAMES
+          <Icon name="minigames" size={16} /> MINI GAMES
         </TitleButton>
         {cityAttackAlert && (
           <TitleButton variant="large" onClick={onCityBuilder} extraClass="title-campaign-btn title-minigames-btn title-btn--alert title-alert-badge">
-            ⚔ CITY ALERT
+            <Icon name="sword" size={16} /> CITY ALERT
           </TitleButton>
         )}
         {hubUnlocked && onHub && (
           <TitleButton variant="large" onClick={onHub} extraClass="title-campaign-btn">
-            🌆  HUB WORLD
+            <Icon name="hub" size={16} /> HUB WORLD
           </TitleButton>
         )}
       </div>
 
       {!campaignUnlocked && (
         <div className="title-campaign-locked-hint">
-          🔒 Campaign unlocks at {CAMPAIGN_UNLOCK_CARDS} cards ({totalOwned}/{CAMPAIGN_UNLOCK_CARDS}) — play Quick Battle to earn more!
+          <Icon name="lock" size={14} /> Campaign unlocks at {CAMPAIGN_UNLOCK_CARDS} cards ({totalOwned}/{CAMPAIGN_UNLOCK_CARDS}) — play Quick Battle to earn more!
         </div>
       )}
 
@@ -272,14 +273,14 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
       <div className="title-nav-section">
         <div className="title-nav-label">[ MANAGE ]</div>
         <div className="title-nav-grid">
-          <TitleButton onClick={onPlayer} badge={achievementAlert}>👤 PLAYER</TitleButton>
-          <TitleButton onClick={onDeckBuilder}>🃏 DECK</TitleButton>
-          <TitleButton onClick={onCollection} badge={collectionAlert}>📦 COLLECTION</TitleButton>
-          <TitleButton onClick={onShop} badge={shopAlert}>🛒 SHOP</TitleButton>
-          <TitleButton onClick={onCodex}>📖 CODEX</TitleButton>
-          <TitleButton onClick={onChronicle} badge={chronicleAlert}>📜 CHRONICLE</TitleButton>
-          <TitleButton onClick={onNews} badge={hasUnreadNews}>📰 WHAT'S NEW</TitleButton>
-          <TitleButton onClick={onSettings} extraClass="title-settings-btn">⚙ SETTINGS</TitleButton>
+          <TitleButton onClick={onPlayer} badge={achievementAlert}><Icon name="player" size={16} /> PLAYER</TitleButton>
+          <TitleButton onClick={onDeckBuilder}><Icon name="deck" size={16} /> DECK</TitleButton>
+          <TitleButton onClick={onCollection} badge={collectionAlert}><Icon name="collection" size={16} /> COLLECTION</TitleButton>
+          <TitleButton onClick={onShop} badge={shopAlert}><Icon name="shop" size={16} /> SHOP</TitleButton>
+          <TitleButton onClick={onCodex}><Icon name="codex" size={16} /> CODEX</TitleButton>
+          <TitleButton onClick={onChronicle} badge={chronicleAlert}><Icon name="chronicle" size={16} /> CHRONICLE</TitleButton>
+          <TitleButton onClick={onNews} badge={hasUnreadNews}><Icon name="news" size={16} /> WHAT'S NEW</TitleButton>
+          <TitleButton onClick={onSettings} extraClass="title-settings-btn"><Icon name="settings" size={16} /> SETTINGS</TitleButton>
           {commanderName && onCommander && (
             <TitleButton onClick={onCommander} extraClass="title-commander-btn">
               <SpriteImg name={commanderName} className="commander-btn-sprite" />
@@ -293,8 +294,8 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
       <div className="title-footer u-col u-items-c u-gap-2 u-relative">
         <div className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>
           {wrongSave
-            ? <>{wrongSave.cards}/{catalogTotal} cards &nbsp;·&nbsp; 💎 {wrongSave.crystals.toLocaleString()} &nbsp;·&nbsp; Deck: {wrongSave.deck}</>
-            : <>{distinctUnlocked}/{catalogTotal} cards &nbsp;·&nbsp; 💎 {crystals.toLocaleString()} &nbsp;·&nbsp; Deck: {count}</>
+            ? <>{wrongSave.cards}/{catalogTotal} cards &nbsp;·&nbsp; <Icon name="crystal" size={12} /> {wrongSave.crystals.toLocaleString()} &nbsp;·&nbsp; Deck: {wrongSave.deck}</>
+            : <>{distinctUnlocked}/{catalogTotal} cards &nbsp;·&nbsp; <Icon name="crystal" size={12} /> {crystals.toLocaleString()} &nbsp;·&nbsp; Deck: {count}</>
           }
         </div>
         <div className="title-auth-bar u-flex u-items-c u-gap-5">
