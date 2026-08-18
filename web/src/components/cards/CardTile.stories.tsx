@@ -97,6 +97,60 @@ export const AllProps: Story = {
     disabled: true,
     lockedSecs: 15,
     upgradeable: true,
-    showDetails: true,  
+    showDetails: true,
   },
+};
+
+export const Selected: Story = {
+  args: {
+    card: exampleCard,
+    selected: true,
+  },
+};
+
+export const NewlyAcquired: Story = {
+  args: {
+    card: exampleCard,
+    isNew: true,
+  },
+};
+
+// ─── Rarity frames (#2177) ──────────────────────────────────────────────
+// Common through legendary each get a distinct frame material; the secret
+// rarities (mythic/shiny/holofoil/glass) keep their existing animated
+// treatments. See these individually and side-by-side in RarityGrid below.
+
+const RARITIES = ['common', 'uncommon', 'rare', 'legendary', 'mythic', 'shiny', 'holofoil', 'glass'] as const
+
+export const Common: Story = { args: { card: { ...exampleCard, rarity: 'common' } } }
+export const Uncommon: Story = { args: { card: { ...exampleCard, rarity: 'uncommon' } } }
+export const Rare: Story = { args: { card: { ...exampleCard, rarity: 'rare' } } }
+export const Legendary: Story = { args: { card: { ...exampleCard, rarity: 'legendary' } } }
+export const Mythic: Story = { args: { card: { ...exampleCard, rarity: 'mythic' } } }
+export const Shiny: Story = { args: { card: { ...exampleCard, rarity: 'shiny' } } }
+export const Holofoil: Story = { args: { card: { ...exampleCard, rarity: 'holofoil' } } }
+export const Glass: Story = { args: { card: { ...exampleCard, rarity: 'glass', glassBreakChance: 0.15 } } }
+
+/** Every rarity × a structure card (tests the DEF/SPAWN type badges) and an
+ *  upgrade card (tests the BUFF type badge + no art-window unit sprite). */
+export const RarityGrid: Story = {
+  args: { card: exampleCard },
+  render: () => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, background: 'var(--game-bg)', padding: 16 }}>
+      {RARITIES.map(rarity => (
+        <CardTile key={rarity} card={{ ...exampleCard, rarity }} />
+      ))}
+    </div>
+  ),
+};
+
+export const RarityGridUnaffordable: Story = {
+  args: { card: exampleCard },
+  render: () => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, background: 'var(--game-bg)', padding: 16 }}>
+      {RARITIES.map(rarity => (
+        <CardTile key={rarity} card={{ ...exampleCard, rarity }} canAfford={false} />
+      ))}
+    </div>
+  ),
 };
