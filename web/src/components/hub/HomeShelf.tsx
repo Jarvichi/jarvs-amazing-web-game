@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { UselessItem, loadInventory } from '../../game/dailyLogin'
 import { loadEarnedRelics, getRelicDef, RelicDef } from '../../game/relics'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { Panel } from '../ui/Panel'
 import { HomeGrid } from './home-shelf/HomeGrid'
 import { FurniturePicker } from './home-shelf/FurniturePicker'
 import { PieceActionBar } from './home-shelf/PieceActionBar'
@@ -525,8 +527,8 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
       )}
 
       {detail && (
-        <div className="shelf-modal-backdrop" onClick={() => setDetail(null)}>
-          <div className="shelf-modal" onClick={e => e.stopPropagation()}>
+        <ModalBackdrop onClose={() => setDetail(null)}>
+          <Panel elevation="floating" className="shelf-modal">
             <div className="shelf-modal-icon">
               {detail.kind === 'item' ? detail.item.icon : detail.relic.icon}
             </div>
@@ -549,8 +551,8 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
               <div className="shelf-modal-date">Acquired: {detail.item.acquiredDate}</div>
             )}
             <button className="action-btn" onClick={() => setDetail(null)}>CLOSE</button>
-          </div>
-        </div>
+          </Panel>
+        </ModalBackdrop>
       )}
 
       {pendingBuy && (
