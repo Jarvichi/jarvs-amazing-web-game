@@ -522,6 +522,12 @@
   transition: border-color 0.15s, background 0.15s;
   font-family: inherit;
   color: inherit;
+  animation: relic-card-enter 0.35s ease-out both;
+}
+
+@keyframes relic-card-enter {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .relic-select-card:hover {
@@ -603,7 +609,7 @@
   position: relative;
   border: 1px solid #d4a017;
   background: rgba(90, 70, 10, 0.18);
-  animation: exotic-glow 2.2s ease-in-out infinite;
+  animation: relic-card-enter 0.35s ease-out both, exotic-glow 2.2s ease-in-out infinite;
 }
 
 .relic-select-card--exotic:hover {

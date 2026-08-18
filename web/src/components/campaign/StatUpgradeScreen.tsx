@@ -58,10 +58,11 @@ export function StatUpgradeScreen({ onSelect }: Props) {
       </div>
 
       <div className="relic-select-grid u-col u-gap-5">
-        {OPTIONS.map(opt => (
+        {OPTIONS.map((opt, i) => (
           <button
             key={opt.stat}
             className={`relic-select-card${picked === opt.stat ? ' relic-select-card--chosen' : ''}`}
+            style={{ animationDelay: `${i * 60}ms` }}
             onClick={() => setPicked(opt.stat)}
           >
             <div className="relic-select-icon">{opt.icon}</div>
