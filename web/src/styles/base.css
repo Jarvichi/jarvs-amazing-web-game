@@ -61,17 +61,19 @@ body {
   .game-title { font-size: var(--font-base); letter-spacing: 1px; }
 
   .hand-cards { gap: 4px; padding-bottom: 4px; }
-  .card-tile { width: 78px; padding: 6px 8px; }
-  .card-title { font-size: var(--font-xxs); }
-  .card-stats { font-size: 0.571rem; }
-  .card-tag   { font-size: 0.5rem; }
+  /* Cards are the primary interactive element of the game — sized for a
+     thumb tap, not just legibility (#2176). */
+  .card-tile { width: 88px; padding: 7px 9px; }
+  .card-title { font-size: var(--font-xs); }
+  .card-stats { font-size: var(--font-xxs); }
+  .card-tag   { font-size: 0.571rem; }
 
   .lane-unit-name { font-size: 0.571rem; }
-  .mana-pip { width: 8px; height: 8px; }
+  .mana-pip { width: 10px; height: 10px; }
 
   .base-bar { padding: 3px 8px; gap: 6px; }
   .base-bar-info { font-size: var(--font-xs); gap: 4px; }
-  .hp-bar-track { height: 13px; }
+  .hp-bar-track { height: 14px; }
 }
 
 /* Very small phones (≤380px — iPhone SE, older Android) */
@@ -80,8 +82,8 @@ body {
   .game-title { font-size: var(--font-md); padding: 2px 0 3px; }
 
   .hand-cards { gap: 3px; }
-  .hand-cards .card-tile { padding: 4px 5px; }
-  .card-title { font-size: 0.571rem; }
+  .hand-cards .card-tile { padding: 5px 6px; }
+  .card-title { font-size: var(--font-xxs); }
 }
 
 /* ─── Intro Screen ───────────────────────────────────── */

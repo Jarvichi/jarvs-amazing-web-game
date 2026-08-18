@@ -24,6 +24,14 @@
   box-shadow: 0 0 12px rgba(51, 255, 51, 0.3);
 }
 
+/* Press/tap feedback — the hand's only interaction is a tap, so it needs its
+   own acknowledgement distinct from :hover (which touch devices don't fire
+   until after the tap anyway). */
+.card-tile:not(.card-tile--disabled):active {
+  transform: translateY(-1px) scale(0.97);
+  transition-duration: 0.05s;
+}
+
 .card-tile--disabled,
 .fm-hold-btn--blocked,
 .td-selected-action-btn--disabled,
@@ -145,6 +153,13 @@
   font-weight: bold;
   color: #6cf;
   text-shadow: 0 0 6px rgba(100, 200, 255, 0.5);
+}
+
+/* Distinct from the whole-tile disabled dimming — a red cost badge reads as
+   "you can't pay this" specifically, rather than just "inactive". */
+.card-cost--unaffordable {
+  color: var(--accent-ember);
+  text-shadow: 0 0 6px color-mix(in srgb, var(--accent-ember) 50%, transparent);
 }
 
 .card-upgrade-badge {

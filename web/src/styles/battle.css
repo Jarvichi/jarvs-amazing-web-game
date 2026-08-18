@@ -21,9 +21,16 @@
   overflow: hidden;
   /* Fixed bands reserved for the floating bar clusters. The lane fills the space
      between them, so the play area's size depends only on the frame — never on
-     bar content (long scores, wave status, event tags, card-bar height changes). */
-  --bf-top-buffer: 80px;
-  --bf-bottom-buffer: 230px;
+     bar content (long scores, wave status, event tags, card-bar height changes).
+     Retuned for #2176's HUD pass by measuring actual cluster height in a real
+     battle (see PR description) — the previous values already under-reserved
+     space before this pass (a pre-existing gap this issue called out), and the
+     larger card hand/base-bar surfaces need a little more. BATTLEFIELD_ASPECT_RATIO
+     is tall/narrow (9:19.5), so in practice almost every real viewport letterboxes
+     down to the --compact or --tiny tier — this default tier is a rarely-hit
+     ceiling for unusually tall windows, kept in proportion with the other two. */
+  --bf-top-buffer: 92px;
+  --bf-bottom-buffer: 255px;
 }
 
 /* Narrower-frame tuning — keyed off the letterboxed frame's own computed width
@@ -32,8 +39,8 @@
    real phone gets, which a viewport @media query alone could never detect.
    The lane has no min-height override here: it is letterboxed to a fixed ratio
    (see .lane below), and a minimum on one axis would silently break that ratio. */
-.battlefield-frame--compact { --bf-top-buffer: 74px; --bf-bottom-buffer: 200px; }
-.battlefield-frame--tiny { --bf-top-buffer: 68px; --bf-bottom-buffer: 182px; }
+.battlefield-frame--compact { --bf-top-buffer: 88px; --bf-bottom-buffer: 250px; }
+.battlefield-frame--tiny { --bf-top-buffer: 86px; --bf-bottom-buffer: 244px; }
 
 /* Floating bar clusters: absolutely positioned in the reserved bands above/below
    the lane. Their content can grow/wrap without ever resizing or reflowing the lane. */
@@ -57,13 +64,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 6px;
   flex-wrap: nowrap;
   white-space: nowrap;
   overflow: hidden;
-  padding: 3px 8px;
-  border: 1px solid var(--game-border);
-  border-radius: 3px;
-  background: rgba(255, 255, 255, 0.02);
+  padding: 4px 8px;
+  border: 1px solid var(--border-edge-dark);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+  box-shadow: var(--elevation-raised);
 }
 
 .top-bar--sudden-death {
@@ -154,8 +163,13 @@
   gap: 10px;
   padding: 5px 10px;
   border: 2px solid;
-  border-radius: 3px;
+  border-radius: var(--radius-md);
   font-size: var(--font-base);
+  /* A solid backing so text/pips stay legible over the lane's bright terrain
+     art, which otherwise shows straight through (base-bar had no background
+     at all before #2176). */
+  background: var(--surface-1);
+  box-shadow: var(--elevation-raised);
 }
 
 .base-bar--opponent {
@@ -210,6 +224,32 @@
   overflow: hidden;
 }
 
+/* Below 25% HP: pulsing red glow so a base about to fall reads as urgent,
+   not just "a shorter bar than before". */
+.hp-bar-track--low {
+  border-color: var(--accent-ember);
+  animation: hp-bar-low-pulse 1s ease-in-out infinite;
+}
+@keyframes hp-bar-low-pulse {
+  0%, 100% { box-shadow: 0 0 0 rgba(255, 68, 68, 0); }
+  50%      { box-shadow: 0 0 8px color-mix(in srgb, var(--accent-ember) 70%, transparent); }
+}
+
+/* Brief flash on any HP decrease. */
+.hp-bar-track--flash::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  opacity: 0.55;
+  animation: hp-bar-flash 220ms ease-out;
+  pointer-events: none;
+}
+@keyframes hp-bar-flash {
+  from { opacity: 0.55; }
+  to   { opacity: 0; }
+}
+
 .hp-bar-fill {
   height: 100%;
   transition: width 0.15s ease-out;
@@ -226,20 +266,23 @@
   color: #fff;
   text-shadow: 0 0 3px #000;
   font-weight: bold;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ─── Mana Pips ──────────────────────────────────────── */
 
 .mana-bar {
-  gap: 3px;
+  gap: 4px;
 }
 
+/* Arcane-accent tone rather than the CRT green — mana is magic, not the
+   "friendly" semantic colour, per the epic's palette direction (#2166). */
 .mana-pip {
   display: inline-block;
-  width: 10px;
-  height: 10px;
-  border: 1px solid #33ff33;
-  border-radius: 2px;
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--accent-arcane);
+  border-radius: var(--radius-sm);
   position: relative;
   overflow: hidden;
   vertical-align: middle;
@@ -247,7 +290,8 @@
 }
 
 .mana-pip--full {
-  background: #33ff33;
+  background: var(--accent-arcane);
+  box-shadow: 0 0 4px color-mix(in srgb, var(--accent-arcane) 60%, transparent);
 }
 
 .mana-pip--empty {
@@ -257,6 +301,11 @@
 
 .mana-pip--partial {
   background: transparent;
+  animation: mana-pip-regen-pulse 1.2s ease-in-out infinite;
+}
+@keyframes mana-pip-regen-pulse {
+  0%, 100% { box-shadow: 0 0 0 rgba(0, 0, 0, 0); }
+  50%      { box-shadow: 0 0 5px color-mix(in srgb, var(--accent-arcane) 55%, transparent); }
 }
 
 .mana-pip-fill {
@@ -264,7 +313,7 @@
   position: absolute;
   left: 0; top: 0;
   height: 100%;
-  background: rgba(51, 255, 51, 0.55);
+  background: color-mix(in srgb, var(--accent-arcane) 65%, transparent);
   transition: width 0.1s linear;
 }
 
@@ -435,23 +484,64 @@
   border-radius: 2px;
 }
 
-/* ─── Combat Log ─────────────────────────────────────── */
+/* ─── Combat Log (CombatLogPanel.tsx) ─────────────────── */
 
-.combat-log {
-  flex-shrink: 0;
-  border: 1px solid #222;
-  padding: 4px 8px;
-  max-height: 58px;
-  overflow-y: auto;
-  font-size: var(--font-sm);
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 3px;
+.bf-log-toggle {
+  margin-left: auto;
+}
+.bf-log-toggle--active {
+  color: var(--accent-gold) !important;
+  border-color: var(--accent-gold) !important;
 }
 
-.log-entry {
-  color: #777;
+.bf-log-panel {
+  position: absolute;
+  top: 36px;
+  right: 8px;
+  z-index: 20;
+  width: min(260px, 60vw);
+  max-height: 240px;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-2);
+  border: 1px solid var(--border-edge);
+  border-radius: var(--radius-md);
+  box-shadow: var(--elevation-overlay);
+  overflow: hidden;
+}
+
+.bf-log-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 4px 4px 8px;
+  font-size: var(--font-xs);
+  letter-spacing: 1px;
+  color: var(--game-text-color-dim);
+  border-bottom: 1px solid var(--border-edge-dark);
+  flex-shrink: 0;
+}
+
+.bf-log-panel-list {
+  overflow-y: auto;
+  padding: 4px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.bf-log-entry {
+  font-size: var(--font-xs);
   line-height: 1.5;
 }
+
+/* Colour-coded by best-effort keyword classification (see CombatLogPanel's
+   classify()) — routine ticks stay dim so kills/damage/buffs stand out. */
+.bf-log-entry--important { color: var(--accent-gold); font-weight: bold; }
+.bf-log-entry--kill      { color: var(--accent-ember); }
+.bf-log-entry--damage    { color: var(--color-orange); }
+.bf-log-entry--buff      { color: var(--game-text-color); }
+.bf-log-entry--routine   { color: var(--game-text-color-muted); }
 
 /* ─── Hand Panel ─────────────────────────────────────── */
 
@@ -461,6 +551,7 @@
   padding: 4px 6px;
   border-top: 1px solid var(--game-border);
   flex-shrink: 0;
+  background: var(--surface-1);
 }
 
 .stance-bar .filter-btn {

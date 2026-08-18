@@ -194,7 +194,7 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
 
 
 
-      <div className="card-cost">{displayCost ?? card.cost}</div>
+      <div className={`card-cost${!canAfford ? ' card-cost--unaffordable' : ''}`}>{displayCost ?? card.cost}</div>
       {upgradeable && <div className="card-upgrade-badge">UPGRADE</div>}
       <div className={`card-title${isSecret ? ' card-title--badge' : ''}`}>{card.name}</div>
       <div className="card-art u-flex u-items-c u-just-c">

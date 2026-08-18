@@ -20,6 +20,11 @@ import { hasSeen, markSeen } from '../../game/tutorial'
 import { useLetterboxSize } from '../../hooks/useLetterboxSize'
 import { loadDevConfig, patchDevConfig } from '../../game/devStore'
 import { isDevMode } from '../../game/debug'
+import { BaseBar } from './battlefield/BaseBar'
+import { ManaBar } from './battlefield/ManaBar'
+import { StanceBar } from './battlefield/StanceBar'
+import { TopBar } from './battlefield/TopBar'
+import { CombatLogPanel } from './battlefield/CombatLogPanel'
 
 const modalAutoDismissTime = 2000
 const BATTLE_TUTORIAL_ID = 'gameplay'
@@ -62,35 +67,6 @@ interface Props {
   isAdmin?: boolean
 }
 
-function ManaBar({ mana, maxMana, manaAccum }: { mana: number; maxMana: number; manaAccum: number }) {
-  const pips = Array.from({ length: maxMana }, (_, i) => {
-    if (i < mana) return 'full'
-    if (i === mana) return 'partial'
-    return 'empty'
-  })
-  return (
-    <div className="mana-bar u-flex u-items-c">
-      {pips.map((pipState, i) => (
-        <span key={i} className={`mana-pip mana-pip--${pipState}`}>
-          {pipState === 'partial'
-            ? <span className="mana-pip-fill" style={{ width: `${manaAccum * 100}%` }} />
-            : null}
-        </span>
-      ))}
-    </div>
-  )
-}
-
-function HpBar({ current, max, color }: { current: number; max: number; color: string }) {
-  const pct = Math.max(0, (current / max) * 100)
-  return (
-    <div className="hp-bar-track">
-      <div className="hp-bar-fill" style={{ width: `${pct}%`, background: color }} />
-      <span className="hp-bar-text">{current}/{max}</span>
-    </div>
-  )
-}
-
 const STRATEGY_LABELS: Record<string, string> = {
   swarm:  'SWARM',
   turtle: 'TURTLE',
@@ -131,6 +107,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
   // it. BattlefieldCanvas reads this every frame, so it takes effect at once.
   const [debugOverlay, setDebugOverlay] = useState(() => loadDevConfig().battlefieldDebugOverlay)
   const [showDeckViewer, setShowDeckViewer] = useState(false)
+  const [logOpen, setLogOpen] = useState(false)
   const [confirmGiveUp, setConfirmGiveUp] = useState(false)
   const [showBattleTutorial, setShowBattleTutorial] = useState(
     () => !isCampaign && !hasSeen(BATTLE_TUTORIAL_ID)
@@ -230,6 +207,8 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
   const timeStr = (isCampaign && !state.suddenDeath) ? countdownStr : elapsedStr
   const sdSec = Math.ceil(state.suddenDeathTimer / 1000)
   const event = state.activeBattleEvent
+  const activeRelicDef = activeRelic ? getRelicDef(activeRelic) : null
+  const activeRelicChip = activeRelicDef ? { icon: activeRelicDef.icon, name: activeRelicDef.name, desc: activeRelicDef.desc } : null
 
   // The battlefield always renders at a fixed aspect ratio (BATTLEFIELD_ASPECT_RATIO),
   // letterboxed within the stage rather than stretched — see useLetterboxSize. Falls
@@ -288,41 +267,22 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
 
       {/* Top cluster: floats above the lane in the reserved top band */}
       <div className="bf-top-cluster">
-      {/* Top bar: clock, scores */}
-      <div className={`top-bar${state.suddenDeath ? ' top-bar--sudden-death' : ''}`}>
-        <button className="bf-pause-btn" onClick={() => doPause(true)} title="Menu">MENU</button>
-        <span className="game-clock">{timeStr}</span>
-        {state.endlessMode && (
-          <span className="endless-wave-chip">WAVE {state.endlessWave ?? 1}</span>
-        )}
-        {state.endlessMode && (state.endlessWaveTruceMs ?? 0) > 0 && (
-          <span className="endless-truce-chip">TRUCE {Math.ceil((state.endlessWaveTruceMs ?? 0) / 1000)}s</span>
-        )}
-        <span className="score-display">
-          <span className="score-player">{state.playerScore}</span>
-          <span className="score-sep"> – </span>
-          <span className="score-opponent">{state.opponentScore}</span>
-        </span>
-        {event && (
-          <span className={`event-status-chip event-status-chip--${event.type}`}>
-            {event.type === 'bloodMoon' ? '🌑 BLOOD MOON'
-            : event.type === 'fogOfWar' ? '🌫 FOG OF WAR'
-            : event.type === 'supplyDrop' ? '📦 SUPPLY DROP'
-            : '🌋 QUAKE'}
-          </span>
-        )}
-        {activeRelic && (() => {
-          const def = getRelicDef(activeRelic)
-          return def ? (
-            <span className="relic-chip" title={def.desc}>
-              {def.icon} {def.name}
-            </span>
-          ) : null
-        })()}
-        {isNoDamageMode() && (
-          <span className="dev-badge">DEV MODE</span>
-        )}
-      </div>
+      <TopBar
+        timeStr={timeStr}
+        suddenDeath={state.suddenDeath}
+        endlessMode={state.endlessMode}
+        endlessWave={state.endlessWave}
+        endlessTruceSecs={Math.ceil((state.endlessWaveTruceMs ?? 0) / 1000)}
+        playerScore={state.playerScore}
+        opponentScore={state.opponentScore}
+        eventType={event?.type ?? null}
+        activeRelic={activeRelicChip}
+        devMode={isNoDamageMode()}
+        logAvailable
+        logOpen={logOpen}
+        onToggleLog={() => setLogOpen(o => !o)}
+        onPause={() => doPause(true)}
+      />
 
       {/* Replay modifier strip — only shown in pause menu */}
       {paused && activeModifiers && activeModifiers.length > 0 && (
@@ -334,20 +294,20 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
       )}
 
       {/* Opponent base */}
-      <div className="base-bar base-bar--opponent">
-        <img
-          className="base-bar-portrait base-bar-portrait--opponent"
-          src={`${BASE_SPRITE_PATH}${opponentCommanderSlug}.svg`}
-          alt="opponent"
-        />
-        <HpBar current={state.opponentBase.hp} max={state.opponentBase.maxHp} color="#ff4444" />
-        <span className="base-bar-info u-flex u-items-c u-gap-3">
-          {STRATEGY_LABELS[state.opponentStrategy] && (
-            <span className="strategy-label">{STRATEGY_LABELS[state.opponentStrategy]}</span>
-          )}
-        </span>
+      <BaseBar
+        owner="opponent"
+        portraitSrc={`${BASE_SPRITE_PATH}${opponentCommanderSlug}.svg`}
+        portraitAlt="opponent"
+        hp={state.opponentBase.hp}
+        maxHp={state.opponentBase.maxHp}
+        color="#ff4444"
+        rightSlot={STRATEGY_LABELS[state.opponentStrategy] && (
+          <span className="strategy-label">{STRATEGY_LABELS[state.opponentStrategy]}</span>
+        )}
+      />
       </div>
-      </div>
+
+      <CombatLogPanel entries={state.log} open={logOpen} onClose={() => setLogOpen(false)} />
 
       {/* The Lane — letterboxed to LANE_ASPECT_RATIO inside the slot the HUD
           bands leave, so its shape (and therefore its tile grid) is the same on
@@ -422,18 +382,15 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
       {/* Bottom cluster: floats below the lane in the reserved bottom band */}
       <div className="bf-bottom-cluster">
       {/* Player base */}
-      <div className="base-bar base-bar--player">
-        <img
-          className="base-bar-portrait base-bar-portrait--player"
-          src={`${BASE_SPRITE_PATH}${playerAvatar}.svg`}
-          alt={playerName}
-        />
-        <HpBar current={state.playerBase.hp} max={state.playerBase.maxHp} color="#33ff33" />
-        <span className="base-bar-info u-flex u-items-c u-gap-3">
-          MANA {state.mana}/{state.maxMana}
-          <ManaBar mana={state.mana} maxMana={state.maxMana} manaAccum={state.manaAccum} />
-        </span>
-      </div>
+      <BaseBar
+        owner="player"
+        portraitSrc={`${BASE_SPRITE_PATH}${playerAvatar}.svg`}
+        portraitAlt={playerName}
+        hp={state.playerBase.hp}
+        maxHp={state.playerBase.maxHp}
+        color="#33ff33"
+        rightSlot={<>MANA {state.mana}/{state.maxMana} <ManaBar mana={state.mana} maxMana={state.maxMana} manaAccum={state.manaAccum} /></>}
+      />
 
       {/* Stance + speed controls */}
       {(() => {
@@ -449,33 +406,17 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
           : 0
 
         return (
-          <div className="stance-bar">
-            {(['attack', 'hold', 'defend', 'auto'] as const).map(s => {
-              const isAllowed = !rules || rules.allowed.includes(s)
-              if (!isAllowed) return null
-              const label = s === 'attack' ? 'CHARGE' : s === 'hold' ? 'HOLD' : s === 'defend' ? 'DEFEND' : 'ATTACK'
-              const isActive = stance === s
-              const isCoolingDown = onCooldown && s !== 'auto' && !isActive
-              const showCountdown = isActive && s !== 'auto' && durationSecsLeft > 0
-              const showCooldown  = isCoolingDown && cooldownSecsLeft > 0
-              return (
-                <button
-                  key={s}
-                  className={`filter-btn${isActive ? ' filter-btn--active' : ''}${isCoolingDown ? ' filter-btn--cooldown' : ''}`}
-                  onClick={() => onSetStance?.(s)}
-                  disabled={(state.suddenDeath && s !== 'attack') || isCoolingDown}
-                  title={isCoolingDown ? `Available in ${cooldownSecsLeft}s` : undefined}
-                >
-                  {label}
-                  {showCountdown && <span className="stance-timer"> {durationSecsLeft}s</span>}
-                  {showCooldown  && <span className="stance-timer stance-timer--cd"> {cooldownSecsLeft}s</span>}
-                </button>
-              )
-            })}
-            <button className="filter-btn stance-bar__speed" onClick={onCycleSpeed}>
-              x{speedMultiplier}
-            </button>
-          </div>
+          <StanceBar
+            stance={stance}
+            allowedStances={rules?.allowed ?? null}
+            suddenDeath={state.suddenDeath}
+            onCooldown={onCooldown}
+            cooldownSecsLeft={cooldownSecsLeft}
+            durationSecsLeft={durationSecsLeft}
+            speedMultiplier={speedMultiplier}
+            onSetStance={onSetStance}
+            onCycleSpeed={onCycleSpeed}
+          />
         )
       })()}
 
