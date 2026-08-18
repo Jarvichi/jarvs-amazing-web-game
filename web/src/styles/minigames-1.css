@@ -164,7 +164,7 @@
 
 .nm-act-title {
   font-size: var(--font-sm);
-  color: #ffc832;
+  color: var(--accent-gold);
   letter-spacing: 2px;
   font-weight: bold;
 }
@@ -186,17 +186,27 @@
 }
 
 .nm-hp-track {
-  width: 80px;
-  height: 6px;
+  width: 100px;
+  height: 8px;
   background: var(--game-bg-card);
-  border: 1px solid var(--game-border);
-  border-radius: 3px;
+  border: 1px solid var(--border-edge);
+  border-radius: var(--radius-sm);
   overflow: hidden;
+}
+
+.nm-hp-track--low {
+  border-color: var(--accent-ember);
+  animation: nm-hp-low-pulse 1s ease-in-out infinite;
+}
+
+@keyframes nm-hp-low-pulse {
+  0%, 100% { box-shadow: 0 0 0 rgba(255, 68, 68, 0); }
+  50%      { box-shadow: 0 0 8px color-mix(in srgb, var(--accent-ember) 70%, transparent); }
 }
 
 .nm-hp-fill {
   height: 100%;
-  border-radius: 2px;
+  border-radius: var(--radius-sm);
   transition: width 0.4s ease, background 0.4s ease;
 }
 
@@ -212,13 +222,13 @@
 }
 
 .nm-life-pip {
-  font-size: var(--font-base);
+  font-size: var(--font-lg);
   line-height: 1;
   transition: color 0.2s;
 }
 
-.nm-life-pip--full  { color: #ff4466; }
-.nm-life-pip--empty { color: #333; }
+.nm-life-pip--full  { color: var(--accent-ember); text-shadow: 0 0 4px color-mix(in srgb, var(--accent-ember) 50%, transparent); }
+.nm-life-pip--empty { color: var(--border-edge-dark); }
 
 /* ─── Shared projectile/hit/AOE-ring effects (TowerDefence AttackEffect.tsx) ── */
 

@@ -35,10 +35,11 @@ export function RelicSelectScreen({ earnedRelics, currentRelic, brokenRelic, onS
       </div>
 
       <div className="relic-select-grid u-col u-gap-5">
-        {defs.map(({ name, def }) => (
+        {defs.map(({ name, def }, i) => (
           <button
             key={name}
             className={`relic-select-card${def!.exotic ? ' relic-select-card--exotic' : ''}${picked === name ? ' relic-select-card--chosen' : ''}`}
+            style={{ animationDelay: `${i * 60}ms` }}
             onClick={() => setPicked(name)}
           >
             {def!.exotic && <div className="relic-exotic-tag">EXOTIC</div>}
@@ -50,6 +51,7 @@ export function RelicSelectScreen({ earnedRelics, currentRelic, brokenRelic, onS
 
         <button
           className={`relic-select-card relic-select-card--none${picked === null ? ' relic-select-card--chosen' : ''}`}
+          style={{ animationDelay: `${defs.length * 60}ms` }}
           onClick={() => setPicked(null)}
         >
           <div className="relic-select-icon">✕</div>

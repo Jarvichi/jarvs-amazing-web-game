@@ -1,6 +1,7 @@
 import React from 'react'
 import { BattleStats } from '../../game/types'
 import { StatRow } from '../ui/StatRow'
+import { RunEndCard } from '../ui/RunEndCard'
 
 interface Props {
   stats: BattleStats
@@ -25,7 +26,7 @@ export function BattleSummary({ stats, gameTime, playerScore, onContinue }: Prop
 
   return (
     <div className="bsummary-backdrop">
-      <div className="bsummary-panel">
+      <RunEndCard tone="gold">
         <div className="bsummary-title">— BATTLE COMPLETE —</div>
 
         <div className="bsummary-stats u-col u-gap-3">
@@ -48,10 +49,10 @@ export function BattleSummary({ stats, gameTime, playerScore, onContinue }: Prop
           </div>
         )}
 
-        <button className="action-btn action-btn--large bsummary-continue" onClick={onContinue}>
+        <button className="action-btn action-btn--large action-btn--gold bsummary-continue" onClick={onContinue}>
           CLAIM REWARD →
         </button>
-      </div>
+      </RunEndCard>
     </div>
   )
 }

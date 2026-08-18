@@ -1121,8 +1121,9 @@
 .boss-dialogue-speaker {
   font-size: var(--font-md);
   letter-spacing: 3px;
-  color: #cc4444;
-  border-bottom: 1px solid #331111;
+  color: var(--accent-ember);
+  text-shadow: 0 0 10px color-mix(in srgb, var(--accent-ember) 50%, transparent);
+  border-bottom: 1px solid var(--border-edge-dark);
   padding-bottom: 16px;
 }
 
@@ -1139,7 +1140,7 @@
 
 .boss-dialogue-footer {
   padding-top: 24px;
-  border-top: 1px solid #1a1a1a;
+  border-top: 1px solid var(--border-edge-dark);
 }
 
 .boss-dialogue-continue {
@@ -1151,8 +1152,9 @@
 
 .boss-dialogue-fight {
   font-size: var(--font-sm);
-  color: #cc4444;
+  color: var(--accent-ember);
   letter-spacing: 3px;
+  text-shadow: 0 0 8px color-mix(in srgb, var(--accent-ember) 60%, transparent);
   animation: blink 0.9s step-end infinite;
 }
 
