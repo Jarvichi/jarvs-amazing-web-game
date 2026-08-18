@@ -2312,7 +2312,7 @@ body {
   width: 100%;
   font-size: 0.75rem;
   letter-spacing: 0.1em;
-  color: var(--game-accent, #f0c040);
+  color: var(--accent-gold);
   text-transform: uppercase;
   padding: 8px 4px 2px;
   border-bottom: 1px solid #333;
@@ -3276,13 +3276,12 @@ body {
   max-width: 320px;
   width: 100%;
   text-align: center;
-  font-family: var(--font-mono, monospace);
 }
 
 .confirm-modal-title {
   font-size: 1.1rem;
   font-weight: bold;
-  color: var(--game-accent, #f0c040);
+  color: var(--accent-gold);
   margin-bottom: 10px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -3290,7 +3289,7 @@ body {
 
 .confirm-modal-body {
   font-size: 0.85rem;
-  color: var(--game-text, #ccc);
+  color: var(--color-gray-10);
   margin-bottom: 20px;
   line-height: 1.4;
 }
@@ -3302,14 +3301,13 @@ body {
   border: 1px solid var(--game-border, #333);
   padding: 20px 18px 16px;
   width: min(680px, 96vw);
-  font-family: var(--font-mono, monospace);
 }
 
 .deck-selector-title {
   font-size: 1rem;
   font-weight: bold;
   letter-spacing: 0.1em;
-  color: var(--game-accent, #f0c040);
+  color: var(--accent-gold);
   text-align: center;
   margin-bottom: 14px;
   text-transform: uppercase;
@@ -3340,7 +3338,7 @@ body {
   font-size: 0.8rem;
   font-weight: bold;
   letter-spacing: 0.1em;
-  color: var(--game-text, #ccc);
+  color: var(--color-gray-10);
 }
 
 .deck-selector-active-badge {
@@ -3386,7 +3384,7 @@ body {
 }
 
 .deck-selector-name {
-  color: var(--game-text, #ccc);
+  color: var(--color-gray-10);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -5754,7 +5752,7 @@ body {
 }
 .mystery-header {
   font-size: 0.75rem;
-  color: var(--accent);
+  color: var(--accent-gold);
   letter-spacing: 0.3em;
 }
 .mystery-field {
@@ -5771,25 +5769,25 @@ body {
 }
 .mystery-lore {
   font-size: 0.8rem;
-  color: var(--fg-dim, #888);
+  color: var(--color-gray-8);
   font-style: italic;
   line-height: 1.6;
   max-width: 360px;
 }
 .mystery-chest {
   padding: 18px 28px;
-  border: 1px solid var(--accent);
+  border: 1px solid var(--accent-gold);
   background: #060610;
 }
 .mystery-chest-icon { font-size: 2rem; }
 .mystery-chest-label {
   font-size: 0.6rem;
   letter-spacing: 0.25em;
-  color: var(--accent);
+  color: var(--accent-gold);
 }
 .mystery-reward-value {
   font-size: 1rem;
-  color: var(--fg);
+  color: var(--game-text-color);
   letter-spacing: 0.05em;
 }
 .mystery-collect-btn { margin-top: 8px; }
@@ -5815,7 +5813,7 @@ body {
 }
 .char-title {
   font-size: 0.75rem;
-  color: var(--muted);
+  color: var(--game-text-color-muted);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-top: 2px;
@@ -5828,7 +5826,7 @@ body {
 .char-para {
   font-size: 0.9rem;
   line-height: 1.65;
-  color: var(--fg);
+  color: var(--game-text-color);
   margin: 0 0 12px;
 }
 .char-para--response {
@@ -5870,7 +5868,7 @@ body {
 }
 .char-banner-greeting {
   font-size: 0.82rem;
-  color: var(--fg);
+  color: var(--game-text-color);
   line-height: 1.5;
   margin-top: 4px;
   font-style: italic;
@@ -5904,7 +5902,7 @@ body {
 }
 .memory-para {
   font-size: 0.85rem;
-  color: var(--fg);
+  color: var(--game-text-color);
   line-height: 1.7;
   margin: 0;
 }
@@ -5948,7 +5946,7 @@ body {
 }
 .item-found-name {
   font-size: 1.1rem;
-  color: var(--fg);
+  color: var(--game-text-color);
   letter-spacing: 0.08em;
 }
 .item-found-desc {
@@ -5959,7 +5957,7 @@ body {
 }
 .item-found-lore {
   font-size: 0.8rem;
-  color: var(--fg-dim, #888);
+  color: var(--color-gray-8);
   font-style: italic;
   line-height: 1.6;
   max-width: 360px;
@@ -6090,7 +6088,7 @@ body {
   letter-spacing: 1px;
   color: var(--game-text-color-dim);
   padding-bottom: 4px;
-  border-bottom: 1px solid var(--game-border-color);
+  border-bottom: 1px solid var(--game-border);
 }
 .bf-deck-viewer-list {
   overflow-y: auto;
@@ -6150,7 +6148,7 @@ body {
   100% { opacity: 0; }
 }.boss-splash-warning {
   font-size: 0.85rem;
-  color: var(--accent);
+  color: var(--accent-ember);
   letter-spacing: 0.3em;
   animation: flicker 0.15s infinite alternate;
 }
@@ -6163,13 +6161,13 @@ body {
 }
 .boss-splash-unit {
   font-size: clamp(1.1rem, 4vw, 1.6rem);
-  color: var(--fg);
+  color: var(--game-text-color);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 .boss-splash-sub {
   font-size: 0.75rem;
-  color: var(--fg-dim, #888);
+  color: var(--color-gray-8);
   letter-spacing: 0.2em;
 }
 
@@ -6685,7 +6683,7 @@ body {
 }
 
 .reward-card-flipper--selected .reward-card-face {
-  outline: 2px solid var(--accent, #a060ff);
+  outline: 2px solid var(--accent-arcane);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -7145,7 +7143,7 @@ body {
 .inventory-item-count {
   font-size: var(--font-xs);
   font-weight: bold;
-  color: var(--game-accent-color, #4af);
+  color: #4af;
   text-align: center;
   margin-top: 2px;
 }
@@ -8216,7 +8214,7 @@ html.eightbit-mode .lane-layer {
 .codex-search {
   background: var(--game-bg, #0a0a0a);
   border: 1px solid var(--game-border, #2a5a2a);
-  color: var(--color-text, #aaffaa);
+  color: var(--game-text-color);
   font-family: inherit;
   font-size: 0.8rem;
   padding: 4px 8px;
@@ -8567,7 +8565,6 @@ html.eightbit-mode .lane-layer {
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
-  font-family: var(--game-font);
   color: var(--game-text-color);
 }
 .dc-date {
@@ -8701,7 +8698,6 @@ html.eightbit-mode .lane-layer {
   border: 1px solid var(--game-border);
   border-radius: 4px;
   padding: 10px 12px;
-  font-family: var(--game-font);
   color: var(--game-text-color);
   cursor: pointer;
 }
@@ -8781,7 +8777,6 @@ html.eightbit-mode .lane-layer {
   padding: 24px 16px;
   max-width: 440px;
   margin: 0 auto;
-  font-family: var(--game-font);
   color: var(--game-text-color);
 }
 
@@ -8811,7 +8806,6 @@ html.eightbit-mode .lane-layer {
   padding: 24px 16px;
   max-width: 440px;
   margin: 0 auto;
-  font-family: var(--game-font);
   color: var(--game-text-color);
 }
 .el-subtitle {
@@ -8884,7 +8878,7 @@ html.eightbit-mode .lane-layer {
 
 .rb-title {
   font-size: 1.429rem;
-  color: var(--game-accent-color, #33ff88);
+  color: #33ff88;
   letter-spacing: 2px;
 }
 
@@ -8932,7 +8926,7 @@ html.eightbit-mode .lane-layer {
 }
 
 .rb-tier--selected {
-  border-color: var(--game-accent-color, #33ff88);
+  border-color: #33ff88;
   background: #0d1a12;
 }
 
@@ -9038,7 +9032,6 @@ html.light-mode .action-btn {
 }
 .victory-text {
   font-size: clamp(2.5rem, 10vw, 5rem);
-  font-family: var(--game-font, monospace);
   font-weight: bold;
   letter-spacing: 0.12em;
   color: #7ddd7d;
@@ -9202,7 +9195,7 @@ html.light-mode .action-btn {
 }
 .gameover-endless-time {
   font-size: 1rem;
-  color: var(--game-text-muted);
+  color: var(--game-text-color-muted);
 }
 .gameover-endless-lb {
   width: 100%;
@@ -9529,7 +9522,7 @@ html.light-mode .action-btn {
 .title-training-btn:hover { background: #3a5a3a; border-color: #7dbd7d; }
 
 .training-hint {
-  color: var(--game-text-secondary, #aaa);
+  color: var(--color-gray-9);
   font-size: 0.85rem;
   text-align: center;
   margin: 0.5rem 0 1rem;
@@ -9539,9 +9532,9 @@ html.light-mode .action-btn {
   display: block;
   width: 100%;
   box-sizing: border-box;
-  background: var(--game-bg-secondary, #111);
+  background: var(--game-bg-raised);
   border: 1px solid var(--game-border, #333);
-  color: var(--game-text, #eee);
+  color: var(--color-gray-10);
   font-family: inherit;
   font-size: 0.9rem;
   padding: 0.5rem 0.75rem;
@@ -9562,9 +9555,9 @@ html.light-mode .action-btn {
   flex-direction: column;
   align-items: center;
   gap: 0.25rem;
-  background: var(--game-bg-secondary, #111);
+  background: var(--game-bg-raised);
   border: 1px solid var(--game-border, #333);
-  color: var(--game-text, #eee);
+  color: var(--color-gray-10);
   border-radius: 6px;
   padding: 0.6rem 0.4rem;
   cursor: pointer;
@@ -9580,7 +9573,7 @@ html.light-mode .action-btn {
 .training-empty {
   grid-column: 1 / -1;
   text-align: center;
-  color: var(--game-text-secondary, #aaa);
+  color: var(--color-gray-9);
   font-size: 0.85rem;
   padding: 1rem 0;
 }
@@ -9589,7 +9582,7 @@ html.light-mode .action-btn {
   gap: 1rem;
   margin-bottom: 1rem;
 }
-.training-page-label { font-size: 0.85rem; color: var(--game-text-secondary, #aaa); }
+.training-page-label { font-size: 0.85rem; color: var(--color-gray-9); }
 
 .training-enemy-preview {
   display: flex;
@@ -9598,7 +9591,7 @@ html.light-mode .action-btn {
   justify-content: center;
   margin-bottom: 1.25rem;
   padding: 0.75rem;
-  background: var(--game-bg-secondary, #111);
+  background: var(--game-bg-raised);
   border: 1px solid #4a7a4a;
   border-radius: 6px;
 }
@@ -9610,7 +9603,7 @@ html.light-mode .action-btn {
 }
 
 .training-rules {
-  background: var(--game-bg-secondary, #111);
+  background: var(--game-bg-raised);
   border: 1px solid var(--game-border, #333);
   border-radius: 6px;
   padding: 0.75rem 1rem;
@@ -9618,7 +9611,7 @@ html.light-mode .action-btn {
 }
 .training-rules-title {
   font-size: 0.75rem;
-  color: var(--game-text-secondary, #aaa);
+  color: var(--color-gray-9);
   letter-spacing: 0.08em;
   margin-bottom: 0.5rem;
 }
@@ -9626,7 +9619,7 @@ html.light-mode .action-btn {
   margin: 0;
   padding: 0 0 0 1.25rem;
   font-size: 0.8rem;
-  color: var(--game-text, #eee);
+  color: var(--color-gray-10);
   line-height: 1.7;
 }
 .training-sprite-lg { width: 48px; height: 48px; image-rendering: pixelated; }
@@ -14511,7 +14504,6 @@ html.light-mode .action-btn {
 .farm-worker-hint { font-size: 10px; color: #608050; }
 .farm-worker-hire-btn {
   margin-left: auto;
-  font-family: var(--font-mono, monospace);
   font-size: 10px;
   background: #1a2e10;
   color: #607050;
@@ -14597,7 +14589,6 @@ html.light-mode .action-btn {
 
 /* ── City level badge ──────────────────────────────────────────────────────── */
 .city-level-badge {
-  font-family: var(--font-mono, monospace);
   font-size: 11px;
   font-weight: bold;
   color: #c0f0a0;
@@ -14621,7 +14612,6 @@ html.light-mode .action-btn {
   flex-direction: column;
   gap: 12px;
   color: #a0c090;
-  font-family: var(--font-mono, monospace);
 }
 .city-info-modal-title {
   font-size: 14px;
