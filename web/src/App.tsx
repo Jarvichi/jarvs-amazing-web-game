@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useRef, useMemo, useReducer, Suspense } from 'react'
 import { ScreenLoadingFallback } from './components/ScreenLoadingFallback'
+import { IconSprite } from './components/ui/icons/IconSprite'
 import { resolvedNodeOpts, loadHandicap } from './game/campaignHelpers'
 import { usePlaytime } from './hooks/usePlaytime'
 import { recordScreen } from './utils/crashSentinel'
@@ -1244,6 +1245,7 @@ export default function App() {
     <AppProvider value={appContextValue}>
     <BattleProvider value={battleContextValue}>
     <div className="game-container">
+      <IconSprite />
       <div className="game-title">JARV'S AMAZING WEB GAME</div>
 
       <Suspense fallback={<ScreenLoadingFallback />}>
