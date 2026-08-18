@@ -1,5 +1,6 @@
 import React from 'react'
 import { StatRow } from '../ui/StatRow'
+import { RunEndCard } from '../ui/RunEndCard'
 
 interface Props {
   playerScore: number
@@ -20,7 +21,7 @@ function formatTime(ms: number): string {
 export function VictoryPanel({ playerScore, opponentScore, playerBaseHp, playerBaseMaxHp, unitsDefeated, gameTime, onContinue }: Props) {
   return (
     <div className="bsummary-backdrop">
-      <div className="bsummary-panel vpanel u-text-c u-items-c">
+      <RunEndCard tone="gold" className="vpanel u-text-c u-items-c">
         <div className="victory-text vpanel-headline">YOU WIN!</div>
 
         <div className="bsummary-stats u-col u-gap-3">
@@ -30,10 +31,10 @@ export function VictoryPanel({ playerScore, opponentScore, playerBaseHp, playerB
           <StatRow accent label="TIME"           value={formatTime(gameTime)} />
         </div>
 
-        <button className="action-btn action-btn--large bsummary-continue" onClick={onContinue}>
+        <button className="action-btn action-btn--large action-btn--gold bsummary-continue" onClick={onContinue}>
           Continue →
         </button>
-      </div>
+      </RunEndCard>
     </div>
   )
 }

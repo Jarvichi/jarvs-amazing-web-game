@@ -85,36 +85,31 @@
   min-height: 100dvh;
   padding: 32px 24px;
   gap: 24px;
-  background: #000a05;
-}
-.cv-glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center, rgba(0,200,100,0.12) 0%, rgba(255,215,0,0.06) 50%, transparent 70%);
-  pointer-events: none;
+  background: var(--game-bg);
 }
 .cv-ascii {
-  color: var(--color-gold);
+  color: var(--accent-gold);
   font-size: clamp(10px, 2.5vw, 14px);
   line-height: 1.5;
   margin: 0;
-  text-shadow: 0 0 14px rgba(255,215,0,0.7);
+  text-shadow: 0 0 14px color-mix(in srgb, var(--accent-gold) 70%, transparent);
 }
 .cv-body {
   color: var(--game-text-color-muted);
   font-size: 1rem;
   line-height: 1.8;
   max-width: 340px;
+  text-align: center;
 }
 .cv-title {
-  color: var(--color-gold);
+  color: var(--accent-gold);
   font-size: 1.286rem;
   font-weight: bold;
   letter-spacing: 2px;
-  text-shadow: 0 0 10px rgba(255,215,0,0.8);
+  text-shadow: 0 0 10px color-mix(in srgb, var(--accent-gold) 80%, transparent);
 }
 .cv-reward {
-  color: #55ff99;
+  color: var(--color-green-bright);
   margin-top: 8px;
 }
 
@@ -122,22 +117,15 @@
   min-height: 100dvh;
   padding: 32px 24px;
   gap: 24px;
-  background: #0a0000;
-}
-
-.cf-glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center, rgba(180,0,0,0.15) 0%, transparent 70%);
-  pointer-events: none;
+  background: var(--game-bg);
 }
 
 .cf-ascii {
-  color: #cc2222;
+  color: var(--accent-ember);
   font-size: clamp(10px, 2.5vw, 14px);
   line-height: 1.5;
   margin: 0;
-  text-shadow: 0 0 12px rgba(200,0,0,0.6);
+  text-shadow: 0 0 12px color-mix(in srgb, var(--accent-ember) 60%, transparent);
 }
 
 .cf-body {
@@ -145,10 +133,11 @@
   font-size: 1rem;
   line-height: 1.8;
   max-width: 320px;
+  text-align: center;
 }
 
 .cf-reward {
-  color: var(--color-gold-light);
+  color: var(--accent-gold);
   margin-top: 8px;
 }
 
@@ -899,24 +888,14 @@
   animation: fadeIn 0.4s ease-out;
 }
 
-.ac-glow {
-  position: absolute;
-  top: 0; left: 50%;
-  transform: translateX(-50%);
-  width: 300px;
-  height: 200px;
-  background: radial-gradient(ellipse at center, rgba(255, 200, 50, 0.08) 0%, transparent 70%);
-  pointer-events: none;
-}
-
 .ac-header { display: flex; flex-direction: column; gap: 4px; }
 
 .ac-cleared {
   font-size: 1.714rem;
   font-weight: bold;
-  color: #ffc832;
+  color: var(--accent-gold);
   letter-spacing: 5px;
-  text-shadow: 0 0 20px rgba(255, 200, 50, 0.5);
+  text-shadow: 0 0 20px color-mix(in srgb, var(--accent-gold) 50%, transparent);
 }
 
 .ac-act {
@@ -932,13 +911,6 @@
 }
 
 .ac-relic {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 16px 24px;
-  border: 1px solid rgba(255, 200, 50, 0.25);
-  border-radius: 6px;
-  background: rgba(255, 200, 50, 0.03);
   min-width: 220px;
 }
 
@@ -951,7 +923,7 @@
 
 .ac-relic-name {
   font-size: var(--font-xl);
-  color: #ffc832;
+  color: var(--accent-gold);
   font-weight: bold;
   letter-spacing: 2px;
 }

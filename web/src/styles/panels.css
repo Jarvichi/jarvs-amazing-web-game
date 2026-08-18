@@ -63,6 +63,39 @@
 .panel--danger .panel-corner { border-color: var(--accent-ember); }
 .panel--arcane .panel-corner { border-color: var(--accent-arcane); }
 
+/* ─── RunEndCard (#2179) ─────────────────────────────────
+   Shared "run outcome" shape for victory/defeat/summary/act-complete
+   screens — a floating panel with an ambient tinted glow behind it and a
+   bouncy entrance pop, replacing per-screen backdrop/panel duplication. */
+
+.run-end-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-3);
+  padding: 20px;
+  max-width: 360px;
+  width: 100%;
+  animation: run-end-card-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes run-end-card-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.run-end-glow {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  height: 220px;
+  pointer-events: none;
+}
+
+.run-end-glow--gold   { background: radial-gradient(ellipse at center, color-mix(in srgb, var(--accent-gold) 16%, transparent) 0%, transparent 70%); }
+.run-end-glow--ember  { background: radial-gradient(ellipse at center, color-mix(in srgb, var(--accent-ember) 16%, transparent) 0%, transparent 70%); }
+.run-end-glow--arcane { background: radial-gradient(ellipse at center, color-mix(in srgb, var(--accent-arcane) 16%, transparent) 0%, transparent 70%); }
+
 /* ─── Section ────────────────────────────────────────── */
 
 .section {

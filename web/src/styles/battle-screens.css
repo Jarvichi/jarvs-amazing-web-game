@@ -554,38 +554,26 @@
   z-index: 200;
 }
 
-.bsummary-panel {
-  background: var(--game-bg);
-  border: 1px solid #2a4a2a;
-  max-width: 320px;
-  width: 100%;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  box-shadow: 0 0 32px rgba(51, 255, 51, 0.1);
-}
-
 .bsummary-title {
   font-size: var(--font-sm);
   letter-spacing: 2px;
-  color: #4a8a4a;
+  color: var(--accent-gold);
   text-align: center;
   padding-bottom: 8px;
-  border-bottom: 1px solid #1e2e1e;
+  border-bottom: 1px solid var(--border-edge-dark);
 }
 
 /* bsummary rows → .stat-row / .stat-label / .stat-value--accent */
 
 .bsummary-cards {
-  border-top: 1px solid #1e2e1e;
+  border-top: 1px solid var(--border-edge-dark);
   padding-top: 10px;
 }
 
 .bsummary-cards-label {
   font-size: var(--font-xxs);
   letter-spacing: 1.5px;
-  color: #4a8a4a;
+  color: var(--accent-gold);
   margin-bottom: 4px;
 }
 
@@ -595,12 +583,12 @@
 
 .bsummary-card-name {
   font-size: var(--font-sm);
-  color: #88cc88;
+  color: var(--game-text-color-dim);
 }
 
 .bsummary-card-count {
   font-size: var(--font-sm);
-  color: #33ff33;
+  color: var(--accent-gold);
 }
 
 .bsummary-continue {
@@ -608,13 +596,11 @@
 }
 
 /* ── Victory Panel overlay (celebration phase) ────────────── */
-.vpanel {
-  border-color: #2a6a2a;
-  box-shadow: 0 0 48px rgba(51, 255, 51, 0.18);
-}
 .vpanel-headline {
   font-size: clamp(2rem, 8vw, 3.5rem);
   margin-bottom: 4px;
+  color: var(--accent-gold);
+  text-shadow: 0 0 24px color-mix(in srgb, var(--accent-gold) 60%, transparent);
 }
 
 /* ── Quick Battle Screen ────────────────────────────────────────────────── */

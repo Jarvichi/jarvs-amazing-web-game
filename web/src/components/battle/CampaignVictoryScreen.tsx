@@ -1,5 +1,6 @@
 import React from 'react'
 import { loadPlayerName } from '../../game/questline'
+import { RunEndCard } from '../ui/RunEndCard'
 
 interface Props {
   onBeginAnew: () => void
@@ -34,17 +35,16 @@ export function CampaignVictoryScreen({ onBeginAnew, campaignId = 'c1' }: Props)
   const copy = VICTORY_COPY[campaignId] ?? VICTORY_COPY.c1
   return (
     <div className="campaign-victory u-col u-items-c u-just-c u-relative u-text-c">
-      <div className="cv-glow" />
       <pre className="cv-ascii">{`  ╔══════════════════════╗
   ║  QUESTLINE  COMPLETE ║
   ╚══════════════════════╝`}</pre>
-      <div className="cv-body">
+      <RunEndCard tone="gold" className="cv-body u-items-c">
         <p className="cv-title">{copy.title}</p>
         {copy.lines.map((line, i) => (
           <p key={i}>{line.replace('{playerName}', playerName)}</p>
         ))}
         <p className="cv-reward">+500 ◆ awarded for completing the questline.</p>
-      </div>
+      </RunEndCard>
       <button className="action-btn action-btn--large action-btn--gold" onClick={onBeginAnew}>
         [ Claim Reward ]
       </button>
