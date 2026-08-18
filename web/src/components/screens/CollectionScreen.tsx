@@ -641,7 +641,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
             <div className="daily-modal-desc" style={{ textAlign: 'center' }}>
               Total: +{disenchantModal.reduce((s, i) => s + i.crystals, 0)} 💎
             </div>
-            <button className="action-btn" onClick={() => setDisenchantModal(null)}>OK</button>
+            <Button onClick={() => setDisenchantModal(null)}>OK</Button>
           </div>
         </ModalBackdrop>
       )}
@@ -664,7 +664,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
             <div className="daily-modal-desc" style={{ textAlign: 'center' }}>
               Total: +{upgradeModal.reduce((s, i) => s + i.xpGained, 0)} mastery XP
             </div>
-            <button className="action-btn" onClick={() => setUpgradeModal(null)}>OK</button>
+            <Button onClick={() => setUpgradeModal(null)}>OK</Button>
           </div>
         </ModalBackdrop>
       )}
@@ -676,9 +676,9 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
     <OverlayScreen title="COLLECTION" onBack={onBack} right={
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         {onViewAugments && (
-          <button className="action-btn" style={{ fontSize: 12, padding: '3px 10px' }} onClick={onViewAugments}>
+          <Button style={{ fontSize: 12, padding: '3px 10px' }} onClick={onViewAugments}>
             Augments 👻
-          </button>
+          </Button>
         )}
         <span className="crystal-count">💎 {crystals.toLocaleString()}</span>
       </div>

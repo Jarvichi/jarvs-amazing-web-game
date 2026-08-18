@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { LedScroller, LedScrollerMessage } from '../ui/LedScroller/LedScroller'
+import { Button } from '../ui/Button'
 import { getChronicleStatus } from '../../game/chronicle'
 import { getAllNews, markNewsRead, dismissNewsItem, loadDismissedNewsIds, NewsItem } from '../../game/news'
 
@@ -87,17 +88,15 @@ export function NewsScreen({ onBack }: Props) {
         ))}
         {!loading && pageCount > 1 && (
           <div className="news-pagination">
-            <button
-              className="action-btn"
+            <Button
               disabled={safePage === 0}
               onClick={() => setPage(p => Math.max(0, p - 1))}
-            >← Prev</button>
+            >← Prev</Button>
             <span className="news-pagination__label">{safePage + 1} / {pageCount}</span>
-            <button
-              className="action-btn"
+            <Button
               disabled={safePage === pageCount - 1}
               onClick={() => setPage(p => Math.min(pageCount - 1, p + 1))}
-            >Next →</button>
+            >Next →</Button>
           </div>
         )}
       </div>

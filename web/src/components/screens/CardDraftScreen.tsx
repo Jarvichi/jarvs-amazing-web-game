@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react'
 import { CardTile } from '../cards/CardTile'
 import { getCardCatalog } from '../../game/cards'
 import { SECRET_RARITIES } from '../../game/types'
+import { Button } from '../ui/Button'
 
 const ROUNDS = 8
 const CHOICES_PER_ROUND = 3
@@ -48,7 +49,7 @@ export function CardDraftScreen({ onComplete, onBack }: Props) {
       </div>
 
       {round === 0 && (
-        <button className="action-btn action-btn--danger" onClick={onBack}>← BACK</button>
+        <Button variant="danger" onClick={onBack}>← BACK</Button>
       )}
     </div>
   )

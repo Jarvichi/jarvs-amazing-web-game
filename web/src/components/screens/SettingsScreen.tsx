@@ -5,6 +5,7 @@ import {
 import { isSoundEnabled, setSoundEnabled, getSoundVolume, setSoundVolume, getMusicVolume, setMusicVolume } from '../../game/sound'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Section } from '../ui/Section'
+import { Button } from '../ui/Button'
 import { LoginModal } from '../modals/LoginModal'
 import rollbar from '../../rollbar'
 import { auth } from '../../firebase'
@@ -437,12 +438,12 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                   </div>
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
-                  <button className="action-btn" onClick={handleSync} disabled={syncing}>
+                  <Button onClick={handleSync} disabled={syncing}>
                     {syncing ? 'SYNCING...' : 'SYNC NOW'}
-                  </button>
-                  <button className="action-btn" onClick={handleSignOut} style={{ fontSize: '11px', padding: '6px 12px' }}>
+                  </Button>
+                  <Button onClick={handleSignOut} style={{ fontSize: '11px', padding: '6px 12px' }}>
                     SIGN OUT
-                  </button>
+                  </Button>
                 </div>
               </div>
               {pendingCloudSave && (
@@ -452,8 +453,8 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                   </div>
                   <div className="settings-sublabel">Load it? Your local progress will be replaced.</div>
                   <div style={{ display: 'flex', gap: '8px' }}>
-                    <button className="action-btn" onClick={handleLoadCloudSave}>LOAD CLOUD SAVE</button>
-                    <button className="action-btn" onClick={handleKeepLocal} style={{ fontSize: '11px', padding: '6px 12px' }}>KEEP LOCAL</button>
+                    <Button onClick={handleLoadCloudSave}>LOAD CLOUD SAVE</Button>
+                    <Button onClick={handleKeepLocal} style={{ fontSize: '11px', padding: '6px 12px' }}>KEEP LOCAL</Button>
                   </div>
                 </div>
               )}
@@ -465,9 +466,9 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                 <div className="settings-label">Sync save across devices</div>
                 <div className="settings-sublabel">Sign in to back up and restore your progress</div>
               </div>
-              <button className="action-btn" onClick={() => setShowLoginModal(true)} disabled={authLoading}>
+              <Button onClick={() => setShowLoginModal(true)} disabled={authLoading}>
                 SIGN IN
-              </button>
+              </Button>
             </div>
           )}
           {syncMsg && (
@@ -581,13 +582,13 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
             {confirmReset ? (
               <div className="settings-confirm-row u-flex u-gap-4 u-items-c u-just-end">
                 <span className="settings-confirm-msg">Are you sure? This cannot be undone.</span>
-                <button className="action-btn action-btn--danger settings-danger-btn" onClick={handleReset}>CONFIRM RESET</button>
-                <button className="action-btn" onClick={() => setConfirmReset(false)} style={{ fontSize: '11px', padding: '6px 12px' }}>CANCEL</button>
+                <Button variant="danger" className="settings-danger-btn" onClick={handleReset}>CONFIRM RESET</Button>
+                <Button onClick={() => setConfirmReset(false)} style={{ fontSize: '11px', padding: '6px 12px' }}>CANCEL</Button>
               </div>
             ) : (
-              <button className="action-btn action-btn--danger settings-danger-btn" onClick={handleReset}>
+              <Button variant="danger" className="settings-danger-btn" onClick={handleReset}>
                 RESET GAME
-              </button>
+              </Button>
             )}
           </div>
         </Section>
@@ -600,18 +601,18 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                 <div className="settings-sublabel">Which screen opens when the game launches</div>
               </div>
               <div style={{ display: 'flex', gap: '8px' }}>
-                <button
-                  className={`action-btn${hubDefault === 'hub' ? ' action-btn--gold' : ''}`}
+                <Button
+                  variant={hubDefault === 'hub' ? 'gold' : 'default'}
                   onClick={() => { saveHubDefault('hub'); setHubDefault('hub') }}
                 >
                   HUB WORLD
-                </button>
-                <button
-                  className={`action-btn${hubDefault === 'title' ? ' action-btn--gold' : ''}`}
+                </Button>
+                <Button
+                  variant={hubDefault === 'title' ? 'gold' : 'default'}
                   onClick={() => { saveHubDefault('title'); setHubDefault('title') }}
                 >
                   TITLE SCREEN
-                </button>
+                </Button>
               </div>
             </div>
           </Section>
@@ -625,7 +626,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                   <div className="settings-label">Hub World</div>
                   <div className="settings-sublabel">Prototype terrain canvas</div>
                 </div>
-                <button className="action-btn" onClick={onHubWorld}>OPEN</button>
+                <Button onClick={onHubWorld}>OPEN</Button>
               </div>
             )}
             <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
@@ -633,7 +634,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                 <div className="settings-label">Unlock Hub World</div>
                 <div className="settings-sublabel">Dev cheat — sets the hub world unlock flag</div>
               </div>
-              <button className="action-btn" onClick={() => { unlockHubWorld(); window.location.reload() }}>UNLOCK</button>
+              <Button onClick={() => { unlockHubWorld(); window.location.reload() }}>UNLOCK</Button>
             </div>
           </Section>
         )}
@@ -645,14 +646,14 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                 <div className="settings-label">Export save data</div>
                 <div className="settings-sublabel">Download all localStorage as a JSON file</div>
               </div>
-              <button className="action-btn" onClick={exportLocalStorage}>EXPORT</button>
+              <Button onClick={exportLocalStorage}>EXPORT</Button>
             </div>
             <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
               <div>
                 <div className="settings-label">Import save data</div>
                 <div className="settings-sublabel">Load a previously exported JSON save file</div>
               </div>
-              <button className="action-btn" onClick={() => importRef.current?.click()}>IMPORT</button>
+              <Button onClick={() => importRef.current?.click()}>IMPORT</Button>
               <input ref={importRef} type="file" accept=".json" style={{ display: 'none' }} onChange={handleImport} />
             </div>
             {importMsg && (
@@ -667,14 +668,14 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                 <div className="settings-label">Rollbar: send info</div>
                 <div className="settings-sublabel">Send a test info event to Rollbar</div>
               </div>
-              <button className="action-btn" onClick={handleRollbarTest}>SEND INFO</button>
+              <Button onClick={handleRollbarTest}>SEND INFO</Button>
             </div>
             <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
               <div>
                 <div className="settings-label">Rollbar: trigger error</div>
                 <div className="settings-sublabel">Throw an intentional error for Rollbar to capture</div>
               </div>
-              <button className="action-btn action-btn--danger" onClick={handleRollbarError}>TRIGGER ERROR</button>
+              <Button variant="danger" onClick={handleRollbarError}>TRIGGER ERROR</Button>
             </div>
             {rollbarMsg && (
               <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
@@ -694,7 +695,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                   <div className="settings-label">Gift management</div>
                   <div className="settings-sublabel">Create and delete one-off player gifts</div>
                 </div>
-                <button className="action-btn action-btn--gold" onClick={onGiftAdmin}>OPEN</button>
+                <Button variant="gold" onClick={onGiftAdmin}>OPEN</Button>
               </div>
             )}
             {onNewsAdmin && (
@@ -703,7 +704,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                   <div className="settings-label">News / What's New</div>
                   <div className="settings-sublabel">Post new feature announcements and patch notes</div>
                 </div>
-                <button className="action-btn action-btn--gold" onClick={onNewsAdmin}>OPEN</button>
+                <Button variant="gold" onClick={onNewsAdmin}>OPEN</Button>
               </div>
             )}
             {onCampaignAdmin && (
@@ -712,7 +713,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                   <div className="settings-label">Campaign editor</div>
                   <div className="settings-sublabel">Edit act nodes, enemy decks, and environments</div>
                 </div>
-                <button className="action-btn action-btn--gold" onClick={onCampaignAdmin}>OPEN</button>
+                <Button variant="gold" onClick={onCampaignAdmin}>OPEN</Button>
               </div>
             )}
             {onFeedbackAdmin && (
@@ -721,7 +722,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                   <div className="settings-label">Feedback inbox</div>
                   <div className="settings-sublabel">View and delete player-submitted feedback</div>
                 </div>
-                <button className="action-btn action-btn--gold" onClick={onFeedbackAdmin}>OPEN</button>
+                <Button variant="gold" onClick={onFeedbackAdmin}>OPEN</Button>
               </div>
             )}
             {onTownAccessAdmin && (
@@ -730,7 +731,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                   <div className="settings-label">Town access</div>
                   <div className="settings-sublabel">Choose which hub-world towns players can enter</div>
                 </div>
-                <button className="action-btn action-btn--gold" onClick={onTownAccessAdmin}>OPEN</button>
+                <Button variant="gold" onClick={onTownAccessAdmin}>OPEN</Button>
               </div>
             )}
             <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
@@ -738,7 +739,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                 <div className="settings-label">Reset hub quests &amp; pickups</div>
                 <div className="settings-sublabel">Clears all quest progress and collected pickup state</div>
               </div>
-              <button className="action-btn action-btn--danger" onClick={handleResetHubData}>RESET</button>
+              <Button variant="danger" onClick={handleResetHubData}>RESET</Button>
             </div>
           </Section>
         )}
@@ -809,13 +810,12 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                   {updateStatus === 'done'     && 'Done. If a new version was found the game will reload automatically.'}
                 </div>
               </div>
-              <button
-                className="action-btn"
+              <Button
                 onClick={handleCheckForUpdates}
                 disabled={updateStatus === 'checking'}
               >
                 {updateStatus === 'checking' ? 'CHECKING...' : 'CHECK FOR UPDATES'}
-              </button>
+              </Button>
             </div>
           )}
         </Section>

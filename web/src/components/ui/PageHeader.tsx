@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from './Button'
 export interface Props {
     title: React.ReactNode | string
       subtitle?: string
@@ -9,7 +10,7 @@ export interface Props {
 export function PageHeader({ title, subtitle, onBack, right }: Props) {
     return (
         <div className="overlay-header u-flex u-items-c u-gap-6">
-            {onBack && <button className="action-btn" onClick={onBack}>← BACK</button>}
+            {onBack && <Button onClick={onBack}>← BACK</Button>}
                     <div className="nm-act-label u-col u-grow">
             <span className="overlay-title">{title}</span>
             {subtitle && <span className="nm-act-sub">{subtitle}</span>}

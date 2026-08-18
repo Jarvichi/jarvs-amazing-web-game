@@ -403,13 +403,12 @@ export function AugmentCollectionScreen({ onBack, embedded }: Props) {
           <span className="aug-stack-drill-title">
             {activeStack.setName} Set
           </span>
-          <button
-            className="action-btn"
+          <Button
             onClick={() => setEquipTarget(activeStack)}
             style={{ fontSize: 11, padding: '2px 8px' }}
           >
             Equip to Unit
-          </button>
+          </Button>
         </div>
       ) : (
         /* Filter bar — only shown when not in drill-down */
@@ -513,13 +512,14 @@ export function AugmentCollectionScreen({ onBack, embedded }: Props) {
               <span style={{ fontSize: 12, opacity: 0.8 }}>
                 Stack: {stackLevelSummary(activeStack)}
               </span>
-              <button
-                className={`action-btn action-btn--gold${souls >= stackUpgradeCost(activeStack) ? '' : ' action-btn--disabled'}`}
+              <Button
+                variant="gold"
+                className={souls >= stackUpgradeCost(activeStack) ? '' : 'action-btn--disabled'}
                 onClick={() => handleUpgradeStack(activeStack)}
                 style={{ fontSize: 11, padding: '2px 8px' }}
               >
                 ↑ Upgrade Stack · {stackUpgradeCost(activeStack).toLocaleString()} souls
-              </button>
+              </Button>
             </div>
           )}
 
@@ -550,18 +550,18 @@ export function AugmentCollectionScreen({ onBack, embedded }: Props) {
                               onClick={e => { e.stopPropagation(); setDetailCardName(inst.equippedToCardName!) }}
                             >↗</span>
                           )}
-                          <button
-                            className={`action-btn action-btn--gold${souls < AUGMENT_UPGRADE_COST ? ' action-btn--disabled' : ''}`}
+                          <Button
+                            variant="gold"
+                            className={souls < AUGMENT_UPGRADE_COST ? 'action-btn--disabled' : ''}
                             onClick={e => { e.stopPropagation(); handleUpgrade(inst) }}
                             title={`Upgrade · ${AUGMENT_UPGRADE_COST} souls`}
                             style={{ padding: '1px 6px', fontSize: 11 }}
-                          >↑</button>
-                          <button
-                            className="action-btn"
+                          >↑</Button>
+                          <Button
                             onClick={e => { e.stopPropagation(); handleBreakdown(inst) }}
                             title={`Break down · +${AUGMENT_DISENCHANT_VALUE[displayCard.rarity]} souls`}
                             style={{ padding: '1px 6px', fontSize: 11 }}
-                          >💀</button>
+                          >💀</Button>
                         </div>
                       </LazyCell>
                     ))}

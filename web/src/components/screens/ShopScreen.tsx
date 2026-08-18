@@ -29,6 +29,7 @@ import { saveCrystals } from '../../game/collection'
 import { emitSound } from '../../game/sound'
 import { SpriteImg } from '../ui/SpriteImg'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { Button } from '../ui/Button'
 import { getCardCatalog } from '../../game/cards'
 import { CardTile } from '../cards/CardTile'
 
@@ -301,14 +302,15 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
                   {bought ? (
                     <div className="shop-purchased">PURCHASED ✓</div>
                   ) : (
-                    <button
-                      className={`action-btn action-btn--gold shop-card-buy-btn${!canAfford ? ' shop-card-buy-btn--poor' : ''}`}
+                    <Button
+                      variant="gold"
+                      className={`shop-card-buy-btn${!canAfford ? ' shop-card-buy-btn--poor' : ''}`}
                       onClick={() => handleBuyCard(deal)}
                       disabled={!canAfford}
                     >
                       {discounted && <span className="shop-discount-badge">-10%</span>}
                       {price} 💎
-                    </button>
+                    </Button>
                   )}
                 </div>
               )
@@ -336,13 +338,14 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
                 {bought ? (
                   <div className="shop-purchased">PURCHASED ✓</div>
                 ) : (
-                  <button
-                    className={`action-btn action-btn--gold shop-card-buy-btn${!canAfford ? ' shop-card-buy-btn--poor' : ''}`}
+                  <Button
+                    variant="gold"
+                    className={`shop-card-buy-btn${!canAfford ? ' shop-card-buy-btn--poor' : ''}`}
                     onClick={handleBuyAugment}
                     disabled={!canAfford}
                   >
                     {dailyAugment.price} 💎
-                  </button>
+                  </Button>
                 )}
               </div>
             </div>
@@ -362,14 +365,15 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
                   <div className="shop-consumable-icon">{c.icon}</div>
                   <div className="shop-consumable-name">{c.name}</div>
                   <div className="shop-consumable-desc">{c.desc}</div>
-                  <button
-                    className={`action-btn action-btn--gold shop-consumable-buy-btn${canAfford ? '' : ' shop-card-buy-btn--poor'}`}
+                  <Button
+                    variant="gold"
+                    className={`shop-consumable-buy-btn${canAfford ? '' : ' shop-card-buy-btn--poor'}`}
                     onClick={() => handleBuyConsumable(c.id, c.price)}
                     disabled={!canAfford}
                   >
                     {discounted && <span className="shop-discount-badge">-10%</span>}
                     {effectivePrice} 💎
-                  </button>
+                  </Button>
                 </div>
               )
             })}
@@ -402,15 +406,15 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
               MAX{maxPackQty > 0 ? ` ×${maxPackQty}` : ''}
             </button>
           </div>
-          <button
-            className="action-btn action-btn--gold"
+          <Button
+            variant="gold"
             onClick={handleBuyPackClick}
             disabled={false}
           >
             {canBuyPack
               ? `Buy ${packQty > 1 ? `${packQty}× ` : ''}— ${CRYSTAL_PACK_COST * packQty} 💎`
               : `Need ${CRYSTAL_PACK_COST * packQty - crystals} more 💎`}
-          </button>
+          </Button>
 
           {/* Max buy confirmation modal */}
           {pendingPackBuy && (
@@ -421,8 +425,8 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
                   This will buy <strong>{packQty} card pack{packQty !== 1 ? 's' : ''}</strong> for <strong>{CRYSTAL_PACK_COST * packQty} 💎</strong>
                 </div>
                 <div className="shop-confirm-actions">
-                  <button className="action-btn" onClick={() => setPendingPackBuy(false)}>Oh no</button>
-                  <button className="action-btn action-btn--gold" onClick={handleConfirmPackBuy}>Oh yes!</button>
+                  <Button onClick={() => setPendingPackBuy(false)}>Oh no</Button>
+                  <Button variant="gold" onClick={handleConfirmPackBuy}>Oh yes!</Button>
                 </div>
               </div>
             </div>
@@ -462,13 +466,13 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
                         : "You don't have this item."}
                   </div>
                 )}
-                <button
-                  className={`action-btn${!hasItem ? ' action-btn--dim' : ''}`}
+                <Button
+                  className={!hasItem ? 'action-btn--dim' : ''}
                   onClick={() => handleSellClick(slotId, hasItem)}
                   disabled={!hasItem || alreadySold}
                 >
                   Sell {slot.icon} {slot.name}
-                </button>
+                </Button>
               </div>
             )
           })}

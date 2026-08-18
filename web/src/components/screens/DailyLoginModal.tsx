@@ -3,6 +3,7 @@ import { RewardDef } from '../../game/dailyLogin'
 import { CardTile } from '../cards/CardTile'
 import { getCardCatalog } from '../../game/cards'
 import { loadPlayerName } from '../../game/questline'
+import { Button } from '../ui/Button'
 import rollbar from '../../rollbar'
 
 interface Props {
@@ -111,9 +112,9 @@ export function DailyLoginModal({ reward, onClose }: Props) {
           )}
         </div>
 
-        <button className="action-btn" onClick={onClose}>
+        <Button onClick={onClose}>
           CLAIM ✓
-        </button>
+        </Button>
       </div>
     </div>
   )
