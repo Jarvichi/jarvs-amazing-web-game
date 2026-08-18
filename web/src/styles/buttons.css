@@ -1,0 +1,191 @@
+/* buttons.css — split from styles.css (#2169). .action-btn and variants, plus the shared ProgressBar/StatRow/Section primitives. */
+
+/* ─── Buttons ────────────────────────────────────────── */
+
+.action-btn {
+  background: none;
+  border: 2px solid var(--game-text-color);
+  color: var(--game-text-color);
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 8px 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+  border-radius: 3px;
+  line-height: 1.4;
+  min-height: 36px;
+  box-sizing: border-box;
+  text-wrap-style: none;
+}
+
+/* ─── Button size modifiers ──────────────────────────── */
+
+.action-btn--sm {
+  font-size: var(--font-md);
+  padding: 5px 12px;
+  min-height: 28px;
+}
+
+.action-btn--xs {
+  font-size: var(--font-xs);
+  padding: 3px 8px;
+  min-height: 22px;
+}
+
+.action-btn--dim {
+  border-color: color-mix(in srgb, var(--game-text-color) 40%, transparent);
+  color: var(--game-text-color-dim);
+}
+
+.action-btn:hover {
+  background: color-mix(in srgb, var(--game-text-color) 15%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--game-text-color) 40%, transparent);
+  text-shadow: 0 0 6px color-mix(in srgb, var(--game-text-color) 60%, transparent);
+}
+
+@keyframes nodeTargetPulse {
+  0%, 100% { box-shadow: 0 0 8px color-mix(in srgb, var(--game-text-color) 40%, transparent); }
+  50%       { box-shadow: 0 0 14px color-mix(in srgb, var(--game-text-color) 70%, transparent); }
+}
+
+.action-btn--large {
+  font-size: var(--font-xl);
+  padding: 12px 32px;
+  border-width: 2px;
+  animation: nodeTargetPulse 1s ease-in-out infinite;
+}
+
+/* ─── Gold button variant (pack open) ───────────────── */
+
+.action-btn--gold {
+  border-color: var(--color-gold-alt);
+  color: var(--color-gold-alt);
+}
+.action-btn--gold:hover {
+  background: color-mix(in srgb, var(--accent-gold) 15%, transparent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--accent-gold) 50%, transparent);
+  text-shadow: 0 0 6px color-mix(in srgb, var(--accent-gold) 70%, transparent);
+}
+
+.action-btn--danger {
+  border-color: color-mix(in srgb, var(--accent-ember) 40%, transparent);
+  color: #ff6666;
+}
+.action-btn--danger:hover {
+  background: color-mix(in srgb, var(--accent-ember) 10%, transparent);
+  border-color: var(--accent-ember);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent-ember) 20%, transparent);
+}
+
+.action-btn--disabled {
+  border-color: color-mix(in srgb, var(--text-inverse) 20%, transparent);
+  color: color-mix(in srgb, var(--text-inverse) 30%, transparent);
+  cursor: not-allowed;
+}
+
+.action-btn--disabled:hover {
+  background: none;
+  box-shadow: none;
+  border-color: color-mix(in srgb, var(--text-inverse) 20%, transparent);
+  color: color-mix(in srgb, var(--text-inverse) 30%, transparent);
+}
+
+.action-btn--noborder {
+  border: none;
+  color: var(--color-gold-alt);
+}
+.action-btn--noborder:hover {
+  background: none;
+  box-shadow: none;
+}
+
+.action-btn--noborder-disabled {
+  border: none;
+  color: color-mix(in srgb, var(--text-inverse) 30%, transparent);
+  cursor: not-allowed;
+}
+.action-btn--noborder-disabled:hover {
+  background: none;
+  box-shadow: none;
+  border-color: color-mix(in srgb, var(--text-inverse) 20%, transparent);
+  color: color-mix(in srgb, var(--text-inverse) 30%, transparent);
+}
+
+/* ─── ProgressBar ────────────────────────────────────── */
+
+.progress-bar-track {
+  height: 4px;
+  background: var(--game-bg-card);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: #33ff33;
+  border-radius: 2px;
+  transition: width 0.2s ease-out;
+}
+
+/* ─── StatRow ─────────────────────────────────────────── */
+
+.stat-row {
+  align-items: baseline;
+}
+
+.stat-row--compact {
+  justify-content: flex-start;
+  gap: 4px;
+}
+
+.stat-label {
+  font-size: var(--font-xxs);
+  color: var(--game-text-color-muted);
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+
+.stat-value {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+  text-align: right;
+}
+
+.stat-row--compact .stat-value {
+  font-weight: bold;
+  color: var(--game-text-color);
+}
+
+.stat-value--accent {
+  font-size: 1rem;
+  color: #33ff33;
+  font-weight: bold;
+}
+
+/* ─── Section ─────────────────────────────────────────── */
+
+.section {
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.section-title {
+  font-size: var(--font-xs);
+  letter-spacing: 2px;
+  color: var(--game-text-color-muted);
+  padding: 4px;
+}
+
+.section--bordered {
+  border: 1px solid var(--border-edge-dark);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.section--bordered .section-title {
+  color: var(--color-gold-alt);
+  padding: 8px 14px 6px;
+  background: color-mix(in srgb, var(--accent-gold) 4%, transparent);
+  border-bottom: 1px solid var(--border-edge-dark);
+}
+

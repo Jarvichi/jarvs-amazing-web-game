@@ -1,0 +1,1297 @@
+/* minigames-1.css — split from styles.css (#2169). Minigames (mixed — source interleaves these non-contiguously): Blackjack; Liar's Dice; Header; Shared projectile/hit/AOE-ring effects (TowerDefence AttackEffect.tsx); City Builder Screen; Toolbar Zoom controls; Compact info strip; Attack strip; Resource chip strip; Scrollable bottom; City world: grid + walker overlay; Zoom controls overlay; Brush / paint mode bar; Walker overlay; Resident thoughts feed; Trade Routes; Seasonal Cycles; Milestone Banner; Adjacency Synergies; City Chronicle; City Stats Dashboard; Storage cap fill bar; Resident personality badge */
+
+/* ─── Blackjack ─────────────────────────────────────────── */
+
+.bj-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.bj-table {
+  background: #0a1a0a;
+  border: 2px solid #1a4a1a;
+  border-radius: 8px;
+  width: min(480px, 95vw);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 0 40px rgba(0, 80, 0, 0.4);
+}
+
+.bj-header {
+  text-align: center;
+  border-bottom: 1px solid #1a4a1a;
+  padding-bottom: 12px;
+}
+.bj-title { font-size: var(--font-xl); color: var(--color-gold); letter-spacing: 3px; display: block; margin-bottom: 6px; }
+.bj-sub,
+.ld-sub,
+.reward-sub,
+.ac-relic-desc,
+.rbm-relic-desc {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-muted);
+  font-style: italic;
+}
+
+.bj-rows  { display: flex; flex-direction: column; gap: 12px; }
+
+.bj-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border: 1px solid #1a2a1a;
+  border-radius: 4px;
+  background: rgba(0,40,0,0.3);
+}
+.bj-row--player { border-color: #2a4a2a; background: rgba(0,60,0,0.3); }
+
+.bj-label { font-size: var(--font-xxs); color: var(--game-text-color-muted); letter-spacing: 1px; min-width: 45px; }
+.bj-cards { display: flex; gap: 6px; flex: 1; flex-wrap: wrap; }
+.bj-total { font-size: var(--font-xs); color: var(--game-text-color-dim); white-space: nowrap; }
+
+.bj-card {
+  display: inline-block;
+  background: #eee;
+  color: #111;
+  font-size: var(--font-base);
+  font-weight: bold;
+  padding: 4px 7px;
+  border-radius: 3px;
+  min-width: 34px;
+  text-align: center;
+  font-family: var(--font-mono);
+  border: 1px solid #ccc;
+}
+.bj-card--red    { color: #cc0000; }
+.bj-card--hidden { background: #334; color: #334; border-color: #556; }
+
+.bj-result {
+  text-align: center;
+  font-size: 1.571rem;
+  font-weight: bold;
+  letter-spacing: 4px;
+  padding: 8px;
+}
+.bj-result--youwin, .bj-result--blackjack { color: var(--game-text-color); }
+.bj-result--youlose, .bj-result--bust     { color: var(--color-red); }
+.bj-result--push  { color: var(--color-gold-alt); }
+
+.bj-actions { display: flex; gap: 10px; justify-content: center; }
+
+/* ─── Liar's Dice ───────────────────────────────────────── */
+
+.ld-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.ld-panel {
+  background: #0d0d14;
+  border: 2px solid #2a2a44;
+  border-radius: 8px;
+  width: min(480px, 95vw);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 0 40px rgba(80, 80, 180, 0.3);
+}
+
+.ld-header {
+  text-align: center;
+  border-bottom: 1px solid #2a2a44;
+  padding-bottom: 12px;
+}
+.ld-title { font-size: var(--font-xl); color: #88aaff; letter-spacing: 3px; display: block; margin-bottom: 6px; }
+.ld-sub   { font-size: var(--font-sm); color: var(--game-text-color-muted); font-style: italic; }
+.ld-dice-col { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.ld-dice-label { font-size: var(--font-xxs); color: var(--game-text-color-muted); letter-spacing: 1px; }
+
+.ld-dice { display: flex; gap: 6px; }
+.ld-die  { font-size: 1.857rem; line-height: 1; }
+
+.ld-bid-box {
+  border: 1px solid #1a1a2a;
+  border-radius: 4px;
+  padding: 14px;
+  background: rgba(40,40,80,0.15);
+}
+
+.ld-bid-text  { font-size: var(--font-md); color: var(--game-text-color-muted); text-align: center; line-height: 1.5; }
+.ld-bid-text strong { color: #88aaff; }
+
+.ld-bid-actions { display: flex; gap: 10px; }
+
+.ld-result { font-size: 1.571rem; font-weight: bold; letter-spacing: 4px; }
+.ld-result--win  { color: var(--game-text-color); }
+
+/* ═══════════════════════════════════════════════════════════
+   CAMPAIGN — NODE MAP
+   ═══════════════════════════════════════════════════════════ */
+
+.title-campaign-btn {
+  border-color: rgba(255, 200, 50, 0.7);
+  color: #ffc832;
+  letter-spacing: 2px;
+}
+
+/* Dim settings button without changing its size */
+.title-settings-btn {
+  color: var(--game-text-color-dim);
+  border-color: rgba(51, 255, 51, 0.25);
+}
+.title-settings-btn:hover {
+  color: var(--game-text-color-muted);
+  border-color: rgba(51, 255, 51, 0.5);
+}
+.title-campaign-btn:hover:not(:disabled) {
+  background: rgba(255, 200, 50, 0.1);
+  box-shadow: 0 0 14px rgba(255, 200, 50, 0.35);
+}
+
+.title-campaign-locked-hint {
+  font-size: var(--font-sm);
+  color: #ffaa33;
+  opacity: 0.85;
+  text-align: center;
+  padding: 2px 8px;
+  margin-top: -4px;
+  position: relative;
+  z-index: 1;
+  max-width: 400px;
+}
+
+.nodemap {
+  gap: 0;
+  min-height: 0;
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* ── Header ── */
+
+.nm-header {
+  padding: 8px 0 10px;
+  border-bottom: 1px solid #1e1e1e;
+  flex-shrink: 0;
+}
+
+.nm-act-label {
+  gap: 1px;
+}
+
+.nm-act-title {
+  font-size: var(--font-sm);
+  color: #ffc832;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.nm-act-sub {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-dim);
+  letter-spacing: 1px;
+}
+
+.nm-hp-area {
+  margin-left: auto;
+}
+
+.nm-hp-label {
+  font-size: var(--font-xxs);
+  color: var(--game-text-color-dim);
+  letter-spacing: 1px;
+}
+
+.nm-hp-track {
+  width: 80px;
+  height: 6px;
+  background: var(--game-bg-card);
+  border: 1px solid var(--game-border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.nm-hp-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease, background 0.4s ease;
+}
+
+.nm-hp-text {
+  font-size: var(--font-xs);
+  font-weight: bold;
+  min-width: 40px;
+  text-align: right;
+}
+
+.nm-lives-area {
+  margin-left: 10px;
+}
+
+.nm-life-pip {
+  font-size: var(--font-base);
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.nm-life-pip--full  { color: #ff4466; }
+.nm-life-pip--empty { color: #333; }
+
+/* ─── Shared projectile/hit/AOE-ring effects (TowerDefence AttackEffect.tsx) ── */
+
+/* Projectile: a glowing streak travelling from attacker to target */
+@keyframes projectile-travel {
+  0%   { clip-path: inset(0 100% 0 0); opacity: 1; }
+  80%  { clip-path: inset(0 0% 0 0);   opacity: 1; }
+  100% { clip-path: inset(0 0% 0 0);   opacity: 0; }
+}
+/* Base projectile — magic (default, golden) */
+.anim-projectile {
+  height: 4px;
+  background: linear-gradient(90deg, transparent, rgba(255,220,80,0.9), #fff);
+  border-radius: 2px;
+  box-shadow: 0 0 4px 1px rgba(255,200,50,0.7);
+  animation: projectile-travel 0.5s ease-out forwards;
+}
+
+/* Arrow — thin brown shaft */
+.anim-projectile--arrow {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #8B5E3C, #c8a472);
+  box-shadow: none;
+  border-radius: 1px;
+}
+
+/* Fireball — thick bright orange glow */
+.anim-projectile--fireball {
+  height: 7px;
+  background: linear-gradient(90deg, transparent, rgba(255,80,0,0.8), var(--color-gold-alt));
+  box-shadow: 0 0 8px 3px rgba(255,120,0,0.8);
+  border-radius: 4px;
+}
+
+/* Icebolt — thin blue-white streak */
+.anim-projectile--icebolt {
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(100,200,255,0.8), #e0f7ff);
+  box-shadow: 0 0 5px 2px rgba(80,180,255,0.6);
+  border-radius: 2px;
+}
+
+/* Poison blob — rounded green glob */
+.anim-projectile--poisonblob {
+  height: 8px;
+  background: linear-gradient(90deg, transparent, rgba(60,180,60,0.8), #90ee90);
+  box-shadow: 0 0 6px 3px rgba(40,160,40,0.7);
+  border-radius: 4px;
+}
+
+/* Lightning — very thin bright-white/yellow flash */
+.anim-projectile--lightning {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(200,220,255,0.9), #fff);
+  box-shadow: 0 0 6px 2px rgba(180,200,255,0.9);
+  border-radius: 1px;
+  animation: projectile-travel 0.15s ease-out forwards;
+}
+
+/* Hit spark: brief starburst at impact point */
+@keyframes hit-spark-anim {
+  0%   { transform: translate(-50%, -50%) scale(0.2); opacity: 0; }
+  10%  { opacity: 1; }
+  60%  { transform: translate(-50%, -50%) scale(1.4); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(2);   opacity: 0; }
+}
+.anim-hit {
+  width: 24px;
+  height: 24px;
+  background: radial-gradient(circle, rgba(255,230,80,0.95) 0%, rgba(255,100,20,0.6) 50%, transparent 80%);
+  border-radius: 50%;
+  animation: hit-spark-anim 0.3s ease-out both;
+}
+/* Typed hit sparks */
+.anim-hit--arrow     { background: radial-gradient(circle, rgba(200,160,80,0.95) 0%, rgba(120,80,20,0.5) 60%, transparent 80%); }
+.anim-hit--fireball  { background: radial-gradient(circle, #fff 0%, rgba(255,140,0,0.9) 40%, rgba(200,40,0,0.4) 70%, transparent 90%); width: 34px; height: 34px; }
+.anim-hit--icebolt   { background: radial-gradient(circle, #e8f8ff 0%, rgba(100,200,255,0.8) 50%, transparent 80%); }
+.anim-hit--poisonblob{ background: radial-gradient(circle, rgba(180,255,180,0.95) 0%, rgba(40,160,40,0.7) 55%, transparent 80%); }
+.anim-hit--lightning { background: radial-gradient(circle, #fff 0%, rgba(200,220,255,0.9) 50%, transparent 80%); width: 20px; height: 20px; }
+
+/* AOE ring: expanding ring at impact */
+@keyframes aoe-ring-expand {
+  0%   { transform: translate(-50%,-50%) scale(0.1); opacity: 0.9; }
+  70%  { opacity: 0.6; }
+  100% { transform: translate(-50%,-50%) scale(1);   opacity: 0; }
+}
+.anim-aoe-ring {
+  width: 96px;
+  height: 96px;
+  border: 3px solid rgba(200,220,255,0.9);
+  border-radius: 50%;
+  box-shadow: 0 0 12px 4px rgba(180,200,255,0.5);
+  animation: aoe-ring-expand 0.5s ease-out forwards;
+}
+
+/* ── City Builder Screen ──────────────────────────────────────────────────── */
+
+.city-screen {
+  padding: 8px 8px 0;
+  height: 100%;
+  overflow: hidden;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.toolbar {
+  background: rgba(4, 10, 4, 0.88);
+  border: 1px solid #2a4a2a;
+  border-radius: 4px;
+  padding: 0;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  row-gap: 0;
+  container-type: inline-size;
+  container-name: toolbar;
+  /* Keep the toolbar (and its overflow dropdown) above positioned map overlays
+     such as the hub minimap; modals portal to <body> at z-index 200 and stay above. */
+  position: relative;
+  z-index: 50;
+}
+.toolbar > .filter-btn {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.toolbar-overflow-inline  { display: contents; }
+.toolbar-overflow-dropdown { display: none; }
+@container toolbar (max-width: 460px) {
+  .toolbar-overflow-inline  { display: none; }
+  .toolbar-overflow-dropdown { display: contents; }
+}
+.toolbar-dropdown {
+  position: relative;
+  align-self: stretch;
+  display: flex;
+}
+.toolbar-dropdown-panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  z-index: 20;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px;
+  min-width: max-content;
+}
+.toolbar-dropdown-panel--left  { left: 0; }
+.toolbar-dropdown-panel--right { right: 0; }
+
+
+
+/* ── Toolbar Zoom controls ───────────────────────────────────────────────── */
+.toolbar-zoom-controls {
+  bottom: 6px;
+  left: 50%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0,0,0,0.55);
+  border-radius: 20px;
+  padding: 3px 8px;
+  pointer-events: all;
+}
+.toolbar-zoom-btn {
+  background: none;
+  border: none;
+  color: #90d090;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+  width: 20px;
+  text-align: center;
+}
+.toolbar-zoom-btn:disabled { color: #3a6a3a; cursor: default; }
+.toolbar-zoom-btn:not(:disabled):hover { color: #c0f0c0; }
+.toolbar-zoom-bar {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.toolbar-zoom-tick {
+  background: none;
+  border: none;
+  color: #4a7a4a;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.1s;
+}
+.toolbar-zoom-tick--active { color: #80d080; }
+.toolbar-zoom-tick:hover { color: #a0f0a0; }
+
+
+.city-header {
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+.city-header-right {
+  margin-left: auto;
+  flex-wrap: nowrap;
+}
+
+.city-title {
+  flex: 1;
+  font-size: 16px;
+  font-weight: bold;
+  color: #60d060;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.city-gold-display {
+  font-size: 13px;
+  color: var(--color-gold-dim);
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* ── Compact info strip ───────────────────────────────────────────────────── */
+.city-info-strip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 1px;
+}
+.city-info-strip::-webkit-scrollbar { display: none; }
+
+.city-attack-pill {
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  border: 0px solid currentColor;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.city-attack-pill--calm     { color: #508050; }
+.city-attack-pill--soon     { color: #c08020; }
+.city-attack-pill--imminent { color: #d06030; animation: city-pulse 1.2s ease-in-out infinite; }
+
+/* Attack strength badge inside the pill */
+.city-attack-strength {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+  vertical-align: middle;
+}
+.strength--weak      { background: rgba(76,175,80,0.2);  color: var(--color-green-bright); border: 1px solid var(--color-green-bright); }
+.strength--mod       { background: rgba(255,193,7,0.15); color: #ffc107; border: 1px solid #ffc107; }
+.strength--strong    { background: rgba(255,87,34,0.15); color: #ff5722; border: 1px solid #ff5722; }
+.strength--overwhelm { background: rgba(176,0,32,0.2);  color: #ff1744; border: 1px solid #ff1744; }
+
+.city-info-chip {
+  font-size: 11px;
+  color: #608060;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.city-expand-btn {
+  font-size: 9px !important;
+  padding: 2px 5px !important;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.city-expand-btn--ready {
+  border-color: var(--color-gold-dim) !important;
+  color: var(--color-gold-dim) !important;
+  background: rgba(208,160,48,0.08) !important;
+}
+
+/* ── Attack strip ────────────────────────────────────────────────────────── */
+.city-attack-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ── Resource chip strip ─────────────────────────────────────────────────── */
+.city-res-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  overflow-x: auto;
+  flex-shrink: 0;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.city-res-strip::-webkit-scrollbar { display: none; }
+
+.city-res-chip {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 11px;
+  color: #80a080;
+  white-space: nowrap;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Scrollable bottom ───────────────────────────────────────────────────── */
+.city-bottom-scroll {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding-bottom: 8px;
+}
+
+/* Legacy income row kept for sub-screens that still use it */
+.city-income-in   { color: #60a060; }
+.city-income-net--pos { color: #60d060; font-weight: bold; }
+.city-income-net--neg { color: #d06060; font-weight: bold; }
+
+/* ── City world: grid + walker overlay ───────────────────────────────────── */
+
+.city-world {
+  position: relative;
+  width: 100%;
+  flex: 0 0 50vh;
+  height: 50vh;
+  min-height: 180px;
+  overflow: hidden;
+  background: #2d5a27;
+  border-radius: 5px;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.city-world--paint { cursor: crosshair; }
+
+.city-zoom-wrapper {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+/* ── Zoom controls overlay ───────────────────────────────────────────────── */
+.city-zoom-controls {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0,0,0,0.55);
+  border-radius: 20px;
+  padding: 3px 8px;
+  pointer-events: all;
+}
+.city-zoom-btn {
+  background: none;
+  border: none;
+  color: #90d090;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+  width: 20px;
+  text-align: center;
+}
+.city-zoom-btn:disabled { color: #3a6a3a; cursor: default; }
+.city-zoom-btn:not(:disabled):hover { color: #c0f0c0; }
+.city-zoom-bar {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.city-zoom-tick {
+  background: none;
+  border: none;
+  color: #4a7a4a;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.1s;
+}
+.city-zoom-tick--active { color: #80d080; }
+.city-zoom-tick:hover { color: #a0f0a0; }
+
+/* ── Brush / paint mode bar ──────────────────────────────────────────────── */
+.city-brush-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0c2a0c;
+  border: 1px solid #3a8a3a;
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 11px;
+  color: #90d090;
+  flex-shrink: 0;
+}
+.city-brush-label { flex: 1; }
+.city-brush-cancel {
+  background: none;
+  border: none;
+  color: #a06060;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0 2px;
+  line-height: 1;
+}
+.city-brush-cancel:hover { color: #e08080; }
+
+/* Paint-mode empty cell — show a soft dot instead of FOR SALE sign */
+.city-cell--paintable { border-color: #4a7a4a !important; }
+.city-cell-paint-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #4a8a4a;
+  opacity: 0.6;
+}
+
+.city-grid {
+  display: grid;
+  border: 4px solid #2d5a27;
+  gap: 6px;
+  width: 100%;
+  height: 100%;
+}
+
+.city-cell {
+  background: #2d5a27;
+  border: 2px solid rgba(0, 40, 0, .15);
+  border-radius: 5px;
+  padding: 1px;
+  transition: background 0.15s;
+  overflow: hidden;
+}
+
+.city-cell:hover             { background: #3a7a30; }
+.city-cell--occupied         { background: #2d5a27; }
+.city-cell--occupied:hover   { background: #4a1010; }
+
+/* Road tier edges are rendered as inset box-shadows in CityGrid.tsx — tier 1 = dirt brown, tier 2 = stone grey */
+
+.city-cell-sprite  { width: 65%; height: 65%; max-width: 36px; max-height: 36px; image-rendering: pixelated; }
+
+.city-cell-level {
+  position: absolute;
+  top: 2px;
+  right: 3px;
+  font-size: 8px;
+  color: var(--color-gold-dim);
+  font-weight: bold;
+}
+
+.city-cell-empty {
+  height: 100%;
+}
+.city-cell-forsale-sign {
+  display: inline-block;
+  background: #f5e97a;
+  border: 2px solid #8b6914;
+  border-radius: 3px;
+  color: #7a2c00;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 1.3;
+  padding: 2px 4px;
+  text-align: center;
+  white-space: nowrap;
+}
+.city-cell-forsale-post {
+  display: block;
+  width: 2px;
+  height: 8px;
+  background: #8b6914;
+  margin: 0 auto;
+}
+
+/* Happiness bar — thin strip at very bottom of cell */
+.city-cell-happiness {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  border-radius: 0 0 2px 2px;
+  transition: width 1s linear, background 1s linear;
+}
+
+.city-cell-unhappy-icon {
+  position: absolute;
+  top: 1px;
+  left: 3px;
+  font-size: 9px;
+  color: #d06020;
+  line-height: 1;
+}
+
+/* ── Walker overlay ──────────────────────────────────────────────────────── */
+
+.city-unit-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.city-walker {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* Walkers themselves are drawn on the Pixi canvas; these anchors carry only
+   the bubbles, which stay in the DOM for their text and nested sprite icons.
+   Taps are hit-tested against walker positions in CityGrid, so the anchors
+   must not intercept pointer events of their own. */
+.city-walker--bubble-only {
+  pointer-events: none;
+  cursor: default;
+}
+
+.city-walker-need {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  color: #d04020;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.city-carrier-load {
+  position:   absolute;
+  top:        -10px;
+  left:       50%;
+  transform:  translateX(-50%);
+  font-size:  10px;
+  line-height: 1;
+  filter:     drop-shadow(0 1px 2px rgba(0,0,0,0.8));
+}
+
+
+/* Builder walkers (construction) */
+.city-builder-walker {
+  pointer-events: none;
+  cursor: default;
+  z-index: 5;
+}
+.city-builder-bubble {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1200;
+  border: 1px solid #806020;
+  border-radius: 3px;
+  padding: 2px 5px;
+  font-size: 8px;
+  color: #d0b040;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0.9;
+}
+.city-builder-bubble::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 3px solid transparent;
+  border-top-color: #806020;
+}
+
+/* ── Resident thoughts feed ──────────────────────────────────────────────── */
+.city-thoughts {
+  margin-top: 8px;
+  padding: 6px 8px;
+  border: 1px solid #1a3a1a;
+  background: #040a04;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+.city-thoughts-title {
+  color: #508050;
+  font-size: 10px;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.city-thought-row {
+  padding: 3px 0;
+  border-bottom: 1px solid #0d1f0d;
+}
+.city-thought-row:last-child { border-bottom: none; }
+.city-thought-sprite { width: 16px; height: 16px; image-rendering: pixelated; flex-shrink: 0; }
+.city-thought-name {
+  color: #80b080;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.city-thought-text { color: #a0c0a0; font-style: italic; }
+.city-thought-row--unhappy .city-thought-name { color: #c07050; }
+.city-thought-row--unhappy .city-thought-text { color: #b08060; }
+
+/* ── Trade Routes ────────────────────────────────────────────────────────── */
+.city-trade-btn--ready { color: #ffdd44; border-color: #887700; }
+.city-trade-desc { font-size: 11px; color: #708870; margin-bottom: 8px; }
+.city-trade-offer { border: 1px solid #2a5a2a; padding: 10px; background: #040a04; }
+.city-trade-offer-title { color: #60c860; font-size: 11px; letter-spacing: 1px; margin-bottom: 6px; }
+.city-trade-expires { color: #507050; margin-left: 8px; font-size: 10px; }
+.city-trade-offer-body { color: #a0c0a0; font-size: 12px; margin-bottom: 8px; }
+.city-trade-warn { color: #c07050; font-size: 11px; margin-bottom: 6px; }
+.city-trade-caravan { border: 1px solid #556622; padding: 10px; background: #040a04; }
+.city-trade-caravan-title { color: #aacc44; font-size: 11px; letter-spacing: 1px; margin-bottom: 6px; }
+.city-trade-caravan-body { color: #a0c0a0; font-size: 12px; margin-bottom: 4px; }
+.city-trade-returns { color: #708870; font-size: 10px; }
+.city-trade-waiting { color: #508050; font-style: italic; padding: 12px 0; text-align: center; font-size: 12px; }
+
+/* ── Seasonal Cycles ─────────────────────────────────────────────────────── */
+.city-season-chip {
+  color: #90d090;
+  border-color: #2a5a2a;
+}
+
+/* ── Milestone Banner ────────────────────────────────────────────────────── */
+.city-milestone-banner {
+  position: absolute;
+  top: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #0a1f0a;
+  border: 2px solid #60c860;
+  padding: 10px 18px;
+  font-family: var(--font-mono);
+  pointer-events: none;
+  transition: opacity 0.8s;
+  opacity: 1;
+  box-shadow: 0 0 20px #40a84088;
+  min-width: 220px;
+}
+.city-milestone-banner--fading { opacity: 0; }
+.city-milestone-icon { font-size: 24px; flex-shrink: 0; }
+.city-milestone-title {
+  color: #60c860;
+  font-size: 11px;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+.city-milestone-reward {
+  color: #a0d8a0;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+/* ── Adjacency Synergies ─────────────────────────────────────────────────── */
+.city-synergy-bonus {
+  color: #60c860;
+  font-size: 10px;
+  margin-left: 4px;
+}
+.city-synergy-label {
+  font-size: 10px;
+  color: #60c860;
+  padding: 0px;
+  margin: 0px;
+  border: 8px solid transparent;
+  background: rgba(96,200,96,0.1);
+  border-radius: 3px;
+}
+
+/* ── City Chronicle ──────────────────────────────────────────────────────── */
+.city-chronicle-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+.city-chronicle-entry {
+  padding: 4px 6px;
+  border-left: 2px solid #2a5a2a;
+  background: #040a04;
+  color: #90b890;
+  line-height: 1.4;
+}
+.city-chronicle-entry:hover { background: #081408; }
+.city-chronicle-empty {
+  color: #508050;
+  font-style: italic;
+  padding: 16px;
+  text-align: center;
+}
+
+/* ── City Stats Dashboard ─────────────────────────────────────────────────── */
+
+.city-stats-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 4px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.city-stats-scroll::-webkit-scrollbar { width: 4px; }
+.city-stats-scroll::-webkit-scrollbar-thumb { background: #1a3a1a; border-radius: 2px; }
+
+.city-stats-window-label {
+  font-size: 10px;
+  color: #406040;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+.city-stats-range-btns {
+  display: flex;
+  gap: 3px;
+  margin-left: auto;
+}
+.city-stats-range-btn {
+  font-size: 9px;
+  font-family: var(--font-mono);
+  padding: 2px 6px;
+  border: 1px solid #2a4a2a;
+  border-radius: 3px;
+  background: transparent;
+  color: #406040;
+  cursor: pointer;
+  line-height: 1.4;
+  transition: background 0.1s, color 0.1s, border-color 0.1s;
+}
+.city-stats-range-btn:hover {
+  border-color: #4a7a4a;
+  color: #80b080;
+}
+.city-stats-range-btn--active {
+  background: #1a3a1a;
+  border-color: #50c050;
+  color: #90e090;
+}
+
+/* Summary stat cards */
+.city-stats-summary {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 4px 0 6px;
+}
+.city-stat-card {
+  flex: 1;
+  min-width: 70px;
+  background: #020702;
+  border: 1px solid #1a3a1a;
+  border-radius: 2px;
+  padding: 6px 8px;
+}
+.city-stat-card-label {
+  font-size: 9px;
+  color: #50704e;
+  letter-spacing: 1px;
+  font-family: var(--font-mono);
+}
+.city-stat-card-value {
+  font-size: 15px;
+  font-weight: bold;
+  color: var(--game-text-color);
+  font-family: var(--font-mono);
+  line-height: 1.3;
+  white-space: nowrap;
+}
+.city-stat-card-delta {
+  font-size: 10px;
+  font-family: var(--font-mono);
+}
+.city-stat-card-delta--pos  { color: #50d060; }
+.city-stat-card-delta--neg  { color: #e04040; }
+.city-stat-card-delta--zero { color: #304830; }
+
+/* Sections */
+.city-stats-section {
+  padding: 6px 0 2px;
+}
+.city-stats-section-header {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #406040;
+  border-bottom: 1px solid #152415;
+  padding-bottom: 4px;
+  margin-bottom: 6px;
+  font-family: var(--font-mono);
+}
+
+/* Chart wrappers */
+.city-stats-chart-wrap {
+  background: #020602;
+  border: 1px solid #152015;
+  border-radius: 2px;
+  padding: 4px 6px 2px;
+  position: relative;
+  overflow: hidden;
+}
+.city-stats-chart-wrap--sm {
+  padding: 2px 4px 1px;
+}
+.city-stats-chart-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: #355535;
+  font-family: var(--font-mono);
+  margin-top: 3px;
+}
+.city-stats-chart-range {
+  color: #406040;
+}
+.city-stats-attack-legend {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+  color: #804040;
+  font-family: var(--font-mono);
+  margin-top: 4px;
+}
+
+/* Resource grid */
+.city-stats-res-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.city-stats-res-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.city-stats-res-label {
+  font-size: 9px;
+  color: #508050;
+  letter-spacing: 1px;
+  font-family: var(--font-mono);
+}
+.city-stats-res-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 1px 4px 0;
+}
+.city-stats-res-cur {
+  font-size: 11px;
+  color: var(--game-text-color);
+  font-family: var(--font-mono);
+}
+.city-stats-res-delta {
+  font-size: 9px;
+  font-family: var(--font-mono);
+}
+
+/* Population & Defense duo */
+.city-stats-duo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+/* Sparkline */
+.city-sparkline {
+  display: block;
+  width: 100%;
+}
+.city-sparkline--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.city-sparkline-nodata {
+  font-size: 9px;
+  color: #304830;
+  font-family: var(--font-mono);
+  font-style: italic;
+}
+.city-sparkline-attack-row {
+  position: relative;
+  width: 100%;
+}
+.city-sparkline-attack-mark {
+  position: absolute;
+  top: 0;
+  display: block;
+  width: 0;
+  height: 0;
+  border-left:   4px solid transparent;
+  border-right:  4px solid transparent;
+  border-bottom: 7px solid #c03030;
+  transform: translateX(-4px);
+}
+.city-sparkline-attack-mark--inline {
+  position: static;
+  display: inline-block;
+  transform: none;
+  vertical-align: middle;
+  margin-right: 2px;
+}
+.city-sparkline-cap-label {
+  position: absolute;
+  top: 2px;
+  right: 3px;
+  font-size: 8px;
+  font-family: var(--font-mono);
+  color: rgba(255,255,255,0.38);
+  pointer-events: none;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.city-sparkline-modal {
+  background: #0a140a;
+  border: 1px solid #2a4a2a;
+  border-radius: 6px;
+  padding: 14px 16px;
+  width: min(560px, 95vw);
+}
+.city-sparkline-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  color: var(--game-text-color);
+  font-size: var(--font-sm);
+  letter-spacing: 1px;
+}
+.city-sparkline-modal-stats {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  font-size: var(--font-xs);
+  color: var(--game-text-color-dim);
+}
+.city-sparkline-modal-stat span {
+  color: var(--game-text-color);
+}
+
+/* Empty state */
+.city-stats-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 32px 16px;
+  color: #406040;
+  font-family: var(--font-mono);
+  text-align: center;
+}
+.city-stats-empty--inline {
+  flex: none;
+  padding: 16px;
+  font-size: 11px;
+}
+.city-stats-empty-icon {
+  font-size: 32px;
+  opacity: 0.4;
+}
+.city-stats-empty-hint {
+  font-size: 11px;
+  color: #305030;
+  line-height: 1.6;
+}
+
+/* ── Storage cap fill bar ─────────────────────────────────────────────────── */
+
+.city-res-chip-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  background: #33ff33;
+  opacity: 0.35;
+  transition: width 0.4s;
+  pointer-events: none;
+}
+.city-res-chip--capped .city-res-chip-fill {
+  background: #ff8800;
+  opacity: 0.6;
+}
+.city-res-chip--capped {
+  border-color: #664400;
+}
+.city-res-chip-content {
+  position: relative;
+}
+
+/* ── Resident personality badge ────────────────────────────────────────────── */
+
+.city-walker-trait {
+  position: absolute;
+  top: -10px;
+  right: -4px;
+  font-size: 9px;
+  line-height: 1;
+  pointer-events: none;
+  filter: drop-shadow(0 0 2px #000);
+}
+.city-req-trait {
+  font-size: 10px;
+  color: #80c080;
+  margin-left: 4px;
+  font-style: italic;
+}
+

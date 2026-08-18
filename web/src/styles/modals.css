@@ -1,0 +1,864 @@
+/* modals.css — split from styles.css (#2169). Shared modal backdrop, confirm modal, deck selector, card detail, cloud sync, item/relic detail, login, streak-broken, shop-pack-confirm modals. */
+
+/* ─── Shared Modal Backdrop ──────────────────────────── */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--overlay-scrim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: var(--z-modal);
+  animation: fadeIn 0.15s ease-out;
+}
+
+/* ─── Confirm Modal ─────────────────────────────────── */
+
+.confirm-modal {
+  background: var(--game-bg, #0a0a0a);
+  border: 1px solid var(--game-border, #333);
+  padding: 24px 20px;
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-body);
+}
+
+.confirm-modal-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--accent-gold);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.confirm-modal-body {
+  font-size: 0.85rem;
+  color: var(--color-gray-10);
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+/* ─── Deck Selector Modal ────────────────────────────── */
+
+.deck-selector-modal {
+  background: var(--game-bg, #0a0a0a);
+  border: 1px solid var(--game-border, #333);
+  padding: 20px 18px 16px;
+  width: min(680px, 96vw);
+  font-family: var(--font-body);
+}
+
+.deck-selector-title {
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  color: var(--accent-gold);
+  text-align: center;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+
+.deck-selector-panel {
+  flex: 1;
+  border: 2px solid #333;
+  border-radius: 4px;
+  padding: 10px 10px 8px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  min-height: 120px;
+  max-height: 52vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.deck-selector-panel:hover { border-color: #666; background: rgba(255,255,255,0.04); }
+.deck-selector-panel--active { border-color: #6ab07a; background: rgba(74,124,89,0.15); }
+
+.deck-selector-panel-header {
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.deck-selector-slot-label {
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  color: var(--color-gray-10);
+}
+
+.deck-selector-active-badge {
+  font-size: 0.65rem;
+  color: #6ab07a;
+  letter-spacing: 0.05em;
+}
+
+.deck-selector-count {
+  margin-left: auto;
+  font-size: 0.7rem;
+  color: var(--game-text-color-dim, #888);
+}
+
+.deck-selector-empty {
+  font-size: 0.72rem;
+  color: #666;
+  text-align: center;
+  padding: 16px 0;
+}
+
+.deck-selector-list {
+  overflow-y: auto;
+  flex: 1;
+  scrollbar-width: thin;
+}
+
+.deck-selector-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 1px 0;
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.deck-selector-cost {
+  flex-shrink: 0;
+  width: 14px;
+  text-align: right;
+  color: #f0c040;
+  font-weight: bold;
+}
+
+.deck-selector-name {
+  color: var(--color-gray-10);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.deck-selector-qty {
+  flex-shrink: 0;
+  color: #888;
+  font-size: 0.65rem;
+}
+
+.deck-selector-row--resting .deck-selector-name,
+.deck-selector-row--resting .deck-selector-cost,
+.deck-selector-row--resting .deck-selector-qty {
+  text-decoration: line-through;
+  opacity: 0.45;
+}
+
+.deck-selector-rest-badge {
+  flex-shrink: 0;
+  font-size: 0.6rem;
+  color: #f0a040;
+  letter-spacing: 0;
+}
+
+.deck-selector-resting {
+  color: #f0a040;
+  font-size: 0.65rem;
+}
+
+.deck-selector-actions {
+  margin-top: 14px;
+}
+
+@media (max-width: 480px) {
+    .deck-selector-panel { max-height: 36vh; }
+}
+
+/* ─── Card Detail Modal ──────────────────────────────── */
+
+.cdm-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.cdm-panel {
+  background: var(--game-bg);
+  border: 1px solid var(--game-border);
+  border-radius: 4px;
+  width: min(480px, 95vw);
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.cdm-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 10px 12px 8px;
+  border-bottom: 1px solid #222;
+}
+.cdm-name   { font-size: 1.071rem; font-weight: bold; flex: 1; }
+.cdm-rarity { font-size: var(--font-xs); letter-spacing: 1px; }
+.cdm-close  {
+  background: none;
+  border: none;
+  color: var(--game-text-color-dim);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0 0 0 8px;
+  font-family: inherit;
+  line-height: 1;
+}
+.cdm-close:hover { color: var(--game-text-color-dim); }
+
+.cdm-body {
+  padding: 12px;
+}
+
+.cdm-card-col {
+  flex-shrink: 0;
+}
+.cdm-owned {
+  font-size: var(--font-xs);
+  color: var(--color-gold-alt);
+  text-align: center;
+}
+
+.cdm-info-col {
+  min-width: 0;
+}
+
+.cdm-desc {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-muted);
+  line-height: 1.4;
+}
+
+.cdm-stats-block {
+  gap: 2px 10px;
+}
+/* cdm stat rows → .stat-row--compact / .stat-label / .stat-value */
+.cdm-spawn-levels {
+  flex-basis: 100%;
+  display: flex;
+  gap: 8px;
+  font-size: var(--font-xxs);
+  color: var(--game-text-color-dim);
+  padding-left: 2px;
+  flex-wrap: wrap;
+}
+.cdm-spawn-lvl { white-space: nowrap; }
+.cdm-trait {
+  font-size: var(--font-xxs);
+  border: 1px solid #444;
+  color: var(--game-text-color-dim);
+  padding: 1px 5px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.cdm-sw-block {
+  margin-top: 4px;
+}
+.cdm-sw-row {
+  align-items: baseline;
+  font-size: var(--font-xxs);
+}
+.cdm-sw-row--btn {
+  all: unset;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: var(--font-xxs);
+  width: 100%;
+  cursor: pointer;
+  border-radius: 2px;
+  padding: 2px 3px;
+  box-sizing: border-box;
+}
+.cdm-sw-row--btn:hover {
+  background: rgba(255,255,255,0.06);
+}
+.cdm-sw-label {
+  font-weight: bold;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+.cdm-sw-label--strong   { color: #55cc55; }
+.cdm-sw-label--weak     { color: #ff6655; }
+.cdm-sw-label--affinity { color: var(--color-gold-alt); }
+.cdm-sw-label--synergy  { color: #6cf; }
+.cdm-sw-tags {
+  color: var(--game-text-color-dim);
+  text-transform: capitalize;
+  flex: 1;
+}
+.cdm-sw-chevron {
+  color: var(--game-text-color-dim);
+  font-size: 0.5rem;
+  margin-left: auto;
+}
+.cdm-sw-detail {
+  font-size: var(--font-xxs);
+  color: var(--game-text-color-dim);
+  background: rgba(0,0,0,0.3);
+  border-left: 2px solid #444;
+  padding: 4px 8px;
+  margin: 0 3px 2px 3px;
+  line-height: 1.5;
+}
+.cdm-sw-detail strong { color: var(--game-text-color); }
+/* One pairing or group per line — the synergy row lists several at once. */
+.cdm-synergy-item + .cdm-synergy-item { margin-top: 5px; }
+.cdm-sw-detail em { font-style: normal; color: #aad4ff; }
+
+.cdm-mastery-block {
+  border-top: 1px solid #1a1a1a;
+  padding-top: 6px;
+}
+.cdm-mastery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: var(--font-sm);
+  margin-bottom: 2px;
+}
+.cdm-mastery-xp     { font-size: var(--font-xxs); color: #777; }
+.cdm-mastery-bonus  { font-size: var(--font-xxs); color: var(--game-text-color-muted); margin-top: 3px; }
+.cdm-stat-bonus     { font-size: var(--font-xxs); color: var(--color-gold); margin-left: 3px; }
+.cdm-locked-note    { color: #ff6655; font-size: var(--font-xxs); margin-bottom: 4px; }
+.cdm-mastery-milestones { display: flex; flex-direction: column; gap: 2px; margin-top: 4px; }
+.cdm-milestone      { font-size: var(--font-xxs); color: var(--game-text-color-muted); padding: 1px 0; }
+
+.cdm-battle-stats {
+  border-top: 1px solid #1a1a1a;
+  padding-top: 6px;
+}
+
+.cdm-lore {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-muted);
+  font-style: italic;
+  line-height: 1.5;
+  padding: 10px 12px;
+  border-top: 1px solid #2a2a2a;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RARE EVENTS
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── Cloud Sync Prompt Modal ────────────────────────────── */
+
+.sync-prompt-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9100;
+}
+
+.sync-prompt-modal {
+  background: var(--game-bg);
+  border: 2px solid rgba(100,200,255,0.6);
+  padding: 24px 28px;
+  text-align: center;
+  max-width: 320px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sync-prompt-header {
+  font-size: var(--font-xl);
+  font-weight: bold;
+  color: #66ccff;
+  letter-spacing: 2px;
+}
+
+.sync-prompt-sub {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+  line-height: 1.5;
+}
+
+.sync-prompt-question {
+  font-size: var(--font-md);
+  color: var(--game-text-color);
+  margin-top: 4px;
+}
+
+.sync-prompt-buttons {
+  margin-top: 8px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INVENTORY SCREEN
+   ═══════════════════════════════════════════════════════════ */
+
+.inventory-count {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-muted);
+}
+
+.inventory-body {
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.inventory-intro {
+  font-size: var(--font-md);
+  color: var(--game-text-color-dim);
+  text-align: center;
+  padding: 6px 0 2px;
+  line-height: 1.5;
+}
+
+.inventory-intro-small {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-muted);
+  font-style: italic;
+}
+
+.inventory-empty {
+  color: var(--game-text-color-muted);
+  font-size: var(--font-base);
+}
+
+.inventory-grid {
+  padding: 8px 0;
+  overflow-y: auto;
+  align-content: flex-start;
+}
+
+.inventory-cell {
+  width: 100px;
+  background: var(--game-bg-raised);
+  border: 1px solid #2a2a2a;
+  border-radius: 4px;
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  /* reset button defaults */
+  color: inherit;
+  font-family: inherit;
+  text-align: center;
+}
+
+.inventory-cell:hover {
+  border-color: #444;
+}
+
+.inventory-item-icon {
+  font-size: 1.714rem;
+  line-height: 1;
+}
+
+.inventory-item-name {
+  font-size: var(--font-xxs);
+  font-weight: bold;
+  color: var(--game-text-color-dim);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.inventory-item-desc {
+  font-size: 0.571rem;
+  color: var(--game-text-color-muted);
+  text-align: center;
+  line-height: 1.3;
+  font-style: italic;
+}
+
+.inventory-item-count {
+  font-size: var(--font-xs);
+  font-weight: bold;
+  color: #4af;
+  text-align: center;
+  margin-top: 2px;
+}
+
+/* ── Item / relic detail modal ─────────────────────────── */
+.inventory-detail-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.inventory-detail-modal {
+  background: var(--game-bg-raised);
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 24px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  max-width: 280px;
+  width: 90%;
+}
+
+.inventory-detail-icon {
+  font-size: 3.429rem;
+  line-height: 1;
+}
+
+.inventory-detail-name {
+  font-size: var(--font-xl);
+  font-weight: bold;
+  color: var(--game-text-color);
+  text-align: center;
+}
+
+.inventory-detail-tag {
+  font-size: var(--font-xxs);
+  color: #c0860a;
+  letter-spacing: 2px;
+  border: 1px solid #5a3a00;
+  padding: 1px 6px;
+  border-radius: 2px;
+}
+
+.inventory-detail-tag--broken {
+  color: #aa3333;
+  border-color: #5a1010;
+}
+
+.inventory-detail-desc {
+  font-size: var(--font-base);
+  color: var(--game-text-color-muted);
+  text-align: center;
+  line-height: 1.5;
+}
+
+.inventory-detail-date {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-muted);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ACHIEVEMENTS SCREEN
+   ═══════════════════════════════════════════════════════════ */
+
+.ach-summary {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-dim);
+}
+
+.ach-tabs {
+  padding: 8px 12px 0;
+  border-bottom: 1px solid var(--game-border);
+}
+
+.ach-tab {
+  background: none;
+  border: 1px solid #444;
+  color: var(--game-text-color-dim);
+  font-family: inherit;
+  font-size: var(--font-sm);
+  padding: 4px 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.ach-tab--active {
+  border-color: #0f0;
+  color: #0f0;
+}
+
+.ach-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: var(--color-red);
+  color: #fff;
+  font-size: var(--font-xxs);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ach-claim-all-bar {
+  border-bottom: 1px solid #222;
+}
+
+.ach-category-label {
+  padding: 6px 12px 4px;
+  font-size: var(--font-sm);
+  color: var(--game-text-color-muted);
+}
+
+.ach-claim-all-btn {
+  margin: 2px 12px;
+  font-size: var(--font-xs);
+  padding: 3px 10px;
+}
+
+.ach-list {
+  overflow-y: auto;
+  padding: 4px 12px 12px;
+}
+
+.ach-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--game-border);
+  background: var(--game-bg);
+  min-height: 56px;
+  flex-shrink: 0;
+}
+
+.ach-row--unlocked {
+  border-color: #2a4a2a;
+  background: #0a120a;
+}
+
+.ach-row--claimed {
+  border-color: #1a2a1a;
+  background: #080e08;
+  opacity: 0.7;
+}
+
+.ach-row-left {
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.ach-tier {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-muted);
+  flex-shrink: 0;
+  margin-top: 2px;
+  width: 18px;
+}
+
+.ach-row--unlocked .ach-tier {
+  color: var(--game-text-color-dim);
+}
+
+.ach-text {
+  min-width: 0;
+}
+
+.ach-name {
+  font-size: var(--font-md);
+  color: var(--game-text-color-dim);
+  font-weight: bold;
+}
+
+.ach-row--unlocked .ach-name {
+  color: #88ff88;
+}
+
+.ach-desc {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-muted);
+}
+
+.ach-bar {
+  font-size: var(--font-xs);
+  color: #4a8;
+  font-family: var(--font-body);
+  word-break: break-all;
+}
+
+.ach-reward {
+  font-size: var(--font-xs);
+  color: #998855;
+}
+
+.ach-row-right {
+  flex-shrink: 0;
+}
+
+.ach-status-claimed {
+  font-size: var(--font-xs);
+  color: #2a8a2a;
+  padding: 2px 6px;
+}
+
+.ach-status-locked {
+  font-size: 1rem;
+  opacity: 0.5;
+}
+
+.ach-claim-btn {
+  font-size: var(--font-xs);
+  padding: 4px 10px;
+  background: #0a2a0a;
+  border-color: #0a0;
+  color: #0a0;
+}
+
+.ach-claim-btn:hover {
+  background: #0f3a0f;
+}
+
+.ach-claim-btn--done {
+  color: #88ff88;
+  border-color: #88ff88;
+}
+
+/* ─── Login Modal ───────────────────────────────────────── */
+
+.login-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9200;
+}
+
+.login-modal {
+  background: var(--game-bg);
+  border: 2px solid rgba(51,255,51,0.4);
+  padding: 24px 28px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: min(360px, 90vw);
+  animation: fadeIn 0.15s ease-out;
+}
+
+.login-modal-header {
+  font-size: var(--font-xl);
+  font-weight: bold;
+  color: var(--color-gold-alt);
+  letter-spacing: 2px;
+}
+
+.login-modal-sub {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+  line-height: 1.5;
+  margin-top: -6px;
+}
+
+.login-modal-msg {
+  font-size: var(--font-sm);
+  line-height: 1.4;
+}
+
+/* ── Streak broken modal ── */
+.streak-broken-modal {
+  background: var(--game-bg-raised);
+  border: 2px solid var(--color-red, #cc3333);
+  border-radius: 6px;
+  padding: 32px 40px;
+  max-width: 320px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.streak-broken-icon {
+  font-size: 40px;
+  line-height: 1;
+}
+
+.streak-broken-heading {
+  font-size: var(--font-lg);
+  font-weight: bold;
+  color: var(--color-red, #cc3333);
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+}
+
+.streak-broken-count {
+  font-size: 56px;
+  font-weight: bold;
+  color: var(--game-text-color);
+  line-height: 1;
+  margin: 4px 0;
+}
+
+.streak-broken-label {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+}
+
+.streak-broken-pb {
+  font-size: var(--font-xs);
+  color: var(--color-gold);
+  margin-top: 4px;
+}
+
+.streak-broken-btn {
+  margin-top: 16px;
+}
+
+/* ── Shop pack confirmation modal ── */
+.shop-confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+}
+
+.shop-confirm-modal {
+  background: var(--game-bg-raised);
+  border: 1px solid var(--color-gold);
+  border-radius: 6px;
+  padding: 24px 28px;
+  max-width: 340px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.shop-confirm-title {
+  font-size: var(--font-lg);
+  color: var(--color-gold);
+  font-weight: bold;
+}
+
+.shop-confirm-body {
+  font-size: var(--font-sm);
+  color: var(--game-text-color);
+  line-height: 1.5;
+}
+
+.shop-confirm-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+

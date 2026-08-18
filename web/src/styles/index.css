@@ -1,0 +1,23 @@
+/* Domain stylesheet index (#2169) — import order preserves the cascade
+   relationships from the original monolithic styles.css as closely as
+   possible: tokens/base/utilities/buttons first (foundation), then domain
+   screens in roughly their original first-appearance order. */
+
+@import './tokens.css';
+@import './base.css';
+@import './utilities.css';
+@import './buttons.css';
+@import './battle.css';
+@import './battle-screens.css';
+@import './cards.css';
+@import './collection.css';
+@import './collection-meta.css';
+@import './campaign.css';
+@import './campaign-events.css';
+@import './modals.css';
+@import './rare-events.css';
+@import './minigames-1.css';
+@import './minigames-2.css';
+@import './minigames-3.css';
+@import './minigames-4.css';
+@import './hub.css';

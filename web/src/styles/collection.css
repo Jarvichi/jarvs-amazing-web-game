@@ -1,0 +1,1225 @@
+/* collection.css — split from styles.css (#2169). Collection grid, deck builder, shop, filters, saved decks, pack opening chrome, achievements. */
+
+/* ─── Overlay screens (Collection, DeckBuilder) ──────── */
+
+.overlay-screen {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.overlay-header {
+  width: 100%;
+  padding: 6px 0 8px;
+  border-bottom: 2px solid var(--game-border);
+  flex-shrink: 0;
+}
+
+.overlay-title {
+  flex: 1;
+  font-size: 1.071rem;
+  color: var(--color-gold-alt);
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.overlay-count {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+}
+
+/* ── Shop ─────────────────────────────────────────────────── */
+
+.shop-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  gap: 0;
+}
+
+/* NPC banner */
+.shop-npc-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 1px solid #443300;
+  background: #0d0900;
+  margin-bottom: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.shop-npc-icon { font-size: 2.286rem; line-height: 1; flex-shrink: 0; }
+.shop-npc-sprite { width: 2.286rem; height: 2.286rem; image-rendering: pixelated; flex-shrink: 0; }
+.shop-npc-info { display: flex; flex-direction: column; gap: 3px; }
+.shop-npc-name { font-size: var(--font-base); color: var(--color-gold-light); font-weight: bold; letter-spacing: 1px; }
+.shop-npc-title { color: #aa8833; font-weight: normal; }
+.shop-npc-greeting { font-size: var(--font-sm); color: var(--game-text-color-dim); font-style: italic; }
+.shop-npc-perk { font-size: var(--font-xs); color: #88bb44; letter-spacing: 1px; }
+.shop-npc-shift-end { font-size: var(--font-xs); color: var(--game-text-color-dim); font-style: italic; opacity: 0.7; margin-top: 2px; }
+
+/* Section headers */
+.shop-section { display: flex; flex-direction: column; gap: 12px; align-items: center; width: 100%; }
+.shop-daily-cards { width: 100%; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; box-sizing: border-box; }
+.shop-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--font-xs);
+  color: #aa8833;
+  letter-spacing: 3px;
+  border-bottom: 1px solid #332200;
+  padding-bottom: 6px;
+  text-transform: uppercase;
+  width: 100%;
+  box-sizing: border-box;
+}
+.shop-weekend-badge {
+  font-size: var(--font-xxs);
+  color: #ffaa22;
+  background: rgba(255, 170, 34, 0.1);
+  border: 1px solid rgba(255, 170, 34, 0.3);
+  padding: 1px 6px;
+  letter-spacing: 2px;
+}
+
+/* Daily card deals */.shop-card-deal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px;
+  border: 1px solid var(--game-border);
+  background: var(--game-bg);
+  min-width: 110px;
+}
+.shop-card-deal--common    { border-top: 2px solid #666; }
+.shop-card-deal--uncommon  { border-top: 2px solid #44aaff; }
+.shop-card-deal--rare      { border-top: 2px solid #cc44ff; }
+.shop-card-deal--legendary { border-top: 2px solid #ffaa22; }
+.shop-card-deal--bought    { opacity: 0.5; }
+.shop-card-rarity { font-size: 0.571rem; color: var(--game-text-color-dim); letter-spacing: 2px; }
+.shop-card-sprite {
+  width: 48px;
+  height: 48px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+.shop-card-name { font-size: var(--font-md); color: var(--game-text-color); text-align: center; }
+.shop-card-buy-btn { position: relative; font-size: var(--font-md); }
+.shop-card-buy-btn--poor { opacity: 0.45; cursor: not-allowed; }
+.shop-consumable-buy-btn { position: relative; }
+.shop-purchased { font-size: var(--font-xxs); color: #33cc66; letter-spacing: 2px; }
+
+/* Augment deal */
+.shop-augment-deal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: 1px solid #444;
+  border-top-width: 3px;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 320px;
+  box-sizing: border-box;
+}
+.shop-augment-deal--common    { border-top-color: #666; }
+.shop-augment-deal--uncommon  { border-top-color: #44aaff; }
+.shop-augment-deal--rare      { border-top-color: #cc44ff; }
+.shop-augment-deal--epic      { border-top-color: #ff8800; }
+.shop-augment-deal--legendary { border-top-color: #ffaa22; }
+.shop-augment-deal--bought    { opacity: 0.5; }
+.shop-augment-name  { font-size: var(--font-sm); font-weight: bold; text-align: center; }
+.shop-augment-meta  { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: center; }
+.shop-augment-slot  { font-size: var(--font-xxs); color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+.shop-augment-desc  { font-size: var(--font-xxs); color: #aaa; text-align: center; }
+
+.rarity-badge { font-size: var(--font-xxs); text-transform: uppercase; letter-spacing: 1px; padding: 1px 5px; border-radius: 3px; }
+.rarity-badge--common    { color: #999; border: 1px solid #666; }
+.rarity-badge--uncommon  { color: #44aaff; border: 1px solid #44aaff; }
+.rarity-badge--rare      { color: #cc44ff; border: 1px solid #cc44ff; }
+.rarity-badge--epic      { color: #ff8800; border: 1px solid #ff8800; }
+.rarity-badge--legendary { color: #ffaa22; border: 1px solid #ffaa22; }
+.shop-discount-badge {
+  position: absolute;
+  top: -8px; right: -8px;
+  font-size: 0.571rem;
+  background: #cc4400;
+  color: #fff;
+  padding: 1px 4px;
+  border-radius: 2px;
+  letter-spacing: 1px;
+}
+
+/* Countdown footer */
+.shop-countdown {
+  text-align: center;
+  font-size: var(--font-xs);
+  color: var(--game-text-color-dim);
+  letter-spacing: 1px;
+  padding: 12px 0 4px;
+  border-top: 1px solid #222;
+  margin-top: 4px;
+  width: 100%;
+}
+.shop-countdown-time { color: var(--color-gold-light); }
+
+.shop-content {
+  padding: 16px 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.shop-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 24px;
+  border: 2px solid #444;
+  background: var(--game-bg-raised);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.shop-item-icon {
+  font-size: 2.857rem;
+  line-height: 1;
+}
+
+.shop-item-name {
+  font-size: var(--font-xl);
+  color: var(--color-gold-alt);
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.shop-item-desc {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+  text-align: center;
+  line-height: 1.6;
+}
+
+.shop-item-desc--muted {
+  opacity: 0.55;
+}
+
+/* Shop consumables */
+.shop-consumables {
+  width: 100%;
+}
+
+.shop-consumable-tile {
+  padding: 14px 16px;
+  border: 1px solid #3a3a3a;
+  background: var(--game-bg-raised);
+  min-width: 120px;
+  box-sizing: border-box;
+}
+
+.shop-consumable-icon { font-size: 2rem; line-height: 1; }
+.shop-consumable-name { font-size: var(--font-md); color: var(--color-gold-alt); font-weight: bold; text-align: center; }
+.shop-consumable-desc { font-size: var(--font-xs); color: var(--game-text-color-dim); text-align: center; line-height: 1.5; }
+
+/* Merchant consumable tile */
+.merchant-item--consumable {
+  border-color: #44aa66;
+}
+
+.shop-keeper-msg {
+  font-size: var(--font-sm);
+  color: var(--game-text-color);
+  text-align: center;
+  line-height: 1.6;
+  font-style: italic;
+  padding: 4px 8px;
+  border-left: 2px solid #555;
+}
+
+.shop-keeper-label {
+  font-style: normal;
+  color: var(--color-gold-alt);
+  font-weight: bold;
+}
+
+.overlay-count--valid   { color: var(--game-text-color); }
+.overlay-count--invalid { color: var(--color-orange); }
+
+@media (max-width: 400px) {
+  .shop-card-deal {
+    min-width: 80px;
+    padding: 10px 10px;
+  }
+  .shop-card-sprite {
+    width: 36px;
+    height: 36px;
+  }
+  .shop-consumable-tile {
+    min-width: 90px;
+    padding: 10px 10px;
+  }
+  .shop-item {
+    padding: 14px 12px;
+  }
+}
+
+/* ─── Filter bar ─────────────────────────────────────── */
+
+.filter-bar {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 0;
+  flex-shrink: 0;
+  border-bottom: 1px solid #222;
+  overflow: visible;
+  position: relative;
+  z-index: 10;
+}
+
+.filter-sep {
+  color: var(--game-text-color-muted);
+  font-size: var(--font-xs);
+  padding: 0 2px;
+  flex-shrink: 0;
+}
+
+.filter-owned {
+  margin-left: auto;
+  font-size: var(--font-xs);
+  color: var(--game-text-color-dim);
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-left: 8px;
+}
+
+.filter-label {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-muted);
+  letter-spacing: 1px;
+}
+
+.filter-label--spaced {
+  margin-left: 8px;
+}
+
+.filter-btn {
+  background: none;
+  border: 1px solid var(--border-edge);
+  color: var(--game-text-color-dim);
+  font-family: inherit;
+  font-size: var(--font-xs);
+  padding: 3px 7px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.15s;
+}
+
+.filter-btn:hover {
+  color: var(--game-text-color-dim);
+  border-color: #777;
+}
+
+.filter-btn--active {
+  border-color: var(--game-text-color);
+  color: var(--game-text-color);
+  background: color-mix(in srgb, var(--game-text-color) 8%, transparent);
+}
+
+.filter-btn--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.filter-btn--locked {
+  opacity: 0.7;
+}
+
+.filter-btn--cooldown {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.stance-timer {
+  font-size: 0.7em;
+  opacity: 0.85;
+  margin-left: 3px;
+}
+
+.stance-timer--cd {
+  color: var(--color-orange-alt);
+}
+
+.filter-group-label {
+  font-size: var(--font-xxs);
+  color: var(--game-text-color-muted);
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+/* Smaller variant for deck-builder filter bar */
+.filter-btn--sm {
+  font-size: var(--font-xxs);
+  padding: 2px 6px;
+}
+
+.filter-btn--narrow { min-width: 40px; }
+.filter-btn--wide   { min-width: 64px; }
+.filter-btn--fit    { flex: 1; }
+
+.filter-btn--gold {
+  border-color: color-mix(in srgb, var(--color-gold) 40%, transparent);
+  color: var(--color-gold);
+}
+.filter-btn--gold:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.filter-btn--gold.filter-btn--active {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+  background: color-mix(in srgb, var(--color-gold) 8%, transparent);
+}
+
+/* ─── Filter popup panel ─────────────────────────────── */
+
+.filter-popup-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.filter-popup {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: var(--z-dropdown);
+  background: var(--game-bg);
+  border: 1px solid var(--border-edge);
+  border-radius: 3px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 260px;
+  max-width: 340px;
+  box-shadow: var(--elevation-overlay);
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
+.filter-popup-section {
+  gap: 5px;
+}
+
+.filter-group-hint {
+  font-size: 0.571rem;
+  color: var(--game-text-color-dim);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.filter-popup-footer {
+  border-top: 1px solid var(--color-gray-3);
+  padding-top: 6px;
+}
+
+.filter-btn--reset {
+  color: #ff6666;
+  border-color: #663333;
+}
+.filter-btn--reset:hover {
+  color: #ff9999;
+  border-color: #994444;
+}
+
+/* Active filter pills in the filter bar */
+.filter-active-pills {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.filter-active-pills::-webkit-scrollbar { display: none; }
+
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: var(--font-xxs);
+  color: var(--game-text-color);
+  background: rgba(51, 255, 51, 0.08);
+  border: 1px solid var(--game-text-color);
+  border-radius: 2px;
+  padding: 1px 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.filter-pill button {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: var(--font-xxs);
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  opacity: 0.7;
+}
+.filter-pill button:hover { opacity: 1; }
+
+/* ─── Deck builder search + filter ──────────────────── */
+
+.deckbuilder-filters {
+  padding: 4px 0 6px;
+  border-bottom: 1px solid #222;
+  margin-bottom: 4px;
+}
+
+.deckbuilder-search {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--game-border);
+  border-radius: 3px;
+  color: var(--game-text-color);
+  font-family: inherit;
+  font-size: var(--font-sm);
+  padding: 4px 8px;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+.deckbuilder-search:focus { border-color: #555; }
+.deckbuilder-search::placeholder { color: var(--game-text-color-muted); }
+
+.deckbuilder-filter-row {
+  gap: 3px;
+}
+
+/* ─── Collection Grid ────────────────────────────────── */
+
+.collection-group-header {
+  width: 100%;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+  padding: 8px 4px 2px;
+  border-bottom: 1px solid #333;
+  margin-bottom: 4px;
+}
+
+.collection-grid {
+  padding: 8px 0;
+  overflow-y: auto;
+  align-content: flex-start;
+}
+
+.collection-cell {
+  width: 90px;
+  flex-shrink: 0;
+}
+
+/* Fixed-height card tiles in collection so all cells are uniform */
+.collection-cell .card-stats {
+  min-height: 14px; /* always reserve 1 stats line */
+}
+
+.collection-cell--unowned {
+  opacity: 0.45;
+  filter: grayscale(60%);
+}
+@keyframes mastery-levelup {
+  0%   { box-shadow: 0 0 0 0 #ffd70000; transform: scale(1); }
+  25%  { box-shadow: 0 0 18px 6px #ffd700cc; transform: scale(1.08); }
+  60%  { box-shadow: 0 0 28px 10px #ffd700aa; transform: scale(1.05); }
+  100% { box-shadow: 0 0 0 0 #ffd70000; transform: scale(1); }
+}
+.collection-cell--levelup {
+  animation: mastery-levelup 1.5s ease-out forwards;
+  z-index: 2;
+  position: relative;
+}
+
+/* .collection-badge kept for any legacy use */
+.collection-badge {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid #555;
+  color: var(--color-gold-alt);
+  font-size: var(--font-xs);
+  font-weight: bold;
+  padding: 1px 5px;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+/* ── Cell footer: count + per-card action buttons ────── */
+
+.cell-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 3px 0 0;
+  width: 100%;
+}
+
+.cell-footer-buttons {
+  width: 100%;
+}
+
+.cell-count {
+  font-size: var(--font-xs);
+  color: var(--color-gold-alt);
+  font-weight: bold;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-right: 2px;
+}
+
+.cell-mastery-badge {
+  font-size: 0.571rem;
+  color: var(--color-gold);
+  background: rgba(255, 215, 0, 0.12);
+  border: 1px solid rgba(255, 215, 0, 0.35);
+  border-radius: 2px;
+  padding: 0 2px;
+  line-height: 1.4;
+}
+
+/* ─── Deck Builder (split panel layout) ─────────────── */
+
+.deckbuilder-split {
+  min-height: 0;
+  padding-top: 6px;
+}
+
+/* Top panel — current deck */
+.deckbuilder-top-panel {
+  flex: 1 1 40%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: flex 0.2s ease;
+}
+.deckbuilder-top-panel.deckbuilder-panel--collapsed {
+  flex: 0 0 32px;
+}
+
+/* Bottom panel — owned collection */
+.deckbuilder-bottom-panel {
+  flex: 1 1 60%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: flex 0.2s ease;
+}
+.deckbuilder-bottom-panel.deckbuilder-panel--collapsed {
+  flex: 0 0 32px;
+}
+
+/* Shared panel header bar */
+.deckbuilder-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.35);
+  border-bottom: 1px solid #222;
+  flex-shrink: 0;
+  min-height: 32px;
+  box-sizing: border-box;
+}
+
+.deckbuilder-panel-label {
+  font-size: var(--font-xs);
+  letter-spacing: 1px;
+  color: var(--game-text-color-dim);
+  white-space: nowrap;
+}
+
+.deck-slot-toggle {
+  margin: 0 6px;
+}
+.deck-slot-btn {
+  font-size: var(--font-xs);
+  font-weight: bold;
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  border: 1px solid #444;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.05);
+  color: var(--game-text-color-dim);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.deck-slot-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+.deck-slot-btn--active {
+  background: #4a7c59;
+  border-color: #6ab07a;
+  color: #fff;
+}
+
+/* Small action buttons in the deck panel header */
+.db-action-sm {
+  font-size: var(--font-xs) !important;
+  padding: 3px 7px !important;
+  border-color: rgba(51, 255, 51, 0.3) !important;
+  color: var(--game-text-color-dim) !important;
+}
+
+.db-save-btn {
+  border-color: rgba(51, 255, 51, 0.7) !important;
+  color: var(--game-text-color) !important;
+}
+
+.db-collapse-btn {
+  background: none;
+  border: 1px solid #333;
+  color: var(--game-text-color-dim);
+  font-size: var(--font-xs);
+  padding: 2px 6px;
+  cursor: pointer;
+  border-radius: 2px;
+  line-height: 1.2;
+}
+.db-collapse-btn:hover {
+  border-color: #555;
+  color: var(--game-text-color);
+}
+
+.deckbuilder-mana-warn {
+  font-size: var(--font-xs);
+  color: var(--color-gold-alt);
+  white-space: nowrap;
+}
+
+/* Scrollable deck card grid */
+.deckbuilder-deck-grid {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px 4px;
+}
+
+/* Deck tile — relative so the resting overlay can be absolute */
+.deck-cell {
+  position: relative;
+}
+
+/* Resting card overlay in the deck panel */
+.deck-cell--resting {
+  cursor: default;
+}
+
+.resting-overlay {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.6) 0px,
+    rgba(0, 0, 0, 0.6) 6px,
+    rgba(10, 10, 10, 0.3) 6px,
+    rgba(10, 10, 10, 0.3) 12px
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.resting-badge {
+  background: rgba(0, 0, 0, 0.88);
+  border: 1px solid #555;
+  color: #999;
+  font-size: var(--font-xs);
+  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 3px;
+  letter-spacing: 1px;
+}
+
+/* Divider between panels */
+.deckbuilder-divider {
+  height: 8px;
+  flex-shrink: 0;
+  background: #0d0d0d;
+  border-top: 1px solid #1e1e1e;
+  border-bottom: 1px solid #1e1e1e;
+}
+.deckbuilder-divider:hover {
+  background: #161616;
+}
+.deckbuilder-divider-handle {
+  color: #333;
+  font-size: var(--font-md);
+  line-height: 1;
+}
+.deckbuilder-divider:hover .deckbuilder-divider-handle {
+  color: #555;
+}
+
+/* Collection inner — wraps search + filter bar + grid */
+.deckbuilder-collection-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.deckbuilder-search-wrap {
+  padding: 6px 8px 4px;
+  flex-shrink: 0;
+}
+
+/* Scrollable collection card grid */
+.deckbuilder-collection-grid {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2px 4px 4px;
+}
+
+.deck-empty {
+  color: var(--game-text-color-dim);
+  font-size: var(--font-md);
+  padding: 16px 8px;
+  text-align: center;
+}
+
+/* ─── Saved Decks panel ──────────────────────────────── */
+
+.saveddecks-panel {
+  width: min(480px, 95vw);
+}
+
+.saveddecks-empty {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+  text-align: center;
+  padding: 8px 0;
+}
+
+.saveddecks-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.saveddecks-item {
+  padding: 6px 8px;
+  border: 1px solid #2a2a2a;
+  border-radius: 3px;
+}
+
+.saveddecks-name {
+  flex: 1;
+  font-size: var(--font-md);
+  color: var(--game-text-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.saveddecks-count {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-dim);
+  white-space: nowrap;
+}
+
+.action-btn--danger-text {
+  color: var(--color-red);
+  border-color: rgba(255,68,68,0.3);
+}
+
+
+/* ─── Share panel ────────────────────────────────────── */
+
+.share-panel {
+  width: min(480px, 95vw);
+}
+
+.share-label {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+}
+
+.share-code-box {
+  font-family: var(--font-mono);
+  font-size: var(--font-sm);
+  background: var(--game-bg-raised);
+  border: 1px solid var(--game-border);
+  color: var(--game-text-color-dim);
+  border-radius: 3px;
+  padding: 8px;
+  resize: none;
+  width: 100%;
+  box-sizing: border-box;
+  word-break: break-all;
+  min-height: 60px;
+}
+
+.share-divider {
+  font-size: var(--font-xs);
+  color: #2a2a2a;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+.share-error {
+  font-size: var(--font-sm);
+  color: var(--color-red);
+}
+
+/* ─── Crystal Count ──────────────────────────────────── */
+
+.crystal-count {
+  font-size: var(--font-base);
+  color: #88ccff;
+  font-weight: bold;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+/* ─── Collection Action Row ──────────────────────────── */
+
+.collection-action-row {
+  flex-shrink: 0;
+  padding: 5px 0 3px;
+}
+
+.collection-disenchant-btn {
+  border-color: rgba(136, 204, 255, 0.5);
+  color: #88ccff;
+}
+.collection-disenchant-btn:hover:not(:disabled) {
+  background: rgba(136, 204, 255, 0.12);
+  box-shadow: 0 0 10px rgba(136, 204, 255, 0.3);
+}
+.collection-disenchant-btn:disabled,
+.extra-btn--disabled,
+.extra-btn:disabled,
+.event-choice--disabled,
+.collection-master-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.collection-pack-btn:disabled,
+.collection-pack-btn {
+  font-size: var(--font-md);
+  padding: 5px 12px;
+  border-color: rgba(255, 215, 0, 0.5);
+  color: var(--color-gold);
+}
+.collection-pack-btn:hover:not(:disabled) {
+  background: rgba(255, 215, 0, 0.12);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+.collection-pack-btn--disabled,
+
+.collection-flash {
+  font-size: var(--font-md);
+  color: var(--game-text-color);
+  animation: fadeFlash 2s ease-out forwards;
+  white-space: nowrap;
+}
+
+.collection-secret-toast {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0a0a1a;
+  border: 1px solid #aa88ff;
+  color: #cc99ff;
+  font-size: var(--font-base);
+  padding: 8px 18px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 500;
+  animation: fadeFlash 3.5s ease-out forwards;
+  white-space: nowrap;
+}
+@keyframes fadeFlash {
+  0%, 60% { opacity: 1; }
+  100%     { opacity: 0; }
+}
+
+/* ─── Collection Cell extras ─────────────────────────── */
+
+.collection-extras {
+  display: flex;
+  gap: 3px;
+  margin-top: 3px;
+}
+
+.extra-btn {
+  flex: 1;
+  background: none;
+  border: 1px solid;
+  font-family: inherit;
+  font-size: var(--font-xxs);
+  padding: 2px 4px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.extra-btn--disenchant { border-color: rgba(136, 204, 255, 0.4); color: #88ccff; }
+.extra-btn--disenchant:hover:not(:disabled) { background: rgba(136, 204, 255, 0.12); border-color: #88ccff; }
+.extra-btn--master { border-color: rgba(255, 215, 0, 0.4); color: var(--color-gold); }
+.extra-btn--master:hover:not(:disabled) { background: rgba(255, 215, 0, 0.12); border-color: var(--color-gold); }
+
+.cdm-actions {
+  display: flex;
+  gap: 8px;
+  padding: 10px 0 0;
+  border-top: 1px solid #222;
+  margin-top: 4px;
+}
+.cdm-info-btn {
+  border-color: var(--game-border);
+  color: var(--game-text-color-muted);
+  margin-left: auto;
+}
+.cdm-info-btn:hover { border-color: var(--game-text-color-muted); color: var(--game-text-color-muted); }
+
+.deck-list-info-btn {
+  background: none;
+  border: none;
+  color: var(--game-text-color-muted);
+  font-size: var(--font-sm);
+  cursor: pointer;
+  padding: 0 2px;
+  font-family: inherit;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.deck-list-info-btn:hover { color: var(--game-text-color-dim); }
+
+/* ─── Mastery Bar ────────────────────────────────────── */
+
+.mastery-bar-wrap {
+  gap: 3px;
+  margin-top: 3px;
+}
+.mastery-level {
+  font-size: var(--font-xxs);
+  color: var(--color-gold);
+  font-weight: bold;
+  min-width: 18px;
+  white-space: nowrap;
+}
+/* mastery bar → .progress-bar-track (+ flex/border overrides below) / .progress-bar-fill */
+.mastery-bar-track {
+  flex: 1;
+  background: var(--game-bg-card);
+  border: 1px solid #444;
+}
+.mastery-xp { font-size: 0.571rem; color: var(--game-text-color-dim); white-space: nowrap; }
+
+/* ── Inventory sections & relic cells ──────────────────── */
+/* inventory sections → .section */
+
+.inventory-cell--relic {
+  border-color: #3a2a1a !important;
+  background: #0e0a06 !important;
+}
+
+.inventory-cell--relic:hover {
+  border-color: #7a4a1a !important;
+}
+
+/* ── Hall of Achievements ───────────────────────────────────────────────── */
+
+.hoa-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 10px 12px 0;
+  border-bottom: 1px solid #2a3a2a;
+}
+
+.hoa-tab {
+  background: none;
+  border: 1px solid transparent;
+  color: #7a9a7a;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  padding: 4px 10px;
+  cursor: pointer;
+  position: relative;
+  border-radius: 2px 2px 0 0;
+}
+.hoa-tab:hover { color: #c8e8c8; border-color: #446644; }
+.hoa-tab--active {
+  color: #c8e8c8;
+  border-color: #446644;
+  border-bottom-color: #0a120a;
+  background: #0a120a;
+}
+
+.hoa-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #ffcc00;
+  color: #1a1000;
+  font-size: 9px;
+  font-weight: bold;
+  min-width: 14px;
+  height: 14px;
+  line-height: 14px;
+  text-align: center;
+  border-radius: 7px;
+  padding: 0 3px;
+}
+
+.hoa-claim-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: rgba(255,204,0,0.07);
+  border-bottom: 1px solid #3a3a1a;
+  font-size: 12px;
+  color: #c8c880;
+}
+
+.hoa-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 8px;
+  padding: 12px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.hoa-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: rgba(10,18,10,0.6);
+  border: 1px solid #1a2a1a;
+  padding: 8px 4px 6px;
+  cursor: pointer;
+  border-radius: 2px;
+  position: relative;
+  transition: border-color 0.15s, background 0.15s;
+}
+.hoa-tile:hover { border-color: #446644; background: rgba(20,36,20,0.8); }
+.hoa-tile--claimable { border-color: #aa8800; }
+.hoa-tile--claimable:hover { border-color: #ffcc00; }
+
+.hoa-tile-icon { line-height: 0; }
+
+.hoa-tile-name {
+  font-size: 9px;
+  color: #7a9a7a;
+  font-family: var(--font-mono);
+  text-align: center;
+  line-height: 1.3;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  max-height: 2.6em;
+}
+.hoa-tile--unlocked .hoa-tile-name { color: #c8e8c8; }
+
+.hoa-tile-dot {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffcc00;
+}
+
+/* ── Detail modal ── */
+
+.hoa-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.hoa-modal {
+  background: rgba(8,14,8,0.97);
+  border: 1px solid #446644;
+  padding: 20px 24px;
+  max-width: 320px;
+  width: calc(100% - 32px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.hoa-modal-icon { line-height: 0; }
+
+.hoa-modal-name {
+  font-size: 15px;
+  color: #c8e8c8;
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+  font-weight: bold;
+}
+
+.hoa-modal-desc {
+  font-size: 12px;
+  color: #9ab89a;
+  line-height: 1.5;
+}
+
+.hoa-modal-criteria,
+.hoa-modal-reward {
+  font-size: 11px;
+  color: #7a9a7a;
+  font-family: var(--font-mono);
+}
+
+.hoa-modal-unlocked {
+  font-size: 12px;
+  color: #88cc88;
+  letter-spacing: 0.12em;
+  font-family: var(--font-mono);
+}
+
+.hoa-modal-claimed {
+  font-size: 11px;
+  color: #557755;
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+}
+
+.hoa-modal-close { margin-top: 4px; }
+
+/* ─── Character Screen ───────────────────────────────── */
+

@@ -1,0 +1,1265 @@
+/* minigames-2.css — split from styles.css (#2169). Minigames (mixed — source interleaves these non-contiguously): Zone Editor; Disaster events; Misc city UI; Card Picker; Level Up Panel; Level Detail Screen; City Stats Row; Speech Bubble; Task bubble (resident activity label); Picker resource cost; Card tile level badge; CardDetailModal city level; City Builder — unit requirements modal; City Builder — bulldozer mode; City Builder — attack report modal; City Builder — fortification panel; City Builder — builder slots; Fort ring view; City Builder — city perimeter (wall/moat visual strip); City Builder — building resident panel; Toast; Individual mini-game screen wrapper; Marble Run */
+
+/* ── Zone Editor ──────────────────────────────────────────────────────────── */
+
+.city-zones-hint {
+  font-size: 11px;
+  color: #508050;
+  font-family: var(--font-mono);
+  padding: 4px 2px;
+  line-height: 1.5;
+}
+.city-zones-table {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 12px;
+}
+.city-zones-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #020702;
+  border: 1px solid #1a3a1a;
+  border-radius: 2px;
+  padding: 8px;
+}
+.city-zones-legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+}
+.city-zones-legend-icon { font-size: 13px; width: 18px; text-align: center; }
+.city-zones-legend-label { color: var(--game-text-color); min-width: 90px; }
+.city-zones-legend-bonus { color: #60a060; font-size: 10px; }
+
+.city-zones-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.city-zones-row-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #020702;
+  border: 1px solid #1a3a1a;
+  border-left: 4px solid #1a3a1a;
+  border-radius: 2px;
+  padding: 10px 12px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.2s, background 0.2s;
+}
+.city-zones-row-btn:hover { background: #040a04; }
+.city-zones-row-label {
+  font-size: 10px;
+  color: #406040;
+  font-family: var(--font-mono);
+  min-width: 40px;
+}
+.city-zones-row-zone {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.city-zones-row-icon { font-size: 14px; }
+.city-zones-row-name {
+  font-size: 12px;
+  color: var(--game-text-color);
+  font-family: var(--font-mono);
+}
+.city-zones-row-hint {
+  font-size: 9px;
+  color: #304830;
+  font-family: var(--font-mono);
+}
+
+/* ── Disaster events ──────────────────────────────────────────────────────── */
+
+.city-cell-fire,
+.city-cell-plague {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 14px;
+  pointer-events: none;
+  animation: city-pulse 1s ease-in-out infinite;
+}
+.city-cell-plague { font-size: 11px; top: 3px; }
+
+.city-cell-bread-warn {
+  position: absolute;
+  bottom: 2px;
+  left: 2px;
+  font-size: 11px;
+  pointer-events: none;
+  animation: city-pulse 2s ease-in-out infinite;
+  filter: grayscale(0.3);
+}
+.city-cell-stock {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  pointer-events: none;
+}
+.city-cell-stock-item {
+  font-size: 7px;
+  line-height: 1.1;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  padding: 0 2px;
+  border-radius: 2px;
+  letter-spacing: -0.2px;
+}
+
+.city-disaster-btn {
+  border-color: #884400 !important;
+  color: #ff8800 !important;
+  animation: city-pulse 1.2s ease-in-out infinite;
+}
+
+.city-disaster-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+}
+.city-disaster-modal {
+  background: #050a05;
+  border: 1px solid #332200;
+  border-radius: 4px;
+  max-width: 320px;
+  width: 90%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.city-disaster-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+}
+.city-disaster-header--fire   { background: #2a0a00; border-bottom: 1px solid #661a00; }
+.city-disaster-header--plague { background: #0a0a18; border-bottom: 1px solid #1a1a44; }
+.city-disaster-icon { font-size: 22px; }
+.city-disaster-title {
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  color: #ff6622;
+}
+.city-disaster-header--plague .city-disaster-title { color: #8888dd; }
+.city-disaster-body {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.city-disaster-desc {
+  font-size: 12px;
+  color: #a09070;
+  line-height: 1.5;
+  margin: 0;
+  font-family: var(--font-mono);
+}
+.city-disaster-desc strong { color: #d0a060; }
+.city-disaster-affected {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  font-size: 10px;
+  font-family: var(--font-mono);
+}
+.city-disaster-affected-label { color: #804030; }
+.city-disaster-affected-cell {
+  background: #2a0800;
+  border: 1px solid #662200;
+  border-radius: 2px;
+  padding: 1px 5px;
+  color: #d08060;
+}
+.city-disaster-severity-bar {
+  height: 6px;
+  background: #181818;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.city-disaster-severity-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4040aa, #8844bb);
+  transition: width 0.3s;
+}
+.city-disaster-cost {
+  font-size: 12px;
+  color: #80a080;
+  font-family: var(--font-mono);
+}
+.city-disaster-cost strong { color: var(--game-text-color); }
+.city-disaster-cost--unaffordable { color: #804040; }
+.city-disaster-cost--unaffordable strong { color: #c06060; }
+.city-disaster-short { color: #804040; font-size: 10px; }
+.city-disaster-context {
+  font-size: 0.78rem;
+  margin: 4px 0;
+  padding: 3px 7px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+}
+.city-disaster-context--good {
+  color: #50c878;
+  background: rgba(80, 200, 120, 0.07);
+  border-left: 2px solid #50c878;
+}
+.city-disaster-context--warning {
+  color: #e8a020;
+  background: rgba(232, 160, 32, 0.07);
+  border-left: 2px solid #e8a020;
+}
+.city-disaster-note {
+  font-size: 10px;
+  color: #405040;
+  font-family: var(--font-mono);
+  line-height: 1.4;
+  font-style: italic;
+}
+.city-disaster-actions {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px;
+  border-top: 1px solid #1a1a1a;
+  flex-wrap: wrap;
+}
+.city-disaster-cure-btn { flex: 1; }
+.city-disaster-cure-btn--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ── Misc city UI ─────────────────────────────────────────────────────────── */
+
+.city-section-title {
+  font-size: 12px;
+  color: #60d060;
+  letter-spacing: 2px;
+  margin-top: 8px;
+  border-bottom: 1px solid #1a3a1a;
+  padding-bottom: 4px;
+}
+
+.city-hint { font-size: 10px; color: #4a7a4a; }
+
+.city-toast {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0a1a0a;
+  border: 1px solid #207020;
+  color: #90e090;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.city-gold { color: var(--color-gold-dim); font-weight: bold; }
+
+/* ── Card Picker ──────────────────────────────────────────────────────────── */
+
+
+.city-picker-empty { text-align: center; color: #4a7a4a; font-size: 12px; margin-top: 40px; }
+
+/* Fortification sort / filter bar */
+.city-fort-controls {
+  padding: 6px 0 4px;
+}
+.city-fort-filter { display: flex; gap: 4px; flex-wrap: wrap; }
+.city-fort-sort   { display: flex; gap: 4px; }
+.city-fort-filter-btn, .city-fort-sort-btn {
+  font-family: inherit;
+  font-size: 10px;
+  padding: 3px 7px;
+  border-radius: 3px;
+  border: 1px solid #2a4a2a;
+  background: #0d1a0d;
+  color: #6a9a6a;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+.city-fort-filter-btn--active, .city-fort-sort-btn--active {
+  background: #1a3a1a;
+  border-color: var(--color-green-bright);
+  color: var(--color-green-bright);
+}
+
+.city-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 400px) {
+  .city-picker-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.city-picker-card {
+  background: #060f06;
+  border: 1px solid #1a3a1a;
+  border-radius: 4px;
+  padding: 8px 4px;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.city-picker-card:hover { border-color: #40a040; background: #091509; }
+
+.city-picker-sprite { width: 32px; height: 32px; image-rendering: pixelated; }
+
+.city-picker-name {
+  font-size: 9px;
+  color: #90d090;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.city-picker-rarity           { font-size: 8px; letter-spacing: 0.5px; }
+.city-picker-rarity--common   { color: #888; }
+.city-picker-rarity--uncommon { color: #4a9a4a; }
+.city-picker-rarity--rare     { color: #4a6aba; }
+.city-picker-rarity--legendary{ color: #c08020; }
+
+.city-picker-section { margin-bottom: 12px; }
+
+.city-picker-section-label {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #508050;
+  margin-bottom: 6px;
+  padding-left: 2px;
+}
+
+.city-picker-section-sub {
+  letter-spacing: 0;
+  color: #3a6a3a;
+  font-style: italic;
+}
+
+.city-picker-card--core {
+  border-color: #3a5a28;
+  background: #060e06;
+}
+
+.city-picker-card--core:hover {
+  border-color: #70a040;
+  background: #0a1808;
+}
+
+.city-picker-core-cost {
+  font-size: 9px;
+  color: #c8a020;
+  margin-top: 1px;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+}
+
+.city-picker-core-short {
+  font-weight: normal;
+  color: #805020;
+}
+
+.city-picker-hint {
+  font-size: 8px;
+  color: #4a7a4a;
+  text-align: center;
+  line-height: 1.3;
+  font-style: italic;
+  margin-top: 1px;
+}
+
+.city-picker-mastery {
+  font-size: 9px;
+  color: #c0a030;
+}
+
+.city-picker-spawns {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 8px;
+  color: #4a8a4a;
+}
+
+.city-picker-spawn-sprite { position: relative; display: inline-flex; }
+.city-picker-spawn-icon { width: 14px; height: 14px; image-rendering: pixelated; }
+
+/* ── Level Up Panel ───────────────────────────────────────────────────────── */
+
+.city-level-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 400px) {
+  .city-level-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.city-level-card {
+  background: #060f06;
+  border: 1px solid #1a3a1a;
+  border-radius: 4px;
+  padding: 8px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.city-level-card:hover        { border-color: #40a040; }
+.city-level-card--levelled    { border-color: #806020; }
+.city-level-card-sprite       { width: 28px; height: 28px; image-rendering: pixelated; }
+
+.city-level-card-name {
+  font-size: 8px;
+  color: #90d090;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.city-level-card-stars { display: flex; gap: 1px; }
+.city-star-sm          { font-size: 8px; color: #2a4a2a; }
+.city-star-sm--filled  { color: var(--color-gold-dim); }
+.city-level-card-cost        { font-size: 9px; color: #4a7a4a; }
+.city-level-card-cost--ready { color: var(--color-gold-dim); font-weight: bold; }
+.city-level-card-maxed       { font-size: 8px; color: #c08020; letter-spacing: 1px; }
+
+/* ── Level Detail Screen ──────────────────────────────────────────────────── */
+
+.city-level-detail {
+  padding: 16px 8px;
+}
+
+.city-level-sprite  { width: 64px; height: 64px; image-rendering: pixelated; }
+.city-level-name    { font-size: 15px; color: #90e090; letter-spacing: 1px; }
+.city-level-stars   { display: flex; gap: 4px; }
+.city-star          { font-size: 18px; color: #2a4a2a; }
+.city-star--filled  { color: var(--color-gold-dim); }
+.city-level-stats   { font-size: 12px; color: #60d060; text-align: center; }
+.city-level-cost    { font-size: 12px; color: #aaa; }
+
+.city-level-costs-table {
+  width: 100%;
+  max-width: 280px;
+}
+
+.city-cost-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #669966;
+  padding: 3px 6px;
+  border: 1px solid #1a3a1a;
+  border-radius: 2px;
+}
+
+.city-cost-row--done { color: #3a5a3a; text-decoration: line-through; }
+.city-level-maxed    { font-size: 14px; color: var(--color-gold-dim); letter-spacing: 2px; margin-top: 8px; }
+
+/* ── City Stats Row ───────────────────────────────────────────────────────── */
+
+.city-stats-row {
+  gap: 5px;
+  padding: 4px 8px 6px;
+}
+
+.city-stat {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  background: #0a150a;
+  border: 1px solid #1a3a1a;
+  border-radius: 3px;
+  padding: 2px 6px;
+  color: #90c090;
+}
+
+.city-stat--defense    { border-color: #2a4a8a; color: #80a0d0; }
+.city-stat--population { border-color: #5a3a8a; color: #b090d0; }
+.city-res-pos { color: #60d060; font-size: 9px; margin-left: 2px; }
+.city-res-neg { color: #d06060; font-size: 9px; margin-left: 2px; }
+
+/* ── Speech Bubble ────────────────────────────────────────────────────────── */
+
+.city-speech-bubble {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111;
+  border: 1px solid #40a040;
+  border-radius: 4px;
+  padding: 2px 3px;
+  pointer-events: none;
+  white-space: nowrap;
+  animation: city-bubble-pulse 2s ease-in-out infinite;
+}
+
+.city-speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: #40a040;
+}
+
+.city-speech-icon { width: 12px; height: 12px; image-rendering: pixelated; display: block; }
+
+@keyframes city-bubble-pulse {
+  0%, 100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  50%       { opacity: 0.7; transform: translateX(-50%) translateY(-2px); }
+}
+
+/* ── Task bubble (resident activity label) ────────────────────────────────── */
+
+.city-task-bubble {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0d1a2e;
+  border: 1px solid #5080c0;
+  border-radius: 6px;
+  padding: 2px 5px;
+  font-size: 8px;
+  color: #a8c8ff;
+  pointer-events: none;
+  white-space: nowrap;
+  line-height: 1.4;
+  animation: city-bubble-pulse 2s ease-in-out infinite;
+}
+
+.city-task-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: #5080c0;
+}
+
+/* Chat bubble — shown when two residents stop to talk */
+.city-chat-bubble {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a2e;
+  border: 1px solid #9060d0;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  pointer-events: none;
+  animation: city-bubble-pulse 1.5s ease-in-out infinite;
+  box-shadow: 0 0 6px rgba(150, 80, 220, 0.5);
+}
+
+.city-chat-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: #9060d0;
+}
+
+/* ── Picker resource cost ─────────────────────────────────────────────────── */
+
+.city-picker-cost {
+  font-size: 9px;
+  color: #a07030;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+}
+
+.city-picker-cost--cant {
+  color: #c04040;
+}
+
+.city-picker-card--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.city-picker-produces {
+  font-size: 9px;
+  color: #4a9a4a;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+}
+
+.city-picker-income {
+  font-size: 9px;
+  color: var(--color-gold-dim);
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+}
+
+/* ── Card tile level badge ────────────────────────────────────────────────── */
+
+.card-city-level {
+  position: absolute;
+  bottom: 22px;
+  right: 3px;
+  font-size: 8px;
+  color: var(--color-gold-dim);
+  font-weight: bold;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* ── CardDetailModal city level ───────────────────────────────────────────── */
+
+.cdm-city-level {
+  font-size: 11px;
+  color: var(--color-gold-dim);
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* ── City Builder — unit requirements modal ─────────────────────────────── */
+.city-req-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+.city-req-modal {
+  background: #1a2a1a;
+  border: 1px solid #3a6a3a;
+  border-radius: 4px;
+  padding: 14px 16px;
+  min-width: 200px;
+  max-width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+/* BuildingInspectModal has a tab row above scrollable content: keep the
+   header + tabs pinned, only the body below them scrolls. */
+.city-req-modal--tabbed {
+  overflow: hidden;
+}
+.city-req-modal--tabbed > .city-req-header,
+.city-req-modal--tabbed > .city-bld-tabs {
+  flex-shrink: 0;
+}
+.city-bld-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+.city-req-sprite  { width: 36px; height: 36px; image-rendering: pixelated; }
+.city-req-name    { font-size: 14px; color: #90e090; letter-spacing: 1px; }
+.city-req-mood              { font-size: 11px; letter-spacing: 1px; padding: 2px 6px; border-radius: 2px; }
+.city-req-mood--content     { color: #60d060; border: 1px solid #3a6a3a; }
+.city-req-mood--unsettled   { color: var(--color-gold-dim); border: 1px solid #6a5010; }
+.city-req-mood--furious     { color: #e06030; border: 1px solid #6a3010; }
+.city-req-mood--gone        { color: #808080; border: 1px solid #404040; }
+.city-req-list  { width: 100%; display: flex; flex-direction: column; gap: 4px; }
+.city-req-item  { font-size: 10px; color: #a0a0a0; display: flex; align-items: flex-start; gap: 5px; line-height: 1.4; }
+.city-req-item--met   .city-req-icon { color: #60d060; }
+.city-req-item--unmet .city-req-icon { color: #d06060; }
+.city-req-item--met   { color: #60a060; }
+.city-req-item--unmet { color: #c08080; }
+
+/* ── City Builder — bulldozer mode ─────────────────────────────────────── */
+.city-bulldozer-btn--active {
+  border-color: #a03020 !important;
+  color: #e06040 !important;
+  background: rgba(160,48,32,0.15) !important;
+}
+.city-cell--bulldoze {
+  background: rgba(160,48,32,0.35) !important;
+}
+.city-cell--bulldoze:hover { background: rgba(160,48,32,0.4) !important; }
+.city-bulldozer-paused { font-size: 10px; color: #e06040; letter-spacing: 1px; }
+
+@keyframes city-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+/* ── City Builder — attack report modal ─────────────────────────────────── */
+.city-attack-report-header {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  padding: 8px 0;
+  text-align: center;
+}
+.city-attack-report--repelled { color: #40d040; }
+.city-attack-report--partial  { color: #d0a020; }
+.city-attack-report--defeated { color: #d04020; }
+.city-attack-report-body { display: flex; flex-direction: column; gap: 6px; width: 100%; padding: 4px 0; }
+.city-attack-stat { font-size: 10px; color: #80a080; }
+.city-attack-good { font-size: 11px; color: #40d040; }
+.city-attack-bad  { font-size: 11px; color: #d06040; }
+.city-attack-warn { font-size: 10px; color: #c08020; font-style: italic; }
+
+/* ── City Builder — fortification panel ─────────────────────────────────── */
+.city-subscreen-scroll {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.city-fort-info-row {
+  font-size: 10px;
+  color: #608060;
+  padding: 2px 4px;
+}
+.city-fort-repair-note { color: #404040; font-style: italic; }
+.city-fort-list {
+  width: 100%;
+}
+.city-fort-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  background: #060f06;
+  border: 1px solid #1a3a1a;
+  border-radius: 3px;
+}
+.city-fort-sprite { width: 32px; height: 32px; image-rendering: pixelated; flex-shrink: 0; }
+.city-fort-details { flex: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.city-fort-name { font-size: 11px; color: #90d090; }
+.city-fort-hp-track { display: flex; align-items: center; gap: 6px; }
+.city-fort-hp-bar {
+  flex: 1;
+  height: 5px;
+  background: #1a2a1a;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.city-fort-hp-fill { height: 100%; border-radius: 2px; transition: width 0.5s; }
+.city-fort-hp-text { font-size: 9px; color: #608060; white-space: nowrap; }
+.city-fort-defense-val { font-size: 9px; color: #40a060; }
+.city-fort-remove { font-size: 14px !important; padding: 2px 6px !important; line-height: 1; }
+
+/* ── City Builder — builder slots ────────────────────────────────────────── */
+.city-fort-builders-row {
+  padding: 4px 0;
+  width: 100%;
+}
+.city-fort-builder {
+  flex: 1;
+  min-width: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 8px;
+  border-radius: 3px;
+  font-size: 10px;
+  text-align: center;
+  border: 1px solid #1a2a1a;
+}
+.city-fort-builder--free {
+  background: #060e06;
+  color: #408040;
+  border-color: #204020;
+}
+.city-fort-builder--busy {
+  background: #0a0f06;
+  color: #90c080;
+  border-color: #30501a;
+}
+.city-fort-builder-sprite { width: 24px; height: 24px; image-rendering: pixelated; }
+.city-fort-builder-label { font-size: 10px; color: #80c060; }
+.city-fort-builder-eta { font-size: 9px; color: #c09040; font-weight: bold; }
+.city-fort-builder--hire {
+  background: #06080a;
+  color: #6080a0;
+  border-color: #203040;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.city-fort-builder--hire:hover:not(:disabled) { background: #0a1018; }
+.city-fort-builder--hire-ready { color: #c0d040; border-color: #506020; }
+.city-fort-builder--hire-ready:hover:not(:disabled) { background: #0c1004; }
+.city-fort-builder-cost { font-size: 9px; color: #809040; }
+
+/* ── Fort ring view ──────────────────────────────────────────────────────── */
+.fort-ring-wrap {
+  position: relative;
+  flex-shrink: 0;
+  padding: 4px 6px;
+  background: #6b4c2a; /* dirt/path — same as city world, shows through gaps */
+}
+.fort-ring-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto auto auto auto;
+  grid-template-areas:
+    "f0  f1  f2  f3"
+    "f4  ct  ct  f5"
+    "f6  ct  ct  f7"
+    "f8  f9  f10 f11";
+  gap: 4px;
+}
+/* Fort cells — grass background matching the city */
+.fort-ring-cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  background: #2d5a27;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  padding: 2px;
+  gap: 1px;
+  overflow: hidden;
+  transition: background 0.15s;
+}
+.fort-ring-cell:hover { background: #3a6e33; }
+.fort-ring-cell .city-cell-forsale-sign {
+  font-size: 7px;
+  line-height: 1.2;
+  color: #c8a060;
+}
+.fort-ring-cell .city-cell-forsale-post {
+  height: 6px;
+}
+.fort-ring-cell--building {
+  background: #304828;
+}
+.fort-ring-cell--active {
+  background: #233a1e;
+}
+.fort-ring-sprite {
+  width: 28px;
+  height: 28px;
+  image-rendering: pixelated;
+  flex-shrink: 0;
+}
+.fort-ring-building-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 9px;
+  line-height: 1;
+}
+.fort-ring-eta {
+  font-size: 8px;
+  color: #c09040;
+  line-height: 1;
+}
+.fort-ring-bar-row {
+  width: 100%;
+  padding: 0 2px;
+}
+.fort-ring-bar {
+  width: 100%;
+  height: 3px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.fort-ring-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.5s;
+}
+.fort-ring-defense {
+  font-size: 8px;
+  color: #40a060;
+  line-height: 1;
+}
+/* City thumbnail in the centre */
+.fort-ring-city {
+  grid-area: ct;
+  background: #6b4c2a; /* dirt bg like city world */
+  border-radius: 2px;
+  padding: 2px;
+  overflow: hidden;
+}
+.fort-ring-city-grid {
+  display: grid;
+  width: 100%;
+}
+.fort-ring-city-cell {
+  background: #2d5a27; /* grass */
+  border-radius: 1px;
+  overflow: hidden;
+}
+.fort-ring-city-sprite {
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+.fort-ring-city-label {
+  font-size: 8px;
+  color: #4a7a30;
+  letter-spacing: 2px;
+  flex-shrink: 0;
+}
+
+/* Builder walker scaled down for ring view */
+.city-builder-walker--ring {
+  width: 14px;
+  height: 14px;
+}
+.city-builder-walker-sprite--ring {
+  width: 14px;
+  height: 14px;
+  image-rendering: pixelated;
+}
+
+/* ── City Builder — city perimeter (wall/moat visual strip) ─────────────── */
+.city-perimeter {
+  border-top: 2px solid #204a20;
+  background: #040a04;
+  padding: 3px 6px 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.city-perimeter:hover { border-top-color: #308030; }
+.city-perimeter .fort-ring-cell { width: 44px; }
+
+/* ── City Builder — building resident panel ─────────────────────────────── */
+.city-search {
+  width: 100%;
+  box-sizing: border-box;
+  background: #060f06;
+  border: 1px solid #1a3a1a;
+  border-radius: 3px;
+  color: #90d090;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 5px 8px;
+  margin-bottom: 8px;
+  outline: none;
+}
+.city-search::placeholder { color: #3a5a3a; }
+.city-search:focus { border-color: #40a040; }
+
+.city-bld-tabs {
+  margin-bottom: 8px;
+  width: 100%;
+}
+.city-bld-tab {
+  flex: 1;
+  background: #060f06;
+  border: 1px solid #1a3a1a;
+  border-radius: 3px;
+  color: #609060;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 5px;
+  cursor: pointer;
+}
+.city-bld-tab--active {
+  border-color: #40a040;
+  color: #90d090;
+  background: #091509;
+}
+
+.city-bld-upgrade {
+  width: 100%;
+}
+
+.city-bld-section-title { font-size: 10px; color: #609060; letter-spacing: 1px; text-transform: uppercase; align-self: flex-start; }
+.city-bld-hint { font-size: 10px; color: #80a080; font-style: italic; line-height: 1.4; }
+.city-bld-vacant        { font-size: 10px; color: #606060; font-style: italic; }
+.city-bld-vacant-section { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+.city-bld-vacant-reasons { display: flex; flex-direction: column; gap: 3px; }
+.city-bld-req--met      { color: #609060 !important; }
+.city-bld-vacant-warn   { font-size: 9px; color: #887040; font-style: italic; }
+.city-bld-resident {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+  padding: 4px 0;
+  border-top: 1px solid #2a3a2a;
+}
+.city-bld-resident-sprite { width: 24px; height: 24px; image-rendering: pixelated; flex-shrink: 0; }
+.city-bld-resident-info   { display: flex; flex-direction: column; gap: 2px; }
+.city-bld-resident-name   { font-size: 11px; color: #90d090; }
+.city-bld-resident-task   { font-size: 9px; color: #a8c8ff; margin-top: 1px; }
+.city-bld-resident-req    { font-size: 9px; color: #d07070; }
+.city-req-mastery         { font-size: 11px; color: #f0c060; margin-left: 6px; }
+.city-bld-produces-row    { font-size: 11px; color: #a0d0a0; align-self: flex-start; }
+
+/* Title screen button */
+.title-minigames-btn {
+  border-color: #6040a0 !important;
+  color: #c090ff !important;
+}
+.title-btn--alert {
+  border-color: #f44336 !important;
+  animation: title-alert-pulse 1.2s ease-in-out infinite alternate;
+}
+@keyframes title-alert-pulse {
+  from { box-shadow: 0 0 6px rgba(244,67,54,0.4); }
+  to   { box-shadow: 0 0 16px rgba(244,67,54,0.8); }
+}
+.title-alert-badge {
+  display: block;
+  font-size: 9px;
+  color: #f44336;
+  font-weight: bold;
+  letter-spacing: 1px;
+  animation: title-alert-pulse 1.2s ease-in-out infinite alternate;
+}
+
+/* ── Toast ───────────────────────────────────────────────────────────────── */
+
+.minigame-toast {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a3a;
+  border: 1px solid #5050a0;
+  color: #d0d0ff;
+  padding: 8px 20px;
+  font-size: var(--font-base);
+  z-index: 9999;
+  pointer-events: none;
+  max-width: 90vw;
+  text-align: center;
+}
+
+.minigame-toast--prize {
+  border-color: #a08040;
+  color: #ffd060;
+}
+
+/* ── Individual mini-game screen wrapper ─────────────────────────────────── */
+
+.minigame-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  height: 100%;
+  overflow-y: auto;
+  background: #0a0a14;
+  color: #c8c8d8;
+  font-family: var(--font-mono);
+  box-sizing: border-box;
+}
+
+.minigame-title {
+  font-size: 1.429rem;
+  font-weight: bold;
+  color: var(--color-gold);
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.minigame-subtitle {
+  font-size: var(--font-md);
+  color: #8888aa;
+  margin-bottom: 12px;
+}
+
+.minigame-result-panel {
+  margin-top: 16px;
+  border: 1px solid #5050a0;
+  background: #0e0e22;
+  padding: 16px 24px;
+}
+
+.minigame-result-headline {
+  font-size: var(--font-xl);
+  color: var(--color-gold);
+  font-weight: bold;
+}
+
+.minigame-result-breakdown {
+  font-size: var(--font-md);
+  color: #aaaacc;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.minigame-result-total {
+  font-size: 1rem;
+  color: var(--color-gold-light);
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+.minigame-ready {
+  margin-top: 16px;
+  font-size: var(--font-base);
+  color: #aaaacc;
+}
+
+/* ── Marble Run ──────────────────────────────────────────────────────────── */
+
+.marble-col-selectors {
+  margin-bottom: 6px;
+  min-height: 28px;
+}
+
+.marble-col-btn {
+  width: 36px;
+  background: transparent;
+  border: 1px solid #4040a0;
+  color: #8888ff;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 2px 0;
+  transition: background 0.1s;
+}
+
+.marble-col-btn:hover {
+  background: #1a1a4a;
+  color: #ffffffc8;
+}
+
+.marble-col-btn-placeholder {
+  height: 28px;
+}
+
+.marble-board {
+  border: 1px solid #2a2a4a;
+  background: #0c0c1e;
+  padding: 8px;
+}
+
+.marble-cell {
+  width: 36px;
+  height: 24px;
+  font-size: 1rem;
+}
+
+.marble-pattern-label {
+  font-size: var(--font-sm);
+  color: #6060aa;
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+
+.marble-peg {
+  color: #3a3a6a;
+  font-size: var(--font-xl);
+}
+
+.marble-cell--obstacle {
+  background: #1a0a2a;
+}
+
+.marble-obstacle {
+  color: #aa44cc;
+  font-size: var(--font-md);
+}
+
+.marble-cell--active .marble-ball {
+  color: #ff8844;
+  font-size: var(--font-xl);
+  text-shadow: 0 0 6px #ff6622;
+}
+
+.marble-slot-row {
+  margin-top: 4px;
+}
+
+.marble-slot {
+  width: 36px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-sm);
+  font-weight: bold;
+  border: 1px solid #3a3a6a;
+  background: #0e0e22;
+  color: #8888aa;
+}
+
+.marble-slot--active {
+  border-color: #ff8844;
+  color: #ff8844;
+  background: #221208;
+}
+
+.marble-slot--hit {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+  background: #1a1400;
+}
+
+.marble-results {
+  margin-top: 10px;
+  max-width: 320px;
+}
+
+.marble-result-chip {
+  background: #1a1a3a;
+  border: 1px solid #4040a0;
+  color: #aaaacc;
+  font-size: var(--font-sm);
+  padding: 3px 8px;
+}
+
+.marble-result-total {
+  font-size: var(--font-base);
+  color: var(--color-gold);
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+  margin-top: 4px;
+}
+

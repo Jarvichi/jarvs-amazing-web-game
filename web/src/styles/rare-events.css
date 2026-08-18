@@ -1,0 +1,551 @@
+/* rare-events.css — split from styles.css (#2169). Easter eggs and rare-event screens: fake BSOD, Wrong Number, Narrator, the 42-item secret panel, Secrets #1/#2/#5/#6/#8/#9/#10, score ghost, theatre/curtain-call. */
+
+/* ─── Fake Crash (BSOD) ─────────────────────────────────── */
+
+.rc-screen {
+  position: fixed;
+  inset: 0;
+  background: #0050d0;
+  color: #fff;
+  font-family: 'Segoe UI', monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: none;
+}
+
+.rc-screen--reboot {
+  background: #000;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rc-reboot-logo   { font-size: var(--font-base); color: #555; letter-spacing: 2px; text-transform: uppercase; }
+.rc-reboot-spinner { font-size: 1.286rem; color: #333; letter-spacing: 2px; animation: crashBlink 0.8s step-end infinite; }
+.rc-reboot-text   { font-size: var(--font-md); color: #444; letter-spacing: 1px; }
+
+@keyframes crashBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+.rc-content {
+  max-width: 560px;
+  padding: 32px;
+}
+
+.rc-sad {
+  font-size: 6.857rem;
+  font-weight: 100;
+  line-height: 1;
+  color: #fff;
+}
+
+.rc-headline {
+  font-size: 1.286rem;
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+.rc-progress-line {
+  font-size: 1.286rem;
+}
+
+.rc-small {
+  font-size: var(--font-xs);
+  color: rgba(255,255,255,0.6);
+  line-height: 1.6;
+}
+
+.rc-code {
+  font-size: var(--font-sm);
+  color: rgba(255,255,255,0.7);
+  font-family: var(--font-mono);
+}
+
+/* ─── Wrong Number ──────────────────────────────────────── */
+
+.wn-notification {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(340px, 95vw);
+  background: #1c1c1e;
+  border: 1px solid var(--game-border);
+  border-radius: 0 0 12px 12px;
+  padding: 14px 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  z-index: 500;
+  transform: translateY(-110%);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.wn-notification--visible { transform: translateY(0); }
+
+.wn-app-icon { font-size: 1.571rem; flex-shrink: 0; line-height: 1; }
+
+.wn-content { flex: 1; min-width: 0; }
+.wn-sender  { font-size: var(--font-sm); color: var(--game-text-color-muted); letter-spacing: 1px; margin-bottom: 4px; }
+.wn-message { font-size: var(--font-base); color: var(--game-text-color-dim); line-height: 1.4; margin-bottom: 10px; }
+
+.wn-actions { display: flex; gap: 8px; }
+.wn-btn {
+  background: #333;
+  border: 1px solid #555;
+  color: var(--game-text-color-muted);
+  font-family: inherit;
+  font-size: var(--font-sm);
+  padding: 4px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.wn-btn:hover      { background: #444; color: var(--game-text-color-dim); }
+.wn-btn--muted     { border-color: var(--game-border); color: var(--game-text-color-muted); }
+.wn-btn--muted:hover { color: var(--game-text-color-muted); }
+
+/* ─── Narrator ──────────────────────────────────────────── */
+
+.narrator-box {
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  width: min(460px, 92vw);
+  background: rgba(8, 8, 8, 0.92);
+  border: 1px solid #2a2a2a;
+  border-radius: 4px;
+  padding: 14px 18px;
+  z-index: 300;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.narrator-box--visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.narrator-label {
+  font-size: 0.571rem;
+  color: var(--game-text-color-dim);
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.narrator-text {
+  font-size: var(--font-md);
+  color: var(--game-text-color-dim);
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* ── The 42-item secret panel ──────────────────────────── */
+.inventory-secret-panel {
+  background: linear-gradient(135deg, #080020, #100030);
+  border: 2px solid rgba(150,80,255,0.6);
+  border-radius: 6px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  animation: pulseSecret 2s ease-in-out infinite;
+  box-shadow: 0 0 30px rgba(150,80,255,0.25);
+}
+
+@keyframes pulseSecret {
+  0%, 100% { box-shadow: 0 0 20px rgba(150,80,255,0.2); }
+  50%       { box-shadow: 0 0 40px rgba(150,80,255,0.45); }
+}
+
+.inventory-secret-icon  { font-size: 2.286rem; }
+.inventory-secret-title { font-size: var(--font-base); color: #c060ff; font-weight: bold; letter-spacing: 2px; }
+.inventory-secret-msg   { font-size: var(--font-md); color: #e0b0ff; font-style: italic; max-width: 280px; }
+
+/* ── Secret #1 — Konami Code toast ──────────────────────────────────────── */
+.konami-toast {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a2a1a;
+  border: 1px solid #4a9a4a;
+  color: #7ddd7d;
+  padding: 0.6rem 1.25rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  border-radius: 4px;
+  z-index: 9999;
+  pointer-events: none;
+  animation: konami-toast-in 0.3s ease;
+}
+@keyframes konami-toast-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(-0.5rem); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* ── Secret #2 — DevBuild rare event ──────────────────────────────────── */
+.dev-build-overlay {
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 200;
+  padding: 1rem;
+}
+.dev-build-header {
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  color: #ff9800;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ff980044;
+  padding-bottom: 0.5rem;
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+}
+.dev-build-log {
+  width: 100%;
+  max-width: 480px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+.dev-log-debug { color: #888; }
+.dev-log-warn  { color: var(--color-gold-alt); }
+.dev-log-error { color: var(--color-red); }
+.dev-log-info  { color: #44aaff; }
+.dev-build-done { margin-top: 0.5rem; font-weight: bold; }
+
+/* ── Secret #6 — Glitched Card rare event ─────────────────────────────── */
+.glitch-card-overlay {
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  z-index: 200;
+  gap: 1rem;
+}
+.glitch-card-label {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: var(--color-red);
+}
+.glitch-card-tile {
+  width: 120px;
+  min-height: 160px;
+  background: #111;
+  border: 2px solid #444;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.glitch-card-tile:hover { border-color: #888; background: #1a1a1a; }
+.glitch-card-tile--revealed { border-color: #4a9a4a; background: #0a1a0a; }
+.glitch-card-name { font-size: 0.8rem; font-weight: bold; text-align: center; color: #ccc; }
+.glitch-card-restored { font-size: 0.7rem; color: #7dbd7d; text-align: center; }
+.glitch-card-hint { font-size: 0.7rem; color: #666; }
+.glitch-text {
+  animation: glitch-flicker 0.15s infinite;
+  color: var(--color-red);
+}
+@keyframes glitch-flicker {
+  0%, 100% { opacity: 1; transform: translateX(0); }
+  25%       { opacity: 0.7; transform: translateX(-1px); }
+  75%       { opacity: 0.8; transform: translateX(1px); }
+}
+
+/* ── Secret #8 — Confused Tourist rare event ──────────────────────────── */
+.tourist-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  z-index: 200;
+  padding: 1rem;
+}
+.tourist-card {
+  background: #1a1a2a;
+  border: 1px solid #4a4a9a;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  max-width: 260px;
+  animation: tourist-slide-in 0.4s ease;
+  transition: opacity 0.8s, transform 0.8s;
+}
+.tourist-card--leaving {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+@keyframes tourist-slide-in {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.tourist-header {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: #8888cc;
+  margin-bottom: 0.35rem;
+}
+.tourist-unit-name {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #aaaaee;
+  margin-bottom: 0.4rem;
+}
+.tourist-speech {
+  font-size: 0.8rem;
+  color: #ccc;
+  font-style: italic;
+  line-height: 1.4;
+}
+.tourist-exit {
+  font-size: 0.7rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+/* ── Secret #5 — Time Capsule modal ──────────────────────────────────── */
+.time-capsule-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000;
+}
+.time-capsule-modal {
+  background: #111;
+  border: 2px solid #8a6a2a;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 360px;
+  text-align: center;
+  color: #eee;
+}
+.time-capsule-header {
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  color: #d4a832;
+  margin-bottom: 1rem;
+}
+.time-capsule-body { font-size: 0.85rem; line-height: 1.8; margin-bottom: 1.25rem; }
+.time-capsule-body strong { color: #d4a832; }
+
+/* ── Secret #10 — 100 Wins Celebration modal ─────────────────────────── */
+.win-celebration-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000;
+}
+.win-celebration-modal {
+  position: relative;
+  background: #0d1a0d;
+  border: 2px solid #4a9a4a;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 360px;
+  text-align: center;
+  color: #eee;
+  overflow: hidden;
+}
+.win-celebration-modal--major {
+  border-color: #55ddaa;
+  box-shadow: 0 0 24px rgba(85, 221, 170, 0.35);
+}
+.win-celebration-modal--grand {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 36px rgba(255, 215, 0, 0.45);
+}
+.win-celebration-modal--grand .win-celebration-header {
+  color: var(--color-gold);
+  font-size: 1.4rem;
+}
+.win-celebration-modal--major .win-celebration-header {
+  color: #55ddaa;
+  font-size: 1.3rem;
+}
+.win-celebration-header {
+  font-size: 1.2rem;
+  letter-spacing: 0.1em;
+  color: #7ddd7d;
+  margin-bottom: 1rem;
+}
+.win-celebration-body { font-size: 0.85rem; line-height: 1.8; margin-bottom: 1.25rem; }
+.win-celebration-confetti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.confetti-char {
+  position: absolute;
+  font-size: 0.9rem;
+  opacity: 0.7;
+  animation: confetti-fall 2.5s ease-in infinite;
+  animation-delay: calc(var(--i) * 0.08s);
+  left: calc(var(--i) * 3.5%);
+  top: -1rem;
+  color: hsl(calc(var(--i) * 12), 80%, 65%);
+}
+@keyframes confetti-fall {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+  100% { transform: translateY(120%) rotate(360deg); opacity: 0; }
+}
+
+/* ── Secret #9 — Wrong Save File glitch ──────────────────────────────── */
+.title-deck-info--glitch {
+  animation: save-glitch 0.15s steps(1) infinite;
+  color: #ff6666 !important;
+}
+@keyframes save-glitch {
+  0%, 90%, 100% { filter: none; transform: none; }
+  30%           { filter: blur(1px); transform: translateX(2px); }
+  60%           { filter: blur(0.5px); transform: translateX(-1px); }
+}
+
+/* ── Score Ghost leaderboard entry ───────────────────────────────────── */
+.el-lb-ghost {
+  opacity: 0.5;
+  font-style: italic;
+  color: #888 !important;
+}
+.el-lb-ghost .el-lb-name { color: #999; }
+.el-lb-ghost .el-lb-rank { color: #666; }
+
+/* ── Theatre / Curtain Call screen ─────────────────────────────────────── */
+.theatre-act-counter {
+  font-size: 13px;
+  color: #c8a8e8;
+  font-family: var(--font-mono);
+}
+
+.theatre-stage {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  height: 28px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.theatre-zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: rgba(255,215,0,0.28);
+  border-left: 1px solid #ffd700;
+  border-right: 1px solid #ffd700;
+}
+
+.theatre-marker {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 4px;
+  margin-left: -2px;
+  background: #ff5a5a;
+  box-shadow: 0 0 8px #ff5a5a;
+}
+
+.theatre-cue-btn {
+  min-width: 160px;
+  font-size: 15px;
+}
+
+.theatre-flash {
+  font-size: 16px;
+  font-family: var(--font-mono);
+  font-weight: bold;
+  animation: theatre-flash-pop 0.5s ease-out;
+}
+
+.theatre-flash--miss    { color: #ff6a6a; }
+.theatre-flash--good    { color: #88ddff; }
+.theatre-flash--perfect { color: #ffd700; text-shadow: 0 0 12px #ffd700; }
+
+@keyframes theatre-flash-pop {
+  0%   { opacity: 0; transform: scale(0.7); }
+  30%  { opacity: 1; transform: scale(1.15); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.theatre-stage-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  height: 96px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.theatre-avatar-platform {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 6px;
+}
+
+.theatre-avatar-platform::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 84px;
+  height: 84px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, rgba(255,215,0,0.28) 0%, rgba(255,215,0,0) 70%);
+  pointer-events: none;
+}
+
+.theatre-avatar-platform::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 60px;
+  height: 10px;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.55);
+  border-radius: 50%;
+  filter: blur(1px);
+}
+
+.theatre-avatar-img {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  z-index: 1;
+}
+
+.theatre-reaction-pop {
+  position: absolute;
+  font-size: 20px;
+  pointer-events: none;
+  animation: pop-float 0.9s ease-out forwards;
+  transform: translate(-50%, -50%);
+}
+

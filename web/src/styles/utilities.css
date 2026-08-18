@@ -1,0 +1,107 @@
+/* utilities.css — split from styles.css (#2169). The u-* utility classes (layout, text, gap, padding, radius helpers). */
+
+/* ─── Utilities ──────────────────────────────────────── */
+
+/* Layout */
+.u-flex       { display: flex; }
+.u-col        { display: flex; flex-direction: column; }
+.u-row        { display: flex; flex-direction: row; }
+.u-wrap       { flex-wrap: wrap; }
+.u-center     { align-items: center; justify-content: center; }
+.u-items-c    { align-items: center; }
+.u-items-end  { align-items: flex-end; }
+.u-just-c     { justify-content: center; }
+.u-just-sb    { justify-content: space-between; }
+.u-just-end   { justify-content: flex-end; }
+.u-grow       { flex: 1; }
+
+
+/* Text */
+.u-text-c     { text-align: center; }
+.u-text-r     { text-align: right; }
+.u-text-xs    { font-size: var(--font-xs); }
+.u-text-sm    { font-size: var(--font-sm); }
+.u-text-md    { font-size: var(--font-md); }
+.u-text-base  { font-size: var(--font-base); }
+.u-text-lg    { font-size: var(--font-lg); }
+.u-text-gold  { color: var(--color-gold); }
+.u-text-dim   { color: var(--game-text-color-dim); }
+.u-text-muted { color: var(--game-text-color-muted); }
+.u-text-red   { color: var(--color-red); }
+
+/* Gap */
+.u-gap-1 { gap: var(--gap-1); }
+.u-gap-2 { gap: var(--gap-2); }
+.u-gap-3 { gap: var(--gap-3); }
+.u-gap-4 { gap: var(--gap-4); }
+.u-gap-5 { gap: var(--gap-5); }
+.u-gap-6 { gap: var(--gap-6); }
+.u-gap-7 { gap: var(--gap-7); }
+
+/* Padding shorthands */
+.u-pad-sm  { padding: var(--gap-2) var(--gap-4); }
+.u-pad-md  { padding: var(--gap-3) var(--gap-5); }
+.u-pad-lg  { padding: var(--gap-4) var(--gap-6); }
+
+/* Margin shorthands */
+.u-mg-sm  { margin: var(--gap-2) var(--gap-4); }
+.u-mg-md  { margin: var(--gap-3) var(--gap-5); }
+.u-mg-lg  { margin: var(--gap-4) var(--gap-6); }
+
+.u-mg-l-sm { margin-left: var(--gap-2); }
+.u-mg-l-md { margin-left: var(--gap-3); }
+.u-mg-l-lg { margin-left: var(--gap-4); }
+.u-mg-r-sm { margin-right: var(--gap-2); }
+.u-mg-r-md { margin-right: var(--gap-3); }
+.u-mg-r-lg { margin-right: var(--gap-4); }
+.u-mg-t-sm { margin-top: var(--gap-2); }
+.u-mg-t-md { margin-top: var(--gap-3); }
+.u-mg-t-lg { margin-top: var(--gap-4); }
+.u-mg-b-sm { margin-bottom: var(--gap-2); }
+.u-mg-b-md { margin-bottom: var(--gap-3); }
+.u-mg-b-lg { margin-bottom: var(--gap-4); }
+
+/* Display / positioning */
+.u-hidden    { display: none; }
+.u-relative  { position: relative; }
+.u-absolute  { position: absolute; }
+.u-inset-0   { inset: 0; }
+.u-pointer   { cursor: pointer; }
+.u-no-select { user-select: none; }
+
+/* Borders */
+.u-rounded-sm { border-radius: var(--radius-sm); }
+.u-rounded    { border-radius: var(--radius-md); }
+.u-rounded-lg { border-radius: var(--radius-lg); }
+.u-rounded-xl { border-radius: 8px; } /* one step past the 3-step scale; intentionally left as a literal */
+.u-circle     { border-radius: 50%; }
+.u-border     { border: 1px solid var(--game-border); }
+
+/* Widths */
+.u-w-16  { width: 16px; }
+.u-w-24  { width: 24px; }
+.u-w-32  { width: 32px; }
+.u-w-48  { width: 48px; }
+.u-w-64  { width: 64px; }
+
+/* Heights */
+.u-h-16  { height: 16px; }
+.u-h-24  { height: 24px; }
+.u-h-32  { height: 32px; }
+.u-h-48  { height: 48px; }
+.u-h-64  { height: 64px; }
+
+/* Min widths */
+.u-min-w-16  { min-width: 16px; }
+.u-min-w-24  { min-width: 24px; }
+.u-min-w-32  { min-width: 32px; }
+.u-min-w-48  { min-width: 48px; }
+.u-min-w-64  { min-width: 64px; }
+
+/* Min heights */
+.u-min-h-16  { min-height: 16px; }
+.u-min-h-24  { min-height: 24px; }
+.u-min-h-32  { min-height: 32px; }
+.u-min-h-48  { min-height: 48px; }
+.u-min-h-64  { min-height: 64px; }
+

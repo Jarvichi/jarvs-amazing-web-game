@@ -1,0 +1,512 @@
+/* collection-meta.css — split from styles.css (#2169). Codex, character screen, archetype selection, augment collection, player/collection tabs. */
+
+/* ── Codex Screen ──────────────────────────────────────────── */
+.codex-screen {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+  padding: 0.5rem;
+  gap: 0.5rem;
+}
+
+.codex-tabs {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.codex-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.codex-search {
+  background: var(--game-bg, #0a0a0a);
+  border: 1px solid var(--game-border, #2a5a2a);
+  color: var(--game-text-color);
+  font-family: inherit;
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  width: 100%;
+  max-width: 320px;
+}
+.codex-search:focus { outline: 1px solid #aaffaa; }
+
+.codex-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.codex-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 4px;
+}
+
+.codex-entry {
+  border: 1px solid var(--game-border, #2a5a2a);
+  padding: 0.6rem 0.8rem;
+  background: rgba(0, 20, 0, 0.4);
+}
+
+.codex-entry--locked {
+  opacity: 0.45;
+  border-style: dashed;
+}
+
+.codex-entry-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.codex-entry-name {
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #aaffaa;
+}
+
+.codex-entry-tag {
+  font-size: 0.65rem;
+  color: #668866;
+  border: 1px solid #335533;
+  padding: 1px 5px;
+}
+
+.codex-entry-desc {
+  font-size: 0.75rem;
+  color: #88aa88;
+  margin-bottom: 6px;
+}
+
+.codex-entry-lore {
+  font-size: 0.78rem;
+  color: #99cc99;
+  font-style: italic;
+  border-left: 2px solid #2a5a2a;
+  padding-left: 8px;
+  margin-top: 4px;
+}
+
+.codex-entry-locked-hint {
+  font-size: 0.72rem;
+  color: #556655;
+  margin-top: 2px;
+}
+
+.codex-entry-boss {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid #1a3a1a;
+}
+
+.codex-entry-boss-label {
+  font-size: 0.65rem;
+  color: #ff8844;
+  border: 1px solid #774422;
+  padding: 1px 5px;
+}
+
+.codex-entry-boss-name {
+  font-size: 0.85rem;
+  color: #ffaa66;
+}
+
+.codex-empty {
+  color: #556655;
+  font-size: 0.8rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+.codex-conversation-stages {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+.codex-conversation-stage {
+  border-left: 2px solid #2a5a2a;
+  padding-left: 0.6rem;
+}
+
+.codex-conversation-stage--locked {
+  border-left-color: #1a3a1a;
+  opacity: 0.5;
+}
+
+.codex-conversation-stage-label {
+  font-size: 0.62rem;
+  color: #557755;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.codex-conversation-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-top: 0.3rem;
+}
+
+.codex-conversation-choice {
+  padding-left: 0.5rem;
+  border-left: 1px solid #1a3a1a;
+}
+
+.codex-conversation-choice-label {
+  font-size: 0.72rem;
+  color: #aaddaa;
+  margin-bottom: 0.15rem;
+}
+
+.codex-conversation-choice-response {
+  font-size: 0.7rem;
+  color: #778877;
+  font-style: italic;
+}
+
+/* ── Character Screen ─────────────────────────────────── */
+.character-screen-scroll {
+  flex: 1;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.character-avatar-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 0.8rem;
+  border-bottom: 1px solid var(--game-border);
+  padding-bottom: 4px;
+}
+
+.character-avatar-tab {
+  background: none;
+  border: 1px solid #444;
+  color: var(--game-text-color-dim);
+  font-family: inherit;
+  font-size: var(--font-sm);
+  padding: 4px 12px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+
+.character-avatar-tab:hover {
+  border-color: #aaffaa;
+  color: #aaffaa;
+}
+
+.character-avatar-tab--active {
+  border-color: #0f0;
+  color: #0f0;
+}
+
+.character-name-input {
+  background: var(--game-bg-raised);
+  border: 1px solid #33ff33;
+  color: #33ff33;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.4rem 0.6rem;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+}
+.character-name-input:focus {
+  border-color: #aaffaa;
+  box-shadow: 0 0 6px rgba(51, 255, 51, 0.3);
+}
+
+.character-avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+}
+
+.character-avatar-btn {
+  background: var(--game-bg);
+  border: 1px solid var(--game-border);
+  color: #aaa;
+  cursor: pointer;
+  padding: 0.5rem 0.3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  transition: border-color 0.15s, background 0.15s;
+}
+.character-avatar-btn:hover {
+  border-color: #33ff33;
+  background: #0d1a0d;
+}
+.character-avatar-btn--chosen {
+  border-color: #33ff33;
+  background: #0d1a0d;
+  box-shadow: 0 0 6px rgba(51, 255, 51, 0.3);
+}
+
+.character-avatar-img {
+  width: 40px;
+  height: 40px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.character-avatar-label {
+  font-size: 0.6rem;
+  color: #aaa;
+  text-align: center;
+  line-height: 1.2;
+}
+.character-avatar-btn--chosen .character-avatar-label {
+  color: #33ff33;
+}
+.character-avatar-btn--locked {
+  opacity: 0.45;
+  cursor: default;
+}
+.character-avatar-lock {
+  display: block;
+  font-size: 1.571rem;
+  line-height: 32px;
+  text-align: center;
+}
+
+/* ── Archetype Selection ─────────────────────────────────────────────────── */
+
+.character-archetype-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.character-archetype-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  background: #0a1a0a;
+  border: 1px solid #1e3a1e;
+  color: #aaffaa;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s, background 0.15s;
+  position: relative;
+}
+.character-archetype-btn:hover:not(.character-archetype-btn--locked) {
+  border-color: #33ff33;
+  background: #0d1a0d;
+}
+.character-archetype-btn--chosen {
+  border-color: #33ff33;
+  background: #0d2a0d;
+  box-shadow: 0 0 8px rgba(51, 255, 51, 0.25);
+}
+.character-archetype-btn--locked {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.character-archetype-selected-badge {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.65rem;
+  font-size: 0.65rem;
+  color: #33ff33;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+}
+
+.character-archetype-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+  margin-bottom: 0.1rem;
+}
+.character-archetype-name {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #eeffee;
+}
+.character-archetype-btn--chosen .character-archetype-name {
+  color: #33ff33;
+}
+.character-archetype-identity {
+  font-size: 0.7rem;
+  color: #88bb88;
+  font-style: italic;
+}
+.character-archetype-passive {
+  font-size: 0.68rem;
+  color: #aaa;
+  margin-top: 0.15rem;
+}
+
+/* ── Augment Collection Screen ───────────────────────────────────────────────── */
+
+.aug-stacks-section { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+
+.aug-stack-tile {
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 10px 12px;
+  background: rgba(80,50,120,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.aug-stack-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.aug-stack-name   { font-size: var(--font-sm); font-weight: bold; }
+.aug-stack-levels { font-size: var(--font-xxs); color: #aaa; }
+
+.aug-stack-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.aug-stack-slot-chip {
+  font-size: 10px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+
+.aug-stack-upgrade-note {
+  font-size: 11px;
+  color: var(--game-text-color-dim);
+}
+
+.aug-stack-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.aug-stack-drill-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0 4px;
+  border-bottom: 1px solid #2a2a2a;
+  margin-bottom: 4px;
+}
+
+.aug-stack-drill-title {
+  flex: 1;
+  font-weight: bold;
+  font-size: var(--font-sm);
+}
+
+.aug-stack-drill-upgrade {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 8px;
+  background: rgba(255,200,0,0.05);
+  border: 1px solid rgba(255,200,0,0.15);
+  border-radius: 4px;
+}
+
+.aug-list { display: flex; flex-direction: column; gap: 6px; }
+.aug-list-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid #2a2a2a;
+  border-radius: 4px;
+}
+.aug-list-item-info { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
+.aug-list-name      { font-size: var(--font-sm); font-weight: bold; }
+.aug-list-item-actions { flex-shrink: 0; }
+.aug-equipped-link {
+  background: none;
+  border: none;
+  color: #88bbff;
+  font-size: 11px;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  text-align: left;
+  text-decoration: underline;
+}
+
+/* ── Player / Collection tab screens ── */
+.player-screen {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.player-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px 12px 0;
+  border-bottom: 1px solid var(--game-border);
+  flex-shrink: 0;
+}
+
+.player-tab {
+  background: none;
+  border: 1px solid #444;
+  color: var(--game-text-color-dim);
+  font-family: inherit;
+  font-size: var(--font-sm);
+  padding: 4px 12px;
+  cursor: pointer;
+  position: relative;
+}
+
+.player-tab--active {
+  border-color: #0f0;
+  color: #0f0;
+}
+
+.player-tab-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-red);
+}
+
+.player-tab-content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
