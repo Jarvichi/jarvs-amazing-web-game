@@ -1,0 +1,839 @@
+/* battle-screens.css — split from styles.css (#2169). Battle-adjacent screens and effects: spell telegraph/counter QTE, battle summary, victory panel, quick battle, animation variety, endless wave chip, training mode. */
+
+/* ── Opponent spell-cast telegraph + Counter QTE ──────────── */
+.spell-cast-banner {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(30, 0, 0, 0.92);
+  border: 1px solid rgba(255, 70, 70, 0.85);
+  border-radius: 4px;
+  padding: 5px 14px;
+  color: #ffb0b0;
+  font-size: var(--font-md);
+  font-weight: bold;
+  letter-spacing: 1px;
+  pointer-events: none;
+  animation: spellCastBannerPulse 0.8s ease-in-out infinite;
+}
+.spell-cast-banner-timer {
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+}
+.spell-cast-banner-bar {
+  width: 70px;
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  overflow: hidden;
+}
+.spell-cast-banner-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff4444, #ff9944);
+  transition: width 0.1s linear;
+}
+@keyframes spellCastBannerPulse {
+  0%, 100% { border-color: rgba(255, 70, 70, 0.85); }
+  50%       { border-color: rgba(255, 140, 140, 1); }
+}
+
+.spell-cast-counter-btn {
+  position: absolute;
+  bottom: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 70;
+  background: rgba(40, 0, 0, 0.9);
+  border: 2px solid rgba(255, 70, 70, 0.9);
+  border-radius: 8px;
+  color: #ffdddd;
+  font-size: var(--font-lg);
+  font-weight: bold;
+  letter-spacing: 2px;
+  padding: 10px 26px;
+  cursor: pointer;
+  animation: spellCastCounterPulse 0.8s ease-in-out infinite;
+}
+.spell-cast-counter-btn--closing {
+  border-color: rgba(255, 180, 40, 0.95);
+  color: #ffe8c0;
+  animation: spellCastCounterClosing 0.3s ease-in-out infinite;
+}
+.spell-cast-counter-btn-cap {
+  font-size: var(--font-sm);
+  font-weight: normal;
+  letter-spacing: normal;
+  opacity: 0.85;
+}
+@keyframes spellCastCounterPulse {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50%       { transform: translateX(-50%) scale(1.05); }
+}
+@keyframes spellCastCounterClosing {
+  0%, 100% { box-shadow: 0 0 6px rgba(255, 180, 40, 0.5); }
+  50%       { box-shadow: 0 0 20px rgba(255, 180, 40, 0.95); }
+}
+
+.spell-cast-grade {
+  position: absolute;
+  bottom: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 70;
+  font-size: var(--font-lg);
+  font-weight: bold;
+  letter-spacing: 2px;
+  padding: 8px 22px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.85);
+  border: 2px solid;
+}
+
+.sudden-death-overlay {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(20, 8, 0, 0.9);
+  border: 1px solid rgba(255, 153, 0, 0.6);
+  border-radius: 4px;
+  padding: 4px 14px;
+  animation: sdPulse 0.8s ease-in-out infinite;
+}
+
+.sudden-death-icon { font-size: 1rem; }
+.sudden-death-text {
+  font-size: var(--font-md);
+  font-weight: bold;
+  color: var(--color-orange);
+  letter-spacing: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BATTLEFIELD THEMING (per act)
+   ═══════════════════════════════════════════════════════════ */
+
+/* Act 1 — Verdant Shard (forest green) */
+.battlefield--act1 .lane {
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(80, 180, 80, 0.018) 0px,
+      rgba(80, 180, 80, 0.018) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    linear-gradient(
+      180deg,
+      #050f05 0%,
+      #080f08 25%,
+      #0c110c 50%,
+      #080f08 75%,
+      #050f05 100%
+    );
+  outline-color: #1a3a1a;
+}
+
+.battlefield--act1 .top-bar { border-color: #1a3a1a; }
+.battlefield--act1 .base-bar--opponent { border-color: #883333; }
+
+/* Act 2 — Iron Citadel (stone/grey fortresses) */
+.battlefield--act2 .lane {
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(130, 130, 140, 0.015) 0px,
+      rgba(130, 130, 140, 0.015) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    linear-gradient(180deg, #0a0a0c 0%, #0d0d10 40%, #0a0a0c 100%);
+  outline-color: #2a2a38;
+}
+.battlefield--act2 .top-bar { border-color: #2a2a38; }
+.battlefield--act2 .base-bar--opponent { border-color: #884422; }
+
+/* Act 3 — Ashen Wastes (dark scorched earth) */
+.battlefield--act3 .lane {
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(60, 40, 20, 0.025) 0px,
+      rgba(60, 40, 20, 0.025) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    linear-gradient(180deg, #0a0604 0%, #0e0a06 40%, #0a0604 100%);
+  outline-color: #2a1a0a;
+}
+.battlefield--act3 .top-bar { border-color: #2a1a0a; }
+.battlefield--act3 .base-bar--opponent { border-color: var(--accent-blood); }
+
+/* Act 4 — Crystal Spire (arcane blue glow) */
+.battlefield--act4 .lane {
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(20, 80, 180, 0.018) 0px,
+      rgba(20, 80, 180, 0.018) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    linear-gradient(180deg, #040812 0%, #060c18 40%, #040812 100%);
+  outline-color: #0a1a3a;
+}
+.battlefield--act4 .top-bar { border-color: #0a1a3a; }
+.battlefield--act4 .base-bar--opponent { border-color: #2244aa; }
+
+/* Fallback (quick play / unknown act) stays with defaults */
+
+/* ═══════════════════════════════════════════════════════════
+   CARD FLIP ANIMATION (post-battle reward)
+   ═══════════════════════════════════════════════════════════ */
+
+.reward-card-flipper {
+  position: relative;
+  width: 100px;
+  height: 145px;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+
+.reward-card-flipper--flipped {
+  transform: rotateY(180deg);
+}
+
+.reward-card-face,
+.reward-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 4px;
+}
+
+.reward-card-back {
+  background: #0e0e1a;
+  border: 2px solid #2a2a55;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.286rem;
+  color: #2a2a55;
+}
+
+.reward-card-face {
+  transform: rotateY(180deg);
+}
+
+.reward-card-flipper--selected .reward-card-face {
+  outline: 2px solid var(--accent-arcane);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.reward-card-info-btn {
+  background: none;
+  border: none;
+  color: var(--game-text-color-muted);
+  font-size: var(--font-xl);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  transition: color 0.15s;
+}
+.reward-card-info-btn:hover {
+  color: var(--game-text-color);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SETTINGS SCREEN
+   ═══════════════════════════════════════════════════════════ */
+
+.settings-screen {
+  min-height: 0;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.settings-body {
+  overflow-y: auto;
+  min-height: 0;
+  padding: 12px 0;
+}
+
+/* settings sections → .section.section--bordered */
+
+.settings-row {
+  padding: 10px 14px;
+  border-bottom: 1px solid #111;
+}
+
+.settings-row:last-child { border-bottom: none; }
+
+.settings-label {
+  font-size: var(--font-md);
+  color: var(--game-text-color-dim);
+  flex: 1;
+}
+
+.settings-sublabel {
+  font-size: var(--font-xs);
+  color: #777;
+  margin-top: 2px;
+}
+
+.settings-toggle-track {
+  width: 36px;
+  height: 18px;
+  border-radius: 9px;
+  border: 1px solid #444;
+  background: var(--game-bg-card);
+  position: relative;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.settings-toggle-track--on {
+  background: rgba(51,255,51,0.2);
+  border-color: var(--game-text-color);
+}
+
+.settings-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #555;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.settings-toggle-track--on .settings-toggle-thumb {
+  transform: translateX(18px);
+  background: #33ff33;
+}
+
+.settings-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 120px;
+  height: 4px;
+  border-radius: 2px;
+  background: #333;
+  outline: none;
+  cursor: pointer;
+}
+
+.settings-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #33ff33;
+  cursor: pointer;
+}
+
+.settings-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #33ff33;
+  border: none;
+  cursor: pointer;
+}
+
+.settings-value {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+  min-width: 28px;
+  text-align: right;
+}
+
+/* Uses action-btn--danger; size overrides only */
+.settings-danger-btn {
+  font-size: var(--font-md);
+  padding: 6px 16px;
+}
+
+.settings-confirm-msg {
+  font-size: var(--font-sm);
+  color: var(--color-orange);
+  flex: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   AUTO-BUILD MODAL (deck builder)
+   ═══════════════════════════════════════════════════════════ */
+
+.autobuild-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.autobuild-panel {
+  background: var(--game-bg);
+  border: 1px solid var(--game-border);
+  border-radius: 6px;
+  width: min(440px, 95vw);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.autobuild-title {
+  font-size: 1.071rem;
+  color: var(--game-text-color);
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.autobuild-sub {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+.autobuild-strategy {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  background: none;
+  border: 1px solid #2a2a2a;
+  color: var(--game-text-color-dim);
+  font-family: inherit;
+  text-align: left;
+  padding: 12px 16px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.autobuild-strategy:hover {
+  border-color: var(--game-text-color);
+  background: rgba(51,255,51,0.05);
+}
+
+.autobuild-strategy-name {
+  font-size: var(--font-base);
+  font-weight: bold;
+  color: var(--game-text-color);
+  letter-spacing: 1px;
+}
+
+.autobuild-strategy-desc {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-dim);
+}
+
+.autobuild-cancel {
+  align-self: flex-start;
+  font-size: var(--font-sm);
+  color: var(--game-text-color-muted);
+  border-color: #2a2a2a;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   COLLECTION: UPGRADE ALL / UPGRADEABLE filter
+   ═══════════════════════════════════════════════════════════ */
+
+.collection-master-btn {
+  border-color: rgba(255, 215, 0, 0.5);
+  color: var(--color-gold);
+}
+.collection-master-btn:hover:not(:disabled) {
+  background: rgba(255, 215, 0, 0.12);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   EVENT CARD REVEAL (when event grants a card)
+   ═══════════════════════════════════════════════════════════ */
+
+.event-card-reveal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 400;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.event-card-reveal-label {
+  font-size: var(--font-md);
+  color: #ddaa55;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.event-card-reveal-sub {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+  text-align: center;
+  margin-top: -12px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DAILY LOGIN MODAL
+   ═══════════════════════════════════════════════════════════ */
+
+.daily-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.82);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  animation: fadeIn 0.25s ease;
+}
+
+.daily-modal {
+  background: var(--game-bg);
+  border: 2px solid rgba(255,200,50,0.6);
+  border-radius: 6px;
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-width: 240px;
+  max-width: 320px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(255,200,50,0.2);
+}
+
+.daily-modal-header {
+  font-size: 1.286rem;
+  font-weight: bold;
+  color: var(--color-gold-alt);
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(255,200,50,0.6);
+}
+
+.daily-modal-sub {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+  margin-top: -6px;
+}
+
+.daily-modal-reward {
+  padding: 12px 0;
+}
+
+.daily-modal-icon {
+  font-size: 2.857rem;
+  line-height: 1;
+}
+
+.daily-modal-value {
+  font-size: var(--font-xl);
+  color: var(--color-gold-alt);
+  font-weight: bold;
+}
+
+.daily-modal-desc {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-muted);
+  max-width: 240px;
+}
+
+.daily-modal-card-wrap {
+  margin: 4px 0;
+}
+
+.daily-modal-useless-note {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-muted);
+  font-style: italic;
+}
+
+/* ── Battle Summary Screen ─────────────────────────────── */
+
+.bsummary-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.bsummary-panel {
+  background: var(--game-bg);
+  border: 1px solid #2a4a2a;
+  max-width: 320px;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 0 32px rgba(51, 255, 51, 0.1);
+}
+
+.bsummary-title {
+  font-size: var(--font-sm);
+  letter-spacing: 2px;
+  color: #4a8a4a;
+  text-align: center;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #1e2e1e;
+}
+
+/* bsummary rows → .stat-row / .stat-label / .stat-value--accent */
+
+.bsummary-cards {
+  border-top: 1px solid #1e2e1e;
+  padding-top: 10px;
+}
+
+.bsummary-cards-label {
+  font-size: var(--font-xxs);
+  letter-spacing: 1.5px;
+  color: #4a8a4a;
+  margin-bottom: 4px;
+}
+
+.bsummary-card-row {
+  align-items: baseline;
+}
+
+.bsummary-card-name {
+  font-size: var(--font-sm);
+  color: #88cc88;
+}
+
+.bsummary-card-count {
+  font-size: var(--font-sm);
+  color: #33ff33;
+}
+
+.bsummary-continue {
+  margin-top: 4px;
+}
+
+/* ── Victory Panel overlay (celebration phase) ────────────── */
+.vpanel {
+  border-color: #2a6a2a;
+  box-shadow: 0 0 48px rgba(51, 255, 51, 0.18);
+}
+.vpanel-headline {
+  font-size: clamp(2rem, 8vw, 3.5rem);
+  margin-bottom: 4px;
+}
+
+/* ── Quick Battle Screen ────────────────────────────────────────────────── */
+
+.qb-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 24px 16px;
+  max-width: 440px;
+  margin: 0 auto;
+  color: var(--game-text-color);
+  font-family: var(--font-body);
+}
+
+.qb-title { font-size: 1.429rem; font-weight: bold; letter-spacing: 2px; }
+.qb-subtitle { font-size: var(--font-md); color: var(--game-text-color-dim); margin-top: 4px; }
+.qb-options {
+  gap: 14px;
+  width: 100%;
+}
+.qb-option {
+  border: 1px solid rgba(51,255,51,0.25);
+  border-radius: 6px;
+  padding: 16px;
+}
+.qb-option--easy { border-color: rgba(51,255,51,0.15); opacity: 0.9; }
+.qb-option-name { font-size: 1.071rem; font-weight: bold; letter-spacing: 1px; }
+.qb-option-desc { font-size: var(--font-md); line-height: 1.6; color: var(--game-text-color-dim); }
+.qb-option-desc p { margin: 0; }
+
+/* ─────────────────────────────────────────────────────────
+   #113 — Animation variety: damage flash, death, climb,
+          damage augments, projectiles, hit sparks
+   ──────────────────────────────────────────────────────── */
+
+/* Damage flash: brief red tint when unit takes a hit */
+/* ── Victory celebration overlay ──────────────────────────────────────── */
+.victory-overlay {
+  inset: 0;
+  pointer-events: none;
+  z-index: 500;
+}
+.victory-text {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 10vw, 5rem);
+  font-weight: bold;
+  letter-spacing: 0.12em;
+  color: #7ddd7d;
+  text-shadow:
+    0 0 12px #7ddd7d,
+    0 0 30px #4a9a4a,
+    2px 2px 0 #0d1a0d;
+  animation: victory-pulse 0.6s ease-in-out infinite alternate;
+}
+@keyframes victory-pulse {
+  from { transform: scale(1);    opacity: 0.92; }
+  to   { transform: scale(1.06); opacity: 1; }
+}
+
+/* ─────────────────────────────────────────────────────────
+   #152 — Endless Mode: wave chip in top bar
+   ──────────────────────────────────────────────────────── */
+
+.endless-wave-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  background: rgba(255,80,20,0.2);
+  border: 1px solid rgba(255,100,30,0.5);
+  border-radius: 4px;
+  color: #ff9955;
+  font-size: var(--font-xs);
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.endless-truce-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  background: rgba(80,180,255,0.2);
+  border: 1px solid rgba(100,180,255,0.5);
+  border-radius: 4px;
+  color: #88ccff;
+  font-size: var(--font-xs);
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+/* ── Training Mode ─────────────────────────────────────────── */
+.title-training-btn { background: #2a3a2a; border-color: #4a7a4a; color: #7dbd7d; }
+.title-training-btn:hover { background: #3a5a3a; border-color: #7dbd7d; }
+
+.training-hint {
+  color: var(--color-gray-9);
+  font-size: 0.85rem;
+  text-align: center;
+  margin: 0.5rem 0 1rem;
+}
+
+.training-search {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--game-bg-raised);
+  border: 1px solid var(--game-border, #333);
+  color: var(--color-gray-10);
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+.training-search:focus { outline: none; border-color: #4a7a4a; }
+
+.training-unit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.training-unit-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  background: var(--game-bg-raised);
+  border: 1px solid var(--game-border, #333);
+  color: var(--color-gray-10);
+  border-radius: 6px;
+  padding: 0.6rem 0.4rem;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.7rem;
+  transition: border-color 0.15s, background 0.15s;
+}
+.training-unit-btn:hover  { border-color: #4a7a4a; background: #1a2a1a; }
+.training-unit-btn--selected { border-color: #7dbd7d; background: #2a3a2a; }
+
+.training-unit-name { text-align: center; line-height: 1.2; }
+
+.training-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--color-gray-9);
+  font-size: 0.85rem;
+  padding: 1rem 0;
+}
+
+.training-pagination {
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.training-page-label { font-size: 0.85rem; color: var(--color-gray-9); }
+
+.training-enemy-preview {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  padding: 0.75rem;
+  background: var(--game-bg-raised);
+  border: 1px solid #4a7a4a;
+  border-radius: 6px;
+}
+.training-enemy-label { font-size: 1rem; font-weight: bold; color: #7dbd7d; }
+
+.training-deck-section {
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.training-rules {
+  background: var(--game-bg-raised);
+  border: 1px solid var(--game-border, #333);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-top: 0.5rem;
+}
+.training-rules-title {
+  font-size: 0.75rem;
+  color: var(--color-gray-9);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+.training-rules-list {
+  margin: 0;
+  padding: 0 0 0 1.25rem;
+  font-size: 0.8rem;
+  color: var(--color-gray-10);
+  line-height: 1.7;
+}
+.training-sprite-lg { width: 48px; height: 48px; image-rendering: pixelated; }
+.training-sprite-sm { width: 36px; height: 36px; image-rendering: pixelated; }
+

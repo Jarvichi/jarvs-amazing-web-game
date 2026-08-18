@@ -1,0 +1,1167 @@
+/* minigames-3.css — split from styles.css (#2169). Minigames (mixed — source interleaves these non-contiguously): Tile Flip; Crystal Catch; Lucky Spinner; Prize Shop; Leaderboard screen; Marble Race; SVG track container; Track elements; Marble circles; Result table; Harbour Regatta; Higher or Lower minigame; Fruit Machine minigame; Video Poker */
+
+/* ── Tile Flip ────────────────────────────────────────────────────────────── */
+
+.tileflip-stats {
+  display: flex;
+  gap: 16px;
+  font-size: var(--font-md);
+  color: #8888aa;
+  margin-bottom: 12px;
+}
+
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  max-width: 280px;
+}
+
+.tile {
+  width: 56px;
+  height: 56px;
+  background: #1a1a3a;
+  border: 2px solid #3a3a6a;
+  color: #3a3a6a;
+  font-size: 1.571rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, border-color 0.15s;
+  user-select: none;
+}
+
+.tile:hover:not(:disabled) {
+  background: #20204a;
+  border-color: #6060aa;
+}
+
+.tile--flipped {
+  background: #1e1e40;
+  border-color: #7070cc;
+  color: #e0e0f0;
+}
+
+.tile--matched {
+  background: #0e2210;
+  border-color: #40a040;
+  color: #a0e0a0;
+  cursor: default;
+}
+
+/* ── Crystal Catch ─────────────────────────────────────────────────────── */
+
+.catch-hud {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 380px;
+  margin-bottom: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--color-gold-light);
+}
+
+.catch-timer-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: #1a1a3a;
+  border: 1px solid #3a3a6a;
+}
+
+.catch-timer-bar {
+  height: 100%;
+  background: #4488ff;
+  transition: width 0.15s linear;
+}
+
+.catch-arena {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  height: 320px;
+  background: #0a0a1e;
+  border: 1px solid #2a2a4a;
+  overflow: hidden;
+  user-select: none;
+  touch-action: none;
+}
+
+.catch-item {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  font-size: 1.571rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+  transform: translate(-50%, -50%);
+}
+
+.catch-item:hover {
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+.catch-pop {
+  position: absolute;
+  font-size: var(--font-base);
+  font-weight: bold;
+  color: var(--color-gold-light);
+  pointer-events: none;
+  animation: pop-float 0.7s ease-out forwards;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes pop-float {
+  0%   { opacity: 1; transform: translate(-50%, -50%); }
+  100% { opacity: 0; transform: translate(-50%, calc(-50% - 30px)); }
+}
+
+/* ── Lucky Spinner ────────────────────────────────────────────────────────── */
+
+.spinner-wrap {
+  margin: 8px 0 16px;
+}
+
+.spinner-pointer {
+  font-size: 1.429rem;
+  color: var(--color-red);
+  text-align: center;
+  margin-bottom: -4px;
+  z-index: 2;
+  position: relative;
+}
+
+.spinner-wheel {
+  width: 240px;
+  height: 240px;
+}
+
+.spinner-btn {
+  margin-top: 8px;
+  font-size: 1.071rem;
+  padding: 10px 32px;
+}
+
+.spinner-spinning-label {
+  font-size: 1rem;
+  color: #8888aa;
+  margin-top: 8px;
+  letter-spacing: 2px;
+}
+
+.spinner-jackpot-flash {
+  font-size: 1.429rem;
+  color: var(--color-gold);
+  font-weight: bold;
+  letter-spacing: 2px;
+  animation: jackpot-pulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes jackpot-pulse {
+  from { opacity: 0.7; transform: scale(1);   }
+  to   { opacity: 1;   transform: scale(1.08); }
+}
+
+/* ── Prize Shop ──────────────────────────────────────────────────────────── */
+
+.prize-screen {
+  width: 100%;
+  max-width: 600px;
+}
+
+.prize-list {
+  width: 100%;
+  max-height: 65vh;
+  overflow-y: auto;
+}
+
+.prize-row {
+  border: 1px solid #3a3a5a;
+  background: #10102a;
+  padding: 10px 12px;
+}
+
+.prize-row--locked {
+  opacity: 0.5;
+}
+
+
+.prize-row-label {
+  font-size: var(--font-base);
+  color: #e0e0f0;
+  font-weight: bold;
+}
+
+.prize-row-desc {
+  font-size: var(--font-sm);
+  color: #7777aa;
+  margin-top: 2px;
+}
+
+.prize-row-cost {
+  font-size: var(--font-md);
+  color: var(--color-gold-light);
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* ── Leaderboard screen ──────────────────────────────────────────────────── */
+
+.lb-screen {
+  width: 100%;
+  max-width: 500px;
+}
+
+.lb-controls {
+  margin-bottom: 12px;
+}
+
+.lb-game-tabs,
+.lb-mode-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.lb-loading,
+.lb-empty {
+  font-size: var(--font-md);
+  color: #555577;
+  padding: 16px 0;
+  text-align: center;
+}
+
+.lb-entry {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #2a2a4a;
+  background: #0e0e20;
+  padding: 8px 12px;
+  font-size: var(--font-base);
+}
+
+.lb-rank {
+  color: #5555aa;
+  width: 20px;
+  text-align: right;
+}
+
+.lb-name {
+  flex: 1;
+  color: #c0c0e0;
+}
+
+.lb-score {
+  color: var(--color-gold-light);
+  font-weight: bold;
+}
+
+/* ── Marble Race ──────────────────────────────────────────────────────────── */
+
+.race-prize-table {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border: 1px solid #2a2a5a;
+  background: #0a0a1e;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  min-width: 180px;
+}
+
+.race-prize-row {
+  font-size: var(--font-md);
+  color: #8888bb;
+}
+
+.race-prize-place {
+  color: #aaaacc;
+}
+
+.race-prize-tickets {
+  color: var(--color-gold-light);
+  font-weight: bold;
+}
+
+.race-pick-row {
+  margin: 12px 0;
+}
+
+.race-pick-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 72px;
+  padding: 10px 4px;
+  border: 1px solid #3a3a6a;
+  background: #0e0e22;
+  color: #8888aa;
+  cursor: pointer;
+  font-size: var(--font-md);
+  transition: border-color 0.1s, background 0.1s, color 0.1s;
+}
+
+.race-pick-btn:hover {
+  background: #16163a;
+  border-color: #6060aa;
+  color: #ccccee;
+}
+
+.race-pick-btn--active {
+  background: #12120e;
+}
+
+.race-pick-emoji {
+  font-size: 1.429rem;
+  line-height: 1;
+}
+
+.race-pick-name {
+  font-size: var(--font-sm);
+  letter-spacing: 0.5px;
+}
+
+/* ── SVG track container ── */
+
+.race-svg-wrap {
+  width: 100%;
+  max-width: 380px;
+  background: #06060f;
+  border: 1px solid #1e1e44;
+  overflow: hidden;
+  margin: 8px 0;
+}
+
+.race-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ── Track elements ── */
+
+.race-lane-track {
+  fill: none;
+  stroke: #252560;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.race-loop-ring {
+  fill: none;
+  stroke: #1c1c50;
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+}
+
+.race-funnel-guide {
+  stroke: #181844;
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.race-start-line {
+  stroke: #3a3a7a;
+  stroke-width: 1.5;
+}
+
+.race-finish-line-svg {
+  stroke: #5a5aaa;
+  stroke-width: 2;
+}
+
+.race-section-label {
+  fill: #282866;
+  font-size: 0.536rem;
+  letter-spacing: 1.2px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+
+.race-lane-label {
+  fill: #444488;
+  font-size: var(--font-base);
+}
+
+.race-lane-label--chosen {
+  fill: var(--color-gold);
+}
+
+.race-line-label {
+  fill: #383878;
+  font-size: 0.571rem;
+  letter-spacing: 1.5px;
+  font-family: var(--font-mono);
+}
+
+/* ── Marble circles ── */
+
+.race-marble-circle {
+  stroke: #00000066;
+  stroke-width: 1.5;
+}
+
+.race-marble--chosen {
+  stroke: var(--color-gold);
+  stroke-width: 2.5;
+}
+
+.race-marble-glow {
+  fill: none;
+  stroke-width: 2;
+  opacity: 0.35;
+}
+
+/* ── Result table ── */
+
+.race-results {
+  width: 100%;
+  max-width: 320px;
+  margin: 10px 0 4px;
+}
+
+.race-result-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  border: 1px solid #2a2a4a;
+  background: #0c0c20;
+  font-size: var(--font-base);
+  color: #9999bb;
+}
+
+.race-result-row--chosen {
+  border-color: #9a8020;
+  background: #141008;
+  color: var(--color-gold);
+}
+
+.race-result-place {
+  width: 52px;
+  flex-shrink: 0;
+  font-size: var(--font-md);
+}
+
+
+.race-result-prize {
+  color: var(--color-gold);
+  font-weight: bold;
+  font-size: var(--font-md);
+  white-space: nowrap;
+}
+
+/* ── Harbour Regatta ──────────────────────────────────────────────────────── */
+
+.regatta-buoy {
+  fill: #ff8800;
+  stroke: #3a2000;
+  stroke-width: 1.5;
+}
+
+.regatta-boat-hull {
+  stroke: #00000066;
+  stroke-width: 1.5;
+}
+
+.regatta-boat-hull--player {
+  stroke: var(--color-gold);
+  stroke-width: 2.5;
+}
+
+.regatta-boat-glow {
+  fill: none;
+  stroke-width: 2;
+  opacity: 0.35;
+}
+
+.regatta-oars {
+  margin: 10px 0 4px;
+}
+
+.regatta-oar-btn {
+  min-width: 130px;
+}
+
+.regatta-oar-btn--due {
+  animation: regatta-oar-due-pulse 0.4s ease-in-out infinite;
+}
+
+@keyframes regatta-oar-due-pulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(255, 204, 0, 0.4); }
+  50%       { box-shadow: 0 0 16px rgba(255, 204, 0, 0.9); }
+}
+
+.regatta-oar-col {
+  width: 130px;
+}
+
+.regatta-cue-track {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  background: #10101e;
+  border: 1px solid #2a2a5a;
+  overflow: hidden;
+}
+
+.regatta-cue-sweet {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: #ffffff1a;
+}
+
+.regatta-cue-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  background: var(--color-gold);
+  animation-name: regatta-cue-sweep;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes regatta-cue-sweep {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+/* ── Higher or Lower minigame ── */
+
+.hol-cards-row {
+  margin: 20px 0 16px;
+}
+
+.hol-card {
+  width: 56px;
+  height: 80px;
+  border-radius: 6px;
+  font-size: 1.286rem;
+  font-weight: bold;
+}
+
+.hol-card--face-up {
+  background: #f0f0f0;
+  border: 2px solid #aaa;
+  color: #111;
+}
+
+.hol-card--face-down {
+  background: #1a3a6a;
+  border: 2px solid #4466aa;
+  color: #4466aa;
+}
+
+.hol-card--current {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+
+.hol-card-rank {
+  font-size: 1.571rem;
+  line-height: 1;
+  color: #111;
+}
+
+.hol-card-suit {
+  font-size: 1.286rem;
+  line-height: 1;
+  color: #111;
+}
+
+.hol-card-red {
+  color: #cc2222 !important;
+}
+
+.hol-card-back {
+  font-size: 1.714rem;
+  color: #4466aa;
+}
+
+.hol-buttons {
+  margin: 8px 0 12px;
+}
+
+.hol-feedback {
+  font-size: var(--font-xl);
+  font-weight: bold;
+  height: 24px;
+  margin-bottom: 4px;
+  transition: opacity 0.3s;
+}
+
+.hol-feedback--correct { color: #55cc55; }
+.hol-feedback--wrong   { color: #cc4444; }
+
+.hol-progress {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+  margin-top: 8px;
+}
+
+/* ── Fruit Machine minigame ── */
+
+.fm-header {
+  margin-bottom: 12px;
+  min-height: 24px;
+}
+
+.fm-credits {
+  font-size: 1.071rem;
+  font-weight: bold;
+  color: var(--color-gold);
+}
+
+.fm-feature-counter {
+  font-size: var(--font-base);
+  color: #aaddff;
+  opacity: 0.85;
+}
+
+.fm-word-meter {
+  display: flex;
+  gap: 3px;
+}
+
+.fm-word-letter {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #444;
+  text-shadow: none;
+  transition: color 0.2s, text-shadow 0.2s;
+  letter-spacing: 1px;
+}
+
+.fm-word-letter--lit {
+  color: var(--color-gold);
+  text-shadow: 0 0 6px var(--color-gold), 0 0 12px #ffaa00;
+}
+
+.fm-word-letter--loser.fm-word-letter--lit {
+  color: var(--color-red);
+  text-shadow: 0 0 6px var(--color-red), 0 0 12px #cc0000;
+}
+
+.fm-win-flash {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #55cc55;
+  animation: fm-win-pulse 0.4s ease-in-out;
+}
+
+@keyframes fm-win-pulse {
+  0%   { transform: scale(1);   opacity: 0.6; }
+  50%  { transform: scale(1.2); opacity: 1;   }
+  100% { transform: scale(1);   opacity: 1;   }
+}
+
+.fm-no-win {
+  font-size: var(--font-md);
+  color: var(--game-text-color-dim);
+}
+
+.fm-reels {
+  margin-bottom: 10px;
+}
+
+.fm-reel {
+  width: 80px;
+  height: 96px;
+  border: 2px solid #444;
+  border-radius: 6px;
+  background: #0d0d1e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.fm-reel--held {
+  border-color: #c8a000;
+  background: #1a1500;
+  box-shadow: 0 0 8px rgba(200, 160, 0, 0.4);
+}
+
+.fm-reel--with-peek {
+  height: auto;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  padding: 8px 0;
+  overflow: visible;
+}
+
+.fm-reel--spinning .fm-symbol {
+  animation: fm-reel-roll 0.08s steps(1) infinite;
+}
+
+@keyframes fm-reel-roll {
+  0%   { transform: translateY(-4px); }
+  50%  { transform: translateY(4px);  }
+  100% { transform: translateY(-4px); }
+}
+
+.fm-symbol {
+  font-size: 3.143rem;
+  line-height: 1;
+  user-select: none;
+}
+
+.fm-holds {
+  margin-bottom: 12px;
+}
+
+.fm-hold-btn {
+  width: 80px;
+  padding: 5px 0;
+  font-size: var(--font-sm);
+  font-family: inherit;
+  font-weight: bold;
+  background: #111;
+  color: #888;
+  border: 1px solid #333;
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+
+.fm-hold-btn:not(:disabled):hover {
+  border-color: #aaa;
+  color: #ccc;
+}
+
+.fm-hold-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.fm-hold-btn--active {
+  background: #1a1500;
+  color: var(--color-gold);
+  border-color: #c8a000;
+}
+
+.fm-controls {
+  margin-bottom: 10px;
+}
+
+.fm-buy-credits {
+  margin-top: 4px;
+  padding: 6px 14px;
+  font-size: var(--font-sm);
+  font-family: inherit;
+  background: #111;
+  color: #7799cc;
+  border: 1px solid #2a3a5a;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.fm-buy-credits:hover {
+  border-color: #4466aa;
+  color: #99bbee;
+}
+
+.fm-paytable {
+  margin-top: 12px;
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fm-paytable summary {
+  text-align: center;
+  padding: 2px 0;
+}
+
+.fm-paytable-table {
+  margin-top: 6px;
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 200px;
+}
+
+.fm-paytable-table td {
+  padding: 2px 8px;
+  border-bottom: 1px solid #1e1e2e;
+}
+
+.fm-paytable-table td:last-child {
+  text-align: right;
+  color: var(--color-gold);
+}
+
+/* Feature board trail */
+.fm-board {
+  margin: 4px 0;
+}
+
+.fm-board-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 36px;
+  background: #0d0d1e;
+  border: 1px solid #333;
+  border-radius: 4px;
+  font-size: var(--font-xs);
+  color: #888;
+  transition: all 0.3s ease;
+}
+
+.fm-board-node--current {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+  background: #1a1a00;
+  box-shadow: 0 0 8px #ffd70066;
+  font-weight: bold;
+  font-size: var(--font-sm);
+  transform: scale(1.08);
+}
+
+.fm-board-node-label {
+  text-align: center;
+  line-height: 1.2;
+}
+
+.fm-board-message {
+  text-align: center;
+  font-size: var(--font-md);
+  color: #aaddff;
+  margin: 2px 0;
+  min-height: 16px;
+}
+
+.fm-board-mult-banner {
+  text-align: center;
+  font-size: var(--font-md);
+  color: var(--color-orange);
+  font-weight: bold;
+}
+
+.fm-board-free-spin {
+  text-align: center;
+  font-size: var(--font-md);
+  color: #55ff55;
+  font-weight: bold;
+}
+
+/* Bonus pick-and-win game */
+.fm-bonus-game {
+  padding: 12px 0;
+}
+
+.fm-bonus-header {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--color-gold);
+  letter-spacing: 1px;
+}
+
+.fm-bonus-running-total {
+  font-size: var(--font-base);
+  color: #55ff55;
+  font-weight: bold;
+}
+
+.fm-bonus-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 80px);
+  gap: 8px;
+}
+
+.fm-bonus-tile {
+  width: 80px;
+  height: 60px;
+  background: #0d0d1e;
+  border: 2px solid #555;
+  border-radius: 6px;
+  color: #aaa;
+  font-size: 1.286rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fm-bonus-tile:hover:not(:disabled) {
+  border-color: var(--color-gold);
+  background: #1a1a00;
+  color: var(--color-gold);
+}
+
+.fm-bonus-tile:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.fm-bonus-tile--revealed {
+  border-color: #333;
+  color: #55ff55;
+  font-size: var(--font-md);
+  font-weight: bold;
+  background: #0a1a0a;
+}
+
+.fm-nudge-banner {
+  text-align: center;
+  font-size: var(--font-base);
+  font-weight: bold;
+  color: var(--color-gold);
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.fm-auto-spin-banner {
+  text-align: center;
+  font-size: var(--font-md);
+  color: #aabbcc;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.fm-spin-count-selector {
+  margin-bottom: 8px;
+}
+
+/* Nudge UI */
+.fm-nudge-ui {
+  padding: 12px 0;
+}
+
+.fm-nudge-header {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--color-gold);
+  letter-spacing: 1px;
+}
+
+.fm-nudge-btn {
+  width: 80px;
+  padding: 6px 0;
+  background: #0d0d1e;
+  border: 1px solid #555;
+  color: #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: var(--font-xl);
+  transition: background 0.15s;
+}
+
+.fm-nudge-btn:hover:not(:disabled) {
+  background: #1a1a2e;
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
+.fm-nudge-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* Nudge reel window — taller to show adjacent symbols above and below */
+.fm-reel--nudge {
+  height: 168px;
+  flex-direction: column;
+  justify-content: space-around;
+  overflow: visible;
+}
+
+.fm-reel--peek-above {
+  clip-path: inset(60% 0 0 0);
+  transform: translateY(-60%);
+  height: 60px;}
+
+.fm-reel--peek-below {
+  clip-path: inset(0 0 60% 0);
+  transform: translateY(60%);
+  height: 60px;
+}
+
+.fm-symbol--peek {
+  font-size: 1.2rem;
+  opacity: 0.4;
+  user-select: none;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+/* 4th trail reel */
+.fm-ladder-reel-wrap {
+  margin-left: 8px;
+  padding-left: 8px;
+  border-left: 1px solid #333;
+}
+
+.fm-ladder-reel-label {
+  font-size: 1rem;
+  color: #666;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.fm-ladder-reel {
+  width: 64px;
+  border-color: #445588;
+  background: #080818;
+}
+
+.fm-ladder-symbol {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #aaddff;
+  user-select: none;
+  letter-spacing: 0.5px;
+}
+
+.fm-reel--spinning .fm-ladder-symbol {
+  animation: fm-reel-roll 0.08s steps(1) infinite;
+}
+
+/* Jackpot tiers bar */
+.fm-jackpots {
+  margin-bottom: 6px;
+}
+
+.fm-jackpot-tier {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #0d0d1e;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 3px 8px;
+  min-width: 56px;
+}
+
+.fm-jackpot-name {
+  font-size: var(--font-xs);
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.fm-jackpot-amount {
+  font-size: var(--font-base);
+  font-weight: bold;
+  color: var(--color-gold);
+}
+
+.fm-jackpot-tier--grand .fm-jackpot-name {
+  color: var(--color-orange);
+}
+
+.fm-jackpot-tier--grand .fm-jackpot-amount {
+  color: var(--color-orange);
+  animation: fm-grand-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes fm-grand-pulse {
+  0%, 100% { opacity: 1; text-shadow: 0 0 6px var(--color-orange); }
+  50%       { opacity: 0.7; text-shadow: 0 0 12px var(--color-gold-alt); }
+}
+
+/* Jackpot win overlay */
+.fm-jackpot-win-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px 16px;
+  background: linear-gradient(135deg, #1a0a00 0%, #0d0d1e 100%);
+  border: 2px solid var(--color-orange);
+  border-radius: 8px;
+  margin: 12px 0;
+  animation: fm-jackpot-appear 0.4s ease-out;
+}
+
+@keyframes fm-jackpot-appear {
+  from { transform: scale(0.8); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+.fm-jackpot-win-tier {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--color-orange);
+  text-shadow: 0 0 20px #ff6600;
+  letter-spacing: 2px;
+  animation: fm-grand-pulse 0.8s ease-in-out infinite;
+}
+
+.fm-jackpot-win-amount {
+  font-size: 1.571rem;
+  color: var(--color-gold);
+  font-weight: bold;
+}
+
+/* ── Video Poker ──────────────────────────────────────────────────────────── */
+
+.vp-subtitle {
+  text-align: center;
+  color: var(--game-text-color-dim);
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+}
+
+.vp-hand {
+  margin: 10px 0 16px;
+}
+
+.vp-card-wrap {
+  border-radius: 8px;
+  border: 2px solid transparent;
+  padding: 2px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.vp-card-wrap--held {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+}
+
+.vp-hold-badge {
+  height: 18px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: transparent;
+  margin-top: 4px;
+}
+
+
+.vp-controls {
+  margin-bottom: 12px;
+}
+
+.vp-result-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 8px;
+  color: var(--game-text-color-dim);
+}
+
+.vp-result-name--win {
+  color: var(--color-gold);
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+

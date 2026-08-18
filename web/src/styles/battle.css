@@ -1,0 +1,1280 @@
+/* battle.css — split from styles.css (#2169). Core battlefield UI: HUD, base bars, HP/mana, lane, hand panel, combat log, game-over, pause, unit inspect. */
+
+/* ─── Battlefield ────────────────────────────────────── */
+
+/* The outer "stage" — fills whatever space the game container gives it, and
+   centers the fixed-aspect-ratio frame inside it (letterboxing any extra room). */
+.battlefield {
+  position: relative;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--game-bg);
+}
+
+/* The inner "frame" — locked to BATTLEFIELD_ASPECT_RATIO via inline width/height
+   from useLetterboxSize, so the battlefield renders identically shaped on every
+   device. Positioning ancestor for every absolutely-positioned battle element. */
+.battlefield-frame {
+  position: relative;
+  overflow: hidden;
+  /* Fixed bands reserved for the floating bar clusters. The lane fills the space
+     between them, so the play area's size depends only on the frame — never on
+     bar content (long scores, wave status, event tags, card-bar height changes). */
+  --bf-top-buffer: 80px;
+  --bf-bottom-buffer: 230px;
+}
+
+/* Narrower-frame tuning — keyed off the letterboxed frame's own computed width
+   (set as classes from Battlefield.tsx), not the device viewport: a wide desktop
+   window letterboxed down to a phone-width frame needs the same phone tuning a
+   real phone gets, which a viewport @media query alone could never detect.
+   The lane has no min-height override here: it is letterboxed to a fixed ratio
+   (see .lane below), and a minimum on one axis would silently break that ratio. */
+.battlefield-frame--compact { --bf-top-buffer: 74px; --bf-bottom-buffer: 200px; }
+.battlefield-frame--tiny { --bf-top-buffer: 68px; --bf-bottom-buffer: 182px; }
+
+/* Floating bar clusters: absolutely positioned in the reserved bands above/below
+   the lane. Their content can grow/wrap without ever resizing or reflowing the lane. */
+.bf-top-cluster,
+.bf-bottom-cluster {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.bf-top-cluster { top: 0; }
+.bf-bottom-cluster { bottom: 0; }
+
+/* ─── Top Bar (clock + scores + sudden death) ─────────── */
+
+.top-bar {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 3px 8px;
+  border: 1px solid var(--game-border);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.top-bar--sudden-death {
+  border-color: var(--color-orange);
+  background: rgba(255, 153, 0, 0.08);
+  animation: sdPulse 0.8s ease-in-out infinite;
+}
+
+@keyframes sdPulse {
+  0%, 100% { box-shadow: 0 0 4px rgba(255, 153, 0, 0.3); }
+  50%       { box-shadow: 0 0 10px rgba(255, 153, 0, 0.7); }
+}
+
+.game-clock {
+  font-size: 1rem;
+  color: var(--game-text-color-dim);
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+/* Relic chip shown in top bar when a relic is active */
+.relic-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: var(--font-xs);
+  font-weight: bold;
+  padding: 2px 6px;
+  border: 1px solid rgba(180, 140, 255, 0.5);
+  border-radius: 3px;
+  background: rgba(100, 60, 180, 0.25);
+  color: #c8a8ff;
+  white-space: nowrap;
+  cursor: default;
+  letter-spacing: 0.3px;
+}
+
+/* Developer mode badge shown when ?dev=1 is present */
+.dev-badge {
+  position: absolute;
+  right: 8px;
+  top: 6px;
+  background: #333333;
+  color: #ffee66;
+  border: 1px solid #aa8800;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: var(--font-sm);
+  z-index: 60;
+  box-shadow: 0 0 6px rgba(170,136,0,0.35);
+}
+
+.score-display {
+  font-size: var(--font-base);
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.score-player   { color: var(--game-text-color); }
+.score-sep      { color: var(--game-text-color-dim); }
+.score-opponent { color: var(--color-red); }
+
+.cooldown-label {
+  font-size: var(--font-sm);
+  color: var(--color-orange);
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.sudden-death-label {
+  font-size: var(--font-md);
+  font-weight: bold;
+  color: var(--color-orange);
+  animation: pulse 0.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* ─── Base Bars ─────────────────────────────────────── */
+
+.base-bar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 10px;
+  border: 2px solid;
+  border-radius: 3px;
+  font-size: var(--font-base);
+}
+
+.base-bar--opponent {
+  border-color: var(--color-red);
+  color: var(--color-red);
+}
+
+.base-bar--player {
+  border-color: var(--game-text-color);
+  color: var(--game-text-color);
+}
+
+.base-bar-label {
+  font-weight: bold;
+  letter-spacing: 1px;
+  min-width: 50px;
+  font-size: var(--font-md);
+}
+
+.base-bar-portrait {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  image-rendering: pixelated;
+  border-radius: 3px;
+}
+
+.base-bar-portrait--opponent {
+  filter: drop-shadow(0 0 3px rgba(255, 68, 68, 0.6));
+  transform: scaleX(-1); /* face left toward player */
+}
+
+.base-bar-portrait--player {
+  filter: drop-shadow(0 0 3px rgba(51, 255, 51, 0.5));
+}
+
+.base-bar-info {
+  font-size: var(--font-sm);
+  opacity: 0.85;
+  white-space: nowrap;
+}
+
+/* ─── HP Bar ─────────────────────────────────────────── */
+
+.hp-bar-track {
+  flex: 1;
+  height: 16px;
+  background: var(--game-bg-card);
+  border: 1px solid var(--game-border);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hp-bar-fill {
+  height: 100%;
+  transition: width 0.15s ease-out;
+  border-radius: 1px;
+}
+
+.hp-bar-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-xs);
+  color: #fff;
+  text-shadow: 0 0 3px #000;
+  font-weight: bold;
+}
+
+/* ─── Mana Pips ──────────────────────────────────────── */
+
+.mana-bar {
+  gap: 3px;
+}
+
+.mana-pip {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 1px solid #33ff33;
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+  vertical-align: middle;
+  background: transparent;
+}
+
+.mana-pip--full {
+  background: #33ff33;
+}
+
+.mana-pip--empty {
+  background: transparent;
+  opacity: 0.3;
+}
+
+.mana-pip--partial {
+  background: transparent;
+}
+
+.mana-pip-fill {
+  display: block;
+  position: absolute;
+  left: 0; top: 0;
+  height: 100%;
+  background: rgba(51, 255, 51, 0.55);
+  transition: width 0.1s linear;
+}
+
+/* ─── The Lane (vertical — fills remaining space) ────── */
+
+/* The slot the lane lives in: absolute fill between the reserved buffer bands.
+   Its shape drifts with the frame's (the bands are fixed pixel heights), so the
+   lane itself is letterboxed inside it to a fixed LANE_ASPECT_RATIO and centred —
+   see Battlefield.tsx. Dead space either side (small frames) or above/below
+   (tall frames) shows the frame background. */
+.lane-slot {
+  position: absolute;
+  top: var(--bf-top-buffer);
+  bottom: var(--bf-bottom-buffer);
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lane {
+  /* Size comes from Battlefield.tsx's letterbox measurement. Establishes the
+     positioning context + rect source for everything placed inside it.
+     The border is an OUTLINE deliberately: box-sizing is border-box globally, so
+     a real border would eat 4px out of that measured size and put the play area
+     ~1% off the locked ratio — visible as collision/art drift across 17 tile
+     columns. An outline takes no layout space and renders identically here. */
+  position: relative;
+  flex-shrink: 0;
+  outline: 2px solid var(--game-border);
+  outline-offset: -2px;
+  border-radius: 3px;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.014) 0px,
+      rgba(255, 255, 255, 0.014) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    linear-gradient(
+      180deg,
+      #080812 0%,
+      #0a0a10 20%,
+      #0d0d0d 45%,
+      #0d0d0d 55%,
+      #0a100a 80%,
+      #08120a 100%
+    );
+  overflow: hidden;
+}
+
+/* Subtle vertical center line: red (enemy top) → green (player bottom) */
+.lane-ground {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(255,68,68,0.35) 0%, rgba(34,34,34,0.1) 40%, rgba(34,34,34,0.1) 60%, rgba(51,255,51,0.35) 100%);
+}
+
+/* ─── Lane Unit Buff/Level badges (used by the paused unit inspector) ── */
+
+/* Buff status icons shown above buffed units */
+.lane-unit-buffs {
+  gap: 1px;
+}
+
+.lane-unit-buff {
+  font-size: 0.571rem;
+  line-height: 1;
+  padding: 0 2px;
+  border-radius: 2px;
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.55);
+  animation: buff-pulse 1.8s ease-in-out infinite;
+}
+
+.lane-unit-buff--atk     { color: #ff8844; border: 1px solid #ff8844; }
+.lane-unit-buff--spd     { color: #44ddff; border: 1px solid #44ddff; }
+.lane-unit-buff--hp      { color: #ff4488; border: 1px solid #ff4488; }
+.lane-unit-buff--range   { color: #cc88ff; border: 1px solid #cc88ff; }
+.lane-unit-buff--affinity { color: var(--color-gold-alt); border: 1px solid var(--color-gold-alt); }
+
+@keyframes buff-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+/* Upgrade level badge — inline beside the HP bar */
+.lane-unit-level {
+  font-size: var(--font-xxs);
+  font-weight: bold;
+  letter-spacing: -1px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.lane-unit-level--1 {
+  color: #55cc55;
+  text-shadow: 0 0 3px rgba(85, 204, 85, 0.6);
+}
+.lane-unit-level--2 {
+  color: #4499ff;
+  text-shadow: 0 0 5px rgba(68, 153, 255, 0.8);
+}
+.lane-unit-level--3 {
+  color: #bb66ff;
+  text-shadow: 0 0 6px rgba(187, 102, 255, 0.9);
+}
+.lane-unit-level--4 {
+  color: var(--color-gold-alt);
+  text-shadow: 0 0 8px rgba(255, 204, 0, 1);
+}
+
+/* ─── Hero lightning bolt spawn effect ───────────────── */
+
+@keyframes hero-lightning-strike {
+  0%   { opacity: 0; transform: translateX(-50%) scaleY(0.2); }
+  15%  { opacity: 1; transform: translateX(-50%) scaleY(1); }
+  60%  { opacity: 1; transform: translateX(-50%) scaleY(1); }
+  100% { opacity: 0; transform: translateX(-50%) scaleY(1); }
+}
+
+.hero-lightning {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  z-index: 100;
+  pointer-events: none;
+  animation: hero-lightning-strike 0.9s ease-out forwards;
+}
+
+.hero-lightning--player  { left: 6%; }
+.hero-lightning--opponent { right: 6%; left: auto; }
+
+.hero-lightning-bolt {
+  width: 60px;
+  height: 100%;
+  filter: drop-shadow(0 0 12px #ffe066) drop-shadow(0 0 24px #ffa500);
+}
+
+/* ─── Terrain Obstacles ──────────────────────────────── */
+
+.terrain-obstacle {
+  pointer-events: none;
+  z-index: 2;
+  filter: drop-shadow(0 0 4px rgba(255,255,255,0.25));
+}
+
+/* ─── Cooldown Bar ───────────────────────────────────── */
+
+.cooldown-bar-track {
+  flex-shrink: 0;
+  height: 4px;
+  background: var(--game-bg-card);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.cooldown-bar-fill {
+  height: 100%;
+  background: var(--color-orange);
+  transition: width 0.1s linear;
+  border-radius: 2px;
+}
+
+/* ─── Combat Log ─────────────────────────────────────── */
+
+.combat-log {
+  flex-shrink: 0;
+  border: 1px solid #222;
+  padding: 4px 8px;
+  max-height: 58px;
+  overflow-y: auto;
+  font-size: var(--font-sm);
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+.log-entry {
+  color: #777;
+  line-height: 1.5;
+}
+
+/* ─── Hand Panel ─────────────────────────────────────── */
+
+.stance-bar {
+  display: flex;
+  gap: 4px;
+  padding: 4px 6px;
+  border-top: 1px solid var(--game-border);
+  flex-shrink: 0;
+}
+
+.stance-bar .filter-btn {
+  flex: 1;
+  text-align: center;
+}
+
+.stance-bar__speed {
+  flex: 0 0 auto !important;
+  min-width: 36px;
+  border-color: #5a5a00 !important;
+  color: #cccc44 !important;
+}
+
+.stance-bar__speed:hover {
+  border-color: #aaaa00 !important;
+  color: #ffff66 !important;
+}
+
+.hand-panel {
+  flex-shrink: 0;
+  border-top: 2px solid var(--game-border);
+  padding-top: 5px;
+}
+
+.hand-panel--truce .hand-cards {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.hand-truce-banner {
+  text-align: center;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: #aaa;
+  padding: 2px 0 4px;
+}
+.hand-truce-secs {
+  color: var(--color-gold-alt);
+  font-weight: bold;
+}
+
+.hand-header {
+  margin-bottom: 5px;
+}
+
+.hand-label {
+  color: var(--color-gold-alt);
+  font-size: var(--font-sm);
+}
+
+.hand-cards {
+  padding-bottom: 6px;
+}
+
+.field-empty {
+  color: #777;
+  font-size: var(--font-md);
+  padding: 4px 8px;
+}
+
+/* ─── Hand card wrapper + info button ───────────────── */
+
+.hand-card-info-btn {
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  width: 16px;
+  height: 16px;
+  font-size: var(--font-xxs);
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid #555;
+  border-radius: 50%;
+  color: var(--game-text-color-dim);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  padding: 0;
+  line-height: 1;
+  touch-action: manipulation;
+}
+
+.hand-card-info-btn:hover {
+  color: var(--game-text-color-muted);
+  border-color: var(--game-text-color-muted);
+}
+
+/* ─── Game Over Screen ───────────────────────────────── */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.gameover-screen {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.gameover-title { font-size: 1.429rem; }
+
+.gameover--win  .gameover-title { color: var(--color-gold-alt); }
+.gameover--lose .gameover-title { color: var(--color-red); }
+.gameover--draw .gameover-title { color: #00ccff; }
+
+.gameover-ascii {
+  font-size: var(--font-xl);
+  white-space: pre;
+  text-align: center;
+}
+
+.gameover--win  .gameover-ascii { color: var(--color-gold-alt); text-shadow: 0 0 10px rgba(255, 204, 0, 0.6); }
+.gameover--lose .gameover-ascii { color: var(--color-red); text-shadow: 0 0 10px rgba(255, 68, 68, 0.6); }
+.gameover--draw .gameover-ascii { color: #00ccff; text-shadow: 0 0 10px rgba(0, 204, 255, 0.6); }
+
+.gameover-message { font-size: 1rem; }
+
+.gameover--win  .gameover-message { color: #00ccff; }
+.gameover--lose .gameover-message { color: var(--color-red); }
+.gameover--draw .gameover-message { color: #00ccff; }
+
+.gameover-killed-by {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-muted);
+  text-align: center;
+  font-style: italic;
+}
+
+.gameover-stats {
+  color: var(--game-text-color-dim);
+  text-align: center;
+  line-height: 1.8;
+}
+
+.gameover-handicap {
+  margin-top: 8px;
+  font-size: var(--font-sm);
+  color: var(--game-text-color-muted);
+  text-align: center;
+  font-style: italic;
+  border-top: 1px dashed #444;
+  padding-top: 6px;
+}
+.gameover-streak {
+  margin-top: 8px;
+  font-size: var(--font-base);
+  color: #f90;
+  text-align: center;
+  font-weight: bold;
+}
+.gameover-daily {
+  margin-top: 10px;
+  font-size: var(--font-md);
+  text-align: center;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #555;
+}
+.gameover-daily--win  { color: #8bc34a; border-color: #8bc34a; }
+.gameover-daily--lose { color: #aaa; }
+
+/* Win streak corner ribbon on title screen */
+.streak-ribbon-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 10;
+}
+.streak-ribbon {
+  position: absolute;
+  top: 18px;
+  left: -28px;
+  width: 100px;
+  background: #f90;
+  color: #111;
+  text-align: center;
+  transform: rotate(-45deg);
+  font-size: var(--font-sm);
+  font-weight: bold;
+  padding: 3px 0;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+.streak-ribbon--faded {
+  background: #555;
+  color: #ccc;
+  opacity: 0.75;
+}
+
+.gameover-score {
+  font-size: 1.286rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.gameover-score .score-player   { color: var(--game-text-color); }
+.gameover-score .score-sep { color: var(--game-text-color-dim); }
+.gameover-score .score-opponent { color: var(--color-red); }
+
+/* ─── Game Over: action row ──────────────────────────── */
+
+.gameover-actions {
+  margin-top: 4px;
+}
+
+/* Uniform button size in the game-over action row */
+.gameover-actions .action-btn {
+  width: 200px;
+  font-size: var(--font-base);
+  padding: 9px 20px;
+  box-sizing: border-box;
+}
+.gameover-actions .action-btn.action-btn--large {
+  font-size: var(--font-base);
+  padding: 9px 20px;
+  animation: none;
+}
+
+/* ─── Battle Event Banner ────────────────────────────── */
+
+@keyframes eventSlideIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.battle-event-banner {
+  flex-shrink: 0;
+  text-align: center;
+  font-size: var(--font-sm);
+  font-weight: bold;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: 3px;
+  animation: eventSlideIn 0.3s ease-out;
+  border: 1px solid;
+}
+
+.battle-event-banner--bloodMoon {
+  color: var(--color-red);
+  border-color: rgba(255, 68, 68, 0.5);
+  background: rgba(255, 0, 0, 0.08);
+  text-shadow: 0 0 8px rgba(255, 68, 68, 0.6);
+}
+
+.battle-event-banner--fogOfWar {
+  color: #aabbcc;
+  border-color: rgba(170, 187, 204, 0.4);
+  background: rgba(170, 187, 204, 0.06);
+}
+
+.battle-event-banner--supplyDrop {
+  color: var(--game-text-color);
+  border-color: rgba(51, 255, 51, 0.4);
+  background: rgba(51, 255, 51, 0.06);
+}
+
+.battle-event-banner--earthquake {
+  color: var(--color-gold-alt);
+  border-color: rgba(255, 204, 0, 0.4);
+  background: rgba(255, 204, 0, 0.06);
+}
+
+/* ─── Strategy Label ─────────────────────────────────── */
+
+.strategy-label {
+  font-size: var(--font-xxs);
+  letter-spacing: 0.5px;
+  color: #ff8888;
+  border: 1px solid rgba(255, 100, 100, 0.35);
+  border-radius: 2px;
+  padding: 0 4px;
+  opacity: 0.8;
+}
+
+/* ─── Hero Card ──────────────────────────────────────── */
+
+
+/* ── Replay modifier strip above opponent base on battlefield ── */
+.replay-modifier-strip {
+  padding: 3px 8px;
+  background: rgba(255, 80, 20, 0.08);
+  border-bottom: 1px solid #ff440022;
+}
+.replay-modifier-tag {
+  font-size: var(--font-xxs);
+  color: #ff8844;
+  background: rgba(255, 80, 20, 0.15);
+  border: 1px solid #ff440044;
+  padding: 1px 5px;
+  letter-spacing: 0.5px;
+}
+
+.nm-peek-actions {
+  padding-top: 4px;
+}
+
+
+.nm-peek-back-btn {
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   POST-BATTLE REWARD
+   ═══════════════════════════════════════════════════════════ */
+
+.reward-screen {
+  padding: 16px 0;
+  animation: fadeIn 0.3s ease-out;
+}
+
+
+.reward-title {
+  font-size: 1.571rem;
+  font-weight: bold;
+  color: var(--game-text-color);
+  letter-spacing: 4px;
+  text-shadow: 0 0 12px rgba(51, 255, 51, 0.4);
+  margin-bottom: 6px;
+}
+
+.reward-crystals {
+  font-size: var(--font-base);
+  color: #64c8ff;
+  letter-spacing: 1px;
+  margin-top: 6px;
+}
+
+.reward-card-label {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-muted);
+  text-align: center;
+}
+
+.reward-skip-btn {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-dim);
+  border-color: #444;
+}
+.reward-skip-btn:hover {
+  color: var(--game-text-color-dim);
+  border-color: var(--game-text-color-muted);
+}
+.reward-actions {
+  margin-top: 4px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ACT COMPLETE
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── Pause button ──────────────────────────────────────────────── */
+.bf-pause-btn {
+  background: none;
+  border: 1px solid var(--game-text-color-muted);
+  color: var(--game-text-color-dim);
+  font-size: 1rem;
+  padding: 0 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+.bf-pause-btn:hover { color: var(--game-text-color); border-color: var(--game-text-color); }
+
+/* ─── Pause overlay ─────────────────────────────────────────────── */
+/* ─── Pause panel — covers the hand area at the bottom ─────────── */
+.battlefield--paused { cursor: pointer; }
+.battlefield--paused .lane-unit { cursor: crosshair; }
+.bf-pause-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 300;
+  background: rgba(0,0,0,0.95);
+  border-top: 2px solid var(--game-text-color);
+  padding: 8px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  pointer-events: auto;
+  height: 180px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.bf-pause-title {
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: var(--game-text-color);
+}
+.bf-pause-hint {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+  white-space: nowrap;
+}
+/* ─── Unit inspect panel (shown inside pause overlay) ───────────── */
+.bf-inspect-panel {
+  width: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+.bf-inspect-scroll {
+  min-height: 0;
+  overflow-y: auto;
+  width: 100%;
+}
+.bf-inspect-lore {
+  font-size: var(--font-xs);
+  font-style: italic;
+  color: var(--game-text-color-dim);
+  text-align: center;
+  padding: 4px 0 2px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  margin-top: 2px;
+}
+.bf-inspect-name {
+  font-size: var(--font-base);
+  font-weight: bold;
+  color: var(--game-text-color);
+}
+.bf-inspect-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px 10px;
+  width: 100%;
+}
+.bf-inspect-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-sm);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 2px 0;
+}
+.bf-inspect-row span:first-child { color: var(--game-text-color-dim); }
+.bf-inspect-row span:last-child  { color: var(--game-text-color); font-weight: bold; }
+
+/* Deck viewer in pause panel */
+.bf-deck-viewer {
+  height: 100%;
+}
+.bf-deck-viewer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--font-sm);
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: var(--game-text-color-dim);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--game-border);
+}
+.bf-deck-viewer-list {
+  overflow-y: auto;
+}
+.bf-deck-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 4px;
+  border-radius: 3px;
+  font-size: var(--font-sm);
+  background: rgba(255,255,255,0.04);
+}
+.bf-deck-row--played {
+  opacity: 0.4;
+}
+.bf-deck-row-cost {
+  min-width: 16px;
+  text-align: center;
+  font-weight: bold;
+  color: #88f;
+}
+.bf-deck-row-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bf-deck-row-type {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-dim);
+  text-transform: uppercase;
+}
+.bf-deck-row-badge {
+  font-size: var(--font-xxs);
+  padding: 1px 4px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.12);
+  color: var(--game-text-color-dim);
+  letter-spacing: 0.5px;
+}
+.bf-deck-row-badge--played {
+  background: rgba(255,80,80,0.18);
+  color: #f88;
+}
+
+.boss-splash-overlay {
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.82);
+  animation: boss-splash-fade 2.5s ease forwards;
+}
+@keyframes boss-splash-fade {
+  0%   { opacity: 0; }
+  15%  { opacity: 1; }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
+}.boss-splash-warning {
+  font-size: 0.85rem;
+  color: var(--accent-ember);
+  letter-spacing: 0.3em;
+  animation: flicker 0.15s infinite alternate;
+}
+.boss-splash-title {
+  font-size: clamp(2.4rem, 8vw, 4rem);
+  color: var(--color-red);
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 24px #ff2222, 0 0 48px #ff000088;
+  font-weight: 900;
+}
+.boss-splash-unit {
+  font-size: clamp(1.1rem, 4vw, 1.6rem);
+  color: var(--game-text-color);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.boss-splash-sub {
+  font-size: 0.75rem;
+  color: var(--color-gray-8);
+  letter-spacing: 0.2em;
+}
+
+.boss-dialogue-backdrop,
+.boss-epilogue-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--game-bg);
+  cursor: pointer;
+}
+
+.boss-dialogue-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 32px;
+  min-height: 340px;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 48px 32px;
+  user-select: none;
+  width: 100%;
+}
+
+.boss-dialogue-speaker {
+  font-size: var(--font-md);
+  letter-spacing: 3px;
+  color: #cc4444;
+  border-bottom: 1px solid #331111;
+  padding-bottom: 16px;
+}
+
+.boss-dialogue-line {
+  font-size: var(--font-xl);
+  color: #cc8866;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.boss-dialogue-line--new {
+  animation: fadeIn 0.4s ease;
+}
+
+.boss-dialogue-footer {
+  padding-top: 24px;
+  border-top: 1px solid #1a1a1a;
+}
+
+.boss-dialogue-continue {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-muted);
+  letter-spacing: 2px;
+  animation: blink 1.4s step-end infinite;
+}
+
+.boss-dialogue-fight {
+  font-size: var(--font-sm);
+  color: #cc4444;
+  letter-spacing: 3px;
+  animation: blink 0.9s step-end infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BATTLE EVENT OVERLAY (centre-screen dramatic flash)
+   ═══════════════════════════════════════════════════════════ */
+
+.beo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+  text-align: center;
+  padding: 24px 40px;
+  border-radius: 6px;
+  border: 2px solid;
+  backdrop-filter: blur(2px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+@keyframes beoIn {
+  0%   { opacity: 0; transform: translate(-50%, -60%) scale(0.85); }
+  15%  { opacity: 1; transform: translate(-50%, -50%) scale(1.04); }
+  25%  { transform: translate(-50%, -50%) scale(1); }
+  80%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -44%) scale(0.95); }
+}
+
+.beo--visible {
+  animation: beoIn 3.2s ease forwards;
+}
+
+.beo--exit {
+  opacity: 0;
+  transform: translate(-50%, -44%) scale(0.95);
+}
+
+.beo-icon {
+  font-size: 3.429rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 12px currentColor);
+}
+
+.beo-label {
+  font-size: 1.071rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px currentColor;
+}
+
+.beo--blood-moon {
+  color: var(--color-red);
+  border-color: rgba(255,68,68,0.5);
+  background: rgba(40,0,0,0.85);
+  box-shadow: 0 0 40px rgba(255,0,0,0.25), inset 0 0 30px rgba(40,0,0,0.5);
+}
+
+.beo--fog-of-war {
+  color: #aabbcc;
+  border-color: rgba(170,187,204,0.4);
+  background: rgba(20,25,30,0.9);
+  box-shadow: 0 0 40px rgba(150,180,210,0.15);
+}
+
+.beo--supply-drop {
+  color: var(--game-text-color);
+  border-color: rgba(51,255,51,0.4);
+  background: rgba(0,30,0,0.88);
+  box-shadow: 0 0 40px rgba(51,255,51,0.15);
+}
+
+.beo--earthquake {
+  color: var(--color-gold-alt);
+  border-color: rgba(255,204,0,0.4);
+  background: rgba(30,20,0,0.88);
+  box-shadow: 0 0 40px rgba(255,180,0,0.2);
+}
+
+/* ─── Important message banner (pauses game, requires dismiss) ──── */
+
+@keyframes importantMsgIn {
+  0%   { opacity: 0; transform: translate(-50%, -56%) scale(0.88); }
+  10%  { opacity: 1; transform: translate(-50%, -50%) scale(1.03); }
+  18%  { transform: translate(-50%, -50%) scale(1); }
+  78%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -44%) scale(0.95); }
+}
+
+.bf-important-msg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 22px 32px;
+  min-width: 240px;
+  max-width: 88%;
+  border-radius: 6px;
+  border: 2px solid rgba(255, 204, 0, 0.6);
+  background: rgba(10, 10, 10, 0.94);
+  box-shadow: 0 0 60px rgba(255, 180, 0, 0.2), inset 0 0 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  cursor: pointer;
+  animation: importantMsgIn 3.5s ease forwards;
+  pointer-events: auto;
+}
+
+.bf-important-msg-text {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffe066;
+  text-shadow: 0 0 12px rgba(255, 220, 80, 0.6);
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+}
+
+.bf-important-msg-count {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-muted);
+}
+
+/* ─── Battle highlights on GameOver screen ────────────────── */
+
+.gameover-highlights {
+  width: 100%;
+  max-width: 340px;
+  border-top: 1px dashed #444;
+  border-bottom: 1px dashed #444;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gameover-highlights-title {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-muted);
+  letter-spacing: 2px;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.gameover-highlights-entry {
+  font-size: var(--font-sm);
+  color: #ffe066;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* Persistent event status chip in the top bar */
+.event-status-chip {
+  font-size: var(--font-xxs);
+  font-weight: bold;
+  letter-spacing: 1px;
+  padding: 1px 6px;
+  border: 1px solid;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.event-status-chip--bloodMoon  { color: #ff6666; border-color: rgba(255,68,68,0.4); background: rgba(40,0,0,0.5); }
+.event-status-chip--fogOfWar   { color: #aabbcc; border-color: rgba(170,187,204,0.3); background: rgba(20,25,30,0.5); }
+.event-status-chip--supplyDrop { color: var(--game-text-color); border-color: rgba(51,255,51,0.3); }
+.event-status-chip--earthquake { color: var(--color-gold-alt); border-color: rgba(255,204,0,0.3); }
+
+/* Sudden death overlay */
+/* ── AoE targeting mode ───────────────────────────────────── */
+.lane--aoe-targeting { cursor: crosshair; }
+
+.aoe-targeting-banner {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(10, 0, 30, 0.92);
+  border: 1px solid rgba(120, 80, 255, 0.8);
+  border-radius: 4px;
+  padding: 5px 14px;
+  color: #c8a0ff;
+  font-size: var(--font-md);
+  font-weight: bold;
+  letter-spacing: 1px;
+  pointer-events: none;
+  animation: aoeBannerPulse 1s ease-in-out infinite;
+}
+.aoe-targeting-banner button.aoe-targeting-cancel {
+  pointer-events: all;
+  background: none;
+  border: 1px solid rgba(120, 80, 255, 0.5);
+  border-radius: 3px;
+  color: #c8a0ff;
+  font-size: var(--font-md);
+  cursor: pointer;
+  padding: 1px 5px;
+  line-height: 1;
+}
+@keyframes aoeBannerPulse {
+  0%, 100% { border-color: rgba(120, 80, 255, 0.8); }
+  50%       { border-color: rgba(180, 140, 255, 1); }
+}
+
