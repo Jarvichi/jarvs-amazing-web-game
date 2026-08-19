@@ -167,6 +167,18 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
   const isSecret = card.rarity === 'mythic' || card.rarity === 'shiny' || card.rarity === 'holofoil' || card.rarity === 'glass'
   const secretLabel: Record<string, string> = { mythic: 'MYTHIC', shiny: 'SHINY', holofoil: 'HOLO', glass: 'GLASS' }
 
+  // The tile is the most-repeated interactive surface in the game — every
+  // card grid in Collection, the deck builder, hand and pickers renders one
+  // per card. Until now it was a plain <div onClick>: no role, no tab stop,
+  // no keyboard activation, and its only name-ish attribute was `title`,
+  // which isn't a reliable accessible name. A keyboard or screen-reader user
+  // could not play, add, or pick a single card anywhere in the game (#2182).
+  const ariaLabel = [
+    card.name,
+    CATEGORY_LABEL[getCardCategory(card)],
+    `cost ${displayCost ?? card.cost}`,
+  ].join(', ')
+
   return (
     <div
       className={[
@@ -175,64 +187,76 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
         clickable ? '' : 'card-tile--disabled',
         selected ? 'card-tile--selected' : '',
       ].filter(Boolean).join(' ')}
-      onClick={clickable ? onClick : undefined}
       title={heroLocked ? `Hero cards unlock after 30 seconds (${lockedSecs}s remaining)` : card.description}
     >
-      {isSecret && (
-        <div className={`card-secret-badge card-secret-badge--${card.rarity}`}>
-          {secretLabel[card.rarity]}
-        </div>
-      )}
-      {isNew && !isSecret && (
-        <div className="card-new-badge">NEW</div>
-      )}
-      {card.rarity === 'glass' && card.glassBreakChance && (
-        <div className="card-glass-warning" title={`${Math.round(card.glassBreakChance * 100)}% chance to shatter on play`}>💎</div>
-      )}
-      {card.isHero && <>
-
-
-        <div className="hero-badge-wrap">
-         <span className="hero-badge">HERO</span>
-        </div>
-      </>}
-
-
-
-
-      <div className={`card-cost${!canAfford ? ' card-cost--unaffordable' : ''}`}>{displayCost ?? card.cost}</div>
-      {upgradeable && <div className="card-upgrade-badge">UPGRADE</div>}
-      <div className={`card-title${isSecret || isNew ? ' card-title--badge' : ''}`}>{card.name}</div>
-      <div className="card-art u-flex u-items-c u-just-c">
-        <SynergyBadges groups={synergyGroups} deckMatches={deckMatches} />
-        {card.unit
-          ? <SpriteImg name={card.unit.name} className="card-sprite" />
-          : card.upgradeEffect
-            ? <SpriteImg name={card.name} fallbackName={UPGRADE_SPRITE[card.upgradeEffect.type] ?? 'upgrade'} className="card-sprite" />
-            : card.augmentSlot
-              ? <SpriteImg name={card.name} fallbackName={AUGMENT_SPRITE[card.augmentSlot] ?? 'augment-amulet'} className="card-sprite" />
-              : null
-        }
-      </div>
-
-      <div className="card-stats">{stats}</div>
-      <div className="card-bottom-row">
-        <div className="card-rarity">{rarityStars(card.rarity)}</div>
-        <div className={`card-type-badge card-type-badge--${getCardCategory(card)}`}>
-          {CATEGORY_ICON[getCardCategory(card)]}
-          {/* The label carries its own ellipsis: text-overflow can't act on the
-              badge itself, since that's a flex container and this span is a
-              flex item rather than inline content it clips. */}
-          <span className="card-type-badge-label">{CATEGORY_LABEL[getCardCategory(card)]}</span>
-        </div>
-        {showDetails && (
-          <button
-            className="card-bottom-info-btn"
-            onClick={e => { e.stopPropagation(); openDetail(card) }}
-            title="Card details"
-          >ⓘ</button>
+      {/* The actual interactive surface. Used to be the outer div itself
+          (role="button" + a manual keydown handler), but that nested a real
+          <button> — the showDetails info button below — inside a role="button"
+          ancestor, which axe (and several screen readers) flag as broken:
+          nested interactive controls don't reliably expose both to assistive
+          tech. A real <button> gets keyboard activation for free and can't
+          contain another button, so the info button moves out to be its
+          sibling instead, positioned back into the same corner with CSS. */}
+      <button
+        type="button"
+        className="card-tile-btn"
+        onClick={clickable ? onClick : undefined}
+        disabled={!clickable}
+        aria-label={ariaLabel}
+        aria-pressed={selected ? true : undefined}
+      >
+        {isSecret && (
+          <div className={`card-secret-badge card-secret-badge--${card.rarity}`}>
+            {secretLabel[card.rarity]}
+          </div>
         )}
-      </div>
+        {isNew && !isSecret && (
+          <div className="card-new-badge">NEW</div>
+        )}
+        {card.rarity === 'glass' && card.glassBreakChance && (
+          <div className="card-glass-warning" title={`${Math.round(card.glassBreakChance * 100)}% chance to shatter on play`}>💎</div>
+        )}
+        {card.isHero && (
+          <div className="hero-badge-wrap">
+           <span className="hero-badge">HERO</span>
+          </div>
+        )}
+
+        <div className={`card-cost${!canAfford ? ' card-cost--unaffordable' : ''}`}>{displayCost ?? card.cost}</div>
+        {upgradeable && <div className="card-upgrade-badge">UPGRADE</div>}
+        <div className={`card-title${isSecret || isNew ? ' card-title--badge' : ''}`}>{card.name}</div>
+        <div className="card-art u-flex u-items-c u-just-c">
+          <SynergyBadges groups={synergyGroups} deckMatches={deckMatches} />
+          {card.unit
+            ? <SpriteImg name={card.unit.name} className="card-sprite" />
+            : card.upgradeEffect
+              ? <SpriteImg name={card.name} fallbackName={UPGRADE_SPRITE[card.upgradeEffect.type] ?? 'upgrade'} className="card-sprite" />
+              : card.augmentSlot
+                ? <SpriteImg name={card.name} fallbackName={AUGMENT_SPRITE[card.augmentSlot] ?? 'augment-amulet'} className="card-sprite" />
+                : null
+          }
+        </div>
+
+        <div className="card-stats">{stats}</div>
+        <div className={`card-bottom-row${showDetails ? ' card-bottom-row--with-info' : ''}`}>
+          <div className="card-rarity">{rarityStars(card.rarity)}</div>
+          <div className={`card-type-badge card-type-badge--${getCardCategory(card)}`}>
+            {CATEGORY_ICON[getCardCategory(card)]}
+            {/* The label carries its own ellipsis: text-overflow can't act on the
+                badge itself, since that's a flex container and this span is a
+                flex item rather than inline content it clips. */}
+            <span className="card-type-badge-label">{CATEGORY_LABEL[getCardCategory(card)]}</span>
+          </div>
+        </div>
+      </button>
+      {showDetails && (
+        <button
+          className="card-bottom-info-btn"
+          onClick={e => { e.stopPropagation(); openDetail(card) }}
+          title="Card details"
+          aria-label={`${card.name} card details`}
+        >ⓘ</button>
+      )}
       {heroLocked && (
         <div className="card-hero-lock u-absolute u-col u-items-c u-just-c">
           <span className="card-hero-lock-icon">⏳</span>

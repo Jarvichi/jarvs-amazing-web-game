@@ -564,7 +564,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
       })()}
 
       {disenchantModal && (
-        <ModalBackdrop onClose={() => setDisenchantModal(null)} zIndex={300}>
+        <ModalBackdrop onClose={() => setDisenchantModal(null)} zIndex={300} title="Disenchant All">
           <div className="daily-modal" style={{ maxWidth: 360, textAlign: 'left' }}>
             <div className="daily-modal-header">🔮 DISENCHANT ALL</div>
             <div className="daily-modal-sub">
@@ -587,7 +587,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
       )}
 
       {upgradeModal && (
-        <ModalBackdrop onClose={() => setUpgradeModal(null)} zIndex={300}>
+        <ModalBackdrop onClose={() => setUpgradeModal(null)} zIndex={300} title="Upgrade All">
           <div className="daily-modal" style={{ maxWidth: 360, textAlign: 'left' }}>
             <div className="daily-modal-header">★ UPGRADE ALL</div>
             <div className="daily-modal-sub">

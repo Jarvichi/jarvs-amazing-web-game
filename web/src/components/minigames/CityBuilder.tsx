@@ -1820,7 +1820,7 @@ export function CityBuilder({ onBack }: Props) {
         )}
 
         {showFarmLockModal && (
-          <ModalBackdrop onClose={() => setShowFarmLockModal(false)}>
+          <ModalBackdrop onClose={() => setShowFarmLockModal(false)} title="Farm — Locked">
             <div className="city-info-modal">
               <div className="city-info-modal-title">🌾 FARM — LOCKED</div>
               <div className="city-info-modal-body">
@@ -1839,7 +1839,7 @@ export function CityBuilder({ onBack }: Props) {
         )}
 
         {showExpandModal && (
-          <ModalBackdrop onClose={() => setShowExpandModal(false)}>
+          <ModalBackdrop onClose={() => setShowExpandModal(false)} title="City Expansion">
             <div className="city-info-modal">
               <div className="city-info-modal-title">🏢 CITY EXPANSION</div>
               <div className="city-info-modal-body">

@@ -527,7 +527,7 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
       )}
 
       {detail && (
-        <ModalBackdrop onClose={() => setDetail(null)}>
+        <ModalBackdrop onClose={() => setDetail(null)} title={detail.kind === 'item' ? detail.item.name : detail.relic.name}>
           <Panel elevation="floating" className="shelf-modal">
             <div className="shelf-modal-icon">
               {detail.kind === 'item' ? detail.item.icon : detail.relic.icon}

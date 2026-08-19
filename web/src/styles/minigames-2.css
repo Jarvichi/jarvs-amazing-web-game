@@ -970,8 +970,9 @@
   font-size: 11px;
   padding: 5px 8px;
   margin-bottom: 8px;
-  outline: none;
 }
+.city-search:focus:not(:focus-visible) { outline: none; }
+
 .city-search::placeholder { color: #3a5a3a; }
 .city-search:focus { border-color: #40a040; }
 

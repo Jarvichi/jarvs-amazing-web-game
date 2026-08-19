@@ -287,7 +287,7 @@
   gap: 6px;
   flex-shrink: 0;
 }
-.td-wave-preview-label { color: var(--color-gray-7); }
+.td-wave-preview-label { color: var(--color-gray-9); }
 .td-wave-preview-group { color: var(--color-gray-10); }
 .td-wave-preview-group--boss { color: var(--color-gold); font-weight: bold; }
 
@@ -738,7 +738,7 @@
 }
 .td-panel-log {
   font-size: 10px;
-  color: var(--color-gray-7);
+  color: var(--color-gray-9);
   padding: 0 10px;
   min-height: 14px;
   white-space: nowrap;

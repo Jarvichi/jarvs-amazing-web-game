@@ -9,6 +9,16 @@
   user-select: none;
 }
 
+/* Keyboard focus ring (#2182), defined once and applied to every element
+   that can take focus — not just buttons carrying .action-btn, which was
+   previously the only focus-visible treatment in the entire stylesheet.
+   :focus-visible (not :focus) so mouse/touch activation stays silent and
+   only keyboard/programmatic focus shows the ring. */
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
 body {
   background: var(--game-bg);
   color: var(--game-text-color);

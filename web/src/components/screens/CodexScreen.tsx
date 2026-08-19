@@ -4,6 +4,8 @@ import {
   getCodexCards, getCodexRelics, getCodexWorld, getCodexFragments, getCodexConversations, getCodexChronicle,
   CodexCardEntry, CodexRelicEntry, CodexWorldEntry, CodexFragmentEntry, CodexConversationEntry, CodexChronicleEntry,
 } from '../../game/codex'
+import { RARITY_COLOR } from '../../theme'
+import type { CardRarity } from '../../game/types'
 
 type CodexTab = 'cards' | 'relics' | 'world' | 'fragments' | 'conversations' | 'chronicle'
 type CardTypeFilter = 'all' | 'unit' | 'structure' | 'upgrade'
@@ -13,17 +15,6 @@ const RARITY_ORDER: Record<string, number> = {
   legendary: 5, mythic: 6, shiny: 7, holofoil: 8, glass: 9,
 }
 
-const RARITY_COLORS: Record<string, string> = {
-  common:    '#999999',
-  uncommon:  '#4499ff',
-  rare:      '#bb66ff',
-  epic:      '#ff8800',
-  legendary: '#ffcc00',
-  mythic:    '#e040fb',
-  shiny:     '#ffe066',
-  holofoil:  '#40e0d0',
-  glass:     '#a0d8ef',
-}
 
 function ConversationLorePanel({ entry }: { entry: CodexConversationEntry }) {
   return (
@@ -124,7 +115,7 @@ function CardLorePanel({ card }: { card: CodexCardEntry }) {
   return (
     <div className="codex-entry">
       <div className="codex-entry-header">
-        <span className="codex-entry-name" style={{ color: RARITY_COLORS[card.rarity] ?? '#aaffaa' }}>
+        <span className="codex-entry-name" style={{ color: RARITY_COLOR[card.rarity as CardRarity] ?? '#aaffaa' }}>
           {card.name}
         </span>
         <span className="codex-entry-tag">{card.rarity.toUpperCase()}</span>

@@ -9,7 +9,7 @@ interface Props {
 export function FilterPill({ onRemove, children }: Props) {
   return (
     <span className="filter-pill">
-      {children} <button onClick={onRemove}>✕</button>
+      {children} <button onClick={onRemove} aria-label="Remove filter">✕</button>
     </span>
   )
 }

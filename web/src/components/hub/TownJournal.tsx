@@ -107,7 +107,7 @@ export function TownJournalContent({ onClose, locationData }: Props) {
           <span>📖 Town Journal</span>
           <span className="town-directory__meta">
             {overallPct}% complete
-            <button className="town-directory__close" onClick={onClose}>✕</button>
+            <button className="town-directory__close" onClick={onClose} aria-label="Close">✕</button>
           </span>
         </div>
 
@@ -249,7 +249,7 @@ export function TownJournalContent({ onClose, locationData }: Props) {
 
 export function TownJournal(props: Props) {
   return (
-    <ModalBackdrop onClose={props.onClose}>
+    <ModalBackdrop onClose={props.onClose} title="Town Journal">
       <TownJournalContent {...props} />
     </ModalBackdrop>
   )

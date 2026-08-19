@@ -101,7 +101,19 @@ export default defineConfig({
       // The plugin will run tests for the stories defined in your Storybook config
       // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
       storybookTest({
-        configDir: path.join(dirname, '.storybook')
+        configDir: path.join(dirname, '.storybook'),
+        // Only stories tagged 'ci' become vitest tests (#2212). Previously
+        // set via `test.env.__VITEST_INCLUDE_TAGS__` below, which does
+        // nothing — that env var is written by this plugin (computed from
+        // *this* tags option), never read from the outside. Its real
+        // default is Storybook's own automatic 'test' tag, so every story
+        // was actually running here regardless of the 'ci' tag anyone
+        // added — including the two pre-existing 'ci'-tagged reference
+        // stories (SynergyBadges, Battlefield), which is what surfaced
+        // this: verifying newly-tagged DeckBuilder stories against a real
+        // webkit run showed zero of the 'ci'-tagged files executing at
+        // all, tagged or not.
+        tags: { include: ['ci'] },
       })],
       test: {
         name: 'storybook',
@@ -110,14 +122,14 @@ export default defineConfig({
           enabled: true,
           headless: true,
           provider: playwright({}),
-          instances: [{
-            browser: 'chromium'
-          }]
-        },
-        env: {
-          // Only run stories tagged 'ci'. Tag a story with tags: ['ci'] to include it.
-          // All stories remain accessible in the Storybook dev server.
-          __VITEST_INCLUDE_TAGS__: 'ci',
+          // webkit alongside chromium (#2212) — added after a WebKit-only
+          // layout bug (a percentage max-height against an auto-height flex
+          // parent, #2210) reached a real device with every check in this
+          // repo, local and CI, having run against chromium only.
+          instances: [
+            { browser: 'chromium' },
+            { browser: 'webkit' },
+          ]
         },
       }
     }]

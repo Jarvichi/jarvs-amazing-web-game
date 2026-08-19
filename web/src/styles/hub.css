@@ -13,7 +13,7 @@
 
 .shelf-section-label {
   font-size: 10px;
-  color: #557755;
+  color: #669966;
   font-family: var(--font-mono);
   text-transform: uppercase;
   letter-spacing: 0.15em;
@@ -762,12 +762,12 @@
   align-items: center;
   gap: 10px;
   font-size: 10px;
-  color: #557755;
+  color: #669966;
 }
 .quests-modal__close {
   background: none;
   border: none;
-  color: #557755;
+  color: #669966;
   cursor: pointer;
   font-size: 12px;
   padding: 0 2px;
@@ -800,13 +800,13 @@
 }
 .quests-modal__empty {
   font-size: 11px;
-  color: #557755;
+  color: #669966;
   text-align: center;
   padding: 20px 0;
 }
 .quests-modal__section-label {
   font-size: 10px;
-  color: #557755;
+  color: #669966;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   margin: 12px 0 6px;
@@ -828,15 +828,15 @@
   justify-content: space-between;
   align-items: center;
 }
-.quests-modal__desc   { font-size: 10px; color: #667766; font-style: italic; }
-.quests-modal__hint   { font-size: 10px; color: #667766; margin-top: 6px; font-style: italic; }
+.quests-modal__desc   { font-size: 10px; color: #77aa77; font-style: italic; }
+.quests-modal__hint   { font-size: 10px; color: #77aa77; margin-top: 6px; font-style: italic; }
 .quests-modal__reward { font-size: 10px; color: #88cc88; margin-top: 4px; }
 .quests-modal__title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
 .quests-modal__title-row .quests-modal__title { margin-bottom: 0; }
 .quests-modal__abandon-btn {
   background: none;
   border: 1px solid #334433;
-  color: #557755;
+  color: #669966;
   font-size: 9px;
   padding: 2px 5px;
   cursor: pointer;
@@ -883,12 +883,12 @@
   align-items: center;
   gap: 10px;
   font-size: 10px;
-  color: #557755;
+  color: #669966;
 }
 .bounty-board-modal__close {
   background: none;
   border: none;
-  color: #557755;
+  color: #669966;
   cursor: pointer;
   font-size: 12px;
   padding: 0 2px;
@@ -897,7 +897,7 @@
 .bounty-board-modal__close:hover { color: #88cc88; }
 .bounty-board-modal__section-label {
   font-size: 10px;
-  color: #557755;
+  color: #669966;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   margin: 12px 0 6px;
@@ -913,8 +913,8 @@
 .bounty-board-modal__title { font-size: 12px; font-weight: bold; margin-bottom: 4px; }
 .bounty-board-modal__title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
 .bounty-board-modal__title-row .bounty-board-modal__title { margin-bottom: 0; }
-.bounty-board-modal__desc   { font-size: 10px; color: #667766; font-style: italic; }
-.bounty-board-modal__hint   { font-size: 10px; color: #667766; margin-top: 6px; font-style: italic; }
+.bounty-board-modal__desc   { font-size: 10px; color: #77aa77; font-style: italic; }
+.bounty-board-modal__hint   { font-size: 10px; color: #77aa77; margin-top: 6px; font-style: italic; }
 .bounty-board-modal__reward { font-size: 10px; color: #88cc88; margin-top: 4px; }
 
 /* ── Pet adoption / management ──────────────────────────────────────────────── */
@@ -939,7 +939,7 @@
 .pet-modal__close {
   background: none;
   border: none;
-  color: #557755;
+  color: #669966;
   cursor: pointer;
   font-size: 12px;
   padding: 0 2px;
@@ -948,7 +948,7 @@
 .pet-modal__close:hover { color: #88cc88; }
 .pet-modal__section-label {
   font-size: 10px;
-  color: #557755;
+  color: #669966;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   margin: 12px 0 6px;
@@ -1022,7 +1022,7 @@
 .pet-modal__accessory--equipped { border-color: #88cc88; background: rgba(60, 120, 60, 0.25); }
 .pet-modal__accessory--locked { opacity: 0.5; cursor: default; }
 .pet-modal__accessory-name { font-size: 12px; font-weight: bold; }
-.pet-modal__accessory-status { font-size: 9px; color: #557755; letter-spacing: 0.05em; }
+.pet-modal__accessory-status { font-size: 9px; color: #669966; letter-spacing: 0.05em; }
 
 /* ── Town Directory ("Where is…?") ─────────────────────────────────────────── */
 .town-directory {
@@ -1048,12 +1048,12 @@
   align-items: center;
   gap: 10px;
   font-size: 10px;
-  color: #557755;
+  color: #669966;
 }
 .town-directory__close {
   background: none;
   border: none;
-  color: #557755;
+  color: #669966;
   cursor: pointer;
   font-size: 12px;
   padding: 0 2px;
@@ -1063,7 +1063,7 @@
 .town-directory__filter {
   background: none;
   border: 1px solid #2a4a2a;
-  color: #557755;
+  color: #669966;
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.08em;
@@ -1076,7 +1076,7 @@
 .town-directory__filter:hover { color: #88cc88; }
 .town-directory__empty {
   font-size: 11px;
-  color: #557755;
+  color: #669966;
   text-align: center;
   padding: 20px 0;
 }

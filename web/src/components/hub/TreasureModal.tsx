@@ -21,7 +21,7 @@ export function TreasureModal({ treasure, onClose }: Props) {
   }
 
   return (
-    <ModalBackdrop onClose={onClose}>
+    <ModalBackdrop onClose={onClose} title={title}>
       <RunEndCard tone="gold" className="treasure-modal u-items-c u-text-c">
         <div className="treasure-modal__icon">🎁</div>
         <div className="treasure-modal__title">{title}</div>

@@ -184,7 +184,7 @@ export function StatsSparkline({ data, attacks, color, height = 54, dimColor, ca
       </div>
 
       {expanded && label && (
-        <ModalBackdrop onClose={() => setExpanded(false)}>
+        <ModalBackdrop onClose={() => setExpanded(false)} title={label}>
           <div className="city-sparkline-modal">
             <div className="city-sparkline-modal-header">
               <span>{label}</span>

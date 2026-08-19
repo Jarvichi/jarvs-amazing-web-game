@@ -117,11 +117,15 @@
 .shop-augment-desc  { font-size: var(--font-xxs); color: var(--color-gray-9); text-align: center; }
 
 .rarity-badge { font-size: var(--font-xxs); text-transform: uppercase; letter-spacing: 1px; padding: 1px 5px; border-radius: 3px; }
-.rarity-badge--common    { color: #999; border: 1px solid var(--color-gray-7); }
-.rarity-badge--uncommon  { color: #44aaff; border: 1px solid #44aaff; }
-.rarity-badge--rare      { color: #cc44ff; border: 1px solid #cc44ff; }
+.rarity-badge--common    { color: #999999; border: 1px solid var(--color-gray-7); }
+.rarity-badge--uncommon  { color: #4499ff; border: 1px solid #4499ff; }
+.rarity-badge--rare      { color: #bb66ff; border: 1px solid #bb66ff; }
 .rarity-badge--epic      { color: #ff8800; border: 1px solid #ff8800; }
-.rarity-badge--legendary { color: #ffaa22; border: 1px solid #ffaa22; }
+.rarity-badge--legendary { color: #ffcc00; border: 1px solid #ffcc00; }
+.rarity-badge--mythic    { color: #e040fb; border: 1px solid #e040fb; }
+.rarity-badge--shiny     { color: #ffe066; border: 1px solid #ffe066; }
+.rarity-badge--holofoil  { color: #40e0d0; border: 1px solid #40e0d0; }
+.rarity-badge--glass     { color: #a0d8ef; border: 1px solid #a0d8ef; }
 .shop-discount-badge {
   position: absolute;
   top: -8px; right: -8px;
@@ -494,10 +498,11 @@
   font-family: inherit;
   font-size: var(--font-sm);
   padding: 4px 8px;
-  outline: none;
   width: 100%;
   box-sizing: border-box;
 }
+.deckbuilder-search:focus:not(:focus-visible) { outline: none; }
+
 .deckbuilder-search:focus { border-color: var(--color-gray-6); }
 .deckbuilder-search::placeholder { color: var(--game-text-color-muted); }
 
@@ -536,7 +541,11 @@
   min-height: 14px; /* always reserve 1 stats line */
 }
 
-.collection-cell--unowned {
+/* Targets the card surface only, not the whole cell (#2182) — dimming the
+   .cell-count text along with it took the "×0" readout down to ~3:1 against
+   the page background, failing AA. The card art carries the "you don't own
+   this" signal on its own; the count stays legible at full contrast. */
+.collection-cell--unowned .card-tile {
   opacity: 0.45;
   filter: grayscale(60%);
 }
@@ -740,7 +749,7 @@
 /* The affordance hint. Dropped on narrow screens so the header's actions
    keep their line — the deck-builder tutorial covers it anyway. */
 .deckbuilder-panel-hint {
-  color: var(--color-gray-7);
+  color: var(--color-gray-8);
   letter-spacing: 0;
 }
 
@@ -1297,7 +1306,7 @@
 
 .hoa-modal-claimed {
   font-size: 11px;
-  color: #557755;
+  color: #669966;
   font-family: var(--font-mono);
   letter-spacing: 0.08em;
 }

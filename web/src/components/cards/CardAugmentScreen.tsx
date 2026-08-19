@@ -28,6 +28,7 @@ import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { CardDetailHeader } from './CardDetailHeader'
 import { AugStatRow, masteryStatBonuses } from './AugStatRow'
 import { AnimatedSpriteImg, SpriteImg } from '../ui/SpriteImg'
+import { RARITY_COLOR } from '../../theme'
 
 interface Props {
   card: Card
@@ -36,17 +37,6 @@ interface Props {
   onClose: () => void
 }
 
-const RARITY_COLOUR: Record<string, string> = {
-  common:    '#55cc55',
-  uncommon:  '#4499ff',
-  rare:      '#bb66ff',
-  epic:      '#ff8800',
-  legendary: '#ffcc00',
-  mythic:    '#e040fb',
-  shiny:     '#ffe066',
-  holofoil:  '#40e0d0',
-  glass:     '#a0d8ef',
-}
 
 function effectSummary(effect: AugmentEffect): string {
   const parts: string[] = []
@@ -68,7 +58,7 @@ export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Pr
   const owned  = getOwnedCount(collection, card.name)
   const inDeck = deckEntries?.find(e => e.cardName === card.name)?.count ?? 0
   const { level: masteryLvl } = masteryProgress(getMasteryXp(collection, card.name))
-  const rarityCol = RARITY_COLOUR[card.rarity] ?? 'var(--game-text-color-dim)'
+  const rarityCol = RARITY_COLOR[card.rarity] ?? 'var(--game-text-color-dim)'
 
   const equippedMap = getEquippedAugments(card.name)
   const setBonus    = getSetBonus(card.name)
@@ -103,7 +93,7 @@ export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Pr
   return (
 // TODO: There is a lot of common structure between this and the CardDetailModal, consider unifying into a single component with some conditional rendering for the augment-specific parts
 
-    <ModalBackdrop onClose={onClose}>
+    <ModalBackdrop onClose={onClose} title={`${card.name} — Augments`}>
       <div className="cas-panel" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
 
         {/* Header */}
@@ -180,7 +170,7 @@ export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Pr
                   <div className="cas-slot-label">{augmentSlotLabel(slot)}</div>
                   {inst && augCard ? (
                     <>
-                      <div className="cas-slot-name" style={{ color: RARITY_COLOUR[augCard.rarity] ?? '#fff' }}>
+                      <div className="cas-slot-name" style={{ color: RARITY_COLOR[augCard.rarity] ?? '#fff' }}>
                         {augCard.name}
                       </div>
                       <div className="cas-slot-level">Lv{inst.level}</div>
@@ -229,7 +219,7 @@ export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Pr
             const slotsFilledSameSet = equipped.filter(i => getAugmentCard(i.cardId)?.setName === setName).length
             return (
               <div className={`cas-set-bonus${hasFullSet ? ' cas-set-bonus--active' : ''}`}>
-                <span className="cas-set-bonus-name" style={{ color: RARITY_COLOUR[setDef.rarity] ?? '#fff' }}>
+                <span className="cas-set-bonus-name" style={{ color: RARITY_COLOR[setDef.rarity] ?? '#fff' }}>
                   {setName} Set Bonus ({slotsFilledSameSet}/7)
                 </span>
                 <span className="cas-set-bonus-desc">{setDef.setBonusDescription}</span>

@@ -348,6 +348,36 @@ anim.play()
 
 Both helpers use an in-memory texture cache so each SVG URL is only fetched once.
 
+### Colour: read from `theme.ts`, not a hardcoded literal
+
+Pixi's `fill`/`stroke`/`tint` APIs take numeric hex (`0xffcc00`), not CSS
+strings, so canvas code can't `var(--accent-gold)` the way DOM/CSS does.
+`web/src/theme.ts` is the bridge (#2203) — a shared palette that mirrors
+`tokens.css`'s dark-theme values, with a numeric-hex form ready for Pixi:
+
+```typescript
+import { PALETTE_HEX, RARITY_COLOR_HEX } from '../../theme'
+
+circle.stroke({ color: available ? PALETTE_HEX.accentGold : 0x444430, width: 2 })
+sprite.tint = RARITY_COLOR_HEX[card.rarity]
+```
+
+`theme.test.ts` parses `tokens.css` and fails the moment a value in one
+drifts from the other — CSS and TS can't literally import each other, so
+that test is what keeps them honest instead of a naming convention.
+
+Reach for `theme.ts` when a colour already corresponds to a named token
+(the four accents, the five surface tiers, any of the nine `CardRarity`
+colours). A colour that's genuinely one-off to a single effect — a
+specific enemy's unique glow, a particle tint nothing else shares — can
+stay a literal; forcing it onto an invented token just to satisfy this
+rule is not the goal. `NodeMapRederer.tsx`'s available-node ring
+(`PALETTE_HEX.accentGold`) is the reference example. Most of the game's
+PixiJS canvases (`BattlefieldCanvas.tsx`, the rest of `NodeMapRederer.tsx`,
+`GameGrid.tsx`, `HubTownCanvas.tsx`, `citybuilder/CityTerrainCanvas.tsx` +
+`CityWalkerCanvas.tsx`) still hardcode their own literals — migrating them
+is tracked in #2203, not yet done.
+
 ### Event bridge (PixiJS → React)
 
 Use a `useRef` to hold the current callback and read it from PixiJS event handlers:

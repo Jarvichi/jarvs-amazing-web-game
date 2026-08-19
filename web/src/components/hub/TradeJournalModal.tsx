@@ -49,7 +49,7 @@ export function TradeJournalContent({ onClose }: Props) {
         <div className="quests-modal__header">
           <span>💱 Trade Journal</span>
           <span className="quests-modal__meta">
-            <button className="quests-modal__close" onClick={onClose}>✕</button>
+            <button className="quests-modal__close" onClick={onClose} aria-label="Close">✕</button>
           </span>
         </div>
 
@@ -72,7 +72,7 @@ export function TradeJournalContent({ onClose }: Props) {
 
 export function TradeJournalModal(props: Props) {
   return (
-    <ModalBackdrop onClose={props.onClose}>
+    <ModalBackdrop onClose={props.onClose} title="Trade Journal">
       <TradeJournalContent {...props} />
     </ModalBackdrop>
   )

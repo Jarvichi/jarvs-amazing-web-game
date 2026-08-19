@@ -12,7 +12,7 @@ export interface Props {
 export function CityZoomControls({ scale, onZoomIn, onZoomOut, onZoomTo }: Props) {
   return (
     <div className="city-zoom-controls" onPointerDown={e => e.stopPropagation()}>
-      <button className="city-zoom-btn" onClick={onZoomOut} title="Zoom out" disabled={scale <= 1}>−</button>
+      <button className="city-zoom-btn" onClick={onZoomOut} title="Zoom out" aria-label="Zoom out" disabled={scale <= 1}>−</button>
       <div className="city-zoom-bar">
         {ZOOM_STEPS.map((z, i) => (
           <button
@@ -20,12 +20,13 @@ export function CityZoomControls({ scale, onZoomIn, onZoomOut, onZoomTo }: Props
             className={`city-zoom-tick${scale >= z - 0.01 ? ' city-zoom-tick--active' : ''}`}
             onClick={() => onZoomTo(z)}
             title={`${z}×`}
+            aria-label={`Zoom to ${z}×`}
           >
             {i === ZOOM_STEPS.length - 1 ? '|' : '·'}
           </button>
         ))}
       </div>
-      <button className="city-zoom-btn" onClick={onZoomIn} title="Zoom in" disabled={scale >= 4}>+</button>
+      <button className="city-zoom-btn" onClick={onZoomIn} title="Zoom in" aria-label="Zoom in" disabled={scale >= 4}>+</button>
     </div>
   )
 }

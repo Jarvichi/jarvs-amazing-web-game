@@ -151,7 +151,7 @@
 
 .codex-conversation-stage-label {
   font-size: 0.62rem;
-  color: #557755;
+  color: #669966;
   letter-spacing: 0.05em;
   margin-bottom: 0.25rem;
 }
@@ -225,8 +225,9 @@
   padding: 0.4rem 0.6rem;
   width: 100%;
   box-sizing: border-box;
-  outline: none;
 }
+.character-name-input:focus:not(:focus-visible) { outline: none; }
+
 .character-name-input:focus {
   border-color: #aaffaa;
   box-shadow: 0 0 6px rgba(51, 255, 51, 0.3);
