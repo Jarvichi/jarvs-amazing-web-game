@@ -24,7 +24,7 @@ import { CardTile } from '../cards/CardTile'
 import { CardDetailModal } from '../cards/CardDetailModal'
 import { CardAugmentScreen } from '../cards/CardAugmentScreen'
 import { OverlayScreen } from '../ui/OverlayScreen'
-import { MasteryBar } from '../ui/MasteryBar'
+import { CardCellFooter } from '../cards/CardCellFooter'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { Button } from '../ui/Button'
 import { ProgressBar } from '../ui/ProgressBar'
@@ -521,14 +521,13 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
                     }}
                   />
 
-                  <div className="cell-footer">
+                  <CardCellFooter xp={xp}>
                     {owned === 0 && questTargetCards.has(card.name)
                       ? <span className="earn-via-quest-badge">EARN VIA QUEST</span>
                       : <span className="cell-count">
                           ×{owned}{lvl > 0 && <span className="cell-mastery-badge">★{lvl}</span>}
                         </span>}
-                    {xp > 0 && <MasteryBar xp={xp} />}
-                  </div>
+                  </CardCellFooter>
                 </LazyCell>
               </React.Fragment>
             )

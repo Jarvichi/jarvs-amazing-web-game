@@ -586,9 +586,33 @@
   width: 100%;
 }
 
-.cell-footer-buttons {
-  width: 100%;
+/* Count on the left, ⓘ on the right, one line. */
+.cell-footer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-2);
+  min-height: 14px;
 }
+
+/* A quiet icon button sized to its glyph. It used to reuse .extra-btn +
+   .cdm-info-btn — a card-detail-modal pairing whose `flex: 1` and
+   `margin-left: auto` made it stretch to the full height of the footer
+   column, so the ⓘ read as a separate floating control rather than as
+   part of the card above it. */
+.cell-info-btn {
+  background: none;
+  border: none;
+  padding: 0 1px;
+  font-family: inherit;
+  font-size: var(--font-sm);
+  line-height: 1;
+  color: var(--color-gray-7);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+.cell-info-btn:hover { color: var(--accent-gold); }
 
 .cell-count {
   font-size: var(--font-xs);
@@ -1003,13 +1027,6 @@
   border-top: 1px solid #222;
   margin-top: 4px;
 }
-.cdm-info-btn {
-  border-color: var(--game-border);
-  color: var(--game-text-color-muted);
-  margin-left: auto;
-}
-.cdm-info-btn:hover { border-color: var(--game-text-color-muted); color: var(--game-text-color-muted); }
-
 .deck-list-info-btn {
   background: none;
   border: none;
