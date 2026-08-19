@@ -28,6 +28,7 @@ import { COL_WIDTH, ROW_HEIGHT, AVATAR_PADDING, CONN_W, nodeCenter, startPos,
   type PixelPoint } from '../../ui/NodeMap/nodeLayout'
 import { getCurrentWorldLocation } from '../../../game/world/worldState'
 import { NodePeekModal } from '../../ui/NodeMap/NodePeekModal'
+import { PALETTE_HEX } from '../../../theme'
 
 interface Props {
   id: string
@@ -718,7 +719,7 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
         const circle = new PIXI.Graphics()
         circle.circle(0, 0, 22)
           .fill({ color: isCurrent ? 0x1a6b1a : available ? 0x3a3a20 : 0x222218, alpha: 0.9 })
-          .stroke({ color: isCurrent ? 0x66ff66 : available ? 0xccaa44 : 0x444430, width: 2 })
+          .stroke({ color: isCurrent ? 0x66ff66 : available ? PALETTE_HEX.accentGold : 0x444430, width: 2 })
         container.addChild(circle)
 
         if (node.decorTiles?.length) {

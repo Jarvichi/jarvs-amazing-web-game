@@ -186,7 +186,10 @@
 
 /* Shiny: warm gold shimmer sweep */
 .card-tile--shiny {
-  --card-frame: #ffdc3c;
+  /* Matches RARITY_COLOR.shiny in theme.ts (#2206) — this was #ffdc3c,
+     the one place shiny's colour actually differed from its three other
+     independent copies, which all agreed on #ffe066. */
+  --card-frame: #ffe066;
   border-color: rgba(255, 220, 60, 0.8);
   background: linear-gradient(
     105deg,

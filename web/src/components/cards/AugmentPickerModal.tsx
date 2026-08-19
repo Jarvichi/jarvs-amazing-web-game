@@ -7,6 +7,7 @@ import {
 } from '../../game/collection'
 import { getAugmentCard, augmentSlotLabel } from '../../game/augments'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { RARITY_COLOR } from '../../theme'
 
 interface Props {
   slot: AugmentSlot
@@ -14,14 +15,6 @@ interface Props {
   onClose: () => void
 }
 
-const RARITY_COLOUR: Record<string, string> = {
-  common:    '#999999',
-  uncommon:  '#4499ff',
-  rare:      '#bb66ff',
-  epic:      '#ff8800',
-  legendary: '#ffcc00',
-  mythic:    '#e040fb',
-}
 
 export function AugmentPickerModal({ slot, cardName, onClose }: Props) {
   const allInstances = loadAugmentInstances()
@@ -67,7 +60,7 @@ export function AugmentPickerModal({ slot, cardName, onClose }: Props) {
                   <div className="apm-item-info">
                     <span
                       className="apm-item-name"
-                      style={{ color: RARITY_COLOUR[augCard.rarity] ?? '#fff' }}
+                      style={{ color: RARITY_COLOR[augCard.rarity] ?? '#fff' }}
                     >
                       {augCard.name}
                     </span>
