@@ -489,6 +489,11 @@
   border-radius: var(--radius-sm);
 }
 
+/* Had no hover OR active state at all (#2185) — a tab switch gave zero
+   feedback until the (already-selected) --active style appeared. */
+.player-tab:hover  { color: var(--game-text-color-dim); border-color: #777; }
+.player-tab:active { transform: translateY(1px); }
+
 /* Was a raw #0f0 — brighter than any green in the palette, and green is now
    semantic-only. Gold matches the active-tab treatment used elsewhere. */
 .player-tab--active {

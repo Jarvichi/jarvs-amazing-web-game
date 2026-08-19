@@ -186,6 +186,22 @@ Key shared button classes:
 - `action-btn--danger` — red variant for destructive/abandon actions
 - `filter-btn` — compact filter/toggle button
 
+### Press feedback: every clickable element needs `:active`, not just `:hover`
+
+`:hover` never fires on touch. An element whose only feedback is `:hover`
+gives a phone/tablet player nothing when they tap it — no acknowledgement
+until whatever the tap *did* becomes visible, which for a slow action can
+feel like the tap didn't register. `.action-btn:active` already does this
+right (see `buttons.css`) — depress via `transform: translateY(1px)` (or
+`scale()` for small circular controls), reusing whatever `:hover` already
+darkens/lightens where that makes sense. When adding a new clickable
+element, or touching an existing one, add `:active` alongside its
+`:hover` rather than leaving it hover-only. (#2185 fixed the handful of
+most-reused shared primitives — `filter-btn`, `player-tab`, `hoa-tab`,
+`settings-toggle` — but plenty of screen-specific buttons across the
+minigames, hub and campaign stylesheets are still hover-only; fix the ones
+you touch.)
+
 ## Component Extraction and Storybook Stories
 
 **Break screen-level components into focused sub-components, each with its own story.**

@@ -339,6 +339,15 @@
   border-color: #777;
 }
 
+/* Press feedback (#2185) — :hover never fires on touch, so without this a
+   tap on FILTERS/SORT/GROUP or any filter option gave no acknowledgement
+   at all. Matches .action-btn:active's depress, scaled down for a smaller
+   flat button. */
+.filter-btn:active {
+  transform: translateY(1px);
+  background: color-mix(in srgb, var(--game-text-color) 12%, transparent);
+}
+
 .filter-btn--active {
   border-color: var(--game-text-color);
   color: var(--game-text-color);
@@ -487,6 +496,7 @@
   opacity: 0.7;
 }
 .filter-pill button:hover { opacity: 1; }
+.filter-pill button:active { transform: scale(0.85); }
 
 /* ─── Deck builder search + filter ──────────────────── */
 
@@ -1163,6 +1173,7 @@
   border-radius: 2px 2px 0 0;
 }
 .hoa-tab:hover { color: #c8e8c8; border-color: #446644; }
+.hoa-tab:active { transform: translateY(1px); }
 .hoa-tab--active {
   color: #c8e8c8;
   border-color: #446644;
