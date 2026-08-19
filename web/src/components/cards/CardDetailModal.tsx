@@ -51,8 +51,11 @@ interface Props {
   onBreakdown?: () => void
 }
 
+// Keep in step with .card-tile--* (--card-frame in cards.css) and
+// .rarity-badge--* in collection.css. There are five copies of this mapping
+// across the app today — see the consolidation issue.
 const RARITY_COLOUR: Record<string, string> = {
-  common:    '#55cc55',
+  common:    '#999999',
   uncommon:  '#4499ff',
   rare:      '#bb66ff',
   epic:      '#ff8800',
@@ -194,7 +197,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
           {/* Right: stats */}
           <div className="cdm-info-col u-grow u-col u-gap-4">
               <div className="cdm-desc">{card.description}</div>
-              {card.lore && <div className="cdm-lore" style={{ fontStyle: 'italic', opacity: 0.7, fontSize: 11 }}>{card.lore}</div>}
+              {card.lore && <div className="cdm-lore">{card.lore}</div>}
 
               {/* Unit stats */}
               {u && u.moveSpeed > 0 && (
@@ -250,12 +253,13 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
             {u && u.moveSpeed === 0 && u.maxHp > 0 && (
               <div className="cdm-stats-block u-flex u-wrap">
                 {u.structureEffect?.type === 'spawn' && (() => {
-                  const rates: number[] = []
-                  let ms = u.structureEffect.intervalMs
-                  for (let i = 0; i < 4; i++) {
-                    rates.push(ms)
-                    ms = Math.max(1500, Math.floor(ms / 2))
-                  }
+                  // Mirrors applyMasteryBonus in game/collection.ts: the engine
+                  // applies intervalMs * 0.95^level. This preview used to halve
+                  // per level (with an invented 1500ms floor), so it promised a
+                  // 25s spawner would reach 3.1s at Lv4 when the engine gives
+                  // ~20.4s. Keep this in step with collection.ts if that changes.
+                  const base = u.structureEffect.intervalMs
+                  const rates = [base, ...[2, 3, 4].map(lvl => Math.round(base * Math.pow(0.95, lvl)))]
                   return (
                     <>
                       <StatRow compact label="Spawn" value={`${(rates[0] / 1000).toFixed(1)}s`} />
@@ -393,10 +397,12 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
             {/* Mastery (not shown for augments) */}
             {card.cardType !== 'augment' && <div className="cdm-mastery-block">
               <div className="cdm-mastery-header">
-                <span style={{ color: masteryLvl >= 5 ? '#ff9900' : '#ffd700' }}>
+                <span className={masteryLvl >= 5 ? 'cdm-mastery-elite' : 'cdm-mastery-title'}>
                   {masteryLvl >= 5 ? '⚡' : '★'} Mastery {masteryLvl}{masteryLvl >= 5 ? ' — ELITE' : ''}
                 </span>
-                {masteryLvl < 5 && <span className="cdm-mastery-xp">{xpCur}/{xpNeeded} to Lv{masteryLvl + 1}</span>}
+                {/* Just the target level — the bar below already states the
+                    raw xpCur/xpNeeded, as does the modal header. */}
+                {masteryLvl < 5 && <span className="cdm-mastery-xp">to Lv{masteryLvl + 1}</span>}
               </div>
               <MasteryBar xp={xp} />
               {u && u.moveSpeed > 0 && (
@@ -550,10 +556,8 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
           />
         )}
 
-        {/* Lore */}
-        {card.lore && (
-          <div className="cdm-lore">"{card.lore}"</div>
-        )}
+        {/* Lore is rendered once, up next to the description — it used to also
+            repeat verbatim here at the foot of the modal. */}
 
         {/* Augment upgrade action */}
         {onUpgrade && (

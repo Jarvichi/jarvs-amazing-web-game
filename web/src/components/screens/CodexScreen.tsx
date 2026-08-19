@@ -14,10 +14,10 @@ const RARITY_ORDER: Record<string, number> = {
 }
 
 const RARITY_COLORS: Record<string, string> = {
-  common:    '#55cc55',
+  common:    '#999999',
   uncommon:  '#4499ff',
   rare:      '#bb66ff',
-  epic:      '#ff8844',
+  epic:      '#ff8800',
   legendary: '#ffcc00',
   mythic:    '#e040fb',
   shiny:     '#ffe066',
