@@ -28,6 +28,7 @@ import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
 import { AugmentPickerModal } from './AugmentPickerModal'
 import { ToolbarLabel } from '../ui/Toolbar/ToolbarLabel'
 import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
+import { RARITY_COLOR } from '../../theme'
 
 
 
@@ -50,21 +51,6 @@ interface Props {
   onUpgrade?: () => void
   breakdownValue?: number
   onBreakdown?: () => void
-}
-
-// Keep in step with .card-tile--* (--card-frame in cards.css) and
-// .rarity-badge--* in collection.css. There are five copies of this mapping
-// across the app today — see the consolidation issue.
-const RARITY_COLOUR: Record<string, string> = {
-  common:    '#999999',
-  uncommon:  '#4499ff',
-  rare:      '#bb66ff',
-  epic:      '#ff8800',
-  legendary: '#ffcc00',
-  mythic:    '#e040fb',
-  shiny:     '#ffe066',
-  holofoil:  '#40e0d0',
-  glass:     '#a0d8ef',
 }
 
 
@@ -96,7 +82,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
   const forceRefresh = () => setRefresh((r: number) => r + 1)
     
   const { level: masteryLvl, current: xpCur, needed: xpNeeded } = masteryProgress(xp)
-  const rarityCol = RARITY_COLOUR[card.rarity] ?? 'var(--game-text-color-dim)'
+  const rarityCol = RARITY_COLOR[card.rarity] ?? 'var(--game-text-color-dim)'
 
   const [activeTab, setActiveTab] = useState(0)
 
@@ -495,7 +481,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
                               <div className="cas-slot-label">{augmentSlotLabel(slot)}</div>
                               {inst && augCard ? (
                                 <>
-                                  <div className="cas-slot-name" style={{ color: RARITY_COLOUR[augCard.rarity] ?? '#fff' }}>
+                                  <div className="cas-slot-name" style={{ color: RARITY_COLOR[augCard.rarity] ?? '#fff' }}>
                                     {augCard.name}
                                   </div>
                                   <div className="cas-slot-level">Lv{inst.level}</div>
@@ -544,7 +530,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
                         const slotsFilledSameSet = equipped.filter(i => getAugmentCard(i.cardId)?.setName === setName).length
                         return (
                           <div className={`cas-set-bonus${hasFullSet ? ' cas-set-bonus--active' : ''}`}>
-                            <span className="cas-set-bonus-name" style={{ color: RARITY_COLOUR[setDef.rarity] ?? '#fff' }}>
+                            <span className="cas-set-bonus-name" style={{ color: RARITY_COLOR[setDef.rarity] ?? '#fff' }}>
                               {setName} Set Bonus ({slotsFilledSameSet}/7)
                             </span>
                             <span className="cas-set-bonus-desc">{setDef.setBonusDescription}</span>

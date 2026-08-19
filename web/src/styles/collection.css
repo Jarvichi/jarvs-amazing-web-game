@@ -117,11 +117,15 @@
 .shop-augment-desc  { font-size: var(--font-xxs); color: #aaa; text-align: center; }
 
 .rarity-badge { font-size: var(--font-xxs); text-transform: uppercase; letter-spacing: 1px; padding: 1px 5px; border-radius: 3px; }
-.rarity-badge--common    { color: #999; border: 1px solid #666; }
-.rarity-badge--uncommon  { color: #44aaff; border: 1px solid #44aaff; }
-.rarity-badge--rare      { color: #cc44ff; border: 1px solid #cc44ff; }
+.rarity-badge--common    { color: #999999; border: 1px solid #666; }
+.rarity-badge--uncommon  { color: #4499ff; border: 1px solid #4499ff; }
+.rarity-badge--rare      { color: #bb66ff; border: 1px solid #bb66ff; }
 .rarity-badge--epic      { color: #ff8800; border: 1px solid #ff8800; }
-.rarity-badge--legendary { color: #ffaa22; border: 1px solid #ffaa22; }
+.rarity-badge--legendary { color: #ffcc00; border: 1px solid #ffcc00; }
+.rarity-badge--mythic    { color: #e040fb; border: 1px solid #e040fb; }
+.rarity-badge--shiny     { color: #ffe066; border: 1px solid #ffe066; }
+.rarity-badge--holofoil  { color: #40e0d0; border: 1px solid #40e0d0; }
+.rarity-badge--glass     { color: #a0d8ef; border: 1px solid #a0d8ef; }
 .shop-discount-badge {
   position: absolute;
   top: -8px; right: -8px;
