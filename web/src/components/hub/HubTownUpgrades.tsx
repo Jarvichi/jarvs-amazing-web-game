@@ -55,7 +55,7 @@ export function HubTownUpgradesContent({
           <span>🏗️ {townName} — Standing &amp; Upgrades</span>
           <span className="town-directory__meta">
             💎 {crystals.toLocaleString()}
-            <button className="town-directory__close" onClick={onClose}>✕</button>
+            <button className="town-directory__close" onClick={onClose} aria-label="Close">✕</button>
           </span>
         </div>
 
@@ -138,7 +138,7 @@ export function HubTownUpgradesContent({
 
 export function HubTownUpgrades(props: Props) {
   return (
-    <ModalBackdrop onClose={props.onClose}>
+    <ModalBackdrop onClose={props.onClose} title={`${props.townName} — Standing & Upgrades`}>
       <HubTownUpgradesContent {...props} />
     </ModalBackdrop>
   )

@@ -66,7 +66,7 @@ export function HubInventoryContent({ onClose, questDefs }: Props) {
         <div className="quests-modal__header">
           <span>🎒 Inventory</span>
           <span className="quests-modal__meta">
-            <button className="quests-modal__close" onClick={onClose}>✕</button>
+            <button className="quests-modal__close" onClick={onClose} aria-label="Close">✕</button>
           </span>
         </div>
 
@@ -117,7 +117,7 @@ export function HubInventoryContent({ onClose, questDefs }: Props) {
 
 export function HubInventoryModal(props: Props) {
   return (
-    <ModalBackdrop onClose={props.onClose}>
+    <ModalBackdrop onClose={props.onClose} title="Inventory">
       <HubInventoryContent {...props} />
     </ModalBackdrop>
   )

@@ -531,6 +531,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
                 className="db-collapse-btn"
                 onClick={() => togglePanel('deck')}
                 title={deckCollapsed ? 'Expand deck panel' : 'Collapse deck panel'}
+                aria-label={deckCollapsed ? 'Expand deck panel' : 'Collapse deck panel'}
               >{deckCollapsed ? '▼' : '▲'}</button>
             </div>
           </div>
@@ -606,6 +607,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
                 className="db-collapse-btn"
                 onClick={() => togglePanel('collection')}
                 title={collectionCollapsed ? 'Expand collection panel' : 'Collapse collection panel'}
+                aria-label={collectionCollapsed ? 'Expand collection panel' : 'Collapse collection panel'}
               >{collectionCollapsed ? '▲' : '▼'}</button>
             </div>
           </div>

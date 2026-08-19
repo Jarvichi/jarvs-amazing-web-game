@@ -38,7 +38,7 @@ export function FeedbackModal({ user, onClose }: Props) {
   }
 
   return (
-    <ModalBackdrop onClose={status === 'sending' ? () => {} : onClose}>
+    <ModalBackdrop onClose={status === 'sending' ? () => {} : onClose} title="Send Feedback">
       <div className="confirm-modal" style={{ maxWidth: 400, textAlign: 'left' }}>
         <div className="confirm-modal-title">SEND FEEDBACK</div>
 

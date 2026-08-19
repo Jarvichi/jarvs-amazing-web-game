@@ -19,7 +19,7 @@ export function FarmRaidModal({ raid, onClose }: Props) {
   const stolenEntries = Object.entries(raid.stolenResources).filter(([, v]) => (v as number) > 0) as [ResourceType, number][]
 
   return (
-    <ModalBackdrop onClose={onClose}>
+    <ModalBackdrop onClose={onClose} title={meta.label}>
       <div className={`farm-raid-modal ${meta.cls}`}>
         <div className="farm-raid-icon">{meta.icon}</div>
         <div className="farm-raid-outcome">{meta.label}</div>

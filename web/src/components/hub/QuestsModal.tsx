@@ -55,7 +55,7 @@ export function QuestsContent({ onClose, onAbandon, questDefs, resolveNpcName = 
           <span>📜 Quests</span>
           <span className="quests-modal__meta">
             {discovered} of {total}
-            <button className="quests-modal__close" onClick={onClose}>✕</button>
+            <button className="quests-modal__close" onClick={onClose} aria-label="Close">✕</button>
           </span>
         </div>
 
@@ -146,7 +146,7 @@ export function QuestsContent({ onClose, onAbandon, questDefs, resolveNpcName = 
 
 export function QuestsModal(props: Props) {
   return (
-    <ModalBackdrop onClose={props.onClose}>
+    <ModalBackdrop onClose={props.onClose} title="Quests">
       <QuestsContent {...props} />
     </ModalBackdrop>
   )

@@ -69,9 +69,10 @@ export function HubTabbedModal(props: Props) {
 
   const tabs = ALL_TABS.filter(t => t.id !== 'pet' || hasPet)
   const tab = activeTab === 'pet' && !hasPet ? 'quests' : activeTab
+  const tabLabel = ALL_TABS.find(t => t.id === tab)?.label ?? 'Hub'
 
   return (
-    <ModalBackdrop onClose={onClose}>
+    <ModalBackdrop onClose={onClose} title={tabLabel}>
       <Panel elevation="floating" className="hub-tabbed-modal">
         <div className="hoa-tabs">
           {tabs.map(t => (

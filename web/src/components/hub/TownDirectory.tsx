@@ -39,7 +39,7 @@ export function TownDirectoryContent({ onClose, locationData, pinnedNpcId, onTog
           <span>🧭 Where is…?</span>
           <span className="town-directory__meta">
             {visible.length} {visible.length === 1 ? 'person' : 'people'}
-            <button className="town-directory__close" onClick={onClose}>✕</button>
+            <button className="town-directory__close" onClick={onClose} aria-label="Close">✕</button>
           </span>
         </div>
 
@@ -96,7 +96,7 @@ export function TownDirectoryContent({ onClose, locationData, pinnedNpcId, onTog
 
 export function TownDirectory(props: Props) {
   return (
-    <ModalBackdrop onClose={props.onClose}>
+    <ModalBackdrop onClose={props.onClose} title="Where is…?">
       <TownDirectoryContent {...props} />
     </ModalBackdrop>
   )

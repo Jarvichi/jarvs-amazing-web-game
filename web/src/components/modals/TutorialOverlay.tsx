@@ -16,7 +16,7 @@ export function TutorialOverlay({ steps, onDone }: Props) {
   const isLast = index === steps.length - 1
 
   return (
-    <div className="tutorial-backdrop" role="dialog" aria-modal="true">
+    <div className="tutorial-backdrop" role="dialog" aria-modal="true" aria-label={step.title}>
       <div className="tutorial-panel">
         <div className="tutorial-step-indicator">[ {index + 1} / {steps.length} ]</div>
         <div className="tutorial-title">{step.title}</div>

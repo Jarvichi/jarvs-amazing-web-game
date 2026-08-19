@@ -11,7 +11,7 @@ export function StreakBrokenModal({ streak, bestStreak, onClose }: Props) {
   const wasPersonalBest = streak >= bestStreak
 
   return (
-    <ModalBackdrop onClose={onClose} zIndex={600}>
+    <ModalBackdrop onClose={onClose} zIndex={600} title="Streak Over">
       <div className="streak-broken-modal">
         <div className="streak-broken-icon">💔</div>
         <div className="streak-broken-heading">STREAK OVER</div>

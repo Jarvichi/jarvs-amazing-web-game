@@ -707,7 +707,7 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
         />
 
         {showExpandModal && (
-          <ModalBackdrop onClose={() => setShowExpandModal(false)}>
+          <ModalBackdrop onClose={() => setShowExpandModal(false)} title="Farm Expansion">
             <div className="city-info-modal">
               <div className="city-info-modal-title">🌱 FARM EXPANSION</div>
               <div className="city-info-modal-body">
