@@ -1100,6 +1100,12 @@
   font-size: var(--font-xl);
   color: var(--accent-gold);
   font-weight: bold;
+  text-shadow: 0 0 16px color-mix(in srgb, var(--accent-gold) 50%, transparent);
+}
+
+.minigame-result-panel.panel--danger .minigame-result-headline {
+  color: var(--accent-ember);
+  text-shadow: 0 0 16px color-mix(in srgb, var(--accent-ember) 50%, transparent);
 }
 
 .minigame-result-breakdown {
