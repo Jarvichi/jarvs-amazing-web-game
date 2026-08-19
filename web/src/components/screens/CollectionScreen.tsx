@@ -286,28 +286,30 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
   const inner = (
     <>
 
-      {/* Action row */}
-      <div className="collection-action-row u-flex u-items-c u-gap-4 u-wrap">
-        <Button
-          size="sm"
-          className="collection-disenchant-btn"
-          onClick={handleDisenchantAll}
-          disabled={totalExtras === 0}
-          style={{ flex: 1 }}
-        >
-          🔮 Disenchant extras ({totalExtras})
-        </Button>
-        <Button
-          size="sm"
-          className="collection-master-btn"
-          onClick={handleMasterAll}
-          disabled={totalUpgradeable === 0}
-          title="Convert all extra copies into mastery XP"
-          style={{ flex: 1 }}
-        >
-          ★ Upgrade all ({totalUpgradeable})
-        </Button>
-      </div>
+      {/* Action row — hidden entirely when there's nothing to act on, rather
+          than sitting there as two greyed-out full-width bars. Each button
+          still disables individually when only one of the two applies. */}
+      {(totalExtras > 0 || totalUpgradeable > 0) && (
+        <div className="collection-action-row u-flex u-items-c u-gap-4 u-wrap">
+          <Button
+            size="sm"
+            className="collection-disenchant-btn"
+            onClick={handleDisenchantAll}
+            disabled={totalExtras === 0}
+          >
+            🔮 Disenchant extras ({totalExtras})
+          </Button>
+          <Button
+            size="sm"
+            className="collection-master-btn"
+            onClick={handleMasterAll}
+            disabled={totalUpgradeable === 0}
+            title="Convert all extra copies into mastery XP"
+          >
+            ★ Upgrade all ({totalUpgradeable})
+          </Button>
+        </div>
+      )}
 
       {/* Filter / Sort / Group bar */}
       <div className="filter-bar">
@@ -468,7 +470,10 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
           </div>
         )}
 
-        <span className="filter-owned">{filtered.length} cards</span>
+        {/* "shown", not "cards" — this is the filtered catalog count, which is
+            not the same as how many copies you own (and differs from the
+            discovery denominator below, which includes hidden secrets). */}
+        <span className="filter-owned">{filtered.length} shown · {totalOwned.toLocaleString()} copies</span>
       </div>
 
       {/* Collection progress */}
@@ -477,8 +482,8 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
         <span className="collection-progress-label">{distinctOwned}/{catalog.length} discovered ({completionPct}%)</span>
       </div>
 
-      {/* Grid */}
-      <div className="collection-grid u-flex u-wrap u-just-c u-gap-4 u-grow">
+      {/* Grid — gaps are asymmetric (see .collection-grid), so no u-gap-* here */}
+      <div className="collection-grid u-flex u-wrap u-just-c u-grow">
         {(() => {
           let lastGroup: string | null = null
           return sorted.map(card => {
