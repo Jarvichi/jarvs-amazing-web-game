@@ -819,12 +819,6 @@
   box-shadow: 0 0 10px rgba(255, 204, 0, 0.45);
 }
 
-.cell-resting-label {
-  color: var(--color-orange-alt);
-  font-size: var(--font-xxs);
-  letter-spacing: 1px;
-}
-
 /* ── Card Augment Screen ──────────────────────────────────────────────────────── */
 .cas-backdrop {
   position: fixed;
