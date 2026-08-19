@@ -15,7 +15,7 @@ interface Props {
 }
 
 const RARITY_COLOUR: Record<string, string> = {
-  common:    '#55cc55',
+  common:    '#999999',
   uncommon:  '#4499ff',
   rare:      '#bb66ff',
   epic:      '#ff8800',

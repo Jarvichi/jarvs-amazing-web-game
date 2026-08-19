@@ -20,7 +20,7 @@ export function CardDetailHeader({ card,collection, colour, onClose }: Props) {
                 <div className="cdm-header" style={colour ? { '--cdm-rarity-color': colour } as CSSProperties : undefined}>
           <span className="cdm-name" style={{ color: colour }}>{card.name}</span>
               {masteryLvl > 0 && (
-                <div style={{ fontSize: 11, color: '#ffcc55' }}>Mastery ★{masteryLvl} · {xpCur}/{xpNeeded} XP</div>
+                <div className="cdm-header-mastery">Mastery ★{masteryLvl} · {xpCur}/{xpNeeded} XP</div>
               )}
 
           <span className="cdm-rarity" style={{ color: colour }}>

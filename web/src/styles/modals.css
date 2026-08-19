@@ -410,7 +410,14 @@
   font-size: var(--font-sm);
   margin-bottom: 2px;
 }
-.cdm-mastery-xp     { font-size: var(--font-xxs); color: #777; }
+/* Was an inline style={{ fontSize: 11, color: '#ffcc55' }} — a raw px size
+   outside the type scale and a hex outside the palette. */
+.cdm-header-mastery { font-size: var(--font-xs); color: var(--color-gold-light); }
+
+/* Was two inline style={{ color }} objects in CardDetailModal. */
+.cdm-mastery-title  { color: var(--color-gold); }
+.cdm-mastery-elite  { color: var(--color-orange); }
+.cdm-mastery-xp     { font-size: var(--font-xxs); color: var(--color-gray-7); }
 .cdm-mastery-bonus  { font-size: var(--font-xxs); color: var(--game-text-color-muted); margin-top: 3px; }
 .cdm-stat-bonus     { font-size: var(--font-xxs); color: var(--color-gold); margin-left: 3px; }
 .cdm-locked-note    { color: #ff6655; font-size: var(--font-xxs); margin-bottom: 4px; }

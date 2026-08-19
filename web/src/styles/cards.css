@@ -110,7 +110,7 @@
 /* Sits between rare and legendary. Previously absent entirely, so an epic card
    silently fell back to the base frame. */
 .card-tile--epic {
-  --card-frame: #ff7ac6;
+  --card-frame: #ff8800;
   background:
     linear-gradient(160deg, color-mix(in srgb, var(--card-frame) 11%, transparent) 0%, transparent 55%),
     color-mix(in srgb, var(--card-frame) 4%, transparent);
