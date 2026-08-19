@@ -291,7 +291,7 @@ export function PackOpening({ packs, onDone }: Props) {
       })()}
 
       {showSummary && (
-        <ModalBackdrop onClose={onDone} zIndex={300}>
+        <ModalBackdrop onClose={onDone} zIndex={300} title="All Cards">
           <div className="daily-modal" style={{ maxWidth: 360, textAlign: 'left' }}>
             <div className="daily-modal-header">✦ ALL CARDS</div>
             <div className="daily-modal-sub">

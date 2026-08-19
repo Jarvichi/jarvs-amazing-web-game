@@ -75,10 +75,6 @@
   transition-duration: 0.05s;
 }
 
-.action-btn:focus-visible {
-  outline: 2px solid var(--accent-gold);
-  outline-offset: 2px;
-}
 
 @keyframes nodeTargetPulse {
   0%, 100% { box-shadow: 0 0 8px color-mix(in srgb, var(--game-text-color) 40%, transparent); }

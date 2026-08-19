@@ -43,11 +43,11 @@ export function AugmentPickerModal({ slot, cardName, onClose }: Props) {
   }
 
   return (
-    <ModalBackdrop onClose={onClose} zIndex={400}>
+    <ModalBackdrop onClose={onClose} zIndex={400} title={`Equip ${augmentSlotLabel(slot)}`}>
       <div className="apm-panel">
         <div className="apm-header">
           Equip {augmentSlotLabel(slot)}
-          <button className="cdm-close" onClick={onClose}>✕</button>
+          <button className="cdm-close" onClick={onClose} aria-label="Close">✕</button>
         </div>
 
         {matching.length === 0 ? (

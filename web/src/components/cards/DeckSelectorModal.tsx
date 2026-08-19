@@ -79,7 +79,7 @@ export function DeckSelectorModal({ fatiguedCards = [], onConfirm, onCancel }: P
   }
 
   return (
-    <ModalBackdrop onClose={onCancel}>
+    <ModalBackdrop onClose={onCancel} title="Choose Your Deck">
       <div className="deck-selector-modal">
         <div className="deck-selector-title">CHOOSE YOUR DECK</div>
         <div className="deck-selector-panels u-flex u-gap-6">

@@ -221,6 +221,7 @@ export function HubMinimap({ locationData, objectives, playerRef, viewportRef }:
           className="hub-minimap-toggle"
           onClick={toggle}
           title={visible ? 'Hide minimap' : 'Show minimap'}
+          aria-label={visible ? 'Hide minimap' : 'Show minimap'}
         >
           🗺
         </button>

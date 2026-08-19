@@ -365,11 +365,19 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
             </div>
 
                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>     <span className="settings-value">Sound On/Off</span>
-                            <div className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select" onClick={handleSoundToggle}>
+                            <div
+                              className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select"
+                              onClick={handleSoundToggle}
+                              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSoundToggle() } }}
+                              role="switch"
+                              aria-checked={soundOn}
+                              aria-label="Sound"
+                              tabIndex={0}
+                            >
                 <div className={`settings-toggle-track${soundOn ? ' settings-toggle-track--on' : ''}`}>
                   <div className="settings-toggle-thumb" />
                 </div>
-              </div>
+                            </div>
             </div>
            
           </div>
@@ -388,6 +396,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                 value={soundVolume}
                 disabled={!soundOn}
                 onChange={e => handleSoundVolumeChange(Number(e.target.value))}
+                aria-label="Effects volume"
               />
               <span className="settings-value">{Math.round(soundVolume * 100)}%</span>
             </div>
@@ -406,6 +415,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                 step={0.05}
                 value={musicVolume}
                 onChange={e => handleMusicVolumeChange(Number(e.target.value))}
+                aria-label="Music volume"
               />
               <span className="settings-value">{Math.round(musicVolume * 100)}%</span>
             </div>
@@ -418,7 +428,15 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
               <div className="settings-label">Skip intro on startup</div>
               <div className="settings-sublabel">Skip the Awesome Software splash screens</div>
             </div>
-            <div className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select" onClick={handleSkipIntroToggle}>
+            <div
+              className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select"
+              onClick={handleSkipIntroToggle}
+              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSkipIntroToggle() } }}
+              role="switch"
+              aria-checked={skipIntro}
+              aria-label="Skip intro on startup"
+              tabIndex={0}
+            >
               <div className={`settings-toggle-track${skipIntro ? ' settings-toggle-track--on' : ''}`}>
                 <div className="settings-toggle-thumb" />
               </div>
@@ -487,7 +505,15 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                 <div className="settings-label">8-bit visual filter</div>
                 <div className="settings-sublabel">Posterised palette + pixelated sprites</div>
               </div>
-              <div className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select" onClick={handleEightbitToggle}>
+              <div
+                className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select"
+                onClick={handleEightbitToggle}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleEightbitToggle() } }}
+                role="switch"
+                aria-checked={eightbitOn}
+                aria-label="8-bit visual filter"
+                tabIndex={0}
+              >
                 <div className={`settings-toggle-track${eightbitOn ? ' settings-toggle-track--on' : ''}`}>
                   <div className="settings-toggle-thumb" />
                 </div>
@@ -502,7 +528,15 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                 <div className="settings-label">Monochrome visual filter</div>
                 <div className="settings-sublabel">Green and black terminal-style palette</div>
               </div>
-              <div className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select" onClick={handleMonochromeToggle}>
+              <div
+                className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select"
+                onClick={handleMonochromeToggle}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleMonochromeToggle() } }}
+                role="switch"
+                aria-checked={monochromeOn}
+                aria-label="Monochrome visual filter"
+                tabIndex={0}
+              >
                 <div className={`settings-toggle-track${monochromeOn ? ' settings-toggle-track--on' : ''}`}>
                   <div className="settings-toggle-thumb" />
                 </div>
@@ -516,7 +550,15 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
               <div className="settings-label">Battle event popups</div>
               <div className="settings-sublabel">Show mid-battle popups for notable events (e.g. hero summons)</div>
             </div>
-            <div className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select" onClick={handleBattlePopupsToggle}>
+            <div
+              className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select"
+              onClick={handleBattlePopupsToggle}
+              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleBattlePopupsToggle() } }}
+              role="switch"
+              aria-checked={battlePopups}
+              aria-label="Battle event popups"
+              tabIndex={0}
+            >
               <div className={`settings-toggle-track${battlePopups ? ' settings-toggle-track--on' : ''}`}>
                 <div className="settings-toggle-thumb" />
               </div>
@@ -527,7 +569,15 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
               <div className="settings-label">Light mode</div>
               <div className="settings-sublabel">Switch to a light parchment background</div>
             </div>
-            <div className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select" onClick={handleLightModeToggle}>
+            <div
+              className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select"
+              onClick={handleLightModeToggle}
+              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleLightModeToggle() } }}
+              role="switch"
+              aria-checked={lightModeOn}
+              aria-label="Light mode"
+              tabIndex={0}
+            >
               <div className={`settings-toggle-track${lightModeOn ? ' settings-toggle-track--on' : ''}`}>
                 <div className="settings-toggle-thumb" />
               </div>
@@ -547,6 +597,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                 step={1}
                 value={textSize}
                 onChange={e => handleSizeChange(Number(e.target.value))}
+                aria-label="Text size"
               />
               <span className="settings-value">{textSize}px</span>
             </div>

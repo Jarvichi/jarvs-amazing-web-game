@@ -50,7 +50,7 @@ export function PetShelterContent({ onClose, onAdopted }: Props) {
     <Panel elevation="floating" className="pet-modal">
       <div className="pet-modal__header">
         <span>🏚️ Ravenwatch Shelter</span>
-        <button className="pet-modal__close" onClick={onClose}>✕</button>
+        <button className="pet-modal__close" onClick={onClose} aria-label="Close">✕</button>
       </div>
 
       <div className="pet-modal__section-label">I have these pets to adopt</div>
@@ -76,7 +76,7 @@ export function PetShelterContent({ onClose, onAdopted }: Props) {
 
 export function PetShelterModal(props: Props) {
   return (
-    <ModalBackdrop onClose={props.onClose}>
+    <ModalBackdrop onClose={props.onClose} title="Ravenwatch Shelter">
       <PetShelterContent {...props} />
     </ModalBackdrop>
   )

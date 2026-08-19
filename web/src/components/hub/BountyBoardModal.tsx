@@ -39,13 +39,13 @@ export function BountyBoardModal({ onClose, resolveNpcName = (id) => id, townNpc
   const completed = bounties.filter(b => isBountyCompleted(b.id))
 
   return (
-    <ModalBackdrop onClose={onClose}>
+    <ModalBackdrop onClose={onClose} title="Bounty Board">
       <Panel elevation="floating" className="bounty-board-modal">
         <div className="bounty-board-modal__header">
           <span>📋 Bounty Board</span>
           <span className="bounty-board-modal__meta">
             {completed.length} of {bounties.length}
-            <button className="bounty-board-modal__close" onClick={onClose}>✕</button>
+            <button className="bounty-board-modal__close" onClick={onClose} aria-label="Close">✕</button>
           </span>
         </div>
 

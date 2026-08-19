@@ -143,11 +143,11 @@ function UnitPickerModal({ stack, onEquip, onClose }: UnitPickerProps) {
   )
 
   return (
-    <ModalBackdrop onClose={onClose} zIndex={400}>
+    <ModalBackdrop onClose={onClose} zIndex={400} title={`Equip ${stack.setName} Set to Unit`}>
       <div className="apm-panel">
         <div className="apm-header">
           Equip {stack.setName} Set to Unit
-          <button className="cdm-close" onClick={onClose}>✕</button>
+          <button className="cdm-close" onClick={onClose} aria-label="Close">✕</button>
         </div>
         {unitCards.length === 0 ? (
           <div className="apm-empty">No unit cards owned.</div>

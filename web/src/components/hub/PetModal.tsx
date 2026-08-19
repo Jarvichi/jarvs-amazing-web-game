@@ -93,7 +93,7 @@ export function PetContent({ onClose, petActionRef }: Props) {
       <Panel elevation="floating" className="pet-modal">
         <div className="pet-modal__header">
           <span>🐾 My Pet</span>
-          <button className="pet-modal__close" onClick={onClose}>✕</button>
+          <button className="pet-modal__close" onClick={onClose} aria-label="Close">✕</button>
         </div>
 
         {!pet && (
@@ -147,7 +147,7 @@ export function PetContent({ onClose, petActionRef }: Props) {
 
 export function PetModal(props: Props) {
   return (
-    <ModalBackdrop onClose={props.onClose}>
+    <ModalBackdrop onClose={props.onClose} title="My Pet">
       <PetContent {...props} />
     </ModalBackdrop>
   )

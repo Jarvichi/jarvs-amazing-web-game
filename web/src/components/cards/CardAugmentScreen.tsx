@@ -103,7 +103,7 @@ export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Pr
   return (
 // TODO: There is a lot of common structure between this and the CardDetailModal, consider unifying into a single component with some conditional rendering for the augment-specific parts
 
-    <ModalBackdrop onClose={onClose}>
+    <ModalBackdrop onClose={onClose} title={`${card.name} — Augments`}>
       <div className="cas-panel" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
 
         {/* Header */}

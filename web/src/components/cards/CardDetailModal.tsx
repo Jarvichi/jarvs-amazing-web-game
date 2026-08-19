@@ -176,7 +176,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
   }
 
   return (
-    <ModalBackdrop onClose={onClose}>
+    <ModalBackdrop onClose={onClose} title={card.name}>
       <div className="cdm-panel">
 
         {/* Header */}

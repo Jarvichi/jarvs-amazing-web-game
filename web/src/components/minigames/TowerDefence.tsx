@@ -419,7 +419,7 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
           >⚡Auto</button>
         </div>
 
-        <button className="action-btn action-btn--danger td-header-btn" onClick={handleQuit}>
+        <button className="action-btn action-btn--danger td-header-btn" onClick={handleQuit} aria-label="Quit">
           ✕
         </button>
       </div>
