@@ -345,7 +345,7 @@
 
 .cutscene-progress {
   font-size: var(--font-xs);
-  color: #333;
+  color: var(--color-gray-9);
   letter-spacing: 1px;
 }
 
