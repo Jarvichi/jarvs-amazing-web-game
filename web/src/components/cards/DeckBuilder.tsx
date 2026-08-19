@@ -29,7 +29,7 @@ import {
   decodeDeck,
 } from '../../game/collection'
 import { CardTile } from './CardTile'
-import { MasteryBar } from '../ui/MasteryBar'
+import { CardCellFooter } from './CardCellFooter'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { useCardDetail } from './useCardDetail'
 import { OverlayScreen } from '../ui/OverlayScreen'
@@ -361,6 +361,25 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
     })
   }
 
+  /**
+   * Collapsing one panel always expands the other, so "you can never collapse
+   * both" is enforced by construction. The two call sites previously had
+   * hand-rolled three-branch conditionals whose trailing comments ("do nothing
+   * if the other is already collapsed") described behaviour the code did not
+   * actually have — the final branch swapped the panels.
+   */
+  function togglePanel(which: 'deck' | 'collection') {
+    if (which === 'deck') {
+      const next = !deckCollapsed
+      setDeckCollapsed(next)
+      if (next) setCollectionCollapsed(false)
+    } else {
+      const next = !collectionCollapsed
+      setCollectionCollapsed(next)
+      if (next) setDeckCollapsed(false)
+    }
+  }
+
   function handleAutoBuild(strategy: AutoStrategy) {
     const built = buildAutoDeck(strategy, collection, fatiguedCards)
     setDeck(built)
@@ -448,18 +467,48 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
       title="DECK BUILDER"
       onBack={handleBack}
       right={
-        <span className={`overlay-count${valid ? ' overlay-count--valid' : ' overlay-count--invalid'}`}>
-          {total}/{playerDeckMax} cards
-          {total < DECK_MIN && ` (need ${DECK_MIN - total} more)`}
-        </span>
+        /* Deck status lives in one place. The mana warning used to sit in a
+           row of action buttons below the header, where it was the only
+           *state* among *actions* and shifted the whole layout whenever it
+           appeared. It belongs next to the size counter — the other signal
+           that says "this deck isn't ready". */
+        <div className="deckbuilder-status u-col u-items-end u-gap-1">
+          <span className={`overlay-count${valid ? ' overlay-count--valid' : ' overlay-count--invalid'}`}>
+            {total}/{playerDeckMax} cards
+            {total < DECK_MIN && ` (need ${DECK_MIN - total} more)`}
+          </span>
+          {showManaWarning && (
+            <span className="deckbuilder-mana-warn" title={`Deck has ${maxDeckCost}-cost cards but no mana structure`}>
+              ⚠ no mana building
+            </span>
+          )}
+        </div>
       }
     >
-<div className="deckbuilder-header-actions u-flex u-items-c u-gap-2 u-wrap">
-   {showManaWarning && (
-                <span className="deckbuilder-mana-warn" title={`Deck has ${maxDeckCost}-cost cards but no mana structure`}>
-                  ⚠ no mana building
-                </span>
-              )}
+      <div className="deckbuilder-split u-col u-grow">
+
+        {/* ── TOP PANEL: current deck ── */}
+        <div className={`deckbuilder-top-panel${deckCollapsed ? ' deckbuilder-panel--collapsed' : ''}`}>
+          {/* Deck-scoped actions live in the deck's own header. They used to
+              sit in a loose, unpadded row between the page header and this
+              one — a fourth stacked band belonging to neither. */}
+          <div className="deckbuilder-panel-header">
+            <span className="deckbuilder-panel-label">
+              DECK<span className="deckbuilder-panel-hint"> — click to remove</span>
+            </span>
+            <div className="deck-slot-toggle u-flex u-items-c u-gap-1">
+              <button
+                className={`deck-slot-btn${activeSlot === 'a' ? ' deck-slot-btn--active' : ''}`}
+                onClick={() => handleSwitchSlot('a')}
+                title="Deck A"
+              >A</button>
+              <button
+                className={`deck-slot-btn${activeSlot === 'b' ? ' deck-slot-btn--active' : ''}`}
+                onClick={() => handleSwitchSlot('b')}
+                title="Deck B"
+              >B</button>
+            </div>
+            <div className="deckbuilder-header-actions">
               <button
                 className="action-btn db-action-sm"
                 onClick={() => setShowAutoBuild(true)}
@@ -475,44 +524,9 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
                 onClick={() => setShowShare(true)}
                 title="Share Deck"
               >🔗 SHARE</button>
-</div>
-
-      <div className="deckbuilder-split u-col u-grow">
-
-        {/* ── TOP PANEL: current deck ── */}
-        <div className={`deckbuilder-top-panel${deckCollapsed ? ' deckbuilder-panel--collapsed' : ''}`}>
-          <div className="deckbuilder-panel-header">
-            <span className="deckbuilder-panel-label">
-              DECK — click to remove
-            </span>
-            <div className="deck-slot-toggle u-flex u-items-c u-gap-1">
-              <button
-                className={`deck-slot-btn${activeSlot === 'a' ? ' deck-slot-btn--active' : ''}`}
-                onClick={() => handleSwitchSlot('a')}
-                title="Deck A"
-              >A</button>
-              <button
-                className={`deck-slot-btn${activeSlot === 'b' ? ' deck-slot-btn--active' : ''}`}
-                onClick={() => handleSwitchSlot('b')}
-                title="Deck B"
-              >B</button>
-            </div>
-            <div className="deckbuilder-header-actions u-flex u-items-c u-gap-2 u-wrap">
-           
               <button
                 className="db-collapse-btn"
-                onClick={() => {
-                  if (!deckCollapsed && !collectionCollapsed) {
-                    setDeckCollapsed(true)           // collapse deck, collection stays open
-                  } else if (deckCollapsed) {
-                    setDeckCollapsed(false)           // expand deck
-                  } else {
-
-setDeckCollapsed(true)
-setCollectionCollapsed(false)
-}
-                  // do nothing if collection is already collapsed (can't collapse both)
-                }}
+                onClick={() => togglePanel('deck')}
                 title={deckCollapsed ? 'Expand deck panel' : 'Collapse deck panel'}
               >{deckCollapsed ? '▼' : '▲'}</button>
             </div>
@@ -527,33 +541,37 @@ setCollectionCollapsed(false)
                 ) : deckList.length === 0 ? (
                   <div className="deck-empty">No deck cards match "{search}".</div>
                 ) : (
-                  <div className="collection-grid u-flex u-wrap u-just-c u-gap-4 u-grow">
+                  /* Gaps are asymmetric (see .collection-grid) — no u-gap-* here. */
+                  <div className="collection-grid u-flex u-wrap u-just-c u-grow">
                     {deckList.map(entry => {
                       const card    = catalog.find(c => c.name === entry.cardName)!
                       const resting = fatiguedCards.includes(entry.cardName)
-                      const lvl     = masteryLevel(getMasteryXp(collection, entry.cardName))
+                      const xp      = getMasteryXp(collection, entry.cardName)
+                      const lvl     = masteryLevel(xp)
                       return (
                         <div
                           key={entry.cardName}
-                          className={`collection-cell u-col deck-cell${resting ? ' deck-cell--resting' : ''}`}
+                          className={`collection-cell u-col${resting ? ' collection-cell--resting' : ''}`}
                         >
-                          {resting && (
-                            <div className="resting-overlay">
-                              <span className="resting-badge">💤 RESTING</span>
-                            </div>
-                          )}
-                          <CardTile
-                            card={card}
-                            onClick={() => removeCard(entry.cardName)}
-                            deckMatches={synergyOf(card).combos}
-                            showDetails={true}
-                          />
-                          <div className="cell-footer">
+                          <div className="card-cell-tile">
+                            {resting && (
+                              <div className="resting-overlay">
+                                <span className="resting-badge">💤 RESTING</span>
+                              </div>
+                            )}
+                            <CardTile
+                              card={card}
+                              onClick={() => removeCard(entry.cardName)}
+                              deckMatches={synergyOf(card).combos}
+                              showDetails={true}
+                            />
+                          </div>
+                          <CardCellFooter xp={xp} onInfo={() => openDetail(card)}>
                             <span className="cell-count">
                               ×{entry.count}
                               {lvl > 0 && <span className="cell-mastery-badge">★{lvl}</span>}
                             </span>
-                          </div>
+                          </CardCellFooter>
                         </div>
                       )
                     })}
@@ -564,43 +582,26 @@ setCollectionCollapsed(false)
           )}
         </div>
 
-        {/* ── DIVIDER ── */}
-        <div
-          className="deckbuilder-divider u-flex u-items-c u-just-c u-pointer u-no-select"
-          title="Swap expanded panel"
-          onClick={() => {
-            if (deckCollapsed) {
-              setDeckCollapsed(false)
-              setCollectionCollapsed(true)
-            } else if (collectionCollapsed) {
-              setCollectionCollapsed(false)
-              setDeckCollapsed(true)
-            }
-            // both open — no-op; use the panel collapse buttons
-          }}
-        >
-          <span className="deckbuilder-divider-handle">⠿</span>
-        </div>
+        {/* The panels used to be separated by a bar carrying a ⠿ drag handle.
+            Nothing was draggable: it swapped which panel was collapsed, and
+            in the default state (both panels open) clicking it did nothing at
+            all. The collapse buttons already do that job, so the separator is
+            now a plain rule on the panel below. */}
 
         {/* ── BOTTOM PANEL: collection ── */}
         <div className={`deckbuilder-bottom-panel${collectionCollapsed ? ' deckbuilder-panel--collapsed' : ''}`}>
           <div className="deckbuilder-panel-header">
-            <span className="deckbuilder-panel-label">COLLECTION — click to add</span>
-            <div className="deckbuilder-header-actions u-flex u-items-c u-gap-2 u-wrap">
-              <span className="filter-owned" style={{ fontSize: '10px' }}>{filtered.length} cards</span>
+            <span className="deckbuilder-panel-label">
+              COLLECTION<span className="deckbuilder-panel-hint"> — click to add</span>
+            </span>
+            <div className="deckbuilder-header-actions">
+              {/* "shown", not "cards": this is the count of distinct owned
+                  cards after filtering, not a number of copies. Matches the
+                  Collection screen's wording. */}
+              <span className="filter-owned">{filtered.length} shown</span>
               <button
                 className="db-collapse-btn"
-                onClick={() => {
-                  if (!collectionCollapsed && !deckCollapsed) {
-                    setCollectionCollapsed(true)      // collapse collection, deck stays open
-                  } else if (collectionCollapsed) {
-                    setCollectionCollapsed(false)     // expand collection
-                  } else {
-setDeckCollapsed(false)
-setCollectionCollapsed(true)
- }
-                  // do nothing if deck is already collapsed (can't collapse both)
-                }}
+                onClick={() => togglePanel('collection')}
                 title={collectionCollapsed ? 'Expand collection panel' : 'Collapse collection panel'}
               >{collectionCollapsed ? '▲' : '▼'}</button>
             </div>
@@ -617,7 +618,15 @@ setCollectionCollapsed(true)
                   value={search}
                   onChange={e => setSearch(e.target.value)}
                 />
-                <input type="reset" value="X" alt="Clear the search form" className="action-btn action-btn--xs" onClick={() => setSearch('')} />
+                {/* Was an <input type="reset"> carrying an `alt` attribute —
+                    not valid on a reset input, so it had no accessible name. */}
+                <button
+                  type="button"
+                  className="action-btn action-btn--xs"
+                  aria-label="Clear search"
+                  title="Clear search"
+                  onClick={() => setSearch('')}
+                >✕</button>
               </div>
 
               {/* Filter / Sort / Group bar */}
@@ -761,7 +770,8 @@ setCollectionCollapsed(true)
 
               {/* Collection grid */}
               <div className="deckbuilder-collection-grid">
-                <div className="collection-grid u-flex u-wrap u-just-c u-gap-4 u-grow">
+                {/* Gaps are asymmetric (see .collection-grid) — no u-gap-* here. */}
+                <div className="collection-grid u-flex u-wrap u-just-c u-grow">
                   {(() => {
                     let lastGroup: string | null = null
                     return sorted.map(card => {
@@ -782,29 +792,29 @@ setCollectionCollapsed(true)
                             <div className="collection-group-header">{label}</div>
                           )}
                           <div className={`collection-cell u-col${resting ? ' collection-cell--resting' : ''}${synergy.combos > 0 ? ' collection-cell--combo' : synergy.groups > 0 ? ' collection-cell--synergy' : ''}`}>
-                            <CardTile
-                              card={card}
-                              canAfford={canAdd}
-                              deckMatches={synergy.combos}
-                              onClick={canAdd ? () => addCard(card.name) : undefined}
-                            />
-                            <div className="cell-footer">
-                              <span className="cell-count">
-                                {resting
-                                  ? <><span className="cell-resting-label">💤</span> {inDeck}/{owned}</>
-                                  : <>
-                                      {inDeck}/{owned}{lvl > 0 && <span className="cell-mastery-badge">★{lvl}</span>}
-                                      {atCopyLimit && <span className="cell-copy-limit-badge">MAX</span>}
-                                    </>
-                                }
-                              </span>
-                              {xp > 0 && <MasteryBar xp={xp} />}
-                              <button
-                                className="extra-btn cdm-info-btn"
-                                onClick={e => { e.stopPropagation(); openDetail(card) }}
-                                title="Card details"
-                              >ⓘ</button>
+                            {/* Same resting treatment as the deck panel above —
+                                the two used to differ (striped overlay + badge
+                                there, a bare 💤 in the footer here). */}
+                            <div className="card-cell-tile">
+                              {resting && (
+                                <div className="resting-overlay">
+                                  <span className="resting-badge">💤 RESTING</span>
+                                </div>
+                              )}
+                              <CardTile
+                                card={card}
+                                canAfford={canAdd}
+                                deckMatches={synergy.combos}
+                                onClick={canAdd ? () => addCard(card.name) : undefined}
+                              />
                             </div>
+                            <CardCellFooter xp={xp} onInfo={() => openDetail(card)}>
+                              <span className="cell-count">
+                                {inDeck}/{owned}
+                                {lvl > 0 && <span className="cell-mastery-badge">★{lvl}</span>}
+                                {atCopyLimit && <span className="cell-copy-limit-badge">MAX</span>}
+                              </span>
+                            </CardCellFooter>
                           </div>
                         </React.Fragment>
                       )
