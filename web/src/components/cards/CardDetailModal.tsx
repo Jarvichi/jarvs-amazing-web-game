@@ -230,7 +230,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
               )}
           </div>
         </div>
-        <div className="u-col ">
+        <div className="cdm-details u-col">
               {card.cardType === 'unit' && (
               <Toolbar>
                 <ToolbarButton label="Details" onClick={() => setActiveTab(0)} />
@@ -259,7 +259,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
 
 
               )}
-<div  className="cdm-info-col u-grow u-col u-gap-4 u-mg-t-md">
+<div className="cdm-info-col u-grow u-col u-gap-4 u-mg-t-md">
             {activeTab === 0 ? (
 
 <>
