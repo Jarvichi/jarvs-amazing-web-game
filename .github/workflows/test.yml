@@ -51,10 +51,10 @@ jobs:
           # (e.g. #2212's webkit addition) invalidates the cache instead of
           # restoring a stale, incomplete one — the lockfile hash alone
           # doesn't change when only the browser list does.
-          key: playwright-${{ runner.os }}-chromium-${{ hashFiles('web/package-lock.json') }}
+          key: playwright-${{ runner.os }}-chromium-webkit-${{ hashFiles('web/package-lock.json') }}
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps chromium webkit
         working-directory: web
 
       - name: Test
