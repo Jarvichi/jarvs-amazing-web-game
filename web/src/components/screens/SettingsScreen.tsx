@@ -40,7 +40,6 @@ const TEXT_COLOR_KEY     = 'jarv_text_color'
 const SKIP_INTRO_KEY     = 'jarv_skip_intro'
 const EIGHTBIT_UNLOCKED_KEY = 'jarv_8bit_unlocked'
 const EIGHTBIT_ENABLED_KEY  = 'jarv_8bit_enabled'
-const LIGHT_MODE_KEY        = 'jarv_light_mode'
 const BATTLE_POPUPS_KEY     = 'jarv_battle_popups'
 
 export function loadSkipIntro(): boolean {
@@ -85,6 +84,15 @@ export function apply8bitMode(enabled: boolean): void {
   window.dispatchEvent(new Event('eightbit-change'))
 }
 
+// Light mode was retired (#2184): only 5 of 654+ hardcoded colours in the
+// stylesheet actually responded to it, so it produced dark panels on a
+// cream background rather than a real light theme. This clears the stale
+// preference for anyone who had it on, so they land on the (correct,
+// readable) dark theme instead of a setting that no longer does anything.
+export function clearLegacyLightMode(): void {
+  try { localStorage.removeItem('jarv_light_mode') } catch { /* ignore */ }
+}
+
 export function loadMonochromeEnabled(): boolean {
   try { return localStorage.getItem('jarv_monochrome_enabled') === 'true' }
   catch { return false }
@@ -97,28 +105,6 @@ export function saveMonochromeEnabled(val: boolean): void {
 export function applyMonochromeMode(enabled: boolean): void {
   document.documentElement.classList.toggle('monochrome-mode', enabled)
   window.dispatchEvent(new Event('monochrome-change'))
-}
-
-export function loadLightMode(): boolean {
-  try { return localStorage.getItem(LIGHT_MODE_KEY) === 'true' }
-  catch { return false }
-}
-
-export function saveLightMode(val: boolean): void {
-  try { localStorage.setItem(LIGHT_MODE_KEY, String(val)) } catch { /* ignore */ }
-}
-
-export function applyLightMode(enabled: boolean): void {
-  document.documentElement.classList.toggle('light-mode', enabled)
-  // applyTextSettings() sets --game-text-color as an inline style, which has
-  // higher specificity than the .light-mode CSS class rule. Remove the inline
-  // override when light mode is on so the CSS variable takes effect; restore
-  // the user's chosen colour when light mode is off.
-  if (enabled) {
-    document.documentElement.style.removeProperty('--game-text-color')
-  } else {
-    document.documentElement.style.setProperty('--game-text-color', loadTextColor())
-  }
 }
 
 export function loadBattlePopups(): boolean {
@@ -175,7 +161,6 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
   const [eightbitOn,    setEightbitOn]    = useState(load8bitEnabled)
   const [eightbitUnlocked]               = useState(load8bitUnlocked)
   const [monochromeOn,   setMonochromeOn]   = useState(loadMonochromeEnabled)
-  const [lightModeOn,   setLightModeOn]   = useState(loadLightMode)
   const [battlePopups,  setBattlePopups]  = useState(loadBattlePopups)
   const [hubDefault,    setHubDefault]    = useState(loadHubDefault)
   const [confirmReset,  setConfirmReset]  = useState(false)
@@ -284,13 +269,6 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
     applyMonochromeMode(next)
   }
 
-  function handleLightModeToggle() {
-    const next = !lightModeOn
-    setLightModeOn(next)
-    saveLightMode(next)
-    applyLightMode(next)
-  }
-
   function handleBattlePopupsToggle() {
     const next = !battlePopups
     setBattlePopups(next)
@@ -312,12 +290,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
   function handleColorChange(val: string) {
     setTextColor(val)
     try { localStorage.setItem(TEXT_COLOR_KEY, val) } catch { /* ignore */ }
-    // Don't apply the inline style while light mode is on — it has higher specificity
-    // than the html.light-mode CSS rule and would override it. The colour is saved so
-    // it restores correctly when light mode is toggled off (see applyLightMode).
-    if (!lightModeOn) {
-      document.documentElement.style.setProperty('--game-text-color', val)
-    }
+    document.documentElement.style.setProperty('--game-text-color', val)
   }
 
   function handleReset() {
@@ -560,25 +533,6 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
               tabIndex={0}
             >
               <div className={`settings-toggle-track${battlePopups ? ' settings-toggle-track--on' : ''}`}>
-                <div className="settings-toggle-thumb" />
-              </div>
-            </div>
-          </div>
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Light mode</div>
-              <div className="settings-sublabel">Switch to a light parchment background</div>
-            </div>
-            <div
-              className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select"
-              onClick={handleLightModeToggle}
-              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleLightModeToggle() } }}
-              role="switch"
-              aria-checked={lightModeOn}
-              aria-label="Light mode"
-              tabIndex={0}
-            >
-              <div className={`settings-toggle-track${lightModeOn ? ' settings-toggle-track--on' : ''}`}>
                 <div className="settings-toggle-thumb" />
               </div>
             </div>

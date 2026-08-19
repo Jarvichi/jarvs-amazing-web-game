@@ -33,9 +33,7 @@ function tokenValue(rootBlock: string, name: string): string {
 }
 
 describe('theme.ts stays in step with tokens.css', () => {
-  // Only the :root block — html.light-mode reuses the same custom property
-  // names for different values, which isn't what PALETTE mirrors.
-  const rootBlock = readCss('tokens.css').split('html.light-mode')[0]
+  const rootBlock = readCss('tokens.css')
 
   const cases: [keyof typeof PALETTE, string][] = [
     ['accentGold', '--accent-gold'],
@@ -65,7 +63,7 @@ describe('theme.ts stays in step with tokens.css', () => {
 describe('RARITY_COLOR stays in step with cards.css and collection.css', () => {
   const cardsCss = readCss('cards.css')
   const collectionCss = readCss('collection.css')
-  const tokensRoot = readCss('tokens.css').split('html.light-mode')[0]
+  const tokensRoot = readCss('tokens.css')
 
   function resolveMaybeVar(value: string): string {
     const ref = value.match(/^var\((--[a-z0-9-]+)\)$/)
