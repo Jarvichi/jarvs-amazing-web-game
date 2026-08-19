@@ -485,7 +485,10 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
         </div>
       }
     >
-      <div className="deckbuilder-split u-col u-grow">
+      <div className={`deckbuilder-split u-col u-grow${
+        collectionCollapsed ? ' deckbuilder-split--deck-only'
+        : deckCollapsed ? ' deckbuilder-split--collection-only' : ''
+      }`}>
 
         {/* ── TOP PANEL: current deck ── */}
         <div className={`deckbuilder-top-panel${deckCollapsed ? ' deckbuilder-panel--collapsed' : ''}`}>
@@ -513,17 +516,17 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
                 className="action-btn db-action-sm"
                 onClick={() => setShowAutoBuild(true)}
                 title="Auto Build"
-              >⚡ AUTO</button>
+              >⚡<span className="db-action-label"> AUTO</span></button>
               <button
                 className="action-btn db-action-sm"
                 onClick={() => { setSavedDecks(loadSavedDecks()); setShowSavedDecks(true) }}
                 title="Saved Decks"
-              >💾 SAVED</button>
+              >💾<span className="db-action-label"> SAVED</span></button>
               <button
                 className="action-btn db-action-sm"
                 onClick={() => setShowShare(true)}
                 title="Share Deck"
-              >🔗 SHARE</button>
+              >🔗<span className="db-action-label"> SHARE</span></button>
               <button
                 className="db-collapse-btn"
                 onClick={() => togglePanel('deck')}
