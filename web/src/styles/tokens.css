@@ -117,7 +117,11 @@
   --accent-arcane: #e040fb;
   --accent-blood:  #6a2288;
 
-  /* Text */
+  /* Text — --text-primary is the neutral reading colour for content that
+     isn't part of the CRT-green theme (card names, and anything else that
+     shouldn't inherit --game-text-color just because it needed to be legible).
+     Its absence is why so much content text reaches for the green token. */
+  --text-primary: #e8e8e8;
   --text-inverse: #fff;
 
   /* Borders / edging */

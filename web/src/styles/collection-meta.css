@@ -478,18 +478,21 @@
 
 .player-tab {
   background: none;
-  border: 1px solid #444;
+  border: 1px solid var(--border-edge);
   color: var(--game-text-color-dim);
   font-family: inherit;
   font-size: var(--font-sm);
   padding: 4px 12px;
   cursor: pointer;
   position: relative;
+  border-radius: var(--radius-sm);
 }
 
+/* Was a raw #0f0 — brighter than any green in the palette, and green is now
+   semantic-only. Gold matches the active-tab treatment used elsewhere. */
 .player-tab--active {
-  border-color: #0f0;
-  color: #0f0;
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
 }
 
 .player-tab-badge {

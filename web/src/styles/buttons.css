@@ -202,9 +202,12 @@
   overflow: hidden;
 }
 
+/* Gold by default: progress/collection/economy is gold under the #2165 art
+   direction, and green is now semantic-only. Callers needing a different
+   meaning pass ProgressBar's `color` prop (as MasteryBar does). */
 .progress-bar-fill {
   height: 100%;
-  background: #33ff33;
+  background: var(--accent-gold);
   border-radius: 2px;
   transition: width 0.2s ease-out;
 }

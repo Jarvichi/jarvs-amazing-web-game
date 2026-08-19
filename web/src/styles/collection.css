@@ -279,10 +279,12 @@
   flex-shrink: 0;
 }
 
+/* Neutral grey, not the theme green: these are plain metadata counts sitting
+   beside gold chrome, and green would read as a semantic signal it isn't. */
 .filter-owned {
   margin-left: auto;
   font-size: var(--font-xs);
-  color: var(--game-text-color-dim);
+  color: var(--color-gray-9);
   white-space: nowrap;
   flex-shrink: 0;
   padding-left: 8px;
@@ -301,7 +303,7 @@
 }
 .collection-progress-label {
   font-size: var(--font-xs);
-  color: var(--game-text-color-dim);
+  color: var(--color-gray-9);
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -453,15 +455,17 @@
 }
 .filter-active-pills::-webkit-scrollbar { display: none; }
 
+/* Active-filter chip — a UI state indicator, so gold rather than the old
+   terminal green. */
 .filter-pill {
   display: inline-flex;
   align-items: center;
   gap: 3px;
   font-size: var(--font-xxs);
-  color: var(--game-text-color);
-  background: rgba(51, 255, 51, 0.08);
-  border: 1px solid var(--game-text-color);
-  border-radius: 2px;
+  color: var(--accent-gold);
+  background: color-mix(in srgb, var(--accent-gold) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent-gold) 60%, transparent);
+  border-radius: var(--radius-sm);
   padding: 1px 4px;
   white-space: nowrap;
   flex-shrink: 0;
@@ -519,10 +523,16 @@
   margin-bottom: 4px;
 }
 
+/* Asymmetric gaps on purpose: each cell's footer (count + mastery bar) sits
+   ~19px below its own card, so a symmetric 8px gap left the bar nearer the
+   NEXT row's card than the one it describes. The row gap has to clear the
+   footer for the grouping to read correctly. */
 .collection-grid {
   padding: 8px 0;
   overflow-y: auto;
   align-content: flex-start;
+  column-gap: var(--gap-4);
+  row-gap: 18px;
 }
 
 .collection-cell {
@@ -693,7 +703,7 @@
 .db-action-sm {
   font-size: var(--font-xs) !important;
   padding: 3px 7px !important;
-  border-color: rgba(51, 255, 51, 0.3) !important;
+  border-color: var(--border-edge) !important;
   color: var(--game-text-color-dim) !important;
 }
 
@@ -920,6 +930,13 @@
   padding: 5px 0 3px;
 }
 
+/* Was an inline style={{ flex: 1 }} on each button, which no stylesheet could
+   override. Lives here now so the split is adjustable. */
+.collection-action-row > .collection-disenchant-btn,
+.collection-action-row > .collection-master-btn {
+  flex: 1;
+}
+
 .collection-disenchant-btn {
   border-color: rgba(136, 204, 255, 0.5);
   color: #88ccff;
@@ -928,12 +945,13 @@
   background: rgba(136, 204, 255, 0.12);
   box-shadow: 0 0 10px rgba(136, 204, 255, 0.3);
 }
+/* No extra opacity knock-down here: .action-btn:disabled already dims via
+   tokens, and stacking 0.3 on top made these read as invisible dead weight. */
 .collection-disenchant-btn:disabled,
 .extra-btn--disabled,
 .extra-btn:disabled,
 .event-choice--disabled,
 .collection-master-btn:disabled {
-  opacity: 0.3;
   cursor: not-allowed;
 }
 
@@ -1007,9 +1025,10 @@
 
 /* ─── Mastery Bar ────────────────────────────────────── */
 
+/* No margin-top: the containing .cell-footer already supplies a 3px gap, and
+   having both double-counted the spacing below each card. */
 .mastery-bar-wrap {
   gap: 3px;
-  margin-top: 3px;
 }
 .mastery-level {
   font-size: var(--font-xxs);
