@@ -73,7 +73,7 @@
   background: var(--game-bg);
   min-width: 110px;
 }
-.shop-card-deal--common    { border-top: 2px solid #666; }
+.shop-card-deal--common    { border-top: 2px solid var(--color-gray-7); }
 .shop-card-deal--uncommon  { border-top: 2px solid #44aaff; }
 .shop-card-deal--rare      { border-top: 2px solid #cc44ff; }
 .shop-card-deal--legendary { border-top: 2px solid #ffaa22; }
@@ -98,14 +98,14 @@
   align-items: center;
   gap: 8px;
   padding: 12px 16px;
-  border: 1px solid #444;
+  border: 1px solid var(--color-gray-5);
   border-top-width: 3px;
   border-radius: 4px;
   width: 100%;
   max-width: 320px;
   box-sizing: border-box;
 }
-.shop-augment-deal--common    { border-top-color: #666; }
+.shop-augment-deal--common    { border-top-color: var(--color-gray-7); }
 .shop-augment-deal--uncommon  { border-top-color: #44aaff; }
 .shop-augment-deal--rare      { border-top-color: #cc44ff; }
 .shop-augment-deal--epic      { border-top-color: #ff8800; }
@@ -113,11 +113,11 @@
 .shop-augment-deal--bought    { opacity: 0.5; }
 .shop-augment-name  { font-size: var(--font-sm); font-weight: bold; text-align: center; }
 .shop-augment-meta  { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: center; }
-.shop-augment-slot  { font-size: var(--font-xxs); color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
-.shop-augment-desc  { font-size: var(--font-xxs); color: #aaa; text-align: center; }
+.shop-augment-slot  { font-size: var(--font-xxs); color: var(--color-gray-9); text-transform: uppercase; letter-spacing: 1px; }
+.shop-augment-desc  { font-size: var(--font-xxs); color: var(--color-gray-9); text-align: center; }
 
 .rarity-badge { font-size: var(--font-xxs); text-transform: uppercase; letter-spacing: 1px; padding: 1px 5px; border-radius: 3px; }
-.rarity-badge--common    { color: #999; border: 1px solid #666; }
+.rarity-badge--common    { color: #999; border: 1px solid var(--color-gray-7); }
 .rarity-badge--uncommon  { color: #44aaff; border: 1px solid #44aaff; }
 .rarity-badge--rare      { color: #cc44ff; border: 1px solid #cc44ff; }
 .rarity-badge--epic      { color: #ff8800; border: 1px solid #ff8800; }
@@ -127,7 +127,7 @@
   top: -8px; right: -8px;
   font-size: 0.571rem;
   background: #cc4400;
-  color: #fff;
+  color: var(--text-inverse);
   padding: 1px 4px;
   border-radius: 2px;
   letter-spacing: 1px;
@@ -140,7 +140,7 @@
   color: var(--game-text-color-dim);
   letter-spacing: 1px;
   padding: 12px 0 4px;
-  border-top: 1px solid #222;
+  border-top: 1px solid var(--color-gray-3);
   margin-top: 4px;
   width: 100%;
 }
@@ -158,7 +158,7 @@
   align-items: center;
   gap: 10px;
   padding: 20px 24px;
-  border: 2px solid #444;
+  border: 2px solid var(--color-gray-5);
   background: var(--game-bg-raised);
   width: 100%;
   box-sizing: border-box;
@@ -216,7 +216,7 @@
   line-height: 1.6;
   font-style: italic;
   padding: 4px 8px;
-  border-left: 2px solid #555;
+  border-left: 2px solid var(--color-gray-6);
 }
 
 .shop-keeper-label {
@@ -266,7 +266,7 @@
   gap: 4px;
   padding: 6px 0;
   flex-shrink: 0;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid var(--color-gray-3);
   overflow: visible;
   position: relative;
   z-index: 10;
@@ -498,7 +498,7 @@
   width: 100%;
   box-sizing: border-box;
 }
-.deckbuilder-search:focus { border-color: #555; }
+.deckbuilder-search:focus { border-color: var(--color-gray-6); }
 .deckbuilder-search::placeholder { color: var(--game-text-color-muted); }
 
 /* ─── Collection Grid ────────────────────────────────── */
@@ -510,7 +510,7 @@
   color: var(--accent-gold);
   text-transform: uppercase;
   padding: 8px 4px 2px;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--game-border);
   margin-bottom: 4px;
 }
 
@@ -558,7 +558,7 @@
   bottom: 4px;
   right: 4px;
   background: rgba(0, 0, 0, 0.75);
-  border: 1px solid #555;
+  border: 1px solid var(--color-gray-6);
   color: var(--color-gold-alt);
   font-size: var(--font-xs);
   font-weight: bold;
@@ -1081,7 +1081,7 @@
   display: flex;
   gap: 8px;
   padding: 10px 0 0;
-  border-top: 1px solid #222;
+  border-top: 1px solid var(--color-gray-3);
   margin-top: 4px;
 }
 .deck-list-info-btn {
@@ -1115,7 +1115,7 @@
 .mastery-bar-track {
   flex: 1;
   background: var(--game-bg-card);
-  border: 1px solid #444;
+  border: 1px solid var(--color-gray-5);
 }
 .mastery-xp { font-size: 0.571rem; color: var(--game-text-color-dim); white-space: nowrap; }
 
@@ -1165,7 +1165,7 @@
   position: absolute;
   top: -4px;
   right: -4px;
-  background: #ffcc00;
+  background: var(--color-gold-alt);
   color: #1a1000;
   font-size: 9px;
   font-weight: bold;
@@ -1212,7 +1212,7 @@
 }
 .hoa-tile:hover { border-color: #446644; background: rgba(20,36,20,0.8); }
 .hoa-tile--claimable { border-color: #aa8800; }
-.hoa-tile--claimable:hover { border-color: #ffcc00; }
+.hoa-tile--claimable:hover { border-color: var(--color-gold-alt); }
 
 .hoa-tile-icon { line-height: 0; }
 
@@ -1237,7 +1237,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #ffcc00;
+  background: var(--color-gold-alt);
 }
 
 /* ── Detail modal ── */

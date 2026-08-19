@@ -243,6 +243,6 @@
 
 .stat-value--accent {
   font-size: 1rem;
-  color: #33ff33;
+  color: var(--game-text-color);
   font-weight: bold;
 }

@@ -548,8 +548,8 @@
 
 .hol-card--face-up {
   background: #f0f0f0;
-  border: 2px solid #aaa;
-  color: #111;
+  border: 2px solid var(--color-gray-9);
+  color: var(--game-bg-raised);
 }
 
 .hol-card--face-down {
@@ -566,13 +566,13 @@
 .hol-card-rank {
   font-size: 1.571rem;
   line-height: 1;
-  color: #111;
+  color: var(--game-bg-raised);
 }
 
 .hol-card-suit {
   font-size: 1.286rem;
   line-height: 1;
-  color: #111;
+  color: var(--game-bg-raised);
 }
 
 .hol-card-red {
@@ -632,7 +632,7 @@
 .fm-word-letter {
   font-size: 1.1rem;
   font-weight: bold;
-  color: #444;
+  color: var(--color-gray-5);
   text-shadow: none;
   transition: color 0.2s, text-shadow 0.2s;
   letter-spacing: 1px;
@@ -673,7 +673,7 @@
 .fm-reel {
   width: 80px;
   height: 96px;
-  border: 2px solid #444;
+  border: 2px solid var(--color-gray-5);
   border-radius: 6px;
   background: #0d0d1e;
   display: flex;
@@ -723,17 +723,17 @@
   font-size: var(--font-sm);
   font-family: inherit;
   font-weight: bold;
-  background: #111;
-  color: #888;
-  border: 1px solid #333;
+  background: var(--game-bg-raised);
+  color: var(--color-gray-8);
+  border: 1px solid var(--game-border);
   border-radius: 4px;
   cursor: pointer;
   letter-spacing: 1px;
 }
 
 .fm-hold-btn:not(:disabled):hover {
-  border-color: #aaa;
-  color: #ccc;
+  border-color: var(--color-gray-9);
+  color: var(--color-gray-10);
 }
 
 .fm-hold-btn:disabled {
@@ -756,7 +756,7 @@
   padding: 6px 14px;
   font-size: var(--font-sm);
   font-family: inherit;
-  background: #111;
+  background: var(--game-bg-raised);
   color: #7799cc;
   border: 1px solid #2a3a5a;
   border-radius: 4px;
@@ -811,10 +811,10 @@
   width: 52px;
   height: 36px;
   background: #0d0d1e;
-  border: 1px solid #333;
+  border: 1px solid var(--game-border);
   border-radius: 4px;
   font-size: var(--font-xs);
-  color: #888;
+  color: var(--color-gray-8);
   transition: all 0.3s ease;
 }
 
@@ -883,9 +883,9 @@
   width: 80px;
   height: 60px;
   background: #0d0d1e;
-  border: 2px solid #555;
+  border: 2px solid var(--color-gray-6);
   border-radius: 6px;
-  color: #aaa;
+  color: var(--color-gray-9);
   font-size: 1.286rem;
   cursor: pointer;
   transition: all 0.15s;
@@ -906,7 +906,7 @@
 }
 
 .fm-bonus-tile--revealed {
-  border-color: #333;
+  border-color: var(--game-border);
   color: #55ff55;
   font-size: var(--font-md);
   font-weight: bold;
@@ -950,8 +950,8 @@
   width: 80px;
   padding: 6px 0;
   background: #0d0d1e;
-  border: 1px solid #555;
-  color: #ccc;
+  border: 1px solid var(--color-gray-6);
+  color: var(--color-gray-10);
   border-radius: 4px;
   cursor: pointer;
   font-size: var(--font-xl);
@@ -1000,12 +1000,12 @@
 .fm-ladder-reel-wrap {
   margin-left: 8px;
   padding-left: 8px;
-  border-left: 1px solid #333;
+  border-left: 1px solid var(--game-border);
 }
 
 .fm-ladder-reel-label {
   font-size: 1rem;
-  color: #666;
+  color: var(--color-gray-7);
   letter-spacing: 1px;
   text-transform: uppercase;
 }
@@ -1038,7 +1038,7 @@
   flex-direction: column;
   align-items: center;
   background: #0d0d1e;
-  border: 1px solid #333;
+  border: 1px solid var(--game-border);
   border-radius: 4px;
   padding: 3px 8px;
   min-width: 56px;
@@ -1046,7 +1046,7 @@
 
 .fm-jackpot-name {
   font-size: var(--font-xs);
-  color: #aaa;
+  color: var(--color-gray-9);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }

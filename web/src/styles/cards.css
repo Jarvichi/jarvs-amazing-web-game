@@ -73,7 +73,7 @@
   padding: 1px 5px;
   border-radius: 3px;
   background: var(--accent-ember);
-  color: #fff;
+  color: var(--text-inverse);
   pointer-events: none;
   z-index: 12;
 }
@@ -250,15 +250,15 @@
 }
 .card-tile--mythic .card-rarity { color: var(--accent-arcane); text-shadow: 0 0 10px rgba(224,64,251,1); }
 .card-tile--mythic .card-title  { color: #e8b0ff; }
-.card-tile--mythic .card-cost   { color: #e040fb; text-shadow: 0 0 10px rgba(224,64,251,0.9); }
+.card-tile--mythic .card-cost   { color: var(--accent-arcane); text-shadow: 0 0 10px rgba(224,64,251,0.9); }
 
 /* pack reveal / shop rarity labels */
-.pack-card-rarity--mythic   { color: #e040fb; text-shadow: 0 0 8px rgba(224,64,251,0.8); }
+.pack-card-rarity--mythic   { color: var(--accent-arcane); text-shadow: 0 0 8px rgba(224,64,251,0.8); }
 .pack-card-rarity--shiny    { color: #ffe066; text-shadow: 0 0 6px rgba(255,220,60,0.9); }
 .pack-card-rarity--holofoil { color: #40e0d0; text-shadow: 0 0 6px rgba(64,224,208,0.9); }
 .pack-card-rarity--glass    { color: #a0d8ef; text-shadow: 0 0 6px rgba(160,216,239,0.8); }
 
-.shop-card-deal--mythic   { border-top: 2px solid #e040fb; }
+.shop-card-deal--mythic   { border-top: 2px solid var(--accent-arcane); }
 .shop-card-deal--shiny    { border-top: 2px solid #ffe066; }
 .shop-card-deal--holofoil { border-top: 2px solid #40e0d0; }
 .shop-card-deal--glass    { border-top: 2px solid #a0d8ef; }
@@ -290,7 +290,7 @@
   font-size: var(--font-xs);
   font-weight: bold;
   letter-spacing: 1px;
-  color: #111;
+  color: var(--game-bg-raised);
   background: var(--color-gold);
   padding: 2px 0;
   text-shadow: none;
@@ -310,7 +310,7 @@
   z-index: 12;
   text-transform: uppercase;
 }
-.card-secret-badge--mythic   { background: rgba(224,64,251,0.25); color: #e040fb; border: 1px solid rgba(224,64,251,0.6); }
+.card-secret-badge--mythic   { background: rgba(224,64,251,0.25); color: var(--accent-arcane); border: 1px solid rgba(224,64,251,0.6); }
 .card-secret-badge--shiny    { background: rgba(255,220,60,0.2);  color: #ffe066; border: 1px solid rgba(255,220,60,0.6); }
 .card-secret-badge--holofoil { background: rgba(64,224,208,0.2);  color: #40e0d0; border: 1px solid rgba(64,224,208,0.6); }
 .card-secret-badge--glass    { background: rgba(160,216,239,0.15); color: #a0d8ef; border: 1px solid rgba(160,216,239,0.6); }
@@ -342,7 +342,7 @@
   top: 4px;
   right: -38px;
   width: 100px;
-  color: #111;
+  color: var(--game-bg-raised);
   background: #f5d208;
   text-align: center;
   text-wrap: auto;
@@ -442,7 +442,7 @@
   height: 14px;
   font-size: var(--font-xxs);
   background: rgba(0, 0, 0, 0.75);
-  border: 1px solid #555;
+  border: 1px solid var(--color-gray-6);
   border-radius: 50%;
   color: var(--game-text-color-dim);
   cursor: pointer;
@@ -846,7 +846,7 @@
   align-items: baseline;
   gap: 8px;
   padding: 10px 12px 8px;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid var(--color-gray-3);
   position: sticky;
   top: 0;
   background: var(--game-bg);
@@ -874,7 +874,7 @@
   text-transform: uppercase;
   color: var(--game-text-color-dim);
   padding-bottom: 4px;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid var(--color-gray-3);
 }
 .cas-slots-grid {
   display: grid;
@@ -882,7 +882,7 @@
   gap: 8px;
 }
 .cas-slot {
-  border: 1px solid #333;
+  border: 1px solid var(--game-border);
   border-radius: 4px;
   padding: 8px;
   display: flex;
@@ -896,12 +896,12 @@
 }
 .cas-slot-label { font-size: var(--font-xxs); text-transform: uppercase; letter-spacing: 1px; color: var(--game-text-color-dim); }
 .cas-slot-name  { font-size: var(--font-sm); font-weight: bold; }
-.cas-slot-level { font-size: var(--font-xxs); color: #aaa; }
+.cas-slot-level { font-size: var(--font-xxs); color: var(--color-gray-9); }
 .cas-slot-effect { font-size: var(--font-xs); color: #aaddff; }
 .cas-slot-actions { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
 .cas-slot-btn { font-size: 11px; padding: 2px 8px; }
 .cas-set-bonus {
-  border: 1px solid #333;
+  border: 1px solid var(--game-border);
   border-radius: 4px;
   padding: 10px;
   display: flex;
@@ -909,7 +909,7 @@
   gap: 4px;
   opacity: 0.5;
 }
-.cas-set-bonus--active { opacity: 1; border-color: #ffcc00; background: rgba(255,200,0,0.06); }
+.cas-set-bonus--active { opacity: 1; border-color: var(--color-gold-alt); background: rgba(255,200,0,0.06); }
 .cas-set-bonus-name { font-size: var(--font-sm); font-weight: bold; }
 .cas-set-bonus-desc { font-size: var(--font-xs); color: var(--game-text-color-muted); }
 .cas-set-bonus-effect { font-size: var(--font-xs); }
@@ -930,7 +930,7 @@
   align-items: center;
   gap: 8px;
   padding: 10px 12px;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid var(--color-gray-3);
   font-weight: bold;
 }
 .apm-empty { padding: 24px; text-align: center; opacity: 0.6; font-size: var(--font-sm); }
@@ -940,7 +940,7 @@
   align-items: center;
   gap: 10px;
   padding: 8px 12px;
-  border-bottom: 1px solid #1a1a1a;
+  border-bottom: 1px solid var(--game-bg-card);
 }
 .apm-item--active { background: rgba(100,50,180,0.12); }
 .apm-item-info    { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }

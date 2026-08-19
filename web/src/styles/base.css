@@ -46,7 +46,7 @@ body {
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--game-bg-raised); }
 ::-webkit-scrollbar-thumb { background: var(--game-border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #555; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-gray-6); }
 
 /* ─── Mobile ─────────────────────────────────────────── */
 
@@ -359,7 +359,7 @@ html.eightbit-mode .lane-layer {
 
 .news-item__date {
   font-size: var(--font-sm);
-  color: #888;
+  color: var(--color-gray-8);
   letter-spacing: 0.5px;
 }
 
@@ -378,7 +378,7 @@ html.eightbit-mode .lane-layer {
   margin-left: auto;
   background: none;
   border: none;
-  color: #555;
+  color: var(--color-gray-6);
   font-size: var(--font-md);
   cursor: pointer;
   padding: 2px 4px;
@@ -403,7 +403,7 @@ html.eightbit-mode .lane-layer {
 
 .news-item__body {
   font-size: var(--font-md);
-  color: #aaa;
+  color: var(--color-gray-9);
   line-height: 1.5;
   white-space: pre-wrap;
 }
@@ -411,7 +411,7 @@ html.eightbit-mode .lane-layer {
 .news-loading,
 .news-empty {
   font-size: var(--font-md);
-  color: #666;
+  color: var(--color-gray-7);
   padding: 16px 0;
   text-align: center;
 }
@@ -422,13 +422,13 @@ html.eightbit-mode .lane-layer {
   justify-content: center;
   gap: 12px;
   padding: 12px 0 4px;
-  border-top: 1px solid #333;
+  border-top: 1px solid var(--game-border);
   margin-top: 8px;
 }
 
 .news-pagination__label {
   font-size: var(--font-sm);
-  color: #aaa;
+  color: var(--color-gray-9);
   min-width: 48px;
   text-align: center;
 }

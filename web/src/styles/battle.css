@@ -240,7 +240,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: #fff;
+  background: var(--text-inverse);
   opacity: 0.55;
   animation: hp-bar-flash 220ms ease-out;
   pointer-events: none;
@@ -263,7 +263,7 @@
   align-items: center;
   justify-content: center;
   font-size: var(--font-xs);
-  color: #fff;
+  color: var(--text-inverse);
   text-shadow: 0 0 3px #000;
   font-weight: bold;
   font-variant-numeric: tabular-nums;
@@ -586,7 +586,7 @@
   text-align: center;
   font-size: 0.75rem;
   letter-spacing: 1px;
-  color: #aaa;
+  color: var(--color-gray-9);
   padding: 2px 0 4px;
 }
 .hand-truce-secs {
@@ -623,7 +623,7 @@
   height: 16px;
   font-size: var(--font-xxs);
   background: rgba(0, 0, 0, 0.75);
-  border: 1px solid #555;
+  border: 1px solid var(--color-gray-6);
   border-radius: 50%;
   color: var(--game-text-color-dim);
   cursor: pointer;
@@ -693,7 +693,7 @@
   color: var(--game-text-color-muted);
   text-align: center;
   font-style: italic;
-  border-top: 1px dashed #444;
+  border-top: 1px dashed var(--color-gray-5);
   padding-top: 6px;
 }
 .gameover-streak {
@@ -709,10 +709,10 @@
   text-align: center;
   padding: 6px 10px;
   border-radius: 4px;
-  border: 1px solid #555;
+  border: 1px solid var(--color-gray-6);
 }
 .gameover-daily--win  { color: #8bc34a; border-color: #8bc34a; }
-.gameover-daily--lose { color: #aaa; }
+.gameover-daily--lose { color: var(--color-gray-9); }
 
 /* Win streak corner ribbon on title screen */
 .streak-ribbon-wrap {
@@ -731,7 +731,7 @@
   left: -28px;
   width: 100px;
   background: #f90;
-  color: #111;
+  color: var(--game-bg-raised);
   text-align: center;
   transform: rotate(-45deg);
   font-size: var(--font-sm);
@@ -741,8 +741,8 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 .streak-ribbon--faded {
-  background: #555;
-  color: #ccc;
+  background: var(--color-gray-6);
+  color: var(--color-gray-10);
   opacity: 0.75;
 }
 
@@ -893,7 +893,7 @@
 .reward-skip-btn {
   font-size: var(--font-xs);
   color: var(--game-text-color-dim);
-  border-color: #444;
+  border-color: var(--color-gray-5);
 }
 .reward-skip-btn:hover {
   color: var(--game-text-color-dim);
@@ -1292,8 +1292,8 @@
 .gameover-highlights {
   width: 100%;
   max-width: 340px;
-  border-top: 1px dashed #444;
-  border-bottom: 1px dashed #444;
+  border-top: 1px dashed var(--color-gray-5);
+  border-bottom: 1px dashed var(--color-gray-5);
   padding: 10px 0;
   display: flex;
   flex-direction: column;

@@ -6,7 +6,7 @@
   position: fixed;
   inset: 0;
   background: #0050d0;
-  color: #fff;
+  color: var(--text-inverse);
   font-family: 'Segoe UI', monospace;
   display: flex;
   align-items: center;
@@ -21,9 +21,9 @@
   gap: 16px;
 }
 
-.rc-reboot-logo   { font-size: var(--font-base); color: #555; letter-spacing: 2px; text-transform: uppercase; }
-.rc-reboot-spinner { font-size: 1.286rem; color: #333; letter-spacing: 2px; animation: crashBlink 0.8s step-end infinite; }
-.rc-reboot-text   { font-size: var(--font-md); color: #444; letter-spacing: 1px; }
+.rc-reboot-logo   { font-size: var(--font-base); color: var(--color-gray-6); letter-spacing: 2px; text-transform: uppercase; }
+.rc-reboot-spinner { font-size: 1.286rem; color: var(--game-border); letter-spacing: 2px; animation: crashBlink 0.8s step-end infinite; }
+.rc-reboot-text   { font-size: var(--font-md); color: var(--color-gray-5); letter-spacing: 1px; }
 
 @keyframes crashBlink {
   0%, 100% { opacity: 1; }
@@ -39,7 +39,7 @@
   font-size: 6.857rem;
   font-weight: 100;
   line-height: 1;
-  color: #fff;
+  color: var(--text-inverse);
 }
 
 .rc-headline {
@@ -94,8 +94,8 @@
 
 .wn-actions { display: flex; gap: 8px; }
 .wn-btn {
-  background: #333;
-  border: 1px solid #555;
+  background: var(--game-border);
+  border: 1px solid var(--color-gray-6);
   color: var(--game-text-color-muted);
   font-family: inherit;
   font-size: var(--font-sm);
@@ -104,7 +104,7 @@
   cursor: pointer;
   transition: all 0.15s;
 }
-.wn-btn:hover      { background: #444; color: var(--game-text-color-dim); }
+.wn-btn:hover      { background: var(--color-gray-5); color: var(--game-text-color-dim); }
 .wn-btn--muted     { border-color: var(--game-border); color: var(--game-text-color-muted); }
 .wn-btn--muted:hover { color: var(--game-text-color-muted); }
 
@@ -195,7 +195,7 @@
   font-size: 0.78rem;
   line-height: 1.6;
 }
-.dev-log-debug { color: #888; }
+.dev-log-debug { color: var(--color-gray-8); }
 .dev-log-warn  { color: var(--color-gold-alt); }
 .dev-log-error { color: var(--color-red); }
 .dev-log-info  { color: #44aaff; }
@@ -216,8 +216,8 @@
 .glitch-card-tile {
   width: 120px;
   min-height: 160px;
-  background: #111;
-  border: 2px solid #444;
+  background: var(--game-bg-raised);
+  border: 2px solid var(--color-gray-5);
   border-radius: 6px;
   display: flex;
   flex-direction: column;
@@ -228,11 +228,11 @@
   cursor: pointer;
   transition: border-color 0.2s, background 0.2s;
 }
-.glitch-card-tile:hover { border-color: #888; background: #1a1a1a; }
+.glitch-card-tile:hover { border-color: var(--color-gray-8); background: var(--game-bg-card); }
 .glitch-card-tile--revealed { border-color: #4a9a4a; background: #0a1a0a; }
-.glitch-card-name { font-size: 0.8rem; font-weight: bold; text-align: center; color: #ccc; }
+.glitch-card-name { font-size: 0.8rem; font-weight: bold; text-align: center; color: var(--color-gray-10); }
 .glitch-card-restored { font-size: 0.7rem; color: #7dbd7d; text-align: center; }
-.glitch-card-hint { font-size: 0.7rem; color: #666; }
+.glitch-card-hint { font-size: 0.7rem; color: var(--color-gray-7); }
 .glitch-text {
   animation: glitch-flicker 0.15s infinite;
   color: var(--color-red);
@@ -285,13 +285,13 @@
 }
 .tourist-speech {
   font-size: 0.8rem;
-  color: #ccc;
+  color: var(--color-gray-10);
   font-style: italic;
   line-height: 1.4;
 }
 .tourist-exit {
   font-size: 0.7rem;
-  color: #666;
+  color: var(--color-gray-7);
   margin-top: 0.5rem;
 }
 
@@ -306,7 +306,7 @@
   z-index: 9000;
 }
 .time-capsule-modal {
-  background: #111;
+  background: var(--game-bg-raised);
   border: 2px solid #8a6a2a;
   border-radius: 8px;
   padding: 2rem;
@@ -403,10 +403,10 @@
 .el-lb-ghost {
   opacity: 0.5;
   font-style: italic;
-  color: #888 !important;
+  color: var(--color-gray-8) !important;
 }
 .el-lb-ghost .el-lb-name { color: #999; }
-.el-lb-ghost .el-lb-rank { color: #666; }
+.el-lb-ghost .el-lb-rank { color: var(--color-gray-7); }
 
 /* ── Theatre / Curtain Call screen ─────────────────────────────────────── */
 .theatre-act-counter {
@@ -431,8 +431,8 @@
   top: 0;
   bottom: 0;
   background: rgba(255,215,0,0.28);
-  border-left: 1px solid #ffd700;
-  border-right: 1px solid #ffd700;
+  border-left: 1px solid var(--color-gold);
+  border-right: 1px solid var(--color-gold);
 }
 
 .theatre-marker {
@@ -459,7 +459,7 @@
 
 .theatre-flash--miss    { color: #ff6a6a; }
 .theatre-flash--good    { color: #88ddff; }
-.theatre-flash--perfect { color: #ffd700; text-shadow: 0 0 12px #ffd700; }
+.theatre-flash--perfect { color: var(--color-gold); text-shadow: 0 0 12px var(--color-gold); }
 
 @keyframes theatre-flash-pop {
   0%   { opacity: 0; transform: scale(0.7); }

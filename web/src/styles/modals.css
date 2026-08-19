@@ -99,8 +99,8 @@
 /* ─── Confirm Modal ─────────────────────────────────── */
 
 .confirm-modal {
-  background: var(--game-bg, #0a0a0a);
-  border: 1px solid var(--game-border, #333);
+  background: var(--game-bg, var(--game-bg));
+  border: 1px solid var(--game-border, var(--game-border));
   padding: 24px 20px;
   max-width: 320px;
   width: 100%;
@@ -127,8 +127,8 @@
 /* ─── Deck Selector Modal ────────────────────────────── */
 
 .deck-selector-modal {
-  background: var(--game-bg, #0a0a0a);
-  border: 1px solid var(--game-border, #333);
+  background: var(--game-bg, var(--game-bg));
+  border: 1px solid var(--game-border, var(--game-border));
   padding: 20px 18px 16px;
   width: min(680px, 96vw);
   font-family: var(--font-body);
@@ -146,7 +146,7 @@
 
 .deck-selector-panel {
   flex: 1;
-  border: 2px solid #333;
+  border: 2px solid var(--game-border);
   border-radius: 4px;
   padding: 10px 10px 8px;
   cursor: pointer;
@@ -157,7 +157,7 @@
   display: flex;
   flex-direction: column;
 }
-.deck-selector-panel:hover { border-color: #666; background: rgba(255,255,255,0.04); }
+.deck-selector-panel:hover { border-color: var(--color-gray-7); background: rgba(255,255,255,0.04); }
 .deck-selector-panel--active { border-color: #6ab07a; background: rgba(74,124,89,0.15); }
 
 .deck-selector-panel-header {
@@ -181,12 +181,12 @@
 .deck-selector-count {
   margin-left: auto;
   font-size: 0.7rem;
-  color: var(--game-text-color-dim, #888);
+  color: var(--game-text-color-dim, var(--color-gray-8));
 }
 
 .deck-selector-empty {
   font-size: 0.72rem;
-  color: #666;
+  color: var(--color-gray-7);
   text-align: center;
   padding: 16px 0;
 }
@@ -224,7 +224,7 @@
 
 .deck-selector-qty {
   flex-shrink: 0;
-  color: #888;
+  color: var(--color-gray-8);
   font-size: 0.65rem;
 }
 
@@ -345,7 +345,7 @@
 .cdm-spawn-lvl { white-space: nowrap; }
 .cdm-trait {
   font-size: var(--font-xxs);
-  border: 1px solid #444;
+  border: 1px solid var(--color-gray-5);
   color: var(--game-text-color-dim);
   padding: 1px 5px;
   border-radius: 2px;
@@ -397,7 +397,7 @@
   font-size: var(--font-xxs);
   color: var(--game-text-color-dim);
   background: rgba(0,0,0,0.3);
-  border-left: 2px solid #444;
+  border-left: 2px solid var(--color-gray-5);
   padding: 4px 8px;
   margin: 0 3px 2px 3px;
   line-height: 1.5;
@@ -408,7 +408,7 @@
 .cdm-sw-detail em { font-style: normal; color: #aad4ff; }
 
 .cdm-mastery-block {
-  border-top: 1px solid #1a1a1a;
+  border-top: 1px solid var(--game-bg-card);
   padding-top: 6px;
 }
 .cdm-mastery-header {
@@ -467,7 +467,7 @@
 .cdm-milestone      { font-size: var(--font-xxs); color: var(--game-text-color-muted); padding: 1px 0; }
 
 .cdm-battle-stats {
-  border-top: 1px solid #1a1a1a;
+  border-top: 1px solid var(--game-bg-card);
   padding-top: 6px;
 }
 
@@ -590,7 +590,7 @@
 }
 
 .inventory-cell:hover {
-  border-color: #444;
+  border-color: var(--color-gray-5);
 }
 
 .inventory-item-icon {
@@ -635,7 +635,7 @@
 
 .inventory-detail-modal {
   background: var(--game-bg-raised);
-  border: 1px solid #444;
+  border: 1px solid var(--color-gray-5);
   border-radius: 6px;
   padding: 24px 20px 20px;
   display: flex;
@@ -700,7 +700,7 @@
 
 .ach-tab {
   background: none;
-  border: 1px solid #444;
+  border: 1px solid var(--color-gray-5);
   color: var(--game-text-color-dim);
   font-family: inherit;
   font-size: var(--font-sm);
@@ -719,7 +719,7 @@
   top: -6px;
   right: -6px;
   background: var(--color-red);
-  color: #fff;
+  color: var(--text-inverse);
   font-size: var(--font-xxs);
   width: 14px;
   height: 14px;
@@ -730,7 +730,7 @@
 }
 
 .ach-claim-all-bar {
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid var(--color-gray-3);
 }
 
 .ach-category-label {
