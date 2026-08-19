@@ -651,19 +651,36 @@
    deck used to reserve the same slab as a thirty-card one, and a full deck
    was cut off mid-row. `flex: 0 1 auto` lets it be as tall as it needs to
    be, and the cap hands the rest of the screen to the collection below. */
+/* The cap is expressed in flex, not as `max-height: 45%`.
+   A percentage max-height resolves against the containing block's height,
+   and .deckbuilder-split is a flex item with `height: auto` — the case where
+   engines disagree about whether the percentage resolves at all or falls
+   back to `none`. Where it falls back, this panel takes its full content
+   height (eight-plus rows for a 30-card deck) and pushes the collection off
+   the bottom of the screen, so the builder only ever shows one panel.
+
+   Instead: this panel is content-sized and absorbs all the shrinkage, while
+   the collection below holds a non-shrinkable 55% basis. That leaves this
+   one at most 45% by construction, using only percentage flex-basis — the
+   same mechanism the pre-#2208 layout used, so it behaves the same
+   everywhere that one did. */
 .deckbuilder-top-panel {
   flex: 0 1 auto;
-  max-height: 45%;
-  min-height: 0;
+  /* Floor, so the deck panel survives even if the collection's percentage
+     basis below fails to resolve on some engine and it claims everything.
+     The deck grid scrolls inside this, so a floor costs nothing. */
+  min-height: 108px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition: max-height 0.2s ease;
 }
 
-/* Bottom panel — owned collection. Takes whatever the deck panel leaves. */
+/* Bottom panel — owned collection. flex-shrink: 0 against a 55% basis is
+   what caps the deck panel above: the collection never gives ground, so the
+   deck can only take what is left. It still grows past 55% when the deck is
+   small enough not to need its share. */
 .deckbuilder-bottom-panel {
-  flex: 1 1 auto;
+  flex: 1 0 55%;
   min-height: 0;
   display: flex;
   flex-direction: column;
@@ -681,7 +698,8 @@
    only control that could expand it again. */
 .deckbuilder-panel--collapsed {
   flex: 0 0 auto;
-  max-height: none;
+  /* Clears the deck panel's floor — collapsed means header-height, period. */
+  min-height: 0;
 }
 
 /* Whichever panel is still open takes the whole split. Without this the
@@ -690,7 +708,6 @@
 .deckbuilder-split--deck-only .deckbuilder-top-panel,
 .deckbuilder-split--collection-only .deckbuilder-bottom-panel {
   flex: 1 1 auto;
-  max-height: none;
 }
 
 /* Shared panel header bar */
