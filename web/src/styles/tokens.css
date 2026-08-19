@@ -124,6 +124,14 @@
   --text-primary: #e8e8e8;
   --text-inverse: #fff;
 
+  /* Keyboard focus ring (#2182). One definition, applied to every
+     interactive element via the global :focus-visible rule in base.css —
+     previously only .action-btn had a focus-visible treatment at all, so
+     every other control (links, tabs, filter pills, card tiles, custom
+     toggles) gave a keyboard user no indication of where they were. */
+  --focus-ring: 2px solid var(--accent-gold);
+  --focus-ring-offset: 2px;
+
   /* Borders / edging */
   --border-edge:      var(--color-gray-5);
   --border-edge-dark: #1e1e1e;
