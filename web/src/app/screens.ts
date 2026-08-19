@@ -78,6 +78,13 @@ export type Screen =
   | 'location'
   | 'sceneryPreview'
 
+// Screens that opt into .game-container--wide (#2183) — ones with a grid
+// or split layout that genuinely benefits from tablet/desktop width. Title,
+// settings and other single-column screens are deliberately left out: for
+// those, wide is worse, not better. See base.css's ".game-container--wide"
+// comment for the breakpoint tiers this feeds into.
+export const WIDE_SCREENS = new Set<Screen>(['collection', 'collection-tabs', 'deckbuilder'])
+
 // Below this, a tab switch/app-switcher glance isn't worth a Rollbar breadcrumb —
 // only log genuine "away for a while" returns.
 export const VISIBILITY_BREADCRUMB_THRESHOLD_MS = 15_000

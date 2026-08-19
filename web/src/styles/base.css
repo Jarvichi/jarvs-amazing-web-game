@@ -51,6 +51,25 @@ body {
   flex-shrink: 0;
 }
 
+/* ─── Desktop / tablet (#2183) ───────────────────────────
+   Opt-in per screen, not a change to .game-container itself: title,
+   settings and other simple screens are meant to stay narrow at any
+   viewport width (see #2183's scope), so App.tsx only adds this class
+   while a screen that actually benefits from more width — currently
+   Collection and the deck builder — is showing. The three tiers match
+   --breakpoint-tablet/-desktop/-desktop-lg in tokens.css; see
+   breakpoints.ts for why they're repeated as literals here rather than
+   read from the custom property. */
+@media (min-width: 768px) {
+  .game-container--wide { max-width: 900px; }
+}
+@media (min-width: 1024px) {
+  .game-container--wide { max-width: 1180px; }
+}
+@media (min-width: 1440px) {
+  .game-container--wide { max-width: 1400px; }
+}
+
 /* ─── Scrollbars ─────────────────────────────────────── */
 
 ::-webkit-scrollbar { width: 6px; height: 6px; }
