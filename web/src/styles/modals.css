@@ -302,6 +302,14 @@
   padding: 12px;
 }
 
+/* Everything below the sprite/description block — the tab bar, trait tags,
+   matchup rows, mastery and play counts — sits outside .cdm-body, so it had
+   no inset at all and ran flush against the panel border. Matches .cdm-body's
+   horizontal padding; the bottom inset keeps the last row off the edge. */
+.cdm-details {
+  padding: 0 12px 12px;
+}
+
 .cdm-card-col {
   flex-shrink: 0;
 }
@@ -418,8 +426,42 @@
 .cdm-mastery-title  { color: var(--color-gold); }
 .cdm-mastery-elite  { color: var(--color-orange); }
 .cdm-mastery-xp     { font-size: var(--font-xxs); color: var(--color-gray-7); }
-.cdm-mastery-bonus  { font-size: var(--font-xxs); color: var(--game-text-color-muted); margin-top: 3px; }
-.cdm-stat-bonus     { font-size: var(--font-xxs); color: var(--color-gold); margin-left: 3px; }
+/* These two were written for a mastery/augment stat breakdown that was never
+   wired up — they matched no element in any .tsx until the breakdown landed. */
+.cdm-mastery-bonus  { font-size: var(--font-xxs); color: var(--game-text-color-muted); }
+.cdm-stat-bonus     { font-size: var(--font-xxs); color: var(--color-gold); }
+
+/* ── Stat rows with source breakdown ─────────────────────
+   The headline number is what the engine actually fights with (base + mastery
+   + augments); the breakdown splits it back apart on demand. */
+
+.cdm-stat        { min-width: 64px; }
+.cdm-stat-main   { display: flex; align-items: baseline; gap: 4px; }
+.cdm-stat-label  { font-size: var(--font-xxs); opacity: 0.6; text-transform: uppercase; }
+.cdm-stat-value  { font-weight: 700; }
+.cdm-stat-value--boosted { color: var(--color-gold-light); }
+
+.cdm-stat-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin-top: 2px;
+  font-size: var(--font-xxs);
+  color: var(--game-text-color-muted);
+}
+
+.cdm-breakdown-toggle {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--font-xxs);
+  color: var(--color-gray-9);
+  text-decoration: underline dotted;
+}
+.cdm-breakdown-toggle:hover { color: var(--accent-gold); }
 .cdm-locked-note    { color: #ff6655; font-size: var(--font-xxs); margin-bottom: 4px; }
 .cdm-mastery-milestones { display: flex; flex-direction: column; gap: 2px; margin-top: 4px; }
 .cdm-milestone      { font-size: var(--font-xxs); color: var(--game-text-color-muted); padding: 1px 0; }

@@ -21,6 +21,7 @@ import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { MasteryBar } from '../ui/MasteryBar'
 import { StatRow } from '../ui/StatRow'
 import { CardDetailHeader } from './CardDetailHeader'
+import { AugStatRow, masteryStatBonuses } from './AugStatRow'
 import { AnimatedSpriteImg } from '../ui/SpriteImg'
 import { Toolbar } from '../ui/Toolbar/Toolbar'
 import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
@@ -67,18 +68,7 @@ const RARITY_COLOUR: Record<string, string> = {
 }
 
 
-function AugStatRow({ label, base, delta }: { label: string; base: number; delta?: number }) {
-  const hasDelta = delta != null && delta !== 0
-  return (
-    <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, minWidth: 64 }}>
-      <span style={{ fontSize: 10, opacity: 0.6, textTransform: 'uppercase' }}>{label}</span>
-      <span style={{ fontWeight: 700 }}>{hasDelta ? base + delta! : base}</span>
-      {hasDelta && (
-        <span style={{ fontSize: 10, color: '#aaddff' }}>(+{delta})</span>
-      )}
-    </div>
-  )
-}
+// AugStatRow now lives in ./AugStatRow so CardAugmentScreen shares it.
 
 function effectSummary(effect: AugmentEffect): string {
   const parts: string[] = []
@@ -115,6 +105,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
   const [upgradeError, setUpgradeError] = useState<string | null>(null)  
 
   const [expandedRow, setExpandedRow] = useState<string | null>(null)
+  const [showBreakdown, setShowBreakdown] = useState(false)
   const toggleRow = (key: string) => setExpandedRow(prev => prev === key ? null : key)
 
   const synergyGroups = getSynergyGroups(card)
@@ -130,13 +121,10 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
 
   const u = card.unit
 
-  // Mastery stat bonuses (mirroring applyMasteryBonus in collection.ts)
-  const atkBonus = (u && u.moveSpeed > 0) ? masteryLvl : 0
-  const hpBonus  = u
-    ? u.moveSpeed > 0
-      ? masteryLvl * 2
-      : Math.round(u.maxHp * (1 + 0.1 * masteryLvl)) - u.maxHp
-    : 0
+  // Mastery stat bonuses. These were computed here and then never rendered —
+  // the modal showed base + augments only, so a mastered card understated its
+  // real power. Now shared with CardAugmentScreen so both agree.
+  const { atk: atkBonus, hp: hpBonus } = masteryStatBonuses(u, masteryLvl)
 
   // Build trait tags
   const traits: string[] = []
@@ -165,6 +153,18 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
     return effect
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refresh])
+
+  // Whether any stat is actually boosted — the breakdown toggle is pointless
+  // otherwise. Structures never take augments (see applyAugmentBonuses), so
+  // only their mastery HP counts.
+  const hasStatBonus = u
+    ? u.moveSpeed > 0
+      ? atkBonus !== 0 || hpBonus !== 0 ||
+        [totalAugmentEffect.attack, totalAugmentEffect.maxHp,
+         totalAugmentEffect.moveSpeed, totalAugmentEffect.attackRange]
+          .some(v => v != null && v !== 0)
+      : hpBonus !== 0
+    : false
 
   function handleUpgrade(inst: AugmentInstance) {
     const err = upgradeAugment(inst.instanceId)
@@ -202,21 +202,35 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
               {/* Unit stats */}
               {u && u.moveSpeed > 0 && (
                 <div className="cdm-stats-block u-flex u-wrap">
-                  <AugStatRow label="ATK" base={u.attack}      delta={totalAugmentEffect.attack} />
-                  <AugStatRow label="HP"  base={u.maxHp}       delta={totalAugmentEffect.maxHp} />
-                  <AugStatRow label="SPD" base={u.moveSpeed}   delta={totalAugmentEffect.moveSpeed} />
-                  {u.attackRange > 0 && <AugStatRow label="RNG" base={u.attackRange} delta={totalAugmentEffect.attackRange} />}
-                  {u.attackCooldownMs > 0 && <AugStatRow label="CD" base={(u.attackCooldownMs / 1000)} delta={0} />}
+                  <AugStatRow label="ATK" base={u.attack}    mastery={atkBonus} augment={totalAugmentEffect.attack}      breakdown={showBreakdown} />
+                  <AugStatRow label="HP"  base={u.maxHp}     mastery={hpBonus}  augment={totalAugmentEffect.maxHp}       breakdown={showBreakdown} />
+                  <AugStatRow label="SPD" base={u.moveSpeed}                    augment={totalAugmentEffect.moveSpeed}   breakdown={showBreakdown} />
+                  {u.attackRange > 0 && <AugStatRow label="RNG" base={u.attackRange} augment={totalAugmentEffect.attackRange} breakdown={showBreakdown} />}
+                  {u.attackCooldownMs > 0 && <AugStatRow label="CD" base={(u.attackCooldownMs / 1000)} />}
                 </div>
               )}
               {u && u.moveSpeed === 0 && (
                 <div className="cdm-stats-block u-flex u-wrap">
-                  <AugStatRow label="HP" base={u.maxHp} delta={totalAugmentEffect.maxHp} />
+                  {/* No augment delta: applyAugmentBonuses returns early for
+                      structures, so showing one promised a bonus the engine
+                      would never apply. Mastery HP does apply (+10%/level). */}
+                  <AugStatRow label="HP" base={u.maxHp} mastery={hpBonus} breakdown={showBreakdown} />
                 </div>
+              )}
+
+              {hasStatBonus && (
+                <button
+                  type="button"
+                  className="cdm-breakdown-toggle"
+                  onClick={() => setShowBreakdown(v => !v)}
+                  aria-expanded={showBreakdown}
+                >
+                  {showBreakdown ? '▴ Hide breakdown' : '▾ Where do these come from?'}
+                </button>
               )}
           </div>
         </div>
-        <div className="u-col ">
+        <div className="cdm-details u-col">
               {card.cardType === 'unit' && (
               <Toolbar>
                 <ToolbarButton label="Details" onClick={() => setActiveTab(0)} />
@@ -245,7 +259,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
 
 
               )}
-<div  className="cdm-info-col u-grow u-col u-gap-4 u-mg-t-md">
+<div className="cdm-info-col u-grow u-col u-gap-4 u-mg-t-md">
             {activeTab === 0 ? (
 
 <>

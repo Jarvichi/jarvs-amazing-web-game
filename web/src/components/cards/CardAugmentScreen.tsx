@@ -26,6 +26,7 @@ import { MasteryBar } from '../ui/MasteryBar'
 import { AugmentPickerModal } from './AugmentPickerModal'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { CardDetailHeader } from './CardDetailHeader'
+import { AugStatRow, masteryStatBonuses } from './AugStatRow'
 import { AnimatedSpriteImg, SpriteImg } from '../ui/SpriteImg'
 
 interface Props {
@@ -47,19 +48,6 @@ const RARITY_COLOUR: Record<string, string> = {
   glass:     '#a0d8ef',
 }
 
-function AugStatRow({ label, base, delta }: { label: string; base: number; delta?: number }) {
-  const hasDelta = delta != null && delta !== 0
-  return (
-    <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, minWidth: 64 }}>
-      <span style={{ fontSize: 10, opacity: 0.6, textTransform: 'uppercase' }}>{label}</span>
-      <span style={{ fontWeight: 700 }}>{hasDelta ? base + delta! : base}</span>
-      {hasDelta && (
-        <span style={{ fontSize: 10, color: '#aaddff' }}>(+{delta})</span>
-      )}
-    </div>
-  )
-}
-
 function effectSummary(effect: AugmentEffect): string {
   const parts: string[] = []
   if (effect.maxHp)       parts.push(`+${effect.maxHp} HP`)
@@ -79,8 +67,7 @@ export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Pr
 
   const owned  = getOwnedCount(collection, card.name)
   const inDeck = deckEntries?.find(e => e.cardName === card.name)?.count ?? 0
-  // const xp     = getMasteryXp(collection, card.name)
-  // const { level: masteryLvl, current: xpCur, needed: xpNeeded } = masteryProgress(xp)
+  const { level: masteryLvl } = masteryProgress(getMasteryXp(collection, card.name))
   const rarityCol = RARITY_COLOUR[card.rarity] ?? 'var(--game-text-color-dim)'
 
   const equippedMap = getEquippedAugments(card.name)
@@ -88,6 +75,7 @@ export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Pr
   const souls       = loadAugmentSouls()
 
   const u = card.unit
+  const { atk: atkBonus, hp: hpBonus } = masteryStatBonuses(u, masteryLvl)
 
   // Compute total augment effect for live stat display
   const totalAugmentEffect = useMemo(() => {
@@ -138,20 +126,24 @@ export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Pr
 
             <div className="cas-info-col u-grow u-col u-gap-3">
               <div className="cdm-desc">{card.description}</div>
-              {card.lore && <div className="cdm-lore" style={{ fontStyle: 'italic', opacity: 0.7, fontSize: 11 }}>{card.lore}</div>}
+              {card.lore && <div className="cdm-lore">{card.lore}</div>}
 
-              {/* Unit stats */}
+              {/* Unit stats — totals shown with the breakdown always open here,
+                  since this screen exists specifically to reason about where a
+                  card's numbers come from. */}
               {u && u.moveSpeed > 0 && (
                 <div className="cdm-stats-block u-flex u-wrap">
-                  <AugStatRow label="ATK" base={u.attack}      delta={totalAugmentEffect.attack} />
-                  <AugStatRow label="HP"  base={u.maxHp}       delta={totalAugmentEffect.maxHp} />
-                  <AugStatRow label="SPD" base={u.moveSpeed}   delta={totalAugmentEffect.moveSpeed} />
-                  {u.attackRange > 0 && <AugStatRow label="RNG" base={u.attackRange} delta={totalAugmentEffect.attackRange} />}
+                  <AugStatRow label="ATK" base={u.attack}    mastery={atkBonus} augment={totalAugmentEffect.attack}    breakdown />
+                  <AugStatRow label="HP"  base={u.maxHp}     mastery={hpBonus}  augment={totalAugmentEffect.maxHp}     breakdown />
+                  <AugStatRow label="SPD" base={u.moveSpeed}                    augment={totalAugmentEffect.moveSpeed} breakdown />
+                  {u.attackRange > 0 && <AugStatRow label="RNG" base={u.attackRange} augment={totalAugmentEffect.attackRange} breakdown />}
                 </div>
               )}
               {u && u.moveSpeed === 0 && (
                 <div className="cdm-stats-block u-flex u-wrap">
-                  <AugStatRow label="HP" base={u.maxHp} delta={totalAugmentEffect.maxHp} />
+                  {/* Structures take no augments (applyAugmentBonuses returns
+                      early for them), so only mastery HP applies. */}
+                  <AugStatRow label="HP" base={u.maxHp} mastery={hpBonus} breakdown />
                 </div>
               )}
             </div>
@@ -164,7 +156,15 @@ export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Pr
             {upgradeError && <span style={{ color: '#ff6666', fontSize: 11 }}>{upgradeError}</span>}
           </div>
 
-          {/* Augment slots */}
+          {/* Augment slots. Structures are excluded to match the engine:
+              applyAugmentBonuses in game/collection.ts returns early for
+              anything with moveSpeed === 0 ("structures don't get augments"),
+              so offering slots here would let a player spend augments that
+              are then silently ignored in battle. */}
+          {u && u.moveSpeed === 0 ? (
+            <div className="cas-slots-title">Structures can't be augmented.</div>
+          ) : (
+          <>
           <div className="cas-slots-title">Equipment Slots</div>
 
           <div className="cas-slots-grid">
@@ -241,6 +241,8 @@ export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Pr
               </div>
             )
           })()}
+          </>
+          )}
 
         </div>
       </div>
