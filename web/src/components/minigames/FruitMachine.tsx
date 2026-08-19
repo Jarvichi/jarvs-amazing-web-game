@@ -27,6 +27,8 @@ import {
 } from '../../game/fruitMachineJackpot'
 import { loadPlayerName } from '../../game/questline'
 import { LedScroller, LedScrollerMessage } from '../ui/LedScroller/LedScroller'
+import { MinigameShell } from './MinigameShell'
+import { MinigameResultPanel } from './MinigameResultPanel'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -811,8 +813,7 @@ function regressBoardBy(steps: number) {
 
   if (phase === 'bonus' && bonusTiles.length > 0) {
     return (
-      <div className="minigame-screen">
-        <div className="minigame-title">🎰 FRUIT MACHINE</div>
+      <MinigameShell title="FRUIT MACHINE" icon="🎰">
         <div className="fm-bonus-game u-col u-items-c u-gap-5">
           <div className="fm-bonus-header">BONUS GAME — pick {bonusPicksLeft} {bonusPicksLeft === 1 ? 'prize' : 'prizes'}!</div>
           {bonusTotalWin > 0 && <div className="fm-bonus-running-total">Running total: +{bonusTotalWin} credits</div>}
@@ -831,7 +832,7 @@ function regressBoardBy(steps: number) {
             ))}
           </div>
         </div>
-      </div>
+      </MinigameShell>
     )
   }
 
@@ -839,8 +840,7 @@ function regressBoardBy(steps: number) {
 
   if (phase === 'jackpot-win' && jackpotWon) {
     return (
-      <div className="minigame-screen">
-        <div className="minigame-title">🎰 FRUIT MACHINE</div>
+      <MinigameShell title="FRUIT MACHINE" icon="🎰">
         <div className="fm-jackpot-win-overlay">
           <div className="fm-jackpot-win-tier">{jackpotWon.tier} JACKPOT!</div>
           <div className="fm-jackpot-win-amount">+{jackpotWon.amount} credits!</div>
@@ -848,7 +848,7 @@ function regressBoardBy(steps: number) {
             COLLECT
           </button>
         </div>
-      </div>
+      </MinigameShell>
     )
   }
 
@@ -856,12 +856,13 @@ function regressBoardBy(steps: number) {
 
   if (phase === 'done') {
     return (
-      <div className="minigame-screen">
-        <div className="minigame-title">🎰 FRUIT MACHINE</div>
-        <div className="minigame-result-panel u-col u-items-c u-gap-5">
-          <div className="minigame-result-headline">
-            {cashOutTickets > 0 ? 'Cashed out!' : 'Out of credits!'}
-          </div>
+      <MinigameShell title="FRUIT MACHINE" icon="🎰">
+        <MinigameResultPanel
+          headline={cashOutTickets > 0 ? 'Cashed out!' : 'Out of credits!'}
+          ctaLabel="COLLECT & EXIT"
+          onCta={() => onDone(cashOutTickets)}
+          tone={cashOutTickets > 0 ? 'gold' : 'ember'}
+        >
           <div className="minigame-result-breakdown">
             {cashOutTickets > 0 ? (
               <>
@@ -873,11 +874,8 @@ function regressBoardBy(steps: number) {
             )}
             <div className="minigame-result-total">Total: {cashOutTickets} 🎫</div>
           </div>
-          <button className="action-btn action-btn--gold" onClick={() => onDone(cashOutTickets)}>
-            COLLECT &amp; EXIT
-          </button>
-        </div>
-      </div>
+        </MinigameResultPanel>
+      </MinigameShell>
     )
   }
 
@@ -903,9 +901,7 @@ function regressBoardBy(steps: number) {
 
 
   return (
-    <div className="minigame-screen">
-      <div className="minigame-title">🎰 FRUIT MACHINE</div>
-
+    <MinigameShell title="FRUIT MACHINE" icon="🎰">
       {/* Jackpot tiers */}
       <div className="fm-jackpots u-flex u-gap-3 u-just-c">
         {JACKPOT_TIERS.map(t => (
@@ -1110,6 +1106,6 @@ function regressBoardBy(steps: number) {
           </tbody>
         </table>
       </details>
-    </div>
+    </MinigameShell>
   )
 }
