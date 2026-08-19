@@ -8,6 +8,8 @@ import { playMinigameCorrect, playMinigameWrong } from '../../game/sound'
 import { addTickets } from '../../game/miniGames'
 import { incrementAchievementProgress, setAchievementProgress } from '../../game/achievements'
 import { loadPlayerAvatar } from '../../game/questline'
+import { MinigameShell } from '../minigames/MinigameShell'
+import { MinigameResultPanel } from '../minigames/MinigameResultPanel'
 
 interface Props {
   onBack: () => void
@@ -169,9 +171,7 @@ export function TheatreScreen({ onBack }: Props) {
   const halfWidth = actZoneHalfWidth(act)
 
   return (
-    <div className="minigame-screen theatre-screen">
-      <div className="minigame-title">🎭 CURTAIN CALL</div>
-
+    <MinigameShell title="CURTAIN CALL" icon="🎭" className="theatre-screen">
       {phase !== 'ready' && (
         <div className="theatre-stage-wrap">
           <div className="theatre-avatar-platform">
@@ -220,19 +220,19 @@ export function TheatreScreen({ onBack }: Props) {
       )}
 
       {phase === 'result' && (
-        <div className="minigame-result-panel u-col u-items-c u-gap-5">
-          <div className="minigame-result-headline">{applauseHeadline()}</div>
+        <MinigameResultPanel
+          headline={applauseHeadline()}
+          ctaLabel="COLLECT & EXIT"
+          onCta={onBack}
+        >
           <div className="minigame-result-breakdown">
             {grades.map((g, i) => (
               <div key={i}>Act {i + 1}: {GRADE_LABEL[g]} — +{TICKETS[g]} 🎫</div>
             ))}
             <div className="minigame-result-total">Total: {total} 🎫</div>
           </div>
-          <button className="action-btn action-btn--gold" onClick={onBack}>
-            COLLECT &amp; EXIT
-          </button>
-        </div>
+        </MinigameResultPanel>
       )}
-    </div>
+    </MinigameShell>
   )
 }

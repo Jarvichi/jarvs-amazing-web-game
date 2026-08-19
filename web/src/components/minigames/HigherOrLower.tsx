@@ -5,6 +5,8 @@
 
 import React, { useState } from 'react'
 import { playMinigameCorrect, playMinigameWrong } from '../../game/sound'
+import { MinigameShell } from './MinigameShell'
+import { MinigameResultPanel } from './MinigameResultPanel'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -86,9 +88,7 @@ export function HigherOrLower({ onDone }: Props) {
   const isRed = (suit: string) => suit === '♥' || suit === '♦'
 
   return (
-    <div className="minigame-screen">
-      <div className="minigame-title">🎴 HIGHER OR LOWER</div>
-
+    <MinigameShell title="HIGHER OR LOWER" icon="🎴">
       <div className="hol-cards-row u-flex u-gap-5 u-just-c u-wrap">
         {cards.map((card, i) => {
           const faceUp = i < revealed
@@ -134,10 +134,12 @@ export function HigherOrLower({ onDone }: Props) {
       )}
 
       {(phase === 'won' || phase === 'lost') && (
-        <div className="minigame-result-panel u-col u-items-c u-gap-5">
-          <div className="minigame-result-headline">
-            {phase === 'won' ? '🎉 JACKPOT!' : 'Bad luck!'}
-          </div>
+        <MinigameResultPanel
+          headline={phase === 'won' ? '🎉 JACKPOT!' : 'Bad luck!'}
+          ctaLabel="COLLECT & EXIT"
+          onCta={() => onDone(tickets)}
+          tone={phase === 'won' ? 'gold' : 'ember'}
+        >
           <div className="minigame-result-breakdown">
             {phase === 'won' ? (
               <>
@@ -155,10 +157,7 @@ export function HigherOrLower({ onDone }: Props) {
               </>
             )}
           </div>
-          <button className="action-btn action-btn--gold" onClick={() => onDone(tickets)}>
-            COLLECT &amp; EXIT
-          </button>
-        </div>
+        </MinigameResultPanel>
       )}
 
       <div className="hol-progress">
@@ -169,6 +168,6 @@ export function HigherOrLower({ onDone }: Props) {
           : `Out on card ${revealed} of 5`
         }
       </div>
-    </div>
+    </MinigameShell>
   )
 }

@@ -3,6 +3,8 @@
 // Jackpot = 50 tickets.
 
 import React, { useState, useRef } from 'react'
+import { MinigameShell } from './MinigameShell'
+import { MinigameResultPanel } from './MinigameResultPanel'
 
 interface Props {
   onDone: (ticketsEarned: number, isJackpot: boolean) => void
@@ -50,9 +52,7 @@ export function LuckySpinner({ onDone }: Props) {
   const isJackpot = result === JACKPOT_VALUE
 
   return (
-    <div className="minigame-screen">
-      <div className="minigame-title">🎡 LUCKY SPINNER</div>
-
+    <MinigameShell title="LUCKY SPINNER" icon="🎡">
       <div className="spinner-wrap u-relative u-col u-items-c">
         {/* Pointer */}
         <div className="spinner-pointer">▼</div>
@@ -120,14 +120,17 @@ export function LuckySpinner({ onDone }: Props) {
       )}
 
       {phase === 'result' && result !== null && (
-        <div className="minigame-result-panel u-col u-items-c u-gap-5">
-          {isJackpot && <div className="spinner-jackpot-flash">⭐ JACKPOT! ⭐</div>}
-          <div className="minigame-result-headline">You won {result} tickets!</div>
-          <button className="action-btn action-btn--gold" onClick={() => onDone(result, isJackpot)}>
-            COLLECT &amp; EXIT
-          </button>
-        </div>
+        <MinigameResultPanel
+          headline={
+            <>
+              {isJackpot && <div className="spinner-jackpot-flash">⭐ JACKPOT! ⭐</div>}
+              You won {result} tickets!
+            </>
+          }
+          ctaLabel="COLLECT & EXIT"
+          onCta={() => onDone(result, isJackpot)}
+        />
       )}
-    </div>
+    </MinigameShell>
   )
 }

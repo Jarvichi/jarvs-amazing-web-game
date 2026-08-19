@@ -3,34 +3,8 @@
 /* ── Fishing minigame ── */
 
 .fishing-screen {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   gap: 12px;
-  padding: 16px 12px;
   min-height: 100vh;
-  background: #0a0a0a;
-  font-family: var(--font-mono);
-  color: #ccc;
-}
-
-.fishing-header {
-  width: 100%;
-  text-align: center;
-}
-
-.fishing-title {
-  font-size: 1.3rem;
-  font-weight: bold;
-  letter-spacing: 3px;
-  color: #7ef;
-  text-transform: uppercase;
-}
-
-.fishing-bait-counter {
-  margin-top: 4px;
-  font-size: 0.9rem;
-  color: #999;
 }
 
 .fishing-scene {
@@ -841,12 +815,9 @@
 /* ── End screen ── */
 .td-end-screen {
   height: 100%;
-  background: #0a0a0a;
+  background: var(--game-bg);
   padding: 24px;
 }
-.td-end-title { font-size: 28px; font-weight: bold; letter-spacing: 4px; }
-.td-end-title--win  { color: var(--color-green-bright); text-shadow: 0 0 20px rgba(76,175,80,0.6); }
-.td-end-title--lose { color: #f44336; text-shadow: 0 0 20px rgba(244,67,54,0.6); }
 .td-end-stat   { font-size: 15px; color: #aaa; }
 .td-end-reward { font-size: 17px; color: var(--color-gold); font-weight: bold; }
 

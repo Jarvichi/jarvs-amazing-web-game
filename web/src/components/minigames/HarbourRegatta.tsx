@@ -10,6 +10,9 @@ import {
   COURSE_LENGTH, TARGET_STROKE_MS, STROKE_TOLERANCE_MS,
   type RowState, type OarSide, type AiConfig,
 } from './HarbourRegatta.physics'
+import { MinigameShell } from './MinigameShell'
+import { MinigameResultPanel } from './MinigameResultPanel'
+import { Panel } from '../ui/Panel'
 
 function oppositeSide(side: OarSide | null): OarSide | null {
   if (side === null) return null
@@ -192,8 +195,7 @@ export function HarbourRegatta({ onDone }: Props) {
   // ── Intro phase ────────────────────────────────────────────────────────────
   if (phase === 'intro') {
     return (
-      <div className="minigame-screen">
-        <div className="minigame-title">⛵ HARBOUR REGATTA</div>
+      <MinigameShell title="HARBOUR REGATTA" icon="⛵">
         <p className="minigame-subtitle">
           Row your skiff round the harbour buoys! Tap LEFT and RIGHT oars in a
           steady alternating rhythm to go straight — favour one oar and you'll veer that way.
@@ -209,12 +211,12 @@ export function HarbourRegatta({ onDone }: Props) {
           ))}
         </div>
 
-        <div className="minigame-result-panel u-col u-items-c u-gap-5">
+        <Panel elevation="floating" tone="gold" runeCorners className="minigame-result-panel u-col u-items-c u-gap-5">
           <button className="action-btn action-btn--gold" onClick={startRace}>
             ROW OUT!
           </button>
-        </div>
-      </div>
+        </Panel>
+      </MinigameShell>
     )
   }
 
@@ -227,9 +229,7 @@ export function HarbourRegatta({ onDone }: Props) {
   const spinnakerY  = progressToY(SPINNAKER_FRAC * COURSE_LENGTH)
 
   return (
-    <div className="minigame-screen">
-      <div className="minigame-title">⛵ HARBOUR REGATTA</div>
-
+    <MinigameShell title="HARBOUR REGATTA" icon="⛵">
       {phase === 'racing' && (
         <p className="minigame-subtitle">Racing… keep a steady L-R-L-R rhythm!</p>
       )}
@@ -366,16 +366,13 @@ export function HarbourRegatta({ onDone }: Props) {
       )}
 
       {phase === 'result' && (
-        <div className="minigame-result-panel u-col u-items-c u-gap-5">
-          <div className="minigame-result-headline">
-            You earned {ticketsEarned} ticket{ticketsEarned !== 1 ? 's' : ''}!
-          </div>
-          <button className="action-btn action-btn--gold" onClick={() => onDone(ticketsEarned)}>
-            COLLECT &amp; EXIT
-          </button>
-        </div>
+        <MinigameResultPanel
+          headline={`You earned ${ticketsEarned} ticket${ticketsEarned !== 1 ? 's' : ''}!`}
+          ctaLabel="COLLECT & EXIT"
+          onCta={() => onDone(ticketsEarned)}
+        />
       )}
-    </div>
+    </MinigameShell>
   )
 }
 

@@ -2,14 +2,6 @@
 
 /* ── Tile Flip ────────────────────────────────────────────────────────────── */
 
-.tileflip-stats {
-  display: flex;
-  gap: 16px;
-  font-size: var(--font-md);
-  color: #8888aa;
-  margin-bottom: 12px;
-}
-
 .tile-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

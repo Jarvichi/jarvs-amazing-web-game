@@ -4,6 +4,9 @@
 // Obstacles randomly pause marbles for a tick. Prize is based on finishing place.
 
 import React, { useState, useEffect, useRef } from 'react'
+import { MinigameShell } from './MinigameShell'
+import { MinigameResultPanel } from './MinigameResultPanel'
+import { Panel } from '../ui/Panel'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -163,8 +166,7 @@ export function MarbleRace({ onDone }: Props) {
   // ── Choose phase ─────────────────────────────────────────────────────────────
   if (phase === 'choose') {
     return (
-      <div className="minigame-screen">
-        <div className="minigame-title">🏁 MARBLE RACE</div>
+      <MinigameShell title="MARBLE RACE" icon="🏁">
         <p className="minigame-subtitle">Pick your marble, then race to the finish!</p>
 
         <div className="race-prize-table">
@@ -191,7 +193,7 @@ export function MarbleRace({ onDone }: Props) {
           ))}
         </div>
 
-        <div className="minigame-result-panel u-col u-items-c u-gap-5">
+        <Panel elevation="floating" tone="gold" runeCorners className="minigame-result-panel u-col u-items-c u-gap-5">
           <button
             className="action-btn action-btn--gold"
             onClick={startRace}
@@ -199,8 +201,8 @@ export function MarbleRace({ onDone }: Props) {
           >
             {chosen === null ? 'PICK A MARBLE' : `RACE WITH ${MARBLE_NAMES[chosen].toUpperCase()}!`}
           </button>
-        </div>
-      </div>
+        </Panel>
+      </MinigameShell>
     )
   }
 
@@ -209,9 +211,7 @@ export function MarbleRace({ onDone }: Props) {
   const placeLabel = phase === 'result' ? PLACE_LABELS[place] : null
 
   return (
-    <div className="minigame-screen">
-      <div className="minigame-title">🏁 MARBLE RACE</div>
-
+    <MinigameShell title="MARBLE RACE" icon="🏁">
       {phase === 'racing' && (
         <p className="minigame-subtitle">
           Racing… your marble: {MARBLE_EMOJIS[chosen!]} {MARBLE_NAMES[chosen!]}
@@ -339,15 +339,12 @@ export function MarbleRace({ onDone }: Props) {
       )}
 
       {phase === 'result' && (
-        <div className="minigame-result-panel u-col u-items-c u-gap-5">
-          <div className="minigame-result-headline">
-            You earned {ticketsEarned} ticket{ticketsEarned !== 1 ? 's' : ''}!
-          </div>
-          <button className="action-btn action-btn--gold" onClick={() => onDone(ticketsEarned)}>
-            COLLECT &amp; EXIT
-          </button>
-        </div>
+        <MinigameResultPanel
+          headline={`You earned ${ticketsEarned} ticket${ticketsEarned !== 1 ? 's' : ''}!`}
+          ctaLabel="COLLECT & EXIT"
+          onCta={() => onDone(ticketsEarned)}
+        />
       )}
-    </div>
+    </MinigameShell>
   )
 }
