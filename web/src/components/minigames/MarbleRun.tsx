@@ -4,6 +4,9 @@
 // obstacle pegs that force deflections.
 
 import React, { useState, useEffect, useRef } from 'react'
+import { MinigameShell } from './MinigameShell'
+import { MinigameResultPanel } from './MinigameResultPanel'
+import { Panel } from '../ui/Panel'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -210,8 +213,7 @@ export function MarbleRun({ onDone }: Props) {
   }
 
   return (
-    <div className="minigame-screen">
-      <div className="minigame-title">🔮 MARBLE RUN</div>
+    <MinigameShell title="MARBLE RUN" icon="🔮">
       <div className="marble-pattern-label">Pattern: {pattern.name}</div>
       <p className="minigame-subtitle">
         {phase === 'choose' && dropsLeft > 0
@@ -285,17 +287,16 @@ export function MarbleRun({ onDone }: Props) {
       )}
 
       {phase === 'result' && (
-        <div className="minigame-result-panel u-col u-items-c u-gap-5">
-          <div className="minigame-result-headline">You earned {totalTickets} tickets!</div>
-          <button className="action-btn action-btn--gold" onClick={() => onDone(totalTickets)}>
-            COLLECT &amp; EXIT
-          </button>
-        </div>
+        <MinigameResultPanel
+          headline={`You earned ${totalTickets} tickets!`}
+          ctaLabel="COLLECT & EXIT"
+          onCta={() => onDone(totalTickets)}
+        />
       )}
 
       {/* Random Drop column */}
     {phase === 'choose' && (
-      <div className="minigame-result-panel u-col u-items-c u-gap-5">
+      <Panel elevation="floating" tone="gold" runeCorners className="minigame-result-panel u-col u-items-c u-gap-5">
         <button
           className="action-btn action-btn--gold"
           onClick={() => dropMarble(Math.floor(Math.random() * 9))}
@@ -303,9 +304,9 @@ export function MarbleRun({ onDone }: Props) {
         >
           Random
         </button>
-      </div>
+      </Panel>
     )}
 
-    </div>
+    </MinigameShell>
   )
 }

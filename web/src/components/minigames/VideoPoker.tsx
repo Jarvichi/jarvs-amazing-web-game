@@ -5,6 +5,9 @@
 
 import React, { useState, useCallback } from 'react'
 import { loadCrystals, saveCrystals } from '../../game/collection'
+import { MinigameShell } from './MinigameShell'
+import { MinigameResultPanel } from './MinigameResultPanel'
+import { Panel } from '../ui/Panel'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -171,12 +174,13 @@ export function VideoPoker({ onDone }: Props) {
 
   if (phase === 'done') {
     return (
-      <div className="minigame-screen">
-        <div className="minigame-title">♠ VIDEO POKER</div>
-        <div className="minigame-result-panel u-col u-items-c u-gap-5">
-          <div className="minigame-result-headline">
-            {cashOutTickets > 0 ? 'Cashed out!' : 'Out of credits!'}
-          </div>
+      <MinigameShell title="VIDEO POKER" icon="♠">
+        <MinigameResultPanel
+          headline={cashOutTickets > 0 ? 'Cashed out!' : 'Out of credits!'}
+          ctaLabel="COLLECT & EXIT"
+          onCta={() => onDone(cashOutTickets)}
+          tone={cashOutTickets > 0 ? 'gold' : 'ember'}
+        >
           <div className="minigame-result-breakdown">
             {cashOutTickets > 0 ? (
               <>
@@ -188,11 +192,8 @@ export function VideoPoker({ onDone }: Props) {
             )}
             <div className="minigame-result-total">Total: {cashOutTickets} 🎫</div>
           </div>
-          <button className="action-btn action-btn--gold" onClick={() => onDone(cashOutTickets)}>
-            COLLECT &amp; EXIT
-          </button>
-        </div>
-      </div>
+        </MinigameResultPanel>
+      </MinigameShell>
     )
   }
 
@@ -209,9 +210,7 @@ export function VideoPoker({ onDone }: Props) {
   })()
 
   return (
-    <div className="minigame-screen">
-      <div className="minigame-title">♠ VIDEO POKER</div>
-
+    <MinigameShell title="VIDEO POKER" icon="♠">
       <div className="fm-header u-flex u-items-c u-gap-7">
         <span className="fm-credits">Credits: {credits}</span>
         {phase === 'result' && result && result.multiplier > 0 && (
@@ -290,7 +289,12 @@ export function VideoPoker({ onDone }: Props) {
 
       {/* Result phase controls */}
       {phase === 'result' && result && (
-        <div className="minigame-result-panel u-col u-items-c u-gap-5">
+        <Panel
+          elevation="floating"
+          tone={isWin ? 'gold' : 'neutral'}
+          runeCorners={isWin}
+          className="minigame-result-panel u-col u-items-c u-gap-5"
+        >
           <div className={`vp-result-name${isWin ? ' vp-result-name--win' : ''}`}>
             {result.name}
           </div>
@@ -307,7 +311,7 @@ export function VideoPoker({ onDone }: Props) {
               CASH OUT ({credits * TICKETS_PER_CREDIT} 🎫)
             </button>
           </div>
-        </div>
+        </Panel>
       )}
 
       {canBuy && (
@@ -333,6 +337,6 @@ export function VideoPoker({ onDone }: Props) {
           </tbody>
         </table>
       </details>
-    </div>
+    </MinigameShell>
   )
 }

@@ -4,6 +4,8 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { playMinigameCorrect, playMinigameWrong } from '../../game/sound'
+import { MinigameShell } from './MinigameShell'
+import { MinigameResultPanel } from './MinigameResultPanel'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -141,9 +143,7 @@ export function CrystalCatch({ onDone }: Props) {
   const pct = timeLeft / GAME_DURATION_MS
 
   return (
-    <div className="minigame-screen">
-      <div className="minigame-title">💎 CRYSTAL CATCH</div>
-
+    <MinigameShell title="CRYSTAL CATCH" icon="💎">
       {phase === 'ready' && (
         <div className="minigame-ready u-col u-items-c u-gap-5">
           <p>Catch 🔮 crystals (+3) and 🪙 coins (+1).</p>
@@ -188,13 +188,12 @@ export function CrystalCatch({ onDone }: Props) {
       )}
 
       {phase === 'result' && (
-        <div className="minigame-result-panel u-col u-items-c u-gap-5">
-          <div className="minigame-result-headline">You caught {ticketsRef.current} tickets!</div>
-          <button className="action-btn action-btn--gold" onClick={() => onDone(ticketsRef.current)}>
-            COLLECT &amp; EXIT
-          </button>
-        </div>
+        <MinigameResultPanel
+          headline={`You caught ${ticketsRef.current} tickets!`}
+          ctaLabel="COLLECT & EXIT"
+          onCta={() => onDone(ticketsRef.current)}
+        />
       )}
-    </div>
+    </MinigameShell>
   )
 }
