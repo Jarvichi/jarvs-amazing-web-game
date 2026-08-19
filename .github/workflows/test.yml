@@ -11,6 +11,12 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      # Playwright's own default cache location varies by OS/version; pinning
+      # it explicitly keeps this workflow's cache step actually caching
+      # something, and matches the path the Claude Code sandbox uses so
+      # behavior is consistent between local dev and CI (#2211).
+      PLAYWRIGHT_BROWSERS_PATH: /opt/pw-browsers
     steps:
       - uses: actions/checkout@v4
 
@@ -41,7 +47,11 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /opt/pw-browsers
-          key: playwright-${{ runner.os }}-${{ hashFiles('web/package-lock.json') }}
+          # Includes the installed browser list so adding or removing one
+          # (e.g. #2212's webkit addition) invalidates the cache instead of
+          # restoring a stale, incomplete one — the lockfile hash alone
+          # doesn't change when only the browser list does.
+          key: playwright-${{ runner.os }}-chromium-${{ hashFiles('web/package-lock.json') }}
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
