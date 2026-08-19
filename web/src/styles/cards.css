@@ -53,6 +53,28 @@
   background: color-mix(in srgb, var(--card-frame) 4%, transparent);
 }
 
+/* The real interactive element inside .card-tile (#2182) — resets button
+   chrome so it reads as part of the tile, not as its own control. .card-tile
+   still owns the outer box (width, border, background, hover/active) so
+   nothing here needs to repeat it. */
+.card-tile-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: inherit;
+  border-radius: inherit;
+}
+.card-tile-btn:disabled {
+  cursor: not-allowed;
+}
+
 /* Selection ring — an outline (not border) so it never competes with the
    rarity frame's own border colour underneath, in any picker/deck-builder
    context. */
@@ -436,7 +458,21 @@
   gap: var(--gap-1);
 }
 
+/* Reserves room for the absolutely-positioned info button below, so the
+   type badge doesn't extend under it now that the button is no longer a
+   flex item in this row (#2182 — it used to be, but that nested a real
+   <button> inside .card-tile's role="button", which is invalid). */
+.card-bottom-row--with-info {
+  padding-right: 18px;
+}
+
+/* Positioned directly rather than as a flex item, so it can be a sibling of
+   .card-tile-btn instead of nested inside it. Sits in the same corner the
+   old flex-item version occupied — flush against .card-tile's own padding. */
 .card-bottom-info-btn {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
   flex-shrink: 0;
   width: 14px;
   height: 14px;
@@ -804,7 +840,10 @@
   margin-left: 6px;
 }
 
-.collection-cell--resting {
+/* Targets the card surface only, not the whole cell — same fix as
+   .collection-cell--unowned in collection.css (#2182): dimming the footer
+   along with the art took its count/mastery text below AA contrast. */
+.collection-cell--resting .card-tile {
   opacity: 0.5;
 }
 

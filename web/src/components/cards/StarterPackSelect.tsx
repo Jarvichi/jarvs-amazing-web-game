@@ -38,7 +38,15 @@ export function StarterPackSelect({ onPick, fatiguedCards = [], bonusCards = [],
         {STARTER_PACK_OPTIONS.map(pack => {
           const isRecommended = recommendedPackId === pack.id
           return (
-          <div key={pack.id} className={`starter-pack u-col u-gap-4 u-grow u-pointer${isRecommended ? ' starter-pack--recommended' : ''}`} onClick={() => onPick(pack.cards)}>
+          <div
+            key={pack.id}
+            className={`starter-pack u-col u-gap-4 u-grow u-pointer${isRecommended ? ' starter-pack--recommended' : ''}`}
+            onClick={() => onPick(pack.cards)}
+            onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPick(pack.cards) } }}
+            role="button"
+            tabIndex={0}
+            aria-label={`${pack.name}${isRecommended ? ', recommended' : ''}`}
+          >
             {isRecommended && <div className="starter-pack-recommended">⭐ RECOMMENDED</div>}
             <div className="starter-pack-name">{pack.name}</div>
             <div className="starter-pack-desc">{pack.description}</div>
@@ -55,7 +63,7 @@ export function StarterPackSelect({ onPick, fatiguedCards = [], bonusCards = [],
                 )
               })}
             </ul>
-            <button className="action-btn starter-pack-btn">CHOOSE</button>
+            <div className="action-btn starter-pack-btn" aria-hidden="true">CHOOSE</div>
           </div>
           )
         })}
