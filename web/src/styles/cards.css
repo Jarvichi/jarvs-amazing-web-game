@@ -2,11 +2,17 @@
 
 /* ─── Card Tile ──────────────────────────────────────── */
 
+/* --card-frame is the single colour every part of the tile's frame derives
+   from: border, background tint, hover glow and corner ornaments. Each rarity
+   overrides just that one value below. Before this, the base tile and :hover
+   hard-coded green, so hovering a legendary replaced its gold frame with green
+   and destroyed the rarity signal. */
 .card-tile {
+  --card-frame: var(--color-gray-6);
   flex-shrink: 0;
   cursor: pointer;
   padding: 8px 10px;
-  border: 2px solid rgba(51, 255, 51, 0.4);
+  border: 2px solid color-mix(in srgb, var(--card-frame) 55%, transparent);
   border-radius: 4px;
   transition: all 0.15s;
   width: 90px;
@@ -14,14 +20,15 @@
   flex-direction: column;
   gap: 3px;
   position: relative;
-  background: rgba(51, 255, 51, 0.03);
+  background: color-mix(in srgb, var(--card-frame) 4%, transparent);
 }
 
+/* Hover intensifies the card's OWN rarity colour rather than overriding it. */
 .card-tile:hover {
-  border-color: var(--game-text-color);
-  background: rgba(51, 255, 51, 0.08);
+  border-color: var(--card-frame);
+  background: color-mix(in srgb, var(--card-frame) 10%, transparent);
   transform: translateY(-3px);
-  box-shadow: 0 0 12px rgba(51, 255, 51, 0.3);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--card-frame) 35%, transparent);
 }
 
 /* Press/tap feedback — the hand's only interaction is a tap, so it needs its
@@ -43,7 +50,7 @@
 .card-tile--disabled:hover {
   transform: none;
   box-shadow: none;
-  background: rgba(51, 255, 51, 0.03);
+  background: color-mix(in srgb, var(--card-frame) 4%, transparent);
 }
 
 /* Selection ring — an outline (not border) so it never competes with the
@@ -78,36 +85,57 @@
    box-shadows (no infinite animation) since a full collection grid can have
    hundreds of these on screen; the secret rarities below keep their existing
    animated treatments since there are always few of them at once. */
+/* Common is neutral steel, not green — green is reserved for semantic use
+   (friendly units, positive deltas) per the #2165 art direction, so it can't
+   also mean "lowest rarity". */
 .card-tile--common {
-  border-color: rgba(85, 204, 85, 0.45);
+  --card-frame: var(--color-gray-6);
 }
 
 .card-tile--uncommon {
-  border-color: rgba(68, 153, 255, 0.5);
-  background: rgba(68, 153, 255, 0.04);
-  box-shadow: inset 0 0 0 1px rgba(150, 200, 255, 0.1);
+  --card-frame: #4499ff;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--card-frame) 25%, transparent);
 }
 
 .card-tile--rare {
-  border-color: rgba(187, 102, 255, 0.6);
+  --card-frame: #bb66ff;
   background:
-    linear-gradient(160deg, rgba(187,102,255,0.10) 0%, transparent 55%),
-    rgba(187, 102, 255, 0.04);
-  box-shadow: inset 0 0 0 1px rgba(220, 170, 255, 0.15), 0 0 6px rgba(187, 102, 255, 0.15);
+    linear-gradient(160deg, color-mix(in srgb, var(--card-frame) 10%, transparent) 0%, transparent 55%),
+    color-mix(in srgb, var(--card-frame) 4%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--card-frame) 30%, transparent),
+    0 0 6px color-mix(in srgb, var(--card-frame) 15%, transparent);
+}
+
+/* Sits between rare and legendary. Previously absent entirely, so an epic card
+   silently fell back to the base frame. */
+.card-tile--epic {
+  --card-frame: #ff7ac6;
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--card-frame) 11%, transparent) 0%, transparent 55%),
+    color-mix(in srgb, var(--card-frame) 4%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--card-frame) 30%, transparent),
+    0 0 8px color-mix(in srgb, var(--card-frame) 18%, transparent);
 }
 
 .card-tile--legendary {
-  border-color: rgba(255, 204, 0, 0.65);
+  --card-frame: var(--color-gold-alt);
   background:
-    linear-gradient(160deg, rgba(255,204,0,0.12) 0%, transparent 55%),
-    rgba(255, 204, 0, 0.04);
-  box-shadow: inset 0 0 0 1px rgba(255, 224, 130, 0.2), 0 0 10px rgba(255, 204, 0, 0.2);
+    linear-gradient(160deg, color-mix(in srgb, var(--card-frame) 12%, transparent) 0%, transparent 55%),
+    color-mix(in srgb, var(--card-frame) 4%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--card-frame) 35%, transparent),
+    0 0 10px color-mix(in srgb, var(--card-frame) 20%, transparent);
 }
 
-/* Corner ornaments — rare gets two, legendary gets all four, echoing the
-   rune-corner treatment ui/Panel.tsx uses for gold/arcane panels elsewhere. */
+/* Corner ornaments — rare/epic get two, legendary gets all four, echoing the
+   rune-corner treatment ui/Panel.tsx uses for gold/arcane panels elsewhere.
+   Colour comes from --card-frame, so it tracks the rarity automatically. */
 .card-tile--rare::before,
 .card-tile--rare::after,
+.card-tile--epic::before,
+.card-tile--epic::after,
 .card-tile--legendary::before,
 .card-tile--legendary::after {
   content: '';
@@ -116,23 +144,22 @@
   height: 7px;
   pointer-events: none;
   z-index: 1;
+  border-color: var(--card-frame);
 }
 .card-tile--rare::before,
+.card-tile--epic::before,
 .card-tile--legendary::before {
   top: -1px; left: -1px;
   border-top: 2px solid;
   border-left: 2px solid;
 }
 .card-tile--rare::after,
+.card-tile--epic::after,
 .card-tile--legendary::after {
   bottom: -1px; right: -1px;
   border-bottom: 2px solid;
   border-right: 2px solid;
 }
-.card-tile--rare::before,
-.card-tile--rare::after       { border-color: #bb66ff; }
-.card-tile--legendary::before,
-.card-tile--legendary::after  { border-color: var(--color-gold-alt); }
 
 /* ─── Secret-rarity card tiles ────────────────────────────────────────────── */
 @keyframes secret-shimmer {
@@ -153,8 +180,13 @@
   93%, 97%      { opacity: 0.4; }
 }
 
+/* Secret rarities keep their bespoke animated fills, but still declare
+   --card-frame so the shared :hover rule (which outranks these by specificity)
+   glows in their own colour instead of the base grey. */
+
 /* Shiny: warm gold shimmer sweep */
 .card-tile--shiny {
+  --card-frame: #ffdc3c;
   border-color: rgba(255, 220, 60, 0.8);
   background: linear-gradient(
     105deg,
@@ -169,6 +201,7 @@
 
 /* Holofoil: rainbow prism shift */
 .card-tile--holofoil {
+  --card-frame: #40e0d0;
   border-color: rgba(64, 224, 208, 0.75);
   background: linear-gradient(
     120deg,
@@ -185,6 +218,7 @@
 
 /* Glass: frosted crystal look, subtle crack flash */
 .card-tile--glass {
+  --card-frame: #a0d8ef;
   border-color: rgba(160, 216, 239, 0.8);
   background: rgba(200, 235, 255, 0.06);
   backdrop-filter: blur(1px);
@@ -209,6 +243,7 @@
 
 /* Mythic: deep void purple with cosmic pulse */
 .card-tile--mythic {
+  --card-frame: var(--accent-arcane);
   border-color: rgba(224, 64, 251, 0.85);
   background: linear-gradient(160deg, rgba(40,0,60,0.55) 0%, rgba(10,0,20,0.55) 100%);
   animation: mythic-pulse 2s ease-in-out infinite;
@@ -319,17 +354,22 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
+/* 3 lines, not 2: the effective text width is only ~50px (66px content box
+   less the 16px reserved for the absolutely-positioned cost badge), so longer
+   names like "Grand Dragon Roost" were being clamped to an ellipsis. The
+   matching min-height keeps every tile the same height, which the collection
+   grid relies on. */
 .card-title {
   font-size: var(--font-sm);
   font-weight: bold;
-  color: var(--game-text-color);
+  color: var(--text-primary);
   letter-spacing: 0.5px;
   padding-right: 16px;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  min-height: 30px;
+  min-height: 42px;
 }
 
 .card-title--badge {
@@ -350,11 +390,19 @@
 
 /* Bottom row text floors at --font-xs (0.714rem) — nothing on the tile
    should read smaller than that, even the rarity stars/type label (#2177). */
+/* min-width:0 lets the star string shrink. Without it its automatic minimum
+   size is the full 5-star width, which forced all the overflow onto the type
+   badge and clipped the label mid-glyph ("SPAWN" → "SPAWI"). */
 .card-rarity {
   font-size: var(--font-xs);
   color: var(--game-text-color-muted);
+  min-width: 0;
+  overflow: hidden;
 }
 
+/* The type label is more informative than an exact star count (rarity is
+   already encoded in the frame colour), so the badge holds its width and the
+   stars give way instead. */
 .card-type-badge {
   display: flex;
   align-items: center;
@@ -365,6 +413,11 @@
   line-height: 1;
   opacity: 0.9;
   white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.card-type-badge-label {
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
 }

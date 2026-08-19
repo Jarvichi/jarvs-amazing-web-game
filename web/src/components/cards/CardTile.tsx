@@ -220,7 +220,10 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
         <div className="card-rarity">{rarityStars(card.rarity)}</div>
         <div className={`card-type-badge card-type-badge--${getCardCategory(card)}`}>
           {CATEGORY_ICON[getCardCategory(card)]}
-          <span>{CATEGORY_LABEL[getCardCategory(card)]}</span>
+          {/* The label carries its own ellipsis: text-overflow can't act on the
+              badge itself, since that's a flex container and this span is a
+              flex item rather than inline content it clips. */}
+          <span className="card-type-badge-label">{CATEGORY_LABEL[getCardCategory(card)]}</span>
         </div>
         {showDetails && (
           <button
