@@ -660,10 +660,6 @@
   overflow: hidden;
   transition: max-height 0.2s ease;
 }
-.deckbuilder-top-panel.deckbuilder-panel--collapsed {
-  flex: 0 0 32px;
-  max-height: 32px;
-}
 
 /* Bottom panel — owned collection. Takes whatever the deck panel leaves. */
 .deckbuilder-bottom-panel {
@@ -677,8 +673,24 @@
   border-top: 1px solid var(--border-edge-dark);
   margin-top: var(--gap-3);
 }
-.deckbuilder-bottom-panel.deckbuilder-panel--collapsed {
-  flex: 0 0 32px;
+
+/* A collapsed panel is exactly its own header — never a fixed height.
+   Pinning it to 32px against the panel's `overflow: hidden` clipped any
+   header that had wrapped to a second line, and the collapse toggle lives
+   at the end of that header: collapsing a panel on a narrow screen hid the
+   only control that could expand it again. */
+.deckbuilder-panel--collapsed {
+  flex: 0 0 auto;
+  max-height: none;
+}
+
+/* Whichever panel is still open takes the whole split. Without this the
+   open panel kept its content-sized height (the deck panel its 45% cap)
+   and the space the collapsed panel gave up was left empty. */
+.deckbuilder-split--deck-only .deckbuilder-top-panel,
+.deckbuilder-split--collection-only .deckbuilder-bottom-panel {
+  flex: 1 1 auto;
+  max-height: none;
 }
 
 /* Shared panel header bar */
@@ -714,8 +726,16 @@
   color: var(--color-gray-7);
   letter-spacing: 0;
 }
-@media (max-width: 420px) {
+
+/* Phone widths: the deck header carries label + A/B + three actions + the
+   collapse toggle, which needs ~390px before it wraps. Shed the hint first,
+   then the action words, so the row stays one line down to the narrowest
+   supported width. */
+@media (max-width: 560px) {
   .deckbuilder-panel-hint { display: none; }
+}
+@media (max-width: 480px) {
+  .db-action-label { display: none; }
 }
 
 /* Right-hand action cluster in either panel header. This class was applied
