@@ -62,7 +62,7 @@ import {
 import type { MerchantItem } from './components/campaign/MerchantScreen'
 import { MemoryFragment, isHubWorldUnlocked, loadHubDefault } from './game/codex'
 import type { QuickBattleMode } from './components/screens/QuickBattleScreen'
-import { applyTextSettings, loadSkipIntro, load8bitEnabled, apply8bitMode, applyLightMode, loadLightMode } from './components/screens/SettingsScreen'
+import { applyTextSettings, loadSkipIntro, load8bitEnabled, apply8bitMode, clearLegacyLightMode } from './components/screens/SettingsScreen'
 import { addToInventory, RewardDef } from './game/dailyLogin'
 import { GIFT_OWNER_UID } from './game/gifts'
 import {
@@ -107,7 +107,7 @@ import { BROKEN_RELIC_ITEMS } from './app/merchantItems'
 // Apply saved display settings on load
 applyTextSettings()
 apply8bitMode(load8bitEnabled())
-applyLightMode(loadLightMode())
+clearLegacyLightMode()
 
 // Screen union, stance rules and the visibility threshold live in ./app/screens;
 // merchant item construction in ./app/merchantItems (#316).
