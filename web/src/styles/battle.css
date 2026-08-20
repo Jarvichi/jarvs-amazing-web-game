@@ -649,27 +649,44 @@
 .stance-clover--expanded .stance-clover-grid { gap: 4px; }
 
 .stance-clover--expanded .stance-petal {
-  color: var(--game-text-color-dim);
-  font-family: inherit;
-  font-size: var(--font-xxs);
-  font-weight: bold;
-  letter-spacing: 0.5px;
   cursor: pointer;
   box-shadow: var(--elevation-raised);
 }
 .stance-clover--expanded .stance-petal:hover:not(:disabled) {
   border-color: #777;
-  color: var(--game-text-color-dim);
 }
 .stance-clover--expanded .stance-petal:active:not(:disabled) {
   transform: translateY(1px);
 }
-.stance-clover--expanded .stance-petal--active {
-  color: var(--game-text-color);
-}
 .stance-clover--expanded .stance-petal:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+/* The visible label — plain text ignored the petal's own curve entirely
+   (cramped at the sharp center point, empty space at the rounded rim); this
+   follows an arc concentric with that rim instead. See arcPath in
+   StanceBar.tsx for the geometry. Sits on top of the (now unlabelled) petal
+   buttons; pointer-events:none so taps still reach them. */
+.stance-clover-labels {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.stance-petal-label {
+  fill: var(--game-text-color-dim);
+  font-family: inherit;
+  font-size: 8px;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+}
+/* The active petal's own background glow (.stance-petal--active) already
+   carries the "current stance" signal; this just keeps its label as legible
+   against that lighter fill as the dim labels are against the plain one. */
+.stance-petal-label--active {
+  fill: var(--game-text-color);
 }
 
 .stance-clover-timer {
@@ -703,16 +720,27 @@
 }
 
 
+/* A round gold badge, matching the clover's own roundness rather than sitting
+   next to it as a leftover rectangle — was a raw-hex-and-!important override
+   of .filter-btn's rectangular shape; this owns its shape and colour outright
+   instead of fighting a rectangle base class for both. */
 .stance-bar__speed {
-  flex: 0 0 auto !important;
-  min-width: 36px;
-  border-color: #5a5a00 !important;
-  color: #cccc44 !important;
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  min-height: 32px;
+  padding: 0;
+  border-radius: 50%;
+  border-color: var(--color-gold-dim);
+  color: var(--color-gold-light);
+  font-size: var(--font-xs);
+  font-weight: bold;
 }
 
 .stance-bar__speed:hover {
-  border-color: #aaaa00 !important;
-  color: #ffff66 !important;
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+  box-shadow: 0 0 5px color-mix(in srgb, var(--accent-gold) 50%, transparent);
 }
 
 .hand-panel {
