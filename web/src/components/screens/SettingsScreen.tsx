@@ -3,6 +3,7 @@ import {
   signOut as firebaseSignOut, type User,
 } from 'firebase/auth'
 import { isSoundEnabled, setSoundEnabled, getSoundVolume, setSoundVolume, getMusicVolume, setMusicVolume } from '../../game/sound'
+import { isHapticsSupported, isHapticsEnabled, setHapticsEnabled } from '../../game/haptics'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Section } from '../ui/Section'
 import { Button } from '../ui/Button'
@@ -161,6 +162,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
   const [eightbitOn,    setEightbitOn]    = useState(load8bitEnabled)
   const [eightbitUnlocked]               = useState(load8bitUnlocked)
   const [monochromeOn,   setMonochromeOn]   = useState(loadMonochromeEnabled)
+  const [hapticsOn,      setHapticsOn]      = useState(isHapticsEnabled)
   const [battlePopups,  setBattlePopups]  = useState(loadBattlePopups)
   const [hubDefault,    setHubDefault]    = useState(loadHubDefault)
   const [confirmReset,  setConfirmReset]  = useState(false)
@@ -267,6 +269,12 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
     setMonochromeOn(next)
     saveMonochromeEnabled(next)
     applyMonochromeMode(next)
+  }
+
+  function handleHapticsToggle() {
+    const next = !hapticsOn
+    setHapticsOn(next)
+    setHapticsEnabled(next)
   }
 
   function handleBattlePopupsToggle() {
@@ -516,6 +524,33 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
               </div>
             </div>
           </Section>
+
+        {/* Hidden entirely rather than shown-but-inert on iOS Safari (no
+            Vibration API) — a toggle that visibly does nothing is worse
+            than no toggle, same call as retiring light mode (#2184). */}
+        {isHapticsSupported() && (
+          <Section bordered title="HAPTICS">
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
+              <div>
+                <div className="settings-label">Vibration</div>
+                <div className="settings-sublabel">Short pulses for card plays, hits, and wins/losses</div>
+              </div>
+              <div
+                className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select"
+                onClick={handleHapticsToggle}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleHapticsToggle() } }}
+                role="switch"
+                aria-checked={hapticsOn}
+                aria-label="Vibration"
+                tabIndex={0}
+              >
+                <div className={`settings-toggle-track${hapticsOn ? ' settings-toggle-track--on' : ''}`}>
+                  <div className="settings-toggle-thumb" />
+                </div>
+              </div>
+            </div>
+          </Section>
+        )}
 
         <Section bordered title="DISPLAY">
           <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">

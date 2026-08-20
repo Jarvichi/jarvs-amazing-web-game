@@ -1,6 +1,8 @@
 // ─── Web Audio API Sound Engine ──────────────────────────────────────────────
 // All sounds are procedurally generated — no external audio files needed.
 
+import { hapticCardPlay, hapticHit, hapticImpact, hapticWin, hapticLoss, hapticReward } from './haptics'
+
 let ctx: AudioContext | null = null
 let masterGain: GainNode | null = null
 
@@ -124,6 +126,7 @@ function now(): number {
 // ─── Individual sounds ────────────────────────────────────────────────────────
 
 export function playCardPlay() {
+  hapticCardPlay()
   const t = now()
   node(440, 'sine', t,       0.08, 0.25)
   node(660, 'sine', t + 0.06, 0.10, 0.20)
@@ -154,12 +157,14 @@ export function playBuildingDestroyed() {
 }
 
 export function playVictory() {
+  hapticWin()
   const t = now()
   const melody = [523, 659, 784, 1047]
   melody.forEach((f, i) => node(f, 'sine', t + i * 0.12, 0.18, 0.3))
 }
 
 export function playDefeat() {
+  hapticLoss()
   const t = now()
   const melody = [400, 350, 280, 220]
   melody.forEach((f, i) => node(f, 'sawtooth', t + i * 0.15, 0.22, 0.25))
@@ -201,12 +206,14 @@ export function playUnitAttack() {
   const now2 = Date.now()
   if (now2 - _lastAttackSoundMs < 80) return
   _lastAttackSoundMs = now2
+  hapticHit()
   const t = now()
   node(180, 'sawtooth', t,        0.04, 0.22)
   node(280, 'square',   t + 0.02, 0.03, 0.15)
 }
 
 export function playBaseHit() {
+  hapticImpact()
   const t = now()
   node(100, 'sawtooth', t,        0.10, 0.38)
   node(60,  'sine',     t,        0.15, 0.32)
@@ -223,6 +230,7 @@ export function playBattleStart() {
 }
 
 export function playUpgrade() {
+  hapticReward()
   const t = now()
   const notes = [523, 659, 784, 1047]
   notes.forEach((f, i) => node(f, 'sine', t + i * 0.07, 0.12, 0.22))

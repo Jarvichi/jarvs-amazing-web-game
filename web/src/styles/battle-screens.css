@@ -298,7 +298,13 @@
   border: 1px solid var(--color-gray-5);
   background: var(--game-bg-card);
   position: relative;
-  transition: background 0.2s, border-color 0.2s;
+  transition: background 0.2s, border-color 0.2s, transform 0.1s;
+}
+
+/* Press feedback (#2185) — the switch had no reaction at all to being
+   pressed until the toggle finished flipping. */
+.settings-toggle:active .settings-toggle-track {
+  transform: scale(0.92);
 }
 
 .settings-toggle-track--on {
