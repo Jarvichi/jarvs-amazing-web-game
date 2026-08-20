@@ -1,4 +1,4 @@
-/* tokens.css — split from styles.css (#2169). Design token layer (#2166): palette, accents, text, borders, elevation, radius, z-index, fonts (#2168), type scale, light-mode overrides. */
+/* tokens.css — split from styles.css (#2169). Design token layer (#2166): palette, accents, text, borders, elevation, radius, z-index, fonts (#2168), type scale. (Light-mode overrides retired in #2184 — see that issue for why.) */
 
 /* ─── Self-hosted fonts (#2168) ──────────────────────────
    woff2, OFL-licensed, self-hosted under /fonts/ so the PWA works
@@ -37,6 +37,16 @@
      inconsistent — one source of truth prevents a repeat. */
   --container-pad-x: 10px;
   --container-pad-y: 6px;
+
+  /* Tablet/desktop breakpoints (#2183), mirrored in breakpoints.ts. These
+     custom properties document the canonical values and are usable as
+     ordinary property values, but NOT inside an `@media` condition — this
+     repo has no Custom Media Queries plugin, so every `@media (min-width: …)`
+     rule at these tiers has to repeat the literal pixel value. That
+     repetition is checked against breakpoints.ts by breakpoints.test.ts. */
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-desktop-lg: 1440px;
 
   --game-text-color: #33ff33;
   --game-text-color-dim:   color-mix(in srgb, var(--game-text-color) 85%, transparent);
@@ -173,53 +183,5 @@
   --z-modal:    200;
   --z-toast:    9000;
   --z-debug:    9999;
-}
-
-html.light-mode {
-  --game-bg: #f0ede6;
-  --game-bg-raised: #e4e0d8;
-  --game-bg-card: #dedad2;
-  --game-border: #a09880;
-  --game-text-color: #2a4a2a;
-}
-
-/* ─── Light Mode ─────────────────────────────────────── */
-
-html.light-mode body {
-  background: var(--game-bg);
-}
-
-/* Overlay screens */
-html.light-mode .overlay-screen {
-  background: var(--game-bg);
-}
-
-/* Top bar and panels */
-html.light-mode .top-bar {
-  background: rgba(0, 0, 0, 0.04);
-}
-
-/* Card tiles */
-html.light-mode .card-tile {
-  background: var(--game-bg-card);
-}
-
-/* Scrollbar */
-html.light-mode ::-webkit-scrollbar-track {
-  background: var(--game-bg-raised);
-}
-html.light-mode ::-webkit-scrollbar-thumb {
-  background: var(--game-border);
-}
-
-/* Ensure toggle track colour shows correctly */
-html.light-mode .settings-toggle-track {
-  background: var(--game-bg-card);
-  border-color: var(--game-border);
-}
-
-/* Action buttons: keep their colours readable on light bg */
-html.light-mode .action-btn {
-  background: transparent;
 }
 

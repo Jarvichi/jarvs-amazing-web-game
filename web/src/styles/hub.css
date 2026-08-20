@@ -221,7 +221,7 @@
 }
 .home-grid-piece:hover { border-color: #6a9a6a; }
 .home-grid-piece--selected {
-  border-color: #ffcc00;
+  border-color: var(--color-gold-alt);
   box-shadow: 0 0 6px rgba(255,204,0,0.6);
 }
 
@@ -260,7 +260,7 @@
   background: rgba(20,36,20,0.5);
 }
 .furniture-picker-item--armed {
-  border-color: #ffcc00;
+  border-color: var(--color-gold-alt);
   background: rgba(60,50,10,0.4);
 }
 .furniture-picker-item--locked { opacity: 0.6; }
@@ -303,7 +303,7 @@
 
 .action-btn--remove-armed {
   background: #f44336;
-  color: #fff;
+  color: var(--text-inverse);
   border-color: #f44336;
   animation: td-sell-armed-pulse 0.6s ease-in-out infinite alternate;
 }

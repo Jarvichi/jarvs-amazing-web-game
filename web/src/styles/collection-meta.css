@@ -24,7 +24,7 @@
 }
 
 .codex-search {
-  background: var(--game-bg, #0a0a0a);
+  background: var(--game-bg, var(--game-bg));
   border: 1px solid var(--game-border, #2a5a2a);
   color: var(--game-text-color);
   font-family: inherit;
@@ -197,7 +197,7 @@
 
 .character-avatar-tab {
   background: none;
-  border: 1px solid #444;
+  border: 1px solid var(--color-gray-5);
   color: var(--game-text-color-dim);
   font-family: inherit;
   font-size: var(--font-sm);
@@ -218,8 +218,8 @@
 
 .character-name-input {
   background: var(--game-bg-raised);
-  border: 1px solid #33ff33;
-  color: #33ff33;
+  border: 1px solid var(--game-text-color);
+  color: var(--game-text-color);
   font-family: inherit;
   font-size: 1rem;
   padding: 0.4rem 0.6rem;
@@ -242,7 +242,7 @@
 .character-avatar-btn {
   background: var(--game-bg);
   border: 1px solid var(--game-border);
-  color: #aaa;
+  color: var(--color-gray-9);
   cursor: pointer;
   padding: 0.5rem 0.3rem;
   display: flex;
@@ -252,11 +252,11 @@
   transition: border-color 0.15s, background 0.15s;
 }
 .character-avatar-btn:hover {
-  border-color: #33ff33;
+  border-color: var(--game-text-color);
   background: #0d1a0d;
 }
 .character-avatar-btn--chosen {
-  border-color: #33ff33;
+  border-color: var(--game-text-color);
   background: #0d1a0d;
   box-shadow: 0 0 6px rgba(51, 255, 51, 0.3);
 }
@@ -270,12 +270,12 @@
 
 .character-avatar-label {
   font-size: 0.6rem;
-  color: #aaa;
+  color: var(--color-gray-9);
   text-align: center;
   line-height: 1.2;
 }
 .character-avatar-btn--chosen .character-avatar-label {
-  color: #33ff33;
+  color: var(--game-text-color);
 }
 .character-avatar-btn--locked {
   opacity: 0.45;
@@ -313,11 +313,11 @@
   position: relative;
 }
 .character-archetype-btn:hover:not(.character-archetype-btn--locked) {
-  border-color: #33ff33;
+  border-color: var(--game-text-color);
   background: #0d1a0d;
 }
 .character-archetype-btn--chosen {
-  border-color: #33ff33;
+  border-color: var(--game-text-color);
   background: #0d2a0d;
   box-shadow: 0 0 8px rgba(51, 255, 51, 0.25);
 }
@@ -331,7 +331,7 @@
   top: 0.5rem;
   right: 0.65rem;
   font-size: 0.65rem;
-  color: #33ff33;
+  color: var(--game-text-color);
   font-weight: bold;
   letter-spacing: 0.05em;
 }
@@ -347,7 +347,7 @@
   color: #eeffee;
 }
 .character-archetype-btn--chosen .character-archetype-name {
-  color: #33ff33;
+  color: var(--game-text-color);
 }
 .character-archetype-identity {
   font-size: 0.7rem;
@@ -356,7 +356,7 @@
 }
 .character-archetype-passive {
   font-size: 0.68rem;
-  color: #aaa;
+  color: var(--color-gray-9);
   margin-top: 0.15rem;
 }
 
@@ -365,7 +365,7 @@
 .aug-stacks-section { display: flex; flex-direction: column; gap: 8px; width: 100%; }
 
 .aug-stack-tile {
-  border: 1px solid #333;
+  border: 1px solid var(--game-border);
   border-radius: 6px;
   padding: 10px 12px;
   background: rgba(80,50,120,0.08);
@@ -381,7 +381,7 @@
 }
 
 .aug-stack-name   { font-size: var(--font-sm); font-weight: bold; }
-.aug-stack-levels { font-size: var(--font-xxs); color: #aaa; }
+.aug-stack-levels { font-size: var(--font-xxs); color: var(--color-gray-9); }
 
 .aug-stack-slots {
   display: flex;

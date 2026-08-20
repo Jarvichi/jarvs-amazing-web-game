@@ -39,7 +39,7 @@
 
 .nm-consumables-label {
   font-size: var(--font-xs);
-  color: #666;
+  color: var(--color-gray-7);
   letter-spacing: 1px;
   margin-right: 4px;
   flex-shrink: 0;
@@ -51,7 +51,7 @@
   gap: 4px;
   background: var(--game-bg-card);
   border: 1px solid #3a3a3a;
-  color: #ccc;
+  color: var(--color-gray-10);
   padding: 4px 8px;
   font-family: inherit;
   font-size: var(--font-sm);
@@ -63,7 +63,7 @@
 .nm-consumable-btn:hover:not(:disabled) {
   background: #252525;
   border-color: #33ff88;
-  color: #fff;
+  color: var(--text-inverse);
 }
 
 .nm-consumable-btn--empty {
@@ -370,7 +370,7 @@
   gap: 12px;
   padding: 12px 14px;
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid #444;
+  border: 1px solid var(--color-gray-5);
   border-radius: 6px;
   cursor: pointer;
   text-align: left;
@@ -1037,7 +1037,7 @@
 }
 
 .starter-pack {
-  border: 1px solid #222;
+  border: 1px solid var(--color-gray-3);
   padding: 16px;
   min-width: 160px;
   max-width: 200px;

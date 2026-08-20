@@ -62,7 +62,7 @@ import {
 import type { MerchantItem } from './components/campaign/MerchantScreen'
 import { MemoryFragment, isHubWorldUnlocked, loadHubDefault } from './game/codex'
 import type { QuickBattleMode } from './components/screens/QuickBattleScreen'
-import { applyTextSettings, loadSkipIntro, load8bitEnabled, apply8bitMode, applyLightMode, loadLightMode } from './components/screens/SettingsScreen'
+import { applyTextSettings, loadSkipIntro, load8bitEnabled, apply8bitMode, clearLegacyLightMode } from './components/screens/SettingsScreen'
 import { addToInventory, RewardDef } from './game/dailyLogin'
 import { GIFT_OWNER_UID } from './game/gifts'
 import {
@@ -101,12 +101,13 @@ import { auth } from './firebase'
 import { uploadSave } from './game/cloudSave'
 import { getHubWorldData, type HubWorldData } from './data/hub/hubWorldFactory'
 import type { Screen } from './app/screens'
+import { WIDE_SCREENS } from './app/screens'
 import { BROKEN_RELIC_ITEMS } from './app/merchantItems'
 
 // Apply saved display settings on load
 applyTextSettings()
 apply8bitMode(load8bitEnabled())
-applyLightMode(loadLightMode())
+clearLegacyLightMode()
 
 // Screen union, stance rules and the visibility threshold live in ./app/screens;
 // merchant item construction in ./app/merchantItems (#316).
@@ -1246,7 +1247,7 @@ export default function App() {
     <ToastProvider>
     <AppProvider value={appContextValue}>
     <BattleProvider value={battleContextValue}>
-    <div className="game-container">
+    <div className={`game-container${WIDE_SCREENS.has(screen) ? ' game-container--wide' : ''}`}>
       <IconSprite />
       <div className="game-title">JARV'S AMAZING WEB GAME</div>
 
