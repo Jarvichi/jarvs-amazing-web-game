@@ -15,7 +15,12 @@ export function ManaBar({ mana, maxMana, manaAccum }: Props) {
     return 'empty'
   })
   return (
-    <div className="mana-bar u-flex u-items-c">
+    // The track's width is driven by the pip count but capped in CSS, so the
+    // meter stays compact at a 3-mana start and stops growing once maxMana is
+    // high enough that pips have to share the space instead. Without the count
+    // here CSS can only either fix the width (wasting space at low maxMana) or
+    // let it shrink to nothing against the HP bar's flex: 1.
+    <div className="mana-bar u-flex u-items-c" style={{ '--mana-pips': maxMana } as React.CSSProperties}>
       {pips.map((pipState, i) => (
         <span key={i} className={`mana-pip mana-pip--${pipState}`}>
           {pipState === 'partial'
