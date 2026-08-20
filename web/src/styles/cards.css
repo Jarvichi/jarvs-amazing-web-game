@@ -39,6 +39,31 @@
   transition-duration: 0.05s;
 }
 
+/* ─── Compact tile (battle hand) ──────────────────────
+   The hand only needs what a play decision turns on: name, icon, mana cost,
+   type. CardTile's `compact` prop drops the stat line and rarity stars; this
+   trims the remaining chrome. Scoped to the modifier so Collection and the
+   deck builder keep the full-size tile untouched.
+
+   This is a battlefield layout fix as much as a visual one: the hand is the
+   largest single consumer of the frame's vertical budget, and the lane is
+   letterboxed to a fixed ratio — so height the hand gives back widens the play
+   area too. See .battlefield-frame in battle.css. */
+.card-tile--compact {
+  padding: 6px 8px;
+  gap: 2px;
+}
+
+.card-tile--compact .card-art {
+  height: 38px;
+}
+
+/* The stat line is gone, so the type badge is the bottom row's only child —
+   space-between would leave it hugging the left edge under a centred title. */
+.card-tile--compact .card-bottom-row {
+  justify-content: center;
+}
+
 .card-tile--disabled,
 .fm-hold-btn--blocked,
 .td-selected-action-btn--disabled,

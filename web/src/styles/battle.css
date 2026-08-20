@@ -19,28 +19,23 @@
 .battlefield-frame {
   position: relative;
   overflow: hidden;
-  /* Fixed bands reserved for the floating bar clusters. The lane fills the space
+  /* Bands reserved for the floating bar clusters. The lane fills the space
      between them, so the play area's size depends only on the frame — never on
      bar content (long scores, wave status, event tags, card-bar height changes).
-     Retuned for #2176's HUD pass by measuring actual cluster height in a real
-     battle (see PR description) — the previous values already under-reserved
-     space before this pass (a pre-existing gap this issue called out), and the
-     larger card hand/base-bar surfaces need a little more. BATTLEFIELD_ASPECT_RATIO
-     is tall/narrow (9:19.5), so in practice almost every real viewport letterboxes
-     down to the --compact or --tiny tier — this default tier is a rarely-hit
-     ceiling for unusually tall windows, kept in proportion with the other two. */
-  --bf-top-buffer: 92px;
-  --bf-bottom-buffer: 255px;
-}
 
-/* Narrower-frame tuning — keyed off the letterboxed frame's own computed width
-   (set as classes from Battlefield.tsx), not the device viewport: a wide desktop
-   window letterboxed down to a phone-width frame needs the same phone tuning a
-   real phone gets, which a viewport @media query alone could never detect.
-   The lane has no min-height override here: it is letterboxed to a fixed ratio
-   (see .lane below), and a minimum on one axis would silently break that ratio. */
-.battlefield-frame--compact { --bf-top-buffer: 88px; --bf-bottom-buffer: 250px; }
-.battlefield-frame--tiny { --bf-top-buffer: 86px; --bf-bottom-buffer: 244px; }
+     Battlefield.tsx overwrites both of these with the clusters' MEASURED heights
+     (useMeasuredHeight) as soon as the first ResizeObserver callback lands. The
+     values here are only a first-paint fallback.
+
+     They used to be the real thing: three hand-tuned tiers of fixed pixels. They
+     were correct on the day they were measured and then the HUD grew — by the
+     time this was investigated the bands under-reserved by 17px at the top and
+     23px at the bottom, so the opponent base bar and the player mana bar were
+     both sitting on top of the play area on every phone. A constant describing
+     the size of something that can change is a bug with a delay on it. */
+  --bf-top-buffer: 105px;
+  --bf-bottom-buffer: 275px;
+}
 
 /* Floating bar clusters: absolutely positioned in the reserved bands above/below
    the lane. Their content can grow/wrap without ever resizing or reflowing the lane. */
@@ -68,7 +63,7 @@
   flex-wrap: nowrap;
   white-space: nowrap;
   overflow: hidden;
-  padding: 4px 8px;
+  padding: 3px 8px;
   border: 1px solid var(--border-edge-dark);
   border-radius: var(--radius-md);
   background: var(--surface-1);
@@ -170,6 +165,40 @@
      at all before #2176). */
   background: var(--surface-1);
   box-shadow: var(--elevation-raised);
+}
+
+/* Base bars as lane-edge overlays (see Battlefield.tsx). Pinned to the lane
+   itself rather than the slot, so they track the play area's exact width even
+   while it is still letterboxed narrower than the frame.
+
+   Only the bar itself takes pointer events — the wrapper spans the full lane
+   width, and swallowing taps across it would kill unit inspection along the
+   top and bottom rows. */
+.lane-base-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  display: flex;
+  padding: 3px;
+  pointer-events: none;
+}
+
+.lane-base-bar > * {
+  flex: 1;
+  pointer-events: auto;
+}
+
+.lane-base-bar--opponent { top: 0; }
+.lane-base-bar--player { bottom: 0; }
+
+/* Units spawn at their base — i.e. directly under these bars now that the bars
+   sit inside the lane. #2176 gave .base-bar a solid fill so its text stayed
+   legible over bright terrain; keep most of that, but not so much that a freshly
+   spawned unit is invisible until it walks out. Units read through as shapes,
+   while the HP fill and label still have ~80% of a solid backing behind them. */
+.lane-base-bar .base-bar {
+  background: color-mix(in srgb, var(--surface-1) 80%, transparent);
 }
 
 .base-bar--opponent {
@@ -548,7 +577,7 @@
 .stance-bar {
   display: flex;
   gap: 4px;
-  padding: 4px 6px;
+  padding: 3px 6px;
   border-top: 1px solid var(--game-border);
   flex-shrink: 0;
   background: var(--surface-1);
@@ -558,6 +587,22 @@
   flex: 1;
   text-align: center;
 }
+
+/* ─── Battle HUD control density ──────────────────────
+   #2182's touch-target pass gives every .action-btn a 44px min-height under
+   `@media (pointer: coarse)`. That is the right default, but the battle HUD is
+   the one screen where vertical space is the scarcest thing in the game: these
+   buttons hold ~16px of content, so 44px was leaving 28px of forced blank space
+   in each of the two densest rows, twice over, directly against the play area.
+
+   These targets stay 32px tall and are 60-90px WIDE, well clear of WCAG 2.2
+   AA's 24x24 minimum (2.5.8). It relaxes only the AAA 44x44 target (2.5.5), and
+   only here — every other button in the game keeps the full 44px. */
+.stance-bar .action-btn,
+.top-bar .action-btn {
+  min-height: 32px;
+}
+
 
 .stance-bar__speed {
   flex: 0 0 auto !important;
@@ -912,7 +957,9 @@
   background: none;
   border: 1px solid var(--game-text-color-muted);
   color: var(--game-text-color-dim);
-  font-size: 1rem;
+  /* Was 1rem — the largest text in a bar of ~10px labels, which made the button
+     bigger than anything it sits beside for no hierarchy reason. */
+  font-size: var(--font-sm);
   padding: 0 6px;
   border-radius: 3px;
   cursor: pointer;

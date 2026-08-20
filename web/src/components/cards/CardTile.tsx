@@ -135,9 +135,18 @@ interface Props {
   deckMatches?: number   // deck builder: how many deck cards this one pairs with
   selected?: boolean     // deck builder / picker screens: this tile is the active selection
   isNew?: boolean        // collection: unseen since last acquired
+  /**
+   * Battle hand: show only what a play decision needs — name, icon, cost, type.
+   * Drops the stat line and rarity stars, and tightens the art/padding. The hand
+   * is the single biggest consumer of the battlefield's vertical budget, and every
+   * pixel it gives back widens the play area too (the lane is aspect-locked, so
+   * height loss costs width — see .battlefield-frame in battle.css). Full stats
+   * stay one tap away via the hand's ⓘ button.
+   */
+  compact?: boolean
 }
 
-export function CardTile({ card, canAfford = true, disabled = false, onClick, lockedSecs = 0, upgradeable = false , showDetails = false, displayCost, deckMatches = 0, selected = false, isNew = false }: Props) {
+export function CardTile({ card, canAfford = true, disabled = false, onClick, lockedSecs = 0, upgradeable = false , showDetails = false, displayCost, deckMatches = 0, selected = false, isNew = false, compact = false }: Props) {
   const heroLocked = card.isHero && lockedSecs > 0
   const clickable = canAfford && !disabled && !heroLocked
   const { openDetail, cardDetailNode } = useCardDetail()
@@ -186,6 +195,7 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
         `card-tile--${card.rarity}`,
         clickable ? '' : 'card-tile--disabled',
         selected ? 'card-tile--selected' : '',
+        compact ? 'card-tile--compact' : '',
       ].filter(Boolean).join(' ')}
       title={heroLocked ? `Hero cards unlock after 30 seconds (${lockedSecs}s remaining)` : card.description}
     >
@@ -237,9 +247,9 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
           }
         </div>
 
-        <div className="card-stats">{stats}</div>
+        {!compact && <div className="card-stats">{stats}</div>}
         <div className={`card-bottom-row${showDetails ? ' card-bottom-row--with-info' : ''}`}>
-          <div className="card-rarity">{rarityStars(card.rarity)}</div>
+          {!compact && <div className="card-rarity">{rarityStars(card.rarity)}</div>}
           <div className={`card-type-badge card-type-badge--${getCardCategory(card)}`}>
             {CATEGORY_ICON[getCardCategory(card)]}
             {/* The label carries its own ellipsis: text-overflow can't act on the

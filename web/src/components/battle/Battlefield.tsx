@@ -18,6 +18,7 @@ import { loadBattlePopups } from '../screens/SettingsScreen'
 import { TutorialOverlay } from '../modals/TutorialOverlay'
 import { hasSeen, markSeen } from '../../game/tutorial'
 import { useLetterboxSize } from '../../hooks/useLetterboxSize'
+import { useMeasuredHeight } from '../../hooks/useMeasuredHeight'
 import { loadDevConfig, patchDevConfig } from '../../game/devStore'
 import { isDevMode } from '../../game/debug'
 import { BaseBar } from './battlefield/BaseBar'
@@ -122,6 +123,14 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
   // grid on every screen (see LANE_ASPECT_RATIO in game/types.ts).
   const laneSlotRef = useRef<HTMLDivElement>(null)
   const laneSize = useLetterboxSize(laneSlotRef, LANE_ASPECT_RATIO)
+  // The HUD bands reserve exactly as much room as the clusters actually occupy,
+  // measured rather than hardcoded. The previous fixed-pixel constants had drifted
+  // ~20px too small at both ends, so the opponent base bar and the player mana bar
+  // sat on top of the play area. See useMeasuredHeight.
+  const topClusterRef = useRef<HTMLDivElement>(null)
+  const bottomClusterRef = useRef<HTMLDivElement>(null)
+  const topBufferPx = useMeasuredHeight(topClusterRef)
+  const bottomBufferPx = useMeasuredHeight(bottomClusterRef)
   const playerName   = loadPlayerName()
   const playerAvatar = loadPlayerAvatar()
 
@@ -213,18 +222,24 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
   // The battlefield always renders at a fixed aspect ratio (BATTLEFIELD_ASPECT_RATIO),
   // letterboxed within the stage rather than stretched — see useLetterboxSize. Falls
   // back to filling the stage until the first ResizeObserver measurement lands.
-  const frameStyle: React.CSSProperties = frameSize
-    ? { width: frameSize.width, height: frameSize.height }
-    : { width: '100%', height: '100%' }
+  const frameStyle: React.CSSProperties = {
+    ...(frameSize
+      ? { width: frameSize.width, height: frameSize.height }
+      : { width: '100%', height: '100%' }),
+    // Until the first measurement lands these stay unset and battle.css's
+    // defaults apply, so the first paint is never a 0-height band.
+    ...(topBufferPx    != null ? { '--bf-top-buffer':    `${topBufferPx}px` } : {}),
+    ...(bottomBufferPx != null ? { '--bf-bottom-buffer': `${bottomBufferPx}px` } : {}),
+  } as React.CSSProperties
   // Rounded to whole pixels: BattlefieldCanvas measures its own box with
   // Math.ceil, so a fractional size would land the canvas a pixel off the ratio
   // and reintroduce a small collision/art drift across the lane's 17 columns.
   const laneStyle: React.CSSProperties = laneSize
     ? { width: Math.round(laneSize.width), height: Math.round(laneSize.height) }
     : { width: '100%', height: '100%' }
-  const isCompactFrame = !!frameSize && frameSize.width <= 480
-  const isTinyFrame = !!frameSize && frameSize.width <= 380
-  const frameClassName = `battlefield-frame${isCompactFrame ? ' battlefield-frame--compact' : ''}${isTinyFrame ? ' battlefield-frame--tiny' : ''}`
+  // The --compact/--tiny frame tiers are gone: they existed only to nudge the
+  // hardcoded band constants per frame width, and the bands now measure themselves.
+  const frameClassName = 'battlefield-frame'
 
   return (
     <div
@@ -266,7 +281,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
       )}
 
       {/* Top cluster: floats above the lane in the reserved top band */}
-      <div className="bf-top-cluster">
+      <div className="bf-top-cluster" ref={topClusterRef}>
       <TopBar
         timeStr={timeStr}
         suddenDeath={state.suddenDeath}
@@ -293,18 +308,6 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
         </div>
       )}
 
-      {/* Opponent base */}
-      <BaseBar
-        owner="opponent"
-        portraitSrc={`${BASE_SPRITE_PATH}${opponentCommanderSlug}.svg`}
-        portraitAlt="opponent"
-        hp={state.opponentBase.hp}
-        maxHp={state.opponentBase.maxHp}
-        color="#ff4444"
-        rightSlot={STRATEGY_LABELS[state.opponentStrategy] && (
-          <span className="strategy-label">{STRATEGY_LABELS[state.opponentStrategy]}</span>
-        )}
-      />
       </div>
 
       <CombatLogPanel entries={state.log} open={logOpen} onClose={() => setLogOpen(false)} />
@@ -332,6 +335,39 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
           debugOverlay={debugOverlay}
           selectedUnitId={inspectedUnit?.id ?? null}
         />
+
+        {/* Base HP bars ride the lane's own top and bottom edges rather than
+            sitting in the HUD bands above and below it. Each bar belongs to the
+            base at that end of the lane, so this is where they read most
+            naturally — and it hands ~100px of the frame's vertical budget back
+            to the play area. That matters more than it sounds: the lane is
+            letterboxed to a fixed ratio, so height it cannot use it also cannot
+            spend on width, and the reclaimed space is what takes the lane from
+            an 18%-pillarboxed column to very nearly the full frame width. */}
+        <div className="lane-base-bar lane-base-bar--opponent">
+          <BaseBar
+            owner="opponent"
+            portraitSrc={`${BASE_SPRITE_PATH}${opponentCommanderSlug}.svg`}
+            portraitAlt="opponent"
+            hp={state.opponentBase.hp}
+            maxHp={state.opponentBase.maxHp}
+            color="#ff4444"
+            rightSlot={STRATEGY_LABELS[state.opponentStrategy] && (
+              <span className="strategy-label">{STRATEGY_LABELS[state.opponentStrategy]}</span>
+            )}
+          />
+        </div>
+        <div className="lane-base-bar lane-base-bar--player">
+          <BaseBar
+            owner="player"
+            portraitSrc={`${BASE_SPRITE_PATH}${playerAvatar}.svg`}
+            portraitAlt={playerName}
+            hp={state.playerBase.hp}
+            maxHp={state.playerBase.maxHp}
+            color="#33ff33"
+            rightSlot={<>MANA {state.mana}/{state.maxMana} <ManaBar mana={state.mana} maxMana={state.maxMana} manaAccum={state.manaAccum} /></>}
+          />
+        </div>
 
         {/* AoE targeting overlay */}
         {pendingAoeCard && (
@@ -380,18 +416,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
       })()}
 
       {/* Bottom cluster: floats below the lane in the reserved bottom band */}
-      <div className="bf-bottom-cluster">
-      {/* Player base */}
-      <BaseBar
-        owner="player"
-        portraitSrc={`${BASE_SPRITE_PATH}${playerAvatar}.svg`}
-        portraitAlt={playerName}
-        hp={state.playerBase.hp}
-        maxHp={state.playerBase.maxHp}
-        color="#33ff33"
-        rightSlot={<>MANA {state.mana}/{state.maxMana} <ManaBar mana={state.mana} maxMana={state.maxMana} manaAccum={state.manaAccum} /></>}
-      />
-
+      <div className="bf-bottom-cluster" ref={bottomClusterRef}>
       {/* Stance + speed controls */}
       {(() => {
         const rules = state.stanceRules
@@ -444,6 +469,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
               <div key={card.id} className="hand-card-wrap u-relative u-col" title={isMaxUpgrade ? 'Already at max level' : undefined}>
                 <CardTile
                   card={card}
+                  compact
                   canAfford={!isMaxUpgrade && state.mana >= getEffectiveCardCost(card, state)}
                   displayCost={getEffectiveCardCost(card, state)}
                   onClick={() => {
