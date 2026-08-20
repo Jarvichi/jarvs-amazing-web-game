@@ -1053,10 +1053,10 @@ export default function App() {
 
 
   const {
-    handlePlayCard, handlePlayAoeCard, handleSetStance, handleCycleSpeed,
+    handlePlayCard, handlePlayAoeCard, handleSetStance, handleSetSpeed,
     handleWaveRewardPick, handleWaveRewardSkip,
   } = useBattleControls({
-    gameStateRef, dispatch, speedMultiplier,
+    gameStateRef, dispatch,
     isTrainingModeRef, isCampaignRef, campaignPlayCountsRef,
     battleUsedStructure, battleUsedMobileUnit,
     setAchievementToasts, setQuestCompletes,
@@ -1231,13 +1231,13 @@ export default function App() {
     isCampaignRef, worldBattleNodeIdRef, isDailyChallengeRef, isWeeklyChallengeRef, isWandererBattleRef,
     gameStateRef, summaryDoneRef,
     handlePlayCard, handlePlayAoeCard, handleGiveUp, setIsUserPaused,
-    handleSetStance, handleCycleSpeed, handleWaveRewardPick, handleWaveRewardSkip,
+    handleSetStance, handleSetSpeed, handleWaveRewardPick, handleWaveRewardSkip,
     handleOpenPack, handleCampaignWin, handleCampaignRetry, handleDailyChallengeRetry,
     handlePlayAgain, handleWorldBattleRetry, handleMainMenu, handleAbandonRun,
   }), [
     battle, gameState, showBossSplash, actTheme, isCampaign, quickPlayRewardClaimed,
     activeRareEvent, handleRareEventDone,
-    handlePlayCard, handlePlayAoeCard, handleGiveUp, handleSetStance, handleCycleSpeed,
+    handlePlayCard, handlePlayAoeCard, handleGiveUp, handleSetStance, handleSetSpeed,
     handleWaveRewardPick, handleWaveRewardSkip, handleOpenPack, handleCampaignWin,
     handleCampaignRetry, handleDailyChallengeRetry, handlePlayAgain,
     handleWorldBattleRetry, handleMainMenu, handleAbandonRun,
