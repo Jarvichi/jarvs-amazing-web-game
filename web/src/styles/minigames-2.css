@@ -116,7 +116,7 @@
   font-size: 7px;
   line-height: 1.1;
   background: rgba(0,0,0,0.55);
-  color: #fff;
+  color: var(--text-inverse);
   padding: 0 2px;
   border-radius: 2px;
   letter-spacing: -0.2px;
@@ -241,7 +241,7 @@
   display: flex;
   gap: 8px;
   padding: 10px 14px;
-  border-top: 1px solid #1a1a1a;
+  border-top: 1px solid var(--game-bg-card);
   flex-wrap: wrap;
 }
 .city-disaster-cure-btn { flex: 1; }
@@ -326,7 +326,7 @@
 }
 
 .city-picker-rarity           { font-size: 8px; letter-spacing: 0.5px; }
-.city-picker-rarity--common   { color: #888; }
+.city-picker-rarity--common   { color: var(--color-gray-8); }
 .city-picker-rarity--uncommon { color: #4a9a4a; }
 .city-picker-rarity--rare     { color: #4a6aba; }
 .city-picker-rarity--legendary{ color: #c08020; }
@@ -453,7 +453,7 @@
 .city-star          { font-size: 18px; color: #2a4a2a; }
 .city-star--filled  { color: var(--color-gold-dim); }
 .city-level-stats   { font-size: 12px; color: #60d060; text-align: center; }
-.city-level-cost    { font-size: 12px; color: #aaa; }
+.city-level-cost    { font-size: 12px; color: var(--color-gray-9); }
 
 .city-level-costs-table {
   width: 100%;
@@ -504,7 +504,7 @@
   bottom: 22px;
   left: 50%;
   transform: translateX(-50%);
-  background: #111;
+  background: var(--game-bg-raised);
   border: 1px solid #40a040;
   border-radius: 4px;
   padding: 2px 3px;

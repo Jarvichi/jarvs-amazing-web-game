@@ -29,17 +29,17 @@
 }
 
 .card-rest-already {
-  border: 1px solid #333;
+  border: 1px solid var(--game-border);
   border-radius: 4px;
   padding: 10px 14px;
-  background: #111;
+  background: var(--game-bg-raised);
   width: 100%;
   max-width: 560px;
 }
 
 .card-rest-already-label {
   font-size: var(--font-xs);
-  color: #555;
+  color: var(--color-gray-6);
   letter-spacing: 0.1em;
   margin-bottom: 6px;
 }
@@ -75,12 +75,12 @@
 .card-rest-already-tag {
   font-size: var(--font-xs);
   letter-spacing: 0.2em;
-  color: #666;
+  color: var(--color-gray-7);
 }
 
 .card-rest-already-note {
   font-size: var(--font-xs);
-  color: #555;
+  color: var(--color-gray-6);
   font-style: italic;
 }
 
@@ -95,7 +95,7 @@
 }
 
 .card-rest-candidate:hover {
-  border-color: #555;
+  border-color: var(--color-gray-6);
   background: rgba(255, 255, 255, 0.02);
 }
 
@@ -325,7 +325,7 @@
   width: 100%;
   aspect-ratio: 5 / 3;
   object-fit: cover;
-  border: 1px solid #1a1a1a;
+  border: 1px solid var(--game-bg-card);
   margin-bottom: 24px;
   display: block;
 }
@@ -339,7 +339,7 @@
 
 .cutscene-footer {
   padding-top: 32px;
-  border-top: 1px solid #1a1a1a;
+  border-top: 1px solid var(--game-bg-card);
   margin-top: 32px;
 }
 
@@ -635,7 +635,7 @@
   color: var(--game-text-color-muted);
   text-align: center;
   line-height: 1.5;
-  border: 1px dashed #444;
+  border: 1px dashed var(--color-gray-5);
   padding: 8px 12px;
   border-radius: 4px;
   max-width: 360px;
@@ -789,7 +789,7 @@
   margin: 0;
 }
 .chr-challenge {
-  border: 1px dashed #444;
+  border: 1px dashed var(--color-gray-5);
   border-radius: 4px;
   padding: 10px 12px;
   margin-top: 8px;
@@ -897,7 +897,7 @@
 
 .rb-act-label {
   font-size: var(--font-xs);
-  color: #666;
+  color: var(--color-gray-7);
   letter-spacing: 3px;
   text-transform: uppercase;
 }
@@ -910,13 +910,13 @@
 
 .rb-subtitle {
   font-size: var(--font-base);
-  color: var(--game-text-color, #ccc);
+  color: var(--game-text-color, var(--color-gray-10));
   line-height: 1.5;
 }
 
 .rb-rule {
   font-size: var(--font-sm);
-  color: #888;
+  color: var(--color-gray-8);
   line-height: 1.5;
   margin-top: 4px;
 }
@@ -937,7 +937,7 @@
   padding: 14px 16px;
   background: var(--game-bg-raised);
   border: 2px solid var(--game-border);
-  color: var(--game-text-color, #ccc);
+  color: var(--game-text-color, var(--color-gray-10));
   font-family: inherit;
   cursor: pointer;
   text-align: left;
@@ -947,7 +947,7 @@
 }
 
 .rb-tier:hover {
-  border-color: #555;
+  border-color: var(--color-gray-6);
   background: #161616;
 }
 
@@ -1095,7 +1095,7 @@
 
 .camp-stats {
   font-size: var(--font-sm);
-  color: #aaa;
+  color: var(--color-gray-9);
 }
 
 .camp-choices {
@@ -1105,9 +1105,9 @@
 
 .camp-choice {
   background: transparent;
-  border: 1px solid #444;
+  border: 1px solid var(--color-gray-5);
   border-radius: 4px;
-  color: #ccc;
+  color: var(--color-gray-10);
   cursor: pointer;
   padding: 16px 20px;
   text-align: left;
@@ -1136,7 +1136,7 @@
 
 .camp-choice-desc {
   font-size: var(--font-sm);
-  color: #888;
+  color: var(--color-gray-8);
   line-height: 1.5;
 }
 
@@ -1146,7 +1146,7 @@
   align-items: center;
   gap: 24px;
   padding: 28px 24px;
-  border: 1px solid #444;
+  border: 1px solid var(--color-gray-5);
   border-radius: 4px;
   width: 100%;
   text-align: center;
@@ -1184,7 +1184,7 @@
   gap: 6px 24px;
   justify-content: center;
   padding: 10px 16px;
-  border: 1px solid #333;
+  border: 1px solid var(--game-border);
   border-radius: 4px;
   margin-bottom: 4px;
   width: 100%;
@@ -1195,15 +1195,15 @@
   display: flex;
   gap: 8px;
   font-size: var(--font-xs);
-  color: #888;
+  color: var(--color-gray-8);
   letter-spacing: 1px;
 }
 
 .reward-summary-row span:first-child {
-  color: #555;
+  color: var(--color-gray-6);
 }
 
 .reward-summary-row span:last-child {
-  color: #aaa;
+  color: var(--color-gray-9);
 }
 
