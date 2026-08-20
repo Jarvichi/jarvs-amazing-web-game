@@ -15,7 +15,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const callbacks = { onSetStance: fn(), onCycleSpeed: fn() };
+const callbacks = { onSetStance: fn(), onSetSpeed: fn() };
 
 export const Default: Story = {
   args: {
@@ -94,7 +94,9 @@ export const ExpandedFourPetals: Story = {
   args: Default.args,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
-    await userEvent.click(canvas.getByRole('button', { name: /tap to change/i }))
+    // StanceBar now renders SpeedClover beside it, which has its own "tap to
+    // change" trigger — match on the Stance-specific label to avoid grabbing both.
+    await userEvent.click(canvas.getByRole('button', { name: /^Stance:.*tap to change/i }))
     const group = await canvas.findByRole('group', { name: 'Stance' })
     expect(group.querySelectorAll('.stance-petal').length).toBe(4)
   },
@@ -104,7 +106,7 @@ export const ExpandedTwoPetals: Story = {
   args: TwoStances.args,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
-    await userEvent.click(canvas.getByRole('button', { name: /tap to change/i }))
+    await userEvent.click(canvas.getByRole('button', { name: /^Stance:.*tap to change/i }))
     const group = await canvas.findByRole('group', { name: 'Stance' })
     expect(group.querySelectorAll('.stance-petal').length).toBe(2)
   },

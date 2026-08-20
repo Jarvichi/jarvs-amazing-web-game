@@ -22,7 +22,7 @@ export function BattleRoutes() {
     isCampaignRef, worldBattleNodeIdRef, isDailyChallengeRef, isWeeklyChallengeRef, isWandererBattleRef,
     gameStateRef, summaryDoneRef,
     handlePlayCard, handlePlayAoeCard, handleGiveUp, setIsUserPaused,
-    handleSetStance, handleCycleSpeed, handleWaveRewardPick, handleWaveRewardSkip,
+    handleSetStance, handleSetSpeed, handleWaveRewardPick, handleWaveRewardSkip,
     handleOpenPack, handleCampaignWin, handleCampaignRetry, handleDailyChallengeRetry,
     handlePlayAgain, handleWorldBattleRetry, handleMainMenu, handleAbandonRun,
   } = useBattle()
@@ -53,7 +53,7 @@ export function BattleRoutes() {
         if (gameState.phase.type === 'celebration') {
           return (
             <>
-              <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={false} activeModifiers={run && actData ? getModifiersByCount(actData, run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onCycleSpeed={handleCycleSpeed} onCounterSpell={() => dispatch({ type: 'COUNTER_SPELL' })} isAdmin={isAdminUser(user)} />
+              <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={false} activeModifiers={run && actData ? getModifiersByCount(actData, run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onSetSpeed={handleSetSpeed} onCounterSpell={() => dispatch({ type: 'COUNTER_SPELL' })} isAdmin={isAdminUser(user)} />
               <VictoryPanel
                 playerScore={gameState.playerScore}
                 opponentScore={gameState.opponentScore}
@@ -69,7 +69,7 @@ export function BattleRoutes() {
         if (gameState.phase.type === 'fingerSmash') {
           return (
             <>
-              <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run && actData ? getModifiersByCount(actData, run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onCycleSpeed={handleCycleSpeed} onCounterSpell={() => dispatch({ type: 'COUNTER_SPELL' })} isAdmin={isAdminUser(user)} />
+              <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run && actData ? getModifiersByCount(actData, run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onSetSpeed={handleSetSpeed} onCounterSpell={() => dispatch({ type: 'COUNTER_SPELL' })} isAdmin={isAdminUser(user)} />
               <FingerSmash
                 smashedNames={fingerSmashNames}
                 onDone={() => {
@@ -132,7 +132,7 @@ export function BattleRoutes() {
           />
         ) : (
           <>
-            <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run && actData ? getModifiersByCount(actData, run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onCycleSpeed={handleCycleSpeed} onCounterSpell={() => dispatch({ type: 'COUNTER_SPELL' })} isAdmin={isAdminUser(user)} />
+            <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run && actData ? getModifiersByCount(actData, run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onSetSpeed={handleSetSpeed} onCounterSpell={() => dispatch({ type: 'COUNTER_SPELL' })} isAdmin={isAdminUser(user)} />
             {showBossShockwave && <BossShockwave onDone={() => dispatch({ type: 'HIDE_BOSS_SHOCKWAVE' })} />}
             {activeRareEvent === 'fakeCrash'   && <FakeCrashEvent   onDone={handleRareEventDone} />}
             {activeRareEvent === 'blackjack'   && <BlackjackEvent   onDone={handleRareEventDone} />}

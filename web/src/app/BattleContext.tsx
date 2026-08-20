@@ -42,7 +42,7 @@ export interface BattleContextValue {
   handleGiveUp:      () => void
   setIsUserPaused:   Dispatch<SetStateAction<boolean>>
   handleSetStance:   (s: NonNullable<GameState['playerStance']>) => void
-  handleCycleSpeed:  () => void
+  handleSetSpeed:    (m: 1 | 2 | 4 | 8) => void
   handleWaveRewardPick: (cardName: string) => void
   handleWaveRewardSkip: () => void
 

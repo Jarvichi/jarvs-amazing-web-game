@@ -58,7 +58,7 @@ interface Props {
   stance?: NonNullable<GameState['playerStance']>
   onSetStance?: (s: NonNullable<GameState['playerStance']>) => void
   speedMultiplier?: 1 | 2 | 4 | 8
-  onCycleSpeed?: () => void
+  onSetSpeed?: (m: 1 | 2 | 4 | 8) => void
   onCounterSpell?: () => void
   /** True for the game admin. Together with `?dev` this reveals the dev-only
    *  passability overlay toggle in the pause menu. Passed as a boolean rather
@@ -96,7 +96,7 @@ function opponentPortraitSlug(bossAI: string | undefined, actTheme: string | und
   return 'bandit'
 }
 
-export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPause, actTheme, activeRelic, showBossSplash, activeModifiers, isCampaign, stance = 'auto', onSetStance, speedMultiplier = 1, onCycleSpeed, onCounterSpell, isAdmin = false }: Props) {
+export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPause, actTheme, activeRelic, showBossSplash, activeModifiers, isCampaign, stance = 'auto', onSetStance, speedMultiplier = 1, onSetSpeed, onCounterSpell, isAdmin = false }: Props) {
   const { openDetail, cardDetailNode } = useCardDetail()
   const [heroLightning, setHeroLightning] = useState<{ owner: 'player' | 'opponent'; key: number } | null>(null)
   const [paused, setPaused] = useState(false)
@@ -441,7 +441,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
                 durationSecsLeft={durationSecsLeft}
                 speedMultiplier={speedMultiplier}
                 onSetStance={onSetStance}
-                onCycleSpeed={onCycleSpeed}
+                onSetSpeed={onSetSpeed}
               />
             </>}
           />

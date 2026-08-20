@@ -12,7 +12,6 @@ import { playCardPlay } from '../game/sound'
 interface UseBattleControlsArgs {
   gameStateRef:    MutableRefObject<GameState | null>
   dispatch:        Dispatch<BattleAction>
-  speedMultiplier: number
   /** Per-battle flags App resets from every battle-start path, so they stay owned there. */
   isTrainingModeRef:      MutableRefObject<boolean>
   isCampaignRef:          MutableRefObject<boolean>
@@ -27,14 +26,14 @@ interface UseBattleControlsResult {
   handlePlayCard:       (cardId: string) => void
   handlePlayAoeCard:    (cardId: string, cx: number, cy: number) => void
   handleSetStance:      (s: NonNullable<GameState['playerStance']>) => void
-  handleCycleSpeed:     () => void
+  handleSetSpeed:       (m: 1 | 2 | 4 | 8) => void
   handleWaveRewardPick: (cardName: string) => void
   handleWaveRewardSkip: () => void
 }
 
 /** The player's in-battle inputs: playing cards, stance, speed, and wave rewards. */
 export function useBattleControls({
-  gameStateRef, dispatch, speedMultiplier,
+  gameStateRef, dispatch,
   isTrainingModeRef, isCampaignRef, campaignPlayCountsRef,
   battleUsedStructure, battleUsedMobileUnit,
   setAchievementToasts, setQuestCompletes,
@@ -109,15 +108,13 @@ export function useBattleControls({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleCycleSpeed = useCallback(() => {
-    const order = [1, 2, 4, 8] as const
-    const next = order[(order.indexOf(speedMultiplier as 1 | 2 | 4 | 8) + 1) % order.length]
-    dispatch({ type: 'SET_SPEED', multiplier: next })
+  const handleSetSpeed = useCallback((multiplier: 1 | 2 | 4 | 8) => {
+    dispatch({ type: 'SET_SPEED', multiplier })
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [speedMultiplier])
+  }, [])
 
   return {
-    handlePlayCard, handlePlayAoeCard, handleSetStance, handleCycleSpeed,
+    handlePlayCard, handlePlayAoeCard, handleSetStance, handleSetSpeed,
     handleWaveRewardPick, handleWaveRewardSkip,
   }
 }

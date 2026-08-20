@@ -568,6 +568,8 @@
    is what reads as separate petals meeting at a center point, rather than one
    rounded square. `border-radius: 999px` renders as a true quarter/half circle
    at any box size, so the same rules serve both the tiny and expanded sizes.
+   These rules are shared with SpeedClover.tsx, the speed control beside it —
+   same shape language, different fill semantics (see .stance-petal--filled).
 
    Two states, not one small live control: four real buttons packed into a
    ~22px circle would each be a ~10px hit target. Collapsed
@@ -618,12 +620,30 @@
 .stance-petal--l  { border-top-left-radius: 999px; border-bottom-left-radius: 999px; }
 .stance-petal--r  { border-top-right-radius: 999px; border-bottom-right-radius: 999px; }
 
+/* One colour per stance (keyed by stance value in StanceBar.tsx, not grid position,
+   so a stance keeps its colour even when only 2 are allowed and it renders as an l/r
+   half instead of a quadrant). Everything that needs the colour — border, active glow —
+   reads it back off this custom property instead of repeating four near-identical
+   blocks. */
+.stance-petal--attack { --petal-color: var(--accent-ember); }
+.stance-petal--hold   { --petal-color: var(--accent-arcane); }
+.stance-petal--defend { --petal-color: var(--color-green-bright); }
+.stance-petal--auto   { --petal-color: var(--accent-gold); }
+
 /* The current stance's petal — glows even at tiny size, which is the whole
    point of the small state: legible without expanding anything. */
 .stance-petal--active {
   background: color-mix(in srgb, var(--game-text-color) 30%, var(--surface-2));
   border-color: var(--game-text-color);
   box-shadow: 0 0 5px color-mix(in srgb, var(--game-text-color) 60%, transparent);
+}
+
+/* SpeedClover's collapsed level meter — quadrants fill solid gold up to the current
+   speed, rather than each getting a distinct colour (this is one quantity growing,
+   not four separate choices). */
+.stance-petal--filled {
+  background: color-mix(in srgb, var(--accent-gold) 55%, var(--surface-2));
+  border-color: var(--accent-gold);
 }
 
 /* Expanded: a real button per petal, large enough to tap confidently.
@@ -651,9 +671,19 @@
 .stance-clover--expanded .stance-petal {
   cursor: pointer;
   box-shadow: var(--elevation-raised);
+  /* Matches .action-btn's 2px border weight (the speed control uses the same base) —
+     the collapsed 22px dot keeps its thinner 1px border, set below, since a 2px
+     border on a ~10px petal reads as chunky rather than crisp. */
+  border-width: 2px;
+  border-color: var(--petal-color, var(--game-border));
+}
+.stance-clover--expanded .stance-petal--active {
+  background: color-mix(in srgb, var(--petal-color, var(--game-text-color)) 30%, var(--surface-2));
+  border-color: var(--petal-color, var(--game-text-color));
+  box-shadow: 0 0 6px color-mix(in srgb, var(--petal-color, var(--game-text-color)) 70%, transparent);
 }
 .stance-clover--expanded .stance-petal:hover:not(:disabled) {
-  border-color: #777;
+  border-color: color-mix(in srgb, var(--petal-color, #777) 70%, #777);
 }
 .stance-clover--expanded .stance-petal:active:not(:disabled) {
   transform: translateY(1px);
@@ -666,8 +696,8 @@
 /* The visible label — plain text ignored the petal's own curve entirely
    (cramped at the sharp center point, empty space at the rounded rim); this
    follows an arc concentric with that rim instead. See arcPath in
-   StanceBar.tsx for the geometry. Sits on top of the (now unlabelled) petal
-   buttons; pointer-events:none so taps still reach them. */
+   cloverGeometry.ts for the geometry. Sits on top of the (now unlabelled)
+   petal buttons; pointer-events:none so taps still reach them. */
 .stance-clover-labels {
   position: absolute;
   inset: 0;
@@ -719,29 +749,6 @@
   min-height: 32px;
 }
 
-
-/* A round gold badge, matching the clover's own roundness rather than sitting
-   next to it as a leftover rectangle — was a raw-hex-and-!important override
-   of .filter-btn's rectangular shape; this owns its shape and colour outright
-   instead of fighting a rectangle base class for both. */
-.stance-bar__speed {
-  flex: 0 0 auto;
-  width: 32px;
-  height: 32px;
-  min-height: 32px;
-  padding: 0;
-  border-radius: 50%;
-  border-color: var(--color-gold-dim);
-  color: var(--color-gold-light);
-  font-size: var(--font-xs);
-  font-weight: bold;
-}
-
-.stance-bar__speed:hover {
-  border-color: var(--accent-gold);
-  color: var(--accent-gold);
-  box-shadow: 0 0 5px color-mix(in srgb, var(--accent-gold) 50%, transparent);
-}
 
 .hand-panel {
   flex-shrink: 0;
