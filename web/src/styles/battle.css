@@ -167,40 +167,6 @@
   box-shadow: var(--elevation-raised);
 }
 
-/* Base bars as lane-edge overlays (see Battlefield.tsx). Pinned to the lane
-   itself rather than the slot, so they track the play area's exact width even
-   while it is still letterboxed narrower than the frame.
-
-   Only the bar itself takes pointer events — the wrapper spans the full lane
-   width, and swallowing taps across it would kill unit inspection along the
-   top and bottom rows. */
-.lane-base-bar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  z-index: 4;
-  display: flex;
-  padding: 3px;
-  pointer-events: none;
-}
-
-.lane-base-bar > * {
-  flex: 1;
-  pointer-events: auto;
-}
-
-.lane-base-bar--opponent { top: 0; }
-.lane-base-bar--player { bottom: 0; }
-
-/* Units spawn at their base — i.e. directly under these bars now that the bars
-   sit inside the lane. #2176 gave .base-bar a solid fill so its text stayed
-   legible over bright terrain; keep most of that, but not so much that a freshly
-   spawned unit is invisible until it walks out. Units read through as shapes,
-   while the HP fill and label still have ~80% of a solid backing behind them. */
-.lane-base-bar .base-bar {
-  background: color-mix(in srgb, var(--surface-1) 80%, transparent);
-}
-
 .base-bar--opponent {
   border-color: var(--color-red);
   color: var(--color-red);
@@ -316,7 +282,7 @@
      the cap the track is exactly as wide as its pips need; above it, the pips
      share 96px instead. flex: 0 0 auto because the HP track next to it is
      flex: 1 and would otherwise shrink this to its min-width. */
-  width: min(96px, calc(var(--mana-pips, 10) * 14px));
+  width: min(84px, calc(var(--mana-pips, 10) * 14px));
   flex: 0 0 auto;
 }
 
@@ -596,18 +562,23 @@
 
 /* ─── Hand Panel ─────────────────────────────────────── */
 
-.stance-bar {
-  display: flex;
-  gap: 4px;
-  padding: 3px 6px;
-  border-top: 1px solid var(--game-border);
-  flex-shrink: 0;
-  background: var(--surface-1);
+/* The stance selector lives inside the player base bar's right-hand slot now,
+   not in a band of its own. Its popup therefore has to open UPWARDS and align
+   to the right — .filter-popup's default drops down from the left, which from
+   the bottom bar would open straight off the bottom of the screen. */
+.stance-control .filter-popup {
+  top: auto;
+  bottom: calc(100% + 4px);
+  left: auto;
+  right: 0;
+  /* The shared default is 260px, wider than this bar has to give. */
+  min-width: 0;
+  width: max-content;
+  max-width: 60vw;
 }
 
-.stance-bar .filter-btn {
-  flex: 1;
-  text-align: center;
+.stance-control .filter-btn {
+  white-space: nowrap;
 }
 
 /* ─── Battle HUD control density ──────────────────────
@@ -620,7 +591,8 @@
    These targets stay 32px tall and are 60-90px WIDE, well clear of WCAG 2.2
    AA's 24x24 minimum (2.5.8). It relaxes only the AAA 44x44 target (2.5.5), and
    only here — every other button in the game keeps the full 44px. */
-.stance-bar .action-btn,
+.stance-control .action-btn,
+.base-bar .action-btn,
 .top-bar .action-btn {
   min-height: 32px;
 }

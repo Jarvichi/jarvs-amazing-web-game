@@ -308,6 +308,23 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
         </div>
       )}
 
+      {/* Opponent base. Lives in the band above the lane, not over it: #2221
+          briefly rode these bars on the lane's own edges to reclaim their
+          height, but a bar covers ~9% of the lane at each end, and on the
+          engine's 0-500 forward axis that is the strip holding PLAYER_SPAWN_X
+          (30), COMMANDER_HOME_X (15) and OPPONENT_SPAWN_X (470) — everything
+          entering play was hidden underneath. See game/engine/constants.ts. */}
+      <BaseBar
+        owner="opponent"
+        portraitSrc={`${BASE_SPRITE_PATH}${opponentCommanderSlug}.svg`}
+        portraitAlt="opponent"
+        hp={state.opponentBase.hp}
+        maxHp={state.opponentBase.maxHp}
+        color="#ff4444"
+        rightSlot={STRATEGY_LABELS[state.opponentStrategy] && (
+          <span className="strategy-label">{STRATEGY_LABELS[state.opponentStrategy]}</span>
+        )}
+      />
       </div>
 
       <CombatLogPanel entries={state.log} open={logOpen} onClose={() => setLogOpen(false)} />
@@ -335,39 +352,6 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
           debugOverlay={debugOverlay}
           selectedUnitId={inspectedUnit?.id ?? null}
         />
-
-        {/* Base HP bars ride the lane's own top and bottom edges rather than
-            sitting in the HUD bands above and below it. Each bar belongs to the
-            base at that end of the lane, so this is where they read most
-            naturally — and it hands ~100px of the frame's vertical budget back
-            to the play area. That matters more than it sounds: the lane is
-            letterboxed to a fixed ratio, so height it cannot use it also cannot
-            spend on width, and the reclaimed space is what takes the lane from
-            an 18%-pillarboxed column to very nearly the full frame width. */}
-        <div className="lane-base-bar lane-base-bar--opponent">
-          <BaseBar
-            owner="opponent"
-            portraitSrc={`${BASE_SPRITE_PATH}${opponentCommanderSlug}.svg`}
-            portraitAlt="opponent"
-            hp={state.opponentBase.hp}
-            maxHp={state.opponentBase.maxHp}
-            color="#ff4444"
-            rightSlot={STRATEGY_LABELS[state.opponentStrategy] && (
-              <span className="strategy-label">{STRATEGY_LABELS[state.opponentStrategy]}</span>
-            )}
-          />
-        </div>
-        <div className="lane-base-bar lane-base-bar--player">
-          <BaseBar
-            owner="player"
-            portraitSrc={`${BASE_SPRITE_PATH}${playerAvatar}.svg`}
-            portraitAlt={playerName}
-            hp={state.playerBase.hp}
-            maxHp={state.playerBase.maxHp}
-            color="#33ff33"
-            rightSlot={<>MANA {state.mana}/{state.maxMana} <ManaBar mana={state.mana} maxMana={state.maxMana} manaAccum={state.manaAccum} /></>}
-          />
-        </div>
 
         {/* AoE targeting overlay */}
         {pendingAoeCard && (
@@ -417,7 +401,11 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
 
       {/* Bottom cluster: floats below the lane in the reserved bottom band */}
       <div className="bf-bottom-cluster" ref={bottomClusterRef}>
-      {/* Stance + speed controls */}
+      {/* Player base. Its right-hand slot is the player's whole control strip:
+          mana, stance and speed. The stance selector used to be a 39px row of
+          its own directly below this one — folding it in here is what frees the
+          height for the base bars to sit outside the lane rather than over the
+          spawn strip. */}
       {(() => {
         const rules = state.stanceRules
         const onCooldown = rules?.cooldownMs !== undefined &&
@@ -431,16 +419,31 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
           : 0
 
         return (
-          <StanceBar
-            stance={stance}
-            allowedStances={rules?.allowed ?? null}
-            suddenDeath={state.suddenDeath}
-            onCooldown={onCooldown}
-            cooldownSecsLeft={cooldownSecsLeft}
-            durationSecsLeft={durationSecsLeft}
-            speedMultiplier={speedMultiplier}
-            onSetStance={onSetStance}
-            onCycleSpeed={onCycleSpeed}
+          <BaseBar
+            owner="player"
+            portraitSrc={`${BASE_SPRITE_PATH}${playerAvatar}.svg`}
+            portraitAlt={playerName}
+            hp={state.playerBase.hp}
+            maxHp={state.playerBase.maxHp}
+            color="#33ff33"
+            rightSlot={<>
+              {/* "MANA" spelled out cost ~35px in a row that now also carries
+                  the stance control; the pips beside the number are already
+                  unmistakably the mana meter. */}
+              {state.mana}/{state.maxMana}
+              <ManaBar mana={state.mana} maxMana={state.maxMana} manaAccum={state.manaAccum} />
+              <StanceBar
+                stance={stance}
+                allowedStances={rules?.allowed ?? null}
+                suddenDeath={state.suddenDeath}
+                onCooldown={onCooldown}
+                cooldownSecsLeft={cooldownSecsLeft}
+                durationSecsLeft={durationSecsLeft}
+                speedMultiplier={speedMultiplier}
+                onSetStance={onSetStance}
+                onCycleSpeed={onCycleSpeed}
+              />
+            </>}
           />
         )
       })()}
