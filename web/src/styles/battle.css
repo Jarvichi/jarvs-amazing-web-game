@@ -300,15 +300,37 @@
 
 /* ─── Mana Pips ──────────────────────────────────────── */
 
+/* The pips share a bounded track instead of each taking a fixed 12px + 4px gap.
+   That old sizing made the meter's width a function of maxMana: at 10 it was
+   156px — 42% of the player base bar, and more than twice the HP track beside
+   it, which is the more important number of the two. Relics raise maxMana with
+   no ceiling, so it also kept growing; at 20 it would have been wider than the
+   lane.
+
+   Now it costs at most 96px however high maxMana goes, and the HP track (flex:
+   1) absorbs what it gives back. At small maxMana the per-pip max-width keeps
+   pips their original chunky size, so a 3- or 5-mana start looks unchanged. */
 .mana-bar {
-  gap: 4px;
+  gap: 2px;
+  /* --mana-pips comes from ManaBar.tsx. 14px is one pip plus its gap, so below
+     the cap the track is exactly as wide as its pips need; above it, the pips
+     share 96px instead. flex: 0 0 auto because the HP track next to it is
+     flex: 1 and would otherwise shrink this to its min-width. */
+  width: min(96px, calc(var(--mana-pips, 10) * 14px));
+  flex: 0 0 auto;
 }
 
 /* Arcane-accent tone rather than the CRT green — mana is magic, not the
    "friendly" semantic colour, per the epic's palette direction (#2166). */
 .mana-pip {
   display: inline-block;
-  width: 12px;
+  /* Shrink to share the track when there are many, but never grow past the
+     original 12px when there are few. min-width keeps a very high maxMana
+     legible as segments rather than hairlines. */
+  flex: 1 1 12px;
+  width: auto;
+  max-width: 12px;
+  min-width: 3px;
   height: 12px;
   border: 1px solid var(--accent-arcane);
   border-radius: var(--radius-sm);
