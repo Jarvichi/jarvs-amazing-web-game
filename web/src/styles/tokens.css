@@ -38,6 +38,16 @@
   --container-pad-x: 10px;
   --container-pad-y: 6px;
 
+  /* Tablet/desktop breakpoints (#2183), mirrored in breakpoints.ts. These
+     custom properties document the canonical values and are usable as
+     ordinary property values, but NOT inside an `@media` condition — this
+     repo has no Custom Media Queries plugin, so every `@media (min-width: …)`
+     rule at these tiers has to repeat the literal pixel value. That
+     repetition is checked against breakpoints.ts by breakpoints.test.ts. */
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-desktop-lg: 1440px;
+
   --game-text-color: #33ff33;
   --game-text-color-dim:   color-mix(in srgb, var(--game-text-color) 85%, transparent);
   --game-text-color-muted: color-mix(in srgb, var(--game-text-color) 70%, transparent);

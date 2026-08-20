@@ -101,6 +101,7 @@ import { auth } from './firebase'
 import { uploadSave } from './game/cloudSave'
 import { getHubWorldData, type HubWorldData } from './data/hub/hubWorldFactory'
 import type { Screen } from './app/screens'
+import { WIDE_SCREENS } from './app/screens'
 import { BROKEN_RELIC_ITEMS } from './app/merchantItems'
 
 // Apply saved display settings on load
@@ -1246,7 +1247,7 @@ export default function App() {
     <ToastProvider>
     <AppProvider value={appContextValue}>
     <BattleProvider value={battleContextValue}>
-    <div className="game-container">
+    <div className={`game-container${WIDE_SCREENS.has(screen) ? ' game-container--wide' : ''}`}>
       <IconSprite />
       <div className="game-title">JARV'S AMAZING WEB GAME</div>
 
