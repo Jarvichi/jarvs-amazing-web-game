@@ -562,23 +562,145 @@
 
 /* ─── Hand Panel ─────────────────────────────────────── */
 
-/* The stance selector lives inside the player base bar's right-hand slot now,
-   not in a band of its own. Its popup therefore has to open UPWARDS and align
-   to the right — .filter-popup's default drops down from the left, which from
-   the bottom bar would open straight off the bottom of the screen. */
-.stance-control .filter-popup {
-  top: auto;
-  bottom: calc(100% + 4px);
-  left: auto;
-  right: 0;
-  /* The shared default is 260px, wider than this bar has to give. */
-  min-width: 0;
-  width: max-content;
-  max-width: 60vw;
+/* ─── Stance clover ────────────────────────────────────
+   A four-leaf-clover radial picker. Shape: a 2x2 grid (or 1x2 for the 2-stance
+   case), each cell rounded ONLY on its true outer corner — a gap between cells
+   is what reads as separate petals meeting at a center point, rather than one
+   rounded square. `border-radius: 999px` renders as a true quarter/half circle
+   at any box size, so the same rules serve both the tiny and expanded sizes.
+
+   Two states, not one small live control: four real buttons packed into a
+   ~22px circle would each be a ~10px hit target. Collapsed
+   (.stance-clover--tiny) is a single real <button> whose petals are purely
+   decorative spans — one hit target, one accessible name, current stance glows.
+   Expanded (.stance-clover--expanded) swaps in real per-stance <button> petals
+   at a size that's actually tappable. See StanceBar.tsx. */
+.stance-clover-wrap {
+  position: relative;
+  display: inline-block;
+  /* Reserves only the TINY footprint — the expanded clover overlays via
+     position:absolute anchored to THIS box specifically (not the speed button
+     beside it, which lives outside .stance-clover-wrap for exactly this
+     reason), so growing it never shifts or covers anything else in the row. */
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
 }
 
-.stance-control .filter-btn {
-  white-space: nowrap;
+.stance-clover-grid {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  gap: 2px;
+}
+.stance-clover-grid[data-count="4"] { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); }
+.stance-clover-grid[data-count="2"] { grid-template-columns: repeat(2, 1fr); }
+
+.stance-clover--tiny {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.stance-petal {
+  background: var(--surface-2);
+  border: 1px solid var(--game-border);
+  transition: background var(--dur-fast), box-shadow var(--dur-fast);
+}
+.stance-petal--tl { border-top-left-radius: 999px; }
+.stance-petal--tr { border-top-right-radius: 999px; }
+.stance-petal--bl { border-bottom-left-radius: 999px; }
+.stance-petal--br { border-bottom-right-radius: 999px; }
+.stance-petal--l  { border-top-left-radius: 999px; border-bottom-left-radius: 999px; }
+.stance-petal--r  { border-top-right-radius: 999px; border-bottom-right-radius: 999px; }
+
+/* The current stance's petal — glows even at tiny size, which is the whole
+   point of the small state: legible without expanding anything. */
+.stance-petal--active {
+  background: color-mix(in srgb, var(--game-text-color) 30%, var(--surface-2));
+  border-color: var(--game-text-color);
+  box-shadow: 0 0 5px color-mix(in srgb, var(--game-text-color) 60%, transparent);
+}
+
+/* Expanded: a real button per petal, large enough to tap confidently.
+   Positioned absolute over the row (see .stance-clover-wrap) and anchored to
+   grow up-and-left from the tiny control's spot — the same "don't clip off
+   the bottom of the frame" logic #2222's dropdown needed, since this sits in
+   the bottom-most HUD row. */
+.stance-clover--expanded {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: var(--z-dropdown);
+  width: 108px;
+  height: 108px;
+  animation: stanceCloverGrow var(--dur-fast) ease-out;
+  transform-origin: bottom right;
+}
+@keyframes stanceCloverGrow {
+  from { transform: scale(0.2); opacity: 0.6; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+.stance-clover--expanded .stance-clover-grid { gap: 4px; }
+
+.stance-clover--expanded .stance-petal {
+  cursor: pointer;
+  box-shadow: var(--elevation-raised);
+}
+.stance-clover--expanded .stance-petal:hover:not(:disabled) {
+  border-color: #777;
+}
+.stance-clover--expanded .stance-petal:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.stance-clover--expanded .stance-petal:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* The visible label — plain text ignored the petal's own curve entirely
+   (cramped at the sharp center point, empty space at the rounded rim); this
+   follows an arc concentric with that rim instead. See arcPath in
+   StanceBar.tsx for the geometry. Sits on top of the (now unlabelled) petal
+   buttons; pointer-events:none so taps still reach them. */
+.stance-clover-labels {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.stance-petal-label {
+  fill: var(--game-text-color-dim);
+  font-family: inherit;
+  font-size: 8px;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+}
+/* The active petal's own background glow (.stance-petal--active) already
+   carries the "current stance" signal; this just keeps its label as legible
+   against that lighter fill as the dim labels are against the plain one. */
+.stance-petal-label--active {
+  fill: var(--game-text-color);
+}
+
+.stance-clover-timer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: var(--font-xxs);
+  font-weight: bold;
+  color: var(--color-orange);
+  background: var(--surface-1);
+  border-radius: var(--radius-sm);
+  padding: 1px 4px;
+  pointer-events: none;
 }
 
 /* ─── Battle HUD control density ──────────────────────
@@ -598,16 +720,27 @@
 }
 
 
+/* A round gold badge, matching the clover's own roundness rather than sitting
+   next to it as a leftover rectangle — was a raw-hex-and-!important override
+   of .filter-btn's rectangular shape; this owns its shape and colour outright
+   instead of fighting a rectangle base class for both. */
 .stance-bar__speed {
-  flex: 0 0 auto !important;
-  min-width: 36px;
-  border-color: #5a5a00 !important;
-  color: #cccc44 !important;
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  min-height: 32px;
+  padding: 0;
+  border-radius: 50%;
+  border-color: var(--color-gold-dim);
+  color: var(--color-gold-light);
+  font-size: var(--font-xs);
+  font-weight: bold;
 }
 
 .stance-bar__speed:hover {
-  border-color: #aaaa00 !important;
-  color: #ffff66 !important;
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+  box-shadow: 0 0 5px color-mix(in srgb, var(--accent-gold) 50%, transparent);
 }
 
 .hand-panel {
