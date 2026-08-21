@@ -8,14 +8,14 @@ import React from 'react'
  * `currentColor` so each icon themes with whatever text colour surrounds it.
  *
  * Mount <IconSprite /> once near the app root; every <Icon name="..." />
- * instance references a <symbol> here via <use>, so the markup for all 23
+ * instance references a <symbol> here via <use>, so the markup for all 26
  * icons is only ever parsed once regardless of how many places render them.
  */
 export const ICON_NAMES = [
   'player', 'deck', 'collection', 'shop', 'codex', 'chronicle', 'news',
   'settings', 'trophy', 'minigames', 'sword', 'infinity', 'hub', 'crystal',
   'lock', 'coin', 'heart', 'mana', 'back-arrow', 'close', 'info', 'filter',
-  'search', 'calendar',
+  'search', 'calendar', 'shield', 'bolt', 'pause',
 ] as const
 
 export type IconName = typeof ICON_NAMES[number]
@@ -87,6 +87,19 @@ export function IconSprite() {
           <rect x="7.5" y="13" width="9" height="2.2" rx="1" />
           <rect x="10.4" y="15" width="3.2" height="5" rx="1.2" />
           <circle cx="12" cy="21" r="1.4" />
+        </symbol>
+
+        <symbol id="icon-shield" viewBox="0 0 24 24">
+          <path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5l-9-4z" />
+        </symbol>
+
+        <symbol id="icon-bolt" viewBox="0 0 24 24">
+          <path d="M13 2L4 14h6l-1 8 9-12h-6z" />
+        </symbol>
+
+        <symbol id="icon-pause" viewBox="0 0 24 24">
+          <rect x="6" y="4" width="4" height="16" rx="1" />
+          <rect x="14" y="4" width="4" height="16" rx="1" />
         </symbol>
 
         <symbol id="icon-infinity" viewBox="0 0 24 24">

@@ -81,3 +81,31 @@ export const ARC_RANGE_2: [number, number][] = [
   [90, 270],  // l (bottom -> top, the long way round through left)
   [270, 90],  // r reversed: (top -> bottom, through right) so text reads upright
 ]
+
+// Radius for a small per-petal icon, sitting in the wedge between the shared center
+// and the label arc (CLOVER_LABEL_R/_REVERSED, 38-43) — inside the label, clear of it.
+const CLOVER_ICON_R = 20
+
+/**
+ * transform="" for a small icon centered on a petal's own angular bisector, rotated
+ * to match that petal's label-text tilt. Reuses the exact sweep/direction math from
+ * arcPath (see its comment) rather than a separate derivation — an icon rotated to
+ * "look like it belongs to this petal's text" needs the same forward-vs-reversed
+ * distinction the label itself needed, and getting that from one shared calculation
+ * keeps them from drifting apart if the arc geometry ever changes.
+ *
+ * 4-petal geometry only (ARC_RANGE_4's pairs are always 90deg apart, so "bisector" is
+ * unambiguous) — not used for the 2-petal case, where each arc spans a full 180deg and
+ * "the short way" isn't well-defined the same way.
+ */
+export function petalIconTransform(fromDeg: number, toDeg: number, size: number): string {
+  const rad = (d: number) => (d * Math.PI) / 180
+  const shortDelta = (((toDeg - fromDeg) % 360) + 540) % 360 - 180
+  const sweep = shortDelta > 0 ? 1 : 0
+  const bisector = fromDeg + shortDelta / 2
+  const rotation = sweep === 1 ? bisector + 90 : bisector - 90
+  const cx = CLOVER_CENTER + CLOVER_ICON_R * Math.cos(rad(bisector))
+  const cy = CLOVER_CENTER + CLOVER_ICON_R * Math.sin(rad(bisector))
+  const half = size / 2
+  return `translate(${cx - half} ${cy - half}) scale(${size / 24}) rotate(${rotation} 12 12)`
+}

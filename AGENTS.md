@@ -176,6 +176,18 @@ Cards have different rarities. Cards will had weaknesses, strengths and affiniti
 - **Silent swallowing is banned** for anything user-impacting. `catch { /* ignore */ }` only for fire-and-forget operations (analytics pings).
 - `logger.ts` is initialised in `main.tsx` with the real Rollbar instance. No-op by default in tests/Node scripts.
 
+## UI / Component Design
+
+**[`docs/ui-design.md`](docs/ui-design.md)** is the full design-system reference — design
+tokens (`tokens.css`), shared component primitives (`Button`, `Panel`, `Section`,
+`Modal`/`ModalBackdrop`, `Toast`, the icon system, filters), utility classes, stylesheet
+organization, and the Storybook+Playwright workflow for verifying a visual change
+(screenshotting a specific story, and DOM-measuring anything position/geometry-sensitive
+rather than trusting a screenshot on sight). Read it before:
+- Any new component, visual redesign, or styling tweak
+- Adding a button/panel/modal/icon instead of reusing the shared primitive
+- Anything under `web/src/styles/` or `web/src/components/ui/`
+
 ## CSS Styling Rules
 Reuse existing CSS classes before adding new ones. Check whether `action-btn`, `action-btn--gold`, `action-btn--danger`, or `filter-btn` can be used. Duplicate CSS causes visual inconsistency. If an existing class has a specific name that could be more generic, rename and refactor it.
 

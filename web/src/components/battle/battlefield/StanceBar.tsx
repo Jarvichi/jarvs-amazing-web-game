@@ -1,8 +1,11 @@
 import React, { useId, useRef, useState } from 'react'
 import { useClickOutsideToClose } from '../../../hooks/useClickOutsideToClose'
 import { SpeedClover } from './SpeedClover'
+import { Icon } from '../../ui/icons/Icon'
+import type { IconName } from '../../ui/icons/IconSprite'
 import {
   CORNER_CLASS_4, CORNER_CLASS_2, CLOVER_VIEWBOX, ARC_RANGE_4, ARC_RANGE_2, arcPath,
+  petalIconTransform,
 } from './cloverGeometry'
 
 type Stance = 'attack' | 'hold' | 'defend' | 'auto'
@@ -14,7 +17,21 @@ const STANCE_LABEL: Record<Stance, string> = {
   auto:   'ATTACK',
 }
 
-const STANCE_ORDER = ['attack', 'hold', 'defend', 'auto'] as const
+// One small icon per stance, sitting in the wedge between the label arc and the
+// shared center (see petalIconTransform in cloverGeometry.ts). 4-petal layout only —
+// see that function's doc comment for why the 2-petal case doesn't get one.
+const STANCE_ICON: Record<Stance, IconName> = {
+  attack: 'bolt',
+  hold:   'pause',
+  defend: 'shield',
+  auto:   'sword',
+}
+const STANCE_ICON_SIZE = 16
+
+// Reading order for the 4-petal layout is tl/tr/bl/br (see CORNER_CLASS_4), so this
+// array's order IS the grid position: auto(ATTACK)->tl, defend(DEFEND)->tr,
+// attack(CHARGE)->bl, hold(HOLD)->br.
+const STANCE_ORDER = ['auto', 'defend', 'attack', 'hold'] as const
 
 // Each stance gets its own petal colour (see battle.css's --petal-color modifiers) —
 // keyed by stance value rather than grid position, so a stance's colour stays fixed
@@ -97,6 +114,11 @@ export function StanceBar({ stance, allowedStances, suddenDeath, onCooldown, coo
                 />
               ))}
             </span>
+            {/* Current selection's icon, centered over the whole tiny clover — at
+                22px there's no room to show which petal is "active" any other way
+                than the existing glow, so this repeats that same information as a
+                recognisable shape rather than making the player decode a colour. */}
+            <Icon name={STANCE_ICON[stance]} size={14} className="stance-clover-tiny-icon" />
           </button>
         ) : (
           <div className="stance-clover stance-clover--expanded" role="group" aria-label="Stance">
@@ -139,6 +161,21 @@ export function StanceBar({ stance, allowedStances, suddenDeath, onCooldown, coo
                   </textPath>
                 </text>
               ))}
+              {/* One icon per stance, rotated to match that petal's own label tilt —
+                  see petalIconTransform's doc comment. 4-petal layout only. */}
+              {allowed.length === 4 && allowed.map((s, i) => {
+                const [from, to] = ARC_RANGE_4[i]
+                return (
+                  <use
+                    key={`icon-${s}`}
+                    href={`#icon-${STANCE_ICON[s]}`}
+                    width={24}
+                    height={24}
+                    className={`stance-petal-label${stance === s ? ' stance-petal-label--active' : ''}`}
+                    transform={petalIconTransform(from, to, STANCE_ICON_SIZE)}
+                  />
+                )
+              })}
             </svg>
             {timerText && <span className="stance-clover-timer">{timerText}</span>}
           </div>
