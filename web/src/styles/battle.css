@@ -599,6 +599,7 @@
 .stance-clover-grid[data-count="2"] { grid-template-columns: repeat(2, 1fr); }
 
 .stance-clover--tiny {
+  position: relative;
   width: 22px;
   height: 22px;
   padding: 0;
@@ -606,6 +607,23 @@
   background: none;
   cursor: pointer;
   flex-shrink: 0;
+}
+
+.stance-clover-tiny-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--game-text-color);
+  pointer-events: none;
+  /* A dark outline behind the icon, not a colour swap — the active petal's glow can
+     be any of the four stance colours (see STANCE_COLOR_CLASS), including the same
+     green as this icon's own fill for the defend stance specifically, so recolouring
+     the icon or the glow only fixes one case. Stacking two drop-shadows (rather than
+     one) is what gives the outline even coverage all the way round at this size. */
+  filter:
+    drop-shadow(0 0 1px var(--game-bg))
+    drop-shadow(0 0 1px var(--game-bg));
 }
 
 .stance-petal {
