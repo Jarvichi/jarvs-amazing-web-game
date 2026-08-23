@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { fn, within, expect } from 'storybook/test'
-import { page } from '@vitest/browser/context'
+import { page } from 'vitest/browser'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { SatchelSheet, SatchelEmpty } from './SatchelSheet'
 import { GroupHeading } from './GroupHeading'
