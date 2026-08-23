@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import { ModalBackdrop } from '../ui/ModalBackdrop'
-import { Panel } from '../ui/Panel'
 import type { HubLocationBundle } from '../../data/hub/loader'
 import { useHubClock } from '../../hooks/useHubClock'
 import { resolveNpcPlace } from '../../game/hub/npcLocator'
@@ -10,14 +8,13 @@ import { getRelationship } from '../../game/hub/relationships'
 const TRACK_ICON: Record<string, string> = { ally: '🤝', rival: '⚔️', romance: '💗' }
 
 interface Props {
-  onClose:            () => void
   locationData:       HubLocationBundle
   pinnedNpcId:        string | null
   onTogglePin:        (npcId: string) => void
   onShowRelationship: (npcId: string) => void
 }
 
-export function TownDirectoryContent({ onClose, locationData, pinnedNpcId, onTogglePin, onShowRelationship }: Props) {
+export function TownDirectoryContent({ locationData, pinnedNpcId, onTogglePin, onShowRelationship }: Props) {
   const { gameHour } = useHubClock()
   const [onlyMet, setOnlyMet] = useState(false)
 
@@ -34,15 +31,7 @@ export function TownDirectoryContent({ onClose, locationData, pinnedNpcId, onTog
     .sort((a, b) => a.name.localeCompare(b.name))
 
   return (
-      <Panel elevation="floating" className="town-directory">
-        <div className="town-directory__header">
-          <span>🧭 Where is…?</span>
-          <span className="town-directory__meta">
-            {visible.length} {visible.length === 1 ? 'person' : 'people'}
-            <button className="town-directory__close" onClick={onClose} aria-label="Close">✕</button>
-          </span>
-        </div>
-
+      <>
         <button
           className={`town-directory__filter${onlyMet ? ' town-directory__filter--on' : ''}`}
           onClick={() => setOnlyMet(v => !v)}
@@ -90,14 +79,6 @@ export function TownDirectoryContent({ onClose, locationData, pinnedNpcId, onTog
             })}
           </div>
         )}
-      </Panel>
-  )
-}
-
-export function TownDirectory(props: Props) {
-  return (
-    <ModalBackdrop onClose={props.onClose} title="Where is…?">
-      <TownDirectoryContent {...props} />
-    </ModalBackdrop>
+      </>
   )
 }

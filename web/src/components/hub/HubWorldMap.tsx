@@ -13,6 +13,7 @@ import { formatGameTime } from '../../game/hub/hubClock'
 import { loadCrystals, loadCollection } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
 import { QuestsModal } from './QuestsModal'
+import type { TownRegistry } from '../../game/hub/questBoard'
 import { unmarkPickedUp } from '../../game/hub/pickups'
 import { resetQuest } from '../../game/hub/quests'
 import { LoginButton } from '../ui/LoginButton'
@@ -33,9 +34,11 @@ interface Props {
   previewingAsPlayer?: boolean
   /** Every town's quest defs — lazy-loaded by App.tsx. */
   allQuestDefs: HubQuestDef[]
+  /** Every town's data, so the quest list can name targets and their towns. */
+  locationRegistry: TownRegistry
 }
 
-export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, onPlayerTap, onFeedback, restrictedNodeIds, previewingAsPlayer, allQuestDefs }: Props) {
+export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, onPlayerTap, onFeedback, restrictedNodeIds, previewingAsPlayer, allQuestDefs, locationRegistry }: Props) {
   const [peekNode, setPeekNode] = useState<WorldNodeDef | null>(null)
   const [questsOpen, setQuestsOpen] = useState(false)
   const [wrongSave, setWrongSave]   = useState<{ cards: number; crystals: number; deck: number } | null>(null)
@@ -116,7 +119,14 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
         </div>
       </Toolbar>
 
-      {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={allQuestDefs} />}
+      {questsOpen && (
+        <QuestsModal
+          onClose={() => setQuestsOpen(false)}
+          onAbandon={handleQuestAbandon}
+          questDefs={allQuestDefs}
+          registry={locationRegistry}
+        />
+      )}
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minHeight: 0 }}>
         <NodeMapRederer

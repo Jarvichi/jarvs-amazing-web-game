@@ -1,78 +1,127 @@
 import { fn } from 'storybook/test'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { QuestsModal } from './QuestsModal'
+import { QuestsContent } from './QuestsModal'
+import { LOCATION_REGISTRY, RAVENWATCH } from '../../data/hub/hubTownStoryFixtures'
 import type { HubQuestDef } from '../../data/hub/questDefs'
 
-const meta = {
-  component: QuestsModal,
-  parameters: { layout: 'fullscreen' },
-  decorators: [
-    (Story) => (
-      <div className="game-container">
-        <Story />
-      </div>
-    ),
-  ],
-} satisfies Meta<typeof QuestsModal>
+/** Seeds the localStorage-backed quest store so each story shows a real state. */
+function seedQuests(states: Record<string, { status: string; progress?: Record<string, number> }>): void {
+  const store: Record<string, unknown> = {}
+  for (const [id, s] of Object.entries(states)) {
+    store[id] = { status: s.status, progress: s.progress ?? {} }
+  }
+  localStorage.setItem('jarv_hub_quests', JSON.stringify(store))
+}
 
-export default meta
-type Story = StoryObj<typeof meta>
+const RAVENWATCH_NPCS = new Set(RAVENWATCH.HUB_NPCS.map(n => n.id))
 
-const sampleQuests: HubQuestDef[] = [
+const quests: HubQuestDef[] = [
   {
-    id: 'q-sample-1',
+    id: 'q-here-ready',
     type: 'fetch',
-    title: 'The Missing Shipment',
-    giverNpcId:      'merchant-npc',
-    receiverNpcId:   'merchant-npc',
-    offerDialogue:   'My crates never arrived from the docks. Can you help?',
-    activeDialogue:  { find: 'Check the dockside warehouse for the missing crates.' },
-    completeDialogue: 'Wonderful — thank you!',
-    reward: { crystals: 50 },
-    steps: [
-      { key: 'find', type: 'collect', required: 1, pickupIds: ['crate-1'] },
-    ],
+    title: "The Merchant's Ingredient",
+    giverNpcId: 'merchant',
+    receiverNpcId: 'merchant',
+    offerDialogue: 'I need moonleaf, and plenty of it.',
+    activeDialogue: { herb: 'Moonleaf grows near the north wall.' },
+    completeDialogue: 'Perfect.',
+    reward: { crystals: 60 },
+    steps: [{ key: 'herb', type: 'collect', required: 3, itemName: 'Moonleaf Herb', itemIcon: '🌿' }],
   },
   {
-    id: 'q-sample-2',
+    id: 'q-here-progress',
+    type: 'fetch',
+    title: 'Bait for Greyfish',
+    giverNpcId: 'fisherman',
+    receiverNpcId: 'fisherman',
+    offerDialogue: 'Fetch me bait and I will show you the deep spots.',
+    activeDialogue: { catch: 'Four greyfish should do it.' },
+    completeDialogue: 'That will do nicely.',
+    reward: { crystals: 40 },
+    steps: [{ key: 'catch', type: 'collect', required: 4, itemName: 'Greyfish', itemIcon: '🐟' }],
+  },
+  {
+    // The case the old menu could not show at all: accepted in Ravenwatch,
+    // handed in at Saltmere Port.
+    id: 'q-away-ready',
     type: 'chain',
-    title: 'Supply Run',
-    giverNpcId:      'alchemist-npc',
-    receiverNpcId:   'alchemist-npc',
-    offerDialogue:   'I need ingredients urgently.',
-    activeDialogue: {
-      herbs:    'Gather herbs from the market district.',
-      crystals: 'Bring back the crystals from the vault.',
-    },
-    completeDialogue: 'Perfect, just what I needed.',
-    reward: { crystals: 120 },
-    steps: [
-      { key: 'herbs',    type: 'collect', required: 3, pickupIds: ['herb-1', 'herb-2', 'herb-3'] },
-      { key: 'crystals', type: 'collect', required: 2, pickupIds: ['crystal-1', 'crystal-2'] },
-    ],
+    title: "The Scholar's Anthology",
+    giverNpcId: 'scholar',
+    receiverNpcId: 'harbourmaster-vane',
+    offerDialogue: 'Carry this volume to the harbourmaster.',
+    activeDialogue: { deliver: 'Vane keeps an office above the quay.' },
+    completeDialogue: 'Much obliged.',
+    reward: { crystals: 90 },
+    steps: [{ key: 'deliver', type: 'deliver', required: 1, targetNpcId: 'harbourmaster-vane' }],
   },
 ]
 
-export const NoActiveQuests: Story = {
-  args: {
-    onClose:   fn(),
-    onAbandon: fn(),
-    questDefs: [],
-  },
+function Story({ questDefs }: { questDefs: HubQuestDef[] }) {
+  return (
+    <div className="game-container">
+      <div className="satchel-sheet">
+        <div className="satchel-sheet__body">
+          <QuestsContent
+            onAbandon={fn()}
+            questDefs={questDefs}
+            registry={LOCATION_REGISTRY}
+            currentTownName={RAVENWATCH.HUB_TOWN_NAME}
+            presentNpcIds={RAVENWATCH_NPCS}
+            onShowOnMap={fn()}
+          />
+        </div>
+      </div>
+    </div>
+  )
 }
 
-export const WithQuests: Story = {
-  args: {
-    onClose:   fn(),
-    onAbandon: fn(),
-    questDefs: sampleQuests,
-  },
+const meta = {
+  component: Story,
+  parameters: { layout: 'fullscreen' },
+} satisfies Meta<typeof Story>
+
+export default meta
+type Story_ = StoryObj<typeof meta>
+
+export const NoActiveQuests: Story_ = {
+  args: { questDefs: quests },
+  decorators: [(S) => { seedQuests({}); return <S /> }],
 }
 
-export const Default: Story = {
-  args: {
-    onClose:   fn(),
-    onAbandon: fn(),
-    questDefs: sampleQuests,    
-  },
+/** Ready-to-hand-in sorts above in-progress and is the only thing in gold. */
+export const Mixed: Story_ = {
+  args: { questDefs: quests },
+  decorators: [(S) => {
+    seedQuests({
+      'q-here-ready':    { status: 'active', progress: { herb: 3 } },
+      'q-here-progress': { status: 'active', progress: { catch: 2 } },
+    })
+    return <S />
+  }],
+}
+
+/** A quest carried out of the town that gave it — invisible in the old menu,
+ *  which only ever listed the current town's quests. */
+export const ReadyInAnotherTown: Story_ = {
+  args: { questDefs: quests },
+  decorators: [(S) => {
+    seedQuests({
+      'q-away-ready':    { status: 'active', progress: { deliver: 0 } },
+      'q-here-progress': { status: 'active', progress: { catch: 2 } },
+    })
+    return <S />
+  }],
+}
+
+/** The screenshot's state: a long archive, now behind a filter chip. */
+export const ManyCompleted: Story_ = {
+  args: { questDefs: quests },
+  decorators: [(S) => {
+    seedQuests({
+      'q-here-progress': { status: 'active', progress: { catch: 2 } },
+      'q-here-ready':    { status: 'completed' },
+      'q-away-ready':    { status: 'completed' },
+    })
+    return <S />
+  }],
 }
