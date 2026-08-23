@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { fn, within, expect } from 'storybook/test'
+import { page } from '@vitest/browser/context'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { SatchelSheet, SatchelEmpty } from './SatchelSheet'
 import { GroupHeading } from './GroupHeading'
@@ -9,7 +10,7 @@ import { CollapsibleGroup } from './CollapsibleGroup'
 import { EntityChip } from './EntityChip'
 import type { SatchelSectionId } from './types'
 
-function Interactive({ initial, empty }: { initial: SatchelSectionId; empty?: boolean }) {
+function Interactive({ initial, empty, longList }: { initial: SatchelSectionId; empty?: boolean; longList?: boolean }) {
   const [activeId, setActiveId] = useState<SatchelSectionId>(initial)
   const [query, setQuery] = useState('')
 
@@ -43,6 +44,10 @@ function Interactive({ initial, empty }: { initial: SatchelSectionId; empty?: bo
             <ListRow icon="✅" title="Feed the Stray" value="+40 💎" tone="dim" />
             <ListRow icon="✅" title="Where's Rover?" value="+35 💎" tone="dim" />
           </CollapsibleGroup>
+
+          {longList && Array.from({ length: 40 }, (_, i) => (
+            <ListRow key={i} icon="✅" title={`Finished quest ${i + 1}`} value="+40 💎" tone="dim" />
+          ))}
         </>
       )}
     </SatchelSheet>
@@ -73,6 +78,57 @@ export const OwnsItsChromeExactlyOnce: Story = {
     expect(body.getAllByRole('button', { name: 'Close' })).toHaveLength(1)
     expect(body.getAllByRole('heading', { name: 'Ravenwatch' })).toHaveLength(1)
     expect(body.getAllByRole('tabpanel')).toHaveLength(1)
+  },
+}
+
+/** A phone-sized section with more rows than fit must scroll inside its own
+ *  body, and the nav must stay on screen.
+ *
+ *  This has to run at phone width: ModalBackdrop centres its wrapper div, so
+ *  the wrapper is content-sized and the sheet's `height: 100%` resolved to
+ *  `auto` — the sheet grew to 1553px inside an 844px viewport, its body never
+ *  overflowed, and the nav sat 355px below the fold. The desktop layout sets
+ *  an explicit height and so never showed the bug, which is why this asserts
+ *  at 390x844 rather than the default viewport.
+ *
+ *  Measured with offsetHeight, not getBoundingClientRect: the panel's entry
+ *  animation scales from 0.96, and a rect read mid-flight is short. */
+export const ScrollsWhenContentOverflows: Story = {
+  args: { initial: 'quests', longList: true },
+  play: async () => {
+    await page.viewport(390, 844)
+    await new Promise(r => setTimeout(r, 400))
+
+    const sheet = document.querySelector<HTMLElement>('.satchel-sheet')!
+    const body  = document.querySelector<HTMLElement>('.satchel-sheet__body')!
+    const nav   = document.querySelector<HTMLElement>('.satchel-nav')!
+
+    // The sheet fits the viewport instead of growing to its content.
+    expect(sheet.offsetHeight).toBeLessThanOrEqual(window.innerHeight)
+
+    // The body is what overflows, and it actually scrolls.
+    expect(body.scrollHeight).toBeGreaterThan(body.clientHeight)
+    body.scrollTop = 9999
+    expect(body.scrollTop).toBeGreaterThan(0)
+
+    // The nav stays reachable at the bottom of the screen.
+    expect(nav.offsetTop + nav.offsetHeight).toBeLessThanOrEqual(window.innerHeight)
+  },
+}
+
+/** Opening the menu on a phone must not pop the keyboard open. The search
+ *  field is the first focusable in the header, so ModalBackdrop used to focus
+ *  it on mount; and at 11px iOS Safari zoomed the page in on it. */
+export const DoesNotFocusTheSearchFieldOnOpen: Story = {
+  args: { initial: 'quests' },
+  play: async () => {
+    const input = document.querySelector<HTMLInputElement>('.satchel-sheet__search input')!
+
+    expect(document.activeElement).not.toBe(input)
+    expect(document.activeElement).toBe(document.querySelector('.satchel-sheet__body'))
+
+    // iOS zooms on focus for anything under 16px.
+    expect(parseFloat(getComputedStyle(input).fontSize)).toBeGreaterThanOrEqual(16)
   },
 }
 

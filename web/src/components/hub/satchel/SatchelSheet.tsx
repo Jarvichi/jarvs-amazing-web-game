@@ -56,6 +56,9 @@ export function SatchelSheet({
           className="satchel-sheet__body"
           id="satchel-panel"
           role="tabpanel"
+          // Land here rather than on the search field, which would pop the
+          // keyboard open every time the menu is opened on a phone.
+          data-initial-focus=""
           aria-labelledby={`satchel-tab-${activeId}`}
           tabIndex={0}
         >
