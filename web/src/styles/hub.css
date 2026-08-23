@@ -694,6 +694,40 @@
   min-width: 0;
 }
 
+/* ── Hub Status Bar ───────────────────────────────────────────────────────
+   One merged header row — town name, economy stats, clock and every nav
+   button — replacing what used to be a separate page-title band on top of a
+   full toolbar row. */
+
+.hub-status-bar__town {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-size: var(--font-sm);
+  font-weight: bold;
+  letter-spacing: 0.06em;
+  color: var(--color-gold-alt);
+  white-space: nowrap;
+  padding: 0 var(--gap-3);
+}
+
+.hub-status-bar__festival {
+  font-family: var(--font-mono);
+  font-size: var(--font-xxs);
+  font-weight: normal;
+  letter-spacing: 0.02em;
+  color: var(--accent-arcane);
+  white-space: nowrap;
+}
+
+/* Still tappable — the lock explains why on tap rather than doing nothing —
+   so this is a lighter dim than .filter-btn--disabled, which is inert. */
+.hub-status-bar__map-btn--locked {
+  opacity: 0.75;
+}
+
 /* ── Hub World Splash Intro ────────────────────────────────────────────── */
 .hub-splash {
   position: absolute;
@@ -1171,16 +1205,13 @@
   gap: 2px;
 }
 
-.hub-status-cluster__time {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: var(--font-xs);
-  letter-spacing: 0.08em;
-  color: rgba(200, 220, 200, 0.75);
+.hub-status-cluster__weather {
+  align-self: flex-end;
+  font-size: var(--font-sm);
   background: rgba(0, 0, 0, 0.35);
   border-radius: var(--radius-sm);
   padding: 2px 6px;
+  line-height: 1;
 }
 
 .hub-status-cluster__area {
