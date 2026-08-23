@@ -102,7 +102,7 @@ export function SatchelMenu(props: Props) {
       navItems={NAV_ITEMS}
     >
       {section === 'satchel' && (
-        <HubInventoryContent questDefs={allQuestDefs} />
+        <HubInventoryContent questDefs={allQuestDefs} query={query} />
       )}
 
       {section === 'quests' && (

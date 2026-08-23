@@ -1,107 +1,114 @@
-import React from 'react'
+import React, { useState } from 'react'
 import type { HubQuestDef } from '../../data/hub/questDefs'
-import { getQuestState, getQuestProgress } from '../../game/hub/quests'
-import { getHubItems, getHubItemCount, ItemEntry } from '../../game/itemStore'
-import { questItemId } from '../../game/hub/questItems'
-import { getOwnedAccessoryIds, getEquippedAccessoryId } from '../../game/hub/pet'
-import { getPetAccessoryDef } from '../../data/petAccessories'
+import {
+  questItems, carriedItems, itemDetail, isSatisfied, type SatchelItem,
+} from '../../game/hub/satchelItems'
+import { SatchelEmpty } from './satchel/SatchelSheet'
+import { FilterChips } from './satchel/FilterChips'
+import { GroupHeading } from './satchel/GroupHeading'
+import { ItemTile, ItemGrid } from './satchel/ItemTile'
+import { ItemDetailSheet } from './satchel/ItemDetailSheet'
+
+type ItemFilter = 'all' | 'quest' | 'material' | 'tool'
 
 interface Props {
   /** All towns' quest defs — held quest items may belong to any town's quest. */
   questDefs: HubQuestDef[]
+  /** Filters by name. Supplied by the sheet's search field. */
+  query?: string
 }
 
-interface QuestItemRow {
-  questId: string
-  questTitle: string
-  stepKey: string
-  name: string
-  icon: string
-  held: number
-  required: number
+/** Tile caption: "2/4" while a quest still wants more, else the stack size. */
+function tileCount(item: SatchelItem): React.ReactNode {
+  if (item.need) return `${item.count}/${item.need.required}`
+  return item.count > 1 ? item.count : null
 }
 
-function activeQuestItemRows(questDefs: HubQuestDef[]): QuestItemRow[] {
-  const rows: QuestItemRow[] = []
-  for (const quest of questDefs) {
-    if (getQuestState(quest.id).status !== 'active') continue
-    for (const step of quest.steps) {
-      if (step.type !== 'collect' || !step.itemName) continue
-      rows.push({
-        questId: quest.id,
-        questTitle: quest.title,
-        stepKey: step.key,
-        name: step.itemName,
-        icon: step.itemIcon ?? '📦',
-        held: getHubItemCount(questItemId(quest.id, step.key)),
-        required: step.required,
-      })
-    }
-  }
-  return rows
+function tileLabel(item: SatchelItem): string {
+  if (item.need) return `${item.name} — ${item.count} of ${item.need.required} for ${item.need.questTitle}`
+  return item.count > 1 ? `${item.name} ×${item.count}` : item.name
 }
 
-export function HubInventoryContent({ questDefs }: Props) {
-  const questRows = activeQuestItemRows(questDefs)
+export function HubInventoryContent({ questDefs, query = '' }: Props) {
+  const [filter, setFilter] = useState<ItemFilter>('all')
+  const [openItem, setOpenItem] = useState<SatchelItem | null>(null)
 
-  const hubItems = getHubItems()
-  const materials = hubItems.filter(e => e.category === 'material')
-  const tools     = hubItems.filter(e => e.category === 'tool')
+  const quest   = questItems(questDefs)
+  const carried = carriedItems()
+  const tools     = carried.filter(i => i.category === 'tool')
+  const materials = carried.filter(i => i.category === 'material')
 
-  const accessoryIds = getOwnedAccessoryIds()
-  const equippedId   = getEquippedAccessoryId()
+  const matches = (item: SatchelItem) => item.name.toLowerCase().includes(query.trim().toLowerCase())
+  const show = (items: SatchelItem[], category: ItemFilter) =>
+    (filter === 'all' || filter === category ? items : []).filter(matches)
 
-  const itemRow = (entry: ItemEntry) => (
-    <div key={entry.id} className="quests-modal__step">
-      <span>{entry.icon ?? '📦'} {entry.name ?? entry.id}</span>
-      <span>{entry.count > 1 ? `×${entry.count}` : ''}</span>
-    </div>
+  const visibleQuest     = show(quest, 'quest')
+  const visibleTools     = show(tools, 'tool')
+  const visibleMaterials = show(materials, 'material')
+  const total = visibleQuest.length + visibleTools.length + visibleMaterials.length
+
+  const grid = (items: SatchelItem[]) => (
+    <ItemGrid>
+      {items.map(item => (
+        <ItemTile
+          key={item.id}
+          icon={item.icon}
+          count={tileCount(item)}
+          label={tileLabel(item)}
+          flagged={item.need != null}
+          complete={isSatisfied(item)}
+          onClick={() => setOpenItem(item)}
+        />
+      ))}
+    </ItemGrid>
   )
 
   return (
-      <>
+    <>
+      <FilterChips
+        label="Filter items"
+        activeId={filter}
+        onChange={id => setFilter(id as ItemFilter)}
+        options={[
+          { id: 'all',      label: 'All',       count: quest.length + carried.length },
+          { id: 'quest',    label: 'Quest',     count: quest.length },
+          { id: 'material', label: 'Materials', count: materials.length },
+          { id: 'tool',     label: 'Tools',     count: tools.length },
+        ]}
+      />
 
-        <div className="quests-modal__section-label">Quest Items</div>
-        {questRows.length === 0 ? (
-          <div className="quests-modal__empty">Nothing held for a quest right now.</div>
-        ) : (
-          questRows.map(row => (
-            <div key={`${row.questId}:${row.stepKey}`} className="quests-modal__card quests-modal__card--active">
-              <div className="quests-modal__title">{row.icon} {row.name}</div>
-              <div className="quests-modal__step">
-                <span>{row.questTitle}</span>
-                <span>{row.held}/{row.required}</span>
-              </div>
-            </div>
-          ))
-        )}
+      {total === 0 && (
+        <SatchelEmpty>
+          {query
+            ? `Nothing in your satchel matches “${query}”.`
+            : 'Your satchel is empty — gather something out in the world.'}
+        </SatchelEmpty>
+      )}
 
-        {(materials.length > 0 || tools.length > 0) && (
-          <>
-            <div className="quests-modal__section-label">Materials &amp; Tools</div>
-            <div className="quests-modal__card">
-              {tools.map(itemRow)}
-              {materials.map(itemRow)}
-            </div>
-          </>
-        )}
+      {visibleQuest.length > 0 && (
+        <>
+          <GroupHeading tone="gold" count={visibleQuest.length}>Needed for a quest</GroupHeading>
+          {grid(visibleQuest)}
+        </>
+      )}
 
-        <div className="quests-modal__section-label">Pet Accessories</div>
-        {accessoryIds.length === 0 ? (
-          <div className="quests-modal__empty">Nothing yet — Tailor Pell in the capital stocks pet accessories.</div>
-        ) : (
-          <div className="quests-modal__card">
-            {accessoryIds.map(id => {
-              const def = getPetAccessoryDef(id)
-              return (
-                <div key={id} className="quests-modal__step">
-                  <span>🎀 {def?.name ?? id}</span>
-                  <span>{id === equippedId ? 'equipped' : ''}</span>
-                </div>
-              )
-            })}
-          </div>
-        )}
-      </>
+      {visibleTools.length > 0 && (
+        <>
+          <GroupHeading count={visibleTools.length}>Tools</GroupHeading>
+          {grid(visibleTools)}
+        </>
+      )}
+
+      {visibleMaterials.length > 0 && (
+        <>
+          <GroupHeading count={visibleMaterials.length}>Materials</GroupHeading>
+          {grid(visibleMaterials)}
+        </>
+      )}
+
+      {openItem && (
+        <ItemDetailSheet detail={itemDetail(openItem)} onClose={() => setOpenItem(null)} />
+      )}
+    </>
   )
 }

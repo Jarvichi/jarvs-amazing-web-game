@@ -39,6 +39,16 @@
 
 .modal-backdrop:has(.satchel-sheet) { padding: 0; }
 
+/* A nested sheet (an item's detail) is a dialog, not a section: it sizes to
+   its content rather than filling the screen behind the sheet that opened it. */
+.satchel-sheet--detail {
+  width: min(420px, 92vw);
+  height: auto;
+  max-height: min(560px, 80vh);
+  border-radius: var(--radius-lg);
+}
+.modal-backdrop:has(.satchel-sheet--detail) { padding: 16px; }
+
 /* ── Header ─────────────────────────────────────────────────────────────── */
 
 .satchel-sheet__header {
