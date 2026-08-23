@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import type { HubQuestDef } from '../../data/hub/questDefs'
 import type { HubLocationBundle } from '../../data/hub/loader'
-import type { TownRegistry } from '../../game/hub/questBoard'
+import { buildNpcHomeIndex, buildActiveQuestViews, type TownRegistry } from '../../game/hub/questBoard'
+import { getActivePet, getTreatsRemainingToday } from '../../game/hub/pet'
 import { SatchelSheet } from './satchel/SatchelSheet'
 import { FilterChips } from './satchel/FilterChips'
 import { SATCHEL_NAV, type SatchelSectionId } from './satchel/types'
@@ -11,6 +12,7 @@ import { TradeJournalContent } from './TradeJournalModal'
 import { TownDirectoryContent } from './TownDirectory'
 import { TownJournalContent, journalCounts, journalPct, type JournalTab } from './TownJournal'
 import { HubTownUpgradesContent, type UpgradeRow } from './HubTownUpgrades'
+import { TodaySection } from './satchel/TodaySection'
 
 export type { SatchelSectionId }
 
@@ -30,6 +32,8 @@ interface Props {
   allQuestDefs: HubQuestDef[]
   registry: TownRegistry
   onShowOnMap: (npcId: string) => void
+  /** Opens the pet sheet — the pet is a character, not a menu section. */
+  onOpenPet: () => void
 
   // Town
   locationData: HubLocationBundle
@@ -55,13 +59,10 @@ const SECTION_TITLE: Record<SatchelSectionId, string> = {
   codex:   'Codex',
 }
 
-/** Today arrives with the dashboard; until then the nav carries four sections. */
-const NAV_ITEMS = SATCHEL_NAV.filter(item => item.id !== 'today')
-
 export function SatchelMenu(props: Props) {
   const {
     onClose, activeSection, onSectionChange,
-    onAbandon, allQuestDefs, registry, onShowOnMap,
+    onAbandon, allQuestDefs, registry, onShowOnMap, onOpenPet,
     locationData, pinnedNpcId, onTogglePin, onShowRelationship,
     townName, reputation, crystals, rows, onUpgrade,
     tributeAmount, tributeAvailable, onCollectTribute,
@@ -78,8 +79,14 @@ export function SatchelMenu(props: Props) {
     ...locationData.HUB_ANIMALS.map(a => a.id),
   ]), [locationData])
 
-  const section = NAV_ITEMS.some(item => item.id === activeSection) ? activeSection : 'quests'
+  const section = SATCHEL_NAV.some(item => item.id === activeSection) ? activeSection : 'today'
   const counts = journalCounts(locationData)
+
+  const npcHomes = React.useMemo(() => buildNpcHomeIndex(registry), [registry])
+  const questViews = buildActiveQuestViews(allQuestDefs, {
+    npcHomes, presentNpcIds, currentTownName: townName,
+  })
+  const pet = getActivePet()
 
   // The header's right-hand figure, per section. Each of these used to be a
   // second header line inside the content component itself.
@@ -91,7 +98,7 @@ export function SatchelMenu(props: Props) {
 
   return (
     <SatchelSheet
-      title={section === 'town' ? townName : SECTION_TITLE[section]}
+      title={section === 'town' || section === 'today' ? townName : SECTION_TITLE[section]}
       meta={meta}
       search={section === 'quests' || section === 'satchel'
         ? { value: query, onChange: setQuery, placeholder: section === 'quests' ? 'Search quests' : 'Search items' }
@@ -99,8 +106,27 @@ export function SatchelMenu(props: Props) {
       onClose={onClose}
       activeId={section}
       onSelect={onSectionChange}
-      navItems={NAV_ITEMS}
     >
+      {section === 'today' && (
+        <TodaySection
+          townName={townName}
+          readyHere={questViews.filter(v => v.ready && v.target?.here !== false)}
+          inProgress={questViews.filter(v => !v.ready)}
+          readyElsewhere={questViews.filter(v => v.ready && v.target?.here === false)}
+          tribute={{ amount: tributeAmount, available: tributeAvailable, onCollect: onCollectTribute }}
+          pet={pet ? {
+            name: pet.name,
+            note: getTreatsRemainingToday() > 0
+              ? `Following you · ${getTreatsRemainingToday()} treat${getTreatsRemainingToday() === 1 ? '' : 's'} left today`
+              : 'Following you · no treats left today',
+          } : null}
+          codexPct={journalPct(locationData)}
+          onShowOnMap={onShowOnMap}
+          onOpenSection={onSectionChange}
+          onOpenPet={onOpenPet}
+        />
+      )}
+
       {section === 'satchel' && (
         <HubInventoryContent questDefs={allQuestDefs} query={query} />
       )}

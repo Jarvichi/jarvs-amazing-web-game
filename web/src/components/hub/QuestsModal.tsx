@@ -5,14 +5,13 @@ import type { HubQuestDef } from '../../data/hub/questDefs'
 import { getQuestState } from '../../game/hub/quests'
 import {
   buildNpcHomeIndex, buildActiveQuestViews, buildCompletedQuestViews, rewardSummary,
-  type QuestView, type QuestTarget, type TownRegistry,
+  type QuestView, type TownRegistry,
 } from '../../game/hub/questBoard'
 import { SatchelEmpty } from './satchel/SatchelSheet'
 import { FilterChips } from './satchel/FilterChips'
 import { GroupHeading } from './satchel/GroupHeading'
-import { ActionCard } from './satchel/ActionCard'
 import { ListRow } from './satchel/ListRow'
-import { EntityChip } from './satchel/EntityChip'
+import { QuestReadyCard, QuestProgressRow } from './satchel/QuestRows'
 
 type QuestFilter = 'active' | 'ready' | 'bounties' | 'completed'
 
@@ -37,22 +36,6 @@ interface Props {
 export function questsMeta(questDefs: HubQuestDef[]): string {
   const seen = questDefs.filter(q => getQuestState(q.id).status !== 'available').length
   return `${seen} of ${questDefs.length}`
-}
-
-/** Where the quest wants you next — the person, and the town they're in when
- *  that isn't the town you're standing in. */
-function TargetChips({ target, onShowOnMap }: { target: QuestTarget; onShowOnMap?: (npcId: string) => void }) {
-  return (
-    <>
-      <EntityChip
-        label={target.name}
-        tone={target.here ? 'default' : 'away'}
-        onClick={onShowOnMap && target.here ? () => onShowOnMap(target.npcId) : undefined}
-        title={target.here ? 'Show on the minimap' : `In ${target.townName}`}
-      />
-      {!target.here && <EntityChip label={target.townName} icon="🧭" tone="away" />}
-    </>
-  )
 }
 
 export function QuestsContent({
@@ -99,41 +82,16 @@ export function QuestsContent({
     </div>
   )
 
-  const progressRow = (view: QuestView) => {
-    const next = view.objectives.find(o => !o.done)
-    return (
-      <React.Fragment key={view.id}>
-        <ListRow
-          icon={view.kind === 'bounty' ? '🎯' : '📜'}
-          title={view.title}
-          subtitle={
-            <>
-              {next?.label ?? view.hint}
-              {view.target && !view.target.here && <> · <TargetChips target={view.target} /></>}
-            </>
-          }
-          value={next ? `${next.current}/${next.required}` : undefined}
-          progress={{ current: view.current, required: view.required, tone: view.kind === 'bounty' ? 'gold' : 'green' }}
-          actions={abandonButton(view)}
-        />
-        {confirmRow(view)}
-      </React.Fragment>
-    )
-  }
-
-  const readyCard = (view: QuestView, tone: 'gold' | 'quiet') => (
+  const progressRow = (view: QuestView) => (
     <React.Fragment key={view.id}>
-      <ActionCard
-        tone={tone}
-        title={`${view.title} — ready`}
-        detail={
-          view.target
-            ? <>Hand in to <TargetChips target={view.target} onShowOnMap={onShowOnMap} />{rewardSummary(view.reward) && ` · ${rewardSummary(view.reward)}`}</>
-            : rewardSummary(view.reward)
-        }
-        actionLabel={onShowOnMap && view.target?.here ? 'SHOW ON MAP' : undefined}
-        onAction={onShowOnMap && view.target?.here ? () => onShowOnMap(view.target!.npcId) : undefined}
-      />
+      <QuestProgressRow view={view} onShowOnMap={onShowOnMap} actions={abandonButton(view)} />
+      {confirmRow(view)}
+    </React.Fragment>
+  )
+
+  const readyCard = (view: QuestView) => (
+    <React.Fragment key={view.id}>
+      <QuestReadyCard view={view} onShowOnMap={onShowOnMap} />
       {confirmRow(view)}
     </React.Fragment>
   )
@@ -162,7 +120,7 @@ export function QuestsContent({
                 {readyHere.length > 0 && (
                   <>
                     <GroupHeading tone="gold" count={readyHere.length}>Ready to hand in</GroupHeading>
-                    {readyHere.map(v => readyCard(v, 'gold'))}
+                    {readyHere.map(readyCard)}
                   </>
                 )}
                 {inProgress.length > 0 && (
@@ -174,7 +132,7 @@ export function QuestsContent({
                 {readyElsewhere.length > 0 && (
                   <>
                     <GroupHeading count={readyElsewhere.length}>Waiting in another town</GroupHeading>
-                    {readyElsewhere.map(v => readyCard(v, 'quiet'))}
+                    {readyElsewhere.map(readyCard)}
                   </>
                 )}
               </>
@@ -186,8 +144,8 @@ export function QuestsContent({
           ? <SatchelEmpty>Nothing is ready to hand in yet.</SatchelEmpty>
           : (
             <>
-              {readyHere.map(v => readyCard(v, 'gold'))}
-              {readyElsewhere.map(v => readyCard(v, 'quiet'))}
+              {readyHere.map(readyCard)}
+              {readyElsewhere.map(readyCard)}
             </>
           )
       )}
@@ -195,7 +153,7 @@ export function QuestsContent({
       {filter === 'bounties' && (
         bounties.length === 0
           ? <SatchelEmpty>No bounties accepted — check the bounty board.</SatchelEmpty>
-          : bounties.map(v => v.ready ? readyCard(v, 'gold') : progressRow(v))
+          : bounties.map(v => v.ready ? readyCard(v) : progressRow(v))
       )}
 
       {filter === 'completed' && (

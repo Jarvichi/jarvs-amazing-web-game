@@ -267,7 +267,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
   const [activeBuildingId, setActiveBuildingId] = useState<string | null>(null)
   const [pickedUpIds,    setPickedUpIds]    = useState<Set<string>>(() => { reconcileBountyPickups(); return getPickedUpIds() })
   const [tabbedModalOpen,     setTabbedModalOpen]     = useState(false)
-  const [activeHubTab,        setActiveHubTab]        = useState<SatchelSectionId>('quests')
+  const [activeHubTab,        setActiveHubTab]        = useState<SatchelSectionId>('today')
   const [petModalOpen,        setPetModalOpen]        = useState(false)
   const [bountyBoardOpen,     setBountyBoardOpen]     = useState(false)
   const [petShelterOpen,      setPetShelterOpen]      = useState(false)
@@ -2485,6 +2485,7 @@ function hasOfferableQuest(giverId: string): boolean {
             allQuestDefs={allQuestDefs}
             registry={locationRegistry}
             onShowOnMap={npcId => { togglePinnedNpc(npcId); setTabbedModalOpen(false) }}
+            onOpenPet={() => { setTabbedModalOpen(false); openPet() }}
             locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} onShowRelationship={setRelationshipNpcId}
             townName={town} reputation={getTownReputation(town)} crystals={loadCrystals()} rows={upgradeRows} onUpgrade={handleUpgrade}
             tributeAmount={tributeAmount(town)} tributeAvailable={tributeAvailable(town)} onCollectTribute={handleCollectTribute}

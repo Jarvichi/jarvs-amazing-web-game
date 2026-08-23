@@ -25,6 +25,7 @@ function Interactive({ initialSection }: { initialSection: SatchelSectionId }) {
       allQuestDefs={RAVENWATCH_QUESTS.HUB_QUEST_DEFS}
       registry={LOCATION_REGISTRY}
       onShowOnMap={fn()}
+      onOpenPet={fn()}
       locationData={RAVENWATCH}
       pinnedNpcId={null}
       onTogglePin={fn()}
@@ -50,6 +51,7 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+export const Today:   Story = { args: { initialSection: 'today' } }
 export const Quests:  Story = { args: { initialSection: 'quests' } }
 export const Satchel: Story = { args: { initialSection: 'satchel' } }
 
@@ -60,6 +62,6 @@ export const Town: Story = { args: { initialSection: 'town' } }
 export const Codex: Story = { args: { initialSection: 'codex' } }
 
 export const Phone: Story = {
-  args: { initialSection: 'quests' },
+  args: { initialSection: 'today' },
   globals: { viewport: { value: 'mobile1' } },
 }
