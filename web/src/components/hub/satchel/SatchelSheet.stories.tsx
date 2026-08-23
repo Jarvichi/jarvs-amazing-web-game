@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { fn } from 'storybook/test'
+import { fn, within, expect } from 'storybook/test'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { SatchelSheet, SatchelEmpty } from './SatchelSheet'
 import { GroupHeading } from './GroupHeading'
@@ -51,6 +51,7 @@ function Interactive({ initial, empty }: { initial: SatchelSectionId; empty?: bo
 
 const meta = {
   component: Interactive,
+  tags: ['ci'],
   parameters: { layout: 'fullscreen' },
   decorators: [(Story) => (<div className="game-container"><Story /></div>)],
 } satisfies Meta<typeof Interactive>
@@ -60,6 +61,20 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = { args: { initial: 'today' } }
 export const Empty: Story = { args: { initial: 'quests', empty: true } }
+
+/** The whole point of the shell: the old menu drew its title three times and
+ *  offered two close buttons, because each section had been a standalone modal
+ *  first. One of each, or this fails. */
+export const OwnsItsChromeExactlyOnce: Story = {
+  args: { initial: 'today' },
+  play: async () => {
+    // The sheet is portaled to document.body by ModalBackdrop.
+    const body = within(document.body)
+    expect(body.getAllByRole('button', { name: 'Close' })).toHaveLength(1)
+    expect(body.getAllByRole('heading', { name: 'Ravenwatch' })).toHaveLength(1)
+    expect(body.getAllByRole('tabpanel')).toHaveLength(1)
+  },
+}
 
 /** Below 768px the nav is a bottom bar; above it becomes a left rail. */
 export const Phone: Story = {
