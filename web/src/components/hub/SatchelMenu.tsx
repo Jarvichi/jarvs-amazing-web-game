@@ -18,14 +18,18 @@ export type { SatchelSectionId }
 
 /** Which sub-view a section is showing. Sub-views are chips inside a section,
  *  never top-level nav items — that distinction is what took seven tabs down
- *  to four (five once Today lands). */
-type TownView  = 'people' | 'standing'
+ *  to five. */
+export type TownView = 'people' | 'standing'
 type CodexView = JournalTab | 'trade'
 
 interface Props {
   onClose: () => void
   activeSection: SatchelSectionId
   onSectionChange: (section: SatchelSectionId) => void
+  /** Controlled so an entry point can deep-link to one sub-view — the town
+   *  hall's upgrades interactable opens Town on Standing, not on Where is…? */
+  townView: TownView
+  onTownViewChange: (view: TownView) => void
 
   // Quests — global, not town-scoped: quests are carried between towns.
   onAbandon: (questId: string) => void
@@ -61,14 +65,13 @@ const SECTION_TITLE: Record<SatchelSectionId, string> = {
 
 export function SatchelMenu(props: Props) {
   const {
-    onClose, activeSection, onSectionChange,
+    onClose, activeSection, onSectionChange, townView, onTownViewChange,
     onAbandon, allQuestDefs, registry, onShowOnMap, onOpenPet,
     locationData, pinnedNpcId, onTogglePin, onShowRelationship,
     townName, reputation, crystals, rows, onUpgrade,
     tributeAmount, tributeAvailable, onCollectTribute,
   } = props
 
-  const [townView,  setTownView]  = useState<TownView>('people')
   const [codexView, setCodexView] = useState<CodexView>('animals')
   const [query,     setQuery]     = useState('')
 
@@ -148,7 +151,7 @@ export function SatchelMenu(props: Props) {
           <FilterChips
             label="Town view"
             activeId={townView}
-            onChange={id => setTownView(id as TownView)}
+            onChange={id => onTownViewChange(id as TownView)}
             options={[
               { id: 'people',   label: 'Where is…?' },
               { id: 'standing', label: 'Standing & Upgrades' },

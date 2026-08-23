@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { fn } from 'storybook/test'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { SatchelMenu, type SatchelSectionId } from './SatchelMenu'
+import { SatchelMenu, type SatchelSectionId, type TownView } from './SatchelMenu'
 import { RAVENWATCH, RAVENWATCH_QUESTS, LOCATION_REGISTRY } from '../../data/hub/hubTownStoryFixtures'
 import { getUpgradeTrack } from '../../data/hub/buildingUpgrades'
 import type { UpgradeRow } from './HubTownUpgrades'
@@ -14,13 +14,16 @@ const upgradeRows: UpgradeRow[] = [
   },
 ]
 
-function Interactive({ initialSection }: { initialSection: SatchelSectionId }) {
+function Interactive({ initialSection, initialTownView = 'people' }: { initialSection: SatchelSectionId; initialTownView?: TownView }) {
   const [activeSection, setActiveSection] = useState<SatchelSectionId>(initialSection)
+  const [townView, setTownView] = useState<TownView>(initialTownView)
   return (
     <SatchelMenu
       onClose={fn()}
       activeSection={activeSection}
       onSectionChange={setActiveSection}
+      townView={townView}
+      onTownViewChange={setTownView}
       onAbandon={fn()}
       allQuestDefs={RAVENWATCH_QUESTS.HUB_QUEST_DEFS}
       registry={LOCATION_REGISTRY}
@@ -57,6 +60,9 @@ export const Satchel: Story = { args: { initialSection: 'satchel' } }
 
 /** Where is…? and Standing & Upgrades are chips inside one section now. */
 export const Town: Story = { args: { initialSection: 'town' } }
+
+/** The town hall's upgrades interactable deep-links straight to Standing. */
+export const TownStanding: Story = { args: { initialSection: 'town', initialTownView: 'standing' } }
 
 /** The journal's four categories plus the trade journal, as one chip row. */
 export const Codex: Story = { args: { initialSection: 'codex' } }

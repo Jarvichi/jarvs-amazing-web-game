@@ -33,7 +33,7 @@ import { loadPlayerName, addToConsumableStash, isCampaignComplete } from '../../
 import { LoginButton } from '../ui/LoginButton'
 import { addCollectible, addConsumable, getCollectibles, addHubItem, removeHubItem, getHubItemCount, hasHubItem, getHubItemCatalogEntry, getHubItems, spendTickets, getTickets } from '../../game/itemStore'
 import { questItemId } from '../../game/hub/questItems'
-import { SatchelMenu, type SatchelSectionId } from './SatchelMenu'
+import { SatchelMenu, type SatchelSectionId, type TownView } from './SatchelMenu'
 import { PetModal } from './PetModal'
 import { PetShelterModal } from './PetShelterModal'
 import { BountyBoardModal } from './BountyBoardModal'
@@ -269,9 +269,14 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
   const [tabbedModalOpen,     setTabbedModalOpen]     = useState(false)
   const [activeHubTab,        setActiveHubTab]        = useState<SatchelSectionId>('today')
   const [petModalOpen,        setPetModalOpen]        = useState(false)
+  const [hubTownView,         setHubTownView]         = useState<TownView>('people')
   const [bountyBoardOpen,     setBountyBoardOpen]     = useState(false)
   const [petShelterOpen,      setPetShelterOpen]      = useState(false)
-  function openHubTab(tab: SatchelSectionId) { setActiveHubTab(tab); setTabbedModalOpen(true) }
+  function openHubTab(tab: SatchelSectionId, townView?: TownView) {
+    setActiveHubTab(tab)
+    if (townView) setHubTownView(townView)
+    setTabbedModalOpen(true)
+  }
   /** The pet is a character, not a drawer — it opens from the animal itself
    *  rather than from a menu section. */
   function openPet() { setPetModalOpen(true) }
@@ -690,7 +695,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
       onNarratorLog?.(screen.slice(9))
       return
     }
-    if (screen === 'town-upgrades') { openHubTab('town'); return }
+    if (screen === 'town-upgrades') { openHubTab('town', 'standing'); return }
     if (screen === 'bounty-board') { setBountyBoardOpen(true); return }
     if (screen === 'adopt-pet') { setPetShelterOpen(true); return }
     if (screen === 'worldmap') { onWorldMap?.(); return }
@@ -2481,6 +2486,8 @@ function hasOfferableQuest(giverId: string): boolean {
             onClose={() => setTabbedModalOpen(false)}
             activeSection={activeHubTab}
             onSectionChange={setActiveHubTab}
+            townView={hubTownView}
+            onTownViewChange={setHubTownView}
             onAbandon={handleQuestAbandon}
             allQuestDefs={allQuestDefs}
             registry={locationRegistry}
