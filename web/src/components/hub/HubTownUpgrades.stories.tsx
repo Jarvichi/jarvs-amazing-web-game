@@ -1,6 +1,6 @@
 import { fn } from 'storybook/test'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { HubTownUpgrades, type UpgradeRow } from './HubTownUpgrades'
+import { HubTownUpgradesContent, type UpgradeRow } from './HubTownUpgrades'
 import { getUpgradeTrack } from '../../data/hub/buildingUpgrades'
 
 const shop = getUpgradeTrack('shop')
@@ -25,17 +25,22 @@ const rows: UpgradeRow[] = [
 ]
 
 const meta = {
-  component: HubTownUpgrades,
+  component: HubTownUpgradesContent,
   parameters: { layout: 'fullscreen' },
-  decorators: [(Story) => (<div className="game-container"><Story /></div>)],
-} satisfies Meta<typeof HubTownUpgrades>
+  decorators: [(Story) => (
+    <div className="game-container">
+      <div className="satchel-sheet">
+        <div className="satchel-sheet__body"><Story /></div>
+      </div>
+    </div>
+  )],
+} satisfies Meta<typeof HubTownUpgradesContent>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    onClose:    fn(),
     townName:   'Ravenwatch',
     reputation: 80,
     crystals:   500,
@@ -49,7 +54,6 @@ export const Default: Story = {
 
 export const Broke: Story = {
   args: {
-    onClose:    fn(),
     townName:   'Ravenwatch',
     reputation: 80,
     crystals:   10,

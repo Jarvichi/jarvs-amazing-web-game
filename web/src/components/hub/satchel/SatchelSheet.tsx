@@ -1,7 +1,7 @@
 import React from 'react'
 import { ModalBackdrop } from '../../ui/ModalBackdrop'
 import { SatchelNav } from './SatchelNav'
-import type { SatchelSectionId } from './types'
+import type { SatchelNavItem, SatchelSectionId } from './types'
 
 interface Props {
   /** Section title — the ONLY place it is drawn. Content renders content. */
@@ -17,6 +17,8 @@ interface Props {
   activeId: SatchelSectionId
   onSelect: (id: SatchelSectionId) => void
   badges?: Partial<Record<SatchelSectionId, boolean>>
+  /** Override the nav's sections. Defaults to all five. */
+  navItems?: SatchelNavItem[]
   children: React.ReactNode
 }
 
@@ -27,7 +29,7 @@ interface Props {
  *  own ✕ because each had been a standalone modal first). The shell owns all
  *  of that now, so content components render only content. */
 export function SatchelSheet({
-  title, meta, search, onClose, activeId, onSelect, badges, children,
+  title, meta, search, onClose, activeId, onSelect, badges, navItems, children,
 }: Props) {
   return (
     <ModalBackdrop onClose={onClose} title={title}>
@@ -60,7 +62,7 @@ export function SatchelSheet({
           {children}
         </div>
 
-        <SatchelNav activeId={activeId} onSelect={onSelect} badges={badges} />
+        <SatchelNav activeId={activeId} onSelect={onSelect} badges={badges} items={navItems} />
       </div>
     </ModalBackdrop>
   )

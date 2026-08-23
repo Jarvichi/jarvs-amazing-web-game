@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import { ModalBackdrop } from '../ui/ModalBackdrop'
-import { Panel } from '../ui/Panel'
 import type { HubLocationBundle } from '../../data/hub/loader'
 import { ANIMAL_TYPES, TINT_PALETTES, type AnimalType } from '../../game/hub/animals'
 import { getFriendshipLevel } from '../../game/hub/friendship'
+import { FilterChips } from './satchel/FilterChips'
 import { getRelationship } from '../../game/hub/relationships'
 import {
   hasMetNpc, getMetNpcIds,
@@ -58,23 +57,42 @@ const ALL_FISH_SPECIES: FishSpecies[] = FISH_LOCALES.flatMap(({ id, tiers }) =>
   }))),
 )
 
-type Tab = 'animals' | 'fish' | 'people' | 'places'
+export type JournalTab = 'animals' | 'fish' | 'people' | 'places'
 
 interface Props {
-  onClose: () => void
   locationData: HubLocationBundle
+  /** Controlled by the Codex section, whose chip row also carries Trade. */
+  tab: JournalTab
 }
 
-export function TownJournalContent({ onClose, locationData }: Props) {
-  const [tab, setTab] = useState<Tab>('animals')
+/** Per-category discovery counts, for the Codex chip row. */
+export function journalCounts(locationData: HubLocationBundle): Record<JournalTab, { seen: number; total: number }> {
+  const seenIds = new Set<string>()
+  const namedNpcs = locationData.HUB_NPCS.filter(n => {
+    if (!n.name?.trim() || seenIds.has(n.id)) return false
+    seenIds.add(n.id)
+    return true
+  })
+  const metNpcIds = getMetNpcIds()
+  const areas = locationData.HUB_AREAS
+  return {
+    animals: { seen: getSeenAnimalTypes().size, total: ANIMAL_TYPES.length },
+    fish:    { seen: ALL_FISH_SPECIES.filter(s => hasCaughtFish(s.locale, s.name)).length, total: ALL_FISH_SPECIES.length },
+    people:  { seen: namedNpcs.filter(n => metNpcIds.has(n.id)).length, total: namedNpcs.length },
+    places:  { seen: areas.filter(a => hasSeenArea(locationData.HUB_TOWN_NAME, a.id)).length, total: areas.length },
+  }
+}
+
+/** Overall completion percentage, for the sheet header's meta slot. */
+export function journalPct(locationData: HubLocationBundle): number {
+  const counts = Object.values(journalCounts(locationData))
+  const seen  = counts.reduce((n, c) => n + c.seen, 0)
+  const total = counts.reduce((n, c) => n + c.total, 0)
+  return total > 0 ? Math.round((seen / total) * 100) : 0
+}
+
+export function TownJournalContent({ locationData, tab }: Props) {
   const [fishLocale, setFishLocale] = useState<string>(FISH_LOCALES[0].id)
-
-  const seenAnimalTypes = getSeenAnimalTypes()
-  const animalsTotal = ANIMAL_TYPES.length
-  const animalsSeen = seenAnimalTypes.size
-
-  const fishTotal = ALL_FISH_SPECIES.length
-  const fishSeen = ALL_FISH_SPECIES.filter(s => hasCaughtFish(s.locale, s.name)).length
 
   const seen = new Set<string>()
   const namedNpcs = locationData.HUB_NPCS.filter(n => {
@@ -82,47 +100,10 @@ export function TownJournalContent({ onClose, locationData }: Props) {
     seen.add(n.id)
     return true
   })
-  const metNpcIds = getMetNpcIds()
-  const peopleTotal = namedNpcs.length
-  const peopleMet = namedNpcs.filter(n => metNpcIds.has(n.id)).length
-
   const areas = locationData.HUB_AREAS
-  const placesTotal = areas.length
-  const placesSeen = areas.filter(a => hasSeenArea(locationData.HUB_TOWN_NAME, a.id)).length
-
-  const TABS: { id: Tab; label: string; discovered: number; total: number }[] = [
-    { id: 'animals', label: 'Animals', discovered: animalsSeen, total: animalsTotal },
-    { id: 'fish',    label: 'Fish',    discovered: fishSeen,    total: fishTotal },
-    { id: 'people',  label: 'People',  discovered: peopleMet,   total: peopleTotal },
-    { id: 'places',  label: 'Places',  discovered: placesSeen,  total: placesTotal },
-  ]
-
-  const overallDiscovered = animalsSeen + fishSeen + peopleMet + placesSeen
-  const overallTotal = animalsTotal + fishTotal + peopleTotal + placesTotal
-  const overallPct = overallTotal > 0 ? Math.round((overallDiscovered / overallTotal) * 100) : 0
 
   return (
-      <Panel elevation="floating" className="town-directory town-journal">
-        <div className="town-directory__header">
-          <span>📖 Town Journal</span>
-          <span className="town-directory__meta">
-            {overallPct}% complete
-            <button className="town-directory__close" onClick={onClose} aria-label="Close">✕</button>
-          </span>
-        </div>
-
-        <div className="hoa-tabs">
-          {TABS.map(t => (
-            <button
-              key={t.id}
-              className={`hoa-tab${t.id === tab ? ' hoa-tab--active' : ''}`}
-              onClick={() => setTab(t.id)}
-            >
-              {t.label} ({t.discovered}/{t.total})
-            </button>
-          ))}
-        </div>
-
+      <>
         {tab === 'animals' && (
           <div className="town-directory__list town-journal__list">
             {ANIMAL_TYPES.map(type => {
@@ -149,21 +130,16 @@ export function TownJournalContent({ onClose, locationData }: Props) {
 
         {tab === 'fish' && (
           <>
-            <div className="hoa-tabs">
-              {FISH_LOCALES.map(loc => {
-                const localeSpecies = ALL_FISH_SPECIES.filter(s => s.locale === loc.id)
-                const localeSeen = localeSpecies.filter(s => hasCaughtFish(s.locale, s.name)).length
-                return (
-                  <button
-                    key={loc.id}
-                    className={`hoa-tab${loc.id === fishLocale ? ' hoa-tab--active' : ''}`}
-                    onClick={() => setFishLocale(loc.id)}
-                  >
-                    {loc.label} ({localeSeen}/{localeSpecies.length})
-                  </button>
-                )
-              })}
-            </div>
+            <FilterChips
+              label="Fishing locale"
+              activeId={fishLocale}
+              onChange={setFishLocale}
+              options={FISH_LOCALES.map(loc => ({
+                id: loc.id,
+                label: loc.label,
+                count: ALL_FISH_SPECIES.filter(s => s.locale === loc.id && hasCaughtFish(s.locale, s.name)).length,
+              }))}
+            />
             <div className="town-directory__list town-journal__list">
               {(FISH_LOCALES.find(l => l.id === fishLocale)?.tiers ?? []).map(tier => {
                 const tierSeen = tier.names.filter(name => hasCaughtFish(fishLocale, name)).length
@@ -243,14 +219,6 @@ export function TownJournalContent({ onClose, locationData }: Props) {
             )}
           </div>
         )}
-      </Panel>
-  )
-}
-
-export function TownJournal(props: Props) {
-  return (
-    <ModalBackdrop onClose={props.onClose} title="Town Journal">
-      <TownJournalContent {...props} />
-    </ModalBackdrop>
+      </>
   )
 }

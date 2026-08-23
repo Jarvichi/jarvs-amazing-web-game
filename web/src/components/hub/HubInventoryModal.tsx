@@ -1,6 +1,4 @@
 import React from 'react'
-import { ModalBackdrop } from '../ui/ModalBackdrop'
-import { Panel } from '../ui/Panel'
 import type { HubQuestDef } from '../../data/hub/questDefs'
 import { getQuestState, getQuestProgress } from '../../game/hub/quests'
 import { getHubItems, getHubItemCount, ItemEntry } from '../../game/itemStore'
@@ -9,7 +7,6 @@ import { getOwnedAccessoryIds, getEquippedAccessoryId } from '../../game/hub/pet
 import { getPetAccessoryDef } from '../../data/petAccessories'
 
 interface Props {
-  onClose: () => void
   /** All towns' quest defs — held quest items may belong to any town's quest. */
   questDefs: HubQuestDef[]
 }
@@ -44,7 +41,7 @@ function activeQuestItemRows(questDefs: HubQuestDef[]): QuestItemRow[] {
   return rows
 }
 
-export function HubInventoryContent({ onClose, questDefs }: Props) {
+export function HubInventoryContent({ questDefs }: Props) {
   const questRows = activeQuestItemRows(questDefs)
 
   const hubItems = getHubItems()
@@ -62,13 +59,7 @@ export function HubInventoryContent({ onClose, questDefs }: Props) {
   )
 
   return (
-      <Panel elevation="floating" className="quests-modal">
-        <div className="quests-modal__header">
-          <span>🎒 Inventory</span>
-          <span className="quests-modal__meta">
-            <button className="quests-modal__close" onClick={onClose} aria-label="Close">✕</button>
-          </span>
-        </div>
+      <>
 
         <div className="quests-modal__section-label">Quest Items</div>
         {questRows.length === 0 ? (
@@ -111,14 +102,6 @@ export function HubInventoryContent({ onClose, questDefs }: Props) {
             })}
           </div>
         )}
-      </Panel>
-  )
-}
-
-export function HubInventoryModal(props: Props) {
-  return (
-    <ModalBackdrop onClose={props.onClose} title="Inventory">
-      <HubInventoryContent {...props} />
-    </ModalBackdrop>
+      </>
   )
 }

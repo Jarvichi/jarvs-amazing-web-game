@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { fn } from 'storybook/test'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { HubTabbedModal, type HubTabId } from './HubTabbedModal'
+import { SatchelMenu, type SatchelSectionId } from './SatchelMenu'
 import { RAVENWATCH } from '../../data/hub/hubTownStoryFixtures'
 import { getUpgradeTrack } from '../../data/hub/buildingUpgrades'
 import type { UpgradeRow } from './HubTownUpgrades'
@@ -14,14 +14,13 @@ const upgradeRows: UpgradeRow[] = [
   },
 ]
 
-function Interactive({ initialTab, hasPet }: { initialTab: HubTabId; hasPet: boolean }) {
-  const [activeTab, setActiveTab] = useState<HubTabId>(initialTab)
+function Interactive({ initialSection }: { initialSection: SatchelSectionId }) {
+  const [activeSection, setActiveSection] = useState<SatchelSectionId>(initialSection)
   return (
-    <HubTabbedModal
+    <SatchelMenu
       onClose={fn()}
-      activeTab={activeTab}
-      onTabChange={setActiveTab}
-      hasPet={hasPet}
+      activeSection={activeSection}
+      onSectionChange={setActiveSection}
       onAbandon={fn()}
       questDefs={[]}
       allQuestDefs={[]}
@@ -50,10 +49,16 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {
-  args: { initialTab: 'quests', hasPet: false },
-}
+export const Quests:  Story = { args: { initialSection: 'quests' } }
+export const Satchel: Story = { args: { initialSection: 'satchel' } }
 
-export const UpgradesTabWithPet: Story = {
-  args: { initialTab: 'upgrades', hasPet: true },
+/** Where is…? and Standing & Upgrades are chips inside one section now. */
+export const Town: Story = { args: { initialSection: 'town' } }
+
+/** The journal's four categories plus the trade journal, as one chip row. */
+export const Codex: Story = { args: { initialSection: 'codex' } }
+
+export const Phone: Story = {
+  args: { initialSection: 'quests' },
+  globals: { viewport: { value: 'mobile1' } },
 }

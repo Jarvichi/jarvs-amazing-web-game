@@ -1,26 +1,27 @@
-import { fn } from 'storybook/test'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { TownJournal } from './TownJournal'
+import { TownJournalContent } from './TownJournal'
 import { RAVENWATCH } from '../../data/hub/hubTownStoryFixtures'
 
 const meta = {
-  component: TownJournal,
+  component: TownJournalContent,
   parameters: { layout: 'fullscreen' },
   decorators: [
     (Story) => (
       <div className="game-container">
-        <Story />
+        <div className="satchel-sheet">
+          <div className="satchel-sheet__body"><Story /></div>
+        </div>
       </div>
     ),
   ],
-} satisfies Meta<typeof TownJournal>
+} satisfies Meta<typeof TownJournalContent>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {
-  args: {
-    onClose: fn(),
-    locationData: RAVENWATCH,
-  },
-}
+/** The category is chosen by the Codex section's chip row, so each category
+ *  gets its own story rather than hiding behind an internal tab bar. */
+export const Animals: Story = { args: { locationData: RAVENWATCH, tab: 'animals' } }
+export const Fish:    Story = { args: { locationData: RAVENWATCH, tab: 'fish' } }
+export const People:  Story = { args: { locationData: RAVENWATCH, tab: 'people' } }
+export const Places:  Story = { args: { locationData: RAVENWATCH, tab: 'places' } }

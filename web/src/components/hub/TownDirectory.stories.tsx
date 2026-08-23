@@ -1,26 +1,27 @@
 import { fn } from 'storybook/test'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { TownDirectory } from './TownDirectory'
+import { TownDirectoryContent } from './TownDirectory'
 import { RAVENWATCH } from '../../data/hub/hubTownStoryFixtures'
 
 const meta = {
-  component: TownDirectory,
+  component: TownDirectoryContent,
   parameters: { layout: 'fullscreen' },
   decorators: [
     (Story) => (
       <div className="game-container">
-        <Story />
+        <div className="satchel-sheet">
+          <div className="satchel-sheet__body"><Story /></div>
+        </div>
       </div>
     ),
   ],
-} satisfies Meta<typeof TownDirectory>
+} satisfies Meta<typeof TownDirectoryContent>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    onClose:     fn(),
     locationData: RAVENWATCH,
     pinnedNpcId:  null,
     onTogglePin:  fn(),
@@ -30,7 +31,6 @@ export const Default: Story = {
 
 export const WithPinned: Story = {
   args: {
-    onClose:     fn(),
     locationData: RAVENWATCH,
     pinnedNpcId:  RAVENWATCH.HUB_NPCS.find(n => n.name?.trim())?.id ?? null,
     onTogglePin:  fn(),

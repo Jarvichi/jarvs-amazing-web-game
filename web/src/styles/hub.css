@@ -775,29 +775,6 @@
 }
 .quests-modal__close:hover { color: #88cc88; }
 
-/* ─── Hub Tabbed Modal (Menu) ────────────────────────── */
-
-.hub-tabbed-modal {
-  color: #c8e8c8;
-  width: min(460px, 92vw);
-  max-height: 80vh;
-  font-family: var(--font-mono);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-.hub-tabbed-modal .hoa-tabs { flex: 0 0 auto; }
-.hub-tabbed-modal__body { flex: 1 1 auto; overflow-y: auto; }
-.hub-tabbed-modal__body > .quests-modal,
-.hub-tabbed-modal__body > .town-directory,
-.hub-tabbed-modal__body > .pet-modal {
-  background: none;
-  border: none;
-  width: auto;
-  max-height: none;
-  overflow: visible;
-  padding: 12px 20px 20px;
-}
 .quests-modal__empty {
   font-size: 11px;
   color: #669966;

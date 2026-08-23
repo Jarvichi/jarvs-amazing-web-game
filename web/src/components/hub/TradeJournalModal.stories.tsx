@@ -1,35 +1,34 @@
-import { fn } from 'storybook/test'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { TradeJournalModal } from './TradeJournalModal'
+import { TradeJournalContent } from './TradeJournalModal'
 
 function seedJournal(sellers: unknown[], buyers: unknown[]): void {
   localStorage.setItem('jarv_hub_trade_journal', JSON.stringify({ sellers, buyers }))
 }
 
 const meta = {
-  component: TradeJournalModal,
+  component: TradeJournalContent,
   parameters: { layout: 'fullscreen' },
   decorators: [
     (Story) => (
       <div className="game-container">
-        <Story />
+        <div className="satchel-sheet">
+          <div className="satchel-sheet__body"><Story /></div>
+        </div>
       </div>
     ),
   ],
-} satisfies Meta<typeof TradeJournalModal>
+} satisfies Meta<typeof TradeJournalContent>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 export const Empty: Story = {
-  args: { onClose: fn() },
   decorators: [
     (Story) => { seedJournal([], []); return <Story /> },
   ],
 }
 
 export const WithDiscoveries: Story = {
-  args: { onClose: fn() },
   decorators: [
     (Story) => {
       seedJournal(

@@ -1,6 +1,5 @@
-import { fn } from 'storybook/test'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { HubInventoryModal } from './HubInventoryModal'
+import { HubInventoryContent } from './HubInventoryModal'
 import type { HubQuestDef } from '../../data/hub/questDefs'
 import type { ItemEntry } from '../../game/itemStore'
 
@@ -40,29 +39,31 @@ const sampleQuest: HubQuestDef = {
 }
 
 const meta = {
-  component: HubInventoryModal,
+  component: HubInventoryContent,
   parameters: { layout: 'fullscreen' },
   decorators: [
     (Story) => (
       <div className="game-container">
-        <Story />
+        <div className="satchel-sheet">
+          <div className="satchel-sheet__body"><Story /></div>
+        </div>
       </div>
     ),
   ],
-} satisfies Meta<typeof HubInventoryModal>
+} satisfies Meta<typeof HubInventoryContent>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 export const Empty: Story = {
-  args: { onClose: fn(), questDefs: [] },
+  args: { questDefs: [] },
   decorators: [
     (Story) => { seedStores({}); return <Story /> },
   ],
 }
 
 export const QuestItemsInProgress: Story = {
-  args: { onClose: fn(), questDefs: [sampleQuest] },
+  args: { questDefs: [sampleQuest] },
   decorators: [
     (Story) => {
       seedStores({
@@ -78,7 +79,7 @@ export const QuestItemsInProgress: Story = {
 }
 
 export const FullInventory: Story = {
-  args: { onClose: fn(), questDefs: [sampleQuest] },
+  args: { questDefs: [sampleQuest] },
   decorators: [
     (Story) => {
       seedStores({

@@ -1,6 +1,4 @@
 import React from 'react'
-import { ModalBackdrop } from '../ui/ModalBackdrop'
-import { Panel } from '../ui/Panel'
 import {
   REPUTATION_TIERS,
   REPUTATION_TIER_NAMES,
@@ -20,7 +18,6 @@ export interface UpgradeRow {
 }
 
 interface Props {
-  onClose:    () => void
   townName:   string
   reputation: number
   crystals:   number
@@ -44,20 +41,13 @@ function reputationToNextTier(rep: number): { tier: number; label: string; progr
 }
 
 export function HubTownUpgradesContent({
-  onClose, townName, reputation, crystals, rows, onUpgrade,
+  townName, reputation, crystals, rows, onUpgrade,
   tributeAmount, tributeAvailable, onCollectTribute,
 }: Props) {
   const rep = reputationToNextTier(reputation)
 
   return (
-      <Panel elevation="floating" className="town-directory town-upgrades">
-        <div className="town-directory__header">
-          <span>🏗️ {townName} — Standing &amp; Upgrades</span>
-          <span className="town-directory__meta">
-            💎 {crystals.toLocaleString()}
-            <button className="town-directory__close" onClick={onClose} aria-label="Close">✕</button>
-          </span>
-        </div>
+      <div className="town-upgrades">
 
         <div className="town-upgrades__rep">
           <span className="town-upgrades__rep-tier">⭐ {rep.label}</span>
@@ -132,14 +122,6 @@ export function HubTownUpgradesContent({
             })}
           </div>
         )}
-      </Panel>
-  )
-}
-
-export function HubTownUpgrades(props: Props) {
-  return (
-    <ModalBackdrop onClose={props.onClose} title={`${props.townName} — Standing & Upgrades`}>
-      <HubTownUpgradesContent {...props} />
-    </ModalBackdrop>
+      </div>
   )
 }

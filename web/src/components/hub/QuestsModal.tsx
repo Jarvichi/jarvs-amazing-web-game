@@ -6,7 +6,6 @@ import { getQuestState, getQuestProgress } from '../../game/hub/quests'
 import { getDailyBounties, isBountyAccepted, isBountyCompleted, getActiveBountyStepHint } from '../../game/hub/bounties'
 
 interface Props {
-  onClose: () => void
   onAbandon: (questId: string) => void
   questDefs: HubQuestDef[]
   /** Resolve an NPC/animal id to its display name (for deliver-step labels). */
@@ -39,7 +38,13 @@ function getActiveHint(quest: HubQuestDef): string {
   return Object.values(activeDialogue)[Object.values(activeDialogue).length - 1] || "Hello"
 }
 
-export function QuestsContent({ onClose, onAbandon, questDefs, resolveNpcName = (id) => id }: Props) {
+/** Discovered / total, for the sheet header's meta slot. */
+export function questsMeta(questDefs: HubQuestDef[]): string {
+  const seen = questDefs.filter(q => getQuestState(q.id).status !== 'available').length
+  return `${seen} of ${questDefs.length}`
+}
+
+export function QuestsContent({ onAbandon, questDefs, resolveNpcName = (id) => id }: Props) {
   const [confirmingId, setConfirmingId] = useState<string | null>(null)
 
   const active    = questDefs.filter(q => getQuestState(q.id).status === 'active')
@@ -50,14 +55,7 @@ export function QuestsContent({ onClose, onAbandon, questDefs, resolveNpcName = 
   const acceptedBounties = getDailyBounties().filter(b => isBountyAccepted(b.id) && !isBountyCompleted(b.id))
 
   return (
-      <Panel elevation="floating" className="quests-modal">
-        <div className="quests-modal__header">
-          <span>📜 Quests</span>
-          <span className="quests-modal__meta">
-            {discovered} of {total}
-            <button className="quests-modal__close" onClick={onClose} aria-label="Close">✕</button>
-          </span>
-        </div>
+      <>
 
         {discovered === 0 && acceptedBounties.length === 0 && (
           <div className="quests-modal__empty">No quests active yet — talk to the townsfolk.</div>
@@ -140,14 +138,25 @@ export function QuestsContent({ onClose, onAbandon, questDefs, resolveNpcName = 
             })}
           </>
         )}
-      </Panel>
+      </>
   )
 }
 
-export function QuestsModal(props: Props) {
+/** Standalone quests dialog — still used by the world map screen, which has no
+ *  Satchel sheet to host the content. */
+export function QuestsModal({ onClose, ...content }: Props & { onClose: () => void }) {
   return (
-    <ModalBackdrop onClose={props.onClose} title="Quests">
-      <QuestsContent {...props} />
+    <ModalBackdrop onClose={onClose} title="Quests">
+      <Panel elevation="floating" className="quests-modal">
+        <div className="quests-modal__header">
+          <span>📜 Quests</span>
+          <span className="quests-modal__meta">
+            {questsMeta(content.questDefs)}
+            <button className="quests-modal__close" onClick={onClose} aria-label="Close">✕</button>
+          </span>
+        </div>
+        <QuestsContent {...content} />
+      </Panel>
     </ModalBackdrop>
   )
 }

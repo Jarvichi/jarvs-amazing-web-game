@@ -33,7 +33,8 @@ import { loadPlayerName, addToConsumableStash, isCampaignComplete } from '../../
 import { LoginButton } from '../ui/LoginButton'
 import { addCollectible, addConsumable, getCollectibles, addHubItem, removeHubItem, getHubItemCount, hasHubItem, getHubItemCatalogEntry, getHubItems, spendTickets, getTickets } from '../../game/itemStore'
 import { questItemId } from '../../game/hub/questItems'
-import { HubTabbedModal, type HubTabId } from './HubTabbedModal'
+import { SatchelMenu, type SatchelSectionId } from './SatchelMenu'
+import { PetModal } from './PetModal'
 import { PetShelterModal } from './PetShelterModal'
 import { BountyBoardModal } from './BountyBoardModal'
 import { hasUnclaimedBounties, getPendingBountyReport, getPendingBountyCollect, advanceBountyStep, getActiveBountyStep, isBountyCollectPickup, reconcileBountyPickups } from '../../game/hub/bounties'
@@ -266,10 +267,14 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
   const [activeBuildingId, setActiveBuildingId] = useState<string | null>(null)
   const [pickedUpIds,    setPickedUpIds]    = useState<Set<string>>(() => { reconcileBountyPickups(); return getPickedUpIds() })
   const [tabbedModalOpen,     setTabbedModalOpen]     = useState(false)
-  const [activeHubTab,        setActiveHubTab]        = useState<HubTabId>('quests')
+  const [activeHubTab,        setActiveHubTab]        = useState<SatchelSectionId>('quests')
+  const [petModalOpen,        setPetModalOpen]        = useState(false)
   const [bountyBoardOpen,     setBountyBoardOpen]     = useState(false)
   const [petShelterOpen,      setPetShelterOpen]      = useState(false)
-  function openHubTab(tab: HubTabId) { setActiveHubTab(tab); setTabbedModalOpen(true) }
+  function openHubTab(tab: SatchelSectionId) { setActiveHubTab(tab); setTabbedModalOpen(true) }
+  /** The pet is a character, not a drawer — it opens from the animal itself
+   *  rather than from a menu section. */
+  function openPet() { setPetModalOpen(true) }
   // buildingId → purchased upgrade level; read each frame by the canvas to
   // reveal unlocked decor live, and updated on purchase.
   const buildingUpgradeLevelsRef = useRef<Record<string, number>>({})
@@ -685,7 +690,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
       onNarratorLog?.(screen.slice(9))
       return
     }
-    if (screen === 'town-upgrades') { openHubTab('upgrades'); return }
+    if (screen === 'town-upgrades') { openHubTab('town'); return }
     if (screen === 'bounty-board') { setBountyBoardOpen(true); return }
     if (screen === 'adopt-pet') { setPetShelterOpen(true); return }
     if (screen === 'worldmap') { onWorldMap?.(); return }
@@ -1677,7 +1682,7 @@ function hasOfferableQuest(giverId: string): boolean {
   const handleAnimalTap = useCallback((animalId: string) => {
     if (animalId === PLAYER_PET_ANIMAL_ID) {
       const pet = getActivePet()
-      if (!pet) { openHubTab('pet'); return }
+      if (!pet) { openPet(); return }
       const flavor = petFlavor(pet.type)
       const remaining = getTreatsRemainingToday()
       const affectionRemaining = getAffectionRemaining()
@@ -1710,7 +1715,7 @@ function hasOfferableQuest(giverId: string): boolean {
         { label: 'Pet', onClick: () => { petActionRef.current?.givePetAffection(); recordAffection(); refreshState(); setDialogueEvent({ speakerName: pet.name, text: flavor.pet(pet.name) }) } },
         { label: 'Belly Rubs', onClick: () => { petActionRef.current?.givePetAffection(); recordAffection(); refreshState(); setDialogueEvent({ speakerName: pet.name, text: flavor.bellyRubs(pet.name) }) } },
         { label: 'Brush', onClick: () => { petActionRef.current?.givePetAffection(); recordAffection(); refreshState(); setDialogueEvent({ speakerName: pet.name, text: flavor.brush(pet.name) }) } },
-        { label: 'Manage', onClick: () => openHubTab('pet') },
+        { label: 'Manage', onClick: () => openPet() },
         { label: 'Never mind', isExit: true, onClick: () => setDialogueEvent(null) },
       ]
       setDialogueEvent({ speakerName: pet.name, text: 'What would you like to do?', choices })
@@ -2472,19 +2477,18 @@ function hasOfferableQuest(giverId: string): boolean {
         )}
 
         {tabbedModalOpen && (
-          <HubTabbedModal
+          <SatchelMenu
             onClose={() => setTabbedModalOpen(false)}
-            activeTab={activeHubTab}
-            onTabChange={setActiveHubTab}
-            hasPet={!!getActivePet()}
+            activeSection={activeHubTab}
+            onSectionChange={setActiveHubTab}
             onAbandon={handleQuestAbandon} questDefs={questDefs} resolveNpcName={getNpcDisplayName}
             allQuestDefs={allQuestDefs}
             locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} onShowRelationship={setRelationshipNpcId}
             townName={town} reputation={getTownReputation(town)} crystals={loadCrystals()} rows={upgradeRows} onUpgrade={handleUpgrade}
             tributeAmount={tributeAmount(town)} tributeAvailable={tributeAvailable(town)} onCollectTribute={handleCollectTribute}
-            petActionRef={petActionRef}
           />
         )}
+        {petModalOpen && <PetModal onClose={() => setPetModalOpen(false)} petActionRef={petActionRef} />}
         {bountyBoardOpen && <BountyBoardModal onClose={() => setBountyBoardOpen(false)} resolveNpcName={getNpcDisplayName} townNpcs={locationData.HUB_NPCS}/>}
         {petShelterOpen && <PetShelterModal onClose={() => setPetShelterOpen(false)} onAdopted={() => setPetShelterOpen(false)} />}
         {relationshipNpcId && <RelationshipView npcName={getNpcDisplayName(relationshipNpcId)} entry={getRelationship(relationshipNpcId)} onClose={() => setRelationshipNpcId(null)} />}
