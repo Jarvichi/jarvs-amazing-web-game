@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import type { HubQuestDef } from '../../data/hub/questDefs'
 import type { HubLocationBundle } from '../../data/hub/loader'
+import type { TownRegistry } from '../../game/hub/questBoard'
 import { SatchelSheet } from './satchel/SatchelSheet'
 import { FilterChips } from './satchel/FilterChips'
 import { SATCHEL_NAV, type SatchelSectionId } from './satchel/types'
@@ -24,13 +25,11 @@ interface Props {
   activeSection: SatchelSectionId
   onSectionChange: (section: SatchelSectionId) => void
 
-  // Quests
+  // Quests — global, not town-scoped: quests are carried between towns.
   onAbandon: (questId: string) => void
-  questDefs: HubQuestDef[]
-  resolveNpcName?: (id: string) => string
-
-  // Satchel
   allQuestDefs: HubQuestDef[]
+  registry: TownRegistry
+  onShowOnMap: (npcId: string) => void
 
   // Town
   locationData: HubLocationBundle
@@ -62,8 +61,7 @@ const NAV_ITEMS = SATCHEL_NAV.filter(item => item.id !== 'today')
 export function SatchelMenu(props: Props) {
   const {
     onClose, activeSection, onSectionChange,
-    onAbandon, questDefs, resolveNpcName,
-    allQuestDefs,
+    onAbandon, allQuestDefs, registry, onShowOnMap,
     locationData, pinnedNpcId, onTogglePin, onShowRelationship,
     townName, reputation, crystals, rows, onUpgrade,
     tributeAmount, tributeAvailable, onCollectTribute,
@@ -71,6 +69,14 @@ export function SatchelMenu(props: Props) {
 
   const [townView,  setTownView]  = useState<TownView>('people')
   const [codexView, setCodexView] = useState<CodexView>('animals')
+  const [query,     setQuery]     = useState('')
+
+  // Named NPCs and animals standing in this town right now — the difference
+  // between "hand this to Mira, she's here" and "…she's in Saltmere".
+  const presentNpcIds = React.useMemo(() => new Set<string>([
+    ...locationData.HUB_NPCS.map(n => n.id),
+    ...locationData.HUB_ANIMALS.map(a => a.id),
+  ]), [locationData])
 
   const section = NAV_ITEMS.some(item => item.id === activeSection) ? activeSection : 'quests'
   const counts = journalCounts(locationData)
@@ -78,7 +84,7 @@ export function SatchelMenu(props: Props) {
   // The header's right-hand figure, per section. Each of these used to be a
   // second header line inside the content component itself.
   const meta =
-      section === 'quests' ? questsMeta(questDefs)
+      section === 'quests' ? questsMeta(allQuestDefs)
     : section === 'town'   ? `💎 ${crystals.toLocaleString()}`
     : section === 'codex'  ? `${journalPct(locationData)}% complete`
     : undefined
@@ -87,6 +93,9 @@ export function SatchelMenu(props: Props) {
     <SatchelSheet
       title={section === 'town' ? townName : SECTION_TITLE[section]}
       meta={meta}
+      search={section === 'quests' || section === 'satchel'
+        ? { value: query, onChange: setQuery, placeholder: section === 'quests' ? 'Search quests' : 'Search items' }
+        : undefined}
       onClose={onClose}
       activeId={section}
       onSelect={onSectionChange}
@@ -97,7 +106,15 @@ export function SatchelMenu(props: Props) {
       )}
 
       {section === 'quests' && (
-        <QuestsContent onAbandon={onAbandon} questDefs={questDefs} resolveNpcName={resolveNpcName} />
+        <QuestsContent
+          onAbandon={onAbandon}
+          questDefs={allQuestDefs}
+          registry={registry}
+          currentTownName={townName}
+          presentNpcIds={presentNpcIds}
+          onShowOnMap={onShowOnMap}
+          query={query}
+        />
       )}
 
       {section === 'town' && (

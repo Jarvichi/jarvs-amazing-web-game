@@ -1,5 +1,6 @@
 import { fn } from 'storybook/test'
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { LOCATION_REGISTRY } from '../../data/hub/hubTownStoryFixtures'
 import { HubWorldMap } from './HubWorldMap'
 import { ALL_QUEST_DEFS } from '../../data/hub/hubTownStoryFixtures'
 
@@ -24,6 +25,7 @@ export const Default: Story = {
     onBack:       fn(),
     onFeedback:   fn(),
     user:         null,
+    locationRegistry: LOCATION_REGISTRY,
     allQuestDefs: ALL_QUEST_DEFS,
   },
 }
@@ -45,6 +47,7 @@ export const FoggedTowns: Story = {
     onBack:       fn(),
     onFeedback:   fn(),
     user:         null,
+    locationRegistry: LOCATION_REGISTRY,
     allQuestDefs: ALL_QUEST_DEFS,
     restrictedNodeIds: new Set([
       'appleford', 'b-bandit-toll', 'b-blight-fields', 'b-crypt-road',

@@ -2481,8 +2481,10 @@ function hasOfferableQuest(giverId: string): boolean {
             onClose={() => setTabbedModalOpen(false)}
             activeSection={activeHubTab}
             onSectionChange={setActiveHubTab}
-            onAbandon={handleQuestAbandon} questDefs={questDefs} resolveNpcName={getNpcDisplayName}
+            onAbandon={handleQuestAbandon}
             allQuestDefs={allQuestDefs}
+            registry={locationRegistry}
+            onShowOnMap={npcId => { togglePinnedNpc(npcId); setTabbedModalOpen(false) }}
             locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} onShowRelationship={setRelationshipNpcId}
             townName={town} reputation={getTownReputation(town)} crystals={loadCrystals()} rows={upgradeRows} onUpgrade={handleUpgrade}
             tributeAmount={tributeAmount(town)} tributeAvailable={tributeAvailable(town)} onCollectTribute={handleCollectTribute}

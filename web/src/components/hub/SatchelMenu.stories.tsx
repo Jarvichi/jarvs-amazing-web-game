@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { fn } from 'storybook/test'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { SatchelMenu, type SatchelSectionId } from './SatchelMenu'
-import { RAVENWATCH } from '../../data/hub/hubTownStoryFixtures'
+import { RAVENWATCH, RAVENWATCH_QUESTS, LOCATION_REGISTRY } from '../../data/hub/hubTownStoryFixtures'
 import { getUpgradeTrack } from '../../data/hub/buildingUpgrades'
 import type { UpgradeRow } from './HubTownUpgrades'
 
@@ -22,8 +22,9 @@ function Interactive({ initialSection }: { initialSection: SatchelSectionId }) {
       activeSection={activeSection}
       onSectionChange={setActiveSection}
       onAbandon={fn()}
-      questDefs={[]}
-      allQuestDefs={[]}
+      allQuestDefs={RAVENWATCH_QUESTS.HUB_QUEST_DEFS}
+      registry={LOCATION_REGISTRY}
+      onShowOnMap={fn()}
       locationData={RAVENWATCH}
       pinnedNpcId={null}
       onTogglePin={fn()}

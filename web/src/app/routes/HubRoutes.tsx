@@ -110,6 +110,7 @@ export function HubRoutes() {
           restrictedNodeIds={restrictedTownNodeIds}
           previewingAsPlayer={isAdmin && previewAsPlayer}
           allQuestDefs={hubData.allQuestDefs}
+          locationRegistry={hubData.locationRegistry}
         />
       )}
 
