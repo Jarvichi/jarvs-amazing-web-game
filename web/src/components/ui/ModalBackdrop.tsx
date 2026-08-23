@@ -86,7 +86,12 @@ export function ModalBackdrop({ onClose, children, zIndex, closeOnEscape = true,
     previouslyFocused.current = document.activeElement as HTMLElement | null
     const panel = panelRef.current
     const focusables = panel ? Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE)) : []
-    ;(focusables[0] ?? panel)?.focus()
+    // A dialog whose first focusable is a text field would otherwise open the
+    // keyboard on touch the moment it appears (and on iOS zoom the page in on
+    // it). `data-initial-focus` lets such a dialog nominate somewhere harmless
+    // to land instead; without it the behaviour is unchanged.
+    const preferred = panel?.querySelector<HTMLElement>('[data-initial-focus]')
+    ;(preferred ?? focusables[0] ?? panel)?.focus()
 
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === 'Escape' && closeOnEscape) {

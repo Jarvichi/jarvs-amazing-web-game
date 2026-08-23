@@ -29,15 +29,38 @@
   overflow: hidden;
 
   /* Phone: a full sheet, not a letterboxed panel floating over a canvas the
-     player can't see anyway. Sized to fill the backdrop's padded box, with the
-     :has() rule below removing that padding for a true edge-to-edge sheet —
-     where :has() is unsupported this degrades to a 16px inset, not a break. */
+     player can't see anyway. The height only resolves because the backdrop
+     rule below stretches the wrapper to fill the screen — see the note there. */
   width: 100%;
   height: 100%;
-  max-height: 100%;
+  /* Belt and braces: the grid rule below is what makes `height: 100%` resolve,
+     but it needs :has(). This cap doesn't — so even where that selector is
+     unsupported the sheet stays inside the screen and the body still scrolls,
+     rather than growing to its content and hiding the nav. */
+  max-height: 100dvh;
+  min-height: 0;
 }
 
-.modal-backdrop:has(.satchel-sheet) { padding: 0; }
+/* ModalBackdrop is a centring flex container, so the wrapper div it puts
+   around a dialog is sized by its content. Against that, the sheet's
+   `height: 100%` resolved to `auto`: the sheet grew to fit all its rows, its
+   body never overflowed (so never scrolled), and the bottom nav ended up
+   below the fold. Laying the backdrop out as a single grid cell stretches the
+   wrapper to the full viewport, which gives the percentage something real to
+   resolve against. The `:not()` keeps a nested item-detail dialog centred. */
+.modal-backdrop:has(.satchel-sheet):not(:has(.satchel-sheet--detail)) {
+  padding: 0;
+  display: grid;
+  grid-template: 1fr / 1fr;
+  /* .modal-backdrop centres its items; a centred grid item is sized by its
+     content, which is exactly what we need to stop happening here. */
+  align-items: stretch;
+  justify-items: stretch;
+}
+.modal-backdrop:has(.satchel-sheet):not(:has(.satchel-sheet--detail)) > div {
+  min-width: 0;
+  min-height: 0;
+}
 
 /* A nested sheet (an item's detail) is a dialog, not a section: it sizes to
    its content rather than filling the screen behind the sheet that opened it. */
@@ -90,8 +113,10 @@
   outline: none;
   color: var(--satchel-text);
   font-family: var(--font-mono);
-  font-size: 11px;
-  padding: 6px 0;
+  /* iOS Safari zooms the whole page when a focused field is under 16px. This
+     is the one place in the sheet that must not go smaller. */
+  font-size: 16px;
+  padding: 5px 0;
 }
 .satchel-sheet__search input::placeholder { color: var(--satchel-text-off); }
 .satchel-sheet__search input::-webkit-search-cancel-button { filter: grayscale(1) opacity(0.5); }
@@ -125,6 +150,10 @@
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   padding: 12px 12px 20px;
+  /* Without this a flex item's `min-height: auto` refuses to shrink below its
+     content, so the body would size to its rows and push the nav off instead
+     of scrolling. Required on the grid layout below for the same reason. */
+  min-height: 0;
 }
 .satchel-sheet__body:focus { outline: none; }
 .satchel-sheet__body:focus-visible { outline: var(--focus-ring); outline-offset: calc(-1 * var(--focus-ring-offset)); }
@@ -426,7 +455,11 @@ button.satchel-tile:active { transform: scale(0.96); }
 /* ── Tablet and up: nav becomes a left rail ─────────────────────────────── */
 
 @media (min-width: 768px) {
-  .modal-backdrop:has(.satchel-sheet) { padding: 16px; }
+  /* Back to a centred dialog — the full-bleed grid is a phone treatment. */
+  .modal-backdrop:has(.satchel-sheet):not(:has(.satchel-sheet--detail)) {
+    padding: 16px;
+    display: flex;
+  }
   .satchel-sheet {
     width: min(820px, 92vw);
     height: min(680px, 88vh);
