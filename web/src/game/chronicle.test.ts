@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 
 // Minimal localStorage for the node test environment.
 const storage = new Map<string, string>()
@@ -12,6 +12,8 @@ vi.stubGlobal('localStorage', {
 import {
   CHRONICLE_CHAPTERS, getChronicleStatus, markChapterRead, recordChronicleWin,
   setChronicleDevUnlocked, getChronicleNewsItems, getUnreadChapterCount,
+  recordChronicleDecision, getChronicleAlignment, getDominantAlignment,
+  type ChronicleChapterDef,
 } from './chronicle'
 import { getCardThemeTags, getCardCatalog } from './cards'
 
@@ -94,5 +96,120 @@ describe('news surfacing', () => {
       expect(item.title).toContain('Chronicle Update')
       expect(item.tag).toBe('EVENT')
     }
+  })
+})
+
+describe('decisions (Season 2)', () => {
+  // Season 1 chapters (ch1-ch6) carry no `decision`; these synthetic entries
+  // exercise the decision/alignment machinery ahead of any real Season 2
+  // content landing in chronicle.json.
+  const chapterA: ChronicleChapterDef = {
+    id: 'test-decision-a',
+    title: 'Test Decision A',
+    availableFrom: '2000-01-01',
+    teaser: 't',
+    lore: 'l',
+    challenge: { type: 'win_battles', count: 1 },
+    reward: { type: 'crystals', amount: 1 },
+    decision: {
+      id: 'da',
+      prompt: 'Choose',
+      options: [
+        { id: 'vigil-opt', label: 'Vigil', consequence: 'v', alignment: { vigil: 2 } },
+        { id: 'accord-opt', label: 'Accord', consequence: 'a', alignment: { accord: 2 } },
+      ],
+    },
+  }
+  const chapterB: ChronicleChapterDef = {
+    id: 'test-decision-b',
+    title: 'Test Decision B',
+    availableFrom: '2000-01-01',
+    teaser: 't',
+    lore: 'l',
+    challenge: { type: 'win_battles', count: 1 },
+    reward: { type: 'crystals', amount: 1 },
+    decision: {
+      id: 'db',
+      prompt: 'Choose',
+      options: [{ id: 'accord-opt-2', label: 'Accord again', consequence: 'a', alignment: { accord: 2 } }],
+    },
+  }
+  const chapterC: ChronicleChapterDef = {
+    id: 'test-decision-c',
+    title: 'Test Decision C',
+    availableFrom: '2000-01-01',
+    teaser: 't',
+    lore: 'l',
+    challenge: { type: 'win_battles', count: 1 },
+    reward: { type: 'crystals', amount: 1 },
+    decision: {
+      id: 'dc',
+      prompt: 'Choose',
+      options: [{ id: 'vigil-opt-2', label: 'Vigil again', consequence: 'v', alignment: { vigil: 4 } }],
+    },
+  }
+  const lockedChapter: ChronicleChapterDef = {
+    ...chapterA,
+    id: 'test-decision-locked',
+    availableFrom: '2999-01-01',
+  }
+
+  beforeEach(() => {
+    CHRONICLE_CHAPTERS.push(chapterA, chapterB, chapterC, lockedChapter)
+  })
+  afterEach(() => {
+    for (const id of [chapterA.id, chapterB.id, chapterC.id, lockedChapter.id]) {
+      const idx = CHRONICLE_CHAPTERS.findIndex(c => c.id === id)
+      if (idx >= 0) CHRONICLE_CHAPTERS.splice(idx, 1)
+    }
+  })
+
+  it('records a decision and reflects it in status', () => {
+    recordChronicleDecision(chapterA.id, 'vigil-opt')
+    const status = getChronicleStatus().find(c => c.def.id === chapterA.id)!
+    expect(status.decisionOptionId).toBe('vigil-opt')
+  })
+
+  it('first pick is final — re-recording is a no-op', () => {
+    recordChronicleDecision(chapterA.id, 'vigil-opt')
+    recordChronicleDecision(chapterA.id, 'accord-opt')
+    const status = getChronicleStatus().find(c => c.def.id === chapterA.id)!
+    expect(status.decisionOptionId).toBe('vigil-opt')
+    expect(getChronicleAlignment().vigil).toBe(2)
+    expect(getChronicleAlignment().accord).toBe(0)
+  })
+
+  it('ignores unknown option ids', () => {
+    recordChronicleDecision(chapterA.id, 'not-a-real-option')
+    const status = getChronicleStatus().find(c => c.def.id === chapterA.id)!
+    expect(status.decisionOptionId).toBeNull()
+  })
+
+  it('no-ops for a chapter with no decision', () => {
+    const ch1 = CHRONICLE_CHAPTERS.find(c => c.id === 'ch1')!
+    recordChronicleDecision(ch1.id, 'whatever')
+    const status = getChronicleStatus().find(c => c.def.id === ch1.id)!
+    expect(status.decisionOptionId).toBeNull()
+  })
+
+  it('no-ops for an unavailable chapter', () => {
+    recordChronicleDecision(lockedChapter.id, 'vigil-opt')
+    const status = getChronicleStatus().find(c => c.def.id === lockedChapter.id)!
+    expect(status.decisionOptionId).toBeNull()
+  })
+
+  it('sums alignment weights across chapters and picks the dominant track', () => {
+    recordChronicleDecision(chapterA.id, 'vigil-opt')
+    expect(getChronicleAlignment()).toEqual({ vigil: 2, accord: 0, unbinding: 0 })
+    expect(getDominantAlignment()).toBe('vigil')
+  })
+
+  it('returns null dominant alignment on no decisions made, and on a tie', () => {
+    expect(getDominantAlignment()).toBeNull()
+    recordChronicleDecision(chapterA.id, 'accord-opt')
+    recordChronicleDecision(chapterB.id, 'accord-opt-2')
+    expect(getDominantAlignment()).toBe('accord')  // accord=4, others 0
+    recordChronicleDecision(chapterC.id, 'vigil-opt-2')
+    expect(getDominantAlignment()).toBeNull()  // accord=4, vigil=4 — tied
   })
 })

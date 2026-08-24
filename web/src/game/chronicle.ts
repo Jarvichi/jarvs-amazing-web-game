@@ -25,6 +25,23 @@ export type ChronicleReward =
   | { type: 'crystals'; amount: number }
   | { type: 'collectible'; itemId: string; name: string; icon: string; desc: string; lore: string }
 
+/** Season 2 alignment tracks — see docs/chronicle-s2.md §3. */
+export type ChronicleAlignmentTrack = 'vigil' | 'accord' | 'unbinding'
+
+export interface ChronicleDecisionOption {
+  id: string
+  label: string
+  /** Flavour text shown immediately after picking this option. */
+  consequence: string
+  alignment: Partial<Record<ChronicleAlignmentTrack, number>>
+}
+
+export interface ChronicleDecision {
+  id: string
+  prompt: string
+  options: ChronicleDecisionOption[]
+}
+
 export interface ChronicleChapterDef {
   id: string
   title: string
@@ -35,6 +52,8 @@ export interface ChronicleChapterDef {
   lore: string
   challenge: ChronicleChallenge
   reward: ChronicleReward
+  /** Season 2+: the player's choice for this chapter. Absent for Season 1 chapters. */
+  decision?: ChronicleDecision
 }
 
 export interface ChronicleChapterStatus {
@@ -46,6 +65,8 @@ export interface ChronicleChapterStatus {
   /** Challenge progress, clamped to the challenge count. */
   progress: number
   completed: boolean
+  /** Option id the player chose for this chapter's decision, if any and if made. */
+  decisionOptionId: string | null
 }
 
 export const CHRONICLE_CHAPTERS: ChronicleChapterDef[] =
@@ -64,6 +85,8 @@ interface ChronicleSave {
   progress: Record<string, number>
   /** Chapter ids whose challenge finished and reward was granted. */
   completed: string[]
+  /** Season 2+: chapter id -> chosen decision option id. First pick is final. */
+  decisions: Record<string, string>
 }
 
 function loadSave(): ChronicleSave {
@@ -75,10 +98,11 @@ function loadSave(): ChronicleSave {
         read:      Array.isArray(parsed.read) ? parsed.read : [],
         progress:  parsed.progress && typeof parsed.progress === 'object' ? parsed.progress : {},
         completed: Array.isArray(parsed.completed) ? parsed.completed : [],
+        decisions: parsed.decisions && typeof parsed.decisions === 'object' ? parsed.decisions : {},
       }
     }
   } catch { /* ignore */ }
-  return { read: [], progress: {}, completed: [] }
+  return { read: [], progress: {}, completed: [], decisions: {} }
 }
 
 function persist(save: ChronicleSave): void {
@@ -119,6 +143,7 @@ export function getChronicleStatus(): ChronicleChapterStatus[] {
     read:      save.read.includes(def.id),
     progress:  Math.min(def.challenge.count, save.progress[def.id] ?? 0),
     completed: save.completed.includes(def.id),
+    decisionOptionId: save.decisions[def.id] ?? null,
   }))
 }
 
@@ -136,6 +161,53 @@ export function markChapterRead(id: string): void {
   if (save.read.includes(id)) return
   save.read.push(id)
   persist(save)
+}
+
+// ── Decisions (Season 2+) ────────────────────────────────────────────────────
+//
+// See docs/chronicle-s2.md §4. A decision, once made, is permanent — the
+// same "first pick is final" spirit as markChapterRead.
+
+/**
+ * Records the player's choice for a chapter's decision. No-ops if the
+ * chapter is unavailable, has no decision, doesn't have that option, or
+ * already has a recorded choice.
+ */
+export function recordChronicleDecision(chapterId: string, optionId: string): void {
+  const def = CHRONICLE_CHAPTERS.find(c => c.id === chapterId)
+  if (!def || !def.decision || !isChapterAvailable(def)) return
+  if (!def.decision.options.some(o => o.id === optionId)) return
+  const save = loadSave()
+  if (save.decisions[chapterId]) return
+  save.decisions[chapterId] = optionId
+  persist(save)
+}
+
+/** Sums alignment weights across every decision the player has recorded. */
+export function getChronicleAlignment(): Record<ChronicleAlignmentTrack, number> {
+  const totals: Record<ChronicleAlignmentTrack, number> = { vigil: 0, accord: 0, unbinding: 0 }
+  const save = loadSave()
+  for (const def of CHRONICLE_CHAPTERS) {
+    const optionId = save.decisions[def.id]
+    if (!optionId || !def.decision) continue
+    const option = def.decision.options.find(o => o.id === optionId)
+    if (!option) continue
+    for (const [track, weight] of Object.entries(option.alignment) as
+      [ChronicleAlignmentTrack, number | undefined][]) {
+      totals[track] += weight ?? 0
+    }
+  }
+  return totals
+}
+
+/** The player's strongest alignment track, or `null` on a tie / all-zero. */
+export function getDominantAlignment(): ChronicleAlignmentTrack | null {
+  const totals = getChronicleAlignment()
+  const tracks = Object.keys(totals) as ChronicleAlignmentTrack[]
+  const max = Math.max(...tracks.map(t => totals[t]))
+  if (max <= 0) return null
+  const leaders = tracks.filter(t => totals[t] === max)
+  return leaders.length === 1 ? leaders[0] : null
 }
 
 // ── Challenge progress ────────────────────────────────────────────────────────
