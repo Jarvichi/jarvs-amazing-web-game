@@ -21,6 +21,15 @@ interface Props {
   objectives:   MinimapObjective[]
   playerRef:    React.RefObject<{ x: number; y: number }>
   viewportRef:  React.RefObject<HTMLDivElement | null>
+  /** Exposes this component's own on-screen box, so canvas-drawn speech
+   *  bubbles can steer clear of it instead of spawning underneath it — see
+   *  HubTownCanvas's createSpeechBubble. Reading getBoundingClientRect() off
+   *  this ref on demand (rather than duplicating hub.css's pixel offsets as a
+   *  second, hardcoded copy) means the exclusion zone can't silently drift
+   *  out of sync with wherever the minimap actually renders, and it
+   *  automatically shrinks to just the toggle button when the map itself is
+   *  hidden. */
+  wrapRef?:     React.RefObject<HTMLDivElement>
 }
 
 function loadVisible(): boolean {
@@ -37,7 +46,7 @@ function saveVisible(on: boolean): void {
   } catch { /* ignore */ }
 }
 
-export function HubMinimap({ locationData, objectives, playerRef, viewportRef }: Props) {
+export function HubMinimap({ locationData, objectives, playerRef, viewportRef, wrapRef }: Props) {
   const { MAP_W, MAP_H, HUB_BUILDINGS } = locationData
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -209,7 +218,7 @@ export function HubMinimap({ locationData, objectives, playerRef, viewportRef }:
       )}
 
       {/* Corner minimap */}
-      <div className="hub-minimap-wrap">
+      <div className="hub-minimap-wrap" ref={wrapRef}>
         {visible && (
           <canvas
             ref={canvasRef}

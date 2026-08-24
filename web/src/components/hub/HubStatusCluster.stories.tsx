@@ -15,26 +15,22 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const ClearDay: Story = {
-  args: { areaName: 'The Courtyard', isNight: false, timeLabel: '2:30 PM', weather: 'clear' },
-}
-
-export const ClearNight: Story = {
-  args: { areaName: 'The Courtyard', isNight: true, timeLabel: '10:45 PM', weather: 'clear' },
+export const Clear: Story = {
+  args: { areaName: 'The Courtyard', weather: 'clear' },
 }
 
 export const Rain: Story = {
-  args: { areaName: "The Fisherman's Dock", isNight: false, timeLabel: '4:10 PM', weather: 'rain' },
+  args: { areaName: "The Fisherman's Dock", weather: 'rain' },
 }
 
-export const SnowAtNight: Story = {
-  args: { areaName: 'Frostgate Market', isNight: true, timeLabel: '9:00 PM', weather: 'snow' },
+export const Snow: Story = {
+  args: { areaName: 'Frostgate Market', weather: 'snow' },
 }
 
 export const Fog: Story = {
-  args: { areaName: 'The Old Quarry', isNight: false, timeLabel: '6:20 AM', weather: 'fog' },
+  args: { areaName: 'The Old Quarry', weather: 'fog' },
 }
 
 export const Hidden: Story = {
-  args: { areaName: null, isNight: false, timeLabel: '12:00 PM', weather: 'clear' },
+  args: { areaName: null, weather: 'clear' },
 }

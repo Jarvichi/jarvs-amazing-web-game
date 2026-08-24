@@ -8,6 +8,7 @@ import { resolveNpcSprite, spriteSlug } from '../../game/sprites'
 import { getTodaysShopItems } from '../../game/hub/shopStock'
 import { loadDailyShopState, isShopItemSold } from '../../game/shopSchedule'
 import { PATH_TILE } from '../../data/tiles/tileIndex'
+import { leftShiftToClear, type Rect } from './bubblePlacement'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
 import { isBuildingOpen, getNpcLocation, getNpcActivity, getNpcDialoguePool, resolveNpcInteriorPresence } from '../../game/hub/hubNpcSchedule'
 import { recordDeparture, claimArrival } from '../../game/hub/townTravelers'
@@ -204,6 +205,11 @@ interface Props {
   /** Scroll container whose scroll position drives the camera. When set, the
    *  canvas is viewport-sized; without it (e.g. Storybook) it spans the map. */
   viewportRef?:          React.RefObject<HTMLDivElement | null>
+  /** The corner minimap's own DOM node — createSpeechBubble reads its live
+   *  on-screen rect so a bubble doesn't spawn underneath it. Optional, same
+   *  as viewportRef: without it (Storybook, or the minimap unmounted while
+   *  indoors) bubbles just skip the avoidance check. */
+  minimapRef?:           React.RefObject<HTMLDivElement>
 }
 
 export function HubTownCanvas({
@@ -220,7 +226,8 @@ export function HubTownCanvas({
   buildingUpgradeLevelsRef,
   locationData,
   questData,
-  viewportRef
+  viewportRef,
+  minimapRef,
 }: Props) {
   const {
     MAP_W, MAP_H, AVATAR_START,
@@ -3108,6 +3115,34 @@ export function HubTownCanvas({
     let nextSpawnTimer = 0
     let lastBubbleIdx  = -1
 
+    // The DOM minimap has no idea a canvas bubble is about to render behind
+    // it — different layering systems, screen space vs. world space — so a
+    // bubble spawning near the top-right of the visible map can land right
+    // under it. Nudges left to clear it, using live getBoundingClientRect()s
+    // rather than duplicating hub.css's pixel offsets as a second, hardcoded
+    // copy that could silently drift out of sync.
+    function minimapAvoidanceShiftX(px: number, py: number, bw: number, bh: number): number {
+      const vp = viewportRef?.current
+      const mm = minimapRef?.current
+      if (!vp || !mm) return 0
+
+      const vpRect = vp.getBoundingClientRect()
+      const mmRect = mm.getBoundingClientRect()
+      // World → screen: this canvas is exactly viewport-sized (resizeTo:
+      // viewportRef below) and unzoomed, so it's a straight scroll-offset
+      // subtraction, no scale factor.
+      const bubbleScreen: Rect = {
+        left:   vpRect.left + (px - bw / 2 - vp.scrollLeft),
+        right:  vpRect.left + (px + bw / 2 - vp.scrollLeft),
+        top:    vpRect.top  + (py - bh      - vp.scrollTop),
+        bottom: vpRect.top  + (py           - vp.scrollTop),
+      }
+      const exclude: Rect = { left: mmRect.left, top: mmRect.top, right: mmRect.right, bottom: mmRect.bottom }
+      // Room to the bubble's left before it would run off the viewport.
+      const maxShift = Math.max(0, bubbleScreen.left - vpRect.left - 8)
+      return leftShiftToClear(bubbleScreen, exclude, 6, maxShift)
+    }
+
     function createSpeechBubble(text: string, cx: number, cy: number): PIXI.Container {
       const c   = new PIXI.Container()
       const lbl = new PIXI.Text({
@@ -3125,7 +3160,9 @@ export function HubTownCanvas({
       bg.moveTo(-6, 0).lineTo(6, 0).lineTo(0, 8).closePath().fill({ color: 0xffffff })
       bg.moveTo(-6, 0).lineTo(6, 0).lineTo(0, 8).closePath().stroke({ color: 0x000000, width: 1.5 })
       c.addChild(bg, lbl)
-      c.position.set(cx, cy - SPRITE_SIZE - 4)
+      const py = cy - SPRITE_SIZE - 4
+      const shift = minimapAvoidanceShiftX(cx, py, bw, bh)
+      c.position.set(cx - shift, py)
       return c
     }
 

@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react'
-import { OverlayScreen } from '../ui/OverlayScreen'
 import { HubTownCanvas } from './HubTownCanvas'
+import { HubStatusBar } from './HubStatusBar'
 import { HubStatusCluster } from './HubStatusCluster'
 import { HubMinimap } from './HubMinimap'
 import type { MinimapObjective } from './HubMinimap'
@@ -23,14 +23,8 @@ import { getCardCatalog } from '../../game/cards'
 import { CommanderState } from '../../game/commander'
 import { loadSkipIntro } from '../screens/SettingsScreen'
 import { getSavedHubTile } from './HubTownCanvas'
-import { Toolbar } from '../ui/Toolbar/Toolbar'
-import { ToolbarLabel } from '../ui/Toolbar/ToolbarLabel'
-import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
-import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
-import { ToolbarDropdown } from '../ui/Toolbar/ToolbarDropdown'
 import { User } from 'firebase/auth'
 import { loadPlayerName, addToConsumableStash, isCampaignComplete } from '../../game/questline'
-import { LoginButton } from '../ui/LoginButton'
 import { addCollectible, addConsumable, getCollectibles, addHubItem, removeHubItem, getHubItemCount, hasHubItem, getHubItemCatalogEntry, getHubItems, spendTickets, getTickets } from '../../game/itemStore'
 import { questItemId } from '../../game/hub/questItems'
 import { SatchelMenu, type SatchelSectionId, type TownView } from './SatchelMenu'
@@ -504,6 +498,9 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
   }
 
   const scrollRef        = useRef<HTMLDivElement>(null)
+  // The minimap's own DOM node — read via getBoundingClientRect() so a
+  // canvas-drawn speech bubble can steer clear of it. See bubblePlacement.ts.
+  const minimapRef       = useRef<HTMLDivElement>(null)
   const returnRef        = useRef(null) as React.MutableRefObject<(() => void) | null>
   const interiorEnterRef = useRef<((buildingId: string) => void) | null>(null)
   const interiorExitRef  = useRef<(() => void) | null>(null)
@@ -2398,16 +2395,35 @@ function hasOfferableQuest(giverId: string): boolean {
     if (def) runReactions(def, 0)
   }
 
+  const worldMapLocked = getQuestState('thorin-the-last-watch').status !== 'completed'
+
   return (
-    <OverlayScreen
-      title={`🏠 ${locationData.HUB_TOWN_NAME}`}
-      right={activeFestival && `${activeFestival.icon} ${activeFestival.name}`}
-      // --bleed lets the town canvas reach the screen edge instead of sitting
-      // inside .game-container's gutter, which read as a black outline that the
-      // phone's corner radius cropped unevenly.
-      className="overlay-screen overlay-screen--bleed u-col u-grow"
-    >
-      {HubWorldToolbar(wrongSave, crystals, collectionCount, catalogTotal, isGameNight,  setTabbedModalOpen, onWorldMap, onLoginToggle, onSignOut, onPlayerTap, user, playerName, onFeedback, onBack)}
+    // --bleed lets the town canvas reach the screen edge instead of sitting
+    // inside .game-container's gutter, which read as a black outline that the
+    // phone's corner radius cropped unevenly.
+    <div className="overlay-screen overlay-screen--bleed u-col u-grow">
+      <HubStatusBar
+        townName={locationData.HUB_TOWN_NAME}
+        festivalLabel={activeFestival ? `${activeFestival.icon} ${activeFestival.name}` : null}
+        crystals={crystals}
+        timeLabel={formatGameTime()}
+        isNight={isGameNight}
+        wrongSaveCrystals={wrongSave?.crystals ?? null}
+        onOpenMenu={() => setTabbedModalOpen(true)}
+        worldMapLocked={worldMapLocked}
+        onWorldMap={() => onWorldMap?.()}
+        onWorldMapLocked={() => setDialogueEvent({
+          speakerName: '',
+          text: "Complete ‘The Last Watch’ to unlock the World Map.",
+        })}
+        user={user}
+        playerName={playerName}
+        onSignIn={onLoginToggle}
+        onSignOut={onSignOut}
+        onPlayerTap={onPlayerTap}
+        onFeedback={onFeedback}
+        onSettings={onBack}
+      />
 
       <div
         className="nm-map nm-map--camp"
@@ -2463,12 +2479,11 @@ function hasOfferableQuest(giverId: string): boolean {
             locationData={locationData}
             questData={locationQuests}
             viewportRef={scrollRef}
+            minimapRef={minimapRef}
           />
         </div>
         <HubStatusCluster
           areaName={currentArea}
-          isNight={isGameNight}
-          timeLabel={formatGameTime()}
           weather={resolveWeather(locationData.WEATHER, locationData.ENVIRONMENT)}
         />
 
@@ -2478,6 +2493,7 @@ function hasOfferableQuest(giverId: string): boolean {
             objectives={minimapObjectives}
             playerRef={playerPixelRef}
             viewportRef={scrollRef}
+            wrapRef={minimapRef}
           />
         )}
 
@@ -2549,40 +2565,6 @@ function hasOfferableQuest(giverId: string): boolean {
           </div>
         )}
       </div>
-    </OverlayScreen>
+    </div>
   )
-}
-
-
-function HubWorldToolbar(wrongSave: { cards: number; crystals: number; deck: number } | null, crystals: number, collectionCount: number, catalogTotal: number, isGameNight: boolean,  setTabbedModalOpen: React.Dispatch<React.SetStateAction<boolean>>, onWorldMap: (() => void) | undefined, onLoginToggle: (() => void) | undefined, onSignOut: (() => void) | undefined, onPlayerTap: (() => void) | undefined, user: User | null, playerName: string, onFeedback: () => void, onBack: () => void) {
-  return <Toolbar>
-    <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>💎 {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
-    <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
-    <ToolbarLabel className="title-deck-info">{isGameNight ? '🌙' : '☀️'} {formatGameTime()}</ToolbarLabel>
-    <ToolbarButton icon="📋" title="Menu" onClick={() => setTabbedModalOpen(true)} />
-    <ToolbarButton icon="🗺" title="World Map" onClick={() => onWorldMap?.()} disabled={getQuestState('thorin-the-last-watch').status !== 'completed'} />
-
-    <ToolbarSpacer />
-    <div className="toolbar-overflow-inline">
-      <LoginButton onSignIn={() => onLoginToggle?.()} onSignOut={() => onSignOut?.()} onPlayerTap={onPlayerTap} user={user} playerName={playerName} />
-      <ToolbarButton
-        className="title-auth-btn"
-        onClick={onFeedback}
-        title="Send feedback or report a bug"
-        icon={'🗣️'} />
-      <ToolbarButton className="action-btn hub-hud__btn" onClick={onBack} icon={'⚙'} />
-    </div>
-    <div className="toolbar-overflow-dropdown">
-      <ToolbarDropdown label="📊" align="right">
-        <LoginButton onSignIn={() => onLoginToggle?.()} onSignOut={() => onSignOut?.()} onPlayerTap={onPlayerTap} user={user} playerName={playerName} />
-        <ToolbarButton
-          className="title-auth-btn"
-          onClick={onFeedback}
-          title="Send feedback or report a bug"
-          icon={'🗣️'} />
-        <ToolbarButton className="action-btn hub-hud__btn" onClick={onBack} icon={'⚙'} />          </ToolbarDropdown>
-    </div>
-
-
-  </Toolbar>
 }
