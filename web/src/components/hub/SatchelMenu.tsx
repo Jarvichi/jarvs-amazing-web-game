@@ -38,6 +38,10 @@ interface Props {
   onShowOnMap: (npcId: string) => void
   /** Opens the pet sheet — the pet is a character, not a menu section. */
   onOpenPet: () => void
+  /** Whether an available Chronicle chapter hasn't been read yet. */
+  chronicleUnread: boolean
+  /** Opens the Fracture Chronicle screen. */
+  onOpenChronicle: () => void
 
   // Town
   locationData: HubLocationBundle
@@ -67,6 +71,7 @@ export function SatchelMenu(props: Props) {
   const {
     onClose, activeSection, onSectionChange, townView, onTownViewChange,
     onAbandon, allQuestDefs, registry, onShowOnMap, onOpenPet,
+    chronicleUnread, onOpenChronicle,
     locationData, pinnedNpcId, onTogglePin, onShowRelationship,
     townName, reputation, crystals, rows, onUpgrade,
     tributeAmount, tributeAvailable, onCollectTribute,
@@ -127,6 +132,8 @@ export function SatchelMenu(props: Props) {
           onShowOnMap={onShowOnMap}
           onOpenSection={onSectionChange}
           onOpenPet={onOpenPet}
+          chronicleUnread={chronicleUnread}
+          onOpenChronicle={onOpenChronicle}
         />
       )}
 

@@ -48,6 +48,7 @@ import { getDailyChallengeNPCDialogue, getMiniGameChallengeNPCDialogue } from '.
 import type { LocationEntry } from '../../data/hub/hubWorldFactory'
 import { HubInteractable, HubLocationBundle, HubQuestBundle, HubTreasure, HubNpc } from '../../data/hub/loader'
 import { getUnreadCount } from '../../game/news'
+import { getUnreadChapterCount } from '../../game/chronicle'
 import { interactableStoreKey, isInteractableGranted, markInteractableGranted, getInteractableMoves, setInteractableMove } from '../../game/hub/interactables'
 import { canDigToday, recordDig } from '../../game/hub/digs'
 import { getFlameType, setFlameType } from '../../game/hub/flames'
@@ -416,6 +417,15 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
             getQuestProgress(quest.id, s.key) < s.required)
           if (pend?.targetNpcId) m.set(pend.targetNpcId, 'ready')
         }
+      }
+    }
+    // Chronicle alert: NPCs flagged chronicleAlert (currently just the
+    // Ravenwatch Chronicler) get the same '!' indicator — and the chase
+    // driver in HubTownCanvas reads this same map — while an unread chapter
+    // is available. Never overrides a genuine quest state on the same NPC.
+    if (getUnreadChapterCount() > 0) {
+      for (const npc of locationData.HUB_NPCS) {
+        if (npc.chronicleAlert && presentNpcs.has(npc.id) && !m.has(npc.id)) m.set(npc.id, 'offer')
       }
     }
     questNpcStateRef.current = m
@@ -2509,6 +2519,8 @@ function hasOfferableQuest(giverId: string): boolean {
             registry={locationRegistry}
             onShowOnMap={npcId => { togglePinnedNpc(npcId); setTabbedModalOpen(false) }}
             onOpenPet={() => { setTabbedModalOpen(false); openPet() }}
+            chronicleUnread={getUnreadChapterCount() > 0}
+            onOpenChronicle={() => { setTabbedModalOpen(false); handleNodeInteract('chronicle') }}
             locationData={locationData} pinnedNpcId={pinnedNpcId} onTogglePin={togglePinnedNpc} onShowRelationship={setRelationshipNpcId}
             townName={town} reputation={getTownReputation(town)} crystals={loadCrystals()} rows={upgradeRows} onUpgrade={handleUpgrade}
             tributeAmount={tributeAmount(town)} tributeAvailable={tributeAvailable(town)} onCollectTribute={handleCollectTribute}

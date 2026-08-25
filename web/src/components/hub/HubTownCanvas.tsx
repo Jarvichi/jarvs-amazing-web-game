@@ -67,6 +67,15 @@ const CHALLENGER_CHANCE = 0.2
 // How long a wanderer pauses their wandering after being tapped.
 const NPC_TAP_STUN_MS = 5000
 
+// Chronicle-alert chase (the Chronicler hunting down the player to flag a new
+// chapter): how close counts as "caught" (stop advancing), how often the
+// chase re-paths toward the player's current tile (never every frame — this
+// throttles the findPath calls), and how long a tap pauses the chase so
+// backing out of the Chronicle screen doesn't put her right back on your heel.
+const CHRONICLE_CATCH_DIST = 1
+const CHRONICLE_REPATH_MS = 1200
+const CHRONICLE_TAP_COOLDOWN_MS = 8000
+
 const NIGHT_LIGHT_INNER  = 4 * T   // fully lit within this radius of avatar
 const NIGHT_LIGHT_OUTER  = 7 * T   // fully dark beyond this radius
 const NIGHT_NPC_LIGHT_R  = 2 * T   // small glow radius around each NPC
@@ -1449,6 +1458,11 @@ export function HubTownCanvas({
     // Interior quest indicators: rebuilt each time we enter a building
     const interiorQuestIndicators     = new Map<string, PIXI.Text>()
     const interiorIndicatorBaseY      = new Map<string, number>()
+    // Chronicle-alert chase: last time we (re)pathed toward the player per
+    // NPC, and a short cooldown after any tap so backing out of the
+    // Chronicle screen doesn't immediately resume the chase mid-conversation.
+    const chronicleChaseLastPathAt    = new Map<string, number>()
+    const chronicleChaseCooldownUntil = new Map<string, number>()
 
     // Building-hours-aware resolution of a schedule's location (#2111): if it
     // targets a closed interior, resolve to standing just outside that
@@ -1500,6 +1514,7 @@ export function HubTownCanvas({
       npcContainer.cursor    = 'pointer'
       npcContainer.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
         e.stopPropagation()
+        if (npc.chronicleAlert) chronicleChaseCooldownUntil.set(npc.id, performance.now() + CHRONICLE_TAP_COOLDOWN_MS)
         if (npc.dialogue.length > 0 || npc.screen || npc.questGive || npc.questReceive || npc.dialogueTree) {
           const idx = npcDialogueIndex.get(npc.id) ?? 0
           const pool = getNpcDialoguePool(npc, gameHourRef.current)
@@ -1520,7 +1535,7 @@ export function HubTownCanvas({
       }
       if (npc.dialogue.length > 0) npcBubbleTargets.push({ npc, cx, cy })
 
-      if (npc.questGive || npc.questReceive) {
+      if (npc.questGive || npc.questReceive || npc.chronicleAlert) {
         const indBaseY = cy - SPRITE_SIZE - 22
         const ind = new PIXI.Text({ text: '!', style: { fontSize: 16, fill: '#ffdd44', fontWeight: 'bold', fontFamily: 'monospace', stroke: { color: '#1a1a1a', width: 3 } } })
         ind.anchor.set(0.5, 1)
@@ -2105,6 +2120,47 @@ export function HubTownCanvas({
           ws.isInside = false
           ws.currentBuildingId = null
         }
+      } finally {
+        ws.isWalking = false
+      }
+    }
+
+    // Chronicle-alert chase: a second driver of the same walk-queue machinery
+    // as walkNamedNpc, but the destination is the player's live tile instead
+    // of a scheduled location. Throttled to CHRONICLE_REPATH_MS so it isn't
+    // recomputing a path every frame, and it backs off within
+    // CHRONICLE_CATCH_DIST tiles rather than walking onto the player.
+    async function chaseTowardPlayer(
+      npc: HubNpc,
+      ws: NamedNpcWalkState,
+      container: PIXI.Container,
+      playerTile: [number, number],
+    ) {
+      if (ws.isWalking || ws.isInside || ws.isTraveling) return
+      const now = performance.now()
+      if (now < (chronicleChaseCooldownUntil.get(npc.id) ?? 0)) return
+      const last = chronicleChaseLastPathAt.get(npc.id) ?? 0
+      if (now - last < CHRONICLE_REPATH_MS) return
+      chronicleChaseLastPathAt.set(npc.id, now)
+
+      const dist = Math.max(Math.abs(ws.currentTx - playerTile[0]), Math.abs(ws.currentTy - playerTile[1]))
+      if (dist <= CHRONICLE_CATCH_DIST) return
+
+      const effectiveSet = exteriorWalkable()
+      for (const k of npcOccupiedTiles(ws)) effectiveSet.delete(k)
+      effectiveSet.add(`${playerTile[0]},${playerTile[1]}`)
+      const path = findPath([ws.currentTx, ws.currentTy], playerTile, effectiveSet)
+      if (path.length <= 1) return
+
+      // Stop CHRONICLE_CATCH_DIST tiles short so she never stands on the
+      // player's own tile.
+      const trimmed = path.slice(1, Math.max(1, path.length - CHRONICLE_CATCH_DIST))
+      if (trimmed.length === 0) return
+
+      ws.walkQueue = trimmed
+      ws.isWalking = true
+      try {
+        await processNamedNpcWalkQueue(ws, container)
       } finally {
         ws.isWalking = false
       }
@@ -3873,6 +3929,20 @@ export function HubTownCanvas({
           // door, not performing their scheduled activity, so drop the pose.
           namedNpcActivity.set(npcId, newLoc === scheduledLoc ? getNpcActivity(npc, gameHourRef.current) : null)
           walkNamedNpc(npc, ws, container, newLoc)
+        }
+      }
+
+      // Chronicle-alert chase — NPCs flagged chronicleAlert (see
+      // questNpcState) actively path toward the player's live tile while
+      // their alert is active.
+      if (!interiorActive) {
+        for (const [npcId, container] of namedNpcContainers) {
+          const npc = EXTERIOR_NPCS.find(n => n.id === npcId)
+          if (!npc?.chronicleAlert) continue
+          if ((questNpcState?.current.get(npcId) ?? null) === null) continue
+          const ws = namedNpcWalkStates.get(npcId)
+          if (!ws) continue
+          chaseTowardPlayer(npc, ws, container, currentTile)
         }
       }
 
