@@ -70,6 +70,12 @@ export default defineConfig({
     target: 'es2020',
     sourcemap: true,
     rollupOptions: {
+      // Two entry points: the game, and the standalone /chronicle-status
+      // endpoint (see src/chronicleStatus.ts).
+      input: {
+        main: path.resolve(dirname, 'index.html'),
+        chronicleStatus: path.resolve(dirname, 'chronicle-status.html'),
+      },
       output: {
         manualChunks(id) {
           if (id.includes('node_modules/react') || id.includes('node_modules/react-dom') || id.includes('node_modules/scheduler')) {

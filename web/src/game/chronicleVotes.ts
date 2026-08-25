@@ -47,19 +47,33 @@ export function castChronicleVote(chapterId: string, optionId: string): void {
 }
 
 /**
- * Reads the live tally for a chapter. Returns an empty object when the
- * document doesn't exist yet (nobody has voted) or Firestore is unreachable —
- * callers render "no data" rather than treating either as an error.
+ * Reads the live tally for a chapter, throwing if Firestore is unreachable.
+ * An absent document is not an error — it means nobody has voted yet, and
+ * returns an empty tally.
+ *
+ * Prefer this wherever "Firestore is down" and "nobody voted" must not be
+ * confused: an empty tally read from a failed request looks exactly like a
+ * real unanimous zero, and anything deciding story canon off the result would
+ * act on data that doesn't exist.
+ */
+export async function fetchChronicleTallyStrict(chapterId: string): Promise<ChronicleTally> {
+  const snap = await getDoc(voteDoc(chapterId))
+  if (!snap.exists()) return {}
+  const tally: ChronicleTally = {}
+  for (const [key, value] of Object.entries(snap.data())) {
+    if (typeof value === 'number') tally[key] = value
+  }
+  return tally
+}
+
+/**
+ * Forgiving read for UI: an absent document *or* an unreachable Firestore both
+ * come back as an empty tally, which renders as "no data". The player's own
+ * choice is already saved locally, so a failed tally read is cosmetic.
  */
 export async function fetchChronicleTally(chapterId: string): Promise<ChronicleTally> {
   try {
-    const snap = await getDoc(voteDoc(chapterId))
-    if (!snap.exists()) return {}
-    const tally: ChronicleTally = {}
-    for (const [key, value] of Object.entries(snap.data())) {
-      if (typeof value === 'number') tally[key] = value
-    }
-    return tally
+    return await fetchChronicleTallyStrict(chapterId)
   } catch {
     return {}
   }
