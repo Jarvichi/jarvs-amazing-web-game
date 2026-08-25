@@ -210,6 +210,33 @@ export function getDominantAlignment(): ChronicleAlignmentTrack | null {
   return leaders.length === 1 ? leaders[0] : null
 }
 
+// ── Alignment-driven lore variants (Season 2+) ───────────────────────────────
+//
+// See docs/chronicle-s2.md §5. Chapter `lore` may embed
+// `{align:vigil}...{/align}` / `{align:accord}...{/align}` /
+// `{align:unbinding}...{/align}` / `{align:default}...{/align}` blocks. At
+// render time exactly one block per track-family survives — the one
+// matching the player's *current* dominant alignment (computed from
+// decisions recorded in earlier chapters; the chapter being read hasn't had
+// its own decision made yet, so it can't react to itself), or the
+// `{align:default}` block when there's no dominant track (no decisions yet,
+// or a tie). All non-matching blocks are removed entirely. Chapters with no
+// `{align:...}` blocks (all of Season 1) are returned unchanged.
+
+const ALIGN_BLOCK_RE = /\{align:(vigil|accord|unbinding|default)\}([\s\S]*?)\{\/align\}/g
+
+/** Resolves a chapter's lore for the player's current dominant alignment. */
+export function resolveChapterLore(def: ChronicleChapterDef): string {
+  const active = getDominantAlignment() ?? 'default'
+  const resolved = def.lore.replace(ALIGN_BLOCK_RE, (_match, track: string, content: string) =>
+    track === active ? content : '')
+  return resolved
+    .split('\n\n')
+    .map(p => p.trim())
+    .filter(p => p.length > 0)
+    .join('\n\n')
+}
+
 // ── Challenge progress ────────────────────────────────────────────────────────
 
 /** Human-readable challenge description for the UI. */
