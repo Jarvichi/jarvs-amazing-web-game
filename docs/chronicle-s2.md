@@ -192,14 +192,51 @@ It is client-side rendered, so it must be loaded in a browser; `curl` returns
 only the placeholder. It uses the strict read, so `status: "error"` means the
 numbers are unusable — not that nobody voted.
 
-### 6.3 Automated authoring between drops
+This page is the **human** view. Automation should not scrape it — see §6.3.
 
-A weekly Routine ("Chronicle: autonomous chapter author") reads that endpoint
-and, when the next chapter is due, authors it with the previous chapter's
-`leadingOption` as canon and pushes a branch. Its gates, which any
-replacement must keep:
+### 6.3 Reading the tally from automation
 
-- **`status: "error"` → stop.** Never author against an unusable tally.
+The status page is for humans. **Automation should read Firestore's REST API
+directly** — the tally document is world-readable, so no auth is needed:
+
+```
+https://firestore.googleapis.com/v1/projects/jawg-a3271/databases/(default)/documents/chronicleVotes/<chapterId>
+```
+
+Not the status page, because a headless browser cannot reach the network from
+the Claude Code sandbox (every attempt returns `ERR_CONNECTION_RESET`, with
+and without explicit proxy arguments); `curl` gets through fine. A
+browser-based reader looks correct and fails on every scheduled run.
+
+Two parsing traps, both of which silently corrupt the result rather than
+erroring:
+
+- Counts arrive as `{"integerValue": "12"}` — the number is a **string**.
+- The document also carries an `updatedAt` timestamp. Read only ids that
+  appear in the chapter's `decision.options`; counting `updatedAt` would
+  distort every percentage.
+
+Status codes carry the §6.1 distinction and must not be flattened:
+
+| Status | Meaning |
+|---|---|
+| 200 | Real tally — parse it. |
+| 404 | Document absent: **nobody has voted yet.** Legitimate empty, not an error. |
+| anything else | Unusable. Stop. Do not author. |
+
+### 6.4 Automated authoring between drops
+
+A weekly Routine ("Chronicle: autonomous chapter author") reads the tally as
+above and, when the next chapter is due, authors it with the signal chapter's
+leading option as canon and pushes a branch. Its gates, which any replacement
+must keep:
+
+- **Unreadable tally → stop.** Never author against one. An unreadable tally
+  is indistinguishable from a real unanimous zero.
+- **Signal chapter = the most recent chapter that is both available AND
+  decided** — not simply the newest. The newest may not have unlocked yet, so
+  nobody could have voted on it, and its empty tally would silently override
+  real votes cast on an earlier one.
 - **Next chapter not due (latest `availableFrom` more than 10 days out) →
   stop quietly.**
 - **Under 10 total votes → write the chapter neutrally.** A handful of votes
