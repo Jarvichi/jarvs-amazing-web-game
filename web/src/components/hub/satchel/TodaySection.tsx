@@ -34,6 +34,10 @@ interface Props {
   onOpenSection: (id: SatchelSectionId) => void
   /** Opens the pet sheet, where naming and accessories live. */
   onOpenPet: () => void
+  /** Whether an available Chronicle chapter hasn't been read yet. */
+  chronicleUnread: boolean
+  /** Opens the Fracture Chronicle screen. */
+  onOpenChronicle: () => void
 }
 
 /**
@@ -46,17 +50,17 @@ interface Props {
  */
 export function TodaySection({
   townName, readyHere, inProgress, readyElsewhere, tribute, pet, codexPct,
-  onShowOnMap, onOpenSection, onOpenPet,
+  onShowOnMap, onOpenSection, onOpenPet, chronicleUnread, onOpenChronicle,
 }: Props) {
   const tributeReady = tribute.available && tribute.amount > 0
-  const nothingToDo = readyHere.length === 0 && !tributeReady
+  const nothingToDo = readyHere.length === 0 && !tributeReady && !chronicleUnread
     && inProgress.length === 0 && readyElsewhere.length === 0
 
   return (
     <>
-      {(readyHere.length > 0 || tributeReady) && (
+      {(readyHere.length > 0 || tributeReady || chronicleUnread) && (
         <>
-          <GroupHeading tone="gold" count={readyHere.length + (tributeReady ? 1 : 0)}>
+          <GroupHeading tone="gold" count={readyHere.length + (tributeReady ? 1 : 0) + (chronicleUnread ? 1 : 0)}>
             Do this now
           </GroupHeading>
           {readyHere.map(view => (
@@ -68,6 +72,14 @@ export function TodaySection({
               detail={`+${tribute.amount.toLocaleString()} 💎 from ${townName} · today only`}
               actionLabel="COLLECT"
               onAction={tribute.onCollect}
+            />
+          )}
+          {chronicleUnread && (
+            <ActionCard
+              title="A new Chronicle chapter has surfaced"
+              detail="The Chronicler has something to tell you."
+              actionLabel="READ"
+              onAction={onOpenChronicle}
             />
           )}
         </>

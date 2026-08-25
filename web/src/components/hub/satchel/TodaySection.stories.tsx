@@ -45,6 +45,8 @@ const meta = {
     onShowOnMap: fn(),
     onOpenSection: fn(),
     onOpenPet: fn(),
+    chronicleUnread: false,
+    onOpenChronicle: fn(),
   },
 } satisfies Meta<typeof TodaySection>
 
@@ -77,5 +79,16 @@ export const AllWaitingElsewhere: Story = {
     readyHere: [], inProgress: [], readyElsewhere: [readyAway],
     tribute: { amount: 0, available: false, onCollect: fn() },
     pet: { name: 'Pip', note: 'Following you · no treats left today' },
+  },
+}
+
+/** A new Chronicle chapter is unread — the fallback for towns other than
+ *  Ravenwatch, where the Chronicler can't chase the player down herself. */
+export const ChronicleAlert: Story = {
+  args: {
+    readyHere: [], inProgress: [], readyElsewhere: [],
+    tribute: { amount: 0, available: false, onCollect: fn() },
+    pet: null,
+    chronicleUnread: true,
   },
 }

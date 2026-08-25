@@ -11734,6 +11734,7 @@
       "tx": 60,
       "ty": 14,
       "screen": "chronicle",
+      "chronicleAlert": true,
       "dialogue": [
         "I keep the Fracture Chronicle, Commander. Each chapter brings us closer to the truth.",
         "The story of what shattered our world unfolds piece by piece. Come, read with me.",

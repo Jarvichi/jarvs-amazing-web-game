@@ -254,6 +254,12 @@ export interface HubNpc {
     ty?: number
     dialogue?: string[]
   }
+  /** True for an NPC that should actively path toward the player's live tile
+   *  while its alert condition is active (currently: an unread Chronicle
+   *  chapter — see getUnreadChapterCount in game/chronicle.ts). Do not
+   *  combine with `schedule` without reworking the two drivers to share
+   *  priority — both call into the same NamedNpcWalkState. */
+  chronicleAlert?: boolean
 }
 
 export type HubAnimalType =
