@@ -68,6 +68,39 @@
     }
   },
   {
+    "id": "s2prologue",
+    "title": "The Archive's Last Silence",
+    "availableFrom": "2026-08-25",
+    "teaser": "The order swore to record everything and judge nothing. Then it learned something it could not simply file.",
+    "lore": "For nine hundred years the Archive's order kept one oath: record everything, judge nothing. They kept it through border wars they could have ended with a single sentence. They kept it through the Fracture itself, when the mountain split down its centre and half their shelves went sailing off into the mist with the words still on them.\n\nThey broke it on an ordinary morning, in a reading room with the shutters closed.\n\nWhat Veyle's cracked cipher had finally handed them was not a rumour. It was a set of terms — the shape of a bargain struck beneath the Spire of Accord, the date of its expiry, and the plain fact that the thing which had kept its half of it for nine centuries is keeping nothing now. To write that down and say nothing would be, by the order's own reckoning, a species of lie their oath had never thought to forbid. To say it aloud would put the same sentence into the mouth of every frightened shard-town from the Iron Citadel to the last frost-outpost: it is awake, and it is watching.\n\nThe order argued for four days. The transcript runs to two hundred pages and contains, by one deputy's exhausted count, every position a living person has ever held on whether the truth is a gift or a weapon. It ends without a vote — because on the fifth morning they found the question had already left the building. Someone had begun copying pages. Nobody has ever admitted to it, and the order has never once gone looking, which the shards have taken as an answer of its own.\n\nWhat happens next was never really the Archive's to decide. It is being decided right now, in a hundred reading rooms and guardhouses and kitchens, by people who have just learned that the thing beneath the world is not a story told to children. You are one of them.",
+    "decision": {
+      "id": "d-s2prologue-telling",
+      "prompt": "The pages are already moving and cannot be called back. A deputy archivist — young, inked to the elbow, entirely out of her depth — asks what you would have them do now.",
+      "options": [
+        {
+          "id": "vigil",
+          "label": "Say nothing more",
+          "consequence": "Let the copied pages be the whole of it. A frightened Dominion is a loud one, and whatever watches through the seam has had nine hundred years to learn what our noise means.",
+          "alignment": { "vigil": 2 }
+        },
+        {
+          "id": "accord",
+          "label": "Publish it properly",
+          "consequence": "Half-copied pages breed worse rumours than the truth ever could. You argue for the full record, openly — every province, every shard, the terms set out plainly, so that whatever comes next is settled by people who know what they are settling with.",
+          "alignment": { "accord": 2 }
+        },
+        {
+          "id": "unbinding",
+          "label": "Find the Ledger first",
+          "consequence": "Terms are worth nothing without the contract they came from. You leave the archivists to their argument and start asking, quietly, who last saw the Accord Ledger — and whether the shard it went down with is still on anybody's chart.",
+          "alignment": { "unbinding": 2 }
+        }
+      ]
+    },
+    "challenge": { "type": "win_battles", "count": 1 },
+    "reward": { "type": "crystals", "amount": 40 }
+  },
+  {
     "id": "ch7",
     "title": "The First Vigil",
     "availableFrom": "2026-09-03",
