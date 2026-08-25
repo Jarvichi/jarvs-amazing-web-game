@@ -152,27 +152,62 @@ than inventing a new templating mechanism. Concretely:
   schema change, just per-chapter authoring judgement using the existing
   `win_with_tag` / `win_battles` types.
 
-## 6. Community pulse (stretch — build after Layer 1 ships)
+## 6. Community pulse
 
-Mirrors the Fruit Machine jackpot's shared-Firestore pattern:
+Mirrors the Fruit Machine jackpot's shared-Firestore pattern
+(`web/src/game/chronicleVotes.ts`):
 
-- `globalState/chronicleSeason2/{chapterId}` document, shape
-  `{ [optionId]: number }`, incremented via `increment()` on each player's
-  first pick for that chapter (fire-and-forget, same as
-  `incrementGrandJackpot`).
+- `chronicleVotes/{chapterId}` document, shape `{ [optionId]: number }`,
+  incremented via `increment()` on each player's first (final) pick for that
+  chapter — fire-and-forget, same as `incrementGrandJackpot`.
 - `ChronicleScreen` shows a read-only "X% of the Dominion chose this" bar
   once the player has made their own pick for that chapter (never before —
   don't let the tally influence the choice itself).
 - Firestore security rules mirror the jackpot's: public read, authenticated
   write.
-- Between real-world chapter drops, the author checks the tally and lets it
-  inform (not dictate) what the *next* chapter's authored canon event is —
-  e.g. if the Dominion leans heavily Vigil on ch7, ch8's opening can
-  canonically state the Choir's warning was heeded. This is a manual
-  authoring step, not automated content generation — same cadence and
-  workflow as writing chapters today, just with a data point to write from.
-- This layer is additive and can ship independently after Layer 1; nothing
-  in §4–5 depends on it.
+- This layer is additive; nothing in §4–5 depends on it.
+
+### 6.1 Two reads, deliberately
+
+`fetchChronicleTally` (forgiving) treats an unreachable Firestore and an
+absent document alike — both render as "no data". That is correct for UI: the
+player's own choice is already saved locally, so a failed tally read is
+cosmetic.
+
+`fetchChronicleTallyStrict` propagates the failure instead. **Use the strict
+read anywhere the result decides story canon.** An empty tally from a failed
+request is indistinguishable from a real unanimous zero, and an author —
+human or automated — acting on it would be inventing votes that were never
+cast.
+
+### 6.2 The `/chronicle-status` endpoint
+
+`web/chronicle-status.html` + `src/chronicleStatus.ts` is a second Vite entry
+point that renders the live tallies as JSON in `<pre id="chronicle-status">`,
+with a `data-status` attribute of `ok` or `error`. It exists so the tally can
+be read from *outside* the app without copying Firebase credentials anywhere
+— they stay in the shipped client, where they already are.
+
+It is client-side rendered, so it must be loaded in a browser; `curl` returns
+only the placeholder. It uses the strict read, so `status: "error"` means the
+numbers are unusable — not that nobody voted.
+
+### 6.3 Automated authoring between drops
+
+A weekly Routine ("Chronicle: autonomous chapter author") reads that endpoint
+and, when the next chapter is due, authors it with the previous chapter's
+`leadingOption` as canon and pushes a branch. Its gates, which any
+replacement must keep:
+
+- **`status: "error"` → stop.** Never author against an unusable tally.
+- **Next chapter not due (latest `availableFrom` more than 10 days out) →
+  stop quietly.**
+- **Under 10 total votes → write the chapter neutrally.** A handful of votes
+  is not a mandate; the chapter still ships on cadence, but must not claim
+  the Dominion chose a side.
+
+New chapters are date-gated by `availableFrom` (14 days out), so merging one
+does not expose it to players immediately — that gap is the review window.
 
 ## 7. UI changes (`ChronicleScreen.tsx`)
 
