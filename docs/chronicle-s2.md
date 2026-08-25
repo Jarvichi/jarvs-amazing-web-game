@@ -2,11 +2,17 @@
 
 > Authoritative design doc for Season 2 of the Fracture Chronicle (the
 > biweekly meta-narrative layer — not the Act/campaign system). Read this
-> before authoring any `ch{N}` entry in `chronicle.json` from ch7 onward, or
-> before touching `chronicle.ts` / `ChronicleScreen.tsx` for Season 2 work.
+> before authoring any Season 2 chapter in `chronicle.json`, or before
+> touching `chronicle.ts` / `ChronicleScreen.tsx` for Season 2 work.
 > Mirrors the role `docs/campaign2.md` plays for Campaign 2 — this is the
 > story + mechanics reference so chapters authored in separate sessions stay
 > consistent.
+>
+> **Season 2 is seed-and-grow.** The prologue (`s2prologue`) is the only
+> hand-authored chapter; every chapter after it is written by an automated
+> Routine, fortnightly, from the community's votes. §6.4 is the operative
+> section — most of this doc exists so that Routine (and anyone replacing it)
+> writes chapters that stay consistent.
 
 ---
 
@@ -50,13 +56,13 @@ Two important framing decisions, given the game's actual architecture
   state, so "your choices matter" means "your playthrough branches," the
   same way a choice-driven visual novel works — not a shared MMO world
   state.
-- **A lightweight community layer is a deliberate stretch add-on, not the
-  core mechanic.** See §6. It uses the same shared-Firestore pattern already
-  proven by the Fruit Machine jackpot (`fruitMachineJackpot.ts`) to show
-  "how the rest of the Dominion is choosing," and lets the *next
-  hand-authored chapter* canonically react to the majority — but the
-  authoring is still done by hand between drops, same as today. It is not
-  runtime branching content generation.
+- **A community layer sits on top.** See §6. It uses the same
+  shared-Firestore pattern already proven by the Fruit Machine jackpot
+  (`fruitMachineJackpot.ts`) to show "how the rest of the Dominion is
+  choosing," and the majority becomes canon in the *next* chapter. Note this
+  is still not runtime content generation: chapters are authored between
+  drops — now by the Routine rather than by hand (§6.4) — and land as
+  reviewable commits, not as text generated live in the player's client.
 
 ## 3. Alignment tracks
 
@@ -224,12 +230,13 @@ Status codes carry the §6.1 distinction and must not be flattened:
 | 404 | Document absent: **nobody has voted yet.** Legitimate empty, not an error. |
 | anything else | Unusable. Stop. Do not author. |
 
-### 6.4 Automated authoring between drops
+### 6.4 Automated authoring: seed and grow
 
-A weekly Routine ("Chronicle: autonomous chapter author") reads the tally as
-above and, when the next chapter is due, authors it with the signal chapter's
-leading option as canon and pushes a branch. Its gates, which any replacement
-must keep:
+Season 2 is not written in advance. The **prologue is the only hand-authored
+chapter**; every chapter after it is written by a Routine that fires weekly
+and appends the next one, indefinitely.
+
+Its gates, which any replacement must keep:
 
 - **Unreadable tally → stop.** Never author against one. An unreadable tally
   is indistinguishable from a real unanimous zero.
@@ -237,14 +244,28 @@ must keep:
   decided** — not simply the newest. The newest may not have unlocked yet, so
   nobody could have voted on it, and its empty tally would silently override
   real votes cast on an earlier one.
-- **Next chapter not due (latest `availableFrom` more than 10 days out) →
-  stop quietly.**
+- **Author only once the newest chapter is LIVE** (`availableFrom` on or
+  before today). If the newest is still in the future, stop quietly.
 - **Under 10 total votes → write the chapter neutrally.** A handful of votes
   is not a mandate; the chapter still ships on cadence, but must not claim
   the Dominion chose a side.
+- **Each decision must differ in KIND from the previous chapter's** — see
+  §9.1.
 
-New chapters are date-gated by `availableFrom` (14 days out), so merging one
-does not expose it to players immediately — that gap is the review window.
+New chapters are dated 14 days after the newest existing chapter, so merging
+one does not expose it to players immediately — that gap is the review
+window. If runs were missed and that date is not in the future, date it 14
+days from today instead, so a backlog can never dump a chapter live on
+arrival.
+
+**Why "once the newest is live" and not "within N days":** the Routine fires
+weekly but chapters land fortnightly, so the gate has to reject the
+in-between week. A threshold like "latest is no more than 10 days out"
+fails — after authoring, the new chapter sits 14 days out, and a week later
+it is only 7 days out, which passes the threshold and authors again. That
+produces three chapters in the first three weeks and then an irregular
+drift. Keying on *live* is exact (the in-between week always has a future
+chapter), needs no magic number, and self-corrects after missed runs.
 
 ## 7. UI changes (`ChronicleScreen.tsx`)
 
@@ -275,7 +296,7 @@ The last Season 2 chapter resolves based on `getDominantAlignment()`:
   Custodian mystery completely; each ending should open a specific, distinct
   follow-up question rather than a generic "to be continued."
 
-## 9. Per-chapter authoring checklist (Season 2, ch7 onward)
+## 9. Per-chapter authoring checklist (Season 2)
 
 - [ ] `availableFrom` set, sorted correctly (chapters auto-sort by date in
       `CHRONICLE_CHAPTERS`).
@@ -292,5 +313,38 @@ The last Season 2 chapter resolves based on `getDominantAlignment()`:
 - [ ] `reward` uses an existing `ChronicleReward` type.
 - [ ] No NPC or faction is written as simply "evil" for holding a Vigil,
       Accord, or Unbinding position — see §3.
+- [ ] The decision differs in **kind** from the previous chapter's — see
+      §9.1.
 - [ ] Finale only: three full epilogue variants + three reward flavors (see
       §8), each seeding a distinct Season 3 hook.
+
+### 9.1 Vary the question, not just the scenery
+
+The three alignment tracks recur in every chapter by design. **The question
+they answer must not.** If each chapter asks "which of the three camps are
+you in?", the season stops moving — the player is repeatedly re-declaring an
+allegiance they already declared, and the plot only supplies new backdrops
+for the same standing choice.
+
+This is a real trap, not a hypothetical. An early draft pair went:
+
+| Track | Chapter A | Chapter B |
+|---|---|---|
+| vigil | Keep the vigil | Join the calm-seamed watch |
+| accord | Send an envoy | Carry a letter yourself |
+| unbinding | Go to the door | Ride out with the escort |
+
+Three options, three distinct tracks, every mechanical rule satisfied — and
+the second chapter is the first one in new clothes. The only thing that
+changed was "now do it in person."
+
+**The test:** if your three options map one-to-one onto the previous
+chapter's three options, throw them out and start again. Passing the
+alignment-weighting rule is not sufficient.
+
+Vary the axis instead. A decision can be about a **place** (where do we go),
+a **person** (what do we do about her), **information** (what do we tell,
+and to whom), a **cost** (what are we willing to give up), or **time** (act
+now or wait). Ask a different kind of question each time and the tracks
+still accumulate correctly — but the season reads as a story advancing
+rather than a poll being retaken.
