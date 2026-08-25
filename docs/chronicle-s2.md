@@ -236,6 +236,13 @@ Season 2 is not written in advance. The **prologue is the only hand-authored
 chapter**; every chapter after it is written by a Routine that fires weekly
 and appends the next one, indefinitely.
 
+The Routine's prompt is version-controlled at
+**`docs/chronicle-routine-prompt.md`**, along with its settings and known
+constraints. The Routine itself is configured in the claude.ai Routines UI
+(it needs repo push access, and agents cannot edit a UI-created Routine), so
+**changing that file does not change the Routine** — the new text has to be
+pasted in.
+
 Its gates, which any replacement must keep:
 
 - **Unreadable tally → stop.** Never author against one. An unreadable tally
