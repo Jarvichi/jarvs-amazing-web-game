@@ -44,6 +44,16 @@ describe('chronicle data', () => {
       }
     }
   })
+
+  it('every decision has 2+ options, each nudging a distinct set of tracks', () => {
+    for (const c of CHRONICLE_CHAPTERS) {
+      if (!c.decision) continue
+      expect(c.decision.options.length).toBeGreaterThanOrEqual(2)
+      const signatures = c.decision.options.map(o =>
+        Object.entries(o.alignment).filter(([, w]) => w).map(([t]) => t).sort().join(','))
+      expect(new Set(signatures).size).toBe(signatures.length)
+    }
+  })
 })
 
 describe('availability gating', () => {
