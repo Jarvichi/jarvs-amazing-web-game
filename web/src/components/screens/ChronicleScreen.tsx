@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import {
   getChronicleStatus, markChapterRead, describeChallenge, describeReward,
   recordChronicleDecision, getChronicleAlignment, resolveChapterLore,
   ChronicleChapterStatus, ChronicleAlignmentTrack,
 } from '../../game/chronicle'
+import {
+  castChronicleVote, fetchChronicleTally, voteShare, totalVotes,
+  type ChronicleTally,
+} from '../../game/chronicleVotes'
 
 const ALIGNMENT_LABELS: Record<ChronicleAlignmentTrack, string> = {
   vigil: 'Vigil', accord: 'Accord', unbinding: 'Unbinding',
@@ -33,9 +37,32 @@ export function ChronicleScreen({ onBack }: Props) {
     setOpenId(chapter.def.id)
   }
 
+  // Live community tally for the open chapter, loaded once its decision is
+  // settled. `null` = not loaded yet; `{}` = loaded but nothing counted.
+  const [tally, setTally] = useState<ChronicleTally | null>(null)
+
+  // Load the tally only once the player has committed their own choice, so
+  // seeing how others voted can never sway the decision itself.
+  const openDecidedId = open?.def.decision ? open.decisionOptionId : null
+  useEffect(() => {
+    if (!open || !openDecidedId) { setTally(null); return }
+    let cancelled = false
+    const chapterId = open.def.id
+    setTally(null)
+    fetchChronicleTally(chapterId).then(t => { if (!cancelled) setTally(t) })
+    return () => { cancelled = true }
+  }, [open?.def.id, openDecidedId])
+
   function handleDecision(chapterId: string, optionId: string) {
+    // recordChronicleDecision is first-pick-final, so only count a vote when
+    // this chapter had no recorded choice — a re-click must not inflate it.
+    const alreadyDecided = chapters.find(c => c.def.id === chapterId)?.decisionOptionId != null
     recordChronicleDecision(chapterId, optionId)
-    setChapters(getChronicleStatus())
+    const next = getChronicleStatus()
+    setChapters(next)
+    if (!alreadyDecided && next.find(c => c.def.id === chapterId)?.decisionOptionId === optionId) {
+      castChronicleVote(chapterId, optionId)
+    }
   }
 
   // ── Reading view ────────────────────────────────────────────────────────────
@@ -68,6 +95,7 @@ export function ChronicleScreen({ onBack }: Props) {
                 {decision.options.map((option, i) => {
                   const isChosen   = chosenOption?.id === option.id
                   const isDisabled = chosenOption !== null && !isChosen
+                  const share      = tally ? voteShare(tally, option.id) : null
                   return (
                     <button
                       key={option.id}
@@ -80,12 +108,20 @@ export function ChronicleScreen({ onBack }: Props) {
                     >
                       <span className="chr-decision-letter">{String.fromCharCode(65 + i)}.</span>
                       <span className="chr-decision-label u-grow">{option.label}</span>
+                      {share !== null && (
+                        <span className="chr-decision-share">{Math.round(share * 100)}%</span>
+                      )}
                     </button>
                   )
                 })}
               </div>
               {chosenOption && (
                 <div className="chr-decision-consequence">{chosenOption.consequence}</div>
+              )}
+              {chosenOption && tally && totalVotes(tally) > 0 && (
+                <div className="chr-decision-tally-note">
+                  How the Dominion answered — {totalVotes(tally).toLocaleString()} decided so far.
+                </div>
               )}
             </div>
           )}
