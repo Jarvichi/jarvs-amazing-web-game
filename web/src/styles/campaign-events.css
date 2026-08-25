@@ -860,6 +860,18 @@
   border-top: 1px solid var(--game-border);
   padding-top: 10px;
 }
+/* Community tally — only rendered once the player's own choice is committed. */
+.chr-decision-share {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.chr-decision-option--chosen .chr-decision-share { color: #ddaa55; }
+.chr-decision-tally-note {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-muted);
+}
 
 .chr-alignment-meter {
   max-width: 520px;
