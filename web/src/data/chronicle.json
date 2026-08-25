@@ -66,5 +66,38 @@
       "desc": "A shard of Spire-glass. Hold it to the seam and the light bends into a spiral.",
       "lore": "Look for my hand in the light. — Chief Archivist Veyle"
     }
+  },
+  {
+    "id": "ch7",
+    "title": "The First Vigil",
+    "availableFrom": "2026-09-03",
+    "teaser": "The Custodian is awake. The Dominion must answer for the first time in nine hundred years.",
+    "lore": "News does not travel fast across the shards, but this news did not need to. Within a week of the Archive's proclamation — that something ancient slept beneath the old Spire, and sleeps no longer — every square from the Iron Citadel to the last frost-outpost had heard some version of the same sentence: it is awake, and it is watching.\n\nThe Hollow Choir's kneeling nights have grown longer. In three border towns the seam itself has begun to flicker at dusk, the old spiral shape rising and dissolving in the white fire like something practicing a signature. The Archive has stopped calling it the Fracture in its new bulletins. They call it, carefully, the door.\n\nNobody in power has decided what to do about a door. So the deciding has fallen, as it always does in the end, to the shard-folk who have to live nearest it — travellers, soldiers, merchants, the newly Worldmended who thought the hard part was over. Three answers have taken root. Keep the vigil the Choir already keeps, and give the Custodian nothing further to notice. Send envoys, as the old Accord did, and try to strike honest terms before someone strikes dishonest ones. Or go to the door itself, before the Court or the Citadel or worse gets there first, and take the answer directly.\n\nNone of the three is wrong. All of them are being tried, in different border towns, by different people, right now. Yours is one more voice added to an argument nine hundred years old.",
+    "decision": {
+      "id": "d-ch7-answer",
+      "prompt": "A town crier reads the Archive's bulletin aloud, then asks the crowd — asks you — the only question that matters: how do you answer the door?",
+      "options": [
+        {
+          "id": "vigil",
+          "label": "Keep the vigil",
+          "consequence": "You say nothing to the door, and everything to the people already watching it. If it wants a reply, let it wait as long as it made others wait.",
+          "alignment": { "vigil": 2 }
+        },
+        {
+          "id": "accord",
+          "label": "Send an envoy",
+          "consequence": "You start drafting terms nobody asked you to draft. If the old Accord could be negotiated once, in ink and nine hundred years of peace, it can be negotiated again — better this time, with everyone's name on it.",
+          "alignment": { "accord": 2 }
+        },
+        {
+          "id": "unbinding",
+          "label": "Go to the door",
+          "consequence": "Someone has to go first, and you would rather it be someone who chooses to. You start walking toward the last place any map marks the Spire.",
+          "alignment": { "unbinding": 2 }
+        }
+      ]
+    },
+    "challenge": { "type": "win_battles", "count": 2 },
+    "reward": { "type": "consumable", "itemId": "memory_charm", "count": 1 }
   }
 ]
