@@ -132,5 +132,38 @@
     },
     "challenge": { "type": "win_battles", "count": 2 },
     "reward": { "type": "consumable", "itemId": "memory_charm", "count": 1 }
+  },
+  {
+    "id": "ch8",
+    "title": "The Scattered Answer",
+    "availableFrom": "2026-09-17",
+    "teaser": "Three answers went out to the door. The door has not yet decided which one it heard.",
+    "lore": "Three answers went out from the border towns, as the crier promised, and for a season the Dominion held its breath waiting to see which the door would answer back. It did not have to wait long to learn the truth of it: the door did not answer any of them. It listened to all three at once, and the listening itself began to show.\n\nIn the vigil-towns, where the Hollow Choir already kept its silent congregations, watchers report the seam growing calmer wherever a crowd gathers to simply stand and hold the line — the spiral dims, some nights, to little more than a thread. In the towns that sent envoys, letters addressed to nothing more specific than 'the Custodian, care of the Fracture' have begun arriving back unopened, their wax seals broken and resealed in a spiral no living hand pressed there. And of the three scouting parties that set out for the last charted approach to the old Spire-site, only one courier has returned — alone, unhurt, carrying no message, unable or unwilling to say what became of the other two.\n\nArchivist deputies, cataloguing the reports as fast as they arrive, have started calling it the Split Season. Not because the Dominion disagrees — it always has — but because for the first time the disagreement is being answered back, town by town, in three different dialects of silence. Chief Deputy Sorne, who inherited Veyle's desk and none of her certainty, put it plainly in the latest bulletin: 'We assumed a door either opens or it doesn't. Nobody accounted for one that simply waits to see if we can agree on a knock.'\n\nThe Iron Citadel, characteristically, has stopped waiting on anyone else's answer. Marshal Coric Vane — the officer who lost the First Legion's sister company and has spent six years since insisting the Testament orders were triage, not treachery — has begun quietly re-arming the same recall lists that armed the Citadel before the Fracture. Not for war, she insists to anyone who'll listen at the garrison gates; for whichever answer the Dominion finally settles on, so that it isn't unescorted when it arrives. Her critics call it the same mistake twice. Her few allies call it the only lesson the Citadel actually learned.\n\n{align:vigil}You have kept your own vigil since the pages first went round, quiet and unclaimed, and the reports from the calm-seamed towns land like confirmation: whatever the Custodian wants, it is not being given anything by your silence, and that has always been the point.{/align}{align:accord}Your letters have gone out through three separate couriers now, and come back unopened like everyone else's, and still you keep drafting the next one — because a door that resealed a letter instead of burning it has, in its own patient way, admitted it can be written to.{/align}{align:unbinding}You have already turned your steps toward the last charted approach, and the single returned courier's silence tells you less than the two who didn't come back at all — somebody has to learn what they saw, and it will not be learned from a border town.{/align}{align:default}You have not yet chosen a side of this argument, and watching the three dialects of silence arrive from three directions, you are beginning to suspect that not choosing is its own kind of answer — just not one you especially like.{/align}\n\nMarshal Vane's recall notices reach your town on the same courier run as Sorne's bulletin, and a Citadel sergeant reads both aloud from the same crate, in the same flat voice, as though the difference between a scholar's caution and a soldier's readiness were smaller than either institution would admit. When she's done, she looks up, and asks the crowd — asks you — the only question the season has actually been building toward: not which answer is right, but which one you are willing to carry the rest of the way.",
+    "decision": {
+      "id": "d-ch8-carry",
+      "prompt": "The sergeant is asking on Marshal Vane's behalf, but the choice is entirely your own — how do you carry the season's answer forward?",
+      "options": [
+        {
+          "id": "vigil",
+          "label": "Join the calm-seamed watch",
+          "consequence": "You go to stand with the vigil-towns properly this time — not waiting alone, but adding your silence to a crowd's, and trusting that a door which quiets around patience is telling the truth about what it wants.",
+          "alignment": { "vigil": 2 }
+        },
+        {
+          "id": "accord",
+          "label": "Carry a letter yourself",
+          "consequence": "You take the next letter out of Sorne's desk before it can be entrusted to another courier who might not return, and set out to deliver it by hand — because if the door is going to reseal something, you would rather it reseal a promise you made in person.",
+          "alignment": { "accord": 2 }
+        },
+        {
+          "id": "unbinding",
+          "label": "Ride out with Vane's escort",
+          "consequence": "You volunteer for the Marshal's re-armed recall lists, not to start a fight but to finish a reconnaissance two couriers didn't survive — if the Dominion is going to answer the door directly, someone competent should be standing nearby when it does.",
+          "alignment": { "unbinding": 2 }
+        }
+      ]
+    },
+    "challenge": { "type": "win_with_tag", "tag": "citadel", "count": 2 },
+    "reward": { "type": "crystals", "amount": 60 }
   }
 ]
