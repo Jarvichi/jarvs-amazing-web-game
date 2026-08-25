@@ -13,6 +13,7 @@ import {
   CHRONICLE_CHAPTERS, getChronicleStatus, markChapterRead, recordChronicleWin,
   setChronicleDevUnlocked, getChronicleNewsItems, getUnreadChapterCount,
   recordChronicleDecision, getChronicleAlignment, getDominantAlignment,
+  resolveChapterLore,
   type ChronicleChapterDef,
 } from './chronicle'
 import { getCardThemeTags, getCardCatalog } from './cards'
@@ -211,5 +212,61 @@ describe('decisions (Season 2)', () => {
     expect(getDominantAlignment()).toBe('accord')  // accord=4, others 0
     recordChronicleDecision(chapterC.id, 'vigil-opt-2')
     expect(getDominantAlignment()).toBeNull()  // accord=4, vigil=4 — tied
+  })
+
+  describe('resolveChapterLore', () => {
+    const branchingChapter: ChronicleChapterDef = {
+      id: 'test-decision-lore',
+      title: 'Test Decision Lore',
+      availableFrom: '2000-01-01',
+      teaser: 't',
+      lore: [
+        'Shared opening paragraph.',
+        '{align:vigil}Vigil paragraph.{/align}'
+        + '{align:accord}Accord paragraph.{/align}'
+        + '{align:unbinding}Unbinding paragraph.{/align}'
+        + '{align:default}Default paragraph.{/align}',
+        'Shared closing paragraph.',
+      ].join('\n\n'),
+      challenge: { type: 'win_battles', count: 1 },
+      reward: { type: 'crystals', amount: 1 },
+    }
+
+    it('returns lore unchanged when it has no {align:} blocks', () => {
+      const ch1 = CHRONICLE_CHAPTERS.find(c => c.id === 'ch1')!
+      expect(resolveChapterLore(ch1)).toBe(ch1.lore)
+    })
+
+    it('keeps the {align:default} block when no dominant track exists', () => {
+      expect(getDominantAlignment()).toBeNull()
+      const lore = resolveChapterLore(branchingChapter)
+      expect(lore).toContain('Default paragraph.')
+      expect(lore).not.toContain('Vigil paragraph.')
+      expect(lore).not.toContain('Accord paragraph.')
+      expect(lore).not.toContain('Unbinding paragraph.')
+      expect(lore).toContain('Shared opening paragraph.')
+      expect(lore).toContain('Shared closing paragraph.')
+    })
+
+    it('keeps only the block matching the current dominant track', () => {
+      recordChronicleDecision(chapterA.id, 'vigil-opt')
+      expect(getDominantAlignment()).toBe('vigil')
+      const lore = resolveChapterLore(branchingChapter)
+      expect(lore).toContain('Vigil paragraph.')
+      expect(lore).not.toContain('Accord paragraph.')
+      expect(lore).not.toContain('Unbinding paragraph.')
+      expect(lore).not.toContain('Default paragraph.')
+    })
+
+    it('falls back to {align:default} on a tie', () => {
+      recordChronicleDecision(chapterA.id, 'accord-opt')
+      recordChronicleDecision(chapterB.id, 'accord-opt-2')
+      recordChronicleDecision(chapterC.id, 'vigil-opt-2')
+      expect(getDominantAlignment()).toBeNull()  // accord=4, vigil=4 — tied
+      const lore = resolveChapterLore(branchingChapter)
+      expect(lore).toContain('Default paragraph.')
+      expect(lore).not.toContain('Accord paragraph.')
+      expect(lore).not.toContain('Vigil paragraph.')
+    })
   })
 })

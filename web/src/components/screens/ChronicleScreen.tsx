@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import {
   getChronicleStatus, markChapterRead, describeChallenge, describeReward,
-  recordChronicleDecision, getChronicleAlignment,
+  recordChronicleDecision, getChronicleAlignment, resolveChapterLore,
   ChronicleChapterStatus, ChronicleAlignmentTrack,
 } from '../../game/chronicle'
 
@@ -56,7 +56,7 @@ export function ChronicleScreen({ onBack }: Props) {
         onBack={() => setOpenId(null)}
       >
         <div className="chr-reader u-col u-gap-6">
-          {open.def.lore.split('\n\n').map((para, i) => (
+          {resolveChapterLore(open.def).split('\n\n').map((para, i) => (
             <p key={i} className="chr-lore-para">{para}</p>
           ))}
 
