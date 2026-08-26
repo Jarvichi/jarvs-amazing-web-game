@@ -764,6 +764,7 @@ export function HubTownCanvas({
             s.position.set(tx * T, ty * T)
             s.width = T; s.height = T
             s.zIndex = ty * T + T + 1
+            s.eventMode = 'none'  // cosmetic decor must not shadow interactive sprites in other layers
             exteriorDecorLayer.addChild(s)
           }
         }).catch(() => {})
@@ -775,6 +776,7 @@ export function HubTownCanvas({
             const s = new PIXI.Sprite(tex)
             s.position.set(tx * T, ty * T)
             s.width = T; s.height = T
+            s.eventMode = 'none'  // cosmetic decor must not shadow interactive sprites in other layers
             belowAvatarLayer.addChild(s)
           }
         }).catch(() => {})
@@ -786,6 +788,7 @@ export function HubTownCanvas({
             const s = new PIXI.Sprite(tex)
             s.position.set(tx * T, ty * T)
             s.width = T; s.height = T
+            s.eventMode = 'none'  // cosmetic decor must not shadow interactive sprites in other layers
             aboveAvatarLayer.addChild(s)
           }
         }).catch(() => {})
