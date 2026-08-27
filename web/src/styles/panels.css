@@ -258,3 +258,48 @@
 .toast--reward  { border-color: var(--accent-gold); color: var(--accent-gold); }
 .toast--warning { border-color: var(--color-orange); color: var(--color-orange); }
 .toast--error   { border-color: var(--accent-ember); color: #ff8888; }
+
+
+/* ── Floating stage chrome ────────────────────────────────────────────────
+   A toolbar floated over a full-bleed stage (hub town canvas, world node
+   map) rather than stacked above it, so the world gets the screen's full
+   height. See components/ui/StageChrome.tsx for why the layer spans the
+   whole stage instead of just the bar's strip. */
+
+.stage-chrome {
+  position: absolute;
+  inset: 0;
+  /* 9, matching what the hub minimap used to carry on its own: it keeps the
+     whole layer under the dialogue box (10), which is what that z-index was
+     protecting. */
+  z-index: 9;
+  display: flex;
+  flex-direction: column;
+  /* The layer covers the world, so it must not swallow taps meant for it.
+     Only the bar and any child that opts back in are interactive. */
+  pointer-events: none;
+  /* The stage bleeds past .game-container's gutter; the chrome puts it back,
+     so the bar floats inset from the screen edges rather than butting up
+     against them. */
+  padding: var(--container-pad-y) var(--container-pad-x) 0;
+  box-sizing: border-box;
+}
+
+.stage-chrome__bar {
+  flex-shrink: 0;
+  pointer-events: auto;
+}
+
+/* The rest of the stage, minus the bar. Overlays anchored here clear the bar
+   at any height it happens to be. */
+.stage-chrome__body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Opts a child of the layer back into taking taps. Anything genuinely
+   interactive in there needs this — the layer itself is inert. */
+.stage-chrome__control {
+  pointer-events: auto;
+}

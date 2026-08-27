@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import { HubTownCanvas } from './HubTownCanvas'
 import { HubStatusBar } from './HubStatusBar'
 import { HubStatusCluster } from './HubStatusCluster'
+import { StageChrome } from '../ui/StageChrome'
 import { HubMinimap } from './HubMinimap'
 import type { MinimapObjective } from './HubMinimap'
 import { HubReturnButton } from './HubReturnButton'
@@ -2412,37 +2413,14 @@ function hasOfferableQuest(giverId: string): boolean {
     // inside .game-container's gutter, which read as a black outline that the
     // phone's corner radius cropped unevenly.
     <div className="overlay-screen overlay-screen--bleed u-col u-grow">
-      <HubStatusBar
-        townName={locationData.HUB_TOWN_NAME}
-        festivalLabel={activeFestival ? `${activeFestival.icon} ${activeFestival.name}` : null}
-        crystals={crystals}
-        timeLabel={formatGameTime()}
-        isNight={isGameNight}
-        weather={currentWeather}
-        wrongSaveCrystals={wrongSave?.crystals ?? null}
-        onOpenMenu={() => setTabbedModalOpen(true)}
-        worldMapLocked={worldMapLocked}
-        onWorldMap={() => onWorldMap?.()}
-        onWorldMapLocked={() => setDialogueEvent({
-          speakerName: '',
-          text: "Complete ‘The Last Watch’ to unlock the World Map.",
-        })}
-        user={user}
-        playerName={playerName}
-        onSignIn={onLoginToggle}
-        onSignOut={onSignOut}
-        onPlayerTap={onPlayerTap}
-        onFeedback={onFeedback}
-        onSettings={onBack}
-      />
-
       <div
-        className="nm-map nm-map--camp"
+        className="nm-map nm-map--camp hub-stage"
         style={{ position: 'relative', flex: 1, overflow: 'hidden' }}
       >
         {/* overflow: hidden keeps this a scroll container the follow-camera can
             drive via scrollLeft/scrollTop while blocking user drag/wheel/scrollbar
             scrolling, which would shift the camera off the avatar. */}
+
         <div
           ref={scrollRef}
           style={{ overflowX: 'hidden', overflowY: 'hidden', width: '100%', height: '100%' }}
@@ -2495,15 +2473,66 @@ function hasOfferableQuest(giverId: string): boolean {
         </div>
         <HubStatusCluster areaName={currentArea} />
 
-        {!interiorActive && (
-          <HubMinimap
-            locationData={locationData}
-            objectives={minimapObjectives}
-            playerRef={playerPixelRef}
-            viewportRef={scrollRef}
-            wrapRef={minimapRef}
+        {/* The bar floats over the canvas rather than sitting in a band
+            above it, so the town runs the full height of the screen. The
+            minimap and the interior buttons ride in the chrome layer with
+            it, which keeps them clear of the bar whatever height it is. */}
+        <StageChrome bar={
+          <HubStatusBar
+            townName={locationData.HUB_TOWN_NAME}
+            festivalLabel={activeFestival ? `${activeFestival.icon} ${activeFestival.name}` : null}
+            crystals={crystals}
+            timeLabel={formatGameTime()}
+            isNight={isGameNight}
+            weather={currentWeather}
+            wrongSaveCrystals={wrongSave?.crystals ?? null}
+            onOpenMenu={() => setTabbedModalOpen(true)}
+            worldMapLocked={worldMapLocked}
+            onWorldMap={() => onWorldMap?.()}
+            onWorldMapLocked={() => setDialogueEvent({
+              speakerName: '',
+              text: "Complete ‘The Last Watch’ to unlock the World Map.",
+            })}
+            user={user}
+            playerName={playerName}
+            onSignIn={onLoginToggle}
+            onSignOut={onSignOut}
+            onPlayerTap={onPlayerTap}
+            onFeedback={onFeedback}
+            onSettings={onBack}
           />
-        )}
+        }>
+          {!interiorActive && (
+            <HubMinimap
+              locationData={locationData}
+              objectives={minimapObjectives}
+              playerRef={playerPixelRef}
+              viewportRef={scrollRef}
+              wrapRef={minimapRef}
+            />
+          )}
+
+          {interiorActive && activeBuildingId && locationData.HUB_INTERIORS[activeBuildingId]?.playerDecor && (
+            <button
+              className="action-btn stage-chrome__control"
+              style={{ position: 'absolute', top: 16, right: 96, zIndex: 10 }}
+              onClick={() => handleNodeInteract('home-shelf-decorate', `${town}:${mainPlayerHouseId(activeBuildingId)}`)}
+            >
+              🛋 DECORATE
+            </button>
+          )}
+
+          {interiorActive && (
+            <button
+              className="action-btn stage-chrome__control"
+              style={{ position: 'absolute', top: 16, right: 16, zIndex: 10 }}
+              onClick={handleLeaveInterior}
+            >
+              LEAVE
+            </button>
+          )}
+        </StageChrome>
+
 
         {tabbedModalOpen && (
           <SatchelMenu
@@ -2542,25 +2571,7 @@ function hasOfferableQuest(giverId: string): boolean {
           }}
         />
 
-        {interiorActive && activeBuildingId && locationData.HUB_INTERIORS[activeBuildingId]?.playerDecor && (
-          <button
-            className="action-btn"
-            style={{ position: 'absolute', top: 16, right: 96, zIndex: 10 }}
-            onClick={() => handleNodeInteract('home-shelf-decorate', `${town}:${mainPlayerHouseId(activeBuildingId)}`)}
-          >
-            🛋 DECORATE
-          </button>
-        )}
 
-        {interiorActive && (
-          <button
-            className="action-btn"
-            style={{ position: 'absolute', top: 16, right: 16, zIndex: 10 }}
-            onClick={handleLeaveInterior}
-          >
-            LEAVE
-          </button>
-        )}
 
         {splashVisible && (
           <div

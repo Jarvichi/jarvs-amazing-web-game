@@ -1435,3 +1435,14 @@
   animation: blink 1.4s step-end infinite;
 }
 .treasure-modal__collect:hover { background: rgba(100, 120, 30, 0.6); }
+
+
+/* ── Hub town stage ───────────────────────────────────────────────────────
+   The town canvas runs the full height of the screen with the status bar
+   floating over it (see StageChrome), so it drops .nm-map's 16px top pad —
+   that gap existed to keep the campaign node map clear of a toolbar sitting
+   above it, and there is no longer a toolbar above this one. */
+
+.hub-stage {
+  padding-top: 0;
+}
