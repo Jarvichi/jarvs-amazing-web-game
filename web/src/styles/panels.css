@@ -147,7 +147,7 @@
 
 .overlay-header {
   width: 100%;
-  padding: var(--gap-4) 0 var(--gap-5);
+  padding: var(--gap-3) 0 var(--gap-4);
   border-bottom: 1px solid var(--border-edge-dark);
   /* Engraved rule: a dark line with a 1px light highlight riding just
      below it, instead of a flat 2px border. */
@@ -169,14 +169,34 @@
   color: var(--game-text-color-dim);
 }
 
-/* The PageHeader back button, framed like a small raised control rather
-   than a plain outline — same .action-btn class, no prop/markup changes. */
+/* Buttons living in a screen header are framed like small raised controls
+   rather than plain outlines. */
 .overlay-header .action-btn {
   background: var(--game-bg-raised);
   box-shadow:
     var(--elevation-flat),
     inset 0 1px 0 var(--panel-edge-light),
     inset 0 -1px 0 var(--panel-edge-dark);
+}
+
+/* The PageHeader back control (icon-only). A square button instead of the
+   old "← BACK" text button: that one spent ~95px of every screen header on
+   a word the arrow already says, which on a phone pushed subtitles and
+   right-slot status onto a second line. Width is the only thing that
+   shrinks — the coarse-pointer rule in buttons.css already holds the height
+   at 44px, and this repeats the width so a thumb still gets a square 44px
+   target. */
+.page-back-btn {
+  flex-shrink: 0;
+  width: 36px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (pointer: coarse) {
+  .page-back-btn { width: 44px; }
 }
 
 /* ─── Toast (#2173) ──────────────────────────────────────
