@@ -8,6 +8,7 @@ import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
 import { ToolbarLabel } from '../ui/Toolbar/ToolbarLabel'
 import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
 import { ToolbarAccountMenu } from '../ui/Toolbar/ToolbarAccountMenu'
+import { StageChrome } from '../ui/StageChrome'
 import { useHubClock } from '../../hooks/useHubClock'
 import { formatGameTime } from '../../game/hub/hubClock'
 import { loadCrystals, loadCollection } from '../../game/collection'
@@ -79,34 +80,6 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
 
   return (
     <OverlayScreen title="🗺 World Map">
-      <Toolbar>
-        <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>💎 {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
-        <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
-        <ToolbarLabel className="title-deck-info">{isGameNight ? '🌙' : '☀️'} {formatGameTime()}</ToolbarLabel>
-        {previewingAsPlayer && (
-          <ToolbarLabel className="title-deck-info">
-            <span title="Admin bypass is off — Settings > Town Access to turn it back on">
-              PREVIEWING AS PLAYER
-            </span>
-          </ToolbarLabel>
-        )}
-        <ToolbarButton icon="📜" title="Quests" onClick={() => setQuestsOpen(true)} />
-        <ToolbarButton icon="🏠" title="Back to Town" onClick={onBack} />
-        <ToolbarSpacer />
-
-        {/* No onSettings here: this bar's ⚙ was wired to onBack, duplicating
-            the 🏠 Back to Town button two slots to its left under a gear icon.
-            The shared menu simply omits the row rather than mislabelling it. */}
-        <ToolbarAccountMenu
-          user={user}
-          playerName={playerName}
-          onSignIn={onSignIn}
-          onSignOut={onSignOut}
-          onPlayerTap={onPlayerTap}
-          onFeedback={() => onFeedback?.()}
-        />
-      </Toolbar>
-
       {questsOpen && (
         <QuestsModal
           onClose={() => setQuestsOpen(false)}
@@ -116,7 +89,38 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
         />
       )}
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minHeight: 0 }}>
+      {/* position: relative so the bar can float over the map rather than
+          stacking above it, same as the hub town canvas. */}
+      <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minHeight: 0 }}>
+        <StageChrome bar={
+          <Toolbar>
+            <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>💎 {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
+            <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
+            <ToolbarLabel className="title-deck-info">{isGameNight ? '🌙' : '☀️'} {formatGameTime()}</ToolbarLabel>
+            {previewingAsPlayer && (
+              <ToolbarLabel className="title-deck-info">
+                <span title="Admin bypass is off — Settings > Town Access to turn it back on">
+                  PREVIEWING AS PLAYER
+                </span>
+              </ToolbarLabel>
+            )}
+            <ToolbarButton icon="📜" title="Quests" onClick={() => setQuestsOpen(true)} />
+            <ToolbarButton icon="🏠" title="Back to Town" onClick={onBack} />
+            <ToolbarSpacer />
+
+            {/* No onSettings here: this bar's ⚙ was wired to onBack, duplicating
+                the 🏠 Back to Town button two slots to its left under a gear icon.
+                The shared menu simply omits the row rather than mislabelling it. */}
+            <ToolbarAccountMenu
+              user={user}
+              playerName={playerName}
+              onSignIn={onSignIn}
+              onSignOut={onSignOut}
+              onPlayerTap={onPlayerTap}
+              onFeedback={() => onFeedback?.()}
+            />
+          </Toolbar>
+        } />
         <NodeMapRederer
           id="hub-world"
           worldMap={WORLD_MAP}
