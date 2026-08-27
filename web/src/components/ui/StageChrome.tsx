@@ -3,6 +3,10 @@ import React, { ReactNode } from 'react'
 interface Props {
   /** The toolbar, floated over the top of the stage. */
   bar: ReactNode
+  /** Set when the stage bleeds past .game-container's gutter, so the bar can
+   *  put that gutter back and stay aligned with chrome on other screens
+   *  rather than butting up against the screen edge. */
+  bleed?: boolean
   /** Overlays that must clear the bar — a minimap, corner buttons. They
    *  anchor to the area *below* the bar, so `top: 16px` on a child means
    *  16px under the bar rather than 16px under the top of the screen. */
@@ -23,9 +27,9 @@ interface Props {
  * It also means the layer covers the world, so it takes no pointer events;
  * only the bar and anything in `children` that opts back in do.
  */
-export function StageChrome({ bar, children }: Props) {
+export function StageChrome({ bar, bleed, children }: Props) {
   return (
-    <div className="stage-chrome">
+    <div className={`stage-chrome${bleed ? ' stage-chrome--bleed' : ''}`}>
       <div className="stage-chrome__bar">{bar}</div>
       <div className="stage-chrome__body">{children}</div>
     </div>

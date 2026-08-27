@@ -278,11 +278,16 @@
   /* The layer covers the world, so it must not swallow taps meant for it.
      Only the bar and any child that opts back in are interactive. */
   pointer-events: none;
-  /* The stage bleeds past .game-container's gutter; the chrome puts it back,
-     so the bar floats inset from the screen edges rather than butting up
-     against them. */
-  padding: var(--container-pad-y) var(--container-pad-x) 0;
+  /* A small float gap so the bar reads as sitting on the stage rather than
+     welded to its edge. */
+  padding: var(--gap-2) var(--gap-2) 0;
   box-sizing: border-box;
+}
+
+/* On a stage that bled past .game-container's gutter, put the gutter back so
+   the bar lines up with chrome on every other screen. */
+.stage-chrome--bleed {
+  padding: var(--container-pad-y) var(--container-pad-x) 0;
 }
 
 .stage-chrome__bar {

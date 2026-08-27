@@ -2477,7 +2477,7 @@ function hasOfferableQuest(giverId: string): boolean {
             above it, so the town runs the full height of the screen. The
             minimap and the interior buttons ride in the chrome layer with
             it, which keeps them clear of the bar whatever height it is. */}
-        <StageChrome bar={
+        <StageChrome bleed bar={
           <HubStatusBar
             townName={locationData.HUB_TOWN_NAME}
             festivalLabel={activeFestival ? `${activeFestival.icon} ${activeFestival.name}` : null}
