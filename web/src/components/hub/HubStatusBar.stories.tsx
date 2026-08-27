@@ -73,3 +73,14 @@ export const WrongSaveGlitch: Story = {
 export const NarrowViewport: Story = {
   globals: { viewport: { value: 'mobile1' } },
 }
+
+/** The account menu open on a phone — the state the bar redesign was about.
+ *  Rows share one style and carry labels; see ToolbarAccountMenu.stories for
+ *  the menu's own coverage. */
+export const AccountMenuOpen: Story = {
+  globals: { viewport: { value: 'mobile1' } },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(canvas.getByTitle('Account'))
+  },
+}

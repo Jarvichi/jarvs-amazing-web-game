@@ -426,6 +426,14 @@
   min-width: 168px;
 }
 
+/* A dropdown panel is a vertical menu, not a row of buttons: every item
+   starts its icon and label at the same left edge rather than centring
+   independently at its own width. */
+.toolbar .toolbar-dropdown-panel .filter-btn {
+  justify-content: flex-start;
+  text-align: left;
+}
+
 /* Menu rows. The panel used to stack three unrelated button styles — the
    title screen's gold-outlined auth button, a filter-btn and a green
    action-btn — at three different widths. One row style, one width, icon

@@ -38,8 +38,11 @@ export function ToolbarAccountMenu({
     const cls = inMenu ? 'filter-btn toolbar-menu-item' : undefined
     return (
       <>
+        {/* Always a toolbar button, never the title screen's green action-btn:
+            inline, the signed-out state used to shout SIGN IN in a colour and
+            shape nothing else on the bar shared. */}
         <LoginButton
-          className={cls}
+          className={cls ?? 'filter-btn'}
           onSignIn={() => onSignIn?.()}
           onSignOut={() => onSignOut?.()}
           onPlayerTap={onPlayerTap}
