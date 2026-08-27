@@ -7,7 +7,7 @@ import { Toolbar } from '../ui/Toolbar/Toolbar'
 import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
 import { ToolbarLabel } from '../ui/Toolbar/ToolbarLabel'
 import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
-import { ToolbarDropdown } from '../ui/Toolbar/ToolbarDropdown'
+import { ToolbarAccountMenu } from '../ui/Toolbar/ToolbarAccountMenu'
 import { useHubClock } from '../../hooks/useHubClock'
 import { formatGameTime } from '../../game/hub/hubClock'
 import { loadCrystals, loadCollection } from '../../game/collection'
@@ -16,7 +16,6 @@ import { QuestsModal } from './QuestsModal'
 import type { TownRegistry } from '../../game/hub/questBoard'
 import { unmarkPickedUp } from '../../game/hub/pickups'
 import { resetQuest } from '../../game/hub/quests'
-import { LoginButton } from '../ui/LoginButton'
 import type { User } from 'firebase/auth'
 import { NodeMapRederer, getWorldNodeStatus } from '../ui/NodeMap/NodeMapRederer'
 import { NodePeekModal } from '../ui/NodeMap/NodePeekModal'
@@ -95,28 +94,17 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
         <ToolbarButton icon="🏠" title="Back to Town" onClick={onBack} />
         <ToolbarSpacer />
 
-        <div className="toolbar-overflow-inline">
-          <LoginButton onSignIn={() => onSignIn?.()} onSignOut={() => onSignOut?.()} onPlayerTap={onPlayerTap} user={user} playerName={playerName} />
-          <ToolbarButton
-            className="title-auth-btn"
-            onClick={onFeedback}
-            title="Send feedback or report a bug"
-            icon={'🗣️'}
-          />
-          <ToolbarButton className="action-btn hub-hud__btn" onClick={onBack} icon={'⚙'}/>
-        </div>
-        <div className="toolbar-overflow-dropdown">
-          <ToolbarDropdown label="📊" align="right">
-            <LoginButton onSignIn={() => onSignIn?.()} onSignOut={() => onSignOut?.()} onPlayerTap={onPlayerTap} user={user} playerName={playerName} />
-            <ToolbarButton
-              className="title-auth-btn"
-              onClick={onFeedback}
-              title="Send feedback or report a bug"
-              icon={'🗣️'}
-            />
-            <ToolbarButton className="action-btn hub-hud__btn" onClick={onBack} icon={'⚙'}/>
-          </ToolbarDropdown>
-        </div>
+        {/* No onSettings here: this bar's ⚙ was wired to onBack, duplicating
+            the 🏠 Back to Town button two slots to its left under a gear icon.
+            The shared menu simply omits the row rather than mislabelling it. */}
+        <ToolbarAccountMenu
+          user={user}
+          playerName={playerName}
+          onSignIn={onSignIn}
+          onSignOut={onSignOut}
+          onPlayerTap={onPlayerTap}
+          onFeedback={() => onFeedback?.()}
+        />
       </Toolbar>
 
       {questsOpen && (

@@ -338,10 +338,12 @@
   background: rgba(4, 10, 4, 0.88);
   border: 1px solid #2a4a2a;
   border-radius: 4px;
-  padding: 0;
+  /* Padding + gap so buttons sit *on* the band as discrete controls rather
+     than stretching edge-to-edge and reading as inset panel segments. */
+  padding: var(--gap-2);
+  gap: var(--gap-2);
   flex-shrink: 0;
   flex-wrap: wrap;
-  row-gap: 0;
   container-type: inline-size;
   container-name: toolbar;
   /* Keep the toolbar (and its overflow dropdown) above positioned map overlays
@@ -349,36 +351,117 @@
   position: relative;
   z-index: 50;
 }
-.toolbar > .filter-btn {
-  align-self: stretch;
+/* A bare .filter-btn is a transparent box with a 1px outline. On the
+   toolbar's near-black band that outline all but vanishes, so the controls
+   read as loose emoji rather than as buttons. Inside a .toolbar they get a
+   raised surface, a real hit area and proper press feedback. */
+.toolbar .filter-btn {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
+  gap: var(--gap-2);
+  min-height: 30px;
+  min-width: 32px;
+  padding: 4px 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-edge);
+  border-radius: var(--radius-md);
+  color: var(--game-text-color);
+  box-shadow: var(--elevation-raised);
 }
+
+.toolbar .filter-btn:hover:not(:disabled) {
+  background: var(--surface-3);
+  border-color: var(--game-text-color-dim);
+  color: var(--game-text-color);
+}
+
+.toolbar .filter-btn:active:not(:disabled) {
+  transform: translateY(1px);
+  background: var(--surface-4);
+  box-shadow: none;
+}
+
+.toolbar .filter-btn--active {
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+  background: color-mix(in srgb, var(--accent-gold) 14%, var(--surface-2));
+}
+
+.toolbar .filter-btn:disabled,
+.toolbar .filter-btn--disabled {
+  box-shadow: none;
+}
+/* 520px, not the 460px this used to be: measured against the real bar, the
+   inline account row only stops wrapping the toolbar onto a second line at a
+   container width of about 520. Between 460 and 520 the query said "inline"
+   while the layout couldn't actually seat it, so the bar silently wrapped —
+   a dead zone that landed on tablet-ish widths and on the larger phones in
+   landscape. Buttons got wider in the bar redesign, which widened the gap. */
 .toolbar-overflow-inline  { display: contents; }
 .toolbar-overflow-dropdown { display: none; }
-@container toolbar (max-width: 460px) {
+@container toolbar (max-width: 520px) {
   .toolbar-overflow-inline  { display: none; }
   .toolbar-overflow-dropdown { display: contents; }
 }
 .toolbar-dropdown {
   position: relative;
-  align-self: stretch;
   display: flex;
+}
+
+/* The caret is the only thing distinguishing the trigger from a plain
+   toolbar button, so keep it dim and small rather than the same weight as
+   the icon it follows. */
+.toolbar-dropdown__caret {
+  font-size: 0.6em;
+  opacity: 0.7;
 }
 .toolbar-dropdown-panel {
   position: absolute;
   top: calc(100% + 4px);
   z-index: 20;
-  background: var(--game-bg-raised);
-  border: 1px solid var(--game-border);
-  border-radius: 3px;
+  background: var(--surface-1);
+  border: 1px solid var(--border-edge);
+  border-radius: var(--radius-md);
+  box-shadow: var(--elevation-overlay);
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  padding: 4px;
-  min-width: max-content;
+  gap: var(--gap-1);
+  padding: var(--gap-2);
+  min-width: 168px;
+}
+
+/* A dropdown panel is a vertical menu, not a row of buttons: every item
+   starts its icon and label at the same left edge rather than centring
+   independently at its own width. */
+.toolbar .toolbar-dropdown-panel .filter-btn {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+/* Menu rows. The panel used to stack three unrelated button styles — the
+   title screen's gold-outlined auth button, a filter-btn and a green
+   action-btn — at three different widths. One row style, one width, icon
+   column aligned, label left-aligned. */
+.toolbar .toolbar-dropdown-panel .toolbar-menu-item {
+  width: 100%;
+  justify-content: flex-start;
+  text-align: left;
+  gap: var(--gap-4);
+  padding: 6px 10px;
+  min-height: 34px;
+  font-size: var(--font-xs);
+  letter-spacing: 0.04em;
+  opacity: 1;
+}
+
+/* Fixed-width icon column keeps every label starting at the same x, whatever
+   the glyph's natural width. */
+.toolbar .toolbar-dropdown-panel .toolbar-menu-item .filter-btn-icon {
+  width: 18px;
+  text-align: center;
+  flex-shrink: 0;
 }
 .toolbar-dropdown-panel--left  { left: 0; }
 .toolbar-dropdown-panel--right { right: 0; }

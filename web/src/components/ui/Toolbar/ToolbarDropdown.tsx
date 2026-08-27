@@ -8,9 +8,12 @@ export interface ToolbarDropdownProps {
   disabled?: boolean;
   children: ReactNode;
   align?: 'left' | 'right';
+  /** Tooltip + accessible name for the trigger. Icon-only triggers have no
+   *  text of their own, so without this they announce as just "▾". */
+  title?: string;
 }
 
-export function ToolbarDropdown({ label, disabled, children, align = 'right' }: ToolbarDropdownProps) {
+export function ToolbarDropdown({ label, disabled, children, align = 'right', title }: ToolbarDropdownProps) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -26,11 +29,16 @@ export function ToolbarDropdown({ label, disabled, children, align = 'right' }: 
   return (
     <div className="toolbar-dropdown" ref={ref}>
       <button
-        className={`filter-btn${open ? ' filter-btn--active' : ''} u-min-w-32`}
+        className={`filter-btn${open ? ' filter-btn--active' : ''}`}
         onClick={() => setOpen(o => !o)}
         disabled={disabled}
+        title={title}
+        aria-label={title}
+        aria-haspopup="menu"
+        aria-expanded={open}
       >
-        {label} ▾
+        {label}
+        <span className="toolbar-dropdown__caret" aria-hidden="true">▾</span>
       </button>
       {open && (
         <div className={`toolbar-dropdown-panel toolbar-dropdown-panel--${align}`} onClick={() => setOpen(false)}>

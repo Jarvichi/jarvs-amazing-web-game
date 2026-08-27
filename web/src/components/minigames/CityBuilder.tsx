@@ -1751,7 +1751,7 @@ export function CityBuilder({ onBack }: Props) {
       )}
       <div className="toolbar-overflow-inline">{overflowToolbarButtons}</div>
       <ToolbarSpacer />
-      <ToolbarDropdown>
+      <ToolbarDropdown label="⋯" title="More">
         <div className="toolbar-overflow-dropdown">{overflowToolbarButtons}</div>
         <ToolbarButton onClick={() => setScreen('upgrade')} title="Upgrade buildings" label="UPGRADES" icon="★" />
         <ToolbarButton onClick={() => setScreen('chronicle')} title="View city history" label="HISTORY" icon="📜" />

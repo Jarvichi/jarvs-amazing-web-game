@@ -15,22 +15,16 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Clear: Story = {
-  args: { areaName: 'The Courtyard', weather: 'clear' },
+export const Named: Story = {
+  args: { areaName: 'The Courtyard' },
 }
 
-export const Rain: Story = {
-  args: { areaName: "The Fisherman's Dock", weather: 'rain' },
+/** Long names still sit flush to the canvas's right edge. */
+export const LongName: Story = {
+  args: { areaName: "The Fisherman's Dock" },
 }
 
-export const Snow: Story = {
-  args: { areaName: 'Frostgate Market', weather: 'snow' },
-}
-
-export const Fog: Story = {
-  args: { areaName: 'The Old Quarry', weather: 'fog' },
-}
-
+/** Between areas the label fades out rather than popping. */
 export const Hidden: Story = {
-  args: { areaName: null, weather: 'clear' },
+  args: { areaName: null },
 }

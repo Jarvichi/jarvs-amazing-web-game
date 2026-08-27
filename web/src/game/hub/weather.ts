@@ -6,6 +6,18 @@ export type WeatherType = 'clear' | 'rain' | 'snow' | 'fog'
 
 export const WEATHER_TYPES: WeatherType[] = ['clear', 'rain', 'snow', 'fog']
 
+/**
+ * How each weather reads in the status bar. 'clear' is deliberately absent:
+ * its natural glyph is the sun, which already sits beside the clock as the
+ * day/night indicator, and two suns in one readout say nothing twice. Clear
+ * weather is the default, so showing nothing is the honest rendering.
+ */
+export const WEATHER_READOUT: Partial<Record<WeatherType, { glyph: string; label: string }>> = {
+  rain: { glyph: '🌧️', label: 'Rain' },
+  snow: { glyph: '❄️',  label: 'Snow' },
+  fog:  { glyph: '🌫️', label: 'Fog'  },
+}
+
 export type Season = 'spring' | 'summer' | 'autumn' | 'winter'
 
 /**

@@ -722,6 +722,50 @@
   white-space: nowrap;
 }
 
+/* Readouts, not controls. Recessed (inset shadow, darker than the bar) so
+   they read as a display panel — the deliberate opposite of the raised,
+   rounded buttons beside them. */
+.hub-status-bar__stats {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-5);
+  padding: 4px 10px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-edge-dark);
+  border-radius: var(--radius-md);
+  box-shadow: var(--elevation-flat);
+}
+
+.hub-status-bar__stat {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-3);
+  /* Tabular figures — the clock ticks and the crystal count changes, and a
+     proportional font makes the whole bar twitch when they do. */
+  font-family: var(--font-mono);
+  font-size: var(--font-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--game-text-color-dim);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* Below the toolbar's overflow breakpoint the weather word is what tips the
+   bar onto a second row, so it drops and the glyph carries the meaning alone
+   — next to actual rain or snow falling on the canvas, it reads fine. Same
+   520px threshold as the account overflow above, deliberately: both are
+   "the bar is out of room" measured on the same container. */
+@container toolbar (max-width: 520px) {
+  .hub-status-bar__stat-label {
+    display: none;
+  }
+  /* Tighter too — every pixel here is one the buttons don't have to wrap for. */
+  .hub-status-bar__stats {
+    gap: var(--gap-3);
+    padding: 4px 6px;
+  }
+}
+
 /* Still tappable — the lock explains why on tap rather than doing nothing —
    so this is a lighter dim than .filter-btn--disabled, which is inert. */
 .hub-status-bar__map-btn--locked {
@@ -1203,15 +1247,6 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 2px;
-}
-
-.hub-status-cluster__weather {
-  align-self: flex-end;
-  font-size: var(--font-sm);
-  background: rgba(0, 0, 0, 0.35);
-  border-radius: var(--radius-sm);
-  padding: 2px 6px;
-  line-height: 1;
 }
 
 .hub-status-cluster__area {
