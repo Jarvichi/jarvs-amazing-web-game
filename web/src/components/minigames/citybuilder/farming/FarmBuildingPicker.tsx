@@ -3,6 +3,7 @@ import { Card } from '../../../../game/types'
 import { getBuildingProduces, RESOURCE_ICONS, ResourceType, GOLD_SYMBOL, masteryOutputMultiplier, getCardMasteryLevel } from '../../../../game/cityBuilder'
 import { CoreFarmBuilding, FARM_PLACE_COST } from '../../../../game/farmingSim'
 import { SpriteImg } from '../../../ui/SpriteImg'
+import { OverlayScreen } from '../../../ui/OverlayScreen'
 
 export interface Props {
   availableCards:    Card[]
@@ -46,11 +47,11 @@ export function FarmBuildingPicker({ availableCards, coreFarmBuildings, gold, on
   const hasResults = filteredCards.length > 0 || filteredCore.length > 0
 
   return (
-    <div className="city-screen u-relative u-col u-gap-2">
-      <div className="overlay-header u-flex u-items-c u-gap-6">
-        <button className="action-btn" onClick={onBack}>← BACK</button>
-        <div className="overlay-title">🌾 FARM BUILDINGS</div>
-      </div>
+    <OverlayScreen
+      title="🌾 FARM BUILDINGS"
+      onBack={onBack}
+      className="city-screen u-relative u-col u-gap-2"
+    >
       <div className="city-subscreen-scroll">
         <input
           className="city-search"
@@ -125,6 +126,6 @@ export function FarmBuildingPicker({ availableCards, coreFarmBuildings, gold, on
           </>
         )}
       </div>
-    </div>
+    </OverlayScreen>
   )
 }

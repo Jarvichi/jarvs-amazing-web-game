@@ -6,6 +6,7 @@ import {
   masteryOutputMultiplier, getCardMasteryLevel,
   CoreBuilding, CORE_BUILDINGS, canAffordCoreBuild,
 } from '../../../game/cityBuilder'
+import { OverlayScreen } from '../../ui/OverlayScreen'
 import { CollectionEntry, getMasteryXp, masteryLevel } from '../../../game/collection'
 import { Card, UnitTemplate } from '../../../game/types'
 import { SpriteImg } from '../../ui/SpriteImg'
@@ -65,11 +66,11 @@ export function CardPicker({
   const nothingToShow = filteredCore.length === 0 && groups.length === 0
 
   return (
-    <div className="city-screen u-relative u-col u-gap-2">
-      <div className="overlay-header u-flex u-items-c u-gap-6">
-        <button className="action-btn" onClick={onBack}>← BACK</button>
-        <div className="overlay-title">PLACE A BUILDING</div>
-      </div>
+    <OverlayScreen
+      title="PLACE A BUILDING"
+      onBack={onBack}
+      className="city-screen u-relative u-col u-gap-2"
+    >
       <div className="city-subscreen-scroll">
         <input
           className="city-search"
@@ -213,6 +214,6 @@ export function CardPicker({
           </>
         )}
       </div>
-    </div>
+    </OverlayScreen>
   )
 }

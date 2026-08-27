@@ -3,6 +3,7 @@ import { CityState, getBuildingProduces, GOLD_SYMBOL, levelUpCost } from '../../
 import { CollectionEntry, getMasteryXp, masteryLevel } from '../../../game/collection'
 import { Card } from '../../../game/types'
 import { SpriteImg } from '../../ui/SpriteImg'
+import { OverlayScreen } from '../../ui/OverlayScreen'
 
 export interface Props {
   levellable:      Card[]
@@ -48,11 +49,11 @@ export function BuildingUpgradeList({
   ].filter(g => g.cards.length > 0)
 
   return (
-    <div className="city-screen u-relative u-col u-gap-2">
-      <div className="overlay-header u-flex u-items-c u-gap-6">
-        <button className="action-btn" onClick={onBack}>← BACK</button>
-        <div className="overlay-title">UPGRADE BUILDINGS</div>
-      </div>
+    <OverlayScreen
+      title="UPGRADE BUILDINGS"
+      onBack={onBack}
+      className="city-screen u-relative u-col u-gap-2"
+    >
       <div className="city-subscreen-scroll">
         <div className="city-gold-display" style={{ textAlign: 'center', padding: '4px' }}>
           {GOLD_SYMBOL} {city.gold.toLocaleString()} gold
@@ -98,6 +99,6 @@ export function BuildingUpgradeList({
           ))
         )}
       </div>
-    </div>
+    </OverlayScreen>
   )
 }

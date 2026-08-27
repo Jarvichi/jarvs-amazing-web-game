@@ -4,6 +4,7 @@ import { getMasteryXp, masteryProgress, loadCollection } from '../../../game/col
 import { Card } from '../../../game/types'
 import { MasteryBar } from '../../ui/MasteryBar'
 import { SpriteImg } from '../../ui/SpriteImg'
+import { OverlayScreen } from '../../ui/OverlayScreen'
 
 export interface Props {
   levelCard:  string
@@ -19,11 +20,11 @@ export function LevelUpDetail({ levelCard, card, city, onBack, onLevelUp }: Prop
   const cost             = levelUpCost(mLvl, levelCard)
 
   return (
-    <div className="city-screen u-relative u-col u-gap-2">
-      <div className="overlay-header u-flex u-items-c u-gap-6">
-        <button className="action-btn" onClick={onBack}>← BACK</button>
-        <div className="overlay-title">LEVEL UP CARD</div>
-      </div>
+    <OverlayScreen
+      title="LEVEL UP CARD"
+      onBack={onBack}
+      className="city-screen u-relative u-col u-gap-2"
+    >
       <div className="city-level-detail u-col u-items-c u-gap-5">
         {card && <SpriteImg name={card.name} className="city-level-sprite" />}
         <div className="city-level-name">{levelCard}</div>
@@ -55,6 +56,6 @@ export function LevelUpDetail({ levelCard, card, city, onBack, onLevelUp }: Prop
           {city.gold >= cost ? `LEVEL UP (${GOLD_SYMBOL} ${cost.toLocaleString()})` : `NEED ${GOLD_SYMBOL} ${cost.toLocaleString()}`}
         </button>
       </div>
-    </div>
+    </OverlayScreen>
   )
 }

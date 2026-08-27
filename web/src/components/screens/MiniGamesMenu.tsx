@@ -350,11 +350,11 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
         {subScreen === 'prizes' && (
           <div className="prize-screen u-col">
-            <div className="overlay-header u-flex u-items-c u-gap-6">
-              <Button onClick={() => initialSubScreen === 'prizes' ? onBack() : setSubScreen('menu')}>← BACK</Button>
-              <span className="overlay-title">🎁 PRIZE SHOP</span>
-              <div className="ticket-balance">🎫 {tickets}</div>
-            </div>
+            <PageHeader
+              title="🎁 PRIZE SHOP"
+              onBack={() => initialSubScreen === 'prizes' ? onBack() : setSubScreen('menu')}
+              right={<div className="ticket-balance">🎫 {tickets}</div>}
+            />
 
             <div className="prize-list u-col u-gap-3">
               {TICKET_PRIZES.map(prize => {
@@ -384,10 +384,10 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
         {subScreen === 'leaderboard' && (
           <div className="lb-screen u-col">
-            <div className="overlay-header u-flex u-items-c u-gap-6">
-              <Button onClick={() => initialSubScreen === 'leaderboard' ? onBack() : setSubScreen('menu')}>← BACK</Button>
-              <span className="overlay-title">🏆 LEADERBOARDS</span>
-            </div>
+            <PageHeader
+              title="🏆 LEADERBOARDS"
+              onBack={() => initialSubScreen === 'leaderboard' ? onBack() : setSubScreen('menu')}
+            />
 
             <div className="lb-controls u-col u-gap-3">
               <div className="lb-game-tabs">

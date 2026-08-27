@@ -431,25 +431,6 @@
 .toolbar-zoom-tick:hover { color: #a0f0a0; }
 
 
-.city-header {
-  flex-shrink: 0;
-  flex-wrap: wrap;
-  row-gap: 4px;
-}
-.city-header-right {
-  margin-left: auto;
-  flex-wrap: nowrap;
-}
-
-.city-title {
-  flex: 1;
-  font-size: 16px;
-  font-weight: bold;
-  color: #60d060;
-  letter-spacing: 2px;
-  text-align: center;
-}
-
 .city-gold-display {
   font-size: 13px;
   color: var(--color-gold-dim);

@@ -1,4 +1,5 @@
 import React from 'react'
+import { OverlayScreen } from '../../ui/OverlayScreen'
 
 export interface Props {
   chronicle: string[]
@@ -7,12 +8,11 @@ export interface Props {
 
 export function ChroniclePanel({ chronicle, onBack }: Props) {
   return (
-    <div className="city-screen u-relative u-col u-gap-2">
-      <div className="city-header u-flex u-items-c u-gap-3">
-        <button className="action-btn" onClick={onBack}>← BACK</button>
-        <div className="city-title">📜 CITY CHRONICLE</div>
-      </div>
-
+    <OverlayScreen
+      title="📜 CITY CHRONICLE"
+      onBack={onBack}
+      className="city-screen u-relative u-col u-gap-2"
+    >
       <div className="city-chronicle-list">
         {chronicle.length === 0 ? (
           <div className="city-chronicle-empty">No events recorded yet. Build, expand, and defend your city!</div>
@@ -22,6 +22,6 @@ export function ChroniclePanel({ chronicle, onBack }: Props) {
           ))
         )}
       </div>
-    </div>
+    </OverlayScreen>
   )
 }

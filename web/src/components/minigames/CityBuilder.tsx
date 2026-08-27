@@ -1606,17 +1606,17 @@ export function CityBuilder({ onBack }: Props) {
     }
     if (pool.length === 0) {
       return (
-        <div className="city-screen u-relative u-col u-gap-2">
-          <div className="city-header u-flex u-items-c u-gap-3">
-            <button className="action-btn" onClick={() => setScreen('city')}>← BACK</button>
-            <div className="city-title">⚔ DEFEND</div>
-          </div>
+        <OverlayScreen
+          title="⚔ DEFEND"
+          onBack={() => setScreen('city')}
+          className="city-screen u-relative u-col u-gap-2"
+        >
           <div style={{ padding: 24, color: '#888', textAlign: 'center' }}>
             <p>No residents available to defend the city.</p>
             <p>Place some spawn buildings with happy residents first!</p>
             <button className="action-btn" onClick={() => setScreen('city')}>BACK TO CITY</button>
           </div>
-        </div>
+        </OverlayScreen>
       )
     }
     return (
