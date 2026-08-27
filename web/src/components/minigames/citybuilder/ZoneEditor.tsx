@@ -1,4 +1,5 @@
 import React from 'react'
+import { OverlayScreen } from '../../ui/OverlayScreen'
 import {
   CityState, DistrictType, DISTRICT_INFO,
   cycleDistrict, getRowDistrict, setRowDistrict,
@@ -22,11 +23,11 @@ export function ZoneEditor({ city, onSave, onBack }: Props) {
   }
 
   return (
-    <div className="city-screen u-relative u-col u-gap-2">
-      <div className="city-header u-flex u-items-c u-gap-3">
-        <button className="action-btn" onClick={onBack}>← BACK</button>
-        <div className="city-title">🗺 CITY DISTRICTS</div>
-      </div>
+    <OverlayScreen
+      title="🗺 CITY DISTRICTS"
+      onBack={onBack}
+      className="city-screen u-relative u-col u-gap-2"
+    >
 
       <div className="city-zones-hint">
         Designate each row as a district. Buildings in their matching zone get a production or income bonus.
@@ -74,6 +75,6 @@ export function ZoneEditor({ city, onSave, onBack }: Props) {
           })}
         </div>
       </div>
-    </div>
+    </OverlayScreen>
   )
 }

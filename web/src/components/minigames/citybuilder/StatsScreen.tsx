@@ -154,11 +154,7 @@ export function StatsScreen({ city, onBack }: Props) {
 
   if (allHistory.length === 0) {
     return (
-      <div className="city-screen u-col u-gap-2">
-        <div className="city-header u-flex u-items-c u-gap-3">
-          <button className="action-btn" onClick={onBack}>← BACK</button>
-          <div className="city-title">📊 CITY STATS</div>
-        </div>
+      <OverlayScreen title="📊 CITY STATS" onBack={onBack} className="city-screen u-col u-gap-2">
         <div className="city-stats-empty">
           <div className="city-stats-empty-icon">📊</div>
           <div>No data yet.</div>
@@ -167,7 +163,7 @@ export function StatsScreen({ city, onBack }: Props) {
             Check back after a little while!
           </div>
         </div>
-      </div>
+      </OverlayScreen>
     )
   }
 
