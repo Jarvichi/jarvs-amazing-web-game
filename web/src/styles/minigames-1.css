@@ -393,9 +393,15 @@
 .toolbar .filter-btn--disabled {
   box-shadow: none;
 }
+/* 520px, not the 460px this used to be: measured against the real bar, the
+   inline account row only stops wrapping the toolbar onto a second line at a
+   container width of about 520. Between 460 and 520 the query said "inline"
+   while the layout couldn't actually seat it, so the bar silently wrapped —
+   a dead zone that landed on tablet-ish widths and on the larger phones in
+   landscape. Buttons got wider in the bar redesign, which widened the gap. */
 .toolbar-overflow-inline  { display: contents; }
 .toolbar-overflow-dropdown { display: none; }
-@container toolbar (max-width: 460px) {
+@container toolbar (max-width: 520px) {
   .toolbar-overflow-inline  { display: none; }
   .toolbar-overflow-dropdown { display: contents; }
 }

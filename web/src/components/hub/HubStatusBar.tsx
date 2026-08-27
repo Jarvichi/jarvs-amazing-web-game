@@ -1,5 +1,6 @@
 import React from 'react'
 import type { User } from 'firebase/auth'
+import { WEATHER_READOUT, type WeatherType } from '../../game/hub/weather'
 import { Toolbar } from '../ui/Toolbar/Toolbar'
 import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
 import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
@@ -12,6 +13,9 @@ interface Props {
   crystals: number
   timeLabel: string
   isNight: boolean
+  /** The town's current weather. Anything but 'clear' shows as a readout;
+   *  see WEATHER_READOUT for why 'clear' shows nothing. */
+  weather: WeatherType
   /** Secret #9 (Wrong Save File) glitch — crystals only; the card-count
    *  version of this glitch went with the card count itself. */
   wrongSaveCrystals: number | null
@@ -40,11 +44,12 @@ interface Props {
  * needs the same merged-row layout later, that's the point to generalise it.
  */
 export function HubStatusBar({
-  townName, festivalLabel, crystals, timeLabel, isNight, wrongSaveCrystals,
+  townName, festivalLabel, crystals, timeLabel, isNight, weather, wrongSaveCrystals,
   onOpenMenu, worldMapLocked, onWorldMap, onWorldMapLocked,
   user, playerName, onSignIn, onSignOut, onPlayerTap, onFeedback, onSettings,
 }: Props) {
   const glitching = wrongSaveCrystals != null
+  const weatherReadout = WEATHER_READOUT[weather]
 
   return (
     <Toolbar>
@@ -65,6 +70,12 @@ export function HubStatusBar({
           <span aria-hidden="true">{isNight ? '🌙' : '☀️'}</span>
           {timeLabel}
         </span>
+        {weatherReadout && (
+          <span className="hub-status-bar__stat">
+            <span aria-hidden="true">{weatherReadout.glyph}</span>
+            <span className="hub-status-bar__stat-label">{weatherReadout.label}</span>
+          </span>
+        )}
       </div>
 
       <ToolbarButton icon="📋" title="Menu" onClick={onOpenMenu} />

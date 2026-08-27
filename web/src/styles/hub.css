@@ -750,6 +750,22 @@
   white-space: nowrap;
 }
 
+/* Below the toolbar's overflow breakpoint the weather word is what tips the
+   bar onto a second row, so it drops and the glyph carries the meaning alone
+   — next to actual rain or snow falling on the canvas, it reads fine. Same
+   520px threshold as the account overflow above, deliberately: both are
+   "the bar is out of room" measured on the same container. */
+@container toolbar (max-width: 520px) {
+  .hub-status-bar__stat-label {
+    display: none;
+  }
+  /* Tighter too — every pixel here is one the buttons don't have to wrap for. */
+  .hub-status-bar__stats {
+    gap: var(--gap-3);
+    padding: 4px 6px;
+  }
+}
+
 /* Still tappable — the lock explains why on tap rather than doing nothing —
    so this is a lighter dim than .filter-btn--disabled, which is inert. */
 .hub-status-bar__map-btn--locked {
@@ -1231,15 +1247,6 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 2px;
-}
-
-.hub-status-cluster__weather {
-  align-self: flex-end;
-  font-size: var(--font-sm);
-  background: rgba(0, 0, 0, 0.35);
-  border-radius: var(--radius-sm);
-  padding: 2px 6px;
-  line-height: 1;
 }
 
 .hub-status-cluster__area {

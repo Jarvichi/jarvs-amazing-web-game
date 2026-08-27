@@ -382,9 +382,9 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
 
   // Active festival (real-date driven, with QA override) — gates festival quests + HUD badge.
   const activeFestival = getActiveFestival()
-  // Current town weather — gates requireWeather dialogue choices and
-  // weatherOnly dig spots (e.g. rain barrels). Same resolution the canvas
-  // uses for the visual weather overlay (§12).
+  // Current town weather — shown in the status bar, and gates requireWeather
+  // dialogue choices and weatherOnly dig spots (e.g. rain barrels). Same
+  // resolution the canvas uses for the visual weather overlay (§12).
   const currentWeather = resolveWeather(locationData.WEATHER, locationData.ENVIRONMENT)
 
   // Quest NPC state: maps npcId → 'offer' | 'ready' | null, read imperatively by PixiJS ticker
@@ -2418,6 +2418,7 @@ function hasOfferableQuest(giverId: string): boolean {
         crystals={crystals}
         timeLabel={formatGameTime()}
         isNight={isGameNight}
+        weather={currentWeather}
         wrongSaveCrystals={wrongSave?.crystals ?? null}
         onOpenMenu={() => setTabbedModalOpen(true)}
         worldMapLocked={worldMapLocked}
@@ -2492,10 +2493,7 @@ function hasOfferableQuest(giverId: string): boolean {
             minimapRef={minimapRef}
           />
         </div>
-        <HubStatusCluster
-          areaName={currentArea}
-          weather={resolveWeather(locationData.WEATHER, locationData.ENVIRONMENT)}
-        />
+        <HubStatusCluster areaName={currentArea} />
 
         {!interiorActive && (
           <HubMinimap

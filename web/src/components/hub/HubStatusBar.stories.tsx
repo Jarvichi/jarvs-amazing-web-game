@@ -12,6 +12,7 @@ const meta = {
     crystals: 8924,
     timeLabel: '07:14',
     isNight: false,
+    weather: 'clear',
     wrongSaveCrystals: null,
     onOpenMenu: fn(),
     worldMapLocked: false,
@@ -34,6 +35,30 @@ export const Default: Story = {}
 
 export const Night: Story = {
   args: { isNight: true, timeLabel: '22:40' },
+}
+
+/** Weather joined the readout panel rather than sitting as a corner overlay
+ *  on the canvas — it gates dialogue choices and dig spots, so it belongs
+ *  with the other actionable readouts. */
+export const Raining: Story = {
+  args: { weather: 'rain' },
+}
+
+export const Snowing: Story = {
+  args: { weather: 'snow', isNight: true, timeLabel: '21:05' },
+}
+
+/** Clear weather shows nothing: its glyph would be a second sun beside the
+ *  day/night one, and clear is the default worth no words. */
+export const Foggy: Story = {
+  args: { weather: 'fog' },
+}
+
+/** The tightest case — a phone, mid-festival, with weather to show. Checks
+ *  the readout panel still fits on one row beside the buttons. */
+export const NarrowWithWeather: Story = {
+  globals: { viewport: { value: 'mobile1' } },
+  args: { weather: 'snow', festivalLabel: '🎪 Harvest Fair' },
 }
 
 /** The world map button stays visible and tappable while locked — it
