@@ -326,10 +326,20 @@
   padding: 2px 8px;
   cursor: pointer;
   opacity: 0.7;
-  transition: opacity 0.15s;
+  transition: opacity var(--dur-fast);
+  /* The glyph and the name are separate spans (so toolbars can align the
+     icon into a column) — inline-flex restores the space between them. */
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap-3);
 }
 .title-auth-btn:hover {
   opacity: 1;
+}
+/* :hover never fires on touch — without this a tap gave no acknowledgement. */
+.title-auth-btn:active {
+  opacity: 1;
+  transform: translateY(1px);
 }
 
 /* ─── Title Screen Idle Animation ────────────────────────
