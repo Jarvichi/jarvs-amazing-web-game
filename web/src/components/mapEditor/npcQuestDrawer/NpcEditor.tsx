@@ -287,6 +287,13 @@ function NpcFullEditor({ npc, opts, onUpdate, onPickLocation, mapId }: {
           Is ghost
         </label>
       </Field>
+      <Field label="Chef">
+        <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontSize: 11 }}>
+          <input type="checkbox" checked={!!npc.chef}
+            onChange={e => onUpdate({ chef: e.target.checked || undefined })} />
+          Offers "What can you cook with this?"
+        </label>
+      </Field>
       <Field label="Building (interior, optional)">
         <EntityRefPicker value={npc.building ?? ''} options={opts.interiors} placeholder="Search interiors…"
           onChange={v => onUpdate({ building: v || undefined })} />

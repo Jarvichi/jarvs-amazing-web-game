@@ -40,6 +40,9 @@
 | `web/src/game/hub/questItems.ts` | Held-quest-item id helpers (`quest:<questId>:<stepKey>`) — see §16 | `questItemId`, `isQuestItemId`, `questIdFromItemId` |
 | `web/src/game/hub/digs.ts` | Once-per-day dig-spot persistence (localStorage) — see §7 `dig` reaction, §16 | `canDigToday`, `recordDig` |
 | `web/src/components/hub/HubInventoryModal.tsx` | 🎒 Hub Inventory UI — held quest items, materials & tools, pet accessories — see §16 | `HubInventoryModal` |
+| `web/src/data/hub/chefRecipes.json` | Chef secret recipes + generic fallback dishes — see §7h | consumed by `chefCooking.ts` |
+| `web/src/game/hub/chefCooking.ts` | Recipe matching, ingredient consumption, discovered-recipe persistence (localStorage) — see §7h | `cook`, `cookableItems`, `matchSecretRecipe`, `resolveGenericDish`, `getDiscoveredRecipeIds`, `hasDiscoveredRecipe`, `MAX_COOK_INGREDIENTS` |
+| `web/src/components/hub/ChefCookingModal.tsx` | 🍳 "What can you cook with this?" ingredient picker — see §7h | `ChefCookingModal` |
 | `web/src/game/hub/talkCooldown.ts` | Once-per-day "Make conversation" persistence (localStorage) — see §7d | `canTalkToday`, `recordTalk` |
 | `web/src/game/hub/forages.ts` | Once-per-day forage-spot persistence (localStorage) — see §7 `forage` reaction | `canForageToday`, `recordForage` |
 | `web/src/data/roomSlots.json` | Purchasable player-house room-slot catalog (basement/first-floor/left/right/rear) — see §19 "Room Slots" | consumed by `houseRooms.ts` |
@@ -1168,6 +1171,89 @@ the one you're talking to — just skip the effect; nothing errors).
 
 ---
 
+## §7h — Chef Cooking & Secret Recipes
+
+Any NPC flagged `"chef": true` in `config.json` offers **🍳 What can you cook
+with this?** alongside Talk/Give (§7d). Picking it opens `ChefCookingModal` —
+a multi-select over everything `'material'` in the player's satchel. Hand over
+up to five items (one of each) and the chef turns them into a dish:
+
+- **Secret recipe** — the selection is *exactly* a recipe's ingredient set
+  (order irrelevant, no extras). Grants that recipe's specific hub-item plus
+  friendship, ally-track points, and a one-off crystal discovery bonus.
+- **Generic dish** — anything else. The first `genericDishes` entry with a
+  matching ingredient wins; the last entry (no `anyOfItems`) is the catch-all.
+  No friendship, no crystals.
+
+Ingredients are consumed all-or-nothing: if the player no longer holds every
+item, nothing is taken and nothing is cooked.
+
+### Schema — `web/src/data/hub/chefRecipes.json`
+
+```jsonc
+{
+  "maxIngredients": 5,             // cap on one pot; also the picker's cap
+  "secretRecipes": [
+    {
+      "id": "fruit-pie",           // stable id; persisted once discovered
+      "name": "Fruit Pie",
+      "dishItemId": "fruit-pie",   // hub-item id (hubItems.json) handed over
+      "ingredients": ["rainwater", "wild-berries", "chicken-feed"],  // exact set
+      "text": "…",                 // what the chef says (blank lines = paragraphs)
+      "discoveryCrystals": 25,     // paid the FIRST time only
+      "friendshipXp": 12,
+      "relationship": { "track": "ally", "points": 5 }
+    }
+  ],
+  "genericDishes": [
+    { "id": "fish-stew", "dishItemId": "fish-stew",
+      "anyOfItems": ["fish-small", "…"], "text": "…" },
+    { "id": "bowl-of-slop", "dishItemId": "bowl-of-slop", "text": "…" }  // catch-all, last
+  ]
+}
+```
+
+### Field reference
+
+| Field | Type | Notes |
+|---|---|---|
+| `maxIngredients` | number | How many items go in one pot. |
+| `secretRecipes[].ingredients` | string[] | Hub-item ids. Matched as a **set**: same items, any order, nothing extra. Must fit inside `maxIngredients`. |
+| `secretRecipes[].dishItemId` | string | Must exist in `hubItems.json`. |
+| `secretRecipes[].discoveryCrystals` | number? | One-off, tracked in `jarv_hub_chef_recipes_found`. |
+| `secretRecipes[].friendshipXp` / `relationship` | number? / `{track, points}`? | Granted on every successful cook, via the same rivalry-aware helpers as gifting (§7c). |
+| `genericDishes[].anyOfItems` | string[]? | First entry sharing an item with the selection wins. Omit on the **last** entry to make it the catch-all. |
+
+### Files
+
+| File | Owns |
+|---|---|
+| `web/src/data/hub/chefRecipes.json` | The recipes and fallback dishes. |
+| `web/src/game/hub/chefCooking.ts` | `cook`, `cookableItems`, `matchSecretRecipe`, `resolveGenericDish`, `getDiscoveredRecipeIds`, `hasDiscoveredRecipe`, `MAX_COOK_INGREDIENTS`. |
+| `web/src/components/hub/ChefCookingModal.tsx` | The picker (pure visual — the caller owns the inventory). |
+| `web/src/components/hub/HubWorld.tsx` | `cookForChef` — grants friendship/relationship, plays the sound, shows the result line. |
+
+### Clues
+
+A recipe nobody can guess is a recipe nobody cooks, so each one is gossiped
+about by an NPC somewhere else in the world as an ordinary conversation topic
+(§7g) naming its exact ingredients — currently Baker Tovi (Harrowfield),
+Hedge-Witch Morwen (Hollowmere), Beekeeper Mabe (Appleford), Smokehouse Master
+Findlay (Saltmere Port) and Old Pellan (Millhaven). `chefRecipeClues.test.ts`
+fails if a recipe loses its clue.
+
+### Authoring checklist: new secret recipe
+
+1. Add the dish to `web/src/data/hubItems.json` (`"category": "material"`).
+2. Add the recipe to `chefRecipes.json` — ingredients must all be catalog ids,
+   and the set must not collide with an existing recipe.
+3. Author a clue: a conversation topic (§7g) on some other NPC whose tree names
+   every ingredient, and reference it from that NPC's `conversationTopics`.
+4. Run `npm run test` — `chefCooking.test.ts` and `chefRecipeClues.test.ts`
+   check the ids, the set uniqueness and the clue; `npm run build` to typecheck.
+
+---
+
 ## §8 — Animals
 
 Living town ambience. Two kinds: **procedural** animals (spawned from town
@@ -1830,7 +1916,7 @@ or unedited keys are preserved).
 | mapW/H, townName, environment (config) | Town panel (no selection) |
 | avatarStart, exitTiles, weather, ambientNpcSprites, npcSpawnTiles, pondTiles, chickenZones (config) | Town panel → extra sections |
 | buildings, exteriorDecor, interiors, streets, areas, doors (config) | Canvas tools + Building/Interior/Street/Area inspectors |
-| npcs, animals, innRumours (config, per-NPC) | NPC drawer (NPCs tab) + canvas |
+| npcs, animals, innRumours, chef flag (config, per-NPC) | NPC drawer (NPCs tab) + canvas |
 | treasures (config) | "+ Add Treasure" + Treasure inspector; quest-items overlay |
 | interactables (config) | Interactables overlay toggle + Interactable inspector (incl. reactions) |
 | lockedDoors (config) | Building inspector → locked door |
