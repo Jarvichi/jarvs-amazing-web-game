@@ -179,3 +179,55 @@ describe('fightOutcome', () => {
     expect(fightOutcome({ ...createFightState(), elapsedMs: FIGHT_TIMEOUT_MS })).toBe('lost')
   })
 })
+
+// ── Winnability ───────────────────────────────────────────────────────────────
+// A fight nobody can win is indistinguishable from a broken one, and the tuning
+// is a handful of coupled constants — so pin the difficulty curve down by
+// actually playing it. `lagMs` is how often the player re-reads the screen and
+// changes their mind: 16ms is a machine, 350ms is someone half paying attention.
+// The controller is deliberately naive (hold whenever the fish is above the
+// band, never anticipate), so a real player should beat these numbers.
+
+function playFight(tierIndex: number, lagMs: number, seed: number): boolean {
+  let rngState = seed
+  const rng = () => { rngState = (rngState * 1103515245 + 12345) % 2147483648; return rngState / 2147483648 }
+  const cfg = createFightConfig(tierIndex, 6)
+  let state = createFightState()
+  let holding = false
+  let sinceDecision = 0
+  for (let i = 0; i < 3000; i++) {
+    sinceDecision += 16
+    if (sinceDecision >= lagMs) { sinceDecision = 0; holding = state.fishPos > state.bandPos }
+    state = stepFight(state, cfg, holding, 16, rng)
+    const outcome = fightOutcome(state)
+    if (outcome !== 'fighting') return outcome === 'landed'
+  }
+  return false
+}
+
+function landRate(tierIndex: number, lagMs: number): number {
+  let wins = 0
+  for (let seed = 1; seed <= 40; seed++) if (playFight(tierIndex, lagMs, seed * 7919)) wins++
+  return wins / 40
+}
+
+describe('fight winnability', () => {
+  it('is landable at every tier by a player who is paying attention', () => {
+    for (let tier = 0; tier < 6; tier++) expect(landRate(tier, 16)).toBeGreaterThan(0.6)
+  })
+
+  it('lets the smallest tier be landed even by a distracted player', () => {
+    expect(landRate(0, 350)).toBeGreaterThan(0.8)
+  })
+
+  it('makes the top tiers a real scrap — sloppy play loses them', () => {
+    expect(landRate(5, 350)).toBeLessThan(0.2)
+    expect(landRate(5, 16)).toBeGreaterThan(landRate(5, 200))
+  })
+
+  it('gets harder monotonically as the tiers get bigger', () => {
+    const rates = [0, 1, 2, 3, 4, 5].map(t => landRate(t, 200))
+    expect(rates[0]).toBeGreaterThanOrEqual(rates[5])
+    expect(rates[5]).toBeLessThan(rates[2])
+  })
+})

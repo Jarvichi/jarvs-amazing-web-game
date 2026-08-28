@@ -294,7 +294,7 @@
 .reel-gauge {
   display: grid;
   grid-template-columns: 78px 22px;
-  grid-template-rows: 150px auto;
+  grid-template-rows: 180px auto;
   gap: var(--gap-2) var(--gap-4);
   align-items: end;
   justify-content: center;
@@ -314,9 +314,9 @@
   position: absolute;
   left: 2px;
   right: 2px;
-  background: rgb(76 175 80 / 22%);
-  border-top: 1px solid rgb(76 175 80 / 80%);
-  border-bottom: 1px solid rgb(76 175 80 / 80%);
+  background: rgb(76 175 80 / 30%);
+  border-top: 2px solid rgb(120 230 130 / 90%);
+  border-bottom: 2px solid rgb(120 230 130 / 90%);
   border-radius: 3px;
   transition: bottom 0.04s linear;
 }

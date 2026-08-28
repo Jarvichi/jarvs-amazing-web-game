@@ -116,9 +116,9 @@ export type FightOutcome = 'fighting' | 'landed' | 'lost'
 /** Band physics — hold REEL to accelerate the band up, release and gravity
  *  drops it back down. Deliberately floaty so it takes anticipation, not
  *  reflexes. */
-export const BAND_LIFT      = 2.6   // units/s² while holding
-export const BAND_GRAVITY   = 1.5   // units/s² always
-export const BAND_DAMPING   = 3.2   // velocity decay per second
+export const BAND_LIFT      = 3.4   // units/s² while holding
+export const BAND_GRAVITY   = 1.7   // units/s² always
+export const BAND_DAMPING   = 4.0   // velocity decay per second
 export const FIGHT_START_GAUGE = 0.35
 export const FIGHT_TIMEOUT_MS  = 30000
 
@@ -127,11 +127,11 @@ export const FIGHT_TIMEOUT_MS  = 30000
 export function createFightConfig(tierIndex: number, tierCount: number): FightConfig {
   const d = tierCount > 1 ? clamp(tierIndex / (tierCount - 1), 0, 1) : 0
   return {
-    bandSize:       0.34 - 0.18 * d,
-    fishAccel:      1.8 + 3.4 * d,
-    fishRetargetMs: 900 - 480 * d,
-    gaugeGain:      0.55 - 0.18 * d,
-    gaugeDrain:     0.20 + 0.30 * d,
+    bandSize:       0.36 - 0.13 * d,
+    fishAccel:      1.8 + 2.2 * d,
+    fishRetargetMs: 950 - 380 * d,
+    gaugeGain:      0.55 - 0.12 * d,
+    gaugeDrain:     0.18 + 0.20 * d,
   }
 }
 
