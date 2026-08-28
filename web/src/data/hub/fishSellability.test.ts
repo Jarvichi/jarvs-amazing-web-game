@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { getHubWorldData } from './hubWorldFactory'
-import { TIER_HUB_ITEM, CAVE_TIER_HUB_ITEM, LAKE_TIER_HUB_ITEM, OCEAN_TIER_HUB_ITEM } from '../../components/minigames/Fishing'
+import { TIER_HUB_ITEM, CAVE_TIER_HUB_ITEM, LAKE_TIER_HUB_ITEM, OCEAN_TIER_HUB_ITEM } from '../../components/minigames/Fishing.data'
 
 // Regression guard: lake and cave fish tiers were catchable (Ravenwatch has
 // hub-fishing-lake/-cave spots) but had no buyer anywhere in the game — every
