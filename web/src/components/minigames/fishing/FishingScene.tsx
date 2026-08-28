@@ -27,6 +27,9 @@ interface SceneTheme {
   accent: string
   /** Small celestial body: the sun, the moon, or a cave glow. */
   orb: string
+  /** Where it hangs — moved off-centre where the horizon has something to
+   *  show (the ocean's lighthouse would otherwise sit inside the glow). */
+  orbX?: number
   /** Silhouette drawn along the far bank / horizon. */
   horizon: (w: number, y: number) => React.ReactNode
   /** Drawn above the sky band — a cave ceiling, gulls, drifting cloud. */
@@ -37,7 +40,8 @@ const W = 320
 const H = 210
 const WATER_Y = 84          // surface line
 const BED_Y = H - 4         // bottom of the water column
-const ROD_TIP = { x: 66, y: 30 }
+const ROD_TIP = { x: 74, y: 18 }
+const BANK_TOP = WATER_Y - 6   // the angler stands on this edge
 const CAST_MIN_X = 108      // float x at power 0
 const CAST_MAX_X = 296      // float x at power 100
 
@@ -83,17 +87,17 @@ const THEMES: Record<FishVariant, SceneTheme> = {
     canopy: (w) => (
       <g className="fishing-stalactites">
         {[8, 34, 58, 92, 126, 158, 196, 230, 268, 300].map((x, i) => {
-          const len = 10 + ((i * 7) % 17)
+          const len = 14 + ((i * 9) % 22)
           const half = 5 + (i % 3)
           return <path key={x} d={`M${x - half} 0 L${x + half} 0 L${x} ${len} Z`} />
         })}
-        <rect x={0} y={0} width={w} height={5} />
+        <rect x={0} y={0} width={w} height={7} />
       </g>
     ),
   },
   ocean: {
     skyTop: '#101a2c', skyBottom: '#5a3f4e', waterTop: '#1d4a70', waterDeep: '#040b16',
-    surface: '#7fd8ff', backdrop: '#0d1522', accent: '#9fe4ff', orb: '#ffc79a',
+    surface: '#7fd8ff', backdrop: '#0d1522', accent: '#9fe4ff', orb: '#ffc79a', orbX: 168,
     horizon: (w, y) => (
       <g>
         <rect x={0} y={y - 8} width={w} height={8} />
@@ -154,8 +158,8 @@ export function FishingScene({ variant, phase, castPower, fishPos = 0.5, catchIc
 
         {/* ── Sky / cavern air ── */}
         <rect x={0} y={0} width={W} height={WATER_Y} fill={`url(#${skyId})`} />
-        <circle cx={252} cy={30} r={30} fill={`url(#${glowId})`} />
-        <circle cx={252} cy={30} r={9} fill={t.orb} opacity={0.85} className="fishing-orb" />
+        <circle cx={t.orbX ?? 252} cy={30} r={30} fill={`url(#${glowId})`} />
+        <circle cx={t.orbX ?? 252} cy={30} r={9} fill={t.orb} opacity={0.85} className="fishing-orb" />
         {variant === 'cave' && (
           <g className="fishing-glowworms" fill={t.accent}>
             {[[36, 14], [72, 26], [118, 12], [156, 30], [198, 18], [286, 24]].map(([x, y], i) => (
@@ -171,8 +175,8 @@ export function FishingScene({ variant, phase, castPower, fishPos = 0.5, catchIc
 
         {/* Light shafts raking down through the water */}
         <g className="fishing-shafts" fill={t.surface}>
-          <path d={`M198 ${WATER_Y} L226 ${WATER_Y} L262 ${BED_Y} L226 ${BED_Y} Z`} opacity={0.06} />
-          <path d={`M148 ${WATER_Y} L162 ${WATER_Y} L186 ${BED_Y} L164 ${BED_Y} Z`} opacity={0.045} />
+          <path d={`M204 ${WATER_Y} L218 ${WATER_Y} L244 ${BED_Y} L226 ${BED_Y} Z`} opacity={0.05} />
+          <path d={`M150 ${WATER_Y} L158 ${WATER_Y} L176 ${BED_Y} L164 ${BED_Y} Z`} opacity={0.035} />
         </g>
 
         {/* Silhouettes cruising the deep — the reason to cast far */}
@@ -206,18 +210,19 @@ export function FishingScene({ variant, phase, castPower, fishPos = 0.5, catchIc
 
         {/* ── Bank, angler and rod ── */}
         <g className="fishing-bank" fill={t.backdrop}>
-          <path d={`M0 ${WATER_Y - 6} L58 ${WATER_Y - 6} L74 ${WATER_Y + 6} L84 ${BED_Y} L0 ${BED_Y} Z`} />
-          {variant === 'ocean' && <rect x={0} y={WATER_Y - 10} width={78} height={5} />}
+          <path d={`M0 ${BANK_TOP} L52 ${BANK_TOP} L64 ${WATER_Y + 8} L46 ${BED_Y} L0 ${BED_Y} Z`} />
+          {variant === 'ocean' && <rect x={0} y={BANK_TOP - 5} width={60} height={6} />}
         </g>
         <g className="fishing-angler">
-          {/* Silhouetted figure: head, body, planted legs */}
-          <circle cx={34} cy={44} r={7} />
-          <path d="M26 52 L44 52 L48 74 L24 74 Z" />
-          <path d="M28 74 L24 96 L31 96 L35 78 L39 96 L46 96 L44 74 Z" />
+          {/* Silhouetted figure, feet planted on the bank edge */}
+          <circle cx={30} cy={BANK_TOP - 51} r={7} />
+          <path d={`M22 ${BANK_TOP - 43} L40 ${BANK_TOP - 43} L44 ${BANK_TOP - 21} L20 ${BANK_TOP - 21} Z`} />
+          <path d={`M24 ${BANK_TOP - 21} L20 ${BANK_TOP} L27 ${BANK_TOP} L31 ${BANK_TOP - 18}
+                    L35 ${BANK_TOP} L42 ${BANK_TOP} L40 ${BANK_TOP - 21} Z`} />
           {/* Arms up to the rod butt */}
-          <path d="M42 55 L58 46 L60 51 L44 60 Z" />
+          <path d={`M38 ${BANK_TOP - 40} L54 ${BANK_TOP - 48} L57 ${BANK_TOP - 43} L40 ${BANK_TOP - 35} Z`} />
         </g>
-        <line className="fishing-rod" x1={46} y1={62} x2={ROD_TIP.x} y2={ROD_TIP.y} />
+        <line className="fishing-rod" x1={44} y1={BANK_TOP - 33} x2={ROD_TIP.x} y2={ROD_TIP.y} />
 
         {/* ── Line, float and hooked fish ── */}
         {inWater && (
@@ -234,11 +239,17 @@ export function FishingScene({ variant, phase, castPower, fishPos = 0.5, catchIc
 
             {/* The hooked fish, running the water column */}
             {phase === 'fight' && (
-              <g className="fishing-hooked" transform={`translate(${fx - 6} ${depthY(fishPos)})`} fill={t.accent}>
-                <ellipse cx={0} cy={0} rx={11} ry={4} />
-                <path d="M10 0 L18 -5 L18 5 Z" />
-                <circle cx={-6} cy={-1} r={1} fill={t.waterDeep} />
-              </g>
+              <>
+                {/* The submerged length of line, float down to the fish */}
+                <line className="fishing-line-path" x1={fx} y1={fy} x2={fx - 6} y2={depthY(fishPos)} />
+                <g transform={`translate(${fx - 6} ${depthY(fishPos)})`} fill={t.accent}>
+                  <g className="fishing-hooked">
+                    <ellipse cx={0} cy={0} rx={11} ry={4} />
+                    <path d="M10 0 L18 -5 L18 5 Z" />
+                    <circle cx={-6} cy={-1} r={1} fill={t.waterDeep} />
+                  </g>
+                </g>
+              </>
             )}
 
             {/* Landed: the catch breaks the surface in a burst of spray */}
@@ -258,11 +269,12 @@ export function FishingScene({ variant, phase, castPower, fishPos = 0.5, catchIc
 
             {/* Float: red-over-white, bobbing, yanked under on a bite */}
             {phase !== 'caught' && (
-              <g className={`fishing-float${taut ? ' fishing-float--under' : ''}`}
-                 transform={`translate(${fx} ${fy})`}>
-                <path d="M0 -7 L4 -1 L-4 -1 Z" fill="#ff4444" />
-                <circle cx={0} cy={2} r={4} fill="#f2f2f2" />
-                <path d="M-4 2 a4 4 0 0 1 8 0 Z" fill="#ff4444" />
+              <g transform={`translate(${fx} ${fy})`}>
+                <g className={`fishing-float${taut ? ' fishing-float--under' : ''}`}>
+                  <path d="M0 -7 L4 -1 L-4 -1 Z" fill="#ff4444" />
+                  <circle cx={0} cy={2} r={4} fill="#f2f2f2" />
+                  <path d="M-4 2 a4 4 0 0 1 8 0 Z" fill="#ff4444" />
+                </g>
               </g>
             )}
           </>

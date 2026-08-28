@@ -37,7 +37,7 @@ export function ReelGauge({ bandPos, bandSize, fishPos, gauge, holding }: Props)
       </div>
 
       <div className="reel-gauge-labels">
-        <span className="reel-gauge-label">LINE</span>
+        <span className="reel-gauge-label">THE RUN</span>
         <span className="reel-gauge-label">LANDED</span>
       </div>
     </div>

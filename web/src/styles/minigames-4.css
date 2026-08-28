@@ -92,7 +92,7 @@
   50%      { opacity: 1; }
 }
 
-.fishing-stalactites { fill: #0b1013; }
+.fishing-stalactites { fill: #1c262b; }
 
 /* Float: rides the swell, is dragged under on a bite. */
 .fishing-float { animation: fishing-float-bob 2.4s ease-in-out infinite; }
@@ -124,8 +124,8 @@
 .fishing-hooked { animation: fishing-thrash 0.3s ease-in-out infinite alternate; }
 
 @keyframes fishing-thrash {
-  from { transform-box: fill-box; rotate: -9deg; }
-  to   { transform-box: fill-box; rotate: 9deg; }
+  from { transform: rotate(-9deg); }
+  to   { transform: rotate(9deg); }
 }
 
 .fishing-splash circle {
@@ -293,9 +293,9 @@
 
 .reel-gauge {
   display: grid;
-  grid-template-columns: 44px 18px;
-  grid-template-rows: 120px auto;
-  gap: var(--gap-3);
+  grid-template-columns: 78px 22px;
+  grid-template-rows: 150px auto;
+  gap: var(--gap-2) var(--gap-4);
   align-items: end;
   justify-content: center;
 }
@@ -362,6 +362,7 @@
   grid-column: 1 / span 2;
   display: flex;
   justify-content: space-between;
+  gap: var(--gap-4);
 }
 
 .reel-gauge-label {
@@ -386,6 +387,8 @@
   0%   { transform: scale(0.9) translateY(8px); opacity: 0; }
   100% { transform: scale(1) translateY(0); opacity: 1; }
 }
+
+.catch-card .panel-corner { border-color: var(--catch-accent); }
 
 .catch-ribbon {
   font-family: var(--font-mono);

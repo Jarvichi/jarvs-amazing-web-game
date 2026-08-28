@@ -9,7 +9,8 @@ import { DEEP_CAST_POWER, castDistanceLabel } from '../Fishing.physics'
 interface Props {
   /** Live meter position while charging, or the locked power once cast. */
   power: number
-  /** Dim the marker and stop the pulse once the cast is away. */
+  /** Once the float is down, the meter stops being a control and becomes a
+   *  read-out of where the cast actually landed. */
   locked?: boolean
 }
 
@@ -17,7 +18,7 @@ export function CastMeter({ power, locked = false }: Props) {
   return (
     <div className={`cast-meter${locked ? ' cast-meter--locked' : ''}`}>
       <div className="cast-meter-head">
-        <span className="cast-meter-label">CAST POWER</span>
+        <span className="cast-meter-label">{locked ? 'CAST LANDED' : 'CAST POWER'}</span>
         <span className="cast-meter-distance">{castDistanceLabel(power)}</span>
       </div>
 
@@ -28,7 +29,7 @@ export function CastMeter({ power, locked = false }: Props) {
       </div>
 
       <div className="cast-meter-foot">
-        <span>MARGIN</span>
+        <span>◂ SHORE</span>
         <span className="cast-meter-deep-label">DEEP WATER ▸</span>
       </div>
     </div>

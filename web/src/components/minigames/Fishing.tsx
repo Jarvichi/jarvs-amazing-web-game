@@ -327,14 +327,23 @@ export function Fishing({ onDone, rewardMode = 'tickets', variant = 'river' }: P
 
       {/* ── Read-out: whatever the current beat needs ── */}
       <div className="fishing-readout">
-        {(phase === 'idle' || phase === 'charging') && (
-          <CastMeter power={phase === 'charging' ? meterPower : 0} locked={phase === 'idle'} />
+        {phase === 'idle' && (
+          <p className="fishing-prompt">
+            {canCast
+              ? 'Stop the power meter to set your cast — the further out, the bigger the fish.'
+              : 'Out of bait — no more casts.'}
+          </p>
         )}
 
-        {phase === 'flying' && <p className="fishing-prompt">The float arcs out over the water…</p>}
+        {phase === 'charging' && <CastMeter power={meterPower} />}
 
-        {phase === 'waiting' && (
-          <p className="fishing-prompt fishing-prompt--waiting">Waiting for a bite…</p>
+        {(phase === 'flying' || phase === 'waiting') && (
+          <>
+            <CastMeter power={castPower} locked />
+            <p className={`fishing-prompt${phase === 'waiting' ? ' fishing-prompt--waiting' : ''}`}>
+              {phase === 'flying' ? 'The float arcs out over the water…' : 'Waiting for a bite…'}
+            </p>
+          </>
         )}
 
         {phase === 'bite' && (
