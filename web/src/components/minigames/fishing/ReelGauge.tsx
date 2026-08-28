@@ -16,17 +16,20 @@ interface Props {
   gauge: number
   /** True while the fish is inside the band — the whole thing lights up. */
   holding: boolean
+  /** Opening beat: nothing can go wrong yet, so the gauge says what to do. */
+  grace?: boolean
 }
 
 function pct(v: number) {
   return `${Math.min(100, Math.max(0, v * 100))}%`
 }
 
-export function ReelGauge({ bandPos, bandSize, fishPos, gauge, holding }: Props) {
+export function ReelGauge({ bandPos, bandSize, fishPos, gauge, holding, grace = false }: Props) {
   const bandBottom = Math.min(1 - bandSize, Math.max(0, bandPos - bandSize / 2))
 
   return (
     <div className={`reel-gauge${holding ? ' reel-gauge--hooked' : ''}`}>
+      {grace && <div className="reel-cue">HOLD TO REEL — KEEP THE FISH IN THE BAND</div>}
       <div className="reel-run">
         <div className="reel-band" style={{ bottom: pct(bandBottom), height: pct(bandSize) }} />
         <div className="reel-fish" style={{ bottom: pct(fishPos) }}>🐟</div>

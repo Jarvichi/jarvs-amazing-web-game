@@ -15,6 +15,12 @@ type Story = StoryObj<typeof meta>;
 /** Fish inside the band — the gauge is filling. */
 export const Hooked: Story = {};
 
+/** The opening beat: the fish starts in the band, nothing can drain yet, and
+ *  the cue says what the controls are. */
+export const GraceBeat: Story = {
+  args: { bandPos: 0.35, fishPos: 0.35, gauge: 0.38, holding: true, grace: true },
+};
+
 /** Fish has run clear of the band; the gauge is draining. */
 export const FishEscaping: Story = {
   args: { bandPos: 0.2, fishPos: 0.85, gauge: 0.15, holding: false },

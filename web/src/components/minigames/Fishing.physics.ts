@@ -7,7 +7,8 @@
 //  2. The fight — once hooked, the fish darts up and down a vertical run while
 //     the player holds REEL to lift a band and keep the fish inside it. In-band
 //     time fills the landing gauge; out-of-band time drains it. Empty the gauge
-//     and the line goes slack and the fish is gone.
+//     and the line goes slack and the fish is gone. The fish starts inside the
+//     band and holds still for FIGHT_GRACE_MS so the fight opens readable.
 //
 // Kept separate from the component (mirroring HarbourRegatta.physics.ts) so the
 // weighting and fight math can be unit tested without rendering.
@@ -119,8 +120,13 @@ export type FightOutcome = 'fighting' | 'landed' | 'lost'
 export const BAND_LIFT      = 3.4   // units/s² while holding
 export const BAND_GRAVITY   = 1.7   // units/s² always
 export const BAND_DAMPING   = 4.0   // velocity decay per second
-export const FIGHT_START_GAUGE = 0.35
+export const FIGHT_START_GAUGE = 0.38
 export const FIGHT_TIMEOUT_MS  = 30000
+/** Opening beat of the fight: the fish holds station and the gauge cannot
+ *  drain. Without it the fight was decided before the player had read the
+ *  screen — the fish started outside the band, so the gauge drained from the
+ *  first frame and an idle player lost in 0.9-2.0s depending on tier. */
+export const FIGHT_GRACE_MS = 1100
 
 /** Fight difficulty from the fish's tier index (0 = smallest tier). A Tiddler
  *  is a formality; a Legendary is a genuine scrap on a narrow band. */
@@ -130,15 +136,18 @@ export function createFightConfig(tierIndex: number, tierCount: number): FightCo
     bandSize:       0.36 - 0.13 * d,
     fishAccel:      1.8 + 2.2 * d,
     fishRetargetMs: 950 - 380 * d,
-    gaugeGain:      0.55 - 0.12 * d,
-    gaugeDrain:     0.18 + 0.20 * d,
+    gaugeGain:      0.52 - 0.28 * d,
+    gaugeDrain:     0.15 + 0.17 * d,
   }
 }
 
+/** The fish starts *inside* the band, not outside it: the player opens the
+ *  fight already hooked up and loses ground by being slow, rather than
+ *  starting at a deficit they have to notice and claw back. */
 export function createFightState(): FightState {
   return {
-    bandPos: 0.25, bandVel: 0,
-    fishPos: 0.55, fishVel: 0, fishTarget: 0.55, sinceRetargetMs: 0,
+    bandPos: 0.35, bandVel: 0,
+    fishPos: 0.35, fishVel: 0, fishTarget: 0.35, sinceRetargetMs: 0,
     gauge: FIGHT_START_GAUGE, elapsedMs: 0,
   }
 }
@@ -162,10 +171,12 @@ export function stepFight(
   if (bandPos <= 0) { bandPos = 0; bandVel = Math.max(0, bandVel) }
   if (bandPos >= 1) { bandPos = 1; bandVel = Math.min(0, bandVel) }
 
-  // Fish — bolts toward a target it re-picks on a timer
+  // Fish — bolts toward a target it re-picks on a timer, but holds station
+  // through the opening grace beat so the fight starts readable.
+  const inGrace = state.elapsedMs < FIGHT_GRACE_MS
   let sinceRetargetMs = state.sinceRetargetMs + dtMs
   let fishTarget = state.fishTarget
-  if (sinceRetargetMs >= cfg.fishRetargetMs) {
+  if (!inGrace && sinceRetargetMs >= cfg.fishRetargetMs) {
     sinceRetargetMs = 0
     fishTarget = rng()
   }
@@ -179,7 +190,8 @@ export function stepFight(
     bandPos, bandVel, fishPos, fishVel, fishTarget, sinceRetargetMs,
     gauge: state.gauge, elapsedMs: state.elapsedMs + dtMs,
   }
-  const delta = fishInBand(next, cfg) ? cfg.gaugeGain : -cfg.gaugeDrain
+  // During the grace beat the gauge can rise but never fall.
+  const delta = fishInBand(next, cfg) ? cfg.gaugeGain : (inGrace ? 0 : -cfg.gaugeDrain)
   next.gauge = clamp(state.gauge + delta * dt, 0, 1)
   return next
 }
