@@ -41,7 +41,7 @@
 | `web/src/game/hub/digs.ts` | Once-per-day dig-spot persistence (localStorage) — see §7 `dig` reaction, §16 | `canDigToday`, `recordDig` |
 | `web/src/components/hub/HubInventoryModal.tsx` | 🎒 Hub Inventory UI — held quest items, materials & tools, pet accessories — see §16 | `HubInventoryModal` |
 | `web/src/data/hub/chefRecipes.json` | Chef secret recipes + generic fallback dishes — see §7h | consumed by `chefCooking.ts` |
-| `web/src/game/hub/chefCooking.ts` | Recipe matching, ingredient consumption, discovered-recipe persistence (localStorage) — see §7h | `cook`, `cookableItems`, `matchSecretRecipe`, `resolveGenericDish`, `getDiscoveredRecipeIds`, `hasDiscoveredRecipe`, `MAX_COOK_INGREDIENTS` |
+| `web/src/game/hub/chefCooking.ts` | Recipe matching, ingredient consumption, discovered-recipe persistence (localStorage) — see §7h | `cook`, `cookableItems`, `matchRecipe`, `resolveGenericDish`, `getDiscoveredRecipeIds`, `hasDiscoveredRecipe`, `MAX_COOK_INGREDIENTS` |
 | `web/src/components/hub/ChefCookingModal.tsx` | 🍳 "What can you cook with this?" ingredient picker — see §7h | `ChefCookingModal` |
 | `web/src/game/hub/talkCooldown.ts` | Once-per-day "Make conversation" persistence (localStorage) — see §7d | `canTalkToday`, `recordTalk` |
 | `web/src/data/hub/forageLoot.json` | Forage loot tables (`wild` / `wood` / `fruit`) — what a forage spot can yield, see §7 | consumed by `forageLoot.ts` |
@@ -1199,7 +1199,7 @@ item, nothing is taken and nothing is cooked.
 ```jsonc
 {
   "maxIngredients": 5,             // cap on one pot; also the picker's cap
-  "secretRecipes": [
+  "recipes": [
     {
       "id": "fruit-pie",           // stable id; persisted once discovered
       "name": "Fruit Pie",
@@ -1224,10 +1224,10 @@ item, nothing is taken and nothing is cooked.
 | Field | Type | Notes |
 |---|---|---|
 | `maxIngredients` | number | How many items go in one pot. |
-| `secretRecipes[].ingredients` | string[] | Hub-item ids. Matched as a **set**: same items, any order, nothing extra. Must fit inside `maxIngredients`. |
-| `secretRecipes[].dishItemId` | string | Must exist in `hubItems.json`. |
-| `secretRecipes[].discoveryCrystals` | number? | One-off, tracked in `jarv_hub_chef_recipes_found`. |
-| `secretRecipes[].friendshipXp` / `relationship` | number? / `{track, points}`? | Granted on every successful cook, via the same rivalry-aware helpers as gifting (§7c). |
+| `recipes[].ingredients` | string[] | Hub-item ids. Matched as a **set**: same items, any order, nothing extra. Must fit inside `maxIngredients`. |
+| `recipes[].dishItemId` | string | Must exist in `hubItems.json`. |
+| `recipes[].discoveryCrystals` | number? | One-off, tracked in `jarv_hub_chef_recipes_found`. |
+| `recipes[].friendshipXp` / `relationship` | number? / `{track, points}`? | Granted on every successful cook, via the same rivalry-aware helpers as gifting (§7c). |
 | `genericDishes[].anyOfItems` | string[]? | First entry sharing an item with the selection wins. Omit on the **last** entry to make it the catch-all. |
 
 ### Files
@@ -1235,7 +1235,7 @@ item, nothing is taken and nothing is cooked.
 | File | Owns |
 |---|---|
 | `web/src/data/hub/chefRecipes.json` | The recipes and fallback dishes. |
-| `web/src/game/hub/chefCooking.ts` | `cook`, `cookableItems`, `matchSecretRecipe`, `resolveGenericDish`, `getDiscoveredRecipeIds`, `hasDiscoveredRecipe`, `MAX_COOK_INGREDIENTS`. |
+| `web/src/game/hub/chefCooking.ts` | `cook`, `cookableItems`, `matchRecipe`, `resolveGenericDish`, `getDiscoveredRecipeIds`, `hasDiscoveredRecipe`, `MAX_COOK_INGREDIENTS`. |
 | `web/src/components/hub/ChefCookingModal.tsx` | The picker (pure visual — the caller owns the inventory). |
 | `web/src/components/hub/HubWorld.tsx` | `cookForChef` — grants friendship/relationship, plays the sound, shows the result line. |
 

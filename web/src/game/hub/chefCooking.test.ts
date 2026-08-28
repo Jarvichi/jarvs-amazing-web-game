@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import {
-  cook, cookableItems, matchSecretRecipe, resolveGenericDish, hasDiscoveredRecipe,
-  MAX_COOK_INGREDIENTS, SECRET_RECIPES, GENERIC_DISHES,
+  cook, cookableItems, matchRecipe, resolveGenericDish, hasDiscoveredRecipe,
+  MAX_COOK_INGREDIENTS, RECIPES, GENERIC_DISHES,
 } from './chefCooking'
 import { addHubItem, getHubItemCount, getHubItemCatalogEntry } from '../itemStore'
 import { loadCrystals, saveCrystals } from '../collection'
@@ -24,11 +24,11 @@ function stock(ids: string[], count = 1): void {
 
 describe('chefCooking recipe data', () => {
   it('ships exactly eight secret recipes', () => {
-    expect(SECRET_RECIPES).toHaveLength(8)
+    expect(RECIPES).toHaveLength(8)
   })
 
   it('every recipe/dish item id exists in the hub-item catalog', () => {
-    for (const recipe of SECRET_RECIPES) {
+    for (const recipe of RECIPES) {
       expect(getHubItemCatalogEntry(recipe.dishItemId), `${recipe.id} dish`).toBeTruthy()
       for (const id of recipe.ingredients) {
         expect(getHubItemCatalogEntry(id), `${recipe.id} ingredient ${id}`).toBeTruthy()
@@ -43,12 +43,12 @@ describe('chefCooking recipe data', () => {
   })
 
   it('no two secret recipes share the same ingredient set', () => {
-    const keys = SECRET_RECIPES.map(r => [...r.ingredients].sort().join('+'))
+    const keys = RECIPES.map(r => [...r.ingredients].sort().join('+'))
     expect(new Set(keys).size).toBe(keys.length)
   })
 
   it('every secret recipe fits inside the ingredient cap', () => {
-    for (const recipe of SECRET_RECIPES) {
+    for (const recipe of RECIPES) {
       expect(recipe.ingredients.length).toBeLessThanOrEqual(MAX_COOK_INGREDIENTS)
     }
   })
@@ -58,17 +58,17 @@ describe('chefCooking recipe data', () => {
   })
 })
 
-describe('matchSecretRecipe', () => {
+describe('matchRecipe', () => {
   it('matches regardless of the order items were picked', () => {
-    expect(matchSecretRecipe(['chicken-feed', 'rainwater', 'wild-berries'])?.id).toBe('fruit-pie')
+    expect(matchRecipe(['chicken-feed', 'rainwater', 'wild-berries'])?.id).toBe('fruit-pie')
   })
 
   it('does not match a subset of a recipe', () => {
-    expect(matchSecretRecipe(['rainwater', 'wild-berries'])).toBeUndefined()
+    expect(matchRecipe(['rainwater', 'wild-berries'])).toBeUndefined()
   })
 
   it('does not match a recipe with an extra item thrown in', () => {
-    expect(matchSecretRecipe([...FRUIT_PIE, 'feather'])).toBeUndefined()
+    expect(matchRecipe([...FRUIT_PIE, 'feather'])).toBeUndefined()
   })
 })
 

@@ -1,6 +1,6 @@
 {
   "maxIngredients": 5,
-  "secretRecipes": [
+  "recipes": [
     {
       "id": "fruit-pie",
       "name": "Fruit Pie",

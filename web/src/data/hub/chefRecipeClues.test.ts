@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { getHubWorldData } from './hubWorldFactory'
-import { SECRET_RECIPES } from '../../game/hub/chefCooking'
+import { RECIPES } from '../../game/hub/chefCooking'
 import { getHubItemCatalogEntry } from '../../game/itemStore'
 
 // A secret recipe (docs/hubworld.md §7h) is only "secret" — rather than
@@ -47,7 +47,7 @@ function mentionsAll(text: string[], names: string[]): boolean {
 }
 
 describe('every secret recipe has a clue somewhere in the world', () => {
-  for (const recipe of SECRET_RECIPES) {
+  for (const recipe of RECIPES) {
     it(`${recipe.id} is hinted at by an authored conversation topic`, () => {
       const names = recipe.ingredients.map(id => getHubItemCatalogEntry(id)?.name ?? id)
       const clue = TREE_TEXTS.some(text => mentionsAll(text, names))
