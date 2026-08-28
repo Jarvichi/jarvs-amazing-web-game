@@ -507,5 +507,61 @@
     "icon": "🪣",
     "desc": "Grey. Lukewarm. Technically food. The dog wouldn't touch it.",
     "category": "material"
+  },
+  {
+    "id": "apple",
+    "name": "Apple",
+    "icon": "🍎",
+    "desc": "Crisp, red and orchard-fresh. Half the county's cider starts here.",
+    "category": "material"
+  },
+  {
+    "id": "pear",
+    "name": "Pear",
+    "icon": "🍐",
+    "desc": "Heavy, sweet and bruised if you look at it wrong. Best eaten over a sink.",
+    "category": "material"
+  },
+  {
+    "id": "cherries",
+    "name": "Cherries",
+    "icon": "🍒",
+    "desc": "A tied bunch of dark cherries, still on the stem.",
+    "category": "material"
+  },
+  {
+    "id": "crab-apple",
+    "name": "Crab Apple",
+    "icon": "🍏",
+    "desc": "Small, hard and mouth-puckeringly sour. Cooks swear it's worth the effort.",
+    "category": "material"
+  },
+  {
+    "id": "orchard-crumble",
+    "name": "Orchard Crumble",
+    "icon": "🧁",
+    "desc": "Baked apple under a golden lid, still bubbling at the edges.",
+    "category": "material"
+  },
+  {
+    "id": "perry-tart",
+    "name": "Perry Tart",
+    "icon": "🥮",
+    "desc": "Spiced pear set in pastry, glazed to a shine.",
+    "category": "material"
+  },
+  {
+    "id": "cherry-preserve",
+    "name": "Cherry Preserve",
+    "icon": "🫙",
+    "desc": "A sealed jar of dark cherry preserve. Keeps for a year; never lasts a week.",
+    "category": "material"
+  },
+  {
+    "id": "stewed-fruit",
+    "name": "Stewed Fruit",
+    "icon": "🫕",
+    "desc": "Fruit softened in a pot with nothing clever done to it. Warm and honest.",
+    "category": "material"
   }
 ]

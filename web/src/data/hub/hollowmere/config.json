@@ -2062,7 +2062,12 @@
           "text": "A dead tree at the wood's edge — something might be nesting in its roots."
         },
         {
-          "type": "forage"
+          "type": "forage",
+          "lootTable": "fruit",
+          "hubItem": {
+            "itemId": "crab-apple"
+          },
+          "message": "A crab apple from the wood's edge, hard as a knuckle. 🍏"
         }
       ]
     },
@@ -2076,7 +2081,12 @@
           "text": "A dark, gnarled tree, worth a closer look."
         },
         {
-          "type": "forage"
+          "type": "forage",
+          "lootTable": "fruit",
+          "hubItem": {
+            "itemId": "crab-apple"
+          },
+          "message": "The gnarled tree drops a crab apple into your palm, unprompted. 🍏"
         }
       ]
     },
@@ -2090,7 +2100,12 @@
           "text": "One of the gnarled trees ringing the marsh — something might be tucked among its roots."
         },
         {
-          "type": "forage"
+          "type": "forage",
+          "lootTable": "fruit",
+          "hubItem": {
+            "itemId": "crab-apple"
+          },
+          "message": "Marsh-grown and mouth-puckering — a crab apple. 🍏"
         }
       ]
     },

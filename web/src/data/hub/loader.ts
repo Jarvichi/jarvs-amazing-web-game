@@ -391,10 +391,13 @@ export type HubInteractableReaction =
    *  'fog' always yields grave-moss. */
   | { type: 'dig'; requiresItemId?: string; nightOnly?: boolean; weatherOnly?: string; lootTable?: 'earth' | 'hollow' | 'rain' | 'fog' }
   /** Once-per-day forage spot — overlays an ordinary tree/bush/flower decor
-   *  tile. No tool/night/weather gating (unlike `dig`); rolls wild-berries,
-   *  crystals, or a rare four-leaf-clover collectible by default. `lootTable`
-   *  'wood' instead always yields a log — for log-pile style gather spots. */
-  | { type: 'forage'; lootTable?: 'wood' }
+   *  tile. No tool/night/weather gating (unlike `dig`). `lootTable` names a
+   *  table in forageLoot.json: 'wild' (the default hedgerow roll — berries,
+   *  crystals or a rare four-leaf clover), 'wood' (log-pile gather spots) or
+   *  'fruit' (trees). `hubItem.itemId` pins which item that table's item
+   *  entries hand over — how one tree always gives apples and another crab
+   *  apples — with `message` as its line. See docs/hubworld.md §7. */
+  | { type: 'forage'; lootTable?: 'wild' | 'wood' | 'fruit'; hubItem?: { itemId: string; count?: number }; message?: string }
   /** Consumes `requiresItemId` to move a flame decor entry owned by this same
    *  interactable from fromFlameType (default 'flicker') to toFlameType — e.g.
    *  feeding a log to a dying campfire to build it into a roaring blaze, or a

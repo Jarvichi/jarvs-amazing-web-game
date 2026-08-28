@@ -2177,7 +2177,12 @@
           "text": "One of the orchard's older trees — something might be tucked among its roots."
         },
         {
-          "type": "forage"
+          "type": "forage",
+          "lootTable": "fruit",
+          "hubItem": {
+            "itemId": "apple"
+          },
+          "message": "You twist a ripe apple off one of the orchard's oldest trees. 🍎"
         }
       ]
     },
@@ -2191,7 +2196,12 @@
           "text": "An autumn-gold tree at the orchard's edge, worth a closer look."
         },
         {
-          "type": "forage"
+          "type": "forage",
+          "lootTable": "fruit",
+          "hubItem": {
+            "itemId": "apple"
+          },
+          "message": "The autumn-gold tree gives up a heavy red apple. 🍎"
         }
       ]
     },

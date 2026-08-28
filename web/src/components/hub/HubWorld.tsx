@@ -58,6 +58,7 @@ import { getFlameType, setFlameType } from '../../game/hub/flames'
 import { recordGroupMember } from '../../game/hub/groupChallenges'
 import { shuffled } from '../../game/hub/shuffle'
 import { canForageToday, recordForage } from '../../game/hub/forages'
+import { forageTable, rollForage } from '../../game/hub/forageLoot'
 import { getReputationTier } from '../../data/hub/buildingUpgrades'
 import { resolveWeather } from '../../game/hub/weather'
 import { recordSellerSeen, recordBuyerSeen } from '../../game/hub/tradeJournal'
@@ -2333,58 +2334,40 @@ function hasOfferableQuest(giverId: string): boolean {
         // Once-per-day forage spot — overlays an ordinary tree/bush/flower
         // decor tile (docs/hubworld.md §7). Unlike dig, no tool/night/weather
         // gating: foraging is meant to be low-friction and always available.
+        // What comes out is the reaction's `lootTable` (forageLoot.json):
+        // 'wild' hedgerow by default, 'wood' for log piles, 'fruit' for trees
+        // — with `hubItem.itemId` pinning a spot's own fruit if it has one.
         if (!canForageToday(storeKey)) {
           setDialogueEvent({ speakerName: '', text: "You've already foraged here today. Let it grow back." })
           return
         }
-        if (r.lootTable === 'wood') {
-          const confirm: DialogueChoice = {
-            label: 'Gather the logs',
-            primary: true,
-            onClick: () => {
-              recordForage(storeKey)
-              addHubItem('log', 1)
-              emitSound('pickup')
-              refreshState()
-              setDialogueEvent({ speakerName: '', text: 'You pull a dry log free from the pile. 🪵', onClose: next })
-            },
-          }
-          setDialogueEvent({
-            speakerName: '',
-            text: 'A pile of cut logs, left to dry.',
-            choices: [confirm, { label: 'Leave it', isExit: true, onClick: () => setDialogueEvent(null) }],
-          })
-          return
-        }
+        const table = forageTable(r.lootTable)
         const confirm: DialogueChoice = {
-          label: 'Forage here',
+          label: table.confirmLabel,
           primary: true,
           onClick: () => {
             recordForage(storeKey)
-            const roll = Math.random()
-            let text: string
-            if (roll < 0.45) {
-              addHubItem('wild-berries', 1)
-              emitSound('pickup')
-              text = 'You come away with a handful of ripe wild berries. 🫐'
-            } else if (roll < 0.8) {
-              const amount = 5 + Math.floor(Math.random() * 11) // 5–15
-              saveCrystals(loadCrystals() + amount)
+            const outcome = rollForage(table, {
+              overrideItemId: r.hubItem?.itemId,
+              overrideText: r.message,
+            })
+            if (outcome.hubItemId) addHubItem(outcome.hubItemId, 1)
+            if (outcome.crystals != null) {
+              saveCrystals(loadCrystals() + outcome.crystals)
               onCrystalsChange?.(loadCrystals())
-              emitSound('treasure')
-              text = `Something small and bright is tucked in the leaves — ${amount} crystals. 💎`
-            } else {
-              addCollectible('four-leaf-clover', { name: 'Four-Leaf Clover', icon: '🍀', desc: 'A rare find among the ordinary three-leafed kind. Feels lucky.' })
-              emitSound('treasure')
-              text = 'Tucked in the greenery — a four-leaf clover! Added to your collection. 🍀'
             }
+            if (outcome.collectible) {
+              const { id, name, icon, desc } = outcome.collectible
+              addCollectible(id, { name, icon, desc })
+            }
+            emitSound(outcome.sound)
             refreshState()
-            setDialogueEvent({ speakerName: '', text, onClose: next })
+            setDialogueEvent({ speakerName: '', text: outcome.text, onClose: next })
           },
         }
         setDialogueEvent({
           speakerName: '',
-          text: 'A patch of wild growth, ripe for foraging.',
+          text: table.prompt,
           choices: [confirm, { label: 'Leave it', isExit: true, onClick: () => setDialogueEvent(null) }],
         })
         return

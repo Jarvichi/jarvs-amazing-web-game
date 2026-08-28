@@ -13625,7 +13625,8 @@
           "text": "Something might be growing at the foot of this old tree."
         },
         {
-          "type": "forage"
+          "type": "forage",
+          "lootTable": "fruit"
         }
       ],
       "hitRect": {
