@@ -10,9 +10,17 @@ import { getHubItemCatalogEntry } from '../../game/itemStore'
 // to people can actually learn the combination.
 const { locationRegistry: LOCATION_REGISTRY } = await getHubWorldData()
 
+/** Lower-cased words of a line, punctuation dropped — so "CHICKEN FEED." and
+ *  "chicken feed," both tokenize to ['chicken', 'feed']. Word matching is done
+ *  by comparing token runs rather than by building a regex out of an item
+ *  name, which keeps this free of any constructed-pattern surface. */
+function words(text: string): string[] {
+  return text.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean)
+}
+
 /** Every line a player can read out of a conversation-topic tree. */
-function topicTreeTexts(): string[] {
-  const texts: string[] = []
+function topicTreeTexts(): string[][] {
+  const texts: string[][] = []
   for (const { locationQuests } of Object.values(LOCATION_REGISTRY)) {
     for (const topic of Object.values(locationQuests.HUB_CONVERSATION_TOPICS)) {
       const tree = locationQuests.HUB_DIALOGUES[topic.treeId]
@@ -22,7 +30,7 @@ function topicTreeTexts(): string[] {
         lines.push(node.text)
         for (const choice of node.choices ?? []) lines.push(choice.label)
       }
-      texts.push(lines.join(' ').toLowerCase())
+      texts.push(words(lines.join(' ')))
     }
   }
   return texts
@@ -30,9 +38,12 @@ function topicTreeTexts(): string[] {
 
 const TREE_TEXTS = topicTreeTexts()
 
-function mentionsAll(text: string, names: string[]): boolean {
-  return names.every(name =>
-    new RegExp(`\\b${name.toLowerCase().replace(/[^a-z0-9 ]/g, '')}\\b`).test(text))
+/** True when every name appears in `text` as a whole word (or whole phrase). */
+function mentionsAll(text: string[], names: string[]): boolean {
+  return names.every(name => {
+    const needle = words(name)
+    return needle.length > 0 && text.some((_, i) => needle.every((word, j) => text[i + j] === word))
+  })
 }
 
 describe('every secret recipe has a clue somewhere in the world', () => {
