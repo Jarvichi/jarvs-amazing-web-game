@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { FISH_TIERS, CAVE_FISH_TIERS, LAKE_FISH_TIERS, OCEAN_FISH_TIERS, TIER_HUB_ITEM, CAVE_TIER_HUB_ITEM, LAKE_TIER_HUB_ITEM, OCEAN_TIER_HUB_ITEM, computeFishStars } from './Fishing'
+import { FISH_TIERS, CAVE_FISH_TIERS, LAKE_FISH_TIERS, OCEAN_FISH_TIERS, TIER_HUB_ITEM, CAVE_TIER_HUB_ITEM, LAKE_TIER_HUB_ITEM, OCEAN_TIER_HUB_ITEM, computeFishStars } from './Fishing.data'
 import HUB_ITEMS from '../../data/hubItems.json'
 
 const hubItemIds = new Set(HUB_ITEMS.map(i => i.id))

@@ -7,7 +7,7 @@
 import React, { useState } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { getCaughtFish, removeCaughtFish, type CaughtFish } from '../../game/hub/caughtFish'
-import { VARIANT_TIERS, VARIANT_TIER_HUB_ITEM, formatWeight, type FishVariant } from '../minigames/Fishing'
+import { VARIANT_TIERS, VARIANT_TIER_HUB_ITEM, formatWeight, type FishVariant } from '../minigames/Fishing.data'
 import { removeHubItem } from '../../game/itemStore'
 
 const TIER_BASE_PRICE = [3, 6, 12, 25, 45, 90]

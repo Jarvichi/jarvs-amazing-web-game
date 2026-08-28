@@ -10,7 +10,7 @@ import {
   hasSeenArea,
   hasCaughtFish,
 } from '../../game/hub/journal'
-import { FISH_TIERS, CAVE_FISH_TIERS, LAKE_FISH_TIERS, OCEAN_FISH_TIERS, type FishTier } from '../minigames/Fishing'
+import { FISH_TIERS, CAVE_FISH_TIERS, LAKE_FISH_TIERS, OCEAN_FISH_TIERS, type FishTier } from '../minigames/Fishing.data'
 
 const TRACK_ICON: Record<string, string> = { ally: '🤝', rival: '⚔️', romance: '💗' }
 
