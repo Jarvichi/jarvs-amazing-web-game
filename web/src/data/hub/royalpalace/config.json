@@ -2559,7 +2559,7 @@
         "The Queen wants roses, the King wants order, and the rabbits want my lettuces. Everyone wants something.",
         "If you've a good eye, there's a rare bloom or two I've lost track of out here."
       ],
-      "conversationTopics": ["royalpalace-royal-gardener-topic-auto-1", "royalpalace-royal-gardener-topic-auto-2", "royalpalace-royal-gardener-topic-auto-3"],
+      "conversationTopics": ["royalpalace-royal-gardener-topic-auto-1", "royalpalace-royal-gardener-topic-auto-2", "royalpalace-royal-gardener-topic-auto-3", "thom-topic-perry-tart"],
       "dialogueByActivity": {
         "work": [
           "Mind the beds! I only just got the begonias straightened out."

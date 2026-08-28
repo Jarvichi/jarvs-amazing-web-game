@@ -50,6 +50,36 @@
       "discoveryCrystals": 25,
       "friendshipXp": 12,
       "relationship": { "track": "ally", "points": 5 }
+    },
+    {
+      "id": "orchard-crumble",
+      "name": "Orchard Crumble",
+      "dishItemId": "orchard-crumble",
+      "ingredients": ["apple", "honey", "egg"],
+      "text": "Apple, honey, an egg for the binding. Nothing clever. Everyone tries to be clever with a crumble and everyone ruins it.\n\nIt comes out of the oven still bubbling at the edges, and he refuses to let you carry it until it stops.",
+      "discoveryCrystals": 25,
+      "friendshipXp": 12,
+      "relationship": { "track": "ally", "points": 5 }
+    },
+    {
+      "id": "perry-tart",
+      "name": "Perry Tart",
+      "dishItemId": "perry-tart",
+      "ingredients": ["pear", "spice-pouch", "rainwater"],
+      "text": "Pear wants spice and patience, and rainwater to keep the pastry honest. Most cooks reach for cream. Most cooks are cowards.\n\nThe tart comes out glazed like something in a shop window.",
+      "discoveryCrystals": 25,
+      "friendshipXp": 12,
+      "relationship": { "track": "ally", "points": 5 }
+    },
+    {
+      "id": "cherry-preserve",
+      "name": "Cherry Preserve",
+      "dishItemId": "cherry-preserve",
+      "ingredients": ["cherries", "honey", "rainwater"],
+      "text": "Cherries, honey, rainwater. No sugar \u2014 sugar bullies the fruit. This is the one my mother made, and I've never bettered it.\n\nHe seals the jar, holds it up to the light, and goes very quiet for a moment.",
+      "discoveryCrystals": 25,
+      "friendshipXp": 12,
+      "relationship": { "track": "ally", "points": 5 }
     }
   ],
   "genericDishes": [
@@ -64,6 +94,12 @@
         "smoked-herring"
       ],
       "text": "Fish. Fine. Fish I can work with.\n\nIt's a stew. It's a perfectly good stew. It is not, however, a secret."
+    },
+    {
+      "id": "stewed-fruit",
+      "dishItemId": "stewed-fruit",
+      "anyOfItems": ["apple", "pear", "cherries", "crab-apple"],
+      "text": "Fruit. Right. Into the pot it goes, and out it comes softer.\n\nStewed fruit. Warm, honest, and about as secret as a market stall."
     },
     {
       "id": "foragers-salad",

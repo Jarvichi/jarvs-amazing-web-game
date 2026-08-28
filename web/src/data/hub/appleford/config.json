@@ -1220,7 +1220,7 @@
         "Raiders hit the east rows last week. Took apples, baskets, and my best ladder.",
         "An orchard is patience you can eat. Remember that."
       ],
-      "conversationTopics": ["appleford-orchard-keeper-bess-topic-auto-1", "appleford-orchard-keeper-bess-topic-auto-2", "appleford-orchard-keeper-bess-topic-auto-3"],
+      "conversationTopics": ["appleford-orchard-keeper-bess-topic-auto-1", "appleford-orchard-keeper-bess-topic-auto-2", "appleford-orchard-keeper-bess-topic-auto-3", "bess-topic-orchard-crumble"],
       "dialogueByActivity": {
         "work": [
           "Mind the east rows. Every tree here has a name and I know them all."

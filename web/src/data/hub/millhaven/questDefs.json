@@ -873,6 +873,115 @@
   ],
   "dialogues": [
     {
+      "id": "tamsin-topic-cherry-preserve",
+      "npcId": "widow-tamsin",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Cherry preserve. My mother's recipe, and her mother's. I've not made a jar since Harl died — but I'll tell it to anyone who'll carry it on.",
+          "choices": [
+            {
+              "label": "I'd like to hear it.",
+              "next": "recipe"
+            },
+            {
+              "label": "Why stop making it?",
+              "next": "grief"
+            },
+            {
+              "label": "Preserve is just boiled fruit and sugar.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "grief": {
+          "text": "He ate it by the spoonful straight from the jar and thought I never noticed. Making it is easy. It's the noticing I can't do any more.",
+          "choices": [
+            {
+              "label": "Tell me the recipe. I'll make it.",
+              "next": "recipe"
+            },
+            {
+              "label": "I'm sorry, Tamsin.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 6
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "recipe": {
+          "text": "Cherries, honey, and rainwater. No sugar — sugar bullies the fruit, my mother said, and she was right about most things. Those three to a cook, nothing else in the pot.",
+          "choices": [
+            {
+              "label": "Cherries, honey, rainwater. I'll bring you a jar.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thank you for trusting me with it.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 6
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "Sugar. In my mother's preserve. Cherries, honey and rainwater, and not one grain of sugar — go and taste the difference before you tell me what preserve is.",
+          "choices": [
+            {
+              "label": "Cherries, honey, rainwater. Understood.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "pellan-topic-chowder",
       "npcId": "harbour-angler",
       "start": "start",
@@ -5848,6 +5957,12 @@
     }
   },
   "conversationTopics": [
+    {
+      "id": "tamsin-topic-cherry-preserve",
+      "npcId": "widow-tamsin",
+      "label": "🫙 Ask about the jars on her windowsill",
+      "treeId": "tamsin-topic-cherry-preserve"
+    },
     {
       "id": "pellan-topic-chowder",
       "npcId": "harbour-angler",

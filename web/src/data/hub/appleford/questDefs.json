@@ -1,6 +1,110 @@
 {
   "dialogues": [
     {
+      "id": "bess-topic-orchard-crumble",
+      "npcId": "orchard-keeper-bess",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Everyone wants my apples for cider. Cider! You can make cider out of a bad apple and a bad mood. A good apple deserves an oven.",
+          "choices": [
+            {
+              "label": "What should they go in, then?",
+              "next": "recipe"
+            },
+            {
+              "label": "Tom would disagree about the cider.",
+              "next": "tom"
+            },
+            {
+              "label": "An apple's an apple.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "tom": {
+          "text": "Tom's a good lad with a bad opinion. Even he admits it — there's a dish the cooks make that beats anything he's ever pressed, and it's three things.",
+          "choices": [
+            {
+              "label": "Three things being?",
+              "next": "recipe"
+            },
+            {
+              "label": "I'll not get between you two.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "recipe": {
+          "text": "An apple, honey, and one egg to bind it. That's the whole of it. Hand a cook those three and nothing else and you'll get an orchard crumble still bubbling at the edges.",
+          "choices": [
+            {
+              "label": "Apple, honey, egg. Thank you, Bess.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "No pastry? No flour?",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "An apple's an apple until it's a crumble, and then it's the best thing you'll eat all winter. Apple, honey, one egg. Go and find out.",
+          "choices": [
+            {
+              "label": "Apple, honey, egg. Noted.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Maybe I will.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "mabe-topic-honey-custard",
       "npcId": "beekeeper-mabe",
       "start": "start",
@@ -3475,6 +3579,12 @@
     }
   },
   "conversationTopics": [
+    {
+      "id": "bess-topic-orchard-crumble",
+      "npcId": "orchard-keeper-bess",
+      "label": "🧁 Ask what her apples are best for",
+      "treeId": "bess-topic-orchard-crumble"
+    },
     {
       "id": "mabe-topic-honey-custard",
       "npcId": "beekeeper-mabe",

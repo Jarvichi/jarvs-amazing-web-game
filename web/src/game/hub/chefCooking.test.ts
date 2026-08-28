@@ -23,8 +23,8 @@ function stock(ids: string[], count = 1): void {
 }
 
 describe('chefCooking recipe data', () => {
-  it('ships exactly five secret recipes', () => {
-    expect(SECRET_RECIPES).toHaveLength(5)
+  it('ships exactly eight secret recipes', () => {
+    expect(SECRET_RECIPES).toHaveLength(8)
   })
 
   it('every recipe/dish item id exists in the hub-item catalog', () => {
@@ -79,6 +79,11 @@ describe('resolveGenericDish', () => {
 
   it('picks the salad for foraged greens', () => {
     expect(resolveGenericDish(['wild-berries', 'pressed-flower']).dishItemId).toBe('foragers-salad')
+  })
+
+  it('stews orchard fruit rather than dropping it in the salad', () => {
+    expect(resolveGenericDish(['apple', 'pressed-flower']).dishItemId).toBe('stewed-fruit')
+    expect(resolveGenericDish(['crab-apple']).dishItemId).toBe('stewed-fruit')
   })
 
   it('falls back to slop when nothing is edible', () => {

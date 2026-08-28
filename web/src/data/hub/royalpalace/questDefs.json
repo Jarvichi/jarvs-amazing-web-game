@@ -873,6 +873,110 @@
   ],
   "dialogues": [
     {
+      "id": "thom-topic-perry-tart",
+      "npcId": "royal-gardener",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Forty pear trees and the palace eats maybe six pears a year. The rest go to the kitchens, and Bessie won't tell me what for. Won't. Tell. Me.",
+          "choices": [
+            {
+              "label": "Have you worked out what she makes?",
+              "next": "recipe"
+            },
+            {
+              "label": "Have you tried simply asking her?",
+              "next": "asking"
+            },
+            {
+              "label": "Perhaps it is none of your business.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "asking": {
+          "text": "Asked her twice. First time she laughed. Second time she gave me a slice and I forgot the question entirely, which I now recognise as a tactic.",
+          "choices": [
+            {
+              "label": "So what was in the slice?",
+              "next": "recipe"
+            },
+            {
+              "label": "Formidable woman.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "recipe": {
+          "text": "A pear, a pouch of spice, and rainwater — rainwater, in pastry, I ask you. Those three and nothing else. Perry tart, she calls it, and it comes out glazed like a shop window.",
+          "choices": [
+            {
+              "label": "Pear, spice pouch, rainwater. Got it.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Rainwater? In a tart?",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "They're my pears until they're through that kitchen door. Pear, spice pouch, rainwater — that's what becomes of them, and I'd like it on the record that I worked it out myself.",
+          "choices": [
+            {
+              "label": "Duly recorded, Thom.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "If you say so.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "penrose-chat",
       "npcId": "lady-penrose",
       "start": "greet",
@@ -5610,6 +5714,12 @@
     }
   },
   "conversationTopics": [
+    {
+      "id": "thom-topic-perry-tart",
+      "npcId": "royal-gardener",
+      "label": "🥮 Ask about the pears in the East Gardens",
+      "treeId": "thom-topic-perry-tart"
+    },
     {
       "id": "royalpalace-royal-steward-topic-auto-1",
       "npcId": "royal-steward",
