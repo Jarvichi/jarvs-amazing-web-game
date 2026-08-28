@@ -1213,7 +1213,7 @@
         "Hollowmere takes in what other towns turn away. Werewolves, ogres, tax dodgers.",
         "Don't touch the bottles. Some of them are potions. Some of them are relatives."
       ],
-      "conversationTopics": ["hollowmere-hedge-witch-morwen-topic-auto-1", "hollowmere-hedge-witch-morwen-topic-auto-2", "hollowmere-hedge-witch-morwen-topic-auto-3"],
+      "conversationTopics": ["hollowmere-hedge-witch-morwen-topic-auto-1", "hollowmere-hedge-witch-morwen-topic-auto-2", "hollowmere-hedge-witch-morwen-topic-auto-3", "morwen-topic-gloom-broth"],
       "building": "witch-hut",
       "questGive": "hollowmere-witch-brew",
       "questReceive": [

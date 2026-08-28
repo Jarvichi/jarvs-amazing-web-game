@@ -1,6 +1,110 @@
 {
   "dialogues": [
     {
+      "id": "baker-tovi-topic-fruit-pie",
+      "npcId": "baker-tovi",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "You've been through Ravenwatch, haven't you? Then you'll have heard about Mad Chef Grimble's fruit pie. I've thought about nothing else for a fortnight.",
+          "choices": [
+            {
+              "label": "What's so special about a pie?",
+              "next": "wonder"
+            },
+            {
+              "label": "What goes into it, exactly?",
+              "next": "recipe"
+            },
+            {
+              "label": "It's a pie, Tovi. Calm down.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "wonder": {
+          "text": "It comes out of the oven finished. No cooling, no trimming, no second attempt. Grimble says the crust 'decides for itself'. I've stopped asking him what that means.",
+          "choices": [
+            {
+              "label": "So what actually goes in it?",
+              "next": "recipe"
+            },
+            {
+              "label": "Thanks, Tovi.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "recipe": {
+          "text": "That's the maddening part. A scoop of rainwater, a handful of wild berries, and chicken feed. CHICKEN FEED. Hand a cook those three and nothing else, and out comes a fruit pie.",
+          "choices": [
+            {
+              "label": "Rainwater, berries, chicken feed. I'll try it.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "You're having me on.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "It's a pie a man built out of rainwater, wild berries and chicken feed. If that's 'just a pie' to you, I'll eat my own apron.",
+          "choices": [
+            {
+              "label": "Rainwater, berries, chicken feed. Noted.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "nan-snow-pie-trade",
       "npcId": "shepherd-nan",
       "start": "greet",
@@ -3757,6 +3861,12 @@
     }
   },
   "conversationTopics": [
+    {
+      "id": "baker-tovi-topic-fruit-pie",
+      "npcId": "baker-tovi",
+      "label": "🥧 Ask about the pie rumour",
+      "treeId": "baker-tovi-topic-fruit-pie"
+    },
     {
       "id": "harrowfield-elder-maeve-topic-auto-1",
       "npcId": "elder-maeve",

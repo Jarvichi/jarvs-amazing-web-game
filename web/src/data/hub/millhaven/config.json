@@ -2340,7 +2340,8 @@
       "conversationTopics": [
         "millhaven-harbour-angler-topic-auto-1",
         "millhaven-harbour-angler-topic-auto-2",
-        "millhaven-harbour-angler-topic-auto-3"
+        "millhaven-harbour-angler-topic-auto-3",
+        "pellan-topic-chowder"
       ],
       "screen": "hub-fishing-ocean",
       "favoriteGiftItemId": "fish-trophy",

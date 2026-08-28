@@ -1,6 +1,110 @@
 {
   "dialogues": [
     {
+      "id": "mabe-topic-honey-custard",
+      "npcId": "beekeeper-mabe",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Somebody in a castle kitchen is taking my honey a crock at a time and won't say what for. I've a nose for a secret, and this one smells of nutmeg.",
+          "choices": [
+            {
+              "label": "Have you worked out what they make?",
+              "next": "recipe"
+            },
+            {
+              "label": "How much honey are we talking?",
+              "next": "trade"
+            },
+            {
+              "label": "Maybe they just like honey.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "trade": {
+          "text": "More than a household eats in a year. Cook Bessie's kitchen, Cook Mabel's, Grimble's — the same order from all three, and the same three things every time.",
+          "choices": [
+            {
+              "label": "Which three things?",
+              "next": "recipe"
+            },
+            {
+              "label": "Business is business.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "recipe": {
+          "text": "Honey, one good egg, and a pouch of proper spice. That's it. Hand a cook those three on their own and you'll get a spiced honey custard that ruins every pudding after it.",
+          "choices": [
+            {
+              "label": "Honey, egg, spice pouch. Thank you, Mabe.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "I'll believe it when I taste it.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "Nobody 'just likes' honey to the tune of a crock a week. It goes in with an egg and a pouch of spice, and what comes out is worth the secrecy.",
+          "choices": [
+            {
+              "label": "Honey, egg, spice. Got it.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "If you say so.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "posy-harvest-eggs",
       "npcId": "market-trader-posy",
       "start": "greet",
@@ -3371,6 +3475,12 @@
     }
   },
   "conversationTopics": [
+    {
+      "id": "mabe-topic-honey-custard",
+      "npcId": "beekeeper-mabe",
+      "label": "🍮 Ask who keeps buying her honey",
+      "treeId": "mabe-topic-honey-custard"
+    },
     {
       "id": "appleford-orchard-keeper-bess-topic-auto-1",
       "npcId": "orchard-keeper-bess",

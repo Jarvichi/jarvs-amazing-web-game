@@ -1305,7 +1305,7 @@
         "Honey, wax, mead — one little bee gives you all three and asks only for flowers.",
         "Bess grows the blossom, I keep the bees. Between us we keep Appleford sweet."
       ],
-      "conversationTopics": ["appleford-beekeeper-mabe-topic-auto-1", "appleford-beekeeper-mabe-topic-auto-2", "appleford-beekeeper-mabe-topic-auto-3"],
+      "conversationTopics": ["appleford-beekeeper-mabe-topic-auto-1", "appleford-beekeeper-mabe-topic-auto-2", "appleford-beekeeper-mabe-topic-auto-3", "mabe-topic-honey-custard"],
       "questGive": "appleford-honey-harvest",
       "questReceive": [
         "appleford-honey-harvest",

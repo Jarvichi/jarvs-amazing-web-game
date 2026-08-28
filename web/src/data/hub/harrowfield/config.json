@@ -1717,7 +1717,7 @@
         "Rook's flour, Maeve's blessing, my oven. Harrowfield runs on bread, traveller.",
         "Bring me what I need and I'll see the supper tables never go bare."
       ],
-      "conversationTopics": ["harrowfield-baker-tovi-topic-auto-1", "harrowfield-baker-tovi-topic-auto-2", "harrowfield-baker-tovi-topic-auto-3"],
+      "conversationTopics": ["harrowfield-baker-tovi-topic-auto-1", "harrowfield-baker-tovi-topic-auto-2", "harrowfield-baker-tovi-topic-auto-3", "baker-tovi-topic-fruit-pie"],
       "questGive": "harrowfield-bakers-bread",
       "questReceive": [
         "harrowfield-bakers-bread",
