@@ -242,6 +242,9 @@ export interface HubNpc {
   favoriteGiftTrack?: string
   /** Hub-item ids (hubItems.json) this NPC dislikes being gifted — costs friendship instead of gaining it. */
   dislikedGiftItemIds?: string[]
+  /** True for a cook who offers "🍳 What can you cook with this?" — the
+   *  ingredient picker in ChefCookingModal (docs/hubworld.md §7h). */
+  chef?: boolean
   /** Ids of other same-town NPCs this NPC dislikes — befriending one raises this NPC's own 'rival' track. */
   dislikes?: string[]
   /** Alternate tile position + dialogue used once `requireQuest` is completed —

@@ -12835,6 +12835,7 @@
     },
     {
       "id": "mad-chef",
+      "chef": true,
       "name": "Mad Chef Grimble",
       "sprite": "hub-npc-cook",
       "building": "inn-kitchen",

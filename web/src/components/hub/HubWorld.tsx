@@ -30,6 +30,8 @@ import { addCollectible, addConsumable, getCollectibles, addHubItem, removeHubIt
 import { questItemId } from '../../game/hub/questItems'
 import { SatchelMenu, type SatchelSectionId, type TownView } from './SatchelMenu'
 import { PetModal } from './PetModal'
+import { ChefCookingModal } from './ChefCookingModal'
+import { cook, cookableItems, MAX_COOK_INGREDIENTS } from '../../game/hub/chefCooking'
 import { PetShelterModal } from './PetShelterModal'
 import { BountyBoardModal } from './BountyBoardModal'
 import { hasUnclaimedBounties, getPendingBountyReport, getPendingBountyCollect, advanceBountyStep, getActiveBountyStep, isBountyCollectPickup, reconcileBountyPickups } from '../../game/hub/bounties'
@@ -78,6 +80,7 @@ interface NpcTapDef {
   conversationTopics?: string[]
   favoriteGiftItemId?: string; favoriteGiftTrack?: string
   dislikedGiftItemIds?: string[]
+  chef?: boolean
 }
 
 const T = 32
@@ -268,6 +271,8 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
   const [hubTownView,         setHubTownView]         = useState<TownView>('people')
   const [bountyBoardOpen,     setBountyBoardOpen]     = useState(false)
   const [petShelterOpen,      setPetShelterOpen]      = useState(false)
+  /** The chef whose "What can you cook with this?" picker is open, if any. */
+  const [cookingChef,         setCookingChef]         = useState<{ npcId: string; name: string } | null>(null)
   function openHubTab(tab: SatchelSectionId, townView?: TownView) {
     setActiveHubTab(tab)
     if (townView) setHubTownView(townView)
@@ -1103,6 +1108,14 @@ function buildTalkGiveOptions(
       },
     })
   }
+  // Chefs (config.json `"chef": true`) take ingredients instead of gifts —
+  // hand over up to MAX_COOK_INGREDIENTS items and they cook something (§7h).
+  if (npcDef?.chef) {
+    choices.push({
+      label: '🍳 What can you cook with this?',
+      onClick: () => { setDialogueEvent(null); setCookingChef({ npcId, name: speakerName }) },
+    })
+  }
   if (npcDef?.innRumours && npcDef.innRumours.length > 0) {
     const rumours = npcDef.innRumours
     const rumourableToday = canHearRumourToday(npcId)
@@ -1644,6 +1657,33 @@ function hasOfferableQuest(giverId: string): boolean {
     // ── Default dialogue (animals / unnamed) ─────────────────────────────────
     setDialogueEvent({ speakerName, text: line })
   }, [refreshState, handleNodeInteract, pendingWakeNpcId, wokenNpcIds])
+
+  // Handing a chef ingredients (§7h). The picker is a modal rather than a
+  // dialogue-choice list because it's a multi-select: a set of up to
+  // MAX_COOK_INGREDIENTS items, not one tap. `cook` owns the inventory and
+  // crystal side of it; friendship/relationship are granted here so the
+  // rivalry-aware helpers (and the ❤️ reaction) behave as they do everywhere
+  // else.
+  const cookForChef = useCallback((npcId: string, speakerName: string, itemIds: string[]) => {
+    setCookingChef(null)
+    const result = cook(itemIds)
+    if (!result) {
+      setDialogueEvent({ speakerName, text: '"...You don\'t have all of that on you. Come back when you do."' })
+      return
+    }
+    if (result.friendshipXp) grantFriendship(npcId, result.friendshipXp)
+    if (result.relationship) {
+      grantRelationshipWithRivalry(npcId, result.relationship.track, result.relationship.points, locationData.HUB_NPCS)
+    }
+    if (result.crystals > 0) onCrystalsChange?.(loadCrystals())
+    emitSound(result.recipe ? 'treasure' : 'pickup')
+    refreshState()
+    const lines = [result.text, `${result.dishIcon} ${result.dishName} added to your satchel.`]
+    if (result.firstDiscovery) {
+      lines.push(`A secret recipe, discovered! +${result.crystals} 💎`)
+    }
+    setDialogueEvent({ speakerName, text: lines.join('\n\n') })
+  }, [refreshState])
 
   // Gifting a held material to an NPC — the generic counterpart to the
   // curated `tradeHubItem` dialogue-tree effect (docs/hubworld.md §16), but
@@ -2554,6 +2594,15 @@ function hasOfferableQuest(giverId: string): boolean {
           />
         )}
         {petModalOpen && <PetModal onClose={() => setPetModalOpen(false)} petActionRef={petActionRef} />}
+        {cookingChef && (
+          <ChefCookingModal
+            chefName={cookingChef.name}
+            items={cookableItems()}
+            maxIngredients={MAX_COOK_INGREDIENTS}
+            onCook={ids => cookForChef(cookingChef.npcId, cookingChef.name, ids)}
+            onClose={() => setCookingChef(null)}
+          />
+        )}
         {bountyBoardOpen && <BountyBoardModal onClose={() => setBountyBoardOpen(false)} resolveNpcName={getNpcDisplayName} townNpcs={locationData.HUB_NPCS}/>}
         {petShelterOpen && <PetShelterModal onClose={() => setPetShelterOpen(false)} onAdopted={() => setPetShelterOpen(false)} />}
         {relationshipNpcId && <RelationshipView npcName={getNpcDisplayName(relationshipNpcId)} entry={getRelationship(relationshipNpcId)} onClose={() => setRelationshipNpcId(null)} />}

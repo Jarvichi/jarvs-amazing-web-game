@@ -2159,6 +2159,7 @@
     },
     {
       "id": "castle-cook",
+      "chef": true,
       "name": "Cook Mabel",
       "dialogueTree": "mabel-pie-craft",
       "sprite": "hub-npc-elder",

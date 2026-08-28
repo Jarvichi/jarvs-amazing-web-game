@@ -2479,6 +2479,7 @@
     },
     {
       "id": "royal-cook",
+      "chef": true,
       "name": "Cook Bessie",
       "sprite": "hub-npc-cook",
       "building": "royal-kitchens",

@@ -1381,6 +1381,9 @@
   letter-spacing: 0.03em;
   line-height: 1.55;
   min-height: 1.55em;
+  /* Authored lines use blank lines between beats (a chef's patter, then what
+     came out of the pot). Without this they collapsed into one paragraph. */
+  white-space: pre-line;
 }
 
 .hub-dialogue-box--narration .hub-dialogue-line {
@@ -1445,4 +1448,40 @@
 
 .hub-stage {
   padding-top: 0;
+}
+
+
+/* ── Chef cooking picker ──────────────────────────────────────────────────
+   The "What can you cook with this?" modal (ChefCookingModal). The grid
+   itself is the shared satchel grid — only the prompt, the counter and the
+   pot readout below it are specific to this screen. */
+
+.chef-cook__prompt {
+  margin: 0 0 10px;
+  color: var(--satchel-text-mid);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.chef-cook__counter {
+  margin-bottom: 8px;
+  color: var(--satchel-text-dim);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.chef-cook__counter-full {
+  color: var(--satchel-gold);
+}
+
+.chef-cook__pot {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--satchel-line);
+  color: var(--satchel-text-mid);
+  font-size: 11px;
+  line-height: 1.5;
+  min-height: 1.5em;
 }
