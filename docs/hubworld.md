@@ -44,6 +44,8 @@
 | `web/src/game/hub/chefCooking.ts` | Recipe matching, ingredient consumption, discovered-recipe persistence (localStorage) — see §7h | `cook`, `cookableItems`, `matchSecretRecipe`, `resolveGenericDish`, `getDiscoveredRecipeIds`, `hasDiscoveredRecipe`, `MAX_COOK_INGREDIENTS` |
 | `web/src/components/hub/ChefCookingModal.tsx` | 🍳 "What can you cook with this?" ingredient picker — see §7h | `ChefCookingModal` |
 | `web/src/game/hub/talkCooldown.ts` | Once-per-day "Make conversation" persistence (localStorage) — see §7d | `canTalkToday`, `recordTalk` |
+| `web/src/data/hub/forageLoot.json` | Forage loot tables (`wild` / `wood` / `fruit`) — what a forage spot can yield, see §7 | consumed by `forageLoot.ts` |
+| `web/src/game/hub/forageLoot.ts` | Pure weighted forage roll + per-spot item pinning — see §7 | `forageTable`, `rollForage` |
 | `web/src/game/hub/forages.ts` | Once-per-day forage-spot persistence (localStorage) — see §7 `forage` reaction | `canForageToday`, `recordForage` |
 | `web/src/data/roomSlots.json` | Purchasable player-house room-slot catalog (basement/first-floor/left/right/rear) — see §19 "Room Slots" | consumed by `houseRooms.ts` |
 | `web/src/game/hub/houseRooms.ts` | Per-house purchased-slot persistence + dynamic interior/exit synthesis (localStorage) — see §19 "Room Slots" | `getRoomSlotDef`, `getAllRoomSlotDefs`, `getPurchasedSlotIds`, `hasPurchasedSlot`, `purchaseRoomSlot`, `parseSlotBuildingId`, `buildMainRoomExit`, `synthesizeSlotInterior` |
@@ -307,7 +309,7 @@ bounds, else a single tile.
 | `buyPack` | — | Crystal-pack purchase flow (delegates to `onBuyCrystalPack`). Requires `building`. |
 | `buyHubItem` | `itemId`, `price`, `currency?`, `speakerName?`, `prerequisite?`, `lockedText?` | Always-available hub-item purchase (no daily rotation) — see §16. `itemId` must exist in `hubItems.json`; `currency` is `'crystals'` (default) or `'tickets'`. Unique items (e.g. the fishing rod) re-offer as "already owned" once bought. `speakerName` overrides the building-NPC speaker (useful for exterior stalls). `prerequisite` (§14 syntax, including `reputation:<tier>`) gates the offer — unmet shows `lockedText` (or a default refusal) instead. |
 | `dig` | `requiresItemId?`, `nightOnly?`, `weatherOnly?`, `lootTable?` | Once-per-day dig spot (see §16), gated on holding the tool hub-item (default `'spade'`). `nightOnly: true` makes it a **dark hollow** that refuses by day; `weatherOnly` (e.g. `"rain"`) makes it refuse unless the town's resolved weather (§12) matches — used by weather-gated harvest spots like **rain puddles**. `lootTable: 'earth'` (default) rolls 50% worms (+2 fish bait) / 30% crystals (10–25) / 20% a dug-up trinket; `'hollow'` rolls 50% glowcap mushroom / 25% crystals (15–35) / 25% a firefly; `'rain'` always yields 1 rainwater; `'fog'` always yields 1 grave moss. Cooldown persists per spot per real day in `jarv_hub_digs` (`web/src/game/hub/digs.ts`). Pair with a `mediumDirt` decor tile (`zlayer: "below"`) for an earth patch, or a puddle tile (e.g. `lightPuddle`, `zlayer: "below"`) for a rain-harvest spot. |
-| `forage` | — | Once-per-day forage spot, no fields. Unlike `dig`, no tool/night/weather gating — meant to overlay an ordinary tree/bush/flower `exteriorDecor` tile (no owned decor of its own) so any existing scenery can become forageable. Rolls 45% 1 wild berries / 35% crystals (5–15) / 20% a rare four-leaf-clover collectible. Cooldown persists per spot per real day in `jarv_hub_forages` (`web/src/game/hub/forages.ts`), same key convention as `dig`. |
+| `forage` | `lootTable?`, `hubItem?`, `message?` | Once-per-day forage spot. Unlike `dig`, no tool/night/weather gating — meant to overlay an ordinary tree/bush/flower `exteriorDecor` tile (no owned decor of its own) so any existing scenery can become forageable. What it yields is one weighted draw from the table `lootTable` names in `web/src/data/hub/forageLoot.json`: **`wild`** (the default — 45% wild berries / 35% crystals 5–15 / 20% a rare four-leaf clover), **`wood`** (always a log — log-pile gather spots), **`fruit`** (28% apple / 24% pear / 20% cherries / 18% crystals / 10% clover — trees). `hubItem.itemId` pins which item that table's item entries hand over, so one tree can always give apples and another crab apples without a table of its own, with `message` as the line shown instead of the entry's. Cooldown persists per spot per real day in `jarv_hub_forages` (`web/src/game/hub/forages.ts`), same key convention as `dig`. |
 
 Reactions run in order; `dialogue` (and `message`-bearing reactions) chain the
 remainder through the dialogue's close. Conventions: at most one `screen` or
@@ -385,9 +387,13 @@ scenery already in the town), so no owned `decor` or new art is needed.
    `shrub`, or `flower`) that isn't already occupied by another interactable,
    NPC, or animal.
 2. Add an interactable entry at that same `tx`/`ty` with **no `decor`**: a
-   `dialogue` reaction for flavor, then a `{ "type": "forage" }` reaction (no
-   fields). Live examples: `ravenwatch-forage-bush-1`, `ravenwatch-forage-tree-1`,
-   `ravenwatch-forage-flower-1`/`-2`.
+   `dialogue` reaction for flavor, then a `{ "type": "forage" }` reaction. Leave
+   it fieldless for the hedgerow roll, or name a table —
+   `{ "type": "forage", "lootTable": "fruit" }` for a tree. A tree that should
+   always give one particular fruit adds `"hubItem": { "itemId": "crab-apple" }`
+   and its own `"message"`. Live examples: `ravenwatch-forage-bush-1` (wild),
+   `ravenwatch-forage-tree-1` (fruit, mixed), `appleford-forage-tree-1` (fruit,
+   pinned to apples), `thornwood-logpile-1` (wood).
 3. Run `npm run test` and `npm run build`.
 4. Verify by reading the flow: the interactable sits directly on top of
    already-rendered decor (no visual change needed), tapping it once a day
@@ -1238,9 +1244,13 @@ item, nothing is taken and nothing is cooked.
 A recipe nobody can guess is a recipe nobody cooks, so each one is gossiped
 about by an NPC somewhere else in the world as an ordinary conversation topic
 (§7g) naming its exact ingredients — currently Baker Tovi (Harrowfield),
-Hedge-Witch Morwen (Hollowmere), Beekeeper Mabe (Appleford), Smokehouse Master
-Findlay (Saltmere Port) and Old Pellan (Millhaven). `chefRecipeClues.test.ts`
-fails if a recipe loses its clue.
+Hedge-Witch Morwen (Hollowmere), Beekeeper Mabe and Keeper Bess (Appleford),
+Smokehouse Master Findlay (Saltmere Port), Old Pellan and Widow Tamsin
+(Millhaven) and Gardener Thom (Royal Palace). `chefRecipeClues.test.ts` fails
+if a recipe loses its clue.
+
+Several recipes take fruit picked from `fruit` forage spots (§7), which is
+what makes those trees worth revisiting.
 
 ### Authoring checklist: new secret recipe
 
