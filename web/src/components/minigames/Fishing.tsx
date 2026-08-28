@@ -22,6 +22,7 @@ import {
 import {
   castMeterPower, castTierWeights, pickWeightedIndex, biteWaitMs,
   createFightConfig, createFightState, stepFight, fightOutcome, fishInBand,
+  FIGHT_GRACE_MS,
   type FightConfig, type FightState,
 } from './Fishing.physics'
 import { addCollectible, addHubItem, getHubItemCount, removeHubItem } from '../../game/itemStore'
@@ -89,6 +90,7 @@ interface FightView {
   fishPos: number
   gauge: number
   inBand: boolean
+  grace: boolean
 }
 
 export function Fishing({ onDone, rewardMode = 'tickets', variant = 'river' }: Props) {
@@ -102,7 +104,10 @@ export function Fishing({ onDone, rewardMode = 'tickets', variant = 'river' }: P
   const [biteMs, setBiteMs]       = useState(BITE_WINDOW_MS)
   const [result, setResult]       = useState<Catch | null>(null)
   const [tierIndex, setTierIndex] = useState(0)
-  const [fightView, setFightView] = useState<FightView>({ bandPos: 0.25, fishPos: 0.55, gauge: 0.35, inBand: false })
+  const [fightView, setFightView] = useState<FightView>(() => {
+    const s0 = createFightState()
+    return { bandPos: s0.bandPos, fishPos: s0.fishPos, gauge: s0.gauge, inBand: true, grace: true }
+  })
   const [baitCount, setBaitCount] = useState(() => usesBait ? getHubItemCount('fish-bait') : 0)
 
   const canCast = !usesBait || baitCount > 0
@@ -149,6 +154,7 @@ export function Fishing({ onDone, rewardMode = 'tickets', variant = 'river' }: P
           setFightView({
             bandPos: next.bandPos, fishPos: next.fishPos, gauge: next.gauge,
             inBand: fishInBand(next, fightCfg.current),
+            grace: next.elapsedMs < FIGHT_GRACE_MS,
           })
         }
       }
@@ -221,7 +227,10 @@ export function Fishing({ onDone, rewardMode = 'tickets', variant = 'river' }: P
     hookedRef.current = rolled
     fightCfg.current = createFightConfig(rolled.tierIndex, tiers.length)
     fightRef.current = createFightState()
-    setFightView({ bandPos: fightRef.current.bandPos, fishPos: fightRef.current.fishPos, gauge: fightRef.current.gauge, inBand: false })
+    setFightView({
+      bandPos: fightRef.current.bandPos, fishPos: fightRef.current.fishPos,
+      gauge: fightRef.current.gauge, inBand: true, grace: true,
+    })
     setPhase('fight')
   }
 
@@ -362,6 +371,7 @@ export function Fishing({ onDone, rewardMode = 'tickets', variant = 'river' }: P
             fishPos={fightView.fishPos}
             gauge={fightView.gauge}
             holding={fightView.inBand}
+            grace={fightView.grace}
           />
         )}
 

@@ -3,6 +3,7 @@ import {
   castMeterPower, castDistanceLabel, castTierWeights, pickWeightedIndex, biteWaitMs,
   createFightConfig, createFightState, stepFight, fightOutcome, fishInBand,
   CAST_SWEEP_MS, MIN_BITE_WAIT_MS, MAX_BITE_WAIT_MS, FIGHT_TIMEOUT_MS,
+  FIGHT_GRACE_MS, FIGHT_START_GAUGE,
 } from './Fishing.physics'
 
 const CHANCES = [40, 30, 15, 9, 5, 1]
@@ -188,7 +189,7 @@ describe('fightOutcome', () => {
 // The controller is deliberately naive (hold whenever the fish is above the
 // band, never anticipate), so a real player should beat these numbers.
 
-function playFight(tierIndex: number, lagMs: number, seed: number): boolean {
+function playFight(tierIndex: number, lagMs: number, seed: number, delayMs = 0): boolean {
   let rngState = seed
   const rng = () => { rngState = (rngState * 1103515245 + 12345) % 2147483648; return rngState / 2147483648 }
   const cfg = createFightConfig(tierIndex, 6)
@@ -197,18 +198,29 @@ function playFight(tierIndex: number, lagMs: number, seed: number): boolean {
   let sinceDecision = 0
   for (let i = 0; i < 3000; i++) {
     sinceDecision += 16
-    if (sinceDecision >= lagMs) { sinceDecision = 0; holding = state.fishPos > state.bandPos }
-    state = stepFight(state, cfg, holding, 16, rng)
+    const awake = state.elapsedMs >= delayMs
+    if (awake && sinceDecision >= lagMs) { sinceDecision = 0; holding = state.fishPos > state.bandPos }
+    state = stepFight(state, cfg, awake && holding, 16, rng)
     const outcome = fightOutcome(state)
     if (outcome !== 'fighting') return outcome === 'landed'
   }
   return false
 }
 
-function landRate(tierIndex: number, lagMs: number): number {
+function landRate(tierIndex: number, lagMs: number, delayMs = 0): number {
   let wins = 0
-  for (let seed = 1; seed <= 40; seed++) if (playFight(tierIndex, lagMs, seed * 7919)) wins++
+  for (let seed = 1; seed <= 40; seed++) if (playFight(tierIndex, lagMs, seed * 7919, delayMs)) wins++
   return wins / 40
+}
+
+/** How long a player who never touches the controls survives. */
+function idleSurvivalMs(tierIndex: number): number {
+  const cfg = createFightConfig(tierIndex, 6)
+  let state = createFightState()
+  while (fightOutcome(state) === 'fighting' && state.elapsedMs < FIGHT_TIMEOUT_MS) {
+    state = stepFight(state, cfg, false, 16, () => 0.5)
+  }
+  return state.elapsedMs
 }
 
 describe('fight winnability', () => {
@@ -220,9 +232,53 @@ describe('fight winnability', () => {
     expect(landRate(0, 350)).toBeGreaterThan(0.8)
   })
 
-  it('makes the top tiers a real scrap — sloppy play loses them', () => {
-    expect(landRate(5, 350)).toBeLessThan(0.2)
-    expect(landRate(5, 16)).toBeGreaterThan(landRate(5, 200))
+  it('makes the top tiers a real scrap — distracted play loses them', () => {
+    // Sloppy means slow to notice AND slow to correct. Control lag alone is
+    // too weak a proxy now that a fight opens in the player's favour: someone
+    // reacting instantly but coarsely can still muscle a Legendary in.
+    expect(landRate(5, 350, 1500)).toBeLessThan(0.2)
+    expect(landRate(5, 16)).toBeGreaterThan(landRate(5, 200, 1500))
+  })
+
+  // The bug this pins down: the fight used to start with the fish OUTSIDE the
+  // band, so the gauge drained from the first frame and the whole thing was
+  // over in 0.9-2.0s. Every controller above starts reacting instantly, so
+  // none of them noticed — a real player who took a beat to read the screen
+  // lost every tier, every time.
+  it('never ends before a player has had time to react', () => {
+    // Two guarantees stack: FIGHT_GRACE_MS where nothing can hurt you, then a
+    // visible drain before the line goes. Doing nothing at all should still
+    // lose — it just must never lose before the player can act.
+    for (let tier = 0; tier < 6; tier++) {
+      expect(idleSurvivalMs(tier)).toBeGreaterThan(FIGHT_GRACE_MS + 800)
+    }
+  })
+
+  it('opens with the fish already inside the band', () => {
+    for (let tier = 0; tier < 6; tier++) {
+      expect(fishInBand(createFightState(), createFightConfig(tier, 6))).toBe(true)
+    }
+  })
+
+  it('cannot lose ground during the opening grace beat', () => {
+    const cfg = createFightConfig(5, 6)
+    // Park the band at the floor so the fish is out of it as soon as it can move.
+    let state = { ...createFightState(), bandPos: 0, fishPos: 1, fishTarget: 1 }
+    while (state.elapsedMs < FIGHT_GRACE_MS) state = stepFight(state, cfg, false, 16, () => 1)
+    expect(state.gauge).toBeGreaterThanOrEqual(FIGHT_START_GAUGE)
+  })
+
+  it('is still landable by a player who takes a beat to react', () => {
+    // The everyday tiers — 94% of what gets hooked — should not punish a
+    // player for spending the first beat working out what is happening.
+    for (let tier = 0; tier < 4; tier++) {
+      expect(landRate(tier, 200, 700)).toBeGreaterThan(0.9)
+    }
+    // Trophy and Legendary stay a genuine contest at that pace: reachable,
+    // never a formality. A Legendary that often gets away is the point.
+    expect(landRate(4, 200, 700)).toBeGreaterThan(0.6)
+    expect(landRate(5, 200, 700)).toBeGreaterThan(0.25)
+    expect(landRate(5, 200, 700)).toBeLessThan(0.8)
   })
 
   it('gets harder monotonically as the tiers get bigger', () => {

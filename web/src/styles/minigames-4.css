@@ -294,7 +294,9 @@
 .reel-gauge {
   display: grid;
   grid-template-columns: 78px 22px;
-  grid-template-rows: 180px auto;
+  /* Row 1 is the opening cue. Its height is reserved whether or not the cue
+     is showing, so the bars don't jump when the grace beat ends. */
+  grid-template-rows: 22px 180px auto;
   gap: var(--gap-2) var(--gap-4);
   align-items: end;
   justify-content: center;
@@ -302,7 +304,7 @@
 
 .reel-run {
   position: relative;
-  grid-row: 1;
+  grid-row: 2;
   height: 100%;
   background: linear-gradient(180deg, #0d2a3a, #04101a);
   border: 1px solid var(--color-gray-5);
@@ -339,7 +341,7 @@
 
 .reel-progress {
   position: relative;
-  grid-row: 1;
+  grid-row: 2;
   height: 100%;
   background: var(--color-gray-3);
   border: 1px solid var(--color-gray-5);
@@ -358,7 +360,7 @@
 }
 
 .reel-gauge-labels {
-  grid-row: 2;
+  grid-row: 3;
   grid-column: 1 / span 2;
   display: flex;
   justify-content: space-between;
@@ -1409,3 +1411,28 @@
   font-family: var(--font-mono);
 }
 
+
+/* Opening-beat cue on the fight HUD — the fight is safe for FIGHT_GRACE_MS,
+   which is exactly when the player needs telling what the controls are. */
+.reel-cue {
+  grid-row: 1;
+  grid-column: 1 / span 2;
+  align-self: center;
+  justify-self: center;
+  width: max-content;
+  max-width: 280px;
+  padding: 2px var(--gap-4);
+  font-family: var(--font-mono);
+  font-size: var(--font-xxs);
+  letter-spacing: 1px;
+  color: var(--color-gold);
+  background: rgb(0 0 0 / 70%);
+  border: 1px solid var(--color-gold-dim);
+  border-radius: 4px;
+  animation: reel-cue-pulse 0.9s ease-in-out infinite alternate;
+}
+
+@keyframes reel-cue-pulse {
+  from { opacity: 0.75; }
+  to   { opacity: 1; }
+}
