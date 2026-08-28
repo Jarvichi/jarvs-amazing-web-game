@@ -154,7 +154,10 @@ describe('stepFight', () => {
 
   it('drains the gauge to zero when the fish is left out of the band', () => {
     let s = { ...createFightState(), bandPos: 0, bandVel: 0, fishPos: 1, fishTarget: 1 }
-    for (let i = 0; i < 400 && fightOutcome(s) === 'fighting'; i++) {
+    // Bounded by the fight's own timeout rather than a step count, so a change
+    // to the drain rate can't quietly make this stop reaching the outcome it
+    // is asserting (a slower drain did exactly that).
+    while (fightOutcome(s) === 'fighting' && s.elapsedMs < FIGHT_TIMEOUT_MS) {
       s = stepFight(s, cfg, false, 16, () => 1)
     }
     expect(s.gauge).toBe(0)
@@ -190,6 +193,10 @@ describe('fightOutcome', () => {
 // band, never anticipate), so a real player should beat these numbers.
 
 function playFight(tierIndex: number, lagMs: number, seed: number, delayMs = 0): boolean {
+  return timedFight(tierIndex, lagMs, seed, delayMs).landed
+}
+
+function timedFight(tierIndex: number, lagMs: number, seed: number, delayMs = 0): { landed: boolean; ms: number } {
   let rngState = seed
   const rng = () => { rngState = (rngState * 1103515245 + 12345) % 2147483648; return rngState / 2147483648 }
   const cfg = createFightConfig(tierIndex, 6)
@@ -202,15 +209,27 @@ function playFight(tierIndex: number, lagMs: number, seed: number, delayMs = 0):
     if (awake && sinceDecision >= lagMs) { sinceDecision = 0; holding = state.fishPos > state.bandPos }
     state = stepFight(state, cfg, awake && holding, 16, rng)
     const outcome = fightOutcome(state)
-    if (outcome !== 'fighting') return outcome === 'landed'
+    if (outcome !== 'fighting') return { landed: outcome === 'landed', ms: state.elapsedMs }
   }
-  return false
+  return { landed: false, ms: state.elapsedMs }
 }
 
 function landRate(tierIndex: number, lagMs: number, delayMs = 0): number {
   let wins = 0
   for (let seed = 1; seed <= 40; seed++) if (playFight(tierIndex, lagMs, seed * 7919, delayMs)) wins++
   return wins / 40
+}
+
+/** Median time to land, over the seeds a competent player actually wins. */
+function medianLandingMs(tierIndex: number, lagMs: number, delayMs: number): number {
+  const times: number[] = []
+  for (let seed = 1; seed <= 40; seed++) {
+    const r = timedFight(tierIndex, lagMs, seed * 7919, delayMs)
+    if (r.landed) times.push(r.ms)
+  }
+  if (times.length === 0) return Infinity
+  times.sort((a, b) => a - b)
+  return times[Math.floor(times.length / 2)]
 }
 
 /** How long a player who never touches the controls survives. */
@@ -279,6 +298,49 @@ describe('fight winnability', () => {
     expect(landRate(4, 200, 700)).toBeGreaterThan(0.6)
     expect(landRate(5, 200, 700)).toBeGreaterThan(0.25)
     expect(landRate(5, 200, 700)).toBeLessThan(0.8)
+  })
+
+  // Requested shape of the fight: an easy fish should still be a ~7.5s piece
+  // of play rather than a formality, and the hardest should run to around 30s
+  // without tipping past it into the stalemate cutoff. Measured against a
+  // competent player — someone who takes a beat to react and corrects a few
+  // times a second — since that is who the numbers are meant to describe.
+  const COMPETENT = { lag: 200, delay: 700 }
+
+  it('cannot be landed faster than 7.5s even with flawless play', () => {
+    // Structural, not statistical: the gauge climbs from FIGHT_START_GAUGE to
+    // full at gaugeGain, so this is the floor for every tier no matter how
+    // perfectly the fish is held. Pin the fish to the band and time it.
+    for (let tier = 0; tier < 6; tier++) {
+      const cfg = createFightConfig(tier, 6)
+      let state = createFightState()
+      while (fightOutcome(state) === 'fighting' && state.elapsedMs < FIGHT_TIMEOUT_MS) {
+        // Keep the fish exactly on the band centre — the best any player could do.
+        state = { ...stepFight(state, cfg, false, 16, () => 0.5), fishPos: state.bandPos }
+      }
+      expect(fightOutcome(state)).toBe('landed')
+      expect(state.elapsedMs).toBeGreaterThanOrEqual(7500)
+    }
+  })
+
+  it('runs an easy fish for at least the intended 7.5s', () => {
+    for (let tier = 0; tier < 3; tier++) {
+      expect(medianLandingMs(tier, COMPETENT.lag, COMPETENT.delay)).toBeGreaterThanOrEqual(7500)
+    }
+  })
+
+  it('keeps the hardest fish around the intended 30s ceiling', () => {
+    const hardest = medianLandingMs(5, COMPETENT.lag, COMPETENT.delay)
+    expect(hardest).toBeGreaterThan(20000)
+    expect(hardest).toBeLessThan(36000)
+    // A fight that legitimately runs to the ceiling must not be cut off as a
+    // stalemate — the timeout is a backstop, not the difficulty.
+    expect(hardest).toBeLessThan(FIGHT_TIMEOUT_MS * 0.8)
+  })
+
+  it('takes longer the bigger the fish is', () => {
+    const times = [0, 2, 4, 5].map(t => medianLandingMs(t, COMPETENT.lag, COMPETENT.delay))
+    for (let i = 1; i < times.length; i++) expect(times[i]).toBeGreaterThan(times[i - 1])
   })
 
   it('gets harder monotonically as the tiers get bigger', () => {

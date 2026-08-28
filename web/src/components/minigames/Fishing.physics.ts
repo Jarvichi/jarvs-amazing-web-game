@@ -121,23 +121,38 @@ export const BAND_LIFT      = 3.4   // units/s² while holding
 export const BAND_GRAVITY   = 1.7   // units/s² always
 export const BAND_DAMPING   = 4.0   // velocity decay per second
 export const FIGHT_START_GAUGE = 0.38
-export const FIGHT_TIMEOUT_MS  = 30000
+/** Stalemate backstop, not the difficulty knob. It has to sit clear of the
+ *  ~30s a legitimate top-tier fight runs to, or a hard fish that the player is
+ *  actually winning gets cut off as a loss. Fishing.physics.test.ts asserts
+ *  that headroom rather than trusting this comment. */
+export const FIGHT_TIMEOUT_MS  = 45000
 /** Opening beat of the fight: the fish holds station and the gauge cannot
  *  drain. Without it the fight was decided before the player had read the
  *  screen — the fish started outside the band, so the gauge drained from the
  *  first frame and an idle player lost in 0.9-2.0s depending on tier. */
 export const FIGHT_GRACE_MS = 1100
 
-/** Fight difficulty from the fish's tier index (0 = smallest tier). A Tiddler
- *  is a formality; a Legendary is a genuine scrap on a narrow band. */
+/** Fight difficulty from the fish's tier index (0 = smallest tier).
+ *
+ *  Two separate things are being tuned here, and they pull apart:
+ *   - *how hard* the fight is — band width, how wildly the fish runs;
+ *   - *how long* it lasts — the gauge rates, which set the clock.
+ *  Gain and drain are what stretch the fight: for a competent player (a beat
+ *  to react, correcting a few times a second) an easy fish runs about 7.5-8s
+ *  and a Legendary about 30s. The easy end is a hard floor, not an average —
+ *  the gauge climbs (1 - FIGHT_START_GAUGE) at gaugeGain, so even flawless
+ *  play cannot land anything faster than ~7.5s. Gain falls only slightly across the tiers while
+ *  drain climbs steeply — the top tiers get their length from the player
+ *  losing ground, not from the gauge crawling, which would just feel inert.
+ *  The duration targets are asserted in Fishing.physics.test.ts. */
 export function createFightConfig(tierIndex: number, tierCount: number): FightConfig {
   const d = tierCount > 1 ? clamp(tierIndex / (tierCount - 1), 0, 1) : 0
   return {
     bandSize:       0.36 - 0.13 * d,
     fishAccel:      1.8 + 2.2 * d,
     fishRetargetMs: 950 - 380 * d,
-    gaugeGain:      0.52 - 0.28 * d,
-    gaugeDrain:     0.15 + 0.17 * d,
+    gaugeGain:      0.082 - 0.004 * d,
+    gaugeDrain:     0.0245 + 0.0355 * d,
   }
 }
 
