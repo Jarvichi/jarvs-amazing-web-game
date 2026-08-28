@@ -526,7 +526,9 @@
 
 .fishing-reel-btn {
   touch-action: none;
-  user-select: none;
+  /* Press-and-hold: suppress the iOS long-press callout/magnifier too, which
+     the selection rules alone don't cover. */
+  -webkit-touch-callout: none;
 }
 
 .fishing-reel-btn--on {
