@@ -1,0 +1,89 @@
+{
+  "maxIngredients": 5,
+  "secretRecipes": [
+    {
+      "id": "fruit-pie",
+      "name": "Fruit Pie",
+      "dishItemId": "fruit-pie",
+      "ingredients": ["rainwater", "wild-berries", "chicken-feed"],
+      "text": "A scoop of water, a berry, and... chicken feed? CHICKEN FEED! Of course! That's the crust! Stand back!\n\nMinutes later, a Fruit Pie sits cooling on the counter, perfect and impossible.",
+      "discoveryCrystals": 25,
+      "friendshipXp": 12,
+      "relationship": { "track": "ally", "points": 5 }
+    },
+    {
+      "id": "gloom-broth",
+      "name": "Gloom Broth",
+      "dishItemId": "gloom-broth",
+      "ingredients": ["glowcap-mushroom", "firefly", "cave-fish-blindling"],
+      "text": "Glowcap, a firefly, and a fish that's never seen daylight. Three things that glow, one pot, no windows.\n\nThe broth lights the kitchen from inside the bowl. Nobody is quite sure that's safe.",
+      "discoveryCrystals": 25,
+      "friendshipXp": 12,
+      "relationship": { "track": "ally", "points": 5 }
+    },
+    {
+      "id": "spiced-honey-custard",
+      "name": "Spiced Honey Custard",
+      "dishItemId": "spiced-honey-custard",
+      "ingredients": ["honey", "egg", "spice-pouch"],
+      "text": "Honey, egg, and the good spices. You're not here to waste my time, are you.\n\nThe custard sets in a silence so reverent you can hear the crust crack.",
+      "discoveryCrystals": 25,
+      "friendshipXp": 12,
+      "relationship": { "track": "ally", "points": 5 }
+    },
+    {
+      "id": "smoked-feast-platter",
+      "name": "Smoked Feast Platter",
+      "dishItemId": "smoked-feast-platter",
+      "ingredients": ["smoked-herring", "charcoal", "log"],
+      "text": "You brought your own fuel. Nobody brings their own fuel. I could weep.\n\nHerring over charcoal, log for the slow heat — the whole platter comes out mahogany-dark and smelling of a good winter.",
+      "discoveryCrystals": 25,
+      "friendshipXp": 12,
+      "relationship": { "track": "ally", "points": 5 }
+    },
+    {
+      "id": "kingfisher-chowder",
+      "name": "Kingfisher Chowder",
+      "dishItemId": "kingfisher-chowder",
+      "ingredients": ["fish-large", "rainwater", "spice-pouch"],
+      "text": "A fish that size deserves better than a fry-up. Rainwater for the stock, spices for the nerve.\n\nThe chowder comes out thick enough to stand a spoon in. This is the one they'll remember.",
+      "discoveryCrystals": 25,
+      "friendshipXp": 12,
+      "relationship": { "track": "ally", "points": 5 }
+    }
+  ],
+  "genericDishes": [
+    {
+      "id": "fish-stew",
+      "dishItemId": "fish-stew",
+      "anyOfItems": [
+        "fish-tiddler", "fish-small", "fish-medium", "fish-large", "fish-trophy", "fish-legendary",
+        "cave-fish-blindling", "cave-fish-dweller", "cave-fish-lurker", "cave-fish-ancient", "cave-fish-abyssal", "cave-fish-sunless",
+        "lake-fish-shallows", "lake-fish-weedbed", "lake-fish-deepwater", "lake-fish-oldwater", "lake-fish-prizewater", "lake-fish-stilllegend",
+        "ocean-fish-shoal", "ocean-fish-reef", "ocean-fish-deepshelf", "ocean-fish-openwater", "ocean-fish-deepsea", "ocean-fish-abysstide",
+        "smoked-herring"
+      ],
+      "text": "Fish. Fine. Fish I can work with.\n\nIt's a stew. It's a perfectly good stew. It is not, however, a secret."
+    },
+    {
+      "id": "foragers-salad",
+      "dishItemId": "foragers-salad",
+      "anyOfItems": ["wild-berries", "glowcap-mushroom", "grave-moss", "pressed-flower", "honey"],
+      "text": "Hedgerow pickings. Nothing wrong with hedgerow pickings.\n\nOut comes a salad. Green, honest, and entirely unremarkable."
+    },
+    {
+      "id": "mystery-hash",
+      "dishItemId": "mystery-hash",
+      "anyOfItems": [
+        "egg", "chicken-feed", "rainwater", "spice-pouch", "honey-cake", "hearty-pie",
+        "moon-draught", "lavender-tonic", "bog-salve", "wraith-tonic", "charcoal", "log", "fish-bait"
+      ],
+      "text": "No idea what this is going to be. That's the fun part.\n\nWhatever it was, it's hash now. It's warm and it's edible and that's two out of three."
+    },
+    {
+      "id": "bowl-of-slop",
+      "dishItemId": "bowl-of-slop",
+      "text": "You want me to cook THAT? None of that is food. Some of it isn't even from an animal.\n\nHe boils it anyway, out of spite, and hands you the result at arm's length."
+    }
+  ]
+}

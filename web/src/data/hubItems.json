@@ -444,5 +444,68 @@
     "icon": "⚫",
     "desc": "Blackened, brittle charcoal, raked from a well-fed fire. Prized by smiths and artists alike.",
     "category": "material"
+  },
+  {
+    "id": "fruit-pie",
+    "name": "Fruit Pie",
+    "icon": "🥧",
+    "desc": "A golden-crusted pie bursting with berries. Grimble swears the secret is the chicken feed.",
+    "category": "material"
+  },
+  {
+    "id": "gloom-broth",
+    "name": "Gloom Broth",
+    "icon": "🥣",
+    "desc": "A broth that glows faintly from within. Tastes of damp stone and, oddly, honeycomb.",
+    "category": "material"
+  },
+  {
+    "id": "spiced-honey-custard",
+    "name": "Spiced Honey Custard",
+    "icon": "🍮",
+    "desc": "Silky, spiced and dangerously sweet. Best eaten before anyone else finds it.",
+    "category": "material"
+  },
+  {
+    "id": "smoked-feast-platter",
+    "name": "Smoked Feast Platter",
+    "icon": "🍖",
+    "desc": "Herring smoked over charcoal until the whole kitchen smelled of it for a week.",
+    "category": "material"
+  },
+  {
+    "id": "kingfisher-chowder",
+    "name": "Kingfisher Chowder",
+    "icon": "🍜",
+    "desc": "A thick, peppery chowder built around one very good fish.",
+    "category": "material"
+  },
+  {
+    "id": "fish-stew",
+    "name": "Fish Stew",
+    "icon": "🍲",
+    "desc": "An honest pot of fish stew. Nobody's masterpiece, but nobody goes hungry.",
+    "category": "material"
+  },
+  {
+    "id": "foragers-salad",
+    "name": "Forager's Salad",
+    "icon": "🥗",
+    "desc": "Leaves, berries and whatever else the hedgerow offered. Surprisingly good.",
+    "category": "material"
+  },
+  {
+    "id": "mystery-hash",
+    "name": "Mystery Hash",
+    "icon": "🍳",
+    "desc": "Everything you handed over, chopped and fried together. Ask no questions.",
+    "category": "material"
+  },
+  {
+    "id": "bowl-of-slop",
+    "name": "Bowl of Slop",
+    "icon": "🪣",
+    "desc": "Grey. Lukewarm. Technically food. The dog wouldn't touch it.",
+    "category": "material"
   }
 ]
