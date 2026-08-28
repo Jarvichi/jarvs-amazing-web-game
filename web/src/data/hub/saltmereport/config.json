@@ -1824,7 +1824,7 @@
         "That dock cat's been eyeing my racks again. Cheeky thing.",
         "Nothing wrong with a few scraps for a hungry mouth, so long as it's not from MY rack."
       ],
-      "conversationTopics": ["saltmereport-smokehouse-master-topic-auto-1", "saltmereport-smokehouse-master-topic-auto-2", "saltmereport-smokehouse-master-topic-auto-3"],
+      "conversationTopics": ["saltmereport-smokehouse-master-topic-auto-1", "saltmereport-smokehouse-master-topic-auto-2", "saltmereport-smokehouse-master-topic-auto-3", "findlay-topic-feast-platter"],
       "building": "smokehouse",
       "questGive": "saltmere-smokehouse-scraps",
       "favoriteGiftItemId": "honey",

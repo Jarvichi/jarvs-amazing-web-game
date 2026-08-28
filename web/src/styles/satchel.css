@@ -7,7 +7,10 @@
    literals in dozens of places. Defining them once here keeps this stylesheet
    honest, and promoting the ramp into tokens.css is a worthwhile follow-up. */
 
-.satchel-sheet {
+/* The ramp is shared by anything reusing the satchel's tiles/grid outside the
+   sheet itself (e.g. the chef's cooking picker, .chef-cook in hub.css). */
+.satchel-sheet,
+.chef-cook {
   --satchel-text:     #c8e8c8;
   --satchel-text-mid: #88cc88;
   --satchel-text-dim: #5f8a5f;
@@ -18,7 +21,9 @@
   --satchel-bg-raised:#0d130d;
   --satchel-gold:     var(--color-gold-alt);
   --satchel-gold-dim: var(--color-gold-dim);
+}
 
+.satchel-sheet {
   display: flex;
   flex-direction: column;
   background: var(--satchel-bg);
@@ -418,6 +423,20 @@ button.satchel-tile:active { transform: scale(0.96); }
   border-left: 8px solid transparent;
 }
 .satchel-tile--complete .satchel-tile__count { color: var(--satchel-gold); }
+.satchel-tile--selected {
+  border-color: var(--satchel-gold);
+  background: #2a2a18;
+  box-shadow: inset 0 0 0 1px var(--satchel-gold);
+}
+.satchel-tile--selected::before {
+  content: "\2713";
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  font-size: 9px;
+  line-height: 1;
+  color: var(--satchel-gold);
+}
 
 /* ── Collapsible groups ─────────────────────────────────────────────────── */
 

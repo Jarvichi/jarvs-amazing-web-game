@@ -40,7 +40,12 @@
 | `web/src/game/hub/questItems.ts` | Held-quest-item id helpers (`quest:<questId>:<stepKey>`) — see §16 | `questItemId`, `isQuestItemId`, `questIdFromItemId` |
 | `web/src/game/hub/digs.ts` | Once-per-day dig-spot persistence (localStorage) — see §7 `dig` reaction, §16 | `canDigToday`, `recordDig` |
 | `web/src/components/hub/HubInventoryModal.tsx` | 🎒 Hub Inventory UI — held quest items, materials & tools, pet accessories — see §16 | `HubInventoryModal` |
+| `web/src/data/hub/chefRecipes.json` | Chef secret recipes + generic fallback dishes — see §7h | consumed by `chefCooking.ts` |
+| `web/src/game/hub/chefCooking.ts` | Recipe matching, ingredient consumption, discovered-recipe persistence (localStorage) — see §7h | `cook`, `cookableItems`, `matchRecipe`, `resolveGenericDish`, `getDiscoveredRecipeIds`, `hasDiscoveredRecipe`, `MAX_COOK_INGREDIENTS` |
+| `web/src/components/hub/ChefCookingModal.tsx` | 🍳 "What can you cook with this?" ingredient picker — see §7h | `ChefCookingModal` |
 | `web/src/game/hub/talkCooldown.ts` | Once-per-day "Make conversation" persistence (localStorage) — see §7d | `canTalkToday`, `recordTalk` |
+| `web/src/data/hub/forageLoot.json` | Forage loot tables (`wild` / `wood` / `fruit`) — what a forage spot can yield, see §7 | consumed by `forageLoot.ts` |
+| `web/src/game/hub/forageLoot.ts` | Pure weighted forage roll + per-spot item pinning — see §7 | `forageTable`, `rollForage` |
 | `web/src/game/hub/forages.ts` | Once-per-day forage-spot persistence (localStorage) — see §7 `forage` reaction | `canForageToday`, `recordForage` |
 | `web/src/data/roomSlots.json` | Purchasable player-house room-slot catalog (basement/first-floor/left/right/rear) — see §19 "Room Slots" | consumed by `houseRooms.ts` |
 | `web/src/game/hub/houseRooms.ts` | Per-house purchased-slot persistence + dynamic interior/exit synthesis (localStorage) — see §19 "Room Slots" | `getRoomSlotDef`, `getAllRoomSlotDefs`, `getPurchasedSlotIds`, `hasPurchasedSlot`, `purchaseRoomSlot`, `parseSlotBuildingId`, `buildMainRoomExit`, `synthesizeSlotInterior` |
@@ -304,7 +309,7 @@ bounds, else a single tile.
 | `buyPack` | — | Crystal-pack purchase flow (delegates to `onBuyCrystalPack`). Requires `building`. |
 | `buyHubItem` | `itemId`, `price`, `currency?`, `speakerName?`, `prerequisite?`, `lockedText?` | Always-available hub-item purchase (no daily rotation) — see §16. `itemId` must exist in `hubItems.json`; `currency` is `'crystals'` (default) or `'tickets'`. Unique items (e.g. the fishing rod) re-offer as "already owned" once bought. `speakerName` overrides the building-NPC speaker (useful for exterior stalls). `prerequisite` (§14 syntax, including `reputation:<tier>`) gates the offer — unmet shows `lockedText` (or a default refusal) instead. |
 | `dig` | `requiresItemId?`, `nightOnly?`, `weatherOnly?`, `lootTable?` | Once-per-day dig spot (see §16), gated on holding the tool hub-item (default `'spade'`). `nightOnly: true` makes it a **dark hollow** that refuses by day; `weatherOnly` (e.g. `"rain"`) makes it refuse unless the town's resolved weather (§12) matches — used by weather-gated harvest spots like **rain puddles**. `lootTable: 'earth'` (default) rolls 50% worms (+2 fish bait) / 30% crystals (10–25) / 20% a dug-up trinket; `'hollow'` rolls 50% glowcap mushroom / 25% crystals (15–35) / 25% a firefly; `'rain'` always yields 1 rainwater; `'fog'` always yields 1 grave moss. Cooldown persists per spot per real day in `jarv_hub_digs` (`web/src/game/hub/digs.ts`). Pair with a `mediumDirt` decor tile (`zlayer: "below"`) for an earth patch, or a puddle tile (e.g. `lightPuddle`, `zlayer: "below"`) for a rain-harvest spot. |
-| `forage` | — | Once-per-day forage spot, no fields. Unlike `dig`, no tool/night/weather gating — meant to overlay an ordinary tree/bush/flower `exteriorDecor` tile (no owned decor of its own) so any existing scenery can become forageable. Rolls 45% 1 wild berries / 35% crystals (5–15) / 20% a rare four-leaf-clover collectible. Cooldown persists per spot per real day in `jarv_hub_forages` (`web/src/game/hub/forages.ts`), same key convention as `dig`. |
+| `forage` | `lootTable?`, `hubItem?`, `message?` | Once-per-day forage spot. Unlike `dig`, no tool/night/weather gating — meant to overlay an ordinary tree/bush/flower `exteriorDecor` tile (no owned decor of its own) so any existing scenery can become forageable. What it yields is one weighted draw from the table `lootTable` names in `web/src/data/hub/forageLoot.json`: **`wild`** (the default — 45% wild berries / 35% crystals 5–15 / 20% a rare four-leaf clover), **`wood`** (always a log — log-pile gather spots), **`fruit`** (28% apple / 24% pear / 20% cherries / 18% crystals / 10% clover — trees). `hubItem.itemId` pins which item that table's item entries hand over, so one tree can always give apples and another crab apples without a table of its own, with `message` as the line shown instead of the entry's. Cooldown persists per spot per real day in `jarv_hub_forages` (`web/src/game/hub/forages.ts`), same key convention as `dig`. |
 
 Reactions run in order; `dialogue` (and `message`-bearing reactions) chain the
 remainder through the dialogue's close. Conventions: at most one `screen` or
@@ -382,9 +387,13 @@ scenery already in the town), so no owned `decor` or new art is needed.
    `shrub`, or `flower`) that isn't already occupied by another interactable,
    NPC, or animal.
 2. Add an interactable entry at that same `tx`/`ty` with **no `decor`**: a
-   `dialogue` reaction for flavor, then a `{ "type": "forage" }` reaction (no
-   fields). Live examples: `ravenwatch-forage-bush-1`, `ravenwatch-forage-tree-1`,
-   `ravenwatch-forage-flower-1`/`-2`.
+   `dialogue` reaction for flavor, then a `{ "type": "forage" }` reaction. Leave
+   it fieldless for the hedgerow roll, or name a table —
+   `{ "type": "forage", "lootTable": "fruit" }` for a tree. A tree that should
+   always give one particular fruit adds `"hubItem": { "itemId": "crab-apple" }`
+   and its own `"message"`. Live examples: `ravenwatch-forage-bush-1` (wild),
+   `ravenwatch-forage-tree-1` (fruit, mixed), `appleford-forage-tree-1` (fruit,
+   pinned to apples), `thornwood-logpile-1` (wood).
 3. Run `npm run test` and `npm run build`.
 4. Verify by reading the flow: the interactable sits directly on top of
    already-rendered decor (no visual change needed), tapping it once a day
@@ -1168,6 +1177,93 @@ the one you're talking to — just skip the effect; nothing errors).
 
 ---
 
+## §7h — Chef Cooking & Secret Recipes
+
+Any NPC flagged `"chef": true` in `config.json` offers **🍳 What can you cook
+with this?** alongside Talk/Give (§7d). Picking it opens `ChefCookingModal` —
+a multi-select over everything `'material'` in the player's satchel. Hand over
+up to five items (one of each) and the chef turns them into a dish:
+
+- **Secret recipe** — the selection is *exactly* a recipe's ingredient set
+  (order irrelevant, no extras). Grants that recipe's specific hub-item plus
+  friendship, ally-track points, and a one-off crystal discovery bonus.
+- **Generic dish** — anything else. The first `genericDishes` entry with a
+  matching ingredient wins; the last entry (no `anyOfItems`) is the catch-all.
+  No friendship, no crystals.
+
+Ingredients are consumed all-or-nothing: if the player no longer holds every
+item, nothing is taken and nothing is cooked.
+
+### Schema — `web/src/data/hub/chefRecipes.json`
+
+```jsonc
+{
+  "maxIngredients": 5,             // cap on one pot; also the picker's cap
+  "recipes": [
+    {
+      "id": "fruit-pie",           // stable id; persisted once discovered
+      "name": "Fruit Pie",
+      "dishItemId": "fruit-pie",   // hub-item id (hubItems.json) handed over
+      "ingredients": ["rainwater", "wild-berries", "chicken-feed"],  // exact set
+      "text": "…",                 // what the chef says (blank lines = paragraphs)
+      "discoveryCrystals": 25,     // paid the FIRST time only
+      "friendshipXp": 12,
+      "relationship": { "track": "ally", "points": 5 }
+    }
+  ],
+  "genericDishes": [
+    { "id": "fish-stew", "dishItemId": "fish-stew",
+      "anyOfItems": ["fish-small", "…"], "text": "…" },
+    { "id": "bowl-of-slop", "dishItemId": "bowl-of-slop", "text": "…" }  // catch-all, last
+  ]
+}
+```
+
+### Field reference
+
+| Field | Type | Notes |
+|---|---|---|
+| `maxIngredients` | number | How many items go in one pot. |
+| `recipes[].ingredients` | string[] | Hub-item ids. Matched as a **set**: same items, any order, nothing extra. Must fit inside `maxIngredients`. |
+| `recipes[].dishItemId` | string | Must exist in `hubItems.json`. |
+| `recipes[].discoveryCrystals` | number? | One-off, tracked in `jarv_hub_chef_recipes_found`. |
+| `recipes[].friendshipXp` / `relationship` | number? / `{track, points}`? | Granted on every successful cook, via the same rivalry-aware helpers as gifting (§7c). |
+| `genericDishes[].anyOfItems` | string[]? | First entry sharing an item with the selection wins. Omit on the **last** entry to make it the catch-all. |
+
+### Files
+
+| File | Owns |
+|---|---|
+| `web/src/data/hub/chefRecipes.json` | The recipes and fallback dishes. |
+| `web/src/game/hub/chefCooking.ts` | `cook`, `cookableItems`, `matchRecipe`, `resolveGenericDish`, `getDiscoveredRecipeIds`, `hasDiscoveredRecipe`, `MAX_COOK_INGREDIENTS`. |
+| `web/src/components/hub/ChefCookingModal.tsx` | The picker (pure visual — the caller owns the inventory). |
+| `web/src/components/hub/HubWorld.tsx` | `cookForChef` — grants friendship/relationship, plays the sound, shows the result line. |
+
+### Clues
+
+A recipe nobody can guess is a recipe nobody cooks, so each one is gossiped
+about by an NPC somewhere else in the world as an ordinary conversation topic
+(§7g) naming its exact ingredients — currently Baker Tovi (Harrowfield),
+Hedge-Witch Morwen (Hollowmere), Beekeeper Mabe and Keeper Bess (Appleford),
+Smokehouse Master Findlay (Saltmere Port), Old Pellan and Widow Tamsin
+(Millhaven) and Gardener Thom (Royal Palace). `chefRecipeClues.test.ts` fails
+if a recipe loses its clue.
+
+Several recipes take fruit picked from `fruit` forage spots (§7), which is
+what makes those trees worth revisiting.
+
+### Authoring checklist: new secret recipe
+
+1. Add the dish to `web/src/data/hubItems.json` (`"category": "material"`).
+2. Add the recipe to `chefRecipes.json` — ingredients must all be catalog ids,
+   and the set must not collide with an existing recipe.
+3. Author a clue: a conversation topic (§7g) on some other NPC whose tree names
+   every ingredient, and reference it from that NPC's `conversationTopics`.
+4. Run `npm run test` — `chefCooking.test.ts` and `chefRecipeClues.test.ts`
+   check the ids, the set uniqueness and the clue; `npm run build` to typecheck.
+
+---
+
 ## §8 — Animals
 
 Living town ambience. Two kinds: **procedural** animals (spawned from town
@@ -1830,7 +1926,7 @@ or unedited keys are preserved).
 | mapW/H, townName, environment (config) | Town panel (no selection) |
 | avatarStart, exitTiles, weather, ambientNpcSprites, npcSpawnTiles, pondTiles, chickenZones (config) | Town panel → extra sections |
 | buildings, exteriorDecor, interiors, streets, areas, doors (config) | Canvas tools + Building/Interior/Street/Area inspectors |
-| npcs, animals, innRumours (config, per-NPC) | NPC drawer (NPCs tab) + canvas |
+| npcs, animals, innRumours, chef flag (config, per-NPC) | NPC drawer (NPCs tab) + canvas |
 | treasures (config) | "+ Add Treasure" + Treasure inspector; quest-items overlay |
 | interactables (config) | Interactables overlay toggle + Interactable inspector (incl. reactions) |
 | lockedDoors (config) | Building inspector → locked door |

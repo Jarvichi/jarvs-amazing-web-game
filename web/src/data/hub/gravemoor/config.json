@@ -2647,7 +2647,12 @@
           "text": "A gnarled dead tree — something might be tucked in its roots."
         },
         {
-          "type": "forage"
+          "type": "forage",
+          "lootTable": "fruit",
+          "hubItem": {
+            "itemId": "crab-apple"
+          },
+          "message": "A crab apple, small and sour, growing out of a grave-fed root. 🍏"
         }
       ]
     },
@@ -2661,7 +2666,12 @@
           "text": "The whispering wood grows thick here. Worth a closer look."
         },
         {
-          "type": "forage"
+          "type": "forage",
+          "lootTable": "fruit",
+          "hubItem": {
+            "itemId": "crab-apple"
+          },
+          "message": "The whispering wood offers up a crab apple. You take it quickly. 🍏"
         }
       ]
     },
@@ -2675,7 +2685,12 @@
           "text": "A dead tree at the woodland's edge, roots half-exposed."
         },
         {
-          "type": "forage"
+          "type": "forage",
+          "lootTable": "fruit",
+          "hubItem": {
+            "itemId": "crab-apple"
+          },
+          "message": "Half-exposed roots, and one stubborn crab apple still hanging on. 🍏"
         }
       ]
     },

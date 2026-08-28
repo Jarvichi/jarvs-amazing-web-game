@@ -1,6 +1,110 @@
 {
   "dialogues": [
     {
+      "id": "findlay-topic-feast-platter",
+      "npcId": "smokehouse-master",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Half my smoked herring goes inland now, and every order comes with the same daft request: send charcoal and a log along with it. As if I'd sell a man a fish and no fire.",
+          "choices": [
+            {
+              "label": "Why would a cook want your fuel?",
+              "next": "recipe"
+            },
+            {
+              "label": "Who orders like that?",
+              "next": "source"
+            },
+            {
+              "label": "Sounds like someone wasting your time.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "source": {
+          "text": "Kitchen folk, the good ones. Grimble at Ravenwatch was first, then the castle followed him like gulls after a boat. Same three items on every order.",
+          "choices": [
+            {
+              "label": "What three?",
+              "next": "recipe"
+            },
+            {
+              "label": "Good custom is good custom.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "recipe": {
+          "text": "Smoked herring, charcoal, and one dry log. Hand a cook those three and nothing else and you get a feast platter that comes out mahogany-dark and smells of a good winter.",
+          "choices": [
+            {
+              "label": "Herring, charcoal, log. Noted, Findlay.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "All that for a plate of fish?",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "Wasting my time? They pay double and they come back. Herring, charcoal, a dry log. There's a dish in that, and I'd like a taste before I die.",
+          "choices": [
+            {
+              "label": "I'll bring you one if it works.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 6
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Understood.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "bess-midwinter-feast",
       "npcId": "tavern-sailor",
       "start": "greet",
@@ -5158,6 +5262,12 @@
     }
   ],
   "conversationTopics": [
+    {
+      "id": "findlay-topic-feast-platter",
+      "npcId": "smokehouse-master",
+      "label": "🍖 Ask where all the smoked herring goes",
+      "treeId": "findlay-topic-feast-platter"
+    },
     {
       "id": "saltmereport-harbourmaster-vane-topic-auto-1",
       "npcId": "harbourmaster-vane",

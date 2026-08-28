@@ -12835,6 +12835,7 @@
     },
     {
       "id": "mad-chef",
+      "chef": true,
       "name": "Mad Chef Grimble",
       "sprite": "hub-npc-cook",
       "building": "inn-kitchen",
@@ -13624,7 +13625,8 @@
           "text": "Something might be growing at the foot of this old tree."
         },
         {
-          "type": "forage"
+          "type": "forage",
+          "lootTable": "fruit"
         }
       ],
       "hitRect": {

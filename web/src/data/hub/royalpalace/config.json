@@ -2479,6 +2479,7 @@
     },
     {
       "id": "royal-cook",
+      "chef": true,
       "name": "Cook Bessie",
       "sprite": "hub-npc-cook",
       "building": "royal-kitchens",
@@ -2558,7 +2559,7 @@
         "The Queen wants roses, the King wants order, and the rabbits want my lettuces. Everyone wants something.",
         "If you've a good eye, there's a rare bloom or two I've lost track of out here."
       ],
-      "conversationTopics": ["royalpalace-royal-gardener-topic-auto-1", "royalpalace-royal-gardener-topic-auto-2", "royalpalace-royal-gardener-topic-auto-3"],
+      "conversationTopics": ["royalpalace-royal-gardener-topic-auto-1", "royalpalace-royal-gardener-topic-auto-2", "royalpalace-royal-gardener-topic-auto-3", "thom-topic-perry-tart"],
       "dialogueByActivity": {
         "work": [
           "Mind the beds! I only just got the begonias straightened out."
@@ -4474,7 +4475,12 @@
           "text": "An autumn-gold tree in the East Gardens, worth a closer look."
         },
         {
-          "type": "forage"
+          "type": "forage",
+          "lootTable": "fruit",
+          "hubItem": {
+            "itemId": "pear"
+          },
+          "message": "A pear from the East Gardens, grown for a king and picked by you. 🍐"
         }
       ]
     },

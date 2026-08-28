@@ -123,6 +123,7 @@ export interface RawNpc {
   }>
   homeBed?: { buildingId: string; tx: number; ty: number }
   innRumours?: Array<{ id: string; text: string }>
+  chef?: boolean   // offers the "What can you cook with this?" ingredient picker (docs/hubworld.md §7h)
 }
 
 export interface RawInterior {

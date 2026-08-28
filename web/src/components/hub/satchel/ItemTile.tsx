@@ -10,16 +10,19 @@ interface Props {
   flagged?: boolean
   /** Drawn as satisfied — a quest item you already hold enough of. */
   complete?: boolean
+  /** Drawn as picked — e.g. an ingredient chosen for the chef's pot. */
+  selected?: boolean
   onClick?: () => void
 }
 
 /** One square in the Satchel grid. A bag should look like a bag: tiles you can
  *  count at a glance beat text rows you have to read. */
-export function ItemTile({ icon, count, label, flagged, complete, onClick }: Props) {
+export function ItemTile({ icon, count, label, flagged, complete, selected, onClick }: Props) {
   const className = [
     'satchel-tile',
     flagged && 'satchel-tile--flagged',
     complete && 'satchel-tile--complete',
+    selected && 'satchel-tile--selected',
   ].filter(Boolean).join(' ')
 
   const inner = (
@@ -33,7 +36,14 @@ export function ItemTile({ icon, count, label, flagged, complete, onClick }: Pro
     return <div className={className} title={label} aria-label={label} role="img">{inner}</div>
   }
   return (
-    <button type="button" className={className} onClick={onClick} title={label} aria-label={label}>
+    <button
+      type="button"
+      className={className}
+      onClick={onClick}
+      title={label}
+      aria-label={label}
+      aria-pressed={selected}
+    >
       {inner}
     </button>
   )

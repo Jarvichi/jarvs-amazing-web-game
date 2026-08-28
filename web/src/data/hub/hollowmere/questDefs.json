@@ -1,6 +1,110 @@
 {
   "dialogues": [
     {
+      "id": "morwen-topic-gloom-broth",
+      "npcId": "hedge-witch-morwen",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "There's a broth going about now that lights the bowl from the inside. Cooks doing my work for me, and worse than me, and getting thanked for it.",
+          "choices": [
+            {
+              "label": "How would anyone even make that?",
+              "next": "recipe"
+            },
+            {
+              "label": "Who's making it?",
+              "next": "source"
+            },
+            {
+              "label": "Sounds like bog gossip to me.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "source": {
+          "text": "Grimble. The one in Ravenwatch with the eyebrows. A pedlar swore to me it was three glowing things and nothing else — and I've a good idea which three.",
+          "choices": [
+            {
+              "label": "Which three?",
+              "next": "recipe"
+            },
+            {
+              "label": "Thank you, Morwen.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "recipe": {
+          "text": "A glowcap mushroom, a live firefly, and one of the blind little fish out of the cave water. Those three in the pot, nothing else, or it sulks and goes dark on you.",
+          "choices": [
+            {
+              "label": "Glowcap, firefly, blindling. I can find those.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "That is not a soup. That is a hazard.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "Gossip travels the bog road faster than you do, and it lies less. Glowcap, firefly, a blind cave fish. Go on and prove me wrong.",
+          "choices": [
+            {
+              "label": "I'll try it and let you know.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Maybe I will.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "nettle-rainwater-trade",
       "npcId": "apothecary-herbalist",
       "start": "greet",
@@ -3270,6 +3374,12 @@
     }
   },
   "conversationTopics": [
+    {
+      "id": "morwen-topic-gloom-broth",
+      "npcId": "hedge-witch-morwen",
+      "label": "🥣 Ask about the broth that glows",
+      "treeId": "morwen-topic-gloom-broth"
+    },
     {
       "id": "hollowmere-pilgrim-darkwood-topic-auto-1",
       "npcId": "pilgrim-darkwood",

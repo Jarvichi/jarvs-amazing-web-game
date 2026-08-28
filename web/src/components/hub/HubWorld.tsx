@@ -30,6 +30,8 @@ import { addCollectible, addConsumable, getCollectibles, addHubItem, removeHubIt
 import { questItemId } from '../../game/hub/questItems'
 import { SatchelMenu, type SatchelSectionId, type TownView } from './SatchelMenu'
 import { PetModal } from './PetModal'
+import { ChefCookingModal } from './ChefCookingModal'
+import { cook, cookableItems, MAX_COOK_INGREDIENTS } from '../../game/hub/chefCooking'
 import { PetShelterModal } from './PetShelterModal'
 import { BountyBoardModal } from './BountyBoardModal'
 import { hasUnclaimedBounties, getPendingBountyReport, getPendingBountyCollect, advanceBountyStep, getActiveBountyStep, isBountyCollectPickup, reconcileBountyPickups } from '../../game/hub/bounties'
@@ -56,6 +58,7 @@ import { getFlameType, setFlameType } from '../../game/hub/flames'
 import { recordGroupMember } from '../../game/hub/groupChallenges'
 import { shuffled } from '../../game/hub/shuffle'
 import { canForageToday, recordForage } from '../../game/hub/forages'
+import { forageTable, rollForage } from '../../game/hub/forageLoot'
 import { getReputationTier } from '../../data/hub/buildingUpgrades'
 import { resolveWeather } from '../../game/hub/weather'
 import { recordSellerSeen, recordBuyerSeen } from '../../game/hub/tradeJournal'
@@ -78,6 +81,7 @@ interface NpcTapDef {
   conversationTopics?: string[]
   favoriteGiftItemId?: string; favoriteGiftTrack?: string
   dislikedGiftItemIds?: string[]
+  chef?: boolean
 }
 
 const T = 32
@@ -268,6 +272,8 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
   const [hubTownView,         setHubTownView]         = useState<TownView>('people')
   const [bountyBoardOpen,     setBountyBoardOpen]     = useState(false)
   const [petShelterOpen,      setPetShelterOpen]      = useState(false)
+  /** The chef whose "What can you cook with this?" picker is open, if any. */
+  const [cookingChef,         setCookingChef]         = useState<{ npcId: string; name: string } | null>(null)
   function openHubTab(tab: SatchelSectionId, townView?: TownView) {
     setActiveHubTab(tab)
     if (townView) setHubTownView(townView)
@@ -1103,6 +1109,14 @@ function buildTalkGiveOptions(
       },
     })
   }
+  // Chefs (config.json `"chef": true`) take ingredients instead of gifts —
+  // hand over up to MAX_COOK_INGREDIENTS items and they cook something (§7h).
+  if (npcDef?.chef) {
+    choices.push({
+      label: '🍳 What can you cook with this?',
+      onClick: () => { setDialogueEvent(null); setCookingChef({ npcId, name: speakerName }) },
+    })
+  }
   if (npcDef?.innRumours && npcDef.innRumours.length > 0) {
     const rumours = npcDef.innRumours
     const rumourableToday = canHearRumourToday(npcId)
@@ -1644,6 +1658,33 @@ function hasOfferableQuest(giverId: string): boolean {
     // ── Default dialogue (animals / unnamed) ─────────────────────────────────
     setDialogueEvent({ speakerName, text: line })
   }, [refreshState, handleNodeInteract, pendingWakeNpcId, wokenNpcIds])
+
+  // Handing a chef ingredients (§7h). The picker is a modal rather than a
+  // dialogue-choice list because it's a multi-select: a set of up to
+  // MAX_COOK_INGREDIENTS items, not one tap. `cook` owns the inventory and
+  // crystal side of it; friendship/relationship are granted here so the
+  // rivalry-aware helpers (and the ❤️ reaction) behave as they do everywhere
+  // else.
+  const cookForChef = useCallback((npcId: string, speakerName: string, itemIds: string[]) => {
+    setCookingChef(null)
+    const result = cook(itemIds)
+    if (!result) {
+      setDialogueEvent({ speakerName, text: '"...You don\'t have all of that on you. Come back when you do."' })
+      return
+    }
+    if (result.friendshipXp) grantFriendship(npcId, result.friendshipXp)
+    if (result.relationship) {
+      grantRelationshipWithRivalry(npcId, result.relationship.track, result.relationship.points, locationData.HUB_NPCS)
+    }
+    if (result.crystals > 0) onCrystalsChange?.(loadCrystals())
+    emitSound(result.recipe ? 'treasure' : 'pickup')
+    refreshState()
+    const lines = [result.text, `${result.dishIcon} ${result.dishName} added to your satchel.`]
+    if (result.firstDiscovery) {
+      lines.push(`A secret recipe, discovered! +${result.crystals} 💎`)
+    }
+    setDialogueEvent({ speakerName, text: lines.join('\n\n') })
+  }, [refreshState])
 
   // Gifting a held material to an NPC — the generic counterpart to the
   // curated `tradeHubItem` dialogue-tree effect (docs/hubworld.md §16), but
@@ -2293,58 +2334,40 @@ function hasOfferableQuest(giverId: string): boolean {
         // Once-per-day forage spot — overlays an ordinary tree/bush/flower
         // decor tile (docs/hubworld.md §7). Unlike dig, no tool/night/weather
         // gating: foraging is meant to be low-friction and always available.
+        // What comes out is the reaction's `lootTable` (forageLoot.json):
+        // 'wild' hedgerow by default, 'wood' for log piles, 'fruit' for trees
+        // — with `hubItem.itemId` pinning a spot's own fruit if it has one.
         if (!canForageToday(storeKey)) {
           setDialogueEvent({ speakerName: '', text: "You've already foraged here today. Let it grow back." })
           return
         }
-        if (r.lootTable === 'wood') {
-          const confirm: DialogueChoice = {
-            label: 'Gather the logs',
-            primary: true,
-            onClick: () => {
-              recordForage(storeKey)
-              addHubItem('log', 1)
-              emitSound('pickup')
-              refreshState()
-              setDialogueEvent({ speakerName: '', text: 'You pull a dry log free from the pile. 🪵', onClose: next })
-            },
-          }
-          setDialogueEvent({
-            speakerName: '',
-            text: 'A pile of cut logs, left to dry.',
-            choices: [confirm, { label: 'Leave it', isExit: true, onClick: () => setDialogueEvent(null) }],
-          })
-          return
-        }
+        const table = forageTable(r.lootTable)
         const confirm: DialogueChoice = {
-          label: 'Forage here',
+          label: table.confirmLabel,
           primary: true,
           onClick: () => {
             recordForage(storeKey)
-            const roll = Math.random()
-            let text: string
-            if (roll < 0.45) {
-              addHubItem('wild-berries', 1)
-              emitSound('pickup')
-              text = 'You come away with a handful of ripe wild berries. 🫐'
-            } else if (roll < 0.8) {
-              const amount = 5 + Math.floor(Math.random() * 11) // 5–15
-              saveCrystals(loadCrystals() + amount)
+            const outcome = rollForage(table, {
+              overrideItemId: r.hubItem?.itemId,
+              overrideText: r.message,
+            })
+            if (outcome.hubItemId) addHubItem(outcome.hubItemId, 1)
+            if (outcome.crystals != null) {
+              saveCrystals(loadCrystals() + outcome.crystals)
               onCrystalsChange?.(loadCrystals())
-              emitSound('treasure')
-              text = `Something small and bright is tucked in the leaves — ${amount} crystals. 💎`
-            } else {
-              addCollectible('four-leaf-clover', { name: 'Four-Leaf Clover', icon: '🍀', desc: 'A rare find among the ordinary three-leafed kind. Feels lucky.' })
-              emitSound('treasure')
-              text = 'Tucked in the greenery — a four-leaf clover! Added to your collection. 🍀'
             }
+            if (outcome.collectible) {
+              const { id, name, icon, desc } = outcome.collectible
+              addCollectible(id, { name, icon, desc })
+            }
+            emitSound(outcome.sound)
             refreshState()
-            setDialogueEvent({ speakerName: '', text, onClose: next })
+            setDialogueEvent({ speakerName: '', text: outcome.text, onClose: next })
           },
         }
         setDialogueEvent({
           speakerName: '',
-          text: 'A patch of wild growth, ripe for foraging.',
+          text: table.prompt,
           choices: [confirm, { label: 'Leave it', isExit: true, onClick: () => setDialogueEvent(null) }],
         })
         return
@@ -2554,6 +2577,15 @@ function hasOfferableQuest(giverId: string): boolean {
           />
         )}
         {petModalOpen && <PetModal onClose={() => setPetModalOpen(false)} petActionRef={petActionRef} />}
+        {cookingChef && (
+          <ChefCookingModal
+            chefName={cookingChef.name}
+            items={cookableItems()}
+            maxIngredients={MAX_COOK_INGREDIENTS}
+            onCook={ids => cookForChef(cookingChef.npcId, cookingChef.name, ids)}
+            onClose={() => setCookingChef(null)}
+          />
+        )}
         {bountyBoardOpen && <BountyBoardModal onClose={() => setBountyBoardOpen(false)} resolveNpcName={getNpcDisplayName} townNpcs={locationData.HUB_NPCS}/>}
         {petShelterOpen && <PetShelterModal onClose={() => setPetShelterOpen(false)} onAdopted={() => setPetShelterOpen(false)} />}
         {relationshipNpcId && <RelationshipView npcName={getNpcDisplayName(relationshipNpcId)} entry={getRelationship(relationshipNpcId)} onClose={() => setRelationshipNpcId(null)} />}

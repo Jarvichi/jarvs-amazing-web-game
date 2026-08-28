@@ -2277,7 +2277,8 @@
       "conversationTopics": [
         "millhaven-widow-tamsin-topic-auto-1",
         "millhaven-widow-tamsin-topic-auto-2",
-        "millhaven-widow-tamsin-topic-auto-3"
+        "millhaven-widow-tamsin-topic-auto-3",
+        "tamsin-topic-cherry-preserve"
       ],
       "dialogueByActivity": {
         "idle-chat": [
@@ -2340,7 +2341,8 @@
       "conversationTopics": [
         "millhaven-harbour-angler-topic-auto-1",
         "millhaven-harbour-angler-topic-auto-2",
-        "millhaven-harbour-angler-topic-auto-3"
+        "millhaven-harbour-angler-topic-auto-3",
+        "pellan-topic-chowder"
       ],
       "screen": "hub-fishing-ocean",
       "favoriteGiftItemId": "fish-trophy",

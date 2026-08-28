@@ -1,0 +1,79 @@
+{
+  "wild": {
+    "prompt": "A patch of wild growth, ripe for foraging.",
+    "confirmLabel": "Forage here",
+    "entries": [
+      {
+        "weight": 45,
+        "hubItemId": "wild-berries",
+        "text": "You come away with a handful of ripe wild berries. 🫐"
+      },
+      {
+        "weight": 35,
+        "crystals": { "min": 5, "max": 15 },
+        "sound": "treasure",
+        "text": "Something small and bright is tucked in the leaves — {crystals} crystals. 💎"
+      },
+      {
+        "weight": 20,
+        "collectible": {
+          "id": "four-leaf-clover",
+          "name": "Four-Leaf Clover",
+          "icon": "🍀",
+          "desc": "A rare find among the ordinary three-leafed kind. Feels lucky."
+        },
+        "sound": "treasure",
+        "text": "Tucked in the greenery — a four-leaf clover! Added to your collection. 🍀"
+      }
+    ]
+  },
+  "wood": {
+    "prompt": "A pile of cut logs, left to dry.",
+    "confirmLabel": "Gather the logs",
+    "entries": [
+      {
+        "weight": 1,
+        "hubItemId": "log",
+        "text": "You pull a dry log free from the pile. 🪵"
+      }
+    ]
+  },
+  "fruit": {
+    "prompt": "The branches hang heavy with fruit.",
+    "confirmLabel": "Pick some fruit",
+    "entries": [
+      {
+        "weight": 28,
+        "hubItemId": "apple",
+        "text": "You twist a ripe apple free of the branch. 🍎"
+      },
+      {
+        "weight": 24,
+        "hubItemId": "pear",
+        "text": "A heavy pear comes away in your hand. 🍐"
+      },
+      {
+        "weight": 20,
+        "hubItemId": "cherries",
+        "text": "You pick a bunch of dark cherries, still on the stem. 🍒"
+      },
+      {
+        "weight": 18,
+        "crystals": { "min": 5, "max": 15 },
+        "sound": "treasure",
+        "text": "Something bright is wedged in a fork of the branches — {crystals} crystals. 💎"
+      },
+      {
+        "weight": 10,
+        "collectible": {
+          "id": "four-leaf-clover",
+          "name": "Four-Leaf Clover",
+          "icon": "🍀",
+          "desc": "A rare find among the ordinary three-leafed kind. Feels lucky."
+        },
+        "sound": "treasure",
+        "text": "Growing in the tree's shadow — a four-leaf clover! Added to your collection. 🍀"
+      }
+    ]
+  }
+}

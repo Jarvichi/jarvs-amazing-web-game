@@ -444,5 +444,124 @@
     "icon": "⚫",
     "desc": "Blackened, brittle charcoal, raked from a well-fed fire. Prized by smiths and artists alike.",
     "category": "material"
+  },
+  {
+    "id": "fruit-pie",
+    "name": "Fruit Pie",
+    "icon": "🥧",
+    "desc": "A golden-crusted pie bursting with berries. Grimble swears the secret is the chicken feed.",
+    "category": "material"
+  },
+  {
+    "id": "gloom-broth",
+    "name": "Gloom Broth",
+    "icon": "🥣",
+    "desc": "A broth that glows faintly from within. Tastes of damp stone and, oddly, honeycomb.",
+    "category": "material"
+  },
+  {
+    "id": "spiced-honey-custard",
+    "name": "Spiced Honey Custard",
+    "icon": "🍮",
+    "desc": "Silky, spiced and dangerously sweet. Best eaten before anyone else finds it.",
+    "category": "material"
+  },
+  {
+    "id": "smoked-feast-platter",
+    "name": "Smoked Feast Platter",
+    "icon": "🍖",
+    "desc": "Herring smoked over charcoal until the whole kitchen smelled of it for a week.",
+    "category": "material"
+  },
+  {
+    "id": "kingfisher-chowder",
+    "name": "Kingfisher Chowder",
+    "icon": "🍜",
+    "desc": "A thick, peppery chowder built around one very good fish.",
+    "category": "material"
+  },
+  {
+    "id": "fish-stew",
+    "name": "Fish Stew",
+    "icon": "🍲",
+    "desc": "An honest pot of fish stew. Nobody's masterpiece, but nobody goes hungry.",
+    "category": "material"
+  },
+  {
+    "id": "foragers-salad",
+    "name": "Forager's Salad",
+    "icon": "🥗",
+    "desc": "Leaves, berries and whatever else the hedgerow offered. Surprisingly good.",
+    "category": "material"
+  },
+  {
+    "id": "mystery-hash",
+    "name": "Mystery Hash",
+    "icon": "🍳",
+    "desc": "Everything you handed over, chopped and fried together. Ask no questions.",
+    "category": "material"
+  },
+  {
+    "id": "bowl-of-slop",
+    "name": "Bowl of Slop",
+    "icon": "🪣",
+    "desc": "Grey. Lukewarm. Technically food. The dog wouldn't touch it.",
+    "category": "material"
+  },
+  {
+    "id": "apple",
+    "name": "Apple",
+    "icon": "🍎",
+    "desc": "Crisp, red and orchard-fresh. Half the county's cider starts here.",
+    "category": "material"
+  },
+  {
+    "id": "pear",
+    "name": "Pear",
+    "icon": "🍐",
+    "desc": "Heavy, sweet and bruised if you look at it wrong. Best eaten over a sink.",
+    "category": "material"
+  },
+  {
+    "id": "cherries",
+    "name": "Cherries",
+    "icon": "🍒",
+    "desc": "A tied bunch of dark cherries, still on the stem.",
+    "category": "material"
+  },
+  {
+    "id": "crab-apple",
+    "name": "Crab Apple",
+    "icon": "🍏",
+    "desc": "Small, hard and mouth-puckeringly sour. Cooks swear it's worth the effort.",
+    "category": "material"
+  },
+  {
+    "id": "orchard-crumble",
+    "name": "Orchard Crumble",
+    "icon": "🧁",
+    "desc": "Baked apple under a golden lid, still bubbling at the edges.",
+    "category": "material"
+  },
+  {
+    "id": "perry-tart",
+    "name": "Perry Tart",
+    "icon": "🥮",
+    "desc": "Spiced pear set in pastry, glazed to a shine.",
+    "category": "material"
+  },
+  {
+    "id": "cherry-preserve",
+    "name": "Cherry Preserve",
+    "icon": "🫙",
+    "desc": "A sealed jar of dark cherry preserve. Keeps for a year; never lasts a week.",
+    "category": "material"
+  },
+  {
+    "id": "stewed-fruit",
+    "name": "Stewed Fruit",
+    "icon": "🫕",
+    "desc": "Fruit softened in a pot with nothing clever done to it. Warm and honest.",
+    "category": "material"
   }
 ]

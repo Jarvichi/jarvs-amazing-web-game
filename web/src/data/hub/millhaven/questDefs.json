@@ -873,6 +873,219 @@
   ],
   "dialogues": [
     {
+      "id": "tamsin-topic-cherry-preserve",
+      "npcId": "widow-tamsin",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Cherry preserve. My mother's recipe, and her mother's. I've not made a jar since Harl died — but I'll tell it to anyone who'll carry it on.",
+          "choices": [
+            {
+              "label": "I'd like to hear it.",
+              "next": "recipe"
+            },
+            {
+              "label": "Why stop making it?",
+              "next": "grief"
+            },
+            {
+              "label": "Preserve is just boiled fruit and sugar.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "grief": {
+          "text": "He ate it by the spoonful straight from the jar and thought I never noticed. Making it is easy. It's the noticing I can't do any more.",
+          "choices": [
+            {
+              "label": "Tell me the recipe. I'll make it.",
+              "next": "recipe"
+            },
+            {
+              "label": "I'm sorry, Tamsin.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 6
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "recipe": {
+          "text": "Cherries, honey, and rainwater. No sugar — sugar bullies the fruit, my mother said, and she was right about most things. Those three to a cook, nothing else in the pot.",
+          "choices": [
+            {
+              "label": "Cherries, honey, rainwater. I'll bring you a jar.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Thank you for trusting me with it.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 6
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "Sugar. In my mother's preserve. Cherries, honey and rainwater, and not one grain of sugar — go and taste the difference before you tell me what preserve is.",
+          "choices": [
+            {
+              "label": "Cherries, honey, rainwater. Understood.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Fair enough.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "pellan-topic-chowder",
+      "npcId": "harbour-angler",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Landed something proper lately? Then don't you dare hand it to a cook and say 'fry it'. A fish that size has one dish in it and you get one go.",
+          "choices": [
+            {
+              "label": "What dish?",
+              "next": "recipe"
+            },
+            {
+              "label": "Who told you that?",
+              "next": "source"
+            },
+            {
+              "label": "A fish is a fish, Pellan.",
+              "next": "blunt"
+            }
+          ]
+        },
+        "source": {
+          "text": "Forty years on this wall and a cook or two who owed me. They all say the same: a big fish, something to stew it in, and something with a bit of fire in it.",
+          "choices": [
+            {
+              "label": "Be specific, Pellan.",
+              "next": "recipe"
+            },
+            {
+              "label": "Thanks for the tip.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "recipe": {
+          "text": "A large fish, a scoop of rainwater for the stock, and a pouch of spice. Those three, nothing else in the pot. Kingfisher chowder, they call it. Thick enough to stand a spoon in.",
+          "choices": [
+            {
+              "label": "Large fish, rainwater, spice pouch. Got it.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Seems a shame to boil a good fish.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "A fish is a fish until it's chowder, lad. Large fish, rainwater, a pouch of spice. Then come back and tell me a fish is a fish.",
+          "choices": [
+            {
+              "label": "I'll report back.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "We'll see.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "tamsin-locket-trade",
       "npcId": "widow-tamsin",
       "start": "greet",
@@ -5744,6 +5957,18 @@
     }
   },
   "conversationTopics": [
+    {
+      "id": "tamsin-topic-cherry-preserve",
+      "npcId": "widow-tamsin",
+      "label": "🫙 Ask about the jars on her windowsill",
+      "treeId": "tamsin-topic-cherry-preserve"
+    },
+    {
+      "id": "pellan-topic-chowder",
+      "npcId": "harbour-angler",
+      "label": "🍜 Ask what to do with a big catch",
+      "treeId": "pellan-topic-chowder"
+    },
     {
       "id": "millhaven-mill-owner-topic-auto-1",
       "npcId": "mill-owner",

@@ -237,6 +237,10 @@ export interface RawNpc {
   /** Hub-item ids (hubItems.json) this NPC dislikes being gifted — costs friendship instead of gaining it. */
   dislikedGiftItemIds?: string[]
 
+  /** True for a cook who offers the "What can you cook with this?" ingredient
+   *  picker (docs/hubworld.md §7h). */
+  chef?: boolean
+
   /** Ids of other same-town NPCs this NPC dislikes — befriending one raises this NPC's own 'rival' track. */
   dislikes?: string[]
 

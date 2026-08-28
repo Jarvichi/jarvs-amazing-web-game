@@ -2096,7 +2096,12 @@
           "text": "A dead tree, twisted and bare — something might be tucked among its roots."
         },
         {
-          "type": "forage"
+          "type": "forage",
+          "lootTable": "fruit",
+          "hubItem": {
+            "itemId": "crab-apple"
+          },
+          "message": "The dead tree still fruits, after a fashion — one hard little crab apple. 🍏"
         }
       ]
     },
