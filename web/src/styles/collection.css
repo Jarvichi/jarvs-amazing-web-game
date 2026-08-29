@@ -806,8 +806,8 @@
   transition: background 0.15s, color 0.15s;
 }
 .deck-slot-btn:hover { background: rgba(255,255,255,0.12); color: var(--text-primary); }
-/* Gold, like every other active tab in the game (.player-tab--active,
-   .hoa-tab--active, .filter-pill). This was the last green tab left. */
+/* Gold, like every other active tab in the game (.tab-nav__item--on,
+   .filter-pill). This was the last green tab left. */
 .deck-slot-btn--active {
   background: color-mix(in srgb, var(--accent-gold) 18%, transparent);
   border-color: var(--accent-gold);
@@ -1151,51 +1151,6 @@
 }
 
 /* ── Hall of Achievements ───────────────────────────────────────────────── */
-
-.hoa-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  padding: 10px 12px 0;
-  border-bottom: 1px solid #2a3a2a;
-}
-
-.hoa-tab {
-  background: none;
-  border: 1px solid transparent;
-  color: #7a9a7a;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  padding: 4px 10px;
-  cursor: pointer;
-  position: relative;
-  border-radius: 2px 2px 0 0;
-}
-.hoa-tab:hover { color: #c8e8c8; border-color: #446644; }
-.hoa-tab:active { transform: translateY(1px); }
-.hoa-tab--active {
-  color: #c8e8c8;
-  border-color: #446644;
-  border-bottom-color: #0a120a;
-  background: #0a120a;
-}
-
-.hoa-badge {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  background: var(--color-gold-alt);
-  color: #1a1000;
-  font-size: 9px;
-  font-weight: bold;
-  min-width: 14px;
-  height: 14px;
-  line-height: 14px;
-  text-align: center;
-  border-radius: 7px;
-  padding: 0 3px;
-}
 
 .hoa-claim-bar {
   display: flex;

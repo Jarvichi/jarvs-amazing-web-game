@@ -1,7 +1,7 @@
 import React from 'react'
 import { ModalBackdrop } from '../../ui/ModalBackdrop'
-import { SatchelNav } from './SatchelNav'
-import type { SatchelNavItem, SatchelSectionId } from './types'
+import { TabNav, type TabNavItem } from '../../ui/TabNav'
+import { SATCHEL_NAV, type SatchelNavItem, type SatchelSectionId } from './types'
 
 interface Props {
   /** Section title — the ONLY place it is drawn. Content renders content. */
@@ -59,13 +59,23 @@ export function SatchelSheet({
           // Land here rather than on the search field, which would pop the
           // keyboard open every time the menu is opened on a phone.
           data-initial-focus=""
-          aria-labelledby={`satchel-tab-${activeId}`}
+          aria-labelledby={`satchel-panel-tab-${activeId}`}
           tabIndex={0}
         >
           {children}
         </div>
 
-        <SatchelNav activeId={activeId} onSelect={onSelect} badges={badges} items={navItems} />
+        <TabNav
+          placement="bar"
+          items={(navItems ?? SATCHEL_NAV).map((item): TabNavItem<SatchelSectionId> => ({
+            ...item,
+            badge: badges?.[item.id] ?? item.badge,
+          }))}
+          activeId={activeId}
+          onSelect={onSelect}
+          ariaLabel="Satchel sections"
+          panelId="satchel-panel"
+        />
       </div>
     </ModalBackdrop>
   )

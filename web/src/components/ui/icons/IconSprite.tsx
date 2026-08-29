@@ -16,7 +16,7 @@ export const ICON_NAMES = [
   'settings', 'trophy', 'minigames', 'sword', 'infinity', 'hub', 'crystal',
   'lock', 'coin', 'heart', 'mana', 'back-arrow', 'close', 'info', 'filter',
   'search', 'calendar', 'shield', 'bolt', 'pause', 'volume', 'display',
-  'database',
+  'database', 'star', 'satchel', 'scroll', 'town',
 ] as const
 
 export type IconName = typeof ICON_NAMES[number]
@@ -47,7 +47,7 @@ export function IconSprite() {
 
         <symbol id="icon-codex" viewBox="0 0 24 24">
           <path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H19a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H5.5A1.5 1.5 0 0 1 4 19.5z" />
-          <rect x="4" y="3" width="2.6" height="18" opacity="0.55" />
+          <path d="M7.2 3.6v16.8" fill="none" stroke="var(--game-bg, #0a0a0a)" strokeWidth="1.7" />
         </symbol>
 
         <symbol id="icon-chronicle" viewBox="0 0 24 24">
@@ -181,6 +181,32 @@ export function IconSprite() {
         <symbol id="icon-database" viewBox="0 0 24 24">
           <ellipse cx="12" cy="6" rx="8" ry="3.2" />
           <path d="M4 6v5c0 1.77 3.58 3.2 8 3.2s8-1.43 8-3.2V6M4 11v5c0 1.77 3.58 3.2 8 3.2s8-1.43 8-3.2v-5" fill="none" stroke="currentColor" strokeWidth="2.2" />
+        </symbol>
+
+        <symbol id="icon-star" viewBox="0 0 24 24">
+          <path d="M12 1.8l2.5 6.2 6.7.4-5.2 4.3 1.7 6.5L12 15.6l-5.7 3.6 1.7-6.5-5.2-4.3 6.7-.4z" />
+        </symbol>
+
+        {/* A messenger bag: trapezoid flap over a wide body. Deliberately no
+            arc handle — an arc above a filled body reads as a padlock
+            shackle at nav size, colliding with icon-lock. */}
+        <symbol id="icon-satchel" viewBox="0 0 24 24">
+          <path d="M6 3h12l3.2 6.5H2.8z" />
+          <path d="M2.5 9.5h19a1 1 0 0 1 1 1v8a2 2 0 0 1-2 2H3.5a2 2 0 0 1-2-2v-8a1 1 0 0 1 1-1z" />
+          <path d="M2.2 13.6h19.6" fill="none" stroke="var(--game-bg, #0a0a0a)" strokeWidth="1.8" />
+          <rect x="10.6" y="12.2" width="2.8" height="3.2" rx="0.8" />
+        </symbol>
+
+        <symbol id="icon-scroll" viewBox="0 0 24 24">
+          <path d="M6 3h11a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" />
+          <path d="M8 8h7M8 12h7M8 16h4" fill="none" stroke="var(--game-bg, #0a0a0a)" strokeWidth="1.8" strokeLinecap="round" />
+        </symbol>
+
+        <symbol id="icon-town" viewBox="0 0 24 24">
+          <path d="M1.5 21v-7l5-4 5 4v7z" />
+          <path d="M13 21v-8.5l4.5-3.5 4.5 3.5V21z" />
+          <rect x="5" y="16.5" width="3" height="4.5" fill="var(--game-bg, #0a0a0a)" />
+          <rect x="16" y="16.5" width="3" height="4.5" fill="var(--game-bg, #0a0a0a)" />
         </symbol>
       </defs>
     </svg>

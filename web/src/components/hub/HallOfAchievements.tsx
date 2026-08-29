@@ -4,6 +4,7 @@ import {
   loadAchievementSave, claimAchievementReward, claimAllAchievementRewards,
 } from '../../game/achievements'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { TabNav, type TabNavItem } from '../ui/TabNav'
 import { addCardsToCollection, loadCrystals, saveCrystals } from '../../game/collection'
 import { addToInventory, ALL_ITEMS } from '../../game/dailyLogin'
 import { addUnlockedAvatar } from '../../game/questline'
@@ -131,21 +132,16 @@ export function HallOfAchievements({ onBack, onCrystalsChanged }: Props) {
   return (
     <OverlayScreen title="HALL OF ACHIEVEMENTS" onBack={onBack}>
       {/* Category tabs */}
-      <div className="hoa-tabs">
-        {CATEGORY_ORDER.map(cat => {
-          const badge = claimableInCategory(cat)
-          return (
-            <button
-              key={cat}
-              className={`hoa-tab${cat === activeCategory ? ' hoa-tab--active' : ''}`}
-              onClick={() => setCategory(cat)}
-            >
-              {CATEGORY_LABELS[cat]}
-              {badge > 0 && <span className="hoa-badge">{badge}</span>}
-            </button>
-          )
-        })}
-      </div>
+      <TabNav
+        items={CATEGORY_ORDER.map((cat): TabNavItem<AchievementCategory> => ({
+          id: cat,
+          label: CATEGORY_LABELS[cat],
+          badge: claimableInCategory(cat),
+        }))}
+        activeId={activeCategory}
+        onSelect={setCategory}
+        ariaLabel="Achievement categories"
+      />
 
       {/* Claim all bar */}
       {totalClaimable > 0 && (

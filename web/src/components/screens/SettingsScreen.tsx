@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react'
+import { useState } from 'react'
 import { type User } from 'firebase/auth'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Panel } from '../ui/Panel'
-import { Icon } from '../ui/icons/Icon'
+import { TabNav, type TabNavItem } from '../ui/TabNav'
 import { type IconName } from '../ui/icons/IconSprite'
 import { AudioTab } from './settings/AudioTab'
 import { DisplayTab } from './settings/DisplayTab'
@@ -62,52 +62,30 @@ const TAB_META: Record<SettingsTab, { label: string; icon: IconName }> = {
 export function SettingsScreen(props: Props) {
   const { onBack, onResetGame, user, authLoading, onCheckForUpdates } = props
   const [tab, setTab] = useState<SettingsTab>('audio')
-  const tabRefs = useRef<Partial<Record<SettingsTab, HTMLButtonElement | null>>>({})
 
-  const tabs: SettingsTab[] = canSeeAdminTab(props)
+  const ids: SettingsTab[] = canSeeAdminTab(props)
     ? ['audio', 'display', 'account', 'game', 'about', 'admin']
     : ['audio', 'display', 'account', 'game', 'about']
-
-  // Left/right arrows move between tabs, per the tablist pattern — the tab
-  // strip is a single tab stop, not six.
-  function handleTabKeyDown(e: React.KeyboardEvent) {
-    const delta = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0
-    if (!delta) return
-    e.preventDefault()
-    const next = tabs[(tabs.indexOf(tab) + delta + tabs.length) % tabs.length]
-    setTab(next)
-    tabRefs.current[next]?.focus()
-  }
+  const items: TabNavItem<SettingsTab>[] = ids.map(id => ({ id, ...TAB_META[id] }))
 
   return (
     <OverlayScreen title="SETTINGS" onBack={onBack} className="settings-screen u-col u-grow">
       <div className="settings-tabs">
-        <div className="settings-tabs-inner" role="tablist" aria-label="Settings categories">
-          {tabs.map(id => (
-            <button
-              key={id}
-              ref={el => { tabRefs.current[id] = el }}
-              id={`settings-tab-${id}`}
-              className={`player-tab settings-tab${tab === id ? ' player-tab--active' : ''}`}
-              role="tab"
-              aria-selected={tab === id}
-              aria-controls={`settings-panel-${id}`}
-              tabIndex={tab === id ? 0 : -1}
-              onClick={() => setTab(id)}
-              onKeyDown={handleTabKeyDown}
-            >
-              <Icon name={TAB_META[id].icon} size={14} />
-              <span>{TAB_META[id].label}</span>
-            </button>
-          ))}
-        </div>
+        <TabNav
+          className="settings-tabs-inner"
+          items={items}
+          activeId={tab}
+          onSelect={setTab}
+          ariaLabel="Settings categories"
+          panelId="settings-panel"
+        />
       </div>
 
       <div
         className="settings-body u-col u-grow"
-        id={`settings-panel-${tab}`}
+        id="settings-panel"
         role="tabpanel"
-        aria-labelledby={`settings-tab-${tab}`}
+        aria-labelledby={`settings-panel-tab-${tab}`}
         tabIndex={0}
       >
         {tab === 'admin' ? (

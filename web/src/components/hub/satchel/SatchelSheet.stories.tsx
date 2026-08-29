@@ -101,7 +101,7 @@ export const ScrollsWhenContentOverflows: Story = {
 
     const sheet = document.querySelector<HTMLElement>('.satchel-sheet')!
     const body  = document.querySelector<HTMLElement>('.satchel-sheet__body')!
-    const nav   = document.querySelector<HTMLElement>('.satchel-nav')!
+    const nav   = document.querySelector<HTMLElement>('.tab-nav')!
 
     // The sheet fits the viewport instead of growing to its content.
     expect(sheet.offsetHeight).toBeLessThanOrEqual(window.innerHeight)

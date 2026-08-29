@@ -264,36 +264,25 @@
   animation: fadeIn 0.2s ease-out;
 }
 
-/* Tab strip. Reuses .player-tab (the game-wide gold active-tab treatment,
-   see collection.css) and only adds the icon alignment and the wrap
-   behaviour six tabs need on a phone. */
+/* Tab strip. The strip itself is the shared .tab-nav (tabs.css); these rules
+   only place it — a full-bleed rule under the row, with the strip inside it
+   held to the same measure as the panel below so the two line up once the
+   screen is wider than the content. */
 .settings-tabs {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap-3);
-  padding: 8px var(--gap-6) 0;
+  padding: 0 var(--gap-6);
   border-bottom: 1px solid var(--game-border);
   flex-shrink: 0;
 }
 
-/* Share the panel's measure so the strip and the panel below it line up
-   once the screen is wider than the content. */
 .settings-tabs-inner {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap-3);
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
+  /* The full-bleed .settings-tabs draws the rule instead, so it spans the
+     window rather than stopping at the 900px measure. */
+  border-bottom: none;
 }
-
-.settings-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--gap-3);
-}
-
-.settings-tab svg { flex-shrink: 0; }
 
 .settings-body {
   overflow-y: auto;

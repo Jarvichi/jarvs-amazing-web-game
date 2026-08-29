@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { UselessItem, loadInventory } from '../../game/dailyLogin'
 import { loadEarnedRelics, getRelicDef, RelicDef } from '../../game/relics'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { TabNav, type TabNavItem } from '../ui/TabNav'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { Panel } from '../ui/Panel'
 import { HomeGrid } from './home-shelf/HomeGrid'
@@ -339,15 +340,17 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
       onBack={onBack}
       right={effectiveTab !== 'shelf' ? <span className="crystal-count">💎 {crystals.toLocaleString()}</span> : undefined}
     >
-      <div className="hoa-tabs">
-        <button className={`hoa-tab${effectiveTab === 'shelf' ? ' hoa-tab--active' : ''}`} onClick={() => setTab('shelf')}>SHELF</button>
-        {houseKey !== 'default' && (
-          <button className={`hoa-tab${effectiveTab === 'decorate' ? ' hoa-tab--active' : ''}`} onClick={() => setTab('decorate')}>DECORATE</button>
-        )}
-        {houseKey !== 'default' && (
-          <button className={`hoa-tab${effectiveTab === 'rooms' ? ' hoa-tab--active' : ''}`} onClick={() => setTab('rooms')}>ROOMS</button>
-        )}
-      </div>
+      <TabNav
+        items={[
+          { id: 'shelf' as const, label: 'SHELF' },
+          ...(houseKey !== 'default'
+            ? [{ id: 'decorate' as const, label: 'DECORATE' }, { id: 'rooms' as const, label: 'ROOMS' }]
+            : []),
+        ]}
+        activeId={effectiveTab}
+        onSelect={setTab}
+        ariaLabel="Home sections"
+      />
 
       {effectiveTab === 'shelf' && (
         <div className="shelf-room">
@@ -394,42 +397,29 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
       {effectiveTab === 'decorate' && (
         <div className="shelf-room">
           {houseKey !== 'default' && purchasedSlotIds.length > 0 && (
-            <div className="hoa-tabs">
-              <button
-                className={`hoa-tab${selectedRoomId === 'main' ? ' hoa-tab--active' : ''}`}
-                onClick={() => handleSelectRoom('main')}
-              >
-                Main Room
-              </button>
-              {purchasedSlotIds.map(id => {
-                const slot = getRoomSlotDef(id)
-                return slot && (
-                  <button
-                    key={id}
-                    className={`hoa-tab${selectedRoomId === id ? ' hoa-tab--active' : ''}`}
-                    onClick={() => handleSelectRoom(id)}
-                  >
-                    {slot.name}
-                  </button>
-                )
-              })}
-            </div>
+            <TabNav
+              items={[
+                { id: 'main', label: 'Main Room' },
+                ...purchasedSlotIds.flatMap((id): TabNavItem<string>[] => {
+                  const slot = getRoomSlotDef(id)
+                  return slot ? [{ id, label: slot.name }] : []
+                }),
+              ]}
+              activeId={selectedRoomId}
+              onSelect={handleSelectRoom}
+              ariaLabel="Rooms"
+            />
           )}
           {houseKey !== 'default' && (
-            <div className="hoa-tabs">
-              <button
-                className={`hoa-tab${decorateView === 'furniture' ? ' hoa-tab--active' : ''}`}
-                onClick={() => setDecorateView('furniture')}
-              >
-                Furnish
-              </button>
-              <button
-                className={`hoa-tab${decorateView === 'style' ? ' hoa-tab--active' : ''}`}
-                onClick={() => setDecorateView('style')}
-              >
-                Style
-              </button>
-            </div>
+            <TabNav
+              items={[
+                { id: 'furniture', label: 'Furnish' },
+                { id: 'style',     label: 'Style' },
+              ]}
+              activeId={decorateView}
+              onSelect={setDecorateView}
+              ariaLabel="Decorate mode"
+            />
           )}
           {message && <div className="home-decorate-msg">{message}</div>}
 

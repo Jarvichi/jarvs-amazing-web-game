@@ -1,0 +1,190 @@
+/* tabs.css — the shared tab strip (.tab-nav).
+ *
+ * Replaces three drifted implementations of the same control: .player-tab
+ * (Player, Collection, Settings), .hoa-tab (Hall of Achievements, Home
+ * shelf, Pet modal) and .satchel-nav (satchel sheet). The satchel's
+ * treatment won — gold text with an inset accent bar and a faint wash,
+ * rather than a bordered pill — because it reads as a selected *section*
+ * rather than a pressed button.
+ *
+ * Colours resolve through --tab-nav-* so a surface with its own palette can
+ * retint the strip without restyling it (see the satchel override below).
+ */
+
+.tab-nav {
+  --tab-nav-idle:  var(--game-text-color-muted);
+  --tab-nav-hover: var(--game-text-color-dim);
+  --tab-nav-on:    var(--accent-gold);
+  --tab-nav-line:  var(--game-border);
+
+  display: flex;
+  flex: 0 0 auto;
+}
+
+.tab-nav__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-3);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--tab-nav-idle);
+  font-family: inherit;
+  font-size: var(--font-sm);
+  letter-spacing: 0.06em;
+  padding: 9px 14px;
+  transition: color var(--dur-fast), background var(--dur-fast);
+}
+
+.tab-nav__item svg { flex-shrink: 0; }
+
+.tab-nav__label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.tab-nav__item:hover { color: var(--tab-nav-hover); }
+
+/* :hover never fires on touch — every tab needs a press state of its own. */
+.tab-nav__item:active { transform: translateY(1px); }
+
+.tab-nav__item--on {
+  color: var(--tab-nav-on);
+  background: color-mix(in srgb, var(--tab-nav-on) 5%, transparent);
+}
+
+/* ── Badges ─────────────────────────────────────────────────────────────── */
+
+/* Inline by default. Absolutely positioning these against a wide, borderless
+   tab left them floating in the gap between two tabs, reading as if they
+   belonged to the neighbour — the old .hoa-badge got away with a corner
+   offset only because its tab was a small bordered pill. */
+.tab-nav__dot,
+.tab-nav__count {
+  flex-shrink: 0;
+}
+
+.tab-nav__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-red);
+}
+
+.tab-nav__count {
+  background: var(--tab-nav-on);
+  /* Dark on gold, as .hoa-badge had it — --text-inverse is white, which is
+     unreadable on this background. */
+  color: var(--game-bg);
+  font-size: var(--font-xxs);
+  font-weight: bold;
+  min-width: 14px;
+  height: 14px;
+  line-height: 14px;
+  text-align: center;
+  border-radius: 7px;
+  padding: 0 3px;
+}
+
+/* ── placement: top ─────────────────────────────────────────────────────── */
+
+.tab-nav--top {
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--tab-nav-line);
+}
+
+.tab-nav--top .tab-nav__item--on {
+  box-shadow: inset 0 -2px 0 var(--tab-nav-on);
+}
+
+/* ── placement: bar ─────────────────────────────────────────────────────── */
+
+/* Thumb-reachable bottom bar on phones. Items share the width equally so the
+   strip is always exactly one row — it must never wrap out of thumb reach. */
+.tab-nav--bar {
+  border-top: 1px solid var(--tab-nav-line);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.tab-nav--bar .tab-nav__item {
+  flex: 1 1 0;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  padding: 9px 2px 10px;
+  font-size: var(--font-xxs);
+}
+
+.tab-nav--bar .tab-nav__item--on {
+  box-shadow: inset 0 2px 0 var(--tab-nav-on);
+}
+
+/* Stacked bar items have no room for an inline badge beside the label, and
+   they are narrow and equal-width, so a corner anchor reads correctly here. */
+.tab-nav--bar .tab-nav__dot,
+.tab-nav--bar .tab-nav__count {
+  position: absolute;
+  top: 5px;
+  right: 50%;
+  transform: translateX(14px);
+}
+
+/* From tablet up the bar becomes a left rail. The literal 768px matches
+   --breakpoint-tablet; custom properties don't work inside an @media
+   condition in this setup. */
+@media (min-width: 768px) {
+  .tab-nav--bar {
+    flex-direction: column;
+    align-content: start;
+    border-top: none;
+    border-right: 1px solid var(--tab-nav-line);
+    padding-bottom: 0;
+    /* An explicit rail width, so the shape doesn't depend on the parent
+       happening to constrain it (the satchel sheet's grid track is 128px
+       and agrees with this). */
+    width: 128px;
+  }
+  .tab-nav--bar .tab-nav__item {
+    flex: 0 0 auto;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 9px;
+    padding: 11px 14px;
+    font-size: var(--font-xs);
+    letter-spacing: 0.08em;
+  }
+  .tab-nav--bar .tab-nav__item--on {
+    box-shadow: inset 2px 0 0 var(--tab-nav-on);
+  }
+  /* Back to a row at rail width, so inline again. */
+  .tab-nav--bar .tab-nav__dot,
+  .tab-nav--bar .tab-nav__count {
+    position: static;
+    transform: none;
+  }
+}
+
+/* The satchel sheet carries its own green ramp; the strip picks it up rather
+   than reverting that surface to the global palette. */
+.satchel-sheet .tab-nav {
+  --tab-nav-idle:  var(--satchel-text-dim);
+  --tab-nav-hover: var(--satchel-text-mid);
+  --tab-nav-on:    var(--satchel-gold);
+  --tab-nav-line:  var(--satchel-line);
+}
+
+/* ── Panel ──────────────────────────────────────────────────────────────── */
+
+/* The scrolling region a top-placed strip controls. Was
+   `.player-tab-content`, named for the one screen that had it first. */
+.tab-panel {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
