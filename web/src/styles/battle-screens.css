@@ -456,6 +456,23 @@
   cursor: pointer;
 }
 
+/* Text inputs on settings-family surfaces. LoginModal used to reach for
+   .settings-slider here — a range-input class — plus inline padding, which
+   happened to look right only because that rule sets a background and
+   radius. */
+.settings-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 10px;
+  background: var(--game-bg-card);
+  border: 1px solid var(--border-edge);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: var(--font-md);
+}
+.settings-input:disabled { opacity: 0.5; cursor: not-allowed; }
+
 .settings-value {
   font-size: var(--font-sm);
   color: var(--game-text-color-dim);

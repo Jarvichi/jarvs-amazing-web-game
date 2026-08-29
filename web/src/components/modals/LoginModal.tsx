@@ -140,20 +140,18 @@ export function LoginModal({ user, authLoading, onClose, onLoginSuccess }: Props
         <div className="login-modal-fields u-col u-gap-3">
           <input
             type="email"
-            className="settings-slider"
+            className="settings-input"
             placeholder="Email"
             value={emailInput}
             onChange={e => setEmailInput(e.target.value)}
-            style={{ padding: '6px 10px', width: '100%', boxSizing: 'border-box' }}
           />
           <input
             type="password"
-            className="settings-slider"
+            className="settings-input"
             placeholder="Password"
             value={passwordInput}
             onChange={e => setPasswordInput(e.target.value)}
             onKeyDown={e => { if (e.key === 'Enter') handleEmailSignIn() }}
-            style={{ padding: '6px 10px', width: '100%', boxSizing: 'border-box' }}
           />
         </div>
 

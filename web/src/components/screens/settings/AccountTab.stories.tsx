@@ -32,3 +32,9 @@ export const AuthLoading: Story = {
 export const SignedIn: Story = {
   args: { user: signedInUser, authLoading: false },
 };
+
+/** The delete row needs a real account — it must not appear for a null or
+ *  anonymous user, even though both take the signed-in branch. */
+export const NoUser: Story = {
+  args: { user: null, authLoading: false },
+};
