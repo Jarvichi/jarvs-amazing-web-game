@@ -1,0 +1,240 @@
+<!doctype html>
+<!--
+  Privacy policy for Jarv's Amazing Web Game (#2091).
+
+  A static page in public/ rather than an app route: store reviewers and the
+  Play Data Safety / App Store Connect forms need a URL that loads on its own,
+  and GitHub Pages has no SPA 404 fallback configured here. Vite copies public/
+  through verbatim, so this is served at https://jawg.uk/privacy/.
+
+  Keep it accurate against the code. Every claim below was checked against a
+  writer in the repo; if you add a collection, a third party, or a field, this
+  page and the two store questionnaires all have to move together — a mismatch
+  between them is one of the most common review rejections.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy — Jarv's Amazing Web Game</title>
+  <meta name="description" content="What Jarv's Amazing Web Game collects, why, and how to delete it." />
+  <style>
+    :root {
+      --ink: #0a0f0a;
+      --panel: #0d130d;
+      --line: #223022;
+      --text: #d8e8d8;
+      --dim: #92ac92;
+      --gold: #e0b64a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 32px 20px 64px;
+      background: var(--ink);
+      color: var(--text);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+    main { max-width: 720px; margin: 0 auto; }
+    h1 { font-size: 30px; color: var(--gold); margin: 0 0 4px; letter-spacing: 0.02em; }
+    h2 { font-size: 20px; color: var(--gold); margin: 40px 0 10px; }
+    .updated { color: var(--dim); font-size: 15px; margin: 0 0 32px; }
+    p, li { color: var(--text); }
+    a { color: var(--gold); }
+    ul { padding-left: 22px; }
+    li { margin-bottom: 8px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 15px;
+      display: block;
+      overflow-x: auto;
+    }
+    th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--gold); font-weight: normal; white-space: nowrap; }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin: 24px 0;
+    }
+    footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--dim); font-size: 15px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Privacy Policy</h1>
+  <p class="updated">Jarv's Amazing Web Game &middot; last updated 29 August 2026</p>
+
+  <p>
+    Jarv's Amazing Web Game is a browser and mobile card game. This page explains
+    exactly what the game stores, who processes it, and how to get rid of it.
+    It covers the game at <a href="https://jawg.uk/">jawg.uk</a> and the Android
+    and iOS builds of the same game.
+  </p>
+
+  <div class="panel">
+    <strong>The short version.</strong> You can play without an account. If you
+    make one, we store your email address, your save file, your chosen player
+    name and your leaderboard scores. We do not sell anything to anyone, there
+    is no advertising, and no third-party analytics or tracking SDK is
+    embedded. You can delete everything from inside the game.
+  </div>
+
+  <h2>Playing without an account</h2>
+  <p>
+    You do not have to sign up. Without an account, your progress is kept only
+    in your device's local storage and never leaves the device, except that the
+    game signs you in anonymously to Firebase so leaderboards and shared
+    features work. An anonymous sign-in has an internal ID but no email, name
+    or other identifying information attached.
+  </p>
+
+  <h2>What is stored when you create an account</h2>
+  <table>
+    <thead>
+      <tr><th>Data</th><th>Why</th><th>Where</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Email address and account ID</td>
+        <td>To sign you in and restore your save on another device</td>
+        <td>Firebase Authentication</td>
+      </tr>
+      <tr>
+        <td>Save file — collection, deck, crystals, campaign progress, statistics</td>
+        <td>Cloud backup and cross-device sync, when you press Sync</td>
+        <td>Cloud Firestore</td>
+      </tr>
+      <tr>
+        <td>Player name</td>
+        <td>To reserve the name and show it on leaderboards</td>
+        <td>Cloud Firestore</td>
+      </tr>
+      <tr>
+        <td>Leaderboard entries — player name, score, date</td>
+        <td>To rank daily, weekly, endless and minigame results</td>
+        <td>Cloud Firestore</td>
+      </tr>
+      <tr>
+        <td>Feedback you submit, and your account ID with it</td>
+        <td>So we can read and act on bug reports and suggestions</td>
+        <td>Cloud Firestore</td>
+      </tr>
+      <tr>
+        <td>Crash and error reports, which may include your account ID</td>
+        <td>To find and fix bugs</td>
+        <td>Rollbar</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>What other players can see</h2>
+  <p>
+    Your <strong>player name</strong> is public. It appears on the daily,
+    weekly, endless and minigame leaderboards alongside your score, and in the
+    in-game news feed when you win a jackpot or find a rare card. Choose a name
+    you are comfortable showing to other players. Nothing else you enter —
+    your email address, your feedback, your save file — is ever shown to
+    another player.
+  </p>
+
+  <h2>What we do not do</h2>
+  <ul>
+    <li>No advertising, and no advertising or attribution SDKs.</li>
+    <li>No third-party analytics or behavioural tracking.</li>
+    <li>Your data is never sold or shared for anyone else's marketing.</li>
+    <li>No location, contacts, camera, microphone or health data is requested.</li>
+    <li>
+      Players cannot upload photos or files. The game's image uploads are
+      reachable only by the developer account when posting news items.
+    </li>
+    <li>
+      Rollbar's session replay, which records on-screen activity to diagnose
+      crashes, is switched off on phones and tablets and on the mobile app
+      builds. It runs only on desktop browsers.
+    </li>
+  </ul>
+
+  <h2>Who processes your data</h2>
+  <ul>
+    <li>
+      <strong>Google Firebase</strong> (Authentication and Cloud Firestore) —
+      accounts and stored game data.
+      <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noreferrer">Firebase privacy</a>
+    </li>
+    <li>
+      <strong>Rollbar</strong> — crash and error reporting.
+      <a href="https://rollbar.com/privacy/" target="_blank" rel="noreferrer">Rollbar privacy</a>
+    </li>
+    <li>
+      <strong>GitHub Pages</strong> — hosting for the web version, which
+      receives ordinary web-server request logs.
+    </li>
+  </ul>
+
+  <h2>How long it is kept</h2>
+  <p>
+    Account and save data is kept until you delete your account. Crash reports
+    are kept by Rollbar under its own retention schedule and age out
+    automatically. Leaderboard entries for a past day or week remain as a
+    historical record unless removed with your account, as described below.
+  </p>
+
+  <h2>Deleting your account and data</h2>
+  <p>
+    In the game, open <strong>Settings &rarr; Account &rarr; Delete account</strong>.
+    You will be asked for your password to confirm. This permanently removes
+    your account, your cloud save, your player name reservation and your
+    leaderboard entries, and clears the game's data on that device. Your email
+    address is then free to register again.
+  </p>
+  <p>
+    One honest limitation: leaderboard entries recorded before the release that
+    added this feature were not stored in a way that can be traced back to an
+    account, so a small number of older scores may remain under the player name
+    you were using. If you would like those removed, email us and we will do it
+    by hand.
+  </p>
+
+  <h2>Children</h2>
+  <p>
+    The game is not directed at children under 13, and we do not knowingly
+    collect data from them. If you believe a child has created an account,
+    email us and we will delete it.
+  </p>
+
+  <h2>Your rights</h2>
+  <p>
+    If you are in the UK or EU, you have the right to access, correct, export
+    or erase your personal data, and to object to its processing. The in-game
+    delete covers erasure; for anything else, email us and we will respond
+    within 30 days.
+  </p>
+
+  <h2>Changes</h2>
+  <p>
+    If this policy changes materially, the date at the top will change and the
+    game will note it in the in-game news feed.
+  </p>
+
+  <!-- TODO before submitting to either store: replace with the contact address
+       you want published. Both stores require a working contact route on the
+       policy, and whatever goes here is public, so a role address such as
+       privacy@jawg.uk is usually preferable to a personal inbox. -->
+  <h2>Contact</h2>
+  <p>
+    Questions, or a data request:
+    <a href="mailto:CONTACT_EMAIL@example.com">CONTACT_EMAIL@example.com</a>
+  </p>
+
+  <footer>
+    <a href="https://jawg.uk/">&larr; Back to the game</a>
+  </footer>
+</main>
+</body>
+</html>
