@@ -1,7 +1,9 @@
 import { fn } from 'storybook/test';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { User } from 'firebase/auth';
 
 import { SettingsScreen } from './SettingsScreen';
+import { GIFT_OWNER_UID } from '../../game/gifts';
 
 const meta = {
   component: SettingsScreen,
@@ -12,33 +14,42 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const base = {
+  onBack: fn(),
+  onResetGame: fn(),
+  authLoading: false,
+};
+
+const signedInUser = {
+  isAnonymous: false,
+  displayName: 'Jarv',
+  email: 'jarv@example.com',
+  uid: 'demo-uid',
+} as User;
+
 export const LoggedOut: Story = {
-  args: {
-    onBack: fn(),
-    onResetGame: fn(),
-    user: null,
-    authLoading: false,
-  },
+  args: { ...base, user: null },
 };
 
 export const Loading: Story = {
-  args: {
-    onBack: fn(),
-    onResetGame: fn(),
-    user: null,
-    authLoading: true,
-  },
+  args: { ...base, user: null, authLoading: true },
 };
 
+export const SignedIn: Story = {
+  args: { ...base, user: signedInUser },
+};
+
+/** The owner account, which is the only one that gets the Admin tab. */
 export const WithAdminOptions: Story = {
   args: {
-    onBack: fn(),
-    onResetGame: fn(),
-    user: null,
-    authLoading: false,
+    ...base,
+    user: { isAnonymous: false, uid: GIFT_OWNER_UID } as User,
     onGiftAdmin: fn(),
     onNewsAdmin: fn(),
     onCampaignAdmin: fn(),
     onFeedbackAdmin: fn(),
+    onTownAccessAdmin: fn(),
+    onHubWorld: fn(),
+    onCheckForUpdates: fn(async () => {}),
   },
 };

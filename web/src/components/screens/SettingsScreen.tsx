@@ -1,22 +1,28 @@
-import React, { useState, useRef } from 'react'
-import {
-  signOut as firebaseSignOut, type User,
-} from 'firebase/auth'
-import { isSoundEnabled, setSoundEnabled, getSoundVolume, setSoundVolume, getMusicVolume, setMusicVolume } from '../../game/sound'
-import { isHapticsSupported, isHapticsEnabled, setHapticsEnabled } from '../../game/haptics'
+import React, { useRef, useState } from 'react'
+import { type User } from 'firebase/auth'
 import { OverlayScreen } from '../ui/OverlayScreen'
-import { Section } from '../ui/Section'
-import { Button } from '../ui/Button'
-import { LoginModal } from '../modals/LoginModal'
-import rollbar from '../../rollbar'
-import { auth } from '../../firebase'
-import { uploadSave, applySave, getLastSyncTime, type CloudSave } from '../../game/cloudSave'
-import { isDevMode } from '../../game/debug'
-import { DevMenu } from '../admin/DevMenu'
-import { GIFT_OWNER_UID } from '../../game/gifts'
-import { isAdminUser } from '../../game/admin'
-import { loadPlaytime, formatPlaytime } from '../../game/playtime'
-import { isHubWorldUnlocked, unlockHubWorld, loadHubDefault, saveHubDefault } from '../../game/codex'
+import { Panel } from '../ui/Panel'
+import { Icon } from '../ui/icons/Icon'
+import { type IconName } from '../ui/icons/IconSprite'
+import { AudioTab } from './settings/AudioTab'
+import { DisplayTab } from './settings/DisplayTab'
+import { AccountTab } from './settings/AccountTab'
+import { GameTab } from './settings/GameTab'
+import { AboutTab } from './settings/AboutTab'
+import { AdminTab, canSeeAdminTab } from './settings/AdminTab'
+
+// Re-exported so App.tsx, TitleScreen, Battlefield and HubWorld keep importing
+// these from the settings screen; the implementations moved to
+// settings/settingsStorage.ts when this screen was split into tabs (#2165).
+export {
+  loadSkipIntro, saveSkipIntro,
+  loadTextSize, loadTextColor,
+  load8bitUnlocked, unlock8bitMode, load8bitEnabled, save8bitEnabled, apply8bitMode,
+  clearLegacyLightMode,
+  loadMonochromeEnabled, saveMonochromeEnabled, applyMonochromeMode,
+  loadBattlePopups, saveBattlePopups,
+  applyTextSettings,
+} from './settings/settingsStorage'
 
 interface Props {
   onBack: () => void
@@ -36,843 +42,89 @@ interface Props {
   onSceneryPreview?: () => void
 }
 
-const TEXT_SIZE_KEY      = 'jarv_text_size'
-const TEXT_COLOR_KEY     = 'jarv_text_color'
-const SKIP_INTRO_KEY     = 'jarv_skip_intro'
-const EIGHTBIT_UNLOCKED_KEY = 'jarv_8bit_unlocked'
-const EIGHTBIT_ENABLED_KEY  = 'jarv_8bit_enabled'
-const BATTLE_POPUPS_KEY     = 'jarv_battle_popups'
+type SettingsTab = 'audio' | 'display' | 'account' | 'game' | 'about' | 'admin'
 
-export function loadSkipIntro(): boolean {
-  try { return localStorage.getItem(SKIP_INTRO_KEY) === 'true' }
-  catch { return false }
+const TAB_META: Record<SettingsTab, { label: string; icon: IconName }> = {
+  audio:   { label: 'Audio',   icon: 'volume' },
+  display: { label: 'Display', icon: 'display' },
+  account: { label: 'Account', icon: 'player' },
+  game:    { label: 'Game',    icon: 'database' },
+  about:   { label: 'About',   icon: 'info' },
+  admin:   { label: 'Admin',   icon: 'shield' },
 }
 
-export function saveSkipIntro(val: boolean): void {
-  try { localStorage.setItem(SKIP_INTRO_KEY, String(val)) } catch { /* ignore */ }
-}
+/**
+ * Settings, as six tabs rather than the fourteen stacked sections it grew
+ * into (#2165). The tab components own their own persisted state; this shell
+ * only routes between them and passes through the callbacks that come from
+ * outside the screen.
+ */
+export function SettingsScreen(props: Props) {
+  const { onBack, onResetGame, user, authLoading, onCheckForUpdates } = props
+  const [tab, setTab] = useState<SettingsTab>('audio')
+  const tabRefs = useRef<Partial<Record<SettingsTab, HTMLButtonElement | null>>>({})
 
-export function loadTextSize(): number {
-  try { return parseFloat(localStorage.getItem(TEXT_SIZE_KEY) ?? '14') || 14 }
-  catch { return 14 }
-}
+  const tabs: SettingsTab[] = canSeeAdminTab(props)
+    ? ['audio', 'display', 'account', 'game', 'about', 'admin']
+    : ['audio', 'display', 'account', 'game', 'about']
 
-export function loadTextColor(): string {
-  try { return localStorage.getItem(TEXT_COLOR_KEY) ?? '#33ff33' }
-  catch { return '#33ff33' }
-}
-
-export function load8bitUnlocked(): boolean {
-  try { return localStorage.getItem(EIGHTBIT_UNLOCKED_KEY) === 'true' }
-  catch { return false }
-}
-
-export function unlock8bitMode(): void {
-  try { localStorage.setItem(EIGHTBIT_UNLOCKED_KEY, 'true') } catch { /* ignore */ }
-}
-
-export function load8bitEnabled(): boolean {
-  try { return localStorage.getItem(EIGHTBIT_ENABLED_KEY) === 'true' }
-  catch { return false }
-}
-
-export function save8bitEnabled(val: boolean): void {
-  try { localStorage.setItem(EIGHTBIT_ENABLED_KEY, String(val)) } catch { /* ignore */ }
-}
-
-export function apply8bitMode(enabled: boolean): void {
-  document.documentElement.classList.toggle('eightbit-mode', enabled)
-  window.dispatchEvent(new Event('eightbit-change'))
-}
-
-// Light mode was retired (#2184): only 5 of 654+ hardcoded colours in the
-// stylesheet actually responded to it, so it produced dark panels on a
-// cream background rather than a real light theme. This clears the stale
-// preference for anyone who had it on, so they land on the (correct,
-// readable) dark theme instead of a setting that no longer does anything.
-export function clearLegacyLightMode(): void {
-  try { localStorage.removeItem('jarv_light_mode') } catch { /* ignore */ }
-}
-
-export function loadMonochromeEnabled(): boolean {
-  try { return localStorage.getItem('jarv_monochrome_enabled') === 'true' }
-  catch { return false }
-}
-
-export function saveMonochromeEnabled(val: boolean): void {
-  try { localStorage.setItem('jarv_monochrome_enabled', String(val)) } catch { /* ignore */ }
-}
-
-export function applyMonochromeMode(enabled: boolean): void {
-  document.documentElement.classList.toggle('monochrome-mode', enabled)
-  window.dispatchEvent(new Event('monochrome-change'))
-}
-
-export function loadBattlePopups(): boolean {
-  try { return localStorage.getItem(BATTLE_POPUPS_KEY) !== 'false' }
-  catch { return true }
-}
-
-export function saveBattlePopups(val: boolean): void {
-  try { localStorage.setItem(BATTLE_POPUPS_KEY, String(val)) } catch { /* ignore */ }
-}
-
-export function applyTextSettings(): void {
-  const size  = loadTextSize()
-  const color = loadTextColor()
-  document.documentElement.style.setProperty('--game-font-size', `${size}px`)
-  document.documentElement.style.setProperty('--game-text-color', color)
-}
-
-const TEXT_COLOR_PRESETS = [
-  { label: 'Terminal Green', value: '#33ff33' },
-  { label: 'Amber',          value: '#ffbb33' },
-  { label: 'Cyan',           value: '#33ddff' },
-  { label: 'White',          value: '#e8e8e8' },
-  { label: 'Pink',           value: '#ff88cc' },
-]
-
-const isDebugMode = new URLSearchParams(window.location.search).has('debug')
-
-
-function exportLocalStorage(): void {
-  const data: Record<string, string> = {}
-  try {
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i)
-      if (key) data[key] = localStorage.getItem(key) ?? ''
-    }
-  } catch { /* ignore */ }
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
-  const url  = URL.createObjectURL(blob)
-  const a    = document.createElement('a')
-  a.href     = url
-  a.download = `jarv-save-${new Date().toISOString().slice(0, 10)}.json`
-  a.click()
-  URL.revokeObjectURL(url)
-}
-
-export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged, onGiftAdmin, onNewsAdmin, onCampaignAdmin, onFeedbackAdmin, onTownAccessAdmin, onHubWorld, onTitleScreen, onCheckForUpdates, onSceneryPreview }: Props) {
-  const [soundOn,       setSoundOn]       = useState(isSoundEnabled)
-  const [soundVolume,   setSoundVolumeState]   = useState(getSoundVolume)
-  const [musicVolume,   setMusicVolumeState]   = useState(getMusicVolume)
-  const [textSize,      setTextSize]      = useState(loadTextSize)
-  const [textColor,     setTextColor]     = useState(loadTextColor)
-  const [skipIntro,     setSkipIntro]     = useState(loadSkipIntro)
-  const [eightbitOn,    setEightbitOn]    = useState(load8bitEnabled)
-  const [eightbitUnlocked]               = useState(load8bitUnlocked)
-  const [monochromeOn,   setMonochromeOn]   = useState(loadMonochromeEnabled)
-  const [hapticsOn,      setHapticsOn]      = useState(isHapticsEnabled)
-  const [battlePopups,  setBattlePopups]  = useState(loadBattlePopups)
-  const [hubDefault,    setHubDefault]    = useState(loadHubDefault)
-  const [confirmReset,  setConfirmReset]  = useState(false)
-  const [updateStatus,  setUpdateStatus]  = useState<'idle' | 'checking' | 'done'>('idle')
-  const [importMsg,     setImportMsg]     = useState<string | null>(null)
-  const [rollbarMsg,    setRollbarMsg]    = useState<string | null>(null)
-  const importRef = useRef<HTMLInputElement>(null)
-
-  // Sync state
-  const [syncing,          setSyncing]          = useState(false)
-  const [syncMsg,          setSyncMsg]          = useState<string | null>(null)
-  const [pendingCloudSave, setPendingCloudSave] = useState<CloudSave | null>(null)
-  const [lastSync,         setLastSync]         = useState<Date | null>(getLastSyncTime)
-  const [showLoginModal,   setShowLoginModal]   = useState(false)
-
-  async function handleSync() {
-    if (!user || user.isAnonymous) return
-    setSyncing(true)
-    setSyncMsg(null)
-    try {
-      await uploadSave(user.uid)
-      const t = new Date()
-      setLastSync(t)
-      setSyncMsg('Save synced.')
-    } catch {
-      setSyncMsg('Sync failed. Check your connection.')
-    } finally {
-      setSyncing(false)
-    }
-  }
-
-  async function handleSignOut() {
-    await firebaseSignOut(auth)
-    setSyncMsg(null)
-    setPendingCloudSave(null)
-    setLastSync(null)
-  }
-
-  function handleLoadCloudSave() {
-    if (!pendingCloudSave) return
-    applySave(pendingCloudSave.data)
-    setPendingCloudSave(null)
-    setLastSync(new Date())
-    setSyncMsg('Cloud save loaded. Reload the page to apply all changes.')
-  }
-
-  async function handleKeepLocal() {
-    if (!user || user.isAnonymous) return
-    setPendingCloudSave(null)
-    try {
-      await uploadSave(user.uid)
-      const t = new Date()
-      setLastSync(t)
-      setSyncMsg('Local save pushed to cloud.')
-    } catch {
-      setSyncMsg('Sync failed. Check your connection.')
-    }
-  }
-
-  function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (!file) return
-    const reader = new FileReader()
-    reader.onload = () => {
-      try {
-        const data = JSON.parse(reader.result as string) as Record<string, string>
-        for (const [key, val] of Object.entries(data)) {
-          localStorage.setItem(key, val)
-        }
-        setImportMsg('Save loaded! Reload the page to apply.')
-      } catch {
-        setImportMsg('Error: invalid save file.')
-      }
-    }
-    reader.readAsText(file)
-    e.target.value = ''
-  }
-
-  function handleSoundToggle() {
-    const next = !soundOn
-    setSoundOn(next)
-    setSoundEnabled(next)
-  }
-
-  function handleSoundVolumeChange(val: number) {
-    setSoundVolumeState(val)
-    setSoundVolume(val)
-  }
-
-  function handleMusicVolumeChange(val: number) {
-    setMusicVolumeState(val)
-    setMusicVolume(val)
-  }
-
-  function handleEightbitToggle() {
-    const next = !eightbitOn
-    setEightbitOn(next)
-    save8bitEnabled(next)
-    apply8bitMode(next)
-  }
-
-  function handleMonochromeToggle() {
-    const next = !monochromeOn
-    setMonochromeOn(next)
-    saveMonochromeEnabled(next)
-    applyMonochromeMode(next)
-  }
-
-  function handleHapticsToggle() {
-    const next = !hapticsOn
-    setHapticsOn(next)
-    setHapticsEnabled(next)
-  }
-
-  function handleBattlePopupsToggle() {
-    const next = !battlePopups
-    setBattlePopups(next)
-    saveBattlePopups(next)
-  }
-
-  function handleSkipIntroToggle() {
-    const next = !skipIntro
-    setSkipIntro(next)
-    saveSkipIntro(next)
-  }
-
-  function handleSizeChange(val: number) {
-    setTextSize(val)
-    try { localStorage.setItem(TEXT_SIZE_KEY, String(val)) } catch { /* ignore */ }
-    document.documentElement.style.setProperty('--game-font-size', `${val}px`)
-  }
-
-  function handleColorChange(val: string) {
-    setTextColor(val)
-    try { localStorage.setItem(TEXT_COLOR_KEY, val) } catch { /* ignore */ }
-    document.documentElement.style.setProperty('--game-text-color', val)
-  }
-
-  function handleReset() {
-    if (!confirmReset) { setConfirmReset(true); return }
-    onResetGame()
-  }
-
-  function handleRollbarTest() {
-    try {
-      rollbar.info('Rollbar test from Jarv\'s Amazing Web Game debug screen')
-      setRollbarMsg('Info event sent to Rollbar.')
-    } catch (e) {
-      setRollbarMsg(`Failed: ${String(e)}`)
-    }
-  }
-
-  function handleRollbarError() {
-    try {
-      rollbar.error(new Error('Intentional Rollbar test error from debug screen'))
-      setRollbarMsg('Error sent to Rollbar — check dashboard.')
-    } catch (e) {
-      setRollbarMsg(`Failed: ${String(e)}`)
-    }
-  }
-
-  function handleResetHubData() {
-    try { localStorage.removeItem('jarv_hub_quests') } catch { /* ignore */ }
-    try { localStorage.removeItem('jarv_hub_pickups') } catch { /* ignore */ }
-  }
-
-  async function handleCheckForUpdates() {
-    setUpdateStatus('checking')
-    await onCheckForUpdates?.()
-    setUpdateStatus('done')
+  // Left/right arrows move between tabs, per the tablist pattern — the tab
+  // strip is a single tab stop, not six.
+  function handleTabKeyDown(e: React.KeyboardEvent) {
+    const delta = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0
+    if (!delta) return
+    e.preventDefault()
+    const next = tabs[(tabs.indexOf(tab) + delta + tabs.length) % tabs.length]
+    setTab(next)
+    tabRefs.current[next]?.focus()
   }
 
   return (
     <OverlayScreen title="SETTINGS" onBack={onBack} className="settings-screen u-col u-grow">
-      <div className="settings-body u-col u-gap-3 u-grow">
-        <Section bordered title="AUDIO">
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Sound</div>
-              <div className="settings-sublabel">Procedurally generated audio</div>
-            </div>
-
-                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>     <span className="settings-value">Sound On/Off</span>
-                            <div
-                              className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select"
-                              onClick={handleSoundToggle}
-                              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSoundToggle() } }}
-                              role="switch"
-                              aria-checked={soundOn}
-                              aria-label="Sound"
-                              tabIndex={0}
-                            >
-                <div className={`settings-toggle-track${soundOn ? ' settings-toggle-track--on' : ''}`}>
-                  <div className="settings-toggle-thumb" />
-                </div>
-                            </div>
-            </div>
-           
-          </div>
-                    <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Effects</div>
-              <div className="settings-sublabel">In game sounds</div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <input
-                type="range"
-                className="settings-slider"
-                min={0}
-                max={1}
-                step={0.05}
-                value={soundVolume}
-                disabled={!soundOn}
-                onChange={e => handleSoundVolumeChange(Number(e.target.value))}
-                aria-label="Effects volume"
-              />
-              <span className="settings-value">{Math.round(soundVolume * 100)}%</span>
-            </div>
-          </div>
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Music</div>
-              <div className="settings-sublabel">Background music volume</div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <input
-                type="range"
-                className="settings-slider"
-                min={0}
-                max={1}
-                step={0.05}
-                value={musicVolume}
-                onChange={e => handleMusicVolumeChange(Number(e.target.value))}
-                aria-label="Music volume"
-              />
-              <span className="settings-value">{Math.round(musicVolume * 100)}%</span>
-            </div>
-          </div>
-        </Section>
-
-        <Section bordered title="STARTUP">
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Skip intro on startup</div>
-              <div className="settings-sublabel">Skip the Awesome Software splash screens</div>
-            </div>
-            <div
-              className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select"
-              onClick={handleSkipIntroToggle}
-              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSkipIntroToggle() } }}
-              role="switch"
-              aria-checked={skipIntro}
-              aria-label="Skip intro on startup"
-              tabIndex={0}
+      <div className="settings-tabs">
+        <div className="settings-tabs-inner" role="tablist" aria-label="Settings categories">
+          {tabs.map(id => (
+            <button
+              key={id}
+              ref={el => { tabRefs.current[id] = el }}
+              id={`settings-tab-${id}`}
+              className={`player-tab settings-tab${tab === id ? ' player-tab--active' : ''}`}
+              role="tab"
+              aria-selected={tab === id}
+              aria-controls={`settings-panel-${id}`}
+              tabIndex={tab === id ? 0 : -1}
+              onClick={() => setTab(id)}
+              onKeyDown={handleTabKeyDown}
             >
-              <div className={`settings-toggle-track${skipIntro ? ' settings-toggle-track--on' : ''}`}>
-                <div className="settings-toggle-thumb" />
-              </div>
-            </div>
-          </div>
-        </Section>
-
-        <Section bordered title="BACKUP &amp; SYNC">
-          {!user?.isAnonymous ? (
-            // Signed in with Google
-            <>
-              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                <div>
-                  <div className="settings-label">{user?.displayName ?? user?.email ?? 'Google account'}</div>
-                  <div className="settings-sublabel">
-                    {lastSync ? `Last synced: ${lastSync.toLocaleString()}` : 'Not yet synced'}
-                  </div>
-                </div>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <Button onClick={handleSync} disabled={syncing}>
-                    {syncing ? 'SYNCING...' : 'SYNC NOW'}
-                  </Button>
-                  <Button onClick={handleSignOut} style={{ fontSize: '11px', padding: '6px 12px' }}>
-                    SIGN OUT
-                  </Button>
-                </div>
-              </div>
-              {pendingCloudSave && (
-                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{ flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
-                  <div className="settings-label" style={{ color: '#ffbb33' }}>
-                    Cloud save found ({pendingCloudSave.savedAt.toDate().toLocaleString()})
-                  </div>
-                  <div className="settings-sublabel">Load it? Your local progress will be replaced.</div>
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    <Button onClick={handleLoadCloudSave}>LOAD CLOUD SAVE</Button>
-                    <Button onClick={handleKeepLocal} style={{ fontSize: '11px', padding: '6px 12px' }}>KEEP LOCAL</Button>
-                  </div>
-                </div>
-              )}
-            </>
-          ) : (
-            // Anonymous — not yet signed in
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Sync save across devices</div>
-                <div className="settings-sublabel">Sign in to back up and restore your progress</div>
-              </div>
-              <Button onClick={() => setShowLoginModal(true)} disabled={authLoading}>
-                SIGN IN
-              </Button>
-            </div>
-          )}
-          {syncMsg && (
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div className="settings-sublabel" style={{ color: (syncMsg.includes('failed') || syncMsg.includes('Incorrect') || syncMsg.includes('No account') || syncMsg.includes('Invalid') || syncMsg.includes('already exists') || syncMsg.includes('must be') || syncMsg.includes('Could not')) ? '#ff5555' : '#33ff33' }}>
-                {syncMsg}
-              </div>
-            </div>
-          )}
-        </Section>
-
-        {eightbitUnlocked && (
-          <Section bordered title="🕹 8-BIT MODE">
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">8-bit visual filter</div>
-                <div className="settings-sublabel">Posterised palette + pixelated sprites</div>
-              </div>
-              <div
-                className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select"
-                onClick={handleEightbitToggle}
-                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleEightbitToggle() } }}
-                role="switch"
-                aria-checked={eightbitOn}
-                aria-label="8-bit visual filter"
-                tabIndex={0}
-              >
-                <div className={`settings-toggle-track${eightbitOn ? ' settings-toggle-track--on' : ''}`}>
-                  <div className="settings-toggle-thumb" />
-                </div>
-              </div>
-            </div>
-          </Section>
-        )}
-        
-        <Section bordered title="MONOCHROME MODE">
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Monochrome visual filter</div>
-                <div className="settings-sublabel">Green and black terminal-style palette</div>
-              </div>
-              <div
-                className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select"
-                onClick={handleMonochromeToggle}
-                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleMonochromeToggle() } }}
-                role="switch"
-                aria-checked={monochromeOn}
-                aria-label="Monochrome visual filter"
-                tabIndex={0}
-              >
-                <div className={`settings-toggle-track${monochromeOn ? ' settings-toggle-track--on' : ''}`}>
-                  <div className="settings-toggle-thumb" />
-                </div>
-              </div>
-            </div>
-          </Section>
-
-        {/* Hidden entirely rather than shown-but-inert on iOS Safari (no
-            Vibration API) — a toggle that visibly does nothing is worse
-            than no toggle, same call as retiring light mode (#2184). */}
-        {isHapticsSupported() && (
-          <Section bordered title="HAPTICS">
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Vibration</div>
-                <div className="settings-sublabel">Short pulses for card plays, hits, and wins/losses</div>
-              </div>
-              <div
-                className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select"
-                onClick={handleHapticsToggle}
-                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleHapticsToggle() } }}
-                role="switch"
-                aria-checked={hapticsOn}
-                aria-label="Vibration"
-                tabIndex={0}
-              >
-                <div className={`settings-toggle-track${hapticsOn ? ' settings-toggle-track--on' : ''}`}>
-                  <div className="settings-toggle-thumb" />
-                </div>
-              </div>
-            </div>
-          </Section>
-        )}
-
-        <Section bordered title="DISPLAY">
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Battle event popups</div>
-              <div className="settings-sublabel">Show mid-battle popups for notable events (e.g. hero summons)</div>
-            </div>
-            <div
-              className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select"
-              onClick={handleBattlePopupsToggle}
-              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleBattlePopupsToggle() } }}
-              role="switch"
-              aria-checked={battlePopups}
-              aria-label="Battle event popups"
-              tabIndex={0}
-            >
-              <div className={`settings-toggle-track${battlePopups ? ' settings-toggle-track--on' : ''}`}>
-                <div className="settings-toggle-thumb" />
-              </div>
-            </div>
-          </div>
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Text size</div>
-              <div className="settings-sublabel">{textSize}px</div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <input
-                type="range"
-                className="settings-slider"
-                min={11}
-                max={18}
-                step={1}
-                value={textSize}
-                onChange={e => handleSizeChange(Number(e.target.value))}
-                aria-label="Text size"
-              />
-              <span className="settings-value">{textSize}px</span>
-            </div>
-          </div>
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{ flexWrap: 'wrap', gap: '10px' }}>
-            <div>
-              <div className="settings-label">Text colour</div>
-              <div className="settings-sublabel">Choose a terminal palette</div>
-            </div>
-            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-              {TEXT_COLOR_PRESETS.map(p => (
-                <button
-                  key={p.value}
-                  className={`filter-btn${textColor === p.value ? ' filter-btn--active' : ''}`}
-                  style={textColor === p.value ? { borderColor: p.value, color: p.value } : { color: p.value, borderColor: p.value + '66' }}
-                  onClick={() => handleColorChange(p.value)}
-                >
-                  {p.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        </Section>
-
-        <Section bordered title="GAME DATA">
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Reset all progress</div>
-              <div className="settings-sublabel">Clears collection, deck, crystals, campaign and stats</div>
-            </div>
-          </div>
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            {confirmReset ? (
-              <div className="settings-confirm-row u-flex u-gap-4 u-items-c u-just-end">
-                <span className="settings-confirm-msg">Are you sure? This cannot be undone.</span>
-                <Button variant="danger" className="settings-danger-btn" onClick={handleReset}>CONFIRM RESET</Button>
-                <Button onClick={() => setConfirmReset(false)} style={{ fontSize: '11px', padding: '6px 12px' }}>CANCEL</Button>
-              </div>
-            ) : (
-              <Button variant="danger" className="settings-danger-btn" onClick={handleReset}>
-                RESET GAME
-              </Button>
-            )}
-          </div>
-        </Section>
-
-        {isHubWorldUnlocked() && (
-          <Section bordered title="NAVIGATION">
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Default startup screen</div>
-                <div className="settings-sublabel">Which screen opens when the game launches</div>
-              </div>
-              <div style={{ display: 'flex', gap: '8px' }}>
-                <Button
-                  variant={hubDefault === 'hub' ? 'gold' : 'default'}
-                  onClick={() => { saveHubDefault('hub'); setHubDefault('hub') }}
-                >
-                  HUB WORLD
-                </Button>
-                <Button
-                  variant={hubDefault === 'title' ? 'gold' : 'default'}
-                  onClick={() => { saveHubDefault('title'); setHubDefault('title') }}
-                >
-                  TITLE SCREEN
-                </Button>
-              </div>
-            </div>
-          </Section>
-        )}
-
-        {user?.uid === GIFT_OWNER_UID && (onHubWorld || onTitleScreen) && (
-          <Section bordered title="EXPERIMENTS">
-            {onHubWorld && (
-              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                <div>
-                  <div className="settings-label">Hub World</div>
-                  <div className="settings-sublabel">Prototype terrain canvas</div>
-                </div>
-                <Button onClick={onHubWorld}>OPEN</Button>
-              </div>
-            )}
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Unlock Hub World</div>
-                <div className="settings-sublabel">Dev cheat — sets the hub world unlock flag</div>
-              </div>
-              <Button onClick={() => { unlockHubWorld(); window.location.reload() }}>UNLOCK</Button>
-            </div>
-          </Section>
-        )}
-
-        {(isDebugMode || user?.uid === GIFT_OWNER_UID) && (
-          <Section bordered title="DEBUG">
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Export save data</div>
-                <div className="settings-sublabel">Download all localStorage as a JSON file</div>
-              </div>
-              <Button onClick={exportLocalStorage}>EXPORT</Button>
-            </div>
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Import save data</div>
-                <div className="settings-sublabel">Load a previously exported JSON save file</div>
-              </div>
-              <Button onClick={() => importRef.current?.click()}>IMPORT</Button>
-              <input ref={importRef} type="file" accept=".json" style={{ display: 'none' }} onChange={handleImport} />
-            </div>
-            {importMsg && (
-              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                <div className="settings-sublabel" style={{ color: importMsg.startsWith('Error') ? '#ff5555' : '#33ff33' }}>
-                  {importMsg}
-                </div>
-              </div>
-            )}
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Rollbar: send info</div>
-                <div className="settings-sublabel">Send a test info event to Rollbar</div>
-              </div>
-              <Button onClick={handleRollbarTest}>SEND INFO</Button>
-            </div>
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Rollbar: trigger error</div>
-                <div className="settings-sublabel">Throw an intentional error for Rollbar to capture</div>
-              </div>
-              <Button variant="danger" onClick={handleRollbarError}>TRIGGER ERROR</Button>
-            </div>
-            {rollbarMsg && (
-              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                <div className="settings-sublabel" style={{ color: '#33ff33' }}>
-                  {rollbarMsg}
-                </div>
-              </div>
-            )}
-          </Section>
-        )}
-
-        {user?.uid === GIFT_OWNER_UID && (onGiftAdmin || onNewsAdmin || onFeedbackAdmin || onCampaignAdmin || onTownAccessAdmin) && (
-          <Section bordered title="ADMIN">
-            {onGiftAdmin && (
-              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                <div>
-                  <div className="settings-label">Gift management</div>
-                  <div className="settings-sublabel">Create and delete one-off player gifts</div>
-                </div>
-                <Button variant="gold" onClick={onGiftAdmin}>OPEN</Button>
-              </div>
-            )}
-            {onNewsAdmin && (
-              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                <div>
-                  <div className="settings-label">News / What's New</div>
-                  <div className="settings-sublabel">Post new feature announcements and patch notes</div>
-                </div>
-                <Button variant="gold" onClick={onNewsAdmin}>OPEN</Button>
-              </div>
-            )}
-            {onCampaignAdmin && (
-              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                <div>
-                  <div className="settings-label">Campaign editor</div>
-                  <div className="settings-sublabel">Edit act nodes, enemy decks, and environments</div>
-                </div>
-                <Button variant="gold" onClick={onCampaignAdmin}>OPEN</Button>
-              </div>
-            )}
-            {onFeedbackAdmin && (
-              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                <div>
-                  <div className="settings-label">Feedback inbox</div>
-                  <div className="settings-sublabel">View and delete player-submitted feedback</div>
-                </div>
-                <Button variant="gold" onClick={onFeedbackAdmin}>OPEN</Button>
-              </div>
-            )}
-            {onTownAccessAdmin && (
-              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                <div>
-                  <div className="settings-label">Town access</div>
-                  <div className="settings-sublabel">Choose which hub-world towns players can enter</div>
-                </div>
-                <Button variant="gold" onClick={onTownAccessAdmin}>OPEN</Button>
-              </div>
-            )}
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Reset hub quests &amp; pickups</div>
-                <div className="settings-sublabel">Clears all quest progress and collected pickup state</div>
-              </div>
-              <Button variant="danger" onClick={handleResetHubData}>RESET</Button>
-            </div>
-          </Section>
-        )}
-
-        {(isDevMode() || isAdminUser(user)) && onDevCrystalsChanged && onDevHandicapChanged && onSceneryPreview && (
-          <DevMenu
-            onCrystalsChanged={onDevCrystalsChanged}
-            onHandicapChanged={onDevHandicapChanged}
-            onSceneryPreview={onSceneryPreview}
-          />
-        )}
-
-        <Section bordered title="ABOUT">
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Jarv's Amazing Web Game</div>
-              <div className="settings-sublabel">A browser-based strategy card game</div>
-            </div>
-          </div>
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Build</div>
-              <div className="settings-sublabel">{new Date(__BUILD_DATE__).toLocaleString()}</div>
-            </div>
-          </div>
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Build ID</div>
-              <div className="settings-sublabel">
-                {import.meta.env.VITE_GIT_SHA ? import.meta.env.VITE_GIT_SHA.slice(0, 7) : 'local build'}
-              </div>
-            </div>
-          </div>
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Tileset art</div>
-              <div className="settings-sublabel">
-                <a href="https://pipoya.itch.io/" target="_blank" rel="noreferrer">Pipoya</a>
-              </div>
-            </div>
-          </div>
-          {(() => {
-            const { totalMs, battleMs } = loadPlaytime()
-            return (
-              <>
-                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                  <div>
-                    <div className="settings-label">Time in game</div>
-                    <div className="settings-sublabel">{formatPlaytime(totalMs)}</div>
-                  </div>
-                </div>
-                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                  <div>
-                    <div className="settings-label">Time in battle</div>
-                    <div className="settings-sublabel">{formatPlaytime(battleMs)}</div>
-                  </div>
-                </div>
-              </>
-            )
-          })()}
-          {onCheckForUpdates && (
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Check for updates</div>
-                <div className="settings-sublabel">
-                  {updateStatus === 'idle'     && 'Manually fetch the latest version if auto-updates have failed'}
-                  {updateStatus === 'checking' && 'Checking...'}
-                  {updateStatus === 'done'     && 'Done. If a new version was found the game will reload automatically.'}
-                </div>
-              </div>
-              <Button
-                onClick={handleCheckForUpdates}
-                disabled={updateStatus === 'checking'}
-              >
-                {updateStatus === 'checking' ? 'CHECKING...' : 'CHECK FOR UPDATES'}
-              </Button>
-            </div>
-          )}
-        </Section>
+              <Icon name={TAB_META[id].icon} size={14} />
+              <span>{TAB_META[id].label}</span>
+            </button>
+          ))}
+        </div>
       </div>
-      {showLoginModal && (
-        <LoginModal
-          user={user}
-          authLoading={authLoading}
-          onClose={() => setShowLoginModal(false)}
-          onLoginSuccess={({ pendingCloudSave, lastSync: newSync, message }) => {
-            setShowLoginModal(false)
-            if (pendingCloudSave) setPendingCloudSave(pendingCloudSave)
-            if (newSync) setLastSync(newSync)
-            if (message) setSyncMsg(message)
-          }}
-        />
-      )}
+
+      <div
+        className="settings-body u-col u-grow"
+        id={`settings-panel-${tab}`}
+        role="tabpanel"
+        aria-labelledby={`settings-tab-${tab}`}
+        tabIndex={0}
+      >
+        {tab === 'admin' ? (
+          <AdminTab {...props} />
+        ) : (
+          <Panel elevation="raised" tone={tab === 'game' ? 'danger' : 'neutral'} runeCorners>
+            <div className="settings-panel-title">{TAB_META[tab].label.toUpperCase()}</div>
+            <div className="settings-rows">
+              {tab === 'audio'   && <AudioTab />}
+              {tab === 'display' && <DisplayTab />}
+              {tab === 'account' && <AccountTab user={user} authLoading={authLoading} />}
+              {tab === 'game'    && <GameTab onResetGame={onResetGame} />}
+              {tab === 'about'   && <AboutTab onCheckForUpdates={onCheckForUpdates} />}
+            </div>
+          </Panel>
+        )}
+      </div>
     </OverlayScreen>
   )
 }

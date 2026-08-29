@@ -15,7 +15,8 @@ export const ICON_NAMES = [
   'player', 'deck', 'collection', 'shop', 'codex', 'chronicle', 'news',
   'settings', 'trophy', 'minigames', 'sword', 'infinity', 'hub', 'crystal',
   'lock', 'coin', 'heart', 'mana', 'back-arrow', 'close', 'info', 'filter',
-  'search', 'calendar', 'shield', 'bolt', 'pause',
+  'search', 'calendar', 'shield', 'bolt', 'pause', 'volume', 'display',
+  'database',
 ] as const
 
 export type IconName = typeof ICON_NAMES[number]
@@ -164,6 +165,22 @@ export function IconSprite() {
           <path d="M3 9.5h18" fill="none" stroke="currentColor" strokeWidth="2.2" />
           <rect x="6.8" y="2" width="2.4" height="5" rx="1.2" />
           <rect x="14.8" y="2" width="2.4" height="5" rx="1.2" />
+        </symbol>
+
+        <symbol id="icon-volume" viewBox="0 0 24 24">
+          <path d="M4 9h3.5L13 4.5v15L7.5 15H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1z" />
+          <path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+        </symbol>
+
+        <symbol id="icon-display" viewBox="0 0 24 24">
+          <rect x="2" y="4" width="20" height="13" rx="2" fill="none" stroke="currentColor" strokeWidth="2.2" />
+          <path d="M8 21h8" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          <path d="M12 17v4" fill="none" stroke="currentColor" strokeWidth="2.2" />
+        </symbol>
+
+        <symbol id="icon-database" viewBox="0 0 24 24">
+          <ellipse cx="12" cy="6" rx="8" ry="3.2" />
+          <path d="M4 6v5c0 1.77 3.58 3.2 8 3.2s8-1.43 8-3.2V6M4 11v5c0 1.77 3.58 3.2 8 3.2s8-1.43 8-3.2v-5" fill="none" stroke="currentColor" strokeWidth="2.2" />
         </symbol>
       </defs>
     </svg>
