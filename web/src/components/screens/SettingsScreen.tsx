@@ -8,6 +8,10 @@ import { OverlayScreen } from '../ui/OverlayScreen'
 import { Section } from '../ui/Section'
 import { Button } from '../ui/Button'
 import { LoginModal } from '../modals/LoginModal'
+import { SettingsRow } from './settings/SettingsRow'
+import { SettingsToggle } from './settings/SettingsToggle'
+import { SettingsSlider } from './settings/SettingsSlider'
+import { SettingsMessage, type SettingsStatus } from './settings/SettingsMessage'
 import rollbar from '../../rollbar'
 import { auth } from '../../firebase'
 import { uploadSave, applySave, getLastSyncTime, type CloudSave } from '../../game/cloudSave'
@@ -152,6 +156,7 @@ function exportLocalStorage(): void {
   URL.revokeObjectURL(url)
 }
 
+
 export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged, onGiftAdmin, onNewsAdmin, onCampaignAdmin, onFeedbackAdmin, onTownAccessAdmin, onHubWorld, onTitleScreen, onCheckForUpdates, onSceneryPreview }: Props) {
   const [soundOn,       setSoundOn]       = useState(isSoundEnabled)
   const [soundVolume,   setSoundVolumeState]   = useState(getSoundVolume)
@@ -167,13 +172,13 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
   const [hubDefault,    setHubDefault]    = useState(loadHubDefault)
   const [confirmReset,  setConfirmReset]  = useState(false)
   const [updateStatus,  setUpdateStatus]  = useState<'idle' | 'checking' | 'done'>('idle')
-  const [importMsg,     setImportMsg]     = useState<string | null>(null)
-  const [rollbarMsg,    setRollbarMsg]    = useState<string | null>(null)
+  const [importMsg,     setImportMsg]     = useState<SettingsStatus | null>(null)
+  const [rollbarMsg,    setRollbarMsg]    = useState<SettingsStatus | null>(null)
   const importRef = useRef<HTMLInputElement>(null)
 
   // Sync state
   const [syncing,          setSyncing]          = useState(false)
-  const [syncMsg,          setSyncMsg]          = useState<string | null>(null)
+  const [syncMsg,          setSyncMsg]          = useState<SettingsStatus | null>(null)
   const [pendingCloudSave, setPendingCloudSave] = useState<CloudSave | null>(null)
   const [lastSync,         setLastSync]         = useState<Date | null>(getLastSyncTime)
   const [showLoginModal,   setShowLoginModal]   = useState(false)
@@ -186,9 +191,9 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
       await uploadSave(user.uid)
       const t = new Date()
       setLastSync(t)
-      setSyncMsg('Save synced.')
+      setSyncMsg({ text: 'Save synced.', kind: 'ok' })
     } catch {
-      setSyncMsg('Sync failed. Check your connection.')
+      setSyncMsg({ text: 'Sync failed. Check your connection.', kind: 'error' })
     } finally {
       setSyncing(false)
     }
@@ -206,7 +211,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
     applySave(pendingCloudSave.data)
     setPendingCloudSave(null)
     setLastSync(new Date())
-    setSyncMsg('Cloud save loaded. Reload the page to apply all changes.')
+    setSyncMsg({ text: 'Cloud save loaded. Reload the page to apply all changes.', kind: 'ok' })
   }
 
   async function handleKeepLocal() {
@@ -216,9 +221,9 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
       await uploadSave(user.uid)
       const t = new Date()
       setLastSync(t)
-      setSyncMsg('Local save pushed to cloud.')
+      setSyncMsg({ text: 'Local save pushed to cloud.', kind: 'ok' })
     } catch {
-      setSyncMsg('Sync failed. Check your connection.')
+      setSyncMsg({ text: 'Sync failed. Check your connection.', kind: 'error' })
     }
   }
 
@@ -232,9 +237,9 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
         for (const [key, val] of Object.entries(data)) {
           localStorage.setItem(key, val)
         }
-        setImportMsg('Save loaded! Reload the page to apply.')
+        setImportMsg({ text: 'Save loaded! Reload the page to apply.', kind: 'ok' })
       } catch {
-        setImportMsg('Error: invalid save file.')
+        setImportMsg({ text: 'Error: invalid save file.', kind: 'error' })
       }
     }
     reader.readAsText(file)
@@ -309,18 +314,18 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
   function handleRollbarTest() {
     try {
       rollbar.info('Rollbar test from Jarv\'s Amazing Web Game debug screen')
-      setRollbarMsg('Info event sent to Rollbar.')
+      setRollbarMsg({ text: 'Info event sent to Rollbar.', kind: 'ok' })
     } catch (e) {
-      setRollbarMsg(`Failed: ${String(e)}`)
+      setRollbarMsg({ text: `Failed: ${String(e)}`, kind: 'error' })
     }
   }
 
   function handleRollbarError() {
     try {
       rollbar.error(new Error('Intentional Rollbar test error from debug screen'))
-      setRollbarMsg('Error sent to Rollbar — check dashboard.')
+      setRollbarMsg({ text: 'Error sent to Rollbar — check dashboard.', kind: 'ok' })
     } catch (e) {
-      setRollbarMsg(`Failed: ${String(e)}`)
+      setRollbarMsg({ text: `Failed: ${String(e)}`, kind: 'error' })
     }
   }
 
@@ -335,268 +340,128 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
     setUpdateStatus('done')
   }
 
+  const { totalMs, battleMs } = loadPlaytime()
+
   return (
     <OverlayScreen title="SETTINGS" onBack={onBack} className="settings-screen u-col u-grow">
       <div className="settings-body u-col u-gap-3 u-grow">
         <Section bordered title="AUDIO">
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Sound</div>
-              <div className="settings-sublabel">Procedurally generated audio</div>
-            </div>
-
-                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>     <span className="settings-value">Sound On/Off</span>
-                            <div
-                              className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select"
-                              onClick={handleSoundToggle}
-                              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSoundToggle() } }}
-                              role="switch"
-                              aria-checked={soundOn}
-                              aria-label="Sound"
-                              tabIndex={0}
-                            >
-                <div className={`settings-toggle-track${soundOn ? ' settings-toggle-track--on' : ''}`}>
-                  <div className="settings-toggle-thumb" />
-                </div>
-                            </div>
-            </div>
-           
-          </div>
-                    <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Effects</div>
-              <div className="settings-sublabel">In game sounds</div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <input
-                type="range"
-                className="settings-slider"
-                min={0}
-                max={1}
-                step={0.05}
-                value={soundVolume}
-                disabled={!soundOn}
-                onChange={e => handleSoundVolumeChange(Number(e.target.value))}
-                aria-label="Effects volume"
-              />
-              <span className="settings-value">{Math.round(soundVolume * 100)}%</span>
-            </div>
-          </div>
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Music</div>
-              <div className="settings-sublabel">Background music volume</div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <input
-                type="range"
-                className="settings-slider"
-                min={0}
-                max={1}
-                step={0.05}
-                value={musicVolume}
-                onChange={e => handleMusicVolumeChange(Number(e.target.value))}
-                aria-label="Music volume"
-              />
-              <span className="settings-value">{Math.round(musicVolume * 100)}%</span>
-            </div>
-          </div>
+          <SettingsRow label="Sound" sublabel="Procedurally generated audio">
+            <SettingsToggle checked={soundOn} onChange={handleSoundToggle} label="Sound" />
+          </SettingsRow>
+          <SettingsRow label="Effects" sublabel="In game sounds">
+            <SettingsSlider
+              value={soundVolume}
+              onChange={handleSoundVolumeChange}
+              min={0} max={1} step={0.05}
+              disabled={!soundOn}
+              label="Effects volume"
+              readout={`${Math.round(soundVolume * 100)}%`}
+            />
+          </SettingsRow>
+          <SettingsRow label="Music" sublabel="Background music volume">
+            <SettingsSlider
+              value={musicVolume}
+              onChange={handleMusicVolumeChange}
+              min={0} max={1} step={0.05}
+              label="Music volume"
+              readout={`${Math.round(musicVolume * 100)}%`}
+            />
+          </SettingsRow>
         </Section>
 
         <Section bordered title="STARTUP">
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Skip intro on startup</div>
-              <div className="settings-sublabel">Skip the Awesome Software splash screens</div>
-            </div>
-            <div
-              className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select"
-              onClick={handleSkipIntroToggle}
-              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSkipIntroToggle() } }}
-              role="switch"
-              aria-checked={skipIntro}
-              aria-label="Skip intro on startup"
-              tabIndex={0}
-            >
-              <div className={`settings-toggle-track${skipIntro ? ' settings-toggle-track--on' : ''}`}>
-                <div className="settings-toggle-thumb" />
-              </div>
-            </div>
-          </div>
+          <SettingsRow label="Skip intro on startup" sublabel="Skip the Awesome Software splash screens">
+            <SettingsToggle checked={skipIntro} onChange={handleSkipIntroToggle} label="Skip intro on startup" />
+          </SettingsRow>
         </Section>
 
         <Section bordered title="BACKUP &amp; SYNC">
           {!user?.isAnonymous ? (
             // Signed in with Google
             <>
-              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                <div>
-                  <div className="settings-label">{user?.displayName ?? user?.email ?? 'Google account'}</div>
-                  <div className="settings-sublabel">
-                    {lastSync ? `Last synced: ${lastSync.toLocaleString()}` : 'Not yet synced'}
-                  </div>
-                </div>
-                <div style={{ display: 'flex', gap: '8px' }}>
+              <SettingsRow
+                label={user?.displayName ?? user?.email ?? 'Google account'}
+                sublabel={lastSync ? `Last synced: ${lastSync.toLocaleString()}` : 'Not yet synced'}
+              >
+                <div className="u-flex u-gap-4">
                   <Button onClick={handleSync} disabled={syncing}>
                     {syncing ? 'SYNCING...' : 'SYNC NOW'}
                   </Button>
-                  <Button onClick={handleSignOut} style={{ fontSize: '11px', padding: '6px 12px' }}>
-                    SIGN OUT
-                  </Button>
+                  <Button size="xs" onClick={handleSignOut}>SIGN OUT</Button>
                 </div>
-              </div>
+              </SettingsRow>
               {pendingCloudSave && (
-                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{ flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
-                  <div className="settings-label" style={{ color: '#ffbb33' }}>
-                    Cloud save found ({pendingCloudSave.savedAt.toDate().toLocaleString()})
-                  </div>
-                  <div className="settings-sublabel">Load it? Your local progress will be replaced.</div>
-                  <div style={{ display: 'flex', gap: '8px' }}>
+                <SettingsRow
+                  stacked
+                  label={
+                    <span className="settings-label--warn">
+                      Cloud save found ({pendingCloudSave.savedAt.toDate().toLocaleString()})
+                    </span>
+                  }
+                  sublabel="Load it? Your local progress will be replaced."
+                >
+                  <div className="u-flex u-gap-4">
                     <Button onClick={handleLoadCloudSave}>LOAD CLOUD SAVE</Button>
-                    <Button onClick={handleKeepLocal} style={{ fontSize: '11px', padding: '6px 12px' }}>KEEP LOCAL</Button>
+                    <Button size="xs" onClick={handleKeepLocal}>KEEP LOCAL</Button>
                   </div>
-                </div>
+                </SettingsRow>
               )}
             </>
           ) : (
             // Anonymous — not yet signed in
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Sync save across devices</div>
-                <div className="settings-sublabel">Sign in to back up and restore your progress</div>
-              </div>
+            <SettingsRow label="Sync save across devices" sublabel="Sign in to back up and restore your progress">
               <Button onClick={() => setShowLoginModal(true)} disabled={authLoading}>
                 SIGN IN
               </Button>
-            </div>
+            </SettingsRow>
           )}
-          {syncMsg && (
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div className="settings-sublabel" style={{ color: (syncMsg.includes('failed') || syncMsg.includes('Incorrect') || syncMsg.includes('No account') || syncMsg.includes('Invalid') || syncMsg.includes('already exists') || syncMsg.includes('must be') || syncMsg.includes('Could not')) ? '#ff5555' : '#33ff33' }}>
-                {syncMsg}
-              </div>
-            </div>
-          )}
+          {syncMsg && <SettingsMessage status={syncMsg} />}
         </Section>
 
         {eightbitUnlocked && (
           <Section bordered title="🕹 8-BIT MODE">
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">8-bit visual filter</div>
-                <div className="settings-sublabel">Posterised palette + pixelated sprites</div>
-              </div>
-              <div
-                className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select"
-                onClick={handleEightbitToggle}
-                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleEightbitToggle() } }}
-                role="switch"
-                aria-checked={eightbitOn}
-                aria-label="8-bit visual filter"
-                tabIndex={0}
-              >
-                <div className={`settings-toggle-track${eightbitOn ? ' settings-toggle-track--on' : ''}`}>
-                  <div className="settings-toggle-thumb" />
-                </div>
-              </div>
-            </div>
+            <SettingsRow label="8-bit visual filter" sublabel="Posterised palette + pixelated sprites">
+              <SettingsToggle checked={eightbitOn} onChange={handleEightbitToggle} label="8-bit visual filter" />
+            </SettingsRow>
           </Section>
         )}
-        
+
         <Section bordered title="MONOCHROME MODE">
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Monochrome visual filter</div>
-                <div className="settings-sublabel">Green and black terminal-style palette</div>
-              </div>
-              <div
-                className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select"
-                onClick={handleMonochromeToggle}
-                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleMonochromeToggle() } }}
-                role="switch"
-                aria-checked={monochromeOn}
-                aria-label="Monochrome visual filter"
-                tabIndex={0}
-              >
-                <div className={`settings-toggle-track${monochromeOn ? ' settings-toggle-track--on' : ''}`}>
-                  <div className="settings-toggle-thumb" />
-                </div>
-              </div>
-            </div>
-          </Section>
+          <SettingsRow label="Monochrome visual filter" sublabel="Green and black terminal-style palette">
+            <SettingsToggle checked={monochromeOn} onChange={handleMonochromeToggle} label="Monochrome visual filter" />
+          </SettingsRow>
+        </Section>
 
         {/* Hidden entirely rather than shown-but-inert on iOS Safari (no
             Vibration API) — a toggle that visibly does nothing is worse
             than no toggle, same call as retiring light mode (#2184). */}
         {isHapticsSupported() && (
           <Section bordered title="HAPTICS">
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Vibration</div>
-                <div className="settings-sublabel">Short pulses for card plays, hits, and wins/losses</div>
-              </div>
-              <div
-                className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select"
-                onClick={handleHapticsToggle}
-                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleHapticsToggle() } }}
-                role="switch"
-                aria-checked={hapticsOn}
-                aria-label="Vibration"
-                tabIndex={0}
-              >
-                <div className={`settings-toggle-track${hapticsOn ? ' settings-toggle-track--on' : ''}`}>
-                  <div className="settings-toggle-thumb" />
-                </div>
-              </div>
-            </div>
+            <SettingsRow label="Vibration" sublabel="Short pulses for card plays, hits, and wins/losses">
+              <SettingsToggle checked={hapticsOn} onChange={handleHapticsToggle} label="Vibration" />
+            </SettingsRow>
           </Section>
         )}
 
         <Section bordered title="DISPLAY">
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Battle event popups</div>
-              <div className="settings-sublabel">Show mid-battle popups for notable events (e.g. hero summons)</div>
-            </div>
-            <div
-              className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select"
-              onClick={handleBattlePopupsToggle}
-              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleBattlePopupsToggle() } }}
-              role="switch"
-              aria-checked={battlePopups}
-              aria-label="Battle event popups"
-              tabIndex={0}
-            >
-              <div className={`settings-toggle-track${battlePopups ? ' settings-toggle-track--on' : ''}`}>
-                <div className="settings-toggle-thumb" />
-              </div>
-            </div>
-          </div>
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Text size</div>
-              <div className="settings-sublabel">{textSize}px</div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <input
-                type="range"
-                className="settings-slider"
-                min={11}
-                max={18}
-                step={1}
-                value={textSize}
-                onChange={e => handleSizeChange(Number(e.target.value))}
-                aria-label="Text size"
-              />
-              <span className="settings-value">{textSize}px</span>
-            </div>
-          </div>
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{ flexWrap: 'wrap', gap: '10px' }}>
-            <div>
-              <div className="settings-label">Text colour</div>
-              <div className="settings-sublabel">Choose a terminal palette</div>
-            </div>
-            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+          <SettingsRow
+            label="Battle event popups"
+            sublabel="Show mid-battle popups for notable events (e.g. hero summons)"
+          >
+            <SettingsToggle checked={battlePopups} onChange={handleBattlePopupsToggle} label="Battle event popups" />
+          </SettingsRow>
+          <SettingsRow label="Text size" sublabel={`${textSize}px`}>
+            <SettingsSlider
+              value={textSize}
+              onChange={handleSizeChange}
+              min={11} max={18} step={1}
+              label="Text size"
+              readout={`${textSize}px`}
+            />
+          </SettingsRow>
+          <SettingsRow label="Text colour" sublabel="Choose a terminal palette">
+            <div className="u-flex u-wrap u-gap-3">
               {TEXT_COLOR_PRESETS.map(p => (
                 <button
                   key={p.value}
@@ -608,39 +473,33 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                 </button>
               ))}
             </div>
-          </div>
+          </SettingsRow>
         </Section>
 
         <Section bordered title="GAME DATA">
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Reset all progress</div>
-              <div className="settings-sublabel">Clears collection, deck, crystals, campaign and stats</div>
-            </div>
-          </div>
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
+          <SettingsRow
+            label="Reset all progress"
+            sublabel="Clears collection, deck, crystals, campaign and stats"
+          />
+          <SettingsRow>
             {confirmReset ? (
               <div className="settings-confirm-row u-flex u-gap-4 u-items-c u-just-end">
                 <span className="settings-confirm-msg">Are you sure? This cannot be undone.</span>
                 <Button variant="danger" className="settings-danger-btn" onClick={handleReset}>CONFIRM RESET</Button>
-                <Button onClick={() => setConfirmReset(false)} style={{ fontSize: '11px', padding: '6px 12px' }}>CANCEL</Button>
+                <Button size="xs" onClick={() => setConfirmReset(false)}>CANCEL</Button>
               </div>
             ) : (
               <Button variant="danger" className="settings-danger-btn" onClick={handleReset}>
                 RESET GAME
               </Button>
             )}
-          </div>
+          </SettingsRow>
         </Section>
 
         {isHubWorldUnlocked() && (
           <Section bordered title="NAVIGATION">
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Default startup screen</div>
-                <div className="settings-sublabel">Which screen opens when the game launches</div>
-              </div>
-              <div style={{ display: 'flex', gap: '8px' }}>
+            <SettingsRow label="Default startup screen" sublabel="Which screen opens when the game launches">
+              <div className="u-flex u-gap-4">
                 <Button
                   variant={hubDefault === 'hub' ? 'gold' : 'default'}
                   onClick={() => { saveHubDefault('hub'); setHubDefault('hub') }}
@@ -654,133 +513,76 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                   TITLE SCREEN
                 </Button>
               </div>
-            </div>
+            </SettingsRow>
           </Section>
         )}
 
         {user?.uid === GIFT_OWNER_UID && (onHubWorld || onTitleScreen) && (
           <Section bordered title="EXPERIMENTS">
             {onHubWorld && (
-              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                <div>
-                  <div className="settings-label">Hub World</div>
-                  <div className="settings-sublabel">Prototype terrain canvas</div>
-                </div>
+              <SettingsRow label="Hub World" sublabel="Prototype terrain canvas">
                 <Button onClick={onHubWorld}>OPEN</Button>
-              </div>
+              </SettingsRow>
             )}
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Unlock Hub World</div>
-                <div className="settings-sublabel">Dev cheat — sets the hub world unlock flag</div>
-              </div>
+            <SettingsRow label="Unlock Hub World" sublabel="Dev cheat — sets the hub world unlock flag">
               <Button onClick={() => { unlockHubWorld(); window.location.reload() }}>UNLOCK</Button>
-            </div>
+            </SettingsRow>
           </Section>
         )}
 
         {(isDebugMode || user?.uid === GIFT_OWNER_UID) && (
           <Section bordered title="DEBUG">
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Export save data</div>
-                <div className="settings-sublabel">Download all localStorage as a JSON file</div>
-              </div>
+            <SettingsRow label="Export save data" sublabel="Download all localStorage as a JSON file">
               <Button onClick={exportLocalStorage}>EXPORT</Button>
-            </div>
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Import save data</div>
-                <div className="settings-sublabel">Load a previously exported JSON save file</div>
-              </div>
+            </SettingsRow>
+            <SettingsRow label="Import save data" sublabel="Load a previously exported JSON save file">
               <Button onClick={() => importRef.current?.click()}>IMPORT</Button>
-              <input ref={importRef} type="file" accept=".json" style={{ display: 'none' }} onChange={handleImport} />
-            </div>
-            {importMsg && (
-              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                <div className="settings-sublabel" style={{ color: importMsg.startsWith('Error') ? '#ff5555' : '#33ff33' }}>
-                  {importMsg}
-                </div>
-              </div>
-            )}
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Rollbar: send info</div>
-                <div className="settings-sublabel">Send a test info event to Rollbar</div>
-              </div>
+              <input ref={importRef} type="file" accept=".json" className="u-hidden" onChange={handleImport} />
+            </SettingsRow>
+            {importMsg && <SettingsMessage status={importMsg} />}
+            <SettingsRow label="Rollbar: send info" sublabel="Send a test info event to Rollbar">
               <Button onClick={handleRollbarTest}>SEND INFO</Button>
-            </div>
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Rollbar: trigger error</div>
-                <div className="settings-sublabel">Throw an intentional error for Rollbar to capture</div>
-              </div>
+            </SettingsRow>
+            <SettingsRow label="Rollbar: trigger error" sublabel="Throw an intentional error for Rollbar to capture">
               <Button variant="danger" onClick={handleRollbarError}>TRIGGER ERROR</Button>
-            </div>
-            {rollbarMsg && (
-              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                <div className="settings-sublabel" style={{ color: '#33ff33' }}>
-                  {rollbarMsg}
-                </div>
-              </div>
-            )}
+            </SettingsRow>
+            {rollbarMsg && <SettingsMessage status={rollbarMsg} />}
           </Section>
         )}
 
         {user?.uid === GIFT_OWNER_UID && (onGiftAdmin || onNewsAdmin || onFeedbackAdmin || onCampaignAdmin || onTownAccessAdmin) && (
           <Section bordered title="ADMIN">
             {onGiftAdmin && (
-              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                <div>
-                  <div className="settings-label">Gift management</div>
-                  <div className="settings-sublabel">Create and delete one-off player gifts</div>
-                </div>
+              <SettingsRow label="Gift management" sublabel="Create and delete one-off player gifts">
                 <Button variant="gold" onClick={onGiftAdmin}>OPEN</Button>
-              </div>
+              </SettingsRow>
             )}
             {onNewsAdmin && (
-              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                <div>
-                  <div className="settings-label">News / What's New</div>
-                  <div className="settings-sublabel">Post new feature announcements and patch notes</div>
-                </div>
+              <SettingsRow label="News / What's New" sublabel="Post new feature announcements and patch notes">
                 <Button variant="gold" onClick={onNewsAdmin}>OPEN</Button>
-              </div>
+              </SettingsRow>
             )}
             {onCampaignAdmin && (
-              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                <div>
-                  <div className="settings-label">Campaign editor</div>
-                  <div className="settings-sublabel">Edit act nodes, enemy decks, and environments</div>
-                </div>
+              <SettingsRow label="Campaign editor" sublabel="Edit act nodes, enemy decks, and environments">
                 <Button variant="gold" onClick={onCampaignAdmin}>OPEN</Button>
-              </div>
+              </SettingsRow>
             )}
             {onFeedbackAdmin && (
-              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                <div>
-                  <div className="settings-label">Feedback inbox</div>
-                  <div className="settings-sublabel">View and delete player-submitted feedback</div>
-                </div>
+              <SettingsRow label="Feedback inbox" sublabel="View and delete player-submitted feedback">
                 <Button variant="gold" onClick={onFeedbackAdmin}>OPEN</Button>
-              </div>
+              </SettingsRow>
             )}
             {onTownAccessAdmin && (
-              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                <div>
-                  <div className="settings-label">Town access</div>
-                  <div className="settings-sublabel">Choose which hub-world towns players can enter</div>
-                </div>
+              <SettingsRow label="Town access" sublabel="Choose which hub-world towns players can enter">
                 <Button variant="gold" onClick={onTownAccessAdmin}>OPEN</Button>
-              </div>
+              </SettingsRow>
             )}
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Reset hub quests &amp; pickups</div>
-                <div className="settings-sublabel">Clears all quest progress and collected pickup state</div>
-              </div>
+            <SettingsRow
+              label="Reset hub quests &amp; pickups"
+              sublabel="Clears all quest progress and collected pickup state"
+            >
               <Button variant="danger" onClick={handleResetHubData}>RESET</Button>
-            </div>
+            </SettingsRow>
           </Section>
         )}
 
@@ -793,70 +595,31 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
         )}
 
         <Section bordered title="ABOUT">
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Jarv's Amazing Web Game</div>
-              <div className="settings-sublabel">A browser-based strategy card game</div>
-            </div>
-          </div>
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Build</div>
-              <div className="settings-sublabel">{new Date(__BUILD_DATE__).toLocaleString()}</div>
-            </div>
-          </div>
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Build ID</div>
-              <div className="settings-sublabel">
-                {import.meta.env.VITE_GIT_SHA ? import.meta.env.VITE_GIT_SHA.slice(0, 7) : 'local build'}
-              </div>
-            </div>
-          </div>
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Tileset art</div>
-              <div className="settings-sublabel">
-                <a href="https://pipoya.itch.io/" target="_blank" rel="noreferrer">Pipoya</a>
-              </div>
-            </div>
-          </div>
-          {(() => {
-            const { totalMs, battleMs } = loadPlaytime()
-            return (
-              <>
-                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                  <div>
-                    <div className="settings-label">Time in game</div>
-                    <div className="settings-sublabel">{formatPlaytime(totalMs)}</div>
-                  </div>
-                </div>
-                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-                  <div>
-                    <div className="settings-label">Time in battle</div>
-                    <div className="settings-sublabel">{formatPlaytime(battleMs)}</div>
-                  </div>
-                </div>
-              </>
-            )
-          })()}
+          <SettingsRow label="Jarv's Amazing Web Game" sublabel="A browser-based strategy card game" />
+          <SettingsRow label="Build" sublabel={new Date(__BUILD_DATE__).toLocaleString()} />
+          <SettingsRow
+            label="Build ID"
+            sublabel={import.meta.env.VITE_GIT_SHA ? import.meta.env.VITE_GIT_SHA.slice(0, 7) : 'local build'}
+          />
+          <SettingsRow
+            label="Tileset art"
+            sublabel={<a href="https://pipoya.itch.io/" target="_blank" rel="noreferrer">Pipoya</a>}
+          />
+          <SettingsRow label="Time in game" sublabel={formatPlaytime(totalMs)} />
+          <SettingsRow label="Time in battle" sublabel={formatPlaytime(battleMs)} />
           {onCheckForUpdates && (
-            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-              <div>
-                <div className="settings-label">Check for updates</div>
-                <div className="settings-sublabel">
-                  {updateStatus === 'idle'     && 'Manually fetch the latest version if auto-updates have failed'}
-                  {updateStatus === 'checking' && 'Checking...'}
-                  {updateStatus === 'done'     && 'Done. If a new version was found the game will reload automatically.'}
-                </div>
-              </div>
-              <Button
-                onClick={handleCheckForUpdates}
-                disabled={updateStatus === 'checking'}
-              >
+            <SettingsRow
+              label="Check for updates"
+              sublabel={
+                updateStatus === 'checking' ? 'Checking...'
+                : updateStatus === 'done'   ? 'Done. If a new version was found the game will reload automatically.'
+                : 'Manually fetch the latest version if auto-updates have failed'
+              }
+            >
+              <Button onClick={handleCheckForUpdates} disabled={updateStatus === 'checking'}>
                 {updateStatus === 'checking' ? 'CHECKING...' : 'CHECK FOR UPDATES'}
               </Button>
-            </div>
+            </SettingsRow>
           )}
         </Section>
       </div>
@@ -865,11 +628,11 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
           user={user}
           authLoading={authLoading}
           onClose={() => setShowLoginModal(false)}
-          onLoginSuccess={({ pendingCloudSave, lastSync: newSync, message }) => {
+          onLoginSuccess={({ pendingCloudSave, lastSync: newSync, status }) => {
             setShowLoginModal(false)
             if (pendingCloudSave) setPendingCloudSave(pendingCloudSave)
             if (newSync) setLastSync(newSync)
-            if (message) setSyncMsg(message)
+            if (status) setSyncMsg(status)
           }}
         />
       )}

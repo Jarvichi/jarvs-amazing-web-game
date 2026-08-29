@@ -10,12 +10,13 @@ import { uploadSave, downloadSave } from '../../game/cloudSave'
 import { type CloudSave } from '../../game/cloudSave'
 import rollbar from '../../rollbar'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { type SettingsStatus } from '../screens/settings/SettingsMessage'
 
 interface Props {
   user: User | null
   authLoading: boolean
   onClose: () => void
-  onLoginSuccess: (opts: { pendingCloudSave?: CloudSave; lastSync?: Date; message: string }) => void
+  onLoginSuccess: (opts: { pendingCloudSave?: CloudSave; lastSync?: Date; status?: SettingsStatus }) => void
 }
 
 export function LoginModal({ user, authLoading, onClose, onLoginSuccess }: Props) {
@@ -30,17 +31,17 @@ export function LoginModal({ user, authLoading, onClose, onLoginSuccess }: Props
       const cloud = await downloadSave(linkedUser.uid)
       if (cloud) {
         rollbar.info('finishSignIn: cloud save found, prompting user', { uid: linkedUser.uid })
-        onLoginSuccess({ pendingCloudSave: cloud, message: '' })
+        onLoginSuccess({ pendingCloudSave: cloud })
       } else {
         rollbar.info('finishSignIn: no cloud save found, uploading local save', { uid: linkedUser.uid })
         await uploadSave(linkedUser.uid)
         const now = new Date()
         rollbar.info('finishSignIn: local save uploaded successfully', { uid: linkedUser.uid })
-        onLoginSuccess({ lastSync: now, message: 'Save synced to cloud.' })
+        onLoginSuccess({ lastSync: now, status: { text: 'Save synced to cloud.', kind: 'ok' } })
       }
     } catch (err) {
       rollbar.error('finishSignIn: cloud save check/upload failed', { err })
-      onLoginSuccess({ message: 'Signed in, but sync failed. Try SYNC NOW.' })
+      onLoginSuccess({ status: { text: 'Signed in, but sync failed. Try SYNC NOW.', kind: 'error' } })
     }
   }
 

@@ -279,11 +279,34 @@
 
 .settings-row:last-child { border-bottom: none; }
 
+/* Control under the text rather than beside it, for rows whose control is a
+   button group too wide to share a line (the cloud-save conflict prompt). */
+.settings-row--stacked {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-4);
+}
+
+.settings-row-text { flex: 1; min-width: 0; }
+
 .settings-label {
   font-size: var(--font-md);
   color: var(--game-text-color-dim);
   flex: 1;
 }
+
+/* Status line under a settings action. The kind picks the token; every call
+   site used to inline its own hex and the sync row picked one by
+   substring-matching the message text. */
+.settings-message {
+  font-size: var(--font-xs);
+}
+.settings-message--ok    { color: var(--color-green-bright); }
+.settings-message--error { color: var(--accent-ember); }
+.settings-message--warn  { color: var(--color-orange); }
+
+/* Cloud-save-conflict prompt — the one label that isn't neutral. */
+.settings-label--warn { color: var(--color-orange); }
 
 .settings-sublabel {
   font-size: var(--font-xs);
