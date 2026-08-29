@@ -12,6 +12,7 @@ import {
   doc, setDoc, getDocs, collection, query, orderBy, limit, where, Timestamp,
 } from 'firebase/firestore'
 import { db } from '../firebase'
+import { recordUserDoc } from './userIndex'
 
 // Required additional Firestore Security Rules:
 //   match /dailyLeaderboard/{date}/entries/{uid} {
@@ -228,6 +229,7 @@ export async function publishDailyResult(opts: {
   attempts:      number
 }): Promise<void> {
   const date = getDailyDate()
+  const path = `dailyLeaderboard/${date}/entries/${opts.uid}`
   const ref  = doc(db, 'dailyLeaderboard', date, 'entries', opts.uid)
   await setDoc(ref, {
     uid:           opts.uid,
@@ -236,6 +238,8 @@ export async function publishDailyResult(opts: {
     attempts:      opts.attempts,
     completedAt:   Timestamp.now(),
   })
+  // Date-partitioned, so account deletion cannot find it without the index.
+  await recordUserDoc(opts.uid, path)
 }
 
 /**

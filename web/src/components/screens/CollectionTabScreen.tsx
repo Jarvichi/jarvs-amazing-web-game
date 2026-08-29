@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { TabNav, type TabNavItem } from '../ui/TabNav'
 import { CollectionScreen } from './CollectionScreen'
 import { AugmentCollectionScreen } from './AugmentCollectionScreen'
 import { HeroCardsScreen } from './HeroCardsScreen'
@@ -17,7 +18,7 @@ interface Props {
 export function CollectionTabScreen({ crystals, onCrystalsChanged, onBack, commanderName, onPromoteCommander }: Props) {
   const [tab, setTab] = useState<CollectionTab>('cards')
 
-  const tabs: { id: CollectionTab; label: string }[] = [
+  const tabs: TabNavItem<CollectionTab>[] = [
     { id: 'cards',    label: 'Cards' },
     { id: 'augments', label: 'Augments' },
     { id: 'heroes',   label: 'Heroes' },
@@ -26,18 +27,14 @@ export function CollectionTabScreen({ crystals, onCrystalsChanged, onBack, comma
   return (
     <OverlayScreen title="COLLECTION" onBack={onBack}>
       <div className="player-screen">
-        <div className="player-tabs">
-          {tabs.map(t => (
-            <button
-              key={t.id}
-              className={`player-tab${tab === t.id ? ' player-tab--active' : ''}`}
-              onClick={() => setTab(t.id)}
-            >
-              {t.label}
-            </button>
-          ))}
-        </div>
-        <div className="player-tab-content">
+        <TabNav
+          items={tabs}
+          activeId={tab}
+          onSelect={setTab}
+          ariaLabel="Collection sections"
+          panelId="collection-panel"
+        />
+        <div className="tab-panel" id="collection-panel" role="tabpanel">
           {tab === 'cards'    && (
             <CollectionScreen
               crystals={crystals}

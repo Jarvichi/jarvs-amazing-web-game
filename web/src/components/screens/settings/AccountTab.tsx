@@ -4,6 +4,8 @@ import { auth } from '../../../firebase'
 import { uploadSave, applySave, getLastSyncTime, type CloudSave } from '../../../game/cloudSave'
 import { Button } from '../../ui/Button'
 import { LoginModal } from '../../modals/LoginModal'
+import { DeleteAccountModal } from '../../modals/DeleteAccountModal'
+import { deleteAccount } from '../../../game/deleteAccount'
 import { SettingsRow } from './SettingsRow'
 import { SettingsMessage, type SettingsStatus } from './SettingsMessage'
 
@@ -24,6 +26,9 @@ export function AccountTab({ user, authLoading }: Props) {
   const [pendingCloudSave, setPendingCloudSave] = useState<CloudSave | null>(null)
   const [lastSync,         setLastSync]         = useState<Date | null>(getLastSyncTime)
   const [showLoginModal,   setShowLoginModal]   = useState(false)
+  const [showDeleteModal,  setShowDeleteModal]  = useState(false)
+  const [deleting,         setDeleting]         = useState(false)
+  const [deleteError,      setDeleteError]      = useState<string | null>(null)
 
   async function handleSync() {
     if (!user || user.isAnonymous) return
@@ -67,12 +72,29 @@ export function AccountTab({ user, authLoading }: Props) {
     }
   }
 
+  async function handleDeleteAccount(password: string) {
+    if (!user) return
+    setDeleting(true)
+    setDeleteError(null)
+    const result = await deleteAccount(user, password)
+    if (!result.ok) {
+      setDeleting(false)
+      setDeleteError(result.message)
+      return
+    }
+    // The account is gone; clear what is left on this device and start over.
+    // A reload is the honest reset — half the app still holds the old
+    // player's state in memory.
+    try { localStorage.clear() } catch { /* ignore */ }
+    window.location.reload()
+  }
+
   return (
     <>
       {!user?.isAnonymous ? (
         <>
           <SettingsRow
-            label={user?.displayName ?? user?.email ?? 'Google account'}
+            label={user?.displayName ?? user?.email ?? 'Signed in'}
             sublabel={lastSync ? `Last synced: ${lastSync.toLocaleString()}` : 'Not yet synced'}
           >
             <div className="u-flex u-gap-4">
@@ -99,6 +121,24 @@ export function AccountTab({ user, authLoading }: Props) {
               </div>
             </SettingsRow>
           )}
+          {/* Both stores require in-app deletion for any app that lets users
+              create an account (Apple 5.1.1(v), Play User Data policy). Apple
+              checks it is reachable in two taps: Settings → Account.
+
+              Guarded on a real account rather than on the branch condition:
+              the enclosing `!user?.isAnonymous` is also true for a null user,
+              so this would otherwise offer to delete an account that is not
+              signed in. */}
+          {user?.email && !user.isAnonymous && (
+            <SettingsRow
+              label="Delete account"
+              sublabel="Permanently removes your account, cloud save and leaderboard entries"
+            >
+              <Button variant="danger" onClick={() => { setDeleteError(null); setShowDeleteModal(true) }}>
+                DELETE ACCOUNT
+              </Button>
+            </SettingsRow>
+          )}
         </>
       ) : (
         <SettingsRow
@@ -112,6 +152,16 @@ export function AccountTab({ user, authLoading }: Props) {
       )}
 
       {syncMsg && <SettingsMessage status={syncMsg} />}
+
+      {showDeleteModal && user?.email && (
+        <DeleteAccountModal
+          email={user.email}
+          busy={deleting}
+          error={deleteError}
+          onConfirm={handleDeleteAccount}
+          onCancel={() => setShowDeleteModal(false)}
+        />
+      )}
 
       {showLoginModal && (
         <LoginModal

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { TabNav, type TabNavItem } from '../ui/TabNav'
 import { hasUnclaimedAchievements } from '../../game/achievements'
 import { PlayerStatsScreen } from './PlayerStatsScreen'
 import { CharacterScreen } from './CharacterScreen'
@@ -20,7 +21,7 @@ export function PlayerScreen({ crystals, onCrystalsChanged, onBack, onSignOut }:
   const [tab, setTab] = useState<PlayerTab>('stats')
   const achievementAlert = hasUnclaimedAchievements()
 
-  const tabs: { id: PlayerTab; label: string; badge?: boolean }[] = [
+  const tabs: TabNavItem<PlayerTab>[] = [
     { id: 'character',    label: 'Character' },
     { id: 'inventory',    label: 'Inventory' },
     { id: 'quests',       label: 'Quests' },
@@ -31,19 +32,14 @@ export function PlayerScreen({ crystals, onCrystalsChanged, onBack, onSignOut }:
   return (
     <OverlayScreen title="PLAYER" onBack={onBack}>
       <div className="player-screen">
-        <div className="player-tabs">
-          {tabs.map(t => (
-            <button
-              key={t.id}
-              className={`player-tab${tab === t.id ? ' player-tab--active' : ''}`}
-              onClick={() => setTab(t.id)}
-            >
-              {t.label}
-              {t.badge && <span className="player-tab-badge" />}
-            </button>
-          ))}
-        </div>
-        <div className="player-tab-content">
+        <TabNav
+          items={tabs}
+          activeId={tab}
+          onSelect={setTab}
+          ariaLabel="Player sections"
+          panelId="player-panel"
+        />
+        <div className="tab-panel" id="player-panel" role="tabpanel">
           {tab === 'character'    && <CharacterScreen onDone={() => setTab('stats')} embedded />}
           {tab === 'quests'       && <QuestsScreen onBack={() => setTab('stats')} embedded />}
           {tab === 'achievements' && <AchievementsScreen onBack={() => setTab('stats')} onCrystalsChanged={onCrystalsChanged} embedded />}

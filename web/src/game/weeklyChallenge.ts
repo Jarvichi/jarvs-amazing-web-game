@@ -24,6 +24,7 @@ import {
   doc, setDoc, getDocs, collection, query, orderBy, limit, Timestamp,
 } from 'firebase/firestore'
 import { db } from '../firebase'
+import { recordUserDoc } from './userIndex'
 import weeklyChallengesData from '../data/weeklyChallenges.json'
 
 const WC_KEY     = 'jarv_weekly_challenge'
@@ -261,6 +262,7 @@ export async function publishWeeklyResult(opts: {
   attempts:      number
 }): Promise<void> {
   const week = getISOWeekKey()
+  const path = `weeklyLeaderboard/${week}/entries/${opts.uid}`
   const ref  = doc(db, 'weeklyLeaderboard', week, 'entries', opts.uid)
   await setDoc(ref, {
     uid:           opts.uid,
@@ -268,6 +270,8 @@ export async function publishWeeklyResult(opts: {
     attempts:      opts.attempts,
     completedAt:   Timestamp.now(),
   })
+  // Week-partitioned, so account deletion cannot find it without the index.
+  await recordUserDoc(opts.uid, path)
 }
 
 /**

@@ -1164,7 +1164,7 @@
 .town-directory__pin-btn--on { border-color: #55ddee; color: #55ddee; }
 .town-directory__pin-btn:hover { opacity: 0.85; }
 
-/* ── Town Journal panel (reuses .town-directory layout + .hoa-tabs) ────────── */
+/* ── Town Journal panel (reuses .town-directory layout + .tab-nav) ─────────── */
 .town-journal__list { margin-top: 12px; }
 .town-journal__tier-group + .town-journal__tier-group { margin-top: 14px; }
 .town-journal__tier-header {

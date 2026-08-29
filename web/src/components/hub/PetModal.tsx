@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { Panel } from '../ui/Panel'
+import { TabNav } from '../ui/TabNav'
 import { ConfirmModal } from '../modals/ConfirmModal'
 import {
   getActivePet, renamePet, dismissPet,
@@ -104,10 +105,15 @@ export function PetContent({ onClose, petActionRef }: Props) {
 
         {pet && (
           <>
-            <div className="hoa-tabs">
-              <button className={`hoa-tab${tab === 'info' ? ' hoa-tab--active' : ''}`} onClick={() => setTab('info')}>Info</button>
-              <button className={`hoa-tab${tab === 'accessories' ? ' hoa-tab--active' : ''}`} onClick={() => setTab('accessories')}>Accessories</button>
-            </div>
+            <TabNav
+              items={[
+                { id: 'info',        label: 'Info' },
+                { id: 'accessories', label: 'Accessories' },
+              ]}
+              activeId={tab}
+              onSelect={setTab}
+              ariaLabel="Pet sections"
+            />
 
             {tab === 'info' && (
               <>

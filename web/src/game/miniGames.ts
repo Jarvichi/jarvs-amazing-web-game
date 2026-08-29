@@ -9,6 +9,7 @@ import {
   doc, setDoc, getDocs, collection, query, orderBy, limit, where, Timestamp,
 } from 'firebase/firestore'
 import { db } from '../firebase'
+import { recordUserDoc } from './userIndex'
 import { MINI_GAME_COSTS as _MINI_GAME_COSTS, TICKET_PRIZE_COSTS } from './economy'
 
 // ── Ticket Storage ────────────────────────────────────────────────────────────
@@ -246,11 +247,14 @@ export async function publishMiniGameScore(opts: {
   try {
     const allTimeRef = doc(db, 'miniGameLeaderboard', opts.gameId, 'allTime', opts.uid)
     await setDoc(allTimeRef, payload, { merge: false })
+    await recordUserDoc(opts.uid, `miniGameLeaderboard/${opts.gameId}/allTime/${opts.uid}`)
   } catch { /* offline — ignore */ }
 
   try {
     const todayRef = doc(db, 'miniGameLeaderboard', opts.gameId, 'today', date, opts.uid)
     await setDoc(todayRef, payload, { merge: false })
+    // Date-partitioned, so account deletion cannot find it without the index.
+    await recordUserDoc(opts.uid, `miniGameLeaderboard/${opts.gameId}/today/${date}/${opts.uid}`)
   } catch { /* offline — ignore */ }
 }
 

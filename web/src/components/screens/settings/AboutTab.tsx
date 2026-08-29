@@ -36,6 +36,18 @@ export function AboutTab({ onCheckForUpdates }: Props) {
         label="Tileset art"
         sublabel={<a href="https://pipoya.itch.io/" target="_blank" rel="noreferrer">Pipoya</a>}
       />
+      {/* Both stores require a reachable privacy policy, and Play's Data
+          Safety form must match what it says (#2091). The page is static in
+          public/, so this URL loads without the app booting — which is how a
+          store reviewer will open it. */}
+      <SettingsRow
+        label="Privacy policy"
+        sublabel={
+          <a href="https://jawg.uk/privacy/" target="_blank" rel="noreferrer">
+            What we store, and how to delete it
+          </a>
+        }
+      />
       <SettingsRow label="Time in game"   sublabel={formatPlaytime(totalMs)} />
       <SettingsRow label="Time in battle" sublabel={formatPlaytime(battleMs)} />
 
