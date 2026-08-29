@@ -59,6 +59,11 @@
 .panel-corner--bl { bottom: -1px; left: -1px;  border-bottom: 2px solid; border-left: 2px solid; }
 .panel-corner--br { bottom: -1px; right: -1px; border-bottom: 2px solid; border-right: 2px solid; }
 
+/* Neutral is the default tone and had no rule, so its corners fell through
+   to currentColor — i.e. the CRT green, on every neutral panel that opted
+   into them. Green is semantic-only now (#2165); a neutral panel's corners
+   are metal. */
+.panel-corner  { border-color: var(--border-edge); }
 .panel--gold   .panel-corner { border-color: var(--accent-gold); }
 .panel--danger .panel-corner { border-color: var(--accent-ember); }
 .panel--arcane .panel-corner { border-color: var(--accent-arcane); }

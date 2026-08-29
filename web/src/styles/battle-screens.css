@@ -264,13 +264,87 @@
   animation: fadeIn 0.2s ease-out;
 }
 
+/* Tab strip. Reuses .player-tab (the game-wide gold active-tab treatment,
+   see collection.css) and only adds the icon alignment and the wrap
+   behaviour six tabs need on a phone. */
+.settings-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-3);
+  padding: 8px var(--gap-6) 0;
+  border-bottom: 1px solid var(--game-border);
+  flex-shrink: 0;
+}
+
+/* Share the panel's measure so the strip and the panel below it line up
+   once the screen is wider than the content. */
+.settings-tabs-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-3);
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.settings-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap-3);
+}
+
+.settings-tab svg { flex-shrink: 0; }
+
 .settings-body {
   overflow-y: auto;
   min-height: 0;
-  padding: 12px 0;
+  padding: 12px var(--gap-6);
 }
 
-/* settings sections → .section.section--bordered */
+/* A settings list stretched across a desktop window strands every control
+   against the far edge, so the panel keeps a readable measure and centres.
+   The screen opts into .game-container--wide for the room to do it. */
+.settings-body > * {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Section title inside a Panel — Section's own header is not used here
+   because the tab already names the group. */
+.settings-panel-title {
+  font-family: var(--font-display);
+  font-size: var(--font-sm);
+  letter-spacing: 0.08em;
+  color: var(--accent-gold);
+  padding: 0 14px 8px;
+  border-bottom: 1px solid var(--game-bg-raised);
+}
+
+/* Two columns of rows once there is width for them (#2183) — the panel's
+   900px measure splits into two ~430px columns, which still fits a label
+   and its control. Below the desktop breakpoint this stays one column. The
+   literal 1024px matches --breakpoint-desktop; custom properties don't work
+   inside an @media condition in this setup. */
+@media (min-width: 1024px) {
+  .settings-rows {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+  }
+  /* A stacked row (the cloud-save conflict prompt) carries its own buttons
+     and needs the full width. */
+  .settings-rows > .settings-row--stacked,
+  .settings-rows > .settings-message {
+    grid-column: 1 / -1;
+  }
+  /* The per-row bottom rule reads as a stray dash between columns once the
+     rows sit side by side. */
+  .settings-rows > .settings-row {
+    border-bottom: none;
+    border-top: 1px solid var(--game-bg-raised);
+  }
+}
 
 .settings-row {
   padding: 10px 14px;
@@ -307,6 +381,18 @@
 
 /* Cloud-save-conflict prompt — the one label that isn't neutral. */
 .settings-label--warn { color: var(--color-orange); }
+
+/* Text-colour presets. The preset's own colour arrives as --swatch so the
+   selected/unselected treatment lives in CSS rather than a pair of inline
+   style properties per button. */
+.settings-swatch {
+  color: var(--swatch);
+  border-color: color-mix(in srgb, var(--swatch) 40%, transparent);
+}
+.settings-swatch[aria-pressed="true"] {
+  border-color: var(--swatch);
+  box-shadow: 0 0 0 1px var(--swatch) inset;
+}
 
 .settings-sublabel {
   font-size: var(--font-xs);

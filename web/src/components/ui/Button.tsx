@@ -26,6 +26,8 @@ interface Props {
   disabled?:       boolean
   title?:          string
   'aria-label'?:   string
+  /** For buttons used as a two-state selector (e.g. the startup-screen pair). */
+  'aria-pressed'?: boolean
   className?:      string
   style?:          React.CSSProperties
   children:        React.ReactNode
@@ -40,6 +42,7 @@ export const Button = React.forwardRef<HTMLButtonElement, Props>(function Button
   disabled,
   title,
   'aria-label': ariaLabel,
+  'aria-pressed': ariaPressed,
   className,
   style,
   children,
@@ -61,6 +64,7 @@ export const Button = React.forwardRef<HTMLButtonElement, Props>(function Button
       disabled={disabled}
       title={title}
       aria-label={ariaLabel}
+      aria-pressed={ariaPressed}
       style={style}
     >
       {children}
