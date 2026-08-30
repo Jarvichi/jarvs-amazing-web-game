@@ -249,10 +249,10 @@ export function PackOpening({ packs, onDone }: Props) {
           CONTINUE →
         </button>
       ) : (
-        <div className="pack-wait" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+        <div className="pack-wait u-col u-items-c u-gap-4">
           <span>{waitingForTap ? 'Tap the card to reveal it!' : 'Revealing…'}</span>
           {isMultiPack && (
-            <button className="action-btn" style={{ fontSize: 11, padding: '4px 12px' }} onClick={handleSkip}>
+            <button className="action-btn action-btn--xs" onClick={handleSkip}>
               Skip to end
             </button>
           )}
