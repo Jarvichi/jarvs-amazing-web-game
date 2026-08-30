@@ -12,9 +12,12 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+// A real pack is six cards — generatePack() returns five plus one augment —
+// so the screen always lays out as two full rows of three. The stories used to
+// pass five, which left the second row half-empty and hid a row-overlap bug.
 export const SinglePack: Story = {
   args: {
-    packs: [['Goblin', 'Archer', 'Troll', 'Dragon', 'Paladin']],
+    packs: [['Undertow Charm', 'Wave Brawler', 'Verdant Bracers', 'Frost Turret', 'Sniper Post', 'Ram Barracks']],
     onDone: fn(),
   },
 };
@@ -22,8 +25,8 @@ export const SinglePack: Story = {
 export const MultiplePacks: Story = {
   args: {
     packs: [
-      ['Goblin', 'Archer', 'Troll', 'Dragon', 'Paladin'],
-      ['Rogue', 'Golem', 'Vampire', 'Griffin', 'Scorpion'],
+      ['Undertow Charm', 'Wave Brawler', 'Verdant Bracers', 'Frost Turret', 'Sniper Post', 'Ram Barracks'],
+      ['Goblin', 'Archer', 'Troll', 'Rogue', 'Golem', 'Griffin'],
     ],
     onDone: fn(),
   },

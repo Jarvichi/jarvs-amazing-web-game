@@ -582,6 +582,12 @@
 /* ─── Pack Opening ───────────────────────────────────── */
 
 .pack-screen {
+  /* One source of truth for the face-down card's footprint. The revealed
+     face is a real .card-tile plus its rarity stars underneath, so its
+     height is content-driven — the slot only reserves a sensible minimum
+     (see .pack-card-flip) rather than pinning it. */
+  --pack-card-w: 90px;
+  --pack-card-h: 152px;
   animation: fadeIn 0.3s ease-out;
 }
 
@@ -626,10 +632,21 @@
   50%       { box-shadow: 0 0 18px 6px rgba(187,102,255,0.75), inset 0 0 20px rgba(187,102,255,0.25); }
 }
 
+/* The two faces swap with `display`, so only ever one of them is in flow —
+   they don't need to be stacked absolutely, and stacking them was the bug:
+   the slot stayed 130px tall while the revealed face (card tile + rarity
+   stars, ~175px) spilled out of it, landing on top of the next row of cards
+   and the CONTINUE button. Keeping the faces in normal flow lets the slot
+   size itself to whatever the tile turns out to be — a two-line card name or
+   a missing stat line changes that height — so rows can never overlap. */
 .pack-card-flip {
   position: relative;
-  width: 90px;
-  height: 130px;
+  display: flex;
+  flex-direction: column;
+  width: var(--pack-card-w);
+  /* Face-down card + the rarity stars the revealed face adds below the tile.
+     A minimum, not a cap: a taller tile grows the slot instead of spilling. */
+  min-height: calc(var(--pack-card-h) + 26px);
 }
 
 /* Phase 1: close the card (back face squishes to edge) */
@@ -654,21 +671,28 @@
 
 .pack-card-front,
 .pack-card-back {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
 }
 
 /* Front hidden until revealed; back hidden once revealed */
 .pack-card-front { display: none; }
-.pack-card-slot--revealed .pack-card-front { display: block; }
+.pack-card-slot--revealed .pack-card-front { display: flex; flex: 1; }
 .pack-card-slot--revealed .pack-card-back  { display: none; }
 
+/* Every slot in a row is the same height (flex stretch), so stretching the
+   tile inside it too keeps the six cards a uniform grid and puts all the
+   rarity stars on one line. Without this, a card with no stat line — an
+   augment — is ~16px shorter than its neighbours and its stars ride up with
+   it. The art takes the slack so the sprite stays centred and the stat/type
+   rows stay pinned to the bottom of the tile. */
+.pack-card-reveal { flex: 1; }
+.pack-card-reveal .card-tile,
+.pack-card-reveal .card-tile-btn { flex: 1; }
+.pack-card-reveal .card-art { flex-grow: 1; }
+
 .pack-card-hidden {
-  width: 90px;
-  height: 130px;
+  width: 100%;
+  height: var(--pack-card-h);
   border: 2px solid var(--game-border);
   border-radius: 4px;
   background: var(--game-bg-raised);
