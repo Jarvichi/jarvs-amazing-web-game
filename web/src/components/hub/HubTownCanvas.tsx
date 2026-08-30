@@ -941,23 +941,27 @@ export function HubTownCanvas({
             const items = getTodaysShopItems(def.building)
             const item  = items[d.shopArtSlot]
 
-            // White card/tile backing, drawn regardless of whether art loads —
-            // shared visual base for all 3 stock kinds.
-            const cardW = T - 6, cardH = T - 2
-            const bg = new PIXI.Graphics()
-            bg.roundRect(d.dx * T + 3, d.dy * T + 1, cardW, cardH, 2).fill({ color: 0xffffff })
-            bg.roundRect(d.dx * T + 3, d.dy * T + 1, cardW, cardH, 2).stroke({ color: 0xbbbbbb, width: 1 })
-            parent.addChild(bg)
-
             if (item) {
+              // Stock sits directly on the counter/shelf it was placed on. It used
+              // to get a white rounded-rect card behind it, which read as a sprite
+              // floating over the wood rather than an object resting on it — the
+              // contact shadow below does that job without introducing a surface
+              // colour that belongs to no tileset.
+              const artSize = (T - 6) * 0.8
+              const cx      = d.dx * T + T / 2
+              const baseY   = d.dy * T + T - 4
+              const shadow = new PIXI.Graphics()
+              shadow.ellipse(cx, baseY - 1, artSize * 0.40, artSize * 0.15)
+                .fill({ color: 0x000000, alpha: 0.28 })
+              parent.addChild(shadow)
+
               const loadArt = (spriteName: string) =>
                 loadTextureUrl(`${base}sprites/${spriteName}.svg`).then(tex => {
                   if (app.renderer == null || !stillCurrent()) return
                   const s = new PIXI.Sprite(tex)
-                  const artSize = cardW * 0.8
                   s.width = artSize; s.height = artSize
                   s.anchor.set(0.5, 1)
-                  s.position.set(d.dx * T + T / 2, d.dy * T + cardH - 2)
+                  s.position.set(cx, baseY)
                   parent.addChild(s)
                 }).catch(() => {})
 
@@ -973,12 +977,15 @@ export function HubTownCanvas({
                 case 'consumable': {
                   const consumableId = item.grant.id
                   const consumable = ALL_CONSUMABLES.find(c => c.id === consumableId)
+                  const fontSize = Math.round(artSize * 0.85)
                   const badge = new PIXI.Text({
                     text: consumable?.icon ?? '❔',
-                    style: { fontSize: Math.round(cardH * 0.6), fontFamily: 'monospace' },
+                    style: { fontSize, fontFamily: 'monospace' },
                   })
+                  // Centred so the glyph's own bottom lands on baseY, where the
+                  // contact shadow is — emoji sit high inside their line box.
                   badge.anchor.set(0.5, 0.5)
-                  badge.position.set(d.dx * T + T / 2, d.dy * T + cardH / 2 + 1)
+                  badge.position.set(cx, baseY - fontSize * 0.42)
                   parent.addChild(badge)
                   break
                 }
