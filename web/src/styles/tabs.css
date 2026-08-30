@@ -104,9 +104,23 @@
 
 /* Thumb-reachable bottom bar on phones. Items share the width equally so the
    strip is always exactly one row — it must never wrap out of thumb reach. */
+/* --tab-nav-inset-* keeps the strip's *content* clear of a phone's
+   non-rectangular screen. Two separate things eat into it on an iPhone:
+   - the home indicator along the bottom edge, and
+   - the display's rounded corners, which clip the outer two tabs — the ones
+     whose labels sit closest to a corner.
+   env() alone covers neither. It reports 0 unless the page opts into drawing
+   under the system UI (viewport-fit=cover, which this app doesn't set — see
+   index.html), and it says nothing at all about corner radius. So each inset
+   is a floor under whatever env() reports rather than env() on its own.
+   They're padding on the items, not on the bar, so the selected tab's wash
+   and accent bar still run to the edges rather than floating in a frame. */
 .tab-nav--bar {
+  --tab-nav-inset-bottom: max(env(safe-area-inset-bottom, 0px), 16px);
+  --tab-nav-inset-left:   max(env(safe-area-inset-left, 0px), 8px);
+  --tab-nav-inset-right:  max(env(safe-area-inset-right, 0px), 8px);
+
   border-top: 1px solid var(--tab-nav-line);
-  padding-bottom: env(safe-area-inset-bottom, 0);
 }
 
 .tab-nav--bar .tab-nav__item {
@@ -115,9 +129,14 @@
   flex-direction: column;
   justify-content: center;
   gap: 3px;
-  padding: 9px 2px 10px;
+  padding: 9px 2px calc(10px + var(--tab-nav-inset-bottom));
   font-size: var(--font-xxs);
 }
+
+/* Only the end tabs are near a corner; insetting every tab would just make
+   the row narrower for no reason. */
+.tab-nav--bar .tab-nav__item:first-child { padding-left: calc(2px + var(--tab-nav-inset-left)); }
+.tab-nav--bar .tab-nav__item:last-child { padding-right: calc(2px + var(--tab-nav-inset-right)); }
 
 .tab-nav--bar .tab-nav__item--on {
   box-shadow: inset 0 2px 0 var(--tab-nav-on);
@@ -138,17 +157,26 @@
    condition in this setup. */
 @media (min-width: 768px) {
   .tab-nav--bar {
+    /* A left rail touches no corner and no home indicator. */
+    --tab-nav-inset-bottom: 0px;
+    --tab-nav-inset-left: 0px;
+    --tab-nav-inset-right: 0px;
+
     flex-direction: column;
     align-content: start;
     border-top: none;
     border-right: 1px solid var(--tab-nav-line);
-    padding-bottom: 0;
     /* An explicit rail width, so the shape doesn't depend on the parent
        happening to constrain it (the satchel sheet's grid track is 128px
        and agrees with this). */
     width: 128px;
   }
-  .tab-nav--bar .tab-nav__item {
+  /* The end-tab selectors below outrank a plain `.tab-nav__item` rule, so the
+     rail has to reset them by name or the first and last item keep the bar's
+     2px side padding. */
+  .tab-nav--bar .tab-nav__item,
+  .tab-nav--bar .tab-nav__item:first-child,
+  .tab-nav--bar .tab-nav__item:last-child {
     flex: 0 0 auto;
     flex-direction: row;
     justify-content: flex-start;

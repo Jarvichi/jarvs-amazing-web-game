@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { fn, within, expect } from 'storybook/test'
+import { fn, within, expect, userEvent } from 'storybook/test'
 import { page } from 'vitest/browser'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { SatchelSheet, SatchelEmpty } from './SatchelSheet'
@@ -10,15 +10,31 @@ import { CollapsibleGroup } from './CollapsibleGroup'
 import { EntityChip } from './EntityChip'
 import type { SatchelSectionId } from './types'
 
+/** What SatchelMenu actually puts in the header, per section: a figure on
+ *  Quests/Town/Codex, a search field on Satchel/Quests, and nothing at all on
+ *  Today. Mirrored here because that variance is what the shell has to absorb
+ *  — every combination has to produce the same header. */
+const SECTION_META: Partial<Record<SatchelSectionId, string>> = {
+  quests: '3 active',
+  town:   '💎 6,412',
+  codex:  '68% complete',
+}
+const SECTION_SEARCH: Partial<Record<SatchelSectionId, string>> = {
+  satchel: 'Search items',
+  quests:  'Search quests',
+}
+
 function Interactive({ initial, empty, longList }: { initial: SatchelSectionId; empty?: boolean; longList?: boolean }) {
   const [activeId, setActiveId] = useState<SatchelSectionId>(initial)
   const [query, setQuery] = useState('')
 
+  const placeholder = SECTION_SEARCH[activeId]
+
   return (
     <SatchelSheet
       title="Ravenwatch"
-      meta="💎 500"
-      search={{ value: query, onChange: setQuery, placeholder: 'Search everything' }}
+      meta={SECTION_META[activeId]}
+      search={placeholder ? { value: query, onChange: setQuery, placeholder } : undefined}
       onClose={fn()}
       activeId={activeId}
       onSelect={setActiveId}
@@ -136,4 +152,80 @@ export const DoesNotFocusTheSearchFieldOnOpen: Story = {
 export const Phone: Story = {
   args: { initial: 'today' },
   globals: { viewport: { value: 'mobile1' } },
+}
+
+/** The header has to be one fixed shape across all five sections.
+ *
+ *  It wasn't: each section put something different in it — a search field
+ *  (Satchel, Quests), a figure (Town, Codex), or nothing (Today) — and the
+ *  header sized itself to whatever that was. Switching tabs made the bar jump
+ *  about 14px, and with nothing between the title and the ✕ to take up the
+ *  slack the close button slid left to sit against the title, so it landed
+ *  somewhere different on every section.
+ *
+ *  Measured rather than screenshotted: a few pixels of drift in the header is
+ *  exactly the kind of thing that survives a look at a screenshot. */
+export const HeaderIsTheSameShapeInEverySection: Story = {
+  args: { initial: 'today' },
+  play: async () => {
+    // Both layouts: the sheet is a full-bleed sheet with a bottom bar below
+    // 768px and a dialog with a left rail above it, and the header's padding
+    // differs between them — so each has its own height to be consistent at.
+    for (const [w, h] of [[390, 844], [1024, 800]] as const) {
+      await page.viewport(w, h)
+      await new Promise(r => setTimeout(r, 400))
+
+      const tabs = Array.from(document.querySelectorAll<HTMLElement>('.tab-nav__item'))
+      expect(tabs.length).toBeGreaterThan(1)
+
+      const shapes: { width: number; section: string; height: number; closeRight: number }[] = []
+      for (const tab of tabs) {
+        await userEvent.click(tab)
+        const header = document.querySelector<HTMLElement>('.satchel-sheet__header')!
+        const close  = document.querySelector<HTMLElement>('.satchel-sheet__close')!
+        shapes.push({
+          width: w,
+          section: tab.textContent ?? '',
+          height: header.offsetHeight,
+          // Distance from the right edge of the sheet, which is what the eye
+          // tracks when the ✕ moves.
+          closeRight: Math.round(header.getBoundingClientRect().right - close.getBoundingClientRect().right),
+        })
+      }
+
+      // Every section, one height and one ✕ position.
+      expect(new Set(shapes.map(s => s.height)).size, JSON.stringify(shapes)).toBe(1)
+      expect(new Set(shapes.map(s => s.closeRight)).size, JSON.stringify(shapes)).toBe(1)
+    }
+  },
+}
+
+/** The bottom bar sits on the very edge of the screen, and on a phone that
+ *  edge is neither straight nor entirely the app's: the home indicator runs
+ *  along it and the rounded display corners cut into the outer two tabs. The
+ *  labels were landing inside both. */
+export const BarKeepsItsLabelsOffTheScreenEdge: Story = {
+  args: { initial: 'today' },
+  play: async () => {
+    await page.viewport(390, 844)
+    await new Promise(r => setTimeout(r, 400))
+
+    const items = Array.from(document.querySelectorAll<HTMLElement>('.tab-nav--bar .tab-nav__item'))
+    expect(items.length).toBeGreaterThan(1)
+
+    for (const item of items) {
+      expect(parseFloat(getComputedStyle(item).paddingBottom)).toBeGreaterThanOrEqual(26)
+    }
+    // Only the tabs next to a corner are inset horizontally.
+    expect(parseFloat(getComputedStyle(items[0]).paddingLeft)).toBeGreaterThanOrEqual(10)
+    expect(parseFloat(getComputedStyle(items[items.length - 1]).paddingRight)).toBeGreaterThanOrEqual(10)
+
+    // A left rail touches neither, and the end-tab selectors must not leave it
+    // with the bar's side padding — every rail item is padded the same.
+    await page.viewport(1024, 800)
+    await new Promise(r => setTimeout(r, 400))
+    const rail = Array.from(document.querySelectorAll<HTMLElement>('.tab-nav--bar .tab-nav__item'))
+    const pads = rail.map(i => getComputedStyle(i).padding)
+    expect(new Set(pads).size, JSON.stringify(pads)).toBe(1)
+  },
 }
