@@ -5,6 +5,7 @@ import {
 } from '../../game/weeklyChallenge'
 import { getChronicleFragments, getExoticShards } from '../../game/itemStore'
 import { Button } from '../ui/Button'
+import { PageHeader } from '../ui/PageHeader'
 
 interface Props {
   onStart: () => void
@@ -38,10 +39,7 @@ export function WeeklyChallengeScreen({ onStart, onBack }: Props) {
 
   return (
     <div className="dc-screen">
-      <div className="overlay-header u-flex u-items-c u-gap-6">
-        <Button onClick={onBack}>← BACK</Button>
-        <span className="overlay-title">WEEKLY CHALLENGE</span>
-      </div>
+      <PageHeader title="WEEKLY CHALLENGE" onBack={onBack} />
       <div className="u-text-c">
         <div className="wc-lore-title">{challenge.loreTitle}</div>
         <div className="dc-reset-time">Resets {resetsAt} · Monday 00:00 UTC</div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getDailyChallengeState, getDailyPlayerDeck, fetchDailyLeaderboard, LeaderboardEntry } from '../../game/dailyChallenge'
 import { Button } from '../ui/Button'
+import { PageHeader } from '../ui/PageHeader'
 
 interface Props {
   onStart: () => void
@@ -39,10 +40,7 @@ export function DailyChallengeScreen({ onStart, onBack }: Props) {
 
   return (
     <div className="dc-screen">
-      <div className="overlay-header u-flex u-items-c u-gap-6">
-        <Button onClick={onBack}>← BACK</Button>
-        <span className="overlay-title">DAILY CHALLENGE</span>
-      </div>
+      <PageHeader title="DAILY CHALLENGE" onBack={onBack} />
       <div className="u-text-c">
         <div className="dc-date">{today}</div>
         <div className="dc-reset-time">Resets at {getResetTimeLocal()}</div>

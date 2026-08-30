@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { fetchEndlessLeaderboard, fetchTodaysEndlessLeaderboard, getEndlessPersonalBest, EndlessLeaderboardEntry, fetchDailyLeaderboard, LeaderboardEntry } from '../../game/dailyChallenge'
-import { Button } from '../ui/Button'
+import { PageHeader } from '../ui/PageHeader'
 
 interface Props {
   onBack: () => void
@@ -63,10 +63,7 @@ export function EndlessLeaderboardScreen({ onBack }: Props) {
 
   return (
     <div className="el-screen">
-      <div className="overlay-header u-flex u-items-c u-gap-6">
-        <Button onClick={onBack}>← BACK</Button>
-        <span className="overlay-title">🏆 LEADERBOARDS</span>
-      </div>
+      <PageHeader title="🏆 LEADERBOARDS" onBack={onBack} />
 
       <div className="el-section u-col u-gap-3">
         <div className="el-section-title">📅 DAILY CHALLENGE</div>
