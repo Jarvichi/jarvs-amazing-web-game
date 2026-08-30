@@ -22,7 +22,14 @@ export function AdminRoutes() {
       )}
 
       {screen === 'news' && (
-        <NewsScreen onBack={() => { setNewsUnreadCount(0); setScreen(returnScreen) }} />
+        <NewsScreen
+          onBack={() => { setNewsUnreadCount(0); setScreen(returnScreen) }}
+          // The Chronicle backs out to `returnScreen`, which still holds the
+          // screen the player opened the news from — deliberately left alone,
+          // since pointing it at 'news' would trap News's own back button in
+          // a loop back to itself.
+          onOpenChronicle={() => { setNewsUnreadCount(0); setScreen('chronicle') }}
+        />
       )}
 
       {screen === 'newsAdmin' && (

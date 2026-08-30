@@ -150,8 +150,18 @@
   animation: fadeIn 0.2s ease-out;
 }
 
+/* Three columns — side / title / side — so the title is centred on the
+   screen rather than starting wherever the back button ends. The side
+   columns share the leftover space equally (1fr each), which centres the
+   title exactly whenever both sides fit inside their share; `min-content`
+   as their floor means a wide right-hand slot (a crystal balance, an
+   achievement tally) grows and nudges the title instead of being clipped. */
 .overlay-header {
   width: 100%;
+  display: grid;
+  grid-template-columns: minmax(min-content, 1fr) minmax(0, auto) minmax(min-content, 1fr);
+  align-items: center;
+  column-gap: var(--gap-6);
   padding: var(--gap-3) 0 var(--gap-4);
   border-bottom: 1px solid var(--border-edge-dark);
   /* Engraved rule: a dark line with a 1px light highlight riding just
@@ -160,8 +170,22 @@
   flex-shrink: 0;
 }
 
+.overlay-header__side {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-4);
+  min-width: 0;
+}
+
+.overlay-header__side--right { justify-content: flex-end; }
+
+.overlay-header__title {
+  min-width: 0;
+  gap: 1px;
+  text-align: center;
+}
+
 .overlay-title {
-  flex: 1;
   font-family: var(--font-display);
   font-size: 1.071rem;
   color: var(--color-gold-alt);
