@@ -64,7 +64,12 @@ export function NewsScreen({ onBack, onOpenChronicle }: Props) {
 
   const todayISO = new Date().toISOString().slice(0, 10)
 
-  const visible = items.filter(n => !dismissed.has(n.id))
+  // The chapter in the callout is drawn there, so its post is kept out of the
+  // feed — printing it twice on one screen is the duplication the LED banner
+  // was guilty of. Filtered before the counts and pages are worked out so
+  // both stay honest.
+  const calloutNewsId = latestChapter ? `chronicle-${latestChapter.def.id}` : null
+  const visible = items.filter(n => !dismissed.has(n.id) && n.id !== calloutNewsId)
   const filterOptions = buildFilterOptions(visible)
   // A tag can disappear entirely once its last post is dismissed.
   const activeFilter = filterOptions.some(o => o.id === filter) ? filter : 'all'

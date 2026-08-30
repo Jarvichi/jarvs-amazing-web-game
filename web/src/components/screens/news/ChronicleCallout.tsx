@@ -1,6 +1,5 @@
 import React from 'react'
 import { Button } from '../../ui/Button'
-import { Icon } from '../../ui/icons/Icon'
 
 interface Props {
   /** Chapter number, 1-based. */
@@ -27,7 +26,9 @@ interface Props {
 export function ChronicleCallout({ number, title, teaser, reward, unread = false, onOpen }: Props) {
   return (
     <section className={`news-callout${unread ? ' news-callout--unread' : ''}`}>
-      <Icon name="chronicle" size={24} className="news-callout__icon" />
+      {/* The sprite's chronicle glyph is a solid silhouette that reads as a
+          gold blob at this size; the emoji matches the chapter rows below. */}
+      <span className="news-callout__icon" aria-hidden="true">📜</span>
       <div className="news-callout__text">
         <span className="news-callout__eyebrow">
           {unread ? 'New chapter' : 'Latest chapter'} · Fracture Chronicle

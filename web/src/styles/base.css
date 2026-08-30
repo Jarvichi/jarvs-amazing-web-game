@@ -394,8 +394,7 @@ html.eightbit-mode .lane-layer {
   background: rgba(255, 204, 0, 0.05);
 }
 
-.news-callout__icon { color: var(--color-gray-8); flex-shrink: 0; }
-.news-callout--unread .news-callout__icon { color: var(--color-gold-alt); }
+.news-callout__icon { flex-shrink: 0; font-size: var(--font-lg); line-height: 1.2; }
 
 .news-callout__text {
   display: flex;
