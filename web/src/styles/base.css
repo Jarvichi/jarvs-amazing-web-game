@@ -374,12 +374,83 @@ html.eightbit-mode .lane-layer {
 }
 
 /* ── News / What's New ────────────────────────────────────────────────── */
-.news-led-scroller {
+
+/* Chronicle banner at the top of the feed, in place of the LED scroller that
+   used to sit here (see ChronicleCallout.tsx for why it went). */
+.news-callout {
   display: flex;
-  justify-content: center;
-  padding: 6px 0 10px;
-  overflow: hidden;
+  align-items: flex-start;
+  gap: var(--gap-4);
+  margin: var(--gap-4) 0;
+  padding: var(--gap-4);
+  border: 1px solid var(--game-border);
+  border-left: 2px solid var(--color-gray-6);
+  border-radius: 3px;
+  background: var(--game-bg-raised);
 }
+
+.news-callout--unread {
+  border-left-color: var(--color-gold-alt);
+  background: rgba(255, 204, 0, 0.05);
+}
+
+.news-callout__icon { color: var(--color-gray-8); flex-shrink: 0; }
+.news-callout--unread .news-callout__icon { color: var(--color-gold-alt); }
+
+.news-callout__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.news-callout__eyebrow {
+  font-size: var(--font-xxs);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--game-text-color-muted);
+}
+.news-callout--unread .news-callout__eyebrow { color: var(--color-gold-dim); }
+
+.news-callout__title {
+  font-size: var(--font-md);
+  font-weight: bold;
+  color: var(--game-text-color);
+}
+
+.news-callout__teaser {
+  font-size: var(--font-sm);
+  color: var(--color-gray-9);
+  line-height: 1.4;
+}
+
+.news-callout__reward {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-dim);
+}
+
+.news-callout__cta { flex-shrink: 0; align-self: center; }
+
+/* Tag chips. Scrolls sideways rather than wrapping, so a phone never spends
+   three lines on filters. */
+.news-filters {
+  display: flex;
+  gap: var(--gap-3);
+  padding-bottom: var(--gap-4);
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-shrink: 0;
+}
+.news-filters::-webkit-scrollbar { display: none; }
+.news-filters .filter-btn { white-space: nowrap; flex-shrink: 0; }
+
+.news-filters__count {
+  margin-left: 5px;
+  color: var(--game-text-color-muted);
+  font-variant-numeric: tabular-nums;
+}
+.filter-btn--active .news-filters__count { color: inherit; }
 
 .news-list {
   overflow-y: auto;
@@ -388,11 +459,43 @@ html.eightbit-mode .lane-layer {
   padding-right: 4px;
 }
 
+/* Date groups — "Today" / "This week" / … — so a long feed reads as a few
+   dated batches rather than one undifferentiated column. */
+.news-group__heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--gap-4);
+  margin: var(--gap-5) 0 var(--gap-2);
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--border-edge-dark);
+  font-size: var(--font-xxs);
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--game-text-color-muted);
+}
+.news-group:first-child .news-group__heading { margin-top: 0; }
+
+.news-group__count { font-variant-numeric: tabular-nums; }
+
 .news-item {
   padding: 12px 0;
   border-bottom: 1px solid var(--game-border);
 }
 .news-item:last-child { border-bottom: none; }
+
+.news-item--unread { border-left: 2px solid var(--color-gold-alt); padding-left: 8px; }
+
+.news-item__new {
+  font-size: var(--font-xxs);
+  font-weight: bold;
+  letter-spacing: 1px;
+  padding: 1px 5px;
+  border-radius: 2px;
+  background: var(--color-gold-alt);
+  color: #1a1400;
+}
 
 .news-item__date {
   font-size: var(--font-sm);
@@ -416,15 +519,100 @@ html.eightbit-mode .lane-layer {
   background: none;
   border: none;
   color: var(--color-gray-6);
-  font-size: var(--font-md);
   cursor: pointer;
   padding: 2px 4px;
   line-height: 1;
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
 }
 .news-item__dismiss:hover { color: var(--color-red); }
+/* Press feedback (#2185): :hover never fires on touch, so a tap on the
+   dismiss control used to acknowledge nothing at all. */
+.news-item__dismiss:active { color: var(--color-red); transform: scale(0.9); }
+
+/* One Chronicle chapter, as a row. Full cards for these are what made the
+   feed repetitive — see ChronicleRow.tsx. */
+.news-chapter {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-4);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--game-border);
+}
+.news-chapter:last-child { border-bottom: none; }
+.news-chapter--unread { border-left: 2px solid var(--color-gold-alt); padding-left: 8px; }
+
+.news-chapter__main {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-4);
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  padding: 2px 0;
+}
+
+.news-chapter__main--tappable { cursor: pointer; }
+.news-chapter__main--tappable:hover .news-chapter__title { color: var(--color-gold-alt); }
+.news-chapter__main--tappable:active { transform: translateY(1px); }
+
+.news-chapter__icon { flex: 0 0 auto; font-size: var(--font-md); }
+
+.news-chapter__label {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.news-chapter__title {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-3);
+  font-size: var(--font-md);
+  font-weight: bold;
+  color: var(--game-text-color);
+}
+
+.news-chapter__teaser {
+  font-size: var(--font-sm);
+  color: var(--color-gray-8);
+  /* One line: the chapter's full text lives in the Chronicle, not here. */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.news-chapter__value {
+  flex: 0 0 auto;
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+  white-space: nowrap;
+}
+
+.news-chapter__date {
+  flex: 0 0 auto;
+  font-size: var(--font-xs);
+  color: var(--color-gray-7);
+  white-space: nowrap;
+}
+
+/* Phone: the reward and date can't share a line with the title without
+   squeezing it to nothing, so they drop out and the row reads as name +
+   teaser, the two things that identify the chapter. */
+@media (max-width: 480px) {
+  .news-chapter__value,
+  .news-chapter__date { display: none; }
+}
 
 .news-item__title {
+  margin: 0;
   font-size: 1rem;
   font-weight: bold;
   color: var(--game-text-color);
