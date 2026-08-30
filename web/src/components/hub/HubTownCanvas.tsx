@@ -949,7 +949,11 @@ export function HubTownCanvas({
               // colour that belongs to no tileset.
               const artSize = (T - 6) * 0.8
               const cx      = d.dx * T + T / 2
-              const baseY   = d.dy * T + T - 4
+              // Half a tile up from the tile's bottom edge: counter/shelf tiles
+              // draw their usable surface across the top half and the front face
+              // below it, so anchoring at the tile bottom hung the stock off the
+              // front of the counter instead of standing it on top.
+              const baseY   = d.dy * T + T / 2 - 4
               const shadow = new PIXI.Graphics()
               shadow.ellipse(cx, baseY - 1, artSize * 0.40, artSize * 0.15)
                 .fill({ color: 0x000000, alpha: 0.28 })
