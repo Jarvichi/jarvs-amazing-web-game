@@ -13,7 +13,7 @@
 
 .shelf-section-label {
   font-size: 10px;
-  color: #669966;
+  color: var(--hub-text-dim);
   font-family: var(--font-mono);
   text-transform: uppercase;
   letter-spacing: 0.15em;
@@ -22,7 +22,7 @@
 
 .shelf-empty-msg {
   font-size: 13px;
-  color: #5a7a5a;
+  color: var(--hub-text-dim);
   font-family: var(--font-mono);
   text-align: center;
   padding: 24px 0 8px;
@@ -70,7 +70,7 @@
   transition: border-color 0.15s, background 0.15s;
 }
 .shelf-slot--filled:hover {
-  border-color: #446644;
+  border-color: var(--hub-line-on);
   background: rgba(20,36,20,0.5);
 }
 
@@ -85,7 +85,7 @@
 
 .shelf-slot-name {
   font-size: 9px;
-  color: #9ab89a;
+  color: var(--hub-text-soft);
   font-family: var(--font-mono);
   text-align: center;
   line-height: 1.2;
@@ -121,7 +121,7 @@
 
 .shelf-modal-name {
   font-size: 15px;
-  color: #c8e8c8;
+  color: var(--hub-text);
   font-family: var(--font-mono);
   letter-spacing: 0.06em;
   font-weight: bold;
@@ -129,8 +129,8 @@
 
 .shelf-modal-tag {
   font-size: 10px;
-  color: #88cc88;
-  border: 1px solid #446644;
+  color: var(--hub-text-on);
+  border: 1px solid var(--hub-line-on);
   padding: 1px 8px;
   letter-spacing: 0.1em;
   font-family: var(--font-mono);
@@ -139,20 +139,20 @@
 
 .shelf-modal-desc {
   font-size: 12px;
-  color: #9ab89a;
+  color: var(--hub-text-soft);
   line-height: 1.5;
 }
 
 .shelf-modal-lore {
   font-size: 11px;
-  color: #6a8a6a;
+  color: var(--hub-text-dim);
   font-style: italic;
   line-height: 1.4;
 }
 
 .shelf-modal-date {
   font-size: 10px;
-  color: #4a6a4a;
+  color: var(--hub-text-off);
   font-family: var(--font-mono);
 }
 
@@ -160,7 +160,7 @@
 
 .home-decorate-hint {
   font-size: 11px;
-  color: #9ab89a;
+  color: var(--hub-text-soft);
   font-family: var(--font-mono);
   text-align: center;
   padding: 4px 8px;
@@ -180,7 +180,7 @@
   display: grid;
   gap: 3px;
   background: rgba(20,30,20,0.4);
-  border: 1px solid #2a3a2a;
+  border: 1px solid var(--hub-line);
   border-radius: 3px;
   padding: 6px;
   margin: 0 12px;
@@ -199,7 +199,7 @@
   transition: border-color 0.15s, background 0.15s;
 }
 .home-grid-cell--tappable:hover {
-  border-color: #446644;
+  border-color: var(--hub-line-on);
   background: rgba(120,200,120,0.12);
 }
 
@@ -210,7 +210,7 @@
   justify-content: center;
   gap: 1px;
   background: rgba(20,36,20,0.75);
-  border: 1px solid #446644;
+  border: 1px solid var(--hub-line-on);
   border-radius: 3px;
   cursor: pointer;
   font-size: 20px;
@@ -219,7 +219,7 @@
   overflow: hidden;
   transition: border-color 0.15s;
 }
-.home-grid-piece:hover { border-color: #6a9a6a; }
+.home-grid-piece:hover { border-color: var(--hub-text-dim); }
 .home-grid-piece--selected {
   border-color: var(--color-gold-alt);
   box-shadow: 0 0 6px rgba(255,204,0,0.6);
@@ -227,7 +227,7 @@
 
 .home-grid-piece-name {
   font-size: 7px;
-  color: #9ab89a;
+  color: var(--hub-text-soft);
   font-family: var(--font-mono);
   text-align: center;
   line-height: 1.1;
@@ -256,7 +256,7 @@
   transition: border-color 0.15s, background 0.15s;
 }
 .furniture-picker-item--owned:hover {
-  border-color: #446644;
+  border-color: var(--hub-line-on);
   background: rgba(20,36,20,0.5);
 }
 .furniture-picker-item--armed {
@@ -269,7 +269,7 @@
 
 .furniture-picker-item-name {
   font-size: 8px;
-  color: #9ab89a;
+  color: var(--hub-text-soft);
   font-family: var(--font-mono);
   text-align: center;
   line-height: 1.1;
@@ -295,7 +295,7 @@
 
 .piece-action-bar-name {
   font-size: 11px;
-  color: #c8e8c8;
+  color: var(--hub-text);
   font-family: var(--font-mono);
   letter-spacing: 0.04em;
   margin-right: 4px;
@@ -655,7 +655,7 @@
 .city-builder-hub-icon { font-size: 28px; flex-shrink: 0; }
 .city-builder-hub-info { flex: 1; min-width: 0; }
 .city-builder-hub-name { font-size: 13px; font-weight: bold; color: #60d060; letter-spacing: 1px; margin-bottom: 4px; }
-.city-builder-hub-desc { font-size: 11px; color: #669966; }
+.city-builder-hub-desc { font-size: 11px; color: var(--hub-text-dim); }
 
 /* ── Hub World Persistent HUD ──────────────────────────────────────────── */
 .hub-hud {
@@ -818,7 +818,7 @@
 
 /* ── Quests Modal ──────────────────────────────────────────────────────────── */
 .quests-modal {
-  color: #c8e8c8;
+  color: var(--hub-text);
   padding: 20px;
   width: min(420px, 92vw);
   max-height: 80vh;
@@ -832,7 +832,7 @@
   margin-bottom: 16px;
   font-size: 14px;
   letter-spacing: 0.1em;
-  color: #88cc88;
+  color: var(--hub-text-on);
   text-transform: uppercase;
 }
 .quests-modal__meta {
@@ -840,34 +840,34 @@
   align-items: center;
   gap: 10px;
   font-size: 10px;
-  color: #669966;
+  color: var(--hub-text-dim);
 }
 .quests-modal__close {
   background: none;
   border: none;
-  color: #669966;
+  color: var(--hub-text-dim);
   cursor: pointer;
   font-size: 12px;
   padding: 0 2px;
   line-height: 1;
 }
-.quests-modal__close:hover { color: #88cc88; }
+.quests-modal__close:hover { color: var(--hub-text-on); }
 
 .quests-modal__empty {
   font-size: 11px;
-  color: #669966;
+  color: var(--hub-text-dim);
   text-align: center;
   padding: 20px 0;
 }
 .quests-modal__section-label {
   font-size: 10px;
-  color: #669966;
+  color: var(--hub-text-dim);
   text-transform: uppercase;
   letter-spacing: 0.15em;
   margin: 12px 0 6px;
 }
 .quests-modal__card {
-  border: 1px solid #2a4a2a;
+  border: 1px solid var(--hub-line);
   padding: 10px 12px;
   margin-bottom: 6px;
   border-radius: 2px;
@@ -877,21 +877,21 @@
 .quests-modal__title { font-size: 12px; font-weight: bold; margin-bottom: 4px; }
 .quests-modal__step  {
   font-size: 10px;
-  color: #88aa88;
+  color: var(--hub-text-mid);
   margin-top: 4px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.quests-modal__desc   { font-size: 10px; color: #77aa77; font-style: italic; }
-.quests-modal__hint   { font-size: 10px; color: #77aa77; margin-top: 6px; font-style: italic; }
-.quests-modal__reward { font-size: 10px; color: #88cc88; margin-top: 4px; }
+.quests-modal__desc   { font-size: 10px; color: var(--hub-text-mid); font-style: italic; }
+.quests-modal__hint   { font-size: 10px; color: var(--hub-text-mid); margin-top: 6px; font-style: italic; }
+.quests-modal__reward { font-size: 10px; color: var(--hub-text-on); margin-top: 4px; }
 .quests-modal__title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
 .quests-modal__title-row .quests-modal__title { margin-bottom: 0; }
 .quests-modal__abandon-btn {
   background: none;
-  border: 1px solid #334433;
-  color: #669966;
+  border: 1px solid var(--hub-line);
+  color: var(--hub-text-dim);
   font-size: 9px;
   padding: 2px 5px;
   cursor: pointer;
@@ -903,8 +903,8 @@
 .quests-modal__confirm-btns { display: flex; gap: 6px; margin-top: 6px; }
 .quests-modal__confirm-btns button {
   background: none;
-  border: 1px solid #446644;
-  color: #88cc88;
+  border: 1px solid var(--hub-line-on);
+  color: var(--hub-text-on);
   font-size: 10px;
   padding: 3px 10px;
   cursor: pointer;
@@ -916,7 +916,7 @@
 
 /* ── Bounty Board ─────────────────────────────────────────────────────────── */
 .bounty-board-modal {
-  color: #c8e8c8;
+  color: var(--hub-text);
   padding: 20px;
   width: min(420px, 92vw);
   max-height: 80vh;
@@ -930,7 +930,7 @@
   margin-bottom: 16px;
   font-size: 14px;
   letter-spacing: 0.1em;
-  color: #88cc88;
+  color: var(--hub-text-on);
   text-transform: uppercase;
 }
 .bounty-board-modal__meta {
@@ -938,27 +938,27 @@
   align-items: center;
   gap: 10px;
   font-size: 10px;
-  color: #669966;
+  color: var(--hub-text-dim);
 }
 .bounty-board-modal__close {
   background: none;
   border: none;
-  color: #669966;
+  color: var(--hub-text-dim);
   cursor: pointer;
   font-size: 12px;
   padding: 0 2px;
   line-height: 1;
 }
-.bounty-board-modal__close:hover { color: #88cc88; }
+.bounty-board-modal__close:hover { color: var(--hub-text-on); }
 .bounty-board-modal__section-label {
   font-size: 10px;
-  color: #669966;
+  color: var(--hub-text-dim);
   text-transform: uppercase;
   letter-spacing: 0.15em;
   margin: 12px 0 6px;
 }
 .bounty-board-modal__card {
-  border: 1px solid #2a4a2a;
+  border: 1px solid var(--hub-line);
   padding: 10px 12px;
   margin-bottom: 6px;
   border-radius: 2px;
@@ -968,13 +968,13 @@
 .bounty-board-modal__title { font-size: 12px; font-weight: bold; margin-bottom: 4px; }
 .bounty-board-modal__title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
 .bounty-board-modal__title-row .bounty-board-modal__title { margin-bottom: 0; }
-.bounty-board-modal__desc   { font-size: 10px; color: #77aa77; font-style: italic; }
-.bounty-board-modal__hint   { font-size: 10px; color: #77aa77; margin-top: 6px; font-style: italic; }
-.bounty-board-modal__reward { font-size: 10px; color: #88cc88; margin-top: 4px; }
+.bounty-board-modal__desc   { font-size: 10px; color: var(--hub-text-mid); font-style: italic; }
+.bounty-board-modal__hint   { font-size: 10px; color: var(--hub-text-mid); margin-top: 6px; font-style: italic; }
+.bounty-board-modal__reward { font-size: 10px; color: var(--hub-text-on); margin-top: 4px; }
 
 /* ── Pet adoption / management ──────────────────────────────────────────────── */
 .pet-modal {
-  color: #c8e8c8;
+  color: var(--hub-text);
   padding: 20px;
   width: min(360px, 92vw);
   max-height: 80vh;
@@ -988,22 +988,22 @@
   margin-bottom: 16px;
   font-size: 14px;
   letter-spacing: 0.1em;
-  color: #88cc88;
+  color: var(--hub-text-on);
   text-transform: uppercase;
 }
 .pet-modal__close {
   background: none;
   border: none;
-  color: #669966;
+  color: var(--hub-text-dim);
   cursor: pointer;
   font-size: 12px;
   padding: 0 2px;
   line-height: 1;
 }
-.pet-modal__close:hover { color: #88cc88; }
+.pet-modal__close:hover { color: var(--hub-text-on); }
 .pet-modal__section-label {
   font-size: 10px;
-  color: #669966;
+  color: var(--hub-text-dim);
   text-transform: uppercase;
   letter-spacing: 0.15em;
   margin: 12px 0 6px;
@@ -1013,17 +1013,17 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  border: 2px solid #2a4a2a;
+  border: 2px solid var(--hub-line);
   cursor: pointer;
   padding: 0;
 }
-.pet-modal__swatch--selected { border-color: #88cc88; }
+.pet-modal__swatch--selected { border-color: var(--hub-text-on); }
 .pet-modal__name-input {
   display: block;
   width: 100%;
   background: rgba(0, 0, 0, 0.3);
-  border: 1px solid #2a4a2a;
-  color: #c8e8c8;
+  border: 1px solid var(--hub-line);
+  color: var(--hub-text);
   font-family: var(--font-mono);
   font-size: 12px;
   padding: 8px 10px;
@@ -1035,7 +1035,7 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  border: 2px solid #2a4a2a;
+  border: 2px solid var(--hub-line);
   display: inline-block;
 }
 .pet-modal__current-name { font-size: 14px; font-weight: bold; }
@@ -1049,7 +1049,7 @@
 .pet-modal__accessory-group-label {
   font-size: 10px;
   font-weight: bold;
-  color: #88aa88;
+  color: var(--hub-text-mid);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 6px;
@@ -1065,23 +1065,23 @@
   align-items: flex-start;
   gap: 4px;
   background: rgba(0, 0, 0, 0.3);
-  border: 1px solid #2a4a2a;
-  color: #c8e8c8;
+  border: 1px solid var(--hub-line);
+  color: var(--hub-text);
   font-family: var(--font-mono);
   padding: 8px 10px;
   border-radius: 2px;
   cursor: pointer;
   text-align: left;
 }
-.pet-modal__accessory:hover:not(:disabled) { border-color: #446644; }
-.pet-modal__accessory--equipped { border-color: #88cc88; background: rgba(60, 120, 60, 0.25); }
+.pet-modal__accessory:hover:not(:disabled) { border-color: var(--hub-line-on); }
+.pet-modal__accessory--equipped { border-color: var(--hub-text-on); background: rgba(60, 120, 60, 0.25); }
 .pet-modal__accessory--locked { opacity: 0.5; cursor: default; }
 .pet-modal__accessory-name { font-size: 12px; font-weight: bold; }
-.pet-modal__accessory-status { font-size: 9px; color: #669966; letter-spacing: 0.05em; }
+.pet-modal__accessory-status { font-size: 9px; color: var(--hub-text-dim); letter-spacing: 0.05em; }
 
 /* ── Town Directory ("Where is…?") ─────────────────────────────────────────── */
 .town-directory {
-  color: #c8e8c8;
+  color: var(--hub-text);
   padding: 20px;
   width: min(420px, 92vw);
   max-height: 80vh;
@@ -1095,7 +1095,7 @@
   margin-bottom: 12px;
   font-size: 14px;
   letter-spacing: 0.1em;
-  color: #88cc88;
+  color: var(--hub-text-on);
   text-transform: uppercase;
 }
 .town-directory__meta {
@@ -1103,22 +1103,22 @@
   align-items: center;
   gap: 10px;
   font-size: 10px;
-  color: #669966;
+  color: var(--hub-text-dim);
 }
 .town-directory__close {
   background: none;
   border: none;
-  color: #669966;
+  color: var(--hub-text-dim);
   cursor: pointer;
   font-size: 12px;
   padding: 0 2px;
   line-height: 1;
 }
-.town-directory__close:hover { color: #88cc88; }
+.town-directory__close:hover { color: var(--hub-text-on); }
 .town-directory__filter {
   background: none;
-  border: 1px solid #2a4a2a;
-  color: #669966;
+  border: 1px solid var(--hub-line);
+  color: var(--hub-text-dim);
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.08em;
@@ -1127,11 +1127,11 @@
   cursor: pointer;
   border-radius: 2px;
 }
-.town-directory__filter--on { border-color: #668844; color: #88cc88; }
-.town-directory__filter:hover { color: #88cc88; }
+.town-directory__filter--on { border-color: #668844; color: var(--hub-text-on); }
+.town-directory__filter:hover { color: var(--hub-text-on); }
 .town-directory__empty {
   font-size: 11px;
-  color: #669966;
+  color: var(--hub-text-dim);
   text-align: center;
   padding: 20px 0;
 }
@@ -1141,18 +1141,18 @@
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  border: 1px solid #2a4a2a;
+  border: 1px solid var(--hub-line);
   padding: 8px 12px;
   border-radius: 2px;
 }
 .town-directory__info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-.town-directory__name { font-size: 12px; font-weight: bold; color: #c8e8c8; }
-.town-directory__place { font-size: 10px; color: #88aa88; }
+.town-directory__name { font-size: 12px; font-weight: bold; color: var(--hub-text); }
+.town-directory__place { font-size: 10px; color: var(--hub-text-mid); }
 .town-directory__pin-btn {
   flex-shrink: 0;
   background: none;
-  border: 1px solid #446644;
-  color: #88cc88;
+  border: 1px solid var(--hub-line-on);
+  color: var(--hub-text-on);
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.06em;
@@ -1170,7 +1170,7 @@
 .town-journal__tier-header {
   font-size: 11px;
   font-weight: bold;
-  color: #9ac89a;
+  color: var(--hub-text-soft);
   letter-spacing: 0.04em;
   margin-bottom: 6px;
 }
@@ -1202,7 +1202,7 @@
 }
 .town-upgrades__tribute-text { font-size: 11px; color: #bcd8a0; }
 .town-upgrades__tribute-text strong { color: #eedd88; }
-.town-upgrades__lvl    { font-size: 10px; color: #88aa88; font-weight: normal; }
+.town-upgrades__lvl    { font-size: 10px; color: var(--hub-text-mid); font-weight: normal; }
 .town-upgrades__next   { font-size: 10px; color: #aac8dd; }
 .town-upgrades__next strong { color: #cfe6f2; }
 .town-upgrades__reason { font-size: 10px; color: #cc8866; }
@@ -1252,7 +1252,7 @@
 .hub-status-cluster__area {
   font-size: 1rem;
   letter-spacing: 0.08em;
-  color: #d4ead4;
+  color: var(--hub-text);
   text-shadow: 0 0 8px rgba(100, 200, 100, 0.6);
   text-transform: uppercase;
   opacity: 0;
@@ -1290,7 +1290,7 @@
   pointer-events: auto;
   background: rgba(8, 14, 8, 0.85);
   border: 1px solid var(--color-green-bright);
-  color: #88cc88;
+  color: var(--hub-text-on);
   font-size: var(--font-sm);
   line-height: 1;
   padding: 2px 4px;
@@ -1377,7 +1377,7 @@
 
 .hub-dialogue-line {
   font-size: var(--font-sm);
-  color: #c8e8c8;
+  color: var(--hub-text);
   letter-spacing: 0.03em;
   line-height: 1.55;
   min-height: 1.55em;

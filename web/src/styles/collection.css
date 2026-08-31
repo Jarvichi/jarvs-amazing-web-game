@@ -1185,7 +1185,7 @@
   position: relative;
   transition: border-color 0.15s, background 0.15s;
 }
-.hoa-tile:hover { border-color: #446644; background: rgba(20,36,20,0.8); }
+.hoa-tile:hover { border-color: var(--hub-line-on); background: rgba(20,36,20,0.8); }
 .hoa-tile--claimable { border-color: #aa8800; }
 .hoa-tile--claimable:hover { border-color: var(--color-gold-alt); }
 
@@ -1203,7 +1203,7 @@
   -webkit-box-orient: vertical;
   max-height: 2.6em;
 }
-.hoa-tile--unlocked .hoa-tile-name { color: #c8e8c8; }
+.hoa-tile--unlocked .hoa-tile-name { color: var(--hub-text); }
 
 .hoa-tile-dot {
   position: absolute;
@@ -1229,7 +1229,7 @@
 
 .hoa-modal {
   background: rgba(8,14,8,0.97);
-  border: 1px solid #446644;
+  border: 1px solid var(--hub-line-on);
   padding: 20px 24px;
   max-width: 320px;
   width: calc(100% - 32px);
@@ -1244,7 +1244,7 @@
 
 .hoa-modal-name {
   font-size: 15px;
-  color: #c8e8c8;
+  color: var(--hub-text);
   font-family: var(--font-mono);
   letter-spacing: 0.06em;
   font-weight: bold;
@@ -1252,7 +1252,7 @@
 
 .hoa-modal-desc {
   font-size: 12px;
-  color: #9ab89a;
+  color: var(--hub-text-soft);
   line-height: 1.5;
 }
 
@@ -1265,14 +1265,14 @@
 
 .hoa-modal-unlocked {
   font-size: 12px;
-  color: #88cc88;
+  color: var(--hub-text-on);
   letter-spacing: 0.12em;
   font-family: var(--font-mono);
 }
 
 .hoa-modal-claimed {
   font-size: 11px;
-  color: #669966;
+  color: var(--hub-text-dim);
   font-family: var(--font-mono);
   letter-spacing: 0.08em;
 }

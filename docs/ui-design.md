@@ -31,6 +31,14 @@ win a specificity fight — fix the selector instead. Key groups:
   — neutral depth shadows. Use `color-mix(in srgb, <token> N%, transparent)`
   for glows/tints rather than a new hardcoded rgba.
 - **Borders:** `--border-edge`, `--border-edge-dark`.
+- **Hub green ramp:** `--hub-text` / `-soft` / `-on` / `-mid` / `-dim` / `-off`
+  plus `--hub-line` / `--hub-line-on`. The hub world (home shelf, decoration
+  grid, pet, quests, bounty board, town directory, Hall of Achievements) and
+  the satchel sheet share a warmer green palette distinct from the CRT-green
+  `--game-text-color`. Use these for anything on a hub surface — `hub.css`
+  alone had drifted to 23 distinct greens before they existed, five of them
+  separate answers to "dim green label text". `--satchel-*` aliases the two
+  steps it shares exactly and keeps three deliberately darker ones.
 - **Radius:** `--radius-sm` (2px) / `--radius-md` (4px) / `--radius-lg` (6px).
 - **Fonts:** `--font-display` (Cinzel — titles, logo, card names, headers),
   `--font-body` (Spectral — descriptions, dialogue, tooltips), `--font-mono`

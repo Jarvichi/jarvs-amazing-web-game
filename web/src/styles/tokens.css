@@ -166,6 +166,32 @@
   --panel-edge-light: rgba(255, 255, 255, 0.1);
   --panel-edge-dark:  rgba(0, 0, 0, 0.55);
 
+  /* ─── Hub world green ramp ──────────────────────────────
+     The hub (home shelf, decoration grid, pet, quests, bounty
+     board, town directory) and the satchel sheet share a green
+     palette distinct from the global CRT green — a warmer,
+     lower-contrast ramp that reads as painted wood and lamplight
+     rather than a terminal. Only the satchel ever tokenised it
+     (--satchel-*, satchel.css); everywhere else it was
+     copy-pasted, and hub.css alone had drifted to 23 distinct
+     shades — five of them separate answers to "dim green label
+     text", sitting next to each other in adjacent modals.
+
+     These are the majority values from that file, so migrating
+     onto them is a no-op for most rules and pulls the handful of
+     one-off shades back onto the ramp. Steps run brightest to
+     darkest; --hub-text-on is the saturated emphasis green, off
+     to one side of the desaturated -soft/-mid body steps rather
+     than between them. */
+  --hub-text:      #c8e8c8; /* primary reading text on a hub surface */
+  --hub-text-soft: #9ab89a; /* secondary body copy, descriptions */
+  --hub-text-on:   #88cc88; /* emphasis: hover, selected, rewards */
+  --hub-text-mid:  #88aa88; /* tertiary detail, step/level counters */
+  --hub-text-dim:  #669966; /* section labels, captions, metadata */
+  --hub-text-off:  #4a6a4a; /* disabled text, timestamps */
+  --hub-line:      #2a4a2a; /* hairline border */
+  --hub-line-on:   #446644; /* border on a hovered or emphasised element */
+
   /* Overlay scrim (modal backdrop) */
   --overlay-scrim: rgba(0, 0, 0, 0.75);
 

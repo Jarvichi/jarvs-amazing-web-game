@@ -84,7 +84,7 @@
 
 .codex-entry-desc {
   font-size: 0.75rem;
-  color: #88aa88;
+  color: var(--hub-text-mid);
   margin-bottom: 6px;
 }
 
@@ -151,7 +151,7 @@
 
 .codex-conversation-stage-label {
   font-size: 0.62rem;
-  color: #669966;
+  color: var(--hub-text-dim);
   letter-spacing: 0.05em;
   margin-bottom: 0.25rem;
 }

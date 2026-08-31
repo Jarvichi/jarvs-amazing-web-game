@@ -3,16 +3,18 @@
    chrome — one title, one ✕, one search, one nav — so section content renders
    content only.
 
-   The hub's pale-green ramp has no entry in tokens.css yet; hub.css repeats the
-   literals in dozens of places. Defining them once here keeps this stylesheet
-   honest, and promoting the ramp into tokens.css is a worthwhile follow-up. */
+   The hub's pale-green ramp now lives in tokens.css as --hub-*, so the two
+   steps this sheet shares with it exactly are aliases rather than copies. The
+   three below that stay literal are deliberate: the sheet sits closer to the
+   camera than a hub modal does, and wants a darker dim/off pair and a tighter
+   hairline than the hub's own. */
 
 /* The ramp is shared by anything reusing the satchel's tiles/grid outside the
    sheet itself (e.g. the chef's cooking picker, .chef-cook in hub.css). */
 .satchel-sheet,
 .chef-cook {
-  --satchel-text:     #c8e8c8;
-  --satchel-text-mid: #88cc88;
+  --satchel-text:     var(--hub-text);
+  --satchel-text-mid: var(--hub-text-on);
   --satchel-text-dim: #5f8a5f;
   --satchel-text-off: #3d573d;
   --satchel-line:     #223022;
@@ -130,7 +132,7 @@
   border-radius: var(--radius-sm);
   padding: 0 8px;
 }
-.satchel-sheet__search:focus-within { border-color: #446644; }
+.satchel-sheet__search:focus-within { border-color: var(--hub-line-on); }
 .satchel-sheet__search-glyph { color: var(--satchel-text-off); flex: 0 0 auto; }
 .satchel-sheet__search input {
   flex: 1 1 auto;
@@ -237,7 +239,7 @@
   font-size: 10px;
   white-space: nowrap;
 }
-.satchel-chip:hover { color: var(--satchel-text-mid); border-color: #446644; }
+.satchel-chip:hover { color: var(--satchel-text-mid); border-color: var(--hub-line-on); }
 .satchel-chip:active { transform: translateY(1px); }
 .satchel-chip--on {
   border-color: var(--satchel-gold);
@@ -262,7 +264,7 @@
   vertical-align: baseline;
 }
 button.entity-chip { background: none; cursor: pointer; }
-.entity-chip--tappable:hover { border-color: #446644; color: var(--satchel-text); }
+.entity-chip--tappable:hover { border-color: var(--hub-line-on); color: var(--satchel-text); }
 .entity-chip--tappable:active { transform: translateY(1px); }
 .entity-chip--gold { border-color: var(--satchel-gold-dim); color: var(--satchel-gold); }
 .entity-chip--away { border-color: #4a4430; color: var(--satchel-gold-dim); }
@@ -387,7 +389,7 @@ button.entity-chip { background: none; cursor: pointer; }
   font: inherit;
 }
 button.satchel-tile { cursor: pointer; }
-button.satchel-tile:hover { border-color: #446644; }
+button.satchel-tile:hover { border-color: var(--hub-line-on); }
 button.satchel-tile:active { transform: scale(0.96); }
 .satchel-tile__glyph { font-size: 19px; line-height: 1; }
 .satchel-tile__count { font-size: 9.5px; color: var(--satchel-text-mid); font-variant-numeric: tabular-nums; }
@@ -436,7 +438,7 @@ button.satchel-tile:active { transform: scale(0.96); }
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
-.satchel-collapse__toggle:hover { color: var(--satchel-text-mid); border-color: #446644; }
+.satchel-collapse__toggle:hover { color: var(--satchel-text-mid); border-color: var(--hub-line-on); }
 .satchel-collapse__toggle:active { transform: translateY(1px); }
 .satchel-collapse__meta { display: flex; align-items: center; gap: 8px; }
 .satchel-collapse__meta b { color: var(--satchel-text-mid); font-variant-numeric: tabular-nums; }
