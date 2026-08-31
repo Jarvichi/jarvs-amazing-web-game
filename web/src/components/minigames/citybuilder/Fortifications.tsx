@@ -14,6 +14,7 @@ import { BuilderWalker } from '../CityBuilder'
 import { FortCell, FortSlot } from './FortCell'
 import { FortSlotModal } from './FortSlotModal'
 import { CityThumbnail } from './CityThumbnail'
+import { EmptyState } from '../../ui/EmptyState'
 
 const RARITY_ORDER = ['common','uncommon','rare','epic','legendary','mythic','shiny','holofoil','glass']
 
@@ -82,13 +83,13 @@ export function Fortifications({
         <div className="city-screen u-relative u-col u-gap-2">
           <div className="city-subscreen-scroll">
             {!canQueue ? (
-              <div className="city-picker-empty">
-                All builders are busy — wait for one to finish, or hire another.
-              </div>
+              <EmptyState size="sm" hint="Wait for one to finish, or hire another.">
+                All builders are busy.
+              </EmptyState>
             ) : availableDefenceCards.length === 0 ? (
-              <div className="city-picker-empty">
-                No defence cards available. Earn them in battles!
-              </div>
+              <EmptyState size="sm" hint="Earn them in battles.">
+                No defence cards available.
+              </EmptyState>
             ) : (
               <>
                 <div className="city-fort-controls u-flex u-just-sb u-items-c u-gap-3 u-wrap">
@@ -116,7 +117,7 @@ export function Fortifications({
                   <div className="city-picker-section-label">DEFENCE CARDS</div>
                   <div className="city-picker-grid">
                     {sorted.length === 0 ? (
-                      <div className="city-picker-empty">No cards match this filter.</div>
+                      <EmptyState size="sm">No cards match this filter.</EmptyState>
                     ) : sorted.map(card => {
                       const cost       = FORT_PLACE_COST[card.rarity]
                       const affordable = canAffordFortification(city, card.rarity)

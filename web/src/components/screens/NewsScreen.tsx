@@ -11,6 +11,7 @@ import {
   applyFilter, buildFilterOptions, formatNewsDate, groupByRecency, isChronicleItem,
   type NewsFilterId,
 } from './news/newsGrouping'
+import { EmptyState } from '../ui/EmptyState'
 
 const ITEMS_PER_PAGE = 10
 
@@ -111,10 +112,10 @@ export function NewsScreen({ onBack, onOpenChronicle }: Props) {
       <div className="news-list">
         {loading && <div className="news-loading">Loading…</div>}
         {!loading && visible.length === 0 && (
-          <div className="news-empty">No news yet.</div>
+          <EmptyState size="sm">No news yet.</EmptyState>
         )}
         {!loading && visible.length > 0 && filtered.length === 0 && (
-          <div className="news-empty">Nothing tagged that.</div>
+          <EmptyState size="sm">Nothing tagged that.</EmptyState>
         )}
 
         {!loading && groups.map(group => (

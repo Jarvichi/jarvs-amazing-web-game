@@ -82,6 +82,12 @@ Reach for these before writing new markup+CSS from scratch:
   `useSyncExternalStore`), scroll lock, and backdrop. Build new modals on this
   rather than a bespoke `position: fixed` overlay.
 - **`Toast.tsx`** — shared toast/notification primitive (#2173).
+- **`EmptyState.tsx`** — `<EmptyState size="sm|md" icon={…} hint={…}>message</EmptyState>`.
+  The "nothing here yet" block. `sm` for a message inside a list or short
+  section, `md` (default) for a panel or screen area; pass `u-grow` via
+  `className` if it should centre in a full panel. Retint from an ancestor
+  with `--empty-state-color`. It replaced 19 classes across 44 call sites
+  that disagreed on colour, size, padding and alignment.
 - **`CloseButton.tsx`** — `<CloseButton onClick={…} variant="ghost|framed" />`.
   The dismiss control on any surface that has one. `ghost` is borderless and
   inherits the surface's colour; `framed` is the Modal shell's bordered

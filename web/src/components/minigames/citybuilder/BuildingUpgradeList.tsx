@@ -4,6 +4,7 @@ import { CollectionEntry, getMasteryXp, masteryLevel } from '../../../game/colle
 import { Card } from '../../../game/types'
 import { SpriteImg } from '../../ui/SpriteImg'
 import { OverlayScreen } from '../../ui/OverlayScreen'
+import { EmptyState } from '../../ui/EmptyState'
 
 export interface Props {
   levellable:      Card[]
@@ -66,9 +67,9 @@ export function BuildingUpgradeList({
           onChange={e => setUpgradeSearch(e.target.value)}
         />
         {upgradeGroups.length === 0 ? (
-          <div className="city-picker-empty">
-            {upgradeQ ? `No buildings match "${upgradeSearch}"` : 'No buildings to upgrade yet.'}
-          </div>
+          <EmptyState size="sm">
+            {upgradeQ ? `No buildings match "${upgradeSearch}".` : 'No buildings to upgrade yet.'}
+          </EmptyState>
         ) : (
           upgradeGroups.map(group => (
             <div key={group.label} className="city-picker-section">

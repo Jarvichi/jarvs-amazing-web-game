@@ -125,12 +125,6 @@
   color: #ffaa66;
 }
 
-.codex-empty {
-  color: #556655;
-  font-size: 0.8rem;
-  text-align: center;
-  padding: 2rem;
-}
 
 .codex-conversation-stages {
   display: flex;

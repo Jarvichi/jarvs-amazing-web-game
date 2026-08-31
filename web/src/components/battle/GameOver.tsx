@@ -4,6 +4,7 @@ import { GameState } from '../../game/types'
 import { MAX_HANDICAP } from '../../game/engine'
 import { loadWinStreak } from '../../game/collection'
 import { DailyChallengeState, fetchEndlessLeaderboard, getEndlessPersonalBest, EndlessLeaderboardEntry } from '../../game/dailyChallenge'
+import { EmptyState } from '../ui/EmptyState'
 
 function formatSurvival(ms: number): string {
   const sec = Math.floor(ms / 1000)
@@ -150,9 +151,9 @@ export function GameOver({ state, winner, handicap, onOpenPack, rewardClaimed, o
             </div>
           )}
           {endlessLb === null ? (
-            <div className="gameover-endless-lb-empty">Loading…</div>
+            <EmptyState size="sm">Loading…</EmptyState>
           ) : endlessLb.length === 0 ? (
-            <div className="gameover-endless-lb-empty">⏳ No scores yet — be the first!</div>
+            <EmptyState size="sm" icon="⏳">No scores yet — be the first!</EmptyState>
           ) : (
             <ol className="gameover-endless-lb-list u-col u-gap-1">
               {endlessLb.map((entry, i) => (

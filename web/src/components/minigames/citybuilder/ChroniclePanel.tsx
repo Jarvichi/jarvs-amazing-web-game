@@ -1,5 +1,6 @@
 import React from 'react'
 import { OverlayScreen } from '../../ui/OverlayScreen'
+import { EmptyState } from '../../ui/EmptyState'
 
 export interface Props {
   chronicle: string[]
@@ -15,7 +16,7 @@ export function ChroniclePanel({ chronicle, onBack }: Props) {
     >
       <div className="city-chronicle-list">
         {chronicle.length === 0 ? (
-          <div className="city-chronicle-empty">No events recorded yet. Build, expand, and defend your city!</div>
+          <EmptyState hint="Build, expand, and defend your city.">No events recorded yet.</EmptyState>
         ) : (
           chronicle.map((entry, i) => (
             <div key={i} className="city-chronicle-entry">{entry}</div>

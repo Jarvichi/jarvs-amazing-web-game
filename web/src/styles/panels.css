@@ -337,3 +337,60 @@
 .stage-chrome__control {
   pointer-events: auto;
 }
+
+/* ─── Empty state ───────────────────────────────────────
+   "There's nothing here yet." See EmptyState.tsx for the 19 classes this
+   replaced. Colours resolve through --empty-state-color so a surface with its
+   own palette retints it from an ancestor rather than restyling it — the same
+   mechanism .close-btn uses, and for the same reason: a bespoke copy per
+   surface is how the previous nineteen happened. */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-3);
+  text-align: center;
+  /* Its own height, not whatever the parent has spare. Growing by default
+     looks right in a panel the state has to itself and wrong everywhere
+     else — on the home shelf it floated the message into the middle of the
+     room, well above the shelves it was talking about. The two screens that
+     do want it centred in a full panel (Inventory, Fish Appraisal) ask for
+     it with u-grow, which is what they did before. */
+  flex: 0 1 auto;
+  min-height: 0;
+  color: var(--empty-state-color, var(--game-text-color-muted));
+  line-height: 1.5;
+  text-wrap: balance;
+}
+
+.empty-state--md {
+  padding: var(--gap-8) var(--gap-6);
+  font-size: var(--font-sm);
+}
+
+/* For a message inside a list or a short section, where --md's padding would
+   push the surrounding chrome around. */
+.empty-state--sm {
+  padding: var(--gap-5) var(--gap-4);
+  font-size: var(--font-xs);
+}
+
+/* Held back so it reads as texture behind the message rather than as the
+   headline — several of the old states led with a raw ⏳ at full weight. Not
+   held back further than this: these are colour emoji, and below about 0.6
+   they stop reading as quiet and start reading as muddy. */
+.empty-state__icon {
+  font-size: 1.6rem;
+  line-height: 1;
+  opacity: 0.6;
+}
+
+.empty-state--sm .empty-state__icon { font-size: 1.15rem; }
+
+.empty-state__hint {
+  font-size: var(--font-xs);
+  font-style: italic;
+  opacity: 0.7;
+}

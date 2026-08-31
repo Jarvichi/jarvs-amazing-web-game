@@ -6,6 +6,7 @@ import {
   getUpgradeTrack,
 } from '../../data/hub/buildingUpgrades'
 import type { NextUpgrade } from '../../game/hub/reputation'
+import { EmptyState } from '../ui/EmptyState'
 
 /** One upgradeable building, pre-resolved by HubWorld. Pure-visual: props only. */
 export interface UpgradeRow {
@@ -70,7 +71,7 @@ export function HubTownUpgradesContent({
         )}
 
         {rows.length === 0 ? (
-          <div className="town-directory__empty">No upgradeable buildings here yet.</div>
+          <EmptyState size="sm">No upgradeable buildings here yet.</EmptyState>
         ) : (
           <div className="town-directory__list">
             {rows.map(row => {

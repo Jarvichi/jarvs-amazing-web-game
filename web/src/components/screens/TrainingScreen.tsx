@@ -5,6 +5,7 @@ import { Card } from '../../game/types'
 import { SpriteImg } from '../ui/SpriteImg'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Button } from '../ui/Button'
+import { EmptyState } from '../ui/EmptyState'
 interface Props {
   onBack: () => void
   onStart: (enemyUnitName: string, playerCards: Card[]) => void
@@ -113,7 +114,7 @@ export function TrainingScreen({ onBack, onStart }: Props) {
           </button>
         ))}
         {visible.length === 0 && (
-          <p className="training-empty">No units match "{search}"</p>
+          <EmptyState size="sm" className="training-empty">No units match "{search}".</EmptyState>
         )}
       </div>
 

@@ -11,6 +11,7 @@ import { CollectionEntry, getMasteryXp, masteryLevel } from '../../../game/colle
 import { Card, UnitTemplate } from '../../../game/types'
 import { SpriteImg } from '../../ui/SpriteImg'
 import { EFFECT_META } from '../towerdefence/UnitChip'
+import { EmptyState } from '../../ui/EmptyState'
 
 export interface Props {
   availableForPlace:  Card[]
@@ -81,9 +82,9 @@ export function CardPicker({
         />
 
         {availableForPlace.length === 0 && filteredCore.length === 0 ? (
-          <div className="city-picker-empty">No buildings available. Earn more from battles!</div>
+          <EmptyState size="sm" hint="Earn more from battles.">No buildings available.</EmptyState>
         ) : nothingToShow ? (
-          <div className="city-picker-empty">No buildings match "{pickerSearch}"</div>
+          <EmptyState size="sm">No buildings match "{pickerSearch}".</EmptyState>
         ) : (
           <>
             {/* ── Always-available core buildings ────────────────────────── */}

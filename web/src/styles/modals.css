@@ -165,12 +165,6 @@
   color: var(--game-text-color-dim, var(--color-gray-8));
 }
 
-.deck-selector-empty {
-  font-size: 0.72rem;
-  color: var(--color-gray-7);
-  text-align: center;
-  padding: 16px 0;
-}
 
 .deck-selector-list {
   overflow-y: auto;
@@ -537,10 +531,6 @@
   font-style: italic;
 }
 
-.inventory-empty {
-  color: var(--game-text-color-muted);
-  font-size: var(--font-base);
-}
 
 .inventory-grid {
   padding: 8px 0;

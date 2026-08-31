@@ -9,6 +9,7 @@ import { OverlayScreen } from '../ui/OverlayScreen'
 import { getCaughtFish, removeCaughtFish, type CaughtFish } from '../../game/hub/caughtFish'
 import { VARIANT_TIERS, VARIANT_TIER_HUB_ITEM, formatWeight, type FishVariant } from '../minigames/Fishing.data'
 import { removeHubItem } from '../../game/itemStore'
+import { EmptyState } from '../ui/EmptyState'
 
 const TIER_BASE_PRICE = [3, 6, 12, 25, 45, 90]
 const SELL_STAR_THRESHOLD = 5
@@ -51,9 +52,9 @@ export function FishAppraisalScreen({ crystals, onCrystalsChange, onBack }: Prop
     <OverlayScreen title="🐟 FISH APPRAISAL" onBack={onBack}>
       <div className="u-col u-grow">
         {caught.length === 0 ? (
-          <div className="inventory-empty u-grow u-flex u-items-c u-just-c">
-            You haven't brought Corwin anything to appraise yet — go catch some fish!
-          </div>
+          <EmptyState className="u-grow" icon="🐟" hint="Go catch some fish.">
+            You haven't brought Corwin anything to appraise yet.
+          </EmptyState>
         ) : (
           <div className="inventory-grid u-flex u-wrap u-gap-4 u-just-c u-grow">
             {caught.map(fish => (

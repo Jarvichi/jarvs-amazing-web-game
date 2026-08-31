@@ -865,13 +865,10 @@
 
 .training-unit-name { text-align: center; line-height: 1.2; }
 
-.training-empty {
-  grid-column: 1 / -1;
-  text-align: center;
-  color: var(--color-gray-9);
-  font-size: 0.85rem;
-  padding: 1rem 0;
-}
+
+/* The training roster is a grid, so its empty state has to span the tracks —
+   the rest of what this class used to carry is .empty-state's job now. */
+.training-empty { grid-column: 1 / -1; }
 
 .training-pagination {
   gap: 1rem;

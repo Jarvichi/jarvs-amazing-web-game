@@ -917,12 +917,6 @@
   overflow: visible;
 }
 
-.deck-empty {
-  color: var(--color-gray-9);
-  font-size: var(--font-md);
-  padding: 16px 8px;
-  text-align: center;
-}
 
 /* ─── Saved Decks panel ──────────────────────────────── */
 
@@ -930,12 +924,6 @@
   width: min(480px, 95vw);
 }
 
-.saveddecks-empty {
-  font-size: var(--font-sm);
-  color: var(--game-text-color-dim);
-  text-align: center;
-  padding: 8px 0;
-}
 
 .saveddecks-list {
   list-style: none;

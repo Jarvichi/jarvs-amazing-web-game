@@ -34,6 +34,7 @@ import { PageHeader } from '../ui/PageHeader'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Button } from '../ui/Button'
 import { useToast } from '../ui/Toast'
+import { EmptyState } from '../ui/EmptyState'
 
 export type SubScreen = 'menu' | MiniGameId | 'prizes' | 'leaderboard' | 'citybuilder' | 'fishing' | 'towerDefence'
 
@@ -419,7 +420,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
             {lbLoading && <div className="lb-loading">Loading...</div>}
             {!lbLoading && lbEntries.length === 0 && (
-              <div className="lb-empty">No scores yet. Be the first!</div>
+              <EmptyState size="sm" hint="Be the first!">No scores yet.</EmptyState>
             )}
             {!lbLoading && lbEntries.length > 0 && (
               <ol className="lb-list">

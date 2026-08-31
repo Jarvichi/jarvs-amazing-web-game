@@ -7,9 +7,11 @@
 .quests-modal,
 .bounty-board-modal,
 .pet-modal,
-.town-directory {
+.town-directory,
+.shelf-room {
   --close-btn-color:    var(--hub-text-dim);
   --close-btn-color-on: var(--hub-text-on);
+  --empty-state-color:  var(--hub-text-dim);
 }
 
 /* ── Home Shelf ─────────────────────────────────────────────────────────── */
@@ -32,14 +34,6 @@
   margin: 4px 0 8px;
 }
 
-.shelf-empty-msg {
-  font-size: 13px;
-  color: var(--hub-text-dim);
-  font-family: var(--font-mono);
-  text-align: center;
-  padding: 24px 0 8px;
-  letter-spacing: 0.04em;
-}
 
 .shelf-row {
   display: flex;
@@ -855,12 +849,6 @@
   color: var(--hub-text-dim);
 }
 
-.quests-modal__empty {
-  font-size: 11px;
-  color: var(--hub-text-dim);
-  text-align: center;
-  padding: 20px 0;
-}
 .quests-modal__section-label {
   font-size: 10px;
   color: var(--hub-text-dim);
@@ -1101,12 +1089,6 @@
 }
 .town-directory__filter--on { border-color: #668844; color: var(--hub-text-on); }
 .town-directory__filter:hover { color: var(--hub-text-on); }
-.town-directory__empty {
-  font-size: 11px;
-  color: var(--hub-text-dim);
-  text-align: center;
-  padding: 20px 0;
-}
 .town-directory__list { display: flex; flex-direction: column; gap: 6px; }
 .town-directory__row {
   display: flex;

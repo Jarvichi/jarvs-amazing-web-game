@@ -1,6 +1,7 @@
 import React from 'react'
 import { getKnownSellers, getKnownBuyers, SellerEntry, BuyerEntry } from '../../game/hub/tradeJournal'
 import { getHubItemCatalogEntry } from '../../game/itemStore'
+import { EmptyState } from '../ui/EmptyState'
 
 function itemDisplay(itemId: string): { name: string; icon: string } {
   const catalog = getHubItemCatalogEntry(itemId)
@@ -43,14 +44,14 @@ export function TradeJournalContent() {
 
         <div className="quests-modal__section-label">Known Sellers</div>
         {sellers.length === 0 ? (
-          <div className="quests-modal__empty">You haven't found anyone selling anything yet.</div>
+          <EmptyState size="sm">You haven't found anyone selling anything yet.</EmptyState>
         ) : (
           sellers.map(sellerRow)
         )}
 
         <div className="quests-modal__section-label">Known Buyers</div>
         {buyers.length === 0 ? (
-          <div className="quests-modal__empty">You haven't found anyone wanting to trade yet.</div>
+          <EmptyState size="sm">You haven't found anyone wanting to trade yet.</EmptyState>
         ) : (
           buyers.map(buyerRow)
         )}

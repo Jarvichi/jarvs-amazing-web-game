@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Section } from '../ui/Section'
 import { FeedbackItem, getAllFeedback, deleteFeedback } from '../../game/feedback'
+import { EmptyState } from '../ui/EmptyState'
 
 interface Props {
   onBack: () => void
@@ -40,7 +41,7 @@ export function FeedbackAdminScreen({ onBack }: Props) {
     <OverlayScreen title="FEEDBACK ADMIN" onBack={onBack}>
       <Section title={`Submissions (${items.length})`}>
         {loading && <div className="news-loading">Loading…</div>}
-        {!loading && items.length === 0 && <div className="news-empty">No feedback yet.</div>}
+        {!loading && items.length === 0 && <EmptyState size="sm">No feedback yet.</EmptyState>}
         {!loading && items.map(item => (
           <div key={item.id} className="news-item u-col u-gap-3">
             <div className="news-item__meta u-flex u-items-c u-gap-4">

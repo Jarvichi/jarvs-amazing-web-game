@@ -8,6 +8,7 @@ import {
   setActiveDeckSlot,
   loadDeckSlot,
 } from '../../game/collection'
+import { EmptyState } from '../ui/EmptyState'
 
 interface Props {
   fatiguedCards?: string[]
@@ -47,7 +48,7 @@ function DeckPreview({ entries, slot, selected, fatiguedCards, onSelect }: {
         </span>
       </div>
       {entries.length === 0 ? (
-        <div className="deck-selector-empty">No cards — build one in Deck Builder</div>
+        <EmptyState size="sm">No cards yet.</EmptyState>
       ) : (
         <div className="deck-selector-list">
           {sorted.map(e => {

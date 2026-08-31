@@ -633,12 +633,6 @@ html.eightbit-mode .lane-layer {
 }
 
 .news-loading,
-.news-empty {
-  font-size: var(--font-md);
-  color: var(--color-gray-7);
-  padding: 16px 0;
-  text-align: center;
-}
 
 .news-pagination {
   display: flex;
