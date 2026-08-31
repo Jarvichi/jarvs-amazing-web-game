@@ -672,8 +672,18 @@
   overflow: hidden;
 }
 .city-req-modal--tabbed > .city-req-header,
-.city-req-modal--tabbed > .city-bld-tabs {
+.city-req-modal--tabbed > .tab-nav {
   flex-shrink: 0;
+}
+
+/* The modal runs its own terminal green, so the shared strip picks it up
+   rather than reverting this surface to the global palette — the same
+   retint the satchel sheet does in tabs.css. */
+.city-req-modal--tabbed {
+  --tab-nav-idle:  #609060;
+  --tab-nav-hover: #90d090;
+  --tab-nav-on:    #90d090;
+  --tab-nav-line:  #1a3a1a;
 }
 .city-bld-body {
   display: flex;
@@ -975,27 +985,6 @@
 .city-search::placeholder { color: #3a5a3a; }
 .city-search:focus { border-color: #40a040; }
 
-.city-bld-tabs {
-  margin-bottom: 8px;
-  width: 100%;
-}
-.city-bld-tab {
-  flex: 1;
-  background: #060f06;
-  border: 1px solid #1a3a1a;
-  border-radius: 3px;
-  color: #609060;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 1px;
-  padding: 5px;
-  cursor: pointer;
-}
-.city-bld-tab--active {
-  border-color: #40a040;
-  color: #90d090;
-  background: #091509;
-}
 
 .city-bld-upgrade {
   width: 100%;

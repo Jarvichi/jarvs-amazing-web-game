@@ -10,6 +10,7 @@ import {
 import { CollectionEntry, getMasteryXp, masteryProgress } from '../../../game/collection'
 import { MasteryBar } from '../../ui/MasteryBar'
 import { SpriteImg, AnimatedSpriteImg } from '../../ui/SpriteImg'
+import { TabNav } from '../../ui/TabNav'
 import { Walker, rageDescription, residentName, getUnitRequirements } from './walkerTypes'
 
 export interface Props {
@@ -66,16 +67,15 @@ export function BuildingInspectModal({
             {mLvl > 0 && <span className="city-req-mastery"> ★{mLvl}</span>}
           </div>
         </div>
-        <div className="city-bld-tabs u-flex u-gap-2">
-          <button
-            className={`city-bld-tab${buildingTab === 'residents' ? ' city-bld-tab--active' : ''}`}
-            onClick={() => setBuildingTab('residents')}
-          >Residents</button>
-          <button
-            className={`city-bld-tab${buildingTab === 'upgrade' ? ' city-bld-tab--active' : ''}`}
-            onClick={() => setBuildingTab('upgrade')}
-          >Upgrade</button>
-        </div>
+        <TabNav
+          items={[
+            { id: 'residents', label: 'Residents' },
+            { id: 'upgrade',   label: 'Upgrade' },
+          ]}
+          activeId={buildingTab}
+          onSelect={setBuildingTab}
+          ariaLabel="Building sections"
+        />
 
         <div className="city-bld-body">
         {buildingTab === 'residents' && (

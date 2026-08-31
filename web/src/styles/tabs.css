@@ -1,11 +1,17 @@
 /* tabs.css — the shared tab strip (.tab-nav).
  *
- * Replaces three drifted implementations of the same control: .player-tab
+ * Replaces six drifted implementations of the same control: .player-tab
  * (Player, Collection, Settings), .hoa-tab (Hall of Achievements, Home
- * shelf, Pet modal) and .satchel-nav (satchel sheet). The satchel's
- * treatment won — gold text with an inset accent bar and a faint wash,
- * rather than a bordered pill — because it reads as a selected *section*
- * rather than a pressed button.
+ * shelf, Pet modal), .satchel-nav (satchel sheet), and — later — .ach-tab
+ * (Achievements), .character-avatar-tab (Character) and .city-bld-tab
+ * (building inspector). The last three outlived the first pass; the two
+ * bordered-pill ones marked their selected tab in raw #0f0, which was
+ * neither the theme green nor the strip's gold, and were the last four
+ * #0f0 literals in the codebase.
+ *
+ * The satchel's treatment won — gold text with an inset accent bar and a
+ * faint wash, rather than a bordered pill — because it reads as a selected
+ * *section* rather than a pressed button.
  *
  * Colours resolve through --tab-nav-* so a surface with its own palette can
  * retint the strip without restyling it (see the satchel override below).
