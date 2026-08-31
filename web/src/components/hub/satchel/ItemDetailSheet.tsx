@@ -5,6 +5,7 @@ import { ListRow } from './ListRow'
 import { GroupHeading } from './GroupHeading'
 import { EntityChip } from './EntityChip'
 import { SatchelEmpty } from './SatchelSheet'
+import { CloseButton } from '../../ui/CloseButton'
 
 interface Props {
   detail: ItemDetail
@@ -30,7 +31,7 @@ export function ItemDetailSheet({ detail, onClose }: Props) {
           <span className="satchel-sheet__meta">
             {item.need ? `${item.count}/${item.need.required}` : `×${item.count}`}
           </span>
-          <button type="button" className="satchel-sheet__close" onClick={onClose} aria-label="Close">✕</button>
+          <CloseButton onClick={onClose} size={16} />
         </header>
 
         <div className="satchel-sheet__body">

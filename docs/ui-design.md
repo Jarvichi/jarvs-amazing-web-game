@@ -82,6 +82,13 @@ Reach for these before writing new markup+CSS from scratch:
   `useSyncExternalStore`), scroll lock, and backdrop. Build new modals on this
   rather than a bespoke `position: fixed` overlay.
 - **`Toast.tsx`** — shared toast/notification primitive (#2173).
+- **`CloseButton.tsx`** — `<CloseButton onClick={…} variant="ghost|framed" />`.
+  The dismiss control on any surface that has one. `ghost` is borderless and
+  inherits the surface's colour; `framed` is the Modal shell's bordered
+  square. Both carry a 44px touch target regardless of glyph size. A surface
+  with its own palette retints it by setting `--close-btn-color` /
+  `--close-btn-color-on` on an ancestor — never by restyling it, which is how
+  the five previous close buttons came about.
 - **`OverlayScreen.tsx`** — full-screen overlay shell; has a `--bleed` variant
   for content that intentionally ignores `--container-pad-x/y`.
 - **`PageHeader.tsx`**, **`ProgressBar.tsx`**, **`StatRow.tsx`**,

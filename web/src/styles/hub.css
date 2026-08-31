@@ -1,5 +1,17 @@
 /* hub.css — split from styles.css (#2169). Hub world: home shelf/decoration, virtual pet, hub screen, hub HUD, quests, bounty board, town directory/journal/upgrades, treasure modal. */
 
+/* The hub modals run the shared close control on their own green ramp
+   rather than the neutral grey it defaults to. Retinting beats restyling:
+   four byte-identical copies of this button is exactly how the ✕ came to
+   differ between these modals in the first place (see CloseButton.tsx). */
+.quests-modal,
+.bounty-board-modal,
+.pet-modal,
+.town-directory {
+  --close-btn-color:    var(--hub-text-dim);
+  --close-btn-color-on: var(--hub-text-on);
+}
+
 /* ── Home Shelf ─────────────────────────────────────────────────────────── */
 
 .shelf-room {
@@ -842,16 +854,6 @@
   font-size: 10px;
   color: var(--hub-text-dim);
 }
-.quests-modal__close {
-  background: none;
-  border: none;
-  color: var(--hub-text-dim);
-  cursor: pointer;
-  font-size: 12px;
-  padding: 0 2px;
-  line-height: 1;
-}
-.quests-modal__close:hover { color: var(--hub-text-on); }
 
 .quests-modal__empty {
   font-size: 11px;
@@ -940,16 +942,6 @@
   font-size: 10px;
   color: var(--hub-text-dim);
 }
-.bounty-board-modal__close {
-  background: none;
-  border: none;
-  color: var(--hub-text-dim);
-  cursor: pointer;
-  font-size: 12px;
-  padding: 0 2px;
-  line-height: 1;
-}
-.bounty-board-modal__close:hover { color: var(--hub-text-on); }
 .bounty-board-modal__section-label {
   font-size: 10px;
   color: var(--hub-text-dim);
@@ -991,16 +983,6 @@
   color: var(--hub-text-on);
   text-transform: uppercase;
 }
-.pet-modal__close {
-  background: none;
-  border: none;
-  color: var(--hub-text-dim);
-  cursor: pointer;
-  font-size: 12px;
-  padding: 0 2px;
-  line-height: 1;
-}
-.pet-modal__close:hover { color: var(--hub-text-on); }
 .pet-modal__section-label {
   font-size: 10px;
   color: var(--hub-text-dim);
@@ -1105,16 +1087,6 @@
   font-size: 10px;
   color: var(--hub-text-dim);
 }
-.town-directory__close {
-  background: none;
-  border: none;
-  color: var(--hub-text-dim);
-  cursor: pointer;
-  font-size: 12px;
-  padding: 0 2px;
-  line-height: 1;
-}
-.town-directory__close:hover { color: var(--hub-text-on); }
 .town-directory__filter {
   background: none;
   border: 1px solid var(--hub-line);

@@ -24,6 +24,9 @@
   --satchel-gold:     var(--color-gold-alt);
   --satchel-gold-dim: var(--color-gold-dim);
 
+  --close-btn-color:    var(--satchel-text-dim);
+  --close-btn-color-on: var(--satchel-text-mid);
+
   /* One header height for every section. Sections put different things in
      the header — a search field (Satchel, Quests), a figure (Town, Codex),
      or nothing at all (Today) — and letting each size itself made the bar
@@ -156,20 +159,6 @@
   color: var(--satchel-text-mid);
   font-variant-numeric: tabular-nums;
 }
-.satchel-sheet__close {
-  flex: 0 0 auto;
-  background: none;
-  border: none;
-  color: var(--satchel-text-dim);
-  cursor: pointer;
-  font-size: 14px;
-  line-height: 1;
-  /* 44px touch target without 44px of visual weight. */
-  padding: 12px;
-  margin: -12px -8px -12px 0;
-}
-.satchel-sheet__close:hover { color: var(--satchel-text-mid); }
-.satchel-sheet__close:active { transform: scale(0.9); }
 
 /* ── Body ───────────────────────────────────────────────────────────────── */
 

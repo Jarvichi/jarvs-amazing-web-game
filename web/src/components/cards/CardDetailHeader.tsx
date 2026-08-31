@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react"
 import { CollectionEntry, getMasteryXp, masteryProgress } from "../../game/collection"
 import { Card } from "../../game/types"
-import { Icon } from "../ui/icons/Icon"
+import { CloseButton } from '../ui/CloseButton'
 
 export interface Props {
   card: Card
@@ -27,9 +27,7 @@ export function CardDetailHeader({ card,collection, colour, onClose }: Props) {
             {'★'.repeat(starLevel)}
             {' '}{card.rarity.toUpperCase()}
           </span>
-          <button className="cdm-close" onClick={onClose} aria-label="Close">
-            <Icon name="close" size={14} />
-          </button>
+          <CloseButton onClick={onClose} />
         </div>
     )
 }

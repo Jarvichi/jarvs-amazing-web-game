@@ -12,6 +12,7 @@ import { FilterChips } from './satchel/FilterChips'
 import { GroupHeading } from './satchel/GroupHeading'
 import { ListRow } from './satchel/ListRow'
 import { QuestReadyCard, QuestProgressRow } from './satchel/QuestRows'
+import { CloseButton } from '../ui/CloseButton'
 
 type QuestFilter = 'active' | 'ready' | 'bounties' | 'completed'
 
@@ -177,7 +178,7 @@ export function QuestsModal({ onClose, ...content }: Props & { onClose: () => vo
           <span>📜 Quests</span>
           <span className="quests-modal__meta">
             {questsMeta(content.questDefs)}
-            <button className="quests-modal__close" onClick={onClose} aria-label="Close">✕</button>
+            <CloseButton onClick={onClose} />
           </span>
         </div>
         <QuestsContent {...content} />
