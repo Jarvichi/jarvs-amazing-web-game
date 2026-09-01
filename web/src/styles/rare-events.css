@@ -527,3 +527,8 @@
   transform: translate(-50%, -50%);
 }
 
+
+/* ─── Press feedback ────────────────────────────────────
+   :hover never fires on touch — see AGENTS.md's CSS Styling Rules. */
+.wn-btn:active,
+.glitch-card-tile:active { transform: translateY(1px); }

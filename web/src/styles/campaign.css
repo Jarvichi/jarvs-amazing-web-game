@@ -1110,3 +1110,11 @@
 
 /* Uses action-btn--danger; font-size override only */
 
+
+/* ─── Press feedback ────────────────────────────────────
+   :hover never fires on touch — see AGENTS.md's CSS Styling Rules. */
+.cutscene-skip-btn:active,
+.relic-select-card:active,
+.starter-pack:active { transform: translateY(1px); }
+
+.nm-consumable-btn:active { transform: scale(0.92); }

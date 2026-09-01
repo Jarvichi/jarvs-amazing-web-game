@@ -1439,3 +1439,24 @@
   line-height: 1.5;
   min-height: 1.5em;
 }
+
+/* ─── Press feedback ────────────────────────────────────
+   :hover never fires on touch, so a hover-only control tells a phone player
+   nothing when they tap it. See AGENTS.md's CSS Styling Rules. */
+.minigame-card:active,
+.home-grid-piece:active,
+.furniture-picker-item--owned:active,
+.quests-modal__abandon-btn:active,
+.quests-modal__confirm-btns button:active,
+.treasure-modal__collect:active,
+.town-directory__filter:active,
+.pet-modal__accessory:active:not(:disabled),
+.extra-btn--promote:active:not(:disabled) { transform: translateY(1px); }
+
+/* Grid squares brighten rather than move: these sit on a fixed grid, and
+   nudging one cell down while its neighbours hold still reads as a layout
+   glitch rather than a press. */
+.home-grid-cell--tappable:active,
+.shelf-slot--filled:active { filter: brightness(1.35); }
+
+.town-directory__pin-btn:active { transform: scale(0.9); }
