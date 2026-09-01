@@ -18,9 +18,22 @@ on:
       - web/scripts/balance-test.ts
       - .github/workflows/balance-test.yml
 
+# This sweep is minutes long, so a burst of pushes to one branch would
+# otherwise stack several of them. Only the newest is worth running — the
+# result is a property of the head commit, not of the ones it replaced.
+concurrency:
+  group: balance-test-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   balance-test:
     runs-on: ubuntu-latest
+    # Measured: the full 32-node sweep takes ~95s at BALANCE_RUNS=10 on two
+    # threads, so the script's default of 100 would be ~16 min locally and
+    # longer on a shared runner. This cap is well clear of the shallow depth
+    # set below while still stopping a pathological run from sitting against
+    # GitHub's 6-hour default on every cards/acts change.
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
 
@@ -38,6 +51,11 @@ jobs:
         id: balance
         working-directory: web
         continue-on-error: true
+        env:
+          # Shallower than the local default of 100 so the sweep fits the
+          # timeout above. Still enough to flag a node that has become
+          # unwinnable or trivial; the script prints the depth it ran at.
+          BALANCE_RUNS: 10
         run: npm run balance-test | tee balance-test-output.txt
 
       - name: Publish results to job summary

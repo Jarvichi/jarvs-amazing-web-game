@@ -22,7 +22,13 @@ import { makeDeck } from '../src/game/cards'
 
 const TICK_MS      = 100          // ms per simulation step
 const MAX_GAME_MS  = 12 * 60_000  // give up after 12 min game-time
-const RUNS         = 100         // runs per node (different shuffles)
+// Runs per node (different shuffles). 100 is the local/full-confidence
+// figure — a full 32-node sweep measured ~95s at 10 and so roughly 16 min
+// at 100, which is too slow a feedback loop for CI, where this only needs
+// to catch a node that has become unwinnable or trivial. CI therefore sets
+// BALANCE_RUNS lower; the report prints whichever depth was used, so a
+// shallow run is never mistaken for a full one.
+const RUNS         = Number(process.env.BALANCE_RUNS) || 100
 
 /** Minimum average win time — below this the fight is trivially easy. */
 const MIN_WIN_MS: Record<string, number> = {
