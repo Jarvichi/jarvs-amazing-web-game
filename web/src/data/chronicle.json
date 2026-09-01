@@ -99,5 +99,38 @@
     },
     "challenge": { "type": "win_battles", "count": 1 },
     "reward": { "type": "crystals", "amount": 40 }
+  },
+  {
+    "id": "ch7",
+    "title": "What the Deep Mist Returned",
+    "availableFrom": "2026-09-08",
+    "teaser": "The Dominion did not choose a side. It chose all three at once — and something answered anyway.",
+    "lore": "Two weeks is not long enough to settle anything, but it was long enough for the copied pages to reach every corner of the mist — and to prove the Dominion could not agree on what to do with them. On the frost shards, criers read Veyle's terms aloud in the market square before the ink was dry. On others, elders locked the pages in strongboxes and told their people nothing had changed. A scattering of bands, mostly young, mostly armed with more determination than sense, struck out into the deep mist asking after the Accord Ledger's last known heading. No argument carried the day. The Dominion fractured three ways at once, exactly as it always had, and the seam overhead kept burning through all of it, unhurried.\n\n{align:vigil}You said nothing more, and kept saying nothing. It cost you standing with the loud half of your shard, who took your silence for indifference. It bought you something else: a clear head, and a habit of noticing who else has gone quiet these two weeks, and why.{/align}{align:accord}You argued for the open record, and got it, more or less — your shard's copy is the fullest anyone has seen, terms and all. What you did not get was consensus on what those terms mean, and you have spent two weeks fielding the same question from a dozen frightened neighbours with no good answer to give.{/align}{align:unbinding}You went looking for the Ledger yourself, quietly, while the rest of the Dominion argued about pages. Two weeks of asking after a nine-hundred-year-old shard's heading has bought you three dead ends, one drowned chart, and a reputation for asking questions that make archivists change the subject.{/align}{align:default}You watched the argument happen around you and have not yet said, even to yourself, which of it you believe. That is its own kind of answer, and the Dominion has been too busy with its own noise to notice you haven't made it.{/align}\n\nShe came in with the evening tide, on a raft nobody had built and nobody had sent, and the first thing anyone noticed was that she was alive to be noticed at all — the deep mist does not, as a rule, give things back. The second thing was her left hand: burned in a tight spiral from wrist to fingertip, the same pattern the arcanists carried out of the Fracture six chapters and one lifetime ago, the same pattern Ostrava dreamed of before her congregation stopped answering.\n\nShe gives a name — Ren, she says, though she says it the way a person tries on a coat that isn't quite theirs — and very little else. She knows the terms of the old bargain, which nobody outside the Archive's inner circle should know, and states them plainly, unprompted, like a woman reciting something she was made to memorise. She knows Chief Archivist Veyle's name and flinches at it. She will not say where the mist put her down for those nine hundred years, or one year, or however long it was, and she will not say who sent the raft. What she says instead, once, quietly, to whichever of you got there first: 'It wants an answer. Not a fight. Not a treaty. An answer. And it is tired of waiting on people who haven't agreed among themselves what the question even was.'\n\nA captain of the watch wants her in irons until she talks straight. A junior envoy wants her fed, housed, and heard out properly, spiral hand and all. Someone else — you, if you choose it — is already close enough to just ask her outright and see what a direct question gets you that the others haven't. She has not resisted any of it so far. That, more than anything she's said, is what worries the people watching her.",
+    "decision": {
+      "id": "d-ch7-ren",
+      "prompt": "Ren stands in the middle of an argument about her that she is not taking part in. Someone has to decide what happens to her next.",
+      "options": [
+        {
+          "id": "vigil",
+          "label": "Keep her at arm's length",
+          "consequence": "You don't put her in irons and you don't take her in either — she's watched, housed apart, given nothing she could use against you. If the mist sent her to learn something, it will have to learn it from a distance.",
+          "alignment": { "vigil": 2 }
+        },
+        {
+          "id": "accord",
+          "label": "Bring her before the council",
+          "consequence": "You argue she is exactly what an envoy looks like when nobody sent an invitation: someone to hear formally, on the record, with witnesses, so whatever she says becomes testimony instead of rumour.",
+          "alignment": { "accord": 2 }
+        },
+        {
+          "id": "unbinding",
+          "label": "Press her for the truth now",
+          "consequence": "Councils take weeks and irons take trust neither of you has. You take the direct question to her yourself, alone, and ask what 'tired of waiting' is going to mean if nobody answers it.",
+          "alignment": { "unbinding": 2 }
+        }
+      ]
+    },
+    "challenge": { "type": "win_with_tag", "tag": "arcane", "count": 2 },
+    "reward": { "type": "consumable", "itemId": "memory_charm", "count": 1 }
   }
 ]
