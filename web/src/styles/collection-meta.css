@@ -439,3 +439,8 @@
 
 
 
+
+/* ─── Press feedback ────────────────────────────────────
+   :hover never fires on touch — see AGENTS.md's CSS Styling Rules. */
+.character-avatar-btn:active,
+.character-archetype-btn:active:not(.character-archetype-btn--locked) { transform: translateY(1px); }

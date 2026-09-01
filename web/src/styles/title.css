@@ -432,3 +432,8 @@
   border-right: 5px solid transparent;
   border-top: 6px solid rgba(10, 20, 10, 0.92);
 }
+
+/* ─── Press feedback ────────────────────────────────────
+   :hover never fires on touch — see AGENTS.md's CSS Styling Rules. */
+.title-nav-item:active,
+.title-tier-btn:active { transform: translateY(1px); }

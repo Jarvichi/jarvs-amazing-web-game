@@ -915,3 +915,12 @@
   justify-content: center;
 }
 
+
+/* ─── Press feedback ────────────────────────────────────
+   :hover never fires on touch — see AGENTS.md's CSS Styling Rules. */
+.ach-claim-btn:active,
+.cdm-sw-row--btn:active,
+.deck-selector-panel:active,
+.inventory-cell:active { transform: translateY(1px); }
+
+.cdm-breakdown-toggle:active { transform: scale(0.9); }

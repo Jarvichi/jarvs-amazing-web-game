@@ -1037,3 +1037,16 @@
 .apm-item-name    { font-size: var(--font-sm); font-weight: bold; }
 .apm-item-actions { flex-shrink: 0; }
 
+
+/* ─── Press feedback ────────────────────────────────────
+   :hover never fires on touch — see AGENTS.md's CSS Styling Rules.
+
+   Scale rather than the usual 1px depress, because .card-tile's whole point
+   here is that it lifts 3px on hover. Releasing that lift would read as a
+   press with a mouse and as nothing at all on a phone, where the card was
+   never lifted to begin with — which is the case this rule exists for. */
+.card-tile:active:not(.card-tile--disabled) { transform: scale(0.97); }
+
+/* Small circular info button: scale, as .close-btn does — 1px of travel is
+   invisible on a control this size. */
+.card-bottom-info-btn:active { transform: scale(0.9); }

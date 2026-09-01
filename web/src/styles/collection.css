@@ -1269,3 +1269,18 @@
 
 /* ─── Character Screen ───────────────────────────────── */
 
+
+/* ─── Press feedback ────────────────────────────────────
+   :hover never fires on touch — see AGENTS.md's CSS Styling Rules. */
+.collection-disenchant-btn:active:not(:disabled),
+.collection-pack-btn:active:not(:disabled),
+.extra-btn--disenchant:active:not(:disabled),
+.extra-btn--master:active:not(:disabled),
+.deck-slot-btn:active,
+.db-collapse-btn:active,
+.hoa-tile:active,
+.inventory-cell--relic:active { transform: translateY(1px); }
+
+/* Small circular info buttons: scale, as .close-btn does. */
+.cell-info-btn:active,
+.deck-list-info-btn:active { transform: scale(0.9); }
