@@ -24,6 +24,10 @@ export function TutorialOverlay({ steps, onDone }: Props) {
       role="dialog"
       aria-modal="true"
       aria-label={step.title}
+      // The backdrop covers the whole screen but sits inside the screen it
+      // covers, so without this a tap on it reaches the handler behind —
+      // on the battlefield that resumed the battle mid-tutorial (#2269).
+      onClick={e => e.stopPropagation()}
     >
       <div className="tutorial-panel">
         <div className="tutorial-step-indicator">[ {index + 1} / {steps.length} ]</div>
