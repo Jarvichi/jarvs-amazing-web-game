@@ -84,10 +84,6 @@
   z-index: 1;
   box-sizing: border-box;
 }
-.title-hero-btn:disabled {
-  cursor: not-allowed;
-}
-
 .title-hero-panel {
   display: flex;
   align-items: center;
@@ -109,7 +105,7 @@
 .title-hero-btn:active .title-hero-panel {
   transform: scale(0.99);
 }
-.title-hero-btn:disabled .title-hero-panel {
+.title-hero-btn--locked .title-hero-panel {
   color: var(--game-text-color-muted);
   opacity: 0.7;
 }
