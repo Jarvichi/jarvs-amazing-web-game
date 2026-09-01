@@ -153,6 +153,33 @@ describe('tick', () => {
   })
 })
 
+// ─── Base HP mirroring is clamped to maxHp (#2270) ───────────────────────────
+
+describe('base HP sync', () => {
+  it('clamps player base HP to maxHp when the commander is healed past it', () => {
+    const state = newGame()
+    const playerCmd = state.field.find(u => u.isCommander && u.owner === 'player')!
+    // Heal the commander well past the base's starting/max HP.
+    playerCmd.hp = state.playerBase.maxHp + 50
+
+    const next = tick(state, 0)
+
+    expect(next.playerBase.hp).toBe(next.playerBase.maxHp)
+    expect(next.playerBase.hp).toBeLessThanOrEqual(next.playerBase.maxHp)
+  })
+
+  it('clamps opponent base HP to maxHp when the opposing commander is healed past it', () => {
+    const state = newGame()
+    const opCmd = state.field.find(u => u.isCommander && u.owner === 'opponent')!
+    opCmd.hp = state.opponentBase.maxHp + 50
+
+    const next = tick(state, 0)
+
+    expect(next.opponentBase.hp).toBe(next.opponentBase.maxHp)
+    expect(next.opponentBase.hp).toBeLessThanOrEqual(next.opponentBase.maxHp)
+  })
+})
+
 // ─── Endless mode wave transition ────────────────────────────────────────────
 
 describe('triggerNextEndlessWave', () => {

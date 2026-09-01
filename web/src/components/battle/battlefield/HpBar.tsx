@@ -13,7 +13,7 @@ interface Props {
  *  pulsing danger state below 25% so a base about to fall reads as urgent,
  *  not just "a shorter bar than before". */
 export function HpBar({ current, max, color }: Props) {
-  const pct = Math.max(0, (current / max) * 100)
+  const pct = Math.min(100, Math.max(0, (current / max) * 100))
   const low = pct > 0 && pct <= LOW_HP_PCT * 100
   const prevRef = useRef(current)
   const [flashing, setFlashing] = useState(false)

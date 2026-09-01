@@ -599,14 +599,14 @@ export function tick(state: GameState, deltaMs: number): GameState {
   // entirely — e.g. an AOE dropped it to 0 with no dyingTimer and it was purged from the field —
   // force base HP to 0 so the game-over check still fires (otherwise it keeps a stale value).
   const playerCmd = s.field.find(u => u.isCommander && u.owner === 'player')
-  if (playerCmd) s.playerBase.hp = Math.max(0, playerCmd.hp)
+  if (playerCmd) s.playerBase.hp = Math.min(s.playerBase.maxHp, Math.max(0, playerCmd.hp))
   else s.playerBase.hp = 0
   if (s.bossCard && !s.endlessMode) {
     const bossUnit = s.field.find(u => u.owner === 'opponent' && u.name === s.bossCard && u.hp > 0)
-    if (bossUnit) s.opponentBase.hp = bossUnit.hp
+    if (bossUnit) s.opponentBase.hp = Math.min(s.opponentBase.maxHp, Math.max(0, bossUnit.hp))
   } else {
     const opCmd = s.field.find(u => u.isCommander && u.owner === 'opponent')
-    if (opCmd) s.opponentBase.hp = Math.max(0, opCmd.hp)
+    if (opCmd) s.opponentBase.hp = Math.min(s.opponentBase.maxHp, Math.max(0, opCmd.hp))
     else s.opponentBase.hp = 0
   }
 
