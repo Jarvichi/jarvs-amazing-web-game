@@ -377,7 +377,12 @@
   transition: border-color 0.15s, background 0.15s;
   font-family: inherit;
   color: inherit;
-  animation: relic-card-enter 0.35s ease-out both;
+  /* `backwards`, not `both`: the entrance ends at opacity 1 / translateY(0),
+     which is this element's natural resting state, so the forwards fill
+     changed nothing visually — but a filled animation outranks normal
+     declarations in the cascade, so it silently swallowed :active. Backwards
+     still holds the pre-start opacity 0, which is what stops the flash. */
+  animation: relic-card-enter 0.35s ease-out backwards;
 }
 
 @keyframes relic-card-enter {

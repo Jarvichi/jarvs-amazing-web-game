@@ -1331,3 +1331,22 @@
   font-style: italic;
 }
 
+
+/* ─── Press feedback ────────────────────────────────────
+   :hover never fires on touch, so a hover-only control tells a phone player
+   nothing when they tap it. See AGENTS.md's CSS Styling Rules. */
+.city-brush-cancel:active,
+.city-stats-range-btn:active,
+.city-chronicle-entry:active { transform: translateY(1px); }
+
+/* City board squares brighten rather than move: nudging one cell of a fixed
+   grid while its neighbours hold still reads as a layout glitch. */
+.city-cell:active { filter: brightness(1.35); }
+
+/* The zoom controls are small round steppers — 1px of travel is invisible
+   at that size, so they scale, as .close-btn does. Both the buttons and the
+   tick marks, since the ticks are tap targets too. */
+.city-zoom-btn:active:not(:disabled),
+.toolbar-zoom-btn:active:not(:disabled),
+.city-zoom-tick:active,
+.toolbar-zoom-tick:active { transform: scale(0.9); }

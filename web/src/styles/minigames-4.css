@@ -1438,3 +1438,20 @@
   from { opacity: 0.75; }
   to   { opacity: 1; }
 }
+
+/* ─── Press feedback ────────────────────────────────────
+   :hover never fires on touch — see AGENTS.md's CSS Styling Rules. */
+.td-speed-btn:active,
+.td-targeting-btn:active,
+.td-milestone-choice-card:active,
+.td-unit-chip:active:not(.td-unit-chip--disabled),
+.td-tower-action-btn:active:not(.td-tower-action-btn--disabled),
+.td-selected-action-btn:active:not(.td-selected-action-btn--disabled),
+.td-upgrade-option:active:not(.td-upgrade-option--disabled):not(.td-upgrade-option--maxed),
+.farm-worker-btn:active:not(:disabled),
+.farm-worker-hire-btn--ready:active { transform: translateY(1px); }
+
+/* Board squares brighten rather than move — see the note in minigames-1.css.
+   The tower-defence path and the farm plots are both fixed grids. */
+.td-cell--grass:active,
+.farm-cell:active { filter: brightness(1.35); }
