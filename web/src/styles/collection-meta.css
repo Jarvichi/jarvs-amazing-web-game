@@ -84,7 +84,7 @@
 
 .codex-entry-desc {
   font-size: 0.75rem;
-  color: #88aa88;
+  color: var(--hub-text-mid);
   margin-bottom: 6px;
 }
 
@@ -125,12 +125,6 @@
   color: #ffaa66;
 }
 
-.codex-empty {
-  color: #556655;
-  font-size: 0.8rem;
-  text-align: center;
-  padding: 2rem;
-}
 
 .codex-conversation-stages {
   display: flex;
@@ -151,7 +145,7 @@
 
 .codex-conversation-stage-label {
   font-size: 0.62rem;
-  color: #669966;
+  color: var(--hub-text-dim);
   letter-spacing: 0.05em;
   margin-bottom: 0.25rem;
 }
@@ -187,34 +181,9 @@
   width: 100%;
 }
 
-.character-avatar-tabs {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 0.8rem;
-  border-bottom: 1px solid var(--game-border);
-  padding-bottom: 4px;
-}
 
-.character-avatar-tab {
-  background: none;
-  border: 1px solid var(--color-gray-5);
-  color: var(--game-text-color-dim);
-  font-family: inherit;
-  font-size: var(--font-sm);
-  padding: 4px 12px;
-  cursor: pointer;
-  letter-spacing: 0.5px;
-}
 
-.character-avatar-tab:hover {
-  border-color: #aaffaa;
-  color: #aaffaa;
-}
 
-.character-avatar-tab--active {
-  border-color: #0f0;
-  color: #0f0;
-}
 
 .character-name-input {
   background: var(--game-bg-raised);

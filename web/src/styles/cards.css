@@ -1024,7 +1024,6 @@
   border-bottom: 1px solid var(--color-gray-3);
   font-weight: bold;
 }
-.apm-empty { padding: 24px; text-align: center; opacity: 0.6; font-size: var(--font-sm); }
 .apm-list  { display: flex; flex-direction: column; }
 .apm-item  {
   display: flex;

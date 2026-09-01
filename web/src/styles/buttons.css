@@ -242,3 +242,69 @@
   color: var(--game-text-color);
   font-weight: bold;
 }
+
+/* ─── Close button ──────────────────────────────────────
+   One control for "dismiss this surface" — see CloseButton.tsx for what it
+   replaced and why. Colours resolve through --close-btn-* so a surface with
+   its own palette (the hub modals, the satchel sheet) retints the control by
+   setting two custom properties rather than restyling it. */
+
+/* The defaults are fallbacks inside var(), not declarations on .close-btn.
+   Declaring them here would set the properties on the button itself, which
+   shadows the value an ancestor sets and silently defeats the whole retint
+   mechanism. */
+.close-btn {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--close-btn-color, var(--color-gray-9));
+  cursor: pointer;
+  line-height: 1;
+  transition: color var(--dur-fast), border-color var(--dur-fast);
+}
+
+.close-btn:hover { color: var(--close-btn-color-on, var(--color-gray-10)); }
+
+/* :hover never fires on touch, and dismissing is the one action a player
+   most needs acknowledged — a modal that stays put for a moment after the
+   tap reads as a missed press without this. */
+.close-btn:active { transform: scale(0.9); }
+
+/* Ghost: no frame, so the box itself carries the whole touch target. The
+   negative margin hands the surplus back to the row, so the control occupies
+   roughly the glyph's own 14px of layout height and sits flush against the
+   container's right edge — the hit area grows, the composition doesn't.
+
+   -15px is (44 - 14) / 2 exactly, i.e. the full overhang on each side. The
+   rule this replaces used 12px of padding and claimed 44px in its comment;
+   it measured 38. */
+.close-btn--ghost {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  margin: -15px -15px -15px 0;
+}
+
+/* Framed: the bordered square the Modal shell has always drawn. The frame
+   stays 26px — inflating it to 44px would make it the loudest thing in the
+   header — so the hit area is extended past it by a transparent overlay
+   instead. */
+.close-btn--framed {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid var(--border-edge);
+  border-radius: var(--radius-sm);
+}
+
+.close-btn--framed:hover { border-color: var(--accent-gold); }
+
+.close-btn--framed::after {
+  content: '';
+  position: absolute;
+  inset: -9px;
+}

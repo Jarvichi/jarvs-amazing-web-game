@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { fetchEndlessLeaderboard, fetchTodaysEndlessLeaderboard, getEndlessPersonalBest, EndlessLeaderboardEntry, fetchDailyLeaderboard, LeaderboardEntry } from '../../game/dailyChallenge'
 import { PageHeader } from '../ui/PageHeader'
+import { EmptyState } from '../ui/EmptyState'
 
 interface Props {
   onBack: () => void
@@ -16,8 +17,8 @@ function formatSurvival(ms: number): string {
 type DisplayEntry = EndlessLeaderboardEntry & { isGhost?: boolean }
 
 function EndlessTable({ entries, ghostWave }: { entries: EndlessLeaderboardEntry[] | null; ghostWave?: number }) {
-  if (entries === null) return <div className="el-leaderboard-empty">Loading…</div>
-  if (entries.length === 0 && ghostWave === undefined) return <div className="el-leaderboard-empty">⏳ No scores yet — be the first!</div>
+  if (entries === null) return <EmptyState size="sm">Loading…</EmptyState>
+  if (entries.length === 0 && ghostWave === undefined) return <EmptyState size="sm" icon="⏳">No scores yet — be the first!</EmptyState>
 
   // Secret 7 — Score Ghost: inject a mysterious entry just above personal best
   const display: DisplayEntry[] = [...entries]
@@ -70,9 +71,9 @@ export function EndlessLeaderboardScreen({ onBack }: Props) {
         <div className="el-subtitle">Today's top players</div>
         <div className="el-leaderboard">
           {dailyLb === null ? (
-            <div className="el-leaderboard-empty">Loading…</div>
+            <EmptyState size="sm">Loading…</EmptyState>
           ) : dailyLb.length === 0 ? (
-            <div className="el-leaderboard-empty">⏳ No scores yet today</div>
+            <EmptyState size="sm" icon="⏳">No scores yet today.</EmptyState>
           ) : (
             <ol className="el-leaderboard-list">
               {dailyLb.map((entry, i) => (

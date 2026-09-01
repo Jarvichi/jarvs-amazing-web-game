@@ -1013,12 +1013,6 @@
   line-height: 1.4;
 }
 .city-chronicle-entry:hover { background: #081408; }
-.city-chronicle-empty {
-  color: #508050;
-  font-style: italic;
-  padding: 16px;
-  text-align: center;
-}
 
 /* ── City Stats Dashboard ─────────────────────────────────────────────────── */
 

@@ -689,11 +689,6 @@
   letter-spacing: 0.05em;
   margin-bottom: 6px;
 }
-.dc-leaderboard-empty {
-  font-size: var(--font-md);
-  color: var(--game-text-color-muted);
-  padding: 6px 0;
-}
 .dc-leaderboard-list,
 .el-leaderboard-list,
 .rb-tier-mods,
@@ -930,11 +925,6 @@
   width: 100%;
   max-width: 380px;
 }
-.el-leaderboard-empty {
-  font-size: var(--font-md);
-  color: var(--game-text-color-muted);
-  padding: 6px 0;
-}
 
 .el-leaderboard-entry {
   font-size: var(--font-base);
@@ -1124,10 +1114,6 @@
 .gameover-endless-lb-best {
   font-size: var(--font-sm);
   color: #ffd54f;
-}
-.gameover-endless-lb-empty {
-  font-size: var(--font-sm);
-  color: var(--game-text-color-muted);
 }
 .gameover-endless-lb-list {
   list-style: none;

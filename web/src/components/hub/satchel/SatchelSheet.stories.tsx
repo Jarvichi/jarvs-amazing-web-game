@@ -182,7 +182,11 @@ export const HeaderIsTheSameShapeInEverySection: Story = {
       for (const tab of tabs) {
         await userEvent.click(tab)
         const header = document.querySelector<HTMLElement>('.satchel-sheet__header')!
-        const close  = document.querySelector<HTMLElement>('.satchel-sheet__close')!
+        // The glyph, not the button box: the shared close control (#close-btn,
+        // buttons.css) pads out to a 44px touch target and pulls the surplus
+        // back with a negative margin, so its border box overhangs the header
+        // on every side. What the eye tracks is the ✕ itself.
+        const close  = document.querySelector<HTMLElement>('.close-btn svg')!
         shapes.push({
           width: w,
           section: tab.textContent ?? '',

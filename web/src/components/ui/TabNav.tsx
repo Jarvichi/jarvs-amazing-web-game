@@ -35,9 +35,10 @@ interface Props<T extends string> {
 
 /**
  * The one tab strip. Replaces `.player-tab` (Player, Collection, Settings),
- * `.hoa-tab` (Hall of Achievements, Home shelf, Pet modal) and
- * `.satchel-nav` (satchel sheet), which had drifted into three different
- * looks and three different levels of keyboard support for the same control.
+ * `.hoa-tab` (Hall of Achievements, Home shelf, Pet modal), `.satchel-nav`
+ * (satchel sheet), `.ach-tab` (Achievements), `.character-avatar-tab`
+ * (Character) and `.city-bld-tab` (building inspector) — six different looks
+ * and six different levels of keyboard support for the same control.
  *
  * A real tablist: roving `tabIndex` so the strip is one tab stop, arrow keys
  * (both axes, since `bar` is vertical from tablet up) plus Home/End to move,

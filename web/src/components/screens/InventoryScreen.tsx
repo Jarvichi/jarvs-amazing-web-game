@@ -7,6 +7,7 @@ import { loadItemStore } from '../../game/itemStore'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Section } from '../ui/Section'
 import { Button } from '../ui/Button'
+import { EmptyState } from '../ui/EmptyState'
 
 interface Props {
   onBack: () => void
@@ -146,9 +147,7 @@ export function InventoryScreen({ onBack, onCrystalsChanged, embedded }: Props) 
 
         <Section title={earnedRelics.length > 0 ? 'ITEMS' : ''}>
           {items.length === 0 ? (
-            <div className="inventory-empty u-grow u-flex u-items-c u-just-c">
-              Nothing here yet. Come back tomorrow.
-            </div>
+            <EmptyState className="u-grow" hint="Come back tomorrow.">Nothing here yet.</EmptyState>
           ) : (
             <div className="inventory-grid u-flex u-wrap u-gap-4 u-just-c u-grow">
               {items.map((item, idx) => (

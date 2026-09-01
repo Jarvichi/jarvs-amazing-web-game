@@ -4,6 +4,7 @@ import { getBuildingProduces, RESOURCE_ICONS, ResourceType, GOLD_SYMBOL, mastery
 import { CoreFarmBuilding, FARM_PLACE_COST } from '../../../../game/farmingSim'
 import { SpriteImg } from '../../../ui/SpriteImg'
 import { OverlayScreen } from '../../../ui/OverlayScreen'
+import { EmptyState } from '../../../ui/EmptyState'
 
 export interface Props {
   availableCards:    Card[]
@@ -63,8 +64,8 @@ export function FarmBuildingPicker({ availableCards, coreFarmBuildings, gold, on
 
         {!hasResults ? (
           q
-            ? <div className="city-picker-empty">No buildings match "{search}"</div>
-            : <div className="city-picker-empty">No production buildings available to place on the farm.</div>
+            ? <EmptyState size="sm">No buildings match "{search}".</EmptyState>
+            : <EmptyState size="sm">No production buildings available to place on the farm.</EmptyState>
         ) : (
           <>
             {filteredCore.length > 0 && (

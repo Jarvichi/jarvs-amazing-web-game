@@ -26,6 +26,8 @@ import { CardAugmentScreen } from '../cards/CardAugmentScreen'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { getCardCatalog } from '../../game/cards'
 import { Button } from '../ui/Button'
+import { CloseButton } from '../ui/CloseButton'
+import { EmptyState } from '../ui/EmptyState'
 
 // ─── Lazy cell ────────────────────────────────────────────
 
@@ -147,10 +149,10 @@ function UnitPickerModal({ stack, onEquip, onClose }: UnitPickerProps) {
       <div className="apm-panel">
         <div className="apm-header">
           Equip {stack.setName} Set to Unit
-          <button className="cdm-close" onClick={onClose} aria-label="Close">✕</button>
+          <CloseButton onClick={onClose} />
         </div>
         {unitCards.length === 0 ? (
-          <div className="apm-empty">No unit cards owned.</div>
+          <EmptyState size="sm">No unit cards owned.</EmptyState>
         ) : (
           <div className="apm-list">
             {unitCards.map(card => (

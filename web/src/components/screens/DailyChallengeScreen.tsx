@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { getDailyChallengeState, getDailyPlayerDeck, fetchDailyLeaderboard, LeaderboardEntry } from '../../game/dailyChallenge'
 import { Button } from '../ui/Button'
 import { PageHeader } from '../ui/PageHeader'
+import { EmptyState } from '../ui/EmptyState'
 
 interface Props {
   onStart: () => void
@@ -66,9 +67,9 @@ export function DailyChallengeScreen({ onStart, onBack }: Props) {
       <div className="dc-leaderboard">
         <div className="dc-leaderboard-label">TODAY'S TOP PLAYERS</div>
         {leaderboard === null ? (
-          <div className="dc-leaderboard-empty">Loading…</div>
+          <EmptyState size="sm">Loading…</EmptyState>
         ) : leaderboard.length === 0 ? (
-          <div className="dc-leaderboard-empty">⏳ Awaiting today's results</div>
+          <EmptyState size="sm" icon="⏳">Awaiting today's results.</EmptyState>
         ) : (
           <ol className="dc-leaderboard-list">
             {leaderboard.map((entry, i) => (

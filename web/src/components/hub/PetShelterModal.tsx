@@ -5,6 +5,7 @@ import { ConfirmModal } from '../modals/ConfirmModal'
 import { getActivePet, adoptPet } from '../../game/hub/pet'
 import { ANIMAL_SPECS, type AnimalType } from '../../game/hub/animals'
 import { getTodaysShelterPets, type ShelterPet } from '../../game/hub/petShelter'
+import { CloseButton } from '../ui/CloseButton'
 
 interface Props {
   onClose: () => void
@@ -50,7 +51,7 @@ export function PetShelterContent({ onClose, onAdopted }: Props) {
     <Panel elevation="floating" className="pet-modal">
       <div className="pet-modal__header">
         <span>🏚️ Ravenwatch Shelter</span>
-        <button className="pet-modal__close" onClick={onClose} aria-label="Close">✕</button>
+        <CloseButton onClick={onClose} />
       </div>
 
       <div className="pet-modal__section-label">I have these pets to adopt</div>

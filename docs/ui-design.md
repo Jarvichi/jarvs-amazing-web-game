@@ -31,6 +31,14 @@ win a specificity fight — fix the selector instead. Key groups:
   — neutral depth shadows. Use `color-mix(in srgb, <token> N%, transparent)`
   for glows/tints rather than a new hardcoded rgba.
 - **Borders:** `--border-edge`, `--border-edge-dark`.
+- **Hub green ramp:** `--hub-text` / `-soft` / `-on` / `-mid` / `-dim` / `-off`
+  plus `--hub-line` / `--hub-line-on`. The hub world (home shelf, decoration
+  grid, pet, quests, bounty board, town directory, Hall of Achievements) and
+  the satchel sheet share a warmer green palette distinct from the CRT-green
+  `--game-text-color`. Use these for anything on a hub surface — `hub.css`
+  alone had drifted to 23 distinct greens before they existed, five of them
+  separate answers to "dim green label text". `--satchel-*` aliases the two
+  steps it shares exactly and keeps three deliberately darker ones.
 - **Radius:** `--radius-sm` (2px) / `--radius-md` (4px) / `--radius-lg` (6px).
 - **Fonts:** `--font-display` (Cinzel — titles, logo, card names, headers),
   `--font-body` (Spectral — descriptions, dialogue, tooltips), `--font-mono`
@@ -74,6 +82,19 @@ Reach for these before writing new markup+CSS from scratch:
   `useSyncExternalStore`), scroll lock, and backdrop. Build new modals on this
   rather than a bespoke `position: fixed` overlay.
 - **`Toast.tsx`** — shared toast/notification primitive (#2173).
+- **`EmptyState.tsx`** — `<EmptyState size="sm|md" icon={…} hint={…}>message</EmptyState>`.
+  The "nothing here yet" block. `sm` for a message inside a list or short
+  section, `md` (default) for a panel or screen area; pass `u-grow` via
+  `className` if it should centre in a full panel. Retint from an ancestor
+  with `--empty-state-color`. It replaced 19 classes across 44 call sites
+  that disagreed on colour, size, padding and alignment.
+- **`CloseButton.tsx`** — `<CloseButton onClick={…} variant="ghost|framed" />`.
+  The dismiss control on any surface that has one. `ghost` is borderless and
+  inherits the surface's colour; `framed` is the Modal shell's bordered
+  square. Both carry a 44px touch target regardless of glyph size. A surface
+  with its own palette retints it by setting `--close-btn-color` /
+  `--close-btn-color-on` on an ancestor — never by restyling it, which is how
+  the five previous close buttons came about.
 - **`OverlayScreen.tsx`** — full-screen overlay shell; has a `--bleed` variant
   for content that intentionally ignores `--container-pad-x/y`.
 - **`PageHeader.tsx`**, **`ProgressBar.tsx`**, **`StatRow.tsx`**,

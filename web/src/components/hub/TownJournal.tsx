@@ -11,6 +11,7 @@ import {
   hasCaughtFish,
 } from '../../game/hub/journal'
 import { FISH_TIERS, CAVE_FISH_TIERS, LAKE_FISH_TIERS, OCEAN_FISH_TIERS, type FishTier } from '../minigames/Fishing.data'
+import { EmptyState } from '../ui/EmptyState'
 
 const TRACK_ICON: Record<string, string> = { ally: '🤝', rival: '⚔️', romance: '💗' }
 
@@ -173,7 +174,7 @@ export function TownJournalContent({ locationData, tab }: Props) {
         {tab === 'people' && (
           <div className="town-directory__list town-journal__list">
             {namedNpcs.length === 0 ? (
-              <div className="town-directory__empty">No one notable lives here yet.</div>
+              <EmptyState size="sm">No one notable lives here yet.</EmptyState>
             ) : (
               namedNpcs.map(npc => {
                 const met = hasMetNpc(npc.id)
@@ -201,7 +202,7 @@ export function TownJournalContent({ locationData, tab }: Props) {
         {tab === 'places' && (
           <div className="town-directory__list town-journal__list">
             {areas.length === 0 ? (
-              <div className="town-directory__empty">No named places here yet.</div>
+              <EmptyState size="sm">No named places here yet.</EmptyState>
             ) : (
               areas.map(area => {
                 const found = hasSeenArea(locationData.HUB_TOWN_NAME, area.id)

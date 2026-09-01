@@ -2,6 +2,8 @@ import React from 'react'
 import { ModalBackdrop } from '../../ui/ModalBackdrop'
 import { TabNav, type TabNavItem } from '../../ui/TabNav'
 import { SATCHEL_NAV, type SatchelNavItem, type SatchelSectionId } from './types'
+import { CloseButton } from '../../ui/CloseButton'
+import { EmptyState } from '../../ui/EmptyState'
 
 interface Props {
   /** Section title — the ONLY place it is drawn. Content renders content. */
@@ -49,7 +51,7 @@ export function SatchelSheet({
             </label>
           )}
           {meta != null && <span className="satchel-sheet__meta">{meta}</span>}
-          <button type="button" className="satchel-sheet__close" onClick={onClose} aria-label="Close">✕</button>
+          <CloseButton onClick={onClose} size={16} />
         </header>
 
         <div
@@ -81,7 +83,8 @@ export function SatchelSheet({
   )
 }
 
-/** Shown when a filtered list comes back empty. */
+/** Shown when a filtered list comes back empty. The sheet retints the shared
+ *  control through --empty-state-color rather than styling its own (satchel.css). */
 export function SatchelEmpty({ children }: { children: React.ReactNode }) {
-  return <p className="satchel-empty">{children}</p>
+  return <EmptyState size="sm">{children}</EmptyState>
 }

@@ -224,12 +224,6 @@
 }
 
 .lb-loading,
-.lb-empty {
-  font-size: var(--font-md);
-  color: #555577;
-  padding: 16px 0;
-  text-align: center;
-}
 
 .lb-entry {
   display: flex;

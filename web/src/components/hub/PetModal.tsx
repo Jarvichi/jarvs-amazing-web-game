@@ -9,6 +9,7 @@ import {
 } from '../../game/hub/pet'
 import { ANIMAL_SPECS, type AnimalType } from '../../game/hub/animals'
 import { PET_ACCESSORIES } from '../../data/petAccessories'
+import { CloseButton } from '../ui/CloseButton'
 
 interface Props {
   onClose: () => void
@@ -94,7 +95,7 @@ export function PetContent({ onClose, petActionRef }: Props) {
       <Panel elevation="floating" className="pet-modal">
         <div className="pet-modal__header">
           <span>🐾 My Pet</span>
-          <button className="pet-modal__close" onClick={onClose} aria-label="Close">✕</button>
+          <CloseButton onClick={onClose} />
         </div>
 
         {!pet && (

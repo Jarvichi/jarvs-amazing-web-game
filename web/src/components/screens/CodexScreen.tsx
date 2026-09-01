@@ -6,6 +6,7 @@ import {
 } from '../../game/codex'
 import { RARITY_COLOR } from '../../theme'
 import type { CardRarity } from '../../game/types'
+import { EmptyState } from '../ui/EmptyState'
 
 type CodexTab = 'cards' | 'relics' | 'world' | 'fragments' | 'conversations' | 'chronicle'
 type CardTypeFilter = 'all' | 'unit' | 'structure' | 'upgrade'
@@ -308,7 +309,7 @@ export function CodexScreen({ onDone }: Props) {
           ))}
 
           {tab === 'cards' && filteredCards.length === 0 && (
-            <div className="codex-empty">No cards match the current filter.</div>
+            <EmptyState>No cards match the current filter.</EmptyState>
           )}
         </div>
       </div>

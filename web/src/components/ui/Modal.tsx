@@ -1,7 +1,7 @@
 import React from 'react'
 import { ModalBackdrop } from './ModalBackdrop'
 import { Panel, type PanelTone } from './Panel'
-import { Icon } from './icons/Icon'
+import { CloseButton } from './CloseButton'
 
 interface Props {
   title: string
@@ -25,14 +25,7 @@ export function Modal({ title, onClose, children, footer, tone = 'neutral', clos
       <Panel elevation="floating" tone={tone} className="modal-shell">
         <div className="modal-shell-header">
           <span className="modal-shell-title">{title}</span>
-          <button
-            type="button"
-            className="modal-shell-close"
-            onClick={onClose}
-            aria-label="Close"
-          >
-            <Icon name="close" size={14} />
-          </button>
+          <CloseButton onClick={onClose} variant="framed" />
         </div>
         <div className="modal-shell-body">
           {children}

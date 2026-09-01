@@ -39,6 +39,7 @@ import { hasSeen, markSeen } from '../../game/tutorial'
 import { FilterPopup } from '../ui/filters/FilterPopup'
 import { FilterOption } from '../ui/filters/FilterOption'
 import { FilterPill } from '../ui/filters/FilterPill'
+import { EmptyState } from '../ui/EmptyState'
 
 const DECK_TUTORIAL_ID = 'deckbuilder'
 const DECK_TUTORIAL_STEPS = [
@@ -541,9 +542,9 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
               <ProgressBar pct={(total / playerDeckMax) * 100} />
               <div className="deckbuilder-deck-grid">
                 {deck.length === 0 ? (
-                  <div className="deck-empty">Add cards from the collection below.</div>
+                  <EmptyState size="sm">Add cards from the collection below.</EmptyState>
                 ) : deckList.length === 0 ? (
-                  <div className="deck-empty">No deck cards match "{search}".</div>
+                  <EmptyState size="sm">No deck cards match "{search}".</EmptyState>
                 ) : (
                   /* Gaps are asymmetric (see .collection-grid) — no u-gap-* here. */
                   <div className="collection-grid u-flex u-wrap u-just-c u-grow">
@@ -869,7 +870,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
           <div className="autobuild-panel saveddecks-panel">
             <div className="autobuild-title">💾 SAVED DECKS</div>
             {savedDecks.length === 0 ? (
-              <div className="saveddecks-empty">No saved decks yet.</div>
+              <EmptyState size="sm">No saved decks yet.</EmptyState>
             ) : (
               <ul className="saveddecks-list">
                 {savedDecks.map(d => (

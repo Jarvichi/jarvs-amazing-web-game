@@ -8,6 +8,8 @@ import {
 import { getAugmentCard, augmentSlotLabel } from '../../game/augments'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { RARITY_COLOR } from '../../theme'
+import { CloseButton } from '../ui/CloseButton'
+import { EmptyState } from '../ui/EmptyState'
 
 interface Props {
   slot: AugmentSlot
@@ -40,13 +42,13 @@ export function AugmentPickerModal({ slot, cardName, onClose }: Props) {
       <div className="apm-panel">
         <div className="apm-header">
           Equip {augmentSlotLabel(slot)}
-          <button className="cdm-close" onClick={onClose} aria-label="Close">✕</button>
+          <CloseButton onClick={onClose} />
         </div>
 
         {matching.length === 0 ? (
-          <div className="apm-empty">
+          <EmptyState size="sm">
             No {augmentSlotLabel(slot)} augments owned.
-          </div>
+          </EmptyState>
         ) : (
           <div className="apm-list">
             {matching.map(inst => {

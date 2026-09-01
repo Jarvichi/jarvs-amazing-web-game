@@ -5,6 +5,7 @@ import {
 } from '../../game/achievements'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Button } from '../ui/Button'
+import { TabNav, type TabNavItem } from '../ui/TabNav'
 import { addCardsToCollection, loadCrystals, saveCrystals } from '../../game/collection'
 import { addToInventory, ALL_ITEMS } from '../../game/dailyLogin'
 import { addUnlockedAvatar } from '../../game/questline'
@@ -23,6 +24,20 @@ const CATEGORY_LABELS: Record<AchievementCategory, string> = {
   misc:       '✨  MISC',
   daily:      '📅  DAILY CHALLENGE',
   playtime:   '⏱  PLAY TIME',
+}
+
+/* The strip carries the words; the emoji stay on the heading below it, which
+   is where the category is actually named. The tabs used to show the emoji
+   alone — legible only if you already knew which glyph meant which category,
+   and unreadable to a screen reader. */
+const CATEGORY_TAB_LABELS: Record<AchievementCategory, string> = {
+  kills:      'Kills',
+  structures: 'Structures',
+  events:     'Events',
+  campaign:   'Campaign',
+  misc:       'Misc',
+  daily:      'Daily',
+  playtime:   'Playtime',
 }
 
 const CATEGORY_ORDER: AchievementCategory[] = ['daily', 'campaign', 'playtime', 'misc', 'events', 'kills', 'structures']
@@ -144,21 +159,16 @@ export function AchievementsScreen({ onBack, onCrystalsChanged, embedded }: Prop
       <div className="ach-summary-embedded">{totalUnlocked}/{total} · {totalClaimed} claimed</div>
 
       {/* Category tabs */}
-      <div className="ach-tabs u-flex u-wrap u-gap-2">
-        {CATEGORY_ORDER.map(cat => {
-          const badge = claimableCount(cat)
-          return (
-            <button
-              key={cat}
-              className={`ach-tab${activeCategory === cat ? ' ach-tab--active' : ''}`}
-              onClick={() => setActiveCategory(cat)}
-            >
-              {CATEGORY_LABELS[cat].split('  ')[0]}
-              {badge > 0 && <span className="ach-badge">{badge}</span>}
-            </button>
-          )
-        })}
-      </div>
+      <TabNav
+        items={CATEGORY_ORDER.map((cat): TabNavItem<AchievementCategory> => ({
+          id: cat,
+          label: CATEGORY_TAB_LABELS[cat],
+          badge: claimableCount(cat),
+        }))}
+        activeId={activeCategory}
+        onSelect={setActiveCategory}
+        ariaLabel="Achievement categories"
+      />
 
       <div className="ach-claim-all-bar u-flex u-items-c u-just-sb">
         <div className="ach-category-label">{CATEGORY_LABELS[activeCategory]}</div>

@@ -64,25 +64,6 @@
   color: var(--accent-gold);
 }
 
-.modal-shell-close {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
-  padding: 0;
-  border: 1px solid var(--border-edge);
-  border-radius: var(--radius-sm);
-  background: transparent;
-  color: var(--color-gray-9);
-  cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
-}
-
-.modal-shell-close:hover {
-  color: var(--color-gray-10);
-  border-color: var(--accent-gold);
-}
 
 .modal-shell-body {
   padding: 16px;
@@ -184,12 +165,6 @@
   color: var(--game-text-color-dim, var(--color-gray-8));
 }
 
-.deck-selector-empty {
-  font-size: 0.72rem;
-  color: var(--color-gray-7);
-  text-align: center;
-  padding: 16px 0;
-}
 
 .deck-selector-list {
   overflow-y: auto;
@@ -273,6 +248,14 @@
 /* Rarity-colour top accent, echoing CardTile's rarity frames (#2177) — the
    detail view and the hand tile should read as the same object, not two
    unrelated designs. `colour` is passed inline as --cdm-rarity-color. */
+/* These two headers sit on the CRT-green surfaces, so the close control
+   follows the theme colour rather than the neutral grey default. */
+.cdm-header,
+.apm-header {
+  --close-btn-color:    var(--game-text-color-dim);
+  --close-btn-color-on: var(--game-text-color);
+}
+
 .cdm-header {
   display: flex;
   align-items: baseline;
@@ -285,18 +268,6 @@
 }
 .cdm-name   { font-size: 1.071rem; font-weight: bold; flex: 1; }
 .cdm-rarity { font-size: var(--font-xs); letter-spacing: 1px; }
-.cdm-close  {
-  background: none;
-  border: none;
-  color: var(--game-text-color-dim);
-  cursor: pointer;
-  padding: 0 0 0 8px;
-  font-family: inherit;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-}
-.cdm-close:hover { color: var(--game-text-color); }
 
 .cdm-body {
   padding: 12px;
@@ -560,10 +531,6 @@
   font-style: italic;
 }
 
-.inventory-empty {
-  color: var(--game-text-color-muted);
-  font-size: var(--font-base);
-}
 
 .inventory-grid {
   padding: 8px 0;
@@ -693,41 +660,9 @@
   color: var(--game-text-color-dim);
 }
 
-.ach-tabs {
-  padding: 8px 12px 0;
-  border-bottom: 1px solid var(--game-border);
-}
 
-.ach-tab {
-  background: none;
-  border: 1px solid var(--color-gray-5);
-  color: var(--game-text-color-dim);
-  font-family: inherit;
-  font-size: var(--font-sm);
-  padding: 4px 10px;
-  cursor: pointer;
-  position: relative;
-}
 
-.ach-tab--active {
-  border-color: #0f0;
-  color: #0f0;
-}
 
-.ach-badge {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  background: var(--color-red);
-  color: var(--text-inverse);
-  font-size: var(--font-xxs);
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .ach-claim-all-bar {
   border-bottom: 1px solid var(--color-gray-3);

@@ -3,6 +3,7 @@ import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { Panel } from '../ui/Panel'
 import { getDailyBounties, isBountyAccepted, isBountyCompleted, acceptBounty, turnInBounty, getActiveBountyStepHint, type BountyReward } from '../../game/hub/bounties'
 import type { RivalNpc } from '../../game/hub/relationships'
+import { CloseButton } from '../ui/CloseButton'
 
 interface Props {
   onClose: () => void
@@ -45,7 +46,7 @@ export function BountyBoardModal({ onClose, resolveNpcName = (id) => id, townNpc
           <span>📋 Bounty Board</span>
           <span className="bounty-board-modal__meta">
             {completed.length} of {bounties.length}
-            <button className="bounty-board-modal__close" onClick={onClose} aria-label="Close">✕</button>
+            <CloseButton onClick={onClose} />
           </span>
         </div>
 

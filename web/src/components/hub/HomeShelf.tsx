@@ -24,6 +24,7 @@ import { FLOOR_TILES } from '../../data/tiles/floorTiles'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import { WALL_TILES, WallMaterial } from '../../data/tiles/buildingMaterials'
 import { TileStylePicker, TileStyleOption } from './home-shelf/TileStylePicker'
+import { EmptyState } from '../ui/EmptyState'
 
 interface Props {
   onBack: () => void
@@ -355,7 +356,7 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
       {effectiveTab === 'shelf' && (
         <div className="shelf-room">
           {isEmpty && (
-            <div className="shelf-empty-msg">Your shelves are bare. Collect items to fill them.</div>
+            <EmptyState size="sm">Your shelves are bare.<br />Collect items to fill them.</EmptyState>
           )}
           {sections.map((section, sectioni) => (
             <div key={sectioni}>

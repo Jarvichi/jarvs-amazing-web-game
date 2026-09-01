@@ -4,6 +4,7 @@ import { useHubClock } from '../../hooks/useHubClock'
 import { resolveNpcPlace } from '../../game/hub/npcLocator'
 import { getFriendshipLevel } from '../../game/hub/friendship'
 import { getRelationship } from '../../game/hub/relationships'
+import { EmptyState } from '../ui/EmptyState'
 
 const TRACK_ICON: Record<string, string> = { ally: '🤝', rival: '⚔️', romance: '💗' }
 
@@ -40,9 +41,9 @@ export function TownDirectoryContent({ locationData, pinnedNpcId, onTogglePin, o
         </button>
 
         {visible.length === 0 ? (
-          <div className="town-directory__empty">
+          <EmptyState size="sm">
             {onlyMet ? "You haven't met anyone yet — explore the town." : 'No one is around right now.'}
-          </div>
+          </EmptyState>
         ) : (
           <div className="town-directory__list">
             {visible.map(npc => {

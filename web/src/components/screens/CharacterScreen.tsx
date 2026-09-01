@@ -12,6 +12,7 @@ import { auth } from '../../firebase'
 import { claimPlayerName } from '../../game/playerName'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Button } from '../ui/Button'
+import { TabNav } from '../ui/TabNav'
 
 const SPRITE_BASE = '/sprites/'
 
@@ -126,26 +127,16 @@ export function CharacterScreen({ onDone, embedded }: Props) {
         <div style={{ margin: '1.2rem 0 0.5rem', width: '100%' }}>
           <div style={{ color: '#aaffaa', fontSize: '0.8rem', marginBottom: '0.6rem' }}>APPEARANCE</div>
 
-          <div className="character-avatar-tabs">
-            <button
-              className={`character-avatar-tab${activeTab === 'base' ? ' character-avatar-tab--active' : ''}`}
-              onClick={() => setActiveTab('base')}
-            >
-              BASE
-            </button>
-            <button
-              className={`character-avatar-tab${activeTab === 'streak' ? ' character-avatar-tab--active' : ''}`}
-              onClick={() => setActiveTab('streak')}
-            >
-              WIN STREAK
-            </button>
-            <button
-              className={`character-avatar-tab${activeTab === 'boss' ? ' character-avatar-tab--active' : ''}`}
-              onClick={() => setActiveTab('boss')}
-            >
-              BOSS
-            </button>
-          </div>
+          <TabNav
+            items={[
+              { id: 'base',   label: 'Base' },
+              { id: 'streak', label: 'Win Streak' },
+              { id: 'boss',   label: 'Boss' },
+            ]}
+            activeId={activeTab}
+            onSelect={setActiveTab}
+            ariaLabel="Avatar categories"
+          />
 
           {activeTab === 'base' && (
             <div className="character-avatar-grid">
