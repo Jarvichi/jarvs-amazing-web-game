@@ -152,7 +152,10 @@ silently break in code.
 ## Press feedback
 
 Every clickable element needs an `:active` state, not just `:hover` — see
-AGENTS.md's **CSS Styling Rules** section. `:hover` never fires on touch.
+AGENTS.md's **CSS Styling Rules** section, which now carries the treatment
+table (button / icon / grid cell) and the two traps that make an `:active`
+rule silently do nothing: a filled CSS animation outranking it, and a press
+that is only visible relative to a hover state a touch device never enters. `:hover` never fires on touch.
 
 ## Verifying a visual change
 

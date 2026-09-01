@@ -655,3 +655,9 @@ html.eightbit-mode .lane-layer {
    MINI GAMES
    ═══════════════════════════════════════════════════════════════════════════ */
 
+
+/* ─── Press feedback ────────────────────────────────────
+   :hover never fires on touch, so a hover-only control tells a phone player
+   nothing when they tap it — for anything slow that reads as a dead button.
+   See AGENTS.md's CSS Styling Rules. Depress by 1px, matching .action-btn. */
+.tutorial-skip:active { transform: translateY(1px); }

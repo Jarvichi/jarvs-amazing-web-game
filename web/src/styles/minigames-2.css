@@ -1234,3 +1234,17 @@
   margin-top: 4px;
 }
 
+
+/* ─── Press feedback ────────────────────────────────────
+   :hover never fires on touch — see AGENTS.md's CSS Styling Rules. */
+.city-picker-card:active,
+.city-level-card:active,
+.city-zones-row-btn:active,
+.marble-col-btn:active,
+.city-fort-builder--hire:active:not(:disabled),
+.city-fort-builder--hire-ready:active:not(:disabled) { transform: translateY(1px); }
+
+/* Board squares and the full-width perimeter strip brighten rather than
+   move — see the note in minigames-1.css. */
+.fort-ring-cell:active,
+.city-perimeter:active { filter: brightness(1.35); }

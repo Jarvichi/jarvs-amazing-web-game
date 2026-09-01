@@ -1151,3 +1151,17 @@
   text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
+
+/* ─── Press feedback ────────────────────────────────────
+   :hover never fires on touch — see AGENTS.md's CSS Styling Rules. */
+.fm-buy-credits:active,
+.fm-bonus-tile:active,
+.fm-nudge-btn:active,
+.race-pick-btn:active,
+.fm-hold-btn:active:not(:disabled) { transform: translateY(1px); }
+
+/* The memory tiles are a grid, and the catch items are absolutely
+   positioned and already moving — both scale rather than translate, so the
+   press neither disturbs the grid nor fights the fall animation. */
+.tile:active { transform: scale(0.95); }
+.catch-item:active { transform: scale(0.85); }

@@ -1570,3 +1570,10 @@
   50%       { border-color: rgba(180, 140, 255, 1); }
 }
 
+
+/* ─── Press feedback ────────────────────────────────────
+   :hover never fires on touch — see AGENTS.md's CSS Styling Rules. */
+.bf-pause-btn:active,
+.reward-skip-btn:active { transform: translateY(1px); }
+
+.hand-card-info-btn:active { transform: scale(0.9); }

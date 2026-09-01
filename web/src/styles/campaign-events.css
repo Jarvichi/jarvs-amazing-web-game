@@ -1272,3 +1272,13 @@
   color: var(--color-gray-9);
 }
 
+
+/* ─── Press feedback ────────────────────────────────────
+   :hover never fires on touch — see AGENTS.md's CSS Styling Rules. */
+.camp-choice:active,
+.camp-continue:active,
+.card-rest-candidate:active,
+.chr-chapter:active,
+.chr-decision-option:active,
+.event-choice:active,
+.rb-tier:active { transform: translateY(1px); }

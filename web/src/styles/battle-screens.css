@@ -917,3 +917,12 @@
 .training-sprite-lg { width: 48px; height: 48px; image-rendering: pixelated; }
 .training-sprite-sm { width: 36px; height: 36px; image-rendering: pixelated; }
 
+
+/* ─── Press feedback ────────────────────────────────────
+   :hover never fires on touch — see AGENTS.md's CSS Styling Rules. */
+.autobuild-strategy:active,
+.title-training-btn:active,
+.training-unit-btn:active,
+.collection-master-btn:active:not(:disabled) { transform: translateY(1px); }
+
+.reward-card-info-btn:active { transform: scale(0.9); }
