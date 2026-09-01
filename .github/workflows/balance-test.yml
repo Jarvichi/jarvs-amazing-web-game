@@ -1,0 +1,60 @@
+name: Balance Test
+
+# Simulates every battle/elite/boss node with a greedy and a passive player
+# (100 runs each) to catch unwinnable/unlosable/trivial nodes. A full sweep
+# is too slow for every push, so this only runs when the data it checks
+# actually changes. Report-only for now (#2268) — the baseline is not known
+# to be clean yet, so a balance regression annotates the run rather than
+# failing it. Flip `continue-on-error` off once the baseline is clean and a
+# real regression should block merges.
+
+on:
+  push:
+    branches-ignore:
+      - main
+    paths:
+      - web/src/data/cards.json
+      - web/src/data/acts/**
+      - web/scripts/balance-test.ts
+      - .github/workflows/balance-test.yml
+
+jobs:
+  balance-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: web
+
+      - name: Run balance test
+        id: balance
+        working-directory: web
+        continue-on-error: true
+        run: npm run balance-test | tee balance-test-output.txt
+
+      - name: Publish results to job summary
+        if: always()
+        working-directory: web
+        run: |
+          {
+            echo "## Balance test results"
+            if [ "${{ steps.balance.outcome }}" = "failure" ]; then
+              echo ""
+              echo "⚠️ One or more nodes failed balance criteria. This workflow reports only and does not block merges — see #2268."
+            fi
+            echo ""
+            echo '```'
+            # The live progress display draws with ANSI cursor/erase codes;
+            # strip those so the summary is plain text. The final results
+            # table is printed with plain console.log (no escape codes).
+            sed -E 's/\x1b\[[0-9;?]*[A-Za-z]//g' balance-test-output.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

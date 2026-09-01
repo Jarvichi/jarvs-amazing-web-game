@@ -14,7 +14,8 @@ import { isMainThread, workerData, parentPort, Worker } from 'node:worker_thread
 import os from 'node:os'
 import UpdateManager from 'stdout-update'
 
-import { newGame, tick, playCard, NewGameOptions } from '../src/game/engine'
+import { newGame, tick, NewGameOptions } from '../src/game/engine'
+import { playCard } from '../src/game/engine/cards'
 import { makeDeck } from '../src/game/cards'
 
 // ── Config ──────────────────────────────────────────────────────────────────
