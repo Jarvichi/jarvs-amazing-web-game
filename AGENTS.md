@@ -208,11 +208,38 @@ right (see `buttons.css`) — depress via `transform: translateY(1px)` (or
 `scale()` for small circular controls), reusing whatever `:hover` already
 darkens/lightens where that makes sense. When adding a new clickable
 element, or touching an existing one, add `:active` alongside its
-`:hover` rather than leaving it hover-only. (#2185 fixed the handful of
-most-reused shared primitives — `filter-btn`, `player-tab`, `hoa-tab`,
-`settings-toggle` — but plenty of screen-specific buttons across the
-minigames, hub and campaign stylesheets are still hover-only; fix the ones
-you touch.)
+`:hover` rather than leaving it hover-only.
+
+**Every hover-only element in the codebase now has one** — #2185 did the
+shared primitives, and a later pass did the ~100 screen-specific controls
+across the minigames, hub, campaign, collection and battle stylesheets. The
+only `:hover` rules deliberately left without an `:active` partner are the
+scrollbar thumb (not a touch target), disabled-state rules, and rules that
+style a *child* of a tap target whose parent carries the press. Keep it that
+way: a new hover-only control is now a regression, not a backlog item.
+
+Pick the treatment from the control's shape:
+
+| Control | Treatment |
+|---|---|
+| Buttons, pills, rows, cards | `transform: translateY(1px)` |
+| Small circular icon buttons | `transform: scale(0.9)` |
+| Cells in a fixed grid | `filter: brightness(1.35)` — translating one cell while its neighbours hold still reads as a layout glitch |
+| Anything already animating or transformed | `scale()`, so the press doesn't fight the existing transform |
+
+Two traps worth knowing:
+
+- **A filled CSS animation outranks normal declarations.** An element with
+  `animation: … both` (or `forwards`) keeps ownership of every property its
+  keyframes touch, forever — so an `:active { transform: … }` on it silently
+  does nothing. If the animation is an *entrance* ending at the element's
+  natural resting state, `backwards` gives the property back while still
+  preventing the pre-start flash. `.relic-select-card` hit exactly this.
+- **A press must be visible from the resting state, not just from hover.**
+  Cancelling a hover lift (`:hover` raises 3px, `:active` returns to 0) looks
+  like a press with a mouse and does *nothing* on a phone, where the element
+  was never lifted — which is the case the rule exists for. `.card-tile`
+  scales instead.
 
 ## Component Extraction and Storybook Stories
 
