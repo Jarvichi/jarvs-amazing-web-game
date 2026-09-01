@@ -18,6 +18,11 @@ on:
       - web/scripts/balance-test.ts
       - .github/workflows/balance-test.yml
 
+# Checkout and a local simulation are all this needs — it writes its report
+# to the job summary, not back to the repo or the API.
+permissions:
+  contents: read
+
 # This sweep is minutes long, so a burst of pushes to one branch would
 # otherwise stack several of them. Only the newest is worth running — the
 # result is a property of the head commit, not of the ones it replaced.
