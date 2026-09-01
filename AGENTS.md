@@ -215,8 +215,13 @@ shared primitives, and a later pass did the ~100 screen-specific controls
 across the minigames, hub, campaign, collection and battle stylesheets. The
 only `:hover` rules deliberately left without an `:active` partner are the
 scrollbar thumb (not a touch target), disabled-state rules, and rules that
-style a *child* of a tap target whose parent carries the press. Keep it that
-way: a new hover-only control is now a regression, not a backlog item.
+style a *child* of a tap target whose parent carries the press.
+
+`pressFeedback.test.ts` enforces this, so a new hover-only control fails the
+build rather than relying on review to catch it. It names the offending file
+and selector, and carries an `ALLOWED_HOVER_ONLY` list where a genuine
+exception goes with its reason — a second test fails if an entry there goes
+stale, so the list can't quietly license a future control of the same name.
 
 Pick the treatment from the control's shape:
 
