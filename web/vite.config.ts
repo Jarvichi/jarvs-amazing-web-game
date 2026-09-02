@@ -24,18 +24,7 @@ export default defineConfig({
       // the app calls updateServiceWorker(true) on the player's tap. Until then
       // the old SW keeps serving a consistent asset set (no stale-chunk risk).
       // Cache all static assets with cache-first strategy
-      globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
-      runtimeCaching: [{
-        urlPattern: /\/sprites\/.+\.svg$/,
-        handler: 'CacheFirst',
-        options: {
-          cacheName: 'sprites-cache',
-          expiration: {
-            maxEntries: 500,
-            maxAgeSeconds: 60 * 60 * 24 * 30 // 30 days
-          }
-        }
-      }]
+      globPatterns: ['**/*.{js,css,html,ico,png,jpg,jpeg,webp,svg,woff,woff2}'],
     },
     manifest: {
       name: "Jarv's Amazing Web Game",

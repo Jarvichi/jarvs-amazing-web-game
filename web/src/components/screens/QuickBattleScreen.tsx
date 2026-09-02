@@ -28,6 +28,7 @@ export function QuickBattleScreen({ onStartBattle, onBack }: Props) {
           </Button>
           <div className="qb-option-desc">
             <p>Opponent has a handicap; play at normal speed.</p>
+            <p>Base HP — you 50, enemy 82.</p>
             <p>Reward: standard card pack (2 cards).</p>
           </div>
 
@@ -39,6 +40,7 @@ export function QuickBattleScreen({ onStartBattle, onBack }: Props) {
           </Button>
           <div className="qb-option-desc">
             <p>Opponent builds their deck from cards you own.</p>
+            <p>Base HP — you 50, enemy 82.</p>
             <p>Reward: standard card pack (5 cards).</p>
           </div>
 
@@ -49,7 +51,8 @@ export function QuickBattleScreen({ onStartBattle, onBack }: Props) {
             ▶  PLAY MIRROR DECK
           </Button>
           <div className="qb-option-desc">
-            <p>Opponent uses a copy of your own deck.</p>
+            <p>Opponent uses a copy of your own deck — decks mirror, bases don't.</p>
+            <p>Base HP — you 50, enemy 82.</p>
             <p>Reward: standard card pack (5 cards).</p>
           </div>
 
@@ -170,6 +173,7 @@ modes[8] = (
         </Button>
         <div className="qb-option-desc">
           <p>Play without any restrictions.</p>
+          <p>Base HP — you 50, enemy 82.</p>
           <p>Reward: rare card pack (3 cards).</p>
         </div>
       </>)

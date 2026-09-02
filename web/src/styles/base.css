@@ -190,6 +190,14 @@ body {
   padding: 16px;
 }
 
+/* Steps that describe bottom-of-screen elements (hand, mana) anchor the
+   panel to the top instead, so the thing being explained stays visible
+   rather than sitting behind the panel. */
+.tutorial-backdrop--top {
+  align-items: flex-start;
+  padding-top: 24px;
+}
+
 .tutorial-panel {
   background: #050f05;
   border: 2px solid var(--game-text-color);

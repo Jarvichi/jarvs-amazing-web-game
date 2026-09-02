@@ -114,19 +114,22 @@ interface Props {
 }
 
 /**
- * Tries to load `sprites/{slug}.png`, then `sprites/{slug}.svg`, then
- * `sprites/{fallbackSlug}.svg` (if fallbackName provided), then
- * `sprites/fallback.svg`. Renders nothing only if all fail.
- * In 8-bit mode renders via a low-res canvas for a pixelated look.
+ * Tries to load `sprites/{slug}.svg`, then `sprites/{fallbackSlug}.svg`
+ * (if fallbackName provided), then `sprites/fallback.svg`. Renders nothing
+ * only if all fail. In 8-bit mode renders via a low-res canvas for a
+ * pixelated look.
+ *
+ * There is no `.png` step — `public/sprites/` is SVG-only. If a raster
+ * sprite set is ever added, gate it on an explicit per-sprite opt-in
+ * rather than probing every slug for a file that (almost) never exists.
  */
 export function SpriteImg({ name, fallbackName, className, style }: Props) {
   const slug            = spriteSlug(name)
-  const pngSrc          = `${BASE}sprites/${slug}.png`
   const svgSrc          = `${BASE}sprites/${slug}.svg`
   const fallbackNameSrc = fallbackName ? `${BASE}sprites/${spriteSlug(fallbackName)}.svg` : null
   const genericSrc      = `${BASE}sprites/fallback.svg`
 
-  const [src,     setSrc]     = useState(pngSrc)
+  const [src,     setSrc]     = useState(svgSrc)
   const [loaded,  setLoaded]  = useState(false)
   const [failed,  setFailed]  = useState(false)
   const [eightbit, setEightbit] = useState(is8bitMode)
@@ -151,7 +154,6 @@ export function SpriteImg({ name, fallbackName, className, style }: Props) {
     if (name === prevNameRef.current) return
     prevNameRef.current = name
     const newSlug   = spriteSlug(name)
-    const newPng    = `${BASE}sprites/${newSlug}.png`
     const newSvg    = `${BASE}sprites/${newSlug}.svg`
     const newFb     = fallbackName ? `${BASE}sprites/${spriteSlug(fallbackName)}.svg` : genericSrc
     let cancelled   = false
@@ -162,7 +164,7 @@ export function SpriteImg({ name, fallbackName, className, style }: Props) {
       img.onerror = () => tryLoad(srcs, idx + 1)
       img.src = srcs[idx]
     }
-    tryLoad([newPng, newSvg, newFb, genericSrc])
+    tryLoad([newSvg, newFb, genericSrc])
     return () => { cancelled = true }
   }, [name, fallbackName, genericSrc])
 
@@ -183,8 +185,7 @@ export function SpriteImg({ name, fallbackName, className, style }: Props) {
       style={{ display: loaded ? undefined : 'none', ...style }}
       onLoad={() => setLoaded(true)}
       onError={() => {
-        if (src === pngSrc) setSrc(svgSrc)
-        else if (src === svgSrc) setSrc(fallbackNameSrc ?? genericSrc)
+        if (src === svgSrc) setSrc(fallbackNameSrc ?? genericSrc)
         else if (fallbackNameSrc && src === fallbackNameSrc) setSrc(genericSrc)
         else setFailed(true)
       }}

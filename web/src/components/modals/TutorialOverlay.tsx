@@ -3,6 +3,9 @@ import React, { useState } from 'react'
 export interface TutorialStep {
   title: string
   body: string
+  /** Where to anchor the panel so it doesn't cover the element it describes.
+   *  Defaults to 'center'. */
+  anchor?: 'center' | 'top'
 }
 
 interface Props {
@@ -16,7 +19,16 @@ export function TutorialOverlay({ steps, onDone }: Props) {
   const isLast = index === steps.length - 1
 
   return (
-    <div className="tutorial-backdrop" role="dialog" aria-modal="true" aria-label={step.title}>
+    <div
+      className={`tutorial-backdrop${step.anchor === 'top' ? ' tutorial-backdrop--top' : ''}`}
+      role="dialog"
+      aria-modal="true"
+      aria-label={step.title}
+      // The backdrop covers the whole screen but sits inside the screen it
+      // covers, so without this a tap on it reaches the handler behind —
+      // on the battlefield that resumed the battle mid-tutorial (#2269).
+      onClick={e => e.stopPropagation()}
+    >
       <div className="tutorial-panel">
         <div className="tutorial-step-indicator">[ {index + 1} / {steps.length} ]</div>
         <div className="tutorial-title">{step.title}</div>

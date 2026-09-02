@@ -33,10 +33,15 @@ const BATTLE_TUTORIAL_STEPS = [
   {
     title: 'YOUR HAND',
     body: 'These cards are ready to play. Tap a card to deploy a unit, build a structure, or cast an upgrade onto the battlefield.',
+    // The hand sits at the bottom of the screen — anchor the panel to the
+    // top so it doesn't cover the very row it's describing.
+    anchor: 'top' as const,
   },
   {
     title: 'MANA',
     body: 'Each card costs mana ◆. Your mana refills over time. Some cards can place structures to increase your max mana.',
+    // The mana meter lives in the bottom cluster too.
+    anchor: 'top' as const,
   },
   {
     title: 'OBJECTIVE',
@@ -144,6 +149,15 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
 
   const doPause = (p: boolean) => { setPaused(p); onPause?.(p); if (!p) { setInspectedUnit(null); setShowDeckViewer(false) } }
   const prevHeroIdsRef = useRef<Set<string>>(new Set())
+
+  // Freeze the battle for the duration of the first-battle tutorial so a new
+  // player doesn't lose the fight while reading it (#2269). Runs once on
+  // mount — showBattleTutorial only ever goes true → false for the life of
+  // this component.
+  useEffect(() => {
+    if (showBattleTutorial) doPause(true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Cancel AoE targeting on Escape
   useEffect(() => {
@@ -300,7 +314,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
       />
 
       {/* Replay modifier strip — only shown in pause menu */}
-      {paused && activeModifiers && activeModifiers.length > 0 && (
+      {paused && !showBattleTutorial && activeModifiers && activeModifiers.length > 0 && (
         <div className="replay-modifier-strip u-flex u-wrap u-gap-2">
           {activeModifiers.map((m, i) => (
             <span key={i} className="replay-modifier-tag">⚠ {m.label}</span>
@@ -510,8 +524,10 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
         </div>
       )}
 
-      {/* Pause panel — anchored, no backdrop so the field remains tappable */}
-      {paused && importantMsgQueue.length === 0 && (
+      {/* Pause panel — anchored, no backdrop so the field remains tappable.
+          Suppressed while the tutorial overlay owns the pause: it already
+          shows its own dialog and a Resume button would be redundant. */}
+      {paused && importantMsgQueue.length === 0 && !showBattleTutorial && (
         <div className="bf-pause-panel" onClick={e => e.stopPropagation()}>
             {inspectedUnit ? (
               <div className="bf-inspect-panel u-col u-items-c u-gap-2 u-grow">
@@ -663,7 +679,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
       {showBattleTutorial && (
         <TutorialOverlay
           steps={BATTLE_TUTORIAL_STEPS}
-          onDone={() => { markSeen(BATTLE_TUTORIAL_ID); setShowBattleTutorial(false) }}
+          onDone={() => { markSeen(BATTLE_TUTORIAL_ID); setShowBattleTutorial(false); doPause(false) }}
         />
       )}
     </div>

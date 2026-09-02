@@ -200,7 +200,9 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
   const heroHint = !campaignUnlocked
     ? `Collect ${CAMPAIGN_UNLOCK_CARDS - totalOwned} more cards to unlock Campaign — play Quick Battle to earn cards!`
     : !valid ? `Deck needs ${10 - count} more cards` : undefined
-  const handleHeroClick = !campaignUnlocked ? () => {} : valid ? onCampaign : () => setShowDeckWarning(true)
+  const handleHeroClick = !campaignUnlocked
+    ? () => showToast(heroHint!, { variant: 'warning', icon: 'lock' })
+    : valid ? onCampaign : () => setShowDeckWarning(true)
 
   const quickBattleLabel = valid
     ? <><Icon name="sword" size={16} /> QUICK BATTLE</>
