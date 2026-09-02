@@ -1,0 +1,19 @@
+// Typecheck for scripts/, which tsconfig.json's `include: ["src"]` leaves out.
+//
+// That gap is why #2268 went unnoticed: balance-test.ts's `playCard` import
+// broke during the engine split and no build ever looked at the file, so the
+// project's only campaign-difficulty tool sat dead through many green CI runs.
+//
+// Kept separate from tsconfig.json rather than widening its `include`, because
+// scripts run under Node and need `types: ["node"]` for worker_threads and
+// process.env. DOM stays in `lib` even so: these scripts import the game engine,
+// which transitively pulls in browser-facing modules (sound.ts, debug.ts,
+// haptics.ts), and those need the DOM types to check at all.
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["node", "vite/client"],
+    "noEmit": true
+  },
+  "include": ["scripts"]
+}
