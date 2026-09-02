@@ -4,10 +4,18 @@
  *
  * Run: npx tsx scripts/balance-test.ts
  *
- * PASS criteria per node:
- *   - Greedy player wins ≥ 4/5 runs
- *   - Passive player loses ≥ 4/5 runs
- *   - Average win time (greedy) ≥ MIN_WIN_MS
+ * PASS criteria per node — see MIN_WIN_COUNT / MIN_WIN_MS / SPEED_CHECK_MIN_WINS
+ * below for the live values; this list says what each one is for:
+ *   - Greedy player wins ≥ MIN_WIN_COUNT runs — a floor check that the node is
+ *     not completely unwinnable. Greedy plays a random affordable card, so it
+ *     models the bottom of the skill range, NOT a competent player.
+ *   - Passive player loses ≥ 80% of runs — the node is not a free win.
+ *   - Average greedy win time ≥ MIN_WIN_MS, once greedy wins at least
+ *     SPEED_CHECK_MIN_WINS runs — the "trivially easy" check.
+ *
+ * This block previously claimed "greedy wins ≥ 4/5", which never matched the
+ * constants (MIN_WIN_COUNT is 1) and got quoted as the real bar in #2268 and
+ * PR #2281. Keep it describing intent and leave the numbers to the constants.
  */
 
 import { isMainThread, workerData, parentPort, Worker } from 'node:worker_threads'
@@ -41,8 +49,13 @@ const MIN_WIN_MS: Record<string, number> = {
  * Only flag "too fast" when the greedy AI wins in more than half the runs.
  * Low win-rate nodes are already hard enough — even if rare wins happen quickly,
  * a real player who struggles 50%+ of the time is not having a trivially easy fight.
+ *
+ * Derived from RUNS rather than hardcoded (#2282). It was the literal `16`,
+ * which meant "> 50%" only back when RUNS was 32 — at RUNS=100 it silently
+ * became 16%, and at the CI depth of 10 it was unreachable altogether, so the
+ * one criterion that detects a trivially easy fight could never fire there.
  */
-const SPEED_CHECK_MIN_WINS = 16  // > 50% of RUNS
+const SPEED_CHECK_MIN_WINS = Math.ceil(RUNS * 0.5)
 
 /**
  * Minimum greedy win count (out of RUNS) per node type.
