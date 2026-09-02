@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { type User } from 'firebase/auth'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { Button } from '../ui/Button'
 import { submitFeedback, FeedbackType } from '../../game/feedback'
 import { logError } from '../../logger'
 
@@ -94,12 +95,12 @@ export function FeedbackModal({ user, onClose }: Props) {
             </div>
 
             <div className="confirm-modal-actions u-flex u-gap-5 u-just-c" style={{ marginTop: '14px' }}>
-              <button className="action-btn" onClick={handleSubmit} disabled={status === 'sending' || !subject.trim() || !body.trim()}>
+              <Button onClick={handleSubmit} disabled={status === 'sending' || !subject.trim() || !body.trim()}>
                 {status === 'sending' ? 'SENDING…' : 'SEND'}
-              </button>
-              <button className="action-btn action-btn--danger" onClick={onClose} disabled={status === 'sending'}>
+              </Button>
+              <Button variant="danger" onClick={onClose} disabled={status === 'sending'}>
                 CANCEL
-              </button>
+              </Button>
             </div>
           </>
         )}

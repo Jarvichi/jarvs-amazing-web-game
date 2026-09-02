@@ -1,5 +1,6 @@
 import React from 'react'
 import { UselessItem } from '../../game/dailyLogin'
+import { Button } from '../ui/Button'
 
 interface Props {
   item: UselessItem
@@ -16,9 +17,9 @@ export function ItemFoundScreen({ item, onCollect }: Props) {
       <div className="item-found-desc">{item.desc}</div>
       {item.lore && <div className="item-found-lore">"{item.lore}"</div>}
 
-      <button className="action-btn action-btn--large item-found-btn" onClick={onCollect}>
+      <Button size="lg" className="item-found-btn" onClick={onCollect}>
         TAKE IT &amp; CONTINUE ›
-      </button>
+      </Button>
     </div>
   )
 }

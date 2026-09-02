@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Button } from '../ui/Button'
 
 export interface TutorialStep {
   title: string
@@ -35,12 +36,9 @@ export function TutorialOverlay({ steps, onDone }: Props) {
         <div className="tutorial-body">{step.body}</div>
         <div className="tutorial-actions u-flex u-just-sb u-items-c">
           <button className="tutorial-skip" onClick={onDone}>SKIP</button>
-          <button
-            className="action-btn"
-            onClick={() => isLast ? onDone() : setIndex(i => i + 1)}
-          >
+          <Button onClick={() => isLast ? onDone() : setIndex(i => i + 1)}>
             {isLast ? 'GOT IT  ✓' : 'NEXT  →'}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

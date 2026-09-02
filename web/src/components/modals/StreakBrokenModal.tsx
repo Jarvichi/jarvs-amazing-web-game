@@ -1,5 +1,6 @@
 import React from 'react'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { Button } from '../ui/Button'
 
 interface Props {
   streak: number
@@ -22,9 +23,9 @@ export function StreakBrokenModal({ streak, bestStreak, onClose }: Props) {
         {wasPersonalBest && (
           <div className="streak-broken-pb">That was your best ever.</div>
         )}
-        <button className="action-btn streak-broken-btn" onClick={onClose}>
+        <Button className="streak-broken-btn" onClick={onClose}>
           Oof.
-        </button>
+        </Button>
       </div>
     </ModalBackdrop>
   )

@@ -1,5 +1,6 @@
 import React from 'react'
 import rollbar from '../rollbar'
+import { Button } from './ui/Button'
 
 interface Props {
   children: React.ReactNode
@@ -33,9 +34,9 @@ export class ErrorBoundary extends React.Component<Props, State> {
       }}>
         <div className="title-logo">JARV'S</div>
         <p>Something went wrong. The error has been reported.</p>
-        <button className="action-btn" onClick={() => window.location.reload()}>
+        <Button onClick={() => window.location.reload()}>
           RELOAD
-        </button>
+        </Button>
       </div>
     )
   }
