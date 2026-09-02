@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "typecheck:scripts": "tsc --noEmit -p tsconfig.scripts.json",
     "preview": "vite preview",
     "balance-test": "tsx scripts/balance-test.ts",
     "test": "vitest run",

@@ -1,21 +1,31 @@
 /**
- * Balance test — simulates every battle/elite/boss node across all acts
- * with two player strategies and reports win/lose outcomes + timing.
+ * Balance test — simulates every battle/elite/boss node across all acts with
+ * three player strategies and reports win/lose outcomes + timing.
  *
- * Run: npx tsx scripts/balance-test.ts
+ * Run: npx tsx scripts/balance-test.ts   (BALANCE_RUNS=N to set depth)
+ *
+ * The three strategies bracket the skill range, and the GAP between them is
+ * the interesting output:
+ *   - passive   — plays nothing. Should lose; if it doesn't, the node is free.
+ *   - greedy    — plays a random affordable card. The floor: models a player
+ *                 with no strategy at all, so it answers "is this possible",
+ *                 never "is this hard".
+ *   - competent — spends mana well, banks for key cards, reacts to the field
+ *                 and sets stance. The ceiling: answers "is this trivial".
  *
  * PASS criteria per node — see MIN_WIN_RATE / MIN_WIN_MS / SPEED_CHECK_MIN_WINS
- * below for the live values; this list says what each one is for:
- *   - Greedy player wins ≥ MIN_WIN_RATE × RUNS — a floor check that the node is
- *     not completely unwinnable. Greedy plays a random affordable card, so it
- *     models the bottom of the skill range, NOT a competent player.
- *   - Passive player loses ≥ 80% of runs — the node is not a free win.
+ * / TOO_EASY_WIN_RATE below for the live values; this list says what each is for:
+ *   - Greedy wins ≥ MIN_WIN_RATE × RUNS — a floor check that the node is not
+ *     completely unwinnable.
+ *   - Passive loses ≥ 80% of runs — the node is not a free win.
  *   - Average greedy win time ≥ MIN_WIN_MS, once greedy wins at least
- *     SPEED_CHECK_MIN_WINS runs — the "trivially easy" check.
+ *     SPEED_CHECK_MIN_WINS runs.
+ *   - NOT (competent wins ≥ TOO_EASY_WIN_RATE × RUNS AND does so faster than
+ *     MIN_WIN_MS) — the node is not trivial for someone who can play.
  *
  * This block previously claimed "greedy wins ≥ 4/5", which never matched the
- * constants (the floor is a 10% win rate) and got quoted as the real bar in #2268 and
- * PR #2281. Keep it describing intent and leave the numbers to the constants.
+ * constants (the floor is a 10% win rate) and got quoted as the real bar in
+ * #2268 and PR #2281. Keep it describing intent; leave numbers to the constants.
  */
 
 import { isMainThread, workerData, parentPort, Worker } from 'node:worker_threads'
@@ -25,6 +35,7 @@ import UpdateManager from 'stdout-update'
 import { newGame, tick, NewGameOptions } from '../src/game/engine'
 import { playCard } from '../src/game/engine/cards'
 import { makeDeck } from '../src/game/cards'
+import type { Card, GameState } from '../src/game/types'
 
 // ── Config ──────────────────────────────────────────────────────────────────
 
@@ -83,14 +94,112 @@ function minWinsFor(nodeType: string): number {
   return Math.max(1, Math.ceil((MIN_WIN_RATE[nodeType] ?? 0.10) * RUNS))
 }
 
+/**
+ * A node is "too easy" when the COMPETENT strategy wins nearly always AND wins
+ * fast. Greedy can't answer this — it plays randomly and models the bottom of
+ * the skill range, so its win rate says whether a node is possible, not whether
+ * it is trivial. This pair is the veteran-difficulty signal (#2282).
+ */
+const TOO_EASY_WIN_RATE = 0.9
+
+/** Win count above which the competent player is considered to be cruising. */
+function tooEasyWinsFor(): number {
+  return Math.ceil(TOO_EASY_WIN_RATE * RUNS)
+}
+
+// ── Competent strategy ───────────────────────────────────────────────────────
+//
+// Models a player who knows what they are doing, as the counterpart to greedy's
+// random flailing. Three behaviours, per the design steer on #2282:
+//
+//   1. Spends mana efficiently — plays the best card it can afford rather than
+//      a random one. This alone is most of the gap between random and competent.
+//   2. Banks for key cards — will sit on mana briefly to land a heavy card
+//      instead of dribbling out cheap ones.
+//   3. Reacts to the field — prefers cards that answer what the opponent has
+//      deployed, and sets stance to match how the fight is going.
+//
+// Deliberately NOT modelled: placement. Deploy position is left at the engine
+// default, so this measures decision-making rather than micro.
+
+/** Hold mana for a card at most this far out of reach. */
+const BANK_WITHIN_MANA = 2
+/**
+ * ...and only when what it's waiting for is clearly better than what it could
+ * play now, by at least this much score. Without the margin the player banks
+ * for any marginally-pricier card, which on this engine's small mana scale
+ * (BASE_MAX_MANA is 5) means waiting almost every tick and playing nothing —
+ * a "competent" strategy that scored identically to passive.
+ */
+const BANK_SCORE_EDGE = 2
+
+/** Stance follows the state of the fight, as a player watching it would set it. */
+function competentStance(s: GameState): NonNullable<GameState['playerStance']> {
+  const mine   = s.playerBase.hp / s.playerBase.maxHp
+  const theirs = s.opponentBase.hp / s.opponentBase.maxHp
+  if (mine < 0.35 && mine < theirs)  return 'defend'  // behind — stop the bleeding
+  if (theirs < 0.5 && theirs <= mine) return 'attack'  // ahead — press it
+  return 'auto'
+}
+
+/**
+ * Rank an affordable card. Cost is the baseline (spending mana well is the
+ * point), with situational bonuses for cards that answer the current field.
+ */
+function competentScore(card: Card, s: GameState): number {
+  let score = card.cost
+
+  // Melee stalls on walls; bypassWall units ignore them (see engine/combat).
+  const enemyWalled = s.field.some(u => u.owner === 'opponent' && u.isWall && u.hp > 0)
+  if (enemyWalled && card.unit?.bypassWall) score += 3
+
+  const losing = s.playerBase.hp / s.playerBase.maxHp < 0.4
+  if (losing) {
+    if (card.unit?.isWall) score += 2                    // buy time
+  } else if (card.unit && !card.unit.isWall) {
+    score += 1                                           // keep pressure on
+  }
+
+  return score
+}
+
+/** The card a competent player plays now, or null to bank and wait. */
+function competentPick(s: GameState): Card | null {
+  const affordable = s.playerHand.filter(c => c.cost <= s.mana)
+  const best = affordable.length === 0 ? null : affordable.reduce((a, c) =>
+    competentScore(c, s) > competentScore(a, s) ? c : a
+  )
+
+  // Bank only when something clearly better is nearly affordable, and never
+  // at the mana cap — sitting on full mana wastes regen, which is a mistake a
+  // competent player doesn't make.
+  const soon = s.playerHand.filter(c => c.cost > s.mana && c.cost - s.mana <= BANK_WITHIN_MANA)
+  if (soon.length > 0 && s.mana < s.maxMana) {
+    const bestSoon = soon.reduce((a, c) => competentScore(c, s) > competentScore(a, s) ? c : a)
+    const bar = best ? competentScore(best, s) + BANK_SCORE_EDGE : 0
+    if (competentScore(bestSoon, s) > bar) return null
+  }
+
+  return best
+}
+
 // ── Simulation ───────────────────────────────────────────────────────────────
 
 interface SimResult {
-  winner: 'player' | 'opponent' | 'timeout'
+  /**
+   * 'draw' is a real gameOver outcome in the engine and was missing here — the
+   * assignment from state.phase.winner was a type error nothing ever ran, since
+   * scripts/ sat outside tsconfig's `include` (see tsconfig.scripts.json).
+   * Draws counted as neither a win nor a loss while the pass thresholds are
+   * measured against RUNS, so every draw quietly deflated both tallies.
+   */
+  winner: 'player' | 'opponent' | 'draw' | 'timeout'
   gameTimeMs: number
 }
 
-function simulateGame(opts: NewGameOptions, strategy: 'greedy' | 'passive'): SimResult {
+type Strategy = 'greedy' | 'passive' | 'competent'
+
+function simulateGame(opts: NewGameOptions, strategy: Strategy): SimResult {
   let state = newGame(opts)
 
   while (state.phase.type === 'playing' && state.gameTime < MAX_GAME_MS) {
@@ -105,8 +214,23 @@ function simulateGame(opts: NewGameOptions, strategy: 'greedy' | 'passive'): Sim
         state = playCard(state, pick.id)
       }
     }
+
+    if (strategy === 'competent' && state.phase.type === 'playing') {
+      state.playerStance = competentStance(state)
+      const pick = competentPick(state)
+      if (pick) state = playCard(state, pick.id)
+    }
   }
 
+  // A PLAYER WIN DOES NOT LAND IN 'gameOver'. engine.ts declareWinner() sends
+  // the player's victory to 'celebration' and only the opponent's to
+  // 'gameOver', so checking gameOver alone recorded every single player win as
+  // a timeout — `wins` was structurally 0 for every strategy on every node.
+  // That, not difficulty, is what produced the "0/32 nodes pass, not winnable
+  // everywhere" baseline reported on #2268 and #2282 (#2282).
+  if (state.phase.type === 'celebration') {
+    return { winner: 'player', gameTimeMs: state.gameTime }
+  }
   if (state.phase.type === 'gameOver') {
     return { winner: state.phase.winner, gameTimeMs: state.gameTime }
   }
@@ -150,6 +274,9 @@ interface WorkerOutput {
   losses: number
   totalWinMs: number
   totalLoseMs: number
+  /** Competent-strategy results — the veteran-difficulty half of the picture. */
+  strongWins: number
+  totalStrongWinMs: number
 }
 
 interface WorkerProgress {
@@ -175,6 +302,7 @@ if (!isMainThread) {
   }
 
   let wins = 0, totalWinMs = 0, losses = 0, totalLoseMs = 0
+  let strongWins = 0, totalStrongWinMs = 0
 
   // Greedy runs
   for (let i = 0; i < input.runs; i++) {
@@ -200,10 +328,17 @@ if (!isMainThread) {
     }
   }
 
+  // Competent runs — the strong end of the skill range.
+  for (let i = 0; i < input.runs; i++) {
+    const r = simulateGame({ ...opts, playerCards: makeDeck() }, 'competent')
+    if (r.winner === 'player') { strongWins++; totalStrongWinMs += r.gameTimeMs }
+  }
+
   parentPort!.postMessage({
     type: 'done',
     actName: input.actName, nodeId: input.nodeId, nodeType: input.nodeType,
     handicap: input.handicap, wins, losses, totalWinMs, totalLoseMs,
+    strongWins, totalStrongWinMs,
   } satisfies WorkerOutput)
 }
 
@@ -296,7 +431,8 @@ else {
         console.log(
           '  Node'.padEnd(24) + 'h  ' +
           'Win (greedy)'.padStart(14) + '  ' +
-          'Lose (passive)'.padStart(14) + '  Status'
+          'Lose (passive)'.padStart(14) + '  ' +
+          'Win (strong)'.padStart(14) + '  Status'
         )
       }
 
@@ -307,7 +443,13 @@ else {
       const winOk     = r.wins   >= minWins
       const loseOk    = r.losses >= Math.ceil(RUNS * 0.8)
       const speedOk   = r.wins < SPEED_CHECK_MIN_WINS || avgWinMs >= winMin
-      const pass      = winOk && loseOk && speedOk
+
+      // Too easy: a competent player wins nearly always AND wins fast. Both
+      // halves matter — always-winning-but-slow is a long fight, not a trivial
+      // one, and a fast rare win is just variance (#2282).
+      const avgStrongMs = r.strongWins > 0 ? r.totalStrongWinMs / r.strongWins : 0
+      const tooEasy     = r.strongWins >= tooEasyWinsFor() && avgStrongMs < winMin
+      const pass        = winOk && loseOk && speedOk && !tooEasy
 
       if (!pass) failedNodes++
 
@@ -315,16 +457,18 @@ else {
         !winOk   ? '⚠ not winnable' : '',
         !loseOk  ? '⚠ not losable'  : '',
         !speedOk ? `⚠ too fast (${fmt(avgWinMs)} < ${fmt(winMin)})` : '',
+        tooEasy  ? `⚠ too easy (strong ${r.strongWins}/${RUNS} in ${fmt(avgStrongMs)})` : '',
       ].filter(Boolean).join(' ')
 
-      const label   = `${r.nodeId} (${r.nodeType})`
-      const winStr  = `${checkMark(winOk)} ${r.wins}/${RUNS} avg ${fmt(avgWinMs)}`
-      const loseStr = `${checkMark(loseOk)} ${r.losses}/${RUNS} avg ${fmt(avgLoseMs)}`
-      const status  = pass ? 'PASS' : `FAIL ${flags}`
+      const label    = `${r.nodeId} (${r.nodeType})`
+      const winStr   = `${checkMark(winOk)} ${r.wins}/${RUNS} avg ${fmt(avgWinMs)}`
+      const loseStr  = `${checkMark(loseOk)} ${r.losses}/${RUNS} avg ${fmt(avgLoseMs)}`
+      const strongStr = `${checkMark(!tooEasy)} ${r.strongWins}/${RUNS} avg ${fmt(avgStrongMs)}`
+      const status   = pass ? 'PASS' : `FAIL ${flags}`
 
       console.log(
         `  ${label.padEnd(22)} ${String(r.handicap).padStart(2)}  ` +
-        `${winStr.padEnd(16)}  ${loseStr.padEnd(16)}  ${status}`
+        `${winStr.padEnd(16)}  ${loseStr.padEnd(16)}  ${strongStr.padEnd(16)}  ${status}`
       )
     }
   }
