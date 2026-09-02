@@ -26,6 +26,7 @@ import { AnimatedSpriteImg } from '../ui/SpriteImg'
 import { Toolbar } from '../ui/Toolbar/Toolbar'
 import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
 import { AugmentPickerModal } from './AugmentPickerModal'
+import { Button } from '../ui/Button'
 import { ToolbarLabel } from '../ui/Toolbar/ToolbarLabel'
 import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
 import { RARITY_COLOR } from '../../theme'
@@ -489,29 +490,30 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
                                     <div className="cas-slot-effect">{effectSummary(scaled)}</div>
                                   )}
                                   <div className="cas-slot-actions">
-                                    <button
-                                      className="action-btn action-btn--gold cas-slot-btn"
+                                    <Button
+                                      variant="gold"
+                                      className="cas-slot-btn"
                                       disabled={souls < AUGMENT_UPGRADE_COST}
                                       onClick={() => handleUpgrade(inst)}
                                       title={`Upgrade (costs ${AUGMENT_UPGRADE_COST} souls)`}
                                     >
                                       ↑ Upgrade
-                                    </button>
-                                    <button
-                                      className="action-btn cas-slot-btn"
+                                    </Button>
+                                    <Button
+                                      className="cas-slot-btn"
                                       onClick={() => { setPickerSlot(slot); }}
                                     >
                                       Swap
-                                    </button>
+                                    </Button>
                                   </div>
                                 </>
                               ) : (
-                                <button
-                                  className="action-btn cas-slot-btn"
+                                <Button
+                                  className="cas-slot-btn"
                                   onClick={() => setPickerSlot(slot)}
                                 >
                                   + Equip
-                                </button>
+                                </Button>
                               )}
                             </div>
                           )
@@ -562,13 +564,14 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
         {/* Augment upgrade action */}
         {onUpgrade && (
           <div className="cdm-actions">
-            <button
-              className={`action-btn action-btn--gold${canUpgrade ? '' : ' action-btn--disabled'}`}
+            <Button
+              variant="gold"
+              disabled={!canUpgrade}
               onClick={onUpgrade}
               title={`Costs ${AUGMENT_UPGRADE_COST} souls`}
             >
               ↑ Upgrade ({AUGMENT_UPGRADE_COST} souls)
-            </button>
+            </Button>
           </div>
         )}
 

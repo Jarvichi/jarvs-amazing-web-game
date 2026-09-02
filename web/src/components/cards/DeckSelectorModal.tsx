@@ -9,6 +9,7 @@ import {
   loadDeckSlot,
 } from '../../game/collection'
 import { EmptyState } from '../ui/EmptyState'
+import { Button } from '../ui/Button'
 
 interface Props {
   fatiguedCards?: string[]
@@ -100,10 +101,10 @@ export function DeckSelectorModal({ fatiguedCards = [], onConfirm, onCancel }: P
           />
         </div>
         <div className="deck-selector-actions u-flex u-gap-5 u-just-end">
-          <button className="action-btn" onClick={onCancel}>Cancel</button>
-          <button className="action-btn action-btn--primary" onClick={handleConfirm}>
+          <Button onClick={onCancel}>Cancel</Button>
+          <Button onClick={handleConfirm}>
             ▶ Battle with Deck {selected.toUpperCase()}
-          </button>
+          </Button>
         </div>
       </div>
     </ModalBackdrop>

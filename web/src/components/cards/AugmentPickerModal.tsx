@@ -10,6 +10,7 @@ import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { RARITY_COLOR } from '../../theme'
 import { CloseButton } from '../ui/CloseButton'
 import { EmptyState } from '../ui/EmptyState'
+import { Button } from '../ui/Button'
 
 interface Props {
   slot: AugmentSlot
@@ -78,13 +79,13 @@ export function AugmentPickerModal({ slot, cardName, onClose }: Props) {
 
                   <div className="apm-item-actions">
                     {isEquippedHere ? (
-                      <button className="action-btn action-btn--danger" onClick={() => handleUnequip(inst)}>
+                      <Button variant="danger" onClick={() => handleUnequip(inst)}>
                         Unequip
-                      </button>
+                      </Button>
                     ) : (
-                      <button className="action-btn action-btn--gold" onClick={() => handleEquip(inst)}>
+                      <Button variant="gold" onClick={() => handleEquip(inst)}>
                         {isEquippedElsewhere ? 'Move Here' : 'Equip'}
-                      </button>
+                      </Button>
                     )}
                   </div>
                 </div>

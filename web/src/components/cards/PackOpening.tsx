@@ -6,6 +6,7 @@ import { getAugmentCatalog } from '../../game/augments'
 import { CardTile } from './CardTile'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { useCardDetail } from './useCardDetail'
+import { Button } from '../ui/Button'
 
 interface Props {
   /** One or more packs; each pack is an array of card names in reveal order */
@@ -245,16 +246,16 @@ export function PackOpening({ packs, onDone }: Props) {
       </div>
 
       {allDone ? (
-        <button className="action-btn action-btn--large" onClick={onDone}>
+        <Button size="lg" onClick={onDone}>
           CONTINUE →
-        </button>
+        </Button>
       ) : (
         <div className="pack-wait u-col u-items-c u-gap-4">
           <span>{waitingForTap ? 'Tap the card to reveal it!' : 'Revealing…'}</span>
           {isMultiPack && (
-            <button className="action-btn action-btn--xs" onClick={handleSkip}>
+            <Button size="xs" onClick={handleSkip}>
               Skip to end
-            </button>
+            </Button>
           )}
         </div>
       )}
@@ -305,7 +306,7 @@ export function PackOpening({ packs, onDone }: Props) {
                 </div>
               ))}
             </div>
-            <button className="action-btn" onClick={onDone}>CONTINUE →</button>
+            <Button onClick={onDone}>CONTINUE →</Button>
           </div>
         </ModalBackdrop>
       )}
