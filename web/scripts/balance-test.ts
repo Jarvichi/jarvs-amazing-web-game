@@ -4,9 +4,9 @@
  *
  * Run: npx tsx scripts/balance-test.ts
  *
- * PASS criteria per node — see MIN_WIN_COUNT / MIN_WIN_MS / SPEED_CHECK_MIN_WINS
+ * PASS criteria per node — see MIN_WIN_RATE / MIN_WIN_MS / SPEED_CHECK_MIN_WINS
  * below for the live values; this list says what each one is for:
- *   - Greedy player wins ≥ MIN_WIN_COUNT runs — a floor check that the node is
+ *   - Greedy player wins ≥ MIN_WIN_RATE × RUNS — a floor check that the node is
  *     not completely unwinnable. Greedy plays a random affordable card, so it
  *     models the bottom of the skill range, NOT a competent player.
  *   - Passive player loses ≥ 80% of runs — the node is not a free win.
@@ -14,7 +14,7 @@
  *     SPEED_CHECK_MIN_WINS runs — the "trivially easy" check.
  *
  * This block previously claimed "greedy wins ≥ 4/5", which never matched the
- * constants (MIN_WIN_COUNT is 1) and got quoted as the real bar in #2268 and
+ * constants (the floor is a 10% win rate) and got quoted as the real bar in #2268 and
  * PR #2281. Keep it describing intent and leave the numbers to the constants.
  */
 
@@ -31,11 +31,15 @@ import { makeDeck } from '../src/game/cards'
 const TICK_MS      = 100          // ms per simulation step
 const MAX_GAME_MS  = 12 * 60_000  // give up after 12 min game-time
 // Runs per node (different shuffles). 100 is the local/full-confidence
-// figure — a full 32-node sweep measured ~95s at 10 and so roughly 16 min
-// at 100, which is too slow a feedback loop for CI, where this only needs
-// to catch a node that has become unwinnable or trivial. CI therefore sets
-// BALANCE_RUNS lower; the report prints whichever depth was used, so a
-// shallow run is never mistaken for a full one.
+// figure — a full 32-node sweep measured ~95s at depth 10 and ~300s at 30 on
+// two threads, so roughly 16 min at 100, too slow a feedback loop for CI
+// where this only needs to catch a node that has become unwinnable or
+// trivial. CI therefore sets BALANCE_RUNS lower; the report prints whichever
+// depth was used, so a shallow run is never mistaken for a full one.
+//
+// Depth interacts with the thresholds below, which are all rates: too shallow
+// and MIN_WIN_RATE rounds to a single win, making a node's verdict a coin
+// flip (#2282). Don't lower CI's depth without re-checking minWinsFor().
 const RUNS         = Number(process.env.BALANCE_RUNS) || 100
 
 /** Minimum average win time — below this the fight is trivially easy. */
@@ -58,14 +62,25 @@ const MIN_WIN_MS: Record<string, number> = {
 const SPEED_CHECK_MIN_WINS = Math.ceil(RUNS * 0.5)
 
 /**
- * Minimum greedy win count (out of RUNS) per node type.
- * Greedy AI is weaker than a real player (plays most expensive card, no tactics).
- * So a lower bar here still means real players find the fight beatable.
+ * Minimum greedy win rate per node type, as a fraction of RUNS.
+ * Greedy AI is weaker than a real player (plays a random affordable card, no
+ * tactics). So a low bar here still means real players find the fight beatable.
+ *
+ * A fraction rather than a count (#2282). It was the literal `1`, whose comment
+ * read "≥ 1/10 (10%)" — true only at the RUNS=10 it was authored for. At the
+ * default RUNS=100 it had drifted to 1%, and at CI's depth a node's entire
+ * verdict turned on a single stochastic win: consecutive depth-10 sweeps
+ * reported 0/32 and then 1/32, the difference being one node scraping 1/10.
  */
-const MIN_WIN_COUNT: Record<string, number> = {
-  battle: 1,   // ≥ 1/10 (10%) — catches "completely unwinnable" nodes
-  elite:  1,   // ≥ 1/10 (10%) — elites are hard; real players need skill
-  boss:   1,   // ≥ 1/10 (10%) — bosses need real strategy; random AI barely wins
+const MIN_WIN_RATE: Record<string, number> = {
+  battle: 0.10,   // catches "completely unwinnable" nodes
+  elite:  0.10,   // elites are hard; real players need skill
+  boss:   0.10,   // bosses need real strategy; random AI barely wins
+}
+
+/** Win count a node must clear, from its rate — never below 1. */
+function minWinsFor(nodeType: string): number {
+  return Math.max(1, Math.ceil((MIN_WIN_RATE[nodeType] ?? 0.10) * RUNS))
 }
 
 // ── Simulation ───────────────────────────────────────────────────────────────
@@ -285,7 +300,7 @@ else {
         )
       }
 
-      const minWins   = MIN_WIN_COUNT[r.nodeType] ?? 1
+      const minWins   = minWinsFor(r.nodeType)
       const winMin    = MIN_WIN_MS[r.nodeType]    ?? 40_000
       const avgWinMs  = r.wins   > 0 ? r.totalWinMs  / r.wins   : 0
       const avgLoseMs = r.losses > 0 ? r.totalLoseMs / r.losses : 0

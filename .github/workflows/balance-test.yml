@@ -33,11 +33,12 @@ concurrency:
 jobs:
   balance-test:
     runs-on: ubuntu-latest
-    # Measured: the full 32-node sweep takes ~95s at BALANCE_RUNS=10 on two
-    # threads, so the script's default of 100 would be ~16 min locally and
-    # longer on a shared runner. This cap is well clear of the shallow depth
-    # set below while still stopping a pathological run from sitting against
-    # GitHub's 6-hour default on every cards/acts change.
+    # Measured on two threads: the full 32-node sweep is ~95s at BALANCE_RUNS=10
+    # and ~300s at 30, so cost is linear in depth and the script's default of
+    # 100 would be ~16 min locally and longer on a shared runner. This cap
+    # leaves ample headroom over the depth set below while still stopping a
+    # pathological run from sitting against GitHub's 6-hour default on every
+    # cards/acts change.
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
@@ -58,9 +59,13 @@ jobs:
         continue-on-error: true
         env:
           # Shallower than the local default of 100 so the sweep fits the
-          # timeout above. Still enough to flag a node that has become
-          # unwinnable or trivial; the script prints the depth it ran at.
-          BALANCE_RUNS: 10
+          # timeout above, but deep enough for the verdict to mean something.
+          # The floor check is a 10% win rate, so at depth 10 a node needed a
+          # single win and its pass/fail turned on one stochastic shuffle —
+          # consecutive depth-10 sweeps reported 0/32 then 1/32 off exactly
+          # that (#2282). At 30 a node needs 3 wins, for ~5 min locally.
+          # The script prints the depth it ran at.
+          BALANCE_RUNS: 30
         run: npm run balance-test | tee balance-test-output.txt
 
       - name: Publish results to job summary
