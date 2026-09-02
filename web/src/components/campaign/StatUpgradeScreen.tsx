@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { type StatUpgradeType } from '../../game/playerStats'
+import { Button } from '../ui/Button'
 
 interface Props {
   onSelect: (stat: StatUpgradeType) => void
@@ -72,15 +73,16 @@ export function StatUpgradeScreen({ onSelect }: Props) {
         ))}
       </div>
 
-      <button
-        className="action-btn action-btn--large relic-select-confirm"
+      <Button
+        size="lg"
+        className="relic-select-confirm"
         disabled={picked === null}
         onClick={() => picked && onSelect(picked)}
       >
         {picked
           ? `CLAIM ${OPTIONS.find(o => o.stat === picked)!.name.toUpperCase()} →`
           : 'SELECT AN UPGRADE'}
-      </button>
+      </Button>
     </div>
   )
 }

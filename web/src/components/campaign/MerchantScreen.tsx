@@ -5,6 +5,7 @@ import { UselessItem } from '../../game/dailyLogin'
 import { MERCHANT_PRICES, ConsumableDef } from '../../game/questline'
 import { CardTile } from '../cards/CardTile'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { Button } from '../ui/Button'
 import { getCharacterDef, getCharacterStage, recordCharacterEncounter } from '../../game/characters'
 
 export type MerchantItem =
@@ -91,13 +92,14 @@ export function MerchantScreen({ items, crystals, onBuy, onDone }: Props) {
                       {bought ? (
                         <div className="shop-purchased">PURCHASED ✓</div>
                       ) : (
-                        <button
-                          className={`action-btn action-btn--gold shop-card-buy-btn${!canBuy ? ' shop-card-buy-btn--poor' : ''}`}
+                        <Button
+                          variant="gold"
+                          className={`shop-card-buy-btn${!canBuy ? ' shop-card-buy-btn--poor' : ''}`}
                           onClick={() => handleBuy(item)}
                           disabled={!canBuy}
                         >
                           {item.price} 💎
-                        </button>
+                        </Button>
                       )}
                     </div>
                   )
@@ -122,13 +124,14 @@ export function MerchantScreen({ items, crystals, onBuy, onDone }: Props) {
                         <div className="shop-consumable-icon">{def.icon}</div>
                         <div className="shop-consumable-name">{def.name}</div>
                         <div className="shop-consumable-desc">{def.desc}</div>
-                        <button
-                          className={`action-btn action-btn--gold shop-consumable-buy-btn u-text-md${canBuy ? '' : ' shop-card-buy-btn--poor'}`}
+                        <Button
+                          variant="gold"
+                          className={`shop-consumable-buy-btn u-text-md${canBuy ? '' : ' shop-card-buy-btn--poor'}`}
                           onClick={() => handleBuy(item)}
                           disabled={!canBuy}
                         >
                           {item.price} 💎
-                        </button>
+                        </Button>
                       </div>
                     )
                   }
@@ -145,13 +148,14 @@ export function MerchantScreen({ items, crystals, onBuy, onDone }: Props) {
                       {bought ? (
                         <div className="shop-purchased">PURCHASED ✓</div>
                       ) : (
-                        <button
-                          className={`action-btn action-btn--gold shop-consumable-buy-btn u-text-md${canBuy ? '' : ' shop-card-buy-btn--poor'}`}
+                        <Button
+                          variant="gold"
+                          className={`shop-consumable-buy-btn u-text-md${canBuy ? '' : ' shop-card-buy-btn--poor'}`}
                           onClick={() => handleBuy(item)}
                           disabled={!canBuy}
                         >
                           {item.price} 💎
-                        </button>
+                        </Button>
                       )}
                     </div>
                   )

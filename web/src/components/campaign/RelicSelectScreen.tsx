@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { getRelicDef } from '../../game/relics'
+import { Button } from '../ui/Button'
 
 interface Props {
   earnedRelics: string[]        // names of all usable relics the player has collected
@@ -60,12 +61,13 @@ export function RelicSelectScreen({ earnedRelics, currentRelic, brokenRelic, onS
         </button>
       </div>
 
-      <button
-        className="action-btn action-btn--large relic-select-confirm"
+      <Button
+        size="lg"
+        className="relic-select-confirm"
         onClick={() => onSelect(picked)}
       >
         {picked ? `EQUIP ${getRelicDef(picked)?.name ?? picked}` : 'ENTER WITHOUT RELIC'} →
-      </button>
+      </Button>
     </div>
   )
 }

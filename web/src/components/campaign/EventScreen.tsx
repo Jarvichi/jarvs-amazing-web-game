@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { EventData, EventChoice, loadPlayerName } from '../../game/questline'
+import { Button } from '../ui/Button'
 
 interface Props {
   event: EventData
@@ -90,9 +91,9 @@ export function EventScreen({ event, onChoice, playerHp, maxHp }: Props) {
           <div className="event-result">
             {picked.effect.type === 'nothing' ? picked.consequence : `${picked.consequence}…`}
           </div>
-          <button className="action-btn event-continue-btn" onClick={() => onChoice(picked)}>
+          <Button className="event-continue-btn" onClick={() => onChoice(picked)}>
             CONTINUE →
-          </button>
+          </Button>
         </>
       )}
     </div>
