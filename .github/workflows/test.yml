@@ -6,7 +6,11 @@ on:
       - main
     paths:
       - web/**
-      - .github/workflows/test.yml
+      # Every workflow, not just this one. A change to any of them alters what
+      # CI does, so it should be validated by the suite rather than merged on
+      # the strength of an older commit's run — and where `test` is required,
+      # a workflow-only head that never triggers it can't satisfy the gate.
+      - .github/workflows/**
 
 jobs:
   test:
