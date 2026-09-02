@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { RareEventEffect } from './types'
+import { Button } from '../ui/Button'
 
 interface Props {
   onDone: (effect: RareEventEffect) => void
@@ -127,9 +128,9 @@ export function LiarsDiceEvent({ onDone }: Props) {
         {/* Bidding phase */}
         {phase === 'intro' && (
           <div className="ld-bid-box u-col u-items-c u-gap-6">
-            <button className="action-btn action-btn--large" onClick={() => setPhase('bidding')}>
+            <Button size="lg" onClick={() => setPhase('bidding')}>
               ROLL THE DICE →
-            </button>
+            </Button>
           </div>
         )}
 
@@ -139,12 +140,12 @@ export function LiarsDiceEvent({ onDone }: Props) {
               Stranger bids: <strong>at least {strangerBid.qty} × {DICE_FACES[strangerBid.face - 1]}</strong>
             </div>
             <div className="ld-bid-actions">
-              <button className="action-btn" onClick={handleCallLiar}>
+              <Button onClick={handleCallLiar}>
                 CALL LIAR
-              </button>
-              <button className="action-btn" onClick={handleRaise}>
+              </Button>
+              <Button onClick={handleRaise}>
                 RAISE ({strangerBid.qty + 1} × {DICE_FACES[strangerBid.face - 1]})
-              </button>
+              </Button>
             </div>
           </div>
         )}
@@ -157,9 +158,9 @@ export function LiarsDiceEvent({ onDone }: Props) {
                   You bid: <strong>{playerRaisedBid!.qty} × {DICE_FACES[playerRaisedBid!.face - 1]}</strong>
                   {' '}— stranger calls LIAR!
                 </div>
-                <button className="action-btn action-btn--large" onClick={finaliseResult}>
+                <Button size="lg" onClick={finaliseResult}>
                   REVEAL →
-                </button>
+                </Button>
               </>
             ) : (
               <>
@@ -167,9 +168,9 @@ export function LiarsDiceEvent({ onDone }: Props) {
                   You bid: <strong>{playerRaisedBid!.qty} × {DICE_FACES[playerRaisedBid!.face - 1]}</strong>
                   {' '}— stranger backs down.
                 </div>
-                <button className="action-btn action-btn--large" onClick={finaliseResult}>
+                <Button size="lg" onClick={finaliseResult}>
                   REVEAL →
-                </button>
+                </Button>
               </>
             )}
           </div>
@@ -183,9 +184,9 @@ export function LiarsDiceEvent({ onDone }: Props) {
               {' '}Stranger bid {strangerBid.qty}.
               {strangerBidIsLie ? ' That was a LIE.' : ' That was TRUE.'}
             </div>
-            <button className="action-btn action-btn--large" onClick={finaliseResult}>
+            <Button size="lg" onClick={finaliseResult}>
               {strangerBidIsLie ? 'COLLECT YOUR WINNINGS →' : 'PAY UP →'}
-            </button>
+            </Button>
           </div>
         )}
 
@@ -199,12 +200,12 @@ export function LiarsDiceEvent({ onDone }: Props) {
                 ? '25 damage dealt to enemy base.'
                 : '12 damage dealt to your base.'}
             </div>
-            <button
-              className="action-btn action-btn--large"
+            <Button
+              size="lg"
               onClick={() => onDone(playerWon ? winEffect : loseEffect)}
             >
               CONTINUE →
-            </button>
+            </Button>
           </div>
         )}
       </div>

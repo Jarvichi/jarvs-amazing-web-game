@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { RareEventEffect } from './types'
+import { Button } from '../ui/Button'
 
 interface Props {
   onDone: (effect: RareEventEffect) => void
@@ -172,14 +173,14 @@ export function BlackjackEvent({ onDone }: Props) {
         <div className="bj-actions">
           {phase === 'playing' && playerTotal < 21 && (
             <>
-              <button className="action-btn" onClick={hit}>HIT</button>
-              <button className="action-btn" onClick={stand}>STAND</button>
+              <Button onClick={hit}>HIT</Button>
+              <Button onClick={stand}>STAND</Button>
             </>
           )}
           {phase === 'result' && result && (
-            <button className="action-btn action-btn--large" onClick={() => onDone(result.effect)}>
+            <Button size="lg" onClick={() => onDone(result.effect)}>
               CONTINUE →
-            </button>
+            </Button>
           )}
         </div>
       </div>
