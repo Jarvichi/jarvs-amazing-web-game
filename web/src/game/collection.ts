@@ -846,17 +846,30 @@ export function generatePack(): string[] {
   const rares       = catalog.filter(c => c.rarity === 'rare')
   const legendaries = catalog.filter(c => c.rarity === 'legendary')
 
+  // Slot mix chosen so rarity predicts scarcity (#2276). What matters to a
+  // collector is the chance of pulling one SPECIFIC card, which is a tier's
+  // slots-per-pack divided by its pool size — not the tier's label.
+  //
+  // The old mix (2 common, 1 uncommon, 1 GUARANTEED rare, bonus 10/20/70) was
+  // nearly flat across common/uncommon/rare at 2.0/1.7/1.2 slots. Against the
+  // pools of the day that made a specific RARE easier to obtain than a specific
+  // uncommon (0.00496 vs 0.00429) — rares were not rare.
+  //
+  // Now 3.0/1.35/0.55/0.10 against pools of 400/260/180/63, giving a strictly
+  // decreasing 0.00750 / 0.00519 / 0.00306 / 0.00159. Note a rare is no longer
+  // guaranteed in every pack; that guarantee was the main cause of the
+  // inversion. Pack size is unchanged at 5 cards plus the augment.
   const picks: string[] = [
     pickRandom(commons).name,
     pickRandom(commons).name,
+    pickRandom(commons).name,
     pickRandom(uncommons).name,
-    pickRandom(rares).name,
   ]
 
   const r = Math.random()
   if (r < 0.10 && legendaries.length > 0) {
     picks.push(pickRandom(legendaries).name)
-  } else if (r < 0.30 && rares.length > 0) {
+  } else if (r < 0.65 && rares.length > 0) {
     picks.push(pickRandom(rares).name)
   } else {
     picks.push(pickRandom(uncommons).name)
