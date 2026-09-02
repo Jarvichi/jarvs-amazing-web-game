@@ -1,5 +1,6 @@
 import React from 'react'
 import { RunEndCard } from '../ui/RunEndCard'
+import { Button } from '../ui/Button'
 
 interface Props {
   onReturnToMenu: () => void
@@ -15,9 +16,9 @@ export function CampaignFailedScreen({ onReturnToMenu }: Props) {
         <p>All lives lost. The Fracture claims another wanderer.</p>
         <p className="cf-reward">You earned <strong>50 ◆</strong> for your effort.</p>
       </RunEndCard>
-      <button className="action-btn action-btn--large" onClick={onReturnToMenu}>
+      <Button size="lg" onClick={onReturnToMenu}>
         [ Return to Menu ]
-      </button>
+      </Button>
     </div>
   )
 }

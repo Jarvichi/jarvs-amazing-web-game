@@ -1,5 +1,6 @@
 import React from 'react'
 import { RunEndCard } from '../ui/RunEndCard'
+import { Button } from '../ui/Button'
 
 interface Props {
   actTitle: string
@@ -31,9 +32,9 @@ export function ActComplete({ actTitle, actSubtitle, relicName, relicDesc, onCon
         Your collection endures. Your mastery carries on.
       </div>
 
-      <button className="action-btn action-btn--large action-btn--gold ac-continue-btn" onClick={onContinue}>
+      <Button size="lg" variant="gold" className="ac-continue-btn" onClick={onContinue}>
         {hasNextAct ? 'CONTINUE TO NEXT ACT' : 'RETURN TO MENU'}
-      </button>
+      </Button>
     </div>
   )
 }
