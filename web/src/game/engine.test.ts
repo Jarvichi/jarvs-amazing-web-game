@@ -26,7 +26,7 @@ vi.mock('./debug', () => ({
 import { newGame, tick, MAX_HANDICAP } from './engine'
 import { playCard } from './engine/cards'
 import { triggerNextEndlessWave } from './engine/endlessMode'
-import { syncUnitIdCounter, uid } from './engine/helpers'
+import { syncUnitIdCounter, uid, spawnUnit } from './engine/helpers'
 import { makeDeck } from './cards'
 
 // ─── newGame ──────────────────────────────────────────────────────────────────
@@ -210,5 +210,50 @@ describe('syncUnitIdCounter', () => {
     syncUnitIdCounter([{ id: 'unit-9000' }, { id: 'rc-5' }, { id: undefined }])
     const next = parseInt(uid().replace('unit-', ''), 10)
     expect(next).toBeGreaterThan(9000)
+  })
+})
+
+// ─── Malformed structureEffect timers (#2297) ─────────────────────────────────
+// cards.json isn't structurally validated against StructureEffect, so a card
+// can ship without the `intervalMs` its type declares required. That must
+// degrade to a slow pulse, not corrupt spawnTimer into NaN forever.
+
+describe('structureEffect intervalMs guard', () => {
+  function withMalformedRepairAura(state: ReturnType<typeof newGame>) {
+    const structure = spawnUnit({
+      name: 'Malformed Repair Tower',
+      attack: 0,
+      maxHp: 25,
+      isWall: false,
+      bypassWall: false,
+      moveSpeed: 0,
+      attackRange: 0,
+      attackCooldownMs: 0,
+      // Deliberately missing intervalMs, reproducing #2297's data shape.
+      structureEffect: { type: 'repairAura', amount: 2 } as never,
+    }, 'player')
+    structure.hp = structure.maxHp
+    state.field.push(structure)
+    return structure
+  }
+
+  it('never lets a missing intervalMs turn spawnTimer into NaN', () => {
+    const state = newGame()
+    const structure = withMalformedRepairAura(state)
+    expect(structure.spawnTimer).not.toBeNaN()
+
+    // Force the first pulse, then tick again — the reassignment inside the
+    // pulse branch is where #2297's NaN actually appeared, since it reads
+    // straight from the card's structureEffect rather than the timer's own
+    // (defended) initial value.
+    structure.spawnTimer = 10
+    tick(state, 20)
+    expect(structure.spawnTimer).not.toBeNaN()
+    expect(structure.spawnTimer).toBeGreaterThan(0)
+
+    structure.spawnTimer = 10
+    tick(state, 20)
+    expect(structure.spawnTimer).not.toBeNaN()
+    expect(structure.spawnTimer).toBeGreaterThan(0)
   })
 })

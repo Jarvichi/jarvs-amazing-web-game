@@ -12409,7 +12409,8 @@
       "attackCooldownMs": 0,
       "structureEffect": {
         "type": "repairAura",
-        "amount": 2
+        "amount": 2,
+        "intervalMs": 3000
       }
     },
     "coral-wall": {
@@ -12457,7 +12458,8 @@
       "attackCooldownMs": 0,
       "structureEffect": {
         "type": "repairAura",
-        "amount": 2
+        "amount": 2,
+        "intervalMs": 4000
       }
     },
     "depth-anchor": {
