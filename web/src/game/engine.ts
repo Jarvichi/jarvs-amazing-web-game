@@ -690,6 +690,23 @@ function processOpponentBossTraits(s: GameState, log: string[]): boolean {
   return false
 }
 
+/**
+ * Every card in cards.json is supposed to carry an `intervalMs` on its
+ * spawn/healAura/repairAura effect, but the JSON isn't structurally
+ * validated against `StructureEffect` (which declares the field required),
+ * so a card can ship without one — Resonance Spire and Reef Mender did
+ * (#2297). An `undefined` interval reassigned straight into `spawnTimer`
+ * goes `NaN` and stays `NaN` forever, since every later `spawnTimer -=
+ * deltaMs` and `<= 0` check on a NaN is false. Route every reassignment
+ * through this so a bad card degrades to a slow pulse instead of going
+ * silently, permanently inert.
+ */
+function validInterval(intervalMs: number | undefined, unitName: string): number {
+  if (typeof intervalMs === 'number' && intervalMs > 0) return intervalMs
+  logError('structureEffect missing a valid intervalMs', { unitName, intervalMs })
+  return 8000
+}
+
 function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
   // Combat has already resolved this tick, so the live-wall set is stable for the climbing check below.
   const walls = s.field.filter(w => w.isWall && w.hp > 0)
@@ -897,18 +914,18 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
         s.field.push(spawned)
         const who = sideLabel(unit.owner)
         log.push(`${who} ${unit.name} spawned a ${spawned.name}!`)
-        unit.spawnTimer = effect.intervalMs
+        unit.spawnTimer = validInterval(effect.intervalMs, unit.name)
       } else if (sEffect.type === 'healAura') {
-        const { amount, intervalMs } = sEffect as { type: 'healAura'; amount: number; intervalMs: number} 
+        const { amount, intervalMs } = sEffect as { type: 'healAura'; amount: number; intervalMs: number}
         const targets = s.field.filter(u => u.owner === unit.owner && u.moveSpeed > 0 && u.hp < u.maxHp)
         for (const t of targets) t.hp = Math.min(t.maxHp, t.hp + amount)
         if (targets.length > 0) {
           const who = sideLabel(unit.owner)
           log.push(`${who} ${unit.name} healed ${targets.length} unit(s) for ${amount} HP.`)
         }
-        unit.spawnTimer = intervalMs
+        unit.spawnTimer = validInterval(intervalMs, unit.name)
       } else if (sEffect.type === 'repairAura') {
-        const { amount, intervalMs } = sEffect as { type: 'repairAura'; amount: number; intervalMs: number} 
+        const { amount, intervalMs } = sEffect as { type: 'repairAura'; amount: number; intervalMs: number}
         // Walls with mastery 5 repairAura can repair themselves; others only repair neighbours
         const targets = s.field.filter(u => u.owner === unit.owner && u.moveSpeed === 0 && (u !== unit || unit.isWall) && u.hp < u.maxHp)
         for (const t of targets) t.hp = Math.min(t.maxHp, t.hp + amount)
@@ -916,7 +933,7 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
           const who = sideLabel(unit.owner)
           log.push(`${who} ${unit.name} repaired ${targets.length} structure(s) for ${amount} HP.`)
         }
-        unit.spawnTimer = intervalMs
+        unit.spawnTimer = validInterval(intervalMs, unit.name)
       }
     }
   }
