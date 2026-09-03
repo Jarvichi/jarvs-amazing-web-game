@@ -171,6 +171,7 @@
       "enemyDeck": [
         "Pale Sentry",
         "Mist Skirmisher",
+        "Rogue",
         "Lantern Post",
         "Vigil Prayer"
       ]
@@ -194,6 +195,7 @@
       "enemyDeck": [
         "Pale Sentry",
         "Mist Archer",
+        "Sappers",
         "Border Palisade",
         "Mist Skirmisher",
         "March Ration"
@@ -218,6 +220,7 @@
       "enemyDeck": [
         "Mist Skirmisher",
         "Marchland Pikeman",
+        "Ancient Treant",
         "Wardstone",
         "Candle Bearer",
         "March Ration"
@@ -243,6 +246,7 @@
       "enemyDeck": [
         "Marchland Pikeman",
         "Pale Sentry",
+        "Shipwreck Golem",
         "Wardstone",
         "Candle Bearer",
         "Vigil Prayer"
@@ -417,6 +421,7 @@
         "Pale Vanguard",
         "Marchland Pikeman",
         "Mist Barracks",
+        "Iron Colossus",
         "Wardstone",
         "Memory Ward",
         "Candlefall"
@@ -459,6 +464,7 @@
         "Unremembered Choir",
         "Candle Bearer",
         "Candle Shrine",
+        "Troll",
         "Unremembered Soldier",
         "Fog Veil",
         "Vigil Prayer"
@@ -485,6 +491,7 @@
         "Marchland Pikeman",
         "Border Palisade",
         "Watch Beacon",
+        "Dark Elf",
         "Unremembered Soldier",
         "Memory Ward",
         "Mist Archer"
@@ -511,6 +518,7 @@
         "Pale Rider",
         "Marchland Pikeman",
         "Watch Beacon",
+        "Clockwork Titan",
         "Unremembered Soldier",
         "Fog Veil",
         "Wardstone"
@@ -536,6 +544,7 @@
         "Pale Rider",
         "Mist Skirmisher",
         "Mist Barracks",
+        "Ancient Treant",
         "March Ration",
         "Fog Veil",
         "Pale Sentry"
@@ -586,6 +595,7 @@
         "The Pale Herald",
         "Knight of the Vigil",
         "Pale Vanguard",
+        "Shipwreck Golem",
         "Mist Barracks",
         "Watch Beacon",
         "Candlefall",

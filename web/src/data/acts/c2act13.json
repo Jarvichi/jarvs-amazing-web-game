@@ -171,6 +171,7 @@
       "enemyDeck": [
         "Candle Runner",
         "Ward Herald",
+        "Troll",
         "Window Sentry",
         "Candle Sconce"
       ]
@@ -195,6 +196,7 @@
       "enemyDeck": [
         "Candle Runner",
         "Window Sentry",
+        "Bandit",
         "Ward Barricade",
         "Ward Guard",
         "Candle Step"
@@ -220,6 +222,7 @@
       "enemyDeck": [
         "Ward Herald",
         "Candle Sconce",
+        "Shadow Stalker",
         "Candle Watchtower",
         "Ward Guard",
         "Ward Draught"
@@ -403,6 +406,7 @@
         "Ward Guard",
         "Ward Vanguard",
         "Sealed Chantry",
+        "Dark Elf",
         "Window Toll",
         "Candle Foundry",
         "Choir of the Candles"
@@ -445,6 +449,7 @@
         "Window Chanter",
         "Ward Automaton",
         "Candle Sentry",
+        "Flame Warden",
         "Ward Writ",
         "Choir of the Candles",
         "Candle Archer"
@@ -471,6 +476,7 @@
         "Ward Guard",
         "Ward Barricade",
         "Candle Watchtower",
+        "Bandit",
         "Ward Courier",
         "Window Toll",
         "Candle Archer"
@@ -497,6 +503,7 @@
         "Ward Courier",
         "Choir of the Candles",
         "Candlebound Knight",
+        "Golem",
         "Ward Writ",
         "Candle Sentry",
         "Window Chanter"
@@ -547,6 +554,7 @@
         "The Vigil Queen",
         "Ward Vanguard",
         "Candlebound Knight",
+        "Golem",
         "The Last Vigil",
         "Choir of the Candles",
         "Candle Sentry",
@@ -579,6 +587,7 @@
       "enemyDeck": [
         "Candle Runner",
         "Ward Herald",
+        "Shadow Stalker",
         "Window Sentry",
         "Candle Sconce",
         "Candle Step"
@@ -603,6 +612,7 @@
       "enemyDeck": [
         "Ward Guard",
         "Ward Barricade",
+        "Ancient Treant",
         "Ward Courier",
         "Candle Archer",
         "Candle Watchtower"

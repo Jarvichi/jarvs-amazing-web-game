@@ -339,3 +339,43 @@ export function analyseDeckPower(cards: Card[], opts: DeckPowerOptions = {}): De
 export function deckPower(cards: Card[], opts: DeckPowerOptions = {}): number {
   return analyseDeckPower(cards, opts).rating
 }
+
+// ─── Deck shape ───────────────────────────────────────────
+//
+// What a deck is *for*, as opposed to how strong it is. Used to pick which
+// answer cards (#2292) a high-tier node should field: a spawner-turtle deck
+// and a big-single-unit deck are both "strong" at the same rating, but need
+// completely different counters.
+
+export type DeckShape = 'structure' | 'swarm' | 'bigUnit' | 'balanced'
+
+/** A cost this cheap is what makes a unit fit for a swarm plan. */
+const SWARM_UNIT_MAX_COST = 2
+/** Share of the deck that must be cheap units for "many cheap bodies" to be the actual plan. */
+const SWARM_SHARE_THRESHOLD = 0.5
+/** Share of the deck that must be structures for "the board is the plan" to be the actual plan. */
+const STRUCTURE_SHARE_THRESHOLD = 0.4
+/** Average cost above which a deck is leaning on a few big cards rather than a curve. */
+const BIG_UNIT_AVG_COST_THRESHOLD = 4.5
+
+/**
+ * Classifies a deck by its dominant plan. Checked in this order because a
+ * deck can be structure-heavy AND expensive (a turtle deck) — being mostly
+ * structures is the more actionable fact for choosing a counter (siege units
+ * beat a wall of buildings; a big-unit answer does not), so it takes priority.
+ */
+export function classifyDeckShape(cards: Card[]): DeckShape {
+  if (cards.length === 0) return 'balanced'
+
+  const structureShare = cards.filter(c => c.cardType === 'structure').length / cards.length
+  if (structureShare >= STRUCTURE_SHARE_THRESHOLD) return 'structure'
+
+  const units = cards.filter(c => c.cardType === 'unit')
+  const cheapUnitShare = units.filter(c => c.cost <= SWARM_UNIT_MAX_COST).length / cards.length
+  if (cheapUnitShare >= SWARM_SHARE_THRESHOLD) return 'swarm'
+
+  const avgCost = cards.reduce((s, c) => s + c.cost, 0) / cards.length
+  if (avgCost >= BIG_UNIT_AVG_COST_THRESHOLD) return 'bigUnit'
+
+  return 'balanced'
+}

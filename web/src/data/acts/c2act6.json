@@ -170,6 +170,7 @@
       "enemyDeck": [
         "Tideborn Wader",
         "Drowned Watchman",
+        "Troll",
         "Brine Scout",
         "Tidebell"
       ]
@@ -193,6 +194,7 @@
       "enemyDeck": [
         "Tideborn Wader",
         "Brine Scout",
+        "Bandit",
         "Sunken Barricade",
         "Barnacle Guard",
         "Undertow Charm"
@@ -217,6 +219,7 @@
       "enemyDeck": [
         "Drowned Watchman",
         "Tidebell",
+        "Rogue",
         "Envoy Watchtower",
         "Barnacle Guard",
         "Brine Draught"
@@ -402,6 +405,7 @@
         "Barnacle Guard",
         "Envoy Vanguard",
         "Sealed Tidegate",
+        "Rot Titan",
         "Undertow Toll",
         "Pearl Foundry",
         "Choir of the Drowned"
@@ -443,6 +447,7 @@
         "Hollow Tidecaller",
         "Drowned Automaton",
         "Pearl Sentry",
+        "Iron Colossus",
         "Envoy's Writ",
         "Choir of the Drowned",
         "Driftwood Archer"
@@ -469,6 +474,7 @@
         "Barnacle Guard",
         "Sunken Barricade",
         "Envoy Watchtower",
+        "Mycelium Hulk",
         "Tide Courier",
         "Undertow Toll",
         "Driftwood Archer"
@@ -495,6 +501,7 @@
         "Tide Courier",
         "Choir of the Drowned",
         "Drowned Knight",
+        "Volcanic Golem",
         "Envoy's Writ",
         "Pearl Sentry",
         "Hollow Tidecaller"
@@ -545,6 +552,7 @@
         "The Drowned Envoy",
         "Envoy Vanguard",
         "Drowned Knight",
+        "Root Walker",
         "The Undertow",
         "Choir of the Drowned",
         "Pearl Sentry",

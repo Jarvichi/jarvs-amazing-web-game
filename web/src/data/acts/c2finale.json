@@ -168,6 +168,7 @@
       "enemyDeck": [
         "Throne Runner",
         "Rite Sentry",
+        "Rogue",
         "Diadem Bearer",
         "Throne Sconce"
       ]
@@ -193,6 +194,7 @@
       "enemyDeck": [
         "Throne Runner",
         "Rite Sentry",
+        "Dark Elf",
         "Throne Barricade",
         "Rite Guard",
         "Rite Step"
@@ -284,6 +286,7 @@
       "enemyDeck": [
         "Diadem Chanter",
         "Rite Guard",
+        "Bandit",
         "Choir of the Remembered",
         "Rite Lens",
         "Throne Archer"
@@ -401,6 +404,7 @@
         "Rite Guard",
         "Rite Vanguard",
         "Sealed Reliquary",
+        "Lava Troll",
         "Diadem Toll",
         "Diadem Foundry",
         "Choir of the Remembered"
@@ -443,6 +447,7 @@
         "Diadem Chanter",
         "Rite Automaton",
         "Throne Sentry",
+        "Shadow Stalker",
         "Regalia Writ",
         "Choir of the Remembered",
         "Throne Archer"
@@ -469,6 +474,7 @@
         "Rite Guard",
         "Throne Barricade",
         "Throne Watchtower",
+        "Lava Troll",
         "Regalia Courier",
         "Diadem Toll",
         "Throne Archer"
@@ -495,6 +501,7 @@
         "Regalia Courier",
         "Choir of the Remembered",
         "Diadembound Knight",
+        "Wreck Golem",
         "Regalia Writ",
         "Throne Sentry",
         "Diadem Chanter"
@@ -519,6 +526,7 @@
       "enemyDeck": [
         "Rite Vanguard",
         "Throne Watchtower",
+        "Shipwreck Golem",
         "Regalia Writ",
         "Throne Archer",
         "Rite Guard"
@@ -569,6 +577,7 @@
         "The Vigil King",
         "Rite Vanguard",
         "Diadembound Knight",
+        "Shipwreck Golem",
         "The Last Rite",
         "Choir of the Remembered",
         "Throne Sentry",

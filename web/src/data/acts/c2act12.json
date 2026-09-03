@@ -171,6 +171,7 @@
       "enemyDeck": [
         "Reach Runner",
         "Banner Herald",
+        "Troll",
         "Crown Sentry",
         "Reach Sconce"
       ]
@@ -194,6 +195,7 @@
       "enemyDeck": [
         "Reach Runner",
         "Crown Sentry",
+        "Bandit",
         "Reach Barricade",
         "Crown Guard",
         "Reach Step"
@@ -219,6 +221,7 @@
       "enemyDeck": [
         "Banner Herald",
         "Reach Sconce",
+        "Shipwreck Golem",
         "Reach Watchtower",
         "Crown Guard",
         "Crown Draught"
@@ -402,6 +405,7 @@
         "Crown Guard",
         "Crown Vanguard",
         "Sealed Bulwark",
+        "Golem",
         "Banner Toll",
         "Banner Foundry",
         "Choir of the Reaches"
@@ -442,6 +446,7 @@
         "Banner Chanter",
         "Crown Automaton",
         "Reach Sentry",
+        "Flame Warden",
         "Marshal Writ",
         "Choir of the Reaches",
         "Reach Archer"
@@ -468,6 +473,7 @@
         "Crown Guard",
         "Reach Barricade",
         "Reach Watchtower",
+        "Elder Treant",
         "Marshal Courier",
         "Banner Toll",
         "Reach Archer"
@@ -494,6 +500,7 @@
         "Marshal Courier",
         "Choir of the Reaches",
         "Crownbound Knight",
+        "Rot Titan",
         "Marshal Writ",
         "Reach Sentry",
         "Banner Chanter"
@@ -544,6 +551,7 @@
         "The Pale Marshal",
         "Crown Vanguard",
         "Crownbound Knight",
+        "Molten Colossus",
         "The Last Banner",
         "Choir of the Reaches",
         "Reach Sentry",
@@ -576,6 +584,7 @@
       "enemyDeck": [
         "Reach Runner",
         "Crown Sentry",
+        "Rogue",
         "Banner Herald",
         "Reach Sconce",
         "Reach Step"

@@ -169,6 +169,7 @@
       "enemyDeck": [
         "Causeway Sentry",
         "Grey Mile Runner",
+        "Dark Elf",
         "Causeway Lamp",
         "Toll Chit"
       ]
@@ -193,6 +194,7 @@
       "enemyDeck": [
         "Causeway Sentry",
         "Tollgate Pikeman",
+        "Troll",
         "Causeway Lamp",
         "Grey Mile Runner",
         "Toll Chit"
@@ -218,6 +220,7 @@
       "enemyDeck": [
         "Causeway Sentry",
         "Causeway Archer",
+        "Bandit",
         "Causeway Rail",
         "Grey Mile Runner",
         "Debtor's Pace"
@@ -243,6 +246,7 @@
       "enemyDeck": [
         "Tollgate Pikeman",
         "Causeway Sentry",
+        "Dark Elf",
         "Milestone Cairn",
         "Candle Warden",
         "Toll Chit"
@@ -426,6 +430,7 @@
         "Toll Escort",
         "Tollgate Pikeman",
         "Toll Barracks",
+        "Troll",
         "Milestone Cairn",
         "Ledger of Debts",
         "Toll Bell Peal"
@@ -467,6 +472,7 @@
         "Causeway Chorus",
         "Candle Warden",
         "Weighbridge Shrine",
+        "Dark Elf",
         "Unremembered Toll-Taker",
         "Grey Mist Veil",
         "Toll Chit"
@@ -493,6 +499,7 @@
         "Tollgate Pikeman",
         "Causeway Rail",
         "Watchlamp Tower",
+        "Shipwreck Golem",
         "Unremembered Toll-Taker",
         "Ledger of Debts",
         "Causeway Archer"
@@ -519,6 +526,7 @@
         "Grey Rider",
         "Grey Mile Runner",
         "Toll Barracks",
+        "Shipwreck Golem",
         "Debtor's Pace",
         "Grey Mist Veil",
         "Causeway Sentry"
@@ -569,6 +577,7 @@
         "The Toll Warden",
         "Knight of the Toll",
         "Toll Escort",
+        "Flame Warden",
         "Toll Barracks",
         "Watchlamp Tower",
         "Toll Bell Peal",
@@ -603,6 +612,7 @@
         "Grey Rider",
         "Causeway Rail",
         "Toll Barracks",
+        "Ancient Treant",
         "Debtor's Pace",
         "Grey Mist Veil",
         "Watchlamp Tower"

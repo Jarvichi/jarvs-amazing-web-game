@@ -170,6 +170,7 @@
       "enemyDeck": [
         "Procession Runner",
         "Road Herald",
+        "Troll",
         "Vigil Walker",
         "Vigil Sconce"
       ]
@@ -194,6 +195,7 @@
       "enemyDeck": [
         "Procession Runner",
         "Vigil Walker",
+        "Troll",
         "Road Barricade",
         "Vigil Guard",
         "Road Step"
@@ -219,6 +221,7 @@
       "enemyDeck": [
         "Road Herald",
         "Vigil Sconce",
+        "Bandit",
         "Road Watchtower",
         "Vigil Guard",
         "Vigil Draught"
@@ -404,6 +407,7 @@
         "Vigil Guard",
         "Vigil Vanguard",
         "Sealed Waystation",
+        "Rot Titan",
         "Procession Toll",
         "Vigil Foundry",
         "Choir of the Vigil"
@@ -445,6 +449,7 @@
         "Road Chanter",
         "Procession Automaton",
         "Road Sentry",
+        "Volcanic Golem",
         "Procession Writ",
         "Choir of the Vigil",
         "Vigil Archer"
@@ -471,6 +476,7 @@
         "Vigil Guard",
         "Road Barricade",
         "Road Watchtower",
+        "Troll",
         "Procession Courier",
         "Procession Toll",
         "Vigil Archer"
@@ -497,6 +503,7 @@
         "Procession Courier",
         "Choir of the Vigil",
         "Roadbound Knight",
+        "Desert Titan",
         "Procession Writ",
         "Road Sentry",
         "Road Chanter"
@@ -547,6 +554,7 @@
         "The Procession Master",
         "Vigil Vanguard",
         "Roadbound Knight",
+        "Clockwork Titan",
         "The Endless Procession",
         "Choir of the Vigil",
         "Road Sentry",
@@ -580,6 +588,7 @@
       "enemyDeck": [
         "Vigil Guard",
         "Road Barricade",
+        "Shadow Stalker",
         "Procession Courier",
         "Vigil Archer",
         "Road Watchtower"
