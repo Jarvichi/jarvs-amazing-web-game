@@ -27,7 +27,11 @@ import {
   deleteSavedDeck,
   encodeDeck,
   decodeDeck,
+  buildDeckCards,
 } from '../../game/collection'
+import { analyseDeckPower } from '../../game/deckPower'
+import { loadPlayerArchetype } from '../../game/questline'
+import { loadPlayerStats } from '../../game/playerStats'
 import { CardTile } from './CardTile'
 import { CardCellFooter } from './CardCellFooter'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
@@ -41,6 +45,7 @@ import { FilterOption } from '../ui/filters/FilterOption'
 import { FilterPill } from '../ui/filters/FilterPill'
 import { EmptyState } from '../ui/EmptyState'
 import { Button } from '../ui/Button'
+import { DeckPowerBadge } from './DeckPowerBadge'
 
 const DECK_TUTORIAL_ID = 'deckbuilder'
 const DECK_TUTORIAL_STEPS = [
@@ -451,6 +456,16 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
   const maxDeckCost = deckCardObjects.reduce((m, c) => Math.max(m, c.cost), 0)
   const showManaWarning = maxDeckCost > 5 && !hasManaStructure
 
+  // Deck power rating. Scored from built cards rather than catalogue entries
+  // so the player's mastery levels and equipped augments are priced in.
+  const deckPower = useMemo(
+    () => analyseDeckPower(buildDeckCards(deck, collection), {
+      archetype: loadPlayerArchetype(),
+      maxMana: loadPlayerStats().maxMana,
+    }),
+    [deck, collection],
+  )
+
   // Deck list sorted by cost then name, filtered by active search term
   const deckList = deck
     .filter(e => {
@@ -479,6 +494,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
             {total}/{playerDeckMax} cards
             {total < DECK_MIN && ` (need ${DECK_MIN - total} more)`}
           </span>
+          <DeckPowerBadge power={deckPower} />
           {showManaWarning && (
             <span className="deckbuilder-mana-warn" title={`Deck has ${maxDeckCost}-cost cards but no mana structure`}>
               ⚠ no mana building

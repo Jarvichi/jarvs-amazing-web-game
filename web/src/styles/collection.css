@@ -1284,3 +1284,68 @@
 /* Small circular info buttons: scale, as .close-btn does. */
 .cell-info-btn:active,
 .deck-list-info-btn:active { transform: scale(0.9); }
+
+/* ─── Deck power badge ───────────────────────────────── */
+/* Sits with the card count in the deck builder header — both are read-outs
+   of "what have I built", so they share the .deckbuilder-status stack. */
+
+.deck-power-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.deck-power-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--font-xs);
+  font-family: var(--font-mono);
+  letter-spacing: 1px;
+  padding: 1px 6px;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  /* Tier colour comes from the --t* modifiers below; these are the parts
+     every tier shares. */
+  border: 1px solid color-mix(in srgb, var(--deck-power-tint) 50%, transparent);
+  background: color-mix(in srgb, var(--deck-power-tint) 10%, transparent);
+  color: var(--deck-power-tint);
+  transition: background var(--dur-fast);
+}
+.deck-power-badge:hover  { background: color-mix(in srgb, var(--deck-power-tint) 20%, transparent); }
+.deck-power-badge:active { transform: translateY(1px); }
+
+.deck-power-tier   { font-weight: bold; }
+.deck-power-name   { letter-spacing: 1px; }
+.deck-power-rating { color: var(--text-primary); font-weight: bold; }
+
+/* Cool grey at the bottom through to gold at the top — the same "gold means
+   rare/valuable" reading the rest of the game uses for rarity. */
+.deck-power-badge--t1 { --deck-power-tint: var(--color-gray-9); }
+.deck-power-badge--t2 { --deck-power-tint: var(--color-green-bright); }
+.deck-power-badge--t3 { --deck-power-tint: var(--accent-arcane); }
+.deck-power-badge--t4 { --deck-power-tint: var(--color-orange); }
+.deck-power-badge--t5 { --deck-power-tint: var(--accent-gold); }
+
+/* Anchored to the badge's right edge — the badge lives in the header's
+   right-hand slot, so a left-anchored popup would hang off-screen. */
+.deck-power-popup {
+  left: auto;
+  right: 0;
+  min-width: 220px;
+  gap: 6px;
+}
+
+.deck-power-popup-head {
+  font-size: var(--font-xs);
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: var(--accent-gold);
+}
+
+.deck-power-row {
+  font-size: var(--font-xs);
+  font-family: var(--font-mono);
+  justify-content: space-between;
+}
+.deck-power-row-name { color: var(--text-primary); }
+.deck-power-row-val  { color: var(--color-gray-9); }
