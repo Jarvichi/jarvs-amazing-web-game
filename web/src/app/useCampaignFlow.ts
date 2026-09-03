@@ -4,7 +4,11 @@ import type { BattleAction } from '../game/battleReducer'
 import type { User } from 'firebase/auth'
 import { newGame } from '../game/engine'
 import { makeNodeDeck, getCardCatalog } from '../game/cards'
-import { resolvedNodeOpts, carryHpAfterBattle, applyRestHeal, applyEventHeal } from '../game/campaignHelpers'
+import {
+  resolvedNodeOpts, carryHpAfterBattle, applyRestHeal, applyEventHeal,
+  resolveEffectiveTier, currentPlayerBandTier, deckDeltaFor,
+} from '../game/campaignHelpers'
+import { crystalTierMultiplier, OVERQUALIFIED_BONUS_PACKS } from '../game/economy'
 import {
   loadRun, saveRun, clearRun, newRun, LIVES_START, LIVES_MAX,
   skipSiblings, isActComplete, getProtectedFragmentNodeIds,
@@ -809,6 +813,12 @@ export function useCampaignFlow({
     const nodeId = currentRun.pendingNodeId!
     const node = act.nodes[nodeId]
 
+    // Deck-power effective tier (#2291) — drives the reward scaling below
+    // and the "overqualified" act-clear bonus, both #2294.
+    const rewardPlayerCards = buildDeckCards(loadDeck(), loadCollection())
+    const playerBandTier = currentPlayerBandTier(rewardPlayerCards)
+    const effectiveTier = resolveEffectiveTier(node, act, playerBandTier)
+
     // Merge this battle's card play counts into the run totals
     const mergedCounts: Record<string, number> = { ...currentRun.cardPlayCounts }
     for (const [name, n] of Object.entries(campaignPlayCountsRef.current)) {
@@ -852,9 +862,22 @@ export function useCampaignFlow({
       const actUnlocked = incrementAchievementProgress(`campaign:${currentRun.actId}`)
       if (actUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...actUnlocked])
 
+      // "Overqualified" bonus (#2294): clearing an act with a deck-power band
+      // above what it expects grants bonus packs — the anti-grind half of
+      // #2290. deckDeltaFor uses the SAME clamp as effectiveTier, so "+1"
+      // here means the same thing it means everywhere else in the tier system.
+      let overqualifiedBonusCards: string[] | undefined
+      if (deckDeltaFor(playerBandTier, act.expectedBand ?? 1) >= 1) {
+        const bonus: string[] = []
+        for (let i = 0; i < OVERQUALIFIED_BONUS_PACKS; i++) bonus.push(...generatePack())
+        addCardsToCollection(bonus.map(name => ({ cardName: name, count: 1 })))
+        overqualifiedBonusCards = bonus
+        rollbar.info('Overqualified act clear', { actId: currentRun.actId, playerBandTier, expectedBand: act.expectedBand, bonus })
+      }
+
       // Mark run as pending act-complete so a page refresh restores the actcomplete screen
       // rather than wiping the run and sending the player back to the title screen.
-      const actCompleteRun = { ...updatedRun, pendingActComplete: true }
+      const actCompleteRun = { ...updatedRun, pendingActComplete: true, overqualifiedBonusCards }
       saveRun(actCompleteRun)
       setRun(actCompleteRun)
 
@@ -888,8 +911,10 @@ export function useCampaignFlow({
       return
     }
 
-    // Grant crystals for winning (+ crystalBonus from replay modifiers)
-    const crystalReward = (node.type === 'boss' ? 25 : node.type === 'elite' ? 15 : 10) + (currentRun.crystalBonus ?? 0)
+    // Grant crystals for winning (+ crystalBonus from replay modifiers, ×
+    // the tier multiplier — a harder fight pays more, automatically; #2294).
+    const baseCrystalReward = (node.type === 'boss' ? 25 : node.type === 'elite' ? 15 : 10) + (currentRun.crystalBonus ?? 0)
+    const crystalReward = Math.round(baseCrystalReward * crystalTierMultiplier(effectiveTier))
     const newCrystals = loadCrystals() + crystalReward
     saveCrystals(newCrystals)
     setCrystals(newCrystals)
@@ -900,7 +925,7 @@ export function useCampaignFlow({
     const uniqueValid = [...new Set(node.enemyDeck ?? [])].filter(name => catalog.some(c => c.name === name))
     const choices = uniqueValid.length >= 3
       ? uniqueValid.sort(() => Math.random() - 0.5).slice(0, 3)
-      : generateRewardChoices(node.type, act.rewardTags)
+      : generateRewardChoices(node.type, act.rewardTags, effectiveTier)
     setRewardChoices(choices)
     setRewardCrystals(crystalReward)
     setScreen('reward')

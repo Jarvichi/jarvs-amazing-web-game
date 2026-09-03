@@ -11,6 +11,39 @@ import type { CardRarity } from './types'
 
 export const CRYSTAL_PACK_COST: number = raw.crystalPackCost
 
+// ── Tier reward scaling (#2291/#2294) ─────────────────────────────────────────
+//
+// A harder campaign fight should pay more, automatically — the anti-grind half
+// of the deck-power difficulty system (#2290). Tier 2 is resolvedNodeOpts'
+// authored baseline everywhere else, so it stays the 1.0x baseline here too:
+// scaling this up without also making tier 2 identity would mean the "harder
+// fight, better reward" trade came with a hidden nerf to every fight that
+// hadn't gotten harder at all.
+
+const TIER_REWARD_SCALING = raw.tierRewardScaling
+
+/** crystalReward × this, keyed by effectiveTier. Tier 2 → exactly 1.0. */
+export function crystalTierMultiplier(effectiveTier: number): number {
+  return 1 + TIER_REWARD_SCALING.crystalMultiplierStep * (effectiveTier - 2)
+}
+
+const RARITY_ORDER: CardRarity[] = ['common', 'uncommon', 'rare', 'epic', 'legendary']
+
+/**
+ * Shifts a reward rarity up one step at tier ≥ rarityFloorBoostTier (4),
+ * capped at legendary — mythic/shiny/holofoil/glass stay reserved for their
+ * own secret-rarity roll and are never reached by this boost.
+ */
+export function tierBoostedRarity(rarity: CardRarity, effectiveTier: number): CardRarity {
+  if (effectiveTier < TIER_REWARD_SCALING.rarityFloorBoostTier) return rarity
+  const idx = RARITY_ORDER.indexOf(rarity)
+  if (idx === -1 || idx === RARITY_ORDER.length - 1) return rarity
+  return RARITY_ORDER[idx + 1]
+}
+
+/** Bonus packs (full generatePack() draws) granted for completing an act with a deck-power band above what it expects. */
+export const OVERQUALIFIED_BONUS_PACKS: number = TIER_REWARD_SCALING.overqualifiedBonusPacks
+
 export const DISENCHANT_VALUE: Record<CardRarity, number> =
   raw.disenchantValue as Record<CardRarity, number>
 

@@ -3,6 +3,7 @@ import type { RoadDef, TerrainObstacle, BattlefieldDecorItem, TerrainPathDef } f
 import { loadPlayerStats } from './playerStats'
 import { logError } from '../logger'
 import { getCardCatalog } from './cards'
+import { tierBoostedRarity } from './economy'
 import { addConsumable, removeConsumable, getConsumables } from './itemStore'
 import consumablesData from '../data/consumables.json'
 
@@ -641,6 +642,14 @@ export interface RunState {
   activeModifierCount: number  // how many replay modifiers from the act's list are active this run
   runSeed: number              // stable random seed for this run (used for per-run node visibility rolls)
   archetype?: Archetype        // playstyle chosen on the character screen; set at run creation
+  /**
+   * Card names from the "overqualified" act-clear bonus (#2294) — granted
+   * when the player's deck-power band sits above what the act expects.
+   * Set once, on the battle that completes the act, and shown on the
+   * act-complete screen; cleared once shown so a page refresh doesn't
+   * re-display it.
+   */
+  overqualifiedBonusCards?: string[]
 }
 
 const RUN_KEY = 'jarv_run'
@@ -953,7 +962,13 @@ export function isActComplete(act: Act, run: RunState): boolean {
  *                  cards matching any tag get a 3× weight boost so themed cards
  *                  surface more often. Falls back to any card if pool is empty.
  */
-export function generateRewardChoices(nodeType: NodeType, actTags?: string[]): string[] {
+/**
+ * @param effectiveTier  Campaign deck-power tier (#2291) — at tier 4+ each
+ *                       picked rarity is boosted one step (tierBoostedRarity).
+ *                       Defaults to 2 (the authored baseline, no boost) for
+ *                       any caller outside the campaign tier system.
+ */
+export function generateRewardChoices(nodeType: NodeType, actTags?: string[], effectiveTier: number = 2): string[] {
   const catalog = getCardCatalog()
 
   // Weighted pool: act-themed cards appear 3× as often
@@ -970,7 +985,7 @@ export function generateRewardChoices(nodeType: NodeType, actTags?: string[]): s
   }
 
   function pick(r: CardRarity): string {
-    const p = pool(r)
+    const p = pool(tierBoostedRarity(r, effectiveTier))
     return p[Math.floor(Math.random() * p.length)]
   }
 

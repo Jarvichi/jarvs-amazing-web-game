@@ -13,7 +13,8 @@ import {
   clearRun, clearFatigued, getCachedAct, getCampaignForAct, loadPlayerName,
   clearLastRunFailed, ARCHETYPE_STARTER_PACK,
 } from '../../game/questline'
-import { saveCrystals } from '../../game/collection'
+import { saveCrystals, buildDeckCards, loadCollection, loadDeck } from '../../game/collection'
+import { resolveEffectiveTier, currentPlayerBandTier, tierRewardLabel } from '../../game/campaignHelpers'
 import { loadEarnedRelics } from '../../game/relics'
 import { getConsumables, addConsumable } from '../../game/itemStore'
 import { addToInventory } from '../../game/dailyLogin'
@@ -49,6 +50,16 @@ export function CampaignRoutes() {
     handleStarterPackPick, bonusPackCards, setBonusPackCards,
   } = useApp()
 
+  // Reward-screen tier label (#2294) — recomputed from the same node/deck
+  // inputs resolvedNodeOpts used to scale this battle's reward, so the label
+  // always matches what was actually granted. Only meaningful while the
+  // reward screen for a just-completed campaign node is showing.
+  const lastCompletedNodeId = run?.completedNodeIds[run.completedNodeIds.length - 1]
+  const lastCompletedNode = lastCompletedNodeId && actData ? actData.nodes[lastCompletedNodeId] : undefined
+  const rewardTierLabel = lastCompletedNode && actData
+    ? tierRewardLabel(resolveEffectiveTier(lastCompletedNode, actData, currentPlayerBandTier(buildDeckCards(loadDeck(), loadCollection()))))
+    : undefined
+
   return (
     <>
       {screen === 'nodemap' && run && actData && (
@@ -70,6 +81,7 @@ export function CampaignRoutes() {
           onPick={handleRewardPick}
           onSkip={handleRewardSkip}
           battleSummary={summaryStats ?? undefined}
+          tierLabel={rewardTierLabel}
         />
       )}
 
@@ -81,6 +93,7 @@ export function CampaignRoutes() {
           relicDesc={actData.rewardRelicDesc}
           onContinue={handleActComplete}
           hasNextAct={hasNextAct}
+          overqualifiedCards={run?.overqualifiedBonusCards}
         />
       )}
 

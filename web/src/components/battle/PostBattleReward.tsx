@@ -21,6 +21,14 @@ interface Props {
   headerOverride?: { title: string; sub: string }
   /** When provided, battle stats are shown above the reward cards. */
   battleSummary?: { stats: BattleStats; gameTime: number; playerScore: number }
+  /**
+   * Shown next to the crystal total when the reward was scaled by
+   * effectiveTier (#2291/#2294) — e.g. "TIER IV · ×1.5". A silent bonus
+   * teaches the player nothing; this is what makes the trade ("harder fight,
+   * better reward") visible. Omit for a tier-2 (unscaled) or non-campaign
+   * reward.
+   */
+  tierLabel?: string
 }
 
 const NODE_FLAVOUR: Record<NodeType, string> = {
@@ -38,7 +46,7 @@ const NODE_FLAVOUR: Record<NodeType, string> = {
   port:     '',
 }
 
-export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, headerOverride, battleSummary }: Props) {
+export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, headerOverride, battleSummary, tierLabel }: Props) {
   const catalog = getCardCatalog()
   const cards   = choices.map(name => catalog.find(c => c.name === name)).filter(Boolean) as ReturnType<typeof getCardCatalog>[number][]
 
@@ -87,7 +95,11 @@ export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, 
       <div className="reward-header u-text-c">
         <div className="reward-title">{headerOverride?.title ?? 'VICTORY'}</div>
         <div className="reward-sub">{headerOverride?.sub ?? NODE_FLAVOUR[nodeType]}</div>
-        {crystals > 0 && <div className="reward-crystals">+{crystals} ◆</div>}
+        {crystals > 0 && (
+          <div className="reward-crystals">
+            +{crystals} ◆{tierLabel && <span className="reward-tier-label"> · {tierLabel}</span>}
+          </div>
+        )}
       </div>
 
       {battleSummary && (

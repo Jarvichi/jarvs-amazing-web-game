@@ -1081,6 +1081,14 @@
   margin-top: 6px;
 }
 
+/* Names the tier multiplier that produced this reward — the point is
+   visibility, not decoration, so it rides right on the crystal line rather
+   than a separate badge the eye can skip. */
+.reward-tier-label {
+  color: var(--accent-gold);
+  font-size: var(--font-sm);
+}
+
 .reward-card-label {
   font-size: var(--font-xs);
   color: var(--game-text-color-muted);

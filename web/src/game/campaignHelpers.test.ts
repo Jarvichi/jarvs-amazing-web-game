@@ -3,10 +3,12 @@ import {
   tierFromHandicap,
   nodeEnemyTier,
   effectiveTierFor,
+  deckDeltaFor,
   resolveEffectiveTier,
   resolvedNodeOpts,
   answerCardsFor,
   interleaveAnswerCards,
+  tierRewardLabel,
 } from './campaignHelpers'
 import { QuestNode, Act } from './questline'
 import answerCardsData from '../data/answerCards.json'
@@ -301,5 +303,38 @@ describe('resolvedNodeOpts — answer cards', () => {
     const n = node({ enemyTier: 5 })
     const opts = resolvedNodeOpts(n, act({ expectedBand: 1 }), 1, [], structureDeck)
     expect(opts.enemyDeckNames).toBeUndefined()
+  })
+})
+
+// ─── Reward scaling (#2294) ──────────────────────────────────
+
+describe('deckDeltaFor', () => {
+  it('matches the delta effectiveTierFor uses internally', () => {
+    // effectiveTierFor(3, x, y) = clamp(1,5, 3 + deckDeltaFor(x,y)) when the
+    // sum doesn't clamp — pick inputs where it can't.
+    expect(deckDeltaFor(3, 2)).toBe(1)
+    expect(effectiveTierFor(2, 3, 2)).toBe(2 + deckDeltaFor(3, 2))
+  })
+
+  it('is the same [-1, +2] clamp as the tier delta', () => {
+    expect(deckDeltaFor(1, 5)).toBe(-1)
+    expect(deckDeltaFor(5, 1)).toBe(2)
+  })
+})
+
+describe('tierRewardLabel', () => {
+  it('is undefined at tier 2 — nothing to explain about an unscaled reward', () => {
+    expect(tierRewardLabel(2)).toBeUndefined()
+  })
+
+  it('names the tier and multiplier at every other tier', () => {
+    expect(tierRewardLabel(1)).toContain('TIER I')
+    expect(tierRewardLabel(3)).toContain('TIER III')
+    expect(tierRewardLabel(4)).toContain('TIER IV')
+    expect(tierRewardLabel(5)).toContain('TIER V')
+  })
+
+  it('shows a value below ×1 as a reduction, not a boost, at tier 1', () => {
+    expect(tierRewardLabel(1)).toContain('0.75')
   })
 })

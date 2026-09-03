@@ -43,6 +43,18 @@ export const Boss: Story = {
   },
 };
 
+/** #2294: a tier-scaled reward names the tier and multiplier that produced it. */
+export const TierScaledReward: Story = {
+  args: {
+    choices: ['Dragon', 'Paladin', 'Golem'],
+    nodeType: 'elite',
+    crystals: 45,
+    onPick: fn(),
+    onSkip: fn(),
+    tierLabel: 'TIER IV · ×1.5 crystals',
+  },
+};
+
 export const WithBattleSummary: Story = {
   args: {
     choices: ['Goblin', 'Archer', 'Dragon'],
