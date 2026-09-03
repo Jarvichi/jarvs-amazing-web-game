@@ -59,8 +59,11 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
           {(run.consumables?.find(c => c.id === 'memory_charm')?.count ?? 0) > 0 && (
             <ToolbarLabel>🔮 Memory Charm active</ToolbarLabel>
           )}
+          {(run.consumables?.find(c => c.id === 'ward_talisman')?.count ?? 0) > 0 && (
+            <ToolbarLabel>🛡 Ward Talisman ready</ToolbarLabel>
+          )}
           <ToolbarLabel>Items</ToolbarLabel>
-          {ALL_CONSUMABLES.filter(def => !def.guaranteesFragment).map(def => {
+          {ALL_CONSUMABLES.filter(def => !def.guaranteesFragment && !def.preventsLifeLoss).map(def => {
             const rc    = run.consumables?.find(c => c.id === def.id)
             const count = rc?.count ?? 0
             return (

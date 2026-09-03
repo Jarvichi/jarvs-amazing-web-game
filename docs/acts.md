@@ -153,8 +153,9 @@ Rules:
 ### 2.5 Event (`type: "event"`)
 - Text-adventure style choice. The player sees a title, description, and 2–4 choices.
 - Each choice has a `label`, `consequence` (displayed after pick), and an `effect`.
-- **Effects:** `healHp`, `damageHp`, `gainCrystals`, `gainCard`, `gainItem`, `nothing`.
-- Events are identified by `eventId`, which must match an entry in `events.json` or one of the generator functions (`generateShrineEvent`, `generateRuinsEvent`) in `questline.ts`.
+- **Effects:** `healHp`, `damageHp`, `gainCrystals`, `gainCard`, `gainItem`, `gainLife`, `nothing` (or a `compound` effect combining several).
+- Events are configured **inline**, per node, via an `eventConfig` object embedded directly in the act JSON — not looked up from an external catalog. `eventConfig` has `title`, `description`, and `pools: EventChoice[][]`: one pool per visible choice slot, with one entry randomly picked from each pool when the node is generated. This is what gives replays of the same node a different (but bounded) outcome without changing the node's title or description. See `NodeEventConfig` / `generateEventFromConfig()` in `questline.ts`.
+- **Target pool sizes:** each act should define **2–5 unique event nodes**, each with 2–3 choice pools of 2–4 outcome variants apiece. No event `title` may repeat across acts — a full campaign run (arc1 + arc2) must never show the player the same event twice. Within a single act, no two nodes may share an identical `eventConfig` (title, description, or pools) — author each node's flavor text fresh even when reusing a mechanical shape (e.g. "offer/pray/take" or "rest/search/climb").
 - Results should be **random** (one option can be negative — e.g. lose HP).
 - See the **Campaign Event Checklist** in `AGENTS.md` when adding new events.
 
@@ -289,6 +290,12 @@ When the act-completion screen shows the relic earned:
 
 `getRelicDef(name).applyToGame(state)` is called at battle start in `App.tsx`. Each relic modifies `GameState` fields. See `web/src/game/relics.ts`.
 
+### 6.5 Relic Pool Sizing
+
+`web/src/data/relics.json` holds exactly **one relic per act** (28 acts → 28 non-exotic relics, `rewardRelic` in each act JSON matched 1:1 against a catalog entry) plus a fixed set of **5 exotic relics** with rule-breaking effects (`exotic: true`). Exotics never come from an act's boss reward — they roll independently on any boss (15%) or elite (6%) node via `rollExoticDrop()`, capped at one of each per save.
+
+**This 1:1 sizing is intentional and verified correct — do not add "spare" relics.** Every new act must add exactly one new relic to `relics.json` (as the Act Authoring Checklist already requires). The exotic pool may grow independently if new rule-breaking mechanics are designed, but has no target count tied to act count.
+
 ---
 
 ## 7. Heroes
@@ -386,7 +393,7 @@ Music assets should live in `web/public/audio/`. The act `music` object should b
 
 As much campaign behaviour as possible is configured in JSON, not TypeScript:
 - Act node maps: `web/src/data/acts/act{N}.json`
-- Event catalog and pools: `web/src/data/events.json`
+- Event content: inline `eventConfig` on each `type: "event"` node in the act JSON (see §2.5) — there is no separate event data file
 - Card definitions: `web/src/data/cards.json`
 
 **Not yet in JSON (should be migrated):**
@@ -473,7 +480,21 @@ Each boss has a single unique **trait** — a dramatic ability that fires mid-ba
 
 ---
 
-## 12. Act Authoring Checklist
+## 14. Exotic Quest Chains
+
+Defined in `web/src/data/quests.json` (`QuestChainDef[]`, typed in `web/src/game/quests.ts`). Each chain is a persistent, cross-run meta-progression track — not part of a single campaign run — with 3 ordered steps (win-battle / kill-tagged / play-card-type conditions, always ending in a `defeat_boss` step tied to one specific act) that guarantee a named target card on completion. Progress persists in `localStorage` across runs; steps complete strictly in order.
+
+**Target pool size: one quest chain per act — currently met (28/28).** Every act has exactly one chain whose final step is `{ "type": "defeat_boss", "actId": "<that act's id>" }`, themed to that act's `rewardTags`/environment, with an intro line that fits the story beat at that point in the arc (read `docs/campaign2.md` before authoring arc2 chains). Target cards are existing `legendary`/`mythic` cards from `cards.json`, reused rather than invented — when adding the 29th act, check the target card isn't already claimed by another chain, by an act's `bossCard` field (arc2's "The `<boss name>`" legendary cards are that act's own Boss Card reward, not free for quest reuse), or tagged `boss` (a non-collectible battle stat block). Keep this 1:1 with acts as new acts land — every new act needs its own chain, same as it needs its own relic (§6.5).
+
+## 15. Consumables
+
+Defined in `web/src/data/consumables.json`, typed via `ConsumableDef` / `ALL_CONSUMABLES` in `web/src/game/questline.ts` (see the warning comment on `ALL_CONSUMABLES` in `web/src/game/itemStore.ts` before adding an entry — battle consumables must be added to this file to be drained into `RunState.consumables`; anything else, like a persistent currency, must NOT be). Currently 5: Health Potion (heal), Second Wind (extra life), Memory Charm (guarantees a reachable memory fragment), Ward Talisman (absorbs the next battle loss instead of costing a life — held passively, not manually used), Vigor Draught (permanently raises max HP for the run). Always offered in full at every merchant node and the hub shop (`buildMerchantItems()`), so the pool's *size* directly sets every single shop screen's length — don't grow this by just adding more of the same lever (more healing, more lives).
+
+Unlike events and quests, growing this pool is **not just data authoring** — each new consumable needs a real mechanical effect wired into the engine (see how `healAmount` / `livesAmount` / `guaranteesFragment` / `maxHpAmount` / `preventsLifeLoss` are each read and applied in `useConsumable()`, and `preventsLifeLoss` additionally in `handleCampaignRetry` in `useCampaignFlow.ts`), so treat a new consumable as a small feature, not a JSON entry. Before adding one, check what `RunState` field it would touch survives to where it's read — `crystalBonus` looked like a natural fit for an early draft of Vigor Draught's design and turned out to be reset on every node selection (`handleSelectNode`), which would have made a "permanent" effect silently no-op after the very next node pick.
+
+---
+
+## 16. Act Authoring Checklist
 
 When creating a new act JSON (`web/src/data/acts/act{N}.json`):
 
