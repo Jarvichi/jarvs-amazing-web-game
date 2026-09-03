@@ -1274,42 +1274,49 @@
       ],
       "environment": "fungal",
       "eventConfig": {
-        "title": "The Root Archive",
-        "description": "Columns of crystallised mycelium, each one preserving impressions of things the network witnessed. The Root Queen's full memory of the Fracture is here — she saw it from below. It reads differently from down here.",
+        "title": "The Marrow Chorus",
+        "description": "Deeper still, the mycelium thickens into something like a throat. A low hum passes through the walls — not sound exactly, more a pressure behind the eyes. Whatever the network is down here, it is listening back.",
         "pools": [
           [
             {
-              "label": "Absorb the archive",
-              "consequence": "The memory includes something useful — rare card",
+              "label": "Listen to the chorus",
+              "consequence": "Something in the hum resolves into meaning — rare card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "rare"
               }
             },
             {
-              "label": "Absorb the archive",
-              "consequence": "The network supply routes are mapped — +25 crystals",
+              "label": "Listen to the chorus",
+              "consequence": "The pressure builds too fast — lose 10 HP",
               "effect": {
-                "type": "gainCrystals",
-                "amount": 25
+                "type": "damageHp",
+                "amount": 10
               }
             }
           ],
           [
             {
-              "label": "Rest in the archive chamber",
-              "consequence": "The spores here are restorative — healed 15 HP",
+              "label": "Press your hand to the wall",
+              "consequence": "The marrow pulses gently — healed 12 HP",
               "effect": {
                 "type": "healHp",
-                "amount": 15
+                "amount": 12
               }
             },
             {
-              "label": "Rest in the archive chamber",
-              "consequence": "An uncommon card, preserved in the crystal",
+              "label": "Press your hand to the wall",
+              "consequence": "A vein of crystallised spore breaks loose — +20 crystals",
               "effect": {
-                "type": "gainCard",
-                "rarity": "uncommon"
+                "type": "gainCrystals",
+                "amount": 20
+              }
+            },
+            {
+              "label": "Press your hand to the wall",
+              "consequence": "It recoils from you. Nothing happens.",
+              "effect": {
+                "type": "nothing"
               }
             }
           ]
@@ -1329,65 +1336,56 @@
       ],
       "environment": "fungal",
       "eventConfig": {
-        "title": "The Bloom Vent",
-        "description": "A wide fissure in the cavern floor, releasing slow pulses of warm spores. The clouds carry bioluminescent fragments — and, somehow, impressions. The network remembers everything that died down here.",
+        "title": "The Choking Bloom",
+        "description": "The vents down here are thicker, angrier — spore clouds so dense they blur the tunnel ahead. Something the network lost is buried in the haze, if it can be reached before the air does its work.",
         "pools": [
           [
             {
-              "label": "Walk through the bloom",
-              "consequence": "The spores knit wounds — healed 15 HP",
-              "effect": {
-                "type": "healHp",
-                "amount": 15
-              }
-            },
-            {
-              "label": "Walk through the bloom",
-              "consequence": "A rare card drifts free of the cloud",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "rare"
-              }
-            },
-            {
-              "label": "Walk through the bloom",
-              "consequence": "The bloom is toxic here — lose 12 HP",
-              "effect": {
-                "type": "damageHp",
-                "amount": 12
-              }
-            },
-            {
-              "label": "Walk through the bloom",
-              "consequence": "+25 crystals in crystallised spore residue",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 25
-              }
-            }
-          ],
-          [
-            {
-              "label": "Collect the bloom fragments",
-              "consequence": "+30 crystals from the luminescent residue",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 30
-              }
-            },
-            {
-              "label": "Collect the bloom fragments",
-              "consequence": "An uncommon card, preserved in the spore mass",
+              "label": "Push through the haze",
+              "consequence": "You break through with something in hand — an uncommon card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "uncommon"
               }
             },
             {
-              "label": "Collect the bloom fragments",
-              "consequence": "Nothing worth keeping. But the air clears.",
+              "label": "Push through the haze",
+              "consequence": "The spores burn going down — lose 14 HP",
+              "effect": {
+                "type": "damageHp",
+                "amount": 14
+              }
+            },
+            {
+              "label": "Push through the haze",
+              "consequence": "+28 crystals scavenged from the drift",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 28
+              }
+            }
+          ],
+          [
+            {
+              "label": "Hold your breath and wait it out",
+              "consequence": "The cloud thins. Nothing to show for it.",
               "effect": {
                 "type": "nothing"
+              }
+            },
+            {
+              "label": "Hold your breath and wait it out",
+              "consequence": "A strange spore-husk survives the wait — added to inventory",
+              "effect": {
+                "type": "gainItem"
+              }
+            },
+            {
+              "label": "Hold your breath and wait it out",
+              "consequence": "The haze clears just enough to heal your lungs — restored 10 HP",
+              "effect": {
+                "type": "healHp",
+                "amount": 10
               }
             }
           ]

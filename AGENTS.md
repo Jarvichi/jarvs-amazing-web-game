@@ -648,11 +648,13 @@ feat(actN): implement <Title>
 
 ## Campaign Event Checklist
 
-When creating or modifying act files, ensure any new `eventId` values are present in `web/src/data/events.json` or handled by generator functions:
+Event nodes (`type: "event"`) are configured **inline** via an `eventConfig` object embedded directly on the node in its act JSON — there is no external event catalog file. See `docs/acts.md` §2.5 for the full schema (`NodeEventConfig` / `generateEventFromConfig()` in `questline.ts`).
 
-- **Named catalog entry:** add to `catalog` in `events.json` with `id`, `title`, `description`, `choices`.
-- **Procedural:** add a generator in `questline.ts` and register in `EVENT_CATALOG`.
-- **Act JSON:** `eventId` must exactly match the catalog key.
+When adding or modifying an event node:
+
+- **`eventConfig`:** set `title`, `description`, and `pools` (one array per choice slot; one entry is randomly picked from each pool per encounter) directly on the node.
+- **No duplicate titles:** an event `title` must not repeat anywhere else in the campaign (across both arcs) — check other act JSON files before reusing a name.
+- **No copy-pasted nodes:** don't reuse another node's `eventConfig` wholesale, even within the same act — reflavor the text even when the mechanical shape (offer/search/rest-style pools) is reused.
 - **QA:** Run dev server, navigate to the node, confirm it opens the event UI.
 - **Assets:** Ensure sprites/card images for any new items/cards are committed.
 - **Commit message:** e.g. `feat(campaign): add supply-cache event + act2 node reference`
