@@ -1,6 +1,8 @@
 // ── Node Peek Modal ────────────────────────────────────────────────────────────
 
 import { QuestNode, ReplayModifier } from "../../../game/questline";
+import { nodeEnemyTier, effectiveTierFor } from "../../../game/campaignHelpers";
+import { DECK_POWER_BANDS } from "../../../game/deckPower";
 import { StatRow } from "../StatRow";
 import { Button } from "../Button";
 import { NODE_ICON, NODE_LABEL } from "./constants";
@@ -19,6 +21,9 @@ function rewardSummary(node: QuestNode): string {
   }
 }
 
+// Fallback for contexts with no player deck-power reading (e.g. the hub
+// world map never reaches this — see the `mode === 'world'` branch below —
+// but kept for any future non-campaign caller).
 const DIFFICULTY_LABELS = ['Easy', 'Easy', 'Medium', 'Medium', 'Hard', 'Hard', 'Very Hard', 'Brutal']
 function difficultyLabel(handicap: number | undefined): string {
   return DIFFICULTY_LABELS[Math.min(handicap ?? 0, DIFFICULTY_LABELS.length - 1)]
@@ -26,6 +31,23 @@ function difficultyLabel(handicap: number | undefined): string {
 function difficultyColor(handicap: number | undefined): string {
   const h = handicap ?? 0
   return h <= 1 ? '#33ff33' : h <= 3 ? '#ffcc00' : h <= 5 ? '#ff8844' : '#ff4444'
+}
+
+const TIER_NUMERAL = ['', 'I', 'II', 'III', 'IV', 'V']
+/** Mirrors difficultyColor's bands, one step per tier instead of per handicap point. */
+const TIER_COLOR = ['', '#33ff33', '#ffcc00', '#ff8844', '#ff4444', '#ff4444']
+
+function tierBandName(bandTier: number): string {
+  return DECK_POWER_BANDS.find(b => b.tier === bandTier)?.name ?? ''
+}
+
+/** Why the fight is harder/easier than its authored tier — the point of showing this at all. */
+function tierReason(nodeTier: number, effectiveTier: number, playerBandTier: number): string | null {
+  if (effectiveTier === nodeTier) return null
+  const band = tierBandName(playerBandTier)
+  return effectiveTier > nodeTier
+    ? `Your ${band} deck is a step above this fight`
+    : `Eased for a ${band} deck`
 }
 
 const BOSS_AI_DESCRIPTIONS: Record<string, string> = {
@@ -62,15 +84,23 @@ interface PeekModalProps {
   mode?: 'campaign' | 'world'
   isCleared?: boolean
   isAvailable?: boolean
+  /** The player's current deck-power band tier (1-5, see deckPower.ts). Omitted outside campaign. */
+  playerBandTier?: number
+  /** The act's assumed deck-power band — drives the "why is this different" explanation. */
+  expectedBand?: number
 }
 
 export function NodePeekModal({
   node, actId = '', nodeHistory = new Set(), activeModifiers = [],
   onEnter, onClose,
   mode = 'campaign', isCleared = false, isAvailable = true,
+  playerBandTier, expectedBand,
 }: PeekModalProps) {
   const hasPreviouslyCompleted = nodeHistory.has(`${actId}:${node.id}`)
   const isBattle = node.type === 'battle' || node.type === 'elite' || node.type === 'boss'
+  const nodeTier = nodeEnemyTier(node)
+  const effectiveTier = playerBandTier != null ? effectiveTierFor(nodeTier, playerBandTier, expectedBand ?? 1) : undefined
+  const reason = effectiveTier != null && playerBandTier != null ? tierReason(nodeTier, effectiveTier, playerBandTier) : null
   return (
     <div className="nm-peek-backdrop" onClick={onClose}>
       <div className="nm-peek-panel" onClick={e => e.stopPropagation()}>
@@ -108,8 +138,16 @@ export function NodePeekModal({
             {node.description && <div className="nm-peek-desc">{node.description}</div>}
             <StatRow label="REWARD" value={<span className="nm-peek-reward">{rewardSummary(node)}</span>} />
             {isBattle && (
-              <StatRow label="DIFFICULTY"
-                value={<span style={{ color: difficultyColor(node.handicap) }}>{difficultyLabel(node.handicap)}</span>} />
+              effectiveTier != null ? (
+                <StatRow label="DIFFICULTY"
+                  value={<span style={{ color: TIER_COLOR[effectiveTier] }}>TIER {TIER_NUMERAL[effectiveTier]}</span>} />
+              ) : (
+                <StatRow label="DIFFICULTY"
+                  value={<span style={{ color: difficultyColor(node.handicap) }}>{difficultyLabel(node.handicap)}</span>} />
+              )
+            )}
+            {isBattle && reason && (
+              <div className="nm-peek-tier-reason">{reason}</div>
             )}
             {hasPreviouslyCompleted && isBattle && (
               <div className="nm-peek-history u-col u-gap-2">

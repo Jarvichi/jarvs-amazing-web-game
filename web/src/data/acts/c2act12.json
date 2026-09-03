@@ -1,5 +1,6 @@
 {
   "id": "c2act12",
+  "expectedBand": 5,
   "nextActId": "c2act13",
   "title": "ACT XII",
   "subtitle": "The Crown Reaches",
@@ -152,6 +153,7 @@
     "reach-threshold": {
       "id": "reach-threshold",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Reach Threshold",
       "description": "Where the vigil road's last mile gives way to the Court's last fortified line.",
       "row": 0,
@@ -176,6 +178,7 @@
     "the-crown-causeway": {
       "id": "the-crown-causeway",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Crown Causeway",
       "description": "A causeway fortified so thoroughly the stones remember every siege it's survived.",
       "row": 1,
@@ -199,6 +202,7 @@
     "the-banner-ramparts": {
       "id": "the-banner-ramparts",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Banner Ramparts",
       "description": "A rampart line garrisoned like the reach still needs guarding \u2014 because to the Court, it does.",
       "row": 1,
@@ -381,6 +385,7 @@
     "the-crown-company": {
       "id": "the-crown-company",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Crown Company",
       "description": "A file of Court soldiers holding formation in the last line the capital has left.",
       "row": 3,
@@ -420,6 +425,7 @@
     "the-banner-line": {
       "id": "the-banner-line",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Banner Line",
       "description": "A line of soldiers who never got new orders when the reach became the Court's last one.",
       "row": 3,
@@ -445,6 +451,7 @@
     "the-deep-reach": {
       "id": "the-deep-reach",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Deep Reach",
       "description": "A stretch of reach fortified deep enough that even the mist stops following.",
       "row": 4,
@@ -469,6 +476,7 @@
     "the-last-stand": {
       "id": "the-last-stand",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Last Stand",
       "description": "The final fortified line before the Marshal's own command post.",
       "row": 4,
@@ -521,6 +529,7 @@
     "palemarshal-node": {
       "id": "palemarshal-node",
       "type": "boss",
+      "enemyTier": 5,
       "label": "The Pale Marshal",
       "description": "Three centuries of holding end here, before a commander who decides whether the Court has a capital left to defend.",
       "row": 6,
@@ -551,6 +560,7 @@
     "the-fortress-flank": {
       "id": "the-fortress-flank",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Fortress Flank",
       "description": "A flanking stretch of the reach, fortified the same as the main causeway.",
       "row": 1,

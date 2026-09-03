@@ -1,5 +1,6 @@
 {
   "id": "act7",
+  "expectedBand": 2,
   "nextActId": "act8",
   "title": "ACT VII",
   "subtitle": "The Emberfall Peaks",
@@ -349,6 +350,7 @@
     "cinder-approach": {
       "id": "cinder-approach",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Cinder Approach",
       "description": "The first ridge. Crawler swarms patrol the ash fields below the treeline.",
       "row": 0,
@@ -578,6 +580,7 @@
     "magma-ford": {
       "id": "magma-ford",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Magma Ford",
       "description": "A crossing over a slow lava channel. The Cinderwarlord's regulars hold the far bank.",
       "row": 3,
@@ -610,6 +613,7 @@
     "volcanic-battery": {
       "id": "volcanic-battery",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Volcanic Battery",
       "description": "Artillery emplacements built into the crater wall. Magma vents power the launchers.",
       "row": 4,
@@ -786,6 +790,7 @@
     "pyroclast-elite": {
       "id": "pyroclast-elite",
       "type": "elite",
+      "enemyTier": 4,
       "label": "Pyroclast Guard",
       "description": "The Cinderwarlord's elite shock troops. They charge through the hot zones without flinching.",
       "row": 3,
@@ -820,6 +825,7 @@
     "caldera-gate": {
       "id": "caldera-gate",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Caldera Gate",
       "description": "The entrance to the caldera. The Cinderwarlord's main garrison blocks the pass.",
       "row": 6,
@@ -921,6 +927,7 @@
     "summit-elite": {
       "id": "summit-elite",
       "type": "elite",
+      "enemyTier": 4,
       "label": "Cinderwarlord's Vanguard",
       "description": "The Cinderwarlord's personal guard. They've been briefed on you specifically.",
       "row": 4,
@@ -954,6 +961,7 @@
     "cinderwarlord": {
       "id": "cinderwarlord",
       "type": "boss",
+      "enemyTier": 5,
       "label": "The Cinderwarlord",
       "description": "Commander of the Emberfall Peaks. He and the volcanoes have an understanding.",
       "row": 7,
@@ -994,6 +1002,7 @@
     "node-1776773449164": {
       "id": "node-1776773449164",
       "type": "battle",
+      "enemyTier": 1,
       "label": "The Oooze",
       "description": "Lava drips constantly from a hot spot in the rock.",
       "row": 1,
@@ -1012,6 +1021,7 @@
     "node-1776773449934": {
       "id": "node-1776773449934",
       "type": "battle",
+      "enemyTier": 1,
       "label": "The Endless Flare",
       "description": "A flame emits continuously from the ground.",
       "row": 1,
@@ -1033,6 +1043,7 @@
     "node-1776773548319": {
       "id": "node-1776773548319",
       "type": "battle",
+      "enemyTier": 1,
       "label": "The Eye Of Fire",
       "description": "A magma bubble frozen in a permanent state looks like an eye, flames flicker around its periphery.",
       "row": 1,
@@ -1054,6 +1065,7 @@
     "node-1776774411796": {
       "id": "node-1776774411796",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Magma Forge",
       "description": "A smithy slaves over a slow lava channel. The Cinderwarlord's regulars hold the far bank.",
       "row": 3,

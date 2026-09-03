@@ -1,5 +1,6 @@
 {
   "id": "act12",
+  "expectedBand": 3,
   "nextActId": "act13",
   "title": "ACT XII",
   "subtitle": "The Shattered Coast",
@@ -349,6 +350,7 @@
     "shore-landing": {
       "id": "shore-landing",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Shore Landing",
       "description": "Enemy scouts hold the beach.",
       "row": 0,
@@ -468,6 +470,7 @@
     "deep-waters": {
       "id": "deep-waters",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Deep Waters",
       "description": "The wrecks come alive at this depth.",
       "row": 2,
@@ -491,6 +494,7 @@
     "reef-outpost": {
       "id": "reef-outpost",
       "type": "battle",
+      "enemyTier": 5,
       "label": "Reef Outpost",
       "description": "Storm troops hold the reef line.",
       "row": 4,
@@ -582,6 +586,7 @@
     "diver-cove": {
       "id": "diver-cove",
       "type": "elite",
+      "enemyTier": 5,
       "label": "Diver Cove",
       "description": "Elite wreck divers guard hidden salvage.",
       "row": 3,
@@ -607,6 +612,7 @@
     "stormwall": {
       "id": "stormwall",
       "type": "battle",
+      "enemyTier": 5,
       "label": "Stormwall",
       "description": "The storm wall cuts off the inner coast.",
       "row": 5,
@@ -711,6 +717,7 @@
     "iron-anchorage": {
       "id": "iron-anchorage",
       "type": "elite",
+      "enemyTier": 5,
       "label": "Iron Anchorage",
       "description": "The Harbormaster's advance guard — iron-hulled and merciless.",
       "row": 4,
@@ -737,6 +744,7 @@
     "the-harbormaster-node": {
       "id": "the-harbormaster-node",
       "type": "boss",
+      "enemyTier": 1,
       "label": "The Harbormaster",
       "description": "Iron admiral of the Shattered Coast.",
       "row": 6,

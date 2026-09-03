@@ -1,5 +1,6 @@
 {
   "id": "c2act6",
+  "expectedBand": 4,
   "nextActId": "c2act7",
   "title": "ACT VI",
   "subtitle": "The Sunken Border",
@@ -152,6 +153,7 @@
     "waterline-threshold": {
       "id": "waterline-threshold",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The Waterline Threshold",
       "description": "Where the Candle City's last gate empties onto a shoreline the tide finished rebuilding overnight.",
       "row": 0,
@@ -175,6 +177,7 @@
     "the-drowned-causeway": {
       "id": "the-drowned-causeway",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Drowned Causeway",
       "description": "A mile of road standing exactly where the tide left it, going under at both ends.",
       "row": 1,
@@ -198,6 +201,7 @@
     "the-tideworn-ramparts": {
       "id": "the-tideworn-ramparts",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Tideworn Ramparts",
       "description": "A rampart line built for a border that used to be twenty miles further out.",
       "row": 1,
@@ -381,6 +385,7 @@
     "the-sunken-company": {
       "id": "the-sunken-company",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Sunken Company",
       "description": "A file of Court soldiers holding formation in water up to their knees, same as they have for three centuries.",
       "row": 4,
@@ -421,6 +426,7 @@
     "the-waterlogged-line": {
       "id": "the-waterlogged-line",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Waterlogged Line",
       "description": "A line of soldiers who never got new orders when the tide reclaimed their post.",
       "row": 4,
@@ -446,6 +452,7 @@
     "the-deep-shoals": {
       "id": "the-deep-shoals",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Deep Shoals",
       "description": "Shoals deep enough that even the mist stops following.",
       "row": 5,
@@ -470,6 +477,7 @@
     "the-last-landing": {
       "id": "the-last-landing",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Last Landing",
       "description": "The final stretch of shore before the Envoy's own ground.",
       "row": 5,
@@ -522,6 +530,7 @@
     "drowned-envoy-node": {
       "id": "drowned-envoy-node",
       "type": "boss",
+      "enemyTier": 5,
       "label": "The Drowned Envoy",
       "description": "Eleven miles of reclaimed coastline end here, before a herald who commands the tide itself.",
       "row": 7,

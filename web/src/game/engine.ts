@@ -151,6 +151,10 @@ export interface NewGameOptions {
   forgiveManaLimit?: boolean
   /** Daily challenge mode: sets max mana floor to the highest card cost in the player's deck. */
   isDailyChallenge?: boolean
+  /** Extra mana floor for the opponent (campaign tier 4+ — see effectiveTier in campaignHelpers.ts). Read by opponentAI.ts via GameState. */
+  opponentManaFloorBonus?: number
+  /** Raises the opponent's per-turn play ceiling (campaign tier 5). Read by opponentAI.ts via GameState. */
+  opponentMaxPlaysOverride?: number
 }
 
 export function newGame(
@@ -196,6 +200,8 @@ export function newGame(
     opponentCardPool,
     forgiveManaLimit,
     isDailyChallenge,
+    opponentManaFloorBonus,
+    opponentMaxPlaysOverride,
   } = opts
 
   // Pre-built decks are already in seeded order — don't re-shuffle with Math.random()
@@ -375,6 +381,8 @@ export function newGame(
     deckMaxMana,
     bossPhase2Hp,
     pendingSpellCast: null,
+    opponentManaFloorBonus,
+    opponentMaxPlaysOverride,
   }
 }
 

@@ -159,7 +159,7 @@ export default function App() {
         const earnedEntries = (savedRun.earnedCards ?? []).map(n => ({ cardName: n, count: 1 }))
         if (earnedEntries.length > 0) playerCards.push(...buildDeckCards(earnedEntries, collection))
         const mods = act ? getModifiersByCount(act, savedRun.activeModifierCount) : []
-        const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods) })
+        const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods, playerCards) })
         state.playerBase = { hp: savedRun.playerHp, maxHp: savedRun.maxHp }
         if (savedRun.activeRelic) getRelicDef(savedRun.activeRelic)?.applyToGame(state)
         syncPlayerCommanderToBase(state)
@@ -346,7 +346,7 @@ export default function App() {
           const earnedEntries = (savedRun.earnedCards ?? []).map(n => ({ cardName: n, count: 1 }))
           if (earnedEntries.length > 0) playerCards.push(...buildDeckCards(earnedEntries, collection))
           const mods = act ? getModifiersByCount(act, savedRun.activeModifierCount) : []
-          const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods) })
+          const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods, playerCards) })
           state.playerBase = { hp: savedRun.playerHp, maxHp: savedRun.maxHp }
           if (savedRun.activeRelic) getRelicDef(savedRun.activeRelic)?.applyToGame(state)
           syncPlayerCommanderToBase(state)

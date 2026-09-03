@@ -1,5 +1,6 @@
 {
   "id": "c2act13",
+  "expectedBand": 5,
   "nextActId": "c2finale",
   "title": "ACT XIII",
   "subtitle": "The City of Vigils",
@@ -152,6 +153,7 @@
     "the-city-gate": {
       "id": "the-city-gate",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The City Gate",
       "description": "Where the reach's last fortified line gives way to the capital's own lit wards.",
       "row": 0,
@@ -176,6 +178,7 @@
     "the-candlelit-colonnade": {
       "id": "the-candlelit-colonnade",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Candlelit Colonnade",
       "description": "A colonnade lined with sconces that have never once been allowed to gutter.",
       "row": 1,
@@ -200,6 +203,7 @@
     "the-ward-approach": {
       "id": "the-ward-approach",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Ward Approach",
       "description": "An approach garrisoned like the city still needs guarding \u2014 because to the Court, it does.",
       "row": 1,
@@ -382,6 +386,7 @@
     "the-palace-guard": {
       "id": "the-palace-guard",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Palace Guard",
       "description": "A file of Court soldiers holding formation in the last ward the capital has left.",
       "row": 3,
@@ -421,6 +426,7 @@
     "the-ward-line": {
       "id": "the-ward-line",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Ward Line",
       "description": "A line of guards who never got new orders when the city became the Court's last one.",
       "row": 4,
@@ -448,6 +454,7 @@
     "the-deep-wards": {
       "id": "the-deep-wards",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Deep Wards",
       "description": "A stretch of ward lit deep enough that even the mist stops following.",
       "row": 5,
@@ -472,6 +479,7 @@
     "the-last-lit-ward": {
       "id": "the-last-lit-ward",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Last Lit Ward",
       "description": "The final lit line before the Queen's own vigil chamber.",
       "row": 5,
@@ -524,6 +532,7 @@
     "vigilqueen-node": {
       "id": "vigilqueen-node",
       "type": "boss",
+      "enemyTier": 5,
       "label": "The Vigil Queen",
       "description": "Three centuries of keeping end here, before a sovereign who decides whether the Court has a capital left at all.",
       "row": 7,
@@ -554,6 +563,7 @@
     "the-lantern-flank": {
       "id": "the-lantern-flank",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Lantern Flank",
       "description": "A flanking approach lit by lanterns instead of sconces, guarded the same as any ward.",
       "row": 1,
@@ -577,6 +587,7 @@
     "the-far-ward": {
       "id": "the-far-ward",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Far Ward",
       "description": "A ward further from the palace than the registry admits patrolling.",
       "row": 5,

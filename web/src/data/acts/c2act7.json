@@ -1,5 +1,6 @@
 {
   "id": "c2act7",
+  "expectedBand": 5,
   "nextActId": "c2act8",
   "title": "ACT VII",
   "subtitle": "The Mirror Marsh",
@@ -152,6 +153,7 @@
     "mirror-threshold": {
       "id": "mirror-threshold",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Mirror Threshold",
       "description": "Where the Sunken Border's last drowned tower gives way to water still enough to hold a reflection.",
       "row": 0,
@@ -176,6 +178,7 @@
     "the-reed-causeway": {
       "id": "the-reed-causeway",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Reed Causeway",
       "description": "A causeway grown over with reeds tall enough to remember the world before the Fracture.",
       "row": 1,
@@ -200,6 +203,7 @@
     "the-glasswater-ramparts": {
       "id": "the-glasswater-ramparts",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Glasswater Ramparts",
       "description": "A rampart line built along water so still the garrison forgot which side of it was real.",
       "row": 1,
@@ -382,6 +386,7 @@
     "the-still-company": {
       "id": "the-still-company",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Still Company",
       "description": "A file of Court soldiers holding formation in water so calm it never gives their positions away.",
       "row": 3,
@@ -422,6 +427,7 @@
     "the-drowned-line": {
       "id": "the-drowned-line",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Drowned Line",
       "description": "A line of soldiers who never got new orders when the marsh reclaimed their post.",
       "row": 3,
@@ -449,6 +455,7 @@
     "the-deep-shallows": {
       "id": "the-deep-shallows",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Deep Shallows",
       "description": "Shallows deep enough that even the reflection stops following.",
       "row": 4,
@@ -473,6 +480,7 @@
     "the-last-crossing": {
       "id": "the-last-crossing",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Last Crossing",
       "description": "The final stretch of water before the Reflection's own ground.",
       "row": 4,
@@ -525,6 +533,7 @@
     "reflection-node": {
       "id": "reflection-node",
       "type": "boss",
+      "enemyTier": 5,
       "label": "The Reflection",
       "description": "Nine miles of still water end here, before a herald who shows the world exactly as it was.",
       "row": 6,
@@ -555,6 +564,7 @@
     "the-marsh-flank": {
       "id": "the-marsh-flank",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Marsh Flank",
       "description": "A flanking stretch of marsh, garrisoned to keep the middle crossing honest.",
       "row": 1,
@@ -645,6 +655,7 @@
     "the-sunken-flank": {
       "id": "the-sunken-flank",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Sunken Flank",
       "description": "A flanking stretch of the last crossing, half under water already.",
       "row": 4,
@@ -668,6 +679,7 @@
     "the-glass-shallows": {
       "id": "the-glass-shallows",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Glass Shallows",
       "description": "Shallows so still the garrison drills by watching their own doubled reflection.",
       "row": 4,

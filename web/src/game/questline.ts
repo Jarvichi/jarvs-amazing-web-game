@@ -161,7 +161,18 @@ export interface QuestNode {
   battleConfig?: { actId: string; nodeId: string }
 
   childIds: string[]
-  handicap?: number  // opponent handicap for battle/elite/boss
+  handicap?: number  // opponent handicap for battle/elite/boss — superseded by enemyTier; see #2290/#2291
+  /**
+   * Difficulty tier (1-5) for battle/elite/boss nodes, resolved against the
+   * player's deck-power band into an `effectiveTier` at battle start (see
+   * `resolveEffectiveTier` in campaignHelpers.ts). Replaces `handicap`, which
+   * `newGame()` never actually reads once a node supplies `enemyDeck` and/or
+   * `opponentIntervalMs` — every authored node does, so `handicap` reached
+   * only a UI label. A node with no `enemyTier` falls back to
+   * `clamp(1, round(handicap / 7) + 1, 5)` (see `tierFromHandicap`) so
+   * un-migrated nodes keep behaving exactly as before.
+   */
+  enemyTier?: number
   restHeal?: number  // HP healed at rest nodes
   bossAI?: string        // 'thornlord' etc. — triggers a specific boss AI
   bossCard?: string      // card name to deploy when opponent base falls (phase 2)
@@ -423,6 +434,17 @@ export interface Act extends WorldMap {
    * All modifiers up to the current replay index stack additively.
    */
   replayModifiers?: ReplayModifier[]
+
+  /**
+   * The deck-power band (1-5, see `DECK_POWER_BANDS` in deckPower.ts) this
+   * act assumes a player arrives with. `resolveEffectiveTier` compares the
+   * player's actual band against this to shift node difficulty — a player
+   * well above it sees harder nodes, one below it sees a little mercy.
+   * Nodes with no `enemyTier` (not yet migrated) ignore this entirely.
+   * Defaults to 1 when absent, so an un-migrated act never becomes harder
+   * than authored.
+   */
+  expectedBand?: number
 }
 
 // ─── Run counter ──────────────────────────────────────────

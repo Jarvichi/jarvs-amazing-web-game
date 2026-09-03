@@ -1,5 +1,6 @@
 {
   "id": "c2act4",
+  "expectedBand": 4,
   "nextActId": "c2act5",
   "title": "ACT IV",
   "subtitle": "The Archive of Names",
@@ -152,6 +153,7 @@
     "threshold-stacks": {
       "id": "threshold-stacks",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The Threshold Stacks",
       "description": "Where the last turned furrow gives way to the first dressed shelf of the Archive.",
       "row": 0,
@@ -177,6 +179,7 @@
     "the-first-aisle": {
       "id": "the-first-aisle",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The First Aisle",
       "description": "A shelf-lined aisle still smelling of turned earth from the fields behind it.",
       "row": 1,
@@ -200,6 +203,7 @@
     "the-outer-shelves": {
       "id": "the-outer-shelves",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The Outer Shelves",
       "description": "A wing garrisoned like it still needs guarding \u2014 because to Amarath, it does.",
       "row": 1,
@@ -382,6 +386,7 @@
     "the-warden-line": {
       "id": "the-warden-line",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Warden Line",
       "description": "A file of archive wardens holding the deep stacks in strict, patient order.",
       "row": 3,
@@ -421,6 +426,7 @@
     "the-unshelved-row": {
       "id": "the-unshelved-row",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Unshelved Row",
       "description": "A row of archivists, still holding places for a cataloguing that never comes.",
       "row": 4,
@@ -450,6 +456,7 @@
     "the-deep-stacks": {
       "id": "the-deep-stacks",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Deep Stacks",
       "description": "Shelving garrisoned like a border, deep enough that the mist forgets to follow.",
       "row": 5,
@@ -474,6 +481,7 @@
     "the-last-registry": {
       "id": "the-last-registry",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Last Registry",
       "description": "The Archive's final registry room, where even the reading-lamps burn lower.",
       "row": 5,
@@ -526,6 +534,7 @@
     "nameeater-node": {
       "id": "nameeater-node",
       "type": "boss",
+      "enemyTier": 5,
       "label": "The Name-Eater",
       "description": "Eleven wings of shelving end here, with a warden the Court calls both prisoner and librarian.",
       "row": 7,
@@ -556,6 +565,7 @@
     "the-annex-wing": {
       "id": "the-annex-wing",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The Annex Wing",
       "description": "A side wing appended to the Archive long after the original plan ran out of shelves.",
       "row": 1,
@@ -579,6 +589,7 @@
     "the-side-gallery": {
       "id": "the-side-gallery",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The Side Gallery",
       "description": "A gallery of unshelved portraits, each frame facing the wall.",
       "row": 1,
@@ -602,6 +613,7 @@
     "the-archivists-vault": {
       "id": "the-archivists-vault",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Archivist's Vault",
       "description": "A sealed vault of registers no living archivist was ever cleared to open.",
       "row": 5,
@@ -625,6 +637,7 @@
     "the-silent-wing": {
       "id": "the-silent-wing",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Silent Wing",
       "description": "A wing of the Archive where even the Silence Bell has stopped needing to ring.",
       "row": 5,
@@ -648,6 +661,7 @@
     "the-marginal-stacks": {
       "id": "the-marginal-stacks",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Marginal Stacks",
       "description": "Shelving reserved for records too minor for the main registry, and guarded anyway.",
       "row": 5,

@@ -1,5 +1,6 @@
 {
   "id": "act5",
+  "expectedBand": 2,
   "nextActId": "act6",
   "title": "ACT V",
   "subtitle": "The Sunken Reef",
@@ -348,6 +349,7 @@
     "coral-breach": {
       "id": "coral-breach",
       "type": "battle",
+      "enemyTier": 2,
       "label": "Coral Breach",
       "description": "Reef defenders have blockaded the entry point. They don't ask questions first.",
       "row": 0,
@@ -553,6 +555,7 @@
     "sunken-passage": {
       "id": "sunken-passage",
       "type": "battle",
+      "enemyTier": 2,
       "label": "Sunken Passage",
       "description": "The only route through the reef's mid-section is heavily patrolled.",
       "row": 2,
@@ -585,6 +588,7 @@
     "abyssal-ambush": {
       "id": "abyssal-ambush",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Abyssal Ambush",
       "description": "Something from deeper water has been watching you. It's done watching.",
       "row": 5,
@@ -696,6 +700,7 @@
     "reef-patrol-elite": {
       "id": "reef-patrol-elite",
       "type": "elite",
+      "enemyTier": 3,
       "label": "Reef Elite Guard",
       "description": "The Tidal Sovereign's personal patrol. They've been waiting for someone like you.",
       "row": 4,
@@ -729,6 +734,7 @@
     "kelp-crossing": {
       "id": "kelp-crossing",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Kelp Crossing",
       "description": "Dense kelp forests slow movement and muffle sound. Something uses that to its advantage.",
       "row": 5,
@@ -918,6 +924,7 @@
     "deep-elite": {
       "id": "deep-elite",
       "type": "elite",
+      "enemyTier": 4,
       "label": "Leviathan Vanguard",
       "description": "A half-awake leviathan guards the approach to the Sovereign's sanctum.",
       "row": 4,
@@ -951,6 +958,7 @@
     "tidal-sovereign": {
       "id": "tidal-sovereign",
       "type": "boss",
+      "enemyTier": 4,
       "label": "The Tidal Sovereign",
       "description": "The Reef's ancient guardian. Patient, vast, and profoundly unimpressed by you.",
       "row": 7,
@@ -992,6 +1000,7 @@
     "node-1776756542614": {
       "id": "node-1776756542614",
       "type": "battle",
+      "enemyTier": 1,
       "label": "The Kelp Forest",
       "description": "So dense is the kelp, that you can’t see where you’ve been, or where to go…",
       "row": 2,
@@ -1029,6 +1038,7 @@
     "node-1776756543230": {
       "id": "node-1776756543230",
       "type": "battle",
+      "enemyTier": 1,
       "label": "Fluorescent Cavern",
       "description": "An underwater case that glows with algae, something moves ahead ",
       "row": 2,
@@ -1066,6 +1076,7 @@
     "node-1776756544027": {
       "id": "node-1776756544027",
       "type": "battle",
+      "enemyTier": 1,
       "label": "Sand Flats",
       "description": "White sand so flat it feels impossible stirs in eddies of current.",
       "row": 2,
@@ -1091,6 +1102,7 @@
     "node-1776756544618": {
       "id": "node-1776756544618",
       "type": "battle",
+      "enemyTier": 1,
       "label": "The Wash",
       "description": "Water pulls your feet from under you, you struggle to steady yourself, and then you see something wrap around your leg…",
       "row": 6,

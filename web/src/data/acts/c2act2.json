@@ -1,5 +1,6 @@
 {
   "id": "c2act2",
+  "expectedBand": 4,
   "nextActId": "c2act3",
   "title": "ACT II",
   "subtitle": "The Grey Causeway",
@@ -152,6 +153,7 @@
     "causeway-gate": {
       "id": "causeway-gate",
       "type": "battle",
+      "enemyTier": 3,
       "label": "The Sundered Tollgate",
       "description": "The first gate on the causeway \u2014 its arm broken, its ledger still open.",
       "row": 0,
@@ -174,6 +176,7 @@
     "the-broken-tollarm": {
       "id": "the-broken-tollarm",
       "type": "battle",
+      "enemyTier": 3,
       "label": "The Broken Tollarm",
       "description": "A snapped tollgate arm, still garrisoned like it could swing shut again any day.",
       "row": 1,
@@ -198,6 +201,7 @@
     "unlit-mile": {
       "id": "unlit-mile",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The Unlit Mile",
       "description": "A stretch of causeway where every lamp has stood cold for three hundred years.",
       "row": 2,
@@ -222,6 +226,7 @@
     "farthing-crossing": {
       "id": "farthing-crossing",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The Farthing Crossing",
       "description": "A minor crossroads garrisoned like it still matters \u2014 because to Amarath, it does.",
       "row": 2,
@@ -404,6 +409,7 @@
     "the-toll-collectors": {
       "id": "the-toll-collectors",
       "type": "elite",
+      "enemyTier": 4,
       "label": "The Toll Collectors",
       "description": "A file of collectors holding the causeway in strict, patient order.",
       "row": 4,
@@ -443,6 +449,7 @@
     "the-unpaid-line": {
       "id": "the-unpaid-line",
       "type": "elite",
+      "enemyTier": 4,
       "label": "The Unpaid Line",
       "description": "A queue of collectors, still holding places for travellers who never came.",
       "row": 4,
@@ -469,6 +476,7 @@
     "milestone-forty": {
       "id": "milestone-forty",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Milestone Forty",
       "description": "A stacked cairn marking the causeway's fortieth mile, and its garrison.",
       "row": 5,
@@ -493,6 +501,7 @@
     "the-long-dark-mile": {
       "id": "the-long-dark-mile",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The Long Dark Mile",
       "description": "The causeway's final stretch, where even the mist gives up trying to lighten it.",
       "row": 5,
@@ -545,6 +554,7 @@
     "tollwarden-node": {
       "id": "tollwarden-node",
       "type": "boss",
+      "enemyTier": 5,
       "label": "The Toll Warden",
       "description": "Eleven generations of gatekeepers end here, with a scale that has never once balanced.",
       "row": 7,
@@ -575,6 +585,7 @@
     "grey-mist-crossing": {
       "id": "grey-mist-crossing",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The Grey Mist Crossing",
       "description": "A ford where the causeway mist pools thick enough to swallow footsteps.",
       "row": 5,

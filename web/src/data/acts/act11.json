@@ -1,5 +1,6 @@
 {
   "id": "act11",
+  "expectedBand": 3,
   "nextActId": "act12",
   "title": "ACT XI",
   "subtitle": "The Verdant Canopy",
@@ -349,6 +350,7 @@
     "canopy-approach": {
       "id": "canopy-approach",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Canopy Approach",
       "description": "The first roots break through the path here.",
       "row": 0,
@@ -476,6 +478,7 @@
     "deep-crossing": {
       "id": "deep-crossing",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Deep Crossing",
       "description": "The canopy thickens. The roots become a maze.",
       "row": 2,
@@ -509,6 +512,7 @@
     "elder-watch": {
       "id": "elder-watch",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Elder Watch",
       "description": "Sentinels guard the deep canopy.",
       "row": 4,
@@ -608,6 +612,7 @@
     "ancient-garrison": {
       "id": "ancient-garrison",
       "type": "elite",
+      "enemyTier": 5,
       "label": "Ancient Garrison",
       "description": "An elite force of canopy defenders.",
       "row": 3,
@@ -642,6 +647,7 @@
     "heartwood-path": {
       "id": "heartwood-path",
       "type": "battle",
+      "enemyTier": 5,
       "label": "Heartwood Path",
       "description": "The path to the heartwood. Everything is larger here.",
       "row": 5,
@@ -756,6 +762,7 @@
     "deep-grove": {
       "id": "deep-grove",
       "type": "elite",
+      "enemyTier": 5,
       "label": "Deep Grove",
       "description": "The Warden's most devoted guardians.",
       "row": 4,
@@ -791,6 +798,7 @@
     "elder-warden": {
       "id": "elder-warden",
       "type": "boss",
+      "enemyTier": 5,
       "label": "The Elder Warden",
       "description": "Ancient guardian of the Verdant Canopy.",
       "row": 6,

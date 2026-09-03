@@ -551,6 +551,17 @@ export interface GameState {
   glassShatterCount?: number
   /** Archetype passive applied for this battle (copied from RunState at battle start). */
   archetypePassive?: Archetype
+  /**
+   * Extra mana floor granted to the opponent at tier 4+ (see effectiveTier in
+   * campaignHelpers.ts) — read by opponentAI.ts. Absent/0 outside campaign
+   * battles, so Quick Battle and other newGame() callers are unaffected.
+   */
+  opponentManaFloorBonus?: number
+  /**
+   * Raises the opponent's per-turn card-play ceiling at tier 5 — read by
+   * opponentAI.ts. Absent outside campaign battles.
+   */
+  opponentMaxPlaysOverride?: number
   /** Current ATK multiplier applied to player mobile units by the Swarm Tactician passive. */
   swarmAtkMult?: number
   /** Live opponent AOE-spell cast in its windup window. Null when no cast is pending. */

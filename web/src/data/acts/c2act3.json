@@ -1,5 +1,6 @@
 {
   "id": "c2act3",
+  "expectedBand": 4,
   "nextActId": "c2act4",
   "title": "ACT III",
   "subtitle": "The Unremembered Fields",
@@ -152,6 +153,7 @@
     "threshold-furrow": {
       "id": "threshold-furrow",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The Threshold Furrow",
       "description": "Where the causeway's last stone gives way to the first turned earth of the fields.",
       "row": 0,
@@ -177,6 +179,7 @@
     "the-long-swath": {
       "id": "the-long-swath",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The Long Swath",
       "description": "A cut swath of memory-wheat, still warm, still remembering.",
       "row": 1,
@@ -200,6 +203,7 @@
     "the-gleaners-row": {
       "id": "the-gleaners-row",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The Gleaners' Row",
       "description": "A row garrisoned like it still needs guarding \u2014 because to Amarath, it does.",
       "row": 1,
@@ -381,6 +385,7 @@
     "the-effigy-line": {
       "id": "the-effigy-line",
       "type": "elite",
+      "enemyTier": 4,
       "label": "The Effigy Line",
       "description": "A file of straw-bound effigies holding the furrow in strict, patient order.",
       "row": 3,
@@ -421,6 +426,7 @@
     "the-unharvested-row": {
       "id": "the-unharvested-row",
       "type": "elite",
+      "enemyTier": 4,
       "label": "The Unharvested Row",
       "description": "A row of harvesters, still holding places for a gleaning that never comes.",
       "row": 3,
@@ -448,6 +454,7 @@
     "the-forty-acre-stand": {
       "id": "the-forty-acre-stand",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Forty-Acre Stand",
       "description": "A standing acreage of memory-wheat, garrisoned like a border.",
       "row": 4,
@@ -472,6 +479,7 @@
     "the-last-threshing": {
       "id": "the-last-threshing",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Last Threshing",
       "description": "The fields' final threshing floor, where even the mist gives up trying to lighten it.",
       "row": 4,
@@ -524,6 +532,7 @@
     "gleanerqueen-node": {
       "id": "gleanerqueen-node",
       "type": "boss",
+      "enemyTier": 5,
       "label": "The Gleaner Queen",
       "description": "Eleven granaries end here, with a sovereign who has never once left a row half-gleaned.",
       "row": 6,
@@ -554,6 +563,7 @@
     "mid-furrow-watch": {
       "id": "mid-furrow-watch",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The Mid-Furrow Watch",
       "description": "A watch line cut straight through the standing grain, garrisoned like a wall.",
       "row": 1,
@@ -577,6 +587,7 @@
     "high-furrow-line": {
       "id": "high-furrow-line",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The High Furrow Line",
       "description": "A raised furrow-bank overlooking the fields, held like high ground always is.",
       "row": 1,
@@ -600,6 +611,7 @@
     "the-fallow-stretch": {
       "id": "the-fallow-stretch",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Fallow Stretch",
       "description": "A stretch left deliberately unplanted, and just as deliberately defended.",
       "row": 4,
@@ -623,6 +635,7 @@
     "reap-line-flank": {
       "id": "reap-line-flank",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Reap-Line Flank",
       "description": "A flanking reap-line, cutting a path the main harvest never touches.",
       "row": 4,

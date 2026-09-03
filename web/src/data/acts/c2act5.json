@@ -1,5 +1,6 @@
 {
   "id": "c2act5",
+  "expectedBand": 4,
   "nextActId": "c2act6",
   "title": "ACT V",
   "subtitle": "The Candle City",
@@ -152,6 +153,7 @@
     "threshold-wicks": {
       "id": "threshold-wicks",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The Threshold Wicks",
       "description": "Where the Archive's last reading-lamp gives way to the city's first vigil flame.",
       "row": 0,
@@ -174,6 +176,7 @@
     "the-first-district": {
       "id": "the-first-district",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The First District",
       "description": "A tenement street still smelling of Archive dust from the threshold behind it.",
       "row": 1,
@@ -197,6 +200,7 @@
     "the-outer-wards": {
       "id": "the-outer-wards",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The Outer Wards",
       "description": "A ward garrisoned like it still needs guarding \u2014 because to the Court, it does.",
       "row": 3,
@@ -381,6 +385,7 @@
     "the-company-line": {
       "id": "the-company-line",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Company Line",
       "description": "A file of lamplighter sergeants holding the ward in strict, patient formation.",
       "row": 5,
@@ -422,6 +427,7 @@
     "the-unlit-row": {
       "id": "the-unlit-row",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Unlit Row",
       "description": "A row of lamplighters, still holding posts for windows that keep going dark anyway.",
       "row": 5,
@@ -449,6 +455,7 @@
     "the-deep-wards": {
       "id": "the-deep-wards",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Deep Wards",
       "description": "Streets garrisoned like a border, deep enough that the mist forgets to follow.",
       "row": 6,
@@ -473,6 +480,7 @@
     "the-last-vigil": {
       "id": "the-last-vigil",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Last Vigil",
       "description": "The city's final vigil-ward, where even the watch-lamps burn lower.",
       "row": 6,
@@ -525,6 +533,7 @@
     "lamplighter-node": {
       "id": "lamplighter-node",
       "type": "boss",
+      "enemyTier": 5,
       "label": "The Lamplighter General",
       "description": "Eleven companies end here, before a commander who has never once let a street burn unwatched.",
       "row": 8,
@@ -555,6 +564,7 @@
     "the-second-ward": {
       "id": "the-second-ward",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The Second Ward",
       "description": "A ward abutting the first district, garrisoned the same as every ward here.",
       "row": 2,
@@ -578,6 +588,7 @@
     "the-farthest-ward": {
       "id": "the-farthest-ward",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Farthest Ward",
       "description": "The furthest ward the company still bothers to walk, and still guards anyway.",
       "row": 6,
@@ -601,6 +612,7 @@
     "the-curfew-line": {
       "id": "the-curfew-line",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Curfew Line",
       "description": "A line held to the curfew's own hour, and not one minute later.",
       "row": 6,
@@ -624,6 +636,7 @@
     "the-watch-remnant": {
       "id": "the-watch-remnant",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Watch Remnant",
       "description": "What's left of a watch company that never got the order to stand down.",
       "row": 6,

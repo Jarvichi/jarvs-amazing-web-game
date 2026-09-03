@@ -1,5 +1,6 @@
 {
   "id": "c2act1",
+  "expectedBand": 4,
   "nextActId": "c2act2",
   "title": "ACT I",
   "subtitle": "The Pale Marches",
@@ -152,6 +153,7 @@
     "marches-gate": {
       "id": "marches-gate",
       "type": "battle",
+      "enemyTier": 3,
       "label": "The Broken Milestone",
       "description": "The last Dominion waymarker — and the first pickets in the mist.",
       "row": 0,
@@ -176,6 +178,7 @@
     "mist-picket": {
       "id": "mist-picket",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Mist Picket",
       "description": "Sentries hold the western fenceline of the Marches.",
       "row": 1,
@@ -199,6 +202,7 @@
     "border-clash": {
       "id": "border-clash",
       "type": "battle",
+      "enemyTier": 3,
       "label": "The Border Clash",
       "description": "A running fight along a fenceline no Dominion map ever drew.",
       "row": 1,
@@ -222,6 +226,7 @@
     "toll-bridge": {
       "id": "toll-bridge",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Old Toll Bridge",
       "description": "A bridge that was never on the survey — with a garrison that was never on the rolls.",
       "row": 1,
@@ -395,6 +400,7 @@
     "vanguard-line": {
       "id": "vanguard-line",
       "type": "elite",
+      "enemyTier": 4,
       "label": "The Vanguard Line",
       "description": "The Herald's escort holds the west road in parade order.",
       "row": 3,
@@ -435,6 +441,7 @@
     "choir-ford": {
       "id": "choir-ford",
       "type": "elite",
+      "enemyTier": 4,
       "label": "Choir at the Ford",
       "description": "A hymn you have never heard, in a language you somehow know.",
       "row": 3,
@@ -461,6 +468,7 @@
     "palisade-push": {
       "id": "palisade-push",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Palisade Push",
       "description": "The vanguard's field works block the road west.",
       "row": 4,
@@ -485,6 +493,7 @@
     "watch-line": {
       "id": "watch-line",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The Watch Line",
       "description": "A last defensive line, dug in before the Herald's own ground.",
       "row": 4,
@@ -510,6 +519,7 @@
     "fog-riders": {
       "id": "fog-riders",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Riders in the Fog",
       "description": "Cavalry with no hoofbeats, closing fast.",
       "row": 4,
@@ -561,6 +571,7 @@
     "herald-node": {
       "id": "herald-node",
       "type": "boss",
+      "enemyTier": 4,
       "label": "The Pale Herald",
       "description": "The voice of the Pale Court, come to deliver the writ of return.",
       "row": 6,

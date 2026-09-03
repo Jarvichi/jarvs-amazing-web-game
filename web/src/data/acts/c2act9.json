@@ -1,5 +1,6 @@
 {
   "id": "c2act9",
+  "expectedBand": 5,
   "nextActId": "c2act10",
   "title": "ACT IX",
   "subtitle": "The Winter That Waited",
@@ -152,6 +153,7 @@
     "frost-threshold": {
       "id": "frost-threshold",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Frost Threshold",
       "description": "Where the Hollow Court's last antechamber gives way to a season kept three centuries in storage.",
       "row": 0,
@@ -176,6 +178,7 @@
     "the-frost-causeway": {
       "id": "the-frost-causeway",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Frost Causeway",
       "description": "A causeway rimed over so thoroughly the stones remember being warm.",
       "row": 1,
@@ -200,6 +203,7 @@
     "the-rime-ramparts": {
       "id": "the-rime-ramparts",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Rime Ramparts",
       "description": "A rampart line garrisoned like the winter still needs guarding \u2014 because to the Court, it does.",
       "row": 1,
@@ -384,6 +388,7 @@
     "the-frostbound-company": {
       "id": "the-frostbound-company",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Frostbound Company",
       "description": "A file of Court soldiers holding formation in frost deep enough to still their breath.",
       "row": 3,
@@ -425,6 +430,7 @@
     "the-frozen-line": {
       "id": "the-frozen-line",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Frozen Line",
       "description": "A line of soldiers who never got new orders when the winter finally came out of storage.",
       "row": 3,
@@ -452,6 +458,7 @@
     "the-deep-frost": {
       "id": "the-deep-frost",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Deep Frost",
       "description": "Frost deep enough that even the mist stops following.",
       "row": 4,
@@ -476,6 +483,7 @@
     "the-last-thaw": {
       "id": "the-last-thaw",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Last Thaw",
       "description": "The final stretch of frost before the Regent's own ward.",
       "row": 4,
@@ -528,6 +536,7 @@
     "frostregent-node": {
       "id": "frostregent-node",
       "type": "boss",
+      "enemyTier": 5,
       "label": "The Frost Regent",
       "description": "Three centuries of storage end here, before a steward who decides what the waited winter was always for.",
       "row": 6,
@@ -558,6 +567,7 @@
     "the-frostbitten-flank": {
       "id": "the-frostbitten-flank",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Frostbitten Flank",
       "description": "A flanking causeway rimed over just as thoroughly as the main crossing.",
       "row": 1,
@@ -582,6 +592,7 @@
     "the-glacier-flank": {
       "id": "the-glacier-flank",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Glacier Flank",
       "description": "A flanking glacier the Court garrisons the same as any other stretch of frost.",
       "row": 3,
@@ -606,6 +617,7 @@
     "the-far-frostline": {
       "id": "the-far-frostline",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Far Frostline",
       "description": "A stretch of frost further out than any Court garrison admits patrolling.",
       "row": 4,
@@ -629,6 +641,7 @@
     "the-last-glacier": {
       "id": "the-last-glacier",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Last Glacier",
       "description": "The final glacier before the frostline gives way to the Regent's own ward.",
       "row": 4,
@@ -652,6 +665,7 @@
     "the-rime-remnant": {
       "id": "the-rime-remnant",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Rime Remnant",
       "description": "What's left of a garrison that never got the order to come in from the cold.",
       "row": 4,
@@ -675,6 +689,7 @@
     "the-cold-vanguard-line": {
       "id": "the-cold-vanguard-line",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Cold Vanguard Line",
       "description": "A vanguard line held to the letter, three centuries after the order that raised it.",
       "row": 4,

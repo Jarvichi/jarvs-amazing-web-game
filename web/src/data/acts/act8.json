@@ -1,5 +1,6 @@
 {
   "id": "act8",
+  "expectedBand": 2,
   "nextActId": "act9",
   "title": "ACT VIII",
   "subtitle": "The Fungal Deep",
@@ -349,6 +350,7 @@
     "dark-descent": {
       "id": "dark-descent",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Dark Descent",
       "description": "The entrance tunnels. Crawlers swarm the walls and ceiling.",
       "row": 0,
@@ -519,6 +521,7 @@
     "mycelium-crossing": {
       "id": "mycelium-crossing",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Mycelium Crossing",
       "description": "A wide floor of dense mycelium. The network can feel every step.",
       "row": 2,
@@ -551,6 +554,7 @@
     "rot-cavern": {
       "id": "rot-cavern",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Rot Cavern",
       "description": "A collapsed chamber reclaimed by the deep rot. Shamblers emerge from every surface.",
       "row": 5,
@@ -662,6 +666,7 @@
     "deep-elite": {
       "id": "deep-elite",
       "type": "elite",
+      "enemyTier": 4,
       "label": "Deep Tendrils",
       "description": "A concentrated mass of the network's most aggressive growth. It has been waiting.",
       "row": 4,
@@ -695,6 +700,7 @@
     "queen-approach": {
       "id": "queen-approach",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Queen's Approach",
       "description": "The final tunnel. The mycelium here is dense enough to slow movement. The Root Queen is close.",
       "row": 12,
@@ -796,6 +802,7 @@
     "vanguard-elite": {
       "id": "vanguard-elite",
       "type": "elite",
+      "enemyTier": 4,
       "label": "Queen's Vanguard",
       "description": "The Root Queen's direct extensions. She is present in each of them.",
       "row": 4,
@@ -829,6 +836,7 @@
     "rootqueen": {
       "id": "rootqueen",
       "type": "boss",
+      "enemyTier": 5,
       "label": "The Root Queen",
       "description": "Oldest node in the Fungal Deep. She does not give orders. She pulses.",
       "row": 13,
@@ -881,6 +889,7 @@
     "node-1776871962308": {
       "id": "node-1776871962308",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Sporewalk Passage",
       "description": "Soft, pulsing ground releases spores with every step. The network is aware of your movement.",
       "row": 2,
@@ -913,6 +922,7 @@
     "node-1776871963818": {
       "id": "node-1776871963818",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Moss-Choked Causeway",
       "description": "Thick moss carpets the path, dampening sound but amplifying the network's sensitivity.",
       "row": 2,
@@ -945,6 +955,7 @@
     "node-1776871965007": {
       "id": "node-1776871965007",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Hyphal Conduit",
       "description": "Dense strands of mycelium form a living corridor, reacting subtly as you pass.",
       "row": 2,
@@ -977,6 +988,7 @@
     "node-1776872005580": {
       "id": "node-1776872005580",
       "type": "elite",
+      "enemyTier": 4,
       "label": "Tendril Nexus",
       "description": "A knotted mass of aggressive growths converges here, reacting violently to intrusion.",
       "row": 6,
@@ -1011,6 +1023,7 @@
     "node-1776872007977": {
       "id": "node-1776872007977",
       "type": "elite",
+      "enemyTier": 4,
       "label": "Vanguard Cluster",
       "description": "Fragments of the Root Queen’s will, acting in eerie synchrony.",
       "row": 6,
@@ -1045,6 +1058,7 @@
     "node-1776872032924": {
       "id": "node-1776872032924",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Rootwoven Crossing",
       "description": "Interlaced roots and fungal veins create a tense, reactive footing.",
       "row": 7,
@@ -1077,6 +1091,7 @@
     "node-1776872044010": {
       "id": "node-1776872044010",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Spinecap Expanse",
       "description": "Tall fungal growths sway slightly, releasing spores that track your movement.",
       "row": 7,
@@ -1109,6 +1124,7 @@
     "node-1776872044955": {
       "id": "node-1776872044955",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Veil of Spores",
       "description": "A hazy cloud obscures vision; something moves within it before you do.",
       "row": 7,
@@ -1141,6 +1157,7 @@
     "node-1776872045815": {
       "id": "node-1776872045815",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Mycelial Threshold",
       "description": "A boundary zone where the network thickens, as if resisting your advance.",
       "row": 7,
@@ -1173,6 +1190,7 @@
     "node-1776872052910": {
       "id": "node-1776872052910",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Fungal Driftway",
       "description": "Loose layers of fungal matter shift underfoot, carrying signals deeper into the network.",
       "row": 9,
@@ -1205,6 +1223,7 @@
     "node-1776872059912": {
       "id": "node-1776872059912",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Sporecurrent Path",
       "description": "Air currents push spores in rhythmic waves, almost like breathing.",
       "row": 9,
@@ -1409,6 +1428,7 @@
     "node-1776872141075": {
       "id": "node-1776872141075",
       "type": "elite",
+      "enemyTier": 4,
       "label": "Heart-Tendrils",
       "description": "These growths pulse in unison, striking with coordinated precision.",
       "row": 10,
@@ -1443,6 +1463,7 @@
     "node-1776872152088": {
       "id": "node-1776872152088",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Deepgrowth Crossing",
       "description": "Here the mycelium grows unchecked, thick enough to feel like muscle beneath you.",
       "row": 9,
