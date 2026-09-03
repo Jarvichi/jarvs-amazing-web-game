@@ -108,5 +108,511 @@
         "condition": { "type": "defeat_boss", "actId": "act5" }
       }
     ]
+  },
+  {
+    "id": "wyvern_accord",
+    "name": "The Wyvern Accord",
+    "icon": "🦅",
+    "theme": "sky",
+    "intro": "The Sky Dominion does not welcome climbers. Prove your fleet can hold formation at altitude, and the wyvern packs that circle the Cloudmarshal's spires might let you land instead of fall.",
+    "targetCard": "Wyvern Aerie",
+    "steps": [
+      {
+        "label": "Win 4 battles with a deck that is at least 30% sky cards",
+        "condition": { "type": "win_battles", "count": 4, "deckTags": ["sky"], "deckTagPct": 0.3 }
+      },
+      {
+        "label": "Destroy 35 sky units",
+        "condition": { "type": "kill_tagged", "tags": ["sky"], "count": 35 }
+      },
+      {
+        "label": "Defeat The Cloudmarshal (Act VI — The Sky Dominion)",
+        "condition": { "type": "defeat_boss", "actId": "act6" }
+      }
+    ]
+  },
+  {
+    "id": "eternal_flame",
+    "name": "The Eternal Flame",
+    "icon": "🔥",
+    "theme": "ember",
+    "intro": "Somewhere beneath the Emberfall Peaks a forge has burned, untended, since before the Fracture. The Cinderwarlord claims it answers only to him. He has never actually tried to stop it burning for someone else.",
+    "targetCard": "Eternal Forge",
+    "steps": [
+      {
+        "label": "Build 25 structures",
+        "condition": { "type": "play_card_type", "cardType": "structure", "count": 25 }
+      },
+      {
+        "label": "Destroy 40 ember units",
+        "condition": { "type": "kill_tagged", "tags": ["ember"], "count": 40 }
+      },
+      {
+        "label": "Defeat The Cinderwarlord (Act VII — The Emberfall Peaks)",
+        "condition": { "type": "defeat_boss", "actId": "act7" }
+      }
+    ]
+  },
+  {
+    "id": "spore_ascendant",
+    "name": "The Spore Ascendant",
+    "icon": "🍄",
+    "theme": "fungal",
+    "intro": "The Root Queen rules the Fungal Deep from a throne the network itself grew for her. Take her seat, and the mycelium below will remember your footsteps as clearly as it remembers hers.",
+    "targetCard": "Spore Throne",
+    "steps": [
+      {
+        "label": "Win 4 battles with a deck that is at least 30% fungal or spore cards",
+        "condition": { "type": "win_battles", "count": 4, "deckTags": ["fungal", "spore"], "deckTagPct": 0.3 }
+      },
+      {
+        "label": "Destroy 35 fungal or spore units",
+        "condition": { "type": "kill_tagged", "tags": ["fungal", "spore"], "count": 35 }
+      },
+      {
+        "label": "Defeat The Root Queen (Act VIII — The Fungal Deep)",
+        "condition": { "type": "defeat_boss", "actId": "act8" }
+      }
+    ]
+  },
+  {
+    "id": "hollow_below",
+    "name": "The Hollow Below",
+    "icon": "🕳️",
+    "theme": "frost",
+    "intro": "The Pale Engine's cold logic has never explained the sealed gate beneath the Frozen Expanse's deepest ice shelf. That may simply mean it has never been asked by anyone it couldn't out-calculate.",
+    "targetCard": "Abyss Gate",
+    "steps": [
+      {
+        "label": "Win 5 battles with a deck that is at least 30% frost or glacier cards",
+        "condition": { "type": "win_battles", "count": 5, "deckTags": ["frost", "glacier"], "deckTagPct": 0.3 }
+      },
+      {
+        "label": "Destroy 40 frost or glacier units",
+        "condition": { "type": "kill_tagged", "tags": ["frost", "glacier"], "count": 40 }
+      },
+      {
+        "label": "Defeat The Pale Engine (Act IX — The Frozen Expanse)",
+        "condition": { "type": "defeat_boss", "actId": "act9" }
+      }
+    ]
+  },
+  {
+    "id": "long_haul",
+    "name": "The Long Haul",
+    "icon": "🐪",
+    "theme": "sand",
+    "intro": "Every mercenary contract in the Sand Market eventually runs through one broker. The Dune Baron calls him a rival. Everyone else calls him the only merchant in the market who has never once been undercut.",
+    "targetCard": "Bone Merchant",
+    "steps": [
+      {
+        "label": "Win 5 battles",
+        "condition": { "type": "win_battles", "count": 5 }
+      },
+      {
+        "label": "Destroy 40 sand or mercenary units",
+        "condition": { "type": "kill_tagged", "tags": ["sand", "mercenary"], "count": 40 }
+      },
+      {
+        "label": "Defeat The Dune Baron (Act X — The Sand Market)",
+        "condition": { "type": "defeat_boss", "actId": "act10" }
+      }
+    ]
+  },
+  {
+    "id": "canopy_succession",
+    "name": "The Canopy Succession",
+    "icon": "🌲",
+    "theme": "canopy",
+    "intro": "The Elder Warden has held the Verdant Canopy since before anyone's grandparents could name the trees. The forest does not crown a successor lightly. It has been watching you the whole climb up.",
+    "targetCard": "The Elder Warden",
+    "steps": [
+      {
+        "label": "Win 4 battles with a deck that is at least 30% canopy or ancient cards",
+        "condition": { "type": "win_battles", "count": 4, "deckTags": ["canopy", "ancient"], "deckTagPct": 0.3 }
+      },
+      {
+        "label": "Destroy 40 canopy or ancient units",
+        "condition": { "type": "kill_tagged", "tags": ["canopy", "ancient"], "count": 40 }
+      },
+      {
+        "label": "Defeat The Elder Warden (Act XI — The Verdant Canopy)",
+        "condition": { "type": "defeat_boss", "actId": "act11" }
+      }
+    ]
+  },
+  {
+    "id": "harbor_ledger",
+    "name": "The Harbor Ledger",
+    "icon": "⚓",
+    "theme": "wreck",
+    "intro": "The Harbormaster keeps a ledger of every wreck the Shattered Coast has claimed — and every ship that ever slipped past him anyway. He is reportedly furious that the second list exists at all.",
+    "targetCard": "The Harbormaster",
+    "steps": [
+      {
+        "label": "Win 5 battles with a deck that is at least 30% wreck or storm cards",
+        "condition": { "type": "win_battles", "count": 5, "deckTags": ["wreck", "storm"], "deckTagPct": 0.3 }
+      },
+      {
+        "label": "Destroy 40 wreck or storm units",
+        "condition": { "type": "kill_tagged", "tags": ["wreck", "storm"], "count": 40 }
+      },
+      {
+        "label": "Defeat The Harbormaster (Act XII — The Shattered Coast)",
+        "condition": { "type": "defeat_boss", "actId": "act12" }
+      }
+    ]
+  },
+  {
+    "id": "vault_protocol",
+    "name": "The Vault Protocol",
+    "icon": "⚙️",
+    "theme": "clockwork",
+    "intro": "The Grand Automaton has run the Clockwork Vaults on the same protocol for three centuries: admit no one, forget nothing, escalate forever. It has never had a reason to write a protocol for losing.",
+    "targetCard": "The Grand Automaton",
+    "steps": [
+      {
+        "label": "Build 30 structures",
+        "condition": { "type": "play_card_type", "cardType": "structure", "count": 30 }
+      },
+      {
+        "label": "Destroy 40 clockwork or vault units",
+        "condition": { "type": "kill_tagged", "tags": ["clockwork", "vault"], "count": 40 }
+      },
+      {
+        "label": "Defeat The Grand Automaton (Act XIII — The Clockwork Vaults)",
+        "condition": { "type": "defeat_boss", "actId": "act13" }
+      }
+    ]
+  },
+  {
+    "id": "worlds_end",
+    "name": "World's End",
+    "icon": "🌌",
+    "theme": "core",
+    "intro": "The Fracture is not a place so much as the wound where a place used to be. Everything that has ever been lost to it is still down there, waiting — including, apparently, the thing that caused it.",
+    "targetCard": "World's End",
+    "steps": [
+      {
+        "label": "Win 6 battles",
+        "condition": { "type": "win_battles", "count": 6 }
+      },
+      {
+        "label": "Destroy 30 core-tagged units",
+        "condition": { "type": "kill_tagged", "tags": ["core"], "count": 30 }
+      },
+      {
+        "label": "Defeat The Fracture (Finale — The Fractured Core)",
+        "condition": { "type": "defeat_boss", "actId": "actfinale" }
+      }
+    ]
+  },
+  {
+    "id": "marches_muster",
+    "name": "The Marches Muster",
+    "icon": "🦴",
+    "theme": "forgotten",
+    "intro": "The Pale Herald's vanguard crossed the mist border with a proclamation nobody signed. Whatever answers his summons out there in the Marches has been waiting far longer than three centuries.",
+    "targetCard": "Bone Colossus",
+    "steps": [
+      {
+        "label": "Win 4 battles with a deck that is at least 30% forgotten cards",
+        "condition": {"type": "win_battles", "count": 4, "deckTags": ["forgotten"], "deckTagPct": 0.3}
+      },
+      {
+        "label": "Destroy 35 forgotten or marches units",
+        "condition": {"type": "kill_tagged", "tags": ["forgotten", "marches"], "count": 35}
+      },
+      {
+        "label": "Defeat The Pale Herald (Act I — The Pale Marches)",
+        "condition": {"type": "defeat_boss", "actId": "c2act1"}
+      }
+    ]
+  },
+  {
+    "id": "unlit_toll",
+    "name": "The Unlit Toll",
+    "icon": "🪙",
+    "theme": "forgotten",
+    "intro": "The Toll Warden's ledger has no entries from outside Amarath, and he means to fix that personally, one traveller at a time. His lamps have not been lit in three hundred years. They still work.",
+    "targetCard": "Catapult Works",
+    "steps": [
+      {
+        "label": "Win 5 battles",
+        "condition": {"type": "win_battles", "count": 5}
+      },
+      {
+        "label": "Destroy 35 forgotten or causeway units",
+        "condition": {"type": "kill_tagged", "tags": ["forgotten", "causeway"], "count": 35}
+      },
+      {
+        "label": "Defeat The Toll Warden (Act II — The Grey Causeway)",
+        "condition": {"type": "defeat_boss", "actId": "c2act2"}
+      }
+    ]
+  },
+  {
+    "id": "fallow_chorus",
+    "name": "The Fallow Chorus",
+    "icon": "🌾",
+    "theme": "forgotten",
+    "intro": "Memory-wheat grows wild across the Unremembered Fields — eat enough of it and a stranger's whole life surfaces behind your eyes. The Gleaner Queen has never once left a row half-gleaned.",
+    "targetCard": "Moss Golem",
+    "steps": [
+      {
+        "label": "Win 4 battles with a deck that is at least 30% forgotten cards",
+        "condition": {"type": "win_battles", "count": 4, "deckTags": ["forgotten"], "deckTagPct": 0.3}
+      },
+      {
+        "label": "Destroy 35 forgotten or fields units",
+        "condition": {"type": "kill_tagged", "tags": ["forgotten", "fields"], "count": 35}
+      },
+      {
+        "label": "Defeat The Gleaner Queen (Act III — The Unremembered Fields)",
+        "condition": {"type": "defeat_boss", "actId": "c2act3"}
+      }
+    ]
+  },
+  {
+    "id": "unshelved_hour",
+    "name": "The Unshelved Hour",
+    "icon": "📜",
+    "theme": "forgotten",
+    "intro": "Every name the Fracture erased is shelved somewhere in the Archive, catalogued and fed. The Name-Eater insists it only keeps what the Court cannot bear to lose. One hour, it seems, was never properly filed.",
+    "targetCard": "Chronomancer",
+    "steps": [
+      {
+        "label": "Play 25 upgrade cards",
+        "condition": {"type": "play_card_type", "cardType": "upgrade", "count": 25}
+      },
+      {
+        "label": "Destroy 35 forgotten or archive units",
+        "condition": {"type": "kill_tagged", "tags": ["forgotten", "archive"], "count": 35}
+      },
+      {
+        "label": "Defeat The Name-Eater (Act IV — The Archive of Names)",
+        "condition": {"type": "defeat_boss", "actId": "c2act4"}
+      }
+    ]
+  },
+  {
+    "id": "ember_vigil",
+    "name": "The Ember Vigil",
+    "icon": "🕯️",
+    "theme": "forgotten",
+    "intro": "Ten thousand vigil flames light the Candle City, and the Lamplighter General enforces the rite without exception: light on the hour, snuff on the hour. One flame in the deep district has never once gone out.",
+    "targetCard": "Crucible Hall",
+    "steps": [
+      {
+        "label": "Win 5 battles with a deck that is at least 30% forgotten cards",
+        "condition": {"type": "win_battles", "count": 5, "deckTags": ["forgotten"], "deckTagPct": 0.3}
+      },
+      {
+        "label": "Destroy 40 forgotten or candlecity units",
+        "condition": {"type": "kill_tagged", "tags": ["forgotten", "candlecity"], "count": 40}
+      },
+      {
+        "label": "Defeat The Lamplighter General (Act V — The Candle City)",
+        "condition": {"type": "defeat_boss", "actId": "c2act5"}
+      }
+    ]
+  },
+  {
+    "id": "drowned_harbor",
+    "name": "The Drowned Harbor",
+    "icon": "🌊",
+    "theme": "forgotten",
+    "intro": "The coast came back misaligned when the Fracture healed — drowned towers now stand in a tide that shouldn't reach them. The Drowned Envoy walks with the water, and the water has always followed where he walks.",
+    "targetCard": "The Grand Harbor",
+    "steps": [
+      {
+        "label": "Win 5 battles",
+        "condition": {"type": "win_battles", "count": 5}
+      },
+      {
+        "label": "Destroy 40 forgotten or sunken units",
+        "condition": {"type": "kill_tagged", "tags": ["forgotten", "sunken"], "count": 40}
+      },
+      {
+        "label": "Defeat The Drowned Envoy (Act VI — The Sunken Border)",
+        "condition": {"type": "defeat_boss", "actId": "c2act6"}
+      }
+    ]
+  },
+  {
+    "id": "still_reflection",
+    "name": "The Still Reflection",
+    "icon": "🪞",
+    "theme": "forgotten",
+    "intro": "The Mirror Marsh holds still water that shows the world as it was before the Fracture — and something that answers when the reflection is asked a question nobody else can hear.",
+    "targetCard": "Ancient Altar",
+    "steps": [
+      {
+        "label": "Win 5 battles with a deck that is at least 30% forgotten cards",
+        "condition": {"type": "win_battles", "count": 5, "deckTags": ["forgotten"], "deckTagPct": 0.3}
+      },
+      {
+        "label": "Destroy 40 forgotten or marsh units",
+        "condition": {"type": "kill_tagged", "tags": ["forgotten", "marsh"], "count": 40}
+      },
+      {
+        "label": "Defeat The Reflection (Act VII — The Mirror Marsh)",
+        "condition": {"type": "defeat_boss", "actId": "c2act7"}
+      }
+    ]
+  },
+  {
+    "id": "masked_rite",
+    "name": "The Masked Rite",
+    "icon": "🎭",
+    "theme": "forgotten",
+    "intro": "The Hollow Court wears silver masks because its nobles forgot their own faces in the void. The Chamberlain keeps the ceremony running regardless — he has never once needed to clarify which gesture erases a name.",
+    "targetCard": "Paladin's Chapel",
+    "steps": [
+      {
+        "label": "Build 25 structures",
+        "condition": {"type": "play_card_type", "cardType": "structure", "count": 25}
+      },
+      {
+        "label": "Destroy 40 forgotten or court units",
+        "condition": {"type": "kill_tagged", "tags": ["forgotten", "court"], "count": 40}
+      },
+      {
+        "label": "Defeat The Chamberlain (Act VIII — The Hollow Court)",
+        "condition": {"type": "defeat_boss", "actId": "c2act8"}
+      }
+    ]
+  },
+  {
+    "id": "waited_season",
+    "name": "The Waited Season",
+    "icon": "❄️",
+    "theme": "forgotten",
+    "intro": "Amarath catalogued an entire winter it never got to spend before the Fracture, and stored it whole. The Frost Regent has kept it colder than any noble still standing watch, and she means to spend it all at once.",
+    "targetCard": "Elder Sanctum",
+    "steps": [
+      {
+        "label": "Win 5 battles with a deck that is at least 30% forgotten cards",
+        "condition": {"type": "win_battles", "count": 5, "deckTags": ["forgotten"], "deckTagPct": 0.3}
+      },
+      {
+        "label": "Destroy 40 forgotten or waitedwinter units",
+        "condition": {"type": "kill_tagged", "tags": ["forgotten", "waitedwinter"], "count": 40}
+      },
+      {
+        "label": "Defeat The Frost Regent (Act IX — The Winter That Waited)",
+        "condition": {"type": "defeat_boss", "actId": "c2act9"}
+      }
+    ]
+  },
+  {
+    "id": "grave_orchard",
+    "name": "The Grave Orchard",
+    "icon": "🌳",
+    "theme": "forgotten",
+    "intro": "The Bone Orchards grow from the kingdom's own dead, tended and genuinely loved. The Orchard Keeper has never once let a grave go undefended, and she does not consider what grows there a weapon. She is wrong.",
+    "targetCard": "Graveblight Tower",
+    "steps": [
+      {
+        "label": "Win 6 battles",
+        "condition": {"type": "win_battles", "count": 6}
+      },
+      {
+        "label": "Destroy 40 forgotten or orchard units",
+        "condition": {"type": "kill_tagged", "tags": ["forgotten", "orchard"], "count": 40}
+      },
+      {
+        "label": "Defeat The Orchard Keeper (Act X — The Bone Orchards)",
+        "condition": {"type": "defeat_boss", "actId": "c2act10"}
+      }
+    ]
+  },
+  {
+    "id": "long_procession",
+    "name": "The Long Procession",
+    "icon": "🛤️",
+    "theme": "forgotten",
+    "intro": "The Vigil Roads have been walked in procession for three centuries to keep the rite alive. The Procession Master has never once let the vigil go silent — not for weather, not for war, not for a single missing marcher.",
+    "targetCard": "Troll Bridge",
+    "steps": [
+      {
+        "label": "Win 6 battles with a deck that is at least 30% forgotten cards",
+        "condition": {"type": "win_battles", "count": 6, "deckTags": ["forgotten"], "deckTagPct": 0.3}
+      },
+      {
+        "label": "Destroy 40 forgotten or vigilroads units",
+        "condition": {"type": "kill_tagged", "tags": ["forgotten", "vigilroads"], "count": 40}
+      },
+      {
+        "label": "Defeat The Procession Master (Act XI — The Vigil Roads)",
+        "condition": {"type": "defeat_boss", "actId": "c2act11"}
+      }
+    ]
+  },
+  {
+    "id": "crown_spire",
+    "name": "The Crown Spire",
+    "icon": "🏰",
+    "theme": "forgotten",
+    "intro": "The Crown Reaches are the Court's last field army and the fortified approach to the capital both at once. The Pale Marshal has held this reach longer than any commander still counting banners, and the line has never once broken.",
+    "targetCard": "Ancient Spire",
+    "steps": [
+      {
+        "label": "Win 6 battles",
+        "condition": {"type": "win_battles", "count": 6}
+      },
+      {
+        "label": "Destroy 45 forgotten or reaches units",
+        "condition": {"type": "kill_tagged", "tags": ["forgotten", "reaches"], "count": 45}
+      },
+      {
+        "label": "Defeat The Pale Marshal (Act XII — The Crown Reaches)",
+        "condition": {"type": "defeat_boss", "actId": "c2act12"}
+      }
+    ]
+  },
+  {
+    "id": "vigil_engine",
+    "name": "The Vigil Engine",
+    "icon": "⚙️",
+    "theme": "forgotten",
+    "intro": "Every window in the City of Vigils holds a candle, and the Vigil Queen has kept every single one lit longer than any sovereign still counting them. Somewhere beneath the capital, something keeps the count for her.",
+    "targetCard": "Automaton Forge",
+    "steps": [
+      {
+        "label": "Build 30 structures",
+        "condition": {"type": "play_card_type", "cardType": "structure", "count": 30}
+      },
+      {
+        "label": "Destroy 45 forgotten or vigilcity units",
+        "condition": {"type": "kill_tagged", "tags": ["forgotten", "vigilcity"], "count": 45}
+      },
+      {
+        "label": "Defeat The Vigil Queen (Act XIII — The City of Vigils)",
+        "condition": {"type": "defeat_boss", "actId": "c2act13"}
+      }
+    ]
+  },
+  {
+    "id": "unremembered_throne",
+    "name": "The Unremembered Throne",
+    "icon": "👑",
+    "theme": "forgotten",
+    "intro": "The Vigil King has held the whole of Amarath together in his own mind because no one else's would hold it, for three centuries, alone. Something in the throne room has kept vigil with him the entire time — and it was never the King.",
+    "targetCard": "Behemoth",
+    "steps": [
+      {
+        "label": "Win 7 battles",
+        "condition": {"type": "win_battles", "count": 7}
+      },
+      {
+        "label": "Destroy 45 forgotten or throne units",
+        "condition": {"type": "kill_tagged", "tags": ["forgotten", "throne"], "count": 45}
+      },
+      {
+        "label": "Defeat The Vigil King (Finale — The Throne of the Unremembered)",
+        "condition": {"type": "defeat_boss", "actId": "c2finale"}
+      }
+    ]
   }
 ]
