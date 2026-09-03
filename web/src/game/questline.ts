@@ -18,6 +18,12 @@ export interface ConsumableDef {
   livesAmount?: number
   /** Not used/consumed manually — see App.tsx handleSelectNode/handleMemoryCollect. */
   guaranteesFragment?: boolean
+  /** Permanently raises both maxHp and current playerHp by this amount for the rest of the run. */
+  maxHpAmount?: number
+  /** Not applied via useConsumable — held in run.consumables and auto-consumed by
+   *  handleCampaignRetry (useCampaignFlow.ts) the next time a battle would cost a life,
+   *  skipping the livesRemaining decrement entirely. */
+  preventsLifeLoss?: boolean
   price: number
 }
 
@@ -85,11 +91,16 @@ export function useConsumable(run: RunState, id: string): RunState | null {
   ).filter(c => c.count > 0)
 
   let playerHp = run.playerHp
+  let maxHp = run.maxHp
   let livesRemaining = run.livesRemaining
   let maxLives = run.maxLives
 
   if (def.healAmount) {
     playerHp = Math.min(run.maxHp, run.playerHp + def.healAmount)
+  }
+  if (def.maxHpAmount) {
+    maxHp = run.maxHp + def.maxHpAmount
+    playerHp = run.playerHp + def.maxHpAmount
   }
   if (def.livesAmount) {
     const newMax = Math.min(LIVES_MAX, run.maxLives + def.livesAmount)
@@ -97,7 +108,7 @@ export function useConsumable(run: RunState, id: string): RunState | null {
     maxLives = newMax
   }
 
-  return { ...run, consumables, playerHp, livesRemaining, maxLives }
+  return { ...run, consumables, playerHp, maxHp, livesRemaining, maxLives }
 }
 
 // ─── Replay modifier types ────────────────────────────────

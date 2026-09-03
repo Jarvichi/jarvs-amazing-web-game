@@ -25,5 +25,23 @@
     "lore": "A sliver of the Dominion's own recall, bound in glass. It hums toward what you've forgotten.",
     "price": 1000,
     "guaranteesFragment": true
+  },
+  {
+    "id": "ward_talisman",
+    "name": "Ward Talisman",
+    "icon": "🛡",
+    "desc": "Held passively. The next time you would lose a battle, this absorbs the loss — no life spent.",
+    "lore": "Carved from a shard that refused to break twice. It only ever gets one more use in it.",
+    "price": 45,
+    "preventsLifeLoss": true
+  },
+  {
+    "id": "vigor_draught",
+    "name": "Vigor Draught",
+    "icon": "💪",
+    "desc": "Permanently raise your base's max HP by 10 for the rest of this run.",
+    "lore": "Doesn't heal so much as convince the wound it was never that deep to begin with.",
+    "maxHpAmount": 10,
+    "price": 40
   }
 ]

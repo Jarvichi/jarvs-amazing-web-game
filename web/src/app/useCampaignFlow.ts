@@ -14,7 +14,7 @@ import {
   markIntroSeen, loadRunCount, incrementRunCount, getAct1Intro,
   generateEventFromConfig, ARCHETYPE_STARTER_PACK,
   getModifiersByCount, getModifierMax, recordNodeComplete, loadPlayerName, applyPlayerName,
-  addToConsumableStash, useConsumable, loadActCount, incrementActCount,
+  addToConsumableStash, useConsumable, loadActCount, incrementActCount, ALL_CONSUMABLES,
   setLastRunFailed, loadLastRunFailed, clearLastRunFailed, loadPlayerArchetype,
   type Act, type CutscenePanel, type EventChoice, type EventData, type QuestNode,
   type RunState, type ReplayModifier,
@@ -1199,15 +1199,28 @@ export function useCampaignFlow({
     if (!nodeId) { setScreen('nodemap'); return }
     const node = act.nodes[nodeId]
 
-    // Decrement a life and record the node failure
+    // A held Ward Talisman (or similar preventsLifeLoss consumable) absorbs this
+    // loss instead of costing a life — consumed here rather than via useConsumable,
+    // since it's a passive charge, not something the player manually activates.
+    const wardIdx = currentRun.consumables.findIndex(c => {
+      const def = ALL_CONSUMABLES.find(d => d.id === c.id)
+      return def?.preventsLifeLoss && c.count > 0
+    })
+
+    // Decrement a life (unless warded) and record the node failure
     const prevCount = nodeId ? (currentRun.nodeFailCounts[nodeId] ?? 0) : 0
-    const newLives = Math.max(0, currentRun.livesRemaining - 1)
+    const newLives = wardIdx === -1 ? Math.max(0, currentRun.livesRemaining - 1) : currentRun.livesRemaining
     const withFail: RunState = {
       ...currentRun,
       nodeFailCounts: nodeId
         ? { ...currentRun.nodeFailCounts, [nodeId]: prevCount + 1 }
         : currentRun.nodeFailCounts,
       livesRemaining: newLives,
+      consumables: wardIdx === -1
+        ? currentRun.consumables
+        : currentRun.consumables
+            .map((c, i) => i === wardIdx ? { ...c, count: c.count - 1 } : c)
+            .filter(c => c.count > 0),
     }
     saveRun(withFail)
     setRun(withFail)
