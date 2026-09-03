@@ -9,8 +9,10 @@ import {
   answerCardsFor,
   interleaveAnswerCards,
   tierRewardLabel,
+  quickBattleDeckBonus,
 } from './campaignHelpers'
 import { QuestNode, Act } from './questline'
+import { buildDeckCards, STARTER_DECK, CollectionEntry } from './collection'
 import answerCardsData from '../data/answerCards.json'
 
 // ─── Fixtures ─────────────────────────────────────────────
@@ -336,5 +338,46 @@ describe('tierRewardLabel', () => {
 
   it('shows a value below ×1 as a reduction, not a boost, at tier 1', () => {
     expect(tierRewardLabel(1)).toContain('0.75')
+  })
+})
+
+// ─── Dead scaler removal (#2296) ────────────────────────────
+
+describe('resolvedNodeOpts — run count no longer reduces handicap', () => {
+  it('returns the same opponentHandicap regardless of run count', () => {
+    const n = node({ handicap: 10, opponentBaseHp: 200, opponentIntervalMs: 5000, enemyTier: 2 })
+    const act1 = act({ expectedBand: 1 })
+    const atRunOne = resolvedNodeOpts(n, act1, 1, [])
+    const atRunFifty = resolvedNodeOpts(n, act1, 50, [])
+    expect(atRunFifty.opponentHandicap).toBe(atRunOne.opponentHandicap)
+    expect(atRunOne.opponentHandicap).toBe(10)
+  })
+})
+
+describe('quickBattleDeckBonus', () => {
+  it('gives a weak (Recruit-band) deck real help', () => {
+    expect(quickBattleDeckBonus(buildDeckCards(STARTER_DECK))).toBeGreaterThan(0)
+  })
+
+  it('gives a Mythic-band deck none — it does not need it', () => {
+    const entries = [
+      { cardName: 'Barracks', count: 4 }, { cardName: 'Bat Cave', count: 4 },
+      { cardName: 'Fairy Ring', count: 4 }, { cardName: 'Bandit Camp', count: 4 },
+      { cardName: 'Scout Garden', count: 4 }, { cardName: 'Wisp Grove', count: 4 },
+      { cardName: 'Air Sanctum', count: 3 }, { cardName: 'Tidal Spring', count: 3 },
+    ]
+    const mastered: CollectionEntry[] = [
+      ...entries.map(e => ({ cardName: e.cardName, count: 4, masteryXp: 155 })),
+      ...['Goblin', 'Bat', 'Pixie', 'Bandit', 'Pixie Scout', 'Mana Wisp', 'Air Sprite', 'Tide Sprite']
+        .map(cardName => ({ cardName, count: 4, masteryXp: 155 })),
+    ]
+    const mythicDeck = buildDeckCards(entries, mastered)
+    expect(quickBattleDeckBonus(mythicDeck)).toBe(0)
+  })
+
+  it('never rewards a small deck simply for being small — the bug this replaces', () => {
+    // A short, unmastered deck of otherwise-ordinary cards is not automatically strong.
+    const shortDeck = buildDeckCards([{ cardName: 'Goblin', count: 4 }, { cardName: 'Archer', count: 4 }])
+    expect(quickBattleDeckBonus(shortDeck)).toBeGreaterThan(0)
   })
 })

@@ -40,3 +40,15 @@ export const AfterFailure: Story = {
     onBack: fn(),
   },
 };
+
+/** #2296: a Mythic-band deck's mercy floor is playerBandTier - 1, not an unconditional 0. */
+export const AfterFailureWithStrongDeck: Story = {
+  args: {
+    act: exampleAct,
+    completionCount: 1,
+    lastRunFailed: true,
+    playerBandTier: 5,
+    onBegin: fn(),
+    onBack: fn(),
+  },
+};

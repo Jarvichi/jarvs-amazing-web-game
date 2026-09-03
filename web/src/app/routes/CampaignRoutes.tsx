@@ -216,6 +216,7 @@ export function CampaignRoutes() {
             actHasUncollectedFragment={actHasUncollectedFragment}
             crystals={crystals}
             ownsCharm={ownsCharm > 0}
+            playerBandTier={currentPlayerBandTier(buildDeckCards(loadDeck(), loadCollection()))}
             onBuyCharm={() => {
               if (crystals < 1000) return
               const next = crystals - 1000
