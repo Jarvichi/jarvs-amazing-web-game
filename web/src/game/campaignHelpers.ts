@@ -333,6 +333,7 @@ export function resolvedNodeOpts(
     opponentStartCards: handBonus + tier.startCardsBonus,
     opponentManaFloorBonus: tier.manaFloorBonus,
     opponentMaxPlaysOverride: tier.maxPlaysOverride,
+    opponentTier: effectiveTier,
     bossSpawnKillPct,
   }
 }

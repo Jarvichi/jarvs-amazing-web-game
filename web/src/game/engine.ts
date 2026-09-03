@@ -155,6 +155,8 @@ export interface NewGameOptions {
   opponentManaFloorBonus?: number
   /** Raises the opponent's per-turn play ceiling (campaign tier 5). Read by opponentAI.ts via GameState. */
   opponentMaxPlaysOverride?: number
+  /** Deck-power effective tier (campaign only — see effectiveTier in campaignHelpers.ts). Gates opponentAI.ts's tier-scaled behaviour (#2295). */
+  opponentTier?: number
 }
 
 export function newGame(
@@ -202,6 +204,7 @@ export function newGame(
     isDailyChallenge,
     opponentManaFloorBonus,
     opponentMaxPlaysOverride,
+    opponentTier,
   } = opts
 
   // Pre-built decks are already in seeded order — don't re-shuffle with Math.random()
@@ -383,6 +386,7 @@ export function newGame(
     pendingSpellCast: null,
     opponentManaFloorBonus,
     opponentMaxPlaysOverride,
+    opponentTier,
   }
 }
 

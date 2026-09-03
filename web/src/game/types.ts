@@ -562,6 +562,15 @@ export interface GameState {
    * opponentAI.ts. Absent outside campaign battles.
    */
   opponentMaxPlaysOverride?: number
+  /**
+   * Deck-power effective tier (1-5, see effectiveTier in campaignHelpers.ts)
+   * for this battle. Read by opponentAI.ts to gate its tier-scaled behaviour
+   * (#2295) — field-aware card bias at tier 3+, playing its best affordable
+   * card first at tier 4+, and committing to every interval's full play
+   * budget at tier 5. Absent outside campaign battles, so Quick Battle,
+   * endless mode, and the daily/weekly challenges are unaffected.
+   */
+  opponentTier?: number
   /** Current ATK multiplier applied to player mobile units by the Swarm Tactician passive. */
   swarmAtkMult?: number
   /** Live opponent AOE-spell cast in its windup window. Null when no cast is pending. */
