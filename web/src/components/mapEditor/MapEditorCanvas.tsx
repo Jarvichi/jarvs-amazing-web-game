@@ -69,7 +69,7 @@ function flattenDecor(items: RawDecorItem[]): FlatDecorItem[] {
     const minLevel = item.minLevel ?? 0
     const hideAtLevel = item.hideAtLevel
     if (item.bundleID) {
-      const expanded = expandBundleDecor(item.bundleID, item.tx, item.ty ?? 0)
+      const expanded = expandBundleDecor(item.bundleID, item.tx, item.ty ?? 0, item.zlayer)
       expanded.forEach(e => {
         const tileKey = Object.keys(BASE_CHIP_TILES as Record<string, number>)
           .find(k => (BASE_CHIP_TILES as Record<string, number>)[k] === e.tileId) ?? ''
@@ -652,14 +652,15 @@ export function MapEditorCanvas(props: Props) {
         const absTy = bOy + (d.ty ?? 0)
         const dimmed = !isVisibleAtLevel({ minLevel: d.minLevel ?? 0, hideAtLevel: d.hideAtLevel }, activeLevel)
         if (d.bundleID) {
-          for (const e of expandBundleDecor(d.bundleID, absTx, absTy)) {
+          for (const e of expandBundleDecor(d.bundleID, absTx, absTy, d.zlayer)) {
+            const eLayer = e.zlayer === 'below' ? decorBLayer : e.zlayer === 'above' ? decorALayer : decorLayer
             loadTileRef(e.tileId).then(tex => {
               if (renderVersionRef.current !== version) return
               const s = new PIXI.Sprite(tex)
               s.position.set(e.tx * T, e.ty * T)
               s.width = T; s.height = T
               if (dimmed) s.alpha = 0.3
-              decorLayer.addChild(s)
+              eLayer.addChild(s)
             }).catch(() => {})
           }
         } else if (d.tileId) {
@@ -948,7 +949,8 @@ export function MapEditorCanvas(props: Props) {
       const dimmed = !isVisibleAtLevel({ minLevel: d.minLevel ?? 0, hideAtLevel: d.hideAtLevel }, activeLevel)
       const layer = d.zlayer === 'below' ? decorBLayer : d.zlayer === 'above' ? decorALayer : decorLayer
       if (d.bundleID) {
-        for (const e of expandBundleDecor(d.bundleID, absTx, absTy)) {
+        for (const e of expandBundleDecor(d.bundleID, absTx, absTy, d.zlayer)) {
+          const eLayer = e.zlayer === 'below' ? decorBLayer : e.zlayer === 'above' ? decorALayer : decorLayer
           loadTileRef(e.tileId).then(tex => {
             if (renderVersionRef.current !== version) return
             const s = new PIXI.Sprite(tex)
@@ -957,7 +959,7 @@ export function MapEditorCanvas(props: Props) {
             if (dimmed) s.alpha = 0.3
             s.eventMode = 'static'; s.cursor = 'pointer'
             s.on('pointerdown', (ev: PIXI.FederatedPointerEvent) => handleEntityPointerDown(ev, entity, absTx, absTy))
-            decorLayer.addChild(s)
+            eLayer.addChild(s)
           }).catch(() => {})
         }
       } else if (d.tileId) {
