@@ -35,7 +35,8 @@ import UpdateManager from 'stdout-update'
 import { newGame, tick, NewGameOptions } from '../src/game/engine'
 import { playCard } from '../src/game/engine/cards'
 import { makeDeck } from '../src/game/cards'
-import type { Card, GameState } from '../src/game/types'
+import type { Archetype, Card, GameState } from '../src/game/types'
+import { DECK_FIXTURES, getFixture, validateFixtures } from './deckPowerFixtures'
 
 // ── Config ──────────────────────────────────────────────────────────────────
 
@@ -52,6 +53,15 @@ const MAX_GAME_MS  = 12 * 60_000  // give up after 12 min game-time
 // and MIN_WIN_RATE rounds to a single win, making a node's verdict a coin
 // flip (#2282). Don't lower CI's depth without re-checking minWinsFor().
 const RUNS         = Number(process.env.BALANCE_RUNS) || 100
+
+/**
+ * Selects a fixed reference deck from deckPowerFixtures.ts instead of the
+ * randomized `makeDeck()` default — the deck-power axis (#2293). Unset keeps
+ * every prior run's behaviour unchanged. Validated in main mode before any
+ * sweep starts; workers trust it once main mode has passed that gate.
+ */
+const DECK_BAND_ENV = process.env.BALANCE_DECK_BAND
+const DECK_BAND = DECK_BAND_ENV != null ? Number(DECK_BAND_ENV) : undefined
 
 /** Minimum average win time — below this the fight is trivially easy. */
 const MIN_WIN_MS: Record<string, number> = {
@@ -199,8 +209,14 @@ interface SimResult {
 
 type Strategy = 'greedy' | 'passive' | 'competent'
 
-function simulateGame(opts: NewGameOptions, strategy: Strategy): SimResult {
+function simulateGame(opts: NewGameOptions, strategy: Strategy, archetype?: Archetype): SimResult {
   let state = newGame(opts)
+  // newGame() has no archetype param — the real app sets this on the returned
+  // GameState after the fact (see App.tsx), so the deck-power fixtures do the
+  // same. Without it, a Siege Commander fixture's structures would price in
+  // the discount for its power *rating* but never actually get cheaper or
+  // tougher in the simulated battle.
+  if (archetype) state.archetypePassive = archetype
 
   while (state.phase.type === 'playing' && state.gameTime < MAX_GAME_MS) {
     state = tick(state, TICK_MS)
@@ -262,6 +278,8 @@ interface WorkerInput {
   opponentBaseHp?: number
   runs: number
   progressEvery: number
+  /** DECK_FIXTURES band to play as, instead of the randomized default deck. */
+  deckBand?: number
 }
 
 interface WorkerOutput {
@@ -291,9 +309,15 @@ interface WorkerProgress {
 
 if (!isMainThread) {
   const input: WorkerInput = workerData
+  const fixture = input.deckBand != null ? getFixture(input.deckBand) : undefined
+  // Rebuilt fresh each run rather than hoisted, matching how makeDeck() was
+  // already called per-iteration below — buildDeckCards() is deterministic
+  // (mastery/augments have no randomness), so this is purely for parity with
+  // the existing pattern, not a correctness requirement.
+  const deckForRun = () => fixture ? fixture.build() : makeDeck()
 
   const opts: NewGameOptions = {
-    playerCards: makeDeck(),
+    playerCards: deckForRun(),
     opponentHandicap: input.handicap,
     bossAI: input.bossAI,
     enemyDeckNames: input.enemyDeckNames,
@@ -306,7 +330,7 @@ if (!isMainThread) {
 
   // Greedy runs
   for (let i = 0; i < input.runs; i++) {
-    const r = simulateGame({ ...opts, playerCards: makeDeck() }, 'greedy')
+    const r = simulateGame({ ...opts, playerCards: deckForRun() }, 'greedy', fixture?.archetype)
     if (r.winner === 'player') { wins++; totalWinMs += r.gameTimeMs }
     if ((i + 1) % input.progressEvery === 0) {
       parentPort!.postMessage({
@@ -318,7 +342,7 @@ if (!isMainThread) {
 
   // Passive runs
   for (let i = 0; i < input.runs; i++) {
-    const r = simulateGame({ ...opts, playerCards: makeDeck() }, 'passive')
+    const r = simulateGame({ ...opts, playerCards: deckForRun() }, 'passive', fixture?.archetype)
     if (r.winner === 'opponent') { losses++; totalLoseMs += r.gameTimeMs }
     if ((i + 1) % input.progressEvery === 0) {
       parentPort!.postMessage({
@@ -330,7 +354,7 @@ if (!isMainThread) {
 
   // Competent runs — the strong end of the skill range.
   for (let i = 0; i < input.runs; i++) {
-    const r = simulateGame({ ...opts, playerCards: makeDeck() }, 'competent')
+    const r = simulateGame({ ...opts, playerCards: deckForRun() }, 'competent', fixture?.archetype)
     if (r.winner === 'player') { strongWins++; totalStrongWinMs += r.gameTimeMs }
   }
 
@@ -362,6 +386,28 @@ else {
     ['Act 3', (await import('../src/data/acts/act3.json', { with: { type: 'json' } })).default as ActData],
   ]
 
+  // Fixtures are validated every run, whether or not BALANCE_DECK_BAND is
+  // set — a fixture that has drifted out of its intended band would silently
+  // invalidate the sweep, so this is worth the near-zero cost even on a run
+  // that never uses one.
+  const fixtureProblems = validateFixtures()
+  if (fixtureProblems.length > 0) {
+    console.error('\nDeck-power fixture(s) no longer land in their intended band:\n')
+    for (const p of fixtureProblems) console.error(`  - ${p}`)
+    console.error('\nFix the fixtures in scripts/deckPowerFixtures.ts before trusting a sweep.')
+    process.exit(1)
+  }
+
+  let deckFixture: ReturnType<typeof getFixture> = undefined
+  if (DECK_BAND != null) {
+    if (!Number.isInteger(DECK_BAND) || !getFixture(DECK_BAND)) {
+      const valid = DECK_FIXTURES.map(f => f.band).join(', ')
+      console.error(`\nBALANCE_DECK_BAND=${DECK_BAND_ENV} is not a known fixture band. Valid values: ${valid}.`)
+      process.exit(1)
+    }
+    deckFixture = getFixture(DECK_BAND)
+  }
+
   const BATTLE_TYPES = new Set(['battle', 'elite', 'boss'])
   const CONCURRENCY  = ((os.cpus().length) - 2 ) > 0 ? ((os.cpus().length) - 2 ) : 1 // leave 2 cores free for system responsiveness; worker threads can be CPU-intensive
   const PROGRESS_EVERY = Math.max(50, Math.floor(RUNS / 10))
@@ -380,6 +426,7 @@ else {
         opponentBaseHp: node.opponentBaseHp,
         runs: RUNS,
         progressEvery: PROGRESS_EVERY,
+        deckBand: DECK_BAND,
       })
     }
   }
@@ -387,6 +434,7 @@ else {
   const totalNodes = tasks.length
 
   console.log(`\nBalance Test — ${totalNodes} nodes × ${RUNS}×2 runs — ${CONCURRENCY} threads`)
+  console.log(deckFixture ? `Deck: ${deckFixture.name}` : 'Deck: default (makeDeck(), randomized per run)')
   console.log('='.repeat(70))
 
   // Live progress state per node
@@ -453,11 +501,18 @@ else {
 
       if (!pass) failedNodes++
 
+      // A node flagged too-easy under a Tier IV+ fixture is the signal #2290
+      // exists to drive to zero — distinguish it from the same flag on the
+      // default deck, which only says the *floor* strategy is too generous.
+      const tooEasyLabel = deckFixture && deckFixture.band >= 4
+        ? `⚠ too easy for a ${deckFixture.name} (strong ${r.strongWins}/${RUNS} in ${fmt(avgStrongMs)})`
+        : `⚠ too easy (strong ${r.strongWins}/${RUNS} in ${fmt(avgStrongMs)})`
+
       const flags = [
         !winOk   ? '⚠ not winnable' : '',
         !loseOk  ? '⚠ not losable'  : '',
         !speedOk ? `⚠ too fast (${fmt(avgWinMs)} < ${fmt(winMin)})` : '',
-        tooEasy  ? `⚠ too easy (strong ${r.strongWins}/${RUNS} in ${fmt(avgStrongMs)})` : '',
+        tooEasy  ? tooEasyLabel : '',
       ].filter(Boolean).join(' ')
 
       const label    = `${r.nodeId} (${r.nodeType})`
