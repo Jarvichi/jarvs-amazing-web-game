@@ -12,6 +12,7 @@ import { MasteryBar } from '../../ui/MasteryBar'
 import { SpriteImg, AnimatedSpriteImg } from '../../ui/SpriteImg'
 import { TabNav } from '../../ui/TabNav'
 import { Walker, rageDescription, residentName, getUnitRequirements } from './walkerTypes'
+import { Button } from '../../ui/Button'
 
 export interface Props {
   cellIndex:          number
@@ -95,12 +96,11 @@ export function BuildingInspectModal({
                         : <div className="city-bld-resident-req city-bld-req--met">✓ All conditions now met</div>
                       }
                     </div>
-                    <button
-                      className={`action-btn${allMet ? '' : ' action-btn--muted'}`}
+                    <Button
                       onClick={() => { onMoveIn(); onClose() }}
                     >
                       {allMet ? '🏠 INVITE BACK' : '🏠 INVITE BACK ANYWAY'}
-                    </button>
+                    </Button>
                     {!allMet && (
                       <div className="city-bld-vacant-warn">They may leave again if conditions aren't improved.</div>
                     )}
@@ -222,17 +222,17 @@ export function BuildingInspectModal({
                 </div>
               ))}
             </div>
-            <button
-              className={`action-btn${canAfford ? ' action-btn--gold' : ''}`}
+            <Button
+              variant={canAfford ? 'gold' : 'default'}
               onClick={() => { onLevelUp(cell.cardName); setBuildingTab('upgrade') }}
               disabled={!canAfford}
             >
               {canAfford ? `LEVEL UP (${GOLD_SYMBOL} ${upgradeCost.toLocaleString()})` : `NEED ${GOLD_SYMBOL} ${upgradeCost.toLocaleString()}`}
-            </button>
+            </Button>
           </div>
         )}
 
-        <button className="action-btn" onClick={onClose}>CLOSE</button>
+        <Button onClick={onClose}>CLOSE</Button>
         </div>
       </div>
     </div>

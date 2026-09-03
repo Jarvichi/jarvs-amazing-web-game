@@ -13,6 +13,7 @@ import {
 import { MinigameShell } from './MinigameShell'
 import { MinigameResultPanel } from './MinigameResultPanel'
 import { Panel } from '../ui/Panel'
+import { Button } from '../ui/Button'
 
 function oppositeSide(side: OarSide | null): OarSide | null {
   if (side === null) return null
@@ -212,9 +213,9 @@ export function HarbourRegatta({ onDone }: Props) {
         </div>
 
         <Panel elevation="floating" tone="gold" runeCorners className="minigame-result-panel u-col u-items-c u-gap-5">
-          <button className="action-btn action-btn--gold" onClick={startRace}>
+          <Button variant="gold" onClick={startRace}>
             ROW OUT!
-          </button>
+          </Button>
         </Panel>
       </MinigameShell>
     )
@@ -321,12 +322,13 @@ export function HarbourRegatta({ onDone }: Props) {
         <div className="regatta-oars u-flex u-gap-6 u-just-c">
           {(['left', 'right'] as const).map(side => (
             <div key={side} className="regatta-oar-col u-col u-items-c u-gap-2">
-              <button
-                className={`action-btn action-btn--large regatta-oar-btn${cueActive && cue.nextSide === side ? ' regatta-oar-btn--due' : ''}`}
+              <Button
+                size="lg"
+                className={`regatta-oar-btn${cueActive && cue.nextSide === side ? ' regatta-oar-btn--due' : ''}`}
                 onClick={() => tapOar(side)}
               >
                 {side === 'left' ? '⬅ LEFT OAR' : 'RIGHT OAR ➡'}
-              </button>
+              </Button>
               <div className="regatta-cue-track">
                 <div
                   className="regatta-cue-sweet"

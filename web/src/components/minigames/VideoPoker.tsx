@@ -8,6 +8,7 @@ import { loadCrystals, saveCrystals } from '../../game/collection'
 import { MinigameShell } from './MinigameShell'
 import { MinigameResultPanel } from './MinigameResultPanel'
 import { Panel } from '../ui/Panel'
+import { Button } from '../ui/Button'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -251,39 +252,37 @@ export function VideoPoker({ onDone }: Props) {
       {/* Wager phase controls */}
       {phase === 'wager' && (
         <div className="vp-controls u-flex u-just-c">
-          <button className="action-btn action-btn--danger" onClick={fold}>
+          <Button variant="danger" onClick={fold}>
             FOLD
-          </button>
-          <button
-            className="action-btn"
+          </Button>
+          <Button
             onClick={() => playAt(1)}
             disabled={credits < 0}
           >
             ×1
-          </button>
-          <button
-            className="action-btn"
+          </Button>
+          <Button
             onClick={() => playAt(2)}
             disabled={credits < 2 - wager}
           >
             ×2
-          </button>
-          <button
-            className="action-btn action-btn--gold"
+          </Button>
+          <Button
+            variant="gold"
             onClick={() => playAt(5)}
             disabled={credits < 5 - wager}
           >
             ×5
-          </button>
+          </Button>
         </div>
       )}
 
       {/* Hold phase controls */}
       {phase === 'hold' && (
         <div className="vp-controls u-flex u-just-c">
-          <button className="action-btn action-btn--gold action-btn--large" onClick={draw}>
+          <Button variant="gold" size="lg" onClick={draw}>
             DRAW
-          </button>
+          </Button>
         </div>
       )}
 
@@ -304,12 +303,12 @@ export function VideoPoker({ onDone }: Props) {
             </div>
           )}
           <div className="vp-controls u-flex u-just-c">
-            <button className="action-btn action-btn--gold" onClick={dealAgain}>
+            <Button variant="gold" onClick={dealAgain}>
               DEAL AGAIN
-            </button>
-            <button className="action-btn" onClick={cashOut}>
+            </Button>
+            <Button onClick={cashOut}>
               CASH OUT ({credits * TICKETS_PER_CREDIT} 🎫)
-            </button>
+            </Button>
           </div>
         </Panel>
       )}

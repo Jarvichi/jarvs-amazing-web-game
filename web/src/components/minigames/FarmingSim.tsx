@@ -44,6 +44,7 @@ import { AttackStrip } from './citybuilder/AttackStrip'
 import { ResourceStrip } from './citybuilder/ResourceStrip'
 import { Toolbar } from '../ui/Toolbar/Toolbar'
 import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
+import { Button } from '../ui/Button'
 
 // ── Walker constants ──────────────────────────────────────────────────────────
 
@@ -748,8 +749,8 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
                   const affordable = canAffordFarmExpansion(farm, city.gold, city.resources)
                   const cost = FARM_EXPANSION_COSTS[farm.rows ?? FARM_ROWS]
                   return (
-                    <button
-                      className={`action-btn${affordable ? ' action-btn--gold' : ''}`}
+                    <Button
+                      variant={affordable ? 'gold' : 'default'}
                       disabled={!affordable}
                       onClick={() => {
                         if (!affordable || !cost) return
@@ -765,10 +766,10 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
                       }}
                     >
                       {affordable ? '🌱 EXPAND NOW' : '🔒 NEED RESOURCES'}
-                    </button>
+                    </Button>
                   )
                 })()}
-                <button className="action-btn" onClick={() => setShowExpandModal(false)}>CLOSE</button>
+                <Button onClick={() => setShowExpandModal(false)}>CLOSE</Button>
               </div>
             </div>
           </ModalBackdrop>

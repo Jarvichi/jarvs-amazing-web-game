@@ -32,6 +32,7 @@ import { recordFishCaught } from '../../game/hub/journal'
 import { addCaughtFish } from '../../game/hub/caughtFish'
 import ITEMS_DATA from '../../data/items.json'
 import { logError } from '../../logger'
+import { Button } from '../ui/Button'
 
 const BITE_WINDOW_MS = 1500
 const CAST_FLIGHT_MS = 700
@@ -394,24 +395,24 @@ export function Fishing({ onDone, rewardMode = 'tickets', variant = 'river' }: P
       <div className="fishing-controls u-col u-items-c u-gap-4">
         {phase === 'idle' && (
           canCast
-            ? <button className="action-btn action-btn--gold action-btn--large" onClick={beginCharge}>🎣 CAST</button>
-            : <button className="action-btn" disabled>Out of bait</button>
+            ? <Button variant="gold" size="lg" onClick={beginCharge}>🎣 CAST</Button>
+            : <Button disabled>Out of bait</Button>
         )}
 
         {phase === 'charging' && (
-          <button className="action-btn action-btn--gold action-btn--large fishing-release-btn" onClick={releaseCast}>
+          <Button variant="gold" size="lg" className="fishing-release-btn" onClick={releaseCast}>
             RELEASE!
-          </button>
+          </Button>
         )}
 
         {(phase === 'flying' || phase === 'waiting') && (
-          <button className="action-btn" disabled>{phase === 'flying' ? 'Casting…' : 'Waiting…'}</button>
+          <Button disabled>{phase === 'flying' ? 'Casting…' : 'Waiting…'}</Button>
         )}
 
         {phase === 'bite' && (
-          <button className="action-btn action-btn--large fishing-strike-btn" onClick={strike}>
+          <Button size="lg" className="fishing-strike-btn" onClick={strike}>
             ⚡ STRIKE!
-          </button>
+          </Button>
         )}
 
         {phase === 'fight' && (
@@ -429,15 +430,15 @@ export function Fishing({ onDone, rewardMode = 'tickets', variant = 'river' }: P
 
         {(phase === 'missed' || phase === 'lost') && (
           <div className="fishing-btn-row u-flex u-gap-4 u-just-c">
-            {canCast && <button className="action-btn action-btn--gold" onClick={beginCharge}>TRY AGAIN</button>}
-            <button className="action-btn action-btn--danger" onClick={giveUp}>GIVE UP</button>
+            {canCast && <Button variant="gold" onClick={beginCharge}>TRY AGAIN</Button>}
+            <Button variant="danger" onClick={giveUp}>GIVE UP</Button>
           </div>
         )}
 
         {phase === 'caught' && (
           <div className="fishing-btn-row u-flex u-gap-4 u-just-c">
-            {canCast && <button className="action-btn action-btn--gold" onClick={beginCharge}>FISH AGAIN</button>}
-            <button className="action-btn" onClick={done}>DONE</button>
+            {canCast && <Button variant="gold" onClick={beginCharge}>FISH AGAIN</Button>}
+            <Button onClick={done}>DONE</Button>
           </div>
         )}
       </div>

@@ -7,6 +7,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { MinigameShell } from './MinigameShell'
 import { MinigameResultPanel } from './MinigameResultPanel'
 import { Panel } from '../ui/Panel'
+import { Button } from '../ui/Button'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -194,13 +195,13 @@ export function MarbleRace({ onDone }: Props) {
         </div>
 
         <Panel elevation="floating" tone="gold" runeCorners className="minigame-result-panel u-col u-items-c u-gap-5">
-          <button
-            className="action-btn action-btn--gold"
+          <Button
+            variant="gold"
             onClick={startRace}
             disabled={chosen === null}
           >
             {chosen === null ? 'PICK A MARBLE' : `RACE WITH ${MARBLE_NAMES[chosen].toUpperCase()}!`}
-          </button>
+          </Button>
         </Panel>
       </MinigameShell>
     )

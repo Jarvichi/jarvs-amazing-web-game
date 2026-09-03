@@ -40,6 +40,7 @@ import {
 import { UnitTemplate } from '../../game/types'
 import { incrementAugmentSouls } from '../../game/collection'
 import { Lives } from '../ui/Lives/Lives'
+import { Button } from '../ui/Button'
 import { BottomPanel } from './towerdefence/BottomPanel'
 import { TowerDefenceEndScreen } from './towerdefence/EndScreen'
 import { GameGrid } from './towerdefence/GameGrid'
@@ -399,9 +400,9 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
         <div className="td-header-mana">💧 {game.mana}</div>
 
         {isPlacingPhase && !game.milestoneChoices && (
-          <button className="action-btn action-btn--gold td-header-btn" onClick={handleStartWave}>
+          <Button variant="gold" className="td-header-btn" onClick={handleStartWave}>
             ▶ START
-          </button>
+          </Button>
         )}
 
         <div className="td-speed-btns">
@@ -419,9 +420,9 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
           >⚡Auto</button>
         </div>
 
-        <button className="action-btn action-btn--danger td-header-btn" onClick={handleQuit} aria-label="Quit">
+        <Button variant="danger" className="td-header-btn" onClick={handleQuit} aria-label="Quit">
           ✕
-        </button>
+        </Button>
       </div>
 
       {/* ── Wave preview ── */}

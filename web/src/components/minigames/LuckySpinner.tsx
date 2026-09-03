@@ -5,6 +5,7 @@
 import React, { useState, useRef } from 'react'
 import { MinigameShell } from './MinigameShell'
 import { MinigameResultPanel } from './MinigameResultPanel'
+import { Button } from '../ui/Button'
 
 interface Props {
   onDone: (ticketsEarned: number, isJackpot: boolean) => void
@@ -110,9 +111,9 @@ export function LuckySpinner({ onDone }: Props) {
       </div>
 
       {phase === 'ready' && (
-        <button className="action-btn action-btn--gold spinner-btn" onClick={spin}>
+        <Button variant="gold" className="spinner-btn" onClick={spin}>
           SPIN THE WHEEL
-        </button>
+        </Button>
       )}
 
       {phase === 'spinning' && (

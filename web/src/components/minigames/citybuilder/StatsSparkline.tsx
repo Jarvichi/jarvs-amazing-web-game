@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { ModalBackdrop } from '../../ui/ModalBackdrop'
+import { Button } from '../../ui/Button'
 
 interface Props {
   data:            number[]
@@ -188,7 +189,7 @@ export function StatsSparkline({ data, attacks, color, height = 54, dimColor, ca
           <div className="city-sparkline-modal">
             <div className="city-sparkline-modal-header">
               <span>{label}</span>
-              <button className="action-btn" onClick={() => setExpanded(false)}>✕ CLOSE</button>
+              <Button onClick={() => setExpanded(false)}>✕ CLOSE</Button>
             </div>
             {renderChart(220)}
             <div className="city-sparkline-modal-stats">

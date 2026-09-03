@@ -7,6 +7,7 @@ import React, { useState } from 'react'
 import { playMinigameCorrect, playMinigameWrong } from '../../game/sound'
 import { MinigameShell } from './MinigameShell'
 import { MinigameResultPanel } from './MinigameResultPanel'
+import { Button } from '../ui/Button'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -124,12 +125,12 @@ export function HigherOrLower({ onDone }: Props) {
 
       {phase === 'playing' && (
         <div className="hol-buttons u-flex u-gap-7">
-          <button className="action-btn action-btn--large" onClick={() => guess('higher')}>
+          <Button size="lg" onClick={() => guess('higher')}>
             ▲ HIGHER
-          </button>
-          <button className="action-btn action-btn--large" onClick={() => guess('lower')}>
+          </Button>
+          <Button size="lg" onClick={() => guess('lower')}>
             ▼ LOWER
-          </button>
+          </Button>
         </div>
       )}
 

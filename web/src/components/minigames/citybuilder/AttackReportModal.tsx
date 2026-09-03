@@ -1,5 +1,6 @@
 import React from 'react'
 import { AttackEvent, GOLD_SYMBOL } from '../../../game/cityBuilder'
+import { Button } from '../../ui/Button'
 
 export interface Props {
   attackReport:    AttackEvent
@@ -46,7 +47,7 @@ export function AttackReportModal({ attackReport, hasDamagedForts, onClose }: Pr
             <div className="city-attack-warn">Fortifications damaged — residents are repairing.</div>
           )}
         </div>
-        <button className="action-btn" onClick={onClose}>CLOSE</button>
+        <Button onClick={onClose}>CLOSE</Button>
       </div>
     </div>
   )

@@ -7,6 +7,7 @@ import {
 import { SpriteImg } from '../../ui/SpriteImg'
 import { formatCountdown } from '../CityBuilder'
 import { FortSlot } from './FortCell'
+import { Button } from '../../ui/Button'
 
 export interface Props {
   slot:          Exclude<FortSlot, { kind: 'empty' }>
@@ -33,7 +34,7 @@ export function FortSlotModal({ slot, currentTime, onClose, onRemoveFort }: Prop
           <div style={{ fontSize: 10, color: '#608060', textAlign: 'center' }}>
             🛡 {FORT_DEFENSE[slot.entry.rarity]} defence when complete · {FORT_MAX_HP[slot.entry.rarity]} HP · {FORT_MAX_ATTACKS[slot.entry.rarity]} raids lifespan
           </div>
-          <button className="action-btn" style={{ marginTop: 12 }} onClick={onClose}>CLOSE</button>
+          <Button style={{ marginTop: 12 }} onClick={onClose}>CLOSE</Button>
         </div>
       </div>
     )
@@ -71,9 +72,9 @@ export function FortSlotModal({ slot, currentTime, onClose, onRemoveFort }: Prop
           <div className="city-fort-defense-val">🛡 {Math.round(FORT_DEFENSE[fort.rarity] * hpPct)} defence · 🪵 repairs 1HP/5min</div>
         </div>
         <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
-          <button className="action-btn action-btn--danger"
-            onClick={() => { onRemoveFort(fortIndex); onClose() }}>REMOVE</button>
-          <button className="action-btn" onClick={onClose}>CLOSE</button>
+          <Button variant="danger"
+            onClick={() => { onRemoveFort(fortIndex); onClose() }}>REMOVE</Button>
+          <Button onClick={onClose}>CLOSE</Button>
         </div>
       </div>
     </div>
