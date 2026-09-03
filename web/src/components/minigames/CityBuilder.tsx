@@ -70,6 +70,7 @@ import { FarmingSim } from './FarmingSim'
 import { isFarmUnlocked, loadFarmState, saveFarmState, getFarmProductionRate } from '../../game/farmingSim'
 import { tickAll } from '../../game/tick'
 import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
+import { Button } from '../ui/Button'
 
 
 // ── Resident thought lines ────────────────────────────────────────────────────
@@ -1614,7 +1615,7 @@ export function CityBuilder({ onBack }: Props) {
           <div style={{ padding: 24, color: '#888', textAlign: 'center' }}>
             <p>No residents available to defend the city.</p>
             <p>Place some spawn buildings with happy residents first!</p>
-            <button className="action-btn" onClick={() => setScreen('city')}>BACK TO CITY</button>
+            <Button onClick={() => setScreen('city')}>BACK TO CITY</Button>
           </div>
         </OverlayScreen>
       )
@@ -1833,7 +1834,7 @@ export function CityBuilder({ onBack }: Props) {
                 </div>
                 <p style={{ fontSize: 11, color: '#668866' }}>Grow your city by placing more spawning buildings to unlock the farm.</p>
               </div>
-              <button className="action-btn" onClick={() => setShowFarmLockModal(false)}>CLOSE</button>
+              <Button onClick={() => setShowFarmLockModal(false)}>CLOSE</Button>
             </div>
           </ModalBackdrop>
         )}
@@ -1866,16 +1867,16 @@ export function CityBuilder({ onBack }: Props) {
               </div>
               <div className="u-flex u-gap-3 u-just-c">
                 {cityRows < MAX_CITY_ROWS && expansionCost && (
-                  <button
-                    className={`action-btn${affordable ? ' action-btn--gold' : ''}`}
+                  <Button
+                    variant={affordable ? 'gold' : 'default'}
                     onClick={() => { handleExpand(); setShowExpandModal(false) }}
                     disabled={!affordable}
                     title={affordable ? 'Expand the city now' : 'Not enough resources'}
                   >
                     {affordable ? '🏢 EXPAND NOW' : '🔒 NEED RESOURCES'}
-                  </button>
+                  </Button>
                 )}
-                <button className="action-btn" onClick={() => setShowExpandModal(false)}>CLOSE</button>
+                <Button onClick={() => setShowExpandModal(false)}>CLOSE</Button>
               </div>
             </div>
           </ModalBackdrop>

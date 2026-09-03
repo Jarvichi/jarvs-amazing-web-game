@@ -6,6 +6,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { playMinigameCorrect, playMinigameWrong } from '../../game/sound'
 import { MinigameShell } from './MinigameShell'
 import { MinigameResultPanel } from './MinigameResultPanel'
+import { Button } from '../ui/Button'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -148,7 +149,7 @@ export function CrystalCatch({ onDone }: Props) {
         <div className="minigame-ready u-col u-items-c u-gap-5">
           <p>Catch 🔮 crystals (+3) and 🪙 coins (+1).</p>
           <p>Avoid 💣 bombs (-10 tickets). Timer: 30 seconds.</p>
-          <button className="action-btn action-btn--gold" onClick={startGame}>START</button>
+          <Button variant="gold" onClick={startGame}>START</Button>
         </div>
       )}
 

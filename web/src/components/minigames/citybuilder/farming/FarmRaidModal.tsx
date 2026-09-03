@@ -2,6 +2,7 @@ import React from 'react'
 import { FarmRaidEvent } from '../../../../game/farmingSim'
 import { RESOURCE_ICONS, ResourceType } from '../../../../game/cityBuilder'
 import { ModalBackdrop } from '../../../ui/ModalBackdrop'
+import { Button } from '../../../ui/Button'
 
 export interface Props {
   raid:    FarmRaidEvent
@@ -57,9 +58,9 @@ export function FarmRaidModal({ raid, onClose }: Props) {
           <div className="farm-raid-success">No damage — your farmers held the line!</div>
         )}
 
-        <button className="action-btn" onClick={onClose} style={{ marginTop: 12 }}>
+        <Button onClick={onClose} style={{ marginTop: 12 }}>
           DISMISS
-        </button>
+        </Button>
       </div>
     </ModalBackdrop>
   )

@@ -4,6 +4,7 @@ import { Panel } from '../ui/Panel'
 import { getDailyBounties, isBountyAccepted, isBountyCompleted, acceptBounty, turnInBounty, getActiveBountyStepHint, type BountyReward } from '../../game/hub/bounties'
 import type { RivalNpc } from '../../game/hub/relationships'
 import { CloseButton } from '../ui/CloseButton'
+import { Button } from '../ui/Button'
 
 interface Props {
   onClose: () => void
@@ -57,10 +58,9 @@ export function BountyBoardModal({ onClose, resolveNpcName = (id) => id, townNpc
               <div key={bounty.id} className="bounty-board-modal__card">
                 <div className="bounty-board-modal__title-row">
                   <span className="bounty-board-modal__title">{bounty.icon} {bounty.title}</span>
-                  <button
-                    className="action-btn"
-                    onClick={() => { acceptBounty(bounty.id); refresh() }}
-                  >Accept</button>
+                  <Button onClick={() => { acceptBounty(bounty.id); refresh() }}>
+                    Accept
+                  </Button>
                 </div>
                 <div className="bounty-board-modal__desc">{bounty.desc}</div>
                 <div className="bounty-board-modal__reward">+{bounty.reward.crystals} 💎</div>
@@ -81,11 +81,11 @@ export function BountyBoardModal({ onClose, resolveNpcName = (id) => id, townNpc
                 <div key={bounty.id} className="bounty-board-modal__card bounty-board-modal__card--accepted">
                   <div className="bounty-board-modal__title-row">
                     <span className="bounty-board-modal__title">{bounty.icon} {bounty.title}</span>
-                    <button
-                      className={`action-btn action-btn--gold${hint ? ' action-btn--disabled' : ''}`}
+                    <Button
+                      variant="gold"
                       disabled={!!hint}
                       onClick={() => { turnInBounty(bounty.id, townNpcs); refresh() }}
-                    >Turn In</button>
+                    >Turn In</Button>
                   </div>
                   <div className="bounty-board-modal__desc">{bounty.desc}</div>
                   {hint && <div className="bounty-board-modal__hint">{hint}</div>}

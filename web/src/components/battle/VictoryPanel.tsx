@@ -1,6 +1,7 @@
 import React from 'react'
 import { StatRow } from '../ui/StatRow'
 import { RunEndCard } from '../ui/RunEndCard'
+import { Button } from '../ui/Button'
 
 interface Props {
   playerScore: number
@@ -31,9 +32,9 @@ export function VictoryPanel({ playerScore, opponentScore, playerBaseHp, playerB
           <StatRow accent label="TIME"           value={formatTime(gameTime)} />
         </div>
 
-        <button className="action-btn action-btn--large action-btn--gold bsummary-continue" onClick={onContinue}>
+        <Button size="lg" variant="gold" className="bsummary-continue" onClick={onContinue}>
           Continue →
-        </button>
+        </Button>
       </RunEndCard>
     </div>
   )

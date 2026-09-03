@@ -25,6 +25,7 @@ import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import { WALL_TILES, WallMaterial } from '../../data/tiles/buildingMaterials'
 import { TileStylePicker, TileStyleOption } from './home-shelf/TileStylePicker'
 import { EmptyState } from '../ui/EmptyState'
+import { Button } from '../ui/Button'
 
 interface Props {
   onBack: () => void
@@ -503,13 +504,14 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
                     <span className="town-directory__name">{slot.name}</span>
                     {!owned && <span className="town-directory__place">💎 {slot.price.toLocaleString()}</span>}
                   </div>
-                  <button
-                    className="action-btn action-btn--gold town-upgrades__btn"
+                  <Button
+                    variant="gold"
+                    className="town-upgrades__btn"
                     disabled={owned}
                     onClick={() => handlePickRoomSlot(slot)}
                   >
                     {owned ? 'Built' : `Buy · 💎 ${slot.price.toLocaleString()}`}
-                  </button>
+                  </Button>
                 </div>
               )
             })}
@@ -541,7 +543,7 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
             {detail.kind === 'item' && detail.item.acquiredDate && (
               <div className="shelf-modal-date">Acquired: {detail.item.acquiredDate}</div>
             )}
-            <button className="action-btn" onClick={() => setDetail(null)}>CLOSE</button>
+            <Button onClick={() => setDetail(null)}>CLOSE</Button>
           </Panel>
         </ModalBackdrop>
       )}
@@ -554,13 +556,14 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
               Buy for {pendingBuy.price} 💎? You have {crystals.toLocaleString()} 💎.
             </div>
             <div className="shop-confirm-actions">
-              <button className="action-btn" onClick={handleCancelBuy}>Cancel</button>
-              <button
-                className={`action-btn action-btn--gold shop-card-buy-btn${crystals < pendingBuy.price ? ' shop-card-buy-btn--poor' : ''}`}
+              <Button onClick={handleCancelBuy}>Cancel</Button>
+              <Button
+                variant="gold"
+                className={`shop-card-buy-btn${crystals < pendingBuy.price ? ' shop-card-buy-btn--poor' : ''}`}
                 onClick={handleConfirmBuy}
               >
                 Buy for {pendingBuy.price} 💎
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -574,13 +577,14 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
               Build for {pendingRoomBuy.price.toLocaleString()} 💎? You have {crystals.toLocaleString()} 💎.
             </div>
             <div className="shop-confirm-actions">
-              <button className="action-btn" onClick={handleCancelRoomBuy}>Cancel</button>
-              <button
-                className={`action-btn action-btn--gold shop-card-buy-btn${crystals < pendingRoomBuy.price ? ' shop-card-buy-btn--poor' : ''}`}
+              <Button onClick={handleCancelRoomBuy}>Cancel</Button>
+              <Button
+                variant="gold"
+                className={`shop-card-buy-btn${crystals < pendingRoomBuy.price ? ' shop-card-buy-btn--poor' : ''}`}
                 onClick={handleConfirmRoomBuy}
               >
                 Build for {pendingRoomBuy.price.toLocaleString()} 💎
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -596,13 +600,14 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
               Change {pendingStyleBuy.kind} for {STYLE_PRICE} 💎? You have {crystals.toLocaleString()} 💎.
             </div>
             <div className="shop-confirm-actions">
-              <button className="action-btn" onClick={handleCancelStyleBuy}>Cancel</button>
-              <button
-                className={`action-btn action-btn--gold shop-card-buy-btn${crystals < STYLE_PRICE ? ' shop-card-buy-btn--poor' : ''}`}
+              <Button onClick={handleCancelStyleBuy}>Cancel</Button>
+              <Button
+                variant="gold"
+                className={`shop-card-buy-btn${crystals < STYLE_PRICE ? ' shop-card-buy-btn--poor' : ''}`}
                 onClick={handleConfirmStyleBuy}
               >
                 Change for {STYLE_PRICE} 💎
-              </button>
+              </Button>
             </div>
           </div>
         </div>

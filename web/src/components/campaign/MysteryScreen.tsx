@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { RewardDef } from '../../game/dailyLogin'
+import { Button } from '../ui/Button'
 
 const LORE_LINES = [
   '"I arrived expecting a fight. Found only silence — and something left behind."',
@@ -42,9 +43,9 @@ export function MysteryScreen({ reward, onCollect }: Props) {
         <div className="mystery-reward-value">{rewardLabel}</div>
       </div>
 
-      <button className="action-btn action-btn--large mystery-collect-btn" onClick={onCollect}>
+      <Button size="lg" className="mystery-collect-btn" onClick={onCollect}>
         COLLECT &amp; CONTINUE ›
-      </button>
+      </Button>
     </div>
   )
 }

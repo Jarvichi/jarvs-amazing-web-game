@@ -4,6 +4,7 @@ import { CardDetailModal } from '../cards/CardDetailModal'
 import { getCardCatalog } from '../../game/cards'
 import { NodeType } from '../../game/questline'
 import { BattleStats, Card } from '../../game/types'
+import { Button } from '../ui/Button'
 
 function formatDuration(ms: number): string {
   const s = Math.floor(ms / 1000)
@@ -142,18 +143,17 @@ export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, 
 
       {allFlipped && !claimed && (
         <div className="reward-actions u-col u-items-c u-gap-4">
-          <button
-            className="action-btn"
+          <Button
             onClick={() => {
               const target = selected ?? choices[Math.floor(Math.random() * choices.length)]
               claimCard(target)
             }}
           >
             Continue
-          </button>
-          <button className="action-btn reward-skip-btn" onClick={onSkip}>
+          </Button>
+          <Button className="reward-skip-btn" onClick={onSkip}>
             I Don't Want This Reward It'll Ruin My Deck
-          </button>
+          </Button>
         </div>
       )}
 

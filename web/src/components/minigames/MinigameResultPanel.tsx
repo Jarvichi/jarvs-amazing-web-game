@@ -1,5 +1,6 @@
 import React from 'react'
 import { Panel } from '../ui/Panel'
+import { Button } from '../ui/Button'
 
 interface Props {
   headline: React.ReactNode
@@ -25,12 +26,13 @@ export function MinigameResultPanel({ headline, ctaLabel, onCta, tone = 'gold', 
     >
       <div className="minigame-result-headline">{headline}</div>
       {children}
-      <button
-        className={`action-btn action-btn--large action-btn--${tone === 'gold' ? 'gold' : 'danger'}`}
+      <Button
+        size="lg"
+        variant={tone === 'gold' ? 'gold' : 'danger'}
         onClick={onCta}
       >
         {ctaLabel}
-      </button>
+      </Button>
     </Panel>
   )
 }

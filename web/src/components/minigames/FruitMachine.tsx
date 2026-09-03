@@ -29,6 +29,7 @@ import { loadPlayerName } from '../../game/questline'
 import { LedScroller, LedScrollerMessage } from '../ui/LedScroller/LedScroller'
 import { MinigameShell } from './MinigameShell'
 import { MinigameResultPanel } from './MinigameResultPanel'
+import { Button } from '../ui/Button'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -844,9 +845,9 @@ function regressBoardBy(steps: number) {
         <div className="fm-jackpot-win-overlay">
           <div className="fm-jackpot-win-tier">{jackpotWon.tier} JACKPOT!</div>
           <div className="fm-jackpot-win-amount">+{jackpotWon.amount} credits!</div>
-          <button className="action-btn action-btn--gold" onClick={dismissJackpotWin}>
+          <Button variant="gold" onClick={dismissJackpotWin}>
             COLLECT
-          </button>
+          </Button>
         </div>
       </MinigameShell>
     )
@@ -1028,13 +1029,13 @@ function regressBoardBy(steps: number) {
             <div className="action-btn action-btn--noborder-disabled">LUCKY? — Tap STOP to freeze the trail reel!</div>
           ) : (
             <>
-              <button
-                className="action-btn action-btn--noborder"
+              <Button
+                className="action-btn--noborder"
                 onClick={startSpin}
                 disabled={!canSpin}
               >
                 {freeSpin ? 'FREE SPIN' : spinCount === 1 ? 'SPIN (1 credit)' : `SPIN ×${isInAutoSpin ? autoSpinsLeft : spinCount} (${spinCount} credits)`}
-              </button>
+              </Button>
               <div className="fm-spin-count-selector u-flex u-gap-3 u-just-c">
                 {([1, 5, 10, 25, 50] as const).map(n => (
                   <button
@@ -1051,25 +1052,24 @@ function regressBoardBy(steps: number) {
           )}
         </div>
 
-        <button
-          className={`action-btn ${isInAutoSpin ? 'action-btn--danger' : phase === 'nudge' || phase === 'lucky' ? 'action-btn--gold' : 'action-btn--disabled'}`}
+        <Button
+          variant={isInAutoSpin ? 'danger' : phase === 'nudge' || phase === 'lucky' ? 'gold' : 'default'}
           onClick={isInAutoSpin ? stopAutoSpin : phase === 'nudge' ? finishNudge : phase === 'lucky' ? stopLucky : undefined}
           disabled={!isInAutoSpin && phase !== 'nudge' && phase !== 'lucky'}
         >
           {isInAutoSpin ? 'STOP' : phase === 'nudge' ? 'DONE' : 'STOP'}
-        </button>
+        </Button>
       </div>
 
       
       <div className="fm-controls u-flex u-gap-6 u-just-c u-wrap">
     
-        <button
-          className="action-btn"
+        <Button
           onClick={cashOut}
           disabled={isBusy || isInAutoSpin}
         >
           CASH OUT ({credits * TICKETS_PER_CREDIT} 🎫)
-        </button>
+        </Button>
       </div>
 
       {canBuy && (

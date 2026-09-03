@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Act, ReplayModifier } from '../../game/questline'
+import { Button } from '../ui/Button'
 
 interface TierOption {
   label: string
@@ -181,25 +182,25 @@ export function ReplayBriefingScreen({ act, completionCount, lastRunFailed, actH
               <div className="rb-subtitle">
                 A memory fragment from this chapter is still missing.
               </div>
-              <button
-                className="action-btn rb-charm-buy-btn"
+              <Button
+                className="rb-charm-buy-btn"
                 disabled={(crystals ?? 0) < 1000}
                 onClick={onBuyCharm}
               >
                 🔮 BUY MEMORY CHARM — 1000◆
-              </button>
+              </Button>
             </>
           )}
         </div>
       )}
 
       <div className="rb-actions u-col u-gap-5 u-items-c">
-        <button className="action-btn action-btn--large rb-begin-btn" onClick={() => onBegin(selected)}>
+        <Button size="lg" className="rb-begin-btn" onClick={() => onBegin(selected)}>
           BEGIN RUN ›
-        </button>
-        <button className="action-btn rb-back-btn u-text-md" onClick={onBack}>
+        </Button>
+        <Button className="rb-back-btn u-text-md" onClick={onBack}>
           ← BACK
-        </button>
+        </Button>
       </div>
     </div>
   )

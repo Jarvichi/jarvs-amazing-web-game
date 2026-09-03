@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { Button } from '../ui/Button'
 
 export interface DialogueChoice {
   label: string
@@ -74,21 +75,24 @@ export function HubDialogue({ line, onClose, speakerName, choices }: Props) {
           <div className={`hub-dialogue-choices${hasChoices && choices!.length > 1 ? ' hub-dialogue-choices--stacked' : ''}`}>
             {hasChoices
               ? choices!.map(c => (
-                  <button
+                  <Button
                     key={c.label}
-                    className={`action-btn action-btn--sm hub-dialogue-choice${c.primary && !c.disabled ? ' action-btn--gold' : ''}${c.disabled ? ' hub-dialogue-choice--disabled' : ''}`}
+                    size="sm"
+                    variant={c.primary && !c.disabled ? 'gold' : 'default'}
+                    className={`hub-dialogue-choice${c.disabled ? ' hub-dialogue-choice--disabled' : ''}`}
                     onClick={e => { e.stopPropagation(); c.onClick() }}
                   >
                     {c.label}
-                  </button>
+                  </Button>
                 ))
               : (
-                  <button
-                    className="action-btn action-btn--sm hub-dialogue-choice hub-dialogue-choice--ok"
+                  <Button
+                    size="sm"
+                    className="hub-dialogue-choice hub-dialogue-choice--ok"
                     onClick={e => { e.stopPropagation(); onClose() }}
                   >
                     OK <span className="hub-dialogue-continue-hint">▼</span>
-                  </button>
+                  </Button>
                 )
             }
           </div>

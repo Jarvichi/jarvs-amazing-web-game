@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { RareEventEffect } from './types'
+import { Button } from '../ui/Button'
 
 interface Props {
   onDone: (effect: RareEventEffect) => void
@@ -112,12 +113,12 @@ export function GamblerEvent({ onDone }: Props) {
               {introLine}
             </div>
             <div className="ld-bid-actions" style={{ flexDirection: 'column', gap: 8 }}>
-              <button className="action-btn action-btn--large" onClick={() => setPhase('tapping')}>
+              <Button size="lg" onClick={() => setPhase('tapping')}>
                 I'LL PLAY →
-              </button>
-              <button className="action-btn" style={{ opacity: 0.6 }} onClick={handleWalkAway}>
+              </Button>
+              <Button style={{ opacity: 0.6 }} onClick={handleWalkAway}>
                 WALK AWAY (coward)
-              </button>
+              </Button>
             </div>
           </div>
         )}
@@ -132,29 +133,27 @@ export function GamblerEvent({ onDone }: Props) {
               </div>
             </div>
 
-            <button
-              className="action-btn action-btn--large"
+            <Button
+              size="lg"
               onClick={handleTap}
               style={{ fontSize: 18, padding: '14px 32px', letterSpacing: 2 }}
             >
               TAP ({taps + 1})
-            </button>
+            </Button>
 
             <div className="ld-bid-actions" style={{ gap: 8 }}>
-              <button
-                className="action-btn"
+              <Button
                 onClick={handleStop}
                 style={{ flex: 1, borderColor: '#33ff99', color: '#33ff99' }}
               >
                 ✓ STOP HERE
-              </button>
-              <button
-                className="action-btn"
+              </Button>
+              <Button
                 onClick={handleWalkAway}
                 style={{ flex: 1, opacity: 0.5 }}
               >
                 WALK AWAY
-              </button>
+              </Button>
             </div>
           </div>
         )}
@@ -169,12 +168,12 @@ export function GamblerEvent({ onDone }: Props) {
               The number was <strong style={{ color: '#ffd700' }}>{secret}</strong>.
               One copy of every card now belongs to you.
             </div>
-            <button
-              className="action-btn action-btn--large"
+            <Button
+              size="lg"
               onClick={() => onDone({ grantAllCards: true, logMessage: '[GAMBLER] "Impossible. One in a million. Take your cards." He vanishes.' })}
             >
               CLAIM REWARD →
-            </button>
+            </Button>
           </div>
         )}
 
@@ -190,15 +189,15 @@ export function GamblerEvent({ onDone }: Props) {
                 The number was <strong style={{ color: '#ffd700' }}>{secret}</strong>.
               </div>
             )}
-            <button
-              className="action-btn action-btn--large"
+            <Button
+              size="lg"
               onClick={() => onDone({
                 addInventoryItem: { id: 'rubber_chicken', name: 'Rubber Chicken', icon: '🐔', desc: 'A consolation prize from The Gambler. Still warm.' },
                 logMessage: '[GAMBLER] "Chicken!" He cackles and vanishes in a puff of smoke.',
               })}
             >
               TAKE THE CHICKEN →
-            </button>
+            </Button>
           </div>
         )}
 
@@ -215,13 +214,13 @@ export function GamblerEvent({ onDone }: Props) {
             <div className="ld-bid-text" style={{ textAlign: 'center', color: '#ff4444', fontWeight: 'bold' }}>
               ⚠ ALL PROGRESS WILL BE ERASED ⚠
             </div>
-            <button
-              className="action-btn action-btn--large"
+            <Button
+              size="lg"
               style={{ borderColor: '#ff4444', color: '#ff4444' }}
               onClick={() => onDone({ resetGame: true, logMessage: '[GAMBLER] "HA HA HA HA HA!" The world collapses.' })}
             >
               ACCEPT YOUR FATE →
-            </button>
+            </Button>
           </div>
         )}
 

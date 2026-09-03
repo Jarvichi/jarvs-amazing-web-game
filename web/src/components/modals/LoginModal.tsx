@@ -10,6 +10,7 @@ import { uploadSave, downloadSave } from '../../game/cloudSave'
 import { type CloudSave } from '../../game/cloudSave'
 import rollbar from '../../rollbar'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { Button } from '../ui/Button'
 import { type SettingsStatus } from '../screens/settings/SettingsMessage'
 
 interface Props {
@@ -162,18 +163,18 @@ export function LoginModal({ user, authLoading, onClose, onLoginSuccess }: Props
         )}
 
         <div className="login-modal-buttons u-flex u-gap-4 u-wrap">
-          <button className="action-btn" onClick={handleEmailSignIn} disabled={emailBusy || authLoading}>
+          <Button onClick={handleEmailSignIn} disabled={emailBusy || authLoading}>
             {emailBusy ? 'PLEASE WAIT...' : 'SIGN IN'}
-          </button>
-          <button className="action-btn" onClick={handleEmailCreate} disabled={emailBusy || authLoading} style={{ fontSize: '11px', padding: '6px 12px' }}>
+          </Button>
+          <Button onClick={handleEmailCreate} disabled={emailBusy || authLoading} style={{ fontSize: '11px', padding: '6px 12px' }}>
             CREATE ACCOUNT
-          </button>
-          <button className="action-btn" onClick={handleForgotPassword} disabled={emailBusy} style={{ fontSize: '11px', padding: '6px 12px' }}>
+          </Button>
+          <Button onClick={handleForgotPassword} disabled={emailBusy} style={{ fontSize: '11px', padding: '6px 12px' }}>
             FORGOT PASSWORD
-          </button>
-          <button className="action-btn" onClick={onClose} style={{ fontSize: '11px', padding: '6px 12px' }}>
+          </Button>
+          <Button onClick={onClose} style={{ fontSize: '11px', padding: '6px 12px' }}>
             CANCEL
-          </button>
+          </Button>
         </div>
       </div>
     </ModalBackdrop>

@@ -9,6 +9,7 @@ import { addTickets, loadLocalHighScore, saveLocalHighScore } from '../../game/m
 import { loadCrystals, saveCrystals } from '../../game/collection'
 import { incrementAchievementProgress, setAchievementProgress } from '../../game/achievements'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { Button } from '../ui/Button'
 
 const SPIN_COST     = 10
 const SEGMENTS      = [2, 5, 10, 20, 5, 10, 50, 2]
@@ -256,13 +257,14 @@ export function CasinoScreen({ crystals, onCrystalsChange, onBack }: Props) {
 
         {/* Controls */}
         {phase === 'ready' && (
-          <button
-            className={`action-btn${canSpin ? ' action-btn--gold' : ''} casino-spin-btn`}
+          <Button
+            variant={canSpin ? 'gold' : 'default'}
+            className="casino-spin-btn"
             onClick={spin}
             disabled={!canSpin}
           >
             {canSpin ? `SPIN — ${SPIN_COST} 💎` : `NEED ${SPIN_COST} 💎`}
-          </button>
+          </Button>
         )}
 
         {phase === 'spinning' && (
@@ -274,8 +276,8 @@ export function CasinoScreen({ crystals, onCrystalsChange, onBack }: Props) {
             {isJackpot && <div className="casino-jackpot">⭐ JACKPOT! ⭐</div>}
             <div className="casino-result-headline">You won <strong>{result}</strong> 🎫</div>
             <div className="u-flex u-gap-4">
-              <button className="action-btn action-btn--gold" onClick={handlePlayAgain}>SPIN AGAIN</button>
-              <button className="action-btn" onClick={onBack}>LEAVE TABLE</button>
+              <Button variant="gold" onClick={handlePlayAgain}>SPIN AGAIN</Button>
+              <Button onClick={onBack}>LEAVE TABLE</Button>
             </div>
           </div>
         )}

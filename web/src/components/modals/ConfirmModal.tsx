@@ -1,5 +1,6 @@
 import React from 'react'
 import { Modal } from '../ui/Modal'
+import { Button } from '../ui/Button'
 
 interface Props {
   title: string
@@ -17,8 +18,8 @@ export function ConfirmModal({ title, body, confirmLabel, onConfirm, onCancel }:
       tone="danger"
       footer={
         <>
-          <button className="action-btn" onClick={onCancel}>Cancel</button>
-          <button className="action-btn action-btn--danger" onClick={onConfirm}>{confirmLabel}</button>
+          <Button onClick={onCancel}>Cancel</Button>
+          <Button variant="danger" onClick={onConfirm}>{confirmLabel}</Button>
         </>
       }
     >

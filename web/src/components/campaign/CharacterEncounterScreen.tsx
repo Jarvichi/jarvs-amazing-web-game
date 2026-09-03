@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { getCharacterDef, getCharacterStage, CharacterChoice } from '../../game/characters'
+import { Button } from '../ui/Button'
 
 interface Props {
   characterId: string
@@ -36,13 +37,13 @@ export function CharacterEncounterScreen({ characterId, onDone }: Props) {
       {!response && stage.choices && stage.choices.length > 0 && (
         <div className="char-choices u-col u-gap-3">
           {stage.choices.map((c, i) => (
-            <button
+            <Button
               key={i}
-              className="action-btn char-choice-btn"
+              className="char-choice-btn"
               onClick={() => handleChoice(c)}
             >
               {c.label}
-            </button>
+            </Button>
           ))}
         </div>
       )}
@@ -50,16 +51,16 @@ export function CharacterEncounterScreen({ characterId, onDone }: Props) {
       {response && (
         <div className="char-response u-col u-items-c u-gap-4">
           <p className="char-para char-para--response">{response}</p>
-          <button className="action-btn" onClick={() => onDone(chosen ?? undefined)}>
+          <Button onClick={() => onDone(chosen ?? undefined)}>
             Continue
-          </button>
+          </Button>
         </div>
       )}
 
       {!response && (!stage.choices || stage.choices.length === 0) && (
-        <button className="action-btn" onClick={() => onDone()}>
+        <Button onClick={() => onDone()}>
           Continue
-        </button>
+        </Button>
       )}
     </div>
   )

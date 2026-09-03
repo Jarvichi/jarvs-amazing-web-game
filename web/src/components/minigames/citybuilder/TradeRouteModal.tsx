@@ -1,5 +1,6 @@
 import React from 'react'
 import { CityState, TradeOffer, ActiveCaravan, RESOURCE_ICONS, GOLD_SYMBOL } from '../../../game/cityBuilder'
+import { Button } from '../../ui/Button'
 
 function fmtMs(ms: number): string {
   const totalMin = Math.floor(ms / 60_000)
@@ -53,13 +54,13 @@ function OfferCard({ offer, city, currentTime, onDispatch, onClose }: {
           {isSell ? `Need ${offer.amount} ${offer.resource} (have ${Math.floor(city.resources[offer.resource])})` : `Need ${GOLD_SYMBOL} ${offer.gold.toLocaleString()} gold`}
         </div>
       )}
-      <button
-        className={`action-btn${canAfford ? ' action-btn--gold' : ''}`}
+      <Button
+        variant={canAfford ? 'gold' : 'default'}
         disabled={!canAfford}
         onClick={() => { onDispatch(); onClose() }}
       >
         🐪 DISPATCH CARAVAN
-      </button>
+      </Button>
     </div>
   )
 }
@@ -105,7 +106,7 @@ export function TradeRouteModal({ city, currentTime, onDispatch, onClose }: Prop
           <div className="city-trade-waiting">No offer available yet — check back soon.</div>
         )}
 
-        <button className="action-btn" onClick={onClose}>CLOSE</button>
+        <Button onClick={onClose}>CLOSE</Button>
       </div>
     </div>
   )

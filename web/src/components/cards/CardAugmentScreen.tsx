@@ -29,6 +29,7 @@ import { CardDetailHeader } from './CardDetailHeader'
 import { AugStatRow, masteryStatBonuses } from './AugStatRow'
 import { AnimatedSpriteImg, SpriteImg } from '../ui/SpriteImg'
 import { RARITY_COLOR } from '../../theme'
+import { Button } from '../ui/Button'
 
 interface Props {
   card: Card
@@ -178,29 +179,30 @@ export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Pr
                         <div className="cas-slot-effect">{effectSummary(scaled)}</div>
                       )}
                       <div className="cas-slot-actions">
-                        <button
-                          className="action-btn action-btn--gold cas-slot-btn"
+                        <Button
+                          variant="gold"
+                          className="cas-slot-btn"
                           disabled={souls < AUGMENT_UPGRADE_COST}
                           onClick={() => handleUpgrade(inst)}
                           title={`Upgrade (costs ${AUGMENT_UPGRADE_COST} souls)`}
                         >
                           ↑ Upgrade
-                        </button>
-                        <button
-                          className="action-btn cas-slot-btn"
+                        </Button>
+                        <Button
+                          className="cas-slot-btn"
                           onClick={() => { setPickerSlot(slot); }}
                         >
                           Swap
-                        </button>
+                        </Button>
                       </div>
                     </>
                   ) : (
-                    <button
-                      className="action-btn cas-slot-btn"
+                    <Button
+                      className="cas-slot-btn"
                       onClick={() => setPickerSlot(slot)}
                     >
                       + Equip
-                    </button>
+                    </Button>
                   )}
                 </div>
               )

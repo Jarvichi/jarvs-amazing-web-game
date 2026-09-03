@@ -5,6 +5,7 @@ import { Card } from '../../../game/types'
 import { MasteryBar } from '../../ui/MasteryBar'
 import { SpriteImg } from '../../ui/SpriteImg'
 import { OverlayScreen } from '../../ui/OverlayScreen'
+import { Button } from '../../ui/Button'
 
 export interface Props {
   levelCard:  string
@@ -48,13 +49,13 @@ export function LevelUpDetail({ levelCard, card, city, onBack, onLevelUp }: Prop
             <span>{GOLD_SYMBOL} {LEVEL_UP_COSTS[LEVEL_UP_COSTS.length - 1].toLocaleString()}</span>
           </div>
         </div>
-        <button
-          className={`action-btn${city.gold >= cost ? ' action-btn--gold' : ''}`}
+        <Button
+          variant={city.gold >= cost ? 'gold' : 'default'}
           onClick={() => onLevelUp(levelCard)}
           disabled={city.gold < cost}
         >
           {city.gold >= cost ? `LEVEL UP (${GOLD_SYMBOL} ${cost.toLocaleString()})` : `NEED ${GOLD_SYMBOL} ${cost.toLocaleString()}`}
-        </button>
+        </Button>
       </div>
     </OverlayScreen>
   )

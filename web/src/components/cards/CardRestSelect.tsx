@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { SpriteImg } from '../ui/SpriteImg'
 import { CardRestSelectCandidate } from './CardRestSelectCandidate'
+import { Button } from '../ui/Button'
 
 interface Props {
   /** Top 3 most-played card names for this act — candidates to rest. */
@@ -80,13 +81,13 @@ export function CardRestSelect({ candidates, playCounts, alreadyResting = [], on
         <div className="card-rest-note">
           Rested cards show as [RESTING] in the Deck Builder and can't be added to your deck.
         </div>
-        <button
-          className="action-btn action-btn--large"
+        <Button
+          size="lg"
           disabled={!ready}
           onClick={() => onConfirm(Array.from(selected))}
         >
           REST {selected.size} CARD{selected.size !== 1 ? 'S' : ''}
-        </button>
+        </Button>
       </div>
     </div>
   )

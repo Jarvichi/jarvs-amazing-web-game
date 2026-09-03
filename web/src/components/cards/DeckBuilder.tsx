@@ -40,6 +40,7 @@ import { FilterPopup } from '../ui/filters/FilterPopup'
 import { FilterOption } from '../ui/filters/FilterOption'
 import { FilterPill } from '../ui/filters/FilterPill'
 import { EmptyState } from '../ui/EmptyState'
+import { Button } from '../ui/Button'
 
 const DECK_TUTORIAL_ID = 'deckbuilder'
 const DECK_TUTORIAL_STEPS = [
@@ -513,21 +514,21 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
               >B</button>
             </div>
             <div className="deckbuilder-header-actions">
-              <button
-                className="action-btn db-action-sm"
+              <Button
+                className="db-action-sm"
                 onClick={() => setShowAutoBuild(true)}
                 title="Auto Build"
-              >⚡<span className="db-action-label"> AUTO</span></button>
-              <button
-                className="action-btn db-action-sm"
+              >⚡<span className="db-action-label"> AUTO</span></Button>
+              <Button
+                className="db-action-sm"
                 onClick={() => { setSavedDecks(loadSavedDecks()); setShowSavedDecks(true) }}
                 title="Saved Decks"
-              >💾<span className="db-action-label"> SAVED</span></button>
-              <button
-                className="action-btn db-action-sm"
+              >💾<span className="db-action-label"> SAVED</span></Button>
+              <Button
+                className="db-action-sm"
                 onClick={() => setShowShare(true)}
                 title="Share Deck"
-              >🔗<span className="db-action-label"> SHARE</span></button>
+              >🔗<span className="db-action-label"> SHARE</span></Button>
               <button
                 className="db-collapse-btn"
                 onClick={() => togglePanel('deck')}
@@ -626,13 +627,12 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
                 />
                 {/* Was an <input type="reset"> carrying an `alt` attribute —
                     not valid on a reset input, so it had no accessible name. */}
-                <button
-                  type="button"
-                  className="action-btn action-btn--xs"
+                <Button
+                  size="xs"
                   aria-label="Clear search"
                   title="Clear search"
                   onClick={() => setSearch('')}
-                >✕</button>
+                >✕</Button>
               </div>
 
               {/* Filter / Sort / Group bar */}
@@ -857,9 +857,9 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
                 </button>
               ))}
             </div>
-            <button className="action-btn autobuild-cancel" onClick={() => setShowAutoBuild(false)}>
+            <Button className="autobuild-cancel" onClick={() => setShowAutoBuild(false)}>
               CANCEL
-            </button>
+            </Button>
           </div>
         </ModalBackdrop>
       )}
@@ -893,18 +893,17 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
                 onChange={e => setSaveNameInput(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter') handleSaveNamed() }}
               />
-              <button
-                className="action-btn"
+              <Button
                 style={{ fontSize: '11px', padding: '5px 10px' }}
                 onClick={handleSaveNamed}
                 disabled={!saveNameInput.trim()}
               >
                 SAVE CURRENT
-              </button>
+              </Button>
             </div>
-            <button className="action-btn autobuild-cancel" onClick={() => setShowSavedDecks(false)}>
+            <Button className="autobuild-cancel" onClick={() => setShowSavedDecks(false)}>
               CLOSE
-            </button>
+            </Button>
           </div>
         </ModalBackdrop>
       )}
@@ -923,13 +922,12 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
                 value={encodeDeck(deck)}
                 onClick={e => (e.target as HTMLTextAreaElement).select()}
               />
-              <button
-                className="action-btn"
+              <Button
                 style={{ fontSize: '11px', padding: '5px 10px', alignSelf: 'flex-start' }}
                 onClick={handleCopyCode}
               >
                 {copyFeedback ? '✓ COPIED!' : '📋 COPY'}
-              </button>
+              </Button>
             </div>
             <div className="share-divider">──────────</div>
             <div className="share-section u-col u-gap-3">
@@ -942,18 +940,17 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
                 rows={3}
               />
               {importError && <div className="share-error">{importError}</div>}
-              <button
-                className="action-btn"
+              <Button
                 style={{ fontSize: '11px', padding: '5px 10px', alignSelf: 'flex-start' }}
                 onClick={handleImport}
                 disabled={!importCode.trim()}
               >
                 LOAD DECK
-              </button>
+              </Button>
             </div>
-            <button className="action-btn autobuild-cancel" onClick={() => setShowShare(false)}>
+            <Button className="autobuild-cancel" onClick={() => setShowShare(false)}>
               CLOSE
-            </button>
+            </Button>
           </div>
         </ModalBackdrop>
       )}

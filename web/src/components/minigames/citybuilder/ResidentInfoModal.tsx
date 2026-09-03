@@ -2,6 +2,7 @@ import React from 'react'
 import { CityState, CityCell } from '../../../game/cityBuilder'
 import { AnimatedSpriteImg } from '../../ui/SpriteImg'
 import { Walker, rageDescription, residentName, getUnitRequirements, PERSONALITY_INFO } from './walkerTypes'
+import { Button } from '../../ui/Button'
 
 export interface Props {
   cellIndex: number
@@ -48,7 +49,7 @@ export function ResidentInfoModal({ cellIndex, unitIndex, cell, city, walkers, o
             </div>
           ))}
         </div>
-        <button className="action-btn" onClick={onClose}>CLOSE</button>
+        <Button onClick={onClose}>CLOSE</Button>
       </div>
     </div>
   )

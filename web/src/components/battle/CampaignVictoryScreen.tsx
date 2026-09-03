@@ -1,6 +1,7 @@
 import React from 'react'
 import { loadPlayerName } from '../../game/questline'
 import { RunEndCard } from '../ui/RunEndCard'
+import { Button } from '../ui/Button'
 
 interface Props {
   onBeginAnew: () => void
@@ -45,9 +46,9 @@ export function CampaignVictoryScreen({ onBeginAnew, campaignId = 'c1' }: Props)
         ))}
         <p className="cv-reward">+500 ◆ awarded for completing the questline.</p>
       </RunEndCard>
-      <button className="action-btn action-btn--large action-btn--gold" onClick={onBeginAnew}>
+      <Button size="lg" variant="gold" onClick={onBeginAnew}>
         [ Claim Reward ]
-      </button>
+      </Button>
     </div>
   )
 }

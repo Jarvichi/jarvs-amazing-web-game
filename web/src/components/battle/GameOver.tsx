@@ -5,6 +5,7 @@ import { MAX_HANDICAP } from '../../game/engine'
 import { loadWinStreak } from '../../game/collection'
 import { DailyChallengeState, fetchEndlessLeaderboard, getEndlessPersonalBest, EndlessLeaderboardEntry } from '../../game/dailyChallenge'
 import { EmptyState } from '../ui/EmptyState'
+import { Button } from '../ui/Button'
 
 function formatSurvival(ms: number): string {
   const sec = Math.floor(ms / 1000)
@@ -200,38 +201,38 @@ export function GameOver({ state, winner, handicap, onOpenPack, rewardClaimed, o
         {worldBattle ? (
           <>
             {!won && (
-              <button className="action-btn" onClick={onPlayAgain}>[ Try Again ]</button>
+              <Button onClick={onPlayAgain}>[ Try Again ]</Button>
             )}
-            <button className="action-btn" onClick={onMainMenu}>
+            <Button onClick={onMainMenu}>
               {won ? '[ Return to Map ]' : '[ Back to Map ]'}
-            </button>
+            </Button>
           </>
         ) : won && onOpenPack ? (
           rewardClaimed ? (
             <>
-              {!singleBattle && <button className="action-btn" onClick={onPlayAgain}>[ Play Again ]</button>}
-              <button className="action-btn" onClick={onMainMenu}>{singleBattle ? '[ Back to Town ]' : "[ I'm Done ]"}</button>
+              {!singleBattle && <Button onClick={onPlayAgain}>[ Play Again ]</Button>}
+              <Button onClick={onMainMenu}>{singleBattle ? '[ Back to Town ]' : "[ I'm Done ]"}</Button>
             </>
           ) : (
-            <button className="action-btn action-btn--large action-btn--gold" onClick={onOpenPack}>
+            <Button size="lg" variant="gold" onClick={onOpenPack}>
               ✦ CLAIM REWARD ✦
-            </button>
+            </Button>
           )
         ) : (
           <>
             {!singleBattle && (
-              <button className="action-btn" onClick={onPlayAgain}>
+              <Button onClick={onPlayAgain}>
                 {campaignAbandon ? (won ? '[ Claim Reward ]' : '[ Retry Node ]') : '[ Play Again ]'}
-              </button>
+              </Button>
             )}
             {campaignAbandon && (
-              <button className="action-btn action-btn--danger gameover-abandon-btn u-text-sm" onClick={() => setConfirmAbandon(true)}>
+              <Button variant="danger" className="gameover-abandon-btn u-text-sm" onClick={() => setConfirmAbandon(true)}>
                 [ Abandon Run ]
-              </button>
+              </Button>
             )}
-            <button className="action-btn" onClick={onMainMenu}>
+            <Button onClick={onMainMenu}>
               {singleBattle ? '[ Back to Town ]' : '[ Main Menu ]'}
-            </button>
+            </Button>
           </>
         )}
       </div>

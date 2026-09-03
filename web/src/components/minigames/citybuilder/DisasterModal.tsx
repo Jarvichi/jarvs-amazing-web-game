@@ -3,6 +3,7 @@ import {
   CityState, Disaster,
   fireExtinguishCost, plagueCureCost, getCellTrait, getRowDistrict, CITY_COLS,
 } from '../../../game/cityBuilder'
+import { Button } from '../../ui/Button'
 
 interface Props {
   city:         CityState
@@ -139,21 +140,21 @@ export function DisasterModal({ city, disaster, onExtinguish, onCure, onClose }:
 
         <div className="city-disaster-actions">
           {isFire ? (
-            <button
-              className={`action-btn city-disaster-cure-btn${canExtinguish ? '' : ' city-disaster-cure-btn--disabled'}`}
+            <Button
+              className="city-disaster-cure-btn"
               onClick={canExtinguish ? onExtinguish : undefined}
               disabled={!canExtinguish}
             >
               🪵 Extinguish ({woodCost} wood)
-            </button>
+            </Button>
           ) : (
-            <button
-              className={`action-btn city-disaster-cure-btn${canCure ? '' : ' city-disaster-cure-btn--disabled'}`}
+            <Button
+              className="city-disaster-cure-btn"
               onClick={canCure ? onCure : undefined}
               disabled={!canCure}
             >
               🍞 Cure Plague ({breadCost} bread)
-            </button>
+            </Button>
           )}
           <button className="filter-btn" onClick={onClose}>IGNORE FOR NOW</button>
         </div>
