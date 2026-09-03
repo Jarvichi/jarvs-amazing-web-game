@@ -75,17 +75,37 @@ export function getAllBundles(): BundleDef[] {
   return Array.from(BUNDLE_REGISTRY.values())
 }
 
+/**
+ * Resolves the zlayer for one expanded bundle tile.
+ *
+ * Bundles carry their own per-tile zlayers — a tree is a 'solid' trunk under an
+ * 'above' canopy, so the avatar walks behind the leaves and bumps into the wood.
+ * A placement can lift or drop the *whole* bundle out of that arrangement by
+ * tagging itself 'above' (decorative: renders over the avatar, blocks nothing)
+ * or 'below' (renders under the avatar, blocks nothing) — which is how the map
+ * editor's zlayer control is meant to work on a bundle.
+ *
+ * 'solid' is deliberately NOT an override: it is the editor's default stamp on
+ * every placement (useMapEditorState), so honouring it would flatten every
+ * multi-layer bundle in every town into one solid block. A placement that wants
+ * the bundle's authored layering leaves them alone.
+ */
+function resolvePlacementZlayer(tileZlayer: string | undefined, placement: string | undefined): string | undefined {
+  return placement === 'above' || placement === 'below' ? placement : tileZlayer
+}
+
 /** Expand decor tiles from a bundle at the given bottom-left origin. */
 export function expandBundleDecor(
   bundleID: string,
   originTx: number,
   originTy: number,
+  placementZlayer?: string,
 ): { tx: number; ty: number; tileId: number; zlayer?: string; glow?: boolean; glowRadius?: number; pulse?: boolean; flame?: boolean; flameType?: FlameType; flameColor?: FlameColor }[] {
   const bundle = BUNDLE_REGISTRY.get(bundleID)
   if (!bundle) { console.warn(`[bundles] Unknown bundleID: "${bundleID}"`); return [] }
   return bundle.tiles
     .filter(t => t.type === 'decor')
-    .map(t => ({ tx: originTx + t.x, ty: originTy - t.y, tileId: t.tileId, zlayer: t.zlayer, glow: t.glow, glowRadius: t.glowRadius, pulse: t.pulse, flame: t.flame, flameType: t.flameType, flameColor: t.flameColor }))
+    .map(t => ({ tx: originTx + t.x, ty: originTy - t.y, tileId: t.tileId, zlayer: resolvePlacementZlayer(t.zlayer, placementZlayer), glow: t.glow, glowRadius: t.glowRadius, pulse: t.pulse, flame: t.flame, flameType: t.flameType, flameColor: t.flameColor }))
 }
 
 /** Expand window tiles from a bundle at the given bottom-left origin. */

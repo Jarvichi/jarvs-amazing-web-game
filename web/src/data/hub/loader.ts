@@ -672,7 +672,7 @@ for (const b of rawConfig.buildings as RawBuilding[]) {
     _nestedWindows.push({ tx: ox + w.tx, ty: oy + w.ty, tileId: resolveTileId(w.tileId) })
   for (const d of b.decor ?? []) {
     if (d.bundleID)
-      _nestedDecor.push(...expandBundleDecor(d.bundleID, ox + d.tx, oy + d.ty))
+      _nestedDecor.push(...expandBundleDecor(d.bundleID, ox + d.tx, oy + d.ty, d.zlayer))
     else if (d.tileId)
       _nestedDecor.push({ tx: ox + d.tx, ty: oy + d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer })
   }
@@ -682,7 +682,7 @@ type RawDecorEntry = { tx?: number; ty?: number; tileId?: string; bundleID?: str
 const EXTERIOR_DECOR = [
   ...(rawConfig.exteriorDecor as RawDecorEntry[]).flatMap(d => {
     if (d.tx == null || d.ty == null) return []
-    if (d.bundleID) return expandBundleDecor(d.bundleID, d.tx, d.ty)
+    if (d.bundleID) return expandBundleDecor(d.bundleID, d.tx, d.ty, d.zlayer)
     if (d.tileId) return [{ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer, glow: d.glow, glowRadius: d.glowRadius, pulse: d.pulse, flame: d.flame, flameType: d.flameType, flameColor: d.flameColor }]
     return []
   }),
@@ -698,7 +698,7 @@ const HUB_FESTIVAL_DECOR: Array<{ festivalId: string; decor: typeof EXTERIOR_DEC
   festivalId: g.festivalId,
   decor: (g.decor ?? []).flatMap(d => {
     if (d.tx == null || d.ty == null) return []
-    if (d.bundleID) return expandBundleDecor(d.bundleID, d.tx, d.ty)
+    if (d.bundleID) return expandBundleDecor(d.bundleID, d.tx, d.ty, d.zlayer)
     if (d.tileId) return [{ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer, glow: d.glow, glowRadius: d.glowRadius, pulse: d.pulse, flame: d.flame, flameType: d.flameType, flameColor: d.flameColor }]
     return []
   }),
@@ -740,7 +740,7 @@ const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
         wallMaterial: resolveWallMaterial(wallTileIdStr, HUB_TOWN_NAME, `interior "${id}" wallTileId`),
         decor:        (raw.decor as Array<{ tx: number; ty: number; tileId?: string; bundleID?: string; zlayer?: string; minLevel?: number; hideAtLevel?: number }>).flatMap(d => {
           if (d.bundleID)
-            return expandBundleDecor(d.bundleID, d.tx, d.ty).map(e => ({ ...e, zlayer: e.zlayer as InteriorDecor['zlayer'], minLevel: d.minLevel, hideAtLevel: d.hideAtLevel }))
+            return expandBundleDecor(d.bundleID, d.tx, d.ty, d.zlayer).map(e => ({ ...e, zlayer: e.zlayer as InteriorDecor['zlayer'], minLevel: d.minLevel, hideAtLevel: d.hideAtLevel }))
           return [{ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId ?? ''), zlayer: d.zlayer as InteriorDecor['zlayer'], minLevel: d.minLevel, hideAtLevel: d.hideAtLevel }]
         }),
         exits: ((rawAny.exits ?? []) as HubInteriorExit[]),
@@ -961,7 +961,7 @@ type RawBlockedPath = { id: string; blockedTiles: [number, number][]; questId?: 
 function resolveBlockedPathState(raw: RawBlockedPathState): BlockedPathState {
   return {
     decor: (raw.decor ?? []).flatMap(d => {
-      if (d.bundleID) return expandBundleDecor(d.bundleID, d.tx, d.ty)
+      if (d.bundleID) return expandBundleDecor(d.bundleID, d.tx, d.ty, d.zlayer)
       return [{ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId ?? ''), zlayer: d.zlayer }]
     }),
     npcs: raw.npcs ?? [],

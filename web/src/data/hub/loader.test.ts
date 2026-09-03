@@ -326,3 +326,97 @@ describe('player-owned house fields', () => {
     expect(bundle.HUB_INTERIORS.shop.playerDecor).toBeUndefined()
   })
 })
+
+describe('bundle placement zlayer override', () => {
+  // A bundle carries its own per-tile zlayers (a tree = 'solid' trunk under an
+  // 'above' canopy). A placement tagged 'above'/'below' lifts or drops the whole
+  // bundle out of that arrangement; 'solid' is the map editor's default stamp on
+  // every placement and must stay a no-op, or every multi-layer bundle in every
+  // town collapses into one solid block.
+  const treeTiles = [
+    BASE_CHIP_TILES.lightTreeBottomLeft, BASE_CHIP_TILES.lightTreeBottomRight,
+    BASE_CHIP_TILES.lightTreeTopLeft,    BASE_CHIP_TILES.lightTreeTopRight,
+  ]
+  const treeDecor = (bundle: ReturnType<typeof createHubLocationData>) =>
+    bundle.EXTERIOR_DECOR.filter(d => treeTiles.includes(d.tileId))
+
+  it("'above' on a placement lifts every tile of the bundle, trunk included", () => {
+    const decor = treeDecor(createHubLocationData(minimalConfig({
+      exteriorDecor: [{ tx: 10, ty: 10, bundleID: 'light-tree', zlayer: 'above' }],
+    })))
+    expect(decor).toHaveLength(4)
+    expect(decor.every(d => d.zlayer === 'above')).toBe(true)
+  })
+
+  it("'below' on a placement drops every tile of the bundle", () => {
+    const decor = treeDecor(createHubLocationData(minimalConfig({
+      exteriorDecor: [{ tx: 10, ty: 10, bundleID: 'light-tree', zlayer: 'below' }],
+    })))
+    expect(decor).toHaveLength(4)
+    expect(decor.every(d => d.zlayer === 'below')).toBe(true)
+  })
+
+  it("'solid' on a placement leaves the bundle's own layering alone", () => {
+    const decor = treeDecor(createHubLocationData(minimalConfig({
+      exteriorDecor: [{ tx: 10, ty: 10, bundleID: 'light-tree', zlayer: 'solid' }],
+    })))
+    expect(decor.filter(d => d.zlayer === 'solid')).toHaveLength(2)  // trunk
+    expect(decor.filter(d => d.zlayer === 'above')).toHaveLength(2)  // canopy
+  })
+
+  it('an untagged placement keeps the bundle layering too', () => {
+    const decor = treeDecor(createHubLocationData(minimalConfig({
+      exteriorDecor: [{ tx: 10, ty: 10, bundleID: 'light-tree' }],
+    })))
+    expect(decor.filter(d => d.zlayer === 'solid')).toHaveLength(2)
+    expect(decor.filter(d => d.zlayer === 'above')).toHaveLength(2)
+  })
+})
+
+describe('Ravenwatch: the scholars grove trail is walkable', () => {
+  // Mirrors how HubTownCanvas builds the routable set: street tiles, minus
+  // street tiles authored non-walkable, minus tiles covered by solid decor.
+  function walkableTiles() {
+    const bundle = createHubLocationData(ravenwatchConfig as unknown as RawConfig)
+    const walkable = new Set(bundle.HUB_STREET_TILES.map(([tx, ty]) => `${tx},${ty}`))
+    for (const [tx, ty] of bundle.HUB_STREET_NONWALKABLE_TILES) walkable.delete(`${tx},${ty}`)
+    for (const d of bundle.EXTERIOR_DECOR) if (d.zlayer === 'solid') walkable.delete(`${d.tx},${d.ty}`)
+    return walkable
+  }
+
+  function reachableFrom(start: string, walkable: Set<string>) {
+    const seen = new Set([start])
+    const queue = [start]
+    while (queue.length) {
+      const [tx, ty] = queue.shift()!.split(',').map(Number)
+      for (const [nx, ny] of [[tx + 1, ty], [tx - 1, ty], [tx, ty + 1], [tx, ty - 1]]) {
+        const key = `${nx},${ny}`
+        if (walkable.has(key) && !seen.has(key)) { seen.add(key); queue.push(key) }
+      }
+    }
+    return seen
+  }
+
+  // The grove trail runs west along ty=9 from the Scholar's Quarter, turns north
+  // up the tx=45 column and opens into a clearing at tx 48-50, ty 0-2. Every
+  // tree along it is tagged 'above' in the map so the avatar walks under the
+  // canopy; when that tag was ignored the trunks sealed the trail off and the
+  // clearing became an island no player could reach.
+  const TRAIL: [number, number][] = [
+    [54, 9], [50, 9], [47, 9], [46, 9], [45, 9],           // east-west approach
+    [45, 8], [45, 6], [45, 4], [45, 2], [45, 1],           // north up the column
+    [46, 1], [47, 1], [48, 1], [49, 2], [50, 0],           // spur into the clearing
+  ]
+
+  it('every trail tile is walkable', () => {
+    const walkable = walkableTiles()
+    const blocked = TRAIL.filter(([tx, ty]) => !walkable.has(`${tx},${ty}`))
+    expect(blocked).toEqual([])
+  })
+
+  it('the clearing is reachable from the Scholar\'s Quarter street', () => {
+    const walkable = walkableTiles()
+    const reachable = reachableFrom('54,9', walkable)
+    for (const [tx, ty] of TRAIL) expect(reachable.has(`${tx},${ty}`)).toBe(true)
+  })
+})
