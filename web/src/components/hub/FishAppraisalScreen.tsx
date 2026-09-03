@@ -10,6 +10,7 @@ import { getCaughtFish, removeCaughtFish, type CaughtFish } from '../../game/hub
 import { VARIANT_TIERS, VARIANT_TIER_HUB_ITEM, formatWeight, type FishVariant } from '../minigames/Fishing.data'
 import { removeHubItem } from '../../game/itemStore'
 import { EmptyState } from '../ui/EmptyState'
+import { Button } from '../ui/Button'
 
 const TIER_BASE_PRICE = [3, 6, 12, 25, 45, 90]
 const SELL_STAR_THRESHOLD = 5
@@ -84,15 +85,15 @@ export function FishAppraisalScreen({ crystals, onCrystalsChange, onBack }: Prop
               {starString(selected.stars)} — {formatWeight(selected.weightGrams)}, {selected.lengthCm}cm
             </div>
             {selected.stars >= SELL_STAR_THRESHOLD ? (
-              <button className="action-btn" onClick={() => sell(selected)}>
+              <Button onClick={() => sell(selected)}>
                 Sell for {tierPrice(selected.locale, selected.tier) * SELL_MULTIPLIER} 💎
-              </button>
+              </Button>
             ) : (
               <div className="inventory-detail-desc">
                 "Solid catch — but I only pay premium for the very best." — Corwin
               </div>
             )}
-            <button className="action-btn" onClick={() => setSelected(null)}>CLOSE</button>
+            <Button onClick={() => setSelected(null)}>CLOSE</Button>
           </div>
         </div>
       )}

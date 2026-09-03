@@ -1,3 +1,5 @@
+import { Button } from '../../ui/Button'
+
 export interface PieceActionBarProps {
   pieceName: string
   removeArmed: boolean
@@ -10,14 +12,16 @@ export function PieceActionBar({ pieceName, removeArmed, onRotate, onMove, onRem
   return (
     <div className="piece-action-bar">
       <span className="piece-action-bar-name">{pieceName}</span>
-      <button className="action-btn action-btn--sm" onClick={onRotate}>⟳ Rotate</button>
-      <button className="action-btn action-btn--sm" onClick={onMove}>✥ Move</button>
-      <button
-        className={`action-btn action-btn--sm action-btn--danger${removeArmed ? ' action-btn--remove-armed' : ''}`}
+      <Button size="sm" onClick={onRotate}>⟳ Rotate</Button>
+      <Button size="sm" onClick={onMove}>✥ Move</Button>
+      <Button
+        size="sm"
+        variant="danger"
+        className={removeArmed ? 'action-btn--remove-armed' : undefined}
         onClick={onRemove}
       >
         {removeArmed ? 'Confirm remove?' : 'Remove'}
-      </button>
+      </Button>
     </div>
   )
 }

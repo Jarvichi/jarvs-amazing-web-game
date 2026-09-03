@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from '../ui/Button'
 
 interface Props {
   onClick: () => void
@@ -6,8 +7,7 @@ interface Props {
 
 export function HubReturnButton({ onClick }: Props) {
   return (
-    <button
-      className="action-btn"
+    <Button
       onClick={onClick}
       style={{
         position: 'absolute',
@@ -20,6 +20,6 @@ export function HubReturnButton({ onClick }: Props) {
       }}
     >
       COURTYARD
-    </button>
+    </Button>
   )
 }

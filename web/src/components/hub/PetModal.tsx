@@ -10,6 +10,7 @@ import {
 import { ANIMAL_SPECS, type AnimalType } from '../../game/hub/animals'
 import { PET_ACCESSORIES } from '../../data/petAccessories'
 import { CloseButton } from '../ui/CloseButton'
+import { Button } from '../ui/Button'
 
 interface Props {
   onClose: () => void
@@ -132,15 +133,14 @@ export function PetContent({ onClose, petActionRef }: Props) {
                   maxLength={24}
                   onChange={e => setRenameValue(e.target.value)}
                 />
-                <button
-                  className="action-btn"
+                <Button
                   onClick={() => { if (renameValue != null) renamePet(renameValue); setRenameValue(null); refresh() }}
-                >Save Name</button>
+                >Save Name</Button>
                 <div className="pet-modal__section-label">
                   Want a different companion? Visit the Shelter Keeper in Ravenwatch.
                 </div>
                 <div className="pet-modal__actions-row">
-                  <button className="action-btn action-btn--danger" onClick={() => setConfirmDismiss(true)}>Dismiss Pet</button>
+                  <Button variant="danger" onClick={() => setConfirmDismiss(true)}>Dismiss Pet</Button>
                 </div>
               </>
             )}

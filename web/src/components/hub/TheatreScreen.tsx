@@ -10,6 +10,7 @@ import { incrementAchievementProgress, setAchievementProgress } from '../../game
 import { loadPlayerAvatar } from '../../game/questline'
 import { MinigameShell } from '../minigames/MinigameShell'
 import { MinigameResultPanel } from '../minigames/MinigameResultPanel'
+import { Button } from '../ui/Button'
 
 interface Props {
   onBack: () => void
@@ -193,7 +194,7 @@ export function TheatreScreen({ onBack }: Props) {
         <div className="minigame-ready u-col u-items-c u-gap-5">
           <p>Time your cue to land the marker in the golden zone.</p>
           <p>5 acts — each faster and tighter than the last.</p>
-          <button className="action-btn action-btn--gold" onClick={startGame}>TAKE THE STAGE</button>
+          <Button variant="gold" onClick={startGame}>TAKE THE STAGE</Button>
         </div>
       )}
 
@@ -213,9 +214,9 @@ export function TheatreScreen({ onBack }: Props) {
             <div className={`theatre-flash theatre-flash--${flash}`}>{GRADE_LABEL[flash]}</div>
           )}
 
-          <button className="action-btn action-btn--gold theatre-cue-btn" onClick={cue} disabled={lockedRef.current}>
+          <Button variant="gold" className="theatre-cue-btn" onClick={cue} disabled={lockedRef.current}>
             CUE!
-          </button>
+          </Button>
         </>
       )}
 

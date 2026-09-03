@@ -6,6 +6,7 @@ import { StageChrome } from '../ui/StageChrome'
 import { HubMinimap } from './HubMinimap'
 import type { MinimapObjective } from './HubMinimap'
 import { HubReturnButton } from './HubReturnButton'
+import { Button } from '../ui/Button'
 import { HubDialogue } from './HubDialogue'
 import type { DialogueChoice } from './HubDialogue'
 import type { HubQuestDef, DialogueTree, DialogueChoiceDef, DialogueEffect, ConversationTopicDef } from '../../data/hub/questDefs'
@@ -2536,23 +2537,23 @@ function hasOfferableQuest(giverId: string): boolean {
           )}
 
           {interiorActive && activeBuildingId && locationData.HUB_INTERIORS[activeBuildingId]?.playerDecor && (
-            <button
-              className="action-btn stage-chrome__control"
+            <Button
+              className="stage-chrome__control"
               style={{ position: 'absolute', top: 16, right: 96, zIndex: 10 }}
               onClick={() => handleNodeInteract('home-shelf-decorate', `${town}:${mainPlayerHouseId(activeBuildingId)}`)}
             >
               🛋 DECORATE
-            </button>
+            </Button>
           )}
 
           {interiorActive && (
-            <button
-              className="action-btn stage-chrome__control"
+            <Button
+              className="stage-chrome__control"
               style={{ position: 'absolute', top: 16, right: 16, zIndex: 10 }}
               onClick={handleLeaveInterior}
             >
               LEAVE
-            </button>
+            </Button>
           )}
         </StageChrome>
 

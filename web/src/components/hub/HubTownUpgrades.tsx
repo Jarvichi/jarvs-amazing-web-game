@@ -7,6 +7,7 @@ import {
 } from '../../data/hub/buildingUpgrades'
 import type { NextUpgrade } from '../../game/hub/reputation'
 import { EmptyState } from '../ui/EmptyState'
+import { Button } from '../ui/Button'
 
 /** One upgradeable building, pre-resolved by HubWorld. Pure-visual: props only. */
 export interface UpgradeRow {
@@ -60,13 +61,14 @@ export function HubTownUpgradesContent({
             <span className="town-upgrades__tribute-text">
               🎁 Daily tribute from grateful townsfolk: <strong>💎 {tributeAmount}</strong>
             </span>
-            <button
-              className="action-btn action-btn--gold town-upgrades__btn"
+            <Button
+              variant="gold"
+              className="town-upgrades__btn"
               disabled={!tributeAvailable}
               onClick={onCollectTribute}
             >
               {tributeAvailable ? 'Collect' : 'Collected today'}
-            </button>
+            </Button>
           </div>
         )}
 
@@ -110,14 +112,15 @@ export function HubTownUpgradesContent({
                     )}
                     {reason && <span className="town-upgrades__reason">{reason}</span>}
                   </div>
-                  <button
-                    className="action-btn action-btn--gold town-upgrades__btn"
+                  <Button
+                    variant="gold"
+                    className="town-upgrades__btn"
                     disabled={disabled}
                     onClick={() => onUpgrade(row.buildingId)}
                     title={next.def?.label ?? 'Fully upgraded'}
                   >
                     {btnLabel}
-                  </button>
+                  </Button>
                 </div>
               )
             })}

@@ -8,6 +8,7 @@ import { TabNav, type TabNavItem } from '../ui/TabNav'
 import { addCardsToCollection, loadCrystals, saveCrystals } from '../../game/collection'
 import { addToInventory, ALL_ITEMS } from '../../game/dailyLogin'
 import { addUnlockedAvatar } from '../../game/questline'
+import { Button } from '../ui/Button'
 
 interface Props {
   onBack:              () => void
@@ -147,9 +148,9 @@ export function HallOfAchievements({ onBack, onCrystalsChanged }: Props) {
       {totalClaimable > 0 && (
         <div className="hoa-claim-bar">
           <span className="hoa-claim-bar-label">{totalClaimable} reward{totalClaimable !== 1 ? 's' : ''} ready</span>
-          <button className="action-btn action-btn--gold action-btn--sm" onClick={handleClaimAll}>
+          <Button variant="gold" size="sm" onClick={handleClaimAll}>
             Claim All
-          </button>
+          </Button>
         </div>
       )}
 
@@ -203,20 +204,21 @@ export function HallOfAchievements({ onBack, onCrystalsChanged }: Props) {
               <div className="hoa-modal-unlocked">UNLOCKED ✓</div>
             )}
             {selectedUnlocked && !selectedClaimed && (
-              <button
-                className={`action-btn action-btn--gold${justClaimed === selected.id ? ' action-btn--dim' : ''}`}
+              <Button
+                variant="gold"
+                className={justClaimed === selected.id ? 'action-btn--dim' : undefined}
                 onClick={() => handleClaim(selected)}
                 disabled={justClaimed === selected.id}
               >
                 {justClaimed === selected.id ? 'Claimed!' : 'Claim Reward'}
-              </button>
+              </Button>
             )}
             {selectedClaimed && (
               <div className="hoa-modal-claimed">Reward Collected</div>
             )}
-            <button className="action-btn hoa-modal-close" onClick={() => setSelected(null)}>
+            <Button className="hoa-modal-close" onClick={() => setSelected(null)}>
               Close
-            </button>
+            </Button>
           </div>
         </div>
       )}

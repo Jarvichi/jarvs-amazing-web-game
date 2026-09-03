@@ -21,6 +21,7 @@ import type { User } from 'firebase/auth'
 import { NodeMapRederer, getWorldNodeStatus } from '../ui/NodeMap/NodeMapRederer'
 import { NodePeekModal } from '../ui/NodeMap/NodePeekModal'
 import type { HubQuestDef } from '../../data/hub/questDefs'
+import { Button } from '../ui/Button'
 
 interface Props {
   onSelectNode:  (node: WorldNodeDef) => void
@@ -149,7 +150,7 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
                 The fog is too thick to proceed.
               </div>
               <div className="nm-peek-actions u-flex u-gap-4">
-                <button className="action-btn nm-peek-back-btn u-grow" onClick={() => setFogTapped(false)}>BACK</button>
+                <Button className="nm-peek-back-btn u-grow" onClick={() => setFogTapped(false)}>BACK</Button>
               </div>
             </div>
           </div>

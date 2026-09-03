@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Modal } from '../ui/Modal'
 import { ItemTile, ItemGrid } from './satchel/ItemTile'
+import { Button } from '../ui/Button'
 import type { CookIngredient } from '../../game/hub/chefCooking'
 
 interface Props {
@@ -34,15 +35,14 @@ export function ChefCookingModal({ chefName, items, maxIngredients, onCook, onCl
 
   const footer = (
     <>
-      <button
-        type="button"
-        className="action-btn action-btn--gold"
+      <Button
+        variant="gold"
         disabled={selected.length === 0}
         onClick={() => onCook(selected)}
       >
         Cook it!
-      </button>
-      <button type="button" className="action-btn" onClick={onClose}>Never mind</button>
+      </Button>
+      <Button onClick={onClose}>Never mind</Button>
     </>
   )
 
