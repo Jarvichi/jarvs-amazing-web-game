@@ -227,7 +227,7 @@ export function useCampaignFlow({
           if (earnedEntries.length > 0) playerCards.push(...buildDeckCards(earnedEntries, collection))
           battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
           const mods = act ? getModifiersByCount(act, activeRun.activeModifierCount) : []
-          const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods) })
+          const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods, playerCards) })
           state.playerBase = { hp: activeRun.playerHp, maxHp: activeRun.maxHp }
           if (activeRun.activeRelic) getRelicDef(activeRun.activeRelic)?.applyToGame(state)
           syncPlayerCommanderToBase(state)
@@ -370,7 +370,7 @@ export function useCampaignFlow({
     const deckEntries = loadDeck()
     const playerCards = buildDeckCards(deckEntries, collection)
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
-    const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), []) })
+    const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), [], playerCards) })
     startBattle(state)
     if (isCampaignRef.current) rollRareEvent()
   }, [startBattle, rollRareEvent])
@@ -509,7 +509,7 @@ export function useCampaignFlow({
     if (earnedEntries.length > 0) playerCards.push(...buildDeckCards(earnedEntries, collection))
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
     const mods733 = act ? getModifiersByCount(act, updatedRun.activeModifierCount) : []
-    const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods733) })
+    const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods733, playerCards) })
     state.playerBase = { hp: updatedRun.playerHp, maxHp: updatedRun.maxHp }
     if (updatedRun.activeRelic) getRelicDef(updatedRun.activeRelic)?.applyToGame(state)
     syncPlayerCommanderToBase(state)
@@ -540,7 +540,7 @@ export function useCampaignFlow({
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
     const act = actData ?? undefined
     const mods761 = act ? getModifiersByCount(act, run.activeModifierCount) : []
-    const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods761) })
+    const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods761, playerCards) })
     state.playerBase = { hp: run.playerHp, maxHp: run.maxHp }
     if (run.activeRelic) getRelicDef(run.activeRelic)?.applyToGame(state)
     syncPlayerCommanderToBase(state)
@@ -1260,7 +1260,7 @@ export function useCampaignFlow({
     if (earnedEntries.length > 0) playerCards.push(...buildDeckCards(earnedEntries, collection))
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
     const modsRetry = act ? getModifiersByCount(act, withFail.activeModifierCount) : []
-    const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), modsRetry) })
+    const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), modsRetry, playerCards) })
     state.playerBase = { hp: withFail.playerHp, maxHp: withFail.maxHp }
     if (withFail.activeRelic) getRelicDef(withFail.activeRelic)?.applyToGame(state)
     syncPlayerCommanderToBase(state)

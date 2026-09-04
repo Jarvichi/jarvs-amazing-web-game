@@ -1,5 +1,6 @@
 {
   "id": "act2",
+  "expectedBand": 1,
   "nextActId": "act3",
   "title": "ACT II",
   "subtitle": "The Iron Citadel",
@@ -353,6 +354,7 @@
     "iron-gate": {
       "id": "iron-gate",
       "type": "battle",
+      "enemyTier": 2,
       "label": "Iron Gate",
       "description": "The Citadel's outer garrison blocks the canyon road. A disciplined force — but thin.",
       "row": 0,
@@ -471,6 +473,7 @@
     "outer-wall": {
       "id": "outer-wall",
       "type": "battle",
+      "enemyTier": 2,
       "label": "Outer Wall",
       "description": "The first proper fortified position — archers on the ramparts and a gate that won't open.",
       "row": 2,
@@ -500,6 +503,7 @@
     "siege-trenches": {
       "id": "siege-trenches",
       "type": "battle",
+      "enemyTier": 1,
       "label": "Siege Trenches",
       "description": "The garrison dug deep. You're going through anyway.",
       "row": 2,
@@ -528,6 +532,7 @@
     "iron-guard": {
       "id": "iron-guard",
       "type": "battle",
+      "enemyTier": 1,
       "label": "Iron Guard",
       "description": "Elite heavy infantry protecting the mid-canyon checkpoint.",
       "row": 3,
@@ -571,6 +576,7 @@
     "siege-captain": {
       "id": "siege-captain",
       "type": "elite",
+      "enemyTier": 1,
       "label": "Siege Captain",
       "description": "A hardened veteran who has defended this position for three years. He takes it personally.",
       "row": 4,
@@ -620,6 +626,7 @@
     "last-stand": {
       "id": "last-stand",
       "type": "battle",
+      "enemyTier": 1,
       "label": "Last Stand",
       "description": "The remaining garrison makes a final push. Outnumbered. Disciplined.",
       "row": 4,
@@ -719,6 +726,7 @@
     "kragg": {
       "id": "kragg",
       "type": "boss",
+      "enemyTier": 1,
       "label": "Warlord Kragg",
       "description": "Three years of unchallenged command. An army built on discipline and iron. He has never lost a defensive engagement.",
       "row": 7,
@@ -762,6 +770,7 @@
     "citadel-crossing": {
       "id": "citadel-crossing",
       "type": "battle",
+      "enemyTier": 1,
       "label": "Citadel Crossing",
       "description": "The only way through the inner wall — a fortified gatehouse held by Kragg's elite guard.",
       "row": 6,
@@ -791,6 +800,7 @@
     "node-1776114717762": {
       "id": "node-1776114717762",
       "type": "elite",
+      "enemyTier": 1,
       "label": "The Executioners Revenge",
       "description": "The Executioner, known for the sharpness of their axe, stands and watches… his kin stand alongside. Today there will be blood. Maybe yours.",
       "row": 1,
@@ -817,6 +827,7 @@
     "node-1776114718648": {
       "id": "node-1776114718648",
       "type": "battle",
+      "enemyTier": 1,
       "label": "Plague Pit",
       "description": "The reek of death fills the air. The battle hasn’t started yet.",
       "row": 1,

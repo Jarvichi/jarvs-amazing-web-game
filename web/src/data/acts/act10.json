@@ -1,5 +1,6 @@
 {
   "id": "act10",
+  "expectedBand": 3,
   "nextActId": "act11",
   "title": "ACT X",
   "subtitle": "The Sand Market",
@@ -349,6 +350,7 @@
     "dune-approach": {
       "id": "dune-approach",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Dune Approach",
       "description": "The outer ring of the market. Raiders patrol the approach roads.",
       "row": 0,
@@ -531,6 +533,7 @@
     "market-crossing": {
       "id": "market-crossing",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Market Crossing",
       "description": "The contested main road into the market interior. The Baron's guard controls access.",
       "row": 1,
@@ -576,6 +579,7 @@
     "desert-spire": {
       "id": "desert-spire",
       "type": "elite",
+      "enemyTier": 4,
       "label": "Desert Spire",
       "description": "A towering spire of sandstone. The Baron's forces use it as a lookout and a sniper nest.",
       "row": 3,
@@ -611,6 +615,7 @@
     "gold-standard": {
       "id": "gold-standard",
       "type": "elite",
+      "enemyTier": 5,
       "label": "Gold Standard",
       "description": "The Baron's elite shock troops. They don't just fight for money. They fight for the Baron's favor.",
       "row": 8,
@@ -645,6 +650,7 @@
     "sand-battery": {
       "id": "sand-battery",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Sand Battery",
       "description": "Desert artillery platforms. The Baron invested heavily in these.",
       "row": 9,
@@ -678,6 +684,7 @@
     "mirage-tower": {
       "id": "mirage-tower",
       "type": "elite",
+      "enemyTier": 4,
       "label": "Mirage Tower",
       "description": "A camouflaged sniper tower. It's not always clear if it's occupied or not.",
       "row": 8,
@@ -712,6 +719,7 @@
     "the-black-sands": {
       "id": "the-black-sands",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The Black Sands",
       "description": "A patch of desert where the sand is blackened by the Baron's forges. The heat is intense, but it makes a good hiding spot.",
       "row": 9,
@@ -816,6 +824,7 @@
     "caravan-elite": {
       "id": "caravan-elite",
       "type": "elite",
+      "enemyTier": 5,
       "label": "Caravan Guard",
       "description": "The Baron's contracted heavy escort. Expensive, effective, professional.",
       "row": 3,
@@ -851,6 +860,7 @@
     "baron-approach": {
       "id": "baron-approach",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Baron's Gate",
       "description": "The inner market. The Dune Baron's personal forces take over from the hired guards.",
       "row": 11,
@@ -952,6 +962,7 @@
     "baron-vanguard": {
       "id": "baron-vanguard",
       "type": "elite",
+      "enemyTier": 5,
       "label": "Baron's Retinue",
       "description": "The Dune Baron's personal guard. These ones aren't contractors.",
       "row": 14,
@@ -985,6 +996,7 @@
     "dunebaron": {
       "id": "dunebaron",
       "type": "boss",
+      "enemyTier": 5,
       "label": "The Dune Baron",
       "description": "Proprietor of the Sand Market. He treats this battle as a transaction.",
       "row": 15,
@@ -1025,6 +1037,7 @@
     "node-1777060791709": {
       "id": "node-1777060791709",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Market Crossing",
       "description": "The contested main road into the market interior. The Baron's guard controls access.",
       "row": 1,
@@ -1057,6 +1070,7 @@
     "node-1777060793904": {
       "id": "node-1777060793904",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Market Crossing",
       "description": "The contested main road into the market interior. The Baron's guard controls access.",
       "row": 1,
@@ -1090,6 +1104,7 @@
     "node-1777060856595": {
       "id": "node-1777060856595",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Baron's Court",
       "description": "The Dune Baron's personal guard. These ones aren't contractors.",
       "row": 12,
@@ -1125,6 +1140,7 @@
     "node-1777060884035": {
       "id": "node-1777060884035",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The Fortress Approach",
       "description": "A patch of desert where the sand is blackened by the Baron's forges. The heat is intense, but it makes a good hiding spot.",
       "row": 10,
@@ -1151,6 +1167,7 @@
     "node-1777061071690": {
       "id": "node-1777061071690",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Sand Battery",
       "description": "Desert artillery platforms. The Baron invested heavily in these.",
       "row": 4,
@@ -1184,6 +1201,7 @@
     "node-1777061076072": {
       "id": "node-1777061076072",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Sand Battery",
       "description": "Desert artillery platforms. The Baron invested heavily in these.",
       "row": 7,
@@ -1217,6 +1235,7 @@
     "node-1777061077526": {
       "id": "node-1777061077526",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Sand Battery",
       "description": "Desert artillery platforms. The Baron invested heavily in these.",
       "row": 7,
@@ -1251,6 +1270,7 @@
     "node-1777061079284": {
       "id": "node-1777061079284",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Sand Battery",
       "description": "Desert artillery platforms. The Baron invested heavily in these.",
       "row": 7,
@@ -1284,6 +1304,7 @@
     "node-1777061084011": {
       "id": "node-1777061084011",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Sand Battery",
       "description": "Desert artillery platforms. The Baron invested heavily in these.",
       "row": 6,
@@ -1317,6 +1338,7 @@
     "node-1777061085358": {
       "id": "node-1777061085358",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Sand Battery",
       "description": "Desert artillery platforms. The Baron invested heavily in these.",
       "row": 6,
@@ -1350,6 +1372,7 @@
     "node-1777061087719": {
       "id": "node-1777061087719",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Sand Battery",
       "description": "Desert artillery platforms. The Baron invested heavily in these.",
       "row": 6,
@@ -1383,6 +1406,7 @@
     "node-1777061092626": {
       "id": "node-1777061092626",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Sand Battery",
       "description": "Desert artillery platforms. The Baron invested heavily in these.",
       "row": 4,
@@ -1416,6 +1440,7 @@
     "node-1777061093504": {
       "id": "node-1777061093504",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Sand Battery",
       "description": "Desert artillery platforms. The Baron invested heavily in these.",
       "row": 4,

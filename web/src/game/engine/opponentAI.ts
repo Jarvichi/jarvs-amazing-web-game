@@ -15,14 +15,20 @@ export function isPlayable(card: Card, gameTime: number): boolean {
 export function opponentAI(s: GameState, log: string[]): void {
   const manaBonus = getManaBonus(s.field, 'opponent')
   const manaMult = s.endlessOpponentManaMult ?? 1
-  // Floor mana to the most expensive card in hand so opponents can always play their cards
+  // Floor mana to the most expensive card in hand so opponents can always play their cards.
+  // opponentManaFloorBonus (campaign tier 4+, see effectiveTier in campaignHelpers.ts) raises
+  // that floor further — absent/0 everywhere else, so this is a no-op outside high-tier nodes.
   const maxHandCost = s.opponentHand.reduce((m, c) => Math.max(m, c.cost), 0)
-  let mana = Math.min(15, Math.round((Math.max(BASE_MAX_MANA, maxHandCost) + manaBonus) * manaMult))
+  const manaFloor = Math.max(BASE_MAX_MANA, maxHandCost) + (s.opponentManaFloorBonus ?? 0)
+  let mana = Math.min(15, Math.round((manaFloor + manaBonus) * manaMult))
 
   const strategy = s.opponentStrategy
   const wave = s.endlessMode ? (s.endlessWave ?? 1) : 1
   const baseMax = strategy === 'swarm' ? 3 : 2
-  const maxPlays = Math.min(6, baseMax + Math.floor((wave - 1) / 2))
+  // opponentMaxPlaysOverride (campaign tier 5) raises the ceiling rather than
+  // replacing it — a swarm/late-wave opponent that already exceeds it keeps
+  // its own higher cap.
+  const maxPlays = Math.min(6, Math.max(s.opponentMaxPlaysOverride ?? 0, baseMax + Math.floor((wave - 1) / 2)))
   // Early-stop chance after 1st card: 50% wave 1-2, 25% wave 3-4, 0% wave 5+
   const earlyStopChance = wave <= 2 ? 0.5 : wave <= 4 ? 0.25 : 0
 

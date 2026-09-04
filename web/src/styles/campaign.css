@@ -265,6 +265,17 @@
   color: #ffc832;
 }
 
+/* Explains why the DIFFICULTY row moved off the node's authored tier —
+   "harder because your deck is strong" reads very differently from a
+   silent difficulty spike, so this always sits right under that row. */
+.nm-peek-tier-reason {
+  font-size: var(--font-xxs);
+  color: #888;
+  text-align: center;
+  font-style: italic;
+  margin-top: -4px;
+}
+
 .nm-peek-history {
   border-top: 1px solid #1e2e1e;
   padding-top: 8px;

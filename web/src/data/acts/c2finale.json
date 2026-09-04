@@ -1,5 +1,6 @@
 {
   "id": "c2finale",
+  "expectedBand": 5,
   "title": "FINALE",
   "subtitle": "The Throne of the Unremembered",
   "rewardRelic": "Crown of the Remembered",
@@ -151,6 +152,7 @@
     "throne-approach": {
       "id": "throne-approach",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Throne Approach",
       "description": "Where the city's last dimming ward gives way to the single stair leading to the vigil chamber.",
       "row": 0,
@@ -173,6 +175,7 @@
     "the-last-stair": {
       "id": "the-last-stair",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Last Stair",
       "description": "A stair worn smooth by three centuries of the same rite climbing it, alone.",
       "row": 1,
@@ -264,6 +267,7 @@
     "the-hall-of-recitation": {
       "id": "the-hall-of-recitation",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Hall of Recitation",
       "description": "A hall where the vigil-rite is spoken aloud in shifts, so the King never has to say it alone.",
       "row": 2,
@@ -380,6 +384,7 @@
     "the-rite-company": {
       "id": "the-rite-company",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Rite Company",
       "description": "A file of Court soldiers holding the last stair in the same formation for three centuries.",
       "row": 4,
@@ -420,6 +425,7 @@
     "the-diadem-line": {
       "id": "the-diadem-line",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Diadem Line",
       "description": "A line of courtiers who never got new orders when the rite outlasted every reason for it.",
       "row": 4,
@@ -446,6 +452,7 @@
     "the-final-stair": {
       "id": "the-final-stair",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Final Stair",
       "description": "The last stretch of stair before the chamber's own threshold.",
       "row": 5,
@@ -470,6 +477,7 @@
     "the-last-vigil-hall": {
       "id": "the-last-vigil-hall",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Last Vigil Hall",
       "description": "The final hall before the King's own chamber, where even the candles burn steadier.",
       "row": 5,
@@ -495,6 +503,7 @@
     "the-outer-stair": {
       "id": "the-outer-stair",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Outer Stair",
       "description": "A lesser stair winding around the chamber, guarded the same as the main climb.",
       "row": 5,
@@ -545,6 +554,7 @@
     "vigilking-node": {
       "id": "vigilking-node",
       "type": "boss",
+      "enemyTier": 5,
       "label": "The Vigil King",
       "description": "Three centuries of holding a kingdom alone end here, before the monarch who never once asked to be relieved of it.",
       "row": 7,

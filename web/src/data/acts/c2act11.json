@@ -1,5 +1,6 @@
 {
   "id": "c2act11",
+  "expectedBand": 5,
   "nextActId": "c2act12",
   "title": "ACT XI",
   "subtitle": "The Vigil Roads",
@@ -152,6 +153,7 @@
     "vigil-threshold": {
       "id": "vigil-threshold",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Vigil Threshold",
       "description": "Where the orchard's last row gives way to a processional highway three centuries in the marching.",
       "row": 0,
@@ -175,6 +177,7 @@
     "the-processional-causeway": {
       "id": "the-processional-causeway",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Processional Causeway",
       "description": "A causeway worn smooth by three centuries of the same procession walking it.",
       "row": 1,
@@ -199,6 +202,7 @@
     "the-vigil-ramparts": {
       "id": "the-vigil-ramparts",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Vigil Ramparts",
       "description": "A rampart line garrisoned like the road still needs guarding \u2014 because to the Court, it does.",
       "row": 1,
@@ -383,6 +387,7 @@
     "the-vigil-company": {
       "id": "the-vigil-company",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Vigil Company",
       "description": "A file of Court soldiers holding formation in the same processional stance for three centuries.",
       "row": 3,
@@ -422,6 +427,7 @@
     "the-processional-line": {
       "id": "the-processional-line",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Processional Line",
       "description": "A line of soldiers who never got new orders when the rite outlasted the reason for it.",
       "row": 3,
@@ -448,6 +454,7 @@
     "the-deep-road": {
       "id": "the-deep-road",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Deep Road",
       "description": "A stretch of road deep enough that even the mist stops following.",
       "row": 4,
@@ -472,6 +479,7 @@
     "the-last-procession": {
       "id": "the-last-procession",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Last Procession",
       "description": "The final marching stretch before the Master's own waystation.",
       "row": 4,
@@ -524,6 +532,7 @@
     "processionmaster-node": {
       "id": "processionmaster-node",
       "type": "boss",
+      "enemyTier": 5,
       "label": "The Procession Master",
       "description": "Three centuries of marching end here, before a marshal who decides which rite still deserves the road.",
       "row": 6,
@@ -554,6 +563,7 @@
     "the-outer-mile": {
       "id": "the-outer-mile",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Outer Mile",
       "description": "A stretch of road further out than any waystation admits patrolling.",
       "row": 4,

@@ -1,5 +1,6 @@
 {
   "id": "world",
+  "expectedBand": 1,
   "title": "WORLD",
   "subtitle": "Free Battles",
   "rewardRelic": "",
@@ -13,6 +14,7 @@
     "b-east-road": {
       "id": "b-east-road",
       "type": "battle",
+      "enemyTier": 2,
       "label": "Toll Road Ambush",
       "description": "Bandits have set up an illegal toll on the east road. They take coin, goods and sometimes boots.",
       "row": 0,
@@ -91,6 +93,7 @@
     "b-south-road": {
       "id": "b-south-road",
       "type": "battle",
+      "enemyTier": 2,
       "label": "Old King's Road",
       "description": "Deserters from the royal army hold the old highway south. They still fight in formation.",
       "row": 1,
@@ -176,6 +179,7 @@
     "b-west-road": {
       "id": "b-west-road",
       "type": "battle",
+      "enemyTier": 2,
       "label": "Quarry Road",
       "description": "Goblins have moved into the old quarry and they are not paying rent.",
       "row": 2,
@@ -256,6 +260,7 @@
     "b-mine-trouble": {
       "id": "b-mine-trouble",
       "type": "battle",
+      "enemyTier": 2,
       "label": "Collapsed Mine",
       "description": "Something mechanical woke up in the collapsed shafts. The miners did not stay to ask questions.",
       "row": 3,
@@ -283,6 +288,7 @@
     "b-salt-marsh": {
       "id": "b-salt-marsh",
       "type": "battle",
+      "enemyTier": 2,
       "label": "Salt Marsh Crossing",
       "description": "The marsh between Ravenwatch and the coast is full of things that bite, sting and drag you under.",
       "row": 4,
@@ -310,6 +316,7 @@
     "b-orchard-raid": {
       "id": "b-orchard-raid",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Orchard Raid",
       "description": "Raiders are stripping Appleford's orchards bare — and worse things prowl between the rows at night.",
       "row": 5,
@@ -337,6 +344,7 @@
     "b-river-ford": {
       "id": "b-river-ford",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Southford Crossing",
       "description": "A mercenary company holds the only ford on the south river. Their rates are unreasonable.",
       "row": 6,
@@ -363,6 +371,7 @@
     "b-scarecrow-fields": {
       "id": "b-scarecrow-fields",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Scarecrow Fields",
       "description": "The scarecrows of Harrowfield keep the crows away. Lately they keep the farmers away too.",
       "row": 7,
@@ -389,6 +398,7 @@
     "b-bandit-toll": {
       "id": "b-bandit-toll",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Bandit Toll",
       "description": "The Gearford bandits learned bookkeeping. Now they call their robbery a 'transit fee'.",
       "row": 8,
@@ -416,6 +426,7 @@
     "b-smoke-fields": {
       "id": "b-smoke-fields",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Smokefield Patrol",
       "description": "Rogue constructs from the Gearford foundries patrol the smoke fields, attacking anything that moves.",
       "row": 9,
@@ -443,6 +454,7 @@
     "b-smugglers-landing": {
       "id": "b-smugglers-landing",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Smuggler's Landing",
       "description": "Half the contraband on the coast moves through this hidden cove. The smugglers protect their margins fiercely.",
       "row": 10,
@@ -470,6 +482,7 @@
     "b-royal-checkpoint": {
       "id": "b-royal-checkpoint",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Royal Checkpoint",
       "description": "The crown's border guard does not recognise your travel papers. Mostly because you don't have any.",
       "row": 11,
@@ -498,6 +511,7 @@
     "b-pirate-cove": {
       "id": "b-pirate-cove",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Pirate Cove",
       "description": "The pirates of the eastern reef answer to no crown, no port authority, and certainly not to you.",
       "row": 12,
@@ -526,6 +540,7 @@
     "b-foundry-gate": {
       "id": "b-foundry-gate",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Foundry Gate",
       "description": "The great foundry west of Gearford sealed its gates years ago. Its guardians never stopped working.",
       "row": 13,
@@ -554,6 +569,7 @@
     "b-tournament": {
       "id": "b-tournament",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Tournament Grounds",
       "description": "The kingdom's finest knights compete here for glory. You are the novelty act — prove them wrong.",
       "row": 14,
@@ -581,6 +597,7 @@
     "b-blight-fields": {
       "id": "b-blight-fields",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Blighted Fields",
       "description": "North of Millhaven the crops stopped growing and the farmers stopped staying buried.",
       "row": 15,
@@ -609,6 +626,7 @@
     "b-crypt-road": {
       "id": "b-crypt-road",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Crypt Road",
       "description": "The old road to Hollowmere runs past a hundred crypts. None of the doors are closed any more.",
       "row": 16,
@@ -637,6 +655,7 @@
     "b-grave-mists": {
       "id": "b-grave-mists",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Grave Mists",
       "description": "The mists west of Dreadspire are made of the things that did not get to say goodbye.",
       "row": 17,
@@ -664,6 +683,7 @@
     "b-howling-dark": {
       "id": "b-howling-dark",
       "type": "battle",
+      "enemyTier": 4,
       "label": "The Howling Dark",
       "description": "The forest east of Dreadspire howls all night. Whatever howls back is bigger.",
       "row": 18,
@@ -692,6 +712,7 @@
     "b-dread-gate": {
       "id": "b-dread-gate",
       "type": "battle",
+      "enemyTier": 5,
       "label": "Dreadspire Gate",
       "description": "The gate of Dreadspire Citadel is guarded by the castle's finest. Death did not end their watch.",
       "row": 19,

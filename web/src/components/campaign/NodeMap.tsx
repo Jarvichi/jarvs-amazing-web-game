@@ -2,6 +2,8 @@ import { User } from 'firebase/auth'
 import React, { useMemo, useState } from 'react'
 import { GIFT_OWNER_UID } from '../../game/gifts'
 import { ALL_CONSUMABLES, ARCHETYPE_DEFS, Act, QuestNode, RunState, getAvailableNodeIds, getModifiersByCount, loadNodeHistory } from '../../game/questline'
+import { currentPlayerBandTier } from '../../game/campaignHelpers'
+import { buildDeckCards, loadCollection, loadDeck } from '../../game/collection'
 import { Lives } from '../ui/Lives/Lives'
 import { NodeMapRederer, getNodeStatus } from '../ui/NodeMap/NodeMapRederer'
 import { NodePeekModal } from '../ui/NodeMap/NodePeekModal'
@@ -29,6 +31,8 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
   const [peekNode, setPeekNode] = useState<QuestNode | null>(null)
   const [showPaths, setShowPaths] = useState(true)
   const nodeHistory = useMemo(() => loadNodeHistory(), [])
+  // Read once per map visit, not per peek — the deck doesn't change while this screen is open.
+  const playerBandTier = useMemo(() => currentPlayerBandTier(buildDeckCards(loadDeck(), loadCollection())), [])
 
   const handlePeekEnter = () => {
     if (!peekNode) return
@@ -113,6 +117,8 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
             actId={act.id}
             nodeHistory={nodeHistory}
             activeModifiers={getModifiersByCount(act, run.activeModifierCount)}
+            playerBandTier={playerBandTier}
+            expectedBand={act.expectedBand}
             onEnter={handlePeekEnter}
             onClose={() => setPeekNode(null)}
           />

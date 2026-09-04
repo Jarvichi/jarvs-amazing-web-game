@@ -1,5 +1,6 @@
 {
   "id": "c2act10",
+  "expectedBand": 5,
   "nextActId": "c2act11",
   "title": "ACT X",
   "subtitle": "The Bone Orchards",
@@ -152,6 +153,7 @@
     "orchard-threshold": {
       "id": "orchard-threshold",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Orchard Threshold",
       "description": "Where the last frostline gives way to groves grown from the kingdom's own dead.",
       "row": 0,
@@ -175,6 +177,7 @@
     "the-root-causeway": {
       "id": "the-root-causeway",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Root Causeway",
       "description": "A causeway grown through with roots thick enough to remember every grave it crosses.",
       "row": 1,
@@ -199,6 +202,7 @@
     "the-bonewood-ramparts": {
       "id": "the-bonewood-ramparts",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Bonewood Ramparts",
       "description": "A rampart line garrisoned like the grove still needs guarding \u2014 because to the Court, it does.",
       "row": 1,
@@ -381,6 +385,7 @@
     "the-bonewood-company": {
       "id": "the-bonewood-company",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Bonewood Company",
       "description": "A file of Court soldiers holding formation among rows grown thick enough to hide them.",
       "row": 3,
@@ -420,6 +425,7 @@
     "the-rooted-line": {
       "id": "the-rooted-line",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Rooted Line",
       "description": "A line of soldiers who never got new orders when the orchard finally rooted around them.",
       "row": 3,
@@ -445,6 +451,7 @@
     "the-deep-grove": {
       "id": "the-deep-grove",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Deep Grove",
       "description": "Rows deep enough that even the mist stops following.",
       "row": 4,
@@ -469,6 +476,7 @@
     "the-last-tending": {
       "id": "the-last-tending",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Last Tending",
       "description": "The final row before the Keeper's own grove-house.",
       "row": 4,
@@ -520,6 +528,7 @@
     "orchardkeeper-node": {
       "id": "orchardkeeper-node",
       "type": "boss",
+      "enemyTier": 5,
       "label": "The Orchard Keeper",
       "description": "Three centuries of tending end here, before a gardener who decides which grief still deserves company.",
       "row": 11,
@@ -550,6 +559,7 @@
     "the-inner-grove-gate": {
       "id": "the-inner-grove-gate",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Inner Grove Gate",
       "description": "A second grove-gate, deeper in the orchard than any grief was ever meant to reach.",
       "row": 5,
@@ -574,6 +584,7 @@
     "the-heartwood-corridor": {
       "id": "the-heartwood-corridor",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Heartwood Corridor",
       "description": "A corridor grown through the orchard's own heartwood, older than the rows around it.",
       "row": 6,
@@ -596,6 +607,7 @@
     "the-gilded-canopy": {
       "id": "the-gilded-canopy",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Gilded Canopy",
       "description": "A canopy gilded over for a Keeper who has not received a real guest in three centuries.",
       "row": 6,
@@ -619,6 +631,7 @@
     "the-hollow-roots": {
       "id": "the-hollow-roots",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Hollow Roots",
       "description": "A root-hollow kept shrouded since the tending that named it stopped being spoken of.",
       "row": 6,
@@ -798,6 +811,7 @@
     "the-heartwood-company": {
       "id": "the-heartwood-company",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Heartwood Company",
       "description": "A second file of Court soldiers, rooted in ground finer than anything the outer grove grows.",
       "row": 8,
@@ -823,6 +837,7 @@
     "the-root-bound-line": {
       "id": "the-root-bound-line",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Root-Bound Line",
       "description": "A line of tenders bound to the roots rather than the rows, for a rank the outer orchard never named.",
       "row": 8,
@@ -850,6 +865,7 @@
     "the-last-heartwood": {
       "id": "the-last-heartwood",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Last Heartwood",
       "description": "The final heartwood stand before the Keeper receives anyone at all.",
       "row": 9,
@@ -873,6 +889,7 @@
     "the-final-canopy": {
       "id": "the-final-canopy",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Final Canopy",
       "description": "The last canopy stand before the Keeper receives anyone at all.",
       "row": 9,

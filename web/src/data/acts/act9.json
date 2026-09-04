@@ -1,5 +1,6 @@
 {
   "id": "act9",
+  "expectedBand": 3,
   "nextActId": "act10",
   "title": "ACT IX",
   "subtitle": "The Frozen Expanse",
@@ -349,6 +350,7 @@
     "glacier-gate": {
       "id": "glacier-gate",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Glacier Gate",
       "description": "The frozen threshold of the Expanse. Crawlers patrol the ice shelf.",
       "row": 0,
@@ -515,6 +517,7 @@
     "ice-crossing": {
       "id": "ice-crossing",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Ice Crossing",
       "description": "A frozen ford. The ice holds. The Engine's regulars do not.",
       "row": 8,
@@ -548,6 +551,7 @@
     "blizzard-battery": {
       "id": "blizzard-battery",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Blizzard Battery",
       "description": "Ice artillery emplacements dug into the glacier face.",
       "row": 12,
@@ -658,6 +662,7 @@
     "pale-elite": {
       "id": "pale-elite",
       "type": "elite",
+      "enemyTier": 4,
       "label": "Pale Guard",
       "description": "The Engine's elite frost constructs. Specifically calibrated against intrusion.",
       "row": 10,
@@ -691,6 +696,7 @@
     "engine-approach": {
       "id": "engine-approach",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Engine Approach",
       "description": "The final approach. The glacier here is machine-carved. Precise.",
       "row": 14,
@@ -792,6 +798,7 @@
     "engine-vanguard": {
       "id": "engine-vanguard",
       "type": "elite",
+      "enemyTier": 5,
       "label": "Engine Vanguard",
       "description": "The Pale Engine's direct extensions. Each unit is a direct line to its processing core.",
       "row": 13,
@@ -824,6 +831,7 @@
     "paleengine": {
       "id": "paleengine",
       "type": "boss",
+      "enemyTier": 5,
       "label": "The Pale Engine",
       "description": "Cold-logic fortress intelligence. It holds the Expanse. It has always held the Expanse.",
       "row": 15,
@@ -864,6 +872,7 @@
     "node-1776873511309": {
       "id": "node-1776873511309",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Outer Ice Shelf",
       "description": "Wind-scoured ice stretches outward. Movement here does not go unnoticed.",
       "row": 1,
@@ -896,6 +905,7 @@
     "node-1776873512682": {
       "id": "node-1776873512682",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Fractured Glacier Face",
       "description": "Cracked sheets of ice shift under pressure. Something moves beneath them.",
       "row": 2,
@@ -929,6 +939,7 @@
     "node-1776873630290": {
       "id": "node-1776873630290",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Collapsed Ice Run",
       "description": "A partially broken route where the glacier has given way to hidden depths. And then you see them — bears made of ice, stalking the hollowed-out channel.",
       "row": 3,
@@ -963,6 +974,7 @@
     "node-1776873634845": {
       "id": "node-1776873634845",
       "type": "battle",
+      "enemyTier": 3,
       "label": "Wind-Carved Traverse",
       "description": "Sharp ice ridges shaped by relentless wind. Visibility comes and goes.",
       "row": 3,
@@ -995,6 +1007,7 @@
     "node-1776873646236": {
       "id": "node-1776873646236",
       "type": "elite",
+      "enemyTier": 4,
       "label": "Cryo Sentinels",
       "description": "Advanced frost constructs, tuned to respond instantly to foreign movement.",
       "row": 5,
@@ -1030,6 +1043,7 @@
     "node-1776873661402": {
       "id": "node-1776873661402",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Frozen Channel",
       "description": "A narrow passage of solid ice. The surface is stable, but echoes travel far.",
       "row": 7,

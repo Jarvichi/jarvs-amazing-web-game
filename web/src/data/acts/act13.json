@@ -1,5 +1,6 @@
 {
   "id": "act13",
+  "expectedBand": 4,
   "nextActId": "actfinale",
   "title": "ACT XIII",
   "subtitle": "The Clockwork Vaults",
@@ -349,6 +350,7 @@
     "vault-entrance": {
       "id": "vault-entrance",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Vault Entrance",
       "description": "Clockwork sentries hold the outer gate.",
       "row": 0,
@@ -468,6 +470,7 @@
     "second-chamber": {
       "id": "second-chamber",
       "type": "battle",
+      "enemyTier": 4,
       "label": "Second Chamber",
       "description": "Heavier clockwork defenders emerge.",
       "row": 2,
@@ -492,6 +495,7 @@
     "piston-wing": {
       "id": "piston-wing",
       "type": "battle",
+      "enemyTier": 5,
       "label": "Piston Wing",
       "description": "Steam-driven brawlers block the corridor.",
       "row": 4,
@@ -582,6 +586,7 @@
     "forge-vault": {
       "id": "forge-vault",
       "type": "elite",
+      "enemyTier": 5,
       "label": "Forge Vault",
       "description": "The titan forge is online and guarded.",
       "row": 3,
@@ -607,6 +612,7 @@
     "core-approach": {
       "id": "core-approach",
       "type": "battle",
+      "enemyTier": 5,
       "label": "Core Approach",
       "description": "The Automaton's drones defend the inner sanctum.",
       "row": 5,
@@ -711,6 +717,7 @@
     "titan-garrison": {
       "id": "titan-garrison",
       "type": "elite",
+      "enemyTier": 5,
       "label": "Titan Garrison",
       "description": "The Automaton's heaviest units stand ready.",
       "row": 4,
@@ -737,6 +744,7 @@
     "the-grand-automaton-node": {
       "id": "the-grand-automaton-node",
       "type": "boss",
+      "enemyTier": 5,
       "label": "The Grand Automaton",
       "description": "The vault's master intelligence. Online.",
       "row": 6,

@@ -96,6 +96,57 @@ export const CampaignWithHistory: Story = {
   },
 }
 
+const tieredNode: QuestNode = {
+  ...battleNode,
+  id: 'story-battle-tiered',
+  enemyTier: 2,
+}
+
+/** Player's deck-power band matches the act's expectation — tier shown, no reason line. */
+export const CampaignTierAtExpectedBand: Story = {
+  args: {
+    node: tieredNode,
+    actId: 'example-act',
+    nodeHistory: new Set(),
+    activeModifiers: [],
+    mode: 'campaign',
+    playerBandTier: 2,
+    expectedBand: 2,
+    onEnter: fn(),
+    onClose: fn(),
+  },
+}
+
+/** A strong deck raises the effective tier above the node's authored one — the reason line is the point. */
+export const CampaignTierRaisedByStrongDeck: Story = {
+  args: {
+    node: tieredNode,
+    actId: 'example-act',
+    nodeHistory: new Set(),
+    activeModifiers: [],
+    mode: 'campaign',
+    playerBandTier: 4,
+    expectedBand: 1,
+    onEnter: fn(),
+    onClose: fn(),
+  },
+}
+
+/** A weaker-than-expected deck gets a tier of mercy. */
+export const CampaignTierEasedForWeakDeck: Story = {
+  args: {
+    node: tieredNode,
+    actId: 'example-act',
+    nodeHistory: new Set(),
+    activeModifiers: [],
+    mode: 'campaign',
+    playerBandTier: 1,
+    expectedBand: 3,
+    onEnter: fn(),
+    onClose: fn(),
+  },
+}
+
 // ── World mode ────────────────────────────────────────────────────────────────
 
 export const WorldAvailableTown: Story = {

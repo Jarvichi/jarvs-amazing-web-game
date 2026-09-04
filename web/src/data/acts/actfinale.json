@@ -1,5 +1,6 @@
 {
   "id": "actfinale",
+  "expectedBand": 4,
   "title": "FINALE",
   "subtitle": "The Fractured Core",
   "rewardRelic": "Worldmender's Crest",
@@ -345,6 +346,7 @@
     "last-bridge": {
       "id": "last-bridge",
       "type": "battle",
+      "enemyTier": 5,
       "label": "The Last Bridge",
       "description": "Fractured reality has given form to its first defenders.",
       "row": 0,
@@ -368,6 +370,7 @@
     "shattered-halls": {
       "id": "shattered-halls",
       "type": "battle",
+      "enemyTier": 5,
       "label": "Shattered Halls",
       "description": "The corridors of the Core are alive with hostile energy.",
       "row": 1,
@@ -391,6 +394,7 @@
     "echo-of-the-core": {
       "id": "echo-of-the-core",
       "type": "battle",
+      "enemyTier": 5,
       "label": "Echo of the Core",
       "description": "Reality splinters here. The Fracture sees you.",
       "row": 2,
@@ -414,6 +418,7 @@
     "fractures-herald": {
       "id": "fractures-herald",
       "type": "elite",
+      "enemyTier": 5,
       "label": "The Fracture's Herald",
       "description": "A projection of the Fracture itself — testing your limits before the end.",
       "row": 3,
@@ -439,6 +444,7 @@
     "the-fracture-node": {
       "id": "the-fracture-node",
       "type": "boss",
+      "enemyTier": 5,
       "label": "The Fracture",
       "description": "The source of the cataclysm. The end of the world — or yours.",
       "row": 4,

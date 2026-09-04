@@ -1,5 +1,6 @@
 {
   "id": "act1",
+  "expectedBand": 1,
   "nextActId": "act2",
   "title": "ACT I",
   "subtitle": "The Verdant Shard",
@@ -353,6 +354,7 @@
     "goblin-raid": {
       "id": "goblin-raid",
       "type": "battle",
+      "enemyTier": 2,
       "label": "Goblin Raiders",
       "description": "A rowdy mob has blockaded the trade route. Clear them out.",
       "row": 0,
@@ -639,6 +641,7 @@
     "camp": {
       "id": "camp",
       "type": "battle",
+      "enemyTier": 2,
       "label": "Woodland Ambush",
       "description": "The camp was already occupied. Its new residents are not welcoming.",
       "row": 1,
@@ -703,6 +706,7 @@
     "shrine": {
       "id": "shrine",
       "type": "battle",
+      "enemyTier": 2,
       "label": "Shrine Raiders",
       "description": "Goblins have claimed the shrine as their own. They're not interested in sharing.",
       "row": 1,
@@ -1765,6 +1769,7 @@
     "war-camp": {
       "id": "war-camp",
       "type": "battle",
+      "enemyTier": 1,
       "label": "War Camp",
       "description": "A fortified enemy camp blocks the road ahead.",
       "row": 4,
@@ -2098,6 +2103,7 @@
     "captain": {
       "id": "captain",
       "type": "elite",
+      "enemyTier": 1,
       "label": "Forest Captain",
       "description": "A hardened veteran with well-drilled siege troops — and something the forest has been teaching him about patience.",
       "row": 3,
@@ -2195,6 +2201,7 @@
     "deep-woods": {
       "id": "deep-woods",
       "type": "elite",
+      "enemyTier": 1,
       "label": "The Pack Leader",
       "description": "The deep woods belong to something older than the Fracture. It has been watching. Now it is done watching.",
       "row": 3,
@@ -2421,6 +2428,7 @@
     "troll-bridge": {
       "id": "troll-bridge",
       "type": "battle",
+      "enemyTier": 1,
       "label": "Troll Bridge",
       "description": "Something large lives under the bridge. It has been living there since before the Fracture. It is not pleased about visitors.",
       "row": 4,
@@ -2703,6 +2711,7 @@
     "thornlord": {
       "id": "thornlord",
       "type": "boss",
+      "enemyTier": 1,
       "label": "The Thornlord",
       "description": "Ancient guardian of the Verdant Shard. Unbowed for centuries.",
       "row": 6,
@@ -2881,6 +2890,7 @@
     "deep-crossing": {
       "id": "deep-crossing",
       "type": "battle",
+      "enemyTier": 1,
       "label": "Deep Crossing",
       "description": "A collapsed stone bridge over a dark ravine. Something is defending it.",
       "row": 5,
@@ -3104,6 +3114,7 @@
     "node-1776083922801": {
       "id": "node-1776083922801",
       "type": "battle",
+      "enemyTier": 1,
       "label": "The Inaccessible Palace",
       "description": "",
       "row": 2,

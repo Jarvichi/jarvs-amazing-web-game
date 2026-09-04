@@ -1,5 +1,6 @@
 {
   "id": "act4",
+  "expectedBand": 1,
   "nextActId": "act5",
   "title": "ACT IV",
   "subtitle": "The Crystal Spire",
@@ -359,6 +360,7 @@
     "crystal-approach": {
       "id": "crystal-approach",
       "type": "battle",
+      "enemyTier": 2,
       "label": "Crystal Approach",
       "description": "The base of the Spire. Arcane sentinels guard the first gate.",
       "row": 0,
@@ -388,6 +390,7 @@
     "spire-left": {
       "id": "spire-left",
       "type": "battle",
+      "enemyTier": 1,
       "label": "The Western Archway",
       "description": "A columned hall filled with crystalline light and something unfriendly.",
       "row": 1,
@@ -415,6 +418,7 @@
     "spire-right": {
       "id": "spire-right",
       "type": "battle",
+      "enemyTier": 1,
       "label": "The Eastern Archway",
       "description": "A market district reclaimed by the Spire's military wing. Hostile occupation.",
       "row": 1,
@@ -585,6 +589,7 @@
     "echo-halls": {
       "id": "echo-halls",
       "type": "battle",
+      "enemyTier": 1,
       "label": "The Echo Halls",
       "description": "Resonant corridors where every spell cast echoes back twice as hard.",
       "row": 2,
@@ -624,6 +629,7 @@
     "iron-approach": {
       "id": "iron-approach",
       "type": "battle",
+      "enemyTier": 1,
       "label": "Iron Approach",
       "description": "The Spire's military garrison. Heavily drilled and not in a welcoming mood.",
       "row": 2,
@@ -651,6 +657,7 @@
     "echo-sentinel": {
       "id": "echo-sentinel",
       "type": "elite",
+      "enemyTier": 1,
       "label": "The Echo Sentinel",
       "description": "A crystalline construct that has fought in every battle the Spire has ever lost. It remembers all of them.",
       "row": 3,
@@ -688,6 +695,7 @@
     "arcanist-champion": {
       "id": "arcanist-champion",
       "type": "elite",
+      "enemyTier": 1,
       "label": "Arcanist Champion",
       "description": "The Spire's enforcer. She doesn't negotiate.",
       "row": 3,
@@ -726,6 +734,7 @@
     "golem-forge": {
       "id": "golem-forge",
       "type": "battle",
+      "enemyTier": 1,
       "label": "The Golem Forge",
       "description": "An industrial hall where crystalline constructs are assembled and deployed.",
       "row": 4,
@@ -768,6 +777,7 @@
     "void-bridge": {
       "id": "void-bridge",
       "type": "battle",
+      "enemyTier": 1,
       "label": "The Void Bridge",
       "description": "A bridge over a crystalline abyss. The defenders are all that stands between you and the upper Spire.",
       "row": 4,
@@ -938,6 +948,7 @@
     "spire-gate": {
       "id": "spire-gate",
       "type": "battle",
+      "enemyTier": 1,
       "label": "The Spire Gate",
       "description": "The gate to the upper Spire. Everything below has been a test. This is the real door.",
       "row": 5,
@@ -966,6 +977,7 @@
     "crystal-vanguard": {
       "id": "crystal-vanguard",
       "type": "battle",
+      "enemyTier": 1,
       "label": "Crystal Vanguard",
       "description": "The Archivist's personal guard. They have fought together since before the Fracture.",
       "row": 5,
@@ -1010,6 +1022,7 @@
     "spire-crossing": {
       "id": "spire-crossing",
       "type": "battle",
+      "enemyTier": 1,
       "label": "The Spire Crossing",
       "description": "One last defence before the Archive. They know you're coming.",
       "row": 7,
@@ -1040,6 +1053,7 @@
     "archivist": {
       "id": "archivist",
       "type": "boss",
+      "enemyTier": 1,
       "label": "The Archivist",
       "description": "Keeper of the Crystal Spire. He has catalogued every run you've ever made.",
       "row": 8,
