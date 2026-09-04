@@ -171,6 +171,7 @@
       "enemyDeck": [
         "Reed Strider",
         "Glasswater Scout",
+        "Troll",
         "Marsh Skulker",
         "Still Bell"
       ]
@@ -195,6 +196,7 @@
       "enemyDeck": [
         "Reed Strider",
         "Marsh Skulker",
+        "Troll",
         "Reed Barricade",
         "Marsh Guard",
         "Mirror Step"
@@ -220,6 +222,7 @@
       "enemyDeck": [
         "Glasswater Scout",
         "Still Bell",
+        "Ancient Treant",
         "Marsh Watchtower",
         "Marsh Guard",
         "Marsh Draught"
@@ -403,6 +406,7 @@
         "Marsh Guard",
         "Marsh Vanguard",
         "Sealed Millpond",
+        "Dune Colossus",
         "Echo Toll",
         "Glass Foundry",
         "Choir of Echoes"
@@ -446,6 +450,7 @@
         "Echo Caller",
         "Reflection Automaton",
         "Glass Sentry",
+        "Dune Colossus",
         "Mirror Writ",
         "Choir of Echoes",
         "Reedline Archer"
@@ -472,6 +477,7 @@
         "Marsh Guard",
         "Reed Barricade",
         "Marsh Watchtower",
+        "Desert Titan",
         "Marsh Runner",
         "Echo Toll",
         "Reedline Archer"
@@ -498,6 +504,7 @@
         "Marsh Runner",
         "Choir of Echoes",
         "Marsh Knight",
+        "Mycelium Hulk",
         "Mirror Writ",
         "Glass Sentry",
         "Echo Caller"
@@ -548,6 +555,7 @@
         "The Reflection",
         "Marsh Vanguard",
         "Marsh Knight",
+        "Mushroom Hulk",
         "The Echo",
         "Choir of Echoes",
         "Glass Sentry",
@@ -580,6 +588,7 @@
       "enemyDeck": [
         "Marsh Skulker",
         "Reed Strider",
+        "Dark Elf",
         "Still Bell",
         "Marsh Guard",
         "Mirror Step"
@@ -671,6 +680,7 @@
       "enemyDeck": [
         "Marsh Runner",
         "Reed Barricade",
+        "Wreck Golem",
         "Echo Toll",
         "Reedline Archer",
         "Marsh Guard"
@@ -695,6 +705,7 @@
       "enemyDeck": [
         "Glasswater Scout",
         "Glass Foundry",
+        "Lava Troll",
         "Marsh Watchtower",
         "Echo Caller",
         "Reedline Archer"

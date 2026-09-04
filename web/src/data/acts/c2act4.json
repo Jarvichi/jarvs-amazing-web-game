@@ -172,6 +172,7 @@
       "enemyDeck": [
         "Stack Runner",
         "Lamp Acolyte",
+        "Rogue",
         "Index Warden",
         "Reading Lamp"
       ]
@@ -195,6 +196,7 @@
       "enemyDeck": [
         "Stack Runner",
         "Index Warden",
+        "Rogue",
         "Shelf Barricade",
         "Register Bearer",
         "Quickening Ink"
@@ -220,6 +222,7 @@
       "enemyDeck": [
         "Lamp Acolyte",
         "Lectern Archer",
+        "Dark Elf",
         "Reading Lamp",
         "Sealed Stack",
         "Parchment Poultice"
@@ -403,6 +406,7 @@
         "Archive Warden",
         "Register Bearer",
         "Watch-Lectern",
+        "Iron Colossus",
         "Sealed Stack",
         "Marginal Notes",
         "Silence Bell"
@@ -447,6 +451,7 @@
         "Choir of Sealed Names",
         "Hollow Cataloguer",
         "Cataloguer Automaton",
+        "Iron Colossus",
         "Sealed Courier",
         "Lamp-Oil Reserve",
         "Parchment Poultice"
@@ -473,6 +478,7 @@
         "Register Bearer",
         "Shelf Barricade",
         "Watch-Lectern",
+        "Dark Elf",
         "Sealed Courier",
         "Marginal Notes",
         "Lectern Archer"
@@ -499,6 +505,7 @@
         "Stackbound Knight",
         "Sealed Courier",
         "Cataloguer Automaton",
+        "Glacier Titan",
         "Silence Bell",
         "Lamp-Oil Reserve",
         "Hollow Cataloguer"
@@ -549,6 +556,7 @@
         "The Name-Eater",
         "Archive Warden",
         "Stackbound Knight",
+        "Mycelium Hulk",
         "The Unbound Index",
         "Choir of Sealed Names",
         "Reading Room Sentry",
@@ -581,6 +589,7 @@
       "enemyDeck": [
         "Stack Runner",
         "Index Warden",
+        "Dark Elf",
         "Reading Lamp",
         "Register Bearer",
         "Quickening Ink"
@@ -605,6 +614,7 @@
       "enemyDeck": [
         "Lamp Acolyte",
         "Lectern Archer",
+        "Lava Troll",
         "Sealed Stack",
         "Parchment Poultice",
         "Reading Lamp"
@@ -629,6 +639,7 @@
       "enemyDeck": [
         "Register Bearer",
         "Shelf Barricade",
+        "Rogue",
         "Sealed Courier",
         "Marginal Notes",
         "Sealed Stack"
@@ -653,6 +664,7 @@
       "enemyDeck": [
         "Stackbound Knight",
         "Sealed Courier",
+        "Volcanic Golem",
         "Watch-Lectern",
         "Silence Bell",
         "Hollow Cataloguer"
@@ -677,6 +689,7 @@
       "enemyDeck": [
         "Lectern Archer",
         "Marginal Notes",
+        "Flame Warden",
         "Cataloguer Automaton",
         "Lamp-Oil Reserve",
         "Index Warden"

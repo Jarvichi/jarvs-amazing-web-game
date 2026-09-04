@@ -5,8 +5,11 @@ import {
   effectiveTierFor,
   resolveEffectiveTier,
   resolvedNodeOpts,
+  answerCardsFor,
+  interleaveAnswerCards,
 } from './campaignHelpers'
 import { QuestNode, Act } from './questline'
+import answerCardsData from '../data/answerCards.json'
 
 // ─── Fixtures ─────────────────────────────────────────────
 
@@ -210,5 +213,93 @@ describe('resolvedNodeOpts — tier effects', () => {
     // tier 1 + deckDelta(+2, clamped) = 3 → interval -400, +1 start card
     expect(opts.opponentIntervalMs).toBe(4600)
     expect(opts.opponentStartCards).toBe(1)
+  })
+})
+
+// ─── Answer cards (#2292) ───────────────────────────────────
+
+describe('answerCardsFor', () => {
+  it('appends nothing at tier 1 or 2 — the authored deck stands as-is', () => {
+    expect(answerCardsFor('structure', 1, 'node-a')).toEqual([])
+    expect(answerCardsFor('structure', 2, 'node-a')).toEqual([])
+  })
+
+  it('appends one/two/three cards at tier 3/4/5 respectively', () => {
+    expect(answerCardsFor('structure', 3, 'node-a')).toHaveLength(1)
+    expect(answerCardsFor('structure', 4, 'node-a')).toHaveLength(2)
+    expect(answerCardsFor('structure', 5, 'node-a')).toHaveLength(3)
+  })
+
+  it('only ever returns real catalogue card names from the matching pool', () => {
+    for (const shape of Object.keys(answerCardsData) as Array<keyof typeof answerCardsData>) {
+      const picked = answerCardsFor(shape, 5, 'some-node-id')
+      for (const name of picked) expect(answerCardsData[shape]).toContain(name)
+    }
+  })
+
+  it('is deterministic for the same node id — a retried battle sees the same answers', () => {
+    expect(answerCardsFor('swarm', 4, 'goblin-raid')).toEqual(answerCardsFor('swarm', 4, 'goblin-raid'))
+  })
+
+  it('varies with the node id, so every high-tier node does not field the same two cards', () => {
+    const a = answerCardsFor('structure', 3, 'node-a')
+    const b = answerCardsFor('structure', 3, 'node-b')
+    // Not a hard guarantee for every possible id pair, but true for this pair
+    // against the real pool — and this is the property the hashing is for.
+    expect(a).not.toEqual(b)
+  })
+})
+
+describe('interleaveAnswerCards', () => {
+  it('returns the base list unchanged when there are no extras', () => {
+    expect(interleaveAnswerCards(['A', 'B', 'C'], [])).toEqual(['A', 'B', 'C'])
+  })
+
+  it('inserts extras into the list rather than only appending to the end', () => {
+    const result = interleaveAnswerCards(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'], ['X'])
+    expect(result).toHaveLength(9)
+    expect(result).toContain('X')
+    // Roughly the middle, not the last slot — that's the point (drawn mid-battle, not never).
+    expect(result.indexOf('X')).toBeGreaterThan(0)
+    expect(result.indexOf('X')).toBeLessThan(result.length - 1)
+  })
+
+  it('preserves every original card exactly once', () => {
+    const base = ['A', 'B', 'C', 'D', 'E']
+    const result = interleaveAnswerCards(base, ['X', 'Y'])
+    for (const name of base) {
+      expect(result.filter(n => n === name)).toHaveLength(1)
+    }
+    expect(result).toHaveLength(base.length + 2)
+  })
+})
+
+describe('resolvedNodeOpts — answer cards', () => {
+  const structureDeck = Array.from({ length: 12 }, (_, i) => ({
+    id: `s${i}`, name: 'Barracks', rarity: 'common' as const, cost: 3, cardType: 'structure' as const, description: '',
+  }))
+
+  it('appends no answer cards at tier 2', () => {
+    const n = node({ enemyTier: 2, enemyDeck: ['Goblin', 'Archer', 'Goblin'] })
+    const opts = resolvedNodeOpts(n, act({ expectedBand: 1 }), 1, [], structureDeck)
+    expect(opts.enemyDeckNames).toEqual(['Goblin', 'Archer', 'Goblin'])
+  })
+
+  it('appends answer cards matching the player\'s deck shape at tier 3+', () => {
+    const n = node({ enemyTier: 5, enemyDeck: ['Goblin', 'Archer', 'Goblin', 'Barbarian', 'Knight'] })
+    const opts = resolvedNodeOpts(n, act({ expectedBand: 1 }), 1, [], structureDeck)
+    expect(opts.enemyDeckNames).toHaveLength(5 + 3) // tier 5 → 3 answers
+    for (const name of ['Goblin', 'Archer', 'Barbarian', 'Knight']) {
+      expect(opts.enemyDeckNames).toContain(name)
+    }
+    // Every added name came from the structure-shape pool, since structureDeck is 100% structures.
+    const added = opts.enemyDeckNames!.filter(n2 => !['Goblin', 'Archer', 'Barbarian', 'Knight'].includes(n2))
+    for (const name of added) expect(answerCardsData.structure).toContain(name)
+  })
+
+  it('never appends to a node with no authored enemyDeck', () => {
+    const n = node({ enemyTier: 5 })
+    const opts = resolvedNodeOpts(n, act({ expectedBand: 1 }), 1, [], structureDeck)
+    expect(opts.enemyDeckNames).toBeUndefined()
   })
 })

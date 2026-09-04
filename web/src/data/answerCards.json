@@ -1,0 +1,18 @@
+{
+  "structure": [
+    "Bandit", "Rogue", "Sappers", "Shadow Stalker", "Dark Elf", "Troll",
+    "Ancient Treant", "Flame Warden", "Lava Troll", "Shipwreck Golem",
+    "Iron Colossus", "Golem", "Root Walker", "Volcanic Golem"
+  ],
+  "swarm": [
+    "Salvage Charge", "Vault Burst", "Maelstrom", "Overload", "Root Surge",
+    "Candlefall", "Toll Bell Peal"
+  ],
+  "bigUnit": [
+    "Crossbow", "Ballista", "Executioner", "Marksman", "Siege Engineer",
+    "Battering Ram Crew", "Ballista Crew", "Catapult", "Demolitions Expert"
+  ],
+  "balanced": [
+    "Rogue", "Ballista", "Salvage Charge", "Troll", "Marksman", "Dark Elf"
+  ]
+}

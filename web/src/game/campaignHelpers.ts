@@ -3,8 +3,9 @@ import { NewGameOptions, MAX_HANDICAP } from './engine'
 import { Card, SECRET_RARITIES } from './types'
 import { shuffle } from './engine/helpers'
 import { HERO_CARDS, makeNodeDeck, getCardCatalog } from './cards'
-import { analyseDeckPower } from './deckPower'
+import { analyseDeckPower, classifyDeckShape, DeckShape } from './deckPower'
 import { loadPlayerStats } from './playerStats'
+import answerCardsData from '../data/answerCards.json'
 
 const QB_ENVIRONMENTS = ['forest', 'farmland', 'ruins', 'ashen', 'sand', 'volcano', 'citadel', 'coast', 'frost', 'fungal', 'vault', 'camp'] as const
 function pickQBEnvironment(): string {
@@ -166,6 +167,56 @@ const TIER_EFFECTS: Record<number, TierEffect> = {
   5: { hpMultiplier: 1.0, intervalDeltaMs: -1200, startCardsBonus: 2, manaFloorBonus: 2, maxPlaysOverride: 4 },
 }
 
+// ─── Counterplay: answer cards by tier (#2292) ─────────────
+//
+// A high-tier fight against a strong deck should meet something built to
+// answer THAT deck, not a stat-inflated version of the same authored enemy.
+// classifyDeckShape() reads what the player's plan actually is; the matching
+// pool below is drawn from cards that already exist in the catalogue — see
+// the pool comments in answerCards.json for why each one counters its shape.
+
+const ANSWER_CARD_POOLS = answerCardsData as Record<DeckShape, string[]>
+
+/** How many answer cards get appended, by effective tier. Tiers 1-2 get none — the authored deck stands as-is. */
+const ANSWER_COUNT_BY_TIER: Record<number, number> = { 1: 0, 2: 0, 3: 1, 4: 2, 5: 3 }
+
+/**
+ * Deterministic, not random — enemyDeckNames decks are unshuffled by design
+ * ("Preset node deck — deterministic and learnable", engine.ts), so a battle
+ * a player retries should draw the exact same answer cards, not a fresh
+ * shuffle each attempt.
+ */
+function stableIndex(seed: string, mod: number): number {
+  let h = 0
+  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0
+  return mod > 0 ? h % mod : 0
+}
+
+/** Which answer cards a node should field, given the player's deck shape and the effective tier. */
+export function answerCardsFor(shape: DeckShape, effectiveTier: number, seed: string): string[] {
+  const count = ANSWER_COUNT_BY_TIER[effectiveTier] ?? 0
+  const pool = ANSWER_CARD_POOLS[shape] ?? []
+  if (count === 0 || pool.length === 0) return []
+  const start = stableIndex(seed, pool.length)
+  return Array.from({ length: Math.min(count, pool.length) }, (_, i) => pool[(start + i) % pool.length])
+}
+
+/**
+ * Spreads extra names evenly through an already-authored (unshuffled) enemy
+ * deck list, rather than appending them at the end — enemyDeckNames decks
+ * draw in array order, so a card appended after a 15-20 card authored deck
+ * would rarely be drawn before the battle ends.
+ */
+export function interleaveAnswerCards(base: string[], extras: string[]): string[] {
+  if (extras.length === 0) return base
+  const result = [...base]
+  extras.forEach((name, i) => {
+    const pos = Math.min(result.length, Math.round(((i + 1) * result.length) / (extras.length + 1)))
+    result.splice(pos, 0, name)
+  })
+  return result
+}
+
 /**
  * Compute the NewGameOptions fields that depend on node data, act modifiers,
  * the player's run count, and (new, #2291) the player's deck-power tier
@@ -231,13 +282,25 @@ export function resolvedNodeOpts(
     ? Math.min(1.0, 0.5 + (runCount - 1) * 0.1)
     : undefined
 
+  // Append answer cards for the player's deck shape, spread through the
+  // authored deck rather than only tacked on the end. Only nodes with an
+  // authored enemyDeck get this — a node without one already draws from the
+  // full handicap-filtered catalogue via generateBalancedOpponentDeck, which
+  // has no fixed array to interleave into.
+  const answers = node.enemyDeck?.length
+    ? answerCardsFor(classifyDeckShape(playerCards), effectiveTier, node.id)
+    : []
+  const enemyDeckNames = answers.length > 0
+    ? interleaveAnswerCards(node.enemyDeck!, answers)
+    : node.enemyDeck
+
   return {
     opponentHandicap: adjustedHandicap,
     bossAI: node.bossAI,
     bossCard: node.bossCard,
     bossName: node.bossName,
     bossHpMultiplier: node.bossHpMultiplier,
-    enemyDeckNames: node.enemyDeck,
+    enemyDeckNames,
     terrainSeed: node.id,
     environment: node.environment ?? act?.environment,
     roads: node.roads ?? act?.roads,

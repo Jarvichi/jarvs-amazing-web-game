@@ -171,6 +171,7 @@
       "enemyDeck": [
         "Frost Runner",
         "Rime Herald",
+        "Bandit",
         "Waiting Scout",
         "Frost Sconce"
       ]
@@ -195,6 +196,7 @@
       "enemyDeck": [
         "Frost Runner",
         "Waiting Scout",
+        "Shadow Stalker",
         "Frost Barricade",
         "Frost Guard",
         "Waited Step"
@@ -220,6 +222,7 @@
       "enemyDeck": [
         "Rime Herald",
         "Frost Sconce",
+        "Sappers",
         "Rime Watchtower",
         "Frost Guard",
         "Winter Draught"
@@ -406,6 +409,7 @@
         "Frost Guard",
         "Winter Vanguard",
         "Sealed Icehouse",
+        "Coast Leviathan",
         "Blizzard Toll",
         "Snowmelt Foundry",
         "Choir of Frost"
@@ -449,6 +453,7 @@
         "Rime Chanter",
         "Frost Automaton",
         "Snowbound Sentry",
+        "Flame Warden",
         "Winter Writ",
         "Choir of Frost",
         "Icebound Archer"
@@ -475,6 +480,7 @@
         "Frost Guard",
         "Frost Barricade",
         "Rime Watchtower",
+        "Glacier Titan",
         "Winter Courier",
         "Blizzard Toll",
         "Icebound Archer"
@@ -501,6 +507,7 @@
         "Winter Courier",
         "Choir of Frost",
         "Frostbound Knight",
+        "Iron Colossus",
         "Winter Writ",
         "Snowbound Sentry",
         "Rime Chanter"
@@ -551,6 +558,7 @@
         "The Frost Regent",
         "Winter Vanguard",
         "Frostbound Knight",
+        "Mushroom Hulk",
         "The Waited Cold",
         "Choir of Frost",
         "Snowbound Sentry",
@@ -584,6 +592,7 @@
       "enemyDeck": [
         "Frost Runner",
         "Waiting Scout",
+        "Rogue",
         "Frost Guard",
         "Waited Step",
         "Frost Sconce"
@@ -609,6 +618,7 @@
       "enemyDeck": [
         "Frost Guard",
         "Sealed Icehouse",
+        "Mycelium Hulk",
         "Blizzard Toll",
         "Snowmelt Foundry",
         "Choir of Frost"
@@ -633,6 +643,7 @@
       "enemyDeck": [
         "Frost Guard",
         "Frost Barricade",
+        "Volcanic Golem",
         "Winter Courier",
         "Icebound Archer",
         "Rime Watchtower"
@@ -657,6 +668,7 @@
       "enemyDeck": [
         "Winter Courier",
         "Blizzard Toll",
+        "Flame Warden",
         "Choir of Frost",
         "Snowbound Sentry",
         "Icebound Archer"
@@ -681,6 +693,7 @@
       "enemyDeck": [
         "Rime Chanter",
         "Frost Automaton",
+        "Volcanic Golem",
         "Snowbound Sentry",
         "Winter Writ",
         "Frost Barricade"
@@ -706,6 +719,7 @@
       "enemyDeck": [
         "Winter Vanguard",
         "Rime Chanter",
+        "Wreck Golem",
         "Choir of Frost",
         "Winter Writ",
         "Frost Automaton"

@@ -7,6 +7,7 @@ import {
   analyseDeckPower,
   cardPowerRatio,
   cardPowerScore,
+  classifyDeckShape,
   deckPower,
   deckPowerBand,
   effectiveCost,
@@ -323,5 +324,51 @@ describe('calibration against the real card catalogue', () => {
       expect(Number.isFinite(score), `${c.name} scored ${score}`).toBe(true)
       expect(score, `${c.name} scored ${score}`).toBeGreaterThan(0)
     }
+  })
+})
+
+// ─── classifyDeckShape (#2292) ─────────────────────────────
+
+describe('classifyDeckShape', () => {
+  it('calls an empty deck balanced rather than throwing', () => {
+    expect(classifyDeckShape([])).toBe('balanced')
+  })
+
+  it('classifies a structure-heavy deck as structure — the god-deck shape', () => {
+    const deck = buildDeckCards([
+      { cardName: 'Barracks', count: 4 }, { cardName: 'Bat Cave', count: 4 },
+      { cardName: 'Fairy Ring', count: 4 }, { cardName: 'Bandit Camp', count: 4 },
+    ])
+    expect(classifyDeckShape(deck)).toBe('structure')
+  })
+
+  it('classifies a deck of mostly cost ≤2 units as swarm', () => {
+    const deck = buildDeckCards([{ cardName: 'Goblin', count: 4 }, { cardName: 'Archer', count: 4 }])
+    expect(classifyDeckShape(deck)).toBe('swarm')
+  })
+
+  it('classifies a high-average-cost deck as bigUnit', () => {
+    const deck: Card[] = getCardCatalog()
+      .filter(c => c.cardType === 'unit' && c.cost >= 5)
+      .slice(0, 10)
+    expect(deck.length).toBeGreaterThan(0)
+    expect(classifyDeckShape(deck)).toBe('bigUnit')
+  })
+
+  it('falls back to balanced for a deck fitting no dominant plan', () => {
+    // A genuine curve: no structure majority, no cheap-unit majority, no high average cost.
+    const deck = buildDeckCards([
+      { cardName: 'Barracks', count: 2 },   // structure, but nowhere near the 40% threshold
+      { cardName: 'Knight', count: 4 },     // cost 3+ — not a swarm unit
+      { cardName: 'Wizard', count: 4 },
+      { cardName: 'Sharpen Blades', count: 2 },
+    ])
+    expect(classifyDeckShape(deck)).toBe('balanced')
+  })
+
+  it('prioritises structure over bigUnit when a deck is both expensive and structure-heavy', () => {
+    // Siege Works (cost 4) + Death Tower (cost 4): 100% structure AND avg cost 4 — still 'structure'.
+    const deck = buildDeckCards([{ cardName: 'Siege Works', count: 4 }, { cardName: 'Death Tower', count: 4 }])
+    expect(classifyDeckShape(deck)).toBe('structure')
   })
 })

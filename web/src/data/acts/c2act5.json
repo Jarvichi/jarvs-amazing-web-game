@@ -169,6 +169,7 @@
       "enemyDeck": [
         "Wick Runner",
         "Candle Acolyte",
+        "Rogue",
         "Lamplighter Cadet",
         "Watch Lamp"
       ]
@@ -192,6 +193,7 @@
       "enemyDeck": [
         "Wick Runner",
         "Lamplighter Cadet",
+        "Rogue",
         "Wax Barricade",
         "Wax Bearer",
         "Swift Wick"
@@ -219,6 +221,7 @@
       "enemyDeck": [
         "Candle Acolyte",
         "Sconce Archer",
+        "Flame Warden",
         "Watch Lamp",
         "Sealed Sconce",
         "Tallow Balm"
@@ -403,6 +406,7 @@
         "Company Sergeant",
         "Wax Bearer",
         "Beacon Tower",
+        "Mycelium Hulk",
         "Sealed Sconce",
         "Vigil Oil",
         "Curfew Bell"
@@ -446,6 +450,7 @@
         "Choir of Watch Flames",
         "Hollow Snuffer",
         "Candle Automaton",
+        "Glacier Titan",
         "Company Courier",
         "Wick Oil Cache",
         "Tallow Balm"
@@ -472,6 +477,7 @@
         "Wax Bearer",
         "Wax Barricade",
         "Beacon Tower",
+        "Bandit",
         "Company Courier",
         "Vigil Oil",
         "Sconce Archer"
@@ -498,6 +504,7 @@
         "Wickbound Knight",
         "Company Courier",
         "Candle Automaton",
+        "Rogue",
         "Curfew Bell",
         "Wick Oil Cache",
         "Hollow Snuffer"
@@ -548,6 +555,7 @@
         "The Lamplighter General",
         "Company Sergeant",
         "Wickbound Knight",
+        "Leviathan",
         "The Unbound Flame",
         "Choir of Watch Flames",
         "Beacon Sentry",
@@ -580,6 +588,7 @@
       "enemyDeck": [
         "Wick Runner",
         "Lamplighter Cadet",
+        "Rogue",
         "Watch Lamp",
         "Wax Bearer",
         "Swift Wick"
@@ -604,6 +613,7 @@
       "enemyDeck": [
         "Wax Bearer",
         "Wax Barricade",
+        "Ancient Treant",
         "Beacon Tower",
         "Sconce Archer",
         "Vigil Oil"
@@ -628,6 +638,7 @@
       "enemyDeck": [
         "Company Courier",
         "Curfew Bell",
+        "Desert Titan",
         "Candle Automaton",
         "Wax Bearer",
         "Sconce Archer"
@@ -652,6 +663,7 @@
       "enemyDeck": [
         "Hollow Snuffer",
         "Wick Oil Cache",
+        "Troll",
         "Company Courier",
         "Wax Barricade",
         "Beacon Tower"

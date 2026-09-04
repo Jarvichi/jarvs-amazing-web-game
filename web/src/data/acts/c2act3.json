@@ -172,6 +172,7 @@
       "enemyDeck": [
         "Field Gleaner",
         "Wheatrow Runner",
+        "Troll",
         "Scarecrow Watch",
         "Sheaf-Bread"
       ]
@@ -195,6 +196,7 @@
       "enemyDeck": [
         "Field Gleaner",
         "Granary Archer",
+        "Bandit",
         "Grain Palisade",
         "Wheatrow Runner",
         "Harvest Haste"
@@ -219,6 +221,7 @@
       "enemyDeck": [
         "Sickle-Line Reaper",
         "Field Gleaner",
+        "Ancient Treant",
         "Sheaf Cairn",
         "Blight-Torch Warden",
         "Sheaf-Bread"
@@ -402,6 +405,7 @@
         "Queen's Reap-Guard",
         "Sickle-Line Reaper",
         "Effigy Granary",
+        "Desert Titan",
         "Sheaf Cairn",
         "Ledger of Gleanings",
         "Granary Bell"
@@ -445,6 +449,7 @@
         "Chorus of the Threshing Floor",
         "Blight-Torch Warden",
         "Memory-Wheat Silo",
+        "Bandit",
         "Unremembered Harvester",
         "Mistwheat Veil",
         "Sheaf-Bread"
@@ -471,6 +476,7 @@
         "Sickle-Line Reaper",
         "Grain Palisade",
         "Watchtower Scarecrow",
+        "Flame Warden",
         "Unremembered Harvester",
         "Ledger of Gleanings",
         "Granary Archer"
@@ -497,6 +503,7 @@
         "Threshing Rider",
         "Wheatrow Runner",
         "Effigy Granary",
+        "Shipwreck Golem",
         "Harvest Haste",
         "Mistwheat Veil",
         "Field Gleaner"
@@ -547,6 +554,7 @@
         "The Gleaner Queen",
         "Knight of the Granary",
         "Queen's Reap-Guard",
+        "Rot Titan",
         "Effigy Watch",
         "Watchtower Scarecrow",
         "Granary Bell",
@@ -579,6 +587,7 @@
       "enemyDeck": [
         "Granary Archer",
         "Wheatrow Runner",
+        "Dark Elf",
         "Grain Palisade",
         "Field Gleaner",
         "Harvest Haste"
@@ -603,6 +612,7 @@
       "enemyDeck": [
         "Sickle-Line Reaper",
         "Granary Archer",
+        "Shadow Stalker",
         "Sheaf Cairn",
         "Field Gleaner",
         "Sheaf-Bread"
@@ -627,6 +637,7 @@
       "enemyDeck": [
         "Sickle-Line Reaper",
         "Grain Palisade",
+        "Rogue",
         "Unremembered Harvester",
         "Ledger of Gleanings",
         "Watchtower Scarecrow"
@@ -651,6 +662,7 @@
       "enemyDeck": [
         "Threshing Rider",
         "Wheatrow Runner",
+        "Lava Troll",
         "Effigy Granary",
         "Harvest Haste",
         "Mistwheat Veil"
