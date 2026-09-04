@@ -26,6 +26,16 @@ import { handleSuddentDeath } from './engine/suddenDeath'
 
 // ─── New Game ────────────────────────────────────────────
 
+/**
+ * `handicap` (and this cap) is dead for campaign battles — `enemyTier`
+ * (campaignHelpers.ts, #2291) replaced it there, since `newGame()` below
+ * only ever reads `opponentHandicap` when a node supplies neither
+ * `enemyDeckNames` nor `opponentIntervalMs`, which every authored campaign
+ * node does. It survives here because it's still Quick Battle's real,
+ * live difficulty mechanism: `maxRarityForHandicap`/`opponentIntervalForHandicap`
+ * below, and `buildQuickBattleOpts`/`loadHandicap` in campaignHelpers.ts, all
+ * key off it directly and have no `enemyTier` equivalent. Do not remove.
+ */
 export const MAX_HANDICAP = 20
 
 /**

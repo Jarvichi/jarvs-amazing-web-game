@@ -13,7 +13,7 @@ function pickQBEnvironment(): string {
   return QB_ENVIRONMENTS[Math.floor(Math.random() * QB_ENVIRONMENTS.length)]
 }
 import {
-  buildDeckCards, DECK_MAX, STARTER_DECK, deckTotalCards,
+  buildDeckCards, STARTER_DECK, deckTotalCards,
   generateSeededPack, loadCollection, loadDeck,
 } from './collection'
 
@@ -23,14 +23,27 @@ export type QuickBattleMode =
   | 'common-only' | 'uncommon-only' | 'rare-only' | 'legendary-only' | 'hero-only'
   | 'draft'
 
+/**
+ * Quick Battle's difficulty softener for a weak deck (#2296). Used to scale
+ * with how far short of DECK_MAX the deck fell — which had the sign
+ * backwards: per deckPower.ts's consistency bonus, a SMALLER deck draws its
+ * best cards more reliably and is therefore stronger, so a short deck was
+ * getting an easier opponent for being the stronger side. This keys on the
+ * deck's actual power band instead: a Recruit-band deck gets real help, a
+ * Mythic-band deck gets none — it doesn't need it.
+ */
+export function quickBattleDeckBonus(playerCards: Card[]): number {
+  const tier = currentPlayerBandTier(playerCards)
+  return Math.max(0, (5 - tier) * 3)
+}
+
 export function loadCurrentDeckInfo(): { playerCards: Card[]; deckBonus: number } {
   const collection  = loadCollection()
   const deckEntries = loadDeck()
   const deckCount   = deckTotalCards(deckEntries)
   const effectiveDeck = deckCount > 0 ? deckEntries : STARTER_DECK
   const playerCards   = buildDeckCards(effectiveDeck, collection)
-  const deckBonus = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
-  return { playerCards, deckBonus }
+  return { playerCards, deckBonus: quickBattleDeckBonus(playerCards) }
 }
 
 export function buildQuickBattleOpts(
@@ -42,7 +55,7 @@ export function buildQuickBattleOpts(
   const deckCount     = deckTotalCards(deckEntries)
   const effectiveDeck = deckCount > 0 ? deckEntries : STARTER_DECK
   const playerCards   = buildDeckCards(effectiveDeck, collection)
-  const deckBonus     = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
+  const deckBonus     = quickBattleDeckBonus(playerCards)
   const adjustedHandicap = Math.min(MAX_HANDICAP, handicap + deckBonus)
 
   const environment = pickQBEnvironment()
@@ -238,20 +251,16 @@ export function interleaveAnswerCards(base: string[], extras: string[]): string[
 
 /**
  * Compute the NewGameOptions fields that depend on node data, act modifiers,
- * the player's run count, and (new, #2291) the player's deck-power tier
- * relative to what the act expects.
+ * the player's deck-power tier relative to what the act expects (#2291), and
+ * (bossSpawnKillPct only) the player's run count.
  *
- * Run count still drives the pre-existing handicap reduction below — that
- * lever is dead (campaign `handicap` is never read once a node has
- * `enemyDeckNames`/`opponentIntervalMs`, which every authored node does) and
- * is scheduled for removal in #2296, once every difficulty consumer has
- * moved onto `enemyTier`. Left untouched here so this diff stays readable:
- *
- *   run 1 → handicap 7, HP 82
- *   run 2 → handicap 5, HP 92
- *   run 3 → handicap 3, HP 102
- *   run 4 → handicap 1, HP 112
- *   run 5+ → handicap 0, HP 122+
+ * `node.handicap` is passed straight through unreduced — `opponentHandicap`
+ * is dead for every authored campaign node regardless (newGame() only reads
+ * it when a node supplies neither `enemyDeckNames` nor `opponentIntervalMs`,
+ * which every authored node does). The run-count-scaled reduction that used
+ * to sit here punished nothing real and is gone (#2296) — `enemyTier`'s
+ * deck-power delta is the actual difficulty lever now, and it responds to
+ * the deck the player brought, not to how many times they've hit retry.
  *
  * `playerCards` should be the actual battle deck (post-mastery,
  * post-augments — what `buildDeckCards()` returns) so the tier resolution
@@ -266,9 +275,6 @@ export function resolvedNodeOpts(
   modifiers: ReplayModifier[],
   playerCards: Card[] = [],
 ): Omit<NewGameOptions, 'playerCards'> {
-  const extra = Math.max(0, runCount - 1)
-  const handicapReduction = Math.min(extra * 2, MAX_HANDICAP)
-
   // Stack modifier values
   let hpPctBonus = 0
   let intervalReduction = 0
@@ -279,7 +285,7 @@ export function resolvedNodeOpts(
     if (m.type === 'enemyHandBonus') handBonus += m.value
   }
 
-  const adjustedHandicap = Math.max(0, (node.handicap ?? 0) - handicapReduction)
+  const adjustedHandicap = node.handicap ?? 0
   // Boss default HP is 95; non-boss 82 (mirrors engine.ts defaults)
   const defaultHp = node.bossAI ? 95 : 82
   const baseHp = node.opponentBaseHp ?? defaultHp
