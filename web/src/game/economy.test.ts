@@ -8,6 +8,9 @@ import {
   bulkCardCost,
   ticketPrizeCrystalValue,
   ticketPrizeRoi,
+  crystalTierMultiplier,
+  tierBoostedRarity,
+  OVERQUALIFIED_BONUS_PACKS,
 } from './economy'
 import economyRaw from '../data/economy.json'
 import type { CardRarity } from './types'
@@ -204,5 +207,56 @@ describe('ticketPrizeRoi', () => {
 
   it('returns Infinity when ticketCost is 0', () => {
     expect(ticketPrizeRoi(0, { type: 'crystals', amount: 10 })).toBe(Infinity)
+  })
+})
+
+// ── Tier reward scaling (#2291/#2294) ─────────────────────────────────────────
+
+describe('crystalTierMultiplier', () => {
+  it('is exactly 1.0 at tier 2 — the authored baseline pays exactly today\'s rewards', () => {
+    expect(crystalTierMultiplier(2)).toBe(1.0)
+  })
+
+  it('pays less at tier 1 and progressively more at tiers 3-5', () => {
+    expect(crystalTierMultiplier(1)).toBeCloseTo(0.75)
+    expect(crystalTierMultiplier(3)).toBeCloseTo(1.25)
+    expect(crystalTierMultiplier(4)).toBeCloseTo(1.5)
+    expect(crystalTierMultiplier(5)).toBeCloseTo(1.75)
+  })
+
+  it('is monotonically increasing with tier', () => {
+    for (let t = 1; t < 5; t++) {
+      expect(crystalTierMultiplier(t + 1)).toBeGreaterThan(crystalTierMultiplier(t))
+    }
+  })
+})
+
+describe('tierBoostedRarity', () => {
+  it('never boosts below the rarity-floor-boost tier (4)', () => {
+    expect(tierBoostedRarity('common', 1)).toBe('common')
+    expect(tierBoostedRarity('common', 2)).toBe('common')
+    expect(tierBoostedRarity('common', 3)).toBe('common')
+  })
+
+  it('boosts one rarity step at tier 4 and 5', () => {
+    expect(tierBoostedRarity('common', 4)).toBe('uncommon')
+    expect(tierBoostedRarity('uncommon', 4)).toBe('rare')
+    expect(tierBoostedRarity('rare', 5)).toBe('epic')
+  })
+
+  it('caps at legendary — never reaches a secret rarity', () => {
+    expect(tierBoostedRarity('legendary', 5)).toBe('legendary')
+  })
+
+  it('leaves a secret rarity (mythic/shiny/etc.) untouched, not bumped past legendary', () => {
+    expect(tierBoostedRarity('mythic', 5)).toBe('mythic')
+    expect(tierBoostedRarity('shiny', 5)).toBe('shiny')
+  })
+})
+
+describe('OVERQUALIFIED_BONUS_PACKS', () => {
+  it('is a positive integer sourced from economy.json', () => {
+    expect(OVERQUALIFIED_BONUS_PACKS).toBeGreaterThan(0)
+    expect(Number.isInteger(OVERQUALIFIED_BONUS_PACKS)).toBe(true)
   })
 })

@@ -1,6 +1,12 @@
 {
   "_comment": "Single source of truth for all economy values. Edit numbers here, not in .ts files.",
   "crystalPackCost": 250,
+  "tierRewardScaling": {
+    "_comment": "Campaign battle rewards scale with effectiveTier (#2291/#2294) — a harder fight pays more, automatically. Tier 2 is the authored baseline (multiplier 1.0); tier 1 pays less, tiers 3-5 pay more.",
+    "crystalMultiplierStep": 0.25,
+    "rarityFloorBoostTier": 4,
+    "overqualifiedBonusPacks": 1
+  },
   "disenchantValue": {
     "common": 5,
     "uncommon": 15,

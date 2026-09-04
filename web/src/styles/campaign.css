@@ -792,6 +792,11 @@
   min-width: 220px;
 }
 
+.ac-overqualified {
+  min-width: 220px;
+  max-width: 320px;
+}
+
 .ac-relic-label {
   font-size: 0.571rem;
   color: var(--game-text-color-muted);

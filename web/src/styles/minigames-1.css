@@ -35,6 +35,7 @@
 .ld-sub,
 .reward-sub,
 .ac-relic-desc,
+.ac-overqualified-desc,
 .rbm-relic-desc {
   font-size: var(--font-sm);
   color: var(--game-text-color-muted);

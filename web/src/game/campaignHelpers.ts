@@ -5,6 +5,7 @@ import { shuffle } from './engine/helpers'
 import { HERO_CARDS, makeNodeDeck, getCardCatalog } from './cards'
 import { analyseDeckPower, classifyDeckShape, DeckShape } from './deckPower'
 import { loadPlayerStats } from './playerStats'
+import { crystalTierMultiplier } from './economy'
 import answerCardsData from '../data/answerCards.json'
 
 const QB_ENVIRONMENTS = ['forest', 'farmland', 'ruins', 'ashen', 'sand', 'volcano', 'citadel', 'coast', 'frost', 'fungal', 'vault', 'camp'] as const
@@ -124,9 +125,13 @@ export function nodeEnemyTier(node: QuestNode): number {
  * NodePeekModal's "why is this harder/easier" display, so both read the
  * exact same delta.
  */
+/** Exposed separately from effectiveTierFor so callers like the "overqualified" act-clear bonus (#2294) can key off it directly. */
+export function deckDeltaFor(playerBandTier: number, expectedBand: number): number {
+  return Math.max(-1, Math.min(2, playerBandTier - expectedBand))
+}
+
 export function effectiveTierFor(nodeTier: number, playerBandTier: number, expectedBand: number): number {
-  const deckDelta = Math.max(-1, Math.min(2, playerBandTier - expectedBand))
-  return Math.max(1, Math.min(5, nodeTier + deckDelta))
+  return Math.max(1, Math.min(5, nodeTier + deckDeltaFor(playerBandTier, expectedBand)))
 }
 
 export function resolveEffectiveTier(node: QuestNode, act: Act | undefined, playerBandTier: number): number {
@@ -139,6 +144,20 @@ export function currentPlayerBandTier(playerCards: Card[]): number {
     archetype: loadPlayerArchetype(),
     maxMana: loadPlayerStats().maxMana,
   }).band.tier
+}
+
+const TIER_NUMERAL = ['', 'I', 'II', 'III', 'IV', 'V']
+
+/**
+ * Reward-screen label for a tier-scaled reward — undefined at tier 2, since
+ * that's the unscaled baseline and has nothing to explain. A silent bonus
+ * (or penalty) teaches the player nothing; this is what makes the deal
+ * ("harder fight, better reward") visible rather than a mystery multiplier.
+ */
+export function tierRewardLabel(effectiveTier: number): string | undefined {
+  if (effectiveTier === 2) return undefined
+  const mult = crystalTierMultiplier(effectiveTier).toFixed(2).replace(/0+$/, '').replace(/\.$/, '')
+  return `TIER ${TIER_NUMERAL[effectiveTier]} · ×${mult} crystals`
 }
 
 interface TierEffect {
