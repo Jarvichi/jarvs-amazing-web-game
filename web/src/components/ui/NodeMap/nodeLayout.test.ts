@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { nodeCenter, snapToTile, elbowCorners, edgeCorners, cornerPolyline,
-  fillCornerPath, worldWalkRoute, type PixelPoint } from './nodeLayout'
+  fillCornerPath, worldWalkRoute, bandOffsetY, type PixelPoint } from './nodeLayout'
 import type { QuestNode } from '../../../game/questline'
 import { TILE_SIZE } from '../../../data/tiles/tileIndex'
 
@@ -51,6 +51,25 @@ describe('nodeCenter', () => {
         }
       }
     }
+  })
+
+  // The map is drawn across the whole container, taller than the act's own
+  // rows, and the rows are centred in it by this offset. A node that landed off
+  // a tile centre would sit half a tile away from its own road.
+  it('stays on a tile centre when the row band is offset', () => {
+    for (const worldHeight of [288, 400, 512, 663, 709]) {
+      const offsetY = bandOffsetY(worldHeight, 288)
+      for (const col of [0, 1, 2]) {
+        expect(onTileCentre(nodeCenter(1, col, 3, 3, offsetY).y)).toBe(true)
+      }
+    }
+  })
+
+  it('shifts every row by exactly the offset', () => {
+    const plain  = nodeCenter(2, 1, 4, 4)
+    const offset = nodeCenter(2, 1, 4, 4, 96)
+    expect(offset.y - plain.y).toBe(96)
+    expect(offset.x).toBe(plain.x)
   })
 
   it('keeps distinct columns on distinct tiles', () => {
@@ -166,5 +185,26 @@ describe('world walk route', () => {
     }
     const route = worldWalkRoute(isolated, 'a', 'z', { x: 100, y: 100 })
     expect(route[route.length - 1]).toEqual({ x: 600, y: 400 })
+  })
+})
+
+describe('bandOffsetY', () => {
+  it('centres the row band in a taller canvas', () => {
+    // 288-tall band on a 512-tall canvas: 112 of slack each side, floored to
+    // whole tiles.
+    expect(bandOffsetY(512, 288)).toBe(96)
+    // 187.5 of slack each side, floored to 5 whole tiles.
+    expect(bandOffsetY(663, 288)).toBe(160)
+  })
+
+  it('is always a whole number of tiles', () => {
+    for (let worldHeight = 288; worldHeight <= 800; worldHeight += 7) {
+      expect(bandOffsetY(worldHeight, 288) % TILE_SIZE).toBe(0)
+    }
+  })
+
+  it('never pulls the band off the top of a canvas no taller than it', () => {
+    expect(bandOffsetY(288, 288)).toBe(0)
+    expect(bandOffsetY(200, 288)).toBe(0)
   })
 })

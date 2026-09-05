@@ -26,13 +26,28 @@ export function snapToTile(v: number): number {
 // The single source of truth for where a grid-mode node sits. Node markers, road
 // tiles and connector beziers all read from this, so they cannot drift apart.
 export function nodeCenter(
-  rowIndex: number, col: number, rowCols: number, maxRowCols: number,
+  rowIndex: number, col: number, rowCols: number, maxRowCols: number, offsetY = 0,
 ): { x: number; y: number } {
   const vrow = (maxRowCols - rowCols) / 2 + col
   return {
     x: snapToTile(AVATAR_PADDING + rowIndex * (COL_WIDTH + CONN_W) + COL_WIDTH / 2),
-    y: snapToTile((vrow + 0.5) * ROW_HEIGHT),
+    y: snapToTile((vrow + 0.5) * ROW_HEIGHT + offsetY),
   }
+}
+
+/**
+ * Vertical offset that centres a `mapHeight`-tall band of rows on a taller
+ * canvas. An act only occupies maxRowCols lanes — three of them for Act IX —
+ * so on a phone the map used to float in the middle of its container with a
+ * band of dead black above and below. Drawing terrain across the whole
+ * container and centring the rows in it fills the screen without having to
+ * zoom in so far that the next node falls off the side.
+ *
+ * Snapped to whole tiles, so nodeCenter's tile-centre guarantee — and the road
+ * tiles laid at floor(y / TILE_SIZE) that depend on it — survive the shift.
+ */
+export function bandOffsetY(worldHeight: number, mapHeight: number): number {
+  return Math.max(0, Math.floor((worldHeight - mapHeight) / 2 / TILE_SIZE) * TILE_SIZE)
 }
 
 export function startPos(mapHeight: number): { x: number; y: number } {
