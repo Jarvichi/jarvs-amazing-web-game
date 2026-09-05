@@ -149,7 +149,35 @@
   gap: 0;
   min-height: 0;
   animation: fadeIn 0.2s ease-out;
+  /* Anchors .nm-hud, which overlays the bottom of the map area. */
+  position: relative;
+  /* Height .nm-map reserves as bottom padding for that strip. One value so the
+     band and the space kept clear for it cannot drift apart. */
+  --nm-hud-band: calc(30px + env(safe-area-inset-bottom, 0px));
 }
+
+/* ── HUD strip ──
+   HP and lives used to sit in a bordered toolbar band below the map, which
+   cost ~110px of a phone screen to show two small readouts. They now ride the
+   map's own bottom edge, over a fade that keeps them legible on bright
+   terrain. pointer-events: none so the map still scrolls under the fade —
+   nothing in here is clickable. */
+.nm-hud {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 10px var(--container-pad-x) max(env(safe-area-inset-bottom, 0px), 4px);
+  background: linear-gradient(to top, rgba(4, 10, 4, 0.92) 55%, transparent);
+  pointer-events: none;
+}
+
+/* Left-aligned and elastic here: NodeMapHpBar is shared with layouts that push
+   it to the right against a fixed 100px track. */
+.nm-hud .nm-hp-area { margin-left: 0; flex: 1; min-width: 0; }
+.nm-hud .nm-hp-track { width: auto; flex: 1; }
+.nm-hud .nm-lives-area { margin-left: 0; }
 
 /* ── Header ── */
 
