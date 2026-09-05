@@ -15,6 +15,7 @@ import { NodeMapHpBar } from '../../campaign/NodeMapHpBar'
 import { ToolbarSpacer } from '../../ui/Toolbar/ToolbarSpacer'
 import { ToolbarLabel } from '../../ui/Toolbar/ToolbarLabel'
 import { usePixiApp } from '../../../hooks/usePixiApp'
+import { useMeasuredHeight } from '../../../hooks/useMeasuredHeight'
 import { loadSpriteTexture, loadAnimFrames, loadTextureUrl, loadTileTexture, makeClickable, tweenAlongPath } from '../../../utils/pixiHelpers'
 import { ENV_TILES, TILE_SIZE, type EnvTileDef } from '../../../data/tiles/tileIndex'
 import { WORLD_ENV_TILES, WORLD_DECOR_FILE } from '../../../data/tiles/worldTileIndex'
@@ -53,6 +54,30 @@ const WALK_SPEED     = (COL_WIDTH + CONN_W) / WALK_DURATION
 const WALK_MIN_MS    = 400
 const WALK_MAX_MS    = 2400
 const NODE_RADIUS    = 22
+// How far the grid map may be scaled up to fill its container. The act map is a
+// short wide strip (maxRowCols * ROW_HEIGHT tall — 384px for every act shipped
+// so far), so on a phone it used to float in the middle of a much taller box
+// with a band of dead black above and below it. Scaling trades map *width* on
+// screen for size, which suits a map the player scrolls through a column at a
+// time anyway; 1.6 is where the gain stops being worth the columns it costs.
+const MAX_MAP_ZOOM   = 1.6
+
+/** Height the map has to fill: the scroll container's content box. Read from
+ *  computed style rather than mirrored constants so the padding (and the band
+ *  it reserves for the HUD strip) stays owned by the CSS. */
+function availableMapHeight(el: HTMLElement): number {
+  const cs = getComputedStyle(el)
+  return el.clientHeight - parseFloat(cs.paddingTop || '0') - parseFloat(cs.paddingBottom || '0')
+}
+
+/** Renders the (unchanged) world-coordinate scene at `zoom` device px per world
+ *  px. World geometry, hit areas and walk routes stay in world units — Pixi's
+ *  stage transform maps pointer input through it for free. */
+function applyMapZoom(app: PIXI.Application, zoom: number, mapWidth: number, mapHeight: number): void {
+  if (!app.renderer) return
+  app.stage.scale.set(zoom)
+  app.renderer.resize(mapWidth * zoom, mapHeight * zoom)
+}
 
 // ── Game logic helpers ────────────────────────────────────────────────────────
 
@@ -673,9 +698,34 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
   const avatarNodeIdRef = useRef<string>(getCurrentWorldLocation())
   const deadRef      = useRef(false)
 
+  // Grid map only: how far the scene is scaled up to fill the scroll container.
+  // The world map is already sized to its own art and stays at 1.
+  const measuredMapHeight = useMeasuredHeight(mapRef)
+  const [zoom, setZoom]   = useState(1)
+  const zoomRef           = useRef(zoom)
+  zoomRef.current         = zoom
+
   // Always-current state for use inside async PixiJS callbacks
   const stateRef = useRef({ availableIds, reachableIds, hiddenNodeIds, run })
   stateRef.current = { availableIds, reachableIds, hiddenNodeIds, run }
+
+  useEffect(() => {
+    const el = mapRef.current
+    if (isFreeform || !el || !measuredMapHeight) return
+    const fit  = availableMapHeight(el) / mapHeight
+    // Two decimals: a sub-percent difference is invisible but would churn the
+    // renderer resize on every fractional layout shift.
+    const next = Math.min(MAX_MAP_ZOOM, Math.max(1, Math.round(fit * 100) / 100))
+    setZoom(prev => (prev === next ? prev : next))
+  }, [measuredMapHeight, mapHeight, isFreeform])
+
+  // Apply zoom changes after the first build. The initial value is applied by
+  // the build itself (the app does not exist yet when this first runs).
+  useEffect(() => {
+    const app = appRef.current
+    if (isFreeform || !app) return
+    applyMapZoom(app, zoom, mapWidth, mapHeight)
+  }, [zoom, mapWidth, mapHeight, isFreeform])
 
   useEffect(() => () => { deadRef.current = true }, [])
 
@@ -1005,6 +1055,11 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
     avatarRef.current = avatar
 
     app.ticker.add(() => { worldLayer.sortChildren(); nodeLayer.sortChildren() })
+
+    // The container is measured while this async build runs, so the zoom is
+    // usually already known by the time it finishes — apply it here rather than
+    // letting the first frame paint at 1 and jump.
+    applyMapZoom(app, zoomRef.current, mapWidth, mapHeight)
   })
 
   // Show/hide bezier path overlays
@@ -1040,8 +1095,8 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
     if (ri < 0) return
     const rowNodes = rows[ri]
     const pos = nodePosition(ri, node, rowNodes[0]?.rowCols ?? rowNodes.length, maxRowCols)
-    mapEl.scrollLeft = pos.x - mapEl.clientWidth / 2
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+    mapEl.scrollLeft = pos.x * zoom - mapEl.clientWidth / 2
+  }, [zoom]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Scroll to the player's current world location on mount (freeform world map)
   useEffect(() => {
@@ -1095,7 +1150,7 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
           className={`nm-map u-flex u-grow u-items-c${worldMap.environment ? ` nm-map--${worldMap.environment}` : ''}`}
           ref={mapRef}
         >
-          <div ref={canvasRef} style={{ display: 'block', flexShrink: 0, width: mapWidth, height: mapHeight, margin: 'auto' }} />
+          <div ref={canvasRef} style={{ display: 'block', flexShrink: 0, width: mapWidth * zoom, height: mapHeight * zoom, margin: 'auto' }} />
         </div>
 
   )
