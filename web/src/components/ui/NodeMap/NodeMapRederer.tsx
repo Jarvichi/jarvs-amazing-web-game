@@ -22,7 +22,7 @@ import { GIFT_OWNER_UID } from '../../../game/gifts'
 import { hashStr, envColors, parseRgba, sampleBezier, bezierBand } from '../../../utils/mapUtils'
 import { renderPathTiles } from '../../../utils/tileLookup'
 import { buildTerrainGfx, buildBgTileGfx, buildDecorGfx, buildBorderGfx } from '../../../utils/terrainLayer'
-import { NODE_ICON, NODE_LABEL, mapLabelStyle } from '../../ui/NodeMap/constants'
+import { NODE_ICON, NODE_LABEL, mapLabelStyle, LABEL_WRAP_WIDTH, LABEL_MAX_LINES } from '../../ui/NodeMap/constants'
 import { COL_WIDTH, ROW_HEIGHT, AVATAR_PADDING, CONN_W, nodeCenter, startPos,
   elbowCorners, edgeCorners, cornerPolyline, fillCornerPath, worldWalkRoute,
   type PixelPoint } from '../../ui/NodeMap/nodeLayout'
@@ -419,6 +419,26 @@ async function loadNodeIcon(node: QuestNode): Promise<PIXI.Texture | null> {
   return null
 }
 
+/**
+ * `text` clamped to LABEL_MAX_LINES once wrapped by `style`, with the overflow
+ * replaced by an ellipsis. PIXI has no max-line-count of its own, and a node
+ * name long enough to wrap onto a third line reaches into the row beneath it.
+ *
+ * Returns the string untouched if text metrics are unavailable (no 2D canvas —
+ * jsdom, a worker): an unclamped label still renders, it just runs long.
+ */
+function clampLabelLines(text: string, style: PIXI.TextStyleOptions): string {
+  try {
+    const { lines } = PIXI.CanvasTextMetrics.measureText(text, new PIXI.TextStyle(style))
+    if (lines.length <= LABEL_MAX_LINES) return text
+    // Drop the last surviving word so the ellipsis replaces a whole word rather
+    // than cutting one mid-syllable.
+    return lines.slice(0, LABEL_MAX_LINES).join('\n').replace(/\s*\S*$/, '…')
+  } catch {
+    return text
+  }
+}
+
 // Kept under half the 32px road width — with no marker pad beneath them,
 // wandering enemy sprites would otherwise stray visibly off the road.
 const WANDER_RANGE = 6
@@ -560,8 +580,10 @@ async function buildNodeMarker(
   badge.y = -ry - 3
   iconLayer.addChild(badge)
 
-  const nameLabel = new PIXI.Text({ text: node.label ?? '',
-    style: mapLabelStyle(10), resolution: 2 })
+  const nameStyle = { ...mapLabelStyle(10), align: 'center' as const,
+    wordWrap: true, wordWrapWidth: LABEL_WRAP_WIDTH }
+  const nameLabel = new PIXI.Text({ text: clampLabelLines(node.label ?? '', nameStyle),
+    style: nameStyle, resolution: 2 })
   nameLabel.anchor.set(0.5, 0)
   nameLabel.y = ry + 4
   iconLayer.addChild(nameLabel)

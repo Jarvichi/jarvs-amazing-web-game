@@ -23,3 +23,12 @@ export const NODE_LABEL: Record<string, string> = {
   event: 'EVENT', merchant: 'SHOP', memory: 'MEMORY',
   town: 'TOWN', castle: 'CASTLE', camp: 'CAMP', cave: 'CAVE', port: 'PORT',
 }
+
+// Longest a node name may run before it is wrapped, in world px. Kept just
+// inside COL_WIDTH so a name stays over its own column instead of sprawling
+// across the road art of its neighbours (or off the canvas edge, which is how
+// "Fractured Glacier Face" came to read as "ractured Glacier Face" on a phone).
+export const LABEL_WRAP_WIDTH = 120
+
+// A wrapped name is allowed two lines; a third would reach into the row below.
+export const LABEL_MAX_LINES = 2
