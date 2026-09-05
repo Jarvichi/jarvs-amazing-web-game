@@ -176,7 +176,9 @@
 /* Left-aligned and elastic here: NodeMapHpBar is shared with layouts that push
    it to the right against a fixed 100px track. */
 .nm-hud .nm-hp-area { margin-left: 0; flex: 1; min-width: 0; }
-.nm-hud .nm-hp-track { width: auto; flex: 1; }
+/* Elastic, but only up to a point: stretched across a desktop container the
+   track reads as a progress bar for the screen rather than a health bar. */
+.nm-hud .nm-hp-track { width: auto; flex: 1; max-width: 240px; }
 .nm-hud .nm-lives-area { margin-left: 0; }
 
 /* ── Header ── */

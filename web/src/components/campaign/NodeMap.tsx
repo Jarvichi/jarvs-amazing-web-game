@@ -89,7 +89,7 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
               — it wrapped onto three, taking a third of the screen off the map. */}
           <div className="toolbar-overflow-inline">{itemControls}</div>
           <div className="toolbar-overflow-dropdown">
-            <ToolbarDropdown label={`🎒 ×${totalItems}`} title="Items and active effects" align="left">
+            <ToolbarDropdown label={`🎒 Items ×${totalItems}`} title="Items and active effects" align="left">
               {itemControls}
             </ToolbarDropdown>
           </div>

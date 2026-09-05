@@ -24,7 +24,7 @@ import { hashStr, envColors, parseRgba, sampleBezier, bezierBand } from '../../.
 import { renderPathTiles } from '../../../utils/tileLookup'
 import { buildTerrainGfx, buildBgTileGfx, buildDecorGfx, buildBorderGfx } from '../../../utils/terrainLayer'
 import { NODE_ICON, NODE_LABEL, mapLabelStyle, LABEL_WRAP_WIDTH, LABEL_MAX_LINES } from '../../ui/NodeMap/constants'
-import { COL_WIDTH, ROW_HEIGHT, AVATAR_PADDING, CONN_W, nodeCenter, startPos,
+import { COL_WIDTH, ROW_HEIGHT, AVATAR_PADDING, CONN_W, nodeCenter, startPos, bandOffsetY,
   elbowCorners, edgeCorners, cornerPolyline, fillCornerPath, worldWalkRoute,
   type PixelPoint } from '../../ui/NodeMap/nodeLayout'
 import { getCurrentWorldLocation } from '../../../game/world/worldState'
@@ -61,6 +61,11 @@ const NODE_RADIUS    = 22
 // screen for size, which suits a map the player scrolls through a column at a
 // time anyway; 1.6 is where the gain stops being worth the columns it costs.
 const MAX_MAP_ZOOM   = 1.6
+// ...but never so far that the node you are standing on and the branch it leads
+// to stop fitting on screen together. Two column pitches is the choice the
+// player is actually making; a map you cannot read one step ahead on is worse
+// than a small one. On a wide screen this is never the binding constraint.
+const MIN_VISIBLE_WORLD_WIDTH = 2 * (COL_WIDTH + CONN_W)
 
 /** Height the map has to fill: the scroll container's content box. Read from
  *  computed style rather than mirrored constants so the padding (and the band
@@ -68,6 +73,30 @@ const MAX_MAP_ZOOM   = 1.6
 function availableMapHeight(el: HTMLElement): number {
   const cs = getComputedStyle(el)
   return el.clientHeight - parseFloat(cs.paddingTop || '0') - parseFloat(cs.paddingBottom || '0')
+}
+
+/** Scale for a container of this width. Two decimals: a sub-percent difference
+ *  is invisible but would churn the renderer resize on every fractional layout
+ *  shift. Never below 1 — shrinking the map to fit a small phone would make the
+ *  labels the redesign set out to fix unreadable again. */
+function mapZoomFor(el: HTMLElement): number {
+  const widthCap = el.clientWidth / MIN_VISIBLE_WORLD_WIDTH
+  return Math.max(1, Math.round(Math.min(widthCap, MAX_MAP_ZOOM) * 100) / 100)
+}
+
+/**
+ * Zoom, and the world height to draw terrain across, for the container as it is
+ * now. The world height is fixed when the scene is built: a later resize
+ * re-zooms but does not re-lay the terrain, so growing the window back can
+ * leave the band it had before this ran.
+ */
+function mapLayoutFor(el: HTMLElement, mapHeight: number): { zoom: number; worldHeight: number } {
+  const zoom = mapZoomFor(el)
+  // Floored, not snapped to a tile: bandOffsetY does the tile snapping the road
+  // geometry needs, and rounding the height itself down to 32px left a visible
+  // strip unfilled at the zooms a desktop container reaches.
+  const fill = availableMapHeight(el) / zoom
+  return { zoom, worldHeight: Math.max(mapHeight, Math.floor(fill)) }
 }
 
 /** Renders the (unchanged) world-coordinate scene at `zoom` device px per world
@@ -195,9 +224,9 @@ function lastCompletedNode(nodes: Record<string, QuestNode>, run: RunState): Que
 }
 
 function nodePosition(
-  rowIndex: number, node: QuestNode, rowCols: number, maxRowCols: number,
+  rowIndex: number, node: QuestNode, rowCols: number, maxRowCols: number, offsetY = 0,
 ): { x: number; y: number } {
-  return nodeCenter(rowIndex, node.col, rowCols, maxRowCols)
+  return nodeCenter(rowIndex, node.col, rowCols, maxRowCols, offsetY)
 }
 
 // ── Path tile renderer ────────────────────────────────────────────────────────
@@ -210,7 +239,8 @@ async function buildPathTileGfx(
   environment: string,
   rows: QuestNode[][],
   maxRowCols: number,
-  mapHeight: number,
+  worldHeight: number,
+  offsetY: number,
 ): Promise<void> {
   const T = TILE_SIZE
 
@@ -222,10 +252,10 @@ async function buildPathTileGfx(
   if (rows.length > 0) {
     const firstRow = rows[0]
     const firstRowCols = firstRow[0]?.rowCols ?? firstRow.length
-    const sp = startPos(mapHeight)
+    const sp = startPos(worldHeight)
     const startX = sp.x
     const startY = sp.y
-    const firstColCenterX = nodeCenter(0, 0, firstRowCols, maxRowCols).x
+    const firstColCenterX = nodeCenter(0, 0, firstRowCols, maxRowCols, offsetY).x
     const midX = (startX + firstColCenterX) / 2
 
     const sTx = Math.floor(startX / T), sTy = Math.floor(startY / T)
@@ -233,7 +263,7 @@ async function buildPathTileGfx(
     const fTx = Math.floor(firstColCenterX / T)
 
     for (const node of firstRow) {
-      const ny = nodeCenter(0, node.col, firstRowCols, maxRowCols).y
+      const ny = nodeCenter(0, node.col, firstRowCols, maxRowCols, offsetY).y
       const nTy = Math.floor(ny / T)
 
       for (let tx = Math.min(sTx, midTx); tx <= Math.max(sTx, midTx); tx++)
@@ -261,8 +291,8 @@ async function buildPathTileGfx(
         const childEntry = nodeRowIndex.get(childId)
         if (!childEntry || childEntry.ri <= parentEntry.ri) continue
 
-        const p = nodeCenter(parentEntry.ri, parent.col, parentEntry.rowCols, maxRowCols)
-        const c = nodeCenter(childEntry.ri, childEntry.node.col, childEntry.rowCols, maxRowCols)
+        const p = nodeCenter(parentEntry.ri, parent.col, parentEntry.rowCols, maxRowCols, offsetY)
+        const c = nodeCenter(childEntry.ri, childEntry.node.col, childEntry.rowCols, maxRowCols, offsetY)
         const parentCenterX = p.x, childCenterX = c.x
         const xMid = (parentCenterX + COL_WIDTH / 2 + childCenterX - COL_WIDTH / 2) / 2
 
@@ -334,6 +364,7 @@ function drawConnectorsGfx(
   reachableIds: Set<string>,
   hiddenNodeIds: Set<string>,
   environment: string | undefined,
+  offsetY: number,
 ): PIXI.Graphics[] {
   const cols = envColors(environment)
   const trail    = parseRgba(cols.trail)
@@ -367,8 +398,8 @@ function drawConnectorsGfx(
   }
 
   for (const { variant, parentRi, childRi, pCol, cCol, pRowCols, cRowCols } of best.values()) {
-    const p = nodeCenter(parentRi, pCol, pRowCols, maxRowCols)
-    const c = nodeCenter(childRi, cCol, cRowCols, maxRowCols)
+    const p = nodeCenter(parentRi, pCol, pRowCols, maxRowCols, offsetY)
+    const c = nodeCenter(childRi, cCol, cRowCols, maxRowCols, offsetY)
     const parentCenterX = p.x, childCenterX = c.x
     const xStart = parentCenterX + COL_WIDTH / 2
     const xEnd   = childCenterX  - COL_WIDTH / 2
@@ -701,9 +732,18 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
   // Grid map only: how far the scene is scaled up to fill the scroll container.
   // The world map is already sized to its own art and stays at 1.
   const measuredMapHeight = useMeasuredHeight(mapRef)
-  const [zoom, setZoom]   = useState(1)
-  const zoomRef           = useRef(zoom)
-  zoomRef.current         = zoom
+  // Grid map only: the scale the scene is drawn at, and the world height the
+  // terrain is laid across (>= the act's own height, so the map fills the
+  // container instead of floating in a black letterbox). Fixed when the scene
+  // is built; a later resize re-zooms only.
+  const [layout, setLayout] = useState({ zoom: 1, worldHeight: mapHeight })
+  const { zoom, worldHeight } = layout
+  const gridOffsetRef = useRef(0)
+  // Bumped each time a Pixi app becomes available, so the zoom below is applied
+  // to whichever app is live now. A boolean could not do this: Strict Mode (and
+  // a context-loss rebuild) hands us a second app after the first is destroyed,
+  // and a flag already true would not re-fire the effect for it.
+  const [appEpoch, setAppEpoch] = useState(0)
 
   // Always-current state for use inside async PixiJS callbacks
   const stateRef = useRef({ availableIds, reachableIds, hiddenNodeIds, run })
@@ -712,20 +752,15 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
   useEffect(() => {
     const el = mapRef.current
     if (isFreeform || !el || !measuredMapHeight) return
-    const fit  = availableMapHeight(el) / mapHeight
-    // Two decimals: a sub-percent difference is invisible but would churn the
-    // renderer resize on every fractional layout shift.
-    const next = Math.min(MAX_MAP_ZOOM, Math.max(1, Math.round(fit * 100) / 100))
-    setZoom(prev => (prev === next ? prev : next))
-  }, [measuredMapHeight, mapHeight, isFreeform])
+    const next = mapZoomFor(el)
+    setLayout(prev => (prev.zoom === next ? prev : { ...prev, zoom: next }))
+  }, [measuredMapHeight, isFreeform])
 
-  // Apply zoom changes after the first build. The initial value is applied by
-  // the build itself (the app does not exist yet when this first runs).
   useEffect(() => {
     const app = appRef.current
-    if (isFreeform || !app) return
-    applyMapZoom(app, zoom, mapWidth, mapHeight)
-  }, [zoom, mapWidth, mapHeight, isFreeform])
+    if (isFreeform || !app?.renderer) return
+    applyMapZoom(app, zoom, mapWidth, worldHeight)
+  }, [zoom, worldHeight, appEpoch, mapWidth, isFreeform])
 
   useEffect(() => () => { deadRef.current = true }, [])
 
@@ -733,6 +768,7 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
     // Reset liveness flag — deadRef may be true from React Strict Mode's first-mount cleanup
     deadRef.current = false
     appRef.current = app
+    setAppEpoch(n => n + 1)
     // PixiJS sets touch-action:none on the canvas; restore pan so the
     // nm-map container can still scroll when the user swipes.
     app.canvas.style.touchAction = 'pan-x pan-y'
@@ -947,6 +983,16 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
       return
     }
 
+    // Measured here rather than read from state: the container has its final
+    // size by the time this async build runs, while the state behind it lands a
+    // frame later — building against a stale height would lay the terrain for
+    // the wrong canvas and need a full rebuild to correct.
+    const built = mapRef.current ? mapLayoutFor(mapRef.current, mapHeight) : { zoom: 1, worldHeight: mapHeight }
+    const offsetY = bandOffsetY(built.worldHeight, mapHeight)
+    gridOffsetRef.current = offsetY
+    setLayout(built)
+    applyMapZoom(app, built.zoom, mapWidth, built.worldHeight)
+
     const groundLayer = new PIXI.Container()
     const worldLayer  = new PIXI.Container()
     const nodeLayer   = new PIXI.Container()
@@ -968,12 +1014,12 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
     const actEnvDef = WORLD_ENV_TILES[worldMap.environment ?? ''] ?? ENV_TILES[worldMap.environment ?? '']
     buildTerrainGfx(baseContainer, riverContainer, worldLayer,
       { environment: worldMap.environment, envDef: actEnvDef, terrainSeed: worldMap.terrainSeed, terrainItems: worldMap.terrainItems, rivers: worldMap.rivers, id: id },
-      mapWidth, mapHeight)
-    buildBgTileGfx(bgContainer, { environment: worldMap.environment, envDef: actEnvDef }, mapWidth, mapHeight)
+      mapWidth, built.worldHeight)
+    buildBgTileGfx(bgContainer, { environment: worldMap.environment, envDef: actEnvDef }, mapWidth, built.worldHeight)
       .catch(e => console.error('[NodeMap] bg tiles failed', e))
-    buildPathTileGfx(pathContainer, worldMap.environment ?? '', rows, maxRowCols, mapHeight)
+    buildPathTileGfx(pathContainer, worldMap.environment ?? '', rows, maxRowCols, built.worldHeight, offsetY)
       .catch(e => console.error('[NodeMap] path tiles failed', e))
-    buildDecorGfx(decorContainer, { environment: worldMap.environment, envDef: actEnvDef, id: id }, mapWidth, mapHeight)
+    buildDecorGfx(decorContainer, { environment: worldMap.environment, envDef: actEnvDef, id: id }, mapWidth, built.worldHeight)
       .catch(e => console.error('[NodeMap] decor tiles failed', e))
 
     // Campfire at start position
@@ -984,7 +1030,7 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
         const cf = new PIXI.Sprite(cfTex)
         cf.width = cf.height = 32
         cf.anchor.set(0.5)
-        const sp = startPos(mapHeight)
+        const sp = startPos(built.worldHeight)
         cf.position.set(sp.x, sp.y)
         cf.alpha = 0.75
         cf.zIndex = sp.y
@@ -995,7 +1041,7 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
     // Connectors
     const { availableIds: aids, reachableIds: rids, hiddenNodeIds: hids } = stateRef.current
     connGfxListRef.current = drawConnectorsGfx(worldLayer, rows, maxRowCols,
-      id => getNodeStatus(id, aids, run), rids, hids, worldMap.environment)
+      id => getNodeStatus(id, aids, run), rids, hids, worldMap.environment, offsetY)
 
     // Node markers
     for (let ri = 0; ri < rows.length; ri++) {
@@ -1004,7 +1050,7 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
       for (const node of rowNodes) {
         if (hids.has(node.id)) continue
         if (deadRef.current) return
-        const pos    = nodePosition(ri, node, rowCols, maxRowCols)
+        const pos    = nodePosition(ri, node, rowCols, maxRowCols, offsetY)
         const status = getNodeStatus(node.id, aids, run)
         const marker = await buildNodeMarker(node, status, rids.has(node.id), app, worldMap.environment)
         if (deadRef.current) return
@@ -1036,7 +1082,7 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
     avatar.anchor.set(0.5, 1)
     avatar.width = avatar.height = AVATAR_SIZE
 
-    const sp = startPos(mapHeight)
+    const sp = startPos(built.worldHeight)
     avatar.position.set(sp.x, sp.y)
 
     const lastNode = lastCompletedNode(worldMap.nodes, run)
@@ -1044,7 +1090,7 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
       const ri = rows.findIndex(row => row.some(n => n.id === lastNode.id))
       if (ri >= 0) {
         const rowNodes = rows[ri]
-        const pos = nodePosition(ri, lastNode, rowNodes[0]?.rowCols ?? rowNodes.length, maxRowCols)
+        const pos = nodePosition(ri, lastNode, rowNodes[0]?.rowCols ?? rowNodes.length, maxRowCols, offsetY)
         avatar.position.set(pos.x, pos.y)
       }
     }
@@ -1055,11 +1101,6 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
     avatarRef.current = avatar
 
     app.ticker.add(() => { worldLayer.sortChildren(); nodeLayer.sortChildren() })
-
-    // The container is measured while this async build runs, so the zoom is
-    // usually already known by the time it finishes — apply it here rather than
-    // letting the first frame paint at 1 and jump.
-    applyMapZoom(app, zoomRef.current, mapWidth, mapHeight)
   })
 
   // Show/hide bezier path overlays
@@ -1074,7 +1115,7 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
     if (!wl) return
     for (const g of connGfxListRef.current) { wl.removeChild(g); g.destroy() }
     connGfxListRef.current = drawConnectorsGfx(wl, rows, maxRowCols,
-      id => getNodeStatus(id, availableIds, run), reachableIds, hiddenNodeIds, worldMap.environment)
+      id => getNodeStatus(id, availableIds, run), reachableIds, hiddenNodeIds, worldMap.environment, gridOffsetRef.current)
     for (const g of connGfxListRef.current) g.visible = showPaths
     for (const [nodeId, marker] of markersRef.current) {
       const status = getNodeStatus(nodeId, availableIds, run)
@@ -1094,7 +1135,7 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
     const ri = rows.findIndex(row => row.some(n => n.id === node.id))
     if (ri < 0) return
     const rowNodes = rows[ri]
-    const pos = nodePosition(ri, node, rowNodes[0]?.rowCols ?? rowNodes.length, maxRowCols)
+    const pos = nodePosition(ri, node, rowNodes[0]?.rowCols ?? rowNodes.length, maxRowCols, gridOffsetRef.current)
     mapEl.scrollLeft = pos.x * zoom - mapEl.clientWidth / 2
   }, [zoom]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -1150,7 +1191,7 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, restrictedNo
           className={`nm-map u-flex u-grow u-items-c${worldMap.environment ? ` nm-map--${worldMap.environment}` : ''}`}
           ref={mapRef}
         >
-          <div ref={canvasRef} style={{ display: 'block', flexShrink: 0, width: mapWidth * zoom, height: mapHeight * zoom, margin: 'auto' }} />
+          <div ref={canvasRef} style={{ display: 'block', flexShrink: 0, width: mapWidth * zoom, height: worldHeight * zoom, margin: 'auto' }} />
         </div>
 
   )
