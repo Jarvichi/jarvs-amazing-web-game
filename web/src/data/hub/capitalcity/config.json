@@ -5008,6 +5008,13 @@
   "npcs": [
     {
       "id": "capitalcity-stowhand",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 58,
+          "ty": 19
+        }
+      },
       "name": "Loadmaster Fen",
       "sprite": "hub-npc-supplies",
       "tx": 57,
@@ -5019,6 +5026,13 @@
     },
     {
       "id": "capitalcity-cellarer",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 59,
+          "ty": 19
+        }
+      },
       "name": "Cellarer Aldrich",
       "sprite": "hub-npc-merchant-2",
       "tx": 57,
@@ -5030,6 +5044,13 @@
     },
     {
       "id": "capitalcity-well-keeper",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 12,
+          "ty": 30
+        }
+      },
       "name": "Archivist Wenn",
       "sprite": "hub-npc-scholar",
       "tx": 12,

@@ -1857,6 +1857,13 @@
   "npcs": [
     {
       "id": "royalpalace-stowhand",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 10,
+          "ty": 30
+        }
+      },
       "name": "Porter Aldis",
       "sprite": "hub-npc-supplies",
       "tx": 12,
@@ -1868,6 +1875,13 @@
     },
     {
       "id": "royalpalace-cellarer",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 9,
+          "ty": 30
+        }
+      },
       "name": "Butler Ansel",
       "sprite": "hub-npc-herald",
       "tx": 9,
@@ -1879,6 +1893,13 @@
     },
     {
       "id": "royalpalace-well-keeper",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 2,
+          "ty": 26
+        }
+      },
       "name": "Steward Ilric",
       "sprite": "hub-npc-guard",
       "tx": 3,

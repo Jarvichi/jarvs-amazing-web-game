@@ -432,6 +432,13 @@
   "npcs": [
     {
       "id": "thornwoodcamp-stowhand",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 12,
+          "ty": 9
+        }
+      },
       "name": "Bundler Tam",
       "sprite": "hub-npc-merchant-3",
       "tx": 12,
@@ -443,6 +450,13 @@
     },
     {
       "id": "thornwoodcamp-cellarer",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 12,
+          "ty": 11
+        }
+      },
       "name": "Ration-Keeper Rell",
       "sprite": "hub-npc-supplies",
       "tx": 11,
@@ -454,6 +468,13 @@
     },
     {
       "id": "thornwoodcamp-well-keeper",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 10,
+          "ty": 32
+        }
+      },
       "name": "Camp-cook Bray",
       "sprite": "hub-npc-fisherman",
       "tx": 11,

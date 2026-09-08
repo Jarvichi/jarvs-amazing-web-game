@@ -1781,6 +1781,13 @@
   "npcs": [
     {
       "id": "ironholdkeep-stowhand",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 28,
+          "ty": 25
+        }
+      },
       "name": "Quarter-Stower Rurik",
       "sprite": "hub-npc-merchant-3",
       "tx": 28,
@@ -1792,6 +1799,13 @@
     },
     {
       "id": "ironholdkeep-cellarer",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 4,
+          "ty": 51
+        }
+      },
       "name": "Quartermaster Hale",
       "sprite": "hub-npc-supplies",
       "tx": 3,
@@ -1803,6 +1817,13 @@
     },
     {
       "id": "ironholdkeep-well-keeper",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 20,
+          "ty": 34
+        }
+      },
       "name": "Warden Hask",
       "sprite": "hub-npc-soldier",
       "tx": 21,

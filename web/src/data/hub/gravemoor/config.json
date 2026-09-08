@@ -1130,6 +1130,13 @@
   "npcs": [
     {
       "id": "gravemoor-stowhand",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 10,
+          "ty": 10
+        }
+      },
       "name": "Carter Merrow",
       "sprite": "hub-npc-pilgrim",
       "tx": 10,
@@ -1141,6 +1148,13 @@
     },
     {
       "id": "gravemoor-cellarer",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 22,
+          "ty": 13
+        }
+      },
       "name": "Undertaker Marrow",
       "sprite": "hub-npc-elder-3",
       "tx": 21,
@@ -1152,6 +1166,13 @@
     },
     {
       "id": "gravemoor-well-keeper",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 18,
+          "ty": 14
+        }
+      },
       "name": "Sexton Mould",
       "sprite": "hub-npc-gravedigger",
       "tx": 19,

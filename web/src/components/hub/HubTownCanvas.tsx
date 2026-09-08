@@ -3195,7 +3195,7 @@ export function HubTownCanvas({
     const SLOT_STAGGER_MS   = 4_000
     const MAX_BUBBLES       = 3
 
-    interface BubbleSlot { container: PIXI.Container; timer: number; phase: 'showing' | 'fading'; npcId: string }
+    interface BubbleSlot { container: SpeechBubble; timer: number; phase: 'showing' | 'fading'; npcId: string }
     const activeBubbles: BubbleSlot[] = []
     let lastMovedMs    = performance.now()
     let nextSpawnTimer = 0
@@ -4382,6 +4382,14 @@ export function HubTownCanvas({
             activeBubbles.splice(i, 1)
             continue
           }
+          // Track the NPC's live sprite, the way friendship reactions below
+          // already do. These were placed once at the NPC's *start* tile and
+          // never moved — invisible while every named NPC stood still, but a
+          // patrolling one would leave their bubble hanging over the tile they
+          // set off from, which for a mini-game keeper is the well, barrel or
+          // crate they are meant to be pointing at.
+          const bubbleSprite = namedNpcContainers.get(slot.npcId)?.children[0] as PIXI.Sprite | undefined
+          if (bubbleSprite) moveSpeechBubble(slot.container, bubbleSprite.x, bubbleSprite.y)
           slot.timer -= ticker.deltaMS
           if (slot.phase === 'showing' && slot.timer <= 0) {
             slot.phase = 'fading'; slot.timer = BUBBLE_FADE_MS

@@ -1559,6 +1559,13 @@
   "npcs": [
     {
       "id": "saltmereport-stowhand",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 30,
+          "ty": 10
+        }
+      },
       "name": "Hold-Master Cassia",
       "sprite": "hub-npc-harbourmaster",
       "tx": 30,
@@ -1570,6 +1577,13 @@
     },
     {
       "id": "saltmereport-cellarer",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 2,
+          "ty": 12
+        }
+      },
       "name": "Bosun Ketch",
       "sprite": "hub-npc-fisherman-2",
       "tx": 2,
@@ -1581,6 +1595,13 @@
     },
     {
       "id": "saltmereport-well-keeper",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 19,
+          "ty": 12
+        }
+      },
       "name": "Netta Brine",
       "sprite": "hub-npc-sailor",
       "tx": 19,
