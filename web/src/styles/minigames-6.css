@@ -1,0 +1,279 @@
+/* minigames-6.css — Cask Sounding (the cellar deduction puzzle).
+   See docs/minigame-cask-sounding.md §6 for the UI design this implements. */
+
+/* ─── Board ─────────────────────────────────────────────── */
+
+.rack-board {
+  display: grid;
+  align-items: center;
+  gap: 4px;
+  width: min(100%, 420px);
+  padding: var(--gap-3);
+  background: var(--surface-1);
+  border: 1px solid var(--game-border);
+  border-radius: 8px;
+  box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.6);
+}
+
+.rack-board--sorted {
+  animation: rack-board-pulse var(--dur-xslow) ease-out 1;
+}
+
+@keyframes rack-board-pulse {
+  0%   { box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.6); }
+  40%  { box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.6), 0 0 26px var(--cask-chalk); }
+  100% { box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.6); }
+}
+
+/* ─── Row counts ────────────────────────────────────────── */
+
+.rack-row-count {
+  min-width: 1.4em;
+  padding-right: 2px;
+  color: var(--cask-chalk);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-align: right;
+  /* Chalk on a rack end, not a UI label. */
+  text-shadow: 0 0 6px rgba(233, 227, 214, 0.35);
+}
+
+/* An uncounted row. Distinct from a zero, which is a strong deduction — the
+   two must never be confusable, which is why this is a glyph and not a blank. */
+.rack-row-count--unknown {
+  color: var(--color-gray-6);
+  text-shadow: none;
+}
+
+/* ─── Cask tile ─────────────────────────────────────────── */
+
+:root {
+  --cask-oak:     #7a5230;
+  --cask-oak-lit: #96683c;
+  --cask-hoop:    #3b2d20;
+  --cask-chalk:   #e9e3d6;
+  --cask-stain:   #4a3226;
+  --cask-brand:   #d9694f;
+}
+
+.cask-tile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  padding: 0;
+  background: var(--surface-2);
+  border: 1px solid var(--game-border);
+  border-radius: 6px;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: filter var(--dur-fast) ease, opacity var(--dur-fast) ease;
+}
+
+.cask-tile:disabled {
+  cursor: default;
+}
+
+/* Cells in a fixed grid brighten rather than translate: moving one cask while
+   its neighbours hold still reads as a layout glitch (AGENTS.md). */
+.cask-tile:hover:not(:disabled)  { filter: brightness(1.2); }
+.cask-tile:active:not(:disabled) { filter: brightness(1.35); }
+
+.cask-tile:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* An empty slot in the rack. Present in the layout so the grid keeps its
+   shape, but visibly nothing — the gap is information, not an absence. */
+.cask-tile--gap {
+  background: transparent;
+  border-style: dashed;
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+.cask-face {
+  width: 100%;
+  height: 100%;
+}
+
+.cask-body {
+  fill: var(--cask-oak);
+  stroke: var(--cask-hoop);
+  stroke-width: 3;
+}
+
+.cask-hoop {
+  stroke: var(--cask-hoop);
+  stroke-width: 4;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+/* Struck and sound: the cask has done its job and recedes, leaving its number
+   as the thing the eye lands on. */
+.cask-tile--rung .cask-body {
+  fill: #2b2b2b;
+  stroke: #3a3a3a;
+}
+
+.cask-tile--rung .cask-hoop { opacity: 0.25; }
+
+.cask-reading {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: clamp(0.9rem, 4.2vw, 1.35rem);
+  font-weight: 700;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Warm as the count climbs, so a glance reads danger before it reads digits.
+   A 0 stays neutral rather than dim: it was first styled as a "quiet
+   all-clear" on --color-gray-6 and a screenshot showed it as the least legible
+   mark on the rack, which is backwards — every neighbour sound is one of the
+   strongest deductions in the game, not an absence of news. */
+.cask-reading--n0 { color: #9aa0a6; }
+.cask-reading--n1 { color: #7fb3d5; }
+.cask-reading--n2 { color: #9ccc8f; }
+.cask-reading--n3 { color: var(--accent-gold); }
+.cask-reading--n4 { color: #e0a458; }
+.cask-reading--n5,
+.cask-reading--n6,
+.cask-reading--n7,
+.cask-reading--n8 { color: #d9694f; }
+
+/* ─── Named casks ───────────────────────────────────────── */
+/* Both named states wear the same ✕. The body underneath says how it was
+   found: a struck cask is stained through, a chalked one is sound oak with a
+   mark on it. Category first, provenance second — a screenshot of the earlier
+   version, where a struck cask was near-black with a drip and a chalked one
+   was bright oak with a white cross, read as two unrelated things. */
+
+.cask-tile--soured .cask-body {
+  fill: var(--cask-stain);
+  stroke: #2a1c15;
+}
+
+.cask-tile--soured .cask-hoop { opacity: 0.5; }
+
+.cask-tile--chalked .cask-body {
+  fill: var(--cask-oak-lit);
+}
+
+.cask-mark-stroke {
+  stroke-width: 7;
+  stroke-linecap: round;
+  opacity: 0.92;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cask-mark-in var(--dur-fast) ease-out backwards;
+}
+
+.cask-mark--chalk .cask-mark-stroke { stroke: var(--cask-chalk); }
+
+/* Burned into the wood rather than drawn on it: same glyph, different hand. */
+.cask-mark--stain .cask-mark-stroke {
+  stroke: var(--cask-brand);
+  opacity: 0.85;
+}
+
+/* `backwards`, never `both`: a filled animation keeps ownership of every
+   property it touches forever, which would silently kill the press feedback
+   above (AGENTS.md). */
+@keyframes cask-mark-in {
+  from { opacity: 0; transform: scale(0.7); }
+  to   { opacity: 0.92; transform: scale(1); }
+}
+
+/* A chalk that rubbed off: the cask was sound and it cost the player. */
+.cask-tile--rebuked {
+  animation: cask-rebuke var(--dur-slow) ease-out 1;
+}
+
+@keyframes cask-rebuke {
+  0%   { box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5); }
+  30%  { box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5), 0 0 16px var(--accent-ember); }
+  100% { box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5); }
+}
+
+/* ─── Status bar ────────────────────────────────────────── */
+
+.rack-status {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--gap-2);
+  width: min(100%, 420px);
+  margin: var(--gap-2) auto 0;
+  padding: var(--gap-2) var(--gap-3);
+  background: var(--surface-1);
+  border: 1px solid var(--game-border);
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.rack-status--sorted {
+  border-color: var(--accent-gold);
+}
+
+.rack-status-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  color: var(--text-primary);
+}
+
+.rack-status-item--warn {
+  color: var(--accent-gold);
+}
+
+/* ─── Reduced motion ────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .rack-board--sorted,
+  .cask-tile--rebuked,
+  .cask-mark-stroke {
+    animation: none;
+  }
+  /* The mark still has to be visible with its entrance animation gone. */
+  .cask-mark-stroke { opacity: 0.92; }
+}
+
+/* ─── Screen ────────────────────────────────────────────── */
+
+.cask-screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-2);
+}
+
+.cask-tier {
+  margin: 0;
+  color: var(--accent-gold);
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.cask-board-wrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.cask-modes,
+.cask-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--gap-3);
+}
+
+.cask-hint {
+  margin: 0;
+  color: var(--color-gray-6);
+  font-size: 0.8rem;
+  text-align: center;
+}

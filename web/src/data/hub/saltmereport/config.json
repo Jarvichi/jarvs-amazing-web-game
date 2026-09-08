@@ -1558,6 +1558,17 @@
   ],
   "npcs": [
     {
+      "id": "saltmereport-cellarer",
+      "name": "Bosun Ketch",
+      "sprite": "hub-npc-fisherman-2",
+      "tx": 2,
+      "ty": 13,
+      "dialogue": [
+        "Salt gets in the staves. Salt gets in everything here.",
+        "Ketch. I'd sound them myself if I had the tool and the time."
+      ]
+    },
+    {
       "id": "saltmereport-well-keeper",
       "name": "Netta Brine",
       "sprite": "hub-npc-sailor",
@@ -2580,6 +2591,25 @@
     }
   },
   "interactables": [
+    {
+      "id": "saltmereport-casks",
+      "tx": 2,
+      "ty": 12,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Salt air, sea damp, and a bonded cellar nobody has audited in months."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-casks-cellar"
+        }
+      ]
+    },
     {
       "id": "saltmereport-well",
       "tx": 19,

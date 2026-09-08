@@ -10768,6 +10768,17 @@
   },
   "npcs": [
     {
+      "id": "ravenwatch-cellarer",
+      "name": "Innkeep Corbin",
+      "sprite": "hub-npc-trader",
+      "tx": 53,
+      "ty": 47,
+      "dialogue": [
+        "I've been pouring from these and praying. That's no way to run an inn.",
+        "Corbin. Ask the regulars how last week's barrel went down."
+      ]
+    },
+    {
       "id": "ravenwatch-well-keeper",
       "name": "Corvin Slate",
       "sprite": "hub-npc-raven-keeper",
@@ -13153,6 +13164,25 @@
     }
   ],
   "interactables": [
+    {
+      "id": "ravenwatch-casks",
+      "tx": 54,
+      "ty": 47,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "The inn's cellar. The landlord has been serving from it and hoping."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-casks-cellar"
+        }
+      ]
+    },
     {
       "id": "ravenwatch-well",
       "tx": 21,

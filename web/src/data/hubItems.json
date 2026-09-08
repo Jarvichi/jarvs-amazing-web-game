@@ -585,5 +585,20 @@
     "icon": "🍵",
     "desc": "Berries and honey steeped in water clean enough to taste of nothing at all. That is the whole trick.",
     "category": "material"
+  },
+  {
+    "id": "coopers-mallet",
+    "name": "Cooper's Mallet",
+    "icon": "🔨",
+    "desc": "A soft-headed beechwood mallet. Strike a cask with it and a good one rings; a soured one only thuds.",
+    "category": "tool",
+    "unique": true
+  },
+  {
+    "id": "cask-vinegar",
+    "name": "Cask Vinegar",
+    "icon": "🍶",
+    "desc": "Drawn off a cask that had turned. Sharp enough to make a cook's eyes water, and they still ask for it by name.",
+    "category": "material"
   }
 ]

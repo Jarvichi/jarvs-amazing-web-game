@@ -75,6 +75,7 @@ export const EndlessLeaderboardScreen = lazy(() => import('../components/screens
 export const MiniGamesMenu = lazy(() => import('../components/screens/MiniGamesMenu').then(m => ({ default: m.MiniGamesMenu })))
 export const Fishing = lazy(() => import('../components/minigames/Fishing').then(m => ({ default: m.Fishing })))
 export const Wellspring = lazy(() => import('../components/minigames/Wellspring').then(m => ({ default: m.Wellspring })))
+export const CaskSounding = lazy(() => import('../components/minigames/CaskSounding').then(m => ({ default: m.CaskSounding })))
 export const AugmentCollectionScreen = lazy(() => import('../components/screens/AugmentCollectionScreen').then(m => ({ default: m.AugmentCollectionScreen })))
 export const PlayerScreen = lazy(() => import('../components/screens/PlayerScreen').then(m => ({ default: m.PlayerScreen })))
 export const CollectionTabScreen = lazy(() => import('../components/screens/CollectionTabScreen').then(m => ({ default: m.CollectionTabScreen })))

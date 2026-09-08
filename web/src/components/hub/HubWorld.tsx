@@ -60,6 +60,7 @@ import { recordGroupMember } from '../../game/hub/groupChallenges'
 import { shuffled } from '../../game/hub/shuffle'
 import { canForageToday, recordForage } from '../../game/hub/forages'
 import { canRestoreToday, wellKeeperDialogue } from '../../game/hub/wellsprings'
+import { canSortToday, cellarerDialogue } from '../../game/hub/casks'
 import { forageTable, rollForage } from '../../game/hub/forageLoot'
 import { getReputationTier } from '../../data/hub/buildingUpgrades'
 import { resolveWeather } from '../../game/hub/weather'
@@ -163,6 +164,9 @@ const SCREEN_ENTER_LABEL: Record<string, string> = {
   'hub-wellspring':       'Look down the well?',
   'hub-wellspring-deep':  'Climb down to the aqueduct?',
   'hub-wellspring-vault': 'Descend into the ley vault?',
+  'hub-casks':            'Sound the casks?',
+  'hub-casks-cellar':     'Go down to the cellar?',
+  'hub-casks-vault':      "Open the vintner's vault?",
   marble:            'Play marbles?',
   marblerace:        'Watch a marble race?',
   regatta:           'Race a skiff in the regatta?',
@@ -491,6 +495,19 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
       }
     }
   }
+  // Cellarers are found by id for the same reason well keepers are: giving a
+  // new town a cellar should need no change here.
+  {
+    const cellarerState = {
+      hasMallet:   hasHubItem('coopers-mallet'),
+      sortedToday: !canSortToday(town),
+    }
+    for (const npc of locationData.HUB_NPCS) {
+      if (npc.id.endsWith('-cellarer')) {
+        npcProximityDialogueRef.current.set(npc.id, cellarerDialogue(cellarerState))
+      }
+    }
+  }
 
   // Interactable indicator conditions (e.g. 'unread-news'): read imperatively by PixiJS ticker
   const indicatorConditionsRef = useRef(new Map<string, boolean>())
@@ -767,6 +784,20 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
       }
       if (!canRestoreToday(town)) {
         setDialogueEvent({ speakerName: '', text: 'The water runs clear and cold. Nothing more to put right here today.' })
+        return
+      }
+    }
+    // The cellar is gated exactly as the well is: a tool you buy once, then a
+    // cooldown. The mallet is global (bought in Appleford, works in every
+    // town's cellar); the once-a-day limit is per town, which is what makes
+    // thirteen cellars a reason to travel rather than one spot to farm.
+    if (screen.startsWith('hub-casks')) {
+      if (!hasHubItem('coopers-mallet')) {
+        setDialogueEvent({ speakerName: '', text: "You could rap on them with your knuckles all day and learn nothing. A cooper's mallet would tell you — Appleford's cooper sells them." })
+        return
+      }
+      if (!canSortToday(town)) {
+        setDialogueEvent({ speakerName: '', text: 'The bad casks are drawn off and the rest ring true. Nothing more to sort here today.' })
         return
       }
     }

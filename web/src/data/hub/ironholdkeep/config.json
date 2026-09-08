@@ -1780,6 +1780,17 @@
   "ambientNpcSprites": [],
   "npcs": [
     {
+      "id": "ironholdkeep-cellarer",
+      "name": "Quartermaster Hale",
+      "sprite": "hub-npc-supplies",
+      "tx": 3,
+      "ty": 50,
+      "dialogue": [
+        "Stocked for a siege that never came. Now it's spoiling on my ledger.",
+        "Hale, quartermaster. Every bad cask is a line I have to explain."
+      ]
+    },
+    {
       "id": "ironholdkeep-well-keeper",
       "name": "Warden Hask",
       "sprite": "hub-npc-soldier",
@@ -4678,6 +4689,25 @@
     }
   },
   "interactables": [
+    {
+      "id": "ironholdkeep-casks",
+      "tx": 4,
+      "ty": 51,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "The garrison cellar, stocked for a siege and rotting quietly instead."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-casks-cellar"
+        }
+      ]
+    },
     {
       "id": "ironholdkeep-well",
       "tx": 20,

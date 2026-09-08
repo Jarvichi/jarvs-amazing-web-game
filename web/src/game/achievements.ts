@@ -2735,6 +2735,58 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     tier: 2,
   },
 
+  // ─── Cask Sounding Achievements ──────────────────────────
+  {
+    id: 'hub:casks_first',
+    name: 'A Nose For It',
+    description: "Sort a town's cellar for the first time.",
+    category: 'misc',
+    progressKey: 'hub:casks:sorted',
+    target: 1,
+    reward: { type: 'crystals', crystals: 25 },
+    tier: 1,
+  },
+  {
+    id: 'hub:casks_under_par',
+    name: 'Fewer Blows Than That',
+    description: 'Sort a cellar under par.',
+    category: 'misc',
+    progressKey: 'hub:casks:underParSorts',
+    target: 1,
+    reward: { type: 'cards', count: 1 },
+    tier: 1,
+  },
+  {
+    id: 'hub:casks_spotless',
+    name: 'Not a Blow Wasted',
+    description: 'Sort a cellar without a single chalk rubbing off.',
+    category: 'misc',
+    progressKey: 'hub:casks:cleanSorts',
+    target: 1,
+    reward: { type: 'cards', count: 1 },
+    tier: 1,
+  },
+  {
+    id: 'hub:casks_every_town',
+    name: 'The Realm Drinks Well',
+    description: 'Sort thirteen cellars — one for every town in the realm.',
+    category: 'misc',
+    progressKey: 'hub:casks:sorted',
+    target: 13,
+    reward: { type: 'cards', count: 3 },
+    tier: 2,
+  },
+  {
+    id: 'hub:casks_vault',
+    name: "The Vintner's Ear",
+    description: "Sort three Vintner's Vaults — the racks the ledger forgot.",
+    category: 'misc',
+    progressKey: 'hub:casks:vaultSorts',
+    target: 3,
+    reward: { type: 'cards', count: 3 },
+    tier: 2,
+  },
+
   // ─── Higher or Lower Achievements ────────────────────────
   {
     id: 'miniGame:hol_first',

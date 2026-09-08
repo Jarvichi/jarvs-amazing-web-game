@@ -1681,6 +1681,17 @@
   ],
   "npcs": [
     {
+      "id": "gearford-cellarer",
+      "name": "Cellarman Brackitt",
+      "sprite": "hub-npc-merchant-3",
+      "tx": 3,
+      "ty": 24,
+      "dialogue": [
+        "Works can't run on soured beer. Ask anyone on the night shift.",
+        "Brackitt. I keep the cellar. The yard keeps emptying it."
+      ]
+    },
+    {
       "id": "gearford-well-keeper",
       "name": "Foreman Kessel",
       "sprite": "hub-npc-merchant",
@@ -3766,6 +3777,25 @@
     }
   },
   "interactables": [
+    {
+      "id": "gearford-casks",
+      "tx": 1,
+      "ty": 26,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "The works-yard cellar. Barrels stacked three deep and half of them off."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-casks-cellar"
+        }
+      ]
+    },
     {
       "id": "gearford-well",
       "tx": 20,
