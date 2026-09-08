@@ -574,6 +574,12 @@
   ],
   "exteriorDecor": [
     {
+      "tx": 10,
+      "ty": 10,
+      "tileId": "crate",
+      "zlayer": "solid"
+    },
+    {
       "comment": "=== woodland: left edge ==="
     },
     {
@@ -1122,6 +1128,17 @@
     }
   ],
   "npcs": [
+    {
+      "id": "gravemoor-stowhand",
+      "name": "Carter Merrow",
+      "sprite": "hub-npc-pilgrim",
+      "tx": 10,
+      "ty": 11,
+      "dialogue": [
+        "Rattling's the trouble. Folk hereabouts don't care for a load that makes a noise going past.",
+        "Merrow. I carry for the yards. Quietly, when it's packed right."
+      ]
+    },
     {
       "id": "gravemoor-cellarer",
       "name": "Undertaker Marrow",
@@ -2659,6 +2676,25 @@
     }
   },
   "interactables": [
+    {
+      "id": "gravemoor-stowage",
+      "tx": 10,
+      "ty": 10,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Grave goods and grave-diggers' tools, in a crate that rattles the whole way down the hill."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-stowage-wagon"
+        }
+      ]
+    },
     {
       "id": "gravemoor-casks",
       "tx": 22,

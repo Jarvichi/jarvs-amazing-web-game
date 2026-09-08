@@ -431,6 +431,17 @@
   ],
   "npcs": [
     {
+      "id": "thornwoodcamp-stowhand",
+      "name": "Bundler Tam",
+      "sprite": "hub-npc-merchant-3",
+      "tx": 12,
+      "ty": 8,
+      "dialogue": [
+        "We move camp twice a season. Everything we own has to fit in what we can carry.",
+        "Tam. I do the bundling. Give me a crate and I'll get more in it than you'd credit."
+      ]
+    },
+    {
       "id": "thornwoodcamp-cellarer",
       "name": "Ration-Keeper Rell",
       "sprite": "hub-npc-supplies",
@@ -602,6 +613,25 @@
   ],
   "interiors": {},
   "interactables": [
+    {
+      "id": "thornwoodcamp-stowage",
+      "tx": 12,
+      "ty": 9,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Camp supplies, bundled by lamplight and packed by guesswork."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-stowage"
+        }
+      ]
+    },
     {
       "id": "thornwoodcamp-casks",
       "tx": 12,

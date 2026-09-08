@@ -1144,6 +1144,17 @@
   ],
   "npcs": [
     {
+      "id": "hollowmere-stowhand",
+      "name": "Punt-Loader Sedge",
+      "sprite": "hub-npc-fisherman",
+      "tx": 25,
+      "ty": 10,
+      "dialogue": [
+        "A punt doesn't forgive a badly packed crate. It just tips, and then the mere has your goods.",
+        "Sedge. I load the punts. I've fished more crates out of that water than I've loaded, some weeks."
+      ]
+    },
+    {
       "id": "hollowmere-cellarer",
       "name": "Brewer Ossory",
       "sprite": "hub-npc-elder-3",
@@ -2074,6 +2085,25 @@
     }
   },
   "interactables": [
+    {
+      "id": "hollowmere-stowage",
+      "tx": 25,
+      "ty": 11,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Everything here travels by punt, and a crate packed loose sits crooked in a flat-bottomed boat."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-stowage"
+        }
+      ]
+    },
     {
       "id": "hollowmere-casks",
       "tx": 16,

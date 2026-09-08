@@ -4560,6 +4560,25 @@
   },
   "interactables": [
     {
+      "id": "capitalcity-stowage",
+      "tx": 58,
+      "ty": 19,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "A Capital consignment, and it has been packed by three different people who disagreed with each other."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-stowage-hold"
+        }
+      ]
+    },
+    {
       "id": "capitalcity-casks",
       "tx": 59,
       "ty": 19,
@@ -4987,6 +5006,17 @@
     ]
   ],
   "npcs": [
+    {
+      "id": "capitalcity-stowhand",
+      "name": "Loadmaster Fen",
+      "sprite": "hub-npc-supplies",
+      "tx": 57,
+      "ty": 18,
+      "dialogue": [
+        "Everything the Capital eats comes through a crate like that one. Most of them packed badly.",
+        "Fen, loadmaster. I can tell you the weight of a crate by the noise it makes going down."
+      ]
+    },
     {
       "id": "capitalcity-cellarer",
       "name": "Cellarer Aldrich",

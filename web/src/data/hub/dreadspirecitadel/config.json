@@ -257,6 +257,12 @@
   ],
   "exteriorDecor": [
     {
+      "tx": 28,
+      "ty": 9,
+      "tileId": "crate",
+      "zlayer": "solid"
+    },
+    {
       "tx": 19,
       "ty": 33,
       "tileId": "barrel"
@@ -524,6 +530,17 @@
   "npcSpawnTiles": [],
   "ambientNpcSprites": [],
   "npcs": [
+    {
+      "id": "dreadspirecitadel-stowhand",
+      "name": "Drayman Kess",
+      "sprite": "hub-npc-soldier",
+      "tx": 28,
+      "ty": 10,
+      "dialogue": [
+        "Don't ask what's in it. Ask whether it'll shift if the cart takes a corner fast.",
+        "Kess. I drive the drays out of here, and I'd rather the load didn't move at all."
+      ]
+    },
     {
       "id": "dreadspirecitadel-cellarer",
       "name": "Vault-Warden Sess",
@@ -2114,6 +2131,25 @@
     }
   },
   "interactables": [
+    {
+      "id": "dreadspirecitadel-stowage",
+      "tx": 28,
+      "ty": 9,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Whatever the Citadel is shipping out, it has been thrown in loose and nobody wants to touch it twice."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-stowage-hold"
+        }
+      ]
+    },
     {
       "id": "dreadspirecitadel-casks",
       "tx": 19,

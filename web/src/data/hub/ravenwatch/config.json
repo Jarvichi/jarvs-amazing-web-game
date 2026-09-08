@@ -10768,6 +10768,17 @@
   },
   "npcs": [
     {
+      "id": "ravenwatch-stowhand",
+      "name": "Packer Wyn",
+      "sprite": "hub-npc-merchant",
+      "tx": 11,
+      "ty": 12,
+      "dialogue": [
+        "Whoever packs it isn't the one hauling it up the tower. That's the whole trouble.",
+        "Wyn. I pack for the watch, and I pack it so it can be carried one-handed."
+      ]
+    },
+    {
       "id": "ravenwatch-cellarer",
       "name": "Innkeep Corbin",
       "sprite": "hub-npc-trader",
@@ -13164,6 +13175,25 @@
     }
   ],
   "interactables": [
+    {
+      "id": "ravenwatch-stowage",
+      "tx": 11,
+      "ty": 11,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "A watchtower resupply crate, packed like nobody expected to carry it up the stairs."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-stowage-wagon"
+        }
+      ]
+    },
     {
       "id": "ravenwatch-casks",
       "tx": 54,
