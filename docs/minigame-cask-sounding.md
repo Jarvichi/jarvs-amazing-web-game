@@ -200,6 +200,7 @@ prototype of the generator and reference solver above:
 | Rows only | 5×5 | 6 | **6** | 3–8 |
 | Rows only | 6×6 | 11 | **9** | 5–12 |
 | Rows only | 6×6 | 14 | **10** | 5–14 |
+| Rows only | 7×7 | 17 | **14** | 10–18 |
 
 With both axes the board is essentially solved before the player touches it —
 a median of two strikes on a 25-cask rack, and boards that arrive already
@@ -211,7 +212,7 @@ was **over**.
 
 | Risk | Mitigation |
 |---|---|
-| **Solution enumeration blows up.** The forced-cask check enumerates layouts consistent with the row counts. Early in a board that set is enormous, and it is recomputed after every tap. The Python prototype takes ~13 ms/board at 5×5 but ~940 ms at 6×6. | Enumerate row-by-row over `C(width, rowCount)` placements with the readings pruning each row as it is laid — the prototype's approach, which is what keeps 5×5 cheap. In TypeScript over bitmasks this should be several times faster again, and it runs once per tap, not per frame. A hard solution cap with a documented fallback (propagate-only, which under-resolves rather than mis-resolves) keeps the worst case bounded. **This is the one number that decides the tier ceiling** — §4's top tier is 6×6, not 7×7, for this reason, and the real budget gets measured in commit 1 before any UI exists. |
+| **Solution enumeration blows up.** The forced-cask check enumerates layouts consistent with the row counts. Early in a board that set is enormous, and it is recomputed after every tap. Measured in the Python prototype: **13 ms/board at 5×5, 940 ms at 6×6, 4.9 s at 7×7** — roughly an order of magnitude per step up. | Enumerate row-by-row over `C(width, rowCount)` placements with the readings pruning each row as it is laid — the prototype's approach, which is what keeps 5×5 cheap. In TypeScript over bitmasks this should be several times faster again, and it runs once per tap, not per frame. A hard solution cap with a documented fallback (propagate-only, which under-resolves rather than mis-resolves) keeps the worst case bounded. **This is the one number that decides the tier ceiling** — §4's top tier is 6×6, not 7×7, for this reason, and the real budget gets measured in commit 1 before any UI exists. |
 | **The solver resolves a cask the player could not have.** Enumeration is exhaustive, so it will spot deductions no human would see, and auto-resolving them steals the player's "aha". | Auto-resolve is what removes the endgame busywork, so it stays — but it is worth watching in playtesting, and the honest fallback if it feels bad is to auto-resolve only casks forced by a *single* constraint (the propagation rule a person actually uses) and leave the clever ones to be chalked. Flagged as the design's biggest open question. |
 | **Par is computed from a strategy, not an optimum.** If the reference solver is weak, par inflates and under-par becomes free. If it is too strong, under-par becomes unreachable. | Measure the distribution per tier over ≥400 boards and report it, as above. Test that replaying the reference solver's own choices through the real game engine spends exactly par. |
 | **Wrong-chalk pricing leaks information cheaply.** At +3 a bad chalk is a paid probe; if the price were 1 it would be a free one. | Priced at 3× a strike, matching Wellspring's Dowse. Unit-test that the cheapest path to full information is always striking, never chalking. |
@@ -259,10 +260,13 @@ are derived from them.
    experienced player recognises stop applying and they have to read the rack
    again. Mild on its own; valuable because it keeps the top tier from becoming
    pattern-matching.
-4. **Grid size** *(the volume knob)*. Par grows roughly linearly with area. It
-   makes a board *longer*, not harder — and here it is also the thing that
-   makes the solver slow (§3), so it is the knob with the worst ratio of
-   interest to cost. The top tier grows density and gaps instead of size.
+4. **Grid size** *(the volume knob, and the expensive one)*. Par grows roughly
+   linearly with area — measured, 5×5 → 6×6 → 7×7 gives median par 6 → 9 → 14.
+   It makes a board *longer*, not harder. It is also the thing that makes the
+   solver slow, and that cost grows about an order of magnitude per step
+   (13 ms → 940 ms → 4.9 s per board), so size has by far the worst ratio of
+   interest to cost of any knob here. Hence a 6×6 ceiling: the top tier grows
+   density and gaps instead of size.
 
 ### Rejected as difficulty levers
 
