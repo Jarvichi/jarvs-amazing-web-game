@@ -2787,6 +2787,58 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     tier: 2,
   },
 
+  // ─── Stowage Achievements ────────────────────────────────
+  {
+    id: 'hub:stowage_first',
+    name: 'Packed Square',
+    description: "Pack a town's crate for the first time.",
+    category: 'misc',
+    progressKey: 'hub:stowage:packed',
+    target: 1,
+    reward: { type: 'crystals', crystals: 25 },
+    tier: 1,
+  },
+  {
+    id: 'hub:stowage_clean',
+    name: 'Not a Slot Wasted',
+    description: 'Pack a crate at par — every good in right the first time.',
+    category: 'misc',
+    progressKey: 'hub:stowage:cleanStows',
+    target: 1,
+    reward: { type: 'cards', count: 1 },
+    tier: 1,
+  },
+  {
+    id: 'hub:stowage_unaided',
+    name: 'No Need For The Manifest',
+    description: 'Pack a crate without once reading the manifest.',
+    category: 'misc',
+    progressKey: 'hub:stowage:unaidedPacks',
+    target: 5,
+    reward: { type: 'cards', count: 1 },
+    tier: 1,
+  },
+  {
+    id: 'hub:stowage_every_town',
+    name: 'The Realm Travels Light',
+    description: 'Pack thirteen crates — one for every town in the realm.',
+    category: 'misc',
+    progressKey: 'hub:stowage:packed',
+    target: 13,
+    reward: { type: 'cards', count: 3 },
+    tier: 2,
+  },
+  {
+    id: 'hub:stowage_hold',
+    name: "A Trader's Eye",
+    description: "Pack three ships' holds — the crates the timber cuts up.",
+    category: 'misc',
+    progressKey: 'hub:stowage:holdPacks',
+    target: 3,
+    reward: { type: 'cards', count: 3 },
+    tier: 2,
+  },
+
   // ─── Higher or Lower Achievements ────────────────────────
   {
     id: 'miniGame:hol_first',
