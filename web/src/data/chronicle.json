@@ -132,5 +132,45 @@
     },
     "challenge": { "type": "win_with_tag", "tag": "arcane", "count": 2 },
     "reward": { "type": "consumable", "itemId": "memory_charm", "count": 1 }
+  },
+  {
+    "id": "ch8",
+    "title": "What the Mist Demands",
+    "availableFrom": "2026-09-22",
+    "teaser": "Ren has a heading. The mist has a price. Nobody has agreed who should pay it.",
+    "lore": "The argument about Ren did not end so much as scatter. On the shards where the watch captain's instinct won out, she spent two weeks housed apart, watched through a grate, given nothing she could use. On the shards where the envoys carried the day, she sat through three separate councils, patient as furniture, and answered the same formal questions in the same unhurried voice each time. On the handful where someone simply asked her outright, she answered that too, plainly, and then asked what had taken so long. No two shards agree on which approach was wisest, and Ren herself gave no sign she noticed the difference. Whatever she is waiting for, it is not consistency.\n\nWhat she is waiting for, it turns out, is a decision nobody has made yet. Pressed — gently in some places, less gently in others — on where the Accord Ledger actually is, she finally answered with something that was not a riddle: a heading. Bearing, drift-rate, a shard-count out past the last charted mist-line, given as plainly as a woman giving directions to a well. 'It's still there,' she said. 'It was never lost. It was left.'\n\nNobody who has sailed that far into the deep mist has come back to describe it, which is the trouble with trusting a heading from someone the mist itself gave back. Ren does not pretend otherwise. Asked what waits at the end of it, she says only that the mist does not return what it takes without changing it first, and that she is the one exception anyone has seen in nine hundred years — not proof it's safe, she is careful to add, only proof it's survivable, which is not the same promise.\n\n{align:vigil}You have spent two weeks watching from a careful distance, and the heading changes nothing about that instinct: information handed over this freely, by someone who arrived on a raft nobody built, is exactly the kind of gift the Hollow Choir taught you to be afraid of. You want it charted, not chased.{/align}{align:accord}You have spent two weeks arguing that the truth belongs to everyone equally, and the heading is the same problem in a longer coat: whoever reaches the Ledger first decides what the rest of the Dominion learns of it, unless the reaching is done properly, in the open, by people who answer to more than themselves.{/align}{align:unbinding}You have spent two weeks pressing for straight answers, and you finally got one — a bearing, a drift-rate, a place to go. You are already doing the arithmetic on how fast a small, unofficial party could be moving before any council convenes to discuss whether it should.{/align}{align:default}You have not settled, in two weeks, on what you make of any of it — the pages, the choir, now Ren — and a heading doesn't resolve that. If anything it sharpens the question you have been avoiding: not what happened nine hundred years ago, but what you are willing to do about it now.{/align}\n\nThe heading itself is not the argument anymore. What it will cost to follow is. On the council floors, the watch captains want it logged and left alone until the mist gives up more on its own. The envoys want a real expedition — chosen openly, provisioned jointly by the provinces, sworn to report back to all of them equally, so that whatever the Ledger says belongs to the Dominion and not to whoever's boat gets there first. And somewhere tonight, without waiting for either faction to win, someone is already loading a small boat by lantern-light, on the theory that a council votes slower than the mist drifts.",
+    "decision": {
+      "id": "d-ch8-heading",
+      "prompt": "Ren's heading is real, or real enough that no one has proven otherwise. Somebody has to decide what the Dominion is willing to spend finding out.",
+      "options": [
+        {
+          "id": "vigil",
+          "label": "Chart it and wait",
+          "consequence": "You argue for patience: log the heading, mark the drift, and let the mist reveal more of itself before anyone crosses it. Nine hundred years taught the old Dominion that not everything worth reaching is worth reaching first.",
+          "alignment": { "vigil": 2 }
+        },
+        {
+          "id": "accord",
+          "label": "Provision it properly",
+          "consequence": "You argue for a real expedition — chosen openly, provisioned by the provinces jointly, sworn to report back to all of them equally, so whatever the Ledger says belongs to the Dominion and not to whoever's boat gets there first.",
+          "alignment": { "accord": 2 }
+        },
+        {
+          "id": "unbinding",
+          "label": "Go now, quietly",
+          "consequence": "Councils vote slower than the mist drifts. You start provisioning a small boat yourself, tonight, before the question can be tabled, argued, and shelved the way every hard question at a council eventually is.",
+          "alignment": { "unbinding": 2 }
+        }
+      ]
+    },
+    "challenge": { "type": "win_with_tag", "tag": "vault", "count": 2 },
+    "reward": {
+      "type": "collectible",
+      "itemId": "chronicle-wayfarers-needle",
+      "name": "Wayfarer's Needle",
+      "icon": "🧭",
+      "desc": "A compass that no longer points north — only toward the heading Ren gave, for as long as it still leads anywhere.",
+      "lore": "It's still there. It was never lost. It was left. — Ren"
+    }
   }
 ]
