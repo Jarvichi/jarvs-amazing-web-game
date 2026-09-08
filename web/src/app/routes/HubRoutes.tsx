@@ -1,11 +1,17 @@
 import { useApp } from '../AppContext'
-import { HubWorld, HubWorldMap, CasinoScreen, TheatreScreen, MiniGamesMenu, Fishing, FishAppraisalScreen } from '../lazyScreens'
+import { HubWorld, HubWorldMap, CasinoScreen, TheatreScreen, MiniGamesMenu, Fishing, Wellspring, FishAppraisalScreen } from '../lazyScreens'
 import { OverlayScreen } from '../../components/ui/OverlayScreen'
-import { saveCrystals } from '../../game/collection'
+import { loadCrystals, saveCrystals } from '../../game/collection'
+import { addHubItem } from '../../game/itemStore'
+import { addTownReputation } from '../../game/hub/reputation'
+import { recordRestore } from '../../game/hub/wellsprings'
 import { loadPlayerName } from '../../game/questline'
 import { isNodeCleared } from '../../game/world/worldState'
 import { auth } from '../../firebase'
 import type { Screen, SubScreen } from '../screens'
+
+/** Standing earned for putting a town's well right, once a day per town. */
+const WELLSPRING_REPUTATION = 1
 
 /**
  * Hub world, world map, and the hub's leisure screens.
@@ -35,7 +41,7 @@ export function HubRoutes() {
             setReturnScreen('hubworld')
             setShopBuildingId(buildingId)
             setShopTappedNpc(npc)
-            const HUB_MINIGAME_IDS: SubScreen[] = ['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'regatta', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence', 'citybuilder', 'prizes']
+            const HUB_MINIGAME_IDS: SubScreen[] = ['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'regatta', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence', 'wellspring', 'citybuilder', 'prizes']
             if (HUB_MINIGAME_IDS.includes(s as SubScreen)) {
               setHubMiniGameEntry(s as SubScreen)
               setScreen('hub-minigame')
@@ -165,6 +171,32 @@ export function HubRoutes() {
       {screen === 'hub-fishing-ocean' && (
         <OverlayScreen title="🎣 FISHING" onBack={() => setScreen('hubworld')}>
           <Fishing rewardMode="catch" variant="ocean" onDone={() => setScreen('hubworld')} />
+        </OverlayScreen>
+      )}
+
+      {/* Hub-world wellspring: the town well. Gated on the winding crank and a
+          once-a-day-per-town cooldown (both checked in HubWorld's
+          handleNodeInteract), and paid in crystals, clean water and town
+          standing rather than arcade tickets. Depth is authored per town via
+          the screen id, exactly as fishing carries its locale variants. */}
+      {(screen === 'hub-wellspring' || screen === 'hub-wellspring-deep' || screen === 'hub-wellspring-vault') && (
+        <OverlayScreen title="💧 WELLSPRING" onBack={() => setScreen('hubworld')}>
+          <Wellspring
+            rewardMode="restore"
+            depth={screen === 'hub-wellspring-vault' ? 'vault' : screen === 'hub-wellspring-deep' ? 'deep' : 'shallow'}
+            onDone={(_tickets, result) => {
+              const town = hubData?.locationRegistry[currentLocationKey]?.locationData.HUB_TOWN_NAME
+              if (town) {
+                recordRestore(town)
+                addTownReputation(town, WELLSPRING_REPUTATION)
+              }
+              addHubItem('clean-water', result.cleanWater)
+              const next = loadCrystals() + result.crystals
+              saveCrystals(next)
+              setCrystals(next)
+              setScreen('hubworld')
+            }}
+          />
         </OverlayScreen>
       )}
 

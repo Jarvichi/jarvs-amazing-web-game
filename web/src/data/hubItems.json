@@ -563,5 +563,20 @@
     "icon": "🫕",
     "desc": "Fruit softened in a pot with nothing clever done to it. Warm and honest.",
     "category": "material"
+  },
+  {
+    "id": "winding-crank",
+    "name": "Winding Crank",
+    "icon": "🔧",
+    "desc": "A toothed iron crank. Fits the seized winding gear on any town well in the realm.",
+    "category": "tool",
+    "unique": true
+  },
+  {
+    "id": "clean-water",
+    "name": "Clean Water",
+    "icon": "💧",
+    "desc": "A stoppered flask drawn from a well you put right yourself. Cooks swear by it.",
+    "category": "material"
   }
 ]
