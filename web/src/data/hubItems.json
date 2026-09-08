@@ -578,5 +578,12 @@
     "icon": "💧",
     "desc": "A stoppered flask drawn from a well you put right yourself. Cooks swear by it.",
     "category": "material"
+  },
+  {
+    "id": "wellwater-tisane",
+    "name": "Wellwater Tisane",
+    "icon": "🍵",
+    "desc": "Berries and honey steeped in water clean enough to taste of nothing at all. That is the whole trick.",
+    "category": "material"
   }
 ]

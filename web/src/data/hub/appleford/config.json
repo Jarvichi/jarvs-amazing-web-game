@@ -1215,6 +1215,9 @@
       "sprite": "hub-npc-gardener",
       "tx": 19,
       "ty": 12,
+      "conversationTopics": [
+        "orla-topic-wellwater-tisane"
+      ],
       "dialogue": [
         "The orchard drinks more than the village does, and lately there's nothing to give it.",
         "My grandmother kept these channels. I never thought to ask her how."
