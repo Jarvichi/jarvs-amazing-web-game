@@ -471,8 +471,17 @@ Portrait-first, inside the existing 740px column. The rack is square and sized
 | Unresolved | Oak cask face, banded, on a recessed rack socket. Tappable. |
 | Rung (sound) | Cask fades back into the rack; its number sits proud in `--accent-blue`. |
 | Struck soured | Cask goes dark and stained, a slow drip at the rim. |
-| Chalked | Chalk ✕ scrawled across the face, slightly off-square. Not tappable again — a chalk that stayed on is correct by definition, since a wrong one rubs itself off immediately, so there is nothing to undo. |
-| Bad chalk | Chalk wipes off, cask rings sound, `−3` floats up in `--accent-danger`. |
+| Chalked | Sound oak with a chalk ✕ scrawled across it, slightly off-square. Not tappable again — a chalk that stayed on is correct by definition, since a wrong one rubs itself off immediately, so there is nothing to undo. |
+| Bad chalk | Chalk wipes off, cask rings sound, and the socket flashes ember. |
+
+**The two named states share their glyph.** A struck-bad cask and a chalked one
+are the same fact — soured, and named by the player — so both wear the ✕, and
+only the material differs: chalk on sound oak for one deduced, an ember brand on
+a stained body for one that cost a sounding. They were first drawn as unrelated
+glyphs (a chalk cross against a green drip) and a screenshot killed it: the rack
+read as two separate categories, the drip read as a lollipop rather than a drip,
+and a struck cask was so dark it disappeared into its socket. Category first,
+provenance second, is the rule that fixed it.
 | Empty slot (Vault) | Open rack, no cask, not tappable, `aria-hidden`. |
 
 ### Motion
