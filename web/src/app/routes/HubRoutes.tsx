@@ -1,15 +1,17 @@
 import { useApp } from '../AppContext'
-import { HubWorld, HubWorldMap, CasinoScreen, TheatreScreen, MiniGamesMenu, Fishing, Wellspring, FishAppraisalScreen } from '../lazyScreens'
+import { HubWorld, HubWorldMap, CasinoScreen, TheatreScreen, MiniGamesMenu, Fishing, Wellspring, CaskSounding, FishAppraisalScreen } from '../lazyScreens'
 import { OverlayScreen } from '../../components/ui/OverlayScreen'
 import { loadCrystals, saveCrystals } from '../../game/collection'
 import { addHubItem } from '../../game/itemStore'
 import { addTownReputation } from '../../game/hub/reputation'
 import { incrementAchievementProgress } from '../../game/achievements'
 import { recordRestore } from '../../game/hub/wellsprings'
+import { recordSort } from '../../game/hub/casks'
 import { loadPlayerName } from '../../game/questline'
 import { isNodeCleared } from '../../game/world/worldState'
 import { auth } from '../../firebase'
 import { WELLSPRING_SCORING } from '../../components/minigames/Wellspring.logic'
+import { CASK_SCORING } from '../../components/minigames/CaskSounding.logic'
 import type { Screen, SubScreen } from '../screens'
 
 /**
@@ -195,6 +197,35 @@ export function HubRoutes() {
               incrementAchievementProgress('hub:wellspring:restorations')
               if (result.underPar) incrementAchievementProgress('hub:wellspring:underParSolves')
               if (result.depthId === 'vault') incrementAchievementProgress('hub:wellspring:vaultSolves')
+              setScreen('hubworld')
+            }}
+          />
+        </OverlayScreen>
+      )}
+
+      {/* Hub-world cellar: a town's casks. Gated on the cooper's mallet and a
+          once-a-day-per-town cooldown (both checked in HubWorld's
+          handleNodeInteract), and paid in crystals, cask vinegar and town
+          standing rather than arcade tickets. The tier is authored per town via
+          the screen id, exactly as fishing carries its locale variants. */}
+      {(screen === 'hub-casks' || screen === 'hub-casks-cellar' || screen === 'hub-casks-vault') && (
+        <OverlayScreen title="🛢️ CASK SOUNDING" onBack={() => setScreen('hubworld')}>
+          <CaskSounding
+            tier={screen === 'hub-casks-vault' ? 'vault' : screen === 'hub-casks-cellar' ? 'cellar' : 'taproom'}
+            onDone={(result) => {
+              const town = hubData?.locationRegistry[currentLocationKey]?.locationData.HUB_TOWN_NAME
+              if (town) {
+                recordSort(town)
+                addTownReputation(town, CASK_SCORING.reputation)
+              }
+              addHubItem('cask-vinegar', result.vinegar)
+              const next = loadCrystals() + result.crystals
+              saveCrystals(next)
+              setCrystals(next)
+              incrementAchievementProgress('hub:casks:sorted')
+              if (result.underPar) incrementAchievementProgress('hub:casks:underParSorts')
+              if (result.misread === 0) incrementAchievementProgress('hub:casks:cleanSorts')
+              if (result.tierId === 'vault') incrementAchievementProgress('hub:casks:vaultSorts')
               setScreen('hubworld')
             }}
           />

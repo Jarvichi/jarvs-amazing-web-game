@@ -30,6 +30,8 @@ export interface CaskSoundingResult {
   tierId:    TierId
   crystals:  number
   vinegar:   number
+  /** Chalks that rubbed off. Zero is its own achievement. */
+  misread:   number
 }
 
 interface Props {
@@ -215,6 +217,7 @@ export function CaskSounding({ onDone, tier: tierProp }: Props) {
             tierId,
             crystals:  score.crystals,
             vinegar:   tier.vinegar,
+            misread:   run.misread,
           })}
         >
           <div className="minigame-result-breakdown">
