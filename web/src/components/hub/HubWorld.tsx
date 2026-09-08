@@ -59,6 +59,7 @@ import { getFlameType, setFlameType } from '../../game/hub/flames'
 import { recordGroupMember } from '../../game/hub/groupChallenges'
 import { shuffled } from '../../game/hub/shuffle'
 import { canForageToday, recordForage } from '../../game/hub/forages'
+import { canRestoreToday, wellKeeperDialogue } from '../../game/hub/wellsprings'
 import { forageTable, rollForage } from '../../game/hub/forageLoot'
 import { getReputationTier } from '../../data/hub/buildingUpgrades'
 import { resolveWeather } from '../../game/hub/weather'
@@ -159,6 +160,9 @@ const SCREEN_ENTER_LABEL: Record<string, string> = {
   'hub-fishing-lake': 'Cast a line into the lake?',
   'hub-fishing-ocean': 'Cast a line into the sea?',
   'hub-fish-appraisal': "Show him what you've caught?",
+  'hub-wellspring':       'Look down the well?',
+  'hub-wellspring-deep':  'Climb down to the aqueduct?',
+  'hub-wellspring-vault': 'Descend into the ley vault?',
   marble:            'Play marbles?',
   marblerace:        'Watch a marble race?',
   regatta:           'Race a skiff in the regatta?',
@@ -473,6 +477,20 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
     ['poker-pete-int', getMiniGameChallengeNPCDialogue('videoPoker')],
     ['siege-master', getMiniGameChallengeNPCDialogue('towerDefence')],
   ])
+  // Well keepers are found by id rather than listed, so giving a new town a
+  // well needs no change here. Their line depends on whether the player is
+  // carrying the crank and whether this well is still dry today.
+  {
+    const keeperState = {
+      hasCrank:      hasHubItem('winding-crank'),
+      restoredToday: !canRestoreToday(town),
+    }
+    for (const npc of locationData.HUB_NPCS) {
+      if (npc.id.endsWith('-well-keeper')) {
+        npcProximityDialogueRef.current.set(npc.id, wellKeeperDialogue(keeperState))
+      }
+    }
+  }
 
   // Interactable indicator conditions (e.g. 'unread-news'): read imperatively by PixiJS ticker
   const indicatorConditionsRef = useRef(new Map<string, boolean>())
@@ -738,8 +756,23 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
         return
       }
     }
+    // The town well is gated the same way fishing is: a tool you buy once,
+    // then a cooldown. The crank is global (bought in Gearford, works at every
+    // town's well); the once-a-day limit is per town, which is what makes
+    // thirteen wells a reason to travel rather than one spot to farm.
+    if (screen.startsWith('hub-wellspring')) {
+      if (!hasHubItem('winding-crank')) {
+        setDialogueEvent({ speakerName: '', text: "The winding gear is seized solid. You'd need a crank to shift it — Gearford's works-yard sells them." })
+        return
+      }
+      if (!canRestoreToday(town)) {
+        setDialogueEvent({ speakerName: '', text: 'The water runs clear and cold. Nothing more to put right here today.' })
+        return
+      }
+    }
+
     onNavigate?.(screen, buildingId, npc)
-  }, [onNavigate, onCampaign, onCampaign2, onWorldMap, onNavigateTown, onNarratorLog, commander])
+  }, [onNavigate, onCampaign, onCampaign2, onWorldMap, onNavigateTown, onNarratorLog, commander, town])
 
   // Tapping a pond tile within range of a town's fishing spot (#2148) prompts
   // to cast a line, mirroring the confirm dialogue a fishing NPC's own tap

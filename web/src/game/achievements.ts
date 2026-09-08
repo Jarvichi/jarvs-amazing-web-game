@@ -2693,6 +2693,48 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     tier: 2,
   },
 
+  // ─── Wellspring Achievements ─────────────────────────────
+  {
+    id: 'hub:wellspring_first',
+    name: 'The Water Runs',
+    description: "Put a town's well right for the first time.",
+    category: 'misc',
+    progressKey: 'hub:wellspring:restorations',
+    target: 1,
+    reward: { type: 'crystals', crystals: 25 },
+    tier: 1,
+  },
+  {
+    id: 'hub:wellspring_under_par',
+    name: 'Fewer Turns Than That',
+    description: 'Restore a well under par.',
+    category: 'misc',
+    progressKey: 'hub:wellspring:underParSolves',
+    target: 1,
+    reward: { type: 'cards', count: 1 },
+    tier: 1,
+  },
+  {
+    id: 'hub:wellspring_every_town',
+    name: 'Nobody Goes Thirsty',
+    description: 'Restore thirteen wells — one for every town in the realm.',
+    category: 'misc',
+    progressKey: 'hub:wellspring:restorations',
+    target: 13,
+    reward: { type: 'cards', count: 3 },
+    tier: 2,
+  },
+  {
+    id: 'hub:wellspring_vault',
+    name: 'Keeper of the Ley Vault',
+    description: 'Restore three ley vaults — six by six, edges wrapping.',
+    category: 'misc',
+    progressKey: 'hub:wellspring:vaultSolves',
+    target: 3,
+    reward: { type: 'cards', count: 3 },
+    tier: 2,
+  },
+
   // ─── Higher or Lower Achievements ────────────────────────
   {
     id: 'miniGame:hol_first',

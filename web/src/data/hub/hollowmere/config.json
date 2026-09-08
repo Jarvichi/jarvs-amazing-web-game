@@ -1144,6 +1144,17 @@
   ],
   "npcs": [
     {
+      "id": "hollowmere-well-keeper",
+      "name": "Little Pell",
+      "sprite": "hub-npc-child",
+      "tx": 11,
+      "ty": 12,
+      "dialogue": [
+        "The whole mere's full and the well's empty! Everyone thinks that's funny except me.",
+        "Da says the water's gone the wrong way round down there."
+      ]
+    },
+    {
       "id": "pilgrim-darkwood",
       "name": "The Pilgrim",
       "sprite": "hub-npc-pilgrim",
@@ -2052,6 +2063,22 @@
     }
   },
   "interactables": [
+    {
+      "id": "hollowmere-well",
+      "tx": 10,
+      "ty": 12,
+      "hitRect": { "w": 1, "h": 1 },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "The mere is full to bursting and the well is dry, which the villagers find funnier than you do."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-wellspring"
+        }
+      ]
+    },
     {
       "id": "hollowmere-forage-tree-1",
       "tx": 9,

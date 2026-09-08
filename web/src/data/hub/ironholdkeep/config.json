@@ -853,6 +853,7 @@
     }
   ],
   "exteriorDecor": [
+    { "tx": 20, "ty": 34, "tileId": "stoneWell" },
     {
       "comment": "portcullis gate (above so player walks under)"
     },
@@ -1778,6 +1779,17 @@
   ],
   "ambientNpcSprites": [],
   "npcs": [
+    {
+      "id": "ironholdkeep-well-keeper",
+      "name": "Warden Hask",
+      "sprite": "hub-npc-soldier",
+      "tx": 21,
+      "ty": 34,
+      "dialogue": [
+        "Shaft goes clean through the rock. Drop a stone and count to four.",
+        "A keep that can't water itself isn't a keep. It's a siege waiting to happen."
+      ]
+    },
     {
       "id": "castle-cartographer",
       "name": "Cartographer Elsben",
@@ -4666,6 +4678,22 @@
     }
   },
   "interactables": [
+    {
+      "id": "ironholdkeep-well",
+      "tx": 20,
+      "ty": 34,
+      "hitRect": { "w": 1, "h": 1 },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "A shaft cut clean through the rock the keep stands on. Your dropped pebble takes its time arriving."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-wellspring-vault"
+        }
+      ]
+    },
     {
       "id": "ironhold-brazier-keep-west",
       "tx": 11,

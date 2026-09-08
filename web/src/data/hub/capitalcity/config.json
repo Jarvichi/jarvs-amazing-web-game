@@ -4560,6 +4560,22 @@
   },
   "interactables": [
     {
+      "id": "capitalcity-well",
+      "tx": 12,
+      "ty": 30,
+      "hitRect": { "w": 1, "h": 1 },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Dominion stonework, and far deeper than a city well has any business being. Nobody has been down since the Fracture."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-wellspring-vault"
+        }
+      ]
+    },
+    {
       "id": "capitalcity-forage-flower-1",
       "tx": 32,
       "ty": 44,
@@ -4952,6 +4968,17 @@
     ]
   ],
   "npcs": [
+    {
+      "id": "capitalcity-well-keeper",
+      "name": "Archivist Wenn",
+      "sprite": "hub-npc-scholar",
+      "tx": 12,
+      "ty": 29,
+      "dialogue": [
+        "Dominion engineering, that shaft. We can read the plans and still not mend it.",
+        "The Fracture broke things we didn't know we relied on. This is one."
+      ]
+    },
     {
       "id": "mira-archive",
       "name": "Mira",

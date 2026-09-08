@@ -256,6 +256,7 @@
     }
   ],
   "exteriorDecor": [
+    { "tx": 21, "ty": 19, "tileId": "stoneWell" },
     {
       "comment": "gate braziers at the south entrance"
     },
@@ -518,6 +519,17 @@
   "npcSpawnTiles": [],
   "ambientNpcSprites": [],
   "npcs": [
+    {
+      "id": "dreadspirecitadel-well-keeper",
+      "name": "Brother Ashen",
+      "sprite": "hub-npc-cultist",
+      "tx": 22,
+      "ty": 19,
+      "dialogue": [
+        "We draw black water here, when we draw any at all.",
+        "The channels below have their own arrangement now. Someone patient could undo it."
+      ]
+    },
     {
       "id": "vask-ward",
       "name": "Vask",
@@ -2086,6 +2098,22 @@
     }
   },
   "interactables": [
+    {
+      "id": "dreadspirecitadel-well",
+      "tx": 21,
+      "ty": 19,
+      "hitRect": { "w": 1, "h": 1 },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Black water a long way down. The winding rope has been cut and knotted again more than once."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-wellspring-vault"
+        }
+      ]
+    },
     {
       "id": "dreadspire-forage-tree-1",
       "tx": 22,

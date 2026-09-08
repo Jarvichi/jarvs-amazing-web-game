@@ -1210,6 +1210,17 @@
   ],
   "npcs": [
     {
+      "id": "appleford-well-keeper",
+      "name": "Orla Redfurrow",
+      "sprite": "hub-npc-gardener",
+      "tx": 19,
+      "ty": 12,
+      "dialogue": [
+        "The orchard drinks more than the village does, and lately there's nothing to give it.",
+        "My grandmother kept these channels. I never thought to ask her how."
+      ]
+    },
+    {
       "id": "orchard-keeper-bess",
       "name": "Keeper Bess",
       "sprite": "hub-npc-elder",
@@ -2167,6 +2178,22 @@
     }
   },
   "interactables": [
+    {
+      "id": "appleford-well",
+      "tx": 20,
+      "ty": 12,
+      "hitRect": { "w": 1, "h": 1 },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "The bucket comes up half-empty and smelling of nothing at all. Somewhere under the orchard a channel has shifted."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-wellspring"
+        }
+      ]
+    },
     {
       "id": "appleford-forage-tree-1",
       "tx": 28,

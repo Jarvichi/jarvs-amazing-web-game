@@ -180,6 +180,26 @@ export function purchaseUpgrade(town: string, buildingId: string, kind: string |
   return { ok: true, newLevel, newRep, spent: next.cost, def: next.def }
 }
 
+/**
+ * Grant a town reputation for something other than buying an upgrade.
+ *
+ * Until now reputation was only ever bought — every point came out of the
+ * crystal wallet through purchaseUpgrade. Restoring a town's well (see
+ * docs/minigame-wellspring.md §5) is the first way to *earn* it by doing
+ * something for the town, which is what the daily-well loop is for.
+ *
+ * Returns the town's new total.
+ */
+export function addTownReputation(town: string, amount: number): number {
+  if (amount <= 0) return getTownReputation(town)
+  const data = load()
+  const state = townState(data, town)
+  const rep = state.rep + amount
+  data[town] = { ...state, rep }
+  save(data)
+  return rep
+}
+
 // ── Services ─────────────────────────────────────────────────────────────────
 //
 // A building's `upgradeKind` lives in the town config (not in this store), so to

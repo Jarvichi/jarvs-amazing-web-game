@@ -1681,6 +1681,17 @@
   ],
   "npcs": [
     {
+      "id": "gearford-well-keeper",
+      "name": "Foreman Kessel",
+      "sprite": "hub-npc-merchant",
+      "tx": 21,
+      "ty": 14,
+      "dialogue": [
+        "I've had two crews down that shaft and neither came up any wiser.",
+        "Chalked the whole channel out on the parapet. Rubbed most of it off again."
+      ]
+    },
+    {
       "id": "forgemaster-brunn",
       "name": "Forgemaster Brunn",
       "sprite": "hub-npc-supplies",
@@ -3755,6 +3766,42 @@
     }
   },
   "interactables": [
+    {
+      "id": "gearford-well",
+      "tx": 20,
+      "ty": 14,
+      "hitRect": { "w": 1, "h": 1 },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Someone has chalked a diagram of the channels on the parapet, then crossed out most of it."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-wellspring-deep"
+        }
+      ]
+    },
+    {
+      "id": "tool-shop-crank",
+      "tx": 9,
+      "ty": 2,
+      "building": "tool-shop",
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "hammer"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "winding-crank",
+          "price": 90
+        }
+      ]
+    },
     {
       "id": "tool-shop-spade",
       "tx": 9,

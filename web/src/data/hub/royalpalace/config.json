@@ -1856,6 +1856,17 @@
   ],
   "npcs": [
     {
+      "id": "royalpalace-well-keeper",
+      "name": "Steward Ilric",
+      "sprite": "hub-npc-guard",
+      "tx": 3,
+      "ty": 26,
+      "dialogue": [
+        "Even His Majesty drinks from a channel some dead engineer laid.",
+        "Nobody's been down since it was dug. That is, I think, the problem."
+      ]
+    },
+    {
       "id": "royal-steward",
       "name": "Steward Marigold",
       "sprite": "hub-npc-elder",
@@ -4465,6 +4476,22 @@
     }
   },
   "interactables": [
+    {
+      "id": "royalpalace-well",
+      "tx": 2,
+      "ty": 26,
+      "hitRect": { "w": 1, "h": 1 },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Even the palace drinks from a channel some long-dead engineer laid, and nobody has touched it since."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-wellspring-deep"
+        }
+      ]
+    },
     {
       "id": "royalpalace-forage-tree-1",
       "tx": 32,

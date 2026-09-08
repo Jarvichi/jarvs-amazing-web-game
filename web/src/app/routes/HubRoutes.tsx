@@ -1,10 +1,15 @@
 import { useApp } from '../AppContext'
-import { HubWorld, HubWorldMap, CasinoScreen, TheatreScreen, MiniGamesMenu, Fishing, FishAppraisalScreen } from '../lazyScreens'
+import { HubWorld, HubWorldMap, CasinoScreen, TheatreScreen, MiniGamesMenu, Fishing, Wellspring, FishAppraisalScreen } from '../lazyScreens'
 import { OverlayScreen } from '../../components/ui/OverlayScreen'
-import { saveCrystals } from '../../game/collection'
+import { loadCrystals, saveCrystals } from '../../game/collection'
+import { addHubItem } from '../../game/itemStore'
+import { addTownReputation } from '../../game/hub/reputation'
+import { incrementAchievementProgress } from '../../game/achievements'
+import { recordRestore } from '../../game/hub/wellsprings'
 import { loadPlayerName } from '../../game/questline'
 import { isNodeCleared } from '../../game/world/worldState'
 import { auth } from '../../firebase'
+import { WELLSPRING_SCORING } from '../../components/minigames/Wellspring.logic'
 import type { Screen, SubScreen } from '../screens'
 
 /**
@@ -165,6 +170,34 @@ export function HubRoutes() {
       {screen === 'hub-fishing-ocean' && (
         <OverlayScreen title="🎣 FISHING" onBack={() => setScreen('hubworld')}>
           <Fishing rewardMode="catch" variant="ocean" onDone={() => setScreen('hubworld')} />
+        </OverlayScreen>
+      )}
+
+      {/* Hub-world wellspring: the town well. Gated on the winding crank and a
+          once-a-day-per-town cooldown (both checked in HubWorld's
+          handleNodeInteract), and paid in crystals, clean water and town
+          standing rather than arcade tickets. Depth is authored per town via
+          the screen id, exactly as fishing carries its locale variants. */}
+      {(screen === 'hub-wellspring' || screen === 'hub-wellspring-deep' || screen === 'hub-wellspring-vault') && (
+        <OverlayScreen title="💧 WELLSPRING" onBack={() => setScreen('hubworld')}>
+          <Wellspring
+            depth={screen === 'hub-wellspring-vault' ? 'vault' : screen === 'hub-wellspring-deep' ? 'deep' : 'shallow'}
+            onDone={(result) => {
+              const town = hubData?.locationRegistry[currentLocationKey]?.locationData.HUB_TOWN_NAME
+              if (town) {
+                recordRestore(town)
+                addTownReputation(town, WELLSPRING_SCORING.reputation)
+              }
+              addHubItem('clean-water', result.cleanWater)
+              const next = loadCrystals() + result.crystals
+              saveCrystals(next)
+              setCrystals(next)
+              incrementAchievementProgress('hub:wellspring:restorations')
+              if (result.underPar) incrementAchievementProgress('hub:wellspring:underParSolves')
+              if (result.depthId === 'vault') incrementAchievementProgress('hub:wellspring:vaultSolves')
+              setScreen('hubworld')
+            }}
+          />
         </OverlayScreen>
       )}
 
