@@ -431,6 +431,17 @@
   ],
   "npcs": [
     {
+      "id": "thornwoodcamp-cellarer",
+      "name": "Ration-Keeper Rell",
+      "sprite": "hub-npc-supplies",
+      "tx": 11,
+      "ty": 11,
+      "dialogue": [
+        "Whole camp drinks from these. Whole camp complains about these.",
+        "Rell. I count what comes in and I count what spoils. Lately it is the same number."
+      ]
+    },
+    {
       "id": "thornwoodcamp-well-keeper",
       "name": "Camp-cook Bray",
       "sprite": "hub-npc-fisherman",
@@ -591,6 +602,25 @@
   ],
   "interiors": {},
   "interactables": [
+    {
+      "id": "thornwoodcamp-casks",
+      "tx": 12,
+      "ty": 11,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "The camp's whole drink ration, stacked under a tarp and going quietly wrong."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-casks"
+        }
+      ]
+    },
     {
       "id": "thornwoodcamp-well",
       "tx": 10,

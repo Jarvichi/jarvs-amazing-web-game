@@ -4560,6 +4560,25 @@
   },
   "interactables": [
     {
+      "id": "capitalcity-casks",
+      "tx": 59,
+      "ty": 19,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "The city's deep racks. More casks down here than most towns have people."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-casks-vault"
+        }
+      ]
+    },
+    {
       "id": "capitalcity-well",
       "tx": 12,
       "ty": 30,
@@ -4968,6 +4987,17 @@
     ]
   ],
   "npcs": [
+    {
+      "id": "capitalcity-cellarer",
+      "name": "Cellarer Aldrich",
+      "sprite": "hub-npc-merchant-2",
+      "tx": 57,
+      "ty": 17,
+      "dialogue": [
+        "The city drinks more in a night than Appleford presses in a week.",
+        "Aldrich, cellarer. The ledger for these racks is older than I am, and wrong."
+      ]
+    },
     {
       "id": "capitalcity-well-keeper",
       "name": "Archivist Wenn",

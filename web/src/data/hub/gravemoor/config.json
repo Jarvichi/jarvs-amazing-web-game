@@ -1123,6 +1123,17 @@
   ],
   "npcs": [
     {
+      "id": "gravemoor-cellarer",
+      "name": "Undertaker Marrow",
+      "sprite": "hub-npc-elder-3",
+      "tx": 21,
+      "ty": 12,
+      "dialogue": [
+        "We drink to the dead here, and often. Bad cask at a wake is an insult.",
+        "Marrow, undertaker. I bury them, I toast them, and I keep the ledger nobody reads."
+      ]
+    },
+    {
       "id": "gravemoor-well-keeper",
       "name": "Sexton Mould",
       "sprite": "hub-npc-gravedigger",
@@ -2648,6 +2659,25 @@
     }
   },
   "interactables": [
+    {
+      "id": "gravemoor-casks",
+      "tx": 22,
+      "ty": 13,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "The wake-cellar. Gravemoor buries a lot of people and drinks to every one."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-casks-vault"
+        }
+      ]
+    },
     {
       "id": "gravemoor-well",
       "tx": 18,

@@ -256,6 +256,11 @@
     }
   ],
   "exteriorDecor": [
+    {
+      "tx": 19,
+      "ty": 33,
+      "tileId": "barrel"
+    },
     { "tx": 21, "ty": 19, "tileId": "stoneWell" },
     {
       "comment": "gate braziers at the south entrance"
@@ -519,6 +524,17 @@
   "npcSpawnTiles": [],
   "ambientNpcSprites": [],
   "npcs": [
+    {
+      "id": "dreadspirecitadel-cellarer",
+      "name": "Vault-Warden Sess",
+      "sprite": "hub-npc-warlock",
+      "tx": 19,
+      "ty": 32,
+      "dialogue": [
+        "What we keep down there was never meant to be drunk. It still turns.",
+        "Sess. I ward the vault. I do not go into the vault."
+      ]
+    },
     {
       "id": "dreadspirecitadel-well-keeper",
       "name": "Brother Ashen",
@@ -2098,6 +2114,25 @@
     }
   },
   "interactables": [
+    {
+      "id": "dreadspirecitadel-casks",
+      "tx": 19,
+      "ty": 33,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Something is stacked in the dark below, and some of it has gone very wrong indeed."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-casks-vault"
+        }
+      ]
+    },
     {
       "id": "dreadspirecitadel-well",
       "tx": 21,

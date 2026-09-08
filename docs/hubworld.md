@@ -402,6 +402,55 @@ scenery already in the town), so no owned `decor` or new art is needed.
 
 ---
 
+### Authoring checklist: new puzzle entrance (well, cellar, …)
+
+Two hub mini-games are reached only through town scenery — Wellspring behind a
+`stoneWell` and Cask Sounding behind a `barrel` — and neither appears in the
+arcade menu. Both are built from parts that already existed, so a third puzzle
+needs no engine work either. The shape:
+
+1. **Claim a decor tile present in most towns and unclaimed by anything else.**
+   Count it across every `data/hub/*/config.json` before committing to it —
+   `stoneWell` covered 10 towns, `barrel` 12. Where a town lacks one, add the
+   existing chip rather than drawing new art. (Dreadspire had no barrel at all
+   and got one at 19,33.)
+2. **Add one interactable per town** at that tile's `tx`/`ty`, with a
+   `dialogue` reaction for flavour and a `screen` reaction to open the game.
+   **The difficulty rides in the screen id** — `hub-casks` / `-cellar` /
+   `-vault`, exactly as fishing carries `hub-fishing-cave` / `-lake` /
+   `-ocean` — so a town's tier is authored in its config, not chosen by the
+   player in a menu.
+3. **Register the screens** in `app/screens.ts`, a lazy export in
+   `app/lazyScreens.ts`, and routes in `app/routes/HubRoutes.tsx` wrapped in
+   `OverlayScreen`. Grant the rewards in the route's `onDone`.
+4. **Gate it in `HubWorld.tsx`'s `handleNodeInteract`**, beside the existing
+   rod/bait and crank checks: a `screen.startsWith(...)` test for the tool, then
+   one for the per-town daily cooldown. Add `SCREEN_ENTER_LABEL` entries.
+5. **Persist the cooldown** in a `game/hub/<thing>.ts` copied from `digs.ts` —
+   `interactableStoreKey(town, '<key>')` → `YYYY-MM-DD`. Key it by *town*, not
+   by interactable id: the cooldown is what makes thirteen of them a reason to
+   travel rather than one spot to farm.
+6. **Give every town an NPC beside the scenery**, matched by id suffix
+   (`endsWith('-cellarer')`) rather than a list in `HubWorld.tsx`, so adding a
+   town needs no code change. Their proximity dialogue must change with state:
+   a far line that something is wrong, a nearer one naming the tool *and where
+   to buy it*, and nothing nagging once it is done for the day. Scenery is easy
+   to walk past a hundred times, and it is the only door into the game.
+7. **Sell the tool in exactly one place**, and make sure the NPC's line names
+   that town. The crank is Gearford's, the mallet is Appleford's.
+8. **Add a placement integrity test** — see `caskPlacement.test.ts` and
+   `wellspringPlacement.test.ts`. It should fail the build when a town lacks the
+   interactable, when the interactable is not on the expected decor tile, when
+   the NPC is missing or too far away to bubble, or when the NPC shares a tile
+   or a sprite with something else. A missing entrance is otherwise invisible
+   in exactly one town, with nothing at runtime to complain about it.
+
+Do **not** add the game to `MiniGamesMenu`, `MiniGameId`, `economy.json`'s
+`miniGameCosts` or `miniGameDailyChallenge.ts`. It lives in the fiction, not the
+arcade.
+
+---
+
 ## §7b — Branching Dialogue Trees
 
 Reusable multi-choice NPC conversations that branch to different endings.

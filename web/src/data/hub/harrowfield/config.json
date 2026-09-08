@@ -1531,6 +1531,17 @@
   ],
   "npcs": [
     {
+      "id": "harrowfield-cellarer",
+      "name": "Brewster Tamsin",
+      "sprite": "hub-npc-elder-2",
+      "tx": 34,
+      "ty": 11,
+      "dialogue": [
+        "We brew for the whole field at harvest. Can't have half of it turned.",
+        "My mother could sound a cask blindfold. I never had the ear for it."
+      ]
+    },
+    {
       "id": "harrowfield-well-keeper",
       "name": "Goodwife Trent",
       "sprite": "hub-npc-elder",
@@ -2546,6 +2557,25 @@
     }
   },
   "interactables": [
+    {
+      "id": "harrowfield-casks",
+      "tx": 35,
+      "ty": 12,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "The village keeps its small beer down here. Some of it has stopped being beer."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-casks"
+        }
+      ]
+    },
     {
       "id": "harrowfield-well",
       "tx": 12,

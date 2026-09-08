@@ -1210,6 +1210,17 @@
   ],
   "npcs": [
     {
+      "id": "appleford-cellarer",
+      "name": "Cider-Master Bramwell",
+      "sprite": "hub-npc-merchant",
+      "tx": 4,
+      "ty": 10,
+      "dialogue": [
+        "Sweet cider one week, sharp as a knife the next. Wood's a living thing.",
+        "Bramwell, cider-master. Thirty years and I still can't tell a bad cask by looking."
+      ]
+    },
+    {
       "id": "appleford-well-keeper",
       "name": "Orla Redfurrow",
       "sprite": "hub-npc-gardener",
@@ -2178,6 +2189,45 @@
     }
   },
   "interactables": [
+    {
+      "id": "coopers-shed-mallet",
+      "tx": 4,
+      "ty": 1,
+      "building": "coopers-shed",
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "hammer"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "coopers-mallet",
+          "price": 85
+        }
+      ]
+    },
+    {
+      "id": "appleford-casks",
+      "tx": 3,
+      "ty": 9,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Appleford's presses run day and night in season, and not every cask survives the wait."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-casks"
+        }
+      ]
+    },
     {
       "id": "appleford-well",
       "tx": 20,

@@ -1,7 +1,7 @@
 # Mini-game Design — **Cask Sounding** 🛢️
 
-> **Status:** approved; commit 1 (pure logic + tests) landed. §8 tracks what is
-> built. Written to the process in [`docs/minigame-brief.md`](minigame-brief.md),
+> **Status:** built — all five commits landed. §8 tracks what shipped and where
+> it differs from this document. Written to the process in [`docs/minigame-brief.md`](minigame-brief.md),
 > against the standard set by
 > [`docs/minigame-wellspring.md`](minigame-wellspring.md).
 
@@ -558,22 +558,44 @@ DOM-measure the rack geometry per `docs/ui-design.md`.
 a `tier` prop set by the town. No tier picker — there is one way in.
 `game/achievements.ts` entries.
 
-**4 — Hub wiring.** `app/screens.ts`, `app/lazyScreens.ts`,
+**4 — Hub wiring.** ✅ Landed. `app/screens.ts`, `app/lazyScreens.ts`,
 `app/routes/HubRoutes.tsx` (three routes + the reward grant),
 `components/hub/HubWorld.tsx` (`SCREEN_ENTER_LABEL`, the mallet + daily gate
-beside the existing rod/crank gates, cellarer proximity dialogue),
+beside the existing rod/crank gates, cellarer proximity dialogue by id suffix),
 `game/hub/casks.ts` + test, `data/hubItems.json` (`coopers-mallet`,
-`cask-vinegar`).
+`cask-vinegar`). `CaskSoundingResult` gained `misread`, which the clean-sort
+achievement needs and only the screen knew.
 
-**5 — Town data + docs.** A cask interactable and a cellarer per town at its §5
-tier; a `barrel` decor tile for Dreadspire; the mallet on the Appleford cooper's
-shelf; a `caskPlacementTest` guarding the entrance in all thirteen towns, after
-`wellspringPlacement.test.ts`. `docs/hubworld.md` gets the new interactable.
-Watch for collisions with existing interactables, NPC spawns and animal tiles —
-and check that tapping the barrel does not *also* walk the avatar.
+**5 — Town data + docs.** ✅ Landed. A cask interactable and a cellarer in all
+thirteen towns at the §5 tier, a `barrel` for Dreadspire (19,33 — the one town
+with none), the mallet on Appleford's cooper's shelf at 85 crystals, and
+`caskPlacement.test.ts` guarding the entrance everywhere.
 
-Then: play it end to end and report what that changed, and correct this document
-where the measurements disagree with it.
+Placements were chosen by script rather than by eye: free `barrel` tiles
+cross-checked against every interactable, NPC and animal tile, with the cellarer
+put on the nearest free street tile within 2. Royal Palace was the one town with
+no street tile in range, so its cellarer stands on a free courtyard tile
+instead. The first pass also produced seven collisions the script could not see
+— a cellarer and a well keeper sharing a sprite in four towns, and names echoing
+each other in three (Gravemoor had *two* sextons, Thornwood *two* camp cooks).
+Two of the placement test's assertions exist because of that pass.
+
+`docs/hubworld.md` gained an authoring checklist for a puzzle entrance, written
+to cover the well and the cellar together, since the two are now the pattern.
+It documents what Wellspring's own commit 5 claimed to add and never did.
+
+### Where the build departed from this document
+
+- **Auto-resolve was cut** and the win condition narrowed (§2).
+- **The Vault was rebuilt** around hidden row counts after measurement (§4).
+- **The two named cask states were unified** on one glyph after a screenshot
+  showed them reading as separate categories (§6).
+- **A `0` reading is no longer the quietest mark on the rack.** It was styled as
+  a dim all-clear and turned out to be the least legible thing on a played
+  board, which is backwards for one of the strongest deductions in the game.
+- **Par is not computed at first paint.** The rack is laid in an effect so the
+  cellar-steps line paints first; a Vault board costs ~0.4s here and several
+  times that on a low-end phone.
 
 ### Decisions taken
 

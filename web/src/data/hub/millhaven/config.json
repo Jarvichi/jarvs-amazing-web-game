@@ -1648,6 +1648,17 @@
   ],
   "npcs": [
     {
+      "id": "millhaven-cellarer",
+      "name": "Dockhand Verity",
+      "sprite": "hub-npc-sailor",
+      "tx": 13,
+      "ty": 10,
+      "dialogue": [
+        "Comes off the boats wet, goes in the cellar wet. You do the arithmetic.",
+        "Verity. I haul them in. Nobody pays me to say which ones are bad."
+      ]
+    },
+    {
       "id": "millhaven-well-keeper",
       "name": "Harbourmaster Dunn",
       "sprite": "hub-npc-harbourmaster",
@@ -3518,6 +3529,25 @@
     }
   ],
   "interactables": [
+    {
+      "id": "millhaven-casks",
+      "tx": 13,
+      "ty": 9,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Harbour stock, landed wet and stacked wetter. Something in here has turned."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-casks-cellar"
+        }
+      ]
+    },
     {
       "id": "millhaven-well",
       "tx": 15,

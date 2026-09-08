@@ -1144,6 +1144,17 @@
   ],
   "npcs": [
     {
+      "id": "hollowmere-cellarer",
+      "name": "Brewer Ossory",
+      "sprite": "hub-npc-elder-3",
+      "tx": 15,
+      "ty": 10,
+      "dialogue": [
+        "Damp off the mire sours a cask faster than time does.",
+        "Ossory. I brew it, and I lose half of it to this bloody wet."
+      ]
+    },
+    {
       "id": "hollowmere-well-keeper",
       "name": "Little Pell",
       "sprite": "hub-npc-child",
@@ -2063,6 +2074,25 @@
     }
   },
   "interactables": [
+    {
+      "id": "hollowmere-casks",
+      "tx": 16,
+      "ty": 11,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Mire-damp gets into everything down here, the casks included."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-casks"
+        }
+      ]
+    },
     {
       "id": "hollowmere-well",
       "tx": 10,

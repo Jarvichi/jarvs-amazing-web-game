@@ -1856,6 +1856,17 @@
   ],
   "npcs": [
     {
+      "id": "royalpalace-cellarer",
+      "name": "Butler Ansel",
+      "sprite": "hub-npc-herald",
+      "tx": 9,
+      "ty": 29,
+      "dialogue": [
+        "A soured cask at the high table would end a career. Possibly mine.",
+        "Ansel. I would sound them myself, but the ear is a trade, not a title."
+      ]
+    },
+    {
       "id": "royalpalace-well-keeper",
       "name": "Steward Ilric",
       "sprite": "hub-npc-guard",
@@ -4476,6 +4487,25 @@
     }
   },
   "interactables": [
+    {
+      "id": "royalpalace-casks",
+      "tx": 9,
+      "ty": 30,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "The royal racks. Every cask down here is worth more than a season's wages."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-casks-vault"
+        }
+      ]
+    },
     {
       "id": "royalpalace-well",
       "tx": 2,
