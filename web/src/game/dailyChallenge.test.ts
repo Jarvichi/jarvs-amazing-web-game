@@ -28,4 +28,27 @@ describe('daily challenge decks', () => {
       .map(c => `${c.name} (${c.unit?.attack} atk vs ${startingCommanderHp} hp)`)
     expect(oneShotters).toEqual([])
   })
+
+  it('raises the mana cap to cover a costly card dealt into the opening hand', () => {
+    // Regression: newGame() splices the opening hand out of playerDeck before it
+    // measures the deck's top cost, so a card costing more than BASE_MAX_MANA in
+    // the opening four left the gauge stuck at 5 and the card unplayable.
+    const deck = getDailyPlayerDeck()
+    const costly = deck.find(c => c.cost > 5)
+    // Put the costly card first so it is guaranteed to land in the opening hand.
+    const stacked = costly ? [costly, ...deck.filter(c => c !== costly)] : deck
+    const topCost = Math.max(...stacked.map(c => c.cost))
+
+    const state = newGame({ prebuiltPlayerDeck: stacked, isDailyChallenge: true })
+    expect(state.maxMana).toBeGreaterThanOrEqual(Math.min(10, topCost))
+  })
+
+  it("today's deck never deals a card the mana gauge cannot reach", () => {
+    const deck = getDailyPlayerDeck()
+    const state = newGame({ prebuiltPlayerDeck: deck, isDailyChallenge: true })
+    const unreachable = [...state.playerHand, ...state.playerDeck]
+      .filter(c => c.cost > state.maxMana)
+      .map(c => `${c.name} (${c.cost})`)
+    expect(unreachable).toEqual([])
+  })
 })
