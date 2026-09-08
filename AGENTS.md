@@ -498,6 +498,24 @@ All hub world JSON schemas (blocked paths, pickup items, NPCs, tile IDs, sprite 
 
 ---
 
+## Mini-games
+
+Mini-games live in `web/src/components/minigames/`, with their pure logic in a
+sibling `<Game>.physics.ts` / `<Game>.logic.ts` and their sub-components in a
+`<game>/` subfolder (one story each — see "Component Extraction and Storybook
+Stories" above).
+
+**[`docs/minigame-brief.md`](docs/minigame-brief.md)** is a reusable starting
+prompt for adding a new one: the constraints that keep a mini-game hub-native
+rather than bolted onto the arcade menu, the verification passes that catch
+what tests can't, and a list of this repo's known landmines. Start there.
+
+**[`docs/minigame-wellspring.md`](docs/minigame-wellspring.md)** is the worked
+example the brief refers to — a full design doc, from gap analysis and rejected
+alternatives through to the commit plan that built it.
+
+---
+
 ## Acts — Design Rules
 
 All rules for acts, the campaign map, node types, relics, heroes, lives system, music, boss traits, and card authoring are in **[`docs/acts.md`](docs/acts.md)**. The second campaign's story bible (premise, per-act bosses/relics/heroes for `c2act*`) is **[`docs/campaign2.md`](docs/campaign2.md)** — read it before authoring any campaign 2 act. Read `docs/acts.md` before:
