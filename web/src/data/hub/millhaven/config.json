@@ -1648,6 +1648,17 @@
   ],
   "npcs": [
     {
+      "id": "millhaven-stowhand",
+      "name": "Stevedore Hollis",
+      "sprite": "hub-npc-fisherman-2",
+      "tx": 32,
+      "ty": 4,
+      "dialogue": [
+        "A hold packed with gaps is a hold that shifts in weather. Ask anyone who's been aboard when it did.",
+        "Hollis. Twenty years on this quay. I sell the hooks two stalls down, if you've none of your own."
+      ]
+    },
+    {
       "id": "millhaven-cellarer",
       "name": "Dockhand Verity",
       "sprite": "hub-npc-sailor",
@@ -3529,6 +3540,45 @@
     }
   ],
   "interactables": [
+    {
+      "id": "millhaven-hook-stall",
+      "tx": 41,
+      "ty": 14,
+      "decor": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileId": "crate"
+        }
+      ],
+      "reactions": [
+        {
+          "type": "buyHubItem",
+          "itemId": "stevedores-hook",
+          "price": 90,
+          "speakerName": "Harbour Tackle Stall"
+        }
+      ]
+    },
+    {
+      "id": "millhaven-stowage",
+      "tx": 33,
+      "ty": 4,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Cargo off the quay, restacked twice already and still half air."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-stowage-hold"
+        }
+      ]
+    },
     {
       "id": "millhaven-casks",
       "tx": 13,

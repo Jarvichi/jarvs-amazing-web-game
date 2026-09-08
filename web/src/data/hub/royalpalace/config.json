@@ -1856,6 +1856,17 @@
   ],
   "npcs": [
     {
+      "id": "royalpalace-stowhand",
+      "name": "Porter Aldis",
+      "sprite": "hub-npc-supplies",
+      "tx": 12,
+      "ty": 30,
+      "dialogue": [
+        "Palace goods. Everything in there is worth more than my year, and it's been thrown in like turnips.",
+        "Aldis, porter. I carry it, I don't pack it. I'd like that noted."
+      ]
+    },
+    {
       "id": "royalpalace-cellarer",
       "name": "Butler Ansel",
       "sprite": "hub-npc-herald",
@@ -4487,6 +4498,25 @@
     }
   },
   "interactables": [
+    {
+      "id": "royalpalace-stowage",
+      "tx": 10,
+      "ty": 30,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "A palace crate. Someone will be blamed for how it was packed, and it will not be the person who packed it."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-stowage-wagon"
+        }
+      ]
+    },
     {
       "id": "royalpalace-casks",
       "tx": 9,

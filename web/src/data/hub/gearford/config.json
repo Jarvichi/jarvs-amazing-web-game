@@ -1681,6 +1681,17 @@
   ],
   "npcs": [
     {
+      "id": "gearford-stowhand",
+      "name": "Crate-Wright Tobin",
+      "sprite": "hub-npc-supplies",
+      "tx": 4,
+      "ty": 12,
+      "dialogue": [
+        "I build the crates. Doesn't mean I can make anyone fill them properly.",
+        "Tobin. Every crate in this yard is square when it leaves me. What happens after is a mystery."
+      ]
+    },
+    {
       "id": "gearford-cellarer",
       "name": "Cellarman Brackitt",
       "sprite": "hub-npc-merchant-3",
@@ -3777,6 +3788,25 @@
     }
   },
   "interactables": [
+    {
+      "id": "gearford-stowage",
+      "tx": 4,
+      "ty": 11,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Works-yard castings, stacked with all the care of a man at the end of his shift."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-stowage-wagon"
+        }
+      ]
+    },
     {
       "id": "gearford-casks",
       "tx": 1,

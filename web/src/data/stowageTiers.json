@@ -1,0 +1,50 @@
+{
+  "_comment": "Stowage tiers — see docs/minigame-stowage.md §4. 'dunnage' is the real difficulty dial: an empty rectangle is the friendliest packing problem there is, because its borders and corners are perfect anchors, and wedging timber into the middle turns every one of those anchors into a question. 'goods' and the grid are volume knobs — they make a crate longer, not harder — so they climb far more gently. Free slots must divide into 'goods' parts that all land inside [minSlots, maxSlots]: w*h - dunnage over goods is 5.0 / 4.25 / 4.1 here, which keeps every part in range with room either side. 6x7 is the ceiling at which a slot stays a comfortable tap target in portrait.",
+  "tiers": [
+    {
+      "id": "handcart",
+      "label": "Handcart",
+      "subtitle": "A carter's load",
+      "w": 5,
+      "h": 5,
+      "dunnage": 0,
+      "goods": 5,
+      "minSlots": 4,
+      "maxSlots": 6,
+      "crystalBase": 30,
+      "salt": 1
+    },
+    {
+      "id": "wagon",
+      "label": "Wagon Bed",
+      "subtitle": "The market wagon",
+      "w": 6,
+      "h": 6,
+      "dunnage": 2,
+      "goods": 8,
+      "minSlots": 3,
+      "maxSlots": 6,
+      "crystalBase": 60,
+      "salt": 2
+    },
+    {
+      "id": "hold",
+      "label": "Ship's Hold",
+      "subtitle": "A trader's hold",
+      "w": 6,
+      "h": 7,
+      "dunnage": 5,
+      "goods": 9,
+      "minSlots": 3,
+      "maxSlots": 6,
+      "crystalBase": 110,
+      "salt": 3
+    }
+  ],
+  "scoring": {
+    "efficiencyFloor": 0.4,
+    "cleanStowCrystals": 25,
+    "manifestCost": 3,
+    "reputation": 1
+  }
+}

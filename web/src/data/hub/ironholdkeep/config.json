@@ -1780,6 +1780,17 @@
   "ambientNpcSprites": [],
   "npcs": [
     {
+      "id": "ironholdkeep-stowhand",
+      "name": "Quarter-Stower Rurik",
+      "sprite": "hub-npc-merchant-3",
+      "tx": 28,
+      "ty": 23,
+      "dialogue": [
+        "A quartermaster's crate should be packed so you can find the one thing you want in the dark.",
+        "Rurik. I stow for the Keep. Neatness isn't fussiness when you're the one unpacking it."
+      ]
+    },
+    {
       "id": "ironholdkeep-cellarer",
       "name": "Quartermaster Hale",
       "sprite": "hub-npc-supplies",
@@ -4689,6 +4700,25 @@
     }
   },
   "interactables": [
+    {
+      "id": "ironholdkeep-stowage",
+      "tx": 28,
+      "ty": 25,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "A garrison crate, packed by soldiers in a hurry and it shows."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-stowage-wagon"
+        }
+      ]
+    },
     {
       "id": "ironholdkeep-casks",
       "tx": 4,

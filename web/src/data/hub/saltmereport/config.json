@@ -1558,6 +1558,17 @@
   ],
   "npcs": [
     {
+      "id": "saltmereport-stowhand",
+      "name": "Hold-Master Cassia",
+      "sprite": "hub-npc-harbourmaster",
+      "tx": 30,
+      "ty": 9,
+      "dialogue": [
+        "Out here a slack hold isn't untidy, it's dangerous. Load shifts, ship lists, and then we're all swimming.",
+        "Cassia. I sign off every hold that leaves this port, and I've turned back better crates than that."
+      ]
+    },
+    {
       "id": "saltmereport-cellarer",
       "name": "Bosun Ketch",
       "sprite": "hub-npc-fisherman-2",
@@ -2591,6 +2602,25 @@
     }
   },
   "interactables": [
+    {
+      "id": "saltmereport-stowage",
+      "tx": 30,
+      "ty": 10,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Deep-water cargo, and the tide does not wait for a crate to be packed twice."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-stowage-hold"
+        }
+      ]
+    },
     {
       "id": "saltmereport-casks",
       "tx": 2,

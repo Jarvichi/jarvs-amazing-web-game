@@ -510,6 +510,10 @@ prompt for adding a new one: the constraints that keep a mini-game hub-native
 rather than bolted onto the arcade menu, the verification passes that catch
 what tests can't, and a list of this repo's known landmines. Start there.
 
+**[`docs/minigame-stowage.md`](docs/minigame-stowage.md)** is the most recent
+worked example — a crate packing puzzle reached at a town's crate, with the
+Stevedore's Hook that unlocks it sold in Millhaven.
+
 **[`docs/minigame-wellspring.md`](docs/minigame-wellspring.md)** is the worked
 example the brief refers to — a full design doc, from gap analysis and rejected
 alternatives through to the commit plan that built it.

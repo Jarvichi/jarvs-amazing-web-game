@@ -1531,6 +1531,17 @@
   ],
   "npcs": [
     {
+      "id": "harrowfield-stowhand",
+      "name": "Waggoner Pell",
+      "sprite": "hub-npc-merchant-2",
+      "tx": 34,
+      "ty": 20,
+      "dialogue": [
+        "Market day's tomorrow and that's today's problem sitting right there.",
+        "Pell. I take the wagon in at dawn, whatever state it's in."
+      ]
+    },
+    {
       "id": "harrowfield-cellarer",
       "name": "Brewster Tamsin",
       "sprite": "hub-npc-elder-2",
@@ -2557,6 +2568,25 @@
     }
   },
   "interactables": [
+    {
+      "id": "harrowfield-stowage",
+      "tx": 34,
+      "ty": 22,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "A market load half-packed and abandoned, with the good half at the bottom."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-stowage"
+        }
+      ]
+    },
     {
       "id": "harrowfield-casks",
       "tx": 35,

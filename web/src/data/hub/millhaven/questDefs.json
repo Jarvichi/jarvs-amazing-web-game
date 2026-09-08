@@ -5947,6 +5947,110 @@
           ]
         }
       }
+    },
+    {
+      "id": "marta-topic-harbour-pickle",
+      "npcId": "fishmonger-marta",
+      "start": "start",
+      "nodes": {
+        "start": {
+          "text": "Half this quay thinks a fish keeps because you salt it. A fish keeps because you salt it *properly*, and there's a difference you can taste at a hundred paces.",
+          "choices": [
+            {
+              "label": "What's the difference?",
+              "next": "recipe"
+            },
+            {
+              "label": "Salt is salt, surely.",
+              "next": "blunt"
+            },
+            {
+              "label": "You've strong feelings about salt.",
+              "next": "boast"
+            }
+          ]
+        },
+        "boast": {
+          "text": "I've buried three husbands and none of them to my cooking. Yes, I've feelings about salt. Barrelled salt, mind — the coarse grey out of a crate that was packed square, not the damp stuff that's been sat in a hold going soft.",
+          "choices": [
+            {
+              "label": "And you do something with it?",
+              "next": "recipe"
+            },
+            {
+              "label": "Noted.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "recipe": {
+          "text": "Barrelled salt, cask vinegar, wild berries. That's the harbour pickle, and it'll outlast the boat it sails on. The vinegar has to come off a cask that's actually turned — a good cask makes a flat, apologetic jar.",
+          "choices": [
+            {
+              "label": "Barrelled salt, cask vinegar, wild berries. Got it.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 8
+                },
+                {
+                  "type": "relationship",
+                  "track": "ally",
+                  "points": 2
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Where does anyone get barrelled salt?",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "blunt": {
+          "text": "Salt is salt until you've eaten a week-old fish that was done right. Barrelled salt, cask vinegar, wild berries — put those in a cook's hands and come back and tell me salt is salt.",
+          "choices": [
+            {
+              "label": "Barrelled salt, cask vinegar, wild berries. Noted.",
+              "effects": [
+                {
+                  "type": "friendship",
+                  "xp": 4
+                },
+                {
+                  "type": "end"
+                }
+              ]
+            },
+            {
+              "label": "Perhaps I will.",
+              "effects": [
+                {
+                  "type": "end"
+                }
+              ]
+            }
+          ]
+        }
+      }
     }
   ],
   "relationshipDialogue": {
@@ -6234,6 +6338,12 @@
       "label": "💬 \"Mark my words: the Millhaven Regatta will be…\"",
       "treeId": "millhaven-regatta-master-topic-auto-3",
       "requireFriendshipLevel": 2
+    },
+    {
+      "id": "marta-topic-harbour-pickle",
+      "npcId": "fishmonger-marta",
+      "label": "🧂 Ask how she keeps a catch through a bad week",
+      "treeId": "marta-topic-harbour-pickle"
     }
   ]
 }

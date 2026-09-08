@@ -1210,6 +1210,17 @@
   ],
   "npcs": [
     {
+      "id": "appleford-stowhand",
+      "name": "Carter Nan",
+      "sprite": "hub-npc-trader",
+      "tx": 7,
+      "ty": 10,
+      "dialogue": [
+        "Cider crates want packing tight. A jar with room to rattle is a jar that arrives as juice and glass.",
+        "Nan. I load the drays. Been doing it since I could lift one end of a crate."
+      ]
+    },
+    {
       "id": "appleford-cellarer",
       "name": "Cider-Master Bramwell",
       "sprite": "hub-npc-merchant",
@@ -2192,6 +2203,25 @@
     }
   },
   "interactables": [
+    {
+      "id": "appleford-stowage",
+      "tx": 8,
+      "ty": 9,
+      "hitRect": {
+        "w": 1,
+        "h": 1
+      },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Half the presses' output goes out of here in crates, and whoever loaded this one was thinking about their supper."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-stowage"
+        }
+      ]
+    },
     {
       "id": "coopers-shed-mallet",
       "tx": 4,
